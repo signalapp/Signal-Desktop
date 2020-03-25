@@ -307,6 +307,11 @@ $loading-height: 16px;
   }
 }
 
+.app-migration-screen {
+  display: flex;
+  flex-direction: column;
+}
+
 .app-loading-screen {
   z-index: 99;
   position: absolute;

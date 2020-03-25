@@ -204,6 +204,22 @@
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "js/loading_start.js",
+    "line": "$(() => {",
+    "lineNumber": 3,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-03-25T15:45:04.024Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/loading_start.js",
+    "line": "  $('.message').text(window.i18n('optimizingApplication'));",
+    "lineNumber": 6,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-03-25T15:45:04.024Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "js/modules/debuglogs.js",
     "line": "  form.append('key', fields.key);",

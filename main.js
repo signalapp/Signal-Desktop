@@ -49,6 +49,7 @@ app.allowRendererProcessReuse = true;
 // Keep a global reference of the window object, if you don't, the window will
 //   be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let loadingWindow;
 
 function getMainWindow() {
   return mainWindow;
@@ -349,12 +350,6 @@ async function createWindow() {
   const debouncedCaptureStats = _.debounce(captureAndSaveWindowStats, 500);
   mainWindow.on('resize', debouncedCaptureStats);
   mainWindow.on('move', debouncedCaptureStats);
-
-  // Ingested in preload.js via a sendSync call
-  ipc.on('locale-data', event => {
-    // eslint-disable-next-line no-param-reassign
-    event.returnValue = locale.messages;
-  });
 
   if (config.environment === 'test') {
     mainWindow.loadURL(prepareURL([__dirname, 'test', 'index.html']));
@@ -807,11 +802,52 @@ app.on('ready', async () => {
     key = crypto.randomBytes(32).toString('hex');
     userConfig.set('key', key);
   }
-  const success = await sql.initialize({
+  const sqlInitPromise = sql.initialize({
     configDir: userDataPath,
     key,
     messages: locale.messages,
   });
+
+  // If the sql initialization takes more than three seconds to complete, we
+  // want to notify the user that things are happening
+  const timeout = new Promise(resolve => setTimeout(resolve, 3000, 'timeout'));
+  // eslint-disable-next-line more/no-then
+  Promise.race([sqlInitPromise, timeout]).then(maybeTimeout => {
+    if (maybeTimeout !== 'timeout') {
+      return;
+    }
+
+    console.log(
+      'sql.initialize is taking more than three seconds; showing loading dialog'
+    );
+
+    loadingWindow = new BrowserWindow({
+      show: false,
+      width: 300,
+      height: 265,
+      resizable: false,
+      frame: false,
+      backgroundColor: '#3a76f0',
+      webPreferences: {
+        nodeIntegration: false,
+        preload: path.join(__dirname, 'loading_preload.js'),
+      },
+      icon: path.join(__dirname, 'images', 'icon_256.png'),
+    });
+
+    loadingWindow.once('ready-to-show', async () => {
+      loadingWindow.show();
+      // Wait for sql initialization to complete
+      await sqlInitPromise;
+      loadingWindow.destroy();
+      loadingWindow = null;
+    });
+
+    loadingWindow.loadURL(prepareURL([__dirname, 'loading.html']));
+  });
+
+  const success = await sqlInitPromise;
+
   if (!success) {
     console.log('sql.initialize was unsuccessful; returning early');
     return;
@@ -1157,6 +1193,12 @@ ipc.on('get-built-in-images', async () => {
       console.error('Error handling get-built-in-images:', error.stack);
     }
   }
+});
+
+// Ingested in preload.js via a sendSync call
+ipc.on('locale-data', event => {
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = locale.messages;
 });
 
 function getDataFromMainWindow(name, callback) {
