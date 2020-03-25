@@ -16,7 +16,7 @@
     LokiFileServerAPI.secureRpcPubKey
   );
 
-  let nextWaitSeconds = 1;
+  let nextWaitSeconds = 10;
   const checkForUpgrades = async () => {
     const result = await window.tokenlessFileServerAdnAPI.serverRequest(
       'loki/v1/version/client/desktop'
@@ -67,9 +67,7 @@
         return res(expiredVersion);
       }
       log.info(
-        'Delaying sending checks for',
-        nextWaitSeconds,
-        's, no version yet'
+        `Delaying sending checks for ${nextWaitSeconds}s, no version yet`
       );
       setTimeout(waitForVersion, nextWaitSeconds * 1000);
       return true;
@@ -85,11 +83,7 @@
   window.extension.expired = cb => {
     if (expiredVersion === null) {
       // just give it another second
-      log.info(
-        'Delaying expire banner determination for',
-        nextWaitSeconds,
-        's'
-      );
+      log.info(`Delaying expire banner determination for ${nextWaitSeconds}s`);
       setTimeout(() => {
         window.extension.expired(cb);
       }, nextWaitSeconds * 1000);
