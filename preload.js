@@ -411,7 +411,7 @@ window.lokiFeatureFlags = {
   privateGroupChats: true,
   useSnodeProxy: true,
   useSealedSender: true,
-  useOnionRequests: true,
+  useOnionRequests: false,
 };
 
 // eslint-disable-next-line no-extend-native,func-names
