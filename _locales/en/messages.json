@@ -2297,8 +2297,10 @@
     "message": "Confirm password"
   },
   "pasteLongPasswordToastTitle": {
-    "message": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters.",
-    "description": "Shown when user pastes a password which is longer than MAX_PASSWORD_LEN"
+    "message":
+      "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters.",
+    "description":
+      "Shown when user pastes a password which is longer than MAX_PASSWORD_LEN"
   },
   "showSeedPasswordRequest": {
     "message": "Please enter your password",

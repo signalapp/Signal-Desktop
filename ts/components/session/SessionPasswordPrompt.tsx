@@ -126,9 +126,14 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
   public onPaste(event: any) {
     const clipboard = event.clipboardData.getData('text');
 
-    if (clipboard.length > window.CONSTANTS.MAX_PASSWORD_LENGTH){
+    if (clipboard.length > window.CONSTANTS.MAX_PASSWORD_LENGTH) {
       this.setState({
-        error: String(window.i18n('pasteLongPasswordToastTitle',  window.CONSTANTS.MAX_PASSWORD_LENGTH))
+        error: String(
+          window.i18n(
+            'pasteLongPasswordToastTitle',
+            window.CONSTANTS.MAX_PASSWORD_LENGTH
+          )
+        ),
       });
     }
 

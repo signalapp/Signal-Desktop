@@ -197,9 +197,14 @@ export class SessionPasswordModal extends React.Component<Props, State> {
   private onPaste(event: any) {
     const clipboard = event.clipboardData.getData('text');
 
-    if (clipboard.length > window.CONSTANTS.MAX_PASSWORD_LENGTH){
-      const title = String(window.i18n('pasteLongPasswordToastTitle',  window.CONSTANTS.MAX_PASSWORD_LENGTH));
-      
+    if (clipboard.length > window.CONSTANTS.MAX_PASSWORD_LENGTH) {
+      const title = String(
+        window.i18n(
+          'pasteLongPasswordToastTitle',
+          window.CONSTANTS.MAX_PASSWORD_LENGTH
+        )
+      );
+
       window.pushToast({
         title,
         type: 'warning',
