@@ -1,0 +1,6 @@
+{
+  "storageProfile": "testIntegration2Profile",
+  "openDevTools": false,
+  "updatesEnabled": false,
+  "localServerPort": "8082"
+}
