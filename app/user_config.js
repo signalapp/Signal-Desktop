@@ -7,8 +7,12 @@ const { start } = require('./base_config');
 const config = require('./config');
 
 let storageProfile;
-const { NODE_ENV: environment, NODE_APP_INSTANCE:instance } = process.env;
-const isValidInstance = instance && instance.length > 0;
+
+// Node makes sure all environment variables are strings
+const { NODE_ENV: environment, NODE_APP_INSTANCE: instance } = process.env;
+
+// We need to make sure instance is not empty
+const isValidInstance = instance === 'string' && instance.length > 0;
 const isProduction = environment === 'production' && !isValidInstance;
 
 // Use seperate data directories for each different environment and app instances
@@ -18,7 +22,7 @@ if (config.has(storageProfile)) {
 } else if (!isProduction) {
   storageProfile = environment;
   if (isValidInstance) {
-    storageProfile = storageProfile.concat(`-${instance}`)
+    storageProfile = storageProfile.concat(`-${instance}`);
   }
 }
 

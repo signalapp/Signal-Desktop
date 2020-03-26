@@ -38,13 +38,10 @@ const config = require('config');
 config.environment = environment;
 
 // Log resulting env vars in use by config
-[
-  'NODE_ENV',
-  'NODE_APP_INSTANCE',
-  'NODE_CONFIG_DIR',
-  'NODE_CONFIG',
-].forEach(s => {
-  console.log(`${s} ${config.util.getEnv(s)}`);
-});
+['NODE_ENV', 'NODE_APP_INSTANCE', 'NODE_CONFIG_DIR', 'NODE_CONFIG'].forEach(
+  s => {
+    console.log(`${s} ${config.util.getEnv(s)}`);
+  }
+);
 
 module.exports = config;

@@ -51,27 +51,22 @@ module.exports = {
   },
 
   async startApp(environment = 'test-integration-session') {
-    const env = {
-      NODE_ENV: environment,
-      USE_STUBBED_NETWORK: true,
-      ELECTRON_ENABLE_LOGGING: true,
-      ELECTRON_ENABLE_STACK_DUMPING: true,
-      ELECTRON_DISABLE_SANDBOX: 1,
-    };
-
-    // If it's specifically integration environment then we should extract the instance from it.
-    // This will still allow its storage to be found in Session-{environment}
-    // It just makes it easier to manage the config file
-    if (environment.includes('test-integration-')) {
-      const instance = environment.replace('test-integration-', '');
-      env.NODE_ENV = 'test-integration';
-      env.NODE_APP_INSTANCE = instance;
-    }
+    const env = environment.startsWith('test-integration')
+      ? 'test-integration'
+      : environment;
+    const instance = environment.replace('test-integration-', '');
 
     const app1 = new Application({
       path: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
       args: ['.'],
-      env,
+      env: {
+        NODE_ENV: env,
+        NODE_APP_INSTANCE: instance,
+        USE_STUBBED_NETWORK: true,
+        ELECTRON_ENABLE_LOGGING: true,
+        ELECTRON_ENABLE_STACK_DUMPING: true,
+        ELECTRON_DISABLE_SANDBOX: 1,
+      },
       startTimeout: 10000,
       requireName: 'electronRequire',
       // chromeDriverLogPath: '../chromedriverlog.txt',
@@ -131,10 +126,7 @@ module.exports = {
   },
 
   async startAndAssureCleanedApp(env = 'test-integration-session') {
-    const userData = path.join(
-      this.USER_DATA_ROOT_FOLDER,
-      `Session-${env}`
-    );
+    const userData = path.join(this.USER_DATA_ROOT_FOLDER, `Session-${env}`);
 
     await this.rmFolder(userData);
 

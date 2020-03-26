@@ -91,6 +91,7 @@ This profile will change [userData](https://electron.atom.io/docs/all/#appgetpat
 directory from `%appData%/Session` to `%appData%/Session-{environment}-{instance}`.
 
 There are a few scripts which you can use:
+
 ```
 yarn start - Start development
 yarn start-multi - Start second instance of development
@@ -100,9 +101,11 @@ yarn start-prod-multi - Start another instance of production
 
 For more than 2 clients, you may run the above command with `NODE_APP_INSTANCE` set before them.
 For example, running:
+
 ```
 NODE_APP_INSTANCE=alice yarn start
 ```
+
 Will run the development environment with the `alice` instance and thus create a seperate storage profile.
 
 If a fixed profile is needed (in the case of tests), you can specify it using `storageProfile` in the config file. If the change is local then put it in `local-{instance}.json` otherwise put it in `default-{instance}.json` or `{env}-{instance}.json`.
