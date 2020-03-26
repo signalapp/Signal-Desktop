@@ -82,38 +82,43 @@ while you make changes:
 yarn grunt dev # runs until you stop it, re-generating built assets on file changes
 ```
 
-## Additional storage profiles
+## Multiple instances
 
 Since there is no registration for Session, you can create as many accounts as you
-can public keys. To test the P2P functionality on the same machine, however, requries
-that each client binds their message server to a different port.
+can public keys. Each client however has a dedicated storage profile which is determined by the environment and instance variables.
 
-You can use the following command to start a client bound to a different port.
+This profile will change [userData](https://electron.atom.io/docs/all/#appgetpathname)
+directory from `%appData%/Session` to `%appData%/Session-{environment}-{instance}`.
 
+There are a few scripts which you can use:
 ```
-yarn start-multi
+yarn start - Start development
+yarn start-multi - Start second instance of development
+yarn start-prod - Start production but in development mode
+yarn start-prod-multi - Start another instance of production
 ```
 
-For more than 2 clients, you can setup additional storage profiles and switch
-between them using the `NODE_APP_INSTANCE` environment variable.
+For more than 2 clients, you may run the above command with `NODE_APP_INSTANCE` set before them.
+For example, running:
+```
+NODE_APP_INSTANCE=alice yarn start
+```
+Will run the development environment with the `alice` instance and thus create a seperate storage profile.
 
-For example, to create an 'alice' profile, put a file called `local-alice.json` in the
+If a fixed profile is needed (in the case of tests), you can specify it using `storageProfile` in the config file. If the change is local then put it in `local-{instance}.json` otherwise put it in `default-{instance}.json` or `{env}-{instance}.json`.
+
+Local config files will be ignored by default in git.
+
+For example, to create an 'alice' profile locally, put a file called `local-alice.json` in the
 `config` directory:
 
 ```
 {
-  "storageProfile": "aliceProfile",
+  "storageProfile": "alice-profile",
 }
 ```
 
-Then you can start up the application a little differently to load the profile:
-
-```
-NODE_APP_INSTANCE=alice yarn run start
-```
-
-This changes the [userData](https://electron.atom.io/docs/all/#appgetpathname)
-directory from `%appData%/Session` to `%appData%/Session-aliceProfile`.
+This will then set the `userData` directory to `%appData%/Session-alice-profile` when running the `alice` instance.
 
 # Making changes
 
@@ -185,26 +190,11 @@ Above all, spend some time with the repository. Follow the pull request template
 your pull request description automatically. Take a look at recent approved pull requests,
 see how they did things.
 
-## Testing Production Builds
+## Production Builds
 
-To test changes to the build system, build a release using
+You can build a production binary by running the following:
 
 ```
 yarn generate
 yarn build-release
 ```
-
-Then, run the tests using `grunt test-release:osx --dir=release`, replacing `osx` with `linux` or `win` depending on your platform.
-
-<!-- TODO:
-## Translations
-
-To pull the latest translations, follow these steps:
-
-1.  Download Transifex client:
-    https://docs.transifex.com/client/installing-the-client
-2.  Create Transifex account: https://transifex.com
-3.  Generate API token: https://www.transifex.com/user/settings/api/
-4.  Create `~/.transifexrc` configuration:
-    https://docs.transifex.com/client/client-configuration#-transifexrc
-5.  Run `yarn grunt tx`. -->
