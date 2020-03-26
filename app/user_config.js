@@ -1,15 +1,30 @@
 const path = require('path');
+const process = require('process');
 
 const { app } = require('electron');
 
 const { start } = require('./base_config');
 const config = require('./config');
 
-// Use separate data directory for development
-if (config.has('storageProfile')) {
+let storageProfile;
+const { NODE_ENV: environment, NODE_APP_INSTANCE:instance } = process.env;
+const isProduction = environment === 'production' && !instance;
+
+// Use seperate data directories for each different environment and app instances
+// We should prioritise config values first
+if (config.has(storageProfile)) {
+  storageProfile = config.get('storageProfile');
+} else if (!isProduction) {
+  storageProfile = environment;
+  if (instance) {
+    storageProfile = storageProfile.concat(`-${instance}`)
+  }
+}
+
+if (storageProfile) {
   const userData = path.join(
     app.getPath('appData'),
-    `Loki-Messenger-${config.get('storageProfile')}`
+    `Session-${storageProfile}`
   );
 
   app.setPath('userData', userData);

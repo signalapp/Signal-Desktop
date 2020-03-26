@@ -36,11 +36,11 @@ config.environment = environment;
 // Log resulting env vars in use by config
 [
   'NODE_ENV',
+  'NODE_APP_INSTANCE',
   'NODE_CONFIG_DIR',
   'NODE_CONFIG',
   'ALLOW_CONFIG_MUTATIONS',
   'HOSTNAME',
-  'NODE_APP_INSTANCE',
   'SUPPRESS_NO_CONFIG_WARNING',
 ].forEach(s => {
   console.log(`${s} ${config.util.getEnv(s)}`);
