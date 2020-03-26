@@ -12,7 +12,7 @@ let storageProfile;
 const { NODE_ENV: environment, NODE_APP_INSTANCE: instance } = process.env;
 
 // We need to make sure instance is not empty
-const isValidInstance = instance === 'string' && instance.length > 0;
+const isValidInstance = typeof instance === 'string' && instance.length > 0;
 const isProduction = environment === 'production' && !isValidInstance;
 
 // Use seperate data directories for each different environment and app instances

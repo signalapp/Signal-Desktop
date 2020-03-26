@@ -6,7 +6,6 @@ let environment;
 
 // In production mode, NODE_ENV cannot be customized by the user
 if (isDevelopment) {
-  console.log('development');
   environment = process.env.NODE_ENV || 'development';
   process.env.LOKI_DEV = 1;
 } else {
