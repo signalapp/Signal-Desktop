@@ -268,7 +268,7 @@
     "description": "Used as a label on a button allowing user to see more information"
   },
   "youLeftTheGroup": {
-    "message": "You left the group",
+    "message": "You left the group.",
     "description": "Displayed when a user can't send a message because they have left the group"
   },
   "scrollDown": {
@@ -1591,7 +1591,7 @@
     "message": "Later"
   },
   "leftTheGroup": {
-    "message": "$name$ left the group",
+    "message": "$name$ left the group.",
     "description": "Shown in the conversation history when a single person leaves the group",
     "placeholders": {
       "name": {
@@ -1601,7 +1601,7 @@
     }
   },
   "multipleLeftTheGroup": {
-    "message": "$name$ left the group",
+    "message": "$name$ left the group.",
     "description": "Shown in the conversation history when multiple people leave the group",
     "placeholders": {
       "name": {
@@ -1611,11 +1611,25 @@
     }
   },
   "updatedTheGroup": {
-    "message": "Group updated",
+    "message": "$name$ updated the group.",
+    "description": "Shown in the conversation history when someone updates the group",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "youUpdatedTheGroup": {
+    "message": "You updated the group.",
+    "description": "Shown in the conversation history when you update a group"
+  },
+  "updatedGroupAvatar": {
+    "message": "Group avatar was updated.",
     "description": "Shown in the conversation history when someone updates the group"
   },
   "titleIsNow": {
-    "message": "Title is now '$name$'",
+    "message": "Group name is now '$name$'.",
     "description": "Shown in the conversation history when someone changes the title of the group",
     "placeholders": {
       "name": {
@@ -1624,8 +1638,12 @@
       }
     }
   },
+  "youJoinedTheGroup": {
+    "message": "You joined the group.",
+    "description": "Shown in the conversation history when you are added to a group."
+  },
   "joinedTheGroup": {
-    "message": "$name$ joined the group",
+    "message": "$name$ joined the group.",
     "description": "Shown in the conversation history when a single person joins the group",
     "placeholders": {
       "name": {
@@ -1635,7 +1653,7 @@
     }
   },
   "multipleJoinedTheGroup": {
-    "message": "$names$ joined the group",
+    "message": "$names$ joined the group.",
     "description": "Shown in the conversation history when more than one person joins the group",
     "placeholders": {
       "names": {

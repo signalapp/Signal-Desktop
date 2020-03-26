@@ -4,11 +4,11 @@ import classNames from 'classnames';
 import { TypingAnimation } from './TypingAnimation';
 import { Avatar } from '../Avatar';
 
-import { LocalizerType } from '../../types/Util';
+import { ColorType, LocalizerType } from '../../types/Util';
 
 interface Props {
   avatarPath?: string;
-  color: string;
+  color: ColorType;
   name?: string;
   phoneNumber: string;
   profileName?: string;

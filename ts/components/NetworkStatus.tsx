@@ -50,7 +50,7 @@ export const NetworkStatus = ({
 
   const [isConnecting, setIsConnecting] = React.useState<boolean>(false);
   React.useEffect(() => {
-    let timeout: NodeJS.Timeout;
+    let timeout: any;
 
     if (isConnecting) {
       timeout = setTimeout(() => {

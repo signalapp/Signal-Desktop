@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { Emojify } from './Emojify';
 import { Avatar } from '../Avatar';
-import { LocalizerType } from '../../types/Util';
+import { ColorType, LocalizerType } from '../../types/Util';
 import {
   ContextMenu,
   ContextMenuTrigger,
@@ -16,24 +16,27 @@ interface TimerOption {
   value: number;
 }
 
-interface Props {
+export interface PropsData {
   id: string;
   name?: string;
 
   phoneNumber: string;
   profileName?: string;
-  color: string;
+  color?: ColorType;
   avatarPath?: string;
 
-  isVerified: boolean;
-  isMe: boolean;
-  isGroup: boolean;
-  isArchived: boolean;
+  isVerified?: boolean;
+  isMe?: boolean;
+  isGroup?: boolean;
+  isArchived?: boolean;
+  leftGroup?: boolean;
 
   expirationSettingName?: string;
-  showBackButton: boolean;
-  timerOptions: Array<TimerOption>;
+  showBackButton?: boolean;
+  timerOptions?: Array<TimerOption>;
+}
 
+export interface PropsActions {
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
   onResetSession: () => void;
@@ -46,9 +49,13 @@ interface Props {
 
   onArchive: () => void;
   onMoveToInbox: () => void;
+}
 
+export interface PropsHousekeeping {
   i18n: LocalizerType;
 }
+
+export type Props = PropsData & PropsActions & PropsHousekeeping;
 
 export class ConversationHeader extends React.Component<Props> {
   public showMenuBound: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -218,6 +225,7 @@ export class ConversationHeader extends React.Component<Props> {
       isMe,
       isGroup,
       isArchived,
+      leftGroup,
       onDeleteMessages,
       onResetSession,
       onSetDisappearingMessages,
@@ -233,18 +241,20 @@ export class ConversationHeader extends React.Component<Props> {
 
     return (
       <ContextMenu id={triggerId}>
-        <SubMenu title={disappearingTitle}>
-          {(timerOptions || []).map(item => (
-            <MenuItem
-              key={item.value}
-              onClick={() => {
-                onSetDisappearingMessages(item.value);
-              }}
-            >
-              {item.name}
-            </MenuItem>
-          ))}
-        </SubMenu>
+        {leftGroup ? null : (
+          <SubMenu title={disappearingTitle}>
+            {(timerOptions || []).map(item => (
+              <MenuItem
+                key={item.value}
+                onClick={() => {
+                  onSetDisappearingMessages(item.value);
+                }}
+              >
+                {item.name}
+              </MenuItem>
+            ))}
+          </SubMenu>
+        )}
         <MenuItem onClick={onShowAllMedia}>{i18n('viewAllMedia')}</MenuItem>
         {isGroup ? (
           <MenuItem onClick={onShowGroupMembers}>

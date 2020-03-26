@@ -371,6 +371,7 @@
           isMe: this.model.isMe(),
           isGroup: !this.model.isPrivate(),
           isArchived: this.model.get('isArchived'),
+          leftGroup: this.model.get('left'),
 
           expirationSettingName,
           showBackButton: Boolean(this.panels && this.panels.length),

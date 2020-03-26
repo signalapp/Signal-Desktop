@@ -6,7 +6,7 @@ import { MessageBodyHighlight } from './MessageBodyHighlight';
 import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 
-import { LocalizerType } from '../types/Util';
+import { ColorType, LocalizerType } from '../types/Util';
 
 export type PropsDataType = {
   isSelected?: boolean;
@@ -22,7 +22,7 @@ export type PropsDataType = {
     phoneNumber: string;
     isMe?: boolean;
     name?: string;
-    color?: string;
+    color?: ColorType;
     profileName?: string;
     avatarPath?: string;
   };

@@ -1549,6 +1549,9 @@
     ) {
       let expireTimer = providedExpireTimer;
       let source = providedSource;
+      if (this.get('left')) {
+        return false;
+      }
 
       _.defaults(options, { fromSync: false, fromGroupUpdate: false });
 

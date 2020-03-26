@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
 import { Message, Props as MessageProps } from './Message';
-import { LocalizerType } from '../../types/Util';
+import { ColorType, LocalizerType } from '../../types/Util';
 
 interface Contact {
   status: string;
@@ -13,7 +13,7 @@ interface Contact {
   name?: string;
   profileName?: string;
   avatarPath?: string;
-  color: string;
+  color: ColorType;
   isOutgoingKeyError: boolean;
   isUnidentifiedDelivery: boolean;
 

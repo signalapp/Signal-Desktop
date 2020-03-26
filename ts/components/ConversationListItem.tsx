@@ -8,12 +8,12 @@ import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 import { cleanId } from './_util';
 
-import { LocalizerType } from '../types/Util';
+import { ColorType, LocalizerType } from '../types/Util';
 
 export type PropsData = {
   id: string;
   phoneNumber: string;
-  color?: string;
+  color?: ColorType;
   profileName?: string;
   name?: string;
   type: 'group' | 'direct';

@@ -7,7 +7,7 @@ import { createPortal } from 'react-dom';
 import { showSettings } from '../shims/Whisper';
 import { Avatar } from './Avatar';
 import { AvatarPopup } from './AvatarPopup';
-import { LocalizerType } from '../types/Util';
+import { ColorType, LocalizerType } from '../types/Util';
 
 export interface PropsType {
   searchTerm: string;
@@ -25,7 +25,7 @@ export interface PropsType {
   phoneNumber: string;
   isMe: boolean;
   name?: string;
-  color: string;
+  color: ColorType;
   verified: boolean;
   profileName?: string;
   avatarPath?: string;

@@ -2255,6 +2255,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-group-notification {
   margin-left: 1em;
   margin-right: 1em;
+  margin-top: 5px;
+  margin-bottom: 5px;
 
   text-align: center;
 
@@ -2267,8 +2269,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-group-notification__change {
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 .module-group-notification__contact {

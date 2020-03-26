@@ -2,13 +2,13 @@ import React from 'react';
 
 import { LocalizerType, RenderTextCallbackType } from '../types/Util';
 
-type FullJSX = Array<JSX.Element | string> | JSX.Element | string;
+export type FullJSXType = Array<JSX.Element | string> | JSX.Element | string;
 
 interface Props {
   /** The translation string id */
   id: string;
   i18n: LocalizerType;
-  components?: Array<FullJSX>;
+  components?: Array<FullJSXType>;
   renderText?: RenderTextCallbackType;
 }
 
@@ -19,7 +19,7 @@ export class Intl extends React.Component<Props> {
     ),
   };
 
-  public getComponent(index: number, key: number): FullJSX | undefined {
+  public getComponent(index: number, key: number): FullJSXType | undefined {
     const { id, components } = this.props;
 
     if (!components || !components.length || components.length <= index) {

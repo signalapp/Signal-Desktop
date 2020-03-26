@@ -90,6 +90,7 @@ export type MessageType = {
   }>;
 
   errors?: Array<Error>;
+  group_update?: any;
 
   // No need to go beyond this; unused at this stage, since this goes into
   //   a reducer still in plain JavaScript and comes out well-formed
@@ -578,6 +579,11 @@ function hasMessageHeightChanged(
       previous.errors &&
       message.errors.length !== previous.errors.length);
   if (errorStatusChanged) {
+    return true;
+  }
+
+  const groupUpdateChanged = message.group_update !== previous.group_update;
+  if (groupUpdateChanged) {
     return true;
   }
 

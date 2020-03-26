@@ -432,7 +432,12 @@
       const groupUpdate = this.get('group_update');
       const changes = [];
 
-      if (!groupUpdate.name && !groupUpdate.left && !groupUpdate.joined) {
+      if (
+        !groupUpdate.avatarUpdated &&
+        !groupUpdate.left &&
+        !groupUpdate.joined &&
+        !groupUpdate.name
+      ) {
         changes.push({
           type: 'general',
         });
@@ -474,7 +479,18 @@
         });
       }
 
+      if (groupUpdate.avatarUpdated) {
+        changes.push({
+          type: 'avatar',
+        });
+      }
+
+      const sourceE164 = this.getSource();
+      const sourceUuid = this.getSourceUuid();
+      const from = this.findAndFormatContact(sourceE164 || sourceUuid);
+
       return {
+        from,
         changes,
       };
     },
@@ -834,34 +850,72 @@
 
         return i18n('mediaMessage');
       }
+
       if (this.isGroupUpdate()) {
         const groupUpdate = this.get('group_update');
+        const fromContact = this.getContact();
+        const messages = [];
+
         if (groupUpdate.left === 'You') {
           return i18n('youLeftTheGroup');
         } else if (groupUpdate.left) {
           return i18n('leftTheGroup', this.getNameForNumber(groupUpdate.left));
         }
 
-        const messages = [];
-        if (!groupUpdate.name && !groupUpdate.joined) {
-          messages.push(i18n('updatedTheGroup'));
+        if (!fromContact) {
+          return '';
         }
-        if (groupUpdate.name) {
-          messages.push(i18n('titleIsNow', groupUpdate.name));
+
+        if (fromContact.isMe()) {
+          messages.push(i18n('youUpdatedTheGroup'));
+        } else {
+          messages.push(i18n('updatedTheGroup', fromContact.getDisplayName()));
         }
+
         if (groupUpdate.joined && groupUpdate.joined.length) {
-          const names = _.map(
-            groupUpdate.joined,
-            this.getNameForNumber.bind(this)
+          const joinedContacts = _.map(groupUpdate.joined, item =>
+            ConversationController.getOrCreate(item, 'private')
           );
-          if (names.length > 1) {
-            messages.push(i18n('multipleJoinedTheGroup', names.join(', ')));
+          const joinedWithoutMe = joinedContacts.filter(
+            contact => !contact.isMe()
+          );
+
+          if (joinedContacts.length > 1) {
+            messages.push(
+              i18n(
+                'multipleJoinedTheGroup',
+                _.map(joinedWithoutMe, contact =>
+                  contact.getDisplayName()
+                ).join(', ')
+              )
+            );
+
+            if (joinedWithoutMe.length < joinedContacts.length) {
+              messages.push(i18n('youJoinedTheGroup'));
+            }
           } else {
-            messages.push(i18n('joinedTheGroup', names[0]));
+            const joinedContact = ConversationController.getOrCreate(
+              groupUpdate.joined[0],
+              'private'
+            );
+            if (joinedContact.isMe()) {
+              messages.push(i18n('youJoinedTheGroup'));
+            } else {
+              messages.push(
+                i18n('joinedTheGroup', joinedContacts[0].getDisplayName())
+              );
+            }
           }
         }
 
-        return messages.join(', ');
+        if (groupUpdate.name) {
+          messages.push(i18n('titleIsNow', groupUpdate.name));
+        }
+        if (groupUpdate.avatarUpdated) {
+          messages.push(i18n('updatedGroupAvatar'));
+        }
+
+        return messages.join(' ');
       }
       if (this.isEndSession()) {
         return i18n('sessionEnded');
@@ -2165,10 +2219,13 @@
                   members: _.union(members, conversation.get('members')),
                 };
 
-                groupUpdate =
-                  conversation.changedAttributes(
-                    _.pick(dataMessage.group, 'name', 'avatar')
-                  ) || {};
+                groupUpdate = {};
+                if (dataMessage.group.name !== conversation.get('name')) {
+                  groupUpdate.name = dataMessage.group.name;
+                }
+
+                // Note: used and later cleared by background attachment downloader
+                groupUpdate.avatar = dataMessage.group.avatar;
 
                 const difference = _.difference(
                   members,

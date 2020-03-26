@@ -106,7 +106,7 @@ const stories: Array<MessageStory> = [
         makeDataProps: () => ({
           ...baseDataProps,
           direction: 'incoming',
-          authorColor: 'gray',
+          authorColor: 'grey',
           text:
             'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
         }),
