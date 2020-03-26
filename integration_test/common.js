@@ -122,11 +122,9 @@ module.exports = {
   },
 
   async startAndAssureCleanedApp(env = 'test-integration-session') {
-    const prefix = 'test-integration-session-';
-    const envNumber = env.substr(env.lastIndexOf(prefix) + prefix.length) || '';
     const userData = path.join(
       this.USER_DATA_ROOT_FOLDER,
-      `Loki-Messenger-testIntegration${envNumber}Profile`
+      `Session-${env}`
     );
 
     await this.rmFolder(userData);

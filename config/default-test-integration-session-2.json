@@ -1,6 +1,4 @@
 {
-  "storageProfile": "testIntegration2Profile",
-  "openDevTools": false,
-  "updatesEnabled": false,
+  "storageProfile": "test-integration-session-2",
   "localServerPort": "8082"
 }

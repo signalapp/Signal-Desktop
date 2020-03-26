@@ -1,5 +1,5 @@
 {
-  "storageProfile": "testIntegrationProfile",
+  "storageProfile": "test-integration-session",
   "openDevTools": false,
   "updatesEnabled": false
 }
