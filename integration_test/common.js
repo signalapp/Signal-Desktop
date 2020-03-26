@@ -55,8 +55,7 @@ module.exports = {
       path: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
       args: ['.'],
       env: {
-        NODE_APP_INSTANCE: env,
-        NODE_ENV: 'production',
+        NODE_ENV: env,
         USE_STUBBED_NETWORK: true,
         ELECTRON_ENABLE_LOGGING: true,
         ELECTRON_ENABLE_STACK_DUMPING: true,

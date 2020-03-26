@@ -52,8 +52,8 @@ window.getDefaultFileServer = () => config.defaultFileServer;
 window.initialisedAPI = false;
 
 if (
-  typeof process.env.NODE_APP_INSTANCE === 'string' &&
-  process.env.NODE_APP_INSTANCE.includes('test-integration')
+  typeof process.env.NODE_ENV === 'string' &&
+  process.env.NODE_ENV.includes('test-integration')
 ) {
   window.electronRequire = require;
 }

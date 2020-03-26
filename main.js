@@ -899,7 +899,7 @@ app.on('window-all-closed', () => {
     config.environment === 'test' ||
     config.environment === 'test-lib' ||
     config.environment === 'test-loki' ||
-    config.environmen.includes('test-integration')
+    config.environment.includes('test-integration')
   ) {
     app.quit();
   }
@@ -950,11 +950,10 @@ ipc.on('add-setup-menu-items', () => {
 });
 
 ipc.on('draw-attention', () => {
-  if (process.platform === 'darwin') {
-    app.dock.bounce();
-  } else if (process.platform === 'win32') {
-    mainWindow.flashFrame(true);
-  } else if (process.platform === 'linux') {
+  if (!mainWindow) {
+    return;
+  }
+  if (process.platform === 'win32' || process.platform === 'linux') {
     mainWindow.flashFrame(true);
   }
 });
