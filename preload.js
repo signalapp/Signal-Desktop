@@ -317,8 +317,6 @@ window.LokiFileServerAPI = require('./js/modules/loki_file_server_api');
 
 window.LokiRssAPI = require('./js/modules/loki_rss_api');
 
-window.localServerPort = config.localServerPort;
-
 window.mnemonic = require('./libloki/modules/mnemonic');
 const WorkerInterface = require('./js/modules/util_worker_interface');
 

@@ -155,7 +155,6 @@ function prepareURL(pathSegments, moreKeys) {
       serverUrl: config.get('serverUrl'),
       localUrl: config.get('localUrl'),
       cdnUrl: config.get('cdnUrl'),
-      localServerPort: config.get('localServerPort'),
       defaultPoWDifficulty: config.get('defaultPoWDifficulty'),
       seedNodeList: JSON.stringify(config.get('seedNodeList')),
       certificateAuthority: config.get('certificateAuthority'),

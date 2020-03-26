@@ -95,8 +95,7 @@ yarn start-multi
 ```
 
 For more than 2 clients, you can setup additional storage profiles and switch
-between them using the `NODE_APP_INSTANCE` environment variable and specifying a
-new localServerPort in the config.
+between them using the `NODE_APP_INSTANCE` environment variable.
 
 For example, to create an 'alice' profile, put a file called `local-alice.json` in the
 `config` directory:
@@ -104,7 +103,6 @@ For example, to create an 'alice' profile, put a file called `local-alice.json` 
 ```
 {
   "storageProfile": "aliceProfile",
-  "localServerPort": "8082",
 }
 ```
 
