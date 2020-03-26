@@ -100,6 +100,9 @@
       <div class='spell-check-setting'>
         <input type='checkbox' name='spell-check-setting' id='spell-check-setting' />
         <label for='spell-check-setting'>{{ spellCheckDescription }}</label>
+        <p class='spell-check-setting-message' style='display: {{ spellCheckDisplay }};' aria-hidden='{{ spellCheckHidden }}'>
+          {{ spellCheckDirtyText }}
+        </p>
       </div>
     <hr>
     <div class='permissions-setting'>

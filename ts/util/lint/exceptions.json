@@ -883,73 +883,81 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
-    "line": "          el: this.$('.menu-bar-setting'),",
-    "lineNumber": 113,
+    "line": "          const $msg = this.$('.spell-check-setting-message');",
+    "lineNumber": 110,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-04-08T18:24:35.255Z",
+    "updated": "2020-03-19T16:06:32.598Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "          el: this.$('.menu-bar-setting'),",
+    "lineNumber": 123,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-03-20T16:47:14.450Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.media-permissions'),",
-    "lineNumber": 120,
+    "lineNumber": 130,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-03-20T16:47:14.450Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
-    "lineNumber": 126,
+    "lineNumber": 136,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-03-20T16:47:14.450Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
-    "lineNumber": 126,
+    "lineNumber": 136,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
+    "updated": "2020-03-20T16:47:14.450Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').text(i18n('syncNow'));",
-    "lineNumber": 181,
+    "lineNumber": 200,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-03-25T13:52:04.149Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').attr('disabled', 'disabled');",
-    "lineNumber": 185,
+    "lineNumber": 204,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-03-25T13:52:04.149Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.synced_at').hide();",
-    "lineNumber": 197,
+    "lineNumber": 216,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-03-25T13:52:04.149Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync_failed').hide();",
-    "lineNumber": 202,
+    "lineNumber": 221,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-03-25T13:52:04.149Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
@@ -3140,22 +3148,6 @@
     "lineNumber": 31,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/electron-context-menu/index.js",
-    "line": "\t\t\tconst result = options.prepend(props, win);",
-    "lineNumber": 122,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-10T19:08:25.356Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/electron-context-menu/index.js",
-    "line": "\t\t\tconst result = options.append(props, win);",
-    "lineNumber": 130,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-04-10T19:08:25.356Z"
   },
   {
     "rule": "jQuery-load(",

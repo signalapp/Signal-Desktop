@@ -106,7 +106,17 @@
         el: this.$('.spell-check-setting'),
         name: 'spell-check-setting',
         value: window.initialData.spellCheck,
-        setFn: window.setSpellCheck,
+        setFn: val => {
+          const $msg = this.$('.spell-check-setting-message');
+          if (val !== window.appStartInitialSpellcheckSetting) {
+            $msg.show();
+            $msg.attr('aria-hidden', false);
+          } else {
+            $msg.hide();
+            $msg.attr('aria-hidden', true);
+          }
+          window.setSpellCheck(val);
+        },
       });
       if (Settings.isHideMenuBarSupported()) {
         new CheckboxView({
@@ -131,6 +141,10 @@
       'click .clear-data': 'onClearData',
     },
     render_attributes() {
+      const appStartSpellCheck = window.appStartInitialSpellcheckSetting;
+      const spellCheckDirty =
+        window.initialData.spellCheck !== appStartSpellCheck;
+
       return {
         deviceNameLabel: i18n('deviceName'),
         deviceName: window.initialData.deviceName,
@@ -157,6 +171,11 @@
         mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
         generalHeader: i18n('general'),
         spellCheckDescription: i18n('spellCheckDescription'),
+        spellCheckHidden: spellCheckDirty ? 'false' : 'true',
+        spellCheckDisplay: spellCheckDirty ? 'inherit' : 'none',
+        spellCheckDirtyText: appStartSpellCheck
+          ? i18n('spellCheckWillBeDisabled')
+          : i18n('spellCheckWillBeEnabled'),
       };
     },
     onClose() {
