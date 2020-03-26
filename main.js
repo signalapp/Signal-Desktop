@@ -878,8 +878,7 @@ app.on('ready', async () => {
 
   ready = true;
 
-  createWindow();
-
+  await createWindow();
   if (usingTrayIcon) {
     tray = createTrayIcon(getMainWindow, locale.messages);
   }
