@@ -6,19 +6,18 @@ import { SessionButton } from '../SessionButton';
 
 interface Props extends SettingsViewProps {
   showLinkDeviceButton: boolean | null;
-  disableLinkDeviceButton: boolean | null;
+  isSecondaryDevice: boolean;
 }
 
 export class SettingsHeader extends React.Component<Props, any> {
   public static defaultProps = {
     showLinkDeviceButton: false,
-    disableLinkDeviceButton: true,
   };
 
   public constructor(props: any) {
     super(props);
     this.state = {
-      disableLinkDeviceButton: this.props.disableLinkDeviceButton,
+      disableLinkDeviceButton: true,
     };
     this.showAddLinkedDeviceModal = this.showAddLinkedDeviceModal.bind(this);
   }
@@ -32,10 +31,12 @@ export class SettingsHeader extends React.Component<Props, any> {
   }
 
   public componentDidMount() {
-    window.Whisper.events.on('refreshLinkedDeviceList', async () => {
+    if (!this.props.isSecondaryDevice) {
+      window.Whisper.events.on('refreshLinkedDeviceList', async () => {
+        this.refreshLinkedDevice();
+      });
       this.refreshLinkedDevice();
-    });
-    this.refreshLinkedDevice();
+    }
   }
 
   public refreshLinkedDevice() {
@@ -51,7 +52,9 @@ export class SettingsHeader extends React.Component<Props, any> {
   }
 
   public componentWillUnmount() {
-    window.Whisper.events.off('refreshLinkedDeviceList');
+    if (!this.props.isSecondaryDevice) {
+      window.Whisper.events.off('refreshLinkedDeviceList');
+    }
   }
 
   public render() {
