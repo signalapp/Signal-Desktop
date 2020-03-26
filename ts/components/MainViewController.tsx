@@ -20,7 +20,10 @@ export const MainViewController = {
     );
     if (document.getElementById('main-view')) {
       ReactDOM.render(
-        <SettingsView category={category} isSecondaryDevice={isSecondaryDevice}/>,
+        <SettingsView
+          category={category}
+          isSecondaryDevice={isSecondaryDevice}
+        />,
         document.getElementById('main-view')
       );
     }
