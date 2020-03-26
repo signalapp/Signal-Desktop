@@ -50,17 +50,28 @@ module.exports = {
     return new Promise(resolve => setTimeout(resolve, ms));
   },
 
-  async startApp(env = 'test-integration-session') {
+  async startApp(environment = 'test-integration-session') {
+    const env = {
+      NODE_ENV: environment,
+      USE_STUBBED_NETWORK: true,
+      ELECTRON_ENABLE_LOGGING: true,
+      ELECTRON_ENABLE_STACK_DUMPING: true,
+      ELECTRON_DISABLE_SANDBOX: 1,
+    };
+
+    // If it's specifically integration environment then we should extract the instance from it.
+    // This will still allow its storage to be found in Session-{environment}
+    // It just makes it easier to manage the config file
+    if (environment.includes('test-integration-')) {
+      const instance = environment.replace('test-integration-', '');
+      env.NODE_ENV = 'test-integration';
+      env.NODE_APP_INSTANCE = instance;
+    }
+
     const app1 = new Application({
       path: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
       args: ['.'],
-      env: {
-        NODE_ENV: env,
-        USE_STUBBED_NETWORK: true,
-        ELECTRON_ENABLE_LOGGING: true,
-        ELECTRON_ENABLE_STACK_DUMPING: true,
-        ELECTRON_DISABLE_SANDBOX: 1,
-      },
+      env,
       startTimeout: 10000,
       requireName: 'electronRequire',
       // chromeDriverLogPath: '../chromedriverlog.txt',
