@@ -18,7 +18,7 @@ before(async () => {
   // start the app once before all tests to get the platform-dependent
   // path of user data and store it to common.USER_DATA_ROOT_FOLDER
   const app1 = await common.startApp();
-  common.USER_DATA_ROOT_FOLDER = app1.electron.remote.app.getPath(
+  common.USER_DATA_ROOT_FOLDER = await app1.electron.remote.app.getPath(
     'appData'
   );
   await common.stopApp(app1);
