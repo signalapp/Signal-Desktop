@@ -64,7 +64,7 @@ function setupLinux(locale) {
 
   window.log.info('Detected Linux. Using default en_US spell check dictionary');
 
-  return new Typo('en_US');
+  return new Typo(locale);
 }
 
 // We load locale this way and not via app.getLocale() because this call returns
