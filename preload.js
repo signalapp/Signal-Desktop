@@ -434,8 +434,7 @@ Promise.prototype.ignore = function() {
 
 if (
   config.environment.includes('test') &&
-  !config.environment === 'swarm-testing1' &&
-  !config.environment === 'swarm-testing2'
+  !config.environment.includes('swarm-testing')
 ) {
   const isWindows = process.platform === 'win32';
   /* eslint-disable global-require, import/no-extraneous-dependencies */
