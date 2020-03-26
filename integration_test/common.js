@@ -57,7 +57,6 @@ module.exports = {
       env: {
         NODE_APP_INSTANCE: env,
         NODE_ENV: 'production',
-        LOKI_DEV: 1,
         USE_STUBBED_NETWORK: true,
         ELECTRON_ENABLE_LOGGING: true,
         ELECTRON_ENABLE_STACK_DUMPING: true,

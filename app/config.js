@@ -1,12 +1,14 @@
 const path = require('path');
 
-const electronIsDev = require('electron-is-dev');
+const isDevelopment = require('electron-is-dev');
 
 let environment;
 
 // In production mode, NODE_ENV cannot be customized by the user
-if (electronIsDev) {
+if (isDevelopment) {
+  console.log('development');
   environment = process.env.NODE_ENV || 'development';
+  process.env.LOKI_DEV = 1;
 } else {
   environment = 'production';
 }
@@ -23,7 +25,9 @@ if (environment === 'production') {
   process.env.ALLOW_CONFIG_MUTATIONS = '';
   process.env.SUPPRESS_NO_CONFIG_WARNING = '';
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '';
-  if (!process.env.LOKI_DEV) {
+
+  // We could be running againt production but still be in dev mode, we need to handle that
+  if (!isDevelopment) {
     process.env.NODE_APP_INSTANCE = '';
   }
 }
@@ -39,9 +43,6 @@ config.environment = environment;
   'NODE_APP_INSTANCE',
   'NODE_CONFIG_DIR',
   'NODE_CONFIG',
-  'ALLOW_CONFIG_MUTATIONS',
-  'HOSTNAME',
-  'SUPPRESS_NO_CONFIG_WARNING',
 ].forEach(s => {
   console.log(`${s} ${config.util.getEnv(s)}`);
 });
