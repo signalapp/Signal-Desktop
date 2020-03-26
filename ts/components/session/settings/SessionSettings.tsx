@@ -577,7 +577,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   private getLinkedDeviceSettings(): Array<LocalSettingType> {
     const { linkedPubKeys } = this.state;
     const { isSecondaryDevice } = this.props;
-    // tslint:disable-next-line: no-backbone-get-set-outside-model
     const noPairedDeviceText = isSecondaryDevice
       ? window.i18n('deviceIsSecondaryNoPairing')
       : window.i18n('noPairedDevices');

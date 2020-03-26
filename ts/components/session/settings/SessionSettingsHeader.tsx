@@ -5,7 +5,9 @@ import { SessionSettingCategory, SettingsViewProps } from './SessionSettings';
 import { SessionButton } from '../SessionButton';
 
 interface Props extends SettingsViewProps {
+  // showLinkDeviceButton is used to completely hide the button while the settings password lock is displayed
   showLinkDeviceButton: boolean | null;
+  // isSecondaryDevice is used to just disable the linkDeviceButton when we are already a secondary device
   isSecondaryDevice: boolean;
 }
 
@@ -16,6 +18,8 @@ export class SettingsHeader extends React.Component<Props, any> {
 
   public constructor(props: any) {
     super(props);
+    // mark the linkDeviceButton as disabled by default.
+    // it will be enabled if needed during componentDidMount().
     this.state = {
       disableLinkDeviceButton: true,
     };
