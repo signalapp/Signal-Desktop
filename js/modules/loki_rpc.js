@@ -270,8 +270,9 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     // we got a ton of randomPool nodes, let's just not worry about this one
     lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
     const randomPoolRemainingCount = lokiSnodeAPI.getRandomPoolLength();
+    const ciphertext = await response.text();
     log.warn(
-      `lokiRpc:::sendToProxy - `,
+      `lokiRpc:::sendToProxy -`,
       `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
         targetNode.port
       }`,
@@ -287,16 +288,13 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
 
   // detect SNode is not ready (not in swarm; not done syncing)
   if (response.status === 503 || response.status === 500) {
-    const ciphertext = await response.text();
-    // we shouldn't do these,
-    // it's seems to be not the random node that's always bad
-    // but the target node
-
-    // we got a ton of randomPool nodes, let's just not worry about this one
+    // this doesn't mean the random node is bad, it could be the target node
+    // but we got a ton of randomPool nodes, let's just not worry about this one
     lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
     const randomPoolRemainingCount = lokiSnodeAPI.getRandomPoolLength();
+    const ciphertext = await response.text();
     log.warn(
-      `lokiRpc:::sendToProxy - `,
+      `lokiRpc:::sendToProxy -`,
       `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
         targetNode.port
       }`,
