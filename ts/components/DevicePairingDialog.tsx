@@ -85,7 +85,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
           onClose={this.closeDialog}
         >
           <div className="session-modal__centered">
-            <div className="spacer-lg"></div>
+            <div className="spacer-lg" />
             {this.renderErrors()}
             <input
               type="text"
