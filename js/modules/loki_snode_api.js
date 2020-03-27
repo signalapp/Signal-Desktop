@@ -294,6 +294,8 @@ class LokiSnodeAPI {
     return pool[Math.floor(Math.random() * pool.length)];
   }
 
+  // WARNING: this leaks our IP to all snodes but with no other identifying information
+  // except that a client started up or ran out of random pool snodes
   async getVersion(node) {
     try {
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -407,6 +409,8 @@ class LokiSnodeAPI {
             }
             // start polling versions
             resolve();
+            // now get version for all snodes
+            // also acts an early online test/purge of bad nodes
             let c = 0;
             const verionStart = Date.now();
             const t = this.randomSnodePool.length;
@@ -540,6 +544,7 @@ class LokiSnodeAPI {
           );
         } else {
           // we don't know our version yet
+          // and if we're offline, we'll likely not get it until it restarts if it does...
           log.warn(
             'loki_snode:::markRandomNodeUnreachable - No version for snode',
             `${snode.ip}:${snode.port}`,
