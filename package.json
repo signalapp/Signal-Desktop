@@ -264,7 +264,6 @@
       "config/local-${env.SIGNAL_ENV}.json",
       "background.html",
       "about.html",
-      "settings.html",
       "password.html",
       "permissions_popup.html",
       "debug_log.html",
