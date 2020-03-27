@@ -314,8 +314,11 @@ class LokiSnodeAPI {
       }
     } catch (e) {
       // ECONNREFUSED likely means it's just offline...
+      // ECONNRESET seems to retry and fail as ECONNREFUSED (so likely a node going offline)
+      // ETIMEDOUT not sure what to do about these
+      // retry for now but maybe we should be marking bad...
       if (e.code === 'ECONNREFUSED') {
-        this.markRandomNodeUnreachable(node);
+        this.markRandomNodeUnreachable(node, { versionPoolFailure: true });
         const randomNodesLeft = this.getRandomPoolLength();
         // clean up these error messages to be a little neater
         log.warn(
@@ -408,29 +411,25 @@ class LokiSnodeAPI {
             const verionStart = Date.now();
             const t = this.randomSnodePool.length;
             const noticeEvery = parseInt(t / 10, 10);
-            const finalPromise = this.randomSnodePool.reduce(
-              async (p, node) => {
-                if (p) {
-                  await p;
-                  c += 1;
-                  if (c % noticeEvery === 0) {
-                    // give stats
-                    const diff = Date.now() - verionStart;
-                    log.info(
-                      `${c}/${t} pool version status update, has taken ${diff.toLocaleString()}ms`
-                    );
-                    Object.keys(this.versionPools).forEach(version => {
-                      const nodes = this.versionPools[version].length;
-                      log.info(
-                        `version ${version} has ${nodes.toLocaleString()} snodes`
-                      );
-                    });
-                  }
-                }
-                return this.getVersion(node);
+            // eslint-disable-next-line no-restricted-syntax
+            for (const node of this.randomSnodePool) {
+              c += 1;
+              // eslint-disable-next-line no-await-in-loop
+              await this.getVersion(node);
+              if (c % noticeEvery === 0) {
+                // give stats
+                const diff = Date.now() - verionStart;
+                log.info(
+                  `${c}/${t} pool version status update, has taken ${diff.toLocaleString()}ms`
+                );
+                Object.keys(this.versionPools).forEach(version => {
+                  const nodes = this.versionPools[version].length;
+                  log.info(
+                    `version ${version} has ${nodes.toLocaleString()} snodes`
+                  );
+                });
               }
-            );
-            await finalPromise;
+            }
             log.info('Versions retrieved from network!');
             this.versionsRetrieved = true;
           } catch (e) {
@@ -522,21 +521,43 @@ class LokiSnodeAPI {
     return filteredNodes;
   }
 
-  markRandomNodeUnreachable(snode) {
-    const snodeVersion = this.versionMap[`${snode.ip}:${snode.port}`];
-    if (this.versionPools[snodeVersion]) {
-      this.versionPools[snodeVersion] = _.without(
-        this.versionPools[snodeVersion],
-        _.find(this.versionPools[snodeVersion], {
-          ip: snode.ip,
-          port: snode.port,
-        })
-      );
+  markRandomNodeUnreachable(snode, options = {}) {
+    // avoid retries when we can't get the version because they're offline
+    if (!options.versionPoolFailure) {
+      const snodeVersion = this.versionMap[`${snode.ip}:${snode.port}`];
+      if (this.versionPools[snodeVersion]) {
+        this.versionPools[snodeVersion] = _.without(
+          this.versionPools[snodeVersion],
+          snode
+        );
+      } else {
+        if (snodeVersion) {
+          // reverse map (versionMap) is out of sync with versionPools
+          log.error(
+            'loki_snode:::markRandomNodeUnreachable - No snodes for version',
+            snodeVersion,
+            'retrying in 10s'
+          );
+        } else {
+          // we don't know our version yet
+          log.warn(
+            'loki_snode:::markRandomNodeUnreachable - No version for snode',
+            `${snode.ip}:${snode.port}`,
+            'retrying in 10s'
+          );
+        }
+        // make sure we don't retry past 15 mins (10s * 100 ~ 1000s)
+        if (options.retries < 100) {
+          setTimeout(() => {
+            this.markRandomNodeUnreachable(snode, {
+              ...options,
+              retries: options.retries + 1,
+            });
+          }, 10000);
+        }
+      }
     }
-    this.randomSnodePool = _.without(
-      this.randomSnodePool,
-      _.find(this.randomSnodePool, { ip: snode.ip, port: snode.port })
-    );
+    this.randomSnodePool = _.without(this.randomSnodePool, snode);
   }
 
   async updateLastHash(snode, hash, expiresAt) {
