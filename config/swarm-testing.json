@@ -1,5 +1,4 @@
 {
-  "storageProfile": "swarm-testing",
   "seedNodeList": [
     {
       "ip": "localhost",

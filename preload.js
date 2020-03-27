@@ -52,8 +52,8 @@ window.getDefaultFileServer = () => config.defaultFileServer;
 window.initialisedAPI = false;
 
 if (
-  typeof process.env.NODE_APP_INSTANCE === 'string' &&
-  process.env.NODE_APP_INSTANCE.includes('test-integration')
+  typeof process.env.NODE_ENV === 'string' &&
+  process.env.NODE_ENV.includes('test-integration')
 ) {
   window.electronRequire = require;
 }
@@ -316,8 +316,6 @@ window.LokiAppDotNetServerAPI = require('./js/modules/loki_app_dot_net_api');
 window.LokiFileServerAPI = require('./js/modules/loki_file_server_api');
 
 window.LokiRssAPI = require('./js/modules/loki_rss_api');
-
-window.localServerPort = config.localServerPort;
 
 window.mnemonic = require('./libloki/modules/mnemonic');
 const WorkerInterface = require('./js/modules/util_worker_interface');

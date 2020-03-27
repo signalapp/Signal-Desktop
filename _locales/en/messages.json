@@ -1006,6 +1006,9 @@
   "noPairedDevices": {
     "message": "No paired devices"
   },
+  "deviceIsSecondaryNoPairing": {
+    "message": "This device is a secondary device and so cannot be paired."
+  },
   "allowPairing": {
     "message": "Allow Pairing"
   },
