@@ -3,13 +3,11 @@
 
 const nodeFetch = require('node-fetch');
 const https = require('https');
-const { parse } = require('url');
 
 const snodeHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
 
-const LOKI_EPHEMKEY_HEADER = 'X-Loki-EphemKey';
 const endpointBase = '/storage_rpc/v1';
 
 // Request index for debugging
@@ -409,8 +407,6 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
 const lokiFetch = async (url, options = {}, targetNode = null) => {
   const timeout = options.timeout || 10000;
   const method = options.method || 'GET';
-
-  const address = parse(url).hostname;
 
   const fetchOptions = {
     ...options,
