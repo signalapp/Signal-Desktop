@@ -802,6 +802,24 @@ label {
   }
 }
 
+.device-pairing-dialog {
+  &__desc {
+    font-weight: 300;
+    font-size: $session-font-sm;
+    margin-bottom: $session-margin-lg;
+  }
+
+  &__secret-words {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $session-shade-6;
+    padding: $session-margin-sm $session-margin-lg;
+    border-radius: 3px;
+    margin-bottom: $session-margin-md;
+  }
+}
+
 .create-group-dialog .session-modal__body {
   display: flex;
   flex-direction: column;

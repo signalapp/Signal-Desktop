@@ -163,7 +163,7 @@
     "chai": "4.1.2",
     "chai-as-promised": "^7.1.1",
     "dashdash": "1.14.1",
-    "electron": "6.0.0",
+    "electron": "8.2.0",
     "electron-builder": "22.3.6",
     "electron-icon-maker": "0.0.3",
     "electron-notarize": "^0.2.0",
