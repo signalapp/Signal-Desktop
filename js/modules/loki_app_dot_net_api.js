@@ -86,7 +86,7 @@ const sendToProxy = async (
   if (randSnode === false) {
     log.warn('proxy random snode pool is not ready, retrying 10s', endpoint);
     // no nodes in the pool yet, give it some time and retry
-    await timeoutDelay(10000);
+    await timeoutDelay(1000);
     return sendToProxy(srvPubKey, endpoint, pFetchOptions, options);
   }
   const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
