@@ -35,6 +35,13 @@ module.exports = {
     '054e1ca8681082dbd9aad1cf6fc89a32254e15cba50c75b5a73ac10a0b96bcbd2a',
   TEST_DISPLAY_NAME2: 'integration_tester_2',
 
+  TEST_MNEMONIC3:
+    'alpine lukewarm oncoming blender kiwi fuel lobster upkeep vogue simplest gasp fully simplest',
+  TEST_PUBKEY3:
+    '05f8662b6e83da5a31007cc3ded44c601f191e07999acb6db2314a896048d9036c',
+  TEST_DISPLAY_NAME3: 'integration_tester_3',
+
+
   /* **************  OPEN GROUPS  ****************** */
   VALID_GROUP_URL: 'https://chat.getsession.org',
   VALID_GROUP_URL2: 'https://chat-dev.lokinet.org',
@@ -98,14 +105,10 @@ module.exports = {
     const killStr =
       process.platform === 'win32'
         ? 'taskkill /im electron.exe /t /f'
-        : 'killall -9 electron';
+        : 'pkill -f "node_modules/.bin/electron"';
     return new Promise(resolve => {
-      exec(killStr, (err, stdout, stderr) => {
-        if (err) {
-          resolve({ stdout, stderr });
-        } else {
-          resolve({ stdout, stderr });
-        }
+      exec(killStr, (_err, stdout, stderr) => {
+        resolve({ stdout, stderr });
       });
     });
   },
@@ -166,13 +169,14 @@ module.exports = {
     return app1;
   },
 
-  async startAndStub2(props) {
-    const app2 = await this.startAndStub({
-      env: 'test-integration-session-2',
+  async startAndStubN(props, n) {
+    // Make app with stub as number n
+    const appN = await this.startAndStub({
+      env: `test-integration-session-${n}`,
       ...props,
     });
 
-    return app2;
+    return appN;
   },
 
   async restoreFromMnemonic(app1, mnemonic, displayName) {
@@ -207,7 +211,7 @@ module.exports = {
 
     const [app1, app2] = await Promise.all([
       this.startAndStub(app1Props),
-      this.startAndStub2(app2Props),
+      this.startAndStubN(app2Props, 2),
     ]);
 
     /** add each other as friends */

@@ -9,10 +9,12 @@ const common = require('./common');
 require('./registration_test');
 require('./open_group_test');
 require('./add_friends_test');
-require('./link_device_test');
-require('./closed_group_test');
+// require('./link_device_test');
+// require('./closed_group_test');
 
-// require('./test_test');
+
+require('./message_sync_test');
+
 
 before(async () => {
   // start the app once before all tests to get the platform-dependent
