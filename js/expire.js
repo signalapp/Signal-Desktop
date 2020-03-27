@@ -16,7 +16,7 @@
     LokiFileServerAPI.secureRpcPubKey
   );
 
-  let nextWaitSeconds = 10;
+  let nextWaitSeconds = 5;
   const checkForUpgrades = async () => {
     const result = await window.tokenlessFileServerAdnAPI.serverRequest(
       'loki/v1/version/client/desktop'
