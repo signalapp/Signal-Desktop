@@ -50,14 +50,18 @@ module.exports = {
     return new Promise(resolve => setTimeout(resolve, ms));
   },
 
-  async startApp(env = 'test-integration-session') {
+  async startApp(environment = 'test-integration-session') {
+    const env = environment.startsWith('test-integration')
+      ? 'test-integration'
+      : environment;
+    const instance = environment.replace('test-integration-', '');
+
     const app1 = new Application({
       path: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
       args: ['.'],
       env: {
-        NODE_APP_INSTANCE: env,
-        NODE_ENV: 'production',
-        LOKI_DEV: 1,
+        NODE_ENV: env,
+        NODE_APP_INSTANCE: instance,
         USE_STUBBED_NETWORK: true,
         ELECTRON_ENABLE_LOGGING: true,
         ELECTRON_ENABLE_STACK_DUMPING: true,
@@ -122,12 +126,7 @@ module.exports = {
   },
 
   async startAndAssureCleanedApp(env = 'test-integration-session') {
-    const prefix = 'test-integration-session-';
-    const envNumber = env.substr(env.lastIndexOf(prefix) + prefix.length) || '';
-    const userData = path.join(
-      this.USER_DATA_ROOT_FOLDER,
-      `Loki-Messenger-testIntegration${envNumber}Profile`
-    );
+    const userData = path.join(this.USER_DATA_ROOT_FOLDER, `Session-${env}`);
 
     await this.rmFolder(userData);
 
