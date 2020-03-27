@@ -552,11 +552,12 @@ class LokiSnodeAPI {
           );
         }
         // make sure we don't retry past 15 mins (10s * 100 ~ 1000s)
-        if (options.retries < 100) {
+        const retries = options.retries || 0;
+        if (retries < 100) {
           setTimeout(() => {
             this.markRandomNodeUnreachable(snode, {
               ...options,
-              retries: options.retries + 1,
+              retries: retries + 1,
             });
           }, 10000);
         }
