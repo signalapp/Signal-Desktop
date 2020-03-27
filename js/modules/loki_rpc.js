@@ -15,23 +15,6 @@ const endpointBase = '/storage_rpc/v1';
 // Request index for debugging
 let onionReqIdx = 0;
 
-const decryptResponse = async (response, address) => {
-  let plaintext = false;
-  try {
-    const ciphertext = await response.text();
-    plaintext = await libloki.crypto.snodeCipher.decrypt(address, ciphertext);
-    const result = plaintext === '' ? {} : JSON.parse(plaintext);
-    return result;
-  } catch (e) {
-    log.warn(
-      `Could not decrypt response [${plaintext}] from [${address}],`,
-      e.code,
-      e.message
-    );
-  }
-  return {};
-};
-
 const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const encryptForNode = async (node, payload) => {
@@ -234,7 +217,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
 
   const snPubkeyHex = StringView.hexToArrayBuffer(targetNode.pubkey_x25519);
 
-  const myKeys = window.libloki.crypto.snodeCipher._ephemeralKeyPair;
+  const myKeys = window.libloki.crypto.generateEphemeralKeyPair();
 
   const symmetricKey = libsignal.Curve.calculateAgreement(
     snPubkeyHex,
@@ -428,25 +411,6 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
   const method = options.method || 'GET';
 
   const address = parse(url).hostname;
-  // const doEncryptChannel = address.endsWith('.snode');
-  const doEncryptChannel = false; // ENCRYPTION DISABLED
-  if (doEncryptChannel) {
-    try {
-      // eslint-disable-next-line no-param-reassign
-      options.body = await libloki.crypto.snodeCipher.encrypt(
-        address,
-        options.body
-      );
-      // eslint-disable-next-line no-param-reassign
-      options.headers = {
-        ...options.headers,
-        'Content-Type': 'text/plain',
-        [LOKI_EPHEMKEY_HEADER]: libloki.crypto.snodeCipher.getChannelPublicKeyHex(),
-      };
-    } catch (e) {
-      log.warn(`Could not encrypt channel for ${address}: `, e);
-    }
-  }
 
   const fetchOptions = {
     ...options,
@@ -512,22 +476,14 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
     let result;
     // Wrong swarm
     if (response.status === 421) {
-      if (doEncryptChannel) {
-        result = decryptResponse(response, address);
-      } else {
-        result = await response.json();
-      }
+      result = await response.json();
       const newSwarm = result.snodes ? result.snodes : [];
       throw new textsecure.WrongSwarmError(newSwarm);
     }
 
     // Wrong PoW difficulty
     if (response.status === 432) {
-      if (doEncryptChannel) {
-        result = decryptResponse(response, address);
-      } else {
-        result = await response.json();
-      }
+      result = await response.json();
       const { difficulty } = result;
       throw new textsecure.WrongDifficultyError(difficulty);
     }
@@ -546,8 +502,6 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
       result = await response.json();
     } else if (options.responseType === 'arraybuffer') {
       result = await response.buffer();
-    } else if (doEncryptChannel) {
-      result = decryptResponse(response, address);
     } else {
       result = await response.text();
     }

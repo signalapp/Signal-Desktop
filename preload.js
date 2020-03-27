@@ -347,13 +347,6 @@ window.React = require('react');
 window.ReactDOM = require('react-dom');
 window.moment = require('moment');
 
-const _sodium = require('libsodium-wrappers');
-
-window.getSodium = async () => {
-  await _sodium.ready;
-  return _sodium;
-};
-
 window.clipboard = clipboard;
 
 const Signal = require('./js/modules/signal');
