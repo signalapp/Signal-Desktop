@@ -32,6 +32,8 @@ const snodeHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
 
+const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 const sendToProxy = async (
   srvPubKey,
   endpoint,
@@ -44,8 +46,6 @@ const sendToProxy = async (
     );
     return {};
   }
-  const randSnode = await lokiSnodeAPI.getRandomSnodeAddress();
-  const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
 
   const fetchOptions = pFetchOptions; // make lint happy
   // safety issue with file server, just safer to have this
@@ -61,6 +61,7 @@ const sendToProxy = async (
   };
 
   // from https://github.com/sindresorhus/is-stream/blob/master/index.js
+  let fileUpload = false;
   if (
     payloadObj.body &&
     typeof payloadObj.body === 'object' &&
@@ -74,7 +75,21 @@ const sendToProxy = async (
     payloadObj.body = {
       fileUpload: fData.toString('base64'),
     };
+    fileUpload = true;
   }
+
+  // use nodes that support more than 1mb
+  const randomFunc = fileUpload
+    ? 'getRandomProxySnodeAddress'
+    : 'getRandomSnodeAddress';
+  const randSnode = await lokiSnodeAPI[randomFunc]();
+  if (randSnode === false) {
+    log.warn('proxy random snode pool is not ready, retrying 10s', endpoint);
+    // no nodes in the pool yet, give it some time and retry
+    await timeoutDelay(1000);
+    return sendToProxy(srvPubKey, endpoint, pFetchOptions, options);
+  }
+  const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
 
   // convert our payload to binary buffer
   const payloadData = Buffer.from(
@@ -138,7 +153,7 @@ const sendToProxy = async (
     );
     // retry (hopefully with new snode)
     // FIXME: max number of retries...
-    return sendToProxy(srvPubKey, endpoint, fetchOptions);
+    return sendToProxy(srvPubKey, endpoint, fetchOptions, options);
   }
 
   let response = {};
