@@ -459,13 +459,14 @@ $session_message-container-border-radius: 5px;
   }
 
   .notification-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     font-size: $session-font-xs;
     font-family: $session-font-family;
     top: 20px;
     right: 20px;
-    width: 20px;
-    height: 20px;
     padding: 3px;
     border-radius: 50%;
     font-weight: 700;
@@ -473,7 +474,15 @@ $session_message-container-border-radius: 5px;
     color: $session-color-white;
     text-align: center;
     opacity: 1;
+
+    sup {
+      font-size: 130%;
+      margin-top: 1px;
+      margin-left: -1px;
+    }
   }
+
+  
 }
 
 .session-icon {
