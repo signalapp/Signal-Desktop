@@ -136,15 +136,6 @@
   const base32zIndex = Multibase.names.indexOf('base32z');
   const base32zCode = Multibase.codes[base32zIndex];
 
-  function bufferToArrayBuffer(buf) {
-    const ab = new ArrayBuffer(buf.length);
-    const view = new Uint8Array(ab);
-    for (let i = 0; i < buf.length; i += 1) {
-      view[i] = buf[i];
-    }
-    return ab;
-  }
-
   function decodeSnodeAddressToPubKey(snodeAddress) {
     const snodeAddressClean = snodeAddress
       .replace('.snode', '')
@@ -158,64 +149,6 @@
     // Signal protocol prepends with "0x05"
     keys.pubKey = keys.pubKey.slice(1);
     return keys;
-  }
-
-  class LokiSnodeChannel {
-    constructor() {
-      this._ephemeralKeyPair = generateEphemeralKeyPair();
-      this._ephemeralPubKeyHex = StringView.arrayBufferToHex(
-        this._ephemeralKeyPair.pubKey
-      );
-      this._cache = {};
-    }
-
-    async _getSymmetricKey(snodeAddress) {
-      if (snodeAddress in this._cache) {
-        return this._cache[snodeAddress];
-      }
-      const ed25519PubKey = decodeSnodeAddressToPubKey(snodeAddress);
-      const sodium = await window.getSodium();
-      const curve25519PubKey = sodium.crypto_sign_ed25519_pk_to_curve25519(
-        ed25519PubKey
-      );
-      const snodePubKeyArrayBuffer = bufferToArrayBuffer(curve25519PubKey);
-      const symmetricKey = libsignal.Curve.calculateAgreement(
-        snodePubKeyArrayBuffer,
-        this._ephemeralKeyPair.privKey
-      );
-      this._cache[snodeAddress] = symmetricKey;
-      return symmetricKey;
-    }
-
-    getChannelPublicKeyHex() {
-      return this._ephemeralPubKeyHex;
-    }
-
-    async decrypt(snodeAddress, ivAndCiphertextBase64) {
-      const ivAndCiphertext = dcodeIO.ByteBuffer.wrap(
-        ivAndCiphertextBase64,
-        'base64'
-      ).toArrayBuffer();
-      const symmetricKey = await this._getSymmetricKey(snodeAddress);
-      try {
-        const decrypted = await DHDecrypt(symmetricKey, ivAndCiphertext);
-        const decoder = new TextDecoder();
-        return decoder.decode(decrypted);
-      } catch (e) {
-        return ivAndCiphertext;
-      }
-    }
-
-    async encrypt(snodeAddress, plainText) {
-      if (typeof plainText === 'string') {
-        const textEncoder = new TextEncoder();
-        // eslint-disable-next-line no-param-reassign
-        plainText = textEncoder.encode(plainText);
-      }
-      const symmetricKey = await this._getSymmetricKey(snodeAddress);
-      const ciphertext = await DHEncrypt(symmetricKey, plainText);
-      return dcodeIO.ByteBuffer.wrap(ciphertext).toString('base64');
-    }
   }
 
   async function generateSignatureForPairing(secondaryPubKey, type) {
@@ -367,7 +300,6 @@
     const tokenString = dcodeIO.ByteBuffer.wrap(token).toString('utf8');
     return tokenString;
   }
-  const snodeCipher = new LokiSnodeChannel();
 
   const sha512 = data => crypto.subtle.digest('SHA-512', data);
 
@@ -531,7 +463,6 @@
     DecryptGCM, // AES-GCM
     FallBackSessionCipher,
     FallBackDecryptionError,
-    snodeCipher,
     decryptToken,
     generateSignatureForPairing,
     verifyPairingSignature,
@@ -540,8 +471,6 @@
     PairingType,
     LokiSessionCipher,
     generateEphemeralKeyPair,
-    // for testing
-    _LokiSnodeChannel: LokiSnodeChannel,
     _decodeSnodeAddressToPubKey: decodeSnodeAddressToPubKey,
     sha512,
   };
