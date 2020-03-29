@@ -8,7 +8,7 @@ export enum NotificationCountSize {
 }
 
 interface Props {
-  count: number;
+  count?: number;
   size: number;
   onClick?: any;
 }
