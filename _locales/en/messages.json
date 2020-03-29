@@ -2518,7 +2518,7 @@
     "description": "Indicates that a friend request is pending"
   },
   "notFriends": {
-    "message": "not friends",
+    "message": "Not Friends",
     "description": "Indicates that a conversation is not friends with us"
   },
   "emptyGroupNameError": {

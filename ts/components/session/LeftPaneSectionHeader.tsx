@@ -1,7 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
 import { SessionButton } from './SessionButton';
-import { SessionNotificationCount } from './SessionNotificationCount';
+import {
+  NotificationCountSize,
+  SessionNotificationCount,
+} from './SessionNotificationCount';
 
 const Tab = ({
   isSelected,
@@ -100,6 +103,7 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
           />
           <SessionNotificationCount
             count={notificationCount}
+            size={NotificationCountSize.ON_HEADER}
             onClick={this.props.buttonClicked}
           />
         </div>
@@ -108,6 +112,7 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
       children.push(
         <SessionNotificationCount
           count={notificationCount}
+          size={NotificationCountSize.ON_HEADER}
           onClick={this.props.buttonClicked}
         />
       );
