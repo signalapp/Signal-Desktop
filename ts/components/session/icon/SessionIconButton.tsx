@@ -57,9 +57,7 @@ export class SessionIconButton extends React.PureComponent<SProps> {
           iconColor={iconColor}
           iconRotation={iconRotation}
         />
-        <SessionNotificationCount
-          count={notificationCount}
-        />
+        <SessionNotificationCount count={notificationCount} />
       </div>
     );
   }
