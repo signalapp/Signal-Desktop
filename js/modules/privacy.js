@@ -7,7 +7,7 @@ const { compose } = require('lodash/fp');
 const { escapeRegExp } = require('lodash');
 
 const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
-const PHONE_NUMBER_PATTERN = /\+\d{7,12}(\d{3})/g;
+const SESSION_ID_PATTERN = /\b(05[0-9a-f]{64})\b/gi
 const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;
 const REDACTION_PLACEHOLDER = '[REDACTED]';
 
@@ -55,14 +55,14 @@ exports._pathToRegExp = filePath => {
 };
 
 // Public API
-//      redactPhoneNumbers :: String -> String
-exports.redactPhoneNumbers = text => {
+//      redactSessionID :: String -> String
+exports.redactSessionID = text => {
   if (!is.string(text)) {
     throw new TypeError("'text' must be a string");
   }
 
-  return text.replace(PHONE_NUMBER_PATTERN, `+${REDACTION_PLACEHOLDER}$1`);
-};
+  return text.replace(SESSION_ID_PATTERN, REDACTION_PLACEHOLDER);
+}
 
 //      redactGroupIds :: String -> String
 exports.redactGroupIds = text => {
@@ -84,7 +84,7 @@ exports.redactSensitivePaths = exports._redactPath(APP_ROOT_PATH);
 exports.redactAll = compose(
   exports.redactSensitivePaths,
   exports.redactGroupIds,
-  exports.redactPhoneNumbers
+  exports.redactSessionID
 );
 
 const removeNewlines = text => text.replace(/\r?\n|\r/g, '');
