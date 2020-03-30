@@ -116,8 +116,14 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             const description = setting.description || '';
 
             const comparisonValue = setting.comparisonValue || null;
-            const storedSetting = window.getSettingValue(setting.id, comparisonValue);
-            const value = storedSetting !== undefined ? storedSetting : setting.content && setting.content.defaultValue;
+            const storedSetting = window.getSettingValue(
+              setting.id,
+              comparisonValue
+            );
+            const value =
+              storedSetting !== undefined
+                ? storedSetting
+                : setting.content && setting.content.defaultValue;
 
             const sliderFn =
               setting.type === SessionSettingType.Slider
