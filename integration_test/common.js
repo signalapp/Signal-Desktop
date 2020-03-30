@@ -67,7 +67,6 @@ module.exports = {
         ELECTRON_ENABLE_STACK_DUMPING: true,
         ELECTRON_DISABLE_SANDBOX: 1,
       },
-      startTimeout: 10000,
       requireName: 'electronRequire',
       // chromeDriverLogPath: '../chromedriverlog.txt',
       chromeDriverArgs: [

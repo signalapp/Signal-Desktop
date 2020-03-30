@@ -116,9 +116,14 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             const description = setting.description || '';
 
             const comparisonValue = setting.comparisonValue || null;
+            const storedSetting = window.getSettingValue(
+              setting.id,
+              comparisonValue
+            );
             const value =
-              window.getSettingValue(setting.id, comparisonValue) ||
-              (setting.content && setting.content.defaultValue);
+              storedSetting !== undefined
+                ? storedSetting
+                : setting.content && setting.content.defaultValue;
 
             const sliderFn =
               setting.type === SessionSettingType.Slider
@@ -356,7 +361,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         type: SessionSettingType.Toggle,
         category: SessionSettingCategory.Appearance,
         setFn: window.toggleSpellCheck,
-        content: undefined,
+        content: { defaultValue: true },
         comparisonValue: undefined,
         onClick: undefined,
         confirmationDialogParams: undefined,

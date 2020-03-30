@@ -166,6 +166,11 @@
     "description":
       "Only available on development modes, menu option to open up the standalone device setup sequence"
   },
+  "contextMenuNoSuggestions": {
+    "message": "No Suggestions",
+    "description":
+      "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
+  },
   "connectingLoad": {
     "message": "Connecting To Server",
     "description":
@@ -1413,6 +1418,11 @@
   "spellCheckDescription": {
     "message": "Enable spell check of text entered in message composition box",
     "description": "Description of the media permission description"
+  },
+  "spellCheckDirty": {
+    "message": "You must restart Session to apply your new settings",
+    "description":
+      "Shown when the user changes their spellcheck setting to indicate that they must restart Signal."
   },
   "clearDataHeader": {
     "message": "Clear All Local Data",
