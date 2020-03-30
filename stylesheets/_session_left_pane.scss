@@ -112,7 +112,7 @@ $session-compose-margin: 20px;
   &__user__profile {
     &-number,
     &-name {
-      @include fontWasaBold();
+      @include fontDefaultBold();
       font-size: 15px;
 
       @at-root .light-theme #{&} {
@@ -193,7 +193,7 @@ $session-compose-margin: 20px;
 
     .session-button {
       margin-left: auto;
-      @include fontWasaBold();
+      @include fontDefaultBold();
     }
 
     &-buttons {
@@ -302,7 +302,7 @@ $session-compose-margin: 20px;
       font-size: $session-font-sm;
       line-height: $session-font-h3;
       margin: 0px 20px;
-      font-family: 'SF Pro Display';
+      font-family: $session-font-accent;
     }
 
     .session-id-editable {
@@ -375,7 +375,7 @@ $session-compose-margin: 20px;
     border: none;
     flex-grow: 1;
     font-size: $session-font-sm;
-    font-family: 'SF Pro Text';
+    font-family: $session-font-accent;
 
     &:focus {
       outline: none !important;
@@ -658,7 +658,7 @@ $session-compose-margin: 20px;
     border-radius: 50px;
     color: $session-color-light-grey;
     border: 1px solid $session-color-dark-grey;
-    font-family: 'SF Pro Text';
+    font-family: $session-font-accent;
     font-size: $session-font-sm;
   }
 }

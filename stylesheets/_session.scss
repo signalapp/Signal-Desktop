@@ -21,19 +21,45 @@
   font-weight: bold;
   font-style: italic;
 }
+
+// Heebo is an open replacement for 'SF Pro Text'
 @font-face {
-  font-family: 'Wasa';
-  src: url('../fonts/Wasa-Bold.otf') format('opentype');
+  font-family: 'Heebo';
+  src: url('../fonts/Heebo-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Heebo';
+  src: url('../fonts/Heebo-Light.ttf') format('truetype');
+  font-weight: lighter;
+}
+@font-face {
+  font-family: 'Heebo';
+  src: url('../fonts/Heebo-Bold.ttf') format('truetype');
+  font-weight: bold;
+}
+
+// Karla is an open replacement for 'Wasa'
+@font-face {
+  font-family: 'Karla';
+  src: url('../fonts/Karla-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Karla';
+  src: url('../fonts/Karla-Bold.ttf') format('truetype');
   font-weight: bold;
 }
 @font-face {
-  font-family: 'SF Pro Text';
-  src: url('../fonts/SFProText-Regular.ttf') format('truetype');
+  font-family: 'Karla';
+  src: url('../fonts/Karla-Italic.ttf') format('truetype');
+  font-style: italic;
 }
 @font-face {
-  font-family: 'SF Pro Display';
-  src: url('../fonts/SFProDisplay-Regular.otf') format('opentype');
+  font-family: 'Karla';
+  src: url('../fonts/Karla-BoldItalic.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
 }
+
 @keyframes fadein {
   from {
     opacity: 0;
@@ -44,7 +70,8 @@
 }
 
 // Session Colors
-$session-font-family: 'Wasa';
+$session-font-accent: 'Heebo';
+$session-font-default: 'Karla';
 
 $session-color-green: #00f782;
 $session-color-green-alt-1: #00f480;
@@ -191,9 +218,9 @@ $session-modal-size-lg: 650px;
 
 $session-conversation-header-height: 60px;
 
-@mixin fontWasaBold {
+@mixin fontDefaultBold {
   font-weight: bold;
-  font-family: $session-font-family;
+  font-family: $session-font-default;
 }
 
 * {
@@ -368,7 +395,7 @@ $session_message-container-border-radius: 5px;
     line-height: 40px;
     padding: 0px $session-margin-lg;
     font-size: $session-font-md;
-    font-family: $session-font-family;
+    font-family: $session-font-default;
     border-radius: 500px;
 
     &:not(.disabled):hover {
@@ -461,7 +488,7 @@ $session_message-container-border-radius: 5px;
   .notification-count {
     position: absolute;
     font-size: $session-font-xs;
-    font-family: $session-font-family;
+    font-family: $session-font-default;
     top: 20px;
     right: 20px;
     width: 20px;
@@ -500,14 +527,14 @@ $session-element-border-green: 4px solid $session-color-green;
 
 .module-conversation-header__title-flex,
 .module-conversation-header__title {
-  font-family: Wasa;
+  font-family: $session-font-default;
   width: 100%;
   display: flex;
   font-size: $session-font-md;
 
   &-text {
     @include session-color-subtle($session-color-white);
-    font-family: 'SF Pro Text';
+    font-family: $session-font-accent;
     font-weight: 300;
     font-size: $session-font-xs;
   }
@@ -719,7 +746,7 @@ label {
 
     padding: $session-margin-lg;
 
-    font-family: 'Wasa';
+    font-family: $session-font-default;
     text-align: center;
     line-height: 18px;
     font-size: $session-font-md;
@@ -757,7 +784,7 @@ label {
 
   &__body {
     padding: 0px $session-margin-lg $session-margin-lg $session-margin-lg;
-    font-family: 'Wasa';
+    font-family: $session-font-accent;
     line-height: $session-font-md;
     font-size: $session-font-sm;
 
@@ -878,7 +905,7 @@ label {
   background-color: $session-shade-4;
 
   color: $session-color-white;
-  font-family: 'Wasa';
+  font-family: $session-font-default;
   font-size: $session-font-sm;
   line-height: $session-icon-size-sm;
   font-weight: 700;
@@ -1036,7 +1063,7 @@ label {
       word-break: break-all;
       font-size: $session-font-md;
       padding: 0px $session-margin-lg;
-      font-family: 'SF Pro Text';
+      font-family: $session-font-accent;
       font-weight: 100;
       color: rgba($session-color-white, 0.8);
       font-size: $session-font-md;
@@ -1238,7 +1265,7 @@ label {
     }
 
     &__description {
-      font-family: 'SF Pro Text';
+      font-family: $session-font-accent;
       font-size: $session-font-sm;
       font-weight: 100;
       max-width: 700px;
@@ -1313,7 +1340,7 @@ label {
         text-align: center;
         font-size: $session-font-xl;
         letter-spacing: 5px;
-        font-family: 'SF Pro Text';
+        font-family: $session-font-accent;
       }
     }
   }
@@ -1348,7 +1375,7 @@ label {
 
 .discussion-container {
   .module-message {
-    font-family: 'SF Pro Text';
+    font-family: $session-font-accent;
     border-radius: 5px;
 
     &__text--incoming {
@@ -1561,7 +1588,7 @@ input {
 /* Memberlist */
 .member-list-container .member {
   &-item {
-    font-family: 'SF Pro Text';
+    font-family: $session-font-accent;
     padding: $session-margin-sm $session-margin-md;
     background-color: $session-shade-5;
 
@@ -1628,7 +1655,7 @@ input {
   }
 
   &-container {
-    font-family: 'SF Pro Text';
+    font-family: $session-font-accent;
     color: $session-color-white;
     display: inline-flex;
     flex-direction: column;
@@ -1678,7 +1705,7 @@ input {
       text-align: center;
       font-size: 24px;
       letter-spacing: 5px;
-      font-family: 'SF Pro Text';
+      font-family: $session-font-accent;
     }
   }
 }
@@ -1712,7 +1739,7 @@ input {
     height: 400px;
 
     text-align: center;
-    font-family: 'SF Pro Text';
+    font-family: $session-font-accent;
   }
 
   &__title h1 {
@@ -1728,7 +1755,7 @@ input {
   }
 
   &__info {
-    font-family: 'Wasa';
+    font-family: $session-font-default;
     margin-bottom: 2 * $session-margin-lg;
 
     &--title {
@@ -1738,7 +1765,7 @@ input {
     }
 
     &--subtitle {
-      font-family: 'SF Pro Text';
+      font-family: $session-font-accent;
       font-weight: 300;
       line-height: $session-font-md;
       opacity: 0.8;
@@ -1799,7 +1826,7 @@ input {
 
 .session-member-item {
   cursor: pointer;
-  font-family: 'SF Pro Text';
+  font-family: $session-font-accent;
   padding: 0px $session-margin-sm;
   height: 50px;
   display: flex;
