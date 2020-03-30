@@ -460,19 +460,40 @@ $session_message-container-border-radius: 5px;
 
   .notification-count {
     position: absolute;
-    font-size: $session-font-xs;
-    font-family: $session-font-family;
-    top: 20px;
-    right: 20px;
-    width: 20px;
-    height: 20px;
+    top: $session-margin-lg;
+    right: $session-margin-lg;
     padding: 3px;
-    border-radius: 50%;
-    font-weight: 700;
-    background: red;
-    color: $session-color-white;
-    text-align: center;
     opacity: 1;
+  }
+}
+
+.notification-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $session-font-family;
+  border-radius: 50%;
+  font-weight: 700;
+  background: $session-color-danger;
+  color: $session-color-white;
+  text-align: center;
+
+  span {
+    position: relative;
+
+    sup {
+      font-size: 130%;
+      position: absolute;
+    }
+  }
+
+  &.hover {
+    transition: $session-transition-duration;
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(80%);
+    }
   }
 }
 

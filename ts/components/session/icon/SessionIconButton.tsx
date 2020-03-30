@@ -1,11 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
-
 import { Props, SessionIcon } from '../icon';
+
+import { SessionNotificationCount } from '../SessionNotificationCount';
 
 interface SProps extends Props {
   onClick: any;
-  notificationCount: number | undefined;
+  notificationCount?: number;
   isSelected: boolean;
 }
 
@@ -35,13 +36,7 @@ export class SessionIconButton extends React.PureComponent<SProps> {
       isSelected,
     } = this.props;
 
-    let { notificationCount } = this.props;
-
-    if (notificationCount === 0) {
-      notificationCount = undefined;
-    } else if (notificationCount !== undefined && notificationCount > 9) {
-      notificationCount = 9;
-    }
+    const { notificationCount } = this.props;
 
     return (
       <div
@@ -62,9 +57,7 @@ export class SessionIconButton extends React.PureComponent<SProps> {
           iconColor={iconColor}
           iconRotation={iconRotation}
         />
-        {notificationCount !== undefined && (
-          <span className="notification-count">{notificationCount}</span>
-        )}
+        <SessionNotificationCount count={notificationCount} />
       </div>
     );
   }
