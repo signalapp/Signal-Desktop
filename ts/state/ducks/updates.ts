@@ -127,6 +127,14 @@ export function reducer(
     };
   }
 
+  if (action.type === START_UPDATE) {
+    return {
+      dialogType: Dialogs.None,
+      didSnooze: state.didSnooze,
+      showEventsCount: state.showEventsCount,
+    };
+  }
+
   if (
     action.type === DISMISS_DIALOG &&
     state.dialogType === Dialogs.MacOS_Read_Only
