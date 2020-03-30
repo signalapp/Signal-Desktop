@@ -1023,7 +1023,10 @@
     };
 
     window.toggleSpellCheck = () => {
-      const newValue = !window.getSettingValue('spell-check');
+      const currentValue = window.getSettingValue('spell-check');
+      // if undefined, it means 'default' so true. but we have to toggle it, so false
+      // if not undefined, we take the opposite
+      const newValue = currentValue !== undefined? !currentValue : false;
       window.Events.setSpellCheck(newValue);
       window.pushToast({
         description: window.i18n('spellCheckDirty'),
