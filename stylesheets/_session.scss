@@ -22,20 +22,37 @@
   font-style: italic;
 }
 
-// Heebo is an open replacement for 'SF Pro Text'
+// Public Sans is an open replacement for 'SF Pro Text'
 @font-face {
-  font-family: 'Heebo';
-  src: url('../fonts/Heebo-Regular.ttf') format('truetype');
+  font-family: 'Public Sans';
+  src: url('../fonts/PublicSans-Regular.woff') format('woff');
 }
 @font-face {
-  font-family: 'Heebo';
-  src: url('../fonts/Heebo-Light.ttf') format('truetype');
+  font-family: 'Public Sans';
+  src: url('../fonts/PublicSans-Italic.woff') format('woff');
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Public Sans';
+  src: url('../fonts/PublicSans-Bold.woff') format('woff');
+  font-weight: bold;
+}
+@font-face {
+  font-family: 'Public Sans';
+  src: url('../fonts/PublicSans-BoldItalic.woff') format('woff');
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Public Sans';
+  src: url('../fonts/PublicSans-Light.woff') format('woff');
   font-weight: lighter;
 }
 @font-face {
-  font-family: 'Heebo';
-  src: url('../fonts/Heebo-Bold.ttf') format('truetype');
-  font-weight: bold;
+  font-family: 'Public Sans';
+  src: url('../fonts/PublicSans-LightItalic.woff') format('woff');
+  font-weight: lighter;
+  font-style: italic;
 }
 
 // Karla is an open replacement for 'Wasa'
@@ -70,7 +87,7 @@
 }
 
 // Session Colors
-$session-font-accent: 'Heebo';
+$session-font-accent: 'Public Sans';
 $session-font-default: 'Karla';
 
 $session-color-green: #00f782;
