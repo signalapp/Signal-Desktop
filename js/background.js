@@ -2154,7 +2154,7 @@
     const shouldSendReceipt =
       !isError &&
       data.unidentifiedDeliveryReceived &&
-      !data.isFriendRequest &&
+      !data.friendRequest &&
       !isGroup;
 
     // Send the receipt async and hope that it succeeds
