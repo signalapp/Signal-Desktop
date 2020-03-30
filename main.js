@@ -9,7 +9,7 @@ const crypto = require('crypto');
 const _ = require('lodash');
 const pify = require('pify');
 const electron = require('electron');
-
+const { setup: setupSpellChecker } = require('./app/spell_check');
 const packageJson = require('./package.json');
 const GlobalErrors = require('./app/global_errors');
 
@@ -81,6 +81,18 @@ const {
   installWebHandler,
 } = require('./app/protocol_filter');
 const { installPermissionsHandler } = require('./app/permissions');
+
+let appStartInitialSpellcheckSetting = true;
+
+async function getSpellCheckSetting() {
+  const json = await sql.getItemById('spell-check');
+  // Default to `true` if setting doesn't exist yet
+  if (!json) {
+    return true;
+  }
+
+  return json.value;
+}
 
 function showWindow() {
   if (!mainWindow) {
@@ -155,7 +167,6 @@ function prepareURL(pathSegments, moreKeys) {
       serverUrl: config.get('serverUrl'),
       localUrl: config.get('localUrl'),
       cdnUrl: config.get('cdnUrl'),
-      localServerPort: config.get('localServerPort'),
       defaultPoWDifficulty: config.get('defaultPoWDifficulty'),
       seedNodeList: JSON.stringify(config.get('seedNodeList')),
       certificateAuthority: config.get('certificateAuthority'),
@@ -167,6 +178,7 @@ function prepareURL(pathSegments, moreKeys) {
       contentProxyUrl: config.contentProxyUrl,
       importMode: importMode ? true : undefined, // for stringify()
       serverTrustRoot: config.get('serverTrustRoot'),
+      appStartInitialSpellcheckSetting,
       defaultFileServer: config.get('defaultFileServer'),
       ...moreKeys,
     },
@@ -217,7 +229,7 @@ function isVisible(window, bounds) {
   );
 }
 
-function createWindow() {
+async function createWindow() {
   const { screen } = electron;
   const windowOptions = Object.assign(
     {
@@ -234,7 +246,7 @@ function createWindow() {
         contextIsolation: false,
         preload: path.join(__dirname, 'preload.js'),
         nativeWindowOpen: true,
-        spellcheck: false,
+        spellcheck: await getSpellCheckSetting(),
       },
       icon: path.join(__dirname, 'images', 'session', 'icon_64.png'),
     },
@@ -285,6 +297,8 @@ function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
+  setupSpellChecker(mainWindow, locale.messages);
+
   // Disable system main menu
   mainWindow.setMenu(null);
 
@@ -776,6 +790,7 @@ async function showMainWindow(sqlKey, passwordAttempt = false) {
     messages: locale.messages,
     passwordAttempt,
   });
+  appStartInitialSpellcheckSetting = await getSpellCheckSetting();
   await sqlChannels.initialize();
 
   try {
@@ -900,7 +915,7 @@ app.on('window-all-closed', () => {
     config.environment === 'test' ||
     config.environment === 'test-lib' ||
     config.environment === 'test-loki' ||
-    config.environmen.includes('test-integration')
+    config.environment.includes('test-integration')
   ) {
     app.quit();
   }
@@ -951,11 +966,10 @@ ipc.on('add-setup-menu-items', () => {
 });
 
 ipc.on('draw-attention', () => {
-  if (process.platform === 'darwin') {
-    app.dock.bounce();
-  } else if (process.platform === 'win32') {
-    mainWindow.flashFrame(true);
-  } else if (process.platform === 'linux') {
+  if (!mainWindow) {
+    return;
+  }
+  if (process.platform === 'win32' || process.platform === 'linux') {
     mainWindow.flashFrame(true);
   }
 });

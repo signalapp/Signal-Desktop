@@ -3,34 +3,15 @@
 
 const nodeFetch = require('node-fetch');
 const https = require('https');
-const { parse } = require('url');
 
 const snodeHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
 
-const LOKI_EPHEMKEY_HEADER = 'X-Loki-EphemKey';
 const endpointBase = '/storage_rpc/v1';
 
 // Request index for debugging
 let onionReqIdx = 0;
-
-const decryptResponse = async (response, address) => {
-  let plaintext = false;
-  try {
-    const ciphertext = await response.text();
-    plaintext = await libloki.crypto.snodeCipher.decrypt(address, ciphertext);
-    const result = plaintext === '' ? {} : JSON.parse(plaintext);
-    return result;
-  } catch (e) {
-    log.warn(
-      `Could not decrypt response [${plaintext}] from [${address}],`,
-      e.code,
-      e.message
-    );
-  }
-  return {};
-};
 
 const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -136,33 +117,32 @@ const processOnionResponse = async (reqIdx, response, sharedKey, useAesGcm) => {
 
   // detect SNode is not ready (not in swarm; not done syncing)
   if (response.status === 503) {
-    log.warn('Got 503: snode not ready');
+    log.warn(`(${reqIdx}) [path] Got 503: snode not ready`);
 
     return BAD_PATH;
   }
 
   if (response.status === 504) {
-    log.warn('Got 504: Gateway timeout');
+    log.warn(`(${reqIdx}) [path] Got 504: Gateway timeout`);
     return BAD_PATH;
   }
 
   if (response.status === 404) {
     // Why would we get this error on testnet?
-    log.warn('Got 404: Gateway timeout');
+    log.warn(`(${reqIdx}) [path] Got 404: Gateway timeout`);
     return BAD_PATH;
   }
 
   if (response.status !== 200) {
     log.warn(
-      'lokiRpc sendToProxy fetch unhandled error code:',
-      response.status
+      `(${reqIdx}) [path] fetch unhandled error code: ${response.status}`
     );
     return false;
   }
 
   const ciphertext = await response.text();
   if (!ciphertext) {
-    log.warn('[path]: Target node return empty ciphertext');
+    log.warn(`(${reqIdx}) [path]: Target node return empty ciphertext`);
     return false;
   }
 
@@ -183,9 +163,9 @@ const processOnionResponse = async (reqIdx, response, sharedKey, useAesGcm) => {
     const textDecoder = new TextDecoder();
     plaintext = textDecoder.decode(plaintextBuffer);
   } catch (e) {
-    log.error(`(${reqIdx}) lokiRpc sendToProxy decode error`);
+    log.error(`(${reqIdx}) [path] decode error`);
     if (ciphertextBuffer) {
-      log.error('ciphertextBuffer', ciphertextBuffer);
+      log.error(`(${reqIdx}) [path] ciphertextBuffer`, ciphertextBuffer);
     }
     return false;
   }
@@ -198,22 +178,13 @@ const processOnionResponse = async (reqIdx, response, sharedKey, useAesGcm) => {
         const res = JSON.parse(jsonRes.body);
         return res;
       } catch (e) {
-        log.error(
-          `(${reqIdx}) lokiRpc sendToProxy parse error json: `,
-          jsonRes.body
-        );
+        log.error(`(${reqIdx}) [path] parse error json: `, jsonRes.body);
       }
       return false;
     };
     return jsonRes;
   } catch (e) {
-    log.error(
-      'lokiRpc sendToProxy parse error',
-      e.code,
-      e.message,
-      `json:`,
-      plaintext
-    );
+    log.error('[path] parse error', e.code, e.message, `json:`, plaintext);
     return false;
   }
 };
@@ -244,7 +215,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
 
   const snPubkeyHex = StringView.hexToArrayBuffer(targetNode.pubkey_x25519);
 
-  const myKeys = window.libloki.crypto.snodeCipher._ephemeralKeyPair;
+  const myKeys = window.libloki.crypto.generateEphemeralKeyPair();
 
   const symmetricKey = libsignal.Curve.calculateAgreement(
     snPubkeyHex,
@@ -280,8 +251,9 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     // we got a ton of randomPool nodes, let's just not worry about this one
     lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
     const randomPoolRemainingCount = lokiSnodeAPI.getRandomPoolLength();
+    const ciphertext = await response.text();
     log.warn(
-      `lokiRpc sendToProxy`,
+      `lokiRpc:::sendToProxy -`,
       `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
         targetNode.port
       }`,
@@ -297,16 +269,13 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
 
   // detect SNode is not ready (not in swarm; not done syncing)
   if (response.status === 503 || response.status === 500) {
-    const ciphertext = await response.text();
-    // we shouldn't do these,
-    // it's seems to be not the random node that's always bad
-    // but the target node
-
-    // we got a ton of randomPool nodes, let's just not worry about this one
+    // this doesn't mean the random node is bad, it could be the target node
+    // but we got a ton of randomPool nodes, let's just not worry about this one
     lokiSnodeAPI.markRandomNodeUnreachable(randSnode);
     const randomPoolRemainingCount = lokiSnodeAPI.getRandomPoolLength();
+    const ciphertext = await response.text();
     log.warn(
-      `lokiRpc sendToProxy`,
+      `lokiRpc:::sendToProxy -`,
       `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
         targetNode.port
       }`,
@@ -346,7 +315,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
   if (response.status !== 200) {
     // let us know we need to create handlers for new unhandled codes
     log.warn(
-      'lokiRpc sendToProxy fetch non-200 statusCode',
+      'lokiRpc:::sendToProxy - fetch non-200 statusCode',
       response.status,
       `from snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
         targetNode.port
@@ -381,7 +350,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     plaintext = textDecoder.decode(plaintextBuffer);
   } catch (e) {
     log.error(
-      'lokiRpc sendToProxy decode error',
+      'lokiRpc:::sendToProxy - decode error',
       e.code,
       e.message,
       `from ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
@@ -403,7 +372,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
         return JSON.parse(jsonRes.body);
       } catch (e) {
         log.error(
-          'lokiRpc sendToProxy parse error',
+          'lokiRpc:::sendToProxy - parse error',
           e.code,
           e.message,
           `from ${randSnode.ip}:${randSnode.port} json:`,
@@ -414,7 +383,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     };
     if (retryNumber) {
       log.info(
-        `lokiRpc sendToProxy request succeeded,`,
+        `lokiRpc:::sendToProxy - request succeeded,`,
         `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
           targetNode.port
         }`,
@@ -424,7 +393,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     return jsonRes;
   } catch (e) {
     log.error(
-      'lokiRpc sendToProxy parse error',
+      'lokiRpc:::sendToProxy - parse error',
       e.code,
       e.message,
       `from ${randSnode.ip}:${randSnode.port} json:`,
@@ -438,27 +407,6 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
 const lokiFetch = async (url, options = {}, targetNode = null) => {
   const timeout = options.timeout || 10000;
   const method = options.method || 'GET';
-
-  const address = parse(url).hostname;
-  // const doEncryptChannel = address.endsWith('.snode');
-  const doEncryptChannel = false; // ENCRYPTION DISABLED
-  if (doEncryptChannel) {
-    try {
-      // eslint-disable-next-line no-param-reassign
-      options.body = await libloki.crypto.snodeCipher.encrypt(
-        address,
-        options.body
-      );
-      // eslint-disable-next-line no-param-reassign
-      options.headers = {
-        ...options.headers,
-        'Content-Type': 'text/plain',
-        [LOKI_EPHEMKEY_HEADER]: libloki.crypto.snodeCipher.getChannelPublicKeyHex(),
-      };
-    } catch (e) {
-      log.warn(`Could not encrypt channel for ${address}: `, e);
-    }
-  }
 
   const fetchOptions = {
     ...options,
@@ -515,7 +463,7 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
       fetchOptions.agent = snodeHttpsAgent;
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     } else {
-      log.info('lokiRpc http communication', url);
+      log.info('lokirpc:::lokiFetch - http communication', url);
     }
     const response = await nodeFetch(url, fetchOptions);
     // restore TLS checking
@@ -524,22 +472,14 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
     let result;
     // Wrong swarm
     if (response.status === 421) {
-      if (doEncryptChannel) {
-        result = decryptResponse(response, address);
-      } else {
-        result = await response.json();
-      }
+      result = await response.json();
       const newSwarm = result.snodes ? result.snodes : [];
       throw new textsecure.WrongSwarmError(newSwarm);
     }
 
     // Wrong PoW difficulty
     if (response.status === 432) {
-      if (doEncryptChannel) {
-        result = decryptResponse(response, address);
-      } else {
-        result = await response.json();
-      }
+      result = await response.json();
       const { difficulty } = result;
       throw new textsecure.WrongDifficultyError(difficulty);
     }
@@ -558,8 +498,6 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
       result = await response.json();
     } else if (options.responseType === 'arraybuffer') {
       result = await response.buffer();
-    } else if (doEncryptChannel) {
-      result = decryptResponse(response, address);
     } else {
       result = await response.text();
     }

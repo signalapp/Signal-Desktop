@@ -37,7 +37,7 @@ function initialize() {
         `sql channel error with call ${callName}: ${errorForDisplay}`
       );
       // FIXME this line cause the test-integration to fail and we probably don't need it during test
-      if (!process.env.NODE_APP_INSTANCE.includes('test-integration')) {
+      if (!process.env.NODE_ENV.includes('test-integration')) {
         event.sender.send(`${SQL_CHANNEL_KEY}-done`, jobId, errorForDisplay);
       }
     }
