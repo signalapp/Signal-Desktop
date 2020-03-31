@@ -101,7 +101,7 @@ module.exports = {
     const killStr =
       process.platform === 'win32'
         ? 'taskkill /im electron.exe /t /f'
-        : 'pkill -f "node_modules/.bin/electron"';
+        : 'pkill -f "node_modules/electron/dist/electron"';
     return new Promise(resolve => {
       exec(killStr, (err, stdout, stderr) => {
         if (err) {
