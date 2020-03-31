@@ -2,8 +2,6 @@ const fetch = require('node-fetch');
 const { Agent } = require('https');
 const FormData = require('form-data');
 
-const is = require('@sindresorhus/is');
-
 /* global Buffer, setTimeout, log, _, lokiFileServerAPI */
 
 /* eslint-disable more/no-then, no-bitwise, no-nested-ternary */

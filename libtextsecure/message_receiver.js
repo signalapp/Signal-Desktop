@@ -11,7 +11,6 @@
 /* global HttpResource: false */
 /* global ContactBuffer: false */
 /* global GroupBuffer: false */
-/* global WebSocketResource: false */
 /* global lokiPublicChatAPI: false */
 /* global lokiMessageAPI: false */
 /* global feeds: false */
