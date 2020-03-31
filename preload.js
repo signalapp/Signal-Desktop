@@ -292,13 +292,7 @@ window.nodeSetImmediate = setImmediate;
 
 const { initialize: initializeWebAPI } = require('./js/modules/web_api');
 
-window.WebAPI = initializeWebAPI({
-  url: config.serverUrl,
-  cdnUrl: config.cdnUrl,
-  certificateAuthority: config.certificateAuthority,
-  contentProxyUrl: config.contentProxyUrl,
-  proxyUrl: config.proxyUrl,
-});
+window.WebAPI = initializeWebAPI();
 
 window.seedNodeList = JSON.parse(config.seedNodeList);
 const LokiSnodeAPI = require('./js/modules/loki_snode_api');

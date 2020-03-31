@@ -95,7 +95,6 @@
     "os-locale": "2.1.0",
     "pify": "3.0.0",
     "protobufjs": "6.8.6",
-    "proxy-agent": "3.0.3",
     "rc-slider": "^8.7.1",
     "react": "16.8.3",
     "react-contextmenu": "2.11.0",
@@ -116,8 +115,7 @@
     "tmp": "0.0.33",
     "to-arraybuffer": "1.0.1",
     "underscore": "1.9.0",
-    "uuid": "3.3.2",
-    "websocket": "1.0.28"
+    "uuid": "3.3.2"
   },
   "devDependencies": {
     "@types/chai": "4.1.2",

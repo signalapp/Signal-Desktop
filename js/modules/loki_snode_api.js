@@ -19,7 +19,7 @@ const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
 class LokiSnodeAPI {
   constructor({ serverUrl, localUrl }) {
     if (!is.string(serverUrl)) {
-      throw new Error('WebAPI.initialize: Invalid server url');
+      throw new Error('LokiSnodeAPI.initialize: Invalid server url');
     }
     this.serverUrl = serverUrl; // random.snode
     this.localUrl = localUrl; // localhost.loki
