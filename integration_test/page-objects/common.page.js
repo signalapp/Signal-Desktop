@@ -8,7 +8,7 @@ module.exports = {
   divRoleButtonWithTextDisabled: text =>
     `//div[contains(string(), "${text}")][contains(@role, "button")][contains(@class, "disabled")]`,
   divRoleButtonDangerWithText: text =>
-    `${module.exports.divRoleButtonWithText(text)}`,
+    `${module.exports.divRoleButtonWithText(text)}[contains(@class, "danger")]`,
   inputWithPlaceholder: placeholder =>
     `//input[contains(@placeholder, "${placeholder}")]`,
   textAreaWithPlaceholder: placeholder =>

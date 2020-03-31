@@ -59,15 +59,14 @@ describe('Closed groups', function() {
     );
     await app.client.isExisting(
       ConversationPage.headerTitleGroupName(common.VALID_CLOSED_GROUP_NAME1)
-    );
+    ).should.eventually.be.true;
     await app.client
       .element(ConversationPage.headerTitleMembers(2))
       .isVisible();
 
     // validate overlay is closed
-    await app.client
-      .isExisting(ConversationPage.leftPaneOverlay)
-      .should.eventually.be.equal(false);
+    await app.client.isExisting(ConversationPage.leftPaneOverlay).should
+      .eventually.be.false;
 
     // move back to the conversation section
     await app.client
@@ -79,7 +78,7 @@ describe('Closed groups', function() {
       ConversationPage.rowOpenGroupConversationName(
         common.VALID_CLOSED_GROUP_NAME1
       )
-    );
+    ).should.eventually.be.true;
 
     // next check app2 has been invited and has the group in its conversations
     await app2.client.waitForExist(
