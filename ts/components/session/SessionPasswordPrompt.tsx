@@ -147,10 +147,10 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
   }
 
   public async onLogin(passPhrase: string) {
-    const trimmed = passPhrase ? passPhrase.trim() : passPhrase;
+    const passPhraseTrimmed = passPhrase.trim();
 
     try {
-      await window.onLogin(trimmed);
+      await window.onLogin(passPhraseTrimmed);
     } catch (error) {
       // Increment the error counter and show the button if necessary
       this.setState({
