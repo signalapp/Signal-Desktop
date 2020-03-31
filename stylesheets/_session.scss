@@ -1872,6 +1872,10 @@ input {
     margin-left: 5px;
     opacity: 0.8;
   }
+
+  &__avatar > div {
+    margin-bottom: 0;
+  }
 }
 
 .invite-friends-container {

@@ -124,6 +124,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
           'noMembersInThisGroup'
         )})`}</p>
 
+        <div className="spacer-md" />
         <div className="session-modal__button-group">
           <SessionButton text={okText} onClick={this.onClickOK} />
 
