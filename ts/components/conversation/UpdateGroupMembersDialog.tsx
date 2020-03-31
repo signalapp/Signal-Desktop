@@ -120,7 +120,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
             <small className="create-group-dialog__member-count">
               {`${checkMarkedCount} members`}
             </small>
-            <hr className="subtle"/>
+            <hr className="subtle" />
           </>
         )}
 
@@ -135,7 +135,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         )})`}</p>
 
         <div className="spacer-lg" />
-        
+
         <div className="session-modal__button-group">
           <SessionButton text={okText} onClick={this.onClickOK} />
 

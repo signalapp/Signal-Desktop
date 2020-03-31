@@ -148,9 +148,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
         <div className="session-modal__centered">
           {this.renderErrors()}
           <h4>{window.i18n('waitingForDeviceToRegister')}</h4>
-          <small className="subtle">
-            {window.i18n('pairNewDevicePrompt')}
-          </small>
+          <small className="subtle">{window.i18n('pairNewDevicePrompt')}</small>
           <div className="spacer-lg" />
 
           <div className="qr-image">

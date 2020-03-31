@@ -16,7 +16,7 @@ interface State {
 
 export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
   private readonly inputRef: React.RefObject<HTMLInputElement>;
-  
+
   constructor(props: any) {
     super(props);
 
@@ -162,7 +162,9 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
   }
 
   private async initLogin() {
-    const passPhrase = String((this.inputRef.current as HTMLInputElement).value);
+    const passPhrase = String(
+      (this.inputRef.current as HTMLInputElement).value
+    );
     await this.onLogin(passPhrase);
   }
 
