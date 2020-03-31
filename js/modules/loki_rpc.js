@@ -198,7 +198,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     log.error(
       'lokiRpc::sendToProxy - Not enough service nodes for a proxy request, only have:',
       snodePool.length,
-      'attempting refresh'
+      'snode, attempting refresh'
     );
     await lokiSnodeAPI.refreshRandomPool();
     snodePool = await lokiSnodeAPI.getRandomSnodePool();
@@ -422,6 +422,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
 };
 
 // A small wrapper around node-fetch which deserializes response
+// returns nodeFetch response or false
 const lokiFetch = async (url, options = {}, targetNode = null) => {
   const timeout = options.timeout || 10000;
   const method = options.method || 'GET';
