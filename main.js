@@ -198,10 +198,10 @@ function captureClicks(window) {
   window.webContents.on('new-window', handleUrl);
 }
 
-const DEFAULT_WIDTH = 800;
+const DEFAULT_WIDTH = 880;
 const DEFAULT_HEIGHT = 720;
 const MIN_WIDTH = 880;
-const MIN_HEIGHT = 580;
+const MIN_HEIGHT = 720;
 const BOUNDS_BUFFER = 100;
 
 function isVisible(window, bounds) {
