@@ -140,11 +140,11 @@ div.spacer-lg {
   transition: filter 0.1s;
 }
 
-.text-subtle {
+.subtle {
   opacity: 0.6;
 }
 
-.text-soft {
+.soft {
   opacity: 0.4;
 }
 
@@ -847,6 +847,12 @@ label {
 
   .friend-selection-list {
     width: unset;
+  }
+
+  .create-group-dialog__member-count {
+    text-align: center;
+    margin-top: -25px;
+    opacity: 0.6;
   }
 }
 
@@ -1845,6 +1851,13 @@ input {
   justify-content: space-between;
   transition: $session-transition-duration;
 
+  &:first-child {
+    border-top: 1px solid rgba($session-shade-8, 0.6);
+  }
+  &:last-child {
+    border-bottom: 1px solid rgba($session-shade-8, 0.6);
+  }
+
   &.selected {
     background-color: $session-shade-4;
   }
@@ -1874,7 +1887,7 @@ input {
   }
 
   &__avatar > div {
-    margin-bottom: 0;
+    margin-bottom: 0px !important;
   }
 }
 
