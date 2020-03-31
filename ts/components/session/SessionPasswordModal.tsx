@@ -134,13 +134,9 @@ export class SessionPasswordModal extends React.Component<Props, State> {
   }
 
   private async setPassword(onSuccess: any) {
-    if (!this.passwordInput.current || !this.passwordInputConfirm.current) {
-      return;
-    }
-
     // Trim leading / trailing whitespace for UX
-    const enteredPassword = String(this.passwordInput.current.value).trim();
-    const enteredPasswordConfirm = String(this.passwordInputConfirm.current.value).trim();
+    const enteredPassword = String(this.passwordInput.current?.value).trim();
+    const enteredPasswordConfirm = String(this.passwordInputConfirm.current?.value).trim();
 
     if (enteredPassword.length === 0 || enteredPasswordConfirm.length === 0) {
       return;
