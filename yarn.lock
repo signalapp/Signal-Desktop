@@ -9841,7 +9841,7 @@ test-exclude@^4.1.1:
     read-pkg-up "^1.0.1"
     require-main-filename "^1.0.1"
 
-testcheck@1.0.0-rc.2, testcheck@^1.0.0-rc:
+testcheck@^1.0.0-rc:
   version "1.0.0-rc.2"
   resolved "https://registry.yarnpkg.com/testcheck/-/testcheck-1.0.0-rc.2.tgz#11356a25b84575efe0b0857451e85b5fa74ee4e4"
   integrity sha1-ETVqJbhFde/gsIV0UehbX6dO5OQ=

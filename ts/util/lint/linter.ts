@@ -160,7 +160,6 @@ const excludedFiles = [
   '^node_modules/spectron/*',
   '^node_modules/style-loader/*',
   '^node_modules/svgo/*',
-  '^node_modules/testcheck/*',
   '^node_modules/text-encoding/*',
   '^node_modules/tinycolor2/*',
   '^node_modules/to-ast/*',
