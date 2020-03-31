@@ -15,6 +15,8 @@ interface State {
 }
 
 export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
+  private readonly inputRef: React.RefObject<HTMLInputElement>;
+  
   constructor(props: any) {
     super(props);
 
@@ -29,10 +31,12 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
 
     this.initLogin = this.initLogin.bind(this);
     this.initClearDataView = this.initClearDataView.bind(this);
+
+    this.inputRef = React.createRef();
   }
 
   public componentDidMount() {
-    setTimeout(() => $('#password-prompt-input').focus(), 100);
+    (this.inputRef.current as HTMLInputElement).focus();
   }
 
   public render() {
@@ -65,6 +69,7 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
         onKeyUp={this.onKeyUp}
         maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
         onPaste={this.onPaste}
+        ref={this.inputRef}
       />
     );
     const infoIcon = this.state.clearDataView ? (
@@ -137,7 +142,7 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
       });
     }
 
-    // Prevent pating into input
+    // Prevent pasting into input
     return false;
   }
 
@@ -157,7 +162,7 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
   }
 
   private async initLogin() {
-    const passPhrase = String($('#password-prompt-input').val());
+    const passPhrase = String((this.inputRef.current as HTMLInputElement).value);
     await this.onLogin(passPhrase);
   }
 
