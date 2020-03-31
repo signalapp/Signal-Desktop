@@ -122,7 +122,6 @@ const excludedFiles = [
   '^node_modules/hpack\\.js/*',
   '^node_modules/http-proxy-middlewar/*',
   '^node_modules/icss-utils/*',
-  '^node_modules/intl-tel-input/examples/*',
   '^node_modules/istanbul*',
   '^node_modules/jimp/*',
   '^node_modules/jquery/*',
