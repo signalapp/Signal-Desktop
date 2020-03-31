@@ -7,7 +7,7 @@ const { compose } = require('lodash/fp');
 const { escapeRegExp } = require('lodash');
 
 const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
-const SESSION_ID_PATTERN = /\b(05[0-9a-f]{64})\b/gi
+const SESSION_ID_PATTERN = /\b(05[0-9a-f]{64})\b/gi;
 const GROUP_ID_PATTERN = /(group\()([^)]+)(\))/g;
 const REDACTION_PLACEHOLDER = '[REDACTED]';
 
@@ -62,7 +62,7 @@ exports.redactSessionID = text => {
   }
 
   return text.replace(SESSION_ID_PATTERN, REDACTION_PLACEHOLDER);
-}
+};
 
 //      redactGroupIds :: String -> String
 exports.redactGroupIds = text => {

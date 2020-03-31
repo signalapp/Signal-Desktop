@@ -612,7 +612,6 @@ function showAbout() {
 
 let debugLogWindow;
 async function showDebugLogWindow() {
-
   if (debugLogWindow) {
     debugLogWindow.show();
     return;

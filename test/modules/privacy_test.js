@@ -22,8 +22,8 @@ describe('Privacy', () => {
 
     it('should not redact non session IDS', () => {
       const text =
-      'This is a log line with a non-session ID sadsad0531032fc7415b7cc1b7516480ad121d391eddce3cfb2cee27dd5b215609c32827888\n' +
-      'and another one 766049a70e725ad02f7fe61b10e461380a4d7433f98096b3cacbf0362d5cab6234';
+        'This is a log line with a non-session ID sadsad0531032fc7415b7cc1b7516480ad121d391eddce3cfb2cee27dd5b215609c32827888\n' +
+        'and another one 766049a70e725ad02f7fe61b10e461380a4d7433f98096b3cacbf0362d5cab6234';
 
       const actual = Privacy.redactSessionID(text);
       assert.equal(actual, text);

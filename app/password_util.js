@@ -35,7 +35,6 @@ const validatePassword = (phrase, i18n) => {
   return null;
 };
 
-
 module.exports = {
   generateHash,
   matchesHash,

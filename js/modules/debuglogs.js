@@ -12,7 +12,7 @@ const USER_AGENT = `Session ${VERSION}`;
 exports.upload = async content => {
   const signedForm = await fetch(BASE_URL, {
     headers: {
-    'user-agent': USER_AGENT,
+      'user-agent': USER_AGENT,
     },
   });
   const json = await signedForm.json();
@@ -45,7 +45,7 @@ exports.upload = async content => {
 
   const { status } = result;
   if (status !== 204) {
-    throw new Error(`Failed to upload to S3, got status ${status}`)
+    throw new Error(`Failed to upload to S3, got status ${status}`);
   }
 
   return `${BASE_URL}/${fields.key}`;
