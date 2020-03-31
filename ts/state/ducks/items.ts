@@ -11,7 +11,7 @@ export type ItemsStateType = {
 
 type ItemPutAction = {
   type: 'items/PUT';
-  payload: Promise<void>;
+  payload: null;
 };
 
 type ItemPutExternalAction = {
@@ -24,7 +24,7 @@ type ItemPutExternalAction = {
 
 type ItemRemoveAction = {
   type: 'items/REMOVE';
-  payload: Promise<void>;
+  payload: null;
 };
 
 type ItemRemoveExternalAction = {
@@ -54,9 +54,11 @@ export const actions = {
 };
 
 function putItem(key: string, value: any): ItemPutAction {
+  storageShim.put(key, value);
+
   return {
     type: 'items/PUT',
-    payload: storageShim.put(key, value),
+    payload: null,
   };
 }
 
@@ -71,9 +73,11 @@ function putItemExternal(key: string, value: any): ItemPutExternalAction {
 }
 
 function removeItem(key: string): ItemRemoveAction {
+  storageShim.remove(key);
+
   return {
     type: 'items/REMOVE',
-    payload: storageShim.remove(key),
+    payload: null,
   };
 }
 

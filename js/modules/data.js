@@ -14,7 +14,7 @@ const {
   set,
 } = require('lodash');
 
-const { base64ToArrayBuffer, arrayBufferToBase64 } = require('./crypto');
+const { base64ToArrayBuffer, arrayBufferToBase64 } = require('../../ts/Crypto');
 const MessageType = require('./types/message');
 const { createBatcher } = require('../../ts/util/batcher');
 

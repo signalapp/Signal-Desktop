@@ -6,7 +6,7 @@ const nodeUrl = require('url');
 const LinkifyIt = require('linkify-it');
 
 const linkify = LinkifyIt();
-const { concatenateBytes, getViewOfArrayBuffer } = require('./crypto');
+const { concatenateBytes, getViewOfArrayBuffer } = require('../../ts/Crypto');
 
 module.exports = {
   assembleChunks,

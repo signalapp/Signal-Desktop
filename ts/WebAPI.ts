@@ -1,16 +1,18 @@
-const WebSocket = require('websocket').w3cwebsocket;
-const fetch = require('node-fetch');
-const ProxyAgent = require('proxy-agent');
-const { Agent } = require('https');
+import { w3cwebsocket as WebSocket } from 'websocket';
+import fetch, { Response } from 'node-fetch';
+import ProxyAgent from 'proxy-agent';
+import { Agent } from 'https';
 
-const is = require('@sindresorhus/is');
-const { redactPackId } = require('./stickers');
+import is from '@sindresorhus/is';
+import { redactPackId } from '../js/modules/stickers';
+import { getRandomValue } from './Crypto';
 
-/* global Signal, Buffer, setTimeout, log, _, getGuid, PQueue */
+import PQueue from 'p-queue';
+import { v4 as getGuid } from 'uuid';
 
-/* eslint-disable more/no-then, no-bitwise, no-nested-ternary */
+// tslint:disable no-bitwise
 
-function _btoa(str) {
+function _btoa(str: any) {
   let buffer;
 
   if (str instanceof Buffer) {
@@ -22,23 +24,26 @@ function _btoa(str) {
   return buffer.toString('base64');
 }
 
-const _call = object => Object.prototype.toString.call(object);
+const _call = (object: any) => Object.prototype.toString.call(object);
 
-const ArrayBufferToString = _call(new ArrayBuffer());
+const ArrayBufferToString = _call(new ArrayBuffer(0));
 const Uint8ArrayToString = _call(new Uint8Array());
 
-function _getString(thing) {
+function _getString(thing: any): string {
   if (typeof thing !== 'string') {
-    if (_call(thing) === Uint8ArrayToString)
+    if (_call(thing) === Uint8ArrayToString) {
       return String.fromCharCode.apply(null, thing);
-    if (_call(thing) === ArrayBufferToString)
+    }
+    if (_call(thing) === ArrayBufferToString) {
       return _getString(new Uint8Array(thing));
+    }
   }
+
   return thing;
 }
 
 // prettier-ignore
-function _b64ToUint6(nChr) {
+function _b64ToUint6(nChr: number) {
   return nChr > 64 && nChr < 91
     ? nChr - 65
     : nChr > 96 && nChr < 123
@@ -52,7 +57,7 @@ function _b64ToUint6(nChr) {
             : 0;
 }
 
-function _getStringable(thing) {
+function _getStringable(thing: any) {
   return (
     typeof thing === 'string' ||
     typeof thing === 'number' ||
@@ -63,7 +68,7 @@ function _getStringable(thing) {
   );
 }
 
-function _ensureStringed(thing) {
+function _ensureStringed(thing: any): any {
   if (_getStringable(thing)) {
     return _getString(thing);
   } else if (thing instanceof Array) {
@@ -71,13 +76,15 @@ function _ensureStringed(thing) {
     for (let i = 0; i < thing.length; i += 1) {
       res[i] = _ensureStringed(thing[i]);
     }
+
     return res;
   } else if (thing === Object(thing)) {
-    const res = {};
-    // eslint-disable-next-line guard-for-in, no-restricted-syntax
+    const res: any = {};
+    // tslint:disable-next-line forin no-for-in
     for (const key in thing) {
       res[key] = _ensureStringed(thing[key]);
     }
+
     return res;
   } else if (thing === null) {
     return null;
@@ -87,11 +94,11 @@ function _ensureStringed(thing) {
   throw new Error(`unsure of how to jsonify object of type ${typeof thing}`);
 }
 
-function _jsonThing(thing) {
+function _jsonThing(thing: any) {
   return JSON.stringify(_ensureStringed(thing));
 }
 
-function _base64ToBytes(sBase64, nBlocksSize) {
+function _base64ToBytes(sBase64: string, nBlocksSize?: number) {
   const sB64Enc = sBase64.replace(/[^A-Za-z0-9+/]/g, '');
   const nInLen = sB64Enc.length;
   const nOutLen = nBlocksSize
@@ -100,12 +107,14 @@ function _base64ToBytes(sBase64, nBlocksSize) {
   const aBBytes = new ArrayBuffer(nOutLen);
   const taBytes = new Uint8Array(aBBytes);
 
-  for (
-    let nMod3, nMod4, nUint24 = 0, nOutIdx = 0, nInIdx = 0;
-    nInIdx < nInLen;
-    nInIdx += 1
-  ) {
+  let nMod3 = 0;
+  let nMod4 = 0;
+  let nUint24 = 0;
+  let nOutIdx = 0;
+
+  for (let nInIdx = 0; nInIdx < nInLen; nInIdx += 1) {
     nMod4 = nInIdx & 3;
+    // tslint:disable-next-line binary-expression-operand-order
     nUint24 |= _b64ToUint6(sB64Enc.charCodeAt(nInIdx)) << (18 - 6 * nMod4);
     if (nMod4 === 3 || nInLen - nInIdx === 1) {
       for (
@@ -118,18 +127,18 @@ function _base64ToBytes(sBase64, nBlocksSize) {
       nUint24 = 0;
     }
   }
+
   return aBBytes;
 }
 
-function _validateResponse(response, schema) {
+function _validateResponse(response: any, schema: any) {
   try {
-    // eslint-disable-next-line guard-for-in, no-restricted-syntax
+    // tslint:disable-next-line forin no-for-in
     for (const i in schema) {
       switch (schema[i]) {
         case 'object':
         case 'string':
         case 'number':
-          // eslint-disable-next-line valid-typeof
           if (typeof response[i] !== schema[i]) {
             return false;
           }
@@ -140,10 +149,17 @@ function _validateResponse(response, schema) {
   } catch (ex) {
     return false;
   }
+
   return true;
 }
 
-function _createSocket(url, { certificateAuthority, proxyUrl }) {
+function _createSocket(
+  url: string,
+  {
+    certificateAuthority,
+    proxyUrl,
+  }: { certificateAuthority: string; proxyUrl?: string }
+) {
   let requestOptions;
   if (proxyUrl) {
     requestOptions = {
@@ -156,46 +172,81 @@ function _createSocket(url, { certificateAuthority, proxyUrl }) {
     };
   }
 
-  // eslint-disable-next-line new-cap
-  return new WebSocket(url, null, null, null, requestOptions);
+  return new WebSocket(url, undefined, undefined, undefined, requestOptions);
 }
 
 const FIVE_MINUTES = 1000 * 60 * 5;
-const agents = {
-  unauth: null,
-  auth: null,
-};
 
-function getContentType(response) {
+type AgentCacheType = {
+  [name: string]: {
+    timestamp: number;
+    agent: ProxyAgent | Agent;
+  };
+};
+const agents: AgentCacheType = {};
+
+function getContentType(response: Response) {
   if (response.headers && response.headers.get) {
+    // tslint:disable-next-line no-backbone-get-set-outside-model
     return response.headers.get('content-type');
   }
 
   return null;
 }
 
-function _promiseAjax(providedUrl, options) {
+type HeaderListType = { [name: string]: string };
+
+type PromiseAjaxOptionsType = {
+  accessKey?: string;
+  certificateAuthority?: string;
+  contentType?: string;
+  data?: ArrayBuffer | Buffer | string;
+  headers?: HeaderListType;
+  host?: string;
+  password?: string;
+  path?: string;
+  proxyUrl?: string;
+  redactUrl?: (url: string) => string;
+  redirect?: 'error' | 'follow' | 'manual';
+  responseType?: 'json' | 'arraybuffer' | 'arraybufferwithdetails';
+  stack?: string;
+  timeout?: number;
+  type: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  unauthenticated?: boolean;
+  user?: string;
+  validateResponse?: any;
+  version: string;
+};
+
+// tslint:disable-next-line max-func-body-length
+async function _promiseAjax(
+  providedUrl: string | null,
+  options: PromiseAjaxOptionsType
+): Promise<any> {
+  // tslint:disable-next-line max-func-body-length
   return new Promise((resolve, reject) => {
     const url = providedUrl || `${options.host}/${options.path}`;
 
     const unauthLabel = options.unauthenticated ? ' (unauth)' : '';
     if (options.redactUrl) {
-      log.info(`${options.type} ${options.redactUrl(url)}${unauthLabel}`);
+      window.log.info(
+        `${options.type} ${options.redactUrl(url)}${unauthLabel}`
+      );
     } else {
-      log.info(`${options.type} ${url}${unauthLabel}`);
+      window.log.info(`${options.type} ${url}${unauthLabel}`);
     }
 
     const timeout =
-      typeof options.timeout !== 'undefined' ? options.timeout : 10000;
+      typeof options.timeout === 'number' ? options.timeout : 10000;
 
     const { proxyUrl } = options;
     const agentType = options.unauthenticated ? 'unauth' : 'auth';
     const cacheKey = `${proxyUrl}-${agentType}`;
 
-    const { timestamp } = agents[cacheKey] || {};
+    const { timestamp } = agents[cacheKey] || { timestamp: null };
     if (!timestamp || timestamp + FIVE_MINUTES < Date.now()) {
       if (timestamp) {
-        log.info(`Cycling agent for type ${cacheKey}`);
+        window.log.info(`Cycling agent for type ${cacheKey}`);
       }
       agents[cacheKey] = {
         agent: proxyUrl
@@ -208,14 +259,16 @@ function _promiseAjax(providedUrl, options) {
 
     const fetchOptions = {
       method: options.type,
-      body: options.data || null,
+      body: options.data,
       headers: {
         'User-Agent': `Signal Desktop ${options.version}`,
         'X-Signal-Agent': 'OWD',
         ...options.headers,
-      },
+      } as HeaderListType,
       redirect: options.redirect,
       agent,
+      // We patched node-fetch to add the ca param; its type definitions don't have it
+      // @ts-ignore
       ca: options.certificateAuthority,
       timeout,
     };
@@ -226,7 +279,7 @@ function _promiseAjax(providedUrl, options) {
       fetchOptions.body = Buffer.from(fetchOptions.body);
 
       // node-fetch doesn't set content-length like S3 requires
-      fetchOptions.headers['Content-Length'] = contentLength;
+      fetchOptions.headers['Content-Length'] = contentLength.toString();
     }
 
     const { accessKey, unauthenticated } = options;
@@ -250,10 +303,12 @@ function _promiseAjax(providedUrl, options) {
     }
 
     fetch(url, fetchOptions)
-      .then(response => {
+      // tslint:disable-next-line max-func-body-length
+      .then(async response => {
         let resultPromise;
         if (
           options.responseType === 'json' &&
+          // tslint:disable-next-line no-backbone-get-set-outside-model
           response.headers.get('Content-Type') === 'application/json'
         ) {
           resultPromise = response.json();
@@ -271,9 +326,10 @@ function _promiseAjax(providedUrl, options) {
             options.responseType === 'arraybuffer' ||
             options.responseType === 'arraybufferwithdetails'
           ) {
-            // eslint-disable-next-line no-param-reassign
+            // tslint:disable-next-line no-parameter-reassignment
             result = result.buffer.slice(
               result.byteOffset,
+              // tslint:disable-next-line: restrict-plus-operands
               result.byteOffset + result.byteLength
             );
           }
@@ -281,83 +337,98 @@ function _promiseAjax(providedUrl, options) {
             if (options.validateResponse) {
               if (!_validateResponse(result, options.validateResponse)) {
                 if (options.redactUrl) {
-                  log.info(
+                  window.log.info(
                     options.type,
                     options.redactUrl(url),
                     response.status,
                     'Error'
                   );
                 } else {
-                  log.error(options.type, url, response.status, 'Error');
+                  window.log.error(options.type, url, response.status, 'Error');
                 }
-                return reject(
-                  HTTPError(
+                reject(
+                  makeHTTPError(
                     'promiseAjax: invalid response',
                     response.status,
                     result,
                     options.stack
                   )
                 );
+
+                return;
               }
             }
           }
           if (response.status >= 0 && response.status < 400) {
             if (options.redactUrl) {
-              log.info(
+              window.log.info(
                 options.type,
                 options.redactUrl(url),
                 response.status,
                 'Success'
               );
             } else {
-              log.info(options.type, url, response.status, 'Success');
+              window.log.info(options.type, url, response.status, 'Success');
             }
             if (options.responseType === 'arraybufferwithdetails') {
-              return resolve({
+              resolve({
                 data: result,
                 contentType: getContentType(response),
                 response,
               });
+
+              return;
             }
-            return resolve(result, response.status);
+            resolve(result);
+
+            return;
           }
 
           if (options.redactUrl) {
-            log.info(
+            window.log.info(
               options.type,
               options.redactUrl(url),
               response.status,
               'Error'
             );
           } else {
-            log.error(options.type, url, response.status, 'Error');
+            window.log.error(options.type, url, response.status, 'Error');
           }
-          return reject(
-            HTTPError(
+
+          reject(
+            makeHTTPError(
               'promiseAjax: error response',
               response.status,
               result,
               options.stack
             )
           );
+
+          return;
         });
       })
       .catch(e => {
         if (options.redactUrl) {
-          log.error(options.type, options.redactUrl(url), 0, 'Error');
+          window.log.error(options.type, options.redactUrl(url), 0, 'Error');
         } else {
-          log.error(options.type, url, 0, 'Error');
+          window.log.error(options.type, url, 0, 'Error');
         }
         const stack = `${e.stack}\nInitial stack:\n${options.stack}`;
-        reject(HTTPError('promiseAjax catch', 0, e.toString(), stack));
+        reject(makeHTTPError('promiseAjax catch', 0, e.toString(), stack));
       });
   });
 }
 
-function _retryAjax(url, options, providedLimit, providedCount) {
+async function _retryAjax(
+  url: string | null,
+  options: PromiseAjaxOptionsType,
+  providedLimit?: number,
+  providedCount?: number
+) {
   const count = (providedCount || 0) + 1;
   const limit = providedLimit || 3;
-  return _promiseAjax(url, options).catch(e => {
+
+  return _promiseAjax(url, options).catch(async (e: Error) => {
     if (e.name === 'HTTPError' && e.code === -1 && count < limit) {
       return new Promise(resolve => {
         setTimeout(() => {
@@ -369,13 +440,25 @@ function _retryAjax(url, options, providedLimit, providedCount) {
   });
 }
 
-function _outerAjax(url, options) {
-  // eslint-disable-next-line no-param-reassign
+async function _outerAjax(url: string | null, options: PromiseAjaxOptionsType) {
   options.stack = new Error().stack; // just in case, save stack here.
+
   return _retryAjax(url, options);
 }
 
-function HTTPError(message, providedCode, response, stack) {
+declare global {
+  interface Error {
+    code?: number | string;
+    response?: any;
+  }
+}
+
+function makeHTTPError(
+  message: string,
+  providedCode: number,
+  response: any,
+  stack?: string
+) {
   const code = providedCode > 999 || providedCode < 100 ? -1 : providedCode;
   const e = new Error(`${message}; code: ${code}`);
   e.name = 'HTTPError';
@@ -384,6 +467,7 @@ function HTTPError(message, providedCode, response, stack) {
   if (response) {
     e.response = response;
   }
+
   return e;
 }
 
@@ -408,7 +492,36 @@ module.exports = {
   initialize,
 };
 
+type InitializeOptionsType = {
+  url: string;
+  cdnUrl: string;
+  certificateAuthority: string;
+  contentProxyUrl: string;
+  proxyUrl: string;
+  version: string;
+};
+
+type ConnectParametersType = {
+  username: string;
+  password: string;
+};
+
+type MessageType = any;
+
+type AjaxOptionsType = {
+  accessKey?: string;
+  call: keyof typeof URL_CALLS;
+  httpType: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  jsonData?: any;
+  responseType?: 'json' | 'arraybuffer' | 'arraybufferwithdetails';
+  timeout?: number;
+  unauthenticated?: boolean;
+  urlParameters?: string;
+  validateResponse?: any;
+};
+
 // We first set up the data that won't change during this session of the app
+// tslint:disable-next-line max-func-body-length
 function initialize({
   url,
   cdnUrl,
@@ -416,7 +529,7 @@ function initialize({
   contentProxyUrl,
   proxyUrl,
   version,
-}) {
+}: InitializeOptionsType) {
   if (!is.string(url)) {
     throw new Error('WebAPI.initialize: Invalid server url');
   }
@@ -442,7 +555,11 @@ function initialize({
   // Then we connect to the server with user-specific information. This is the only API
   //   exposed to the browser context, ensuring that it can't connect to arbitrary
   //   locations.
-  function connect({ username: initialUsername, password: initialPassword }) {
+  // tslint:disable-next-line max-func-body-length
+  function connect({
+    username: initialUsername,
+    password: initialPassword,
+  }: ConnectParametersType) {
     let username = initialUsername;
     let password = initialPassword;
     const PARSE_RANGE_HEADER = /\/(\d+)$/;
@@ -479,11 +596,11 @@ function initialize({
       whoami,
     };
 
-    function _ajax(param) {
+    async function _ajax(param: AjaxOptionsType) {
       if (!param.urlParameters) {
-        // eslint-disable-next-line no-param-reassign
         param.urlParameters = '';
       }
+
       return _outerAjax(null, {
         certificateAuthority,
         contentType: 'application/json; charset=utf-8',
@@ -500,11 +617,10 @@ function initialize({
         version,
         unauthenticated: param.unauthenticated,
         accessKey: param.accessKey,
-      }).catch(e => {
+      }).catch((e: Error) => {
         const { code } = e;
         if (code === 200) {
-          // happens sometimes when we get no response
-          // (TODO: Fix server to return 204? instead)
+          // Happens sometimes when we get no response. Might be nice to get 204 instead.
           return null;
         }
         let message;
@@ -520,7 +636,6 @@ function initialize({
             message = 'Invalid code, please try again.';
             break;
           case 417:
-            // TODO: This shouldn't be a thing?, but its in the API doc?
             message = 'Number already registered.';
             break;
           case 401:
@@ -539,7 +654,7 @@ function initialize({
       });
     }
 
-    function whoami() {
+    async function whoami() {
       return _ajax({
         call: 'whoami',
         httpType: 'GET',
@@ -547,17 +662,17 @@ function initialize({
       });
     }
 
-    function getSenderCertificate(withUuid = false) {
+    async function getSenderCertificate(withUuid = false) {
       return _ajax({
         call: 'deliveryCert',
         httpType: 'GET',
         responseType: 'json',
-        schema: { certificate: 'string' },
+        validateResponse: { certificate: 'string' },
         urlParameters: withUuid ? '?includeUuid=true' : undefined,
       });
     }
 
-    function registerSupportForUnauthenticatedDelivery() {
+    async function registerSupportForUnauthenticatedDelivery() {
       return _ajax({
         call: 'supportUnauthenticatedDelivery',
         httpType: 'PUT',
@@ -565,7 +680,7 @@ function initialize({
       });
     }
 
-    function registerCapabilities(capabilities) {
+    async function registerCapabilities(capabilities: any) {
       return _ajax({
         call: 'registerCapabilities',
         httpType: 'PUT',
@@ -573,7 +688,7 @@ function initialize({
       });
     }
 
-    function getProfile(identifier) {
+    async function getProfile(identifier: string) {
       return _ajax({
         call: 'profile',
         httpType: 'GET',
@@ -581,7 +696,10 @@ function initialize({
         responseType: 'json',
       });
     }
-    function getProfileUnauth(identifier, { accessKey } = {}) {
+    async function getProfileUnauth(
+      identifier: string,
+      { accessKey }: { accessKey?: string } = {}
+    ) {
       return _ajax({
         call: 'profile',
         httpType: 'GET',
@@ -592,7 +710,7 @@ function initialize({
       });
     }
 
-    function getAvatar(path) {
+    async function getAvatar(path: string) {
       // Using _outerAJAX, since it's not hardcoded to the Signal Server. Unlike our
       //   attachment CDN, it uses our self-signed certificate, so we pass it in.
       return _outerAjax(`${cdnUrl}/${path}`, {
@@ -606,7 +724,7 @@ function initialize({
       });
     }
 
-    function requestVerificationSMS(number) {
+    async function requestVerificationSMS(number: string) {
       return _ajax({
         call: 'accounts',
         httpType: 'GET',
@@ -614,7 +732,7 @@ function initialize({
       });
     }
 
-    function requestVerificationVoice(number) {
+    async function requestVerificationVoice(number: string) {
       return _ajax({
         call: 'accounts',
         httpType: 'GET',
@@ -623,15 +741,15 @@ function initialize({
     }
 
     async function confirmCode(
-      number,
-      code,
-      newPassword,
-      registrationId,
-      deviceName,
-      options = {}
+      number: string,
+      code: string,
+      newPassword: string,
+      registrationId: string,
+      deviceName: string,
+      options: { accessKey?: string } = {}
     ) {
       const { accessKey } = options;
-      const jsonData = {
+      const jsonData: any = {
         supportsSms: false,
         fetchesMessages: true,
         registrationId,
@@ -641,17 +759,12 @@ function initialize({
         unrestrictedUnidentifiedAccess: false,
       };
 
-      let call;
-      let urlPrefix;
-      let schema;
+      const call = deviceName ? 'devices' : 'accounts';
+      const urlPrefix = deviceName ? '/' : '/code/';
 
       if (deviceName) {
         jsonData.name = deviceName;
-        call = 'devices';
-        urlPrefix = '/';
       } else {
-        call = 'accounts';
-        urlPrefix = '/code/';
         jsonData.capabilities = {
           uuid: true,
         };
@@ -667,7 +780,6 @@ function initialize({
         responseType: 'json',
         urlParameters: urlPrefix + code,
         jsonData,
-        validateResponse: schema,
       });
 
       // From here on out, our username will be our UUID or E164 combined with device
@@ -676,7 +788,7 @@ function initialize({
       return response;
     }
 
-    function updateDeviceName(deviceName) {
+    async function updateDeviceName(deviceName: string) {
       return _ajax({
         call: 'updateDeviceName',
         httpType: 'PUT',
@@ -686,43 +798,74 @@ function initialize({
       });
     }
 
-    function removeSignalingKey() {
+    async function removeSignalingKey() {
       return _ajax({
         call: 'removeSignalingKey',
         httpType: 'DELETE',
       });
     }
 
-    function getDevices() {
+    async function getDevices() {
       return _ajax({
         call: 'devices',
         httpType: 'GET',
       });
     }
 
-    function registerKeys(genKeys) {
-      const keys = {};
-      keys.identityKey = _btoa(_getString(genKeys.identityKey));
-      keys.signedPreKey = {
-        keyId: genKeys.signedPreKey.keyId,
-        publicKey: _btoa(_getString(genKeys.signedPreKey.publicKey)),
-        signature: _btoa(_getString(genKeys.signedPreKey.signature)),
+    type SignedPreKeyType = {
+      keyId: number;
+      publicKey: ArrayBuffer;
+      signature: ArrayBuffer;
+    };
+
+    type KeysType = {
+      identityKey: ArrayBuffer;
+      signedPreKey: SignedPreKeyType;
+      preKeys: Array<{
+        keyId: number;
+        publicKey: ArrayBuffer;
+      }>;
+    };
+
+    type JSONSignedPreKeyType = {
+      keyId: number;
+      publicKey: string;
+      signature: string;
+    };
+
+    type JSONKeysType = {
+      identityKey: string;
+      signedPreKey: JSONSignedPreKeyType;
+      preKeys: Array<{
+        keyId: number;
+        publicKey: string;
+      }>;
+      lastResortKey: {
+        keyId: number;
+        publicKey: string;
       };
+    };
 
-      keys.preKeys = [];
-      let j = 0;
-      // eslint-disable-next-line guard-for-in, no-restricted-syntax
-      for (const i in genKeys.preKeys) {
-        keys.preKeys[j] = {
-          keyId: genKeys.preKeys[i].keyId,
-          publicKey: _btoa(_getString(genKeys.preKeys[i].publicKey)),
-        };
-        j += 1;
-      }
+    async function registerKeys(genKeys: KeysType) {
+      const preKeys = genKeys.preKeys.map(key => ({
+        keyId: key.keyId,
+        publicKey: _btoa(_getString(key.publicKey)),
+      }));
 
-      // This is just to make the server happy
-      // (v2 clients should choke on publicKey)
-      keys.lastResortKey = { keyId: 0x7fffffff, publicKey: _btoa('42') };
+      const keys: JSONKeysType = {
+        identityKey: _btoa(_getString(genKeys.identityKey)),
+        signedPreKey: {
+          keyId: genKeys.signedPreKey.keyId,
+          publicKey: _btoa(_getString(genKeys.signedPreKey.publicKey)),
+          signature: _btoa(_getString(genKeys.signedPreKey.signature)),
+        },
+        preKeys,
+        // This is just to make the server happy (v2 clients should choke on publicKey)
+        lastResortKey: {
+          keyId: 0x7fffffff,
+          publicKey: _btoa('42'),
+        },
+      };
 
       return _ajax({
         call: 'keys',
@@ -731,7 +874,7 @@ function initialize({
       });
     }
 
-    function setSignedPreKey(signedPreKey) {
+    async function setSignedPreKey(signedPreKey: SignedPreKeyType) {
       return _ajax({
         call: 'signed',
         httpType: 'PUT',
@@ -743,21 +886,61 @@ function initialize({
       });
     }
 
-    function getMyKeys() {
-      return _ajax({
+    type ServerKeyCountType = {
+      count: number;
+    };
+
+    async function getMyKeys(): Promise<number> {
+      const result: ServerKeyCountType = await _ajax({
         call: 'keys',
         httpType: 'GET',
         responseType: 'json',
         validateResponse: { count: 'number' },
-      }).then(res => res.count);
+      });
+
+      return result.count;
     }
 
-    function handleKeys(res) {
+    type ServerKeyResponseType = {
+      devices: Array<{
+        deviceId: number;
+        registrationId: number;
+        signedPreKey: {
+          keyId: number;
+          publicKey: string;
+          signature: string;
+        };
+        preKey?: {
+          keyId: number;
+          publicKey: string;
+        };
+      }>;
+      identityKey: string;
+    };
+
+    type ServerKeyType = {
+      devices: Array<{
+        deviceId: number;
+        registrationId: number;
+        signedPreKey: {
+          keyId: number;
+          publicKey: ArrayBuffer;
+          signature: ArrayBuffer;
+        };
+        preKey?: {
+          keyId: number;
+          publicKey: ArrayBuffer;
+        };
+      }>;
+      identityKey: ArrayBuffer;
+    };
+
+    function handleKeys(res: ServerKeyResponseType): ServerKeyType {
       if (!Array.isArray(res.devices)) {
         throw new Error('Invalid response');
       }
-      res.identityKey = _base64ToBytes(res.identityKey);
-      res.devices.forEach(device => {
+
+      const devices = res.devices.map(device => {
         if (
           !_validateResponse(device, { signedPreKey: 'object' }) ||
           !_validateResponse(device.signedPreKey, {
@@ -767,6 +950,8 @@ function initialize({
         ) {
           throw new Error('Invalid signedPreKey');
         }
+
+        let preKey;
         if (device.preKey) {
           if (
             !_validateResponse(device, { preKey: 'object' }) ||
@@ -774,22 +959,32 @@ function initialize({
           ) {
             throw new Error('Invalid preKey');
           }
-          // eslint-disable-next-line no-param-reassign
-          device.preKey.publicKey = _base64ToBytes(device.preKey.publicKey);
+
+          preKey = {
+            keyId: device.preKey.keyId,
+            publicKey: _base64ToBytes(device.preKey.publicKey),
+          };
         }
-        // eslint-disable-next-line no-param-reassign
-        device.signedPreKey.publicKey = _base64ToBytes(
-          device.signedPreKey.publicKey
-        );
-        // eslint-disable-next-line no-param-reassign
-        device.signedPreKey.signature = _base64ToBytes(
-          device.signedPreKey.signature
-        );
+
+        return {
+          deviceId: device.deviceId,
+          registrationId: device.registrationId,
+          preKey,
+          signedPreKey: {
+            keyId: device.signedPreKey.keyId,
+            publicKey: _base64ToBytes(device.signedPreKey.publicKey),
+            signature: _base64ToBytes(device.signedPreKey.signature),
+          },
+        };
       });
-      return res;
+
+      return {
+        devices,
+        identityKey: _base64ToBytes(res.identityKey),
+      };
     }
 
-    function getKeysForIdentifier(identifier, deviceId = '*') {
+    async function getKeysForIdentifier(identifier: string, deviceId = '*') {
       return _ajax({
         call: 'keys',
         httpType: 'GET',
@@ -799,10 +994,10 @@ function initialize({
       }).then(handleKeys);
     }
 
-    function getKeysForIdentifierUnauth(
-      identifier,
+    async function getKeysForIdentifierUnauth(
+      identifier: string,
       deviceId = '*',
-      { accessKey } = {}
+      { accessKey }: { accessKey?: string } = {}
     ) {
       return _ajax({
         call: 'keys',
@@ -815,15 +1010,15 @@ function initialize({
       }).then(handleKeys);
     }
 
-    function sendMessagesUnauth(
-      destination,
-      messageArray,
-      timestamp,
-      silent,
-      online,
-      { accessKey } = {}
+    async function sendMessagesUnauth(
+      destination: string,
+      messageArray: Array<MessageType>,
+      timestamp: number,
+      silent: boolean,
+      online: boolean,
+      { accessKey }: { accessKey?: string } = {}
     ) {
-      const jsonData = { messages: messageArray, timestamp };
+      const jsonData: any = { messages: messageArray, timestamp };
 
       if (silent) {
         jsonData.silent = true;
@@ -843,14 +1038,14 @@ function initialize({
       });
     }
 
-    function sendMessages(
-      destination,
-      messageArray,
-      timestamp,
-      silent,
-      online
+    async function sendMessages(
+      destination: string,
+      messageArray: Array<MessageType>,
+      timestamp: number,
+      silent: boolean,
+      online: boolean
     ) {
-      const jsonData = { messages: messageArray, timestamp };
+      const jsonData: any = { messages: messageArray, timestamp };
 
       if (silent) {
         jsonData.silent = true;
@@ -868,14 +1063,15 @@ function initialize({
       });
     }
 
-    function redactStickerUrl(stickerUrl) {
+    function redactStickerUrl(stickerUrl: string) {
       return stickerUrl.replace(
         /(\/stickers\/)([^/]+)(\/)/,
-        (match, begin, packId, end) => `${begin}${redactPackId(packId)}${end}`
+        (_, begin: string, packId: string, end: string) =>
+          `${begin}${redactPackId(packId)}${end}`
       );
     }
 
-    function getSticker(packId, stickerId) {
+    async function getSticker(packId: string, stickerId: string) {
       return _outerAjax(`${cdnUrl}/stickers/${packId}/full/${stickerId}`, {
         certificateAuthority,
         proxyUrl,
@@ -886,7 +1082,7 @@ function initialize({
       });
     }
 
-    function getStickerPackManifest(packId) {
+    async function getStickerPackManifest(packId: string) {
       return _outerAjax(`${cdnUrl}/stickers/${packId}/manifest.proto`, {
         certificateAuthority,
         proxyUrl,
@@ -897,16 +1093,34 @@ function initialize({
       });
     }
 
+    type ServerAttachmentType = {
+      key: string;
+      credential: string;
+      acl: string;
+      algorithm: string;
+      date: string;
+      policy: string;
+      signature: string;
+    };
+
     function makePutParams(
-      { key, credential, acl, algorithm, date, policy, signature },
-      encryptedBin
+      {
+        key,
+        credential,
+        acl,
+        algorithm,
+        date,
+        policy,
+        signature,
+      }: ServerAttachmentType,
+      encryptedBin: ArrayBuffer
     ) {
       // Note: when using the boundary string in the POST body, it needs to be prefixed by
       //   an extra --, and the final boundary string at the end gets a -- prefix and a --
       //   suffix.
       const boundaryString = `----------------${getGuid().replace(/-/g, '')}`;
       const CRLF = '\r\n';
-      const getSection = (name, value) =>
+      const getSection = (name: string, value: string) =>
         [
           `--${boundaryString}`,
           `Content-Disposition: form-data; name="${name}"${CRLF}`,
@@ -943,21 +1157,21 @@ function initialize({
         data,
         contentType: `multipart/form-data; boundary=${boundaryString}`,
         headers: {
-          'Content-Length': contentLength,
+          'Content-Length': contentLength.toString(),
         },
       };
     }
 
     async function putStickers(
-      encryptedManifest,
-      encryptedStickers,
-      onProgress
+      encryptedManifest: ArrayBuffer,
+      encryptedStickers: Array<ArrayBuffer>,
+      onProgress?: () => void
     ) {
       // Get manifest and sticker upload parameters
       const { packId, manifest, stickers } = await _ajax({
         call: 'getStickerPackUpload',
         responseType: 'json',
-        type: 'GET',
+        httpType: 'GET',
         urlParameters: `/${encryptedStickers.length}`,
       });
 
@@ -970,15 +1184,17 @@ function initialize({
         proxyUrl,
         timeout: 0,
         type: 'POST',
-        processData: false,
         version,
       });
 
       // Upload stickers
       const queue = new PQueue({ concurrency: 3 });
       await Promise.all(
-        stickers.map(async (s, id) => {
-          const stickerParams = makePutParams(s, encryptedStickers[id]);
+        stickers.map(async (sticker: ServerAttachmentType, index: number) => {
+          const stickerParams = makePutParams(
+            sticker,
+            encryptedStickers[index]
+          );
           await queue.add(async () =>
             _outerAjax(`${cdnUrl}/`, {
               ...stickerParams,
@@ -986,7 +1202,6 @@ function initialize({
               proxyUrl,
               timeout: 0,
               type: 'POST',
-              processData: false,
               version,
             })
           );
@@ -1000,7 +1215,7 @@ function initialize({
       return packId;
     }
 
-    async function getAttachment(id) {
+    async function getAttachment(id: string) {
       // This is going to the CDN, not the service, so we use _outerAjax
       return _outerAjax(`${cdnUrl}/attachments/${id}`, {
         certificateAuthority,
@@ -1012,7 +1227,7 @@ function initialize({
       });
     }
 
-    async function putAttachment(encryptedBin) {
+    async function putAttachment(encryptedBin: ArrayBuffer) {
       const response = await _ajax({
         call: 'attachmentId',
         httpType: 'GET',
@@ -1030,7 +1245,6 @@ function initialize({
         proxyUrl,
         timeout: 0,
         type: 'POST',
-        processData: false,
         version,
       });
 
@@ -1038,32 +1252,37 @@ function initialize({
     }
 
     function getHeaderPadding() {
-      const length = Signal.Crypto.getRandomValue(1, 64);
+      const max = getRandomValue(1, 64);
       let characters = '';
 
-      for (let i = 0, max = length; i < max; i += 1) {
-        characters += String.fromCharCode(
-          Signal.Crypto.getRandomValue(65, 122)
-        );
+      for (let i = 0; i < max; i += 1) {
+        characters += String.fromCharCode(getRandomValue(65, 122));
       }
 
       return characters;
     }
 
-    // eslint-disable-next-line no-shadow
-    async function makeProxiedRequest(url, options = {}) {
+    type ProxiedRequestOptionsType = {
+      returnArrayBuffer?: boolean;
+      start?: number;
+      end?: number;
+    };
+
+    async function makeProxiedRequest(
+      targetUrl: string,
+      options: ProxiedRequestOptionsType = {}
+    ) {
       const { returnArrayBuffer, start, end } = options;
-      const headers = {
+      const headers: HeaderListType = {
         'X-SignalPadding': getHeaderPadding(),
       };
 
-      if (_.isNumber(start) && _.isNumber(end)) {
+      if (is.number(start) && is.number(end)) {
         headers.Range = `bytes=${start}-${end}`;
       }
 
-      const result = await _outerAjax(url, {
-        processData: false,
-        responseType: returnArrayBuffer ? 'arraybufferwithdetails' : null,
+      const result = await _outerAjax(targetUrl, {
+        responseType: returnArrayBuffer ? 'arraybufferwithdetails' : undefined,
         proxyUrl: contentProxyUrl,
         type: 'GET',
         redirect: 'follow',
@@ -1081,6 +1300,7 @@ function initialize({
         throw new Error('makeProxiedRequest: Problem retrieving header value');
       }
 
+      // tslint:disable-next-line no-backbone-get-set-outside-model
       const range = response.headers.get('content-range');
       const match = PARSE_RANGE_HEADER.exec(range);
 
@@ -1099,9 +1319,10 @@ function initialize({
     }
 
     function getMessageSocket() {
-      log.info('opening message socket', url);
+      window.log.info('opening message socket', url);
       const fixedScheme = url
         .replace('https://', 'wss://')
+        // tslint:disable-next-line no-http-string
         .replace('http://', 'ws://');
       const login = encodeURIComponent(username);
       const pass = encodeURIComponent(password);
@@ -1114,9 +1335,10 @@ function initialize({
     }
 
     function getProvisioningSocket() {
-      log.info('opening provisioning socket', url);
+      window.log.info('opening provisioning socket', url);
       const fixedScheme = url
         .replace('https://', 'wss://')
+        // tslint:disable-next-line no-http-string
         .replace('http://', 'ws://');
       const clientVersion = encodeURIComponent(version);
 

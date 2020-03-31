@@ -255,7 +255,7 @@
     "rule": "jQuery-load(",
     "path": "js/modules/stickers.js",
     "line": "async function load() {",
-    "lineNumber": 74,
+    "lineNumber": 77,
     "reasonCategory": "falseMatch",
     "updated": "2019-04-26T17:48:30.675Z"
   },
@@ -11613,7 +11613,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/shims/textsecure.js",
     "line": "    wrap(textsecure.messaging.sendStickerPackSync([",
-    "lineNumber": 13,
+    "lineNumber": 11,
     "reasonCategory": "falseMatch",
     "updated": "2020-02-07T19:52:28.522Z"
   },
@@ -11621,7 +11621,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/shims/textsecure.ts",
     "line": "  wrap(",
-    "lineNumber": 64,
+    "lineNumber": 21,
     "reasonCategory": "falseMatch",
     "updated": "2020-02-07T19:52:28.522Z"
   }

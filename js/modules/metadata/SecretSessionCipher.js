@@ -17,7 +17,7 @@ const {
   intsToByteHighAndLow,
   splitBytes,
   trimBytes,
-} = require('../crypto');
+} = require('../../../ts/Crypto');
 
 const REVOKED_CERTIFICATES = [];
 

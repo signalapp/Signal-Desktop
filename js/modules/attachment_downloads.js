@@ -19,7 +19,7 @@ const {
   saveMessage,
   setAttachmentDownloadJobPending,
 } = require('./data');
-const { stringFromBytes } = require('./crypto');
+const { stringFromBytes } = require('../../ts/Crypto');
 
 module.exports = {
   start,

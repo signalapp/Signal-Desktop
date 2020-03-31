@@ -6,7 +6,7 @@ const { readFile } = require('fs');
 const config = require('url').parse(window.location.toString(), true).query;
 const { noop, uniqBy } = require('lodash');
 const pMap = require('p-map');
-const { deriveStickerPackKey } = require('../js/modules/crypto');
+const { deriveStickerPackKey } = require('../ts/Crypto');
 const { makeGetter } = require('../preload_utils');
 
 const { dialog } = remote;
@@ -29,7 +29,7 @@ const Signal = require('../js/modules/signal');
 
 window.Signal = Signal.setup({});
 
-const { initialize: initializeWebAPI } = require('../js/modules/web_api');
+const { initialize: initializeWebAPI } = require('../ts/WebAPI');
 
 const WebAPI = initializeWebAPI({
   url: config.serverUrl,
@@ -143,8 +143,7 @@ window.encryptAndUpload = async (
 
 async function encrypt(data, key, iv) {
   const { ciphertext } = await window.textsecure.crypto.encryptAttachment(
-    // Convert Node Buffer to ArrayBuffer
-    window.Signal.Crypto.concatenateBytes(data),
+    window.Signal.Crypto.typedArrayToArrayBuffer(data),
     key,
     iv
   );

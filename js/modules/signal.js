@@ -2,7 +2,7 @@
 
 const { bindActionCreators } = require('redux');
 const Backbone = require('../../ts/backbone');
-const Crypto = require('./crypto');
+const Crypto = require('../../ts/Crypto');
 const Data = require('./data');
 const Database = require('./database');
 const Emojis = require('./emojis');

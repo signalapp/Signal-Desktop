@@ -7,6 +7,7 @@
     "align": false,
     "newline-per-chained-call": false,
     "array-type": [true, "generic"],
+    "number-literal-format": false,
 
     // Preferred by Prettier:
     "arrow-parens": [true, "ban-single-arg-parens"],

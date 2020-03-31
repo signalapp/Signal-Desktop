@@ -33,7 +33,10 @@ const Queue = require('p-queue').default;
 const qs = require('qs');
 
 const { makeLookup } = require('../../ts/util/makeLookup');
-const { base64ToArrayBuffer, deriveStickerPackKey } = require('./crypto');
+const {
+  base64ToArrayBuffer,
+  deriveStickerPackKey,
+} = require('../../ts/Crypto');
 const {
   addStickerPackReference,
   createOrUpdateSticker,

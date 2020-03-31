@@ -222,7 +222,7 @@ try {
 
   window.nodeSetImmediate = setImmediate;
 
-  const { initialize: initializeWebAPI } = require('./js/modules/web_api');
+  const { initialize: initializeWebAPI } = require('./ts/WebAPI');
 
   window.WebAPI = initializeWebAPI({
     url: config.serverUrl,
@@ -308,17 +308,13 @@ try {
   function wrapWithPromise(fn) {
     return (...args) => Promise.resolve(fn(...args));
   }
-  function typedArrayToArrayBuffer(typedArray) {
-    const { buffer, byteOffset, byteLength } = typedArray;
-    return buffer.slice(byteOffset, byteLength + byteOffset);
-  }
   const externalCurve = {
     generateKeyPair: () => {
       const { privKey, pubKey } = curve.generateKeyPair();
 
       return {
-        privKey: typedArrayToArrayBuffer(privKey),
-        pubKey: typedArrayToArrayBuffer(pubKey),
+        privKey: window.Signal.Crypto.typedArrayToArrayBuffer(privKey),
+        pubKey: window.Signal.Crypto.typedArrayToArrayBuffer(pubKey),
       };
     },
     createKeyPair: incomingKey => {
@@ -326,8 +322,8 @@ try {
       const { privKey, pubKey } = curve.createKeyPair(incomingKeyBuffer);
 
       return {
-        privKey: typedArrayToArrayBuffer(privKey),
-        pubKey: typedArrayToArrayBuffer(pubKey),
+        privKey: window.Signal.Crypto.typedArrayToArrayBuffer(privKey),
+        pubKey: window.Signal.Crypto.typedArrayToArrayBuffer(pubKey),
       };
     },
     calculateAgreement: (pubKey, privKey) => {
@@ -336,7 +332,7 @@ try {
 
       const buffer = curve.calculateAgreement(pubKeyBuffer, privKeyBuffer);
 
-      return typedArrayToArrayBuffer(buffer);
+      return window.Signal.Crypto.typedArrayToArrayBuffer(buffer);
     },
     verifySignature: (pubKey, message, signature) => {
       const pubKeyBuffer = Buffer.from(pubKey);
@@ -357,7 +353,7 @@ try {
 
       const buffer = curve.calculateSignature(privKeyBuffer, messageBuffer);
 
-      return typedArrayToArrayBuffer(buffer);
+      return window.Signal.Crypto.typedArrayToArrayBuffer(buffer);
     },
     validatePubKeyFormat: pubKey => {
       const pubKeyBuffer = Buffer.from(pubKey);

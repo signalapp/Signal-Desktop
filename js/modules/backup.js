@@ -19,7 +19,7 @@ const pify = require('pify');
 const rimraf = require('rimraf');
 const electronRemote = require('electron').remote;
 
-const crypto = require('./crypto');
+const crypto = require('../../ts/Crypto');
 
 const { dialog, BrowserWindow } = electronRemote;
 

@@ -9,3 +9,5 @@ export function downloadStickerPack(
     fromSync?: boolean;
   }
 ): Promise<void>;
+
+export function redactPackId(packId: string): string;

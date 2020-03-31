@@ -1,79 +1,48 @@
-/* eslint-env browser */
-/* global dcodeIO, libsignal */
+// Yep, we're doing some bitwise stuff in an encryption-related file
+// tslint:disable no-bitwise
 
-/* eslint-disable camelcase, no-bitwise */
+// We want some extra variables to make the decrption algorithm easier to understand
+// tslint:disable no-unnecessary-local-variable
 
-module.exports = {
-  arrayBufferToBase64,
-  typedArrayToArrayBuffer,
-  base64ToArrayBuffer,
-  bytesFromHexString,
-  bytesFromString,
-  concatenateBytes,
-  constantTimeEqual,
-  decryptAesCtr,
-  decryptDeviceName,
-  decryptAttachment,
-  decryptFile,
-  decryptSymmetric,
-  deriveAccessKey,
-  deriveStickerPackKey,
-  encryptAesCtr,
-  encryptDeviceName,
-  encryptAttachment,
-  encryptFile,
-  encryptSymmetric,
-  fromEncodedBinaryToArrayBuffer,
-  getAccessKeyVerifier,
-  getFirstBytes,
-  getRandomBytes,
-  getRandomValue,
-  getViewOfArrayBuffer,
-  getZeroes,
-  hexFromBytes,
-  highBitsToInt,
-  hmacSha256,
-  intsToByteHighAndLow,
-  splitBytes,
-  stringFromBytes,
-  trimBytes,
-  verifyAccessKey,
-};
+// Seems that tslint doesn't understand that crypto.subtle.importKey does return a Promise
+// tslint:disable await-promise
 
-function typedArrayToArrayBuffer(typedArray) {
+export function typedArrayToArrayBuffer(typedArray: Uint8Array): ArrayBuffer {
   const { buffer, byteOffset, byteLength } = typedArray;
-  return buffer.slice(byteOffset, byteLength + byteOffset);
+
+  // tslint:disable-next-line no-unnecessary-type-assertion
+  return buffer.slice(byteOffset, byteLength + byteOffset) as ArrayBuffer;
 }
 
-function arrayBufferToBase64(arrayBuffer) {
-  return dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
+export function arrayBufferToBase64(arrayBuffer: ArrayBuffer) {
+  return window.dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
 }
-function base64ToArrayBuffer(base64string) {
-  return dcodeIO.ByteBuffer.wrap(base64string, 'base64').toArrayBuffer();
-}
-
-function fromEncodedBinaryToArrayBuffer(key) {
-  return dcodeIO.ByteBuffer.wrap(key, 'binary').toArrayBuffer();
+export function base64ToArrayBuffer(base64string: string) {
+  return window.dcodeIO.ByteBuffer.wrap(base64string, 'base64').toArrayBuffer();
 }
 
-function bytesFromString(string) {
-  return dcodeIO.ByteBuffer.wrap(string, 'utf8').toArrayBuffer();
-}
-function stringFromBytes(buffer) {
-  return dcodeIO.ByteBuffer.wrap(buffer).toString('utf8');
-}
-function hexFromBytes(buffer) {
-  return dcodeIO.ByteBuffer.wrap(buffer).toString('hex');
-}
-function bytesFromHexString(string) {
-  return dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();
+export function fromEncodedBinaryToArrayBuffer(key: string) {
+  return window.dcodeIO.ByteBuffer.wrap(key, 'binary').toArrayBuffer();
 }
 
-async function deriveStickerPackKey(packKey) {
+export function bytesFromString(string: string) {
+  return window.dcodeIO.ByteBuffer.wrap(string, 'utf8').toArrayBuffer();
+}
+export function stringFromBytes(buffer: ArrayBuffer) {
+  return window.dcodeIO.ByteBuffer.wrap(buffer).toString('utf8');
+}
+export function hexFromBytes(buffer: ArrayBuffer) {
+  return window.dcodeIO.ByteBuffer.wrap(buffer).toString('hex');
+}
+export function bytesFromHexString(string: string) {
+  return window.dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();
+}
+
+export async function deriveStickerPackKey(packKey: ArrayBuffer) {
   const salt = getZeroes(32);
   const info = bytesFromString('Sticker Pack');
 
-  const [part1, part2] = await libsignal.HKDF.deriveSecrets(
+  const [part1, part2] = await window.libsignal.HKDF.deriveSecrets(
     packKey,
     salt,
     info
@@ -84,10 +53,13 @@ async function deriveStickerPackKey(packKey) {
 
 // High-level Operations
 
-async function encryptDeviceName(deviceName, identityPublic) {
+export async function encryptDeviceName(
+  deviceName: string,
+  identityPublic: ArrayBuffer
+) {
   const plaintext = bytesFromString(deviceName);
-  const ephemeralKeyPair = await libsignal.KeyHelper.generateIdentityKeyPair();
-  const masterSecret = await libsignal.Curve.async.calculateAgreement(
+  const ephemeralKeyPair = await window.libsignal.KeyHelper.generateIdentityKeyPair();
+  const masterSecret = await window.libsignal.Curve.async.calculateAgreement(
     identityPublic,
     ephemeralKeyPair.privKey
   );
@@ -108,11 +80,19 @@ async function encryptDeviceName(deviceName, identityPublic) {
   };
 }
 
-async function decryptDeviceName(
-  { ephemeralPublic, syntheticIv, ciphertext } = {},
-  identityPrivate
+export async function decryptDeviceName(
+  {
+    ephemeralPublic,
+    syntheticIv,
+    ciphertext,
+  }: {
+    ephemeralPublic: ArrayBuffer;
+    syntheticIv: ArrayBuffer;
+    ciphertext: ArrayBuffer;
+  },
+  identityPrivate: ArrayBuffer
 ) {
-  const masterSecret = await libsignal.Curve.async.calculateAgreement(
+  const masterSecret = await window.libsignal.Curve.async.calculateAgreement(
     ephemeralPublic,
     identityPrivate
   );
@@ -134,38 +114,58 @@ async function decryptDeviceName(
 }
 
 // Path structure: 'fa/facdf99c22945b1c9393345599a276f4b36ad7ccdc8c2467f5441b742c2d11fa'
-function getAttachmentLabel(path) {
+export function getAttachmentLabel(path: string) {
   const filename = path.slice(3);
+
   return base64ToArrayBuffer(filename);
 }
 
 const PUB_KEY_LENGTH = 32;
-async function encryptAttachment(staticPublicKey, path, plaintext) {
+export async function encryptAttachment(
+  staticPublicKey: ArrayBuffer,
+  path: string,
+  plaintext: ArrayBuffer
+) {
   const uniqueId = getAttachmentLabel(path);
+
   return encryptFile(staticPublicKey, uniqueId, plaintext);
 }
 
-async function decryptAttachment(staticPrivateKey, path, data) {
+export async function decryptAttachment(
+  staticPrivateKey: ArrayBuffer,
+  path: string,
+  data: ArrayBuffer
+) {
   const uniqueId = getAttachmentLabel(path);
+
   return decryptFile(staticPrivateKey, uniqueId, data);
 }
 
-async function encryptFile(staticPublicKey, uniqueId, plaintext) {
-  const ephemeralKeyPair = await libsignal.KeyHelper.generateIdentityKeyPair();
-  const agreement = await libsignal.Curve.async.calculateAgreement(
+export async function encryptFile(
+  staticPublicKey: ArrayBuffer,
+  uniqueId: ArrayBuffer,
+  plaintext: ArrayBuffer
+) {
+  const ephemeralKeyPair = await window.libsignal.KeyHelper.generateIdentityKeyPair();
+  const agreement = await window.libsignal.Curve.async.calculateAgreement(
     staticPublicKey,
     ephemeralKeyPair.privKey
   );
   const key = await hmacSha256(agreement, uniqueId);
 
   const prefix = ephemeralKeyPair.pubKey.slice(1);
+
   return concatenateBytes(prefix, await encryptSymmetric(key, plaintext));
 }
 
-async function decryptFile(staticPrivateKey, uniqueId, data) {
+export async function decryptFile(
+  staticPrivateKey: ArrayBuffer,
+  uniqueId: ArrayBuffer,
+  data: ArrayBuffer
+) {
   const ephemeralPublicKey = getFirstBytes(data, PUB_KEY_LENGTH);
   const ciphertext = _getBytes(data, PUB_KEY_LENGTH, data.byteLength);
-  const agreement = await libsignal.Curve.async.calculateAgreement(
+  const agreement = await window.libsignal.Curve.async.calculateAgreement(
     ephemeralPublicKey,
     staticPrivateKey
   );
@@ -175,21 +175,24 @@ async function decryptFile(staticPrivateKey, uniqueId, data) {
   return decryptSymmetric(key, ciphertext);
 }
 
-async function deriveAccessKey(profileKey) {
+export async function deriveAccessKey(profileKey: ArrayBuffer) {
   const iv = getZeroes(12);
   const plaintext = getZeroes(16);
   const accessKey = await _encrypt_aes_gcm(profileKey, iv, plaintext);
+
   return getFirstBytes(accessKey, 16);
 }
 
-async function getAccessKeyVerifier(accessKey) {
+export async function getAccessKeyVerifier(accessKey: ArrayBuffer) {
   const plaintext = getZeroes(32);
-  const hmac = await hmacSha256(accessKey, plaintext);
 
-  return hmac;
+  return hmacSha256(accessKey, plaintext);
 }
 
-async function verifyAccessKey(accessKey, theirVerifier) {
+export async function verifyAccessKey(
+  accessKey: ArrayBuffer,
+  theirVerifier: ArrayBuffer
+) {
   const ourVerifier = await getAccessKeyVerifier(accessKey);
 
   if (constantTimeEqual(ourVerifier, theirVerifier)) {
@@ -203,7 +206,10 @@ const IV_LENGTH = 16;
 const MAC_LENGTH = 16;
 const NONCE_LENGTH = 16;
 
-async function encryptSymmetric(key, plaintext) {
+export async function encryptSymmetric(
+  key: ArrayBuffer,
+  plaintext: ArrayBuffer
+) {
   const iv = getZeroes(IV_LENGTH);
   const nonce = getRandomBytes(NONCE_LENGTH);
 
@@ -220,7 +226,7 @@ async function encryptSymmetric(key, plaintext) {
   return concatenateBytes(nonce, cipherText, mac);
 }
 
-async function decryptSymmetric(key, data) {
+export async function decryptSymmetric(key: ArrayBuffer, data: ArrayBuffer) {
   const iv = getZeroes(IV_LENGTH);
 
   const nonce = getFirstBytes(data, NONCE_LENGTH);
@@ -247,23 +253,25 @@ async function decryptSymmetric(key, data) {
   return _decrypt_aes256_CBC_PKCSPadding(cipherKey, iv, cipherText);
 }
 
-function constantTimeEqual(left, right) {
+export function constantTimeEqual(left: ArrayBuffer, right: ArrayBuffer) {
   if (left.byteLength !== right.byteLength) {
     return false;
   }
   let result = 0;
   const ta1 = new Uint8Array(left);
   const ta2 = new Uint8Array(right);
-  for (let i = 0, max = left.byteLength; i < max; i += 1) {
+  const max = left.byteLength;
+  for (let i = 0; i < max; i += 1) {
     // eslint-disable-next-line no-bitwise
     result |= ta1[i] ^ ta2[i];
   }
+
   return result === 0;
 }
 
 // Encryption
 
-async function hmacSha256(key, plaintext) {
+export async function hmacSha256(key: ArrayBuffer, plaintext: ArrayBuffer) {
   const algorithm = {
     name: 'HMAC',
     hash: 'SHA-256',
@@ -273,7 +281,7 @@ async function hmacSha256(key, plaintext) {
   const cryptoKey = await window.crypto.subtle.importKey(
     'raw',
     key,
-    algorithm,
+    algorithm as any,
     extractable,
     ['sign']
   );
@@ -281,7 +289,11 @@ async function hmacSha256(key, plaintext) {
   return window.crypto.subtle.sign(algorithm, cryptoKey, plaintext);
 }
 
-async function _encrypt_aes256_CBC_PKCSPadding(key, iv, plaintext) {
+export async function _encrypt_aes256_CBC_PKCSPadding(
+  key: ArrayBuffer,
+  iv: ArrayBuffer,
+  plaintext: ArrayBuffer
+) {
   const algorithm = {
     name: 'AES-CBC',
     iv,
@@ -291,7 +303,7 @@ async function _encrypt_aes256_CBC_PKCSPadding(key, iv, plaintext) {
   const cryptoKey = await window.crypto.subtle.importKey(
     'raw',
     key,
-    algorithm,
+    algorithm as any,
     extractable,
     ['encrypt']
   );
@@ -299,7 +311,11 @@ async function _encrypt_aes256_CBC_PKCSPadding(key, iv, plaintext) {
   return window.crypto.subtle.encrypt(algorithm, cryptoKey, plaintext);
 }
 
-async function _decrypt_aes256_CBC_PKCSPadding(key, iv, plaintext) {
+export async function _decrypt_aes256_CBC_PKCSPadding(
+  key: ArrayBuffer,
+  iv: ArrayBuffer,
+  plaintext: ArrayBuffer
+) {
   const algorithm = {
     name: 'AES-CBC',
     iv,
@@ -309,14 +325,19 @@ async function _decrypt_aes256_CBC_PKCSPadding(key, iv, plaintext) {
   const cryptoKey = await window.crypto.subtle.importKey(
     'raw',
     key,
-    algorithm,
+    algorithm as any,
     extractable,
     ['decrypt']
   );
+
   return window.crypto.subtle.decrypt(algorithm, cryptoKey, plaintext);
 }
 
-async function encryptAesCtr(key, plaintext, counter) {
+export async function encryptAesCtr(
+  key: ArrayBuffer,
+  plaintext: ArrayBuffer,
+  counter: ArrayBuffer
+) {
   const extractable = false;
   const algorithm = {
     name: 'AES-CTR',
@@ -327,7 +348,7 @@ async function encryptAesCtr(key, plaintext, counter) {
   const cryptoKey = await crypto.subtle.importKey(
     'raw',
     key,
-    algorithm,
+    algorithm as any,
     extractable,
     ['encrypt']
   );
@@ -341,7 +362,11 @@ async function encryptAesCtr(key, plaintext, counter) {
   return ciphertext;
 }
 
-async function decryptAesCtr(key, ciphertext, counter) {
+export async function decryptAesCtr(
+  key: ArrayBuffer,
+  ciphertext: ArrayBuffer,
+  counter: ArrayBuffer
+) {
   const extractable = false;
   const algorithm = {
     name: 'AES-CTR',
@@ -352,7 +377,7 @@ async function decryptAesCtr(key, ciphertext, counter) {
   const cryptoKey = await crypto.subtle.importKey(
     'raw',
     key,
-    algorithm,
+    algorithm as any,
     extractable,
     ['decrypt']
   );
@@ -361,10 +386,15 @@ async function decryptAesCtr(key, ciphertext, counter) {
     cryptoKey,
     ciphertext
   );
+
   return plaintext;
 }
 
-async function _encrypt_aes_gcm(key, iv, plaintext) {
+export async function _encrypt_aes_gcm(
+  key: ArrayBuffer,
+  iv: ArrayBuffer,
+  plaintext: ArrayBuffer
+) {
   const algorithm = {
     name: 'AES-GCM',
     iv,
@@ -374,32 +404,35 @@ async function _encrypt_aes_gcm(key, iv, plaintext) {
   const cryptoKey = await crypto.subtle.importKey(
     'raw',
     key,
-    algorithm,
+    algorithm as any,
     extractable,
     ['encrypt']
   );
+
   return crypto.subtle.encrypt(algorithm, cryptoKey, plaintext);
 }
 
 // Utility
 
-function getRandomBytes(n) {
+export function getRandomBytes(n: number) {
   const bytes = new Uint8Array(n);
   window.crypto.getRandomValues(bytes);
-  return bytes;
+
+  return typedArrayToArrayBuffer(bytes);
 }
 
-function getRandomValue(low, high) {
+export function getRandomValue(low: number, high: number): number {
   const diff = high - low;
   const bytes = new Uint32Array(1);
   window.crypto.getRandomValues(bytes);
 
   // Because high and low are inclusive
   const mod = diff + 1;
+
   return (bytes[0] % mod) + low;
 }
 
-function getZeroes(n) {
+export function getZeroes(n: number) {
   const result = new Uint8Array(n);
 
   const value = 0;
@@ -407,28 +440,36 @@ function getZeroes(n) {
   const endExclusive = n;
   result.fill(value, startIndex, endExclusive);
 
-  return result;
+  return typedArrayToArrayBuffer(result);
 }
 
-function highBitsToInt(byte) {
+export function highBitsToInt(byte: number): number {
   return (byte & 0xff) >> 4;
 }
 
-function intsToByteHighAndLow(highValue, lowValue) {
+export function intsToByteHighAndLow(
+  highValue: number,
+  lowValue: number
+): number {
   return ((highValue << 4) | lowValue) & 0xff;
 }
 
-function trimBytes(buffer, length) {
+export function trimBytes(buffer: ArrayBuffer, length: number) {
   return getFirstBytes(buffer, length);
 }
 
-function getViewOfArrayBuffer(buffer, start, finish) {
+export function getViewOfArrayBuffer(
+  buffer: ArrayBuffer,
+  start: number,
+  finish: number
+) {
   const source = new Uint8Array(buffer);
   const result = source.slice(start, finish);
+
   return result.buffer;
 }
 
-function concatenateBytes(...elements) {
+export function concatenateBytes(...elements: Array<ArrayBuffer | Uint8Array>) {
   const length = elements.reduce(
     (total, element) => total + element.byteLength,
     0
@@ -437,7 +478,8 @@ function concatenateBytes(...elements) {
   const result = new Uint8Array(length);
   let position = 0;
 
-  for (let i = 0, max = elements.length; i < max; i += 1) {
+  const max = elements.length;
+  for (let i = 0; i < max; i += 1) {
     const element = new Uint8Array(elements[i]);
     result.set(element, position);
     position += element.byteLength;
@@ -446,10 +488,13 @@ function concatenateBytes(...elements) {
     throw new Error('problem concatenating!');
   }
 
-  return result.buffer;
+  return typedArrayToArrayBuffer(result);
 }
 
-function splitBytes(buffer, ...lengths) {
+export function splitBytes(
+  buffer: ArrayBuffer,
+  ...lengths: Array<number>
+): Array<ArrayBuffer> {
   const total = lengths.reduce((acc, length) => acc + length, 0);
 
   if (total !== buffer.byteLength) {
@@ -462,27 +507,34 @@ function splitBytes(buffer, ...lengths) {
   const results = [];
   let position = 0;
 
-  for (let i = 0, max = lengths.length; i < max; i += 1) {
+  const max = lengths.length;
+  for (let i = 0; i < max; i += 1) {
     const length = lengths[i];
     const result = new Uint8Array(length);
     const section = source.slice(position, position + length);
     result.set(section);
     position += result.byteLength;
 
-    results.push(result);
+    results.push(typedArrayToArrayBuffer(result));
   }
 
   return results;
 }
 
-function getFirstBytes(data, n) {
+export function getFirstBytes(data: ArrayBuffer, n: number) {
   const source = new Uint8Array(data);
-  return source.subarray(0, n);
+
+  return typedArrayToArrayBuffer(source.subarray(0, n));
 }
 
 // Internal-only
 
-function _getBytes(data, start, n) {
+export function _getBytes(
+  data: ArrayBuffer | Uint8Array,
+  start: number,
+  n: number
+) {
   const source = new Uint8Array(data);
-  return source.subarray(start, start + n);
+
+  return typedArrayToArrayBuffer(source.subarray(start, start + n));
 }
