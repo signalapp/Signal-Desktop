@@ -3,46 +3,70 @@
 /* eslint-disable func-names  */
 /* eslint-disable import/no-extraneous-dependencies */
 const common = require('./common');
-const { afterEach, beforeEach, describe, it } = require('mocha');
+const path = require('path');
 
-describe('Link Device', function() {
+const { after, before, describe, it } = require('mocha');
+const ConversationPage = require('./page-objects/conversation.page');
+
+describe('Message Functions', function() {
   let app;
   let app2;
   this.timeout(60000);
   this.slow(15000);
 
-  beforeEach(async () => {
+  before(async () => {
     await common.killallElectron();
     await common.stopStubSnodeServer();
 
-    const app1Props = {
-      mnemonic: common.TEST_MNEMONIC1,
-      displayName: common.TEST_DISPLAY_NAME1,
-      stubSnode: true,
-    };
-
-    const app2Props = {
-      stubSnode: true,
-    };
-
-    [app, app2] = await Promise.all([
-      common.startAndStub(app1Props),
-      common.startAndStubN(app2Props, 2),
-    ]);
+    [app, app2] = await common.startAppsAsFriends();
   });
 
-  afterEach(async () => {
-    await common.killallElectron();
-    await common.stopStubSnodeServer();
+  after(async () => {
+    // await common.stopApp(app);
+    // await common.killallElectron();
+    // await common.stopStubSnodeServer();
   });
 
-  it('link two desktop devices', async () => {
-    await common.linkApp2ToApp(app, app2);
+  it('can send attachment', async () => {
+    await app.client.element(ConversationPage.globeButtonSection).click();
+    await app.client.element(ConversationPage.createClosedGroupButton).click();
+
+    // create group and add new friend
+    await common.addFriendToNewClosedGroup(app, app2);
+
+    // send attachment from app1 to closed group
+    const fileLocation = path.join(__dirname, '/test_attachment');
+    const messageText = 'test_attachment';
+
+    common.sendMessage(app, messageText, fileLocation);
+
+    // validate attachment sent
+    await app.client.waitForExist(
+      ConversationPage.existingSendMessageText(messageText),
+      3000
+    );
+    // validate attachment recieved
+    await app2.client.waitForExist(
+      ConversationPage.existingReceivedMessageText(messageText),
+      5000
+    );
+  });
+  
+  it('can delete message', async () => {
+    const messageText = 'delete me';
+    common.sendMessage(app, messageText);
+
+    await app.client.waitForExist(
+      ConversationPage.existingSendMessageText(messageText),
+      3000
+    );
+    await app2.client.waitForExist(
+      ConversationPage.existingReceivedMessageText(messageText),
+      5000
+    );
+
+    
+
   });
 
-  it('unlink two devices', async () => {
-    await common.linkApp2ToApp(app, app2);
-    await common.timeout(1000);
-    await common.triggerUnlinkApp2FromApp(app, app2);
-  });
 });

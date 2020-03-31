@@ -269,6 +269,81 @@ module.exports = {
     return [app1, app2];
   },
 
+  async addFriendToNewClosedGroup(app, app2) {
+    await app.client
+    .element(ConversationPage.closedGroupNameTextarea)
+    .setValue(this.VALID_CLOSED_GROUP_NAME1);
+    await app.client
+      .element(ConversationPage.closedGroupNameTextarea)
+      .getValue()
+      .should.eventually.equal(this.VALID_CLOSED_GROUP_NAME1);
+
+    await app.client
+      .element(ConversationPage.createClosedGroupMemberItem)
+      .isVisible();
+
+    // select the first friend as a member of the groups being created
+    await app.client
+      .element(ConversationPage.createClosedGroupMemberItem)
+      .click();
+    await app.client
+      .element(ConversationPage.createClosedGroupMemberItemSelected)
+      .isVisible();
+
+    // trigger the creation of the group
+    await app.client
+      .element(ConversationPage.validateCreationClosedGroupButton)
+      .click();
+
+    await app.client.waitForExist(
+      ConversationPage.sessionToastGroupCreatedSuccess,
+      1000
+    );
+    await app.client.isExisting(
+      ConversationPage.headerTitleGroupName(this.VALID_CLOSED_GROUP_NAME1)
+    );
+    await app.client
+      .element(ConversationPage.headerTitleMembers(2))
+      .isVisible();
+
+          // validate overlay is closed
+    await app.client
+    .isExisting(ConversationPage.leftPaneOverlay)
+    .should.eventually.be.equal(false);
+
+    // move back to the conversation section
+    await app.client
+      .element(ConversationPage.conversationButtonSection)
+      .click();
+
+    // validate open chat has been added
+    await app.client.isExisting(
+      ConversationPage.rowOpenGroupConversationName(
+        this.VALID_CLOSED_GROUP_NAME1
+      )
+    );
+
+    // next check app2 has been invited and has the group in its conversations
+    await app2.client.waitForExist(
+      ConversationPage.rowOpenGroupConversationName(
+        this.VALID_CLOSED_GROUP_NAME1
+      ),
+      6000
+    );
+    // open the closed group conversation on app2
+    await app2.client
+      .element(ConversationPage.conversationButtonSection)
+      .click();
+    await this.timeout(500);
+    await app2.client
+      .element(
+        ConversationPage.rowOpenGroupConversationName(
+          this.VALID_CLOSED_GROUP_NAME1
+        )
+      )
+      .click();
+  },
+
   async linkApp2ToApp(app1, app2) {
     // app needs to be logged in as user1 and app2 needs to be logged out
     // start the pairing dialog for the first app
@@ -365,6 +440,27 @@ module.exports = {
         'app2 is still joinable so it did not restart, so it did not unlink correctly'
       );
     }
+  },
+
+  async sendMessage(app, messageText, fileLocation = undefined){
+    await app.client
+    .element(ConversationPage.sendMessageTextarea)
+    .setValue(messageText);
+    await app.client
+      .element(ConversationPage.sendMessageTextarea)
+      .getValue()
+      .should.eventually.equal(messageText);
+
+    // attach a file
+    if (fileLocation) {
+      await app.client
+        .element(ConversationPage.attachmentInput)
+        .setValue(fileLocation);
+    }
+
+    // send message
+    await app.client.element(ConversationPage.sendMessageTextarea).click();
+    await app.client.keys('Enter');
   },
 
   generateSendMessageText: () =>

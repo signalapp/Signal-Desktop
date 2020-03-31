@@ -9,11 +9,11 @@ module.exports = {
     'Send your first message'
   ),
   existingSendMessageText: textMessage =>
-    `//*[contains(@class, "module-message__text--outgoing")and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
+    `//*[contains(@class, "module-message__text--outgoing") and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
   existingFriendRequestText: textMessage =>
     `//*[contains(@class, "module-message-friend-request__container")and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
   existingReceivedMessageText: textMessage =>
-    `//*[contains(@class, "module-message__text--incoming")and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
+    `//*[contains(@class, "module-message__text--incoming") and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
 
   // conversations
   conversationButtonSection:
@@ -27,6 +27,9 @@ module.exports = {
       'module-conversation-header__title-text',
       `${number} members`
     ),
+
+  attachmentInput: '//*[contains(@class, "choose-file")]/input[@type="file"]',
+  attachmentButton: '//*[contains(@class, "choose-file")]/button',
 
   // channels
   globeButtonSection:
@@ -77,7 +80,7 @@ module.exports = {
   oneNotificationFriendRequestLeft:
     '//*[contains(@class,"session-icon-button")  and .//*[contains(@class, "users")]  and .//*[contains(@class, "notification-count") and contains(string(), "1")] ]',
   oneNotificationFriendRequestTop:
-    '//*[contains(@class,"contact-notification-count-bubble") and contains(string(), "1")]',
+    '//*[contains(@class,"module-left-pane__header")] //*[contains(@class, "notification-count")  and contains(string(), "1")]',
   friendRequestFromUser: (displayName, pubkey) =>
     `//*[contains(@class,"module-left-pane__list-popup")  and .//*[contains(@class, "module-conversation__user") and .//*[contains(string(), "${displayName}")] and .//*[contains(string(), "(...${pubkey.substring(
       60

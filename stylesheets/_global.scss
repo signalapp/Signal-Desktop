@@ -140,15 +140,16 @@ a {
   }
 
   input[type='file'] {
-    display: none;
+    // Must be displayed in order to programmatically
+    // insert file paths)
     position: absolute;
     width: 100%;
     height: 100%;
-    opacity: 0;
     top: 0;
     left: 0;
     cursor: pointer;
-    z-index: 1;
+    z-index: -100;
+
   }
 }
 
