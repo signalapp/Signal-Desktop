@@ -401,7 +401,11 @@ class LokiMessageAPI {
 
     if (result === false) {
       // make a note of it because of caller doesn't care...
-      log.warn(`loki_message:::_retrieveNextMessages - lokiRpc returned false to ${nodeData.ip}:${nodeData.port}`);
+      log.warn(
+        `loki_message:::_retrieveNextMessages - lokiRpc returned false to ${
+          nodeData.ip
+        }:${nodeData.port}`
+      );
     }
 
     return result.messages || [];
