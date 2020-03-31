@@ -192,14 +192,24 @@ const processOnionResponse = async (reqIdx, response, sharedKey, useAesGcm) => {
 const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
   const _ = window.Lodash;
 
-  const snodePool = await lokiSnodeAPI.getRandomSnodePool();
+  let snodePool = await lokiSnodeAPI.getRandomSnodePool();
 
   if (snodePool.length < 2) {
     log.error(
-      'Not enough service nodes for a proxy request, only have: ',
-      snodePool.length
+      'lokiRpc::sendToProxy - Not enough service nodes for a proxy request, only have:',
+      snodePool.length,
+      'attempting refresh'
     );
-    return false;
+    await lokiSnodeAPI.refreshRandomPool();
+    snodePool = await lokiSnodeAPI.getRandomSnodePool();
+    if (snodePool.length < 2) {
+      log.error(
+        'lokiRpc::sendToProxy - Not enough service nodes for a proxy request, only have:',
+        snodePool.length,
+        'failing'
+      );
+      return false;
+    }
   }
 
   // Making sure the proxy node is not the same as the target node:
@@ -292,7 +302,11 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
       // it's likely a net problem or an actual problem on the target node
       // lets mark the target node bad for now
       // we'll just rotate it back in if it's a net problem
-      log.warn(`Failing ${targetNode.ip}:${targetNode.port} after 5 retries`);
+      log.warn(
+        `lokiRpc:::sendToProxy - Failing ${targetNode.ip}:${
+          targetNode.port
+        } after 5 retries`
+      );
       if (options.ourPubKey) {
         lokiSnodeAPI.unreachableNode(options.ourPubKey, targetNode);
       }
@@ -329,7 +343,11 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     // avoid base64 decode failure
     // usually a 500 but not always
     // could it be a timeout?
-    log.warn('Server did not return any data for', options, targetNode);
+    log.warn(
+      'lokiRpc:::sendToProxy - Server did not return any data for',
+      options,
+      targetNode
+    );
     return false;
   }
 
@@ -454,6 +472,22 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
 
     if (window.lokiFeatureFlags.useSnodeProxy && targetNode) {
       const result = await sendToProxy(fetchOptions, targetNode);
+      if (result === false) {
+        // should we retry?
+        log.warn(`lokiRpc:::lokiFetch - sendToProxy returned false`);
+        // one case is:
+        //   snodePool didn't have enough
+        //   even after a refresh
+        //   likely a network disconnect?
+        // but not all cases...
+        /*
+        log.warn(
+          'lokiRpc:::lokiFetch - useSnodeProxy failure, could not refresh randomPool, offline?'
+        );
+        */
+        // pass the false value up
+        return false;
+      }
       // if not result, maybe we should throw??
       return result ? result.json() : {};
     }
