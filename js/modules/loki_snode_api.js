@@ -508,7 +508,7 @@ class LokiSnodeAPI {
       throw new window.textsecure.SeedNodeError('Failed to contact seed node');
     }
     log.info('loki_snodes:::refreshRandomPoolPromise - RESOLVED');
-    this.refreshRandomPoolPromise = false; // clear any lock
+    delete this.refreshRandomPoolPromise; // clear any lock
   }
 
   // unreachableNode.url is like 9hrje1bymy7hu6nmtjme9idyu3rm8gr3mkstakjyuw1997t7w4ny.snode
