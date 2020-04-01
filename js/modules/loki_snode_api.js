@@ -97,18 +97,36 @@ class LokiSnodeAPI {
   async selectGuardNodes() {
     const _ = window.Lodash;
 
-    const nodePool = await this.getRandomSnodePool();
+    let nodePool = await this.getRandomSnodePool();
 
     if (nodePool.length === 0) {
       log.error(`Could not select guarn nodes: node pool is empty`);
       return [];
     }
 
-    const shuffled = _.shuffle(nodePool);
+    let shuffled = _.shuffle(nodePool);
 
     let guardNodes = [];
 
     const DESIRED_GUARD_COUNT = 3;
+    if (shuffled.length < DESIRED_GUARD_COUNT) {
+      log.error(
+        `Could not select guarn nodes: node pool is not big enough, pool size ${
+          shuffled.length
+        }, need ${DESIRED_GUARD_COUNT}, attempting to refresh randomPool`
+      );
+      await this.refreshRandomPool();
+      nodePool = await this.getRandomSnodePool();
+      shuffled = _.shuffle(nodePool);
+      if (shuffled.length < DESIRED_GUARD_COUNT) {
+        log.error(
+          `Could not select guarn nodes: node pool is not big enough, pool size ${
+            shuffled.length
+          }, need ${DESIRED_GUARD_COUNT}, failing...`
+        );
+        return [];
+      }
+    }
 
     // The use of await inside while is intentional:
     // we only want to repeat if the await fails
@@ -490,6 +508,7 @@ class LokiSnodeAPI {
       throw new window.textsecure.SeedNodeError('Failed to contact seed node');
     }
     log.info('loki_snodes:::refreshRandomPoolPromise - RESOLVED');
+    delete this.refreshRandomPoolPromise; // clear any lock
   }
 
   // unreachableNode.url is like 9hrje1bymy7hu6nmtjme9idyu3rm8gr3mkstakjyuw1997t7w4ny.snode
