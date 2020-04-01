@@ -172,7 +172,7 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "      this._initialPromise = load();",
-    "lineNumber": 260,
+    "lineNumber": 257,
     "reasonCategory": "falseMatch",
     "updated": "2020-03-24T20:06:31.391Z"
   },

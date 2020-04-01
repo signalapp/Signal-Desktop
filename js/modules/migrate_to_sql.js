@@ -22,7 +22,7 @@ const {
 
   saveConversations,
   _removeConversations,
-} = require('./data');
+} = require('../../ts/sql/Client').default;
 const {
   getMessageExportLastIndex,
   setMessageExportLastIndex,

@@ -424,7 +424,7 @@
       const oldValue = this.get('e164');
       if (e164 !== oldValue) {
         this.set('e164', e164);
-        window.Signal.Data.updateConversation(this.id, this.attributes);
+        window.Signal.Data.updateConversation(this.attributes);
         this.trigger('idUpdated', this, 'e164', oldValue);
       }
     },
@@ -432,7 +432,7 @@
       const oldValue = this.get('uuid');
       if (uuid !== oldValue) {
         this.set('uuid', uuid);
-        window.Signal.Data.updateConversation(this.id, this.attributes);
+        window.Signal.Data.updateConversation(this.attributes);
         this.trigger('idUpdated', this, 'uuid', oldValue);
       }
     },
@@ -440,7 +440,7 @@
       const oldValue = this.get('groupId');
       if (groupId !== oldValue) {
         this.set('groupId', groupId);
-        window.Signal.Data.updateConversation(this.id, this.attributes);
+        window.Signal.Data.updateConversation(this.attributes);
         this.trigger('idUpdated', this, 'groupId', oldValue);
       }
     },
@@ -461,7 +461,7 @@
 
         if (this.get('verified') !== verified) {
           this.set({ verified });
-          window.Signal.Data.updateConversation(this.id, this.attributes);
+          window.Signal.Data.updateConversation(this.attributes);
         }
 
         return;
@@ -525,7 +525,7 @@
       }
 
       this.set({ verified });
-      window.Signal.Data.updateConversation(this.id, this.attributes);
+      window.Signal.Data.updateConversation(this.attributes);
 
       // Three situations result in a verification notice in the conversation:
       //   1) The message came from an explicit verification in another client (not
@@ -1222,7 +1222,7 @@
           draft: null,
           draftTimestamp: null,
         });
-        window.Signal.Data.updateConversation(this.id, this.attributes);
+        window.Signal.Data.updateConversation(this.attributes);
 
         // We're offline!
         if (!textsecure.messaging) {
@@ -1354,10 +1354,7 @@
             conversation.set({
               sealedSender: SEALED_SENDER.DISABLED,
             });
-            window.Signal.Data.updateConversation(
-              conversation.id,
-              conversation.attributes
-            );
+            window.Signal.Data.updateConversation(conversation.attributes);
           }
         })
       );
@@ -1385,10 +1382,7 @@
                 sealedSender: SEALED_SENDER.UNRESTRICTED,
               });
             }
-            window.Signal.Data.updateConversation(
-              conversation.id,
-              conversation.attributes
-            );
+            window.Signal.Data.updateConversation(conversation.attributes);
           }
         })
       );
@@ -1530,7 +1524,7 @@
       this.set(lastMessageUpdate);
 
       if (this.hasChanged()) {
-        window.Signal.Data.updateConversation(this.id, this.attributes, {
+        window.Signal.Data.updateConversation(this.attributes, {
           Conversation: Whisper.Conversation,
         });
       }
@@ -1538,7 +1532,7 @@
 
     async setArchived(isArchived) {
       this.set({ isArchived });
-      window.Signal.Data.updateConversation(this.id, this.attributes);
+      window.Signal.Data.updateConversation(this.attributes);
     },
 
     async updateExpirationTimer(
@@ -1581,7 +1575,7 @@
       const timestamp = (receivedAt || Date.now()) - 1;
 
       this.set({ expireTimer });
-      window.Signal.Data.updateConversation(this.id, this.attributes);
+      window.Signal.Data.updateConversation(this.attributes);
 
       const model = new Whisper.Message({
         // Even though this isn't reflected to the user, we want to place the last seen
@@ -1787,7 +1781,7 @@
       if (this.get('type') === 'group') {
         const groupNumbers = this.getRecipients();
         this.set({ left: true });
-        window.Signal.Data.updateConversation(this.id, this.attributes);
+        window.Signal.Data.updateConversation(this.attributes);
 
         const model = new Whisper.Message({
           group_update: { left: 'You' },
@@ -1852,7 +1846,7 @@
 
       const unreadCount = unreadMessages.length - read.length;
       this.set({ unreadCount });
-      window.Signal.Data.updateConversation(this.id, this.attributes);
+      window.Signal.Data.updateConversation(this.attributes);
 
       // If a message has errors, we don't want to send anything out about it.
       //   read syncs - let's wait for a client that really understands the message
@@ -2055,7 +2049,7 @@
       }
 
       if (c.hasChanged()) {
-        window.Signal.Data.updateConversation(id, c.attributes);
+        window.Signal.Data.updateConversation(c.attributes);
       }
     },
     async setProfileName(encryptedName) {
@@ -2135,7 +2129,7 @@
 
         await this.deriveAccessKeyIfNeeded();
 
-        window.Signal.Data.updateConversation(this.id, this.attributes, {
+        window.Signal.Data.updateConversation(this.attributes, {
           Conversation: Whisper.Conversation,
         });
       }
@@ -2159,7 +2153,7 @@
           sealedSender: SEALED_SENDER.UNKNOWN,
         });
 
-        window.Signal.Data.updateConversation(this.id, this.attributes);
+        window.Signal.Data.updateConversation(this.attributes);
       }
     },
 
@@ -2219,7 +2213,7 @@
         timestamp: null,
         active_at: null,
       });
-      window.Signal.Data.updateConversation(this.id, this.attributes);
+      window.Signal.Data.updateConversation(this.attributes);
 
       await window.Signal.Data.removeAllMessagesInConversation(this.id, {
         MessageCollection: Whisper.MessageCollection,

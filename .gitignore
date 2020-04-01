@@ -12,7 +12,7 @@ release/
 /dev-app-update.yml
 .nyc_output/
 *.sublime*
-sql/
+/sql/
 
 # generated files
 js/components.js

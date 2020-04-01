@@ -12,6 +12,7 @@ declare global {
       warn: LoggerType;
       error: LoggerType;
     };
+    restart: () => void;
     storage: {
       put: (key: string, value: any) => void;
       remove: (key: string) => void;
@@ -25,6 +26,7 @@ declare global {
 }
 
 export type ConversationControllerType = {
+  getConversationId: (identifier: string) => string | null;
   prepareForSend: (
     id: string,
     options: Object
@@ -94,5 +96,13 @@ export type TextSecureType = {
 export type WhisperType = {
   events: {
     trigger: (name: string, param1: any, param2: any) => void;
+  };
+  Database: {
+    open: () => Promise<IDBDatabase>;
+    handleDOMException: (
+      context: string,
+      error: DOMException | null,
+      reject: Function
+    ) => void;
   };
 };

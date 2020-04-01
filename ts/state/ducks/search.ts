@@ -3,11 +3,7 @@ import { omit, reject } from 'lodash';
 import { normalize } from '../../types/PhoneNumber';
 import { trigger } from '../../shims/events';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
-import {
-  searchConversations as dataSearchConversations,
-  searchMessages as dataSearchMessages,
-  searchMessagesInConversation,
-} from '../../../js/modules/data';
+import dataInterface from '../../sql/Client';
 import { makeLookup } from '../../util/makeLookup';
 
 import {
@@ -19,6 +15,12 @@ import {
   SelectedConversationChangedActionType,
   ShowArchivedConversationsActionType,
 } from './conversations';
+
+const {
+  searchConversations: dataSearchConversations,
+  searchMessages: dataSearchMessages,
+  searchMessagesInConversation,
+} = dataInterface;
 
 // State
 

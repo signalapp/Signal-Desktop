@@ -1996,10 +1996,7 @@
         conversation.set({ avatar: null });
       }
 
-      window.Signal.Data.updateConversation(
-        details.number || details.uuid,
-        conversation.attributes
-      );
+      window.Signal.Data.updateConversation(conversation.attributes);
 
       const { expireTimer } = details;
       const isValidExpireTimer = typeof expireTimer === 'number';
@@ -2108,7 +2105,7 @@
       conversation.set(newAttributes);
     }
 
-    window.Signal.Data.updateConversation(id, conversation.attributes);
+    window.Signal.Data.updateConversation(conversation.attributes);
 
     const { appView } = window.owsDesktopApp;
     if (appView && appView.installView && appView.installView.didLink) {
@@ -2240,7 +2237,7 @@
     );
 
     conversation.set({ profileSharing: true });
-    window.Signal.Data.updateConversation(id, conversation.attributes);
+    window.Signal.Data.updateConversation(conversation.attributes);
 
     // Then we update our own profileKey if it's different from what we have
     const ourNumber = textsecure.storage.user.getNumber();
@@ -2518,10 +2515,7 @@
           ev.confirm();
         }
 
-        window.Signal.Data.updateConversation(
-          conversationId,
-          conversation.attributes
-        );
+        window.Signal.Data.updateConversation(conversation.attributes);
       });
     }
 

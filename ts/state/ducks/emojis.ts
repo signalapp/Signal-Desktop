@@ -1,6 +1,8 @@
 import { take, uniq } from 'lodash';
 import { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
-import { updateEmojiUsage } from '../../../js/modules/data';
+import dataInterface from '../../sql/Client';
+
+const { updateEmojiUsage } = dataInterface;
 
 // State
 

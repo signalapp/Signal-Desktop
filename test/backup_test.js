@@ -570,7 +570,7 @@ describe('Backup', () => {
         );
 
         console.log('Backup test: Check messages');
-        const messageCollection = await window.Signal.Data.getAllMessages({
+        const messageCollection = await window.Signal.Data._getAllMessages({
           MessageCollection: Whisper.MessageCollection,
         });
         assert.strictEqual(messageCollection.length, MESSAGE_COUNT);

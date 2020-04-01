@@ -15,11 +15,11 @@ import {
   deleteTempDir,
   downloadUpdate,
   getPrintableError,
-  LocaleType,
-  LoggerType,
   showCannotUpdateDialog,
   showUpdateDialog,
 } from './common';
+import { LocaleType } from '../types/I18N';
+import { LoggerType } from '../types/Logging';
 import { hexToBinary, verifySignature } from './signature';
 import { markShouldQuit } from '../../app/window_state';
 import { Dialogs } from '../types/Dialogs';

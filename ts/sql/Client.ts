@@ -1,10 +1,11 @@
-/* global window, setTimeout, IDBKeyRange, ConversationController */
+// tslint:disable no-default-export no-unnecessary-local-variable
 
-const electron = require('electron');
+import { ipcRenderer } from 'electron';
 
-const {
+import {
   cloneDeep,
-  forEach,
+  compact,
+  fromPairs,
   get,
   groupBy,
   isFunction,
@@ -12,13 +13,36 @@ const {
   last,
   map,
   set,
-} = require('lodash');
+} from 'lodash';
 
-const { base64ToArrayBuffer, arrayBufferToBase64 } = require('../../ts/Crypto');
-const MessageType = require('./types/message');
-const { createBatcher } = require('../../ts/util/batcher');
+import { arrayBufferToBase64, base64ToArrayBuffer } from '../Crypto';
+import { CURRENT_SCHEMA_VERSION } from '../../js/modules/types/message';
+import { createBatcher } from '../util/batcher';
+import { v4 as getGuid } from 'uuid';
 
-const { ipcRenderer } = electron;
+import {
+  AttachmentDownloadJobType,
+  BackboneConversationCollectionType,
+  BackboneConversationModelType,
+  BackboneMessageCollectionType,
+  BackboneMessageModelType,
+  ClientInterface,
+  ClientJobType,
+  ConversationType,
+  IdentityKeyType,
+  ItemType,
+  MessageType,
+  MessageTypeUnhydrated,
+  PreKeyType,
+  SearchResultMessageType,
+  ServerInterface,
+  SessionType,
+  SignedPreKeyType,
+  StickerPackStatusType,
+  StickerPackType,
+  StickerType,
+  UnprocessedType,
+} from './Interface';
 
 // We listen to a lot of events on ipcRenderer, often on the same channel. This prevents
 //   any warnings that might be sent to the console in that case.
@@ -35,20 +59,24 @@ const ERASE_DRAFTS_KEY = 'erase-drafts';
 const CLEANUP_ORPHANED_ATTACHMENTS_KEY = 'cleanup-orphaned-attachments';
 const ENSURE_FILE_PERMISSIONS = 'ensure-file-permissions';
 
-const _jobs = Object.create(null);
+type ClientJobUpdateType = {
+  resolve: Function;
+  reject: Function;
+  args?: Array<any>;
+};
+
+const _jobs: { [id: string]: ClientJobType } = Object.create(null);
 const _DEBUG = false;
 let _jobCounter = 0;
 let _shuttingDown = false;
-let _shutdownCallback = null;
-let _shutdownPromise = null;
+let _shutdownCallback: Function | null = null;
+let _shutdownPromise: Promise<any> | null = null;
 
-const channels = {};
-
-module.exports = {
-  _jobs,
-  _cleanData,
-
-  shutdown,
+// Because we can't force this module to conform to an interface, we narrow our exports
+//   to this one default export, which does conform to the interface.
+// Note: In Javascript, you need to access the .default property when requiring it
+// https://github.com/microsoft/TypeScript/issues/420
+const dataInterface: ClientInterface = {
   close,
   removeDB,
   removeIndexedDBFiles,
@@ -87,7 +115,7 @@ module.exports = {
   getSessionsById,
   bulkAddSessions,
   removeSessionById,
-  removeSessionsById,
+  removeSessionsByConversation,
   removeAllSessions,
   getAllSessions,
 
@@ -98,7 +126,6 @@ module.exports = {
   updateConversation,
   updateConversations,
   removeConversation,
-  _removeConversations,
 
   getAllConversations,
   getAllConversationIds,
@@ -111,17 +138,12 @@ module.exports = {
 
   getMessageCount,
   saveMessage,
-  saveLegacyMessage,
   saveMessages,
   removeMessage,
-  _removeMessages,
   getUnreadByConversation,
-
-  removeAllMessagesInConversation,
 
   getMessageBySender,
   getMessageById,
-  getAllMessages,
   getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
@@ -151,6 +173,7 @@ module.exports = {
   removeAttachmentDownloadJob,
   removeAllAttachmentDownloadJobs,
 
+  getStickerCount,
   createOrUpdateStickerPack,
   updateStickerPackStatus,
   createOrUpdateSticker,
@@ -168,23 +191,57 @@ module.exports = {
   removeAll,
   removeAllConfiguration,
 
+  getMessagesNeedingUpgrade,
+  getMessagesWithVisualMediaAttachments,
+  getMessagesWithFileAttachments,
+
+  // Test-only
+
+  _getAllMessages,
+
+  // Client-side only
+
+  shutdown,
+  removeAllMessagesInConversation,
+
   removeOtherData,
   cleanupOrphanedAttachments,
   ensureFilePermissions,
 
-  // Returning plain JSON
-  getMessagesNeedingUpgrade,
   getLegacyMessagesNeedingUpgrade,
-  getMessagesWithVisualMediaAttachments,
-  getMessagesWithFileAttachments,
+  saveLegacyMessage,
+
+  // Client-side only, and test-only
+
+  _removeConversations,
+  _removeMessages,
+  _cleanData,
+  _jobs,
 };
+
+export default dataInterface;
+
+const channelsAsUnknown = fromPairs(
+  compact(
+    map(dataInterface, (value: any) => {
+      if (isFunction(value)) {
+        return [value.name, makeChannel(value.name)];
+      }
+
+      return null;
+    })
+  )
+) as any;
+
+const channels: ServerInterface = channelsAsUnknown;
 
 // When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
 //   We can't send ArrayBuffers or BigNumbers (what we get from proto library for dates),
 //   We also cannot send objects with function-value keys, like what protobufjs gives us.
-function _cleanData(data, path = 'root') {
+function _cleanData(data: any, path: string = 'root') {
   if (data === null || data === undefined) {
     window.log.warn(`_cleanData: null or undefined value at path ${path}`);
+
     return data;
   }
 
@@ -197,29 +254,27 @@ function _cleanData(data, path = 'root') {
   }
 
   const keys = Object.keys(data);
-  for (let index = 0, max = keys.length; index < max; index += 1) {
+  const max = keys.length;
+  for (let index = 0; index < max; index += 1) {
     const key = keys[index];
     const value = data[key];
 
     if (value === null || value === undefined) {
-      // eslint-disable-next-line no-continue
       continue;
     }
 
     if (isFunction(value)) {
       // To prepare for Electron v9 IPC, we need to take functions off of any object
-      // eslint-disable-next-line no-param-reassign
+      // tslint:disable-next-line no-dynamic-delete
       delete data[key];
     } else if (isFunction(value.toNumber)) {
-      // eslint-disable-next-line no-param-reassign
+      // tslint:disable-next-line no-dynamic-delete
       data[key] = value.toNumber();
     } else if (Array.isArray(value)) {
-      // eslint-disable-next-line no-param-reassign
       data[key] = value.map((item, mapIndex) =>
         _cleanData(item, `${path}.${key}.${mapIndex}`)
       );
     } else if (isObject(value)) {
-      // eslint-disable-next-line no-param-reassign
       data[key] = _cleanData(value, `${path}.${key}`);
     } else if (
       typeof value !== 'string' &&
@@ -241,6 +296,7 @@ async function _shutdown() {
 
   if (_shutdownPromise) {
     await _shutdownPromise;
+
     return;
   }
 
@@ -253,20 +309,24 @@ async function _shutdown() {
 
   // Outstanding jobs; we need to wait until the last one is done
   _shutdownPromise = new Promise((resolve, reject) => {
-    _shutdownCallback = error => {
+    _shutdownCallback = (error: Error) => {
       window.log.info('data.shutdown: process complete');
       if (error) {
-        return reject(error);
+        reject(error);
+
+        return;
       }
 
-      return resolve();
+      resolve();
+
+      return;
     };
   });
 
   await _shutdownPromise;
 }
 
-function _makeJob(fnName) {
+function _makeJob(fnName: string) {
   if (_shuttingDown && fnName !== 'close') {
     throw new Error(
       `Rejecting SQL channel job (${fnName}); application is shutting down`
@@ -287,14 +347,14 @@ function _makeJob(fnName) {
   return id;
 }
 
-function _updateJob(id, data) {
+function _updateJob(id: number, data: ClientJobUpdateType) {
   const { resolve, reject } = data;
   const { fnName, start } = _jobs[id];
 
   _jobs[id] = {
     ..._jobs[id],
     ...data,
-    resolve: value => {
+    resolve: (value: any) => {
       _removeJob(id);
       const end = Date.now();
       const delta = end - start;
@@ -303,9 +363,10 @@ function _updateJob(id, data) {
           `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
         );
       }
+
       return resolve(value);
     },
-    reject: error => {
+    reject: (error: Error) => {
       _removeJob(id);
       const end = Date.now();
       window.log.info(
@@ -324,12 +385,14 @@ function _updateJob(id, data) {
   };
 }
 
-function _removeJob(id) {
+function _removeJob(id: number) {
   if (_DEBUG) {
     _jobs[id].complete = true;
+
     return;
   }
 
+  // tslint:disable-next-line no-dynamic-delete
   delete _jobs[id];
 
   if (_shutdownCallback) {
@@ -340,13 +403,13 @@ function _removeJob(id) {
   }
 }
 
-function _getJob(id) {
+function _getJob(id: number) {
   return _jobs[id];
 }
 
 ipcRenderer.on(
   `${SQL_CHANNEL_KEY}-done`,
-  (event, jobId, errorForDisplay, result) => {
+  (_, jobId, errorForDisplay, result) => {
     const job = _getJob(jobId);
     if (!job) {
       throw new Error(
@@ -355,6 +418,12 @@ ipcRenderer.on(
     }
 
     const { resolve, reject, fnName } = job;
+
+    if (!resolve || !reject) {
+      throw new Error(
+        `SQL channel job ${jobId} (${fnName}): didn't have a resolve or reject`
+      );
+    }
 
     if (errorForDisplay) {
       return reject(
@@ -368,8 +437,8 @@ ipcRenderer.on(
   }
 );
 
-function makeChannel(fnName) {
-  channels[fnName] = (...args) => {
+function makeChannel(fnName: string) {
+  return async (...args: Array<any>) => {
     const jobId = _makeJob(fnName);
 
     return new Promise((resolve, reject) => {
@@ -379,14 +448,12 @@ function makeChannel(fnName) {
         _updateJob(jobId, {
           resolve,
           reject,
-          args: _DEBUG ? args : null,
+          args: _DEBUG ? args : undefined,
         });
 
-        setTimeout(
-          () =>
-            reject(new Error(`SQL channel job ${jobId} (${fnName}) timed out`)),
-          DATABASE_UPDATE_TIMEOUT
-        );
+        setTimeout(() => {
+          reject(new Error(`SQL channel job ${jobId} (${fnName}) timed out`));
+        }, DATABASE_UPDATE_TIMEOUT);
       } catch (error) {
         _removeJob(jobId);
 
@@ -396,15 +463,11 @@ function makeChannel(fnName) {
   };
 }
 
-forEach(module.exports, fn => {
-  if (isFunction(fn)) {
-    makeChannel(fn.name);
-  }
-});
-
-function keysToArrayBuffer(keys, data) {
+function keysToArrayBuffer(keys: Array<string>, data: any) {
   const updated = cloneDeep(data);
-  for (let i = 0, max = keys.length; i < max; i += 1) {
+
+  const max = keys.length;
+  for (let i = 0; i < max; i += 1) {
     const key = keys[i];
     const value = get(data, key);
 
@@ -416,9 +479,11 @@ function keysToArrayBuffer(keys, data) {
   return updated;
 }
 
-function keysFromArrayBuffer(keys, data) {
+function keysFromArrayBuffer(keys: Array<string>, data: any) {
   const updated = cloneDeep(data);
-  for (let i = 0, max = keys.length; i < max; i += 1) {
+
+  const max = keys.length;
+  for (let i = 0; i < max; i += 1) {
     const key = keys[i];
     const value = get(data, key);
 
@@ -457,26 +522,33 @@ async function removeIndexedDBFiles() {
 // Identity Keys
 
 const IDENTITY_KEY_KEYS = ['publicKey'];
-async function createOrUpdateIdentityKey(data) {
+async function createOrUpdateIdentityKey(data: IdentityKeyType) {
   const updated = keysFromArrayBuffer(IDENTITY_KEY_KEYS, {
     ...data,
-    id: ConversationController.getConversationId(data.id),
+    id: window.ConversationController.getConversationId(data.id),
   });
   await channels.createOrUpdateIdentityKey(updated);
 }
-async function getIdentityKeyById(identifier) {
-  const id = ConversationController.getConversationId(identifier);
+async function getIdentityKeyById(identifier: string) {
+  const id = window.ConversationController.getConversationId(identifier);
+  if (!id) {
+    throw new Error('getIdentityKeyById: unable to find conversationId');
+  }
   const data = await channels.getIdentityKeyById(id);
+
   return keysToArrayBuffer(IDENTITY_KEY_KEYS, data);
 }
-async function bulkAddIdentityKeys(array) {
+async function bulkAddIdentityKeys(array: Array<IdentityKeyType>) {
   const updated = map(array, data =>
     keysFromArrayBuffer(IDENTITY_KEY_KEYS, data)
   );
   await channels.bulkAddIdentityKeys(updated);
 }
-async function removeIdentityKeyById(identifier) {
-  const id = ConversationController.getConversationId(identifier);
+async function removeIdentityKeyById(identifier: string) {
+  const id = window.ConversationController.getConversationId(identifier);
+  if (!id) {
+    throw new Error('removeIdentityKeyById: unable to find conversationId');
+  }
   await channels.removeIdentityKeyById(id);
 }
 async function removeAllIdentityKeys() {
@@ -484,24 +556,26 @@ async function removeAllIdentityKeys() {
 }
 async function getAllIdentityKeys() {
   const keys = await channels.getAllIdentityKeys();
+
   return keys.map(key => keysToArrayBuffer(IDENTITY_KEY_KEYS, key));
 }
 
 // Pre Keys
 
-async function createOrUpdatePreKey(data) {
+async function createOrUpdatePreKey(data: PreKeyType) {
   const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
   await channels.createOrUpdatePreKey(updated);
 }
-async function getPreKeyById(id) {
+async function getPreKeyById(id: number) {
   const data = await channels.getPreKeyById(id);
+
   return keysToArrayBuffer(PRE_KEY_KEYS, data);
 }
-async function bulkAddPreKeys(array) {
+async function bulkAddPreKeys(array: Array<PreKeyType>) {
   const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
   await channels.bulkAddPreKeys(updated);
 }
-async function removePreKeyById(id) {
+async function removePreKeyById(id: number) {
   await channels.removePreKeyById(id);
 }
 async function removeAllPreKeys() {
@@ -509,29 +583,34 @@ async function removeAllPreKeys() {
 }
 async function getAllPreKeys() {
   const keys = await channels.getAllPreKeys();
+
   return keys.map(key => keysToArrayBuffer(PRE_KEY_KEYS, key));
 }
 
 // Signed Pre Keys
 
 const PRE_KEY_KEYS = ['privateKey', 'publicKey'];
-async function createOrUpdateSignedPreKey(data) {
+async function createOrUpdateSignedPreKey(data: SignedPreKeyType) {
   const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
   await channels.createOrUpdateSignedPreKey(updated);
 }
-async function getSignedPreKeyById(id) {
+async function getSignedPreKeyById(id: number) {
   const data = await channels.getSignedPreKeyById(id);
+
   return keysToArrayBuffer(PRE_KEY_KEYS, data);
 }
 async function getAllSignedPreKeys() {
   const keys = await channels.getAllSignedPreKeys();
-  return keys.map(key => keysToArrayBuffer(PRE_KEY_KEYS, key));
+
+  return keys.map((key: SignedPreKeyType) =>
+    keysToArrayBuffer(PRE_KEY_KEYS, key)
+  );
 }
-async function bulkAddSignedPreKeys(array) {
+async function bulkAddSignedPreKeys(array: Array<SignedPreKeyType>) {
   const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
   await channels.bulkAddSignedPreKeys(updated);
 }
-async function removeSignedPreKeyById(id) {
+async function removeSignedPreKeyById(id: number) {
   await channels.removeSignedPreKeyById(id);
 }
 async function removeAllSignedPreKeys() {
@@ -540,14 +619,14 @@ async function removeAllSignedPreKeys() {
 
 // Items
 
-const ITEM_KEYS = {
+const ITEM_KEYS: { [key: string]: Array<string> | undefined } = {
   identityKey: ['value.pubKey', 'value.privKey'],
   senderCertificate: ['value.serialized'],
   senderCertificateWithUuid: ['value.serialized'],
   signaling_key: ['value'],
   profileKey: ['value'],
 };
-async function createOrUpdateItem(data) {
+async function createOrUpdateItem(data: ItemType) {
   const { id } = data;
   if (!id) {
     throw new Error(
@@ -560,7 +639,7 @@ async function createOrUpdateItem(data) {
 
   await channels.createOrUpdateItem(updated);
 }
-async function getItemById(id) {
+async function getItemById(id: string) {
   const keys = ITEM_KEYS[id];
   const data = await channels.getItemById(id);
 
@@ -568,21 +647,24 @@ async function getItemById(id) {
 }
 async function getAllItems() {
   const items = await channels.getAllItems();
+
   return map(items, item => {
     const { id } = item;
     const keys = ITEM_KEYS[id];
+
     return Array.isArray(keys) ? keysToArrayBuffer(keys, item) : item;
   });
 }
-async function bulkAddItems(array) {
+async function bulkAddItems(array: Array<ItemType>) {
   const updated = map(array, data => {
     const { id } = data;
     const keys = ITEM_KEYS[id];
-    return Array.isArray(keys) ? keysFromArrayBuffer(keys, data) : data;
+
+    return keys && Array.isArray(keys) ? keysFromArrayBuffer(keys, data) : data;
   });
   await channels.bulkAddItems(updated);
 }
-async function removeItemById(id) {
+async function removeItemById(id: string) {
   await channels.removeItemById(id);
 }
 async function removeAllItems() {
@@ -591,34 +673,38 @@ async function removeAllItems() {
 
 // Sessions
 
-async function createOrUpdateSession(data) {
+async function createOrUpdateSession(data: SessionType) {
   await channels.createOrUpdateSession(data);
 }
-async function createOrUpdateSessions(items) {
-  await channels.createOrUpdateSessions(items);
+async function createOrUpdateSessions(array: Array<SessionType>) {
+  await channels.createOrUpdateSessions(array);
 }
-async function getSessionById(id) {
+async function getSessionById(id: string) {
   const session = await channels.getSessionById(id);
+
   return session;
 }
-async function getSessionsById(id) {
+async function getSessionsById(id: string) {
   const sessions = await channels.getSessionsById(id);
+
   return sessions;
 }
-async function bulkAddSessions(array) {
+async function bulkAddSessions(array: Array<SessionType>) {
   await channels.bulkAddSessions(array);
 }
-async function removeSessionById(id) {
+async function removeSessionById(id: string) {
   await channels.removeSessionById(id);
 }
-async function removeSessionsById(id) {
-  await channels.removeSessionsById(id);
+
+async function removeSessionsByConversation(conversationId: string) {
+  await channels.removeSessionsByConversation(conversationId);
 }
-async function removeAllSessions(id) {
-  await channels.removeAllSessions(id);
+async function removeAllSessions() {
+  await channels.removeAllSessions();
 }
-async function getAllSessions(id) {
-  const sessions = await channels.getAllSessions(id);
+async function getAllSessions() {
+  const sessions = await channels.getAllSessions();
+
   return sessions;
 }
 
@@ -628,23 +714,27 @@ async function getConversationCount() {
   return channels.getConversationCount();
 }
 
-async function saveConversation(data) {
+async function saveConversation(data: ConversationType) {
   await channels.saveConversation(data);
 }
 
-async function saveConversations(data) {
-  await channels.saveConversations(data);
+async function saveConversations(array: Array<ConversationType>) {
+  await channels.saveConversations(array);
 }
 
-async function getConversationById(id, { Conversation }) {
+async function getConversationById(
+  id: string,
+  { Conversation }: { Conversation: BackboneConversationModelType }
+) {
   const data = await channels.getConversationById(id);
+
   return new Conversation(data);
 }
 
-const updateConversationBatcher = createBatcher({
+const updateConversationBatcher = createBatcher<ConversationType>({
   wait: 500,
   maxSize: 20,
-  processBatch: async items => {
+  processBatch: async (items: Array<ConversationType>) => {
     // We only care about the most recent update for each conversation
     const byId = groupBy(items, item => item.id);
     const ids = Object.keys(byId);
@@ -654,15 +744,18 @@ const updateConversationBatcher = createBatcher({
   },
 });
 
-function updateConversation(id, data) {
+function updateConversation(data: ConversationType) {
   updateConversationBatcher.add(data);
 }
 
-async function updateConversations(data) {
-  await channels.updateConversations(data);
+async function updateConversations(array: Array<ConversationType>) {
+  await channels.updateConversations(array);
 }
 
-async function removeConversation(id, { Conversation }) {
+async function removeConversation(
+  id: string,
+  { Conversation }: { Conversation: BackboneConversationModelType }
+) {
   const existing = await getConversationById(id, { Conversation });
 
   // Note: It's important to have a fully database-hydrated model to delete here because
@@ -674,66 +767,91 @@ async function removeConversation(id, { Conversation }) {
 }
 
 // Note: this method will not clean up external files, just delete from SQL
-async function _removeConversations(ids) {
+async function _removeConversations(ids: Array<string>) {
   await channels.removeConversation(ids);
 }
 
-async function getAllConversations({ ConversationCollection }) {
+async function getAllConversations({
+  ConversationCollection,
+}: {
+  ConversationCollection: BackboneConversationCollectionType;
+}) {
   const conversations = await channels.getAllConversations();
 
   const collection = new ConversationCollection();
   collection.add(conversations);
+
   return collection;
 }
 
 async function getAllConversationIds() {
   const ids = await channels.getAllConversationIds();
+
   return ids;
 }
 
-async function getAllPrivateConversations({ ConversationCollection }) {
+async function getAllPrivateConversations({
+  ConversationCollection,
+}: {
+  ConversationCollection: BackboneConversationCollectionType;
+}) {
   const conversations = await channels.getAllPrivateConversations();
 
   const collection = new ConversationCollection();
   collection.add(conversations);
+
   return collection;
 }
 
-async function getAllGroupsInvolvingId(id, { ConversationCollection }) {
+async function getAllGroupsInvolvingId(
+  id: string,
+  {
+    ConversationCollection,
+  }: {
+    ConversationCollection: BackboneConversationCollectionType;
+  }
+) {
   const conversations = await channels.getAllGroupsInvolvingId(id);
 
   const collection = new ConversationCollection();
   collection.add(conversations);
+
   return collection;
 }
 
-async function searchConversations(query) {
+async function searchConversations(query: string) {
   const conversations = await channels.searchConversations(query);
+
   return conversations;
 }
 
-function handleSearchMessageJSON(messages) {
+function handleSearchMessageJSON(messages: Array<SearchResultMessageType>) {
   return messages.map(message => ({
     ...JSON.parse(message.json),
     snippet: message.snippet,
   }));
 }
 
-async function searchMessages(query, { limit } = {}) {
+async function searchMessages(
+  query: string,
+  { limit }: { limit?: number } = {}
+) {
   const messages = await channels.searchMessages(query, { limit });
+
   return handleSearchMessageJSON(messages);
 }
 
 async function searchMessagesInConversation(
-  query,
-  conversationId,
-  { limit } = {}
+  query: string,
+  conversationId: string,
+  { limit }: { limit?: number } = {}
 ) {
   const messages = await channels.searchMessagesInConversation(
     query,
     conversationId,
     { limit }
   );
+
   return handleSearchMessageJSON(messages);
 }
 
@@ -743,54 +861,30 @@ async function getMessageCount() {
   return channels.getMessageCount();
 }
 
-async function saveMessage(data, { forceSave, Message } = {}) {
+async function saveMessage(
+  data: MessageType,
+  {
+    forceSave,
+    Message,
+  }: { forceSave?: boolean; Message: BackboneMessageModelType }
+) {
   const id = await channels.saveMessage(_cleanData(data), { forceSave });
   Message.updateTimers();
+
   return id;
 }
 
-async function saveLegacyMessage(data) {
-  const db = await window.Whisper.Database.open();
-  try {
-    await new Promise((resolve, reject) => {
-      const transaction = db.transaction('messages', 'readwrite');
-
-      transaction.onerror = () => {
-        window.Whisper.Database.handleDOMException(
-          'saveLegacyMessage transaction error',
-          transaction.error,
-          reject
-        );
-      };
-      transaction.oncomplete = resolve;
-
-      const store = transaction.objectStore('messages');
-
-      if (!data.id) {
-        // eslint-disable-next-line no-param-reassign
-        data.id = window.getGuid();
-      }
-
-      const request = store.put(data, data.id);
-      request.onsuccess = resolve;
-      request.onerror = () => {
-        window.Whisper.Database.handleDOMException(
-          'saveLegacyMessage request error',
-          request.error,
-          reject
-        );
-      };
-    });
-  } finally {
-    db.close();
-  }
-}
-
-async function saveMessages(arrayOfMessages, { forceSave } = {}) {
+async function saveMessages(
+  arrayOfMessages: Array<MessageType>,
+  { forceSave }: { forceSave?: boolean } = {}
+) {
   await channels.saveMessages(_cleanData(arrayOfMessages), { forceSave });
 }
 
-async function removeMessage(id, { Message }) {
+async function removeMessage(
+  id: string,
+  { Message }: { Message: BackboneMessageModelType }
+) {
   const message = await getMessageById(id, { Message });
 
   // Note: It's important to have a fully database-hydrated model to delete here because
@@ -802,11 +896,14 @@ async function removeMessage(id, { Message }) {
 }
 
 // Note: this method will not clean up external files, just delete from SQL
-async function _removeMessages(ids) {
+async function _removeMessages(ids: Array<string>) {
   await channels.removeMessage(ids);
 }
 
-async function getMessageById(id, { Message }) {
+async function getMessageById(
+  id: string,
+  { Message }: { Message: BackboneMessageModelType }
+) {
   const message = await channels.getMessageById(id);
   if (!message) {
     return null;
@@ -816,20 +913,35 @@ async function getMessageById(id, { Message }) {
 }
 
 // For testing only
-async function getAllMessages({ MessageCollection }) {
-  const messages = await channels.getAllMessages();
+async function _getAllMessages({
+  MessageCollection,
+}: {
+  MessageCollection: BackboneMessageCollectionType;
+}) {
+  const messages = await channels._getAllMessages();
+
   return new MessageCollection(messages);
 }
 
 async function getAllMessageIds() {
   const ids = await channels.getAllMessageIds();
+
   return ids;
 }
 
 async function getMessageBySender(
-  // eslint-disable-next-line camelcase
-  { source, sourceUuid, sourceDevice, sent_at },
-  { Message }
+  {
+    source,
+    sourceUuid,
+    sourceDevice,
+    sent_at,
+  }: {
+    source: string;
+    sourceUuid: string;
+    sourceDevice: string;
+    sent_at: number;
+  },
+  { Message }: { Message: BackboneMessageModelType }
 ) {
   const messages = await channels.getMessageBySender({
     source,
@@ -844,18 +956,30 @@ async function getMessageBySender(
   return new Message(messages[0]);
 }
 
-async function getUnreadByConversation(conversationId, { MessageCollection }) {
+async function getUnreadByConversation(
+  conversationId: string,
+  { MessageCollection }: { MessageCollection: BackboneMessageCollectionType }
+) {
   const messages = await channels.getUnreadByConversation(conversationId);
+
   return new MessageCollection(messages);
 }
 
-function handleMessageJSON(messages) {
+function handleMessageJSON(messages: Array<MessageTypeUnhydrated>) {
   return messages.map(message => JSON.parse(message.json));
 }
 
 async function getOlderMessagesByConversation(
-  conversationId,
-  { limit = 100, receivedAt = Number.MAX_VALUE, MessageCollection }
+  conversationId: string,
+  {
+    limit = 100,
+    receivedAt = Number.MAX_VALUE,
+    MessageCollection,
+  }: {
+    limit?: number;
+    receivedAt?: number;
+    MessageCollection: BackboneMessageCollectionType;
+  }
 ) {
   const messages = await channels.getOlderMessagesByConversation(
     conversationId,
@@ -868,8 +992,16 @@ async function getOlderMessagesByConversation(
   return new MessageCollection(handleMessageJSON(messages));
 }
 async function getNewerMessagesByConversation(
-  conversationId,
-  { limit = 100, receivedAt = 0, MessageCollection }
+  conversationId: string,
+  {
+    limit = 100,
+    receivedAt = 0,
+    MessageCollection,
+  }: {
+    limit?: number;
+    receivedAt?: number;
+    MessageCollection: BackboneMessageCollectionType;
+  }
 ) {
   const messages = await channels.getNewerMessagesByConversation(
     conversationId,
@@ -881,22 +1013,22 @@ async function getNewerMessagesByConversation(
 
   return new MessageCollection(handleMessageJSON(messages));
 }
-async function getMessageMetricsForConversation(conversationId) {
+async function getMessageMetricsForConversation(conversationId: string) {
   const result = await channels.getMessageMetricsForConversation(
     conversationId
   );
+
   return result;
 }
 
 async function removeAllMessagesInConversation(
-  conversationId,
-  { MessageCollection }
+  conversationId: string,
+  { MessageCollection }: { MessageCollection: BackboneMessageCollectionType }
 ) {
   let messages;
   do {
     // Yes, we really want the await in the loop. We're deleting 100 at a
     //   time so we don't use too much memory.
-    // eslint-disable-next-line no-await-in-loop
     messages = await getOlderMessagesByConversation(conversationId, {
       limit: 100,
       MessageCollection,
@@ -906,39 +1038,66 @@ async function removeAllMessagesInConversation(
       return;
     }
 
-    const ids = messages.map(message => message.id);
+    const ids = messages.map((message: BackboneMessageModelType) => message.id);
 
     // Note: It's very important that these models are fully hydrated because
     //   we need to delete all associated on-disk files along with the database delete.
-    // eslint-disable-next-line no-await-in-loop
-    await Promise.all(messages.map(message => message.cleanup()));
+    await Promise.all(
+      messages.map((message: BackboneMessageModelType) => message.cleanup())
+    );
 
-    // eslint-disable-next-line no-await-in-loop
     await channels.removeMessage(ids);
   } while (messages.length > 0);
 }
 
-async function getMessagesBySentAt(sentAt, { MessageCollection }) {
+async function getMessagesBySentAt(
+  sentAt: number,
+  { MessageCollection }: { MessageCollection: BackboneMessageCollectionType }
+) {
   const messages = await channels.getMessagesBySentAt(sentAt);
+
   return new MessageCollection(messages);
 }
 
-async function getExpiredMessages({ MessageCollection }) {
+async function getExpiredMessages({
+  MessageCollection,
+}: {
+  MessageCollection: BackboneMessageCollectionType;
+}) {
   const messages = await channels.getExpiredMessages();
+
   return new MessageCollection(messages);
 }
 
-async function getOutgoingWithoutExpiresAt({ MessageCollection }) {
+async function getOutgoingWithoutExpiresAt({
+  MessageCollection,
+}: {
+  MessageCollection: BackboneMessageCollectionType;
+}) {
   const messages = await channels.getOutgoingWithoutExpiresAt();
+
   return new MessageCollection(messages);
 }
 
-async function getNextExpiringMessage({ MessageCollection }) {
-  const messages = await channels.getNextExpiringMessage();
-  return new MessageCollection(messages);
+async function getNextExpiringMessage({
+  Message,
+}: {
+  Message: BackboneMessageModelType;
+}) {
+  const message = await channels.getNextExpiringMessage();
+
+  if (message) {
+    return new Message(message);
+  }
+
+  return null;
 }
 
-async function getNextTapToViewMessageToAgeOut({ Message }) {
+async function getNextTapToViewMessageToAgeOut({
+  Message,
+}: {
+  Message: BackboneMessageModelType;
+}) {
   const message = await channels.getNextTapToViewMessageToAgeOut();
   if (!message) {
     return null;
@@ -946,8 +1105,13 @@ async function getNextTapToViewMessageToAgeOut({ Message }) {
 
   return new Message(message);
 }
-async function getTapToViewMessagesNeedingErase({ MessageCollection }) {
+async function getTapToViewMessagesNeedingErase({
+  MessageCollection,
+}: {
+  MessageCollection: BackboneMessageCollectionType;
+}) {
   const messages = await channels.getTapToViewMessagesNeedingErase();
+
   return new MessageCollection(messages);
 }
 
@@ -961,32 +1125,39 @@ async function getAllUnprocessed() {
   return channels.getAllUnprocessed();
 }
 
-async function getUnprocessedById(id) {
+async function getUnprocessedById(id: string) {
   return channels.getUnprocessedById(id);
 }
 
-async function saveUnprocessed(data, { forceSave } = {}) {
+async function saveUnprocessed(
+  data: UnprocessedType,
+  { forceSave }: { forceSave?: boolean } = {}
+) {
   const id = await channels.saveUnprocessed(_cleanData(data), { forceSave });
+
   return id;
 }
 
-async function saveUnprocesseds(arrayOfUnprocessed, { forceSave } = {}) {
+async function saveUnprocesseds(
+  arrayOfUnprocessed: Array<UnprocessedType>,
+  { forceSave }: { forceSave?: boolean } = {}
+) {
   await channels.saveUnprocesseds(_cleanData(arrayOfUnprocessed), {
     forceSave,
   });
 }
 
-async function updateUnprocessedAttempts(id, attempts) {
+async function updateUnprocessedAttempts(id: string, attempts: number) {
   await channels.updateUnprocessedAttempts(id, attempts);
 }
-async function updateUnprocessedWithData(id, data) {
+async function updateUnprocessedWithData(id: string, data: UnprocessedType) {
   await channels.updateUnprocessedWithData(id, data);
 }
-async function updateUnprocessedsWithData(items) {
-  await channels.updateUnprocessedsWithData(items);
+async function updateUnprocessedsWithData(array: Array<UnprocessedType>) {
+  await channels.updateUnprocessedsWithData(array);
 }
 
-async function removeUnprocessed(id) {
+async function removeUnprocessed(id: string) {
   await channels.removeUnprocessed(id);
 }
 
@@ -996,19 +1167,22 @@ async function removeAllUnprocessed() {
 
 // Attachment downloads
 
-async function getNextAttachmentDownloadJobs(limit) {
-  return channels.getNextAttachmentDownloadJobs(limit);
+async function getNextAttachmentDownloadJobs(
+  limit?: number,
+  options?: { timestamp?: number }
+) {
+  return channels.getNextAttachmentDownloadJobs(limit, options);
 }
-async function saveAttachmentDownloadJob(job) {
+async function saveAttachmentDownloadJob(job: AttachmentDownloadJobType) {
   await channels.saveAttachmentDownloadJob(_cleanData(job));
 }
-async function setAttachmentDownloadJobPending(id, pending) {
+async function setAttachmentDownloadJobPending(id: string, pending: boolean) {
   await channels.setAttachmentDownloadJobPending(id, pending);
 }
 async function resetAttachmentDownloadPending() {
   await channels.resetAttachmentDownloadPending();
 }
-async function removeAttachmentDownloadJob(id) {
+async function removeAttachmentDownloadJob(id: string) {
   await channels.removeAttachmentDownloadJob(id);
 }
 async function removeAllAttachmentDownloadJobs() {
@@ -1017,47 +1191,64 @@ async function removeAllAttachmentDownloadJobs() {
 
 // Stickers
 
-async function createOrUpdateStickerPack(pack) {
+async function getStickerCount() {
+  return channels.getStickerCount();
+}
+
+async function createOrUpdateStickerPack(pack: StickerPackType) {
   await channels.createOrUpdateStickerPack(pack);
 }
-async function updateStickerPackStatus(packId, status, options) {
+async function updateStickerPackStatus(
+  packId: string,
+  status: StickerPackStatusType,
+  options?: { timestamp: number }
+) {
   await channels.updateStickerPackStatus(packId, status, options);
 }
-async function createOrUpdateSticker(sticker) {
+async function createOrUpdateSticker(sticker: StickerType) {
   await channels.createOrUpdateSticker(sticker);
 }
-async function updateStickerLastUsed(packId, stickerId, timestamp) {
+async function updateStickerLastUsed(
+  packId: string,
+  stickerId: number,
+  timestamp: number
+) {
   await channels.updateStickerLastUsed(packId, stickerId, timestamp);
 }
-async function addStickerPackReference(messageId, packId) {
+async function addStickerPackReference(messageId: string, packId: string) {
   await channels.addStickerPackReference(messageId, packId);
 }
-async function deleteStickerPackReference(messageId, packId) {
+async function deleteStickerPackReference(messageId: string, packId: string) {
   const paths = await channels.deleteStickerPackReference(messageId, packId);
+
   return paths;
 }
-async function deleteStickerPack(packId) {
+async function deleteStickerPack(packId: string) {
   const paths = await channels.deleteStickerPack(packId);
+
   return paths;
 }
 async function getAllStickerPacks() {
   const packs = await channels.getAllStickerPacks();
+
   return packs;
 }
 async function getAllStickers() {
   const stickers = await channels.getAllStickers();
+
   return stickers;
 }
 async function getRecentStickers() {
   const recentStickers = await channels.getRecentStickers();
+
   return recentStickers;
 }
 
 // Emojis
-async function updateEmojiUsage(shortName) {
+async function updateEmojiUsage(shortName: string) {
   await channels.updateEmojiUsage(shortName);
 }
-async function getRecentEmojis(limit = 32) {
+async function getRecentEmojis(limit: number = 32) {
   return channels.getRecentEmojis(limit);
 }
 
@@ -1090,35 +1281,67 @@ async function removeOtherData() {
   ]);
 }
 
-async function callChannel(name) {
+async function callChannel(name: string) {
   return new Promise((resolve, reject) => {
     ipcRenderer.send(name);
-    ipcRenderer.once(`${name}-done`, (event, error) => {
+    ipcRenderer.once(`${name}-done`, (_, error) => {
       if (error) {
-        return reject(error);
+        reject(error);
+
+        return;
       }
 
-      return resolve();
+      resolve();
+
+      return;
     });
 
-    setTimeout(
-      () => reject(new Error(`callChannel call to ${name} timed out`)),
-      DATABASE_UPDATE_TIMEOUT
-    );
+    setTimeout(() => {
+      reject(new Error(`callChannel call to ${name} timed out`));
+    }, DATABASE_UPDATE_TIMEOUT);
   });
 }
 
-// Functions below here return plain JSON instead of Backbone Models
+async function getMessagesNeedingUpgrade(
+  limit: number,
+  { maxVersion = CURRENT_SCHEMA_VERSION }: { maxVersion: number }
+) {
+  const messages = await channels.getMessagesNeedingUpgrade(limit, {
+    maxVersion,
+  });
+
+  return messages;
+}
+
+async function getMessagesWithVisualMediaAttachments(
+  conversationId: string,
+  { limit }: { limit: number }
+) {
+  return channels.getMessagesWithVisualMediaAttachments(conversationId, {
+    limit,
+  });
+}
+
+async function getMessagesWithFileAttachments(
+  conversationId: string,
+  { limit }: { limit: number }
+) {
+  return channels.getMessagesWithFileAttachments(conversationId, {
+    limit,
+  });
+}
+
+// Legacy IndexedDB Support
 
 async function getLegacyMessagesNeedingUpgrade(
-  limit,
-  { maxVersion = MessageType.CURRENT_SCHEMA_VERSION }
-) {
+  limit: number,
+  { maxVersion = CURRENT_SCHEMA_VERSION }: { maxVersion: number }
+): Promise<MessageType> {
   const db = await window.Whisper.Database.open();
   try {
     return new Promise((resolve, reject) => {
       const transaction = db.transaction('messages', 'readonly');
-      const messages = [];
+      const messages: Array<MessageType> = [];
 
       transaction.onerror = () => {
         window.Whisper.Database.handleDOMException(
@@ -1139,6 +1362,7 @@ async function getLegacyMessagesNeedingUpgrade(
       let count = 0;
 
       request.onsuccess = event => {
+        // @ts-ignore
         const cursor = event.target.result;
 
         if (cursor) {
@@ -1165,28 +1389,38 @@ async function getLegacyMessagesNeedingUpgrade(
   }
 }
 
-async function getMessagesNeedingUpgrade(
-  limit,
-  { maxVersion = MessageType.CURRENT_SCHEMA_VERSION }
-) {
-  const messages = await channels.getMessagesNeedingUpgrade(limit, {
-    maxVersion,
-  });
+async function saveLegacyMessage(data: MessageType) {
+  const db = await window.Whisper.Database.open();
+  try {
+    await new Promise((resolve, reject) => {
+      const transaction = db.transaction('messages', 'readwrite');
 
-  return messages;
-}
+      transaction.onerror = () => {
+        window.Whisper.Database.handleDOMException(
+          'saveLegacyMessage transaction error',
+          transaction.error,
+          reject
+        );
+      };
+      transaction.oncomplete = resolve;
 
-async function getMessagesWithVisualMediaAttachments(
-  conversationId,
-  { limit }
-) {
-  return channels.getMessagesWithVisualMediaAttachments(conversationId, {
-    limit,
-  });
-}
+      const store = transaction.objectStore('messages');
 
-async function getMessagesWithFileAttachments(conversationId, { limit }) {
-  return channels.getMessagesWithFileAttachments(conversationId, {
-    limit,
-  });
+      if (!data.id) {
+        data.id = getGuid();
+      }
+
+      const request = store.put(data, data.id);
+      request.onsuccess = resolve;
+      request.onerror = () => {
+        window.Whisper.Database.handleDOMException(
+          'saveLegacyMessage request error',
+          request.error,
+          reject
+        );
+      };
+    });
+  } finally {
+    db.close();
+  }
 }

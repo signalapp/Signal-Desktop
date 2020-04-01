@@ -47,7 +47,7 @@ const {
   getAllStickers,
   getRecentStickers,
   updateStickerPackStatus,
-} = require('./data');
+} = require('../../ts/sql/Client').default;
 
 module.exports = {
   BLESSED_PACKS,

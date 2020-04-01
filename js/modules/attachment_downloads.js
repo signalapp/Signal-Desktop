@@ -18,7 +18,7 @@ const {
   saveAttachmentDownloadJob,
   saveMessage,
   setAttachmentDownloadJobPending,
-} = require('./data');
+} = require('../../ts/sql/Client').default;
 const { stringFromBytes } = require('../../ts/Crypto');
 
 module.exports = {
@@ -445,7 +445,7 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
         hash,
       },
     });
-    Signal.Data.updateConversation(conversationId, conversation.attributes);
+    Signal.Data.updateConversation(conversation.attributes);
 
     message.set({
       group_update: {
