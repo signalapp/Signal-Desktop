@@ -232,9 +232,13 @@
     margin: 0;
 
     border-left-style: none;
+    @include ios-dark-theme {
+      background-color: $ultramarine-brand-dark;
+      border-left-color: $color-black;
+    }
     @include ios-theme {
-      background-color: $ultramarine-ui-light-alpha-25;
-      border-left-color: $ultramarine-ui-light;
+      background-color: $color-ios-blue-tint;
+      border-left-color: $color-white;
     }
   }
 

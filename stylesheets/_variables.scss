@@ -57,7 +57,8 @@ $color-steel: #6b6b78;
 $color-ios-blue-tint: #b0c8f9;
 
 // Used for scroll down button hover state when it has new messages
-$color-ios-blue-shade: #1851b4;
+$color-ios-ref-warning-light: #d2def8;
+$color-ios-ref-warning-dark: #7b97cd;
 
 $color-crimson-tint: #eda6ae;
 $color-vermilion-tint: #eba78e;
@@ -175,11 +176,6 @@ $color-white-alpha-40: rgba($color-white, 0.4);
 
 // Used in tap-to-view error states
 $color-deep-red: #ff261f;
-
-// Used in iOS quote composition and reference warnings
-$ultramarine-ui-light-alpha-25: rgba($ultramarine-ui-light, 0.25);
-$ultramarine-ui-light-alpha-50: rgba($ultramarine-ui-light, 0.5);
-$ultramarine-ui-light-tint-alpha-50: rgba($color-ios-blue-tint, 0.5);
 
 // -- A few layout variables used cross-file
 

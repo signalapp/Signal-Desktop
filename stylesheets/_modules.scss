@@ -1626,13 +1626,13 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 
   // Note: both of these override all of the specific color classes below
-  @include ios-theme {
-    border-left-color: $color-white;
-    background-color: $color-white-alpha-60;
-  }
   @include ios-dark-theme {
+    background-color: $ultramarine-brand-dark;
     border-left-color: $color-black;
-    background-color: $color-conversation-blue-shade;
+  }
+  @include ios-theme {
+    background-color: $color-ios-blue-tint;
+    border-left-color: $color-white;
   }
 }
 
@@ -1668,12 +1668,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   // Note: both of these override all of the specific color classes below
   @include ios-theme {
-    background-color: $ultramarine-ui-light-alpha-25;
-    border-left-color: $ultramarine-ui-light;
+    background-color: $color-ios-blue-tint;
+    border-left-color: $color-white;
   }
   @include ios-dark-theme {
-    background-color: $color-conversation-blue-shade;
-    border-left-color: $ultramarine-ui-dark;
+    background-color: $ultramarine-ui-dark;
+    border-left-color: $color-black;
   }
 }
 @each $color, $value in $conversation-colors-tint {
@@ -1942,6 +1942,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-quote__reference-warning {
+  color: $color-gray-90;
   height: 26px;
   display: flex;
   flex-direction: row;
@@ -1957,17 +1958,20 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     background-color: $color-white-alpha-20;
   }
   @include ios-theme {
-    background-color: $ultramarine-ui-light-tint-alpha-50;
+    background-color: $color-ios-ref-warning-light;
   }
   @include ios-dark-theme {
-    background-color: $color-white-alpha-40;
+    background-color: $color-ios-ref-warning-dark;
   }
 }
 
 .module-quote__reference-warning--incoming {
+  color: $color-gray-90;
+  @include ios-theme {
+    background-color: $color-ios-ref-warning-light;
+  }
   @include ios-dark-theme {
-    color: $color-gray-15;
-    background-color: $ultramarine-ui-light-alpha-50;
+    background-color: $color-ios-ref-warning-dark;
   }
 }
 
@@ -1981,14 +1985,20 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include dark-theme {
     @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-25);
   }
+  @include ios-theme {
+    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-90);
+  }
   @include ios-dark-theme {
     @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-90);
   }
 }
 
 .module-quote__reference-warning__icon--incoming {
+  @include ios-theme {
+    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-90);
+  }
   @include ios-dark-theme {
-    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-15);
+    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-90);
   }
 }
 
@@ -2010,7 +2020,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-quote__reference-warning__text--incoming {
   @include ios-dark-theme {
-    color: $color-gray-05;
+    color: $color-gray-90;
   }
 }
 
@@ -7356,7 +7366,7 @@ button.module-image__border-overlay:focus {
   background-color: $ultramarine-ui-light;
 
   &:hover {
-    background-color: $color-ios-blue-shade;
+    background-color: $ultramarine-brand-dark;
   }
 }
 
