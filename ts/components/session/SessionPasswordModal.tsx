@@ -140,7 +140,7 @@ export class SessionPasswordModal extends React.Component<Props, State> {
   }
 
   private async setPassword(onSuccess: any) {
-    if (!this.passwordInput.current || !this.passwordInputConfirm.current){
+    if (!this.passwordInput.current || !this.passwordInputConfirm.current) {
       return;
     }
 
