@@ -1132,7 +1132,7 @@ ipc.on('set-auto-update-setting', (event, enabled) => {
 
 function getThemeFromMainWindow() {
   return new Promise(resolve => {
-    ipc.once(`get-success-theme-setting`, (_event, value) => resolve(value));
-    mainWindow.webContents.send(`get-theme-setting`);
+    ipc.once('get-success-theme-setting', (_event, value) => resolve(value));
+    mainWindow.webContents.send('get-theme-setting');
   });
 }
