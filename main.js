@@ -617,7 +617,7 @@ async function showDebugLogWindow() {
     return;
   }
 
-  const theme = await pify(getDataFromMainWindow)('theme-setting');
+  const theme = await getThemeFromMainWindow();
   const size = mainWindow.getSize();
   const options = {
     width: Math.max(size[0] - 100, MIN_WIDTH),
@@ -665,7 +665,7 @@ async function showPermissionsPopupWindow() {
     return;
   }
 
-  const theme = await pify(getDataFromMainWindow)('theme-setting');
+  const theme = await getThemeFromMainWindow();
   const size = mainWindow.getSize();
   const options = {
     width: Math.min(400, size[0]),
@@ -1130,9 +1130,9 @@ ipc.on('set-auto-update-setting', (event, enabled) => {
   }
 });
 
-function getDataFromMainWindow(name, callback) {
-  ipc.once(`get-success-${name}`, (_event, error, value) =>
-    callback(error, value)
-  );
-  mainWindow.webContents.send(`get-${name}`);
+function getThemeFromMainWindow() {
+  return new Promise(resolve => {
+    ipc.once('get-success-theme-setting', (_event, value) => resolve(value));
+    mainWindow.webContents.send('get-theme-setting');
+  });
 }
