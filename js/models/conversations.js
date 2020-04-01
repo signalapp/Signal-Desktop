@@ -247,9 +247,12 @@
     async acceptFriendRequest() {
       const messages = await window.Signal.Data.getMessagesByConversation(
         this.id,
-        { limit: 1, MessageCollection: Whisper.MessageCollection }
+        {
+          limit: 1,
+          MessageCollection: Whisper.MessageCollection,
+          type: 'friend-request',
+        }
       );
-
       const lastMessageModel = messages.at(0);
       if (lastMessageModel) {
         lastMessageModel.acceptFriendRequest();
@@ -264,7 +267,11 @@
     async declineFriendRequest() {
       const messages = await window.Signal.Data.getMessagesByConversation(
         this.id,
-        { limit: 1, MessageCollection: Whisper.MessageCollection }
+        {
+          limit: 1,
+          MessageCollection: Whisper.MessageCollection,
+          type: 'friend-request',
+        }
       );
 
       const lastMessageModel = messages.at(0);

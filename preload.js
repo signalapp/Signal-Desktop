@@ -347,13 +347,6 @@ window.React = require('react');
 window.ReactDOM = require('react-dom');
 window.moment = require('moment');
 
-const _sodium = require('libsodium-wrappers');
-
-window.getSodium = async () => {
-  await _sodium.ready;
-  return _sodium;
-};
-
 window.clipboard = clipboard;
 
 const Signal = require('./js/modules/signal');
@@ -383,33 +376,16 @@ window.Signal.Backup = require('./js/modules/backup');
 window.Signal.Debug = require('./js/modules/debug');
 window.Signal.Logs = require('./js/modules/logs');
 
-// Add right-click listener for selected text and urls
-const contextMenu = require('electron-context-menu');
-
-const isQR = params =>
-  params.mediaType === 'image' && params.titleText === 'Scan me!';
-
-// QR saving doesn't work so we just disable it
-contextMenu({
-  showInspectElement: false,
-  shouldShowMenu: (event, params) => {
-    const isRegular =
-      params.mediaType === 'none' && (params.linkURL || params.selectionText);
-    return Boolean(!params.isEditable && (isQR(params) || isRegular));
-  },
-  menu: (actions, params) => {
-    // If it's not a QR then show the default options
-    if (!isQR(params)) {
-      return actions;
-    }
-
-    return [actions.copyImage()];
-  },
+window.addEventListener('contextmenu', e => {
+  const editable = e.target.closest(
+    'textarea, input, [contenteditable="true"]'
+  );
+  const link = e.target.closest('a');
+  const selection = Boolean(window.getSelection().toString());
+  if (!editable && !selection && !link) {
+    e.preventDefault();
+  }
 });
-
-// We pull this in last, because the native module involved appears to be sensitive to
-//   /tmp mounted as noexec on Linux.
-require('./js/spell_check');
 
 window.shortenPubkey = pubkey => `(...${pubkey.substring(pubkey.length - 6)})`;
 
