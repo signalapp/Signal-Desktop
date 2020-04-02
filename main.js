@@ -206,9 +206,11 @@ function captureClicks(window) {
 }
 
 const DEFAULT_WIDTH = 880;
-const DEFAULT_HEIGHT = 720;
+// add contact button needs to be visible (on HiDpi screens?)
+// otherwise integration test fail
+const DEFAULT_HEIGHT = 820;
 const MIN_WIDTH = 880;
-const MIN_HEIGHT = 720;
+const MIN_HEIGHT = 820;
 const BOUNDS_BUFFER = 100;
 
 function isVisible(window, bounds) {

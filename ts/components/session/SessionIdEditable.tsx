@@ -45,6 +45,7 @@ export class SessionIdEditable extends React.PureComponent<Props> {
           spellCheck={false}
           onKeyDown={this.handleKeyDown}
           onChange={this.handleChange}
+          onBlur={this.handleChange}
           value={value || text}
           maxLength={maxLength}
         />
