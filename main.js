@@ -355,6 +355,10 @@ async function createWindow() {
 
   mainWindow.on('focus', () => {
     mainWindow.flashFrame(false);
+    if (passwordWindow) {
+      passwordWindow.close();
+      passwordWindow = null;
+    }
   });
 
   if (config.environment === 'test') {
@@ -1027,11 +1031,6 @@ ipc.on('password-window-login', async (event, passPhrase) => {
     const passwordAttempt = true;
     await showMainWindow(passPhrase, passwordAttempt);
     sendResponse();
-
-    if (passwordWindow) {
-      passwordWindow.close();
-      passwordWindow = null;
-    }
   } catch (e) {
     const localisedError = locale.messages.invalidPassword.message;
     sendResponse(localisedError || 'Invalid password');
