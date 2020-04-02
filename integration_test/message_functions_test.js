@@ -2,10 +2,10 @@
 /* eslint-disable more/no-then */
 /* eslint-disable func-names  */
 /* eslint-disable import/no-extraneous-dependencies */
-const common = require('./common');
 const path = require('path');
 
 const { after, before, describe, it } = require('mocha');
+const common = require('./common');
 const ConversationPage = require('./page-objects/conversation.page');
 
 describe('Message Functions', function() {

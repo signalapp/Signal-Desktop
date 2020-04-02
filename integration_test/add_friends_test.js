@@ -43,9 +43,8 @@ describe('Add friends', function() {
 
     await app.client.element(ConversationPage.contactsButtonSection).click();
     await app.client.element(ConversationPage.addContactButton).click();
-    await app.client
-      .isExisting(ConversationPage.leftPaneOverlay)
-      .should.eventually.be.equal(true);
+    await app.client.isExisting(ConversationPage.leftPaneOverlay).should
+      .eventually.be.true;
 
     await app.client
       .element(ConversationPage.sessionIDInput)
@@ -71,9 +70,8 @@ describe('Add friends', function() {
     );
     // assure friend request message has been sent
     await common.timeout(3000);
-    await app.client
-      .isExisting(ConversationPage.retrySendButton)
-      .should.eventually.be.equal(false);
+    await app.client.isExisting(ConversationPage.retrySendButton).should
+      .eventually.be.false;
 
     // wait for left notification Friend Request count to go to 1 and click it
     await app2.client.waitForExist(
@@ -86,7 +84,7 @@ describe('Add friends', function() {
     // open the dropdown from the top friend request count
     await app2.client.isExisting(
       ConversationPage.oneNotificationFriendRequestTop
-    );
+    ).should.eventually.be.true;
     await app2.client
       .element(ConversationPage.oneNotificationFriendRequestTop)
       .click();
@@ -97,8 +95,9 @@ describe('Add friends', function() {
         common.TEST_DISPLAY_NAME1,
         common.TEST_PUBKEY1
       )
-    );
-    await app2.client.isExisting(ConversationPage.acceptFriendRequestButton);
+    ).should.eventually.be.true;
+    await app2.client.isExisting(ConversationPage.acceptFriendRequestButton)
+      .should.eventually.be.true;
 
     // accept the friend request and validate that on both side the "accepted FR" message is shown
     await app2.client

@@ -80,7 +80,7 @@ module.exports = {
   oneNotificationFriendRequestLeft:
     '//*[contains(@class,"session-icon-button")  and .//*[contains(@class, "users")]  and .//*[contains(@class, "notification-count") and contains(string(), "1")] ]',
   oneNotificationFriendRequestTop:
-    '//*[contains(@class,"module-left-pane__header")] //*[contains(@class, "notification-count")  and contains(string(), "1")]',
+    '//*[contains(@class,"notification-count hover") and contains(string(), "1")]',
   friendRequestFromUser: (displayName, pubkey) =>
     `//*[contains(@class,"module-left-pane__list-popup")  and .//*[contains(@class, "module-conversation__user") and .//*[contains(string(), "${displayName}")] and .//*[contains(string(), "(...${pubkey.substring(
       60
@@ -102,23 +102,23 @@ module.exports = {
   ),
   validateDeleteAccount: commonPage.divRoleButtonDangerWithText('OK'),
 
-  // device pairing
+  // device linking
   noPairedDeviceMessage:
-    '//*[contains(@class, "session-settings-item__title")][contains(string(), "No paired devices")]',
+    '//*[contains(@class, "session-settings-item__title")][contains(string(), "No linked devices")]',
   linkDeviceButton: commonPage.divRoleButtonWithText('Link New Device'),
   linkDeviceButtonDisabled: commonPage.divRoleButtonWithTextDisabled(
     'Link New Device'
   ),
   devicePairingDialog: '//*[contains(@class,"device-pairing-dialog")]',
   qrImageDiv: commonPage.divWithClass('qr-image'),
-  allowPairingButton: commonPage.divRoleButtonWithText('Allow Pairing'),
+  allowPairingButton: commonPage.divRoleButtonWithText('Allow Linking'),
   okButton: commonPage.divRoleButtonWithText('OK'),
   devicePairedDescription: secretWords =>
     commonPage.divWithClassAndText(
       'session-settings-item__description',
       secretWords
     ),
-  unpairDeviceButton: commonPage.divRoleButtonDangerWithText('Unpair Device'),
+  unpairDeviceButton: commonPage.divRoleButtonDangerWithText('Unlink Device'),
   deleteAccountButton: commonPage.divRoleButtonDangerWithText('Delete Account'),
-  validateUnpairDevice: commonPage.divRoleButtonDangerWithText('Unpair'),
+  validateUnpairDevice: commonPage.divRoleButtonDangerWithText('Unlink'),
 };

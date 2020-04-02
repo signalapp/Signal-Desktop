@@ -108,7 +108,7 @@ module.exports = {
     const killStr =
       process.platform === 'win32'
         ? 'taskkill /im electron.exe /t /f'
-        : 'pkill -f "node_modules/.bin/electron"';
+        : 'pkill -f "node_modules/electron/dist/electron"';
     return new Promise(resolve => {
       exec(killStr, (_err, stdout, stderr) => {
         resolve({ stdout, stderr });
@@ -248,7 +248,7 @@ module.exports = {
     // open the dropdown from the top friend request count
     await app2.client.isExisting(
       ConversationPage.oneNotificationFriendRequestTop
-    );
+    ).should.eventually.be.true;
     await app2.client
       .element(ConversationPage.oneNotificationFriendRequestTop)
       .click();
@@ -386,7 +386,8 @@ module.exports = {
       2000
     );
 
-    await app1.client.isExisting(ConversationPage.unpairDeviceButton);
+    await app1.client.isExisting(ConversationPage.unpairDeviceButton).should
+      .eventually.be.true;
     await app1.client.isExisting(ConversationPage.linkDeviceButtonDisabled)
       .should.eventually.be.true;
 
@@ -404,7 +405,8 @@ module.exports = {
 
   async triggerUnlinkApp2FromApp(app1, app2) {
     // check app2 is loggedin
-    await app2.client.isExisting(RegistrationPage.conversationListContainer);
+    await app2.client.isExisting(RegistrationPage.conversationListContainer)
+      .should.eventually.be.true;
 
     await app1.client.element(ConversationPage.settingsButtonSection).click();
     await app1.client.element(ConversationPage.deviceSettingsRow).click();
@@ -419,7 +421,7 @@ module.exports = {
       2000
     );
     await app1.client.element(ConversationPage.linkDeviceButton).isEnabled()
-      .should.eventually.be.false;
+      .should.eventually.be.true;
 
     // let time to app2 to catch the event and restart dropping its data
     await this.timeout(5000);
@@ -428,7 +430,8 @@ module.exports = {
     // (did not find a better way than checking the app no longer being accessible)
     let isApp2Joinable = true;
     try {
-      await app2.client.isExisting(RegistrationPage.registrationTabSignIn);
+      await app2.client.isExisting(RegistrationPage.registrationTabSignIn)
+        .should.eventually.be.true;
     } catch (err) {
       // if we get an error here, it means Spectron is lost.
       // this is a good thing because it means app2 restarted
@@ -513,6 +516,7 @@ module.exports = {
             if (this.messages[pubkey]) {
               response.writeHead(200, { 'Content-Type': 'application/json' });
               response.write(JSON.stringify(retrievedMessages));
+              this.messages[pubkey] = [];
             }
             response.end();
           }
