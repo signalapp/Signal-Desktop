@@ -90,6 +90,7 @@
     "js-sha512": "0.8.0",
     "js-yaml": "3.13.0",
     "jsbn": "1.1.0",
+    "libsodium-wrappers": "^0.7.6",
     "linkify-it": "2.0.3",
     "lodash": "4.17.11",
     "mkdirp": "0.5.1",

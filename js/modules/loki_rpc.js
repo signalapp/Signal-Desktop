@@ -79,7 +79,7 @@ const BAD_PATH = 'bad_path';
 
 // May return false BAD_PATH, indicating that we should try a new
 const sendOnionRequest = async (reqIdx, nodePath, targetNode, plaintext) => {
-  log.info('Sending an onion request');
+  log.debug('Sending an onion request');
 
   const ctx1 = await encryptForDestination(targetNode, plaintext);
   const ctx2 = await encryptForRelay(nodePath[2], targetNode, ctx1);
@@ -113,7 +113,7 @@ const sendOnionRequest = async (reqIdx, nodePath, targetNode, plaintext) => {
 // Process a response as it arrives from `nodeFetch`, handling
 // http errors and attempting to decrypt the body with `sharedKey`
 const processOnionResponse = async (reqIdx, response, sharedKey, useAesGcm) => {
-  log.info(`(${reqIdx}) [path] processing onion response`);
+  log.debug(`(${reqIdx}) [path] processing onion response`);
 
   // detect SNode is not ready (not in swarm; not done syncing)
   if (response.status === 503) {
@@ -427,7 +427,7 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
         const thisIdx = onionReqIdx;
         onionReqIdx += 1;
 
-        log.info(
+        log.debug(
           `(${thisIdx}) using path ${path[0].ip}:${path[0].port} -> ${
             path[1].ip
           }:${path[1].port} -> ${path[2].ip}:${path[2].port} => ${
