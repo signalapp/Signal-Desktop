@@ -197,6 +197,11 @@ ipc.on('set-up-as-standalone', () => {
   Whisper.events.trigger('setupAsStandalone');
 });
 
+ipc.on('get-theme-setting', () => {
+  const theme = window.Events.getThemeSetting();
+  ipc.send('get-success-theme-setting', theme);
+});
+
 // Settings-related events
 
 window.showPermissionsPopup = () => ipc.send('show-permissions-popup');

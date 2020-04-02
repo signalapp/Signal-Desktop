@@ -206,6 +206,18 @@ class LokiMessageAPI {
           targetNode
         );
 
+        // do not return true if we get false here...
+        if (result === false) {
+          log.warn(
+            `loki_message:::_sendToNode - Got false from ${targetNode.ip}:${
+              targetNode.port
+            }`
+          );
+          successiveFailures += 1;
+          // eslint-disable-next-line no-continue
+          continue;
+        }
+
         // Make sure we aren't doing too much PoW
         const currentDifficulty = window.storage.get('PoWDifficulty', null);
         if (
@@ -386,6 +398,15 @@ class LokiMessageAPI {
       '/storage_rpc/v1',
       nodeData
     );
+
+    if (result === false) {
+      // make a note of it because of caller doesn't care...
+      log.warn(
+        `loki_message:::_retrieveNextMessages - lokiRpc returned false to ${
+          nodeData.ip
+        }:${nodeData.port}`
+      );
+    }
 
     return result.messages || [];
   }
