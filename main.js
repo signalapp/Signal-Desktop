@@ -82,6 +82,13 @@ const {
 } = require('./app/protocol_filter');
 const { installPermissionsHandler } = require('./app/permissions');
 
+const _sodium = require('libsodium-wrappers');
+
+async function getSodium() {
+  await _sodium.ready;
+  return _sodium;
+}
+
 let appStartInitialSpellcheckSetting = true;
 
 async function getSpellCheckSetting() {
@@ -1117,6 +1124,52 @@ ipc.on('get-auto-update-setting', event => {
   const configValue = userConfig.get('autoUpdate');
   // eslint-disable-next-line no-param-reassign
   event.returnValue = typeof configValue !== 'boolean' ? true : configValue;
+});
+
+async function decryptLns(event, lnsName, ciphertext) {
+  const sodium = await getSodium();
+
+  const salt = new Uint8Array(sodium.crypto_pwhash_SALTBYTES);
+
+  try {
+    const key = sodium.crypto_pwhash(
+      sodium.crypto_secretbox_KEYBYTES,
+      lnsName,
+      salt,
+      sodium.crypto_pwhash_OPSLIMIT_MODERATE,
+      sodium.crypto_pwhash_MEMLIMIT_MODERATE,
+      sodium.crypto_pwhash_ALG_ARGON2ID13
+    );
+
+    const nonce = new Uint8Array(sodium.crypto_secretbox_NONCEBYTES);
+
+    const res = sodium.crypto_secretbox_open_easy(ciphertext, nonce, key);
+
+    // null as first parameter to indivate no error
+    event.reply('decrypt-lns-response', null, res);
+  } catch (err) {
+    event.reply('decrypt-lns-response', err);
+  }
+}
+
+async function blake2bDigest(event, input) {
+  const sodium = await getSodium();
+
+  try {
+    const res = sodium.crypto_generichash(32, input);
+
+    event.reply('blake2b-digest-response', null, res);
+  } catch (err) {
+    event.reply('blake2b-digest-response', err);
+  }
+}
+
+ipc.on('blake2b-digest', (event, input) => {
+  blake2bDigest(event, input);
+});
+
+ipc.on('decrypt-lns-entry', (event, lnsName, ciphertext) => {
+  decryptLns(event, lnsName, ciphertext);
 });
 
 ipc.on('set-auto-update-setting', (event, enabled) => {
