@@ -37,16 +37,16 @@ describe('Open groups', function() {
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
 
     // validate session loader is shown
-    await app.client.isExisting(ConversationPage.sessionLoader);
+    await app.client.isExisting(ConversationPage.sessionLoader).should
+      .eventually.be.true;
     await app.client.waitForExist(
       ConversationPage.sessionToastJoinOpenGroupSuccess,
       9000
     );
 
     // validate overlay is closed
-    await app.client
-      .isExisting(ConversationPage.leftPaneOverlay)
-      .should.eventually.be.equal(false);
+    await app.client.isExisting(ConversationPage.leftPaneOverlay).should
+      .eventually.be.false;
 
     // validate open chat has been added
     await app.client.waitForExist(
@@ -81,9 +81,8 @@ describe('Open groups', function() {
       .setValue(common.VALID_GROUP_URL2);
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
     // validate session loader is not shown
-    await app.client
-      .isExisting(ConversationPage.sessionLoader)
-      .should.eventually.be.equal(false);
+    await app.client.isExisting(ConversationPage.sessionLoader).should
+      .eventually.be.false;
 
     await app.client.waitForExist(
       ConversationPage.sessionToastJoinOpenGroupAlreadyExist,
@@ -91,9 +90,8 @@ describe('Open groups', function() {
     );
 
     // validate overlay is still opened
-    await app.client
-      .isExisting(ConversationPage.leftPaneOverlay)
-      .should.eventually.be.equal(true);
+    await app.client.isExisting(ConversationPage.leftPaneOverlay).should
+      .eventually.be.true;
   });
 
   it('can send message to open group', async () => {

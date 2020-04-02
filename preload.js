@@ -437,3 +437,10 @@ if (
     buildNewOnionPaths: () => [],
   };
 }
+if (config.environment.includes('test-integration')) {
+  window.lokiFeatureFlags = {
+    multiDeviceUnpairing: true,
+    privateGroupChats: true,
+    useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
+  };
+}
