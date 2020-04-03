@@ -28,7 +28,6 @@
   const ARCHIVE_AGE = 7 * 24 * 60 * 60 * 1000;
 
   function AccountManager(username, password) {
-    // this.server = window.WebAPI.connect({ username, password });
     this.pending = Promise.resolve();
   }
 
@@ -48,12 +47,8 @@
   AccountManager.prototype = new textsecure.EventTarget();
   AccountManager.prototype.extend({
     constructor: AccountManager,
-    requestVoiceVerification(number) {
-      // return this.server.requestVerificationVoice(number);
-    },
-    requestSMSVerification(number) {
-      // return this.server.requestVerificationSMS(number);
-    },
+    requestVoiceVerification(number) {},
+    requestSMSVerification(number) {},
     async encryptDeviceName(name, providedIdentityKey) {
       if (!name) {
         return null;
@@ -98,23 +93,13 @@
       return name;
     },
     async maybeUpdateDeviceName() {
-      const isNameEncrypted = textsecure.storage.user.getDeviceNameEncrypted();
-      if (isNameEncrypted) {
-        return;
-      }
-      const deviceName = await textsecure.storage.user.getDeviceName();
-      const base64 = await this.encryptDeviceName(deviceName);
-
-      await this.server.updateDeviceName(base64);
+      throw new Error('Signal method called: maybeUpdateDeviceName');
     },
     async deviceNameIsEncrypted() {
       await textsecure.storage.user.setDeviceNameEncrypted();
     },
     async maybeDeleteSignalingKey() {
-      const key = await textsecure.storage.user.getSignalingKey();
-      if (key) {
-        await this.server.removeSignalingKey();
-      }
+      throw new Error('Signal method called: maybeDeleteSignalingKey');
     },
     registerSingleDevice(mnemonic, mnemonicLanguage, profileName) {
       const createAccount = this.createAccount.bind(this);
@@ -212,19 +197,7 @@
         'account_manager: registerSecondDevice has not been implemented!'
       );
     },
-    refreshPreKeys() {
-      // const generateKeys = this.generateKeys.bind(this, 0);
-      // const registerKeys = this.server.registerKeys.bind(this.server);
-      // return this.queueTask(() =>
-      //   this.server.getMyKeys().then(preKeyCount => {
-      //     window.log.info(`prekey count ${preKeyCount}`);
-      //     if (preKeyCount < 10) {
-      //       return generateKeys().then(registerKeys);
-      //     }
-      //     return null;
-      //   })
-      // );
-    },
+    refreshPreKeys() {},
     rotateSignedPreKey() {
       return this.queueTask(() => {
         const signedKeyId = textsecure.storage.get('signedKeyId', 1);
@@ -512,7 +485,6 @@
               keyId: res.keyId,
               publicKey: res.keyPair.pubKey,
               signature: res.signature,
-              // server.registerKeys doesn't use keyPair, confirmKeys does
               keyPair: res.keyPair,
             };
           })
