@@ -184,8 +184,8 @@ Message.prototype = {
   },
 };
 
-function MessageSender() {
-  this.server = WebAPI.connect();
+function MessageSender(username, password) {
+  this.server = WebAPI.connect({ username, password });
   this.pendingMessages = {};
 }
 
@@ -595,8 +595,16 @@ MessageSender.prototype = {
     );
   },
 
-  async getProfile() {
-    throw new Error('Signal code called. This needs to be removed');
+  async getProfile(number, { accessKey } = {}) {
+    if (accessKey) {
+      return this.server.getProfileUnauth(number, { accessKey });
+    }
+
+    return this.server.getProfile(number);
+  },
+
+  getAvatar(path) {
+    return this.server.getAvatar(path);
   },
 
   uploadAvatar(attachment) {
@@ -1330,6 +1338,7 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.leaveGroup = sender.leaveGroup.bind(sender);
   this.sendSyncMessage = sender.sendSyncMessage.bind(sender);
   this.getProfile = sender.getProfile.bind(sender);
+  this.getAvatar = sender.getAvatar.bind(sender);
   this.uploadAvatar = sender.uploadAvatar.bind(sender);
   this.syncReadMessages = sender.syncReadMessages.bind(sender);
   this.syncVerification = sender.syncVerification.bind(sender);
