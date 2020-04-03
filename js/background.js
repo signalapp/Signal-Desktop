@@ -569,6 +569,12 @@
 
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
+      // window.Signal.RefreshSenderCertificate.initialize({
+      //   events: Whisper.events,
+      //   storage,
+      //   navigator,
+      //   logger: window.log,
+      // });
 
       connect(true);
     });
@@ -591,6 +597,12 @@
     ) {
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
+      // window.Signal.RefreshSenderCertificate.initialize({
+      //   events: Whisper.events,
+      //   storage,
+      //   navigator,
+      //   logger: window.log,
+      // });
 
       connect();
       appView.openInbox({
@@ -1535,7 +1547,34 @@
       textsecure.storage.user.getDeviceId() != '1'
     ) {
       window.getSyncRequest();
+
+      try {
+        const manager = window.getAccountManager();
+        await Promise.all([
+          manager.maybeUpdateDeviceName(),
+          manager.maybeDeleteSignalingKey(),
+        ]);
+      } catch (e) {
+        window.log.error(
+          'Problem with account manager updates after starting new version: ',
+          e && e.stack ? e.stack : e
+        );
+      }
     }
+
+    // const udSupportKey = 'hasRegisterSupportForUnauthenticatedDelivery';
+    // if (!storage.get(udSupportKey)) {
+    //   const server = WebAPI.connect({ username: USERNAME, password: PASSWORD });
+    //   try {
+    //     await server.registerSupportForUnauthenticatedDelivery();
+    //     storage.put(udSupportKey, true);
+    //   } catch (error) {
+    //     window.log.error(
+    //       'Error: Unable to register for unauthenticated delivery support.',
+    //       error && error.stack ? error.stack : error
+    //     );
+    //   }
+    // }
 
     const deviceId = textsecure.storage.user.getDeviceId();
     if (firstRun === true && deviceId !== '1') {

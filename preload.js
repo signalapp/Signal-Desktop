@@ -312,7 +312,13 @@ window.nodeSetImmediate = setImmediate;
 
 const { initialize: initializeWebAPI } = require('./js/modules/web_api');
 
-window.WebAPI = initializeWebAPI();
+window.WebAPI = initializeWebAPI({
+  url: config.serverUrl,
+  cdnUrl: config.cdnUrl,
+  certificateAuthority: config.certificateAuthority,
+  contentProxyUrl: config.contentProxyUrl,
+  proxyUrl: config.proxyUrl,
+});
 
 window.seedNodeList = JSON.parse(config.seedNodeList);
 const LokiSnodeAPI = require('./js/modules/loki_snode_api');
@@ -356,6 +362,8 @@ window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
 window.emojiData = require('emoji-datasource');
 window.EmojiPanel = require('emoji-panel');
 window.filesize = require('filesize');
+window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
 window.loadImage = require('blueimp-load-image');
 window.getGuid = require('uuid/v4');
 window.profileImages = require('./app/profile_images');
