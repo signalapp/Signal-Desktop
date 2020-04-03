@@ -59,7 +59,13 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
       }
 
       // after verification then we can start up all the pollers
-      thisServer = new LokiAppDotNetAPI(this.ourKey, serverUrl);
+      if (process.env.USE_STUBBED_NETWORK) {
+        // eslint-disable-next-line global-require
+        const StubAppDotNetAPI = require('../../integration_test/stubs/stub_app_dot_net_api.js');
+        thisServer = new StubAppDotNetAPI(this.ourKey, serverUrl);
+      } else {
+        thisServer = new LokiAppDotNetAPI(this.ourKey, serverUrl);
+      }
 
       const gotToken = await thisServer.getOrRefreshServerToken();
       if (!gotToken) {

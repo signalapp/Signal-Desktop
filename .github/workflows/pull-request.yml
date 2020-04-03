@@ -47,8 +47,9 @@ jobs:
         run: yarn generate
 
       - name: Lint Files
+        if: runner.os != 'Windows'
         run: |
-          yarn format-full --list-different
+          yarn format-full
           yarn eslint
           yarn tslint
 

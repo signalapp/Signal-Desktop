@@ -15,6 +15,8 @@ interface State {
 }
 
 export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
+  private readonly inputRef: React.RefObject<HTMLInputElement>;
+
   constructor(props: any) {
     super(props);
 
@@ -25,12 +27,16 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
     };
 
     this.onKeyUp = this.onKeyUp.bind(this);
+    this.onPaste = this.onPaste.bind(this);
+
     this.initLogin = this.initLogin.bind(this);
     this.initClearDataView = this.initClearDataView.bind(this);
+
+    this.inputRef = React.createRef();
   }
 
   public componentDidMount() {
-    setTimeout(() => $('#password-prompt-input').focus(), 100);
+    (this.inputRef.current as HTMLInputElement).focus();
   }
 
   public render() {
@@ -62,6 +68,8 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
         placeholder={' '}
         onKeyUp={this.onKeyUp}
         maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
+        onPaste={this.onPaste}
+        ref={this.inputRef}
       />
     );
     const infoIcon = this.state.clearDataView ? (
@@ -120,23 +128,43 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
     event.preventDefault();
   }
 
+  public onPaste(event: any) {
+    const clipboard = event.clipboardData.getData('text');
+
+    if (clipboard.length > window.CONSTANTS.MAX_PASSWORD_LENGTH) {
+      this.setState({
+        error: String(
+          window.i18n(
+            'pasteLongPasswordToastTitle',
+            window.CONSTANTS.MAX_PASSWORD_LENGTH
+          )
+        ),
+      });
+    }
+
+    // Prevent pasting into input
+    return false;
+  }
+
   public async onLogin(passPhrase: string) {
-    const trimmed = passPhrase ? passPhrase.trim() : passPhrase;
+    const passPhraseTrimmed = passPhrase.trim();
 
     try {
-      await window.onLogin(trimmed);
-    } catch (e) {
+      await window.onLogin(passPhraseTrimmed);
+    } catch (error) {
       // Increment the error counter and show the button if necessary
       this.setState({
         errorCount: this.state.errorCount + 1,
       });
 
-      this.setState({ error: e });
+      this.setState({ error });
     }
   }
 
   private async initLogin() {
-    const passPhrase = String($('#password-prompt-input').val());
+    const passPhrase = String(
+      (this.inputRef.current as HTMLInputElement).value
+    );
     await this.onLogin(passPhrase);
   }
 

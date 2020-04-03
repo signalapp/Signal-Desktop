@@ -320,7 +320,6 @@
       getSpellCheck: () => storage.get('spell-check', true),
       setSpellCheck: value => {
         storage.put('spell-check', value);
-        startSpellCheck();
       },
 
       addDarkOverlay: () => {
@@ -418,19 +417,6 @@
         idleDetector.stop();
       }
     });
-
-    const startSpellCheck = () => {
-      if (!window.enableSpellCheck || !window.disableSpellCheck) {
-        return;
-      }
-
-      if (window.Events.getSpellCheck()) {
-        window.enableSpellCheck();
-      } else {
-        window.disableSpellCheck();
-      }
-    };
-    startSpellCheck();
 
     const themeSetting = window.Events.getThemeSetting();
     const newThemeSetting = mapOldThemeToNew(themeSetting);
@@ -1037,8 +1023,16 @@
     };
 
     window.toggleSpellCheck = () => {
-      const newValue = !window.getSettingValue('spell-check');
+      const currentValue = window.getSettingValue('spell-check');
+      // if undefined, it means 'default' so true. but we have to toggle it, so false
+      // if not undefined, we take the opposite
+      const newValue = currentValue !== undefined ? !currentValue : false;
       window.Events.setSpellCheck(newValue);
+      window.pushToast({
+        description: window.i18n('spellCheckDirty'),
+        type: 'info',
+        id: 'spellCheckDirty',
+      });
     };
 
     window.toggleLinkPreview = () => {
@@ -1340,6 +1334,18 @@
       }
     });
 
+    Whisper.events.on('devicePairingRequestReceivedNoListener', async () => {
+      window.pushToast({
+        title: window.i18n('devicePairingRequestReceivedNoListenerTitle'),
+        description: window.i18n(
+          'devicePairingRequestReceivedNoListenerDescription'
+        ),
+        type: 'info',
+        id: 'pairingRequestNoListener',
+        shouldFade: false,
+      });
+    });
+
     Whisper.events.on('devicePairingRequestAccepted', async (pubKey, cb) => {
       try {
         await getAccountManager().authoriseSecondaryDevice(pubKey);
@@ -1427,6 +1433,9 @@
   let connectCount = 0;
   async function connect(firstRun) {
     window.log.info('connect');
+
+    // Initialize paths for onion requests
+    await window.lokiSnodeAPI.buildNewOnionPaths();
 
     // Bootstrap our online/offline detection, only the first time we connect
     if (connectCount === 0 && navigator.onLine) {
@@ -2145,7 +2154,7 @@
     const shouldSendReceipt =
       !isError &&
       data.unidentifiedDeliveryReceived &&
-      !data.isFriendRequest &&
+      !data.friendRequest &&
       !isGroup;
 
     // Send the receipt async and hope that it succeeds

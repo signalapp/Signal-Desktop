@@ -149,6 +149,7 @@ $session-compose-margin: 20px;
 
   &-session {
     display: flex;
+    height: 100vh;
   }
 
   &__sections-container {
@@ -462,27 +463,6 @@ $session-compose-margin: 20px;
         background: $session-shade-8;
       }
     }
-  }
-}
-
-.contact-notification-count-bubble {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: $session-color-danger;
-  width: 22px;
-  height: 22px;
-  font-size: $session-font-xs;
-  margin-left: auto;
-  text-align: center;
-  border-radius: 50%;
-  font-weight: bold;
-  cursor: pointer;
-  transition: $session-transition-duration;
-
-  color: $session-color-white;
-  &:hover {
-    filter: brightness(80%);
   }
 }
 

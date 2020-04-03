@@ -3,7 +3,6 @@
   "localUrl": "localhost.loki",
   "cdnUrl": "random.snode",
   "contentProxyUrl": "",
-  "localServerPort": "8081",
   "defaultPoWDifficulty": "1",
   "seedNodeList": [
     {

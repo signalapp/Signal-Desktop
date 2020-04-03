@@ -82,7 +82,7 @@
 
   .error-faded {
     opacity: 0;
-    margin-top: -20px;
+    margin-top: -5px;
     transition: all 100ms linear;
   }
 
@@ -96,8 +96,6 @@
   max-height: 240px;
   overflow-y: auto;
   margin: 4px;
-  border-top: 1px solid #2f2f2f;
-  border-bottom: 1px solid #2f2f2f;
 
   .check-mark {
     float: right;
