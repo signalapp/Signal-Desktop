@@ -148,6 +148,7 @@
 
   <script type='text/x-tmpl-mustache' id='group-member-list'>
     <div class='container' tabindex='0'>
+      {{ #membersCount }} <div>{{ membersCount }}</div>{{ /membersCount }}
       {{ #summary }} <div class='summary'>{{ summary }}</div>{{ /summary }}
     </div>
   </script>

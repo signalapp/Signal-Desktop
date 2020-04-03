@@ -34,6 +34,7 @@
 
       return {
         members: i18n('groupMembers'),
+        membersCount: i18n('groupMembersCount', this.model.length),
         summary,
       };
     },
