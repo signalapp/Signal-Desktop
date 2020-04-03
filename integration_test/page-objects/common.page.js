@@ -13,6 +13,7 @@ module.exports = {
     `//input[contains(@placeholder, "${placeholder}")]`,
   textAreaWithPlaceholder: placeholder =>
     `//textarea[contains(@placeholder, "${placeholder}")]`,
+  byId: id => `//*[@id="${id}"]`,
   divWithClass: classname => `//div[contains(@class, "${classname}")]`,
   divWithClassAndText: (classname, text) =>
     module.exports.objWithClassAndText('div', classname, text),
