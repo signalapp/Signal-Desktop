@@ -931,6 +931,15 @@
   "groupMembers": {
     "message": "Group members"
   },
+  "groupMembersCount": {
+    "message": "$count$ members",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "20"
+      }
+    }
+  },
   "showMembers": {
     "message": "Show members"
   },
