@@ -46,6 +46,7 @@ jobs:
         run: yarn generate
 
       - name: Lint Files
+        if: runner.os != 'Windows'
         run: yarn lint-full
 
       - name: Build windows production binaries
