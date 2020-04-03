@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 /* global Whisper: false */
 /* global window: false */
 const path = require('path');
@@ -51,13 +50,6 @@ window.getStoragePubKey = key =>
 window.getDefaultFileServer = () => config.defaultFileServer;
 window.initialisedAPI = false;
 
-if (
-  typeof process.env.NODE_ENV === 'string' &&
-  process.env.NODE_ENV.includes('test-integration')
-) {
-  window.electronRequire = require;
-}
-
 window.isBeforeVersion = (toCheck, baseVersion) => {
   try {
     return semver.lt(toCheck, baseVersion);
@@ -72,7 +64,7 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
 
 window.CONSTANTS = {
   MAX_LOGIN_TRIES: 3,
-  MAX_PASSWORD_LENGTH: 64,
+  MAX_PASSWORD_LENGTH: 32,
   MAX_USERNAME_LENGTH: 20,
   MAX_GROUP_NAME_LENGTH: 64,
   DEFAULT_PUBLIC_CHAT_URL: appConfig.get('defaultPublicChatServer'),
@@ -94,26 +86,6 @@ window.wrapDeferred = deferredToPromise;
 
 const ipc = electron.ipcRenderer;
 const localeMessages = ipc.sendSync('locale-data');
-
-window.blake2b = input =>
-  new Promise((resolve, reject) => {
-    ipc.once('blake2b-digest-response', (event, error, res) => {
-      // eslint-disable-next-line no-unused-expressions
-      error ? reject(error) : resolve(res);
-    });
-
-    ipc.send('blake2b-digest', input);
-  });
-
-window.decryptLnsEntry = (key, value) =>
-  new Promise((resolve, reject) => {
-    ipc.once('decrypt-lns-response', (event, error, res) => {
-      // eslint-disable-next-line no-unused-expressions
-      error ? reject(error) : resolve(res);
-    });
-
-    ipc.send('decrypt-lns-entry', key, value);
-  });
 
 window.updateZoomFactor = () => {
   const zoomFactor = window.getSettingValue('zoom-factor-setting') || 100;
@@ -217,11 +189,6 @@ ipc.on('set-up-as-standalone', () => {
   Whisper.events.trigger('setupAsStandalone');
 });
 
-ipc.on('get-theme-setting', () => {
-  const theme = window.Events.getThemeSetting();
-  ipc.send('get-success-theme-setting', theme);
-});
-
 // Settings-related events
 
 window.showPermissionsPopup = () => ipc.send('show-permissions-popup');
@@ -312,7 +279,13 @@ window.nodeSetImmediate = setImmediate;
 
 const { initialize: initializeWebAPI } = require('./js/modules/web_api');
 
-window.WebAPI = initializeWebAPI();
+window.WebAPI = initializeWebAPI({
+  url: config.serverUrl,
+  cdnUrl: config.cdnUrl,
+  certificateAuthority: config.certificateAuthority,
+  contentProxyUrl: config.contentProxyUrl,
+  proxyUrl: config.proxyUrl,
+});
 
 window.seedNodeList = JSON.parse(config.seedNodeList);
 const LokiSnodeAPI = require('./js/modules/loki_snode_api');
@@ -324,10 +297,6 @@ window.lokiSnodeAPI = new LokiSnodeAPI({
 
 window.LokiMessageAPI = require('./js/modules/loki_message_api');
 
-if (process.env.USE_STUBBED_NETWORK) {
-  window.StubMessageAPI = require('./integration_test/stubs/stub_message_api');
-  window.StubAppDotNetApi = require('./integration_test/stubs/stub_app_dot_net_api');
-}
 window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
 
 window.LokiAppDotNetServerAPI = require('./js/modules/loki_app_dot_net_api');
@@ -335,6 +304,8 @@ window.LokiAppDotNetServerAPI = require('./js/modules/loki_app_dot_net_api');
 window.LokiFileServerAPI = require('./js/modules/loki_file_server_api');
 
 window.LokiRssAPI = require('./js/modules/loki_rss_api');
+
+window.localServerPort = config.localServerPort;
 
 window.mnemonic = require('./libloki/modules/mnemonic');
 const WorkerInterface = require('./js/modules/util_worker_interface');
@@ -356,6 +327,8 @@ window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
 window.emojiData = require('emoji-datasource');
 window.EmojiPanel = require('emoji-panel');
 window.filesize = require('filesize');
+window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
 window.loadImage = require('blueimp-load-image');
 window.getGuid = require('uuid/v4');
 window.profileImages = require('./app/profile_images');
@@ -363,6 +336,13 @@ window.profileImages = require('./app/profile_images');
 window.React = require('react');
 window.ReactDOM = require('react-dom');
 window.moment = require('moment');
+
+const _sodium = require('libsodium-wrappers');
+
+window.getSodium = async () => {
+  await _sodium.ready;
+  return _sodium;
+};
 
 window.clipboard = clipboard;
 
@@ -393,16 +373,33 @@ window.Signal.Backup = require('./js/modules/backup');
 window.Signal.Debug = require('./js/modules/debug');
 window.Signal.Logs = require('./js/modules/logs');
 
-window.addEventListener('contextmenu', e => {
-  const editable = e.target.closest(
-    'textarea, input, [contenteditable="true"]'
-  );
-  const link = e.target.closest('a');
-  const selection = Boolean(window.getSelection().toString());
-  if (!editable && !selection && !link) {
-    e.preventDefault();
-  }
+// Add right-click listener for selected text and urls
+const contextMenu = require('electron-context-menu');
+
+const isQR = params =>
+  params.mediaType === 'image' && params.titleText === 'Scan me!';
+
+// QR saving doesn't work so we just disable it
+contextMenu({
+  showInspectElement: false,
+  shouldShowMenu: (event, params) => {
+    const isRegular =
+      params.mediaType === 'none' && (params.linkURL || params.selectionText);
+    return Boolean(!params.isEditable && (isQR(params) || isRegular));
+  },
+  menu: (actions, params) => {
+    // If it's not a QR then show the default options
+    if (!isQR(params)) {
+      return actions;
+    }
+
+    return [actions.copyImage()];
+  },
 });
+
+// We pull this in last, because the native module involved appears to be sensitive to
+//   /tmp mounted as noexec on Linux.
+require('./js/spell_check');
 
 window.shortenPubkey = pubkey => `(...${pubkey.substring(pubkey.length - 6)})`;
 
@@ -412,9 +409,8 @@ window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
 window.lokiFeatureFlags = {
   multiDeviceUnpairing: true,
   privateGroupChats: true,
-  useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
+  useSnodeProxy: true,
   useSealedSender: true,
-  useOnionRequests: false,
 };
 
 // eslint-disable-next-line no-extend-native,func-names
@@ -423,10 +419,7 @@ Promise.prototype.ignore = function() {
   this.then(() => {});
 };
 
-if (
-  config.environment.includes('test') &&
-  !config.environment.includes('swarm-testing')
-) {
+if (config.environment.includes('test')) {
   const isWindows = process.platform === 'win32';
   /* eslint-disable global-require, import/no-extraneous-dependencies */
   window.test = {
@@ -446,13 +439,5 @@ if (
     updateSwarmNodes: () => {},
     updateLastHash: () => {},
     getSwarmNodesForPubKey: () => [],
-    buildNewOnionPaths: () => [],
-  };
-}
-if (config.environment.includes('test-integration')) {
-  window.lokiFeatureFlags = {
-    multiDeviceUnpairing: true,
-    privateGroupChats: true,
-    useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
   };
 }

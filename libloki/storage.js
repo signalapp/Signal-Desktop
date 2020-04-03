@@ -240,14 +240,6 @@
     return window.Signal.Data.getSecondaryDevicesFor(primaryDevicePubKey);
   }
 
-  function getGuardNodes() {
-    return window.Signal.Data.getGuardNodes();
-  }
-
-  function updateGuardNodes(nodes) {
-    return window.Signal.Data.updateGuardNodes(nodes);
-  }
-
   async function getAllDevicePubKeysForPrimaryPubKey(primaryDevicePubKey) {
     await saveAllPairingAuthorisationsFor(primaryDevicePubKey);
     const secondaryPubKeys =
@@ -273,8 +265,6 @@
     getAllDevicePubKeysForPrimaryPubKey,
     getSecondaryDevicesFor,
     getPrimaryDeviceMapping,
-    getGuardNodes,
-    updateGuardNodes,
   };
 
   // Libloki protocol store

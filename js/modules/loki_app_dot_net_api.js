@@ -32,8 +32,6 @@ const snodeHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
 
-const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
-
 const sendToProxy = async (
   srvPubKey,
   endpoint,
@@ -46,6 +44,8 @@ const sendToProxy = async (
     );
     return {};
   }
+  const randSnode = await lokiSnodeAPI.getRandomSnodeAddress();
+  const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
 
   const fetchOptions = pFetchOptions; // make lint happy
   // safety issue with file server, just safer to have this
@@ -61,7 +61,6 @@ const sendToProxy = async (
   };
 
   // from https://github.com/sindresorhus/is-stream/blob/master/index.js
-  let fileUpload = false;
   if (
     payloadObj.body &&
     typeof payloadObj.body === 'object' &&
@@ -75,21 +74,7 @@ const sendToProxy = async (
     payloadObj.body = {
       fileUpload: fData.toString('base64'),
     };
-    fileUpload = true;
   }
-
-  // use nodes that support more than 1mb
-  const randomFunc = fileUpload
-    ? 'getRandomProxySnodeAddress'
-    : 'getRandomSnodeAddress';
-  const randSnode = await lokiSnodeAPI[randomFunc]();
-  if (randSnode === false) {
-    log.warn('proxy random snode pool is not ready, retrying 10s', endpoint);
-    // no nodes in the pool yet, give it some time and retry
-    await timeoutDelay(1000);
-    return sendToProxy(srvPubKey, endpoint, pFetchOptions, options);
-  }
-  const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
 
   // convert our payload to binary buffer
   const payloadData = Buffer.from(
@@ -153,7 +138,7 @@ const sendToProxy = async (
     );
     // retry (hopefully with new snode)
     // FIXME: max number of retries...
-    return sendToProxy(srvPubKey, endpoint, fetchOptions, options);
+    return sendToProxy(srvPubKey, endpoint, fetchOptions);
   }
 
   let response = {};
@@ -257,8 +242,8 @@ const serverRequest = async (endpoint, options = {}) => {
       FILESERVER_HOSTS.includes(host)
     ) {
       mode = 'sendToProxy';
+      // strip trailing slash
       const search = url.search ? `?${url.search}` : '';
-      // strip first slash
       const endpointWithQS = `${url.pathname}${search}`.replace(/^\//, '');
       // log.info('endpointWithQS', endpointWithQS)
       ({ response, txtResponse, result } = await sendToProxy(
@@ -269,7 +254,7 @@ const serverRequest = async (endpoint, options = {}) => {
       ));
     } else {
       // disable check for .loki
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = host.match(/\.loki$/i)
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = url.host.match(/\.loki$/i)
         ? '0'
         : '1';
       result = await nodeFetch(url, fetchOptions);
@@ -298,7 +283,7 @@ const serverRequest = async (endpoint, options = {}) => {
         url
       );
     }
-    if (mode === 'sendToProxy') {
+    if (mode === '_sendToProxy') {
       // if we can detect, certain types of failures, we can retry...
       if (e.code === 'ECONNRESET') {
         // retry with counter?
@@ -312,7 +297,7 @@ const serverRequest = async (endpoint, options = {}) => {
   if (result.status !== 200) {
     if (!forceFreshToken && (!response.meta || response.meta.code === 401)) {
       // retry with forcing a fresh token
-      return serverRequest(endpoint, {
+      return this.serverRequest(endpoint, {
         ...options,
         forceFreshToken: true,
       });
@@ -658,7 +643,7 @@ class LokiAppDotNetServerAPI {
 
     try {
       const res = await this.proxyFetch(
-        new URL(`${this.baseServerUrl}/loki/v1/submit_challenge`),
+        `${this.baseServerUrl}/loki/v1/submit_challenge`,
         fetchOptions,
         { textResponse: true }
       );
@@ -683,8 +668,7 @@ class LokiAppDotNetServerAPI {
       }
       const urlStr = urlObj.toString();
       const endpoint = urlStr.replace(`${this.baseServerUrl}/`, '');
-      const { response, result } = await sendToProxy(
-        this.pubKey,
+      const { response, result } = await this._sendToProxy(
         endpoint,
         finalOptions,
         options
@@ -695,8 +679,8 @@ class LokiAppDotNetServerAPI {
         json: () => response,
       };
     }
-    const host = urlObj.host.toLowerCase();
-    if (host.match(/\.loki$/)) {
+    const urlStr = urlObj.toString();
+    if (urlStr.match(/\.loki\//)) {
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     }
     const result = nodeFetch(urlObj, fetchOptions, options);

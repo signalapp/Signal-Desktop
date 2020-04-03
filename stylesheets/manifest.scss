@@ -12,6 +12,7 @@
 @import 'emoji';
 @import 'mentions';
 @import 'settings';
+@import 'password';
 
 // Build the main view
 @import 'index';
@@ -21,16 +22,10 @@
 @import 'ios';
 @import 'theme_dark';
 
-// /////////////////// //
-// ///// Session ///// //
-// /////////////////// //
+// Session
 @import 'modules';
 @import 'session';
-
-// Separate screens
 @import 'session_signin';
-@import 'session_password';
-
 @import 'session_theme';
 @import 'session_left_pane';
 @import 'session_group_panel';

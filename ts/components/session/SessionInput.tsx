@@ -61,10 +61,6 @@ export class SessionInput extends React.PureComponent<Props, State> {
           className={classNames(
             enableShowHide ? 'session-input-floating-label-show-hide' : ''
           )}
-          // just incase onChange isn't triggered
-          onBlur={e => {
-            this.updateInputValue(e);
-          }}
           onKeyPress={event => {
             event.persist();
             if (event.key === 'Enter' && this.props.onEnterPressed) {

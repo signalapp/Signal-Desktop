@@ -14,7 +14,7 @@ Remember, you can preview this before saving it.
 ### Contributor checklist:
 
 * [ ] My commits are in nice logical chunks with [good commit messages](http://chris.beams.io/posts/git-commit/)
-* [ ] My changes are [rebased](https://blog.axosoft.com/golden-rule-of-rebasing-in-git/) on the latest [`clearnet`](https://github.com/loki-project/loki-messenger/tree/clearnet) branch
+* [ ] My changes are [rebased](https://medium.freecodecamp.org/git-rebase-and-the-golden-rule-explained-70715eccc372) on the latest [`clearnet`](https://github.com/loki-project/loki-messenger/tree/development) branch
 * [ ] A `yarn ready` run passes successfully ([more about tests here](https://github.com/loki-project/loki-messenger/blob/master/CONTRIBUTING.md#tests))
 * [ ] My changes are ready to be shipped to users
 

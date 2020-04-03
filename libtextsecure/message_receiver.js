@@ -11,6 +11,7 @@
 /* global HttpResource: false */
 /* global ContactBuffer: false */
 /* global GroupBuffer: false */
+/* global WebSocketResource: false */
 /* global lokiPublicChatAPI: false */
 /* global lokiMessageAPI: false */
 /* global feeds: false */
@@ -31,7 +32,14 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
   this.signalingKey = signalingKey;
   this.username = username;
   this.password = password;
-  this.server = WebAPI.connect();
+  this.server = WebAPI.connect({ username, password });
+
+  if (!options.serverTrustRoot) {
+    throw new Error('Server trust root is required!');
+  }
+  this.serverTrustRoot = window.Signal.Crypto.base64ToArrayBuffer(
+    options.serverTrustRoot
+  );
 
   const address = libsignal.SignalProtocolAddress.fromString(username);
   this.number = address.getName();
@@ -102,6 +110,31 @@ MessageReceiver.prototype.extend({
       feed.on('rssMessage', this.handleUnencryptedMessage.bind(this));
     });
 
+    // TODO: Rework this socket stuff to work with online messaging
+    const useWebSocket = false;
+    if (useWebSocket) {
+      if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
+        this.socket.close();
+        this.wsr.close();
+      }
+      // initialize the socket and start listening for messages
+      this.socket = this.server.getMessageSocket();
+      this.socket.onclose = this.onclose.bind(this);
+      this.socket.onerror = this.onerror.bind(this);
+      this.socket.onopen = this.onopen.bind(this);
+      this.wsr = new WebSocketResource(this.socket, {
+        handleRequest: this.handleRequest.bind(this),
+        keepalive: {
+          path: '/v1/keepalive',
+          disconnect: true,
+        },
+      });
+
+      // Because sometimes the socket doesn't properly emit its close event
+      this._onClose = this.onclose.bind(this);
+      this.wsr.addEventListener('close', this._onClose);
+    }
+
     // Ensures that an immediate 'empty' event from the websocket will fire only after
     //   all cached envelopes are processed.
     this.incoming = [this.pending];
@@ -130,10 +163,28 @@ MessageReceiver.prototype.extend({
     this.stoppingProcessing = true;
     return this.close();
   },
-  shutdown() {},
+  shutdown() {
+    if (this.socket) {
+      this.socket.onclose = null;
+      this.socket.onerror = null;
+      this.socket.onopen = null;
+      this.socket = null;
+    }
+
+    if (this.wsr) {
+      this.wsr.removeEventListener('close', this._onClose);
+      this.wsr = null;
+    }
+  },
   async close() {
     window.log.info('MessageReceiver.close()');
     this.calledClose = true;
+
+    // Our WebSocketResource instance will close the socket and emit a 'close' event
+    //   if the socket doesn't emit one quickly enough.
+    if (this.wsr) {
+      this.wsr.close(3000, 'called close');
+    }
 
     // stop polling all open group rooms
     if (lokiPublicChatAPI) {
@@ -169,6 +220,27 @@ MessageReceiver.prototype.extend({
       'calledClose:',
       this.calledClose
     );
+    // TODO: handle properly
+    // this.shutdown();
+
+    // if (this.calledClose) {
+    //   return Promise.resolve();
+    // }
+    // if (ev.code === 3000) {
+    //   return Promise.resolve();
+    // }
+    // if (ev.code === 3001) {
+    //   this.onEmpty();
+    // }
+    // // possible 403 or network issue. Make an request to confirm
+    // return this.server
+    //   .getDevices(this.number)
+    //   .then(this.connect.bind(this)) // No HTTP error? Reconnect
+    //   .catch(e => {
+    //     const event = new Event('error');
+    //     event.error = e;
+    //     return this.dispatchAndWait(event);
+    //   });
   },
   handleRequest(request, options) {
     const { onSuccess, onFailure } = options;
@@ -565,7 +637,9 @@ MessageReceiver.prototype.extend({
         ? WebSocket.OPEN
         : WebSocket.CLOSED;
     }
-    if (this.hasConnected) {
+    if (this.socket) {
+      return this.socket.readyState;
+    } else if (this.hasConnected) {
       return WebSocket.CLOSED;
     }
     return -1;
@@ -901,11 +975,6 @@ MessageReceiver.prototype.extend({
         await window.libloki.storage.savePairingAuthorisation(pairingRequest);
         Whisper.events.trigger(
           'devicePairingRequestReceived',
-          pairingRequest.secondaryDevicePubKey
-        );
-      } else {
-        Whisper.events.trigger(
-          'devicePairingRequestReceivedNoListener',
           pairingRequest.secondaryDevicePubKey
         );
       }

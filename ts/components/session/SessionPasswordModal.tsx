@@ -20,9 +20,6 @@ interface State {
 }
 
 export class SessionPasswordModal extends React.Component<Props, State> {
-  private readonly passwordInput: React.RefObject<HTMLInputElement>;
-  private readonly passwordInputConfirm: React.RefObject<HTMLInputElement>;
-
   constructor(props: any) {
     super(props);
 
@@ -36,20 +33,10 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     this.closeDialog = this.closeDialog.bind(this);
 
     this.onKeyUp = this.onKeyUp.bind(this);
-    this.onPaste = this.onPaste.bind(this);
-
-    this.passwordInput = React.createRef();
-    this.passwordInputConfirm = React.createRef();
   }
 
   public componentDidMount() {
-    setTimeout(() => {
-      if (!this.passwordInput.current) {
-        return;
-      }
-
-      this.passwordInput.current.focus();
-    }, 100);
+    setTimeout(() => $('#password-modal-input').focus(), 100);
   }
 
   public render() {
@@ -76,21 +63,17 @@ export class SessionPasswordModal extends React.Component<Props, State> {
           <input
             type="password"
             id="password-modal-input"
-            ref={this.passwordInput}
             placeholder={placeholders[0]}
             onKeyUp={this.onKeyUp}
             maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
-            onPaste={this.onPaste}
           />
           {action !== PasswordAction.Remove && (
             <input
               type="password"
               id="password-modal-input-confirm"
-              ref={this.passwordInputConfirm}
               placeholder={placeholders[1]}
               onKeyUp={this.onKeyUp}
               maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
-              onPaste={this.onPaste}
             />
           )}
         </div>
@@ -140,21 +123,16 @@ export class SessionPasswordModal extends React.Component<Props, State> {
   }
 
   private async setPassword(onSuccess: any) {
-    if (!this.passwordInput.current || !this.passwordInputConfirm.current) {
-      return;
-    }
-
-    // Trim leading / trailing whitespace for UX
-    const enteredPassword = String(this.passwordInput.current.value).trim();
+    const enteredPassword = String($('#password-modal-input').val());
     const enteredPasswordConfirm = String(
-      this.passwordInputConfirm.current.value
-    ).trim();
+      $('#password-modal-input-confirm').val()
+    );
 
     if (enteredPassword.length === 0 || enteredPasswordConfirm.length === 0) {
       return;
     }
 
-    // Check passwords entered
+    // Check passwords enntered
     if (
       enteredPassword.length === 0 ||
       (this.props.action === PasswordAction.Change &&
@@ -211,27 +189,6 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     if (this.props.onClose) {
       this.props.onClose();
     }
-  }
-
-  private onPaste(event: any) {
-    const clipboard = event.clipboardData.getData('text');
-
-    if (clipboard.length > window.CONSTANTS.MAX_PASSWORD_LENGTH) {
-      const title = String(
-        window.i18n(
-          'pasteLongPasswordToastTitle',
-          window.CONSTANTS.MAX_PASSWORD_LENGTH
-        )
-      );
-
-      window.pushToast({
-        title,
-        type: 'warning',
-      });
-    }
-
-    // Prevent pating into input
-    return false;
   }
 
   private async onKeyUp(event: any) {

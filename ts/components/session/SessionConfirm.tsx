@@ -48,7 +48,7 @@ export class SessionConfirm extends React.Component<Props> {
 
     const messageSubText = messageSub
       ? 'session-confirm-main-message'
-      : 'subtle';
+      : 'text-subtle';
 
     return (
       <SessionModal
@@ -63,7 +63,7 @@ export class SessionConfirm extends React.Component<Props> {
         <div className="session-modal__centered">
           <span className={messageSubText}>{message}</span>
           {messageSub && (
-            <span className="session-confirm-sub-message subtle">
+            <span className="session-confirm-sub-message text-subtle">
               {messageSub}
             </span>
           )}

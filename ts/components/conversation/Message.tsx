@@ -1116,19 +1116,11 @@ export class Message extends React.PureComponent<Props, State> {
               expiring ? 'module-message--expired' : null
             )}
             role="button"
-            onClick={event => {
+            onClick={() => {
               const selection = window.getSelection();
-              // Text is being selected
               if (selection && selection.type === 'Range') {
                 return;
               }
-
-              // User clicked on message body
-              const target = event.target as HTMLDivElement;
-              if (target.className === 'text-selectable') {
-                return;
-              }
-
               this.props.onSelectMessage();
             }}
           >

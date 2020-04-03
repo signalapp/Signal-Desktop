@@ -178,6 +178,10 @@ OutgoingMessage.prototype = {
           return false;
         })
       );
+    // TODO: check if still applicable
+    // if (updateDevices === undefined) {
+    //   return this.server.getKeysForNumber(number, '*').then(handleResult);
+    // }
     let promise = Promise.resolve(true);
     updateDevices.forEach(device => {
       promise = promise.then(() =>

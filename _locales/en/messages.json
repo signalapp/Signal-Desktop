@@ -166,11 +166,6 @@
     "description":
       "Only available on development modes, menu option to open up the standalone device setup sequence"
   },
-  "contextMenuNoSuggestions": {
-    "message": "No Suggestions",
-    "description":
-      "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
-  },
   "connectingLoad": {
     "message": "Connecting To Server",
     "description":
@@ -987,17 +982,10 @@
     "message": "Pair New Device"
   },
   "devicePairingAccepted": {
-    "message": "Device Linking Accepted"
+    "message": "Device Pairing Accepted"
   },
   "devicePairingReceived": {
-    "message": "Device Linking Received"
-  },
-  "devicePairingRequestReceivedNoListenerTitle": {
-    "message": "Device linking request received."
-  },
-  "devicePairingRequestReceivedNoListenerDescription": {
-    "message":
-      "Device linking request received but you are not on the device linking screen. \nFirst go to Settings -> Device -> Link New Device."
+    "message": "Device Pairing Received"
   },
   "waitingForDeviceToRegister": {
     "message": "Waiting for device to register..."
@@ -1006,37 +994,34 @@
     "message": "Scan the QR Code on your secondary device"
   },
   "pairedDevices": {
-    "message": "Linked Devices"
+    "message": "Paired Devices"
   },
   "noPairedDevices": {
-    "message": "No linked devices"
-  },
-  "deviceIsSecondaryNoPairing": {
-    "message": "This device is a secondary device and so cannot be linked."
+    "message": "No paired devices"
   },
   "allowPairing": {
-    "message": "Allow Linking"
+    "message": "Allow Pairing"
   },
   "allowPairingWithDevice": {
-    "message": "Allow linking with this device?"
+    "message": "Allow pairing with this device?"
   },
   "provideDeviceAlias": {
-    "message": "Please provide an alias for this linked device"
+    "message": "Please provide an alias for this paired device"
   },
   "showPairingWordsTitle": {
-    "message": "Linking Secret Words"
+    "message": "Pairing Secret Words"
   },
   "secretPrompt": {
     "message": "Here is your secret"
   },
   "confirmUnpairingTitle": {
-    "message": "Please confirm you want to unlink the following device:"
+    "message": "Please confirm you want to unpair the following device:"
   },
   "unpairDevice": {
-    "message": "Unlink Device"
+    "message": "Unpair Device"
   },
   "deviceUnpaired": {
-    "message": "Device Unlinked"
+    "message": "Device Unpaired"
   },
   "clear": {
     "message": "Clear"
@@ -1418,11 +1403,6 @@
   "spellCheckDescription": {
     "message": "Enable spell check of text entered in message composition box",
     "description": "Description of the media permission description"
-  },
-  "spellCheckDirty": {
-    "message": "You must restart Session to apply your new settings",
-    "description":
-      "Shown when the user changes their spellcheck setting to indicate that they must restart Signal."
   },
   "clearDataHeader": {
     "message": "Clear All Local Data",
@@ -2309,12 +2289,6 @@
   "confirmPassword": {
     "message": "Confirm password"
   },
-  "pasteLongPasswordToastTitle": {
-    "message":
-      "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters.",
-    "description":
-      "Shown when user pastes a password which is longer than MAX_PASSWORD_LEN"
-  },
   "showSeedPasswordRequest": {
     "message": "Please enter your password",
     "description": "Request for user to enter password to show seed."
@@ -2528,7 +2502,7 @@
     "description": "Indicates that a friend request is pending"
   },
   "notFriends": {
-    "message": "Not Friends",
+    "message": "not friends",
     "description": "Indicates that a conversation is not friends with us"
   },
   "emptyGroupNameError": {
@@ -2840,7 +2814,7 @@
     "message": "Filter received requests"
   },
   "secretWords": {
-    "message": "Secret words"
+    "message": "Secret words:"
   },
   "pairingDevice": {
     "message": "Pairing Device"
