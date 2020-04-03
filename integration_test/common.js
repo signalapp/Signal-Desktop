@@ -4,15 +4,16 @@
 
 const { Application } = require('spectron');
 const path = require('path');
+const url = require('url');
+const http = require('http');
+const fse = require('fs-extra');
+const { exec } = require('child_process');
 
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const RegistrationPage = require('./page-objects/registration.page');
 const ConversationPage = require('./page-objects/conversation.page');
-const { exec } = require('child_process');
-const url = require('url');
-const http = require('http');
-const fse = require('fs-extra');
+
 
 chai.should();
 chai.use(chaiAsPromised);

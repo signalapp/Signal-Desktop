@@ -11,7 +11,7 @@ module.exports = {
   existingSendMessageText: textMessage =>
     `//*[contains(@class, "module-message__text--outgoing") and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
   existingFriendRequestText: textMessage =>
-    `//*[contains(@class, "module-message-friend-request__container")and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
+    `//*[contains(@class, "module-message-friend-request__container") and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
   existingReceivedMessageText: textMessage =>
     `//*[contains(@class, "module-message__text--incoming") and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
 
@@ -30,6 +30,10 @@ module.exports = {
 
   attachmentInput: '//*[contains(@class, "choose-file")]/input[@type="file"]',
   attachmentButton: '//*[contains(@class, "choose-file")]/button',
+
+  messageCtxMenu: message => `//div[contains(@class, "message-wrapper") and .//span[contains(@class, "text-selectable")][contains(string(), ${message})]]//div[contains(@class, 'module-message__buttons__menu')]`,
+  deleteMessageCtxButton: '//*[contains(@class, "react-contextmenu--visible")]/div[contains(string(), "Delete Message")]',
+  deleteMessageModalButton: '//*[contains(@class, "session-modal")]//div[contains(string(), "Delete") and contains(@class, "session-button")]',
 
   // channels
   globeButtonSection:

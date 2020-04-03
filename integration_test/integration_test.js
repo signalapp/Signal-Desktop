@@ -6,12 +6,12 @@
 const { before } = require('mocha');
 const common = require('./common');
 
+
 // require('./registration_test');
 // require('./open_group_test');
 // require('./add_friends_test');
 // require('./link_device_test');
 // require('./closed_group_test');
-
 require('./message_functions_test');
 
 

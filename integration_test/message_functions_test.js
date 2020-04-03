@@ -53,18 +53,30 @@ describe('Message Functions', function() {
   });
   
   it('can delete message', async () => {
-    const messageText = 'delete me';
+    const messageText = 'delete_me';
     common.sendMessage(app, messageText);
 
     await app.client.waitForExist(
       ConversationPage.existingSendMessageText(messageText),
-      3000
+      5000
     );
     await app2.client.waitForExist(
       ConversationPage.existingReceivedMessageText(messageText),
-      5000
+      7000
     );
+    
+    // delete message in context menu
+    await app.client.element(ConversationPage.messageCtxMenu(messageText)).click();
+    await app.client.element(ConversationPage.deleteMessageCtxButton).click();
 
+    // delete messaage from modal
+    await app.client.waitForExist(
+      ConversationPage.deleteMessageModalButton,
+      3000
+    );
+    await app.client.element(ConversationPage.deleteMessageModalButton).click();
+    
+    // verify the message is actually deleted
     
 
   });

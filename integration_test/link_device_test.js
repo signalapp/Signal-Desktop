@@ -2,8 +2,8 @@
 /* eslint-disable more/no-then */
 /* eslint-disable func-names  */
 /* eslint-disable import/no-extraneous-dependencies */
-const common = require('./common');
 const { afterEach, beforeEach, describe, it } = require('mocha');
+const common = require('./common');
 
 describe('Link Device', function() {
   let app;
