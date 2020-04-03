@@ -2,6 +2,7 @@
 const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
+const StubAppDotNetAPI = require('../../integration_test/stubs/stub_app_dot_net_api.js');
 
 class LokiPublicChatFactoryAPI extends EventEmitter {
   constructor(ourKey) {
@@ -59,7 +60,11 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
       }
 
       // after verification then we can start up all the pollers
-      thisServer = new LokiAppDotNetAPI(this.ourKey, serverUrl);
+      if (process.env.USE_STUBBED_NETWORK) {
+        thisServer = new StubAppDotNetAPI(this.ourKey, serverUrl);
+      } else {
+        thisServer = new LokiAppDotNetAPI(this.ourKey, serverUrl);
+      }
 
       const gotToken = await thisServer.getOrRefreshServerToken();
       if (!gotToken) {

@@ -14,9 +14,16 @@ export const MainViewController = {
   },
 
   renderSettingsView: (category: SessionSettingCategory) => {
+    // tslint:disable-next-line: no-backbone-get-set-outside-model
+    const isSecondaryDevice = !!window.textsecure.storage.get(
+      'isSecondaryDevice'
+    );
     if (document.getElementById('main-view')) {
       ReactDOM.render(
-        <SettingsView category={category} />,
+        <SettingsView
+          category={category}
+          isSecondaryDevice={isSecondaryDevice}
+        />,
         document.getElementById('main-view')
       );
     }

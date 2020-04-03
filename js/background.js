@@ -320,7 +320,6 @@
       getSpellCheck: () => storage.get('spell-check', true),
       setSpellCheck: value => {
         storage.put('spell-check', value);
-        startSpellCheck();
       },
 
       addDarkOverlay: () => {
@@ -418,19 +417,6 @@
         idleDetector.stop();
       }
     });
-
-    const startSpellCheck = () => {
-      if (!window.enableSpellCheck || !window.disableSpellCheck) {
-        return;
-      }
-
-      if (window.Events.getSpellCheck()) {
-        window.enableSpellCheck();
-      } else {
-        window.disableSpellCheck();
-      }
-    };
-    startSpellCheck();
 
     const themeSetting = window.Events.getThemeSetting();
     const newThemeSetting = mapOldThemeToNew(themeSetting);
@@ -583,12 +569,6 @@
 
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
-      // window.Signal.RefreshSenderCertificate.initialize({
-      //   events: Whisper.events,
-      //   storage,
-      //   navigator,
-      //   logger: window.log,
-      // });
 
       connect(true);
     });
@@ -611,12 +591,6 @@
     ) {
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
-      // window.Signal.RefreshSenderCertificate.initialize({
-      //   events: Whisper.events,
-      //   storage,
-      //   navigator,
-      //   logger: window.log,
-      // });
 
       connect();
       appView.openInbox({
@@ -1037,8 +1011,16 @@
     };
 
     window.toggleSpellCheck = () => {
-      const newValue = !window.getSettingValue('spell-check');
+      const currentValue = window.getSettingValue('spell-check');
+      // if undefined, it means 'default' so true. but we have to toggle it, so false
+      // if not undefined, we take the opposite
+      const newValue = currentValue !== undefined ? !currentValue : false;
       window.Events.setSpellCheck(newValue);
+      window.pushToast({
+        description: window.i18n('spellCheckDirty'),
+        type: 'info',
+        id: 'spellCheckDirty',
+      });
     };
 
     window.toggleLinkPreview = () => {
@@ -1340,6 +1322,18 @@
       }
     });
 
+    Whisper.events.on('devicePairingRequestReceivedNoListener', async () => {
+      window.pushToast({
+        title: window.i18n('devicePairingRequestReceivedNoListenerTitle'),
+        description: window.i18n(
+          'devicePairingRequestReceivedNoListenerDescription'
+        ),
+        type: 'info',
+        id: 'pairingRequestNoListener',
+        shouldFade: false,
+      });
+    });
+
     Whisper.events.on('devicePairingRequestAccepted', async (pubKey, cb) => {
       try {
         await getAccountManager().authoriseSecondaryDevice(pubKey);
@@ -1427,6 +1421,9 @@
   let connectCount = 0;
   async function connect(firstRun) {
     window.log.info('connect');
+
+    // Initialize paths for onion requests
+    await window.lokiSnodeAPI.buildNewOnionPaths();
 
     // Bootstrap our online/offline detection, only the first time we connect
     if (connectCount === 0 && navigator.onLine) {
@@ -1538,34 +1535,7 @@
       textsecure.storage.user.getDeviceId() != '1'
     ) {
       window.getSyncRequest();
-
-      try {
-        const manager = window.getAccountManager();
-        await Promise.all([
-          manager.maybeUpdateDeviceName(),
-          manager.maybeDeleteSignalingKey(),
-        ]);
-      } catch (e) {
-        window.log.error(
-          'Problem with account manager updates after starting new version: ',
-          e && e.stack ? e.stack : e
-        );
-      }
     }
-
-    // const udSupportKey = 'hasRegisterSupportForUnauthenticatedDelivery';
-    // if (!storage.get(udSupportKey)) {
-    //   const server = WebAPI.connect({ username: USERNAME, password: PASSWORD });
-    //   try {
-    //     await server.registerSupportForUnauthenticatedDelivery();
-    //     storage.put(udSupportKey, true);
-    //   } catch (error) {
-    //     window.log.error(
-    //       'Error: Unable to register for unauthenticated delivery support.',
-    //       error && error.stack ? error.stack : error
-    //     );
-    //   }
-    // }
 
     const deviceId = textsecure.storage.user.getDeviceId();
     if (firstRun === true && deviceId !== '1') {
@@ -2145,7 +2115,7 @@
     const shouldSendReceipt =
       !isError &&
       data.unidentifiedDeliveryReceived &&
-      !data.isFriendRequest &&
+      !data.friendRequest &&
       !isGroup;
 
     // Send the receipt async and hope that it succeeds

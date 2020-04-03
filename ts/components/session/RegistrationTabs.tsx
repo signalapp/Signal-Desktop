@@ -39,6 +39,7 @@ interface State {
   passwordErrorString: string;
   passwordFieldsMatch: boolean;
   mnemonicSeed: string;
+  generatedMnemonicSeed: string;
   hexGeneratedPubKey: string;
   primaryDevicePubKey: string;
   mnemonicError: string | undefined;
@@ -113,6 +114,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       passwordErrorString: '',
       passwordFieldsMatch: false,
       mnemonicSeed: '',
+      generatedMnemonicSeed: '',
       hexGeneratedPubKey: '',
       primaryDevicePubKey: '',
       mnemonicError: undefined,
@@ -125,39 +127,11 @@ export class RegistrationTabs extends React.Component<{}, State> {
     window.textsecure.storage.remove('secondaryDeviceStatus');
   }
 
-  public render() {
+  public componentDidMount() {
     this.generateMnemonicAndKeyPair().ignore();
-
-    return this.renderTabs();
   }
 
-  private async generateMnemonicAndKeyPair() {
-    if (this.state.mnemonicSeed === '') {
-      const language = 'english';
-      const mnemonic = await this.accountManager.generateMnemonic(language);
-
-      let seedHex = window.mnemonic.mn_decode(mnemonic, language);
-      // handle shorter than 32 bytes seeds
-      const privKeyHexLength = 32 * 2;
-      if (seedHex.length !== privKeyHexLength) {
-        seedHex = seedHex.concat(seedHex);
-        seedHex = seedHex.substring(0, privKeyHexLength);
-      }
-      const seed = window.dcodeIO.ByteBuffer.wrap(
-        seedHex,
-        'hex'
-      ).toArrayBuffer();
-      const keyPair = await window.libsignal.Curve.async.createKeyPair(seed);
-      const hexGeneratedPubKey = Buffer.from(keyPair.pubKey).toString('hex');
-
-      this.setState({
-        mnemonicSeed: mnemonic,
-        hexGeneratedPubKey, // our 'frontend' sessionID
-      });
-    }
-  }
-
-  private renderTabs() {
+  public render() {
     const { selectedTab } = this.state;
 
     const createAccount = window.i18n('createAccount');
@@ -186,6 +160,32 @@ export class RegistrationTabs extends React.Component<{}, State> {
     );
   }
 
+  private async generateMnemonicAndKeyPair() {
+    if (this.state.generatedMnemonicSeed === '') {
+      const language = 'english';
+      const mnemonic = await this.accountManager.generateMnemonic(language);
+
+      let seedHex = window.mnemonic.mn_decode(mnemonic, language);
+      // handle shorter than 32 bytes seeds
+      const privKeyHexLength = 32 * 2;
+      if (seedHex.length !== privKeyHexLength) {
+        seedHex = seedHex.concat(seedHex);
+        seedHex = seedHex.substring(0, privKeyHexLength);
+      }
+      const seed = window.dcodeIO.ByteBuffer.wrap(
+        seedHex,
+        'hex'
+      ).toArrayBuffer();
+      const keyPair = await window.libsignal.Curve.async.createKeyPair(seed);
+      const hexGeneratedPubKey = Buffer.from(keyPair.pubKey).toString('hex');
+
+      this.setState({
+        generatedMnemonicSeed: mnemonic,
+        hexGeneratedPubKey, // our 'frontend' sessionID
+      });
+    }
+  }
+
   private readonly handleTabSelect = (tabType: TabType): void => {
     if (tabType !== TabType.SignIn) {
       this.cancelSecondaryDevice().ignore();
@@ -200,7 +200,6 @@ export class RegistrationTabs extends React.Component<{}, State> {
       passwordErrorString: '',
       passwordFieldsMatch: false,
       mnemonicSeed: '',
-      hexGeneratedPubKey: '',
       primaryDevicePubKey: '',
       mnemonicError: undefined,
       displayNameError: undefined,
@@ -731,15 +730,19 @@ export class RegistrationTabs extends React.Component<{}, State> {
     const {
       password,
       mnemonicSeed,
+      generatedMnemonicSeed,
+      signInMode,
       displayName,
       passwordErrorString,
       passwordFieldsMatch,
     } = this.state;
     // Make sure the password is valid
+    window.log.info('starting registration');
 
     const trimName = displayName.trim();
 
     if (!trimName) {
+      window.log.warn('invalid trimmed name for registration');
       window.pushToast({
         title: window.i18n('displayNameEmpty'),
         type: 'error',
@@ -750,6 +753,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     }
 
     if (passwordErrorString) {
+      window.log.warn('invalid password for registration');
       window.pushToast({
         title: window.i18n('invalidPassword'),
         type: 'error',
@@ -760,6 +764,8 @@ export class RegistrationTabs extends React.Component<{}, State> {
     }
 
     if (!!password && !passwordFieldsMatch) {
+      window.log.warn('passwords does not match for registration');
+
       window.pushToast({
         title: window.i18n('passwordsDoNotMatch'),
         type: 'error',
@@ -769,28 +775,48 @@ export class RegistrationTabs extends React.Component<{}, State> {
       return;
     }
 
-    if (!mnemonicSeed) {
+    if (signInMode === SignInMode.UsingSeed && !mnemonicSeed) {
+      window.log.warn('empty mnemonic seed passed in seed restoration mode');
+
+      return;
+    } else if (!generatedMnemonicSeed) {
+      window.log.warn('empty generated seed');
+
       return;
     }
 
     // Ensure we clear the secondary device registration status
     window.textsecure.storage.remove('secondaryDeviceStatus');
 
+    const seedToUse =
+      signInMode === SignInMode.UsingSeed
+        ? mnemonicSeed
+        : generatedMnemonicSeed;
+
     try {
       await this.resetRegistration();
 
       await window.setPassword(password);
       await this.accountManager.registerSingleDevice(
-        mnemonicSeed,
+        seedToUse,
         language,
         trimName
       );
       trigger('openInbox');
     } catch (e) {
-      if (typeof e === 'string') {
-        //this.showToast(e);
+      window.pushToast({
+        title: `Error: ${e.message || 'Something went wrong'}`,
+        type: 'error',
+        id: 'registrationError',
+      });
+      let exmsg = '';
+      if (e.message) {
+        exmsg += e.message;
       }
-      //this.log(e);
+      if (e.stack) {
+        exmsg += ` | stack:  + ${e.stack}`;
+      }
+      window.log.warn('exception during registration:', exmsg);
     }
   }
 
@@ -804,8 +830,12 @@ export class RegistrationTabs extends React.Component<{}, State> {
   }
 
   private async registerSecondaryDevice() {
+    window.log.warn('starting registerSecondaryDevice');
+
     // tslint:disable-next-line: no-backbone-get-set-outside-model
     if (window.textsecure.storage.get('secondaryDeviceStatus') === 'ongoing') {
+      window.log.warn('registering secondary device already ongoing');
+
       return;
     }
     this.setState({

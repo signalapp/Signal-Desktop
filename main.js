@@ -9,7 +9,7 @@ const crypto = require('crypto');
 const _ = require('lodash');
 const pify = require('pify');
 const electron = require('electron');
-
+const { setup: setupSpellChecker } = require('./app/spell_check');
 const packageJson = require('./package.json');
 const GlobalErrors = require('./app/global_errors');
 
@@ -81,6 +81,25 @@ const {
   installWebHandler,
 } = require('./app/protocol_filter');
 const { installPermissionsHandler } = require('./app/permissions');
+
+const _sodium = require('libsodium-wrappers');
+
+async function getSodium() {
+  await _sodium.ready;
+  return _sodium;
+}
+
+let appStartInitialSpellcheckSetting = true;
+
+async function getSpellCheckSetting() {
+  const json = await sql.getItemById('spell-check');
+  // Default to `true` if setting doesn't exist yet
+  if (!json) {
+    return true;
+  }
+
+  return json.value;
+}
 
 function showWindow() {
   if (!mainWindow) {
@@ -155,7 +174,6 @@ function prepareURL(pathSegments, moreKeys) {
       serverUrl: config.get('serverUrl'),
       localUrl: config.get('localUrl'),
       cdnUrl: config.get('cdnUrl'),
-      localServerPort: config.get('localServerPort'),
       defaultPoWDifficulty: config.get('defaultPoWDifficulty'),
       seedNodeList: JSON.stringify(config.get('seedNodeList')),
       certificateAuthority: config.get('certificateAuthority'),
@@ -167,6 +185,7 @@ function prepareURL(pathSegments, moreKeys) {
       contentProxyUrl: config.contentProxyUrl,
       importMode: importMode ? true : undefined, // for stringify()
       serverTrustRoot: config.get('serverTrustRoot'),
+      appStartInitialSpellcheckSetting,
       defaultFileServer: config.get('defaultFileServer'),
       ...moreKeys,
     },
@@ -186,10 +205,12 @@ function captureClicks(window) {
   window.webContents.on('new-window', handleUrl);
 }
 
-const DEFAULT_WIDTH = 800;
-const DEFAULT_HEIGHT = 720;
+const DEFAULT_WIDTH = 880;
+// add contact button needs to be visible (on HiDpi screens?)
+// otherwise integration test fail
+const DEFAULT_HEIGHT = 820;
 const MIN_WIDTH = 880;
-const MIN_HEIGHT = 580;
+const MIN_HEIGHT = 820;
 const BOUNDS_BUFFER = 100;
 
 function isVisible(window, bounds) {
@@ -217,7 +238,7 @@ function isVisible(window, bounds) {
   );
 }
 
-function createWindow() {
+async function createWindow() {
   const { screen } = electron;
   const windowOptions = Object.assign(
     {
@@ -234,6 +255,7 @@ function createWindow() {
         contextIsolation: false,
         preload: path.join(__dirname, 'preload.js'),
         nativeWindowOpen: true,
+        spellcheck: await getSpellCheckSetting(),
       },
       icon: path.join(__dirname, 'images', 'session', 'icon_64.png'),
     },
@@ -284,6 +306,8 @@ function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
+  setupSpellChecker(mainWindow, locale.messages);
+
   // Disable system main menu
   mainWindow.setMenu(null);
 
@@ -331,6 +355,10 @@ function createWindow() {
 
   mainWindow.on('focus', () => {
     mainWindow.flashFrame(false);
+    if (passwordWindow) {
+      passwordWindow.close();
+      passwordWindow = null;
+    }
   });
 
   if (config.environment === 'test') {
@@ -343,6 +371,8 @@ function createWindow() {
     mainWindow.loadURL(
       prepareURL([__dirname, 'libloki', 'test', 'index.html'])
     );
+  } else if (config.environment.includes('test-integration')) {
+    mainWindow.loadURL(prepareURL([__dirname, 'background_test.html']));
   } else {
     mainWindow.loadURL(prepareURL([__dirname, 'background.html']));
   }
@@ -367,6 +397,7 @@ function createWindow() {
       config.environment === 'test' ||
       config.environment === 'test-lib' ||
       config.environment === 'test-loki' ||
+      config.environment.includes('test-integration') ||
       (mainWindow.readyForShutdown && windowState.shouldQuit())
     ) {
       return;
@@ -599,7 +630,7 @@ async function showDebugLogWindow() {
     return;
   }
 
-  const theme = await pify(getDataFromMainWindow)('theme-setting');
+  const theme = await getThemeFromMainWindow();
   const size = mainWindow.getSize();
   const options = {
     width: Math.max(size[0] - 100, MIN_WIDTH),
@@ -647,7 +678,7 @@ async function showPermissionsPopupWindow() {
     return;
   }
 
-  const theme = await pify(getDataFromMainWindow)('theme-setting');
+  const theme = await getThemeFromMainWindow();
   const size = mainWindow.getSize();
   const options = {
     width: Math.min(400, size[0]),
@@ -698,7 +729,8 @@ app.on('ready', async () => {
   if (
     process.env.NODE_ENV !== 'test' &&
     process.env.NODE_ENV !== 'test-lib' &&
-    process.env.NODE_ENV !== 'test-loki'
+    process.env.NODE_ENV !== 'test-loki' &&
+    !process.env.NODE_ENV.includes('test-integration')
   ) {
     installFileHandler({
       protocol: electronProtocol,
@@ -771,6 +803,7 @@ async function showMainWindow(sqlKey, passwordAttempt = false) {
     messages: locale.messages,
     passwordAttempt,
   });
+  appStartInitialSpellcheckSetting = await getSpellCheckSetting();
   await sqlChannels.initialize();
 
   try {
@@ -894,7 +927,8 @@ app.on('window-all-closed', () => {
     process.platform !== 'darwin' ||
     config.environment === 'test' ||
     config.environment === 'test-lib' ||
-    config.environment === 'test-loki'
+    config.environment === 'test-loki' ||
+    config.environment.includes('test-integration')
   ) {
     app.quit();
   }
@@ -945,11 +979,10 @@ ipc.on('add-setup-menu-items', () => {
 });
 
 ipc.on('draw-attention', () => {
-  if (process.platform === 'darwin') {
-    app.dock.bounce();
-  } else if (process.platform === 'win32') {
-    mainWindow.flashFrame(true);
-  } else if (process.platform === 'linux') {
+  if (!mainWindow) {
+    return;
+  }
+  if (process.platform === 'win32' || process.platform === 'linux') {
     mainWindow.flashFrame(true);
   }
 });
@@ -998,11 +1031,6 @@ ipc.on('password-window-login', async (event, passPhrase) => {
     const passwordAttempt = true;
     await showMainWindow(passPhrase, passwordAttempt);
     sendResponse();
-
-    if (passwordWindow) {
-      passwordWindow.close();
-      passwordWindow = null;
-    }
   } catch (e) {
     const localisedError = locale.messages.invalidPassword.message;
     sendResponse(localisedError || 'Invalid password');
@@ -1099,6 +1127,52 @@ ipc.on('get-auto-update-setting', event => {
   event.returnValue = typeof configValue !== 'boolean' ? true : configValue;
 });
 
+async function decryptLns(event, lnsName, ciphertext) {
+  const sodium = await getSodium();
+
+  const salt = new Uint8Array(sodium.crypto_pwhash_SALTBYTES);
+
+  try {
+    const key = sodium.crypto_pwhash(
+      sodium.crypto_secretbox_KEYBYTES,
+      lnsName,
+      salt,
+      sodium.crypto_pwhash_OPSLIMIT_MODERATE,
+      sodium.crypto_pwhash_MEMLIMIT_MODERATE,
+      sodium.crypto_pwhash_ALG_ARGON2ID13
+    );
+
+    const nonce = new Uint8Array(sodium.crypto_secretbox_NONCEBYTES);
+
+    const res = sodium.crypto_secretbox_open_easy(ciphertext, nonce, key);
+
+    // null as first parameter to indivate no error
+    event.reply('decrypt-lns-response', null, res);
+  } catch (err) {
+    event.reply('decrypt-lns-response', err);
+  }
+}
+
+async function blake2bDigest(event, input) {
+  const sodium = await getSodium();
+
+  try {
+    const res = sodium.crypto_generichash(32, input);
+
+    event.reply('blake2b-digest-response', null, res);
+  } catch (err) {
+    event.reply('blake2b-digest-response', err);
+  }
+}
+
+ipc.on('blake2b-digest', (event, input) => {
+  blake2bDigest(event, input);
+});
+
+ipc.on('decrypt-lns-entry', (event, lnsName, ciphertext) => {
+  decryptLns(event, lnsName, ciphertext);
+});
+
 ipc.on('set-auto-update-setting', (event, enabled) => {
   userConfig.set('autoUpdate', !!enabled);
 
@@ -1110,9 +1184,9 @@ ipc.on('set-auto-update-setting', (event, enabled) => {
   }
 });
 
-function getDataFromMainWindow(name, callback) {
-  ipc.once(`get-success-${name}`, (_event, error, value) =>
-    callback(error, value)
-  );
-  mainWindow.webContents.send(`get-${name}`);
+function getThemeFromMainWindow() {
+  return new Promise(resolve => {
+    ipc.once('get-success-theme-setting', (_event, value) => resolve(value));
+    mainWindow.webContents.send('get-theme-setting');
+  });
 }

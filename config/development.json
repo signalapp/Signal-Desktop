@@ -1,5 +1,4 @@
 {
-  "storageProfile": "development",
   "seedNodeList": [
     {
       "ip": "public.loki.foundation",

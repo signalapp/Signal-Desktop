@@ -313,6 +313,11 @@ module.exports = grunt => {
         NODE_ENV: environment,
       },
       requireName: 'unused',
+      chromeDriverArgs: [
+        `remote-debugging-port=${Math.floor(
+          Math.random() * (9999 - 9000) + 9000
+        )}`,
+      ],
     });
 
     function getMochaResults() {
@@ -368,11 +373,18 @@ module.exports = grunt => {
             logs.forEach(log => {
               console.log(log);
             });
-
-            return app.stop();
+            try {
+              return app.stop();
+            } catch (err) {
+              return Promise.resolve();
+            }
           });
         }
-        return app.stop();
+        try {
+          return app.stop();
+        } catch (err) {
+          return Promise.resolve();
+        }
       })
       .then(() => {
         if (failure) {
@@ -465,6 +477,11 @@ module.exports = grunt => {
       const app = new Application({
         path: [dir, config.exe].join('/'),
         requireName: 'unused',
+        chromeDriverArgs: [
+          `remote-debugging-port=${Math.floor(
+            Math.random() * (9999 - 9000) + 9000
+          )}`,
+        ],
       });
 
       app

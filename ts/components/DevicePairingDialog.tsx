@@ -85,6 +85,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
           onClose={this.closeDialog}
         >
           <div className="session-modal__centered">
+            <div className="spacer-lg" />
             {this.renderErrors()}
             <input
               type="text"
@@ -107,14 +108,21 @@ export class DevicePairingDialog extends React.Component<Props, State> {
 
     return (
       <SessionModal
-        title={window.i18n('allowPairingWithDevice')}
+        title={window.i18n('allowPairing')}
         onOk={() => null}
         onClose={this.closeDialog}
       >
         <div className="session-modal__centered">
+          <h4 className="device-pairing-dialog__desc">
+            {window.i18n('allowPairingWithDevice')}
+          </h4>
           {this.renderErrors()}
-          <label>{window.i18n('secretWords')}</label>
-          <div className="text-subtle">{secretWords}</div>
+
+          <div className="device-pairing-dialog__secret-words">
+            <label>{window.i18n('secretWords')}</label>
+            <div className="subtle">{secretWords}</div>
+          </div>
+
           <div className="session-modal__button-group">
             <SessionButton
               text={window.i18n('cancel')}
@@ -140,9 +148,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
         <div className="session-modal__centered">
           {this.renderErrors()}
           <h4>{window.i18n('waitingForDeviceToRegister')}</h4>
-          <small className="text-subtle">
-            {window.i18n('pairNewDevicePrompt')}
-          </small>
+          <small className="subtle">{window.i18n('pairNewDevicePrompt')}</small>
           <div className="spacer-lg" />
 
           <div className="qr-image">
@@ -191,7 +197,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
           <p className="session-modal__description">
             {window.i18n('confirmUnpairingTitle')}
             <br />
-            <span className="text-subtle">{description}</span>
+            <span className="subtle">{description}</span>
           </p>
           <div className="spacer-xs" />
           <div className="session-modal__button-group">
@@ -282,6 +288,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
       this.closeDialog();
       window.pushToast({
         title: window.i18n('devicePairedSuccessfully'),
+        type: 'success',
       });
       const conv = window.ConversationController.get(this.state.currentPubKey);
       if (conv) {
