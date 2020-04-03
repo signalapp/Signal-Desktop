@@ -26,7 +26,6 @@
                 : 0;
     },
 
-    // This is not a "standard" base64, do not use!
     base64ToBytes(sBase64, nBlocksSize) {
       const sB64Enc = sBase64.replace(/[^A-Za-z0-9+/]/g, '');
       const nInLen = sB64Enc.length;

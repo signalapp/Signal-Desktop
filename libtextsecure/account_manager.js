@@ -28,6 +28,7 @@
   const ARCHIVE_AGE = 7 * 24 * 60 * 60 * 1000;
 
   function AccountManager(username, password) {
+    // this.server = window.WebAPI.connect({ username, password });
     this.pending = Promise.resolve();
   }
 
@@ -47,8 +48,12 @@
   AccountManager.prototype = new textsecure.EventTarget();
   AccountManager.prototype.extend({
     constructor: AccountManager,
-    requestVoiceVerification(number) {},
-    requestSMSVerification(number) {},
+    requestVoiceVerification(number) {
+      // return this.server.requestVerificationVoice(number);
+    },
+    requestSMSVerification(number) {
+      // return this.server.requestVerificationSMS(number);
+    },
     async encryptDeviceName(name, providedIdentityKey) {
       if (!name) {
         return null;
@@ -93,13 +98,23 @@
       return name;
     },
     async maybeUpdateDeviceName() {
-      throw new Error('Signal method called: maybeUpdateDeviceName');
+      const isNameEncrypted = textsecure.storage.user.getDeviceNameEncrypted();
+      if (isNameEncrypted) {
+        return;
+      }
+      const deviceName = await textsecure.storage.user.getDeviceName();
+      const base64 = await this.encryptDeviceName(deviceName);
+
+      await this.server.updateDeviceName(base64);
     },
     async deviceNameIsEncrypted() {
       await textsecure.storage.user.setDeviceNameEncrypted();
     },
     async maybeDeleteSignalingKey() {
-      throw new Error('Signal method called: maybeDeleteSignalingKey');
+      const key = await textsecure.storage.user.getSignalingKey();
+      if (key) {
+        await this.server.removeSignalingKey();
+      }
     },
     registerSingleDevice(mnemonic, mnemonicLanguage, profileName) {
       const createAccount = this.createAccount.bind(this);
@@ -197,7 +212,19 @@
         'account_manager: registerSecondDevice has not been implemented!'
       );
     },
-    refreshPreKeys() {},
+    refreshPreKeys() {
+      // const generateKeys = this.generateKeys.bind(this, 0);
+      // const registerKeys = this.server.registerKeys.bind(this.server);
+      // return this.queueTask(() =>
+      //   this.server.getMyKeys().then(preKeyCount => {
+      //     window.log.info(`prekey count ${preKeyCount}`);
+      //     if (preKeyCount < 10) {
+      //       return generateKeys().then(registerKeys);
+      //     }
+      //     return null;
+      //   })
+      // );
+    },
     rotateSignedPreKey() {
       return this.queueTask(() => {
         const signedKeyId = textsecure.storage.get('signedKeyId', 1);
@@ -485,6 +512,7 @@
               keyId: res.keyId,
               publicKey: res.keyPair.pubKey,
               signature: res.signature,
+              // server.registerKeys doesn't use keyPair, confirmKeys does
               keyPair: res.keyPair,
             };
           })
@@ -590,27 +618,11 @@
       };
       // Update authorisation in database with the new grant signature
       await libloki.storage.savePairingAuthorisation(authorisation);
-
-      // Try to upload to the file server and then send a message
-      try {
-        await lokiFileServerAPI.updateOurDeviceMapping();
-        await libloki.api.sendPairingAuthorisation(
-          authorisation,
-          secondaryDevicePubKey
-        );
-      } catch (e) {
-        log.error(
-          'Failed to authorise secondary device: ',
-          e && e.stack ? e.stack : e
-        );
-        // File server upload failed or message sending failed, we should rollback changes
-        await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
-          secondaryDevicePubKey
-        );
-        await lokiFileServerAPI.updateOurDeviceMapping();
-        throw e;
-      }
-
+      await lokiFileServerAPI.updateOurDeviceMapping();
+      await libloki.api.sendPairingAuthorisation(
+        authorisation,
+        secondaryDevicePubKey
+      );
       // Always be friends with secondary devices
       await secondaryConversation.setFriendRequestStatus(
         window.friends.friendRequestStatusEnum.friends,

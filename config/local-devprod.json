@@ -1,4 +1,5 @@
 {
+  "storageProfile": "devprodProfile",
   "openDevTools": true,
   "updatesEnabled": false
 }

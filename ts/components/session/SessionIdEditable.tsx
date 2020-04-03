@@ -45,7 +45,6 @@ export class SessionIdEditable extends React.PureComponent<Props> {
           spellCheck={false}
           onKeyDown={this.handleKeyDown}
           onChange={this.handleChange}
-          onBlur={this.handleChange}
           value={value || text}
           maxLength={maxLength}
         />
@@ -62,7 +61,7 @@ export class SessionIdEditable extends React.PureComponent<Props> {
 
   private handleKeyDown(e: any) {
     const { editable, onPressEnter } = this.props;
-    if (editable && e.key === 'Enter') {
+    if (editable && e.keyCode === 13) {
       e.preventDefault();
       // tslint:disable-next-line: no-unused-expression
       onPressEnter && onPressEnter();

@@ -1,15 +1,9 @@
-const crypto = require('crypto');
+const { sha512 } = require('js-sha512');
 
 const ERRORS = {
   TYPE: 'Password must be a string',
   LENGTH: 'Password must be between 6 and 50 characters long',
   CHARACTER: 'Password must only contain letters, numbers and symbols',
-};
-
-const sha512 = text => {
-  const hash = crypto.createHash('sha512');
-  hash.update(text.trim());
-  return hash.digest('hex');
 };
 
 const generateHash = phrase => phrase && sha512(phrase.trim());

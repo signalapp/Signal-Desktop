@@ -98,8 +98,6 @@ module.exports = {
   getAllSessions,
 
   getSwarmNodesByPubkey,
-  getGuardNodes,
-  updateGuardNodes,
 
   getConversationCount,
   saveConversation,
@@ -809,7 +807,6 @@ async function updateSchema(instance) {
 const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion1,
   updateToLokiSchemaVersion2,
-  updateToLokiSchemaVersion3,
 ];
 
 async function updateToLokiSchemaVersion1(currentVersion, instance) {
@@ -976,33 +973,6 @@ async function updateToLokiSchemaVersion2(currentVersion, instance) {
   );
   await instance.run('COMMIT TRANSACTION;');
   console.log('updateToLokiSchemaVersion2: success!');
-}
-
-async function updateToLokiSchemaVersion3(currentVersion, instance) {
-  if (currentVersion >= 3) {
-    return;
-  }
-
-  await instance.run(
-    `CREATE TABLE ${GUARD_NODE_TABLE}(
-      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      ed25519PubKey VARCHAR(64)
-    );`
-  );
-
-  console.log('updateToLokiSchemaVersion3: starting...');
-  await instance.run('BEGIN TRANSACTION;');
-
-  await instance.run(
-    `INSERT INTO loki_schema (
-        version
-      ) values (
-        3
-      );`
-  );
-
-  await instance.run('COMMIT TRANSACTION;');
-  console.log('updateToLokiSchemaVersion3: success!');
 }
 
 async function updateLokiSchema(instance) {
@@ -1430,9 +1400,6 @@ async function removeAllSignedPreKeys() {
 }
 
 const PAIRING_AUTHORISATIONS_TABLE = 'pairingAuthorisations';
-
-const GUARD_NODE_TABLE = 'guardNodes';
-
 async function getAuthorisationForSecondaryPubKey(pubKey, options) {
   const granted = options && options.granted;
   let filter = '';
@@ -1501,37 +1468,6 @@ async function getSecondaryDevicesFor(primaryDevicePubKey) {
     primaryDevicePubKey
   );
   return map(authorisations, row => row.secondaryDevicePubKey);
-}
-
-async function getGuardNodes() {
-  const nodes = await db.all(`SELECT ed25519PubKey FROM ${GUARD_NODE_TABLE};`);
-
-  if (!nodes) {
-    return null;
-  }
-
-  return nodes;
-}
-
-async function updateGuardNodes(nodes) {
-  await db.run('BEGIN TRANSACTION;');
-
-  await db.run(`DELETE FROM ${GUARD_NODE_TABLE}`);
-
-  await Promise.all(
-    nodes.map(edkey =>
-      db.run(
-        `INSERT INTO ${GUARD_NODE_TABLE} (
-        ed25519PubKey
-      ) values ($ed25519PubKey)`,
-        {
-          $ed25519PubKey: edkey,
-        }
-      )
-    )
-  );
-
-  await db.run('END TRANSACTION;');
 }
 
 async function getPrimaryDeviceFor(secondaryDevicePubKey) {

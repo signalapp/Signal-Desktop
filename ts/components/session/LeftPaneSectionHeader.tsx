@@ -1,10 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import { SessionButton } from './SessionButton';
-import {
-  NotificationCountSize,
-  SessionNotificationCount,
-} from './SessionNotificationCount';
 
 const Tab = ({
   isSelected,
@@ -93,6 +89,8 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
         />
       );
     } else if (buttonLabel && notificationCount && notificationCount > 0) {
+      const shortenedNotificationCount =
+        notificationCount > 9 ? 9 : notificationCount;
       children.push(
         <div className="contact-notification-section">
           <SessionButton
@@ -101,20 +99,26 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
             key="compose"
             disabled={false}
           />
-          <SessionNotificationCount
-            count={notificationCount}
-            size={NotificationCountSize.ON_HEADER}
+          <div
+            className="contact-notification-count-bubble"
             onClick={this.props.buttonClicked}
-          />
+            role="button"
+          >
+            {shortenedNotificationCount}
+          </div>
         </div>
       );
     } else if (notificationCount && notificationCount > 0) {
+      const shortenedNotificationCount =
+        notificationCount > 9 ? 9 : notificationCount;
       children.push(
-        <SessionNotificationCount
-          count={notificationCount}
-          size={NotificationCountSize.ON_HEADER}
+        <div
+          className="contact-notification-count-bubble"
           onClick={this.props.buttonClicked}
-        />
+          role="button"
+        >
+          {shortenedNotificationCount}
+        </div>
       );
     }
 

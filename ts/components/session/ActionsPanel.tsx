@@ -106,16 +106,26 @@ export class ActionsPanel extends React.Component<Props, State> {
       default:
         iconType = SessionIconType.Moon;
     }
-
-    return (
-      <SessionIconButton
-        iconSize={SessionIconSize.Medium}
-        iconType={iconType}
-        notificationCount={notificationCount}
-        onClick={handleClick}
-        isSelected={isSelected}
-      />
-    );
+    if (!isSelected) {
+      return (
+        <SessionIconButton
+          iconSize={SessionIconSize.Medium}
+          iconType={iconType}
+          notificationCount={notificationCount}
+          onClick={handleClick}
+        />
+      );
+    } else {
+      return (
+        <SessionIconButton
+          iconSize={SessionIconSize.Medium}
+          iconType={iconType}
+          notificationCount={notificationCount}
+          onClick={handleClick}
+          isSelected={isSelected}
+        />
+      );
+    }
   };
 
   public editProfileHandle() {

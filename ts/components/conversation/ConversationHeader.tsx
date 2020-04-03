@@ -419,7 +419,6 @@ export class ConversationHeader extends React.Component<Props> {
     $('.session-search-input input').focus();
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
   private renderPublicMenuItems() {
     const {
       i18n,
@@ -439,10 +438,9 @@ export class ConversationHeader extends React.Component<Props> {
       timerOptions,
       onBlockUser,
       onUnblockUser,
-      // hasNickname,
-      // onClearNickname,
-      // onChangeNickname,
-      isFriend,
+      hasNickname,
+      onClearNickname,
+      onChangeNickname,
     } = this.props;
 
     if (isPublic || isRss) {
@@ -454,7 +452,7 @@ export class ConversationHeader extends React.Component<Props> {
     const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
     const blockHandler = isBlocked ? onUnblockUser : onBlockUser;
 
-    const disappearingMessagesMenuItem = isFriend && (
+    const disappearingMessagesMenuItem = (
       <SubMenu title={disappearingTitle}>
         {(timerOptions || []).map(item => (
           <MenuItem
@@ -477,22 +475,21 @@ export class ConversationHeader extends React.Component<Props> {
           {i18n('showSafetyNumber')}
         </MenuItem>
       );
-    const resetSessionMenuItem = isFriend &&
-      !isGroup && (
-        <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
-      );
+    const resetSessionMenuItem = !isGroup && (
+      <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
+    );
     const blockHandlerMenuItem = !isMe &&
       !isGroup &&
       !isRss && <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>;
-    // const changeNicknameMenuItem = !isMe &&
-    //   !isGroup && (
-    //     <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>
-    //   );
-    // const clearNicknameMenuItem = !isMe &&
-    //   !isGroup &&
-    //   hasNickname && (
-    //     <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
-    //   );
+    const changeNicknameMenuItem = !isMe &&
+      !isGroup && (
+        <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>
+      );
+    const clearNicknameMenuItem = !isMe &&
+      !isGroup &&
+      hasNickname && (
+        <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
+      );
     const archiveConversationMenuItem = isArchived ? (
       <MenuItem onClick={onMoveToInbox}>
         {i18n('moveConversationToInbox')}
@@ -509,8 +506,8 @@ export class ConversationHeader extends React.Component<Props> {
         {showSafetyNumberMenuItem}
         {resetSessionMenuItem}
         {blockHandlerMenuItem}
-        {/* {changeNicknameMenuItem}
-        {clearNicknameMenuItem} */}
+        {changeNicknameMenuItem}
+        {clearNicknameMenuItem}
         {archiveConversationMenuItem}
       </React.Fragment>
     );

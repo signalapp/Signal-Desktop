@@ -165,9 +165,9 @@
         props: {
           titleText: this.titleText,
           groupName: this.groupName,
-          okText: i18n('ok'),
-          cancelText: i18n('cancel'),
+          okText: this.okText,
           isPublic: this.isPublic,
+          cancelText: this.cancelText,
           existingMembers: this.existingMembers,
           friendList: this.friendsAndMembers,
           isAdmin: this.isAdmin,

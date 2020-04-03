@@ -7,26 +7,17 @@ const Privacy = require('../../js/modules/privacy');
 const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
 
 describe('Privacy', () => {
-  describe('redactSessionID', () => {
-    it('should redact all session IDs', () => {
+  describe('redactPhoneNumbers', () => {
+    it('should redact all phone numbers', () => {
       const text =
-        'This is a log line with a session ID 0531032fc7415b7cc1b7516480ad121d391eddce3cfb2cee27dd5b215609c32827\n' +
-        'and another one 05766049a70e725ad02f7fe61b10e461380a4d7433f98096b3cacbf0362d5cab62';
+        'This is a log line with a phone number +12223334455\n' +
+        'and another one +13334445566';
 
-      const actual = Privacy.redactSessionID(text);
+      const actual = Privacy.redactPhoneNumbers(text);
       const expected =
-        'This is a log line with a session ID [REDACTED]\n' +
-        'and another one [REDACTED]';
+        'This is a log line with a phone number +[REDACTED]455\n' +
+        'and another one +[REDACTED]566';
       assert.equal(actual, expected);
-    });
-
-    it('should not redact non session IDS', () => {
-      const text =
-        'This is a log line with a non-session ID sadsad0531032fc7415b7cc1b7516480ad121d391eddce3cfb2cee27dd5b215609c32827888\n' +
-        'and another one 766049a70e725ad02f7fe61b10e461380a4d7433f98096b3cacbf0362d5cab6234';
-
-      const actual = Privacy.redactSessionID(text);
-      assert.equal(actual, text);
     });
   });
 
@@ -62,20 +53,20 @@ describe('Privacy', () => {
       const text =
         'This is a log line with sensitive information:\n' +
         `path1 ${APP_ROOT_PATH}/main.js\n` +
-        'phone1 0531032fc7415b7cc1b7516480ad121d391eddce3cfb2cee27dd5b215609c32827 ipsum\n' +
+        'phone1 +12223334455 ipsum\n' +
         'group1 group(123456789) doloret\n' +
         `path2 file:///${encodedAppRootPath}/js/background.js.` +
-        'phone2 0531033dc7415b7cc1b7516480ad121d391eddce3cfb2cee27dd5b215609c32827 lorem\n' +
+        'phone2 +13334445566 lorem\n' +
         'group2 group(abcdefghij) doloret\n';
 
       const actual = Privacy.redactAll(text);
       const expected =
         'This is a log line with sensitive information:\n' +
         'path1 [REDACTED]/main.js\n' +
-        'phone1 [REDACTED] ipsum\n' +
+        'phone1 +[REDACTED]455 ipsum\n' +
         'group1 group([REDACTED]789) doloret\n' +
         'path2 file:///[REDACTED]/js/background.js.' +
-        'phone2 [REDACTED] lorem\n' +
+        'phone2 +[REDACTED]566 lorem\n' +
         'group2 group([REDACTED]hij) doloret\n';
       assert.equal(actual, expected);
     });
@@ -87,13 +78,13 @@ describe('Privacy', () => {
       const text =
         'This is a log line with sensitive information:\n' +
         `path1 ${testPath}/main.js\n` +
-        'phone1 0531032fc7415b7cc1b7516480ad121d391eddce3cfb2cee27dd5b215609c32827 ipsum\n';
+        'phone1 +12223334455 ipsum\n';
 
       const actual = Privacy._redactPath(testPath)(text);
       const expected =
         'This is a log line with sensitive information:\n' +
         'path1 [REDACTED]/main.js\n' +
-        'phone1 0531032fc7415b7cc1b7516480ad121d391eddce3cfb2cee27dd5b215609c32827 ipsum\n';
+        'phone1 +12223334455 ipsum\n';
       assert.equal(actual, expected);
     });
 
@@ -103,7 +94,7 @@ describe('Privacy', () => {
       const text =
         'This is a log line with sensitive information:\n' +
         `path1 ${testPath}/main.js\n` +
-        'phone1 0531032fc7415b7cc1b7516480ad121d391eddce3cfb2cee27dd5b215609c32827 ipsum\n' +
+        'phone1 +12223334455 ipsum\n' +
         'group1 group(123456789) doloret\n' +
         `path2 file:///${encodedTestPath}/js/background.js.`;
 
@@ -111,7 +102,7 @@ describe('Privacy', () => {
       const expected =
         'This is a log line with sensitive information:\n' +
         'path1 [REDACTED]/main.js\n' +
-        'phone1 0531032fc7415b7cc1b7516480ad121d391eddce3cfb2cee27dd5b215609c32827 ipsum\n' +
+        'phone1 +12223334455 ipsum\n' +
         'group1 group(123456789) doloret\n' +
         'path2 file:///[REDACTED]/js/background.js.';
       assert.equal(actual, expected);

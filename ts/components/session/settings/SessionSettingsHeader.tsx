@@ -5,23 +5,20 @@ import { SessionSettingCategory, SettingsViewProps } from './SessionSettings';
 import { SessionButton } from '../SessionButton';
 
 interface Props extends SettingsViewProps {
-  // showLinkDeviceButton is used to completely hide the button while the settings password lock is displayed
   showLinkDeviceButton: boolean | null;
-  // isSecondaryDevice is used to just disable the linkDeviceButton when we are already a secondary device
-  isSecondaryDevice: boolean;
+  disableLinkDeviceButton: boolean | null;
 }
 
 export class SettingsHeader extends React.Component<Props, any> {
   public static defaultProps = {
     showLinkDeviceButton: false,
+    disableLinkDeviceButton: true,
   };
 
   public constructor(props: any) {
     super(props);
-    // mark the linkDeviceButton as disabled by default.
-    // it will be enabled if needed during componentDidMount().
     this.state = {
-      disableLinkDeviceButton: true,
+      disableLinkDeviceButton: this.props.disableLinkDeviceButton,
     };
     this.showAddLinkedDeviceModal = this.showAddLinkedDeviceModal.bind(this);
   }
@@ -35,12 +32,10 @@ export class SettingsHeader extends React.Component<Props, any> {
   }
 
   public componentDidMount() {
-    if (!this.props.isSecondaryDevice) {
-      window.Whisper.events.on('refreshLinkedDeviceList', async () => {
-        this.refreshLinkedDevice();
-      });
+    window.Whisper.events.on('refreshLinkedDeviceList', async () => {
       this.refreshLinkedDevice();
-    }
+    });
+    this.refreshLinkedDevice();
   }
 
   public refreshLinkedDevice() {
@@ -56,9 +51,7 @@ export class SettingsHeader extends React.Component<Props, any> {
   }
 
   public componentWillUnmount() {
-    if (!this.props.isSecondaryDevice) {
-      window.Whisper.events.off('refreshLinkedDeviceList');
-    }
+    window.Whisper.events.off('refreshLinkedDeviceList');
   }
 
   public render() {

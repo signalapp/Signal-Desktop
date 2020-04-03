@@ -101,9 +101,6 @@ module.exports = {
   getPrimaryDeviceFor,
   getPairedDevicesFor,
 
-  getGuardNodes,
-  updateGuardNodes,
-
   createOrUpdateItem,
   getItemById,
   getAllItems,
@@ -120,7 +117,6 @@ module.exports = {
   removeAllSessions,
   getAllSessions,
 
-  // Doesn't look like this is used at all
   getSwarmNodesByPubkey,
 
   getConversationCount,
@@ -649,14 +645,6 @@ function getAuthorisationForSecondaryPubKey(pubKey) {
 
 function getSecondaryDevicesFor(primaryDevicePubKey) {
   return channels.getSecondaryDevicesFor(primaryDevicePubKey);
-}
-
-function getGuardNodes() {
-  return channels.getGuardNodes();
-}
-
-function updateGuardNodes(nodes) {
-  return channels.updateGuardNodes(nodes);
 }
 
 function getPrimaryDeviceFor(secondaryDevicePubKey) {

@@ -4,7 +4,6 @@
 /* global log: false */
 
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
-const StubAppDotNetAPI = require('../../integration_test/stubs/stub_app_dot_net_api.js');
 
 const DEVICE_MAPPING_USER_ANNOTATION_TYPE =
   'network.loki.messenger.devicemapping';
@@ -59,11 +58,7 @@ class LokiFileServerInstance {
   // LokiAppDotNetAPI (base) should not know about LokiFileServer.
   async establishConnection(serverUrl, options) {
     // why don't we extend this?
-    if (process.env.USE_STUBBED_NETWORK) {
-      this._server = new StubAppDotNetAPI(this.ourKey, serverUrl);
-    } else {
-      this._server = new LokiAppDotNetAPI(this.ourKey, serverUrl);
-    }
+    this._server = new LokiAppDotNetAPI(this.ourKey, serverUrl);
 
     // configure proxy
     this._server.pubKey = this.pubKey;
