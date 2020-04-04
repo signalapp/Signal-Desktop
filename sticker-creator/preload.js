@@ -155,7 +155,7 @@ async function encrypt(data, key, iv) {
 const getThemeSetting = makeGetter('theme-setting');
 
 async function resolveTheme() {
-  const theme = (await getThemeSetting()) || 'light';
+  const theme = (await getThemeSetting()) || 'system';
   if (process.platform === 'darwin' && theme === 'system') {
     return nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
   }
