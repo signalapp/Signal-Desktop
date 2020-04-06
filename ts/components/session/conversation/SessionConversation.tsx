@@ -1,3 +1,5 @@
+// tslint:disable: no-backbone-get-set-outside-model
+
 import React from 'react';
 import classNames from 'classnames';
 
@@ -13,6 +15,7 @@ import { getTimestamp } from './SessionConversationManager';
 
 import { SessionScrollButton } from '../SessionScrollButton';
 import { SessionGroupSettings } from './SessionGroupSettings';
+
 
 interface State {
   conversationKey: string;
@@ -38,8 +41,8 @@ interface State {
 }
 
 export class SessionConversation extends React.Component<any, State> {
-  private messagesEndRef: React.RefObject<HTMLDivElement>;
-  private messageContainerRef: React.RefObject<HTMLDivElement>;
+  private readonly messagesEndRef: React.RefObject<HTMLDivElement>;
+  private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
 
   constructor(props: any) {
     super(props);
@@ -95,7 +98,7 @@ export class SessionConversation extends React.Component<any, State> {
 
     this.messagesEndRef = React.createRef();
     this.messageContainerRef = React.createRef();
-        
+
     // Keyboard navigation
     this.onKeyDown = this.onKeyDown.bind(this);
 
@@ -106,7 +109,7 @@ export class SessionConversation extends React.Component<any, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   public componentDidMount() {
-    this.getMessages().then(() => {    
+    this.getMessages().then(() => {
       // Pause thread to wait for rendering to complete
       setTimeout(() => {
         this.scrollToUnread();
@@ -116,7 +119,7 @@ export class SessionConversation extends React.Component<any, State> {
           doneInitialScroll: true,
         });
       }, 100);
-    });
+    }).catch();
 
     this.updateReadMessages();
   }
@@ -163,6 +166,7 @@ export class SessionConversation extends React.Component<any, State> {
           className={classNames('conversation-item__content', selectionMode && 'selection-mode')}
           tabIndex={0}
           onKeyDown={this.onKeyDown}
+          role="navigation"
         >
           <div className="conversation-header">
             {this.renderHeader()}
@@ -178,7 +182,7 @@ export class SessionConversation extends React.Component<any, State> {
 
           <div className="messages-wrapper">
             { loading && (
-              <div className="messages-container__loading"></div>
+              <div className="messages-container__loading"/>
             )}
 
             <div
@@ -192,10 +196,10 @@ export class SessionConversation extends React.Component<any, State> {
 
             <SessionScrollButton show={showScrollButton} onClick={this.scrollToBottom}/>
             { showRecordingView && (
-              <div className="messages-wrapper--blocking-overlay"></div>
+              <div className="messages-wrapper--blocking-overlay"/>
             )}
           </div>
-          
+
           { !isRss && (
             <SessionCompositionBox
               sendMessage={sendMessageFn}
@@ -206,7 +210,7 @@ export class SessionConversation extends React.Component<any, State> {
               onExitVoiceNoteView={this.onExitVoiceNoteView}
             />
           )}
-          
+
         </div>
 
         {shouldRenderGroupSettings && (
@@ -232,7 +236,7 @@ export class SessionConversation extends React.Component<any, State> {
           const attachmentProps = message.propsForAttachment;
           const groupNotificationProps = message.propsForGroupNotification;
           const quoteProps = message.propsForQuote;
-          
+
           let item;
           // firstMessageOfSeries tells us to render the avatar only for the first message
           // in a series of messages from the same user
@@ -311,7 +315,9 @@ export class SessionConversation extends React.Component<any, State> {
     messageProps.i18n = window.i18n;
     messageProps.selected = selected;
     messageProps.firstMessageOfSeries = firstMessageOfSeries;
-    messageProps.onSelectMessage = (messageId: string) => this.selectMessage(messageId);
+    messageProps.onSelectMessage = (messageId: string) => {
+      this.selectMessage(messageId);
+    }
     messageProps.quote = quoteProps || undefined;
 
     return (
@@ -327,8 +333,8 @@ export class SessionConversation extends React.Component<any, State> {
       <TimerNotification {...timerProps} />
     );
   }
-  
-  public renderFriendRequest(friendRequestProps: any){
+
+  public renderFriendRequest(friendRequestProps: any) {
     friendRequestProps.i18n = window.i18n;
 
     return (
@@ -360,7 +366,7 @@ export class SessionConversation extends React.Component<any, State> {
       return { newTopMessage: undefined, previousTopMessage: undefined };
     }
 
-    let msgCount = numMessages || window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT + this.state.unreadCount;
+    let msgCount = numMessages || Number(window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT) + this.state.unreadCount;
     msgCount = msgCount > window.CONSTANTS.MAX_MESSAGE_FETCH_COUNT
       ? window.CONSTANTS.MAX_MESSAGE_FETCH_COUNT
       : msgCount;
@@ -447,7 +453,9 @@ export class SessionConversation extends React.Component<any, State> {
       onDeleteSelectedMessages: () => conversation.deleteSelectedMessages(),
       onCloseOverlay: () => conversation.resetMessageSelection(),
       onDeleteContact: () => conversation.deleteContact(),
-      onResetSession: () => this.resetSelection(),
+      onResetSession: () => {
+        this.resetSelection();
+      },
 
       // These are view only and don't update the Conversation model, so they
       //   need a manual update call.
@@ -517,8 +525,8 @@ export class SessionConversation extends React.Component<any, State> {
         }
       },
     };
-  };
-  
+  }
+
   public getGroupSettingsProps() {
     const { conversationKey } = this.state;
     const conversation = window.ConversationController.get(conversationKey);
@@ -615,7 +623,7 @@ export class SessionConversation extends React.Component<any, State> {
     console.log(`[sending] Message Failure`);
     this.updateSendingProgress(100, -1);
   }
-  
+
   public updateReadMessages() {
     const { isScrolledToBottom, messages, conversationKey } = this.state;
 
@@ -637,7 +645,7 @@ export class SessionConversation extends React.Component<any, State> {
     } else {
       unread = this.findNewestVisibleUnread();
     }
-    
+
     if (unread) {
       const model = window.ConversationController.get(conversationKey);
       model.markRead(unread.attributes.received_at);
@@ -646,7 +654,9 @@ export class SessionConversation extends React.Component<any, State> {
 
   public findNewestVisibleUnread() {
     const messageContainer = this.messageContainerRef.current;
-    if (!messageContainer) return null;
+    if (!messageContainer) {
+      return null;
+    }
 
     const { messages, unreadCount } = this.state;
     const { length } = messages;
@@ -712,7 +722,7 @@ export class SessionConversation extends React.Component<any, State> {
       return;
     }
 
-    
+
     const scrollTop = messageContainer.scrollTop;
     const scrollHeight = messageContainer.scrollHeight;
     const clientHeight = messageContainer.clientHeight;
@@ -721,7 +731,7 @@ export class SessionConversation extends React.Component<any, State> {
     const scrollButtonViewHideLimit = 0.40;
     const scrollOffsetPx = scrollHeight - scrollTop - clientHeight;
     const scrollOffsetPc = scrollOffsetPx / clientHeight;
-    
+
     // Scroll button appears if you're more than 75% scrolled up
     if (scrollOffsetPc > scrollButtonViewShowLimit && !this.state.showScrollButton){
       this.setState({showScrollButton: true});
@@ -736,7 +746,9 @@ export class SessionConversation extends React.Component<any, State> {
 
     // Scrolled to bottom
     const isScrolledToBottom = scrollOffsetPc === 0;
-    if (isScrolledToBottom) console.log(`[scroll] Scrolled to bottom`);
+    if (isScrolledToBottom) {
+      console.log(`[scroll] Scrolled to bottom`);
+    }
 
     // Mark messages read
     this.updateReadMessages();
@@ -748,10 +760,10 @@ export class SessionConversation extends React.Component<any, State> {
 
     // Fetch more messages when nearing the top of the message list
     const shouldFetchMoreMessages = scrollTop <= window.CONSTANTS.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
-    
+
     if (shouldFetchMoreMessages){
       const numMessages = this.state.messages.length + window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT;
-      
+
       // Prevent grabbing messags with scroll more frequently than once per 5s.
       const messageFetchInterval = 2;
       const previousTopMessage = (await this.getMessages(numMessages, messageFetchInterval, true))?.previousTopMessage;
@@ -762,8 +774,10 @@ export class SessionConversation extends React.Component<any, State> {
   public scrollToUnread() {
     const { messages, unreadCount } = this.state;
     const message = messages[(messages.length - 1) - unreadCount];
-    
-    if(message) this.scrollToMessage(message.id);
+
+    if (message) {
+      this.scrollToMessage(message.id);
+    }
   }
 
   public scrollToMessage(messageId: string) {
@@ -778,7 +792,9 @@ export class SessionConversation extends React.Component<any, State> {
     // );
 
     const messageContainer = this.messageContainerRef.current;
-    if (!messageContainer) return;
+    if (!messageContainer) {
+      return;
+    }
     messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
   }
 
@@ -790,7 +806,7 @@ export class SessionConversation extends React.Component<any, State> {
       // Add to array if not selected. Else remove.
       ? this.state.selectedMessages.filter(id => id !== messageId)
       : [...this.state.selectedMessages, messageId];
-    
+
     this.setState({ selectedMessages });
   }
 
@@ -819,15 +835,17 @@ export class SessionConversation extends React.Component<any, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private onKeyDown(event: any) {
     const messageContainer = this.messageContainerRef.current;
-    if (!messageContainer) return;
+    if (!messageContainer) {
+      return;
+    }
 
     const selectionMode = !!this.state.selectedMessages.length;
     const recordingMode = this.state.showRecordingView;
-    
+
     const pageHeight = messageContainer.clientHeight;
     const arrowScrollPx = 50;
     const pageScrollPx = 0.80 * pageHeight;
-    
+
     console.log(`[vince][key] event: `, event);
 
     console.log(`[vince][key] key: `, event.key);
@@ -838,7 +856,9 @@ export class SessionConversation extends React.Component<any, State> {
 
     switch(event.key){
       case 'Escape':
-        if (selectionMode) this.resetSelection();
+        if (selectionMode) {
+          this.resetSelection();
+        }
         break;
 
       // Scrolling
@@ -855,11 +875,7 @@ export class SessionConversation extends React.Component<any, State> {
         messageContainer.scrollBy(0, pageScrollPx);
         break;
       default:
-        break;
     }
 
   }
-  
 }
-
-

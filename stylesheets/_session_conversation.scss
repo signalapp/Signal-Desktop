@@ -136,6 +136,7 @@ $composition-container-height: 60px;
   flex-grow: 1;
   flex-direction: column;
   position: relative;
+  height: 0px;
 
   &--blocking-overlay {
     background-color: rgba(0, 0, 0, 0.8);
