@@ -15,7 +15,7 @@ import {
   PropsHousekeeping,
 } from './ConversationHeader';
 
-import { gifObjectUrl } from '../../storybook/Fixtures';
+import { gifUrl } from '../../storybook/Fixtures';
 
 const book = storiesOf('Components/Conversation/ConversationHeader', module);
 const i18n = setupI18n('en', enMessages);
@@ -59,7 +59,7 @@ const stories: Array<ConversationHeaderStory> = [
         props: {
           color: 'red',
           isVerified: true,
-          avatarPath: gifObjectUrl,
+          avatarPath: gifUrl,
           name: 'Someone 🔥 Somewhere',
           phoneNumber: '(202) 555-0001',
           id: '1',

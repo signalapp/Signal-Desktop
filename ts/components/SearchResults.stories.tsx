@@ -15,10 +15,10 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import {
-  gifObjectUrl,
-  landscapeGreenObjectUrl,
-  landscapePurpleObjectUrl,
-  pngObjectUrl,
+  gifUrl,
+  landscapeGreenUrl,
+  landscapePurpleUrl,
+  pngUrl,
 } from '../storybook/Fixtures';
 
 const i18n = setupI18n('en', enMessages);
@@ -48,7 +48,7 @@ messageLookup.set('1-guid-guid-guid-guid-guid', {
     phoneNumber: '(202) 555-0020',
     isMe: true,
     color: 'blue',
-    avatarPath: gifObjectUrl,
+    avatarPath: gifUrl,
   },
   to: {
     phoneNumber: '(202) 555-0015',
@@ -83,7 +83,7 @@ messageLookup.set('3-guid-guid-guid-guid-guid', {
     phoneNumber: '(202) 555-0011',
     name: 'Someone',
     color: 'green',
-    avatarPath: pngObjectUrl,
+    avatarPath: pngUrl,
   },
   to: {
     phoneNumber: '(202) 555-0016',
@@ -101,7 +101,7 @@ messageLookup.set('4-guid-guid-guid-guid-guid', {
     phoneNumber: '(202) 555-0020',
     isMe: true,
     color: 'light_green',
-    avatarPath: gifObjectUrl,
+    avatarPath: gifUrl,
   },
   to: {
     phoneNumber: '(202) 555-0016',
@@ -146,7 +146,7 @@ const conversations = [
       name: 'Everyone 🌆',
       type: GROUP,
       color: 'signal-blue' as 'signal-blue',
-      avatarPath: landscapeGreenObjectUrl,
+      avatarPath: landscapeGreenUrl,
       isMe: false,
       lastUpdated: Date.now() - 5 * 60 * 1000,
       unreadCount: 0,
@@ -165,7 +165,7 @@ const conversations = [
       name: 'Everyone Else 🔥',
       color: 'pink' as 'pink',
       type: DIRECT,
-      avatarPath: landscapePurpleObjectUrl,
+      avatarPath: landscapePurpleUrl,
       isMe: false,
       lastUpdated: Date.now() - 5 * 60 * 1000,
       unreadCount: 0,
@@ -187,7 +187,7 @@ const contacts = [
       name: 'The one Everyone',
       color: 'blue' as 'blue',
       type: DIRECT,
-      avatarPath: gifObjectUrl,
+      avatarPath: gifUrl,
       isMe: false,
       lastUpdated: Date.now() - 10 * 60 * 1000,
       unreadCount: 0,
