@@ -31,7 +31,9 @@ module.exports = {
   attachmentInput: '//*[contains(@class, "choose-file")]/input[@type="file"]',
   attachmentButton: '//*[contains(@class, "choose-file")]/button',
 
-  messageCtxMenu: message => `//div[contains(@class, "message-wrapper") and .//span[contains(@class, "text-selectable")][contains(string(), ${message})]]//div[contains(@class, 'module-message__buttons__menu')]`,
+  messageCtxMenu: message => `//div[contains(@class, "message-wrapper")]//span[contains(@class, "text-selectable")][contains(string(), '${message}')]/ancestor::div//div[contains(@class, 'module-message__buttons__menu')]`,
+  //div[contains(@class, "message-wrapper")]//span[contains(@class, "text-selectable")][contains(string(), 'delete_me')]/ancestor::div//div[contains(@class, 'module-message__buttons__menu')]
+
   deleteMessageCtxButton: '//*[contains(@class, "react-contextmenu--visible")]/div[contains(string(), "Delete Message")]',
   deleteMessageModalButton: '//*[contains(@class, "session-modal")]//div[contains(string(), "Delete") and contains(@class, "session-button")]',
 

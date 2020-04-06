@@ -36,11 +36,11 @@ describe('Link Device', function() {
     await common.stopStubSnodeServer();
   });
 
-  it('link two desktop devices', async () => {
+  it('linkDevice: link two desktop devices', async () => {
     await common.linkApp2ToApp(app, app2);
   });
 
-  it('unlink two devices', async () => {
+  it('linkDevice: unlink two devices', async () => {
     await common.linkApp2ToApp(app, app2);
     await common.timeout(1000);
     await common.triggerUnlinkApp2FromApp(app, app2);

@@ -24,7 +24,7 @@ describe('Closed groups', function() {
     await common.stopStubSnodeServer();
   });
 
-  it('can create a closed group with a friend and send/receive a message', async () => {
+  it('closedGroup: can create a closed group with a friend and send/receive a message', async () => {
     await app.client.element(ConversationPage.globeButtonSection).click();
     await app.client.element(ConversationPage.createClosedGroupButton).click();
 

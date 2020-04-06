@@ -206,9 +206,11 @@ function captureClicks(window) {
 }
 
 const DEFAULT_WIDTH = 880;
-const DEFAULT_HEIGHT = 720;
+// add contact button needs to be visible (on HiDpi screens?)
+// otherwise integration test fail
+const DEFAULT_HEIGHT = 820;
 const MIN_WIDTH = 880;
-const MIN_HEIGHT = 720;
+const MIN_HEIGHT = 820;
 const BOUNDS_BUFFER = 100;
 
 function isVisible(window, bounds) {
@@ -353,6 +355,10 @@ async function createWindow() {
 
   mainWindow.on('focus', () => {
     mainWindow.flashFrame(false);
+    if (passwordWindow) {
+      passwordWindow.close();
+      passwordWindow = null;
+    }
   });
 
   if (config.environment === 'test') {
@@ -1025,11 +1031,6 @@ ipc.on('password-window-login', async (event, passPhrase) => {
     const passwordAttempt = true;
     await showMainWindow(passPhrase, passwordAttempt);
     sendResponse();
-
-    if (passwordWindow) {
-      passwordWindow.close();
-      passwordWindow = null;
-    }
   } catch (e) {
     const localisedError = locale.messages.invalidPassword.message;
     sendResponse(localisedError || 'Invalid password');

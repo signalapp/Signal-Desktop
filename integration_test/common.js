@@ -58,6 +58,45 @@ module.exports = {
     return new Promise(resolve => setTimeout(resolve, ms));
   },
 
+  // a wrapper to work around electron/spectron bug
+  async setValueWrapper(app, selector, value) {
+    await app.client.element(selector).click();
+    // keys, setValue and addValue hang on certain platforms
+    // could put a branch here to use one of those
+    // if we know what platforms are good and which ones are broken
+
+    if (process.platform === 'darwin'){
+      await app.client.execute(
+        (slctr, val) => {
+          // eslint-disable-next-line no-undef
+          const iter = document.evaluate(
+            slctr,
+            // eslint-disable-next-line no-undef
+            document,
+            null,
+            // eslint-disable-next-line no-undef
+            XPathResult.UNORDERED_NODE_ITERATOR_TYPE,
+            null
+          );
+          const elem = iter.iterateNext();
+          if (elem) {
+            elem.value = val;
+          } else {
+            console.error('Cant find', slctr, elem, iter);
+          }
+        },
+        selector,
+        value
+      );
+      // let session js detect the text change
+      await app.client.element(selector).click();
+    } else {
+      // Linux & Windows don't require wrapper
+      await app.client.element(selector).setValue(value);
+    }
+    
+  },
+
   async startApp(environment = 'test-integration-session') {
     const env = environment.startsWith('test-integration')
       ? 'test-integration'
@@ -100,16 +139,16 @@ module.exports = {
   async stopApp(app1) {
     if (app1 && app1.isRunning()) {
       await app1.stop();
-      return Promise.resolve();
     }
-    return Promise.resolve();
   },
 
   async killallElectron() {
+    // rtharp - my 2nd client on MacOs needs: pkill -f "node_modules/.bin/electron"
+    // node_modules/electron/dist/electron is node_modules/electron/dist/Electron.app on MacOS
     const killStr =
       process.platform === 'win32'
         ? 'taskkill /im electron.exe /t /f'
-        : 'pkill -f "node_modules/electron/dist/electron"';
+        : 'pkill -f "node_modules/electron/dist/electron" | pkill -f "node_modules/.bin/electron"';
     return new Promise(resolve => {
       exec(killStr, (_err, stdout, stderr) => {
         resolve({ stdout, stderr });
@@ -149,23 +188,24 @@ module.exports = {
     stubOpenGroups = false,
     env = 'test-integration-session',
   }) {
-    const app1 = await this.startAndAssureCleanedApp(env);
+    const app = await this.startAndAssureCleanedApp(env);
 
     if (stubSnode) {
       await this.startStubSnodeServer();
-      this.stubSnodeCalls(app1);
+      this.stubSnodeCalls(app);
     }
 
     if (stubOpenGroups) {
-      this.stubOpenGroupsCalls(app1);
+      this.stubOpenGroupsCalls(app);
     }
 
     if (mnemonic && displayName) {
-      await this.restoreFromMnemonic(app1, mnemonic, displayName);
+      await this.restoreFromMnemonic(app, mnemonic, displayName);
+      // not sure we need this - rtharp.
       await this.timeout(2000);
     }
 
-    return app1;
+    return app;
   },
 
   async startAndStubN(props, n) {
@@ -178,18 +218,25 @@ module.exports = {
     return appN;
   },
 
-  async restoreFromMnemonic(app1, mnemonic, displayName) {
-    await app1.client.element(RegistrationPage.registrationTabSignIn).click();
-    await app1.client.element(RegistrationPage.restoreFromSeedMode).click();
-    await app1.client
-      .element(RegistrationPage.recoveryPhraseInput)
-      .setValue(mnemonic);
-    await app1.client
-      .element(RegistrationPage.displayNameInput)
-      .setValue(displayName);
+  async restoreFromMnemonic(app, mnemonic, displayName) {
+    await app.client.element(RegistrationPage.registrationTabSignIn).click();
+    await app.client.element(RegistrationPage.restoreFromSeedMode).click();
+    await this.setValueWrapper(
+      app,
+      RegistrationPage.recoveryPhraseInput,
+      mnemonic
+    );
 
-    await app1.client.element(RegistrationPage.continueSessionButton).click();
-    await app1.client.waitForExist(
+    await this.setValueWrapper(
+      app,
+      RegistrationPage.displayNameInput,
+      displayName
+    );
+
+    // await app.client.element(RegistrationPage.continueSessionButton).click();
+    await app.client.keys('Enter');
+
+    await app.client.waitForExist(
       RegistrationPage.conversationListContainer,
       4000
     );
@@ -219,9 +266,11 @@ module.exports = {
     await app1.client.element(ConversationPage.contactsButtonSection).click();
     await app1.client.element(ConversationPage.addContactButton).click();
 
-    await app1.client
-      .element(ConversationPage.sessionIDInput)
-      .setValue(this.TEST_PUBKEY2);
+    await this.setValueWrapper(
+      app1,
+      ConversationPage.sessionIDInput,
+      this.TEST_PUBKEY2
+    );
     await app1.client.element(ConversationPage.nextButton).click();
     await app1.client.waitForExist(
       ConversationPage.sendFriendRequestTextarea,
@@ -229,9 +278,11 @@ module.exports = {
     );
 
     // send a text message to that user (will be a friend request)
-    await app1.client
-      .element(ConversationPage.sendFriendRequestTextarea)
-      .setValue(textMessage);
+    await this.setValueWrapper(
+      app1,
+      ConversationPage.sendFriendRequestTextarea,
+      textMessage
+    );
     await app1.client.keys('Enter');
     await app1.client.waitForExist(
       ConversationPage.existingFriendRequestText(textMessage),
@@ -364,9 +415,12 @@ module.exports = {
     // next trigger the link request from the app2 with the app1 pubkey
     await app2.client.element(RegistrationPage.registrationTabSignIn).click();
     await app2.client.element(RegistrationPage.linkDeviceMode).click();
-    await app2.client
-      .element(RegistrationPage.textareaLinkDevicePubkey)
-      .setValue(this.TEST_PUBKEY1);
+
+    await this.setValueWrapper(
+      app2,
+      RegistrationPage.textareaLinkDevicePubkey,
+      this.TEST_PUBKEY1
+    );
     await app2.client.element(RegistrationPage.linkDeviceTriggerButton).click();
     await app1.client.waitForExist(RegistrationPage.toastWrapper, 7000);
     let secretWordsapp1 = await app1.client
