@@ -17,6 +17,7 @@ describe('state/selectors/conversations', () => {
           activeAt: Date.now(),
           name: 'No timestamp',
           timestamp: 0,
+          inboxPosition: 0,
           phoneNumber: 'notused',
           isArchived: false,
 
@@ -36,6 +37,7 @@ describe('state/selectors/conversations', () => {
           activeAt: Date.now(),
           name: 'B',
           timestamp: 20,
+          inboxPosition: 21,
           phoneNumber: 'notused',
           isArchived: false,
 
@@ -55,6 +57,7 @@ describe('state/selectors/conversations', () => {
           activeAt: Date.now(),
           name: 'C',
           timestamp: 20,
+          inboxPosition: 22,
           phoneNumber: 'notused',
           isArchived: false,
 
@@ -74,6 +77,7 @@ describe('state/selectors/conversations', () => {
           activeAt: Date.now(),
           name: 'Á',
           timestamp: 20,
+          inboxPosition: 20,
           phoneNumber: 'notused',
           isArchived: false,
 
@@ -93,6 +97,7 @@ describe('state/selectors/conversations', () => {
           activeAt: Date.now(),
           name: 'First!',
           timestamp: 30,
+          inboxPosition: 30,
           phoneNumber: 'notused',
           isArchived: false,
 

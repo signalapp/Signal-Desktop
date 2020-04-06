@@ -167,6 +167,10 @@ window.itemLookup = {
         'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
     },
   },
+  'id-15': {
+    type: 'linkNotification',
+    data: null,
+  },
 };
 
 window.actions = {

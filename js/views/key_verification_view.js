@@ -16,6 +16,7 @@
     },
     initialize(options) {
       this.ourNumber = textsecure.storage.user.getNumber();
+      this.ourUuid = textsecure.storage.user.getUuid();
       if (options.newKey) {
         this.theirKey = options.newKey;
       }
@@ -44,16 +45,29 @@
       );
     },
     loadTheirKey() {
-      const item = textsecure.storage.protocol.identityKeys[this.model.id];
+      const item = textsecure.storage.protocol.getIdentityRecord(
+        this.model.get('id')
+      );
       this.theirKey = item ? item.publicKey : null;
     },
     loadOurKey() {
-      const item = textsecure.storage.protocol.identityKeys[this.ourNumber];
+      const item = textsecure.storage.protocol.getIdentityRecord(
+        this.ourUuid || this.ourNumber
+      );
       this.ourKey = item ? item.publicKey : null;
     },
     generateSecurityNumber() {
       return new libsignal.FingerprintGenerator(5200)
-        .createFor(this.ourNumber, this.ourKey, this.model.id, this.theirKey)
+        .createFor(
+          // TODO: we cannot use UUIDs for safety numbers yet
+          // this.ourUuid || this.ourNumber,
+          this.ourNumber,
+          this.ourKey,
+          // TODO: we cannot use UUIDs for safety numbers yet
+          // this.model.get('uuid') || this.model.get('e164'),
+          this.model.get('e164'),
+          this.theirKey
+        )
         .then(securityNumber => {
           this.securityNumber = securityNumber;
         });

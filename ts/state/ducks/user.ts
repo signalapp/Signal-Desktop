@@ -1,3 +1,6 @@
+import { trigger } from '../../shims/events';
+
+import { NoopActionType } from './noop';
 import { LocalizerType } from '../../types/Util';
 
 // State
@@ -6,6 +9,8 @@ export type UserStateType = {
   attachmentsPath: string;
   stickersPath: string;
   tempPath: string;
+  ourConversationId: string;
+  ourUuid: string;
   ourNumber: string;
   platform: string;
   regionCode: string;
@@ -18,6 +23,8 @@ export type UserStateType = {
 type UserChangedActionType = {
   type: 'USER_CHANGED';
   payload: {
+    ourConversationId?: string;
+    ourUuid?: string;
     ourNumber?: string;
     regionCode?: string;
     interactionMode?: 'mouse' | 'keyboard';
@@ -30,16 +37,28 @@ export type UserActionType = UserChangedActionType;
 
 export const actions = {
   userChanged,
+  manualReconnect,
 };
 
 function userChanged(attributes: {
   interactionMode?: 'mouse' | 'keyboard';
+  ourConversationId: string;
   ourNumber: string;
+  ourUuid: string;
   regionCode: string;
 }): UserChangedActionType {
   return {
     type: 'USER_CHANGED',
     payload: attributes,
+  };
+}
+
+function manualReconnect(): NoopActionType {
+  trigger('manualConnect');
+
+  return {
+    type: 'NOOP',
+    payload: null,
   };
 }
 
@@ -50,6 +69,8 @@ function getEmptyState(): UserStateType {
     attachmentsPath: 'missing',
     stickersPath: 'missing',
     tempPath: 'missing',
+    ourConversationId: 'missing',
+    ourUuid: 'missing',
     ourNumber: 'missing',
     regionCode: 'missing',
     platform: 'missing',

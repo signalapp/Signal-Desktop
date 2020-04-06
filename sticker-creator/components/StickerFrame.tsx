@@ -198,7 +198,14 @@ export const StickerFrame = React.memo(
                 />
               ) : null}
               {mode === 'removable' ? (
-                <button className={styles.closeButton} onClick={handleRemove}>
+                <button
+                  className={styles.closeButton}
+                  onClick={handleRemove}
+                  // Reverse the mouseenter/leave logic for the remove button so
+                  // we don't accidentally cover the remove button
+                  onMouseEnter={handleMouseLeave}
+                  onMouseLeave={handleMouseEnter}
+                >
                   {closeSvg}
                 </button>
               ) : null}

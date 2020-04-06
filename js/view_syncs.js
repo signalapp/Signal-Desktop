@@ -14,7 +14,7 @@
   Whisper.ViewSyncs = new (Backbone.Collection.extend({
     forMessage(message) {
       const sync = this.findWhere({
-        source: message.get('source'),
+        conversationId: message.get('conversationId'),
         timestamp: message.get('sent_at'),
       });
       if (sync) {
@@ -35,13 +35,15 @@
         );
 
         const found = messages.find(
-          item => item.get('source') === sync.get('source')
+          item => item.get('conversationId') === sync.get('conversationId')
         );
         const syncSource = sync.get('source');
+        const syncSourceUuid = sync.get('sourceUuid');
         const syncTimestamp = sync.get('timestamp');
         const wasMessageFound = Boolean(found);
         window.log.info('Receive view sync:', {
           syncSource,
+          syncSourceUuid,
           syncTimestamp,
           wasMessageFound,
         });

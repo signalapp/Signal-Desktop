@@ -5,6 +5,7 @@
   'use strict';
 
   const BLOCKED_NUMBERS_ID = 'blocked';
+  const BLOCKED_UUIDS_ID = 'blocked-uuids';
   const BLOCKED_GROUPS_ID = 'blocked-groups';
 
   storage.isBlocked = number => {
@@ -29,6 +30,30 @@
 
     window.log.info('removing', number, 'from blocked list');
     storage.put(BLOCKED_NUMBERS_ID, _.without(numbers, number));
+  };
+
+  storage.isUuidBlocked = uuid => {
+    const uuids = storage.get(BLOCKED_UUIDS_ID, []);
+
+    return _.include(uuids, uuid);
+  };
+  storage.addBlockedUuid = uuid => {
+    const uuids = storage.get(BLOCKED_UUIDS_ID, []);
+    if (_.include(uuids, uuid)) {
+      return;
+    }
+
+    window.log.info('adding', uuid, 'to blocked list');
+    storage.put(BLOCKED_UUIDS_ID, uuids.concat(uuid));
+  };
+  storage.removeBlockedUuid = uuid => {
+    const numbers = storage.get(BLOCKED_UUIDS_ID, []);
+    if (!_.include(numbers, uuid)) {
+      return;
+    }
+
+    window.log.info('removing', uuid, 'from blocked list');
+    storage.put(BLOCKED_NUMBERS_ID, _.without(numbers, uuid));
   };
 
   storage.isGroupBlocked = groupId => {

@@ -135,10 +135,6 @@
         "message": "Apri strumenti di sviluppo",
         "description": "View menu command to show or hide the developer tools"
     },
-    "menuSetupWithImport": {
-        "message": "Configura con l'importazione",
-        "description": "When the application is not yet set up, menu option to start up the import sequence"
-    },
     "menuSetupAsNewDevice": {
         "message": "Configura come nuovo dispositivo",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
@@ -581,6 +577,10 @@
         "message": "In collegamento",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connectingHangOn": {
+        "message": "Non dovrebbe volerci molto...",
+        "description": "Subtext description for when the client is connecting to the server."
+    },
     "offline": {
         "message": "Disconnesso",
         "description": "Displayed when the desktop client has no network connection."
@@ -588,16 +588,6 @@
     "checkNetworkConnection": {
         "message": "Verifica la tua connessione.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
-    },
-    "attemptingReconnection": {
-        "message": "Tentativo di riconessione tra $reconnect_duration_in_seconds$ secondi.",
-        "description": "",
-        "placeholders": {
-            "reconnect_duration_in_seconds": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
     },
     "submitDebugLog": {
         "message": "Debug log",
@@ -767,6 +757,10 @@
         "message": "Scarica allegato",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
+    "reactToMessage": {
+        "message": "Reagisci al messaggio",
+        "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
+    },
     "replyToMessage": {
         "message": "Rispondi al messaggio",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
@@ -782,6 +776,18 @@
     "messageFoundButNotLoaded": {
         "message": "Messaggio originale trovato, ma non caricato. Scorri verso l'alto per caricarlo.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceRecordingInterruptedMax": {
+        "message": "Registrazione del messaggio vocale interrotta poiché hai raggiunto il limite di tempo massimo.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
+    },
+    "voiceRecordingInterruptedBlur": {
+        "message": "Registrazione del messaggio vocale interrotta poiché sei passato a un'altra app.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
+    },
+    "voiceNoteLimit": {
+        "message": "I messaggi vocali sono limitati a cinque minuti. La registrazione verrà interrotta se passi a un'altra app.",
+        "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
         "message": "Un messaggio vocale deve avere un solo allegato.",
@@ -799,7 +805,7 @@
     },
     "you": {
         "message": "Tu",
-        "description": "In Android theme, shown in quote if you or someone else replies to you"
+        "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
         "message": "Rispondendo a $name$",
@@ -840,12 +846,28 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Aggiornamento di Signal Desktop fallito, ma una nuova versione è disponibile. Vai su https://signal.org/download e installa manualmente la nuova versione, quindi contatta il supporto o segnala un bug su questo problema.",
-        "description": "Shown if a general error happened while trying to install update package"
+        "message": "Aggiornamento di Signal Desktop fallito, ma è disponibile una nuova versione. Vai su  $url$ e installa manualmente la nuova versione, quindi contatta il supporto o segnala un bug riguardo questo problema.",
+        "description": "Shown if a general error happened while trying to install update package",
+        "placeholders": {
+            "url": {
+                "content": "$1",
+                "example": "https://signal.org/download"
+            }
+        }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop potrebbe essere in quarantena e non può auto aggiornarsi. Ti preghiamo di spostare Signal.app in /Applicazioni con Finder.",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
+        "message": "Signal Desktop è probabilmente nella quarantena di macOS e non sarà in grado di aggiornarsi automaticamente. Ti preghiamo di spostare  $app$ in  $folder$ con Finder.",
+        "description": "Shown on MacOS if running on a read-only volume and we cannot update",
+        "placeholders": {
+            "app": {
+                "content": "$1",
+                "example": "Signal.app"
+            },
+            "folder": {
+                "content": "$2",
+                "example": "/Applications"
+            }
+        }
     },
     "ok": {
         "message": "OK",
@@ -853,6 +875,10 @@
     },
     "cancel": {
         "message": "Annulla",
+        "description": ""
+    },
+    "discard": {
+        "message": "Elimina",
         "description": ""
     },
     "failedToSend": {
@@ -1166,6 +1192,42 @@
             "emoji": {
                 "content": "$2",
                 "example": "👍"
+            }
+        }
+    },
+    "notificationReactionMessage": {
+        "message": "$sender$ ha reagito $emoji$ a: $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
+            }
+        }
+    },
+    "notificationReactionMessageMostRecent": {
+        "message": "Più recente: $sender$ ha reagito $emoji$ a: $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
             }
         }
     },
@@ -1863,6 +1925,10 @@
         "message": "Attiva/disattiva la risposta al messaggio selezionato",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--toggle-reaction-picker": {
+        "message": "Attiva/disattiva selettore reazioni per il messaggio selezionato",
+        "description": "Shown in the shortcuts guide"
+    },
     "Keyboard--save-attachment": {
         "message": "Salva allegato dal messaggio selezionato",
         "description": "Shown in the shortcuts guide"
@@ -2118,7 +2184,7 @@
         "description": "Title for the copy button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--close": {
-        "message": "Chiuso",
+        "message": "Chiudi",
         "description": "Text for the close button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--createAnother": {
@@ -2176,6 +2242,14 @@
     "StickerCreator--Authentication--error": {
         "message": "Per favore installa Signal sul tuo telefono e sul desktop per usare il creatore di pacchetti di adesivi",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    },
+    "Reactions--error": {
+        "message": "Invio reazione fallito. Riprova.",
+        "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--all": {
+        "message": "Tutte",
+        "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "privacyPolicy": {
         "message": "Termini di Servizio e Informativa Privacy",

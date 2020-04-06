@@ -16,7 +16,15 @@ let scheduleNext = null;
 function refreshOurProfile() {
   window.log.info('refreshOurProfile');
   const ourNumber = textsecure.storage.user.getNumber();
-  const conversation = ConversationController.getOrCreate(ourNumber, 'private');
+  const ourUuid = textsecure.storage.user.getUuid();
+  const conversation = ConversationController.getOrCreate(
+    // This is explicitly ourNumber first in order to avoid creating new
+    // conversations when an old one exists
+    ourNumber || ourUuid,
+    'private'
+  );
+  conversation.updateUuid(ourUuid);
+  conversation.updateE164(ourNumber);
   conversation.getProfiles();
 }
 
@@ -35,28 +43,27 @@ function initialize({ events, storage, navigator, logger }) {
   function scheduleNextRotation() {
     const now = Date.now();
     const certificate = storage.get('senderCertificate');
-    if (!certificate) {
+    if (!certificate || !certificate.expires) {
       setTimeoutForNextRun(scheduledTime || now);
 
       return;
     }
 
-    // The useful information in a SenderCertificate is all serialized, so we
-    //   need to do another layer of decoding.
-    const decoded = textsecure.protobuf.SenderCertificate.Certificate.decode(
-      certificate.certificate
-    );
-    const expires = decoded.expires.toNumber();
-
     // If we have a time in place and it's already before the safety zone before expire,
     //   we keep it
-    if (scheduledTime && scheduledTime <= expires - MINIMUM_TIME_LEFT) {
+    if (
+      scheduledTime &&
+      scheduledTime <= certificate.expires - MINIMUM_TIME_LEFT
+    ) {
       setTimeoutForNextRun(scheduledTime);
       return;
     }
 
     // Otherwise, we reset every day, or earlier if the safety zone requires it
-    const time = Math.min(now + ONE_DAY, expires - MINIMUM_TIME_LEFT);
+    const time = Math.min(
+      now + ONE_DAY,
+      certificate.expires - MINIMUM_TIME_LEFT
+    );
     setTimeoutForNextRun(time);
   }
 
@@ -66,21 +73,39 @@ function initialize({ events, storage, navigator, logger }) {
   async function run() {
     logger.info('refreshSenderCertificate: Getting new certificate...');
     try {
-      const username = storage.get('number_id');
-      const password = storage.get('password');
-      const server = WebAPI.connect({ username, password });
+      const OLD_USERNAME = storage.get('number_id');
+      const USERNAME = storage.get('uuid_id');
+      const PASSWORD = storage.get('password');
+      const server = WebAPI.connect({
+        username: USERNAME || OLD_USERNAME,
+        password: PASSWORD,
+      });
 
-      const { certificate } = await server.getSenderCertificate();
-      const arrayBuffer = window.Signal.Crypto.base64ToArrayBuffer(certificate);
-      const decoded = textsecure.protobuf.SenderCertificate.decode(arrayBuffer);
+      await Promise.all(
+        [false, true].map(async withUuid => {
+          const { certificate } = await server.getSenderCertificate(withUuid);
+          const arrayBuffer = window.Signal.Crypto.base64ToArrayBuffer(
+            certificate
+          );
+          const decodedContainer = textsecure.protobuf.SenderCertificate.decode(
+            arrayBuffer
+          );
+          const decodedCert = textsecure.protobuf.SenderCertificate.Certificate.decode(
+            decodedContainer.certificate
+          );
 
-      decoded.certificate = decoded.certificate.toArrayBuffer();
-      decoded.signature = decoded.signature.toArrayBuffer();
-      decoded.serialized = arrayBuffer;
+          // We don't want to send a protobuf-generated object across IPC, so we make
+          //   our own object.
+          const toSave = {
+            expires: decodedCert.expires.toNumber(),
+            serialized: arrayBuffer,
+          };
 
-      storage.put('senderCertificate', decoded);
+          storage.put(`senderCertificate${withUuid ? 'WithUuid' : ''}`, toSave);
+        })
+      );
+
       scheduledTime = null;
-
       scheduleNextRotation();
     } catch (error) {
       logger.error(

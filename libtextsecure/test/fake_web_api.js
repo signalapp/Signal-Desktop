@@ -1,6 +1,6 @@
 window.setImmediate = window.nodeSetImmediate;
 
-const getKeysForNumberMap = {};
+const getKeysForIdentifierMap = {};
 const messagesSentMap = {};
 
 const fakeCall = () => Promise.resolve();
@@ -10,7 +10,7 @@ const fakeAPI = {
   getAttachment: fakeCall,
   getAvatar: fakeCall,
   getDevices: fakeCall,
-  // getKeysForNumber: fakeCall,
+  // getKeysForIdentifier : fakeCall,
   getMessageSocket: fakeCall,
   getMyKeys: fakeCall,
   getProfile: fakeCall,
@@ -22,13 +22,13 @@ const fakeAPI = {
   // sendMessages: fakeCall,
   setSignedPreKey: fakeCall,
 
-  getKeysForNumber(number) {
-    const res = getKeysForNumberMap[number];
+  getKeysForIdentifier(number) {
+    const res = getKeysForIdentifierMap[number];
     if (res !== undefined) {
-      delete getKeysForNumberMap[number];
+      delete getKeysForIdentifierMap[number];
       return Promise.resolve(res);
     }
-    throw new Error('getKeysForNumber of unknown/used number');
+    throw new Error('getKeysForIdentfier of unknown/used number');
   },
 
   sendMessages(destination, messageArray) {

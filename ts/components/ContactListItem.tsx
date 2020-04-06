@@ -55,7 +55,7 @@ export class ContactListItem extends React.Component<Props> {
     } = this.props;
 
     const title = name ? name : phoneNumber;
-    const displayName = isMe ? i18n('me') : title;
+    const displayName = isMe ? i18n('you') : title;
 
     const profileElement =
       !isMe && profileName && !name ? (

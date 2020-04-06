@@ -1,4 +1,4 @@
-/* global _, Whisper, Backbone, storage */
+/* global _, Whisper, Backbone, storage, textsecure */
 
 /* eslint-disable more/no-then */
 
@@ -67,8 +67,8 @@
     dangerouslyCreateAndAdd(attributes) {
       return conversations.add(attributes);
     },
-    getOrCreate(id, type) {
-      if (typeof id !== 'string') {
+    getOrCreate(identifier, type) {
+      if (typeof identifier !== 'string') {
         throw new TypeError("'id' must be a string");
       }
 
@@ -84,16 +84,41 @@
         );
       }
 
-      let conversation = conversations.get(id);
+      let conversation = conversations.get(identifier);
       if (conversation) {
         return conversation;
       }
 
-      conversation = conversations.add({
-        id,
-        type,
-        version: 2,
-      });
+      const id = window.getGuid();
+
+      if (type === 'group') {
+        conversation = conversations.add({
+          id,
+          uuid: null,
+          e164: null,
+          groupId: identifier,
+          type,
+          version: 2,
+        });
+      } else if (window.isValidGuid(identifier)) {
+        conversation = conversations.add({
+          id,
+          uuid: identifier,
+          e164: null,
+          groupId: null,
+          type,
+          version: 2,
+        });
+      } else {
+        conversation = conversations.add({
+          id,
+          uuid: null,
+          e164: identifier,
+          groupId: null,
+          type,
+          version: 2,
+        });
+      }
 
       const create = async () => {
         if (!conversation.isValid()) {
@@ -114,7 +139,7 @@
         } catch (error) {
           window.log.error(
             'Conversation save failed! ',
-            id,
+            identifier,
             type,
             'Error:',
             error && error.stack ? error.stack : error
@@ -142,8 +167,27 @@
         );
       });
     },
+    getConversationId(address) {
+      if (!address) {
+        return null;
+      }
+
+      const [id] = textsecure.utils.unencodeNumber(address);
+      const conv = this.get(id);
+
+      if (conv) {
+        return conv.get('id');
+      }
+
+      return null;
+    },
+    getOurConversationId() {
+      const e164 = textsecure.storage.user.getNumber();
+      const uuid = textsecure.storage.user.getUuid();
+      return this.getConversationId(e164 || uuid);
+    },
     prepareForSend(id, options) {
-      // id is either a group id or an individual user's id
+      // id is any valid conversation identifier
       const conversation = this.get(id);
       const sendOptions = conversation
         ? conversation.getSendOptions(options)

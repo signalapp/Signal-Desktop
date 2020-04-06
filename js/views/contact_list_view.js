@@ -26,7 +26,7 @@
           this.contactView = null;
         }
 
-        const isMe = this.ourNumber === this.model.id;
+        const isMe = this.model.isMe();
 
         this.contactView = new Whisper.ReactWrapperView({
           className: 'contact-wrapper',
@@ -47,7 +47,7 @@
         return this;
       },
       showIdentity() {
-        if (this.model.id === this.ourNumber || this.loading) {
+        if (this.model.isMe() || this.loading) {
           return;
         }
 

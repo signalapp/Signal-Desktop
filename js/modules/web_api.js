@@ -394,12 +394,14 @@ const URL_CALLS = {
   attachmentId: 'v2/attachments/form/upload',
   deliveryCert: 'v1/certificate/delivery',
   supportUnauthenticatedDelivery: 'v1/devices/unauthenticated_delivery',
+  registerCapabilities: 'v1/devices/capabilities',
   devices: 'v1/devices',
   keys: 'v2/keys',
   messages: 'v1/messages',
   profile: 'v1/profile',
   signed: 'v2/keys/signed',
   getStickerPackUpload: 'v1/sticker/pack/form',
+  whoami: 'v1/accounts/whoami',
 };
 
 module.exports = {
@@ -451,8 +453,8 @@ function initialize({
       getAttachment,
       getAvatar,
       getDevices,
-      getKeysForNumber,
-      getKeysForNumberUnauth,
+      getKeysForIdentifier,
+      getKeysForIdentifierUnauth,
       getMessageSocket,
       getMyKeys,
       getProfile,
@@ -463,6 +465,7 @@ function initialize({
       getStickerPackManifest,
       makeProxiedRequest,
       putAttachment,
+      registerCapabilities,
       putStickers,
       registerKeys,
       registerSupportForUnauthenticatedDelivery,
@@ -473,6 +476,7 @@ function initialize({
       sendMessagesUnauth,
       setSignedPreKey,
       updateDeviceName,
+      whoami,
     };
 
     function _ajax(param) {
@@ -535,12 +539,21 @@ function initialize({
       });
     }
 
-    function getSenderCertificate() {
+    function whoami() {
+      return _ajax({
+        call: 'whoami',
+        httpType: 'GET',
+        responseType: 'json',
+      });
+    }
+
+    function getSenderCertificate(withUuid = false) {
       return _ajax({
         call: 'deliveryCert',
         httpType: 'GET',
         responseType: 'json',
         schema: { certificate: 'string' },
+        urlParameters: withUuid ? '?includeUuid=true' : undefined,
       });
     }
 
@@ -552,19 +565,27 @@ function initialize({
       });
     }
 
-    function getProfile(number) {
+    function registerCapabilities(capabilities) {
+      return _ajax({
+        call: 'registerCapabilities',
+        httpType: 'PUT',
+        jsonData: { capabilities },
+      });
+    }
+
+    function getProfile(identifier) {
       return _ajax({
         call: 'profile',
         httpType: 'GET',
-        urlParameters: `/${number}`,
+        urlParameters: `/${identifier}`,
         responseType: 'json',
       });
     }
-    function getProfileUnauth(number, { accessKey } = {}) {
+    function getProfileUnauth(identifier, { accessKey } = {}) {
       return _ajax({
         call: 'profile',
         httpType: 'GET',
-        urlParameters: `/${number}`,
+        urlParameters: `/${identifier}`,
         responseType: 'json',
         unauthenticated: true,
         accessKey,
@@ -623,17 +644,17 @@ function initialize({
       let call;
       let urlPrefix;
       let schema;
-      let responseType;
 
       if (deviceName) {
         jsonData.name = deviceName;
         call = 'devices';
         urlPrefix = '/';
-        schema = { deviceId: 'number' };
-        responseType = 'json';
       } else {
         call = 'accounts';
         urlPrefix = '/code/';
+        jsonData.capabilities = {
+          uuid: true,
+        };
       }
 
       // We update our saved username and password, since we're creating a new account
@@ -643,14 +664,14 @@ function initialize({
       const response = await _ajax({
         call,
         httpType: 'PUT',
+        responseType: 'json',
         urlParameters: urlPrefix + code,
         jsonData,
-        responseType,
         validateResponse: schema,
       });
 
-      // From here on out, our username will be our phone number combined with device
-      username = `${number}.${response.deviceId || 1}`;
+      // From here on out, our username will be our UUID or E164 combined with device
+      username = `${response.uuid || number}.${response.deviceId || 1}`;
 
       return response;
     }
@@ -768,25 +789,25 @@ function initialize({
       return res;
     }
 
-    function getKeysForNumber(number, deviceId = '*') {
+    function getKeysForIdentifier(identifier, deviceId = '*') {
       return _ajax({
         call: 'keys',
         httpType: 'GET',
-        urlParameters: `/${number}/${deviceId}`,
+        urlParameters: `/${identifier}/${deviceId}`,
         responseType: 'json',
         validateResponse: { identityKey: 'string', devices: 'object' },
       }).then(handleKeys);
     }
 
-    function getKeysForNumberUnauth(
-      number,
+    function getKeysForIdentifierUnauth(
+      identifier,
       deviceId = '*',
       { accessKey } = {}
     ) {
       return _ajax({
         call: 'keys',
         httpType: 'GET',
-        urlParameters: `/${number}/${deviceId}`,
+        urlParameters: `/${identifier}/${deviceId}`,
         responseType: 'json',
         validateResponse: { identityKey: 'string', devices: 'object' },
         unauthenticated: true,

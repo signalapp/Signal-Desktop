@@ -1,5 +1,34 @@
 // Using BEM syntax explained here: https://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/
 
+.module-splash-screen__logo {
+  @include color-svg('../images/signal-logo.svg', $color-white);
+  margin: 24px auto;
+
+  &.module-img--256 {
+    height: 256px;
+    width: 256px;
+  }
+
+  &.module-img--200 {
+    height: 200px;
+    width: 200px;
+  }
+
+  &.module-img--150 {
+    height: 150px;
+    width: 150px;
+  }
+
+  &.module-img--128 {
+    height: 128px;
+    width: 128px;
+  }
+
+  &.module-logo-blue {
+    background-color: $ultramarine-brand-light;
+  }
+}
+
 // Module: Contact Name
 
 .module-contact-name__profile-name {
@@ -232,7 +261,7 @@
 }
 
 .module-message__error-container {
-  width: 28px;
+  min-width: 28px;
   position: relative;
 }
 
@@ -292,7 +321,7 @@
 }
 .module-message:focus .module-message__container {
   @include keyboard-mode {
-    box-shadow: 0 0 0 3px $color-signal-blue;
+    box-shadow: 0 0 0 3px $ultramarine-ui-light;
   }
 }
 
@@ -301,10 +330,10 @@
     box-shadow: 0 0 0 5px transparent;
   }
   10% {
-    box-shadow: 0 0 0 5px $color-signal-blue;
+    box-shadow: 0 0 0 5px $ultramarine-ui-light;
   }
   70% {
-    box-shadow: 0 0 0 5px $color-signal-blue;
+    box-shadow: 0 0 0 5px $ultramarine-ui-light;
   }
   100% {
     box-shadow: 0 0 0 5px transparent;
@@ -342,11 +371,11 @@
     background-color: $color-gray-75;
   }
   @include ios-theme {
-    background-color: $color-signal-blue;
+    background-color: $ultramarine-ui-light;
     color: $color-white;
   }
   @include ios-dark-theme {
-    background-color: $color-signal-blue;
+    background-color: $ultramarine-ui-light;
     color: $color-gray-05;
   }
 }
@@ -659,7 +688,7 @@
 
   @include keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
     }
   }
 }
@@ -819,7 +848,7 @@
 
   @include keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
     }
   }
 }
@@ -1307,19 +1336,19 @@
   border-bottom-right-radius: 16px;
 
   @include light-theme {
-    color: $color-signal-blue;
+    color: $ultramarine-ui-light;
     background-color: $color-gray-02;
     border: 1px solid $color-black-alpha-20;
   }
   @include dark-theme {
-    color: $color-signal-blue;
+    color: $ultramarine-ui-dark;
     background-color: $color-gray-75;
     border: 1px solid $color-gray-45;
   }
 
   @include keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
     }
   }
 }
@@ -1399,7 +1428,7 @@
 
   @include keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
     }
   }
 
@@ -1561,7 +1590,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   @include keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
     }
   }
 }
@@ -1639,12 +1668,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   // Note: both of these override all of the specific color classes below
   @include ios-theme {
-    background-color: $color-signal-blue-alpha-25;
-    border-left-color: $color-signal-blue;
+    background-color: $ultramarine-ui-light-alpha-25;
+    border-left-color: $ultramarine-ui-light;
   }
   @include ios-dark-theme {
     background-color: $color-conversation-blue-shade;
-    border-left-color: $color-signal-blue;
+    border-left-color: $ultramarine-ui-dark;
   }
 }
 @each $color, $value in $conversation-colors-tint {
@@ -1787,7 +1816,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   @include keyboard-mode {
     &:focus-within {
-      background-color: $color-signal-blue;
+      background-color: $ultramarine-ui-light;
     }
   }
 }
@@ -1851,25 +1880,25 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-quote__icon-container__icon--file {
-  @include color-svg('../images/file.svg', $color-signal-blue);
+  @include color-svg('../images/file.svg', $ultramarine-ui-light);
 }
 .module-quote__icon-container__icon--image {
-  @include color-svg('../images/image.svg', $color-signal-blue);
+  @include color-svg('../images/image.svg', $ultramarine-ui-light);
 }
 .module-quote__icon-container__icon--microphone {
   @include color-svg(
     '../images/icons/v2/mic-outline-24.svg',
-    $color-signal-blue
+    $ultramarine-ui-light
   );
 }
 .module-quote__icon-container__icon--play {
   @include color-svg(
     '../images/icons/v2/play-solid-24.svg',
-    $color-signal-blue
+    $ultramarine-ui-light
   );
 }
 .module-quote__icon-container__icon--movie {
-  @include color-svg('../images/movie.svg', $color-signal-blue);
+  @include color-svg('../images/movie.svg', $ultramarine-ui-light);
 }
 
 .module-quote__generic-file {
@@ -1928,7 +1957,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     background-color: $color-white-alpha-20;
   }
   @include ios-theme {
-    background-color: $color-signal-blue-tint-alpha-50;
+    background-color: $ultramarine-ui-light-tint-alpha-50;
   }
   @include ios-dark-theme {
     background-color: $color-white-alpha-40;
@@ -1938,7 +1967,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-quote__reference-warning--incoming {
   @include ios-dark-theme {
     color: $color-gray-15;
-    background-color: $color-signal-blue-alpha-50;
+    background-color: $ultramarine-ui-light-alpha-50;
   }
 }
 
@@ -1999,7 +2028,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   @include keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
     }
   }
 }
@@ -2122,7 +2151,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include button-reset;
 
   border-radius: 4px;
-  background-color: $color-signal-blue;
+  background-color: $ultramarine-ui-light;
   display: inline-block;
   padding: 6px;
   margin-top: 20px;
@@ -2285,7 +2314,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   padding: 12px;
   border-radius: 4px;
 
-  color: $color-signal-blue;
+  color: $ultramarine-ui-light;
 
   @include light-theme {
     background-color: $color-gray-02;
@@ -2303,6 +2332,36 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     &:focus {
       background-color: $color-gray-60;
     }
+  }
+}
+
+.module-message-unsynced {
+  padding-bottom: 24px;
+  text-align: center;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.module-message-unsynced__icon {
+  height: 24px;
+  margin-bottom: 4px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 24px;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/info-outline-24.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/info-solid-24.svg', $color-gray-25);
   }
 }
 
@@ -2939,7 +2998,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-media-gallery__tab--active {
-  border-bottom: 2px solid $color-signal-blue;
+  border-bottom: 2px solid $ultramarine-ui-light;
 }
 
 .module-media-gallery__content {
@@ -3001,7 +3060,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   @include keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
     }
   }
 }
@@ -3048,7 +3107,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   @include keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
     }
   }
 }
@@ -3101,7 +3160,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   width: 24px;
   @include color-svg(
     '../images/icons/v2/play-solid-24.svg',
-    $color-signal-blue
+    $ultramarine-ui-light
   );
 }
 
@@ -3152,7 +3211,14 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-conversation-list-item--has-unread {
   padding-left: 12px;
-  border-left: 4px solid $color-signal-blue;
+
+  @include light-theme {
+    border-left: 4px solid $ultramarine-ui-light;
+  }
+
+  @include dark-theme {
+    border-left: 4px solid $ultramarine-ui-dark;
+  }
 }
 
 .module-conversation-list-item--is-selected {
@@ -3188,12 +3254,13 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   border-radius: 10px;
 
   color: $color-white;
-  background-color: $color-signal-blue;
 
   @include light-theme {
+    background-color: $ultramarine-ui-light;
     box-shadow: 0px 0px 0px 1px $color-gray-02;
   }
   @include dark-theme {
+    background-color: $ultramarine-ui-dark;
     box-shadow: 0px 0px 0px 1px $color-gray-90;
   }
 }
@@ -3400,7 +3467,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   @include keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
     }
   }
 }
@@ -3616,7 +3683,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-avatar--signal-blue {
-  background-color: $color-signal-blue;
+  background-color: $ultramarine-ui-light;
 }
 
 @each $color, $value in $conversation-colors {
@@ -3682,7 +3749,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 
   &:focus {
-    border: solid 1px $color-signal-blue;
+    border: solid 1px $ultramarine-ui-light;
     outline: none;
   }
 }
@@ -3743,7 +3810,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   width: 16px;
   border-radius: 8px;
 
-  background-color: $color-signal-blue;
+  background-color: $ultramarine-ui-light;
 }
 .module-main-header__search__in-conversation-pill__avatar {
   height: 16px;
@@ -3887,13 +3954,13 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     right: 1px;
     border-radius: 10px;
 
-    box-shadow: 0 0 0 3px $color-signal-blue;
+    box-shadow: 0 0 0 3px $ultramarine-ui-light;
   }
 }
 
 button.module-image__border-overlay:focus {
   @include keyboard-mode {
-    box-shadow: inset 0px 0px 0px 2px $color-signal-blue;
+    box-shadow: inset 0px 0px 0px 2px $ultramarine-ui-light;
   }
 }
 
@@ -3969,7 +4036,7 @@ button.module-image__border-overlay:focus {
   width: 24px;
   @include color-svg(
     '../images/icons/v2/play-solid-24.svg',
-    $color-signal-blue
+    $ultramarine-ui-light
   );
 }
 
@@ -4002,7 +4069,7 @@ button.module-image__border-overlay:focus {
 
   @include keyboard-mode {
     &:focus {
-      outline: 2px solid $color-signal-blue;
+      outline: 2px solid $ultramarine-ui-light;
     }
   }
 }
@@ -4160,7 +4227,7 @@ button.module-image__border-overlay:focus {
 
   @include keyboard-mode {
     &:focus {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
+      @include color-svg('../images/icons/v2/x-24.svg', $ultramarine-ui-light);
     }
   }
 }
@@ -4367,7 +4434,7 @@ button.module-image__border-overlay:focus {
     color: $color-white-alpha-80;
   }
   &:focus {
-    border: 1px solid $color-signal-blue;
+    border: 1px solid $ultramarine-ui-light;
     outline: none;
   }
 }
@@ -4376,7 +4443,7 @@ button.module-image__border-overlay:focus {
   @include button-reset;
 
   position: absolute;
-  background-color: $color-signal-blue;
+  background-color: $ultramarine-ui-light;
   color: $color-white;
 
   height: 28px;
@@ -4412,7 +4479,7 @@ button.module-image__border-overlay:focus {
   }
   @include keyboard-mode {
     &:focus {
-      box-shadow: inset 0 0 0 2px $color-signal-blue;
+      box-shadow: inset 0 0 0 2px $ultramarine-ui-light;
     }
   }
 
@@ -4425,7 +4492,7 @@ button.module-image__border-overlay:focus {
   }
   @include dark-keyboard-mode {
     &:focus {
-      box-shadow: inset 0 0 0 2px $color-signal-blue;
+      box-shadow: inset 0 0 0 2px $ultramarine-ui-light;
     }
   }
 }
@@ -4524,7 +4591,7 @@ button.module-image__border-overlay:focus {
   }
   @include keyboard-mode {
     &:focus {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
+      @include color-svg('../images/icons/v2/x-24.svg', $ultramarine-ui-light);
     }
   }
 
@@ -4533,7 +4600,7 @@ button.module-image__border-overlay:focus {
   }
   @include dark-keyboard-mode {
     &:focus {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
+      @include color-svg('../images/icons/v2/x-24.svg', $ultramarine-ui-dark);
     }
   }
 }
@@ -4692,6 +4759,19 @@ button.module-image__border-overlay:focus {
   }
 }
 
+.module-search-results__sms-not-supported {
+  font-size: 14px;
+  padding-top: 12px;
+  text-align: center;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
 .module-search-results__no-results {
   margin-top: 27px;
   padding-left: 1em;
@@ -4704,7 +4784,7 @@ button.module-image__border-overlay:focus {
 .module-search-results__contacts-header {
   @include font-body-1-bold;
 
-  height: 36px;
+  height: 52px;
   margin-left: 16px;
 
   @include dark-theme {
@@ -4899,7 +4979,7 @@ button.module-image__border-overlay:focus {
       }
       @include keyboard-mode {
         &:focus {
-          box-shadow: 0px 0px 0px 2px $color-signal-blue;
+          box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
         }
       }
 
@@ -5060,7 +5140,7 @@ button.module-image__border-overlay:focus {
         display: block;
         width: 4px;
         height: 4px;
-        background: $color-signal-blue;
+        background: $ultramarine-ui-light;
         border-radius: 2px;
         position: absolute;
         bottom: 4px;
@@ -5138,7 +5218,7 @@ button.module-image__border-overlay:focus {
     &:focus {
       @include color-svg(
         '../images/icons/v2/chevron-left-24.svg',
-        $color-signal-blue
+        $ultramarine-ui-light
       );
     }
   }
@@ -5153,7 +5233,7 @@ button.module-image__border-overlay:focus {
     &:hover {
       @include color-svg(
         '../images/icons/v2/chevron-left-24.svg',
-        $color-signal-blue
+        $ultramarine-ui-dark
       );
     }
   }
@@ -5550,7 +5630,7 @@ button.module-image__border-overlay:focus {
       width: 14px;
       height: 14px;
       border-radius: 7px;
-      background: $color-signal-blue;
+      background: $ultramarine-ui-light;
     }
   }
 }
@@ -5661,11 +5741,11 @@ button.module-image__border-overlay:focus {
 
     &--hint {
       @include light-theme() {
-        color: $color-signal-blue;
+        color: $ultramarine-ui-light;
       }
 
       @include dark-theme() {
-        color: $color-signal-blue;
+        color: $ultramarine-ui-dark;
       }
     }
 
@@ -5788,7 +5868,7 @@ button.module-image__border-overlay:focus {
 
   @include keyboard-mode {
     &:focus {
-      box-shadow: 0px 0px 0px 2px $color-signal-blue;
+      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
     }
   }
 
@@ -5892,11 +5972,11 @@ button.module-image__border-overlay:focus {
 
   &--blue {
     @include light-theme {
-      background: $color-signal-blue;
+      background: $ultramarine-ui-light;
       color: $color-white;
     }
     @include dark-theme {
-      background: $color-signal-blue;
+      background: $ultramarine-ui-dark;
       color: $color-white;
     }
   }
@@ -6044,6 +6124,8 @@ button.module-image__border-overlay:focus {
         flex-direction: column;
         justify-content: center;
         flex-grow: 1;
+        flex-shrink: 1;
+        overflow: hidden;
 
         &__title {
           margin: 0;
@@ -6425,13 +6507,13 @@ button.module-image__border-overlay:focus {
 
       &:focus {
         @include keyboard-mode {
-          box-shadow: 0 0 0 3px $color-signal-blue;
+          box-shadow: 0 0 0 3px $ultramarine-ui-light;
         }
       }
 
       &:hover {
         @include mouse-mode {
-          box-shadow: 0 0 0 3px $color-signal-blue;
+          box-shadow: 0 0 0 3px $ultramarine-ui-light;
         }
       }
     }
@@ -6530,7 +6612,7 @@ button.module-image__border-overlay:focus {
           border-color: $color-gray-60;
 
           &:focus {
-            border-color: $color-signal-blue;
+            border-color: $ultramarine-ui-light;
           }
 
           &:placeholder {
@@ -6544,7 +6626,7 @@ button.module-image__border-overlay:focus {
           color: $color-gray-05;
 
           &:focus {
-            border-color: $color-signal-blue;
+            border-color: $ultramarine-ui-light;
           }
 
           &:placeholder {
@@ -6895,11 +6977,11 @@ button.module-image__border-overlay:focus {
   border-radius: 4px;
 
   @include light-theme {
-    color: $color-signal-blue;
+    color: $ultramarine-ui-light;
     background-color: $color-gray-02;
   }
   @include dark-theme {
-    color: $color-signal-blue;
+    color: $ultramarine-ui-dark;
     background-color: $color-gray-75;
   }
 }
@@ -6998,11 +7080,11 @@ button.module-image__border-overlay:focus {
 
     &:focus-within {
       @include light-theme() {
-        border: 1px solid $color-signal-blue;
+        border: 1px solid $ultramarine-ui-light;
       }
 
       @include dark-theme() {
-        border: 1px solid $color-signal-blue;
+        border: 1px solid $ultramarine-ui-light;
       }
     }
   }
@@ -7122,7 +7204,10 @@ button.module-image__border-overlay:focus {
       width: 24px;
       height: 24px;
       flex-shrink: 0;
-      @include color-svg('../images/icons/v2/send-24.svg', $color-signal-blue);
+      @include color-svg(
+        '../images/icons/v2/send-24.svg',
+        $ultramarine-ui-light
+      );
     }
   }
   &__input {
@@ -7268,7 +7353,7 @@ button.module-image__border-overlay:focus {
 }
 
 .module-scroll-down__button--new-messages {
-  background-color: $color-signal-blue;
+  background-color: $ultramarine-ui-light;
 
   &:hover {
     background-color: $color-ios-blue-shade;
@@ -7512,10 +7597,13 @@ button.module-image__border-overlay:focus {
   @include keyboard-mode {
     &:focus {
       @include light-theme {
-        @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
+        @include color-svg(
+          '../images/icons/v2/x-24.svg',
+          $ultramarine-ui-light
+        );
       }
       @include dark-theme {
-        @include color-svg('../images/icons/v2/x-24.svg', $color-signal-blue);
+        @include color-svg('../images/icons/v2/x-24.svg', $ultramarine-ui-dark);
       }
     }
   }

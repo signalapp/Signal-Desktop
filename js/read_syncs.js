@@ -36,7 +36,9 @@
 
         const found = messages.find(
           item =>
-            item.isIncoming() && item.get('source') === receipt.get('sender')
+            item.isIncoming() &&
+            (item.get('source') === receipt.get('sender') ||
+              item.get('sourceUuid') === receipt.get('senderUuid'))
         );
         const notificationForMessage = found
           ? Whisper.Notifications.findWhere({ messageId: found.id })
@@ -47,6 +49,7 @@
           window.log.info(
             'No message for read sync',
             receipt.get('sender'),
+            receipt.get('senderUuid'),
             receipt.get('timestamp')
           );
           return;

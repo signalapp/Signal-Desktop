@@ -1,4 +1,4 @@
-/* global _, textsecure, libsignal, storage */
+/* global _, textsecure, libsignal, storage, ConversationController */
 
 'use strict';
 
@@ -8,7 +8,7 @@ describe('SignalProtocolStore', () => {
   let identityKey;
   let testKey;
 
-  before(done => {
+  before(async () => {
     store = textsecure.storage.protocol;
     store.hydrateCaches();
     identityKey = {
@@ -22,7 +22,10 @@ describe('SignalProtocolStore', () => {
 
     storage.put('registrationId', 1337);
     storage.put('identityKey', identityKey);
-    storage.fetch().then(done, done);
+    await storage.fetch();
+    ConversationController.reset();
+    await ConversationController.load();
+    await ConversationController.getOrCreateAndWait(number, 'private');
   });
 
   describe('getLocalRegistrationId', () => {

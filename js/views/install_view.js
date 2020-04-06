@@ -32,6 +32,7 @@
     initialize(options = {}) {
       window.readyForUpdates();
 
+      this.didLink = false;
       this.selectStep(Steps.SCAN_QR_CODE);
       this.connect();
       this.on('disconnected', this.reconnect);
@@ -143,6 +144,7 @@
         return;
       }
 
+      this.clearQR();
       this.$('#qr .container').hide();
       this.qr = new QRCode(this.$('#qr')[0]).makeCode(url);
       this.$('#qr').removeAttr('title');
@@ -179,7 +181,10 @@
 
           this.selectStep(Steps.PROGRESS_BAR);
 
-          const finish = () => resolve(name);
+          const finish = () => {
+            this.didLink = true;
+            return resolve(name);
+          };
 
           // Delete all data from database unless we're in the middle
           //   of a re-link, or we are finishing a light import. Without this,

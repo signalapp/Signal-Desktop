@@ -19,6 +19,7 @@ const defaultProps = {
   isRegistrationDone: true,
   socketStatus: 0,
   relinkDevice: action('relink-device'),
+  manualReconnect: action('manual-reconnect'),
   withinConnectingGracePeriod: false,
 };
 
@@ -42,12 +43,6 @@ const permutations = [
     },
   },
   {
-    title: 'Offline',
-    props: {
-      isOnline: false,
-    },
-  },
-  {
     title: 'Unlinked (online)',
     props: {
       isRegistrationDone: false,
@@ -58,6 +53,12 @@ const permutations = [
     props: {
       isOnline: false,
       isRegistrationDone: false,
+    },
+  },
+  {
+    title: 'Offline',
+    props: {
+      isOnline: false,
     },
   },
 ];

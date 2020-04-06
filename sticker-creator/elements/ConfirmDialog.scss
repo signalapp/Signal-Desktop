@@ -86,13 +86,13 @@
 
   @include light-theme() {
     color: $color-white;
-    border-color: $color-signal-blue;
-    background: $color-signal-blue;
+    border-color: $ultramarine-ui-light;
+    background: $ultramarine-ui-light;
   }
 
   @include dark-theme() {
     color: $color-white;
-    border-color: $color-signal-blue;
-    background: $color-signal-blue;
+    border-color: $ultramarine-ui-dark;
+    background: $ultramarine-ui-dark;
   }
 }

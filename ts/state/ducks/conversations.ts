@@ -27,6 +27,7 @@ export type ConversationType = {
   isArchived: boolean;
   activeAt?: number;
   timestamp: number;
+  inboxPosition: number;
   lastMessage?: {
     status: 'error' | 'sending' | 'sent' | 'delivered' | 'read';
     text: string;
@@ -56,7 +57,13 @@ export type MessageType = {
   id: string;
   conversationId: string;
   source: string;
-  type: 'incoming' | 'outgoing' | 'group' | 'keychange' | 'verified-change';
+  type:
+    | 'incoming'
+    | 'outgoing'
+    | 'group'
+    | 'keychange'
+    | 'verified-change'
+    | 'message-history-unsynced';
   quote?: { author: string };
   received_at: number;
   hasSignalAccount?: boolean;
@@ -81,6 +88,8 @@ export type MessageType = {
       phoneNumber?: string;
     };
   }>;
+
+  errors?: Array<Error>;
 
   // No need to go beyond this; unused at this stage, since this goes into
   //   a reducer still in plain JavaScript and comes out well-formed
@@ -554,12 +563,23 @@ function getEmptyState(): ConversationsStateType {
   };
 }
 
+// tslint:disable-next-line cyclomatic-complexity
 function hasMessageHeightChanged(
   message: MessageType,
   previous: MessageType
 ): Boolean {
   const messageAttachments = message.attachments || [];
   const previousAttachments = previous.attachments || [];
+
+  const errorStatusChanged =
+    (!message.errors && previous.errors) ||
+    (message.errors && !previous.errors) ||
+    (message.errors &&
+      previous.errors &&
+      message.errors.length !== previous.errors.length);
+  if (errorStatusChanged) {
+    return true;
+  }
 
   const stickerPendingChanged =
     message.sticker &&

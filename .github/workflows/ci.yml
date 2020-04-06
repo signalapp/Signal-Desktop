@@ -1,0 +1,136 @@
+name: CI
+
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - run: lsb_release -a
+    - run: uname -a
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.13.0'
+    - run: npm install -g yarn@1.22.0
+
+    - name: Cache node modules
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}-${{ hashFiles('patches/*') }}
+
+    - run: yarn install --frozen-lockfile
+    - run: yarn generate
+    - run: yarn lint
+    - run: yarn lint-deps
+
+  macos:
+    needs: lint
+    runs-on: macos-latest
+
+    steps:
+    - run: uname -a
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.13.0'
+    - run: npm install -g yarn@1.22.0
+
+    - name: Cache node modules
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}-${{ hashFiles('patches/*') }}
+
+    - run: yarn install --frozen-lockfile
+    - run: yarn generate
+    - run: yarn lint
+    - run: yarn lint-deps
+    - run: yarn prepare-beta-build
+    - run: yarn build
+    - run: yarn test-node
+    - run: yarn test-electron
+    - run: yarn grunt test-release:osx
+      env:
+        NODE_ENV: production
+
+  linux:
+    needs: lint
+    runs-on: ubuntu-latest
+
+    steps:
+    - run: lsb_release -a
+    - run: uname -a
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.13.0'
+    - run: sudo apt-get install xvfb
+    - run: npm install -g yarn@1.22.0
+
+    - name: Cache node modules
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}-${{ hashFiles('patches/*') }}
+
+    - run: yarn install --frozen-lockfile
+    - run: yarn generate
+    - run: yarn lint
+    - run: yarn lint-deps
+    - run: yarn prepare-beta-build
+    - run: yarn build
+    - run: xvfb-run --auto-servernum yarn test-node
+    - run: xvfb-run --auto-servernum yarn test-electron
+      env:
+        LANG: en_US
+        LANGUAGE: en_US
+    - run: xvfb-run --auto-servernum yarn grunt test-release:linux
+      env:
+        NODE_ENV: production
+
+  windows:
+    needs: lint
+    runs-on: windows-latest
+
+    steps:
+    - run: systeminfo
+    - run: git config --global core.autocrlf false
+    - run: git config --global core.eol lf
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.13.0'
+    - run: npm install -g yarn@1.22.0
+
+    - name: Cache node modules
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}-${{ hashFiles('patches/*') }}
+
+    - run: yarn install --frozen-lockfile
+    - run: yarn generate
+    - run: yarn lint-windows
+    - run: yarn lint-deps
+    - run: node build\grunt.js
+    - run: yarn test-node
+    - run: copy package.json temp.json
+    - run: del package.json
+    - run: type temp.json | findstr /v certificateSubjectName | findstr /v certificateSha1 > package.json
+    - run: yarn prepare-beta-build
+    - run: yarn build
+    - run: node build\grunt.js test
+    - run: node build\grunt.js test-release:win
+      env:
+        SIGNAL_ENV: production

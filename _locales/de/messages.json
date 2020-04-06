@@ -135,10 +135,6 @@
         "message": "Entwicklerwerkzeuge an/aus",
         "description": "View menu command to show or hide the developer tools"
     },
-    "menuSetupWithImport": {
-        "message": "Einrichten mit Importieren",
-        "description": "When the application is not yet set up, menu option to start up the import sequence"
-    },
     "menuSetupAsNewDevice": {
         "message": "Einrichten als neues Gerät",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
@@ -581,6 +577,10 @@
         "message": "Verbindung wird hergestellt …",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connectingHangOn": {
+        "message": "Sollte nicht lange dauern …",
+        "description": "Subtext description for when the client is connecting to the server."
+    },
     "offline": {
         "message": "Keine Netzverbindung",
         "description": "Displayed when the desktop client has no network connection."
@@ -588,16 +588,6 @@
     "checkNetworkConnection": {
         "message": "Überprüfe deine Netzverbindung.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
-    },
-    "attemptingReconnection": {
-        "message": "Neuer Verbindungsversuch in $reconnect_duration_in_seconds$ Sekunden",
-        "description": "",
-        "placeholders": {
-            "reconnect_duration_in_seconds": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
     },
     "submitDebugLog": {
         "message": "Diagnoseprotokoll",
@@ -767,6 +757,10 @@
         "message": "Anhang herunterladen",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
+    "reactToMessage": {
+        "message": "Auf Nachricht reagieren",
+        "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
+    },
     "replyToMessage": {
         "message": "Auf Nachricht antworten",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
@@ -782,6 +776,18 @@
     "messageFoundButNotLoaded": {
         "message": "Originalnachricht gefunden, aber nicht geladen. Scrolle zum Laden nach oben.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceRecordingInterruptedMax": {
+        "message": "Die Aufnahme der Sprachnachricht wurde gestoppt, da die maximale Aufnahmezeit erreicht wurde.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
+    },
+    "voiceRecordingInterruptedBlur": {
+        "message": "Die Aufnahme der Sprachnachricht wurde gestoppt, da du zu einer anderen App gewechselt hast.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
+    },
+    "voiceNoteLimit": {
+        "message": "Die maximale Länge von Sprachnachrichten ist auf 5 Minuten begrenzt. Die Aufnahme stoppt, falls du zu einer anderen App wechselst.",
+        "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
         "message": "Eine Sprachnachricht darf nur einen Anhang beinhalten.",
@@ -799,7 +805,7 @@
     },
     "you": {
         "message": "Du",
-        "description": "In Android theme, shown in quote if you or someone else replies to you"
+        "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
         "message": "Antwort auf $name$",
@@ -840,12 +846,28 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop konnte nicht aktualisiert werden, obwohl eine neue Version verfügbar ist. Bitte besuche https://signal.org/download und installiere die neue Version manuell. Kontaktiere danach den Support oder lege einen Fehlerbericht zu diesem Problem an.",
-        "description": "Shown if a general error happened while trying to install update package"
+        "message": "Signal Desktop konnte nicht aktualisiert werden, obwohl eine neue Version verfügbar ist. Bitte besuche $url$ und installiere die neue Version manuell. Kontaktiere danach den Support oder lege einen Fehlerbericht zu diesem Problem an.",
+        "description": "Shown if a general error happened while trying to install update package",
+        "placeholders": {
+            "url": {
+                "content": "$1",
+                "example": "https://signal.org/download"
+            }
+        }
     },
     "readOnlyVolume": {
-        "message": "macOS hat Signal Desktop vermutlich unter Dateiquarantäne gestellt und kann daher nicht automatisch aktualisiert werden. Bitte versuche, »Signal.app« mit Finder in den Ordner »/Applikationen« zu verschieben.",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
+        "message": "macOS hat Signal Desktop vermutlich unter Dateiquarantäne gestellt und kann daher nicht automatisch aktualisiert werden. Bitte versuche mit Finder, $app$ in den Ordner $folder$ zu verschieben.",
+        "description": "Shown on MacOS if running on a read-only volume and we cannot update",
+        "placeholders": {
+            "app": {
+                "content": "$1",
+                "example": "Signal.app"
+            },
+            "folder": {
+                "content": "$2",
+                "example": "/Applications"
+            }
+        }
     },
     "ok": {
         "message": "Okay",
@@ -853,6 +875,10 @@
     },
     "cancel": {
         "message": "Abbrechen",
+        "description": ""
+    },
+    "discard": {
+        "message": "Verwerfen",
         "description": ""
     },
     "failedToSend": {
@@ -942,7 +968,7 @@
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Senden erneut versuchen",
+        "message": "Erneut zu senden versuchen",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
@@ -1142,7 +1168,7 @@
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "notificationReaction": {
-        "message": "$sender$ hat auf deine Nachricht mit  $emoji$ reagiert",
+        "message": "$sender$ hat mit $emoji$ auf deine Nachricht reagiert",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1156,7 +1182,7 @@
         }
     },
     "notificationReactionMostRecent": {
-        "message": "Zuletzt: $sender$ hat auf deine Nachricht mit $emoji$ reagiert",
+        "message": "Zuletzt: $sender$ hat mit $emoji$ auf deine Nachricht reagiert",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1166,6 +1192,42 @@
             "emoji": {
                 "content": "$2",
                 "example": "👍"
+            }
+        }
+    },
+    "notificationReactionMessage": {
+        "message": "$sender$ hat mit $emoji$ reagiert auf: $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
+            }
+        }
+    },
+    "notificationReactionMessageMostRecent": {
+        "message": "Zuletzt: $sender$ hat mit $emoji$ reagiert auf: $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
             }
         }
     },
@@ -1206,7 +1268,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Alle Signal-Gruppen und -Kontakte von deinem Mobilgerät importieren",
+        "message": "Alle Signal-Gruppen und ‑Kontakte von deinem Mobilgerät importieren",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1602,7 +1664,7 @@
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
-        "message": "Einmalig anzeigbare Medien",
+        "message": "Einmalig anzeigbare Medieninhalte",
         "description": "Shown in notifications and in the left pane after view-once message is deleted."
     },
     "message--getDescription--disappearing-photo": {
@@ -1863,6 +1925,10 @@
         "message": "Antwort auf ausgewählte Nachricht ein-/ausschalten",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--toggle-reaction-picker": {
+        "message": "Reaktionsauswahl für ausgewählte Nachricht ein-/ausblenden",
+        "description": "Shown in the shortcuts guide"
+    },
     "Keyboard--save-attachment": {
         "message": "Anhang der ausgewählten Nachricht speichern",
         "description": "Shown in the shortcuts guide"
@@ -2020,7 +2086,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Sticker müssen das PNG- oder WebP-Format mit transparentem Hintergrund und 512 x 512 Pixeln besitzen. Der empfohlener Rand beträgt 16 px.",
+        "message": "Sticker müssen das PNG‑ oder WebP-Format mit transparentem Hintergrund und 512 x 512 Pixeln besitzen. Der empfohlener Rand beträgt 16 px.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -2166,16 +2232,24 @@
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
-        "message": "Mein Sticker-Set im hellen Design",
+        "message": "Mein Sticker im hellen Design",
         "description": "Text for the sticker preview for the light theme"
     },
     "StickerCreator--StickerPreview--dark": {
-        "message": "Mein Sticker-Set im dunklen Design",
+        "message": "Mein Sticker im dunklen Design",
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
         "message": "Bitte richte Signal auf deinem Mobiltelefon und deinem Computer ein, um den Sticker-Set-Gestalter zu verwenden",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    },
+    "Reactions--error": {
+        "message": "Reaktion konnte nicht versendet werden. Bitte erneut versuchen.",
+        "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--all": {
+        "message": "Alle",
+        "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "privacyPolicy": {
         "message": "Bedingungen & Datenschutzerklärung",

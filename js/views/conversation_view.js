@@ -2004,7 +2004,7 @@
             await contact.setApproved();
           }
 
-          message.resend(contact.id);
+          message.resend(contact.get('uuid') || contact.get('e164'));
         },
       });
 
@@ -2483,6 +2483,7 @@
       try {
         await this.model.sendReactionMessage(reaction, {
           targetAuthorE164: messageModel.getSource(),
+          targetAuthorUuid: messageModel.getSourceUuid(),
           targetTimestamp: messageModel.get('sent_at'),
         });
       } catch (error) {
@@ -2668,10 +2669,17 @@
       if (window.reduxStore.getState().expiration.hasExpired) {
         ToastView = Whisper.ExpiredToast;
       }
-      if (this.model.isPrivate() && storage.isBlocked(this.model.id)) {
+      if (
+        this.model.isPrivate() &&
+        (storage.isBlocked(this.model.get('e164')) ||
+          storage.isUuidBlocked(this.model.get('uuid')))
+      ) {
         ToastView = Whisper.BlockedToast;
       }
-      if (!this.model.isPrivate() && storage.isGroupBlocked(this.model.id)) {
+      if (
+        !this.model.isPrivate() &&
+        storage.isGroupBlocked(this.model.get('groupId'))
+      ) {
         ToastView = Whisper.BlockedGroupToast;
       }
       if (!this.model.isPrivate() && this.model.get('left')) {

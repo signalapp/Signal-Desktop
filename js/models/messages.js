@@ -78,6 +78,9 @@
     window.AccountCache[number] !== undefined;
   window.hasSignalAccount = number => window.AccountCache[number];
 
+  const includesAny = (haystack, ...needles) =>
+    needles.some(needle => haystack.includes(needle));
+
   window.Whisper.Message = Backbone.Model.extend({
     initialize(attributes) {
       if (_.isObject(attributes)) {
@@ -94,6 +97,7 @@
       this.INITIAL_PROTOCOL_VERSION =
         textsecure.protobuf.DataMessage.ProtocolVersion.INITIAL;
       this.OUR_NUMBER = textsecure.storage.user.getNumber();
+      this.OUR_UUID = textsecure.storage.user.getUuid();
 
       this.on('destroy', this.onDestroy);
       this.on('change:expirationStartTimestamp', this.setToExpire);
@@ -130,6 +134,7 @@
         !this.isUnsupportedMessage() &&
         !this.isExpirationTimerUpdate() &&
         !this.isKeyChange() &&
+        !this.isMessageHistoryUnsynced() &&
         !this.isVerifiedChange() &&
         !this.isGroupUpdate() &&
         !this.isEndSession()
@@ -142,6 +147,11 @@
         return {
           type: 'unsupportedMessage',
           data: this.getPropsForUnsupportedMessage(),
+        };
+      } else if (this.isMessageHistoryUnsynced()) {
+        return {
+          type: 'linkNotification',
+          data: null,
         };
       } else if (this.isExpirationTimerUpdate()) {
         return {
@@ -178,24 +188,32 @@
 
     // Other top-level prop-generation
     getPropsForSearchResult() {
-      const fromNumber = this.getSource();
-      const from = this.findAndFormatContact(fromNumber);
-      if (fromNumber === this.OUR_NUMBER) {
-        from.isMe = true;
+      const sourceE164 = this.getSource();
+      const sourceUuid = this.getSourceUuid();
+      const fromContact = this.findAndFormatContact(sourceE164 || sourceUuid);
+
+      if (
+        (sourceE164 && sourceE164 === this.OUR_NUMBER) ||
+        (sourceUuid && sourceUuid === this.OUR_UUID)
+      ) {
+        fromContact.isMe = true;
       }
 
-      const toNumber = this.get('conversationId');
-      let to = this.findAndFormatContact(toNumber);
-      if (toNumber === this.OUR_NUMBER) {
+      const conversation = this.getConversation();
+      let to = this.findAndFormatContact(conversation.get('id'));
+      if (conversation.isMe()) {
         to.isMe = true;
-      } else if (fromNumber === toNumber) {
+      } else if (
+        sourceE164 === conversation.get('e164') ||
+        sourceUuid === conversation.get('uuid')
+      ) {
         to = {
           isMe: true,
         };
       }
 
       return {
-        from,
+        from: fromContact,
         to,
 
         isSelected: this.isSelected,
@@ -212,20 +230,26 @@
 
       const unidentifiedLookup = (
         this.get('unidentifiedDeliveries') || []
-      ).reduce((accumulator, item) => {
+      ).reduce((accumulator, uuidOrE164) => {
         // eslint-disable-next-line no-param-reassign
-        accumulator[item] = true;
+        accumulator[
+          ConversationController.getConversationId(uuidOrE164)
+        ] = true;
         return accumulator;
       }, Object.create(null));
 
       // We include numbers we didn't successfully send to so we can display errors.
       // Older messages don't have the recipients included on the message, so we fall
       //   back to the conversation's current recipients
-      const phoneNumbers = this.isIncoming()
-        ? [this.get('source')]
+      const conversationIds = this.isIncoming()
+        ? [this.getConversation().get('id')]
         : _.union(
-            this.get('sent_to') || [],
-            this.get('recipients') || this.getConversation().getRecipients()
+            (this.get('sent_to') || []).map(id =>
+              ConversationController.getConversationId(id)
+            ),
+            (
+              this.get('recipients') || this.getConversation().getRecipients()
+            ).map(id => ConversationController.getConversationId(id))
           );
 
       // This will make the error message for outgoing key errors a bit nicer
@@ -240,9 +264,11 @@
 
       // If an error has a specific number it's associated with, we'll show it next to
       //   that contact. Otherwise, it will be a standalone entry.
-      const errors = _.reject(allErrors, error => Boolean(error.number));
+      const errors = _.reject(allErrors, error =>
+        Boolean(error.identifer || error.number)
+      );
       const errorsGroupedById = _.groupBy(allErrors, 'number');
-      const finalContacts = (phoneNumbers || []).map(id => {
+      const finalContacts = (conversationIds || []).map(id => {
         const errorsForContact = errorsGroupedById[id];
         const isOutgoingKeyError = Boolean(
           _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
@@ -327,6 +353,9 @@
     isVerifiedChange() {
       return this.get('type') === 'verified-change';
     },
+    isMessageHistoryUnsynced() {
+      return this.get('type') === 'message-history-unsynced';
+    },
     isGroupUpdate() {
       return !!this.get('group_update');
     },
@@ -353,7 +382,7 @@
         return null;
       }
 
-      const { expireTimer, fromSync, source } = timerUpdate;
+      const { expireTimer, fromSync, source, sourceUuid } = timerUpdate;
       const timespan = Whisper.ExpirationTimerOptions.getName(expireTimer || 0);
       const disabled = !expireTimer;
 
@@ -369,7 +398,7 @@
           ...basicProps,
           type: 'fromSync',
         };
-      } else if (source === this.OUR_NUMBER) {
+      } else if (source === this.OUR_NUMBER || sourceUuid === this.OUR_UUID) {
         return {
           ...basicProps,
           type: 'fromMe',
@@ -477,9 +506,10 @@
         .map(attachment => this.getPropsForAttachment(attachment));
     },
     getPropsForMessage() {
-      const phoneNumber = this.getSource();
-      const contact = this.findAndFormatContact(phoneNumber);
-      const contactModel = this.findContact(phoneNumber);
+      const sourceE164 = this.getSource();
+      const sourceUuid = this.getSourceUuid();
+      const contact = this.findAndFormatContact(sourceE164 || sourceUuid);
+      const contactModel = this.findContact(sourceE164 || sourceUuid);
 
       const authorColor = contactModel ? contactModel.getColor() : null;
       const authorAvatarPath = contactModel
@@ -558,8 +588,8 @@
     },
 
     // Dependencies of prop-generation functions
-    findAndFormatContact(phoneNumber) {
-      const contactModel = this.findContact(phoneNumber);
+    findAndFormatContact(identifier) {
+      const contactModel = this.findContact(identifier);
       if (contactModel) {
         return contactModel.format();
       }
@@ -567,13 +597,13 @@
       const { format } = PhoneNumber;
       const regionCode = storage.get('regionCode');
       return {
-        phoneNumber: format(phoneNumber, {
+        phoneNumber: format(identifier, {
           ourRegionCode: regionCode,
         }),
       };
     },
-    findContact(phoneNumber) {
-      return ConversationController.get(phoneNumber);
+    findContact(identifier) {
+      return ConversationController.get(identifier);
     },
     getConversation() {
       // This needs to be an unsafe call, because this method is called during
@@ -700,8 +730,14 @@
       const { format } = PhoneNumber;
       const regionCode = storage.get('regionCode');
 
-      const { author, id: sentAt, referencedMessageNotFound } = quote;
-      const contact = author && ConversationController.get(author);
+      const {
+        author,
+        authorUuid,
+        id: sentAt,
+        referencedMessageNotFound,
+      } = quote;
+      const contact =
+        author && ConversationController.get(author || authorUuid);
       const authorColor = contact ? contact.getColor() : 'grey';
 
       const authorPhoneNumber = format(author, {
@@ -709,7 +745,7 @@
       });
       const authorProfileName = contact ? contact.getProfileName() : null;
       const authorName = contact ? contact.getName() : null;
-      const isFromMe = contact ? contact.id === this.OUR_NUMBER : false;
+      const isFromMe = contact ? contact.isMe() : false;
       const firstAttachment = quote.attachments && quote.attachments[0];
 
       return {
@@ -728,17 +764,26 @@
         onClick: () => this.trigger('scroll-to-message'),
       };
     },
-    getStatus(number) {
+    getStatus(identifier) {
+      const conversation = ConversationController.get(identifier);
+
+      if (!conversation) {
+        return null;
+      }
+
+      const e164 = conversation.get('e164');
+      const uuid = conversation.get('uuid');
+
       const readBy = this.get('read_by') || [];
-      if (readBy.indexOf(number) >= 0) {
+      if (includesAny(readBy, identifier, e164, uuid)) {
         return 'read';
       }
       const deliveredTo = this.get('delivered_to') || [];
-      if (deliveredTo.indexOf(number) >= 0) {
+      if (includesAny(deliveredTo, identifier, e164, uuid)) {
         return 'delivered';
       }
       const sentTo = this.get('sent_to') || [];
-      if (sentTo.indexOf(number) >= 0) {
+      if (includesAny(sentTo, identifier, e164, uuid)) {
         return 'sent';
       }
 
@@ -982,17 +1027,24 @@
 
       if (!fromSync) {
         const sender = this.getSource();
+        const senderUuid = this.getSourceUuid();
         const timestamp = this.get('sent_at');
         const ourNumber = textsecure.storage.user.getNumber();
+        const ourUuid = textsecure.storage.user.getUuid();
         const { wrap, sendOptions } = ConversationController.prepareForSend(
-          ourNumber,
+          ourNumber || ourUuid,
           {
             syncMessage: true,
           }
         );
 
         await wrap(
-          textsecure.messaging.syncViewOnceOpen(sender, timestamp, sendOptions)
+          textsecure.messaging.syncViewOnceOpen(
+            sender,
+            senderUuid,
+            timestamp,
+            sendOptions
+          )
         );
       }
     },
@@ -1052,14 +1104,25 @@
 
       return this.OUR_NUMBER;
     },
+    getSourceUuid() {
+      if (this.isIncoming()) {
+        return this.get('sourceUuid');
+      }
+
+      return this.OUR_UUID;
+    },
     getContact() {
       const source = this.getSource();
+      const sourceUuid = this.getSourceUuid();
 
-      if (!source) {
+      if (!source && !sourceUuid) {
         return null;
       }
 
-      return ConversationController.getOrCreate(source, 'private');
+      return ConversationController.getOrCreate(
+        source || sourceUuid,
+        'private'
+      );
     },
     isOutgoing() {
       return this.get('type') === 'outgoing';
@@ -1203,16 +1266,27 @@
       this.set({ errors: null });
 
       const conversation = this.getConversation();
-      const intendedRecipients = this.get('recipients') || [];
-      const successfulRecipients = this.get('sent_to') || [];
-      const currentRecipients = conversation.getRecipients();
+      const intendedRecipients = (this.get('recipients') || [])
+        .map(identifier => ConversationController.getConversationId(identifier))
+        .filter(Boolean);
+      const successfulRecipients = (this.get('sent_to') || [])
+        .map(identifier => ConversationController.getConversationId(identifier))
+        .filter(Boolean);
+      const currentRecipients = conversation
+        .getRecipients()
+        .map(identifier => ConversationController.getConversationId(identifier))
+        .filter(Boolean);
 
       const profileKey = conversation.get('profileSharing')
         ? storage.get('profileKey')
         : null;
 
+      // Determine retry recipients and get their most up-to-date addressing information
       let recipients = _.intersection(intendedRecipients, currentRecipients);
-      recipients = _.without(recipients, successfulRecipients);
+      recipients = _.without(recipients, successfulRecipients).map(id => {
+        const c = ConversationController.get(id);
+        return c.get('uuid') || c.get('e164');
+      });
 
       if (!recipients.length) {
         window.log.warn('retrySend: Nobody to send to!');
@@ -1236,10 +1310,13 @@
       const stickerWithData = await loadStickerData(this.get('sticker'));
 
       // Special-case the self-send case - we send only a sync message
-      if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
-        const [number] = recipients;
+      if (
+        recipients.length === 1 &&
+        (recipients[0] === this.OUR_NUMBER || recipients[0] === this.OUR_UUID)
+      ) {
+        const [identifier] = recipients;
         const dataMessage = await textsecure.messaging.getMessageProto(
-          number,
+          identifier,
           body,
           attachments,
           quoteWithData,
@@ -1257,9 +1334,9 @@
       const options = conversation.getSendOptions();
 
       if (conversation.isPrivate()) {
-        const [number] = recipients;
-        promise = textsecure.messaging.sendMessageToNumber(
-          number,
+        const [identifer] = recipients;
+        promise = textsecure.messaging.sendMessageToIdentifier(
+          identifer,
           body,
           attachments,
           quoteWithData,
@@ -1287,7 +1364,7 @@
             expireTimer: this.get('expireTimer'),
             profileKey,
             group: {
-              id: this.get('conversationId'),
+              id: this.getConversation().get('groupId'),
               type: textsecure.protobuf.GroupContext.Type.DELIVER,
             },
           },
@@ -1327,8 +1404,8 @@
 
     // Called when the user ran into an error with a specific user, wants to send to them
     //   One caller today: ConversationView.forceSend()
-    async resend(number) {
-      const error = this.removeOutgoingErrors(number);
+    async resend(identifier) {
+      const error = this.removeOutgoingErrors(identifier);
       if (!error) {
         window.log.warn('resend: requested number was not present in errors');
         return null;
@@ -1349,9 +1426,9 @@
       const stickerWithData = await loadStickerData(this.get('sticker'));
 
       // Special-case the self-send case - we send only a sync message
-      if (number === this.OUR_NUMBER) {
+      if (identifier === this.OUR_NUMBER || identifier === this.OUR_UUID) {
         const dataMessage = await textsecure.messaging.getMessageProto(
-          number,
+          identifier,
           body,
           attachments,
           quoteWithData,
@@ -1366,15 +1443,16 @@
       }
 
       const { wrap, sendOptions } = ConversationController.prepareForSend(
-        number
+        identifier
       );
-      const promise = textsecure.messaging.sendMessageToNumber(
-        number,
+      const promise = textsecure.messaging.sendMessageToIdentifier(
+        identifier,
         body,
         attachments,
         quoteWithData,
         previewWithData,
         stickerWithData,
+        null,
         this.get('sent_at'),
         this.get('expireTimer'),
         profileKey,
@@ -1383,11 +1461,15 @@
 
       return this.send(wrap(promise));
     },
-    removeOutgoingErrors(number) {
+    removeOutgoingErrors(incomingIdentifier) {
+      const incomingConversationId = ConversationController.getConversationId(
+        incomingIdentifier
+      );
       const errors = _.partition(
         this.get('errors'),
         e =>
-          e.number === number &&
+          ConversationController.getConversationId(e.identifer || e.number) ===
+            incomingConversationId &&
           (e.name === 'MessageError' ||
             e.name === 'OutgoingMessageError' ||
             e.name === 'SendMessageNetworkError' ||
@@ -1411,7 +1493,7 @@
 
           const sentTo = this.get('sent_to') || [];
           this.set({
-            sent_to: _.union(sentTo, result.successfulNumbers),
+            sent_to: _.union(sentTo, result.successfulIdentifiers),
             sent: true,
             expirationStartTimestamp: Date.now(),
             unidentifiedDeliveries: result.unidentifiedDeliveries,
@@ -1442,7 +1524,7 @@
               promises.push(c.getProfiles());
             }
           } else {
-            if (result.successfulNumbers.length > 0) {
+            if (result.successfulIdentifiers.length > 0) {
               const sentTo = this.get('sent_to') || [];
 
               // In groups, we don't treat unregistered users as a user-visible
@@ -1462,7 +1544,7 @@
               this.saveErrors(filteredErrors);
 
               this.set({
-                sent_to: _.union(sentTo, result.successfulNumbers),
+                sent_to: _.union(sentTo, result.successfulIdentifiers),
                 sent: true,
                 expirationStartTimestamp,
                 unidentifiedDeliveries: result.unidentifiedDeliveries,
@@ -1474,7 +1556,9 @@
             promises = promises.concat(
               _.map(result.errors, error => {
                 if (error.name === 'OutgoingIdentityKeyError') {
-                  const c = ConversationController.get(error.number);
+                  const c = ConversationController.get(
+                    error.identifer || error.number
+                  );
                   promises.push(c.getProfiles());
                 }
               })
@@ -1488,12 +1572,13 @@
     },
 
     async sendSyncMessageOnly(dataMessage) {
+      const conv = this.getConversation();
       this.set({ dataMessage });
 
       try {
         this.set({
           // These are the same as a normal send()
-          sent_to: [this.OUR_NUMBER],
+          sent_to: [conv.get('uuid') || conv.get('e164')],
           sent: true,
           expirationStartTimestamp: Date.now(),
         });
@@ -1503,8 +1588,8 @@
           unidentifiedDeliveries: result ? result.unidentifiedDeliveries : null,
 
           // These are unique to a Note to Self message - immediately read/delivered
-          delivered_to: [this.OUR_NUMBER],
-          read_by: [this.OUR_NUMBER],
+          delivered_to: [this.OUR_UUID || this.OUR_NUMBER],
+          read_by: [this.OUR_UUID || this.OUR_NUMBER],
         });
       } catch (result) {
         const errors = (result && result.errors) || [
@@ -1528,8 +1613,9 @@
 
     sendSyncMessage() {
       const ourNumber = textsecure.storage.user.getNumber();
+      const ourUuid = textsecure.storage.user.getUuid();
       const { wrap, sendOptions } = ConversationController.prepareForSend(
-        ourNumber,
+        ourUuid || ourNumber,
         {
           syncMessage: true,
         }
@@ -1542,12 +1628,14 @@
           return Promise.resolve();
         }
         const isUpdate = Boolean(this.get('synced'));
+        const conv = this.getConversation();
 
         return wrap(
           textsecure.messaging.sendSyncMessage(
             dataMessage,
             this.get('sent_at'),
-            this.get('destination'),
+            conv.get('e164'),
+            conv.get('uuid'),
             this.get('expirationStartTimestamp'),
             this.get('sent_to'),
             this.get('unidentifiedDeliveries'),
@@ -1773,7 +1861,11 @@
       const found = collection.find(item => {
         const messageAuthor = item.getContact();
 
-        return messageAuthor && author === messageAuthor.id;
+        return (
+          messageAuthor &&
+          ConversationController.getConversationId(author) ===
+            messageAuthor.get('id')
+        );
       });
 
       if (!found) {
@@ -1873,6 +1965,7 @@
       //      still go through one of the previous two codepaths
       const message = this;
       const source = message.get('source');
+      const sourceUuid = message.get('sourceUuid');
       const type = message.get('type');
       let conversationId = message.get('conversationId');
       if (initialMessage.group) {
@@ -1952,6 +2045,7 @@
 
         // We drop incoming messages for groups we already know about, which we're not a
         //   part of, except for group updates.
+        const ourUuid = textsecure.storage.user.getUuid();
         const ourNumber = textsecure.storage.user.getNumber();
         const isGroupUpdate =
           initialMessage.group &&
@@ -1960,7 +2054,7 @@
         if (
           type === 'incoming' &&
           !conversation.isPrivate() &&
-          !conversation.hasMember(ourNumber) &&
+          !conversation.hasMember(ourNumber || ourUuid) &&
           !isGroupUpdate
         ) {
           window.log.warn(
@@ -1982,6 +2076,7 @@
           Whisper.deliveryReceiptQueue.add(() => {
             Whisper.deliveryReceiptBatcher.add({
               source,
+              sourceUuid,
               timestamp: this.get('sent_at'),
             });
           });
@@ -2044,6 +2139,20 @@
             };
             if (dataMessage.group) {
               let groupUpdate = null;
+              const memberConversations = await Promise.all(
+                (
+                  dataMessage.group.members || dataMessage.group.membersE164
+                ).map(member => {
+                  if (member.e164 || member.uuid) {
+                    return ConversationController.getOrCreateAndWait(
+                      member.e164 || member.uuid,
+                      'private'
+                    );
+                  }
+                  return ConversationController.getOrCreateAndWait(member);
+                })
+              );
+              const members = memberConversations.map(c => c.get('id'));
               attributes = {
                 ...attributes,
                 type: 'group',
@@ -2053,10 +2162,7 @@
                 attributes = {
                   ...attributes,
                   name: dataMessage.group.name,
-                  members: _.union(
-                    dataMessage.group.members,
-                    conversation.get('members')
-                  ),
+                  members: _.union(members, conversation.get('members')),
                 };
 
                 groupUpdate =
@@ -2065,7 +2171,7 @@
                   ) || {};
 
                 const difference = _.difference(
-                  attributes.members,
+                  members,
                   conversation.get('members')
                 );
                 if (difference.length > 0) {
@@ -2076,15 +2182,22 @@
                   attributes.left = false;
                 }
               } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
-                if (source === textsecure.storage.user.getNumber()) {
+                if (
+                  source === textsecure.storage.user.getNumber() ||
+                  sourceUuid === textsecure.storage.user.getUuid()
+                ) {
                   attributes.left = true;
                   groupUpdate = { left: 'You' };
                 } else {
-                  groupUpdate = { left: source };
+                  const myConversation = ConversationController.get(
+                    source || sourceUuid
+                  );
+                  groupUpdate = { left: myConversation.get('id') };
                 }
                 attributes.members = _.without(
                   conversation.get('members'),
-                  source
+                  source,
+                  sourceUuid
                 );
               }
 
@@ -2102,7 +2215,7 @@
                 message.set({
                   delivered: (message.get('delivered') || 0) + 1,
                   delivered_to: _.union(message.get('delivered_to') || [], [
-                    receipt.get('source'),
+                    receipt.get('deliveredTo'),
                   ]),
                 })
               );
@@ -2216,13 +2329,16 @@
 
             if (dataMessage.profileKey) {
               const profileKey = dataMessage.profileKey.toString('base64');
-              if (source === textsecure.storage.user.getNumber()) {
+              if (
+                source === textsecure.storage.user.getNumber() ||
+                sourceUuid === textsecure.storage.user.getUuid()
+              ) {
                 conversation.set({ profileSharing: true });
               } else if (conversation.isPrivate()) {
                 conversation.setProfileKey(profileKey);
               } else {
                 ConversationController.getOrCreateAndWait(
-                  source,
+                  source || sourceUuid,
                   'private'
                 ).then(sender => {
                   sender.setProfileKey(profileKey);
@@ -2285,11 +2401,11 @@
             await conversation.notify(message);
           }
 
-          // Does this message have a pending, previously-received associated reaction?
-          const reaction = Whisper.Reactions.forMessage(message);
-          if (reaction) {
+          // Does this message have any pending, previously-received associated reactions?
+          const reactions = Whisper.Reactions.forMessage(message);
+          reactions.forEach(reaction => {
             message.handleReaction(reaction);
-          }
+          });
 
           Whisper.events.trigger('incrementProgress');
           confirm();

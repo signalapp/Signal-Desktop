@@ -1,7 +1,8 @@
 /* global
   Backbone,
   Whisper,
-  MessageController
+  MessageController,
+  ConversationController
 */
 
 /* eslint-disable more/no-then */
@@ -14,29 +15,34 @@
   Whisper.Reactions = new (Backbone.Collection.extend({
     forMessage(message) {
       if (message.isOutgoing()) {
-        const outgoingReaction = this.findWhere({
+        const outgoingReactions = this.filter({
           targetTimestamp: message.get('sent_at'),
         });
 
-        if (outgoingReaction) {
+        if (outgoingReactions.length > 0) {
           window.log.info('Found early reaction for outgoing message');
-          this.remove(outgoingReaction);
-          return outgoingReaction;
+          this.remove(outgoingReactions);
+          return outgoingReactions;
         }
       }
 
-      const reactionBySource = this.findWhere({
-        targetAuthorE164: message.get('source'),
-        targetTimestamp: message.get('sent_at'),
+      const reactionsBySource = this.filter(re => {
+        const mcid = message.get('conversationId');
+        const recid = ConversationController.getConversationId(
+          re.get('targetAuthorE164') || re.get('targetAuthorUuid')
+        );
+        const mTime = message.get('sent_at');
+        const rTime = re.get('targetTimestamp');
+        return mcid === recid && mTime === rTime;
       });
 
-      if (reactionBySource) {
+      if (reactionsBySource.length > 0) {
         window.log.info('Found early reaction for message');
-        this.remove(reactionBySource);
-        return reactionBySource;
+        this.remove(reactionsBySource);
+        return reactionsBySource;
       }
 
-      return null;
+      return [];
     },
     async onReaction(reaction) {
       try {
@@ -47,13 +53,19 @@
           }
         );
 
-        const targetMessage = messages.find(
-          m =>
-            m.get('source') === reaction.get('targetAuthorE164') ||
-            // Outgoing messages don't have a source and are extremely unlikely
-            // to have the same timestamp
-            m.isOutgoing()
-        );
+        const targetMessage = messages.find(m => {
+          const contact = m.getContact();
+
+          if (!contact) {
+            return false;
+          }
+
+          const mcid = contact.get('id');
+          const recid = ConversationController.getConversationId(
+            reaction.get('targetAuthorE164') || reaction.get('targetAuthorUuid')
+          );
+          return mcid === recid;
+        });
 
         if (!targetMessage) {
           window.log.info(

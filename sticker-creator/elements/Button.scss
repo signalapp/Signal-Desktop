@@ -34,12 +34,12 @@
   composes: base;
 
   @include light-theme() {
-    background-color: $color-signal-blue;
+    background-color: $ultramarine-ui-light;
     color: $color-white;
   }
 
   @include dark-theme() {
-    background-color: $color-signal-blue;
+    background-color: $ultramarine-ui-dark;
     color: $color-white;
   }
 }
@@ -68,13 +68,13 @@
 
   @include light-theme() {
     border: none;
-    background-color: $color-signal-blue;
+    background-color: $ultramarine-ui-light;
     color: $color-white;
   }
 
   @include dark-theme() {
     border: none;
-    background-color: $color-signal-blue;
+    background-color: $ultramarine-ui-dark;
     color: $color-white;
   }
 }

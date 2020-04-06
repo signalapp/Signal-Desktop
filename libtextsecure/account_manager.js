@@ -24,14 +24,14 @@
     this.pending = Promise.resolve();
   }
 
-  function getNumber(numberId) {
-    if (!numberId || !numberId.length) {
-      return numberId;
+  function getIdentifier(id) {
+    if (!id || !id.length) {
+      return id;
     }
 
-    const parts = numberId.split('.');
+    const parts = id.split('.');
     if (!parts.length) {
-      return numberId;
+      return id;
     }
 
     return parts[0];
@@ -136,7 +136,7 @@
               .then(clearSessionsAndPreKeys)
               .then(generateKeys)
               .then(keys => registerKeys(keys).then(() => confirmKeys(keys)))
-              .then(() => registrationDone(number));
+              .then(() => registrationDone({ number }));
           }
         )
       );
@@ -212,7 +212,8 @@
                                 provisionMessage.profileKey,
                                 deviceName,
                                 provisionMessage.userAgent,
-                                provisionMessage.readReceipts
+                                provisionMessage.readReceipts,
+                                { uuid: provisionMessage.uuid }
                               )
                                 .then(clearSessionsAndPreKeys)
                                 .then(generateKeys)
@@ -221,9 +222,7 @@
                                     confirmKeys(keys)
                                   )
                                 )
-                                .then(() =>
-                                  registrationDone(provisionMessage.number)
-                                );
+                                .then(() => registrationDone(provisionMessage));
                             }
                           )
                         )
@@ -414,7 +413,8 @@
       password = password.substring(0, password.length - 2);
       const registrationId = libsignal.KeyHelper.generateRegistrationId();
 
-      const previousNumber = getNumber(textsecure.storage.get('number_id'));
+      const previousNumber = getIdentifier(textsecure.storage.get('number_id'));
+      const previousUuid = getIdentifier(textsecure.storage.get('uuid_id'));
 
       const encryptedDeviceName = await this.encryptDeviceName(
         deviceName,
@@ -437,10 +437,21 @@
         { accessKey }
       );
 
-      if (previousNumber && previousNumber !== number) {
-        window.log.warn(
-          'New number is different from old number; deleting all previous data'
-        );
+      const numberChanged = previousNumber && previousNumber !== number;
+      const uuidChanged =
+        previousUuid && response.uuid && previousUuid !== response.uuid;
+
+      if (numberChanged || uuidChanged) {
+        if (numberChanged) {
+          window.log.warn(
+            'New number is different from old number; deleting all previous data'
+          );
+        }
+        if (uuidChanged) {
+          window.log.warn(
+            'New uuid is different from old uuid; deleting all previous data'
+          );
+        }
 
         try {
           await textsecure.storage.protocol.removeAllData();
@@ -465,10 +476,29 @@
         textsecure.storage.remove('read-receipts-setting'),
       ]);
 
+      // `setNumberAndDeviceId` and `setUuidAndDeviceId` need to be called
+      // before `saveIdentifyWithAttributes` since `saveIdentityWithAttributes`
+      // indirectly calls `ConversationController.getConverationId()` which
+      // initializes the conversation for the given number (our number) which
+      // calls out to the user storage API to get the stored UUID and number
+      // information.
+      await textsecure.storage.user.setNumberAndDeviceId(
+        number,
+        response.deviceId || 1,
+        deviceName
+      );
+
+      const setUuid = response.uuid;
+      if (setUuid) {
+        await textsecure.storage.user.setUuidAndDeviceId(
+          setUuid,
+          response.deviceId || 1
+        );
+      }
+
       // update our own identity key, which may have changed
       // if we're relinking after a reinstall on the master device
       await textsecure.storage.protocol.saveIdentityWithAttributes(number, {
-        id: number,
         publicKey: identityKeyPair.pubKey,
         firstUse: true,
         timestamp: Date.now(),
@@ -489,12 +519,6 @@
       await textsecure.storage.put(
         'read-receipt-setting',
         Boolean(readReceipts)
-      );
-
-      await textsecure.storage.user.setNumberAndDeviceId(
-        number,
-        response.deviceId || 1,
-        deviceName
       );
 
       const regionCode = libphonenumber.util.getRegionCodeForNumber(number);
@@ -579,11 +603,16 @@
         );
       });
     },
-    async registrationDone(number) {
+    async registrationDone({ uuid, number }) {
       window.log.info('registration done');
 
       // Ensure that we always have a conversation for ourself
-      await ConversationController.getOrCreateAndWait(number, 'private');
+      const conversation = await ConversationController.getOrCreateAndWait(
+        number || uuid,
+        'private'
+      );
+      conversation.updateE164(number);
+      conversation.updateUuid(uuid);
 
       window.log.info('dispatching registration event');
 

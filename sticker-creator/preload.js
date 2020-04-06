@@ -10,7 +10,7 @@ const { deriveStickerPackKey } = require('../js/modules/crypto');
 const { makeGetter } = require('../preload_utils');
 
 const { dialog } = remote;
-const { systemPreferences } = remote.require('electron');
+const { nativeTheme } = remote.require('electron');
 
 window.ROOT_PATH = window.location.href.startsWith('file') ? '../../' : '/';
 window.PROTO_ROOT = '../../protos';
@@ -69,10 +69,11 @@ window.encryptAndUpload = async (
   cover,
   onProgress = noop
 ) => {
-  const usernameItem = await window.Signal.Data.getItemById('number_id');
+  const usernameItem = await window.Signal.Data.getItemById('uuid_id');
+  const oldUsernameItem = await window.Signal.Data.getItemById('number_id');
   const passwordItem = await window.Signal.Data.getItemById('password');
 
-  if (!usernameItem || !passwordItem) {
+  if (!oldUsernameItem || !passwordItem) {
     const { message } = window.localeMessages[
       'StickerCreator--Authentication--error'
     ];
@@ -86,13 +87,17 @@ window.encryptAndUpload = async (
   }
 
   const { value: username } = usernameItem;
+  const { value: oldUsername } = oldUsernameItem;
   const { value: password } = passwordItem;
 
   const packKey = window.libsignal.crypto.getRandomBytes(32);
   const encryptionKey = await deriveStickerPackKey(packKey);
   const iv = window.libsignal.crypto.getRandomBytes(16);
 
-  const server = WebAPI.connect({ username, password });
+  const server = WebAPI.connect({
+    username: username || oldUsername,
+    password,
+  });
 
   const uniqueStickers = uniqBy([...stickers, { webp: cover }], 'webp');
 
@@ -152,7 +157,7 @@ const getThemeSetting = makeGetter('theme-setting');
 async function resolveTheme() {
   const theme = (await getThemeSetting()) || 'light';
   if (process.platform === 'darwin' && theme === 'system') {
-    return systemPreferences.isDarkMode() ? 'dark' : 'light';
+    return nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
   }
   return theme;
 }
@@ -165,11 +170,8 @@ async function applyTheme() {
 
 window.addEventListener('DOMContentLoaded', applyTheme);
 
-if (systemPreferences && systemPreferences.subscribeNotification) {
-  systemPreferences.subscribeNotification(
-    'AppleInterfaceThemeChangedNotification',
-    applyTheme
-  );
-}
+nativeTheme.on('updated', () => {
+  applyTheme();
+});
 
 window.log.info('sticker-creator preload complete...');

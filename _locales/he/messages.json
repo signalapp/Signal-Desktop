@@ -135,10 +135,6 @@
         "message": "עורר כלי מפתחים",
         "description": "View menu command to show or hide the developer tools"
     },
-    "menuSetupWithImport": {
-        "message": "הגדר עם יבוא",
-        "description": "When the application is not yet set up, menu option to start up the import sequence"
-    },
     "menuSetupAsNewDevice": {
         "message": "הגדר מכשיר חדש",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
@@ -276,7 +272,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": "הודעה שלא נקראה 1",
+        "message": "הודעה אחת שלא נקראה",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
@@ -310,7 +306,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "סימנת את מספר הבטיחות שלך עם $name$ כמוֻדא ממכשיר נוסף",
+        "message": "סימנתם את מספר הבטיחות שלכם עם $name$ כמוֻדא ממכשיר נוסף",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -320,7 +316,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "סימנת את מספר הבטיחות שלך עם $name$כבלתי מוֻדא ממכשיר נוסף ",
+        "message": "סימנתם את מספר הבטיחות שלך עם $name$כבלתי מוֻןדא ממכשיר נוסף ",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -334,11 +330,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "מספרי הבטיחות שלך עם חברי קבוצה אלו השתנו מאז שוידאת בפעם האחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או שהוא פשוט התקין מחדש את Signal.",
+        "message": "מספרי הבטיחות שלכם עם מספר חברי קבוצה השתנו מאז שווידאתם אותם בפעם האחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלכם או שהם פשוט התקינו מחדש את Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "מספר הבטיחות שלך עם $name$ השתנה מאז הפעם שוידאת בפעם האחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או $name$ פשוט התקין מחדש את Signal.",
+        "message": "מספר הבטיחות שלכם עם $name$ השתנה מאז הפעם האחרונה שווידאתם אותו בפעם האחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלכם או ש- $name$ פשוט התקינו מחדש את Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -358,7 +354,7 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "מספרי הבטיחות שלך עם חברי קבוצה רבים השתנו לאחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או שהוא פשוט התקין מחדש את Signal.",
+        "message": "מספרי הבטיחות שלכם עם חברי קבוצה רבים השתנו לאחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלכם או שהם פשוט התקינו מחדש את Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
@@ -372,7 +368,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "מספר הבטיחות שלך עם $name$ השתנה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או $name$פשוט התקין מחדש את Signal. ייתכן שתרצה לוודא את מספר הבטיחות שלך עם איש קשה זה.",
+        "message": "מספר הבטיחות שלכם עם $name$ השתנה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלכם או ש- $name$פשוט התקינו מחדש את Signal. ייתכן שתרצו לוודא את מספר הבטיחות שלכם עם קשר זה.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -386,7 +382,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "מספר הבטיחות שלך עם $name$ השתנה ואינו מוֻדא יותר. לחץ כדי לראות.",
+        "message": "מספר הבטיחות שלכם עם $name$ השתנה ואינו מוֻודא יותר. לחצו כדי לראות.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -408,7 +404,7 @@
         "description": ""
     },
     "reportIssue": {
-        "message": "דווח על סוגייה",
+        "message": "דווחו על סוגייה",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -432,7 +428,7 @@
         "description": ""
     },
     "isVerified": {
-        "message": "וידאת את מספר הבטיחות שלך עם $name$.",
+        "message": "וידאתם את מספר הבטיחות שלך עם $name$.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -581,6 +577,10 @@
         "message": "מתחבר",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connectingHangOn": {
+        "message": "לא אמור לקחת זמן רב…",
+        "description": "Subtext description for when the client is connecting to the server."
+    },
     "offline": {
         "message": "מנותק",
         "description": "Displayed when the desktop client has no network connection."
@@ -588,16 +588,6 @@
     "checkNetworkConnection": {
         "message": "בדוק את חיבור הרשת שלך.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
-    },
-    "attemptingReconnection": {
-        "message": "מנסה להתחבר מחדש תוך $reconnect_duration_in_seconds$ שניות",
-        "description": "",
-        "placeholders": {
-            "reconnect_duration_in_seconds": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
     },
     "submitDebugLog": {
         "message": "יומן תקלים",
@@ -767,6 +757,10 @@
         "message": "הורד צרופה",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
+    "reactToMessage": {
+        "message": "הגב אל הודעה",
+        "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
+    },
     "replyToMessage": {
         "message": "השב להודעה",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
@@ -782,6 +776,18 @@
     "messageFoundButNotLoaded": {
         "message": "הודעה מקורית נמצאה, אבל לא נטענה. גלול למעלה כדי לטעון אותה.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceRecordingInterruptedMax": {
+        "message": "הקלטה של הודעה קולית נעצרה מאחר שמגבלת הזמן המרבי הושגה.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
+    },
+    "voiceRecordingInterruptedBlur": {
+        "message": "הקלטה של הודעה קולית נעצרה מאחר שהחלפת אל יישום שונה.",
+        "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
+    },
+    "voiceNoteLimit": {
+        "message": "הודעות קוליות מוגבלות אל חמש דקות. הקלטה תיעצר אם תחליף אל יישום שונה.",
+        "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
         "message": "הודעה קולית חייבת להיות בעלת צרופה אחת בלבד.",
@@ -799,7 +805,7 @@
     },
     "you": {
         "message": "אתה",
-        "description": "In Android theme, shown in quote if you or someone else replies to you"
+        "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
         "message": "משיב אל $name$",
@@ -840,12 +846,28 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop נכשל לעדכן, אבל יש גרסה חדשה זמינה. אנא לך אל https://signal.org/download והתקן את הגרסה החדשה באופן ידני, אחר כך צור קשר עם התמיכה או הגש תקל לגבי בעיה זו.",
-        "description": "Shown if a general error happened while trying to install update package"
+        "message": "Signal Desktop נכשל לעדכן, אבל יש גרסה חדשה זמינה. אנא לך אל  $url$ והתקן את הגרסה החדשה באופן ידני, אחר כך צור קשר עם התמיכה או הגש תקל לגבי בעיה זו.",
+        "description": "Shown if a general error happened while trying to install update package",
+        "placeholders": {
+            "url": {
+                "content": "$1",
+                "example": "https://signal.org/download"
+            }
+        }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop ככל הנראה בהסגר macOS, ולא יוכל להתעדכן באופן אוטומטי. אנא נסה להעביר את Signal.app אל /Applications עם מוצא.",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
+        "message": "Signal Desktop ככל הנראה בהסגר macOS, ולא יוכל להתעדכן באופן אוטומטי. אנא נסה להעביר את  $app$ אל $folder$ עם המוצא.",
+        "description": "Shown on MacOS if running on a read-only volume and we cannot update",
+        "placeholders": {
+            "app": {
+                "content": "$1",
+                "example": "Signal.app"
+            },
+            "folder": {
+                "content": "$2",
+                "example": "/Applications"
+            }
+        }
     },
     "ok": {
         "message": "אישור",
@@ -855,8 +877,12 @@
         "message": "ביטול",
         "description": ""
     },
+    "discard": {
+        "message": "השלך",
+        "description": ""
+    },
     "failedToSend": {
-        "message": "נכשל בשליחה אל מספר נמענים. בדוק את חיבור הרשת שלך.",
+        "message": "נכשל בשליחה אל מספר נמענים. בדקו את חיבור הרשת שלכם.",
         "description": ""
     },
     "error": {
@@ -924,7 +950,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "אם אתה רוצה לוודא את הביטחון של הצפנת הקצה־אל־קצה שלך עם $name$, השווה את המספרים למעלה עם המספרים במכשיר שלו.",
+        "message": "אם אתם רוצים לוודא את הביטחון של ההצפנה מקצה-לקצה שלכם עם $name$, השוו את המספרים למעלה עם המספרים במכשיר שלהם.",
         "description": "",
         "placeholders": {
             "name": {
@@ -934,7 +960,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "לא החלפת עדין הודעות כלשהן עם איש קשר זה. מספר הבטיחות שלך איתו יהיה זמין לאחר ההודעה הראשונה.",
+        "message": "לא החלפתם עדין הודעות כלשהן עם קשר זה. מספר הבטיחות שלכם איתם יהיה זמין לאחר ההודעה הראשונה.",
         "description": ""
     },
     "moreInfo": {
@@ -1169,6 +1195,42 @@
             }
         }
     },
+    "notificationReactionMessage": {
+        "message": "$sender$ הגיב עם  $emoji$ אל:  $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
+            }
+        }
+    },
+    "notificationReactionMessageMostRecent": {
+        "message": "ההודעה האחרונה:  $sender$ הגיב עם  $emoji$ אל:  $message$",
+        "description": "",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "emoji": {
+                "content": "$2",
+                "example": "👍"
+            },
+            "message": {
+                "content": "$3",
+                "example": "Sounds good."
+            }
+        }
+    },
     "sendFailed": {
         "message": "שליחה נכשלה",
         "description": "Shown on outgoing message if it fails to send"
@@ -1186,7 +1248,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "גרסה זו של Signal Desktop עבודה פגה. אנא שדרג אל הגרסה האחרונה כדי להמשיך בשליחת הודעות.",
+        "message": "גרסה זו של Signal Desktop פגה. אנא שדרגו אל הגרסה האחרונה כדי להמשיך בשליחת הודעות.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1352,7 +1414,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
-        "message": "יום 1",
+        "message": "יום אחד",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_week": {
@@ -1462,7 +1524,7 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "מספר הבטיחות שלך עם $name$:",
+        "message": "מספר הבטיחות שלכם עם $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -1504,7 +1566,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "קשר מחדש את Signal Desktop עבודה אל המכשיר הנייד שלך כדי להמשיך בשליחת הודעות.",
+        "message": "קשרו מחדש את Signal Desktop אל המכשיר הנייד שלכם כדי להמשיך בשליחת הודעות.",
         "description": ""
     },
     "unlinked": {
@@ -1602,15 +1664,15 @@
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
-        "message": "מדיה של צפייה חד־פעמית",
+        "message": "מדיה לצפייה חד־פעמית",
         "description": "Shown in notifications and in the left pane after view-once message is deleted."
     },
     "message--getDescription--disappearing-photo": {
-        "message": "תצלום של צפייה חד־פעמית",
+        "message": "תצלום לצפייה חד־פעמית",
         "description": "Shown in notifications and in the left pane when a message is a view once photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "סרטון של צפייה חד־פעמית",
+        "message": "סרטון לצפייה חד־פעמית",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
     "stickers--toast--InstallFailed": {
@@ -1764,7 +1826,7 @@
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
-        "message": "הודעות של צפייה חד־פעמית אינן מאוחסנות בהיסטורית השיחות שלך.",
+        "message": "הודעות לצפייה חד־פעמית אינן מאוחסנות בהיסטורית השיחות שלך.",
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
@@ -1861,6 +1923,10 @@
     },
     "Keyboard--toggle-reply": {
         "message": "עורר תשובה אל הודעה נבחרת",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--toggle-reaction-picker": {
+        "message": "עורר בוחר תגובה עבור הודעה נבחרת",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2176,6 +2242,14 @@
     "StickerCreator--Authentication--error": {
         "message": "אנא תצר את Signal בטלפון שלך ובשולחן העבודה כדי להשתמש ביוצר חבילות המדבקות",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
+    },
+    "Reactions--error": {
+        "message": "נכשל בשליחת תגובה. אנא נסה שוב.",
+        "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--all": {
+        "message": "הכל",
+        "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "privacyPolicy": {
         "message": "תנאים ומדיניות פרטיות",
