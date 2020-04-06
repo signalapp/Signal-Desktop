@@ -49,6 +49,7 @@ app.allowRendererProcessReuse = true;
 // Keep a global reference of the window object, if you don't, the window will
 //   be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let mainWindowCreated = false;
 let loadingWindow;
 
 function getMainWindow() {
@@ -313,6 +314,7 @@ async function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
+  mainWindowCreated = true;
   setupSpellChecker(mainWindow, locale.messages);
   if (!usingTrayIcon && windowConfig && windowConfig.maximized) {
     mainWindow.maximize();
@@ -999,13 +1001,18 @@ app.on('before-quit', () => {
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
+  console.log('main process handling window-all-closed');
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (
+  const shouldAutoClose =
     process.platform !== 'darwin' ||
     config.environment === 'test' ||
-    config.environment === 'test-lib'
-  ) {
+    config.environment === 'test-lib';
+
+  // Only automatically quit if the main window has been created
+  // This is necessary because `window-all-closed` can be triggered by the
+  // "optimizing application" window closing
+  if (shouldAutoClose && mainWindowCreated) {
     app.quit();
   }
 });
