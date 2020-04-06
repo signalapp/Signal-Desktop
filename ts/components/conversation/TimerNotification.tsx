@@ -21,7 +21,6 @@ export class TimerNotification extends React.Component<Props> {
   public renderContents() {
     const {
       i18n,
-      name,
       phoneNumber,
       profileName,
       timespan,
@@ -32,23 +31,14 @@ export class TimerNotification extends React.Component<Props> {
       ? 'disabledDisappearingMessages'
       : 'theyChangedTheTimer';
 
+    const recipient = profileName ?? phoneNumber;
+
     switch (type) {
       case 'fromOther':
         return (
-          <Intl
-            i18n={i18n}
-            id={changeKey}
-            components={[
-              <ContactName
-                i18n={i18n}
-                key="external-1"
-                phoneNumber={phoneNumber}
-                profileName={profileName}
-                name={name}
-              />,
-              timespan,
-            ]}
-          />
+          <>
+            {i18n(changeKey, [recipient, timespan])}
+          </>
         );
       case 'fromMe':
         return disabled

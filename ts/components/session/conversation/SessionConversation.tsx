@@ -521,7 +521,6 @@ export class SessionConversation extends React.Component<any, State> {
     console.log(`[header] HeaderProps:`, headerProps);
     console.log(`[header] Conv: `, conversation);
 
-
     return headerProps;
   }
 
