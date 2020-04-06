@@ -347,7 +347,7 @@ export class SessionConversation extends React.Component<any, State> {
   // ~~~~~~~~~~~~~~ GETTER METHODS ~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  public async getMessages(numMessages?: number, fetchInterval = window.CONSTANTS.MESSAGE_FETCH_INTERVAL, loopback = false){
+  public async getMessages(numMessages?: number, fetchInterval = window.CONSTANTS.MESSAGE_FETCH_INTERVAL) {
     const { conversationKey, messageFetchTimestamp } = this.state;
     const timestamp = getTimestamp();
 
@@ -355,14 +355,6 @@ export class SessionConversation extends React.Component<any, State> {
     // This avoids getting messages on every re-render.
     const timeBuffer = timestamp - messageFetchTimestamp;
     if (timeBuffer < fetchInterval) {
-      // Loopback gets messages after time has elapsed,
-      // rather than completely cancelling the fetch.
-      // if (loopback) {
-      //   setTimeout(() => {
-      //     this.getMessages(numMessages, fetchInterval, false);
-      //   }, timeBuffer * 1000);
-      // }      
-
       return { newTopMessage: undefined, previousTopMessage: undefined };
     }
 
@@ -415,7 +407,7 @@ export class SessionConversation extends React.Component<any, State> {
 
     const members = conversation.get('members') || [];
 
-    return {
+    const headerProps = {
       id: conversation.id,
       name: conversation.getName(),
       phoneNumber: conversation.getNumber(),
@@ -448,7 +440,7 @@ export class SessionConversation extends React.Component<any, State> {
       hasNickname: !!conversation.getNickname(),
 
       onSetDisappearingMessages: (seconds: any) =>
-      conversation.setDisappearingMessages(seconds),
+      conversation.updateExpirationTimer(seconds),
       onDeleteMessages: () => conversation.destroyMessages(),
       onDeleteSelectedMessages: () => conversation.deleteSelectedMessages(),
       onCloseOverlay: () => conversation.resetMessageSelection(),
@@ -525,6 +517,12 @@ export class SessionConversation extends React.Component<any, State> {
         }
       },
     };
+
+    console.log(`[header] HeaderProps:`, headerProps);
+    console.log(`[header] Conv: `, conversation);
+
+
+    return headerProps;
   }
 
   public getGroupSettingsProps() {

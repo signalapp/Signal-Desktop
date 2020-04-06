@@ -1379,9 +1379,25 @@
 }
 
 .module-timer-notification__message {
+  display: grid;
+  grid-template-columns: 20px auto 20px;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.3px;
+
+  & > div{
+    align-self: center;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .module-contact-name__profile-name {
+    text-align: center;
+  }
+
 }
 
 .module-notification--with-click-handler {

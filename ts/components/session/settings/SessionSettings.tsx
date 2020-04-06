@@ -79,7 +79,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   public async componentWillMount() {
-    const mediaSetting = await window.getMediaPermissions();
+    const mediaSetting = await window.getSettingValue('media-permissions');
     this.setState({ mediaSetting });
   }
 

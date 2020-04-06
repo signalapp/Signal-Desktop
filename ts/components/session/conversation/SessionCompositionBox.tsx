@@ -36,8 +36,8 @@ interface State {
 }
 
 export class SessionCompositionBox extends React.Component<Props, State> {
-  private textarea: React.RefObject<HTMLTextAreaElement>;
-  private fileInput: React.RefObject<HTMLInputElement>;
+  private readonly textarea: React.RefObject<HTMLTextAreaElement>;
+  private readonly fileInput: React.RefObject<HTMLInputElement>;
   private emojiPanel: any;
 
   constructor(props: any) {
@@ -73,10 +73,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     // Attachments
     this.onChoseAttachment = this.onChoseAttachment.bind(this);
     this.onChooseAttachment = this.onChooseAttachment.bind(this);
-    
+
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onChange = this.onChange.bind(this);
-    
+
   }
 
   public componentWillReceiveProps(){
@@ -84,7 +84,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   public async componentWillMount(){
-    const mediaSetting = await window.getMediaPermissions();
+    const mediaSetting = await window.getSettingValue('media-permissions');
     this.setState({mediaSetting});
   }
 
@@ -120,20 +120,20 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   private hideEmojiPanel() {
     document.removeEventListener('mousedown', this.handleClick, false);
-    
+
     this.setState({
       showEmojiPanel: false,
     });
   }
 
-  public toggleEmojiPanel() {
+  private toggleEmojiPanel() {
     if (this.state.showEmojiPanel) {
       this.hideEmojiPanel();
     } else {
       this.showEmojiPanel();
     }
   }
-  
+
   private renderRecordingView() {
     return (
       <SessionRecording
@@ -223,7 +223,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     const attachments: Array<Attachment> = [];
     Array.from(attachmentsFileList).forEach(async (file: File) => {
-      
+
       const fileBlob = new Blob([file]);
       const fileBuffer = await new Response(fileBlob).arrayBuffer();
 
@@ -234,10 +234,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         contentType: MIME.AUDIO_WEBM,
         size: file.size,
         data: fileBuffer,
-      }
+      };
 
       // Push if size is nonzero
-      attachment.data.byteLength && attachments.push(attachment);
+      if (attachment.data.byteLength) {
+        attachments.push(attachment);
+      }
     });
 
     this.setState({attachments});
@@ -254,14 +256,18 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
 
-  private onSendMessage(){  
+  private onSendMessage() {
     const messageInput = this.textarea.current;
-    if (!messageInput) return;
-    
+    if (!messageInput) {
+      return;
+    }
+
     // Verify message length
     const messagePlaintext = messageInput.value;
     const msgLen = messagePlaintext.length;
-    if (msgLen === 0 || msgLen > window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH) return;
+    if (msgLen === 0 || msgLen > window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH) {
+      return;
+    }
 
 
     // handle Attachments
@@ -283,11 +289,11 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       undefined,
       undefined,
       null,
-      {},
+      {}
     ).then(() => {
       // Message sending sucess
       this.props.onMessageSuccess();
-      
+
       // Empty attachments
       // Empty composition box
       this.setState({
@@ -302,7 +308,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private async sendVoiceMessage(audioBlob: Blob) {
-    if (!this.state.showRecordingView) return;
+    if (!this.state.showRecordingView) {
+      return;
+    }
 
     const fileBuffer = await new Response(audioBlob).arrayBuffer();
 
@@ -322,7 +330,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     );
 
     if (messageSuccess) {
-      alert('MESSAGE VOICE SUCCESS');
+      // success!
     }
 
     console.log(`[compositionbox] Sending voice message:`, audioBlob);
@@ -331,16 +339,17 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.onExitVoiceNoteView();
   }
 
-  private onLoadVoiceNoteView(){
+  private onLoadVoiceNoteView() {
     // Do stuff for component, then run callback to SessionConversation
     const {mediaSetting} = this.state;
 
-    if (mediaSetting){
-      this.setState({ 
+    if (mediaSetting) {
+      this.setState({
         showRecordingView: true,
         showEmojiPanel: false,
       });
       this.props.onLoadVoiceNoteView();
+
       return;
     }
 
@@ -350,7 +359,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       description: window.i18n('audioPermissionNeededDescription'),
       type: 'info',
     });
-    
+
   }
 
   private onExitVoiceNoteView() {
@@ -359,7 +368,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.props.onExitVoiceNoteView();
   }
 
-  private onDrop(){
+  private onDrop() {
     // On drop attachments!
     // this.textarea.current?.ondrop;
     // Look into react-dropzone
@@ -371,7 +380,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   private onEmojiClick({native}: any) {
     const messageBox = this.textarea.current;
-    if (!messageBox) return;
+    if (!messageBox) {
+      return;
+    }
 
     const { message } = this.state;
     const currentSelectionStart = Number(messageBox.selectionStart);
@@ -386,7 +397,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       const selectionStart = currentSelectionStart + Number(native.length);
       messageBox.selectionStart = selectionStart;
       messageBox.selectionEnd = selectionStart;
-      
+
       // Sometimes, we have to repeat the set of the selection position with a timeout to be effective
       setTimeout(() => {
         messageBox.selectionStart = selectionStart;
