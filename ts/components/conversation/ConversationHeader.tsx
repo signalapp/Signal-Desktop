@@ -38,7 +38,7 @@ interface Props {
   isMe: boolean;
   isClosable?: boolean;
   isGroup: boolean;
-  isArchived: boolean;
+  isArchived?: boolean;
   isPublic: boolean;
   isRss: boolean;
   amMod: boolean;
@@ -74,7 +74,7 @@ interface Props {
   onCloseOverlay: () => void;
   onDeleteSelectedMessages: () => void;
 
-  onArchive: () => void;
+  onArchive?: () => void;
   onMoveToInbox: () => void;
 
   onShowSafetyNumber: () => void;
@@ -498,16 +498,17 @@ export class ConversationHeader extends React.Component<Props> {
     //   hasNickname && (
     //     <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
     //   );
-    const archiveConversationMenuItem = isArchived ? (
+    const archiveConversationMenuItem = window.CONSTANTS.ARCHIVING_ENABLED
+      && (isArchived ? (
       <MenuItem onClick={onMoveToInbox}>
         {i18n('moveConversationToInbox')}
       </MenuItem>
     ) : (
       <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
-    );
+    ));
 
     return (
-      <React.Fragment>
+      <>
         {/* <MenuItem onClick={onShowAllMedia}>{i18n('viewAllMedia')}</MenuItem> */}
         {disappearingMessagesMenuItem}
         {showMembersMenuItem}
@@ -517,7 +518,7 @@ export class ConversationHeader extends React.Component<Props> {
         {/* {changeNicknameMenuItem}
         {clearNicknameMenuItem} */}
         {archiveConversationMenuItem}
-      </React.Fragment>
+      </>
     );
   }
 }

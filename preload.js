@@ -97,6 +97,7 @@ window.CONSTANTS = {
   // Max attachment size: 10 MB
   MAX_ATTACHMENT_FILESIZE: 10000000,
   NOTIFICATION_ENABLE_TIMEOUT_SECONDS: 10, // number of seconds to turn on notifications after reconnect/start of app
+  ARCHIVING_ENABLED: false,
 };
 
 window.versionInfo = {
