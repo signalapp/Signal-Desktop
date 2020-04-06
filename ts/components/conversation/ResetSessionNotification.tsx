@@ -14,6 +14,7 @@ export class ResetSessionNotification extends React.Component<Props> {
     return (
       <div className="module-reset-session-notification">
         {i18n(sessionResetMessageKey)}
+        the fairies are coming home
       </div>
     );
   }
