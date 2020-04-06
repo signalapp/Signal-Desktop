@@ -281,7 +281,7 @@ window.setSettingValue = (settingID, value) => {
 
   window.storage.put(settingID, value);
 
-  // FIXME - This should be called in the settings object in 
+  // FIXME - This should be called in the settings object in
   // SessionSettings
   if (settingID === 'zoom-factor-setting') {
     window.updateZoomFactor();
@@ -293,7 +293,8 @@ window.getMessageTTL = () => window.storage.get('message-ttl', 24);
 
 // Media Permissions
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
-window.setMediaPermissions = value => ipc.send('set-media-permissions', !!value);
+window.setMediaPermissions = value =>
+  ipc.send('set-media-permissions', !!value);
 
 // Auto update setting
 window.getAutoUpdateEnabled = () => ipc.sendSync('get-auto-update-setting');
@@ -442,7 +443,7 @@ window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
 window.lokiFeatureFlags = {
   multiDeviceUnpairing: true,
   privateGroupChats: true,
-  useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
+  useSnodeProxy: false, //!process.env.USE_STUBBED_NETWORK,
   useSealedSender: true,
   useOnionRequests: false,
 };

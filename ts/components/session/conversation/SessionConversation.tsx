@@ -15,6 +15,7 @@ import { getTimestamp } from './SessionConversationManager';
 
 import { SessionScrollButton } from '../SessionScrollButton';
 import { SessionGroupSettings } from './SessionGroupSettings';
+import { ResetSessionNotification } from '../../conversation/ResetSessionNotification';
 
 
 interface State {
@@ -76,8 +77,6 @@ export class SessionConversation extends React.Component<any, State> {
     this.scrollToBottom = this.scrollToBottom.bind(this);
 
     this.renderMessage = this.renderMessage.bind(this);
-    this.renderTimerNotification = this.renderTimerNotification.bind(this);
-    this.renderFriendRequest = this.renderFriendRequest.bind(this);
 
     // Group settings panel
     this.toggleGroupSettingsPane = this.toggleGroupSettingsPane.bind(this);
@@ -231,20 +230,24 @@ export class SessionConversation extends React.Component<any, State> {
       <>{
         messages.map((message: any) => {
           const messageProps = message.propsForMessage;
-          const timerProps = message.propsForTimerNotification;
-          const friendRequestProps = message.propsForFriendRequest;
+          const quoteProps = message.propsForQuote;
+
+          const timerProps = message.propsForTimerNotification && {i18n: window.i18n, ...message.propsForTimerNotification};
+          const friendRequestProps = message.propsForFriendRequest && {i18n: window.i18n, ...message.propsForFriendRequest};
+          const resetSessionProps = message.propsForResetSessionNotification && {i18n: window.i18n, ...message.propsForResetSessionNotification};
+
           const attachmentProps = message.propsForAttachment;
           const groupNotificationProps = message.propsForGroupNotification;
-          const quoteProps = message.propsForQuote;
 
           let item;
           // firstMessageOfSeries tells us to render the avatar only for the first message
           // in a series of messages from the same user
-          item = messageProps     ? this.renderMessage(messageProps, message.firstMessageOfSeries) : item;
-          item = timerProps       ? this.renderTimerNotification(timerProps) : item;
-          item = quoteProps       ? this.renderMessage(timerProps, message.firstMessageOfSeries, quoteProps) : item;
-          item = friendRequestProps
-            ? this.renderFriendRequest(friendRequestProps): item;
+          item = messageProps       ? this.renderMessage(messageProps, message.firstMessageOfSeries) : item;
+          item = quoteProps         ? this.renderMessage(timerProps, message.firstMessageOfSeries, quoteProps) : item;
+
+          item = timerProps         ? <TimerNotification {...timerProps} /> : item;
+          item = friendRequestProps ? <FriendRequest {...friendRequestProps} /> : item;
+          item = resetSessionProps  ? <ResetSessionNotification {...resetSessionProps} /> : item;
           // item = attachmentProps  ? this.renderMessage(timerProps) : item;
 
           return item;
@@ -268,7 +271,6 @@ export class SessionConversation extends React.Component<any, State> {
         isFriend={headerProps.isFriend}
         i18n={window.i18n}
         isGroup={headerProps.isGroup}
-        isArchived={headerProps.isArchived}
         isPublic={headerProps.isPublic}
         isRss={headerProps.isRss}
         amMod={headerProps.amMod}
@@ -287,7 +289,6 @@ export class SessionConversation extends React.Component<any, State> {
         onResetSession={headerProps.onResetSession}
         onCloseOverlay={headerProps.onCloseOverlay}
         onDeleteSelectedMessages={headerProps.onDeleteSelectedMessages}
-        onArchive={headerProps.onArchive}
         onMoveToInbox={headerProps.onMoveToInbox}
         onShowSafetyNumber={headerProps.onShowSafetyNumber}
         onShowAllMedia={headerProps.onShowAllMedia}
@@ -317,7 +318,8 @@ export class SessionConversation extends React.Component<any, State> {
     messageProps.firstMessageOfSeries = firstMessageOfSeries;
     messageProps.onSelectMessage = (messageId: string) => {
       this.selectMessage(messageId);
-    }
+    };
+
     messageProps.quote = quoteProps || undefined;
 
     return (
@@ -325,23 +327,6 @@ export class SessionConversation extends React.Component<any, State> {
     );
 
   }
-
-  public renderTimerNotification(timerProps: any) {
-    timerProps.i18n = window.i18n;
-
-    return (
-      <TimerNotification {...timerProps} />
-    );
-  }
-
-  public renderFriendRequest(friendRequestProps: any) {
-    friendRequestProps.i18n = window.i18n;
-
-    return (
-      <FriendRequest {...friendRequestProps} />
-    );
-  }
-
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~ GETTER METHODS ~~~~~~~~~~~~~~
@@ -393,6 +378,8 @@ export class SessionConversation extends React.Component<any, State> {
       }
     });
 
+    console.log(`[header] messages: `, messages);
+
     return { newTopMessage, previousTopMessage };
   }
 
@@ -422,7 +409,6 @@ export class SessionConversation extends React.Component<any, State> {
       isBlocked: conversation.isBlocked(),
       isGroup: !conversation.isPrivate(),
       isOnline: conversation.isOnline(),
-      isArchived: conversation.get('isArchived'),
       isPublic: conversation.isPublic(),
       isRss: conversation.isRss(),
       amMod: conversation.isModerator(
@@ -446,7 +432,7 @@ export class SessionConversation extends React.Component<any, State> {
       onCloseOverlay: () => conversation.resetMessageSelection(),
       onDeleteContact: () => conversation.deleteContact(),
       onResetSession: () => {
-        this.resetSelection();
+        conversation.endSession();
       },
 
       // These are view only and don't update the Conversation model, so they
@@ -483,10 +469,6 @@ export class SessionConversation extends React.Component<any, State> {
       },
       onCopyPublicKey: () => {
         conversation.copyPublicKey();
-      },
-      onArchive: () => {
-        conversation.unload('archive');
-        conversation.setArchived(true);
       },
       onMoveToInbox: () => {
         conversation.setArchived(false);
