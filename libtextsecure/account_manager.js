@@ -618,11 +618,27 @@
       };
       // Update authorisation in database with the new grant signature
       await libloki.storage.savePairingAuthorisation(authorisation);
-      await lokiFileServerAPI.updateOurDeviceMapping();
-      await libloki.api.sendPairingAuthorisation(
-        authorisation,
-        secondaryDevicePubKey
-      );
+
+      // Try to upload to the file server and then send a message
+      try {
+        await lokiFileServerAPI.updateOurDeviceMapping();
+        await libloki.api.sendPairingAuthorisation(
+          authorisation,
+          secondaryDevicePubKey
+        );
+      } catch (e) {
+        log.error(
+          'Failed to authorise secondary device: ',
+          e && e.stack ? e.stack : e
+        );
+        // File server upload failed or message sending failed, we should rollback changes
+        await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
+          secondaryDevicePubKey
+        );
+        await lokiFileServerAPI.updateOurDeviceMapping();
+        throw e;
+      }
+
       // Always be friends with secondary devices
       await secondaryConversation.setFriendRequestStatus(
         window.friends.friendRequestStatusEnum.friends,

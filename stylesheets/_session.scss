@@ -145,11 +145,11 @@ div.spacer-lg {
   transition: filter 0.1s;
 }
 
-.text-subtle {
+.subtle {
   opacity: 0.6;
 }
 
-.text-soft {
+.soft {
   opacity: 0.4;
 }
 
@@ -470,19 +470,40 @@ $session_message-container-border-radius: 5px;
 
   .notification-count {
     position: absolute;
-    font-size: $session-font-xs;
-    font-family: $session-font-family;
-    top: 20px;
-    right: 20px;
-    width: 20px;
-    height: 20px;
+    top: $session-margin-lg;
+    right: $session-margin-lg;
     padding: 3px;
-    border-radius: 50%;
-    font-weight: 700;
-    background: red;
-    color: $session-color-white;
-    text-align: center;
     opacity: 1;
+  }
+}
+
+.notification-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $session-font-family;
+  border-radius: 50%;
+  font-weight: 700;
+  background: $session-color-danger;
+  color: $session-color-white;
+  text-align: center;
+
+  span {
+    position: relative;
+
+    sup {
+      font-size: 130%;
+      position: absolute;
+    }
+  }
+
+  &.hover {
+    transition: $session-transition-duration;
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(80%);
+    }
   }
 }
 
@@ -787,12 +808,36 @@ label {
   }
 }
 
+.device-pairing-dialog {
+  &__desc {
+    font-weight: 300;
+    font-size: $session-font-sm;
+    margin-bottom: $session-margin-lg;
+  }
+
+  &__secret-words {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $session-shade-6;
+    padding: $session-margin-sm $session-margin-lg;
+    border-radius: 3px;
+    margin-bottom: $session-margin-md;
+  }
+}
+
 .create-group-dialog .session-modal__body {
   display: flex;
   flex-direction: column;
 
   .friend-selection-list {
     width: unset;
+  }
+
+  .create-group-dialog__member-count {
+    text-align: center;
+    margin-top: -25px;
+    opacity: 0.6;
   }
 }
 
@@ -909,7 +954,7 @@ label {
     list-style: none;
     padding: 0px;
     margin: 0px;
-    max-height: 450px;
+    max-height: 40vh;
     overflow-y: auto;
   }
 
@@ -1549,92 +1594,6 @@ input {
   }
 }
 
-.clear-data,
-.password-prompt {
-  &-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background-color: $session-color-black;
-
-    width: 100%;
-    height: 100%;
-
-    padding: 3 * $session-margin-lg;
-  }
-
-  &-error-section {
-    width: 100%;
-    color: $session-color-white;
-    margin: -$session-margin-sm 0px 2 * $session-margin-lg 0px;
-
-    .session-label {
-      &.primary {
-        background-color: rgba($session-color-primary, 0.3);
-      }
-      padding: $session-margin-xs $session-margin-sm;
-      font-size: $session-font-xs;
-      text-align: center;
-    }
-  }
-
-  &-container {
-    font-family: 'SF Pro Text';
-    color: $session-color-white;
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    width: 600px;
-    min-width: 420px;
-    padding: 3 * $session-margin-lg 2 * $session-margin-lg;
-    box-sizing: border-box;
-    background-color: $session-shade-4;
-    border: 1px solid $session-shade-8;
-    border-radius: 2px;
-
-    .warning-info-area,
-    .password-info-area {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-
-      h1 {
-        color: $session-color-white;
-      }
-      svg {
-        margin-right: $session-margin-lg;
-      }
-    }
-
-    p,
-    input {
-      margin: $session-margin-lg 0px;
-    }
-
-    .button-group {
-      display: inline-flex;
-    }
-
-    #password-prompt-input {
-      width: 100%;
-      color: #fff;
-      background-color: #2e2e2e;
-      margin-top: 2 * $session-margin-lg;
-      padding: $session-margin-xs $session-margin-lg;
-      outline: none;
-      border: none;
-      border-radius: 2px;
-      text-align: center;
-      font-size: 24px;
-      letter-spacing: 5px;
-      font-family: 'SF Pro Text';
-    }
-  }
-}
-
 .onboarding-message-section {
   display: flex;
   flex-grow: 1;
@@ -1758,6 +1717,13 @@ input {
   justify-content: space-between;
   transition: $session-transition-duration;
 
+  &:first-child {
+    border-top: 1px solid rgba($session-shade-8, 0.6);
+  }
+  &:last-child {
+    border-bottom: 1px solid rgba($session-shade-8, 0.6);
+  }
+
   &.selected {
     background-color: $session-shade-4;
   }
@@ -1784,6 +1750,10 @@ input {
   &__pubkey {
     margin-left: 5px;
     opacity: 0.8;
+  }
+
+  &__avatar > div {
+    margin-bottom: 0px !important;
   }
 }
 

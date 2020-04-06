@@ -238,7 +238,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
         {showMemberCount && (
           <>
             <div className="spacer-lg" />
-            <div role="button" className="text-subtle">
+            <div role="button" className="subtle">
               {window.i18n('members', memberCount)}
             </div>
             <div className="spacer-lg" />

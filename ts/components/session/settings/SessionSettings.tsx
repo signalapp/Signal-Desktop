@@ -27,6 +27,7 @@ export enum SessionSettingType {
 
 export interface SettingsViewProps {
   category: SessionSettingCategory;
+  isSecondaryDevice: boolean;
 }
 
 interface State {
@@ -123,15 +124,14 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             const description = setting.description || '';
 
             const comparisonValue = setting.comparisonValue || null;
-
-            let value;
-            if (setting.id === 'media-permissions') {
-              value = this.state.mediaSetting;
-            } else {
-              value =
-                window.getSettingValue(setting.id, comparisonValue) ||
-                (setting.content && setting.content.defaultValue);
-            }
+            const storedSetting = window.getSettingValue(
+              setting.id,
+              comparisonValue
+            );
+            const value =
+              storedSetting !== undefined
+                ? storedSetting
+                : setting.content && setting.content.defaultValue;
 
             const sliderFn =
               setting.type === SessionSettingType.Slider
@@ -235,7 +235,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   public render() {
-    const { category } = this.props;
+    const { category, isSecondaryDevice } = this.props;
     const shouldRenderPasswordLock =
       this.state.shouldLockSettings && this.state.hasPassword;
 
@@ -244,6 +244,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         <SettingsHeader
           showLinkDeviceButton={!shouldRenderPasswordLock}
           category={category}
+          isSecondaryDevice={isSecondaryDevice}
         />
 
         <div className="session-settings-view">
@@ -368,7 +369,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         type: SessionSettingType.Toggle,
         category: SessionSettingCategory.Appearance,
         setFn: window.toggleSpellCheck,
-        content: undefined,
+        content: { defaultValue: true },
         comparisonValue: undefined,
         onClick: undefined,
         confirmationDialogParams: undefined,
@@ -588,6 +589,10 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
   private getLinkedDeviceSettings(): Array<LocalSettingType> {
     const { linkedPubKeys } = this.state;
+    const { isSecondaryDevice } = this.props;
+    const noPairedDeviceText = isSecondaryDevice
+      ? window.i18n('deviceIsSecondaryNoPairing')
+      : window.i18n('noPairedDevices');
 
     if (linkedPubKeys && linkedPubKeys.length > 0) {
       return linkedPubKeys.map((pubkey: any) => {
@@ -635,7 +640,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       return [
         {
           id: 'no-linked-device',
-          title: window.i18n('noPairedDevices'),
+          title: noPairedDeviceText,
           type: undefined,
           description: '',
           category: SessionSettingCategory.Devices,
