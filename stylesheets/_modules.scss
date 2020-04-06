@@ -1242,7 +1242,7 @@
 
 .module-group-notification__change,
 .module-timer-notification__message {
-  background-color: #212121;
+  background-color: rgba(33, 33, 33, 0.4);
   width: 90%;
   max-width: 700px;
   margin: 10px auto;
@@ -1343,7 +1343,7 @@
 // Module: Timer Notification
 
 .module-timer-notification {
-  margin-top: 14px;
+  margin-top: 20px;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.3px;
