@@ -2,7 +2,7 @@
 // was timeoutDelay
 const sleepFor = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-let log
+let log;
 function configure(options = {}) {
   ({ log } = options);
 }
@@ -45,8 +45,10 @@ async function allowOnlyOneAtATime(name, process, timeout) {
       let innerRetVal;
       try {
         innerRetVal = await process();
-      } catch(e) {
-        log.error(`loki_snodes:::allowOnlyOneAtATime - error ${e.code} ${e.message}`);
+      } catch (e) {
+        log.error(
+          `loki_snodes:::allowOnlyOneAtATime - error ${e.code} ${e.message}`
+        );
         throw e;
       }
       // clear timeout timer
@@ -74,7 +76,6 @@ async function allowOnlyOneAtATime(name, process, timeout) {
 }
 
 function abortableIterator(array, iterator) {
-
   let abortIteration = false;
 
   // for the control promise
@@ -93,22 +94,24 @@ function abortableIterator(array, iterator) {
   const accum = [];
 
   return {
-    start: async (serially) => {
+    start: async serially => {
       let item = destructableList.pop();
-      while(item && !abortIteration) {
+      while (item && !abortIteration) {
         // console.log('iterating on item', item);
         if (serially) {
           try {
             // eslint-disable-next-line no-await-in-loop
             accum.push(await iterator(item));
-          } catch(e) {
-            log.error(`loki_snodes:::abortableIterator - error ${e.code} ${e.message}`);
+          } catch (e) {
+            log.error(
+              `loki_snodes:::abortableIterator - error ${e.code} ${e.message}`
+            );
             throw e;
           }
         } else {
           accum.push(iterator(item));
         }
-        item = destructableList.pop()
+        item = destructableList.pop();
       }
       return accum;
     },
@@ -120,7 +123,7 @@ function abortableIterator(array, iterator) {
       */
       controlResolveFunctor();
     },
-  }
+  };
 }
 
 module.exports = {
@@ -129,4 +132,4 @@ module.exports = {
   allowOnlyOneAtATime,
   abortableIterator,
   firstTrue,
-}
+};

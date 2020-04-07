@@ -279,7 +279,6 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
 
   // relay is fine but destination is not good
   if (response.status === 504) {
-
     const pRetryNumber = retryNumber + 1;
     if (pRetryNumber > 3) {
       log.warn(

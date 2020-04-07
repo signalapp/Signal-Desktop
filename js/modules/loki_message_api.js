@@ -136,7 +136,9 @@ class LokiMessageAPI {
   }
 
   async refreshSendingSwarm(pubKey, timestamp) {
-    const freshNodes = await lokiSnodeAPI.refreshSwarmNodesForPubKey(this.ourKey);
+    const freshNodes = await lokiSnodeAPI.refreshSwarmNodesForPubKey(
+      this.ourKey
+    );
     this.sendingData[timestamp].swarm = freshNodes;
     this.sendingData[timestamp].hasFreshList = true;
     return true;
@@ -197,7 +199,9 @@ class LokiMessageAPI {
         if (result === false) {
           // this means the node we asked for is likely down
           log.warn(
-            `loki_message:::_sendToNode - Try #${successiveFailures}/${MAX_ACCEPTABLE_FAILURES} ${targetNode.ip}:${targetNode.port} failed`
+            `loki_message:::_sendToNode - Try #${successiveFailures}/${MAX_ACCEPTABLE_FAILURES} ${
+              targetNode.ip
+            }:${targetNode.port} failed`
           );
           successiveFailures += 1;
           // eslint-disable-next-line no-continue
@@ -428,7 +432,7 @@ class LokiMessageAPI {
     // floor or ceil probably doesn't matter, since it's likely always uneven
     const poolSize = Math.floor(nodes.length / numConnections, 10);
     const pools = [];
-    while(nodes.length) {
+    while (nodes.length) {
       const poolList = nodes.splice(0, poolSize);
       const byAddressObj = poolList.reduce((result, node) => {
         // eslint-disable-next-line no-param-reassign
@@ -444,14 +448,16 @@ class LokiMessageAPI {
     for (let i = 0; i < numConnections; i += 1) {
       promises.push(
         // eslint-disable-next-line more/no-then
-        this._openRetrieveConnection(pools[i], stopPolling, callback).then(() => {
-          unresolved -= 1;
-          log.info(
-            'loki_message:::startLongPolling - There are',
-            unresolved,
-            'open retrieve connections left'
-          );
-        })
+        this._openRetrieveConnection(pools[i], stopPolling, callback).then(
+          () => {
+            unresolved -= 1;
+            log.info(
+              'loki_message:::startLongPolling - There are',
+              unresolved,
+              'open retrieve connections left'
+            );
+          }
+        )
       );
     }
 
