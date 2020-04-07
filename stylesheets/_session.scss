@@ -545,6 +545,7 @@ $session-element-border-green: 4px solid $session-color-green;
 .module-conversation-header__title-flex,
 .module-conversation-header__title {
   font-family: $session-font-default;
+  font-weight: bold;
   width: 100%;
   display: flex;
   font-size: $session-font-md;
