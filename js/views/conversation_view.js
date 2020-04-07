@@ -1339,7 +1339,7 @@
       // In future, we may be able to unsend private messages also
       // isServerDeletable also defined in ConversationHeader.tsx for
       // future reference
-      const isServerDeletable = !!isPublic;
+      const isServerDeletable = isPublic;
 
       const warningMessage = (() => {
         if (isPublic) {
