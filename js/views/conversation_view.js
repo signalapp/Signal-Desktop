@@ -1313,13 +1313,9 @@
       const selected = Array.from(this.model.selectedMessages);
       const isModerator = this.model.isModerator(ourPubkey);
       const isAllOurs = selected.every(
-        message => message.propsForMessage.authorPhoneNumber === message.OUR_NUMBER
+        message =>
+          message.propsForMessage.authorPhoneNumber === message.OUR_NUMBER
       );
-
-      console.log(`[deletion] isAllOurs: `, isAllOurs);
-      console.log(`[deletion] isModerator: `, isModerator);
-      console.log(`[deletion] selected: `, selected);
-
 
       if (!isAllOurs && !isModerator) {
         window.pushToast({
