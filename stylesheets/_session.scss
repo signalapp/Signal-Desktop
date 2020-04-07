@@ -1,3 +1,7 @@
+// Fonts changed to 'Public Sans' and Space Mono' as per req. Chad.
+$session-font-default: 'Public Sans';
+$session-font-mono: 'SpaceMono';
+
 @font-face {
   font-family: $session-font-mono;
   src: url('../fonts/SpaceMono-Regular.ttf') format('truetype');
@@ -65,13 +69,6 @@
 }
 
 // Session Colors
-
-// Fonts changed to 'Public Sans' and Space Mono' as per req. Chad.
-$session-font-default: 'Public Sans';
-$session-font-mono: 'SpaceMono';
-// $session-font-default: 'Public Sans';
-// $session-font-default: 'Karla';
-
 $session-color-green: #00f782;
 $session-color-green-alt-1: #00f480;
 $session-color-green-alt-2: #00fd73;
@@ -497,7 +494,7 @@ $session_message-container-border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: $session-font-family;
+  font-family: $session-font-default;
   border-radius: 50%;
   font-weight: 700;
   background: $session-color-danger;
