@@ -907,6 +907,9 @@ export class Message extends React.PureComponent<Props, State> {
       }, 100);
     };
 
+    const isServerDeletable = !!this.props.isPublic;
+    const deleteMessageCtxText = i18n(isServerDeletable ? 'unsend' : 'delete');
+
     // CONTEXT MENU "Select Message" does not work
 
     return (
@@ -968,7 +971,7 @@ export class Message extends React.PureComponent<Props, State> {
             }}
             onClick={wrap(onDelete)}
           >
-            {i18n('deleteMessage')}
+            {deleteMessageCtxText}
           </MenuItem>
         ) : null}
         {isPublic ? (
