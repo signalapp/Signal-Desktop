@@ -356,7 +356,10 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public renderSelectionOverlay() {
-    const { onDeleteSelectedMessages, onCloseOverlay, i18n } = this.props;
+    const { onDeleteSelectedMessages, onCloseOverlay, isPublic, i18n } = this.props;
+
+    const isServerDeletable = !!isPublic;
+    const deleteMessageButtonText = i18n(isServerDeletable ? 'unsend' : 'delete');
 
     return (
       <div className="message-selection-overlay">
@@ -372,7 +375,7 @@ export class ConversationHeader extends React.Component<Props> {
           <SessionButton
             buttonType={SessionButtonType.Default}
             buttonColor={SessionButtonColor.Danger}
-            text={i18n('delete')}
+            text={deleteMessageButtonText}
             onClick={onDeleteSelectedMessages}
           />
         </div>
