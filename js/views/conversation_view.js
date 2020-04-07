@@ -1337,7 +1337,7 @@
       const isPublic = this.model.isPublic();
 
       // In future, we may be able to unsend private messages also
-      // isServerDeletable also defined in ConversationHeader.tsx for 
+      // isServerDeletable also defined in ConversationHeader.tsx for
       // future reference
       const isServerDeletable = !!isPublic;
 
@@ -1390,9 +1390,11 @@
 
       // If removable from server, we "Unsend" - otherwise "Delete"
       const pluralSuffix = multiple ? 's' : '';
-      const title = i18n(isPublic
-        ? `unsendMessage${pluralSuffix}`
-        : `deleteMessage${pluralSuffix}`);
+      const title = i18n(
+        isPublic
+          ? `unsendMessage${pluralSuffix}`
+          : `deleteMessage${pluralSuffix}`
+      );
 
       const okText = i18n(isServerDeletable ? 'unsend' : 'delete');
 
