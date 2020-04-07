@@ -3,6 +3,7 @@
 
 const nodeFetch = require('node-fetch');
 const https = require('https');
+const primitives = require('./loki_primitives');
 
 const snodeHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
@@ -12,8 +13,6 @@ const endpointBase = '/storage_rpc/v1';
 
 // Request index for debugging
 let onionReqIdx = 0;
-
-const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const encryptForNode = async (node, payload) => {
   const textEncoder = new TextEncoder();
@@ -290,8 +289,6 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
       );
       if (options.ourPubKey) {
         lokiSnodeAPI.unreachableNode(options.ourPubKey, targetNode);
-      } else {
-        console.trace('no ourPubKey in call')
       }
       return false;
     }
@@ -342,7 +339,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     // 500 burns through a node too fast,
     // let's slow the retry to give it more time to recover
     if (response.status === 500) {
-      await timeoutDelay(5000);
+      await primitives.sleepFor(5000);
     }
     return sendToProxy(options, targetNode, pRetryNumber);
   }
