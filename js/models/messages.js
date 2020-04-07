@@ -2182,10 +2182,7 @@
                   attributes.left = false;
                 }
               } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
-                if (
-                  source === textsecure.storage.user.getNumber() ||
-                  sourceUuid === textsecure.storage.user.getUuid()
-                ) {
+                if (ConversationController.get(source || sourceUuid).isMe()) {
                   attributes.left = true;
                   groupUpdate = { left: 'You' };
                 } else {
@@ -2196,8 +2193,7 @@
                 }
                 attributes.members = _.without(
                   conversation.get('members'),
-                  source,
-                  sourceUuid
+                  ConversationController.get(source || sourceUuid).get('id')
                 );
               }
 

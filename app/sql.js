@@ -1464,18 +1464,25 @@ async function updateSchema(instance) {
   const sqliteVersion = await getSQLiteVersion(instance);
   const sqlcipherVersion = await getSQLCipherVersion(instance);
   const userVersion = await getUserVersion(instance);
+  const maxUserVersion = SCHEMA_VERSIONS.length;
   const schemaVersion = await getSchemaVersion(instance);
 
   console.log(
     'updateSchema:\n',
     ` Current user_version: ${userVersion};\n`,
-    ` Most recent db schema: ${SCHEMA_VERSIONS.length};\n`,
+    ` Most recent db schema: ${maxUserVersion};\n`,
     ` SQLite version: ${sqliteVersion};\n`,
     ` SQLCipher version: ${sqlcipherVersion};\n`,
     ` (deprecated) schema_version: ${schemaVersion};\n`
   );
 
-  for (let index = 0, max = SCHEMA_VERSIONS.length; index < max; index += 1) {
+  if (userVersion > maxUserVersion) {
+    throw new Error(
+      `SQL: User version is ${userVersion} but the expected maximum version is ${maxUserVersion}. Did you try to start an old version of Signal?`
+    );
+  }
+
+  for (let index = 0; index < maxUserVersion; index += 1) {
     const runSchemaUpdate = SCHEMA_VERSIONS[index];
 
     // Yes, we really want to do this asynchronously, in order

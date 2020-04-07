@@ -4,7 +4,7 @@
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "1.33.0-beta.4",
+  "version": "1.33.0-beta.5",
   "license": "GPL-3.0",
   "author": {
     "name": "Open Whisper Systems",
@@ -203,7 +203,7 @@
     "cross-env": "5.2.0",
     "css-loader": "3.2.0",
     "dashdash": "1.14.1",
-    "electron": "8.1.1",
+    "electron": "8.2.1",
     "electron-builder": "22.3.6",
     "electron-icon-maker": "0.0.3",
     "eslint": "4.14.0",
