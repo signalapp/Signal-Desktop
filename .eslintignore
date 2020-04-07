@@ -19,7 +19,6 @@ test/test.js
 # Third-party files
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
-js/libphonenumber-util.js
 js/libsignal-protocol-worker.js
 libtextsecure/libsignal-protocol.js
 libtextsecure/test/blanket_mocha.js
