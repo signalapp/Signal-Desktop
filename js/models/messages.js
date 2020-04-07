@@ -113,6 +113,8 @@
           this.propsForMessage = this.getPropsForMessage();
         }
       };
+      const triggerChange = () => this.trigger('change');
+
       this.on('change', generateProps);
 
       const applicableConversationChanges =
@@ -120,8 +122,11 @@
 
       const conversation = this.getConversation();
       const fromContact = this.getIncomingContact();
-
       this.listenTo(conversation, applicableConversationChanges, generateProps);
+
+      // trigger a change event on this component.
+      // this will call generateProps and refresh the Message.tsx component with new props
+      this.listenTo(conversation, 'disable:input', triggerChange );
       if (fromContact) {
         this.listenTo(
           fromContact,
@@ -703,6 +708,7 @@
         multiSelectMode: conversation && conversation.selectedMessages.size > 0,
         isPublic: !!this.get('isPublic'),
         isRss: !!this.get('isRss'),
+        isKickedFromGroup: conversation.get('isKickedFromGroup'),
         senderIsModerator:
           !!this.get('isPublic') &&
           conversation &&
