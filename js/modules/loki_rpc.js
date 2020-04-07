@@ -3,34 +3,15 @@
 
 const nodeFetch = require('node-fetch');
 const https = require('https');
-const { parse } = require('url');
 
 const snodeHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
 
-const LOKI_EPHEMKEY_HEADER = 'X-Loki-EphemKey';
 const endpointBase = '/storage_rpc/v1';
 
 // Request index for debugging
 let onionReqIdx = 0;
-
-const decryptResponse = async (response, address) => {
-  let plaintext = false;
-  try {
-    const ciphertext = await response.text();
-    plaintext = await libloki.crypto.snodeCipher.decrypt(address, ciphertext);
-    const result = plaintext === '' ? {} : JSON.parse(plaintext);
-    return result;
-  } catch (e) {
-    log.warn(
-      `Could not decrypt response [${plaintext}] from [${address}],`,
-      e.code,
-      e.message
-    );
-  }
-  return {};
-};
 
 const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -98,7 +79,7 @@ const BAD_PATH = 'bad_path';
 
 // May return false BAD_PATH, indicating that we should try a new
 const sendOnionRequest = async (reqIdx, nodePath, targetNode, plaintext) => {
-  log.info('Sending an onion request');
+  log.debug('Sending an onion request');
 
   const ctx1 = await encryptForDestination(targetNode, plaintext);
   const ctx2 = await encryptForRelay(nodePath[2], targetNode, ctx1);
@@ -132,7 +113,7 @@ const sendOnionRequest = async (reqIdx, nodePath, targetNode, plaintext) => {
 // Process a response as it arrives from `nodeFetch`, handling
 // http errors and attempting to decrypt the body with `sharedKey`
 const processOnionResponse = async (reqIdx, response, sharedKey, useAesGcm) => {
-  log.info(`(${reqIdx}) [path] processing onion response`);
+  log.debug(`(${reqIdx}) [path] processing onion response`);
 
   // detect SNode is not ready (not in swarm; not done syncing)
   if (response.status === 503) {
@@ -211,14 +192,24 @@ const processOnionResponse = async (reqIdx, response, sharedKey, useAesGcm) => {
 const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
   const _ = window.Lodash;
 
-  const snodePool = await lokiSnodeAPI.getRandomSnodePool();
+  let snodePool = await lokiSnodeAPI.getRandomSnodePool();
 
   if (snodePool.length < 2) {
     log.error(
-      'Not enough service nodes for a proxy request, only have: ',
-      snodePool.length
+      'lokiRpc::sendToProxy - Not enough service nodes for a proxy request, only have:',
+      snodePool.length,
+      'snode, attempting refresh'
     );
-    return false;
+    await lokiSnodeAPI.refreshRandomPool();
+    snodePool = await lokiSnodeAPI.getRandomSnodePool();
+    if (snodePool.length < 2) {
+      log.error(
+        'lokiRpc::sendToProxy - Not enough service nodes for a proxy request, only have:',
+        snodePool.length,
+        'failing'
+      );
+      return false;
+    }
   }
 
   // Making sure the proxy node is not the same as the target node:
@@ -234,7 +225,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
 
   const snPubkeyHex = StringView.hexToArrayBuffer(targetNode.pubkey_x25519);
 
-  const myKeys = window.libloki.crypto.snodeCipher._ephemeralKeyPair;
+  const myKeys = window.libloki.crypto.generateEphemeralKeyPair();
 
   const symmetricKey = libsignal.Curve.calculateAgreement(
     snPubkeyHex,
@@ -311,7 +302,11 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
       // it's likely a net problem or an actual problem on the target node
       // lets mark the target node bad for now
       // we'll just rotate it back in if it's a net problem
-      log.warn(`Failing ${targetNode.ip}:${targetNode.port} after 5 retries`);
+      log.warn(
+        `lokiRpc:::sendToProxy - Failing ${targetNode.ip}:${
+          targetNode.port
+        } after 5 retries`
+      );
       if (options.ourPubKey) {
         lokiSnodeAPI.unreachableNode(options.ourPubKey, targetNode);
       }
@@ -348,7 +343,11 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     // avoid base64 decode failure
     // usually a 500 but not always
     // could it be a timeout?
-    log.warn('Server did not return any data for', options, targetNode);
+    log.warn(
+      'lokiRpc:::sendToProxy - Server did not return any data for',
+      options,
+      targetNode
+    );
     return false;
   }
 
@@ -423,30 +422,10 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
 };
 
 // A small wrapper around node-fetch which deserializes response
+// returns nodeFetch response or false
 const lokiFetch = async (url, options = {}, targetNode = null) => {
   const timeout = options.timeout || 10000;
   const method = options.method || 'GET';
-
-  const address = parse(url).hostname;
-  // const doEncryptChannel = address.endsWith('.snode');
-  const doEncryptChannel = false; // ENCRYPTION DISABLED
-  if (doEncryptChannel) {
-    try {
-      // eslint-disable-next-line no-param-reassign
-      options.body = await libloki.crypto.snodeCipher.encrypt(
-        address,
-        options.body
-      );
-      // eslint-disable-next-line no-param-reassign
-      options.headers = {
-        ...options.headers,
-        'Content-Type': 'text/plain',
-        [LOKI_EPHEMKEY_HEADER]: libloki.crypto.snodeCipher.getChannelPublicKeyHex(),
-      };
-    } catch (e) {
-      log.warn(`Could not encrypt channel for ${address}: `, e);
-    }
-  }
 
   const fetchOptions = {
     ...options,
@@ -467,7 +446,7 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
         const thisIdx = onionReqIdx;
         onionReqIdx += 1;
 
-        log.info(
+        log.debug(
           `(${thisIdx}) using path ${path[0].ip}:${path[0].port} -> ${
             path[1].ip
           }:${path[1].port} -> ${path[2].ip}:${path[2].port} => ${
@@ -494,6 +473,22 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
 
     if (window.lokiFeatureFlags.useSnodeProxy && targetNode) {
       const result = await sendToProxy(fetchOptions, targetNode);
+      if (result === false) {
+        // should we retry?
+        log.warn(`lokiRpc:::lokiFetch - sendToProxy returned false`);
+        // one case is:
+        //   snodePool didn't have enough
+        //   even after a refresh
+        //   likely a network disconnect?
+        // but not all cases...
+        /*
+        log.warn(
+          'lokiRpc:::lokiFetch - useSnodeProxy failure, could not refresh randomPool, offline?'
+        );
+        */
+        // pass the false value up
+        return false;
+      }
       // if not result, maybe we should throw??
       return result ? result.json() : {};
     }
@@ -512,22 +507,14 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
     let result;
     // Wrong swarm
     if (response.status === 421) {
-      if (doEncryptChannel) {
-        result = decryptResponse(response, address);
-      } else {
-        result = await response.json();
-      }
+      result = await response.json();
       const newSwarm = result.snodes ? result.snodes : [];
       throw new textsecure.WrongSwarmError(newSwarm);
     }
 
     // Wrong PoW difficulty
     if (response.status === 432) {
-      if (doEncryptChannel) {
-        result = decryptResponse(response, address);
-      } else {
-        result = await response.json();
-      }
+      result = await response.json();
       const { difficulty } = result;
       throw new textsecure.WrongDifficultyError(difficulty);
     }
@@ -546,8 +533,6 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
       result = await response.json();
     } else if (options.responseType === 'arraybuffer') {
       result = await response.buffer();
-    } else if (doEncryptChannel) {
-      result = decryptResponse(response, address);
     } else {
       result = await response.text();
     }

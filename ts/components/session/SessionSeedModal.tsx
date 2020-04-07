@@ -121,7 +121,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
           <p className="session-modal__description">
             {i18n('seedSavePromptMain')}
             <br />
-            <span className="text-subtle">{i18n('seedSavePromptAlt')}</span>
+            <span className="subtle">{i18n('seedSavePromptAlt')}</span>
           </p>
           <div className="spacer-xs" />
 

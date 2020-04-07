@@ -50,6 +50,38 @@ module.exports = {
     return new Promise(resolve => setTimeout(resolve, ms));
   },
 
+  // a wrapper to work around electron/spectron bug
+  async setValueWrapper(app, selector, value) {
+    await app.client.element(selector).click();
+    // keys, setValue and addValue hang on certain platforms
+    // could put a branch here to use one of those
+    // if we know what platforms are good and which ones are broken
+    await app.client.execute(
+      (slctr, val) => {
+        // eslint-disable-next-line no-undef
+        const iter = document.evaluate(
+          slctr,
+          // eslint-disable-next-line no-undef
+          document,
+          null,
+          // eslint-disable-next-line no-undef
+          XPathResult.UNORDERED_NODE_ITERATOR_TYPE,
+          null
+        );
+        const elem = iter.iterateNext();
+        if (elem) {
+          elem.value = val;
+        } else {
+          console.error('Cant find', slctr, elem, iter);
+        }
+      },
+      selector,
+      value
+    );
+    // let session js detect the text change
+    await app.client.element(selector).click();
+  },
+
   async startApp(environment = 'test-integration-session') {
     const env = environment.startsWith('test-integration')
       ? 'test-integration'
@@ -67,7 +99,6 @@ module.exports = {
         ELECTRON_ENABLE_STACK_DUMPING: true,
         ELECTRON_DISABLE_SANDBOX: 1,
       },
-      startTimeout: 10000,
       requireName: 'electronRequire',
       // chromeDriverLogPath: '../chromedriverlog.txt',
       chromeDriverArgs: [
@@ -93,16 +124,16 @@ module.exports = {
   async stopApp(app1) {
     if (app1 && app1.isRunning()) {
       await app1.stop();
-      return Promise.resolve();
     }
-    return Promise.resolve();
   },
 
   async killallElectron() {
+    // rtharp - my 2nd client on MacOs needs: pkill -f "node_modules/.bin/electron"
+    // node_modules/electron/dist/electron is node_modules/electron/dist/Electron.app on MacOS
     const killStr =
       process.platform === 'win32'
         ? 'taskkill /im electron.exe /t /f'
-        : 'pkill -f "node_modules/.bin/electron"';
+        : 'pkill -f "node_modules/electron/dist/electron" | pkill -f "node_modules/.bin/electron"';
     return new Promise(resolve => {
       exec(killStr, (err, stdout, stderr) => {
         if (err) {
@@ -146,23 +177,24 @@ module.exports = {
     stubOpenGroups = false,
     env = 'test-integration-session',
   }) {
-    const app1 = await this.startAndAssureCleanedApp(env);
+    const app = await this.startAndAssureCleanedApp(env);
 
     if (stubSnode) {
       await this.startStubSnodeServer();
-      this.stubSnodeCalls(app1);
+      this.stubSnodeCalls(app);
     }
 
     if (stubOpenGroups) {
-      this.stubOpenGroupsCalls(app1);
+      this.stubOpenGroupsCalls(app);
     }
 
     if (mnemonic && displayName) {
-      await this.restoreFromMnemonic(app1, mnemonic, displayName);
+      await this.restoreFromMnemonic(app, mnemonic, displayName);
+      // not sure we need this - rtharp.
       await this.timeout(2000);
     }
 
-    return app1;
+    return app;
   },
 
   async startAndStub2(props) {
@@ -174,18 +206,23 @@ module.exports = {
     return app2;
   },
 
-  async restoreFromMnemonic(app1, mnemonic, displayName) {
-    await app1.client.element(RegistrationPage.registrationTabSignIn).click();
-    await app1.client.element(RegistrationPage.restoreFromSeedMode).click();
-    await app1.client
-      .element(RegistrationPage.recoveryPhraseInput)
-      .setValue(mnemonic);
-    await app1.client
-      .element(RegistrationPage.displayNameInput)
-      .setValue(displayName);
+  async restoreFromMnemonic(app, mnemonic, displayName) {
+    await app.client.element(RegistrationPage.registrationTabSignIn).click();
+    await app.client.element(RegistrationPage.restoreFromSeedMode).click();
+    await this.setValueWrapper(
+      app,
+      RegistrationPage.recoveryPhraseInput,
+      mnemonic
+    );
 
-    await app1.client.element(RegistrationPage.continueSessionButton).click();
-    await app1.client.waitForExist(
+    await this.setValueWrapper(
+      app,
+      RegistrationPage.displayNameInput,
+      displayName
+    );
+
+    await app.client.element(RegistrationPage.continueSessionButton).click();
+    await app.client.waitForExist(
       RegistrationPage.conversationListContainer,
       4000
     );
@@ -215,9 +252,11 @@ module.exports = {
     await app1.client.element(ConversationPage.contactsButtonSection).click();
     await app1.client.element(ConversationPage.addContactButton).click();
 
-    await app1.client
-      .element(ConversationPage.sessionIDInput)
-      .setValue(this.TEST_PUBKEY2);
+    await this.setValueWrapper(
+      app1,
+      ConversationPage.sessionIDInput,
+      this.TEST_PUBKEY2
+    );
     await app1.client.element(ConversationPage.nextButton).click();
     await app1.client.waitForExist(
       ConversationPage.sendFriendRequestTextarea,
@@ -225,9 +264,11 @@ module.exports = {
     );
 
     // send a text message to that user (will be a friend request)
-    await app1.client
-      .element(ConversationPage.sendFriendRequestTextarea)
-      .setValue(textMessage);
+    await this.setValueWrapper(
+      app1,
+      ConversationPage.sendFriendRequestTextarea,
+      textMessage
+    );
     await app1.client.keys('Enter');
     await app1.client.waitForExist(
       ConversationPage.existingFriendRequestText(textMessage),
@@ -245,7 +286,7 @@ module.exports = {
     // open the dropdown from the top friend request count
     await app2.client.isExisting(
       ConversationPage.oneNotificationFriendRequestTop
-    );
+    ).should.eventually.be.true;
     await app2.client
       .element(ConversationPage.oneNotificationFriendRequestTop)
       .click();
@@ -285,9 +326,12 @@ module.exports = {
     // next trigger the link request from the app2 with the app1 pubkey
     await app2.client.element(RegistrationPage.registrationTabSignIn).click();
     await app2.client.element(RegistrationPage.linkDeviceMode).click();
-    await app2.client
-      .element(RegistrationPage.textareaLinkDevicePubkey)
-      .setValue(this.TEST_PUBKEY1);
+
+    await this.setValueWrapper(
+      app2,
+      RegistrationPage.textareaLinkDevicePubkey,
+      this.TEST_PUBKEY1
+    );
     await app2.client.element(RegistrationPage.linkDeviceTriggerButton).click();
     await app1.client.waitForExist(RegistrationPage.toastWrapper, 7000);
     let secretWordsapp1 = await app1.client
@@ -308,7 +352,8 @@ module.exports = {
       2000
     );
 
-    await app1.client.isExisting(ConversationPage.unpairDeviceButton);
+    await app1.client.isExisting(ConversationPage.unpairDeviceButton).should
+      .eventually.be.true;
     await app1.client.isExisting(ConversationPage.linkDeviceButtonDisabled)
       .should.eventually.be.true;
 
@@ -326,7 +371,8 @@ module.exports = {
 
   async triggerUnlinkApp2FromApp(app1, app2) {
     // check app2 is loggedin
-    await app2.client.isExisting(RegistrationPage.conversationListContainer);
+    await app2.client.isExisting(RegistrationPage.conversationListContainer)
+      .should.eventually.be.true;
 
     await app1.client.element(ConversationPage.settingsButtonSection).click();
     await app1.client.element(ConversationPage.deviceSettingsRow).click();
@@ -341,7 +387,7 @@ module.exports = {
       2000
     );
     await app1.client.element(ConversationPage.linkDeviceButton).isEnabled()
-      .should.eventually.be.false;
+      .should.eventually.be.true;
 
     // let time to app2 to catch the event and restart dropping its data
     await this.timeout(5000);
@@ -350,7 +396,8 @@ module.exports = {
     // (did not find a better way than checking the app no longer being accessible)
     let isApp2Joinable = true;
     try {
-      await app2.client.isExisting(RegistrationPage.registrationTabSignIn);
+      await app2.client.isExisting(RegistrationPage.registrationTabSignIn)
+        .should.eventually.be.true;
     } catch (err) {
       // if we get an error here, it means Spectron is lost.
       // this is a good thing because it means app2 restarted
@@ -414,6 +461,7 @@ module.exports = {
             if (this.messages[pubkey]) {
               response.writeHead(200, { 'Content-Type': 'application/json' });
               response.write(JSON.stringify(retrievedMessages));
+              this.messages[pubkey] = [];
             }
             response.end();
           }

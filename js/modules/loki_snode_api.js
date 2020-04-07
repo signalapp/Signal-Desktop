@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-/* global window, textsecure, ConversationController, _, log, clearTimeout, process */
+/* global window, textsecure, ConversationController, _, log, clearTimeout, process, Buffer, StringView, dcodeIO */
 
 const is = require('@sindresorhus/is');
 const { lokiRpc } = require('./loki_rpc');
@@ -97,18 +97,36 @@ class LokiSnodeAPI {
   async selectGuardNodes() {
     const _ = window.Lodash;
 
-    const nodePool = await this.getRandomSnodePool();
+    let nodePool = await this.getRandomSnodePool();
 
     if (nodePool.length === 0) {
       log.error(`Could not select guarn nodes: node pool is empty`);
       return [];
     }
 
-    const shuffled = _.shuffle(nodePool);
+    let shuffled = _.shuffle(nodePool);
 
     let guardNodes = [];
 
     const DESIRED_GUARD_COUNT = 3;
+    if (shuffled.length < DESIRED_GUARD_COUNT) {
+      log.error(
+        `Could not select guarn nodes: node pool is not big enough, pool size ${
+          shuffled.length
+        }, need ${DESIRED_GUARD_COUNT}, attempting to refresh randomPool`
+      );
+      await this.refreshRandomPool();
+      nodePool = await this.getRandomSnodePool();
+      shuffled = _.shuffle(nodePool);
+      if (shuffled.length < DESIRED_GUARD_COUNT) {
+        log.error(
+          `Could not select guarn nodes: node pool is not big enough, pool size ${
+            shuffled.length
+          }, need ${DESIRED_GUARD_COUNT}, failing...`
+        );
+        return [];
+      }
+    }
 
     // The use of await inside while is intentional:
     // we only want to repeat if the await fails
@@ -268,6 +286,16 @@ class LokiSnodeAPI {
     return this.randomSnodePool[
       Math.floor(Math.random() * this.randomSnodePool.length)
     ];
+  }
+
+  async getNodesMinVersion(minVersion) {
+    const _ = window.Lodash;
+
+    return _.flatten(
+      _.entries(this.versionPools)
+        .filter(v => semver.gte(v[0], minVersion))
+        .map(v => v[1])
+    );
   }
 
   // use nodes that support more than 1mb
@@ -490,6 +518,7 @@ class LokiSnodeAPI {
       throw new window.textsecure.SeedNodeError('Failed to contact seed node');
     }
     log.info('loki_snodes:::refreshRandomPoolPromise - RESOLVED');
+    delete this.refreshRandomPoolPromise; // clear any lock
   }
 
   // unreachableNode.url is like 9hrje1bymy7hu6nmtjme9idyu3rm8gr3mkstakjyuw1997t7w4ny.snode
@@ -622,6 +651,98 @@ class LokiSnodeAPI {
     const newSwarmNodes = await this.swarmsPendingReplenish[pubKey];
     delete this.swarmsPendingReplenish[pubKey];
     return newSwarmNodes;
+  }
+
+  // helper function
+  async _requestLnsMapping(node, nameHash) {
+    log.debug('[lns] lns requests to {}:{}', node.ip, node.port);
+
+    try {
+      // Hm, in case of proxy/onion routing we
+      // are not even using ip/port...
+      return lokiRpc(
+        `https://${node.ip}`,
+        node.port,
+        'get_lns_mapping',
+        {
+          name_hash: nameHash,
+        },
+        {},
+        '/storage_rpc/v1',
+        node
+      );
+    } catch (e) {
+      log.warn('exception caught making lns requests to a node', node, e);
+      return false;
+    }
+  }
+
+  async getLnsMapping(lnsName) {
+    const _ = window.Lodash;
+
+    const input = Buffer.from(lnsName);
+
+    const output = await window.blake2b(input);
+
+    const nameHash = dcodeIO.ByteBuffer.wrap(output).toString('base64');
+
+    // Get nodes capable of doing LNS
+    let lnsNodes = await this.getNodesMinVersion('2.0.3');
+    lnsNodes = _.shuffle(lnsNodes);
+
+    // Loop until 3 confirmations
+
+    // We don't trust any single node, so we accumulate
+    // answers here and select a dominating answer
+    const allResults = [];
+    let ciphertextHex = null;
+
+    while (!ciphertextHex) {
+      if (lnsNodes.length < 3) {
+        log.error('Not enough nodes for lns lookup');
+        return false;
+      }
+
+      // extract 3 and make requests in parallel
+      const nodes = lnsNodes.splice(0, 3);
+
+      // eslint-disable-next-line no-await-in-loop
+      const results = await Promise.all(
+        nodes.map(node => this._requestLnsMapping(node, nameHash))
+      );
+
+      results.forEach(res => {
+        if (
+          res &&
+          res.result &&
+          res.result.status === 'OK' &&
+          res.result.entries &&
+          res.result.entries.length > 0
+        ) {
+          allResults.push(results[0].result.entries[0].encrypted_value);
+        }
+      });
+
+      const [winner, count] = _.maxBy(
+        _.entries(_.countBy(allResults)),
+        x => x[1]
+      );
+
+      if (count >= 3) {
+        // eslint-disable-next-lint prefer-destructuring
+        ciphertextHex = winner;
+      }
+    }
+
+    const ciphertext = new Uint8Array(
+      StringView.hexToArrayBuffer(ciphertextHex)
+    );
+
+    const res = await window.decryptLnsEntry(lnsName, ciphertext);
+
+    const pubkey = StringView.arrayBufferToHex(res);
+
+    return pubkey;
   }
 
   async getSnodesForPubkey(snode, pubKey) {

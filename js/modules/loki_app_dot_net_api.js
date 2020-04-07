@@ -269,7 +269,7 @@ const serverRequest = async (endpoint, options = {}) => {
       ));
     } else {
       // disable check for .loki
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = url.host.match(/\.loki$/i)
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = host.match(/\.loki$/i)
         ? '0'
         : '1';
       result = await nodeFetch(url, fetchOptions);
@@ -298,7 +298,7 @@ const serverRequest = async (endpoint, options = {}) => {
         url
       );
     }
-    if (mode === '_sendToProxy') {
+    if (mode === 'sendToProxy') {
       // if we can detect, certain types of failures, we can retry...
       if (e.code === 'ECONNRESET') {
         // retry with counter?
@@ -658,7 +658,7 @@ class LokiAppDotNetServerAPI {
 
     try {
       const res = await this.proxyFetch(
-        `${this.baseServerUrl}/loki/v1/submit_challenge`,
+        new URL(`${this.baseServerUrl}/loki/v1/submit_challenge`),
         fetchOptions,
         { textResponse: true }
       );
@@ -683,7 +683,8 @@ class LokiAppDotNetServerAPI {
       }
       const urlStr = urlObj.toString();
       const endpoint = urlStr.replace(`${this.baseServerUrl}/`, '');
-      const { response, result } = await this._sendToProxy(
+      const { response, result } = await sendToProxy(
+        this.pubKey,
         endpoint,
         finalOptions,
         options
@@ -694,8 +695,8 @@ class LokiAppDotNetServerAPI {
         json: () => response,
       };
     }
-    const urlStr = urlObj.toString();
-    if (urlStr.match(/\.loki\//)) {
+    const host = urlObj.host.toLowerCase();
+    if (host.match(/\.loki$/)) {
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     }
     const result = nodeFetch(urlObj, fetchOptions, options);

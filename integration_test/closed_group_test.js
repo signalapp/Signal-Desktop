@@ -23,14 +23,16 @@ describe('Closed groups', function() {
     await common.stopStubSnodeServer();
   });
 
-  it('can create a closed group with a friend and send/receive a message', async () => {
+  it('closedGroup: can create a closed group with a friend and send/receive a message', async () => {
     await app.client.element(ConversationPage.globeButtonSection).click();
     await app.client.element(ConversationPage.createClosedGroupButton).click();
 
     // fill the groupname
-    await app.client
-      .element(ConversationPage.closedGroupNameTextarea)
-      .setValue(common.VALID_CLOSED_GROUP_NAME1);
+    await common.setValueWrapper(
+      app,
+      ConversationPage.closedGroupNameTextarea,
+      common.VALID_CLOSED_GROUP_NAME1
+    );
     await app.client
       .element(ConversationPage.closedGroupNameTextarea)
       .getValue()
@@ -59,15 +61,14 @@ describe('Closed groups', function() {
     );
     await app.client.isExisting(
       ConversationPage.headerTitleGroupName(common.VALID_CLOSED_GROUP_NAME1)
-    );
+    ).should.eventually.be.true;
     await app.client
       .element(ConversationPage.headerTitleMembers(2))
       .isVisible();
 
     // validate overlay is closed
-    await app.client
-      .isExisting(ConversationPage.leftPaneOverlay)
-      .should.eventually.be.equal(false);
+    await app.client.isExisting(ConversationPage.leftPaneOverlay).should
+      .eventually.be.false;
 
     // move back to the conversation section
     await app.client
@@ -79,7 +80,7 @@ describe('Closed groups', function() {
       ConversationPage.rowOpenGroupConversationName(
         common.VALID_CLOSED_GROUP_NAME1
       )
-    );
+    ).should.eventually.be.true;
 
     // next check app2 has been invited and has the group in its conversations
     await app2.client.waitForExist(

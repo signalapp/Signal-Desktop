@@ -21,12 +21,12 @@ describe('Window Test and Login', function() {
     await common.killallElectron();
   });
 
-  it('opens one window', async () => {
+  it('registration: opens one window', async () => {
     app = await common.startAndAssureCleanedApp();
     app.client.getWindowCount().should.eventually.be.equal(1);
   });
 
-  it('window title is correct', async () => {
+  it('registration: window title is correct', async () => {
     app = await common.startAndAssureCleanedApp();
 
     app.client
@@ -34,7 +34,7 @@ describe('Window Test and Login', function() {
       .should.eventually.be.equal('Session - test-integration-session');
   });
 
-  it('can restore from seed', async () => {
+  it('registration: can restore from seed', async () => {
     app = await common.startAndAssureCleanedApp();
 
     await app.client.element(RegistrationPage.registrationTabSignIn).click();
@@ -70,7 +70,7 @@ describe('Window Test and Login', function() {
       .should.eventually.be.equal(common.TEST_PUBKEY1);
   });
 
-  it('can create new account', async () => {
+  it('registration: can create new account', async () => {
     app = await common.startAndAssureCleanedApp();
     await app.client.element(RegistrationPage.createSessionIDButton).click();
     // wait for the animation of generated pubkey to finish
@@ -82,7 +82,8 @@ describe('Window Test and Login', function() {
     pubkeyGenerated.should.have.lengthOf(66);
     pubkeyGenerated.substr(0, 2).should.be.equal('05');
     await app.client.element(RegistrationPage.continueButton).click();
-    await app.client.isExisting(RegistrationPage.displayNameInput);
+    await app.client.isExisting(RegistrationPage.displayNameInput).should
+      .eventually.be.true;
     await app.client
       .element(RegistrationPage.displayNameInput)
       .setValue(common.TEST_DISPLAY_NAME1);
@@ -97,7 +98,7 @@ describe('Window Test and Login', function() {
       .should.eventually.be.equal(pubkeyGenerated);
   });
 
-  it('can delete account when logged in', async () => {
+  it('registration: can delete account when logged in', async () => {
     // login as user1
     const login = {
       mnemonic: common.TEST_MNEMONIC1,
@@ -117,7 +118,8 @@ describe('Window Test and Login', function() {
     // delete account
     await app.client.element(ConversationPage.settingsButtonSection).click();
     await app.client.element(ConversationPage.deleteAccountButton).click();
-    await app.client.isExisting(ConversationPage.descriptionDeleteAccount);
+    await app.client.isExisting(ConversationPage.descriptionDeleteAccount)
+      .should.eventually.be.true;
     // click on the modal OK button to delete the account
     await app.client.element(ConversationPage.validateDeleteAccount).click();
     // wait for the app restart

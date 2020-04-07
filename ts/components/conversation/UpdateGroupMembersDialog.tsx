@@ -93,7 +93,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       noFriendsClasses = classNames('no-friends', 'hidden');
     } else {
       // private group
-      titleText = `${this.props.titleText} (Members: ${checkMarkedCount})`;
+      titleText = this.props.titleText;
       noFriendsClasses =
         this.state.friendList.length === 0
           ? 'no-friends'
@@ -114,6 +114,16 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         onOk={() => null}
       >
         <div className="spacer-md" />
+
+        {!this.props.isPublic && (
+          <>
+            <small className="create-group-dialog__member-count">
+              {`${checkMarkedCount} members`}
+            </small>
+            <hr className="subtle" />
+          </>
+        )}
+
         <p className={errorMessageClasses}>{errorMsg}</p>
         <div className="spacer-md" />
 
@@ -123,6 +133,8 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         <p className={noFriendsClasses}>{`(${this.props.i18n(
           'noMembersInThisGroup'
         )})`}</p>
+
+        <div className="spacer-lg" />
 
         <div className="session-modal__button-group">
           <SessionButton text={okText} onClick={this.onClickOK} />
