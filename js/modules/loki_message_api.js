@@ -259,7 +259,8 @@ class LokiMessageAPI {
     return false;
   }
 
-  async _openRetrieveConnection(swarmPool, stopPollingPromise, callback) {
+  async _openRetrieveConnection(pSwarmPool, stopPollingPromise, callback) {
+    const swarmPool = pSwarmPool; // lint
     let stopPollingResult = false;
 
     // When message_receiver restarts from onoffline/ononline events it closes
@@ -429,7 +430,8 @@ class LokiMessageAPI {
     const pools = [];
     while(nodes.length) {
       const poolList = nodes.splice(0, poolSize);
-      const byAddressObj = poolList.reduce(function(result, node) {
+      const byAddressObj = poolList.reduce((result, node) => {
+        // eslint-disable-next-line no-param-reassign
         result[node.address] = node;
         return result;
       }, {});
