@@ -302,7 +302,7 @@ $session-compose-margin: 20px;
       font-size: $session-font-sm;
       line-height: $session-font-h3;
       margin: 0px 20px;
-      font-family: $session-font-accent;
+      font-family: $session-font-default;
     }
 
     .session-id-editable {
@@ -375,7 +375,7 @@ $session-compose-margin: 20px;
     border: none;
     flex-grow: 1;
     font-size: $session-font-sm;
-    font-family: $session-font-accent;
+    font-family: $session-font-default;
 
     &:focus {
       outline: none !important;
@@ -658,7 +658,7 @@ $session-compose-margin: 20px;
     border-radius: 50px;
     color: $session-color-light-grey;
     border: 1px solid $session-color-dark-grey;
-    font-family: $session-font-accent;
+    font-family: $session-font-default;
     font-size: $session-font-sm;
   }
 }

@@ -1,22 +1,22 @@
 @font-face {
-  font-family: 'SpaceMono';
+  font-family: $session-font-mono;
   src: url('../fonts/SpaceMono-Regular.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'SpaceMono';
+  font-family: $session-font-mono;
   src: url('../fonts/SpaceMono-Bold.ttf') format('truetype');
   font-weight: bold;
 }
 
 @font-face {
-  font-family: 'SpaceMono';
+  font-family: $session-font-mono;
   src: url('../fonts/SpaceMono-Italic.ttf') format('truetype');
   font-style: italic;
 }
 
 @font-face {
-  font-family: 'SpaceMono';
+  font-family: $session-font-mono;
   src: url('../fonts/SpaceMono-BoldItalic.ttf') format('truetype');
   font-weight: bold;
   font-style: italic;
@@ -87,8 +87,11 @@
 }
 
 // Session Colors
-$session-font-accent: 'Public Sans';
-$session-font-default: 'Karla';
+// Fonts changed to 'Public Sans' and Space Mono' as per req. Chad.
+$session-font-default: 'Public Sans';
+$session-font-mono: 'SpaceMono';
+// $session-font-default: 'Public Sans';
+// $session-font-default: 'Karla';
 
 $session-color-green: #00f782;
 $session-color-green-alt-1: #00f480;
@@ -551,7 +554,7 @@ $session-element-border-green: 4px solid $session-color-green;
 
   &-text {
     @include session-color-subtle($session-color-white);
-    font-family: $session-font-accent;
+    font-family: $session-font-default;
     font-weight: 300;
     font-size: $session-font-xs;
     line-height: $session-font-xs;
@@ -802,7 +805,7 @@ label {
 
   &__body {
     padding: 0px $session-margin-lg $session-margin-lg $session-margin-lg;
-    font-family: $session-font-accent;
+    font-family: $session-font-default;
     line-height: $session-font-md;
     font-size: $session-font-sm;
 
@@ -1081,7 +1084,7 @@ label {
       word-break: break-all;
       font-size: $session-font-md;
       padding: 0px $session-margin-lg;
-      font-family: $session-font-accent;
+      font-family: $session-font-default;
       font-weight: 100;
       color: rgba($session-color-white, 0.8);
       font-size: $session-font-md;
@@ -1283,7 +1286,7 @@ label {
     }
 
     &__description {
-      font-family: $session-font-accent;
+      font-family: $session-font-default;
       font-size: $session-font-sm;
       font-weight: 100;
       max-width: 700px;
@@ -1358,7 +1361,7 @@ label {
         text-align: center;
         font-size: $session-font-xl;
         letter-spacing: 5px;
-        font-family: $session-font-accent;
+        font-family: $session-font-default;
       }
     }
   }
@@ -1393,7 +1396,7 @@ label {
 
 .discussion-container {
   .module-message {
-    font-family: $session-font-accent;
+    font-family: $session-font-default;
     border-radius: 5px;
 
     &__text--incoming {
@@ -1606,7 +1609,7 @@ input {
 /* Memberlist */
 .member-list-container .member {
   &-item {
-    font-family: $session-font-accent;
+    font-family: $session-font-default;
     padding: $session-margin-sm $session-margin-md;
     background-color: $session-shade-5;
 
@@ -1673,7 +1676,7 @@ input {
   }
 
   &-container {
-    font-family: $session-font-accent;
+    font-family: $session-font-default;
     color: $session-color-white;
     display: inline-flex;
     flex-direction: column;
@@ -1723,7 +1726,7 @@ input {
       text-align: center;
       font-size: 24px;
       letter-spacing: 5px;
-      font-family: $session-font-accent;
+      font-family: $session-font-default;
     }
   }
 }
@@ -1757,7 +1760,7 @@ input {
     height: 400px;
 
     text-align: center;
-    font-family: $session-font-accent;
+    font-family: $session-font-default;
   }
 
   &__title h1 {
@@ -1783,7 +1786,7 @@ input {
     }
 
     &--subtitle {
-      font-family: $session-font-accent;
+      font-family: $session-font-default;
       font-weight: 300;
       line-height: $session-font-md;
       opacity: 0.8;
@@ -1823,7 +1826,7 @@ input {
   }
 
   &__no-contacts {
-    font-family: 'SpaceMono';
+    font-family: $session-font-mono;
     text-align: center;
     padding: 20px;
   }
@@ -1844,7 +1847,7 @@ input {
 
 .session-member-item {
   cursor: pointer;
-  font-family: $session-font-accent;
+  font-family: $session-font-default;
   padding: 0px $session-margin-sm;
   height: 50px;
   display: flex;
