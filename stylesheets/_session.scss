@@ -24,32 +24,32 @@
 
 // Public Sans is an open replacement for 'SF Pro Text'
 @font-face {
-  font-family: 'Public Sans';
+  font-family: $session-font-default;
   src: url('../fonts/PublicSans-Regular.woff') format('woff');
 }
 @font-face {
-  font-family: 'Public Sans';
+  font-family: $session-font-default;
   src: url('../fonts/PublicSans-Italic.woff') format('woff');
   font-style: italic;
 }
 @font-face {
-  font-family: 'Public Sans';
+  font-family: $session-font-default;
   src: url('../fonts/PublicSans-Bold.woff') format('woff');
   font-weight: bold;
 }
 @font-face {
-  font-family: 'Public Sans';
+  font-family: $session-font-default;
   src: url('../fonts/PublicSans-BoldItalic.woff') format('woff');
   font-weight: bold;
   font-style: italic;
 }
 @font-face {
-  font-family: 'Public Sans';
+  font-family: $session-font-default;
   src: url('../fonts/PublicSans-Light.woff') format('woff');
   font-weight: lighter;
 }
 @font-face {
-  font-family: 'Public Sans';
+  font-family: $session-font-default;
   src: url('../fonts/PublicSans-LightItalic.woff') format('woff');
   font-weight: lighter;
   font-style: italic;
@@ -65,6 +65,7 @@
 }
 
 // Session Colors
+
 // Fonts changed to 'Public Sans' and Space Mono' as per req. Chad.
 $session-font-default: 'Public Sans';
 $session-font-mono: 'SpaceMono';
