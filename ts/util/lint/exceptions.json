@@ -11644,7 +11644,7 @@
     "rule": "React-createRef",
     "path": "ts/components/LeftPane.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 15,
+    "lineNumber": 16,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-05T01:14:21.081Z",
     "reasonDetail": "Used for focus management"

@@ -1,5 +1,6 @@
+import Measure, { BoundingRect, MeasuredComponentProps } from 'react-measure';
 import React from 'react';
-import { AutoSizer, List } from 'react-virtualized';
+import { List } from 'react-virtualized';
 import { debounce, get } from 'lodash';
 
 import {
@@ -54,6 +55,12 @@ export class LeftPane extends React.Component<PropsType> {
   public containerRef = React.createRef<HTMLDivElement>();
   public setFocusToFirstNeeded = false;
   public setFocusToLastNeeded = false;
+  public state = {
+    dimensions: {
+      height: 0,
+      width: 0,
+    },
+  };
 
   public renderRow = ({
     index,
@@ -155,6 +162,10 @@ export class LeftPane extends React.Component<PropsType> {
 
       return;
     }
+  };
+
+  public handleResize = ({ bounds }: { bounds: BoundingRect }) => {
+    this.setState({ dimensions: bounds });
   };
 
   public handleFocus = () => {
@@ -327,36 +338,34 @@ export class LeftPane extends React.Component<PropsType> {
     //   It also ensures that we scroll to the top when switching views.
     const listKey = showArchived ? 1 : 0;
 
+    const { height, width } = this.state.dimensions;
+
     // Note: conversations is not a known prop for List, but it is required to ensure that
     //   it re-renders when our conversation data changes. Otherwise it would just render
     //   on startup and scroll.
     const list = (
       <div
+        aria-live="polite"
         className="module-left-pane__list"
         key={listKey}
-        aria-live="polite"
+        onFocus={this.handleFocus}
+        onKeyDown={this.handleKeyDown}
+        ref={this.containerRef}
         role="group"
         tabIndex={-1}
-        ref={this.containerRef}
-        onKeyDown={this.handleKeyDown}
-        onFocus={this.handleFocus}
       >
-        <AutoSizer>
-          {({ height, width }) => (
-            <List
-              ref={this.listRef}
-              onScroll={this.onScroll}
-              className="module-left-pane__virtual-list"
-              conversations={conversations}
-              height={height}
-              rowCount={length}
-              rowHeight={68}
-              tabIndex={-1}
-              rowRenderer={this.renderRow}
-              width={width}
-            />
-          )}
-        </AutoSizer>
+        <List
+          className="module-left-pane__virtual-list"
+          conversations={conversations}
+          height={height}
+          onScroll={this.onScroll}
+          ref={this.listRef}
+          rowCount={length}
+          rowHeight={68}
+          rowRenderer={this.renderRow}
+          tabIndex={-1}
+          width={width}
+        />
       </div>
     );
 
@@ -390,15 +399,19 @@ export class LeftPane extends React.Component<PropsType> {
     } = this.props;
 
     return (
-      <div className="module-left-pane">
-        <div className="module-left-pane__header">
-          {showArchived ? this.renderArchivedHeader() : renderMainHeader()}
-        </div>
-        {renderExpiredBuildDialog()}
-        {renderNetworkStatus()}
-        {renderUpdateDialog()}
-        {this.renderList()}
-      </div>
+      <Measure bounds={true} onResize={this.handleResize}>
+        {({ measureRef }: MeasuredComponentProps) => (
+          <div className="module-left-pane" ref={measureRef}>
+            <div className="module-left-pane__header">
+              {showArchived ? this.renderArchivedHeader() : renderMainHeader()}
+            </div>
+            {renderExpiredBuildDialog()}
+            {renderNetworkStatus()}
+            {renderUpdateDialog()}
+            {this.renderList()}
+          </div>
+        )}
+      </Measure>
     );
   }
 }
