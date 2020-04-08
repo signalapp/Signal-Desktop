@@ -289,6 +289,11 @@
     // Update zoom
     window.updateZoomFactor();
 
+    if (window.lokiFeatureFlags.useOnionRequests) {
+      // Initialize paths for onion requests
+      window.lokiSnodeAPI.buildNewOnionPaths();
+    }
+
     const currentPoWDifficulty = storage.get('PoWDifficulty', null);
     if (!currentPoWDifficulty) {
       storage.put('PoWDifficulty', window.getDefaultPoWDifficulty());
@@ -1421,9 +1426,6 @@
   let connectCount = 0;
   async function connect(firstRun) {
     window.log.info('connect');
-
-    // Initialize paths for onion requests
-    await window.lokiSnodeAPI.buildNewOnionPaths();
 
     // Bootstrap our online/offline detection, only the first time we connect
     if (connectCount === 0 && navigator.onLine) {
