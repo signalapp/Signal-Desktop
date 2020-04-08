@@ -234,7 +234,7 @@
     border-left-style: none;
     @include ios-dark-theme {
       background-color: $ultramarine-brand-dark;
-      border-left-color: $color-black;
+      border-left-color: $color-ios-blue-tint;
     }
     @include ios-theme {
       background-color: $color-ios-blue-tint;

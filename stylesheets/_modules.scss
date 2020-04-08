@@ -1636,6 +1636,21 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
+.module-composition-area__row {
+  .module-quote--outgoing {
+    border-left-style: solid;
+
+    @include ios-dark-theme {
+      background-color: $ultramarine-brand-dark;
+      border-left-color: $color-ios-blue-tint;
+    }
+    @include ios-theme {
+      background-color: $color-ios-blue-tint;
+      border-left-color: $ultramarine-ui-light;
+    }
+  }
+}
+
 @each $color, $value in $conversation-colors {
   .module-quote--outgoing-#{$color} {
     border-left-color: $value;
@@ -1669,11 +1684,11 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   // Note: both of these override all of the specific color classes below
   @include ios-theme {
     background-color: $color-ios-blue-tint;
-    border-left-color: $color-white;
+    border-left-color: $ultramarine-ui-light;
   }
   @include ios-dark-theme {
-    background-color: $ultramarine-ui-dark;
-    border-left-color: $color-black;
+    background-color: $ultramarine-brand-dark;
+    border-left-color: $color-ios-blue-tint;
   }
 }
 @each $color, $value in $conversation-colors-tint {
