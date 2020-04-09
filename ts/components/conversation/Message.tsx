@@ -1140,7 +1140,9 @@ export class Message extends React.PureComponent<Props, State> {
             }}
           >
             {this.renderError(isIncoming)}
-            {isRss || isKickedFromGroup ? null : this.renderMenu(!isIncoming, triggerId)}
+            {isRss || isKickedFromGroup
+              ? null
+              : this.renderMenu(!isIncoming, triggerId)}
             <div
               className={classNames(
                 'module-message__container',

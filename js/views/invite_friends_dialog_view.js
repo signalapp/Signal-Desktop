@@ -14,7 +14,7 @@
 
       const convos = window.getConversations().models;
 
-      if (convo.isPublic) {
+      if (convo.isPublic()) {
         this.friends = convos.filter(
           d => !!d && d.isFriend() && d.isPrivate() && !d.isMe()
         );

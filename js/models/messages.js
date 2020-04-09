@@ -126,7 +126,7 @@
 
       // trigger a change event on this component.
       // this will call generateProps and refresh the Message.tsx component with new props
-      this.listenTo(conversation, 'disable:input', triggerChange );
+      this.listenTo(conversation, 'disable:input', triggerChange);
       if (fromContact) {
         this.listenTo(
           fromContact,
