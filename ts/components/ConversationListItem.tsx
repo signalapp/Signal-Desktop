@@ -266,6 +266,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
             <TypingAnimation i18n={i18n} />
           ) : (
             <MessageBody
+              isGroup={true}
               text={text}
               disableJumbomoji={true}
               disableLinks={true}
