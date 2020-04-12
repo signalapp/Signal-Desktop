@@ -139,14 +139,15 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     );
   }
 
-  private async setPassword(onSuccess: any) {
-    if (!this.passwordInput.current || !this.passwordInputConfirm.current) {
+  private async setPassword(onSuccess?: any) {
+    // Only initial input required for PasswordAction.Remove
+    if (!this.passwordInput.current || (!this.passwordInputConfirm.current && this.props.action !== PasswordAction.Remove)) {
       return;
     }
 
     // Trim leading / trailing whitespace for UX
     const enteredPassword = String(this.passwordInput.current.value).trim();
-    const enteredPasswordConfirm = String(
+    const enteredPasswordConfirm = this.passwordInputConfirm.current && String(
       this.passwordInputConfirm.current.value
     ).trim();
 
@@ -178,7 +179,7 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     // Check if password match, when setting, changing or removing
     const valid =
       this.props.action !== PasswordAction.Set
-        ? !!await this.validatePasswordHash(oldPassword)
+        ? Boolean(await this.validatePasswordHash(oldPassword))
         : enteredPassword === enteredPasswordConfirm;
 
     if (!valid) {
