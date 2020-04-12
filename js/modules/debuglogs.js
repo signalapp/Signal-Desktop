@@ -2,46 +2,24 @@
 /* global window */
 
 const FormData = require('form-data');
-const got = require('got');
+const fetch = require('node-fetch');
 
 const BASE_URL = 'https://debuglogs.org';
 const VERSION = window.getVersion();
 const USER_AGENT = `Session ${VERSION}`;
 
-// Workaround: Submitting `FormData` using native `FormData::submit` procedure
-// as integration with `got` results in S3 error saying we haven’t set the
-// `Content-Length` header:
-// https://github.com/sindresorhus/got/pull/466
-const submitFormData = (form, url) =>
-  new Promise((resolve, reject) => {
-    form.submit(url, (error, response) => {
-      if (error) {
-        return reject(error);
-      }
-
-      const { statusCode } = response;
-      if (statusCode !== 204) {
-        return reject(
-          new Error(`Failed to upload to S3, got status ${statusCode}`)
-        );
-      }
-
-      return resolve();
-    });
-  });
-
 //      upload :: String -> Promise URL
 exports.upload = async content => {
-  const signedForm = await got.get(BASE_URL, {
-    json: true,
+  const signedForm = await fetch(BASE_URL, {
     headers: {
       'user-agent': USER_AGENT,
     },
   });
-  if (!signedForm.body) {
+  const json = await signedForm.json();
+  if (!signedForm.ok || !json) {
     throw new Error('Failed to retrieve token');
   }
-  const { fields, url } = signedForm.body;
+  const { fields, url } = json;
 
   const form = new FormData();
   // The API expects `key` to be the first field:
@@ -60,9 +38,15 @@ exports.upload = async content => {
     filename: `session-desktop-debug-log-${VERSION}.txt`,
   });
 
-  // WORKAROUND: See comment on `submitFormData`:
-  // await got.post(url, { body: form });
-  await submitFormData(form, url);
+  const result = await fetch(url, {
+    method: 'POST',
+    body: form,
+  });
+
+  const { status } = result;
+  if (status !== 204) {
+    throw new Error(`Failed to upload to S3, got status ${status}`);
+  }
 
   return `${BASE_URL}/${fields.key}`;
 };

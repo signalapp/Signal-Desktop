@@ -1060,17 +1060,20 @@
   "delete": {
     "message": "Delete"
   },
+  "unsend": {
+    "message": "Unsend"
+  },
   "forwardMessage": {
     "message": "Forward",
     "description": "Text of Forward Message button"
   },
   "deletePublicWarning": {
     "message":
-      "Are you sure? Clicking 'delete' will permanently remove this message for everyone in this channel."
+      "Are you sure? Clicking 'unsend' will permanently remove this message for everyone in this channel."
   },
   "deleteMultiplePublicWarning": {
     "message":
-      "Are you sure? Clicking 'delete' will permanently remove these messages for everyone in this channel."
+      "Are you sure? Clicking 'unsend' will permanently remove these messages for everyone in this channel."
   },
   "deleteWarning": {
     "message":
@@ -1180,6 +1183,16 @@
     "description":
       "Shown on the drop-down menu for an individual message, deletes single message"
   },
+  "unsendMessage": {
+    "message": "Unsend Message",
+    "description":
+      "Shown on the drop-down menu for an individual message being removed from the server"
+  },
+  "unsendMessages": {
+    "message": "Unsend Messages",
+    "description":
+      "Tiitle for prompt and header button for messages being removed from the server"
+  },
   "messages": {
     "message": "Messages",
     "description": "Message search result"
@@ -1188,6 +1201,7 @@
     "message": "Delete Messages",
     "description": "Menu item for deleting messages, title case."
   },
+
   "deletePublicConversationConfirmation": {
     "message":
       "Permanently delete the messages locally from this public channel?",

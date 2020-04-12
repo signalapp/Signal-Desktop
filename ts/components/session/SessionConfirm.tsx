@@ -69,8 +69,6 @@ export class SessionConfirm extends React.Component<Props> {
           )}
         </div>
 
-        <div className="spacer-lg" />
-
         <div className="session-modal__button-group">
           <SessionButton
             text={okText}
