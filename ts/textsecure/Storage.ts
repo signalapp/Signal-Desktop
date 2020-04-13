@@ -1,0 +1,49 @@
+// tslint:disable no-default-export
+
+import utils from './Helpers';
+
+// Default implmentation working with localStorage
+const localStorageImpl = {
+  put(key: string, value: any) {
+    if (value === undefined) {
+      throw new Error('Tried to store undefined');
+    }
+    localStorage.setItem(`${key}`, utils.jsonThing(value));
+  },
+
+  get(key: string, defaultValue: any) {
+    const value = localStorage.getItem(`${key}`);
+    if (value === null) {
+      return defaultValue;
+    }
+    return JSON.parse(value);
+  },
+
+  remove(key: string) {
+    localStorage.removeItem(`${key}`);
+  },
+};
+
+export interface StorageInterface {
+  put(key: string, value: any): void | Promise<void>;
+  get(key: string, defaultValue: any): any;
+  remove(key: string): void | Promise<void>;
+}
+
+const Storage = {
+  impl: localStorageImpl as StorageInterface,
+
+  put(key: string, value: any) {
+    return Storage.impl.put(key, value);
+  },
+
+  get(key: string, defaultValue: any) {
+    return Storage.impl.get(key, defaultValue);
+  },
+
+  remove(key: string) {
+    return Storage.impl.remove(key);
+  },
+};
+
+export default Storage;

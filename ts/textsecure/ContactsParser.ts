@@ -1,14 +1,33 @@
-/* global dcodeIO, window, textsecure */
+import { ByteBufferClass } from '../window.d';
+import { AttachmentType } from './SendMessage';
 
-function ProtoParser(arrayBuffer, protobuf) {
-  this.protobuf = protobuf;
-  this.buffer = new dcodeIO.ByteBuffer();
-  this.buffer.append(arrayBuffer);
-  this.buffer.offset = 0;
-  this.buffer.limit = arrayBuffer.byteLength;
-}
-ProtoParser.prototype = {
-  constructor: ProtoParser,
+type ProtobufConstructorType = {
+  decode: (data: ArrayBuffer) => ProtobufType;
+};
+
+type ProtobufType = {
+  avatar?: PackedAttachmentType;
+  profileKey?: any;
+  uuid?: string;
+  members: Array<string>;
+};
+
+export type PackedAttachmentType = AttachmentType & {
+  length: number;
+};
+
+export class ProtoParser {
+  buffer: ByteBufferClass;
+  protobuf: ProtobufConstructorType;
+
+  constructor(arrayBuffer: ArrayBuffer, protobuf: ProtobufConstructorType) {
+    this.protobuf = protobuf;
+    this.buffer = new window.dcodeIO.ByteBuffer();
+    this.buffer.append(arrayBuffer);
+    this.buffer.offset = 0;
+    this.buffer.limit = arrayBuffer.byteLength;
+  }
+
   next() {
     try {
       if (this.buffer.limit === this.buffer.offset) {
@@ -18,8 +37,6 @@ ProtoParser.prototype = {
       const nextBuffer = this.buffer
         .slice(this.buffer.offset, this.buffer.offset + len)
         .toArrayBuffer();
-      // TODO: de-dupe ByteBuffer.js includes in libaxo/libts
-      // then remove this toArrayBuffer call.
 
       const proto = this.protobuf.decode(nextBuffer);
       this.buffer.skip(len);
@@ -61,15 +78,17 @@ ProtoParser.prototype = {
     }
 
     return null;
-  },
-};
-const GroupBuffer = function Constructor(arrayBuffer) {
-  ProtoParser.call(this, arrayBuffer, textsecure.protobuf.GroupDetails);
-};
-GroupBuffer.prototype = Object.create(ProtoParser.prototype);
-GroupBuffer.prototype.constructor = GroupBuffer;
-const ContactBuffer = function Constructor(arrayBuffer) {
-  ProtoParser.call(this, arrayBuffer, textsecure.protobuf.ContactDetails);
-};
-ContactBuffer.prototype = Object.create(ProtoParser.prototype);
-ContactBuffer.prototype.constructor = ContactBuffer;
+  }
+}
+
+export class GroupBuffer extends ProtoParser {
+  constructor(arrayBuffer: ArrayBuffer) {
+    super(arrayBuffer, window.textsecure.protobuf.GroupDetails as any);
+  }
+}
+
+export class ContactBuffer extends ProtoParser {
+  constructor(arrayBuffer: ArrayBuffer) {
+    super(arrayBuffer, window.textsecure.protobuf.ContactDetails as any);
+  }
+}

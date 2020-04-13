@@ -222,9 +222,9 @@ try {
 
   window.nodeSetImmediate = setImmediate;
 
-  const { initialize: initializeWebAPI } = require('./ts/WebAPI');
+  window.textsecure = require('./ts/textsecure').default;
 
-  window.WebAPI = initializeWebAPI({
+  window.WebAPI = window.textsecure.WebAPI.initialize({
     url: config.serverUrl,
     cdnUrl: config.cdnUrl,
     certificateAuthority: config.certificateAuthority,

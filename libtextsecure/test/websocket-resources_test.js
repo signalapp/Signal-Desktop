@@ -1,5 +1,3 @@
-/* global textsecure, WebSocketResource */
-
 describe('WebSocket-Resource', () => {
   describe('requests and responses', () => {
     it('receives requests and sends responses', done => {
@@ -7,10 +5,12 @@ describe('WebSocket-Resource', () => {
       const requestId = '1';
       const socket = {
         send(data) {
-          const message = textsecure.protobuf.WebSocketMessage.decode(data);
+          const message = window.textsecure.protobuf.WebSocketMessage.decode(
+            data
+          );
           assert.strictEqual(
             message.type,
-            textsecure.protobuf.WebSocketMessage.Type.RESPONSE
+            window.textsecure.protobuf.WebSocketMessage.Type.RESPONSE
           );
           assert.strictEqual(message.response.message, 'OK');
           assert.strictEqual(message.response.status, 200);
@@ -21,7 +21,7 @@ describe('WebSocket-Resource', () => {
       };
 
       // actual test
-      this.resource = new WebSocketResource(socket, {
+      this.resource = new window.textsecure.WebSocketResource(socket, {
         handleRequest(request) {
           assert.strictEqual(request.verb, 'PUT');
           assert.strictEqual(request.path, '/some/path');
@@ -36,8 +36,8 @@ describe('WebSocket-Resource', () => {
       // mock socket request
       socket.onmessage({
         data: new Blob([
-          new textsecure.protobuf.WebSocketMessage({
-            type: textsecure.protobuf.WebSocketMessage.Type.REQUEST,
+          new window.textsecure.protobuf.WebSocketMessage({
+            type: window.textsecure.protobuf.WebSocketMessage.Type.REQUEST,
             request: {
               id: requestId,
               verb: 'PUT',
@@ -56,10 +56,12 @@ describe('WebSocket-Resource', () => {
       let requestId;
       const socket = {
         send(data) {
-          const message = textsecure.protobuf.WebSocketMessage.decode(data);
+          const message = window.textsecure.protobuf.WebSocketMessage.decode(
+            data
+          );
           assert.strictEqual(
             message.type,
-            textsecure.protobuf.WebSocketMessage.Type.REQUEST
+            window.textsecure.protobuf.WebSocketMessage.Type.REQUEST
           );
           assert.strictEqual(message.request.verb, 'PUT');
           assert.strictEqual(message.request.path, '/some/path');
@@ -73,7 +75,7 @@ describe('WebSocket-Resource', () => {
       };
 
       // actual test
-      const resource = new WebSocketResource(socket);
+      const resource = new window.textsecure.WebSocketResource(socket);
       resource.sendRequest({
         verb: 'PUT',
         path: '/some/path',
@@ -89,8 +91,8 @@ describe('WebSocket-Resource', () => {
       // mock socket response
       socket.onmessage({
         data: new Blob([
-          new textsecure.protobuf.WebSocketMessage({
-            type: textsecure.protobuf.WebSocketMessage.Type.RESPONSE,
+          new window.textsecure.protobuf.WebSocketMessage({
+            type: window.textsecure.protobuf.WebSocketMessage.Type.RESPONSE,
             response: { id: requestId, message: 'OK', status: 200 },
           })
             .encode()
@@ -112,7 +114,7 @@ describe('WebSocket-Resource', () => {
       mockServer.on('connection', server => {
         server.on('close', done);
       });
-      const resource = new WebSocketResource(
+      const resource = new window.textsecure.WebSocketResource(
         new WebSocket('ws://localhost:8081')
       );
       resource.close();
@@ -131,10 +133,12 @@ describe('WebSocket-Resource', () => {
       const mockServer = new MockServer('ws://localhost:8081');
       mockServer.on('connection', server => {
         server.on('message', data => {
-          const message = textsecure.protobuf.WebSocketMessage.decode(data);
+          const message = window.textsecure.protobuf.WebSocketMessage.decode(
+            data
+          );
           assert.strictEqual(
             message.type,
-            textsecure.protobuf.WebSocketMessage.Type.REQUEST
+            window.textsecure.protobuf.WebSocketMessage.Type.REQUEST
           );
           assert.strictEqual(message.request.verb, 'GET');
           assert.strictEqual(message.request.path, '/v1/keepalive');
@@ -142,7 +146,7 @@ describe('WebSocket-Resource', () => {
           done();
         });
       });
-      this.resource = new WebSocketResource(
+      this.resource = new window.textsecure.WebSocketResource(
         new WebSocket('ws://loc1alhost:8081'),
         {
           keepalive: { path: '/v1/keepalive' },
@@ -154,10 +158,12 @@ describe('WebSocket-Resource', () => {
       const mockServer = new MockServer('ws://localhost:8081');
       mockServer.on('connection', server => {
         server.on('message', data => {
-          const message = textsecure.protobuf.WebSocketMessage.decode(data);
+          const message = window.textsecure.protobuf.WebSocketMessage.decode(
+            data
+          );
           assert.strictEqual(
             message.type,
-            textsecure.protobuf.WebSocketMessage.Type.REQUEST
+            window.textsecure.protobuf.WebSocketMessage.Type.REQUEST
           );
           assert.strictEqual(message.request.verb, 'GET');
           assert.strictEqual(message.request.path, '/');
@@ -165,7 +171,7 @@ describe('WebSocket-Resource', () => {
           done();
         });
       });
-      this.resource = new WebSocketResource(
+      this.resource = new window.textsecure.WebSocketResource(
         new WebSocket('ws://localhost:8081'),
         {
           keepalive: true,
@@ -180,7 +186,9 @@ describe('WebSocket-Resource', () => {
       mockServer.on('connection', server => {
         server.on('close', done);
       });
-      this.resource = new WebSocketResource(socket, { keepalive: true });
+      this.resource = new window.textsecure.WebSocketResource(socket, {
+        keepalive: true,
+      });
     });
 
     it('allows resetting the keepalive timer', function thisNeeded2(done) {
@@ -190,10 +198,12 @@ describe('WebSocket-Resource', () => {
       const startTime = Date.now();
       mockServer.on('connection', server => {
         server.on('message', data => {
-          const message = textsecure.protobuf.WebSocketMessage.decode(data);
+          const message = window.textsecure.protobuf.WebSocketMessage.decode(
+            data
+          );
           assert.strictEqual(
             message.type,
-            textsecure.protobuf.WebSocketMessage.Type.REQUEST
+            window.textsecure.protobuf.WebSocketMessage.Type.REQUEST
           );
           assert.strictEqual(message.request.verb, 'GET');
           assert.strictEqual(message.request.path, '/');
@@ -205,7 +215,9 @@ describe('WebSocket-Resource', () => {
           done();
         });
       });
-      const resource = new WebSocketResource(socket, { keepalive: true });
+      const resource = new window.textsecure.WebSocketResource(socket, {
+        keepalive: true,
+      });
       setTimeout(() => {
         resource.resetKeepAliveTimer();
       }, 5000);

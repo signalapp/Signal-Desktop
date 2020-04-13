@@ -4,8 +4,8 @@ import ProxyAgent from 'proxy-agent';
 import { Agent } from 'https';
 
 import is from '@sindresorhus/is';
-import { redactPackId } from '../js/modules/stickers';
-import { getRandomValue } from './Crypto';
+import { redactPackId } from '../../js/modules/stickers';
+import { getRandomValue } from '../Crypto';
 
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
@@ -450,6 +450,7 @@ declare global {
   interface Error {
     code?: number | string;
     response?: any;
+    warn?: boolean;
   }
 }
 
@@ -488,10 +489,6 @@ const URL_CALLS = {
   whoami: 'v1/accounts/whoami',
 };
 
-module.exports = {
-  initialize,
-};
-
 type InitializeOptionsType = {
   url: string;
   cdnUrl: string;
@@ -520,16 +517,128 @@ type AjaxOptionsType = {
   validateResponse?: any;
 };
 
+export type WebAPIConnectType = {
+  connect: (options: ConnectParametersType) => WebAPIType;
+};
+
+type StickerPackManifestType = any;
+
+export type WebAPIType = {
+  confirmCode: (
+    number: string,
+    code: string,
+    newPassword: string,
+    registrationId: number,
+    deviceName?: string | null,
+    options?: { accessKey?: ArrayBuffer }
+  ) => Promise<any>;
+  getAttachment: (id: string) => Promise<any>;
+  getAvatar: (path: string) => Promise<any>;
+  getDevices: () => Promise<any>;
+  getKeysForIdentifier: (
+    identifier: string,
+    deviceId?: number
+  ) => Promise<ServerKeysType>;
+  getKeysForIdentifierUnauth: (
+    identifier: string,
+    deviceId?: number,
+    options?: { accessKey?: string }
+  ) => Promise<ServerKeysType>;
+  getMessageSocket: () => WebSocket;
+  getMyKeys: () => Promise<number>;
+  getProfile: (identifier: string) => Promise<any>;
+  getProfileUnauth: (
+    identifier: string,
+    options?: { accessKey?: string }
+  ) => Promise<any>;
+  getProvisioningSocket: () => WebSocket;
+  getSenderCertificate: (withUuid?: boolean) => Promise<any>;
+  getSticker: (packId: string, stickerId: string) => Promise<any>;
+  getStickerPackManifest: (packId: string) => Promise<StickerPackManifestType>;
+  makeProxiedRequest: (
+    targetUrl: string,
+    options?: ProxiedRequestOptionsType
+  ) => Promise<any>;
+  putAttachment: (encryptedBin: ArrayBuffer) => Promise<any>;
+  registerCapabilities: (capabilities: any) => Promise<void>;
+  putStickers: (
+    encryptedManifest: ArrayBuffer,
+    encryptedStickers: Array<ArrayBuffer>,
+    onProgress?: () => void
+  ) => Promise<string>;
+  registerKeys: (genKeys: KeysType) => Promise<void>;
+  registerSupportForUnauthenticatedDelivery: () => Promise<any>;
+  removeSignalingKey: () => Promise<void>;
+  requestVerificationSMS: (number: string) => Promise<any>;
+  requestVerificationVoice: (number: string) => Promise<any>;
+  sendMessages: (
+    destination: string,
+    messageArray: Array<MessageType>,
+    timestamp: number,
+    silent?: boolean,
+    online?: boolean
+  ) => Promise<void>;
+  sendMessagesUnauth: (
+    destination: string,
+    messageArray: Array<MessageType>,
+    timestamp: number,
+    silent?: boolean,
+    online?: boolean,
+    options?: { accessKey?: string }
+  ) => Promise<void>;
+  setSignedPreKey: (signedPreKey: SignedPreKeyType) => Promise<void>;
+  updateDeviceName: (deviceName: string) => Promise<void>;
+  whoami: () => Promise<any>;
+};
+
+export type SignedPreKeyType = {
+  keyId: number;
+  publicKey: ArrayBuffer;
+  signature: ArrayBuffer;
+};
+
+export type KeysType = {
+  identityKey: ArrayBuffer;
+  signedPreKey: SignedPreKeyType;
+  preKeys: Array<{
+    keyId: number;
+    publicKey: ArrayBuffer;
+  }>;
+};
+
+export type ServerKeysType = {
+  devices: Array<{
+    deviceId: number;
+    registrationId: number;
+    signedPreKey: {
+      keyId: number;
+      publicKey: ArrayBuffer;
+      signature: ArrayBuffer;
+    };
+    preKey?: {
+      keyId: number;
+      publicKey: ArrayBuffer;
+    };
+  }>;
+  identityKey: ArrayBuffer;
+};
+
+export type ProxiedRequestOptionsType = {
+  returnArrayBuffer?: boolean;
+  start?: number;
+  end?: number;
+};
+
 // We first set up the data that won't change during this session of the app
 // tslint:disable-next-line max-func-body-length
-function initialize({
+export function initialize({
   url,
   cdnUrl,
   certificateAuthority,
   contentProxyUrl,
   proxyUrl,
   version,
-}: InitializeOptionsType) {
+}: InitializeOptionsType): WebAPIConnectType {
   if (!is.string(url)) {
     throw new Error('WebAPI.initialize: Invalid server url');
   }
@@ -744,9 +853,9 @@ function initialize({
       number: string,
       code: string,
       newPassword: string,
-      registrationId: string,
-      deviceName: string,
-      options: { accessKey?: string } = {}
+      registrationId: number,
+      deviceName?: string | null,
+      options: { accessKey?: ArrayBuffer } = {}
     ) {
       const { accessKey } = options;
       const jsonData: any = {
@@ -811,21 +920,6 @@ function initialize({
         httpType: 'GET',
       });
     }
-
-    type SignedPreKeyType = {
-      keyId: number;
-      publicKey: ArrayBuffer;
-      signature: ArrayBuffer;
-    };
-
-    type KeysType = {
-      identityKey: ArrayBuffer;
-      signedPreKey: SignedPreKeyType;
-      preKeys: Array<{
-        keyId: number;
-        publicKey: ArrayBuffer;
-      }>;
-    };
 
     type JSONSignedPreKeyType = {
       keyId: number;
@@ -918,24 +1012,7 @@ function initialize({
       identityKey: string;
     };
 
-    type ServerKeyType = {
-      devices: Array<{
-        deviceId: number;
-        registrationId: number;
-        signedPreKey: {
-          keyId: number;
-          publicKey: ArrayBuffer;
-          signature: ArrayBuffer;
-        };
-        preKey?: {
-          keyId: number;
-          publicKey: ArrayBuffer;
-        };
-      }>;
-      identityKey: ArrayBuffer;
-    };
-
-    function handleKeys(res: ServerKeyResponseType): ServerKeyType {
+    function handleKeys(res: ServerKeyResponseType): ServerKeysType {
       if (!Array.isArray(res.devices)) {
         throw new Error('Invalid response');
       }
@@ -984,11 +1061,11 @@ function initialize({
       };
     }
 
-    async function getKeysForIdentifier(identifier: string, deviceId = '*') {
+    async function getKeysForIdentifier(identifier: string, deviceId?: number) {
       return _ajax({
         call: 'keys',
         httpType: 'GET',
-        urlParameters: `/${identifier}/${deviceId}`,
+        urlParameters: `/${identifier}/${deviceId || '*'}`,
         responseType: 'json',
         validateResponse: { identityKey: 'string', devices: 'object' },
       }).then(handleKeys);
@@ -996,13 +1073,13 @@ function initialize({
 
     async function getKeysForIdentifierUnauth(
       identifier: string,
-      deviceId = '*',
+      deviceId?: number,
       { accessKey }: { accessKey?: string } = {}
     ) {
       return _ajax({
         call: 'keys',
         httpType: 'GET',
-        urlParameters: `/${identifier}/${deviceId}`,
+        urlParameters: `/${identifier}/${deviceId || '*'}`,
         responseType: 'json',
         validateResponse: { identityKey: 'string', devices: 'object' },
         unauthenticated: true,
@@ -1014,8 +1091,8 @@ function initialize({
       destination: string,
       messageArray: Array<MessageType>,
       timestamp: number,
-      silent: boolean,
-      online: boolean,
+      silent?: boolean,
+      online?: boolean,
       { accessKey }: { accessKey?: string } = {}
     ) {
       const jsonData: any = { messages: messageArray, timestamp };
@@ -1042,8 +1119,8 @@ function initialize({
       destination: string,
       messageArray: Array<MessageType>,
       timestamp: number,
-      silent: boolean,
-      online: boolean
+      silent?: boolean,
+      online?: boolean
     ) {
       const jsonData: any = { messages: messageArray, timestamp };
 
@@ -1261,12 +1338,6 @@ function initialize({
 
       return characters;
     }
-
-    type ProxiedRequestOptionsType = {
-      returnArrayBuffer?: boolean;
-      start?: number;
-      end?: number;
-    };
 
     async function makeProxiedRequest(
       targetUrl: string,

@@ -29,7 +29,7 @@ const Signal = require('../js/modules/signal');
 
 window.Signal = Signal.setup({});
 
-const { initialize: initializeWebAPI } = require('../ts/WebAPI');
+const { initialize: initializeWebAPI } = require('../ts/textsecure/WebAPI');
 
 const WebAPI = initializeWebAPI({
   url: config.serverUrl,
