@@ -11,8 +11,10 @@ const { exec } = require('child_process');
 
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
+const CommonPage = require('./page-objects/common.page');
 const RegistrationPage = require('./page-objects/registration.page');
 const ConversationPage = require('./page-objects/conversation.page');
+const SettingsPage = require('./page-objects/settings.page');
 
 
 chai.should();
@@ -56,6 +58,10 @@ module.exports = {
 
   async timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+  },
+
+  async closeToast(app) {
+    app.client.element(CommonPage.toastCloseButton).click();
   },
 
   // a wrapper to work around electron/spectron bug
@@ -399,8 +405,8 @@ module.exports = {
   async linkApp2ToApp(app1, app2) {
     // app needs to be logged in as user1 and app2 needs to be logged out
     // start the pairing dialog for the first app
-    await app1.client.element(ConversationPage.settingsButtonSection).click();
-    await app1.client.element(ConversationPage.deviceSettingsRow).click();
+    await app1.client.element(SettingsPage.settingsButtonSection).click();
+    await app1.client.element(SettingsPage.settingsRowWithText('Devices')).click();
 
     await app1.client.isVisible(ConversationPage.noPairedDeviceMessage);
     // we should not find the linkDeviceButtonDisabled button (as DISABLED)
@@ -464,7 +470,7 @@ module.exports = {
       .should.eventually.be.true;
 
     await app1.client.element(ConversationPage.settingsButtonSection).click();
-    await app1.client.element(ConversationPage.deviceSettingsRow).click();
+    await app1.client.element(ConversationPage.settingsRowWithText('Devices')).click();
     await app1.client.isExisting(ConversationPage.linkDeviceButtonDisabled)
       .should.eventually.be.true;
     // click the unlink button

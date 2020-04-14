@@ -31,10 +31,9 @@ module.exports = {
   attachmentInput: '//*[contains(@class, "choose-file")]/input[@type="file"]',
   attachmentButton: '//*[contains(@class, "choose-file")]/button',
 
-  messageCtxMenu: message => `//div[contains(@class, "message-wrapper")]//span[contains(@class, "text-selectable")][contains(string(), '${message}')]/ancestor::div//div[contains(@class, 'module-message__buttons__menu')]`,
-  //div[contains(@class, "message-wrapper")]//span[contains(@class, "text-selectable")][contains(string(), 'delete_me')]/ancestor::div//div[contains(@class, 'module-message__buttons__menu')]
+  messageCtxMenu: message => `//div[contains(@class, 'message-wrapper')]//span[contains(string(), '${message}')]/parent::div/parent::div/parent::div/parent::div//div[contains(@class, 'module-message__buttons__menu')]`,
 
-  deleteMessageCtxButton: '//*[contains(@class, "react-contextmenu--visible")]/div[contains(string(), "Delete Message")]',
+  deleteMessageCtxButton: '//*[contains(@class, "react-contextmenu--visible")]/div[contains(string(), "Delete")]',
   deleteMessageModalButton: '//*[contains(@class, "session-modal")]//div[contains(string(), "Delete") and contains(@class, "session-button")]',
 
   // channels
@@ -96,12 +95,7 @@ module.exports = {
   acceptedFriendRequestMessage:
     '//*[contains(@class, "module-friend-request__title")][contains(string(), "Friend request accepted")]',
 
-  // settings
-  settingsButtonSection:
-    '//*[contains(@class,"session-icon-button")  and .//*[contains(@class, "gear")]]',
-  deviceSettingsRow:
-    '//*[contains(@class, "left-pane-setting-category-list-item")][contains(string(), "Devices")]',
-
+    
   descriptionDeleteAccount: commonPage.spanWithClassAndText(
     'session-confirm-main-message',
     'Are you sure you want to delete your account?'

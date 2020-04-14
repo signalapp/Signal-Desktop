@@ -22,9 +22,9 @@ describe('Message Functions', function() {
   });
 
   after(async () => {
-    // await common.stopApp(app);
-    // await common.killallElectron();
-    // await common.stopStubSnodeServer();
+    await common.stopApp(app);
+    await common.killallElectron();
+    await common.stopStubSnodeServer();
   });
 
   it('can send attachment', async () => {
@@ -77,8 +77,9 @@ describe('Message Functions', function() {
     await app.client.element(ConversationPage.deleteMessageModalButton).click();
     
     // verify the message is actually deleted
-    
-
+    await app.client.isExisting(
+      ConversationPage.existingSendMessageText(messageText)
+    ).should.eventually.be.false;
   });
 
 });
