@@ -260,6 +260,9 @@
       "hardenedRuntime": true,
       "entitlements": "./build/entitlements.mac.plist",
       "icon": "build/icons/mac/icon.icns",
+      "asarUnpack": [
+        "**/*.node"
+      ],
       "publish": [
         {
           "provider": "generic",
