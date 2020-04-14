@@ -14,19 +14,12 @@
 
       const convos = window.getConversations().models;
 
-      if (convo.isPublic()) {
-        this.friends = convos.filter(
-          d => !!d && d.isFriend() && d.isPrivate() && !d.isMe()
-        );
-      } else {
-        this.friends = convos.filter(
-          d =>
-            !!d &&
-            d.isFriend() &&
-            d.isPrivate() &&
-            !d.isMe() &&
-            !convo.get('members').includes(d.id)
-        );
+      this.friends = convos.filter(
+        d => !!d && d.isFriend() && d.isPrivate() && !d.isMe()
+      );
+      if (!convo.isPublic()) {
+        const members = convo.get('members') || [];
+        this.friends = this.friends.filter(d => !members.includes(d.id));
       }
 
       this.chatName = convo.get('name');
