@@ -1107,6 +1107,14 @@ class MessageReceiverInner extends EventTarget {
       );
     }
 
+    if (msg.groupV2) {
+      window.log.warn(
+        'MessageReceiver.handleDataMessage: Dropping GroupsV2 message'
+      );
+      this.removeFromCache(envelope);
+      return;
+    }
+
     if (
       msg.flags &&
       msg.flags & window.textsecure.protobuf.DataMessage.Flags.END_SESSION

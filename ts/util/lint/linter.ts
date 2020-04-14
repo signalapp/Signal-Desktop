@@ -58,6 +58,8 @@ const excludedFiles = [
   '^js/background.js',
   '^ts/Crypto.js',
   '^ts/Crypto.ts',
+  '^ts/textsecure/MessageReceiver.js',
+  '^ts/textsecure/MessageReceiver.ts',
 
   // Generated files
   '^js/components.js',

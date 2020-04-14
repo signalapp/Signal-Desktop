@@ -126,6 +126,7 @@ type ProtobufCollectionType = {
   DeviceName: typeof DeviceNameClass;
   Envelope: typeof EnvelopeClass;
   GroupContext: typeof GroupContextClass;
+  GroupContextV2: typeof GroupContextV2Class;
   GroupDetails: typeof GroupDetailsClass;
   NullMessage: typeof NullMessageClass;
   ProvisioningUuid: typeof ProvisioningUuidClass;
@@ -216,6 +217,7 @@ export declare class DataMessageClass {
   body?: string | null;
   attachments?: Array<AttachmentPointerClass>;
   group?: GroupContextClass | null;
+  groupV2?: GroupContextV2Class | null;
   flags?: number;
   expireTimer?: number;
   profileKey?: ProtoBinaryType;
@@ -353,6 +355,17 @@ export declare class GroupContextClass {
   membersE164?: Array<string>;
   members?: Array<GroupContextClass.Member>;
   avatar?: AttachmentPointerClass | null;
+}
+
+export declare class GroupContextV2Class {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => GroupContextV2Class;
+
+  masterKey?: ProtoBinaryType;
+  revision?: number;
+  groupChange?: ProtoBinaryType;
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript
