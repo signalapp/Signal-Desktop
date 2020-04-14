@@ -551,8 +551,6 @@ export class RegistrationTabs extends React.Component<{}, State> {
   }
 
   private renderTermsConditionAgreement() {
-    // FIXME add link to our Terms and Conditions and privacy statement
-
     return (
       <div className="session-terms-conditions-agreement">
         <SessionHtmlRenderer html={window.i18n('ByUsingThisService...')} />
@@ -893,7 +891,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       await this.accountManager.requestPairing(primaryPubKey);
       const pubkey = window.textsecure.storage.user.getNumber();
       const words = window.mnemonic.pubkey_to_secret_words(pubkey);
-      window.console.log(`Here is your secret:\n${words}`);
+      // window.console.log(`Here is your secret:\n${words}`);
       window.pushToast({
         title: `${window.i18n('secretPrompt')}`,
         description: words,
