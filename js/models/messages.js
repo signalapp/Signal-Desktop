@@ -708,7 +708,8 @@
         multiSelectMode: conversation && conversation.selectedMessages.size > 0,
         isPublic: !!this.get('isPublic'),
         isRss: !!this.get('isRss'),
-        isKickedFromGroup: conversation.get('isKickedFromGroup'),
+        isKickedFromGroup:
+          conversation && conversation.get('isKickedFromGroup'),
         senderIsModerator:
           !!this.get('isPublic') &&
           conversation &&
