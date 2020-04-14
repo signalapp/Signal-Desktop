@@ -52,10 +52,14 @@ export function stop() {
 }
 
 function autoUpdateDisabled() {
+  // We need to ensure that if auto update is not present in the user config then we assume it is on by default
+  const userSetting = config.get('autoUpdate');
+  const autoUpdate = typeof userSetting !== 'boolean' || userSetting;
+
   return (
     process.mas || // From Electron: Mac App Store build
     !getFromConfig('updatesEnabled') || // Hard coded config
     // tslint:disable-next-line: no-backbone-get-set-outside-model
-    !config.get('autoUpdate') // User setting
+    !autoUpdate // User setting
   );
 }
