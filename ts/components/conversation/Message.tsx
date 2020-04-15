@@ -1062,6 +1062,8 @@ export class Message extends React.PureComponent<Props, State> {
       selected,
       multiSelectMode,
       conversationType,
+      isPublic,
+      text,
     } = this.props;
     const { expired, expiring } = this.state;
 
@@ -1084,15 +1086,15 @@ export class Message extends React.PureComponent<Props, State> {
     // We parse the message later, but we still need to do an early check
     // to see if the message mentions us, so we can display the entire
     // message differently
-    const mentions = this.props.text
-      ? this.props.text.match(window.pubkeyPattern)
+    const mentions = text
+      ? text.match(window.pubkeyPattern)
       : [];
     const mentionMe =
       mentions &&
       mentions.some(m => m.slice(1) === window.lokiPublicChatAPI.ourKey);
 
     const isIncoming = direction === 'incoming';
-    const shouldHightlight = mentionMe && isIncoming && this.props.isPublic;
+    const shouldHightlight = mentionMe && isIncoming && isPublic;
     const divClasses = ['loki-message-wrapper'];
 
     if (shouldHightlight) {
