@@ -124,11 +124,12 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
     this.accountManager = window.getAccountManager();
     // Clean status in case the app closed unexpectedly
-    window.textsecure.storage.remove('secondaryDeviceStatus');
   }
 
   public componentDidMount() {
     this.generateMnemonicAndKeyPair().ignore();
+    window.textsecure.storage.remove('secondaryDeviceStatus');
+    this.resetRegistration().ignore();
   }
 
   public render() {
