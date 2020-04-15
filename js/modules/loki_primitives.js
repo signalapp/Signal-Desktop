@@ -15,7 +15,7 @@ const firstTrue = ps => {
     p =>
       new Promise(
         // eslint-disable-next-line more/no-then
-        (resolve, reject) => p.then(v => v && resolve(true), reject)
+        (resolve, reject) => p.then(v => v && resolve(v), reject)
       )
   );
   // eslint-disable-next-line more/no-then
