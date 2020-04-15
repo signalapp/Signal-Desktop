@@ -1,6 +1,7 @@
 {
   "serverUrl": "https://textsecure-service.whispersystems.org",
   "cdnUrl": "https://cdn.signal.org",
+  "serverPublicParams": "DDZM414H2QbA3brAa6NCMaZIN1ZRY+B46PWDvw4LmwrY6CEQArF4OF/yHdBL7HW/JPgjjauzJau+cpikvqH3dDZQ7KFKgx/MGsbw49ATUj6fhBXko9iyPwVwC3+kjNY6PGZuSoYpD4SJJIgzTJ8Gnuk23tSbX1aQWAWNlc8WiyWIHm/A+22w/D1zQmGuFCEGImU4blMK+HhNfC7jM5leBQ==",
   "serverTrustRoot": "BXu6QIKVz5MA8gstzfOgRQGqyLqOwNKHL6INkv3IHWMF",
   "updatesEnabled": true
 }

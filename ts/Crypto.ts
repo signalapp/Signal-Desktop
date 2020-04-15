@@ -17,8 +17,17 @@ export function typedArrayToArrayBuffer(typedArray: Uint8Array): ArrayBuffer {
 export function arrayBufferToBase64(arrayBuffer: ArrayBuffer) {
   return window.dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
 }
+
+export function arrayBufferToHex(arrayBuffer: ArrayBuffer) {
+  return window.dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('hex');
+}
+
 export function base64ToArrayBuffer(base64string: string) {
   return window.dcodeIO.ByteBuffer.wrap(base64string, 'base64').toArrayBuffer();
+}
+
+export function hexToArrayBuffer(hexString: string) {
+  return window.dcodeIO.ByteBuffer.wrap(hexString, 'hex').toArrayBuffer();
 }
 
 export function fromEncodedBinaryToArrayBuffer(key: string) {

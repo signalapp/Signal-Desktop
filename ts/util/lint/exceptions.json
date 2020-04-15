@@ -1312,6 +1312,38 @@
     "updated": "2019-07-31T00:19:18.696Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/array-index/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T22:10:39.074Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/array-index/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T22:10:39.074Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/array-index/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 154,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T22:10:39.074Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/array-index/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T22:10:39.074Z"
+  },
+  {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/ast-types/lib/path.js",
     "line": "    Pp.insertBefore = function insertBefore(node) {",
@@ -3212,6 +3244,38 @@
     "lineNumber": 98,
     "reasonCategory": "falseMatch",
     "updated": "2020-02-21T14:09:28.005Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ffi-napi/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 160,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T22:10:39.074Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ffi-napi/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 178,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T22:10:39.074Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ffi-napi/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 162,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T22:10:39.074Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ffi-napi/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 186,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T22:10:39.074Z"
   },
   {
     "rule": "jQuery-load(",
@@ -10291,6 +10355,70 @@
     "updated": "2019-03-09T00:08:44.242Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-napi/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 160,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T22:10:39.074Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-napi/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 178,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T22:10:39.074Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-napi/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 162,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T22:10:39.074Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-napi/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 186,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T22:10:39.074Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-struct-di/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 160,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T22:10:39.074Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-struct-di/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 178,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T22:10:39.074Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-struct-di/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 162,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T22:10:39.074Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-struct-di/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 186,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-02-21T22:10:39.074Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/regenerate/regenerate.js",
     "line": "\t\t\t//     $()*+./?[\\]^{|}",
@@ -11240,6 +11368,38 @@
     "lineNumber": 26,
     "reasonCategory": "falseMatch",
     "updated": "2019-07-16T21:56:03.429Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/zkgroup/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 160,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-13T23:38:26.065Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/zkgroup/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 178,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-13T23:38:26.065Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/zkgroup/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 162,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-13T23:38:26.065Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/zkgroup/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 186,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-13T23:38:26.065Z"
   },
   {
     "rule": "DOM-innerHTML",

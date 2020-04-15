@@ -675,12 +675,25 @@ export default class MessageSender {
     );
   }
 
-  async getProfile(number: string, { accessKey }: { accessKey?: string } = {}) {
+  async getProfile(
+    number: string,
+    options: {
+      accessKey?: string;
+      profileKeyVersion?: string;
+      profileKeyCredentialRequest?: string;
+    } = {}
+  ) {
+    const { accessKey } = options;
+
     if (accessKey) {
-      return this.server.getProfileUnauth(number, { accessKey });
+      const unauthOptions = {
+        ...options,
+        accessKey,
+      };
+      return this.server.getProfileUnauth(number, unauthOptions);
     }
 
-    return this.server.getProfile(number);
+    return this.server.getProfile(number, options);
   }
 
   async getAvatar(path: string) {

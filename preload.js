@@ -15,6 +15,9 @@ try {
   const { app } = remote;
   const { nativeTheme } = remote.require('electron');
 
+  // Derive profile key versions, then use those to fetch versioned profiles from server
+  window.VERSIONED_PROFILE_FETCH = false;
+
   window.PROTO_ROOT = 'protos';
   const config = require('url').parse(window.location.toString(), true).query;
 
@@ -35,6 +38,7 @@ try {
   window.getNodeVersion = () => config.node_version;
   window.getHostName = () => config.hostname;
   window.getServerTrustRoot = () => config.serverTrustRoot;
+  window.getServerPublicParams = () => config.serverPublicParams;
   window.isBehindProxy = () => Boolean(config.proxyUrl);
 
   function setSystemTheme() {

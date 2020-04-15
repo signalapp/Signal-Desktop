@@ -546,10 +546,20 @@ export type WebAPIType = {
   ) => Promise<ServerKeysType>;
   getMessageSocket: () => WebSocket;
   getMyKeys: () => Promise<number>;
-  getProfile: (identifier: string) => Promise<any>;
+  getProfile: (
+    identifier: string,
+    options?: {
+      profileKeyVersion?: string;
+      profileKeyCredentialRequest?: string;
+    }
+  ) => Promise<any>;
   getProfileUnauth: (
     identifier: string,
-    options?: { accessKey?: string }
+    options: {
+      accessKey: string;
+      profileKeyVersion?: string;
+      profileKeyCredentialRequest?: string;
+    }
   ) => Promise<any>;
   getProvisioningSocket: () => WebSocket;
   getSenderCertificate: (withUuid?: boolean) => Promise<any>;
@@ -797,22 +807,61 @@ export function initialize({
       });
     }
 
-    async function getProfile(identifier: string) {
+    function getProfileUrl(
+      identifier: string,
+      profileKeyVersion?: string,
+      profileKeyCredentialRequest?: string
+    ) {
+      if (profileKeyVersion && profileKeyCredentialRequest) {
+        return `/${identifier}/${profileKeyVersion}/${profileKeyCredentialRequest}`;
+      }
+
+      return `/${identifier}`;
+    }
+
+    async function getProfile(
+      identifier: string,
+      options: {
+        profileKeyVersion?: string;
+        profileKeyCredentialRequest?: string;
+      } = {}
+    ) {
+      const { profileKeyVersion, profileKeyCredentialRequest } = options;
+
       return _ajax({
         call: 'profile',
         httpType: 'GET',
-        urlParameters: `/${identifier}`,
+        urlParameters: getProfileUrl(
+          identifier,
+          profileKeyVersion,
+          profileKeyCredentialRequest
+        ),
         responseType: 'json',
       });
     }
+
     async function getProfileUnauth(
       identifier: string,
-      { accessKey }: { accessKey?: string } = {}
+      options: {
+        accessKey: string;
+        profileKeyVersion?: string;
+        profileKeyCredentialRequest?: string;
+      }
     ) {
+      const {
+        accessKey,
+        profileKeyVersion,
+        profileKeyCredentialRequest,
+      } = options;
+
       return _ajax({
         call: 'profile',
         httpType: 'GET',
-        urlParameters: `/${identifier}`,
+        urlParameters: getProfileUrl(
+          identifier,
+          profileKeyVersion,
+          profileKeyCredentialRequest
+        ),
         responseType: 'json',
         unauthenticated: true,
         accessKey,
