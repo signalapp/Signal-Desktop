@@ -85,7 +85,7 @@
         }
 
         const deliveries = message.get('delivered') || 0;
-        const deliveredTo = message.get('deliveredTo') || [];
+        const deliveredTo = message.get('delivered_to') || [];
         const expirationStartTimestamp = message.get(
           'expirationStartTimestamp'
         );

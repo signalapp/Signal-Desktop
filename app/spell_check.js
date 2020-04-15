@@ -3,15 +3,34 @@
 
 const { Menu, clipboard } = require('electron');
 const osLocale = require('os-locale');
+const { uniq } = require('lodash');
+
+function getLanguages(userLocale, availableLocales) {
+  const baseLocale = userLocale.split('-')[0];
+  // Attempt to find the exact locale
+  const candidateLocales = uniq([userLocale, baseLocale]).filter(l =>
+    availableLocales.includes(l)
+  );
+
+  if (candidateLocales.length > 0) {
+    return candidateLocales;
+  }
+
+  // If no languages were found then just return all locales that start with the
+  // base
+  return uniq(availableLocales.filter(l => l.startsWith(baseLocale)));
+}
 
 exports.setup = (browserWindow, messages) => {
   const { session } = browserWindow.webContents;
   const userLocale = osLocale.sync().replace(/_/g, '-');
-  const userLocales = [userLocale, userLocale.split('-')[0]];
-  const available = session.availableSpellCheckerLanguages;
-  const languages = userLocales.filter(l => available.includes(l));
+  const availableLocales = session.availableSpellCheckerLanguages;
+  const languages = getLanguages(userLocale, availableLocales);
   console.log(`spellcheck: user locale: ${userLocale}`);
-  console.log('spellcheck: available spellchecker languages: ', available);
+  console.log(
+    'spellcheck: available spellchecker languages: ',
+    availableLocales
+  );
   console.log('spellcheck: setting languages to: ', languages);
   session.setSpellCheckerLanguages(languages);
 
@@ -100,3 +119,5 @@ exports.setup = (browserWindow, messages) => {
     }
   });
 };
+
+exports.getLanguages = getLanguages;
