@@ -110,7 +110,7 @@ class LokiFileServerInstance {
           return;
         }
         const validAuthorisations = authorisations.filter(
-          a => a && typeof auth === 'object'
+          a => a && typeof a === 'object'
         );
         await Promise.all(
           validAuthorisations.map(async auth => {
@@ -231,7 +231,7 @@ class LokiFileServerInstance {
       Object.keys(newSlavePrimaryMap).forEach(slaveKey => {
         if (newSlavePrimaryMap[slaveKey] === primaryPubKey) {
           log.warn(
-            `removing unverifible ${slaveKey} to ${primaryPubKey} mapping`
+            `removing unverifiable ${slaveKey} to ${primaryPubKey} mapping`
           );
           delete newSlavePrimaryMap[slaveKey];
         }
