@@ -19,7 +19,8 @@ type OldColor =
   | 'purple'
   | 'red'
   | 'teal'
-  | 'yellow';
+  | 'yellow'
+  | 'ultramarine';
 
 type NewColor =
   | 'red'
@@ -33,7 +34,8 @@ type NewColor =
   | 'green'
   | 'light_green'
   | 'blue_grey'
-  | 'grey';
+  | 'grey'
+  | 'ultramarine';
 
 export function migrateColor(color: OldColor): NewColor {
   switch (color) {
@@ -70,6 +72,7 @@ export function migrateColor(color: OldColor): NewColor {
     case 'light_green':
     case 'blue_grey':
     case 'grey':
+    case 'ultramarine':
       return color;
 
     // Can uncomment this to ensure that we've covered all potential cases

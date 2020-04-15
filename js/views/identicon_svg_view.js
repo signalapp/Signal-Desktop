@@ -54,5 +54,6 @@
     light_green: '#1c8260',
     blue_grey: '#895d66',
     grey: '#6b6b78',
+    ultramarine: '#2c6bed',
   };
 })();

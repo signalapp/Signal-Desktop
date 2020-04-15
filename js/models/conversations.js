@@ -51,6 +51,7 @@
     'green',
     'light_green',
     'blue_grey',
+    'ultramarine',
   ];
 
   Whisper.Conversation = Backbone.Model.extend({

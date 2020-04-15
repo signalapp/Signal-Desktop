@@ -15,4 +15,5 @@ export type ColorType =
   | 'pink'
   | 'purple'
   | 'red'
-  | 'teal';
+  | 'teal'
+  | 'ultramarine';
