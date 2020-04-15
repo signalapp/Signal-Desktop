@@ -108,10 +108,10 @@ class LokiMessageAPI {
       promises.push(connectionPromise);
     }
 
-    let success;
+    let snode;
     try {
       // eslint-disable-next-line more/no-then
-      success = await primitives.firstTrue(promises);
+      snode = await primitives.firstTrue(promises);
     } catch (e) {
       if (e instanceof textsecure.WrongDifficultyError) {
         // Force nonce recalculation
@@ -124,14 +124,16 @@ class LokiMessageAPI {
       }
       throw e;
     }
-    if (!success) {
+    if (!snode) {
       throw new window.textsecure.EmptySwarmError(
         pubKey,
         'Ran out of swarm nodes to query'
       );
     }
     log.info(
-      `loki_message:::sendMessage - Successfully stored message to ${pubKey}`
+      `loki_message:::sendMessage - Successfully stored message to ${pubKey} via ${
+        snode.ip
+      }:${snode.port}`
     );
   }
 
@@ -320,6 +322,7 @@ class LokiMessageAPI {
           if (e instanceof textsecure.WrongSwarmError) {
             const { newSwarm } = e;
             await lokiSnodeAPI.updateSwarmNodes(this.ourKey, newSwarm);
+            // FIXME: restart all openRetrieves when this happens...
             // FIXME: lokiSnode should handle this
             for (let i = 0; i < newSwarm.length; i += 1) {
               const lastHash = await window.Signal.Data.getLastHashBySnode(
@@ -407,7 +410,9 @@ class LokiMessageAPI {
   // we don't throw or catch here
   async startLongPolling(numConnections, stopPolling, callback) {
     // load from local DB
-    let nodes = await lokiSnodeAPI.getSwarmNodesForPubKey(this.ourKey);
+    let nodes = await lokiSnodeAPI.getSwarmNodesForPubKey(this.ourKey, {
+      fetchHashes: true,
+    });
     if (nodes.length < numConnections) {
       log.warn(
         'loki_message:::startLongPolling - Not enough SwarmNodes for our pubkey in local database, getting current list from blockchain'
@@ -449,12 +454,11 @@ class LokiMessageAPI {
       promises.push(
         // eslint-disable-next-line more/no-then
         this._openRetrieveConnection(pools[i], stopPolling, callback).then(
-          () => {
+          stoppedPolling => {
             unresolved -= 1;
             log.info(
-              'loki_message:::startLongPolling - There are',
-              unresolved,
-              'open retrieve connections left'
+              `loki_message:::startLongPolling - There are ${unresolved}`,
+              `open retrieve connections left. Stopped? ${stoppedPolling}`
             );
           }
         )
@@ -465,7 +469,7 @@ class LokiMessageAPI {
     // less than numConnections being active is fine, only need to restart if none per Niels 20/02/13
     // or if there is network issues (ENOUTFOUND due to lokinet)
     await Promise.all(promises);
-    log.error(
+    log.warn(
       'loki_message:::startLongPolling - All our long poll swarm connections have been removed'
     );
     // should we just call ourself again?
