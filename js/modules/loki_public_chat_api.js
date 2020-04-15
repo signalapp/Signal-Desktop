@@ -72,7 +72,9 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
         log.warn(`Invalid server ${serverUrl}`);
         return null;
       }
-      log.info(`set token ${thisServer.token} for ${serverUrl}`);
+      if (window.isDev) {
+        log.info(`set token ${thisServer.token} for ${serverUrl}`);
+      }
 
       this.servers.push(thisServer);
     }
