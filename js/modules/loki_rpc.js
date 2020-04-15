@@ -410,6 +410,13 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     // emulate nodeFetch response...
     jsonRes.json = () => {
       try {
+        if (jsonRes.body === 'Timestamp error: check your clock') {
+          log.error(
+            `lokiRpc:::sendToProxy - Timestamp error: check your clock`,
+            Date.now()
+          );
+          return false;
+        }
         return JSON.parse(jsonRes.body);
       } catch (e) {
         log.error(
