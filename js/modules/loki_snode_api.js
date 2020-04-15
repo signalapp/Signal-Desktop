@@ -59,6 +59,7 @@ async function tryGetSnodeListFromLokidSeednode(
     );
     // throw before clearing the lock, so the retries can kick in
     if (snodes.length === 0) {
+      // does this error message need to be exactly this?
       throw new window.textsecure.SeedNodeError('Failed to contact seed node');
     }
     return snodes;
@@ -423,7 +424,7 @@ class LokiSnodeAPI {
   }
 
   // WARNING: this leaks our IP to all snodes but with no other identifying information
-  // except that a client started up or ran out of random pool snodes
+  // except "that a client started up" or "ran out of random pool snodes"
   // and the order of the list is randomized, so a snode can't tell if it just started or not
   async _getVersion(node, options = {}) {
     const retries = options.retries || 0;
@@ -443,7 +444,7 @@ class LokiSnodeAPI {
           this.randomSnodePool[foundNodeIdx].version = data.version;
         } else {
           // maybe already marked bad...
-          log.warn(
+          log.debug(
             `loki_snode:::_getVersion - can't find ${node.ip}:${
               node.port
             } in randomSnodePool`
@@ -475,7 +476,7 @@ class LokiSnodeAPI {
           `on ${node.ip}:${node.port} retrying in 1s`
         );
         await primitives.sleepFor(1000);
-        await this._getVersion(node, { ...options, retries: retries + 1 });
+        return this._getVersion(node, { ...options, retries: retries + 1 });
       } else {
         this.markRandomNodeUnreachable(node);
         const randomNodesLeft = this.getRandomPoolLength();
@@ -504,23 +505,23 @@ class LokiSnodeAPI {
         try {
           await this._getVersion(node);
           /*
-        if (count % noticeEvery === 0) {
-          // give stats
-          const diff = Date.now() - verionStart;
-          log.debug(
-            `loki_snode:::_getAllVerionsForRandomSnodePool - ${count}/${total} pool version status update, has taken ${diff.toLocaleString()}ms`
-          );
-          Object.keys(this.versionPools).forEach(version => {
-            const nodes = this.versionPools[version].length;
+          if (count % noticeEvery === 0) {
+            // give stats
+            const diff = Date.now() - verionStart;
             log.debug(
-              `loki_snode:::_getAllVerionsForRandomSnodePool - version ${version} has ${nodes.toLocaleString()} snodes`
+              `loki_snode:::_getAllVerionsForRandomSnodePool - ${count}/${total} pool version status update, has taken ${diff.toLocaleString()}ms`
             );
-          });
-        }
-        */
+            Object.keys(this.versionPools).forEach(version => {
+              const nodes = this.versionPools[version].length;
+              log.debug(
+                `loki_snode:::_getAllVerionsForRandomSnodePool - version ${version} has ${nodes.toLocaleString()} snodes`
+              );
+            });
+          }
+          */
         } catch (e) {
           log.error(
-            'loki_snode:::_getAllVerionsForRandomSnodePool - error',
+            `loki_snode:::_getAllVerionsForRandomSnodePool - error`,
             e.code,
             e.message
           );
@@ -532,7 +533,19 @@ class LokiSnodeAPI {
     this.stopGetAllVersionPromiseControl = loop.stop;
     await loop.start(true);
     this.stopGetAllVersionPromiseControl = false; // clear lock
-    log.debug('Versions retrieved from network!');
+    // an array of objects
+    const versions = this.randomSnodePool.reduce((curVal, node) => {
+      if (curVal.indexOf(node.version) === -1) {
+        curVal.push(node.version);
+      }
+      return curVal;
+    }, []);
+    log.debug(
+      `loki_snode:::_getAllVerionsForRandomSnodePool - ${
+        versions.length
+      } versions retrieved from network!:`,
+      versions.join(',')
+    );
   }
 
   async refreshRandomPool(seedNodes = [...window.seedNodeList]) {
@@ -630,30 +643,33 @@ class LokiSnodeAPI {
   }
 
   // called by loki_message:::sendMessage & loki_message:::startLongPolling
-  async getSwarmNodesForPubKey(pubKey) {
+  async getSwarmNodesForPubKey(pubKey, options = {}) {
+    const { fetchHashes } = options;
     try {
       const conversation = ConversationController.get(pubKey);
       const swarmNodes = [...conversation.get('swarmNodes')];
 
       // always? include lashHash
-      await Promise.all(
-        Object.keys(swarmNodes).map(async j => {
-          const node = swarmNodes[j];
-          // FIXME make a batch function call
-          const lastHash = await window.Signal.Data.getLastHashBySnode(
-            node.address
-          );
-          log.debug(
-            `loki_snode:::getSwarmNodesForPubKey - ${j} ${node.ip}:${
-              node.port
-            } hash ${lastHash} for ${node.address}`
-          );
-          swarmNodes[j] = {
-            ...node,
-            lastHash,
-          };
-        })
-      );
+      if (fetchHashes) {
+        await Promise.all(
+          Object.keys(swarmNodes).map(async j => {
+            const node = swarmNodes[j];
+            // FIXME make a batch function call
+            const lastHash = await window.Signal.Data.getLastHashBySnode(
+              node.address
+            );
+            log.debug(
+              `loki_snode:::getSwarmNodesForPubKey - ${j} ${node.ip}:${
+                node.port
+              }`
+            );
+            swarmNodes[j] = {
+              ...node,
+              lastHash,
+            };
+          })
+        );
+      }
 
       return swarmNodes;
     } catch (e) {
