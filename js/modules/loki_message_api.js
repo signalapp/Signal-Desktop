@@ -138,9 +138,7 @@ class LokiMessageAPI {
   }
 
   async refreshSendingSwarm(pubKey, timestamp) {
-    const freshNodes = await lokiSnodeAPI.refreshSwarmNodesForPubKey(
-      this.ourKey
-    );
+    const freshNodes = await lokiSnodeAPI.refreshSwarmNodesForPubKey(pubKey);
     this.sendingData[timestamp].swarm = freshNodes;
     this.sendingData[timestamp].hasFreshList = true;
     return true;
@@ -434,8 +432,11 @@ class LokiMessageAPI {
       this.ourKey
     );
 
+    // ok now split up our swarm pool into numConnections number of pools
+    // one for each retrieve connection
+
     // floor or ceil probably doesn't matter, since it's likely always uneven
-    const poolSize = Math.floor(nodes.length / numConnections, 10);
+    const poolSize = Math.floor(nodes.length / numConnections);
     const pools = [];
     while (nodes.length) {
       const poolList = nodes.splice(0, poolSize);
