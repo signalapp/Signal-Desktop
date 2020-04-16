@@ -1232,6 +1232,7 @@ export default class MessageSender {
     const proto = new window.textsecure.protobuf.DataMessage();
     proto.body = 'TERMINATE';
     proto.flags = window.textsecure.protobuf.DataMessage.Flags.END_SESSION;
+    proto.timestamp = timestamp;
 
     const logError = (prefix: string) => (error: Error) => {
       window.log.error(prefix, error && error.stack ? error.stack : error);
