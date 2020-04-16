@@ -35,7 +35,7 @@ async function allowOnlyOneAtATime(name, process, timeout) {
       if (timeout) {
         timeoutTimer = setTimeout(() => {
           log.warn(
-            `loki_snodes:::allowOnlyOneAtATime - TIMEDOUT after ${timeout}s`
+            `loki_primitives:::allowOnlyOneAtATime - TIMEDOUT after ${timeout}s`
           );
           delete snodeGlobalLocks[name]; // clear lock
           reject();
@@ -47,8 +47,16 @@ async function allowOnlyOneAtATime(name, process, timeout) {
         innerRetVal = await process();
       } catch (e) {
         log.error(
-          `loki_snodes:::allowOnlyOneAtATime - error ${e.code} ${e.message}`
+          `loki_primitives:::allowOnlyOneAtATime - error ${e.code} ${e.message}`
         );
+        // clear timeout timer
+        if (timeout) {
+          if (timeoutTimer !== null) {
+            clearTimeout(timeoutTimer);
+            timeoutTimer = null;
+          }
+        }
+        delete snodeGlobalLocks[name]; // clear lock
         throw e;
       }
       // clear timeout timer
@@ -69,7 +77,11 @@ async function allowOnlyOneAtATime(name, process, timeout) {
     outerRetval = await snodeGlobalLocks[name];
   } catch (e) {
     // we will throw for each time allowOnlyOneAtATime has been called in parallel
-    log.error('loki_snodes:::allowOnlyOneAtATime - error', e.code, e.message);
+    log.error(
+      'loki_primitives:::allowOnlyOneAtATime - error',
+      e.code,
+      e.message
+    );
     throw e;
   }
   return outerRetval;
@@ -104,7 +116,9 @@ function abortableIterator(array, iterator) {
             accum.push(await iterator(item));
           } catch (e) {
             log.error(
-              `loki_snodes:::abortableIterator - error ${e.code} ${e.message}`
+              `loki_primitives:::abortableIterator - error ${e.code} ${
+                e.message
+              }`
             );
             throw e;
           }
@@ -117,7 +131,7 @@ function abortableIterator(array, iterator) {
     },
     stop: () => {
       /*
-      log.debug('loki_snodes:::abortableIterator - Stopping',
+      log.debug('loki_primitives:::abortableIterator - Stopping',
                 destructableList.length, '+', accum.length, '=', array.length,
                 'aborted?', abortIteration);
       */
