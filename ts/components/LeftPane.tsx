@@ -37,6 +37,7 @@ export interface PropsType {
   renderMainHeader: () => JSX.Element;
   renderMessageSearchResult: (id: string) => JSX.Element;
   renderNetworkStatus: () => JSX.Element;
+  renderRelinkDialog: () => JSX.Element;
   renderUpdateDialog: () => JSX.Element;
 }
 
@@ -394,6 +395,7 @@ export class LeftPane extends React.Component<PropsType> {
       renderExpiredBuildDialog,
       renderMainHeader,
       renderNetworkStatus,
+      renderRelinkDialog,
       renderUpdateDialog,
       showArchived,
     } = this.props;
@@ -408,6 +410,7 @@ export class LeftPane extends React.Component<PropsType> {
             {renderExpiredBuildDialog()}
             {renderNetworkStatus()}
             {renderUpdateDialog()}
+            {renderRelinkDialog()}
             {this.renderList()}
           </div>
         )}

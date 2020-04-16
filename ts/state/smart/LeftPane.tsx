@@ -16,6 +16,7 @@ import { SmartExpiredBuildDialog } from './ExpiredBuildDialog';
 import { SmartMainHeader } from './MainHeader';
 import { SmartMessageSearchResult } from './MessageSearchResult';
 import { SmartNetworkStatus } from './NetworkStatus';
+import { SmartRelinkDialog } from './RelinkDialog';
 import { SmartUpdateDialog } from './UpdateDialog';
 
 // Workaround: A react component's required properties are filtering up through connect()
@@ -25,6 +26,7 @@ const FilteredSmartMessageSearchResult = SmartMessageSearchResult as any;
 const FilteredSmartNetworkStatus = SmartNetworkStatus as any;
 const FilteredSmartUpdateDialog = SmartUpdateDialog as any;
 const FilteredSmartExpiredBuildDialog = SmartExpiredBuildDialog as any;
+const FilteredSmartRelinkDialog = SmartRelinkDialog as any;
 
 function renderExpiredBuildDialog(): JSX.Element {
   return <FilteredSmartExpiredBuildDialog />;
@@ -35,11 +37,14 @@ function renderMainHeader(): JSX.Element {
 function renderMessageSearchResult(id: string): JSX.Element {
   return <FilteredSmartMessageSearchResult id={id} />;
 }
-function renderUpdateDialog(): JSX.Element {
-  return <FilteredSmartUpdateDialog />;
-}
 function renderNetworkStatus(): JSX.Element {
   return <FilteredSmartNetworkStatus />;
+}
+function renderRelinkDialog(): JSX.Element {
+  return <FilteredSmartRelinkDialog />;
+}
+function renderUpdateDialog(): JSX.Element {
+  return <FilteredSmartUpdateDialog />;
 }
 
 const mapStateToProps = (state: StateType) => {
@@ -59,6 +64,7 @@ const mapStateToProps = (state: StateType) => {
     renderMainHeader,
     renderMessageSearchResult,
     renderNetworkStatus,
+    renderRelinkDialog,
     renderUpdateDialog,
   };
 };

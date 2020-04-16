@@ -8,8 +8,6 @@ const FIVE_SECONDS = 5 * 1000;
 export interface PropsType extends NetworkStateType {
   hasNetworkDialog: boolean;
   i18n: LocalizerType;
-  isRegistrationDone: boolean;
-  relinkDevice: () => void;
   manualReconnect: () => void;
 }
 
@@ -39,9 +37,7 @@ export const NetworkStatus = ({
   hasNetworkDialog,
   i18n,
   isOnline,
-  isRegistrationDone,
   socketStatus,
-  relinkDevice,
   manualReconnect,
 }: PropsType): JSX.Element | null => {
   if (!hasNetworkDialog) {
@@ -76,17 +72,7 @@ export const NetworkStatus = ({
     </div>
   );
 
-  if (!isRegistrationDone) {
-    return renderDialog({
-      renderActionableButton: (): JSX.Element => (
-        <div className="module-left-pane-dialog__actions">
-          <button onClick={relinkDevice}>{i18n('relink')}</button>
-        </div>
-      ),
-      subtext: i18n('unlinkedWarning'),
-      title: i18n('unlinked'),
-    });
-  } else if (isConnecting) {
+  if (isConnecting) {
     return renderDialog({
       subtext: i18n('connectingHangOn'),
       title: i18n('connecting'),
