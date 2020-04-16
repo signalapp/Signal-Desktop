@@ -9,7 +9,7 @@
   window.Whisper = window.Whisper || {};
 
   function resolveTheme() {
-    const theme = storage.get('theme-setting') || 'light';
+    const theme = storage.get('theme-setting') || 'system';
     if (window.platform === 'darwin' && theme === 'system') {
       return window.systemTheme;
     }
