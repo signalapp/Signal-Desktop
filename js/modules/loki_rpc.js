@@ -277,6 +277,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     return sendToProxy(options, targetNode, retryNumber + 1);
   }
 
+  // 504 is only present in 2.0.3 and after
   // relay is fine but destination is not good
   if (response.status === 504) {
     const pRetryNumber = retryNumber + 1;
