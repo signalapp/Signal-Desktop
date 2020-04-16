@@ -18,9 +18,8 @@ const RANDOM_SNODES_TO_USE_FOR_PUBKEY_SWARM = 3;
 const SEED_NODE_RETRIES = 3;
 const SNODE_VERSION_RETRIES = 3;
 
-// findMatchingSnode(search)(current)
-const findMatchingSnode = search => current =>
-  current.ip === search.ip && current.port === search.port;
+const compareSnodes = (current, search) =>
+  current.pubkey_ed25519 === search.pubkey_ed25519;
 
 // just get the filtered list
 async function tryGetSnodeListFromLokidSeednode(
@@ -437,8 +436,8 @@ class LokiSnodeAPI {
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
       const data = await result.json();
       if (data.version) {
-        const foundNodeIdx = this.randomSnodePool.findIndex(
-          findMatchingSnode(node)
+        const foundNodeIdx = this.randomSnodePool.findIndex(n =>
+          compareSnodes(n, node)
         );
         if (foundNodeIdx !== -1) {
           this.randomSnodePool[foundNodeIdx].version = data.version;
@@ -607,7 +606,7 @@ class LokiSnodeAPI {
       // keep all but thisNode
       const thisNode =
         node.address === unreachableNode.address &&
-        findMatchingSnode(unreachableNode)(node);
+        compareSnodes(unreachableNode, node);
       if (thisNode) {
         found = true;
       }
@@ -877,7 +876,7 @@ class LokiSnodeAPI {
         // allow exceptions to pass through upwards
         const resList = await this._getSnodesForPubkey(pubKey);
         resList.map(item => {
-          const hasItem = snodes.some(findMatchingSnode(item));
+          const hasItem = snodes.some(n => compareSnodes(n, item));
           if (!hasItem) {
             snodes.push(item);
           }
