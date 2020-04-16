@@ -262,7 +262,7 @@ const serverRequest = async (endpoint, options = {}) => {
     ) {
       mode = 'sendToProxy';
       // url.search automatically includes the ? part
-      const search = url.search ? `${url.search}` : '';
+      const search = url.search || '';
       // strip first slash
       const endpointWithQS = `${url.pathname}${search}`.replace(/^\//, '');
       ({ response, txtResponse, result } = await sendToProxy(
