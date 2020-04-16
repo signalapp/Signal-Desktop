@@ -10,7 +10,9 @@ const SettingsPage = require('./page-objects/settings.page');
 const CommonPage = require('./page-objects/common.page');
 
 // Generate random password
-const password = Math.random().toString(36).substr(2, 8);
+const password = Math.random()
+  .toString(36)
+  .substr(2, 8);
 const passwordInputID = 'password-modal-input';
 
 describe('Settings', function() {
@@ -41,20 +43,23 @@ describe('Settings', function() {
     const menuBarVisible = await app.browserWindow.isMenuBarVisible();
 
     await app.client.element(SettingsPage.settingsButtonSection).click();
-    await app.client.element(SettingsPage.settingToggleWithText('Hide Menu Bar')).click();
+    await app.client
+      .element(SettingsPage.settingToggleWithText('Hide Menu Bar'))
+      .click();
 
     // Confirm that toggling works
     const menuBarToggled = await app.browserWindow.isMenuBarVisible();
     menuBarToggled.should.equal(!menuBarVisible);
   });
-  
+
   it('can set password', async () => {
+    await app.client
+      .element(SettingsPage.settingsRowWithText('Privacy'))
+      .click();
 
-    await app.client.element(SettingsPage.settingsRowWithText('Privacy')).click();
-
-    await app.client.element(
-      SettingsPage.settingButtonWithText('Set Password')
-    ).click();
+    await app.client
+      .element(SettingsPage.settingButtonWithText('Set Password'))
+      .click();
 
     await common.setValueWrapper(
       app,
@@ -76,11 +81,9 @@ describe('Settings', function() {
     );
 
     await common.closeToast(app);
-    
   });
 
   it('can remove password', async () => {
-
     // Enter password to unlock settings
     await common.setValueWrapper(
       app,
@@ -91,9 +94,9 @@ describe('Settings', function() {
     await app.client.keys('Enter');
 
     // Remove password
-    await app.client.element(
-      SettingsPage.settingButtonWithText('Remove Password')
-    ).click();
+    await app.client
+      .element(SettingsPage.settingButtonWithText('Remove Password'))
+      .click();
 
     await common.setValueWrapper(
       app,

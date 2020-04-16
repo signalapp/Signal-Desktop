@@ -16,7 +16,6 @@ const RegistrationPage = require('./page-objects/registration.page');
 const ConversationPage = require('./page-objects/conversation.page');
 const SettingsPage = require('./page-objects/settings.page');
 
-
 chai.should();
 chai.use(chaiAsPromised);
 chai.config.includeStack = true;
@@ -44,7 +43,6 @@ module.exports = {
     '05f8662b6e83da5a31007cc3ded44c601f191e07999acb6db2314a896048d9036c',
   TEST_DISPLAY_NAME3: 'integration_tester_3',
 
-
   /* **************  OPEN GROUPS  ****************** */
   VALID_GROUP_URL: 'https://chat.getsession.org',
   VALID_GROUP_URL2: 'https://chat-dev.lokinet.org',
@@ -71,7 +69,7 @@ module.exports = {
     // could put a branch here to use one of those
     // if we know what platforms are good and which ones are broken
 
-    if (process.platform === 'darwin'){
+    if (process.platform === 'darwin') {
       await app.client.execute(
         (slctr, val) => {
           // eslint-disable-next-line no-undef
@@ -100,7 +98,6 @@ module.exports = {
       // Linux & Windows don't require wrapper
       await app.client.element(selector).setValue(value);
     }
-    
   },
 
   async startApp(environment = 'test-integration-session') {
@@ -329,8 +326,8 @@ module.exports = {
 
   async addFriendToNewClosedGroup(app, app2) {
     await app.client
-    .element(ConversationPage.closedGroupNameTextarea)
-    .setValue(this.VALID_CLOSED_GROUP_NAME1);
+      .element(ConversationPage.closedGroupNameTextarea)
+      .setValue(this.VALID_CLOSED_GROUP_NAME1);
     await app.client
       .element(ConversationPage.closedGroupNameTextarea)
       .getValue()
@@ -364,10 +361,10 @@ module.exports = {
       .element(ConversationPage.headerTitleMembers(2))
       .isVisible();
 
-          // validate overlay is closed
+    // validate overlay is closed
     await app.client
-    .isExisting(ConversationPage.leftPaneOverlay)
-    .should.eventually.be.equal(false);
+      .isExisting(ConversationPage.leftPaneOverlay)
+      .should.eventually.be.equal(false);
 
     // move back to the conversation section
     await app.client
@@ -406,7 +403,9 @@ module.exports = {
     // app needs to be logged in as user1 and app2 needs to be logged out
     // start the pairing dialog for the first app
     await app1.client.element(SettingsPage.settingsButtonSection).click();
-    await app1.client.element(SettingsPage.settingsRowWithText('Devices')).click();
+    await app1.client
+      .element(SettingsPage.settingsRowWithText('Devices'))
+      .click();
 
     await app1.client.isVisible(ConversationPage.noPairedDeviceMessage);
     // we should not find the linkDeviceButtonDisabled button (as DISABLED)
@@ -470,7 +469,9 @@ module.exports = {
       .should.eventually.be.true;
 
     await app1.client.element(ConversationPage.settingsButtonSection).click();
-    await app1.client.element(ConversationPage.settingsRowWithText('Devices')).click();
+    await app1.client
+      .element(ConversationPage.settingsRowWithText('Devices'))
+      .click();
     await app1.client.isExisting(ConversationPage.linkDeviceButtonDisabled)
       .should.eventually.be.true;
     // click the unlink button
@@ -506,10 +507,10 @@ module.exports = {
     }
   },
 
-  async sendMessage(app, messageText, fileLocation = undefined){
+  async sendMessage(app, messageText, fileLocation = undefined) {
     await app.client
-    .element(ConversationPage.sendMessageTextarea)
-    .setValue(messageText);
+      .element(ConversationPage.sendMessageTextarea)
+      .setValue(messageText);
     await app.client
       .element(ConversationPage.sendMessageTextarea)
       .getValue()

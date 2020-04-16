@@ -4,7 +4,6 @@ const { afterEach, beforeEach, describe, it } = require('mocha');
 
 const common = require('./common');
 
-
 describe('Message Syncing', function() {
   let app;
   let app2;
@@ -21,7 +20,7 @@ describe('Message Syncing', function() {
       displayName: common.TEST_DISPLAY_NAME1,
       stubSnode: true,
     };
-  
+
     const app2Props = {
       mnemonic: common.TEST_MNEMONIC2,
       displayName: common.TEST_DISPLAY_NAME2,
@@ -55,5 +54,4 @@ describe('Message Syncing', function() {
     await common.timeout(1000);
     await common.triggerUnlinkApp2FromApp(app, app2);
   });
-
 });

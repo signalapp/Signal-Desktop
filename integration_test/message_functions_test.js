@@ -51,7 +51,7 @@ describe('Message Functions', function() {
       5000
     );
   });
-  
+
   it('can delete message', async () => {
     const messageText = 'delete_me';
     common.sendMessage(app, messageText);
@@ -64,9 +64,11 @@ describe('Message Functions', function() {
       ConversationPage.existingReceivedMessageText(messageText),
       7000
     );
-    
+
     // delete message in context menu
-    await app.client.element(ConversationPage.messageCtxMenu(messageText)).click();
+    await app.client
+      .element(ConversationPage.messageCtxMenu(messageText))
+      .click();
     await app.client.element(ConversationPage.deleteMessageCtxButton).click();
 
     // delete messaage from modal
@@ -75,11 +77,10 @@ describe('Message Functions', function() {
       3000
     );
     await app.client.element(ConversationPage.deleteMessageModalButton).click();
-    
+
     // verify the message is actually deleted
     await app.client.isExisting(
       ConversationPage.existingSendMessageText(messageText)
     ).should.eventually.be.false;
   });
-
 });
