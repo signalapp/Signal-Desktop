@@ -21,6 +21,7 @@ import {
   AttachmentPointerClass,
   DataMessageClass,
   EnvelopeClass,
+  ProtoBigNumberType,
   ReceiptMessageClass,
   SyncMessageClass,
   TypingMessageClass,
@@ -62,7 +63,8 @@ declare global {
 }
 
 type AttachmentType = {
-  id?: string;
+  cdnId?: string;
+  cdnKey?: string;
   data: ArrayBuffer;
   contentType?: string;
   size?: number;
@@ -71,6 +73,9 @@ type AttachmentType = {
   width?: number;
   height?: number;
   caption?: string;
+  blurHash?: string;
+  uploadTimestamp?: ProtoBigNumberType;
+  cdnNumber?: number;
 };
 
 type CacheAddItemType = {
@@ -1571,13 +1576,16 @@ class MessageReceiverInner extends EventTarget {
   cleanAttachment(attachment: AttachmentPointerClass) {
     return {
       ...omit(attachment, 'thumbnail'),
-      id: attachment.id.toString(),
+      cdnId: attachment.cdnId?.toString(),
       key: attachment.key ? attachment.key.toString('base64') : null,
       digest: attachment.digest ? attachment.digest.toString('base64') : null,
     };
   }
   async downloadAttachment(attachment: AttachmentPointerClass) {
-    const encrypted = await this.server.getAttachment(attachment.id);
+    const encrypted = await this.server.getAttachment(
+      attachment.cdnId || attachment.cdnKey,
+      attachment.cdnNumber || 0
+    );
     const { key, digest, size } = attachment;
 
     if (!digest) {

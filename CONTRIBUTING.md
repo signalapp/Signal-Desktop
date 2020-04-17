@@ -267,7 +267,10 @@ the auto update infrastructure doesn't kick in while you are developing.
 {
   "serverUrl": "https://textsecure-service.whispersystems.org",
   "serverTrustRoot": "SOME_ALPHANUMERIC_STRING_MATCHING_PRODUCTION_JSON",
-  "cdnUrl": "https://cdn.signal.org"
+  "cdn": {
+    "0": "https://cdn.signal.org",
+    "2": "https://cdn2.signal.org"
+  }
 }
 ```
 

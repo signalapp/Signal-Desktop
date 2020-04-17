@@ -491,7 +491,10 @@ const URL_CALLS = {
 
 type InitializeOptionsType = {
   url: string;
-  cdnUrl: string;
+  cdnUrlObject: {
+    readonly '0': string;
+    readonly [propName: string]: string;
+  };
   certificateAuthority: string;
   contentProxyUrl: string;
   proxyUrl: string;
@@ -532,7 +535,7 @@ export type WebAPIType = {
     deviceName?: string | null,
     options?: { accessKey?: ArrayBuffer }
   ) => Promise<any>;
-  getAttachment: (id: string) => Promise<any>;
+  getAttachment: (cdnKey: string, cdnNumber: number) => Promise<any>;
   getAvatar: (path: string) => Promise<any>;
   getDevices: () => Promise<any>;
   getKeysForIdentifier: (
@@ -643,7 +646,7 @@ export type ProxiedRequestOptionsType = {
 // tslint:disable-next-line max-func-body-length
 export function initialize({
   url,
-  cdnUrl,
+  cdnUrlObject,
   certificateAuthority,
   contentProxyUrl,
   proxyUrl,
@@ -652,8 +655,14 @@ export function initialize({
   if (!is.string(url)) {
     throw new Error('WebAPI.initialize: Invalid server url');
   }
-  if (!is.string(cdnUrl)) {
-    throw new Error('WebAPI.initialize: Invalid cdnUrl');
+  if (!is.object(cdnUrlObject)) {
+    throw new Error('WebAPI.initialize: Invalid cdnUrlObject');
+  }
+  if (!is.string(cdnUrlObject['0'])) {
+    throw new Error('WebAPI.initialize: Missing CDN 0 configuration');
+  }
+  if (!is.string(cdnUrlObject['2'])) {
+    throw new Error('WebAPI.initialize: Missing CDN 2 configuration');
   }
   if (!is.string(certificateAuthority)) {
     throw new Error('WebAPI.initialize: Invalid certificateAuthority');
@@ -871,7 +880,7 @@ export function initialize({
     async function getAvatar(path: string) {
       // Using _outerAJAX, since it's not hardcoded to the Signal Server. Unlike our
       //   attachment CDN, it uses our self-signed certificate, so we pass it in.
-      return _outerAjax(`${cdnUrl}/${path}`, {
+      return _outerAjax(`${cdnUrlObject['0']}/${path}`, {
         certificateAuthority,
         contentType: 'application/octet-stream',
         proxyUrl,
@@ -1198,25 +1207,31 @@ export function initialize({
     }
 
     async function getSticker(packId: string, stickerId: string) {
-      return _outerAjax(`${cdnUrl}/stickers/${packId}/full/${stickerId}`, {
-        certificateAuthority,
-        proxyUrl,
-        responseType: 'arraybuffer',
-        type: 'GET',
-        redactUrl: redactStickerUrl,
-        version,
-      });
+      return _outerAjax(
+        `${cdnUrlObject['0']}/stickers/${packId}/full/${stickerId}`,
+        {
+          certificateAuthority,
+          proxyUrl,
+          responseType: 'arraybuffer',
+          type: 'GET',
+          redactUrl: redactStickerUrl,
+          version,
+        }
+      );
     }
 
     async function getStickerPackManifest(packId: string) {
-      return _outerAjax(`${cdnUrl}/stickers/${packId}/manifest.proto`, {
-        certificateAuthority,
-        proxyUrl,
-        responseType: 'arraybuffer',
-        type: 'GET',
-        redactUrl: redactStickerUrl,
-        version,
-      });
+      return _outerAjax(
+        `${cdnUrlObject['0']}/stickers/${packId}/manifest.proto`,
+        {
+          certificateAuthority,
+          proxyUrl,
+          responseType: 'arraybuffer',
+          type: 'GET',
+          redactUrl: redactStickerUrl,
+          version,
+        }
+      );
     }
 
     type ServerAttachmentType = {
@@ -1304,7 +1319,7 @@ export function initialize({
       // Upload manifest
       const manifestParams = makePutParams(manifest, encryptedManifest);
       // This is going to the CDN, not the service, so we use _outerAjax
-      await _outerAjax(`${cdnUrl}/`, {
+      await _outerAjax(`${cdnUrlObject['0']}/`, {
         ...manifestParams,
         certificateAuthority,
         proxyUrl,
@@ -1322,7 +1337,7 @@ export function initialize({
             encryptedStickers[index]
           );
           await queue.add(async () =>
-            _outerAjax(`${cdnUrl}/`, {
+            _outerAjax(`${cdnUrlObject['0']}/`, {
               ...stickerParams,
               certificateAuthority,
               proxyUrl,
@@ -1341,9 +1356,10 @@ export function initialize({
       return packId;
     }
 
-    async function getAttachment(id: string) {
+    async function getAttachment(cdnKey: string, cdnNumber: number) {
+      const cdnUrl = cdnUrlObject[cdnNumber] || cdnUrlObject['0'];
       // This is going to the CDN, not the service, so we use _outerAjax
-      return _outerAjax(`${cdnUrl}/attachments/${id}`, {
+      return _outerAjax(`${cdnUrl}/attachments/${cdnKey}`, {
         certificateAuthority,
         proxyUrl,
         responseType: 'arraybuffer',
@@ -1365,7 +1381,7 @@ export function initialize({
       const params = makePutParams(response, encryptedBin);
 
       // This is going to the CDN, not the service, so we use _outerAjax
-      await _outerAjax(`${cdnUrl}/attachments/`, {
+      await _outerAjax(`${cdnUrlObject['0']}/attachments/`, {
         ...params,
         certificateAuthority,
         proxyUrl,

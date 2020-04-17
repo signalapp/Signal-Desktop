@@ -32,3 +32,5 @@ ts/protobuf/*.d.ts
 
 # Sticker Creator
 sticker-creator/dist/*
+
+/.idea

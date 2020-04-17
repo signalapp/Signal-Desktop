@@ -33,7 +33,10 @@ const { initialize: initializeWebAPI } = require('../ts/textsecure/WebAPI');
 
 const WebAPI = initializeWebAPI({
   url: config.serverUrl,
-  cdnUrl: config.cdnUrl,
+  cdn: {
+    '0': config.cdnUrl0,
+    '2': config.cdnUrl2,
+  },
   certificateAuthority: config.certificateAuthority,
   contentProxyUrl: config.contentProxyUrl,
   proxyUrl: config.proxyUrl,

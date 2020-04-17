@@ -153,7 +153,8 @@ export declare class AttachmentPointerClass {
     encoding?: string
   ) => AttachmentPointerClass;
 
-  id?: ProtoBigNumberType;
+  cdnId?: ProtoBigNumberType;
+  cdnKey?: string;
   contentType?: string;
   key?: ProtoBinaryType;
   size?: number;
@@ -164,6 +165,9 @@ export declare class AttachmentPointerClass {
   width?: number;
   height?: number;
   caption?: string;
+  blurHash?: string;
+  uploadTimestamp?: ProtoBigNumberType;
+  cdnNumber?: number;
 }
 
 export declare class ContactDetailsClass {

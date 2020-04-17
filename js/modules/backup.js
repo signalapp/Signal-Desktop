@@ -387,7 +387,7 @@ function _getExportAttachmentFileName(message, index, attachment) {
     return _trimFileName(attachment.fileName);
   }
 
-  let name = attachment.id;
+  let name = attachment.cdnId || attachment.cdnKey;
 
   if (attachment.contentType) {
     const components = attachment.contentType.split('/');

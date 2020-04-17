@@ -334,7 +334,7 @@ export default class MessageSender {
     const id = await this.server.putAttachment(result.ciphertext);
 
     const proto = new window.textsecure.protobuf.AttachmentPointer();
-    proto.id = id;
+    proto.cdnId = id;
     proto.contentType = attachment.contentType;
     proto.key = key;
     proto.size = attachment.size;
