@@ -252,6 +252,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       <SessionMemberListItem
         member={member}
         isSelected={false}
+        key={member.id}
         onSelect={(selectedMember: ContactType) => {
           this.handleSelectMember(selectedMember);
         }}
