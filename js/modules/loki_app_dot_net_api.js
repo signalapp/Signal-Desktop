@@ -42,7 +42,7 @@ const sendToProxy = async (
 ) => {
   if (!srvPubKey) {
     log.error(
-      'loki_app_dot_net: sendToProxy called without a server public key'
+      'loki_app_dot_net:::sendToProxy - called without a server public key'
     );
     return {};
   }
@@ -145,7 +145,7 @@ const sendToProxy = async (
       randSnode
     );
     log.warn(
-      `loki_app_dot_net: Marking random snode bad, internet address ${
+      `loki_app_dot_net:::sendToProxy - Marking random snode bad, internet address ${
         randSnode.ip
       }:${
         randSnode.port
@@ -161,7 +161,7 @@ const sendToProxy = async (
     response = JSON.parse(txtResponse);
   } catch (e) {
     log.warn(
-      `loki_app_dot_net: sendToProxy Could not parse outer JSON [${txtResponse}]`,
+      `loki_app_dot_net:::sendToProxy - Could not parse outer JSON [${txtResponse}]`,
       endpoint,
       'on',
       url
@@ -185,7 +185,7 @@ const sendToProxy = async (
       response = options.textResponse ? respStr : JSON.parse(respStr);
     } catch (e) {
       log.warn(
-        `loki_app_dot_net: sendToProxy Could not parse inner JSON [${respStr}]`,
+        `loki_app_dot_net:::sendToProxy - Could not parse inner JSON [${respStr}]`,
         endpoint,
         'on',
         url
@@ -193,7 +193,7 @@ const sendToProxy = async (
     }
   } else {
     log.warn(
-      'loki_app_dot_net: file server secure_rpc gave an non-200 response: ',
+      'loki_app_dot_net:::sendToProxy - file server secure_rpc gave an non-200 response: ',
       response,
       ` txtResponse[${txtResponse}]`,
       endpoint
@@ -239,7 +239,11 @@ const serverRequest = async (endpoint, options = {}) => {
       fetchOptions.agent = snodeHttpsAgent;
     }
   } catch (e) {
-    log.info('serverRequest set up error:', e.code, e.message);
+    log.error(
+      'loki_app_dot_net:::serverRequest - set up error:',
+      e.code,
+      e.message
+    );
     return {
       err: e,
     };
@@ -257,10 +261,10 @@ const serverRequest = async (endpoint, options = {}) => {
       FILESERVER_HOSTS.includes(host)
     ) {
       mode = 'sendToProxy';
-      const search = url.search ? `?${url.search}` : '';
+      // url.search automatically includes the ? part
+      const search = url.search || '';
       // strip first slash
       const endpointWithQS = `${url.pathname}${search}`.replace(/^\//, '');
-      // log.info('endpointWithQS', endpointWithQS)
       ({ response, txtResponse, result } = await sendToProxy(
         srvPubKey,
         endpointWithQS,
@@ -278,11 +282,16 @@ const serverRequest = async (endpoint, options = {}) => {
       txtResponse = await result.text();
       // cloudflare timeouts (504s) will be html...
       response = options.textResponse ? txtResponse : JSON.parse(txtResponse);
+      // result.status will always be 200
+      // emulate the correct http code if available
+      if (response && response.meta && response.meta.code) {
+        result.status = response.meta.code;
+      }
     }
   } catch (e) {
     if (txtResponse) {
-      log.info(
-        `serverRequest ${mode} error`,
+      log.error(
+        `loki_app_dot_net:::serverRequest - ${mode} error`,
         e.code,
         e.message,
         `json: ${txtResponse}`,
@@ -290,8 +299,8 @@ const serverRequest = async (endpoint, options = {}) => {
         url
       );
     } else {
-      log.info(
-        `serverRequest ${mode} error`,
+      log.error(
+        `loki_app_dot_net:::serverRequest - ${mode} error`,
         e.code,
         e.message,
         'attempting connection to',
@@ -1609,12 +1618,12 @@ class LokiPublicChannelAPI {
 
     if (res.err || !res.response) {
       log.error(
-        'Could not get messages from',
+        `app_dot_net:::pollOnceForMessages - Could not get messages from`,
         this.serverAPI.baseServerUrl,
         this.baseChannelUrl
       );
       if (res.err) {
-        log.error('pollOnceForMessages receive error', res.err);
+        log.error(`app_dot_net:::pollOnceForMessages - receive error`, res.err);
       }
       this.messagesPollLock = false;
       return;

@@ -1,8 +1,11 @@
 /* eslint-disable class-methods-use-this */
-/* global window, textsecure, ConversationController, _, log, clearTimeout, process, Buffer, StringView, dcodeIO */
+/* global window, textsecure, ConversationController, _, log, process, Buffer, StringView, dcodeIO */
+
+const { lokiRpc } = require('./loki_rpc');
+// not sure I like this name but it's been than util
+const primitives = require('./loki_primitives');
 
 const is = require('@sindresorhus/is');
-const { lokiRpc } = require('./loki_rpc');
 const https = require('https');
 const nodeFetch = require('node-fetch');
 const semver = require('semver');
@@ -13,8 +16,94 @@ const snodeHttpsAgent = new https.Agent({
 
 const RANDOM_SNODES_TO_USE_FOR_PUBKEY_SWARM = 3;
 const SEED_NODE_RETRIES = 3;
+const SNODE_VERSION_RETRIES = 3;
 
-const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
+const compareSnodes = (current, search) =>
+  current.pubkey_ed25519 === search.pubkey_ed25519;
+
+// just get the filtered list
+async function tryGetSnodeListFromLokidSeednode(
+  seedNodes = [...window.seedNodeList]
+) {
+  // Removed limit until there is a way to get snode info
+  // for individual nodes (needed for guard nodes);  this way
+  // we get all active nodes
+  const params = {
+    active_only: true,
+    fields: {
+      public_ip: true,
+      storage_port: true,
+      pubkey_x25519: true,
+      pubkey_ed25519: true,
+    },
+  };
+  // FIXME: use sample
+  const seedNode = seedNodes.splice(
+    Math.floor(Math.random() * seedNodes.length),
+    1
+  )[0];
+  let snodes = [];
+  try {
+    const response = await lokiRpc(
+      `http://${seedNode.ip}`,
+      seedNode.port,
+      'get_n_service_nodes',
+      params,
+      {}, // Options
+      '/json_rpc' // Seed request endpoint
+    );
+    // Filter 0.0.0.0 nodes which haven't submitted uptime proofs
+    snodes = response.result.service_node_states.filter(
+      snode => snode.public_ip !== '0.0.0.0'
+    );
+    // throw before clearing the lock, so the retries can kick in
+    if (snodes.length === 0) {
+      // does this error message need to be exactly this?
+      throw new window.textsecure.SeedNodeError('Failed to contact seed node');
+    }
+    return snodes;
+  } catch (e) {
+    log.warn(
+      'loki_snodes:::tryGetSnodeListFromLokidSeednode - error',
+      e.code,
+      e.message
+    );
+    if (snodes.length === 0) {
+      throw new window.textsecure.SeedNodeError('Failed to contact seed node');
+    }
+  }
+  return [];
+}
+
+async function getSnodeListFromLokidSeednode(
+  seedNodes = [...window.seedNodeList],
+  retries = 0
+) {
+  let snodes = [];
+  try {
+    snodes = await tryGetSnodeListFromLokidSeednode(seedNodes);
+  } catch (e) {
+    log.warn(
+      'loki_snodes:::getSnodeListFromLokidSeednode - error',
+      e.code,
+      e.message
+    );
+    // handle retries in case of temporary hiccups
+    if (retries < SEED_NODE_RETRIES) {
+      setTimeout(() => {
+        log.info(
+          'loki_snodes:::refreshRandomPoolPromise - Retrying initialising random snode pool, try #',
+          retries
+        );
+        getSnodeListFromLokidSeednode(seedNodes, retries + 1);
+      }, retries * retries * 5000);
+    } else {
+      log.error('loki_snodes:::getSnodeListFromLokidSeednode - failing');
+      throw new window.textsecure.SeedNodeError('Failed to contact seed node');
+    }
+  }
+  return snodes;
+}
 
 class LokiSnodeAPI {
   constructor({ serverUrl, localUrl }) {
@@ -25,10 +114,7 @@ class LokiSnodeAPI {
     this.localUrl = localUrl; // localhost.loki
     this.randomSnodePool = [];
     this.swarmsPendingReplenish = {};
-    this.refreshRandomPoolPromise = false;
-    this.versionPools = {};
-    this.versionMap = {}; // reverse version look up
-    this.versionsRetrieved = false; // to mark when it's done getting versions
+    this.stopGetAllVersionPromiseControl = false;
 
     this.onionPaths = [];
     this.guardNodes = [];
@@ -36,7 +122,12 @@ class LokiSnodeAPI {
 
   async getRandomSnodePool() {
     if (this.randomSnodePool.length === 0) {
-      await this.refreshRandomPool();
+      // allow exceptions to pass through upwards without the unhandled promise rejection
+      try {
+        await this.refreshRandomPool();
+      } catch (e) {
+        throw e;
+      }
     }
     return this.randomSnodePool;
   }
@@ -97,8 +188,8 @@ class LokiSnodeAPI {
   async selectGuardNodes() {
     const _ = window.Lodash;
 
+    // FIXME: handle rejections
     let nodePool = await this.getRandomSnodePool();
-
     if (nodePool.length === 0) {
       log.error(`Could not select guarn nodes: node pool is empty`);
       return [];
@@ -127,7 +218,6 @@ class LokiSnodeAPI {
         return [];
       }
     }
-
     // The use of await inside while is intentional:
     // we only want to repeat if the await fails
     // eslint-disable-next-line-no-await-in-loop
@@ -274,13 +364,17 @@ class LokiSnodeAPI {
   }
 
   async getRandomSnodeAddress() {
-    /* resolve random snode */
+    // resolve random snode
     if (this.randomSnodePool.length === 0) {
-      // allow exceptions to pass through upwards
-      await this.refreshRandomPool();
-    }
-    if (this.randomSnodePool.length === 0) {
-      throw new window.textsecure.SeedNodeError('Invalid seed node response');
+      // allow exceptions to pass through upwards without the unhandled promise rejection
+      try {
+        await this.refreshRandomPool();
+      } catch (e) {
+        throw e;
+      }
+      if (this.randomSnodePool.length === 0) {
+        throw new window.textsecure.SeedNodeError('Invalid seed node response');
+      }
     }
     // FIXME: _.sample?
     return this.randomSnodePool[
@@ -288,43 +382,51 @@ class LokiSnodeAPI {
     ];
   }
 
-  async getNodesMinVersion(minVersion) {
-    const _ = window.Lodash;
-
-    return _.flatten(
-      _.entries(this.versionPools)
-        .filter(v => semver.gte(v[0], minVersion))
-        .map(v => v[1])
+  // not cacheable because we write to this.randomSnodePool elsewhere
+  getNodesMinVersion(minVersion) {
+    return this.randomSnodePool.filter(
+      node => node.version && semver.gt(node.version, minVersion)
     );
   }
 
   // use nodes that support more than 1mb
   async getRandomProxySnodeAddress() {
-    /* resolve random snode */
+    // resolve random snode
     if (this.randomSnodePool.length === 0) {
-      // allow exceptions to pass through upwards
-      await this.refreshRandomPool();
+      // allow exceptions to pass through upwards without the unhandled promise rejection
+      try {
+        await this.refreshRandomPool();
+      } catch (e) {
+        log.error(
+          `loki_snode:::getRandomProxySnodeAddress - error ${e.code} ${
+            e.message
+          }`
+        );
+        throw e;
+      }
+      if (this.randomSnodePool.length === 0) {
+        throw new window.textsecure.SeedNodeError('Invalid seed node response');
+      }
     }
-    if (this.randomSnodePool.length === 0) {
-      throw new window.textsecure.SeedNodeError('Invalid seed node response');
-    }
-    const goodVersions = Object.keys(this.versionPools).filter(version =>
-      semver.gt(version, '2.0.1')
-    );
-    if (!goodVersions.length) {
+    const goodPool = this.getNodesMinVersion('2.0.1');
+    if (!goodPool.length) {
+      // FIXME: retry
+      log.warn(
+        `loki_snode:::getRandomProxySnodeAddress - no good versions yet`
+      );
       return false;
     }
     // FIXME: _.sample?
-    const goodVersion =
-      goodVersions[Math.floor(Math.random() * goodVersions.length)];
-    const pool = this.versionPools[goodVersion];
-    // FIXME: _.sample?
-    return pool[Math.floor(Math.random() * pool.length)];
+    const goodRandomNode =
+      goodPool[Math.floor(Math.random() * goodPool.length)];
+    return goodRandomNode;
   }
 
   // WARNING: this leaks our IP to all snodes but with no other identifying information
-  // except that a client started up or ran out of random pool snodes
-  async getVersion(node) {
+  // except "that a client started up" or "ran out of random pool snodes"
+  // and the order of the list is randomized, so a snode can't tell if it just started or not
+  async _getVersion(node, options = {}) {
+    const retries = options.retries || 0;
     try {
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
       const result = await nodeFetch(
@@ -334,191 +436,159 @@ class LokiSnodeAPI {
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
       const data = await result.json();
       if (data.version) {
-        if (this.versionPools[data.version] === undefined) {
-          this.versionPools[data.version] = [node];
+        const foundNodeIdx = this.randomSnodePool.findIndex(n =>
+          compareSnodes(n, node)
+        );
+        if (foundNodeIdx !== -1) {
+          this.randomSnodePool[foundNodeIdx].version = data.version;
         } else {
-          this.versionPools[data.version].push(node);
+          // maybe already marked bad...
+          log.debug(
+            `loki_snode:::_getVersion - can't find ${node.ip}:${
+              node.port
+            } in randomSnodePool`
+          );
         }
-        // set up reverse mapping for removal lookup
-        this.versionMap[`${node.ip}:${node.port}`] = data.version;
       }
+      return data.version;
     } catch (e) {
       // ECONNREFUSED likely means it's just offline...
       // ECONNRESET seems to retry and fail as ECONNREFUSED (so likely a node going offline)
       // ETIMEDOUT not sure what to do about these
       // retry for now but maybe we should be marking bad...
       if (e.code === 'ECONNREFUSED') {
-        this.markRandomNodeUnreachable(node, { versionPoolFailure: true });
+        this.markRandomNodeUnreachable(node);
         const randomNodesLeft = this.getRandomPoolLength();
         // clean up these error messages to be a little neater
         log.warn(
-          `loki_snode:::getVersion - ${node.ip}:${
+          `loki_snode:::_getVersion - ${node.ip}:${
             node.port
           } is offline, removing, leaving ${randomNodesLeft} in the randomPool`
         );
-      } else {
-        // mostly ECONNRESETs
+        // if not ECONNREFUSED, it's mostly ECONNRESETs
         // ENOTFOUND could mean no internet or hiccup
+      } else if (retries < SNODE_VERSION_RETRIES) {
         log.warn(
-          'loki_snode:::getVersion - Error',
+          'loki_snode:::_getVersion - Error',
           e.code,
           e.message,
           `on ${node.ip}:${node.port} retrying in 1s`
         );
-        await timeoutDelay(1000);
-        await this.getVersion(node);
+        await primitives.sleepFor(1000);
+        return this._getVersion(node, { ...options, retries: retries + 1 });
+      } else {
+        this.markRandomNodeUnreachable(node);
+        const randomNodesLeft = this.getRandomPoolLength();
+        log.warn(
+          `loki_snode:::_getVersion - failing to get version for ${node.ip}:${
+            node.port
+          }, removing, leaving ${randomNodesLeft} in the randomPool`
+        );
       }
+      // maybe throw?
+      return false;
     }
   }
 
-  async refreshRandomPool(seedNodes = [...window.seedNodeList]) {
-    // if currently not in progress
-    if (this.refreshRandomPoolPromise === false) {
-      // set lock
-      this.refreshRandomPoolPromise = new Promise(async (resolve, reject) => {
-        let timeoutTimer = null;
-        // private retry container
-        const trySeedNode = async (consecutiveErrors = 0) => {
-          // Removed limit until there is a way to get snode info
-          // for individual nodes (needed for guard nodes);  this way
-          // we get all active nodes
-          const params = {
-            active_only: true,
-            fields: {
-              public_ip: true,
-              storage_port: true,
-              pubkey_x25519: true,
-              pubkey_ed25519: true,
-            },
-          };
-          const seedNode = seedNodes.splice(
-            Math.floor(Math.random() * seedNodes.length),
-            1
-          )[0];
-          let snodes = [];
-          try {
-            log.info(
-              'loki_snodes:::refreshRandomPoolPromise - Refreshing random snode pool'
+  // now get version for all snodes
+  // also acts an early online test/purge of bad nodes
+  async _getAllVerionsForRandomSnodePool() {
+    // let count = 0;
+    // const verionStart = Date.now();
+    // const total = this.randomSnodePool.length;
+    // const noticeEvery = parseInt(total / 10, 10);
+    const loop = primitives.abortableIterator(
+      this.randomSnodePool,
+      async node => {
+        // count += 1;
+        try {
+          await this._getVersion(node);
+          /*
+          if (count % noticeEvery === 0) {
+            // give stats
+            const diff = Date.now() - verionStart;
+            log.debug(
+              `loki_snode:::_getAllVerionsForRandomSnodePool - ${count}/${total} pool version status update, has taken ${diff.toLocaleString()}ms`
             );
-            const response = await lokiRpc(
-              `http://${seedNode.ip}`,
-              seedNode.port,
-              'get_n_service_nodes',
-              params,
-              {}, // Options
-              '/json_rpc' // Seed request endpoint
-            );
-            // Filter 0.0.0.0 nodes which haven't submitted uptime proofs
-            snodes = response.result.service_node_states.filter(
-              snode => snode.public_ip !== '0.0.0.0'
-            );
-            // make sure order of the list is random, so we get version in a non-deterministic way
-            snodes = _.shuffle(snodes);
-            // commit changes to be live
-            // we'll update the version (in case they upgrade) every cycle
-            this.versionPools = {};
-            this.versionsRetrieved = false;
-            this.randomSnodePool = snodes.map(snode => ({
-              ip: snode.public_ip,
-              port: snode.storage_port,
-              pubkey_x25519: snode.pubkey_x25519,
-              pubkey_ed25519: snode.pubkey_ed25519,
-            }));
-            log.info(
-              'loki_snodes:::refreshRandomPoolPromise - Refreshed random snode pool with',
-              this.randomSnodePool.length,
-              'snodes'
-            );
-            // clear lock
-            this.refreshRandomPoolPromise = null;
-            if (timeoutTimer !== null) {
-              clearTimeout(timeoutTimer);
-              timeoutTimer = null;
-            }
-            // start polling versions
-            resolve();
-            // now get version for all snodes
-            // also acts an early online test/purge of bad nodes
-            let c = 0;
-            const verionStart = Date.now();
-            const t = this.randomSnodePool.length;
-            const noticeEvery = parseInt(t / 10, 10);
-            // eslint-disable-next-line no-restricted-syntax
-            for (const node of this.randomSnodePool) {
-              c += 1;
-              // eslint-disable-next-line no-await-in-loop
-              await this.getVersion(node);
-              if (c % noticeEvery === 0) {
-                // give stats
-                const diff = Date.now() - verionStart;
-                log.info(
-                  `${c}/${t} pool version status update, has taken ${diff.toLocaleString()}ms`
-                );
-                Object.keys(this.versionPools).forEach(version => {
-                  const nodes = this.versionPools[version].length;
-                  log.info(
-                    `version ${version} has ${nodes.toLocaleString()} snodes`
-                  );
-                });
-              }
-            }
-            log.info('Versions retrieved from network!');
-            this.versionsRetrieved = true;
-          } catch (e) {
-            log.warn(
-              'loki_snodes:::refreshRandomPoolPromise - error',
-              e.code,
-              e.message
-            );
-            if (consecutiveErrors < SEED_NODE_RETRIES) {
-              // retry after a possible delay
-              setTimeout(() => {
-                log.info(
-                  'loki_snodes:::refreshRandomPoolPromise - Retrying initialising random snode pool, try #',
-                  consecutiveErrors
-                );
-                trySeedNode(consecutiveErrors + 1);
-              }, consecutiveErrors * consecutiveErrors * 5000);
-            } else {
-              log.error(
-                'loki_snodes:::refreshRandomPoolPromise -  Giving up trying to contact seed node'
+            Object.keys(this.versionPools).forEach(version => {
+              const nodes = this.versionPools[version].length;
+              log.debug(
+                `loki_snode:::_getAllVerionsForRandomSnodePool - version ${version} has ${nodes.toLocaleString()} snodes`
               );
-              if (snodes.length === 0) {
-                this.refreshRandomPoolPromise = null; // clear lock
-                if (timeoutTimer !== null) {
-                  clearTimeout(timeoutTimer);
-                  timeoutTimer = null;
-                }
-                reject();
-              }
-            }
+            });
           }
-        };
-        const delay = (SEED_NODE_RETRIES + 1) * (SEED_NODE_RETRIES + 1) * 5000;
-        timeoutTimer = setTimeout(() => {
-          log.warn(
-            'loki_snodes:::refreshRandomPoolPromise - TIMEDOUT after',
-            delay,
-            's'
+          */
+        } catch (e) {
+          log.error(
+            `loki_snode:::_getAllVerionsForRandomSnodePool - error`,
+            e.code,
+            e.message
           );
-          reject();
-        }, delay);
-        trySeedNode();
-      });
-    }
-    try {
-      await this.refreshRandomPoolPromise;
-    } catch (e) {
-      // we will throw for each time initialiseRandomPool has been called in parallel
-      log.error(
-        'loki_snodes:::refreshRandomPoolPromise - error',
-        e.code,
-        e.message
-      );
-      throw new window.textsecure.SeedNodeError('Failed to contact seed node');
-    }
-    log.info('loki_snodes:::refreshRandomPoolPromise - RESOLVED');
-    delete this.refreshRandomPoolPromise; // clear any lock
+          throw e;
+        }
+      }
+    );
+    // make abortable accessible outside this scope
+    this.stopGetAllVersionPromiseControl = loop.stop;
+    await loop.start(true);
+    this.stopGetAllVersionPromiseControl = false; // clear lock
+    // an array of objects
+    const versions = this.randomSnodePool.reduce((curVal, node) => {
+      if (curVal.indexOf(node.version) === -1) {
+        curVal.push(node.version);
+      }
+      return curVal;
+    }, []);
+    log.debug(
+      `loki_snode:::_getAllVerionsForRandomSnodePool - ${
+        versions.length
+      } versions retrieved from network!:`,
+      versions.join(',')
+    );
+  }
+
+  async refreshRandomPool(seedNodes = [...window.seedNodeList]) {
+    return primitives.allowOnlyOneAtATime('refreshRandomPool', async () => {
+      // are we running any _getAllVerionsForRandomSnodePool
+      if (this.stopGetAllVersionPromiseControl !== false) {
+        // we are, stop them
+        this.stopGetAllVersionPromiseControl();
+      }
+      let snodes = [];
+      try {
+        snodes = await getSnodeListFromLokidSeednode(seedNodes);
+        // make sure order of the list is random, so we get version in a non-deterministic way
+        snodes = _.shuffle(snodes);
+        // commit changes to be live
+        // we'll update the version (in case they upgrade) every cycle
+        this.randomSnodePool = snodes.map(snode => ({
+          ip: snode.public_ip,
+          port: snode.storage_port,
+          pubkey_x25519: snode.pubkey_x25519,
+          pubkey_ed25519: snode.pubkey_ed25519,
+        }));
+        log.info(
+          'loki_snodes:::refreshRandomPool - Refreshed random snode pool with',
+          this.randomSnodePool.length,
+          'snodes'
+        );
+        // start polling versions but no need to await it
+        this._getAllVerionsForRandomSnodePool();
+      } catch (e) {
+        log.warn('loki_snodes:::refreshRandomPool - error', e.code, e.message);
+        /*
+        log.error(
+          'loki_snodes:::refreshRandomPoolPromise -  Giving up trying to contact seed node'
+        );
+        */
+        if (snodes.length === 0) {
+          throw new window.textsecure.SeedNodeError(
+            'Failed to contact seed node'
+          );
+        }
+      }
+      return this.randomSnodePool;
+    });
   }
 
   // unreachableNode.url is like 9hrje1bymy7hu6nmtjme9idyu3rm8gr3mkstakjyuw1997t7w4ny.snode
@@ -536,8 +606,7 @@ class LokiSnodeAPI {
       // keep all but thisNode
       const thisNode =
         node.address === unreachableNode.address &&
-        node.ip === unreachableNode.ip &&
-        node.port === unreachableNode.port;
+        compareSnodes(unreachableNode, node);
       if (thisNode) {
         found = true;
       }
@@ -550,59 +619,57 @@ class LokiSnodeAPI {
         } has already been marked as bad`
       );
     }
-    await conversation.updateSwarmNodes(filteredNodes);
+    try {
+      await conversation.updateSwarmNodes(filteredNodes);
+    } catch (e) {
+      log.error(`loki_snodes:::unreachableNode - error ${e.code} ${e.message}`);
+      throw e;
+    }
     return filteredNodes;
   }
 
-  markRandomNodeUnreachable(snode, options = {}) {
-    // avoid retries when we can't get the version because they're offline
-    if (!options.versionPoolFailure) {
-      const snodeVersion = this.versionMap[`${snode.ip}:${snode.port}`];
-      if (this.versionPools[snodeVersion]) {
-        this.versionPools[snodeVersion] = _.without(
-          this.versionPools[snodeVersion],
-          snode
-        );
-      } else {
-        if (snodeVersion) {
-          // reverse map (versionMap) is out of sync with versionPools
-          log.error(
-            'loki_snode:::markRandomNodeUnreachable - No snodes for version',
-            snodeVersion,
-            'retrying in 10s'
-          );
-        } else {
-          // we don't know our version yet
-          // and if we're offline, we'll likely not get it until it restarts if it does...
-          log.warn(
-            'loki_snode:::markRandomNodeUnreachable - No version for snode',
-            `${snode.ip}:${snode.port}`,
-            'retrying in 10s'
-          );
-        }
-        // make sure we don't retry past 15 mins (10s * 100 ~ 1000s)
-        const retries = options.retries || 0;
-        if (retries < 100) {
-          setTimeout(() => {
-            this.markRandomNodeUnreachable(snode, {
-              ...options,
-              retries: retries + 1,
-            });
-          }, 10000);
-        }
-      }
-    }
+  markRandomNodeUnreachable(snode) {
     this.randomSnodePool = _.without(this.randomSnodePool, snode);
   }
 
-  async updateLastHash(snode, hash, expiresAt) {
-    await window.Signal.Data.updateLastHash({ snode, hash, expiresAt });
+  async updateLastHash(snodeAddress, hash, expiresAt) {
+    // FIXME: handle rejections
+    await window.Signal.Data.updateLastHash({
+      snode: snodeAddress,
+      hash,
+      expiresAt,
+    });
   }
 
-  getSwarmNodesForPubKey(pubKey) {
+  // called by loki_message:::sendMessage & loki_message:::startLongPolling
+  async getSwarmNodesForPubKey(pubKey, options = {}) {
+    const { fetchHashes } = options;
     try {
       const conversation = ConversationController.get(pubKey);
       const swarmNodes = [...conversation.get('swarmNodes')];
+
+      // always? include lashHash
+      if (fetchHashes) {
+        await Promise.all(
+          Object.keys(swarmNodes).map(async j => {
+            const node = swarmNodes[j];
+            // FIXME make a batch function call
+            const lastHash = await window.Signal.Data.getLastHashBySnode(
+              node.address
+            );
+            log.debug(
+              `loki_snode:::getSwarmNodesForPubKey - ${j} ${node.ip}:${
+                node.port
+              }`
+            );
+            swarmNodes[j] = {
+              ...node,
+              lastHash,
+            };
+          })
+        );
+      }
+
       return swarmNodes;
     } catch (e) {
       throw new window.textsecure.ReplayableError({
@@ -618,39 +685,40 @@ class LokiSnodeAPI {
       await conversation.updateSwarmNodes(filteredNodes);
       return filteredNodes;
     } catch (e) {
+      log.error(
+        `loki_snodes:::updateSwarmNodes - error ${e.code} ${e.message}`
+      );
       throw new window.textsecure.ReplayableError({
         message: 'Could not get conversation',
       });
     }
   }
 
+  // FIXME: in it's own PR, reorder functions: put _getFreshSwarmNodes and it's callee
+  // only loki_message::startLongPolling calls this...
   async refreshSwarmNodesForPubKey(pubKey) {
-    const newNodes = await this.getFreshSwarmNodes(pubKey);
+    // FIXME: handle rejections
+    const newNodes = await this._getFreshSwarmNodes(pubKey);
     const filteredNodes = this.updateSwarmNodes(pubKey, newNodes);
     return filteredNodes;
   }
 
-  async getFreshSwarmNodes(pubKey) {
-    if (!(pubKey in this.swarmsPendingReplenish)) {
-      this.swarmsPendingReplenish[pubKey] = new Promise(async resolve => {
-        let newSwarmNodes;
-        try {
-          newSwarmNodes = await this.getSwarmNodes(pubKey);
-        } catch (e) {
-          log.error(
-            'loki_snodes:::getFreshSwarmNodes - error',
-            e.code,
-            e.message
-          );
-          // TODO: Handle these errors sensibly
-          newSwarmNodes = [];
-        }
-        resolve(newSwarmNodes);
-      });
-    }
-    const newSwarmNodes = await this.swarmsPendingReplenish[pubKey];
-    delete this.swarmsPendingReplenish[pubKey];
-    return newSwarmNodes;
+  async _getFreshSwarmNodes(pubKey) {
+    return primitives.allowOnlyOneAtATime(`swarmRefresh${pubKey}`, async () => {
+      let newSwarmNodes = [];
+      try {
+        newSwarmNodes = await this._getSwarmNodes(pubKey);
+      } catch (e) {
+        log.error(
+          'loki_snodes:::_getFreshSwarmNodes - error',
+          e.code,
+          e.message
+        );
+        // TODO: Handle these errors sensibly
+        newSwarmNodes = [];
+      }
+      return newSwarmNodes;
+    });
   }
 
   // helper function
@@ -687,8 +755,9 @@ class LokiSnodeAPI {
     const nameHash = dcodeIO.ByteBuffer.wrap(output).toString('base64');
 
     // Get nodes capable of doing LNS
-    let lnsNodes = await this.getNodesMinVersion('2.0.3');
-    lnsNodes = _.shuffle(lnsNodes);
+    const lnsNodes = this.getNodesMinVersion('2.0.3');
+    // randomPool should already be shuffled
+    // lnsNodes = _.shuffle(lnsNodes);
 
     // Loop until 3 confirmations
 
@@ -745,8 +814,11 @@ class LokiSnodeAPI {
     return pubkey;
   }
 
-  async getSnodesForPubkey(snode, pubKey) {
+  // get snodes for pubkey from random snode
+  async _getSnodesForPubkey(pubKey) {
+    let snode = {};
     try {
+      snode = await this.getRandomSnodeAddress();
       const result = await lokiRpc(
         `https://${snode.ip}`,
         snode.port,
@@ -760,7 +832,7 @@ class LokiSnodeAPI {
       );
       if (!result) {
         log.warn(
-          `loki_snode:::getSnodesForPubkey - lokiRpc on ${snode.ip}:${
+          `loki_snode:::_getSnodesForPubkey - lokiRpc on ${snode.ip}:${
             snode.port
           } returned falsish value`,
           result
@@ -770,7 +842,7 @@ class LokiSnodeAPI {
       if (!result.snodes) {
         // we hit this when snode gives 500s
         log.warn(
-          `loki_snode:::getSnodesForPubkey - lokiRpc on ${snode.ip}:${
+          `loki_snode:::_getSnodesForPubkey - lokiRpc on ${snode.ip}:${
             snode.port
           } returned falsish value for snodes`,
           result
@@ -783,7 +855,7 @@ class LokiSnodeAPI {
       this.markRandomNodeUnreachable(snode);
       const randomPoolRemainingCount = this.getRandomPoolLength();
       log.error(
-        'loki_snodes:::getSnodesForPubkey - error',
+        'loki_snodes:::_getSnodesForPubkey - error',
         e.code,
         e.message,
         `for ${snode.ip}:${
@@ -794,19 +866,17 @@ class LokiSnodeAPI {
     }
   }
 
-  async getSwarmNodes(pubKey) {
+  async _getSwarmNodes(pubKey) {
     const snodes = [];
+    // creates a range: [0, 1, 2]
     const questions = [...Array(RANDOM_SNODES_TO_USE_FOR_PUBKEY_SWARM).keys()];
+    // FIXME: handle rejections
     await Promise.all(
       questions.map(async () => {
         // allow exceptions to pass through upwards
-        const rSnode = await this.getRandomSnodeAddress();
-        const resList = await this.getSnodesForPubkey(rSnode, pubKey);
-        // should we only activate entries that are in all results?
+        const resList = await this._getSnodesForPubkey(pubKey);
         resList.map(item => {
-          const hasItem = snodes.some(
-            hItem => item.ip === hItem.ip && item.port === hItem.port
-          );
+          const hasItem = snodes.some(n => compareSnodes(n, item));
           if (!hasItem) {
             snodes.push(item);
           }
@@ -814,6 +884,7 @@ class LokiSnodeAPI {
         });
       })
     );
+    // should we only activate entries that are in all results?
     return snodes;
   }
 }

@@ -3,6 +3,7 @@
 
 const nodeFetch = require('node-fetch');
 const https = require('https');
+const primitives = require('./loki_primitives');
 
 const snodeHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
@@ -12,8 +13,6 @@ const endpointBase = '/storage_rpc/v1';
 
 // Request index for debugging
 let onionReqIdx = 0;
-
-const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const encryptForNode = async (node, payload) => {
   const textEncoder = new TextEncoder();
@@ -195,7 +194,8 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
   let snodePool = await lokiSnodeAPI.getRandomSnodePool();
 
   if (snodePool.length < 2) {
-    log.error(
+    // this is semi-normal to happen
+    log.info(
       'lokiRpc::sendToProxy - Not enough service nodes for a proxy request, only have:',
       snodePool.length,
       'snode, attempting refresh'
@@ -277,7 +277,31 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     return sendToProxy(options, targetNode, retryNumber + 1);
   }
 
+  // 504 is only present in 2.0.3 and after
+  // relay is fine but destination is not good
+  if (response.status === 504) {
+    const pRetryNumber = retryNumber + 1;
+    if (pRetryNumber > 3) {
+      log.warn(
+        `lokiRpc:::sendToProxy - snode ${randSnode.ip}:${randSnode.port}`,
+        `can not relay to target node ${targetNode.ip}:${targetNode.port}`,
+        `after 3 retries`
+      );
+      if (options.ourPubKey) {
+        lokiSnodeAPI.unreachableNode(options.ourPubKey, targetNode);
+      }
+      return false;
+    }
+    // we don't have to wait here
+    // because we're not marking the random snode bad
+
+    // grab a fresh random one
+    return sendToProxy(options, targetNode, pRetryNumber);
+  }
+
   // detect SNode is not ready (not in swarm; not done syncing)
+  // 503 can be proxy target or destination in pre 2.0.3
+  // 2.0.3 and after means target
   if (response.status === 503 || response.status === 500) {
     // this doesn't mean the random node is bad, it could be the target node
     // but we got a ton of randomPool nodes, let's just not worry about this one
@@ -315,7 +339,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     // 500 burns through a node too fast,
     // let's slow the retry to give it more time to recover
     if (response.status === 500) {
-      await timeoutDelay(5000);
+      await primitives.sleepFor(5000);
     }
     return sendToProxy(options, targetNode, pRetryNumber);
   }
@@ -387,10 +411,17 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     // emulate nodeFetch response...
     jsonRes.json = () => {
       try {
+        if (jsonRes.body === 'Timestamp error: check your clock') {
+          log.error(
+            `lokiRpc:::sendToProxy - Timestamp error: check your clock`,
+            Date.now()
+          );
+          return false;
+        }
         return JSON.parse(jsonRes.body);
       } catch (e) {
         log.error(
-          'lokiRpc:::sendToProxy - parse error',
+          'lokiRpc:::sendToProxy - (inner) parse error',
           e.code,
           e.message,
           `from ${randSnode.ip}:${randSnode.port} json:`,
@@ -400,7 +431,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
       return false;
     };
     if (retryNumber) {
-      log.info(
+      log.debug(
         `lokiRpc:::sendToProxy - request succeeded,`,
         `snode ${randSnode.ip}:${randSnode.port} to ${targetNode.ip}:${
           targetNode.port
@@ -411,7 +442,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     return jsonRes;
   } catch (e) {
     log.error(
-      'lokiRpc:::sendToProxy - parse error',
+      'lokiRpc:::sendToProxy - (outer) parse error',
       e.code,
       e.message,
       `from ${randSnode.ip}:${randSnode.port} json:`,
@@ -475,12 +506,19 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
       const result = await sendToProxy(fetchOptions, targetNode);
       if (result === false) {
         // should we retry?
-        log.warn(`lokiRpc:::lokiFetch - sendToProxy returned false`);
+
+        // even though we can't be sure our caller is going to log or handle the failure
+        // we do know that sendToProxy should be logging
+        // so I don't think we need or want a log item here...
+        // log.warn(`lokiRpc:::lokiFetch - sendToProxy failed`);
+
         // one case is:
         //   snodePool didn't have enough
         //   even after a refresh
         //   likely a network disconnect?
-        // but not all cases...
+        // another is:
+        //   failure to send to target node after 3 retries
+        // what else?
         /*
         log.warn(
           'lokiRpc:::lokiFetch - useSnodeProxy failure, could not refresh randomPool, offline?'
@@ -498,7 +536,7 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
       fetchOptions.agent = snodeHttpsAgent;
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     } else {
-      log.info('lokirpc:::lokiFetch - http communication', url);
+      log.debug('lokirpc:::lokiFetch - http communication', url);
     }
     const response = await nodeFetch(url, fetchOptions);
     // restore TLS checking
