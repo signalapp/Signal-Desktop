@@ -113,6 +113,11 @@ class LokiMessageAPI {
       // eslint-disable-next-line more/no-then
       snode = await primitives.firstTrue(promises);
     } catch (e) {
+      log.warn(
+        `loki_message:::sendMessage - ${e.code} ${e.message} to ${pubKey} via ${
+          snode.ip
+        }:${snode.port}`
+      );
       if (e instanceof textsecure.WrongDifficultyError) {
         // Force nonce recalculation
         // NOTE: Currently if there are snodes with conflicting difficulties we
@@ -194,6 +199,9 @@ class LokiMessageAPI {
           '/storage_rpc/v1',
           targetNode
         );
+        // succcessful messages should look like
+        // `{\"difficulty\":1}`
+        // but so does invalid pow, so be careful!
 
         // do not return true if we get false here...
         if (result === false) {

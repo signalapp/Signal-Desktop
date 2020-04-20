@@ -414,7 +414,8 @@ window.lokiFeatureFlags = {
   privateGroupChats: true,
   useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
   useSealedSender: true,
-  useOnionRequests: false,
+  useOnionRequests: true,
+  onionRequestHops: 1,
 };
 
 // eslint-disable-next-line no-extend-native,func-names
@@ -440,14 +441,7 @@ if (
   };
   /* eslint-enable global-require, import/no-extraneous-dependencies */
   window.lokiFeatureFlags = {};
-  window.lokiSnodeAPI = {
-    refreshSwarmNodesForPubKey: () => [],
-    getFreshSwarmNodes: () => [],
-    updateSwarmNodes: () => {},
-    updateLastHash: () => {},
-    getSwarmNodesForPubKey: () => [],
-    buildNewOnionPaths: () => [],
-  };
+  window.lokiSnodeAPI = {}; // no need stub out each function here
 }
 if (config.environment.includes('test-integration')) {
   window.lokiFeatureFlags = {
