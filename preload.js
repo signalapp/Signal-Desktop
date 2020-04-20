@@ -448,5 +448,6 @@ if (config.environment.includes('test-integration')) {
     multiDeviceUnpairing: true,
     privateGroupChats: true,
     useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
+    useSealedSender: true,
   };
 }
