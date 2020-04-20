@@ -520,13 +520,8 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
           fetchOptions.body
         );
 
-        const getPathString = pathObjArr => {
-          const pathArr = [];
-          pathObjArr.forEach(node => {
-            pathArr.push(`${node.ip}:${node.port}`);
-          });
-          return pathArr.join(', ');
-        };
+        const getPathString = pathObjArr =>
+          pathObjArr.map(node => `${node.ip}:${node.port}`).join(', ');
 
         if (result === BAD_PATH) {
           log.error(
