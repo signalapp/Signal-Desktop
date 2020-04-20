@@ -259,6 +259,17 @@ function isVisible(window, bounds) {
   );
 }
 
+let windowIcon;
+const OS = process.platform;
+
+if (OS === 'win32') {
+  windowIcon = path.join(__dirname, 'build', 'icons', 'win', 'icon.ico');
+} else if (OS === 'linux') {
+  windowIcon = path.join(__dirname, 'images', 'signal-logo-desktop-linux.png');
+} else {
+  windowIcon = path.join(__dirname, 'build', 'icons', 'png', '512x512.png');
+}
+
 async function createWindow() {
   const { screen } = electron;
   const windowOptions = Object.assign(
@@ -281,7 +292,7 @@ async function createWindow() {
         nativeWindowOpen: true,
         spellcheck: await getSpellCheckSetting(),
       },
-      icon: path.join(__dirname, 'images', 'icon_256.png'),
+      icon: windowIcon,
     },
     _.pick(windowConfig, ['autoHideMenuBar', 'width', 'height', 'x', 'y'])
   );
@@ -836,7 +847,7 @@ app.on('ready', async () => {
         nodeIntegration: false,
         preload: path.join(__dirname, 'loading_preload.js'),
       },
-      icon: path.join(__dirname, 'images', 'icon_256.png'),
+      icon: windowIcon,
     });
 
     loadingWindow.once('ready-to-show', async () => {
