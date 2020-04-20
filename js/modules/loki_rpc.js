@@ -78,20 +78,30 @@ const BAD_PATH = 'bad_path';
 
 // May return false BAD_PATH, indicating that we should try a new
 const sendOnionRequest = async (reqIdx, nodePath, targetNode, plaintext) => {
-  log.debug('Sending an onion request');
+  const ctxes = [await encryptForDestination(targetNode, plaintext)];
+  // from (3) 2 to 0
+  const firstPos = nodePath.length - 1;
 
-  const ctx1 = await encryptForDestination(targetNode, plaintext);
-  const ctx2 = await encryptForRelay(nodePath[2], targetNode, ctx1);
-  const ctx3 = await encryptForRelay(nodePath[1], nodePath[2], ctx2);
-  const ctx4 = await encryptForRelay(nodePath[0], nodePath[1], ctx3);
+  for (let i = firstPos; i > -1; i -= 1) {
+    // this nodePath points to the previous (i + 1) context
+    ctxes.push(
+      // eslint-disable-next-line no-await-in-loop
+      await encryptForRelay(
+        nodePath[i],
+        i === firstPos ? targetNode : nodePath[i + 1],
+        ctxes[ctxes.length - 1]
+      )
+    );
+  }
+  const guardCtx = ctxes[ctxes.length - 1]; // last ctx
 
-  const ciphertextBase64 = dcodeIO.ByteBuffer.wrap(ctx4.ciphertext).toString(
-    'base64'
-  );
+  const ciphertextBase64 = dcodeIO.ByteBuffer.wrap(
+    guardCtx.ciphertext
+  ).toString('base64');
 
   const payload = {
     ciphertext: ciphertextBase64,
-    ephemeral_key: StringView.arrayBufferToHex(ctx4.ephemeral_key),
+    ephemeral_key: StringView.arrayBufferToHex(guardCtx.ephemeral_key),
   };
 
   const fetchOptions = {
@@ -106,13 +116,13 @@ const sendOnionRequest = async (reqIdx, nodePath, targetNode, plaintext) => {
   const response = await nodeFetch(url, fetchOptions);
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
 
-  return processOnionResponse(reqIdx, response, ctx1.symmetricKey, true);
+  return processOnionResponse(reqIdx, response, ctxes[0].symmetricKey, true);
 };
 
 // Process a response as it arrives from `nodeFetch`, handling
 // http errors and attempting to decrypt the body with `sharedKey`
 const processOnionResponse = async (reqIdx, response, sharedKey, useAesGcm) => {
-  log.debug(`(${reqIdx}) [path] processing onion response`);
+  // FIXME: 401/500 handling?
 
   // detect SNode is not ready (not in swarm; not done syncing)
   if (response.status === 503) {
@@ -464,6 +474,31 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
     method,
   };
 
+  async function checkResponse(response, type) {
+    // Wrong swarm
+    if (response.status === 421) {
+      const result = await response.json();
+      log.warn(
+        `lokirpc:::lokiFetch ${type} - wrong swarm, now looking at snodes`,
+        result.snode
+      );
+      const newSwarm = result.snodes ? result.snodes : [];
+      throw new textsecure.WrongSwarmError(newSwarm);
+    }
+
+    // Wrong PoW difficulty
+    if (response.status === 432) {
+      const result = await response.json();
+      throw new textsecure.WrongDifficultyError(result.difficulty);
+    }
+
+    if (response.status === 406) {
+      throw new textsecure.TimestampError(
+        'Invalid Timestamp (check your clock)'
+      );
+    }
+  }
+
   try {
     // Absence of targetNode indicates that we want a direct connection
     // (e.g. to connect to a seed node for the first time)
@@ -477,14 +512,6 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
         const thisIdx = onionReqIdx;
         onionReqIdx += 1;
 
-        log.debug(
-          `(${thisIdx}) using path ${path[0].ip}:${path[0].port} -> ${
-            path[1].ip
-          }:${path[1].port} -> ${path[2].ip}:${path[2].port} => ${
-            targetNode.ip
-          }:${targetNode.port}`
-        );
-
         // eslint-disable-next-line no-await-in-loop
         const result = await sendOnionRequest(
           thisIdx,
@@ -494,11 +521,41 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
         );
 
         if (result === BAD_PATH) {
-          log.error('[path] Error on the path');
+          const pathArr = [];
+          path.forEach(node => {
+            pathArr.push(`${node.ip}:${node.port}`);
+          });
+          log.error(
+            `[path] Error on the path: ${pathArr.join(', ')} to ${
+              targetNode.ip
+            }:${targetNode.port}`
+          );
           lokiSnodeAPI.markPathAsBad(path);
-        } else {
-          return result ? result.json() : false;
+          return false;
         }
+
+        // result maybe false
+        if (result) {
+          // will throw if there's a problem
+          // eslint-disable-next-line no-await-in-loop
+          await checkResponse(result, 'onion');
+        } else {
+          // false could mean, fail to parse results
+          // or status code wasn't 200
+          // or can't decrypt
+          // it's not a bad_path, so we don't need to mark the path as bad
+          const pathArr = [];
+          path.forEach(node => {
+            pathArr.push(`${node.ip}:${node.port}`);
+          });
+          log.error(
+            `[path] sendOnionRequest gave false for path: ${pathArr.join(
+              ', '
+            )} to ${targetNode.ip}:${targetNode.port}`
+          );
+        }
+
+        return result ? result.json() : false;
       }
     }
 
@@ -527,8 +584,17 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
         // pass the false value up
         return false;
       }
+
+      // result maybe false
+      if (result) {
+        // will throw if there's a problem
+        await checkResponse(result, 'proxy');
+      }
+
       // if not result, maybe we should throw??
-      return result ? result.json() : {};
+      // [] would make _retrieveNextMessages return undefined
+      // which would break messages.length
+      return result ? result.json() : false;
     }
 
     if (url.match(/https:\/\//)) {
@@ -542,31 +608,14 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
     // restore TLS checking
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
 
-    let result;
-    // Wrong swarm
-    if (response.status === 421) {
-      result = await response.json();
-      const newSwarm = result.snodes ? result.snodes : [];
-      throw new textsecure.WrongSwarmError(newSwarm);
-    }
-
-    // Wrong PoW difficulty
-    if (response.status === 432) {
-      result = await response.json();
-      const { difficulty } = result;
-      throw new textsecure.WrongDifficultyError(difficulty);
-    }
-
-    if (response.status === 406) {
-      throw new textsecure.TimestampError(
-        'Invalid Timestamp (check your clock)'
-      );
-    }
+    // will throw if there's a problem
+    await checkResponse(response, 'direct');
 
     if (!response.ok) {
       throw new textsecure.HTTPError('Loki_rpc error', response);
     }
 
+    let result;
     if (response.headers.get('Content-Type') === 'application/json') {
       result = await response.json();
     } else if (options.responseType === 'arraybuffer') {
