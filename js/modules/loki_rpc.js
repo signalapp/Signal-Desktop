@@ -520,37 +520,36 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
           fetchOptions.body
         );
 
-        if (result === BAD_PATH) {
+        const getPathString = pathObjArr => {
           const pathArr = [];
-          path.forEach(node => {
+          pathObjArr.forEach(node => {
             pathArr.push(`${node.ip}:${node.port}`);
           });
+          return pathArr.join(', ');
+        };
+
+        if (result === BAD_PATH) {
           log.error(
-            `[path] Error on the path: ${pathArr.join(', ')} to ${
+            `[path] Error on the path: ${getPathString(path)} to ${
               targetNode.ip
             }:${targetNode.port}`
           );
           lokiSnodeAPI.markPathAsBad(path);
           return false;
-        }
-
-        // result maybe false
-        if (result) {
+        } else if (result) {
+          // not bad_path
           // will throw if there's a problem
           // eslint-disable-next-line no-await-in-loop
           await checkResponse(result, 'onion');
         } else {
+          // not truish and not bad_path
           // false could mean, fail to parse results
           // or status code wasn't 200
           // or can't decrypt
           // it's not a bad_path, so we don't need to mark the path as bad
-          const pathArr = [];
-          path.forEach(node => {
-            pathArr.push(`${node.ip}:${node.port}`);
-          });
           log.error(
-            `[path] sendOnionRequest gave false for path: ${pathArr.join(
-              ', '
+            `[path] sendOnionRequest gave false for path: ${getPathString(
+              path
             )} to ${targetNode.ip}:${targetNode.port}`
           );
         }
@@ -583,13 +582,10 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
         */
         // pass the false value up
         return false;
-      }
-
-      // result maybe false
-      if (result) {
+      } else if (result) {
         // will throw if there's a problem
         await checkResponse(result, 'proxy');
-      }
+      } // result is not truish and not explicitly false
 
       // if not result, maybe we should throw??
       // [] would make _retrieveNextMessages return undefined
