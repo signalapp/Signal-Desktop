@@ -5,7 +5,6 @@
   ConversationController,
   libloki,
   StringView,
-  dcodeIO,
   lokiMessageAPI,
   i18n,
 */
@@ -429,42 +428,24 @@ OutgoingMessage.prototype = {
       );
     }
 
-    let type;
-    let content;
-    if (window.lokiFeatureFlags.useSealedSender) {
-      const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
-        textsecure.storage.protocol
-      );
-      // ciphers[address.getDeviceId()] = secretSessionCipher;
+    const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
+      textsecure.storage.protocol
+    );
+    // ciphers[address.getDeviceId()] = secretSessionCipher;
 
-      const senderCert = new textsecure.protobuf.SenderCertificate();
+    const senderCert = new textsecure.protobuf.SenderCertificate();
 
-      senderCert.sender = ourKey;
-      senderCert.senderDevice = deviceId;
+    senderCert.sender = ourKey;
+    senderCert.senderDevice = deviceId;
 
-      const ciphertext = await secretSessionCipher.encrypt(
-        address,
-        senderCert,
-        plaintext,
-        sessionCipher
-      );
-      type = textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER;
-      content = window.Signal.Crypto.arrayBufferToBase64(ciphertext);
-    } else {
-      // TODO: probably remove this branch once
-      // mobile clients implement sealed sender
-      // ciphers[address.getDeviceId()] = sessionCipher;
-      const ciphertext = await sessionCipher.encrypt(plaintext);
-      if (!enableFallBackEncryption) {
-        // eslint-disable-next-line no-param-reassign
-        ciphertext.body = new Uint8Array(
-          dcodeIO.ByteBuffer.wrap(ciphertext.body, 'binary').toArrayBuffer()
-        );
-      }
-      // eslint-disable-next-line prefer-destructuring
-      type = ciphertext.type;
-      content = ciphertext.body;
-    }
+    const ciphertext = await secretSessionCipher.encrypt(
+      address,
+      senderCert,
+      plaintext,
+      sessionCipher
+    );
+    const type = textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER;
+    const content = window.Signal.Crypto.arrayBufferToBase64(ciphertext);
 
     return {
       type, // FallBackSessionCipher sets this to FRIEND_REQUEST
