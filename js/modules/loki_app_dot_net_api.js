@@ -1423,22 +1423,32 @@ class LokiPublicChannelAPI {
       );
 
       // if any problems, abort out
-      if (res.err || !res.response) {
+      if (
+        res.err ||
+        !res.response ||
+        !res.response.data ||
+        !res.response.meta
+      ) {
         if (res.err) {
           log.error(`pollOnceForDeletions Error ${res.err}`);
+        } else {
+          log.error(
+            `pollOnceForDeletions Error: Received incorrect response ${
+              res.response
+            }`
+          );
         }
         break;
       }
 
       // Process results
-      res.response.data.reverse().forEach(deleteEntry => {
-        // Escalate it up to the subsystem that can check to see if this has
-        // been processed
-        Whisper.events.trigger('deleteLocalPublicMessage', {
-          messageServerId: deleteEntry.message_id,
+      const entries = res.response.data || [];
+      if (entries.length > 0) {
+        Whisper.events.trigger('deleteLocalPublicMessages', {
+          messageServerIds: entries.reverse().map(e => e.message_id),
           conversationId: this.conversationId,
         });
-      });
+      }
 
       // update where we last checked
       this.deleteLastId = res.response.meta.max_id;
