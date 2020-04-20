@@ -702,6 +702,24 @@
       }
     };
 
+    function getConversationByIndex(index) {
+      const state = store.getState();
+      const lists = Signal.State.Selectors.conversations.getLeftPaneLists(
+        state
+      );
+      const toSearch = state.conversations.showArchived
+        ? lists.archivedConversations
+        : lists.conversations;
+
+      const target = toSearch[index];
+
+      if (target) {
+        return target.id;
+      }
+
+      return null;
+    }
+
     function findConversation(conversationId, direction, unreadOnly) {
       const state = store.getState();
       const lists = Signal.State.Selectors.conversations.getLeftPaneLists(
@@ -738,6 +756,18 @@
 
       return null;
     }
+
+    const NUMBERS = {
+      '1': 1,
+      '2': 2,
+      '3': 3,
+      '4': 4,
+      '5': 5,
+      '6': 6,
+      '7': 7,
+      '8': 8,
+      '9': 9,
+    };
 
     document.addEventListener('keydown', event => {
       const { altKey, ctrlKey, key, metaKey, shiftKey } = event;
@@ -911,8 +941,24 @@
         return;
       }
 
-      // Change currently selected conversation - up/down, to next/previous unread
-      if (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowUp') {
+      // Change currently selected conversation by index
+      if (!isSearching && commandOrCtrl && NUMBERS[key]) {
+        const targetId = getConversationByIndex(NUMBERS[key] - 1);
+
+        if (targetId) {
+          window.Whisper.events.trigger('showConversation', targetId);
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+      }
+
+      // Change currently selected conversation
+      // up/previous
+      if (
+        (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowUp') ||
+        (!isSearching && ctrlKey && shiftKey && key === 'Tab')
+      ) {
         const unreadOnly = false;
         const targetId = findConversation(
           conversation ? conversation.id : null,
@@ -927,7 +973,11 @@
           return;
         }
       }
-      if (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowDown') {
+      // down/next
+      if (
+        (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowDown') ||
+        (!isSearching && ctrlKey && key === 'Tab')
+      ) {
         const unreadOnly = false;
         const targetId = findConversation(
           conversation ? conversation.id : null,
@@ -942,6 +992,7 @@
           return;
         }
       }
+      // previous unread
       if (!isSearching && optionOrAlt && shiftKey && key === 'ArrowUp') {
         const unreadOnly = true;
         const targetId = findConversation(
@@ -957,6 +1008,7 @@
           return;
         }
       }
+      // next unread
       if (!isSearching && optionOrAlt && shiftKey && key === 'ArrowDown') {
         const unreadOnly = true;
         const targetId = findConversation(

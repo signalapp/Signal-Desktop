@@ -7697,11 +7697,15 @@ button.module-image__border-overlay:focus {
   margin-bottom: 4px;
 }
 .module-shortcut-guide__shortcut__key-container {
-  text-align: right;
-  margin-right: 4px;
   margin-bottom: 4px;
+}
+.module-shortcut-guide__shortcut__key-inner-container {
+  text-align: right;
+  margin-top: 4px;
+  margin-right: 4px;
   white-space: nowrap;
 }
+
 .module-shortcut-guide__shortcut__key {
   display: inline-block;
 
@@ -7709,7 +7713,6 @@ button.module-image__border-overlay:focus {
   padding: 3px;
   padding-left: 8px;
   padding-right: 8px;
-  margin-top: 4px;
   margin-left: 4px;
 
   height: 30px;

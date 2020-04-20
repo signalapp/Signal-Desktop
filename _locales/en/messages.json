@@ -1969,6 +1969,10 @@
     "message": "Remove all draft attachments",
     "description": "Shown in the shortcuts guide"
   },
+  "Keyboard--conversation-by-index": {
+    "message": "Jump to conversation",
+    "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
     "description": "Key shown in shortcut combination in shortcuts guide"
@@ -1988,6 +1992,14 @@
   "Keyboard--Key--enter": {
     "message": "Enter",
     "description": "Key shown in shortcut combination in shortcuts guide"
+  },
+  "Keyboard--Key--tab": {
+    "message": "Tab",
+    "description": "Key shown in shortcut combination in shortcuts guide"
+  },
+  "Keyboard--Key--one-to-nine-range": {
+    "message": "1 to 9",
+    "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
   },
   "Keyboard--header": {
     "message": "Keyboard Shortcuts",
