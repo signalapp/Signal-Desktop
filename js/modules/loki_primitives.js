@@ -109,7 +109,6 @@ function abortableIterator(array, iterator) {
     start: async serially => {
       let item = destructableList.pop();
       while (item && !abortIteration) {
-        // log.debug('iterating on item', item);
         if (serially) {
           try {
             // eslint-disable-next-line no-await-in-loop

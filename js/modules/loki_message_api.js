@@ -305,7 +305,6 @@ class LokiMessageAPI {
           // won't include parsing failures...
           successiveFailures = 0;
           if (messages.length) {
-            // log.debug(`loki_message:::_openRetrieveConnection - received ${messages.length} messages from ${nodeData.ip}:${nodeData.port}`)
             const lastMessage = _.last(messages);
             nodeData.lastHash = lastMessage.hash;
             await lokiSnodeAPI.updateLastHash(
