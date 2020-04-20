@@ -348,13 +348,15 @@ class LokiSnodeAPI {
     const guards = _.shuffle(this.guardNodes);
 
     // Create path for every guard node:
-    const needPaths = window.lokiFeatureFlags.onionRequestPaths - 1;
+    const nodesNeededPerPaths = window.lokiFeatureFlags.onionRequestHops - 1;
 
-    // Each path needs X (needPaths) nodes in addition to the guard node:
+    // Each path needs X (nodesNeededPerPaths) nodes in addition to the guard node:
     const maxPath = Math.floor(
       Math.min(
         guards.length,
-        needPaths ? otherNodes.length / needPaths : otherNodes.length
+        nodesNeededPerPaths
+          ? otherNodes.length / nodesNeededPerPaths
+          : otherNodes.length
       )
     );
 
@@ -363,8 +365,8 @@ class LokiSnodeAPI {
 
     for (let i = 0; i < maxPath; i += 1) {
       const path = [guards[i]];
-      for (let j = 0; j < needPaths; j += 1) {
-        path.push(otherNodes[i * needPaths + j]);
+      for (let j = 0; j < nodesNeededPerPaths; j += 1) {
+        path.push(otherNodes[i * nodesNeededPerPaths + j]);
       }
       this.onionPaths.push({ path, bad: false });
     }

@@ -415,7 +415,7 @@ window.lokiFeatureFlags = {
   useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
   useSealedSender: true,
   useOnionRequests: true,
-  onionRequestPaths: 1,
+  onionRequestHops: 1,
 };
 
 // eslint-disable-next-line no-extend-native,func-names
