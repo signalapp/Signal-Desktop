@@ -1086,9 +1086,7 @@ export class Message extends React.PureComponent<Props, State> {
     // We parse the message later, but we still need to do an early check
     // to see if the message mentions us, so we can display the entire
     // message differently
-    const mentions = text
-      ? text.match(window.pubkeyPattern)
-      : [];
+    const mentions = text ? text.match(window.pubkeyPattern) : [];
     const mentionMe =
       mentions &&
       mentions.some(m => m.slice(1) === window.lokiPublicChatAPI.ourKey);
