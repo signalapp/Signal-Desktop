@@ -1057,6 +1057,7 @@ MessageSender.prototype = {
     const proto = new textsecure.protobuf.DataMessage();
     proto.body = 'TERMINATE';
     proto.flags = textsecure.protobuf.DataMessage.Flags.END_SESSION;
+    proto.timestamp = timestamp;
 
     const logError = prefix => error => {
       window.log.error(prefix, error && error.stack ? error.stack : error);
