@@ -196,6 +196,7 @@
             value: item.get('seconds'),
           })),
           hasNickname: !!this.model.getNickname(),
+          isKickedFromGroup: this.model.get('isKickedFromGroup'),
 
           onSetDisappearingMessages: seconds =>
             this.setDisappearingMessages(seconds),
@@ -294,6 +295,7 @@
           amMod: this.model.isModerator(
             window.storage.get('primaryDevicePubKey')
           ),
+          isKickedFromGroup: this.model.get('isKickedFromGroup'),
 
           timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
             name: item.getName(),

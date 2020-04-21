@@ -1160,6 +1160,11 @@
         const conversationExists = ConversationController.get(conversationId);
         if (conversationExists) {
           window.log.warn('We are already a member of this public chat');
+          window.pushToast({
+            description: window.i18n('publicChatExists'),
+            type: 'info',
+            id: 'alreadyMemberPublicChat',
+          });
           return;
         }
 
