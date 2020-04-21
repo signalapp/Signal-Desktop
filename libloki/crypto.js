@@ -144,8 +144,8 @@
     return Multibase.decode(`${base32zCode}${snodeAddressClean}`);
   }
 
-  function generateEphemeralKeyPair() {
-    const keys = libsignal.Curve.generateKeyPair();
+  async function generateEphemeralKeyPair() {
+    const keys = await libsignal.Curve.async.generateKeyPair();
     // Signal protocol prepends with "0x05"
     keys.pubKey = keys.pubKey.slice(1);
     return keys;
