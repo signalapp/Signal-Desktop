@@ -451,24 +451,28 @@
   });
 
   Whisper.events.on(
-    'deleteLocalPublicMessage',
-    async ({ messageServerId, conversationId }) => {
-      const message = await window.Signal.Data.getMessageByServerId(
-        messageServerId,
-        conversationId,
-        {
-          Message: Whisper.Message,
-        }
+    'deleteLocalPublicMessages',
+    async ({ messageServerIds, conversationId }) => {
+      if (!Array.isArray(messageServerIds)) {
+        return;
+      }
+      const messageIds = await window.Signal.Data.getMessageIdsFromServerIds(
+        messageServerIds,
+        conversationId
       );
-      if (message) {
-        const conversation = ConversationController.get(conversationId);
+      if (messageIds.length === 0) {
+        return;
+      }
+
+      const conversation = ConversationController.get(conversationId);
+      messageIds.forEach(id => {
         if (conversation) {
-          conversation.removeMessage(message.id);
+          conversation.removeMessage(id);
         }
-        await window.Signal.Data.removeMessage(message.id, {
+        window.Signal.Data.removeMessage(id, {
           Message: Whisper.Message,
         });
-      }
+      });
     }
   );
 
