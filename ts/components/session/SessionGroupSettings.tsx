@@ -21,6 +21,7 @@ interface Props {
   isPublic: boolean;
   isAdmin: boolean;
   amMod: boolean;
+  isKickedFromGroup: boolean;
 
   onGoBack: () => void;
   onInviteFriends: () => void;
@@ -212,14 +213,17 @@ export class SessionGroupSettings extends React.Component<Props, any> {
       onLeaveGroup,
       isPublic,
       isAdmin,
+      isKickedFromGroup,
       amMod,
     } = this.props;
     const { documents, media, onItemClick } = this.state;
     const showMemberCount = !!(memberCount && memberCount > 0);
-    const hasDisappearingMessages = !isPublic;
+    const hasDisappearingMessages = !isPublic && !isKickedFromGroup;
     const leaveGroupString = isPublic
       ? window.i18n('leaveOpenGroup')
-      : window.i18n('leaveClosedGroup');
+      : isKickedFromGroup
+        ? window.i18n('youAreKickedFromThisGroup')
+        : window.i18n('leaveClosedGroup');
 
     const disappearingMessagesOptions = timerOptions.map(option => {
       return {
@@ -230,8 +234,10 @@ export class SessionGroupSettings extends React.Component<Props, any> {
       };
     });
 
-    const showUpdateGroupNameButton = isPublic ? amMod : isAdmin;
-    const showUpdateGroupMembersButton = !isPublic && isAdmin;
+    const showUpdateGroupNameButton =
+      isPublic && !isKickedFromGroup ? amMod : isAdmin;
+    const showUpdateGroupMembersButton =
+      !isPublic && !isKickedFromGroup && isAdmin;
 
     return (
       <div className="group-settings">
@@ -292,6 +298,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
           buttonColor={SessionButtonColor.Danger}
           buttonType={SessionButtonType.SquareOutline}
           onClick={onLeaveGroup}
+          disabled={isKickedFromGroup}
         />
       </div>
     );
@@ -305,9 +312,10 @@ export class SessionGroupSettings extends React.Component<Props, any> {
       avatarPath,
       isAdmin,
       isPublic,
+      isKickedFromGroup,
     } = this.props;
 
-    const showInviteFriends = isPublic || isAdmin;
+    const showInviteFriends = (isPublic || isAdmin) && !isKickedFromGroup;
 
     return (
       <div className="group-settings-header">
