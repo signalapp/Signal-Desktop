@@ -99,7 +99,7 @@
         throw new Error('Failed to get keypair for encryption');
       }
       const myPrivateKey = myKeyPair.privKey;
-      const symmetricKey = libsignal.Curve.calculateAgreement(
+      const symmetricKey = await libsignal.Curve.async.calculateAgreement(
         this.pubKey,
         myPrivateKey
       );
@@ -117,7 +117,7 @@
         throw new Error('Failed to get keypair for decryption');
       }
       const myPrivateKey = myKeyPair.privKey;
-      const symmetricKey = libsignal.Curve.calculateAgreement(
+      const symmetricKey = await libsignal.Curve.async.calculateAgreement(
         this.pubKey,
         myPrivateKey
       );
@@ -290,7 +290,7 @@
       throw new Error('Failed to get keypair for token decryption');
     }
     const { privKey } = keyPair;
-    const symmetricKey = libsignal.Curve.calculateAgreement(
+    const symmetricKey = await libsignal.Curve.async.calculateAgreement(
       serverPubKey,
       privKey
     );

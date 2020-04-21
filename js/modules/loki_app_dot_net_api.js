@@ -101,7 +101,7 @@ const sendToProxy = async (
   const ephemeralKey = await libsignal.Curve.async.generateKeyPair();
 
   // mix server pub key with our priv key
-  const symKey = libsignal.Curve.calculateAgreement(
+  const symKey = await libsignal.Curve.async.calculateAgreement(
     srvPubKey, // server's pubkey
     ephemeralKey.privKey // our privkey
   );

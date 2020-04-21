@@ -22,7 +22,7 @@ const encryptForNode = async (node, payload) => {
 
   const snPubkey = StringView.hexToArrayBuffer(node.pubkey_x25519);
 
-  const ephemeralSecret = libsignal.Curve.calculateAgreement(
+  const ephemeralSecret = await libsignal.Curve.async.calculateAgreement(
     snPubkey,
     ephemeral.privKey
   );
@@ -237,7 +237,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
 
   const myKeys = await window.libloki.crypto.generateEphemeralKeyPair();
 
-  const symmetricKey = libsignal.Curve.calculateAgreement(
+  const symmetricKey = await libsignal.Curve.async.calculateAgreement(
     snPubkeyHex,
     myKeys.privKey
   );
