@@ -100,6 +100,7 @@ export interface Props {
   isPublic?: boolean;
   isRss?: boolean;
   selected: boolean;
+  isKickedFromGroup: boolean;
   // whether or not to show check boxes
   multiSelectMode: boolean;
 
@@ -782,11 +783,12 @@ export class Message extends React.PureComponent<Props, State> {
       attachments,
       direction,
       disableMenu,
+      isKickedFromGroup,
       onDownload,
       onReply,
     } = this.props;
 
-    if (!isCorrectSide || disableMenu) {
+    if (!isCorrectSide || disableMenu || isKickedFromGroup) {
       return null;
     }
 
@@ -907,6 +909,9 @@ export class Message extends React.PureComponent<Props, State> {
       }, 100);
     };
 
+    const isServerDeletable = !!this.props.isPublic;
+    const deleteMessageCtxText = i18n(isServerDeletable ? 'unsend' : 'delete');
+
     // CONTEXT MENU "Select Message" does not work
 
     return (
@@ -968,7 +973,7 @@ export class Message extends React.PureComponent<Props, State> {
             }}
             onClick={wrap(onDelete)}
           >
-            {i18n('deleteMessage')}
+            {deleteMessageCtxText}
           </MenuItem>
         ) : null}
         {isPublic ? (
@@ -1048,12 +1053,14 @@ export class Message extends React.PureComponent<Props, State> {
     return false;
   }
 
+  // tslint:disable-next-line: cyclomatic-complexity
   public render() {
     const {
       authorPhoneNumber,
       authorColor,
       direction,
       id,
+      isKickedFromGroup,
       isRss,
       timestamp,
       selected,
@@ -1103,7 +1110,7 @@ export class Message extends React.PureComponent<Props, State> {
       divClasses.push('public-chat-message-wrapper');
     }
 
-    const enableContextMenu = !isRss && !multiSelectMode;
+    const enableContextMenu = !isRss && !multiSelectMode && !isKickedFromGroup;
 
     return (
       <div className={classNames(divClasses)}>
@@ -1133,7 +1140,9 @@ export class Message extends React.PureComponent<Props, State> {
             }}
           >
             {this.renderError(isIncoming)}
-            {isRss ? null : this.renderMenu(!isIncoming, triggerId)}
+            {isRss || isKickedFromGroup
+              ? null
+              : this.renderMenu(!isIncoming, triggerId)}
             <div
               className={classNames(
                 'module-message__container',

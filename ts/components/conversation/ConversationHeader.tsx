@@ -62,6 +62,7 @@ interface Props {
   isOnline?: boolean;
 
   selectedMessages: any;
+  isKickedFromGroup: boolean;
 
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
@@ -145,6 +146,7 @@ export class ConversationHeader extends React.Component<Props> {
       subscriberCount,
       isFriendRequestPending,
       isMe,
+      isKickedFromGroup,
       name,
     } = this.props;
 
@@ -179,7 +181,7 @@ export class ConversationHeader extends React.Component<Props> {
     }
 
     const textEl =
-      text === '' ? null : (
+      text === '' || isKickedFromGroup ? null : (
         <span className="module-conversation-header__title-text">{text}</span>
       );
 
@@ -298,6 +300,7 @@ export class ConversationHeader extends React.Component<Props> {
       isPublic,
       isRss,
       isGroup,
+      isKickedFromGroup,
       amMod,
       onDeleteMessages,
       onDeleteContact,
@@ -320,20 +323,20 @@ export class ConversationHeader extends React.Component<Props> {
           <MenuItem onClick={onCopyPublicKey}>{copyIdLabel}</MenuItem>
         ) : null}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        {amMod ? (
+        {amMod && !isKickedFromGroup ? (
           <MenuItem onClick={onAddModerators}>{i18n('addModerators')}</MenuItem>
         ) : null}
-        {amMod ? (
+        {amMod && !isKickedFromGroup ? (
           <MenuItem onClick={onRemoveModerators}>
             {i18n('removeModerators')}
           </MenuItem>
         ) : null}
-        {amMod ? (
+        {amMod && !isKickedFromGroup ? (
           <MenuItem onClick={onUpdateGroupName}>
             {i18n('editGroupNameOrPicture')}
           </MenuItem>
         ) : null}
-        {isPrivateGroup ? (
+        {isPrivateGroup && !isKickedFromGroup ? (
           <MenuItem onClick={onLeaveGroup}>{i18n('leaveGroup')}</MenuItem>
         ) : null}
         {/* TODO: add delete group */}
@@ -356,7 +359,17 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public renderSelectionOverlay() {
-    const { onDeleteSelectedMessages, onCloseOverlay, i18n } = this.props;
+    const {
+      onDeleteSelectedMessages,
+      onCloseOverlay,
+      isPublic,
+      i18n,
+    } = this.props;
+
+    const isServerDeletable = isPublic;
+    const deleteMessageButtonText = i18n(
+      isServerDeletable ? 'unsend' : 'delete'
+    );
 
     return (
       <div className="message-selection-overlay">
@@ -372,7 +385,7 @@ export class ConversationHeader extends React.Component<Props> {
           <SessionButton
             buttonType={SessionButtonType.Default}
             buttonColor={SessionButtonColor.Danger}
-            text={i18n('delete')}
+            text={deleteMessageButtonText}
             onClick={onDeleteSelectedMessages}
           />
         </div>
@@ -381,7 +394,7 @@ export class ConversationHeader extends React.Component<Props> {
   }
 
   public render() {
-    const { id } = this.props;
+    const { id, isKickedFromGroup } = this.props;
     const triggerId = `conversation-${id}-${Date.now()}`;
 
     return (
@@ -397,7 +410,7 @@ export class ConversationHeader extends React.Component<Props> {
               {/*isPrivateGroup ? this.renderMemberCount() : null*/}
             </div>
           </div>
-          {this.renderExpirationLength()}
+          {!isKickedFromGroup && this.renderExpirationLength()}
 
           {!this.props.isRss && this.renderAvatar()}
 
@@ -426,6 +439,8 @@ export class ConversationHeader extends React.Component<Props> {
       isBlocked,
       isMe,
       isGroup,
+      isFriend,
+      isKickedFromGroup,
       isArchived,
       isPublic,
       isRss,
@@ -442,7 +457,6 @@ export class ConversationHeader extends React.Component<Props> {
       // hasNickname,
       // onClearNickname,
       // onChangeNickname,
-      isFriend,
     } = this.props;
 
     if (isPublic || isRss) {
@@ -454,20 +468,21 @@ export class ConversationHeader extends React.Component<Props> {
     const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
     const blockHandler = isBlocked ? onUnblockUser : onBlockUser;
 
-    const disappearingMessagesMenuItem = isFriend && (
-      <SubMenu title={disappearingTitle}>
-        {(timerOptions || []).map(item => (
-          <MenuItem
-            key={item.value}
-            onClick={() => {
-              onSetDisappearingMessages(item.value);
-            }}
-          >
-            {item.name}
-          </MenuItem>
-        ))}
-      </SubMenu>
-    );
+    const disappearingMessagesMenuItem = isFriend &&
+      !isKickedFromGroup && (
+        <SubMenu title={disappearingTitle}>
+          {(timerOptions || []).map(item => (
+            <MenuItem
+              key={item.value}
+              onClick={() => {
+                onSetDisappearingMessages(item.value);
+              }}
+            >
+              {item.name}
+            </MenuItem>
+          ))}
+        </SubMenu>
+      );
     const showMembersMenuItem = isGroup && (
       <MenuItem onClick={onShowGroupMembers}>{i18n('showMembers')}</MenuItem>
     );

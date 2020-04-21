@@ -164,7 +164,7 @@ module.exports = {
   removeAllMessagesInConversation,
 
   getMessageBySender,
-  getMessageByServerId,
+  getMessageIdsFromServerIds,
   getMessageById,
   getAllMessages,
   getAllUnsentMessages,
@@ -1007,13 +1007,8 @@ async function _removeMessages(ids) {
   await channels.removeMessage(ids);
 }
 
-async function getMessageByServerId(serverId, conversationId, { Message }) {
-  const message = await channels.getMessageByServerId(serverId, conversationId);
-  if (!message) {
-    return null;
-  }
-
-  return new Message(message);
+async function getMessageIdsFromServerIds(serverIds, conversationId) {
+  return channels.getMessageIdsFromServerIds(serverIds, conversationId);
 }
 
 async function getMessageById(id, { Message }) {

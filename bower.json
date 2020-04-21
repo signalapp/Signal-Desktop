@@ -56,7 +56,6 @@
       "node_modules/backbone/backbone.js",
       "components/indexeddb-backbonejs-adapter/**/*.js",
       "components/qrcode/**/*.js",
-      "node_modules/intl-tel-input/build/js/intlTelInput.js",
       "components/autosize/**/*.js",
       "components/webaudiorecorder/lib/WebAudioRecorder.js",
       "components/multibase/dist/index.js"
