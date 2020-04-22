@@ -780,20 +780,18 @@ class LokiSnodeAPI {
     const output = await window.blake2b(input);
     const nameHash = dcodeIO.ByteBuffer.wrap(output).toString('base64');
 
-    // Return value of null represents a timeout
     const timeoutResponse = { timedOut: true };
+    const maxTimeoutVal = 2**31 - 1;
     const timeoutPromise = (cb, interval) => () =>
-      new Promise(resolve => setTimeout(() => cb(resolve), interval));
+      new Promise(resolve => setTimeout(() => cb(resolve), interval || maxTimeoutVal));
     const onTimeout = timeoutPromise(
-      resolve => resolve(timeoutResponse),
-      timeout || Number.MAX_SAFE_INTEGER
+      resolve => resolve(timeoutResponse), timeout
     );
 
     // Get nodes capable of doing LNS
-    let lnsNodes = await this.getNodesMinVersion(
+    const lnsNodes = await this.getNodesMinVersion(
       window.CONSTANTS.LNS_CAPABLE_NODES_VERSION
     );
-    lnsNodes = _.shuffle(lnsNodes);
 
     // Enough nodes?
     if (lnsNodes.length < numRequiredConfirms) {
