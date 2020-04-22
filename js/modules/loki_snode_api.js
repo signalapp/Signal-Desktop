@@ -760,13 +760,13 @@ class LokiSnodeAPI {
     // Returns { pubkey, error }
     // pubkey is:
     //      null      when there is confirmed to be no LNS mapping
-    //      undefined when unconfirmee 
+    //      undefined when unconfirmed
     //      string    when found
     // timeout parameter optional (ms)
 
     // How many nodes to fetch data from?
     const numRequests = 5;
-    
+
     // How many nodes must have the same response value?
     const numRequiredConfirms = 3;
 
@@ -782,47 +782,47 @@ class LokiSnodeAPI {
 
     // Return value of null represents a timeout
     const timeoutResponse = { timedOut: true };
-    const timeoutPromise = (cb, interval) => () => new Promise(resolve => setTimeout(() => cb(resolve), interval));
-    const onTimeout = timeoutPromise(resolve => resolve(timeoutResponse), timeout || Number.MAX_SAFE_INTEGER);
+    const timeoutPromise = (cb, interval) => () =>
+      new Promise(resolve => setTimeout(() => cb(resolve), interval));
+    const onTimeout = timeoutPromise(
+      resolve => resolve(timeoutResponse),
+      timeout || Number.MAX_SAFE_INTEGER
+    );
 
     // Get nodes capable of doing LNS
-    let lnsNodes = await this.getNodesMinVersion(window.CONSTANTS.LNS_CAPABLE_NODES_VERSION);
+    let lnsNodes = await this.getNodesMinVersion(
+      window.CONSTANTS.LNS_CAPABLE_NODES_VERSION
+    );
     lnsNodes = _.shuffle(lnsNodes);
 
     // Enough nodes?
     if (lnsNodes.length < numRequiredConfirms) {
       error = window.i18n('lnsTooFewNodes');
-      return {pubkey, error};
+      return { pubkey, error };
     }
 
     const confirmedNodes = [];
 
     let cipherResolve;
-    // eslint-disable-next-line no-unused-vars
-    const cipherPromise = () => new Promise((resolve, _reject) => {
-      cipherResolve = resolve;
-    });
+    const cipherPromise = () =>
+      new Promise(resolve => {
+        cipherResolve = resolve;
+      });
 
     const decryptHex = async cipherHex => {
-      const ciphertext = new Uint8Array(
-        StringView.hexToArrayBuffer(cipherHex)
-      );
+      const ciphertext = new Uint8Array(StringView.hexToArrayBuffer(cipherHex));
 
       const res = await window.decryptLnsEntry(lnsName, ciphertext);
       const pubicKey = StringView.arrayBufferToHex(res);
 
       return pubicKey;
-    }
-   
+    };
+
     const fetchFromNode = async node => {
       const res = await this._requestLnsMapping(node, nameHash);
 
       // Do validation
-      if (
-        res &&
-        res.result &&
-        res.result.status === 'OK'
-      ) {
+      if (res && res.result && res.result.status === 'OK') {
         const hasMapping = res.result.entries && res.result.entries.length > 0;
 
         const resValue = hasMapping
@@ -832,7 +832,7 @@ class LokiSnodeAPI {
         confirmedNodes.push(resValue);
 
         if (confirmedNodes.length >= numRequiredConfirms) {
-          if (ciphertextHex){
+          if (ciphertextHex) {
             // result already found, dont worry
             return;
           }
@@ -843,40 +843,38 @@ class LokiSnodeAPI {
           );
 
           if (count >= numRequiredConfirms) {
-            ciphertextHex = winner === String(null)
-              ? null
-              : winner;
+            ciphertextHex = winner === String(null) ? null : winner;
 
             // null represents no LNS mapping
-            if (ciphertextHex === null){
+            if (ciphertextHex === null) {
               error = window.i18n('lnsMappingNotFound');
             }
 
-            cipherResolve({ciphertextHex});
+            cipherResolve({ ciphertextHex });
           }
         }
       }
-    }
+    };
 
     const nodes = lnsNodes.splice(0, numRequests);
-    
+
     // Start fetching from nodes
     Promise.resolve(nodes.map(async node => fetchFromNode(node)));
 
     // Timeouts (optional parameter)
     // Wait for cipher to be found; race against timeout
-    const { timedOut } = await Promise.race([cipherPromise, onTimeout].map(f => f()));
+    const { timedOut } = await Promise.race(
+      [cipherPromise, onTimeout].map(f => f())
+    );
 
     if (timedOut) {
       error = window.i18n('lnsLookupTimeout');
       return { pubkey, error };
     }
 
-    pubkey = ciphertextHex === null
-      ? null
-      : await decryptHex(ciphertextHex);
-      
-    return {pubkey, error};
+    pubkey = ciphertextHex === null ? null : await decryptHex(ciphertextHex);
+
+    return { pubkey, error };
   }
 
   // get snodes for pubkey from random snode
