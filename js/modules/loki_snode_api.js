@@ -758,9 +758,8 @@ class LokiSnodeAPI {
 
   async getLnsMapping(lnsName, timeout) {
     // Returns { pubkey, error }
-    // pubkey is:
-    //      null      when there is confirmed to be no LNS mapping
-    //      undefined when unconfirmed
+    // pubkey is
+    //      undefined when unconfirmed or no mapping found
     //      string    when found
     // timeout parameter optional (ms)
 
@@ -780,16 +779,12 @@ class LokiSnodeAPI {
     const output = await window.blake2b(input);
     const nameHash = dcodeIO.ByteBuffer.wrap(output).toString('base64');
 
-    const timeoutResponse = { timedOut: true };
+    // Timeouts
     const maxTimeoutVal = 2 ** 31 - 1;
-    const timeoutPromise = (cb, interval) => () =>
-      new Promise(resolve =>
-        setTimeout(() => cb(resolve), interval || maxTimeoutVal)
+    const timeoutPromise = () =>
+      new Promise((_resolve, reject) =>
+        setTimeout(() => reject(), timeout || maxTimeoutVal)
       );
-    const onTimeout = timeoutPromise(
-      resolve => resolve(timeoutResponse),
-      timeout
-    );
 
     // Get nodes capable of doing LNS
     const lnsNodes = await this.getNodesMinVersion(
@@ -798,12 +793,13 @@ class LokiSnodeAPI {
 
     // Enough nodes?
     if (lnsNodes.length < numRequiredConfirms) {
-      error = window.i18n('lnsTooFewNodes');
+      error = { lnsTooFewNodes: window.i18n('lnsTooFewNodes') };
       return { pubkey, error };
     }
 
     const confirmedNodes = [];
 
+    // Promise is only resolved when a consensus is found
     let cipherResolve;
     const cipherPromise = () =>
       new Promise(resolve => {
@@ -834,7 +830,7 @@ class LokiSnodeAPI {
 
         if (confirmedNodes.length >= numRequiredConfirms) {
           if (ciphertextHex) {
-            // result already found, dont worry
+            // Result already found, dont worry
             return;
           }
 
@@ -848,7 +844,7 @@ class LokiSnodeAPI {
 
             // null represents no LNS mapping
             if (ciphertextHex === null) {
-              error = window.i18n('lnsMappingNotFound');
+              error = { lnsMappingNotFound: window.i18n('lnsMappingNotFound') };
             }
 
             cipherResolve({ ciphertextHex });
@@ -864,16 +860,16 @@ class LokiSnodeAPI {
 
     // Timeouts (optional parameter)
     // Wait for cipher to be found; race against timeout
-    const { timedOut } = await Promise.race(
-      [cipherPromise, onTimeout].map(f => f())
-    );
-
-    if (timedOut) {
-      error = window.i18n('lnsLookupTimeout');
-      return { pubkey, error };
-    }
-
-    pubkey = ciphertextHex === null ? null : await decryptHex(ciphertextHex);
+    // eslint-disable-next-line more/no-then
+    await Promise.race([cipherPromise, timeoutPromise].map(f => f()))
+      .then(async () => {
+        if (ciphertextHex !== null) {
+          pubkey = await decryptHex(ciphertextHex);
+        }
+      })
+      .catch(() => {
+        error = { lnsLookupTimeout: window.i18n('lnsLookupTimeout') };
+      });
 
     return { pubkey, error };
   }
