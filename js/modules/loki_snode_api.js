@@ -781,11 +781,14 @@ class LokiSnodeAPI {
     const nameHash = dcodeIO.ByteBuffer.wrap(output).toString('base64');
 
     const timeoutResponse = { timedOut: true };
-    const maxTimeoutVal = 2**31 - 1;
+    const maxTimeoutVal = 2 ** 31 - 1;
     const timeoutPromise = (cb, interval) => () =>
-      new Promise(resolve => setTimeout(() => cb(resolve), interval || maxTimeoutVal));
+      new Promise(resolve =>
+        setTimeout(() => cb(resolve), interval || maxTimeoutVal)
+      );
     const onTimeout = timeoutPromise(
-      resolve => resolve(timeoutResponse), timeout
+      resolve => resolve(timeoutResponse),
+      timeout
     );
 
     // Get nodes capable of doing LNS
@@ -857,7 +860,7 @@ class LokiSnodeAPI {
     const nodes = lnsNodes.splice(0, numRequests);
 
     // Start fetching from nodes
-    Promise.resolve(nodes.map(async node => fetchFromNode(node)));
+    nodes.map(async node => fetchFromNode(node));
 
     // Timeouts (optional parameter)
     // Wait for cipher to be found; race against timeout
