@@ -1,143 +1,3 @@
-// Fonts changed to 'Public Sans' and Space Mono' as per req. Chad.
-$session-font-default: 'Public Sans';
-$session-font-mono: 'SpaceMono';
-
-@font-face {
-  font-family: $session-font-mono;
-  src: url('../fonts/SpaceMono-Regular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: $session-font-mono;
-  src: url('../fonts/SpaceMono-Bold.ttf') format('truetype');
-  font-weight: bold;
-}
-
-@font-face {
-  font-family: $session-font-mono;
-  src: url('../fonts/SpaceMono-Italic.ttf') format('truetype');
-  font-style: italic;
-}
-
-@font-face {
-  font-family: $session-font-mono;
-  src: url('../fonts/SpaceMono-BoldItalic.ttf') format('truetype');
-  font-weight: bold;
-  font-style: italic;
-}
-
-// Public Sans is an open replacement for 'SF Pro Text'
-@font-face {
-  font-family: $session-font-default;
-  src: url('../fonts/PublicSans-Regular.woff') format('woff');
-}
-@font-face {
-  font-family: $session-font-default;
-  src: url('../fonts/PublicSans-Italic.woff') format('woff');
-  font-style: italic;
-}
-@font-face {
-  font-family: $session-font-default;
-  src: url('../fonts/PublicSans-Bold.woff') format('woff');
-  font-weight: bold;
-}
-@font-face {
-  font-family: $session-font-default;
-  src: url('../fonts/PublicSans-BoldItalic.woff') format('woff');
-  font-weight: bold;
-  font-style: italic;
-}
-@font-face {
-  font-family: $session-font-default;
-  src: url('../fonts/PublicSans-Light.woff') format('woff');
-  font-weight: lighter;
-}
-@font-face {
-  font-family: $session-font-default;
-  src: url('../fonts/PublicSans-LightItalic.woff') format('woff');
-  font-weight: lighter;
-  font-style: italic;
-}
-
-@keyframes fadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-// Session Colors
-$session-color-green: #00f782;
-$session-color-green-alt-1: #00f480;
-$session-color-green-alt-2: #00fd73;
-$session-color-green-alt-3: #00f782;
-
-$session-shade-1: #0c0c0c;
-$session-shade-2: #161616;
-$session-shade-3: #191818;
-$session-shade-4: #1b1b1b;
-$session-shade-5: #222325;
-$session-shade-6: #232323;
-$session-shade-7: #2e2e2e;
-$session-shade-8: #2f2f2f;
-$session-shade-9: #313131;
-$session-shade-10: #3e3e3e;
-$session-shade-11: #3f3f3f;
-$session-shade-12: #3f4146;
-$session-shade-13: #474646;
-$session-shade-14: #535865;
-$session-shade-15: #5b6c72;
-$session-shade-16: #979797;
-$session-shade-17: #a0a0a0;
-$session-shade-18: #141414;
-
-$session-opaque-dark-1: rgba(0, 0, 0, 0.25);
-$session-opaque-dark-2: rgba(0, 0, 0, 0.37);
-$session-opaque-dark-3: rgba(0, 0, 0, 0.5);
-
-$session-color-white: #fff;
-$session-color-dark-grey: #353535;
-$session-color-black: #000;
-$session-color-danger: #ff453a;
-$session-color-primary: $session-shade-13;
-$session-color-secondary: $session-shade-6;
-$session-background-overlay: #212121;
-$session-background: #121212;
-
-$session-color-info: $session-shade-11;
-$session-color-success: #35d388;
-$session-color-error: #edd422;
-$session-color-warning: $session-shade-17;
-$session-color-warning-alt: #ff9d00;
-
-$session-color-light-grey: #a0a0a0;
-
-$session-shadow-opacity: 0.15;
-$session-overlay-opacity: 0.3;
-
-$session-margin-xs: 5px;
-$session-margin-sm: 10px;
-$session-margin-md: 15px;
-$session-margin-lg: 20px;
-
-$session-font-xs: 11px;
-$session-font-sm: 13px;
-$session-font-md: 15px;
-$session-font-lg: 18px;
-$session-font-xl: 24px;
-
-$session-font-h1: 30px;
-$session-font-h2: 24px;
-$session-font-h3: 20px;
-$session-font-h4: 16px;
-
-$session-search-input-height: 34px;
-$main-view-header-height: 63px;
-$session-left-pane-width: 300px;
-$session-left-pane-sections-container-width: 80px;
-
 div.spacer-sm {
   height: $session-margin-sm;
 }
@@ -146,15 +6,6 @@ div.spacer-md {
 }
 div.spacer-lg {
   height: $session-margin-lg;
-}
-
-@mixin session-filter-color-green {
-  filter: brightness(0) saturate(100%) invert(67%) sepia(69%) saturate(2367%)
-    hue-rotate(101deg) brightness(107%) contrast(101%);
-}
-
-@mixin session-color-subtle($color) {
-  color: rgba($color, 0.6);
 }
 
 // Blur for modals
@@ -184,41 +35,6 @@ textarea {
   caret-color: $session-color-green !important;
 }
 
-@mixin text-highlight($color) {
-  background-color: $color;
-  padding: $session-margin-xs $session-margin-sm;
-  border-radius: 3px;
-  display: inline-block;
-}
-
-@mixin session-dark-background {
-  background-color: $session-background;
-}
-@mixin session-dark-background-lighter {
-  background-color: $session-background-overlay;
-}
-@mixin session-dark-background-hover {
-  background-color: $session-shade-7;
-}
-
-$session-transition-duration: 0.25s;
-$session-fadein-duration: 0.1s;
-
-$session-icon-size-sm: 15px;
-$session-icon-size-md: 20px;
-$session-icon-size-lg: 30px;
-
-$session-modal-size-sm: 220px;
-$session-modal-size-md: 400px;
-$session-modal-size-lg: 650px;
-
-$session-conversation-header-height: 60px;
-
-@mixin fontDefaultBold {
-  font-weight: bold;
-  font-family: $session-font-default;
-}
-
 * {
   user-select: none;
 
@@ -232,21 +48,6 @@ $session-conversation-header-height: 60px;
     }
   }
 }
-
-$session-gradient-green: linear-gradient(
-  270deg,
-  rgba($session-color-green-alt-1, 1),
-  rgba($session-color-green-alt-1, 0.6)
-);
-$session-gradient-black: linear-gradient(
-  90deg,
-  rgba($session-shade-3, 1),
-  rgba($session-shade-4, 0.6)
-);
-
-$session-dark-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.37);
-
-$session_message-container-border-radius: 5px;
 
 .shadowed {
   opacity: $session-shadow-opacity;
@@ -494,7 +295,7 @@ $session_message-container-border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: $session-font-default;
+  font-family: $session-font-accent;
   border-radius: 50%;
   font-weight: 700;
   background: $session-color-danger;
@@ -544,7 +345,7 @@ $session-element-border-green: 4px solid $session-color-green;
 
 .module-conversation-header__title-flex,
 .module-conversation-header__title {
-  font-family: $session-font-default;
+  font-family: $session-font-accent;
   font-weight: bold;
   width: 100%;
   display: flex;
@@ -765,7 +566,7 @@ label {
 
     padding: $session-margin-lg;
 
-    font-family: $session-font-default;
+    font-family: $session-font-accent;
     text-align: center;
     line-height: 18px;
     font-size: $session-font-md;
@@ -803,7 +604,7 @@ label {
 
   &__body {
     padding: 0px $session-margin-lg $session-margin-lg $session-margin-lg;
-    font-family: $session-font-default;
+    font-family: $session-font-accent;
     line-height: $session-font-md;
     font-size: $session-font-sm;
 
@@ -1712,7 +1513,7 @@ input {
   }
 
   &__info {
-    font-family: $session-font-default;
+    font-family: $session-font-accent;
     margin-bottom: 2 * $session-margin-lg;
 
     &--title {
