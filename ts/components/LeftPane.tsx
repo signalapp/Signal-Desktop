@@ -56,12 +56,6 @@ export class LeftPane extends React.Component<PropsType> {
   public containerRef = React.createRef<HTMLDivElement>();
   public setFocusToFirstNeeded = false;
   public setFocusToLastNeeded = false;
-  public state = {
-    dimensions: {
-      height: 0,
-      width: 0,
-    },
-  };
 
   public renderRow = ({
     index,
@@ -163,10 +157,6 @@ export class LeftPane extends React.Component<PropsType> {
 
       return;
     }
-  };
-
-  public handleResize = ({ bounds }: { bounds: BoundingRect }) => {
-    this.setState({ dimensions: bounds });
   };
 
   public handleFocus = () => {
@@ -295,7 +285,10 @@ export class LeftPane extends React.Component<PropsType> {
       : conversations.length + (archivedConversations.length ? 1 : 0);
   };
 
-  public renderList = (): JSX.Element | Array<JSX.Element | null> => {
+  public renderList = ({
+    height,
+    width,
+  }: BoundingRect): JSX.Element | Array<JSX.Element | null> => {
     const {
       archivedConversations,
       i18n,
@@ -311,6 +304,8 @@ export class LeftPane extends React.Component<PropsType> {
       return (
         <SearchResults
           {...searchResults}
+          height={height || 0}
+          width={width || 0}
           openConversationInternal={openConversationInternal}
           startNewConversation={startNewConversation}
           renderMessageSearchResult={renderMessageSearchResult}
@@ -327,24 +322,16 @@ export class LeftPane extends React.Component<PropsType> {
 
     const length = this.getLength();
 
-    const archived = showArchived ? (
-      <div className="module-left-pane__archive-helper-text" key={0}>
-        {i18n('archiveHelperText')}
-      </div>
-    ) : null;
-
     // We ensure that the listKey differs between inbox and archive views, which ensures
     //   that AutoSizer properly detects the new size of its slot in the flexbox. The
     //   archive explainer text at the top of the archive view causes problems otherwise.
     //   It also ensures that we scroll to the top when switching views.
     const listKey = showArchived ? 1 : 0;
 
-    const { height, width } = this.state.dimensions;
-
     // Note: conversations is not a known prop for List, but it is required to ensure that
     //   it re-renders when our conversation data changes. Otherwise it would just render
     //   on startup and scroll.
-    const list = (
+    return (
       <div
         aria-live="polite"
         className="module-left-pane__list"
@@ -358,19 +345,17 @@ export class LeftPane extends React.Component<PropsType> {
         <List
           className="module-left-pane__virtual-list"
           conversations={conversations}
-          height={height}
+          height={height || 0}
           onScroll={this.onScroll}
           ref={this.listRef}
           rowCount={length}
           rowHeight={68}
           rowRenderer={this.renderRow}
           tabIndex={-1}
-          width={width}
+          width={width || 0}
         />
       </div>
     );
-
-    return [archived, list];
   };
 
   public renderArchivedHeader = (): JSX.Element => {
@@ -392,6 +377,7 @@ export class LeftPane extends React.Component<PropsType> {
 
   public render(): JSX.Element {
     const {
+      i18n,
       renderExpiredBuildDialog,
       renderMainHeader,
       renderNetworkStatus,
@@ -400,21 +386,31 @@ export class LeftPane extends React.Component<PropsType> {
       showArchived,
     } = this.props;
 
+    /* tslint:disable no-non-null-assertion */
     return (
-      <Measure bounds={true} onResize={this.handleResize}>
-        {({ measureRef }: MeasuredComponentProps) => (
-          <div className="module-left-pane" ref={measureRef}>
-            <div className="module-left-pane__header">
-              {showArchived ? this.renderArchivedHeader() : renderMainHeader()}
-            </div>
-            {renderExpiredBuildDialog()}
-            {renderNetworkStatus()}
-            {renderUpdateDialog()}
-            {renderRelinkDialog()}
-            {this.renderList()}
+      <div className="module-left-pane">
+        <div className="module-left-pane__header">
+          {showArchived ? this.renderArchivedHeader() : renderMainHeader()}
+        </div>
+        {renderExpiredBuildDialog()}
+        {renderNetworkStatus()}
+        {renderUpdateDialog()}
+        {renderRelinkDialog()}
+        {showArchived && (
+          <div className="module-left-pane__archive-helper-text" key={0}>
+            {i18n('archiveHelperText')}
           </div>
         )}
-      </Measure>
+        <Measure bounds={true}>
+          {({ contentRect, measureRef }: MeasuredComponentProps) => (
+            <div className="module-left-pane__list--measure" ref={measureRef}>
+              <div className="module-left-pane__list--wrapper">
+                {this.renderList(contentRect.bounds!)}
+              </div>
+            </div>
+          )}
+        </Measure>
+      </div>
     );
   }
 }
