@@ -184,12 +184,18 @@
       const allMembers = window.Lodash.concat(newMembers, [ourPK]);
 
       // We need to NOT trigger an group update if the list of member is the same.
-      const notPresentInOld = allMembers.filter(m => !this.existingMembers.includes(m));
-      const notPresentInNew = this.existingMembers.filter(m => !allMembers.includes(m));
+      const notPresentInOld = allMembers.filter(
+        m => !this.existingMembers.includes(m)
+      );
+      const notPresentInNew = this.existingMembers.filter(
+        m => !allMembers.includes(m)
+      );
       // would be easer with _.xor but for some reason we do not have it
-      const xor = notPresentInNew.concat(notPresentInOld)
+      const xor = notPresentInNew.concat(notPresentInOld);
       if (xor.length === 0) {
-        window.console.log('skipping group update: no detected changes in group member list');
+        window.console.log(
+          'skipping group update: no detected changes in group member list'
+        );
 
         return;
       }
