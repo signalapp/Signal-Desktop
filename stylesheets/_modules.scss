@@ -5206,8 +5206,8 @@ button.module-image__border-overlay:focus {
 }
 
 .module-left-pane__header {
-  flex-shrink: 0;
   flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .module-left-pane__archive-header {
@@ -5295,11 +5295,18 @@ button.module-image__border-overlay:focus {
   }
 }
 
-.module-left-pane__list {
+.module-left-pane__list--measure {
   flex-grow: 1;
   flex-shrink: 1;
-
   outline: none;
+}
+
+.module-left-pane__list--wrapper {
+  position: relative;
+}
+
+.module-left-pane__list {
+  position: absolute;
 }
 
 .module-left-pane__virtual-list {

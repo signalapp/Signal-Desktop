@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  AutoSizer,
-  CellMeasurer,
-  CellMeasurerCache,
-  List,
-} from 'react-virtualized';
+import { CellMeasurer, CellMeasurerCache, List } from 'react-virtualized';
 import { debounce, get, isNumber } from 'lodash';
 
 import { Intl } from './Intl';
@@ -86,6 +81,8 @@ type PropsHousekeepingType = {
     query: string,
     options: { regionCode: string }
   ) => void;
+  height: number;
+  width: number;
 
   renderMessageSearchResult: (id: string) => JSX.Element;
 };
@@ -121,8 +118,6 @@ type OnScrollParamsType = {
 export class SearchResults extends React.Component<PropsType, StateType> {
   public setFocusToFirstNeeded = false;
   public setFocusToLastNeeded = false;
-  public mostRecentWidth = 0;
-  public mostRecentHeight = 0;
   public cellSizeCache = new CellMeasurerCache({
     defaultHeight: 80,
     fixedWidth: true,
@@ -454,7 +449,7 @@ export class SearchResults extends React.Component<PropsType, StateType> {
     parent,
     style,
   }: RowRendererParamsType): JSX.Element => {
-    const { items } = this.props;
+    const { items, width } = this.props;
 
     const row = items[index];
 
@@ -466,7 +461,7 @@ export class SearchResults extends React.Component<PropsType, StateType> {
           key={key}
           parent={parent}
           rowIndex={index}
-          width={this.mostRecentWidth}
+          width={width}
         >
           {this.renderRowContents(row)}
         </CellMeasurer>
@@ -530,11 +525,13 @@ export class SearchResults extends React.Component<PropsType, StateType> {
 
   public render() {
     const {
+      height,
       i18n,
       items,
       noResults,
       searchConversationName,
       searchTerm,
+      width,
     } = this.props;
     const { scrollToIndex } = this.state;
 
@@ -581,30 +578,21 @@ export class SearchResults extends React.Component<PropsType, StateType> {
         onKeyDown={this.handleKeyDown}
         onFocus={this.handleFocus}
       >
-        <AutoSizer>
-          {({ height, width }) => {
-            this.mostRecentWidth = width;
-            this.mostRecentHeight = height;
-
-            return (
-              <List
-                className="module-search-results__virtual-list"
-                deferredMeasurementCache={this.cellSizeCache}
-                height={height}
-                items={items}
-                overscanRowCount={5}
-                ref={this.listRef}
-                rowCount={this.getRowCount()}
-                rowHeight={this.cellSizeCache.rowHeight}
-                rowRenderer={this.renderRow}
-                scrollToIndex={scrollToIndex}
-                tabIndex={-1}
-                onScroll={this.onScroll as any}
-                width={width}
-              />
-            );
-          }}
-        </AutoSizer>
+        <List
+          className="module-search-results__virtual-list"
+          deferredMeasurementCache={this.cellSizeCache}
+          height={height}
+          items={items}
+          overscanRowCount={5}
+          ref={this.listRef}
+          rowCount={this.getRowCount()}
+          rowHeight={this.cellSizeCache.rowHeight}
+          rowRenderer={this.renderRow}
+          scrollToIndex={scrollToIndex}
+          tabIndex={-1}
+          onScroll={this.onScroll as any}
+          width={width}
+        />
       </div>
     );
   }

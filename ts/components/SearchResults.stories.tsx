@@ -111,6 +111,7 @@ messageLookup.set('4-guid-guid-guid-guid-guid', {
 
 const defaultProps = {
   discussionsLoading: false,
+  height: 700,
   items: [],
   i18n,
   messagesLoading: false,
@@ -135,6 +136,7 @@ const defaultProps = {
   selectedConversationId: undefined,
   selectedMessageId: undefined,
   startNewConversation: action('start-new-conversation'),
+  width: 320,
 };
 
 const conversations = [
