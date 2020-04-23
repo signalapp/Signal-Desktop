@@ -119,8 +119,14 @@ export const getSearchResults = createSelector(
       });
 
       const isIOS = userAgent === 'OWI';
-      const parsedNumber = instance.parse(state.query, regionCode);
-      const isValidNumber = instance.isValidNumber(parsedNumber);
+      let isValidNumber = false;
+      try {
+        // Sometimes parse() throws, like for invalid country codes
+        const parsedNumber = instance.parse(state.query, regionCode);
+        isValidNumber = instance.isValidNumber(parsedNumber);
+      } catch (_) {
+        // no-op
+      }
 
       if (!isIOS && isValidNumber) {
         items.push({
