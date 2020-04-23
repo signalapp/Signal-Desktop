@@ -192,7 +192,7 @@ textarea {
     line-height: 40px;
     padding: 0px $session-margin-lg;
     font-size: $session-font-md;
-    font-family: $session-font-default;
+    font-family: $session-font-accent;
     border-radius: 500px;
 
     &:not(.disabled):hover {
@@ -749,7 +749,7 @@ label {
   background-color: $session-shade-4;
 
   color: $session-color-white;
-  font-family: $session-font-default;
+  font-family: $session-font-accent;
   font-size: $session-font-sm;
   line-height: $session-icon-size-sm;
   font-weight: 700;
