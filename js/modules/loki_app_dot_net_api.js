@@ -7,6 +7,8 @@ const FormData = require('form-data');
 const https = require('https');
 const path = require('path');
 
+const lokiRpcUtils = require('./loki_rpc');
+
 // Can't be less than 1200 if we have unauth'd requests
 const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
 const PUBLICCHAT_CHAN_POLL_EVERY = 20 * 1000; // 20s
@@ -33,6 +35,163 @@ const snodeHttpsAgent = new https.Agent({
 });
 
 const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+const sendViaOnion = async (
+  srvPubKey,
+  url,
+  pFetchOptions,
+  options = {}
+) => {
+  if (!srvPubKey) {
+    log.error(
+      'loki_app_dot_net:::sendViaOnion - called without a server public key'
+    );
+    return {};
+  }
+
+  const fetchOptions = pFetchOptions; // make lint happy
+  // safety issue with file server, just safer to have this
+  if (fetchOptions.headers === undefined) {
+    fetchOptions.headers = {};
+  }
+
+  const payloadObj = {
+    method: fetchOptions.method,
+    headers: {...fetchOptions.headers, bob: "kob" },
+  };
+  //console.log('payloadObj', payloadObj)
+  //if (fetchOptions.body === undefined) fetchOptions.body = '';
+  payloadObj.body = fetchOptions.body; // might need to b64 if binary...
+  //console.log('body', payloadObj.body)
+  console.log('loki_app_dot_net:::sendViaOnion - payloadObj', payloadObj)
+
+  // from https://github.com/sindresorhus/is-stream/blob/master/index.js
+  let fileUpload = false;
+  if (
+    payloadObj.body &&
+    typeof payloadObj.body === 'object' &&
+    typeof payloadObj.body.pipe === 'function'
+  ) {
+    const fData = payloadObj.body.getBuffer();
+    const fHeaders = payloadObj.body.getHeaders();
+    // update headers for boundary
+    payloadObj.headers = { ...payloadObj.headers, ...fHeaders };
+    // update body with base64 chunk
+    payloadObj.body = {
+      fileUpload: fData.toString('base64'),
+    };
+    fileUpload = true;
+  }
+
+  const pathNodes = await lokiSnodeAPI.getOnionPath();
+  if (!pathNodes || !pathNodes.length) {
+    log.warn(
+      'loki_app_dot_net:::sendViaOnion - failing, no path available'
+    );
+    return {};
+  }
+
+  //console.log('loki_app_dot_net:::sendViaOnion - ourPubKey', StringView.arrayBufferToHex(srvPubKey).substr(0,32), '...', StringView.arrayBufferToHex(srvPubKey).substr(32))
+  //console.log('loki_app_dot_net:::sendViaOnion - pathNodes', pathNodes)
+  // pathNodes = ['']
+  const guardUrl = `https://${pathNodes[0].ip}:${pathNodes[0].port}/onion_req`;
+  // first parameter takes an arrayBuffer
+  const destCtx = await lokiRpcUtils.encryptForPubKey(srvPubKey, payloadObj);
+
+  const tPayload = destCtx.ciphertext;
+  const reqJson = {
+    ciphertext: dcodeIO.ByteBuffer.wrap(tPayload).toString('base64'),
+    ephemeral_key: StringView.arrayBufferToHex(destCtx),
+  };
+  const reqStr = JSON.stringify(reqJson);
+
+  const snPubkey = StringView.hexToArrayBuffer(pathNodes[0].pubkey_x25519);
+  const guardCtx = await lokiRpcUtils.encryptForPubKey(snPubkey, reqStr);
+  //const guardCtx = await lokiRpcUtils.encryptForRelay(pathNodes[0], StringView.arrayBufferToHex(srvPubKey), destCtx);
+  // we don't want a destination so don't need a relay at all
+  // const guardPayloadObj = await lokiRpcUtils.makeOnionRequest(pathNodes, destCtx, StringView.arrayBufferToHex(srvPubKey));
+
+  //const guardCtx = destCtx;
+
+  const ciphertextBase64 = dcodeIO.ByteBuffer.wrap(
+    guardCtx.ciphertext
+  ).toString('base64');
+
+  const guardPayloadObj = {
+    ciphertext: ciphertextBase64,
+    ephemeral_key: StringView.arrayBufferToHex(guardCtx.ephemeral_key),
+    host: url.host,
+    target: '/loki/v1/lsrpc',
+  };
+
+  const firstHopOptions = {
+    method: 'POST',
+    body: JSON.stringify(guardPayloadObj),
+    // we are talking to a snode...
+    agent: snodeHttpsAgent,
+  };
+  const encryptedResult = await nodeFetch(guardUrl, firstHopOptions);
+  // weird this doesn't need NODE_TLS_REJECT_UNAUTHORIZED = '0'
+
+  const result = await lokiRpcUtils.processOnionResponse(0, encryptedResult, destCtx.symmetricKey, true);
+  console.log('result', result)
+  let response = {};
+  let txtResponse = '';
+
+/*
+  const txtResponse = await result.text();
+  if (txtResponse.match(/^Service node is not ready: not in any swarm/i)) {
+    // mark snode bad
+    const randomPoolRemainingCount = lokiSnodeAPI.markRandomNodeUnreachable(
+      randSnode
+    );
+    log.warn(
+      `loki_app_dot_net:::sendViaOnion - Marking random snode bad, internet address ${
+        randSnode.ip
+      }:${
+        randSnode.port
+      }. ${randomPoolRemainingCount} snodes remaining in randomPool`
+    );
+    // retry (hopefully with new snode)
+    // FIXME: max number of retries...
+    return sendViaOnion(srvPubKey, url, fetchOptions, options);
+  }
+
+  let response = {};
+  try {
+    // it's no longer JSON
+    response = txtResponse;
+  } catch (e) {
+    log.warn(
+      `loki_app_dot_net:::sendViaOnion - Could not parse outer JSON [${txtResponse}]`,
+      url,
+    );
+  }
+
+  // convert base64 in response to binary
+  const ivAndCiphertextResponse = dcodeIO.ByteBuffer.wrap(
+    response,
+    'base64'
+  ).toArrayBuffer();
+  const decrypted = await libloki.crypto.DHDecrypt(
+    symKey,
+    ivAndCiphertextResponse
+  );
+  const textDecoder = new TextDecoder();
+  const respStr = textDecoder.decode(decrypted);
+
+  // replace response
+  try {
+    response = options.textResponse ? respStr : JSON.parse(respStr);
+  } catch (e) {
+    log.warn(
+      `loki_app_dot_net:::sendViaOnion - Could not parse inner JSON [${respStr}]`,
+      url,
+    );
+  }
+*/
+  return { result, txtResponse, response };
+};
 
 const sendToProxy = async (
   srvPubKey,
@@ -257,6 +416,22 @@ const serverRequest = async (endpoint, options = {}) => {
     const host = url.host.toLowerCase();
     // log.info('host', host, FILESERVER_HOSTS);
     if (
+      window.lokiFeatureFlags.useOnionRequests &&
+      FILESERVER_HOSTS.includes(host)
+    ) {
+      mode = 'sendViaOnion';
+      // url.search automatically includes the ? part
+      // const search = url.search || '';
+      // strip first slash
+      // const endpointWithQS = `${url.pathname}${search}`.replace(/^\//, '');
+      ({ response, txtResponse, result } = await sendViaOnion(
+        srvPubKey,
+        url,
+        fetchOptions,
+        options
+      ));
+    } else
+    if (
       window.lokiFeatureFlags.useSnodeProxy &&
       FILESERVER_HOSTS.includes(host)
     ) {
@@ -317,6 +492,14 @@ const serverRequest = async (endpoint, options = {}) => {
       err: e,
     };
   }
+
+  if (!result) {
+    return {
+      err: 'noResult',
+      response,
+    };
+  }
+
   // if it's a response style with a meta
   if (result.status !== 200) {
     if (!forceFreshToken && (!response.meta || response.meta.code === 401)) {
