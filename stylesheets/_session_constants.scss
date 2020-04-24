@@ -64,6 +64,7 @@ $session-font-mono: 'SpaceMono';
 @font-face {
   font-family: $session-font-accent;
   src: url('../fonts/Loor.ttf') format('truetype');
+  line-height: 1.4rem;
 }
 
 // //////////////////////////////////////////////
