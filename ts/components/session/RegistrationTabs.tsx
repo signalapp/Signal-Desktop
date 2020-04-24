@@ -902,6 +902,8 @@ export class RegistrationTabs extends React.Component<{}, State> {
       });
     } catch (e) {
       window.console.log(e);
+      await this.resetRegistration();
+
       this.setState({
         loading: false,
       });
