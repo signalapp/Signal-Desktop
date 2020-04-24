@@ -173,10 +173,10 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
               ref={this.inputRef}
               editable={!noContactsForClosedGroup}
               placeholder={placeholder}
-              value={this.state.groupName}
+              value={groupName}
               maxLength={window.CONSTANTS.MAX_GROUPNAME_LENGTH}
               onChange={this.onGroupNameChanged}
-              onPressEnter={() => onButtonClick(this.state.groupName)}
+              onPressEnter={() => onButtonClick(groupName, selectedMembers)}
             />
           </div>
         ) : (
