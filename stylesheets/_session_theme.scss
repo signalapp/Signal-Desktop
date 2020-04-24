@@ -103,7 +103,7 @@
 }
 
 @mixin session-h-title {
-  @include fontDefaultBold();
+  @include fontAccentBold();
 }
 
 h1 {
