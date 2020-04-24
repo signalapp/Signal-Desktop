@@ -13,7 +13,6 @@ const Settings = require('./settings');
 const Util = require('../../ts/util');
 const { migrateToSQL } = require('./migrate_to_sql');
 const Metadata = require('./metadata/SecretSessionCipher');
-const RefreshSenderCertificate = require('./refresh_sender_certificate');
 const LinkPreviews = require('./link_previews');
 const AttachmentDownloads = require('./attachment_downloads');
 
@@ -387,7 +386,6 @@ exports.setup = (options = {}) => {
     Migrations,
     Notifications,
     OS,
-    RefreshSenderCertificate,
     Settings,
     State,
     Types,

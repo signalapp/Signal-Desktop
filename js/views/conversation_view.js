@@ -196,6 +196,7 @@
             value: item.get('seconds'),
           })),
           hasNickname: !!this.model.getNickname(),
+          isKickedFromGroup: this.model.get('isKickedFromGroup'),
 
           onSetDisappearingMessages: seconds =>
             this.setDisappearingMessages(seconds),
@@ -294,6 +295,7 @@
           amMod: this.model.isModerator(
             window.storage.get('primaryDevicePubKey')
           ),
+          isKickedFromGroup: this.model.get('isKickedFromGroup'),
 
           timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
             name: item.getName(),
@@ -1313,7 +1315,8 @@
       const selected = Array.from(this.model.selectedMessages);
       const isModerator = this.model.isModerator(ourPubkey);
       const isAllOurs = selected.every(
-        message => message.attributes.source === message.OUR_NUMBER
+        message =>
+          message.propsForMessage.authorPhoneNumber === message.OUR_NUMBER
       );
 
       if (!isAllOurs && !isModerator) {
@@ -1333,9 +1336,15 @@
 
     deleteMessages(messages, onSuccess) {
       const multiple = messages.length > 1;
+      const isPublic = this.model.isPublic();
+
+      // In future, we may be able to unsend private messages also
+      // isServerDeletable also defined in ConversationHeader.tsx for
+      // future reference
+      const isServerDeletable = isPublic;
 
       const warningMessage = (() => {
-        if (this.model.isPublic()) {
+        if (isPublic) {
           return multiple
             ? i18n('deleteMultiplePublicWarning')
             : i18n('deletePublicWarning');
@@ -1346,7 +1355,7 @@
       const doDelete = async () => {
         let toDeleteLocally;
 
-        if (this.model.isPublic()) {
+        if (isPublic) {
           toDeleteLocally = await this.model.deletePublicMessages(messages);
           if (toDeleteLocally.length === 0) {
             // Message failed to delete from server, show error?
@@ -1381,9 +1390,21 @@
         return;
       }
 
+      // If removable from server, we "Unsend" - otherwise "Delete"
+      const pluralSuffix = multiple ? 's' : '';
+      const title = i18n(
+        isPublic
+          ? `unsendMessage${pluralSuffix}`
+          : `deleteMessage${pluralSuffix}`
+      );
+
+      const okText = i18n(isServerDeletable ? 'unsend' : 'delete');
+
       window.confirmationDialog({
+        title,
         message: warningMessage,
-        okText: i18n('delete'),
+        okText,
+        okTheme: 'danger',
         resolve: doDelete,
       });
     },

@@ -137,7 +137,7 @@ module.exports = {
   removeMessage,
   getUnreadByConversation,
   getMessageBySender,
-  getMessageByServerId,
+  getMessageIdsFromServerIds,
   getMessageById,
   getAllMessages,
   getAllMessageIds,
@@ -2345,22 +2345,31 @@ async function removeMessage(id) {
   );
 }
 
-async function getMessageByServerId(serverId, conversationId) {
-  const row = await db.get(
-    `SELECT * FROM messages WHERE
-      serverId = $serverId AND
-      conversationId = $conversationId;`,
+async function getMessageIdsFromServerIds(serverIds, conversationId) {
+  if (!Array.isArray(serverIds)) {
+    return [];
+  }
+
+  // Sanitize the input as we're going to use it directly in the query
+  const validIds = serverIds
+    .map(id => Number(id))
+    .filter(n => !Number.isNaN(n));
+
+  /*
+    Sqlite3 doesn't have a good way to have `IN` query with another query.
+    See: https://github.com/mapbox/node-sqlite3/issues/762.
+
+    So we have to use templating to insert the values.
+  */
+  const rows = await db.all(
+    `SELECT id FROM messages WHERE
+    serverId IN (${validIds.join(',')}) AND
+    conversationId = $conversationId;`,
     {
-      $serverId: serverId,
       $conversationId: conversationId,
     }
   );
-
-  if (!row) {
-    return null;
-  }
-
-  return jsonToObject(row.json);
+  return rows.map(row => row.id);
 }
 
 async function getMessageById(id) {

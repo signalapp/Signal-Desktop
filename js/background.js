@@ -289,6 +289,11 @@
     // Update zoom
     window.updateZoomFactor();
 
+    if (window.lokiFeatureFlags.useOnionRequests) {
+      // Initialize paths for onion requests
+      window.lokiSnodeAPI.buildNewOnionPaths();
+    }
+
     const currentPoWDifficulty = storage.get('PoWDifficulty', null);
     if (!currentPoWDifficulty) {
       storage.put('PoWDifficulty', window.getDefaultPoWDifficulty());
@@ -446,24 +451,28 @@
   });
 
   Whisper.events.on(
-    'deleteLocalPublicMessage',
-    async ({ messageServerId, conversationId }) => {
-      const message = await window.Signal.Data.getMessageByServerId(
-        messageServerId,
-        conversationId,
-        {
-          Message: Whisper.Message,
-        }
+    'deleteLocalPublicMessages',
+    async ({ messageServerIds, conversationId }) => {
+      if (!Array.isArray(messageServerIds)) {
+        return;
+      }
+      const messageIds = await window.Signal.Data.getMessageIdsFromServerIds(
+        messageServerIds,
+        conversationId
       );
-      if (message) {
-        const conversation = ConversationController.get(conversationId);
+      if (messageIds.length === 0) {
+        return;
+      }
+
+      const conversation = ConversationController.get(conversationId);
+      messageIds.forEach(id => {
         if (conversation) {
-          conversation.removeMessage(message.id);
+          conversation.removeMessage(id);
         }
-        await window.Signal.Data.removeMessage(message.id, {
+        window.Signal.Data.removeMessage(id, {
           Message: Whisper.Message,
         });
-      }
+      });
     }
   );
 
@@ -569,12 +578,6 @@
 
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
-      // window.Signal.RefreshSenderCertificate.initialize({
-      //   events: Whisper.events,
-      //   storage,
-      //   navigator,
-      //   logger: window.log,
-      // });
 
       connect(true);
     });
@@ -597,12 +600,6 @@
     ) {
       // listeners
       Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
-      // window.Signal.RefreshSenderCertificate.initialize({
-      //   events: Whisper.events,
-      //   storage,
-      //   navigator,
-      //   logger: window.log,
-      // });
 
       connect();
       appView.openInbox({
@@ -1164,6 +1161,11 @@
         const conversationExists = ConversationController.get(conversationId);
         if (conversationExists) {
           window.log.warn('We are already a member of this public chat');
+          window.pushToast({
+            description: window.i18n('publicChatExists'),
+            type: 'info',
+            id: 'alreadyMemberPublicChat',
+          });
           return;
         }
 
@@ -1435,9 +1437,6 @@
   async function connect(firstRun) {
     window.log.info('connect');
 
-    // Initialize paths for onion requests
-    await window.lokiSnodeAPI.buildNewOnionPaths();
-
     // Bootstrap our online/offline detection, only the first time we connect
     if (connectCount === 0 && navigator.onLine) {
       window.addEventListener('offline', onOffline);
@@ -1548,34 +1547,7 @@
       textsecure.storage.user.getDeviceId() != '1'
     ) {
       window.getSyncRequest();
-
-      try {
-        const manager = window.getAccountManager();
-        await Promise.all([
-          manager.maybeUpdateDeviceName(),
-          manager.maybeDeleteSignalingKey(),
-        ]);
-      } catch (e) {
-        window.log.error(
-          'Problem with account manager updates after starting new version: ',
-          e && e.stack ? e.stack : e
-        );
-      }
     }
-
-    // const udSupportKey = 'hasRegisterSupportForUnauthenticatedDelivery';
-    // if (!storage.get(udSupportKey)) {
-    //   const server = WebAPI.connect({ username: USERNAME, password: PASSWORD });
-    //   try {
-    //     await server.registerSupportForUnauthenticatedDelivery();
-    //     storage.put(udSupportKey, true);
-    //   } catch (error) {
-    //     window.log.error(
-    //       'Error: Unable to register for unauthenticated delivery support.',
-    //       error && error.stack ? error.stack : error
-    //     );
-    //   }
-    // }
 
     const deviceId = textsecure.storage.user.getDeviceId();
     if (firstRun === true && deviceId !== '1') {
