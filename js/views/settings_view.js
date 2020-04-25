@@ -151,7 +151,7 @@
         theme: i18n('theme'),
         notifications: i18n('notifications'),
         notificationSettingsDialog: i18n('notificationSettingsDialog'),
-        settings: i18n('settings'),
+        settings: i18n('Keyboard--preferences'),
         disableNotifications: i18n('disableNotifications'),
         nameAndMessage: i18n('nameAndMessage'),
         noNameOrMessage: i18n('noNameOrMessage'),

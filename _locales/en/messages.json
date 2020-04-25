@@ -1064,10 +1064,6 @@
   "installTooManyDevices": {
     "message": "Sorry, you have too many devices linked already. Try removing some."
   },
-  "settings": {
-    "message": "Settings",
-    "description": "Menu item and header for global settings"
-  },
   "theme": {
     "message": "Theme",
     "description": "Header for theme settings"
