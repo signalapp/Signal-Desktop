@@ -13,9 +13,9 @@ export const hasNetworkDialog = createSelector(
     { isOnline, socketStatus, withinConnectingGracePeriod }: NetworkStateType,
     isRegistrationDone: boolean
   ): boolean =>
-    !isOnline ||
-    !isRegistrationDone ||
-    (socketStatus === WebSocket.CONNECTING && !withinConnectingGracePeriod) ||
-    socketStatus === WebSocket.CLOSED ||
-    socketStatus === WebSocket.CLOSING
+    isRegistrationDone &&
+    (!isOnline ||
+      (socketStatus === WebSocket.CONNECTING && !withinConnectingGracePeriod) ||
+      socketStatus === WebSocket.CLOSED ||
+      socketStatus === WebSocket.CLOSING)
 );

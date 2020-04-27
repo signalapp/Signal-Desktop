@@ -3,19 +3,17 @@ import React from 'react';
 import { LocalizerType } from '../types/Util';
 
 export interface PropsType {
-  hasNetworkDialog: boolean;
   i18n: LocalizerType;
   isRegistrationDone: boolean;
   relinkDevice: () => void;
 }
 
 export const RelinkDialog = ({
-  hasNetworkDialog,
   i18n,
   isRegistrationDone,
   relinkDevice,
 }: PropsType): JSX.Element | null => {
-  if (hasNetworkDialog || isRegistrationDone) {
+  if (isRegistrationDone) {
     return null;
   }
 
