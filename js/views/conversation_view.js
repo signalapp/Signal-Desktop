@@ -1733,7 +1733,12 @@
         window.log.warn(`onOpened: Did not find message ${messageId}`);
       }
 
-      this.loadNewestMessages();
+      // Incoming messages may still be processing, so we wait until those are
+      //   complete to pull the 500 most-recent messages in this conversation.
+      this.model.queueJob(() => {
+        this.loadNewestMessages();
+        this.model.updateLastMessage();
+      });
 
       this.focusMessageField();
 
@@ -1741,8 +1746,6 @@
       if (quotedMessageId) {
         this.setQuoteMessage(quotedMessageId);
       }
-
-      this.model.updateLastMessage();
 
       const statusPromise = this.model.throttledGetProfiles();
       // eslint-disable-next-line more/no-then
