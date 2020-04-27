@@ -501,9 +501,11 @@
         throw new Error('Tried to get identity key for undefined/null key');
       }
       const identifier = textsecure.utils.unencodeNumber(encodedAddress)[0];
+      const ourNumber = textsecure.storage.user.getNumber();
+      const ourUuid = textsecure.storage.user.getUuid();
       const isOurIdentifier =
-        identifier === textsecure.storage.user.getNumber() ||
-        identifier === textsecure.storage.user.getUuid();
+        (ourNumber && identifier === ourNumber) ||
+        (ourUuid && identifier === ourUuid);
 
       const identityRecord = this.getIdentityRecord(identifier);
 
