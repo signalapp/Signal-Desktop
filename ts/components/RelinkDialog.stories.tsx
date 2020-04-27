@@ -13,7 +13,6 @@ import { action } from '@storybook/addon-actions';
 const i18n = setupI18n('en', enMessages);
 
 const defaultProps = {
-  hasNetworkDialog: false,
   i18n,
   isRegistrationDone: true,
   relinkDevice: action('relink-device'),
@@ -21,15 +20,8 @@ const defaultProps = {
 
 const permutations = [
   {
-    title: 'Unlinked (online)',
+    title: 'Unlinked',
     props: {
-      isRegistrationDone: false,
-    },
-  },
-  {
-    title: 'Unlinked (offline)',
-    props: {
-      hasNetworkDialog: true,
       isRegistrationDone: false,
     },
   },
@@ -37,15 +29,10 @@ const permutations = [
 
 storiesOf('Components/RelinkDialog', module)
   .add('Knobs Playground', () => {
-    const hasNetworkDialog = boolean('hasNetworkDialog', false);
     const isRegistrationDone = boolean('isRegistrationDone', false);
 
     return (
-      <RelinkDialog
-        {...defaultProps}
-        hasNetworkDialog={hasNetworkDialog}
-        isRegistrationDone={isRegistrationDone}
-      />
+      <RelinkDialog {...defaultProps} isRegistrationDone={isRegistrationDone} />
     );
   })
   .add('Iterations', () => {

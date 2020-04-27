@@ -393,9 +393,9 @@ export class LeftPane extends React.Component<PropsType> {
           {showArchived ? this.renderArchivedHeader() : renderMainHeader()}
         </div>
         {renderExpiredBuildDialog()}
+        {renderRelinkDialog()}
         {renderNetworkStatus()}
         {renderUpdateDialog()}
-        {renderRelinkDialog()}
         {showArchived && (
           <div className="module-left-pane__archive-helper-text" key={0}>
             {i18n('archiveHelperText')}
