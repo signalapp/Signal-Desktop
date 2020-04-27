@@ -2762,6 +2762,10 @@ async function removeAll() {
       db.run('DELETE FROM contactSignedPreKeys;'),
       db.run('DELETE FROM attachment_downloads;'),
       db.run('DELETE FROM messages_fts;'),
+      db.run('DELETE FROM servers;'),
+      db.run('DELETE FROM lastHashes;'),
+      db.run('DELETE FROM seenMessages;'),
+      db.run('DELETE FROM sessions;'),
       db.run('COMMIT TRANSACTION;'),
     ]);
   });
@@ -2784,6 +2788,7 @@ async function removeAllConfiguration() {
       db.run('DELETE FROM unprocessed;'),
       db.run('DELETE FROM contactPreKeys;'),
       db.run('DELETE FROM contactSignedPreKeys;'),
+      db.run('DELETE FROM servers;'),
       db.run('COMMIT TRANSACTION;'),
     ]);
   });
