@@ -4,6 +4,7 @@ import {
   SignedPreKeyType,
   StorageType,
 } from './libsignal.d';
+import Crypto from './textsecure/Crypto';
 import MessageReceiver from './textsecure/MessageReceiver';
 import EventTarget from './textsecure/EventTarget';
 import { ByteBufferClass } from './window.d';
@@ -28,6 +29,7 @@ export type TextSecureType = {
     id?: string,
     options?: { timeout?: number }
   ) => () => Promise<any>;
+  crypto: typeof Crypto;
   storage: {
     user: {
       getNumber: () => string;

@@ -28,12 +28,13 @@ window.log.info('sticker-creator starting up...');
 const Signal = require('../js/modules/signal');
 
 window.Signal = Signal.setup({});
+window.textsecure = require('../ts/textsecure').default;
 
 const { initialize: initializeWebAPI } = require('../ts/textsecure/WebAPI');
 
 const WebAPI = initializeWebAPI({
   url: config.serverUrl,
-  cdn: {
+  cdnUrlObject: {
     '0': config.cdnUrl0,
     '2': config.cdnUrl2,
   },
@@ -146,7 +147,9 @@ window.encryptAndUpload = async (
 
 async function encrypt(data, key, iv) {
   const { ciphertext } = await window.textsecure.crypto.encryptAttachment(
-    window.Signal.Crypto.typedArrayToArrayBuffer(data),
+    data instanceof ArrayBuffer
+      ? data
+      : window.Signal.Crypto.typedArrayToArrayBuffer(data),
     key,
     iv
   );
