@@ -27,7 +27,7 @@ $session-font-mono: 'SpaceMono';
   font-style: italic;
 }
 
-// Public Sans is an open replacement for 'SF Pro Text'
+// Public Sans is an open replacement for $session-font-default
 @font-face {
   font-family: $session-font-default;
   src: url('../fonts/PublicSans-Regular.woff') format('woff');

@@ -204,7 +204,7 @@ $composition-container-height: 60px;
     padding: 16px 0px;
 
     textarea {
-      font-family: 'SF Pro Text';
+      font-family: $session-font-default;
       min-height: $composition-container-height / 3;
       max-height: 2 * $composition-container-height;
       margin-right: $session-margin-md;
@@ -253,7 +253,7 @@ $composition-container-height: 60px;
       top: -2px;
 
       span {
-        font-family: 'SF Pro Text';
+        font-family: $session-font-default;
         padding-top: $session-margin-sm;
         background-color: $session-shade-4;
       }
@@ -367,7 +367,7 @@ $composition-container-height: 60px;
       align-items: center;
       width: 173px;
       font-weight: 300;
-      font-family: 'SF Pro Text';
+      font-family: $session-font-default;
 
       &.primary {
         cursor: default;
@@ -385,7 +385,7 @@ $composition-container-height: 60px;
   &--timer {
     display: inline-flex;
     align-items: center;
-    font-family: 'SF Pro Text';
+    font-family: $session-font-default;
     font-weight: bold;
     font-size: 14px;
 
