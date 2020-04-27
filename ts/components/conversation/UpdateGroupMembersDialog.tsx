@@ -11,7 +11,6 @@ import {
 
 interface Props {
   titleText: string;
-  groupName: string;
   okText: string;
   isPublic: boolean;
   cancelText: string;
@@ -72,7 +71,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       d => d.id
     );
 
-    this.props.onSubmit(this.props.groupName, members);
+    this.props.onSubmit(members);
 
     this.closeDialog();
   }

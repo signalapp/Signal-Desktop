@@ -210,6 +210,9 @@
     },
     getLokiNameForNumber(number) {
       const conversation = ConversationController.get(number);
+      if (number === textsecure.storage.user.getNumber()) {
+        return i18n('you');
+      }
       if (!conversation || !conversation.getLokiProfile()) {
         return number;
       }
@@ -506,6 +509,12 @@
 
       const contactModel = this.findContact(phoneNumber);
       const color = contactModel ? contactModel.getColor() : null;
+      let profileName;
+      if (phoneNumber === window.storage.get('primaryDevicePubKey')) {
+        profileName = i18n('you');
+      } else {
+        profileName = contactModel ? contactModel.getProfileName() : null;
+      }
 
       return {
         phoneNumber: format(phoneNumber, {
@@ -514,7 +523,7 @@
         color,
         avatarPath: contactModel ? contactModel.getAvatarPath() : null,
         name: contactModel ? contactModel.getName() : null,
-        profileName: contactModel ? contactModel.getProfileName() : null,
+        profileName,
         title: contactModel ? contactModel.getTitle() : null,
       };
     },
