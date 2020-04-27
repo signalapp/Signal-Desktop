@@ -317,9 +317,9 @@
     "rule": "jQuery-load(",
     "path": "js/signal_protocol_store.js",
     "line": "      await ConversationController.load();",
-    "lineNumber": 983,
+    "lineNumber": 985,
     "reasonCategory": "falseMatch",
-    "updated": "2020-02-28T18:14:42.951Z"
+    "updated": "2020-04-27T20:02:20.424Z"
   },
   {
     "rule": "DOM-innerHTML",
