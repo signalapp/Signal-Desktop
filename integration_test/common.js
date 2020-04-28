@@ -335,8 +335,7 @@ module.exports = {
 
     await app.client
       .element(ConversationPage.createClosedGroupMemberItem)
-      .isVisible()
-      .should.eventually.be.true;
+      .isVisible().should.eventually.be.true;
 
     // select the first friend as a member of the groups being created
     await app.client
@@ -344,8 +343,7 @@ module.exports = {
       .click();
     await app.client
       .element(ConversationPage.createClosedGroupMemberItemSelected)
-      .isVisible()
-      .should.eventually.be.true;
+      .isVisible().should.eventually.be.true;
 
     // trigger the creation of the group
     await app.client
@@ -359,9 +357,7 @@ module.exports = {
     await app.client.isExisting(
       ConversationPage.headerTitleGroupName(this.VALID_CLOSED_GROUP_NAME1)
     ).should.eventually.be.true;
-    await app.client
-      .element(ConversationPage.headerTitleMembers(2))
-      .isVisible()
+    await app.client.element(ConversationPage.headerTitleMembers(2)).isVisible()
       .should.eventually.be.true;
 
     // validate overlay is closed

@@ -7,12 +7,11 @@ const common = require('./common');
 describe('Message Syncing', function() {
   let app;
   let app2;
-  let app3;
   this.timeout(60000);
   this.slow(15000);
 
   beforeEach(async () => {
-    // await common.killallElectron();
+    await common.killallElectron();
     await common.stopStubSnodeServer();
 
     const app1Props = {
@@ -27,16 +26,9 @@ describe('Message Syncing', function() {
       stubSnode: true,
     };
 
-    const app3Props = {
-      mnemonic: common.TEST_MNEMONIC3,
-      displayName: common.TEST_DISPLAY_NAME3,
-      stubSnode: true,
-    };
-
-    [app, app2, app3] = await Promise.all([
+    [app, app2] = await Promise.all([
       common.startAndStub(app1Props),
       common.startAndStubN(app2Props, 2),
-      common.startAndStubN(app3Props, 3),
     ]);
   });
 
