@@ -112,7 +112,7 @@ $session-compose-margin: 20px;
   &__user__profile {
     &-number,
     &-name {
-      @include fontDefaultBold();
+      @include fontAccentBold();
       font-size: 15px;
 
       @at-root .light-theme #{&} {
@@ -193,7 +193,7 @@ $session-compose-margin: 20px;
 
     .session-button {
       margin-left: auto;
-      @include fontDefaultBold();
+      @include fontAccentBold();
     }
 
     &-buttons {

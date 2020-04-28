@@ -297,12 +297,11 @@ body.dark-theme {
     }
   }
 
-  /* why can't I access $session-color values here? */
   .expiredAlert {
-    background: #28f587;
+    background: $session-color-green;
     color: black;
     /* biggest we can make the font without wrapping the current text at minimum app width */
-    font-family: 'Wasa';
+    font-family: $session-font-accent;
     font-size: 20px;
     height: 60px;
 
