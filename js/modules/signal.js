@@ -235,6 +235,8 @@ function initializeMigrations({
         logger,
       }),
     upgradeMessageSchema: (message, options = {}) => {
+      console.log('[vince] signal.js --> upgradeMessageSchema');
+
       const { maxVersion } = options;
 
       return MessageType.upgradeSchema(message, {

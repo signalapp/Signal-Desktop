@@ -514,6 +514,8 @@ MessageSender.prototype = {
   },
 
   createSyncMessage() {
+    console.log('[vince] sendmessage.js --> createSyncMessage');
+    
     const syncMessage = new textsecure.protobuf.SyncMessage();
 
     // Generate a random int from 1 and 512

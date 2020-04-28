@@ -1629,6 +1629,8 @@
     },
 
     showSendConfirmationDialog(e, contacts) {
+      console.log('[vince] conversation_view.js --> showSendConfirmationDialog');
+
       let message;
       const isUnverified = this.model.isUnverified();
 
@@ -1704,6 +1706,8 @@
     },
 
     async handleSubmitPressed(e, options = {}) {
+      console.log(`[vince] handleSubmitPressed e:`, e);
+
       if (this.memberView.membersShown()) {
         const member = this.memberView.selectedMember();
         this.selectMember(member);
@@ -1713,6 +1717,8 @@
     },
 
     async checkUnverifiedSendMessage(e, options = {}) {
+      console.log(`[vince] checkUnverifiedSendMessage e:`, e);
+
       e.preventDefault();
       this.sendStart = Date.now();
       this.$messageField.attr('disabled', true);
@@ -1746,6 +1752,8 @@
     },
 
     async checkUntrustedSendMessage(e, options = {}) {
+      console.log(`[vince] checkUntrustedSendMessage e:`, e);
+
       _.defaults(options, { force: false });
 
       try {
@@ -1906,6 +1914,8 @@
 
       let message = this.memberView.replaceMentions(input.val());
       message = window.Signal.Emoji.replaceColons(message).trim();
+
+      
 
       const toastOptions = { type: 'info' };
       // let it pass if we're still trying to read it or it's false...
@@ -2470,6 +2480,9 @@
         !event.shiftKey &&
         !event.ctrlKey
       ) {
+
+        console.log('[vince] conversation_view.hs --> handleInputEvent:', Date.now());
+
         // enter pressed - submit the form now
         event.preventDefault();
         this.$('.bottom-bar form').submit();
