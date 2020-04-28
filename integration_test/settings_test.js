@@ -34,9 +34,9 @@ describe('Settings', function() {
   });
 
   after(async () => {
-    // await common.stopApp(app);
-    // await common.killallElectron();
-    // await common.stopStubSnodeServer();
+    await common.stopApp(app);
+    await common.killallElectron();
+    await common.stopStubSnodeServer();
   });
 
   it('can toggle menubar', async () => {

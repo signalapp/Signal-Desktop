@@ -35,7 +35,7 @@ describe('Message Functions', function() {
     await common.addFriendToNewClosedGroup(app, app2);
 
     // send attachment from app1 to closed group
-    const fileLocation = path.join(__dirname, '/test_attachment');
+    const fileLocation = path.join(__dirname, 'test_attachment');
     const messageText = 'test_attachment';
 
     common.sendMessage(app, messageText, fileLocation);

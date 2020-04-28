@@ -66,8 +66,6 @@ module.exports = {
   async setValueWrapper(app, selector, value) {
     await app.client.element(selector).click();
     // keys, setValue and addValue hang on certain platforms
-    // could put a branch here to use one of those
-    // if we know what platforms are good and which ones are broken
 
     if (process.platform === 'darwin') {
       await app.client.execute(
@@ -325,9 +323,11 @@ module.exports = {
   },
 
   async addFriendToNewClosedGroup(app, app2) {
-    await app.client
-      .element(ConversationPage.closedGroupNameTextarea)
-      .setValue(this.VALID_CLOSED_GROUP_NAME1);
+    await this.setValueWrapper(
+      app,
+      ConversationPage.closedGroupNameTextarea,
+      this.VALID_CLOSED_GROUP_NAME1
+    );
     await app.client
       .element(ConversationPage.closedGroupNameTextarea)
       .getValue()
@@ -335,7 +335,8 @@ module.exports = {
 
     await app.client
       .element(ConversationPage.createClosedGroupMemberItem)
-      .isVisible();
+      .isVisible()
+      .should.eventually.be.true;
 
     // select the first friend as a member of the groups being created
     await app.client
@@ -343,7 +344,8 @@ module.exports = {
       .click();
     await app.client
       .element(ConversationPage.createClosedGroupMemberItemSelected)
-      .isVisible();
+      .isVisible()
+      .should.eventually.be.true;
 
     // trigger the creation of the group
     await app.client
@@ -356,10 +358,11 @@ module.exports = {
     );
     await app.client.isExisting(
       ConversationPage.headerTitleGroupName(this.VALID_CLOSED_GROUP_NAME1)
-    );
+    ).should.eventually.be.true;
     await app.client
       .element(ConversationPage.headerTitleMembers(2))
-      .isVisible();
+      .isVisible()
+      .should.eventually.be.true;
 
     // validate overlay is closed
     await app.client
@@ -376,7 +379,7 @@ module.exports = {
       ConversationPage.rowOpenGroupConversationName(
         this.VALID_CLOSED_GROUP_NAME1
       )
-    );
+    ).should.eventually.be.true;
 
     // next check app2 has been invited and has the group in its conversations
     await app2.client.waitForExist(
@@ -508,9 +511,11 @@ module.exports = {
   },
 
   async sendMessage(app, messageText, fileLocation = undefined) {
-    await app.client
-      .element(ConversationPage.sendMessageTextarea)
-      .setValue(messageText);
+    await this.setValueWrapper(
+      app,
+      ConversationPage.sendMessageTextarea,
+      messageText
+    );
     await app.client
       .element(ConversationPage.sendMessageTextarea)
       .getValue()
@@ -518,9 +523,11 @@ module.exports = {
 
     // attach a file
     if (fileLocation) {
-      await app.client
-        .element(ConversationPage.attachmentInput)
-        .setValue(fileLocation);
+      await this.setValueWrapper(
+        app,
+        ConversationPage.attachmentInput,
+        fileLocation
+      );
     }
 
     // send message
