@@ -109,7 +109,7 @@
     "p-queue": "6.2.1",
     "pify": "3.0.0",
     "protobufjs": "6.8.6",
-    "proxy-agent": "3.0.3",
+    "proxy-agent": "3.1.1",
     "qs": "6.5.1",
     "react": "16.8.3",
     "react-contextmenu": "2.11.0",
@@ -156,6 +156,7 @@
     "@storybook/addon-knobs": "5.1.11",
     "@storybook/addons": "5.1.11",
     "@storybook/react": "5.1.11",
+    "@types/agent-base": "4.2.0",
     "@types/chai": "4.1.2",
     "@types/classnames": "2.2.3",
     "@types/config": "0.0.34",
@@ -199,7 +200,6 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-loader": "8.0.6",
     "babel-plugin-lodash": "3.3.4",
-    "bower": "1.8.2",
     "chai": "4.1.2",
     "core-js": "2.4.1",
     "cross-env": "5.2.0",
@@ -207,7 +207,7 @@
     "dashdash": "1.14.1",
     "electron": "8.2.2",
     "electron-builder": "22.3.6",
-    "eslint": "4.14.0",
+    "eslint": "4.18.2",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-import": "2.8.0",
@@ -256,6 +256,7 @@
     "appId": "org.whispersystems.signal-desktop",
     "mac": {
       "asarUnpack": [
+        "**/*.node",
         "node_modules/zkgroup/libzkgroup.*"
       ],
       "artifactName": "${name}-mac-${version}.${ext}",
@@ -264,9 +265,6 @@
       "hardenedRuntime": true,
       "entitlements": "./build/entitlements.mac.plist",
       "icon": "build/icons/mac/icon.icns",
-      "asarUnpack": [
-        "**/*.node"
-      ],
       "publish": [
         {
           "provider": "generic",

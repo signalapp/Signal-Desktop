@@ -2515,6 +2515,14 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/configstore/node_modules/signal-exit/index.js",
+    "line": "    load()",
+    "lineNumber": 36,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-25T01:47:02.583Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/copy-text-to-clipboard/index.js",
     "line": "\tdocument.body.append(element);",
@@ -6028,65 +6036,65 @@
     "rule": "jQuery-after(",
     "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
     "line": "     * var done = _.after(saves.length, function() {",
-    "lineNumber": 9983,
+    "lineNumber": 9981,
     "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
+    "updated": "2020-04-25T01:47:02.583Z"
   },
   {
     "rule": "jQuery-after(",
     "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
     "line": "    function after(n, func) {",
-    "lineNumber": 9992,
+    "lineNumber": 9990,
     "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
+    "updated": "2020-04-25T01:47:02.583Z"
   },
   {
     "rule": "jQuery-before(",
     "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
     "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 10041,
+    "lineNumber": 10039,
     "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
+    "updated": "2020-04-25T01:47:02.583Z"
   },
   {
     "rule": "jQuery-before(",
     "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
     "line": "    function before(n, func) {",
-    "lineNumber": 10044,
+    "lineNumber": 10042,
     "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
+    "updated": "2020-04-25T01:47:02.583Z"
   },
   {
     "rule": "jQuery-before(",
     "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
     "line": "      return before(2, func);",
-    "lineNumber": 10619,
+    "lineNumber": 10618,
     "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
+    "updated": "2020-04-25T01:47:02.583Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
     "line": "     * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 10950,
+    "lineNumber": 10949,
     "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
+    "updated": "2020-04-25T01:47:02.583Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
     "line": "    function wrap(value, wrapper) {",
-    "lineNumber": 10957,
+    "lineNumber": 10956,
     "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
+    "updated": "2020-04-25T01:47:02.583Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
     "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 15518,
+    "lineNumber": 15522,
     "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
+    "updated": "2020-04-25T01:47:02.583Z"
   },
   {
     "rule": "jQuery-before(",
@@ -9549,45 +9557,45 @@
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/neo-async/async.js",
     "line": "      this.insertBefore(this.head, node);",
-    "lineNumber": 7761,
+    "lineNumber": 7903,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2020-04-25T01:47:02.583Z"
   },
   {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/neo-async/async.js",
     "line": "          q._tasks.insertBefore(nextNode, item);",
-    "lineNumber": 8061,
+    "lineNumber": 8207,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2020-04-25T01:47:02.583Z"
   },
   {
     "rule": "jQuery-$(",
     "path": "node_modules/neo-async/async.min.js",
-    "lineNumber": 21,
+    "lineNumber": 22,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2020-04-25T01:47:02.583Z"
   },
   {
     "rule": "jQuery-$(",
     "path": "node_modules/neo-async/async.min.js",
-    "lineNumber": 25,
+    "lineNumber": 27,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
+    "updated": "2020-04-25T01:47:02.583Z"
   },
   {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/neo-async/async.min.js",
-    "lineNumber": 66,
+    "lineNumber": 70,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2020-04-25T01:47:02.583Z"
   },
   {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/neo-async/async.min.js",
-    "lineNumber": 75,
+    "lineNumber": 79,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2020-04-25T01:47:02.583Z"
   },
   {
     "rule": "jQuery-append(",
@@ -9879,35 +9887,43 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "node_modules/pac-proxy-agent/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 160,
+    "path": "node_modules/pac-proxy-agent/node_modules/debug/dist/debug.js",
+    "line": "        createDebug.enable(createDebug.load());",
+    "lineNumber": 721,
     "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
+    "updated": "2020-04-16T19:09:11.452Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/pac-proxy-agent/node_modules/debug/dist/debug.js",
+    "line": "        function load() {",
+    "lineNumber": 855,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-16T19:09:11.452Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/pac-proxy-agent/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 178,
+    "line": "function load() {",
+    "lineNumber": 211,
     "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
+    "updated": "2020-04-16T19:09:11.452Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/pac-proxy-agent/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "lineNumber": 261,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-16T19:09:11.452Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/pac-proxy-agent/node_modules/debug/src/node.js",
     "line": "function load() {",
-    "lineNumber": 162,
+    "lineNumber": 216,
     "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/pac-proxy-agent/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 186,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
+    "updated": "2020-04-16T19:09:11.452Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -10308,35 +10324,43 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "node_modules/proxy-agent/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 160,
+    "path": "node_modules/proxy-agent/node_modules/debug/dist/debug.js",
+    "line": "        createDebug.enable(createDebug.load());",
+    "lineNumber": 721,
     "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
+    "updated": "2020-04-16T19:09:11.452Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/proxy-agent/node_modules/debug/dist/debug.js",
+    "line": "        function load() {",
+    "lineNumber": 855,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-16T19:09:11.452Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/proxy-agent/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 178,
+    "line": "function load() {",
+    "lineNumber": 211,
     "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
+    "updated": "2020-04-16T19:09:11.452Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/proxy-agent/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "lineNumber": 261,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-16T19:09:11.452Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/proxy-agent/node_modules/debug/src/node.js",
     "line": "function load() {",
-    "lineNumber": 162,
+    "lineNumber": 216,
     "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/proxy-agent/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 186,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
+    "updated": "2020-04-16T19:09:11.452Z"
   },
   {
     "rule": "eval",
@@ -10475,6 +10499,14 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/restore-cursor/node_modules/signal-exit/index.js",
+    "line": "    load()",
+    "lineNumber": 36,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-25T01:47:02.583Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/rx-lite-aggregates/rx.lite.aggregates.min.js",
     "lineNumber": 2,
@@ -10596,6 +10628,38 @@
     "lineNumber": 200,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/spawn-wrap/node_modules/signal-exit/index.js",
+    "line": "    load()",
+    "lineNumber": 36,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-25T01:47:02.583Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/sshpk/lib/dhe.js",
+    "line": "\t\tvar secret = nacl.box.before(new Uint8Array(pub),",
+    "lineNumber": 182,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-25T01:47:02.583Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/sshpk/lib/formats/putty.js",
+    "line": "\tvar lines = wrap(b64, 64);",
+    "lineNumber": 81,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-25T01:47:02.583Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/sshpk/lib/formats/putty.js",
+    "line": "function wrap(txt, len) {",
+    "lineNumber": 91,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-25T01:47:02.583Z"
   },
   {
     "rule": "jQuery-load(",
