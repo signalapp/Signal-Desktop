@@ -1095,6 +1095,9 @@ ipc.on('restart', () => {
   app.relaunch();
   app.quit();
 });
+ipc.on('shutdown', () => {
+  app.quit();
+});
 
 ipc.on('set-auto-hide-menu-bar', (event, autoHide) => {
   if (mainWindow) {

@@ -190,10 +190,7 @@
 
   const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
   const {
-    mandatoryMessageUpgrade,
-    migrateAllToSQLCipher,
-    removeDatabase,
-    runMigrations,
+    removeDatabase: removeIndexedDB,
     doesDatabaseExist,
   } = Signal.IndexedDB;
   const { Errors, Message } = window.Signal.Types;
@@ -204,11 +201,6 @@
     doesAttachmentExist,
   } = window.Signal.Migrations;
   const { Views } = window.Signal;
-
-  // Implicitly used in `indexeddb-backbonejs-adapter`:
-  // https://github.com/signalapp/Signal-Desktop/blob/4033a9f8137e62ed286170ed5d4941982b1d3a64/components/indexeddb-backbonejs-adapter/backbone-indexeddb.js#L569
-  window.onInvalidStateError = error =>
-    window.log.error(error && error.stack ? error.stack : error);
 
   window.log.info('background page reloaded');
   window.log.info('environment:', window.getEnvironment());
@@ -267,13 +259,56 @@
   const cancelInitializationMessage = Views.Initialization.setMessage();
 
   const version = await window.Signal.Data.getItemById('version');
-  let isIndexedDBPresent = false;
   if (!version) {
-    isIndexedDBPresent = await doesDatabaseExist();
+    const isIndexedDBPresent = await doesDatabaseExist();
     if (isIndexedDBPresent) {
-      window.installStorage(window.legacyStorage);
-      window.log.info('Start IndexedDB migrations');
-      await runMigrations();
+      window.log.info('Found IndexedDB database.');
+      try {
+        window.log.info('Confirming deletion of old data with user...');
+
+        try {
+          await new Promise((resolve, reject) => {
+            const dialog = new Whisper.ConfirmationDialogView({
+              message: window.i18n('deleteOldIndexedDBData'),
+              okText: window.i18n('deleteOldData'),
+              cancelText: window.i18n('quit'),
+              resolve,
+              reject,
+            });
+            document.body.append(dialog.el);
+            dialog.focusCancel();
+          });
+        } catch (error) {
+          window.log.info(
+            'User chose not to delete old data. Shutting down.',
+            error && error.stack ? error.stack : error
+          );
+          window.shutdown();
+          return;
+        }
+
+        window.log.info('Deleting all previously-migrated data in SQL...');
+        window.log.info('Deleting IndexedDB file...');
+
+        await Promise.all([
+          removeIndexedDB(),
+          window.Signal.Data.removeAll(),
+          window.Signal.Data.removeIndexedDBFiles(),
+        ]);
+        window.log.info('Done with SQL deletion and IndexedDB file deletion.');
+      } catch (error) {
+        window.log.error(
+          'Failed to remove IndexedDB file or remove SQL data:',
+          error && error.stack ? error.stack : error
+        );
+      }
+
+      // Set a flag to delete IndexedDB on next startup if it wasn't deleted just now.
+      // We need to use direct data calls, since storage isn't ready yet.
+      await window.Signal.Data.createOrUpdateItem({
+        id: 'indexeddb-delete-needed',
+        value: true,
+      });
     }
   }
 
@@ -423,24 +458,6 @@
         });
       },
     };
-
-    if (isIndexedDBPresent) {
-      await mandatoryMessageUpgrade({ upgradeMessageSchema });
-      await migrateAllToSQLCipher({ writeNewAttachmentData, Views });
-      await removeDatabase();
-      try {
-        await window.Signal.Data.removeIndexedDBFiles();
-      } catch (error) {
-        window.log.error(
-          'Failed to remove IndexedDB files:',
-          error && error.stack ? error.stack : error
-        );
-      }
-
-      window.installStorage(window.newStorage);
-      await window.storage.fetch();
-      await storage.put('indexeddb-delete-needed', true);
-    }
 
     // How long since we were last running?
     const now = Date.now();

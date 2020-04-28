@@ -4,7 +4,6 @@ const { bindActionCreators } = require('redux');
 const Backbone = require('../../ts/backbone');
 const Crypto = require('../../ts/Crypto');
 const Data = require('../../ts/sql/Client').default;
-const Database = require('./database');
 const Emojis = require('./emojis');
 const EmojiLib = require('../../ts/components/emoji/lib');
 const IndexedDB = require('./indexeddb');
@@ -13,7 +12,6 @@ const OS = require('../../ts/OS');
 const Stickers = require('./stickers');
 const Settings = require('./settings');
 const Util = require('../../ts/util');
-const { migrateToSQL } = require('./migrate_to_sql');
 const Metadata = require('./metadata/SecretSessionCipher');
 const RefreshSenderCertificate = require('./refresh_sender_certificate');
 const LinkPreviews = require('./link_previews');
@@ -74,13 +72,6 @@ const userDuck = require('../../ts/state/ducks/user');
 
 const conversationsSelectors = require('../../ts/state/selectors/conversations');
 const searchSelectors = require('../../ts/state/selectors/search');
-
-// Migrations
-const {
-  getPlaceholderMigrations,
-  getCurrentVersion,
-} = require('./migrations/get_placeholder_migrations');
-const { run } = require('./migrations/migrations');
 
 // Types
 const AttachmentType = require('./types/attachment');
@@ -193,8 +184,6 @@ function initializeMigrations({
     getAbsoluteDraftPath,
     getAbsoluteStickerPath,
     getAbsoluteTempPath,
-    getPlaceholderMigrations,
-    getCurrentVersion,
     loadAttachmentData,
     loadMessage: MessageType.createAttachmentLoader(loadAttachmentData),
     loadPreviewData,
@@ -205,7 +194,6 @@ function initializeMigrations({
     readDraftData,
     readStickerData,
     readTempData,
-    run,
     saveAttachmentToDisk,
     processNewAttachment: attachment =>
       MessageType.processNewAttachment(attachment, {
@@ -353,13 +341,11 @@ exports.setup = (options = {}) => {
     Components,
     Crypto,
     Data,
-    Database,
     Emojis,
     EmojiLib,
     IndexedDB,
     LinkPreviews,
     Metadata,
-    migrateToSQL,
     Migrations,
     Notifications,
     OS,

@@ -356,12 +356,6 @@ export type ClientInterface = DataInterface & {
   cleanupOrphanedAttachments: () => Promise<void>;
   ensureFilePermissions: () => Promise<void>;
 
-  getLegacyMessagesNeedingUpgrade: (
-    limit: number,
-    options: { maxVersion: number }
-  ) => Promise<Array<MessageType>>;
-  saveLegacyMessage: (data: MessageType) => Promise<void>;
-
   // Client-side only, and test-only
 
   _removeConversations: (ids: Array<string>) => Promise<void>;

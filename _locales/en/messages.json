@@ -1120,6 +1120,14 @@
     "message": "Disconnecting and deleting all data",
     "description": "Message shown to user when app is disconnected and data deleted"
   },
+  "deleteOldIndexedDBData": {
+    "message": "You have obsolete data from a prior installation of Signal Desktop. If you choose to continue, it will be deleted and you will start from scratch.",
+    "description": "Shown if user last ran Signal Desktop before October 2018"
+  },
+  "deleteOldData": {
+    "message": "Delete Old Data",
+    "description": "Button to make the delete happen"
+  },
   "notifications": {
     "message": "Notifications",
     "description": "Header for notification settings"
