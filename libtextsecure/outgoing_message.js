@@ -5,7 +5,6 @@
   ConversationController,
   libloki,
   StringView,
-  dcodeIO,
   lokiMessageAPI,
   i18n,
 */
@@ -293,309 +292,254 @@ OutgoingMessage.prototype = {
     const bytes = new Uint8Array(websocketMessage.encode().toArrayBuffer());
     return bytes;
   },
-  doSendMessage(number, devicesPubKeys, recurse) {
-    const ciphers = {};
-    if (this.isPublic) {
-      return this.transmitMessage(
-        number,
-        this.message.dataMessage,
-        this.timestamp,
-        0 // ttl
-      )
-        .then(() => {
-          this.successfulNumbers[this.successfulNumbers.length] = number;
-          this.numberCompleted();
-        })
-        .catch(error => {
-          throw error;
-        });
+
+  async buildMessage(devicePubKey) {
+    const updatedDevices = await this.getStaleDeviceIdsForNumber(devicePubKey);
+    const keysFound = await this.getKeysForNumber(devicePubKey, updatedDevices);
+
+    let isMultiDeviceRequest = false;
+    let thisDeviceMessageType = this.messageType;
+    if (
+      thisDeviceMessageType !== 'pairing-request' &&
+      thisDeviceMessageType !== 'friend-request'
+    ) {
+      try {
+        const conversation = ConversationController.get(devicePubKey);
+        if (conversation && !this.isGroup) {
+          const isOurDevice = await conversation.isOurDevice();
+          const isFriends =
+            conversation.isFriend() || conversation.hasReceivedFriendRequest();
+          // We should only send a friend request to our device if we don't have keys
+          const shouldSendAutomatedFR = isOurDevice ? !keysFound : !isFriends;
+          if (shouldSendAutomatedFR) {
+            // We want to send an automated friend request if:
+            // - We aren't already friends
+            // - We haven't received a friend request from this device
+            // - We haven't sent a friend request recently
+            if (conversation.friendRequestTimerIsExpired()) {
+              isMultiDeviceRequest = true;
+              thisDeviceMessageType = 'friend-request';
+            } else {
+              // Throttle automated friend requests
+              this.successfulNumbers.push(devicePubKey);
+              return null;
+            }
+          }
+
+          // If we're not friends with our own device then we should become friends
+          if (isOurDevice && keysFound && !isFriends) {
+            conversation.setFriendRequestStatus(
+              window.friends.friendRequestStatusEnum.friends
+            );
+          }
+        }
+      } catch (e) {
+        // do nothing
+      }
     }
 
+    // Check if we need to attach the preKeys
+    const enableFallBackEncryption =
+      !keysFound || thisDeviceMessageType === 'friend-request';
+    const flags = this.message.dataMessage
+      ? this.message.dataMessage.get_flags()
+      : null;
+    // END_SESSION means Session reset message
+    const isEndSession =
+      flags === textsecure.protobuf.DataMessage.Flags.END_SESSION;
+    const isSessionRequest =
+      flags === textsecure.protobuf.DataMessage.Flags.SESSION_REQUEST;
+
+    if (enableFallBackEncryption || isEndSession) {
+      // Encrypt them with the fallback
+      const pkb = await libloki.storage.getPreKeyBundleForContact(devicePubKey);
+      this.message.preKeyBundleMessage = new textsecure.protobuf.PreKeyBundleMessage(
+        pkb
+      );
+      window.log.info('attaching prekeys to outgoing message');
+    }
+
+    let messageBuffer;
+    if (isMultiDeviceRequest) {
+      const tempMessage = new textsecure.protobuf.Content();
+      const tempDataMessage = new textsecure.protobuf.DataMessage();
+      tempDataMessage.body = i18n('secondaryDeviceDefaultFR');
+      if (this.message.dataMessage && this.message.dataMessage.profile) {
+        tempDataMessage.profile = this.message.dataMessage.profile;
+      }
+      tempMessage.preKeyBundleMessage = this.message.preKeyBundleMessage;
+      tempMessage.dataMessage = tempDataMessage;
+      messageBuffer = tempMessage.toArrayBuffer();
+    } else {
+      messageBuffer = this.message.toArrayBuffer();
+    }
+
+    const plaintext = this.getPlaintext(messageBuffer);
+
+    // No limit on message keys if we're communicating with our other devices
+    // FIXME options not used at all; if (ourPubkey === number) {
+    //   options.messageKeysLimit = false;
+    // }
+    const ttl = getTTLForType(thisDeviceMessageType);
+    const ourKey = textsecure.storage.user.getNumber();
+
+    return {
+      ttl,
+      ourKey,
+      sourceDevice: 1,
+      plaintext,
+      pubKey: devicePubKey,
+      isFriendRequest: enableFallBackEncryption,
+      isSessionRequest,
+      enableFallBackEncryption,
+    };
+  },
+
+  async encryptMessage(clearMessage) {
+    if (clearMessage === null) {
+      window.log.warn(
+        'clearMessage is null on encryptMessage... Returning null'
+      );
+      return null;
+    }
+    const {
+      ttl,
+      ourKey,
+      sourceDevice,
+      plaintext,
+      pubKey,
+      isSessionRequest,
+      enableFallBackEncryption,
+    } = clearMessage;
+    // Session doesn't use the deviceId scheme, it's always 1.
+    // Instead, there are multiple device public keys.
+    const deviceId = 1;
+
+    const address = new libsignal.SignalProtocolAddress(pubKey, deviceId);
+
+    let sessionCipher;
+
+    if (enableFallBackEncryption) {
+      sessionCipher = new libloki.crypto.FallBackSessionCipher(address);
+    } else {
+      sessionCipher = new libsignal.SessionCipher(
+        textsecure.storage.protocol,
+        address
+      );
+    }
+
+    const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
+      textsecure.storage.protocol
+    );
+    // ciphers[address.getDeviceId()] = secretSessionCipher;
+
+    const senderCert = new textsecure.protobuf.SenderCertificate();
+
+    senderCert.sender = ourKey;
+    senderCert.senderDevice = deviceId;
+
+    const ciphertext = await secretSessionCipher.encrypt(
+      address,
+      senderCert,
+      plaintext,
+      sessionCipher
+    );
+    const type = textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER;
+    const content = window.Signal.Crypto.arrayBufferToBase64(ciphertext);
+
+    return {
+      type, // FallBackSessionCipher sets this to FRIEND_REQUEST
+      ttl,
+      ourKey,
+      sourceDevice,
+      content,
+      pubKey,
+      isFriendRequest: enableFallBackEncryption,
+      isSessionRequest,
+    };
+  },
+  // Send a message to a public group
+  sendPublicMessage(number) {
+    return this.transmitMessage(
+      number,
+      this.message.dataMessage,
+      this.timestamp,
+      0 // ttl
+    )
+      .then(() => {
+        this.successfulNumbers[this.successfulNumbers.length] = number;
+        this.numberCompleted();
+      })
+      .catch(error => {
+        throw error;
+      });
+  },
+  // Send a message to a private group or a session chat (one to one)
+  async sendSessionMessage(outgoingObjects) {
+    // TODO: handle multiple devices/messages per transmit
+    const promises = outgoingObjects.map(async outgoingObject => {
+      if (!outgoingObject) {
+        return;
+      }
+      const {
+        pubKey: destination,
+        ttl,
+        isFriendRequest,
+        isSessionRequest,
+      } = outgoingObject;
+      try {
+        const socketMessage = await this.wrapInWebsocketMessage(outgoingObject);
+        await this.transmitMessage(
+          destination,
+          socketMessage,
+          this.timestamp,
+          ttl
+        );
+        if (!this.isGroup && isFriendRequest && !isSessionRequest) {
+          const conversation = ConversationController.get(destination);
+          if (conversation) {
+            // Redundant for primary device but marks secondary devices as pending
+            await conversation.onFriendRequestSent();
+          }
+        }
+        this.successfulNumbers.push(destination);
+      } catch (e) {
+        e.number = destination;
+        this.errors.push(e);
+      }
+    });
+    await Promise.all(promises);
+    // TODO: the retrySend should only send to the devices
+    // for which the transmission failed.
+
+    // ensure numberCompleted() will execute the callback
+    this.numbersCompleted += this.errors.length + this.successfulNumbers.length;
+    // Absorb errors if message sent to at least 1 device
+    if (this.successfulNumbers.length > 0) {
+      this.errors = [];
+    }
+    this.numberCompleted();
+  },
+  async buildAndEncrypt(devicePubKey) {
+    const clearMessage = await this.buildMessage(devicePubKey);
+    return this.encryptMessage(clearMessage);
+  },
+  // eslint-disable-next-line no-unused-vars
+  doSendMessage(number, devicesPubKeys, recurse) {
+    if (this.isPublic) {
+      return this.sendPublicMessage(number);
+    }
     this.numbers = devicesPubKeys;
 
     return Promise.all(
-      devicesPubKeys.map(async devicePubKey => {
-        // Session doesn't use the deviceId scheme, it's always 1.
-        // Instead, there are multiple device public keys.
-        const deviceId = 1;
-        const updatedDevices = await this.getStaleDeviceIdsForNumber(
-          devicePubKey
-        );
-        const keysFound = await this.getKeysForNumber(
-          devicePubKey,
-          updatedDevices
-        );
-        let enableFallBackEncryption = !keysFound;
-
-        const address = new libsignal.SignalProtocolAddress(
-          devicePubKey,
-          deviceId
-        );
-        const ourKey = textsecure.storage.user.getNumber();
-        const options = {};
-
-        let isMultiDeviceRequest = false;
-        let thisDeviceMessageType = this.messageType;
-        if (
-          thisDeviceMessageType !== 'pairing-request' &&
-          thisDeviceMessageType !== 'friend-request'
-        ) {
-          let conversation;
-          try {
-            conversation = ConversationController.get(devicePubKey);
-          } catch (e) {
-            // do nothing
-          }
-          if (conversation && !this.isGroup) {
-            const isOurDevice = await conversation.isOurDevice();
-            const isFriends =
-              conversation.isFriend() ||
-              conversation.hasReceivedFriendRequest();
-            // We should only send a friend request to our device if we don't have keys
-            const shouldSendAutomatedFR = isOurDevice ? !keysFound : !isFriends;
-            if (shouldSendAutomatedFR) {
-              // We want to send an automated friend request if:
-              // - We aren't already friends
-              // - We haven't received a friend request from this device
-              // - We haven't sent a friend request recently
-              if (conversation.friendRequestTimerIsExpired()) {
-                isMultiDeviceRequest = true;
-                thisDeviceMessageType = 'friend-request';
-              } else {
-                // Throttle automated friend requests
-                this.successfulNumbers.push(devicePubKey);
-                return null;
-              }
-            }
-
-            // If we're not friends with our own device then we should become friends
-            if (isOurDevice && keysFound && !isFriends) {
-              conversation.setFriendRequestStatus(
-                window.friends.friendRequestStatusEnum.friends
-              );
-            }
-          }
-        }
-
-        // Check if we need to attach the preKeys
-        let sessionCipher;
-        const isFriendRequest = thisDeviceMessageType === 'friend-request';
-        enableFallBackEncryption =
-          enableFallBackEncryption || isFriendRequest || isMultiDeviceRequest;
-        const flags = this.message.dataMessage
-          ? this.message.dataMessage.get_flags()
-          : null;
-        const isEndSession =
-          flags === textsecure.protobuf.DataMessage.Flags.END_SESSION;
-        const isSessionRequest =
-          flags === textsecure.protobuf.DataMessage.Flags.SESSION_REQUEST;
-        const signalCipher = new libsignal.SessionCipher(
-          textsecure.storage.protocol,
-          address
-        );
-        if (enableFallBackEncryption || isEndSession) {
-          // Encrypt them with the fallback
-          const pkb = await libloki.storage.getPreKeyBundleForContact(
-            devicePubKey
-          );
-          const preKeyBundleMessage = new textsecure.protobuf.PreKeyBundleMessage(
-            pkb
-          );
-          this.message.preKeyBundleMessage = preKeyBundleMessage;
-          window.log.info('attaching prekeys to outgoing message');
-        }
-
-        let messageBuffer;
-        if (isMultiDeviceRequest) {
-          const tempMessage = new textsecure.protobuf.Content();
-          const tempDataMessage = new textsecure.protobuf.DataMessage();
-          tempDataMessage.body = i18n('secondaryDeviceDefaultFR');
-          if (this.message.dataMessage && this.message.dataMessage.profile) {
-            tempDataMessage.profile = this.message.dataMessage.profile;
-          }
-          tempMessage.preKeyBundleMessage = this.message.preKeyBundleMessage;
-          tempMessage.dataMessage = tempDataMessage;
-          messageBuffer = tempMessage.toArrayBuffer();
-        } else {
-          messageBuffer = this.message.toArrayBuffer();
-        }
-
-        if (enableFallBackEncryption) {
-          sessionCipher = new libloki.crypto.FallBackSessionCipher(address);
-        } else {
-          sessionCipher = signalCipher;
-        }
-        const plaintext = this.getPlaintext(messageBuffer);
-
-        // No limit on message keys if we're communicating with our other devices
-        if (ourKey === number) {
-          options.messageKeysLimit = false;
-        }
-
-        let content;
-        let type;
-
-        if (window.lokiFeatureFlags.useSealedSender) {
-          const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
-            textsecure.storage.protocol
-          );
-          ciphers[address.getDeviceId()] = secretSessionCipher;
-
-          const senderCert = new textsecure.protobuf.SenderCertificate();
-
-          senderCert.sender = ourKey;
-          senderCert.senderDevice = deviceId;
-
-          const ciphertext = await secretSessionCipher.encrypt(
-            address,
-            senderCert,
-            plaintext,
-            sessionCipher
-          );
-
-          type = textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER;
-          content = window.Signal.Crypto.arrayBufferToBase64(ciphertext);
-        } else {
-          // TODO: probably remove this branch once
-          // mobile clients implement sealed sender
-          ciphers[address.getDeviceId()] = sessionCipher;
-
-          const ciphertext = await sessionCipher.encrypt(plaintext);
-          if (!enableFallBackEncryption) {
-            // eslint-disable-next-line no-param-reassign
-            ciphertext.body = new Uint8Array(
-              dcodeIO.ByteBuffer.wrap(ciphertext.body, 'binary').toArrayBuffer()
-            );
-          }
-
-          // eslint-disable-next-line prefer-destructuring
-          type = ciphertext.type;
-          content = ciphertext.body;
-        }
-
-        const ttl = getTTLForType(thisDeviceMessageType);
-
-        return {
-          type, // FallBackSessionCipher sets this to FRIEND_REQUEST
-          ttl,
-          ourKey,
-          sourceDevice: 1,
-          content,
-          pubKey: devicePubKey,
-          isFriendRequest: enableFallBackEncryption,
-          isSessionRequest,
-        };
-      })
+      devicesPubKeys.map(devicePubKey => this.buildAndEncrypt(devicePubKey))
     )
-      .then(async outgoingObjects => {
-        // TODO: handle multiple devices/messages per transmit
-        const promises = outgoingObjects.map(async outgoingObject => {
-          if (!outgoingObject) {
-            return;
-          }
-          const {
-            pubKey: destination,
-            ttl,
-            isFriendRequest,
-            isSessionRequest,
-          } = outgoingObject;
-          try {
-            const socketMessage = await this.wrapInWebsocketMessage(
-              outgoingObject
-            );
-            await this.transmitMessage(
-              destination,
-              socketMessage,
-              this.timestamp,
-              ttl
-            );
-            if (!this.isGroup && isFriendRequest && !isSessionRequest) {
-              const conversation = ConversationController.get(destination);
-              if (conversation) {
-                // Redundant for primary device but marks secondary devices as pending
-                await conversation.onFriendRequestSent();
-              }
-            }
-            this.successfulNumbers.push(destination);
-          } catch (e) {
-            e.number = destination;
-            this.errors.push(e);
-          }
-        });
-        await Promise.all(promises);
-        // TODO: the retrySend should only send to the devices
-        // for which the transmission failed.
-
-        // ensure numberCompleted() will execute the callback
-        this.numbersCompleted +=
-          this.errors.length + this.successfulNumbers.length;
-        // Absorb errors if message sent to at least 1 device
-        if (this.successfulNumbers.length > 0) {
-          this.errors = [];
-        }
-        this.numberCompleted();
-      })
+      .then(outgoingObjects => this.sendSessionMessage(outgoingObjects))
       .catch(error => {
         // TODO(loki): handle http errors properly
         // - retry later if 400
         // - ignore if 409 (conflict) means the hash already exists
         throw error;
-        if (
-          error instanceof Error &&
-          error.name === 'HTTPError' &&
-          (error.code === 410 || error.code === 409)
-        ) {
-          if (!recurse) {
-            return this.registerError(
-              number,
-              'Hit retry limit attempting to reload device list',
-              error
-            );
-          }
-
-          let p;
-          if (error.code === 409) {
-            p = this.removeDeviceIdsForNumber(
-              number,
-              error.response.extraDevices
-            );
-          } else {
-            p = Promise.all(
-              error.response.staleDevices.map(deviceId =>
-                ciphers[deviceId].closeOpenSessionForDevice(
-                  new libsignal.SignalProtocolAddress(number, deviceId)
-                )
-              )
-            );
-          }
-
-          return p.then(() => {
-            const resetDevices =
-              error.code === 410
-                ? error.response.staleDevices
-                : error.response.missingDevices;
-            return this.getKeysForNumber(number, resetDevices).then(
-              // We continue to retry as long as the error code was 409; the assumption is
-              //   that we'll request new device info and the next request will succeed.
-              this.reloadDevicesAndSend(number, error.code === 409)
-            );
-          });
-        } else if (error.message === 'Identity key changed') {
-          // eslint-disable-next-line no-param-reassign
-          error.timestamp = this.timestamp;
-          // eslint-disable-next-line no-param-reassign
-          error.originalMessage = this.message.toArrayBuffer();
-          window.log.error(
-            'Got "key changed" error from encrypt - no identityKey for application layer',
-            number,
-            devicesPubKeys
-          );
-          throw error;
-        } else {
-          this.registerError(number, 'Failed to create or send message', error);
-        }
-
-        return null;
       });
   },
 
