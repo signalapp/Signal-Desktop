@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { clamp, find, isNumber, pull, remove, take, uniq } from 'lodash';
 import { SortEnd } from 'react-sortable-hoc';
+import { bindActionCreators } from 'redux';
 import arrayMove from 'array-move';
 import { AppState } from '../reducer';
 import { PackMetaData, WebpData } from '../../util/preload';
@@ -268,24 +269,25 @@ export const useStickerActions = () => {
   const dispatch = useDispatch();
 
   return useMemo(
-    () => ({
-      addWebp: (data: WebpData) => dispatch(addWebp(data)),
-      initializeStickers: (paths: Array<string>) =>
-        dispatch(initializeStickers(paths)),
-      removeSticker: (src: string) => dispatch(removeSticker(src)),
-      moveSticker: (sortEnd: SortEnd) => dispatch(moveSticker(sortEnd)),
-      setCover: (webp: WebpData) => dispatch(setCover(webp)),
-      setEmoji: (p: { id: string; emoji: EmojiPickDataType }) =>
-        dispatch(setEmoji(p)),
-      setTitle: (title: string) => dispatch(setTitle(title)),
-      setAuthor: (author: string) => dispatch(setAuthor(author)),
-      setPackMeta: (e: PackMetaData) => dispatch(setPackMeta(e)),
-      addToast: (key: string, subs?: Array<number>) =>
-        dispatch(addToast({ key, subs })),
-      dismissToast: () => dispatch(dismissToast()),
-      reset: () => dispatch(reset()),
-      resetStatus: () => dispatch(resetStatus()),
-    }),
+    () =>
+      bindActionCreators(
+        {
+          addWebp,
+          initializeStickers,
+          removeSticker,
+          moveSticker,
+          setCover,
+          setEmoji,
+          setTitle,
+          setAuthor,
+          setPackMeta,
+          addToast,
+          dismissToast,
+          reset,
+          resetStatus,
+        },
+        dispatch
+      ),
     [dispatch]
   );
 };
