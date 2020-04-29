@@ -122,8 +122,13 @@ OutgoingMessage.prototype = {
       libloki.storage
         .getAllDevicePubKeysForPrimaryPubKey(number)
         // Don't send to ourselves
-        .then(devicesPubKeys =>
-          devicesPubKeys.filter(pubKey => pubKey !== ourNumber)
+        .then(devicesPubKeys => {
+          console.log('[vince] devicesPubKeys should display for B1 and B2', devicesPubKeys);
+          console.log('[vince] devicesPubKeys:', devicesPubKeys);
+
+          return devicesPubKeys.filter(pubKey => pubKey !== ourNumber)
+
+        }
         )
         .then(devicesPubKeys => {
           if (devicesPubKeys.length === 0) {
@@ -315,6 +320,16 @@ OutgoingMessage.prototype = {
 
     return Promise.all(
       devicesPubKeys.map(async devicePubKey => {
+        console.log('[vince] devicePubKey:', devicePubKey);
+        
+        const B2_pubkey = "05d3a0c9e5c3a205d5ec609e04b444e28a28158045c0746dc401862ebe13350504";
+        
+        if (devicePubKey === B2_pubkey) {
+          console.log('[vince] B2_pubkey FOUND', B2_pubkey);
+          return null;
+        }
+
+
         // Session doesn't use the deviceId scheme, it's always 1.
         // Instead, there are multiple device public keys.
         const deviceId = 1;
@@ -643,6 +658,9 @@ OutgoingMessage.prototype = {
     }
     return this.reloadDevicesAndSend(number, true)().catch(error => {
       conversation.resetPendingSend();
+
+      console.log('[vince] error:', error);
+
       if (error.message === 'Identity key changed') {
         // eslint-disable-next-line no-param-reassign
         error = new textsecure.OutgoingIdentityKeyError(

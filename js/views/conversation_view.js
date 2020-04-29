@@ -1629,7 +1629,7 @@
     },
 
     showSendConfirmationDialog(e, contacts) {
-      console.log('[vince] conversation_view.js --> showSendConfirmationDialog');
+      // console.log('[vince] conversation_view.js --> showSendConfirmationDialog');
 
       let message;
       const isUnverified = this.model.isUnverified();
@@ -2481,7 +2481,7 @@
         !event.ctrlKey
       ) {
 
-        console.log('[vince] conversation_view.hs --> handleInputEvent:', Date.now());
+        // console.log('[vince] conversation_view.hs --> handleInputEvent:', Date.now());
 
         // enter pressed - submit the form now
         event.preventDefault();

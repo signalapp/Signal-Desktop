@@ -649,7 +649,7 @@
       );
     },
     async updateVerified() {
-      console.log('[vince] conversations.js --> updateVerified()');
+      // console.log('[vince] conversations.js --> updateVerified()');
 
       if (this.isPrivate()) {
         await this.initialPromise;
@@ -856,7 +856,7 @@
       return this.get('friendRequestStatus');
     },
     async getPrimaryConversation() {
-      console.log('[vince] conversation.js --> getPrimaryConversation');
+      // console.log('[vince] conversation.js --> getPrimaryConversation');
 
       if (!this.isSecondaryDevice()) {
         // This is already the primary conversation
@@ -875,7 +875,7 @@
       return this;
     },
     async updateTextInputState() {
-      console.log('[vince] conversation.js --> updateTextInputState');
+      // console.log('[vince] conversation.js --> updateTextInputState');
       
       if (this.isRss()) {
         // or if we're an rss conversation, disable it
@@ -926,7 +926,7 @@
       return this.get('primaryDevicePubKey') || this.id;
     },
     async setSecondaryStatus(newStatus, primaryDevicePubKey) {
-      console.log('[vince] conversation.js --> setSecondaryStatus');
+      // console.log('[vince] conversation.js --> setSecondaryStatus');
 
       if (this.get('secondaryStatus') !== newStatus) {
         this.set({
@@ -939,7 +939,7 @@
       }
     },
     async setFriendRequestStatus(newStatus, options = {}) {
-      console.log('[vince] conversation.js --> setFriendRequestStatus');
+      // console.log('[vince] conversation.js --> setFriendRequestStatus');
 
       const { blockSync } = options;
       // Ensure that the new status is a valid FriendStatusEnum value

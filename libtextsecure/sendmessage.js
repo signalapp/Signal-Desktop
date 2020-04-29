@@ -514,7 +514,7 @@ MessageSender.prototype = {
   },
 
   createSyncMessage() {
-    console.log('[vince] sendmessage.js --> createSyncMessage');
+    // console.log('[vince] sendmessage.js --> createSyncMessage');
     
     const syncMessage = new textsecure.protobuf.SyncMessage();
 
