@@ -1089,6 +1089,7 @@ class MessageReceiverInner extends EventTarget {
         ev.data = {
           destination,
           timestamp: timestamp.toNumber(),
+          serverTimestamp: envelope.serverTimestamp,
           device: envelope.sourceDevice,
           unidentifiedStatus,
           message,
@@ -1159,6 +1160,7 @@ class MessageReceiverInner extends EventTarget {
           sourceUuid: envelope.sourceUuid,
           sourceDevice: envelope.sourceDevice,
           timestamp: envelope.timestamp.toNumber(),
+          serverTimestamp: envelope.serverTimestamp,
           unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
           message,
         };
@@ -1792,6 +1794,13 @@ class MessageReceiverInner extends EventTarget {
       }
       if (sticker.data) {
         sticker.data = this.cleanAttachment(sticker.data);
+      }
+    }
+
+    const { delete: del } = decrypted;
+    if (del) {
+      if (del.targetSentTimestamp) {
+        del.targetSentTimestamp = del.targetSentTimestamp.toNumber();
       }
     }
 

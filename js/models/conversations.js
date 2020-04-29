@@ -414,6 +414,7 @@
         lastMessage: {
           status: this.get('lastMessageStatus'),
           text: this.get('lastMessage'),
+          deletedForEveryone: this.get('lastMessageDeletedForEveryone'),
         },
       };
 

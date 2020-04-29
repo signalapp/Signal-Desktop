@@ -1691,6 +1691,10 @@
     "message": "View-once Video",
     "description": "Shown in notifications and in the left pane when a message is a view once video."
   },
+  "message--deletedForEveryone": {
+    "message": "This message was deleted.",
+    "description": "Shown in a message's bubble when the message has been deleted for everyone."
+  },
   "stickers--toast--InstallFailed": {
     "message": "Sticker pack could not be installed",
     "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"

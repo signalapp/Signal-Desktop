@@ -3396,9 +3396,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
-.module-conversation-list-item__message__draft-prefix {
-  font-style: italic;
-  margin-right: 3px;
+.module-conversation-list-item__message {
+  &__draft-prefix,
+  &__deleted-for-everyone {
+    font-style: italic;
+    margin-right: 3px;
+  }
 }
 
 .module-conversation-list-item__message__status-icon {
@@ -7868,6 +7871,10 @@ button.module-image__border-overlay:focus {
 
   &--with-reactions {
     margin-bottom: 12px;
+  }
+
+  &--deleted-for-everyone {
+    font-style: italic;
   }
 }
 

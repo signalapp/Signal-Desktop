@@ -106,6 +106,8 @@ export type PropsData = {
   reactions?: ReactionViewerProps['reactions'];
   selectedReaction?: string;
 
+  deletedForEveryone?: boolean;
+
   canReply: boolean;
 };
 
@@ -934,12 +936,20 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderText() {
-    const { text, textPending, i18n, direction, status } = this.props;
+    const {
+      deletedForEveryone,
+      direction,
+      i18n,
+      status,
+      text,
+      textPending,
+    } = this.props;
 
-    const contents =
-      direction === 'incoming' && status === 'error'
-        ? i18n('incomingError')
-        : text;
+    const contents = deletedForEveryone
+      ? i18n('message--deletedForEveryone')
+      : direction === 'incoming' && status === 'error'
+      ? i18n('incomingError')
+      : text;
 
     if (!contents) {
       return null;
@@ -1677,7 +1687,11 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderContents() {
-    const { isTapToView } = this.props;
+    const { isTapToView, deletedForEveryone } = this.props;
+
+    if (deletedForEveryone) {
+      return this.renderText();
+    }
 
     if (isTapToView) {
       return (
@@ -1863,9 +1877,11 @@ export class Message extends React.PureComponent<Props, State> {
     this.handleOpen(event);
   };
 
+  // tslint:disable-next-line: cyclomatic-complexity
   public renderContainer() {
     const {
       authorColor,
+      deletedForEveryone,
       direction,
       isSticker,
       isTapToView,
@@ -1903,6 +1919,9 @@ export class Message extends React.PureComponent<Props, State> {
         : null,
       reactions && reactions.length > 0
         ? 'module-message__container--with-reactions'
+        : null,
+      deletedForEveryone
+        ? 'module-message__container--deleted-for-everyone'
         : null
     );
     const containerStyles = {

@@ -31,6 +31,7 @@ export type PropsData = {
   lastMessage?: {
     status: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
     text: string;
+    deletedForEveryone?: boolean;
   };
 };
 
@@ -152,6 +153,9 @@ export class ConversationListItem extends React.PureComponent<Props> {
     }
 
     const showingDraft = shouldShowDraft && draftPreview;
+    const deletedForEveryone = Boolean(
+      lastMessage && lastMessage.deletedForEveryone
+    );
 
     // Note: instead of re-using showingDraft here we explode it because
     //   typescript can't tell that draftPreview is truthy otherwise
@@ -180,6 +184,10 @@ export class ConversationListItem extends React.PureComponent<Props> {
               {showingDraft ? (
                 <span className="module-conversation-list-item__message__draft-prefix">
                   {i18n('ConversationListItem--draft-prefix')}
+                </span>
+              ) : deletedForEveryone ? (
+                <span className="module-conversation-list-item__message__deleted-for-everyone">
+                  {i18n('message--deletedForEveryone')}
                 </span>
               ) : null}
               <MessageBody

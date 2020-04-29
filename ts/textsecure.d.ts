@@ -235,6 +235,7 @@ export declare class DataMessageClass {
   requiredProtocolVersion?: number;
   isViewOnce?: boolean;
   reaction?: DataMessageClass.Reaction;
+  delete?: DataMessageClass.Delete;
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript
@@ -285,6 +286,10 @@ export declare namespace DataMessageClass {
     targetAuthorE164?: string;
     targetAuthorUuid?: string;
     targetTimestamp?: ProtoBigNumberType;
+  }
+
+  class Delete {
+    targetSentTimestamp?: ProtoBigNumberType;
   }
 
   class Sticker {

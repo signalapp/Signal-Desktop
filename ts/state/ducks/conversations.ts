@@ -88,6 +88,7 @@ export type MessageType = {
       phoneNumber?: string;
     };
   }>;
+  deletedForEveryone?: boolean;
 
   errors?: Array<Error>;
   group_update?: any;
@@ -624,6 +625,12 @@ function hasMessageHeightChanged(
   const reactionsChanged =
     (currentReactions.length === 0) !== (lastReactions.length === 0);
   if (reactionsChanged) {
+    return true;
+  }
+
+  const isDeletedForEveryone = message.deletedForEveryone;
+  const wasDeletedForEveryone = previous.deletedForEveryone;
+  if (isDeletedForEveryone !== wasDeletedForEveryone) {
     return true;
   }
 
