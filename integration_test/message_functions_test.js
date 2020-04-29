@@ -38,7 +38,7 @@ describe('Message Functions', function() {
     const fileLocation = path.join(__dirname, 'test_attachment');
     const messageText = 'test_attachment';
 
-    common.sendMessage(app, messageText, fileLocation);
+    await common.sendMessage(app, messageText, fileLocation);
 
     // validate attachment sent
     await app.client.waitForExist(
@@ -54,7 +54,7 @@ describe('Message Functions', function() {
 
   it('can delete message', async () => {
     const messageText = 'delete_me';
-    common.sendMessage(app, messageText);
+    await common.sendMessage(app, messageText);
 
     await app.client.waitForExist(
       ConversationPage.existingSendMessageText(messageText),
