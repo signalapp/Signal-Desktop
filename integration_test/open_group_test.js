@@ -50,10 +50,9 @@ describe('Open groups', function() {
       .eventually.be.false;
 
     // validate open chat has been added
-    await app.client.waitForExist(
-      ConversationPage.rowOpenGroupConversationName(name),
-      4000
-    );
+    await app.client.isExisting(
+      ConversationPage.rowOpenGroupConversationName(name)
+    ).should.eventually.be.true;
   }
 
   it('openGroup: works with valid open group url', async () => {

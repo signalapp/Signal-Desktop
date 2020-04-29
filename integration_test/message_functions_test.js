@@ -58,7 +58,7 @@ describe('Message Functions', function() {
 
     await app.client.waitForExist(
       ConversationPage.existingSendMessageText(messageText),
-      5000
+      6000
     );
     await app2.client.waitForExist(
       ConversationPage.existingReceivedMessageText(messageText),
@@ -74,7 +74,7 @@ describe('Message Functions', function() {
     // delete messaage from modal
     await app.client.waitForExist(
       ConversationPage.deleteMessageModalButton,
-      3000
+      5000
     );
     await app.client.element(ConversationPage.deleteMessageModalButton).click();
 

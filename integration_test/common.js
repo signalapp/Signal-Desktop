@@ -64,7 +64,6 @@ module.exports = {
 
   // a wrapper to work around electron/spectron bug
   async setValueWrapper(app, selector, value) {
-    await app.client.element(selector).click();
     // keys, setValue and addValue hang on certain platforms
 
     if (process.platform === 'darwin') {

@@ -106,10 +106,15 @@ describe('Settings', function() {
 
     await app.client.keys('Enter');
 
-    // Verify password removed
+    // Verify password removed with toast
     await app.client.waitForExist(
       CommonPage.toastWithText('Removed Password'),
       2000
     );
+
+    // Verify password actully removed
+    await app.client.isExisting(
+      CommonPage.divWithClass('session-settings__password-lock')
+    ).should.eventually.be.false;
   });
 });
