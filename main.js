@@ -308,9 +308,6 @@ async function createWindow() {
   mainWindow = new BrowserWindow(windowOptions);
   setupSpellChecker(mainWindow, locale.messages);
 
-  // Disable system main menu
-  mainWindow.setMenu(null);
-
   electronLocalshortcut.register(mainWindow, 'F5', () => {
     mainWindow.reload();
   });

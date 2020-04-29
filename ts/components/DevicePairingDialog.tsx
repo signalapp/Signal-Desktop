@@ -211,6 +211,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
               buttonColor={SessionButtonColor.Danger}
             />
           </div>
+          <SessionSpinner loading={this.state.loading} />
         </div>
       </SessionModal>
     );
@@ -370,13 +371,19 @@ export class DevicePairingDialog extends React.Component<Props, State> {
   }
 
   private triggerUnpairDevice() {
+    const deviceUnpaired = () => {
+      window.pushToast({
+        title: window.i18n('deviceUnpaired'),
+      });
+      this.closeDialog();
+      this.setState({ loading: false });
+    };
+    this.setState({ loading: true });
+
     window.Whisper.events.trigger(
       'deviceUnpairingRequested',
-      this.props.pubKeyToUnpair
+      this.props.pubKeyToUnpair,
+      deviceUnpaired
     );
-    window.pushToast({
-      title: window.i18n('deviceUnpaired'),
-    });
-    this.closeDialog();
   }
 }

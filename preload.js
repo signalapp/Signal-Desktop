@@ -413,7 +413,6 @@ window.lokiFeatureFlags = {
   multiDeviceUnpairing: true,
   privateGroupChats: true,
   useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
-  useSealedSender: true,
   useOnionRequests: true,
   onionRequestHops: 1,
 };
@@ -448,6 +447,5 @@ if (config.environment.includes('test-integration')) {
     multiDeviceUnpairing: true,
     privateGroupChats: true,
     useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
-    useSealedSender: true,
   };
 }

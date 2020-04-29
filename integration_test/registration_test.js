@@ -2,8 +2,9 @@
 /* eslint-disable func-names  */
 /* eslint-disable import/no-extraneous-dependencies */
 
-const common = require('./common');
 const { afterEach, beforeEach, describe, it } = require('mocha');
+
+const common = require('./common');
 const RegistrationPage = require('./page-objects/registration.page');
 const ConversationPage = require('./page-objects/conversation.page');
 

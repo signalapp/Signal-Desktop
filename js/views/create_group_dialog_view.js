@@ -164,7 +164,6 @@
         Component: window.Signal.Components.UpdateGroupMembersDialog,
         props: {
           titleText: this.titleText,
-          groupName: this.groupName,
           okText: i18n('ok'),
           cancelText: i18n('cancel'),
           isPublic: this.isPublic,
@@ -180,13 +179,30 @@
       this.$el.append(this.dialogView.el);
       return this;
     },
-    onSubmit(groupName, newMembers) {
+    onSubmit(newMembers) {
       const ourPK = textsecure.storage.user.getNumber();
       const allMembers = window.Lodash.concat(newMembers, [ourPK]);
 
+      // We need to NOT trigger an group update if the list of member is the same.
+      const notPresentInOld = allMembers.filter(
+        m => !this.existingMembers.includes(m)
+      );
+      const notPresentInNew = this.existingMembers.filter(
+        m => !allMembers.includes(m)
+      );
+      // would be easer with _.xor but for some reason we do not have it
+      const xor = notPresentInNew.concat(notPresentInOld);
+      if (xor.length === 0) {
+        window.console.log(
+          'skipping group update: no detected changes in group member list'
+        );
+
+        return;
+      }
+
       window.doUpdateGroup(
         this.groupId,
-        groupName,
+        this.groupName,
         allMembers,
         this.avatarPath
       );

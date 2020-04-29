@@ -99,7 +99,7 @@
         throw new Error('Failed to get keypair for encryption');
       }
       const myPrivateKey = myKeyPair.privKey;
-      const symmetricKey = libsignal.Curve.calculateAgreement(
+      const symmetricKey = await libsignal.Curve.async.calculateAgreement(
         this.pubKey,
         myPrivateKey
       );
@@ -117,7 +117,7 @@
         throw new Error('Failed to get keypair for decryption');
       }
       const myPrivateKey = myKeyPair.privKey;
-      const symmetricKey = libsignal.Curve.calculateAgreement(
+      const symmetricKey = await libsignal.Curve.async.calculateAgreement(
         this.pubKey,
         myPrivateKey
       );
@@ -144,8 +144,8 @@
     return Multibase.decode(`${base32zCode}${snodeAddressClean}`);
   }
 
-  function generateEphemeralKeyPair() {
-    const keys = libsignal.Curve.generateKeyPair();
+  async function generateEphemeralKeyPair() {
+    const keys = await libsignal.Curve.async.generateKeyPair();
     // Signal protocol prepends with "0x05"
     keys.pubKey = keys.pubKey.slice(1);
     return keys;
@@ -290,7 +290,7 @@
       throw new Error('Failed to get keypair for token decryption');
     }
     const { privKey } = keyPair;
-    const symmetricKey = libsignal.Curve.calculateAgreement(
+    const symmetricKey = await libsignal.Curve.async.calculateAgreement(
       serverPubKey,
       privKey
     );

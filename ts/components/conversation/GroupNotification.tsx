@@ -1,5 +1,4 @@
 import React from 'react';
-// import classNames from 'classnames';
 import { compact, flatten } from 'lodash';
 
 import { Intl } from '../Intl';
@@ -25,6 +24,8 @@ interface Props {
   i18n: LocalizerType;
 }
 
+// This class is used to display group updates in the conversation view.
+// This is a not a "notification" as the name suggests, but a message inside the conversation
 export class GroupNotification extends React.Component<Props> {
   public renderChange(change: Change) {
     const { isMe, contacts, type, newName } = change;
