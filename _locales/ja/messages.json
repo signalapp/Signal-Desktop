@@ -143,6 +143,14 @@
         "message": "独立したデバイスとして設定",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "contextMenuCopyLink": {
+        "message": "リンクをコピーする",
+        "description": "Shown in the context menu for a link to indicate that the user can copy the link"
+    },
+    "contextMenuNoSuggestions": {
+        "message": "No Suggestions",
+        "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
+    },
     "avatarMenuViewArchive": {
         "message": "アーカイブを表示",
         "description": "One of the menu options available in the Avatar Popup menu"
@@ -251,16 +259,12 @@
             }
         }
     },
-    "me": {
-        "message": "自分",
-        "description": "The label for yourself when shown in a group member list"
-    },
     "view": {
         "message": "表示",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "グループを退出しました。",
+        "message": "You left the group.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -284,6 +288,10 @@
                 "example": "5"
             }
         }
+    },
+    "messageHistoryUnsynced": {
+        "message": "For your security, conversation history isn't transferred to new linked devices.",
+        "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
         "message": "$name$との安全番号を検証済みにしました",
@@ -576,6 +584,10 @@
     "connecting": {
         "message": "接続完了",
         "description": "Displayed when the desktop client is currently connecting to the server."
+    },
+    "connect": {
+        "message": "Connect",
+        "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
         "message": "Shouldn't be long...",
@@ -1095,6 +1107,14 @@
         "message": "メッセージボックスに入力されたテキストのスペルチェックを有効にする",
         "description": "Description of the media permission description"
     },
+    "spellCheckWillBeEnabled": {
+        "message": "Spell check will be enabled the next time Signal starts.",
+        "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
+    },
+    "spellCheckWillBeDisabled": {
+        "message": "Spell check will be disabled the next time Signal starts.",
+        "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
     "clearDataHeader": {
         "message": "データの削除",
         "description": "Header in the settings dialog for the section dealing with data deletion"
@@ -1557,6 +1577,10 @@
         "message": "Start new conversation…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "notSupportedSMS": {
+        "message": "SMS/MMS messages are not supported.",
+        "description": "Label underneath number informing user that SMS is not supported on desktop"
+    },
     "newPhoneNumber": {
         "message": "電話番号を入力して連絡先を追加する",
         "description": "Placeholder for adding a new number to a contact"
@@ -1598,7 +1622,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ がグループを退会しました",
+        "message": "$name$ left the group.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1608,7 +1632,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ がグループを退会しました",
+        "message": "$name$ left the group.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1618,11 +1642,25 @@
         }
     },
     "updatedTheGroup": {
-        "message": "グループがアップデートされました",
+        "message": "$name$ updated the group.",
+        "description": "Shown in the conversation history when someone updates the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "youUpdatedTheGroup": {
+        "message": "グループを更新しました。",
+        "description": "Shown in the conversation history when you update a group"
+    },
+    "updatedGroupAvatar": {
+        "message": "Group avatar was updated.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "タイトルが '$name$' になりました",
+        "message": "Group name is now '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1631,8 +1669,12 @@
             }
         }
     },
+    "youJoinedTheGroup": {
+        "message": "You joined the group.",
+        "description": "Shown in the conversation history when you are added to a group."
+    },
     "joinedTheGroup": {
-        "message": "$name$ がグループに参加しました",
+        "message": "$name$ joined the group.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1684,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ がグループに参加しました",
+        "message": "$names$ joined the group.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1664,15 +1706,15 @@
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
-        "message": "View-once Media",
+        "message": "消えるメディア",
         "description": "Shown in notifications and in the left pane after view-once message is deleted."
     },
     "message--getDescription--disappearing-photo": {
-        "message": "View-once Photo",
+        "message": "消える写真",
         "description": "Shown in notifications and in the left pane when a message is a view once photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "View-once Video",
+        "message": "消える動画",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
     "stickers--toast--InstallFailed": {
@@ -1826,7 +1868,7 @@
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
-        "message": "View-once messages are not stored in your conversation history.",
+        "message": "消えるメッセージは会話履歴に保存されません。",
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
@@ -2090,7 +2132,7 @@
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
-        "message": "Show margins",
+        "message": "マージンを表示",
         "description": "Text for the show margins toggle on the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--addMore": {
@@ -2104,15 +2146,15 @@
         }
     },
     "StickerCreator--EmojiStage--title": {
-        "message": "Add an emoji to each sticker",
+        "message": "各ステッカーに絵文字を割り当てる",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--EmojiStage--help": {
-        "message": "This allows us to suggest stickers to you as you're messaging.",
+        "message": "これを設定と、メッセージ入力中にステッカーを提案することができます。",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
-        "message": "Just a few more details...",
+        "message": "詳細情報の入力",
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
@@ -2128,7 +2170,7 @@
         "description": "Label for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover--help": {
-        "message": "This is the image that will show up when you share your sticker pack",
+        "message": "このステッカーパックを共有した時に表示される画像です",
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
@@ -2140,7 +2182,7 @@
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "You will no longer be able to make edits or delete after creating a sticker pack.",
+        "message": "ステッカーパックは作成後に、編集や削除を行うことができません。",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
@@ -2162,15 +2204,15 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "Congratulations! You created a sticker pack.",
+        "message": "おめでとうございます。ステッカーパックの作成が完了しました。",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "Access your new stickers through the sticker icon, or share with your friends using the link below.",
+        "message": "ステッカーアイコンからこのステッカーを使用したり、以下のリンクを友達と共有することができます。",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Use the hashtag $hashtag$ to help other people find the URLs for any custom sticker packs that you would like to make publicly accessible.",
+        "message": "ハッシュタグ $hashtag$ を使って、公開したいと思うカスタムステッカーパックの URL を他の人が見つけられるようにしましょう。",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {

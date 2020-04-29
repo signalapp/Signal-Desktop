@@ -143,6 +143,14 @@
         "message": "Setează ca dispozitiv de sine stătător",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "contextMenuCopyLink": {
+        "message": "Copiază Link-ul",
+        "description": "Shown in the context menu for a link to indicate that the user can copy the link"
+    },
+    "contextMenuNoSuggestions": {
+        "message": "Nici o sugestie",
+        "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
+    },
     "avatarMenuViewArchive": {
         "message": "Afișați Arhiva",
         "description": "One of the menu options available in the Avatar Popup menu"
@@ -251,16 +259,12 @@
             }
         }
     },
-    "me": {
-        "message": "Eu",
-        "description": "The label for yourself when shown in a group member list"
-    },
     "view": {
         "message": "Vizualizare",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Ai părăsit grupul",
+        "message": "You left the group.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -284,6 +288,10 @@
                 "example": "5"
             }
         }
+    },
+    "messageHistoryUnsynced": {
+        "message": "Pentru securitatea dvs., istoricul conversației nu este transferat pe noile dispozitive asociate.",
+        "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
         "message": "Ai marcat numărul tău de siguranță cu $name$ ca fiind verificat",
@@ -577,8 +585,12 @@
         "message": "Se conectează",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connect": {
+        "message": "Conectare",
+        "description": "Shown to allow the user to manually attempt a reconnect."
+    },
     "connectingHangOn": {
-        "message": "Shouldn't be long...",
+        "message": "Nu ar trebui să dureze mult...",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -1095,6 +1107,14 @@
         "message": "Enable spell check of text entered in message composition box",
         "description": "Description of the media permission description"
     },
+    "spellCheckWillBeEnabled": {
+        "message": "Spell check will be enabled the next time Signal starts.",
+        "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
+    },
+    "spellCheckWillBeDisabled": {
+        "message": "Spell check will be disabled the next time Signal starts.",
+        "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
     "clearDataHeader": {
         "message": "Șterge datele",
         "description": "Header in the settings dialog for the section dealing with data deletion"
@@ -1557,6 +1577,10 @@
         "message": "Pornește o conversație nouă...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "notSupportedSMS": {
+        "message": "Mesajele SMS/MMS nu sunt suportate.",
+        "description": "Label underneath number informing user that SMS is not supported on desktop"
+    },
     "newPhoneNumber": {
         "message": "Introdu un număr de telefon pentru a adăuga un contact.",
         "description": "Placeholder for adding a new number to a contact"
@@ -1598,7 +1622,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ a părăsit grupul",
+        "message": "$name$ left the group.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1608,7 +1632,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ a părăsit grupul",
+        "message": "$name$ left the group.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1618,11 +1642,25 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Grupul a fost actualizat.",
+        "message": "$name$ updated the group.",
+        "description": "Shown in the conversation history when someone updates the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "youUpdatedTheGroup": {
+        "message": "Ați actualizat grupul.",
+        "description": "Shown in the conversation history when you update a group"
+    },
+    "updatedGroupAvatar": {
+        "message": "Group avatar was updated.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Titlul este acum '$name$'",
+        "message": "Group name is now '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1631,8 +1669,12 @@
             }
         }
     },
+    "youJoinedTheGroup": {
+        "message": "Te-ai alăturat grupului.",
+        "description": "Shown in the conversation history when you are added to a group."
+    },
     "joinedTheGroup": {
-        "message": "$name$ s-a alăturat grupului",
+        "message": "$name$ joined the group.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1684,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ s-a alăturat grupului",
+        "message": "$names$ joined the group.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1826,7 +1868,7 @@
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
-        "message": "View-once messages are not stored in your conversation history.",
+        "message": "Mesajele vizibile o singură dată nu sunt stocate în istoricul conversației.",
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
@@ -1894,11 +1936,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
-        "message": "Focus composer",
+        "message": "Focalizare compozitor",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
-        "message": "Open All Media view",
+        "message": "Deschide fereastra cu Toate Mediile",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
@@ -1914,23 +1956,23 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--default-message-action": {
-        "message": "Default action for selected message",
+        "message": "Acțiune implicită pentru mesajul selectat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--view-details-for-selected-message": {
-        "message": "View selected message details",
+        "message": "Vizualizați detaliile pentru mesajul selectat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
-        "message": "Toggle reply to selected message",
+        "message": "Comutați răspunsul la mesajul selectat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Toggle reaction picker for selected message",
+        "message": "Comutați selectorul de reacție pentru mesajul selectat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
-        "message": "Save attachment from selected message",
+        "message": "Salvați atașamentul din mesajul selectat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--delete-message": {
@@ -1942,11 +1984,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
-        "message": "Expand composer",
+        "message": "Expandare compozitor",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Send (in expanded composer)",
+        "message": "Trimite (în compozitorul expandat)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
@@ -1954,11 +1996,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Remove draft link preview",
+        "message": "Eliminați previzualizarea link-ului",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "Remove all draft attachments",
+        "message": "toateȘterge toate atașamentele de tip ciornă",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--Key--ctrl": {
@@ -1998,11 +2040,11 @@
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
-        "message": "Scroll to top of list",
+        "message": "Scroll la începutul listei",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--scroll-to-bottom": {
-        "message": "Scroll to bottom of list",
+        "message": "Scroll la sfârșitul listei",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
@@ -2030,7 +2072,7 @@
         "description": "A toast that shows up when user archives a conversation"
     },
     "conversationReturnedToInbox": {
-        "message": "Conversation returned to inbox",
+        "message": "Conversația a revenit la inbox",
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "StickerCreator--title": {
@@ -2038,7 +2080,7 @@
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "Click to add or drop images here",
+        "message": "Click pentru a adăuga sau plasați imaginile aici",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
@@ -2140,7 +2182,7 @@
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "You will no longer be able to make edits or delete after creating a sticker pack.",
+        "message": "Nu veți mai putea modifica sau șterge după crearea unui pachet de autocolante.",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
@@ -2166,7 +2208,7 @@
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "Access your new stickers through the sticker icon, or share with your friends using the link below.",
+        "message": "Accesați noile autocolante prin pictograma autocolantului sau partajați cu prietenii utilizând linkul de mai jos.",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {

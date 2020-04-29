@@ -20,7 +20,7 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "צור/ העלה חבילת מדבקות",
+        "message": "צור/העלה חבילת מדבקות",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -56,7 +56,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "צא מ־Signal",
+        "message": "צא מן Signal",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -143,6 +143,14 @@
         "message": "הגדר בתור מכשיר עצמאי",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "contextMenuCopyLink": {
+        "message": "העתק קישור",
+        "description": "Shown in the context menu for a link to indicate that the user can copy the link"
+    },
+    "contextMenuNoSuggestions": {
+        "message": "אין הצעות",
+        "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
+    },
     "avatarMenuViewArchive": {
         "message": "הצג ארכיון",
         "description": "One of the menu options available in the Avatar Popup menu"
@@ -210,7 +218,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "וודא שבחרת את התיקייה הנכונה המכילה את נתוני Signal השמורים שלך. שמה אמור להתחיל ב'יבוא Signal'. אתה יכול גם לשמור עותק חדש של הנתונים שלך מתוך יישום Chrome.",
+        "message": "וודא שבחרת את התיקייה הנכונה המכילה את נתוני Signal השמורים שלך. שמה אמור להתחיל ב'יצוא Signal'. אתה יכול גם לשמור עותק חדש של הנתונים שלך מתוך יישום Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -226,7 +234,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "התחל להשתמש ב־Signal Desktop עבודה",
+        "message": "התחל להשתמש ב־Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -251,16 +259,12 @@
             }
         }
     },
-    "me": {
-        "message": "אני",
-        "description": "The label for yourself when shown in a group member list"
-    },
     "view": {
         "message": "הצג",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "עזבת את הקבוצה",
+        "message": "עזבת את הקבוצה.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -272,7 +276,7 @@
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": "הודעה אחת שלא נקראה",
+        "message": "הודעה 1 שלא נקראה",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
@@ -284,6 +288,10 @@
                 "example": "5"
             }
         }
+    },
+    "messageHistoryUnsynced": {
+        "message": "למען אבטחתך, היסטורית שיחות אינה מועברת אל מכשירים מקושרים חדשים.",
+        "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
         "message": "סימנת את מספר הבטיחות שלך עם $name$ כמוֻדא",
@@ -306,7 +314,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "סימנתם את מספר הבטיחות שלכם עם $name$ כמוֻדא ממכשיר נוסף",
+        "message": "סימנת את מספר הבטיחות שלך עם $name$ כמוֻדא ממכשיר שונה",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -316,7 +324,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "סימנתם את מספר הבטיחות שלך עם $name$כבלתי מוֻןדא ממכשיר נוסף ",
+        "message": "סימנת את מספר הבטיחות שלך עם $name$ כבלתי מוֻדא ממכשיר שונה",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -330,11 +338,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "מספרי הבטיחות שלכם עם מספר חברי קבוצה השתנו מאז שווידאתם אותם בפעם האחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלכם או שהם פשוט התקינו מחדש את Signal.",
+        "message": "מספרי הבטיחות שלך עם מספר חברי קבוצה השתנו מאז שווידאת אותם בפעם האחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או שהם פשוט התקינו מחדש את Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "מספר הבטיחות שלכם עם $name$ השתנה מאז הפעם האחרונה שווידאתם אותו בפעם האחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלכם או ש- $name$ פשוט התקינו מחדש את Signal.",
+        "message": "מספר הבטיחות שלך עם $name$ השתנה מאז שווידאת אותו בפעם האחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או כי $name$ פשוט התקין מחדש את Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -344,7 +352,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "מספר הבטיחות שאתה מנסה לוודא השתנה. אנא סקור את מספר הבטיחות החדש שלך עם $name$. זכור, שינוי זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או $name$ פשוט התקין מחדש את Signal.",
+        "message": "מספר הבטיחות שאתה מנסה לוודא השתנה. אנא סקור את מספר הבטיחות החדש שלך עם $name$. זכור, שינוי זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או כי $name$ פשוט התקין מחדש את Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -354,11 +362,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "מספרי הבטיחות שלכם עם חברי קבוצה רבים השתנו לאחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלכם או שהם פשוט התקינו מחדש את Signal.",
+        "message": "מספרי הבטיחות שלך עם מספר חברי קבוצה השתנו לאחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או שהם פשוט התקינו מחדש את Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "מספר הבטיחות שלך עם $name$ השתנה לאחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או $name$פשוט התקין מחדש את Signal.",
+        "message": "מספר הבטיחות שלך עם $name$ השתנה לאחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או כי $name$ פשוט התקין מחדש את Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -368,7 +376,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "מספר הבטיחות שלכם עם $name$ השתנה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלכם או ש- $name$פשוט התקינו מחדש את Signal. ייתכן שתרצו לוודא את מספר הבטיחות שלכם עם קשר זה.",
+        "message": "מספר הבטיחות שלך עם $name$ השתנה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או כי $name$ פשוט התקין מחדש את Signal. ייתכן שתרצה לוודא את מספר הבטיחות שלך עם איש קשה זה.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -382,7 +390,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "מספר הבטיחות שלכם עם $name$ השתנה ואינו מוֻודא יותר. לחצו כדי לראות.",
+        "message": "מספר הבטיחות שלך עם $name$ השתנה ואינו מוֻדא יותר. לחץ כדי לראות.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -404,7 +412,7 @@
         "description": ""
     },
     "reportIssue": {
-        "message": "דווחו על סוגייה",
+        "message": "דווח על סוגייה",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -428,7 +436,7 @@
         "description": ""
     },
     "isVerified": {
-        "message": "וידאתם את מספר הבטיחות שלך עם $name$.",
+        "message": "וידאת את מספר הבטיחות שלך עם $name$.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -577,6 +585,10 @@
         "message": "מתחבר",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connect": {
+        "message": "התחבר",
+        "description": "Shown to allow the user to manually attempt a reconnect."
+    },
     "connectingHangOn": {
         "message": "לא אמור לקחת זמן רב…",
         "description": "Subtext description for when the client is connecting to the server."
@@ -618,7 +630,7 @@
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
-        "message": "העדפות Signal Desktop עבודה",
+        "message": "העדפות Signal Desktop",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
@@ -626,7 +638,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "אודות Signal Desktop עבודה",
+        "message": "אודות Signal Desktop",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -646,7 +658,7 @@
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
-        "message": "Signal Desktop עבודה",
+        "message": "Signal Desktop",
         "description": "Tooltip for the tray icon"
     },
     "search": {
@@ -696,7 +708,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
-        "message": "ברוכים הבאים לסיגנל",
+        "message": "ברוך הבא אל Signal",
         "description": ""
     },
     "selectAContact": {
@@ -818,7 +830,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "כדי לשלוח הודעות קוליות, התר אל Signal Desktop עבודה לקבל גישה אל המיקרופון שלך.",
+        "message": "כדי לשלוח הודעות שמע, התר אל Signal Desktop לקבל גישה אל המיקרופון שלך.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -846,7 +858,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop נכשל לעדכן, אבל יש גרסה חדשה זמינה. אנא לך אל  $url$ והתקן את הגרסה החדשה באופן ידני, אחר כך צור קשר עם התמיכה או הגש תקל לגבי בעיה זו.",
+        "message": "Signal Desktop נכשל בהתעדכנות, אבל יש גרסה חדשה זמינה. אנא לך אל  $url$ והתקן את הגרסה החדשה באופן ידני, אחר כך צור קשר עם התמיכה או הגש תקל לגבי בעיה זו.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -856,7 +868,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop ככל הנראה בהסגר macOS, ולא יוכל להתעדכן באופן אוטומטי. אנא נסה להעביר את  $app$ אל $folder$ עם המוצא.",
+        "message": "Signal Desktop ככל הנראה בהסגר macOS, ולא יוכל להתעדכן באופן אוטומטי. אנא נסה להעביר את  $app$ אל $folder$ עם Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -878,11 +890,11 @@
         "description": ""
     },
     "discard": {
-        "message": "השלך",
+        "message": "השמט",
         "description": ""
     },
     "failedToSend": {
-        "message": "נכשל בשליחה אל מספר נמענים. בדקו את חיבור הרשת שלכם.",
+        "message": "נכשל בשליחה אל מספר נמענים. בדוק את חיבור הרשת שלך.",
         "description": ""
     },
     "error": {
@@ -950,7 +962,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "אם אתם רוצים לוודא את הביטחון של ההצפנה מקצה-לקצה שלכם עם $name$, השוו את המספרים למעלה עם המספרים במכשיר שלהם.",
+        "message": "אם אתה רוצה לוודא את האבטחה של הצפנת הקצה־אל־קצה שלך עם $name$, השווה את המספרים למעלה עם המספרים במכשיר שלו.",
         "description": "",
         "placeholders": {
             "name": {
@@ -960,7 +972,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "לא החלפתם עדין הודעות כלשהן עם קשר זה. מספר הבטיחות שלכם איתם יהיה זמין לאחר ההודעה הראשונה.",
+        "message": "לא החלפת עדין הודעות כלשהן עם איש קשר זה. מספר הבטיחות שלך איתו יהיה זמין לאחר ההודעה הראשונה.",
         "description": ""
     },
     "moreInfo": {
@@ -1020,7 +1032,7 @@
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "ברוך הבא אל Signal Desktop עבודה",
+        "message": "ברוך הבא אל Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
@@ -1028,7 +1040,7 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "שולחן עבודה Signal קשר את הטלפון שלך אל",
+        "message": "Signal Desktop קשר את הטלפון שלך אל",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
@@ -1094,6 +1106,14 @@
     "spellCheckDescription": {
         "message": "אפשר בדיקת איות של מלל המוכנס בתיבת חיבור הודעה",
         "description": "Description of the media permission description"
+    },
+    "spellCheckWillBeEnabled": {
+        "message": "בדיקת איות תאופשר בפעם הבאה ש־Signal יופעל.",
+        "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
+    },
+    "spellCheckWillBeDisabled": {
+        "message": "בדיקת איות תושבת בפעם הבאה ש־Signal יופעל.",
+        "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "clearDataHeader": {
         "message": "נקה נתונים",
@@ -1248,7 +1268,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "גרסה זו של Signal Desktop פגה. אנא שדרגו אל הגרסה האחרונה כדי להמשיך בשליחת הודעות.",
+        "message": "גרסה זו של Signal Desktop פגה. אנא שדרג אל הגרסה האחרונה כדי להמשיך בשליחת הודעות.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1414,7 +1434,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
-        "message": "יום אחד",
+        "message": "יום 1",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_week": {
@@ -1524,7 +1544,7 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "מספר הבטיחות שלכם עם $name$:",
+        "message": "מספר הבטיחות שלך עם $name$:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -1557,6 +1577,10 @@
         "message": "התחל שיחה חדשה…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "notSupportedSMS": {
+        "message": "הודעות SMS/MMS אינן נתמכות.",
+        "description": "Label underneath number informing user that SMS is not supported on desktop"
+    },
     "newPhoneNumber": {
         "message": "הכנס מספר טלפון כדי להוסיף איש קשר.",
         "description": "Placeholder for adding a new number to a contact"
@@ -1566,7 +1590,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "קשרו מחדש את Signal Desktop אל המכשיר הנייד שלכם כדי להמשיך בשליחת הודעות.",
+        "message": "קשר מחדש את Signal Desktop אל המכשיר הנייד שלך כדי להמשיך בשליחת הודעות.",
         "description": ""
     },
     "unlinked": {
@@ -1582,7 +1606,7 @@
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "יש גרסה חדשה של Signal זמינה.",
+        "message": "גרסה חדשה של Signal זמינה.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -1598,7 +1622,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ עזב את הקבוצה",
+        "message": "$name$ עזב את הקבוצה.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1608,7 +1632,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ עזבו את הקבוצה",
+        "message": "$name$ עזבו את הקבוצה.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1618,11 +1642,25 @@
         }
     },
     "updatedTheGroup": {
-        "message": "קבוצה עודכנה",
+        "message": "$name$ עידכן את הקבוצה.",
+        "description": "Shown in the conversation history when someone updates the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "youUpdatedTheGroup": {
+        "message": "עדכנת את הקבוצה.",
+        "description": "Shown in the conversation history when you update a group"
+    },
+    "updatedGroupAvatar": {
+        "message": "יצגן הקבוצה עודכן.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "הכותרת כעת היא '$name$'",
+        "message": "שם הקבוצה הוא כעת '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1631,8 +1669,12 @@
             }
         }
     },
+    "youJoinedTheGroup": {
+        "message": "הצטרפת אל הקבוצה.",
+        "description": "Shown in the conversation history when you are added to a group."
+    },
     "joinedTheGroup": {
-        "message": "$name$ הצטרף אל הקבוצה",
+        "message": "$name$ הצטרף אל הקבוצה.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1684,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ הצטרפו אל הקבוצה",
+        "message": "$names$ הצטרפו אל הקבוצה.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1782,7 +1824,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ שלח לך הודעה שאינה יכולה להיות מעובדת או להיות מוצגת מאחר שהיא משתמשת במאפיין Signal חדש.",
+        "message": "$contact$ שלח לך הודעה שאינה יכולה להיות מעובדת או להיות מוצגת מאחר שהיא משתמשת במאפיין חדש של Signal.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1792,7 +1834,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "אתה יכול לבקש מן $contact$ לשלוח מחדש הודעה זו כעת כשאתה משתמש בגרסה מעודכנת של Signal.",
+        "message": "אתה יכול לבקש מן $contact$ לשלוח מחדש הודעה זו כעת כשאתה משתמש בגרסה עדכנית של Signal.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1802,11 +1844,11 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "אחד מהמכשירים שלך שלח הודעה שאינה יכולה להיות מעובדת או להיות מוצגת מאחר שהיא משתמשת במאפיין Signal חדש.",
+        "message": "אחד מהמכשירים שלך שלח הודעה שאינה יכולה להיות מעובדת או להיות מוצגת מאחר שהיא משתמשת במאפיין חדש של Signal.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "הודעות עתידיות כמו זאת יסונכרנו כעת כשאתה משתמש בגרסה מעודכנת של Signal.",
+        "message": "הודעות עתידיות כמו זאת יסונכרנו כעת כשאתה משתמש בגרסה עדכנית של Signal.",
         "description": ""
     },
     "Message--update-signal": {
@@ -2038,11 +2080,11 @@
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "לחץ כדי להוסיף או שחרר תמונות כאן",
+        "message": "לחץ כדי להוסיף או זרוק תמונות כאן",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
-        "message": "שחרר תמונות כאן",
+        "message": "זרוק תמונות כאן",
         "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
     },
     "StickerCreator--Preview--title": {
@@ -2062,7 +2104,7 @@
         "description": "Title for Facebook button"
     },
     "StickerCreator--ShareButtons--twitter": {
-        "message": "טוויטר",
+        "message": "Twitter",
         "description": "Title for Twitter button"
     },
     "StickerCreator--ShareButtons--pinterest": {
@@ -2210,7 +2252,7 @@
         "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--tooLarge": {
-        "message": "התמונה המשוחררת גדולה מדי",
+        "message": "התמונה הנזרקת גדולה מדי",
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {

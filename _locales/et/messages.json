@@ -20,7 +20,7 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Create/upload sticker pack",
+        "message": "Loo või laadi kleepsupakk üles",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -143,6 +143,14 @@
         "message": "Seadista iseseisva seadmena",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "contextMenuCopyLink": {
+        "message": "Kopeeri link",
+        "description": "Shown in the context menu for a link to indicate that the user can copy the link"
+    },
+    "contextMenuNoSuggestions": {
+        "message": "Soovitusi pole",
+        "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
+    },
     "avatarMenuViewArchive": {
         "message": "Näita arhiivi",
         "description": "One of the menu options available in the Avatar Popup menu"
@@ -251,16 +259,12 @@
             }
         }
     },
-    "me": {
-        "message": "Mina",
-        "description": "The label for yourself when shown in a group member list"
-    },
     "view": {
         "message": "Näita",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Sa lahkusid grupist",
+        "message": "You left the group.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -284,6 +288,10 @@
                 "example": "5"
             }
         }
+    },
+    "messageHistoryUnsynced": {
+        "message": "Sinu turvalisuse huvides ei kanta vestluste ajalugu uutesse ühendatud seadmetesse üle.",
+        "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
         "message": "Sa märkisid turvanumbri kasutajaga $name$ kinnitatuks.",
@@ -577,8 +585,12 @@
         "message": "Ühendamine",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connect": {
+        "message": "Ühenda",
+        "description": "Shown to allow the user to manually attempt a reconnect."
+    },
     "connectingHangOn": {
-        "message": "Shouldn't be long...",
+        "message": "Ei tohiks kaua aega võtta...",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -1095,6 +1107,14 @@
         "message": "Luba sõnumite kasti teksti õigekirja kontroll",
         "description": "Description of the media permission description"
     },
+    "spellCheckWillBeEnabled": {
+        "message": "Spell check will be enabled the next time Signal starts.",
+        "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
+    },
+    "spellCheckWillBeDisabled": {
+        "message": "Spell check will be disabled the next time Signal starts.",
+        "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
     "clearDataHeader": {
         "message": "Eemalda andmed",
         "description": "Header in the settings dialog for the section dealing with data deletion"
@@ -1557,6 +1577,10 @@
         "message": "Alusta uut vestlust...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "notSupportedSMS": {
+        "message": "SMS/MMS messages are not supported.",
+        "description": "Label underneath number informing user that SMS is not supported on desktop"
+    },
     "newPhoneNumber": {
         "message": "Kontakti lisamiseks sisesta telefoninumber.",
         "description": "Placeholder for adding a new number to a contact"
@@ -1598,7 +1622,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ lahkus grupist",
+        "message": "$name$ left the group.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1608,7 +1632,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ lahkusid grupist",
+        "message": "$name$ left the group.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1618,11 +1642,25 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Grupp on uuendatud",
+        "message": "$name$ updated the group.",
+        "description": "Shown in the conversation history when someone updates the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "youUpdatedTheGroup": {
+        "message": "Sa uuendasid gruppi.",
+        "description": "Shown in the conversation history when you update a group"
+    },
+    "updatedGroupAvatar": {
+        "message": "Group avatar was updated.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Pealkiri on nüüd '$name$'",
+        "message": "Group name is now '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1631,8 +1669,12 @@
             }
         }
     },
+    "youJoinedTheGroup": {
+        "message": "You joined the group.",
+        "description": "Shown in the conversation history when you are added to a group."
+    },
     "joinedTheGroup": {
-        "message": "$name$ ühines grupiga",
+        "message": "$name$ joined the group.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1684,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ ühinesid grupiga",
+        "message": "$names$ joined the group.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1926,7 +1968,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Toggle reaction picker for selected message",
+        "message": "Näita valitud sõnumi jaoks reaktsiooni valijat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2144,11 +2186,11 @@
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
-        "message": "Creating your sticker pack",
+        "message": "Kleepsupaki loomine",
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
-        "message": "$count$ of $total$ uploaded",
+        "message": "$count$  / $total$ üles laaditud",
         "description": "Title for the upload stage of the sticker creator",
         "placeholders": {
             "count": {
@@ -2162,7 +2204,7 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "Congratulations! You created a sticker pack.",
+        "message": "Palju õnne! Sa tegid uue kleepsupaki.",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
@@ -2180,7 +2222,7 @@
         }
     },
     "StickerCreator--ShareStage--copyTitle": {
-        "message": "Sticker Pack URL",
+        "message": "Kleepsupaki URL",
         "description": "Title for the copy button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--close": {
@@ -2188,15 +2230,15 @@
         "description": "Text for the close button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--createAnother": {
-        "message": "Create another sticker pack",
+        "message": "Loo veel üks kleepsupakk",
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Check out this new sticker pack I created for Signal. #makeprivacystick",
+        "message": "Vaata seda uut kleepsupakki, mille ma Signal-i jaoks tegin. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
-        "message": "$count$ image(s) added",
+        "message": "$count$ pilt(i) lisatud",
         "description": "Text for the toast when images are added to the sticker creator",
         "placeholders": {
             "count": {
@@ -2206,19 +2248,19 @@
         }
     },
     "StickerCreator--Toasts--animated": {
-        "message": "Animated stickers are not currently supported",
+        "message": "Animeeritud kleepsud ei ole hetkel toetatud",
         "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--tooLarge": {
-        "message": "Dropped image is too large",
+        "message": "Kukutatud pilt on liiga suur",
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
-        "message": "Error processing image",
+        "message": "Pildi töötlemisel tekkis tõrge",
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorUploading": {
-        "message": "Error uploading stickers: $message$",
+        "message": "Kleepsude üleslaadimisel tekkis tõrge: $message$",
         "description": "Text for the toast when a sticker pack cannot be uploaded",
         "placeholders": {
             "message": {
@@ -2232,19 +2274,19 @@
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
-        "message": "My sticker in light theme",
+        "message": "Minu kleeps heledas teemas",
         "description": "Text for the sticker preview for the light theme"
     },
     "StickerCreator--StickerPreview--dark": {
-        "message": "My sticker in dark theme",
+        "message": "Minu kleeps tumedas teemas",
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+        "message": "Kleepsupaki looja kasutamiseks seadista palun Signal enda telefonis ja arvutis.",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
-        "message": "Failed to send reaction. Please try again.",
+        "message": "Reaktsiooni saatmine ei õnnestunud. Palun proovi uuesti.",
         "description": "Shown when a reaction fails to send"
     },
     "ReactionsViewer--all": {

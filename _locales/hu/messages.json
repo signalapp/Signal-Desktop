@@ -143,6 +143,14 @@
         "message": "Beállítás önálló eszközként",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "contextMenuCopyLink": {
+        "message": "Link másolása",
+        "description": "Shown in the context menu for a link to indicate that the user can copy the link"
+    },
+    "contextMenuNoSuggestions": {
+        "message": "Nincs javaslat",
+        "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
+    },
     "avatarMenuViewArchive": {
         "message": "Archívum megtekintése",
         "description": "One of the menu options available in the Avatar Popup menu"
@@ -251,16 +259,12 @@
             }
         }
     },
-    "me": {
-        "message": "Én",
-        "description": "The label for yourself when shown in a group member list"
-    },
     "view": {
         "message": "Megtekintés",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Kiléptél a csoportból",
+        "message": "Kiléptél a csoportból.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -284,6 +288,10 @@
                 "example": "5"
             }
         }
+    },
+    "messageHistoryUnsynced": {
+        "message": "Biztonságod érdekében a beszélgetésnapló nem lesz áttöltve társított eszközeidre.",
+        "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
         "message": "Biztonsági számodat $name$ nevű partnereddel hitelesítettnek jelölted",
@@ -577,6 +585,10 @@
         "message": "Kapcsolódás",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connect": {
+        "message": "Csatlakozás",
+        "description": "Shown to allow the user to manually attempt a reconnect."
+    },
     "connectingHangOn": {
         "message": "Már nem tart sokáig...",
         "description": "Subtext description for when the client is connecting to the server."
@@ -626,7 +638,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "A Signal Desktop-ról",
+        "message": "A Signal Desktopról",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
@@ -1095,6 +1107,14 @@
         "message": "Az üzenetíró dobozba gépelt szöveg helyesírás-ellenőrzésének engedélyezése",
         "description": "Description of the media permission description"
     },
+    "spellCheckWillBeEnabled": {
+        "message": "A helyesírás-ellenőrzés a Signal újraindítását követően lesz engedélyezve.",
+        "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
+    },
+    "spellCheckWillBeDisabled": {
+        "message": "A helyesírás-ellenőrzés a Signal újraindítását követően lesz letiltva.",
+        "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
     "clearDataHeader": {
         "message": "Adatok törlése",
         "description": "Header in the settings dialog for the section dealing with data deletion"
@@ -1557,6 +1577,10 @@
         "message": "Új beszélgetés megkezdése…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "notSupportedSMS": {
+        "message": "Az SMS/MMS üzenetek nem támogatottak.",
+        "description": "Label underneath number informing user that SMS is not supported on desktop"
+    },
     "newPhoneNumber": {
         "message": "Telefonszám",
         "description": "Placeholder for adding a new number to a contact"
@@ -1618,11 +1642,25 @@
         }
     },
     "updatedTheGroup": {
-        "message": "A csoport adatai frissítve lettek.",
+        "message": "$name$ frissítette a csoportot.",
+        "description": "Shown in the conversation history when someone updates the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "youUpdatedTheGroup": {
+        "message": "Frissítetted a csoportot.",
+        "description": "Shown in the conversation history when you update a group"
+    },
+    "updatedGroupAvatar": {
+        "message": "A csoportkép frissítve lett.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "A téma mostantól '$name$'.",
+        "message": "A csoport neve mostantól '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1630,6 +1668,10 @@
                 "example": "Book Club"
             }
         }
+    },
+    "youJoinedTheGroup": {
+        "message": "Csatlakoztál a csoporthoz.",
+        "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
         "message": "$name$ belépett a csoportba.",
@@ -1642,7 +1684,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ belépett a csoportba.",
+        "message": "$names$ beléptek a csoportba.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {

@@ -20,7 +20,7 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Criar/carregar pacote de autocolantes",
+        "message": "Criar/Carregar pacote de autocolantes",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -143,6 +143,14 @@
         "message": "Configurar como dispositivo autónomo",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "contextMenuCopyLink": {
+        "message": "Copiar endereço",
+        "description": "Shown in the context menu for a link to indicate that the user can copy the link"
+    },
+    "contextMenuNoSuggestions": {
+        "message": "Sem sugestões",
+        "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
+    },
     "avatarMenuViewArchive": {
         "message": "Ver arquivo",
         "description": "One of the menu options available in the Avatar Popup menu"
@@ -251,16 +259,12 @@
             }
         }
     },
-    "me": {
-        "message": "Eu",
-        "description": "The label for yourself when shown in a group member list"
-    },
     "view": {
         "message": "Ver",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Abandonou o grupo",
+        "message": "Você abandonou o grupo.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -284,6 +288,10 @@
                 "example": "5"
             }
         }
+    },
+    "messageHistoryUnsynced": {
+        "message": "Para sua segurança, o histórico de conversas não é transferido para os novos dispositivos ligados.",
+        "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
         "message": "Marcou o número de segurança com $name$ como verificado",
@@ -576,6 +584,10 @@
     "connecting": {
         "message": "A ligar",
         "description": "Displayed when the desktop client is currently connecting to the server."
+    },
+    "connect": {
+        "message": "Ligar",
+        "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
         "message": "Não deverá demorar muito...",
@@ -1095,6 +1107,14 @@
         "message": "Ative a verificação ortográfica para o texto introduzido",
         "description": "Description of the media permission description"
     },
+    "spellCheckWillBeEnabled": {
+        "message": "A verificação ortográfica será ativada da próxima vez que o Signal iniciar.",
+        "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
+    },
+    "spellCheckWillBeDisabled": {
+        "message": "A verificação ortográfica será desativada da próxima vez que o Signal iniciar.",
+        "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
     "clearDataHeader": {
         "message": "Limpar dados",
         "description": "Header in the settings dialog for the section dealing with data deletion"
@@ -1557,6 +1577,10 @@
         "message": "Iniciar uma nova conversa…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "notSupportedSMS": {
+        "message": "Não são suportadas mensagens SMS/MMS.",
+        "description": "Label underneath number informing user that SMS is not supported on desktop"
+    },
     "newPhoneNumber": {
         "message": "Introduza um número de telefone para adicionar como contacto.",
         "description": "Placeholder for adding a new number to a contact"
@@ -1598,7 +1622,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ abandonou o grupo",
+        "message": "$name$ abandonou o grupo.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1608,7 +1632,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ abandonou o grupo",
+        "message": "$name$ abandonaram o grupo.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1618,11 +1642,25 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Grupo atualizado",
+        "message": "$name$ atualizou o grupo.",
+        "description": "Shown in the conversation history when someone updates the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "youUpdatedTheGroup": {
+        "message": "Você atualizou o grupo.",
+        "description": "Shown in the conversation history when you update a group"
+    },
+    "updatedGroupAvatar": {
+        "message": "O avatar do grupo foi atualizado.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "O título alterado para '$name$'",
+        "message": "O nome do grupo é agora '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1631,8 +1669,12 @@
             }
         }
     },
+    "youJoinedTheGroup": {
+        "message": "Você juntou-se ao grupo.",
+        "description": "Shown in the conversation history when you are added to a group."
+    },
     "joinedTheGroup": {
-        "message": "$name$ juntou-se ao grupo",
+        "message": "$name$ juntou-se ao grupo. ",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1684,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ juntou-se ao grupo",
+        "message": "$names$ juntaram-se ao grupo.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {

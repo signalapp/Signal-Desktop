@@ -80,11 +80,11 @@
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Incolla e Unisci Formattazione",
+        "message": "Incolla e verifica stile",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "Cancella",
+        "message": "Elimina",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
@@ -120,11 +120,11 @@
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "Aumenta zoom",
+        "message": "Ingrandisci",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "Diminuisci zoom",
+        "message": "Rimpicciolisci",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
@@ -142,6 +142,14 @@
     "menuSetupAsStandalone": {
         "message": "Imposta come dispositivo autonomo",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "contextMenuCopyLink": {
+        "message": "Copia link",
+        "description": "Shown in the context menu for a link to indicate that the user can copy the link"
+    },
+    "contextMenuNoSuggestions": {
+        "message": "Nessun suggerimento",
+        "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
         "message": "Visualizza archivio",
@@ -214,7 +222,7 @@
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "Se questi passaggi non funzionano, per favore manda un log di debug (Visualizza -> Log di debug) così che ti potremo aiutare a risolvere!",
+        "message": "Se questi passaggi non funzionano, invia un log di debug (Visualizza -> Log di debug) per poterti aiutare a risolvere!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
@@ -226,7 +234,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Inizia ad usare Signal Desktop",
+        "message": "Inizia a usare Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -242,7 +250,7 @@
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Caricamento messaggi. Finora $count$...",
+        "message": "Caricamento messaggi. Finora  $count$...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -251,16 +259,12 @@
             }
         }
     },
-    "me": {
-        "message": "Me",
-        "description": "The label for yourself when shown in a group member list"
-    },
     "view": {
         "message": "Mostra",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Hai lasciato il gruppo",
+        "message": "Hai abbandonato il gruppo.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -284,6 +288,10 @@
                 "example": "5"
             }
         }
+    },
+    "messageHistoryUnsynced": {
+        "message": "Per la tua sicurezza, la cronologia delle conversazioni non viene trasferita ai nuovi dispositivi collegati.",
+        "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
         "message": "Hai segnato il numero di sicurezza con $name$ come verificato",
@@ -326,7 +334,7 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Dall'ultima verifica è cambiato il codice di sicurezza con questi membri del gruppo. Fai click su uno di essi per vedere il suo nuovo codice di sicurezza.",
+        "message": "Dall'ultima verifica è cambiato il codice di sicurezza con questi membri del gruppo. Fai clic su uno di essi per vedere il suo nuovo codice di sicurezza.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
@@ -344,7 +352,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Il codice di sicurezza che stai cercando di verificare è cambiato. Si prega di ri-verificarlo con $name$. Ricorda che questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che $name$ ha semplicemente reinstallato Signal.",
+        "message": "Il codice di sicurezza che stai cercando di verificare è cambiato. Verificalo ancora con $name$. Ricorda che questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che $name$ ha semplicemente reinstallato Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -382,7 +390,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Il tuo numero di sicurezza con $name$ è cambiato e non è più valido. Clicca per visualizzarlo.",
+        "message": "Il tuo numero di sicurezza con $name$ è cambiato e non è più valido. Fai clic per visualizzarlo.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -392,15 +400,15 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Il codice di sicurezza con più membri del gruppo è cambiato è non è più verificato. Clicca per visualizzarlo.",
+        "message": "Il codice di sicurezza con più membri del gruppo è cambiato è non è più verificato. Fai clic per visualizzarlo.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Questo log sarà reso pubblico per essere controllato dai contributori. Prima d'inviarlo esaminalo bene e modificalo. ",
+        "message": "Questo log sarà reso pubblico per essere controllato dai contributori. Prima d'inviarlo esaminalo bene e modificalo.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Qualcosa è andato storto con il caricamento! Ti preghiamo di aggiungere manualmente il tuo log al bug che hai registrato.",
+        "message": "Qualcosa è andato storto con il caricamento! Aggiungi manualmente il tuo log al bug che hai registrato.",
         "description": ""
     },
     "reportIssue": {
@@ -496,11 +504,11 @@
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Tipo di allegato non supportato. Clicca per salvare.",
+        "message": "Tipo di allegato non supportato. Fai clic per salvare.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
-        "message": "Clicca per salvare",
+        "message": "Fai clic per salvare",
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
@@ -520,7 +528,7 @@
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Miniatura temporanea anteprima link per $domain$",
+        "message": "Miniatura temporanea anteprima collegamento per $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -530,7 +538,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Miniatura anteprima link per $domain$",
+        "message": "Miniatura anteprima del collegamento per $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -570,19 +578,23 @@
         "description": ""
     },
     "disconnected": {
-        "message": "Sconnesso",
+        "message": "Disconnesso",
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
         "message": "In collegamento",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connect": {
+        "message": "Connetti",
+        "description": "Shown to allow the user to manually attempt a reconnect."
+    },
     "connectingHangOn": {
         "message": "Non dovrebbe volerci molto...",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
-        "message": "Disconnesso",
+        "message": "Non in linea",
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
@@ -704,7 +716,7 @@
         "description": ""
     },
     "typingAlt": {
-        "message": "Animazione per battitura per questa conversazione",
+        "message": "Animazione di digitazione per questa conversazione",
         "description": "Used as the 'title' attibute for the typing animation"
     },
     "contactAvatarAlt": {
@@ -786,7 +798,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "I messaggi vocali sono limitati a cinque minuti. La registrazione verrà interrotta se passi a un'altra app.",
+        "message": "I messaggi vocali sono limitati a cinque minuti. La registrazione sarà interrotta se passi a un'altra app.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -794,7 +806,7 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
-        "message": "Allegato salvato. Clicca per mostrare nella cartella.",
+        "message": "Allegato salvato. Fai clic per mostrare nella cartella.",
         "description": "Shown after user selects to save to downloads",
         "placeholders": {
             "name": {
@@ -842,11 +854,11 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Aggiornamento fallito",
+        "message": "Aggiornamento non riuscito",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Aggiornamento di Signal Desktop fallito, ma è disponibile una nuova versione. Vai su  $url$ e installa manualmente la nuova versione, quindi contatta il supporto o segnala un bug riguardo questo problema.",
+        "message": "Aggiornamento di Signal Desktop non riuscito, ma è disponibile una nuova versione. Vai su  $url$ e installa manualmente la nuova versione, quindi contatta il supporto o segnala un bug riguardo questo problema.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -856,7 +868,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop è probabilmente nella quarantena di macOS e non sarà in grado di aggiornarsi automaticamente. Ti preghiamo di spostare  $app$ in  $folder$ con Finder.",
+        "message": "Signal Desktop è probabilmente nella quarantena di macOS e non sarà in grado di aggiornarsi automaticamente. Sposta  $app$ in  $folder$ con Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -882,7 +894,7 @@
         "description": ""
     },
     "failedToSend": {
-        "message": "Invio fallito per alcuni destinatari. Controllare la connessione di rete.",
+        "message": "Invio non riuscito per alcuni destinatari. Controlla la connessione di rete.",
         "description": ""
     },
     "error": {
@@ -894,15 +906,15 @@
         "description": ""
     },
     "delete": {
-        "message": "Cancella",
+        "message": "Elimina",
         "description": ""
     },
     "deleteWarning": {
-        "message": "Sicuro? Cliccando 'cancella' rimuoverai definitivamente questo messaggio solo da questo dispositivo.",
+        "message": "Sei sicuro? Il clic su 'elimina' rimuoverà definitivamente questo messaggio solo da questo dispositivo.",
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "Cancella il messaggio",
+        "message": "Elimina il messaggio",
         "description": ""
     },
     "from": {
@@ -926,7 +938,7 @@
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Invia messaggio",
+        "message": "Invia un messaggio",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
@@ -938,7 +950,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Resetta sessione",
+        "message": "Ripristina sessione",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
@@ -980,11 +992,11 @@
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Rimuovere definitivamente la conversazione?",
+        "message": "Vuoi rimuovere definitivamente la conversazione?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Resetta la sessione sicura",
+        "message": "Ripristina la sessione sicura",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
@@ -1020,11 +1032,11 @@
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Benvenuto in Signal per Desktop",
+        "message": "Benvenuto in Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "La privacy è possibile. Signal la rende facile.",
+        "message": "La riservatezza è possibile. Signal la rende facile.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
@@ -1040,7 +1052,7 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
-        "message": "Bottone \"+\"",
+        "message": "Pulsante \"+\"",
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
@@ -1052,7 +1064,7 @@
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
-        "message": "Scegliere il nome di questo dispositivo",
+        "message": "Scegli il nome di questo dispositivo",
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
@@ -1095,6 +1107,14 @@
         "message": "Abilita il controllo ortografico del testo inserito nella casella di composizione",
         "description": "Description of the media permission description"
     },
+    "spellCheckWillBeEnabled": {
+        "message": "Il controllo ortografico verrà abilitato al successivo avvio di Signal.",
+        "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
+    },
+    "spellCheckWillBeDisabled": {
+        "message": "Il controllo ortografico verrà disabilitato al successivo avvio di Signal.",
+        "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
     "clearDataHeader": {
         "message": "Rimuovi dati",
         "description": "Header in the settings dialog for the section dealing with data deletion"
@@ -1108,19 +1128,19 @@
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "Cancellare tutti i dati?",
+        "message": "Vuoi eliminare tutti i dati?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Stai per cancellare tutti i dati salvati nell'applicazione, compresi i contatti e i messaggi. Potrai sempre ricollegare il tuo dispositivo mobile, ma questo non ripristinerà i messaggi cancellati.",
+        "message": "Stai per eliminare tutti i dati salvati nell'applicazione, compresi i contatti e i messaggi. Potrai sempre ricollegare il tuo dispositivo mobile, ma questo non ripristinerà i messaggi eliminati.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
-        "message": "Cancella tutti i dati",
+        "message": "Elimina tutti i dati",
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Disconnessione e cancellazione di tutti i dati",
+        "message": "Disconnessione ed eliminazione di tutti i dati",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
@@ -1248,7 +1268,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Questa versione di Signal Desktop è scaduta. Per continuare a chattare aggiornala all'ultima versione.",
+        "message": "Questa versione di Signal Desktop è scaduta. Per continuare a conversare aggiornala all'ultima versione.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1284,7 +1304,7 @@
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Importazione fallita. Assicurati che il tuo computer e il tuo telefono siano connessi a Internet.",
+        "message": "Importazione non riuscita. Assicurati che il tuo computer e il tuo telefono siano connessi a Internet.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
@@ -1492,7 +1512,7 @@
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Timer settato a $time$",
+        "message": "Timer impostato a $time$",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1557,6 +1577,10 @@
         "message": "Inizia una nuova conversazione…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "notSupportedSMS": {
+        "message": "I messaggi SMS/MMS non sono supportati.",
+        "description": "Label underneath number informing user that SMS is not supported on desktop"
+    },
     "newPhoneNumber": {
         "message": "Scrivi un numero da aggiungere ai contatti",
         "description": "Placeholder for adding a new number to a contact"
@@ -1566,7 +1590,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Per continuare a scrivere messaggi ricollega Signal Desktop al tuo dispositivo mobile.",
+        "message": "Ricollega Signal Desktop al tuo dispositivo mobile per continuare a inviare messaggi.",
         "description": ""
     },
     "unlinked": {
@@ -1598,7 +1622,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ ha lasciato il gruppo",
+        "message": "$name$ ha abbandonato il gruppo.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1608,7 +1632,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ ha lasciato il gruppo",
+        "message": "$name$ hanno abbandonato il gruppo.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1618,11 +1642,25 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Gruppo aggiornato",
+        "message": "$name$ ha aggiornato il gruppo.",
+        "description": "Shown in the conversation history when someone updates the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "youUpdatedTheGroup": {
+        "message": "Hai aggiornato il gruppo.",
+        "description": "Shown in the conversation history when you update a group"
+    },
+    "updatedGroupAvatar": {
+        "message": "L'avatar del gruppo è stato aggiornato.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Il titolo ora è \"$name$\"",
+        "message": "Il nome del gruppo è ora '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1631,8 +1669,12 @@
             }
         }
     },
+    "youJoinedTheGroup": {
+        "message": "Ti sei unito al gruppo.",
+        "description": "Shown in the conversation history when you are added to a group."
+    },
     "joinedTheGroup": {
-        "message": "$name$ si è unito al gruppo",
+        "message": "$name$ si è unito al gruppo.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1684,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ si sono uniti al gruppo",
+        "message": "$names$ si sono uniti al gruppo.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1756,7 +1798,7 @@
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Errore di apertura del pacchetto adesivi. Controlla la connessione internet e riprova.",
+        "message": "Errore di apertura del pacchetto adesivi. Controlla la connessione a Internet e riprova.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
@@ -1842,7 +1884,7 @@
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--quote": {
-        "message": "(risposta)",
+        "message": "(citazione)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--draft": {
@@ -1954,7 +1996,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Rimuovi bozza di anteprima del link",
+        "message": "Rimuovi anteprima temporanea del collegamento",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
@@ -2014,7 +2056,7 @@
         "description": "Used as alt text for any button closing a popup"
     },
     "add-image-attachment": {
-        "message": "Allega una immagine",
+        "message": "Allega un'immagine",
         "description": "Used in draft attachment list for the big 'add new attachment' button"
     },
     "remove-attachment": {
@@ -2038,7 +2080,7 @@
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "Clicca per aggiungere o rilascia le immagini qui",
+        "message": "Fai clic per aggiungere o rilascia le immagini qui",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
@@ -2140,7 +2182,7 @@
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "Non potrai più apportargli modifiche o eliminarlo dopo aver creato un pacchetto di adesivi.",
+        "message": "Non potrai più apportare modifiche o eliminarlo dopo aver creato un pacchetto di adesivi.",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
@@ -2166,7 +2208,7 @@
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "Accedi ai tuoi nuovi adesivi tramite l'icona dell'adesivo o condividili con i tuoi amici usando il link qui sotto.",
+        "message": "Accedi ai tuoi nuovi adesivi tramite l'icona dell'adesivo o condividili con i tuoi amici usando il collegamento seguente.",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
@@ -2228,7 +2270,7 @@
         }
     },
     "StickerCreator--Toasts--linkedCopied": {
-        "message": "Link copiato",
+        "message": "Collegamento copiato",
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
@@ -2240,11 +2282,11 @@
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Per favore installa Signal sul tuo telefono e sul desktop per usare il creatore di pacchetti di adesivi",
+        "message": "Installa Signal sul tuo telefono e sul desktop per usare il creatore di pacchetti di adesivi",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
-        "message": "Invio reazione fallito. Riprova.",
+        "message": "Invio reazione non riuscito. Riprova.",
         "description": "Shown when a reaction fails to send"
     },
     "ReactionsViewer--all": {
@@ -2252,7 +2294,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "privacyPolicy": {
-        "message": "Termini di Servizio e Informativa Privacy",
+        "message": "Termini di servizio e informativa sulla riservatezza",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

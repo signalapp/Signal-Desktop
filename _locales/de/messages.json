@@ -143,6 +143,14 @@
         "message": "Einrichten als eigenständiges Gerät",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "contextMenuCopyLink": {
+        "message": "Link kopieren",
+        "description": "Shown in the context menu for a link to indicate that the user can copy the link"
+    },
+    "contextMenuNoSuggestions": {
+        "message": "Keine Vorschläge",
+        "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
+    },
     "avatarMenuViewArchive": {
         "message": "Archiv anzeigen",
         "description": "One of the menu options available in the Avatar Popup menu"
@@ -251,16 +259,12 @@
             }
         }
     },
-    "me": {
-        "message": "Ich",
-        "description": "The label for yourself when shown in a group member list"
-    },
     "view": {
         "message": "Anzeigen",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Du hast die Gruppe verlassen",
+        "message": "Du hast die Gruppe verlassen.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -284,6 +288,10 @@
                 "example": "5"
             }
         }
+    },
+    "messageHistoryUnsynced": {
+        "message": "Zu deiner Sicherheit wird der bisherige Unterhaltungsverlauf nicht auf neu gekoppelte Geräte übertragen.",
+        "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
         "message": "Du hast deine Sicherheitsnummer mit $name$ als verifiziert markiert",
@@ -577,6 +585,10 @@
         "message": "Verbindung wird hergestellt …",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connect": {
+        "message": "Verbinden",
+        "description": "Shown to allow the user to manually attempt a reconnect."
+    },
     "connectingHangOn": {
         "message": "Sollte nicht lange dauern …",
         "description": "Subtext description for when the client is connecting to the server."
@@ -778,7 +790,7 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecordingInterruptedMax": {
-        "message": "Die Aufnahme der Sprachnachricht wurde gestoppt, da die maximale Aufnahmezeit erreicht wurde.",
+        "message": "Die Aufnahme der Sprachnachricht wurde gestoppt, da die maximale Aufnahmedauer erreicht wurde.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
@@ -786,7 +798,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Die maximale Länge von Sprachnachrichten ist auf 5 Minuten begrenzt. Die Aufnahme stoppt, falls du zu einer anderen App wechselst.",
+        "message": "Die maximale Dauer von Sprachnachrichten ist auf 5 Minuten begrenzt. Die Aufnahme stoppt, falls du zu einer anderen App wechselst.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -1094,6 +1106,14 @@
     "spellCheckDescription": {
         "message": "Rechtschreibprüfung für im Nachrichteneingabefeld eingegebenen Text aktivieren",
         "description": "Description of the media permission description"
+    },
+    "spellCheckWillBeEnabled": {
+        "message": "Rechtschreibüberprüfung wird beim nächsten Start von Signal aktiviert.",
+        "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
+    },
+    "spellCheckWillBeDisabled": {
+        "message": "Rechtschreibüberprüfung wird beim nächsten Start von Signal deaktiviert.",
+        "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "clearDataHeader": {
         "message": "Daten löschen",
@@ -1557,6 +1577,10 @@
         "message": "Neue Unterhaltung beginnen …",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "notSupportedSMS": {
+        "message": "SMS-/MMS-Nachrichten werden nicht unterstützt.",
+        "description": "Label underneath number informing user that SMS is not supported on desktop"
+    },
     "newPhoneNumber": {
         "message": "Gib zum Hinzufügen eines Kontakts eine Rufnummer ein.",
         "description": "Placeholder for adding a new number to a contact"
@@ -1582,7 +1606,7 @@
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Eine neue Version von Signal ist verfügbar.",
+        "message": "Eine neue Signal-Version ist verfügbar.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -1598,7 +1622,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ hat die Gruppe verlassen",
+        "message": "$name$ hat die Gruppe verlassen.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1608,7 +1632,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ hat die Gruppe verlassen",
+        "message": "$name$ haben die Gruppe verlassen.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1618,11 +1642,25 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Gruppe aktualisiert",
+        "message": "$name$ hat die Gruppe aktualisiert.",
+        "description": "Shown in the conversation history when someone updates the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "youUpdatedTheGroup": {
+        "message": "Du hast die Gruppe aktualisiert.",
+        "description": "Shown in the conversation history when you update a group"
+    },
+    "updatedGroupAvatar": {
+        "message": "Der Gruppenavatar wurde aktualisiert.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Gruppenname ist jetzt »$name$«",
+        "message": "Gruppenname lautet jetzt »$name$«.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1631,8 +1669,12 @@
             }
         }
     },
+    "youJoinedTheGroup": {
+        "message": "Du bist der Gruppe beigetreten.",
+        "description": "Shown in the conversation history when you are added to a group."
+    },
     "joinedTheGroup": {
-        "message": "$name$ ist der Gruppe beigetreten",
+        "message": "$name$ ist der Gruppe beigetreten.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1684,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ sind der Gruppe beigetreten",
+        "message": "$names$ sind der Gruppe beigetreten.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {

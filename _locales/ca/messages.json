@@ -143,6 +143,14 @@
         "message": "Configura'l com a dispositiu autònom",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "contextMenuCopyLink": {
+        "message": "Copiar l'enllaç",
+        "description": "Shown in the context menu for a link to indicate that the user can copy the link"
+    },
+    "contextMenuNoSuggestions": {
+        "message": "Sense suggeriments",
+        "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
+    },
     "avatarMenuViewArchive": {
         "message": "Veure Arxiu",
         "description": "One of the menu options available in the Avatar Popup menu"
@@ -251,16 +259,12 @@
             }
         }
     },
-    "me": {
-        "message": "Jo",
-        "description": "The label for yourself when shown in a group member list"
-    },
     "view": {
         "message": "Mostra",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Heu abandonat el grup",
+        "message": "Heu abandonat el grup.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -284,6 +288,10 @@
                 "example": "5"
             }
         }
+    },
+    "messageHistoryUnsynced": {
+        "message": "Per seguretat, l'historial de la conversa no es transfereix als dispositius enllaçats nous.",
+        "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
         "message": "Heu marcat el número de seguretat amb $name$ com a verificat.",
@@ -516,7 +524,7 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Carregant la previsualització...",
+        "message": "Es carrega la previsualització...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
@@ -576,6 +584,10 @@
     "connecting": {
         "message": "Es connecta",
         "description": "Displayed when the desktop client is currently connecting to the server."
+    },
+    "connect": {
+        "message": "Connecta",
+        "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
         "message": "No hauria de trigar gaire...",
@@ -1095,6 +1107,14 @@
         "message": "Activa la comprovació ortogràfica del text introduït en el quadre d'edició de missatges",
         "description": "Description of the media permission description"
     },
+    "spellCheckWillBeEnabled": {
+        "message": "La comprovació d'ortografia s'activarà el proper cop que s'iniciï el Signal.",
+        "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
+    },
+    "spellCheckWillBeDisabled": {
+        "message": "La comprovació d'ortografia es desactivarà el proper cop que s'iniciï el Signal.",
+        "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
     "clearDataHeader": {
         "message": "Buida les dades",
         "description": "Header in the settings dialog for the section dealing with data deletion"
@@ -1478,7 +1498,7 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ ha inhabilitat els missatges efímers.",
+        "message": "$name$ ha desactivat els missatges efímers.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1557,6 +1577,10 @@
         "message": "Comenceu una conversa nova...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "notSupportedSMS": {
+        "message": "No s'admeten missatges d'SMS / MMS.",
+        "description": "Label underneath number informing user that SMS is not supported on desktop"
+    },
     "newPhoneNumber": {
         "message": "Introduïu un número de mòbil per a afegir un contacte.",
         "description": "Placeholder for adding a new number to a contact"
@@ -1598,7 +1622,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ ha abandonat el grup",
+        "message": "$name$ ha abandonat el grup.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1608,7 +1632,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ ha abandonat el grup",
+        "message": "$name$ ha abandonat el grup.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1618,11 +1642,25 @@
         }
     },
     "updatedTheGroup": {
-        "message": "S'ha actualitzat el grup",
+        "message": "$name$ ha actualitzat el grup.",
+        "description": "Shown in the conversation history when someone updates the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "youUpdatedTheGroup": {
+        "message": "Heu actualitzat el grup.",
+        "description": "Shown in the conversation history when you update a group"
+    },
+    "updatedGroupAvatar": {
+        "message": "S'ha actualitzat l'avatar del grup.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "El títol ara és «$name$»",
+        "message": "Ara el nom del grup és $name$.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1631,8 +1669,12 @@
             }
         }
     },
+    "youJoinedTheGroup": {
+        "message": "Us heu unit al grup.",
+        "description": "Shown in the conversation history when you are added to a group."
+    },
     "joinedTheGroup": {
-        "message": "$name$ s'ha unit al grup",
+        "message": "$name$ s'ha unit al grup.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1684,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ s'ha unit al grup",
+        "message": "$names$ s'ha unit al grup.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
