@@ -478,7 +478,7 @@ OutgoingMessage.prototype = {
   // Send a message to a private group or a session chat (one to one)
   async sendSessionMessage(outgoingObjects) {
     // TODO: handle multiple devices/messages per transmit
-    const promises = outgoingObjects.map(outgoingObject => async () => {
+    const promiseFns = outgoingObjects.map(outgoingObject => async () => {
       if (!outgoingObject) {
         return;
       }
@@ -512,7 +512,7 @@ OutgoingMessage.prototype = {
       }
     });
 
-    await Promise.all(promises.map(f => f()));
+    await Promise.all(promiseFns.map(f => f()));
 
     this.numbersCompleted += this.successfulNumbers.length;
     this.numberCompleted();
