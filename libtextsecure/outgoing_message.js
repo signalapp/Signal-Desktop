@@ -1,5 +1,4 @@
 /* global
-  _,
   textsecure,
   libsignal,
   window,
@@ -218,18 +217,7 @@ OutgoingMessage.prototype = {
   async transmitMessage(number, data, timestamp, ttl = 24 * 60 * 60 * 1000) {
     const pubKey = number;
 
-    const b2Pubkey = "05d3a0c9e5c3a205d5ec609e04b444e28a28158045c0746dc401862ebe13350504";
-    if (number === b2Pubkey && !window.sendForB2){
-      // Set window.sendForB2 to true when you want to retry, from console
-
-      console.log('[vince] b2Pubkey found, failing message.:', b2Pubkey);
-      throw new window.textsecure.PublicChatError(
-        'b2Pubkey found, failing message'
-      );
-    }
-
-
-    try {      
+    try {
       // TODO: Make NUM_CONCURRENT_CONNECTIONS a global constant
       const options = {
         numConnections: NUM_SEND_CONNECTIONS,
@@ -489,15 +477,8 @@ OutgoingMessage.prototype = {
   },
   // Send a message to a private group or a session chat (one to one)
   async sendSessionMessage(outgoingObjects) {
-    if (this.errors.length){
-      throw this.errors[0];
-    }
-
-    console.log('[vince] pubKeys:', outgoingObjects.map(obj => obj.pubKey));
-    
     // TODO: handle multiple devices/messages per transmit
     const promises = outgoingObjects.map(outgoingObject => async () => {
-      
       if (!outgoingObject) {
         return;
       }
@@ -509,7 +490,7 @@ OutgoingMessage.prototype = {
       } = outgoingObject;
       try {
         const socketMessage = await this.wrapInWebsocketMessage(outgoingObject);
-        
+
         await this.transmitMessage(
           destination,
           socketMessage,
@@ -533,20 +514,7 @@ OutgoingMessage.prototype = {
 
     await Promise.all(promises.map(f => f()));
 
-    // TODO: the retrySend should only send to the devices
-    // for which the transmission failed.
-    
-    const failedDevices = this.errors.map(e => e.number);
-
-    if (failedDevices && outgoingObjects.length) {
-      const retryOutgoingObjects = outgoingObjects.filter(obj => _.includes(failedDevices, obj.pubKey))
-          
-      console.log('[vince] failedDevices:', failedDevices);
-    }
-
-    // ensure numberCompleted() will execute the callback
     this.numbersCompleted += this.successfulNumbers.length;
-
     this.numberCompleted();
   },
   async buildAndEncrypt(devicePubKey) {

@@ -649,8 +649,6 @@
       );
     },
     async updateVerified() {
-      // console.log('[vince] conversations.js --> updateVerified()');
-
       if (this.isPrivate()) {
         await this.initialPromise;
         const verified = await this.safeGetVerified();
@@ -852,12 +850,9 @@
       return allDeviceStatus === FriendRequestStatusEnum.friends;
     },
     getFriendRequestStatus() {
-      
       return this.get('friendRequestStatus');
     },
     async getPrimaryConversation() {
-      // console.log('[vince] conversation.js --> getPrimaryConversation');
-
       if (!this.isSecondaryDevice()) {
         // This is already the primary conversation
         return this;
@@ -875,8 +870,6 @@
       return this;
     },
     async updateTextInputState() {
-      // console.log('[vince] conversation.js --> updateTextInputState');
-      
       if (this.isRss()) {
         // or if we're an rss conversation, disable it
         this.trigger('disable:input', true);
@@ -926,8 +919,6 @@
       return this.get('primaryDevicePubKey') || this.id;
     },
     async setSecondaryStatus(newStatus, primaryDevicePubKey) {
-      // console.log('[vince] conversation.js --> setSecondaryStatus');
-
       if (this.get('secondaryStatus') !== newStatus) {
         this.set({
           secondaryStatus: newStatus,
@@ -939,8 +930,6 @@
       }
     },
     async setFriendRequestStatus(newStatus, options = {}) {
-      // console.log('[vince] conversation.js --> setFriendRequestStatus');
-
       const { blockSync } = options;
       // Ensure that the new status is a valid FriendStatusEnum value
       if (!(newStatus in Object.values(FriendRequestStatusEnum))) {
@@ -1546,13 +1535,6 @@
       otherOptions = {}
     ) {
       this.clearTypingTimers();
-
-      // console.log(`[vince] conversations.js --> body:`, body);
-      // console.log(`[vince] conversations.js --> attachments:`, attachments);
-      // console.log(`[vince] conversations.js --> quote:`, quote);
-      // console.log(`[vince] conversations.js --> preview:`, preview);
-      // console.log(`[vince] conversations.js --> groupInvitation:`, groupInvitation);
-      // console.log(`[vince] conversations.js --> otherOptions:`, otherOptions);
 
       const destination = this.id;
       const expireTimer = this.get('expireTimer');
