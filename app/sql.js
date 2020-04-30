@@ -2750,16 +2750,9 @@ async function removeAll() {
   db.serialize(() => {
     promise = Promise.all([
       db.run('BEGIN TRANSACTION;'),
+      ...getRemoveConfigurationPromises(),
       db.run('DELETE FROM conversations;'),
-      db.run('DELETE FROM identityKeys;'),
-      db.run('DELETE FROM items;'),
       db.run('DELETE FROM messages;'),
-      db.run('DELETE FROM preKeys;'),
-      db.run('DELETE FROM sessions;'),
-      db.run('DELETE FROM signedPreKeys;'),
-      db.run('DELETE FROM unprocessed;'),
-      db.run('DELETE FROM contactPreKeys;'),
-      db.run('DELETE FROM contactSignedPreKeys;'),
       db.run('DELETE FROM attachment_downloads;'),
       db.run('DELETE FROM messages_fts;'),
       db.run('COMMIT TRANSACTION;'),
@@ -2769,6 +2762,22 @@ async function removeAll() {
   await promise;
 }
 
+function getRemoveConfigurationPromises() {
+  return [
+    db.run('DELETE FROM identityKeys;'),
+    db.run('DELETE FROM items;'),
+    db.run('DELETE FROM preKeys;'),
+    db.run('DELETE FROM sessions;'),
+    db.run('DELETE FROM signedPreKeys;'),
+    db.run('DELETE FROM unprocessed;'),
+    db.run('DELETE FROM contactPreKeys;'),
+    db.run('DELETE FROM contactSignedPreKeys;'),
+    db.run('DELETE FROM servers;'),
+    db.run('DELETE FROM lastHashes;'),
+    db.run('DELETE FROM seenMessages;'),
+  ];
+}
+
 // Anything that isn't user-visible data
 async function removeAllConfiguration() {
   let promise;
@@ -2776,14 +2785,7 @@ async function removeAllConfiguration() {
   db.serialize(() => {
     promise = Promise.all([
       db.run('BEGIN TRANSACTION;'),
-      db.run('DELETE FROM identityKeys;'),
-      db.run('DELETE FROM items;'),
-      db.run('DELETE FROM preKeys;'),
-      db.run('DELETE FROM sessions;'),
-      db.run('DELETE FROM signedPreKeys;'),
-      db.run('DELETE FROM unprocessed;'),
-      db.run('DELETE FROM contactPreKeys;'),
-      db.run('DELETE FROM contactSignedPreKeys;'),
+      ...getRemoveConfigurationPromises(),
       db.run('COMMIT TRANSACTION;'),
     ]);
   });
