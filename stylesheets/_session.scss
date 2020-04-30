@@ -295,19 +295,21 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: $session-font-accent;
+  font-family: $session-font-default;
   border-radius: 50%;
   font-weight: 700;
   background: $session-color-danger;
   color: $session-color-white;
   text-align: center;
 
-  span {
+  div {
     position: relative;
 
     sup {
-      font-size: 130%;
       position: absolute;
+      font-size: 1.3em;
+      top: -0.5em;
+      margin-left: -0.125em;
     }
   }
 
