@@ -40,7 +40,7 @@ class LokiMessageAPI {
   }
 
   async sendMessage(pubKey, data, messageTimeStamp, ttl, options = {}) {
-    console.log('[vince] outgoing_message.js --> loki_message_api.js --> sendMessage');
+    // console.log('[vince] outgoing_message.js --> loki_message_api.js --> sendMessage');
 
     const {
       isPublic = false,

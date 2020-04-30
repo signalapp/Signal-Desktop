@@ -1547,12 +1547,12 @@
     ) {
       this.clearTypingTimers();
 
-      console.log(`[vince] conversations.js --> body:`, body);
-      console.log(`[vince] conversations.js --> attachments:`, attachments);
-      console.log(`[vince] conversations.js --> quote:`, quote);
-      console.log(`[vince] conversations.js --> preview:`, preview);
-      console.log(`[vince] conversations.js --> groupInvitation:`, groupInvitation);
-      console.log(`[vince] conversations.js --> otherOptions:`, otherOptions);
+      // console.log(`[vince] conversations.js --> body:`, body);
+      // console.log(`[vince] conversations.js --> attachments:`, attachments);
+      // console.log(`[vince] conversations.js --> quote:`, quote);
+      // console.log(`[vince] conversations.js --> preview:`, preview);
+      // console.log(`[vince] conversations.js --> groupInvitation:`, groupInvitation);
+      // console.log(`[vince] conversations.js --> otherOptions:`, otherOptions);
 
       const destination = this.id;
       const expireTimer = this.get('expireTimer');
