@@ -303,14 +303,6 @@
   padding-top: 10px;
   padding-bottom: 10px;
   min-width: 0px;
-
-  @include light-theme {
-    border: 1px solid $color-white;
-  }
-
-  @include dark-theme {
-    border: 1px solid $color-gray-95;
-  }
 }
 
 // This is the component we put the outline around when the whole message is selected
