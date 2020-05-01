@@ -7828,26 +7828,32 @@ button.module-image__border-overlay:focus {
 
 .react-contextmenu-item.react-contextmenu-item--active,
 .react-contextmenu-item.react-contextmenu-item--selected {
-  color: $color-white;
-
+  color: $color-black;
   @include light-theme {
-    background-color: $color-gray-25;
+    background-color: $color-gray-15;
   }
   @include dark-theme {
-    background-color: $color-gray-45;
+    background-color: $color-gray-75;
+    color: $color-white;
   }
 }
 
 .react-contextmenu-item.react-contextmenu-item--active.react-contextmenu-item--checked:before,
 .react-contextmenu-item.react-contextmenu-item--selected.react-contextmenu-item--checked:before {
-  color: $color-white;
+  color: $color-black;
+  @include dark-theme {
+    color: $color-white;
+  }
 }
 
 .react-contextmenu-item.react-contextmenu-submenu
   > .react-contextmenu-item.react-contextmenu-item--active:after,
 .react-contextmenu-item.react-contextmenu-submenu
   > .react-contextmenu-item.react-contextmenu-item--selected:after {
-  color: $color-white;
+  color: $color-black;
+  @include dark-theme {
+    color: $color-white;
+  }
 }
 
 // All media query widths have 300px added to account for the left pane
