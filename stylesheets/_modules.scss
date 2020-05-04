@@ -7258,12 +7258,14 @@ button.module-image__border-overlay:focus {
     left: calc(50% - 24px);
     top: -18px;
     border-radius: 12px 12px 0 0;
+    pointer-events: none;
 
     opacity: 0;
     transition: opacity 200ms ease-out;
 
     #{$comp-area}:hover & {
       opacity: 1;
+      pointer-events: all;
     }
 
     @include light-theme() {
