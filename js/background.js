@@ -1366,10 +1366,10 @@
 
     Whisper.events.on('deviceUnpairingRequested', async (pubKey, callback) => {
       const isSecondaryDevice = !!textsecure.storage.get('isSecondaryDevice');
-      if (isSecondaryDevice){
+      if (isSecondaryDevice) {
         return;
       }
-      
+
       await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
         pubKey
       );
