@@ -321,9 +321,13 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
 
   private renderList() {
     const { sentFriendsRequest } = this.props;
-    const visibleFriendRequests = sentFriendsRequest.filter(device => !device.isSecondary);
+
+    const visibleFriendRequests = sentFriendsRequest.filter(
+      device => !device.isSecondary
+    );
+
     const friends = window.getFriendsFromContacts(this.props.friends);
-    const length = Number(sentFriendsRequest.length) + Number(friends.length);
+    const length = Number(visibleFriendRequests.length) + Number(friends.length);
     const combined = [...visibleFriendRequests, ...friends];
 
     const list = (
