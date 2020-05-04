@@ -643,9 +643,10 @@ class LokiSnodeAPI {
     this.randomSnodePool = _.without(this.randomSnodePool, snode);
   }
 
-  async updateLastHash(snodeAddress, hash, expiresAt) {
+  async updateLastHash(convoId, snodeAddress, hash, expiresAt) {
     // FIXME: handle rejections
     await window.Signal.Data.updateLastHash({
+      convoId,
       snode: snodeAddress,
       hash,
       expiresAt,
@@ -666,6 +667,7 @@ class LokiSnodeAPI {
             const node = swarmNodes[j];
             // FIXME make a batch function call
             const lastHash = await window.Signal.Data.getLastHashBySnode(
+              pubKey,
               node.address
             );
             log.debug(
@@ -683,6 +685,7 @@ class LokiSnodeAPI {
 
       return swarmNodes;
     } catch (e) {
+      log.error('getSwarmNodesForPubKey expection: ', e);
       throw new window.textsecure.ReplayableError({
         message: 'Could not get conversation',
       });

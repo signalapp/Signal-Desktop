@@ -449,6 +449,7 @@ MessageSender.prototype = {
         haveSession ||
         keysFound ||
         options.isPublic ||
+        options.isMediumGroup ||
         options.messageType === 'friend-request'
       ) {
         this.queueJobForNumber(number, () => outgoing.sendToNumber(number));
@@ -1128,6 +1129,16 @@ MessageSender.prototype = {
       numbers = [groupId];
     }
     const profile = this.getOurProfile();
+
+    let group;
+    // Medium groups don't need this info
+    if (!options.isMediumGroup) {
+      group = {
+        id: groupId,
+        type: textsecure.protobuf.GroupContext.Type.DELIVER,
+      };
+    }
+
     const attrs = {
       recipients: numbers,
       body: messageText,
@@ -1139,26 +1150,37 @@ MessageSender.prototype = {
       expireTimer,
       profileKey,
       profile,
-      group: {
-        id: groupId,
-        type: textsecure.protobuf.GroupContext.Type.DELIVER,
-      },
+      group,
     };
 
     if (numbers.length === 0) {
-      return Promise.resolve({
+      return {
         successfulNumbers: [],
         failoverNumbers: [],
         errors: [],
         unidentifiedDeliveries: [],
         dataMessage: await this.getMessageProtoObj(attrs),
-      });
+      };
     }
 
     return this.sendMessage(attrs, options);
   },
 
-  updateGroup(groupId, name, avatar, members, admins, recipients, options) {
+  async updateMediumGroup(members, groupUpdateProto) {
+    await this.sendGroupProto(members, groupUpdateProto, Date.now(), {
+      isPublic: false,
+    });
+  },
+
+  async updateGroup(
+    groupId,
+    name,
+    avatar,
+    members,
+    admins,
+    recipients,
+    options
+  ) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
 
@@ -1172,14 +1194,14 @@ MessageSender.prototype = {
       textsecure.storage.user.getNumber();
     proto.group.admins = [primaryDeviceKey];
 
-    return this.makeAttachmentPointer(avatar).then(attachment => {
-      proto.group.avatar = attachment;
-      // TODO: re-enable this once we have attachments
-      proto.group.avatar = null;
-      return this.sendGroupProto(recipients, proto, Date.now(), options).then(
-        () => proto.group.id
-      );
-    });
+    const attachment = await this.makeAttachmentPointer(avatar);
+
+    proto.group.avatar = attachment;
+    // TODO: re-enable this once we have attachments
+    proto.group.avatar = null;
+    await this.sendGroupProto(recipients, proto, Date.now(), options);
+
+    return proto.group.id;
   },
 
   addNumberToGroup(groupId, newNumbers, options) {
@@ -1323,6 +1345,7 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.sendMessageToGroup = sender.sendMessageToGroup.bind(sender);
   this.sendTypingMessage = sender.sendTypingMessage.bind(sender);
   this.updateGroup = sender.updateGroup.bind(sender);
+  this.updateMediumGroup = sender.updateMediumGroup.bind(sender);
   this.addNumberToGroup = sender.addNumberToGroup.bind(sender);
   this.setGroupName = sender.setGroupName.bind(sender);
   this.setGroupAvatar = sender.setGroupAvatar.bind(sender);

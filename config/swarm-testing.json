@@ -1,9 +1,13 @@
 {
   "seedNodeList": [
     {
-      "ip": "localhost",
+      "ip": "127.0.0.1",
       "port": "22129"
     }
+    // {
+    //   "ip": "167.114.135.147",
+    //   "port": "22129"
+    // }
   ],
   "openDevTools": true,
   "defaultPublicChatServer": "https://team-chat.lokinet.org/"

@@ -3,10 +3,6 @@
     {
       "ip": "public.loki.foundation",
       "port": "38157"
-    },
-    {
-      "ip": "storage.testnetseed1.loki.network",
-      "port": "38157"
     }
   ],
   "openDevTools": true,

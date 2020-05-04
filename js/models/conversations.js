@@ -1734,10 +1734,19 @@
                 profileKey,
                 options
               );
-            case Message.GROUP:
+            case Message.GROUP: {
+              let dest = destination;
+              let numbers = groupNumbers;
+
+              if (this.get('is_medium_group')) {
+                dest = this.id;
+                numbers = [destination];
+                options.isMediumGroup = true;
+              }
+
               return textsecure.messaging.sendMessageToGroup(
-                destination,
-                groupNumbers,
+                dest,
+                numbers,
                 messageBody,
                 finalAttachments,
                 quote,
@@ -1747,6 +1756,7 @@
                 profileKey,
                 options
               );
+            }
             default:
               throw new TypeError(
                 `Invalid conversation type: '${conversationType}'`
