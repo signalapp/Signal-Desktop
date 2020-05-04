@@ -1045,6 +1045,14 @@ class MessageReceiverInner extends EventTarget {
       throw new Error('MessageReceiver.handleSentMessage: message was falsey!');
     }
 
+    if (msg.groupV2) {
+      window.log.warn(
+        'MessageReceiver.handleSentMessage: Dropping GroupsV2 message'
+      );
+      this.removeFromCache(envelope);
+      return;
+    }
+
     let p: Promise<any> = Promise.resolve();
     // eslint-disable-next-line no-bitwise
     if (
