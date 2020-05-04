@@ -38,7 +38,7 @@
 <script type='text/x-tmpl-mustache' id='debug-log-link'>
   <div class='input-group clearfix'>
     <input type='text' class='link' readonly value='{{ url }}' />
-    <a class='open' alt='open in a new browser tab' target='_blank' href='{{ url }}'></a>
+    <a class='copy' alt='{{ debugLogCopyAlt }}' target='_blank' href='{{ url }}'>{{ debugLogCopy }}</a>
   </div>
   <p>
     <a class='report-link' target='_blank'
@@ -47,8 +47,12 @@
     </a>
   </p>
 </script>
+<script type='text/x-tmpl-mustache' id='toast'>
+  {{ toastMessage }}
+</script>
 <script type='text/javascript' src='js/components.js'></script>
 <script type='text/javascript' src='js/views/whisper_view.js'></script>
+<script type='text/javascript' src='js/views/toast_view.js'></script>
 <script type='text/javascript' src='js/views/debug_log_view.js'></script>
 <script type='text/javascript' src='js/debug_log_start.js'></script>
 </html>

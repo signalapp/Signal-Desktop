@@ -370,72 +370,72 @@
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "      this.$('textarea').val(i18n('loading'));",
-    "lineNumber": 27,
+    "lineNumber": 43,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-05-01T17:11:39.527Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('textarea').val(text);",
-    "lineNumber": 31,
+    "lineNumber": 47,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-05-01T17:11:39.527Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "      const text = this.$('textarea').val();",
-    "lineNumber": 50,
+    "lineNumber": 66,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-05-01T17:11:39.527Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "      this.$('.buttons, textarea').remove();",
-    "lineNumber": 55,
+    "lineNumber": 71,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-05-01T17:11:39.527Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "          el: this.$('.result'),",
-    "lineNumber": 62,
+    "lineNumber": 78,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-05-01T17:11:39.527Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.loading').removeClass('loading');",
-    "lineNumber": 64,
+    "lineNumber": 80,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-05-01T17:11:39.527Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.link')",
-    "lineNumber": 66,
+    "lineNumber": 82,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-05-01T17:11:39.527Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "        this.$('.loading').removeClass('loading');",
-    "lineNumber": 74,
+    "lineNumber": 90,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-05-01T17:11:39.527Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {

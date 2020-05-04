@@ -413,6 +413,18 @@
   "debugLogError": {
     "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file."
   },
+  "debugLogCopy": {
+    "message": "Copy",
+    "description": "Shown as the text for the copy button on the debug log screen"
+  },
+  "debugLogCopyAlt": {
+    "message": "Copy link to your clipboard",
+    "description": "Shown as the alt text for the copy button on the debug log screen"
+  },
+  "debugLogLinkCopied": {
+    "message": "Link Copied to Your Clipboard",
+    "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
+  },
   "reportIssue": {
     "message": "Report an issue",
     "description": "Link to open the issue tracker"
