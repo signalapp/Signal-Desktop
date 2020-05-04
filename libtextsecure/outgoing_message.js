@@ -492,7 +492,6 @@ OutgoingMessage.prototype = {
   },
   // Send a message to a public group
   async sendPublicMessage(number) {
-    if (this.isPublic) {
       await this.transmitMessage(
         number,
         this.message.dataMessage,
@@ -502,7 +501,6 @@ OutgoingMessage.prototype = {
 
       this.successfulNumbers[this.successfulNumbers.length] = number;
       this.numberCompleted();
-    }
   },
 
   async sendMediumGroupMessage(groupId) {
