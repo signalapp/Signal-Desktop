@@ -695,7 +695,8 @@ label {
     font-size: $session-font-md;
   }
   &-sub-message {
-    margin-top: 5px;
+    text-align: center;
+    margin-top: 20px;
   }
 }
 
@@ -1386,10 +1387,6 @@ input {
     .session-confirm-main-message {
       opacity: 0.8;
       margin-bottom: $session-margin-xs;
-    }
-
-    .session-confirm-sub-message {
-      text-align: center;
     }
   }
 }

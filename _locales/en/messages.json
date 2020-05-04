@@ -1035,6 +1035,15 @@
   "unpairDevice": {
     "message": "Unlink Device"
   },
+  "unpairDeviceWarning": {
+    "message": "Are you sure you want to unlink this device?",
+    "description": "Warning for device unlinking in settings view"
+  },
+  "unpairDeviceWarningSub": {
+    "message":
+      "Unlinking this device will delete all history, including all messages, sessions, and contacts from this device.",
+    "description": "Warning description for device unlinking in settings view"
+  },
   "deviceUnpaired": {
     "message": "Device Unlinked"
   },
