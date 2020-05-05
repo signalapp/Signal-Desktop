@@ -42,7 +42,13 @@ message Content {
 
 message MediumGroupCiphertext {
   optional bytes ciphertext = 1;
-  optional uint32 keyIdx = 2;
+  optional string source = 2;
+  optional uint32 keyIdx = 3;
+}
+
+message MediumGroupContent {
+  optional bytes ciphertext = 1;
+  optional bytes ephemeralKey = 2;
 }
 
 message MediumGroupUpdate {

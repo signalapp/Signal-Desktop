@@ -742,15 +742,17 @@
         ourIdentity
       );
 
+      const groupSecretKeyHex = StringView.arrayBufferToHex(
+        identityKeys.privKey
+      );
+
       // Constructing a "create group" message
       const proto = new textsecure.protobuf.DataMessage();
 
       const groupUpdate = new textsecure.protobuf.MediumGroupUpdate();
 
       groupUpdate.groupId = groupId;
-      groupUpdate.groupSecretKey = StringView.arrayBufferToHex(
-        identityKeys.privKey
-      );
+      groupUpdate.groupSecretKey = groupSecretKeyHex;
       groupUpdate.senderKey = senderKey;
       groupUpdate.members = [ourIdentity, ...members];
       groupUpdate.groupName = groupName;
@@ -758,7 +760,7 @@
 
       await window.Signal.Data.createOrUpdateIdentityKey({
         id: groupId,
-        secretKey: identityKeys.privKey,
+        secretKey: groupSecretKeyHex,
       });
 
       const convo = await window.ConversationController.getOrCreateAndWait(

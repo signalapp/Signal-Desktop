@@ -492,15 +492,15 @@ OutgoingMessage.prototype = {
   },
   // Send a message to a public group
   async sendPublicMessage(number) {
-      await this.transmitMessage(
-        number,
-        this.message.dataMessage,
-        this.timestamp,
-        0 // ttl
-      );
+    await this.transmitMessage(
+      number,
+      this.message.dataMessage,
+      this.timestamp,
+      0 // ttl
+    );
 
-      this.successfulNumbers[this.successfulNumbers.length] = number;
-      this.numberCompleted();
+    this.successfulNumbers[this.successfulNumbers.length] = number;
+    this.numberCompleted();
   },
 
   async sendMediumGroupMessage(groupId) {
@@ -524,10 +524,27 @@ OutgoingMessage.prototype = {
       return;
     }
 
+    const source = ourIdentity;
+
     // We should include ciphertext idx in the message
     const content = new textsecure.protobuf.MediumGroupCiphertext({
       ciphertext,
+      source,
       keyIdx,
+    });
+
+    // Encrypt for the group's identity key to hide source and key idx:
+    const {
+      ciphertext: ciphertextOuter,
+      ephemeralKey,
+    } = await libloki.crypto.encryptForPubkey(
+      groupId,
+      content.encode().toArrayBuffer()
+    );
+
+    const contentOuter = new textsecure.protobuf.MediumGroupContent({
+      ciphertext: ciphertextOuter,
+      ephemeralKey,
     });
 
     log.debug(
@@ -540,7 +557,7 @@ OutgoingMessage.prototype = {
       ttl,
       ourKey: ourIdentity,
       sourceDevice: 1,
-      content: content.encode().toArrayBuffer(),
+      content: contentOuter.encode().toArrayBuffer(),
       isFriendRequest: false,
       isSessionRequest: false,
     };

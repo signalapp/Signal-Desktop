@@ -268,10 +268,7 @@ async function decryptWithSenderKeyInner(
   const messageKey = await advanceRatchet(groupId, senderIdentity, curKeyIdx);
 
   // TODO: this might fail, handle this
-  const plaintext = await libloki.crypto.DecryptGCM(
-    messageKey,
-    ciphertext.toArrayBuffer()
-  );
+  const plaintext = await libloki.crypto.DecryptGCM(messageKey, ciphertext);
 
   return plaintext;
 }

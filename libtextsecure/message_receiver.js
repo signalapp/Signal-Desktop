@@ -679,18 +679,39 @@ MessageReceiver.prototype.extend({
   async decryptForMediumGroup(envelope, ciphertextObj) {
     const groupId = envelope.source;
 
-    // const identity = await window.Signal.Data.getIdentityKeyById(groupId);
-    // const secretKey = identity.secretKey; // TODO: use this for decryption!
+    const identity = await window.Signal.Data.getIdentityKeyById(groupId);
+    const secretKeyHex = identity.secretKey;
+
+    if (!secretKeyHex) {
+      throw new Error(`Secret key is empty for group ${groupId}!`);
+    }
 
     const { senderIdentity } = envelope;
 
     const {
+      ciphertext: ciphertext2,
+      ephemeralKey,
+    } = textsecure.protobuf.MediumGroupContent.decode(ciphertextObj);
+
+    const ephemKey = ephemeralKey.toArrayBuffer();
+    const secretKey = dcodeIO.ByteBuffer.wrap(
+      secretKeyHex,
+      'hex'
+    ).toArrayBuffer();
+
+    const res = await libloki.crypto.decryptForPubkey(
+      secretKey,
+      ephemKey,
+      ciphertext2.toArrayBuffer()
+    );
+
+    const {
       ciphertext,
       keyIdx,
-    } = textsecure.protobuf.MediumGroupCiphertext.decode(ciphertextObj);
+    } = textsecure.protobuf.MediumGroupCiphertext.decode(res);
 
     const plaintext = await window.SenderKeyAPI.decryptWithSenderKey(
-      ciphertext,
+      ciphertext.toArrayBuffer(),
       keyIdx,
       groupId,
       senderIdentity
