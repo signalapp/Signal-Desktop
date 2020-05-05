@@ -165,6 +165,22 @@
       // Close group leaving
       if (conversation.isClosedGroup()) {
         await conversation.leaveGroup();
+
+
+        const deviceIds = await textsecure.storage.protocol.getDeviceIds(id);
+        await Promise.all(
+          deviceIds.map(deviceId => {
+            const address = new libsignal.SignalProtocolAddress(id, deviceId);
+            const sessionCipher = new libsignal.SessionCipher(
+              textsecure.storage.protocol,
+              address
+            );
+            return sessionCipher.deleteAllSessionsForDevice();
+          })
+        );
+
+
+
       } else if (conversation.isPublic()) {
         const channelAPI = await conversation.getPublicSendData();
         if (channelAPI === null) {

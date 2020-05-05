@@ -508,13 +508,13 @@ export class ConversationHeader extends React.Component<Props> {
     //   hasNickname && (
     //     <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
     //   );
-    const archiveConversationMenuItem = isArchived ? (
-      <MenuItem onClick={onMoveToInbox}>
-        {i18n('moveConversationToInbox')}
-      </MenuItem>
-    ) : (
-      <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
-    );
+    // const archiveConversationMenuItem = isArchived ? (
+    //   <MenuItem onClick={onMoveToInbox}>
+    //     {i18n('moveConversationToInbox')}
+    //   </MenuItem>
+    // ) : (
+    //   <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
+    // );
 
     return (
       <React.Fragment>
@@ -526,7 +526,7 @@ export class ConversationHeader extends React.Component<Props> {
         {blockHandlerMenuItem}
         {/* {changeNicknameMenuItem}
         {clearNicknameMenuItem} */}
-        {archiveConversationMenuItem}
+        {/* {archiveConversationMenuItem} */}
       </React.Fragment>
     );
   }

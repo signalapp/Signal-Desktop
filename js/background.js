@@ -641,6 +641,54 @@
       const ev = new Event('message');
       ev.confirm = () => {};
 
+
+      const convo = await ConversationController.getOrCreateAndWait(
+        groupId,
+        'group'
+      );
+
+      if (convo.isClosedGroup()) {
+        // when removing, remove all pubkeys associated with this
+        // device to avoid sync delay issues and invalid group settings
+
+        // await window.libloki.storage.getPairedDevicesFor()
+        const allPubkeys = members;
+        
+        // for each pubkey, get its paired devices
+
+        // we want to find all current members,
+        // and  subtract members to get members to remove
+        // membersToRemove = currentMembers - newMembers
+        
+        // membersToAdd
+
+        // first, get members to remove.
+        // then for each user to remove, find its devices
+        // if pubkey already in devices to remove, skip
+        const currentMembers = convo.attributes.members;
+        
+        const membersToRemove = currentMembers.filter(member => !_.includes(members, member));
+
+        console.log('[vince] members:', members);
+        console.log('[vince] currentMembers:', currentMembers);
+        console.log('[vince] membersToRemove:', membersToRemove);
+
+
+        allPubkeys.forEach(pubkey => {
+          
+        });
+        const pairedDevices = 5;
+
+        console.log('[vince] this.members:', this.get('members'));
+        console.log('[vince] providedGroupUpdate:', providedGroupUpdate);
+        console.log('[vince] groupUpdate:', groupUpdate);
+        
+        
+        console.log('[vince] doUpdateGroup: members:', members);
+      }
+
+
+
       ev.data = {
         source: ourKey,
         timestamp: Date.now(),
@@ -654,11 +702,6 @@
           },
         },
       };
-
-      const convo = await ConversationController.getOrCreateAndWait(
-        groupId,
-        'group'
-      );
 
       if (convo.isPublic()) {
         const API = await convo.getPublicSendData();
