@@ -302,7 +302,8 @@ OutgoingMessage.prototype = {
     let thisDeviceMessageType = this.messageType;
     if (
       thisDeviceMessageType !== 'pairing-request' &&
-      thisDeviceMessageType !== 'friend-request'
+      thisDeviceMessageType !== 'friend-request' &&
+      thisDeviceMessageType !== 'onlineBroadcast'
     ) {
       try {
         const conversation = ConversationController.get(devicePubKey);

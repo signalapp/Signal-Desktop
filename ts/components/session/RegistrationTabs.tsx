@@ -713,13 +713,8 @@ export class RegistrationTabs extends React.Component<{}, State> {
   }
 
   private async resetRegistration() {
-    await window.Signal.Data.removeAllIdentityKeys();
-    await window.Signal.Data.removeAllPrivateConversations();
-    window.Whisper.Registration.remove();
-    // Do not remove all items since they are only set
-    // at startup.
-    window.textsecure.storage.remove('identityKey');
-    window.textsecure.storage.remove('secondaryDeviceStatus');
+    await window.Signal.Data.removeAll();
+    await window.storage.fetch();
     window.ConversationController.reset();
     await window.ConversationController.load();
     window.Whisper.RotateSignedPreKeyListener.stop(window.Whisper.events);

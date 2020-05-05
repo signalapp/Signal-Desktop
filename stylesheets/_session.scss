@@ -295,19 +295,21 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: $session-font-accent;
+  font-family: $session-font-default;
   border-radius: 50%;
   font-weight: 700;
   background: $session-color-danger;
   color: $session-color-white;
   text-align: center;
 
-  span {
+  div {
     position: relative;
 
     sup {
-      font-size: 130%;
       position: absolute;
+      font-size: 1.3em;
+      top: -0.5em;
+      margin-left: -0.125em;
     }
   }
 
@@ -693,7 +695,8 @@ label {
     font-size: $session-font-md;
   }
   &-sub-message {
-    margin-top: 5px;
+    text-align: center;
+    margin-top: 20px;
   }
 }
 
@@ -1384,10 +1387,6 @@ input {
     .session-confirm-main-message {
       opacity: 0.8;
       margin-bottom: $session-margin-xs;
-    }
-
-    .session-confirm-sub-message {
-      text-align: center;
     }
   }
 }
