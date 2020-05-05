@@ -3,6 +3,7 @@ import { LocalizerType } from '../../types/Util';
 
 import {
   Message,
+  Props as AllMessageProps,
   PropsActions as MessageActionsType,
   PropsData as MessageProps,
 } from './Message';
@@ -87,7 +88,9 @@ type PropsActionsType = MessageActionsType &
   UnsupportedMessageActionsType &
   SafetyNumberActionsType;
 
-type PropsType = PropsLocalType & PropsActionsType;
+export type PropsType = PropsLocalType &
+  PropsActionsType &
+  Pick<AllMessageProps, 'renderEmojiPicker'>;
 
 export class TimelineItem extends React.PureComponent<PropsType> {
   public render() {

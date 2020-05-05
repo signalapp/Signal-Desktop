@@ -2,7 +2,7 @@
 /* tslint:disable:cyclomatic-complexity */
 import * as React from 'react';
 import classNames from 'classnames';
-import { useRestoreFocus } from '../hooks';
+import { useRestoreFocus } from '../../util/hooks';
 import { StickerPackType, StickerType } from '../../state/ducks/stickers';
 import { LocalizerType } from '../../types/Util';
 

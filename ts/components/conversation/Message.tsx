@@ -19,7 +19,7 @@ import {
   OwnProps as ReactionViewerProps,
   ReactionViewer,
 } from './ReactionViewer';
-import { ReactionPicker } from './ReactionPicker';
+import { Props as ReactionPickerProps, ReactionPicker } from './ReactionPicker';
 import { Emoji } from '../emoji/Emoji';
 
 import {
@@ -155,7 +155,10 @@ export type PropsActions = {
   showExpiredOutgoingTapToViewToast: () => unknown;
 };
 
-export type Props = PropsData & PropsHousekeeping & PropsActions;
+export type Props = PropsData &
+  PropsHousekeeping &
+  PropsActions &
+  Pick<ReactionPickerProps, 'renderEmojiPicker'>;
 
 interface State {
   expiring: boolean;
@@ -1001,9 +1004,11 @@ export class Message extends React.PureComponent<Props, State> {
       canReply,
       direction,
       disableMenu,
+      i18n,
       id,
       isSticker,
       isTapToView,
+      renderEmojiPicker,
       replyToMessage,
     } = this.props;
 
@@ -1121,6 +1126,7 @@ export class Message extends React.PureComponent<Props, State> {
             <Popper placement="top">
               {({ ref, style }) => (
                 <ReactionPicker
+                  i18n={i18n}
                   ref={ref}
                   style={style}
                   selected={this.props.selectedReaction}
@@ -1132,6 +1138,7 @@ export class Message extends React.PureComponent<Props, State> {
                       remove: emoji === this.props.selectedReaction,
                     });
                   }}
+                  renderEmojiPicker={renderEmojiPicker}
                 />
               )}
             </Popper>,

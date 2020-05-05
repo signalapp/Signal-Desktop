@@ -5163,6 +5163,23 @@ button.module-image__border-overlay:focus {
       // This color is the same in both light and dark themes
       background: rgba($color-white, 0.3);
     }
+    &--more {
+      background: url('../images/any-emoji-32.svg') no-repeat center;
+
+      &::after {
+        content: '';
+        display: block;
+        width: 52px;
+        height: 52px;
+        background: url('../images/any-emoji-32-hover.svg') no-repeat center;
+        opacity: 0;
+        transition: opacity 400ms $ease-out-expo;
+      }
+
+      &:hover::after {
+        opacity: 1;
+      }
+    }
 
     @include keyboard-mode {
       &:focus:before {

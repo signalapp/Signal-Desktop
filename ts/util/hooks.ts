@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { ActionCreatorsMapObject, bindActionCreators } from 'redux';
+import { useDispatch } from 'react-redux';
 
 // Restore focus on teardown
 export const useRestoreFocus = (
@@ -27,4 +29,14 @@ export const useRestoreFocus = (
       });
     };
   }, [focusRef, root]);
+};
+
+export const useBoundActions = <T extends ActionCreatorsMapObject>(
+  actions: T
+) => {
+  const dispatch = useDispatch();
+
+  return React.useMemo(() => {
+    return bindActionCreators(actions, dispatch);
+  }, [dispatch]);
 };

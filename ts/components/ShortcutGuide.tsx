@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { useRestoreFocus } from './hooks';
+import { useRestoreFocus } from '../util/hooks';
 import { LocalizerType } from '../types/Util';
 
 export type Props = {

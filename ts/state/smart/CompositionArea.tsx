@@ -81,7 +81,7 @@ const dispatchPropsMap = {
     mapDispatchToProps.removeItem('showStickersIntroduction'),
   clearShowPickerHint: () =>
     mapDispatchToProps.removeItem('showStickerPickerHint'),
-  onPickEmoji: mapDispatchToProps.useEmoji,
+  onPickEmoji: mapDispatchToProps.onUseEmoji,
 };
 
 const smart = connect(mapStateToProps, dispatchPropsMap);

@@ -1,5 +1,10 @@
 import { omit } from 'lodash';
+import { createSelector } from 'reselect';
+import { useSelector } from 'react-redux';
+import { StateType } from '../reducer';
 import * as storageShim from '../../shims/storage';
+import { isShortName } from '../../components/emoji/lib';
+import { useBoundActions } from '../../util/hooks';
 
 // State
 
@@ -52,6 +57,8 @@ export const actions = {
   removeItemExternal,
   resetItems,
 };
+
+export const useActions = () => useBoundActions(actions);
 
 function putItem(key: string, value: any): ItemPutAction {
   storageShim.put(key, value);
@@ -123,3 +130,12 @@ export function reducer(
 
   return state;
 }
+
+// Selectors
+
+const selectRecentEmojis = createSelector(
+  ({ emojis }: StateType) => emojis.recents,
+  recents => recents.filter(isShortName)
+);
+
+export const useRecentEmojis = () => useSelector(selectRecentEmojis);
