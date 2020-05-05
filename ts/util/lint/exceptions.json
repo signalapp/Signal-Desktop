@@ -1200,46 +1200,6 @@
     "updated": "2020-02-18T22:49:03.644Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/@electron/get/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "lineNumber": 721,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/@electron/get/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "lineNumber": 855,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/@electron/get/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 211,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/@electron/get/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "lineNumber": 261,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/@electron/get/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 216,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/@protobufjs/inquire/index.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
@@ -1331,17 +1291,17 @@
     "rule": "jQuery-load(",
     "path": "node_modules/array-index/node_modules/debug/src/node.js",
     "line": "function load() {",
-    "lineNumber": 154,
+    "lineNumber": 156,
     "reasonCategory": "falseMatch",
-    "updated": "2020-02-21T22:10:39.074Z"
+    "updated": "2020-04-30T20:57:04.499Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/array-index/node_modules/debug/src/node.js",
     "line": "exports.enable(load());",
-    "lineNumber": 246,
+    "lineNumber": 248,
     "reasonCategory": "falseMatch",
-    "updated": "2020-02-21T22:10:39.074Z"
+    "updated": "2020-04-30T20:57:04.499Z"
   },
   {
     "rule": "jQuery-insertBefore(",
@@ -2515,254 +2475,12 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/configstore/node_modules/signal-exit/index.js",
-    "line": "    load()",
-    "lineNumber": 36,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-25T01:47:02.583Z"
-  },
-  {
     "rule": "jQuery-append(",
     "path": "node_modules/copy-text-to-clipboard/index.js",
     "line": "\tdocument.body.append(element);",
     "lineNumber": 22,
     "reasonCategory": "falseMatch",
     "updated": "2019-12-11T01:10:06.091Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/create-react-context/node_modules/core-js/build/index.js",
-    "line": "            if (name.indexOf(ns + \".\") === 0 && !in$(name, experimental)) {",
-    "lineNumber": 43,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/create-react-context/node_modules/core-js/build/index.js",
-    "line": "  function in$(x, xs){",
-    "lineNumber": 93,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/create-react-context/node_modules/core-js/client/core.js",
-    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 1082,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/create-react-context/node_modules/core-js/client/core.js",
-    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 1135,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/create-react-context/node_modules/core-js/client/core.js",
-    "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 4496,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/create-react-context/node_modules/core-js/client/library.js",
-    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 1033,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/create-react-context/node_modules/core-js/client/library.js",
-    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 1086,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/create-react-context/node_modules/core-js/client/library.js",
-    "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 4136,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/create-react-context/node_modules/core-js/client/shim.js",
-    "line": "\t    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 1068,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/create-react-context/node_modules/core-js/client/shim.js",
-    "line": "\t  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 1121,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/create-react-context/node_modules/core-js/client/shim.js",
-    "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 4482,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/create-react-context/node_modules/core-js/library/modules/es6.symbol.js",
-    "line": "    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 142,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/create-react-context/node_modules/core-js/library/modules/es6.symbol.js",
-    "line": "  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 195,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/create-react-context/node_modules/core-js/library/modules/web.timers.js",
-    "line": "  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 18,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/create-react-context/node_modules/core-js/modules/es6.symbol.js",
-    "line": "    return wrap(uid(arguments.length > 0 ? arguments[0] : undefined));",
-    "lineNumber": 142,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/create-react-context/node_modules/core-js/modules/es6.symbol.js",
-    "line": "  symbolStatics[it] = useNative ? sym : wrap(sym);",
-    "lineNumber": 195,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/create-react-context/node_modules/core-js/modules/web.timers.js",
-    "line": "  setTimeout:  wrap(global.setTimeout),",
-    "lineNumber": 18,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "function createNodesFromMarkup(markup, handleScript) {",
-    "lineNumber": 51,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "  !!!dummyNode ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup dummy not initialized') : invariant(false) : void 0;",
-    "lineNumber": 53,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    node.innerHTML = wrap[1] + markup + wrap[2];",
-    "lineNumber": 58,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    node.innerHTML = markup;",
-    "lineNumber": 65,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "    !handleScript ? process.env.NODE_ENV !== 'production' ? invariant(false, 'createNodesFromMarkup(...): Unexpected <script> element rendered.') : invariant(false) : void 0;",
-    "lineNumber": 70,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "fbjs-createNodesFromMarkup",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/createNodesFromMarkup.js",
-    "line": "module.exports = createNodesFromMarkup;",
-    "lineNumber": 81,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": " * Some browsers cannot use `innerHTML` to render certain elements standalone,",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": "      dummyNode.innerHTML = '<link />';",
-    "lineNumber": 83,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/create-react-context/node_modules/fbjs/lib/getMarkupWrap.js",
-    "line": "      dummyNode.innerHTML = '<' + nodeName + '></' + nodeName + '>';",
-    "lineNumber": 85,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-01-06T20:40:04.973Z",
-    "reasonDetail": "<optional>"
   },
   {
     "rule": "jQuery-prepend(",
@@ -2774,35 +2492,43 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T23:18:32.165Z"
+    "path": "node_modules/debug/dist/debug.js",
+    "line": "        createDebug.enable(createDebug.load());",
+    "lineNumber": 721,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/debug/dist/debug.js",
+    "line": "        function load() {",
+    "lineNumber": 855,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T23:18:32.165Z"
+    "line": "function load() {",
+    "lineNumber": 211,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "lineNumber": 261,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/debug/src/node.js",
     "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
+    "lineNumber": 216,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -2844,6 +2570,38 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-18T19:19:27.699Z",
     "reasonDetail": "What's being eval'd is a static string, with one variable: args. Args is of the form arg1, arg2, generated programmatically."
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/detect-port/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/detect-port/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/detect-port/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 156,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/detect-port/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 248,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "React-findDOMNode",
@@ -3118,46 +2876,6 @@
     "updated": "2019-12-11T01:10:06.091Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-notarize/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "lineNumber": 721,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-10-10T18:29:02.491Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-notarize/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "lineNumber": 855,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-10-10T18:29:02.491Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-notarize/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 211,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-10-10T18:29:02.491Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-notarize/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "lineNumber": 261,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-10-10T18:29:02.491Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/electron-notarize/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 216,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-10-10T18:29:02.491Z"
-  },
-  {
     "rule": "thenify-multiArgs",
     "path": "node_modules/es6-promisify/dist/promisify.js",
     "line": "     * @param {bool} settings.multiArgs - Should multiple arguments be returned as an array?",
@@ -3196,6 +2914,38 @@
     "lineNumber": 235,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/extglob/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/extglob/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/extglob/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 156,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/extglob/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 248,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-append(",
@@ -3332,6 +3082,38 @@
     "lineNumber": 75,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/get-uri/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/get-uri/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/get-uri/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 156,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/get-uri/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 248,
+    "reasonCategory": "falseMatch|",
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-$(",
@@ -5518,197 +5300,6 @@
     "updated": "2020-02-18T22:49:03.644Z"
   },
   {
-    "rule": "jQuery-after(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/after.js",
-    "line": " * var done = _.after(saves.length, function() {",
-    "lineNumber": 21,
-    "reasonCategory": "exampleCode",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/after.js",
-    "line": "function after(n, func) {",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/before.js",
-    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 20,
-    "reasonCategory": "exampleCode",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/before.js",
-    "line": "function before(n, func) {",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/core.js",
-    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 2228,
-    "reasonCategory": "exampleCode",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/core.js",
-    "line": "  function before(n, func) {",
-    "lineNumber": 2231,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/core.js",
-    "line": "    return before(2, func);",
-    "lineNumber": 2381,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/core.js",
-    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 3483,
-    "reasonCategory": "exampleCode",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/core.min.js",
-    "lineNumber": 15,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/fp/_baseConvert.js",
-    "line": "  function wrap(name, func, placeholder) {",
-    "lineNumber": 468,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/fp/_baseConvert.js",
-    "line": "    return wrap(name, func, defaultHolder);",
-    "lineNumber": 521,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/fp/_baseConvert.js",
-    "line": "        pairs.push([key, wrap(key, func, _)]);",
-    "lineNumber": 531,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/iteratee.js",
-    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 40,
-    "reasonCategory": "exampleCode",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/lodash.js",
-    "line": "     * var done = _.after(saves.length, function() {",
-    "lineNumber": 9981,
-    "reasonCategory": "exampleCode",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/lodash.js",
-    "line": "    function after(n, func) {",
-    "lineNumber": 9990,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/lodash.js",
-    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 10039,
-    "reasonCategory": "exampleCode",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/lodash.js",
-    "line": "    function before(n, func) {",
-    "lineNumber": 10042,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/lodash.js",
-    "line": "      return before(2, func);",
-    "lineNumber": 10618,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/lodash.js",
-    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 10949,
-    "reasonCategory": "exampleCode",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/lodash.js",
-    "line": "    function wrap(value, wrapper) {",
-    "lineNumber": 10956,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/lodash.js",
-    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 15522,
-    "reasonCategory": "exampleCode",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/once.js",
-    "line": "  return before(2, func);",
-    "lineNumber": 22,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/wrap.js",
-    "line": " * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 19,
-    "reasonCategory": "exampleCode",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/global-tunnel-ng/node_modules/lodash/wrap.js",
-    "line": "function wrap(value, wrapper) {",
-    "lineNumber": 26,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
     "rule": "thenify-multiArgs",
     "path": "node_modules/globby/node_modules/pify/index.js",
     "line": "\t\t\t\t} else if (opts.multiArgs) {",
@@ -5928,197 +5519,6 @@
     "lineNumber": 34,
     "reasonCategory": "falseMatch",
     "updated": "2019-06-20T20:21:33.456Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/inquirer/node_modules/lodash/after.js",
-    "line": " * var done = _.after(saves.length, function() {",
-    "lineNumber": 21,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/inquirer/node_modules/lodash/after.js",
-    "line": "function after(n, func) {",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/inquirer/node_modules/lodash/before.js",
-    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 20,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/inquirer/node_modules/lodash/before.js",
-    "line": "function before(n, func) {",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/inquirer/node_modules/lodash/core.js",
-    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 2228,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/inquirer/node_modules/lodash/core.js",
-    "line": "  function before(n, func) {",
-    "lineNumber": 2231,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/inquirer/node_modules/lodash/core.js",
-    "line": "    return before(2, func);",
-    "lineNumber": 2381,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/inquirer/node_modules/lodash/core.js",
-    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 3483,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/inquirer/node_modules/lodash/core.min.js",
-    "lineNumber": 15,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/inquirer/node_modules/lodash/fp/_baseConvert.js",
-    "line": "  function wrap(name, func, placeholder) {",
-    "lineNumber": 468,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/inquirer/node_modules/lodash/fp/_baseConvert.js",
-    "line": "    return wrap(name, func, defaultHolder);",
-    "lineNumber": 521,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/inquirer/node_modules/lodash/fp/_baseConvert.js",
-    "line": "        pairs.push([key, wrap(key, func, _)]);",
-    "lineNumber": 531,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/inquirer/node_modules/lodash/iteratee.js",
-    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 40,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
-    "line": "     * var done = _.after(saves.length, function() {",
-    "lineNumber": 9981,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-25T01:47:02.583Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
-    "line": "    function after(n, func) {",
-    "lineNumber": 9990,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-25T01:47:02.583Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
-    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 10039,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-25T01:47:02.583Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
-    "line": "    function before(n, func) {",
-    "lineNumber": 10042,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-25T01:47:02.583Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
-    "line": "      return before(2, func);",
-    "lineNumber": 10618,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-25T01:47:02.583Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
-    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 10949,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-25T01:47:02.583Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
-    "line": "    function wrap(value, wrapper) {",
-    "lineNumber": 10956,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-25T01:47:02.583Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/inquirer/node_modules/lodash/lodash.js",
-    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 15522,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-25T01:47:02.583Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/inquirer/node_modules/lodash/once.js",
-    "line": "  return before(2, func);",
-    "lineNumber": 22,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/inquirer/node_modules/lodash/wrap.js",
-    "line": " * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 19,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/inquirer/node_modules/lodash/wrap.js",
-    "line": "function wrap(value, wrapper) {",
-    "lineNumber": 26,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
   },
   {
     "rule": "jQuery-$(",
@@ -7037,6 +6437,302 @@
     "lineNumber": 1618,
     "reasonCategory": "falseMatch",
     "updated": "2019-04-03T00:52:04.925Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/jss-nested/dist/jss-nested.js",
+    "line": "\tvar refRegExp = /\\$([\\w-]+)/g;",
+    "lineNumber": 75,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:45:07.878Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/jss-nested/dist/jss-nested.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:45:07.878Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/jss-nested/lib/index.js",
+    "line": "var refRegExp = /\\$([\\w-]+)/g;",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:45:07.878Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/jszip/dist/jszip.js",
+    "line": " * @param {String} zipCompression the compression defined at the load() level.",
+    "lineNumber": 965,
+    "reasonCategory": "exampleCode",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/jszip/dist/jszip.js",
+    "line": "        zipEntries.load(data);",
+    "lineNumber": 1118,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/jszip/dist/jszip.js",
+    "line": "            builder.append(buffer);",
+    "lineNumber": 2737,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/jszip/dist/jszip.js",
+    "line": "            builder.append(part);",
+    "lineNumber": 3084,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/jszip/dist/jszip.min.js",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/jszip/dist/jszip.min.js",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/jszip/lib/generate/index.js",
+    "line": " * @param {String} zipCompression the compression defined at the load() level.",
+    "lineNumber": 9,
+    "reasonCategory": "exampleCode",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/jszip/lib/load.js",
+    "line": "        zipEntries.load(data);",
+    "lineNumber": 49,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/jszip/lib/support.js",
+    "line": "            builder.append(buffer);",
+    "lineNumber": 25,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/jszip/lib/utils.js",
+    "line": "            builder.append(part);",
+    "lineNumber": 55,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/jszip/node_modules/core-js/build/index.js",
+    "line": "              if (name.indexOf(ns + \".\") === 0 && !in$(name, experimental)) {",
+    "lineNumber": 36,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/jszip/node_modules/core-js/build/index.js",
+    "line": "  function in$(x, xs){",
+    "lineNumber": 99,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/client/core.js",
+    "line": "\t    return wrap(tag);",
+    "lineNumber": 382,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/client/core.js",
+    "line": "\t    return wrap(wks(name));",
+    "lineNumber": 399,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/jszip/node_modules/core-js/client/core.js",
+    "line": "\t      if(!NPCG)separator2 = new RegExp('^' + separatorCopy.source + '$(?!\\\\s)', flags);",
+    "lineNumber": 3893,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/client/core.js",
+    "line": "\t  setTimeout:  wrap(global.setTimeout),",
+    "lineNumber": 7013,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/jszip/node_modules/core-js/client/core.min.js",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/jszip/node_modules/core-js/client/core.min.js",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/client/library.js",
+    "line": "\t    return wrap(tag);",
+    "lineNumber": 370,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/client/library.js",
+    "line": "\t    return wrap(wks(name));",
+    "lineNumber": 387,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/client/library.js",
+    "line": "\t  setTimeout:  wrap(global.setTimeout),",
+    "lineNumber": 6536,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/jszip/node_modules/core-js/client/library.min.js",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/client/shim.js",
+    "line": "\t    return wrap(tag);",
+    "lineNumber": 368,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/client/shim.js",
+    "line": "\t    return wrap(wks(name));",
+    "lineNumber": 385,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/jszip/node_modules/core-js/client/shim.js",
+    "line": "\t      if(!NPCG)separator2 = new RegExp('^' + separatorCopy.source + '$(?!\\\\s)', flags);",
+    "lineNumber": 3879,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/client/shim.js",
+    "line": "\t  setTimeout:  wrap(global.setTimeout),",
+    "lineNumber": 6999,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/jszip/node_modules/core-js/client/shim.min.js",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/jszip/node_modules/core-js/client/shim.min.js",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/library/modules/es6.symbol.js",
+    "line": "    return wrap(tag);",
+    "lineNumber": 134,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/library/modules/es6.symbol.js",
+    "line": "    return wrap(wks(name));",
+    "lineNumber": 151,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/library/modules/web.timers.js",
+    "line": "  setTimeout:  wrap(global.setTimeout),",
+    "lineNumber": 18,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/jszip/node_modules/core-js/modules/es6.regexp.split.js",
+    "line": "      if(!NPCG)separator2 = new RegExp('^' + separatorCopy.source + '$(?!\\\\s)', flags);",
+    "lineNumber": 36,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/modules/es6.symbol.js",
+    "line": "    return wrap(tag);",
+    "lineNumber": 134,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/modules/es6.symbol.js",
+    "line": "    return wrap(wks(name));",
+    "lineNumber": 151,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/modules/web.timers.js",
+    "line": "  setTimeout:  wrap(global.setTimeout),",
+    "lineNumber": 18,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-$(",
@@ -9210,117 +8906,6 @@
     "updated": "2019-03-09T00:08:44.242Z"
   },
   {
-    "rule": "jQuery-after(",
-    "path": "node_modules/lodash/after.js",
-    "line": " * var done = _.after(saves.length, function() {",
-    "lineNumber": 21,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/lodash/after.js",
-    "line": "function after(n, func) {",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/lodash/before.js",
-    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 20,
-    "reasonCategory": "exampleCode",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/lodash/before.js",
-    "line": "function before(n, func) {",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/lodash/core.js",
-    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 2228,
-    "reasonCategory": "exampleCode",
-    "updated": "2018-11-27T01:59:02.018Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/lodash/core.js",
-    "line": "  function before(n, func) {",
-    "lineNumber": 2231,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:59:02.018Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/lodash/core.js",
-    "line": "    return before(2, func);",
-    "lineNumber": 2381,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T01:59:02.018Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/lodash/core.min.js",
-    "lineNumber": 15,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/lodash/lodash.js",
-    "line": "     * var done = _.after(saves.length, function() {",
-    "lineNumber": 9981,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/lodash/lodash.js",
-    "line": "    function after(n, func) {",
-    "lineNumber": 9990,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/lodash/lodash.js",
-    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 10039,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/lodash/lodash.js",
-    "line": "    function before(n, func) {",
-    "lineNumber": 10042,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/lodash/lodash.js",
-    "line": "      return before(2, func);",
-    "lineNumber": 10618,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/lodash/once.js",
-    "line": "  return before(2, func);",
-    "lineNumber": 22,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
     "rule": "thenify-multiArgs",
     "path": "node_modules/make-dir/node_modules/pify/index.js",
     "line": "\t\t\t\t} else if (opts.multiArgs) {",
@@ -9522,6 +9107,30 @@
     "updated": "2019-07-19T17:16:02.404Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/nconf/lib/nconf/provider.js",
+    "line": "      return next(new Error('nconf store ' + store.type + ' has no load() method'));",
+    "lineNumber": 448,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/nconf/lib/nconf/provider.js",
+    "line": "      : store.load(next);",
+    "lineNumber": 453,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/nconf/node_modules/yargs/index.js",
+    "line": "    usage.wrap(cols)",
+    "lineNumber": 367,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/needle/lib/multipart.js",
     "line": "  function append(data, filename) {",
@@ -9552,6 +9161,46 @@
     "lineNumber": 77,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/needle/node_modules/debug/dist/debug.js",
+    "line": "        createDebug.enable(createDebug.load());",
+    "lineNumber": 694,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/needle/node_modules/debug/dist/debug.js",
+    "line": "        function load() {",
+    "lineNumber": 828,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/needle/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 129,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/needle/node_modules/debug/src/common.js",
+    "line": "  createDebug.enable(createDebug.load());",
+    "lineNumber": 244,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/needle/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 135,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-insertBefore(",
@@ -9612,6 +9261,70 @@
     "lineNumber": 299,
     "reasonCategory": "falseMatch",
     "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/node-pre-gyp/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/node-pre-gyp/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/node-pre-gyp/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 156,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/node-pre-gyp/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 248,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-pre-gyp/node_modules/needle/lib/multipart.js",
+    "line": "  function append(data, filename) {",
+    "lineNumber": 42,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-pre-gyp/node_modules/needle/lib/multipart.js",
+    "line": "    if (part.buffer) return append(part.buffer, filename);",
+    "lineNumber": 58,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-pre-gyp/node_modules/needle/lib/multipart.js",
+    "line": "      append(data, filename);",
+    "lineNumber": 62,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-pre-gyp/node_modules/needle/lib/multipart.js",
+    "line": "    append();",
+    "lineNumber": 77,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-$(",
@@ -9798,6 +9511,20 @@
     "updated": "2019-07-19T17:16:02.404Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "node_modules/object-hash/dist/object_hash.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/object-hash/dist/object_hash_test.js",
+    "lineNumber": 3,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/optionator/lib/help.js",
     "line": "      return namesString + \"\" + typeSeparatorString + wrap(type).replace(/^\\s+/, '');",
@@ -9884,46 +9611,6 @@
     "lineNumber": 460,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/pac-proxy-agent/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "lineNumber": 721,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-16T19:09:11.452Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/pac-proxy-agent/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "lineNumber": 855,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-16T19:09:11.452Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/pac-proxy-agent/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 211,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-16T19:09:11.452Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/pac-proxy-agent/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "lineNumber": 261,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-16T19:09:11.452Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/pac-proxy-agent/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 216,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-16T19:09:11.452Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -10323,46 +10010,6 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/proxy-agent/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "lineNumber": 721,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-16T19:09:11.452Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/proxy-agent/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "lineNumber": 855,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-16T19:09:11.452Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/proxy-agent/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 211,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-16T19:09:11.452Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/proxy-agent/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "lineNumber": 261,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-16T19:09:11.452Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/proxy-agent/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 216,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-16T19:09:11.452Z"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/raw-body/node_modules/depd/index.js",
     "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
@@ -10377,6 +10024,38 @@
     "lineNumber": 10,
     "reasonCategory": "falseMatch",
     "updated": "2019-03-09T00:08:44.242Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-array-napi/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-array-napi/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-array-napi/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 156,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/ref-array-napi/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 248,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-load(",
@@ -10499,6 +10178,14 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/resolve-url/resolve-url.js",
+    "line": "    head.insertBefore(base, head.firstChild)",
+    "lineNumber": 29,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:45:07.878Z"
+  },
+  {
     "rule": "jQuery-load(",
     "path": "node_modules/restore-cursor/node_modules/signal-exit/index.js",
     "line": "    load()",
@@ -10528,6 +10215,38 @@
     "updated": "2018-09-19T21:59:32.770Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/serve-static/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 150,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/serve-static/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 168,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/serve-static/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 156,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/serve-static/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 248,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/sharp/lib/libvips.js",
     "line": "    const brewPkgConfigPath = spawnSync('which brew >/dev/null 2>&1 && eval $(brew --env) && echo $PKG_CONFIG_LIBDIR', spawnSyncOptions).stdout || '';",
@@ -10542,6 +10261,158 @@
     "lineNumber": 35,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-module/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 160,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-module/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 178,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-module/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 162,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-module/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 186,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-nuget-plugin/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 160,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-nuget-plugin/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 178,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-nuget-plugin/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 162,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-nuget-plugin/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 186,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-policy/lib/index.js",
+    "line": "function load(root, options) {",
+    "lineNumber": 57,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-policy/lib/index.js",
+    "line": "    return load(dir, options);",
+    "lineNumber": 139,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-policy/lib/index.js",
+    "line": "  load(process.argv[2]).then(function (res) {",
+    "lineNumber": 215,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-policy/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 160,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-policy/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 178,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-policy/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 162,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-policy/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 186,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-resolve/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "lineNumber": 160,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-resolve/node_modules/debug/src/browser.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 178,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-resolve/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 162,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/snyk-resolve/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 186,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-append(",
@@ -10570,33 +10441,33 @@
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // Most eval() calls are in this format",
-    "lineNumber": 234,
+    "lineNumber": 244,
     "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // Parse nested eval() calls using recursion",
-    "lineNumber": 246,
+    "lineNumber": 256,
     "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // passed to eval() ending in \"//# sourceURL=...\" will return the source file",
-    "lineNumber": 344,
+    "lineNumber": 359,
     "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "eval",
     "path": "node_modules/source-map-support/source-map-support.js",
     "line": "  // Code called using eval() needs special handling",
-    "lineNumber": 373,
+    "lineNumber": 398,
     "reasonCategory": "falseMatch",
-    "updated": "2019-03-13T01:27:05.473Z"
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-prepend(",
@@ -10660,46 +10531,6 @@
     "lineNumber": 91,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-25T01:47:02.583Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/sumchecker/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "lineNumber": 721,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/sumchecker/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "lineNumber": 855,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/sumchecker/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 211,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/sumchecker/node_modules/debug/src/common.js",
-    "line": "\tcreateDebug.enable(createDebug.load());",
-    "lineNumber": 261,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/sumchecker/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 216,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-18T22:49:03.644Z"
   },
   {
     "rule": "jQuery-append(",
@@ -10979,19 +10810,75 @@
   },
   {
     "rule": "jQuery-append(",
-    "path": "node_modules/tar-stream/extract.js",
+    "path": "node_modules/tar-fs/node_modules/tar-stream/extract.js",
     "line": "    b.append(data)",
     "lineNumber": 231,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/tar-fs/node_modules/tar-stream/extract.js",
+    "line": "  else b.append(data)",
+    "lineNumber": 247,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/tar-stream/extract.js",
+    "line": "    b.append(data)",
+    "lineNumber": 230,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/tar-stream/extract.js",
     "line": "  else b.append(data)",
-    "lineNumber": 247,
+    "lineNumber": 246,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/tar-stream/node_modules/bl/BufferList.js",
+    "line": "    this.append(buf)",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/tar-stream/node_modules/bl/BufferList.js",
+    "line": "    copy.append(this._bufs[i])",
+    "lineNumber": 210,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/tar-stream/node_modules/bl/BufferList.js",
+    "line": "      this.append(buf[i])",
+    "lineNumber": 226,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/tar-stream/node_modules/bl/BufferList.js",
+    "line": "      this.append(buf._bufs[i])",
+    "lineNumber": 231,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/terser-webpack-plugin/node_modules/pify/index.js",
+    "line": "\t\tif (options.multiArgs) {",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:45:07.878Z"
   },
   {
     "rule": "jQuery-before(",
@@ -11155,6 +11042,14 @@
     "updated": "2018-09-19T21:59:32.770Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/webpack-log/node_modules/ansi-colors/index.js",
+    "line": "  while (n-- > 0) str = wrap(colors.styles[stack[n]], str, nl);",
+    "lineNumber": 32,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:45:07.878Z"
+  },
+  {
     "rule": "jQuery-load(",
     "path": "node_modules/websocket/node_modules/debug/src/browser.js",
     "line": "function load() {",
@@ -11174,17 +11069,17 @@
     "rule": "jQuery-load(",
     "path": "node_modules/websocket/node_modules/debug/src/node.js",
     "line": "function load() {",
-    "lineNumber": 154,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
+    "lineNumber": 156,
+    "reasonCategory": "falseMatc",
+    "updated": "2020-04-30T20:57:04.499Z"
   },
   {
     "rule": "jQuery-load(",
     "path": "node_modules/websocket/node_modules/debug/src/node.js",
     "line": "exports.enable(load());",
-    "lineNumber": 246,
+    "lineNumber": 248,
     "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
+    "updated": "2020-04-30T20:57:04.499Z"
   },
   {
     "rule": "jQuery-append(",
@@ -11225,6 +11120,14 @@
     "lineNumber": 366,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/write-file-atomic/node_modules/signal-exit/index.js",
+    "line": "    load()",
+    "lineNumber": 36,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-$(",

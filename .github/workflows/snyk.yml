@@ -1,0 +1,26 @@
+name: Snyk
+
+on:
+  schedule:
+    - cron:  '0 10,12,14,16,18,20,22 * * *'
+
+jobs:
+  snyk:
+    runs-on: ubuntu-latest
+    if: github.repository != 'signalapp/Signal-Desktop'
+
+    steps:
+    - run: lsb_release -a
+    - run: uname -a
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.13.0'
+    - run: npm install -g yarn@1.22.0
+    - run: npm install -g snyk@1.316.1
+
+    - run: yarn install --frozen-lockfile
+    - run: snyk auth "$SNYK_TOKEN"
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    - run: snyk test --show-vulnerable-paths=all

@@ -3,6 +3,7 @@ import { readdir as readdirCallback } from 'fs';
 
 import pify from 'pify';
 
+// tslint:disable-next-line no-implicit-dependencies
 import { notarize } from 'electron-notarize';
 
 // @ts-ignore

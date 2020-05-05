@@ -1,8 +1,8 @@
 diff --git a/node_modules/os-locale/index.js b/node_modules/os-locale/index.js
-index 1ada7a4..1304aa1 100644
+index 6995b60..321e903 100644
 --- a/node_modules/os-locale/index.js
 +++ b/node_modules/os-locale/index.js
-@@ -25,11 +25,11 @@ function getLocale(str) {
+@@ -25,11 +25,11 @@ function getLocale(string) {
  }
  
  function getAppleLocale() {
@@ -39,8 +39,8 @@ index 1ada7a4..1304aa1 100644
  }
  
  function getWinLocaleSync() {
--	const stdout = execa.sync('wmic', ['os', 'get', 'locale']).stdout;
-+	const stdout = execa.sync('wmic', ['os', 'get', 'locale'], { preferLocal: false }).stdout;
+-	const {stdout} = execa.sync('wmic', ['os', 'get', 'locale']);
++	const {stdout} = execa.sync('wmic', ['os', 'get', 'locale'], { preferLocal: false });
  	const lcidCode = parseInt(stdout.replace('Locale', ''), 16);
  	return lcid.from(lcidCode);
  }
