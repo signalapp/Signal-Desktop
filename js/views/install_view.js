@@ -20,12 +20,14 @@
   const DEVICE_NAME_SELECTOR = 'input.device-name';
   const CONNECTION_ERROR = -1;
   const TOO_MANY_DEVICES = 411;
+  const TOO_OLD = 409;
 
   Whisper.InstallView = Whisper.View.extend({
     templateName: 'link-flow-template',
     className: 'main full-screen-flow',
     events: {
       'click .try-again': 'connect',
+      'click .second': 'shutdown',
       'click .finish': 'finishLinking',
       // the actual next step happens in confirmNumber() on submit form #link-phone
     },
@@ -43,6 +45,8 @@
     },
     render_attributes() {
       let errorMessage;
+      let errorButton = i18n('installTryAgain');
+      let errorSecondButton = null;
 
       if (this.error) {
         if (
@@ -50,6 +54,13 @@
           this.error.code === TOO_MANY_DEVICES
         ) {
           errorMessage = i18n('installTooManyDevices');
+        } else if (
+          this.error.name === 'HTTPError' &&
+          this.error.code === TOO_OLD
+        ) {
+          errorMessage = i18n('installTooOld');
+          errorButton = i18n('upgrade');
+          errorSecondButton = i18n('quit');
         } else if (
           this.error.name === 'HTTPError' &&
           this.error.code === CONNECTION_ERROR
@@ -63,9 +74,10 @@
 
         return {
           isError: true,
-          errorHeader: 'Something went wrong!',
+          errorHeader: i18n('installErrorHeader'),
           errorMessage,
-          errorButton: 'Try again',
+          errorButton,
+          errorSecondButton,
         };
       }
 
@@ -89,7 +101,19 @@
       this.step = step;
       this.render();
     },
+    shutdown() {
+      window.shutdown();
+    },
     connect() {
+      if (
+        this.error &&
+        this.error.name === 'HTTPError' &&
+        this.error.code === TOO_OLD
+      ) {
+        window.location = 'https://signal.org/download';
+        return;
+      }
+
       this.error = null;
       this.selectStep(Steps.SCAN_QR_CODE);
       this.clearQR();

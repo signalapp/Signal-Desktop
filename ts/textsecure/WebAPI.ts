@@ -917,9 +917,13 @@ export function initialize({
     ) {
       const { accessKey } = options;
       const jsonData: any = {
-        supportsSms: false,
+        capabilities: {
+          uuid: true,
+        },
         fetchesMessages: true,
+        name: deviceName ? deviceName : undefined,
         registrationId,
+        supportsSms: false,
         unidentifiedAccessKey: accessKey
           ? _btoa(_getString(accessKey))
           : undefined,
@@ -928,14 +932,6 @@ export function initialize({
 
       const call = deviceName ? 'devices' : 'accounts';
       const urlPrefix = deviceName ? '/' : '/code/';
-
-      if (deviceName) {
-        jsonData.name = deviceName;
-      } else {
-        jsonData.capabilities = {
-          uuid: true,
-        };
-      }
 
       // We update our saved username and password, since we're creating a new account
       username = number;

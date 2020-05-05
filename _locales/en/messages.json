@@ -1076,6 +1076,15 @@
   "installTooManyDevices": {
     "message": "Sorry, you have too many devices linked already. Try removing some."
   },
+  "installTooOld": {
+    "message": "Update Signal on this device to link your phone."
+  },
+  "installErrorHeader": {
+    "message": "Something went wrong!"
+  },
+  "installTryAgain": {
+    "message": "Try again"
+  },
   "theme": {
     "message": "Theme",
     "description": "Header for theme settings"

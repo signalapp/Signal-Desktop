@@ -306,6 +306,9 @@
         </div>
         <div class='nav'>
           <a class='button try-again'>{{ errorButton }}</a>
+          {{#errorSecondButton}}
+            <a class='button second'>{{ errorSecondButton }}</a>
+          {{/errorSecondButton}}
         </div>
       </div>
     </div>
