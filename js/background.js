@@ -669,24 +669,23 @@
         
         const membersToRemove = currentMembers.filter(member => !_.includes(members, member));
 
-        console.log('[vince] members:', members);
-        console.log('[vince] currentMembers:', currentMembers);
-        console.log('[vince] membersToRemove:', membersToRemove);
+        // console.log('[vince] members:', members);
+        // console.log('[vince] currentMembers:', currentMembers);
+        // console.log('[vince] membersToRemove:', membersToRemove);
 
 
-        allPubkeys.forEach(pubkey => {
+        // allPubkeys.forEach(pubkey => {
           
-        });
-        const pairedDevices = 5;
+        // });
+        // const pairedDevices = 5;
 
-        console.log('[vince] this.members:', this.get('members'));
-        console.log('[vince] providedGroupUpdate:', providedGroupUpdate);
-        console.log('[vince] groupUpdate:', groupUpdate);
+        // console.log('[vince] this.members:', this.get('members'));
+        // console.log('[vince] providedGroupUpdate:', providedGroupUpdate);
+        // console.log('[vince] groupUpdate:', groupUpdate);
         
         
         console.log('[vince] doUpdateGroup: members:', members);
       }
-
 
 
       ev.data = {

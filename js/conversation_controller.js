@@ -179,8 +179,6 @@
           })
         );
 
-
-
       } else if (conversation.isPublic()) {
         const channelAPI = await conversation.getPublicSendData();
         if (channelAPI === null) {
