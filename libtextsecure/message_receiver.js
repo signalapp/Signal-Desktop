@@ -682,7 +682,7 @@ MessageReceiver.prototype.extend({
     const { senderIdentity } = envelope;
 
     const {
-      ciphertext: ciphertext2,
+      ciphertext: outerCiphertext,
       ephemeralKey,
     } = textsecure.protobuf.MediumGroupContent.decode(ciphertextObj);
 
@@ -692,16 +692,16 @@ MessageReceiver.prototype.extend({
       'hex'
     ).toArrayBuffer();
 
-    const res = await libloki.crypto.decryptForPubkey(
+    const mediumGroupCiphertext = await libloki.crypto.decryptForPubkey(
       secretKey,
       ephemKey,
-      ciphertext2.toArrayBuffer()
+      outerCiphertext.toArrayBuffer()
     );
 
     const {
       ciphertext,
       keyIdx,
-    } = textsecure.protobuf.MediumGroupCiphertext.decode(res);
+    } = textsecure.protobuf.MediumGroupCiphertext.decode(mediumGroupCiphertext);
 
     const plaintext = await window.SenderKeyAPI.decryptWithSenderKey(
       ciphertext.toArrayBuffer(),
@@ -1310,10 +1310,19 @@ MessageReceiver.prototype.extend({
 
     // Build a 'message' event i.e. a received message event
     const ev = new Event('message');
+
+    const source = envelope.senderIdentity || senderPubKey;
+
+    if (envelope.senderIdentity) {
+      message.group = {
+        id: envelope.source
+      };
+    }
+
     ev.confirm = this.removeFromCache.bind(this, envelope);
     ev.data = {
       friendRequest: isFriendRequest,
-      source: senderPubKey,
+      source,
       sourceDevice: envelope.sourceDevice,
       timestamp: envelope.timestamp.toNumber(),
       receivedAt: envelope.receivedAt,
