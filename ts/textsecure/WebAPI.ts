@@ -790,13 +790,13 @@ export function initialize({
       });
     }
 
-    async function getSenderCertificate(withUuid = false) {
+    async function getSenderCertificate() {
       return _ajax({
         call: 'deliveryCert',
         httpType: 'GET',
         responseType: 'json',
         validateResponse: { certificate: 'string' },
-        urlParameters: withUuid ? '?includeUuid=true' : undefined,
+        urlParameters: '?includeUuid=true',
       });
     }
 
@@ -917,9 +917,11 @@ export function initialize({
     ) {
       const { accessKey } = options;
       const jsonData: any = {
-        capabilities: {
-          uuid: true,
-        },
+        // tslint:disable-next-line: no-suspicious-comment
+        // TODO: uncomment this once we want to start registering UUID support
+        // capabilities: {
+        //   uuid: true,
+        // },
         fetchesMessages: true,
         name: deviceName ? deviceName : undefined,
         registrationId,

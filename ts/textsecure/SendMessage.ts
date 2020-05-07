@@ -35,7 +35,6 @@ function base64ToArrayBuffer(string: string): ArrayBuffer {
 export type SendMetadataType = {
   [identifier: string]: {
     accessKey: string;
-    useUuidSenderCert: boolean;
   };
 };
 
@@ -46,7 +45,6 @@ type GroupMemberType = {
 
 export type SendOptionsType = {
   senderCertificate?: ArrayBuffer;
-  senderCertificateWithUuid?: ArrayBuffer;
   sendMetadata?: SendMetadataType;
   online?: boolean;
 };

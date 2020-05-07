@@ -1702,25 +1702,26 @@
       }
     }
 
-    const hasRegisteredUuidSupportKey = 'hasRegisteredUuidSupport';
-    if (
-      !storage.get(hasRegisteredUuidSupportKey) &&
-      textsecure.storage.user.getUuid()
-    ) {
-      const server = WebAPI.connect({
-        username: USERNAME || OLD_USERNAME,
-        password: PASSWORD,
-      });
-      try {
-        await server.registerCapabilities({ uuid: true });
-        storage.put(hasRegisteredUuidSupportKey, true);
-      } catch (error) {
-        window.log.error(
-          'Error: Unable to register support for UUID messages.',
-          error && error.stack ? error.stack : error
-        );
-      }
-    }
+    // TODO: uncomment this once we want to start registering UUID support
+    // const hasRegisteredUuidSupportKey = 'hasRegisteredUuidSupport';
+    // if (
+    //   !storage.get(hasRegisteredUuidSupportKey) &&
+    //   textsecure.storage.user.getUuid()
+    // ) {
+    //   const server = WebAPI.connect({
+    //     username: USERNAME || OLD_USERNAME,
+    //     password: PASSWORD,
+    //   });
+    //   try {
+    //     await server.registerCapabilities({ uuid: true });
+    //     storage.put(hasRegisteredUuidSupportKey, true);
+    //   } catch (error) {
+    //     window.log.error(
+    //       'Error: Unable to register support for UUID messages.',
+    //       error && error.stack ? error.stack : error
+    //     );
+    //   }
+    // }
 
     const deviceId = textsecure.storage.user.getDeviceId();
 

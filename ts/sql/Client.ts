@@ -618,7 +618,6 @@ async function removeAllSignedPreKeys() {
 const ITEM_KEYS: { [key: string]: Array<string> | undefined } = {
   identityKey: ['value.pubKey', 'value.privKey'],
   senderCertificate: ['value.serialized'],
-  senderCertificateWithUuid: ['value.serialized'],
   signaling_key: ['value'],
   profileKey: ['value'],
 };

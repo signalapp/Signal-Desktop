@@ -37,7 +37,6 @@ export default class OutgoingMessage {
 
   sendMetadata?: SendMetadataType;
   senderCertificate?: ArrayBuffer;
-  senderCertificateWithUuid?: ArrayBuffer;
   online?: boolean;
 
   constructor(
@@ -70,15 +69,9 @@ export default class OutgoingMessage {
     this.failoverIdentifiers = [];
     this.unidentifiedDeliveries = [];
 
-    const {
-      sendMetadata,
-      senderCertificate,
-      senderCertificateWithUuid,
-      online,
-    } = options || ({} as any);
+    const { sendMetadata, senderCertificate, online } = options || ({} as any);
     this.sendMetadata = sendMetadata;
     this.senderCertificate = senderCertificate;
-    this.senderCertificateWithUuid = senderCertificateWithUuid;
     this.online = online;
   }
   numberCompleted() {
@@ -314,15 +307,12 @@ export default class OutgoingMessage {
     } = {};
     const plaintext = this.getPlaintext();
 
-    const { sendMetadata } = this;
+    const { sendMetadata, senderCertificate } = this;
     const info =
       sendMetadata && sendMetadata[identifier]
         ? sendMetadata[identifier]
-        : { accessKey: undefined, useUuidSenderCert: undefined };
-    const { accessKey, useUuidSenderCert } = info;
-    const senderCertificate = useUuidSenderCert
-      ? this.senderCertificateWithUuid
-      : this.senderCertificate;
+        : { accessKey: undefined };
+    const { accessKey } = info;
 
     if (accessKey && !senderCertificate) {
       window.log.warn(
