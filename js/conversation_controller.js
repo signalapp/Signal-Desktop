@@ -166,8 +166,10 @@
       if (conversation.isClosedGroup()) {
         await conversation.leaveGroup();
 
-
         const deviceIds = await textsecure.storage.protocol.getDeviceIds(id);
+
+        console.log('[vince] deviceIds:', deviceIds);
+        
         await Promise.all(
           deviceIds.map(deviceId => {
             const address = new libsignal.SignalProtocolAddress(id, deviceId);
@@ -175,9 +177,17 @@
               textsecure.storage.protocol,
               address
             );
+            
+            console.log('[vince] address:', address);
+            console.log('[vince] sessionCipher:', sessionCipher);
+
             return sessionCipher.deleteAllSessionsForDevice();
           })
         );
+
+
+
+
 
       } else if (conversation.isPublic()) {
         const channelAPI = await conversation.getPublicSendData();
