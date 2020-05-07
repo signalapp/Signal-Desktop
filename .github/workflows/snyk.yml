@@ -2,7 +2,7 @@ name: Snyk
 
 on:
   schedule:
-    - cron:  '0 10,12,14,16,18,20,22 * * *'
+    - cron:  '0 12 * * *'
 
 jobs:
   snyk:
