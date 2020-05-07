@@ -20,12 +20,7 @@ import classNames from 'classnames';
 import emojiRegex from 'emoji-regex';
 import { Emoji } from './emoji/Emoji';
 import { EmojiPickDataType } from './emoji/EmojiPicker';
-import {
-  convertShortName,
-  EmojiData,
-  replaceColons,
-  search,
-} from './emoji/lib';
+import { convertShortName, EmojiData, search } from './emoji/lib';
 import { LocalizerType } from '../types/Util';
 import { createRefMerger } from './_util';
 
@@ -395,9 +390,10 @@ export const CompositionInput = ({
 
   const submit = React.useCallback(() => {
     const { current: state } = editorStateRef;
-    const text = state.getCurrentContent().getPlainText();
-    const emojidText = replaceColons(text);
-    const trimmedText = emojidText.trim();
+    const trimmedText = state
+      .getCurrentContent()
+      .getPlainText()
+      .trim();
     onSubmit(trimmedText);
   }, [editorStateRef, onSubmit]);
 
