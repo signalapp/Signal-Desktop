@@ -89,6 +89,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
       labels,
       this.handleTabSelected,
       undefined,
+      undefined,
       this.handleToggleFriendRequestPopup,
       receivedFriendRequestCount
     );
@@ -321,7 +322,9 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
 
   private renderList() {
     const { sentFriendsRequest } = this.props;
-    const friends = window.getFriendsFromContacts(this.props.friends);
+
+    const contacts = this.props.friends.filter(f => f.type === 'direct');
+    const friends = window.getFriendsFromContacts(contacts);
     const length = Number(sentFriendsRequest.length) + Number(friends.length);
     const combined = [...sentFriendsRequest, ...friends];
 

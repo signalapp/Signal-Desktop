@@ -12,6 +12,7 @@ import { ConversationType } from '../state/ducks/conversations';
 import { LeftPaneContactSection } from './session/LeftPaneContactSection';
 import { LeftPaneSettingSection } from './session/LeftPaneSettingSection';
 import { LeftPaneChannelSection } from './session/LeftPaneChannelSection';
+import { SessionIconType } from './session/icon';
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 export type RowRendererParamsType = {
@@ -59,6 +60,7 @@ export class LeftPane extends React.Component<Props, State> {
     labels: Array<string>,
     onTabSelected?: any,
     buttonLabel?: string,
+    buttonIcon?: SessionIconType,
     buttonClicked?: any,
     notificationCount?: number
   ): JSX.Element {
@@ -68,6 +70,7 @@ export class LeftPane extends React.Component<Props, State> {
         selectedTab={0}
         labels={labels}
         buttonLabel={buttonLabel}
+        buttonIcon={buttonIcon}
         buttonClicked={buttonClicked}
         notificationCount={notificationCount}
       />
