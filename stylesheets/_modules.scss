@@ -5162,16 +5162,31 @@ button.module-image__border-overlay:focus {
       background: rgba($color-white, 0.3);
     }
     &--more {
-      background: url('../images/any-emoji-32.svg') no-repeat center;
+      @include light-theme {
+        background: url('../images/any-emoji-32-light.svg') no-repeat center;
+      }
+
+      @include dark-theme {
+        background: url('../images/any-emoji-32-dark.svg') no-repeat center;
+      }
 
       &::after {
         content: '';
         display: block;
         width: 52px;
         height: 52px;
-        background: url('../images/any-emoji-32-hover.svg') no-repeat center;
         opacity: 0;
         transition: opacity 400ms $ease-out-expo;
+
+        @include light-theme {
+          background: url('../images/any-emoji-32-light-hover.svg') no-repeat
+            center;
+        }
+
+        @include dark-theme {
+          background: url('../images/any-emoji-32-dark-hover.svg') no-repeat
+            center;
+        }
       }
 
       &:hover::after {
