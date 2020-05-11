@@ -62,6 +62,8 @@ async function _retrieveNextMessages(nodeData, pubkey) {
         nodeData.ip
       }:${nodeData.port}`
     );
+
+    return [];
   }
 
   return result.messages || [];
