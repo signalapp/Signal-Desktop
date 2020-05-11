@@ -14,8 +14,11 @@ import { LocalizerType } from '../../types/Util';
 
 export const SmartEmojiPicker = React.forwardRef<
   HTMLDivElement,
-  Pick<EmojiPickerProps, 'onPickEmoji' | 'onClose' | 'style'>
->(({ onPickEmoji, onClose, style }, ref) => {
+  Pick<
+    EmojiPickerProps,
+    'onPickEmoji' | 'onClose' | 'style' | 'disableSkinTones'
+  >
+>(({ onPickEmoji, onClose, style, disableSkinTones }, ref) => {
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const skinTone = useSelector<StateType, number>(state =>
     get(state, ['items', 'skinTone'], 0)
@@ -52,6 +55,7 @@ export const SmartEmojiPicker = React.forwardRef<
       recentEmojis={recentEmojis}
       onClose={onClose}
       style={style}
+      disableSkinTones={disableSkinTones}
     />
   );
 });

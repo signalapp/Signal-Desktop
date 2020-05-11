@@ -59,6 +59,7 @@ function renderEmojiPicker({
       onPickEmoji={onPickEmoji}
       onClose={onClose}
       style={style}
+      disableSkinTones={true}
     />
   );
 }
