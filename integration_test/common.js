@@ -20,6 +20,13 @@ chai.should();
 chai.use(chaiAsPromised);
 chai.config.includeStack = true;
 
+// From https://github.com/chaijs/chai/issues/200
+chai.use(function (_chai, _) {
+  _chai.Assertion.addMethod('withMessage', function (msg) {
+    _.flag(this, 'message', msg);
+  });
+});
+
 const STUB_SNODE_SERVER_PORT = 3000;
 const ENABLE_LOG = false;
 
@@ -242,23 +249,9 @@ module.exports = {
     );
   },
 
-  async startAppsAsFriends() {
-    const app1Props = {
-      mnemonic: this.TEST_MNEMONIC1,
-      displayName: this.TEST_DISPLAY_NAME1,
-      stubSnode: true,
-    };
+  async makeFriends(app1, client2) {
 
-    const app2Props = {
-      mnemonic: this.TEST_MNEMONIC2,
-      displayName: this.TEST_DISPLAY_NAME2,
-      stubSnode: true,
-    };
-
-    const [app1, app2] = await Promise.all([
-      this.startAndStub(app1Props),
-      this.startAndStubN(app2Props, 2),
-    ]);
+    const [app2, pubkey2] = client2;
 
     /** add each other as friends */
     const textMessage = this.generateSendMessageText();
@@ -269,7 +262,7 @@ module.exports = {
     await this.setValueWrapper(
       app1,
       ConversationPage.sessionIDInput,
-      this.TEST_PUBKEY2
+      pubkey2
     );
     await app1.client.element(ConversationPage.nextButton).click();
     await app1.client.waitForExist(
@@ -318,10 +311,38 @@ module.exports = {
       5000
     );
 
+    // click away to close the current pane and make further FR possible
+    await app1.client.element(ConversationPage.globeButtonSection).click();
+
+  },
+
+  async startAppsAsFriends() {
+    const app1Props = {
+      mnemonic: this.TEST_MNEMONIC1,
+      displayName: this.TEST_DISPLAY_NAME1,
+      stubSnode: true,
+    };
+
+    const app2Props = {
+      mnemonic: this.TEST_MNEMONIC2,
+      displayName: this.TEST_DISPLAY_NAME2,
+      stubSnode: true,
+    };
+
+    const [app1, app2] = await Promise.all([
+      this.startAndStub(app1Props),
+      this.startAndStubN(app2Props, 2),
+    ]);
+
+    await this.makeFriends(app1, [app2, this.TEST_PUBKEY2]);
+
     return [app1, app2];
   },
 
-  async addFriendToNewClosedGroup(app, app2) {
+  async addFriendToNewClosedGroup(members, useSenderKeys) {
+
+    const [app, ...others] = members;
+
     await this.setValueWrapper(
       app,
       ConversationPage.closedGroupNameTextarea,
@@ -343,6 +364,13 @@ module.exports = {
     await app.client
       .element(ConversationPage.createClosedGroupMemberItemSelected)
       .isVisible().should.eventually.be.true;
+
+    if (useSenderKeys) {
+        // Select Sender Keys
+      await app.client
+      .element(ConversationPage.createClosedGroupSealedSenderToggle)
+      .click();
+    }
 
     // trigger the creation of the group
     await app.client
@@ -376,25 +404,29 @@ module.exports = {
       )
     ).should.eventually.be.true;
 
-    // next check app2 has been invited and has the group in its conversations
-    await app2.client.waitForExist(
+    await Promise.all(others.map(async app => {
+
+    // next check that other members have been invited and have the group in their conversations
+    await app.client.waitForExist(
       ConversationPage.rowOpenGroupConversationName(
         this.VALID_CLOSED_GROUP_NAME1
       ),
       6000
     );
     // open the closed group conversation on app2
-    await app2.client
+    await app.client
       .element(ConversationPage.conversationButtonSection)
       .click();
     await this.timeout(500);
-    await app2.client
+    await app.client
       .element(
         ConversationPage.rowOpenGroupConversationName(
           this.VALID_CLOSED_GROUP_NAME1
         )
       )
       .click();
+
+    }));
   },
 
   async linkApp2ToApp(app1, app2) {

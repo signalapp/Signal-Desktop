@@ -763,18 +763,30 @@
         secretKey: groupSecretKeyHex,
       });
 
-      const convo = await window.ConversationController.getOrCreateAndWait(
+      const ev = new Event('group');
+
+      ev.groupDetails = {
+        id: groupId,
+        name: groupName,
+        members: groupUpdate.members,
+        recipients: groupUpdate.members,
+        active: true,
+        expireTimer: 0,
+        avatar: '',
+      };
+
+      ev.confirm = () => {};
+
+      await onGroupReceived(ev);
+
+      const convo = await ConversationController.getOrCreateAndWait(
         groupId,
-        Message.GROUP
+        'group'
       );
 
-      convo.set('is_medium_group', true);
-      convo.set('active_at', Date.now());
-      convo.set('name', groupName);
+      convo.updateGroup(ev.groupDetails);
 
-      convo.setFriendRequestStatus(
-        window.friends.friendRequestStatusEnum.friends
-      );
+      appView.openConversation(groupId, {});
 
       // Subscribe to this group id
       messageReceiver.pollForAdditionalId(groupId);
