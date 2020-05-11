@@ -595,6 +595,7 @@
         isRss: this.isRss(),
         isClosable: this.isClosable(),
         isTyping: typingKeys.length > 0,
+        
         lastUpdated: this.get('timestamp'),
         name: this.getName(),
         profileName: this.getProfileName(),

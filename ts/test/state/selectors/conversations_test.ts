@@ -19,6 +19,7 @@ describe('state/selectors/conversations', () => {
           timestamp: 0,
           phoneNumber: 'notused',
           isArchived: false,
+          isSecondary: false,
 
           type: 'direct',
           isMe: false,
@@ -35,6 +36,7 @@ describe('state/selectors/conversations', () => {
           timestamp: 20,
           phoneNumber: 'notused',
           isArchived: false,
+          isSecondary: false,
 
           type: 'direct',
           isMe: false,
@@ -51,6 +53,7 @@ describe('state/selectors/conversations', () => {
           timestamp: 20,
           phoneNumber: 'notused',
           isArchived: false,
+          isSecondary: false,
 
           type: 'direct',
           isMe: false,
@@ -67,6 +70,7 @@ describe('state/selectors/conversations', () => {
           timestamp: 20,
           phoneNumber: 'notused',
           isArchived: false,
+          isSecondary: false,
 
           type: 'direct',
           isMe: false,
@@ -83,6 +87,7 @@ describe('state/selectors/conversations', () => {
           timestamp: 30,
           phoneNumber: 'notused',
           isArchived: false,
+          isSecondary: false,
 
           type: 'direct',
           isMe: false,

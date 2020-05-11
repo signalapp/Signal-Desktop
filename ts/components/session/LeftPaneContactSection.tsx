@@ -247,6 +247,8 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     const hasReceivedFriendRequest =
       this.props.receivedFriendsRequest.length > 0;
 
+     console.log('[vince] this.props:', this.props);
+
     return (
       <div className="left-pane-contact-content">
         {this.renderList()}
@@ -322,14 +324,15 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   private renderList() {
     const { sentFriendsRequest } = this.props;
 
-    const visibleFriendRequests = sentFriendsRequest.filter(
-      device => !device.isSecondary
-    );
+    console.log('[vince] this.props.friends:', this.props.friends);
+    console.log('[vince] sentFriendsRequest:', sentFriendsRequest);
 
     const friends = window.getFriendsFromContacts(this.props.friends);
     const length =
-      Number(visibleFriendRequests.length) + Number(friends.length);
-    const combined = [...visibleFriendRequests, ...friends];
+      Number(sentFriendsRequest.length) + Number(friends.length);
+    
+    // prevent where friends and send FR showing two entries
+    const combined = [...new Set ([...sentFriendsRequest, ...friends])];
 
     const list = (
       <div className="module-left-pane__list" key={0}>

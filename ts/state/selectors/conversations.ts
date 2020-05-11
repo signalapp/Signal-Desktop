@@ -9,6 +9,10 @@ import {
   ConversationType,
 } from '../ducks/conversations';
 
+import {
+  getPrimaryDeviceFor
+} from '../../../js/modules/data';
+
 import { getIntl, getRegionCode, getUserNumber } from './user';
 import { PropsData as ConversationListItemPropsType } from '../../components/ConversationListItem';
 
@@ -102,6 +106,8 @@ export const _getLeftPaneLists = (
   sentFriendsRequest: Array<ConversationListItemPropsType>;
   unreadCount: number;
 } => {
+  const _ = window.Lodash;
+
   const values = Object.values(lookup);
   const sorted = values.sort(comparator);
 
@@ -114,6 +120,30 @@ export const _getLeftPaneLists = (
   const max = sorted.length;
   let unreadCount = 0;
 
+  // Map pubkeys to their primary pubkey so you don't need to call getPrimaryDeviceFor
+  // every time.
+
+  const filterToPrimary = async (conversation: ConversationType, filerGroup: Array<ConversationType | ConversationListItemPropsType>) => {
+    // Used to ensure that only the primary device gets added  to LeftPane filtered groups
+    // Get one result per user. Dont just ignore secondaries, in case
+    // a user hasn't synced with primary but FR or contact is duplicated.
+
+    const primaryPubkey = conversation.isSecondary
+      ? await getPrimaryDeviceFor(conversation.id)
+      : conversation.id;
+
+    const primaryConversation = conversation.isSecondary
+      ? conversations.find(c => c.id === primaryPubkey)
+      : conversation;
+
+    if (!_.includes(filerGroup, primaryConversation)) {
+      // Push secondary to array only if private pubkey not found
+      filerGroup.push(primaryConversation || conversation);
+    }
+
+    return primaryConversation;
+  };
+
   for (let i = 0; i < max; i += 1) {
     let conversation = sorted[i];
 
@@ -125,11 +155,11 @@ export const _getLeftPaneLists = (
     }
 
     if (conversation.isFriend && conversation.activeAt !== undefined) {
-      friends.push(conversation);
+      void filterToPrimary(conversation, friends);
     }
 
     if (conversation.hasReceivedFriendRequest) {
-      receivedFriendsRequest.push(conversation);
+      void filterToPrimary(conversation, receivedFriendsRequest);
     } else if (
       unreadCount < 9 &&
       conversation.isFriend &&
@@ -138,7 +168,7 @@ export const _getLeftPaneLists = (
       unreadCount += conversation.unreadCount;
     }
     if (conversation.hasSentFriendRequest) {
-      sentFriendsRequest.push(conversation);
+      void filterToPrimary(conversation, sentFriendsRequest);
     }
 
     if (!conversation.activeAt) {
