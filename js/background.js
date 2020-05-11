@@ -904,10 +904,6 @@
       window.setSettingValue('link-preview-setting', false);
     }
 
-    // Render onboarding message from LeftPaneMessageSection
-    // unless user turns it off during their session
-    window.setSettingValue('render-message-onboarding', true);
-
     // Generates useful random ID for various purposes
     window.generateID = () =>
       Math.random()

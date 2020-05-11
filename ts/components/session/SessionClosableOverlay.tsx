@@ -11,11 +11,18 @@ import {
   SessionButtonType,
 } from './SessionButton';
 import { SessionSpinner } from './SessionSpinner';
-import { SessionGroupType } from './LeftPaneChannelSection';
+import { SessionClosableOverlayTypeContact } from './LeftPaneContactSection';
+import { SessionComposeToType } from './LeftPaneMessageSection';
 import { PillDivider } from './PillDivider';
 
+export const SessionClosableOverlayType = {
+    ...SessionComposeToType,
+    ...SessionClosableOverlayTypeContact,
+};
+export type SessionClosableOverlayType = SessionComposeToType | SessionClosableOverlayTypeContact;
+
 interface Props {
-  overlayMode: 'message' | 'contact' | SessionGroupType;
+  overlayMode: SessionClosableOverlayType;
   onChangeSessionID: any;
   onCloseClick: any;
   onButtonClick: any;
@@ -97,11 +104,11 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       onButtonClick,
     } = this.props;
 
-    const isAddContactView = overlayMode === 'contact';
-    const isMessageView = overlayMode === 'message';
+    const isAddContactView = overlayMode === SessionClosableOverlayType.Contact;
+    const isMessageView = overlayMode === SessionClosableOverlayType.Message;
 
-    const isOpenGroupView = overlayMode === SessionGroupType.Open;
-    const isClosedGroupView = overlayMode === SessionGroupType.Closed;
+    const isOpenGroupView = overlayMode === SessionClosableOverlayType.OpenGroup;
+    const isClosedGroupView = overlayMode === SessionClosableOverlayType.ClosedGroup;
 
     let title;
     let buttonText;
@@ -144,8 +151,10 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     const ourSessionID = window.textsecure.storage.user.getNumber();
 
     const contacts = this.getContacts();
+
     const noContactsForClosedGroup =
-      overlayMode === SessionGroupType.Closed && contacts.length === 0;
+      overlayMode === SessionClosableOverlayType.ClosedGroup && contacts.length === 0;
+
 
     return (
       <div className="module-left-pane-overlay">
@@ -201,7 +210,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
                 </div>
               ) : (
                 <div className="group-member-list__selection">
-                  {this.renderMemberList()}
+                  {this.renderMemberList(contacts)}
                 </div>
               )}
             </div>
@@ -245,8 +254,10 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     );
   }
 
-  private renderMemberList() {
-    const members = this.getContacts();
+  private renderMemberList(members: any) {
+
+    console.log('[vince] sdsdf:');
+    console.log('[vince] members:', members);
 
     return members.map((member: ContactType) => (
       <SessionMemberListItem
@@ -282,8 +293,12 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
   }
 
   private onGroupNameChanged(event: any) {
+
+    console.log('[vince] event:', event);
+
     this.setState({
       groupName: event,
     });
+
   }
 }

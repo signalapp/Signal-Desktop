@@ -11,7 +11,6 @@ import { LeftPaneSectionHeader } from './session/LeftPaneSectionHeader';
 import { ConversationType } from '../state/ducks/conversations';
 import { LeftPaneContactSection } from './session/LeftPaneContactSection';
 import { LeftPaneSettingSection } from './session/LeftPaneSettingSection';
-import { LeftPaneChannelSection } from './session/LeftPaneChannelSection';
 import { SessionIconType } from './session/icon';
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
@@ -103,8 +102,6 @@ export class LeftPane extends React.Component<Props, State> {
         return this.renderMessageSection();
       case SectionType.Contact:
         return this.renderContactSection();
-      case SectionType.Channel:
-        return this.renderChannelSection();
       case SectionType.Settings:
         return this.renderSettingSection();
       case SectionType.Moon:
@@ -178,31 +175,5 @@ export class LeftPane extends React.Component<Props, State> {
     const { isSecondaryDevice } = this.props;
 
     return <LeftPaneSettingSection isSecondaryDevice={isSecondaryDevice} />;
-  }
-
-  private renderChannelSection() {
-    const {
-      openConversationInternal,
-      conversations,
-      searchResults,
-      searchTerm,
-      isSecondaryDevice,
-      updateSearchTerm,
-      search,
-      clearSearch,
-    } = this.props;
-
-    return (
-      <LeftPaneChannelSection
-        openConversationInternal={openConversationInternal}
-        conversations={conversations}
-        searchResults={searchResults}
-        searchTerm={searchTerm}
-        isSecondaryDevice={isSecondaryDevice}
-        updateSearchTerm={updateSearchTerm}
-        search={search}
-        clearSearch={clearSearch}
-      />
-    );
   }
 }

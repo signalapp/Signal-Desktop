@@ -94,7 +94,7 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
       ) : (
         buttonLabel
       );
-
+;
       const button = (
         <SessionButton onClick={buttonClicked} key="compose" disabled={false}>
           {buttonContent}
@@ -128,7 +128,7 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
       );
     }
 
-    //Create the parent and add the children
+    // Create the parent and add the children
     return <div className="module-left-pane__header">{children}</div>;
   }
 

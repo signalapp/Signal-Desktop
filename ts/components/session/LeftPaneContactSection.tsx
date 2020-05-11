@@ -17,8 +17,10 @@ import {
 import { AutoSizer, List } from 'react-virtualized';
 import { validateNumber } from '../../types/PhoneNumber';
 import { ConversationType } from '../../state/ducks/conversations';
-import { SessionClosableOverlay } from './SessionClosableOverlay';
+import { SessionClosableOverlay, SessionClosableOverlayType } from './SessionClosableOverlay';
 import { MainViewController } from '../MainViewController';
+
+export enum SessionClosableOverlayTypeContact { Contact = 'contact'}
 
 export interface Props {
   searchTerm: string;
@@ -204,7 +206,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   private renderClosableOverlay() {
     return (
       <SessionClosableOverlay
-        overlayMode="contact"
+        overlayMode={SessionClosableOverlayType.Contact}
         onChangeSessionID={this.handleRecipientSessionIDChanged}
         onCloseClick={this.handleToggleOverlay}
         onButtonClick={this.handleOnAddContact}
