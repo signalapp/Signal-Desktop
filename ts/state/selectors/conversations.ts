@@ -102,41 +102,17 @@ export const _getLeftPaneLists = (
   sentFriendsRequest: Array<ConversationListItemPropsType>;
   unreadCount: number;
 } => {
-  const _ = window.Lodash;
-
   const values = Object.values(lookup);
   const sorted = values.sort(comparator);
 
   const conversations: Array<ConversationType> = [];
   const archivedConversations: Array<ConversationType> = [];
-  const friends: Array<ConversationType> = [];
-  const receivedFriendsRequest: Array<ConversationListItemPropsType> = [];
-  const sentFriendsRequest: Array<ConversationListItemPropsType> = [];
+  const allFriends: Array<ConversationType> = [];
+  const allReceivedFriendsRequest: Array<ConversationListItemPropsType> = [];
+  const allSentFriendsRequest: Array<ConversationListItemPropsType> = [];
 
   const max = sorted.length;
   let unreadCount = 0;
-
-  // Map pubkeys to their primary pubkey so you don't need to call getPrimaryDeviceFor
-  // every time.
-
-  const filterToPrimary = (group: Array<ConversationType | ConversationListItemPropsType>) => {
-    // Used to ensure that only the primary device gets added  to LeftPane filtered groups
-    // Get one result per user. Dont just ignore secondaries, in case
-    // a user hasn't synced with primary but FR or contact is duplicated.
-
-    // You can't just get the primary device for each conversation, as different
-    // devices might have seperate FR and contacts status, etc.
-
-    // Build up propsData into ConversationType
-    const constructedGroup = conversations.filter(c => group.some(g => c.id === g.id));
-    const filteredGroup = constructedGroup.filter(c => !(c.isSecondary && group.some(g => g.id === c.primaryDevice)));
-
-    console.log('[group] conversations:', conversations);
-    console.log('[group] group:', group);
-    console.log('[group] filteredGroup:', filteredGroup);
-
-    return filteredGroup;
-  };
 
   for (let i = 0; i < max; i += 1) {
     let conversation = sorted[i];
@@ -149,11 +125,11 @@ export const _getLeftPaneLists = (
     }
 
     if (conversation.isFriend && conversation.activeAt !== undefined) {
-      friends.push(conversation)
+      allFriends.push(conversation);
     }
 
     if (conversation.hasReceivedFriendRequest) {
-      receivedFriendsRequest.push(conversation)
+      allReceivedFriendsRequest.push(conversation);
     } else if (
       unreadCount < 9 &&
       conversation.isFriend &&
@@ -162,7 +138,7 @@ export const _getLeftPaneLists = (
       unreadCount += conversation.unreadCount;
     }
     if (conversation.hasSentFriendRequest) {
-      sentFriendsRequest.push(conversation);
+      allSentFriendsRequest.push(conversation);
     }
 
     if (!conversation.activeAt) {
@@ -176,8 +152,31 @@ export const _getLeftPaneLists = (
     }
   }
 
-  const vFriends = filterToPrimary(friends);
-  console.log('[group] vFriends:', vFriends);
+  const filterToPrimary = (
+    group: Array<ConversationType | ConversationListItemPropsType>
+  ) => {
+    // Used to ensure that only the primary device gets added to LeftPane filtered groups
+
+    const constructedGroup = conversations.filter(c =>
+      group.some(g => c.id === g.id)
+    );
+    // tslint:disable-next-line: no-unnecessary-local-variable
+    const filteredGroup = constructedGroup.filter(
+      (c, idx) =>
+        !(
+          c.isSecondary &&
+          constructedGroup.some(
+            g => !g.isSecondary && g.id === constructedGroup[idx].primaryDevice
+          )
+        )
+    );
+
+    return filteredGroup;
+  };
+
+  const friends = filterToPrimary(allFriends);
+  const receivedFriendsRequest = filterToPrimary(allReceivedFriendsRequest);
+  const sentFriendsRequest = filterToPrimary(allSentFriendsRequest);
 
   return {
     conversations,
