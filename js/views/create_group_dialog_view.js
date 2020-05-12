@@ -1,4 +1,4 @@
-/* global Whisper, i18n, textsecure, _ */
+/* global Whisper, i18n, textsecure, libloki, _ */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -153,6 +153,8 @@
         if (!Array.isArray(this.existingMembers)) {
           this.existingMembers = [];
         }
+
+        console.log('[vince] UpdateGroupMembersDialogView this AFTER', this);
       }
 
       this.$el.focus();
@@ -183,13 +185,30 @@
       const ourPK = textsecure.storage.user.getNumber();
       const allMembers = window.Lodash.concat(newMembers, [ourPK]);
 
+      
+
       // We need to NOT trigger an group update if the list of member is the same.
       const notPresentInOld = allMembers.filter(
         m => !this.existingMembers.includes(m)
       );
+
+      // Filter out all linked devices for cases in which one device
+      // exists in group, but hasn't yet synced with its other devices.
       const notPresentInNew = this.existingMembers.filter(
         m => !allMembers.includes(m)
       );
+
+      // Get all devices for notPresentInNew
+      const allDevicesOfMembersToRemove = [];
+      notPresentInNew.forEach(async member => {
+        const pairedDevices = await libloki.storage.getPairedDevicesFor(member);
+        allDevicesOfMembersToRemove.push(member, ...pairedDevices);
+      });
+
+      const allToRemove = allDevicesOfMembersToRemove.filter(
+        m => this.existingMembers.includes(m)
+      );
+
       // would be easer with _.xor but for some reason we do not have it
       const xor = notPresentInNew.concat(notPresentInOld);
       if (xor.length === 0) {
@@ -200,12 +219,21 @@
         return;
       }
 
-      window.doUpdateGroup(
-        this.groupId,
-        this.groupName,
-        allMembers,
-        this.avatarPath
-      );
+      console.log('[vince] allDevicesOfMembersToRemove:', allDevicesOfMembersToRemove);
+      console.log('[vince] allMembers:', allMembers);
+      console.log('[vince] notPresentInOld:', notPresentInOld);
+      console.log('[vince] notPresentInNew:', notPresentInNew);
+      console.log('[vince] xor:', xor);
+      console.log('[vince] allToRemove:', allToRemove);
+      
+      alert('returning earlyyyy');
+
+      // window.doUpdateGroup(
+      //   this.groupId,
+      //   this.groupName,
+      //   allMembers,
+      //   this.avatarPath
+      // );
     },
     close() {
       this.remove();

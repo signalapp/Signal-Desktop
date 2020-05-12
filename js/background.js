@@ -641,7 +641,6 @@
       const ev = new Event('message');
       ev.confirm = () => {};
 
-
       const convo = await ConversationController.getOrCreateAndWait(
         groupId,
         'group'
@@ -650,43 +649,64 @@
       if (convo.isClosedGroup()) {
         // when removing, remove all pubkeys associated with this
         // device to avoid sync delay issues and invalid group settings
-
+        
         // await window.libloki.storage.getPairedDevicesFor()
         const allPubkeys = members;
-        
+
         // for each pubkey, get its paired devices
 
         // we want to find all current members,
         // and  subtract members to get members to remove
         // membersToRemove = currentMembers - newMembers
-        
+
         // membersToAdd
 
         // first, get members to remove.
         // then for each user to remove, find its devices
         // if pubkey already in devices to remove, skip
         const currentMembers = convo.attributes.members;
-        
-        const membersToRemove = currentMembers.filter(member => !_.includes(members, member));
 
-        // console.log('[vince] members:', members);
-        // console.log('[vince] currentMembers:', currentMembers);
-        // console.log('[vince] membersToRemove:', membersToRemove);
+        const membersToRemove = currentMembers.filter(
+          member => !_.includes(members, member)
+        );
+
+        const allMembersToRemove = [];
+        membersToRemove.forEach(async member => {
+          const pairedDevices = await libloki.storage.getPairedDevicesFor(member);
+          allMembersToRemove.push(member, ...pairedDevices);
+
+          console.log('[vince] ALL DEVICES FOR THIS USER:', [member, ...pairedDevices]);
+        });
+
+        console.log('[vince] members:', members);
+        console.log('[vince] currentMembers:', currentMembers);
+        console.log('[vince] membersToRemove:', membersToRemove);
+        console.log('[vince] allMembersToRemove:', allMembersToRemove);
+
+        /// OOOOOH interesting. The member is already removed by the
+        // time this function is called
+
+
+
+        // For each of allMembersToRemove,
+        // if you exist in members,
 
 
         // allPubkeys.forEach(pubkey => {
-          
+
         // });
         // const pairedDevices = 5;
 
         // console.log('[vince] this.members:', this.get('members'));
         // console.log('[vince] providedGroupUpdate:', providedGroupUpdate);
         // console.log('[vince] groupUpdate:', groupUpdate);
-        
-        
-        console.log('[vince] doUpdateGroup: members:', members);
-      }
 
+        console.log('[vince] doUpdateGroup: members:', members);
+
+        // rturn early for testing
+        alert('return early for testing');
+        return;
+      }
 
       ev.data = {
         source: ourKey,
