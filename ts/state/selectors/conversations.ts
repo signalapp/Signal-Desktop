@@ -119,7 +119,7 @@ export const _getLeftPaneLists = (
   // Map pubkeys to their primary pubkey so you don't need to call getPrimaryDeviceFor
   // every time.
 
-  const filterToPrimary = (conversation: ConversationType, group: Array<ConversationType | ConversationListItemPropsType>) => {
+  const filterToPrimary = (group: Array<ConversationType | ConversationListItemPropsType>) => {
     // Used to ensure that only the primary device gets added  to LeftPane filtered groups
     // Get one result per user. Dont just ignore secondaries, in case
     // a user hasn't synced with primary but FR or contact is duplicated.
@@ -127,69 +127,15 @@ export const _getLeftPaneLists = (
     // You can't just get the primary device for each conversation, as different
     // devices might have seperate FR and contacts status, etc.
 
-    const primaryPubkey = conversation.primaryDevice;
-    const groupHasPrimary = group.some(c => c.id === primaryPubkey);
+    // Build up propsData into ConversationType
+    const constructedGroup = conversations.filter(c => group.some(g => c.id === g.id));
+    const filteredGroup = constructedGroup.filter(c => !(c.isSecondary && group.some(g => g.id === c.primaryDevice)));
 
-    if (!groupHasPrimary) {
-      group.push(conversation);
-    }
-
-    const constructedGroup = conversations.filter(c => _.includes(group, c.id));
-    
-    const newGroup = constructedGroup.filter(c => {
-      if (
-        c.isSecondary &&
-        group.some(g => g.id === c.primaryDevice)
-      ) {
-        return false;
-      }
-
-      return true;
-    });
-
-    console.log('[group] primaryPubkey:', primaryPubkey);
-    console.log('[group] groupHasPrimary:', groupHasPrimary);
-
+    console.log('[group] conversations:', conversations);
     console.log('[group] group:', group);
-    console.log('[vince] newGroup:', newGroup);
-    
-    // const isPrimary = !conversation.isSecondary;
+    console.log('[group] filteredGroup:', filteredGroup);
 
-    // // If no secondary or primary currently in group, add
-    // if (!groupHasPrimary) {
-    //   group.push(conversation);
-    // }
-
-    // if (clg) {
-    //   console.log('[group] conversation:', conversation);
-    //   console.log('[group] primaryPubkey:', primaryPubkey);
-    //   console.log('[group] group:', group);
-    //   console.log('[group] groupHasPrimary:', groupHasPrimary);
-
-    //   const qwer = conversations.filter(c => _.includes(group, c.id));
-    //   console.log('[group] constructedGroup:', qwer);
-    // }
-
-    // // If primary, but secondary already added to group, remove secondary
-    // if (isPrimary) {
-    //   // Build up propsData into ConversationType
-    //   const constructedGroup = conversations.filter(c => _.includes(group, c.id));
-
-    //   console.log('[group] primary, but secondary already added to group, remove secondary:');
-
-    //   constructedGroup.every(c => {
-    //     if (c.primaryDevice === primaryPubkey) {
-    //       const secondaryIndex = group.indexOf(c);
-    //       group.splice(secondaryIndex, 1);
-
-    //       // Early break; removed redundant secondary
-    //       return false;
-    //     }
-
-    //     return true;
-    //   });
-    // }
-
+    return filteredGroup;
   };
 
   for (let i = 0; i < max; i += 1) {
@@ -203,11 +149,11 @@ export const _getLeftPaneLists = (
     }
 
     if (conversation.isFriend && conversation.activeAt !== undefined) {
-      filterToPrimary(true, conversation, friends);
+      friends.push(conversation)
     }
 
     if (conversation.hasReceivedFriendRequest) {
-      filterToPrimary(false, conversation, receivedFriendsRequest);
+      receivedFriendsRequest.push(conversation)
     } else if (
       unreadCount < 9 &&
       conversation.isFriend &&
@@ -216,7 +162,7 @@ export const _getLeftPaneLists = (
       unreadCount += conversation.unreadCount;
     }
     if (conversation.hasSentFriendRequest) {
-      filterToPrimary(false, conversation, sentFriendsRequest);
+      sentFriendsRequest.push(conversation);
     }
 
     if (!conversation.activeAt) {
@@ -229,6 +175,9 @@ export const _getLeftPaneLists = (
       conversations.push(conversation);
     }
   }
+
+  const vFriends = filterToPrimary(friends);
+  console.log('[group] vFriends:', vFriends);
 
   return {
     conversations,
