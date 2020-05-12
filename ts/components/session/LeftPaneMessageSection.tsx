@@ -203,8 +203,6 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
   }
 
   public render(): JSX.Element {
-    const conversations = this.getCurrentConversations();
-
     return (
       <div className="session-left-pane-section-content">
         {this.renderHeader()}
