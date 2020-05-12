@@ -153,8 +153,6 @@
         if (!Array.isArray(this.existingMembers)) {
           this.existingMembers = [];
         }
-
-        console.log('[vince] UpdateGroupMembersDialogView this AFTER', this);
       }
 
       this.$el.focus();
@@ -181,35 +179,36 @@
       this.$el.append(this.dialogView.el);
       return this;
     },
-    onSubmit(newMembers) {
+    async onSubmit(newMembers) {
       const ourPK = textsecure.storage.user.getNumber();
       const allMembers = window.Lodash.concat(newMembers, [ourPK]);
-
-      
 
       // We need to NOT trigger an group update if the list of member is the same.
       const notPresentInOld = allMembers.filter(
         m => !this.existingMembers.includes(m)
       );
 
-      // Filter out all linked devices for cases in which one device
-      // exists in group, but hasn't yet synced with its other devices.
       const notPresentInNew = this.existingMembers.filter(
         m => !allMembers.includes(m)
       );
 
+
+      // Filter out all linked devices for cases in which one device
+      // exists in group, but hasn't yet synced with its other devices.
+      const getDevicesForRemoved = async () => {
+        const promises = notPresentInNew.map(member => libloki.storage.getPairedDevicesFor(member));
+        const devices = window.Lodash.flatten(await Promise.all(promises));
+
+        return devices;
+      }
+
       // Get all devices for notPresentInNew
-      const allDevicesOfMembersToRemove = [];
-      notPresentInNew.forEach(async member => {
-        const pairedDevices = await libloki.storage.getPairedDevicesFor(member);
-        allDevicesOfMembersToRemove.push(member, ...pairedDevices);
-      });
+      const allDevicesOfMembersToRemove = await getDevicesForRemoved();
+      
+      // If any extra devices of removed exist in newMembers, ensure that you filter them
+      const filteredMemberes = allMembers.filter(member => !(window.Lodash.includes(allDevicesOfMembersToRemove, member)));
 
-      const allToRemove = allDevicesOfMembersToRemove.filter(
-        m => this.existingMembers.includes(m)
-      );
-
-      // would be easer with _.xor but for some reason we do not have it
+      // Would be easer with _.xor but for some reason we do not have it
       const xor = notPresentInNew.concat(notPresentInOld);
       if (xor.length === 0) {
         window.console.log(
@@ -224,14 +223,17 @@
       console.log('[vince] notPresentInOld:', notPresentInOld);
       console.log('[vince] notPresentInNew:', notPresentInNew);
       console.log('[vince] xor:', xor);
-      console.log('[vince] allToRemove:', allToRemove);
+
+      console.log('[vince] filteredMemberes:', filteredMemberes);
       
       alert('returning earlyyyy');
+
+
 
       // window.doUpdateGroup(
       //   this.groupId,
       //   this.groupName,
-      //   allMembers,
+      //   filteredMemberes,
       //   this.avatarPath
       // );
     },
