@@ -595,7 +595,6 @@
         isRss: this.isRss(),
         isClosable: this.isClosable(),
         isTyping: typingKeys.length > 0,
-        
         lastUpdated: this.get('timestamp'),
         name: this.getName(),
         profileName: this.getProfileName(),
@@ -608,6 +607,7 @@
         hasSentFriendRequest: this.hasSentFriendRequest(),
         isBlocked: this.isBlocked(),
         isSecondary: !!this.get('secondaryStatus'),
+        primaryDevice: this.getPrimaryDevicePubKey(),
         phoneNumber: format(this.id, {
           ourRegionCode: regionCode,
         }),

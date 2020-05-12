@@ -20,6 +20,7 @@ describe('state/selectors/conversations', () => {
           phoneNumber: 'notused',
           isArchived: false,
           isSecondary: false,
+          primaryDevice: 'id1',
 
           type: 'direct',
           isMe: false,
@@ -37,6 +38,7 @@ describe('state/selectors/conversations', () => {
           phoneNumber: 'notused',
           isArchived: false,
           isSecondary: false,
+          primaryDevice: 'id2',
 
           type: 'direct',
           isMe: false,
@@ -54,6 +56,7 @@ describe('state/selectors/conversations', () => {
           phoneNumber: 'notused',
           isArchived: false,
           isSecondary: false,
+          primaryDevice: 'id3',
 
           type: 'direct',
           isMe: false,
@@ -71,6 +74,7 @@ describe('state/selectors/conversations', () => {
           phoneNumber: 'notused',
           isArchived: false,
           isSecondary: false,
+          primaryDevice: 'id4',
 
           type: 'direct',
           isMe: false,
@@ -88,6 +92,7 @@ describe('state/selectors/conversations', () => {
           phoneNumber: 'notused',
           isArchived: false,
           isSecondary: false,
+          primaryDevice: 'id5',
 
           type: 'direct',
           isMe: false,

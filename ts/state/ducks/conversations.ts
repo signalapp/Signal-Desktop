@@ -54,6 +54,7 @@ export type ConversationType = {
   isTyping: boolean;
   isFriend?: boolean;
   isSecondary?: boolean;
+  primaryDevice: string;
   hasReceivedFriendRequest?: boolean;
   hasSentFriendRequest?: boolean;
 };
