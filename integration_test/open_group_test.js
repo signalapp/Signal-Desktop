@@ -24,43 +24,12 @@ describe('Open groups', function() {
     await common.killallElectron();
   });
 
-  // reduce code duplication to get the initial join
-  async function joinOpenGroup(url, name) {
-    await app.client.element(ConversationPage.globeButtonSection).click();
-    await app.client.element(ConversationPage.joinOpenGroupButton).click();
-
-    await common.setValueWrapper(app, ConversationPage.openGroupInputUrl, url);
-    await app.client
-      .element(ConversationPage.openGroupInputUrl)
-      .getValue()
-      .should.eventually.equal(url);
-    await app.client.element(ConversationPage.joinOpenGroupButton).click();
-
-    // validate session loader is shown
-    await app.client.isExisting(ConversationPage.sessionLoader).should
-      .eventually.be.true;
-    // account for slow home internet connection delays...
-    await app.client.waitForExist(
-      ConversationPage.sessionToastJoinOpenGroupSuccess,
-      60 * 1000
-    );
-
-    // validate overlay is closed
-    await app.client.isExisting(ConversationPage.leftPaneOverlay).should
-      .eventually.be.false;
-
-    // validate open chat has been added
-    await app.client.isExisting(
-      ConversationPage.rowOpenGroupConversationName(name)
-    ).should.eventually.be.true;
-  }
-
   it('openGroup: works with valid open group url', async () => {
-    await joinOpenGroup(common.VALID_GROUP_URL, common.VALID_GROUP_NAME);
+    await common.joinOpenGroup(app, common.VALID_GROUP_URL, common.VALID_GROUP_NAME);
   });
 
   it('openGroup: cannot join two times the same open group', async () => {
-    await joinOpenGroup(common.VALID_GROUP_URL2, common.VALID_GROUP_NAME2);
+    await common.joinOpenGroup(app, common.VALID_GROUP_URL2, common.VALID_GROUP_NAME2);
 
     // adding a second time the same open group
     await app.client.element(ConversationPage.globeButtonSection).click();

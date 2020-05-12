@@ -397,7 +397,7 @@ module.exports = {
       .click();
   },
 
-  async linkApp2ToApp(app1, app2) {
+  async linkApp2ToApp(app1, app2, app1Pubkey) {
     // app needs to be logged in as user1 and app2 needs to be logged out
     // start the pairing dialog for the first app
     await app1.client.element(SettingsPage.settingsButtonSection).click();
@@ -422,7 +422,7 @@ module.exports = {
     await this.setValueWrapper(
       app2,
       RegistrationPage.textareaLinkDevicePubkey,
-      this.TEST_PUBKEY1
+      app1Pubkey
     );
     await app2.client.element(RegistrationPage.linkDeviceTriggerButton).click();
     await app1.client.waitForExist(RegistrationPage.toastWrapper, 7000);
@@ -458,7 +458,7 @@ module.exports = {
     // validate primary pubkey of app2 is the same that in app1
     await app2.webContents
       .executeJavaScript("window.storage.get('primaryDevicePubKey')")
-      .should.eventually.be.equal(this.TEST_PUBKEY1);
+      .should.eventually.be.equal(app1Pubkey);
   },
 
   async triggerUnlinkApp2FromApp(app1, app2) {
@@ -591,6 +591,36 @@ module.exports = {
     } else {
       this.messages = {};
     }
+  },
+
+  async joinOpenGroup(app, openGroupUrl, name) {
+    await app.client.element(ConversationPage.globeButtonSection).click();
+    await app.client.element(ConversationPage.joinOpenGroupButton).click();
+
+    await this.setValueWrapper(app, ConversationPage.openGroupInputUrl, openGroupUrl);
+    await app.client
+      .element(ConversationPage.openGroupInputUrl)
+      .getValue()
+      .should.eventually.equal(openGroupUrl);
+    await app.client.element(ConversationPage.joinOpenGroupButton).click();
+
+    // validate session loader is shown
+    await app.client.isExisting(ConversationPage.sessionLoader).should
+      .eventually.be.true;
+    // account for slow home internet connection delays...
+    await app.client.waitForExist(
+      ConversationPage.sessionToastJoinOpenGroupSuccess,
+      60 * 1000
+    );
+
+    // validate overlay is closed
+    await app.client.isExisting(ConversationPage.leftPaneOverlay).should
+      .eventually.be.false;
+
+    // validate open chat has been added
+    await app.client.isExisting(
+      ConversationPage.rowOpenGroupConversationName(name)
+    ).should.eventually.be.true;
   },
 
   async stopStubSnodeServer() {

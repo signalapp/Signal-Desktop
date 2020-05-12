@@ -37,11 +37,11 @@ describe('Link Device', function() {
   });
 
   it('linkDevice: link two desktop devices', async () => {
-    await common.linkApp2ToApp(app, app2);
+    await common.linkApp2ToApp(app, app2, common.TEST_PUBKEY1);
   });
 
   it('linkDevice: unlink two devices', async () => {
-    await common.linkApp2ToApp(app, app2);
+    await common.linkApp2ToApp(app, app2, common.TEST_PUBKEY1);
     await common.timeout(1000);
     await common.triggerUnlinkApp2FromApp(app, app2);
   });
