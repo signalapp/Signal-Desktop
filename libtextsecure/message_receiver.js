@@ -1427,10 +1427,6 @@ MessageReceiver.prototype.extend({
       );
     }
 
-    console.log('[vince] THIS IS A syncMessage:');
-    console.log('[vince] envelope:', envelope);
-    console.log('[vince] syncMessage:', syncMessage);
-
     if (syncMessage.sent) {
       const sentMessage = syncMessage.sent;
       const to = sentMessage.message.group

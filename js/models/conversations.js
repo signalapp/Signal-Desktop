@@ -2235,8 +2235,6 @@
       });
       message.set({ id });
 
-      console.log('[vince] conversations.js --> groupUpdate:', groupUpdate);
-
       const options = this.getSendOptions();
       message.send(
         this.wrapSend(
@@ -2274,31 +2272,31 @@
         const groupNumbers = this.getRecipients();
         this.set({ left: true });
 
-        // await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        //   Conversation: Whisper.Conversation,
-        // });
+        await window.Signal.Data.updateConversation(this.id, this.attributes, {
+          Conversation: Whisper.Conversation,
+        });
 
-        // const message = this.messageCollection.add({
-        //   group_update: { left: 'You' },
-        //   conversationId: this.id,
-        //   type: 'outgoing',
-        //   sent_at: now,
-        //   received_at: now,
-        // });
+        const message = this.messageCollection.add({
+          group_update: { left: 'You' },
+          conversationId: this.id,
+          type: 'outgoing',
+          sent_at: now,
+          received_at: now,
+        });
 
-        // const id = await window.Signal.Data.saveMessage(message.attributes, {
-        //   Message: Whisper.Message,
-        // });
-        // message.set({ id });
+        const id = await window.Signal.Data.saveMessage(message.attributes, {
+          Message: Whisper.Message,
+        });
+        message.set({ id });
 
-        // const options = this.getSendOptions();
-        // message.send(
-        //   this.wrapSend(
-        //     textsecure.messaging.leaveGroup(this.id, groupNumbers, options)
-        //   )
-        // );
+        const options = this.getSendOptions();
+        message.send(
+          this.wrapSend(
+            textsecure.messaging.leaveGroup(this.id, groupNumbers, options)
+          )
+        );
 
-        // this.updateTextInputState();
+        this.updateTextInputState();
       }
     },
 
