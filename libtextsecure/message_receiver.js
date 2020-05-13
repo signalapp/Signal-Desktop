@@ -1252,9 +1252,7 @@ MessageReceiver.prototype.extend({
 
         if (!friendRequest && this.isMessageEmpty(message)) {
           window.log.warn(
-            `Message ${this.getEnvelopeId(
-              envelope
-            )} ignored; it was empty`
+            `Message ${this.getEnvelopeId(envelope)} ignored; it was empty`
           );
           return this.removeFromCache(envelope);
         }
@@ -1274,8 +1272,26 @@ MessageReceiver.prototype.extend({
       })
     );
   },
-  isMessageEmpty({ body, attachments, group, flags, quote, contact, preview, groupInvitation }) {
-    return !flags && _.isEmpty(body) && _.isEmpty(attachments) && _.isEmpty(group) && _.isEmpty(quote) && _.isEmpty(contact) && _.isEmpty(preview) && _.isEmpty(groupInvitation)
+  isMessageEmpty({
+    body,
+    attachments,
+    group,
+    flags,
+    quote,
+    contact,
+    preview,
+    groupInvitation,
+  }) {
+    return (
+      !flags &&
+      _.isEmpty(body) &&
+      _.isEmpty(attachments) &&
+      _.isEmpty(group) &&
+      _.isEmpty(quote) &&
+      _.isEmpty(contact) &&
+      _.isEmpty(preview) &&
+      _.isEmpty(groupInvitation)
+    );
   },
   handleLegacyMessage(envelope) {
     return this.decrypt(envelope, envelope.legacyMessage).then(plaintext => {
