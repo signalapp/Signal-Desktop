@@ -144,7 +144,8 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     style,
   }: RowRendererParamsType): JSX.Element | undefined => {
     const { sentFriendsRequest } = this.props;
-    const friends = window.getFriendsFromContacts(this.props.friends);
+    const contacts = this.props.friends.filter(f => f.type === 'direct');
+    const friends = window.getFriendsFromContacts(contacts);
     const combined = [...sentFriendsRequest, ...friends];
     const item = combined[index];
 
