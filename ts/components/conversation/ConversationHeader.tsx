@@ -441,22 +441,15 @@ export class ConversationHeader extends React.Component<Props> {
       isGroup,
       isFriend,
       isKickedFromGroup,
-      // isArchived,
       isPublic,
       isRss,
       onResetSession,
       onSetDisappearingMessages,
-      // onShowAllMedia,
       onShowGroupMembers,
       onShowSafetyNumber,
-      // onArchive,
-      // onMoveToInbox,
       timerOptions,
       onBlockUser,
       onUnblockUser,
-      // hasNickname,
-      // onClearNickname,
-      // onChangeNickname,
     } = this.props;
 
     if (isPublic || isRss) {
@@ -499,34 +492,14 @@ export class ConversationHeader extends React.Component<Props> {
     const blockHandlerMenuItem = !isMe &&
       !isGroup &&
       !isRss && <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>;
-    // const changeNicknameMenuItem = !isMe &&
-    //   !isGroup && (
-    //     <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>
-    //   );
-    // const clearNicknameMenuItem = !isMe &&
-    //   !isGroup &&
-    //   hasNickname && (
-    //     <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
-    //   );
-    // const archiveConversationMenuItem = isArchived ? (
-    //   <MenuItem onClick={onMoveToInbox}>
-    //     {i18n('moveConversationToInbox')}
-    //   </MenuItem>
-    // ) : (
-    //   <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
-    // );
 
     return (
       <React.Fragment>
-        {/* <MenuItem onClick={onShowAllMedia}>{i18n('viewAllMedia')}</MenuItem> */}
         {disappearingMessagesMenuItem}
         {showMembersMenuItem}
         {showSafetyNumberMenuItem}
         {resetSessionMenuItem}
         {blockHandlerMenuItem}
-        {/* {changeNicknameMenuItem}
-        {clearNicknameMenuItem} */}
-        {/* {archiveConversationMenuItem} */}
       </React.Fragment>
     );
   }
