@@ -8,7 +8,7 @@ import {
 
 export const MainViewController = {
   joinChannelStateManager,
-  onCreateClosedGroup,
+  createClosedGroup,
   renderMessageView,
   renderSettingsView,
 };
@@ -35,7 +35,6 @@ export class MessageView extends React.Component {
     );
   }
 }
-
 
 // /////////////////////////////////////
 // //////////// Management /////////////
@@ -106,7 +105,7 @@ function joinChannelStateManager(
   return true;
 }
 
-async function onCreateClosedGroup(
+async function createClosedGroup(
   groupName: string,
   groupMembers: Array<ContactType>,
   onSuccess: any
@@ -172,12 +171,10 @@ function renderSettingsView(category: SessionSettingCategory) {
   );
   if (document.getElementById('main-view')) {
     ReactDOM.render(
-      (
-        <SettingsView
-          category={category}
-          isSecondaryDevice={isSecondaryDevice}
-        />
-      ),
+      <SettingsView
+        category={category}
+        isSecondaryDevice={isSecondaryDevice}
+      />,
       document.getElementById('main-view')
     );
   }

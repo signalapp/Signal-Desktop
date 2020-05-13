@@ -17,7 +17,10 @@ import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SearchOptions } from '../../types/Search';
 import { validateNumber } from '../../types/PhoneNumber';
 import { LeftPane, RowRendererParamsType } from '../LeftPane';
-import { SessionClosableOverlay } from './SessionClosableOverlay';
+import {
+  SessionClosableOverlay,
+  SessionClosableOverlayType,
+} from './SessionClosableOverlay';
 import { SessionIconType } from './icon';
 import { ContactType } from './SessionMemberListItem';
 import {
@@ -91,14 +94,15 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
     this.handleMessageButtonClick = this.handleMessageButtonClick.bind(this);
 
-    this.handleNewSessionButtonClick = this.handleNewSessionButtonClick.bind(this);
+    this.handleNewSessionButtonClick = this.handleNewSessionButtonClick.bind(
+      this
+    );
     this.handleJoinChannelButtonClick = this.handleJoinChannelButtonClick.bind(
       this
     );
-    this.handleCreateClosedGroupButtonClick = this.handleCreateClosedGroupButtonClick.bind(this);
+    this.onCreateClosedGroup = this.onCreateClosedGroup.bind(this);
 
     this.renderClosableOverlay = this.renderClosableOverlay.bind(this);
-
     this.debouncedSearch = debounce(this.search.bind(this), 20);
   }
 
@@ -258,8 +262,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     }
 
     // reset our pubKeyPasted, we can either have a pasted sessionID or a sessionID got from a search
-    this.setState({ valuePasted:  '' });
-
+    this.setState({ valuePasted: '' });
 
     if (updateSearchTerm) {
       updateSearchTerm(searchTerm);
@@ -301,7 +304,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     const openGroupElement = (
       <SessionClosableOverlay
-        overlayMode={SessionComposeToType.OpenGroup}
+        overlayMode={SessionClosableOverlayType.OpenGroup}
         onChangeSessionID={this.handleOnPaste}
         onCloseClick={() => {
           this.handleToggleOverlay(undefined);
@@ -315,7 +318,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     const closedGroupElement = (
       <SessionClosableOverlay
-        overlayMode={SessionComposeToType.ClosedGroup}
+        overlayMode={SessionClosableOverlayType.ClosedGroup}
         onChangeSessionID={this.handleOnPaste}
         onCloseClick={() => {
           this.handleToggleOverlay(undefined);
@@ -323,7 +326,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         onButtonClick={async (
           groupName: string,
           groupMembers: Array<ContactType>
-        ) => this.handleCreateClosedGroupButtonClick(groupName, groupMembers)}
+        ) => this.onCreateClosedGroup(groupName, groupMembers)}
         searchTerm={searchTerm}
         updateSearch={this.updateSearchBound}
         showSpinner={loading}
@@ -332,7 +335,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     const messageElement = (
       <SessionClosableOverlay
-        overlayMode={SessionComposeToType.Message}
+        overlayMode={SessionClosableOverlayType.Message}
         onChangeSessionID={this.handleOnPaste}
         onCloseClick={() => {
           this.handleToggleOverlay(undefined);
@@ -398,11 +401,9 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   private handleToggleOverlay(conversationType?: SessionComposeToType) {
     const { overlay } = this.state;
 
-    const overlayState = overlay
-      ? false
-      : conversationType || false;
+    const overlayState = overlay ? false : conversationType || false;
 
-    this.setState({ overlay: overlayState});
+    this.setState({ overlay: overlayState });
 
     // empty our generalized searchedString (one for the whole app)
     this.updateSearch('');
@@ -439,7 +440,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       });
     }
   }
-
 
   private handleJoinChannelButtonClick(groupUrl: string) {
     const { loading } = this.state;
@@ -478,14 +478,14 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     return true;
   }
 
-  private async handleCreateClosedGroupButtonClick (
+  private async onCreateClosedGroup(
     groupName: string,
     groupMembers: Array<ContactType>
   ) {
     // console.log('[vince] groupName:', groupName);
     // console.log('[vince] groupMembers:', groupMembers);
 
-    await MainViewController.onCreateClosedGroup(groupName, groupMembers, () => {
+    await MainViewController.createClosedGroup(groupName, groupMembers, () => {
       this.handleToggleOverlay(undefined);
 
       window.pushToast({
@@ -498,6 +498,4 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   private handleNewSessionButtonClick() {
     this.handleToggleOverlay(SessionComposeToType.Message);
   }
-
 }
-

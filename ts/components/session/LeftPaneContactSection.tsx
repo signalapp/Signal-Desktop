@@ -17,10 +17,11 @@ import {
 import { AutoSizer, List } from 'react-virtualized';
 import { validateNumber } from '../../types/PhoneNumber';
 import { ConversationType } from '../../state/ducks/conversations';
-import { SessionClosableOverlay, SessionClosableOverlayType } from './SessionClosableOverlay';
+import {
+  SessionClosableOverlay,
+  SessionClosableOverlayType,
+} from './SessionClosableOverlay';
 import { MainViewController } from '../MainViewController';
-
-export enum SessionClosableOverlayTypeContact { Contact = 'contact'}
 
 export interface Props {
   searchTerm: string;

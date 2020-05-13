@@ -11,15 +11,14 @@ import {
   SessionButtonType,
 } from './SessionButton';
 import { SessionSpinner } from './SessionSpinner';
-import { SessionClosableOverlayTypeContact } from './LeftPaneContactSection';
-import { SessionComposeToType } from './LeftPaneMessageSection';
 import { PillDivider } from './PillDivider';
 
-export const SessionClosableOverlayType = {
-    ...SessionComposeToType,
-    ...SessionClosableOverlayTypeContact,
-};
-export type SessionClosableOverlayType = SessionComposeToType | SessionClosableOverlayTypeContact;
+export enum SessionClosableOverlayType {
+  Contact = 'contact',
+  Message = 'message',
+  OpenGroup = 'open-group',
+  ClosedGroup = 'closed-group',
+}
 
 interface Props {
   overlayMode: SessionClosableOverlayType;
@@ -50,7 +49,10 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     };
 
     this.inputRef = React.createRef();
+    this.onKeyUp = this.onKeyUp.bind(this);
     this.onGroupNameChanged = this.onGroupNameChanged.bind(this);
+
+    window.addEventListener('keyup', this.onKeyUp);
   }
 
   public componentDidMount() {
@@ -106,9 +108,10 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
 
     const isAddContactView = overlayMode === SessionClosableOverlayType.Contact;
     const isMessageView = overlayMode === SessionClosableOverlayType.Message;
-
-    const isOpenGroupView = overlayMode === SessionClosableOverlayType.OpenGroup;
-    const isClosedGroupView = overlayMode === SessionClosableOverlayType.ClosedGroup;
+    const isOpenGroupView =
+      overlayMode === SessionClosableOverlayType.OpenGroup;
+    const isClosedGroupView =
+      overlayMode === SessionClosableOverlayType.ClosedGroup;
 
     let title;
     let buttonText;
@@ -153,8 +156,8 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     const contacts = this.getContacts();
 
     const noContactsForClosedGroup =
-      overlayMode === SessionClosableOverlayType.ClosedGroup && contacts.length === 0;
-
+      overlayMode === SessionClosableOverlayType.ClosedGroup &&
+      contacts.length === 0;
 
     return (
       <div className="module-left-pane-overlay">
@@ -202,7 +205,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         {isClosedGroupView && (
           <>
             <div className="spacer-lg" />
-
             <div className="group-member-list__container">
               {noContactsForClosedGroup ? (
                 <div className="group-member-list__no-contacts">
@@ -255,10 +257,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
   }
 
   private renderMemberList(members: any) {
-
-    console.log('[vince] sdsdf:');
-    console.log('[vince] members:', members);
-
     return members.map((member: ContactType) => (
       <SessionMemberListItem
         member={member}
@@ -293,12 +291,15 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
   }
 
   private onGroupNameChanged(event: any) {
-
-    console.log('[vince] event:', event);
-
     this.setState({
       groupName: event,
     });
+  }
 
+  private onKeyUp(event: any) {
+    if (event.key === 'Escape') {
+      window.removeEventListener('keyup', this.onKeyUp);
+      this.props.onCloseClick();
+    }
   }
 }
