@@ -322,6 +322,9 @@ module.exports = {
   },
 
   async addFriendToNewClosedGroup(app, app2) {
+    await app.client.element(ConversationPage.globeButtonSection).click();
+    await app.client.element(ConversationPage.createClosedGroupButton).click();
+
     await this.setValueWrapper(
       app,
       ConversationPage.closedGroupNameTextarea,
@@ -425,17 +428,17 @@ module.exports = {
       app1Pubkey
     );
     await app2.client.element(RegistrationPage.linkDeviceTriggerButton).click();
-    await app1.client.waitForExist(RegistrationPage.toastWrapper, 7000);
-    let secretWordsapp1 = await app1.client
-      .element(RegistrationPage.secretToastDescription)
+    await app1.client.waitForExist(SettingsPage.secretWordsTextInDialog, 7000);
+    const secretWordsapp1 = await app1.client
+      .element(SettingsPage.secretWordsTextInDialog)
       .getText();
-    secretWordsapp1 = secretWordsapp1.split(': ')[1];
-
     await app2.client.waitForExist(RegistrationPage.toastWrapper, 6000);
     await app2.client
       .element(RegistrationPage.secretToastDescription)
       .getText()
       .should.eventually.be.equal(secretWordsapp1);
+
+
     await app1.client.element(ConversationPage.allowPairingButton).click();
     await app1.client.element(ConversationPage.okButton).click();
     // validate device paired in settings list with correct secrets
@@ -543,11 +546,6 @@ module.exports = {
     app1.webContents.executeJavaScript(
       'window.LokiMessageAPI = window.StubMessageAPI;'
     );
-  },
-
-  logsContainsString: async (app1, str) => {
-    const logs = JSON.stringify(await app1.client.getRenderProcessLogs());
-    return logs.includes(str);
   },
 
   async startStubSnodeServer() {

@@ -28,9 +28,6 @@ describe('Message Functions', function() {
   });
 
   it('can send attachment', async () => {
-    await app.client.element(ConversationPage.globeButtonSection).click();
-    await app.client.element(ConversationPage.createClosedGroupButton).click();
-
     // create group and add new friend
     await common.addFriendToNewClosedGroup(app, app2);
 
