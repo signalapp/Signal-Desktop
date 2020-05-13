@@ -482,9 +482,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     groupName: string,
     groupMembers: Array<ContactType>
   ) {
-    // console.log('[vince] groupName:', groupName);
-    // console.log('[vince] groupMembers:', groupMembers);
-
     await MainViewController.createClosedGroup(groupName, groupMembers, () => {
       this.handleToggleOverlay(undefined);
 
