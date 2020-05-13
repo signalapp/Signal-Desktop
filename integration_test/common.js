@@ -597,7 +597,11 @@ module.exports = {
     await app.client.element(ConversationPage.globeButtonSection).click();
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
 
-    await this.setValueWrapper(app, ConversationPage.openGroupInputUrl, openGroupUrl);
+    await this.setValueWrapper(
+      app,
+      ConversationPage.openGroupInputUrl,
+      openGroupUrl
+    );
     await app.client
       .element(ConversationPage.openGroupInputUrl)
       .getValue()
@@ -640,7 +644,8 @@ module.exports = {
     const found = renderLogs.some(log => log.message.includes(str));
 
     // eslint-disable-next-line no-unused-expressions
-    chai.expect(found, `'${str}' not found in logs but was expected`).to.be.true;
+    chai.expect(found, `'${str}' not found in logs but was expected`).to.be
+      .true;
   },
 
   // async killStubSnodeServer() {

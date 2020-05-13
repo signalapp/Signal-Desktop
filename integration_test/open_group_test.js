@@ -25,11 +25,19 @@ describe('Open groups', function() {
   });
 
   it('openGroup: works with valid open group url', async () => {
-    await common.joinOpenGroup(app, common.VALID_GROUP_URL, common.VALID_GROUP_NAME);
+    await common.joinOpenGroup(
+      app,
+      common.VALID_GROUP_URL,
+      common.VALID_GROUP_NAME
+    );
   });
 
   it('openGroup: cannot join two times the same open group', async () => {
-    await common.joinOpenGroup(app, common.VALID_GROUP_URL2, common.VALID_GROUP_NAME2);
+    await common.joinOpenGroup(
+      app,
+      common.VALID_GROUP_URL2,
+      common.VALID_GROUP_NAME2
+    );
 
     // adding a second time the same open group
     await app.client.element(ConversationPage.globeButtonSection).click();

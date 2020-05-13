@@ -666,9 +666,15 @@ MessageSender.prototype = {
     }
     // Extract required contacts information out of conversations
     const sessionContacts = conversations.filter(
-      c => c.isPrivate() && !c.isSecondaryDevice() && c.isFriend()
+      c =>
+        c.isPrivate() &&
+        !c.isSecondaryDevice() &&
+        c.isFriend() &&
+        !c.isOurLocalDevice()
     );
     if (sessionContacts.length === 0) {
+      window.console.info('No contacts to sync.');
+
       return Promise.resolve();
     }
     // We need to sync across 3 contacts at a time
