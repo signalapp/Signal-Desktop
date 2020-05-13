@@ -15,11 +15,11 @@
     },
     {
       "ip": "storage.seed2.loki.network",
-      "port": "38157"
+      "port": "22023"
     },
     {
       "ip": "imaginary.stream",
-      "port": "38157"
+      "port": "22023"
     }
   ],
   "updatesEnabled": false,
