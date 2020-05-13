@@ -107,9 +107,9 @@ export const _getLeftPaneLists = (
 
   const conversations: Array<ConversationType> = [];
   const archivedConversations: Array<ConversationType> = [];
-  const friends: Array<ConversationType> = [];
-  const receivedFriendsRequest: Array<ConversationListItemPropsType> = [];
-  const sentFriendsRequest: Array<ConversationListItemPropsType> = [];
+  const allFriends: Array<ConversationType> = [];
+  const allReceivedFriendsRequest: Array<ConversationListItemPropsType> = [];
+  const allSentFriendsRequest: Array<ConversationListItemPropsType> = [];
 
   const max = sorted.length;
   let unreadCount = 0;
@@ -125,11 +125,11 @@ export const _getLeftPaneLists = (
     }
 
     if (conversation.isFriend && conversation.activeAt !== undefined) {
-      friends.push(conversation);
+      allFriends.push(conversation);
     }
 
     if (conversation.hasReceivedFriendRequest) {
-      receivedFriendsRequest.push(conversation);
+      allReceivedFriendsRequest.push(conversation);
     } else if (
       unreadCount < 9 &&
       conversation.isFriend &&
@@ -138,7 +138,7 @@ export const _getLeftPaneLists = (
       unreadCount += conversation.unreadCount;
     }
     if (conversation.hasSentFriendRequest) {
-      sentFriendsRequest.push(conversation);
+      allSentFriendsRequest.push(conversation);
     }
 
     if (!conversation.activeAt) {
@@ -151,6 +151,32 @@ export const _getLeftPaneLists = (
       conversations.push(conversation);
     }
   }
+
+  const filterToPrimary = (
+    group: Array<ConversationType | ConversationListItemPropsType>
+  ) => {
+    // Used to ensure that only the primary device gets added to LeftPane filtered groups
+
+    const constructedGroup = conversations.filter(c =>
+      group.some(g => c.id === g.id)
+    );
+    // tslint:disable-next-line: no-unnecessary-local-variable
+    const filteredGroup = constructedGroup.filter(
+      (c, idx) =>
+        !(
+          c.isSecondary &&
+          constructedGroup.some(
+            g => !g.isSecondary && g.id === constructedGroup[idx].primaryDevice
+          )
+        )
+    );
+
+    return filteredGroup;
+  };
+
+  const friends = filterToPrimary(allFriends);
+  const receivedFriendsRequest = filterToPrimary(allReceivedFriendsRequest);
+  const sentFriendsRequest = filterToPrimary(allSentFriendsRequest);
 
   return {
     conversations,
