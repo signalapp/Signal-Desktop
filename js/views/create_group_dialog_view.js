@@ -180,6 +180,7 @@
       return this;
     },
     async onSubmit(newMembers) {
+      const _ = window.Lodash;
       const ourPK = textsecure.storage.user.getNumber();
       const allMembers = window.Lodash.concat(newMembers, [ourPK]);
 
@@ -198,7 +199,7 @@
         const promises = notPresentInNew.map(member =>
           libloki.storage.getPairedDevicesFor(member)
         );
-        const devices = window.Lodash.flatten(await Promise.all(promises));
+        const devices = _.flatten(await Promise.all(promises));
 
         return devices;
       };
@@ -208,11 +209,10 @@
 
       // If any extra devices of removed exist in newMembers, ensure that you filter them
       const filteredMemberes = allMembers.filter(
-        member => !window.Lodash.includes(allDevicesOfMembersToRemove, member)
+        member => !_.includes(allDevicesOfMembersToRemove, member)
       );
 
-      // Would be easer with _.xor but for some reason we do not have it
-      const xor = notPresentInNew.concat(notPresentInOld);
+      const xor = _.xor(notPresentInNew, notPresentInOld);
       if (xor.length === 0) {
         window.console.log(
           'skipping group update: no detected changes in group member list'
