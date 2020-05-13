@@ -630,6 +630,19 @@ module.exports = {
     }
   },
 
+  /**
+   * Search for a string in logs
+   * @param {*} app the render logs to search in
+   * @param {*} str the string to search (not regex)
+   * Note: getRenderProcessLogs() clears the app logs each calls.
+   */
+  async logsContains(renderLogs, str) {
+    const found = renderLogs.some(log => log.message.includes(str));
+
+    // eslint-disable-next-line no-unused-expressions
+    chai.expect(found, `'${str}' not found in logs but was expected`).to.be.true;
+  },
+
   // async killStubSnodeServer() {
   //   return new Promise(resolve => {
   //     exec(
