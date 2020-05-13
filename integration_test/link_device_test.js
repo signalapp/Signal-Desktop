@@ -46,7 +46,7 @@ describe('Link Device', function() {
     await common.triggerUnlinkApp2FromApp(app, app2);
   });
 
-  describe('linkDevice:sync no groups, closed group, nor open groups', async () => {
+  it('linkDevice:sync no groups, closed group, nor open groups', async () => {
     await common.linkApp2ToApp(app, app2, common.TEST_PUBKEY1);
     await common.timeout(2000);
 

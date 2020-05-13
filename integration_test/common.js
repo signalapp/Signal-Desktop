@@ -29,19 +29,19 @@ module.exports = {
     'faxed mechanic mocked agony unrest loincloth pencil eccentric boyfriend oasis speedy ribbon faxed',
   TEST_PUBKEY1:
     '0552b85a43fb992f6bdb122a5a379505a0b99a16f0628ab8840249e2a60e12a413',
-  TEST_DISPLAY_NAME1: 'integration_tester_1',
+  TEST_DISPLAY_NAME1: 'tester_Alice',
 
   TEST_MNEMONIC2:
     'guide inbound jerseys bays nouns basin sulking awkward stockpile ostrich ascend pylons ascend',
   TEST_PUBKEY2:
     '054e1ca8681082dbd9aad1cf6fc89a32254e15cba50c75b5a73ac10a0b96bcbd2a',
-  TEST_DISPLAY_NAME2: 'integration_tester_2',
+  TEST_DISPLAY_NAME2: 'tester_Bob',
 
   TEST_MNEMONIC3:
     'alpine lukewarm oncoming blender kiwi fuel lobster upkeep vogue simplest gasp fully simplest',
   TEST_PUBKEY3:
     '05f8662b6e83da5a31007cc3ded44c601f191e07999acb6db2314a896048d9036c',
-  TEST_DISPLAY_NAME3: 'integration_tester_3',
+  TEST_DISPLAY_NAME3: 'tester_Charlie',
 
   /* **************  OPEN GROUPS  ****************** */
   VALID_GROUP_URL: 'https://chat.getsession.org',

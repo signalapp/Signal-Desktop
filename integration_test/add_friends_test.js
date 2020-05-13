@@ -29,7 +29,7 @@ describe('Add friends', function() {
 
     [app, app2] = await Promise.all([
       common.startAndStub(app1Props),
-      common.startAndStub2(app2Props),
+      common.startAndStubN(app2Props,2),
     ]);
   });
 
@@ -116,5 +116,13 @@ describe('Add friends', function() {
       ConversationPage.acceptedFriendRequestMessage,
       5000
     );
+
+    // app trigger the friend request logic first
+    const aliceLogs = await app.client.getRenderProcessLogs();
+    const bobLogs = await app2.client.getRenderProcessLogs();
+    await common.logsContains(aliceLogs, `Sending undefined:friend-request message to ${common.TEST_PUBKEY2}`);
+    await common.logsContains(bobLogs, `Received a NORMAL_FRIEND_REQUEST from source: ${common.TEST_PUBKEY1}, primarySource: ${common.TEST_PUBKEY1},`);
+    await common.logsContains(bobLogs, `Sending incoming-friend-request-accept:onlineBroadcast message to ${common.TEST_PUBKEY1}`);
+    await common.logsContains(aliceLogs, `Sending outgoing-friend-request-accepted:onlineBroadcast message to ${common.TEST_PUBKEY2}`);
   });
 });
