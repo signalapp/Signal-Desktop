@@ -607,6 +607,7 @@
         hasSentFriendRequest: this.hasSentFriendRequest(),
         isBlocked: this.isBlocked(),
         isSecondary: !!this.get('secondaryStatus'),
+        primaryDevice: this.getPrimaryDevicePubKey(),
         phoneNumber: format(this.id, {
           ourRegionCode: regionCode,
         }),

@@ -1429,7 +1429,12 @@ MessageReceiver.prototype.extend({
       );
       return this.removeFromCache(envelope);
     }
-
+    if (!friendRequest && this.isMessageEmpty(message)) {
+      window.log.warn(
+        `Message ${this.getEnvelopeId(envelope)} ignored; it was empty`
+      );
+      return this.removeFromCache(envelope);
+    }
     const ev = new Event('message');
     ev.confirm = this.removeFromCache.bind(this, envelope);
     ev.data = {
@@ -1442,6 +1447,27 @@ MessageReceiver.prototype.extend({
       message,
     };
     return this.dispatchAndWait(ev);
+  },
+  isMessageEmpty({
+    body,
+    attachments,
+    group,
+    flags,
+    quote,
+    contact,
+    preview,
+    groupInvitation,
+  }) {
+    return (
+      !flags &&
+      _.isEmpty(body) &&
+      _.isEmpty(attachments) &&
+      _.isEmpty(group) &&
+      _.isEmpty(quote) &&
+      _.isEmpty(contact) &&
+      _.isEmpty(preview) &&
+      _.isEmpty(groupInvitation)
+    );
   },
   handleLegacyMessage(envelope) {
     return this.decrypt(envelope, envelope.legacyMessage).then(plaintext => {
