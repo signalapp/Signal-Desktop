@@ -325,8 +325,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     const friends = window.getFriendsFromContacts(this.props.friends);
     const length = Number(sentFriendsRequest.length) + Number(friends.length);
 
-    // Prevent where friends and send FR showing two entries
-    const combined = [...new Set([...sentFriendsRequest, ...friends])];
+    const combined = [...sentFriendsRequest, ...friends];
 
     const list = (
       <div className="module-left-pane__list" key={0}>
