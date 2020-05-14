@@ -1,5 +1,5 @@
 /* global log, libloki, textsecure, getStoragePubKey, lokiSnodeAPI, StringView,
-  libsignal, window, TextDecoder, TextEncoder, dcodeIO, process, crypto */
+  libsignal, window, TextDecoder, TextEncoder, dcodeIO, process */
 
 const nodeFetch = require('node-fetch');
 const https = require('https');
@@ -14,40 +14,11 @@ const endpointBase = '/storage_rpc/v1';
 // Request index for debugging
 let onionReqIdx = 0;
 
-const encryptForNode = async (node, payload) => {
+const encryptForNode = async (node, payloadStr) => {
   const textEncoder = new TextEncoder();
-  const plaintext = textEncoder.encode(payload);
+  const plaintext = textEncoder.encode(payloadStr);
 
-  const ephemeral = await libloki.crypto.generateEphemeralKeyPair();
-
-  const snPubkey = StringView.hexToArrayBuffer(node.pubkey_x25519);
-
-  const ephemeralSecret = await libsignal.Curve.async.calculateAgreement(
-    snPubkey,
-    ephemeral.privKey
-  );
-
-  const salt = window.Signal.Crypto.bytesFromString('LOKI');
-
-  const key = await crypto.subtle.importKey(
-    'raw',
-    salt,
-    { name: 'HMAC', hash: { name: 'SHA-256' } },
-    false,
-    ['sign']
-  );
-  const symmetricKey = await crypto.subtle.sign(
-    { name: 'HMAC', hash: 'SHA-256' },
-    key,
-    ephemeralSecret
-  );
-
-  const ciphertext = await window.libloki.crypto.EncryptGCM(
-    symmetricKey,
-    plaintext
-  );
-
-  return { ciphertext, symmetricKey, ephemeral_key: ephemeral.pubKey };
+  return libloki.crypto.encryptForPubkey(node.pubkey_x25519, plaintext);
 };
 
 // Returns the actual ciphertext, symmetric key that will be used
@@ -65,7 +36,7 @@ const encryptForRelay = async (node, nextNode, ctx) => {
 
   const reqJson = {
     ciphertext: dcodeIO.ByteBuffer.wrap(payload).toString('base64'),
-    ephemeral_key: StringView.arrayBufferToHex(ctx.ephemeral_key),
+    ephemeral_key: StringView.arrayBufferToHex(ctx.ephemeralKey),
     destination: nextNode.pubkey_ed25519,
   };
 
@@ -101,7 +72,7 @@ const sendOnionRequest = async (reqIdx, nodePath, targetNode, plaintext) => {
 
   const payload = {
     ciphertext: ciphertextBase64,
-    ephemeral_key: StringView.arrayBufferToHex(guardCtx.ephemeral_key),
+    ephemeral_key: StringView.arrayBufferToHex(guardCtx.ephemeralKey),
   };
 
   const fetchOptions = {

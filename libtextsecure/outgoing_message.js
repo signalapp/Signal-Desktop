@@ -7,6 +7,7 @@
   StringView,
   lokiMessageAPI,
   i18n,
+  log
 */
 
 /* eslint-disable more/no-then */
@@ -29,6 +30,82 @@ const getTTLForType = type => {
       return (window.getMessageTTL() || 24) * 60 * 60 * 1000; // 1 day default for any other message
   }
 };
+
+function _getPaddedMessageLength(messageLength) {
+  const messageLengthWithTerminator = messageLength + 1;
+  let messagePartCount = Math.floor(messageLengthWithTerminator / 160);
+
+  if (messageLengthWithTerminator % 160 !== 0) {
+    messagePartCount += 1;
+  }
+
+  return messagePartCount * 160;
+}
+
+function _convertMessageToText(messageBuffer) {
+  const plaintext = new Uint8Array(
+    _getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
+  );
+  plaintext.set(new Uint8Array(messageBuffer));
+  plaintext[messageBuffer.byteLength] = 0x80;
+
+  return plaintext;
+}
+
+function _getPlaintext(messageBuffer) {
+  return _convertMessageToText(messageBuffer);
+}
+
+function wrapInWebsocketMessage(outgoingObject, timestamp) {
+  const source =
+    outgoingObject.type ===
+    textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER
+      ? null
+      : outgoingObject.ourKey;
+
+  const messageEnvelope = new textsecure.protobuf.Envelope({
+    type: outgoingObject.type,
+    source,
+    sourceDevice: outgoingObject.sourceDevice,
+    timestamp,
+    content: outgoingObject.content,
+  });
+  const requestMessage = new textsecure.protobuf.WebSocketRequestMessage({
+    id: new Uint8Array(libsignal.crypto.getRandomBytes(1))[0], // random ID for now
+    verb: 'PUT',
+    path: '/api/v1/message',
+    body: messageEnvelope.encode().toArrayBuffer(),
+  });
+  const websocketMessage = new textsecure.protobuf.WebSocketMessage({
+    type: textsecure.protobuf.WebSocketMessage.Type.REQUEST,
+    request: requestMessage,
+  });
+  const bytes = new Uint8Array(websocketMessage.encode().toArrayBuffer());
+  return bytes;
+}
+
+function getStaleDeviceIdsForNumber(number) {
+  return textsecure.storage.protocol.getDeviceIds(number).then(deviceIds => {
+    if (deviceIds.length === 0) {
+      return [1];
+    }
+    const updateDevices = [];
+    return Promise.all(
+      deviceIds.map(deviceId => {
+        const address = new libsignal.SignalProtocolAddress(number, deviceId);
+        const sessionCipher = new libsignal.SessionCipher(
+          textsecure.storage.protocol,
+          address
+        );
+        return sessionCipher.hasOpenSession().then(hasSession => {
+          if (!hasSession) {
+            updateDevices.push(deviceId);
+          }
+        });
+      })
+    ).then(() => updateDevices);
+  });
+}
 
 function OutgoingMessage(
   server,
@@ -66,11 +143,13 @@ function OutgoingMessage(
     messageType,
     isPing,
     isPublic,
+    isMediumGroup,
     publicSendData,
   } =
     options || {};
   this.numberInfo = numberInfo;
   this.isPublic = isPublic;
+  this.isMediumGroup = !!isMediumGroup;
   this.isGroup = !!(
     this.message &&
     this.message.dataMessage &&
@@ -115,11 +194,12 @@ OutgoingMessage.prototype = {
     this.errors[this.errors.length] = error;
     this.numberCompleted();
   },
-  reloadDevicesAndSend(number, recurse) {
+  reloadDevicesAndSend(primaryPubKey) {
     const ourNumber = textsecure.storage.user.getNumber();
-    return () =>
+
+    return (
       libloki.storage
-        .getAllDevicePubKeysForPrimaryPubKey(number)
+        .getAllDevicePubKeysForPrimaryPubKey(primaryPubKey)
         // Don't send to ourselves
         .then(devicesPubKeys =>
           devicesPubKeys.filter(pubKey => pubKey !== ourNumber)
@@ -127,10 +207,11 @@ OutgoingMessage.prototype = {
         .then(devicesPubKeys => {
           if (devicesPubKeys.length === 0) {
             // eslint-disable-next-line no-param-reassign
-            devicesPubKeys = [number];
+            devicesPubKeys = [primaryPubKey];
           }
-          return this.doSendMessage(number, devicesPubKeys, recurse);
-        });
+          return this.doSendMessage(primaryPubKey, devicesPubKeys);
+        })
+    );
   },
 
   getKeysForNumber(number, updateDevices) {
@@ -243,58 +324,8 @@ OutgoingMessage.prototype = {
     }
   },
 
-  getPaddedMessageLength(messageLength) {
-    const messageLengthWithTerminator = messageLength + 1;
-    let messagePartCount = Math.floor(messageLengthWithTerminator / 160);
-
-    if (messageLengthWithTerminator % 160 !== 0) {
-      messagePartCount += 1;
-    }
-
-    return messagePartCount * 160;
-  },
-  convertMessageToText(messageBuffer) {
-    const plaintext = new Uint8Array(
-      this.getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
-    );
-    plaintext.set(new Uint8Array(messageBuffer));
-    plaintext[messageBuffer.byteLength] = 0x80;
-
-    return plaintext;
-  },
-  getPlaintext(messageBuffer) {
-    return this.convertMessageToText(messageBuffer);
-  },
-  async wrapInWebsocketMessage(outgoingObject) {
-    const source =
-      outgoingObject.type ===
-      textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER
-        ? null
-        : outgoingObject.ourKey;
-
-    const messageEnvelope = new textsecure.protobuf.Envelope({
-      type: outgoingObject.type,
-      source,
-      sourceDevice: outgoingObject.sourceDevice,
-      timestamp: this.timestamp,
-      content: outgoingObject.content,
-    });
-    const requestMessage = new textsecure.protobuf.WebSocketRequestMessage({
-      id: new Uint8Array(libsignal.crypto.getRandomBytes(1))[0], // random ID for now
-      verb: 'PUT',
-      path: '/api/v1/message',
-      body: messageEnvelope.encode().toArrayBuffer(),
-    });
-    const websocketMessage = new textsecure.protobuf.WebSocketMessage({
-      type: textsecure.protobuf.WebSocketMessage.Type.REQUEST,
-      request: requestMessage,
-    });
-    const bytes = new Uint8Array(websocketMessage.encode().toArrayBuffer());
-    return bytes;
-  },
-
   async buildMessage(devicePubKey) {
-    const updatedDevices = await this.getStaleDeviceIdsForNumber(devicePubKey);
+    const updatedDevices = await getStaleDeviceIdsForNumber(devicePubKey);
     const keysFound = await this.getKeysForNumber(devicePubKey, updatedDevices);
 
     let isMultiDeviceRequest = false;
@@ -375,7 +406,7 @@ OutgoingMessage.prototype = {
       messageBuffer = this.message.toArrayBuffer();
     }
 
-    const plaintext = this.getPlaintext(messageBuffer);
+    const plaintext = _getPlaintext(messageBuffer);
 
     // No limit on message keys if we're communicating with our other devices
     // FIXME options not used at all; if (ourPubkey === number) {
@@ -429,10 +460,11 @@ OutgoingMessage.prototype = {
       );
     }
 
+    const innerCiphertext = await sessionCipher.encrypt(plaintext);
+
     const secretSessionCipher = new window.Signal.Metadata.SecretSessionCipher(
       textsecure.storage.protocol
     );
-    // ciphers[address.getDeviceId()] = secretSessionCipher;
 
     const senderCert = new textsecure.protobuf.SenderCertificate();
 
@@ -440,10 +472,9 @@ OutgoingMessage.prototype = {
     senderCert.senderDevice = deviceId;
 
     const ciphertext = await secretSessionCipher.encrypt(
-      address,
+      address.getName(),
       senderCert,
-      plaintext,
-      sessionCipher
+      innerCiphertext
     );
     const type = textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER;
     const content = window.Signal.Crypto.arrayBufferToBase64(ciphertext);
@@ -460,20 +491,89 @@ OutgoingMessage.prototype = {
     };
   },
   // Send a message to a public group
-  sendPublicMessage(number) {
-    return this.transmitMessage(
+  async sendPublicMessage(number) {
+    await this.transmitMessage(
       number,
       this.message.dataMessage,
       this.timestamp,
       0 // ttl
-    )
-      .then(() => {
-        this.successfulNumbers[this.successfulNumbers.length] = number;
-        this.numberCompleted();
-      })
-      .catch(error => {
-        throw error;
-      });
+    );
+
+    this.successfulNumbers[this.successfulNumbers.length] = number;
+    this.numberCompleted();
+  },
+
+  async sendMediumGroupMessage(groupId) {
+    const ttl = getTTLForType(this.messageType);
+
+    const plaintext = this.message.toArrayBuffer();
+
+    const ourIdentity = textsecure.storage.user.getNumber();
+
+    const {
+      ciphertext,
+      keyIdx,
+    } = await window.SenderKeyAPI.encryptWithSenderKey(
+      plaintext,
+      groupId,
+      ourIdentity
+    );
+
+    if (!ciphertext) {
+      log.error('could not encrypt for medium group');
+      return;
+    }
+
+    const source = ourIdentity;
+
+    // We should include ciphertext idx in the message
+    const content = new textsecure.protobuf.MediumGroupCiphertext({
+      ciphertext,
+      source,
+      keyIdx,
+    });
+
+    // Encrypt for the group's identity key to hide source and key idx:
+    const {
+      ciphertext: ciphertextOuter,
+      ephemeralKey,
+    } = await libloki.crypto.encryptForPubkey(
+      groupId,
+      content.encode().toArrayBuffer()
+    );
+
+    const contentOuter = new textsecure.protobuf.MediumGroupContent({
+      ciphertext: ciphertextOuter,
+      ephemeralKey,
+    });
+
+    log.debug(
+      'Group ciphertext: ',
+      window.Signal.Crypto.arrayBufferToBase64(ciphertext)
+    );
+
+    const outgoingObject = {
+      type: textsecure.protobuf.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT,
+      ttl,
+      ourKey: ourIdentity,
+      sourceDevice: 1,
+      content: contentOuter.encode().toArrayBuffer(),
+      isFriendRequest: false,
+      isSessionRequest: false,
+    };
+
+    // TODO: Rather than using sealed sender, we just generate a key pair, perform an ECDH against
+    // the group's public key and encrypt using the derived key
+
+    const socketMessage = wrapInWebsocketMessage(
+      outgoingObject,
+      this.timestamp
+    );
+
+    await this.transmitMessage(groupId, socketMessage, this.timestamp, ttl);
+
+    this.successfulNumbers[this.successfulNumbers.length] = groupId;
+    this.numberCompleted();
   },
   // Send a message to a private group or a session chat (one to one)
   async sendSessionMessage(outgoingObjects) {
@@ -489,7 +589,10 @@ OutgoingMessage.prototype = {
         isSessionRequest,
       } = outgoingObject;
       try {
-        const socketMessage = await this.wrapInWebsocketMessage(outgoingObject);
+        const socketMessage = wrapInWebsocketMessage(
+          outgoingObject,
+          this.timestamp
+        );
         await this.transmitMessage(
           destination,
           socketMessage,
@@ -526,45 +629,23 @@ OutgoingMessage.prototype = {
     return this.encryptMessage(clearMessage);
   },
   // eslint-disable-next-line no-unused-vars
-  doSendMessage(number, devicesPubKeys, recurse) {
+  async doSendMessage(primaryPubKey, devicesPubKeys) {
     if (this.isPublic) {
-      return this.sendPublicMessage(number);
+      await this.sendPublicMessage(primaryPubKey);
+      return;
     }
     this.numbers = devicesPubKeys;
 
-    return Promise.all(
-      devicesPubKeys.map(devicePubKey => this.buildAndEncrypt(devicePubKey))
-    )
-      .then(outgoingObjects => this.sendSessionMessage(outgoingObjects))
-      .catch(error => {
-        // TODO(loki): handle http errors properly
-        // - retry later if 400
-        // - ignore if 409 (conflict) means the hash already exists
-        throw error;
-      });
-  },
+    if (this.isMediumGroup) {
+      await this.sendMediumGroupMessage(primaryPubKey);
+      return;
+    }
 
-  getStaleDeviceIdsForNumber(number) {
-    return textsecure.storage.protocol.getDeviceIds(number).then(deviceIds => {
-      if (deviceIds.length === 0) {
-        return [1];
-      }
-      const updateDevices = [];
-      return Promise.all(
-        deviceIds.map(deviceId => {
-          const address = new libsignal.SignalProtocolAddress(number, deviceId);
-          const sessionCipher = new libsignal.SessionCipher(
-            textsecure.storage.protocol,
-            address
-          );
-          return sessionCipher.hasOpenSession().then(hasSession => {
-            if (!hasSession) {
-              updateDevices.push(deviceId);
-            }
-          });
-        })
-      ).then(() => updateDevices);
-    });
+    const outgoingObjects = await Promise.all(
+      devicesPubKeys.map(pk => this.buildAndEncrypt(pk, primaryPubKey))
+    );
+
+    this.sendSessionMessage(outgoingObjects);
   },
 
   removeDeviceIdsForNumber(number, deviceIdsToRemove) {
@@ -586,7 +667,7 @@ OutgoingMessage.prototype = {
     } catch (e) {
       // do nothing
     }
-    return this.reloadDevicesAndSend(number, true)().catch(error => {
+    return this.reloadDevicesAndSend(number).catch(error => {
       conversation.resetPendingSend();
       if (error.message === 'Identity key changed') {
         // eslint-disable-next-line no-param-reassign

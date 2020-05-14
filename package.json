@@ -22,6 +22,7 @@
     "start-prod-multi": "cross-env NODE_ENV=production NODE_APP_INSTANCE=devprod1 electron .",
     "start-swarm-test": "cross-env NODE_ENV=swarm-testing NODE_APP_INSTANCE=1 electron .",
     "start-swarm-test-2": "cross-env NODE_ENV=swarm-testing NODE_APP_INSTANCE=2 electron .",
+    "start-swarm-test-3": "cross-env NODE_ENV=swarm-testing NODE_APP_INSTANCE=3 electron .",
     "grunt": "grunt",
     "icon-gen": "electron-icon-maker --input=images/icon_1024.png --output=./build",
     "generate": "yarn icon-gen && yarn grunt",

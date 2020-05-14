@@ -730,6 +730,59 @@
       });
     };
 
+    window.createMediumSizeGroup = async (groupName, members) => {
+      // Create Group Identity
+      const identityKeys = await libsignal.KeyHelper.generateIdentityKeyPair();
+      const groupId = StringView.arrayBufferToHex(identityKeys.pubKey);
+
+      const ourIdentity = await textsecure.storage.user.getNumber();
+
+      const senderKey = await window.SenderKeyAPI.createSenderKeyForGroup(
+        groupId,
+        ourIdentity
+      );
+
+      const groupSecretKeyHex = StringView.arrayBufferToHex(
+        identityKeys.privKey
+      );
+
+      // Constructing a "create group" message
+      const proto = new textsecure.protobuf.DataMessage();
+
+      const groupUpdate = new textsecure.protobuf.MediumGroupUpdate();
+
+      groupUpdate.groupId = groupId;
+      groupUpdate.groupSecretKey = groupSecretKeyHex;
+      groupUpdate.senderKey = senderKey;
+      groupUpdate.members = [ourIdentity, ...members];
+      groupUpdate.groupName = groupName;
+      proto.mediumGroupUpdate = groupUpdate;
+
+      await window.Signal.Data.createOrUpdateIdentityKey({
+        id: groupId,
+        secretKey: groupSecretKeyHex,
+      });
+
+      const convo = await window.ConversationController.getOrCreateAndWait(
+        groupId,
+        Message.GROUP
+      );
+
+      convo.set('is_medium_group', true);
+      convo.set('active_at', Date.now());
+      convo.set('name', groupName);
+
+      convo.setFriendRequestStatus(
+        window.friends.friendRequestStatusEnum.friends
+      );
+
+      // Subscribe to this group id
+      messageReceiver.pollForAdditionalId(groupId);
+
+      // TODO: include ourselves so that our lined devices work as well!
+      await textsecure.messaging.updateMediumGroup(members, proto);
+    };
+
     window.doCreateGroup = async (groupName, members) => {
       const keypair = await libsignal.KeyHelper.generateIdentityKeyPair();
       const groupId = StringView.arrayBufferToHex(keypair.pubKey);
