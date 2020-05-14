@@ -102,7 +102,6 @@ export const _getLeftPaneLists = (
   sentFriendsRequest: Array<ConversationListItemPropsType>;
   unreadCount: number;
 } => {
-  const _ = window.Lodash;
   const values = Object.values(lookup);
   const sorted = values.sort(comparator);
 
@@ -168,7 +167,7 @@ export const _getLeftPaneLists = (
 
       const devicePrimary = group.find(c => c.id === device.primaryDevice);
       // Remove secondary where primary already exists in group
-      if (_.includes(group, devicePrimary)) {
+      if (group.some(c => c === devicePrimary)) {
         secondariesToRemove.push(device.id);
       }
     });
