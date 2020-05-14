@@ -11,17 +11,8 @@ type NetworkActions = {
 
 const REFRESH_INTERVAL = 5000;
 
-interface ShimmedWindow extends Window {
-  log: {
-    info: (...args: any) => void;
-  };
-}
-
-const unknownWindow = window as unknown;
-const shimmedWindow = unknownWindow as ShimmedWindow;
-
 export function initializeNetworkObserver(networkActions: NetworkActions) {
-  const { log } = shimmedWindow;
+  const { log } = window;
   log.info(`Initializing network observer every ${REFRESH_INTERVAL}ms`);
 
   const refresh = () => {

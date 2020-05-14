@@ -65,7 +65,7 @@ describe('Backup', () => {
       };
       const index = 0;
       const attachment = {
-        id: '123',
+        cdnId: '123',
       };
       const expected = '123';
 
@@ -77,13 +77,13 @@ describe('Backup', () => {
       assert.strictEqual(actual, expected);
     });
 
-    it('uses filename and contentType if available', () => {
+    it('uses attachment id and contentType if available', () => {
       const message = {
         body: 'something',
       };
       const index = 0;
       const attachment = {
-        id: '123',
+        cdnId: '123',
         contentType: 'image/jpeg',
       };
       const expected = '123.jpeg';
@@ -102,10 +102,47 @@ describe('Backup', () => {
       };
       const index = 0;
       const attachment = {
-        id: '123',
+        cdnId: '123',
         contentType: 'something',
       };
       const expected = '123.something';
+
+      const actual = Signal.Backup._getExportAttachmentFileName(
+        message,
+        index,
+        attachment
+      );
+      assert.strictEqual(actual, expected);
+    });
+
+    it('uses CDN key if attachment ID not available', () => {
+      const message = {
+        body: 'something',
+      };
+      const index = 0;
+      const attachment = {
+        cdnKey: 'abc',
+      };
+      const expected = 'abc';
+
+      const actual = Signal.Backup._getExportAttachmentFileName(
+        message,
+        index,
+        attachment
+      );
+      assert.strictEqual(actual, expected);
+    });
+
+    it('uses CDN key and contentType if available', () => {
+      const message = {
+        body: 'something',
+      };
+      const index = 0;
+      const attachment = {
+        cdnKey: 'def',
+        contentType: 'image/jpeg',
+      };
+      const expected = 'def.jpeg';
 
       const actual = Signal.Backup._getExportAttachmentFileName(
         message,
@@ -570,7 +607,7 @@ describe('Backup', () => {
         );
 
         console.log('Backup test: Check messages');
-        const messageCollection = await window.Signal.Data.getAllMessages({
+        const messageCollection = await window.Signal.Data._getAllMessages({
           MessageCollection: Whisper.MessageCollection,
         });
         assert.strictEqual(messageCollection.length, MESSAGE_COUNT);

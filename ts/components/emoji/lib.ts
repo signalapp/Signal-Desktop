@@ -274,22 +274,6 @@ export function emojiToImage(emoji: string): string | undefined {
   return imageByEmoji[emoji];
 }
 
-export function replaceColons(str: string) {
-  return str.replace(/:[a-z0-9-_+]+:(?::skin-tone-[1-5]:)?/gi, m => {
-    const [shortName = '', skinTone = '0'] = m
-      .replace('skin-tone-', '')
-      .toLowerCase()
-      .split(':')
-      .filter(Boolean);
-
-    if (shortName && isShortName(shortName)) {
-      return convertShortName(shortName, parseInt(skinTone, 10));
-    }
-
-    return m;
-  });
-}
-
 function getCountOfAllMatches(str: string, regex: RegExp) {
   let match = regex.exec(str);
   let count = 0;

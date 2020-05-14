@@ -190,10 +190,7 @@
 
   const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
   const {
-    mandatoryMessageUpgrade,
-    migrateAllToSQLCipher,
-    removeDatabase,
-    runMigrations,
+    removeDatabase: removeIndexedDB,
     doesDatabaseExist,
   } = Signal.IndexedDB;
   const { Errors, Message } = window.Signal.Types;
@@ -204,11 +201,6 @@
     doesAttachmentExist,
   } = window.Signal.Migrations;
   const { Views } = window.Signal;
-
-  // Implicitly used in `indexeddb-backbonejs-adapter`:
-  // https://github.com/signalapp/Signal-Desktop/blob/4033a9f8137e62ed286170ed5d4941982b1d3a64/components/indexeddb-backbonejs-adapter/backbone-indexeddb.js#L569
-  window.onInvalidStateError = error =>
-    window.log.error(error && error.stack ? error.stack : error);
 
   window.log.info('background page reloaded');
   window.log.info('environment:', window.getEnvironment());
@@ -267,13 +259,56 @@
   const cancelInitializationMessage = Views.Initialization.setMessage();
 
   const version = await window.Signal.Data.getItemById('version');
-  let isIndexedDBPresent = false;
   if (!version) {
-    isIndexedDBPresent = await doesDatabaseExist();
+    const isIndexedDBPresent = await doesDatabaseExist();
     if (isIndexedDBPresent) {
-      window.installStorage(window.legacyStorage);
-      window.log.info('Start IndexedDB migrations');
-      await runMigrations();
+      window.log.info('Found IndexedDB database.');
+      try {
+        window.log.info('Confirming deletion of old data with user...');
+
+        try {
+          await new Promise((resolve, reject) => {
+            const dialog = new Whisper.ConfirmationDialogView({
+              message: window.i18n('deleteOldIndexedDBData'),
+              okText: window.i18n('deleteOldData'),
+              cancelText: window.i18n('quit'),
+              resolve,
+              reject,
+            });
+            document.body.append(dialog.el);
+            dialog.focusCancel();
+          });
+        } catch (error) {
+          window.log.info(
+            'User chose not to delete old data. Shutting down.',
+            error && error.stack ? error.stack : error
+          );
+          window.shutdown();
+          return;
+        }
+
+        window.log.info('Deleting all previously-migrated data in SQL...');
+        window.log.info('Deleting IndexedDB file...');
+
+        await Promise.all([
+          removeIndexedDB(),
+          window.Signal.Data.removeAll(),
+          window.Signal.Data.removeIndexedDBFiles(),
+        ]);
+        window.log.info('Done with SQL deletion and IndexedDB file deletion.');
+      } catch (error) {
+        window.log.error(
+          'Failed to remove IndexedDB file or remove SQL data:',
+          error && error.stack ? error.stack : error
+        );
+      }
+
+      // Set a flag to delete IndexedDB on next startup if it wasn't deleted just now.
+      // We need to use direct data calls, since storage isn't ready yet.
+      await window.Signal.Data.createOrUpdateItem({
+        id: 'indexeddb-delete-needed',
+        value: true,
+      });
     }
   }
 
@@ -423,24 +458,6 @@
         });
       },
     };
-
-    if (isIndexedDBPresent) {
-      await mandatoryMessageUpgrade({ upgradeMessageSchema });
-      await migrateAllToSQLCipher({ writeNewAttachmentData, Views });
-      await removeDatabase();
-      try {
-        await window.Signal.Data.removeIndexedDBFiles();
-      } catch (error) {
-        window.log.error(
-          'Failed to remove IndexedDB files:',
-          error && error.stack ? error.stack : error
-        );
-      }
-
-      window.installStorage(window.newStorage);
-      await window.storage.fetch();
-      await storage.put('indexeddb-delete-needed', true);
-    }
 
     // How long since we were last running?
     const now = Date.now();
@@ -702,6 +719,24 @@
       }
     };
 
+    function getConversationByIndex(index) {
+      const state = store.getState();
+      const lists = Signal.State.Selectors.conversations.getLeftPaneLists(
+        state
+      );
+      const toSearch = state.conversations.showArchived
+        ? lists.archivedConversations
+        : lists.conversations;
+
+      const target = toSearch[index];
+
+      if (target) {
+        return target.id;
+      }
+
+      return null;
+    }
+
     function findConversation(conversationId, direction, unreadOnly) {
       const state = store.getState();
       const lists = Signal.State.Selectors.conversations.getLeftPaneLists(
@@ -738,6 +773,18 @@
 
       return null;
     }
+
+    const NUMBERS = {
+      '1': 1,
+      '2': 2,
+      '3': 3,
+      '4': 4,
+      '5': 5,
+      '6': 6,
+      '7': 7,
+      '8': 8,
+      '9': 9,
+    };
 
     document.addEventListener('keydown', event => {
       const { altKey, ctrlKey, key, metaKey, shiftKey } = event;
@@ -911,8 +958,24 @@
         return;
       }
 
-      // Change currently selected conversation - up/down, to next/previous unread
-      if (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowUp') {
+      // Change currently selected conversation by index
+      if (!isSearching && commandOrCtrl && NUMBERS[key]) {
+        const targetId = getConversationByIndex(NUMBERS[key] - 1);
+
+        if (targetId) {
+          window.Whisper.events.trigger('showConversation', targetId);
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+      }
+
+      // Change currently selected conversation
+      // up/previous
+      if (
+        (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowUp') ||
+        (!isSearching && ctrlKey && shiftKey && key === 'Tab')
+      ) {
         const unreadOnly = false;
         const targetId = findConversation(
           conversation ? conversation.id : null,
@@ -927,7 +990,11 @@
           return;
         }
       }
-      if (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowDown') {
+      // down/next
+      if (
+        (!isSearching && optionOrAlt && !shiftKey && key === 'ArrowDown') ||
+        (!isSearching && ctrlKey && key === 'Tab')
+      ) {
         const unreadOnly = false;
         const targetId = findConversation(
           conversation ? conversation.id : null,
@@ -942,6 +1009,7 @@
           return;
         }
       }
+      // previous unread
       if (!isSearching && optionOrAlt && shiftKey && key === 'ArrowUp') {
         const unreadOnly = true;
         const targetId = findConversation(
@@ -957,6 +1025,7 @@
           return;
         }
       }
+      // next unread
       if (!isSearching && optionOrAlt && shiftKey && key === 'ArrowDown') {
         const unreadOnly = true;
         const targetId = findConversation(
@@ -1633,25 +1702,26 @@
       }
     }
 
-    const hasRegisteredUuidSupportKey = 'hasRegisteredUuidSupport';
-    if (
-      !storage.get(hasRegisteredUuidSupportKey) &&
-      textsecure.storage.user.getUuid()
-    ) {
-      const server = WebAPI.connect({
-        username: USERNAME || OLD_USERNAME,
-        password: PASSWORD,
-      });
-      try {
-        await server.registerCapabilities({ uuid: true });
-        storage.put(hasRegisteredUuidSupportKey, true);
-      } catch (error) {
-        window.log.error(
-          'Error: Unable to register support for UUID messages.',
-          error && error.stack ? error.stack : error
-        );
-      }
-    }
+    // TODO: uncomment this once we want to start registering UUID support
+    // const hasRegisteredUuidSupportKey = 'hasRegisteredUuidSupport';
+    // if (
+    //   !storage.get(hasRegisteredUuidSupportKey) &&
+    //   textsecure.storage.user.getUuid()
+    // ) {
+    //   const server = WebAPI.connect({
+    //     username: USERNAME || OLD_USERNAME,
+    //     password: PASSWORD,
+    //   });
+    //   try {
+    //     await server.registerCapabilities({ uuid: true });
+    //     storage.put(hasRegisteredUuidSupportKey, true);
+    //   } catch (error) {
+    //     window.log.error(
+    //       'Error: Unable to register support for UUID messages.',
+    //       error && error.stack ? error.stack : error
+    //     );
+    //   }
+    // }
 
     const deviceId = textsecure.storage.user.getDeviceId();
 
@@ -1996,10 +2066,7 @@
         conversation.set({ avatar: null });
       }
 
-      window.Signal.Data.updateConversation(
-        details.number || details.uuid,
-        conversation.attributes
-      );
+      window.Signal.Data.updateConversation(conversation.attributes);
 
       const { expireTimer } = details;
       const isValidExpireTimer = typeof expireTimer === 'number';
@@ -2108,7 +2175,7 @@
       conversation.set(newAttributes);
     }
 
-    window.Signal.Data.updateConversation(id, conversation.attributes);
+    window.Signal.Data.updateConversation(conversation.attributes);
 
     const { appView } = window.owsDesktopApp;
     if (appView && appView.installView && appView.installView.didLink) {
@@ -2175,7 +2242,7 @@
   // Note: We do very little in this function, since everything in handleDataMessage is
   //   inside a conversation-specific queue(). Any code here might run before an earlier
   //   message is processed in handleDataMessage().
-  async function onMessageReceived(event) {
+  function onMessageReceived(event) {
     const { data, confirm } = event;
 
     const messageDescriptor = getDescriptorForReceived(data);
@@ -2184,17 +2251,16 @@
     // eslint-disable-next-line no-bitwise
     const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
     if (isProfileUpdate) {
-      await handleMessageReceivedProfileUpdate({
+      return handleMessageReceivedProfileUpdate({
         data,
         confirm,
         messageDescriptor,
       });
-      return;
     }
 
-    const message = await initIncomingMessage(data);
+    const message = initIncomingMessage(data);
 
-    const result = await ConversationController.getOrCreateAndWait(
+    const result = ConversationController.getOrCreate(
       messageDescriptor.id,
       messageDescriptor.type
     );
@@ -2220,11 +2286,26 @@
       // Note: We do not wait for completion here
       Whisper.Reactions.onReaction(reactionModel);
       confirm();
-      return;
+      return Promise.resolve();
+    }
+
+    if (data.message.delete) {
+      const { delete: del } = data.message;
+      const deleteModel = Whisper.Deletes.add({
+        targetSentTimestamp: del.targetSentTimestamp,
+        serverTimestamp: data.serverTimestamp,
+        fromId: data.source || data.sourceUuid,
+      });
+      // Note: We do not wait for completion here
+      Whisper.Deletes.onDelete(deleteModel);
+      confirm();
+      return Promise.resolve();
     }
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
     message.handleDataMessage(data.message, event.confirm);
+
+    return Promise.resolve();
   }
 
   async function handleMessageSentProfileUpdate({
@@ -2240,7 +2321,7 @@
     );
 
     conversation.set({ profileSharing: true });
-    window.Signal.Data.updateConversation(id, conversation.attributes);
+    window.Signal.Data.updateConversation(conversation.attributes);
 
     // Then we update our own profileKey if it's different from what we have
     const ourNumber = textsecure.storage.user.getNumber();
@@ -2275,6 +2356,7 @@
       sourceUuid: textsecure.storage.user.getUuid(),
       sourceDevice: data.device,
       sent_at: data.timestamp,
+      serverTimestamp: data.serverTimestamp,
       sent_to: sentTo,
       received_at: now,
       conversationId: data.destination,
@@ -2291,7 +2373,7 @@
   // Note: We do very little in this function, since everything in handleDataMessage is
   //   inside a conversation-specific queue(). Any code here might run before an earlier
   //   message is processed in handleDataMessage().
-  async function onSentMessage(event) {
+  function onSentMessage(event) {
     const { data, confirm } = event;
 
     const messageDescriptor = getDescriptorForSent(data);
@@ -2300,20 +2382,20 @@
     // eslint-disable-next-line no-bitwise
     const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
     if (isProfileUpdate) {
-      await handleMessageSentProfileUpdate({
+      return handleMessageSentProfileUpdate({
         data,
         confirm,
         messageDescriptor,
       });
-      return;
     }
 
-    const message = await createSentMessage(data);
+    const message = createSentMessage(data);
+
+    const ourNumber = textsecure.storage.user.getNumber();
+    const ourUuid = textsecure.storage.user.getUuid();
 
     if (data.message.reaction) {
       const { reaction } = data.message;
-      const ourNumber = textsecure.storage.user.getNumber();
-      const ourUuid = textsecure.storage.user.getUuid();
       const reactionModel = Whisper.Reactions.add({
         emoji: reaction.emoji,
         remove: reaction.remove,
@@ -2328,10 +2410,23 @@
       Whisper.Reactions.onReaction(reactionModel);
 
       event.confirm();
-      return;
+      return Promise.resolve();
     }
 
-    await ConversationController.getOrCreateAndWait(
+    if (data.message.delete) {
+      const { delete: del } = data.message;
+      const deleteModel = Whisper.Deletes.add({
+        targetSentTimestamp: del.targetSentTimestamp,
+        serverTimestamp: del.serverTimestamp,
+        fromId: ourNumber || ourUuid,
+      });
+      // Note: We do not wait for completion here
+      Whisper.Deletes.onDelete(deleteModel);
+      confirm();
+      return Promise.resolve();
+    }
+
+    ConversationController.getOrCreate(
       messageDescriptor.id,
       messageDescriptor.type
     );
@@ -2340,9 +2435,11 @@
     message.handleDataMessage(data.message, event.confirm, {
       data,
     });
+
+    return Promise.resolve();
   }
 
-  async function initIncomingMessage(data) {
+  function initIncomingMessage(data) {
     const targetId = data.source || data.sourceUuid;
     const conversation = ConversationController.get(targetId);
     const conversationId = conversation ? conversation.id : targetId;
@@ -2352,7 +2449,8 @@
       sourceUuid: data.sourceUuid,
       sourceDevice: data.sourceDevice,
       sent_at: data.timestamp,
-      received_at: data.receivedAt || Date.now(),
+      serverTimestamp: data.serverTimestamp,
+      received_at: Date.now(),
       conversationId,
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
       type: 'incoming',
@@ -2419,7 +2517,7 @@
     }
   }
 
-  async function onError(ev) {
+  function onError(ev) {
     const { error } = ev;
     window.log.error('background onError:', Errors.toLogFormat(error));
 
@@ -2428,8 +2526,7 @@
       error.name === 'HTTPError' &&
       (error.code === 401 || error.code === 403)
     ) {
-      await unlinkAndDisconnect();
-      return;
+      return unlinkAndDisconnect();
     }
 
     if (
@@ -2444,7 +2541,7 @@
 
         Whisper.events.trigger('reconnectTimer');
       }
-      return;
+      return Promise.resolve();
     }
 
     if (ev.proto) {
@@ -2454,13 +2551,13 @@
         }
         // Ignore this message. It is likely a duplicate delivery
         // because the server lost our ack the first time.
-        return;
+        return Promise.resolve();
       }
       const envelope = ev.proto;
-      const message = await initIncomingMessage(envelope);
+      const message = initIncomingMessage(envelope);
 
       const conversationId = message.get('conversationId');
-      const conversation = await ConversationController.getOrCreateAndWait(
+      const conversation = ConversationController.getOrCreate(
         conversationId,
         'private'
       );
@@ -2518,10 +2615,7 @@
           ev.confirm();
         }
 
-        window.Signal.Data.updateConversation(
-          conversationId,
-          conversation.attributes
-        );
+        window.Signal.Data.updateConversation(conversation.attributes);
       });
     }
 
@@ -2533,14 +2627,10 @@
 
     const { source, sourceUuid, timestamp } = ev;
     window.log.info(`view sync ${source} ${timestamp}`);
-    const conversationId = ConversationController.getConversationId(
-      source || sourceUuid
-    );
 
     const sync = Whisper.ViewSyncs.add({
       source,
       sourceUuid,
-      conversationId,
       timestamp,
     });
 

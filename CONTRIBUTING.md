@@ -56,7 +56,6 @@ cd Signal-Desktop
 npm install --global yarn      # (only if you don’t already have `yarn`)
 yarn install --frozen-lockfile # Install and build dependencies (this will take a while)
 yarn grunt                     # Generate final JS and CSS assets
-yarn icon-gen                  # Generate full set of icons for Electron
 yarn build:webpack             # Build parts of the app that use webpack (Sticker Creator)
 yarn test                      # A good idea to make sure tests run first
 yarn start                     # Start Signal!
@@ -267,7 +266,10 @@ the auto update infrastructure doesn't kick in while you are developing.
 {
   "serverUrl": "https://textsecure-service.whispersystems.org",
   "serverTrustRoot": "SOME_ALPHANUMERIC_STRING_MATCHING_PRODUCTION_JSON",
-  "cdnUrl": "https://cdn.signal.org"
+  "cdn": {
+    "0": "https://cdn.signal.org",
+    "2": "https://cdn2.signal.org"
+  }
 }
 ```
 

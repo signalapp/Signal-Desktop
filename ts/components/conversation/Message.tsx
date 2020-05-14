@@ -19,7 +19,7 @@ import {
   OwnProps as ReactionViewerProps,
   ReactionViewer,
 } from './ReactionViewer';
-import { ReactionPicker } from './ReactionPicker';
+import { Props as ReactionPickerProps, ReactionPicker } from './ReactionPicker';
 import { Emoji } from '../emoji/Emoji';
 
 import {
@@ -106,6 +106,8 @@ export type PropsData = {
   reactions?: ReactionViewerProps['reactions'];
   selectedReaction?: string;
 
+  deletedForEveryone?: boolean;
+
   canReply: boolean;
 };
 
@@ -153,7 +155,10 @@ export type PropsActions = {
   showExpiredOutgoingTapToViewToast: () => unknown;
 };
 
-export type Props = PropsData & PropsHousekeeping & PropsActions;
+export type Props = PropsData &
+  PropsHousekeeping &
+  PropsActions &
+  Pick<ReactionPickerProps, 'renderEmojiPicker'>;
 
 interface State {
   expiring: boolean;
@@ -934,12 +939,20 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderText() {
-    const { text, textPending, i18n, direction, status } = this.props;
+    const {
+      deletedForEveryone,
+      direction,
+      i18n,
+      status,
+      text,
+      textPending,
+    } = this.props;
 
-    const contents =
-      direction === 'incoming' && status === 'error'
-        ? i18n('incomingError')
-        : text;
+    const contents = deletedForEveryone
+      ? i18n('message--deletedForEveryone')
+      : direction === 'incoming' && status === 'error'
+      ? i18n('incomingError')
+      : text;
 
     if (!contents) {
       return null;
@@ -991,9 +1004,11 @@ export class Message extends React.PureComponent<Props, State> {
       canReply,
       direction,
       disableMenu,
+      i18n,
       id,
       isSticker,
       isTapToView,
+      renderEmojiPicker,
       replyToMessage,
     } = this.props;
 
@@ -1111,6 +1126,7 @@ export class Message extends React.PureComponent<Props, State> {
             <Popper placement="top">
               {({ ref, style }) => (
                 <ReactionPicker
+                  i18n={i18n}
                   ref={ref}
                   style={style}
                   selected={this.props.selectedReaction}
@@ -1122,6 +1138,7 @@ export class Message extends React.PureComponent<Props, State> {
                       remove: emoji === this.props.selectedReaction,
                     });
                   }}
+                  renderEmojiPicker={renderEmojiPicker}
                 />
               )}
             </Popper>,
@@ -1677,7 +1694,11 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderContents() {
-    const { isTapToView } = this.props;
+    const { isTapToView, deletedForEveryone } = this.props;
+
+    if (deletedForEveryone) {
+      return this.renderText();
+    }
 
     if (isTapToView) {
       return (
@@ -1863,9 +1884,11 @@ export class Message extends React.PureComponent<Props, State> {
     this.handleOpen(event);
   };
 
+  // tslint:disable-next-line: cyclomatic-complexity
   public renderContainer() {
     const {
       authorColor,
+      deletedForEveryone,
       direction,
       isSticker,
       isTapToView,
@@ -1903,6 +1926,9 @@ export class Message extends React.PureComponent<Props, State> {
         : null,
       reactions && reactions.length > 0
         ? 'module-message__container--with-reactions'
+        : null,
+      deletedForEveryone
+        ? 'module-message__container--deleted-for-everyone'
         : null
     );
     const containerStyles = {

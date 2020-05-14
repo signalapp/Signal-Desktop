@@ -52,7 +52,7 @@
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
-        "message": "Alles tonen",
+        "message": "Alles weergeven",
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
@@ -142,6 +142,14 @@
     "menuSetupAsStandalone": {
         "message": "Instellen als apart apparaat",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "contextMenuCopyLink": {
+        "message": "Verwijzing kopiëren",
+        "description": "Shown in the context menu for a link to indicate that the user can copy the link"
+    },
+    "contextMenuNoSuggestions": {
+        "message": "Geen suggesties beschikbaar",
+        "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
         "message": "Archief weergeven",
@@ -251,16 +259,12 @@
             }
         }
     },
-    "me": {
-        "message": "Ik",
-        "description": "The label for yourself when shown in a group member list"
-    },
     "view": {
         "message": "Bekijken",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Je kunt geen berichten verzenden omdat je de groep hebt verlaten",
+        "message": "Je kunt geen berichten verzenden omdat je de groep hebt verlaten.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -285,8 +289,12 @@
             }
         }
     },
+    "messageHistoryUnsynced": {
+        "message": "Gespreksgeschiedenis van voor het moment van koppelen wordt om een veiligheidsreden niet overgedragen naar gekoppelde apparaten. Hierdoor kan een aanvaller niet jouw gespreksgeschiedenis downloaden naar zijn eigen apparaat als hij op een of andere manier zijn apparaat aan jouw telefoon zou koppelen.",
+        "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
+    },
     "youMarkedAsVerified": {
-        "message": "Je hebt het veiligheidsnummer met $name$ als geverifieerd gemarkeerd",
+        "message": "Je hebt het veiligheidsnummer met $name$ als geverifieerd gemarkeerd.",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -296,7 +304,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Je hebt het veiligheidsnummer met $name$ als niet geverifieerd gemarkeerd",
+        "message": "Je hebt de verificatie van je veiligheidsnummer met $name$ ongedaan gemaakt.",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -306,7 +314,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Je hebt het veiligheidsnummer met $name$ vanaf een ander apparaat als geverifieerd gemarkeerd",
+        "message": "Je hebt het veiligheidsnummer met $name$ vanaf een ander apparaat als geverifieerd gemarkeerd.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -316,7 +324,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Je hebt het veiligheidsnummer met $name$ vanaf een ander apparaat als niet geverifieerd gemarkeerd",
+        "message": "Je hebt de verificatie van je veiligheidsnummer met $name$ vanaf een ander apparaat ongedaan gemaakt.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -420,11 +428,11 @@
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Markeren als geverifieerd",
+        "message": "Als geverifieerd markeren.",
         "description": ""
     },
     "unverify": {
-        "message": "Markeren als niet-geverifieerd.",
+        "message": "Verificatie ongedaan maken",
         "description": ""
     },
     "isVerified": {
@@ -577,6 +585,10 @@
         "message": "Aan het verbinden",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connect": {
+        "message": "Verbinding maken",
+        "description": "Shown to allow the user to manually attempt a reconnect."
+    },
     "connectingHangOn": {
         "message": "Dit zou niet lang moeten duren…",
         "description": "Subtext description for when the client is connecting to the server."
@@ -614,7 +626,7 @@
         "description": "Item under the Help menu, takes you to the support page"
     },
     "menuReportIssue": {
-        "message": "Meld een probleem",
+        "message": "Een probleem melden",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
     "signalDesktopPreferences": {
@@ -826,7 +838,7 @@
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "showSettings": {
-        "message": "Toon instellingen",
+        "message": "Instellingen weergeven",
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
@@ -1095,12 +1107,20 @@
         "message": "Gebruik spellingscontrole voor de tekst in het berichtinvoerveld",
         "description": "Description of the media permission description"
     },
+    "spellCheckWillBeEnabled": {
+        "message": "De volgende keer dat Signal gestart wordt, wordt de spellingscontrole ingeschakeld.",
+        "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
+    },
+    "spellCheckWillBeDisabled": {
+        "message": "De volgende keer dat Signal gestart wordt, wordt de spellingscontrole uitgeschakeld.",
+        "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
     "clearDataHeader": {
         "message": "Gegevens wissen",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Dit verwijdert alle gegevens in de toepassing, verwijdert alle berichten en opgeslagen accountinformatie.",
+        "message": "Dit verwijdert alle gegevens in de toepassing: alle berichten, alle opgeslagen voorkeuren en alle profielinformatie.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -1112,7 +1132,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Je staat op het punt alle opgeslagen accountgegevens van deze toepassing te wissen, inclusief alle contacten en alle berichten. Je kunt altijd opnieuw koppelen met je mobiele apparaat, maar je gewiste berichten kunnen niet hersteld worden.",
+        "message": "Je staat op het punt alle opgeslagen gegevens van deze toepassing te wissen, inclusief alle contacten en alle berichten. Je kunt altijd opnieuw koppelen met je mobiele apparaat, maar je gewiste berichten kunnen niet hersteld worden.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1557,6 +1577,10 @@
         "message": "Begin een nieuw gesprek…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "notSupportedSMS": {
+        "message": "Sms/mms-berichten worden door Signal-Desktop niet ondersteund.",
+        "description": "Label underneath number informing user that SMS is not supported on desktop"
+    },
     "newPhoneNumber": {
         "message": "Voer een telefoonnummer in om een contact toe te voegen.",
         "description": "Placeholder for adding a new number to a contact"
@@ -1598,7 +1622,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ heeft de groep verlaten",
+        "message": "$name$ heeft de groep verlaten.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1608,7 +1632,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ heeft de groep verlaten",
+        "message": "$name$ hebben de groep verlaten.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1618,11 +1642,25 @@
         }
     },
     "updatedTheGroup": {
-        "message": "De groep is aangepast",
+        "message": "$name$ heeft de groep aangepast.",
+        "description": "Shown in the conversation history when someone updates the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "youUpdatedTheGroup": {
+        "message": "Je hebt de groep aangepast.",
+        "description": "Shown in the conversation history when you update a group"
+    },
+    "updatedGroupAvatar": {
+        "message": "De groepsafbeeldig is aangepast.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "De titel is nu “$name$”",
+        "message": "De groepsnaam is nu “$name$”.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1631,8 +1669,12 @@
             }
         }
     },
+    "youJoinedTheGroup": {
+        "message": "Je bent lid geworden van de groep.",
+        "description": "Shown in the conversation history when you are added to a group."
+    },
     "joinedTheGroup": {
-        "message": "$name$ is lid geworden van de groep",
+        "message": "$name$ is lid geworden van de groep.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1684,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ is lid geworden van de groep",
+        "message": "$names$ zijn lid geworden van de groep.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {

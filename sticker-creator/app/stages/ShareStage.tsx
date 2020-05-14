@@ -20,10 +20,12 @@ export const ShareStage = () => {
   const images = stickersDuck.useOrderedImagePaths();
   const shareUrl = stickersDuck.usePackUrl();
   const [linkCopied, setLinkCopied] = React.useState(false);
-  const onCopy = React.useCallback(() => setLinkCopied(true), [setLinkCopied]);
-  const resetLinkCopied = React.useCallback(() => setLinkCopied(false), [
-    setLinkCopied,
-  ]);
+  const onCopy = React.useCallback(() => {
+    setLinkCopied(true);
+  }, [setLinkCopied]);
+  const resetLinkCopied = React.useCallback(() => {
+    setLinkCopied(false);
+  }, [setLinkCopied]);
 
   const handleNext = React.useCallback(() => {
     window.close();

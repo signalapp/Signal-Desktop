@@ -8,7 +8,14 @@ import { setup as setupI18n } from '../../../js/modules/i18n';
 // @ts-ignore
 import enMessages from '../../../_locales/en/messages.json';
 
-import { Message, PropsActions, PropsData, PropsHousekeeping } from './Message';
+import {
+  Message,
+  Props as AllProps,
+  PropsActions,
+  PropsData,
+  PropsHousekeeping,
+} from './Message';
+import { EmojiPicker } from '../emoji/EmojiPicker';
 
 const book = storiesOf('Components/Conversation/Message', module);
 
@@ -106,7 +113,7 @@ const stories: Array<MessageStory> = [
         makeDataProps: () => ({
           ...baseDataProps,
           direction: 'incoming',
-          authorColor: 'gray',
+          authorColor: 'grey',
           text:
             'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
         }),
@@ -1267,6 +1274,21 @@ const stories: Array<MessageStory> = [
   ],
 ];
 
+const renderEmojiPicker: AllProps['renderEmojiPicker'] = ({
+  onClose,
+  onPickEmoji,
+  ref,
+}) => (
+  <EmojiPicker
+    i18n={setupI18n('en', enMessages)}
+    skinTone={0}
+    onSetSkinTone={action('EmojiPicker::onSetSkinTone')}
+    ref={ref}
+    onClose={onClose}
+    onPickEmoji={onPickEmoji}
+  />
+);
+
 stories.forEach(([chapterTitle, propsArr]) =>
   book.add(chapterTitle, () =>
     propsArr.map(
@@ -1294,6 +1316,7 @@ stories.forEach(([chapterTitle, propsArr]) =>
                 {...dataProps}
                 {...makeActionProps()}
                 {...makeHouseKeepingProps()}
+                renderEmojiPicker={renderEmojiPicker}
               />
             </div>
           </>

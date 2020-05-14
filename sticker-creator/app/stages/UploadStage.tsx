@@ -11,7 +11,9 @@ import { encryptAndUpload } from '../../util/preload';
 import { useI18n } from '../../util/i18n';
 import { Toaster } from '../../components/Toaster';
 
-const handleCancel = () => history.push('/add-meta');
+const handleCancel = () => {
+  history.push('/add-meta');
+};
 
 export const UploadStage = () => {
   const i18n = useI18n();
@@ -24,8 +26,11 @@ export const UploadStage = () => {
   const [complete, setComplete] = React.useState(0);
 
   React.useEffect(() => {
+    // tslint:disable-next-line: no-floating-promises
     (async () => {
-      const onProgress = () => setComplete(i => i + 1);
+      const onProgress = () => {
+        setComplete(i => i + 1);
+      };
       try {
         const packMeta = await encryptAndUpload(
           { title, author },
@@ -36,7 +41,10 @@ export const UploadStage = () => {
         actions.setPackMeta(packMeta);
         history.push('/share');
       } catch (e) {
-        actions.addToast('StickerCreator--Toasts--errorUploading', [e.message]);
+        actions.addToast({
+          key: 'StickerCreator--Toasts--errorUploading',
+          subs: [e.message],
+        });
         history.push('/add-meta');
       }
     })();

@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { Timeline } from '../../components/conversation/Timeline';
+import { RenderEmojiPickerProps } from '../../components/conversation/ReactionPicker';
 import { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
@@ -16,6 +17,7 @@ import { SmartTimelineItem } from './TimelineItem';
 import { SmartTypingBubble } from './TypingBubble';
 import { SmartLastSeenIndicator } from './LastSeenIndicator';
 import { SmartTimelineLoadingRow } from './TimelineLoadingRow';
+import { SmartEmojiPicker } from './EmojiPicker';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
@@ -41,6 +43,23 @@ function renderItem(
       {...actionProps}
       conversationId={conversationId}
       id={messageId}
+      renderEmojiPicker={renderEmojiPicker}
+    />
+  );
+}
+function renderEmojiPicker({
+  ref,
+  onPickEmoji,
+  onClose,
+  style,
+}: RenderEmojiPickerProps): JSX.Element {
+  return (
+    <SmartEmojiPicker
+      ref={ref}
+      onPickEmoji={onPickEmoji}
+      onClose={onClose}
+      style={style}
+      disableSkinTones={true}
     />
   );
 }

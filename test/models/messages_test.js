@@ -1,4 +1,4 @@
-/* global ConversationController, i18n, Whisper */
+/* global ConversationController, i18n, Whisper, textsecure */
 
 'use strict';
 
@@ -10,15 +10,21 @@ const attributes = {
   received_at: new Date().getTime(),
 };
 
-const source = '+14155555555';
+const source = '+1 415-555-5555';
+const me = '+14155555556';
+const ourUuid = window.getGuid();
 
 describe('MessageCollection', () => {
   before(async () => {
     await clearDatabase();
     ConversationController.reset();
     await ConversationController.load();
+    textsecure.storage.put('number_id', `${me}.2`);
+    textsecure.storage.put('uuid_id', `${ourUuid}.2`);
   });
   after(() => {
+    textsecure.storage.put('number_id', null);
+    textsecure.storage.put('uuid_id', null);
     return clearDatabase();
   });
 
@@ -91,46 +97,128 @@ describe('MessageCollection', () => {
       'If no group updates or end session flags, return message body.'
     );
 
-    message = messages.add({ group_update: { left: 'Alice' } });
+    message = messages.add({
+      group_update: {},
+      source: 'Alice',
+      type: 'incoming',
+    });
     assert.equal(
       message.getDescription(),
-      'Alice left the group',
+      'Alice updated the group.',
+      'Empty group updates - generic message.'
+    );
+
+    message = messages.add({
+      type: 'incoming',
+      source,
+      group_update: { left: 'Alice' },
+    });
+    assert.equal(
+      message.getDescription(),
+      'Alice left the group.',
       'Notes one person leaving the group.'
     );
 
-    message = messages.add({ group_update: { name: 'blerg' } });
+    message = messages.add({
+      type: 'incoming',
+      source: me,
+      group_update: { left: 'You' },
+    });
     assert.equal(
       message.getDescription(),
-      "Title is now 'blerg'",
-      'Returns a single notice if only group_updates.name changes.'
+      'You left the group.',
+      'Notes that you left the group.'
     );
 
-    message = messages.add({ group_update: { joined: ['Bob'] } });
+    message = messages.add({
+      type: 'incoming',
+      source,
+      group_update: { name: 'blerg' },
+    });
     assert.equal(
       message.getDescription(),
-      'Bob joined the group',
+      "+1 415-555-5555 updated the group. Group name is now 'blerg'.",
+      'Returns sender and name change.'
+    );
+
+    message = messages.add({
+      type: 'incoming',
+      source: me,
+      group_update: { name: 'blerg' },
+    });
+    assert.equal(
+      message.getDescription(),
+      "You updated the group. Group name is now 'blerg'.",
+      'Includes "you" as sender along with group name change.'
+    );
+
+    message = messages.add({
+      type: 'incoming',
+      source,
+      group_update: { avatarUpdated: true },
+    });
+    assert.equal(
+      message.getDescription(),
+      '+1 415-555-5555 updated the group. Group avatar was updated.',
+      'Includes sender and avatar update.'
+    );
+
+    message = messages.add({
+      type: 'incoming',
+      source,
+      group_update: { joined: [me] },
+    });
+    assert.equal(
+      message.getDescription(),
+      '+1 415-555-5555 updated the group. You joined the group.',
+      'Includes both sender and person added with join.'
+    );
+
+    message = messages.add({
+      type: 'incoming',
+      source,
+      group_update: { joined: ['Bob'] },
+    });
+    assert.equal(
+      message.getDescription(),
+      '+1 415-555-5555 updated the group. Bob joined the group.',
       'Returns a single notice if only group_updates.joined changes.'
     );
 
     message = messages.add({
+      type: 'incoming',
+      source,
       group_update: { joined: ['Bob', 'Alice', 'Eve'] },
     });
     assert.equal(
       message.getDescription(),
-      'Bob, Alice, Eve joined the group',
+      '+1 415-555-5555 updated the group. Bob, Alice, Eve joined the group.',
       'Notes when >1 person joins the group.'
     );
 
     message = messages.add({
+      type: 'incoming',
+      source,
+      group_update: { joined: ['Bob', me, 'Alice', 'Eve'] },
+    });
+    assert.equal(
+      message.getDescription(),
+      '+1 415-555-5555 updated the group. Bob, Alice, Eve joined the group. You joined the group.',
+      'Splits "You" out when multiple people are added along with you.'
+    );
+
+    message = messages.add({
+      type: 'incoming',
+      source,
       group_update: { joined: ['Bob'], name: 'blerg' },
     });
     assert.equal(
       message.getDescription(),
-      "Title is now 'blerg', Bob joined the group",
+      "+1 415-555-5555 updated the group. Bob joined the group. Group name is now 'blerg'.",
       'Notes when there are multiple changes to group_updates properties.'
     );
 
-    message = messages.add({ flags: true });
+    message = messages.add({ type: 'incoming', source, flags: true });
     assert.equal(message.getDescription(), i18n('sessionEnded'));
   });
 
@@ -139,7 +227,7 @@ describe('MessageCollection', () => {
     let message = messages.add(attributes);
     assert.notOk(message.isEndSession());
 
-    message = messages.add({ flags: true });
+    message = messages.add({ type: 'incoming', source, flags: true });
     assert.ok(message.isEndSession());
   });
 });

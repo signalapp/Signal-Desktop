@@ -1,5 +1,10 @@
 import { omit } from 'lodash';
+import { createSelector } from 'reselect';
+import { useSelector } from 'react-redux';
+import { StateType } from '../reducer';
 import * as storageShim from '../../shims/storage';
+import { isShortName } from '../../components/emoji/lib';
+import { useBoundActions } from '../../util/hooks';
 
 // State
 
@@ -11,7 +16,7 @@ export type ItemsStateType = {
 
 type ItemPutAction = {
   type: 'items/PUT';
-  payload: Promise<void>;
+  payload: null;
 };
 
 type ItemPutExternalAction = {
@@ -24,7 +29,7 @@ type ItemPutExternalAction = {
 
 type ItemRemoveAction = {
   type: 'items/REMOVE';
-  payload: Promise<void>;
+  payload: null;
 };
 
 type ItemRemoveExternalAction = {
@@ -53,10 +58,14 @@ export const actions = {
   resetItems,
 };
 
+export const useActions = () => useBoundActions(actions);
+
 function putItem(key: string, value: any): ItemPutAction {
+  storageShim.put(key, value);
+
   return {
     type: 'items/PUT',
-    payload: storageShim.put(key, value),
+    payload: null,
   };
 }
 
@@ -71,9 +80,11 @@ function putItemExternal(key: string, value: any): ItemPutExternalAction {
 }
 
 function removeItem(key: string): ItemRemoveAction {
+  storageShim.remove(key);
+
   return {
     type: 'items/REMOVE',
-    payload: storageShim.remove(key),
+    payload: null,
   };
 }
 
@@ -119,3 +130,12 @@ export function reducer(
 
   return state;
 }
+
+// Selectors
+
+const selectRecentEmojis = createSelector(
+  ({ emojis }: StateType) => emojis.recents,
+  recents => recents.filter(isShortName)
+);
+
+export const useRecentEmojis = () => useSelector(selectRecentEmojis);

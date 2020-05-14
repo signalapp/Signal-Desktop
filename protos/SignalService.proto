@@ -179,20 +179,26 @@ message DataMessage {
     optional uint64 targetTimestamp  = 5;
   }
 
+  message Delete {
+    optional uint64 targetSentTimestamp = 1;
+  }
+
   enum ProtocolVersion {
     option allow_alias = true;
 
-    INITIAL         = 0;
-    MESSAGE_TIMERS  = 1;
-    VIEW_ONCE       = 2;
-    VIEW_ONCE_VIDEO = 3;
-    REACTIONS       = 4;
-    CURRENT         = 4;
+    INITIAL                  = 0;
+    MESSAGE_TIMERS           = 1;
+    VIEW_ONCE                = 2;
+    VIEW_ONCE_VIDEO          = 3;
+    REACTIONS                = 4;
+    CDN_SELECTOR_ATTACHMENTS = 5;
+    CURRENT                  = 5;
   }
 
   optional string             body                    = 1;
   repeated AttachmentPointer  attachments             = 2;
   optional GroupContext       group                   = 3;
+  optional GroupContextV2     groupV2                 = 15;
   optional uint32             flags                   = 4;
   optional uint32             expireTimer             = 5;
   optional bytes              profileKey              = 6;
@@ -204,6 +210,7 @@ message DataMessage {
   optional uint32             requiredProtocolVersion = 12;
   optional bool               isViewOnce              = 14;
   optional Reaction           reaction                = 16;
+  optional Delete             delete                  = 17;
 }
 
 message NullMessage {
@@ -336,17 +343,24 @@ message AttachmentPointer {
     VOICE_MESSAGE = 1;
   }
 
-  optional fixed64 id          = 1;
-  optional string  contentType = 2;
-  optional bytes   key         = 3;
-  optional uint32  size        = 4;
-  optional bytes   thumbnail   = 5;
-  optional bytes   digest      = 6;
-  optional string  fileName    = 7;
-  optional uint32  flags       = 8;
-  optional uint32  width       = 9;
-  optional uint32  height      = 10;
-  optional string  caption     = 11;
+  oneof attachment_identifier {
+    fixed64        cdnId           = 1;
+    string         cdnKey          = 15;
+  }
+  optional string  contentType     = 2;
+  optional bytes   key             = 3;
+  optional uint32  size            = 4;
+  optional bytes   thumbnail       = 5;
+  optional bytes   digest          = 6;
+  optional string  fileName        = 7;
+  optional uint32  flags           = 8;
+  optional uint32  width           = 9;
+  optional uint32  height          = 10;
+  optional string  caption         = 11;
+  optional string  blurHash        = 12;
+  optional uint64  uploadTimestamp = 13;
+  optional uint32  cdnNumber       = 14;
+  // Next ID: 16
 }
 
 message GroupContext {
@@ -369,6 +383,12 @@ message GroupContext {
   repeated string            membersE164 = 4;
   repeated Member            members     = 6;
   optional AttachmentPointer avatar      = 5;
+}
+
+message GroupContextV2 {
+  optional bytes  masterKey   = 1;
+  optional uint32 revision    = 2;
+  optional bytes  groupChange = 3;
 }
 
 message ContactDetails {

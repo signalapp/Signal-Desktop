@@ -87,7 +87,7 @@ const createTrayIcon = require('./app/tray_icon');
 const dockIcon = require('./app/dock_icon');
 const ephemeralConfig = require('./app/ephemeral_config');
 const logging = require('./app/logging');
-const sql = require('./app/sql');
+const sql = require('./ts/sql/Server').default;
 const sqlChannels = require('./app/sql_channel');
 const windowState = require('./app/window_state');
 const { createTemplate } = require('./app/menu');
@@ -188,7 +188,8 @@ function prepareURL(pathSegments, moreKeys) {
       version: app.getVersion(),
       buildExpiration: config.get('buildExpiration'),
       serverUrl: config.get('serverUrl'),
-      cdnUrl: config.get('cdnUrl'),
+      cdnUrl0: config.get('cdn').get('0'),
+      cdnUrl2: config.get('cdn').get('2'),
       certificateAuthority: config.get('certificateAuthority'),
       environment: config.environment,
       node_version: process.versions.node,
@@ -197,6 +198,7 @@ function prepareURL(pathSegments, moreKeys) {
       proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
       contentProxyUrl: config.contentProxyUrl,
       importMode: importMode ? true : undefined, // for stringify()
+      serverPublicParams: config.get('serverPublicParams'),
       serverTrustRoot: config.get('serverTrustRoot'),
       appStartInitialSpellcheckSetting,
       ...moreKeys,
@@ -1091,6 +1093,9 @@ ipc.on('draw-attention', () => {
 
 ipc.on('restart', () => {
   app.relaunch();
+  app.quit();
+});
+ipc.on('shutdown', () => {
   app.quit();
 });
 

@@ -4,6 +4,7 @@ interface ConversationLastMessageUpdate {
   lastMessage: string;
   lastMessageStatus: string | null;
   timestamp: number | null;
+  lastMessageDeletedForEveryone?: boolean;
 }
 
 export const createLastMessageUpdate = ({
@@ -25,7 +26,7 @@ export const createLastMessageUpdate = ({
     };
   }
 
-  const { type, expirationTimerUpdate } = lastMessage;
+  const { type, expirationTimerUpdate, deletedForEveryone } = lastMessage;
   const isMessageHistoryUnsynced = type === 'message-history-unsynced';
   const isVerifiedChangeMessage = type === 'verified-change';
   const isExpireTimerUpdateFromSync = Boolean(
@@ -47,8 +48,9 @@ export const createLastMessageUpdate = ({
     : '';
 
   return {
-    lastMessage: newLastMessageText || '',
+    lastMessage: deletedForEveryone ? '' : newLastMessageText || '',
     lastMessageStatus: lastMessageStatus || null,
     timestamp: newTimestamp || null,
+    lastMessageDeletedForEveryone: deletedForEveryone,
   };
 };

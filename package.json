@@ -4,7 +4,7 @@
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "1.33.4",
+  "version": "1.34.0-beta.3",
   "license": "GPL-3.0",
   "author": {
     "name": "Open Whisper Systems",
@@ -12,7 +12,7 @@
   },
   "main": "main.js",
   "scripts": {
-    "postinstall": "patch-package && electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
+    "postinstall": "snyk protect && patch-package && electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
     "start": "electron .",
     "grunt": "grunt",
     "generate": "yarn grunt",
@@ -46,13 +46,14 @@
     "dev:webpack": "NODE_ENV=development webpack-dev-server --hot",
     "dev:typed-scss": "yarn build:typed-scss -w",
     "dev:storybook": "SIGNAL_ENV=storybook start-storybook -p 6006 -s ./",
-    "build": "run-s --print-label build:grunt build:typed-scss build:webpack build:release",
+    "build": "run-s --print-label build:grunt build:typed-scss build:webpack build:release build:zip",
     "build:dev": "run-s --print-label build:grunt build:typed-scss build:webpack",
     "build:grunt": "yarn grunt",
     "build:typed-scss": "tsm sticker-creator",
     "build:webpack": "cross-env NODE_ENV=production webpack",
     "build:electron": "electron-builder --config.extraMetadata.environment=$SIGNAL_ENV",
     "build:release": "cross-env SIGNAL_ENV=production npm run build:electron -- --config.directories.output=release",
+    "build:zip": "node scripts/zip-macos-release.js",
     "preverify:ts": "yarn build:typed-scss",
     "verify": "run-p --print-label verify:*",
     "verify:ts": "tsc --noEmit"
@@ -63,6 +64,8 @@
   "dependencies": {
     "@journeyapps/sqlcipher": "https://github.com/scottnonnenberg-signal/node-sqlcipher.git#b10f232fac62ba7f8775c9e086bb5558fe7d948b",
     "@sindresorhus/is": "0.8.0",
+    "@types/node-fetch": "2.5.5",
+    "@types/websocket": "1.0.0",
     "array-move": "2.1.0",
     "backbone": "1.3.3",
     "blob-util": "1.3.0",
@@ -74,8 +77,6 @@
     "copy-text-to-clipboard": "2.1.0",
     "curve25519-n": "https://github.com/scottnonnenberg-signal/node-curve25519.git#3e94f60bc54b2426476520d8d1a0aa835c25f5cc",
     "draft-js": "0.10.5",
-    "electron-mocha": "8.1.1",
-    "electron-notarize": "0.1.1",
     "emoji-datasource": "5.0.1",
     "emoji-datasource-apple": "5.0.1",
     "emoji-regex": "8.0.0",
@@ -91,23 +92,23 @@
     "he": "1.2.0",
     "history": "4.9.0",
     "intl-tel-input": "12.1.15",
-    "jquery": "3.4.1",
+    "jquery": "3.5.0",
     "js-yaml": "3.13.1",
     "linkify-it": "2.2.0",
-    "lodash": "4.17.13",
+    "lodash": "4.17.15",
     "memoizee": "0.4.14",
-    "mkdirp": "0.5.1",
+    "mkdirp": "0.5.2",
     "moment": "2.21.0",
     "mustache": "2.3.0",
     "node-fetch": "https://github.com/scottnonnenberg-signal/node-fetch.git#3e5f51e08c647ee5f20c43b15cf2d352d61c36b4",
     "node-gyp": "5.0.3",
     "normalize-path": "3.0.0",
-    "os-locale": "2.1.0",
+    "os-locale": "3.0.1",
     "p-map": "2.1.0",
     "p-queue": "6.2.1",
     "pify": "3.0.0",
     "protobufjs": "6.8.6",
-    "proxy-agent": "3.0.3",
+    "proxy-agent": "3.1.1",
     "qs": "6.5.1",
     "react": "16.8.3",
     "react-contextmenu": "2.11.0",
@@ -138,7 +139,8 @@
     "typeface-inter": "3.10.0",
     "underscore": "1.9.0",
     "uuid": "3.3.2",
-    "websocket": "1.0.28"
+    "websocket": "1.0.28",
+    "zkgroup": "https://github.com/signalapp/signal-zkgroup-node.git#eca01d0bbe5f5c8f83665b3a92bdfe2e9df7376c"
   },
   "resolutions": {
     "fbjs/isomorphic-fetch/node-fetch": "https://github.com/scottnonnenberg-signal/node-fetch.git#3e5f51e08c647ee5f20c43b15cf2d352d61c36b4"
@@ -153,6 +155,7 @@
     "@storybook/addon-knobs": "5.1.11",
     "@storybook/addons": "5.1.11",
     "@storybook/react": "5.1.11",
+    "@types/agent-base": "4.2.0",
     "@types/chai": "4.1.2",
     "@types/classnames": "2.2.3",
     "@types/config": "0.0.34",
@@ -196,15 +199,16 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-loader": "8.0.6",
     "babel-plugin-lodash": "3.3.4",
-    "bower": "1.8.2",
     "chai": "4.1.2",
     "core-js": "2.4.1",
     "cross-env": "5.2.0",
     "css-loader": "3.2.0",
     "dashdash": "1.14.1",
-    "electron": "8.2.1",
+    "electron": "8.2.5",
     "electron-builder": "22.3.6",
-    "eslint": "4.14.0",
+    "electron-mocha": "8.1.1",
+    "electron-notarize": "0.1.1",
+    "eslint": "4.18.2",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-import": "2.8.0",
@@ -233,6 +237,7 @@
     "react-styleguidist": "7.0.1",
     "sass-loader": "7.2.0",
     "sinon": "4.4.2",
+    "snyk": "1.316.1",
     "spectron": "5.0.0",
     "style-loader": "1.0.0",
     "ts-loader": "4.1.0",
@@ -252,6 +257,10 @@
   "build": {
     "appId": "org.whispersystems.signal-desktop",
     "mac": {
+      "asarUnpack": [
+        "**/*.node",
+        "node_modules/zkgroup/libzkgroup.*"
+      ],
       "artifactName": "${name}-mac-${version}.${ext}",
       "category": "public.app-category.social-networking",
       "darkModeSupport": true,
@@ -273,7 +282,8 @@
     "win": {
       "asarUnpack": [
         "node_modules/spellchecker/vendor/hunspell_dictionaries",
-        "node_modules/sharp"
+        "node_modules/sharp",
+        "node_modules/zkgroup/libzkgroup.*"
       ],
       "artifactName": "${name}-win-${version}.${ext}",
       "certificateSubjectName": "Signal (Quiet Riddle Ventures, LLC)",
@@ -300,7 +310,8 @@
       },
       "asarUnpack": [
         "node_modules/spellchecker/vendor/hunspell_dictionaries",
-        "node_modules/sharp"
+        "node_modules/sharp",
+        "node_modules/zkgroup/libzkgroup.*"
       ],
       "target": [
         "deb"
@@ -370,6 +381,8 @@
       "node_modules/spellchecker/build/Release/*.node",
       "node_modules/websocket/build/Release/*.node",
       "node_modules/curve25519-n/build/Release/*.node",
+      "node_modules/ref-napi/build/Release/*.node",
+      "node_modules/ffi-napi/build/Release/*.node",
       "node_modules/socks/build/*.js",
       "node_modules/socks/build/common/*.js",
       "node_modules/socks/build/client/*.js",

@@ -143,6 +143,14 @@
         "message": "Nusistatyti kaip atskirą įrenginį",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "contextMenuCopyLink": {
+        "message": "Kopijuoti nuorodą",
+        "description": "Shown in the context menu for a link to indicate that the user can copy the link"
+    },
+    "contextMenuNoSuggestions": {
+        "message": "Nėra prieinamų pasiūlymų",
+        "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
+    },
     "avatarMenuViewArchive": {
         "message": "Rodyti archyvą",
         "description": "One of the menu options available in the Avatar Popup menu"
@@ -251,16 +259,12 @@
             }
         }
     },
-    "me": {
-        "message": "Aš",
-        "description": "The label for yourself when shown in a group member list"
-    },
     "view": {
         "message": "Rodyti",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Jūs išėjote iš grupės",
+        "message": "You left the group.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -284,6 +288,10 @@
                 "example": "5"
             }
         }
+    },
+    "messageHistoryUnsynced": {
+        "message": "Jūsų saugumui, pokalbių istorija nėra perduodama į naujai susietus įrenginius.",
+        "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
         "message": "Jūs pažymėjote savo saugumo numerį su $name$ kaip patvirtintą",
@@ -576,6 +584,10 @@
     "connecting": {
         "message": "Jungiamasi",
         "description": "Displayed when the desktop client is currently connecting to the server."
+    },
+    "connect": {
+        "message": "Prisijungti",
+        "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
         "message": "Neturėtų ilgai užtrukti...",
@@ -1095,6 +1107,14 @@
         "message": "Įjungti rašybos tikrinimą tekstui, kuris įvedamas į žinutės rašymo langelį",
         "description": "Description of the media permission description"
     },
+    "spellCheckWillBeEnabled": {
+        "message": "Rašybos tikrinimas bus įjungtas, kitą kartą paleidus Signal.",
+        "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
+    },
+    "spellCheckWillBeDisabled": {
+        "message": "Rašybos tikrinimas bus išjungtas, kitą kartą paleidus Signal.",
+        "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
     "clearDataHeader": {
         "message": "Išvalyti duomenis",
         "description": "Header in the settings dialog for the section dealing with data deletion"
@@ -1557,6 +1577,10 @@
         "message": "Pradėti naują pokalbį…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "notSupportedSMS": {
+        "message": "SMS/MMS žinutės yra nepalaikomos.",
+        "description": "Label underneath number informing user that SMS is not supported on desktop"
+    },
     "newPhoneNumber": {
         "message": "Įveskite adresato, kurį norite pridėti, numerį.",
         "description": "Placeholder for adding a new number to a contact"
@@ -1598,7 +1622,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ išėjo iš grupės",
+        "message": "$name$ left the group.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1608,7 +1632,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ išėjo iš grupės",
+        "message": "$name$ left the group.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1618,11 +1642,25 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Grupė atnaujinta",
+        "message": "$name$ updated the group.",
+        "description": "Shown in the conversation history when someone updates the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "youUpdatedTheGroup": {
+        "message": "Jūs atnaujinote grupę.",
+        "description": "Shown in the conversation history when you update a group"
+    },
+    "updatedGroupAvatar": {
+        "message": "Group avatar was updated.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Dabar pavadinimas yra \"$name$\"",
+        "message": "Group name is now '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1631,8 +1669,12 @@
             }
         }
     },
+    "youJoinedTheGroup": {
+        "message": "Jūs prisijungėte prie grupės.",
+        "description": "Shown in the conversation history when you are added to a group."
+    },
     "joinedTheGroup": {
-        "message": "$name$ prisijungė prie grupės",
+        "message": "$name$ joined the group.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1684,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ prisijungė prie grupės",
+        "message": "$names$ joined the group.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {

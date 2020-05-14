@@ -1,0 +1,46 @@
+diff --git a/node_modules/os-locale/index.js b/node_modules/os-locale/index.js
+index 6995b60..321e903 100644
+--- a/node_modules/os-locale/index.js
++++ b/node_modules/os-locale/index.js
+@@ -25,11 +25,11 @@ function getLocale(string) {
+ }
+ 
+ function getAppleLocale() {
+-	return execa.stdout('defaults', ['read', '-g', 'AppleLocale']);
++	return execa.stdout('defaults', ['read', '-g', 'AppleLocale'], { preferLocal: false });
+ }
+ 
+ function getAppleLocaleSync() {
+-	return execa.sync('defaults', ['read', '-g', 'AppleLocale']).stdout;
++	return execa.sync('defaults', ['read', '-g', 'AppleLocale'], { preferLocal: false }).stdout;
+ }
+ 
+ function getUnixLocale() {
+@@ -37,7 +37,8 @@ function getUnixLocale() {
+ 		return getAppleLocale();
+ 	}
+ 
+-	return execa.stdout('locale')
++	const args = null;
++	return execa.stdout('locale', args, { preferLocal: false })
+ 		.then(stdout => getLocale(parseLocale(stdout)));
+ }
+ 
+@@ -50,7 +51,7 @@ function getUnixLocaleSync() {
+ }
+ 
+ function getWinLocale() {
+-	return execa.stdout('wmic', ['os', 'get', 'locale'])
++	return execa.stdout('wmic', ['os', 'get', 'locale'], { preferLocal: false })
+ 		.then(stdout => {
+ 			const lcidCode = parseInt(stdout.replace('Locale', ''), 16);
+ 			return lcid.from(lcidCode);
+@@ -58,7 +59,7 @@ function getWinLocale() {
+ }
+ 
+ function getWinLocaleSync() {
+-	const {stdout} = execa.sync('wmic', ['os', 'get', 'locale']);
++	const {stdout} = execa.sync('wmic', ['os', 'get', 'locale'], { preferLocal: false });
+ 	const lcidCode = parseInt(stdout.replace('Locale', ''), 16);
+ 	return lcid.from(lcidCode);
+ }

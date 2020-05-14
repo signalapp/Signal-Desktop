@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 
 import { Avatar, Props as AvatarProps } from './Avatar';
-import { useRestoreFocus } from './hooks';
+import { useRestoreFocus } from '../util/hooks';
 
 import { LocalizerType } from '../types/Util';
 

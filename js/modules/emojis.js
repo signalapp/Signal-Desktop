@@ -1,5 +1,5 @@
 const { take } = require('lodash');
-const { getRecentEmojis } = require('./data');
+const { getRecentEmojis } = require('../../ts/sql/Client').default;
 
 module.exports = {
   getInitialState,

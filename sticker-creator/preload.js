@@ -6,7 +6,7 @@ const { readFile } = require('fs');
 const config = require('url').parse(window.location.toString(), true).query;
 const { noop, uniqBy } = require('lodash');
 const pMap = require('p-map');
-const { deriveStickerPackKey } = require('../js/modules/crypto');
+const { deriveStickerPackKey } = require('../ts/Crypto');
 const { makeGetter } = require('../preload_utils');
 
 const { dialog } = remote;
@@ -28,12 +28,16 @@ window.log.info('sticker-creator starting up...');
 const Signal = require('../js/modules/signal');
 
 window.Signal = Signal.setup({});
+window.textsecure = require('../ts/textsecure').default;
 
-const { initialize: initializeWebAPI } = require('../js/modules/web_api');
+const { initialize: initializeWebAPI } = require('../ts/textsecure/WebAPI');
 
 const WebAPI = initializeWebAPI({
   url: config.serverUrl,
-  cdnUrl: config.cdnUrl,
+  cdnUrlObject: {
+    '0': config.cdnUrl0,
+    '2': config.cdnUrl2,
+  },
   certificateAuthority: config.certificateAuthority,
   contentProxyUrl: config.contentProxyUrl,
   proxyUrl: config.proxyUrl,
@@ -143,8 +147,9 @@ window.encryptAndUpload = async (
 
 async function encrypt(data, key, iv) {
   const { ciphertext } = await window.textsecure.crypto.encryptAttachment(
-    // Convert Node Buffer to ArrayBuffer
-    window.Signal.Crypto.concatenateBytes(data),
+    data instanceof ArrayBuffer
+      ? data
+      : window.Signal.Crypto.typedArrayToArrayBuffer(data),
     key,
     iv
   );
@@ -155,7 +160,7 @@ async function encrypt(data, key, iv) {
 const getThemeSetting = makeGetter('theme-setting');
 
 async function resolveTheme() {
-  const theme = (await getThemeSetting()) || 'light';
+  const theme = (await getThemeSetting()) || 'system';
   if (process.platform === 'darwin' && theme === 'system') {
     return nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
   }

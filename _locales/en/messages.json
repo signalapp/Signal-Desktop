@@ -268,7 +268,7 @@
     "description": "Used as a label on a button allowing user to see more information"
   },
   "youLeftTheGroup": {
-    "message": "You left the group",
+    "message": "You left the group.",
     "description": "Displayed when a user can't send a message because they have left the group"
   },
   "scrollDown": {
@@ -412,6 +412,18 @@
   },
   "debugLogError": {
     "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file."
+  },
+  "debugLogCopy": {
+    "message": "Copy",
+    "description": "Shown as the text for the copy button on the debug log screen"
+  },
+  "debugLogCopyAlt": {
+    "message": "Copy link to your clipboard",
+    "description": "Shown as the alt text for the copy button on the debug log screen"
+  },
+  "debugLogLinkCopied": {
+    "message": "Link Copied to Your Clipboard",
+    "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
   },
   "reportIssue": {
     "message": "Report an issue",
@@ -1064,9 +1076,14 @@
   "installTooManyDevices": {
     "message": "Sorry, you have too many devices linked already. Try removing some."
   },
-  "settings": {
-    "message": "Settings",
-    "description": "Menu item and header for global settings"
+  "installTooOld": {
+    "message": "Update Signal on this device to link your phone."
+  },
+  "installErrorHeader": {
+    "message": "Something went wrong!"
+  },
+  "installTryAgain": {
+    "message": "Try again"
   },
   "theme": {
     "message": "Theme",
@@ -1123,6 +1140,14 @@
   "deleteAllDataProgress": {
     "message": "Disconnecting and deleting all data",
     "description": "Message shown to user when app is disconnected and data deleted"
+  },
+  "deleteOldIndexedDBData": {
+    "message": "You have obsolete data from a prior installation of Signal Desktop. If you choose to continue, it will be deleted and you will start from scratch.",
+    "description": "Shown if user last ran Signal Desktop before October 2018"
+  },
+  "deleteOldData": {
+    "message": "Delete Old Data",
+    "description": "Button to make the delete happen"
   },
   "notifications": {
     "message": "Notifications",
@@ -1591,7 +1616,7 @@
     "message": "Later"
   },
   "leftTheGroup": {
-    "message": "$name$ left the group",
+    "message": "$name$ left the group.",
     "description": "Shown in the conversation history when a single person leaves the group",
     "placeholders": {
       "name": {
@@ -1601,7 +1626,7 @@
     }
   },
   "multipleLeftTheGroup": {
-    "message": "$name$ left the group",
+    "message": "$name$ left the group.",
     "description": "Shown in the conversation history when multiple people leave the group",
     "placeholders": {
       "name": {
@@ -1611,11 +1636,25 @@
     }
   },
   "updatedTheGroup": {
-    "message": "Group updated",
+    "message": "$name$ updated the group.",
+    "description": "Shown in the conversation history when someone updates the group",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "youUpdatedTheGroup": {
+    "message": "You updated the group.",
+    "description": "Shown in the conversation history when you update a group"
+  },
+  "updatedGroupAvatar": {
+    "message": "Group avatar was updated.",
     "description": "Shown in the conversation history when someone updates the group"
   },
   "titleIsNow": {
-    "message": "Title is now '$name$'",
+    "message": "Group name is now '$name$'.",
     "description": "Shown in the conversation history when someone changes the title of the group",
     "placeholders": {
       "name": {
@@ -1624,8 +1663,12 @@
       }
     }
   },
+  "youJoinedTheGroup": {
+    "message": "You joined the group.",
+    "description": "Shown in the conversation history when you are added to a group."
+  },
   "joinedTheGroup": {
-    "message": "$name$ joined the group",
+    "message": "$name$ joined the group.",
     "description": "Shown in the conversation history when a single person joins the group",
     "placeholders": {
       "name": {
@@ -1635,7 +1678,7 @@
     }
   },
   "multipleJoinedTheGroup": {
-    "message": "$names$ joined the group",
+    "message": "$names$ joined the group.",
     "description": "Shown in the conversation history when more than one person joins the group",
     "placeholders": {
       "names": {
@@ -1668,6 +1711,10 @@
   "message--getDescription--disappearing-video": {
     "message": "View-once Video",
     "description": "Shown in notifications and in the left pane when a message is a view once video."
+  },
+  "message--deletedForEveryone": {
+    "message": "This message was deleted.",
+    "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
   "stickers--toast--InstallFailed": {
     "message": "Sticker pack could not be installed",
@@ -1951,6 +1998,10 @@
     "message": "Remove all draft attachments",
     "description": "Shown in the shortcuts guide"
   },
+  "Keyboard--conversation-by-index": {
+    "message": "Jump to conversation",
+    "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
     "description": "Key shown in shortcut combination in shortcuts guide"
@@ -1970,6 +2021,14 @@
   "Keyboard--Key--enter": {
     "message": "Enter",
     "description": "Key shown in shortcut combination in shortcuts guide"
+  },
+  "Keyboard--Key--tab": {
+    "message": "Tab",
+    "description": "Key shown in shortcut combination in shortcuts guide"
+  },
+  "Keyboard--Key--one-to-nine-range": {
+    "message": "1 to 9",
+    "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
   },
   "Keyboard--header": {
     "message": "Keyboard Shortcuts",
@@ -2236,6 +2295,10 @@
   "Reactions--error": {
     "message": "Failed to send reaction. Please try again.",
     "description": "Shown when a reaction fails to send"
+  },
+  "ReactionsViewer--more": {
+    "message": "More",
+    "description": "Use in the reaction picker as the alt text for the 'more' button"
   },
   "ReactionsViewer--all": {
     "message": "All",

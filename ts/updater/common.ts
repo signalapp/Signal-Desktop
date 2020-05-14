@@ -27,26 +27,8 @@ import { Dialogs } from '../types/Dialogs';
 import * as packageJson from '../../package.json';
 import { getSignatureFileName } from './signature';
 
-export type LocaleType = {
-  i18n: (key: string, placeholders: Array<string>) => string;
-  messages: {
-    [key: string]: {
-      message: string;
-      description?: string;
-    };
-  };
-};
-
-type LogFunction = (...args: Array<any>) => void;
-
-export type LoggerType = {
-  fatal: LogFunction;
-  error: LogFunction;
-  warn: LogFunction;
-  info: LogFunction;
-  debug: LogFunction;
-  trace: LogFunction;
-};
+import { LocaleType } from '../types/I18N';
+import { LoggerType } from '../types/Logging';
 
 const writeFile = pify(writeFileCallback);
 const mkdirpPromise = pify(mkdirp);

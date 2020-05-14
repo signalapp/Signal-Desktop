@@ -9,6 +9,7 @@ import { isFileDangerous } from './isFileDangerous';
 import { makeLookup } from './makeLookup';
 import { migrateColor } from './migrateColor';
 import { missingCaseError } from './missingCaseError';
+import * as zkgroup from './zkgroup';
 
 export {
   arrayBufferToObjectURL,
@@ -22,4 +23,5 @@ export {
   migrateColor,
   missingCaseError,
   Registration,
+  zkgroup,
 };

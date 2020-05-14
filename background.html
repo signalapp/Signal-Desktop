@@ -306,6 +306,9 @@
         </div>
         <div class='nav'>
           <a class='button try-again'>{{ errorButton }}</a>
+          {{#errorSecondButton}}
+            <a class='button second'>{{ errorSecondButton }}</a>
+          {{/errorSecondButton}}
         </div>
       </div>
     </div>
@@ -344,7 +347,6 @@
   <script type='text/javascript' src='js/reliable_trigger.js'></script>
   <script type='text/javascript' src='js/database.js'></script>
   <script type='text/javascript' src='js/storage.js'></script>
-  <script type='text/javascript' src='js/legacy_storage.js'></script>
   <script type='text/javascript' src='js/signal_protocol_store.js'></script>
   <script type='text/javascript' src='js/libtextsecure.js'></script>
 
@@ -354,6 +356,7 @@
   <script type='text/javascript' src='js/read_syncs.js'></script>
   <script type='text/javascript' src='js/view_syncs.js'></script>
   <script type='text/javascript' src='js/reactions.js'></script>
+  <script type='text/javascript' src='js/deletes.js'></script>
   <script type='text/javascript' src='js/libphonenumber-util.js'></script>
   <script type='text/javascript' src='js/models/messages.js'></script>
   <script type='text/javascript' src='js/models/conversations.js'></script>

@@ -9,13 +9,13 @@ window.waitForAllBatchers = async () => {
   await Promise.all(window.batchers.map(item => item.flushAndWait()));
 };
 
-type BatcherOptionsType<ItemType> = {
+export type BatcherOptionsType<ItemType> = {
   wait: number;
   maxSize: number;
   processBatch: (items: Array<ItemType>) => Promise<void>;
 };
 
-type BatcherType<ItemType> = {
+export type BatcherType<ItemType> = {
   add: (item: ItemType) => void;
   anyPending: () => boolean;
   onIdle: () => Promise<void>;

@@ -1,10 +1,8 @@
 import React from 'react';
-// import classNames from 'classnames';
 import { compact, flatten } from 'lodash';
 
 import { ContactName } from './ContactName';
-import { Emojify } from './Emojify';
-import { Intl } from '../Intl';
+import { FullJSXType, Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
@@ -13,16 +11,17 @@ interface Contact {
   phoneNumber: string;
   profileName?: string;
   name?: string;
+  isMe?: boolean;
 }
 
 interface Change {
-  type: 'add' | 'remove' | 'name' | 'general';
-  isMe: boolean;
+  type: 'add' | 'remove' | 'name' | 'avatar' | 'general';
   newName?: string;
   contacts?: Array<Contact>;
 }
 
 export type PropsData = {
+  from: Contact;
   changes: Array<Change>;
 };
 
@@ -30,48 +29,82 @@ type PropsHousekeeping = {
   i18n: LocalizerType;
 };
 
-type Props = PropsData & PropsHousekeeping;
+export type Props = PropsData & PropsHousekeeping;
 
 export class GroupNotification extends React.Component<Props> {
-  public renderChange(change: Change) {
-    const { isMe, contacts, type, newName } = change;
+  public renderChange(change: Change, from: Contact) {
+    const { contacts, type, newName } = change;
     const { i18n } = this.props;
 
-    const people = compact(
-      flatten(
-        (contacts || []).map((contact, index) => {
-          const element = (
-            <span
-              key={`external-${contact.phoneNumber}`}
-              className="module-group-notification__contact"
-            >
-              <ContactName
-                phoneNumber={contact.phoneNumber}
-                profileName={contact.profileName}
-                name={contact.name}
-              />
-            </span>
-          );
+    const otherPeople = compact(
+      (contacts || []).map(contact => {
+        if (contact.isMe) {
+          return null;
+        }
 
-          return [index > 0 ? ', ' : null, element];
-        })
+        return (
+          <span
+            key={`external-${contact.phoneNumber}`}
+            className="module-group-notification__contact"
+          >
+            <ContactName
+              phoneNumber={contact.phoneNumber}
+              profileName={contact.profileName}
+              name={contact.name}
+            />
+          </span>
+        );
+      })
+    );
+    const otherPeopleWithCommas: FullJSXType = compact(
+      flatten(
+        otherPeople.map((person, index) => [index > 0 ? ', ' : null, person])
       )
     );
+    const contactsIncludesMe = (contacts || []).length !== otherPeople.length;
 
     switch (type) {
       case 'name':
-        return <Emojify text={i18n('titleIsNow', [newName || ''])} />;
+        return (
+          <Intl i18n={i18n} id="titleIsNow" components={[newName || '']} />
+        );
+      case 'avatar':
+        return <Intl i18n={i18n} id="updatedGroupAvatar" />;
       case 'add':
         if (!contacts || !contacts.length) {
           throw new Error('Group update is missing contacts');
         }
 
-        const joinKey =
-          contacts.length > 1 ? 'multipleJoinedTheGroup' : 'joinedTheGroup';
+        if (contacts.length === 1) {
+          if (contactsIncludesMe) {
+            return <Intl i18n={i18n} id="youJoinedTheGroup" />;
+          } else {
+            return (
+              <Intl
+                i18n={i18n}
+                id="joinedTheGroup"
+                components={[otherPeopleWithCommas]}
+              />
+            );
+          }
+        }
 
-        return <Intl i18n={i18n} id={joinKey} components={[people]} />;
+        return (
+          <>
+            <Intl
+              i18n={i18n}
+              id="multipleJoinedTheGroup"
+              components={[otherPeopleWithCommas]}
+            />
+            {contactsIncludesMe ? (
+              <div className="module-group-notification__change">
+                <Intl i18n={i18n} id="youJoinedTheGroup" />
+              </div>
+            ) : null}
+          </>
+        );
       case 'remove':
-        if (isMe) {
+        if (from && from.isMe) {
           return i18n('youLeftTheGroup');
         }
 
@@ -82,22 +115,49 @@ export class GroupNotification extends React.Component<Props> {
         const leftKey =
           contacts.length > 1 ? 'multipleLeftTheGroup' : 'leftTheGroup';
 
-        return <Intl i18n={i18n} id={leftKey} components={[people]} />;
+        return (
+          <Intl i18n={i18n} id={leftKey} components={[otherPeopleWithCommas]} />
+        );
       case 'general':
-        return i18n('updatedTheGroup');
+        return;
       default:
         throw missingCaseError(type);
     }
   }
 
   public render() {
-    const { changes } = this.props;
+    const { changes, i18n, from } = this.props;
+
+    // Leave messages are always from the person leaving, so we omit the fromLabel if
+    //   the change is a 'leave.'
+    const isLeftOnly =
+      changes && changes.length === 1 && changes[0].type === 'remove';
+
+    const fromContact = (
+      <ContactName
+        phoneNumber={from.phoneNumber}
+        profileName={from.profileName}
+        name={from.name}
+      />
+    );
+
+    const fromLabel = from.isMe ? (
+      <Intl i18n={i18n} id="youUpdatedTheGroup" />
+    ) : (
+      <Intl i18n={i18n} id="updatedTheGroup" components={[fromContact]} />
+    );
 
     return (
       <div className="module-group-notification">
+        {isLeftOnly ? null : (
+          <>
+            {fromLabel}
+            <br />
+          </>
+        )}
         {(changes || []).map((change, index) => (
           <div key={index} className="module-group-notification__change">
-            {this.renderChange(change)}
+            {this.renderChange(change, from)}
           </div>
         ))}
       </div>

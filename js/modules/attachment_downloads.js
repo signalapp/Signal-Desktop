@@ -18,8 +18,8 @@ const {
   saveAttachmentDownloadJob,
   saveMessage,
   setAttachmentDownloadJobPending,
-} = require('./data');
-const { stringFromBytes } = require('./crypto');
+} = require('../../ts/sql/Client').default;
+const { stringFromBytes } = require('../../ts/Crypto');
 
 module.exports = {
   start,
@@ -188,14 +188,19 @@ async function _runJob(job) {
     }
 
     try {
+      if (attachment.id) {
+        // eslint-disable-next-line no-param-reassign
+        attachment.cdnId = attachment.id;
+      }
       downloaded = await messageReceiver.downloadAttachment(attachment);
     } catch (error) {
       // Attachments on the server expire after 30 days, then start returning 404
       if (error && error.code === 404) {
         logger.warn(
-          `_runJob: Got 404 from server, marking attachment ${
-            attachment.id
-          } from message ${message.idForLogging()} as permanent error`
+          `_runJob: Got 404 from server for CDN ${
+            attachment.cdnNumber
+          }, marking attachment ${attachment.cdnId ||
+            attachment.cdnKey} from message ${message.idForLogging()} as permanent error`
         );
 
         await _finishJob(message, id);
@@ -422,21 +427,39 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
       return;
     }
 
-    const existingAvatar = conversation.get('avatar');
-    if (existingAvatar && existingAvatar.path) {
-      await Signal.Migrations.deleteAttachmentData(existingAvatar.path);
-    }
-
     const loadedAttachment = await Signal.Migrations.loadAttachmentData(
       attachment
     );
+    const hash = await computeHash(loadedAttachment.data);
+    const existingAvatar = conversation.get('avatar');
+
+    if (existingAvatar) {
+      if (existingAvatar.hash === hash) {
+        logger.info(
+          '_addAttachmentToMessage: Group avatar hash matched; not replacing group avatar'
+        );
+        return;
+      }
+
+      await Signal.Migrations.deleteAttachmentData(existingAvatar.path);
+    }
+
     conversation.set({
       avatar: {
         ...attachment,
-        hash: await computeHash(loadedAttachment.data),
+        hash,
       },
     });
-    Signal.Data.updateConversation(conversationId, conversation.attributes);
+    Signal.Data.updateConversation(conversation.attributes);
+
+    message.set({
+      group_update: {
+        ...message.get('group_update'),
+        avatar: null,
+        avatarUpdated: true,
+      },
+    });
+
     return;
   }
 

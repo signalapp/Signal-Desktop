@@ -100,6 +100,7 @@ $color-conversation-green: $color-forest;
 $color-conversation-light_green: $color-wintergreen;
 $color-conversation-blue_grey: $color-taupe;
 $color-conversation-grey: $color-steel;
+$color-conversation-ultramarine: $ultramarine-ui-light;
 
 $color-conversation-red-tint: $color-crimson-tint;
 $color-conversation-deep_orange-tint: $color-vermilion-tint;
@@ -113,6 +114,7 @@ $color-conversation-green-tint: $color-forest-tint;
 $color-conversation-light_green-tint: $color-wintergreen-tint;
 $color-conversation-blue_grey-tint: $color-taupe-tint;
 $color-conversation-grey-tint: $color-steel-tint;
+$color-conversation-ultramarine-tint: $color-ios-blue-tint;
 
 $color-conversation-red-shade: $color-crimson-shade;
 $color-conversation-deep_orange-shade: $color-vermilion-shade;
@@ -126,6 +128,7 @@ $color-conversation-green-shade: $color-forest-shade;
 $color-conversation-light_green-shade: $color-wintergreen-shade;
 $color-conversation-blue_grey-shade: $color-taupe-shade;
 $color-conversation-grey-shade: $color-steel-shade;
+$color-conversation-ultramarine-shade: $ultramarine-brand-dark;
 
 // Maps for easy manipulation
 
@@ -141,6 +144,7 @@ $conversation-colors: (
   'green': $color-conversation-green,
   'light_green': $color-conversation-light_green,
   'blue_grey': $color-conversation-blue_grey,
+  'ultramarine': $color-conversation-ultramarine,
 );
 $conversation-colors-tint: (
   'red': $color-conversation-red-tint,
@@ -154,6 +158,7 @@ $conversation-colors-tint: (
   'green': $color-conversation-green-tint,
   'light_green': $color-conversation-light_green-tint,
   'blue_grey': $color-conversation-blue_grey-tint,
+  'ultramarine': $color-conversation-ultramarine-tint,
 );
 $conversation-colors-shade: (
   'red': $color-conversation-red-shade,
@@ -167,6 +172,7 @@ $conversation-colors-shade: (
   'green': $color-conversation-green-shade,
   'light_green': $color-conversation-light_green-shade,
   'blue_grey': $color-conversation-blue_grey-shade,
+  'ultramarine': $color-conversation-ultramarine-shade,
 );
 
 // -- Non-V3 colors

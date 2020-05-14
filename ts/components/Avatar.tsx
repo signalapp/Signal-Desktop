@@ -2,11 +2,12 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { getInitials } from '../util/getInitials';
-import { LocalizerType } from '../types/Util';
+import { ColorType, LocalizerType } from '../types/Util';
 
 export interface Props {
   avatarPath?: string;
-  color?: string;
+  color?: ColorType;
+
   conversationType: 'group' | 'direct';
   noteToSelf?: boolean;
   name?: string;

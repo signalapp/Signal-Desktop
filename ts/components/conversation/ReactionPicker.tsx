@@ -1,20 +1,34 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { Emoji } from '../emoji/Emoji';
-import { useRestoreFocus } from '../hooks';
+import { convertShortName } from '../emoji/lib';
+import { Props as EmojiPickerProps } from '../emoji/EmojiPicker';
+import { useRestoreFocus } from '../../util/hooks';
+import { LocalizerType } from '../../types/Util';
+
+export type RenderEmojiPickerProps = Pick<Props, 'onClose' | 'style'> &
+  Pick<EmojiPickerProps, 'onPickEmoji'> & {
+    ref: React.Ref<HTMLDivElement>;
+  };
 
 export type OwnProps = {
+  i18n: LocalizerType;
   selected?: string;
   onClose?: () => unknown;
   onPick: (emoji: string) => unknown;
+  renderEmojiPicker: (props: RenderEmojiPickerProps) => React.ReactElement;
 };
 
 export type Props = OwnProps & Pick<React.HTMLProps<HTMLDivElement>, 'style'>;
 
 const emojis = ['❤️', '👍', '👎', '😂', '😮', '😢', '😡'];
 
+const getEmojis = () =>
+  emojis.slice(0, window.REACT_ANY_EMOJI ? emojis.length - 1 : emojis.length);
+
 export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
-  ({ selected, onClose, onPick, ...rest }, ref) => {
+  ({ i18n, selected, onClose, onPick, renderEmojiPicker, style }, ref) => {
+    const [pickingOther, setPickingOther] = React.useState(false);
     const focusRef = React.useRef<HTMLButtonElement>(null);
 
     // Handle escape key
@@ -32,12 +46,24 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       };
     }, [onClose]);
 
+    // Handle EmojiPicker::onPickEmoji
+    const onPickEmoji: EmojiPickerProps['onPickEmoji'] = React.useCallback(
+      ({ shortName, skinTone }) => {
+        onPick(convertShortName(shortName, skinTone));
+      },
+      [onPick]
+    );
+
     // Focus first button and restore focus on unmount
     useRestoreFocus(focusRef);
 
-    return (
-      <div {...rest} ref={ref} className="module-reaction-picker">
-        {emojis.map((emoji, index) => {
+    const otherSelected = selected && !getEmojis().includes(selected);
+
+    return pickingOther ? (
+      renderEmojiPicker({ onPickEmoji, onClose, style, ref })
+    ) : (
+      <div ref={ref} style={style} className="module-reaction-picker">
+        {getEmojis().map((emoji, index) => {
           const maybeFocusRef = index === 0 ? focusRef : undefined;
 
           return (
@@ -55,6 +81,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
                 e.stopPropagation();
                 onPick(emoji);
               }}
+              title={emoji}
             >
               <div className="module-reaction-picker__emoji-btn__emoji">
                 <Emoji size={48} emoji={emoji} />
@@ -62,6 +89,31 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
             </button>
           );
         })}
+        {window.REACT_ANY_EMOJI ? (
+          <button
+            className={classNames(
+              'module-reaction-picker__emoji-btn',
+              otherSelected
+                ? 'module-reaction-picker__emoji-btn--selected'
+                : 'module-reaction-picker__emoji-btn--more'
+            )}
+            onClick={e => {
+              e.stopPropagation();
+              if (otherSelected && selected) {
+                onPick(selected);
+              } else {
+                setPickingOther(true);
+              }
+            }}
+            title={i18n('ReactionsViewer--more')}
+          >
+            {otherSelected ? (
+              <div className="module-reaction-picker__emoji-btn__emoji">
+                <Emoji size={48} emoji={selected} />
+              </div>
+            ) : null}
+          </button>
+        ) : null}
       </div>
     );
   }

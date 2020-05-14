@@ -1,6 +1,9 @@
 import { take, uniq } from 'lodash';
 import { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
-import { updateEmojiUsage } from '../../../js/modules/data';
+import dataInterface from '../../sql/Client';
+import { useBoundActions } from '../../util/hooks';
+
+const { updateEmojiUsage } = dataInterface;
 
 // State
 
@@ -10,32 +13,34 @@ export type EmojisStateType = {
 
 // Actions
 
-type UseEmojiPayloadType = string;
-type UseEmojiAction = {
+type OnUseEmojiPayloadType = string;
+type OnUseEmojiAction = {
   type: 'emojis/USE_EMOJI';
-  payload: Promise<UseEmojiPayloadType>;
+  payload: Promise<OnUseEmojiPayloadType>;
 };
-type UseEmojiFulfilledAction = {
+type OnUseEmojiFulfilledAction = {
   type: 'emojis/USE_EMOJI_FULFILLED';
-  payload: UseEmojiPayloadType;
+  payload: OnUseEmojiPayloadType;
 };
 
-export type EmojisActionType = UseEmojiAction | UseEmojiFulfilledAction;
+export type EmojisActionType = OnUseEmojiAction | OnUseEmojiFulfilledAction;
 
 // Action Creators
 
 export const actions = {
-  useEmoji,
+  onUseEmoji,
 };
 
-function useEmoji({ shortName }: EmojiPickDataType): UseEmojiAction {
+export const useActions = () => useBoundActions(actions);
+
+function onUseEmoji({ shortName }: EmojiPickDataType): OnUseEmojiAction {
   return {
     type: 'emojis/USE_EMOJI',
     payload: doUseEmoji(shortName),
   };
 }
 
-async function doUseEmoji(shortName: string): Promise<UseEmojiPayloadType> {
+async function doUseEmoji(shortName: string): Promise<OnUseEmojiPayloadType> {
   await updateEmojiUsage(shortName);
 
   return shortName;

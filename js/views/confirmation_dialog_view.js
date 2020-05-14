@@ -58,7 +58,7 @@
     cancel() {
       this.remove();
       if (this.reject) {
-        this.reject();
+        this.reject(new Error('User clicked cancel button'));
       }
     },
     onKeydown(event) {

@@ -143,6 +143,14 @@
         "message": "Инсталиране като отделно устройство",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "contextMenuCopyLink": {
+        "message": "Копирай връзка",
+        "description": "Shown in the context menu for a link to indicate that the user can copy the link"
+    },
+    "contextMenuNoSuggestions": {
+        "message": "No Suggestions",
+        "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
+    },
     "avatarMenuViewArchive": {
         "message": "View Archive",
         "description": "One of the menu options available in the Avatar Popup menu"
@@ -251,16 +259,12 @@
             }
         }
     },
-    "me": {
-        "message": "Аз",
-        "description": "The label for yourself when shown in a group member list"
-    },
     "view": {
         "message": "Преглед",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Напуснахте групата",
+        "message": "You left the group.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -284,6 +288,10 @@
                 "example": "5"
             }
         }
+    },
+    "messageHistoryUnsynced": {
+        "message": "For your security, conversation history isn't transferred to new linked devices.",
+        "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
         "message": "You marked your Safety Number with $name$ as verified",
@@ -576,6 +584,10 @@
     "connecting": {
         "message": "Свързване",
         "description": "Displayed when the desktop client is currently connecting to the server."
+    },
+    "connect": {
+        "message": "Connect",
+        "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
         "message": "Shouldn't be long...",
@@ -1095,6 +1107,14 @@
         "message": "Enable spell check of text entered in message composition box",
         "description": "Description of the media permission description"
     },
+    "spellCheckWillBeEnabled": {
+        "message": "Spell check will be enabled the next time Signal starts.",
+        "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
+    },
+    "spellCheckWillBeDisabled": {
+        "message": "Spell check will be disabled the next time Signal starts.",
+        "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
     "clearDataHeader": {
         "message": "Изчистване на данните",
         "description": "Header in the settings dialog for the section dealing with data deletion"
@@ -1557,6 +1577,10 @@
         "message": "Start new conversation…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "notSupportedSMS": {
+        "message": "SMS/MMS messages are not supported.",
+        "description": "Label underneath number informing user that SMS is not supported on desktop"
+    },
     "newPhoneNumber": {
         "message": "Въведете телефонен номер за да добавите контакт.",
         "description": "Placeholder for adding a new number to a contact"
@@ -1598,7 +1622,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ left the group.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1608,7 +1632,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ left the group.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1618,11 +1642,25 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Group updated",
+        "message": "$name$ updated the group.",
+        "description": "Shown in the conversation history when someone updates the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "youUpdatedTheGroup": {
+        "message": "Обновихте групата.",
+        "description": "Shown in the conversation history when you update a group"
+    },
+    "updatedGroupAvatar": {
+        "message": "Group avatar was updated.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Title is now '$name$'",
+        "message": "Group name is now '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1631,8 +1669,12 @@
             }
         }
     },
+    "youJoinedTheGroup": {
+        "message": "You joined the group.",
+        "description": "Shown in the conversation history when you are added to a group."
+    },
     "joinedTheGroup": {
-        "message": "$name$ joined the group",
+        "message": "$name$ joined the group.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1684,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group",
+        "message": "$names$ joined the group.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {

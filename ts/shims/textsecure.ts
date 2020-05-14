@@ -1,52 +1,9 @@
-type LoggerType = (...args: Array<any>) => void;
-
-type TextSecureType = {
-  storage: {
-    user: {
-      getNumber: () => string;
-    };
-    get: (item: string) => any;
-  };
-  messaging: {
-    sendStickerPackSync: (
-      operations: Array<{
-        packId: string;
-        packKey: string;
-        installed: boolean;
-      }>,
-      options: Object
-    ) => Promise<void>;
-  };
-};
-
-type ConversationControllerType = {
-  prepareForSend: (
-    id: string,
-    options: Object
-  ) => {
-    wrap: (promise: Promise<any>) => Promise<void>;
-    sendOptions: Object;
-  };
-};
-
-interface ShimmedWindow extends Window {
-  log: {
-    error: LoggerType;
-    info: LoggerType;
-  };
-  textsecure: TextSecureType;
-  ConversationController: ConversationControllerType;
-}
-
-const unknownWindow = window as unknown;
-const shimmedWindow = unknownWindow as ShimmedWindow;
-
 export function sendStickerPackSync(
   packId: string,
   packKey: string,
   installed: boolean
 ) {
-  const { ConversationController, textsecure, log } = shimmedWindow;
+  const { ConversationController, textsecure, log } = window;
   const ourNumber = textsecure.storage.user.getNumber();
   const { wrap, sendOptions } = ConversationController.prepareForSend(
     ourNumber,

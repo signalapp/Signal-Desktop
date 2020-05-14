@@ -17,19 +17,20 @@ import {
 } from 'lodash';
 import { Emoji } from './Emoji';
 import { dataByCategory, search } from './lib';
-import { useRestoreFocus } from '../hooks';
+import { useRestoreFocus } from '../../util/hooks';
 import { LocalizerType } from '../../types/Util';
 
 export type EmojiPickDataType = { skinTone?: number; shortName: string };
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
+  readonly disableSkinTones?: boolean;
   readonly onPickEmoji: (o: EmojiPickDataType) => unknown;
   readonly doSend?: () => unknown;
-  readonly skinTone: number;
-  readonly onSetSkinTone: (tone: number) => unknown;
+  readonly skinTone?: number;
+  readonly onSetSkinTone?: (tone: number) => unknown;
   readonly recentEmojis?: Array<string>;
-  readonly onClose: () => unknown;
+  readonly onClose?: () => unknown;
 };
 
 export type Props = OwnProps & Pick<React.HTMLProps<HTMLDivElement>, 'style'>;
@@ -63,6 +64,7 @@ export const EmojiPicker = React.memo(
         doSend,
         onPickEmoji,
         skinTone = 0,
+        disableSkinTones = false,
         onSetSkinTone,
         recentEmojis = [],
         style,
@@ -81,13 +83,19 @@ export const EmojiPicker = React.memo(
       const [searchMode, setSearchMode] = React.useState(false);
       const [searchText, setSearchText] = React.useState('');
       const [scrollToRow, setScrollToRow] = React.useState(0);
-      const [selectedTone, setSelectedTone] = React.useState(skinTone);
+      const [selectedTone, setSelectedTone] = React.useState(
+        disableSkinTones ? 0 : skinTone
+      );
 
-      const handleToggleSearch = React.useCallback(() => {
-        setSearchText('');
-        setSelectedCategory(categories[0]);
-        setSearchMode(m => !m);
-      }, [setSearchText, setSearchMode]);
+      const handleToggleSearch = React.useCallback(
+        (e: React.MouseEvent) => {
+          e.stopPropagation();
+          setSearchText('');
+          setSelectedCategory(categories[0]);
+          setSearchMode(m => !m);
+        },
+        [setSearchText, setSearchMode]
+      );
 
       const debounceSearchChange = React.useMemo(
         () =>
@@ -110,9 +118,11 @@ export const EmojiPicker = React.memo(
           const { tone = '0' } = e.currentTarget.dataset;
           const parsedTone = parseInt(tone, 10);
           setSelectedTone(parsedTone);
-          onSetSkinTone(parsedTone);
+          if (onSetSkinTone) {
+            onSetSkinTone(parsedTone);
+          }
         },
-        []
+        [onSetSkinTone]
       );
 
       const handlePickEmoji = React.useCallback(
@@ -122,15 +132,16 @@ export const EmojiPicker = React.memo(
             | React.KeyboardEvent<HTMLButtonElement>
         ) => {
           if ('key' in e) {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && doSend) {
+              e.stopPropagation();
               e.preventDefault();
-              if (doSend) {
-                doSend();
-              }
+              doSend();
             }
           } else {
             const { shortName } = e.currentTarget.dataset;
             if (shortName) {
+              e.stopPropagation();
+              e.preventDefault();
               onPickEmoji({ skinTone: selectedTone, shortName });
             }
           }
@@ -160,7 +171,9 @@ export const EmojiPicker = React.memo(
               ' ', // Space
             ].includes(event.key)
           ) {
-            onClose();
+            if (onClose) {
+              onClose();
+            }
 
             event.preventDefault();
             event.stopPropagation();
@@ -224,8 +237,9 @@ export const EmojiPicker = React.memo(
       );
 
       const handleSelectCategory = React.useCallback(
-        ({ currentTarget }: React.MouseEvent<HTMLButtonElement>) => {
-          const { category } = currentTarget.dataset;
+        (e: React.MouseEvent<HTMLButtonElement>) => {
+          e.stopPropagation();
+          const { category } = e.currentTarget.dataset;
           if (category) {
             setSelectedCategory(category);
             setScrollToRow(catToRowOffsets[category]);
@@ -368,25 +382,27 @@ export const EmojiPicker = React.memo(
               />
             </div>
           )}
-          <footer className="module-emoji-picker__footer">
-            {[0, 1, 2, 3, 4, 5].map(tone => (
-              <button
-                key={tone}
-                data-tone={tone}
-                onClick={handlePickTone}
-                title={i18n('EmojiPicker--skin-tone', [`${tone}`])}
-                className={classNames(
-                  'module-emoji-picker__button',
-                  'module-emoji-picker__button--footer',
-                  selectedTone === tone
-                    ? 'module-emoji-picker__button--selected'
-                    : null
-                )}
-              >
-                <Emoji shortName="hand" skinTone={tone} size={20} />
-              </button>
-            ))}
-          </footer>
+          {!disableSkinTones ? (
+            <footer className="module-emoji-picker__footer">
+              {[0, 1, 2, 3, 4, 5].map(tone => (
+                <button
+                  key={tone}
+                  data-tone={tone}
+                  onClick={handlePickTone}
+                  title={i18n('EmojiPicker--skin-tone', [`${tone}`])}
+                  className={classNames(
+                    'module-emoji-picker__button',
+                    'module-emoji-picker__button--footer',
+                    selectedTone === tone
+                      ? 'module-emoji-picker__button--selected'
+                      : null
+                  )}
+                >
+                  <Emoji shortName="hand" skinTone={tone} size={20} />
+                </button>
+              ))}
+            </footer>
+          ) : null}
         </div>
       );
     }

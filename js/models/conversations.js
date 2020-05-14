@@ -51,6 +51,7 @@
     'green',
     'light_green',
     'blue_grey',
+    'ultramarine',
   ];
 
   Whisper.Conversation = Backbone.Model.extend({
@@ -413,6 +414,7 @@
         lastMessage: {
           status: this.get('lastMessageStatus'),
           text: this.get('lastMessage'),
+          deletedForEveryone: this.get('lastMessageDeletedForEveryone'),
         },
       };
 
@@ -423,7 +425,7 @@
       const oldValue = this.get('e164');
       if (e164 !== oldValue) {
         this.set('e164', e164);
-        window.Signal.Data.updateConversation(this.id, this.attributes);
+        window.Signal.Data.updateConversation(this.attributes);
         this.trigger('idUpdated', this, 'e164', oldValue);
       }
     },
@@ -431,7 +433,7 @@
       const oldValue = this.get('uuid');
       if (uuid !== oldValue) {
         this.set('uuid', uuid);
-        window.Signal.Data.updateConversation(this.id, this.attributes);
+        window.Signal.Data.updateConversation(this.attributes);
         this.trigger('idUpdated', this, 'uuid', oldValue);
       }
     },
@@ -439,7 +441,7 @@
       const oldValue = this.get('groupId');
       if (groupId !== oldValue) {
         this.set('groupId', groupId);
-        window.Signal.Data.updateConversation(this.id, this.attributes);
+        window.Signal.Data.updateConversation(this.attributes);
         this.trigger('idUpdated', this, 'groupId', oldValue);
       }
     },
@@ -460,7 +462,7 @@
 
         if (this.get('verified') !== verified) {
           this.set({ verified });
-          window.Signal.Data.updateConversation(this.id, this.attributes);
+          window.Signal.Data.updateConversation(this.attributes);
         }
 
         return;
@@ -524,7 +526,7 @@
       }
 
       this.set({ verified });
-      window.Signal.Data.updateConversation(this.id, this.attributes);
+      window.Signal.Data.updateConversation(this.attributes);
 
       // Three situations result in a verification notice in the conversation:
       //   1) The message came from an explicit verification in another client (not
@@ -1221,7 +1223,7 @@
           draft: null,
           draftTimestamp: null,
         });
-        window.Signal.Data.updateConversation(this.id, this.attributes);
+        window.Signal.Data.updateConversation(this.attributes);
 
         // We're offline!
         if (!textsecure.messaging) {
@@ -1353,10 +1355,7 @@
             conversation.set({
               sealedSender: SEALED_SENDER.DISABLED,
             });
-            window.Signal.Data.updateConversation(
-              conversation.id,
-              conversation.attributes
-            );
+            window.Signal.Data.updateConversation(conversation.attributes);
           }
         })
       );
@@ -1384,10 +1383,7 @@
                 sealedSender: SEALED_SENDER.UNRESTRICTED,
               });
             }
-            window.Signal.Data.updateConversation(
-              conversation.id,
-              conversation.attributes
-            );
+            window.Signal.Data.updateConversation(conversation.attributes);
           }
         })
       );
@@ -1395,14 +1391,10 @@
 
     getSendOptions(options = {}) {
       const senderCertificate = storage.get('senderCertificate');
-      const senderCertificateWithUuid = storage.get(
-        'senderCertificateWithUuid'
-      );
       const sendMetadata = this.getSendMetadata(options);
 
       return {
         senderCertificate,
-        senderCertificateWithUuid,
         sendMetadata,
       };
     },
@@ -1460,7 +1452,9 @@
             window.Signal.Crypto.arrayBufferToBase64(
               window.Signal.Crypto.getRandomBytes(16)
             ),
-          useUuidSenderCert: uuidCapable,
+          // Indicates that a client is capable of receiving uuid-only messages.
+          // Not used yet.
+          uuidCapable,
         };
         return {
           ...(e164 ? { [e164]: info } : {}),
@@ -1479,7 +1473,9 @@
             : window.Signal.Crypto.arrayBufferToBase64(
                 window.Signal.Crypto.getRandomBytes(16)
               ),
-        useUuidSenderCert: uuidCapable,
+        // Indicates that a client is capable of receiving uuid-only messages.
+        // Not used yet.
+        uuidCapable,
       };
 
       return {
@@ -1529,7 +1525,7 @@
       this.set(lastMessageUpdate);
 
       if (this.hasChanged()) {
-        window.Signal.Data.updateConversation(this.id, this.attributes, {
+        window.Signal.Data.updateConversation(this.attributes, {
           Conversation: Whisper.Conversation,
         });
       }
@@ -1537,7 +1533,7 @@
 
     async setArchived(isArchived) {
       this.set({ isArchived });
-      window.Signal.Data.updateConversation(this.id, this.attributes);
+      window.Signal.Data.updateConversation(this.attributes);
     },
 
     async updateExpirationTimer(
@@ -1548,6 +1544,9 @@
     ) {
       let expireTimer = providedExpireTimer;
       let source = providedSource;
+      if (this.get('left')) {
+        return false;
+      }
 
       _.defaults(options, { fromSync: false, fromGroupUpdate: false });
 
@@ -1577,7 +1576,7 @@
       const timestamp = (receivedAt || Date.now()) - 1;
 
       this.set({ expireTimer });
-      window.Signal.Data.updateConversation(this.id, this.attributes);
+      window.Signal.Data.updateConversation(this.attributes);
 
       const model = new Whisper.Message({
         // Even though this isn't reflected to the user, we want to place the last seen
@@ -1783,7 +1782,7 @@
       if (this.get('type') === 'group') {
         const groupNumbers = this.getRecipients();
         this.set({ left: true });
-        window.Signal.Data.updateConversation(this.id, this.attributes);
+        window.Signal.Data.updateConversation(this.attributes);
 
         const model = new Whisper.Message({
           group_update: { left: 'You' },
@@ -1848,7 +1847,7 @@
 
       const unreadCount = unreadMessages.length - read.length;
       this.set({ unreadCount });
-      window.Signal.Data.updateConversation(this.id, this.attributes);
+      window.Signal.Data.updateConversation(this.attributes);
 
       // If a message has errors, we don't want to send anything out about it.
       //   read syncs - let's wait for a client that really understands the message
@@ -1920,7 +1919,15 @@
       }
 
       const c = await ConversationController.getOrCreateAndWait(id, 'private');
+      const {
+        generateProfileKeyCredentialRequest,
+        getClientZkProfileOperations,
+        handleProfileKeyCredential,
+      } = Util.zkgroup;
 
+      const clientZkProfileCipher = getClientZkProfileOperations(
+        window.getServerPublicParams()
+      );
       // Because we're no longer using Backbone-integrated saves, we need to manually
       //   clear the changed fields here so our hasChanged() check is useful.
       c.changed = {};
@@ -1928,7 +1935,36 @@
       let profile;
 
       try {
-        await c.deriveAccessKeyIfNeeded();
+        await Promise.all([
+          c.deriveAccessKeyIfNeeded(),
+          c.deriveProfileKeyVersionIfNeeded(),
+        ]);
+
+        const profileKey = c.get('profileKey');
+        const uuid = c.get('uuid');
+        const profileKeyVersionHex = window.VERSIONED_PROFILE_FETCH
+          ? c.get('profileKeyVersion')
+          : null;
+        const existingProfileKeyCredential = c.get('profileKeyCredential');
+
+        const weHaveVersion = Boolean(
+          profileKey && uuid && profileKeyVersionHex
+        );
+        let profileKeyCredentialRequestHex;
+        let profileCredentialRequestContext;
+
+        if (weHaveVersion && !existingProfileKeyCredential) {
+          window.log.info('Generating request...');
+          ({
+            requestHex: profileKeyCredentialRequestHex,
+            context: profileCredentialRequestContext,
+          } = generateProfileKeyCredentialRequest(
+            clientZkProfileCipher,
+            uuid,
+            profileKey
+          ));
+        }
+
         const sendMetadata = c.getSendMetadata({ disableMeCheck: true }) || {};
         const getInfo = sendMetadata[c.id] || {};
 
@@ -1936,6 +1972,8 @@
           try {
             profile = await textsecure.messaging.getProfile(id, {
               accessKey: getInfo.accessKey,
+              profileKeyVersion: profileKeyVersionHex,
+              profileKeyCredentialRequest: profileKeyCredentialRequestHex,
             });
           } catch (error) {
             if (error.code === 401 || error.code === 403) {
@@ -1943,13 +1981,19 @@
                 `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
               );
               c.set({ sealedSender: SEALED_SENDER.DISABLED });
-              profile = await textsecure.messaging.getProfile(id);
+              profile = await textsecure.messaging.getProfile(id, {
+                profileKeyVersion: profileKeyVersionHex,
+                profileKeyCredentialRequest: profileKeyCredentialRequestHex,
+              });
             } else {
               throw error;
             }
           }
         } else {
-          profile = await textsecure.messaging.getProfile(id);
+          profile = await textsecure.messaging.getProfile(id, {
+            profileKeyVersion: profileKeyVersionHex,
+            profileKeyCredentialRequest: profileKeyCredentialRequestHex,
+          });
         }
 
         const identityKey = window.Signal.Crypto.base64ToArrayBuffer(
@@ -2016,10 +2060,18 @@
         if (profile.capabilities) {
           c.set({ capabilities: profile.capabilities });
         }
+        if (profileCredentialRequestContext && profile.credential) {
+          const profileKeyCredential = handleProfileKeyCredential(
+            clientZkProfileCipher,
+            profileCredentialRequestContext,
+            profile.credential
+          );
+          c.set({ profileKeyCredential });
+        }
       } catch (error) {
         if (error.code !== 403 && error.code !== 404) {
-          window.log.error(
-            'getProfile error:',
+          window.log.warn(
+            'getProfile failure:',
             id,
             error && error.stack ? error.stack : error
           );
@@ -2032,8 +2084,8 @@
       try {
         await c.setProfileName(profile.name);
       } catch (error) {
-        window.log.error(
-          'getProfile decryption error:',
+        window.log.warn(
+          'getProfile decryption failure:',
           id,
           error && error.stack ? error.stack : error
         );
@@ -2044,6 +2096,9 @@
         await c.setProfileAvatar(profile.avatar);
       } catch (error) {
         if (error.code === 403 || error.code === 404) {
+          window.log.info(
+            `Clearing profile avatar for conversation ${c.idForLogging()}`
+          );
           c.set({
             profileAvatar: null,
           });
@@ -2051,7 +2106,7 @@
       }
 
       if (c.hasChanged()) {
-        window.Signal.Data.updateConversation(id, c.attributes);
+        window.Signal.Data.updateConversation(c.attributes);
       }
     },
     async setProfileName(encryptedName) {
@@ -2122,6 +2177,8 @@
         );
         this.set({
           profileKey,
+          profileKeyVersion: null,
+          profileKeyCredential: null,
           accessKey: null,
           profileName: null,
           profileFamilyName: null,
@@ -2129,9 +2186,12 @@
           sealedSender: SEALED_SENDER.UNKNOWN,
         });
 
-        await this.deriveAccessKeyIfNeeded();
+        await Promise.all([
+          this.deriveAccessKeyIfNeeded(),
+          this.deriveProfileKeyVersionIfNeeded(),
+        ]);
 
-        window.Signal.Data.updateConversation(this.id, this.attributes, {
+        window.Signal.Data.updateConversation(this.attributes, {
           Conversation: Whisper.Conversation,
         });
       }
@@ -2147,15 +2207,17 @@
         }
 
         this.set({
-          profileAvatar: null,
           profileKey: null,
+          profileKeyVersion: null,
+          profileKeyCredential: null,
+          accessKey: null,
           profileName: null,
           profileFamilyName: null,
-          accessKey: null,
+          profileAvatar: null,
           sealedSender: SEALED_SENDER.UNKNOWN,
         });
 
-        window.Signal.Data.updateConversation(this.id, this.attributes);
+        window.Signal.Data.updateConversation(this.attributes);
       }
     },
 
@@ -2178,6 +2240,28 @@
         accessKeyBuffer
       );
       this.set({ accessKey });
+    },
+    async deriveProfileKeyVersionIfNeeded() {
+      const profileKey = this.get('profileKey');
+      if (!profileKey) {
+        return;
+      }
+      // We won't even save derived profile key versions if we haven't flipped this switch
+      if (!window.VERSIONED_PROFILE_FETCH) {
+        return;
+      }
+
+      const uuid = this.get('uuid');
+      if (!uuid || this.get('profileKeyVersion')) {
+        return;
+      }
+
+      const profileKeyVersion = Util.zkgroup.deriveProfileKeyVersion(
+        profileKey,
+        uuid
+      );
+
+      this.set({ profileKeyVersion });
     },
 
     hasMember(identifier) {
@@ -2215,7 +2299,7 @@
         timestamp: null,
         active_at: null,
       });
-      window.Signal.Data.updateConversation(this.id, this.attributes);
+      window.Signal.Data.updateConversation(this.attributes);
 
       await window.Signal.Data.removeAllMessagesInConversation(this.id, {
         MessageCollection: Whisper.MessageCollection,

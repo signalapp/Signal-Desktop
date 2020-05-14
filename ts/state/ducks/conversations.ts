@@ -88,8 +88,10 @@ export type MessageType = {
       phoneNumber?: string;
     };
   }>;
+  deletedForEveryone?: boolean;
 
   errors?: Array<Error>;
+  group_update?: any;
 
   // No need to go beyond this; unused at this stage, since this goes into
   //   a reducer still in plain JavaScript and comes out well-formed
@@ -581,6 +583,11 @@ function hasMessageHeightChanged(
     return true;
   }
 
+  const groupUpdateChanged = message.group_update !== previous.group_update;
+  if (groupUpdateChanged) {
+    return true;
+  }
+
   const stickerPendingChanged =
     message.sticker &&
     message.sticker.data &&
@@ -618,6 +625,12 @@ function hasMessageHeightChanged(
   const reactionsChanged =
     (currentReactions.length === 0) !== (lastReactions.length === 0);
   if (reactionsChanged) {
+    return true;
+  }
+
+  const isDeletedForEveryone = message.deletedForEveryone;
+  const wasDeletedForEveryone = previous.deletedForEveryone;
+  if (isDeletedForEveryone !== wasDeletedForEveryone) {
     return true;
   }
 

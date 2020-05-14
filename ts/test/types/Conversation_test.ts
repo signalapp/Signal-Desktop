@@ -38,6 +38,7 @@ describe('Conversation', () => {
         const expected = {
           lastMessage: 'New outgoing message',
           lastMessageStatus: 'read',
+          lastMessageDeletedForEveryone: undefined,
           timestamp: 666,
         };
 
@@ -61,6 +62,7 @@ describe('Conversation', () => {
         const expected = {
           lastMessage: 'xoxoxoxo',
           lastMessageStatus: null,
+          lastMessageDeletedForEveryone: undefined,
           timestamp: 555,
         };
 
@@ -84,6 +86,7 @@ describe('Conversation', () => {
         const expected = {
           lastMessage: '',
           lastMessageStatus: null,
+          lastMessageDeletedForEveryone: undefined,
           timestamp: 555,
         };
 
@@ -112,6 +115,7 @@ describe('Conversation', () => {
         const expected = {
           lastMessage: 'Last message before expired',
           lastMessageStatus: null,
+          lastMessageDeletedForEveryone: undefined,
           timestamp: 555,
         };
 

@@ -16,7 +16,7 @@
         "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
-        "message": "檔案（&F）",
+        "message": "檔案 (&F)",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
@@ -24,19 +24,19 @@
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
-        "message": "編輯（&E）",
+        "message": "編輯 (&E)",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
-        "message": "檢視 （&V）",
+        "message": "檢視  (&V)",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
-        "message": "視窗（&W）",
+        "message": "視窗 (&W)",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "協助（&H）",
+        "message": "協助 (&H)",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
@@ -142,6 +142,14 @@
     "menuSetupAsStandalone": {
         "message": "設定為獨立的裝置",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "contextMenuCopyLink": {
+        "message": "複製連結",
+        "description": "Shown in the context menu for a link to indicate that the user can copy the link"
+    },
+    "contextMenuNoSuggestions": {
+        "message": "沒有建議",
+        "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
         "message": "檢視封存紀錄",
@@ -251,16 +259,12 @@
             }
         }
     },
-    "me": {
-        "message": "我",
-        "description": "The label for yourself when shown in a group member list"
-    },
     "view": {
         "message": "檢視",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "你已離開此群組",
+        "message": "你已離開群組。",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -284,6 +288,10 @@
                 "example": "5"
             }
         }
+    },
+    "messageHistoryUnsynced": {
+        "message": "為了安全起見，對話歷史記錄不會轉移到新的已連結裝置上。",
+        "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
         "message": "您標記了與 $name$ 的安全碼為已驗證",
@@ -577,6 +585,10 @@
         "message": "連線中",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
+    "connect": {
+        "message": "連結",
+        "description": "Shown to allow the user to manually attempt a reconnect."
+    },
     "connectingHangOn": {
         "message": "應該不長...",
         "description": "Subtext description for when the client is connecting to the server."
@@ -742,7 +754,7 @@
         "description": "Generic label shown if contact phone has custom type but no label"
     },
     "address": {
-        "message": "地址\n",
+        "message": "地址",
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
@@ -1094,6 +1106,14 @@
     "spellCheckDescription": {
         "message": "在訊息撰寫時啟用文字輸入的拼字檢查",
         "description": "Description of the media permission description"
+    },
+    "spellCheckWillBeEnabled": {
+        "message": "下次Signal 啟動時，將啟用拼寫檢查。",
+        "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
+    },
+    "spellCheckWillBeDisabled": {
+        "message": "下次Signal 啟動時，將關閉拼寫檢查。",
+        "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "clearDataHeader": {
         "message": "清除資料",
@@ -1557,6 +1577,10 @@
         "message": "開始新的對話...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "notSupportedSMS": {
+        "message": "SMS/MMS 訊息無法被支援。",
+        "description": "Label underneath number informing user that SMS is not supported on desktop"
+    },
     "newPhoneNumber": {
         "message": "輸入電話號碼來加入聯絡人",
         "description": "Placeholder for adding a new number to a contact"
@@ -1598,7 +1622,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ 離開此群組",
+        "message": "$name$離開了群組。",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1608,7 +1632,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ 離開此群組",
+        "message": "$name$離開了群組。",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1618,11 +1642,25 @@
         }
     },
     "updatedTheGroup": {
-        "message": "群組昇級",
+        "message": "$name$更新了群組。",
+        "description": "Shown in the conversation history when someone updates the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "youUpdatedTheGroup": {
+        "message": "你已更新群組。",
+        "description": "Shown in the conversation history when you update a group"
+    },
+    "updatedGroupAvatar": {
+        "message": "群組頭像已被更新。",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "標題現為 '$name$'",
+        "message": "群組名稱現在是'$name$'。",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1631,8 +1669,12 @@
             }
         }
     },
+    "youJoinedTheGroup": {
+        "message": "你已加入了此群組。",
+        "description": "Shown in the conversation history when you are added to a group."
+    },
     "joinedTheGroup": {
-        "message": "$name$ 已加入小組",
+        "message": "$name$加入了群組。",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1684,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ 已加入群組。",
+        "message": "$names$加入了群組。",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {

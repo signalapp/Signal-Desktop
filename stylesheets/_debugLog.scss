@@ -30,7 +30,7 @@
 
   .result {
     $link-max-width: 400px;
-    $open-width: 72px;
+    $open-width: 100px;
     $open-height: 36px;
     text-align: center;
 
@@ -41,14 +41,16 @@
       max-width: $group-max-width;
     }
 
-    $open-pad-x: ($open-width - 22px) / 2;
+    $open-pad-x: ($open-width - 40px) / 2;
     $open-pad-y: ($open-height - 22px) / 2;
-    .open {
+    .copy {
       float: left;
       display: inline-block;
       width: $open-width;
       height: $open-height;
       padding: $open-pad-y $open-pad-x;
+      color: unset;
+      text-decoration: none;
       cursor: pointer;
 
       border-radius: 0 5px 5px 0;
@@ -56,24 +58,16 @@
       @include light-theme {
         border: solid 1px $color-gray-25;
         background: $color-gray-02;
+        &:active {
+          background: $color-gray-25;
+        }
       }
       @include dark-theme {
         border: solid 1px $color-gray-45;
         background-color: $color-gray-90;
         color: $color-gray-02;
-      }
-
-      &:before {
-        content: '';
-        display: block;
-        width: 24px;
-        height: 24px;
-
-        @include light-theme {
-          @include header-icon-black('../images/icons/v2/open-24.svg');
-        }
-        @include dark-theme {
-          @include header-icon-white('../images/icons/v2/open-24.svg');
+        &:active {
+          background: $color-gray-25;
         }
       }
     }

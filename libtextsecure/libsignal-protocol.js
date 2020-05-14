@@ -36105,7 +36105,6 @@ SessionCipher.prototype = {
               var ourIdentityKeyBuffer = util.toArrayBuffer(ourIdentityKey.pubKey);
               var theirIdentityKey = util.toArrayBuffer(session.indexInfo.remoteIdentityKey);
               var macInput = new Uint8Array(encodedMsg.byteLength + 33*2 + 1);
-
               macInput.set(new Uint8Array(ourIdentityKeyBuffer));
               macInput.set(new Uint8Array(theirIdentityKey), 33);
               macInput[33*2] = (3 << 4) | 3;
@@ -36512,10 +36511,20 @@ Internal.SessionLock = {};
 var jobQueue = {};
 
 Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJob) {
-     jobQueue[number] = jobQueue[number] || new window.PQueue({ concurrency: 1 });
-     var queue = jobQueue[number];
+    if (window.PQueue) {
+        jobQueue[number] = jobQueue[number] || new window.PQueue({ concurrency: 1 });
+        var queue = jobQueue[number];
+        return queue.add(runJob);
+    }
 
-     return queue.add(runJob);
+    var runPrevious = jobQueue[number] || Promise.resolve();
+    var runCurrent = jobQueue[number] = runPrevious.then(runJob, runJob);
+    runCurrent.then(function() {
+        if (jobQueue[number] === runCurrent) {
+            delete jobQueue[number];
+        }
+    });
+    return runCurrent;
 };
 
 })();
@@ -36555,7 +36564,7 @@ Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJ
         let i = 0;
         let buf = new Uint8Array(16);
 
-        uuid.replace(/[0-9A-F]{2}/ig, oct => {
+        uuid.replace(/[0-9A-F]{2}/ig, function(oct) {
             buf[i++] = parseInt(oct, 16);
         });
 

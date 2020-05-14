@@ -81,29 +81,29 @@ function initialize({ events, storage, navigator, logger }) {
         password: PASSWORD,
       });
 
-      await Promise.all(
-        [false, true].map(async withUuid => {
-          const { certificate } = await server.getSenderCertificate(withUuid);
-          const arrayBuffer = window.Signal.Crypto.base64ToArrayBuffer(
-            certificate
-          );
-          const decodedContainer = textsecure.protobuf.SenderCertificate.decode(
-            arrayBuffer
-          );
-          const decodedCert = textsecure.protobuf.SenderCertificate.Certificate.decode(
-            decodedContainer.certificate
-          );
-
-          // We don't want to send a protobuf-generated object across IPC, so we make
-          //   our own object.
-          const toSave = {
-            expires: decodedCert.expires.toNumber(),
-            serialized: arrayBuffer,
-          };
-
-          storage.put(`senderCertificate${withUuid ? 'WithUuid' : ''}`, toSave);
-        })
+      const { certificate } = await server.getSenderCertificate();
+      const arrayBuffer = window.Signal.Crypto.base64ToArrayBuffer(certificate);
+      const decodedContainer = textsecure.protobuf.SenderCertificate.decode(
+        arrayBuffer
       );
+      const decodedCert = textsecure.protobuf.SenderCertificate.Certificate.decode(
+        decodedContainer.certificate
+      );
+
+      // We don't want to send a protobuf-generated object across IPC, so we make
+      //   our own object.
+      const toSave = {
+        expires: decodedCert.expires.toNumber(),
+        serialized: arrayBuffer,
+      };
+
+      storage.put('senderCertificate', toSave);
+
+      const oldCertKey = 'senderCertificateWithUuid';
+      const oldUuidCert = storage.get(oldCertKey);
+      if (oldUuidCert) {
+        await storage.remove(oldCertKey);
+      }
 
       scheduledTime = null;
       scheduleNextRotation();

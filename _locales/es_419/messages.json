@@ -1355,7 +1355,13 @@
     },
     "updatedTheGroup": {
         "message": "Group updated",
-        "description": "Shown in the conversation history when someone updates the group"
+        "description": "Shown in the conversation history when someone updates the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
     },
     "titleIsNow": {
         "message": "Title is now '$name$'",

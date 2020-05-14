@@ -2255,6 +2255,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-group-notification {
   margin-left: 1em;
   margin-right: 1em;
+  margin-top: 5px;
+  margin-bottom: 5px;
 
   text-align: center;
 
@@ -2267,8 +2269,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-group-notification__change {
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 .module-group-notification__contact {
@@ -2662,8 +2664,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   @include font-body-1-bold;
 
-  // width of avatar (28px) and our 6px left margin
-  max-width: calc(100% - 34px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -3394,9 +3394,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
-.module-conversation-list-item__message__draft-prefix {
-  font-style: italic;
-  margin-right: 3px;
+.module-conversation-list-item__message {
+  &__draft-prefix,
+  &__deleted-for-everyone {
+    font-style: italic;
+    margin-right: 3px;
+  }
 }
 
 .module-conversation-list-item__message__status-icon {
@@ -5157,6 +5160,38 @@ button.module-image__border-overlay:focus {
     &--selected {
       // This color is the same in both light and dark themes
       background: rgba($color-white, 0.3);
+    }
+    &--more {
+      @include light-theme {
+        background: url('../images/any-emoji-32-light.svg') no-repeat center;
+      }
+
+      @include dark-theme {
+        background: url('../images/any-emoji-32-dark.svg') no-repeat center;
+      }
+
+      &::after {
+        content: '';
+        display: block;
+        width: 52px;
+        height: 52px;
+        opacity: 0;
+        transition: opacity 400ms $ease-out-expo;
+
+        @include light-theme {
+          background: url('../images/any-emoji-32-light-hover.svg') no-repeat
+            center;
+        }
+
+        @include dark-theme {
+          background: url('../images/any-emoji-32-dark-hover.svg') no-repeat
+            center;
+        }
+      }
+
+      &:hover::after {
+        opacity: 1;
+      }
     }
 
     @include keyboard-mode {
@@ -7253,12 +7288,14 @@ button.module-image__border-overlay:focus {
     left: calc(50% - 24px);
     top: -18px;
     border-radius: 12px 12px 0 0;
+    pointer-events: none;
 
     opacity: 0;
     transition: opacity 200ms ease-out;
 
     #{$comp-area}:hover & {
       opacity: 1;
+      pointer-events: all;
     }
 
     @include light-theme() {
@@ -7702,11 +7739,15 @@ button.module-image__border-overlay:focus {
   margin-bottom: 4px;
 }
 .module-shortcut-guide__shortcut__key-container {
-  text-align: right;
-  margin-right: 4px;
   margin-bottom: 4px;
+}
+.module-shortcut-guide__shortcut__key-inner-container {
+  text-align: right;
+  margin-top: 4px;
+  margin-right: 4px;
   white-space: nowrap;
 }
+
 .module-shortcut-guide__shortcut__key {
   display: inline-block;
 
@@ -7714,7 +7755,6 @@ button.module-image__border-overlay:focus {
   padding: 3px;
   padding-left: 8px;
   padding-right: 8px;
-  margin-top: 4px;
   margin-left: 4px;
 
   height: 30px;
@@ -7820,26 +7860,32 @@ button.module-image__border-overlay:focus {
 
 .react-contextmenu-item.react-contextmenu-item--active,
 .react-contextmenu-item.react-contextmenu-item--selected {
-  color: $color-white;
-
+  color: $color-black;
   @include light-theme {
-    background-color: $color-gray-25;
+    background-color: $color-gray-15;
   }
   @include dark-theme {
-    background-color: $color-gray-45;
+    background-color: $color-gray-75;
+    color: $color-white;
   }
 }
 
 .react-contextmenu-item.react-contextmenu-item--active.react-contextmenu-item--checked:before,
 .react-contextmenu-item.react-contextmenu-item--selected.react-contextmenu-item--checked:before {
-  color: $color-white;
+  color: $color-black;
+  @include dark-theme {
+    color: $color-white;
+  }
 }
 
 .react-contextmenu-item.react-contextmenu-submenu
   > .react-contextmenu-item.react-contextmenu-item--active:after,
 .react-contextmenu-item.react-contextmenu-submenu
   > .react-contextmenu-item.react-contextmenu-item--selected:after {
-  color: $color-white;
+  color: $color-black;
+  @include dark-theme {
+    color: $color-white;
+  }
 }
 
 // All media query widths have 300px added to account for the left pane
@@ -7863,6 +7909,10 @@ button.module-image__border-overlay:focus {
 
   &--with-reactions {
     margin-bottom: 12px;
+  }
+
+  &--deleted-for-everyone {
+    font-style: italic;
   }
 }
 

@@ -60,16 +60,15 @@
   let timeout;
   async function checkExpiringMessages() {
     // Look up the next expiring message and set a timer to destroy it
-    const messages = await window.Signal.Data.getNextExpiringMessage({
-      MessageCollection: Whisper.MessageCollection,
+    const message = await window.Signal.Data.getNextExpiringMessage({
+      Message: Whisper.Message,
     });
 
-    const next = messages.at(0);
-    if (!next) {
+    if (!message) {
       return;
     }
 
-    const expiresAt = next.get('expires_at');
+    const expiresAt = message.get('expires_at');
     Whisper.ExpiringMessagesListener.nextExpiration = expiresAt;
     window.log.info('next message expires', new Date(expiresAt).toISOString());
 

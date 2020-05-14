@@ -7,16 +7,32 @@
 
   window.Whisper = window.Whisper || {};
 
+  Whisper.LinkedCopiedToast = Whisper.ToastView.extend({
+    render_attributes() {
+      return { toastMessage: i18n('debugLogLinkCopied') };
+    },
+  });
+
   Whisper.DebugLogLinkView = Whisper.View.extend({
     templateName: 'debug-log-link',
     initialize(options) {
       this.url = options.url;
     },
+    events: {
+      'click .copy': 'copy',
+    },
     render_attributes() {
       return {
         url: this.url,
         reportIssue: i18n('reportIssue'),
+        debugLogCopy: i18n('debugLogCopy'),
+        debugLogCopyAlt: i18n('debugLogCopyAlt'),
       };
+    },
+    copy(e) {
+      e.preventDefault();
+      window.copyText(e.currentTarget.href);
+      Whisper.ToastView.show(Whisper.LinkedCopiedToast, document.body);
     },
   });
   Whisper.DebugLogView = Whisper.View.extend({

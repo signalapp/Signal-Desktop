@@ -13,14 +13,24 @@
   window.Whisper = window.Whisper || {};
   Whisper.ViewSyncs = new (Backbone.Collection.extend({
     forMessage(message) {
-      const sync = this.findWhere({
-        conversationId: message.get('conversationId'),
+      const syncBySourceUuid = this.findWhere({
+        sourceUuid: message.get('sourceUuid'),
         timestamp: message.get('sent_at'),
       });
-      if (sync) {
+      if (syncBySourceUuid) {
         window.log.info('Found early view sync for message');
-        this.remove(sync);
-        return sync;
+        this.remove(syncBySourceUuid);
+        return syncBySourceUuid;
+      }
+
+      const syncBySource = this.findWhere({
+        source: message.get('source'),
+        timestamp: message.get('sent_at'),
+      });
+      if (syncBySource) {
+        window.log.info('Found early view sync for message');
+        this.remove(syncBySource);
+        return syncBySource;
       }
 
       return null;
@@ -34,9 +44,20 @@
           }
         );
 
-        const found = messages.find(
-          item => item.get('conversationId') === sync.get('conversationId')
-        );
+        const found = messages.find(item => {
+          const itemSourceUuid = item.get('sourceUuid');
+          const syncSourceUuid = sync.get('sourceUuid');
+          const itemSource = item.get('source');
+          const syncSource = sync.get('source');
+
+          return (
+            (itemSourceUuid &&
+              syncSourceUuid &&
+              itemSourceUuid === syncSourceUuid) ||
+            (itemSource && syncSource && itemSource === syncSource)
+          );
+        });
+
         const syncSource = sync.get('source');
         const syncSourceUuid = sync.get('sourceUuid');
         const syncTimestamp = sync.get('timestamp');

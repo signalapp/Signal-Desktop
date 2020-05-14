@@ -391,5 +391,16 @@ describe('Link previews', () => {
       const link = 'r.id^s.id';
       assert.strictEqual(isLinkSneaky(link), true);
     });
+
+    it('returns true for auth (or pretend auth)', () => {
+      const link = 'http://whatever.com&login=someuser@77777777';
+      assert.strictEqual(isLinkSneaky(link), true);
+    });
+
+    it('returns false for regular @ in url', () => {
+      const link =
+        'https://lbry.tv/@ScammerRevolts:b0/DELETING-EVERY-FILE-OFF-A-SCAMMERS-LAPTOP-Destroyed:1';
+      assert.strictEqual(isLinkSneaky(link), false);
+    });
   });
 });

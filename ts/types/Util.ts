@@ -6,13 +6,17 @@ export type RenderTextCallbackType = (options: {
 export type LocalizerType = (key: string, values?: Array<string>) => string;
 
 export type ColorType =
-  | 'gray'
-  | 'blue'
-  | 'cyan'
+  | 'red'
   | 'deep_orange'
-  | 'green'
-  | 'indigo'
+  | 'brown'
   | 'pink'
   | 'purple'
-  | 'red'
-  | 'teal';
+  | 'indigo'
+  | 'blue'
+  | 'teal'
+  | 'green'
+  | 'light_green'
+  | 'blue_grey'
+  | 'grey'
+  | 'ultramarine'
+  | 'signal-blue';

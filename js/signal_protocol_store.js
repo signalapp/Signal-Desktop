@@ -431,7 +431,7 @@
         }
       }
 
-      await window.Signal.Data.removeSessionsById(identifier);
+      await window.Signal.Data.removeSessionsByConversation(identifier);
     },
     async archiveSiblingSessions(identifier) {
       const address = libsignal.SignalProtocolAddress.fromString(identifier);

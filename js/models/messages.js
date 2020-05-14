@@ -432,7 +432,12 @@
       const groupUpdate = this.get('group_update');
       const changes = [];
 
-      if (!groupUpdate.name && !groupUpdate.left && !groupUpdate.joined) {
+      if (
+        !groupUpdate.avatarUpdated &&
+        !groupUpdate.left &&
+        !groupUpdate.joined &&
+        !groupUpdate.name
+      ) {
         changes.push({
           type: 'general',
         });
@@ -474,7 +479,18 @@
         });
       }
 
+      if (groupUpdate.avatarUpdated) {
+        changes.push({
+          type: 'avatar',
+        });
+      }
+
+      const sourceE164 = this.getSource();
+      const sourceUuid = this.getSourceUuid();
+      const from = this.findAndFormatContact(sourceE164 || sourceUuid);
+
       return {
+        from,
         changes,
       };
     },
@@ -584,6 +600,8 @@
         isTapToViewExpired: isTapToView && this.get('isErased'),
         isTapToViewError:
           isTapToView && this.isIncoming() && this.get('isTapToViewInvalid'),
+
+        deletedForEveryone: this.get('deletedForEveryone') || false,
       };
     },
 
@@ -834,34 +852,72 @@
 
         return i18n('mediaMessage');
       }
+
       if (this.isGroupUpdate()) {
         const groupUpdate = this.get('group_update');
+        const fromContact = this.getContact();
+        const messages = [];
+
         if (groupUpdate.left === 'You') {
           return i18n('youLeftTheGroup');
         } else if (groupUpdate.left) {
           return i18n('leftTheGroup', this.getNameForNumber(groupUpdate.left));
         }
 
-        const messages = [];
-        if (!groupUpdate.name && !groupUpdate.joined) {
-          messages.push(i18n('updatedTheGroup'));
+        if (!fromContact) {
+          return '';
         }
-        if (groupUpdate.name) {
-          messages.push(i18n('titleIsNow', groupUpdate.name));
+
+        if (fromContact.isMe()) {
+          messages.push(i18n('youUpdatedTheGroup'));
+        } else {
+          messages.push(i18n('updatedTheGroup', fromContact.getDisplayName()));
         }
+
         if (groupUpdate.joined && groupUpdate.joined.length) {
-          const names = _.map(
-            groupUpdate.joined,
-            this.getNameForNumber.bind(this)
+          const joinedContacts = _.map(groupUpdate.joined, item =>
+            ConversationController.getOrCreate(item, 'private')
           );
-          if (names.length > 1) {
-            messages.push(i18n('multipleJoinedTheGroup', names.join(', ')));
+          const joinedWithoutMe = joinedContacts.filter(
+            contact => !contact.isMe()
+          );
+
+          if (joinedContacts.length > 1) {
+            messages.push(
+              i18n(
+                'multipleJoinedTheGroup',
+                _.map(joinedWithoutMe, contact =>
+                  contact.getDisplayName()
+                ).join(', ')
+              )
+            );
+
+            if (joinedWithoutMe.length < joinedContacts.length) {
+              messages.push(i18n('youJoinedTheGroup'));
+            }
           } else {
-            messages.push(i18n('joinedTheGroup', names[0]));
+            const joinedContact = ConversationController.getOrCreate(
+              groupUpdate.joined[0],
+              'private'
+            );
+            if (joinedContact.isMe()) {
+              messages.push(i18n('youJoinedTheGroup'));
+            } else {
+              messages.push(
+                i18n('joinedTheGroup', joinedContacts[0].getDisplayName())
+              );
+            }
           }
         }
 
-        return messages.join(', ');
+        if (groupUpdate.name) {
+          messages.push(i18n('titleIsNow', groupUpdate.name));
+        }
+        if (groupUpdate.avatarUpdated) {
+          messages.push(i18n('updatedGroupAvatar'));
+        }
+
+        return messages.join(' ');
       }
       if (this.isEndSession()) {
         return i18n('sessionEnded');
@@ -1051,7 +1107,7 @@
     isErased() {
       return Boolean(this.get('isErased'));
     },
-    async eraseContents() {
+    async eraseContents(additionalProperties = {}) {
       if (this.get('isErased')) {
         return;
       }
@@ -1075,6 +1131,7 @@
         contact: [],
         sticker: null,
         preview: [],
+        ...additionalProperties,
       });
       this.trigger('content-changed');
 
@@ -1388,12 +1445,17 @@
       const isOutgoing = this.get('type') === 'outgoing';
       const numDelivered = this.get('delivered');
 
-      // Case 1: We can reply if this is outgoing and delievered to at least one recipient
+      // Case 1: We cannot reply if this message is deleted for everyone
+      if (this.get('deletedForEveryone')) {
+        return false;
+      }
+
+      // Case 2: We can reply if this is outgoing and delievered to at least one recipient
       if (isOutgoing && numDelivered > 0) {
         return true;
       }
 
-      // Case 2: We can reply if there are no errors
+      // Case 3: We can reply if there are no errors
       if (!errors || (errors && errors.length === 0)) {
         return true;
       }
@@ -2165,10 +2227,13 @@
                   members: _.union(members, conversation.get('members')),
                 };
 
-                groupUpdate =
-                  conversation.changedAttributes(
-                    _.pick(dataMessage.group, 'name', 'avatar')
-                  ) || {};
+                groupUpdate = {};
+                if (dataMessage.group.name !== conversation.get('name')) {
+                  groupUpdate.name = dataMessage.group.name;
+                }
+
+                // Note: used and later cleared by background attachment downloader
+                groupUpdate.avatar = dataMessage.group.avatar;
 
                 const difference = _.difference(
                   members,
@@ -2380,10 +2445,7 @@
           }
 
           MessageController.register(message.id, message);
-          window.Signal.Data.updateConversation(
-            conversationId,
-            conversation.attributes
-          );
+          window.Signal.Data.updateConversation(conversation.attributes);
 
           await message.queueAttachmentDownloads();
           await window.Signal.Data.saveMessage(message.attributes, {
@@ -2403,6 +2465,11 @@
             message.handleReaction(reaction);
           });
 
+          // Does this message have any pending, previously-received associated
+          // delete for everyone messages?
+          const deletes = Whisper.Deletes.forMessage(message);
+          deletes.forEach(del => Whisper.Deletes.onDelete(del));
+
           Whisper.events.trigger('incrementProgress');
           confirm();
         } catch (error) {
@@ -2419,6 +2486,10 @@
     },
 
     async handleReaction(reaction) {
+      if (this.get('deletedForEveryone')) {
+        return;
+      }
+
       const reactions = this.get('reactions') || [];
       const messageId = this.idForLogging();
       const count = reactions.length;
@@ -2457,6 +2528,27 @@
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
       });
+    },
+
+    async handleDeleteForEveryone(del) {
+      window.log.info('Handling DOE.', {
+        fromId: del.get('fromId'),
+        targetSentTimestamp: del.get('targetSentTimestamp'),
+        messageServerTimestamp: this.get('serverTimestamp'),
+        deleteServerTimestamp: del.get('serverTimestamp'),
+      });
+
+      // Remove any notifications for this message
+      const notificationForMessage = Whisper.Notifications.findWhere({
+        messageId: this.get('id'),
+      });
+      Whisper.Notifications.remove(notificationForMessage);
+
+      // Erase the contents of this message
+      await this.eraseContents({ deletedForEveryone: true, reactions: [] });
+
+      // Update the conversation's last message in case this was the last message
+      this.getConversation().updateLastMessage();
     },
   });
 

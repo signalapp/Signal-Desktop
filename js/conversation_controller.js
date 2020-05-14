@@ -240,10 +240,7 @@
                 this.model.set({
                   draft: draft.slice(0, MAX_MESSAGE_BODY_LENGTH),
                 });
-                window.Signal.Data.updateConversation(
-                  conversation.id,
-                  conversation.attributes
-                );
+                window.Signal.Data.updateConversation(conversation.attributes);
               }
             })
           );

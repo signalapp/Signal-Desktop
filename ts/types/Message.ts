@@ -2,10 +2,11 @@ import { Attachment } from './Attachment';
 import { ContactType } from './Contact';
 import { IndexableBoolean, IndexablePresence } from './IndexedDB';
 
-export type Message =
+export type Message = (
   | UserMessage
   | VerifiedChangeMessage
-  | MessageHistoryUnsyncedMessage;
+  | MessageHistoryUnsyncedMessage
+) & { deletedForEveryone?: boolean };
 export type UserMessage = IncomingMessage | OutgoingMessage;
 
 export type IncomingMessage = Readonly<

@@ -14,31 +14,14 @@ import { storiesOf } from '@storybook/react';
 //import { boolean, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-// @ts-ignore
-import gif from '../../fixtures/giphy-GVNvOUpeYmI7e.gif';
-// @ts-ignore
-import png from '../../fixtures/freepngs-2cd43b_bed7d1327e88454487397574d87b64dc_mv2.png';
-// @ts-ignore
-import landscapeGreen from '../../fixtures/1000x50-green.jpeg';
-// @ts-ignore
-import landscapePurple from '../../fixtures/200x50-purple.png';
+import {
+  gifUrl,
+  landscapeGreenUrl,
+  landscapePurpleUrl,
+  pngUrl,
+} from '../storybook/Fixtures';
 
 const i18n = setupI18n('en', enMessages);
-
-function makeObjectUrl(data: ArrayBuffer, contentType: string): string {
-  const blob = new Blob([data], {
-    type: contentType,
-  });
-
-  return URL.createObjectURL(blob);
-}
-
-// 320x240
-const gifObjectUrl = makeObjectUrl(gif, 'image/gif');
-// 800×1200
-const pngObjectUrl = makeObjectUrl(png, 'image/png');
-const landscapeGreenObjectUrl = makeObjectUrl(landscapeGreen, 'image/jpeg');
-const landscapePurpleObjectUrl = makeObjectUrl(landscapePurple, 'image/png');
 
 const messageLookup: Map<string, MessageSearchResultPropsType> = new Map();
 
@@ -64,7 +47,8 @@ messageLookup.set('1-guid-guid-guid-guid-guid', {
   from: {
     phoneNumber: '(202) 555-0020',
     isMe: true,
-    avatarPath: gifObjectUrl,
+    color: 'blue',
+    avatarPath: gifUrl,
   },
   to: {
     phoneNumber: '(202) 555-0015',
@@ -99,7 +83,7 @@ messageLookup.set('3-guid-guid-guid-guid-guid', {
     phoneNumber: '(202) 555-0011',
     name: 'Someone',
     color: 'green',
-    avatarPath: pngObjectUrl,
+    avatarPath: pngUrl,
   },
   to: {
     phoneNumber: '(202) 555-0016',
@@ -116,7 +100,8 @@ messageLookup.set('4-guid-guid-guid-guid-guid', {
   from: {
     phoneNumber: '(202) 555-0020',
     isMe: true,
-    avatarPath: gifObjectUrl,
+    color: 'light_green',
+    avatarPath: gifUrl,
   },
   to: {
     phoneNumber: '(202) 555-0016',
@@ -162,7 +147,8 @@ const conversations = [
       phoneNumber: '(202) 555-0011',
       name: 'Everyone 🌆',
       type: GROUP,
-      avatarPath: landscapeGreenObjectUrl,
+      color: 'signal-blue' as 'signal-blue',
+      avatarPath: landscapeGreenUrl,
       isMe: false,
       lastUpdated: Date.now() - 5 * 60 * 1000,
       unreadCount: 0,
@@ -179,8 +165,9 @@ const conversations = [
       id: '+12025550012',
       phoneNumber: '(202) 555-0012',
       name: 'Everyone Else 🔥',
+      color: 'pink' as 'pink',
       type: DIRECT,
-      avatarPath: landscapePurpleObjectUrl,
+      avatarPath: landscapePurpleUrl,
       isMe: false,
       lastUpdated: Date.now() - 5 * 60 * 1000,
       unreadCount: 0,
@@ -200,8 +187,9 @@ const contacts = [
       id: '+12025550013',
       phoneNumber: '(202) 555-0013',
       name: 'The one Everyone',
+      color: 'blue' as 'blue',
       type: DIRECT,
-      avatarPath: gifObjectUrl,
+      avatarPath: gifUrl,
       isMe: false,
       lastUpdated: Date.now() - 10 * 60 * 1000,
       unreadCount: 0,
@@ -215,7 +203,7 @@ const contacts = [
       phoneNumber: '(202) 555-0014',
       name: 'No likey everyone',
       type: DIRECT,
-      color: 'red',
+      color: 'red' as 'red',
       isMe: false,
       lastUpdated: Date.now() - 11 * 60 * 1000,
       unreadCount: 0,

@@ -7,6 +7,7 @@
     "align": false,
     "newline-per-chained-call": false,
     "array-type": [true, "generic"],
+    "number-literal-format": false,
 
     // Preferred by Prettier:
     "arrow-parens": [true, "ban-single-arg-parens"],
@@ -14,6 +15,12 @@
     "import-spacing": false,
     "indent": [true, "spaces", 2],
     "interface-name": [true, "never-prefix"],
+    "member-access": false,
+    "member-ordering": false,
+    "newline-before-return": false,
+    "prefer-for-of": false,
+    "no-this-assignment": false,
+    "binary-expression-operand-order": false,
 
     // Allows us to write inline `style`s. Revisit when we have a more sophisticated
     // CSS-in-JS solution:
@@ -97,6 +104,7 @@
       true,
       {
         "function-regex": "^_?[a-z][\\w\\d]+$",
+        "method-regex": "^_?[a-z][\\w\\d]+$",
         "static-method-regex": "^_?[a-z][\\w\\d]+$"
       }
     ],

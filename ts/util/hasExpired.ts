@@ -1,21 +1,9 @@
-interface ShimmedWindow extends Window {
-  getExpiration: () => string;
-  log: {
-    info: (...args: any) => void;
-    error: (...args: any) => void;
-  };
-}
-
-const unknownWindow = window as unknown;
-const shimmedWindow = unknownWindow as ShimmedWindow;
-
-// @ts-ignore
 const env = window.getEnvironment();
 
 const NINETY_ONE_DAYS = 86400 * 91 * 1000;
 
 export function hasExpired() {
-  const { getExpiration, log } = shimmedWindow;
+  const { getExpiration, log } = window;
 
   let buildExpiration = 0;
 

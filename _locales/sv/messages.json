@@ -143,6 +143,14 @@
         "message": "Ställ in som fristående enhet",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
+    "contextMenuCopyLink": {
+        "message": "Kopiera länk",
+        "description": "Shown in the context menu for a link to indicate that the user can copy the link"
+    },
+    "contextMenuNoSuggestions": {
+        "message": "Inga förslag",
+        "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
+    },
     "avatarMenuViewArchive": {
         "message": "Visa arkiv",
         "description": "One of the menu options available in the Avatar Popup menu"
@@ -230,7 +238,7 @@
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "Länka denna enhet till din mobil",
+        "message": "Länka den här enheten till din telefon",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
@@ -251,16 +259,12 @@
             }
         }
     },
-    "me": {
-        "message": "Jag",
-        "description": "The label for yourself when shown in a group member list"
-    },
     "view": {
         "message": "Visa",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Du lämnade gruppen",
+        "message": "Du lämnade gruppen.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -284,6 +288,10 @@
                 "example": "5"
             }
         }
+    },
+    "messageHistoryUnsynced": {
+        "message": "För din säkerhet överförs inte konversationshistorik till nya länkade enheter.",
+        "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
         "message": "Du markerade ditt Säkerhetsnummer med $name$ som verifierat",
@@ -330,11 +338,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Dina säkerhetsnummer med flera gruppmedlemmar har ändrats sen du sist verifierade dem. Detta kan betyda att någon försöker lyssna av din kommunikation eller att de bara installerat om Signal.",
+        "message": "Dina säkerhetsnummer med flera gruppmedlemmar har ändrats sen du sist verifierade dem. Detta kan betyda att någon försöker avlyssna din kommunikation eller att de helt enkelt installerat om Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Ditt säkerhetsnummer med $name$ har ändrats sen du senast verifierade. Detta kan betyda att någon försöker avlyssna din konversation eller att $name$ har ominstallerat Signal.",
+        "message": "Ditt säkerhetsnummer med $name$ har ändrats sen du senast verifierade. Detta kan betyda att någon försöker avlyssna din konversation eller att $name$ helt enkelt installerat om Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -344,7 +352,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Säkerhetsnyckeln som du försöker verifiera har ändrats. Dubbelkolla ditt nya säkerhetsnummer med $name$. Kom ihåg, detta kan betyda att någon försöker komma åt din konversation eller att $name$ har ominstallerat Signal.",
+        "message": "Säkerhetsnyckeln som du försöker verifiera har ändrats. Vänligen granska ditt nya säkerhetsnummer med $name$. Kom ihåg, det här kan betyda att någon försöker avlyssna din kommunikation eller att $name$ helt enkelt installerat om Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -354,11 +362,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Dina säkerhetsnummer med flera gruppmedlemmar har nyligen ändrats. Det kan innebära att någon försöker lyssna av din kommunikation eller att de bara installerat om Signal.",
+        "message": "Dina säkerhetsnummer med flera gruppmedlemmar har nyligen ändrats. Det kan innebära att någon försöker avlyssna din kommunikation eller att de helt enkelt installerat om Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Ditt säkerhetsnummer med $name$ har nyligen ändrats. Detta kan betyda att någon försöker avlyssna konversationen eller att $name$ har ominstallerat Signal.",
+        "message": "Ditt säkerhetsnummer med $name$ har nyligen ändrats. Detta kan betyda att någon försöker avlyssna konversationen eller att $name$ helt enkelt har installerat om Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -368,7 +376,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Ditt säkerhetsnummer med $name$ har ändrats. Detta kan antingen innebära att någon försöker avlyssna din kommunikation eller att $name$ helt enkelt har installerat om Signal. Du kanske vill verifiera ditt säkerhetsnummer med denna kontakt.",
+        "message": "Ditt säkerhetsnummer med $name$ har ändrats. Detta kan antingen innebära att någon försöker avlyssna din kommunikation eller att $name$ helt enkelt installerat om Signal. Du kanske vill verifiera ditt säkerhetsnummer med denna kontakt.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -400,7 +408,7 @@
         "description": ""
     },
     "debugLogError": {
-        "message": "Något gick fel med sändningen! Vänligen överväg att manuellt lägga till loggen till rapporten du skriver.",
+        "message": "Något gick fel med sändningen! Vänligen överväg att manuellt lägga till loggen till felrapporten du skriver.",
         "description": ""
     },
     "reportIssue": {
@@ -420,7 +428,7 @@
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Märk som verifierat",
+        "message": "Markera som verifierat",
         "description": ""
     },
     "unverify": {
@@ -456,11 +464,11 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Ditt säkerhetsnummer med den här kontakten har ändrats. Detta kan antingen innebära att någon försöker avlyssna din kommunikation, eller att kontakten har ominstallerat Signal. Du kan verifiera det nya säkerhetsnumret nedan.",
+        "message": "Ditt säkerhetsnummer med den här kontakten har ändrats. Detta kan antingen innebära att någon försöker avlyssna din kommunikation eller att kontakten helt enkelt installerat om Signal. Du kan verifiera det nya säkerhetsnumret nedan.",
         "description": ""
     },
     "incomingError": {
-        "message": "Fel med att hantera inkommande meddelande",
+        "message": "Fel vid hantering av inkommande meddelande",
         "description": ""
     },
     "media": {
@@ -512,7 +520,7 @@
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Bilagor av denna typ tillåts inte på grund av säkerhetsskäl",
+        "message": "Bilagor av den här typen tillåts inte på grund av säkerhetsskäl",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
@@ -566,7 +574,7 @@
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Kunde inte läsa in vald bilaga",
+        "message": "Det gick inte att läsa in vald bilaga",
         "description": ""
     },
     "disconnected": {
@@ -576,6 +584,10 @@
     "connecting": {
         "message": "Ansluter",
         "description": "Displayed when the desktop client is currently connecting to the server."
+    },
+    "connect": {
+        "message": "Anslut",
+        "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
         "message": "Borde inte ta lång...",
@@ -754,7 +766,7 @@
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
-        "message": "Hämta bifogad fil",
+        "message": "Hämta bilaga",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
@@ -794,7 +806,7 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
-        "message": "Bilagan sparats. Klicka för att visa i mappen.",
+        "message": "Bilagan sparad. Klicka för att visa i mappen.",
         "description": "Shown after user selects to save to downloads",
         "placeholders": {
             "name": {
@@ -846,7 +858,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Det gick inte att uppdatera Signal Desktop, men det finns en ny version tillgänglig. Gå till  $url$ och installera den nya versionen manuellt, kontakta antingen sedan supporten eller skicka en felrapport om detta problem.",
+        "message": "Det gick inte att uppdatera Signal Desktop, men det finns en ny version tillgänglig. Vänligen gå till  $url$ och installera den nya versionen manuellt, kontakta antingen sedan supporten eller skicka en felrapport om detta problem.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -856,7 +868,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop är sannolikt i en MacOS-karantän, och kommer inte att kunna uppdateras automatiskt. Försök att flytta $app$ till $folder$ med Finder.",
+        "message": "Signal Desktop är sannolikt i en MacOS-karantän och kommer inte att kunna uppdateras automatiskt. Vänligen försök att flytta $app$ till $folder$ med Finder.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -882,7 +894,7 @@
         "description": ""
     },
     "failedToSend": {
-        "message": "Kunde inte skicka till vissa mottagare. Kontrollera din internetuppkoppling.",
+        "message": "Det gick inte att skicka till några mottagare. Kontrollera din nätverksanslutning.",
         "description": ""
     },
     "error": {
@@ -918,11 +930,11 @@
         "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
-        "message": "Skickat",
+        "message": "Skickad",
         "description": "Label for the time a message was sent"
     },
     "received": {
-        "message": "Mottagit",
+        "message": "Mottagen",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
@@ -964,7 +976,7 @@
         "description": ""
     },
     "moreInfo": {
-        "message": "Mer info...",
+        "message": "Mer information...",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
@@ -992,11 +1004,11 @@
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
-        "message": "Bild bifogat till meddelande",
+        "message": "Bild bifogad till meddelandet",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Skärmbild av video bifogat till meddelande",
+        "message": "Skärmdump av video bifogat till meddelandet",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
@@ -1028,7 +1040,7 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Länka din mobil till Signal Desktop",
+        "message": "Länka din telefon till Signal Desktop",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
@@ -1056,7 +1068,7 @@
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Slutför länkning till mobil",
+        "message": "Slutför koppling till telefon",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
@@ -1064,7 +1076,7 @@
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
-        "message": "Kunde inte kontakta servern.",
+        "message": "Det gick inte att ansluta till servern.",
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
@@ -1095,6 +1107,14 @@
         "message": "Slå på stavningskontroll för text som anges i meddelandefältet",
         "description": "Description of the media permission description"
     },
+    "spellCheckWillBeEnabled": {
+        "message": "Stavningskontroll aktiveras nästa gång Signal startas.",
+        "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
+    },
+    "spellCheckWillBeDisabled": {
+        "message": "Stavningskontroll inaktiveras nästa gång Signal startas.",
+        "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
+    },
     "clearDataHeader": {
         "message": "Ta bort data",
         "description": "Header in the settings dialog for the section dealing with data deletion"
@@ -1112,7 +1132,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Du är på väg att ta bort allt av detta programs sparade kontoinformation, inklusive alla kontakter och alla meddelanden. Du kan länka till din mobila enhet igen, men det kommer inte att återställa de borttagna meddelandena.",
+        "message": "Du är på väg att ta bort allt av detta programs sparade kontoinformation, inklusive alla kontakter och alla meddelanden. Du kan alltid länka din mobila enhet igen, men det kommer inte att återställa de borttagna meddelande.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1236,7 +1256,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "showMore": {
-        "message": "Info",
+        "message": "Detaljer",
         "description": "Displays the details of a key change"
     },
     "showLess": {
@@ -1520,7 +1540,7 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Bekräfta säkerhetsnummer",
+        "message": "Verifiera säkerhetsnummer",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
@@ -1557,24 +1577,28 @@
         "message": "Starta en ny konversation…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
+    "notSupportedSMS": {
+        "message": "SMS/MMS-meddelanden stöds inte.",
+        "description": "Label underneath number informing user that SMS is not supported on desktop"
+    },
     "newPhoneNumber": {
         "message": "Ange ett telefonnummer för att lägga till en kontakt.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
-        "message": "Felaktigt nummer",
+        "message": "Ogiltigt nummer",
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Länka om Signal Desktop till din mobila enhet för att fortsätta skicka meddelanden.",
+        "message": "Länka igen Signal Desktop till din mobila enhet för att fortsätta skicka meddelanden.",
         "description": ""
     },
     "unlinked": {
-        "message": "Olänkad",
+        "message": "Inte länkad",
         "description": ""
     },
     "relink": {
-        "message": "Återkoppla",
+        "message": "Länka igen",
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
@@ -1598,7 +1622,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ lämnade gruppen",
+        "message": "$name$ lämnade gruppen.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1608,7 +1632,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ lämnade gruppen",
+        "message": "$name$ lämnade gruppen.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1618,11 +1642,25 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Grupp uppdaterad",
+        "message": "$name$ uppdaterade gruppen.",
+        "description": "Shown in the conversation history when someone updates the group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "youUpdatedTheGroup": {
+        "message": "Du uppdaterade gruppen.",
+        "description": "Shown in the conversation history when you update a group"
+    },
+    "updatedGroupAvatar": {
+        "message": "Gruppavatar uppdaterades.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Gruppnamnet är nu '$name$'",
+        "message": "Gruppnamnet är nu \"$name$\".",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1631,8 +1669,12 @@
             }
         }
     },
+    "youJoinedTheGroup": {
+        "message": "Du gick med i gruppen.",
+        "description": "Shown in the conversation history when you are added to a group."
+    },
     "joinedTheGroup": {
-        "message": "$name$ gick med i gruppen",
+        "message": "$name$ gick med i gruppen.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1684,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ gick med i gruppen",
+        "message": "$names$ gick med i gruppen.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1696,7 +1738,7 @@
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
-        "message": "Klistermärken du mottagit",
+        "message": "Klistermärken du fått",
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
@@ -1792,7 +1834,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Du kan fråga $contact$ om att skicka det här meddelandet igen nu när du använder en uppdaterad version av signalen.",
+        "message": "Du kan fråga $contact$ om att skicka om det här meddelandet nu när du använder en uppdaterad version av Signal.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1826,7 +1868,7 @@
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
-        "message": "Visa-när meddelanden inte lagras i konversationshistoriken.",
+        "message": "Visa en gång-meddelanden lagras inte i konversationshistoriken.",
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
@@ -1958,7 +2000,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "Ta bort alla bilageutkast",
+        "message": "Ta bort alla utkast till bilagor",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--Key--ctrl": {
@@ -2240,7 +2282,7 @@
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Vänligen ställ in Signal på telefonen och skrivbordet för att använda skaparen av klistermärkespaket",
+        "message": "Vänligen ställ in Signal på din telefon och ditt skrivbord för att använda skaparen av klistermärkespaket",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {

@@ -1,9 +1,5 @@
 import { Dictionary, omit, reject } from 'lodash';
-import {
-  getRecentStickers,
-  updateStickerLastUsed,
-  updateStickerPackStatus,
-} from '../../../js/modules/data';
+import dataInterface from '../../sql/Client';
 import {
   downloadStickerPack as externalDownloadStickerPack,
   maybeDeletePack,
@@ -12,6 +8,12 @@ import { sendStickerPackSync } from '../../shims/textsecure';
 import { trigger } from '../../shims/events';
 
 import { NoopActionType } from './noop';
+
+const {
+  getRecentStickers,
+  updateStickerLastUsed,
+  updateStickerPackStatus,
+} = dataInterface;
 
 // State
 

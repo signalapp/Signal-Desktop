@@ -1,5 +1,3 @@
-/* global ContactBuffer, GroupBuffer, textsecure */
-
 describe('ContactBuffer', () => {
   function getTestBuffer() {
     const buffer = new dcodeIO.ByteBuffer();
@@ -10,7 +8,7 @@ describe('ContactBuffer', () => {
     }
     avatarBuffer.limit = avatarBuffer.offset;
     avatarBuffer.offset = 0;
-    const contactInfo = new textsecure.protobuf.ContactDetails({
+    const contactInfo = new window.textsecure.protobuf.ContactDetails({
       name: 'Zero Cool',
       number: '+10000000000',
       uuid: '7198E1BD-1293-452A-A098-F982FF201902',
@@ -31,7 +29,7 @@ describe('ContactBuffer', () => {
 
   it('parses an array buffer of contacts', () => {
     const arrayBuffer = getTestBuffer();
-    const contactBuffer = new ContactBuffer(arrayBuffer);
+    const contactBuffer = new window.textsecure.ContactBuffer(arrayBuffer);
     let contact = contactBuffer.next();
     let count = 0;
     while (contact !== undefined) {
@@ -62,7 +60,7 @@ describe('GroupBuffer', () => {
     }
     avatarBuffer.limit = avatarBuffer.offset;
     avatarBuffer.offset = 0;
-    const groupInfo = new textsecure.protobuf.GroupDetails({
+    const groupInfo = new window.textsecure.protobuf.GroupDetails({
       id: new Uint8Array([1, 3, 3, 7]).buffer,
       name: 'Hackers',
       membersE164: ['cereal', 'burn', 'phreak', 'joey'],
@@ -89,7 +87,7 @@ describe('GroupBuffer', () => {
 
   it('parses an array buffer of groups', () => {
     const arrayBuffer = getTestBuffer();
-    const groupBuffer = new GroupBuffer(arrayBuffer);
+    const groupBuffer = new window.textsecure.GroupBuffer(arrayBuffer);
     let group = groupBuffer.next();
     let count = 0;
     while (group !== undefined) {

@@ -3,7 +3,8 @@ import { BrowserWindow } from 'electron';
 
 import { start as startMacOS } from './macos';
 import { start as startWindows } from './windows';
-import { LocaleType, LoggerType } from './common';
+import { LocaleType } from '../types/I18N';
+import { LoggerType } from '../types/Logging';
 
 let initialized = false;
 

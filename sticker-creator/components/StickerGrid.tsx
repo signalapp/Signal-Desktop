@@ -59,7 +59,9 @@ const InnerGrid = SortableContainer(
               // @ts-ignore
               window.log.error('Error processing image:', e);
               actions.removeSticker(path);
-              actions.addToast('StickerCreator--Toasts--errorProcessing');
+              actions.addToast({
+                key: 'StickerCreator--Toasts--errorProcessing',
+              });
             }
           });
         });
