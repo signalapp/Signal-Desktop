@@ -1,12 +1,12 @@
 {
   "seedNodeList": [
     {
-      "ip": "public.loki.foundation",
-      "port": "38157"
+      "url": "http://public.loki.foundation:38157/",
+      "ip_url": "http://144.76.164.202:38157/"
     },
     {
-      "ip": "storage.testnetseed1.loki.network",
-      "port": "38157"
+      "url": "http://storage.testnetseed1.loki.network:38157/",
+      "ip_url": "http://116.203.32.199:38157/"
     }
   ],
   "openDevTools": true,
