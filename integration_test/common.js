@@ -184,20 +184,11 @@ module.exports = {
   async startAndStub({
     mnemonic,
     displayName,
-    stubSnode = false,
-    stubOpenGroups = false,
     env = 'test-integration-session',
   }) {
     const app = await this.startAndAssureCleanedApp(env);
 
-    if (stubSnode) {
-      await this.startStubSnodeServer();
-      this.stubSnodeCalls(app);
-    }
-
-    if (stubOpenGroups) {
-      this.stubOpenGroupsCalls(app);
-    }
+    await this.startStubSnodeServer();
 
     if (mnemonic && displayName) {
       await this.restoreFromMnemonic(app, mnemonic, displayName);
@@ -246,13 +237,11 @@ module.exports = {
     const app1Props = {
       mnemonic: this.TEST_MNEMONIC1,
       displayName: this.TEST_DISPLAY_NAME1,
-      stubSnode: true,
     };
 
     const app2Props = {
       mnemonic: this.TEST_MNEMONIC2,
       displayName: this.TEST_DISPLAY_NAME2,
-      stubSnode: true,
     };
 
     const [app1, app2] = await Promise.all([
@@ -469,9 +458,9 @@ module.exports = {
     await app2.client.isExisting(RegistrationPage.conversationListContainer)
       .should.eventually.be.true;
 
-    await app1.client.element(ConversationPage.settingsButtonSection).click();
+    await app1.client.element(SettingsPage.settingsButtonSection).click();
     await app1.client
-      .element(ConversationPage.settingsRowWithText('Devices'))
+      .element(SettingsPage.settingsRowWithText('Devices'))
       .click();
     await app1.client.isExisting(ConversationPage.linkDeviceButtonDisabled)
       .should.eventually.be.true;
@@ -536,17 +525,6 @@ module.exports = {
   generateSendMessageText: () =>
     `Test message from integration tests ${Date.now()}`,
 
-  stubOpenGroupsCalls: app1 => {
-    app1.webContents.executeJavaScript(
-      'window.LokiAppDotNetServerAPI = window.StubAppDotNetAPI;'
-    );
-  },
-
-  stubSnodeCalls(app1) {
-    app1.webContents.executeJavaScript(
-      'window.LokiMessageAPI = window.StubMessageAPI;'
-    );
-  },
 
   async startStubSnodeServer() {
     if (!this.stubSnode) {
@@ -568,7 +546,7 @@ module.exports = {
 
             this.messages[pubkey] = [...ori, { data, timestamp }];
 
-            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.writeHead(200, { 'Content-Type': 'application/json' });
             response.end();
           } else {
             const messages = this.messages[pubkey] || [];
@@ -576,11 +554,11 @@ module.exports = {
             if (ENABLE_LOG) {
               console.warn('GET for', pubkey, retrievedMessages);
             }
-            if (this.messages[pubkey]) {
-              response.writeHead(200, { 'Content-Type': 'application/json' });
-              response.write(JSON.stringify(retrievedMessages));
-              this.messages[pubkey] = [];
-            }
+            response.writeHead(200, { 'Content-Type': 'application/json' });
+
+            response.write(JSON.stringify(retrievedMessages));
+            this.messages[pubkey] = [];
+
             response.end();
           }
         }

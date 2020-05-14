@@ -15,7 +15,6 @@ describe('Open groups', function() {
     const login = {
       mnemonic: common.TEST_MNEMONIC1,
       displayName: common.TEST_DISPLAY_NAME1,
-      stubOpenGroups: true,
     };
     app = await common.startAndStub(login);
   });

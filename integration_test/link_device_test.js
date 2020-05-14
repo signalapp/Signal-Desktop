@@ -18,11 +18,9 @@ describe('Link Device', function() {
     const app1Props = {
       mnemonic: common.TEST_MNEMONIC1,
       displayName: common.TEST_DISPLAY_NAME1,
-      stubSnode: true,
     };
 
     const app2Props = {
-      stubSnode: true,
     };
 
     [app, app2] = await Promise.all([
@@ -68,8 +66,8 @@ describe('Link Device', function() {
     );
 
     // no friends, no closed groups, no open groups. we should see those message sync in the log
-    await common.logsContains(primaryRenderLogs, 'No closed group to sync.');
-    await common.logsContains(primaryRenderLogs, 'No open groups to sync');
-    await common.logsContains(primaryRenderLogs, 'No contacts to sync.');
+    await common.logsContains(primaryRenderLogs, 'No closed group to sync.', 1);
+    await common.logsContains(primaryRenderLogs, 'No open groups to sync', 1);
+    await common.logsContains(primaryRenderLogs, 'No contacts to sync.', 1);
   });
 });

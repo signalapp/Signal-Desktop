@@ -59,7 +59,7 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
       openGroupBound = true;
     }
   } else {
-    window.log.error('Can not handle open group data, API is not available');
+    window.log.warn('Can not handle open group data, API is not available');
   }
 }
 
