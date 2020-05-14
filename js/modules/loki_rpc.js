@@ -18,11 +18,11 @@ const encryptForNode = async (node, payload) => {
   const textEncoder = new TextEncoder();
   const plaintext = textEncoder.encode(payload);
 
-  const ephemeral = libloki.crypto.generateEphemeralKeyPair();
+  const ephemeral = await libloki.crypto.generateEphemeralKeyPair();
 
   const snPubkey = StringView.hexToArrayBuffer(node.pubkey_x25519);
 
-  const ephemeralSecret = libsignal.Curve.calculateAgreement(
+  const ephemeralSecret = await libsignal.Curve.async.calculateAgreement(
     snPubkey,
     ephemeral.privKey
   );
@@ -235,9 +235,9 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
 
   const snPubkeyHex = StringView.hexToArrayBuffer(targetNode.pubkey_x25519);
 
-  const myKeys = window.libloki.crypto.generateEphemeralKeyPair();
+  const myKeys = await window.libloki.crypto.generateEphemeralKeyPair();
 
-  const symmetricKey = libsignal.Curve.calculateAgreement(
+  const symmetricKey = await libsignal.Curve.async.calculateAgreement(
     snPubkeyHex,
     myKeys.privKey
   );

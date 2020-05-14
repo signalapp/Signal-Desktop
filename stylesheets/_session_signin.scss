@@ -17,7 +17,7 @@
 
       &-text {
         color: $session-color-white;
-        font-family: $session-font-default;
+        font-family: $session-font-accent;
 
         .title {
           font-size: 100px;
@@ -87,7 +87,7 @@
     }
 
     &__tab {
-      @include fontDefaultBold();
+      @include fontAccentBold();
       width: 100%;
       padding-bottom: 10px;
       background-color: transparent;

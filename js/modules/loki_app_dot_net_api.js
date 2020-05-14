@@ -98,10 +98,10 @@ const sendToProxy = async (
   payloadObj.body = false; // free memory
 
   // make temporary key for this request/response
-  const ephemeralKey = libsignal.Curve.generateKeyPair();
+  const ephemeralKey = await libsignal.Curve.async.generateKeyPair();
 
   // mix server pub key with our priv key
-  const symKey = libsignal.Curve.calculateAgreement(
+  const symKey = await libsignal.Curve.async.calculateAgreement(
     srvPubKey, // server's pubkey
     ephemeralKey.privKey // our privkey
   );

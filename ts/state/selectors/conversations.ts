@@ -107,9 +107,9 @@ export const _getLeftPaneLists = (
 
   const conversations: Array<ConversationType> = [];
   const archivedConversations: Array<ConversationType> = [];
-  const friends: Array<ConversationType> = [];
-  const receivedFriendsRequest: Array<ConversationListItemPropsType> = [];
-  const sentFriendsRequest: Array<ConversationListItemPropsType> = [];
+  const allFriends: Array<ConversationType> = [];
+  const allReceivedFriendsRequest: Array<ConversationListItemPropsType> = [];
+  const allSentFriendsRequest: Array<ConversationListItemPropsType> = [];
 
   const max = sorted.length;
   let unreadCount = 0;
@@ -125,11 +125,11 @@ export const _getLeftPaneLists = (
     }
 
     if (conversation.isFriend && conversation.activeAt !== undefined) {
-      friends.push(conversation);
+      allFriends.push(conversation);
     }
 
     if (conversation.hasReceivedFriendRequest) {
-      receivedFriendsRequest.push(conversation);
+      allReceivedFriendsRequest.push(conversation);
     } else if (
       unreadCount < 9 &&
       conversation.isFriend &&
@@ -138,7 +138,9 @@ export const _getLeftPaneLists = (
       unreadCount += conversation.unreadCount;
     }
     if (conversation.hasSentFriendRequest) {
-      sentFriendsRequest.push(conversation);
+      if (!conversation.isFriend) {
+        allSentFriendsRequest.push(conversation);
+      }
     }
 
     if (!conversation.activeAt) {
@@ -151,6 +153,40 @@ export const _getLeftPaneLists = (
       conversations.push(conversation);
     }
   }
+
+  const filterToPrimary = <
+    T extends Array<ConversationType | ConversationListItemPropsType>
+  >(
+    group: Array<ConversationType | ConversationListItemPropsType>
+  ): T => {
+    const secondariesToRemove: Array<string> = [];
+    group.forEach(device => {
+      if (!device.isSecondary) {
+        return;
+      }
+
+      const devicePrimary = group.find(c => c.id === device.primaryDevice);
+      // Remove secondary where primary already exists in group
+      if (group.some(c => c === devicePrimary)) {
+        secondariesToRemove.push(device.id);
+      }
+    });
+
+    // tslint:disable-next-line: no-unnecessary-local-variable
+    const filteredGroup = group.filter(
+      c => !secondariesToRemove.find(s => s === c.id)
+    );
+
+    return filteredGroup as T;
+  };
+
+  const friends: Array<ConversationType> = filterToPrimary(allFriends);
+  const receivedFriendsRequest: Array<
+    ConversationListItemPropsType
+  > = filterToPrimary(allReceivedFriendsRequest);
+  const sentFriendsRequest: Array<
+    ConversationListItemPropsType
+  > = filterToPrimary(allSentFriendsRequest);
 
   return {
     conversations,

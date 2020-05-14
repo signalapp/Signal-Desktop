@@ -175,6 +175,7 @@ function prepareURL(pathSegments, moreKeys) {
       localUrl: config.get('localUrl'),
       cdnUrl: config.get('cdnUrl'),
       defaultPoWDifficulty: config.get('defaultPoWDifficulty'),
+      // one day explain why we need to do this - neuroscr
       seedNodeList: JSON.stringify(config.get('seedNodeList')),
       certificateAuthority: config.get('certificateAuthority'),
       environment: config.environment,
@@ -307,9 +308,6 @@ async function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
   setupSpellChecker(mainWindow, locale.messages);
-
-  // Disable system main menu
-  mainWindow.setMenu(null);
 
   electronLocalshortcut.register(mainWindow, 'F5', () => {
     mainWindow.reload();

@@ -1364,7 +1364,12 @@
       );
     });
 
-    Whisper.events.on('deviceUnpairingRequested', async pubKey => {
+    Whisper.events.on('deviceUnpairingRequested', async (pubKey, callback) => {
+      const isSecondaryDevice = !!textsecure.storage.get('isSecondaryDevice');
+      if (isSecondaryDevice) {
+        return;
+      }
+
       await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
         pubKey
       );
@@ -1374,6 +1379,7 @@
       // Remove all traces of the device
       ConversationController.deleteContact(pubKey);
       Whisper.events.trigger('refreshLinkedDeviceList');
+      callback();
     });
   }
 
