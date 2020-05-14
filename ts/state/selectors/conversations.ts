@@ -102,6 +102,7 @@ export const _getLeftPaneLists = (
   sentFriendsRequest: Array<ConversationListItemPropsType>;
   unreadCount: number;
 } => {
+  const _ = window.Lodash;
   const values = Object.values(lookup);
   const sorted = values.sort(comparator);
 
@@ -138,7 +139,9 @@ export const _getLeftPaneLists = (
       unreadCount += conversation.unreadCount;
     }
     if (conversation.hasSentFriendRequest) {
-      allSentFriendsRequest.push(conversation);
+      if (!conversation.isFriend) {
+        allSentFriendsRequest.push(conversation);
+      }
     }
 
     if (!conversation.activeAt) {
@@ -152,31 +155,45 @@ export const _getLeftPaneLists = (
     }
   }
 
-  const filterToPrimary = (
+  const filterToPrimary = <T extends Array<ConversationType | ConversationListItemPropsType>>(
     group: Array<ConversationType | ConversationListItemPropsType>
-  ) => {
-    // Used to ensure that only the primary device gets added to LeftPane filtered groups
+  ) : T => {
+    const secondariesToRemove: Array<string> = [];
+    group.forEach(device => {
+      if (!device.isSecondary) {
+        return;
+      }
 
-    const constructedGroup = conversations.filter(c =>
-      group.some(g => c.id === g.id)
-    );
+      const devicePrimary = group.find(c => c.id === device.primaryDevice);
+      // Remove secondary where primary already exists in group
+      if (_.includes(group, devicePrimary)) {
+        secondariesToRemove.push(device.id);
+      }
+    });
+
     // tslint:disable-next-line: no-unnecessary-local-variable
-    const filteredGroup = constructedGroup.filter(
-      (c, idx) =>
-        !(
-          c.isSecondary &&
-          constructedGroup.some(
-            g => !g.isSecondary && g.id === constructedGroup[idx].primaryDevice
-          )
-        )
-    );
+    const filteredGroup = group.filter(c => !(secondariesToRemove.find(s => s === c.id)));
 
-    return filteredGroup;
+    return (filteredGroup as T);
   };
 
-  const friends = filterToPrimary(allFriends);
-  const receivedFriendsRequest = filterToPrimary(allReceivedFriendsRequest);
-  const sentFriendsRequest = filterToPrimary(allSentFriendsRequest);
+  const friends: Array<ConversationType> =
+    filterToPrimary(allFriends);
+  const receivedFriendsRequest: Array<ConversationListItemPropsType> =
+    filterToPrimary(allReceivedFriendsRequest);
+  const sentFriendsRequest: Array<ConversationListItemPropsType> =
+    filterToPrimary(allSentFriendsRequest);
+
+  console.log('[vince] allFriends:', allFriends);
+  console.log('[vince] friends:', friends);
+
+  console.log('[vince] allReceivedFriendsRequest:', allReceivedFriendsRequest);
+  console.log('[vince] receivedFriendsRequest:', receivedFriendsRequest);
+
+  console.log('[vince] allSentFriendsRequest:', allSentFriendsRequest);
+  console.log('[vince] sentFriendsRequest:', sentFriendsRequest);
+
+  console.log('[vince] conversations:', conversations);
 
   return {
     conversations,
