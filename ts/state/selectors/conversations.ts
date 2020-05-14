@@ -189,17 +189,6 @@ export const _getLeftPaneLists = (
     ConversationListItemPropsType
   > = filterToPrimary(allSentFriendsRequest);
 
-  console.log('[vince] allFriends:', allFriends);
-  console.log('[vince] friends:', friends);
-
-  console.log('[vince] allReceivedFriendsRequest:', allReceivedFriendsRequest);
-  console.log('[vince] receivedFriendsRequest:', receivedFriendsRequest);
-
-  console.log('[vince] allSentFriendsRequest:', allSentFriendsRequest);
-  console.log('[vince] sentFriendsRequest:', sentFriendsRequest);
-
-  console.log('[vince] conversations:', conversations);
-
   return {
     conversations,
     archivedConversations,
