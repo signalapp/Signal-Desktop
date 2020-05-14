@@ -155,9 +155,11 @@ export const _getLeftPaneLists = (
     }
   }
 
-  const filterToPrimary = <T extends Array<ConversationType | ConversationListItemPropsType>>(
+  const filterToPrimary = <
+    T extends Array<ConversationType | ConversationListItemPropsType>
+  >(
     group: Array<ConversationType | ConversationListItemPropsType>
-  ) : T => {
+  ): T => {
     const secondariesToRemove: Array<string> = [];
     group.forEach(device => {
       if (!device.isSecondary) {
@@ -172,17 +174,20 @@ export const _getLeftPaneLists = (
     });
 
     // tslint:disable-next-line: no-unnecessary-local-variable
-    const filteredGroup = group.filter(c => !(secondariesToRemove.find(s => s === c.id)));
+    const filteredGroup = group.filter(
+      c => !secondariesToRemove.find(s => s === c.id)
+    );
 
-    return (filteredGroup as T);
+    return filteredGroup as T;
   };
 
-  const friends: Array<ConversationType> =
-    filterToPrimary(allFriends);
-  const receivedFriendsRequest: Array<ConversationListItemPropsType> =
-    filterToPrimary(allReceivedFriendsRequest);
-  const sentFriendsRequest: Array<ConversationListItemPropsType> =
-    filterToPrimary(allSentFriendsRequest);
+  const friends: Array<ConversationType> = filterToPrimary(allFriends);
+  const receivedFriendsRequest: Array<
+    ConversationListItemPropsType
+  > = filterToPrimary(allReceivedFriendsRequest);
+  const sentFriendsRequest: Array<
+    ConversationListItemPropsType
+  > = filterToPrimary(allSentFriendsRequest);
 
   console.log('[vince] allFriends:', allFriends);
   console.log('[vince] friends:', friends);
