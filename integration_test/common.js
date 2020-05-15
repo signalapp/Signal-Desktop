@@ -621,12 +621,19 @@ module.exports = {
     const foundLines = renderLogs.filter(log => log.message.includes(str));
 
     // eslint-disable-next-line no-unused-expressions
-    chai.expect(foundLines.length > 0, `'${str}' not found in logs but was expected`).to.be
-      .true;
+    chai.expect(
+      foundLines.length > 0,
+      `'${str}' not found in logs but was expected`
+    ).to.be.true;
 
     if (count) {
       // eslint-disable-next-line no-unused-expressions
-      chai.expect(foundLines.length, `'${str}' found but not the correct number of times`).to.be.equal(count);
+      chai
+        .expect(
+          foundLines.length,
+          `'${str}' found but not the correct number of times`
+        )
+        .to.be.equal(count);
     }
   },
 
