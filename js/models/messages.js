@@ -12,6 +12,7 @@
   Whisper,
   clipboard,
   libloki,
+  lokiFileServerAPI,
 */
 
 /* eslint-disable more/no-then */
@@ -160,9 +161,9 @@
       }
     },
     isEndSession() {
-      const flag = textsecure.protobuf.DataMessage.Flags.END_SESSION;
+      const endSessionFlag = textsecure.protobuf.DataMessage.Flags.END_SESSION;
       // eslint-disable-next-line no-bitwise
-      return !!(this.get('flags') & flag);
+      return !!(this.get('flags') & endSessionFlag);
     },
     getEndSessionTranslationKey() {
       const sessionType = this.get('endSessionType');
@@ -174,10 +175,10 @@
       return 'sessionEnded';
     },
     isExpirationTimerUpdate() {
-      const flag =
+      const expirationTimerFlag =
         textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
       // eslint-disable-next-line no-bitwise
-      return !!(this.get('flags') & flag);
+      return !!(this.get('flags') & expirationTimerFlag);
     },
     isGroupUpdate() {
       return !!this.get('group_update');
@@ -281,18 +282,23 @@
     isKeyChange() {
       return this.get('type') === 'keychange';
     },
+
     isFriendRequest() {
+      // FIXME exclude session request to be seen as a session request
       return this.get('type') === 'friend-request';
     },
     isGroupInvitation() {
       return !!this.get('groupInvitation');
     },
     isSessionRestoration() {
-      const flag = textsecure.protobuf.DataMessage.Flags.SESSION_RESTORE;
-      // eslint-disable-next-line no-bitwise
-      const sessionRestoreFlag = !!(this.get('flags') & flag);
-
-      return !!this.get('sessionRestoration') || sessionRestoreFlag;
+      const sessionRestoreFlag =
+        textsecure.protobuf.DataMessage.Flags.SESSION_RESTORE;
+      /* eslint-disable no-bitwise */
+      return (
+        !!this.get('sessionRestoration') ||
+        !!(this.get('flags') & sessionRestoreFlag)
+      );
+      /* eslint-enable no-bitwise */
     },
     getNotificationText() {
       const description = this.getDescription();
@@ -1435,7 +1441,7 @@
           });
 
           this.trigger('sent', this);
-          if (this.get('type') !== 'friend-request') {
+          if (!this.isFriendRequest()) {
             const c = this.getConversation();
             // Don't bother sending sync messages to public chats
             if (c && !c.isPublic()) {
@@ -1900,6 +1906,233 @@
       return message;
     },
 
+    async handleSecondaryDeviceFriendRequest(pubKey) {
+      // fetch the device mapping from the server
+      const deviceMapping = await lokiFileServerAPI.getUserDeviceMapping(
+        pubKey
+      );
+      if (!deviceMapping) {
+        return false;
+      }
+      // Only handle secondary pubkeys
+      if (deviceMapping.isPrimary === '1' || !deviceMapping.authorisations) {
+        return false;
+      }
+      const { authorisations } = deviceMapping;
+      // Secondary devices should only have 1 authorisation from a primary device
+      if (authorisations.length !== 1) {
+        return false;
+      }
+      const authorisation = authorisations[0];
+      if (!authorisation) {
+        return false;
+      }
+      if (!authorisation.grantSignature) {
+        return false;
+      }
+      const isValid = await libloki.crypto.validateAuthorisation(authorisation);
+      if (!isValid) {
+        return false;
+      }
+      const correctSender = pubKey === authorisation.secondaryDevicePubKey;
+      if (!correctSender) {
+        return false;
+      }
+      const { primaryDevicePubKey } = authorisation;
+      // ensure the primary device is a friend
+      const c = window.ConversationController.get(primaryDevicePubKey);
+      if (!c || !c.isFriendWithAnyDevice()) {
+        return false;
+      }
+      await libloki.storage.savePairingAuthorisation(authorisation);
+
+      return true;
+    },
+
+    /**
+     * Returns true if the message is already completely handled and confirmed
+     * and the processing of this message must stop.
+     */
+    handleGroupMessage(source, initialMessage, primarySource, confirm) {
+      const conversationId = initialMessage.group.id;
+      const conversation = ConversationController.get(conversationId);
+      const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
+
+      if (this.shouldIgnoreBlockedGroup(initialMessage, source)) {
+        window.log.warn(`Message ignored; destined for blocked group`);
+        confirm();
+        return true;
+      }
+
+      // NOTE: we use friends status to tell if this is
+      // the creation of the group (initial update)
+      const newGroup = !conversation.isFriend();
+      const knownMembers = conversation.get('members');
+
+      if (!newGroup && knownMembers) {
+        const fromMember = knownMembers.includes(primarySource);
+        // if the group exists and we have its members,
+        // we must drop a message from anyone else than the existing members.
+        if (!fromMember) {
+          window.log.warn(
+            `Ignoring group message from non-member: ${primarySource}`
+          );
+          confirm();
+          // returning true drops the message
+          return true;
+        }
+      }
+      if (initialMessage.group.type === GROUP_TYPES.REQUEST_INFO && !newGroup) {
+        libloki.api.debug.logGroupRequestInfo(
+          `Received GROUP_TYPES.REQUEST_INFO from source: ${source}, primarySource: ${primarySource}, sending back group info.`
+        );
+        conversation.sendGroupInfo([source]);
+        confirm();
+        return true;
+      }
+
+      if (
+        initialMessage.group.members &&
+        initialMessage.group.type === GROUP_TYPES.UPDATE
+      ) {
+        if (newGroup) {
+          conversation.updateGroupAdmins(initialMessage.group.admins);
+
+          conversation.setFriendRequestStatus(
+            window.friends.friendRequestStatusEnum.friends
+          );
+        } else {
+          // be sure to drop a message from a non admin if it tries to change group members
+          // or change the group name
+          const fromAdmin = conversation
+            .get('groupAdmins')
+            .includes(primarySource);
+
+          if (!fromAdmin) {
+            // Make sure the message is not removing members / renaming the group
+            const nameChanged =
+              conversation.get('name') !== initialMessage.group.name;
+
+            if (nameChanged) {
+              window.log.warn(
+                'Non-admin attempts to change the name of the group'
+              );
+            }
+
+            const membersMissing =
+              _.difference(
+                conversation.get('members'),
+                initialMessage.group.members
+              ).length > 0;
+
+            if (membersMissing) {
+              window.log.warn('Non-admin attempts to remove group members');
+            }
+
+            const messageAllowed = !nameChanged && !membersMissing;
+
+            // Returning true drops the message
+            if (!messageAllowed) {
+              confirm();
+              return true;
+            }
+          }
+        }
+        // send a session request for all the members we do not have a session with
+        window.libloki.api.sendSessionRequestsToMembers(
+          initialMessage.group.members
+        );
+      } else if (newGroup) {
+        // We have an unknown group, we should request info from the sender
+        textsecure.messaging.requestGroupInfo(conversationId, [primarySource]);
+      }
+      return false;
+    },
+
+    async handleSessionRequest(source, primarySource, confirm) {
+      // Check if the contact is a member in one of our private groups:
+      const isKnownClosedGroupMember = window
+        .getConversations()
+        .models.filter(c => c.get('members'))
+        .reduce((acc, x) => window.Lodash.concat(acc, x.get('members')), [])
+        .includes(primarySource);
+
+      libloki.api.debug.logSessionRequest(
+        `Received SESSION_REQUEST from source: ${source}, primarySource: ${primarySource}, is one of our private groups: ${isKnownClosedGroupMember}`
+      );
+
+      if (isKnownClosedGroupMember) {
+        window.log.info(
+          `Auto accepting a 'group' session request for a known group member: ${primarySource}`
+        );
+        window.libloki.api.sendBackgroundMessage(
+          source,
+          window.textsecure.OutgoingMessage.DebugMessageType
+            .SESSION_REQUEST_ACCEPT
+        );
+
+        confirm();
+      }
+    },
+    isGroupBlocked(groupId) {
+      return textsecure.storage.get('blocked-groups', []).indexOf(groupId) >= 0;
+    },
+    shouldIgnoreBlockedGroup(message, senderPubKey) {
+      const groupId = message.group && message.group.id;
+      const isBlocked = this.isGroupBlocked(groupId);
+      const isLeavingGroup = Boolean(
+        message.group &&
+          message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+      );
+
+      const primaryDevicePubKey = window.storage.get('primaryDevicePubKey');
+      const isMe =
+        senderPubKey === textsecure.storage.user.getNumber() ||
+        senderPubKey === primaryDevicePubKey;
+
+      return groupId && isBlocked && !(isMe && isLeavingGroup);
+    },
+
+    async handleAutoFriendRequestMessage(
+      source,
+      ourPubKey,
+      conversation,
+      confirm
+    ) {
+      const isMe = source === ourPubKey;
+      // If we got a friend request message (session request excluded) or
+      // if we're not friends with the current user that sent this private message
+      // Check to see if we need to auto accept their friend request
+      if (isMe) {
+        window.log.info('refusing to add a friend request to ourselves');
+        throw new Error('Cannot add a friend request for ourselves!');
+      } else {
+        // auto-accept friend request if the device is paired to one of our friend's primary device
+        const shouldAutoAcceptFR = await this.handleSecondaryDeviceFriendRequest(
+          source
+        );
+        if (shouldAutoAcceptFR) {
+          libloki.api.debug.logAutoFriendRequest(
+            `Received AUTO_FRIEND_REQUEST from source: ${source}`
+          );
+          // Directly setting friend request status to skip the pending state
+          await conversation.setFriendRequestStatus(
+            window.friends.friendRequestStatusEnum.friends
+          );
+          // sending a message back = accepting friend request
+
+          window.libloki.api.sendBackgroundMessage(
+            source,
+            window.textsecure.OutgoingMessage.DebugMessageType.AUTO_FR_ACCEPT
+          );
+          confirm();
+          // return true to notify the message is fully processed
+          return true;
+        }
+      }
+      return false;
+    },
+
     async handleDataMessage(initialMessage, confirm) {
       // This function is called from the background script in a few scenarios:
       //   1. on an incoming message
@@ -1909,7 +2142,6 @@
       const ourNumber = textsecure.storage.user.getNumber();
       const message = this;
       const source = message.get('source');
-      const type = message.get('type');
       let conversationId = message.get('conversationId');
       const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
         source
@@ -1918,122 +2150,32 @@
         (authorisation && authorisation.primaryDevicePubKey) || source;
       const isGroupMessage = !!initialMessage.group;
       if (isGroupMessage) {
+        /* handle one part of the group logic here:
+           handle requesting info of a new group,
+           dropping an admin only update from a non admin, ...
+         */
         conversationId = initialMessage.group.id;
+        const shouldReturn = this.handleGroupMessage(
+          source,
+          initialMessage,
+          primarySource,
+          confirm
+        );
+
+        // handleGroupMessage() can process fully a message in some cases
+        // so we need to return early if that's the case
+        if (shouldReturn) {
+          return null;
+        }
       } else if (source !== ourNumber && authorisation) {
         // Ignore auth from our devices
         conversationId = authorisation.primaryDevicePubKey;
       }
 
-      const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
-
-      const conversation = ConversationController.get(conversationId);
-
-      // NOTE: we use friends status to tell if this is
-      // the creation of the group (initial update)
-      const newGroup = !conversation.isFriend();
-      const knownMembers = conversation.get('members');
-
-      if (!newGroup && knownMembers) {
-        const fromMember = knownMembers.includes(primarySource);
-
-        if (!fromMember) {
-          window.log.warn(
-            `Ignoring group message from non-member: ${primarySource}`
-          );
-          confirm();
-          return null;
-        }
-      }
-
-      if (initialMessage.group) {
-        if (
-          initialMessage.group.type === GROUP_TYPES.REQUEST_INFO &&
-          !newGroup
-        ) {
-          conversation.sendGroupInfo([source]);
-          return null;
-        } else if (
-          initialMessage.group.members &&
-          initialMessage.group.type === GROUP_TYPES.UPDATE
-        ) {
-          if (newGroup) {
-            conversation.updateGroupAdmins(initialMessage.group.admins);
-
-            conversation.setFriendRequestStatus(
-              window.friends.friendRequestStatusEnum.friends
-            );
-          } else {
-            const fromAdmin = conversation
-              .get('groupAdmins')
-              .includes(primarySource);
-
-            if (!fromAdmin) {
-              // Make sure the message is not removing members / renaming the group
-              const nameChanged =
-                conversation.get('name') !== initialMessage.group.name;
-
-              if (nameChanged) {
-                window.log.warn(
-                  'Non-admin attempts to change the name of the group'
-                );
-              }
-
-              const membersMissing =
-                _.difference(
-                  conversation.get('members'),
-                  initialMessage.group.members
-                ).length > 0;
-
-              if (membersMissing) {
-                window.log.warn('Non-admin attempts to remove group members');
-              }
-
-              const messageAllowed = !nameChanged && !membersMissing;
-
-              if (!messageAllowed) {
-                confirm();
-                return null;
-              }
-            }
-          }
-          // For every member, see if we need to establish a session:
-          initialMessage.group.members.forEach(memberPubKey => {
-            const haveSession = _.some(
-              textsecure.storage.protocol.sessions,
-              s => s.number === memberPubKey
-            );
-
-            const ourPubKey = textsecure.storage.user.getNumber();
-            if (!haveSession && memberPubKey !== ourPubKey) {
-              ConversationController.getOrCreateAndWait(
-                memberPubKey,
-                'private'
-              ).then(() => {
-                textsecure.messaging.sendMessageToNumber(
-                  memberPubKey,
-                  '(If you see this message, you must be using an out-of-date client)',
-                  [],
-                  undefined,
-                  [],
-                  Date.now(),
-                  undefined,
-                  undefined,
-                  { messageType: 'friend-request', sessionRequest: true }
-                );
-              });
-            }
-          });
-        } else if (newGroup) {
-          // We have an unknown group, we should request info from the sender
-          textsecure.messaging.requestGroupInfo(conversationId, [
-            primarySource,
-          ]);
-        }
-      }
-
-      const isSessionRequest =
-        initialMessage.flags ===
-        textsecure.protobuf.DataMessage.Flags.SESSION_REQUEST;
+      // the conversation with the primary device of that source (can be the same as conversationOrigin)
+      const conversationPrimary = ConversationController.get(conversationId);
+      // the conversation with this real device
+      const conversationOrigin = ConversationController.get(source);
 
       if (
         // eslint-disable-next-line no-bitwise
@@ -2043,34 +2185,51 @@
         // Show that the session reset is "in progress" even though we had a valid session
         this.set({ endSessionType: 'ongoing' });
       }
+      /**
+       * A session request message is a friend-request message with the flag
+       * SESSION_REQUEST set to true.
+       */
+      const sessionRequestFlag =
+        textsecure.protobuf.DataMessage.Flags.SESSION_REQUEST;
+      /* eslint-disable no-bitwise */
+      if (
+        message.isFriendRequest() &&
+        !!(initialMessage.flags & sessionRequestFlag)
+      ) {
+        await this.handleSessionRequest(source, primarySource, confirm);
 
-      if (message.isFriendRequest() && isSessionRequest) {
-        // Check if the contact is a member in one of our private groups:
-        const groupMember = window
-          .getConversations()
-          .models.filter(c => c.get('members'))
-          .reduce((acc, x) => window.Lodash.concat(acc, x.get('members')), [])
-          .includes(primarySource);
-
-        if (groupMember) {
-          window.log.info(
-            `Auto accepting a 'group' friend request for a known group member: ${primarySource}`
-          );
-
-          window.libloki.api.sendBackgroundMessage(message.get('source'));
-
-          confirm();
-        }
-
-        // Wether or not we accepted the FR, we exit early so background friend requests
+        // Wether or not we accepted the FR, we exit early so session requests
         // cannot be used for establishing regular private conversations
         return null;
       }
+      /* eslint-enable no-bitwise */
+
+      // Session request have been dealt with before, so a friend request here is
+      // not a session request message. Also, handleAutoFriendRequestMessage() only handles the autoAccept logic of an auto friend request.
+      if (
+        message.isFriendRequest() ||
+        (!isGroupMessage && !conversationOrigin.isFriend())
+      ) {
+        const shouldReturn = await this.handleAutoFriendRequestMessage(
+          source,
+          ourNumber,
+          conversationOrigin,
+          confirm
+        );
+        // handleAutoFriendRequestMessage can process fully a message in some cases
+        // so we need to return early if that's the case
+        if (shouldReturn) {
+          return null;
+        }
+      }
+      const conversation = conversationPrimary;
 
       return conversation.queueJob(async () => {
         window.log.info(
           `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
         );
+        const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
+        const type = message.get('type');
 
         const withQuoteReference = await this.copyFromQuotedMessage(
           initialMessage
@@ -2263,7 +2422,7 @@
               : 'done';
             this.set({ endSessionType });
           }
-          if (type === 'incoming' || type === 'friend-request') {
+          if (type === 'incoming' || message.isFriendRequest()) {
             const readSync = Whisper.ReadSyncs.forMessage(message);
             if (readSync) {
               if (
@@ -2352,7 +2511,9 @@
           let autoAccept = false;
           // Make sure friend request logic doesn't trigger on messages aimed at groups
           if (!isGroupMessage) {
-            if (message.get('type') === 'friend-request') {
+            // We already handled (and returned) session request and auto Friend Request before,
+            // so that can only be a normal Friend Request
+            if (message.isFriendRequest()) {
               /*
               Here is the before and after state diagram for the operation before.
 
@@ -2376,6 +2537,10 @@
               if (autoAccept) {
                 message.set({ friendStatus: 'accepted' });
               }
+
+              libloki.api.debug.logNormalFriendRequest(
+                `Received a NORMAL_FRIEND_REQUEST from source: ${source}, primarySource: ${primarySource}, isAlreadyFriend: ${isFriend}, didWeAlreadySentFR: ${hasSentFriendRequest}`
+              );
 
               if (isFriend) {
                 window.Whisper.events.trigger('endSession', source);
