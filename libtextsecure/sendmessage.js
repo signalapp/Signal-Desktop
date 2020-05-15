@@ -399,7 +399,6 @@ MessageSender.prototype = {
       );
     }
 
-
     const ourNumber = textsecure.storage.user.getNumber();
 
     // Check wether we have the keys to start a session with the user
@@ -440,7 +439,7 @@ MessageSender.prototype = {
         haveSession ||
         keysFound ||
         options.isPublic ||
-	options.isMediumGroup ||
+        options.isMediumGroup ||
         options.messageType === 'friend-request'
       ) {
         const outgoing = new OutgoingMessage(
@@ -455,11 +454,11 @@ MessageSender.prototype = {
         this.queueJobForNumber(number, () => outgoing.sendToNumber(number));
       } else {
         window.log.error(`No session for number: ${number}`);
-	const isGroupMessage = !!(
-	      message &&
-	      message.dataMessage &&
-	      message.dataMessage.group
-	    );
+        const isGroupMessage = !!(
+          message &&
+          message.dataMessage &&
+          message.dataMessage.group
+        );
         // If it was a message to a group then we need to send a session request
         if (isGroupMessage) {
           const sessionRequestMessage = textsecure.OutgoingMessage.buildSessionRequestMessage(
@@ -1223,9 +1222,9 @@ MessageSender.prototype = {
 
     const attachment = await this.makeAttachmentPointer(avatar);
 
-      proto.group.avatar = attachment;
-      // TODO: re-enable this once we have attachments
-      proto.group.avatar = null;
+    proto.group.avatar = attachment;
+    // TODO: re-enable this once we have attachments
+    proto.group.avatar = null;
     await this.sendGroupProto(recipients, proto, Date.now(), options);
 
     return proto.group.id;

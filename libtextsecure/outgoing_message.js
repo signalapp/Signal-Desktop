@@ -578,7 +578,7 @@ OutgoingMessage.prototype = {
       ciphertext,
       source,
       keyIdx,
-      });
+    });
 
     // Encrypt for the group's identity key to hide source and key idx:
     const {
@@ -637,8 +637,10 @@ OutgoingMessage.prototype = {
       } = outgoingObject;
 
       try {
-        const socketMessage = wrapInWebsocketMessage(outgoingObject,
-          this.timestamp);
+        const socketMessage = wrapInWebsocketMessage(
+          outgoingObject,
+          this.timestamp
+        );
         await this.transmitMessage(
           destination,
           socketMessage,

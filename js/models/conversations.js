@@ -1046,7 +1046,8 @@
         window.libloki.api.sendBackgroundMessage(
           this.id,
           window.textsecure.OutgoingMessage.DebugMessageType
-            .INCOMING_FR_ACCEPTED);
+            .INCOMING_FR_ACCEPTED
+        );
       }
     },
     // Our outgoing friend request has been accepted

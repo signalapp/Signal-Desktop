@@ -834,6 +834,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
         type: 'error',
         id: 'pairingOngoing',
       });
+
       return;
     }
     this.setState({

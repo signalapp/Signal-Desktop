@@ -1761,7 +1761,7 @@
     const id = details.number;
 
     libloki.api.debug.logContactSync(
-        'Got sync contact message with',
+      'Got sync contact message with',
       id,
       ' details:',
       details

@@ -138,7 +138,7 @@ MessageReceiver.prototype.extend({
     } else {
       ev = new Event('message');
     }
-    ev.confirm = function confirmTerm() { };
+    ev.confirm = function confirmTerm() {};
     ev.data = message;
     this.dispatchAndWait(ev);
   },
@@ -1291,49 +1291,49 @@ MessageReceiver.prototype.extend({
       await this.handleEndSession(envelope.source);
     }
     const message = await this.processDecrypted(envelope, msg);
-        const ourPubKey = textsecure.storage.user.getNumber();
-        const senderPubKey = envelope.source;
-        const isMe = senderPubKey === ourPubKey;
-        const conversation = window.ConversationController.get(senderPubKey);
+    const ourPubKey = textsecure.storage.user.getNumber();
+    const senderPubKey = envelope.source;
+    const isMe = senderPubKey === ourPubKey;
+    const conversation = window.ConversationController.get(senderPubKey);
 
-        const { UNPAIRING_REQUEST } = textsecure.protobuf.DataMessage.Flags;
+    const { UNPAIRING_REQUEST } = textsecure.protobuf.DataMessage.Flags;
 
-        const friendRequest =
-          envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST;
-        // eslint-disable-next-line no-bitwise
-        const isUnpairingRequest = Boolean(message.flags & UNPAIRING_REQUEST);
+    const friendRequest =
+      envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST;
+    // eslint-disable-next-line no-bitwise
+    const isUnpairingRequest = Boolean(message.flags & UNPAIRING_REQUEST);
 
-        if (isUnpairingRequest) {
-          return this.handleUnpairRequest(envelope, ourPubKey);
-        }
+    if (isUnpairingRequest) {
+      return this.handleUnpairRequest(envelope, ourPubKey);
+    }
 
-        // Check if we need to update any profile names
-        if (!isMe && conversation && message.profile) {
-          await this.updateProfile(
-            conversation,
-            message.profile,
-            message.profileKey
-          );
-        }
+    // Check if we need to update any profile names
+    if (!isMe && conversation && message.profile) {
+      await this.updateProfile(
+        conversation,
+        message.profile,
+        message.profileKey
+      );
+    }
     if (!friendRequest && this.isMessageEmpty(message)) {
       window.log.warn(
         `Message ${this.getEnvelopeId(envelope)} ignored; it was empty`
       );
       return this.removeFromCache(envelope);
     }
-        // Build a 'message' event i.e. a received message event
-        const ev = new Event('message');
-        ev.confirm = this.removeFromCache.bind(this, envelope);
-        ev.data = {
-          friendRequest,
-          source: senderPubKey,
-          sourceDevice: envelope.sourceDevice,
-          timestamp: envelope.timestamp.toNumber(),
-          receivedAt: envelope.receivedAt,
-          unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
-          message,
-        };
-        return this.dispatchAndWait(ev);
+    // Build a 'message' event i.e. a received message event
+    const ev = new Event('message');
+    ev.confirm = this.removeFromCache.bind(this, envelope);
+    ev.data = {
+      friendRequest,
+      source: senderPubKey,
+      sourceDevice: envelope.sourceDevice,
+      timestamp: envelope.timestamp.toNumber(),
+      receivedAt: envelope.receivedAt,
+      unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
+      message,
+    };
+    return this.dispatchAndWait(ev);
   },
   isMessageEmpty({
     body,
@@ -1372,13 +1372,13 @@ MessageReceiver.prototype.extend({
   async handleContentMessage(envelope) {
     const plaintext = await this.decrypt(envelope, envelope.content);
 
-      if (!plaintext) {
-        window.log.warn('handleContentMessage: plaintext was falsey');
-        return null;
+    if (!plaintext) {
+      window.log.warn('handleContentMessage: plaintext was falsey');
+      return null;
     } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
-        return null;
-      }
-      return this.innerHandleContentMessage(envelope, plaintext);
+      return null;
+    }
+    return this.innerHandleContentMessage(envelope, plaintext);
   },
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
