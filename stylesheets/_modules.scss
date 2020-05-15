@@ -1,5 +1,12 @@
 // Using BEM syntax explained here: https://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/
 
+.module-splash-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .module-splash-screen__logo {
   @include color-svg('../images/signal-logo.svg', $color-white);
   margin: 24px auto;

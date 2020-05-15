@@ -21,7 +21,6 @@
       background-color: #3a76f0;
       color: white;
       font-size: 14px;
-      height: 350px;
     }
 
     img {
@@ -34,18 +33,19 @@
   </style>
 </head>
 <body>
-  <div class="module-splash-screen__logo module-img--200"></div>
+  <div class='module-splash-screen'>
+    <div class='module-splash-screen__logo module-img--200'></div>
 
-  <div class='version'></div>
-  <div class='environment'></div>
-  <div>
-    <a href="https://signal.org">signal.org</a>
+    <div class='version'></div>
+    <div class='environment'></div>
+    <div>
+      <a href='https://signal.org'>signal.org</a>
+    </div>
+    <br>
+    <div>
+      <a class="privacy" href="https://signal.org/legal">Terms &amp; Privacy Policy</a>
+    </div>
   </div>
-  <br>
-  <div>
-    <a class="privacy" href="https://signal.org/legal">Terms &amp; Privacy Policy</a>
-  </div>
-
   <script type='text/javascript' src='node_modules/jquery/dist/jquery.js'></script>
   <script type='text/javascript' src='js/about_start.js'></script>
 </body>
