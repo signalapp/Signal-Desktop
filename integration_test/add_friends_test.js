@@ -118,9 +118,27 @@ describe('Add friends', function() {
     // app trigger the friend request logic first
     const aliceLogs = await app.client.getRenderProcessLogs();
     const bobLogs = await app2.client.getRenderProcessLogs();
-    await common.logsContains(aliceLogs, `Sending undefined:friend-request message to ${common.TEST_PUBKEY2}`);
-    await common.logsContains(bobLogs, `Received a NORMAL_FRIEND_REQUEST from source: ${common.TEST_PUBKEY1}, primarySource: ${common.TEST_PUBKEY1},`);
-    await common.logsContains(bobLogs, `Sending incoming-friend-request-accept:onlineBroadcast message to ${common.TEST_PUBKEY1}`);
-    await common.logsContains(aliceLogs, `Sending outgoing-friend-request-accepted:onlineBroadcast message to ${common.TEST_PUBKEY2}`);
+    await common.logsContains(
+      aliceLogs,
+      `Sending undefined:friend-request message to ${common.TEST_PUBKEY2}`
+    );
+    await common.logsContains(
+      bobLogs,
+      `Received a NORMAL_FRIEND_REQUEST from source: ${
+        common.TEST_PUBKEY1
+      }, primarySource: ${common.TEST_PUBKEY1},`
+    );
+    await common.logsContains(
+      bobLogs,
+      `Sending incoming-friend-request-accept:onlineBroadcast message to ${
+        common.TEST_PUBKEY1
+      }`
+    );
+    await common.logsContains(
+      aliceLogs,
+      `Sending outgoing-friend-request-accepted:onlineBroadcast message to ${
+        common.TEST_PUBKEY2
+      }`
+    );
   });
 });

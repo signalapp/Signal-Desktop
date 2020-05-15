@@ -1523,7 +1523,7 @@ MessageReceiver.prototype.extend({
     const ourNumber = textsecure.storage.user.getNumber();
     const ourPrimaryNumber = window.storage.get('primaryDevicePubKey');
     const ourOtherDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-      window.storage.get('primaryDevicePubKey')
+      ourPrimaryNumber
     );
     const ourDevices = new Set([
       ourNumber,
@@ -1709,6 +1709,7 @@ MessageReceiver.prototype.extend({
   isBlocked(number) {
     return textsecure.storage.get('blocked', []).indexOf(number) >= 0;
   },
+
   cleanAttachment(attachment) {
     return {
       ..._.omit(attachment, 'thumbnail'),

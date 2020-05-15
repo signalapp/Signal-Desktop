@@ -427,7 +427,6 @@ module.exports = {
       .getText()
       .should.eventually.be.equal(secretWordsapp1);
 
-
     await app1.client.element(ConversationPage.allowPairingButton).click();
     await app1.client.element(ConversationPage.okButton).click();
     // validate device paired in settings list with correct secrets

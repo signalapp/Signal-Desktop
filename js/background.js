@@ -1759,6 +1759,12 @@
     const details = ev.contactDetails;
 
     const id = details.number;
+    libloki.api.debug.logContactSync(
+      'Got sync contact message with',
+      id,
+      ' details:',
+      details
+    );
 
     libloki.api.debug.logContactSync(
       'Got sync contact message with',
@@ -1899,6 +1905,12 @@
   async function onGroupReceived(ev) {
     const details = ev.groupDetails;
     const { id } = details;
+    libloki.api.debug.logGroupSync(
+      'Got sync group message with group id',
+      id,
+      ' details:',
+      details
+    );
 
     libloki.api.debug.logGroupSync(
       'Got sync group message with group id',
