@@ -27,7 +27,7 @@ describe('Add friends', function() {
 
     [app, app2] = await Promise.all([
       common.startAndStub(app1Props),
-      common.startAndStubN(app2Props,2),
+      common.startAndStubN(app2Props, 2),
     ]);
   });
 

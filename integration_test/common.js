@@ -525,7 +525,6 @@ module.exports = {
   generateSendMessageText: () =>
     `Test message from integration tests ${Date.now()}`,
 
-
   async startStubSnodeServer() {
     if (!this.stubSnode) {
       this.messages = {};

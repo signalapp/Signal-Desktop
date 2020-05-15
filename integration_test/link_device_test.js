@@ -20,8 +20,7 @@ describe('Link Device', function() {
       displayName: common.TEST_DISPLAY_NAME1,
     };
 
-    const app2Props = {
-    };
+    const app2Props = {};
 
     [app, app2] = await Promise.all([
       common.startAndStub(app1Props),

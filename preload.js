@@ -151,7 +151,7 @@ window.open = () => null;
 window.eval = global.eval = () => null;
 
 window.drawAttention = () => {
-  // window.log.info('draw attention');
+  // window.log.debug('draw attention');
   ipc.send('draw-attention');
 };
 window.showWindow = () => {
@@ -329,7 +329,7 @@ if (process.env.USE_STUBBED_NETWORK) {
   const StubMessageAPI = require('./integration_test/stubs/stub_message_api');
   window.LokiMessageAPI = StubMessageAPI;
 
-  const StubAppDotNetAPI  = require('./integration_test/stubs/stub_app_dot_net_api');
+  const StubAppDotNetAPI = require('./integration_test/stubs/stub_app_dot_net_api');
   window.LokiAppDotNetServerAPI = StubAppDotNetAPI;
 
   const StubSnodeAPI = require('./integration_test/stubs/stub_snode_api');
