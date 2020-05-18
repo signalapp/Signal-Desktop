@@ -182,10 +182,6 @@ const makeOnionRequest = async (
         target: '/loki/v1/lsrpc',
         method: 'POST',
       };
-      log.info(
-        `loki_rpc:::makeOnionRequest ${id} - lsrpc destination set`,
-        dest
-      );
     } else {
       // set x25519 if destination snode
       let pubkeyHex = targetED25519Hex; // relayingToFinalDestination
@@ -411,7 +407,10 @@ const processOnionResponse = async (
     return false;
   }
   if (debug) {
-    // log.debug(`(${reqIdx}) [path] lokiRpc::processOnionResponse - ciphertext`, ciphertext)
+    log.debug(
+      `(${reqIdx}) [path] lokiRpc::processOnionResponse - ciphertext`,
+      ciphertext
+    );
   }
 
   let plaintext;
@@ -463,16 +462,6 @@ const processOnionResponse = async (
     }
     return false;
   }
-  /*
-  if (!plaintext) {
-    log.debug('Trying again with', useAesGcm?'gcm':'dh')
-    try {
-      const plaintextBuffer2 = await decryptFn(sharedKey, ciphertextBuffer, true);
-      log.info(`(${reqIdx}) [path] lokiRpc::processOnionResponse - plaintextBufferHex`, StringView.arrayBufferToHex(plaintextBuffer2));
-    } catch(e) {
-    }
-  }
-  */
 
   if (debug) {
     log.debug('lokiRpc::processOnionResponse - plaintext', plaintext);
@@ -798,7 +787,7 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
     // Wrong PoW difficulty
     if (response.status === 432) {
       const result = await response.json();
-      log.error('WRONG POW', result);
+      log.error(`lokirpc:::lokiFetch ${type} - WRONG POW`, result);
       throw new textsecure.WrongDifficultyError(result.difficulty);
     }
 
@@ -979,9 +968,5 @@ const lokiRpc = (
 
 module.exports = {
   lokiRpc,
-  makeOnionRequest,
-  encryptForPubKey,
-  encryptForRelay,
-  processOnionResponse,
   sendOnionRequestLsrpcDest,
 };
