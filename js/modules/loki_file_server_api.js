@@ -1,4 +1,4 @@
-/* global log, libloki, process, window */
+/* global log, libloki, process, window, StringView */
 /* global storage: false */
 /* global Signal: false */
 /* global log: false */
@@ -8,18 +8,41 @@ const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 const DEVICE_MAPPING_USER_ANNOTATION_TYPE =
   'network.loki.messenger.devicemapping';
 
-// const LOKIFOUNDATION_DEVFILESERVER_PUBKEY =
-//  'BSZiMVxOco/b3sYfaeyiMWv/JnqokxGXkHoclEx8TmZ6';
+const LOKIFOUNDATION_DEVFILESERVER_PUBKEY =
+  'BSZiMVxOco/b3sYfaeyiMWv/JnqokxGXkHoclEx8TmZ6';
 const LOKIFOUNDATION_FILESERVER_PUBKEY =
   'BWJQnVm97sQE3Q1InB4Vuo+U/T1hmwHBv0ipkiv8tzEc';
+const urlPubkeyMap = {
+  'https://file-dev.getsession.org': LOKIFOUNDATION_DEVFILESERVER_PUBKEY,
+  'https://file-dev.lokinet.org': LOKIFOUNDATION_DEVFILESERVER_PUBKEY,
+  'https://file.getsession.org': LOKIFOUNDATION_FILESERVER_PUBKEY,
+  'https://file.lokinet.org': LOKIFOUNDATION_FILESERVER_PUBKEY,
+};
 
 // can have multiple of these instances as each user can have a
 // different home server
 class LokiFileServerInstance {
   constructor(ourKey) {
     this.ourKey = ourKey;
+  }
+
+  // FIXME: this is not file-server specific
+  // and is currently called by LokiAppDotNetAPI.
+  // LokiAppDotNetAPI (base) should not know about LokiFileServer.
+  async establishConnection(serverUrl, options) {
+    // why don't we extend this?
+    if (process.env.USE_STUBBED_NETWORK) {
+      // eslint-disable-next-line global-require
+      const StubAppDotNetAPI = require('../../integration_test/stubs/stub_app_dot_net_api.js');
+      this._server = new StubAppDotNetAPI(this.ourKey, serverUrl);
+    } else {
+      this._server = new LokiAppDotNetAPI(this.ourKey, serverUrl);
+    }
 
     // do we have their pubkey locally?
+    // FIXME: this._server won't be set yet...
+    // can't really do this for the file server because we'll need the key
+    // before we can communicate with lsrpc
     /*
     // get remote pubKey
     this._server.serverRequest('loki/v1/public_key').then(keyRes => {
@@ -41,9 +64,11 @@ class LokiFileServerInstance {
     });
     */
     // Hard coded
-    this.pubKey = window.Signal.Crypto.base64ToArrayBuffer(
-      LOKIFOUNDATION_FILESERVER_PUBKEY
-    );
+    if (urlPubkeyMap) {
+      this.pubKey = window.Signal.Crypto.base64ToArrayBuffer(
+        urlPubkeyMap[serverUrl]
+      );
+    }
     if (this.pubKey.byteLength && this.pubKey.byteLength !== 33) {
       log.error(
         'FILESERVER PUBKEY is invalid, length:',
@@ -51,23 +76,10 @@ class LokiFileServerInstance {
       );
       process.exit(1);
     }
-  }
 
-  // FIXME: this is not file-server specific
-  // and is currently called by LokiAppDotNetAPI.
-  // LokiAppDotNetAPI (base) should not know about LokiFileServer.
-  async establishConnection(serverUrl, options) {
-    // why don't we extend this?
-    if (process.env.USE_STUBBED_NETWORK) {
-      // eslint-disable-next-line global-require
-      const StubAppDotNetAPI = require('../../integration_test/stubs/stub_app_dot_net_api.js');
-      this._server = new StubAppDotNetAPI(this.ourKey, serverUrl);
-    } else {
-      this._server = new LokiAppDotNetAPI(this.ourKey, serverUrl);
-    }
-
-    // configure proxy
+    // configure proxy/onion request
     this._server.pubKey = this.pubKey;
+    this._server.pubKeyHex = StringView.arrayBufferToHex(this.pubKey);
 
     if (options !== undefined && options.skipToken) {
       return;
