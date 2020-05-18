@@ -51,17 +51,26 @@ message MediumGroupContent {
   optional bytes ephemeralKey = 2;
 }
 
-message MediumGroupUpdate {
-  optional string groupName = 1;
-  optional string groupId = 2; // should this be bytes?
-  optional string groupSecretKey = 3;
-  optional string senderKey = 4;
-  repeated string members = 5;
+message SenderKey {
+  optional string chainKey = 1;
+  optional uint32 keyIdx = 2;
 }
 
-message SenderKeyUpdate {
-  optional string groupId = 1;
-  optional string senderKey = 2;
+message MediumGroupUpdate {
+
+  enum Type {
+    NEW_GROUP = 0; // groupId, groupName, groupSecretKey, members, senderKey
+    GROUP_INFO = 1; // groupId, groupName, members, senderKey
+    SENDER_KEY_REQUEST = 2; // groupId
+    SENDER_KEY = 3; // groupId, SenderKey
+  }
+
+  optional string groupName = 1;
+  optional string groupId = 2; // should this be bytes?
+  optional bytes groupSecretKey = 3;
+  optional SenderKey senderKey = 4;
+  repeated bytes members = 5;
+  optional Type type = 6;
 }
 
 message LokiAddressMessage {
@@ -424,4 +433,5 @@ message GroupDetails {
   optional string color       = 7;
   optional bool   blocked     = 8;
   repeated string admins      = 9;
+  optional bool is_medium_group = 10;
 }

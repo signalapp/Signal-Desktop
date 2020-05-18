@@ -849,6 +849,22 @@ MessageReceiver.prototype.extend({
     return promise
       .then(plaintext => this.postDecrypt(envelope, plaintext))
       .catch(error => {
+        if (error && error instanceof textsecure.SenderKeyMissing) {
+          const groupId = envelope.source;
+          const { senderIdentity } = error;
+
+          log.info(
+            'Requesting missing key for identity: ',
+            senderIdentity,
+            'groupId: ',
+            groupId
+          );
+
+          textsecure.messaging.requestSenderKeys(senderIdentity, groupId);
+
+          return;
+        }
+
         let errorToThrow = error;
 
         const noSession =
@@ -876,7 +892,7 @@ MessageReceiver.prototype.extend({
         ev.confirm = this.removeFromCache.bind(this, envelope);
 
         const returnError = () => Promise.reject(errorToThrow);
-        return this.dispatchAndWait(ev).then(returnError, returnError);
+        this.dispatchAndWait(ev).then(returnError, returnError);
       });
   },
   async decryptPreKeyWhisperMessage(ciphertext, sessionCipher, address) {
@@ -900,7 +916,7 @@ MessageReceiver.prototype.extend({
   },
   // handle a SYNC message for a message
   // sent by another device
-  handleSentMessage(envelope, sentContainer, msg) {
+  async handleSentMessage(envelope, sentContainer, msg) {
     const {
       destination,
       timestamp,
@@ -908,41 +924,63 @@ MessageReceiver.prototype.extend({
       unidentifiedStatus,
     } = sentContainer;
 
-    let p = Promise.resolve();
     // eslint-disable-next-line no-bitwise
     if (msg.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) {
-      p = this.handleEndSession(destination);
+      await this.handleEndSession(destination);
     }
-    return p.then(() =>
-      this.processDecrypted(envelope, msg).then(message => {
-        const primaryDevicePubKey = window.storage.get('primaryDevicePubKey');
 
-        // handle profileKey and avatar updates
-        if (envelope.source === primaryDevicePubKey) {
-          const { profileKey, profile } = message;
-          const primaryConversation = ConversationController.get(
-            primaryDevicePubKey
-          );
-          if (profile) {
-            this.updateProfile(primaryConversation, profile, profileKey);
-          }
-        }
+    if (msg.mediumGroupUpdate) {
+      await this.handleMediumGroupUpdate(envelope, msg.mediumGroupUpdate);
+      return;
+    }
 
-        const ev = new Event('sent');
-        ev.confirm = this.removeFromCache.bind(this, envelope);
-        ev.data = {
-          destination,
-          timestamp: timestamp.toNumber(),
-          device: envelope.sourceDevice,
-          unidentifiedStatus,
-          message,
-        };
-        if (expirationStartTimestamp) {
-          ev.data.expirationStartTimestamp = expirationStartTimestamp.toNumber();
-        }
-        return this.dispatchAndWait(ev);
-      })
+    const message = await this.processDecrypted(envelope, msg);
+
+    const groupId = message.group && message.group.id;
+    const isBlocked = this.isGroupBlocked(groupId);
+    const primaryDevicePubKey = window.storage.get('primaryDevicePubKey');
+    const isMe =
+      envelope.source === textsecure.storage.user.getNumber() ||
+      envelope.source === primaryDevicePubKey;
+    const isLeavingGroup = Boolean(
+      message.group &&
+        message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
     );
+
+    if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
+      window.log.warn(
+        `Message ${this.getEnvelopeId(
+          envelope
+        )} ignored; destined for blocked group`
+      );
+      this.removeFromCache(envelope);
+      return;
+    }
+
+    // handle profileKey and avatar updates
+    if (envelope.source === primaryDevicePubKey) {
+      const { profileKey, profile } = message;
+      const primaryConversation = ConversationController.get(
+        primaryDevicePubKey
+      );
+      if (profile) {
+        this.updateProfile(primaryConversation, profile, profileKey);
+      }
+    }
+
+    const ev = new Event('sent');
+    ev.confirm = this.removeFromCache.bind(this, envelope);
+    ev.data = {
+      destination,
+      timestamp: timestamp.toNumber(),
+      device: envelope.sourceDevice,
+      unidentifiedStatus,
+      message,
+    };
+    if (expirationStartTimestamp) {
+      ev.data.expirationStartTimestamp = expirationStartTimestamp.toNumber();
+    }
+    this.dispatchAndWait(ev);
   },
   async handleLokiAddressMessage(envelope) {
     window.log.warn('Ignoring a Loki address message');
@@ -1163,96 +1201,121 @@ MessageReceiver.prototype.extend({
   },
 
   async handleMediumGroupUpdate(envelope, groupUpdate) {
-    const {
-      groupId,
-      groupSecretKey,
-      senderKey,
-      members,
-      groupName,
-    } = groupUpdate;
+    const { type, groupId } = groupUpdate;
 
-    const convoExists = window.ConversationController.get(groupId, 'group');
-
-    if (convoExists) {
-      // If the group already exists, check that `members` is empty,
-      // and if so, it is sender key message
-
-      // TODO: introduce TYPE into this message instead?
-      if (!members || !members.length) {
-        log.info('[sender key] got a new sender key from:', envelope.source);
-
-        // We probably don't need to await here
-        await window.SenderKeyAPI.saveSenderKeys(
-          groupId,
-          envelope.source,
-          senderKey
-        );
-
-        this.removeFromCache(envelope);
-        return;
-      }
-
-      log.error(`Conversation for groupId ${groupId} already exists`);
-    }
-
-    const convo = await window.ConversationController.getOrCreateAndWait(
-      groupId,
-      'group'
-    );
-    convo.set('is_medium_group', true);
-    convo.set('active_at', Date.now());
-    convo.set('name', groupName);
-
-    await window.Signal.Data.createOrUpdateIdentityKey({
-      id: groupId,
-      secretKey: groupSecretKey,
-    });
-
-    // Save sender's key
-    await window.SenderKeyAPI.saveSenderKeys(
-      groupId,
-      envelope.source,
-      senderKey
-    );
-
-    // TODO: Check that we are even a part of this group?
     const ourIdentity = await textsecure.storage.user.getNumber();
+    const senderIdentity = envelope.source;
 
-    const ownSenderKey = await window.SenderKeyAPI.createSenderKeyForGroup(
-      groupId,
-      ourIdentity
-    );
-
-    {
-      // TODO: Send own key to every member
-
-      const otherMembers = _.without(members, ourIdentity);
+    if (
+      type === textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY_REQUEST
+    ) {
+      log.debug('[sender key] sender key request from:', senderIdentity);
 
       const proto = new textsecure.protobuf.DataMessage();
 
       // We reuse the same message type for sender keys
       const update = new textsecure.protobuf.MediumGroupUpdate();
+
+      const { chainKey, keyIdx } = await window.SenderKeyAPI.getSenderKeys(
+        groupId,
+        ourIdentity
+      );
+
+      update.type = textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY;
       update.groupId = groupId;
-      update.senderKey = ownSenderKey;
+      update.senderKey = new textsecure.protobuf.SenderKey({
+        chainKey: StringView.arrayBufferToHex(chainKey),
+        keyIdx,
+      });
 
       proto.mediumGroupUpdate = update;
 
-      // TODO: send to our linked devices too?
+      textsecure.messaging.updateMediumGroup([senderIdentity], proto);
 
-      // Don't need to await here
+      this.removeFromCache(envelope);
+    } else if (type === textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY) {
+      const { senderKey } = groupUpdate;
 
-      // TODO: Some of the members might not have a session with us, so
-      // we should send a session request
+      log.debug('[sender key] got a new sender key from:', senderIdentity);
 
-      textsecure.messaging.updateMediumGroup(otherMembers, proto);
+      await window.SenderKeyAPI.saveSenderKeys(
+        groupId,
+        senderIdentity,
+        senderKey.chainKey,
+        senderKey.keyIdx
+      );
+
+      this.removeFromCache(envelope);
+    } else if (type === textsecure.protobuf.MediumGroupUpdate.Type.NEW_GROUP) {
+      const {
+        members: membersBinary,
+        groupSecretKey,
+        groupName,
+        senderKey,
+      } = groupUpdate;
+
+      const members = membersBinary.map(pk =>
+        StringView.arrayBufferToHex(pk.toArrayBuffer())
+      );
+
+      const convo = await window.ConversationController.getOrCreateAndWait(
+        groupId,
+        'group'
+      );
+      convo.set('is_medium_group', true);
+      convo.set('active_at', Date.now());
+      convo.set('name', groupName);
+
+      convo.setFriendRequestStatus(
+        window.friends.friendRequestStatusEnum.friends
+      );
+
+      await window.Signal.Data.createOrUpdateIdentityKey({
+        id: groupId,
+        secretKey: StringView.arrayBufferToHex(groupSecretKey.toArrayBuffer()),
+      });
+
+      // Save sender's key
+      await window.SenderKeyAPI.saveSenderKeys(
+        groupId,
+        envelope.source,
+        senderKey.chainKey,
+        senderKey.keyIdx
+      );
+
+      // TODO: Check that we are even a part of this group?
+      const ownSenderKey = await window.SenderKeyAPI.createSenderKeyForGroup(
+        groupId,
+        ourIdentity
+      );
+
+      {
+        // Send own key to every member
+        const otherMembers = _.without(members, ourIdentity);
+
+        const proto = new textsecure.protobuf.DataMessage();
+
+        // We reuse the same message type for sender keys
+        const update = new textsecure.protobuf.MediumGroupUpdate();
+        update.type = textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY;
+        update.groupId = groupId;
+        update.senderKey = new textsecure.protobuf.SenderKey({
+          chainKey: ownSenderKey,
+          keyIdx: 0,
+        });
+
+        proto.mediumGroupUpdate = update;
+
+        textsecure.messaging.updateMediumGroup(otherMembers, proto);
+      }
+
+      // Subscribe to this group
+      this.pollForAdditionalId(groupId);
+
+      // All further messages (maybe rather than 'control' messages) should come to this group's swarm
+
+      this.removeFromCache(envelope);
     }
-
-    // Subscribe to this group
-    this.pollForAdditionalId(groupId);
-
-    // All further messages (maybe rather than 'control' messages) should come to this group's swarm
-
-    this.removeFromCache(envelope);
   },
   async handleDataMessage(envelope, msg) {
     window.log.info('data message from', this.getEnvelopeId(envelope));
@@ -1308,14 +1371,33 @@ MessageReceiver.prototype.extend({
       !_.isEmpty(message.body) &&
       friendRequestStatusNoneOrExpired;
 
-    // Build a 'message' event i.e. a received message event
-    const ev = new Event('message');
-
     const source = envelope.senderIdentity || senderPubKey;
+
+    const isOwnDevice = async pubkey => {
+      const primaryDevice = window.storage.get('primaryDevicePubKey');
+      const secondaryDevices = await window.libloki.storage.getPairedDevicesFor(
+        primaryDevice
+      );
+
+      const allDevices = [primaryDevice, ...secondaryDevices];
+      return allDevices.includes(pubkey);
+    };
+
+    const ownDevice = await isOwnDevice(source);
+
+    let ev;
+    if (conversation.get('is_medium_group') && ownDevice) {
+      // Data messages for medium groups don't arrive as sync messages. Instead,
+      // linked devices poll for group messages independently, thus they need
+      // to recognise some of those messages at their own.
+      ev = new Event('sent');
+    } else {
+      ev = new Event('message');
+    }
 
     if (envelope.senderIdentity) {
       message.group = {
-        id: envelope.source
+        id: envelope.source,
       };
     }
 
@@ -1340,6 +1422,7 @@ MessageReceiver.prototype.extend({
     contact,
     preview,
     groupInvitation,
+    mediumGroupUpdate,
   }) {
     return (
       !flags &&
@@ -1349,7 +1432,8 @@ MessageReceiver.prototype.extend({
       _.isEmpty(quote) &&
       _.isEmpty(contact) &&
       _.isEmpty(preview) &&
-      _.isEmpty(groupInvitation)
+      _.isEmpty(groupInvitation) &&
+      _.isEmpty(mediumGroupUpdate)
     );
   },
   handleLegacyMessage(envelope) {

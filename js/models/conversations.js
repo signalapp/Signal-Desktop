@@ -14,7 +14,8 @@
   clipboard,
   BlockedNumberController,
   lokiPublicChatAPI,
-  JobQueue
+  JobQueue,
+  StringView
 */
 
 /* eslint-disable more/no-then */
@@ -2289,12 +2290,41 @@
         group_update: groupUpdate,
       });
 
-      const id = await window.Signal.Data.saveMessage(message.attributes, {
-        Message: Whisper.Message,
-      });
-      message.set({ id });
+      const messageId = await window.Signal.Data.saveMessage(
+        message.attributes,
+        {
+          Message: Whisper.Message,
+        }
+      );
+      message.set({ id: messageId });
 
       const options = this.getSendOptions();
+
+      if (groupUpdate.is_medium_group) {
+        // Constructing a "create group" message
+        const proto = new textsecure.protobuf.DataMessage();
+
+        const mgUpdate = new textsecure.protobuf.MediumGroupUpdate();
+
+        const { id, name, secretKey, senderKey, members } = groupUpdate;
+
+        mgUpdate.type = textsecure.protobuf.MediumGroupUpdate.Type.NEW_GROUP;
+        mgUpdate.groupId = id;
+        mgUpdate.groupSecretKey = secretKey;
+        mgUpdate.senderKey = new textsecure.protobuf.SenderKey({
+          chainKey: senderKey,
+          keyIdx: 0,
+        });
+        mgUpdate.members = members.map(pkHex =>
+          StringView.hexToArrayBuffer(pkHex)
+        );
+        mgUpdate.groupName = name;
+        proto.mediumGroupUpdate = mgUpdate;
+
+        await textsecure.messaging.updateMediumGroup(members, proto);
+        return;
+      }
+
       message.send(
         this.wrapSend(
           textsecure.messaging.updateGroup(

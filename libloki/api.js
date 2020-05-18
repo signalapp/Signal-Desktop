@@ -220,6 +220,7 @@
     });
     return syncMessage;
   }
+
   function createGroupSyncProtoMessage(sessionGroup) {
     // We are getting a single open group here
 

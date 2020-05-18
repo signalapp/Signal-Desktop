@@ -430,7 +430,7 @@ MessageSender.prototype = {
       let keysFound = false;
       // If we don't have a session but we already have prekeys to
       // start communication then we should use them
-      if (!haveSession && !options.isPublic) {
+      if (!haveSession && !options.isPublic && !options.isMediumGroup) {
         keysFound = await hasKeys(number);
       }
 
@@ -710,7 +710,7 @@ MessageSender.prototype = {
     }
     // We only want to sync across closed groups that we haven't left
     const sessionGroups = conversations.filter(
-      c => c.isClosedGroup() && !c.get('left') && c.isFriend()
+      c => c.isClosedGroup() && !c.get('left') && c.isFriend() && !c.get('is_medium_group')
     );
     if (sessionGroups.length === 0) {
       window.console.info('No closed group to sync.');
@@ -975,7 +975,12 @@ MessageSender.prototype = {
     });
   },
 
-  sendGroupProto(providedNumbers, proto, timestamp = Date.now(), options = {}) {
+  async sendGroupProto(
+    providedNumbers,
+    proto,
+    timestamp = Date.now(),
+    options = {}
+  ) {
     // We always assume that only primary device is a member in the group
     const primaryDeviceKey =
       window.storage.get('primaryDevicePubKey') ||
@@ -1014,12 +1019,13 @@ MessageSender.prototype = {
       );
     });
 
-    return sendPromise.then(result => {
-      // Sync the group message to our other devices
-      const encoded = textsecure.protobuf.DataMessage.encode(proto);
-      this.sendSyncMessage(encoded, timestamp, null, null, [], [], options);
-      return result;
-    });
+    const result = await sendPromise;
+
+    // Sync the group message to our other devices
+    const encoded = textsecure.protobuf.DataMessage.encode(proto);
+    this.sendSyncMessage(encoded, timestamp, null, null, [], [], options);
+
+    return result;
   },
 
   async getMessageProto(
@@ -1282,6 +1288,16 @@ MessageSender.prototype = {
     return this.sendGroupProto(groupNumbers, proto, Date.now(), options);
   },
 
+  requestSenderKeys(sender, groupId) {
+    const proto = new textsecure.protobuf.DataMessage();
+    const update = new textsecure.protobuf.MediumGroupUpdate();
+    update.type = textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY_REQUEST;
+    update.groupId = groupId;
+    proto.mediumGroupUpdate = update;
+
+    textsecure.messaging.updateMediumGroup([sender], proto);
+  },
+
   leaveGroup(groupId, groupNumbers, options) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
@@ -1391,6 +1407,7 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.setGroupName = sender.setGroupName.bind(sender);
   this.setGroupAvatar = sender.setGroupAvatar.bind(sender);
   this.requestGroupInfo = sender.requestGroupInfo.bind(sender);
+  this.requestSenderKeys = sender.requestSenderKeys.bind(sender);
   this.leaveGroup = sender.leaveGroup.bind(sender);
   this.sendSyncMessage = sender.sendSyncMessage.bind(sender);
   this.getProfile = sender.getProfile.bind(sender);

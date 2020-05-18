@@ -64,7 +64,9 @@ module.exports = {
     'Enter a group name'
   ),
   createClosedGroupMemberItem: commonPage.divWithClass('session-member-item'),
-  createClosedGroupSealedSenderToggle: commonPage.divWithClass('session-toggle'),
+  createClosedGroupSealedSenderToggle: commonPage.divWithClass(
+    'session-toggle'
+  ),
   createClosedGroupMemberItemSelected: commonPage.divWithClass(
     'session-member-item selected'
   ),

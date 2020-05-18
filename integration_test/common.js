@@ -404,29 +404,29 @@ module.exports = {
       )
     ).should.eventually.be.true;
 
-    await Promise.all(others.map(async app => {
-
-    // next check that other members have been invited and have the group in their conversations
-    await app.client.waitForExist(
-      ConversationPage.rowOpenGroupConversationName(
-        this.VALID_CLOSED_GROUP_NAME1
-      ),
-      6000
+    await Promise.all(
+      others.map(async otherApp => {
+        // next check that other members have been invited and have the group in their conversations
+        await otherApp.client.waitForExist(
+          ConversationPage.rowOpenGroupConversationName(
+            this.VALID_CLOSED_GROUP_NAME1
+          ),
+          6000
+        );
+        // open the closed group conversation on otherApp
+        await otherApp.client
+          .element(ConversationPage.conversationButtonSection)
+          .click();
+        await this.timeout(500);
+        await otherApp.client
+          .element(
+            ConversationPage.rowOpenGroupConversationName(
+              this.VALID_CLOSED_GROUP_NAME1
+            )
+          )
+          .click();
+      })
     );
-    // open the closed group conversation on app2
-    await app.client
-      .element(ConversationPage.conversationButtonSection)
-      .click();
-    await this.timeout(500);
-    await app.client
-      .element(
-        ConversationPage.rowOpenGroupConversationName(
-          this.VALID_CLOSED_GROUP_NAME1
-        )
-      )
-      .click();
-
-    }));
   },
 
   async linkApp2ToApp(app1, app2) {

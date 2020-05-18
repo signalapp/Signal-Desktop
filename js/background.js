@@ -746,17 +746,9 @@
         identityKeys.privKey
       );
 
-      // Constructing a "create group" message
-      const proto = new textsecure.protobuf.DataMessage();
+      const primary = window.storage.get('primaryDevicePubKey');
 
-      const groupUpdate = new textsecure.protobuf.MediumGroupUpdate();
-
-      groupUpdate.groupId = groupId;
-      groupUpdate.groupSecretKey = groupSecretKeyHex;
-      groupUpdate.senderKey = senderKey;
-      groupUpdate.members = [ourIdentity, ...members];
-      groupUpdate.groupName = groupName;
-      proto.mediumGroupUpdate = groupUpdate;
+      const allMembers = [primary, ...members];
 
       await window.Signal.Data.createOrUpdateIdentityKey({
         id: groupId,
@@ -768,11 +760,14 @@
       ev.groupDetails = {
         id: groupId,
         name: groupName,
-        members: groupUpdate.members,
-        recipients: groupUpdate.members,
+        members: allMembers,
+        recipients: allMembers,
         active: true,
         expireTimer: 0,
         avatar: '',
+        secretKey: identityKeys.privKey,
+        senderKey,
+        is_medium_group: true,
       };
 
       ev.confirm = () => {};
@@ -786,13 +781,14 @@
 
       convo.updateGroup(ev.groupDetails);
 
+      convo.setFriendRequestStatus(
+        window.friends.friendRequestStatusEnum.friends
+      );
+
       appView.openConversation(groupId, {});
 
       // Subscribe to this group id
       messageReceiver.pollForAdditionalId(groupId);
-
-      // TODO: include ourselves so that our lined devices work as well!
-      await textsecure.messaging.updateMediumGroup(members, proto);
     };
 
     window.doCreateGroup = async (groupName, members) => {
@@ -1911,6 +1907,7 @@
       members: details.members,
       color: details.color,
       type: 'group',
+      is_medium_group: details.is_medium_group || false,
     };
 
     if (details.active) {
