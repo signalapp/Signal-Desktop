@@ -59,12 +59,12 @@ async function tryGetSnodeListFromLokidSeednode(
       );
     };
     const tryUrl = new URL(seedNode.url);
-    snodes = getSnodesFromSeedUrl(tryUrl);
+    snodes = await getSnodesFromSeedUrl(tryUrl);
     // throw before clearing the lock, so the retries can kick in
     if (snodes.length === 0) {
       // fall back on ip_url
       const tryIpUrl = new URL(seedNode.ip_url);
-      snodes = getSnodesFromSeedUrl(tryIpUrl);
+      snodes = await getSnodesFromSeedUrl(tryIpUrl);
       if (snodes.length === 0) {
         // does this error message need to be exactly this?
         throw new window.textsecure.SeedNodeError(
