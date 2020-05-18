@@ -1,4 +1,4 @@
-/* global log, libloki, process, window, StringView */
+/* global log, libloki, process, window */
 /* global storage: false */
 /* global Signal: false */
 /* global log: false */
@@ -7,17 +7,6 @@ const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 
 const DEVICE_MAPPING_USER_ANNOTATION_TYPE =
   'network.loki.messenger.devicemapping';
-
-const LOKIFOUNDATION_DEVFILESERVER_PUBKEY =
-  'BSZiMVxOco/b3sYfaeyiMWv/JnqokxGXkHoclEx8TmZ6';
-const LOKIFOUNDATION_FILESERVER_PUBKEY =
-  'BWJQnVm97sQE3Q1InB4Vuo+U/T1hmwHBv0ipkiv8tzEc';
-const urlPubkeyMap = {
-  'https://file-dev.getsession.org': LOKIFOUNDATION_DEVFILESERVER_PUBKEY,
-  'https://file-dev.lokinet.org': LOKIFOUNDATION_DEVFILESERVER_PUBKEY,
-  'https://file.getsession.org': LOKIFOUNDATION_FILESERVER_PUBKEY,
-  'https://file.lokinet.org': LOKIFOUNDATION_FILESERVER_PUBKEY,
-};
 
 // can have multiple of these instances as each user can have a
 // different home server
@@ -38,48 +27,8 @@ class LokiFileServerInstance {
     } else {
       this._server = new LokiAppDotNetAPI(this.ourKey, serverUrl);
     }
-
-    // do we have their pubkey locally?
-    // FIXME: this._server won't be set yet...
-    // can't really do this for the file server because we'll need the key
-    // before we can communicate with lsrpc
-    /*
-    // get remote pubKey
-    this._server.serverRequest('loki/v1/public_key').then(keyRes => {
-      // we don't need to delay to protect identity because the token request
-      // should only be done over lokinet-lite
-      this.delayToken = true;
-      if (keyRes.err || !keyRes.response || !keyRes.response.data) {
-        if (keyRes.err) {
-          log.error(`Error ${keyRes.err}`);
-        }
-      } else {
-        // store it
-        this.pubKey = dcodeIO.ByteBuffer.wrap(
-          keyRes.response.data,
-          'base64'
-        ).toArrayBuffer();
-        // write it to a file
-      }
-    });
-    */
-    // Hard coded
-    if (urlPubkeyMap) {
-      this.pubKey = window.Signal.Crypto.base64ToArrayBuffer(
-        urlPubkeyMap[serverUrl]
-      );
-    }
-    if (this.pubKey.byteLength && this.pubKey.byteLength !== 33) {
-      log.error(
-        'FILESERVER PUBKEY is invalid, length:',
-        this.pubKey.byteLength
-      );
-      process.exit(1);
-    }
-
-    // configure proxy/onion request
-    this._server.pubKey = this.pubKey;
-    this._server.pubKeyHex = StringView.arrayBufferToHex(this.pubKey);
+    // make sure pubKey & pubKeyHex are set in _server
+    this.pubKey = this._server.getPubKeyForUrl();
 
     if (options !== undefined && options.skipToken) {
       return;
@@ -92,6 +41,7 @@ class LokiFileServerInstance {
       log.error('You are blacklisted form this home server');
     }
   }
+
   async getUserDeviceMapping(pubKey) {
     const annotations = await this._server.getUserAnnotations(pubKey);
     const deviceMapping = annotations.find(
@@ -345,7 +295,5 @@ class LokiFileServerFactoryAPI {
     return thisServer;
   }
 }
-// smuggle some data out of this joint (for expire.js/version upgrade check)
-LokiFileServerFactoryAPI.secureRpcPubKey = LOKIFOUNDATION_FILESERVER_PUBKEY;
 
 module.exports = LokiFileServerFactoryAPI;
