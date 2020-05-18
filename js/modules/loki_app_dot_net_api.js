@@ -16,12 +16,24 @@ const PUBLICCHAT_DELETION_POLL_EVERY = 5 * 1000; // 5s
 const PUBLICCHAT_MOD_POLL_EVERY = 30 * 1000; // 30s
 const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
 
+// FIXME: replace with something on urlPubkeyMap...
 const FILESERVER_HOSTS = [
   'file-dev.lokinet.org',
   'file.lokinet.org',
   'file-dev.getsession.org',
   'file.getsession.org',
 ];
+
+const LOKIFOUNDATION_DEVFILESERVER_PUBKEY =
+  'BSZiMVxOco/b3sYfaeyiMWv/JnqokxGXkHoclEx8TmZ6';
+const LOKIFOUNDATION_FILESERVER_PUBKEY =
+  'BWJQnVm97sQE3Q1InB4Vuo+U/T1hmwHBv0ipkiv8tzEc';
+const urlPubkeyMap = {
+  'https://file-dev.getsession.org': LOKIFOUNDATION_DEVFILESERVER_PUBKEY,
+  'https://file-dev.lokinet.org': LOKIFOUNDATION_DEVFILESERVER_PUBKEY,
+  'https://file.getsession.org': LOKIFOUNDATION_FILESERVER_PUBKEY,
+  'https://file.lokinet.org': LOKIFOUNDATION_FILESERVER_PUBKEY,
+};
 
 const HOMESERVER_USER_ANNOTATION_TYPE = 'network.loki.messenger.homeserver';
 const AVATAR_USER_ANNOTATION_TYPE = 'network.loki.messenger.avatar';
@@ -145,18 +157,10 @@ const sendViaOnion = async (srvPubKey, url, pFetchOptions, options = {}) => {
       result.body
     );
   }
-  const code = result.status;
+  // result.status has the http response code
   txtResponse = JSON.stringify(body);
   response = body;
   response.headers = result.headers;
-  log.debug(
-    `loki_app_dot_net:::sendViaOnion #${adnOnionRequestCount} - ADN GCM body length`,
-    txtResponse.length,
-    'code',
-    code,
-    'headers',
-    response.headers
-  );
 
   return { result, txtResponse, response };
 };
@@ -570,6 +574,55 @@ class LokiAppDotNetServerAPI {
     }
     thisChannel.stop();
     this.channels.splice(i, 1);
+  }
+
+  // set up pubKey & pubKeyHex properties
+  // optionally called for mainly file server comms
+  getPubKeyForUrl() {
+    // Hard coded
+    let pubKeyAB;
+    if (urlPubkeyMap) {
+      pubKeyAB = window.Signal.Crypto.base64ToArrayBuffer(
+        urlPubkeyMap[this.baseServerUrl]
+      );
+    }
+    // else will fail validation later
+
+    // do we have their pubkey locally?
+    // FIXME: this._server won't be set yet...
+    // can't really do this for the file server because we'll need the key
+    // before we can communicate with lsrpc
+    /*
+    // get remote pubKey
+    this._server.serverRequest('loki/v1/public_key').then(keyRes => {
+      // we don't need to delay to protect identity because the token request
+      // should only be done over lokinet-lite
+      this.delayToken = true;
+      if (keyRes.err || !keyRes.response || !keyRes.response.data) {
+        if (keyRes.err) {
+          log.error(`Error ${keyRes.err}`);
+        }
+      } else {
+        // store it
+        this.pubKey = dcodeIO.ByteBuffer.wrap(
+          keyRes.response.data,
+          'base64'
+        ).toArrayBuffer();
+        // write it to a file
+      }
+    });
+    */
+
+    // now that key is loaded, lets verify
+    if (pubKeyAB && pubKeyAB.byteLength && pubKeyAB.byteLength !== 33) {
+      log.error('FILESERVER PUBKEY is invalid, length:', pubKeyAB.byteLength);
+      process.exit(1);
+    }
+
+    this.pubKey = pubKeyAB;
+    this.pubKeyHex = StringView.arrayBufferToHex(pubKeyAB);
+
+    return pubKeyAB;
   }
 
   async setProfileName(profileName) {
