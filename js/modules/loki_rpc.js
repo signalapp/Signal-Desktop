@@ -1,5 +1,5 @@
 /* global log, libloki, textsecure, getStoragePubKey, lokiSnodeAPI, StringView,
-  libsignal, window, TextDecoder, TextEncoder, dcodeIO, process, crypto */
+  libsignal, window, TextDecoder, TextEncoder, dcodeIO, process */
 
 const nodeFetch = require('node-fetch');
 const https = require('https');
@@ -16,119 +16,19 @@ let onionReqIdx = 0;
 
 // Returns the actual ciphertext, symmetric key that will be used
 // for decryption, and an ephemeral_key to send to the next hop
-const encryptForPubKey = async (pubKeyX25519AB, reqObj, debug = false) => {
+const encryptForPubKey = async (pubKeyX25519hex, reqObj) => {
   // Do we still need "headers"?
   const reqStr = JSON.stringify(reqObj);
 
   const textEncoder = new TextEncoder();
   const plaintext = textEncoder.encode(reqStr);
 
-  const ephemeral = await libloki.crypto.generateEphemeralKeyPair();
-  if (debug) {
-    log.debug(
-      'encryptForPubKey',
-      debug,
-      '- pubKeyX25519AB',
-      StringView.arrayBufferToHex(pubKeyX25519AB)
-    );
-    log.debug(
-      'encryptForPubKey',
-      debug,
-      '- ephermalPriv',
-      StringView.arrayBufferToHex(ephemeral.privKey)
-    );
-    log.debug(
-      'encryptForPubKey',
-      debug,
-      '- ephermalPub',
-      StringView.arrayBufferToHex(ephemeral.pubKey)
-    );
-  }
-
-  const ephemeralSecret = libsignal.Curve.calculateAgreement(
-    pubKeyX25519AB,
-    ephemeral.privKey
-  );
-  if (debug) {
-    log.debug(
-      'encryptForPubKey',
-      debug,
-      '- ephemeralSecret',
-      StringView.arrayBufferToHex(ephemeralSecret)
-    );
-  }
-
-  // FIXME: window.libloki.crypto.deriveSymmetricKey refactor
-  const salt = window.Signal.Crypto.bytesFromString('LOKI'); // ArrayBuffer (object)
-  if (debug) {
-    log.debug(
-      'encryptForPubKey',
-      debug,
-      '- salt',
-      StringView.arrayBufferToHex(salt)
-    );
-  }
-
-  const key = await crypto.subtle.importKey(
-    'raw',
-    salt,
-    { name: 'HMAC', hash: { name: 'SHA-256' } },
-    true,
-    ['sign']
-  );
-
-  // CrsptoKey (object)
-  const exportKey = await crypto.subtle.exportKey('raw', key);
-  // ArrayBuffer (object)
-  if (debug) {
-    log.error(
-      'encryptForPubKey',
-      debug,
-      '- key',
-      StringView.arrayBufferToHex(exportKey)
-    );
-  }
-
-  const symmetricKey = await crypto.subtle.sign(
-    { name: 'HMAC', hash: 'SHA-256' },
-    key,
-    ephemeralSecret
-  );
-  // ArrayBuffer (object)
-  if (debug) {
-    log.debug(
-      'encryptForPubKey',
-      debug,
-      '- symmetricKey',
-      StringView.arrayBufferToHex(symmetricKey)
-    );
-  }
-
-  const ciphertext = await window.libloki.crypto.EncryptGCM(
-    symmetricKey,
-    plaintext,
-    debug,
-    ephemeral.pubKey
-  );
-  // looks textEncoder'd... Uint8Array
-  if (debug) {
-    log.debug(
-      'encryptForPubKey',
-      debug,
-      '- ciphertext',
-      StringView.arrayBufferToHex(ciphertext),
-      ciphertext
-    );
-  }
-
-  // ephemeral_key => ephemeralKey?
-  return { ciphertext, symmetricKey, ephemeral_key: ephemeral.pubKey };
+  return libloki.crypto.encryptForPubkey(pubKeyX25519hex, plaintext);
 };
 
 // `ctx` holds info used by `node` to relay further
-// destination needs ed25519_hex
-const encryptForRelay = async (relayX25519AB, destination, ctx) => {
-  // cyx contains: ciphertext, symmetricKey, ephemeral_key
+const encryptForRelay = async (relayX25519hex, destination, ctx) => {
+  // ctx contains: ciphertext, symmetricKey, ephemeralKey
   const payload = ctx.ciphertext;
 
   if (!destination.host && !destination.destination) {
@@ -138,10 +38,10 @@ const encryptForRelay = async (relayX25519AB, destination, ctx) => {
   const reqObj = {
     ...destination,
     ciphertext: dcodeIO.ByteBuffer.wrap(payload).toString('base64'),
-    ephemeral_key: StringView.arrayBufferToHex(ctx.ephemeral_key),
+    ephemeral_key: StringView.arrayBufferToHex(ctx.ephemeralKey),
   };
 
-  return encryptForPubKey(relayX25519AB, reqObj);
+  return encryptForPubKey(relayX25519hex, reqObj);
 };
 
 const makeGuardPayload = guardCtx => {
@@ -151,7 +51,7 @@ const makeGuardPayload = guardCtx => {
 
   const guardPayloadObj = {
     ciphertext: ciphertextBase64,
-    ephemeral_key: StringView.arrayBufferToHex(guardCtx.ephemeral_key),
+    ephemeral_key: StringView.arrayBufferToHex(guardCtx.ephemeralKey),
   };
   return guardPayloadObj;
 };
@@ -202,15 +102,14 @@ const makeOnionRequest = async (
         destination: pubkeyHex,
       };
     }
-    // FIXME: we should store this inside snode pool
-    const relayX25519AB = StringView.hexToArrayBuffer(
-      nodePath[i].pubkey_x25519
-    );
     try {
-      ctxes.push(
-        // eslint-disable-next-line no-await-in-loop
-        await encryptForRelay(relayX25519AB, dest, ctxes[ctxes.length - 1])
+      // eslint-disable-next-line no-await-in-loop
+      const ctx = await encryptForRelay(
+        nodePath[i].pubkey_x25519,
+        dest,
+        ctxes[ctxes.length - 1]
       );
+      ctxes.push(ctx);
     } catch (e) {
       log.error(
         `loki_rpc:::makeOnionRequest ${id} - encryptForRelay failure`,
@@ -260,9 +159,10 @@ const sendOnionRequest = async (
   }
 
   // get destination pubkey in array buffer format
-  let destX25519AB = destX25519Any;
-  if (typeof destX25519AB === 'string') {
-    destX25519AB = StringView.hexToArrayBuffer(destX25519Any);
+  let destX25519hex = destX25519Any;
+  if (typeof destX25519hex !== 'string') {
+    // convert AB to hex
+    destX25519hex = StringView.arrayBufferToHex(destX25519Any);
   }
 
   // safely build destination
@@ -290,17 +190,16 @@ const sendOnionRequest = async (
 
   let destCtx;
   try {
-    destCtx = await encryptForPubKey(destX25519AB, options);
+    destCtx = await encryptForPubKey(destX25519hex, options);
   } catch (e) {
-    const hex = StringView.arrayBufferToHex(destX25519AB);
     log.error(
       `loki_rpc::sendOnionRequest ${id} - encryptForPubKey failure [`,
       e.code,
       e.message,
       '] destination X25519',
-      hex.substr(0, 32),
+      destX25519hex.substr(0, 32),
       '...',
-      hex.substr(32),
+      destX25519hex.substr(32),
       'options',
       options
     );
@@ -431,8 +330,8 @@ const processOnionResponse = async (
     }
 
     const decryptFn = useAesGcm
-      ? window.libloki.crypto.DecryptGCM
-      : window.libloki.crypto.DHDecrypt;
+      ? libloki.crypto.DecryptGCM
+      : libloki.crypto.DHDecrypt;
 
     const plaintextBuffer = await decryptFn(sharedKey, ciphertextBuffer, debug);
     if (debug) {
@@ -532,7 +431,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
 
   const snPubkeyHex = StringView.hexToArrayBuffer(targetNode.pubkey_x25519);
 
-  const myKeys = await window.libloki.crypto.generateEphemeralKeyPair();
+  const myKeys = await libloki.crypto.generateEphemeralKeyPair();
 
   const symmetricKey = await libsignal.Curve.async.calculateAgreement(
     snPubkeyHex,
@@ -543,7 +442,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
   const body = JSON.stringify(options);
 
   const plainText = textEncoder.encode(body);
-  const ivAndCiphertext = await window.libloki.crypto.DHEncrypt(
+  const ivAndCiphertext = await libloki.crypto.DHEncrypt(
     symmetricKey,
     plainText
   );
@@ -691,7 +590,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
       'base64'
     ).toArrayBuffer();
 
-    const plaintextBuffer = await window.libloki.crypto.DHDecrypt(
+    const plaintextBuffer = await libloki.crypto.DHDecrypt(
       symmetricKey,
       ciphertextBuffer
     );
