@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-/* global window, textsecure, ConversationController, _, log, process, Buffer, StringView, dcodeIO */
+/* global window, textsecure, ConversationController, _, log, process, Buffer, StringView, dcodeIO, URL */
 
 const { lokiRpc } = require('./loki_rpc');
 // not sure I like this name but it's been than util
@@ -44,22 +44,33 @@ async function tryGetSnodeListFromLokidSeednode(
   )[0];
   let snodes = [];
   try {
-    const response = await lokiRpc(
-      `http://${seedNode.ip}`,
-      seedNode.port,
-      'get_n_service_nodes',
-      params,
-      {}, // Options
-      '/json_rpc' // Seed request endpoint
-    );
-    // Filter 0.0.0.0 nodes which haven't submitted uptime proofs
-    snodes = response.result.service_node_states.filter(
-      snode => snode.public_ip !== '0.0.0.0'
-    );
+    const getSnodesFromSeedUrl = async urlObj => {
+      const response = await lokiRpc(
+        `${urlObj.protocol}//${urlObj.hostname}`,
+        urlObj.port,
+        'get_n_service_nodes',
+        params,
+        {}, // Options
+        '/json_rpc' // Seed request endpoint
+      );
+      // Filter 0.0.0.0 nodes which haven't submitted uptime proofs
+      return response.result.service_node_states.filter(
+        snode => snode.public_ip !== '0.0.0.0'
+      );
+    };
+    const tryUrl = new URL(seedNode.url);
+    snodes = getSnodesFromSeedUrl(tryUrl);
     // throw before clearing the lock, so the retries can kick in
     if (snodes.length === 0) {
-      // does this error message need to be exactly this?
-      throw new window.textsecure.SeedNodeError('Failed to contact seed node');
+      // fall back on ip_url
+      const tryIpUrl = new URL(seedNode.ip_url);
+      snodes = getSnodesFromSeedUrl(tryIpUrl);
+      if (snodes.length === 0) {
+        // does this error message need to be exactly this?
+        throw new window.textsecure.SeedNodeError(
+          'Failed to contact seed node'
+        );
+      }
     }
     return snodes;
   } catch (e) {
@@ -643,9 +654,10 @@ class LokiSnodeAPI {
     this.randomSnodePool = _.without(this.randomSnodePool, snode);
   }
 
-  async updateLastHash(snodeAddress, hash, expiresAt) {
+  async updateLastHash(convoId, snodeAddress, hash, expiresAt) {
     // FIXME: handle rejections
     await window.Signal.Data.updateLastHash({
+      convoId,
       snode: snodeAddress,
       hash,
       expiresAt,
@@ -666,6 +678,7 @@ class LokiSnodeAPI {
             const node = swarmNodes[j];
             // FIXME make a batch function call
             const lastHash = await window.Signal.Data.getLastHashBySnode(
+              pubKey,
               node.address
             );
             log.debug(
@@ -683,6 +696,7 @@ class LokiSnodeAPI {
 
       return swarmNodes;
     } catch (e) {
+      log.error('getSwarmNodesForPubKey expection: ', e);
       throw new window.textsecure.ReplayableError({
         message: 'Could not get conversation',
       });

@@ -100,6 +100,7 @@ export interface Props {
   isPublic?: boolean;
   isRss?: boolean;
   selected: boolean;
+  isKickedFromGroup: boolean;
   // whether or not to show check boxes
   multiSelectMode: boolean;
 
@@ -782,11 +783,12 @@ export class Message extends React.PureComponent<Props, State> {
       attachments,
       direction,
       disableMenu,
+      isKickedFromGroup,
       onDownload,
       onReply,
     } = this.props;
 
-    if (!isCorrectSide || disableMenu) {
+    if (!isCorrectSide || disableMenu || isKickedFromGroup) {
       return null;
     }
 
@@ -1051,17 +1053,21 @@ export class Message extends React.PureComponent<Props, State> {
     return false;
   }
 
+  // tslint:disable-next-line: cyclomatic-complexity
   public render() {
     const {
       authorPhoneNumber,
       authorColor,
       direction,
       id,
+      isKickedFromGroup,
       isRss,
       timestamp,
       selected,
       multiSelectMode,
       conversationType,
+      isPublic,
+      text,
     } = this.props;
     const { expired, expiring } = this.state;
 
@@ -1084,15 +1090,13 @@ export class Message extends React.PureComponent<Props, State> {
     // We parse the message later, but we still need to do an early check
     // to see if the message mentions us, so we can display the entire
     // message differently
-    const mentions = this.props.text
-      ? this.props.text.match(window.pubkeyPattern)
-      : [];
+    const mentions = text ? text.match(window.pubkeyPattern) : [];
     const mentionMe =
       mentions &&
       mentions.some(m => m.slice(1) === window.lokiPublicChatAPI.ourKey);
 
     const isIncoming = direction === 'incoming';
-    const shouldHightlight = mentionMe && isIncoming && this.props.isPublic;
+    const shouldHightlight = mentionMe && isIncoming && isPublic;
     const divClasses = ['loki-message-wrapper'];
 
     if (shouldHightlight) {
@@ -1106,7 +1110,7 @@ export class Message extends React.PureComponent<Props, State> {
       divClasses.push('public-chat-message-wrapper');
     }
 
-    const enableContextMenu = !isRss && !multiSelectMode;
+    const enableContextMenu = !isRss && !multiSelectMode && !isKickedFromGroup;
 
     return (
       <div className={classNames(divClasses)}>
@@ -1136,7 +1140,9 @@ export class Message extends React.PureComponent<Props, State> {
             }}
           >
             {this.renderError(isIncoming)}
-            {isRss ? null : this.renderMenu(!isIncoming, triggerId)}
+            {isRss || isKickedFromGroup
+              ? null
+              : this.renderMenu(!isIncoming, triggerId)}
             <div
               className={classNames(
                 'module-message__container',

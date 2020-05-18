@@ -317,6 +317,8 @@ window.WebAPI = initializeWebAPI();
 window.seedNodeList = JSON.parse(config.seedNodeList);
 const LokiSnodeAPI = require('./js/modules/loki_snode_api');
 
+window.SenderKeyAPI = require('./js/modules/loki_sender_key_api');
+
 window.lokiSnodeAPI = new LokiSnodeAPI({
   serverUrl: config.serverUrl,
   localUrl: config.localUrl,
@@ -413,7 +415,6 @@ window.lokiFeatureFlags = {
   multiDeviceUnpairing: true,
   privateGroupChats: true,
   useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
-  useSealedSender: true,
   useOnionRequests: true,
   onionRequestHops: 1,
 };
@@ -448,6 +449,5 @@ if (config.environment.includes('test-integration')) {
     multiDeviceUnpairing: true,
     privateGroupChats: true,
     useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
-    useSealedSender: true,
   };
 }

@@ -7,7 +7,8 @@
   TextEncoder,
   TextDecoder,
   crypto,
-  dcodeIO
+  dcodeIO,
+  libloki
 */
 
 // eslint-disable-next-line func-names
@@ -32,6 +33,50 @@
     ivAndCiphertext.set(new Uint8Array(iv));
     ivAndCiphertext.set(new Uint8Array(ciphertext), iv.byteLength);
     return ivAndCiphertext;
+  }
+
+  async function deriveSymmetricKey(pubkey, seckey) {
+    const ephemeralSecret = await libsignal.Curve.async.calculateAgreement(
+      pubkey,
+      seckey
+    );
+
+    const salt = window.Signal.Crypto.bytesFromString('LOKI');
+
+    const key = await crypto.subtle.importKey(
+      'raw',
+      salt,
+      { name: 'HMAC', hash: { name: 'SHA-256' } },
+      false,
+      ['sign']
+    );
+    const symmetricKey = await crypto.subtle.sign(
+      { name: 'HMAC', hash: 'SHA-256' },
+      key,
+      ephemeralSecret
+    );
+
+    return symmetricKey;
+  }
+
+  async function encryptForPubkey(pubkeyX25519, payloadBytes) {
+    const ephemeral = await libloki.crypto.generateEphemeralKeyPair();
+
+    const snPubkey = StringView.hexToArrayBuffer(pubkeyX25519);
+
+    const symmetricKey = await deriveSymmetricKey(snPubkey, ephemeral.privKey);
+
+    const ciphertext = await EncryptGCM(symmetricKey, payloadBytes);
+
+    return { ciphertext, symmetricKey, ephemeralKey: ephemeral.pubKey };
+  }
+
+  async function decryptForPubkey(seckeyX25519, ephemKey, ciphertext) {
+    const symmetricKey = await deriveSymmetricKey(ephemKey, seckeyX25519);
+
+    const plaintext = await DecryptGCM(symmetricKey, ciphertext);
+
+    return plaintext;
   }
 
   async function EncryptGCM(symmetricKey, plaintext) {
@@ -99,7 +144,7 @@
         throw new Error('Failed to get keypair for encryption');
       }
       const myPrivateKey = myKeyPair.privKey;
-      const symmetricKey = libsignal.Curve.calculateAgreement(
+      const symmetricKey = await libsignal.Curve.async.calculateAgreement(
         this.pubKey,
         myPrivateKey
       );
@@ -117,7 +162,7 @@
         throw new Error('Failed to get keypair for decryption');
       }
       const myPrivateKey = myKeyPair.privKey;
-      const symmetricKey = libsignal.Curve.calculateAgreement(
+      const symmetricKey = await libsignal.Curve.async.calculateAgreement(
         this.pubKey,
         myPrivateKey
       );
@@ -144,8 +189,8 @@
     return Multibase.decode(`${base32zCode}${snodeAddressClean}`);
   }
 
-  function generateEphemeralKeyPair() {
-    const keys = libsignal.Curve.generateKeyPair();
+  async function generateEphemeralKeyPair() {
+    const keys = await libsignal.Curve.async.generateKeyPair();
     // Signal protocol prepends with "0x05"
     keys.pubKey = keys.pubKey.slice(1);
     return keys;
@@ -290,7 +335,7 @@
       throw new Error('Failed to get keypair for token decryption');
     }
     const { privKey } = keyPair;
-    const symmetricKey = libsignal.Curve.calculateAgreement(
+    const symmetricKey = await libsignal.Curve.async.calculateAgreement(
       serverPubKey,
       privKey
     );
@@ -471,6 +516,8 @@
     PairingType,
     LokiSessionCipher,
     generateEphemeralKeyPair,
+    encryptForPubkey,
+    decryptForPubkey,
     _decodeSnodeAddressToPubKey: decodeSnodeAddressToPubKey,
     sha512,
   };

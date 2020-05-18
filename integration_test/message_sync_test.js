@@ -1,11 +1,10 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable more/no-then */
 /* eslint-disable func-names  */
 /* eslint-disable import/no-extraneous-dependencies */
 const { afterEach, beforeEach, describe, it } = require('mocha');
+
 const common = require('./common');
 
-describe('Link Device', function() {
+describe('Message Syncing', function() {
   let app;
   let app2;
   this.timeout(60000);
@@ -22,6 +21,8 @@ describe('Link Device', function() {
     };
 
     const app2Props = {
+      mnemonic: common.TEST_MNEMONIC2,
+      displayName: common.TEST_DISPLAY_NAME2,
       stubSnode: true,
     };
 
@@ -36,11 +37,11 @@ describe('Link Device', function() {
     await common.stopStubSnodeServer();
   });
 
-  it('linkDevice: link two desktop devices', async () => {
+  it('message syncing between linked devices', async () => {
     await common.linkApp2ToApp(app, app2);
   });
 
-  it('linkDevice: unlink two devices', async () => {
+  it('unlink two devices', async () => {
     await common.linkApp2ToApp(app, app2);
     await common.timeout(1000);
     await common.triggerUnlinkApp2FromApp(app, app2);

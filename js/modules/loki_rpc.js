@@ -1,5 +1,5 @@
 /* global log, libloki, textsecure, getStoragePubKey, lokiSnodeAPI, StringView,
-  libsignal, window, TextDecoder, TextEncoder, dcodeIO, process, crypto */
+  libsignal, window, TextDecoder, TextEncoder, dcodeIO, process */
 
 const nodeFetch = require('node-fetch');
 const https = require('https');
@@ -64,6 +64,8 @@ const encryptForRelay = async (node, nextNodePubKey_ed25519_hex, ctx) => {
     ciphertext: dcodeIO.ByteBuffer.wrap(payload).toString('base64'),
     ephemeral_key: StringView.arrayBufferToHex(ctx.ephemeral_key),
     destination: nextNodePubKey_ed25519_hex,
+    //ephemeral_key: StringView.arrayBufferToHex(ctx.ephemeralKey),
+    //destination: nextNode.pubkey_ed25519,
   };
 
   const snPubkey = StringView.hexToArrayBuffer(node.pubkey_x25519);
@@ -105,7 +107,7 @@ const makeOnionRequest = async (nodePath, destCtx, targetPubKey) => {
 
   const payloadObj = {
     ciphertext: ciphertextBase64,
-    ephemeral_key: StringView.arrayBufferToHex(guardCtx.ephemeral_key),
+    ephemeral_key: StringView.arrayBufferToHex(guardCtx.ephemeralKey),
   };
 
   // all these requests should use AesGcm
@@ -266,9 +268,9 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
 
   const snPubkeyHex = StringView.hexToArrayBuffer(targetNode.pubkey_x25519);
 
-  const myKeys = window.libloki.crypto.generateEphemeralKeyPair();
+  const myKeys = await window.libloki.crypto.generateEphemeralKeyPair();
 
-  const symmetricKey = libsignal.Curve.calculateAgreement(
+  const symmetricKey = await libsignal.Curve.async.calculateAgreement(
     snPubkeyHex,
     myKeys.privKey
   );

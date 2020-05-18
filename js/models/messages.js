@@ -113,6 +113,8 @@
           this.propsForMessage = this.getPropsForMessage();
         }
       };
+      const triggerChange = () => this.trigger('change');
+
       this.on('change', generateProps);
 
       const applicableConversationChanges =
@@ -120,8 +122,11 @@
 
       const conversation = this.getConversation();
       const fromContact = this.getIncomingContact();
-
       this.listenTo(conversation, applicableConversationChanges, generateProps);
+
+      // trigger a change event on this component.
+      // this will call generateProps and refresh the Message.tsx component with new props
+      this.listenTo(conversation, 'disable:input', triggerChange);
       if (fromContact) {
         this.listenTo(
           fromContact,
@@ -205,6 +210,9 @@
     },
     getLokiNameForNumber(number) {
       const conversation = ConversationController.get(number);
+      if (number === textsecure.storage.user.getNumber()) {
+        return i18n('you');
+      }
       if (!conversation || !conversation.getLokiProfile()) {
         return number;
       }
@@ -501,6 +509,12 @@
 
       const contactModel = this.findContact(phoneNumber);
       const color = contactModel ? contactModel.getColor() : null;
+      let profileName;
+      if (phoneNumber === window.storage.get('primaryDevicePubKey')) {
+        profileName = i18n('you');
+      } else {
+        profileName = contactModel ? contactModel.getProfileName() : null;
+      }
 
       return {
         phoneNumber: format(phoneNumber, {
@@ -509,7 +523,7 @@
         color,
         avatarPath: contactModel ? contactModel.getAvatarPath() : null,
         name: contactModel ? contactModel.getName() : null,
-        profileName: contactModel ? contactModel.getProfileName() : null,
+        profileName,
         title: contactModel ? contactModel.getTitle() : null,
       };
     },
@@ -703,6 +717,8 @@
         multiSelectMode: conversation && conversation.selectedMessages.size > 0,
         isPublic: !!this.get('isPublic'),
         isRss: !!this.get('isRss'),
+        isKickedFromGroup:
+          conversation && conversation.get('isKickedFromGroup'),
         senderIsModerator:
           !!this.get('isPublic') &&
           conversation &&

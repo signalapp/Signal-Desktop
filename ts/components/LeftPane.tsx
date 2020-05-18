@@ -172,7 +172,9 @@ export class LeftPane extends React.Component<Props, State> {
   }
 
   private renderSettingSection() {
-    return <LeftPaneSettingSection />;
+    const { isSecondaryDevice } = this.props;
+
+    return <LeftPaneSettingSection isSecondaryDevice={isSecondaryDevice} />;
   }
 
   private renderChannelSection() {

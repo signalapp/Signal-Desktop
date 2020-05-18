@@ -12,6 +12,7 @@ message Envelope {
     PREKEY_BUNDLE = 3; //Used By Signal. DO NOT TOUCH! we don't use this at all.
     RECEIPT       = 5;
     UNIDENTIFIED_SENDER = 6;
+    MEDIUM_GROUP_CIPHERTEXT = 7;
     FRIEND_REQUEST = 101; // contains prekeys + message and is using simple encryption
   }
 
@@ -37,6 +38,30 @@ message Content {
   optional PreKeyBundleMessage preKeyBundleMessage = 101;
   optional LokiAddressMessage lokiAddressMessage = 102;
   optional PairingAuthorisationMessage pairingAuthorisation = 103;
+}
+
+message MediumGroupCiphertext {
+  optional bytes ciphertext = 1;
+  optional string source = 2;
+  optional uint32 keyIdx = 3;
+}
+
+message MediumGroupContent {
+  optional bytes ciphertext = 1;
+  optional bytes ephemeralKey = 2;
+}
+
+message MediumGroupUpdate {
+  optional string groupName = 1;
+  optional string groupId = 2; // should this be bytes?
+  optional string groupSecretKey = 3;
+  optional string senderKey = 4;
+  repeated string members = 5;
+}
+
+message SenderKeyUpdate {
+  optional string groupId = 1;
+  optional string senderKey = 2;
 }
 
 message LokiAddressMessage {
@@ -219,7 +244,8 @@ message DataMessage {
   repeated Contact            contact     = 9;
   repeated Preview            preview     = 10;
   optional LokiProfile        profile     = 101; // Loki: The profile of the current user
-  optional GroupInvitation groupInvitation = 102; // Loki: Invitation to a public chat
+  optional GroupInvitation    groupInvitation = 102; // Loki: Invitation to a public chat
+  optional MediumGroupUpdate  mediumGroupUpdate = 103; // Loki
 }
 
 message NullMessage {

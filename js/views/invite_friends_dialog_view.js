@@ -14,11 +14,14 @@
 
       const convos = window.getConversations().models;
 
-      const friends = convos.filter(
+      this.friends = convos.filter(
         d => !!d && d.isFriend() && d.isPrivate() && !d.isMe()
       );
+      if (!convo.isPublic()) {
+        const members = convo.get('members') || [];
+        this.friends = this.friends.filter(d => !members.includes(d.id));
+      }
 
-      this.friends = friends;
       this.chatName = convo.get('name');
       this.chatServer = convo.get('server');
       this.channelId = convo.get('channelId');
