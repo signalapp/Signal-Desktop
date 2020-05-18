@@ -101,6 +101,9 @@
           NUM_CONCURRENT_CONNECTIONS,
           stopPolling,
           messages => {
+            if (this.calledStop) {
+              return; // don't handle those messages
+            }
             connected = true;
             messages.forEach(message => {
               this.handleMessage(message.data, {
@@ -127,6 +130,9 @@
 
       // Exhausted all our snodes urls, trying again later from scratch
       setTimeout(() => {
+        if (this.calledStop) {
+          return; // don't restart
+        }
         window.log.info(
           `http-resource: Exhausted all our snodes urls, trying again in ${EXHAUSTED_SNODES_RETRY_DELAY /
             1000}s from scratch`
