@@ -36,12 +36,8 @@ const snodeHttpsAgent = new https.Agent({
 
 const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-const sendViaOnion = async (
-  srvPubKey,
-  url,
-  pFetchOptions,
-  options = {}
-) => {
+let adnOnionRequestCounter = 0;
+const sendViaOnion = async (srvPubKey, url, pFetchOptions, options = {}) => {
   if (!srvPubKey) {
     log.error(
       'loki_app_dot_net:::sendViaOnion - called without a server public key'
@@ -49,7 +45,19 @@ const sendViaOnion = async (
     return {};
   }
 
+  // set retry count
+  let adnOnionRequestCount;
+  if (options.retry === undefined) {
+    // eslint-disable-next-line no-param-reassign
+    options.retry = 0;
+    adnOnionRequestCounter += 1; // increment counter
+    adnOnionRequestCount = 0 + adnOnionRequestCounter; // copy value
+  } else {
+    adnOnionRequestCount = options.counter;
+  }
+
   const fetchOptions = pFetchOptions; // make lint happy
+
   // safety issue with file server, just safer to have this
   if (fetchOptions.headers === undefined) {
     fetchOptions.headers = {};
@@ -57,16 +65,16 @@ const sendViaOnion = async (
 
   const payloadObj = {
     method: fetchOptions.method,
-    headers: {...fetchOptions.headers, bob: "kob" },
+    body: fetchOptions.body,
+    // no initial /
+    endpoint: url.pathname.replace(/^\//, ''),
+    headers: { ...fetchOptions.headers },
   };
-  //console.log('payloadObj', payloadObj)
-  //if (fetchOptions.body === undefined) fetchOptions.body = '';
-  payloadObj.body = fetchOptions.body; // might need to b64 if binary...
-  //console.log('body', payloadObj.body)
-  console.log('loki_app_dot_net:::sendViaOnion - payloadObj', payloadObj)
+  if (url.search) {
+    payloadObj.endpoint += `?${url.search}`;
+  }
 
   // from https://github.com/sindresorhus/is-stream/blob/master/index.js
-  let fileUpload = false;
   if (
     payloadObj.body &&
     typeof payloadObj.body === 'object' &&
@@ -80,116 +88,76 @@ const sendViaOnion = async (
     payloadObj.body = {
       fileUpload: fData.toString('base64'),
     };
-    fileUpload = true;
   }
 
   const pathNodes = await lokiSnodeAPI.getOnionPath();
   if (!pathNodes || !pathNodes.length) {
     log.warn(
-      'loki_app_dot_net:::sendViaOnion - failing, no path available'
+      `loki_app_dot_net:::sendViaOnion #${adnOnionRequestCount} - failing, no path available`
     );
     return {};
   }
 
-  //console.log('loki_app_dot_net:::sendViaOnion - ourPubKey', StringView.arrayBufferToHex(srvPubKey).substr(0,32), '...', StringView.arrayBufferToHex(srvPubKey).substr(32))
-  //console.log('loki_app_dot_net:::sendViaOnion - pathNodes', pathNodes)
-  // pathNodes = ['']
-  const guardUrl = `https://${pathNodes[0].ip}:${pathNodes[0].port}/onion_req`;
-  // first parameter takes an arrayBuffer
-  const destCtx = await lokiRpcUtils.encryptForPubKey(srvPubKey, payloadObj);
+  // do the request
+  let result;
+  try {
+    result = await lokiRpcUtils.sendOnionRequestLsrpcDest(
+      0,
+      pathNodes,
+      srvPubKey,
+      url.host,
+      payloadObj,
+      adnOnionRequestCount
+    );
+  } catch (e) {
+    log.error(
+      'loki_app_dot_net:::sendViaOnion - lokiRpcUtils error',
+      e.code,
+      e.message
+    );
+    return {};
+  }
 
-  const tPayload = destCtx.ciphertext;
-  const reqJson = {
-    ciphertext: dcodeIO.ByteBuffer.wrap(tPayload).toString('base64'),
-    ephemeral_key: StringView.arrayBufferToHex(destCtx),
-  };
-  const reqStr = JSON.stringify(reqJson);
+  // handle error/retries
+  if (!result.status) {
+    log.error(
+      `loki_app_dot_net:::sendViaOnion #${adnOnionRequestCount} - Retry #${
+        options.retry
+      } Couldnt handle onion request, retrying`,
+      payloadObj
+    );
+    // eslint-disable-next-line no-param-reassign
+    options.retry += 1;
+    // eslint-disable-next-line no-param-reassign
+    options.counter = adnOnionRequestCount;
+    return sendViaOnion(srvPubKey, url, pFetchOptions, options);
+  }
 
-  const snPubkey = StringView.hexToArrayBuffer(pathNodes[0].pubkey_x25519);
-  const guardCtx = await lokiRpcUtils.encryptForPubKey(snPubkey, reqStr);
-  //const guardCtx = await lokiRpcUtils.encryptForRelay(pathNodes[0], StringView.arrayBufferToHex(srvPubKey), destCtx);
-  // we don't want a destination so don't need a relay at all
-  // const guardPayloadObj = await lokiRpcUtils.makeOnionRequest(pathNodes, destCtx, StringView.arrayBufferToHex(srvPubKey));
-
-  //const guardCtx = destCtx;
-
-  const ciphertextBase64 = dcodeIO.ByteBuffer.wrap(
-    guardCtx.ciphertext
-  ).toString('base64');
-
-  const guardPayloadObj = {
-    ciphertext: ciphertextBase64,
-    ephemeral_key: StringView.arrayBufferToHex(guardCtx.ephemeral_key),
-    host: url.host,
-    target: '/loki/v1/lsrpc',
-  };
-
-  const firstHopOptions = {
-    method: 'POST',
-    body: JSON.stringify(guardPayloadObj),
-    // we are talking to a snode...
-    agent: snodeHttpsAgent,
-  };
-  const encryptedResult = await nodeFetch(guardUrl, firstHopOptions);
-  // weird this doesn't need NODE_TLS_REJECT_UNAUTHORIZED = '0'
-
-  const result = await lokiRpcUtils.processOnionResponse(0, encryptedResult, destCtx.symmetricKey, true);
-  console.log('result', result)
+  // get the return variables we need
   let response = {};
   let txtResponse = '';
-
-/*
-  const txtResponse = await result.text();
-  if (txtResponse.match(/^Service node is not ready: not in any swarm/i)) {
-    // mark snode bad
-    const randomPoolRemainingCount = lokiSnodeAPI.markRandomNodeUnreachable(
-      randSnode
-    );
-    log.warn(
-      `loki_app_dot_net:::sendViaOnion - Marking random snode bad, internet address ${
-        randSnode.ip
-      }:${
-        randSnode.port
-      }. ${randomPoolRemainingCount} snodes remaining in randomPool`
-    );
-    // retry (hopefully with new snode)
-    // FIXME: max number of retries...
-    return sendViaOnion(srvPubKey, url, fetchOptions, options);
-  }
-
-  let response = {};
+  let body = '';
   try {
-    // it's no longer JSON
-    response = txtResponse;
+    body = JSON.parse(result.body);
   } catch (e) {
-    log.warn(
-      `loki_app_dot_net:::sendViaOnion - Could not parse outer JSON [${txtResponse}]`,
-      url,
+    log.error(
+      `loki_app_dot_net:::sendViaOnion #${adnOnionRequestCount} - Cant decode JSON body`,
+      result.body
     );
   }
-
-  // convert base64 in response to binary
-  const ivAndCiphertextResponse = dcodeIO.ByteBuffer.wrap(
-    response,
-    'base64'
-  ).toArrayBuffer();
-  const decrypted = await libloki.crypto.DHDecrypt(
-    symKey,
-    ivAndCiphertextResponse
+  const code = result.status;
+  txtResponse = JSON.stringify(body);
+  response = body;
+  response.headers = result.headers;
+  log.debug(
+    `loki_app_dot_net:::sendViaOnion #${adnOnionRequestCount} - ADN GCM body length`,
+    txtResponse.length,
+    'code',
+    code,
+    'headers',
+    response.headers
   );
-  const textDecoder = new TextDecoder();
-  const respStr = textDecoder.decode(decrypted);
 
-  // replace response
-  try {
-    response = options.textResponse ? respStr : JSON.parse(respStr);
-  } catch (e) {
-    log.warn(
-      `loki_app_dot_net:::sendViaOnion - Could not parse inner JSON [${respStr}]`,
-      url,
-    );
-  }
-*/
   return { result, txtResponse, response };
 };
 
@@ -257,7 +225,11 @@ const sendToProxy = async (
   payloadObj.body = false; // free memory
 
   // make temporary key for this request/response
-  const ephemeralKey = await libsignal.Curve.async.generateKeyPair();
+  // const ephemeralKey = await libsignal.Curve.generateKeyPair(); // sync
+  // async maybe preferable to avoid cpu spikes
+  // tho I think sync might be more apt in certain cases here...
+  // like sending
+  const ephemeralKey = await libloki.crypto.generateEphemeralKeyPair();
 
   // mix server pub key with our priv key
   const symKey = await libsignal.Curve.async.calculateAgreement(
@@ -430,8 +402,7 @@ const serverRequest = async (endpoint, options = {}) => {
         fetchOptions,
         options
       ));
-    } else
-    if (
+    } else if (
       window.lokiFeatureFlags.useSnodeProxy &&
       FILESERVER_HOSTS.includes(host)
     ) {
