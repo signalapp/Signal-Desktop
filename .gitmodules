@@ -1,0 +1,3 @@
+[submodule "loki-file-server"]
+	path = loki-file-server
+	url = https://github.com/neuroscr/loki-file-server/
