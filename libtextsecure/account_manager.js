@@ -619,10 +619,14 @@
         }
       );
       // Send sync messages
-      const conversations = window.getConversations().models;
-      textsecure.messaging.sendContactSyncMessage(conversations);
-      textsecure.messaging.sendGroupSyncMessage(conversations);
-      textsecure.messaging.sendOpenGroupsSyncMessage(conversations);
+      // bad hack to send sync messages when secondary device is ready to process them
+      setTimeout(async () => {
+        const conversations = window.getConversations().models;
+        await textsecure.messaging.sendGroupSyncMessage(conversations);
+        await textsecure.messaging.sendOpenGroupsSyncMessage(conversations);
+        await textsecure.messaging.sendContactSyncMessage(conversations);
+
+      }, 5000);
     },
     validatePubKeyHex(pubKey) {
       const c = new Whisper.Conversation({
