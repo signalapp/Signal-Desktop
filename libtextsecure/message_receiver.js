@@ -1302,7 +1302,7 @@ MessageReceiver.prototype.extend({
     const isGroupMessage = Boolean(message.group || message.mediumGroupUpdate);
     const friendRequestStatusNoneOrExpired = conversation
       ? conversation.isFriendRequestStatusNoneOrExpired()
-      : false;
+      : true;
     const isFriendRequest =
       !isGroupMessage &&
       !_.isEmpty(message.body) &&
