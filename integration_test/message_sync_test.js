@@ -36,7 +36,7 @@ describe('Message Syncing', function() {
     await common.stopStubSnodeServer();
   });
 
-  it('message syncing', async () => {
+  it('message syncing with 1 friend, 1 closed group, 1 open group', async () => {
     // Alice1 has:
     //  *  no linked device
     //  *  Bob is a friend
