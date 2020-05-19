@@ -282,9 +282,10 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
   }
 
   private renderMemberList(members: any) {
-    return members.map((member: ContactType) => (
+    return members.map((member: ContactType, index: number) => (
       <SessionMemberListItem
         member={member}
+        index={index}
         isSelected={false}
         key={member.id}
         onSelect={(selectedMember: ContactType) => {

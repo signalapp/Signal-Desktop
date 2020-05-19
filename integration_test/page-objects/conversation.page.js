@@ -63,7 +63,8 @@ module.exports = {
   closedGroupNameTextarea: commonPage.textAreaWithPlaceholder(
     'Enter a group name'
   ),
-  createClosedGroupMemberItem: commonPage.divWithClass('session-member-item'),
+  createClosedGroupMemberItem: idx =>
+    commonPage.divWithClass(`session-member-item-${idx}`),
   createClosedGroupSealedSenderToggle: commonPage.divWithClass(
     'session-toggle'
   ),
