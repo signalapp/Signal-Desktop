@@ -783,6 +783,13 @@
     isFriendRequestStatusNone() {
       return this.get('friendRequestStatus') === FriendRequestStatusEnum.none;
     },
+    isFriendRequestStatusNoneOrExpired() {
+      const status = this.get('friendRequestStatus');
+      return (
+        status === FriendRequestStatusEnum.none ||
+        status === FriendRequestStatusEnum.requestExpired
+      );
+    },
     isPendingFriendRequest() {
       const status = this.get('friendRequestStatus');
       return (
@@ -1036,7 +1043,11 @@
           direction: 'incoming',
           status: ['pending', 'expired'],
         });
-        window.libloki.api.sendBackgroundMessage(this.id);
+        window.libloki.api.sendBackgroundMessage(
+          this.id,
+          window.textsecure.OutgoingMessage.DebugMessageType
+            .INCOMING_FR_ACCEPTED
+        );
       }
     },
     // Our outgoing friend request has been accepted
@@ -1053,7 +1064,11 @@
           response: 'accepted',
           status: ['pending', 'expired'],
         });
-        window.libloki.api.sendBackgroundMessage(this.id);
+        window.libloki.api.sendBackgroundMessage(
+          this.id,
+          window.textsecure.OutgoingMessage.DebugMessageType
+            .OUTGOING_FR_ACCEPTED
+        );
         return true;
       }
       return false;
@@ -2148,7 +2163,10 @@
       await this.setSessionResetStatus(SessionResetEnum.request_received);
       // send empty message, this will trigger the new session to propagate
       // to the reset initiator.
-      window.libloki.api.sendBackgroundMessage(this.id);
+      window.libloki.api.sendBackgroundMessage(
+        this.id,
+        window.textsecure.OutgoingMessage.DebugMessageType.SESSION_RESET_RECV
+      );
     },
 
     isSessionResetReceived() {
@@ -2184,7 +2202,10 @@
     async onNewSessionAdopted() {
       if (this.get('sessionResetStatus') === SessionResetEnum.initiated) {
         // send empty message to confirm that we have adopted the new session
-        window.libloki.api.sendBackgroundMessage(this.id);
+        window.libloki.api.sendBackgroundMessage(
+          this.id,
+          window.textsecure.OutgoingMessage.DebugMessageType.SESSION_RESET
+        );
       }
       await this.createAndStoreEndSessionMessage({
         type: 'incoming',
@@ -3026,11 +3047,11 @@
           const messageId = message.id;
           const isExpiringMessage = Message.hasExpiration(messageJSON);
 
-          window.log.info('Add notification', {
-            conversationId: this.idForLogging(),
-            isExpiringMessage,
-            messageSentAt,
-          });
+          // window.log.info('Add notification', {
+          //   conversationId: this.idForLogging(),
+          //   isExpiringMessage,
+          //   messageSentAt,
+          // });
           Whisper.Notifications.add({
             conversationId,
             iconUrl,
@@ -3077,9 +3098,9 @@
         : 'friendRequestNotificationMessage';
 
       const iconUrl = await conversation.getNotificationIcon();
-      window.log.info('Add notification for friend request updated', {
-        conversationId: conversation.idForLogging(),
-      });
+      // window.log.info('Add notification for friend request updated', {
+      //   conversationId: conversation.idForLogging(),
+      // });
       Whisper.Notifications.add({
         conversationId: conversation.id,
         iconUrl,

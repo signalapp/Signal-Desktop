@@ -60,7 +60,7 @@
       const isAudioNotificationEnabled =
         storage.get('audio-notification') || false;
       const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
-      const isNotificationGroupingSupported = Settings.isNotificationGroupingSupported();
+      // const isNotificationGroupingSupported = Settings.isNotificationGroupingSupported();
       const numNotifications = this.length;
       const userSetting = this.getUserSetting();
 
@@ -73,12 +73,12 @@
         userSetting,
       });
 
-      window.log.info(
-        'Update notifications:',
-        Object.assign({}, status, {
-          isNotificationGroupingSupported,
-        })
-      );
+      // window.log.info(
+      //   'Update notifications:',
+      //   Object.assign({}, status, {
+      //     isNotificationGroupingSupported,
+      //   })
+      // );
 
       if (status.type !== 'ok') {
         if (status.shouldClearNotifications) {
@@ -180,11 +180,11 @@
       return storage.get('notification-setting') || SettingNames.MESSAGE;
     },
     onRemove() {
-      window.log.info('Remove notification');
+      // window.log.info('Remove notification');
       this.update();
     },
     clear() {
-      window.log.info('Remove all notifications');
+      // window.log.info('Remove all notifications');
       this.reset([]);
       this.update();
     },

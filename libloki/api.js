@@ -1,47 +1,118 @@
-/* global window, textsecure, dcodeIO, StringView, ConversationController */
+/* global window, textsecure, dcodeIO, StringView, ConversationController, _ */
+/* eslint-disable no-bitwise */
 
 // eslint-disable-next-line func-names
 (function() {
   window.libloki = window.libloki || {};
 
-  async function sendBackgroundMessage(pubKey) {
-    return sendOnlineBroadcastMessage(pubKey);
+  const DebugFlagsEnum = {
+    GROUP_SYNC_MESSAGES: 1,
+    CONTACT_SYNC_MESSAGES: 2,
+    AUTO_FRIEND_REQUEST_MESSAGES: 4,
+    SESSION_REQUEST_MESSAGES: 8,
+    SESSION_MESSAGE_SENDING: 16,
+    SESSION_BACKGROUND_MESSAGE: 32,
+    GROUP_REQUEST_INFO: 64,
+    NORMAL_FRIEND_REQUEST_MESSAGES: 128,
+    // If you add any new flag, be sure it is bitwise safe! (unique and 2 multiples)
+    ALL: 65535,
+  };
+
+  const debugFlags = DebugFlagsEnum.ALL;
+
+  const debugLogFn = (...args) => {
+    if (true) {
+      // process.env.NODE_ENV.includes('test-integration') ||
+      window.console.warn(...args);
+    }
+  };
+
+  function logSessionMessageSending(...args) {
+    if (debugFlags & DebugFlagsEnum.SESSION_MESSAGE_SENDING) {
+      debugLogFn(...args);
+    }
   }
 
-  async function sendOnlineBroadcastMessage(pubKey, isPing = false) {
+  function logGroupSync(...args) {
+    if (debugFlags & DebugFlagsEnum.GROUP_SYNC_MESSAGES) {
+      debugLogFn(...args);
+    }
+  }
+
+  function logGroupRequestInfo(...args) {
+    if (debugFlags & DebugFlagsEnum.GROUP_REQUEST_INFO) {
+      debugLogFn(...args);
+    }
+  }
+
+  function logContactSync(...args) {
+    if (debugFlags & DebugFlagsEnum.GROUP_CONTACT_MESSAGES) {
+      debugLogFn(...args);
+    }
+  }
+
+  function logAutoFriendRequest(...args) {
+    if (debugFlags & DebugFlagsEnum.AUTO_FRIEND_REQUEST_MESSAGES) {
+      debugLogFn(...args);
+    }
+  }
+
+  function logNormalFriendRequest(...args) {
+    if (debugFlags & DebugFlagsEnum.NORMAL_FRIEND_REQUEST_MESSAGES) {
+      debugLogFn(...args);
+    }
+  }
+
+  function logSessionRequest(...args) {
+    if (debugFlags & DebugFlagsEnum.SESSION_REQUEST_MESSAGES) {
+      debugLogFn(...args);
+    }
+  }
+
+  function logBackgroundMessage(...args) {
+    if (debugFlags & DebugFlagsEnum.SESSION_BACKGROUND_MESSAGE) {
+      debugLogFn(...args);
+    }
+  }
+
+  // Returns the primary device pubkey for this secondary device pubkey
+  // or the same pubkey if there is no other device
+  async function getPrimaryDevicePubkey(pubKey) {
     const authorisation = await window.libloki.storage.getGrantAuthorisationForSecondaryPubKey(
       pubKey
     );
-    if (authorisation && authorisation.primaryDevicePubKey !== pubKey) {
-      sendOnlineBroadcastMessage(authorisation.primaryDevicePubKey);
+    return authorisation ? authorisation.primaryDevicePubKey : pubKey;
+  }
+
+  async function sendBackgroundMessage(pubKey, debugMessageType) {
+    const primaryPubKey = await getPrimaryDevicePubkey(pubKey);
+    if (primaryPubKey !== pubKey) {
+      // if we got the secondary device pubkey first,
+      // call ourself again with the primary device pubkey
+      await sendBackgroundMessage(primaryPubKey, debugMessageType);
       return;
     }
-    const p2pAddress = null;
-    const p2pPort = null;
-    // We result loki address message for sending "background" messages
-    const type = textsecure.protobuf.LokiAddressMessage.Type.HOST_UNREACHABLE;
 
-    const lokiAddressMessage = new textsecure.protobuf.LokiAddressMessage({
-      p2pAddress,
-      p2pPort,
-      type,
-    });
-    const content = new textsecure.protobuf.Content({
-      lokiAddressMessage,
-    });
-
-    const options = { messageType: 'onlineBroadcast', isPing };
-    // Send a empty message with information about how to contact us directly
-    const outgoingMessage = new textsecure.OutgoingMessage(
-      null, // server
-      Date.now(), // timestamp,
-      [pubKey], // numbers
-      content, // message
-      true, // silent
-      () => null, // callback
-      options
+    const backgroundMessage = textsecure.OutgoingMessage.buildBackgroundMessage(
+      pubKey,
+      debugMessageType
     );
-    await outgoingMessage.sendToNumber(pubKey);
+    await backgroundMessage.sendToNumber(pubKey);
+  }
+
+  async function sendAutoFriendRequestMessage(pubKey) {
+    const primaryPubKey = await getPrimaryDevicePubkey(pubKey);
+    if (primaryPubKey !== pubKey) {
+      // if we got the secondary device pubkey first,
+      // call ourself again with the primary device pubkey
+      await sendAutoFriendRequestMessage(primaryPubKey);
+      return;
+    }
+
+    const autoFrMessage = textsecure.OutgoingMessage.buildAutoFriendRequestMessage(
+      pubKey
+    );
+    await autoFrMessage.sendToNumber(pubKey);
   }
 
   function createPairingAuthorisationProtoMessage({
@@ -74,24 +145,10 @@
   }
 
   function sendUnpairingMessageToSecondary(pubKey) {
-    const flags = textsecure.protobuf.DataMessage.Flags.UNPAIRING_REQUEST;
-    const dataMessage = new textsecure.protobuf.DataMessage({
-      flags,
-    });
-    const content = new textsecure.protobuf.Content({
-      dataMessage,
-    });
-    const options = { messageType: 'device-unpairing' };
-    const outgoingMessage = new textsecure.OutgoingMessage(
-      null, // server
-      Date.now(), // timestamp,
-      [pubKey], // numbers
-      content, // message
-      true, // silent
-      () => null, // callback
-      options
+    const unpairingMessage = textsecure.OutgoingMessage.buildUnpairingMessage(
+      pubKey
     );
-    return outgoingMessage.sendToNumber(pubKey);
+    return unpairingMessage.sendToNumber(pubKey);
   }
   // Serialise as <Element0.length><Element0><Element1.length><Element1>...
   // This is an implementation of the reciprocal of contacts_parser.js
@@ -107,12 +164,7 @@
     result.reset();
     return result;
   }
-  async function createContactSyncProtoMessage(conversations) {
-    // Extract required contacts information out of conversations
-    const sessionContacts = conversations.filter(
-      c => c.isPrivate() && !c.isSecondaryDevice() && c.isFriend()
-    );
-
+  async function createContactSyncProtoMessage(sessionContacts) {
     if (sessionContacts.length === 0) {
       return null;
     }
@@ -159,31 +211,22 @@
     });
     return syncMessage;
   }
-  function createGroupSyncProtoMessage(conversations) {
-    // We only want to sync across closed groups that we haven't left
-    const sessionGroups = conversations.filter(
-      c => c.isClosedGroup() && !c.get('left') && c.isFriend()
-    );
+  function createGroupSyncProtoMessage(sessionGroup) {
+    // We are getting a single open group here
 
-    if (sessionGroups.length === 0) {
-      return null;
-    }
+    const rawGroup = {
+      id: window.Signal.Crypto.bytesFromString(sessionGroup.id),
+      name: sessionGroup.get('name'),
+      members: sessionGroup.get('members') || [],
+      blocked: sessionGroup.isBlocked(),
+      expireTimer: sessionGroup.get('expireTimer'),
+      admins: sessionGroup.get('groupAdmins') || [],
+    };
 
-    const rawGroups = sessionGroups.map(conversation => ({
-      id: window.Signal.Crypto.bytesFromString(conversation.id),
-      name: conversation.get('name'),
-      members: conversation.get('members') || [],
-      blocked: conversation.isBlocked(),
-      expireTimer: conversation.get('expireTimer'),
-      admins: conversation.get('groupAdmins') || [],
-    }));
-
-    // Convert raw groups to an array of buffers
-    const groupDetails = rawGroups
-      .map(x => new textsecure.protobuf.GroupDetails(x))
-      .map(x => x.encode());
+    // Convert raw group to a buffer
+    const groupDetail = new textsecure.protobuf.GroupDetails(rawGroup).encode();
     // Serialise array of byteBuffers into 1 byteBuffer
-    const byteBuffer = serialiseByteBuffers(groupDetails);
+    const byteBuffer = serialiseByteBuffers([groupDetail]);
     const data = new Uint8Array(byteBuffer.toArrayBuffer());
     const groups = new textsecure.protobuf.SyncMessage.Groups({
       data,
@@ -225,61 +268,74 @@
       ourNumber,
       'private'
     );
-    const content = new textsecure.protobuf.Content({
-      pairingAuthorisation,
-    });
-    const isGrant = authorisation.primaryDevicePubKey === ourNumber;
-    if (isGrant) {
-      // Send profile name to secondary device
-      const lokiProfile = ourConversation.getLokiProfile();
-      // profile.avatar is the path to the local image
-      // replace with the avatar URL
-      const avatarPointer = ourConversation.get('avatarPointer');
-      lokiProfile.avatar = avatarPointer;
-      const profile = new textsecure.protobuf.DataMessage.LokiProfile(
-        lokiProfile
-      );
-      const profileKey = window.storage.get('profileKey');
-      const dataMessage = new textsecure.protobuf.DataMessage({
-        profile,
-        profileKey,
-      });
-      content.dataMessage = dataMessage;
-    }
     // Send
-    const options = { messageType: 'pairing-request' };
     const p = new Promise((resolve, reject) => {
-      const timestamp = Date.now();
-
-      const outgoingMessage = new textsecure.OutgoingMessage(
-        null, // server
-        timestamp,
-        [recipientPubKey], // numbers
-        content, // message
-        true, // silent
-        result => {
-          // callback
-          if (result.errors.length > 0) {
-            reject(result.errors[0]);
-          } else {
-            resolve();
-          }
-        },
-        options
+      const callback = result => {
+        // callback
+        if (result.errors.length > 0) {
+          reject(result.errors[0]);
+        } else {
+          resolve();
+        }
+      };
+      const pairingRequestMessage = textsecure.OutgoingMessage.buildPairingRequestMessage(
+        recipientPubKey,
+        ourNumber,
+        ourConversation,
+        authorisation,
+        pairingAuthorisation,
+        callback
       );
-      outgoingMessage.sendToNumber(recipientPubKey);
+
+      pairingRequestMessage.sendToNumber(recipientPubKey);
     });
     return p;
   }
 
+  function sendSessionRequestsToMembers(members = []) {
+    // For every member, see if we need to establish a session:
+    members.forEach(memberPubKey => {
+      const haveSession = _.some(
+        textsecure.storage.protocol.sessions,
+        s => s.number === memberPubKey
+      );
+
+      const ourPubKey = textsecure.storage.user.getNumber();
+      if (!haveSession && memberPubKey !== ourPubKey) {
+        // eslint-disable-next-line more/no-then
+        ConversationController.getOrCreateAndWait(memberPubKey, 'private').then(
+          () => {
+            const sessionRequestMessage = textsecure.OutgoingMessage.buildSessionRequestMessage(
+              memberPubKey
+            );
+            sessionRequestMessage.sendToNumber(memberPubKey);
+          }
+        );
+      }
+    });
+  }
+
+  const debug = {
+    logContactSync,
+    logGroupSync,
+    logAutoFriendRequest,
+    logSessionRequest,
+    logSessionMessageSending,
+    logBackgroundMessage,
+    logGroupRequestInfo,
+    logNormalFriendRequest,
+  };
+
   window.libloki.api = {
     sendBackgroundMessage,
-    sendOnlineBroadcastMessage,
+    sendAutoFriendRequestMessage,
+    sendSessionRequestsToMembers,
     sendPairingAuthorisation,
     createPairingAuthorisationProtoMessage,
     sendUnpairingMessageToSecondary,
     createContactSyncProtoMessage,
     createGroupSyncProtoMessage,
     createOpenGroupsSyncProtoMessage,
+    debug,
   };
 })();
