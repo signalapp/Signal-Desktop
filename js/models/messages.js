@@ -2045,6 +2045,7 @@
       }
 
       if (message.isFriendRequest() && isSessionRequest) {
+        // We don't need to await the call below because we just want to send it off
         window.libloki.api.sendSessionEstablishedMessage(message.get('source'));
         confirm();
         // Wether or not we accepted the FR, we exit early so background friend requests

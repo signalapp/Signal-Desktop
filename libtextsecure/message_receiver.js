@@ -1623,6 +1623,7 @@ MessageReceiver.prototype.extend({
     // This should be removed once we add the new protocol
     if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
       window.log.info('sent session established to', envelope.source);
+      // We don't need to await the call below because we just want to send it off
       window.libloki.api.sendSessionEstablishedMessage(envelope.source);
     }
 
