@@ -1941,7 +1941,6 @@
       const { primaryDevicePubKey } = authorisation;
       // ensure the primary device is a friend
       const c = window.ConversationController.get(primaryDevicePubKey);
-
       if (!c || !await c.isFriendWithAnyDevice()) {
         return false;
       }

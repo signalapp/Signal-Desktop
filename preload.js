@@ -326,7 +326,6 @@ window.lokiSnodeAPI = new LokiSnodeAPI({
   localUrl: config.localUrl,
 });
 
-
 if (process.env.USE_STUBBED_NETWORK) {
   const StubMessageAPI = require('./integration_test/stubs/stub_message_api');
   window.LokiMessageAPI = StubMessageAPI;
@@ -351,7 +350,6 @@ if (process.env.USE_STUBBED_NETWORK) {
   window.LokiAppDotNetServerAPI = require('./js/modules/loki_app_dot_net_api');
 }
 window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
-
 
 window.LokiFileServerAPI = require('./js/modules/loki_file_server_api');
 

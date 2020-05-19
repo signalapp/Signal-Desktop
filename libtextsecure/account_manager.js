@@ -625,7 +625,6 @@
         await textsecure.messaging.sendGroupSyncMessage(conversations);
         await textsecure.messaging.sendOpenGroupsSyncMessage(conversations);
         await textsecure.messaging.sendContactSyncMessage(conversations);
-
       }, 5000);
     },
     validatePubKeyHex(pubKey) {

@@ -741,7 +741,7 @@ OutgoingMessage.buildAutoFriendRequestMessage = function buildAutoFriendRequestM
   pubKey
 ) {
   const body =
-  '(If you see this message, you must be using an out-of-date client)';
+    '(If you see this message, you must be using an out-of-date client)';
 
   const dataMessage = new textsecure.protobuf.DataMessage({ body });
 
