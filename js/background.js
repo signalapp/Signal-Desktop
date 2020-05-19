@@ -1905,12 +1905,6 @@
   async function onGroupReceived(ev) {
     const details = ev.groupDetails;
     const { id } = details;
-    libloki.api.debug.logGroupSync(
-      'Got sync group message with group id',
-      id,
-      ' details:',
-      details
-    );
 
     libloki.api.debug.logGroupSync(
       'Got sync group message with group id',

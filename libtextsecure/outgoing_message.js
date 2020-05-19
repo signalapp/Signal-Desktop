@@ -740,7 +740,10 @@ OutgoingMessage.prototype = {
 OutgoingMessage.buildAutoFriendRequestMessage = function buildAutoFriendRequestMessage(
   pubKey
 ) {
-  const dataMessage = new textsecure.protobuf.DataMessage({});
+  const body =
+  '(If you see this message, you must be using an out-of-date client)';
+
+  const dataMessage = new textsecure.protobuf.DataMessage({ body });
 
   const content = new textsecure.protobuf.Content({
     dataMessage,
@@ -765,11 +768,9 @@ OutgoingMessage.buildAutoFriendRequestMessage = function buildAutoFriendRequestM
 OutgoingMessage.buildSessionRequestMessage = function buildSessionRequestMessage(
   pubKey
 ) {
-  const body =
-    '(If you see this message, you must be using an out-of-date client)';
   const flags = textsecure.protobuf.DataMessage.Flags.SESSION_REQUEST;
 
-  const dataMessage = new textsecure.protobuf.DataMessage({ body, flags });
+  const dataMessage = new textsecure.protobuf.DataMessage({ flags });
 
   const content = new textsecure.protobuf.Content({
     dataMessage,
