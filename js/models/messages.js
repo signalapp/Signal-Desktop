@@ -429,6 +429,10 @@
         return;
       }
       this.set({ friendStatus: 'accepted' });
+
+      console.log('[vince][core] this.attributes:', this.attributes);
+      console.log('[vince][core] This is the conversation youre accepting!! :', conversation);
+
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
       });
@@ -2219,6 +2223,7 @@
           let attributes = {
             ...conversation.attributes,
           };
+
           if (dataMessage.group) {
             let groupUpdate = null;
             attributes = {
@@ -2508,6 +2513,7 @@
                 - We are friends with the user,
                   and that user just sent us a friend request.
               */
+
               const isFriend = sendingDeviceConversation.isFriend();
               const hasSentFriendRequest = sendingDeviceConversation.hasSentFriendRequest();
               autoAccept = isFriend || hasSentFriendRequest;
@@ -2515,6 +2521,12 @@
               if (autoAccept) {
                 message.set({ friendStatus: 'accepted' });
               }
+              
+          
+              console.log('[vince][core] source:', source);
+              console.log('[vince][core] ourNumber:', ourNumber);
+              console.log('[vince][core] Friend request in messaages.js:2391', message);
+
 
               libloki.api.debug.logNormalFriendRequest(
                 `Received a NORMAL_FRIEND_REQUEST from source: ${source}, primarySource: ${primarySource}, isAlreadyFriend: ${isFriend}, didWeAlreadySentFR: ${hasSentFriendRequest}`
@@ -2534,8 +2546,13 @@
           }
 
           // We need to map the original message source to the primary device
+          // only map to primary device if this is NOT a friend request.
+          // Otherwise you can enter a stalemate.
+          const conditionalSource = message.get('type') === 'friend-request'
+            ? source
+            : primarySource;
           if (source !== ourNumber) {
-            message.set({ source: primarySource });
+            message.set({ source: conditionalSource });
           }
 
           const id = await window.Signal.Data.saveMessage(message.attributes, {

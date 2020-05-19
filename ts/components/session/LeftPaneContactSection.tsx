@@ -123,6 +123,8 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     const item = receivedFriendsRequest[index];
     const onClick = this.props.openConversationInternal;
 
+    console.log('[vince] renderRowFriendRequest: receivedFriendsRequest:', receivedFriendsRequest);
+
     return (
       <ConversationListItem
         key={key}

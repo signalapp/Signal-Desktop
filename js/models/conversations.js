@@ -584,7 +584,6 @@
 
       const result = {
         id: this.id,
-
         isArchived: this.get('isArchived'),
         activeAt: this.get('active_at'),
         avatarPath: this.getAvatarPath(),
@@ -1620,6 +1619,8 @@
             FriendRequestStatusEnum.pendingSend
           );
 
+          
+
           // Always share our profileKey in the friend request
           // This will get added automatically after the FR
           // is accepted, via the profileSharing flag
@@ -1637,6 +1638,9 @@
             direction: 'outgoing',
             friendStatus: 'pending',
           });
+
+          console.log(`[vince][core] Sending FR message from conversations.js`, messageWithSchema);
+
         }
 
         if (this.isPrivate()) {
@@ -1658,6 +1662,9 @@
 
         const model = this.addSingleMessage(attributes);
         const message = MessageController.register(model.id, model);
+
+        console.log('[vince][core] Sending message:', message);
+
         await window.Signal.Data.saveMessage(message.attributes, {
           forceSave: true,
           Message: Whisper.Message,
