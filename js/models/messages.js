@@ -2045,23 +2045,8 @@
       }
 
       if (message.isFriendRequest() && isSessionRequest) {
-        // Check if the contact is a member in one of our private groups:
-        const groupMember = window
-          .getConversations()
-          .models.filter(c => c.get('members'))
-          .reduce((acc, x) => window.Lodash.concat(acc, x.get('members')), [])
-          .includes(primarySource);
-
-        if (groupMember) {
-          window.log.info(
-            `Auto accepting a 'group' friend request for a known group member: ${primarySource}`
-          );
-
-          window.libloki.api.sendBackgroundMessage(message.get('source'));
-
-          confirm();
-        }
-
+        window.libloki.api.sendSessionEstablishedMessage(message.get('source'));
+        confirm();
         // Wether or not we accepted the FR, we exit early so background friend requests
         // cannot be used for establishing regular private conversations
         return null;

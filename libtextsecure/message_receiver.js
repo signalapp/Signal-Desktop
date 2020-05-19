@@ -644,29 +644,6 @@ MessageReceiver.prototype.extend({
       return null;
     }
 
-    let conversation;
-    try {
-      conversation = await window.ConversationController.getOrCreateAndWait(
-        envelope.source,
-        'private'
-      );
-    } catch (e) {
-      window.log.info('Error getting conversation: ', envelope.source);
-    }
-
-    // Type here can actually be UNIDENTIFIED_SENDER even if
-    // the underlying message is FRIEND_REQUEST
-    if (envelope.type !== textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
-      // If we got here there is a valid session, which meants friend request
-      // is complete (if it wasn't already)
-      if (conversation) {
-        const isFriendRequestAccept = await conversation.onFriendRequestAccepted();
-        if (isFriendRequestAccept) {
-          await conversation.notifyFriendRequest(envelope.source, 'accepted');
-        }
-      }
-    }
-
     this.updateCache(envelope, plaintext).catch(error => {
       window.log.error(
         'decrypt failed to save decrypted message contents to cache:',
@@ -1313,13 +1290,11 @@ MessageReceiver.prototype.extend({
       message.group &&
         message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
     );
-    const friendRequest =
-      envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST;
     const { UNPAIRING_REQUEST } = textsecure.protobuf.DataMessage.Flags;
     // eslint-disable-next-line no-bitwise
     const isUnpairingRequest = Boolean(message.flags & UNPAIRING_REQUEST);
 
-    if (!friendRequest && isUnpairingRequest) {
+    if (isUnpairingRequest) {
       // TODO: move high-level pairing logic to libloki.multidevice.xx
 
       const unpairingRequestIsLegit = async () => {
@@ -1394,7 +1369,7 @@ MessageReceiver.prototype.extend({
     //  if we're not friends with the current user that sent this private message
     // Check to see if we need to auto accept their friend request
     const isGroupMessage = !!groupId;
-    if (friendRequest || (!isGroupMessage && !conversation.isFriend())) {
+    if (!isGroupMessage && !conversation.isFriend()) {
       if (isMe) {
         window.log.info('refusing to add a friend request to ourselves');
         throw new Error('Cannot add a friend request for ourselves!');
@@ -1429,16 +1404,27 @@ MessageReceiver.prototype.extend({
       );
       return this.removeFromCache(envelope);
     }
-    if (!friendRequest && this.isMessageEmpty(message)) {
+    if (this.isMessageEmpty(message)) {
       window.log.warn(
         `Message ${this.getEnvelopeId(envelope)} ignored; it was empty`
       );
       return this.removeFromCache(envelope);
     }
+
+    // Loki - Temp hack until new protocol
+    // A friend request is a non-group text message
+    const friendRequestStatus = conversation.get('friendRequestStatus');
+    const FriendRequestStatusEnum = window.friends.friendRequestStatusEnum;
+    const isFriendRequestStatusNone =
+      friendRequestStatus === FriendRequestStatusEnum.none ||
+      friendRequestStatus === FriendRequestStatusEnum.requestExpired;
+    const isFriendRequest =
+      !isGroupMessage && isFriendRequestStatusNone && !_.isEmpty(message.body);
+
     const ev = new Event('message');
     ev.confirm = this.removeFromCache.bind(this, envelope);
     ev.data = {
-      friendRequest,
+      friendRequest: isFriendRequest,
       source: envelope.source,
       sourceDevice: envelope.sourceDevice,
       timestamp: envelope.timestamp.toNumber(),
@@ -1493,6 +1479,31 @@ MessageReceiver.prototype.extend({
     }
     return this.innerHandleContentMessage(envelope, plaintext);
   },
+  async handleFriendRequestAcceptIfNeeded(envelope, content) {
+    const isGroupMessage =
+      content &&
+      content.dataMessage &&
+      (content.dataMessage.group || content.dataMessage.mediumGroupUpdate);
+    const isReceiptMessage = content && content.receiptMessage;
+    const isTypingMessage = content && content.typingMessage;
+    if (isGroupMessage || isReceiptMessage || isTypingMessage) {
+      return;
+    }
+
+    // If we sent a friend request and got another message back then we should become friends
+    try {
+      const conversation = await window.ConversationController.getOrCreateAndWait(
+        envelope.source,
+        'private'
+      );
+      const isFriendRequestAccept = await conversation.onFriendRequestAccepted();
+      if (isFriendRequestAccept) {
+        await conversation.notifyFriendRequest(envelope.source, 'accepted');
+      }
+    } catch (e) {
+      window.log.info('Error getting conversation: ', envelope.source);
+    }
+  },
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
 
@@ -1502,6 +1513,8 @@ MessageReceiver.prototype.extend({
         content.preKeyBundleMessage
       );
     }
+
+    this.handleFriendRequestAcceptIfNeeded(envelope, content);
 
     if (content.lokiAddressMessage) {
       return this.handleLokiAddressMessage(
@@ -1606,6 +1619,13 @@ MessageReceiver.prototype.extend({
     return this.dispatchEvent(ev);
   },
   handleNullMessage(envelope) {
+    // Loki - Temp hack for new protocl backward compatibility
+    // This should be removed once we add the new protocol
+    if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
+      window.log.info('sent session established to', envelope.source);
+      window.libloki.api.sendSessionEstablishedMessage(envelope.source);
+    }
+
     window.log.info('null message from', this.getEnvelopeId(envelope));
     this.removeFromCache(envelope);
   },

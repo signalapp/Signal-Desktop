@@ -795,8 +795,7 @@
       const status = this.get('friendRequestStatus');
       return (
         status === FriendRequestStatusEnum.pendingSend ||
-        status === FriendRequestStatusEnum.requestSent ||
-        status === FriendRequestStatusEnum.requestExpired
+        status === FriendRequestStatusEnum.requestSent
       );
     },
     hasReceivedFriendRequest() {

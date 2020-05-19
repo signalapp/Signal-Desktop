@@ -1096,6 +1096,14 @@ MessageSender.prototype = {
       window.log.error(prefix, error && error.stack ? error.stack : error);
       throw error;
     };
+
+    // Loki - Temp hack for new protocol
+    // A session reset should be a `FRIEND_REQUEST`
+    const msgOptions = {
+      messageType: 'friend-request',
+      ...options,
+    };
+
     // The actual deletion of the session now happens later
     // as we need to ensure the other contact has successfully
     // switch to a new session first.
@@ -1104,7 +1112,7 @@ MessageSender.prototype = {
       proto,
       timestamp,
       silent,
-      options
+      msgOptions
     ).catch(logError('resetSession/sendToContact error:'));
   },
 

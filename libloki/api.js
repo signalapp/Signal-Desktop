@@ -4,6 +4,26 @@
 (function() {
   window.libloki = window.libloki || {};
 
+  async function sendSessionEstablishedMessage(pubKey) {
+    const nullMessage = new textsecure.protobuf.NullMessage();
+    const content = new textsecure.protobuf.Content({
+      nullMessage,
+    });
+
+    // The below message type will ignore auto FR
+    const options = { messageType: 'onlineBroadcast' };
+    const outgoingMessage = new textsecure.OutgoingMessage(
+      null, // server
+      Date.now(), // timestamp,
+      [pubKey], // numbers
+      content, // message
+      true, // silent
+      () => null, // callback
+      options
+    );
+    await outgoingMessage.sendToNumber(pubKey);
+  }
+
   async function sendBackgroundMessage(pubKey) {
     return sendOnlineBroadcastMessage(pubKey);
   }
@@ -273,6 +293,7 @@
   }
 
   window.libloki.api = {
+    sendSessionEstablishedMessage,
     sendBackgroundMessage,
     sendOnlineBroadcastMessage,
     sendPairingAuthorisation,
