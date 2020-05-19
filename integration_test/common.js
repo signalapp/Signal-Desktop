@@ -571,6 +571,7 @@ module.exports = {
 
   async startLocalFileServer() {
     if (!this.fileServer) {
+      // be sure to run `git submodule update --init && cd loki-file-server && yarn install; cd -`
       // eslint-disable-next-line global-require
       this.fileServer = require('../loki-file-server/app');
     }
