@@ -30,3 +30,4 @@ ts/**/*.js
 # Libloki specific files
 libloki/test/components.js
 libloki/modules/mnemonic.js
+loki-file-server/**
