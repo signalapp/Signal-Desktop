@@ -415,10 +415,18 @@
     },
 
     async acceptFriendRequest() {
+      // THIS FUNCTION RUNS WHEN "ACCEPT" BUTTON IN CHAT IS CLICKED
+      
       if (this.get('friendStatus') !== 'pending') {
         return;
       }
+      
       const conversation = await this.getSourceDeviceConversation();
+
+      console.log('[vince][fr] conversation:', conversation);
+      console.log('[vince][fr] sourceDeviceConversation():', await this.getSourceDeviceConversation());
+
+
       // If we somehow received an old friend request (e.g. after having restored
       // from seed, we won't be able to accept it, we should initiate our own
       // friend request to reset the session:
@@ -2548,11 +2556,16 @@
           // We need to map the original message source to the primary device
           // only map to primary device if this is NOT a friend request.
           // Otherwise you can enter a stalemate.
-          const conditionalSource = message.get('type') === 'friend-request'
-            ? source
-            : primarySource;
+          
+          // const conditionalSource = message.get('type') === 'friend-request'
+          //   ? source
+          //   : primarySource;
+          // if (source !== ourNumber) {
+          //   message.set({ source: conditionalSource });
+          // }
+
           if (source !== ourNumber) {
-            message.set({ source: conditionalSource });
+            message.set({ primarySource });
           }
 
           const id = await window.Signal.Data.saveMessage(message.attributes, {
