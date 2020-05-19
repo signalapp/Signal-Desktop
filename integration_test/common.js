@@ -562,9 +562,17 @@ module.exports = {
         }
         response.end();
       });
+      this.startLocalFileServer();
       this.stubSnode.listen(STUB_SNODE_SERVER_PORT);
     } else {
       this.messages = {};
+    }
+  },
+
+  async startLocalFileServer() {
+    if (!this.fileServer) {
+      // eslint-disable-next-line global-require
+      this.fileServer = require('../loki-file-server/app');
     }
   },
 
