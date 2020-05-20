@@ -2119,7 +2119,7 @@
       //      still go through one of the previous two codepaths
       const ourNumber = textsecure.storage.user.getNumber();
       const message = this;
-      const source = message.get('source');
+      let source = message.get('source');
       let conversationId = message.get('conversationId');
       const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
         source
@@ -2201,6 +2201,7 @@
         }
       }
       const conversation = conversationPrimary;
+      source = primarySource;
 
       return conversation.queueJob(async () => {
         window.log.info(
