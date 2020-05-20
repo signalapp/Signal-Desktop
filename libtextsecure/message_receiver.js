@@ -660,29 +660,6 @@ MessageReceiver.prototype.extend({
       return null;
     }
 
-    let conversation;
-    try {
-      conversation = await window.ConversationController.getOrCreateAndWait(
-        envelope.source,
-        'private'
-      );
-    } catch (e) {
-      window.log.info('Error getting conversation: ', envelope.source);
-    }
-
-    // Type here can actually be UNIDENTIFIED_SENDER even if
-    // the underlying message is FRIEND_REQUEST
-    if (envelope.type !== textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
-      // If we got here there is a valid session, which meants friend request
-      // is complete (if it wasn't already)
-      if (conversation) {
-        const isFriendRequestAccept = await conversation.onFriendRequestAccepted();
-        if (isFriendRequestAccept) {
-          await conversation.notifyFriendRequest(envelope.source, 'accepted');
-        }
-      }
-    }
-
     this.updateCache(envelope, plaintext).catch(error => {
       window.log.error(
         'decrypt failed to save decrypted message contents to cache:',
@@ -1298,8 +1275,6 @@ MessageReceiver.prototype.extend({
 
     const { UNPAIRING_REQUEST } = textsecure.protobuf.DataMessage.Flags;
 
-    const friendRequest =
-      envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST;
     // eslint-disable-next-line no-bitwise
     const isUnpairingRequest = Boolean(message.flags & UNPAIRING_REQUEST);
 
@@ -1315,17 +1290,29 @@ MessageReceiver.prototype.extend({
         message.profileKey
       );
     }
-    if (!friendRequest && this.isMessageEmpty(message)) {
+    if (this.isMessageEmpty(message)) {
       window.log.warn(
         `Message ${this.getEnvelopeId(envelope)} ignored; it was empty`
       );
       return this.removeFromCache(envelope);
     }
+
+    // Loki - Temp hack until new protocol
+    // A friend request is a non-group text message which we haven't processed yet
+    const isGroupMessage = Boolean(message.group || message.mediumGroupUpdate);
+    const friendRequestStatusNoneOrExpired = conversation
+      ? conversation.isFriendRequestStatusNoneOrExpired()
+      : true;
+    const isFriendRequest =
+      !isGroupMessage &&
+      !_.isEmpty(message.body) &&
+      friendRequestStatusNoneOrExpired;
+
     // Build a 'message' event i.e. a received message event
     const ev = new Event('message');
     ev.confirm = this.removeFromCache.bind(this, envelope);
     ev.data = {
-      friendRequest,
+      friendRequest: isFriendRequest,
       source: senderPubKey,
       sourceDevice: envelope.sourceDevice,
       timestamp: envelope.timestamp.toNumber(),
@@ -1380,6 +1367,31 @@ MessageReceiver.prototype.extend({
     }
     return this.innerHandleContentMessage(envelope, plaintext);
   },
+  async handleFriendRequestAcceptIfNeeded(envelope, content) {
+    const isGroupMessage =
+      content &&
+      content.dataMessage &&
+      (content.dataMessage.group || content.dataMessage.mediumGroupUpdate);
+    const isReceiptMessage = content && content.receiptMessage;
+    const isTypingMessage = content && content.typingMessage;
+    if (isGroupMessage || isReceiptMessage || isTypingMessage) {
+      return;
+    }
+
+    // If we sent a friend request and got another message back then we should become friends
+    try {
+      const conversation = await window.ConversationController.getOrCreateAndWait(
+        envelope.source,
+        'private'
+      );
+      const isFriendRequestAccept = await conversation.onFriendRequestAccepted();
+      if (isFriendRequestAccept) {
+        await conversation.notifyFriendRequest(envelope.source, 'accepted');
+      }
+    } catch (e) {
+      window.log.info('Error getting conversation: ', envelope.source);
+    }
+  },
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
 
@@ -1389,6 +1401,8 @@ MessageReceiver.prototype.extend({
         content.preKeyBundleMessage
       );
     }
+
+    this.handleFriendRequestAcceptIfNeeded(envelope, content);
 
     if (content.lokiAddressMessage) {
       return this.handleLokiAddressMessage(
@@ -1493,6 +1507,14 @@ MessageReceiver.prototype.extend({
     return this.dispatchEvent(ev);
   },
   handleNullMessage(envelope) {
+    // Loki - Temp hack for new protocl backward compatibility
+    // This should be removed once we add the new protocol
+    if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
+      window.log.info('sent session established to', envelope.source);
+      // We don't need to await the call below because we just want to send it off
+      window.libloki.api.sendSessionEstablishedMessage(envelope.source);
+    }
+
     window.log.info('null message from', this.getEnvelopeId(envelope));
     this.removeFromCache(envelope);
   },

@@ -1941,7 +1941,7 @@
       const { primaryDevicePubKey } = authorisation;
       // ensure the primary device is a friend
       const c = window.ConversationController.get(primaryDevicePubKey);
-      if (!c || !c.isFriendWithAnyDevice()) {
+      if (!c || !await c.isFriendWithAnyDevice()) {
         return false;
       }
       await libloki.storage.savePairingAuthorisation(authorisation);
@@ -2048,31 +2048,9 @@
       }
       return false;
     },
-
-    async handleSessionRequest(source, primarySource, confirm) {
-      // Check if the contact is a member in one of our private groups:
-      const isKnownClosedGroupMember = window
-        .getConversations()
-        .models.filter(c => c.get('members'))
-        .reduce((acc, x) => window.Lodash.concat(acc, x.get('members')), [])
-        .includes(primarySource);
-
-      libloki.api.debug.logSessionRequest(
-        `Received SESSION_REQUEST from source: ${source}, primarySource: ${primarySource}, is one of our private groups: ${isKnownClosedGroupMember}`
-      );
-
-      if (isKnownClosedGroupMember) {
-        window.log.info(
-          `Auto accepting a 'group' session request for a known group member: ${primarySource}`
-        );
-        window.libloki.api.sendBackgroundMessage(
-          source,
-          window.textsecure.OutgoingMessage.DebugMessageType
-            .SESSION_REQUEST_ACCEPT
-        );
-
-        confirm();
-      }
+    async handleSessionRequest(source, confirm) {
+      window.libloki.api.sendSessionEstablishedMessage(source);
+      confirm();
     },
     isGroupBlocked(groupId) {
       return textsecure.storage.get('blocked-groups', []).indexOf(groupId) >= 0;
@@ -2196,7 +2174,7 @@
         message.isFriendRequest() &&
         !!(initialMessage.flags & sessionRequestFlag)
       ) {
-        await this.handleSessionRequest(source, primarySource, confirm);
+        await this.handleSessionRequest(source, confirm);
 
         // Wether or not we accepted the FR, we exit early so session requests
         // cannot be used for establishing regular private conversations

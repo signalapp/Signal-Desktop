@@ -791,6 +791,25 @@ OutgoingMessage.buildSessionRequestMessage = function buildSessionRequestMessage
   );
 };
 
+OutgoingMessage.buildSessionEstablishedMessage = pubKey => {
+  const nullMessage = new textsecure.protobuf.NullMessage();
+  const content = new textsecure.protobuf.Content({
+    nullMessage,
+  });
+
+  // The below message type will ignore auto FR
+  const options = { messageType: 'onlineBroadcast' };
+  return new textsecure.OutgoingMessage(
+    null, // server
+    Date.now(), // timestamp,
+    [pubKey], // numbers
+    content, // message
+    true, // silent
+    () => null, // callback
+    options
+  );
+};
+
 OutgoingMessage.buildBackgroundMessage = function buildBackgroundMessage(
   pubKey,
   debugMessageType

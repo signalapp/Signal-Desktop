@@ -84,6 +84,15 @@
     return authorisation ? authorisation.primaryDevicePubKey : pubKey;
   }
 
+  async function sendSessionEstablishedMessage(pubKey) {
+    // This message shouldn't be routed through multi-device.
+    // It needs to go directly to the pubKey specified.
+    const message = textsecure.OutgoingMessage.buildSessionEstablishedMessage(
+      pubKey
+    );
+    await message.sendToNumber(pubKey);
+  }
+
   async function sendBackgroundMessage(pubKey, debugMessageType) {
     const primaryPubKey = await getPrimaryDevicePubkey(pubKey);
     if (primaryPubKey !== pubKey) {
@@ -327,6 +336,7 @@
   };
 
   window.libloki.api = {
+    sendSessionEstablishedMessage,
     sendBackgroundMessage,
     sendAutoFriendRequestMessage,
     sendSessionRequestsToMembers,
