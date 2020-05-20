@@ -1027,10 +1027,12 @@
       console.log('[vince][fr] direction:', direction);
       console.log(`[vince][fr] Status: `, status);
 
-      const pendingRequests = await Promise.all(allConversationsWithUser.reduce(async (requests, conversation) => {
+      const pendingRequests = await allConversationsWithUser.reduce(async (requestsP, conversation) => {
+        const requests = await requestsP;
         const request = (await conversation.getFriendRequests(direction, status))[0];
+
         return request ? requests.concat({ conversation, request }) : requests;
-      }, []));
+      }, []);
 
       console.log('[vince][fr] pendingRequests:', pendingRequests);
       
