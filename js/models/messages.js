@@ -436,7 +436,9 @@
         });
         return;
       }
-      this.set({ friendStatus: 'accepted' });
+
+      // TESTING turning this off
+      // this.set({ friendStatus: 'accepted' });
 
       console.log('[vince][core] this.attributes:', this.attributes);
       console.log('[vince][core] This is the conversation youre accepting!! :', conversation);

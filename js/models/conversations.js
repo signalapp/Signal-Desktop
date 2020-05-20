@@ -574,6 +574,9 @@
           MessageCollection: Whisper.MessageCollection,
         }
       );
+
+      console.log('[vince][fr] messages:', messages);
+
       if (typeof status === 'string') {
         // eslint-disable-next-line no-param-reassign
         status = [status];
@@ -581,6 +584,12 @@
       // Get the pending friend requests that match the direction
       // If no direction is supplied then return all pending friend requests
       return messages.models.filter(m => {
+        console.log('[vince][fr] status:', status);
+        console.log('[vince][fr] m.get(`friendStatus`):', m.get('friendStatus'));
+        console.log('[vince][fr] m:', m);
+        
+        console.log('[vince][fr] status.includes(m.get(`friendStatus`):', status.includes(m.get('friendStatus')));
+
         if (!status.includes(m.get('friendStatus'))) {
           return false;
         }
@@ -996,74 +1005,53 @@
     },
     async respondToAllFriendRequests(options) {
       
-      console.log(`[vince][fr] respondToAllFriendRequests: IM BIENG CALLLLEDED`);
-      console.log(`[vince][fr] respondToAllFriendRequests: IM BIENG CALLLLEDED`);
-      console.log(`[vince][fr] respondToAllFriendRequests: IM BIENG CALLLLEDED`);
-      console.log(`[vince][fr] respondToAllFriendRequests: IM BIENG CALLLLEDED`);
-      console.log(`[vince][fr] respondToAllFriendRequests: IM BIENG CALLLLEDED`);
-      console.log(`[vince][fr] respondToAllFriendRequests: IM BIENG CALLLLEDED`);
-      console.log(`[vince][fr] respondToAllFriendRequests: IM BIENG CALLLLEDED`);
-      console.log(`[vince][fr] respondToAllFriendRequests: IM BIENG CALLLLEDED`);
-      
       const { response, status, direction = null } = options;
       // Ignore if no response supplied
       if (!response) {
         return;
       }
 
-      // const primaryConversation = ConversationController.get(
-      //    this.getPrimaryDevicePubKey()
-      // );
-
-      // // Should never happen
-      // if (!primaryConversation) {
-      //   return;
-      // }
-      // const pending = await primaryConversation.getFriendRequests(
-      //   direction,
-      //   status
-      // );
-      // await Promise.all(
-      //   pending.map(async request => {
-      //     if (request.hasErrors()) {
-      //       return;
-      //     }
-
-      //     request.set({ friendStatus: response });
-      //     await window.Signal.Data.saveMessage(request.attributes, {
-      //       Message: Whisper.Message,
-      //     });
-      //     primaryConversation.trigger('updateMessage', request);
-      //   })
-      // );
-
       // Accept FRs from all the user's devices
       const allDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
         this.getPrimaryDevicePubKey()
       );
       
-      const allConversationsWithUser = allDevices.map(d => ConversationController.get(d));
-
-      
-      console.log(`[vince][fr] allDevices: `, allDevices);
-      console.log('[vince][fr] allConversationsWithUser:', allConversationsWithUser);
-      
-
-      
-
       if (!allDevices.length) {
         return;
       }
 
-      const pendingRequests = allConversationsWithUser.map(async c => {
-        await c.getFriendRequests(direction, status);
-      });
-      
-      console.log(`[vince][fr] Pending requests: `, pendingRequests);
+      console.log('[vince] allDevices:', allDevices);
+      const allConversationsWithUser = allDevices.map(d => ConversationController.get(d));
 
+      console.log('[vince][fr] allConversationsWithUser:', allConversationsWithUser);
+      console.log('[vince][fr] direction:', direction);
+      console.log(`[vince][fr] Status: `, status);
 
+      const pendingRequests = await Promise.all(allConversationsWithUser.reduce(async (requests, conversation) => {
+        const request = (await conversation.getFriendRequests(direction, status))[0];
+        return request ? requests.concat({ conversation, request }) : requests;
+      }, []));
+
+      console.log('[vince][fr] pendingRequests:', pendingRequests);
       
-      
+      await Promise.all(
+        pendingRequests.map(async friendRequest => {
+          const { conversation, request } = friendRequest;
+
+          console.log('[vince][fr] friendRequest:', friendRequest);
+
+          if (request.hasErrors()) {
+            return;
+          }
+
+          request.set({ friendStatus: response });
+          await window.Signal.Data.saveMessage(request.attributes, {
+            Message: Whisper.Message,
+          });
+          conversation.trigger('updateMessage', request);
+        })
+      );
+
     },
     async respondToAllPendingFriendRequests(options) {
       return this.respondToAllFriendRequests({
