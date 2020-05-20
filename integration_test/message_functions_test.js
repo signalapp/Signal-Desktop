@@ -4,7 +4,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 
-const { after, before, describe, it } = require('mocha');
+const { afterEach, beforeEach, describe, it } = require('mocha');
 const common = require('./common');
 const ConversationPage = require('./page-objects/conversation.page');
 
@@ -14,23 +14,22 @@ describe('Message Functions', function() {
   this.timeout(60000);
   this.slow(15000);
 
-  before(async () => {
+  beforeEach(async () => {
     await common.killallElectron();
     await common.stopStubSnodeServer();
 
     [app, app2] = await common.startAppsAsFriends();
+    // create group and add new friend
+    await common.addFriendToNewClosedGroup(app, app2);
   });
 
-  after(async () => {
+  afterEach(async () => {
     await common.stopApp(app);
     await common.killallElectron();
     await common.stopStubSnodeServer();
   });
 
   it('can send attachment', async () => {
-    // create group and add new friend
-    await common.addFriendToNewClosedGroup(app, app2);
-
     // send attachment from app1 to closed group
     const fileLocation = path.join(__dirname, 'test_attachment');
     const messageText = 'test_attachment';
@@ -68,7 +67,7 @@ describe('Message Functions', function() {
       .click();
     await app.client.element(ConversationPage.deleteMessageCtxButton).click();
 
-    // delete messaage from modal
+    // delete message from modal
     await app.client.waitForExist(
       ConversationPage.deleteMessageModalButton,
       5000
