@@ -822,6 +822,7 @@
         window.friends.friendRequestStatusEnum.friends
       );
 
+      textsecure.messaging.sendGroupSyncMessage([convo]);
       appView.openConversation(groupId, {});
     };
 
