@@ -105,6 +105,7 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
             count={notificationCount}
             size={NotificationCountSize.ON_HEADER}
             onClick={this.props.buttonClicked}
+            key='notification-count' // we can only have one of those here
           />
         </div>
       );
@@ -114,6 +115,7 @@ export class LeftPaneSectionHeader extends React.Component<Props, State> {
           count={notificationCount}
           size={NotificationCountSize.ON_HEADER}
           onClick={this.props.buttonClicked}
+          key='notification-count' // we can only have one of those here
         />
       );
     }
