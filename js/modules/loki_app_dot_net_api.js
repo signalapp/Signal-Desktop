@@ -138,11 +138,11 @@ const sendViaOnion = async (srvPubKey, url, pFetchOptions, options = {}) => {
       } Couldnt handle onion request, retrying`,
       payloadObj
     );
-    // eslint-disable-next-line no-param-reassign
-    options.retry += 1;
-    // eslint-disable-next-line no-param-reassign
-    options.counter = adnOnionRequestCount;
-    return sendViaOnion(srvPubKey, url, pFetchOptions, options);
+    return sendViaOnion(srvPubKey, url, pFetchOptions, {
+      ...options,
+      retry: options.retry + 1,
+      counter: adnOnionRequestCount
+    });
   }
 
   // get the return variables we need
@@ -233,8 +233,7 @@ const sendToProxy = async (
   // async maybe preferable to avoid cpu spikes
   // tho I think sync might be more apt in certain cases here...
   // like sending
-  // cannot use libloki.crypto.generateEphemeralKeyPair() because it removes the 05 prefix
-  const ephemeralKey = await libsignal.Curve.async.generateKeyPair();
+  const ephemeralKey = await libloki.crypto.generateEphemeralKeyPair();
 
   // mix server pub key with our priv key
   const symKey = await libsignal.Curve.async.calculateAgreement(
