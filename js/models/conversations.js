@@ -1004,7 +1004,6 @@
       });
     },
     async respondToAllFriendRequests(options) {
-      
       const { response, status, direction = null } = options;
       // Ignore if no response supplied
       if (!response) {
@@ -1020,12 +1019,7 @@
         return;
       }
 
-      console.log('[vince] allDevices:', allDevices);
       const allConversationsWithUser = allDevices.map(d => ConversationController.get(d));
-
-      console.log('[vince][fr] allConversationsWithUser:', allConversationsWithUser);
-      console.log('[vince][fr] direction:', direction);
-      console.log(`[vince][fr] Status: `, status);
 
       const pendingRequests = await allConversationsWithUser.reduce(async (requestsP, conversation) => {
         const requests = await requestsP;
@@ -1034,13 +1028,9 @@
         return request ? requests.concat({ conversation, request }) : requests;
       }, []);
 
-      console.log('[vince][fr] pendingRequests:', pendingRequests);
-      
       await Promise.all(
         pendingRequests.map(async friendRequest => {
           const { conversation, request } = friendRequest;
-
-          console.log('[vince][fr] friendRequest:', friendRequest);
 
           if (request.hasErrors()) {
             return;
@@ -1053,7 +1043,6 @@
           conversation.trigger('updateMessage', request);
         })
       );
-
     },
     async respondToAllPendingFriendRequests(options) {
       return this.respondToAllFriendRequests({

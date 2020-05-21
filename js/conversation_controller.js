@@ -87,7 +87,6 @@
         );
       }
 
-      
       console.log('[vince] Creating conversation with id:', id);
       
       

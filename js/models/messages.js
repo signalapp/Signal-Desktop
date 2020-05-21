@@ -415,38 +415,34 @@
     },
 
     async acceptFriendRequest() {
-      // THIS FUNCTION RUNS WHEN "ACCEPT" BUTTON IN CHAT IS CLICKED
-      
       if (this.get('friendStatus') !== 'pending') {
         return;
       }
       
-      const conversation = await this.getSourceDeviceConversation();
+      const allDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+        this.attributes.conversationId
+      );
 
-      console.log('[vince][fr] conversation:', conversation);
-      console.log('[vince][fr] sourceDeviceConversation():', await this.getSourceDeviceConversation());
+      const allConversationsWithUser = allDevices.map(d => ConversationController.get(d));
+      allConversationsWithUser.forEach(conversation => {
+        // If we somehow received an old friend request (e.g. after having restored
+        // from seed, we won't be able to accept it, we should initiate our own
+        // friend request to reset the session:
+        if (conversation.get('sessionRestoreSeen')) {
+          conversation.sendMessage('', null, null, null, null, {
+            sessionRestoration: true,
+          });
+          return;
+        }
 
-
-      // If we somehow received an old friend request (e.g. after having restored
-      // from seed, we won't be able to accept it, we should initiate our own
-      // friend request to reset the session:
-      if (conversation.get('sessionRestoreSeen')) {
-        conversation.sendMessage('', null, null, null, null, {
-          sessionRestoration: true,
-        });
-        return;
-      }
-
-      // TESTING turning this off
-      // this.set({ friendStatus: 'accepted' });
-
-      console.log('[vince][core] this.attributes:', this.attributes);
-      console.log('[vince][core] This is the conversation youre accepting!! :', conversation);
-
+        conversation.onAcceptFriendRequest();
+      });
+      
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
       });
-      conversation.onAcceptFriendRequest();
+
+      this.set({ friendStatus: 'accepted' });
     },
     async declineFriendRequest() {
       if (this.get('friendStatus') !== 'pending') {
