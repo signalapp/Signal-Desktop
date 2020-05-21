@@ -69,9 +69,6 @@ const makeOnionRequest = async (
   // from (3) 2 to 0
   const firstPos = nodePath.length - 1;
 
-  // console.log('targetED25519Hex', targetED25519Hex)
-  // console.log('nodePath', nodePath.length, 'first', firstPos)
-
   for (let i = firstPos; i > -1; i -= 1) {
     let dest;
     const relayingToFinalDestination = i === 0; // if last position
