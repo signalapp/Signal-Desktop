@@ -590,7 +590,7 @@ class LokiAppDotNetServerAPI {
 
     // if in proxy mode, don't allow "file-dev."...
     // it only supports "file."... host.
-    if (window.lokiFeatureFlags.useSnodeProxy) {
+    if (window.lokiFeatureFlags.useSnodeProxy && !window.lokiFeatureFlags.useOnionRequests) {
       pubKeyAB = window.Signal.Crypto.base64ToArrayBuffer(
         LOKIFOUNDATION_FILESERVER_PUBKEY
       );
