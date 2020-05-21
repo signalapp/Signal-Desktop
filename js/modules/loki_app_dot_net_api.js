@@ -588,6 +588,14 @@ class LokiAppDotNetServerAPI {
     }
     // else will fail validation later
 
+    // if in proxy mode, don't allow "file-dev."...
+    // it only supports "file."... host.
+    if (window.lokiFeatureFlags.useSnodeProxy) {
+      pubKeyAB = window.Signal.Crypto.base64ToArrayBuffer(
+        LOKIFOUNDATION_FILESERVER_PUBKEY
+      );
+    }
+    
     // do we have their pubkey locally?
     // FIXME: this._server won't be set yet...
     // can't really do this for the file server because we'll need the key
