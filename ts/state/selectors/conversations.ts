@@ -180,6 +180,8 @@ export const _getLeftPaneLists = (
     return filteredGroup as T;
   };
 
+  
+
   const friends: Array<ConversationType> = filterToPrimary(allFriends);
   const receivedFriendsRequest: Array<
     ConversationListItemPropsType
@@ -187,6 +189,17 @@ export const _getLeftPaneLists = (
   const sentFriendsRequest: Array<
     ConversationListItemPropsType
   > = filterToPrimary(allSentFriendsRequest);
+
+
+  console.log('[vince][friends] allReceivedFriendsRequest:', allReceivedFriendsRequest);
+  console.log('[vince][friends] receivedFriendsRequest:', receivedFriendsRequest);
+  console.log('[vince][friends] allSentFriendsRequest:', allSentFriendsRequest);
+  console.log('[vince][friends] sentFriendsRequest:', sentFriendsRequest);
+  console.log('[vince][friends] allFriends:', allFriends);
+  console.log('[vince][friends] friends:', friends);
+
+
+
 
   return {
     conversations,

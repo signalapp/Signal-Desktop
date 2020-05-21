@@ -246,11 +246,6 @@
       this.messageCollection.forEach(m => m.trigger('change'));
     },
     async acceptFriendRequest() {
-
-      console.log(`[vince][fr] accepting friend request from conversations.js`);
-      console.log('[vince][fr] this.id:', this.id);
-      console.log(`[vince][fr] primary pubkey`, this.getPrimaryDevicePubKey());
-
       // Friend request messages are always send to primary device conversation
       const messages = await window.Signal.Data.getMessagesByConversation(
         this.id,
@@ -260,24 +255,7 @@
           type: 'friend-request',
         }
       );
-
-      const priamryMessages = await window.Signal.Data.getMessagesByConversation(
-        this.getPrimaryDevicePubKey(),
-        {
-          limit: 1,
-          MessageCollection: Whisper.MessageCollection,
-          type: 'friend-request',
-        }
-      );
       
-      
-      
-      console.log(`[vince][fr] messages: `, messages);
-      console.log(`[vince][fr] Primary messages: `, priamryMessages);
-      
-      
-      
-      // LAST MODEL IS POINTING TO THE PRIMARY DEVICE'S LASTMODEL. NOT SECONDARY FOR A2 --> B
       const lastMessageModel = messages.at(0);
       if (lastMessageModel) {
         lastMessageModel.acceptFriendRequest();
@@ -1014,7 +992,7 @@
       const allDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
         this.getPrimaryDevicePubKey()
       );
-      
+
       if (!allDevices.length) {
         return;
       }
@@ -1663,8 +1641,6 @@
             FriendRequestStatusEnum.pendingSend
           );
 
-          
-
           // Always share our profileKey in the friend request
           // This will get added automatically after the FR
           // is accepted, via the profileSharing flag
@@ -1682,9 +1658,6 @@
             direction: 'outgoing',
             friendStatus: 'pending',
           });
-
-          console.log(`[vince][core] Sending FR message from conversations.js`, messageWithSchema);
-
         }
 
         if (this.isPrivate()) {
@@ -2490,7 +2463,6 @@
     },
 
     // LOKI PROFILES
-
     async setNickname(nickname) {
       const trimmed = nickname && nickname.trim();
       if (this.get('nickname') === trimmed) {

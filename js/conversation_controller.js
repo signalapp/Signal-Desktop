@@ -87,9 +87,6 @@
         );
       }
 
-      console.log('[vince] Creating conversation with id:', id);
-      
-      
       if (!this._initialFetchComplete) {
         throw new Error(
           'ConversationController.get() needs complete initial fetch'
@@ -197,12 +194,6 @@
       conversations.remove(conversation);
     },
     getOrCreateAndWait(id, type) {
-      const ourNumber = textsecure.storage.user.getNumber();
-
-      if (id !== ourNumber) {
-        console.log('[vince][core] getOrCreateAndWaiting.. with source:', id);
-      }
-
       return this._initialPromise.then(() => {
         const conversation = this.getOrCreate(id, type);
 

@@ -415,14 +415,17 @@
     },
 
     async acceptFriendRequest() {
+      const primaryDevicePubKey = this.attributes.conversationId;
+
       if (this.get('friendStatus') !== 'pending') {
         return;
       }
       
       const allDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-        this.attributes.conversationId
+        primaryDevicePubKey
       );
 
+      let profileName;
       const allConversationsWithUser = allDevices.map(d => ConversationController.get(d));
       allConversationsWithUser.forEach(conversation => {
         // If we somehow received an old friend request (e.g. after having restored
@@ -435,8 +438,16 @@
           return;
         }
 
+        profileName = conversation.getProfileName() || profileName;       
         conversation.onAcceptFriendRequest();
       });
+
+      // If you don't have a profile name for this device, and profileName is set,
+      // add profileName to conversation.
+      const primaryConversation = allConversationsWithUser.find(c => c.id === primaryDevicePubKey)
+      if (!primaryConversation.getProfileName() && profileName) {
+        await primaryConversation.setNickname(profileName);
+      }
       
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
