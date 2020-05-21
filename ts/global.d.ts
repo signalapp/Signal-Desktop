@@ -52,6 +52,7 @@ interface Window {
   toggleSpellCheck: any;
   toggleLinkPreview: any;
   toggleMediaPermissions: any;
+  getMessageTTL: () => number;
 
   getSettingValue: any;
   setSettingValue: any;

@@ -4,11 +4,10 @@ import { SignalService } from '../../../../protobuf';
 export abstract class ContentMessage implements Message {
   public readonly timestamp: number;
   public readonly identifier: string;
-  public readonly ttl: number;
-  constructor(timestamp: number, identifier: string, ttl: number) {
+
+  constructor(timestamp: number, identifier: string) {
     this.timestamp = timestamp;
     this.identifier = identifier;
-    this.ttl = ttl;
   }
 
   public plainTextBuffer(): Uint8Array {
@@ -17,7 +16,18 @@ export abstract class ContentMessage implements Message {
     return this.processPlainTextBuffer(encoded);
   }
 
+  public abstract ttl(): number;
   protected abstract contentProto(): SignalService.Content;
+
+  /**
+   * If the message is not a message with a specific TTL,
+   * this value can be used in all child classes
+   */
+  protected getDefaultTTL(): number {
+    // 1 day default for any other message
+    return (window.getMessageTTL() || 24) * 60 * 60 * 1000;
+
+  }
 
   private processPlainTextBuffer(buffer: Uint8Array): Uint8Array {
     const paddedMessageLength = this.getPaddedMessageLength(
