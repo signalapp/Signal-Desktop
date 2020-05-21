@@ -233,7 +233,8 @@ const sendToProxy = async (
   // async maybe preferable to avoid cpu spikes
   // tho I think sync might be more apt in certain cases here...
   // like sending
-  const ephemeralKey = await libloki.crypto.generateEphemeralKeyPair();
+  // cannot use libloki.crypto.generateEphemeralKeyPair() because it removes the 05 prefix
+  const ephemeralKey = await libsignal.Curve.async.generateKeyPair();
 
   // mix server pub key with our priv key
   const symKey = await libsignal.Curve.async.calculateAgreement(
