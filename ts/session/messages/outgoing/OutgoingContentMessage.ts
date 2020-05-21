@@ -4,17 +4,14 @@ import { SignalService } from '../../../protobuf';
 export class OutgoingContentMessage implements OutgoingMessage {
   public timestamp: number;
   public identifier: string;
-  public category: OutgoingContentMessage.MessageCategory;
   public ttl: number;
   constructor(
     timestamp: number,
     identifier: string,
-    category: OutgoingContentMessage.MessageCategory,
     ttl: number
   ) {
     this.timestamp = timestamp;
     this.identifier = identifier;
-    this.category = category;
     this.ttl = ttl;
   }
 
@@ -48,13 +45,5 @@ export class OutgoingContentMessage implements OutgoingMessage {
     }
 
     return messagePartCount * 160;
-  }
-}
-
-export namespace OutgoingContentMessage {
-  export enum MessageCategory {
-    Secure,
-    SessionReset,
-    MediumGroup,
   }
 }
