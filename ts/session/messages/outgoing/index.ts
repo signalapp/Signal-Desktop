@@ -1,11 +1,40 @@
-import { OutgoingMessage } from './OutgoingMessage';
-import { OutgoingContentMessage } from './OutgoingContentMessage';
-import { OutgoingDataMessage } from './OutgoingDataMessage';
+import { Message } from './Message';
+import { ContentMessage } from './content/ContentMessage';
+import { DataMessage } from './content/data/DataMessage';
 import { OpenGroupMessage } from './OpenGroupMessage';
+import { SyncMessage } from './content/sync/SyncMessage';
+import { TypingMessage } from './content/TypingMessage';
+import { ReceiptMessage } from './content/ReceiptMessage';
+import { ClosedGroupMessage } from './content/data/ClosedGroupMessage';
+import { DeviceUnlinkMessage } from './content/data/DeviceUnlinkMessage';
+import { GroupInvitationMessage } from './content/data/GroupInvitationMessage';
+import { RegularMessage } from './content/data/RegularMessage';
+import { SessionResetMessage } from './content/SessionResetMessage';
+import { SessionEstablishedMessage } from './content/SessionEstablishedMessage';
+import { EndSessionMessage } from './content/EndSessionMessage';
+import { DeviceLinkMessage } from './content/DeviceLinkMessage';
 
 export {
-  OutgoingMessage,
-  OutgoingContentMessage,
-  OutgoingDataMessage,
+  Message,
   OpenGroupMessage,
+
+  ContentMessage,
+
+  // children of ContentMessage
+  DeviceLinkMessage,
+  EndSessionMessage,
+  ReceiptMessage,
+  SessionEstablishedMessage,
+  SessionResetMessage,
+  SyncMessage,
+  TypingMessage,
+
+
+  DataMessage,
+
+  // children of DataMessage
+  ClosedGroupMessage,
+  DeviceUnlinkMessage,
+  GroupInvitationMessage,
+  RegularMessage
 };
