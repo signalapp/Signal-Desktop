@@ -460,7 +460,7 @@ MessageSender.prototype = {
           message.dataMessage.group
         );
         // If it was a message to a group then we need to send a session request
-        if (isGroupMessage) {
+        if (isGroupMessage || options.autoSession) {
           const sessionRequestMessage = textsecure.OutgoingMessage.buildSessionRequestMessage(
             number
           );
@@ -710,7 +710,11 @@ MessageSender.prototype = {
     }
     // We only want to sync across closed groups that we haven't left
     const sessionGroups = conversations.filter(
-      c => c.isClosedGroup() && !c.get('left') && c.isFriend() && !c.get('is_medium_group')
+      c =>
+        c.isClosedGroup() &&
+        !c.get('left') &&
+        c.isFriend() &&
+        !c.get('is_medium_group')
     );
     if (sessionGroups.length === 0) {
       window.console.info('No closed group to sync.');
@@ -1207,12 +1211,18 @@ MessageSender.prototype = {
   },
 
   async updateMediumGroup(members, groupUpdateProto) {
+    // Automatically request session if not found (updates use pairwise sessions)
+    const autoSession = true;
+
     await this.sendGroupProto(members, groupUpdateProto, Date.now(), {
       isPublic: false,
+      autoSession,
     });
+
+    return true;
   },
 
-  async updateGroup(
+  async sendGroupUpdate(
     groupId,
     name,
     avatar,
@@ -1401,7 +1411,7 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.resetSession = sender.resetSession.bind(sender);
   this.sendMessageToGroup = sender.sendMessageToGroup.bind(sender);
   this.sendTypingMessage = sender.sendTypingMessage.bind(sender);
-  this.updateGroup = sender.updateGroup.bind(sender);
+  this.sendGroupUpdate = sender.sendGroupUpdate.bind(sender);
   this.updateMediumGroup = sender.updateMediumGroup.bind(sender);
   this.addNumberToGroup = sender.addNumberToGroup.bind(sender);
   this.setGroupName = sender.setGroupName.bind(sender);

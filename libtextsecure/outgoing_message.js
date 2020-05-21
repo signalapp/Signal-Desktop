@@ -167,6 +167,7 @@ function OutgoingMessage(
     isMediumGroup,
     publicSendData,
     debugMessageType,
+    autoSession,
   } =
     options || {};
   this.numberInfo = numberInfo;
@@ -182,6 +183,7 @@ function OutgoingMessage(
   this.online = online;
   this.messageType = messageType || 'outgoing';
   this.debugMessageType = debugMessageType;
+  this.autoSession = autoSession || false;
 }
 
 OutgoingMessage.prototype = {

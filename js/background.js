@@ -638,22 +638,21 @@
     window.doUpdateGroup = async (groupId, groupName, members, avatar) => {
       const ourKey = textsecure.storage.user.getNumber();
 
-      const ev = new Event('message');
-      ev.confirm = () => {};
-
-      ev.data = {
-        source: ourKey,
-        timestamp: Date.now(),
-        message: {
-          group: {
-            id: groupId,
-            type: textsecure.protobuf.GroupContext.Type.UPDATE,
-            name: groupName,
-            members,
-            avatar: null, // TODO
-          },
+      const ev = {
+        groupDetails: {
+          id: groupId,
+          name: groupName,
+          members,
+          recipients: members,
+          active: true,
+          expireTimer: 0,
+          avatar: '',
+          is_medium_group: true,
         },
+        confirm: () => {},
       };
+
+      await onGroupReceived(ev);
 
       const convo = await ConversationController.getOrCreateAndWait(
         groupId,
@@ -719,15 +718,42 @@
 
       const recipients = _.union(convo.get('members'), members);
 
-      await onMessageReceived(ev);
-      convo.updateGroup({
-        groupId,
-        groupName,
+      const isMediumGroup = convo.get('is_medium_group');
+
+      const updateObj = {
+        id: groupId,
+        name: groupName,
         avatar: nullAvatar,
         recipients,
         members,
+        is_medium_group: isMediumGroup,
         options,
-      });
+      };
+
+      // Send own sender keys and group secret key
+      if (isMediumGroup) {
+        const { chainKey, keyIdx } = await window.SenderKeyAPI.getSenderKeys(
+          groupId,
+          ourKey
+        );
+
+        updateObj.senderKey = {
+          chainKey: StringView.arrayBufferToHex(chainKey),
+          keyIdx,
+        };
+
+        const groupIdentity = await window.Signal.Data.getIdentityKeyById(
+          groupId
+        );
+
+        const secretKeyHex = StringView.hexToArrayBuffer(
+          groupIdentity.secretKey
+        );
+
+        updateObj.secretKey = secretKeyHex;
+      }
+
+      convo.updateGroup(updateObj);
     };
 
     window.createMediumSizeGroup = async (groupName, members) => {
@@ -779,6 +805,7 @@
         'group'
       );
 
+      convo.updateGroupAdmins([primary]);
       convo.updateGroup(ev.groupDetails);
 
       convo.setFriendRequestStatus(

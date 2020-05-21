@@ -1247,72 +1247,131 @@ MessageReceiver.prototype.extend({
 
       this.removeFromCache(envelope);
     } else if (type === textsecure.protobuf.MediumGroupUpdate.Type.NEW_GROUP) {
+      const maybeConvo = await window.ConversationController.get(groupId);
+      const groupExists = !!maybeConvo;
+
       const {
         members: membersBinary,
         groupSecretKey,
         groupName,
         senderKey,
+        admins,
       } = groupUpdate;
 
       const members = membersBinary.map(pk =>
         StringView.arrayBufferToHex(pk.toArrayBuffer())
       );
 
-      const convo = await window.ConversationController.getOrCreateAndWait(
-        groupId,
-        'group'
-      );
-      convo.set('is_medium_group', true);
-      convo.set('active_at', Date.now());
-      convo.set('name', groupName);
-
-      convo.setFriendRequestStatus(
-        window.friends.friendRequestStatusEnum.friends
-      );
-
-      await window.Signal.Data.createOrUpdateIdentityKey({
-        id: groupId,
-        secretKey: StringView.arrayBufferToHex(groupSecretKey.toArrayBuffer()),
-      });
-
-      // Save sender's key
-      await window.SenderKeyAPI.saveSenderKeys(
-        groupId,
-        envelope.source,
-        senderKey.chainKey,
-        senderKey.keyIdx
-      );
-
-      // TODO: Check that we are even a part of this group?
-      const ownSenderKey = await window.SenderKeyAPI.createSenderKeyForGroup(
-        groupId,
-        ourIdentity
-      );
+      const convo = groupExists
+        ? maybeConvo
+        : await window.ConversationController.getOrCreateAndWait(
+            groupId,
+            'group'
+          );
 
       {
-        // Send own key to every member
-        const otherMembers = _.without(members, ourIdentity);
-
-        const proto = new textsecure.protobuf.DataMessage();
-
-        // We reuse the same message type for sender keys
-        const update = new textsecure.protobuf.MediumGroupUpdate();
-        update.type = textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY;
-        update.groupId = groupId;
-        update.senderKey = new textsecure.protobuf.SenderKey({
-          chainKey: ownSenderKey,
-          keyIdx: 0,
+        // Add group update message
+        const now = Date.now();
+        const message = convo.messageCollection.add({
+          conversationId: convo.id,
+          type: 'incoming',
+          sent_at: now,
+          received_at: now,
+          group_update: {
+            name: groupName,
+            members,
+          },
         });
 
-        proto.mediumGroupUpdate = update;
-
-        textsecure.messaging.updateMediumGroup(otherMembers, proto);
+        const messageId = await window.Signal.Data.saveMessage(
+          message.attributes,
+          {
+            Message: Whisper.Message,
+          }
+        );
+        message.set({ id: messageId });
       }
 
-      // Subscribe to this group
-      this.pollForAdditionalId(groupId);
+      if (groupExists) {
+        // ***** Updating the group *****
+        log.info('Received a group update for medium group:', groupId);
 
-      // All further messages (maybe rather than 'control' messages) should come to this group's swarm
+        // Check that the sender is admin (make sure it words with multidevice)
+        const isAdmin = convo.get('groupAdmins').includes(senderIdentity);
+
+        if (!isAdmin) {
+          log.warn('Rejected attempt to update a group by non-admin');
+          this.removeFromCache(envelope);
+          return;
+        }
+
+        convo.set('name', groupName);
+        convo.set('members', members);
+
+        // TODO: check that we are still in the group (when we enable deleting members)
+        convo.saveChangesToDB();
+
+        // Update other fields. Add a corresponding "update" message to the conversation
+      } else {
+        // ***** Creating a new group *****
+        log.info('Received a new medium group:', groupId);
+
+        // TODO: Check that we are even a part of this group?
+
+        convo.set('is_medium_group', true);
+        convo.set('active_at', Date.now());
+        convo.set('name', groupName);
+        convo.set('groupAdmins', admins);
+
+        convo.setFriendRequestStatus(
+          window.friends.friendRequestStatusEnum.friends
+        );
+
+        const secretKeyHex = StringView.arrayBufferToHex(
+          groupSecretKey.toArrayBuffer()
+        );
+
+        await window.Signal.Data.createOrUpdateIdentityKey({
+          id: groupId,
+          secretKey: secretKeyHex,
+        });
+
+        // Save sender's key
+        await window.SenderKeyAPI.saveSenderKeys(
+          groupId,
+          envelope.source,
+          senderKey.chainKey,
+          senderKey.keyIdx
+        );
+
+        const ownSenderKey = await window.SenderKeyAPI.createSenderKeyForGroup(
+          groupId,
+          ourIdentity
+        );
+
+        {
+          // Send own key to every member
+          const otherMembers = _.without(members, ourIdentity);
+
+          const proto = new textsecure.protobuf.DataMessage();
+
+          // We reuse the same message type for sender keys
+          const update = new textsecure.protobuf.MediumGroupUpdate();
+          update.type = textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY;
+          update.groupId = groupId;
+          update.senderKey = new textsecure.protobuf.SenderKey({
+            chainKey: ownSenderKey,
+            keyIdx: 0,
+          });
+
+          proto.mediumGroupUpdate = update;
+
+          textsecure.messaging.updateMediumGroup(otherMembers, proto);
+        }
+
+        // Subscribe to this group
+        this.pollForAdditionalId(groupId);
+      }
 
       this.removeFromCache(envelope);
     }

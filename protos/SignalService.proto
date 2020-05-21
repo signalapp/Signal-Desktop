@@ -70,7 +70,8 @@ message MediumGroupUpdate {
   optional bytes groupSecretKey = 3;
   optional SenderKey senderKey = 4;
   repeated bytes members = 5;
-  optional Type type = 6;
+  repeated string admins = 6;
+  optional Type type = 7;
 }
 
 message LokiAddressMessage {

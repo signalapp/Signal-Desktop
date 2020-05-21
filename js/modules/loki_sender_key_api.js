@@ -177,8 +177,10 @@ async function advanceRatchet(groupId, senderIdentity, idx) {
       curMessageKey = messageKey;
       break;
     } else if (nextKeyIdx > idx) {
-      log.error('Developer error: nextKeyIdx > idx');
-      return null;
+      log.error(
+        `Could not decrypt for an older ratchet step: (${nextKeyIdx})nextKeyIdx > (${idx})idx`
+      );
+      throw new Error(`Cannot revert ratchet for group ${groupId}!`);
     } else {
       // Store keys for skipped nextKeyIdx, we might need them to decrypt
       // messages that arrive out-of-order

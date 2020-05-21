@@ -21,6 +21,7 @@
   const debugFlags = DebugFlagsEnum.ALL;
 
   const debugLogFn = (...args) => {
+    // eslint-disable-next-line no-constant-condition
     if (true) {
       // process.env.NODE_ENV.includes('test-integration') ||
       window.console.warn(...args);

@@ -190,7 +190,7 @@ textarea {
   &.brand {
     min-width: 165px;
     height: 45px;
-    line-height: 40px;
+    align-items: center;
     padding: 0px $session-margin-lg;
     font-size: $session-font-md;
     font-family: $session-font-accent;

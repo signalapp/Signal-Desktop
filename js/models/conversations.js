@@ -2272,6 +2272,12 @@
       }
     },
 
+    async saveChangesToDB() {
+      await window.Signal.Data.updateConversation(this.id, this.attributes, {
+        Conversation: Whisper.Conversation,
+      });
+    },
+
     async updateGroup(providedGroupUpdate) {
       let groupUpdate = providedGroupUpdate;
 
@@ -2311,23 +2317,23 @@
         mgUpdate.type = textsecure.protobuf.MediumGroupUpdate.Type.NEW_GROUP;
         mgUpdate.groupId = id;
         mgUpdate.groupSecretKey = secretKey;
-        mgUpdate.senderKey = new textsecure.protobuf.SenderKey({
-          chainKey: senderKey,
-          keyIdx: 0,
-        });
+        mgUpdate.senderKey = new textsecure.protobuf.SenderKey(senderKey);
         mgUpdate.members = members.map(pkHex =>
           StringView.hexToArrayBuffer(pkHex)
         );
         mgUpdate.groupName = name;
+        mgUpdate.admins = this.get('groupAdmins');
         proto.mediumGroupUpdate = mgUpdate;
 
-        await textsecure.messaging.updateMediumGroup(members, proto);
+        message.send(
+          this.wrapSend(textsecure.messaging.updateMediumGroup(members, proto))
+        );
         return;
       }
 
       message.send(
         this.wrapSend(
-          textsecure.messaging.updateGroup(
+          textsecure.messaging.sendGroupUpdate(
             this.id,
             this.get('name'),
             this.get('avatar'),
@@ -2343,7 +2349,7 @@
     sendGroupInfo(recipients) {
       if (this.isClosedGroup()) {
         const options = this.getSendOptions();
-        textsecure.messaging.updateGroup(
+        textsecure.messaging.sendGroupUpdate(
           this.id,
           this.get('name'),
           this.get('avatar'),
@@ -2357,6 +2363,15 @@
 
     async leaveGroup() {
       const now = Date.now();
+
+      if (this.get('is_medium_group')) {
+        // NOTE: we should probably remove sender keys for groupId,
+        // and its secret key, but it is low priority
+
+        // TODO: need to reset everyone's sender keys
+        window.lokiMessageAPI.stopPollingForGroup(this.id);
+      }
+
       if (this.get('type') === 'group') {
         const groupNumbers = this.getRecipients();
         this.set({ left: true });
