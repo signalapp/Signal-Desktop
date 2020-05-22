@@ -1,5 +1,4 @@
-// tslint:disable: no-implicit-dependencies
-import { assert} from 'chai';
+import { expect } from 'chai';
 import { beforeEach} from 'mocha';
 
 import { DeviceUnlinkMessage } from '../../../session/messages/outgoing';
@@ -13,18 +12,12 @@ describe('DeviceUnlinkMessage', () => {
 
     it('content of just the UNPAIRING_REQUEST flag set', () => {
         const plainText = message.plainTextBuffer();
-        const decoded = SignalService.Content.decode(plainText).toJSON();
+        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
 
-        const expected = {
-            dataMessage: {
-                flags: SignalService.DataMessage.Flags.UNPAIRING_REQUEST,
-            },
-        };
-
-        assert.deepEqual(decoded, expected);
+        expect(decoded.dataMessage).to.have.property('flags', SignalService.DataMessage.Flags.UNPAIRING_REQUEST);
     });
 
     it('ttl of 4 days', () => {
-        assert.equal(message.ttl(), 4 * 24 * 60 * 60 * 1000);
+        expect(message.ttl()).to.equal(4 * 24 * 60 * 60 * 1000);
     });
 });
