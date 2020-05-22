@@ -2,7 +2,6 @@ import chai from 'chai';
 import { v4 as uuid } from 'uuid';
 import { JobQueue } from '../../../session/utils/JobQueue';
 import { timeout } from '../../utils/timeout';
-import { SignalService } from '../../../protobuf';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');
@@ -36,7 +35,11 @@ describe('JobQueue', () => {
         });
 
       const start = Date.now();
-      await assert.eventually.deepEqual(Promise.all(input.map(mapper)), [10, 20, 30]);
+      await assert.eventually.deepEqual(Promise.all(input.map(mapper)), [
+        10,
+        20,
+        30,
+      ]);
       const timeTaken = Date.now() - start;
       assert.closeTo(timeTaken, 600, 50, 'Queue was delayed');
     });

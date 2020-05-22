@@ -10,6 +10,7 @@
 
     "no-unused-expression": false,
 
-    "await-promise": [true, "PromiseLike"]
+    "await-promise": [true, "PromiseLike"],
+    "no-floating-promises": [true, "PromiseLike"]
   }
 }
