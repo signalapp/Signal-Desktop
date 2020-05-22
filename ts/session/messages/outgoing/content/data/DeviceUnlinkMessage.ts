@@ -8,6 +8,10 @@ export class DeviceUnlinkMessage extends DataMessage {
   }
 
   protected dataProto(): SignalService.DataMessage {
-    throw new Error('Not implemented');
+    const flags = SignalService.DataMessage.Flags.UNPAIRING_REQUEST;
+
+    return new SignalService.DataMessage({
+      flags,
+    });
   }
 }
