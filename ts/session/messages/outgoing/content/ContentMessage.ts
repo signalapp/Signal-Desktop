@@ -23,7 +23,6 @@ export abstract class ContentMessage implements Message {
    */
   protected getDefaultTTL(): number {
     // 1 day default for any other message
-    return (window.getMessageTTL() || 24) * 60 * 60 * 1000;
-
+    return  24 * 60 * 60 * 1000;
   }
 }
