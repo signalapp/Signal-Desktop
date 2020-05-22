@@ -718,7 +718,7 @@
 
       const recipients = _.union(convo.get('members'), members);
 
-      const isMediumGroup = convo.get('is_medium_group');
+      const isMediumGroup = convo.isMediumGroup();
 
       const updateObj = {
         id: groupId,
@@ -781,22 +781,21 @@
         secretKey: groupSecretKeyHex,
       });
 
-      const ev = new Event('group');
-
-      ev.groupDetails = {
-        id: groupId,
-        name: groupName,
-        members: allMembers,
-        recipients: allMembers,
-        active: true,
-        expireTimer: 0,
-        avatar: '',
-        secretKey: identityKeys.privKey,
-        senderKey,
-        is_medium_group: true,
+      const ev = {
+        groupDetails: {
+          id: groupId,
+          name: groupName,
+          members: allMembers,
+          recipients: allMembers,
+          active: true,
+          expireTimer: 0,
+          avatar: '',
+          secretKey: identityKeys.privKey,
+          senderKey,
+          is_medium_group: true,
+        },
+        confirm: () => {},
       };
-
-      ev.confirm = () => {};
 
       await onGroupReceived(ev);
 
@@ -822,24 +821,23 @@
       const keypair = await libsignal.KeyHelper.generateIdentityKeyPair();
       const groupId = StringView.arrayBufferToHex(keypair.pubKey);
 
-      const ev = new Event('group');
-
       const primaryDeviceKey =
         window.storage.get('primaryDevicePubKey') ||
         textsecure.storage.user.getNumber();
       const allMembers = [primaryDeviceKey, ...members];
 
-      ev.groupDetails = {
-        id: groupId,
-        name: groupName,
-        members: allMembers,
-        recipients: allMembers,
-        active: true,
-        expireTimer: 0,
-        avatar: '',
+      const ev = {
+        groupDetails: {
+          id: groupId,
+          name: groupName,
+          members: allMembers,
+          recipients: allMembers,
+          active: true,
+          expireTimer: 0,
+          avatar: '',
+        },
+        confirm: () => {},
       };
-
-      ev.confirm = () => {};
 
       await onGroupReceived(ev);
 

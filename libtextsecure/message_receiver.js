@@ -1445,7 +1445,7 @@ MessageReceiver.prototype.extend({
     const ownDevice = await isOwnDevice(source);
 
     let ev;
-    if (conversation.get('is_medium_group') && ownDevice) {
+    if (conversation.isMediumGroup() && ownDevice) {
       // Data messages for medium groups don't arrive as sync messages. Instead,
       // linked devices poll for group messages independently, thus they need
       // to recognise some of those messages at their own.

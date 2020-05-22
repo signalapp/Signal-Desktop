@@ -534,9 +534,7 @@ class LokiMessageAPI {
 
     // Start polling for medium size groups as well (they might be in different swarms)
     {
-      const convos = window
-        .getConversations()
-        .filter(c => c.get('is_medium_group'));
+      const convos = window.getConversations().filter(c => c.isMediumGroup());
 
       const self = this;
 

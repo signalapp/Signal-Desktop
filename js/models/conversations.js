@@ -236,6 +236,9 @@
     isBlocked() {
       return BlockedNumberController.isBlocked(this.id);
     },
+    isMediumGroup() {
+      return this.get('is_medium_group');
+    },
     block() {
       BlockedNumberController.block(this.id);
       this.trigger('change');
@@ -1782,7 +1785,7 @@
               let dest = destination;
               let numbers = groupNumbers;
 
-              if (this.get('is_medium_group')) {
+              if (this.isMediumGroup()) {
                 dest = this.id;
                 numbers = [destination];
                 options.isMediumGroup = true;
@@ -2364,7 +2367,7 @@
     async leaveGroup() {
       const now = Date.now();
 
-      if (this.get('is_medium_group')) {
+      if (this.isMediumGroup()) {
         // NOTE: we should probably remove sender keys for groupId,
         // and its secret key, but it is low priority
 

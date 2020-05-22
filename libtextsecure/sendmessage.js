@@ -714,7 +714,7 @@ MessageSender.prototype = {
         c.isClosedGroup() &&
         !c.get('left') &&
         c.isFriend() &&
-        !c.get('is_medium_group')
+        !c.isMediumGroup()
     );
     if (sessionGroups.length === 0) {
       window.console.info('No closed group to sync.');
