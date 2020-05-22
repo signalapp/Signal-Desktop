@@ -35,13 +35,13 @@ export async function sendSessionRequest(
   return Promise.resolve();
 }
 
-export async function sessionEstablished(device: string) {
+export function sessionEstablished(device: string) {
   // TODO: this is called when we receive an encrypted message from the other user
   // Maybe it should be renamed to something else
   // TODO: This should make `hasSentSessionRequest` return `false`
 }
 
-export async function shouldProcessSessionRequest(
+export function shouldProcessSessionRequest(
   device: string,
   messageTimestamp: number
 ): boolean {
@@ -50,7 +50,7 @@ export async function shouldProcessSessionRequest(
   return false;
 }
 
-export async function sessionRequestProcessed(device: string) {
+export function sessionRequestProcessed(device: string) {
   // TODO: this is called when we process the session request
   // This should store the processed timestamp
   // Again naming is crap so maybe some other name is better

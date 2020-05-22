@@ -1,4 +1,4 @@
-import { OutgoingContentMessage, OpenGroupMessage } from '../messages/outgoing';
+import { OpenGroupMessage, OutgoingContentMessage } from '../messages/outgoing';
 
 // TODO: add all group messages here, replace OutgoingContentMessage with them
 type GroupMessageType = OpenGroupMessage | OutgoingContentMessage;

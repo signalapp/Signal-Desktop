@@ -4,7 +4,7 @@ import { OutgoingContentMessage } from '../messages/outgoing';
 // TODO: We should be able to import functions straight from the db here without going through the window object
 
 export class PendingMessageCache {
-  private cachedMessages: Array<RawMessage> = [];
+  private readonly cachedMessages: Array<RawMessage> = [];
 
   constructor() {
     // TODO: We should load pending messages from db here

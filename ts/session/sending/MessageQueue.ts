@@ -1,5 +1,5 @@
 import { MessageQueueInterface } from './MessageQueueInterface';
-import { OutgoingContentMessage, OpenGroupMessage } from '../messages/outgoing';
+import { OpenGroupMessage, OutgoingContentMessage } from '../messages/outgoing';
 import { JobQueue } from '../utils/JobQueue';
 import { PendingMessageCache } from './PendingMessageCache';
 

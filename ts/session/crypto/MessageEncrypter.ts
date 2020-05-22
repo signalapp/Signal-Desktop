@@ -32,6 +32,7 @@ export function encrypt(
 } {
   const plainText = padPlainTextBuffer(plainTextBuffer);
   // TODO: Do encryption here?
+
   return {
     envelopeType: SignalService.Envelope.Type.CIPHERTEXT,
     cipherText: new Uint8Array(),
