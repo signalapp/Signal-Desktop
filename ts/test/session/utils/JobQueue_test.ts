@@ -1,7 +1,7 @@
 import chai from 'chai';
 import { v4 as uuid } from 'uuid';
 import { JobQueue } from '../../../session/utils/JobQueue';
-import { delay } from '../../utils/delay';
+import { timeout } from '../../utils/timeout';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');
@@ -16,7 +16,7 @@ describe('JobQueue', () => {
       const id = 'jobId';
 
       assert.isFalse(queue.has(id));
-      const promise = queue.addWithId(id, async () => delay(100));
+      const promise = queue.addWithId(id, async () => timeout(100));
       assert.isTrue(queue.has(id));
       await promise;
       assert.isFalse(queue.has(id));
@@ -29,7 +29,7 @@ describe('JobQueue', () => {
       const queue = new JobQueue();
       const mapper = async ([value, ms]: Array<number>): Promise<number> =>
         queue.addWithId(uuid(), async () => {
-          await delay(ms);
+          await timeout(ms);
 
           return value;
         });
@@ -43,12 +43,12 @@ describe('JobQueue', () => {
     it('should return the result of the job', async () => {
       const queue = new JobQueue();
       const success = queue.addWithId(uuid(), async () => {
-        await delay(100);
+        await timeout(100);
 
         return 'success';
       });
       const failure = queue.addWithId(uuid(), async () => {
-        await delay(100);
+        await timeout(100);
         throw new Error('failed');
       });
 
@@ -60,7 +60,7 @@ describe('JobQueue', () => {
       const queue = new JobQueue();
       const first = queue.addWithId(uuid(), () => 'first');
       const second = queue.addWithId(uuid(), async () => {
-        await delay(100);
+        await timeout(100);
 
         return 'second';
       });
@@ -77,7 +77,7 @@ describe('JobQueue', () => {
       const queue = new JobQueue();
       const id = uuid();
       const job = async () => {
-        await delay(100);
+        await timeout(100);
 
         return 'job1';
       };
@@ -92,13 +92,13 @@ describe('JobQueue', () => {
       const queue = new JobQueue();
       const id = uuid();
 
-      const successfullJob = queue.addWithId(id, async () => delay(100));
+      const successfullJob = queue.addWithId(id, async () => timeout(100));
       assert.isTrue(queue.has(id));
       await successfullJob;
       assert.isFalse(queue.has(id));
 
       const failJob = queue.addWithId(id, async () => {
-        await delay(100);
+        await timeout(100);
         throw new Error('failed');
       });
       assert.isTrue(queue.has(id));
