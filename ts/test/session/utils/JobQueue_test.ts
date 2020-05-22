@@ -2,6 +2,7 @@ import chai from 'chai';
 import { v4 as uuid } from 'uuid';
 import { JobQueue } from '../../../session/utils/JobQueue';
 import { timeout } from '../../utils/timeout';
+import { SignalService } from '../../../protobuf';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');
@@ -35,7 +36,7 @@ describe('JobQueue', () => {
         });
 
       const start = Date.now();
-      assert.deepEqual(await Promise.all(input.map(mapper)), [10, 20, 30]);
+      await assert.eventually.deepEqual(Promise.all(input.map(mapper)), [10, 20, 30]);
       const timeTaken = Date.now() - start;
       assert.closeTo(timeTaken, 600, 50, 'Queue was delayed');
     });
@@ -52,7 +53,7 @@ describe('JobQueue', () => {
         throw new Error('failed');
       });
 
-      assert.equal(await success, 'success');
+      await assert.eventually.equal(success, 'success');
       await assert.isRejected(failure, /failed/);
     });
 
@@ -66,7 +67,7 @@ describe('JobQueue', () => {
       });
       const third = queue.addWithId(uuid(), () => 'third');
 
-      assert.deepEqual(await Promise.all([first, second, third]), [
+      await assert.eventually.deepEqual(Promise.all([first, second, third]), [
         'first',
         'second',
         'third',
@@ -84,8 +85,8 @@ describe('JobQueue', () => {
 
       const promise = queue.addWithId(id, job);
       const otherPromise = queue.addWithId(id, () => 'job2');
-      assert.equal(await promise, await otherPromise);
-      await promise;
+      await assert.eventually.equal(promise, 'job1');
+      await assert.eventually.equal(otherPromise, 'job1');
     });
 
     it('should remove completed jobs', async () => {
