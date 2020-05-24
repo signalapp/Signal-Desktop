@@ -810,9 +810,9 @@ class LokiSnodeAPI {
       const ciphertext = new Uint8Array(StringView.hexToArrayBuffer(cipherHex));
 
       const res = await window.decryptLnsEntry(lnsName, ciphertext);
-      const pubicKey = StringView.arrayBufferToHex(res);
+      const publicKey = StringView.arrayBufferToHex(res);
 
-      return pubicKey;
+      return publicKey;
     };
 
     const fetchFromNode = async node => {
@@ -856,7 +856,7 @@ class LokiSnodeAPI {
     const nodes = lnsNodes.splice(0, numRequests);
 
     // Start fetching from nodes
-    nodes.map(async node => fetchFromNode(node));
+    nodes.forEach(node => fetchFromNode(node));
 
     // Timeouts (optional parameter)
     // Wait for cipher to be found; race against timeout
