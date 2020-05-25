@@ -5,7 +5,7 @@ import { SignalService } from '../../../protobuf';
 import { TextEncoder } from 'util';
 
 describe('TypingMessage', () => {
-    it('has Action.STARTED is isTyping = true', () => {
+    it('has Action.STARTED if isTyping = true', () => {
         const message = new TypingMessage({
             timestamp: Date.now(),
             identifier: '123456',
@@ -18,7 +18,7 @@ describe('TypingMessage', () => {
         expect(decoded.typingMessage).to.have.property('action', SignalService.TypingMessage.Action.STARTED);
     });
 
-    it('has Action.STOPPED is isTyping = false', () => {
+    it('has Action.STOPPED if isTyping = false', () => {
         const message = new TypingMessage({
             timestamp: Date.now(),
             identifier: '123456',
