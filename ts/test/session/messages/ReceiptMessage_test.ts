@@ -23,8 +23,10 @@ describe('ReceiptMessage', () => {
 
         expect(decoded.receiptMessage).to.have.property('type', 1);
         expect(decoded.receiptMessage.timestamp).to.have.lengthOf(2);
-        expect(decoded.receiptMessage.timestamp[0]).to.have.property('low', timestamps[0]);
-        expect(decoded.receiptMessage.timestamp[1]).to.have.property('low', timestamps[1]);
+        const timestamp0 = decoded.receiptMessage.timestamp[0].toNumber();
+        const timestamp1 = decoded.receiptMessage.timestamp[1].toNumber();
+        expect(timestamp0).to.have.be.equal(timestamps[0]);
+        expect(timestamp1).to.have.be.equal(timestamps[1]);
     });
 
     it('content of a delivery receipt is correct', () => {
