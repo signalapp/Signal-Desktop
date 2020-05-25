@@ -1,13 +1,10 @@
 import { Message } from '../Message';
 import { SignalService } from '../../../../protobuf';
 
-export abstract class ContentMessage implements Message {
-  public readonly timestamp: number;
-  public readonly identifier: string;
+export abstract class ContentMessage extends Message {
 
   constructor({ timestamp, identifier }: { timestamp: number; identifier: string }) {
-    this.timestamp = timestamp;
-    this.identifier = identifier;
+    super({timestamp, identifier});
   }
 
   public plainTextBuffer(): Uint8Array {
