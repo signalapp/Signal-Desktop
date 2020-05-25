@@ -42,5 +42,5 @@ export {
   ClosedGroupMessage,
   DeviceUnlinkMessage,
   GroupInvitationMessage,
-  RegularMessage
+  RegularMessage,
 };
