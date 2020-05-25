@@ -431,6 +431,7 @@ window.lokiFeatureFlags = {
   useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
   useOnionRequests: true,
   useFileOnionRequests: false,
+  enableSenderKeys: false,
   onionRequestHops: 1,
 };
 
