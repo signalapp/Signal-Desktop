@@ -4,8 +4,9 @@ import { SignalService } from '../../../../../protobuf';
 export abstract class ReceiptMessage extends ContentMessage {
   private readonly timestamps: Array<number>;
 
-  constructor(timestamp: number, identifier: string, timestamps: Array<number>) {
-    super(timestamp, identifier);
+  constructor({ timestamp, identifier, timestamps }:
+    { timestamp: number; identifier: string; timestamps: Array<number> }) {
+    super({timestamp, identifier});
     this.timestamps = timestamps;
   }
 

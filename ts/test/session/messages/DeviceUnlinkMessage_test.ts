@@ -7,7 +7,9 @@ import { SignalService } from '../../../protobuf';
 describe('DeviceUnlinkMessage', () => {
     let message: DeviceUnlinkMessage;
     beforeEach(() => {
-        message = new DeviceUnlinkMessage(Date.now(), '123456');
+        const timestamp = Date.now();
+        const identifier = '123456';
+        message = new DeviceUnlinkMessage({timestamp, identifier});
     });
 
     it('content of just the UNPAIRING_REQUEST flag set', () => {

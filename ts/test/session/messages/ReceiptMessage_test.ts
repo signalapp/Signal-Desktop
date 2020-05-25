@@ -11,8 +11,10 @@ describe('ReceiptMessage', () => {
 
     beforeEach(() => {
         timestamps = [987654321, 123456789];
-        readMessage = new ReadReceiptMessage(Date.now(), '123456', timestamps);
-        deliveryMessage = new DeliveryReceiptMessage(Date.now(), '123456', timestamps);
+        const timestamp = Date.now();
+        const identifier = '123456';
+        readMessage = new ReadReceiptMessage({timestamp, identifier, timestamps});
+        deliveryMessage = new DeliveryReceiptMessage({timestamp, identifier, timestamps});
     });
 
     it('content of a read receipt is correct', () => {

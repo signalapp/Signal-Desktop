@@ -12,7 +12,8 @@ import { RegularMessage } from './content/data/RegularMessage';
 import { SessionResetMessage } from './content/SessionResetMessage';
 import { SessionEstablishedMessage } from './content/SessionEstablishedMessage';
 import { EndSessionMessage } from './content/EndSessionMessage';
-import { DeviceLinkMessage } from './content/DeviceLinkMessage';
+import { DeviceLinkRequestMessage } from './content/link/DeviceLinkRequestMessage';
+import { DeviceLinkGrantMessage } from './content/link/DeviceLinkGrantMessage';
 import { ReadReceiptMessage } from './content/receipt/ReadReceiptMessage';
 import { DeliveryReceiptMessage } from './content/receipt/DeliveryReceiptMessage';
 
@@ -23,7 +24,8 @@ export {
   ContentMessage,
 
   // children of ContentMessage
-  DeviceLinkMessage,
+  DeviceLinkRequestMessage,
+  DeviceLinkGrantMessage,
   EndSessionMessage,
   ReceiptMessage,
   ReadReceiptMessage,

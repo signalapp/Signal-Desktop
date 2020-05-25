@@ -5,7 +5,7 @@ export abstract class ContentMessage implements Message {
   public readonly timestamp: number;
   public readonly identifier: string;
 
-  constructor(timestamp: number, identifier: string) {
+  constructor({ timestamp, identifier }: { timestamp: number; identifier: string }) {
     this.timestamp = timestamp;
     this.identifier = identifier;
   }
