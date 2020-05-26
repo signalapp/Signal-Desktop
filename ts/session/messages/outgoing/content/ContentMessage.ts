@@ -3,10 +3,6 @@ import { SignalService } from '../../../../protobuf';
 
 export abstract class ContentMessage extends Message {
 
-  constructor({ timestamp }: { timestamp: number }) {
-    super({timestamp});
-  }
-
   public plainTextBuffer(): Uint8Array {
     return SignalService.Content.encode(this.contentProto()).finish();
   }

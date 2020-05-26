@@ -14,7 +14,7 @@ export class GroupInvitationMessage extends DataMessage {
   private readonly serverName: string;
 
   constructor(params: GroupInvitationMessageParams) {
-    super({ timestamp: params.timestamp });
+    super({ timestamp: params.timestamp, identifier: params.identifier });
     this.serverAddress = params.serverAddress;
     this.channelId = params.channelId;
     this.serverName = params.serverName;

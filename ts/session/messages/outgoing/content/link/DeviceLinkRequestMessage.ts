@@ -14,7 +14,7 @@ export class DeviceLinkRequestMessage extends ContentMessage {
   protected readonly requestSignature: Uint8Array;
 
   constructor(params: DeviceLinkMessageParams) {
-    super({ timestamp: params.timestamp });
+    super({ timestamp: params.timestamp, identifier: params.identifier });
     this.primaryDevicePubKey = params.primaryDevicePubKey;
     this.secondaryDevicePubKey = params.secondaryDevicePubKey;
     this.requestSignature = params.requestSignature;

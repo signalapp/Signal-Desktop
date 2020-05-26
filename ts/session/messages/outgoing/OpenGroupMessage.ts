@@ -21,8 +21,9 @@ export class OpenGroupMessage extends Message {
       attachments,
       body,
       quote,
+      identifier,
     } : OpenGroupMessageParams) {
-    super({ timestamp });
+    super({ timestamp, identifier });
     this.server = server;
     this.body = body;
     this.attachments = attachments;

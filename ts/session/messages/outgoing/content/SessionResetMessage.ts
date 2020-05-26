@@ -22,7 +22,7 @@ export class SessionResetMessage extends ContentMessage {
   private readonly preKeyBundle: PreKeyBundleType;
 
   constructor(params: SessionResetParams) {
-    super({ timestamp: params.timestamp });
+    super({ timestamp: params.timestamp, identifier: params.identifier });
     this.preKeyBundle = params.preKeyBundle;
   }
 

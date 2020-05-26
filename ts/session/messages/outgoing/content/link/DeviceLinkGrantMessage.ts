@@ -17,6 +17,7 @@ export class DeviceLinkGrantMessage extends DeviceLinkRequestMessage {
   ) {
     super({
       timestamp: params.timestamp,
+      identifier: params.identifier,
       primaryDevicePubKey: params.primaryDevicePubKey,
       secondaryDevicePubKey: params.secondaryDevicePubKey,
       requestSignature: params.requestSignature,
