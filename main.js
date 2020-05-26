@@ -210,7 +210,7 @@ const WINDOW_SIZE = Object.freeze({
   defaultWidth: 880,
   defaultHeight: 820,
   minWidth: 880,
-  minHeight: 820,
+  minHeight: 600,
 });
 
 function getWindowSize() {
