@@ -1,13 +1,47 @@
 import { ContentMessage } from './ContentMessage';
 import { SignalService } from '../../../../protobuf';
 
+
+export interface PreKeyBundleType {
+  identityKey?: (Uint8Array|null);
+  deviceId?: (number|null);
+  preKeyId?: (number|null);
+  signedKeyId?: (number|null);
+  preKey?: (Uint8Array|null);
+  signedKey?: (Uint8Array|null);
+  signature?: (Uint8Array|null);
+}
+
+
+interface SessionResetParams {
+  timestamp: number;
+  identifier: string;
+  preKeyBundle: PreKeyBundleType;
+}
+
 export class SessionResetMessage extends ContentMessage {
+  private readonly preKeyBundle: PreKeyBundleType;
+
+  constructor(params: SessionResetParams) {
+    super({ timestamp: params.timestamp, identifier: params.identifier });
+    this.preKeyBundle = params.preKeyBundle;
+  }
 
   public ttl(): number {
-    return this.getDefaultTTL();
+    return 4 * 24 * 60 * 60 * 1000; // 4 days
+  }
+
+  protected getPreKeyBundleMessage(): SignalService.PreKeyBundleMessage {
+    return new SignalService.PreKeyBundleMessage(this.preKeyBundle);
   }
 
   protected contentProto(): SignalService.Content {
-    throw new Error('Not implemented');
+    const nullMessage = new SignalService.NullMessage({});
+    const preKeyBundleMessage = this.getPreKeyBundleMessage();
+
+    return new SignalService.Content({
+      nullMessage,
+      preKeyBundleMessage,
+    });
   }
 }
