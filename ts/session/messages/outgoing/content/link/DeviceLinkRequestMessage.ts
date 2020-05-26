@@ -1,9 +1,7 @@
 import { ContentMessage } from '../ContentMessage';
 import { SignalService } from '../../../../../protobuf';
-interface DeviceLinkMessageParams {
-  timestamp: number;
-  identifier: string;
-
+import { MessageParams } from '../../Message';
+export interface DeviceLinkMessageParams extends MessageParams{
   primaryDevicePubKey: string;
   secondaryDevicePubKey: string;
   requestSignature: Uint8Array;

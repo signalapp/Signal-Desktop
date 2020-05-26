@@ -1,5 +1,6 @@
 import { ContentMessage } from './ContentMessage';
 import { SignalService } from '../../../../protobuf';
+import { MessageParams } from '../Message';
 
 
 export interface PreKeyBundleType {
@@ -13,9 +14,7 @@ export interface PreKeyBundleType {
 }
 
 
-interface SessionResetParams {
-  timestamp: number;
-  identifier: string;
+interface SessionResetParams extends MessageParams {
   preKeyBundle: PreKeyBundleType;
 }
 

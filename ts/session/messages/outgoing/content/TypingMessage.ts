@@ -1,10 +1,9 @@
 import { ContentMessage } from './ContentMessage';
 import { SignalService } from '../../../../protobuf';
 import { TextEncoder } from 'util';
+import { MessageParams } from '../Message';
 
-interface TypingMessageParams {
-  timestamp: number;
-  identifier: string;
+interface TypingMessageParams extends MessageParams {
   isTyping: boolean;
   typingTimestamp: number | null;
   groupId: string | null;

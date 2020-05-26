@@ -1,9 +1,8 @@
 import { DataMessage } from './DataMessage';
 import { SignalService } from '../../../../../protobuf';
+import { MessageParams } from '../../Message';
 
-interface GroupInvitationMessageParams {
-  timestamp: number;
-  identifier: string;
+interface GroupInvitationMessageParams extends MessageParams {
   serverAddress: string;
   channelId: number;
   serverName: string;

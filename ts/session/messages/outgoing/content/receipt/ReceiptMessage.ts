@@ -1,11 +1,15 @@
 import { ContentMessage } from '../ContentMessage';
 import { SignalService } from '../../../../../protobuf';
+import { MessageParams } from '../../Message';
 
+interface ReceiptMessageParams extends MessageParams {
+  timestamps: Array<number>;
+}
 export abstract class ReceiptMessage extends ContentMessage {
   private readonly timestamps: Array<number>;
 
   constructor({ timestamp, identifier, timestamps }:
-    { timestamp: number; identifier: string; timestamps: Array<number> }) {
+    ReceiptMessageParams) {
     super({timestamp, identifier});
     this.timestamps = timestamps;
   }

@@ -1,17 +1,9 @@
 import { SignalService } from '../../../../../protobuf';
-import { DeviceLinkRequestMessage } from './DeviceLinkRequestMessage';
+import { DeviceLinkMessageParams, DeviceLinkRequestMessage } from './DeviceLinkRequestMessage';
 import { LokiProfile } from '../../../../../types/Message';
 
-interface DeviceLinkGrantMessageParams {
-  timestamp: number;
-  identifier: string;
-
-  // pairing authorisation
-  primaryDevicePubKey: string;
-  secondaryDevicePubKey: string;
-  requestSignature: Uint8Array;
+interface DeviceLinkGrantMessageParams extends DeviceLinkMessageParams {
   grantSignature: Uint8Array;
-
   lokiProfile: LokiProfile;
 }
 

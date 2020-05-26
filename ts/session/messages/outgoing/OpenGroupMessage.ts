@@ -1,10 +1,8 @@
-import { Message } from './Message';
+import { Message, MessageParams } from './Message';
 import { AttachmentType } from '../../../types/Attachment';
 import { QuotedAttachmentType } from '../../../components/conversation/Quote';
 
-interface OpenGroupMessageParams {
-  timestamp: number;
-  identifier: string;
+interface OpenGroupMessageParams extends MessageParams {
   server: string;
   attachments: [AttachmentType];
   body?: string;

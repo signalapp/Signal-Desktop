@@ -1,9 +1,14 @@
+export interface MessageParams {
+  timestamp: number;
+  identifier: string;
+}
+
 export abstract class Message {
   public readonly timestamp: number;
   public identifier: string;
 
 
-  constructor({ timestamp, identifier }: { timestamp: number; identifier: string }) {
+  constructor({ timestamp, identifier }: MessageParams) {
     if (identifier.length === 0) {
       throw new Error('Cannot set empty identifier');
     }
