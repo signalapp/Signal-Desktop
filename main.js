@@ -219,7 +219,10 @@ function getWindowSize() {
   const { minWidth, minHeight, defaultWidth, defaultHeight } = WINDOW_SIZE;
   // Ensure that the screen can fit within the default size
   const width = Math.min(defaultWidth, Math.max(minWidth, screenSize.width));
-  const height = Math.min(defaultHeight, Math.max(minHeight, screenSize.height));
+  const height = Math.min(
+    defaultHeight,
+    Math.max(minHeight, screenSize.height)
+  );
 
   return { width, height, minWidth, minHeight };
 }
