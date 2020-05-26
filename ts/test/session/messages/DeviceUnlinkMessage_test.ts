@@ -8,8 +8,7 @@ describe('DeviceUnlinkMessage', () => {
     let message: DeviceUnlinkMessage;
     beforeEach(() => {
         const timestamp = Date.now();
-        const identifier = '123456';
-        message = new DeviceUnlinkMessage({timestamp, identifier});
+        message = new DeviceUnlinkMessage({timestamp});
     });
 
     it('content of just the UNPAIRING_REQUEST flag set', () => {

@@ -15,7 +15,7 @@ export class TypingMessage extends ContentMessage {
   private readonly groupId?: string;
 
   constructor(params: TypingMessageParams) {
-    super({timestamp: params.timestamp, identifier: params.identifier});
+    super({timestamp: params.timestamp});
     this.isTyping = params.isTyping;
     this.typingTimestamp = params.typingTimestamp;
     this.groupId = params.groupId;

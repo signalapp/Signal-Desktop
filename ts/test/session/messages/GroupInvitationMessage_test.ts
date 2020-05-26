@@ -7,7 +7,6 @@ import { SignalService } from '../../../protobuf';
 describe('GroupInvitationMessage', () => {
     let message: GroupInvitationMessage;
     const timestamp = Date.now();
-    const identifier = '123456';
     const serverAddress = 'http://localhost';
     const channelId = 1;
     const serverName = 'test';
@@ -15,7 +14,6 @@ describe('GroupInvitationMessage', () => {
     beforeEach(() => {
         message = new GroupInvitationMessage({
             timestamp,
-            identifier,
             serverAddress,
             channelId,
             serverName,

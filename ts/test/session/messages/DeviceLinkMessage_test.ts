@@ -13,7 +13,6 @@ describe('DeviceLinkMessage', () => {
     beforeEach(() => {
         linkRequestMessage = new DeviceLinkRequestMessage({
             timestamp: Date.now(),
-            identifier: '123456',
             primaryDevicePubKey: '111111',
             secondaryDevicePubKey: '222222',
             requestSignature: new Uint8Array([1, 2, 3, 4, 5, 6]),
@@ -27,7 +26,6 @@ describe('DeviceLinkMessage', () => {
 
         linkGrantMessage = new DeviceLinkGrantMessage({
             timestamp: Date.now(),
-            identifier: '123456',
             primaryDevicePubKey: '111111',
             secondaryDevicePubKey: '222222',
             requestSignature: new Uint8Array([1, 2, 3, 4, 5, 6]),

@@ -8,9 +8,8 @@ describe('EndSessionMessage', () => {
     let message: EndSessionMessage;
     beforeEach(() => {
         const timestamp = Date.now();
-        const identifier = '123456';
         const preKeyBundle = {deviceId: 123456};
-        message = new EndSessionMessage({timestamp, identifier, preKeyBundle});
+        message = new EndSessionMessage({timestamp, preKeyBundle});
     });
 
     it('has a preKeyBundle', () => {

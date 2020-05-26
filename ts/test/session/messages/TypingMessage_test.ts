@@ -8,7 +8,6 @@ describe('TypingMessage', () => {
     it('has Action.STARTED if isTyping = true', () => {
         const message = new TypingMessage({
             timestamp: Date.now(),
-            identifier: '123456',
             isTyping: true,
         });
         const plainText = message.plainTextBuffer();
@@ -19,7 +18,6 @@ describe('TypingMessage', () => {
     it('has Action.STOPPED if isTyping = false', () => {
         const message = new TypingMessage({
             timestamp: Date.now(),
-            identifier: '123456',
             isTyping: false,
         });
         const plainText = message.plainTextBuffer();
@@ -30,7 +28,6 @@ describe('TypingMessage', () => {
     it('has typingTimestamp set if value passed', () => {
         const message = new TypingMessage({
             timestamp: Date.now(),
-            identifier: '123456',
             isTyping: true,
             typingTimestamp: 111111111,
         });
@@ -43,7 +40,6 @@ describe('TypingMessage', () => {
     it('has typingTimestamp set with Date.now() if value not passed', () => {
         const message = new TypingMessage({
             timestamp: Date.now(),
-            identifier: '123456',
             isTyping: true,
         });
         const plainText = message.plainTextBuffer();
@@ -56,7 +52,6 @@ describe('TypingMessage', () => {
         const groupId = '6666666666';
         const message = new TypingMessage({
             timestamp: Date.now(),
-            identifier: '123456',
             isTyping: true,
             groupId,
         });
@@ -70,7 +65,6 @@ describe('TypingMessage', () => {
     it('ttl of 1 minute', () => {
         const message = new TypingMessage({
             timestamp: Date.now(),
-            identifier: '123456',
             isTyping: true,
         });
         expect(message.ttl()).to.equal(60 * 1000);

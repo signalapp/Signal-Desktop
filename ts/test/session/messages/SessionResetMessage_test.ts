@@ -8,9 +8,8 @@ describe('SessionResetMessage', () => {
     let message: SessionResetMessage;
     beforeEach(() => {
         const timestamp = Date.now();
-        const identifier = '123456';
         const preKeyBundle = {deviceId: 123456};
-        message = new SessionResetMessage({timestamp, identifier, preKeyBundle});
+        message = new SessionResetMessage({timestamp, preKeyBundle});
     });
 
     it('has a preKeyBundle', () => {

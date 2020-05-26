@@ -8,8 +8,7 @@ describe('SessionEstablishedMessage', () => {
     let message: SessionEstablishedMessage;
     beforeEach(() => {
         const timestamp = Date.now();
-        const identifier = '123456';
-        message = new SessionEstablishedMessage({timestamp, identifier});
+        message = new SessionEstablishedMessage({timestamp});
     });
 
     it('has a nullMessage not null', () => {

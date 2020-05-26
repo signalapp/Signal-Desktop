@@ -16,14 +16,13 @@ export class OpenGroupMessage extends Message {
   public readonly quote?: QuotedAttachmentType;
 
   constructor({
-      identifier,
       timestamp,
       server,
       attachments,
       body,
       quote,
     } : OpenGroupMessageParams) {
-    super({ timestamp, identifier });
+    super({ timestamp });
     this.server = server;
     this.body = body;
     this.attachments = attachments;

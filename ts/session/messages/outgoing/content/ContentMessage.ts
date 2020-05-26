@@ -3,8 +3,8 @@ import { SignalService } from '../../../../protobuf';
 
 export abstract class ContentMessage extends Message {
 
-  constructor({ timestamp, identifier }: { timestamp: number; identifier: string }) {
-    super({timestamp, identifier});
+  constructor({ timestamp }: { timestamp: number }) {
+    super({timestamp});
   }
 
   public plainTextBuffer(): Uint8Array {
