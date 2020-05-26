@@ -8,6 +8,10 @@ export class SessionEstablishedMessage extends ContentMessage {
   }
 
   protected contentProto(): SignalService.Content {
-    throw new Error('Not implemented');
+    const nullMessage = new SignalService.NullMessage({});
+
+    return new SignalService.Content({
+      nullMessage,
+    });
   }
 }
