@@ -5,14 +5,14 @@ import { MessageParams } from '../Message';
 
 interface TypingMessageParams extends MessageParams {
   isTyping: boolean;
-  typingTimestamp: number | null;
-  groupId: string | null;
+  typingTimestamp?: number;
+  groupId?: string;
 }
 
 export class TypingMessage extends ContentMessage {
   private readonly isTyping: boolean;
-  private readonly typingTimestamp: number | null;
-  private readonly groupId: string | null;
+  private readonly typingTimestamp?: number;
+  private readonly groupId?: string;
 
   constructor(params: TypingMessageParams) {
     super({timestamp: params.timestamp, identifier: params.identifier});

@@ -24,8 +24,8 @@ export class DeviceLinkRequestMessage extends ContentMessage {
     return 2 * 60 * 1000; // 2 minutes for pairing requests
   }
 
-  protected getDataMessage(): SignalService.DataMessage | null {
-    return null;
+  protected getDataMessage(): SignalService.DataMessage | undefined {
+    return undefined;
   }
 
   protected getPairingAuthorisationMessage(): SignalService.PairingAuthorisationMessage {
@@ -40,7 +40,7 @@ export class DeviceLinkRequestMessage extends ContentMessage {
   protected contentProto(): SignalService.Content {
     return new SignalService.Content({
       pairingAuthorisation: this.getPairingAuthorisationMessage(),
-      dataMessage: this.getDataMessage() || null,
+      dataMessage: this.getDataMessage(),
     });
   }
 }

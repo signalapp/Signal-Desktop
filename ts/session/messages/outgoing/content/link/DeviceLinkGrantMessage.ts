@@ -11,7 +11,7 @@ export class DeviceLinkGrantMessage extends DeviceLinkRequestMessage {
   private readonly displayName: string;
   private readonly avatarPointer: string;
   private readonly profileKey: Uint8Array;
-  private readonly grantSignature: Uint8Array | null;
+  private readonly grantSignature: Uint8Array;
 
   constructor(params: DeviceLinkGrantMessageParams
   ) {
@@ -38,7 +38,7 @@ export class DeviceLinkGrantMessage extends DeviceLinkRequestMessage {
     });
   }
 
-  protected getDataMessage(): SignalService.DataMessage | null {
+  protected getDataMessage(): SignalService.DataMessage | undefined {
     // Send profile name to secondary device and avatarPointer
     const profile = new SignalService.DataMessage.LokiProfile();
     profile.avatar = this.avatarPointer;

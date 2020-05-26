@@ -10,8 +10,6 @@ describe('TypingMessage', () => {
             timestamp: Date.now(),
             identifier: '123456',
             isTyping: true,
-            typingTimestamp: null,
-            groupId: null,
         });
         const plainText = message.plainTextBuffer();
         const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
@@ -23,8 +21,6 @@ describe('TypingMessage', () => {
             timestamp: Date.now(),
             identifier: '123456',
             isTyping: false,
-            typingTimestamp: null,
-            groupId: null,
         });
         const plainText = message.plainTextBuffer();
         const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
@@ -37,7 +33,6 @@ describe('TypingMessage', () => {
             identifier: '123456',
             isTyping: true,
             typingTimestamp: 111111111,
-            groupId: null,
         });
         const plainText = message.plainTextBuffer();
         const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
@@ -50,8 +45,6 @@ describe('TypingMessage', () => {
             timestamp: Date.now(),
             identifier: '123456',
             isTyping: true,
-            typingTimestamp: null,
-            groupId: null,
         });
         const plainText = message.plainTextBuffer();
         const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
@@ -65,7 +58,6 @@ describe('TypingMessage', () => {
             timestamp: Date.now(),
             identifier: '123456',
             isTyping: true,
-            typingTimestamp: null,
             groupId,
         });
         const plainText = message.plainTextBuffer();
@@ -80,8 +72,6 @@ describe('TypingMessage', () => {
             timestamp: Date.now(),
             identifier: '123456',
             isTyping: true,
-            typingTimestamp: null,
-            groupId: null,
         });
         expect(message.ttl()).to.equal(60 * 1000);
     });
