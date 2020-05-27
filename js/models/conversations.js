@@ -14,7 +14,8 @@
   clipboard,
   BlockedNumberController,
   lokiPublicChatAPI,
-  JobQueue
+  JobQueue,
+  libloki
 */
 
 /* eslint-disable more/no-then */
@@ -1074,6 +1075,14 @@
           window.textsecure.OutgoingMessage.DebugMessageType
             .INCOMING_FR_ACCEPTED
         );
+
+        // send an AFR to other device of that user (or none)
+        const primaryPubKey = await libloki.api.getPrimaryDevicePubkey(this.id);
+
+        const autoFrMessage = textsecure.OutgoingMessage.buildAutoFriendRequestMessage(
+          primaryPubKey
+        );
+        await autoFrMessage.sendToNumber(primaryPubKey, true, this.id);
       }
     },
     // Our outgoing friend request has been accepted

@@ -2152,7 +2152,7 @@
       //      still go through one of the previous two codepaths
       const ourNumber = textsecure.storage.user.getNumber();
       const message = this;
-      let source = message.get('source');
+      const source = message.get('source');
       let conversationId = message.get('conversationId');
       const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
         source
@@ -2234,7 +2234,7 @@
         }
       }
       const conversation = conversationPrimary;
-      source = primarySource;
+      // source = primarySource;
 
       return conversation.queueJob(async () => {
         window.log.info(
@@ -2569,7 +2569,8 @@
             }
           }
 
-          if (source !== ourNumber) {
+          // We need to map the original message source to the primary device
+          if (source !== ourNumber && !message.isFriendRequest()) {
             message.set({ source: primarySource });
           }
 
