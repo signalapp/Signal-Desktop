@@ -420,13 +420,15 @@
       if (this.get('friendStatus') !== 'pending') {
         return;
       }
-      
+
       const allDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
         primaryDevicePubKey
       );
 
       let profileName;
-      const allConversationsWithUser = allDevices.map(d => ConversationController.get(d));
+      const allConversationsWithUser = allDevices.map(d =>
+        ConversationController.get(d)
+      );
       allConversationsWithUser.forEach(conversation => {
         // If we somehow received an old friend request (e.g. after having restored
         // from seed, we won't be able to accept it, we should initiate our own
@@ -438,17 +440,19 @@
           return;
         }
 
-        profileName = conversation.getProfileName() || profileName;       
+        profileName = conversation.getProfileName() || profileName;
         conversation.onAcceptFriendRequest();
       });
 
       // If you don't have a profile name for this device, and profileName is set,
       // add profileName to conversation.
-      const primaryConversation = allConversationsWithUser.find(c => c.id === primaryDevicePubKey)
+      const primaryConversation = allConversationsWithUser.find(
+        c => c.id === primaryDevicePubKey
+      );
       if (!primaryConversation.getProfileName() && profileName) {
         await primaryConversation.setNickname(profileName);
       }
-      
+
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
       });
@@ -2538,12 +2542,6 @@
               if (autoAccept) {
                 message.set({ friendStatus: 'accepted' });
               }
-              
-          
-              console.log('[vince][core] source:', source);
-              console.log('[vince][core] ourNumber:', ourNumber);
-              console.log('[vince][core] Friend request in messaages.js:2391', message);
-
 
               libloki.api.debug.logNormalFriendRequest(
                 `Received a NORMAL_FRIEND_REQUEST from source: ${source}, primarySource: ${primarySource}, isAlreadyFriend: ${isFriend}, didWeAlreadySentFR: ${hasSentFriendRequest}`
@@ -2561,17 +2559,6 @@
               await sendingDeviceConversation.onFriendRequestAccepted();
             }
           }
-
-          // We need to map the original message source to the primary device
-          // only map to primary device if this is NOT a friend request.
-          // Otherwise you can enter a stalemate.
-          
-          // const conditionalSource = message.get('type') === 'friend-request'
-          //   ? source
-          //   : primarySource;
-          // if (source !== ourNumber) {
-          //   message.set({ source: conditionalSource });
-          // }
 
           if (source !== ourNumber) {
             message.set({ primarySource });

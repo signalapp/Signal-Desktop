@@ -130,9 +130,13 @@ export const _getLeftPaneLists = (
 
     if (conversation.hasReceivedFriendRequest) {
       // Friend requests should always appear as coming from primary
-      const primaryConversation = conversations.find(c => c.id === conversation.primaryDevice) || conversation;
-      primaryConversation.hasReceivedFriendRequest = conversation.hasReceivedFriendRequest;
-      primaryConversation.isPendingFriendRequest = conversation.isPendingFriendRequest;
+      const primaryConversation =
+        conversations.find(c => c.id === conversation.primaryDevice) ||
+        conversation;
+      primaryConversation.hasReceivedFriendRequest =
+        conversation.hasReceivedFriendRequest;
+      primaryConversation.isPendingFriendRequest =
+        conversation.isPendingFriendRequest;
       allReceivedFriendsRequest.push(primaryConversation);
     } else if (
       unreadCount < 9 &&
@@ -176,12 +180,11 @@ export const _getLeftPaneLists = (
       if (group.some(c => c === devicePrimary)) {
         secondariesToRemove.push(device.id);
       }
-
     });
 
-    const filteredGroup = [...new Set(group.filter(
-      c => !secondariesToRemove.find(s => s === c.id)
-    ))];
+    const filteredGroup = [
+      ...new Set(group.filter(c => !secondariesToRemove.find(s => s === c.id))),
+    ];
 
     return filteredGroup as T;
   };
@@ -193,16 +196,6 @@ export const _getLeftPaneLists = (
   const sentFriendsRequest: Array<
     ConversationListItemPropsType
   > = filterToPrimary(allSentFriendsRequest);
-
-
-  console.log('[vince][friends] allReceivedFriendsRequest:', allReceivedFriendsRequest);
-  console.log('[vince][friends] receivedFriendsRequest:', receivedFriendsRequest);
-  console.log('[vince][friends] allSentFriendsRequest:', allSentFriendsRequest);
-  console.log('[vince][friends] sentFriendsRequest:', sentFriendsRequest);
-  console.log('[vince][friends] allFriends:', allFriends);
-  console.log('[vince][friends] friends:', friends);
-
-
 
   return {
     conversations,

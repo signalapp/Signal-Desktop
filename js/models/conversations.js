@@ -255,7 +255,7 @@
           type: 'friend-request',
         }
       );
-      
+
       const lastMessageModel = messages.at(0);
       if (lastMessageModel) {
         lastMessageModel.acceptFriendRequest();
@@ -553,8 +553,6 @@
         }
       );
 
-      console.log('[vince][fr] messages:', messages);
-
       if (typeof status === 'string') {
         // eslint-disable-next-line no-param-reassign
         status = [status];
@@ -562,12 +560,6 @@
       // Get the pending friend requests that match the direction
       // If no direction is supplied then return all pending friend requests
       return messages.models.filter(m => {
-        console.log('[vince][fr] status:', status);
-        console.log('[vince][fr] m.get(`friendStatus`):', m.get('friendStatus'));
-        console.log('[vince][fr] m:', m);
-        
-        console.log('[vince][fr] status.includes(m.get(`friendStatus`):', status.includes(m.get('friendStatus')));
-
         if (!status.includes(m.get('friendStatus'))) {
           return false;
         }
@@ -997,14 +989,24 @@
         return;
       }
 
-      const allConversationsWithUser = allDevices.map(d => ConversationController.get(d));
+      const allConversationsWithUser = allDevices.map(d =>
+        ConversationController.get(d)
+      );
 
-      const pendingRequests = await allConversationsWithUser.reduce(async (requestsP, conversation) => {
-        const requests = await requestsP;
-        const request = (await conversation.getFriendRequests(direction, status))[0];
+      const pendingRequests = await allConversationsWithUser.reduce(
+        async (requestsP, conversation) => {
+          const requests = await requestsP;
+          const request = (await conversation.getFriendRequests(
+            direction,
+            status
+          ))[0];
 
-        return request ? requests.concat({ conversation, request }) : requests;
-      }, []);
+          return request
+            ? requests.concat({ conversation, request })
+            : requests;
+        },
+        []
+      );
 
       await Promise.all(
         pendingRequests.map(async friendRequest => {
@@ -1679,8 +1681,6 @@
 
         const model = this.addSingleMessage(attributes);
         const message = MessageController.register(model.id, model);
-
-        console.log('[vince][core] Sending message:', message);
 
         await window.Signal.Data.saveMessage(message.attributes, {
           forceSave: true,
