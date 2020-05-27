@@ -246,7 +246,8 @@
       this.messageCollection.forEach(m => m.trigger('change'));
     },
     async acceptFriendRequest() {
-      // Friend request messages are always send to primary device conversation
+      // Friend request message conmfirmations (Accept / Decline) are always
+      // sent to the primary device conversation
       const messages = await window.Signal.Data.getMessagesByConversation(
         this.id,
         {

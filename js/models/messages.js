@@ -2561,7 +2561,7 @@
           }
 
           if (source !== ourNumber) {
-            message.set({ primarySource });
+            message.set({ source: primarySource });
           }
 
           const id = await window.Signal.Data.saveMessage(message.attributes, {
