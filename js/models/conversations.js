@@ -994,23 +994,22 @@
         ConversationController.get(d)
       );
 
-      console.log('[vince] allConversationsWithUser:', allConversationsWithUser);
-       
       // Search through each conversation (device) for friend request messages
-      const pendingRequestPromises = allConversationsWithUser.map(async c =>
-        (await c.getFriendRequests(direction, status))[0]
+      const pendingRequestPromises = allConversationsWithUser.map(
+        async conversation => {
+          const request = (await conversation.getFriendRequests(
+            direction,
+            status
+          ))[0];
+          return { conversation, request };
+        }
       );
-
-      console.log('[vince] pendingRequestPromises:', pendingRequestPromises);
 
       let pendingRequests = await Promise.all(pendingRequestPromises);
 
-      console.log('[vince] pendingRequests:', pendingRequests);
+      // Filter out all undefined requests
+      pendingRequests = pendingRequests.filter(p => Boolean(p.request));
 
-      pendingRequests = pendingRequests.filter(p => Boolean(p));
-
-      console.log('[vince] pendingRequests:', pendingRequests);
-      
       // We set all friend request messages from all devices
       // from a user here to accepted where possible
       await Promise.all(
