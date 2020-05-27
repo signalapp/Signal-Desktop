@@ -61,7 +61,7 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
     // eslint-disable-next-line no-param-reassign
     options.retry = 0;
     // eslint-disable-next-line no-param-reassign
-    options.requestNumber = window.lokiSnodeAPI.getOnionRequestNumber();
+    options.requestNumber = window.lokiSnodeAPI.assignOnionRequestNumber();
   }
 
   const payloadObj = {

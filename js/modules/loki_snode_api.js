@@ -188,7 +188,7 @@ class LokiSnodeAPI {
     this.onionRequestCounter = 0; // Request index for debugging
   }
 
-  getOnionRequestNumber() {
+  assignOnionRequestNumber() {
     this.onionRequestCounter += 1;
     return this.onionRequestCounter;
   }

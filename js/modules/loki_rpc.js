@@ -700,7 +700,7 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
         // Get a path excluding `targetNode`:
         // eslint-disable-next-line no-await-in-loop
         const path = await lokiSnodeAPI.getOnionPath(targetNode);
-        const thisIdx = window.lokiSnodeAPI.getOnionRequestNumber();
+        const thisIdx = window.lokiSnodeAPI.assignOnionRequestNumber();
 
         // eslint-disable-next-line no-await-in-loop
         const result = await sendOnionRequestSnodeDest(
