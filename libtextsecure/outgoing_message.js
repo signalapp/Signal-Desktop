@@ -6,7 +6,6 @@
   libloki,
   StringView,
   lokiMessageAPI,
-  i18n,
   log
 */
 
@@ -216,7 +215,11 @@ OutgoingMessage.prototype = {
     this.errors[this.errors.length] = error;
     this.numberCompleted();
   },
-  reloadDevicesAndSend(primaryPubKey, multiDevice = true, excludedDevices = []) {
+  reloadDevicesAndSend(
+    primaryPubKey,
+    multiDevice = true,
+    excludedDevices = []
+  ) {
     const ourNumber = textsecure.storage.user.getNumber();
 
     if (!multiDevice) {
@@ -232,10 +235,11 @@ OutgoingMessage.prototype = {
         .getAllDevicePubKeysForPrimaryPubKey(primaryPubKey)
         // Don't send to ourselves
         .then(devicesPubKeys =>
-          devicesPubKeys.filter(pubKey => pubKey !== ourNumber && !excludedDevices.includes(pubKey))
+          devicesPubKeys.filter(
+            pubKey => pubKey !== ourNumber && !excludedDevices.includes(pubKey)
+          )
         )
         .then(devicesPubKeys => {
-
           if (devicesPubKeys.length === 0) {
             // No need to start the sending of message without a recipient
             return Promise.resolve();
@@ -709,7 +713,11 @@ OutgoingMessage.prototype = {
     } catch (e) {
       // do nothing
     }
-    return this.reloadDevicesAndSend(number, multiDevice, excludedDevices).catch(error => {
+    return this.reloadDevicesAndSend(
+      number,
+      multiDevice,
+      excludedDevices
+    ).catch(error => {
       conversation.resetPendingSend();
       if (error.message === 'Identity key changed') {
         // eslint-disable-next-line no-param-reassign
@@ -761,7 +769,7 @@ OutgoingMessage.buildSessionRequestMessage = function buildSessionRequestMessage
   pubKey
 ) {
   const body =
-  '(If you see this message, you must be using an out-of-date client)';
+    '(If you see this message, you must be using an out-of-date client)';
 
   const flags = textsecure.protobuf.DataMessage.Flags.SESSION_REQUEST;
 

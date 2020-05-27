@@ -1,4 +1,4 @@
-/* global log, libloki, process, window */
+/* global log, libloki, window */
 /* global storage: false */
 /* global Signal: false */
 /* global log: false */

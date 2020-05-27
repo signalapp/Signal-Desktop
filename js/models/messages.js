@@ -2082,7 +2082,7 @@
       return false;
     },
     async handleSessionRequest(source, confirm) {
-      window.console.log(`Received SESSION_REQUEST from source: ${source}`)
+      window.console.log(`Received SESSION_REQUEST from source: ${source}`);
       window.libloki.api.sendSessionEstablishedMessage(source);
       confirm();
     },

@@ -137,6 +137,10 @@ describe('Message Syncing', function() {
       1
     );
     // be sure only one autoFR accept was sent (even if multi device, we need to reply to that specific device only)
-    await common.logsContains(bob1Logs, `Sending auto-friend-accept:onlineBroadcast message to`, 1);
+    await common.logsContains(
+      bob1Logs,
+      `Sending auto-friend-accept:onlineBroadcast message to`,
+      1
+    );
   });
 });
