@@ -406,8 +406,6 @@ $session-compose-margin: 20px;
 @mixin bottom-buttons() {
   display: flex;
   flex-direction: row;
-  position: absolute;
-  bottom: 2px;
   width: 100%;
 
   @at-root .light-theme #{&} {
@@ -474,6 +472,7 @@ $session-compose-margin: 20px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    flex: 1;
 
     .module-conversation-list-item {
       background-color: $session-shade-4;
