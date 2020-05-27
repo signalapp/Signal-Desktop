@@ -48,8 +48,7 @@ const snodeHttpsAgent = new https.Agent({
 
 const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-let adnOnionRequestCounter = 0;
-const sendViaOnion = async (srvPubKey, url, pFetchOptions, options = {}) => {
+const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
   if (!srvPubKey) {
     log.error(
       'loki_app_dot_net:::sendViaOnion - called without a server public key'
@@ -58,29 +57,20 @@ const sendViaOnion = async (srvPubKey, url, pFetchOptions, options = {}) => {
   }
 
   // set retry count
-  let adnOnionRequestCount;
   if (options.retry === undefined) {
     // eslint-disable-next-line no-param-reassign
     options.retry = 0;
-    adnOnionRequestCounter += 1; // increment counter
-    adnOnionRequestCount = 0 + adnOnionRequestCounter; // copy value
-  } else {
-    adnOnionRequestCount = options.counter;
-  }
-
-  const fetchOptions = pFetchOptions; // make lint happy
-
-  // safety issue with file server, just safer to have this
-  if (fetchOptions.headers === undefined) {
-    fetchOptions.headers = {};
+    // eslint-disable-next-line no-param-reassign
+    options.requestNumber = window.lokiSnodeAPI.getOnionRequestNumber();
   }
 
   const payloadObj = {
     method: fetchOptions.method,
     body: fetchOptions.body,
+    // safety issue with file server, just safer to have this
+    headers: fetchOptions.headers || {},
     // no initial /
     endpoint: url.pathname.replace(/^\//, ''),
-    headers: { ...fetchOptions.headers },
   };
   if (url.search) {
     payloadObj.endpoint += `?${url.search}`;
@@ -102,11 +92,23 @@ const sendViaOnion = async (srvPubKey, url, pFetchOptions, options = {}) => {
     };
   }
 
-  const pathNodes = await lokiSnodeAPI.getOnionPath();
+  let pathNodes = [];
+  try {
+    pathNodes = await lokiSnodeAPI.getOnionPath();
+  } catch (e) {
+    log.error(
+      `loki_app_dot_net:::sendViaOnion #${
+        options.requestNumber
+      } - getOnionPath Error ${e.code} ${e.message}`
+    );
+  }
   if (!pathNodes || !pathNodes.length) {
     log.warn(
-      `loki_app_dot_net:::sendViaOnion #${adnOnionRequestCount} - failing, no path available`
+      `loki_app_dot_net:::sendViaOnion #${
+        options.requestNumber
+      } - failing, no path available`
     );
+    // should we retry?
     return {};
   }
 
@@ -119,7 +121,7 @@ const sendViaOnion = async (srvPubKey, url, pFetchOptions, options = {}) => {
       srvPubKey,
       url.host,
       payloadObj,
-      adnOnionRequestCount
+      options.requestNumber
     );
   } catch (e) {
     log.error(
@@ -133,15 +135,15 @@ const sendViaOnion = async (srvPubKey, url, pFetchOptions, options = {}) => {
   // handle error/retries
   if (!result.status) {
     log.error(
-      `loki_app_dot_net:::sendViaOnion #${adnOnionRequestCount} - Retry #${
+      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - Retry #${
         options.retry
       } Couldnt handle onion request, retrying`,
       payloadObj
     );
-    return sendViaOnion(srvPubKey, url, pFetchOptions, {
+    return sendViaOnion(srvPubKey, url, fetchOptions, {
       ...options,
       retry: options.retry + 1,
-      counter: adnOnionRequestCount
+      counter: options.requestNumber,
     });
   }
 
@@ -153,7 +155,9 @@ const sendViaOnion = async (srvPubKey, url, pFetchOptions, options = {}) => {
     body = JSON.parse(result.body);
   } catch (e) {
     log.error(
-      `loki_app_dot_net:::sendViaOnion #${adnOnionRequestCount} - Cant decode JSON body`,
+      `loki_app_dot_net:::sendViaOnion #${
+        options.requestNumber
+      } - Cant decode JSON body`,
       result.body
     );
   }
@@ -165,12 +169,7 @@ const sendViaOnion = async (srvPubKey, url, pFetchOptions, options = {}) => {
   return { result, txtResponse, response };
 };
 
-const sendToProxy = async (
-  srvPubKey,
-  endpoint,
-  pFetchOptions,
-  options = {}
-) => {
+const sendToProxy = async (srvPubKey, endpoint, fetchOptions, options = {}) => {
   if (!srvPubKey) {
     log.error(
       'loki_app_dot_net:::sendToProxy - called without a server public key'
@@ -178,17 +177,12 @@ const sendToProxy = async (
     return {};
   }
 
-  const fetchOptions = pFetchOptions; // make lint happy
-  // safety issue with file server, just safer to have this
-  if (fetchOptions.headers === undefined) {
-    fetchOptions.headers = {};
-  }
-
   const payloadObj = {
     body: fetchOptions.body, // might need to b64 if binary...
     endpoint,
     method: fetchOptions.method,
-    headers: fetchOptions.headers,
+    // safety issue with file server, just safer to have this
+    headers: fetchOptions.headers || {},
   };
 
   // from https://github.com/sindresorhus/is-stream/blob/master/index.js
@@ -218,7 +212,7 @@ const sendToProxy = async (
     log.warn('proxy random snode pool is not ready, retrying 10s', endpoint);
     // no nodes in the pool yet, give it some time and retry
     await timeoutDelay(1000);
-    return sendToProxy(srvPubKey, endpoint, pFetchOptions, options);
+    return sendToProxy(srvPubKey, endpoint, fetchOptions, options);
   }
   const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
 
@@ -229,7 +223,6 @@ const sendToProxy = async (
   payloadObj.body = false; // free memory
 
   // make temporary key for this request/response
-  // const ephemeralKey = await libsignal.Curve.generateKeyPair(); // sync
   // async maybe preferable to avoid cpu spikes
   // tho I think sync might be more apt in certain cases here...
   // like sending
@@ -590,12 +583,15 @@ class LokiAppDotNetServerAPI {
 
     // if in proxy mode, don't allow "file-dev."...
     // it only supports "file."... host.
-    if (window.lokiFeatureFlags.useSnodeProxy && !window.lokiFeatureFlags.useOnionRequests) {
+    if (
+      window.lokiFeatureFlags.useSnodeProxy &&
+      !window.lokiFeatureFlags.useOnionRequests
+    ) {
       pubKeyAB = window.Signal.Crypto.base64ToArrayBuffer(
         LOKIFOUNDATION_FILESERVER_PUBKEY
       );
     }
-    
+
     // do we have their pubkey locally?
     // FIXME: this._server won't be set yet...
     // can't really do this for the file server because we'll need the key
