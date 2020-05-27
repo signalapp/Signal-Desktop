@@ -994,21 +994,15 @@
         ConversationController.get(d)
       );
 
-      const pendingRequests = await allConversationsWithUser.reduce(
-        async (requestsP, conversation) => {
-          const requests = await requestsP;
-          const request = (await conversation.getFriendRequests(
-            direction,
-            status
-          ))[0];
+      const pendingRequestPromises = allConversationsWithUser.map(c =>
+        c.getFriendRequests(direction, status)
+      )[0];
 
-          return request
-            ? requests.concat({ conversation, request })
-            : requests;
-        },
-        []
-      );
+      let pendingRequests = await Promise.all(pendingRequestPromises);
+      pendingRequests = pendingRequests.filter(p => Boolean(p.length));
 
+      // We set all friend request messages from all devices
+      // from a user here to accepted where possible
       await Promise.all(
         pendingRequests.map(async friendRequest => {
           const { conversation, request } = friendRequest;

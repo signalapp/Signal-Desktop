@@ -425,6 +425,7 @@
         primaryDevicePubKey
       );
 
+      // Set profile name to primary conversation
       let profileName;
       const allConversationsWithUser = allDevices.map(d =>
         ConversationController.get(d)
@@ -458,6 +459,13 @@
       });
 
       this.set({ friendStatus: 'accepted' });
+
+      // Update redux store
+      window.Signal.Data.updateConversation(
+        primaryConversation.id,
+        primaryConversation.attributes,
+        { Conversation: Whisper.Conversation }
+      );
     },
     async declineFriendRequest() {
       if (this.get('friendStatus') !== 'pending') {
