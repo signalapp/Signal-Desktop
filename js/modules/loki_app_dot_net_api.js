@@ -385,7 +385,7 @@ const serverRequest = async (endpoint, options = {}) => {
     const host = url.host.toLowerCase();
     // log.info('host', host, FILESERVER_HOSTS);
     if (
-      window.lokiFeatureFlags.useOnionRequests &&
+      window.lokiFeatureFlags.useFileOnionRequests &&
       FILESERVER_HOSTS.includes(host)
     ) {
       mode = 'sendViaOnion';
