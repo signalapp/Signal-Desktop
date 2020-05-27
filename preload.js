@@ -416,6 +416,7 @@ window.lokiFeatureFlags = {
   privateGroupChats: true,
   useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
   useOnionRequests: true,
+  useFileOnionRequests: false,
   onionRequestHops: 1,
 };
 
