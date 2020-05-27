@@ -670,7 +670,7 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
       const result = await response.json();
       log.warn(
         `lokirpc:::lokiFetch ${type} - wrong swarm, now looking at snodes`,
-        result.snode
+        result.snodes
       );
       const newSwarm = result.snodes ? result.snodes : [];
       throw new textsecure.WrongSwarmError(newSwarm);
@@ -859,5 +859,6 @@ const lokiRpc = (
 
 module.exports = {
   lokiRpc,
+  BAD_PATH,
   sendOnionRequestLsrpcDest,
 };
