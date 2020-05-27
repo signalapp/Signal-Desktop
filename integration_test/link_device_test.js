@@ -45,7 +45,7 @@ describe('Link Device', function() {
 
   it('linkDevice:sync no groups, closed group, nor open groups', async () => {
     await common.linkApp2ToApp(app, app2, common.TEST_PUBKEY1);
-    await common.timeout(2000);
+    await common.timeout(5000);
 
     // get logs at this stage (getRenderProcessLogs() clears the app logs)
     const secondaryRenderLogs = await app2.client.getRenderProcessLogs();
