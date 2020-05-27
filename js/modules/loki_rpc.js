@@ -11,13 +11,9 @@ const snodeHttpsAgent = new https.Agent({
 
 const endpointBase = '/storage_rpc/v1';
 
-// Request index for debugging
-let onionReqIdx = 0;
-
 // Returns the actual ciphertext, symmetric key that will be used
 // for decryption, and an ephemeral_key to send to the next hop
 const encryptForPubKey = async (pubKeyX25519hex, reqObj) => {
-  // Do we still need "headers"?
   const reqStr = JSON.stringify(reqObj);
 
   const textEncoder = new TextEncoder();
@@ -704,8 +700,7 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
         // Get a path excluding `targetNode`:
         // eslint-disable-next-line no-await-in-loop
         const path = await lokiSnodeAPI.getOnionPath(targetNode);
-        const thisIdx = onionReqIdx;
-        onionReqIdx += 1;
+        const thisIdx = window.lokiSnodeAPI.getOnionRequestNumber();
 
         // eslint-disable-next-line no-await-in-loop
         const result = await sendOnionRequestSnodeDest(
