@@ -17,8 +17,6 @@ const validOpenGroupServer = async serverUrl => {
       const result = await window.tokenlessFileServerAdnAPI.serverRequest(
         `loki/v1/getOpenGroupKey/${url.hostname}`
       );
-      // console.log('loki_public_chat::validOpenGroupServer - result', result);
-      // console.log('loki_public_chat::validOpenGroupServer - meta', result.response.meta);
       if (result.response.meta.code === 200) {
         // supports it
         const obj = JSON.parse(result.response.data);
