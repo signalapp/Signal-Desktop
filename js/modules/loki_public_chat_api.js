@@ -27,12 +27,7 @@ const validOpenGroupServer = async serverUrl => {
           'base64'
         ).toArrayBuffer();
         // verify it works...
-        // get around the FILESERVER_HOSTS filter
-        /*
-        const res = await LokiAppDotNetAPI.serverRequest(url.toString(), {
-          srvPubKey: pubKey,
-        });
-        */
+        // get around the FILESERVER_HOSTS filter by not using serverRequest
         const res = await LokiAppDotNetAPI.sendViaOnion(
           pubKey,
           url,
@@ -48,19 +43,15 @@ const validOpenGroupServer = async serverUrl => {
           return true;
         }
         // otherwise fall back
-      } else if (result.response.meta.code === 404) {
-        // doesn't support it
-        // console.log('loki_public_chat::validOpenGroupServer - no onion routing available');
-        // fallback
-      } else {
+      } else if (result.response.meta.code !== 404) {
         // unknown error code
         log.warn(
           'loki_public_chat::validOpenGroupServer - unknown error code',
           result.response.meta
         );
-        // fallback
       }
     }
+    // doesn't support it, fallback
     log.info(
       `loki_public_chat::validOpenGroupServer - directly contacting ${url.toString()}`
     );
