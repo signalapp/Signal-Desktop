@@ -48,10 +48,13 @@ describe('Message Syncing', function() {
     //  *  Alice as a friend
     //  *  one open group with Alice
 
+    // Linking Alice2 to Alice1
+    // alice2 should trigger auto FR with bob1 as it's one of her friend
+    // and alice2 should trigger a SESSION_REQUEST with bob1 as he is in a closed group with her
     await common.linkApp2ToApp(Alice1, Alice2, common.TEST_PUBKEY1);
-    await common.timeout(12000);
+    await common.timeout(25000);
 
-    // validate primary pubkey of app2 is the same that in app1
+    // validate pubkey of app2 is the set
     const alice2Pubkey = await Alice2.webContents.executeJavaScript(
       'window.textsecure.storage.user.getNumber()'
     );
@@ -95,7 +98,7 @@ describe('Message Syncing', function() {
     );
     await common.logsContains(
       alice2Logs,
-      `Sending auto-friend-request:onlineBroadcast message to ${
+      `Sending auto-friend-request:friend-request message to ${
         common.TEST_PUBKEY2
       }`,
       1
@@ -134,13 +137,6 @@ describe('Message Syncing', function() {
       1
     );
     // be sure only one autoFR accept was sent (even if multi device, we need to reply to that specific device only)
-    // FIXME happens 2 times await common.logsContains(bob1Logs, `Sending auto-friend-accept:onlineBroadcast message to`, 1);
-    await common.logsContains(
-      bob1Logs,
-      `Sending session-request-accepted:onlineBroadcast message to ${alice2Pubkey}`,
-      1
-    );
-    // be sure only one session request accept was sent (even if multi device, we need to reply to that specific device only)
-    // FIXME happens 2 times  await common.logsContains(bob1Logs, `Sending session-request-accepted:onlineBroadcast message to`, 1);
+    await common.logsContains(bob1Logs, `Sending auto-friend-accept:onlineBroadcast message to`, 1);
   });
 });
