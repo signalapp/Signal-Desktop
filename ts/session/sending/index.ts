@@ -1,5 +1,6 @@
+// TS 3.8 supports export * as X from 'Y'
 import * as MessageSender from './MessageSender';
-import { MessageQueue } from './MessageQueue';
-import { MessageQueueInterface } from './MessageQueueInterface';
+export { MessageSender };
 
-export { MessageSender, MessageQueue, MessageQueueInterface };
+export * from './MessageQueue';
+export * from './MessageQueueInterface';

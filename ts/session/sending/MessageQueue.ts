@@ -1,13 +1,19 @@
-import { MessageQueueInterface } from './MessageQueueInterface';
+import { EventEmitter } from 'events';
+import {
+  MessageQueueInterface,
+  MessageQueueInterfaceEvents,
+} from './MessageQueueInterface';
 import { OpenGroupMessage, OutgoingContentMessage } from '../messages/outgoing';
-import { JobQueue } from '../utils/JobQueue';
 import { PendingMessageCache } from './PendingMessageCache';
+import { JobQueue, TypedEventEmitter } from '../utils';
 
 export class MessageQueue implements MessageQueueInterface {
+  public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
   private readonly jobQueues: Map<string, JobQueue> = new Map();
   private readonly cache: PendingMessageCache;
 
   constructor() {
+    this.events = new EventEmitter();
     this.cache = new PendingMessageCache();
     this.processAllPending();
   }
