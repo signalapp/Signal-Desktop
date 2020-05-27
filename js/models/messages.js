@@ -415,24 +415,57 @@
     },
 
     async acceptFriendRequest() {
+      const primaryDevicePubKey = this.attributes.conversationId;
+
       if (this.get('friendStatus') !== 'pending') {
         return;
       }
-      const conversation = await this.getSourceDeviceConversation();
-      // If we somehow received an old friend request (e.g. after having restored
-      // from seed, we won't be able to accept it, we should initiate our own
-      // friend request to reset the session:
-      if (conversation.get('sessionRestoreSeen')) {
-        conversation.sendMessage('', null, null, null, null, {
-          sessionRestoration: true,
-        });
-        return;
+
+      const allDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+        primaryDevicePubKey
+      );
+
+      // Set profile name to primary conversation
+      let profileName;
+      const allConversationsWithUser = allDevices.map(d =>
+        ConversationController.get(d)
+      );
+      allConversationsWithUser.forEach(conversation => {
+        // If we somehow received an old friend request (e.g. after having restored
+        // from seed, we won't be able to accept it, we should initiate our own
+        // friend request to reset the session:
+        if (conversation.get('sessionRestoreSeen')) {
+          conversation.sendMessage('', null, null, null, null, {
+            sessionRestoration: true,
+          });
+          return;
+        }
+
+        profileName = conversation.getProfileName() || profileName;
+        conversation.onAcceptFriendRequest();
+      });
+
+      // If you don't have a profile name for this device, and profileName is set,
+      // add profileName to conversation.
+      const primaryConversation = allConversationsWithUser.find(
+        c => c.id === primaryDevicePubKey
+      );
+      if (!primaryConversation.getProfileName() && profileName) {
+        await primaryConversation.setNickname(profileName);
       }
-      this.set({ friendStatus: 'accepted' });
+
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
       });
-      conversation.onAcceptFriendRequest();
+
+      this.set({ friendStatus: 'accepted' });
+
+      // Update redux store
+      window.Signal.Data.updateConversation(
+        primaryConversation.id,
+        primaryConversation.attributes,
+        { Conversation: Whisper.Conversation }
+      );
     },
     async declineFriendRequest() {
       if (this.get('friendStatus') !== 'pending') {
@@ -2220,6 +2253,7 @@
           let attributes = {
             ...conversation.attributes,
           };
+
           if (dataMessage.group) {
             let groupUpdate = null;
             attributes = {
@@ -2509,6 +2543,7 @@
                 - We are friends with the user,
                   and that user just sent us a friend request.
               */
+
               const isFriend = sendingDeviceConversation.isFriend();
               const hasSentFriendRequest = sendingDeviceConversation.hasSentFriendRequest();
               autoAccept = isFriend || hasSentFriendRequest;
@@ -2534,7 +2569,6 @@
             }
           }
 
-          // We need to map the original message source to the primary device
           if (source !== ourNumber) {
             message.set({ source: primarySource });
           }
