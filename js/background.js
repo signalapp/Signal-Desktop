@@ -1431,9 +1431,11 @@
       // TODO: we should ensure the message was sent and retry automatically if not
       await libloki.api.sendUnpairingMessageToSecondary(pubKey);
       // Remove all traces of the device
-      ConversationController.deleteContact(pubKey);
-      Whisper.events.trigger('refreshLinkedDeviceList');
-      callback();
+      setTimeout(() => {
+        ConversationController.deleteContact(pubKey);
+        Whisper.events.trigger('refreshLinkedDeviceList');
+        callback();
+      }, 1000);
     });
   }
 
