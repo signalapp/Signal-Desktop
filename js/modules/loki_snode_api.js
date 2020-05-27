@@ -23,8 +23,17 @@ const compareSnodes = (current, search) =>
 
 // just get the filtered list
 async function tryGetSnodeListFromLokidSeednode(
-  seedNodes = [...window.seedNodeList]
+  seedNodes = window.seedNodeList
 ) {
+  if (!seedNodes.length) {
+    log.error(
+      `loki_snodes:::tryGetSnodeListFromLokidSeednode - no seedNodes given`,
+      seedNodes,
+      'window',
+      window.seedNodeList
+    );
+    return [];
+  }
   // Removed limit until there is a way to get snode info
   // for individual nodes (needed for guard nodes);  this way
   // we get all active nodes
@@ -42,6 +51,13 @@ async function tryGetSnodeListFromLokidSeednode(
     Math.floor(Math.random() * seedNodes.length),
     1
   )[0];
+  if (!seedNode) {
+    log.error(
+      `loki_snodes:::tryGetSnodeListFromLokidSeednode - seedNode selection failure - seedNodes`,
+      seedNodes
+    );
+    return [];
+  }
   let snodes = [];
   try {
     const getSnodesFromSeedUrl = async urlObj => {
@@ -53,6 +69,30 @@ async function tryGetSnodeListFromLokidSeednode(
         {}, // Options
         '/json_rpc' // Seed request endpoint
       );
+      if (!response) {
+        log.error(
+          `loki_snodes:::tryGetSnodeListFromLokidSeednode - invalid response from seed ${urlObj.toString()}:`,
+          response
+        );
+        return [];
+      }
+
+      // should we try to JSON.parse this?
+      if (typeof response === 'string') {
+        log.error(
+          `loki_snodes:::tryGetSnodeListFromLokidSeednode - invalid string response from seed ${urlObj.toString()}:`,
+          response
+        );
+        return [];
+      }
+
+      if (!response.result) {
+        log.error(
+          `loki_snodes:::tryGetSnodeListFromLokidSeednode - invalid result from seed ${urlObj.toString()}:`,
+          response
+        );
+        return [];
+      }
       // Filter 0.0.0.0 nodes which haven't submitted uptime proofs
       return response.result.service_node_states.filter(
         snode => snode.public_ip !== '0.0.0.0'
@@ -72,6 +112,13 @@ async function tryGetSnodeListFromLokidSeednode(
         );
       }
     }
+    if (snodes.length) {
+      log.info(
+        `loki_snodes:::tryGetSnodeListFromLokidSeednode - got ${
+          snodes.length
+        } service nodes from seed`
+      );
+    }
     return snodes;
   } catch (e) {
     log.warn(
@@ -87,9 +134,18 @@ async function tryGetSnodeListFromLokidSeednode(
 }
 
 async function getSnodeListFromLokidSeednode(
-  seedNodes = [...window.seedNodeList],
+  seedNodes = window.seedNodeList,
   retries = 0
 ) {
+  if (!seedNodes.length) {
+    log.error(
+      `loki_snodes:::getSnodeListFromLokidSeednode - no seedNodes given`,
+      seedNodes,
+      'window',
+      window.seedNodeList
+    );
+    return [];
+  }
   let snodes = [];
   try {
     snodes = await tryGetSnodeListFromLokidSeednode(seedNodes);
@@ -129,6 +185,12 @@ class LokiSnodeAPI {
 
     this.onionPaths = [];
     this.guardNodes = [];
+    this.onionRequestCounter = 0; // Request index for debugging
+  }
+
+  getOnionRequestNumber() {
+    this.onionRequestCounter += 1;
+    return this.onionRequestCounter;
   }
 
   async getRandomSnodePool() {
@@ -202,7 +264,7 @@ class LokiSnodeAPI {
     // FIXME: handle rejections
     let nodePool = await this.getRandomSnodePool();
     if (nodePool.length === 0) {
-      log.error(`Could not select guarn nodes: node pool is empty`);
+      log.error(`Could not select guard nodes: node pool is empty`);
       return [];
     }
 
@@ -213,7 +275,7 @@ class LokiSnodeAPI {
     const DESIRED_GUARD_COUNT = 3;
     if (shuffled.length < DESIRED_GUARD_COUNT) {
       log.error(
-        `Could not select guarn nodes: node pool is not big enough, pool size ${
+        `Could not select guard nodes: node pool is not big enough, pool size ${
           shuffled.length
         }, need ${DESIRED_GUARD_COUNT}, attempting to refresh randomPool`
       );
@@ -222,7 +284,7 @@ class LokiSnodeAPI {
       shuffled = _.shuffle(nodePool);
       if (shuffled.length < DESIRED_GUARD_COUNT) {
         log.error(
-          `Could not select guarn nodes: node pool is not big enough, pool size ${
+          `Could not select guard nodes: node pool is not big enough, pool size ${
             shuffled.length
           }, need ${DESIRED_GUARD_COUNT}, failing...`
         );
@@ -278,12 +340,15 @@ class LokiSnodeAPI {
         `Must have at least 2 good onion paths, actual: ${goodPaths.length}`
       );
       await this.buildNewOnionPaths();
+      // should we add a delay? buildNewOnionPaths should act as one
+      // reload goodPaths now
+      return this.getOnionPath(toExclude);
     }
 
     const paths = _.shuffle(goodPaths);
 
     if (!toExclude) {
-      return paths[0];
+      return paths[0].path;
     }
 
     // Select a path that doesn't contain `toExclude`
@@ -294,6 +359,19 @@ class LokiSnodeAPI {
 
     if (otherPaths.length === 0) {
       // This should never happen!
+      // well it did happen, should we
+      // await this.buildNewOnionPaths();
+      // and restart call?
+      log.error(
+        `loki_snode_api::getOnionPath - no paths without`,
+        toExclude.pubkey_ed25519,
+        'path count',
+        paths.length,
+        'goodPath count',
+        goodPaths.length,
+        'paths',
+        paths
+      );
       throw new Error('No onion paths available after filtering');
     }
 
@@ -569,7 +647,17 @@ class LokiSnodeAPI {
     );
   }
 
-  async refreshRandomPool(seedNodes = [...window.seedNodeList]) {
+  async refreshRandomPool(seedNodes = window.seedNodeList) {
+    if (!seedNodes.length) {
+      if (!window.seedNodeList || !window.seedNodeList.length) {
+        log.error(
+          `loki_snodes:::refreshRandomPool - seedNodeList has not been loaded yet`
+        );
+        return [];
+      }
+      // eslint-disable-next-line no-param-reassign
+      seedNodes = window.seedNodeList;
+    }
     return primitives.allowOnlyOneAtATime('refreshRandomPool', async () => {
       // are we running any _getAllVerionsForRandomSnodePool
       if (this.stopGetAllVersionPromiseControl !== false) {
