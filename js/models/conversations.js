@@ -994,6 +994,7 @@
         ConversationController.get(d)
       );
 
+      // Search through each conversation (device) for friend request messages
       const pendingRequestPromises = allConversationsWithUser.map(c =>
         c.getFriendRequests(direction, status)
       )[0];
