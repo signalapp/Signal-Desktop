@@ -42,6 +42,8 @@ declare global {
     deliveryReceipt?: any;
     error?: any;
     groupDetails?: any;
+    groupId?: string;
+    messageRequestResponseType?: number;
     proto?: any;
     read?: any;
     reason?: any;
@@ -51,6 +53,8 @@ declare global {
     source?: any;
     sourceUuid?: any;
     stickerPacks?: any;
+    threadE164?: string;
+    threadUuid?: string;
     timestamp?: any;
     typing?: any;
     verified?: any;
@@ -1119,6 +1123,22 @@ class MessageReceiverInner extends EventTarget {
     ) {
       p = this.handleEndSession(destination);
     }
+
+    if (
+      msg.flags &&
+      msg.flags &
+        window.textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE
+    ) {
+      const ev = new Event('profileKeyUpdate');
+      ev.confirm = this.removeFromCache.bind(this, envelope);
+      ev.data = {
+        source: envelope.source,
+        sourceUuid: envelope.sourceUuid,
+        profileKey: msg.profileKey.toString('base64'),
+      };
+      return this.dispatchAndWait(ev);
+    }
+
     return p.then(async () =>
       this.processDecrypted(envelope, msg).then(message => {
         const groupId = message.group && message.group.id;
@@ -1373,6 +1393,11 @@ class MessageReceiverInner extends EventTarget {
       );
     } else if (syncMessage.viewOnceOpen) {
       return this.handleViewOnceOpen(envelope, syncMessage.viewOnceOpen);
+    } else if (syncMessage.messageRequestResponse) {
+      return this.handleMessageRequestResponse(
+        envelope,
+        syncMessage.messageRequestResponse
+      );
     }
 
     this.removeFromCache(envelope);
@@ -1404,6 +1429,27 @@ class MessageReceiverInner extends EventTarget {
       ev,
       ['sourceUuid'],
       'message_receiver::handleViewOnceOpen'
+    );
+
+    return this.dispatchAndWait(ev);
+  }
+  async handleMessageRequestResponse(
+    envelope: EnvelopeClass,
+    sync: SyncMessageClass.MessageRequestResponse
+  ) {
+    window.log.info('got message request response sync message');
+
+    const ev = new Event('messageRequestResponse');
+    ev.confirm = this.removeFromCache.bind(this, envelope);
+    ev.threadE164 = sync.threadE164;
+    ev.threadUuid = sync.threadUuid;
+    ev.groupId = sync.groupId ? sync.groupId.toString('binary') : null;
+    ev.messageRequestResponseType = sync.type;
+
+    window.normalizeUuids(
+      ev,
+      ['threadUuid'],
+      'MessageReceiver::handleMessageRequestResponse'
     );
 
     return this.dispatchAndWait(ev);

@@ -31,7 +31,7 @@ declare global {
     storage: {
       put: (key: string, value: any) => void;
       remove: (key: string) => void;
-      get: (key: string) => any;
+      get: <T = any>(key: string) => T | undefined;
     };
     textsecure: TextSecureType;
 
@@ -47,6 +47,10 @@ declare global {
     ConversationController: ConversationControllerType;
     WebAPI: WebAPIConnectType;
     Whisper: WhisperType;
+  }
+
+  interface Error {
+    cause?: Event;
   }
 }
 

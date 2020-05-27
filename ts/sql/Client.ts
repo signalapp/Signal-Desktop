@@ -852,8 +852,8 @@ async function searchMessagesInConversation(
 
 // Message
 
-async function getMessageCount() {
-  return channels.getMessageCount();
+async function getMessageCount(conversationId?: string) {
+  return channels.getMessageCount(conversationId);
 }
 
 async function saveMessage(

@@ -18,6 +18,7 @@ const MIN_HEIGHT = 50;
 // Used for display
 
 export interface AttachmentType {
+  blurHash?: string;
   caption?: string;
   contentType: MIME.MIMEType;
   fileName: string;
@@ -133,7 +134,7 @@ export function hasImage(attachments?: Array<AttachmentType>) {
   return (
     attachments &&
     attachments[0] &&
-    (attachments[0].url || attachments[0].pending)
+    (attachments[0].url || attachments[0].pending || attachments[0].blurHash)
   );
 }
 

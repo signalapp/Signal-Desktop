@@ -8,7 +8,8 @@
   libsignal,
   storage,
   textsecure,
-  Whisper
+  Whisper,
+  Signal
 */
 
 /* eslint-disable more/no-then */
@@ -60,6 +61,8 @@
       return {
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
+        messageCount: 0,
+        sentMessageCount: 0,
       };
     },
 
@@ -97,6 +100,8 @@
       this.ourNumber = textsecure.storage.user.getNumber();
       this.ourUuid = textsecure.storage.user.getUuid();
       this.verifiedEnum = textsecure.storage.protocol.VerifiedStatus;
+      this.messageRequestEnum =
+        textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
 
       // This may be overridden by ConversationController.getOrCreate, and signify
       //   our first save to the database. Or first fetch from the database.
@@ -162,6 +167,52 @@
       return (
         (e164 && e164 === this.ourNumber) || (uuid && uuid === this.ourUuid)
       );
+    },
+
+    isBlocked() {
+      const uuid = this.get('uuid');
+      if (uuid) {
+        return window.storage.isUuidBlocked(uuid);
+      }
+
+      const e164 = this.get('e164');
+      if (e164) {
+        return window.storage.isBlocked(e164);
+      }
+
+      const groupId = this.get('groupId');
+      if (groupId) {
+        return window.storage.isGroupBlocked(groupId);
+      }
+
+      return false;
+    },
+
+    unblock() {
+      const uuid = this.get('uuid');
+      if (uuid) {
+        return window.storage.removeBlockedUuid(uuid);
+      }
+
+      const e164 = this.get('e164');
+      if (e164) {
+        return window.storage.removeBlockedNumber(e164);
+      }
+
+      const groupId = this.get('groupId');
+      if (groupId) {
+        return window.storage.removeBlockedGroup(groupId);
+      }
+
+      return false;
+    },
+
+    enableProfileSharing() {
+      this.set({ profileSharing: true });
+    },
+
+    disableProfileSharing() {
+      this.set({ profileSharing: false });
     },
 
     hasDraft() {
@@ -320,6 +371,10 @@
         this.messageCollection.remove(id);
         existing.trigger('expired');
         existing.cleanup();
+
+        // An expired message only counts as decrementing the message count, not
+        // the sent message count
+        this.decrementMessageCount();
       };
 
       // If a fetch is in progress, then we need to wait until that's complete to
@@ -390,11 +445,15 @@
       const shouldShowDraft =
         this.hasDraft() && draftTimestamp && draftTimestamp >= timestamp;
       const inboxPosition = this.get('inbox_position');
+      const messageRequestsEnabled = Signal.RemoteConfig.isEnabled(
+        'desktop.messageRequests'
+      );
 
       const result = {
         id: this.id,
 
         isArchived: this.get('isArchived'),
+        isBlocked: this.isBlocked(),
         activeAt: this.get('active_at'),
         avatarPath: this.getAvatarPath(),
         color,
@@ -414,11 +473,17 @@
         draftText,
 
         phoneNumber: this.getNumber(),
+        membersCount: this.isPrivate()
+          ? undefined
+          : (this.get('members') || []).length,
         lastMessage: {
           status: this.get('lastMessageStatus'),
           text: this.get('lastMessage'),
           deletedForEveryone: this.get('lastMessageDeletedForEveryone'),
         },
+
+        acceptedMessageRequest: this.getAccepted(),
+        messageRequestsEnabled,
       };
 
       return result;
@@ -447,6 +512,143 @@
         window.Signal.Data.updateConversation(this.attributes);
         this.trigger('idUpdated', this, 'groupId', oldValue);
       }
+    },
+
+    incrementMessageCount() {
+      this.set({
+        messageCount: (this.get('messageCount') || 0) + 1,
+      });
+      window.Signal.Data.updateConversation(this.attributes);
+    },
+
+    decrementMessageCount() {
+      this.set({
+        messageCount: Math.max((this.get('messageCount') || 0) - 1, 0),
+      });
+      window.Signal.Data.updateConversation(this.attributes);
+    },
+
+    incrementSentMessageCount() {
+      this.set({
+        messageCount: (this.get('messageCount') || 0) + 1,
+        sentMessageCount: (this.get('sentMessageCount') || 0) + 1,
+      });
+      window.Signal.Data.updateConversation(this.attributes);
+    },
+
+    decrementSentMessageCount() {
+      this.set({
+        messageCount: Math.max((this.get('messageCount') || 0) - 1, 0),
+        sentMessageCount: Math.max((this.get('sentMessageCount') || 0) - 1, 0),
+      });
+      window.Signal.Data.updateConversation(this.attributes);
+    },
+
+    /**
+     * This function is called when a message request is accepted in order to
+     * handle sending read receipts and download any pending attachments.
+     */
+    async handleReadAndDownloadAttachments() {
+      let messages;
+      do {
+        // eslint-disable-next-line no-await-in-loop
+        messages = await window.Signal.Data.getOlderMessagesByConversation(
+          this.get('id'),
+          {
+            MessageCollection: Whisper.MessageCollection,
+            limit: 100,
+            receivedAt: messages
+              ? messages.first().get('received_at')
+              : undefined,
+          }
+        );
+
+        if (!messages.length) {
+          return;
+        }
+
+        const readMessages = messages.filter(
+          m => !m.hasErrors() && m.isIncoming()
+        );
+        const receiptSpecs = readMessages.map(m => ({
+          sender: m.get('source') || m.get('sourceUuid'),
+          timestamp: m.get('sent_at'),
+          hasErrors: m.hasErrors(),
+        }));
+        // eslint-disable-next-line no-await-in-loop
+        await this.sendReadReceiptsFor(receiptSpecs);
+        // eslint-disable-next-line no-await-in-loop
+        await Promise.all(readMessages.map(m => m.queueAttachmentDownloads()));
+      } while (messages.length > 0);
+    },
+
+    async applyMessageRequestResponse(response, { fromSync = false } = {}) {
+      // Apply message request response locally
+      this.set({
+        messageRequestResponseType: response,
+      });
+      window.Signal.Data.updateConversation(this.attributes);
+
+      if (response === this.messageRequestEnum.ACCEPT) {
+        this.unblock();
+        this.enableProfileSharing();
+        this.sendProfileKeyUpdate();
+        if (!fromSync) {
+          // Locally accepted
+          await this.handleReadAndDownloadAttachments();
+        }
+      } else if (response === this.messageRequestEnum.BLOCK) {
+        // Block locally, other devices should block upon receiving the sync message
+        window.storage.blockIdentifier(this.get('id'));
+        this.disableProfileSharing();
+      } else if (response === this.messageRequestEnum.DELETE) {
+        // Delete messages locally, other devices should delete upon receiving
+        // the sync message
+        this.destroyMessages();
+        this.disableProfileSharing();
+        this.updateLastMessage();
+        if (!fromSync) {
+          this.trigger('unload', 'deleted from message request');
+        }
+      } else if (response === this.messageRequestEnum.BLOCK_AND_DELETE) {
+        // Delete messages locally, other devices should delete upon receiving
+        // the sync message
+        this.destroyMessages();
+        this.disableProfileSharing();
+        this.updateLastMessage();
+        // Block locally, other devices should block upon receiving the sync message
+        window.storage.blockIdentifier(this.get('id'));
+        // Leave group if this was a local action
+        if (!fromSync) {
+          this.leaveGroup();
+          this.trigger('unload', 'blocked and deleted from message request');
+        }
+      }
+    },
+
+    async syncMessageRequestResponse(response) {
+      // Let this run, no await
+      this.applyMessageRequestResponse(response);
+
+      const { ourNumber, ourUuid } = this;
+      const { wrap, sendOptions } = ConversationController.prepareForSend(
+        ourNumber || ourUuid,
+        {
+          syncMessage: true,
+        }
+      );
+
+      await wrap(
+        textsecure.messaging.syncMessageRequestResponse(
+          {
+            threadE164: this.get('e164'),
+            threadUuid: this.get('uuid'),
+            groupId: this.get('groupId'),
+            type: response,
+          },
+          sendOptions
+        )
+      );
     },
 
     onMessageError() {
@@ -687,6 +889,52 @@
         );
       });
     },
+
+    getSentMessageCount() {
+      return this.get('sentMessageCount') || 0;
+    },
+
+    getMessageRequestResponseType() {
+      return this.get('messageRequestResponseType') || 0;
+    },
+
+    /**
+     * Determine if this conversation should be considered "accepted" in terms
+     * of message requests
+     */
+    getAccepted() {
+      const messageRequestsEnabled = Signal.RemoteConfig.isEnabled(
+        'desktop.messageRequests'
+      );
+
+      if (!messageRequestsEnabled) {
+        return true;
+      }
+
+      if (this.isMe()) {
+        return true;
+      }
+
+      if (
+        this.getMessageRequestResponseType() === this.messageRequestEnum.ACCEPT
+      ) {
+        return true;
+      }
+
+      const fromContact = this.getIsAddedByContact();
+      const hasSentMessages = this.getSentMessageCount() > 0;
+      const hasMessagesBeforeMessageRequests =
+        (this.get('messageCountBeforeMessageRequests') || 0) > 0;
+      const hasNoMessages = (this.get('messageCount') || 0) === 0;
+
+      return (
+        fromContact ||
+        hasSentMessages ||
+        hasMessagesBeforeMessageRequests ||
+        hasNoMessages
+      );
+    },
+
     onMemberVerifiedChange() {
       // If the verified state of a member changes, our aggregate state changes.
       // We trigger both events to replicate the behavior of Backbone.Model.set()
@@ -1159,6 +1407,33 @@
       });
     },
 
+    async sendProfileKeyUpdate() {
+      const id = this.get('id');
+      const recipients = this.isPrivate()
+        ? [this.get('uuid') || this.get('e164')]
+        : this.getRecipients();
+      if (!this.get('profileSharing')) {
+        window.log.error(
+          'Attempted to send profileKeyUpdate to conversation without profileSharing enabled',
+          id,
+          recipients
+        );
+        return;
+      }
+      window.log.info(
+        'Sending profileKeyUpdate to conversation',
+        id,
+        recipients
+      );
+      const profileKey = storage.get('profileKey');
+      await textsecure.messaging.sendProfileKeyUpdate(
+        profileKey,
+        recipients,
+        this.getSendOptions(),
+        this.get('groupId')
+      );
+    },
+
     sendMessage(body, attachments, quote, preview, sticker) {
       this.clearTypingTimers();
 
@@ -1226,6 +1501,7 @@
           draft: null,
           draftTimestamp: null,
         });
+        this.incrementSentMessageCount();
         window.Signal.Data.updateConversation(this.attributes);
 
         // We're offline!
@@ -1485,6 +1761,32 @@
         ...(e164 ? { [e164]: info } : {}),
         ...(uuid ? { [uuid]: info } : {}),
       };
+    },
+
+    getIsContact() {
+      if (this.isPrivate()) {
+        return Boolean(this.get('name'));
+      }
+
+      return false;
+    },
+
+    getIsAddedByContact() {
+      if (this.isPrivate()) {
+        return this.getIsContact();
+      }
+
+      const addedBy = this.get('addedBy');
+      if (!addedBy) {
+        return false;
+      }
+
+      const conv = ConversationController.get(addedBy);
+      if (!conv) {
+        return false;
+      }
+
+      return conv.getIsContact();
     },
 
     async updateLastMessage() {
@@ -1793,7 +2095,7 @@
     async leaveGroup() {
       const now = Date.now();
       if (this.get('type') === 'group') {
-        const groupNumbers = this.getRecipients();
+        const groupIdentifiers = this.getRecipients();
         this.set({ left: true });
         window.Signal.Data.updateConversation(this.attributes);
 
@@ -1816,7 +2118,7 @@
         const options = this.getSendOptions();
         message.send(
           this.wrapSend(
-            textsecure.messaging.leaveGroup(this.id, groupNumbers, options)
+            textsecure.messaging.leaveGroup(this.id, groupIdentifiers, options)
           )
         );
       }
@@ -1845,11 +2147,10 @@
           // Note that this will update the message in the database
           await m.markRead(options.readAt);
 
-          const errors = m.get('errors');
           return {
-            sender: m.get('source'),
+            sender: m.get('source') || m.get('sourceUuid'),
             timestamp: m.get('sent_at'),
-            hasErrors: Boolean(errors && errors.length),
+            hasErrors: m.hasErrors(),
           };
         })
       );
@@ -1870,7 +2171,7 @@
       read = read.filter(item => !item.hasErrors);
 
       if (read.length && options.sendReadReceipts) {
-        window.log.info(`Sending ${read.length} read receipts`);
+        window.log.info(`Sending ${read.length} read syncs`);
         // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
         //   to a contact, we need accessKeys for both.
         const { sendOptions } = ConversationController.prepareForSend(
@@ -1880,25 +2181,31 @@
         await this.wrapSend(
           textsecure.messaging.syncReadMessages(read, sendOptions)
         );
+        await this.sendReadReceiptsFor(read);
+      }
+    },
 
-        if (storage.get('read-receipt-setting')) {
-          const convoSendOptions = this.getSendOptions();
+    async sendReadReceiptsFor(items) {
+      // Only send read receipts for accepted conversations
+      if (storage.get('read-receipt-setting') && this.getAccepted()) {
+        window.log.info(`Sending ${items.length} read receipts`);
+        const convoSendOptions = this.getSendOptions();
+        const receiptsBySender = _.groupBy(items, 'sender');
 
-          await Promise.all(
-            _.map(_.groupBy(read, 'sender'), async (receipts, identifier) => {
-              const timestamps = _.map(receipts, 'timestamp');
-              const c = ConversationController.get(identifier);
-              await this.wrapSend(
-                textsecure.messaging.sendReadReceipts(
-                  c.get('e164'),
-                  c.get('uuid'),
-                  timestamps,
-                  convoSendOptions
-                )
-              );
-            })
-          );
-        }
+        await Promise.all(
+          _.map(receiptsBySender, async (receipts, identifier) => {
+            const timestamps = _.map(receipts, 'timestamp');
+            const c = ConversationController.get(identifier);
+            await this.wrapSend(
+              textsecure.messaging.sendReadReceipts(
+                c.get('e164'),
+                c.get('uuid'),
+                timestamps,
+                convoSendOptions
+              )
+            );
+          })
+        );
       }
     },
 

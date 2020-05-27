@@ -1,4 +1,4 @@
-/* global storage, _ */
+/* global storage, _, ConversationController */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -78,5 +78,49 @@
 
     window.log.info(`removing group(${groupId} from blocked list`);
     storage.put(BLOCKED_GROUPS_ID, _.without(groupIds, groupId));
+  };
+
+  /**
+   * Optimistically adds a conversation to our local block list.
+   * @param {string} id
+   */
+  storage.blockIdentifier = id => {
+    const conv = ConversationController.get(id);
+    if (conv) {
+      const uuid = conv.get('uuid');
+      if (uuid) {
+        storage.addBlockedUuid(uuid);
+      }
+      const e164 = conv.get('e164');
+      if (e164) {
+        storage.addBlockedNumber(e164);
+      }
+      const groupId = conv.get('groupId');
+      if (groupId) {
+        storage.addBlockedGroup(groupId);
+      }
+    }
+  };
+
+  /**
+   * Optimistically removes a conversation from our local block list.
+   * @param {string} id
+   */
+  storage.unblockIdentifier = id => {
+    const conv = ConversationController.get(id);
+    if (conv) {
+      const uuid = conv.get('uuid');
+      if (uuid) {
+        storage.removeBlockedUuid(uuid);
+      }
+      const e164 = conv.get('e164');
+      if (e164) {
+        storage.removeBlockedNumber(e164);
+      }
+      const groupId = conv.get('groupId');
+      if (groupId) {
+        storage.removeBlockedGroup(groupId);
+      }
+    }
   };
 })();

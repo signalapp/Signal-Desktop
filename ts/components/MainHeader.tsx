@@ -25,7 +25,7 @@ export interface PropsType {
   phoneNumber: string;
   isMe: boolean;
   name?: string;
-  color: ColorType;
+  color?: ColorType;
   verified: boolean;
   profileName?: string;
   avatarPath?: string;

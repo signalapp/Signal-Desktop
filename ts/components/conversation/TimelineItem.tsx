@@ -77,6 +77,7 @@ export type TimelineItemType =
 
 type PropsLocalType = {
   conversationId: string;
+  conversationAccepted: boolean;
   item?: TimelineItemType;
   id: string;
   isSelected: boolean;

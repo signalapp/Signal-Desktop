@@ -619,7 +619,7 @@
     left: -12px;
     right: -12px;
     top: -10px;
-    bottom: -10px;
+    bottom: -15px;
   }
 
   border-radius: 16px;
@@ -642,6 +642,10 @@
     margin-top: 4px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
+  }
+
+  &--with-collapsed-metadata {
+    margin-bottom: -10px;
   }
 }
 
@@ -706,6 +710,11 @@
 
 .module-message__generic-attachment--with-content-above {
   padding-top: 4px;
+}
+
+.module-message__generic-attachment--not-active {
+  cursor: default;
+  pointer-events: none;
 }
 
 .module-message__generic-attachment__icon-container {
@@ -3217,6 +3226,138 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   color: $color-gray-45;
 }
 
+// Module: Conversation Hero
+
+.module-conversation-hero {
+  padding: 32px 0 28px 0;
+  text-align: center;
+
+  &__avatar {
+    margin-bottom: 12px;
+  }
+
+  &__profile-name {
+    @include font-title-2;
+    margin-bottom: 2px;
+
+    @include light-theme {
+      color: $color-gray-90;
+    }
+
+    @include dark-theme {
+      color: $color-gray-05;
+    }
+  }
+
+  &__with {
+    @include font-body-2;
+    margin-bottom: 16px;
+
+    @include light-theme {
+      color: $color-gray-60;
+    }
+
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+  }
+
+  &__membership {
+    @include font-body-2;
+
+    padding: 0 16px;
+
+    @include light-theme {
+      color: $color-gray-60;
+    }
+
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+
+    &__name {
+      @include font-body-2-bold;
+    }
+  }
+}
+
+// Module: Message Request Actions
+
+.module-message-request-actions {
+  padding: 8px 16px 12px 16px;
+
+  @include light-theme {
+    background: $color-white;
+  }
+
+  @include dark-theme {
+    background: $color-gray-95;
+  }
+
+  &__message {
+    @include font-body-2;
+    text-align: center;
+    margin-bottom: 12px;
+
+    @include light-theme {
+      color: $color-gray-60;
+    }
+
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+
+    &__name {
+      @include font-body-2-bold;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    &__button {
+      border: none;
+      border-radius: 4px;
+      min-width: 80px;
+      height: 36px;
+      padding: 0 14px;
+      text-align: center;
+
+      &:focus {
+        outline: none;
+
+        @include keyboard-mode {
+          box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+        }
+      }
+
+      @include font-body-1-bold;
+
+      @include light-theme {
+        background-color: $color-gray-05;
+      }
+
+      @include dark-theme {
+        background-color: $color-gray-75;
+      }
+
+      &:not(:last-of-type) {
+        margin-right: 8px;
+      }
+
+      &--deny {
+        color: $color-accent-red;
+      }
+
+      &--accept {
+        color: $color-accent-blue;
+      }
+    }
+  }
+}
+
 // Module: Conversation List Item
 
 .module-conversation-list-item {
@@ -3696,6 +3837,31 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   width: 62px;
 }
 
+.module-avatar--112 {
+  height: 112px;
+  width: 112px;
+
+  img {
+    height: 112px;
+    width: 112px;
+  }
+}
+
+.module-avatar__label--112 {
+  width: 112px;
+  font-size: 56px;
+  line-height: 112px;
+}
+
+.module-avatar__icon--112 {
+  height: 81px;
+  width: 81px;
+}
+.module-avatar__icon--112.module-avatar__icon--direct {
+  height: 87px;
+  width: 87px;
+}
+
 .module-avatar__icon--note-to-self {
   width: 70%;
   height: 70%;
@@ -3900,6 +4066,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   display: inline-block;
   margin: 1px;
   vertical-align: middle;
+  overflow: hidden;
 }
 
 .module-image--with-background {
@@ -6471,8 +6638,13 @@ button.module-image__border-overlay:focus {
       color: $color-gray-05;
     }
 
+    &__title {
+      @include font-body-1-bold;
+    }
+
     &__content {
-      margin-bottom: 20px;
+      @include font-body-1;
+      margin-bottom: 22px;
     }
 
     &__buttons {

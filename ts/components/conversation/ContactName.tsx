@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Emojify } from './Emojify';
 
-interface Props {
+export interface Props {
   phoneNumber?: string;
   name?: string;
   profileName?: string;

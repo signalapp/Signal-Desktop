@@ -174,8 +174,13 @@ export const StickerPreviewModal = React.memo(
               <ConfirmationDialog
                 i18n={i18n}
                 onClose={onClose}
-                negativeText={i18n('stickers--StickerManager--Uninstall')}
-                onNegative={handleUninstall}
+                actions={[
+                  {
+                    style: 'negative',
+                    text: i18n('stickers--StickerManager--Uninstall'),
+                    action: handleUninstall,
+                  },
+                ]}
               >
                 {i18n('stickers--StickerManager--UninstallWarning')}
               </ConfirmationDialog>

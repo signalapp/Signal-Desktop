@@ -543,6 +543,9 @@
 
       const conversation = this.getConversation();
       const isGroup = conversation && !conversation.isPrivate();
+      const conversationAccepted = Boolean(
+        conversation && conversation.getAccepted()
+      );
       const sticker = this.get('sticker');
 
       const isTapToView = this.isTapToView();
@@ -577,6 +580,7 @@
         textPending: this.get('bodyPending'),
         id: this.id,
         conversationId: this.get('conversationId'),
+        conversationAccepted,
         isSticker: Boolean(sticker),
         direction: this.isIncoming() ? 'incoming' : 'outgoing',
         timestamp: this.get('sent_at'),
@@ -1145,6 +1149,28 @@
         });
       }
     },
+    isEmpty() {
+      const body = this.get('body');
+      const hasAttachment = (this.get('attachments') || []).length > 0;
+      const quote = this.get('quote');
+      const hasContact = (this.get('contact') || []).length > 0;
+      const sticker = this.get('sticker');
+      const hasPreview = (this.get('preview') || []).length > 0;
+      const groupUpdate = this.get('group_update');
+      const expirationTimerUpdate = this.get('expirationTimerUpdate');
+
+      const notEmpty = Boolean(
+        body ||
+          hasAttachment ||
+          quote ||
+          hasContact ||
+          sticker ||
+          hasPreview ||
+          groupUpdate ||
+          expirationTimerUpdate
+      );
+      return !notEmpty;
+    },
     unload() {
       if (this.quotedMessage) {
         this.quotedMessage = null;
@@ -1454,26 +1480,32 @@
       );
     },
     canReply() {
+      const isAccepted = this.getConversation().getAccepted();
       const errors = this.get('errors');
       const isOutgoing = this.get('type') === 'outgoing';
       const numDelivered = this.get('delivered');
 
-      // Case 1: We cannot reply if this message is deleted for everyone
+      // Case 1: We cannot reply if we have accepted the message request
+      if (!isAccepted) {
+        return false;
+      }
+
+      // Case 2: We cannot reply if this message is deleted for everyone
       if (this.get('deletedForEveryone')) {
         return false;
       }
 
-      // Case 2: We can reply if this is outgoing and delievered to at least one recipient
+      // Case 3: We can reply if this is outgoing and delievered to at least one recipient
       if (isOutgoing && numDelivered > 0) {
         return true;
       }
 
-      // Case 3: We can reply if there are no errors
+      // Case 4: We can reply if there are no errors
       if (!errors || (errors && errors.length === 0)) {
         return true;
       }
 
-      // Otherwise we cannot reply
+      // Case 5: default
       return false;
     },
 
@@ -2171,10 +2203,12 @@
         }
 
         // Send delivery receipts, but only for incoming sealed sender messages
+        // and not for messages from unaccepted conversations
         if (
           type === 'incoming' &&
           this.get('unidentifiedDeliveryReceived') &&
-          !this.hasErrors()
+          !this.hasErrors() &&
+          conversation.getAccepted()
         ) {
           // Note: We both queue and batch because we want to wait until we are done
           //   processing incoming messages to start sending outgoing delivery receipts.
@@ -2344,6 +2378,7 @@
                 if (conversation.get('left')) {
                   window.log.warn('re-added to a left group');
                   attributes.left = false;
+                  conversation.set({ addedBy: message.getContact().get('id') });
                 }
               } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
                 const sender = ConversationController.get(source || sourceUuid);
@@ -2549,6 +2584,17 @@
             }
           }
 
+          // Drop empty messages. This needs to happen after the initial
+          // message.set call to make sure all possible properties are set
+          // before we determine that a message is empty.
+          if (message.isEmpty()) {
+            window.log.info(
+              `Dropping empty datamessage ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
+            );
+            confirm();
+            return;
+          }
+
           const conversationTimestamp = conversation.get('timestamp');
           if (
             !conversationTimestamp ||
@@ -2561,9 +2607,14 @@
           }
 
           MessageController.register(message.id, message);
+          conversation.incrementMessageCount();
           window.Signal.Data.updateConversation(conversation.attributes);
 
-          await message.queueAttachmentDownloads();
+          // Only queue attachments for downloads if this is an outgoing message
+          // or we've accepted the conversation
+          if (this.getConversation().getAccepted() || message.isOutgoing()) {
+            await message.queueAttachmentDownloads();
+          }
 
           // Does this message have any pending, previously-received associated reactions?
           const reactions = Whisper.Reactions.forMessage(message);
@@ -2587,6 +2638,11 @@
 
           if (message.get('unread')) {
             await conversation.notify(message);
+          }
+
+          // Increment the sent message count if this is an outgoing message
+          if (type === 'outgoing') {
+            conversation.incrementSentMessageCount();
           }
 
           Whisper.events.trigger('incrementProgress');

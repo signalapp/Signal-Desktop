@@ -3,6 +3,13 @@
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
   <Avatar
+    size={112}
+    color="blue"
+    avatarPath={util.gifObjectUrl}
+    conversationType="direct"
+    i18n={util.i18n}
+  />
+  <Avatar
     size={80}
     color="blue"
     avatarPath={util.gifObjectUrl}
@@ -91,6 +98,13 @@
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
   <Avatar
+    size={112}
+    color="blue"
+    name="One"
+    conversationType="direct"
+    i18n={util.i18n}
+  />
+  <Avatar
     size={80}
     color="blue"
     name="One"
@@ -144,6 +158,14 @@
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
   <Avatar
+    size={112}
+    color="pink"
+    noteToSelf={true}
+    phoneNumber="(555) 353-3433"
+    conversationType="direct"
+    i18n={util.i18n}
+  />
+  <Avatar
     size={80}
     color="pink"
     noteToSelf={true}
@@ -174,6 +196,7 @@
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
+  <Avatar size={112} color="blue" conversationType="group" i18n={util.i18n} />
   <Avatar size={80} color="blue" conversationType="group" i18n={util.i18n} />
   <Avatar size={52} color="blue" conversationType="group" i18n={util.i18n} />
   <Avatar size={28} color="blue" conversationType="group" i18n={util.i18n} />
@@ -184,6 +207,7 @@
 
 ```jsx
 <util.ConversationContext theme={util.theme} ios={util.ios}>
+  <Avatar size={112} color="blue" conversationType="direct" i18n={util.i18n} />
   <Avatar size={80} color="blue" conversationType="direct" i18n={util.i18n} />
   <Avatar size={52} color="blue" conversationType="direct" i18n={util.i18n} />
   <Avatar size={28} color="blue" conversationType="direct" i18n={util.i18n} />
@@ -353,6 +377,43 @@
   <Avatar size={80} color="teal" conversationType="direct" i18n={util.i18n} />
   <Avatar
     size={80}
+    color="teal"
+    name="Pupplies"
+    conversationType="group"
+    i18n={util.i18n}
+  />
+</util.ConversationContext>
+```
+
+### 112px
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios}>
+  <Avatar
+    size={112}
+    color="teal"
+    name="John Smith"
+    avatarPath={util.gifObjectUrl}
+    conversationType="direct"
+    i18n={util.i18n}
+  />
+  <Avatar
+    size={112}
+    color="teal"
+    name="John"
+    conversationType="direct"
+    i18n={util.i18n}
+  />
+  <Avatar
+    size={112}
+    color="teal"
+    name="John Smith"
+    conversationType="direct"
+    i18n={util.i18n}
+  />
+  <Avatar size={112} color="teal" conversationType="direct" i18n={util.i18n} />
+  <Avatar
+    size={112}
     color="teal"
     name="Pupplies"
     conversationType="group"

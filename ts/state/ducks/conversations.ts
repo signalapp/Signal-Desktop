@@ -12,6 +12,7 @@ import {
 import { trigger } from '../../shims/events';
 import { NoopActionType } from './noop';
 import { AttachmentType } from '../../types/Attachment';
+import { ColorType } from '../../types/Util';
 
 // State
 
@@ -24,7 +25,11 @@ export type DBConversationType = {
 export type ConversationType = {
   id: string;
   name?: string;
-  isArchived: boolean;
+  profileName?: string;
+  avatarPath?: string;
+  color?: ColorType;
+  isArchived?: boolean;
+  isBlocked?: boolean;
   activeAt?: number;
   timestamp: number;
   inboxPosition: number;
@@ -33,6 +38,7 @@ export type ConversationType = {
     text: string;
   };
   phoneNumber: string;
+  membersCount?: number;
   type: 'direct' | 'group';
   isMe: boolean;
   lastUpdated: number;
@@ -49,6 +55,9 @@ export type ConversationType = {
   shouldShowDraft?: boolean;
   draftText?: string;
   draftPreview?: string;
+
+  messageRequestsEnabled?: boolean;
+  acceptedMessageRequest?: boolean;
 };
 export type ConversationLookupType = {
   [key: string]: ConversationType;

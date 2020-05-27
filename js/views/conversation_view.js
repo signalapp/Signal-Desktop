@@ -367,6 +367,7 @@
           color: this.model.getColor(),
           avatarPath: this.model.getAvatarPath(),
 
+          isAccepted: this.model.getAccepted(),
           isVerified: this.model.isVerified(),
           isMe: this.model.isMe(),
           isGroup: !this.model.isPrivate(),
@@ -447,6 +448,9 @@
         </div>
       `)[0];
 
+      const messageRequestEnum =
+        window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+
       const props = {
         id: this.model.id,
         compositionApi,
@@ -462,6 +466,26 @@
         clearQuotedMessage: () => this.setQuoteMessage(null),
         micCellEl,
         attachmentListEl,
+        onAccept: this.model.syncMessageRequestResponse.bind(
+          this.model,
+          messageRequestEnum.ACCEPT
+        ),
+        onBlock: this.model.syncMessageRequestResponse.bind(
+          this.model,
+          messageRequestEnum.BLOCK
+        ),
+        onUnblock: this.model.syncMessageRequestResponse.bind(
+          this.model,
+          messageRequestEnum.ACCEPT
+        ),
+        onDelete: this.model.syncMessageRequestResponse.bind(
+          this.model,
+          messageRequestEnum.DELETE
+        ),
+        onBlockAndDelete: this.model.syncMessageRequestResponse.bind(
+          this.model,
+          messageRequestEnum.BLOCK_AND_DELETE
+        ),
       };
 
       this.compositionAreaView = new Whisper.ReactWrapperView({
@@ -1223,7 +1247,13 @@
       }
 
       return {
-        ..._.pick(attachment, ['contentType', 'fileName', 'size', 'caption']),
+        ..._.pick(attachment, [
+          'contentType',
+          'fileName',
+          'size',
+          'caption',
+          'blurHash',
+        ]),
         data,
       };
     },
@@ -1433,6 +1463,7 @@
     },
 
     async handleImageAttachment(file) {
+      const blurHash = await window.imageToBlurHash(file);
       if (MIME.isJPEG(file.type)) {
         const rotatedDataUrl = await window.autoOrientImage(file);
         const rotatedBlob = window.dataURLToBlobSync(rotatedDataUrl);
@@ -1454,6 +1485,7 @@
           contentType,
           data,
           size: data.byteLength,
+          blurHash,
         };
       }
 
@@ -1470,6 +1502,7 @@
         contentType,
         data,
         size: data.byteLength,
+        blurHash,
       };
     },
 
@@ -2168,6 +2201,11 @@
           });
           message.trigger('unload');
           this.model.messageCollection.remove(message.id);
+          if (message.isOutgoing()) {
+            this.model.decrementSentMessageCount();
+          } else {
+            this.model.decrementMessageCount();
+          }
           this.resetPanel();
         },
       });
