@@ -1,7 +1,86 @@
-/* global log, window, process, URL */
+/* global log, window, process, URL, dcodeIO */
 const EventEmitter = require('events');
-const nodeFetch = require('node-fetch');
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
+
+const nodeFetch = require('node-fetch');
+
+const validOpenGroupServer = async serverUrl => {
+  // test to make sure it's online (and maybe has a valid SSL cert)
+  try {
+    const url = new URL(serverUrl);
+
+    if (window.lokiFeatureFlags.useFileOnionRequests) {
+      // check for LSRPC
+
+      // this is safe (as long as node's in your trust model)
+      // because
+      const result = await window.tokenlessFileServerAdnAPI.serverRequest(
+        `loki/v1/getOpenGroupKey/${url.hostname}`
+      );
+      // console.log('loki_public_chat::validOpenGroupServer - result', result);
+      // console.log('loki_public_chat::validOpenGroupServer - meta', result.response.meta);
+      if (result.response.meta.code === 200) {
+        // supports it
+        const obj = JSON.parse(result.response.data);
+        const pubKey = dcodeIO.ByteBuffer.wrap(
+          obj.data,
+          'base64'
+        ).toArrayBuffer();
+        // verify it works...
+        // get around the FILESERVER_HOSTS filter
+        /*
+        const res = await LokiAppDotNetAPI.serverRequest(url.toString(), {
+          srvPubKey: pubKey,
+        });
+        */
+        const res = await LokiAppDotNetAPI.sendViaOnion(
+          pubKey,
+          url,
+          { method: 'GET' },
+          { noJson: true }
+        );
+        if (res.result.status === 200) {
+          log.info(
+            `loki_public_chat::validOpenGroupServer - onion routing enabled on ${url.toString()}`
+          );
+          // save pubkey for use...
+          window.lokiPublicChatAPI.openGroupPubKeys[serverUrl] = pubKey;
+          return true;
+        }
+        // otherwise fall back
+      } else if (result.response.meta.code === 404) {
+        // doesn't support it
+        // console.log('loki_public_chat::validOpenGroupServer - no onion routing available');
+        // fallback
+      } else {
+        // unknown error code
+        log.warn(
+          'loki_public_chat::validOpenGroupServer - unknown error code',
+          result.response.meta
+        );
+        // fallback
+      }
+    }
+    log.info(
+      `loki_public_chat::validOpenGroupServer - directly contacting ${url.toString()}`
+    );
+
+    // allow .loki (may only need an agent but not sure
+    //              until we have a .loki to test with)
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = url.host.match(/\.loki$/i)
+      ? '0'
+      : '1';
+    await nodeFetch(serverUrl);
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
+    // const txt = await res.text();
+  } catch (e) {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
+    log.warn(`loki_public_chat::validOpenGroupServer - failing to create ${serverUrl}`, e.code, e.message);
+    // bail out if not valid enough
+    return false;
+  }
+  return true;
+};
 
 class LokiPublicChatFactoryAPI extends EventEmitter {
   constructor(ourKey) {
@@ -9,6 +88,7 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
     this.ourKey = ourKey;
     this.servers = [];
     this.allMembers = [];
+    this.openGroupPubKeys = {};
     // Multidevice states
     this.primaryUserProfileName = {};
   }
@@ -24,37 +104,20 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
     await Promise.all(this.servers.map(server => server.close()));
   }
 
-  static async validServer(serverUrl) {
-    // test to make sure it's online (and maybe has a valid SSL cert)
-    try {
-      const url = new URL(serverUrl);
-      // allow .loki (may only need an agent but not sure
-      //              until we have a .loki to test with)
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = url.host.match(/\.loki$/i)
-        ? '0'
-        : '1';
-      // FIXME: use proxy when we have open groups that work with proxy
-      await nodeFetch(serverUrl);
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
-      // const txt = await res.text();
-    } catch (e) {
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
-      log.warn(`failing to created ${serverUrl}`, e.code, e.message);
-      // bail out if not valid enough
-      return false;
-    }
-    return true;
-  }
-
   // server getter/factory
   async findOrCreateServer(serverUrl) {
     let thisServer = this.servers.find(
       server => server.baseServerUrl === serverUrl
     );
     if (!thisServer) {
-      log.info(`LokiAppDotNetAPI creating ${serverUrl}`);
+      log.info(`loki_public_chat::findOrCreateServer - creating ${serverUrl}`);
 
-      if (!await this.constructor.validServer(serverUrl)) {
+      const serverIsValid = await validOpenGroupServer(serverUrl);
+      if (!serverIsValid) {
+        // FIXME: add toast?
+        log.error(
+          `loki_public_chat::findOrCreateServer - error: ${serverUrl} is not valid`
+        );
         return null;
       }
 
@@ -65,56 +128,34 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
         thisServer = new StubAppDotNetAPI(this.ourKey, serverUrl);
       } else {
         thisServer = new LokiAppDotNetAPI(this.ourKey, serverUrl);
+        if (this.openGroupPubKeys[serverUrl]) {
+          thisServer.getPubKeyForUrl();
+          if (!thisServer.pubKeyHex) {
+            log.warn(
+              `loki_public_chat::findOrCreateServer - failed to set public key`
+            );
+          }
+        }
       }
 
       const gotToken = await thisServer.getOrRefreshServerToken();
       if (!gotToken) {
-        log.warn(`Invalid server ${serverUrl}`);
+        log.warn(
+          `loki_public_chat::findOrCreateServer - Invalid server ${serverUrl}`
+        );
         return null;
       }
       if (window.isDev) {
-        log.info(`set token ${thisServer.token} for ${serverUrl}`);
+        log.info(
+          `loki_public_chat::findOrCreateServer - set token ${
+            thisServer.token
+          } for ${serverUrl}`
+        );
       }
 
       this.servers.push(thisServer);
     }
     return thisServer;
-  }
-
-  static async getServerTime() {
-    const url = `${window.getDefaultFileServer()}/loki/v1/time`;
-    let timestamp = NaN;
-
-    try {
-      const res = await nodeFetch(url);
-      if (res.ok) {
-        timestamp = await res.text();
-      }
-    } catch (e) {
-      return timestamp;
-    }
-
-    return Number(timestamp);
-  }
-
-  static async getTimeDifferential() {
-    // Get time differential between server and client in seconds
-    const serverTime = await this.getServerTime();
-    const clientTime = Math.ceil(Date.now() / 1000);
-
-    if (Number.isNaN(serverTime)) {
-      return 0;
-    }
-    return serverTime - clientTime;
-  }
-
-  static async setClockParams() {
-    // Set server-client time difference
-    const maxTimeDifferential = 30;
-    const timeDifferential = await this.getTimeDifferential();
-
-    window.clientClockSynced = Math.abs(timeDifferential) < maxTimeDifferential;
-    return window.clientClockSynced;
   }
 
   // channel getter/factory
