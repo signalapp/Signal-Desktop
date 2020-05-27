@@ -1,31 +1,21 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
-import { ConfirmationDialog } from './ConfirmationDialog';
+import {
+  ConfirmationDialog,
+  Props as ConfirmationDialogProps,
+} from './ConfirmationDialog';
 import { LocalizerType } from '../types/Util';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
-  readonly children: React.ReactNode;
-  readonly affirmativeText?: string;
-  readonly onAffirmative?: () => unknown;
   readonly onClose: () => unknown;
-  readonly negativeText?: string;
-  readonly onNegative?: () => unknown;
 };
 
-export type Props = OwnProps;
+export type Props = OwnProps & ConfirmationDialogProps;
 
 export const ConfirmationModal = React.memo(
   // tslint:disable-next-line max-func-body-length
-  ({
-    i18n,
-    onClose,
-    children,
-    onAffirmative,
-    onNegative,
-    affirmativeText,
-    negativeText,
-  }: Props) => {
+  ({ i18n, onClose, children, ...rest }: Props) => {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
 
     React.useEffect(() => {
@@ -72,14 +62,7 @@ export const ConfirmationModal = React.memo(
             className="module-confirmation-dialog__overlay"
             onClick={handleCancel}
           >
-            <ConfirmationDialog
-              i18n={i18n}
-              onClose={onClose}
-              onAffirmative={onAffirmative}
-              onNegative={onNegative}
-              affirmativeText={affirmativeText}
-              negativeText={negativeText}
-            >
+            <ConfirmationDialog i18n={i18n} {...rest} onClose={onClose}>
               {children}
             </ConfirmationDialog>
           </div>,

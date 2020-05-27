@@ -1542,6 +1542,40 @@ async function updateToSchemaVersion20(
   }
 }
 
+async function updateToSchemaVersion21(
+  currentVersion: number,
+  instance: PromisifiedSQLDatabase
+) {
+  if (currentVersion >= 21) {
+    return;
+  }
+  try {
+    await instance.run('BEGIN TRANSACTION;');
+    await instance.run(`
+      UPDATE conversations
+      SET json = json_set(
+        json,
+        '$.messageCount',
+        (SELECT count(*) FROM messages WHERE messages.conversationId = conversations.id)
+      );
+    `);
+    await instance.run(`
+      UPDATE conversations
+      SET json = json_set(
+        json,
+        '$.sentMessageCount',
+        (SELECT count(*) FROM messages WHERE messages.conversationId = conversations.id AND messages.type = 'outgoing')
+      );
+    `);
+    await instance.run('PRAGMA user_version = 21;');
+    await instance.run('COMMIT TRANSACTION;');
+    console.log('updateToSchemaVersion21: success!');
+  } catch (error) {
+    await instance.run('ROLLBACK');
+    throw error;
+  }
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1563,6 +1597,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion18,
   updateToSchemaVersion19,
   updateToSchemaVersion20,
+  updateToSchemaVersion21,
 ];
 
 async function updateSchema(instance: PromisifiedSQLDatabase) {
@@ -2326,9 +2361,14 @@ async function searchMessagesInConversation(
   }));
 }
 
-async function getMessageCount() {
+async function getMessageCount(conversationId?: string) {
   const db = getInstance();
-  const row = await db.get('SELECT count(*) from messages;');
+  const row = conversationId
+    ? await db.get(
+        'SELECT count(*) from messages WHERE conversationId = $conversationId;',
+        { $conversationId: conversationId }
+      )
+    : await db.get('SELECT count(*) from messages;');
 
   if (!row) {
     throw new Error('getMessageCount: Unable to get count of messages');

@@ -531,6 +531,7 @@ export declare class SyncMessageClass {
   padding?: ProtoBinaryType;
   stickerPackOperation?: Array<SyncMessageClass.StickerPackOperation>;
   viewOnceOpen?: SyncMessageClass.ViewOnceOpen;
+  messageRequestResponse?: SyncMessageClass.MessageRequestResponse;
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript
@@ -582,6 +583,13 @@ export declare namespace SyncMessageClass {
     senderUuid?: string;
     timestamp?: ProtoBinaryType;
   }
+
+  class MessageRequestResponse {
+    threadE164?: string;
+    threadUuid?: string;
+    groupId?: ProtoBinaryType;
+    type?: number;
+  }
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript
@@ -609,6 +617,16 @@ export declare namespace SyncMessageClass.StickerPackOperation {
   class Type {
     static INSTALL: number;
     static REMOVE: number;
+  }
+}
+
+export declare namespace SyncMessageClass.MessageRequestResponse {
+  class Type {
+    static UNKNOWN: number;
+    static ACCEPT: number;
+    static DELETE: number;
+    static BLOCK: number;
+    static BLOCK_AND_DELETE: number;
   }
 }
 

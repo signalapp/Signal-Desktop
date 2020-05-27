@@ -92,8 +92,13 @@ export const StickerManagerPackRow = React.memo(
           <ConfirmationModal
             i18n={i18n}
             onClose={clearUninstalling}
-            negativeText={i18n('stickers--StickerManager--Uninstall')}
-            onNegative={handleConfirmUninstall}
+            actions={[
+              {
+                style: 'negative',
+                text: i18n('stickers--StickerManager--Uninstall'),
+                action: handleConfirmUninstall,
+              },
+            ]}
           >
             {i18n('stickers--StickerManager--UninstallWarning')}
           </ConfirmationModal>

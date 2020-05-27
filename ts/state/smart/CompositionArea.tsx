@@ -71,6 +71,14 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     recentStickers,
     showIntroduction,
     showPickerHint,
+    // Message Requests
+    messageRequestsEnabled: conversation.messageRequestsEnabled,
+    acceptedMessageRequest: conversation.acceptedMessageRequest,
+    isBlocked: conversation.isBlocked,
+    conversationType: conversation.type,
+    name: conversation.name,
+    profileName: conversation.profileName,
+    phoneNumber: conversation.phoneNumber,
   };
 };
 

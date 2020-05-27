@@ -243,9 +243,11 @@ try {
   }, 1000);
 
   const { autoOrientImage } = require('./js/modules/auto_orient_image');
+  const { imageToBlurHash } = require('./ts/util/imageToBlurHash');
 
   window.autoOrientImage = autoOrientImage;
   window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
+  window.imageToBlurHash = imageToBlurHash;
   window.emojiData = require('emoji-datasource');
   window.filesize = require('filesize');
   window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();

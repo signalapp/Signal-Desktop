@@ -85,7 +85,7 @@ export interface DataInterface {
     options?: { limit?: number }
   ) => Promise<Array<SearchResultMessageType>>;
 
-  getMessageCount: () => Promise<number>;
+  getMessageCount: (conversationId?: string) => Promise<number>;
   saveMessages: (
     arrayOfMessages: Array<MessageType>,
     options: { forceSave?: boolean }

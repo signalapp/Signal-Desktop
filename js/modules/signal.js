@@ -11,6 +11,7 @@ const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
 const Stickers = require('./stickers');
 const Settings = require('./settings');
+const RemoteConfig = require('../../ts/RemoteConfig');
 const Util = require('../../ts/util');
 const Metadata = require('./metadata/SecretSessionCipher');
 const RefreshSenderCertificate = require('./refresh_sender_certificate');
@@ -350,6 +351,7 @@ exports.setup = (options = {}) => {
     Notifications,
     OS,
     RefreshSenderCertificate,
+    RemoteConfig,
     Settings,
     Services,
     State,

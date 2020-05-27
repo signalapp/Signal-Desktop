@@ -1,10 +1,10 @@
-import React from 'react';
+import * as React from 'react';
 import classNames from 'classnames';
 
 import { getInitials } from '../util/getInitials';
 import { ColorType, LocalizerType } from '../types/Util';
 
-export interface Props {
+export type Props = {
   avatarPath?: string;
   color?: ColorType;
 
@@ -13,7 +13,7 @@ export interface Props {
   name?: string;
   phoneNumber?: string;
   profileName?: string;
-  size: 28 | 32 | 52 | 80;
+  size: 28 | 32 | 52 | 80 | 112;
 
   onClick?: () => unknown;
 
@@ -21,7 +21,7 @@ export interface Props {
   innerRef?: React.Ref<HTMLDivElement>;
 
   i18n: LocalizerType;
-}
+} & Pick<React.HTMLProps<HTMLDivElement>, 'className'>;
 
 interface State {
   imageBroken: boolean;
@@ -139,12 +139,13 @@ export class Avatar extends React.Component<Props, State> {
       noteToSelf,
       onClick,
       size,
+      className,
     } = this.props;
     const { imageBroken } = this.state;
 
     const hasImage = !noteToSelf && avatarPath && !imageBroken;
 
-    if (![28, 32, 52, 80].includes(size)) {
+    if (![28, 32, 52, 80, 112].includes(size)) {
       throw new Error(`Size ${size} is not supported!`);
     }
 
@@ -166,7 +167,8 @@ export class Avatar extends React.Component<Props, State> {
           'module-avatar',
           `module-avatar--${size}`,
           hasImage ? 'module-avatar--with-image' : 'module-avatar--no-image',
-          !hasImage ? `module-avatar--${color}` : null
+          !hasImage ? `module-avatar--${color}` : null,
+          className
         )}
         ref={innerRef}
       >

@@ -1583,6 +1583,10 @@
     "message": "Note to Self",
     "description": "Name for the conversation with your own phone number"
   },
+  "noteToSelfHero": {
+    "message": "You can add notes for yourself in this conversation. If your account has any linked devices, new notes will be synced.",
+    "description": "Description for the Note to Self conversation"
+  },
   "hideMenuBar": {
     "message": "Hide menu bar",
     "description": "Label text for menu bar visibility setting"
@@ -2315,5 +2319,219 @@
   "ReactionsViewer--all": {
     "message": "All",
     "description": "Shown in reaction viewer as the title for the 'all' category"
+  },
+  "MessageRequests--message-direct": {
+    "message": "Do you want to let $name$ message you? They won't know you've seen their message until you accept.",
+    "description": "Shown as the message for a message request in a direct message",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Cayce Pollard"
+      }
+    }
+  },
+  "MessageRequests--message-direct-blocked": {
+    "message": "Unblock $name$ to message and call each other.",
+    "description": "Shown as the message for a message request in a direct message with a blocked account",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Cayce Pollard"
+      }
+    }
+  },
+  "MessageRequests--message-group": {
+    "message": "Do you want to join $group$? They won't know you've seen their message until you accept.",
+    "description": "Shown as the message for a message request in a group",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Cayce Pollard"
+      }
+    }
+  },
+  "MessageRequests--message-group-blocked": {
+    "message": "Unblock to allow group members to add you to this group again.",
+    "description": "Shown as the message for a message request in a blocked group"
+  },
+  "MessageRequests--block": {
+    "message": "Block",
+    "description": "Shown as a button to let the user block a message request"
+  },
+  "MessageRequests--unblock": {
+    "message": "Unblock",
+    "description": "Shown as a button to let the user unblock a message request"
+  },
+  "MessageRequests--unblock-confirm-title": {
+    "message": "Unblock $name$?",
+    "description": "Shown as a button to let the user unblock a message request",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Cayce Pollard"
+      }
+    }
+  },
+  "MessageRequests--unblock-direct-confirm-body": {
+    "message": "You will be able to message and call each other.",
+    "description": "Shown as the body in the confirmation modal for unblocking a private message request",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Cayce Pollard"
+      }
+    }
+  },
+  "MessageRequests--unblock-group-confirm-body": {
+    "message": "Group members will be able to add your to this group again.",
+    "description": "Shown as the body in the confirmation modal for unblocking a group message request",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Cayce Pollard"
+      }
+    }
+  },
+  "MessageRequests--block-and-delete": {
+    "message": "Block and Delete",
+    "description": "Shown as a button to let the user block and delete a message request"
+  },
+  "MessageRequests--block-direct-confirm-title": {
+    "message": "Block $name$?",
+    "description": "Shown as the title in the confirmation modal for blocking a private message request",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Cayce Pollard"
+      }
+    }
+  },
+  "MessageRequests--block-direct-confirm-body": {
+    "message": "Blocked people won't be able to call you or send you mesages.",
+    "description": "Shown as the body in the confirmation modal for blocking a private message request"
+  },
+  "MessageRequests--block-group-confirm-title": {
+    "message": "Block and Leave $group$?",
+    "description": "Shown as the title in the confirmation modal for blocking a group message request",
+    "placeholders": {
+      "group": {
+        "content": "$1",
+        "example": "Friends 🌿"
+      }
+    }
+  },
+  "MessageRequests--block-group-confirm-body": {
+    "message": "You will no longer receive messages or updates from this group and members won't be able to add you to this group again.",
+    "description": "Shown as the body in the confirmation modal for blocking a group message request"
+  },
+  "MessageRequests--delete": {
+    "message": "Delete",
+    "description": "Shown as a button to let the user delete any message request"
+  },
+  "MessageRequests--delete-direct-confirm-title": {
+    "message": "Delete conversation?",
+    "description": "Shown as the title in the confirmation modal for deleting a private message request"
+  },
+  "MessageRequests--delete-direct-confirm-body": {
+    "message": "This conversation will be deleted from all of your devices.",
+    "description": "Shown as the body in the confirmation modal for deleting a private message request"
+  },
+  "MessageRequests--delete-group-confirm-title": {
+    "message": "Delete and Leave $group$?",
+    "description": "Shown as the title in the confirmation modal for deleting a group message request",
+    "placeholders": {
+      "group": {
+        "content": "$1",
+        "example": "Friends 🌿"
+      }
+    }
+  },
+  "MessageRequests--delete-direct": {
+    "message": "Delete",
+    "description": "Shown as a button to let the user delete a direct message request"
+  },
+  "MessageRequests--delete-group": {
+    "message": "Delete and Leave",
+    "description": "Shown as a button to let the user delete a group message request"
+  },
+  "MessageRequests--delete-group-confirm-body": {
+    "message": "You will leave this group, and it will be deleted from all your devices.",
+    "description": "Shown as the body in the confirmation modal for deleting a group message request"
+  },
+  "MessageRequests--accept": {
+    "message": "Accept",
+    "description": "Shown as a button to let the user accept a message request"
+  },
+  "ConversationHero--members": {
+    "message": "$count$ members",
+    "description": "Specifies the number of members in a group conversation",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "22"
+      }
+    }
+  },
+  "ConversationHero--members-1": {
+    "message": "1 member",
+    "description": "Specifies the number of members in a group conversation when there is one member",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "22"
+      }
+    }
+  },
+  "ConversationHero--membership-1": {
+    "message": "Member of $group$.",
+    "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
+    "placeholders": {
+      "group": {
+        "content": "$1",
+        "example": "NYC Rock Climbers"
+      }
+    }
+  },
+  "ConversationHero--membership-2": {
+    "message": "Member of $group1$ and $group2$.",
+    "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+    "placeholders": {
+      "group1": {
+        "content": "$1",
+        "example": "NYC Rock Climbers"
+      },
+      "group2": {
+        "content": "$2",
+        "example": "Dinner Party"
+      }
+    }
+  },
+  "ConversationHero--membership-3": {
+    "message": "Member of $group1$, $group2$, and $group3$.",
+    "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+    "placeholders": {
+      "group1": {
+        "content": "$1",
+        "example": "NYC Rock Climbers"
+      },
+      "group2": {
+        "content": "$2",
+        "example": "Dinner Party"
+      },
+      "group3": {
+        "content": "$3",
+        "example": "Friends 🌿"
+      }
+    }
+  },
+  "ConversationHero--membership-added": {
+    "message": "$name$ added you to the group.",
+    "description": "Shown Indicates that you were added to a group by a given individual.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Jeff Smith"
+      }
+    }
   }
 }

@@ -25,6 +25,7 @@ export interface PropsData {
   color?: ColorType;
   avatarPath?: string;
 
+  isAccepted?: boolean;
   isVerified?: boolean;
   isMe?: boolean;
   isGroup?: boolean;
@@ -222,6 +223,7 @@ export class ConversationHeader extends React.Component<Props> {
   public renderMenu(triggerId: string) {
     const {
       i18n,
+      isAccepted,
       isMe,
       isGroup,
       isArchived,
@@ -241,7 +243,7 @@ export class ConversationHeader extends React.Component<Props> {
 
     return (
       <ContextMenu id={triggerId}>
-        {leftGroup ? null : (
+        {!leftGroup && isAccepted ? (
           <SubMenu title={disappearingTitle}>
             {(timerOptions || []).map(item => (
               <MenuItem
@@ -254,7 +256,7 @@ export class ConversationHeader extends React.Component<Props> {
               </MenuItem>
             ))}
           </SubMenu>
-        )}
+        ) : null}
         <MenuItem onClick={onShowAllMedia}>{i18n('viewRecentMedia')}</MenuItem>
         {isGroup ? (
           <MenuItem onClick={onShowGroupMembers}>
@@ -266,7 +268,7 @@ export class ConversationHeader extends React.Component<Props> {
             {i18n('showSafetyNumber')}
           </MenuItem>
         ) : null}
-        {!isGroup ? (
+        {!isGroup && isAccepted ? (
           <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
         ) : null}
         {isArchived ? (

@@ -489,6 +489,7 @@ const URL_CALLS = {
   signed: 'v2/keys/signed',
   getStickerPackUpload: 'v1/sticker/pack/form',
   whoami: 'v1/accounts/whoami',
+  config: 'v1/config',
 };
 
 type InitializeOptionsType = {
@@ -604,6 +605,7 @@ export type WebAPIType = {
   setSignedPreKey: (signedPreKey: SignedPreKeyType) => Promise<void>;
   updateDeviceName: (deviceName: string) => Promise<void>;
   whoami: () => Promise<any>;
+  getConfig: () => Promise<Array<{ name: string; enabled: boolean }>>;
 };
 
 export type SignedPreKeyType = {
@@ -724,9 +726,10 @@ export function initialize({
       setSignedPreKey,
       updateDeviceName,
       whoami,
+      getConfig,
     };
 
-    async function _ajax(param: AjaxOptionsType) {
+    async function _ajax(param: AjaxOptionsType): Promise<any> {
       if (!param.urlParameters) {
         param.urlParameters = '';
       }
@@ -790,6 +793,21 @@ export function initialize({
         httpType: 'GET',
         responseType: 'json',
       });
+    }
+
+    async function getConfig() {
+      type ResType = {
+        config: Array<{ name: string; enabled: boolean }>;
+      };
+      const res: ResType = await _ajax({
+        call: 'config',
+        httpType: 'GET',
+        responseType: 'json',
+      });
+
+      return res.config.filter(({ name }: { name: string }) =>
+        name.startsWith('desktop.')
+      );
     }
 
     async function getSenderCertificate() {

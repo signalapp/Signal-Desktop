@@ -16,6 +16,7 @@ import {
   PropsHousekeeping,
 } from './Message';
 import { EmojiPicker } from '../emoji/EmojiPicker';
+import { MIMEType } from '../../types/MIME';
 
 const book = storiesOf('Components/Conversation/Message', module);
 
@@ -1270,6 +1271,28 @@ const stories: Array<MessageStory> = [
             : [],
         }),
       })),
+    ],
+  ],
+  [
+    'BlurHash',
+    [
+      {
+        title: 'Incoming BlurHash',
+        makeDataProps: () => ({
+          ...baseDataProps,
+          direction: 'incoming',
+          attachments: [
+            {
+              blurHash: 'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+              width: 300,
+              height: 600,
+              fileName: 'foo.jpg',
+              contentType: 'image/jpeg' as MIMEType,
+              url: '',
+            },
+          ],
+        }),
+      },
     ],
   ],
 ];

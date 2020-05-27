@@ -573,6 +573,9 @@ export class Message extends React.PureComponent<Props, State> {
             withContentBelow
               ? 'module-message__attachment-container--with-content-below'
               : null,
+            collapseMetadata
+              ? 'module-message__attachment-container--with-collapsed-metadata'
+              : null,
             isSticker && !collapseMetadata
               ? 'module-message__sticker-container--with-content-below'
               : null
@@ -627,6 +630,9 @@ export class Message extends React.PureComponent<Props, State> {
               : null,
             withContentAbove
               ? 'module-message__generic-attachment--with-content-above'
+              : null,
+            !firstAttachment.url
+              ? 'module-message__generic-attachment--not-active'
               : null
           )}
           // There's only ever one of these, so we don't want users to tab into it
@@ -634,6 +640,10 @@ export class Message extends React.PureComponent<Props, State> {
           onClick={(event: React.MouseEvent) => {
             event.stopPropagation();
             event.preventDefault();
+
+            if (!firstAttachment.url) {
+              return;
+            }
 
             this.openGenericAttachment();
           }}
@@ -1117,7 +1127,7 @@ export class Message extends React.PureComponent<Props, State> {
           )}
         >
           {canReply ? reactButton : null}
-          {downloadButton}
+          {canReply ? downloadButton : null}
           {canReply ? replyButton : null}
           {menuButton}
         </div>
@@ -1879,6 +1889,15 @@ export class Message extends React.PureComponent<Props, State> {
     const { text } = this.props;
     if (text && text.length > 0) {
       return;
+    }
+
+    // If there an incomplete attachment, do not execute the default action
+    const { attachments } = this.props;
+    if (attachments && attachments.length > 0) {
+      const [firstAttachment] = attachments;
+      if (!firstAttachment.url) {
+        return;
+      }
     }
 
     this.handleOpen(event);

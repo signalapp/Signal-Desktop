@@ -2052,6 +2052,13 @@
     "@types/jquery" "*"
     "@types/underscore" "*"
 
+"@types/blueimp-load-image@2.23.6":
+  version "2.23.6"
+  resolved "https://registry.yarnpkg.com/@types/blueimp-load-image/-/blueimp-load-image-2.23.6.tgz#2ccf3c69bd17c5bd1f4471470505a7f065a84a9f"
+  integrity sha512-RF5EQ2miGm/o5XmZk0PhpLnikXOwe1BxGJVikYcNhwr4s7i7LqVc4U51k/zFTD11GeqyK+yz6vWwvvtoKsPYLw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/body-parser@*":
   version "1.17.1"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.17.1.tgz#18fcf61768fb5c30ccc508c21d6fd2e8b3bf7897"
@@ -3956,6 +3963,11 @@ blueimp-load-image@2.18.0:
   version "2.18.0"
   resolved "https://registry.yarnpkg.com/blueimp-load-image/-/blueimp-load-image-2.18.0.tgz#03b93687eb382a7136cfbcbd4f0e936b6763fc0e"
   integrity sha512-GUrxVE/7FpzAw/WU6GMiI3v+LpFmlAxp7sF36EQB8rGAg97ND8iTeYZ3FQbhsxS5s2dNarGKZEWhKPNKKSmMuA==
+
+blurhash@1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/blurhash/-/blurhash-1.1.3.tgz#dc325af7da836d07a0861d830bdd63694382483e"
+  integrity sha512-yUhPJvXexbqbyijCIE/T2NCXcj9iNPhWmOKbPTuR/cm7Q5snXYIfnVnz6m7MWOXxODMz/Cr3UcVkRdHiuDVRDw==
 
 bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   version "4.11.8"
@@ -13578,6 +13590,11 @@ rc@^1.1.2:
     ini "~1.3.0"
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
+
+react-blurhash@0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-blurhash/-/react-blurhash-0.1.2.tgz#16bdce59be4f48dc7816a26e8f0435f73d3a2bb2"
+  integrity sha512-p7TAQ+Qw78rBO9LSxkURfNDJA8TGAuOW2GVJKzNHrOY61XtA02PYmpAY9lotbFpftczEXZ7h4Su2JRmEUI7/Hw==
 
 react-clientside-effect@^1.2.0:
   version "1.2.2"
