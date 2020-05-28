@@ -20,7 +20,6 @@
     "start-multi2": "cross-env NODE_APP_INSTANCE=2 electron .",
     "start-prod": "cross-env NODE_ENV=production NODE_APP_INSTANCE=devprod electron .",
     "start-prod-multi": "cross-env NODE_ENV=production NODE_APP_INSTANCE=devprod1 electron .",
-    "start-prod-multi1": "cross-env NODE_ENV=production NODE_APP_INSTANCE=devprod2 electron .",
     "start-swarm-test": "cross-env NODE_ENV=swarm-testing NODE_APP_INSTANCE=1 electron .",
     "start-swarm-test-2": "cross-env NODE_ENV=swarm-testing NODE_APP_INSTANCE=2 electron .",
     "grunt": "grunt",
