@@ -2330,6 +2330,7 @@
       if (this.get('type') === 'group') {
         const groupNumbers = this.getRecipients();
         this.set({ left: true });
+
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
           Conversation: Whisper.Conversation,
         });
