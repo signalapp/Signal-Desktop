@@ -1,4 +1,4 @@
-/* global LokiAppDotNetServerAPI, LokiFileServerAPI, semver, log */
+/* global LokiAppDotNetServerAPI, semver, log */
 // eslint-disable-next-line func-names
 (function() {
   'use strict';
@@ -12,9 +12,8 @@
   );
   // use the anonymous access token
   window.tokenlessFileServerAdnAPI.token = 'loki';
-  window.tokenlessFileServerAdnAPI.pubKey = window.Signal.Crypto.base64ToArrayBuffer(
-    LokiFileServerAPI.secureRpcPubKey
-  );
+  // configure for file server comms
+  window.tokenlessFileServerAdnAPI.getPubKeyForUrl();
 
   let nextWaitSeconds = 5;
   const checkForUpgrades = async () => {
