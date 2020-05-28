@@ -2508,7 +2508,7 @@
           }
 
           const sendingDeviceConversation = await ConversationController.getOrCreateAndWait(
-            source,
+            primarySource,
             'private'
           );
           if (dataMessage.profileKey) {

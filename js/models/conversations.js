@@ -250,7 +250,7 @@
       // Friend request message conmfirmations (Accept / Decline) are always
       // sent to the primary device conversation
       const messages = await window.Signal.Data.getMessagesByConversation(
-        this.id,
+        this.getPrimaryDevicePubKey(),
         {
           limit: 1,
           MessageCollection: Whisper.MessageCollection,
