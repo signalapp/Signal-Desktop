@@ -3,7 +3,7 @@ import { SignalService } from '../../../../../protobuf';
 import { MessageParams } from '../../Message';
 import { LokiProfile } from '../../../../../types/Message';
 
-interface AttachmentPointer {
+export interface AttachmentPointer {
   id?: number;
   contentType?: string;
   key?: Uint8Array;
@@ -18,28 +18,27 @@ interface AttachmentPointer {
   url?: string;
 }
 
-/** Properties of a Preview. */
-interface Preview {
+export interface Preview {
     url?: string;
     title?: string;
     image?: AttachmentPointer;
 }
 
-interface QuotedAttachment {
+export interface QuotedAttachment {
   contentType?: string;
   fileName?: string;
   thumbnail?: AttachmentPointer;
 }
 
-interface Quote {
+export interface Quote {
   id?: number;
   author?: string;
   text?: string;
   attachments?: Array<QuotedAttachment>;
 }
 
-interface ChatMessageParams extends MessageParams {
-  attachments: Array<AttachmentPointer>;
+export interface ChatMessageParams extends MessageParams {
+  attachments?: Array<AttachmentPointer>;
   body?: string;
   quote?: Quote;
   expireTimer?: number;
@@ -48,11 +47,11 @@ interface ChatMessageParams extends MessageParams {
 }
 
 
-export abstract class ChatMessage extends DataMessage {
-  private readonly attachments: Array<AttachmentPointer>;
+export class ChatMessage extends DataMessage {
+  private readonly attachments?: Array<AttachmentPointer>;
   private readonly body?: string;
   private readonly quote?: Quote;
-  private readonly expireTimer?: number | null;
+  private readonly expireTimer?: number;
   private readonly profileKey?: Uint8Array;
   private readonly displayName?: string;
   private readonly avatarPointer?: string;
@@ -81,7 +80,7 @@ export abstract class ChatMessage extends DataMessage {
       dataMessage.body = this.body;
     }
 
-    dataMessage.attachments = this.attachments;
+    dataMessage.attachments = this.attachments || [];
 
 
     if (this.expireTimer) {
