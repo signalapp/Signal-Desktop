@@ -1,5 +1,5 @@
 /* global log, libloki, textsecure, getStoragePubKey, lokiSnodeAPI, StringView,
-  libsignal, window, TextDecoder, TextEncoder, dcodeIO, process, crypto */
+  libsignal, window, TextDecoder, TextEncoder, dcodeIO, process */
 
 const nodeFetch = require('node-fetch');
 const https = require('https');
@@ -11,117 +11,257 @@ const snodeHttpsAgent = new https.Agent({
 
 const endpointBase = '/storage_rpc/v1';
 
-// Request index for debugging
-let onionReqIdx = 0;
-
-const encryptForNode = async (node, payload) => {
-  const textEncoder = new TextEncoder();
-  const plaintext = textEncoder.encode(payload);
-
-  const ephemeral = libloki.crypto.generateEphemeralKeyPair();
-
-  const snPubkey = StringView.hexToArrayBuffer(node.pubkey_x25519);
-
-  const ephemeralSecret = libsignal.Curve.calculateAgreement(
-    snPubkey,
-    ephemeral.privKey
-  );
-
-  const salt = window.Signal.Crypto.bytesFromString('LOKI');
-
-  const key = await crypto.subtle.importKey(
-    'raw',
-    salt,
-    { name: 'HMAC', hash: { name: 'SHA-256' } },
-    false,
-    ['sign']
-  );
-  const symmetricKey = await crypto.subtle.sign(
-    { name: 'HMAC', hash: 'SHA-256' },
-    key,
-    ephemeralSecret
-  );
-
-  const ciphertext = await window.libloki.crypto.EncryptGCM(
-    symmetricKey,
-    plaintext
-  );
-
-  return { ciphertext, symmetricKey, ephemeral_key: ephemeral.pubKey };
-};
-
 // Returns the actual ciphertext, symmetric key that will be used
 // for decryption, and an ephemeral_key to send to the next hop
-const encryptForDestination = async (node, payload) => {
-  // Do we still need "headers"?
-  const reqStr = JSON.stringify({ body: payload, headers: '' });
+const encryptForPubKey = async (pubKeyX25519hex, reqObj) => {
+  const reqStr = JSON.stringify(reqObj);
 
-  return encryptForNode(node, reqStr);
+  const textEncoder = new TextEncoder();
+  const plaintext = textEncoder.encode(reqStr);
+
+  return libloki.crypto.encryptForPubkey(pubKeyX25519hex, plaintext);
 };
 
 // `ctx` holds info used by `node` to relay further
-const encryptForRelay = async (node, nextNode, ctx) => {
+const encryptForRelay = async (relayX25519hex, destination, ctx) => {
+  // ctx contains: ciphertext, symmetricKey, ephemeralKey
   const payload = ctx.ciphertext;
 
-  const reqJson = {
+  if (!destination.host && !destination.destination) {
+    log.warn(`loki_rpc::encryptForRelay - no destination`, destination);
+  }
+
+  const reqObj = {
+    ...destination,
     ciphertext: dcodeIO.ByteBuffer.wrap(payload).toString('base64'),
-    ephemeral_key: StringView.arrayBufferToHex(ctx.ephemeral_key),
-    destination: nextNode.pubkey_ed25519,
+    ephemeral_key: StringView.arrayBufferToHex(ctx.ephemeralKey),
   };
 
-  const reqStr = JSON.stringify(reqJson);
-
-  return encryptForNode(node, reqStr);
+  return encryptForPubKey(relayX25519hex, reqObj);
 };
 
-const BAD_PATH = 'bad_path';
-
-// May return false BAD_PATH, indicating that we should try a new
-const sendOnionRequest = async (reqIdx, nodePath, targetNode, plaintext) => {
-  const ctxes = [await encryptForDestination(targetNode, plaintext)];
-  // from (3) 2 to 0
-  const firstPos = nodePath.length - 1;
-
-  for (let i = firstPos; i > -1; i -= 1) {
-    // this nodePath points to the previous (i + 1) context
-    ctxes.push(
-      // eslint-disable-next-line no-await-in-loop
-      await encryptForRelay(
-        nodePath[i],
-        i === firstPos ? targetNode : nodePath[i + 1],
-        ctxes[ctxes.length - 1]
-      )
-    );
-  }
-  const guardCtx = ctxes[ctxes.length - 1]; // last ctx
-
+const makeGuardPayload = guardCtx => {
   const ciphertextBase64 = dcodeIO.ByteBuffer.wrap(
     guardCtx.ciphertext
   ).toString('base64');
 
-  const payload = {
+  const guardPayloadObj = {
     ciphertext: ciphertextBase64,
-    ephemeral_key: StringView.arrayBufferToHex(guardCtx.ephemeral_key),
+    ephemeral_key: StringView.arrayBufferToHex(guardCtx.ephemeralKey),
   };
-
-  const fetchOptions = {
-    method: 'POST',
-    body: JSON.stringify(payload),
-  };
-
-  const url = `https://${nodePath[0].ip}:${nodePath[0].port}/onion_req`;
-
-  // we only proxy to snodes...
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-  const response = await nodeFetch(url, fetchOptions);
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
-
-  return processOnionResponse(reqIdx, response, ctxes[0].symmetricKey, true);
+  return guardPayloadObj;
 };
+
+// we just need the targetNode.pubkey_ed25519 for the encryption
+// targetPubKey is ed25519 if snode is the target
+const makeOnionRequest = async (
+  nodePath,
+  destCtx,
+  targetED25519Hex,
+  finalRelayOptions = false,
+  id = ''
+) => {
+  const ctxes = [destCtx];
+  // from (3) 2 to 0
+  const firstPos = nodePath.length - 1;
+
+  for (let i = firstPos; i > -1; i -= 1) {
+    let dest;
+    const relayingToFinalDestination = i === 0; // if last position
+
+    if (relayingToFinalDestination && finalRelayOptions) {
+      dest = {
+        host: finalRelayOptions.host,
+        target: '/loki/v1/lsrpc',
+        method: 'POST',
+      };
+    } else {
+      // set x25519 if destination snode
+      let pubkeyHex = targetED25519Hex; // relayingToFinalDestination
+      // or ed25519 snode destination
+      if (!relayingToFinalDestination) {
+        pubkeyHex = nodePath[i + 1].pubkey_ed25519;
+        if (!pubkeyHex) {
+          log.error(
+            `loki_rpc:::makeOnionRequest ${id} - no ed25519 for`,
+            nodePath[i + 1],
+            'path node',
+            i + 1
+          );
+        }
+      }
+      // destination takes a hex key
+      dest = {
+        destination: pubkeyHex,
+      };
+    }
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const ctx = await encryptForRelay(
+        nodePath[i].pubkey_x25519,
+        dest,
+        ctxes[ctxes.length - 1]
+      );
+      ctxes.push(ctx);
+    } catch (e) {
+      log.error(
+        `loki_rpc:::makeOnionRequest ${id} - encryptForRelay failure`,
+        e.code,
+        e.message
+      );
+      throw e;
+    }
+  }
+  const guardCtx = ctxes[ctxes.length - 1]; // last ctx
+
+  const payloadObj = makeGuardPayload(guardCtx);
+
+  // all these requests should use AesGcm
+  return payloadObj;
+};
+
+// finalDestOptions is an object
+// FIXME: internally track reqIdx, not externally
+const sendOnionRequest = async (
+  reqIdx,
+  nodePath,
+  destX25519Any,
+  finalDestOptions,
+  finalRelayOptions = false,
+  lsrpcIdx
+) => {
+  if (!destX25519Any) {
+    log.error('loki_rpc::sendOnionRequest - no destX25519Any given');
+    return {};
+  }
+
+  // loki-storage may need this to function correctly
+  // but ADN calls will not always have a body
+  /*
+  if (!finalDestOptions.body) {
+    finalDestOptions.body = '';
+  }
+  */
+
+  let id = '';
+  if (lsrpcIdx !== undefined) {
+    id += `${lsrpcIdx}=>`;
+  }
+  if (reqIdx !== undefined) {
+    id += `${reqIdx}`;
+  }
+
+  // get destination pubkey in array buffer format
+  let destX25519hex = destX25519Any;
+  if (typeof destX25519hex !== 'string') {
+    // convert AB to hex
+    destX25519hex = StringView.arrayBufferToHex(destX25519Any);
+  }
+
+  // safely build destination
+  let targetEd25519hex;
+  if (finalDestOptions) {
+    if (finalDestOptions.destination_ed25519_hex) {
+      // snode destination
+      targetEd25519hex = finalDestOptions.destination_ed25519_hex;
+      // eslint-disable-next-line no-param-reassign
+      delete finalDestOptions.destination_ed25519_hex;
+    }
+    // else it's lsrpc...
+  } else {
+    // eslint-disable-next-line no-param-reassign
+    finalDestOptions = {};
+    log.warn(`loki_rpc::sendOnionRequest ${id} - no finalDestOptions`);
+    return {};
+  }
+
+  const options = finalDestOptions; // lint
+  // do we need this?
+  if (options.headers === undefined) {
+    options.headers = '';
+  }
+
+  let destCtx;
+  try {
+    destCtx = await encryptForPubKey(destX25519hex, options);
+  } catch (e) {
+    log.error(
+      `loki_rpc::sendOnionRequest ${id} - encryptForPubKey failure [`,
+      e.code,
+      e.message,
+      '] destination X25519',
+      destX25519hex.substr(0, 32),
+      '...',
+      destX25519hex.substr(32),
+      'options',
+      options
+    );
+    throw e;
+  }
+
+  const payloadObj = await makeOnionRequest(
+    nodePath,
+    destCtx,
+    targetEd25519hex,
+    finalRelayOptions,
+    id
+  );
+
+  const guardFetchOptions = {
+    method: 'POST',
+    body: JSON.stringify(payloadObj),
+    // we are talking to a snode...
+    agent: snodeHttpsAgent,
+  };
+
+  const guardUrl = `https://${nodePath[0].ip}:${nodePath[0].port}/onion_req`;
+  const response = await nodeFetch(guardUrl, guardFetchOptions);
+
+  return processOnionResponse(reqIdx, response, destCtx.symmetricKey, true);
+};
+
+const sendOnionRequestSnodeDest = async (
+  reqIdx,
+  nodePath,
+  targetNode,
+  plaintext
+) =>
+  sendOnionRequest(reqIdx, nodePath, targetNode.pubkey_x25519, {
+    destination_ed25519_hex: targetNode.pubkey_ed25519,
+    body: plaintext,
+  });
+
+// need relay node's pubkey_x25519_hex
+// always the same target: /loki/v1/lsrpc
+const sendOnionRequestLsrpcDest = async (
+  reqIdx,
+  nodePath,
+  destX25519Any,
+  host,
+  payloadObj,
+  lsrpcIdx = 0
+) =>
+  sendOnionRequest(
+    reqIdx,
+    nodePath,
+    destX25519Any,
+    payloadObj,
+    { host },
+    lsrpcIdx
+  );
+
+const BAD_PATH = 'bad_path';
 
 // Process a response as it arrives from `nodeFetch`, handling
 // http errors and attempting to decrypt the body with `sharedKey`
-const processOnionResponse = async (reqIdx, response, sharedKey, useAesGcm) => {
+// May return false BAD_PATH, indicating that we should try a new path.
+const processOnionResponse = async (
+  reqIdx,
+  response,
+  sharedKey,
+  useAesGcm,
+  debug
+) => {
   // FIXME: 401/500 handling?
 
   // detect SNode is not ready (not in swarm; not done syncing)
@@ -144,15 +284,25 @@ const processOnionResponse = async (reqIdx, response, sharedKey, useAesGcm) => {
 
   if (response.status !== 200) {
     log.warn(
-      `(${reqIdx}) [path] fetch unhandled error code: ${response.status}`
+      `(${reqIdx}) [path] lokiRpc::processOnionResponse - fetch unhandled error code: ${
+        response.status
+      }`
     );
     return false;
   }
 
   const ciphertext = await response.text();
   if (!ciphertext) {
-    log.warn(`(${reqIdx}) [path]: Target node return empty ciphertext`);
+    log.warn(
+      `(${reqIdx}) [path] lokiRpc::processOnionResponse - Target node return empty ciphertext`
+    );
     return false;
+  }
+  if (debug) {
+    log.debug(
+      `(${reqIdx}) [path] lokiRpc::processOnionResponse - ciphertext`,
+      ciphertext
+    );
   }
 
   let plaintext;
@@ -163,20 +313,50 @@ const processOnionResponse = async (reqIdx, response, sharedKey, useAesGcm) => {
       'base64'
     ).toArrayBuffer();
 
-    const decryptFn = useAesGcm
-      ? window.libloki.crypto.DecryptGCM
-      : window.libloki.crypto.DHDecrypt;
+    if (debug) {
+      log.debug(
+        `(${reqIdx}) [path] lokiRpc::processOnionResponse - ciphertextBuffer`,
+        StringView.arrayBufferToHex(ciphertextBuffer),
+        'useAesGcm',
+        useAesGcm
+      );
+    }
 
-    const plaintextBuffer = await decryptFn(sharedKey, ciphertextBuffer);
+    const decryptFn = useAesGcm
+      ? libloki.crypto.DecryptGCM
+      : libloki.crypto.DHDecrypt;
+
+    const plaintextBuffer = await decryptFn(sharedKey, ciphertextBuffer, debug);
+    if (debug) {
+      log.debug(
+        'lokiRpc::processOnionResponse - plaintextBuffer',
+        plaintextBuffer.toString()
+      );
+    }
 
     const textDecoder = new TextDecoder();
     plaintext = textDecoder.decode(plaintextBuffer);
   } catch (e) {
-    log.error(`(${reqIdx}) [path] decode error`);
+    log.error(
+      `(${reqIdx}) [path] lokiRpc::processOnionResponse - decode error`,
+      e.code,
+      e.message
+    );
+    log.error(
+      `(${reqIdx}) [path] lokiRpc::processOnionResponse - symKey`,
+      StringView.arrayBufferToHex(sharedKey)
+    );
     if (ciphertextBuffer) {
-      log.error(`(${reqIdx}) [path] ciphertextBuffer`, ciphertextBuffer);
+      log.error(
+        `(${reqIdx}) [path] lokiRpc::processOnionResponse - ciphertextBuffer`,
+        StringView.arrayBufferToHex(ciphertextBuffer)
+      );
     }
     return false;
+  }
+
+  if (debug) {
+    log.debug('lokiRpc::processOnionResponse - plaintext', plaintext);
   }
 
   try {
@@ -187,13 +367,22 @@ const processOnionResponse = async (reqIdx, response, sharedKey, useAesGcm) => {
         const res = JSON.parse(jsonRes.body);
         return res;
       } catch (e) {
-        log.error(`(${reqIdx}) [path] parse error json: `, jsonRes.body);
+        log.error(
+          `(${reqIdx}) [path] lokiRpc::processOnionResponse - parse error inner json: `,
+          jsonRes.body
+        );
       }
       return false;
     };
     return jsonRes;
   } catch (e) {
-    log.error('[path] parse error', e.code, e.message, `json:`, plaintext);
+    log.error(
+      `(${reqIdx}) [path] lokiRpc::processOnionResponse - parse error outer json`,
+      e.code,
+      e.message,
+      `json:`,
+      plaintext
+    );
     return false;
   }
 };
@@ -235,9 +424,9 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
 
   const snPubkeyHex = StringView.hexToArrayBuffer(targetNode.pubkey_x25519);
 
-  const myKeys = window.libloki.crypto.generateEphemeralKeyPair();
+  const myKeys = await libloki.crypto.generateEphemeralKeyPair();
 
-  const symmetricKey = libsignal.Curve.calculateAgreement(
+  const symmetricKey = await libsignal.Curve.async.calculateAgreement(
     snPubkeyHex,
     myKeys.privKey
   );
@@ -246,7 +435,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
   const body = JSON.stringify(options);
 
   const plainText = textEncoder.encode(body);
-  const ivAndCiphertext = await window.libloki.crypto.DHEncrypt(
+  const ivAndCiphertext = await libloki.crypto.DHEncrypt(
     symmetricKey,
     plainText
   );
@@ -308,6 +497,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
     // grab a fresh random one
     return sendToProxy(options, targetNode, pRetryNumber);
   }
+  // 502 is "Next node not found"
 
   // detect SNode is not ready (not in swarm; not done syncing)
   // 503 can be proxy target or destination in pre 2.0.3
@@ -393,7 +583,7 @@ const sendToProxy = async (options = {}, targetNode, retryNumber = 0) => {
       'base64'
     ).toArrayBuffer();
 
-    const plaintextBuffer = await window.libloki.crypto.DHDecrypt(
+    const plaintextBuffer = await libloki.crypto.DHDecrypt(
       symmetricKey,
       ciphertextBuffer
     );
@@ -489,6 +679,7 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
     // Wrong PoW difficulty
     if (response.status === 432) {
       const result = await response.json();
+      log.error(`lokirpc:::lokiFetch ${type} - WRONG POW`, result);
       throw new textsecure.WrongDifficultyError(result.difficulty);
     }
 
@@ -509,11 +700,10 @@ const lokiFetch = async (url, options = {}, targetNode = null) => {
         // Get a path excluding `targetNode`:
         // eslint-disable-next-line no-await-in-loop
         const path = await lokiSnodeAPI.getOnionPath(targetNode);
-        const thisIdx = onionReqIdx;
-        onionReqIdx += 1;
+        const thisIdx = window.lokiSnodeAPI.assignOnionRequestNumber();
 
         // eslint-disable-next-line no-await-in-loop
-        const result = await sendOnionRequest(
+        const result = await sendOnionRequestSnodeDest(
           thisIdx,
           path,
           targetNode,
@@ -669,4 +859,5 @@ const lokiRpc = (
 
 module.exports = {
   lokiRpc,
+  sendOnionRequestLsrpcDest,
 };

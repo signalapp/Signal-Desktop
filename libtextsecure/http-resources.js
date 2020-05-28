@@ -83,6 +83,14 @@
       }
     };
 
+    this.pollForAdditionalId = async groupId => {
+      await server.pollForGroupId(groupId, messages => {
+        messages.forEach(m => {
+          this.handleMessage(m.data, { conversationId: m.conversationId });
+        });
+      });
+    };
+
     this.pollServer = async () => {
       // bg.connect calls mr connect after storage system is ready
       window.log.info('http-resource pollServer start');
@@ -95,7 +103,9 @@
           messages => {
             connected = true;
             messages.forEach(message => {
-              this.handleMessage(message.data);
+              this.handleMessage(message.data, {
+                conversationId: message.conversationId,
+              });
             });
           }
         );

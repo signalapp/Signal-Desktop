@@ -256,8 +256,8 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   public renderSessionInfo(): JSX.Element {
     return (
       <div className="session-settings__version-info">
-        <span>v{window.versionInfo.version}</span>
-        <span>{window.versionInfo.commitHash}</span>
+        <span className="text-selectable">v{window.versionInfo.version}</span>
+        <span className="text-selectable">{window.versionInfo.commitHash}</span>
       </div>
     );
   }

@@ -86,10 +86,7 @@ export class LeftPaneChannelSection extends React.Component<Props, State> {
     if (conversationList !== undefined) {
       conversationList = conversationList.filter(
         // a channel is either a public group or a rss group
-        conversation =>
-          conversation.type === 'group' &&
-          (conversation.isPublic ||
-            (conversation.lastMessage && conversation.lastMessage.isRss))
+        conversation => conversation && conversation.type === 'group'
       );
     }
 

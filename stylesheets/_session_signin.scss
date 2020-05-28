@@ -10,6 +10,7 @@
     height: 100%;
     display: flex;
     align-items: center;
+    flex-direction: column;
 
     &-accent {
       flex-grow: 1;
@@ -17,7 +18,7 @@
 
       &-text {
         color: $session-color-white;
-        font-family: $session-font-default;
+        font-family: $session-font-accent;
 
         .title {
           font-size: 100px;
@@ -28,21 +29,32 @@
     }
 
     &-registration {
-      height: 45%;
       padding-right: 128px;
     }
 
+    &-header {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      justify-content: space-between;
+      padding: 17px 20px;
+    }
+
+    &-body {
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      align-items: center;
+      width: 100%;
+      padding-bottom: 20px;
+    }
+
     &-close-button {
-      position: absolute;
-      top: 17px;
-      left: 20px;
+      display: flex;
+      align-items: center;
     }
 
     &-session-button {
-      position: absolute;
-      top: 17px;
-      right: 20px;
-
       img {
         width: 30px;
       }
@@ -87,7 +99,7 @@
     }
 
     &__tab {
-      @include fontDefaultBold();
+      @include fontAccentBold();
       width: 100%;
       padding-bottom: 10px;
       background-color: transparent;
@@ -246,6 +258,8 @@
       display: inline-block;
       font-family: $session-font-mono;
       user-select: all;
+      overflow: hidden;
+      resize: none;
     }
   }
 }

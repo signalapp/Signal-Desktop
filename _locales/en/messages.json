@@ -1014,6 +1014,10 @@
   "deviceIsSecondaryNoPairing": {
     "message": "This device is a secondary device and so cannot be linked."
   },
+  "pairingOngoing": {
+    "message":
+      "A pairing request is already ongoing. Restart the app if it takes too long."
+  },
   "allowPairing": {
     "message": "Allow Linking"
   },
@@ -1034,6 +1038,15 @@
   },
   "unpairDevice": {
     "message": "Unlink Device"
+  },
+  "unpairDeviceWarning": {
+    "message": "Are you sure you want to unlink this device?",
+    "description": "Warning for device unlinking in settings view"
+  },
+  "unpairDeviceWarningSub": {
+    "message":
+      "Unlinking this device will delete all history, including all messages, sessions, and contacts from this device.",
+    "description": "Warning description for device unlinking in settings view"
   },
   "deviceUnpaired": {
     "message": "Device Unlinked"

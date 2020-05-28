@@ -30,28 +30,24 @@ export class SessionNotificationCount extends React.Component<Props> {
     const MAX_SINGLE_DIGIT = 9;
     const overflow = typeof count === 'number' && count > MAX_SINGLE_DIGIT;
 
-    const fontSizeVal = overflow ? size / 2 : size / 2 + 2;
-    const fontSize = `${fontSizeVal}px`;
-
     const bubbleStyle = {
       width: `${size}px`,
       height: `${size}px`,
+      fontSize: `${size}px`,
     };
+
+    const fontSize = overflow ? '0.5em' : '0.6em';
 
     const countStyle = {
       fontSize,
-      marginTop: overflow ? `${size / 8}px` : '0px',
-      marginLeft: overflow ? `-${size / 4}px` : '0px',
-    };
-
-    const supStyle = {
-      top: `-${size * (3 / 8)}px`,
+      marginTop: overflow ? '0.35em' : '0em',
+      marginLeft: overflow ? '-0.45em' : '0em',
     };
 
     const countElement: JSX.Element = overflow ? (
       <>
         {MAX_SINGLE_DIGIT}
-        <sup style={supStyle}>+</sup>
+        <sup>+</sup>
       </>
     ) : (
       <>{count}</>
@@ -68,7 +64,7 @@ export class SessionNotificationCount extends React.Component<Props> {
             style={bubbleStyle}
             role="button"
           >
-            <span style={countStyle}>{countElement}</span>
+            <div style={countStyle}>{countElement}</div>
           </div>
         )}
       </>

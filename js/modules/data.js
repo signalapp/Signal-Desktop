@@ -207,6 +207,9 @@ module.exports = {
   getLegacyMessagesNeedingUpgrade,
   getMessagesWithVisualMediaAttachments,
   getMessagesWithFileAttachments,
+
+  getSenderKeys,
+  createOrUpdateSenderKeys,
 };
 
 // When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
@@ -721,6 +724,16 @@ async function removeAllItems() {
   await channels.removeAllItems();
 }
 
+// Sender Keys
+
+async function getSenderKeys(groupId, senderIdentity) {
+  return channels.getSenderKeys(groupId, senderIdentity);
+}
+
+async function createOrUpdateSenderKeys(data) {
+  await channels.createOrUpdateSenderKeys(data);
+}
+
 // Sessions
 
 async function createOrUpdateSession(data) {
@@ -1071,8 +1084,8 @@ async function getMessagesByConversation(
   return new MessageCollection(messages);
 }
 
-async function getLastHashBySnode(snode) {
-  return channels.getLastHashBySnode(snode);
+async function getLastHashBySnode(convoId, snode) {
+  return channels.getLastHashBySnode(convoId, snode);
 }
 
 async function getSeenMessagesByHashList(hashes) {

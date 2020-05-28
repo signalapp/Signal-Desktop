@@ -11,6 +11,7 @@ module.exports = {
     `${module.exports.divRoleButtonWithText(text)}[contains(@class, "danger")]`,
   inputWithPlaceholder: placeholder =>
     `//input[contains(@placeholder, "${placeholder}")]`,
+  inputWithId: id => `//input[contains(@id, '${id}')]`,
   textAreaWithPlaceholder: placeholder =>
     `//textarea[contains(@placeholder, "${placeholder}")]`,
   byId: id => `//*[@id="${id}"]`,
@@ -21,4 +22,6 @@ module.exports = {
     module.exports.objWithClassAndText('span', classname, text),
   toastWithText: text =>
     module.exports.divWithClassAndText('session-toast-wrapper', text),
+  toastCloseButton:
+    '//div[contains(@class, "session-toast-wrapper")]//div[contains(@class, "toast-close")]/div',
 };

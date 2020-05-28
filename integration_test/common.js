@@ -4,15 +4,17 @@
 
 const { Application } = require('spectron');
 const path = require('path');
-
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-const RegistrationPage = require('./page-objects/registration.page');
-const ConversationPage = require('./page-objects/conversation.page');
-const { exec } = require('child_process');
 const url = require('url');
 const http = require('http');
 const fse = require('fs-extra');
+const { exec } = require('child_process');
+
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const CommonPage = require('./page-objects/common.page');
+const RegistrationPage = require('./page-objects/registration.page');
+const ConversationPage = require('./page-objects/conversation.page');
+const SettingsPage = require('./page-objects/settings.page');
 
 chai.should();
 chai.use(chaiAsPromised);
@@ -35,6 +37,12 @@ module.exports = {
     '054e1ca8681082dbd9aad1cf6fc89a32254e15cba50c75b5a73ac10a0b96bcbd2a',
   TEST_DISPLAY_NAME2: 'integration_tester_2',
 
+  TEST_MNEMONIC3:
+    'alpine lukewarm oncoming blender kiwi fuel lobster upkeep vogue simplest gasp fully simplest',
+  TEST_PUBKEY3:
+    '05f8662b6e83da5a31007cc3ded44c601f191e07999acb6db2314a896048d9036c',
+  TEST_DISPLAY_NAME3: 'integration_tester_3',
+
   /* **************  OPEN GROUPS  ****************** */
   VALID_GROUP_URL: 'https://chat.getsession.org',
   VALID_GROUP_URL2: 'https://chat-dev.lokinet.org',
@@ -50,36 +58,43 @@ module.exports = {
     return new Promise(resolve => setTimeout(resolve, ms));
   },
 
+  async closeToast(app) {
+    app.client.element(CommonPage.toastCloseButton).click();
+  },
+
   // a wrapper to work around electron/spectron bug
   async setValueWrapper(app, selector, value) {
-    await app.client.element(selector).click();
     // keys, setValue and addValue hang on certain platforms
-    // could put a branch here to use one of those
-    // if we know what platforms are good and which ones are broken
-    await app.client.execute(
-      (slctr, val) => {
-        // eslint-disable-next-line no-undef
-        const iter = document.evaluate(
-          slctr,
+
+    if (process.platform === 'darwin') {
+      await app.client.execute(
+        (slctr, val) => {
           // eslint-disable-next-line no-undef
-          document,
-          null,
-          // eslint-disable-next-line no-undef
-          XPathResult.UNORDERED_NODE_ITERATOR_TYPE,
-          null
-        );
-        const elem = iter.iterateNext();
-        if (elem) {
-          elem.value = val;
-        } else {
-          console.error('Cant find', slctr, elem, iter);
-        }
-      },
-      selector,
-      value
-    );
-    // let session js detect the text change
-    await app.client.element(selector).click();
+          const iter = document.evaluate(
+            slctr,
+            // eslint-disable-next-line no-undef
+            document,
+            null,
+            // eslint-disable-next-line no-undef
+            XPathResult.UNORDERED_NODE_ITERATOR_TYPE,
+            null
+          );
+          const elem = iter.iterateNext();
+          if (elem) {
+            elem.value = val;
+          } else {
+            console.error('Cant find', slctr, elem, iter);
+          }
+        },
+        selector,
+        value
+      );
+      // let session js detect the text change
+      await app.client.element(selector).click();
+    } else {
+      // Linux & Windows don't require wrapper
+      await app.client.element(selector).setValue(value);
+    }
   },
 
   async startApp(environment = 'test-integration-session') {
@@ -135,12 +150,8 @@ module.exports = {
         ? 'taskkill /im electron.exe /t /f'
         : 'pkill -f "node_modules/electron/dist/electron" | pkill -f "node_modules/.bin/electron"';
     return new Promise(resolve => {
-      exec(killStr, (err, stdout, stderr) => {
-        if (err) {
-          resolve({ stdout, stderr });
-        } else {
-          resolve({ stdout, stderr });
-        }
+      exec(killStr, (_err, stdout, stderr) => {
+        resolve({ stdout, stderr });
       });
     });
   },
@@ -197,13 +208,14 @@ module.exports = {
     return app;
   },
 
-  async startAndStub2(props) {
-    const app2 = await this.startAndStub({
-      env: 'test-integration-session-2',
+  async startAndStubN(props, n) {
+    // Make app with stub as number n
+    const appN = await this.startAndStub({
+      env: `test-integration-session-${n}`,
       ...props,
     });
 
-    return app2;
+    return appN;
   },
 
   async restoreFromMnemonic(app, mnemonic, displayName) {
@@ -221,7 +233,9 @@ module.exports = {
       displayName
     );
 
-    await app.client.element(RegistrationPage.continueSessionButton).click();
+    // await app.client.element(RegistrationPage.continueSessionButton).click();
+    await app.client.keys('Enter');
+
     await app.client.waitForExist(
       RegistrationPage.conversationListContainer,
       4000
@@ -243,7 +257,7 @@ module.exports = {
 
     const [app1, app2] = await Promise.all([
       this.startAndStub(app1Props),
-      this.startAndStub2(app2Props),
+      this.startAndStubN(app2Props, 2),
     ]);
 
     /** add each other as friends */
@@ -307,11 +321,89 @@ module.exports = {
     return [app1, app2];
   },
 
+  async addFriendToNewClosedGroup(app, app2) {
+    await this.setValueWrapper(
+      app,
+      ConversationPage.closedGroupNameTextarea,
+      this.VALID_CLOSED_GROUP_NAME1
+    );
+    await app.client
+      .element(ConversationPage.closedGroupNameTextarea)
+      .getValue()
+      .should.eventually.equal(this.VALID_CLOSED_GROUP_NAME1);
+
+    await app.client
+      .element(ConversationPage.createClosedGroupMemberItem)
+      .isVisible().should.eventually.be.true;
+
+    // select the first friend as a member of the groups being created
+    await app.client
+      .element(ConversationPage.createClosedGroupMemberItem)
+      .click();
+    await app.client
+      .element(ConversationPage.createClosedGroupMemberItemSelected)
+      .isVisible().should.eventually.be.true;
+
+    // trigger the creation of the group
+    await app.client
+      .element(ConversationPage.validateCreationClosedGroupButton)
+      .click();
+
+    await app.client.waitForExist(
+      ConversationPage.sessionToastGroupCreatedSuccess,
+      1000
+    );
+    await app.client.isExisting(
+      ConversationPage.headerTitleGroupName(this.VALID_CLOSED_GROUP_NAME1)
+    ).should.eventually.be.true;
+    await app.client.element(ConversationPage.headerTitleMembers(2)).isVisible()
+      .should.eventually.be.true;
+
+    // validate overlay is closed
+    await app.client
+      .isExisting(ConversationPage.leftPaneOverlay)
+      .should.eventually.be.equal(false);
+
+    // move back to the conversation section
+    await app.client
+      .element(ConversationPage.conversationButtonSection)
+      .click();
+
+    // validate open chat has been added
+    await app.client.isExisting(
+      ConversationPage.rowOpenGroupConversationName(
+        this.VALID_CLOSED_GROUP_NAME1
+      )
+    ).should.eventually.be.true;
+
+    // next check app2 has been invited and has the group in its conversations
+    await app2.client.waitForExist(
+      ConversationPage.rowOpenGroupConversationName(
+        this.VALID_CLOSED_GROUP_NAME1
+      ),
+      6000
+    );
+    // open the closed group conversation on app2
+    await app2.client
+      .element(ConversationPage.conversationButtonSection)
+      .click();
+    await this.timeout(500);
+    await app2.client
+      .element(
+        ConversationPage.rowOpenGroupConversationName(
+          this.VALID_CLOSED_GROUP_NAME1
+        )
+      )
+      .click();
+  },
+
   async linkApp2ToApp(app1, app2) {
     // app needs to be logged in as user1 and app2 needs to be logged out
     // start the pairing dialog for the first app
-    await app1.client.element(ConversationPage.settingsButtonSection).click();
-    await app1.client.element(ConversationPage.deviceSettingsRow).click();
+    await app1.client.element(SettingsPage.settingsButtonSection).click();
+    await app1.client
+      .element(SettingsPage.settingsRowWithText('Devices'))
+      .click();
 
     await app1.client.isVisible(ConversationPage.noPairedDeviceMessage);
     // we should not find the linkDeviceButtonDisabled button (as DISABLED)
@@ -375,7 +467,9 @@ module.exports = {
       .should.eventually.be.true;
 
     await app1.client.element(ConversationPage.settingsButtonSection).click();
-    await app1.client.element(ConversationPage.deviceSettingsRow).click();
+    await app1.client
+      .element(ConversationPage.settingsRowWithText('Devices'))
+      .click();
     await app1.client.isExisting(ConversationPage.linkDeviceButtonDisabled)
       .should.eventually.be.true;
     // click the unlink button
@@ -409,6 +503,31 @@ module.exports = {
         'app2 is still joinable so it did not restart, so it did not unlink correctly'
       );
     }
+  },
+
+  async sendMessage(app, messageText, fileLocation = undefined) {
+    await this.setValueWrapper(
+      app,
+      ConversationPage.sendMessageTextarea,
+      messageText
+    );
+    await app.client
+      .element(ConversationPage.sendMessageTextarea)
+      .getValue()
+      .should.eventually.equal(messageText);
+
+    // attach a file
+    if (fileLocation) {
+      await this.setValueWrapper(
+        app,
+        ConversationPage.attachmentInput,
+        fileLocation
+      );
+    }
+
+    // send message
+    await app.client.element(ConversationPage.sendMessageTextarea).click();
+    await app.client.keys('Enter');
   },
 
   generateSendMessageText: () =>
