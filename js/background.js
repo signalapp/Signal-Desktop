@@ -286,7 +286,10 @@
     // Update zoom
     window.updateZoomFactor();
 
-    if (window.lokiFeatureFlags.useOnionRequests || window.lokiFeatureFlags.useFileOnionRequests) {
+    if (
+      window.lokiFeatureFlags.useOnionRequests ||
+      window.lokiFeatureFlags.useFileOnionRequests
+    ) {
       // Initialize paths for onion requests
       window.lokiSnodeAPI.buildNewOnionPaths();
     }
