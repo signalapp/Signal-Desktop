@@ -64,7 +64,11 @@ const validOpenGroupServer = async serverUrl => {
     // const txt = await res.text();
   } catch (e) {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
-    log.warn(`loki_public_chat::validOpenGroupServer - failing to create ${serverUrl}`, e.code, e.message);
+    log.warn(
+      `loki_public_chat::validOpenGroupServer - failing to create ${serverUrl}`,
+      e.code,
+      e.message
+    );
     // bail out if not valid enough
     return false;
   }
