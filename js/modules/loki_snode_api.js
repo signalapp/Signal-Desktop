@@ -465,7 +465,8 @@ class LokiSnodeAPI {
         'LokiSnodeAPI::buildNewOnionPaths - Too few nodes to build an onion path! Refreshing pool and retrying'
       );
       await this.refreshRandomPool();
-      return this.buildNewOnionPaths();
+      await this.buildNewOnionPaths();
+      return;
     }
 
     otherNodes = _.shuffle(otherNodes);
