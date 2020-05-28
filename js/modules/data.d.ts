@@ -135,14 +135,14 @@ export function getGrantAuthorisationForSecondaryPubKey(
 ): Promise<PairingAuthorisation>;
 export function getAuthorisationForSecondaryPubKey(
   pubKey: string
-): PairingAuthorisation;
+): Promise<PairingAuthorisation>;
 export function getSecondaryDevicesFor(
   primaryDevicePubKey: string
-): Array<string>;
+): Promise<Array<string>>;
 export function getPrimaryDeviceFor(
   secondaryDevicePubKey: string
-): string | null;
-export function getPairedDevicesFor(pubKey: string): Array<string>;
+): Promise<string | null>;
+export function getPairedDevicesFor(pubKey: string): Promise<Array<string>>;
 
 // Guard Nodes
 export function getGuardNodes(): Promise<GuardNode>;

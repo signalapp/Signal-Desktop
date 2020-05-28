@@ -1,3 +1,4 @@
+// TODO: Delete this and depend on window.ts instead
 interface Window {
   CONSTANTS: any;
   versionInfo: any;
