@@ -25,6 +25,7 @@ export type PropsData = {
   isPublic?: boolean;
   isRss?: boolean;
   isClosable?: boolean;
+  primaryDevice?: string;
 
   lastUpdated: number;
   unreadCount: number;

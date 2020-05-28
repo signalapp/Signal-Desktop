@@ -255,27 +255,15 @@ function _createUnidentifiedSenderMessageContent(
 }
 
 SecretSessionCipher.prototype = {
-  // public byte[] encrypt(
-  //   SignalProtocolAddress destinationAddress,
-  //   SenderCertificate senderCertificate,
-  //   byte[] paddedPlaintext
-  // )
-  async encrypt(
-    destinationAddress,
-    senderCertificate,
-    paddedPlaintext,
-    cipher
-  ) {
+  async encrypt(destinationPubkey, senderCertificate, innerEncryptedMessage) {
     // Capture this.xxx variables to replicate Java's implicit this syntax
-    const signalProtocolStore = this.storage;
     const _calculateEphemeralKeys = this._calculateEphemeralKeys.bind(this);
     const _encryptWithSecretKeys = this._encryptWithSecretKeys.bind(this);
     const _calculateStaticKeys = this._calculateStaticKeys.bind(this);
 
-    const message = await cipher.encrypt(paddedPlaintext);
-    const ourIdentity = await signalProtocolStore.getIdentityKeyPair();
+    const ourIdentity = await this.storage.getIdentityKeyPair();
     const theirIdentity = dcodeIO.ByteBuffer.wrap(
-      destinationAddress.getName(),
+      destinationPubkey,
       'hex'
     ).toArrayBuffer();
 
@@ -306,9 +294,9 @@ SecretSessionCipher.prototype = {
       staticSalt
     );
     const content = _createUnidentifiedSenderMessageContent(
-      message.type,
+      innerEncryptedMessage.type,
       senderCertificate,
-      fromEncodedBinaryToArrayBuffer(message.body)
+      fromEncodedBinaryToArrayBuffer(innerEncryptedMessage.body)
     );
     const messageBytes = await _encryptWithSecretKeys(
       staticKeys.cipherKey,

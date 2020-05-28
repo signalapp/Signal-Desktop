@@ -4,6 +4,7 @@
   log,
   i18n,
   Backbone,
+  libloki,
   ConversationController,
   MessageController,
   storage,
@@ -245,6 +246,8 @@
       this.messageCollection.forEach(m => m.trigger('change'));
     },
     async acceptFriendRequest() {
+      // Friend request message conmfirmations (Accept / Decline) are always
+      // sent to the primary device conversation
       const messages = await window.Signal.Data.getMessagesByConversation(
         this.id,
         {
@@ -253,6 +256,7 @@
           type: 'friend-request',
         }
       );
+
       const lastMessageModel = messages.at(0);
       if (lastMessageModel) {
         lastMessageModel.acceptFriendRequest();
@@ -549,6 +553,7 @@
           MessageCollection: Whisper.MessageCollection,
         }
       );
+
       if (typeof status === 'string') {
         // eslint-disable-next-line no-param-reassign
         status = [status];
@@ -584,7 +589,6 @@
 
       const result = {
         id: this.id,
-
         isArchived: this.get('isArchived'),
         activeAt: this.get('active_at'),
         avatarPath: this.getAvatarPath(),
@@ -607,6 +611,7 @@
         hasSentFriendRequest: this.hasSentFriendRequest(),
         isBlocked: this.isBlocked(),
         isSecondary: !!this.get('secondaryStatus'),
+        primaryDevice: this.getPrimaryDevicePubKey(),
         phoneNumber: format(this.id, {
           ourRegionCode: regionCode,
         }),
@@ -782,6 +787,13 @@
     isFriendRequestStatusNone() {
       return this.get('friendRequestStatus') === FriendRequestStatusEnum.none;
     },
+    isFriendRequestStatusNoneOrExpired() {
+      const status = this.get('friendRequestStatus');
+      return (
+        status === FriendRequestStatusEnum.none ||
+        status === FriendRequestStatusEnum.requestExpired
+      );
+    },
     isPendingFriendRequest() {
       const status = this.get('friendRequestStatus');
       return (
@@ -794,8 +806,7 @@
       const status = this.get('friendRequestStatus');
       return (
         status === FriendRequestStatusEnum.pendingSend ||
-        status === FriendRequestStatusEnum.requestSent ||
-        status === FriendRequestStatusEnum.requestExpired
+        status === FriendRequestStatusEnum.requestSent
       );
     },
     hasReceivedFriendRequest() {
@@ -969,19 +980,42 @@
       if (!response) {
         return;
       }
-      const primaryConversation = ConversationController.get(
+
+      // Accept FRs from all the user's devices
+      const allDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
         this.getPrimaryDevicePubKey()
       );
-      // Should never happen
-      if (!primaryConversation) {
+
+      if (!allDevices.length) {
         return;
       }
-      const pending = await primaryConversation.getFriendRequests(
-        direction,
-        status
+
+      const allConversationsWithUser = allDevices.map(d =>
+        ConversationController.get(d)
       );
+
+      // Search through each conversation (device) for friend request messages
+      const pendingRequestPromises = allConversationsWithUser.map(
+        async conversation => {
+          const request = (await conversation.getFriendRequests(
+            direction,
+            status
+          ))[0];
+          return { conversation, request };
+        }
+      );
+
+      let pendingRequests = await Promise.all(pendingRequestPromises);
+
+      // Filter out all undefined requests
+      pendingRequests = pendingRequests.filter(p => Boolean(p.request));
+
+      // We set all friend request messages from all devices
+      // from a user here to accepted where possible
       await Promise.all(
-        pending.map(async request => {
+        pendingRequests.map(async friendRequest => {
+          const { conversation, request } = friendRequest;
+
           if (request.hasErrors()) {
             return;
           }
@@ -990,7 +1024,7 @@
           await window.Signal.Data.saveMessage(request.attributes, {
             Message: Whisper.Message,
           });
-          primaryConversation.trigger('updateMessage', request);
+          conversation.trigger('updateMessage', request);
         })
       );
     },
@@ -1035,7 +1069,11 @@
           direction: 'incoming',
           status: ['pending', 'expired'],
         });
-        window.libloki.api.sendBackgroundMessage(this.id);
+        window.libloki.api.sendBackgroundMessage(
+          this.id,
+          window.textsecure.OutgoingMessage.DebugMessageType
+            .INCOMING_FR_ACCEPTED
+        );
       }
     },
     // Our outgoing friend request has been accepted
@@ -1052,7 +1090,11 @@
           response: 'accepted',
           status: ['pending', 'expired'],
         });
-        window.libloki.api.sendBackgroundMessage(this.id);
+        window.libloki.api.sendBackgroundMessage(
+          this.id,
+          window.textsecure.OutgoingMessage.DebugMessageType
+            .OUTGOING_FR_ACCEPTED
+        );
         return true;
       }
       return false;
@@ -1643,6 +1685,7 @@
 
         const model = this.addSingleMessage(attributes);
         const message = MessageController.register(model.id, model);
+
         await window.Signal.Data.saveMessage(message.attributes, {
           forceSave: true,
           Message: Whisper.Message,
@@ -1734,10 +1777,19 @@
                 profileKey,
                 options
               );
-            case Message.GROUP:
+            case Message.GROUP: {
+              let dest = destination;
+              let numbers = groupNumbers;
+
+              if (this.get('is_medium_group')) {
+                dest = this.id;
+                numbers = [destination];
+                options.isMediumGroup = true;
+              }
+
               return textsecure.messaging.sendMessageToGroup(
-                destination,
-                groupNumbers,
+                dest,
+                numbers,
                 messageBody,
                 finalAttachments,
                 quote,
@@ -1747,6 +1799,7 @@
                 profileKey,
                 options
               );
+            }
             default:
               throw new TypeError(
                 `Invalid conversation type: '${conversationType}'`
@@ -2137,7 +2190,10 @@
       await this.setSessionResetStatus(SessionResetEnum.request_received);
       // send empty message, this will trigger the new session to propagate
       // to the reset initiator.
-      window.libloki.api.sendBackgroundMessage(this.id);
+      window.libloki.api.sendBackgroundMessage(
+        this.id,
+        window.textsecure.OutgoingMessage.DebugMessageType.SESSION_RESET_RECV
+      );
     },
 
     isSessionResetReceived() {
@@ -2173,7 +2229,10 @@
     async onNewSessionAdopted() {
       if (this.get('sessionResetStatus') === SessionResetEnum.initiated) {
         // send empty message to confirm that we have adopted the new session
-        window.libloki.api.sendBackgroundMessage(this.id);
+        window.libloki.api.sendBackgroundMessage(
+          this.id,
+          window.textsecure.OutgoingMessage.DebugMessageType.SESSION_RESET
+        );
       }
       await this.createAndStoreEndSessionMessage({
         type: 'incoming',
@@ -2409,7 +2468,6 @@
     },
 
     // LOKI PROFILES
-
     async setNickname(nickname) {
       const trimmed = nickname && nickname.trim();
       if (this.get('nickname') === trimmed) {
@@ -3016,11 +3074,11 @@
           const messageId = message.id;
           const isExpiringMessage = Message.hasExpiration(messageJSON);
 
-          window.log.info('Add notification', {
-            conversationId: this.idForLogging(),
-            isExpiringMessage,
-            messageSentAt,
-          });
+          // window.log.info('Add notification', {
+          //   conversationId: this.idForLogging(),
+          //   isExpiringMessage,
+          //   messageSentAt,
+          // });
           Whisper.Notifications.add({
             conversationId,
             iconUrl,
@@ -3067,9 +3125,9 @@
         : 'friendRequestNotificationMessage';
 
       const iconUrl = await conversation.getNotificationIcon();
-      window.log.info('Add notification for friend request updated', {
-        conversationId: conversation.idForLogging(),
-      });
+      // window.log.info('Add notification for friend request updated', {
+      //   conversationId: conversation.idForLogging(),
+      // });
       Whisper.Notifications.add({
         conversationId: conversation.id,
         iconUrl,
