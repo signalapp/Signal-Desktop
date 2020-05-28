@@ -858,73 +858,122 @@ class LokiSnodeAPI {
     }
   }
 
-  async getLnsMapping(lnsName) {
+  async getLnsMapping(lnsName, timeout) {
+    // Returns { pubkey, error }
+    // pubkey is
+    //      undefined when unconfirmed or no mapping found
+    //      string    when found
+    // timeout parameter optional (ms)
+
+    // How many nodes to fetch data from?
+    const numRequests = 5;
+
+    // How many nodes must have the same response value?
+    const numRequiredConfirms = 3;
+
+    let ciphertextHex;
+    let pubkey;
+    let error;
+
     const _ = window.Lodash;
 
     const input = Buffer.from(lnsName);
-
     const output = await window.blake2b(input);
-
     const nameHash = dcodeIO.ByteBuffer.wrap(output).toString('base64');
 
+    // Timeouts
+    const maxTimeoutVal = 2 ** 31 - 1;
+    const timeoutPromise = () =>
+      new Promise((_resolve, reject) =>
+        setTimeout(() => reject(), timeout || maxTimeoutVal)
+      );
+
     // Get nodes capable of doing LNS
-    const lnsNodes = this.getNodesMinVersion('2.0.3');
-    // randomPool should already be shuffled
-    // lnsNodes = _.shuffle(lnsNodes);
-
-    // Loop until 3 confirmations
-
-    // We don't trust any single node, so we accumulate
-    // answers here and select a dominating answer
-    const allResults = [];
-    let ciphertextHex = null;
-
-    while (!ciphertextHex) {
-      if (lnsNodes.length < 3) {
-        log.error('Not enough nodes for lns lookup');
-        return false;
-      }
-
-      // extract 3 and make requests in parallel
-      const nodes = lnsNodes.splice(0, 3);
-
-      // eslint-disable-next-line no-await-in-loop
-      const results = await Promise.all(
-        nodes.map(node => this._requestLnsMapping(node, nameHash))
-      );
-
-      results.forEach(res => {
-        if (
-          res &&
-          res.result &&
-          res.result.status === 'OK' &&
-          res.result.entries &&
-          res.result.entries.length > 0
-        ) {
-          allResults.push(results[0].result.entries[0].encrypted_value);
-        }
-      });
-
-      const [winner, count] = _.maxBy(
-        _.entries(_.countBy(allResults)),
-        x => x[1]
-      );
-
-      if (count >= 3) {
-        // eslint-disable-next-lint prefer-destructuring
-        ciphertextHex = winner;
-      }
-    }
-
-    const ciphertext = new Uint8Array(
-      StringView.hexToArrayBuffer(ciphertextHex)
+    const lnsNodes = await this.getNodesMinVersion(
+      window.CONSTANTS.LNS_CAPABLE_NODES_VERSION
     );
 
-    const res = await window.decryptLnsEntry(lnsName, ciphertext);
+    // Enough nodes?
+    if (lnsNodes.length < numRequiredConfirms) {
+      error = { lnsTooFewNodes: window.i18n('lnsTooFewNodes') };
+      return { pubkey, error };
+    }
 
-    const pubkey = StringView.arrayBufferToHex(res);
+    const confirmedNodes = [];
 
-    return pubkey;
+    // Promise is only resolved when a consensus is found
+    let cipherResolve;
+    const cipherPromise = () =>
+      new Promise(resolve => {
+        cipherResolve = resolve;
+      });
+
+    const decryptHex = async cipherHex => {
+      const ciphertext = new Uint8Array(StringView.hexToArrayBuffer(cipherHex));
+
+      const res = await window.decryptLnsEntry(lnsName, ciphertext);
+      const publicKey = StringView.arrayBufferToHex(res);
+
+      return publicKey;
+    };
+
+    const fetchFromNode = async node => {
+      const res = await this._requestLnsMapping(node, nameHash);
+
+      // Do validation
+      if (res && res.result && res.result.status === 'OK') {
+        const hasMapping = res.result.entries && res.result.entries.length > 0;
+
+        const resValue = hasMapping
+          ? res.result.entries[0].encrypted_value
+          : null;
+
+        confirmedNodes.push(resValue);
+
+        if (confirmedNodes.length >= numRequiredConfirms) {
+          if (ciphertextHex) {
+            // Result already found, dont worry
+            return;
+          }
+
+          const [winner, count] = _.maxBy(
+            _.entries(_.countBy(confirmedNodes)),
+            x => x[1]
+          );
+
+          if (count >= numRequiredConfirms) {
+            ciphertextHex = winner === String(null) ? null : winner;
+
+            // null represents no LNS mapping
+            if (ciphertextHex === null) {
+              error = { lnsMappingNotFound: window.i18n('lnsMappingNotFound') };
+            }
+
+            cipherResolve({ ciphertextHex });
+          }
+        }
+      }
+    };
+
+    const nodes = lnsNodes.splice(0, numRequests);
+
+    // Start fetching from nodes
+    nodes.forEach(node => fetchFromNode(node));
+
+    // Timeouts (optional parameter)
+    // Wait for cipher to be found; race against timeout
+    // eslint-disable-next-line more/no-then
+    await Promise.race([cipherPromise, timeoutPromise].map(f => f()))
+      .then(async () => {
+        if (ciphertextHex !== null) {
+          pubkey = await decryptHex(ciphertextHex);
+        }
+      })
+      .catch(() => {
+        error = { lnsLookupTimeout: window.i18n('lnsLookupTimeout') };
+      });
+
+    return { pubkey, error };
   }
 
   // get snodes for pubkey from random snode
