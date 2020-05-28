@@ -957,10 +957,6 @@
       window.setSettingValue('link-preview-setting', false);
     }
 
-    // Render onboarding message from LeftPaneMessageSection
-    // unless user turns it off during their session
-    window.setSettingValue('render-message-onboarding', true);
-
     // Generates useful random ID for various purposes
     window.generateID = () =>
       Math.random()
@@ -1011,20 +1007,6 @@
       }
 
       return toastID;
-    };
-
-    window.getFriendsFromContacts = contacts => {
-      // To call from TypeScript, input / output are both
-      // of type Array<ConversationType>
-      let friendList = contacts;
-      if (friendList !== undefined) {
-        friendList = friendList.filter(
-          friend =>
-            (friend.type === 'direct' && !friend.isMe) ||
-            (friend.type === 'group' && !friend.isPublic && !friend.isRss)
-        );
-      }
-      return friendList;
     };
 
     // Get memberlist. This function is not accurate >>

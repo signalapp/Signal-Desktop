@@ -784,7 +784,7 @@
     "description": "Shown to separate the types of search results"
   },
   "messagesHeader": {
-    "message": "Session",
+    "message": "Conversations",
     "description": "Shown to separate the types of search results"
   },
   "settingsHeader": {
