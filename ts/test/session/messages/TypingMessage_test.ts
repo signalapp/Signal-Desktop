@@ -45,7 +45,7 @@ describe('TypingMessage', () => {
         const plainText = message.plainTextBuffer();
         const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
         const typingTimestamp = decoded.typingMessage.timestamp.toNumber();
-        expect(typingTimestamp).to.be.equal(Date.now());
+        expect(typingTimestamp).to.be.approximately(Date.now(), 10);
     });
 
     it('has groupId set if a value given', () => {
