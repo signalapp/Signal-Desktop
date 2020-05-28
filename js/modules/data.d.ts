@@ -7,25 +7,46 @@ type IdentityKey = {
   firstUse: boolean;
   verified: number;
   nonblockingApproval: boolean;
-} | null;
+};
 
 type PreKey = {
-  id: string;
-  publicKey: string;
-  privateKey: string;
+  id: number;
+  publicKey: ArrayBuffer;
+  privateKey: ArrayBuffer;
   recipient: string;
-} | null;
+};
+
+type SignedPreKey = {
+  id: number;
+  publicKey: ArrayBuffer;
+  privateKey: ArrayBuffer;
+  created_at: number;
+  confirmed: boolean;
+  signature: ArrayBuffer;
+};
+
+type ContactPreKey = {
+  id: number;
+  identityKeyString: string;
+  publicKey: ArrayBuffer;
+  keyId: number;
+};
+
+type ContactSignedPreKey = {
+  id: number;
+  identityKeyString: string;
+  publicKey: ArrayBuffer;
+  keyId: number;
+  signature: ArrayBuffer;
+  created_at: number;
+  confirmed: boolean;
+};
 
 type PairingAuthorisation = {
   primaryDevicePubKey: string;
   secondaryDevicePubKey: string;
-  requestSignature: string;
-  grantSignature: string | null;
-} | null;
-
-type PairingAuthorisationInit = {
-  requestSignature: string;
-  grantSignature: string;
+  requestSignature: ArrayBuffer;
+  grantSignature: ArrayBuffer | null;
 };
 
 type GuardNode = {
@@ -67,53 +88,61 @@ export function removeIndexedDBFiles(): Promise<void>;
 export function getPasswordHash(): Promise<string | null>;
 
 // Identity Keys
-export function createOrUpdateIdentityKey(data: any): Promise<void>;
-export function getIdentityKeyById(id: string): Promise<IdentityKey>;
+export function createOrUpdateIdentityKey(data: IdentityKey): Promise<void>;
+export function getIdentityKeyById(id: string): Promise<IdentityKey | null>;
 export function bulkAddIdentityKeys(array: Array<IdentityKey>): Promise<void>;
 export function removeIdentityKeyById(id: string): Promise<void>;
 export function removeAllIdentityKeys(): Promise<void>;
 
 // Pre Keys
 export function createOrUpdatePreKey(data: PreKey): Promise<void>;
-export function getPreKeyById(id: string): Promise<PreKey>;
-export function getPreKeyByRecipient(recipient: string): Promise<PreKey>;
+export function getPreKeyById(id: number): Promise<PreKey | null>;
+export function getPreKeyByRecipient(recipient: string): Promise<PreKey | null>;
 export function bulkAddPreKeys(data: Array<PreKey>): Promise<void>;
-export function removePreKeyById(id: string): Promise<void>;
+export function removePreKeyById(id: number): Promise<void>;
 export function getAllPreKeys(): Promise<Array<PreKey>>;
 
 // Signed Pre Keys
-export function createOrUpdateSignedPreKey(data: PreKey): Promise<void>;
-export function getSignedPreKeyById(id: string): Promise<PreKey>;
-export function getAllSignedPreKeys(recipient: string): Promise<PreKey>;
-export function bulkAddSignedPreKeys(array: Array<PreKey>): Promise<void>;
-export function removeSignedPreKeyById(id: string): Promise<void>;
+export function createOrUpdateSignedPreKey(data: SignedPreKey): Promise<void>;
+export function getSignedPreKeyById(id: number): Promise<SignedPreKey | null>;
+export function getAllSignedPreKeys(): Promise<SignedPreKey | null>;
+export function bulkAddSignedPreKeys(array: Array<SignedPreKey>): Promise<void>;
+export function removeSignedPreKeyById(id: number): Promise<void>;
 export function removeAllSignedPreKeys(): Promise<void>;
 
 // Contact Pre Key
-export function createOrUpdateContactPreKey(data: PreKey): Promise<void>;
-export function getContactPreKeyById(id: string): Promise<PreKey>;
-export function getContactPreKeyByIdentityKey(key: string): Promise<PreKey>;
+export function createOrUpdateContactPreKey(data: ContactPreKey): Promise<void>;
+export function getContactPreKeyById(id: number): Promise<ContactPreKey | null>;
+export function getContactPreKeyByIdentityKey(
+  key: string
+): Promise<ContactPreKey | null>;
 export function getContactPreKeys(
-  keyId: string,
+  keyId: number,
   identityKeyString: string
-): Promise<Array<PreKey>>;
-export function getAllContactPreKeys(): Promise<Array<PreKey>>;
-export function bulkAddContactPreKeys(array: Array<PreKey>): Promise<void>;
-export function removeContactPreKeyByIdentityKey(id: string): Promise<void>;
+): Promise<Array<ContactPreKey>>;
+export function getAllContactPreKeys(): Promise<Array<ContactPreKey>>;
+export function bulkAddContactPreKeys(
+  array: Array<ContactPreKey>
+): Promise<void>;
+export function removeContactPreKeyByIdentityKey(id: number): Promise<void>;
 export function removeAllContactPreKeys(): Promise<void>;
 
 // Contact Signed Pre Key
-export function createOrUpdateContactSignedPreKey(data: PreKey): Promise<void>;
-export function getContactSignedPreKeyByIdid(string): Promise<PreKey>;
+export function createOrUpdateContactSignedPreKey(
+  data: ContactSignedPreKey
+): Promise<void>;
+export function getContactSignedPreKeyById(
+  id: number
+): Promise<ContactSignedPreKey | null>;
 export function getContactSignedPreKeyByIdentityKey(
   key: string
-): Promise<PreKey>;
+): Promise<ContactSignedPreKey | null>;
 export function getContactSignedPreKeys(
-  keyId: string,
+  keyId: number,
   identityKeyString: string
-): Promise<Array<PreKey>>;
+): Promise<Array<ContactSignedPreKey>>;
 export function bulkAddContactSignedPreKeys(
-  array: Array<PreKey>
+  array: Array<ContactSignedPreKey>
 ): Promise<void>;
 export function removeContactSignedPreKeyByIdentityKey(
   id: string
@@ -122,8 +151,8 @@ export function removeAllContactSignedPreKeys(): Promise<void>;
 
 // Authorisations & Linking
 export function createOrUpdatePairingAuthorisation(
-  data: PairingAuthorisationInit
-): Promise<PairingAuthorisation>;
+  data: PairingAuthorisation
+): Promise<void>;
 export function removePairingAuthorisationForSecondaryPubKey(
   pubKey: string
 ): Promise<void>;
@@ -132,10 +161,10 @@ export function getGrantAuthorisationsForPrimaryPubKey(
 ): Promise<Array<PairingAuthorisation>>;
 export function getGrantAuthorisationForSecondaryPubKey(
   pubKey: string
-): Promise<PairingAuthorisation>;
+): Promise<PairingAuthorisation | null>;
 export function getAuthorisationForSecondaryPubKey(
   pubKey: string
-): Promise<PairingAuthorisation>;
+): Promise<PairingAuthorisation | null>;
 export function getSecondaryDevicesFor(
   primaryDevicePubKey: string
 ): Promise<Array<string>>;
