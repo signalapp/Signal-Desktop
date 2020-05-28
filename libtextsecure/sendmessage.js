@@ -399,16 +399,6 @@ MessageSender.prototype = {
       );
     }
 
-    const outgoing = new OutgoingMessage(
-      this.server,
-      timestamp,
-      numbers,
-      message,
-      silent,
-      callback,
-      options
-    );
-
     const ourNumber = textsecure.storage.user.getNumber();
 
     // Check wether we have the keys to start a session with the user
@@ -449,24 +439,32 @@ MessageSender.prototype = {
         haveSession ||
         keysFound ||
         options.isPublic ||
+        options.isMediumGroup ||
         options.messageType === 'friend-request'
       ) {
+        const outgoing = new OutgoingMessage(
+          this.server,
+          timestamp,
+          numbers,
+          message,
+          silent,
+          callback,
+          options
+        );
         this.queueJobForNumber(number, () => outgoing.sendToNumber(number));
       } else {
         window.log.error(`No session for number: ${number}`);
+        const isGroupMessage = !!(
+          message &&
+          message.dataMessage &&
+          message.dataMessage.group
+        );
         // If it was a message to a group then we need to send a session request
-        if (outgoing.isGroup) {
-          this.sendMessageToNumber(
-            number,
-            '(If you see this message, you must be using an out-of-date client)',
-            [],
-            undefined,
-            [],
-            Date.now(),
-            undefined,
-            undefined,
-            { messageType: 'friend-request', sessionRequest: true }
+        if (isGroupMessage) {
+          const sessionRequestMessage = textsecure.OutgoingMessage.buildSessionRequestMessage(
+            number
           );
+          sessionRequestMessage.sendToNumber(number);
         }
       }
     });
@@ -644,12 +642,15 @@ MessageSender.prototype = {
       contentMessage.syncMessage = syncMessage;
 
       const silent = true;
+      const debugMessageType =
+        window.textsecure.OutgoingMessage.DebugMessageType.REQUEST_SYNC_SEND;
+
       return this.sendIndividualProto(
         myNumber,
         contentMessage,
         Date.now(),
         silent,
-        options
+        { ...options, debugMessageType }
       );
     }
 
@@ -663,10 +664,16 @@ MessageSender.prototype = {
     if (!primaryDeviceKey) {
       return Promise.resolve();
     }
-
+    // Extract required contacts information out of conversations
+    const sessionContacts = conversations.filter(
+      c => c.isPrivate() && !c.isSecondaryDevice() && c.isFriend()
+    );
+    if (sessionContacts.length === 0) {
+      return Promise.resolve();
+    }
     // We need to sync across 3 contacts at a time
     // This is to avoid hitting storage server limit
-    const chunked = _.chunk(conversations, 3);
+    const chunked = _.chunk(sessionContacts, 3);
     const syncMessages = await Promise.all(
       chunked.map(c => libloki.api.createContactSyncProtoMessage(c))
     );
@@ -677,12 +684,16 @@ MessageSender.prototype = {
         contentMessage.syncMessage = syncMessage;
 
         const silent = true;
+
+        const debugMessageType =
+          window.textsecure.OutgoingMessage.DebugMessageType.CONTACT_SYNC_SEND;
+
         return this.sendIndividualProto(
           primaryDeviceKey,
           contentMessage,
           Date.now(),
           silent,
-          {} // options
+          { debugMessageType } // options
         );
       });
 
@@ -694,25 +705,38 @@ MessageSender.prototype = {
     // primaryDevicePubKey is set to our own number if we are the master device
     const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
     if (!primaryDeviceKey) {
+      window.console.debug('sendGroupSyncMessage: no primary device pubkey');
+      return Promise.resolve();
+    }
+    // We only want to sync across closed groups that we haven't left
+    const sessionGroups = conversations.filter(
+      c => c.isClosedGroup() && !c.get('left') && c.isFriend()
+    );
+    if (sessionGroups.length === 0) {
+      window.console.info('No closed group to sync.');
       return Promise.resolve();
     }
 
     // We need to sync across 1 group at a time
     // This is because we could hit the storage server limit with one group
-    const syncPromises = conversations
-      .map(c => libloki.api.createGroupSyncProtoMessage([c]))
+    const syncPromises = sessionGroups
+      .map(c => libloki.api.createGroupSyncProtoMessage(c))
       .filter(message => message != null)
       .map(syncMessage => {
         const contentMessage = new textsecure.protobuf.Content();
         contentMessage.syncMessage = syncMessage;
 
         const silent = true;
+        const debugMessageType =
+          window.textsecure.OutgoingMessage.DebugMessageType
+            .CLOSED_GROUP_SYNC_SEND;
+
         return this.sendIndividualProto(
           primaryDeviceKey,
           contentMessage,
           Date.now(),
           silent,
-          {} // options
+          { debugMessageType } // options
         );
       });
 
@@ -742,12 +766,15 @@ MessageSender.prototype = {
     contentMessage.syncMessage = openGroupsSyncMessage;
 
     const silent = true;
+    const debugMessageType =
+      window.textsecure.OutgoingMessage.DebugMessageType.OPEN_GROUP_SYNC_SEND;
+
     return this.sendIndividualProto(
       primaryDeviceKey,
       contentMessage,
       Date.now(),
       silent,
-      {} // options
+      { debugMessageType } // options
     );
   },
 
@@ -1095,6 +1122,14 @@ MessageSender.prototype = {
       window.log.error(prefix, error && error.stack ? error.stack : error);
       throw error;
     };
+
+    // Loki - Temp hack for new protocol
+    // A session reset should be a `FRIEND_REQUEST`
+    const msgOptions = {
+      messageType: 'friend-request',
+      ...options,
+    };
+
     // The actual deletion of the session now happens later
     // as we need to ensure the other contact has successfully
     // switch to a new session first.
@@ -1103,7 +1138,7 @@ MessageSender.prototype = {
       proto,
       timestamp,
       silent,
-      options
+      msgOptions
     ).catch(logError('resetSession/sendToContact error:'));
   },
 
@@ -1128,6 +1163,16 @@ MessageSender.prototype = {
       numbers = [groupId];
     }
     const profile = this.getOurProfile();
+
+    let group;
+    // Medium groups don't need this info
+    if (!options.isMediumGroup) {
+      group = {
+        id: groupId,
+        type: textsecure.protobuf.GroupContext.Type.DELIVER,
+      };
+    }
+
     const attrs = {
       recipients: numbers,
       body: messageText,
@@ -1139,26 +1184,37 @@ MessageSender.prototype = {
       expireTimer,
       profileKey,
       profile,
-      group: {
-        id: groupId,
-        type: textsecure.protobuf.GroupContext.Type.DELIVER,
-      },
+      group,
     };
 
     if (numbers.length === 0) {
-      return Promise.resolve({
+      return {
         successfulNumbers: [],
         failoverNumbers: [],
         errors: [],
         unidentifiedDeliveries: [],
         dataMessage: await this.getMessageProtoObj(attrs),
-      });
+      };
     }
 
     return this.sendMessage(attrs, options);
   },
 
-  updateGroup(groupId, name, avatar, members, admins, recipients, options) {
+  async updateMediumGroup(members, groupUpdateProto) {
+    await this.sendGroupProto(members, groupUpdateProto, Date.now(), {
+      isPublic: false,
+    });
+  },
+
+  async updateGroup(
+    groupId,
+    name,
+    avatar,
+    members,
+    admins,
+    recipients,
+    options
+  ) {
     const proto = new textsecure.protobuf.DataMessage();
     proto.group = new textsecure.protobuf.GroupContext();
 
@@ -1172,14 +1228,14 @@ MessageSender.prototype = {
       textsecure.storage.user.getNumber();
     proto.group.admins = [primaryDeviceKey];
 
-    return this.makeAttachmentPointer(avatar).then(attachment => {
-      proto.group.avatar = attachment;
-      // TODO: re-enable this once we have attachments
-      proto.group.avatar = null;
-      return this.sendGroupProto(recipients, proto, Date.now(), options).then(
-        () => proto.group.id
-      );
-    });
+    const attachment = await this.makeAttachmentPointer(avatar);
+
+    proto.group.avatar = attachment;
+    // TODO: re-enable this once we have attachments
+    proto.group.avatar = null;
+    await this.sendGroupProto(recipients, proto, Date.now(), options);
+
+    return proto.group.id;
   },
 
   addNumberToGroup(groupId, newNumbers, options) {
@@ -1220,6 +1276,9 @@ MessageSender.prototype = {
     proto.group = new textsecure.protobuf.GroupContext();
     proto.group.id = stringToArrayBuffer(groupId);
     proto.group.type = textsecure.protobuf.GroupContext.Type.REQUEST_INFO;
+    libloki.api.debug.logGroupRequestInfo(
+      `Sending GROUP_TYPES.REQUEST_INFO to: ${groupNumbers}, about groupId ${groupId}.`
+    );
     return this.sendGroupProto(groupNumbers, proto, Date.now(), options);
   },
 
@@ -1238,8 +1297,12 @@ MessageSender.prototype = {
     profileKey,
     options
   ) {
-    const me = textsecure.storage.user.getNumber();
-    const numbers = groupNumbers.filter(number => number !== me);
+    // We always assume that only primary device is a member in the group
+    const primaryDeviceKey =
+      window.storage.get('primaryDevicePubKey') ||
+      textsecure.storage.user.getNumber();
+    const numbers = groupNumbers.filter(number => number !== primaryDeviceKey);
+
     const attrs = {
       recipients: numbers,
       timestamp,
@@ -1323,6 +1386,7 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.sendMessageToGroup = sender.sendMessageToGroup.bind(sender);
   this.sendTypingMessage = sender.sendTypingMessage.bind(sender);
   this.updateGroup = sender.updateGroup.bind(sender);
+  this.updateMediumGroup = sender.updateMediumGroup.bind(sender);
   this.addNumberToGroup = sender.addNumberToGroup.bind(sender);
   this.setGroupName = sender.setGroupName.bind(sender);
   this.setGroupAvatar = sender.setGroupAvatar.bind(sender);

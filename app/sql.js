@@ -175,6 +175,9 @@ module.exports = {
   getMessagesWithFileAttachments,
 
   removeKnownAttachments,
+
+  getSenderKeys,
+  createOrUpdateSenderKeys,
 };
 
 function generateUUID() {
@@ -810,6 +813,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion1,
   updateToLokiSchemaVersion2,
   updateToLokiSchemaVersion3,
+  updateToLokiSchemaVersion4,
 ];
 
 async function updateToLokiSchemaVersion1(currentVersion, instance) {
@@ -1003,6 +1007,77 @@ async function updateToLokiSchemaVersion3(currentVersion, instance) {
 
   await instance.run('COMMIT TRANSACTION;');
   console.log('updateToLokiSchemaVersion3: success!');
+}
+
+const SENDER_KEYS_TABLE = 'senderKeys';
+
+async function createOrUpdateSenderKeys(data) {
+  const { groupId, senderIdentity } = data;
+
+  await db.run(
+    `INSERT OR REPLACE INTO ${SENDER_KEYS_TABLE} (
+      groupId,
+      senderIdentity,
+      json
+    ) values (
+      $groupId,
+      $senderIdentity,
+      $json
+    );`,
+    {
+      $groupId: groupId,
+      $senderIdentity: senderIdentity,
+      $json: objectToJSON(data),
+    }
+  );
+}
+
+async function updateToLokiSchemaVersion4(currentVersion, instance) {
+  if (currentVersion >= 4) {
+    return;
+  }
+
+  console.log('updateToLokiSchemaVersion4: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  // We don't bother migrating values, any old messages that
+  // we might receive as a result will we filtered out anyway
+  await instance.run(`DROP TABLE lastHashes;`);
+
+  await instance.run(
+    `CREATE TABLE lastHashes(
+      id TEXT,
+      snode TEXT,
+      hash TEXT,
+      expiresAt INTEGER,
+      PRIMARY KEY (id, snode)
+    );`
+  );
+
+  // Create a table for Sender Keys
+  await instance.run(
+    `CREATE TABLE ${SENDER_KEYS_TABLE} (
+      groupId TEXT,
+      senderIdentity TEXT,
+      json TEXT,
+      PRIMARY KEY (groupId, senderIdentity)
+    );`
+  );
+
+  // Add senderIdentity field to `unprocessed` needed
+  // for medium size groups
+  await instance.run(`ALTER TABLE unprocessed ADD senderIdentity TEXT`);
+
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        4
+      );`
+  );
+
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToLokiSchemaVersion4: success!');
 }
 
 async function updateLokiSchema(instance) {
@@ -1685,6 +1760,22 @@ async function bulkAdd(table, array) {
   await promise;
 }
 
+async function getSenderKeys(groupId, senderIdentity) {
+  const row = await db.get(
+    `SELECT * FROM ${SENDER_KEYS_TABLE} WHERE groupId = $groupId AND senderIdentity = $senderIdentity;`,
+    {
+      $groupId: groupId,
+      $senderIdentity: senderIdentity,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+
 async function getById(table, id) {
   const row = await db.get(`SELECT * FROM ${table} WHERE id = $id;`, {
     $id: id,
@@ -2265,19 +2356,24 @@ async function saveSeenMessageHashes(arrayOfHashes) {
 }
 
 async function updateLastHash(data) {
-  const { snode, hash, expiresAt } = data;
+  const { convoId, snode, hash, expiresAt } = data;
+
+  const id = convoId;
 
   await db.run(
     `INSERT OR REPLACE INTO lastHashes (
+      id,
       snode,
       hash,
       expiresAt
     ) values (
+      $id,
       $snode,
       $hash,
       $expiresAt
     )`,
     {
+      $id: id,
       $snode: snode,
       $hash: hash,
       $expiresAt: expiresAt,
@@ -2473,16 +2569,20 @@ async function getMessagesBySentAt(sentAt) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getLastHashBySnode(snode) {
-  const row = await db.get('SELECT * FROM lastHashes WHERE snode = $snode;', {
-    $snode: snode,
-  });
+async function getLastHashBySnode(convoId, snode) {
+  const row = await db.get(
+    'SELECT * FROM lastHashes WHERE snode = $snode AND id = $id;',
+    {
+      $snode: snode,
+      $id: convoId,
+    }
+  );
 
   if (!row) {
     return null;
   }
 
-  return row.lastHash;
+  return row.hash;
 }
 
 async function getSeenMessagesByHashList(hashes) {
@@ -2537,7 +2637,7 @@ async function getNextExpiringMessage() {
 }
 
 async function saveUnprocessed(data, { forceSave } = {}) {
-  const { id, timestamp, version, attempts, envelope } = data;
+  const { id, timestamp, version, attempts, envelope, senderIdentity } = data;
   if (!id) {
     throw new Error('saveUnprocessed: id was falsey');
   }
@@ -2549,13 +2649,15 @@ async function saveUnprocessed(data, { forceSave } = {}) {
         timestamp,
         version,
         attempts,
-        envelope
+        envelope,
+        senderIdentity
       ) values (
         $id,
         $timestamp,
         $version,
         $attempts,
-        $envelope
+        $envelope,
+        $senderIdentity
       );`,
       {
         $id: id,
@@ -2563,6 +2665,7 @@ async function saveUnprocessed(data, { forceSave } = {}) {
         $version: version,
         $attempts: attempts,
         $envelope: envelope,
+        $senderIdentity: senderIdentity,
       }
     );
 
@@ -2574,7 +2677,8 @@ async function saveUnprocessed(data, { forceSave } = {}) {
       timestamp = $timestamp,
       version = $version,
       attempts = $attempts,
-      envelope = $envelope
+      envelope = $envelope,
+      senderIdentity = $senderIdentity
     WHERE id = $id;`,
     {
       $id: id,
@@ -2582,6 +2686,7 @@ async function saveUnprocessed(data, { forceSave } = {}) {
       $version: version,
       $attempts: attempts,
       $envelope: envelope,
+      $senderIdentity: senderIdentity,
     }
   );
 
@@ -2611,14 +2716,21 @@ async function updateUnprocessedAttempts(id, attempts) {
   });
 }
 async function updateUnprocessedWithData(id, data = {}) {
-  const { source, sourceDevice, serverTimestamp, decrypted } = data;
+  const {
+    source,
+    sourceDevice,
+    serverTimestamp,
+    decrypted,
+    senderIdentity,
+  } = data;
 
   await db.run(
     `UPDATE unprocessed SET
       source = $source,
       sourceDevice = $sourceDevice,
       serverTimestamp = $serverTimestamp,
-      decrypted = $decrypted
+      decrypted = $decrypted,
+      senderIdentity = $senderIdentity
     WHERE id = $id;`,
     {
       $id: id,
@@ -2626,6 +2738,7 @@ async function updateUnprocessedWithData(id, data = {}) {
       $sourceDevice: sourceDevice,
       $serverTimestamp: serverTimestamp,
       $decrypted: decrypted,
+      $senderIdentity: senderIdentity,
     }
   );
 }
@@ -2774,6 +2887,7 @@ function getRemoveConfigurationPromises() {
     db.run('DELETE FROM contactSignedPreKeys;'),
     db.run('DELETE FROM servers;'),
     db.run('DELETE FROM lastHashes;'),
+    db.run(`DELETE FROM ${SENDER_KEYS_TABLE};`),
     db.run('DELETE FROM seenMessages;'),
   ];
 }

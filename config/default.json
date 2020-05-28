@@ -6,20 +6,16 @@
   "defaultPoWDifficulty": "1",
   "seedNodeList": [
     {
-      "ip": "public.loki.foundation",
-      "port": "22023"
+      "ip_url": "http://116.203.53.213/",
+      "url": "https://storage.seed1.loki.network/"
     },
     {
-      "ip": "storage.seed1.loki.network",
-      "port": "22023"
+      "ip_url": "http://212.199.114.66/",
+      "url": "https://storage.seed3.loki.network/"
     },
     {
-      "ip": "storage.seed2.loki.network",
-      "port": "22023"
-    },
-    {
-      "ip": "imaginary.stream",
-      "port": "22023"
+      "ip_url": "http://144.76.164.202/",
+      "url": "https://public.loki.foundation/"
     }
   ],
   "updatesEnabled": false,

@@ -829,6 +829,11 @@ export class RegistrationTabs extends React.Component<{}, State> {
     // tslint:disable-next-line: no-backbone-get-set-outside-model
     if (window.textsecure.storage.get('secondaryDeviceStatus') === 'ongoing') {
       window.log.warn('registering secondary device already ongoing');
+      window.pushToast({
+        title: window.i18n('pairingOngoing'),
+        type: 'error',
+        id: 'pairingOngoing',
+      });
 
       return;
     }

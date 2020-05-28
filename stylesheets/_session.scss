@@ -559,7 +559,9 @@ label {
   max-width: 70vw;
   background-color: $session-shade-4;
   border: 1px solid $session-shade-8;
-  padding-bottom: $session-margin-lg;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 
   &__header {
     display: flex;
@@ -610,6 +612,8 @@ label {
     font-family: $session-font-accent;
     line-height: $session-font-md;
     font-size: $session-font-sm;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     .message {
       text-align: center;
@@ -1062,7 +1066,8 @@ label {
   flex-direction: column;
 
   &-list {
-    overflow-y: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   &-header {
@@ -1132,6 +1137,7 @@ label {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: hidden;
   }
 
   &__version-info {
@@ -1566,6 +1572,13 @@ input {
     font-family: $session-font-mono;
     text-align: center;
     padding: 20px;
+  }
+
+  // Height at which scroll bar appears on the group member list
+  @media (max-height: 804px) {
+    &__container {
+      overflow-y: visible;
+    }
   }
 }
 .create-group-name-input {

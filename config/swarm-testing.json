@@ -1,8 +1,8 @@
 {
   "seedNodeList": [
     {
-      "ip": "localhost",
-      "port": "22129"
+      "ip_url": "http://127.0.0.1:22129/",
+      "url": "http://localhost:22129/"
     }
   ],
   "openDevTools": true,
