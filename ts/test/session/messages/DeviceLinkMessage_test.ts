@@ -90,4 +90,9 @@ describe('DeviceLinkMessage', () => {
         expect(linkRequestMessage.ttl()).to.equal(2 * 60 * 1000);
         expect(linkGrantMessage.ttl()).to.equal(2 * 60 * 1000);
     });
+
+    it('has an identifier', () => {
+        expect(linkRequestMessage.identifier).to.not.equal(null,  'identifier cannot be null');
+        expect(linkRequestMessage.identifier).to.not.equal(undefined,  'identifier cannot be undefined');
+    });
 });

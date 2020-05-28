@@ -42,4 +42,9 @@ describe('ReceiptMessage', () => {
         expect(readMessage.ttl()).to.equal(24 * 60 * 60 * 1000);
         expect(deliveryMessage.ttl()).to.equal(24 * 60 * 60 * 1000);
     });
+
+    it('has an identifier', () => {
+        expect(readMessage.identifier).to.not.equal(null,  'identifier cannot be null');
+        expect(readMessage.identifier).to.not.equal(undefined,  'identifier cannot be undefined');
+    });
 });

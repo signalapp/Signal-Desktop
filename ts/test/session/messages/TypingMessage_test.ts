@@ -69,4 +69,13 @@ describe('TypingMessage', () => {
         });
         expect(message.ttl()).to.equal(60 * 1000);
     });
+
+    it('has an identifier', () => {
+        const message = new TypingMessage({
+            timestamp: Date.now(),
+            isTyping: true,
+        });
+        expect(message.identifier).to.not.equal(null,  'identifier cannot be null');
+        expect(message.identifier).to.not.equal(undefined,  'identifier cannot be undefined');
+    });
 });

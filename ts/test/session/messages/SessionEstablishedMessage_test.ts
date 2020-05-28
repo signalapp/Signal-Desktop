@@ -21,4 +21,9 @@ describe('SessionEstablishedMessage', () => {
     it('ttl of 5 minutes', () => {
         expect(message.ttl()).to.equal(5 * 60 * 1000);
     });
+
+    it('has an identifier', () => {
+        expect(message.identifier).to.not.equal(null,  'identifier cannot be null');
+        expect(message.identifier).to.not.equal(undefined,  'identifier cannot be undefined');
+    });
 });
