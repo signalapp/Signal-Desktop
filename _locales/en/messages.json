@@ -1014,6 +1014,10 @@
   "deviceIsSecondaryNoPairing": {
     "message": "This device is a secondary device and so cannot be linked."
   },
+  "pairingOngoing": {
+    "message":
+      "A pairing request is already ongoing. Restart the app if it takes too long."
+  },
   "allowPairing": {
     "message": "Allow Linking"
   },

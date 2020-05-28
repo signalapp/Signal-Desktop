@@ -1760,6 +1760,13 @@
 
     const id = details.number;
 
+    libloki.api.debug.logContactSync(
+      'Got sync contact message with',
+      id,
+      ' details:',
+      details
+    );
+
     if (id === textsecure.storage.user.getNumber()) {
       // special case for syncing details about ourselves
       if (details.profileKey) {
@@ -1807,9 +1814,8 @@
         await conversation.setSecondaryStatus(true, ourPrimaryKey);
       }
 
-      if (conversation.isFriendRequestStatusNone()) {
-        // Will be replaced with automatic friend request
-        libloki.api.sendBackgroundMessage(conversation.id);
+      if (conversation.isFriendRequestStatusNoneOrExpired()) {
+        libloki.api.sendAutoFriendRequestMessage(conversation.id);
       } else {
         // Accept any pending friend requests if there are any
         conversation.onAcceptFriendRequest({ blockSync: true });
@@ -1894,6 +1900,13 @@
     const details = ev.groupDetails;
     const { id } = details;
 
+    libloki.api.debug.logGroupSync(
+      'Got sync group message with group id',
+      id,
+      ' details:',
+      details
+    );
+
     const conversation = await ConversationController.getOrCreateAndWait(
       id,
       'group'
@@ -1944,6 +1957,10 @@
     await window.Signal.Data.updateConversation(id, conversation.attributes, {
       Conversation: Whisper.Conversation,
     });
+
+    // send a session request for all the members we do not have a session with
+    window.libloki.api.sendSessionRequestsToMembers(updates.members);
+
     const { expireTimer } = details;
     const isValidExpireTimer = typeof expireTimer === 'number';
     if (!isValidExpireTimer) {
@@ -2009,24 +2026,7 @@
       const descriptorId = await textsecure.MessageReceiver.arrayBufferToString(
         messageDescriptor.id
       );
-      let message;
-      const { source } = data;
-
-      // Note: This only works currently because we have a 1 device limit
-      // When we change that, the check below needs to change too
-      const ourNumber = textsecure.storage.user.getNumber();
-      const primaryDevice = window.storage.get('primaryDevicePubKey');
-      const isOurDevice =
-        source && (source === ourNumber || source === primaryDevice);
-      const isPublicChatMessage =
-        messageDescriptor.type === 'group' &&
-        descriptorId.match(/^publicChat:/);
-      if (isPublicChatMessage && isOurDevice) {
-        // Public chat messages from ourselves should be outgoing
-        message = await createSentMessage(data);
-      } else {
-        message = await createMessage(data);
-      }
+      const message = await createMessage(data);
 
       const isDuplicate = await isMessageDuplicate(message);
       if (isDuplicate) {

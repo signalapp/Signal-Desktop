@@ -1086,7 +1086,7 @@
       }, 1);
     },
     fetchMessages() {
-      window.log.info('fetchMessages');
+      // window.log.info('fetchMessages');
       this.$('.bar-container').show();
       if (this.inProgressFetch) {
         window.log.warn('Multiple fetchMessage calls!');

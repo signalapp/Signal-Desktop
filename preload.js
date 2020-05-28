@@ -151,7 +151,7 @@ window.open = () => null;
 window.eval = global.eval = () => null;
 
 window.drawAttention = () => {
-  window.log.info('draw attention');
+  // window.log.info('draw attention');
   ipc.send('draw-attention');
 };
 window.showWindow = () => {
