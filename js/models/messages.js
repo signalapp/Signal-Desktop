@@ -420,14 +420,16 @@
       }
 
       const devicePubKey = this.get('conversationId');
-      const otherDevices = await libloki.storage.getPairedDevicesFor(devicePubKey);
+      const otherDevices = await libloki.storage.getPairedDevicesFor(
+        devicePubKey
+      );
       const allDevices = [devicePubKey, ...otherDevices];
 
       // Set profile name to primary conversation
       let profileName;
-      const allConversationsWithUser = allDevices.map(d =>
-        ConversationController.get(d)
-      ).filter(c => Boolean(c));
+      const allConversationsWithUser = allDevices
+        .map(d => ConversationController.get(d))
+        .filter(c => Boolean(c));
       allConversationsWithUser.forEach(conversation => {
         // If we somehow received an old friend request (e.g. after having restored
         // from seed, we won't be able to accept it, we should initiate our own
@@ -445,7 +447,9 @@
 
       // If you don't have a profile name for this device, and profileName is set,
       // add profileName to conversation.
-      const primaryDevicePubKey = (await libloki.storage.getPrimaryDeviceFor(devicePubKey)) || devicePubKey;
+      const primaryDevicePubKey =
+        (await libloki.storage.getPrimaryDeviceFor(devicePubKey)) ||
+        devicePubKey;
       const primaryConversation = allConversationsWithUser.find(
         c => c.id === primaryDevicePubKey
       );
@@ -477,11 +481,13 @@
       });
 
       const devicePubKey = this.attributes.conversationId;
-      const otherDevices = await libloki.storage.getPairedDevicesFor(devicePubKey);
+      const otherDevices = await libloki.storage.getPairedDevicesFor(
+        devicePubKey
+      );
       const allDevices = [devicePubKey, ...otherDevices];
-      const allConversationsWithUser = allDevices.map(d =>
-        ConversationController.get(d)
-      ).filter(c => Boolean(c));
+      const allConversationsWithUser = allDevices
+        .map(d => ConversationController.get(d))
+        .filter(c => Boolean(c));
       allConversationsWithUser.forEach(conversation => {
         conversation.onDeclineFriendRequest();
       });

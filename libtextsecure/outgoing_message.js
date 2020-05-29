@@ -215,11 +215,7 @@ OutgoingMessage.prototype = {
     this.errors[this.errors.length] = error;
     this.numberCompleted();
   },
-  reloadDevicesAndSend(
-    primaryPubKey,
-    multiDevice = true,
-    excludedDevices = []
-  ) {
+  reloadDevicesAndSend(primaryPubKey, multiDevice = true) {
     const ourNumber = textsecure.storage.user.getNumber();
 
     if (!multiDevice) {
@@ -235,9 +231,7 @@ OutgoingMessage.prototype = {
         .getAllDevicePubKeysForPrimaryPubKey(primaryPubKey)
         // Don't send to ourselves
         .then(devicesPubKeys =>
-          devicesPubKeys.filter(
-            pubKey => pubKey !== ourNumber && !excludedDevices.includes(pubKey)
-          )
+          devicesPubKeys.filter(pubKey => pubKey !== ourNumber)
         )
         .then(devicesPubKeys => {
           if (devicesPubKeys.length === 0) {
@@ -706,18 +700,14 @@ OutgoingMessage.prototype = {
     return promise;
   },
 
-  sendToNumber(number, multiDevice = true, excludedDevices = []) {
+  sendToNumber(number, multiDevice = true) {
     let conversation;
     try {
       conversation = ConversationController.get(number);
     } catch (e) {
       // do nothing
     }
-    return this.reloadDevicesAndSend(
-      number,
-      multiDevice,
-      excludedDevices
-    ).catch(error => {
+    return this.reloadDevicesAndSend(number, multiDevice).catch(error => {
       conversation.resetPendingSend();
       if (error.message === 'Identity key changed') {
         // eslint-disable-next-line no-param-reassign
