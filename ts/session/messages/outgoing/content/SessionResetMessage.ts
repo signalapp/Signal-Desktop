@@ -4,13 +4,13 @@ import { MessageParams } from '../Message';
 
 
 export interface PreKeyBundleType {
-  identityKey?: (Uint8Array|null);
-  deviceId?: (number|null);
-  preKeyId?: (number|null);
-  signedKeyId?: (number|null);
-  preKey?: (Uint8Array|null);
-  signedKey?: (Uint8Array|null);
-  signature?: (Uint8Array|null);
+  identityKey: Uint8Array;
+  deviceId: number;
+  preKeyId: number;
+  signedKeyId: number;
+  preKey: Uint8Array;
+  signedKey: Uint8Array;
+  signature: Uint8Array;
 }
 
 
