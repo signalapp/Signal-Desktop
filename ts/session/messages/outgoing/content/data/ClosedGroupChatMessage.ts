@@ -1,9 +1,10 @@
 import { DataMessage } from './DataMessage';
 import { SignalService } from '../../../../../protobuf';
-import { MessageParams } from '../../Message';
 import { ChatMessage } from './ChatMessage';
+import { TextEncoder } from 'util';
 
-interface ClosedGroupChatMessageParams extends MessageParams {
+interface ClosedGroupChatMessageParams {
+  identifier?: string;
   groupId: string;
   chatMessage: ChatMessage;
 }
@@ -14,7 +15,7 @@ export class ClosedGroupChatMessage extends DataMessage {
 
   constructor(params: ClosedGroupChatMessageParams) {
     super({
-      timestamp: params.timestamp,
+      timestamp: params.chatMessage.timestamp,
       identifier: params.identifier,
     });
     this.groupId = params.groupId;
