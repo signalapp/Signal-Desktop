@@ -18,24 +18,22 @@ describe('ReceiptMessage', () => {
 
     it('content of a read receipt is correct', () => {
         const plainText = readMessage.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
+        const decoded = SignalService.Content.decode(plainText);
 
         expect(decoded.receiptMessage).to.have.property('type', 1);
-        expect(decoded.receiptMessage.timestamp).to.have.lengthOf(2);
-        const timestamp0 = decoded.receiptMessage.timestamp[0].toNumber();
-        const timestamp1 = decoded.receiptMessage.timestamp[1].toNumber();
-        expect(timestamp0).to.have.be.equal(timestamps[0]);
-        expect(timestamp1).to.have.be.equal(timestamps[1]);
+        expect(decoded.receiptMessage?.timestamp).to.have.lengthOf(2);
+        expect(decoded.receiptMessage).to.have.nested.property('timestamp[0].low', timestamps[0]);
+        expect(decoded.receiptMessage).to.have.nested.property('timestamp[1].low', timestamps[1]);
     });
 
     it('content of a delivery receipt is correct', () => {
         const plainText = deliveryMessage.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
+        const decoded = SignalService.Content.decode(plainText);
 
         expect(decoded.receiptMessage).to.have.property('type', 0);
-        expect(decoded.receiptMessage.timestamp).to.have.lengthOf(2);
-        expect(decoded.receiptMessage.timestamp[0]).to.have.property('low', timestamps[0]);
-        expect(decoded.receiptMessage.timestamp[1]).to.have.property('low', timestamps[1]);
+        expect(decoded.receiptMessage?.timestamp).to.have.lengthOf(2);
+        expect(decoded.receiptMessage).to.have.nested.property('timestamp[0].low', timestamps[0]);
+        expect(decoded.receiptMessage).to.have.nested.property('timestamp[1].low', timestamps[1]);
     });
 
     it('ttl of 1 day', () => {

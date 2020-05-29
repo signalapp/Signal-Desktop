@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { TypingMessage } from '../../../session/messages/outgoing';
 import { SignalService } from '../../../protobuf';
 import { TextEncoder } from 'util';
+import Long from 'long';
 
 describe('TypingMessage', () => {
     it('has Action.STARTED if isTyping = true', () => {
@@ -11,7 +12,7 @@ describe('TypingMessage', () => {
             isTyping: true,
         });
         const plainText = message.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
+        const decoded = SignalService.Content.decode(plainText);
         expect(decoded.typingMessage).to.have.property('action', SignalService.TypingMessage.Action.STARTED);
     });
 
@@ -21,7 +22,7 @@ describe('TypingMessage', () => {
             isTyping: false,
         });
         const plainText = message.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
+        const decoded = SignalService.Content.decode(plainText);
         expect(decoded.typingMessage).to.have.property('action', SignalService.TypingMessage.Action.STOPPED);
     });
 
@@ -32,9 +33,8 @@ describe('TypingMessage', () => {
             typingTimestamp: 111111111,
         });
         const plainText = message.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
-        const typingTimestamp = decoded.typingMessage.timestamp.toNumber();
-        expect(typingTimestamp).to.be.equal(111111111);
+        const decoded = SignalService.Content.decode(plainText);
+        expect(decoded.typingMessage?.timestamp).to.have.property('low', 111111111);
     });
 
     it('has typingTimestamp set with Date.now() if value not passed', () => {
@@ -43,9 +43,13 @@ describe('TypingMessage', () => {
             isTyping: true,
         });
         const plainText = message.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
-        const typingTimestamp = decoded.typingMessage.timestamp.toNumber();
-        expect(typingTimestamp).to.be.approximately(Date.now(), 10);
+        const decoded = SignalService.Content.decode(plainText);
+        let timestamp = decoded.typingMessage?.timestamp;
+        if (timestamp instanceof Long) {
+            timestamp = timestamp.toNumber();
+        }
+        expect(timestamp).to.be.approximately(Date.now(), 10);
+
     });
 
     it('has groupId set if a value given', () => {
@@ -56,10 +60,10 @@ describe('TypingMessage', () => {
             groupId,
         });
         const plainText = message.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
+        const decoded = SignalService.Content.decode(plainText);
         const manuallyEncodedGroupId = new TextEncoder().encode(groupId);
 
-        expect(decoded.typingMessage.groupId).to.be.deep.equal(manuallyEncodedGroupId);
+        expect(decoded.typingMessage?.groupId).to.be.deep.equal(manuallyEncodedGroupId);
     });
 
     it('ttl of 1 minute', () => {

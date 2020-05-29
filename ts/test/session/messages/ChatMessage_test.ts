@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { ChatMessage, Quote, Preview, AttachmentPointer } from '../../../session/messages/outgoing';
+import { AttachmentPointer, ChatMessage, Preview, Quote } from '../../../session/messages/outgoing';
 import { SignalService } from '../../../protobuf';
 import { TextEncoder } from 'util';
 
@@ -10,8 +10,9 @@ describe('ChatMessage', () => {
             timestamp: Date.now(),
         });
         const plainText = message.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
-        expect(decoded).to.have.deep.property('dataMessage', {});
+        const decoded = SignalService.Content.decode(plainText);
+        expect(decoded).to.have.not.property('dataMessage', null);
+        expect(decoded).to.have.not.property('dataMessage', undefined);
     });
 
     it('can create message with a body', () => {
@@ -20,7 +21,7 @@ describe('ChatMessage', () => {
             body: 'body',
         });
         const plainText = message.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
+        const decoded = SignalService.Content.decode(plainText);
         expect(decoded.dataMessage).to.have.deep.property('body', 'body');
     });
 
@@ -30,7 +31,7 @@ describe('ChatMessage', () => {
             expireTimer: 3600,
         });
         const plainText = message.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
+        const decoded = SignalService.Content.decode(plainText);
         expect(decoded.dataMessage).to.have.deep.property('expireTimer', 3600);
     });
 
@@ -47,9 +48,11 @@ describe('ChatMessage', () => {
             lokiProfile: lokiProfile,
         });
         const plainText = message.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
-        expect(decoded.dataMessage.profile).to.have.deep.property('displayName', 'displayName');
-        expect(decoded.dataMessage.profile).to.have.deep.property('avatar', 'avatarPointer');
+        const decoded = SignalService.Content.decode(plainText);
+        expect(decoded.dataMessage).to.have.deep.property('profile');
+
+        expect(decoded.dataMessage).to.have.property('profile').to.have.deep.property('displayName', 'displayName');
+        expect(decoded.dataMessage).to.have.property('profile').to.have.deep.property('avatar', 'avatarPointer');
         expect(decoded.dataMessage).to.have.deep.property('profileKey', profileKey);
     });
 
@@ -62,11 +65,10 @@ describe('ChatMessage', () => {
             quote,
         });
         const plainText = message.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
-        const id = decoded.dataMessage.quote.id.toNumber();
-        expect(id).to.be.deep.equal(1234);
-        expect(decoded.dataMessage.quote).to.have.deep.property('author', 'author');
-        expect(decoded.dataMessage.quote).to.have.deep.property('text', 'text');
+        const decoded = SignalService.Content.decode(plainText);
+        expect(decoded.dataMessage?.quote?.id).to.have.property('low', 1234);
+        expect(decoded.dataMessage?.quote).to.have.deep.property('author', 'author');
+        expect(decoded.dataMessage?.quote).to.have.deep.property('text', 'text');
     });
 
     it('can create message with a preview', () => {
@@ -81,10 +83,10 @@ describe('ChatMessage', () => {
             preview: previews,
         });
         const plainText = message.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
-        expect(decoded.dataMessage.preview).to.have.lengthOf(1);
-        expect(decoded.dataMessage.preview[0]).to.have.deep.property('url', 'url');
-        expect(decoded.dataMessage.preview[0]).to.have.deep.property('title', 'title');
+        const decoded = SignalService.Content.decode(plainText);
+        expect(decoded.dataMessage?.preview).to.have.lengthOf(1);
+        expect(decoded.dataMessage).to.have.nested.property('preview[0].url').to.be.deep.equal('url');
+        expect(decoded.dataMessage).to.have.nested.property('preview[0].title').to.be.deep.equal('title');
     });
 
 
@@ -100,12 +102,11 @@ describe('ChatMessage', () => {
             attachments: attachments,
         });
         const plainText = message.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
-        expect(decoded.dataMessage.attachments).to.have.lengthOf(1);
-        expect(decoded.dataMessage.attachments[0]).to.have.deep.property('url', 'url');
-        const id = decoded.dataMessage.attachments[0].id.toNumber();
-        expect(id).to.be.equal(1234);
-        expect(decoded.dataMessage.attachments[0]).to.have.deep.property('contentType', 'contentType');
+        const decoded = SignalService.Content.decode(plainText);
+        expect(decoded.dataMessage?.attachments).to.have.lengthOf(1);
+        expect(decoded.dataMessage).to.have.nested.property('attachments[0].id').to.have.property('low', 1234);
+        expect(decoded.dataMessage).to.have.nested.property('attachments[0].contentType').to.be.deep.equal('contentType');
+        expect(decoded.dataMessage).to.have.nested.property('attachments[0].url').to.be.deep.equal('url');
     });
 
     it('ttl of 1 day', () => {

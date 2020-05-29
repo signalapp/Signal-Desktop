@@ -38,7 +38,7 @@ describe('DeviceLinkMessage', () => {
         let decoded: any;
         before(() => {
             const plainText = linkRequestMessage.plainTextBuffer();
-            decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
+            decoded = SignalService.Content.decode(plainText);
         });
 
         it('has a pairingAuthorisation.primaryDevicePubKey', () => {
@@ -51,7 +51,8 @@ describe('DeviceLinkMessage', () => {
             expect(decoded.pairingAuthorisation).to.have.property('requestSignature').to.deep.equal(new Uint8Array([1, 2, 3, 4, 5, 6]));
         });
         it('has no pairingAuthorisation.grantSignature', () => {
-            expect(decoded.pairingAuthorisation).to.not.have.property('grantSignature');
+            console.log(decoded)
+            expect(decoded.pairingAuthorisation).to.have.property('grantSignature').to.have.lengthOf(0);
         });
         it('has no lokiProfile', () => {
             expect(decoded).to.not.have.property('lokiProfile');
@@ -62,7 +63,7 @@ describe('DeviceLinkMessage', () => {
         let decoded: any;
         before(() => {
             const plainText = linkGrantMessage.plainTextBuffer();
-            decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
+            decoded = SignalService.Content.decode(plainText);
         });
 
         it('has a pairingAuthorisation.primaryDevicePubKey', () => {
@@ -79,10 +80,8 @@ describe('DeviceLinkMessage', () => {
         });
         it('has a lokiProfile', () => {
             expect(decoded.dataMessage).to.have.property('profileKey').to.be.deep.equal(lokiProfile.profileKey);
-            expect(decoded.dataMessage).to.have.property('profile').to.be.deep.equal({
-                displayName: 'displayName',
-                avatar: 'avatarPointer',
-            });
+            expect(decoded.dataMessage).to.have.property('profile').to.have.property('displayName').to.be.deep.equal('displayName');
+            expect(decoded.dataMessage).to.have.property('profile').to.have.property('avatar').to.be.deep.equal('avatarPointer');
         });
     });
 

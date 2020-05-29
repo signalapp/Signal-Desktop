@@ -22,11 +22,11 @@ describe('GroupInvitationMessage', () => {
 
     it('dataMessage.groupInvitation has serverAddress, channelId, and serverName set', () => {
         const plainText = message.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
+        const decoded = SignalService.Content.decode(plainText);
 
-        expect(decoded.dataMessage.groupInvitation).to.have.property('serverAddress', serverAddress);
-        expect(decoded.dataMessage.groupInvitation).to.have.property('channelId', channelId);
-        expect(decoded.dataMessage.groupInvitation).to.have.property('serverName', serverName);
+        expect(decoded.dataMessage?.groupInvitation).to.have.property('serverAddress', serverAddress);
+        expect(decoded.dataMessage?.groupInvitation).to.have.property('channelId', channelId);
+        expect(decoded.dataMessage?.groupInvitation).to.have.property('serverName', serverName);
     });
 
     it('ttl of 1 day', () => {

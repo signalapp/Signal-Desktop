@@ -13,7 +13,7 @@ describe('SessionEstablishedMessage', () => {
 
     it('has a nullMessage not null', () => {
         const plainText = message.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
+        const decoded = SignalService.Content.decode(plainText);
 
         expect(decoded.nullMessage).to.be.not.equal(null, 'decoded.dataMessage.nullMessage should not be null');
     });

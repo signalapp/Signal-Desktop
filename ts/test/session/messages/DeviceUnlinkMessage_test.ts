@@ -13,7 +13,7 @@ describe('DeviceUnlinkMessage', () => {
 
     it('content of just the UNPAIRING_REQUEST flag set', () => {
         const plainText = message.plainTextBuffer();
-        const decoded = SignalService.Content.toObject(SignalService.Content.decode(plainText));
+        const decoded = SignalService.Content.decode(plainText);
 
         expect(decoded.dataMessage).to.have.property('flags', SignalService.DataMessage.Flags.UNPAIRING_REQUEST);
     });
