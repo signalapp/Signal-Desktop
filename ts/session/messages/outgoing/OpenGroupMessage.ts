@@ -4,7 +4,7 @@ import { QuotedAttachmentType } from '../../../components/conversation/Quote';
 
 interface OpenGroupMessageParams extends MessageParams {
   server: string;
-  attachments: [AttachmentType];
+  attachments?: Array<AttachmentType>;
   body?: string;
   quote?: QuotedAttachmentType;
 }
@@ -12,7 +12,7 @@ interface OpenGroupMessageParams extends MessageParams {
 export class OpenGroupMessage extends Message {
   public readonly server: string;
   public readonly body?: string;
-  public readonly attachments: [AttachmentType]; // TODO: Not sure if we should only use a subset of this type
+  public readonly attachments?: Array<AttachmentType>;
   public readonly quote?: QuotedAttachmentType;
 
   constructor({

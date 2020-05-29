@@ -51,7 +51,6 @@ describe('DeviceLinkMessage', () => {
             expect(decoded.pairingAuthorisation).to.have.property('requestSignature').to.deep.equal(new Uint8Array([1, 2, 3, 4, 5, 6]));
         });
         it('has no pairingAuthorisation.grantSignature', () => {
-            console.log(decoded)
             expect(decoded.pairingAuthorisation).to.have.property('grantSignature').to.have.lengthOf(0);
         });
         it('has no lokiProfile', () => {
