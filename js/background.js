@@ -643,7 +643,6 @@
           id: groupId,
           name: groupName,
           members,
-          recipients: members,
           active: true,
           expireTimer: 0,
           avatar: '',
