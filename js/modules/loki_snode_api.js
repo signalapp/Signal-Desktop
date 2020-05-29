@@ -213,18 +213,14 @@ class LokiSnodeAPI {
     const DESIRED_GUARD_COUNT = 3;
     if (shuffled.length < DESIRED_GUARD_COUNT) {
       log.error(
-        `Could not select guarn nodes: node pool is not big enough, pool size ${
-          shuffled.length
-        }, need ${DESIRED_GUARD_COUNT}, attempting to refresh randomPool`
+        `Could not select guarn nodes: node pool is not big enough, pool size ${shuffled.length}, need ${DESIRED_GUARD_COUNT}, attempting to refresh randomPool`
       );
       await this.refreshRandomPool();
       nodePool = await this.getRandomSnodePool();
       shuffled = _.shuffle(nodePool);
       if (shuffled.length < DESIRED_GUARD_COUNT) {
         log.error(
-          `Could not select guarn nodes: node pool is not big enough, pool size ${
-            shuffled.length
-          }, need ${DESIRED_GUARD_COUNT}, failing...`
+          `Could not select guarn nodes: node pool is not big enough, pool size ${shuffled.length}, need ${DESIRED_GUARD_COUNT}, failing...`
         );
         return [];
       }
@@ -334,9 +330,7 @@ class LokiSnodeAPI {
 
         if (this.guardNodes.length < edKeys.length) {
           log.warn(
-            `could not find some guard nodes: ${this.guardNodes.length}/${
-              edKeys.length
-            } left`
+            `could not find some guard nodes: ${this.guardNodes.length}/${edKeys.length} left`
           );
         }
       }
@@ -420,9 +414,7 @@ class LokiSnodeAPI {
         await this.refreshRandomPool();
       } catch (e) {
         log.error(
-          `loki_snode:::getRandomProxySnodeAddress - error ${e.code} ${
-            e.message
-          }`
+          `loki_snode:::getRandomProxySnodeAddress - error ${e.code} ${e.message}`
         );
         throw e;
       }
@@ -466,9 +458,7 @@ class LokiSnodeAPI {
         } else {
           // maybe already marked bad...
           log.debug(
-            `loki_snode:::_getVersion - can't find ${node.ip}:${
-              node.port
-            } in randomSnodePool`
+            `loki_snode:::_getVersion - can't find ${node.ip}:${node.port} in randomSnodePool`
           );
         }
       }
@@ -483,9 +473,7 @@ class LokiSnodeAPI {
         const randomNodesLeft = this.getRandomPoolLength();
         // clean up these error messages to be a little neater
         log.warn(
-          `loki_snode:::_getVersion - ${node.ip}:${
-            node.port
-          } is offline, removing, leaving ${randomNodesLeft} in the randomPool`
+          `loki_snode:::_getVersion - ${node.ip}:${node.port} is offline, removing, leaving ${randomNodesLeft} in the randomPool`
         );
         // if not ECONNREFUSED, it's mostly ECONNRESETs
         // ENOTFOUND could mean no internet or hiccup
@@ -502,9 +490,7 @@ class LokiSnodeAPI {
         this.markRandomNodeUnreachable(node);
         const randomNodesLeft = this.getRandomPoolLength();
         log.warn(
-          `loki_snode:::_getVersion - failing to get version for ${node.ip}:${
-            node.port
-          }, removing, leaving ${randomNodesLeft} in the randomPool`
+          `loki_snode:::_getVersion - failing to get version for ${node.ip}:${node.port}, removing, leaving ${randomNodesLeft} in the randomPool`
         );
       }
       // maybe throw?
@@ -562,9 +548,7 @@ class LokiSnodeAPI {
       return curVal;
     }, []);
     log.debug(
-      `loki_snode:::_getAllVerionsForRandomSnodePool - ${
-        versions.length
-      } versions retrieved from network!:`,
+      `loki_snode:::_getAllVerionsForRandomSnodePool - ${versions.length} versions retrieved from network!:`,
       versions.join(',')
     );
   }
@@ -636,9 +620,7 @@ class LokiSnodeAPI {
     });
     if (!found) {
       log.warn(
-        `loki_snodes:::unreachableNode - snode ${unreachableNode.ip}:${
-          unreachableNode.port
-        } has already been marked as bad`
+        `loki_snodes:::unreachableNode - snode ${unreachableNode.ip}:${unreachableNode.port} has already been marked as bad`
       );
     }
     try {
@@ -682,9 +664,7 @@ class LokiSnodeAPI {
               node.address
             );
             log.debug(
-              `loki_snode:::getSwarmNodesForPubKey - ${j} ${node.ip}:${
-                node.port
-              }`
+              `loki_snode:::getSwarmNodesForPubKey - ${j} ${node.ip}:${node.port}`
             );
             swarmNodes[j] = {
               ...node,
@@ -857,9 +837,7 @@ class LokiSnodeAPI {
       );
       if (!result) {
         log.warn(
-          `loki_snode:::_getSnodesForPubkey - lokiRpc on ${snode.ip}:${
-            snode.port
-          } returned falsish value`,
+          `loki_snode:::_getSnodesForPubkey - lokiRpc on ${snode.ip}:${snode.port} returned falsish value`,
           result
         );
         return [];
@@ -867,9 +845,7 @@ class LokiSnodeAPI {
       if (!result.snodes) {
         // we hit this when snode gives 500s
         log.warn(
-          `loki_snode:::_getSnodesForPubkey - lokiRpc on ${snode.ip}:${
-            snode.port
-          } returned falsish value for snodes`,
+          `loki_snode:::_getSnodesForPubkey - lokiRpc on ${snode.ip}:${snode.port} returned falsish value for snodes`,
           result
         );
         return [];
@@ -883,9 +859,7 @@ class LokiSnodeAPI {
         'loki_snodes:::_getSnodesForPubkey - error',
         e.code,
         e.message,
-        `for ${snode.ip}:${
-          snode.port
-        }. ${randomPoolRemainingCount} snodes remaining in randomPool`
+        `for ${snode.ip}:${snode.port}. ${randomPoolRemainingCount} snodes remaining in randomPool`
       );
       return [];
     }

@@ -145,11 +145,7 @@ const sendToProxy = async (
       randSnode
     );
     log.warn(
-      `loki_app_dot_net:::sendToProxy - Marking random snode bad, internet address ${
-        randSnode.ip
-      }:${
-        randSnode.port
-      }. ${randomPoolRemainingCount} snodes remaining in randomPool`
+      `loki_app_dot_net:::sendToProxy - Marking random snode bad, internet address ${randSnode.ip}:${randSnode.port}. ${randomPoolRemainingCount} snodes remaining in randomPool`
     );
     // retry (hopefully with new snode)
     // FIXME: max number of retries...
@@ -1016,9 +1012,7 @@ class LokiPublicChannelAPI {
     // end properties
 
     log.info(
-      `registered LokiPublicChannel ${channelId} on ${
-        this.serverAPI.baseServerUrl
-      }`
+      `registered LokiPublicChannel ${channelId} on ${this.serverAPI.baseServerUrl}`
     );
     // start polling
     this.open();
@@ -1052,15 +1046,11 @@ class LokiPublicChannelAPI {
 
   open() {
     log.info(
-      `LokiPublicChannel open ${this.channelId} on ${
-        this.serverAPI.baseServerUrl
-      }`
+      `LokiPublicChannel open ${this.channelId} on ${this.serverAPI.baseServerUrl}`
     );
     if (this.running) {
       log.warn(
-        `LokiPublicChannel already open ${this.channelId} on ${
-          this.serverAPI.baseServerUrl
-        }`
+        `LokiPublicChannel already open ${this.channelId} on ${this.serverAPI.baseServerUrl}`
       );
     }
     this.running = true;
@@ -1081,15 +1071,11 @@ class LokiPublicChannelAPI {
 
   stop() {
     log.info(
-      `LokiPublicChannel close ${this.channelId} on ${
-        this.serverAPI.baseServerUrl
-      }`
+      `LokiPublicChannel close ${this.channelId} on ${this.serverAPI.baseServerUrl}`
     );
     if (!this.running) {
       log.warn(
-        `LokiPublicChannel already open ${this.channelId} on ${
-          this.serverAPI.baseServerUrl
-        }`
+        `LokiPublicChannel already open ${this.channelId} on ${this.serverAPI.baseServerUrl}`
       );
     }
     this.running = false;
@@ -1273,9 +1259,7 @@ class LokiPublicChannelAPI {
 
   // used for sending messages
   getEndpoint() {
-    const endpoint = `${this.serverAPI.baseServerUrl}/${
-      this.baseChannelUrl
-    }/messages`;
+    const endpoint = `${this.serverAPI.baseServerUrl}/${this.baseChannelUrl}/messages`;
     return endpoint;
   }
 
@@ -1433,9 +1417,7 @@ class LokiPublicChannelAPI {
           log.error(`pollOnceForDeletions Error ${res.err}`);
         } else {
           log.error(
-            `pollOnceForDeletions Error: Received incorrect response ${
-              res.response
-            }`
+            `pollOnceForDeletions Error: Received incorrect response ${res.response}`
           );
         }
         break;

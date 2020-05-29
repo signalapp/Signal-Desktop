@@ -58,9 +58,7 @@ async function _retrieveNextMessages(nodeData, pubkey) {
   if (result === false) {
     // make a note of it because of caller doesn't care...
     log.warn(
-      `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${
-        nodeData.ip
-      }:${nodeData.port}`
+      `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${nodeData.ip}:${nodeData.port}`
     );
 
     return [];
@@ -151,9 +149,7 @@ class LokiMessageAPI {
       snode = await primitives.firstTrue(promises);
     } catch (e) {
       log.warn(
-        `loki_message:::sendMessage - ${e.code} ${e.message} to ${pubKey} via ${
-          snode.ip
-        }:${snode.port}`
+        `loki_message:::sendMessage - ${e.code} ${e.message} to ${pubKey} via ${snode.ip}:${snode.port}`
       );
       if (e instanceof textsecure.WrongDifficultyError) {
         // Force nonce recalculation
@@ -173,9 +169,7 @@ class LokiMessageAPI {
       );
     }
     log.info(
-      `loki_message:::sendMessage - Successfully stored message to ${pubKey} via ${
-        snode.ip
-      }:${snode.port}`
+      `loki_message:::sendMessage - Successfully stored message to ${pubKey} via ${snode.ip}:${snode.port}`
     );
   }
 
@@ -244,9 +238,7 @@ class LokiMessageAPI {
         if (result === false) {
           // this means the node we asked for is likely down
           log.warn(
-            `loki_message:::_sendToNode - Try #${successiveFailures}/${MAX_ACCEPTABLE_FAILURES} ${
-              targetNode.ip
-            }:${targetNode.port} failed`
+            `loki_message:::_sendToNode - Try #${successiveFailures}/${MAX_ACCEPTABLE_FAILURES} ${targetNode.ip}:${targetNode.port} failed`
           );
           successiveFailures += 1;
           // eslint-disable-next-line no-continue
@@ -301,9 +293,7 @@ class LokiMessageAPI {
       targetNode
     );
     log.error(
-      `loki_message:::_sendToNode - Too many successive failures trying to send to node ${
-        targetNode.ip
-      }:${targetNode.port}, ${remainingSwarmSnodes.lengt} remaining swarm nodes`
+      `loki_message:::_sendToNode - Too many successive failures trying to send to node ${targetNode.ip}:${targetNode.port}, ${remainingSwarmSnodes.lengt} remaining swarm nodes`
     );
     return false;
   }

@@ -536,9 +536,11 @@ MessageSender.prototype = {
     const primaryDeviceKey =
       window.storage.get('primaryDevicePubKey') ||
       textsecure.storage.user.getNumber();
-    const allOurDevices = (await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-      primaryDeviceKey
-    ))
+    const allOurDevices = (
+      await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+        primaryDeviceKey
+      )
+    )
       // Don't send to ourselves
       .filter(pubKey => pubKey !== textsecure.storage.user.getNumber());
     if (allOurDevices.length === 0) {

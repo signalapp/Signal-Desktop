@@ -170,9 +170,7 @@
         return await DHDecrypt(symmetricKey, ivAndCiphertext);
       } catch (e) {
         throw new FallBackDecryptionError(
-          `Could not decrypt message from ${
-            this.identityKeyString
-          } using FallBack encryption.`
+          `Could not decrypt message from ${this.identityKeyString} using FallBack encryption.`
         );
       }
     }

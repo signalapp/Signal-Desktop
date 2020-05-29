@@ -202,22 +202,14 @@ module.exports = grunt => {
     },
     'test-release': {
       osx: {
-        archive: `mac/${
-          packageJson.productName
-        }.app/Contents/Resources/app.asar`,
-        appUpdateYML: `mac/${
-          packageJson.productName
-        }.app/Contents/Resources/app-update.yml`,
-        exe: `mac/${packageJson.productName}.app/Contents/MacOS/${
-          packageJson.productName
-        }`,
+        archive: `mac/${packageJson.productName}.app/Contents/Resources/app.asar`,
+        appUpdateYML: `mac/${packageJson.productName}.app/Contents/Resources/app-update.yml`,
+        exe: `mac/${packageJson.productName}.app/Contents/MacOS/${packageJson.productName}`,
       },
       mas: {
         archive: 'mas/Signal.app/Contents/Resources/app.asar',
         appUpdateYML: 'mac/Signal.app/Contents/Resources/app-update.yml',
-        exe: `mas/${packageJson.productName}.app/Contents/MacOS/${
-          packageJson.productName
-        }`,
+        exe: `mas/${packageJson.productName}.app/Contents/MacOS/${packageJson.productName}`,
       },
       linux: {
         archive: 'linux-unpacked/resources/app.asar',

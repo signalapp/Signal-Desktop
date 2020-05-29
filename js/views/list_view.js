@@ -7,9 +7,9 @@
   window.Whisper = window.Whisper || {};
 
   /*
-    * Generic list view that watches a given collection, wraps its members in
-    * a given child view and adds the child view elements to its own element.
-    */
+   * Generic list view that watches a given collection, wraps its members in
+   * a given child view and adds the child view elements to its own element.
+   */
   Whisper.ListView = Backbone.View.extend({
     tagName: 'ul',
     itemView: Backbone.View,

@@ -54,7 +54,7 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
     if (!thisServer) {
       log.info(`LokiAppDotNetAPI creating ${serverUrl}`);
 
-      if (!await this.constructor.validServer(serverUrl)) {
+      if (!(await this.constructor.validServer(serverUrl))) {
         return null;
       }
 

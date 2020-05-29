@@ -6,24 +6,24 @@
 (function() {
   window.StringView = {
     /*
-      * These functions from the Mozilla Developer Network
-      * and have been placed in the public domain.
-      * https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
-      * https://developer.mozilla.org/en-US/docs/MDN/About#Copyrights_and_licenses
-      */
+     * These functions from the Mozilla Developer Network
+     * and have been placed in the public domain.
+     * https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
+     * https://developer.mozilla.org/en-US/docs/MDN/About#Copyrights_and_licenses
+     */
 
     b64ToUint6(nChr) {
       return nChr > 64 && nChr < 91
         ? nChr - 65
         : nChr > 96 && nChr < 123
-          ? nChr - 71
-          : nChr > 47 && nChr < 58
-            ? nChr + 4
-            : nChr === 43
-              ? 62
-              : nChr === 47
-                ? 63
-                : 0;
+        ? nChr - 71
+        : nChr > 47 && nChr < 58
+        ? nChr + 4
+        : nChr === 43
+        ? 62
+        : nChr === 47
+        ? 63
+        : 0;
     },
 
     // This is not a "standard" base64, do not use!
@@ -64,14 +64,14 @@
       return nUint6 < 26
         ? nUint6 + 65
         : nUint6 < 52
-          ? nUint6 + 71
-          : nUint6 < 62
-            ? nUint6 - 4
-            : nUint6 === 62
-              ? 43
-              : nUint6 === 63
-                ? 47
-                : 65;
+        ? nUint6 + 71
+        : nUint6 < 62
+        ? nUint6 - 4
+        : nUint6 === 62
+        ? 43
+        : nUint6 === 63
+        ? 47
+        : 65;
     },
 
     bytesToBase64(aBytes) {
@@ -83,7 +83,7 @@
         nIdx += 1
       ) {
         nMod3 = nIdx % 3;
-        if (nIdx > 0 && (nIdx * 4 / 3) % 76 === 0) {
+        if (nIdx > 0 && ((nIdx * 4) / 3) % 76 === 0) {
           sB64Enc += '\r\n';
         }
         nUint24 |= aBytes[nIdx] << ((16 >>> nMod3) & 24);
