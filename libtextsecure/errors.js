@@ -263,6 +263,19 @@
     }
   }
 
+  function SenderKeyMissing(senderIdentity) {
+    this.name = 'SenderKeyMissing';
+    this.senderIdentity = senderIdentity;
+
+    Error.call(this, this.name);
+
+    // Maintains proper stack trace, where our error was thrown (only available on V8)
+    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this);
+    }
+  }
+
   window.textsecure.UnregisteredUserError = UnregisteredUserError;
   window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
   window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
@@ -282,4 +295,5 @@
   window.textsecure.TimestampError = TimestampError;
   window.textsecure.PublicChatError = PublicChatError;
   window.textsecure.PublicTokenError = PublicTokenError;
+  window.textsecure.SenderKeyMissing = SenderKeyMissing;
 })();

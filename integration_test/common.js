@@ -20,6 +20,13 @@ chai.should();
 chai.use(chaiAsPromised);
 chai.config.includeStack = true;
 
+// From https://github.com/chaijs/chai/issues/200
+chai.use((_chai, _) => {
+  _chai.Assertion.addMethod('withMessage', msg => {
+    _.flag(this, 'message', msg);
+  });
+});
+
 const STUB_SNODE_SERVER_PORT = 3000;
 const ENABLE_LOG = false;
 
@@ -242,23 +249,8 @@ module.exports = {
     );
   },
 
-  async startAppsAsFriends() {
-    const app1Props = {
-      mnemonic: this.TEST_MNEMONIC1,
-      displayName: this.TEST_DISPLAY_NAME1,
-      stubSnode: true,
-    };
-
-    const app2Props = {
-      mnemonic: this.TEST_MNEMONIC2,
-      displayName: this.TEST_DISPLAY_NAME2,
-      stubSnode: true,
-    };
-
-    const [app1, app2] = await Promise.all([
-      this.startAndStub(app1Props),
-      this.startAndStubN(app2Props, 2),
-    ]);
+  async makeFriends(app1, client2) {
+    const [app2, pubkey2] = client2;
 
     /** add each other as friends */
     const textMessage = this.generateSendMessageText();
@@ -266,11 +258,7 @@ module.exports = {
     await app1.client.element(ConversationPage.contactsButtonSection).click();
     await app1.client.element(ConversationPage.addContactButton).click();
 
-    await this.setValueWrapper(
-      app1,
-      ConversationPage.sessionIDInput,
-      this.TEST_PUBKEY2
-    );
+    await this.setValueWrapper(app1, ConversationPage.sessionIDInput, pubkey2);
     await app1.client.element(ConversationPage.nextButton).click();
     await app1.client.waitForExist(
       ConversationPage.sendFriendRequestTextarea,
@@ -317,32 +305,69 @@ module.exports = {
       ConversationPage.acceptedFriendRequestMessage,
       5000
     );
+  },
+
+  async startAppsAsFriends() {
+    const app1Props = {
+      mnemonic: this.TEST_MNEMONIC1,
+      displayName: this.TEST_DISPLAY_NAME1,
+      stubSnode: true,
+    };
+
+    const app2Props = {
+      mnemonic: this.TEST_MNEMONIC2,
+      displayName: this.TEST_DISPLAY_NAME2,
+      stubSnode: true,
+    };
+
+    const [app1, app2] = await Promise.all([
+      this.startAndStub(app1Props),
+      this.startAndStubN(app2Props, 2),
+    ]);
+
+    await this.makeFriends(app1, [app2, this.TEST_PUBKEY2]);
 
     return [app1, app2];
   },
 
-  async addFriendToNewClosedGroup(app, app2) {
+  async addFriendToNewClosedGroup(members, useSenderKeys) {
+    const [app, ...others] = members;
+
     await this.setValueWrapper(
       app,
       ConversationPage.closedGroupNameTextarea,
       this.VALID_CLOSED_GROUP_NAME1
     );
+
     await app.client
       .element(ConversationPage.closedGroupNameTextarea)
       .getValue()
       .should.eventually.equal(this.VALID_CLOSED_GROUP_NAME1);
 
-    await app.client
-      .element(ConversationPage.createClosedGroupMemberItem)
-      .isVisible().should.eventually.be.true;
+    // This assumes that app does not have any other friends
 
-    // select the first friend as a member of the groups being created
-    await app.client
-      .element(ConversationPage.createClosedGroupMemberItem)
-      .click();
+    for (let i = 0; i < others.length; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await app.client
+        .element(ConversationPage.createClosedGroupMemberItem(i))
+        .isVisible().should.eventually.be.true;
+
+      // eslint-disable-next-line no-await-in-loop
+      await app.client
+        .element(ConversationPage.createClosedGroupMemberItem(i))
+        .click();
+    }
+
     await app.client
       .element(ConversationPage.createClosedGroupMemberItemSelected)
       .isVisible().should.eventually.be.true;
+
+    if (useSenderKeys) {
+      // Select Sender Keys
+      await app.client
+        .element(ConversationPage.createClosedGroupSealedSenderToggle)
+        .click();
+    }
 
     // trigger the creation of the group
     await app.client
@@ -356,8 +381,9 @@ module.exports = {
     await app.client.isExisting(
       ConversationPage.headerTitleGroupName(this.VALID_CLOSED_GROUP_NAME1)
     ).should.eventually.be.true;
-    await app.client.element(ConversationPage.headerTitleMembers(2)).isVisible()
-      .should.eventually.be.true;
+    await app.client
+      .element(ConversationPage.headerTitleMembers(members.length))
+      .isVisible().should.eventually.be.true;
 
     // validate overlay is closed
     await app.client
@@ -376,25 +402,29 @@ module.exports = {
       )
     ).should.eventually.be.true;
 
-    // next check app2 has been invited and has the group in its conversations
-    await app2.client.waitForExist(
-      ConversationPage.rowOpenGroupConversationName(
-        this.VALID_CLOSED_GROUP_NAME1
-      ),
-      6000
+    await Promise.all(
+      others.map(async otherApp => {
+        // next check that other members have been invited and have the group in their conversations
+        await otherApp.client.waitForExist(
+          ConversationPage.rowOpenGroupConversationName(
+            this.VALID_CLOSED_GROUP_NAME1
+          ),
+          6000
+        );
+        // open the closed group conversation on otherApp
+        await otherApp.client
+          .element(ConversationPage.conversationButtonSection)
+          .click();
+        await this.timeout(500);
+        await otherApp.client
+          .element(
+            ConversationPage.rowOpenGroupConversationName(
+              this.VALID_CLOSED_GROUP_NAME1
+            )
+          )
+          .click();
+      })
     );
-    // open the closed group conversation on app2
-    await app2.client
-      .element(ConversationPage.conversationButtonSection)
-      .click();
-    await this.timeout(500);
-    await app2.client
-      .element(
-        ConversationPage.rowOpenGroupConversationName(
-          this.VALID_CLOSED_GROUP_NAME1
-        )
-      )
-      .click();
   },
 
   async linkApp2ToApp(app1, app2) {
@@ -543,6 +573,10 @@ module.exports = {
     app1.webContents.executeJavaScript(
       'window.LokiMessageAPI = window.StubMessageAPI;'
     );
+
+    app1.webContents.executeJavaScript(
+      'window.LokiSnodeAPI = window.StubLokiSnodeAPI;'
+    );
   },
 
   logsContainsString: async (app1, str) => {
@@ -557,35 +591,45 @@ module.exports = {
         const { query } = url.parse(request.url, true);
         const { pubkey, data, timestamp } = query;
 
-        if (pubkey) {
-          if (request.method === 'POST') {
-            if (ENABLE_LOG) {
-              console.warn('POST', [data, timestamp]);
-            }
-
-            let ori = this.messages[pubkey];
-            if (!this.messages[pubkey]) {
-              ori = [];
-            }
-
-            this.messages[pubkey] = [...ori, { data, timestamp }];
-
-            response.writeHead(200, { 'Content-Type': 'text/html' });
-            response.end();
-          } else {
-            const retrievedMessages = { messages: this.messages[pubkey] };
-            if (ENABLE_LOG) {
-              console.warn('GET', pubkey, retrievedMessages);
-            }
-            if (this.messages[pubkey]) {
-              response.writeHead(200, { 'Content-Type': 'application/json' });
-              response.write(JSON.stringify(retrievedMessages));
-              this.messages[pubkey] = [];
-            }
-            response.end();
-          }
+        if (!pubkey) {
+          console.warn('NO PUBKEY');
+          response.writeHead(400, { 'Content-Type': 'text/html' });
+          response.end();
         }
-        response.end();
+
+        if (request.method === 'POST') {
+          if (ENABLE_LOG) {
+            console.warn(
+              'POST',
+              pubkey.substr(2, 3),
+              data.substr(4, 10),
+              timestamp
+            );
+          }
+
+          let ori = this.messages[pubkey];
+
+          if (!this.messages[pubkey]) {
+            ori = [];
+          }
+
+          this.messages[pubkey] = [...ori, { data, timestamp }];
+
+          response.writeHead(200, { 'Content-Type': 'text/html' });
+          response.end();
+        } else {
+          const retrievedMessages = { messages: this.messages[pubkey] || [] };
+
+          if (ENABLE_LOG) {
+            const messages = retrievedMessages.messages.map(m =>
+              m.data.substr(4, 10)
+            );
+            console.warn('GET', pubkey.substr(2, 3), messages);
+          }
+          response.writeHead(200, { 'Content-Type': 'application/json' });
+          response.write(JSON.stringify(retrievedMessages));
+          response.end();
+        }
       });
       this.stubSnode.listen(STUB_SNODE_SERVER_PORT);
     } else {

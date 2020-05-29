@@ -32,7 +32,7 @@ describe('Message Functions', function() {
     await app.client.element(ConversationPage.createClosedGroupButton).click();
 
     // create group and add new friend
-    await common.addFriendToNewClosedGroup(app, app2);
+    await common.addFriendToNewClosedGroup([app, app2]);
 
     // send attachment from app1 to closed group
     const fileLocation = path.join(__dirname, 'test_attachment');

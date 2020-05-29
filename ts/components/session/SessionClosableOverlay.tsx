@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
+import { SessionToggle } from './SessionToggle';
 import { SessionIdEditable } from './SessionIdEditable';
 import { UserSearchDropdown } from './UserSearchDropdown';
 import { ContactType, SessionMemberListItem } from './SessionMemberListItem';
@@ -12,6 +13,7 @@ import {
 } from './SessionButton';
 import { SessionSpinner } from './SessionSpinner';
 import { PillDivider } from './PillDivider';
+import classNames from 'classnames';
 
 export enum SessionClosableOverlayType {
   Contact = 'contact',
@@ -35,6 +37,7 @@ interface Props {
 interface State {
   groupName: string;
   selectedMembers: Array<ContactType>;
+  senderKeys: boolean;
 }
 
 export class SessionClosableOverlay extends React.Component<Props, State> {
@@ -46,6 +49,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     this.state = {
       groupName: '',
       selectedMembers: [],
+      senderKeys: false,
     };
 
     this.inputRef = React.createRef();
@@ -150,7 +154,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       default:
     }
 
-    const { groupName, selectedMembers } = this.state;
+    const { groupName, selectedMembers, senderKeys } = this.state;
     const ourSessionID = window.textsecure.storage.user.getNumber();
 
     const contacts = this.getContacts();
@@ -245,21 +249,44 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
           />
         )}
 
+        {isClosedGroupView &&
+          window.lokiFeatureFlags.enableSenderKeys && (
+            <div className="sealed-sender-toggle">
+              <SessionToggle
+                active={Boolean(false)}
+                onClick={() => {
+                  const value = this.state.senderKeys;
+                  this.setState({ senderKeys: !value });
+                }}
+              />
+
+              <span
+                className={classNames(
+                  'session-settings-item__description',
+                  'sender-keys-description'
+                )}
+              >
+                {window.i18n('useSenderKeys')}
+              </span>
+            </div>
+          )}
+
         <SessionButton
           buttonColor={SessionButtonColor.Green}
           buttonType={SessionButtonType.BrandOutline}
           text={buttonText}
           disabled={noContactsForClosedGroup}
-          onClick={() => onButtonClick(groupName, selectedMembers)}
+          onClick={() => onButtonClick(groupName, selectedMembers, senderKeys)}
         />
       </div>
     );
   }
 
   private renderMemberList(members: any) {
-    return members.map((member: ContactType) => (
+    return members.map((member: ContactType, index: number) => (
       <SessionMemberListItem
         member={member}
+        index={index}
         isSelected={false}
         key={member.id}
         onSelect={(selectedMember: ContactType) => {

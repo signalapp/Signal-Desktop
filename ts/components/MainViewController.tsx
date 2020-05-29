@@ -108,6 +108,7 @@ function joinChannelStateManager(
 async function createClosedGroup(
   groupName: string,
   groupMembers: Array<ContactType>,
+  senderKeys: boolean,
   onSuccess: any
 ) {
   // Validate groupName and groupMembers length
@@ -145,7 +146,12 @@ async function createClosedGroup(
   }
 
   const groupMemberIds = groupMembers.map(m => m.id);
-  await window.doCreateGroup(groupName, groupMemberIds);
+
+  if (senderKeys) {
+    await window.createMediumSizeGroup(groupName, groupMemberIds);
+  } else {
+    await window.doCreateGroup(groupName, groupMemberIds);
+  }
 
   if (onSuccess) {
     onSuccess();

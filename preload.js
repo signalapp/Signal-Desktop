@@ -342,6 +342,7 @@ window.LokiMessageAPI = require('./js/modules/loki_message_api');
 if (process.env.USE_STUBBED_NETWORK) {
   window.StubMessageAPI = require('./integration_test/stubs/stub_message_api');
   window.StubAppDotNetApi = require('./integration_test/stubs/stub_app_dot_net_api');
+  window.StubLokiSnodeAPI = require('./integration_test/stubs/stub_loki_snode_api');
 }
 window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
 
@@ -430,6 +431,7 @@ window.lokiFeatureFlags = {
   useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
   useOnionRequests: true,
   useFileOnionRequests: false,
+  enableSenderKeys: false,
   onionRequestHops: 1,
 };
 
@@ -456,7 +458,7 @@ if (
   };
   /* eslint-enable global-require, import/no-extraneous-dependencies */
   window.lokiFeatureFlags = {};
-  window.lokiSnodeAPI = {}; // no need stub out each function here
+  window.lokiSnodeAPI = new window.StubLokiSnodeAPI(); // no need stub out each function here
 }
 if (config.environment.includes('test-integration')) {
   window.lokiFeatureFlags = {
