@@ -30,7 +30,7 @@ export class ClosedGroupChatMessage extends DataMessage {
     const messageProto = this.chatMessage.dataProto();
     const id = new TextEncoder().encode(this.groupId);
     const type = SignalService.GroupContext.Type.DELIVER;
-    messageProto.group = new SignalService.GroupContext({id, type});
+    messageProto.group = new SignalService.GroupContext({ id, type });
 
     return messageProto;
   }

@@ -2,7 +2,6 @@ import { Message } from '../Message';
 import { SignalService } from '../../../../protobuf';
 
 export abstract class ContentMessage extends Message {
-
   public plainTextBuffer(): Uint8Array {
     return SignalService.Content.encode(this.contentProto()).finish();
   }
@@ -16,6 +15,6 @@ export abstract class ContentMessage extends Message {
    */
   protected getDefaultTTL(): number {
     // 1 day default for any other message
-    return  24 * 60 * 60 * 1000;
+    return 24 * 60 * 60 * 1000;
   }
 }

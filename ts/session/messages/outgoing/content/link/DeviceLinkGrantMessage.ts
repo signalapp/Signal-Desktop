@@ -1,5 +1,8 @@
 import { SignalService } from '../../../../../protobuf';
-import { DeviceLinkMessageParams, DeviceLinkRequestMessage } from './DeviceLinkRequestMessage';
+import {
+  DeviceLinkMessageParams,
+  DeviceLinkRequestMessage,
+} from './DeviceLinkRequestMessage';
 import { LokiProfile } from '../../../../../types/Message';
 
 interface DeviceLinkGrantMessageParams extends DeviceLinkMessageParams {
@@ -13,8 +16,7 @@ export class DeviceLinkGrantMessage extends DeviceLinkRequestMessage {
   private readonly profileKey: Uint8Array;
   private readonly grantSignature: Uint8Array;
 
-  constructor(params: DeviceLinkGrantMessageParams
-  ) {
+  constructor(params: DeviceLinkGrantMessageParams) {
     super({
       timestamp: params.timestamp,
       identifier: params.identifier,

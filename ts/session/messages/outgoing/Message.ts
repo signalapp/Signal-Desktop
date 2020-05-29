@@ -9,7 +9,6 @@ export abstract class Message {
   public readonly timestamp: number;
   public readonly identifier: string;
 
-
   constructor({ timestamp, identifier }: MessageParams) {
     this.timestamp = timestamp;
     if (identifier && identifier.length === 0) {

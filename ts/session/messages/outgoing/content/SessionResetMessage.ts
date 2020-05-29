@@ -2,7 +2,6 @@ import { ContentMessage } from './ContentMessage';
 import { SignalService } from '../../../../protobuf';
 import { MessageParams } from '../Message';
 
-
 export interface PreKeyBundleType {
   identityKey: Uint8Array;
   deviceId: number;
@@ -12,7 +11,6 @@ export interface PreKeyBundleType {
   signedKey: Uint8Array;
   signature: Uint8Array;
 }
-
 
 interface SessionResetParams extends MessageParams {
   preKeyBundle: PreKeyBundleType;

@@ -15,12 +15,11 @@ export class TypingMessage extends ContentMessage {
   private readonly groupId?: string;
 
   constructor(params: TypingMessageParams) {
-    super({timestamp: params.timestamp, identifier: params.identifier});
+    super({ timestamp: params.timestamp, identifier: params.identifier });
     this.isTyping = params.isTyping;
     this.typingTimestamp = params.typingTimestamp;
     this.groupId = params.groupId;
   }
-
 
   public ttl(): number {
     return 60 * 1000; // 1 minute for typing indicators

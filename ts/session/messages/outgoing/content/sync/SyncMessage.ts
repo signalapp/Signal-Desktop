@@ -13,5 +13,4 @@ export abstract class SyncMessage extends ContentMessage {
   }
 
   protected abstract syncProto(): SignalService.SyncMessage;
-
 }

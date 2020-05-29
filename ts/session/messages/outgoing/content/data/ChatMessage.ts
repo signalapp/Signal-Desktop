@@ -19,9 +19,9 @@ export interface AttachmentPointer {
 }
 
 export interface Preview {
-    url?: string;
-    title?: string;
-    image?: AttachmentPointer;
+  url?: string;
+  title?: string;
+  image?: AttachmentPointer;
 }
 
 export interface QuotedAttachment {
@@ -45,7 +45,6 @@ export interface ChatMessageParams extends MessageParams {
   lokiProfile?: LokiProfile;
   preview?: Array<Preview>;
 }
-
 
 export class ChatMessage extends DataMessage {
   private readonly attachments?: Array<AttachmentPointer>;
@@ -82,7 +81,6 @@ export class ChatMessage extends DataMessage {
 
     dataMessage.attachments = this.attachments || [];
 
-
     if (this.expireTimer) {
       dataMessage.expireTimer = this.expireTimer;
     }
@@ -118,20 +116,22 @@ export class ChatMessage extends DataMessage {
       dataMessage.quote.author = this.quote.author;
       dataMessage.quote.text = this.quote.text;
       if (this.quote.attachments) {
-        dataMessage.quote.attachments = this.quote.attachments.map((attachment: QuotedAttachment) => {
-          const quotedAttachment = new SignalService.DataMessage.Quote.QuotedAttachment();
-          if (attachment.contentType) {
-            quotedAttachment.contentType = attachment.contentType;
-          }
-          if (attachment.fileName) {
-            quotedAttachment.fileName = attachment.fileName;
-          }
-          if (attachment.thumbnail) {
-            quotedAttachment.thumbnail = attachment.thumbnail;
-          }
+        dataMessage.quote.attachments = this.quote.attachments.map(
+          (attachment: QuotedAttachment) => {
+            const quotedAttachment = new SignalService.DataMessage.Quote.QuotedAttachment();
+            if (attachment.contentType) {
+              quotedAttachment.contentType = attachment.contentType;
+            }
+            if (attachment.fileName) {
+              quotedAttachment.fileName = attachment.fileName;
+            }
+            if (attachment.thumbnail) {
+              quotedAttachment.thumbnail = attachment.thumbnail;
+            }
 
-          return quotedAttachment;
-        });
+            return quotedAttachment;
+          }
+        );
       }
     }
 
@@ -149,7 +149,6 @@ export class ChatMessage extends DataMessage {
         return item;
       });
     }
-
 
     return dataMessage;
   }

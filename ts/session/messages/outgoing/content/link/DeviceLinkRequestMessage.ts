@@ -1,12 +1,11 @@
 import { ContentMessage } from '../ContentMessage';
 import { SignalService } from '../../../../../protobuf';
 import { MessageParams } from '../../Message';
-export interface DeviceLinkMessageParams extends MessageParams{
+export interface DeviceLinkMessageParams extends MessageParams {
   primaryDevicePubKey: string;
   secondaryDevicePubKey: string;
   requestSignature: Uint8Array;
 }
-
 
 export class DeviceLinkRequestMessage extends ContentMessage {
   protected readonly primaryDevicePubKey: string;
@@ -44,4 +43,3 @@ export class DeviceLinkRequestMessage extends ContentMessage {
     });
   }
 }
-

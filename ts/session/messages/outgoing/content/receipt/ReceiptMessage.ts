@@ -8,9 +8,8 @@ interface ReceiptMessageParams extends MessageParams {
 export abstract class ReceiptMessage extends ContentMessage {
   private readonly timestamps: Array<number>;
 
-  constructor({ timestamp, identifier, timestamps }:
-    ReceiptMessageParams) {
-    super({timestamp, identifier});
+  constructor({ timestamp, identifier, timestamps }: ReceiptMessageParams) {
+    super({ timestamp, identifier });
     this.timestamps = timestamps;
   }
 
@@ -33,4 +32,3 @@ export abstract class ReceiptMessage extends ContentMessage {
     });
   }
 }
-
