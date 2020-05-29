@@ -185,7 +185,7 @@
     "tslint": "5.13.0",
     "tslint-microsoft-contrib": "6.0.0",
     "tslint-react": "3.6.0",
-    "typescript": "3.3.3333",
+    "typescript": "3.7.4",
     "webpack": "4.4.1"
   },
   "engines": {
