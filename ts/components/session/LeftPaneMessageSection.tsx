@@ -484,14 +484,19 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     groupMembers: Array<ContactType>,
     senderKeys: boolean
   ) {
-    await MainViewController.createClosedGroup(groupName, groupMembers, senderKeys, () => {
-      this.handleToggleOverlay(undefined);
+    await MainViewController.createClosedGroup(
+      groupName,
+      groupMembers,
+      senderKeys,
+      () => {
+        this.handleToggleOverlay(undefined);
 
-      window.pushToast({
-        title: window.i18n('closedGroupCreatedToastTitle'),
-        type: 'success',
-      });
-    });
+        window.pushToast({
+          title: window.i18n('closedGroupCreatedToastTitle'),
+          type: 'success',
+        });
+      }
+    );
   }
 
   private handleNewSessionButtonClick() {

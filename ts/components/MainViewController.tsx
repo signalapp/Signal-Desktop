@@ -109,7 +109,7 @@ async function createClosedGroup(
   groupName: string,
   groupMembers: Array<ContactType>,
   senderKeys: boolean,
-  onSuccess: any,
+  onSuccess: any
 ) {
   // Validate groupName and groupMembers length
   if (
