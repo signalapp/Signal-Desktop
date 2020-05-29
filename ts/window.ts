@@ -1,6 +1,7 @@
 import { LocalizerType } from './types/Util';
+import { LibsignalProtocol } from '../libtextsecure/libsignal-protocol';
 
-interface Window {
+interface WindowInterface extends Window {
   seedNodeList: any;
 
   WebAPI: any;
@@ -32,7 +33,7 @@ interface Window {
   shortenPubkey: any;
 
   dcodeIO: any;
-  libsignal: any;
+  libsignal: LibsignalProtocol;
   libloki: any;
   displayNameRegex: any;
 
@@ -72,7 +73,9 @@ interface Window {
   resetDatabase: any;
 }
 
-declare const window: Window;
+declare const window: WindowInterface;
+
+// TODO: Is there an easier way to dynamically export these?
 
 // Utilities
 export const WebAPI = window.WebAPI;
@@ -118,3 +121,7 @@ export const clearLocalData = window.clearLocalData;
 export const deleteAccount = window.deleteAccount;
 export const resetDatabase = window.resetDatabase;
 export const attemptConnection = window.attemptConnection;
+
+export const libloki = window.libloki;
+export const libsignal = window.libsignal;
+export const textsecure = window.textsecure;

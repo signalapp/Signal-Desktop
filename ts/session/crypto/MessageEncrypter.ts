@@ -1,5 +1,10 @@
 import { EncryptionType } from '../types/EncryptionType';
 import { SignalService } from '../../protobuf';
+import { libloki, libsignal, textsecure } from '../../window';
+import {
+  CipherTextObject,
+  SignalProtocolAddress,
+} from '../../../libtextsecure/libsignal-protocol';
 
 function padPlainTextBuffer(messageBuffer: Uint8Array): Uint8Array {
   const plaintext = new Uint8Array(
@@ -22,19 +27,57 @@ function getPaddedMessageLength(originalLength: number): number {
   return messagePartCount * 160;
 }
 
-export function encrypt(
+export type Base64String = String;
+
+/**
+ * Encrypt `plainTextBuffer` with given `encryptionType` for `device`.
+ *
+ * @param device The device to encrypt for.
+ * @param plainTextBuffer The unpadded plaintext buffer.
+ * @param encryptionType The type of encryption.
+ * @returns The envelope type and the base64 encoded cipher text
+ */
+export async function encrypt(
   device: string,
   plainTextBuffer: Uint8Array,
   encryptionType: EncryptionType
-): {
+): Promise<{
   envelopeType: SignalService.Envelope.Type;
-  cipherText: Uint8Array;
-} {
+  cipherText: Base64String;
+}> {
   const plainText = padPlainTextBuffer(plainTextBuffer);
-  // TODO: Do encryption here?
+  const address = new libsignal.SignalProtocolAddress(device, 1);
 
+  if (encryptionType === EncryptionType.MediumGroup) {
+    // TODO: Do medium group stuff here
+    throw new Error('Encryption is not yet supported');
+  }
+
+  let cipherText: CipherTextObject;
+  if (encryptionType === EncryptionType.SessionReset) {
+    const cipher = new libloki.crypto.FallBackSessionCipher(address);
+    cipherText = await cipher.encrypt(plainText.buffer);
+  } else {
+    const cipher = new libsignal.SessionCipher(
+      textsecure.storage.protocol,
+      address
+    );
+    cipherText = await cipher.encrypt(plainText.buffer);
+  }
+
+  return encryptUsingSealedSender(address, cipherText);
+}
+
+async function encryptUsingSealedSender(
+  address: SignalProtocolAddress,
+  cipherText: CipherTextObject
+): Promise<{
+  envelopeType: SignalService.Envelope.Type;
+  cipherText: Base64String;
+}> {
+  // TODO: Do stuff here
   return {
-    envelopeType: SignalService.Envelope.Type.CIPHERTEXT,
-    cipherText: new Uint8Array(),
+    envelopeType: SignalService.Envelope.Type.UNIDENTIFIED_SENDER,
+    cipherText: 'implement me!',
   };
 }
