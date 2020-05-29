@@ -1059,6 +1059,9 @@
     },
     // We have accepted an incoming friend request
     async onAcceptFriendRequest(options = {}) {
+      if (this.get('type') !== Message.PRIVATE) {
+        return;
+      }
       if (this.unlockTimer) {
         clearTimeout(this.unlockTimer);
       }
@@ -1075,14 +1078,12 @@
           window.textsecure.OutgoingMessage.DebugMessageType
             .INCOMING_FR_ACCEPTED
         );
-
-        // send an AFR to other device of that user (or none)
-        const primaryPubKey = await libloki.api.getPrimaryDevicePubkey(this.id);
-
+      } else if (this.isFriendRequestStatusNoneOrExpired()) {
+        // send AFR if we haven't sent a message before
         const autoFrMessage = textsecure.OutgoingMessage.buildAutoFriendRequestMessage(
-          primaryPubKey
+          this.id
         );
-        await autoFrMessage.sendToNumber(primaryPubKey, true, this.id);
+        await autoFrMessage.sendToNumber(this.id, false);
       }
     },
     // Our outgoing friend request has been accepted

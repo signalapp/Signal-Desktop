@@ -415,21 +415,19 @@
     },
 
     async acceptFriendRequest() {
-      const primaryDevicePubKey = this.attributes.conversationId;
-
       if (this.get('friendStatus') !== 'pending') {
         return;
       }
 
-      const allDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-        primaryDevicePubKey
-      );
+      const devicePubKey = this.get('conversationId');
+      const otherDevices = await libloki.storage.getPairedDevicesFor(devicePubKey);
+      const allDevices = [devicePubKey, ...otherDevices];
 
       // Set profile name to primary conversation
       let profileName;
       const allConversationsWithUser = allDevices.map(d =>
         ConversationController.get(d)
-      );
+      ).filter(c => Boolean(c));
       allConversationsWithUser.forEach(conversation => {
         // If we somehow received an old friend request (e.g. after having restored
         // from seed, we won't be able to accept it, we should initiate our own
@@ -447,6 +445,7 @@
 
       // If you don't have a profile name for this device, and profileName is set,
       // add profileName to conversation.
+      const primaryDevicePubKey = (await libloki.storage.getPrimaryDeviceFor(devicePubKey)) || devicePubKey;
       const primaryConversation = allConversationsWithUser.find(
         c => c.id === primaryDevicePubKey
       );
@@ -471,13 +470,21 @@
       if (this.get('friendStatus') !== 'pending') {
         return;
       }
-      const conversation = this.getConversation();
 
       this.set({ friendStatus: 'declined' });
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
       });
-      conversation.onDeclineFriendRequest();
+
+      const devicePubKey = this.attributes.conversationId;
+      const otherDevices = await libloki.storage.getPairedDevicesFor(devicePubKey);
+      const allDevices = [devicePubKey, ...otherDevices];
+      const allConversationsWithUser = allDevices.map(d =>
+        ConversationController.get(d)
+      ).filter(c => Boolean(c));
+      allConversationsWithUser.forEach(conversation => {
+        conversation.onDeclineFriendRequest();
+      });
     },
     getPropsForFriendRequest() {
       const friendStatus = this.get('friendStatus') || 'pending';
@@ -2571,7 +2578,7 @@
           }
 
           // We need to map the original message source to the primary device
-          if (source !== ourNumber && !message.isFriendRequest()) {
+          if (source !== ourNumber) {
             message.set({ source: primarySource });
           }
 
