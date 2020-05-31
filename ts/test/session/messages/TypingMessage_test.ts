@@ -4,6 +4,7 @@ import { TypingMessage } from '../../../session/messages/outgoing';
 import { SignalService } from '../../../protobuf';
 import { TextEncoder } from 'util';
 import Long from 'long';
+import { toNumber } from 'lodash';
 
 describe('TypingMessage', () => {
   it('has Action.STARTED if isTyping = true', () => {
@@ -40,7 +41,8 @@ describe('TypingMessage', () => {
     });
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
-    expect(decoded.typingMessage?.timestamp).to.have.property('low', 111111111);
+    const decodedtimestamp = toNumber(decoded.typingMessage?.timestamp);
+    expect(decodedtimestamp).to.be.equal(111111111);
   });
 
   it('has typingTimestamp set with Date.now() if value not passed', () => {

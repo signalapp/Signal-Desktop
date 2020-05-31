@@ -8,6 +8,7 @@ import {
 } from '../../../session/messages/outgoing';
 import { SignalService } from '../../../protobuf';
 import { TextEncoder } from 'util';
+import { toNumber } from 'lodash';
 
 describe('ChatMessage', () => {
   it('can create empty message with just a timestamp', () => {
@@ -75,7 +76,8 @@ describe('ChatMessage', () => {
     });
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
-    expect(decoded.dataMessage?.quote?.id).to.have.property('low', 1234);
+    const decodedID = toNumber(decoded.dataMessage?.quote?.id);
+    expect(decodedID).to.be.equal(1234);
     expect(decoded.dataMessage?.quote).to.have.deep.property(
       'author',
       'author'
@@ -119,15 +121,11 @@ describe('ChatMessage', () => {
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
     expect(decoded.dataMessage?.attachments).to.have.lengthOf(1);
-    expect(decoded.dataMessage)
-      .to.have.nested.property('attachments[0].id')
-      .to.have.property('low', 1234);
-    expect(decoded.dataMessage)
-      .to.have.nested.property('attachments[0].contentType')
-      .to.be.deep.equal('contentType');
-    expect(decoded.dataMessage)
-      .to.have.nested.property('attachments[0].url')
-      .to.be.deep.equal('url');
+    const firstAttachment = decoded?.dataMessage?.attachments?.[0];
+    const decodedID = toNumber(firstAttachment?.id);
+    expect(decodedID).to.be.equal(1234);
+    expect(firstAttachment?.contentType).to.be.deep.equal('contentType');
+    expect(firstAttachment?.url).to.be.deep.equal('url');
   });
 
   it('ttl of 1 day', () => {

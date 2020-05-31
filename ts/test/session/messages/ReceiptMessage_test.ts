@@ -6,6 +6,7 @@ import {
   ReadReceiptMessage,
 } from '../../../session/messages/outgoing';
 import { SignalService } from '../../../protobuf';
+import { toNumber } from 'lodash';
 
 describe('ReceiptMessage', () => {
   let readMessage: ReadReceiptMessage;
@@ -24,15 +25,10 @@ describe('ReceiptMessage', () => {
     const decoded = SignalService.Content.decode(plainText);
 
     expect(decoded.receiptMessage).to.have.property('type', 1);
-    expect(decoded.receiptMessage?.timestamp).to.have.lengthOf(2);
-    expect(decoded.receiptMessage).to.have.nested.property(
-      'timestamp[0].low',
-      timestamps[0]
+    const decodedTimestamps = (decoded.receiptMessage?.timestamp ?? []).map(
+      toNumber
     );
-    expect(decoded.receiptMessage).to.have.nested.property(
-      'timestamp[1].low',
-      timestamps[1]
-    );
+    expect(decodedTimestamps).to.deep.equal(timestamps);
   });
 
   it('content of a delivery receipt is correct', () => {
@@ -40,15 +36,10 @@ describe('ReceiptMessage', () => {
     const decoded = SignalService.Content.decode(plainText);
 
     expect(decoded.receiptMessage).to.have.property('type', 0);
-    expect(decoded.receiptMessage?.timestamp).to.have.lengthOf(2);
-    expect(decoded.receiptMessage).to.have.nested.property(
-      'timestamp[0].low',
-      timestamps[0]
+    const decodedTimestamps = (decoded.receiptMessage?.timestamp ?? []).map(
+      toNumber
     );
-    expect(decoded.receiptMessage).to.have.nested.property(
-      'timestamp[1].low',
-      timestamps[1]
-    );
+    expect(decodedTimestamps).to.deep.equal(timestamps);
   });
 
   it('ttl of 1 day', () => {
