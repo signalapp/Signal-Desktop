@@ -1,7 +1,7 @@
 import { EncryptionType } from '../types/EncryptionType';
 import { SignalService } from '../../protobuf';
 import { libloki, libsignal, Signal, textsecure } from '../../window';
-import { CipherTextObject } from '../../../libtextsecure/libsignal-protocol';
+import { CipherTextObject } from '../../window/types/libsignal-protocol';
 import { UserUtil } from '../../util';
 
 export function padPlainTextBuffer(messageBuffer: Uint8Array): Uint8Array {

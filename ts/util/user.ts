@@ -1,5 +1,5 @@
 import { getItemById } from '../../js/modules/data';
-import { KeyPair } from '../../libtextsecure/libsignal-protocol';
+import { KeyPair } from '../window/types/libsignal-protocol';
 
 export async function getCurrentDevicePubKey(): Promise<string | undefined> {
   const item = await getItemById('number_id');

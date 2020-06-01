@@ -1,17 +1,16 @@
-import { SignalService } from '../../../ts/protobuf';
+import { SignalService } from '../../protobuf';
 import {
-  BinaryString,
   CipherTextObject,
-} from '../../../libtextsecure/libsignal-protocol';
+} from './libsignal-protocol';
 
 export declare class SecretSessionCipher {
   constructor(storage: any);
-  encrypt(
+  public encrypt(
     destinationPubkey: string,
     senderCertificate: SignalService.SenderCertificate,
     innerEncryptedMessage: CipherTextObject
   ): Promise<ArrayBuffer>;
-  decrypt(
+  public decrypt(
     cipherText: ArrayBuffer,
     me: { number: string; deviceId: number }
   ): Promise<{

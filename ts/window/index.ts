@@ -1,6 +1,7 @@
-import { LocalizerType } from './types/Util';
-import { LibsignalProtocol } from '../libtextsecure/libsignal-protocol';
-import { SignalInterface } from '../js/modules/signal';
+
+import { LibsignalProtocol } from './types/libsignal-protocol';
+import { SignalInterface } from './types/signal';
+import { LocalizerType } from '../types/Util';
 
 interface WindowInterface extends Window {
   seedNodeList: any;

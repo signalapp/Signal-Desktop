@@ -1,4 +1,4 @@
-import { SignalService } from '../ts/protobuf';
+import { SignalService } from '../../protobuf';
 
 export type BinaryString = String;
 
@@ -10,11 +10,11 @@ export type CipherTextObject = {
 
 export declare class SignalProtocolAddress {
   constructor(hexEncodedPublicKey: string, deviceId: number);
-  getName(): string;
-  getDeviceId(): number;
-  toString(): string;
-  equals(other: SignalProtocolAddress): boolean;
-  static fromString(encodedAddress: string): SignalProtocolAddress;
+  public static fromString(encodedAddress: string): SignalProtocolAddress;
+  public getName(): string;
+  public getDeviceId(): number;
+  public toString(): string;
+  public equals(other: SignalProtocolAddress): boolean;
 }
 
 export type KeyPair = {
@@ -26,7 +26,7 @@ interface CurveSync {
   generateKeyPair(): KeyPair;
   createKeyPair(privKey: ArrayBuffer): KeyPair;
   calculateAgreement(pubKey: ArrayBuffer, privKey: ArrayBuffer): ArrayBuffer;
-  verifySignature(pubKey: ArrayBuffer, msg: ArrayBuffer, sig: ArrayBuffer);
+  verifySignature(pubKey: ArrayBuffer, msg: ArrayBuffer, sig: ArrayBuffer): void;
   calculateSignature(privKey: ArrayBuffer, message: ArrayBuffer): ArrayBuffer;
   validatePubKeyFormat(pubKey: ArrayBuffer): ArrayBuffer;
 }
@@ -99,16 +99,16 @@ export declare class SessionCipher {
   /**
    * @returns The envelope type, registration id and binary encoded encrypted body.
    */
-  encrypt(buffer: ArrayBuffer | Uint8Array): Promise<CipherTextObject>;
-  decryptPreKeyWhisperMessage(
+  public encrypt(buffer: ArrayBuffer | Uint8Array): Promise<CipherTextObject>;
+  public decryptPreKeyWhisperMessage(
     buffer: ArrayBuffer | Uint8Array
   ): Promise<ArrayBuffer>;
-  decryptWhisperMessage(buffer: ArrayBuffer | Uint8Array): Promise<ArrayBuffer>;
-  getRecord(encodedNumber: string): Promise<any | undefined>;
-  getRemoteRegistrationId(): Promise<number>;
-  hasOpenSession(): Promise<boolean>;
-  closeOpenSessionForDevice(): Promise<void>;
-  deleteAllSessionsForDevice(): Promise<void>;
+  public decryptWhisperMessage(buffer: ArrayBuffer | Uint8Array): Promise<ArrayBuffer>;
+  public getRecord(encodedNumber: string): Promise<any | undefined>;
+  public getRemoteRegistrationId(): Promise<number>;
+  public hasOpenSession(): Promise<boolean>;
+  public closeOpenSessionForDevice(): Promise<void>;
+  public deleteAllSessionsForDevice(): Promise<void>;
 }
 
 export interface LibsignalProtocol {

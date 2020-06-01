@@ -1,1 +1,1 @@
-export * from './SignalAddressProtocolStub';
+export * from './SessionCipherBasicStub';

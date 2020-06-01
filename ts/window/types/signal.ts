@@ -1,4 +1,4 @@
-import { SecretSessionCipher } from './metadata/SecretSessionCipher';
+import { SecretSessionCipher } from './SecretSessionCipher';
 
 interface Metadata {
   SecretSessionCipher: typeof SecretSessionCipher;
