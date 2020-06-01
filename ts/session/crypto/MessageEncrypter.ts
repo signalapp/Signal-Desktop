@@ -1,12 +1,10 @@
 import { EncryptionType } from '../types/EncryptionType';
 import { SignalService } from '../../protobuf';
-import { libloki, libsignal, textsecure } from '../../window';
-import {
-  CipherTextObject,
-  SignalProtocolAddress,
-} from '../../../libtextsecure/libsignal-protocol';
+import { libloki, libsignal, Signal, textsecure } from '../../window';
+import { CipherTextObject } from '../../../libtextsecure/libsignal-protocol';
+import { UserUtil } from '../../util';
 
-function padPlainTextBuffer(messageBuffer: Uint8Array): Uint8Array {
+export function padPlainTextBuffer(messageBuffer: Uint8Array): Uint8Array {
   const plaintext = new Uint8Array(
     getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
   );
@@ -53,31 +51,49 @@ export async function encrypt(
     throw new Error('Encryption is not yet supported');
   }
 
-  let cipherText: CipherTextObject;
+  let innerCipherText: CipherTextObject;
   if (encryptionType === EncryptionType.SessionReset) {
     const cipher = new libloki.crypto.FallBackSessionCipher(address);
-    cipherText = await cipher.encrypt(plainText.buffer);
+    innerCipherText = await cipher.encrypt(plainText.buffer);
   } else {
     const cipher = new libsignal.SessionCipher(
       textsecure.storage.protocol,
       address
     );
-    cipherText = await cipher.encrypt(plainText.buffer);
+    innerCipherText = await cipher.encrypt(plainText.buffer);
   }
 
-  return encryptUsingSealedSender(address, cipherText);
+  return encryptUsingSealedSender(device, innerCipherText);
 }
 
 async function encryptUsingSealedSender(
-  address: SignalProtocolAddress,
-  cipherText: CipherTextObject
+  device: string,
+  innerCipherText: CipherTextObject
 ): Promise<{
   envelopeType: SignalService.Envelope.Type;
   cipherText: Base64String;
 }> {
-  // TODO: Do stuff here
+  const ourNumber = await UserUtil.getCurrentDevicePubKey();
+  if (!ourNumber) {
+    throw new Error('Failed to fetch current device public key.');
+  }
+
+  const certificate = SignalService.SenderCertificate.create({
+    sender: ourNumber,
+    senderDevice: 1,
+  });
+
+  const cipher = new Signal.Metadata.SecretSessionCipher(
+    textsecure.storage.protocol
+  );
+  const cipherTextBuffer = await cipher.encrypt(
+    device,
+    certificate,
+    innerCipherText
+  );
+
   return {
     envelopeType: SignalService.Envelope.Type.UNIDENTIFIED_SENDER,
-    cipherText: 'implement me!',
+    cipherText: Buffer.from(cipherTextBuffer).toString('base64'),
   };
 }

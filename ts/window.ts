@@ -1,5 +1,6 @@
 import { LocalizerType } from './types/Util';
 import { LibsignalProtocol } from '../libtextsecure/libsignal-protocol';
+import { SignalInterface } from '../js/modules/signal';
 
 interface WindowInterface extends Window {
   seedNodeList: any;
@@ -37,7 +38,7 @@ interface WindowInterface extends Window {
   libloki: any;
   displayNameRegex: any;
 
-  Signal: any;
+  Signal: SignalInterface;
   Whisper: any;
   ConversationController: any;
 
