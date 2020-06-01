@@ -25,7 +25,11 @@ describe('JobQueue', () => {
 
   describe('addWithId', () => {
     it('should run the jobs concurrently', async () => {
-      const input = [[10, 300], [20, 200], [30, 100]];
+      const input = [
+        [10, 300],
+        [20, 200],
+        [30, 100],
+      ];
       const queue = new JobQueue();
       const mapper = async ([value, ms]: Array<number>): Promise<number> =>
         queue.addWithId(uuid(), async () => {

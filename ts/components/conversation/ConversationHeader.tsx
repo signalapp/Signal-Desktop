@@ -468,37 +468,34 @@ export class ConversationHeader extends React.Component<Props> {
     const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
     const blockHandler = isBlocked ? onUnblockUser : onBlockUser;
 
-    const disappearingMessagesMenuItem = isFriend &&
-      !isKickedFromGroup && (
-        <SubMenu title={disappearingTitle}>
-          {(timerOptions || []).map(item => (
-            <MenuItem
-              key={item.value}
-              onClick={() => {
-                onSetDisappearingMessages(item.value);
-              }}
-            >
-              {item.name}
-            </MenuItem>
-          ))}
-        </SubMenu>
-      );
+    const disappearingMessagesMenuItem = isFriend && !isKickedFromGroup && (
+      <SubMenu title={disappearingTitle}>
+        {(timerOptions || []).map(item => (
+          <MenuItem
+            key={item.value}
+            onClick={() => {
+              onSetDisappearingMessages(item.value);
+            }}
+          >
+            {item.name}
+          </MenuItem>
+        ))}
+      </SubMenu>
+    );
     const showMembersMenuItem = isGroup && (
       <MenuItem onClick={onShowGroupMembers}>{i18n('showMembers')}</MenuItem>
     );
-    const showSafetyNumberMenuItem = !isGroup &&
-      !isMe && (
-        <MenuItem onClick={onShowSafetyNumber}>
-          {i18n('showSafetyNumber')}
-        </MenuItem>
-      );
-    const resetSessionMenuItem = isFriend &&
-      !isGroup && (
-        <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
-      );
-    const blockHandlerMenuItem = !isMe &&
-      !isGroup &&
-      !isRss && <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>;
+    const showSafetyNumberMenuItem = !isGroup && !isMe && (
+      <MenuItem onClick={onShowSafetyNumber}>
+        {i18n('showSafetyNumber')}
+      </MenuItem>
+    );
+    const resetSessionMenuItem = isFriend && !isGroup && (
+      <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
+    );
+    const blockHandlerMenuItem = !isMe && !isGroup && !isRss && (
+      <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
+    );
     // const changeNicknameMenuItem = !isMe &&
     //   !isGroup && (
     //     <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>

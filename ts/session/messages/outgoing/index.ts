@@ -1,11 +1,5 @@
-import { OutgoingMessage } from './OutgoingMessage';
-import { OutgoingContentMessage } from './OutgoingContentMessage';
-import { OutgoingDataMessage } from './OutgoingDataMessage';
+import { Message } from './Message';
 import { OpenGroupMessage } from './OpenGroupMessage';
 
-export {
-  OutgoingMessage,
-  OutgoingContentMessage,
-  OutgoingDataMessage,
-  OpenGroupMessage,
-};
+export * from './content/';
+export { Message, OpenGroupMessage };

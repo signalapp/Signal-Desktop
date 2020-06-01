@@ -158,9 +158,7 @@ class LokiFileServerInstance {
         newSlavePrimaryMap[slaveKey] !== auth.primaryDevicePubKey
       ) {
         log.warn(
-          `file server user annotation primaryKey mismatch, had ${
-            newSlavePrimaryMap[slaveKey]
-          } now ${auth.primaryDevicePubKey} for ${slaveKey}`
+          `file server user annotation primaryKey mismatch, had ${newSlavePrimaryMap[slaveKey]} now ${auth.primaryDevicePubKey} for ${slaveKey}`
         );
         return;
       }

@@ -1,22 +1,29 @@
-import { OutgoingMessage } from './OutgoingMessage';
+import { Message, MessageParams } from './Message';
 import { AttachmentType } from '../../../types/Attachment';
 import { QuotedAttachmentType } from '../../../components/conversation/Quote';
 
-export class OpenGroupMessage implements OutgoingMessage {
-  public timestamp: number;
-  public server: string;
-  public body?: string;
-  public attachments: [AttachmentType]; // TODO: Not sure if we should only use a subset of this type
-  public quote?: QuotedAttachmentType;
+interface OpenGroupMessageParams extends MessageParams {
+  server: string;
+  attachments?: Array<AttachmentType>;
+  body?: string;
+  quote?: QuotedAttachmentType;
+}
 
-  constructor(
-    timestamp: number,
-    server: string,
-    attachments: [AttachmentType],
-    body?: string,
-    quote?: QuotedAttachmentType
-  ) {
-    this.timestamp = timestamp;
+export class OpenGroupMessage extends Message {
+  public readonly server: string;
+  public readonly body?: string;
+  public readonly attachments?: Array<AttachmentType>;
+  public readonly quote?: QuotedAttachmentType;
+
+  constructor({
+    timestamp,
+    server,
+    attachments,
+    body,
+    quote,
+    identifier,
+  }: OpenGroupMessageParams) {
+    super({ timestamp, identifier });
     this.server = server;
     this.body = body;
     this.attachments = attachments;

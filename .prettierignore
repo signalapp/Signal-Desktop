@@ -54,3 +54,4 @@ stylesheets/_intlTelInput.scss
 # Coverage
 coverage/**
 .nyc_output/**
+

@@ -1574,7 +1574,9 @@
       const ourNumber = textsecure.storage.user.getNumber();
       const { wrap, sendOptions } = ConversationController.prepareForSend(
         ourNumber,
-        { syncMessage: true }
+        {
+          syncMessage: true,
+        }
       );
 
       this.syncPromise = this.syncPromise || Promise.resolve();
@@ -1941,7 +1943,7 @@
       const { primaryDevicePubKey } = authorisation;
       // ensure the primary device is a friend
       const c = window.ConversationController.get(primaryDevicePubKey);
-      if (!c || !await c.isFriendWithAnyDevice()) {
+      if (!c || !(await c.isFriendWithAnyDevice())) {
         return false;
       }
       await libloki.storage.savePairingAuthorisation(authorisation);
