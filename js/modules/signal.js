@@ -263,6 +263,8 @@ function initializeMigrations({
 exports.setup = (options = {}) => {
   const { Attachments, userDataPath, getRegionCode, logger } = options;
 
+  Data.init();
+
   const Migrations = initializeMigrations({
     userDataPath,
     getRegionCode,

@@ -74,6 +74,13 @@ interface WindowInterface extends Window {
   resetDatabase: any;
 }
 
+// In the case for tests
+// tslint:disable-next-line: no-typeof-undefined
+if (typeof(window) === 'undefined') {
+  const globalAny: any = global;
+  globalAny.window = {};
+}
+
 declare const window: WindowInterface;
 
 // TODO: Is there an easier way to dynamically export these?
