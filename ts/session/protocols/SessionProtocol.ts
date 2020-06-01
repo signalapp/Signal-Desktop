@@ -1,17 +1,89 @@
-// TODO: Need to flesh out these functions
-// Structure of this can be changed for example sticking this all in a class
-// The reason i haven't done it is to avoid having instances of the protocol, rather you should be able to call the functions directly
+import { SessionResetMessage } from '../messages/outgoing';
+// import { MessageSender } from '../sending';
 
-import { OutgoingContentMessage } from '../messages/outgoing';
+// These two Maps should never be accessed directly but only
+// through `_update*SessionTimestamp()`, `_get*SessionRequest()` or `_has'SessionRequest()`
+let sentSessionsTimestamp: Map<string, number>;
+let processedSessionsTimestamp: Map<string, number>;
+
+/**
+ * We only need to fetch once from the database, because we are the only one writing to it
+ */
+async function _fetchFromDBIfNeeded(): Promise<void> {
+  if (!sentSessionsTimestamp) {
+     // TODO actually fetch from DB
+    sentSessionsTimestamp = new Map<string, number>();
+    processedSessionsTimestamp = new Map<string, number>();
+  }
+}
+
+async function _writeToDBSentSessions(): Promise<void> {
+  // TODO actually write to DB
+}
+
+async function _writeToDBProcessedSessions(): Promise<void> {
+  // TODO actually write to DB
+}
+
+
+/**
+ * This is a utility function to avoid duplicated code of _updateSentSessionTimestamp and _updateProcessedSessionTimestamp
+ */
+async function _updateSessionTimestamp(device: string, timestamp: number | undefined, map: Map<string, number>): Promise<boolean> {
+  await _fetchFromDBIfNeeded();
+  if (!timestamp) {
+    return map.delete(device);
+  }
+  map.set(device, timestamp);
+
+  return true;
+}
+
+/**
+ *
+ * @param device the device id
+ * @param timestamp undefined to remove the key/value pair, otherwise updates the sent timestamp and write to DB
+ */
+async function _updateSentSessionTimestamp(device: string, timestamp: number|undefined): Promise<void> {
+  if (_updateSessionTimestamp(device, timestamp, sentSessionsTimestamp)) {
+    await _writeToDBSentSessions();
+  }
+}
+
+/**
+ * timestamp undefined to remove the key/value pair, otherwise updates the processed timestamp and writes to DB
+ */
+async function _updateProcessedSessionTimestamp(device: string, timestamp: number|undefined): Promise<void> {
+  if (_updateSessionTimestamp(device, timestamp, processedSessionsTimestamp)) {
+    await _writeToDBProcessedSessions();
+  }
+}
 
 export function hasSession(device: string): boolean {
   return false; // TODO: Implement
 }
 
-export function hasSentSessionRequest(device: string): boolean {
-  // TODO: need a way to keep track of if we've sent a session request
-  // My idea was to use the timestamp of when it was sent but there might be another better approach
-  return false;
+/**
+ * This is a utility function to avoid duplicate code between `_getProcessedSessionRequest()` and `_getSentSessionRequest()`
+ */
+async function _getSessionRequest(device: string, map: Map<string, number>): Promise<number | undefined> {
+  await _fetchFromDBIfNeeded();
+
+  return map.get(device);
+}
+
+async function _getSentSessionRequest(device: string): Promise<number | undefined> {
+  return _getSessionRequest(device, processedSessionsTimestamp);
+}
+
+async function _getProcessedSessionRequest(device: string): Promise<number | undefined> {
+  return _getSessionRequest(device, sentSessionsTimestamp);
+}
+
+export async function hasSentSessionRequest(device: string): Promise<boolean> {
+  const hasSent = await _getSessionRequest(device, sentSessionsTimestamp);
+
+  return !!hasSent;
 }
 
 export async function sendSessionRequestIfNeeded(
@@ -25,33 +97,36 @@ export async function sendSessionRequestIfNeeded(
   return Promise.reject(new Error('Need to implement this function'));
 }
 
-// TODO: Replace OutgoingContentMessage with SessionReset
-export async function sendSessionRequest(
-  message: OutgoingContentMessage
+export async function sendSessionRequests(
+  message: SessionResetMessage,
+  device: string
 ): Promise<void> {
-  // TODO: Optimistically store timestamp of when session request was sent
+
+  // Optimistically store timestamp of when session request was sent
+  await _updateSentSessionTimestamp(device, Date.now());
+
+  // await MessageSender.send()
+
   // TODO: Send out the request via MessageSender
   // TODO: On failure, unset the timestamp
   return Promise.resolve();
 }
 
-export function sessionEstablished(device: string) {
-  // TODO: this is called when we receive an encrypted message from the other user
-  // Maybe it should be renamed to something else
-  // TODO: This should make `hasSentSessionRequest` return `false`
+export async function sessionEstablished(device: string) {
+  // remove our existing sent timestamp for that device
+  return _updateSentSessionTimestamp(device, undefined);
 }
 
-export function shouldProcessSessionRequest(
+export async function shouldProcessSessionRequest(
   device: string,
   messageTimestamp: number
-): boolean {
-  // TODO: Need to do the following here
-  // messageTimestamp > session request sent timestamp && messageTimestamp > session request processed timestamp
-  return false;
+): Promise<boolean> {
+  const existingSentTimestamp = await _getSentSessionRequest(device) || 0;
+  const existingProcessedTimestamp = await _getProcessedSessionRequest(device) || 0;
+
+  return messageTimestamp > existingSentTimestamp && messageTimestamp > existingProcessedTimestamp;
 }
 
-export function sessionRequestProcessed(device: string) {
-  // TODO: this is called when we process the session request
-  // This should store the processed timestamp
-  // Again naming is crap so maybe some other name is better
+export async function onSessionRequestProcessed(device: string) {
+  return _updateProcessedSessionTimestamp(device, Date.now());
 }
