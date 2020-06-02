@@ -1,6 +1,8 @@
-import { LocalizerType } from './types/Util';
+import { LibsignalProtocol } from './types/libsignal-protocol';
+import { SignalInterface } from './types/signal';
+import { LocalizerType } from '../types/Util';
 
-interface Window {
+interface WindowInterface extends Window {
   seedNodeList: any;
 
   WebAPI: any;
@@ -32,11 +34,11 @@ interface Window {
   shortenPubkey: any;
 
   dcodeIO: any;
-  libsignal: any;
+  libsignal: LibsignalProtocol;
   libloki: any;
   displayNameRegex: any;
 
-  Signal: any;
+  Signal: SignalInterface;
   Whisper: any;
   ConversationController: any;
 
@@ -72,7 +74,16 @@ interface Window {
   resetDatabase: any;
 }
 
-declare const window: Window;
+// In the case for tests
+// tslint:disable-next-line: no-typeof-undefined
+if (typeof window === 'undefined') {
+  const globalAny: any = global;
+  globalAny.window = {};
+}
+
+declare const window: WindowInterface;
+
+// TODO: Is there an easier way to dynamically export these?
 
 // Utilities
 export const WebAPI = window.WebAPI;
@@ -118,3 +129,7 @@ export const clearLocalData = window.clearLocalData;
 export const deleteAccount = window.deleteAccount;
 export const resetDatabase = window.resetDatabase;
 export const attemptConnection = window.attemptConnection;
+
+export const libloki = window.libloki;
+export const libsignal = window.libsignal;
+export const textsecure = window.textsecure;

@@ -179,7 +179,7 @@ export function updateGuardNodes(nodes: Array<string>): Promise<void>;
 
 // Storage Items
 export function createOrUpdateItem(data: StorageItem): Promise<void>;
-export function getItemById(id: string): Promise<StorageItem>;
+export function getItemById(id: string): Promise<StorageItem | undefined>;
 export function getAlItems(): Promise<Array<StorageItem>>;
 export function bulkAddItems(array: Array<StorageItem>): Promise<void>;
 export function removeItemById(id: string): Promise<void>;
