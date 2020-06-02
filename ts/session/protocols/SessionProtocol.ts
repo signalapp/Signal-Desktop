@@ -1,13 +1,18 @@
 import { SessionResetMessage } from '../messages/outgoing';
 // import { MessageSender } from '../sending';
 
+interface StringToNumberMap {
+  [key: string]: number;
+}
+
+
 /**
  * This map olds the sent session timestamps, i.e. session requests message effectively sent to the recipient.
  * It is backed by a database entry so it's loaded from db on startup.
  * This map should not be used directly, but instead through
  * `_updateSendSessionTimestamp()`, `_getSendSessionRequest()` or `_hasSendSessionRequest()`
  */
-let sentSessionsTimestamp: Map<string, number>;
+let sentSessionsTimestamp: StringToNumberMap;
 
 /**
  * This map olds the processed session timestamps, i.e. when we received a session request and handled it.
@@ -15,7 +20,7 @@ let sentSessionsTimestamp: Map<string, number>;
  * This map should not be used directly, but instead through
  * `_updateProcessedSessionTimestamp()`, `_getProcessedSessionRequest()` or `_hasProcessedSessionRequest()`
  */
-let processedSessionsTimestamp: Map<string, number>;
+let processedSessionsTimestamp: StringToNumberMap;
 
 /**
  * This map olds the timestamp on which a sent session reset is triggered for a specific device.
@@ -125,9 +130,19 @@ export async function onSessionRequestProcessed(device: string) {
  */
 async function _fetchFromDBIfNeeded(): Promise<void> {
   if (!sentSessionsTimestamp) {
-     // TODO actually fetch from DB
-    sentSessionsTimestamp = new Map<string, number>();
-    processedSessionsTimestamp = new Map<string, number>();
+    const sentItem = await window.Signal.Data.getItemById('sentSessionsTimestamp');
+    if (sentItem) {
+      sentSessionsTimestamp = sentItem.value;
+    } else {
+      sentSessionsTimestamp = {};
+    }
+
+    const processedItem = await window.Signal.Data.getItemById('processedSessionsTimestamp');
+    if (processedItem) {
+      processedSessionsTimestamp = processedItem.value;
+    } else {
+      processedSessionsTimestamp = {};
+    }
   }
 }
 
@@ -147,12 +162,18 @@ async function _writeToDBProcessedSessions(): Promise<void> {
 /**
  * This is a utility function to avoid duplicated code of _updateSentSessionTimestamp and _updateProcessedSessionTimestamp
  */
-async function _updateSessionTimestamp(device: string, timestamp: number | undefined, map: Map<string, number>): Promise<boolean> {
+async function _updateSessionTimestamp(device: string, timestamp: number | undefined, map: StringToNumberMap): Promise<boolean> {
   await _fetchFromDBIfNeeded();
   if (!timestamp) {
-    return map.delete(device);
+    if (!!map[device]) {
+      delete map.device;
+
+      return true;
+    }
+
+    return false;
   }
-  map.set(device, timestamp);
+  map[device] = timestamp;
 
   return true;
 }
@@ -181,10 +202,10 @@ async function _updateProcessedSessionTimestamp(device: string, timestamp: numbe
 /**
  * This is a utility function to avoid duplicate code between `_getProcessedSessionRequest()` and `_getSentSessionRequest()`
  */
-async function _getSessionRequest(device: string, map: Map<string, number>): Promise<number | undefined> {
+async function _getSessionRequest(device: string, map: StringToNumberMap): Promise<number | undefined> {
   await _fetchFromDBIfNeeded();
 
-  return map.get(device);
+  return map[device];
 }
 
 async function _getSentSessionRequest(device: string): Promise<number | undefined> {
@@ -198,5 +219,5 @@ async function _getProcessedSessionRequest(device: string): Promise<number | und
 async function _hasSentSessionRequest(device: string): Promise<boolean> {
   await _fetchFromDBIfNeeded();
 
-  return sentSessionsTimestamp.has(device);
+  return !!sentSessionsTimestamp[device];
 }
