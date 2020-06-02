@@ -5,18 +5,18 @@ import * as sinon from 'sinon';
 import * as window from '../../../window';
 import { MessageEncrypter } from '../../../session/crypto';
 import { EncryptionType } from '../../../session/types/EncryptionType';
-import * as stubs from '../../utils/stubs';
-import { TestUtils } from '../../utils';
+import { Stubs } from '../../test-utils';
+import { UserUtil } from '../../../util';
 
 describe('MessageEncrypter', () => {
   const sandbox = sinon.createSandbox();
 
-  let sessionCipherStub: MockManager<stubs.SessionCipherBasicStub>;
+  let sessionCipherStub: MockManager<Stubs.SessionCipherBasicStub>;
   beforeEach(() => {
-    sessionCipherStub = ImportMock.mockClass(stubs, 'SessionCipherBasicStub');
+    sessionCipherStub = ImportMock.mockClass(Stubs, 'SessionCipherBasicStub');
     ImportMock.mockOther(window, 'libsignal', {
       SignalProtocolAddress: sandbox.stub(),
-      SessionCipher: stubs.SessionCipherBasicStub,
+      SessionCipher: Stubs.SessionCipherBasicStub,
     } as any);
 
     ImportMock.mockOther(window, 'textsecure', {
@@ -25,12 +25,7 @@ describe('MessageEncrypter', () => {
       },
     });
 
-    TestUtils.mockData('getItemById', undefined)
-      .withArgs('number_id')
-      .resolves({
-        id: 'number_id',
-        value: 'abc.1',
-      });
+    ImportMock.mockFunction(UserUtil, 'getCurrentDevicePubKey', '1');
   });
 
   afterEach(() => {
