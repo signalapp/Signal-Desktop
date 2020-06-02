@@ -1,11 +1,9 @@
 import { expect } from 'chai';
-import { ImportMock } from 'ts-mock-imports';
 import * as crypto from 'crypto';
 import * as sinon from 'sinon';
-import * as window from '../../../window';
 import { MessageEncrypter } from '../../../session/crypto';
 import { EncryptionType } from '../../../session/types/EncryptionType';
-import { Stubs } from '../../test-utils';
+import { Stubs, TestUtils } from '../../test-utils';
 import { UserUtil } from '../../../util';
 import { SignalService } from '../../../protobuf';
 
@@ -14,35 +12,35 @@ describe('MessageEncrypter', () => {
   const ourNumber = 'ourNumber';
 
   beforeEach(() => {
-    ImportMock.mockOther(window, 'libsignal', {
+    TestUtils.stubWindow('libsignal', {
       SignalProtocolAddress: sandbox.stub(),
       SessionCipher: Stubs.SessionCipherStub,
     } as any);
 
-    ImportMock.mockOther(window, 'textsecure', {
+    TestUtils.stubWindow('textsecure', {
       storage: {
         protocol: sandbox.stub(),
       },
     });
 
-    ImportMock.mockOther(window, 'Signal', {
+    TestUtils.stubWindow('Signal', {
       Metadata: {
         SecretSessionCipher: Stubs.SecretSessionCipherStub,
       },
     });
 
-    ImportMock.mockOther(window, 'libloki', {
+    TestUtils.stubWindow('libloki', {
       crypto: {
         FallBackSessionCipher: Stubs.FallBackSessionCipherStub,
       },
     });
 
-    ImportMock.mockFunction(UserUtil, 'getCurrentDevicePubKey', ourNumber);
+    sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber);
   });
 
   afterEach(() => {
     sandbox.restore();
-    ImportMock.restore();
+    TestUtils.restoreStubs();
   });
 
   describe('EncryptionType', () => {
