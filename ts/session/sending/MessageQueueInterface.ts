@@ -1,4 +1,7 @@
-import { ContentMessage as OutgoingContentMessage, OpenGroupMessage } from '../messages/outgoing';
+import {
+  ContentMessage as OutgoingContentMessage,
+  OpenGroupMessage,
+} from '../messages/outgoing';
 import { RawMessage } from '../types/RawMessage';
 import { TypedEventEmitter } from '../utils';
 

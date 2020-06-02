@@ -5,7 +5,6 @@ interface StringToNumberMap {
   [key: string]: number;
 }
 
-
 /**
  * This map olds the sent session timestamps, i.e. session requests message effectively sent to the recipient.
  * It is backed by a database entry so it's loaded from db on startup.
@@ -28,7 +27,6 @@ let processedSessionsTimestamp: StringToNumberMap;
  * This is a memory only map. Which means that on app restart it's starts empty.
  */
 const pendingSendSessionsTimestamp: Set<string> = new Set();
-
 
 /** ======= exported functions =======  */
 
@@ -68,7 +66,9 @@ export async function sendSessionRequestIfNeeded(
     return Promise.resolve();
   }
 
-  const preKeyBundle = await window.libloki.storage.getPreKeyBundleForContact(device);
+  const preKeyBundle = await window.libloki.storage.getPreKeyBundleForContact(
+    device
+  );
   const sessionReset = new SessionResetMessage({
     preKeyBundle,
     timestamp: Date.now(),
@@ -112,10 +112,14 @@ export async function shouldProcessSessionRequest(
   device: string,
   messageTimestamp: number
 ): Promise<boolean> {
-  const existingSentTimestamp = await _getSentSessionRequest(device) || 0;
-  const existingProcessedTimestamp = await _getProcessedSessionRequest(device) || 0;
+  const existingSentTimestamp = (await _getSentSessionRequest(device)) || 0;
+  const existingProcessedTimestamp =
+    (await _getProcessedSessionRequest(device)) || 0;
 
-  return messageTimestamp > existingSentTimestamp && messageTimestamp > existingProcessedTimestamp;
+  return (
+    messageTimestamp > existingSentTimestamp &&
+    messageTimestamp > existingProcessedTimestamp
+  );
 }
 
 export async function onSessionRequestProcessed(device: string) {
@@ -124,20 +128,23 @@ export async function onSessionRequestProcessed(device: string) {
 
 /** ======= local / utility functions =======  */
 
-
 /**
  * We only need to fetch once from the database, because we are the only one writing to it
  */
 async function _fetchFromDBIfNeeded(): Promise<void> {
   if (!sentSessionsTimestamp) {
-    const sentItem = await window.Signal.Data.getItemById('sentSessionsTimestamp');
+    const sentItem = await window.Signal.Data.getItemById(
+      'sentSessionsTimestamp'
+    );
     if (sentItem) {
       sentSessionsTimestamp = sentItem.value;
     } else {
       sentSessionsTimestamp = {};
     }
 
-    const processedItem = await window.Signal.Data.getItemById('processedSessionsTimestamp');
+    const processedItem = await window.Signal.Data.getItemById(
+      'processedSessionsTimestamp'
+    );
     if (processedItem) {
       processedSessionsTimestamp = processedItem.value;
     } else {
@@ -147,22 +154,31 @@ async function _fetchFromDBIfNeeded(): Promise<void> {
 }
 
 async function _writeToDBSentSessions(): Promise<void> {
-  const data = { id: 'sentSessionsTimestamp', value: JSON.stringify(sentSessionsTimestamp) };
+  const data = {
+    id: 'sentSessionsTimestamp',
+    value: JSON.stringify(sentSessionsTimestamp),
+  };
 
   await window.Signal.Data.createOrUpdateItem(data);
 }
 
 async function _writeToDBProcessedSessions(): Promise<void> {
-  const data = { id: 'processedSessionsTimestamp', value: JSON.stringify(processedSessionsTimestamp) };
+  const data = {
+    id: 'processedSessionsTimestamp',
+    value: JSON.stringify(processedSessionsTimestamp),
+  };
 
   await window.Signal.Data.createOrUpdateItem(data);
 }
 
-
 /**
  * This is a utility function to avoid duplicated code of _updateSentSessionTimestamp and _updateProcessedSessionTimestamp
  */
-async function _updateSessionTimestamp(device: string, timestamp: number | undefined, map: StringToNumberMap): Promise<boolean> {
+async function _updateSessionTimestamp(
+  device: string,
+  timestamp: number | undefined,
+  map: StringToNumberMap
+): Promise<boolean> {
   await _fetchFromDBIfNeeded();
   if (!timestamp) {
     if (!!map[device]) {
@@ -183,7 +199,10 @@ async function _updateSessionTimestamp(device: string, timestamp: number | undef
  * @param device the device id
  * @param timestamp undefined to remove the key/value pair, otherwise updates the sent timestamp and write to DB
  */
-async function _updateSentSessionTimestamp(device: string, timestamp: number|undefined): Promise<void> {
+async function _updateSentSessionTimestamp(
+  device: string,
+  timestamp: number | undefined
+): Promise<void> {
   if (_updateSessionTimestamp(device, timestamp, sentSessionsTimestamp)) {
     await _writeToDBSentSessions();
   }
@@ -192,27 +211,36 @@ async function _updateSentSessionTimestamp(device: string, timestamp: number|und
 /**
  * timestamp undefined to remove the key/value pair, otherwise updates the processed timestamp and writes to DB
  */
-async function _updateProcessedSessionTimestamp(device: string, timestamp: number|undefined): Promise<void> {
+async function _updateProcessedSessionTimestamp(
+  device: string,
+  timestamp: number | undefined
+): Promise<void> {
   if (_updateSessionTimestamp(device, timestamp, processedSessionsTimestamp)) {
     await _writeToDBProcessedSessions();
   }
 }
 
-
 /**
  * This is a utility function to avoid duplicate code between `_getProcessedSessionRequest()` and `_getSentSessionRequest()`
  */
-async function _getSessionRequest(device: string, map: StringToNumberMap): Promise<number | undefined> {
+async function _getSessionRequest(
+  device: string,
+  map: StringToNumberMap
+): Promise<number | undefined> {
   await _fetchFromDBIfNeeded();
 
   return map[device];
 }
 
-async function _getSentSessionRequest(device: string): Promise<number | undefined> {
+async function _getSentSessionRequest(
+  device: string
+): Promise<number | undefined> {
   return _getSessionRequest(device, sentSessionsTimestamp);
 }
 
-async function _getProcessedSessionRequest(device: string): Promise<number | undefined> {
+async function _getProcessedSessionRequest(
+  device: string
+): Promise<number | undefined> {
   return _getSessionRequest(device, processedSessionsTimestamp);
 }
 

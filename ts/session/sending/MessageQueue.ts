@@ -3,7 +3,10 @@ import {
   MessageQueueInterface,
   MessageQueueInterfaceEvents,
 } from './MessageQueueInterface';
-import { ContentMessage as OutgoingContentMessage, OpenGroupMessage } from '../messages/outgoing';
+import {
+  ContentMessage as OutgoingContentMessage,
+  OpenGroupMessage,
+} from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
 import { JobQueue, TypedEventEmitter } from '../utils';
 
