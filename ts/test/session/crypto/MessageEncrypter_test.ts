@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { ImportMock, MockManager } from 'ts-mock-imports';
+import { ImportMock } from 'ts-mock-imports';
 import * as crypto from 'crypto';
 import * as sinon from 'sinon';
 import * as window from '../../../window';
@@ -7,16 +7,16 @@ import { MessageEncrypter } from '../../../session/crypto';
 import { EncryptionType } from '../../../session/types/EncryptionType';
 import { Stubs } from '../../test-utils';
 import { UserUtil } from '../../../util';
+import { SignalService } from '../../../protobuf';
 
 describe('MessageEncrypter', () => {
   const sandbox = sinon.createSandbox();
+  const ourNumber = 'ourNumber';
 
-  let sessionCipherStub: MockManager<Stubs.SessionCipherBasicStub>;
   beforeEach(() => {
-    sessionCipherStub = ImportMock.mockClass(Stubs, 'SessionCipherBasicStub');
     ImportMock.mockOther(window, 'libsignal', {
       SignalProtocolAddress: sandbox.stub(),
-      SessionCipher: Stubs.SessionCipherBasicStub,
+      SessionCipher: Stubs.SessionCipherStub,
     } as any);
 
     ImportMock.mockOther(window, 'textsecure', {
@@ -25,7 +25,19 @@ describe('MessageEncrypter', () => {
       },
     });
 
-    ImportMock.mockFunction(UserUtil, 'getCurrentDevicePubKey', '1');
+    ImportMock.mockOther(window, 'Signal', {
+      Metadata: {
+        SecretSessionCipher: Stubs.SecretSessionCipherStub,
+      },
+    });
+
+    ImportMock.mockOther(window, 'libloki', {
+      crypto: {
+        FallBackSessionCipher: Stubs.FallBackSessionCipherStub,
+      },
+    });
+
+    ImportMock.mockFunction(UserUtil, 'getCurrentDevicePubKey', ourNumber);
   });
 
   afterEach(() => {
@@ -48,30 +60,106 @@ describe('MessageEncrypter', () => {
       });
     });
 
-    /*
     describe('SessionReset', () => {
-      it('should call FallbackSessionCipher', async () => {
+      it('should call FallbackSessionCipher encrypt', async () => {
+        const data = crypto.randomBytes(10);
+        const spy = sandbox.spy(
+          Stubs.FallBackSessionCipherStub.prototype,
+          'encrypt'
+        );
+        await MessageEncrypter.encrypt('1', data, EncryptionType.SessionReset);
+        expect(spy.called).to.equal(
+          true,
+          'FallbackSessionCipher.encrypt should be called.'
+        );
       });
 
       it('should pass the padded message body to encrypt', async () => {
+        const data = crypto.randomBytes(10);
+        const spy = sandbox.spy(
+          Stubs.FallBackSessionCipherStub.prototype,
+          'encrypt'
+        );
+        await MessageEncrypter.encrypt('1', data, EncryptionType.SessionReset);
+
+        const paddedData = MessageEncrypter.padPlainTextBuffer(data);
+        const firstArgument = new Uint8Array(spy.args[0][0]);
+        expect(firstArgument).to.deep.equal(paddedData);
+      });
+
+      it('should return an UNIDENTIFIED SENDER envelope type', async () => {
+        const data = crypto.randomBytes(10);
+        const result = await MessageEncrypter.encrypt(
+          '1',
+          data,
+          EncryptionType.SessionReset
+        );
+        expect(result.envelopeType).to.deep.equal(
+          SignalService.Envelope.Type.UNIDENTIFIED_SENDER
+        );
       });
     });
-    */
+
     describe('Signal', () => {
       it('should call SessionCipher encrypt', async () => {
         const data = crypto.randomBytes(10);
-        const stub = sessionCipherStub.mock('encrypt').resolves({
-          type: 1,
-          body: 'body',
-        });
+        const spy = sandbox.spy(Stubs.SessionCipherStub.prototype, 'encrypt');
         await MessageEncrypter.encrypt('1', data, EncryptionType.Signal);
-        expect(stub.called).to.equal(
+        expect(spy.called).to.equal(
           true,
           'SessionCipher.encrypt should be called.'
         );
       });
 
-      it('should pass the padded message body to encrypt', async () => {});
+      it('should pass the padded message body to encrypt', async () => {
+        const data = crypto.randomBytes(10);
+        const spy = sandbox.spy(Stubs.SessionCipherStub.prototype, 'encrypt');
+        await MessageEncrypter.encrypt('1', data, EncryptionType.Signal);
+
+        const paddedData = MessageEncrypter.padPlainTextBuffer(data);
+        const firstArgument = new Uint8Array(spy.args[0][0]);
+        expect(firstArgument).to.deep.equal(paddedData);
+      });
+
+      it('should return an UNIDENTIFIED SENDER envelope type', async () => {
+        const data = crypto.randomBytes(10);
+        const result = await MessageEncrypter.encrypt(
+          '1',
+          data,
+          EncryptionType.Signal
+        );
+        expect(result.envelopeType).to.deep.equal(
+          SignalService.Envelope.Type.UNIDENTIFIED_SENDER
+        );
+      });
+    });
+  });
+
+  describe('Sealed Sender', () => {
+    it('should pass the correct values to SecretSessionCipher encrypt', async () => {
+      const types = [EncryptionType.SessionReset, EncryptionType.Signal];
+      for (const type of types) {
+        const spy = sandbox.spy(
+          Stubs.SecretSessionCipherStub.prototype,
+          'encrypt'
+        );
+        await MessageEncrypter.encrypt('user', crypto.randomBytes(10), type);
+
+        const args = spy.args[0];
+        const [device, certificate] = args;
+
+        const expectedCertificate = SignalService.SenderCertificate.create({
+          sender: ourNumber,
+          senderDevice: 1,
+        });
+
+        expect(device).to.equal('user');
+        expect(certificate.toJSON()).to.deep.equal(
+          expectedCertificate.toJSON()
+        );
+
+        spy.restore();
+      }
     });
   });
 });

@@ -1,6 +1,6 @@
 import { SignalService } from '../../protobuf';
 
-export type BinaryString = String;
+export type BinaryString = string;
 
 export type CipherTextObject = {
   type: SignalService.Envelope.Type;

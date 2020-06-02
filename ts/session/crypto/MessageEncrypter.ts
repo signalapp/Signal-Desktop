@@ -25,7 +25,7 @@ function getPaddedMessageLength(originalLength: number): number {
   return messagePartCount * 160;
 }
 
-export type Base64String = String;
+export type Base64String = string;
 
 /**
  * Encrypt `plainTextBuffer` with given `encryptionType` for `device`.
