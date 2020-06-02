@@ -1,4 +1,3 @@
-
 import { LibsignalProtocol } from './types/libsignal-protocol';
 import { SignalInterface } from './types/signal';
 import { LocalizerType } from '../types/Util';
@@ -77,7 +76,7 @@ interface WindowInterface extends Window {
 
 // In the case for tests
 // tslint:disable-next-line: no-typeof-undefined
-if (typeof(window) === 'undefined') {
+if (typeof window === 'undefined') {
   const globalAny: any = global;
   globalAny.window = {};
 }

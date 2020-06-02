@@ -13,6 +13,9 @@ type DataFunction = typeof Shape;
  *
  * Note: This uses `ImportMock` so you will have to call `ImportMock.restore()` or `stub.restore()` after each test.
  */
-export function mockData(fn: keyof DataFunction, returns?: any): sinon.SinonStub {
+export function mockData(
+  fn: keyof DataFunction,
+  returns?: any
+): sinon.SinonStub {
   return ImportMock.mockFunction(Data, fn, returns);
 }

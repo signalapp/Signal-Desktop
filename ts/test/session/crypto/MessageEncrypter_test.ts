@@ -25,10 +25,12 @@ describe('MessageEncrypter', () => {
       },
     });
 
-    TestUtils.mockData('getItemById', undefined).resolves({
-      id: 'number_id',
-      value: 'abc.1',
-    });
+    TestUtils.mockData('getItemById', undefined)
+      .withArgs('number_id')
+      .resolves({
+        id: 'number_id',
+        value: 'abc.1',
+      });
   });
 
   afterEach(() => {
@@ -40,8 +42,14 @@ describe('MessageEncrypter', () => {
     describe('MediumGroup', () => {
       it('should throw an error', async () => {
         const data = crypto.randomBytes(10);
-        const promise = MessageEncrypter.encrypt('1', data, EncryptionType.MediumGroup);
-        await expect(promise).to.be.rejectedWith('Encryption is not yet supported');
+        const promise = MessageEncrypter.encrypt(
+          '1',
+          data,
+          EncryptionType.MediumGroup
+        );
+        await expect(promise).to.be.rejectedWith(
+          'Encryption is not yet supported'
+        );
       });
     });
 
@@ -62,11 +70,13 @@ describe('MessageEncrypter', () => {
           body: 'body',
         });
         await MessageEncrypter.encrypt('1', data, EncryptionType.Signal);
-        expect(stub.called).to.equal(true, 'SessionCipher.encrypt should be called.');
+        expect(stub.called).to.equal(
+          true,
+          'SessionCipher.encrypt should be called.'
+        );
       });
 
-      it('should pass the padded message body to encrypt', async () => {
-      });
+      it('should pass the padded message body to encrypt', async () => {});
     });
   });
 });

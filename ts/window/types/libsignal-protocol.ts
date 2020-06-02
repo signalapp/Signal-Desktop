@@ -10,6 +10,7 @@ export type CipherTextObject = {
 
 export declare class SignalProtocolAddress {
   constructor(hexEncodedPublicKey: string, deviceId: number);
+  // tslint:disable-next-line: function-name
   public static fromString(encodedAddress: string): SignalProtocolAddress;
   public getName(): string;
   public getDeviceId(): number;
@@ -26,7 +27,11 @@ interface CurveSync {
   generateKeyPair(): KeyPair;
   createKeyPair(privKey: ArrayBuffer): KeyPair;
   calculateAgreement(pubKey: ArrayBuffer, privKey: ArrayBuffer): ArrayBuffer;
-  verifySignature(pubKey: ArrayBuffer, msg: ArrayBuffer, sig: ArrayBuffer): void;
+  verifySignature(
+    pubKey: ArrayBuffer,
+    msg: ArrayBuffer,
+    sig: ArrayBuffer
+  ): void;
   calculateSignature(privKey: ArrayBuffer, message: ArrayBuffer): ArrayBuffer;
   validatePubKeyFormat(pubKey: ArrayBuffer): ArrayBuffer;
 }
@@ -103,7 +108,9 @@ export declare class SessionCipher {
   public decryptPreKeyWhisperMessage(
     buffer: ArrayBuffer | Uint8Array
   ): Promise<ArrayBuffer>;
-  public decryptWhisperMessage(buffer: ArrayBuffer | Uint8Array): Promise<ArrayBuffer>;
+  public decryptWhisperMessage(
+    buffer: ArrayBuffer | Uint8Array
+  ): Promise<ArrayBuffer>;
   public getRecord(encodedNumber: string): Promise<any | undefined>;
   public getRemoteRegistrationId(): Promise<number>;
   public hasOpenSession(): Promise<boolean>;

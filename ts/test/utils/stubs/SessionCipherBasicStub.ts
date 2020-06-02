@@ -8,7 +8,9 @@ export class SessionCipherBasicStub {
     this.address = address;
   }
 
-  public async encrypt(buffer: ArrayBuffer | Uint8Array): Promise<CipherTextObject> {
+  public async encrypt(
+    buffer: ArrayBuffer | Uint8Array
+  ): Promise<CipherTextObject> {
     throw new Error('Should stub this out');
   }
 }
