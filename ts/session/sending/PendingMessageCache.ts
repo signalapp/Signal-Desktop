@@ -1,5 +1,5 @@
 import { RawMessage } from '../types/RawMessage';
-import { OutgoingContentMessage } from '../messages/outgoing';
+import { ContentMessage as OutgoingContentMessage } from '../messages/outgoing';
 
 // TODO: We should be able to import functions straight from the db here without going through the window object
 
