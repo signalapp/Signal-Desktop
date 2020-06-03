@@ -695,7 +695,9 @@ MessageSender.prototype = {
         })
       )) || [];
     // filter out our primary pubkey if it was added.
-    sessionContactsSecondary = sessionContactsSecondary.filter(c => c.id !== primaryDeviceKey);
+    sessionContactsSecondary = sessionContactsSecondary.filter(
+      c => c.id !== primaryDeviceKey
+    );
 
     const contactsSet = new Set([
       ...sessionContactsPrimary,
@@ -707,10 +709,9 @@ MessageSender.prototype = {
 
       return Promise.resolve();
     }
-    libloki.api.debug.logContactSync(
-      'Triggering contact sync message with:',
-      [...contactsSet]
-    );
+    libloki.api.debug.logContactSync('Triggering contact sync message with:', [
+      ...contactsSet,
+    ]);
 
     // We need to sync across 3 contacts at a time
     // This is to avoid hitting storage server limit

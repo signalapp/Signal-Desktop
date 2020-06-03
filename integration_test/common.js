@@ -324,7 +324,9 @@ module.exports = {
   async addFriendToNewClosedGroup(members, useSenderKeys) {
     const [app, ...others] = members;
 
-    await app.client.element(ConversationPage.conversationButtonSection).click();
+    await app.client
+      .element(ConversationPage.conversationButtonSection)
+      .click();
     await app.client.element(ConversationPage.createClosedGroupButton).click();
 
     await this.setValueWrapper(
@@ -567,7 +569,7 @@ module.exports = {
           console.warn('NO PUBKEY');
           response.writeHead(400, { 'Content-Type': 'text/html' });
           response.end();
-            return;
+          return;
         }
 
         if (request.method === 'POST') {
@@ -620,7 +622,9 @@ module.exports = {
   },
 
   async joinOpenGroup(app, openGroupUrl, name) {
-    await app.client.element(ConversationPage.conversationButtonSection).click();
+    await app.client
+      .element(ConversationPage.conversationButtonSection)
+      .click();
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
 
     await this.setValueWrapper(
