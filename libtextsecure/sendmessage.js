@@ -664,22 +664,43 @@ MessageSender.prototype = {
     if (!primaryDeviceKey) {
       return Promise.resolve();
     }
-    // Extract required contacts information out of conversations
-    const sessionContacts = conversations.filter(
+    // first get all friends with primary devices
+    const sessionContactsPrimary = conversations.filter(
       c =>
         c.isPrivate() &&
-        !c.isSecondaryDevice() &&
+        !c.isOurLocalDevice() &&
         c.isFriend() &&
-        !c.isOurLocalDevice()
+        !c.get('secondaryStatus')
+    ) || [];
+
+    // then get all friends with secondary devices
+    let sessionContactsSecondary = conversations.filter(
+      c =>
+        c.isPrivate() &&
+        !c.isOurLocalDevice() &&
+        c.isFriend() &&
+        c.get('secondaryStatus')
     );
-    if (sessionContacts.length === 0) {
+
+    // then morph all secondary conversation to their primary
+    sessionContactsSecondary = await Promise.all(sessionContactsSecondary.map(async c => {
+      return window.ConversationController.getOrCreateAndWait(
+        c.getPrimaryDevicePubKey(),
+        'private'
+      );
+    })) || [];
+
+    const contactsSet = new Set([...sessionContactsPrimary, ...sessionContactsSecondary]);
+    const contacts = [...contactsSet];
+
+    if (contacts.length === 0) {
       window.console.info('No contacts to sync.');
 
       return Promise.resolve();
     }
     // We need to sync across 3 contacts at a time
     // This is to avoid hitting storage server limit
-    const chunked = _.chunk(sessionContacts, 3);
+    const chunked = _.chunk(contacts, 3);
     const syncMessages = await Promise.all(
       chunked.map(c => libloki.api.createContactSyncProtoMessage(c))
     );
