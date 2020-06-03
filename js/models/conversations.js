@@ -252,20 +252,24 @@
       const messages = await window.Signal.Data.getMessagesByConversation(
         this.getPrimaryDevicePubKey(),
         {
-          limit: 1,
+          limit: 5,
           MessageCollection: Whisper.MessageCollection,
           type: 'friend-request',
         }
       );
 
-      const lastMessageModel = messages.at(0);
-      if (lastMessageModel) {
-        lastMessageModel.acceptFriendRequest();
+      let lastMessage = null;
+      messages.forEach(m => {
+        m.acceptFriendRequest();
+        lastMessage = m;
+      })
+
+      if (lastMessage) {
         await this.markRead();
         window.Whisper.events.trigger(
           'showConversation',
           this.id,
-          lastMessageModel.id
+          lastMessage.id
         );
       }
     },
