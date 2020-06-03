@@ -147,7 +147,9 @@ export const _getLeftPaneLists = (
     }
     if (conversation.hasSentFriendRequest) {
       if (!conversation.isFriend) {
-        allSentFriendsRequest.push(conversation);
+        if (!conversation.isSecondary) {
+          allSentFriendsRequest.push(conversation);
+        }
       }
     }
 
