@@ -665,13 +665,14 @@ MessageSender.prototype = {
       return Promise.resolve();
     }
     // first get all friends with primary devices
-    const sessionContactsPrimary = conversations.filter(
-      c =>
-        c.isPrivate() &&
-        !c.isOurLocalDevice() &&
-        c.isFriend() &&
-        !c.get('secondaryStatus')
-    ) || [];
+    const sessionContactsPrimary =
+      conversations.filter(
+        c =>
+          c.isPrivate() &&
+          !c.isOurLocalDevice() &&
+          c.isFriend() &&
+          !c.get('secondaryStatus')
+      ) || [];
 
     // then get all friends with secondary devices
     let sessionContactsSecondary = conversations.filter(
@@ -683,14 +684,21 @@ MessageSender.prototype = {
     );
 
     // then morph all secondary conversation to their primary
-    sessionContactsSecondary = await Promise.all(sessionContactsSecondary.map(async c => {
-      return window.ConversationController.getOrCreateAndWait(
-        c.getPrimaryDevicePubKey(),
-        'private'
-      );
-    })) || [];
+    sessionContactsSecondary =
+      (await Promise.all(
+        // eslint-disable-next-line arrow-body-style
+        sessionContactsSecondary.map(async c => {
+          return window.ConversationController.getOrCreateAndWait(
+            c.getPrimaryDevicePubKey(),
+            'private'
+          );
+        })
+      )) || [];
 
-    const contactsSet = new Set([...sessionContactsPrimary, ...sessionContactsSecondary]);
+    const contactsSet = new Set([
+      ...sessionContactsPrimary,
+      ...sessionContactsSecondary,
+    ]);
     const contacts = [...contactsSet];
 
     if (contacts.length === 0) {

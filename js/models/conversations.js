@@ -262,7 +262,7 @@
       messages.forEach(m => {
         m.acceptFriendRequest();
         lastMessage = m;
-      })
+      });
 
       if (lastMessage) {
         await this.markRead();
