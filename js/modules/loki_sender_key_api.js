@@ -5,7 +5,8 @@
   dcodeIO,
   libloki,
   log,
-  crypto
+  crypto,
+  textsecure
 */
 
 /* eslint-disable more/no-then */
@@ -39,9 +40,7 @@ async function saveSenderKeysInner(
 }
 
 // Save somebody else's key
-async function saveSenderKeys(groupId, senderIdentity, chainKey) {
-  // New key, so index 0
-  const keyIdx = 0;
+async function saveSenderKeys(groupId, senderIdentity, chainKey, keyIdx) {
   const messageKeys = {};
   await saveSenderKeysInner(
     groupId,
@@ -133,7 +132,7 @@ async function advanceRatchet(groupId, senderIdentity, idx) {
     log.error(
       `Could not find ratchet for groupId ${groupId} sender: ${senderIdentity}`
     );
-    return null;
+    throw new textsecure.SenderKeyMissing(senderIdentity);
   }
 
   // Normally keyIdx will be 1 behind, in which case we stepRatchet one time only
@@ -178,7 +177,10 @@ async function advanceRatchet(groupId, senderIdentity, idx) {
       curMessageKey = messageKey;
       break;
     } else if (nextKeyIdx > idx) {
-      log.error('Developer error: nextKeyIdx > idx');
+      log.error(
+        `Could not decrypt for an older ratchet step: (${nextKeyIdx})nextKeyIdx > (${idx})idx`
+      );
+      throw new Error(`Cannot revert ratchet for group ${groupId}!`);
     } else {
       // Store keys for skipped nextKeyIdx, we might need them to decrypt
       // messages that arrive out-of-order
@@ -289,9 +291,16 @@ async function encryptWithSenderKeyInner(plaintext, groupId, ourIdentity) {
   return { ciphertext, keyIdx };
 }
 
+async function getSenderKeys(groupId, senderIdentity) {
+  const { chainKey, keyIdx } = await loadChainKey(groupId, senderIdentity);
+
+  return { chainKey, keyIdx };
+}
+
 module.exports = {
   createSenderKeyForGroup,
   encryptWithSenderKey,
   decryptWithSenderKey,
   saveSenderKeys,
+  getSenderKeys,
 };

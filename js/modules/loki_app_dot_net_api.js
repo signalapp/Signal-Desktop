@@ -572,6 +572,14 @@ class LokiAppDotNetServerAPI {
   // set up pubKey & pubKeyHex properties
   // optionally called for mainly file server comms
   getPubKeyForUrl() {
+    if (
+      !window.lokiFeatureFlags.useSnodeProxy &&
+      !window.lokiFeatureFlags.useOnionRequests
+    ) {
+      // pubkeys don't matter
+      return '';
+    }
+
     // Hard coded
     let pubKeyAB;
     if (urlPubkeyMap) {

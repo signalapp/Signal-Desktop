@@ -239,7 +239,8 @@ $session-compose-margin: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: -webkit-fill-available;
+    overflow-y: auto;
+    overflow-x: hidden;
     .session-icon .exit {
       padding: 13px;
     }
@@ -339,7 +340,8 @@ $session-compose-margin: 20px;
 .session-left-pane-section-content {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  flex: 1;
+  overflow: hidden;
 }
 
 .user-search-dropdown {
@@ -404,8 +406,6 @@ $session-compose-margin: 20px;
 @mixin bottom-buttons() {
   display: flex;
   flex-direction: row;
-  position: absolute;
-  bottom: 2px;
   width: 100%;
 
   @at-root .light-theme #{&} {
@@ -471,7 +471,8 @@ $session-compose-margin: 20px;
   &-content {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    overflow: hidden;
+    flex: 1;
 
     .module-conversation-list-item {
       background-color: $session-shade-4;

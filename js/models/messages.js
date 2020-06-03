@@ -1490,7 +1490,8 @@
           if (!this.isFriendRequest()) {
             const c = this.getConversation();
             // Don't bother sending sync messages to public chats
-            if (c && !c.isPublic()) {
+            // or groups with sender keys
+            if (c && !c.isPublic() && !c.isMediumGroup()) {
               this.sendSyncMessage();
             }
           }

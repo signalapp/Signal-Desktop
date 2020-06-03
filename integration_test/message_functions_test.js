@@ -20,7 +20,7 @@ describe('Message Functions', function() {
 
     [app, app2] = await common.startAppsAsFriends();
     // create group and add new friend
-    await common.addFriendToNewClosedGroup(app, app2);
+    await common.addFriendToNewClosedGroup([app, app2], false);
   });
 
   afterEach(async () => {
@@ -30,6 +30,12 @@ describe('Message Functions', function() {
   });
 
   it('can send attachment', async () => {
+    await app.client.element(ConversationPage.globeButtonSection).click();
+    await app.client.element(ConversationPage.createClosedGroupButton).click();
+
+    // create group and add new friend
+    await common.addFriendToNewClosedGroup([app, app2], false);
+
     // send attachment from app1 to closed group
     const fileLocation = path.join(__dirname, 'test_attachment');
     const messageText = 'test_attachment';

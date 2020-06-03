@@ -784,7 +784,7 @@
     "description": "Shown to separate the types of search results"
   },
   "messagesHeader": {
-    "message": "Session",
+    "message": "Conversations",
     "description": "Shown to separate the types of search results"
   },
   "settingsHeader": {
@@ -2529,13 +2529,28 @@
     "message": "Remove"
   },
   "invalidHexId": {
-    "message": "Invalid Hex ID",
+    "message": "Invalid Session ID or LNS Name",
     "description":
-      "Error string shown when user type an invalid pubkey hex string"
+      "Error string shown when user types an invalid pubkey hex string"
+  },
+  "invalidLnsFormat": {
+    "message": "Invalid LNS Name",
+    "description": "Error string shown when user types an invalid LNS name"
   },
   "invalidPubkeyFormat": {
     "message": "Invalid Pubkey Format",
     "description": "Error string shown when user types an invalid pubkey format"
+  },
+  "lnsMappingNotFound": {
+    "message": "There is no LNS mapping associated with this name",
+    "description": "Shown in toast if user enters an unknown LNS name"
+  },
+  "lnsLookupTimeout": {
+    "message": "LNS lookup timed out",
+    "description": "Shown in toast if user enters an unknown LNS name"
+  },
+  "lnsTooFewNodes": {
+    "message": "Not enough nodes currently active for LNS lookup"
   },
   "conversationsTab": {
     "message": "Conversations",
@@ -2719,7 +2734,7 @@
     "message": "Enter Session ID"
   },
   "pasteSessionIDRecipient": {
-    "message": "Enter a Session ID"
+    "message": "Enter a Session ID or LNS name"
   },
   "usersCanShareTheir...": {
     "message":
@@ -2901,5 +2916,8 @@
         "example": "10"
       }
     }
+  },
+  "useSenderKeys": {
+    "message": "Use Sender Keys"
   }
 }

@@ -17,7 +17,10 @@ import {
 import { AutoSizer, List } from 'react-virtualized';
 import { validateNumber } from '../../types/PhoneNumber';
 import { ConversationType } from '../../state/ducks/conversations';
-import { SessionClosableOverlay } from './SessionClosableOverlay';
+import {
+  SessionClosableOverlay,
+  SessionClosableOverlayType,
+} from './SessionClosableOverlay';
 import { MainViewController } from '../MainViewController';
 
 export interface Props {
@@ -89,6 +92,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
       labels,
       this.handleTabSelected,
       undefined,
+      undefined,
       this.handleToggleFriendRequestPopup,
       receivedFriendRequestCount
     );
@@ -140,7 +144,8 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     style,
   }: RowRendererParamsType): JSX.Element | undefined => {
     const { sentFriendsRequest } = this.props;
-    const friends = window.getFriendsFromContacts(this.props.friends);
+    const contacts = this.props.friends.filter(f => f.type === 'direct');
+    const friends = contacts.filter(c => c.isFriend);
     const combined = [...sentFriendsRequest, ...friends];
     const item = combined[index];
 
@@ -203,7 +208,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   private renderClosableOverlay() {
     return (
       <SessionClosableOverlay
-        overlayMode="contact"
+        overlayMode={SessionClosableOverlayType.Contact}
         onChangeSessionID={this.handleRecipientSessionIDChanged}
         onCloseClick={this.handleToggleOverlay}
         onButtonClick={this.handleOnAddContact}
@@ -322,7 +327,8 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   private renderList() {
     const { sentFriendsRequest } = this.props;
 
-    const friends = window.getFriendsFromContacts(this.props.friends);
+    const contacts = this.props.friends.filter(f => f.type === 'direct');
+    const friends = contacts.filter(c => c.isFriend);
     const length = Number(sentFriendsRequest.length) + Number(friends.length);
 
     const combined = [...sentFriendsRequest, ...friends];

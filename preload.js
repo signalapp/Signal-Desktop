@@ -72,18 +72,31 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
   }
 };
 
-window.CONSTANTS = {
-  MAX_LOGIN_TRIES: 3,
-  MAX_PASSWORD_LENGTH: 64,
-  MAX_USERNAME_LENGTH: 20,
-  MAX_GROUP_NAME_LENGTH: 64,
-  DEFAULT_PUBLIC_CHAT_URL: appConfig.get('defaultPublicChatServer'),
-  MAX_CONNECTION_DURATION: 5000,
-  MAX_MESSAGE_BODY_LENGTH: 64 * 1024,
+// eslint-disable-next-line func-names
+window.CONSTANTS = new function() {
+  this.MAX_LOGIN_TRIES = 3;
+  this.MAX_PASSWORD_LENGTH = 64;
+  this.MAX_USERNAME_LENGTH = 20;
+  this.MAX_GROUP_NAME_LENGTH = 64;
+  this.DEFAULT_PUBLIC_CHAT_URL = appConfig.get('defaultPublicChatServer');
+  this.MAX_CONNECTION_DURATION = 5000;
+  this.MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
   // Limited due to the proof-of-work requirement
-  SMALL_GROUP_SIZE_LIMIT: 10,
-  NOTIFICATION_ENABLE_TIMEOUT_SECONDS: 10, // number of seconds to turn on notifications after reconnect/start of app
-};
+  this.SMALL_GROUP_SIZE_LIMIT = 10;
+  // Number of seconds to turn on notifications after reconnect/start of app
+  this.NOTIFICATION_ENABLE_TIMEOUT_SECONDS = 10;
+  this.SESSION_ID_LENGTH = 66;
+
+  // Loki Name System (LNS)
+  this.LNS_DEFAULT_LOOKUP_TIMEOUT = 6000;
+  // Minimum nodes version for LNS lookup
+  this.LNS_CAPABLE_NODES_VERSION = '2.0.3';
+  this.LNS_MAX_LENGTH = 64;
+  // Conforms to naming rules here
+  // https://loki.network/2020/03/25/loki-name-system-the-facts/
+  this.LNS_REGEX = `^[a-zA-Z0-9_]([a-zA-Z0-9_-]{0,${this.LNS_MAX_LENGTH -
+    2}}[a-zA-Z0-9_]){0,1}$`;
+}();
 
 window.versionInfo = {
   environment: window.getEnvironment(),
@@ -434,7 +447,8 @@ window.lokiFeatureFlags = {
   useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
   useOnionRequests: true,
   useFileOnionRequests: false,
-  onionRequestHops: 1,
+  enableSenderKeys: false,
+  onionRequestHops: 3,
   debugMessageLogs: process.env.ENABLE_MESSAGE_LOGS,
 };
 
@@ -462,7 +476,7 @@ if (
   };
   /* eslint-enable global-require, import/no-extraneous-dependencies */
   window.lokiFeatureFlags = {};
-  window.lokiSnodeAPI = {}; // no need stub out each function here
+  window.lokiSnodeAPI = new window.StubLokiSnodeAPI(); // no need stub out each function here
 }
 if (config.environment.includes('test-integration')) {
   window.lokiFeatureFlags = {

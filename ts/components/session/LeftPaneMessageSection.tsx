@@ -17,22 +17,23 @@ import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SearchOptions } from '../../types/Search';
 import { validateNumber } from '../../types/PhoneNumber';
 import { LeftPane, RowRendererParamsType } from '../LeftPane';
-import { SessionClosableOverlay } from './SessionClosableOverlay';
-import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
+import {
+  SessionClosableOverlay,
+  SessionClosableOverlayType,
+} from './SessionClosableOverlay';
+import { SessionIconType } from './icon';
+import { ContactType } from './SessionMemberListItem';
 import {
   SessionButton,
   SessionButtonColor,
   SessionButtonType,
 } from './SessionButton';
-import { SessionSpinner } from './SessionSpinner';
-import { joinChannelStateManager } from './LeftPaneChannelSection';
 
 export interface Props {
   searchTerm: string;
   isSecondaryDevice: boolean;
 
   conversations?: Array<ConversationListItemPropsType>;
-
   searchResults?: SearchResultsProps;
 
   updateSearchTerm: (searchTerm: string) => void;
@@ -41,17 +42,40 @@ export interface Props {
   clearSearch: () => void;
 }
 
-export class LeftPaneMessageSection extends React.Component<Props, any> {
+export enum SessionComposeToType {
+  Message = 'message',
+  OpenGroup = 'open-group',
+  ClosedGroup = 'closed-group',
+}
+
+export const SessionGroupType = {
+  OpenGroup: SessionComposeToType.OpenGroup,
+  ClosedGroup: SessionComposeToType.ClosedGroup,
+};
+export type SessionGroupType = SessionComposeToType;
+
+interface State {
+  loading: boolean;
+  overlay: false | SessionComposeToType;
+  valuePasted: string;
+  connectSuccess: boolean;
+}
+
+export class LeftPaneMessageSection extends React.Component<Props, State> {
   private readonly updateSearchBound: (searchedString: string) => void;
   private readonly debouncedSearch: (searchTerm: string) => void;
 
   public constructor(props: Props) {
     super(props);
 
+    this.state = {
+      loading: false,
+      overlay: false,
+      valuePasted: '',
+      connectSuccess: false,
+    };
+
     const conversations = this.getCurrentConversations();
-    const renderOnboardingSetting = window.getSettingValue(
-      'render-message-onboarding'
-    );
 
     const realConversations: Array<ConversationListItemPropsType> = [];
     if (conversations) {
@@ -64,23 +88,21 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
       });
     }
 
-    const length = realConversations.length;
-
-    this.state = {
-      showComposeView: false,
-      pubKeyPasted: '',
-      shouldRenderMessageOnboarding:
-        length === 0 && renderOnboardingSetting && false,
-      connectSuccess: false,
-      loading: false,
-    };
-
     this.updateSearchBound = this.updateSearch.bind(this);
+
+    this.handleOnPaste = this.handleOnPaste.bind(this);
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
-    this.handleCloseOnboarding = this.handleCloseOnboarding.bind(this);
-    this.handleJoinPublicChat = this.handleJoinPublicChat.bind(this);
-    this.handleOnPasteSessionID = this.handleOnPasteSessionID.bind(this);
     this.handleMessageButtonClick = this.handleMessageButtonClick.bind(this);
+
+    this.handleNewSessionButtonClick = this.handleNewSessionButtonClick.bind(
+      this
+    );
+    this.handleJoinChannelButtonClick = this.handleJoinChannelButtonClick.bind(
+      this
+    );
+    this.onCreateClosedGroup = this.onCreateClosedGroup.bind(this);
+
+    this.renderClosableOverlay = this.renderClosableOverlay.bind(this);
     this.debouncedSearch = debounce(this.search.bind(this), 20);
   }
 
@@ -197,17 +219,20 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     return LeftPane.RENDER_HEADER(
       labels,
       null,
-      window.i18n('newSession'),
-      this.handleToggleOverlay
+      undefined,
+      SessionIconType.Plus,
+      this.handleNewSessionButtonClick
     );
   }
 
   public render(): JSX.Element {
+    const { overlay } = this.state;
+
     return (
       <div className="session-left-pane-section-content">
         {this.renderHeader()}
-        {this.state.showComposeView
-          ? this.renderClosableOverlay()
+        {overlay
+          ? this.renderClosableOverlay(overlay)
           : this.renderConversations()}
       </div>
     );
@@ -216,88 +241,15 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
   public renderConversations() {
     return (
       <div className="module-conversations-list-content">
-        {this.state.shouldRenderMessageOnboarding ? (
-          <>{this.renderMessageOnboarding()}</>
-        ) : (
-          <>
-            <SessionSearchInput
-              searchString={this.props.searchTerm}
-              onChange={this.updateSearchBound}
-              placeholder={window.i18n('searchForAKeyPhrase')}
-            />
-            {this.renderList()}
-          </>
-        )}
+        <SessionSearchInput
+          searchString={this.props.searchTerm}
+          onChange={this.updateSearchBound}
+          placeholder={window.i18n('searchForAKeyPhrase')}
+        />
+        {this.renderList()}
+        {this.renderBottomButtons()}
       </div>
     );
-  }
-
-  public renderMessageOnboarding() {
-    return (
-      <div className="onboarding-message-section">
-        <div className="onboarding-message-section__exit">
-          <SessionIconButton
-            iconType={SessionIconType.Exit}
-            iconSize={SessionIconSize.Medium}
-            onClick={this.handleCloseOnboarding}
-          />
-        </div>
-
-        <div className="onboarding-message-section__container">
-          <div className="onboarding-message-section__title">
-            <h1>{window.i18n('welcomeToSession')}</h1>
-          </div>
-
-          <div className="onboarding-message-section__icons">
-            <img
-              src="./images/session/chat-bubbles.svg"
-              alt=""
-              role="presentation"
-            />
-          </div>
-
-          <div className="onboarding-message-section__info">
-            <div className="onboarding-message-section__info--title">
-              {window.i18n('noMessagesTitle')}
-            </div>
-            <div className="onboarding-message-section__info--subtitle">
-              {window.i18n('noMessagesSubtitle')}
-            </div>
-          </div>
-
-          <>
-            {this.state.loading ? (
-              <div className="onboarding-message-section__spinner-container">
-                <SessionSpinner />
-              </div>
-            ) : (
-              <div className="onboarding-message-section__buttons">
-                <SessionButton
-                  text={window.i18n('joinPublicChat')}
-                  buttonType={SessionButtonType.BrandOutline}
-                  buttonColor={SessionButtonColor.Green}
-                  onClick={this.handleJoinPublicChat}
-                />
-                <SessionButton
-                  text={window.i18n('noThankyou')}
-                  buttonType={SessionButtonType.Brand}
-                  buttonColor={SessionButtonColor.Secondary}
-                  onClick={this.handleCloseOnboarding}
-                />
-              </div>
-            )}
-          </>
-        </div>
-      </div>
-    );
-  }
-
-  public handleCloseOnboarding() {
-    window.setSettingValue('render-message-onboarding', false);
-
-    this.setState({
-      shouldRenderMessageOnboarding: false,
-    });
   }
 
   public updateSearch(searchTerm: string) {
@@ -308,8 +260,9 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
 
       return;
     }
+
     // reset our pubKeyPasted, we can either have a pasted sessionID or a sessionID got from a search
-    this.setState({ pubKeyPasted: '' });
+    this.setState({ valuePasted: '' });
 
     if (updateSearchTerm) {
       updateSearchTerm(searchTerm);
@@ -345,41 +298,126 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     }
   }
 
-  private renderClosableOverlay() {
+  private renderClosableOverlay(overlay: SessionComposeToType) {
     const { searchTerm, searchResults } = this.props;
+    const { loading } = this.state;
 
-    return (
+    const openGroupElement = (
       <SessionClosableOverlay
-        overlayMode="message"
-        onChangeSessionID={this.handleOnPasteSessionID}
-        onCloseClick={this.handleToggleOverlay}
+        overlayMode={SessionClosableOverlayType.OpenGroup}
+        onChangeSessionID={this.handleOnPaste}
+        onCloseClick={() => {
+          this.handleToggleOverlay(undefined);
+        }}
+        onButtonClick={this.handleJoinChannelButtonClick}
+        searchTerm={searchTerm}
+        updateSearch={this.updateSearchBound}
+        showSpinner={loading}
+      />
+    );
+
+    const closedGroupElement = (
+      <SessionClosableOverlay
+        overlayMode={SessionClosableOverlayType.ClosedGroup}
+        onChangeSessionID={this.handleOnPaste}
+        onCloseClick={() => {
+          this.handleToggleOverlay(undefined);
+        }}
+        onButtonClick={async (
+          groupName: string,
+          groupMembers: Array<ContactType>,
+          senderKeys: boolean
+        ) => this.onCreateClosedGroup(groupName, groupMembers, senderKeys)}
+        searchTerm={searchTerm}
+        updateSearch={this.updateSearchBound}
+        showSpinner={loading}
+      />
+    );
+
+    const messageElement = (
+      <SessionClosableOverlay
+        overlayMode={SessionClosableOverlayType.Message}
+        onChangeSessionID={this.handleOnPaste}
+        onCloseClick={() => {
+          this.handleToggleOverlay(undefined);
+        }}
         onButtonClick={this.handleMessageButtonClick}
         searchTerm={searchTerm}
         searchResults={searchResults}
         updateSearch={this.updateSearchBound}
       />
     );
+
+    let overlayElement;
+    switch (overlay) {
+      case SessionComposeToType.OpenGroup:
+        overlayElement = openGroupElement;
+        break;
+      case SessionComposeToType.ClosedGroup:
+        overlayElement = closedGroupElement;
+        break;
+      default:
+        overlayElement = messageElement;
+    }
+
+    return overlayElement;
   }
 
-  private handleToggleOverlay() {
-    this.setState((state: any) => {
-      return { showComposeView: !state.showComposeView };
-    });
+  private renderBottomButtons(): JSX.Element {
+    const edit = window.i18n('edit');
+    const joinOpenGroup = window.i18n('joinOpenGroup');
+    const createClosedGroup = window.i18n('createClosedGroup');
+    const showEditButton = false;
+
+    return (
+      <div className="left-pane-contact-bottom-buttons">
+        {showEditButton && (
+          <SessionButton
+            text={edit}
+            buttonType={SessionButtonType.SquareOutline}
+            buttonColor={SessionButtonColor.White}
+          />
+        )}
+
+        <SessionButton
+          text={joinOpenGroup}
+          buttonType={SessionButtonType.SquareOutline}
+          buttonColor={SessionButtonColor.Green}
+          onClick={() => {
+            this.handleToggleOverlay(SessionComposeToType.OpenGroup);
+          }}
+        />
+        <SessionButton
+          text={createClosedGroup}
+          buttonType={SessionButtonType.SquareOutline}
+          buttonColor={SessionButtonColor.White}
+          onClick={() => {
+            this.handleToggleOverlay(SessionComposeToType.ClosedGroup);
+          }}
+        />
+      </div>
+    );
+  }
+
+  private handleToggleOverlay(conversationType?: SessionComposeToType) {
+    const { overlay } = this.state;
+
+    const overlayState = overlay ? false : conversationType || false;
+
+    this.setState({ overlay: overlayState });
+
     // empty our generalized searchedString (one for the whole app)
     this.updateSearch('');
   }
 
-  private handleOnPasteSessionID(value: string) {
-    // reset our search, we can either have a pasted sessionID or a sessionID got from a search
-    this.updateSearch('');
-
-    this.setState({ pubKeyPasted: value });
+  private handleOnPaste(value: string) {
+    this.setState({ valuePasted: value });
   }
 
   private handleMessageButtonClick() {
     const { openConversationInternal } = this.props;
 
-    if (!this.state.pubKeyPasted && !this.props.searchTerm) {
+    if (!this.state.valuePasted && !this.props.searchTerm) {
       window.pushToast({
         title: window.i18n('invalidNumberError'),
         type: 'error',
@@ -389,7 +427,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
       return;
     }
     let pubkey: string;
-    pubkey = this.state.pubKeyPasted || this.props.searchTerm;
+    pubkey = this.state.valuePasted || this.props.searchTerm;
     pubkey = pubkey.trim();
 
     const error = validateNumber(pubkey);
@@ -404,8 +442,64 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     }
   }
 
-  private handleJoinPublicChat() {
-    const serverURL = window.CONSTANTS.DEFAULT_PUBLIC_CHAT_URL;
-    joinChannelStateManager(this, serverURL, this.handleCloseOnboarding);
+  private handleJoinChannelButtonClick(groupUrl: string) {
+    const { loading } = this.state;
+
+    if (loading) {
+      return false;
+    }
+
+    // longest TLD is now (20/02/06) 24 characters per https://jasontucker.blog/8945/what-is-the-longest-tld-you-can-get-for-a-domain-name
+    const regexURL = /(http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,24}(:[0-9]{1,5})?(\/.*)?/;
+
+    if (groupUrl.length <= 0) {
+      window.pushToast({
+        title: window.i18n('noServerURL'),
+        type: 'error',
+        id: 'connectToServerFail',
+      });
+
+      return false;
+    }
+
+    if (!regexURL.test(groupUrl)) {
+      window.pushToast({
+        title: window.i18n('noServerURL'),
+        type: 'error',
+        id: 'connectToServerFail',
+      });
+
+      return false;
+    }
+
+    MainViewController.joinChannelStateManager(this, groupUrl, () => {
+      this.handleToggleOverlay(undefined);
+    });
+
+    return true;
+  }
+
+  private async onCreateClosedGroup(
+    groupName: string,
+    groupMembers: Array<ContactType>,
+    senderKeys: boolean
+  ) {
+    await MainViewController.createClosedGroup(
+      groupName,
+      groupMembers,
+      senderKeys,
+      () => {
+        this.handleToggleOverlay(undefined);
+
+        window.pushToast({
+          title: window.i18n('closedGroupCreatedToastTitle'),
+          type: 'success',
+        });
+      }
+    );
+  }
+
+  private handleNewSessionButtonClick() {
+    this.handleToggleOverlay(SessionComposeToType.Message);
   }
 }

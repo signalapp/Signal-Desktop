@@ -136,7 +136,6 @@ export class ActionsPanel extends React.Component<Props, State> {
     const isProfilePageSelected = selectedSection === SectionType.Profile;
     const isMessagePageSelected = selectedSection === SectionType.Message;
     const isContactPageSelected = selectedSection === SectionType.Contact;
-    const isChannelPageSelected = selectedSection === SectionType.Channel;
     const isSettingsPageSelected = selectedSection === SectionType.Settings;
     const isMoonPageSelected = selectedSection === SectionType.Moon;
 
@@ -153,11 +152,6 @@ export class ActionsPanel extends React.Component<Props, State> {
           isSelected={isMessagePageSelected}
           onSelect={this.handleSectionSelect}
           notificationCount={unreadMessageCount}
-        />
-        <this.Section
-          type={SectionType.Channel}
-          isSelected={isChannelPageSelected}
-          onSelect={this.handleSectionSelect}
         />
         <this.Section
           type={SectionType.Contact}

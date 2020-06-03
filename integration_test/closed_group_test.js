@@ -25,8 +25,10 @@ describe('Closed groups', function() {
   });
 
   it('closedGroup: can create a closed group with a friend and send/receive a message', async () => {
+    const useSenderKeys = false;
+
     // create group and add new friend
-    await common.addFriendToNewClosedGroup(app, app2);
+    await common.addFriendToNewClosedGroup([app, app2], useSenderKeys);
 
     // send a message from app and validate it is received on app2
     const textMessage = common.generateSendMessageText();

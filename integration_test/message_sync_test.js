@@ -21,7 +21,7 @@ describe('Message Syncing', function() {
 
     [Alice1, Bob1] = await common.startAppsAsFriends(); // Alice and Bob are friends
 
-    await common.addFriendToNewClosedGroup(Alice1, Bob1);
+    await common.addFriendToNewClosedGroup([Alice1, Bob1], false);
     await common.joinOpenGroup(
       Alice1,
       common.VALID_GROUP_URL,
