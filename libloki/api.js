@@ -46,7 +46,7 @@
   }
 
   function logContactSync(...args) {
-    if (debugFlags & DebugFlagsEnum.GROUP_CONTACT_MESSAGES) {
+    if (debugFlags & DebugFlagsEnum.CONTACT_SYNC_MESSAGES) {
       debugLogFn(...args);
     }
   }

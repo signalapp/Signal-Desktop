@@ -1769,13 +1769,6 @@
       details
     );
 
-    libloki.api.debug.logContactSync(
-      'Got sync contact message with',
-      id,
-      ' details:',
-      details
-    );
-
     if (id === textsecure.storage.user.getNumber()) {
       // special case for syncing details about ourselves
       if (details.profileKey) {

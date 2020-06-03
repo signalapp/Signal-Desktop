@@ -975,7 +975,7 @@
         Conversation: Whisper.Conversation,
       });
     },
-    async respondToAllFriendRequests(options) {
+    async updateAllFriendRequestsMessages(options) {
       const { response, status, direction = null } = options;
       // Ignore if no response supplied
       if (!response) {
@@ -1029,8 +1029,8 @@
         })
       );
     },
-    async respondToAllPendingFriendRequests(options) {
-      return this.respondToAllFriendRequests({
+    async updateAllPendingFriendRequestsMessages(options) {
+      return this.updateAllFriendRequestsMessages({
         ...options,
         status: 'pending',
       });
@@ -1045,7 +1045,7 @@
     // We have declined an incoming friend request
     async onDeclineFriendRequest() {
       this.setFriendRequestStatus(FriendRequestStatusEnum.none);
-      await this.respondToAllPendingFriendRequests({
+      await this.updateAllPendingFriendRequestsMessages({
         response: 'declined',
         direction: 'incoming',
       });
@@ -1068,7 +1068,7 @@
       if (this.hasReceivedFriendRequest()) {
         this.setFriendRequestStatus(FriendRequestStatusEnum.friends, options);
 
-        await this.respondToAllFriendRequests({
+        await this.updateAllFriendRequestsMessages({
           response: 'accepted',
           direction: 'incoming',
           status: ['pending', 'expired'],
@@ -1096,7 +1096,7 @@
       }
       if (this.hasSentFriendRequest()) {
         this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
-        await this.respondToAllFriendRequests({
+        await this.updateAllFriendRequestsMessages({
           response: 'accepted',
           status: ['pending', 'expired'],
         });
@@ -1128,7 +1128,7 @@
       }
 
       // Change any pending outgoing friend requests to expired
-      await this.respondToAllPendingFriendRequests({
+      await this.updateAllPendingFriendRequestsMessages({
         response: 'expired',
         direction: 'outgoing',
       });
@@ -1141,7 +1141,7 @@
         await Promise.all([
           this.setFriendRequestStatus(FriendRequestStatusEnum.friends),
           // Accept all outgoing FR
-          this.respondToAllPendingFriendRequests({
+          this.updateAllPendingFriendRequestsMessages({
             direction: 'outgoing',
             response: 'accepted',
           }),
