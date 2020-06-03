@@ -7,7 +7,7 @@ const ConversationPage = require('./page-objects/conversation.page');
 
 describe('Open groups', function() {
   let app;
-  this.timeout(30000);
+  this.timeout(40000);
   this.slow(15000);
 
   beforeEach(async () => {
@@ -39,7 +39,7 @@ describe('Open groups', function() {
     );
 
     // adding a second time the same open group
-    await app.client.element(ConversationPage.globeButtonSection).click();
+    await app.client.element(ConversationPage.conversationButtonSection).click();
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
 
     await common.setValueWrapper(
@@ -64,7 +64,7 @@ describe('Open groups', function() {
 
   it('openGroup: can send message to open group', async () => {
     // join dev-chat group
-    await app.client.element(ConversationPage.globeButtonSection).click();
+    await app.client.element(ConversationPage.conversationButtonSection).click();
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
 
     await common.setValueWrapper(

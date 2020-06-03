@@ -322,9 +322,10 @@ module.exports = {
   },
 
   async addFriendToNewClosedGroup(members, useSenderKeys) {
-    await app.client.element(ConversationPage.globeButtonSection).click();
-    await app.client.element(ConversationPage.createClosedGroupButton).click();
     const [app, ...others] = members;
+
+    await app.client.element(ConversationPage.conversationButtonSection).click();
+    await app.client.element(ConversationPage.createClosedGroupButton).click();
 
     await this.setValueWrapper(
       app,
@@ -500,7 +501,7 @@ module.exports = {
 
     await app1.client.waitForExist(
       ConversationPage.noPairedDeviceMessage,
-      2000
+      5000
     );
     await app1.client.element(ConversationPage.linkDeviceButton).isEnabled()
       .should.eventually.be.true;
@@ -619,7 +620,7 @@ module.exports = {
   },
 
   async joinOpenGroup(app, openGroupUrl, name) {
-    await app.client.element(ConversationPage.globeButtonSection).click();
+    await app.client.element(ConversationPage.conversationButtonSection).click();
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
 
     await this.setValueWrapper(

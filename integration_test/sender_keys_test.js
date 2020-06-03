@@ -39,14 +39,11 @@ async function makeFriendsPlusMessage(app, [app2, pubkey]) {
   );
 
   // Click away so we can call this function again
-  await app.client.element(ConversationPage.globeButtonSection).click();
+  await app.client.element(ConversationPage.conversationButtonSection).click();
 }
 
 async function testTwoMembers() {
   const [app, app2] = await common.startAppsAsFriends();
-
-  await app.client.element(ConversationPage.globeButtonSection).click();
-  await app.client.element(ConversationPage.createClosedGroupButton).click();
 
   const useSenderKeys = true;
 
@@ -105,9 +102,6 @@ async function testThreeMembers() {
   await makeFriendsPlusMessage(app1, [app3, common.TEST_PUBKEY3]);
 
   const useSenderKeys = true;
-
-  await app1.client.element(ConversationPage.globeButtonSection).click();
-  await app1.client.element(ConversationPage.createClosedGroupButton).click();
 
   // 3. Add all three to the group
 
