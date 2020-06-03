@@ -2420,7 +2420,10 @@
 
           if (!message.isEndSession()) {
             if (dataMessage.expireTimer) {
-              if (dataMessage.expireTimer !== conversationPrimary.get('expireTimer')) {
+              if (
+                dataMessage.expireTimer !==
+                conversationPrimary.get('expireTimer')
+              ) {
                 conversationPrimary.updateExpirationTimer(
                   dataMessage.expireTimer,
                   source,

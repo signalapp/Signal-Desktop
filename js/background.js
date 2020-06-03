@@ -1818,10 +1818,11 @@
 
       const otherDevices = await libloki.storage.getPairedDevicesFor(id);
       const devices = [id, ...otherDevices];
-      const deviceConversations = await Promise.all(devices.map(d => ConversationController.getOrCreateAndWait(
-        d,
-        'private'
-      )));
+      const deviceConversations = await Promise.all(
+        devices.map(d =>
+          ConversationController.getOrCreateAndWait(d, 'private')
+        )
+      );
       deviceConversations.forEach(device => {
         if (device.isFriendRequestStatusNoneOrExpired()) {
           libloki.api.sendAutoFriendRequestMessage(device.id);
@@ -1830,7 +1831,6 @@
           device.onAcceptFriendRequest({ blockSync: true });
         }
       });
-
 
       if (details.profileKey) {
         const profileKey = window.Signal.Crypto.arrayBufferToBase64(
