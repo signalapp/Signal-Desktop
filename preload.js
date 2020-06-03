@@ -432,7 +432,7 @@ window.lokiFeatureFlags = {
   useOnionRequests: true,
   useFileOnionRequests: false,
   enableSenderKeys: false,
-  onionRequestHops: 1,
+  onionRequestHops: 3,
 };
 
 // eslint-disable-next-line no-extend-native,func-names
