@@ -21,8 +21,7 @@
   const debugFlags = DebugFlagsEnum.ALL;
 
   const debugLogFn = (...args) => {
-    if (true) {
-      // process.env.NODE_ENV.includes('test-integration') ||
+    if (window.lokiFeatureFlags.debugMessageLogs) {
       window.console.warn(...args);
     }
   };

@@ -435,6 +435,7 @@ window.lokiFeatureFlags = {
   useOnionRequests: true,
   useFileOnionRequests: false,
   onionRequestHops: 1,
+  debugMessageLogs: process.env.ENABLE_MESSAGE_LOGS,
 };
 
 // eslint-disable-next-line no-extend-native,func-names
@@ -469,5 +470,6 @@ if (config.environment.includes('test-integration')) {
     privateGroupChats: true,
     useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
     useOnionRequests: false,
+    debugMessageLogs: true,
   };
 }
