@@ -485,5 +485,6 @@ if (config.environment.includes('test-integration')) {
     useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
     useOnionRequests: false,
     debugMessageLogs: true,
+    enableSenderKeys: true,
   };
 }

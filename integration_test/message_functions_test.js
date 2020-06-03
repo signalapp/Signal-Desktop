@@ -19,8 +19,6 @@ describe('Message Functions', function() {
     await common.stopStubSnodeServer();
 
     [app, app2] = await common.startAppsAsFriends();
-    // create group and add new friend
-    await common.addFriendToNewClosedGroup([app, app2], false);
   });
 
   afterEach(async () => {
@@ -52,6 +50,8 @@ describe('Message Functions', function() {
   });
 
   it('can delete message', async () => {
+    // create group and add new friend
+    await common.addFriendToNewClosedGroup([app, app2], false);
     const messageText = 'delete_me';
     await common.sendMessage(app, messageText);
 
