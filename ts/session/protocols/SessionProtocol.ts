@@ -1,5 +1,6 @@
 import { SessionResetMessage } from '../messages/outgoing';
 // import { MessageSender } from '../sending';
+import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
 
 interface StringToNumberMap {
   [key: string]: number;
@@ -74,11 +75,11 @@ export async function sendSessionRequestIfNeeded(
     timestamp: Date.now(),
   });
 
-  return sendSessionRequests(sessionReset, device);
+  return sendSessionRequest(sessionReset, device);
 }
 
 /**  */
-export async function sendSessionRequests(
+export async function sendSessionRequest(
   message: SessionResetMessage,
   device: string
 ): Promise<void> {
@@ -90,14 +91,14 @@ export async function sendSessionRequests(
   // const rawMessage = toRawMessage(message);
   // // TODO: Send out the request via MessageSender
 
-  // return MessageSender.send(rawMessage)
-  //   .then(async () => {
-  //     await _updateSentSessionTimestamp(device, timestamp);
+  // try {
+  //   await MessageSender.send(rawMessage);
+  //   await _updateSentSessionTimestamp(device, timestamp);
+  // } catch (e) {
+  //   window.console.log('Failed to send session request to', device);
+  // } finally {
   //     pendingSendSessionsTimestamp.delete(device);
-  //   })
-  //   .catch(() => {
-  //     pendingSendSessionsTimestamp.delete(device);
-  //   });
+  // }
 }
 
 /**
@@ -133,7 +134,7 @@ export async function onSessionRequestProcessed(device: string) {
  */
 async function _fetchFromDBIfNeeded(): Promise<void> {
   if (!sentSessionsTimestamp) {
-    const sentItem = await window.Signal.Data.getItemById(
+    const sentItem = await getItemById(
       'sentSessionsTimestamp'
     );
     if (sentItem) {
@@ -142,7 +143,7 @@ async function _fetchFromDBIfNeeded(): Promise<void> {
       sentSessionsTimestamp = {};
     }
 
-    const processedItem = await window.Signal.Data.getItemById(
+    const processedItem = await getItemById(
       'processedSessionsTimestamp'
     );
     if (processedItem) {
@@ -159,7 +160,7 @@ async function _writeToDBSentSessions(): Promise<void> {
     value: JSON.stringify(sentSessionsTimestamp),
   };
 
-  await window.Signal.Data.createOrUpdateItem(data);
+  await createOrUpdateItem(data);
 }
 
 async function _writeToDBProcessedSessions(): Promise<void> {
@@ -168,7 +169,7 @@ async function _writeToDBProcessedSessions(): Promise<void> {
     value: JSON.stringify(processedSessionsTimestamp),
   };
 
-  await window.Signal.Data.createOrUpdateItem(data);
+  await createOrUpdateItem(data);
 }
 
 /**
