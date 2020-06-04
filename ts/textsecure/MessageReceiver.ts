@@ -19,6 +19,7 @@ import { IncomingIdentityKeyError } from './Errors';
 
 import {
   AttachmentPointerClass,
+  CallingMessageClass,
   DataMessageClass,
   DownloadAttachmentType,
   EnvelopeClass,
@@ -1217,9 +1218,8 @@ class MessageReceiverInner extends EventTarget {
     } else if (content.nullMessage) {
       this.handleNullMessage(envelope);
       return;
-    } else if (content.callMessage) {
-      this.handleCallMessage(envelope);
-      return;
+    } else if (content.callingMessage) {
+      return this.handleCallingMessage(envelope, content.callingMessage);
     } else if (content.receiptMessage) {
       return this.handleReceiptMessage(envelope, content.receiptMessage);
     } else if (content.typingMessage) {
@@ -1228,9 +1228,15 @@ class MessageReceiverInner extends EventTarget {
     this.removeFromCache(envelope);
     throw new Error('Unsupported content message');
   }
-  handleCallMessage(envelope: EnvelopeClass) {
-    window.log.info('call message from', this.getEnvelopeId(envelope));
+  async handleCallingMessage(
+    envelope: EnvelopeClass,
+    callingMessage: CallingMessageClass
+  ) {
     this.removeFromCache(envelope);
+    await window.Signal.Services.calling.handleCallingMessage(
+      envelope,
+      callingMessage
+    );
   }
   async handleReceiptMessage(
     envelope: EnvelopeClass,

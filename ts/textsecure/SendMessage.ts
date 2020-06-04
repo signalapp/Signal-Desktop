@@ -9,6 +9,7 @@ import OutgoingMessage from './OutgoingMessage';
 import Crypto from './Crypto';
 import {
   AttachmentPointerClass,
+  CallingMessageClass,
   ContentClass,
   DataMessageClass,
 } from '../textsecure.d';
@@ -888,6 +889,28 @@ export default class MessageSender {
             }
           : {}),
       },
+      sendOptions
+    );
+  }
+
+  async sendCallingMessage(
+    recipientId: string,
+    callingMessage: CallingMessageClass,
+    sendOptions: SendOptionsType
+  ) {
+    const recipients = [recipientId];
+    const finalTimestamp = Date.now();
+
+    const contentMessage = new window.textsecure.protobuf.Content();
+    contentMessage.callingMessage = callingMessage;
+
+    const silent = true;
+
+    await this.sendMessageProtoAndWait(
+      finalTimestamp,
+      recipients,
+      contentMessage,
+      silent,
       sendOptions
     );
   }

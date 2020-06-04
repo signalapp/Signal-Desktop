@@ -1,5 +1,6 @@
 // Captures the globals put in place by preload.js, background.js and others
 
+import { Ref } from 'react';
 import {
   LibSignalType,
   SignalProtocolAddressClass,
@@ -7,7 +8,10 @@ import {
 } from './libsignal.d';
 import { TextSecureType } from './textsecure.d';
 import { WebAPIConnectType } from './textsecure/WebAPI';
+import { CallingClass, CallHistoryDetailsType } from './services/calling';
 import * as Crypto from './Crypto';
+import { ColorType, LocalizerType } from './types/Util';
+import { SendOptionsType } from './textsecure/SendMessage';
 
 declare global {
   interface Window {
@@ -15,6 +19,14 @@ declare global {
     getExpiration: () => string;
     getEnvironment: () => string;
     getSocketStatus: () => number;
+    getAlwaysRelayCalls: () => Promise<boolean>;
+    getIncomingCallNotification: () => Promise<boolean>;
+    getCallRingtoneNotification: () => Promise<boolean>;
+    getCallSystemNotification: () => Promise<boolean>;
+    getMediaPermissions: () => Promise<boolean>;
+    getMediaCameraPermissions: () => Promise<boolean>;
+    showCallingPermissionsPopup: (forCamera: boolean) => Promise<void>;
+    i18n: LocalizerType;
     libphonenumber: {
       util: {
         getRegionCodeForNumber: (number: string) => string;
@@ -27,7 +39,9 @@ declare global {
       error: LoggerType;
     };
     normalizeUuids: (obj: any, paths: Array<string>, context: string) => any;
+    platform: string;
     restart: () => void;
+    showWindow: () => void;
     storage: {
       put: (key: string, value: any) => void;
       remove: (key: string) => void;
@@ -43,10 +57,16 @@ declare global {
           trustRoot: ArrayBuffer
         ) => CertificateValidatorType;
       };
+      Services: {
+        calling: CallingClass;
+      };
     };
     ConversationController: ConversationControllerType;
     WebAPI: WebAPIConnectType;
     Whisper: WhisperType;
+
+    // Flags
+    CALLING: boolean;
   }
 
   interface Error {
@@ -58,6 +78,17 @@ export type ConversationType = {
   updateE164: (e164?: string) => void;
   updateUuid: (uuid?: string) => void;
   id: string;
+  get: (key: string) => any;
+  getAvatarPath(): string | undefined;
+  getColor(): ColorType | undefined;
+  getName(): string | undefined;
+  getNumber(): string;
+  getProfileName(): string | undefined;
+  getRecipients: () => Array<string>;
+  getSendOptions(): SendOptionsType;
+  safeGetVerified(): Promise<number>;
+  getIsAddedByContact(): boolean;
+  addCallHistory(details: CallHistoryDetailsType): void;
 };
 
 export type ConversationControllerType = {
@@ -73,11 +104,7 @@ export type ConversationControllerType = {
     wrap: (promise: Promise<any>) => Promise<void>;
     sendOptions: Object;
   };
-  get: (
-    identifier: string
-  ) => null | {
-    get: (key: string) => any;
-  };
+  get: (identifier: string) => null | ConversationType;
 };
 
 export type DCodeIOType = {
@@ -128,6 +155,19 @@ export class ByteBufferClass {
   offset: 0;
   readVarint32: () => number;
   skip: (length: number) => void;
+}
+
+export class GumVideoCapturer {
+  constructor(
+    maxWidth: number,
+    maxHeight: number,
+    maxFramerate: number,
+    localPreview: Ref<HTMLVideoElement>
+  );
+}
+
+export class CanvasVideoRenderer {
+  constructor(canvas: Ref<HTMLCanvasElement>);
 }
 
 export type LoggerType = (...args: Array<any>) => void;

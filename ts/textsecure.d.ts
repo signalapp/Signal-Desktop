@@ -8,6 +8,8 @@ import Crypto from './textsecure/Crypto';
 import MessageReceiver from './textsecure/MessageReceiver';
 import EventTarget from './textsecure/EventTarget';
 import { ByteBufferClass } from './window.d';
+import { SendOptionsType } from './textsecure/SendMessage';
+import { WebAPIType } from './textsecure/WebAPI';
 
 type AttachmentType = any;
 
@@ -76,6 +78,12 @@ export type TextSecureType = {
       }>,
       options: Object
     ) => Promise<void>;
+    sendCallingMessage: (
+      recipientId: string,
+      callingMessage: CallingMessageClass,
+      sendOptions: SendOptionsType
+    ) => Promise<void>;
+    server: WebAPIType;
   };
   protobuf: ProtobufCollectionType;
 
@@ -229,7 +237,7 @@ export declare class ContentClass {
 
   dataMessage?: DataMessageClass;
   syncMessage?: SyncMessageClass;
-  callMessage?: any;
+  callingMessage?: CallingMessageClass;
   nullMessage?: NullMessageClass;
   receiptMessage?: ReceiptMessageClass;
   typingMessage?: TypingMessageClass;
@@ -707,4 +715,63 @@ export declare class WebSocketResponseMessageClass {
   message?: string;
   headers?: Array<string>;
   body?: ProtoBinaryType;
+}
+
+// Everything from here down to HangupType (everything related to calling)
+// must be kept in sync with RingRTC (ringrtc-node).
+// Whenever you change this, make sure you change RingRTC as well.
+export type DeviceId = number;
+
+export type CallId = any;
+
+export class CallingMessageClass {
+  offer?: OfferMessageClass;
+  answer?: AnswerMessageClass;
+  iceCandidates?: Array<IceCandidateMessageClass>;
+  legacyHangup?: HangupMessageClass;
+  busy?: BusyMessageClass;
+  hangup?: HangupMessageClass;
+  supportsMultiRing?: boolean;
+  destinationDeviceId?: DeviceId;
+}
+
+export class OfferMessageClass {
+  callId?: CallId;
+  type?: OfferType;
+  sdp?: string;
+}
+
+export enum OfferType {
+  AudioCall = 0,
+  VideoCall = 1,
+  NeedsPermission = 2,
+}
+
+export class AnswerMessageClass {
+  callId?: CallId;
+  sdp?: string;
+}
+
+export class IceCandidateMessageClass {
+  callId?: CallId;
+  mid?: string;
+  midIndex?: number;
+  sdp?: string;
+}
+
+export class BusyMessageClass {
+  callId?: CallId;
+}
+
+export class HangupMessageClass {
+  callId?: CallId;
+  type?: HangupType;
+  deviceId?: DeviceId;
+}
+
+export enum HangupType {
+  Normal = 0,
+  Accepted = 1,
+  Declined = 2,
+  Busy = 3,
 }

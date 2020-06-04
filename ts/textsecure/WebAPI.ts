@@ -478,6 +478,7 @@ const URL_CALLS = {
   accounts: 'v1/accounts',
   updateDeviceName: 'v1/accounts/name',
   removeSignalingKey: 'v1/accounts/signaling_key',
+  getIceServers: 'v1/accounts/turn',
   attachmentId: 'v2/attachments/form/upload',
   deliveryCert: 'v1/certificate/delivery',
   supportUnauthenticatedDelivery: 'v1/devices/unauthenticated_delivery',
@@ -541,6 +542,7 @@ export type WebAPIType = {
   getAttachment: (cdnKey: string, cdnNumber: number) => Promise<any>;
   getAvatar: (path: string) => Promise<any>;
   getDevices: () => Promise<any>;
+  getIceServers: () => Promise<any>;
   getKeysForIdentifier: (
     identifier: string,
     deviceId?: number
@@ -702,6 +704,7 @@ export function initialize({
       getAttachment,
       getAvatar,
       getDevices,
+      getIceServers,
       getKeysForIdentifier,
       getKeysForIdentifierUnauth,
       getMessageSocket,
@@ -980,6 +983,13 @@ export function initialize({
         jsonData: {
           deviceName,
         },
+      });
+    }
+
+    async function getIceServers() {
+      return _ajax({
+        call: 'getIceServers',
+        httpType: 'GET',
       });
     }
 

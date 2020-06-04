@@ -42,6 +42,8 @@ export interface PropsActions {
   onDeleteMessages: () => void;
   onResetSession: () => void;
   onSearchInConversation: () => void;
+  onOutgoingAudioCallInConversation: () => void;
+  onOutgoingVideoCallInConversation: () => void;
 
   onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
@@ -220,6 +222,54 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
+  public renderOutgoingAudioCallButton() {
+    if (!window.CALLING) {
+      return null;
+    }
+    if (this.props.isGroup || this.props.isMe) {
+      return null;
+    }
+
+    const { onOutgoingAudioCallInConversation, showBackButton } = this.props;
+
+    return (
+      <button
+        onClick={onOutgoingAudioCallInConversation}
+        className={classNames(
+          'module-conversation-header__audio-calling-button',
+          showBackButton
+            ? null
+            : 'module-conversation-header__audio-calling-button--show'
+        )}
+        disabled={showBackButton}
+      />
+    );
+  }
+
+  public renderOutgoingVideoCallButton() {
+    if (!window.CALLING) {
+      return null;
+    }
+    if (this.props.isGroup || this.props.isMe) {
+      return null;
+    }
+
+    const { onOutgoingVideoCallInConversation, showBackButton } = this.props;
+
+    return (
+      <button
+        onClick={onOutgoingVideoCallInConversation}
+        className={classNames(
+          'module-conversation-header__video-calling-button',
+          showBackButton
+            ? null
+            : 'module-conversation-header__video-calling-button--show'
+        )}
+        disabled={showBackButton}
+      />
+    );
+  }
+
   public renderMenu(triggerId: string) {
     const {
       i18n,
@@ -298,6 +348,8 @@ export class ConversationHeader extends React.Component<Props> {
         </div>
         {this.renderExpirationLength()}
         {this.renderSearchButton()}
+        {this.renderOutgoingVideoCallButton()}
+        {this.renderOutgoingAudioCallButton()}
         {this.renderMoreButton(triggerId)}
         {this.renderMenu(triggerId)}
       </div>

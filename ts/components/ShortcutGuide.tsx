@@ -185,6 +185,17 @@ const COMPOSER_SHORTCUTS: Array<ShortcutType> = [
   },
 ];
 
+const CALLING_SHORTCUTS: Array<ShortcutType> = [
+  {
+    description: 'Keyboard--toggle-audio',
+    keys: [['shift', 'M']],
+  },
+  {
+    description: 'Keyboard--toggle-video',
+    keys: [['shift', 'V']],
+  },
+];
+
 export const ShortcutGuide = (props: Props) => {
   const focusRef = React.useRef<HTMLDivElement>(null);
   const { i18n, close, hasInstalledStickers, platform } = props;
@@ -244,6 +255,16 @@ export const ShortcutGuide = (props: Props) => {
             </div>
             <div className="module-shortcut-guide__section-list">
               {COMPOSER_SHORTCUTS.map((shortcut, index) =>
+                renderShortcut(shortcut, index, isMacOS, i18n)
+              )}
+            </div>
+          </div>
+          <div className="module-shortcut-guide__section">
+            <div className="module-shortcut-guide__section-header">
+              {i18n('Keyboard--calling-header')}
+            </div>
+            <div className="module-shortcut-guide__section-list">
+              {CALLING_SHORTCUTS.map((shortcut, index) =>
                 renderShortcut(shortcut, index, isMacOS, i18n)
               )}
             </div>

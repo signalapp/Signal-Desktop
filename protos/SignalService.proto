@@ -30,44 +30,64 @@ message Envelope {
 message Content {
   optional DataMessage    dataMessage    = 1;
   optional SyncMessage    syncMessage    = 2;
-  optional CallMessage    callMessage    = 3;
+  optional CallingMessage callingMessage = 3;
   optional NullMessage    nullMessage    = 4;
   optional ReceiptMessage receiptMessage = 5;
   optional TypingMessage  typingMessage  = 6;
 }
 
-message CallMessage {
+// Everything in CallingMessage must be kept in sync with RingRTC (ringrtc-node).
+// Whenever you change this, make sure you change textsecure.d.ts and RingRTC.
+message CallingMessage {
   message Offer {
-    optional uint64 id          = 1;
-    optional string description = 2;
+    enum Type {
+      OFFER_AUDIO_CALL       = 0;
+      OFFER_VIDEO_CALL       = 1;
+      OFFER_NEEDS_PERMISSION = 2;
+    }
+
+    optional uint64 callId = 1;
+    optional string sdp    = 2;
+    optional Type type     = 3;
   }
 
   message Answer {
-    optional uint64 id          = 1;
-    optional string description = 2;
+    optional uint64 callId  = 1;
+    optional string sdp = 2;
   }
 
-  message IceUpdate {
-    optional uint64 id            = 1;
-    optional string sdpMid        = 2;
-    optional uint32 sdpMLineIndex = 3;
-    optional string sdp           = 4;
+  message IceCandidate {
+    optional uint64 callId   = 1;
+    optional string mid      = 2;
+    optional uint32 midIndex = 3;
+    optional string sdp      = 4;
   }
 
   message Busy {
-    optional uint64 id = 1;
+    optional uint64 callId = 1;
   }
 
   message Hangup {
-    optional uint64 id = 1;
+    enum Type {
+      HANGUP_NORMAL   = 0;
+      HANGUP_ACCEPTED = 1;
+      HANGUP_DECLINED = 2;
+      HANGUP_BUSY     = 3;
+    }
+
+    optional uint64 callId   = 1;
+    optional Type   type     = 2;
+    optional uint32 deviceId = 3;
   }
 
-
-  optional Offer     offer     = 1;
-  optional Answer    answer    = 2;
-  repeated IceUpdate iceUpdate = 3;
-  optional Hangup    hangup    = 4;
-  optional Busy      busy      = 5;
+  optional Offer        offer               = 1;
+  optional Answer       answer              = 2;
+  repeated IceCandidate iceCandidates       = 3;
+  optional Hangup       legacyHangup        = 4;
+  optional Busy         busy                = 5;
+  optional Hangup       hangup              = 7;
+  optional bool         supportsMultiRing   = 8;
+  optional uint32       destinationDeviceId = 9;
 }
 
 message DataMessage {

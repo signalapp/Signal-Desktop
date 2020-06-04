@@ -8,6 +8,10 @@ import {
   PropsData as MessageProps,
 } from './Message';
 
+import {
+  CallingNotification,
+  PropsData as CallingNotificationProps,
+} from './CallingNotification';
 import { InlineNotificationWrapper } from './InlineNotificationWrapper';
 import {
   PropsActions as UnsupportedMessageActionsType,
@@ -33,6 +37,10 @@ import {
 } from './GroupNotification';
 import { ResetSessionNotification } from './ResetSessionNotification';
 
+type CallHistoryType = {
+  type: 'callHistory';
+  data: CallingNotificationProps;
+};
 type LinkNotificationType = {
   type: 'linkNotification';
   data: null;
@@ -66,6 +74,7 @@ type ResetSessionNotificationType = {
   data: null;
 };
 export type TimelineItemType =
+  | CallHistoryType
   | LinkNotificationType
   | MessageType
   | ResetSessionNotificationType
@@ -121,6 +130,8 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       notification = (
         <UnsupportedMessage {...this.props} {...item.data} i18n={i18n} />
       );
+    } else if (item.type === 'callHistory') {
+      notification = <CallingNotification i18n={i18n} {...item.data} />;
     } else if (item.type === 'linkNotification') {
       notification = (
         <div className="module-message-unsynced">

@@ -395,6 +395,22 @@
 
           // These are view only and don't update the Conversation model, so they
           //   need a manual update call.
+          onOutgoingAudioCallInConversation: async () => {
+            const conversation = this.model;
+            const isVideoCall = false;
+            await window.Signal.Services.calling.startOutgoingCall(
+              conversation,
+              isVideoCall
+            );
+          },
+          onOutgoingVideoCallInConversation: async () => {
+            const conversation = this.model;
+            const isVideoCall = true;
+            await window.Signal.Services.calling.startOutgoingCall(
+              conversation,
+              isVideoCall
+            );
+          },
           onShowSafetyNumber: () => {
             this.showSafetyNumber();
           },

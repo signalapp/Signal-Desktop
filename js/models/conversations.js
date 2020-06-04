@@ -1033,6 +1033,30 @@
       }
     },
 
+    async addCallHistory(callHistoryDetails) {
+      const { acceptedTime, endedTime, wasDeclined } = callHistoryDetails;
+      const message = {
+        conversationId: this.id,
+        type: 'call-history',
+        sent_at: endedTime,
+        received_at: endedTime,
+        unread: !wasDeclined && !acceptedTime,
+        callHistoryDetails,
+      };
+
+      const id = await window.Signal.Data.saveMessage(message, {
+        Message: Whisper.Message,
+      });
+      const model = MessageController.register(
+        id,
+        new Whisper.Message({
+          ...message,
+          id,
+        })
+      );
+      this.trigger('newmessage', model);
+    },
+
     async onReadMessage(message, readAt) {
       // We mark as read everything older than this message - to clean up old stuff
       //   still marked unread in the database. If the user generally doesn't read in

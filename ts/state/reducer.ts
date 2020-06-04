@@ -1,6 +1,11 @@
 import { combineReducers } from 'redux';
 
 import {
+  CallingActionType,
+  CallingStateType,
+  reducer as calling,
+} from './ducks/calling';
+import {
   ConversationActionType,
   ConversationsStateType,
   reducer as conversations,
@@ -43,6 +48,7 @@ import {
 import { reducer as user, UserStateType } from './ducks/user';
 
 export type StateType = {
+  calling: CallingStateType;
   conversations: ConversationsStateType;
   emojis: EmojisStateType;
   expiration: ExpirationStateType;
@@ -55,6 +61,7 @@ export type StateType = {
 };
 
 export type ActionsType =
+  | CallingActionType
   | EmojisActionType
   | ExpirationActionType
   | ConversationActionType
@@ -65,6 +72,7 @@ export type ActionsType =
   | UpdatesActionType;
 
 export const reducers = {
+  calling,
   conversations,
   emojis,
   expiration,

@@ -45,7 +45,8 @@ app.setAppUserModelId(appUserModelId);
 
 // We don't navigate, but this is the way of the future
 //   https://github.com/electron/electron/issues/18397
-app.allowRendererProcessReuse = true;
+// TODO: Make ringrtc-node context-aware and change this to true.
+app.allowRendererProcessReuse = false;
 
 // Keep a global reference of the window object, if you don't, the window will
 //   be closed automatically when the JavaScript object is garbage collected.
@@ -83,6 +84,7 @@ const development =
 //   data directory has been set.
 const attachments = require('./app/attachments');
 const attachmentChannel = require('./app/attachment_channel');
+const bounce = require('./ts/services/bounce');
 const updater = require('./ts/updater/index');
 const createTrayIcon = require('./app/tray_icon');
 const dockIcon = require('./app/dock_icon');
@@ -383,6 +385,9 @@ async function createWindow() {
   }
 
   handleCommonWindowEvents(mainWindow);
+
+  // App dock icon bounce
+  bounce.init(mainWindow);
 
   // Emitted when the window is about to be closed.
   // Note: We do most of our shutdown logic here because all windows are closed by
@@ -789,52 +794,60 @@ async function showDebugLogWindow() {
 }
 
 let permissionsPopupWindow;
-async function showPermissionsPopupWindow() {
-  if (permissionsPopupWindow) {
-    permissionsPopupWindow.show();
-    return;
-  }
-  if (!mainWindow) {
-    return;
-  }
+function showPermissionsPopupWindow(forCalling, forCamera) {
+  return new Promise(async (resolve, reject) => {
+    if (permissionsPopupWindow) {
+      permissionsPopupWindow.show();
+      reject(new Error('Permission window already showing'));
+    }
+    if (!mainWindow) {
+      reject(new Error('No main window'));
+    }
 
-  const theme = await pify(getDataFromMainWindow)('theme-setting');
-  const size = mainWindow.getSize();
-  const options = {
-    width: Math.min(400, size[0]),
-    height: Math.min(150, size[1]),
-    resizable: false,
-    title: locale.messages.allowAccess.message,
-    autoHideMenuBar: true,
-    backgroundColor: '#3a76f0',
-    show: false,
-    modal: true,
-    webPreferences: {
-      nodeIntegration: false,
-      nodeIntegrationInWorker: false,
-      contextIsolation: false,
-      preload: path.join(__dirname, 'permissions_popup_preload.js'),
-      nativeWindowOpen: true,
-    },
-    parent: mainWindow,
-  };
+    const theme = await pify(getDataFromMainWindow)('theme-setting');
+    const size = mainWindow.getSize();
+    const options = {
+      width: Math.min(400, size[0]),
+      height: Math.min(150, size[1]),
+      resizable: false,
+      title: locale.messages.allowAccess.message,
+      autoHideMenuBar: true,
+      backgroundColor: '#3a76f0',
+      show: false,
+      modal: true,
+      webPreferences: {
+        nodeIntegration: false,
+        nodeIntegrationInWorker: false,
+        contextIsolation: false,
+        preload: path.join(__dirname, 'permissions_popup_preload.js'),
+        nativeWindowOpen: true,
+      },
+      parent: mainWindow,
+    };
 
-  permissionsPopupWindow = new BrowserWindow(options);
+    permissionsPopupWindow = new BrowserWindow(options);
 
-  handleCommonWindowEvents(permissionsPopupWindow);
+    handleCommonWindowEvents(permissionsPopupWindow);
 
-  permissionsPopupWindow.loadURL(
-    prepareURL([__dirname, 'permissions_popup.html'], { theme })
-  );
+    permissionsPopupWindow.loadURL(
+      prepareURL([__dirname, 'permissions_popup.html'], {
+        theme,
+        forCalling,
+        forCamera,
+      })
+    );
 
-  permissionsPopupWindow.on('closed', () => {
-    removeDarkOverlay();
-    permissionsPopupWindow = null;
-  });
+    permissionsPopupWindow.on('closed', () => {
+      removeDarkOverlay();
+      permissionsPopupWindow = null;
 
-  permissionsPopupWindow.once('ready-to-show', () => {
-    addDarkOverlay();
-    permissionsPopupWindow.show();
+      resolve();
+    });
+
+    permissionsPopupWindow.once('ready-to-show', () => {
+      addDarkOverlay();
+      permissionsPopupWindow.show();
+    });
   });
 }
 
@@ -1203,7 +1216,16 @@ ipc.on('close-debug-log', () => {
 
 // Permissions Popup-related IPC calls
 
-ipc.on('show-permissions-popup', showPermissionsPopupWindow);
+ipc.on('show-permissions-popup', () => {
+  showPermissionsPopupWindow(false, false);
+});
+ipc.handle('show-calling-permissions-popup', async (event, forCamera) => {
+  try {
+    await showPermissionsPopupWindow(true, forCamera);
+  } catch (error) {
+    console.error(error);
+  }
+});
 ipc.on('close-permissions-popup', () => {
   if (permissionsPopupWindow) {
     permissionsPopupWindow.close();
@@ -1245,12 +1267,29 @@ installSettingsSetter('audio-notification');
 installSettingsGetter('spell-check');
 installSettingsSetter('spell-check');
 
-// This one is different because its single source of truth is userConfig, not IndexedDB
+installSettingsGetter('always-relay-calls');
+installSettingsSetter('always-relay-calls');
+installSettingsGetter('call-ringtone-notification');
+installSettingsSetter('call-ringtone-notification');
+installSettingsGetter('call-system-notification');
+installSettingsSetter('call-system-notification');
+installSettingsGetter('incoming-call-notification');
+installSettingsSetter('incoming-call-notification');
+
+// These ones are different because its single source of truth is userConfig,
+// not IndexedDB
 ipc.on('get-media-permissions', event => {
   event.sender.send(
     'get-success-media-permissions',
     null,
     userConfig.get('mediaPermissions') || false
+  );
+});
+ipc.on('get-media-camera-permissions', event => {
+  event.sender.send(
+    'get-success-media-camera-permissions',
+    null,
+    userConfig.get('mediaCameraPermissions') || false
   );
 });
 ipc.on('set-media-permissions', (event, value) => {
@@ -1260,6 +1299,14 @@ ipc.on('set-media-permissions', (event, value) => {
   installPermissionsHandler({ session, userConfig });
 
   event.sender.send('set-success-media-permissions', null);
+});
+ipc.on('set-media-camera-permissions', (event, value) => {
+  userConfig.set('mediaCameraPermissions', value);
+
+  // We reinstall permissions handler to ensure that a revoked permission takes effect
+  installPermissionsHandler({ session, userConfig });
+
+  event.sender.send('set-success-media-camera-permissions', null);
 });
 
 installSettingsGetter('is-primary');

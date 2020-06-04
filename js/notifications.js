@@ -21,15 +21,6 @@
     MESSAGE: 'message',
   };
 
-  function filter(text) {
-    return (text || '')
-      .replace(/&/g, '&amp;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&apos;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-  }
-
   Whisper.Notifications = new (Backbone.Collection.extend({
     initialize() {
       this.isEnabled = false;
@@ -164,13 +155,16 @@
 
       drawAttention();
 
-      this.lastNotification = new Notification(title, {
-        body: window.platform === 'linux' ? filter(message) : message,
+      this.lastNotification = window.Signal.Services.notify({
+        platform: window.platform,
+        title,
         icon: iconUrl,
+        message,
         silent: !status.shouldPlayNotificationSound,
+        onNotificationClick: () => {
+          this.trigger('click', last.conversationId, last.messageId);
+        },
       });
-      this.lastNotification.onclick = () =>
-        this.trigger('click', last.conversationId, last.messageId);
 
       // We continue to build up more and more messages for our notifications
       // until the user comes back to our app or closes the app. Then we’ll

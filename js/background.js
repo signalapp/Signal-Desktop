@@ -367,11 +367,26 @@
         storage.put('notification-setting', value),
       getAudioNotification: () => storage.get('audio-notification'),
       setAudioNotification: value => storage.put('audio-notification', value),
+      getCallRingtoneNotification: () =>
+        storage.get('call-ringtone-notification', true),
+      setCallRingtoneNotification: value =>
+        storage.put('call-ringtone-notification', value),
+      getCallSystemNotification: () =>
+        storage.get('call-system-notification', true),
+      setCallSystemNotification: value =>
+        storage.put('call-system-notification', value),
+      getIncomingCallNotification: () =>
+        storage.get('incoming-call-notification', true),
+      setIncomingCallNotification: value =>
+        storage.put('incoming-call-notification', value),
 
       getSpellCheck: () => storage.get('spell-check', true),
       setSpellCheck: value => {
         storage.put('spell-check', value);
       },
+
+      getAlwaysRelayCalls: () => storage.get('always-relay-calls'),
+      setAlwaysRelayCalls: value => storage.put('always-relay-calls', value),
 
       // eslint-disable-next-line eqeqeq
       isPrimary: () => textsecure.storage.user.getDeviceId() == '1',
@@ -586,6 +601,7 @@
         window.reduxActions.updates,
         window.Whisper.events
       );
+      window.Signal.Services.calling.initialize(window.reduxActions.calling);
       window.reduxActions.expiration.hydrateExpirationStatus(
         window.Signal.Util.hasExpired()
       );
@@ -638,6 +654,10 @@
 
     // Binding these actions to our redux store and exposing them allows us to update
     //   redux when things change in the backbone world.
+    actions.calling = Signal.State.bindActionCreators(
+      Signal.State.Ducks.calling.actions,
+      store.dispatch
+    );
     actions.conversations = Signal.State.bindActionCreators(
       Signal.State.Ducks.conversations.actions,
       store.dispatch
