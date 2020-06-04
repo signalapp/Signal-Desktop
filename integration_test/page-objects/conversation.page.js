@@ -40,8 +40,6 @@ module.exports = {
     '//*[contains(@class, "session-modal")]//div[contains(string(), "Delete") and contains(@class, "session-button")]',
 
   // channels
-  globeButtonSection:
-    '//*[contains(@class,"session-icon-button")  and .//*[contains(@class, "globe")]]',
   joinOpenGroupButton: commonPage.divRoleButtonWithText('Join Open Group'),
   openGroupInputUrl: commonPage.textAreaWithPlaceholder('chat.getsession.org'),
   sessionToastJoinOpenGroupSuccess: commonPage.toastWithText(

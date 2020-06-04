@@ -253,22 +253,26 @@
       // Friend request message conmfirmations (Accept / Decline) are always
       // sent to the primary device conversation
       const messages = await window.Signal.Data.getMessagesByConversation(
-        this.id,
+        this.getPrimaryDevicePubKey(),
         {
-          limit: 1,
+          limit: 5,
           MessageCollection: Whisper.MessageCollection,
           type: 'friend-request',
         }
       );
 
-      const lastMessageModel = messages.at(0);
-      if (lastMessageModel) {
-        lastMessageModel.acceptFriendRequest();
+      let lastMessage = null;
+      messages.forEach(m => {
+        m.acceptFriendRequest();
+        lastMessage = m;
+      });
+
+      if (lastMessage) {
         await this.markRead();
         window.Whisper.events.trigger(
           'showConversation',
           this.id,
-          lastMessageModel.id
+          lastMessage.id
         );
       }
     },
@@ -978,7 +982,7 @@
         Conversation: Whisper.Conversation,
       });
     },
-    async respondToAllFriendRequests(options) {
+    async updateAllFriendRequestsMessages(options) {
       const { response, status, direction = null } = options;
       // Ignore if no response supplied
       if (!response) {
@@ -1032,8 +1036,8 @@
         })
       );
     },
-    async respondToAllPendingFriendRequests(options) {
-      return this.respondToAllFriendRequests({
+    async updateAllPendingFriendRequestsMessages(options) {
+      return this.updateAllFriendRequestsMessages({
         ...options,
         status: 'pending',
       });
@@ -1048,7 +1052,7 @@
     // We have declined an incoming friend request
     async onDeclineFriendRequest() {
       this.setFriendRequestStatus(FriendRequestStatusEnum.none);
-      await this.respondToAllPendingFriendRequests({
+      await this.updateAllPendingFriendRequestsMessages({
         response: 'declined',
         direction: 'incoming',
       });
@@ -1062,13 +1066,16 @@
     },
     // We have accepted an incoming friend request
     async onAcceptFriendRequest(options = {}) {
+      if (this.get('type') !== Message.PRIVATE) {
+        return;
+      }
       if (this.unlockTimer) {
         clearTimeout(this.unlockTimer);
       }
       if (this.hasReceivedFriendRequest()) {
         this.setFriendRequestStatus(FriendRequestStatusEnum.friends, options);
 
-        await this.respondToAllFriendRequests({
+        await this.updateAllFriendRequestsMessages({
           response: 'accepted',
           direction: 'incoming',
           status: ['pending', 'expired'],
@@ -1078,6 +1085,12 @@
           window.textsecure.OutgoingMessage.DebugMessageType
             .INCOMING_FR_ACCEPTED
         );
+      } else if (this.isFriendRequestStatusNoneOrExpired()) {
+        // send AFR if we haven't sent a message before
+        const autoFrMessage = textsecure.OutgoingMessage.buildAutoFriendRequestMessage(
+          this.id
+        );
+        await autoFrMessage.sendToNumber(this.id, false);
       }
     },
     // Our outgoing friend request has been accepted
@@ -1090,7 +1103,7 @@
       }
       if (this.hasSentFriendRequest()) {
         this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
-        await this.respondToAllFriendRequests({
+        await this.updateAllFriendRequestsMessages({
           response: 'accepted',
           status: ['pending', 'expired'],
         });
@@ -1122,7 +1135,7 @@
       }
 
       // Change any pending outgoing friend requests to expired
-      await this.respondToAllPendingFriendRequests({
+      await this.updateAllPendingFriendRequestsMessages({
         response: 'expired',
         direction: 'outgoing',
       });
@@ -1135,7 +1148,7 @@
         await Promise.all([
           this.setFriendRequestStatus(FriendRequestStatusEnum.friends),
           // Accept all outgoing FR
-          this.respondToAllPendingFriendRequests({
+          this.updateAllPendingFriendRequestsMessages({
             direction: 'outgoing',
             response: 'accepted',
           }),

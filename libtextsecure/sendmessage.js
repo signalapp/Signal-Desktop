@@ -664,16 +664,58 @@ MessageSender.prototype = {
     if (!primaryDeviceKey) {
       return Promise.resolve();
     }
-    // Extract required contacts information out of conversations
-    const sessionContacts = conversations.filter(
-      c => c.isPrivate() && !c.isSecondaryDevice() && c.isFriend()
+    // first get all friends with primary devices
+    const sessionContactsPrimary =
+      conversations.filter(
+        c =>
+          c.isPrivate() &&
+          !c.isOurLocalDevice() &&
+          c.isFriend() &&
+          !c.get('secondaryStatus')
+      ) || [];
+
+    // then get all friends with secondary devices
+    let sessionContactsSecondary = conversations.filter(
+      c =>
+        c.isPrivate() &&
+        !c.isOurLocalDevice() &&
+        c.isFriend() &&
+        c.get('secondaryStatus')
     );
-    if (sessionContacts.length === 0) {
+
+    // then morph all secondary conversation to their primary
+    sessionContactsSecondary =
+      (await Promise.all(
+        // eslint-disable-next-line arrow-body-style
+        sessionContactsSecondary.map(async c => {
+          return window.ConversationController.getOrCreateAndWait(
+            c.getPrimaryDevicePubKey(),
+            'private'
+          );
+        })
+      )) || [];
+    // filter out our primary pubkey if it was added.
+    sessionContactsSecondary = sessionContactsSecondary.filter(
+      c => c.id !== primaryDeviceKey
+    );
+
+    const contactsSet = new Set([
+      ...sessionContactsPrimary,
+      ...sessionContactsSecondary,
+    ]);
+
+    if (contactsSet.size === 0) {
+      window.console.info('No contacts to sync.');
+
       return Promise.resolve();
     }
+    libloki.api.debug.logContactSync('Triggering contact sync message with:', [
+      ...contactsSet,
+    ]);
+
     // We need to sync across 3 contacts at a time
     // This is to avoid hitting storage server limit
-    const chunked = _.chunk(sessionContacts, 3);
+    const chunked = _.chunk([...contactsSet], 3);
     const syncMessages = await Promise.all(
       chunked.map(c => libloki.api.createContactSyncProtoMessage(c))
     );

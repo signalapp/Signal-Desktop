@@ -535,6 +535,7 @@ $session-compose-margin: 20px;
   &-section {
     display: flex;
     flex-direction: column;
+    flex: 1;
   }
 
   &-category-list-item {

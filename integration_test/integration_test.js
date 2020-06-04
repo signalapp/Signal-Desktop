@@ -13,6 +13,7 @@ require('./link_device_test');
 require('./closed_group_test');
 require('./message_functions_test');
 require('./settings_test');
+require('./message_sync_test');
 require('./sender_keys_test');
 
 before(async () => {

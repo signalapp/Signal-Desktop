@@ -4,7 +4,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 
-const { after, before, describe, it } = require('mocha');
+const { afterEach, beforeEach, describe, it } = require('mocha');
 const common = require('./common');
 const ConversationPage = require('./page-objects/conversation.page');
 
@@ -14,25 +14,22 @@ describe('Message Functions', function() {
   this.timeout(60000);
   this.slow(15000);
 
-  before(async () => {
+  beforeEach(async () => {
     await common.killallElectron();
     await common.stopStubSnodeServer();
 
     [app, app2] = await common.startAppsAsFriends();
   });
 
-  after(async () => {
+  afterEach(async () => {
     await common.stopApp(app);
     await common.killallElectron();
     await common.stopStubSnodeServer();
   });
 
   it('can send attachment', async () => {
-    await app.client.element(ConversationPage.globeButtonSection).click();
-    await app.client.element(ConversationPage.createClosedGroupButton).click();
-
     // create group and add new friend
-    await common.addFriendToNewClosedGroup([app, app2]);
+    await common.addFriendToNewClosedGroup([app, app2], false);
 
     // send attachment from app1 to closed group
     const fileLocation = path.join(__dirname, 'test_attachment');
@@ -53,6 +50,8 @@ describe('Message Functions', function() {
   });
 
   it('can delete message', async () => {
+    // create group and add new friend
+    await common.addFriendToNewClosedGroup([app, app2], false);
     const messageText = 'delete_me';
     await common.sendMessage(app, messageText);
 
@@ -71,7 +70,7 @@ describe('Message Functions', function() {
       .click();
     await app.client.element(ConversationPage.deleteMessageCtxButton).click();
 
-    // delete messaage from modal
+    // delete message from modal
     await app.client.waitForExist(
       ConversationPage.deleteMessageModalButton,
       5000

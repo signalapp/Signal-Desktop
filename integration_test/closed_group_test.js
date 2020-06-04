@@ -25,9 +25,6 @@ describe('Closed groups', function() {
   });
 
   it('closedGroup: can create a closed group with a friend and send/receive a message', async () => {
-    await app.client.element(ConversationPage.globeButtonSection).click();
-    await app.client.element(ConversationPage.createClosedGroupButton).click();
-
     const useSenderKeys = false;
 
     // create group and add new friend

@@ -67,7 +67,7 @@ const makeOnionRequest = async (
 
   for (let i = firstPos; i > -1; i -= 1) {
     let dest;
-    const relayingToFinalDestination = i === 0; // if last position
+    const relayingToFinalDestination = i === firstPos; // if last position
 
     if (relayingToFinalDestination && finalRelayOptions) {
       dest = {

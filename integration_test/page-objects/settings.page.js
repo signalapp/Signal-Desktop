@@ -17,4 +17,7 @@ module.exports = {
   // Confirm is a boolean. Selects confirmation input
   passwordSetModalInput: _confirm =>
     `//input[@id = 'password-modal-input${_confirm ? '-confirm' : ''}']`,
+
+  secretWordsTextInDialog:
+    '//div[@class="device-pairing-dialog__secret-words"]/div[@class="subtle"]',
 };

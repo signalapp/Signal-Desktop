@@ -646,7 +646,7 @@
           active: true,
           expireTimer: 0,
           avatar: '',
-          is_medium_group: true,
+          is_medium_group: false,
         },
         confirm: () => {},
       };
@@ -854,6 +854,7 @@
         window.friends.friendRequestStatusEnum.friends
       );
 
+      textsecure.messaging.sendGroupSyncMessage([convo]);
       appView.openConversation(groupId, {});
     };
 
@@ -1444,9 +1445,11 @@
       // TODO: we should ensure the message was sent and retry automatically if not
       await libloki.api.sendUnpairingMessageToSecondary(pubKey);
       // Remove all traces of the device
-      ConversationController.deleteContact(pubKey);
-      Whisper.events.trigger('refreshLinkedDeviceList');
-      callback();
+      setTimeout(() => {
+        ConversationController.deleteContact(pubKey);
+        Whisper.events.trigger('refreshLinkedDeviceList');
+        callback();
+      }, 1000);
     });
   }
 
@@ -1773,7 +1776,6 @@
     const details = ev.contactDetails;
 
     const id = details.number;
-
     libloki.api.debug.logContactSync(
       'Got sync contact message with',
       id,
@@ -1828,12 +1830,21 @@
         await conversation.setSecondaryStatus(true, ourPrimaryKey);
       }
 
-      if (conversation.isFriendRequestStatusNoneOrExpired()) {
-        libloki.api.sendAutoFriendRequestMessage(conversation.id);
-      } else {
-        // Accept any pending friend requests if there are any
-        conversation.onAcceptFriendRequest({ blockSync: true });
-      }
+      const otherDevices = await libloki.storage.getPairedDevicesFor(id);
+      const devices = [id, ...otherDevices];
+      const deviceConversations = await Promise.all(
+        devices.map(d =>
+          ConversationController.getOrCreateAndWait(d, 'private')
+        )
+      );
+      deviceConversations.forEach(device => {
+        if (device.isFriendRequestStatusNoneOrExpired()) {
+          libloki.api.sendAutoFriendRequestMessage(device.id);
+        } else {
+          // Accept any pending friend requests if there are any
+          device.onAcceptFriendRequest({ blockSync: true });
+        }
+      });
 
       if (details.profileKey) {
         const profileKey = window.Signal.Crypto.arrayBufferToBase64(

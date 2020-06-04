@@ -59,7 +59,7 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
       openGroupBound = true;
     }
   } else {
-    window.log.error('Can not handle open group data, API is not available');
+    window.log.warn('Can not handle open group data, API is not available');
   }
 }
 
@@ -929,33 +929,34 @@ MessageReceiver.prototype.extend({
       await this.handleEndSession(destination);
     }
 
-    if (msg.mediumGroupUpdate) {
-      await this.handleMediumGroupUpdate(envelope, msg.mediumGroupUpdate);
-      return;
-    }
+    // if (msg.mediumGroupUpdate) {
+    //   await this.handleMediumGroupUpdate(envelope, msg.mediumGroupUpdate);
+    //   return;
+    // }
 
     const message = await this.processDecrypted(envelope, msg);
 
-    const groupId = message.group && message.group.id;
-    const isBlocked = this.isGroupBlocked(groupId);
     const primaryDevicePubKey = window.storage.get('primaryDevicePubKey');
-    const isMe =
-      envelope.source === textsecure.storage.user.getNumber() ||
-      envelope.source === primaryDevicePubKey;
-    const isLeavingGroup = Boolean(
-      message.group &&
-        message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
-    );
+    // const groupId = message.group && message.group.id;
+    // const isBlocked = this.isGroupBlocked(groupId);
+    //
+    // const isMe =
+    //   envelope.source === textsecure.storage.user.getNumber() ||
+    //   envelope.source === primaryDevicePubKey;
+    // const isLeavingGroup = Boolean(
+    //   message.group &&
+    //     message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+    // );
 
-    if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
-      window.log.warn(
-        `Message ${this.getEnvelopeId(
-          envelope
-        )} ignored; destined for blocked group`
-      );
-      this.removeFromCache(envelope);
-      return;
-    }
+    // if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
+    //   window.log.warn(
+    //     `Message ${this.getEnvelopeId(
+    //       envelope
+    //     )} ignored; destined for blocked group`
+    //   );
+    //   this.removeFromCache(envelope);
+    //   return;
+    // }
 
     // handle profileKey and avatar updates
     if (envelope.source === primaryDevicePubKey) {
@@ -1675,7 +1676,7 @@ MessageReceiver.prototype.extend({
     const ourNumber = textsecure.storage.user.getNumber();
     const ourPrimaryNumber = window.storage.get('primaryDevicePubKey');
     const ourOtherDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-      window.storage.get('primaryDevicePubKey')
+      ourPrimaryNumber
     );
     const ourDevices = new Set([
       ourNumber,
@@ -1861,6 +1862,7 @@ MessageReceiver.prototype.extend({
   isBlocked(number) {
     return textsecure.storage.get('blocked', []).indexOf(number) >= 0;
   },
+
   cleanAttachment(attachment) {
     return {
       ..._.omit(attachment, 'thumbnail'),
