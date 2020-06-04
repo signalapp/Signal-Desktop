@@ -3,7 +3,6 @@ import { ContentMessage } from '../messages/outgoing';
 import { EncryptionType } from '../types/EncryptionType';
 import * as crypto from 'crypto';
 
-
 function toRawMessage(device: PubKey, message: ContentMessage): RawMessage {
   const ttl = message.ttl();
   const timestamp = message.timestamp;
@@ -11,7 +10,7 @@ function toRawMessage(device: PubKey, message: ContentMessage): RawMessage {
 
   // Get EncryptionType depending on message type.
   // let encryption: EncryptionType;
-  
+
   // switch (message.constructor.name) {
   //   case MessageType.Chat:
   //     encryption = EncryptionType.Signal;
@@ -38,7 +37,6 @@ function toRawMessage(device: PubKey, message: ContentMessage): RawMessage {
 
   return rawMessage;
 }
-
 
 export enum PubKeyType {
   Primary = 'priamry',

@@ -16,12 +16,18 @@ export class SignalProtocolAddressStub extends SignalProtocolAddress {
     return new SignalProtocolAddressStub(values[0], Number(values[1]));
   }
 
-  public getName(): string { return this.hexEncodedPublicKey; }
-  public getDeviceId(): number { return this.deviceId; }
+  public getName(): string {
+    return this.hexEncodedPublicKey;
+  }
+  public getDeviceId(): number {
+    return this.deviceId;
+  }
 
   public equals(other: SignalProtocolAddress): boolean {
     return other.getName() === this.hexEncodedPublicKey;
   }
 
-  public toString(): string { return this.hexEncodedPublicKey; }
+  public toString(): string {
+    return this.hexEncodedPublicKey;
+  }
 }

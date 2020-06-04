@@ -16,9 +16,10 @@ describe('PendingMessageCache', () => {
   let pendingMessageCacheStub: PendingMessageCache;
 
   // tslint:disable-next-line: promise-function-async
-  const wrapInPromise = (value: any) => new Promise(r => {
-    r(value);
-  });
+  const wrapInPromise = (value: any) =>
+    new Promise(r => {
+      r(value);
+    });
 
   const generateUniqueMessage = (): ChatMessage => {
     return new ChatMessage({
@@ -38,8 +39,12 @@ describe('PendingMessageCache', () => {
     const voidPromise = wrapInPromise(undefined);
 
     // Stub out methods which touch the database.
-    sandbox.stub(PendingMessageCache.prototype, 'getFromStorage').returns(mockStorageObject);
-    sandbox.stub(PendingMessageCache.prototype, 'syncCacheWithDB').returns(voidPromise);
+    sandbox
+      .stub(PendingMessageCache.prototype, 'getFromStorage')
+      .returns(mockStorageObject);
+    sandbox
+      .stub(PendingMessageCache.prototype, 'syncCacheWithDB')
+      .returns(voidPromise);
 
     // Initialize new stubbed cache
     pendingMessageCacheStub = new PendingMessageCache();
@@ -50,7 +55,6 @@ describe('PendingMessageCache', () => {
     sandbox.restore();
   });
 
-
   it('can initialize cache', async () => {
     const { cache } = pendingMessageCacheStub;
 
@@ -58,7 +62,6 @@ describe('PendingMessageCache', () => {
     expect(cache).to.be.instanceOf(Array);
     expect(cache).to.have.length(0);
   });
-
 
   it('can add to cache', async () => {
     const device = PubKey.generate();
@@ -149,7 +152,9 @@ describe('PendingMessageCache', () => {
 
     // Get pending for each specific device
     cacheItems.forEach(item => {
-      const pendingForDevice = pendingMessageCacheStub.getForDevice(item.device);
+      const pendingForDevice = pendingMessageCacheStub.getForDevice(
+        item.device
+      );
       expect(pendingForDevice).to.have.length(1);
       expect(pendingForDevice[0].device).to.equal(item.device.key);
     });
@@ -208,5 +213,4 @@ describe('PendingMessageCache', () => {
     const finalCache = pendingMessageCacheStub.cache;
     expect(finalCache).to.have.length(0);
   });
-
 });

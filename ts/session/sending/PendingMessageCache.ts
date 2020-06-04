@@ -5,7 +5,6 @@ import { MessageUtils, PubKey } from '../utils';
 
 // TODO: We should be able to import functions straight from the db here without going through the window object
 
-
 // This is an abstraction for storing pending messages.
 // Ideally we want to store pending messages in the database so that
 // on next launch we can re-send the pending messages, but we don't want
@@ -25,11 +24,14 @@ export class PendingMessageCache {
     this.cache = [];
   }
 
-  public async add(device: PubKey, message: ContentMessage): Promise<RawMessage> {
+  public async add(
+    device: PubKey,
+    message: ContentMessage
+  ): Promise<RawMessage> {
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
     // Does it exist in cache already?
-    if(this.find(rawMessage)) {
+    if (this.find(rawMessage)) {
       return rawMessage;
     }
 
@@ -39,7 +41,9 @@ export class PendingMessageCache {
     return rawMessage;
   }
 
-  public async remove(message: RawMessage): Promise<Array<RawMessage> | undefined> {
+  public async remove(
+    message: RawMessage
+  ): Promise<Array<RawMessage> | undefined> {
     // Should only be called after message is processed
 
     // Return if message doesn't exist in cache
@@ -100,7 +104,6 @@ export class PendingMessageCache {
 
     // Set pubkey from string to PubKey.from()
 
-     
     // TODO:
     //    Build up Uint8Array from painTextBuffer in JSON
     return encodedPendingMessages;
@@ -109,7 +112,9 @@ export class PendingMessageCache {
   public async syncCacheWithDB() {
     // Only call when adding / removing from cache.
     const encodedPendingMessages = JSON.stringify(this.cache) || '';
-    await Data.createOrUpdateItem({id: 'pendingMessages', value: encodedPendingMessages});
+    await Data.createOrUpdateItem({
+      id: 'pendingMessages',
+      value: encodedPendingMessages,
+    });
   }
-
 }

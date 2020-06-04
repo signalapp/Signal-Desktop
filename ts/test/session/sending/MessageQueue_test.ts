@@ -19,7 +19,6 @@
 //         identityKey: new TextEncoder().encode('identityKey'),
 //     };
 
-
 //     // queue with session reset message.
 //     // should return undefined
 //     // TOOD: Send me to MESSAGE QUEUE TEST
@@ -27,7 +26,6 @@
 //       const timestamp = Date.now();
 //       sessionResetMessage = new SessionResetMessage({timestamp, preKeyBundle});
 
-      
 //     });
 
 // });
