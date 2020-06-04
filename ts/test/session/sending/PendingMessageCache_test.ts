@@ -1,15 +1,11 @@
-// tslint:disable-next-line: no-require-imports no-var-requires
-const Data = require('../../../../js/modules/data');
-
-import { expect, assert } from 'chai';
-import sinon from 'sinon';
+import { expect } from 'chai';
+import * as sinon from 'sinon';
 import uuid from 'uuid';
 
 import { ChatMessage } from '../../../session/messages/outgoing';
 import { MessageUtils, PubKey } from '../../../session/utils';
 import { PendingMessageCache } from '../../../session/sending/PendingMessageCache';
 import { RawMessage } from '../../../session/types/RawMessage';
-import { SignalService } from '../../../protobuf';
 
 describe('PendingMessageCache', () => {
   const sandbox = sinon.createSandbox();

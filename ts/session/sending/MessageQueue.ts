@@ -12,32 +12,9 @@ import {
 import { PendingMessageCache } from './PendingMessageCache';
 import { JobQueue, TypedEventEmitter } from '../utils';
 
-// Used for ExampleMessage
-import { v4 as uuid } from 'uuid';
-import { SignalService } from '../../protobuf';
 
-export class ExampleMessage extends ContentMessage {
-  constructor() {
-    super({
-      timestamp: Math.floor(Math.random() * 10000000000000),
-      identifier: uuid(),
-    });
-  }
 
-  public ttl(): number {
-    // throw new Error("Method not implemented.");
-    return 5;
-  }
 
-  protected contentProto(): SignalService.Content {
-    // throw new Error("Method not implemented.");
-
-    // TODO - get actual content
-    const content = SignalService.Content.create();
-
-    return content;
-  }
-}
 
 export class MessageQueue implements MessageQueueInterface {
   public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
@@ -59,6 +36,7 @@ export class MessageQueue implements MessageQueueInterface {
 
     console.log('[vince] userDevices:', userDevices);
   }
+
   public send(device: string, message: ContentMessage) {
     // throw new Error('Method not implemented.');
 
@@ -68,12 +46,14 @@ export class MessageQueue implements MessageQueueInterface {
     console.log(`[vince] send: Queueing message`, message);
     this.queue(device, message);
   }
+
   public sendToGroup(message: ContentMessage | OpenGroupMessage) {
     throw new Error('Method not implemented.');
 
     // If you see an open group message just call
     // MessageSender.sendToOpenGroup directly.
   }
+  
   public sendSyncMessage(message: ContentMessage) {
     // PSEDUOCODE
     // if message is undefined
