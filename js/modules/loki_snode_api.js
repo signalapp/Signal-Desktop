@@ -17,6 +17,7 @@ const snodeHttpsAgent = new https.Agent({
 const RANDOM_SNODES_TO_USE_FOR_PUBKEY_SWARM = 3;
 const SEED_NODE_RETRIES = 3;
 const SNODE_VERSION_RETRIES = 3;
+const MIN_GUARD_COUNT = 2;
 
 const compareSnodes = (current, search) =>
   current.pubkey_ed25519 === search.pubkey_ed25519;
@@ -273,6 +274,7 @@ class LokiSnodeAPI {
     let guardNodes = [];
 
     const DESIRED_GUARD_COUNT = 3;
+
     if (shuffled.length < DESIRED_GUARD_COUNT) {
       log.error(
         `Could not select guard nodes: node pool is not big enough, pool size ${
@@ -335,7 +337,7 @@ class LokiSnodeAPI {
 
     const goodPaths = this.onionPaths.filter(x => !x.bad);
 
-    if (goodPaths.length < 2) {
+    if (goodPaths.length < MIN_GUARD_COUNT) {
       log.error(
         `Must have at least 2 good onion paths, actual: ${goodPaths.length}`
       );
@@ -387,6 +389,7 @@ class LokiSnodeAPI {
     });
   }
 
+  // Does this get called multiple times on startup??
   async buildNewOnionPaths() {
     // Note: this function may be called concurrently, so
     // might consider blocking the other calls
@@ -420,7 +423,8 @@ class LokiSnodeAPI {
       }
 
       // If guard nodes is still empty (the old nodes are now invalid), select new ones:
-      if (this.guardNodes.length === 0) {
+      if (this.guardNodes.length < MIN_GUARD_COUNT) {
+        // TODO: don't throw away potentially good guard nodes
         this.guardNodes = await this.selectGuardNodes();
       }
     }
