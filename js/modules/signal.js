@@ -49,6 +49,7 @@ const { createTimeline } = require('../../ts/state/roots/createTimeline');
 const {
   createCompositionArea,
 } = require('../../ts/state/roots/createCompositionArea');
+const { createCallManager } = require('../../ts/state/roots/createCallManager');
 const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
 const {
   createStickerManager,
@@ -61,6 +62,7 @@ const {
 } = require('../../ts/state/roots/createShortcutGuideModal');
 
 const { createStore } = require('../../ts/state/createStore');
+const callingDuck = require('../../ts/state/ducks/calling');
 const conversationsDuck = require('../../ts/state/ducks/conversations');
 const emojisDuck = require('../../ts/state/ducks/emojis');
 const expirationDuck = require('../../ts/state/ducks/expiration');
@@ -100,6 +102,8 @@ const {
 const {
   initializeUpdateListener,
 } = require('../../ts/services/updateListener');
+const { notify } = require('../../ts/services/notify');
+const { calling } = require('../../ts/services/calling');
 
 function initializeMigrations({
   userDataPath,
@@ -277,6 +281,7 @@ exports.setup = (options = {}) => {
   };
 
   const Roots = {
+    createCallManager,
     createCompositionArea,
     createLeftPane,
     createShortcutGuideModal,
@@ -286,6 +291,7 @@ exports.setup = (options = {}) => {
   };
 
   const Ducks = {
+    calling: callingDuck,
     conversations: conversationsDuck,
     emojis: emojisDuck,
     expiration: expirationDuck,
@@ -305,6 +311,8 @@ exports.setup = (options = {}) => {
   const Services = {
     initializeNetworkObserver,
     initializeUpdateListener,
+    notify,
+    calling,
   };
 
   const State = {

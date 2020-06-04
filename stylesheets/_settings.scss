@@ -68,4 +68,10 @@
     margin-top: 0.3em;
     margin-left: 1.5em;
   }
+  .detail {
+    margin-top: 0.3em;
+    margin-left: 1.5em;
+    @include font-body-2;
+    color: $color-gray-60;
+  }
 }

@@ -122,6 +122,9 @@
       ]
     ],
 
+    // So things like "autoplay" on <video> work
+    "jsx-boolean-value": false,
+
     // Maybe will turn on:
 
     // We're not trying to be comprehensive with JSDoc right now. We have the style guide.

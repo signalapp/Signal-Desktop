@@ -1,10 +1,16 @@
 .conversation-stack,
 .new-conversation,
 .inbox,
+.inbox-container,
 .gutter {
   height: 100%;
   overflow: hidden;
   position: relative;
+}
+
+.inbox {
+  display: flex;
+  flex-direction: column;
 }
 
 .expired {

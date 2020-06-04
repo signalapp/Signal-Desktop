@@ -7,7 +7,7 @@ const PERMISSIONS = {
   notifications: true, // required to show OS notifications for new messages
 
   // Off by default, can be enabled by user
-  media: false, // required for access to microphone, used for voice notes
+  media: false, // required for access to microphone and camera, used for voice notes and calling
 
   // Not allowed
   geolocation: false,
@@ -17,9 +17,21 @@ const PERMISSIONS = {
 };
 
 function _createPermissionHandler(userConfig) {
-  return (webContents, permission, callback) => {
-    // We default 'media' permission to false, but the user can override that
-    if (permission === 'media' && userConfig.get('mediaPermissions')) {
+  return (webContents, permission, callback, details) => {
+    // We default 'media' permission to false, but the user can override that for
+    // the microphone and camera.
+    if (
+      permission === 'media' &&
+      details.mediaTypes.includes('audio') &&
+      userConfig.get('mediaPermissions')
+    ) {
+      return callback(true);
+    }
+    if (
+      permission === 'media' &&
+      details.mediaTypes.includes('video') &&
+      userConfig.get('mediaCameraPermissions')
+    ) {
       return callback(true);
     }
 

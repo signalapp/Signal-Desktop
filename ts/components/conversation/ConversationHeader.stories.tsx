@@ -34,6 +34,12 @@ const actionProps: PropsActions = {
   onDeleteMessages: action('onDeleteMessages'),
   onResetSession: action('onResetSession'),
   onSearchInConversation: action('onSearchInConversation'),
+  onOutgoingAudioCallInConversation: action(
+    'onOutgoingAudioCallInConversation'
+  ),
+  onOutgoingVideoCallInConversation: action(
+    'onOutgoingVideoCallInConversation'
+  ),
 
   onShowSafetyNumber: action('onShowSafetyNumber'),
   onShowAllMedia: action('onShowAllMedia'),

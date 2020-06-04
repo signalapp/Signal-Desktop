@@ -13,6 +13,9 @@ try {
   const { app } = remote;
   const { nativeTheme } = remote.require('electron');
 
+  // Enable calling
+  window.CALLING = true;
+
   window.PROTO_ROOT = 'protos';
   const config = require('url').parse(window.location.toString(), true).query;
 
@@ -113,6 +116,8 @@ try {
 
   window.showSettings = () => ipc.send('show-settings');
   window.showPermissionsPopup = () => ipc.send('show-permissions-popup');
+  window.showCallingPermissionsPopup = forCamera =>
+    ipc.invoke('show-calling-permissions-popup', forCamera);
 
   ipc.on('show-keyboard-shortcuts', () => {
     window.Events.showKeyboardShortcuts();
@@ -139,6 +144,75 @@ try {
   installGetter('spell-check', 'getSpellCheck');
   installSetter('spell-check', 'setSpellCheck');
 
+  installGetter('always-relay-calls', 'getAlwaysRelayCalls');
+  installSetter('always-relay-calls', 'setAlwaysRelayCalls');
+
+  installGetter('call-ringtone-notification', 'getCallRingtoneNotification');
+  installSetter('call-ringtone-notification', 'setCallRingtoneNotification');
+
+  window.getCallRingtoneNotification = () =>
+    new Promise((resolve, reject) => {
+      ipc.once(
+        'get-success-call-ringtone-notification',
+        (_event, error, value) => {
+          if (error) {
+            return reject(new Error(error));
+          }
+
+          return resolve(value);
+        }
+      );
+      ipc.send('get-call-ringtone-notification');
+    });
+
+  installGetter('call-system-notification', 'getCallSystemNotification');
+  installSetter('call-system-notification', 'setCallSystemNotification');
+
+  window.getCallSystemNotification = () =>
+    new Promise((resolve, reject) => {
+      ipc.once(
+        'get-success-call-system-notification',
+        (_event, error, value) => {
+          if (error) {
+            return reject(new Error(error));
+          }
+
+          return resolve(value);
+        }
+      );
+      ipc.send('get-call-system-notification');
+    });
+
+  installGetter('incoming-call-notification', 'getIncomingCallNotification');
+  installSetter('incoming-call-notification', 'setIncomingCallNotification');
+
+  window.getIncomingCallNotification = () =>
+    new Promise((resolve, reject) => {
+      ipc.once(
+        'get-success-incoming-call-notification',
+        (_event, error, value) => {
+          if (error) {
+            return reject(new Error(error));
+          }
+
+          return resolve(value);
+        }
+      );
+      ipc.send('get-incoming-call-notification');
+    });
+
+  window.getAlwaysRelayCalls = () =>
+    new Promise((resolve, reject) => {
+      ipc.once('get-success-always-relay-calls', (_event, error, value) => {
+        if (error) {
+          return reject(new Error(error));
+        }
+
+        return resolve(value);
+      });
+      ipc.send('get-always-relay-calls');
+    });
+
   window.getMediaPermissions = () =>
     new Promise((resolve, reject) => {
       ipc.once('get-success-media-permissions', (_event, error, value) => {
@@ -149,6 +223,21 @@ try {
         return resolve(value);
       });
       ipc.send('get-media-permissions');
+    });
+
+  window.getMediaCameraPermissions = () =>
+    new Promise((resolve, reject) => {
+      ipc.once(
+        'get-success-media-camera-permissions',
+        (_event, error, value) => {
+          if (error) {
+            return reject(new Error(error));
+          }
+
+          return resolve(value);
+        }
+      );
+      ipc.send('get-media-camera-permissions');
     });
 
   window.getBuiltInImages = () =>

@@ -72,7 +72,8 @@ export type MessageType = {
     | 'group'
     | 'keychange'
     | 'verified-change'
-    | 'message-history-unsynced';
+    | 'message-history-unsynced'
+    | 'call-history';
   quote?: { author: string };
   received_at: number;
   hasSignalAccount?: boolean;

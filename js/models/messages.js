@@ -178,6 +178,11 @@
           type: 'resetSessionNotification',
           data: this.getPropsForResetSessionNotification(),
         };
+      } else if (this.isCallHistory()) {
+        return {
+          type: 'callHistory',
+          data: this.getPropsForCallHistory(),
+        };
       }
 
       return {
@@ -366,6 +371,9 @@
       // eslint-disable-next-line no-bitwise
       return !!(this.get('flags') & flag);
     },
+    isCallHistory() {
+      return this.get('type') === 'call-history';
+    },
 
     // Props for each message type
     getPropsForUnsupportedMessage() {
@@ -499,6 +507,11 @@
     getPropsForResetSessionNotification() {
       // It doesn't need anything right now!
       return {};
+    },
+    getPropsForCallHistory() {
+      return {
+        callHistoryDetails: this.get('callHistoryDetails'),
+      };
     },
     getAttachmentsForMessage() {
       const sticker = this.get('sticker');

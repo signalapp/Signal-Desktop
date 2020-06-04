@@ -289,9 +289,9 @@
     "rule": "jQuery-appendTo(",
     "path": "js/permissions_popup_start.js",
     "line": "window.view.$el.appendTo($body);",
-    "lineNumber": 42,
+    "lineNumber": 57,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
@@ -316,9 +316,9 @@
     "rule": "jQuery-appendTo(",
     "path": "js/settings_start.js",
     "line": "    window.view.$el.appendTo($body);",
-    "lineNumber": 57,
+    "lineNumber": 63,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
@@ -513,81 +513,99 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 98,
+    "lineNumber": 99,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
+    "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
-    "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 118,
+    "line": "      this.$('.call-manager-placeholder').append(this.callManagerView.el);",
+    "lineNumber": 121,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
+    "updated": "2020-05-28T17:42:35.329Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "js/views/inbox_view.js",
+    "line": "      this.$('.call-manager-placeholder').append(this.callManagerView.el);",
+    "lineNumber": 121,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-05-28T17:42:35.329Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/inbox_view.js",
+    "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
+    "lineNumber": 132,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 118,
+    "lineNumber": 132,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
+    "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 168,
+    "lineNumber": 183,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
+    "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 172,
+    "lineNumber": 187,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
+    "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 176,
+    "lineNumber": 191,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
+    "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .menu').trigger('close');",
-    "lineNumber": 178,
+    "lineNumber": 193,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
+    "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 198,
+    "lineNumber": 213,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-20T20:10:43.540Z",
+    "updated": "2020-05-29T18:29:18.234Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 201,
+    "lineNumber": 216,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-20T20:10:43.540Z",
+    "updated": "2020-05-29T18:29:18.234Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
@@ -838,150 +856,200 @@
     "line": "      this.$('input').prop('checked', Boolean(this.value));",
     "lineNumber": 49,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-06-02T22:20:33.618Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "      this.$('input').prop('checked', Boolean(this.value));",
+    "lineNumber": 68,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      const value = this.$(e.target).val();",
-    "lineNumber": 64,
+    "lineNumber": 83,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$(`#${this.name}-${this.value}`).attr('checked', 'checked');",
-    "lineNumber": 69,
+    "lineNumber": 88,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.notification-settings'),",
-    "lineNumber": 78,
+    "lineNumber": 97,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.theme-settings'),",
-    "lineNumber": 84,
+    "lineNumber": 103,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "          $(document.body)",
-    "lineNumber": 88,
+    "lineNumber": 107,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "          el: this.$('.audio-notification-setting'),",
-    "lineNumber": 99,
+    "lineNumber": 118,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.spell-check-setting'),",
-    "lineNumber": 106,
+    "lineNumber": 125,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "          const $msg = this.$('.spell-check-setting-message');",
-    "lineNumber": 110,
+    "lineNumber": 129,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-19T16:06:32.598Z"
+    "updated": "2020-06-02T21:51:34.813Z"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "          el: this.$('.menu-bar-setting'),",
-    "lineNumber": 123,
+    "lineNumber": 142,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-20T16:47:14.450Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.media-permissions'),",
-    "lineNumber": 130,
+    "line": "        el: this.$('.always-relay-calls-setting'),",
+    "lineNumber": 149,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-20T16:47:14.450Z",
+    "updated": "2020-06-02T21:51:34.813Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "        el: this.$('.call-ringtone-notification-setting'),",
+    "lineNumber": 155,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-06-02T21:51:34.813Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "        el: this.$('.call-system-notification-setting'),",
+    "lineNumber": 161,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-06-02T21:51:34.813Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "        el: this.$('.incoming-call-notification-setting'),",
+    "lineNumber": 167,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-06-02T21:51:34.813Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "        el: this.$('.media-permissions'),",
+    "lineNumber": 173,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-06-02T21:51:34.813Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "        el: this.$('.media-camera-permissions'),",
+    "lineNumber": 178,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
-    "lineNumber": 136,
+    "lineNumber": 184,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-20T16:47:14.450Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
-    "lineNumber": 136,
+    "lineNumber": 184,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-20T16:47:14.450Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').text(i18n('syncNow'));",
-    "lineNumber": 200,
+    "lineNumber": 263,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-25T13:52:04.149Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').attr('disabled', 'disabled');",
-    "lineNumber": 204,
+    "lineNumber": 267,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-25T13:52:04.149Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.synced_at').hide();",
-    "lineNumber": 216,
+    "lineNumber": 279,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-25T13:52:04.149Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync_failed').hide();",
-    "lineNumber": 221,
+    "lineNumber": 284,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-25T13:52:04.149Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
@@ -11414,6 +11482,24 @@
   },
   {
     "rule": "React-createRef",
+    "path": "ts/components/CallScreen.js",
+    "line": "        this.localVideoRef = react_1.default.createRef();",
+    "lineNumber": 97,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-05-28T17:22:06.472Z",
+    "reasonDetail": "Used to render local preview video"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/CallScreen.tsx",
+    "line": "    this.localVideoRef = React.createRef();",
+    "lineNumber": 80,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-06-02T21:51:34.813Z",
+    "reasonDetail": "Used to render local preview video"
+  },
+  {
+    "rule": "React-createRef",
     "path": "ts/components/CaptionEditor.js",
     "line": "        this.inputRef = react_1.default.createRef();",
     "lineNumber": 27,
@@ -11515,7 +11601,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
     "line": "    this.menuTriggerRef = React.createRef();",
-    "lineNumber": 68,
+    "lineNumber": 70,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Used to reference popup menu"
@@ -11716,17 +11802,17 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SendMessage.ts",
     "line": "  return window.dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();",
-    "lineNumber": 29,
+    "lineNumber": 30,
     "reasonCategory": "falseMatch",
-    "updated": "2020-04-05T23:45:16.746Z"
+    "updated": "2020-05-28T18:08:02.658Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SendMessage.ts",
     "line": "  return window.dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();",
-    "lineNumber": 32,
+    "lineNumber": 33,
     "reasonCategory": "falseMatch",
-    "updated": "2020-04-05T23:45:16.746Z"
+    "updated": "2020-05-28T18:08:02.658Z"
   },
   {
     "rule": "jQuery-wrap(",
