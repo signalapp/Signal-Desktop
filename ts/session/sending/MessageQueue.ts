@@ -5,9 +5,14 @@ import {
   MessageQueueInterfaceEvents,
 } from './MessageQueueInterface';
 import {
+<<<<<<< HEAD
   ContentMessage,
   OpenGroupMessage,
   SessionResetMessage,
+=======
+  ContentMessage as OutgoingContentMessage,
+  OpenGroupMessage,
+>>>>>>> 935ac8d8f911616731c20aa5b45b79bea6895731
 } from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
 import { JobQueue, TypedEventEmitter } from '../utils';
