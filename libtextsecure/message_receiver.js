@@ -929,33 +929,34 @@ MessageReceiver.prototype.extend({
       await this.handleEndSession(destination);
     }
 
-    if (msg.mediumGroupUpdate) {
-      await this.handleMediumGroupUpdate(envelope, msg.mediumGroupUpdate);
-      return;
-    }
+    // if (msg.mediumGroupUpdate) {
+    //   await this.handleMediumGroupUpdate(envelope, msg.mediumGroupUpdate);
+    //   return;
+    // }
 
     const message = await this.processDecrypted(envelope, msg);
 
-    const groupId = message.group && message.group.id;
-    const isBlocked = this.isGroupBlocked(groupId);
     const primaryDevicePubKey = window.storage.get('primaryDevicePubKey');
-    const isMe =
-      envelope.source === textsecure.storage.user.getNumber() ||
-      envelope.source === primaryDevicePubKey;
-    const isLeavingGroup = Boolean(
-      message.group &&
-        message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
-    );
+    // const groupId = message.group && message.group.id;
+    // const isBlocked = this.isGroupBlocked(groupId);
+    //
+    // const isMe =
+    //   envelope.source === textsecure.storage.user.getNumber() ||
+    //   envelope.source === primaryDevicePubKey;
+    // const isLeavingGroup = Boolean(
+    //   message.group &&
+    //     message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+    // );
 
-    if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
-      window.log.warn(
-        `Message ${this.getEnvelopeId(
-          envelope
-        )} ignored; destined for blocked group`
-      );
-      this.removeFromCache(envelope);
-      return;
-    }
+    // if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
+    //   window.log.warn(
+    //     `Message ${this.getEnvelopeId(
+    //       envelope
+    //     )} ignored; destined for blocked group`
+    //   );
+    //   this.removeFromCache(envelope);
+    //   return;
+    // }
 
     // handle profileKey and avatar updates
     if (envelope.source === primaryDevicePubKey) {
