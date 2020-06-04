@@ -1,8 +1,9 @@
 import * as Data from '../../../js/modules/data';
 import { RawMessage } from '../types/RawMessage';
-import { ChatMessage, ContentMessage } from '../messages/outgoing';
+import { ContentMessage } from '../messages/outgoing';
 import * as MessageUtils from '../utils';
 import { PubKey } from '../types';
+import logger from 'redux-logger';
 
 // TODO: We should be able to import functions straight from the db here without going through the window object
 
@@ -18,11 +19,10 @@ export class PendingMessageCache {
 
   constructor() {
     // Load pending messages from the database
-    // You must call init() on this class in order to load from DB.
-    //    const pendingMessageCache = new PendingMessageCache();
-    //    await pendingMessageCache.init()
-    //    >> do stuff
+    // You should await init() on making a new PendingMessageCache
+    //   if you'd like to have instant access to the cache
     this.cache = [];
+    void this.init();
   }
 
   public async add(
@@ -80,7 +80,7 @@ export class PendingMessageCache {
   }
 
   public getDevices(): Array<PubKey> {
-    // Gets all devices with pending messages
+    // Gets all unique devices with pending messages
     const pubkeyStrings = [...new Set(this.cache.map(m => m.device))];
 
     const pubkeys: Array<PubKey> = [];
@@ -100,21 +100,33 @@ export class PendingMessageCache {
 
   private async getFromStorage(): Promise<Array<RawMessage>> {
     // tslint:disable-next-line: no-backbone-get-set-outside-model
-    const pendingMessagesData = await Data.getItemById('pendingMessages');
-    const pendingMessagesJSON = pendingMessagesData
-      ? String(pendingMessagesData.value)
-      : '';
+    const data = await Data.getItemById('pendingMessages');
+    if (!data || !data.value) {
+      return [];
+    }
+
+    const barePending = JSON.parse(String(data.value));
 
     // tslint:disable-next-line: no-unnecessary-local-variable
-    const encodedPendingMessages = pendingMessagesJSON
-      ? JSON.parse(pendingMessagesJSON)
-      : [];
+    const pending = barePending.map((message: any) => {
+      const { identifier, timestamp, device, ttl, encryption } = message;
 
-    // Set pubkey from string to PubKey.from()
+      // Recreate buffers
+      const rawBuffer = message.plainTextBuffer;
+      const bufferValues: Array<number> = Object.values(rawBuffer);
+      const plainTextBuffer = Uint8Array.from(bufferValues);
 
-    // TODO:
-    //    Build up Uint8Array from painTextBuffer in JSON
-    return encodedPendingMessages;
+      return {
+        identifier,
+        plainTextBuffer,
+        timestamp,
+        device,
+        ttl,
+        encryption,
+      } as RawMessage;
+    });
+
+    return pending as Array<RawMessage>;
   }
 
   private async syncCacheWithDB() {

@@ -1,22 +1,14 @@
 
 import * as crypto from 'crypto';
 
-export enum PubKeyCategory {
-  Primary = 'priamry',
-  Secondary = 'secondary',
-  Group = 'group',
-}
-
 export class PubKey {
   private static readonly PUBKEY_LEN = 66;
   private static readonly regex: string = `^05[0-9a-fA-F]{${PubKey.PUBKEY_LEN - 2}}$`;
   public readonly key: string;
-  public type?: PubKeyCategory;
 
-  constructor(pubkeyString: string, type?: PubKeyCategory) {
+  constructor(pubkeyString: string) {
     PubKey.validate(pubkeyString);
     this.key = pubkeyString;
-    this.type = type;
   }
 
   public static from(pubkeyString: string): PubKey | undefined {
