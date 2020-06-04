@@ -1,7 +1,8 @@
 import * as Data from '../../../js/modules/data';
 import { RawMessage } from '../types/RawMessage';
 import { ChatMessage, ContentMessage } from '../messages/outgoing';
-import { MessageUtils, PubKey } from '../utils';
+import * as MessageUtils from '../utils';
+import { PubKey } from '../types';
 
 // TODO: We should be able to import functions straight from the db here without going through the window object
 
@@ -80,9 +81,16 @@ export class PendingMessageCache {
 
   public getDevices(): Array<PubKey> {
     // Gets all devices with pending messages
-    const pubkeys = [...new Set(this.cache.map(m => m.device))];
+    const pubkeyStrings = [...new Set(this.cache.map(m => m.device))];
 
-    return pubkeys.map(d => PubKey.from(d));
+    const pubkeys: Array<PubKey> = [];
+    pubkeyStrings.forEach(pubkey => {
+      if (PubKey.validate(pubkey)) {
+        pubkeys.push(new PubKey(pubkey));
+      }
+    });
+
+    return pubkeys;
   }
 
   public async init() {
@@ -90,7 +98,7 @@ export class PendingMessageCache {
     this.cache = messages;
   }
 
-  public async getFromStorage(): Promise<Array<RawMessage>> {
+  private async getFromStorage(): Promise<Array<RawMessage>> {
     // tslint:disable-next-line: no-backbone-get-set-outside-model
     const pendingMessagesData = await Data.getItemById('pendingMessages');
     const pendingMessagesJSON = pendingMessagesData
@@ -109,7 +117,7 @@ export class PendingMessageCache {
     return encodedPendingMessages;
   }
 
-  public async syncCacheWithDB() {
+  private async syncCacheWithDB() {
     // Only call when adding / removing from cache.
     const encodedPendingMessages = JSON.stringify(this.cache) || '';
     await Data.createOrUpdateItem({

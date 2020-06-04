@@ -58,7 +58,7 @@ export class MessageQueue implements MessageQueueInterface {
     // If you see an open group message just call
     // MessageSender.sendToOpenGroup directly.
   }
-  
+
   public sendSyncMessage(message: ContentMessage) {
     // PSEDUOCODE
     // if message is undefined

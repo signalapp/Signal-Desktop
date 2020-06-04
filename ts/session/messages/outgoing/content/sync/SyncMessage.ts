@@ -1,7 +1,7 @@
 import { ContentMessage } from '../ContentMessage';
 import { SignalService } from '../../../../../protobuf';
 
-export abstract class SyncMessage extends ContentMessage {
+export class SyncMessage extends ContentMessage {
   public ttl(): number {
     return this.getDefaultTTL();
   }
@@ -12,5 +12,7 @@ export abstract class SyncMessage extends ContentMessage {
     });
   }
 
-  protected abstract syncProto(): SignalService.SyncMessage;
+  protected syncProto(): SignalService.SyncMessage {
+    return new SignalService.SyncMessage({});
+  }
 }

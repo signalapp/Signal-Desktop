@@ -3,9 +3,13 @@ import * as sinon from 'sinon';
 import uuid from 'uuid';
 
 import { ChatMessage } from '../../../session/messages/outgoing';
-import { MessageUtils, PubKey } from '../../../session/utils';
+import * as MessageUtils from '../../../session/utils';
+
+import { TestUtils } from '../../../test/test-utils';
 import { PendingMessageCache } from '../../../session/sending/PendingMessageCache';
 import { RawMessage } from '../../../session/types/RawMessage';
+import { PubKey } from '../../../session/types';
+import * as Data from '../../../../js/modules/data';
 
 describe('PendingMessageCache', () => {
   const sandbox = sinon.createSandbox();
@@ -13,34 +17,26 @@ describe('PendingMessageCache', () => {
 
   // tslint:disable-next-line: promise-function-async
   const wrapInPromise = (value: any) =>
-    new Promise(r => {
-      r(value);
+    new Promise(resolve => {
+      resolve(value);
     });
-
-  const generateUniqueMessage = (): ChatMessage => {
-    return new ChatMessage({
-      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-      identifier: uuid(),
-      timestamp: Date.now(),
-      attachments: undefined,
-      quote: undefined,
-      expireTimer: undefined,
-      lokiProfile: undefined,
-      preview: undefined,
-    });
-  };
 
   beforeEach(async () => {
-    const mockStorageObject = wrapInPromise([] as Array<RawMessage>);
-    const voidPromise = wrapInPromise(undefined);
 
-    // Stub out methods which touch the database.
-    sandbox
-      .stub(PendingMessageCache.prototype, 'getFromStorage')
-      .returns(mockStorageObject);
-    sandbox
-      .stub(PendingMessageCache.prototype, 'syncCacheWithDB')
-      .returns(voidPromise);
+    // Stub out methods which touch the database
+    const storageID = 'pendingMessages';
+    let data: Data.StorageItem = {
+      id: storageID,
+      value: '',
+    };
+
+    TestUtils.stubData('getItemById').withArgs('pendingMessages').callsFake(async () => {
+      return wrapInPromise(data);
+    });
+
+    TestUtils.stubData('createOrUpdateItem').callsFake((item: Data.StorageItem) => {
+      data = item;
+    });
 
     // Initialize new stubbed cache
     pendingMessageCacheStub = new PendingMessageCache();
@@ -60,8 +56,8 @@ describe('PendingMessageCache', () => {
   });
 
   it('can add to cache', async () => {
-    const device = PubKey.generate();
-    const message = generateUniqueMessage();
+    const device = PubKey.generateFake();
+    const message = MessageUtils.generateUniqueChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
@@ -77,8 +73,8 @@ describe('PendingMessageCache', () => {
   });
 
   it('can remove from cache', async () => {
-    const device = PubKey.generate();
-    const message = generateUniqueMessage();
+    const device = PubKey.generateFake();
+    const message = MessageUtils.generateUniqueChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
@@ -98,16 +94,16 @@ describe('PendingMessageCache', () => {
   it('can get devices', async () => {
     const cacheItems = [
       {
-        device: PubKey.generate(),
-        message: generateUniqueMessage(),
+        device: PubKey.generateFake(),
+        message: MessageUtils.generateUniqueChatMessage(),
       },
       {
-        device: PubKey.generate(),
-        message: generateUniqueMessage(),
+        device: PubKey.generateFake(),
+        message: MessageUtils.generateUniqueChatMessage(),
       },
       {
-        device: PubKey.generate(),
-        message: generateUniqueMessage(),
+        device: PubKey.generateFake(),
+        message: MessageUtils.generateUniqueChatMessage(),
       },
     ];
 
@@ -130,12 +126,12 @@ describe('PendingMessageCache', () => {
   it('can get pending for device', async () => {
     const cacheItems = [
       {
-        device: PubKey.generate(),
-        message: generateUniqueMessage(),
+        device: PubKey.generateFake(),
+        message: MessageUtils.generateUniqueChatMessage(),
       },
       {
-        device: PubKey.generate(),
-        message: generateUniqueMessage(),
+        device: PubKey.generateFake(),
+        message: MessageUtils.generateUniqueChatMessage(),
       },
     ];
 
@@ -157,8 +153,8 @@ describe('PendingMessageCache', () => {
   });
 
   it('can find nothing when empty', async () => {
-    const device = PubKey.generate();
-    const message = generateUniqueMessage();
+    const device = PubKey.generateFake();
+    const message = MessageUtils.generateUniqueChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
     const foundMessage = pendingMessageCacheStub.find(rawMessage);
@@ -166,8 +162,8 @@ describe('PendingMessageCache', () => {
   });
 
   it('can find message in cache', async () => {
-    const device = PubKey.generate();
-    const message = generateUniqueMessage();
+    const device = PubKey.generateFake();
+    const message = MessageUtils.generateUniqueChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
@@ -183,16 +179,16 @@ describe('PendingMessageCache', () => {
   it('can clear cache', async () => {
     const cacheItems = [
       {
-        device: PubKey.generate(),
-        message: generateUniqueMessage(),
+        device: PubKey.generateFake(),
+        message: MessageUtils.generateUniqueChatMessage(),
       },
       {
-        device: PubKey.generate(),
-        message: generateUniqueMessage(),
+        device: PubKey.generateFake(),
+        message: MessageUtils.generateUniqueChatMessage(),
       },
       {
-        device: PubKey.generate(),
-        message: generateUniqueMessage(),
+        device: PubKey.generateFake(),
+        message: MessageUtils.generateUniqueChatMessage(),
       },
     ];
 
