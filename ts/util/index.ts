@@ -4,6 +4,7 @@ import { isFileDangerous } from './isFileDangerous';
 import { missingCaseError } from './missingCaseError';
 import { migrateColor } from './migrateColor';
 import { makeLookup } from './makeLookup';
+import * as UserUtil from './user';
 
 export {
   arrayBufferToObjectURL,
@@ -12,4 +13,5 @@ export {
   makeLookup,
   migrateColor,
   missingCaseError,
+  UserUtil,
 };
