@@ -715,7 +715,7 @@ MessageSender.prototype = {
 
     // We need to sync across 3 contacts at a time
     // This is to avoid hitting storage server limit
-    const chunked = _.chunk(contactsSet, 3);
+    const chunked = _.chunk([...contactsSet], 3);
     const syncMessages = await Promise.all(
       chunked.map(c => libloki.api.createContactSyncProtoMessage(c))
     );
