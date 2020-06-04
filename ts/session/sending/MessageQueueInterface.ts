@@ -1,9 +1,9 @@
-import { OpenGroupMessage, OutgoingContentMessage } from '../messages/outgoing';
+import { OpenGroupMessage, ContentMessage, SyncMessage } from '../messages/outgoing';
 import { RawMessage } from '../types/RawMessage';
 import { TypedEventEmitter } from '../utils';
 
 // TODO: add all group messages here, replace OutgoingContentMessage with them
-type GroupMessageType = OpenGroupMessage | OutgoingContentMessage;
+type GroupMessageType = OpenGroupMessage | ContentMessage;
 
 export interface MessageQueueInterfaceEvents {
   success: (message: RawMessage) => void;
@@ -12,8 +12,8 @@ export interface MessageQueueInterfaceEvents {
 
 export interface MessageQueueInterface {
   events: TypedEventEmitter<MessageQueueInterfaceEvents>;
-  sendUsingMultiDevice(user: string, message: OutgoingContentMessage): void;
-  send(device: string, message: OutgoingContentMessage): void;
+  sendUsingMultiDevice(user: string, message: ContentMessage): void;
+  send(device: string, message: ContentMessage): void;
   sendToGroup(message: GroupMessageType): void;
-  sendSyncMessage(message: OutgoingContentMessage): void;
+  sendSyncMessage(message: SyncMessage): void;
 }
