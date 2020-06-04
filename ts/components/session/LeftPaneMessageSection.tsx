@@ -27,6 +27,12 @@ import {
 import { SessionSpinner } from './SessionSpinner';
 import { joinChannelStateManager } from './LeftPaneChannelSection';
 
+// HIJACKING BUTTON FOR TESTING
+import { PendingMessageCache } from '../../session/sending/PendingMessageCache';
+import { MessageQueue } from '../../session/sending';
+import { ExampleMessage } from '../../session/sending/MessageQueue';
+
+
 export interface Props {
   searchTerm: string;
   isSecondaryDevice: boolean;
@@ -44,6 +50,10 @@ export interface Props {
 export class LeftPaneMessageSection extends React.Component<Props, any> {
   private readonly updateSearchBound: (searchedString: string) => void;
   private readonly debouncedSearch: (searchTerm: string) => void;
+
+  // HIJACKED FOR TESTING
+  private readonly messageQueue: any;
+  private readonly pendingMessageCache: any;
 
   public constructor(props: Props) {
     super(props);
@@ -82,6 +92,11 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     this.handleOnPasteSessionID = this.handleOnPasteSessionID.bind(this);
     this.handleMessageButtonClick = this.handleMessageButtonClick.bind(this);
     this.debouncedSearch = debounce(this.search.bind(this), 20);
+
+
+    // HIJACKING FOR TESTING
+    this.messageQueue = new MessageQueue();
+    this.pendingMessageCache = new PendingMessageCache();
   }
 
   public componentWillUnmount() {
@@ -97,7 +112,7 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     if (conversationList !== undefined) {
       conversationList = conversationList.filter(
         conversation =>
-          !conversation.isSecondary && !conversation.isPendingFriendRequest
+          !conversation.isPendingFriendRequest && !conversation.isSecondary
       );
     }
 
@@ -361,12 +376,29 @@ export class LeftPaneMessageSection extends React.Component<Props, any> {
     );
   }
 
-  private handleToggleOverlay() {
-    this.setState((state: any) => {
-      return { showComposeView: !state.showComposeView };
-    });
-    // empty our generalized searchedString (one for the whole app)
-    this.updateSearch('');
+  private async handleToggleOverlay() {
+    // HIJACKING BUTTON FOR TESTING
+    console.log('[vince] pendingMessageCache:', this.pendingMessageCache);
+
+    const pubkey = window.textsecure.storage.user.getNumber();
+    const exampleMessage = new ExampleMessage();
+
+    console.log('[vince] exampleMessage:', exampleMessage);
+
+    const devices = this.pendingMessageCache.getPendingDevices();
+    console.log('[vince] devices:', devices);
+
+    if ($('.session-search-input input').val()) {
+      this.pendingMessageCache.removePendingMessageByIdentifier(exampleMessage.identifier);
+    } else {
+      this.pendingMessageCache.addPendingMessage(pubkey, exampleMessage);
+    }
+
+    // this.setState((state: any) => {
+    //   return { showComposeView: !state.showComposeView };
+    // });
+    // // empty our generalized searchedString (one for the whole app)
+    // this.updateSearch('');
   }
 
   private handleOnPasteSessionID(value: string) {
