@@ -646,7 +646,7 @@
           active: true,
           expireTimer: 0,
           avatar: '',
-          is_medium_group: true,
+          is_medium_group: false,
         },
         confirm: () => {},
       };
