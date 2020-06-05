@@ -124,21 +124,15 @@ describe('Add friends', function() {
     );
     await common.logsContains(
       bobLogs,
-      `Received a NORMAL_FRIEND_REQUEST from source: ${
-        common.TEST_PUBKEY1
-      }, primarySource: ${common.TEST_PUBKEY1},`
+      `Received a NORMAL_FRIEND_REQUEST from source: ${common.TEST_PUBKEY1}, primarySource: ${common.TEST_PUBKEY1},`
     );
     await common.logsContains(
       bobLogs,
-      `Sending incoming-friend-request-accept:onlineBroadcast message to ${
-        common.TEST_PUBKEY1
-      }`
+      `Sending incoming-friend-request-accept:onlineBroadcast message to ${common.TEST_PUBKEY1}`
     );
     await common.logsContains(
       aliceLogs,
-      `Sending outgoing-friend-request-accepted:onlineBroadcast message to ${
-        common.TEST_PUBKEY2
-      }`
+      `Sending outgoing-friend-request-accepted:onlineBroadcast message to ${common.TEST_PUBKEY2}`
     );
   });
 });

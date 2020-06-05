@@ -52,9 +52,7 @@ describe('Link Device', function() {
     // pairing request message sent from secondary to primary pubkey
     await common.logsContains(
       secondaryRenderLogs,
-      `Sending pairing-request:pairing-request message to ${
-        common.TEST_PUBKEY1
-      }`
+      `Sending pairing-request:pairing-request message to ${common.TEST_PUBKEY1}`
     );
 
     const primaryRenderLogs = await app.client.getRenderProcessLogs();

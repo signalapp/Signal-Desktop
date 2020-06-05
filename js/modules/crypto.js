@@ -414,9 +414,7 @@ function splitBytes(buffer, ...lengths) {
 
   if (total !== buffer.byteLength) {
     throw new Error(
-      `Requested lengths total ${total} does not match source total ${
-        buffer.byteLength
-      }`
+      `Requested lengths total ${total} does not match source total ${buffer.byteLength}`
     );
   }
 

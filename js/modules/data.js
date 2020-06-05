@@ -1,6 +1,7 @@
 /* global window, setTimeout, clearTimeout, IDBKeyRange, dcodeIO */
-
 const electron = require('electron');
+
+const { ipcRenderer } = electron;
 
 // TODO: this results in poor readability, would be
 // much better to explicitly call with `_`.
@@ -21,12 +22,6 @@ const _ = require('lodash');
 const { base64ToArrayBuffer, arrayBufferToBase64 } = require('./crypto');
 const MessageType = require('./types/message');
 
-const { ipcRenderer } = electron;
-
-// We listen to a lot of events on ipcRenderer, often on the same channel. This prevents
-//   any warnings that might be sent to the console in that case.
-ipcRenderer.setMaxListeners(0);
-
 const DATABASE_UPDATE_TIMEOUT = 2 * 60 * 1000; // two minutes
 
 const SQL_CHANNEL_KEY = 'sql-channel';
@@ -44,6 +39,7 @@ let _shutdownPromise = null;
 const channels = {};
 
 module.exports = {
+  init,
   _jobs,
   _cleanData,
 
@@ -212,6 +208,42 @@ module.exports = {
   createOrUpdateSenderKeys,
 };
 
+function init() {
+  // We listen to a lot of events on ipcRenderer, often on the same channel. This prevents
+  //   any warnings that might be sent to the console in that case.
+  ipcRenderer.setMaxListeners(0);
+
+  forEach(module.exports, fn => {
+    if (isFunction(fn) && fn.name !== 'init') {
+      makeChannel(fn.name);
+    }
+  });
+
+  ipcRenderer.on(
+    `${SQL_CHANNEL_KEY}-done`,
+    (event, jobId, errorForDisplay, result) => {
+      const job = _getJob(jobId);
+      if (!job) {
+        throw new Error(
+          `Received SQL channel reply to job ${jobId}, but did not have it in our registry!`
+        );
+      }
+
+      const { resolve, reject, fnName } = job;
+
+      if (errorForDisplay) {
+        return reject(
+          new Error(
+            `Error received from SQL channel job ${jobId} (${fnName}): ${errorForDisplay}`
+          )
+        );
+      }
+
+      return resolve(result);
+    }
+  );
+}
+
 // When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
 // We can't send ArrayBuffers or BigNumbers (what we get from proto library for dates).
 function _cleanData(data) {
@@ -352,30 +384,6 @@ function _getJob(id) {
   return _jobs[id];
 }
 
-ipcRenderer.on(
-  `${SQL_CHANNEL_KEY}-done`,
-  (event, jobId, errorForDisplay, result) => {
-    const job = _getJob(jobId);
-    if (!job) {
-      throw new Error(
-        `Received SQL channel reply to job ${jobId}, but did not have it in our registry!`
-      );
-    }
-
-    const { resolve, reject, fnName } = job;
-
-    if (errorForDisplay) {
-      return reject(
-        new Error(
-          `Error received from SQL channel job ${jobId} (${fnName}): ${errorForDisplay}`
-        )
-      );
-    }
-
-    return resolve(result);
-  }
-);
-
 function makeChannel(fnName) {
   channels[fnName] = (...args) => {
     const jobId = _makeJob(fnName);
@@ -397,12 +405,6 @@ function makeChannel(fnName) {
     });
   };
 }
-
-forEach(module.exports, fn => {
-  if (isFunction(fn)) {
-    makeChannel(fn.name);
-  }
-});
 
 function keysToArrayBuffer(keys, data) {
   const updated = cloneDeep(data);

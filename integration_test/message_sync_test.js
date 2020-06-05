@@ -98,16 +98,12 @@ describe('Message Syncing', function() {
     );
     await common.logsContains(
       alice2Logs,
-      `Sending auto-friend-request:friend-request message to ${
-        common.TEST_PUBKEY2
-      }`,
+      `Sending auto-friend-request:friend-request message to ${common.TEST_PUBKEY2}`,
       1
     );
     await common.logsContains(
       alice2Logs,
-      `Sending session-request:friend-request message to ${
-        common.TEST_PUBKEY2
-      }`,
+      `Sending session-request:friend-request message to ${common.TEST_PUBKEY2}`,
       1
     );
     await common.logsContains(

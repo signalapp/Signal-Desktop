@@ -1885,9 +1885,7 @@ MessageReceiver.prototype.extend({
 
       if (!size || size !== data.byteLength) {
         throw new Error(
-          `downloadAttachment: Size ${size} did not match downloaded attachment size ${
-            data.byteLength
-          }`
+          `downloadAttachment: Size ${size} did not match downloaded attachment size ${data.byteLength}`
         );
       }
     }

@@ -249,27 +249,26 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
           />
         )}
 
-        {isClosedGroupView &&
-          window.lokiFeatureFlags.enableSenderKeys && (
-            <div className="sealed-sender-toggle">
-              <SessionToggle
-                active={Boolean(false)}
-                onClick={() => {
-                  const value = this.state.senderKeys;
-                  this.setState({ senderKeys: !value });
-                }}
-              />
+        {isClosedGroupView && window.lokiFeatureFlags.enableSenderKeys && (
+          <div className="sealed-sender-toggle">
+            <SessionToggle
+              active={Boolean(false)}
+              onClick={() => {
+                const value = this.state.senderKeys;
+                this.setState({ senderKeys: !value });
+              }}
+            />
 
-              <span
-                className={classNames(
-                  'session-settings-item__description',
-                  'sender-keys-description'
-                )}
-              >
-                {window.i18n('useSenderKeys')}
-              </span>
-            </div>
-          )}
+            <span
+              className={classNames(
+                'session-settings-item__description',
+                'sender-keys-description'
+              )}
+            >
+              {window.i18n('useSenderKeys')}
+            </span>
+          </div>
+        )}
 
         <SessionButton
           buttonColor={SessionButtonColor.Green}

@@ -394,9 +394,7 @@
     idleDetector = new IdleDetector();
     let isMigrationWithIndexComplete = false;
     window.log.info(
-      `Starting background data migration. Target version: ${
-        Message.CURRENT_SCHEMA_VERSION
-      }`
+      `Starting background data migration. Target version: ${Message.CURRENT_SCHEMA_VERSION}`
     );
     idleDetector.on('idle', async () => {
       const NUM_MESSAGES_PER_BATCH = 1;
@@ -1647,7 +1645,10 @@
       });
 
       if (Whisper.Import.isComplete()) {
-        const { wrap, sendOptions } = ConversationController.prepareForSend(
+        const {
+          wrap,
+          sendOptions,
+        } = ConversationController.prepareForSend(
           textsecure.storage.user.getNumber(),
           { syncMessage: true }
         );
@@ -2227,9 +2228,7 @@
         )
       ).catch(error => {
         window.log.error(
-          `Failed to send delivery receipt to ${data.source} for message ${
-            data.timestamp
-          }:`,
+          `Failed to send delivery receipt to ${data.source} for message ${data.timestamp}:`,
           error && error.stack ? error.stack : error
         );
       });

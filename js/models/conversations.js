@@ -1005,10 +1005,9 @@
       // Search through each conversation (device) for friend request messages
       const pendingRequestPromises = allConversationsWithUser.map(
         async conversation => {
-          const request = (await conversation.getFriendRequests(
-            direction,
-            status
-          ))[0];
+          const request = (
+            await conversation.getFriendRequests(direction, status)
+          )[0];
           return { conversation, request };
         }
       );

@@ -115,9 +115,7 @@ function abortableIterator(array, iterator) {
             accum.push(await iterator(item));
           } catch (e) {
             log.error(
-              `loki_primitives:::abortableIterator - error ${e.code} ${
-                e.message
-              }`
+              `loki_primitives:::abortableIterator - error ${e.code} ${e.message}`
             );
             throw e;
           }

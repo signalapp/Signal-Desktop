@@ -167,8 +167,7 @@ function OutgoingMessage(
     publicSendData,
     debugMessageType,
     autoSession,
-  } =
-    options || {};
+  } = options || {};
   this.numberInfo = numberInfo;
   this.isPublic = isPublic;
   this.isMediumGroup = !!isMediumGroup;
@@ -340,7 +339,7 @@ OutgoingMessage.prototype = {
       }
       await lokiMessageAPI.sendMessage(pubKey, data, timestamp, ttl, options);
     } catch (e) {
-      if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
+      if (e.name === 'HTTPError' && e.code !== 409 && e.code !== 410) {
         // 409 and 410 should bubble and be handled by doSendMessage
         // 404 should throw UnregisteredUserError
         // all other network errors can be retried later.
@@ -442,9 +441,7 @@ OutgoingMessage.prototype = {
       aliasedPubkey = 'OUR SECONDARY PUBKEY';
     }
     libloki.api.debug.logSessionMessageSending(
-      `Sending ${messageTypeStr}:${
-        this.messageType
-      } message to ${aliasedPubkey} details:`,
+      `Sending ${messageTypeStr}:${this.messageType} message to ${aliasedPubkey} details:`,
       logDetails
     );
 

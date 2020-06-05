@@ -73,7 +73,7 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
 };
 
 // eslint-disable-next-line func-names
-window.CONSTANTS = new function() {
+window.CONSTANTS = new (function() {
   this.MAX_LOGIN_TRIES = 3;
   this.MAX_PASSWORD_LENGTH = 64;
   this.MAX_USERNAME_LENGTH = 20;
@@ -96,7 +96,7 @@ window.CONSTANTS = new function() {
   // https://loki.network/2020/03/25/loki-name-system-the-facts/
   this.LNS_REGEX = `^[a-zA-Z0-9_]([a-zA-Z0-9_-]{0,${this.LNS_MAX_LENGTH -
     2}}[a-zA-Z0-9_]){0,1}$`;
-}();
+})();
 
 window.versionInfo = {
   environment: window.getEnvironment(),
@@ -284,8 +284,6 @@ window.setSettingValue = (settingID, value) => {
   }
 };
 
-// Get the message TTL setting
-window.getMessageTTL = () => window.storage.get('message-ttl', 24);
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
 
 // Auto update setting
