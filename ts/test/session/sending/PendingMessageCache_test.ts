@@ -8,8 +8,6 @@ import { TestUtils } from '../../../test/test-utils';
 import { PendingMessageCache } from '../../../session/sending/PendingMessageCache';
 import { PubKey } from '../../../session/types';
 
-// tslint:disable-next-line: no-require-imports no-var-requires
-const Data = require('../../../../js/modules/data');
 
 // Equivalent to Data.StorageItem
 interface StorageItem {

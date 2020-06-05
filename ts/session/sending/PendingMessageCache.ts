@@ -1,4 +1,4 @@
-import * as Data from '../../../js/modules/data';
+import { getItemById, createOrUpdateItem } from '../../../js/modules/data';
 import { RawMessage } from '../types/RawMessage';
 import { ContentMessage } from '../messages/outgoing';
 import * as MessageUtils from '../utils';
@@ -104,7 +104,7 @@ export class PendingMessageCache {
 
   private async getFromStorage(): Promise<Array<RawMessage>> {
     // tslint:disable-next-line: no-backbone-get-set-outside-model
-    const data = await Data.getItemById('pendingMessages');
+    const data = await getItemById('pendingMessages');
     if (!data || !data.value) {
       return [];
     }
@@ -136,7 +136,7 @@ export class PendingMessageCache {
   private async syncCacheWithDB() {
     // Only call when adding / removing from cache.
     const encodedPendingMessages = JSON.stringify(this.cache) || '';
-    await Data.createOrUpdateItem({
+    await createOrUpdateItem({
       id: 'pendingMessages',
       value: encodedPendingMessages,
     });
