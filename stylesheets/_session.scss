@@ -1589,6 +1589,7 @@ input {
   @media (max-height: 804px) {
     &__container {
       overflow-y: visible;
+      max-height: none;
     }
   }
 }
