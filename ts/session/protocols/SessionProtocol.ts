@@ -2,7 +2,7 @@
 // Structure of this can be changed for example sticking this all in a class
 // The reason i haven't done it is to avoid having instances of the protocol, rather you should be able to call the functions directly
 
-import { OutgoingContentMessage } from '../messages/outgoing';
+import { SessionResetMessage } from '../messages/outgoing';
 
 export function hasSession(device: string): boolean {
   return false; // TODO: Implement
@@ -25,9 +25,8 @@ export async function sendSessionRequestIfNeeded(
   return Promise.reject(new Error('Need to implement this function'));
 }
 
-// TODO: Replace OutgoingContentMessage with SessionReset
 export async function sendSessionRequest(
-  message: OutgoingContentMessage
+  message: SessionResetMessage
 ): Promise<void> {
   // TODO: Optimistically store timestamp of when session request was sent
   // TODO: Send out the request via MessageSender
