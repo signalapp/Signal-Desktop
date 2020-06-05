@@ -1,4 +1,3 @@
-
 export class PubKey {
   public static readonly PUBKEY_LEN = 66;
   private static readonly regex: string = `^05[0-9a-fA-F]{${PubKey.PUBKEY_LEN -
@@ -26,5 +25,4 @@ export class PubKey {
 
     return false;
   }
-
 }

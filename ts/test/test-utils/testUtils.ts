@@ -8,7 +8,6 @@ import { ImportMock } from 'ts-mock-imports';
 import { PubKey } from '../../../ts/session/types';
 import { ChatMessage } from '../../session/messages/outgoing';
 
-
 const sandbox = sinon.createSandbox();
 
 // We have to do this in a weird way because Data uses module.exports

@@ -116,7 +116,14 @@ export class PendingMessageCache {
     const barePending = JSON.parse(String(data.value));
 
     const pending = barePending.map((message: any) => {
-      const { identifier, plainTextBuffer, timestamp, device, ttl, encryption } = message;
+      const {
+        identifier,
+        plainTextBuffer,
+        timestamp,
+        device,
+        ttl,
+        encryption,
+      } = message;
 
       return {
         identifier,
