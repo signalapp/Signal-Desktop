@@ -1,7 +1,6 @@
-import * as crypto from 'crypto';
 
 export class PubKey {
-  private static readonly PUBKEY_LEN = 66;
+  public static readonly PUBKEY_LEN = 66;
   private static readonly regex: string = `^05[0-9a-fA-F]{${PubKey.PUBKEY_LEN -
     2}}$`;
   public readonly key: string;
@@ -28,12 +27,4 @@ export class PubKey {
     return false;
   }
 
-  public static generateFake(): PubKey {
-    // Generates a mock pubkey for testing
-    const numBytes = PubKey.PUBKEY_LEN / 2 - 1;
-    const hexBuffer = crypto.randomBytes(numBytes).toString('hex');
-    const pubkeyString = `05${hexBuffer}`;
-
-    return new PubKey(pubkeyString);
-  }
 }

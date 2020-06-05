@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import * as MessageUtils from '../../../session/utils';
 import { TestUtils } from '../../../test/test-utils';
 import { PendingMessageCache } from '../../../session/sending/PendingMessageCache';
-import { PubKey } from '../../../session/types';
 
 // Equivalent to Data.StorageItem
 interface StorageItem {
@@ -30,11 +29,13 @@ describe('PendingMessageCache', () => {
       });
 
     TestUtils.stubData('createOrUpdateItem').callsFake((item: StorageItem) => {
-      data = item;
+      if (item.id === storageID) {
+        data = item;
+      }
     });
 
     pendingMessageCacheStub = new PendingMessageCache();
-    await pendingMessageCacheStub.init();
+    await pendingMessageCacheStub.isReady;
   });
 
   afterEach(() => {
@@ -42,7 +43,7 @@ describe('PendingMessageCache', () => {
   });
 
   it('can initialize cache', async () => {
-    const cache = pendingMessageCacheStub.get();
+    const cache = pendingMessageCacheStub.getAllPending();
 
     // We expect the cache to initialise as an empty array
     expect(cache).to.be.instanceOf(Array);
@@ -50,14 +51,14 @@ describe('PendingMessageCache', () => {
   });
 
   it('can add to cache', async () => {
-    const device = PubKey.generateFake();
-    const message = MessageUtils.generateUniqueChatMessage();
+    const device = TestUtils.generateFakePubkey();
+    const message = TestUtils.generateUniqueChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
 
     // Verify that the message is in the cache
-    const finalCache = pendingMessageCacheStub.get();
+    const finalCache = pendingMessageCacheStub.getAllPending();
 
     expect(finalCache).to.have.length(1);
 
@@ -67,19 +68,19 @@ describe('PendingMessageCache', () => {
   });
 
   it('can remove from cache', async () => {
-    const device = PubKey.generateFake();
-    const message = MessageUtils.generateUniqueChatMessage();
+    const device = TestUtils.generateFakePubkey();
+    const message = TestUtils.generateUniqueChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
 
-    const initialCache = pendingMessageCacheStub.get();
+    const initialCache = pendingMessageCacheStub.getAllPending();
     expect(initialCache).to.have.length(1);
 
     // Remove the message
     await pendingMessageCacheStub.remove(rawMessage);
 
-    const finalCache = pendingMessageCacheStub.get();
+    const finalCache = pendingMessageCacheStub.getAllPending();
 
     // Verify that the message was removed
     expect(finalCache).to.have.length(0);
@@ -88,16 +89,16 @@ describe('PendingMessageCache', () => {
   it('can get devices', async () => {
     const cacheItems = [
       {
-        device: PubKey.generateFake(),
-        message: MessageUtils.generateUniqueChatMessage(),
+        device: TestUtils.generateFakePubkey(),
+        message: TestUtils.generateUniqueChatMessage(),
       },
       {
-        device: PubKey.generateFake(),
-        message: MessageUtils.generateUniqueChatMessage(),
+        device: TestUtils.generateFakePubkey(),
+        message: TestUtils.generateUniqueChatMessage(),
       },
       {
-        device: PubKey.generateFake(),
-        message: MessageUtils.generateUniqueChatMessage(),
+        device: TestUtils.generateFakePubkey(),
+        message: TestUtils.generateUniqueChatMessage(),
       },
     ];
 
@@ -105,7 +106,7 @@ describe('PendingMessageCache', () => {
       await pendingMessageCacheStub.add(item.device, item.message);
     });
 
-    const cache = pendingMessageCacheStub.get();
+    const cache = pendingMessageCacheStub.getAllPending();
     expect(cache).to.have.length(cacheItems.length);
 
     // Get list of devices
@@ -120,12 +121,12 @@ describe('PendingMessageCache', () => {
   it('can get pending for device', async () => {
     const cacheItems = [
       {
-        device: PubKey.generateFake(),
-        message: MessageUtils.generateUniqueChatMessage(),
+        device: TestUtils.generateFakePubkey(),
+        message: TestUtils.generateUniqueChatMessage(),
       },
       {
-        device: PubKey.generateFake(),
-        message: MessageUtils.generateUniqueChatMessage(),
+        device: TestUtils.generateFakePubkey(),
+        message: TestUtils.generateUniqueChatMessage(),
       },
     ];
 
@@ -133,7 +134,7 @@ describe('PendingMessageCache', () => {
       await pendingMessageCacheStub.add(item.device, item.message);
     });
 
-    const initialCache = pendingMessageCacheStub.get();
+    const initialCache = pendingMessageCacheStub.getAllPending();
     expect(initialCache).to.have.length(cacheItems.length);
 
     // Get pending for each specific device
@@ -147,8 +148,8 @@ describe('PendingMessageCache', () => {
   });
 
   it('can find nothing when empty', async () => {
-    const device = PubKey.generateFake();
-    const message = MessageUtils.generateUniqueChatMessage();
+    const device = TestUtils.generateFakePubkey();
+    const message = TestUtils.generateUniqueChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
     const foundMessage = pendingMessageCacheStub.find(rawMessage);
@@ -156,13 +157,13 @@ describe('PendingMessageCache', () => {
   });
 
   it('can find message in cache', async () => {
-    const device = PubKey.generateFake();
-    const message = MessageUtils.generateUniqueChatMessage();
+    const device = TestUtils.generateFakePubkey();
+    const message = TestUtils.generateUniqueChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
 
-    const finalCache = pendingMessageCacheStub.get();
+    const finalCache = pendingMessageCacheStub.getAllPending();
     expect(finalCache).to.have.length(1);
 
     const foundMessage = pendingMessageCacheStub.find(rawMessage);
@@ -173,16 +174,16 @@ describe('PendingMessageCache', () => {
   it('can clear cache', async () => {
     const cacheItems = [
       {
-        device: PubKey.generateFake(),
-        message: MessageUtils.generateUniqueChatMessage(),
+        device: TestUtils.generateFakePubkey(),
+        message: TestUtils.generateUniqueChatMessage(),
       },
       {
-        device: PubKey.generateFake(),
-        message: MessageUtils.generateUniqueChatMessage(),
+        device: TestUtils.generateFakePubkey(),
+        message: TestUtils.generateUniqueChatMessage(),
       },
       {
-        device: PubKey.generateFake(),
-        message: MessageUtils.generateUniqueChatMessage(),
+        device: TestUtils.generateFakePubkey(),
+        message: TestUtils.generateUniqueChatMessage(),
       },
     ];
 
@@ -190,13 +191,13 @@ describe('PendingMessageCache', () => {
       await pendingMessageCacheStub.add(item.device, item.message);
     });
 
-    const initialCache = pendingMessageCacheStub.get();
+    const initialCache = pendingMessageCacheStub.getAllPending();
     expect(initialCache).to.have.length(cacheItems.length);
 
     // Clear cache
     await pendingMessageCacheStub.clear();
 
-    const finalCache = pendingMessageCacheStub.get();
+    const finalCache = pendingMessageCacheStub.getAllPending();
     expect(finalCache).to.have.length(0);
   });
 });

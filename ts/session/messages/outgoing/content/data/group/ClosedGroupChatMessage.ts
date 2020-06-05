@@ -1,7 +1,6 @@
-import { DataMessage } from './DataMessage';
-import { SignalService } from '../../../../../protobuf';
-import { ChatMessage } from './ChatMessage';
-import { TextEncoder } from 'util';
+import { SignalService } from '../../../../../../protobuf';
+import { ChatMessage } from '../ChatMessage';
+import { ClosedGroupMessage } from './ClosedGroupMessage';
 
 interface ClosedGroupChatMessageParams {
   identifier?: string;
@@ -9,16 +8,15 @@ interface ClosedGroupChatMessageParams {
   chatMessage: ChatMessage;
 }
 
-export class ClosedGroupChatMessage extends DataMessage {
-  private readonly groupId: string;
+export class ClosedGroupChatMessage extends ClosedGroupMessage {
   private readonly chatMessage: ChatMessage;
 
   constructor(params: ClosedGroupChatMessageParams) {
     super({
       timestamp: params.chatMessage.timestamp,
       identifier: params.identifier,
+      groupId: params.groupId,
     });
-    this.groupId = params.groupId;
     this.chatMessage = params.chatMessage;
   }
 
@@ -26,11 +24,13 @@ export class ClosedGroupChatMessage extends DataMessage {
     return this.getDefaultTTL();
   }
 
+  protected groupContextType(): SignalService.GroupContext.Type {
+    return SignalService.GroupContext.Type.DELIVER;
+  }
+
   protected dataProto(): SignalService.DataMessage {
     const messageProto = this.chatMessage.dataProto();
-    const id = new TextEncoder().encode(this.groupId);
-    const type = SignalService.GroupContext.Type.DELIVER;
-    messageProto.group = new SignalService.GroupContext({ id, type });
+    messageProto.group = this.groupContext();
 
     return messageProto;
   }

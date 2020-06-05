@@ -27,7 +27,6 @@ describe('Settings', function() {
     const appProps = {
       mnemonic: common.TEST_MNEMONIC1,
       displayName: common.TEST_DISPLAY_NAME1,
-      stubSnode: true,
     };
 
     app = await common.startAndStub(appProps);

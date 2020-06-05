@@ -72,6 +72,8 @@ class LokiMessageAPI {
     this.jobQueue = new window.JobQueue();
     this.sendingData = {};
     this.ourKey = ourKey;
+    // stop polling for a group if its id is no longer found here
+    this.groupIdsToPoll = {};
   }
 
   async sendMessage(pubKey, data, messageTimeStamp, ttl, options = {}) {
@@ -315,7 +317,7 @@ class LokiMessageAPI {
     );
 
     // eslint-disable-next-line no-constant-condition
-    while (true) {
+    while (this.groupIdsToPoll[groupId]) {
       try {
         let messages = await _retrieveNextMessages(node, groupId);
 
@@ -374,6 +376,13 @@ class LokiMessageAPI {
   async pollForGroupId(groupId, onMessages) {
     log.info(`Starting to poll for group id: ${groupId}`);
 
+    if (this.groupIdsToPoll[groupId]) {
+      log.warn(`Already polling for group id: ${groupId}`);
+      return;
+    }
+
+    this.groupIdsToPoll[groupId] = true;
+
     // Get nodes for groupId
     const nodes = await lokiSnodeAPI.refreshSwarmNodesForPubKey(groupId);
 
@@ -382,6 +391,16 @@ class LokiMessageAPI {
     _.sampleSize(nodes, 3).forEach(node =>
       this.pollNodeForGroupId(groupId, node, onMessages)
     );
+  }
+
+  async stopPollingForGroup(groupId) {
+    if (!this.groupIdsToPoll[groupId]) {
+      log.warn(`Already not polling for group id: ${groupId}`);
+      return;
+    }
+
+    log.warn(`Stop polling for group id: ${groupId}`);
+    delete this.groupIdsToPoll[groupId];
   }
 
   async _openRetrieveConnection(pSwarmPool, stopPollingPromise, onMessages) {
@@ -505,9 +524,7 @@ class LokiMessageAPI {
 
     // Start polling for medium size groups as well (they might be in different swarms)
     {
-      const convos = window
-        .getConversations()
-        .filter(c => c.get('is_medium_group'));
+      const convos = window.getConversations().filter(c => c.isMediumGroup());
 
       const self = this;
 

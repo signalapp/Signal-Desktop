@@ -1,7 +1,5 @@
-import uuid from 'uuid';
-
 import { RawMessage } from '../types/RawMessage';
-import { ChatMessage, ContentMessage } from '../messages/outgoing';
+import { ContentMessage } from '../messages/outgoing';
 import { EncryptionType, PubKey } from '../types';
 
 export function toRawMessage(
@@ -23,17 +21,4 @@ export function toRawMessage(
   };
 
   return rawMessage;
-}
-
-export function generateUniqueChatMessage(): ChatMessage {
-  return new ChatMessage({
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    identifier: uuid(),
-    timestamp: Date.now(),
-    attachments: undefined,
-    quote: undefined,
-    expireTimer: undefined,
-    lokiProfile: undefined,
-    preview: undefined,
-  });
 }
