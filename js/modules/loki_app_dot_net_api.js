@@ -478,7 +478,7 @@ const serverRequest = async (endpoint, options = {}) => {
 };
 
 // the core ADN class that handles all communication with a specific server
-class LokiAppDotNetServerAPI {
+export default class LokiAppDotNetServerAPI {
   constructor(ourKey, url) {
     this.ourKey = ourKey;
     this.channels = [];
@@ -2314,5 +2314,3 @@ class LokiPublicChannelAPI {
     return false;
   }
 }
-
-module.exports = LokiAppDotNetServerAPI;
