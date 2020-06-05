@@ -4,7 +4,7 @@ module.exports = {
   // conversation view
   sessionLoader: commonPage.divWithClass('session-loader'),
   leftPaneOverlay: commonPage.divWithClass('module-left-pane-overlay'),
-  sendMessageTextarea: commonPage.textAreaWithPlaceholder('Type your message'),
+  sendMessageTextarea: commonPage.textAreaWithClass('send-message'),
   sendFriendRequestTextarea: commonPage.textAreaWithPlaceholder(
     'Send your first message'
   ),
@@ -40,8 +40,6 @@ module.exports = {
     '//*[contains(@class, "session-modal")]//div[contains(string(), "Delete") and contains(@class, "session-button")]',
 
   // channels
-  globeButtonSection:
-    '//*[contains(@class,"session-icon-button")  and .//*[contains(@class, "globe")]]',
   joinOpenGroupButton: commonPage.divRoleButtonWithText('Join Open Group'),
   openGroupInputUrl: commonPage.textAreaWithPlaceholder('chat.getsession.org'),
   sessionToastJoinOpenGroupSuccess: commonPage.toastWithText(
@@ -63,7 +61,11 @@ module.exports = {
   closedGroupNameTextarea: commonPage.textAreaWithPlaceholder(
     'Enter a group name'
   ),
-  createClosedGroupMemberItem: commonPage.divWithClass('session-member-item'),
+  createClosedGroupMemberItem: idx =>
+    commonPage.divWithClass(`session-member-item-${idx}`),
+  createClosedGroupSealedSenderToggle: commonPage.divWithClass(
+    'session-toggle'
+  ),
   createClosedGroupMemberItemSelected: commonPage.divWithClass(
     'session-member-item selected'
   ),

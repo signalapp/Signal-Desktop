@@ -638,22 +638,20 @@
     window.doUpdateGroup = async (groupId, groupName, members, avatar) => {
       const ourKey = textsecure.storage.user.getNumber();
 
-      const ev = new Event('message');
-      ev.confirm = () => {};
-
-      ev.data = {
-        source: ourKey,
-        timestamp: Date.now(),
-        message: {
-          group: {
-            id: groupId,
-            type: textsecure.protobuf.GroupContext.Type.UPDATE,
-            name: groupName,
-            members,
-            avatar: null, // TODO
-          },
+      const ev = {
+        groupDetails: {
+          id: groupId,
+          name: groupName,
+          members,
+          active: true,
+          expireTimer: 0,
+          avatar: '',
+          is_medium_group: false,
         },
+        confirm: () => {},
       };
+
+      await onGroupReceived(ev);
 
       const convo = await ConversationController.getOrCreateAndWait(
         groupId,
@@ -719,39 +717,126 @@
 
       const recipients = _.union(convo.get('members'), members);
 
-      await onMessageReceived(ev);
-      convo.updateGroup({
-        groupId,
-        groupName,
+      const isMediumGroup = convo.isMediumGroup();
+
+      const updateObj = {
+        id: groupId,
+        name: groupName,
         avatar: nullAvatar,
         recipients,
         members,
+        is_medium_group: isMediumGroup,
         options,
+      };
+
+      // Send own sender keys and group secret key
+      if (isMediumGroup) {
+        const { chainKey, keyIdx } = await window.SenderKeyAPI.getSenderKeys(
+          groupId,
+          ourKey
+        );
+
+        updateObj.senderKey = {
+          chainKey: StringView.arrayBufferToHex(chainKey),
+          keyIdx,
+        };
+
+        const groupIdentity = await window.Signal.Data.getIdentityKeyById(
+          groupId
+        );
+
+        const secretKeyHex = StringView.hexToArrayBuffer(
+          groupIdentity.secretKey
+        );
+
+        updateObj.secretKey = secretKeyHex;
+      }
+
+      convo.updateGroup(updateObj);
+    };
+
+    window.createMediumSizeGroup = async (groupName, members) => {
+      // Create Group Identity
+      const identityKeys = await libsignal.KeyHelper.generateIdentityKeyPair();
+      const groupId = StringView.arrayBufferToHex(identityKeys.pubKey);
+
+      const ourIdentity = await textsecure.storage.user.getNumber();
+
+      const senderKey = await window.SenderKeyAPI.createSenderKeyForGroup(
+        groupId,
+        ourIdentity
+      );
+
+      const groupSecretKeyHex = StringView.arrayBufferToHex(
+        identityKeys.privKey
+      );
+
+      const primary = window.storage.get('primaryDevicePubKey');
+
+      const allMembers = [primary, ...members];
+
+      await window.Signal.Data.createOrUpdateIdentityKey({
+        id: groupId,
+        secretKey: groupSecretKeyHex,
       });
+
+      const ev = {
+        groupDetails: {
+          id: groupId,
+          name: groupName,
+          members: allMembers,
+          recipients: allMembers,
+          active: true,
+          expireTimer: 0,
+          avatar: '',
+          secretKey: identityKeys.privKey,
+          senderKey,
+          is_medium_group: true,
+        },
+        confirm: () => {},
+      };
+
+      await onGroupReceived(ev);
+
+      const convo = await ConversationController.getOrCreateAndWait(
+        groupId,
+        'group'
+      );
+
+      convo.updateGroupAdmins([primary]);
+      convo.updateGroup(ev.groupDetails);
+
+      convo.setFriendRequestStatus(
+        window.friends.friendRequestStatusEnum.friends
+      );
+
+      appView.openConversation(groupId, {});
+
+      // Subscribe to this group id
+      messageReceiver.pollForAdditionalId(groupId);
     };
 
     window.doCreateGroup = async (groupName, members) => {
       const keypair = await libsignal.KeyHelper.generateIdentityKeyPair();
       const groupId = StringView.arrayBufferToHex(keypair.pubKey);
 
-      const ev = new Event('group');
-
       const primaryDeviceKey =
         window.storage.get('primaryDevicePubKey') ||
         textsecure.storage.user.getNumber();
       const allMembers = [primaryDeviceKey, ...members];
 
-      ev.groupDetails = {
-        id: groupId,
-        name: groupName,
-        members: allMembers,
-        recipients: allMembers,
-        active: true,
-        expireTimer: 0,
-        avatar: '',
+      const ev = {
+        groupDetails: {
+          id: groupId,
+          name: groupName,
+          members: allMembers,
+          recipients: allMembers,
+          active: true,
+          expireTimer: 0,
+          avatar: '',
+        },
+        confirm: () => {},
       };
-
-      ev.confirm = () => {};
 
       await onGroupReceived(ev);
 
@@ -769,6 +854,7 @@
         window.friends.friendRequestStatusEnum.friends
       );
 
+      textsecure.messaging.sendGroupSyncMessage([convo]);
       appView.openConversation(groupId, {});
     };
 
@@ -904,10 +990,6 @@
       window.setSettingValue('link-preview-setting', false);
     }
 
-    // Render onboarding message from LeftPaneMessageSection
-    // unless user turns it off during their session
-    window.setSettingValue('render-message-onboarding', true);
-
     // Generates useful random ID for various purposes
     window.generateID = () =>
       Math.random()
@@ -958,20 +1040,6 @@
       }
 
       return toastID;
-    };
-
-    window.getFriendsFromContacts = contacts => {
-      // To call from TypeScript, input / output are both
-      // of type Array<ConversationType>
-      let friendList = contacts;
-      if (friendList !== undefined) {
-        friendList = friendList.filter(
-          friend =>
-            (friend.type === 'direct' && !friend.isMe) ||
-            (friend.type === 'group' && !friend.isPublic && !friend.isRss)
-        );
-      }
-      return friendList;
     };
 
     // Get memberlist. This function is not accurate >>
@@ -1377,9 +1445,11 @@
       // TODO: we should ensure the message was sent and retry automatically if not
       await libloki.api.sendUnpairingMessageToSecondary(pubKey);
       // Remove all traces of the device
-      ConversationController.deleteContact(pubKey);
-      Whisper.events.trigger('refreshLinkedDeviceList');
-      callback();
+      setTimeout(() => {
+        ConversationController.deleteContact(pubKey);
+        Whisper.events.trigger('refreshLinkedDeviceList');
+        callback();
+      }, 1000);
     });
   }
 
@@ -1706,6 +1776,12 @@
     const details = ev.contactDetails;
 
     const id = details.number;
+    libloki.api.debug.logContactSync(
+      'Got sync contact message with',
+      id,
+      ' details:',
+      details
+    );
 
     if (id === textsecure.storage.user.getNumber()) {
       // special case for syncing details about ourselves
@@ -1754,13 +1830,21 @@
         await conversation.setSecondaryStatus(true, ourPrimaryKey);
       }
 
-      if (conversation.isFriendRequestStatusNone()) {
-        // Will be replaced with automatic friend request
-        libloki.api.sendBackgroundMessage(conversation.id);
-      } else {
-        // Accept any pending friend requests if there are any
-        conversation.onAcceptFriendRequest({ blockSync: true });
-      }
+      const otherDevices = await libloki.storage.getPairedDevicesFor(id);
+      const devices = [id, ...otherDevices];
+      const deviceConversations = await Promise.all(
+        devices.map(d =>
+          ConversationController.getOrCreateAndWait(d, 'private')
+        )
+      );
+      deviceConversations.forEach(device => {
+        if (device.isFriendRequestStatusNoneOrExpired()) {
+          libloki.api.sendAutoFriendRequestMessage(device.id);
+        } else {
+          // Accept any pending friend requests if there are any
+          device.onAcceptFriendRequest({ blockSync: true });
+        }
+      });
 
       if (details.profileKey) {
         const profileKey = window.Signal.Crypto.arrayBufferToBase64(
@@ -1841,6 +1925,13 @@
     const details = ev.groupDetails;
     const { id } = details;
 
+    libloki.api.debug.logGroupSync(
+      'Got sync group message with group id',
+      id,
+      ' details:',
+      details
+    );
+
     const conversation = await ConversationController.getOrCreateAndWait(
       id,
       'group'
@@ -1851,6 +1942,7 @@
       members: details.members,
       color: details.color,
       type: 'group',
+      is_medium_group: details.is_medium_group || false,
     };
 
     if (details.active) {
@@ -1891,6 +1983,10 @@
     await window.Signal.Data.updateConversation(id, conversation.attributes, {
       Conversation: Whisper.Conversation,
     });
+
+    // send a session request for all the members we do not have a session with
+    window.libloki.api.sendSessionRequestsToMembers(updates.members);
+
     const { expireTimer } = details;
     const isValidExpireTimer = typeof expireTimer === 'number';
     if (!isValidExpireTimer) {
@@ -1956,24 +2052,7 @@
       const descriptorId = await textsecure.MessageReceiver.arrayBufferToString(
         messageDescriptor.id
       );
-      let message;
-      const { source } = data;
-
-      // Note: This only works currently because we have a 1 device limit
-      // When we change that, the check below needs to change too
-      const ourNumber = textsecure.storage.user.getNumber();
-      const primaryDevice = window.storage.get('primaryDevicePubKey');
-      const isOurDevice =
-        source && (source === ourNumber || source === primaryDevice);
-      const isPublicChatMessage =
-        messageDescriptor.type === 'group' &&
-        descriptorId.match(/^publicChat:/);
-      if (isPublicChatMessage && isOurDevice) {
-        // Public chat messages from ourselves should be outgoing
-        message = await createSentMessage(data);
-      } else {
-        message = await createMessage(data);
-      }
+      const message = await createMessage(data);
 
       const isDuplicate = await isMessageDuplicate(message);
       if (isDuplicate) {

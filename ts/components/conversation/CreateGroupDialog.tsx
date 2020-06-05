@@ -8,6 +8,7 @@ declare global {
   interface Window {
     Lodash: any;
     doCreateGroup: any;
+    createMediumSizeGroup: any;
     SMALL_GROUP_SIZE_LIMIT: number;
   }
 }

@@ -37,3 +37,6 @@ ts/protobuf/*.d.ts
 
 # Ctags
 tags
+
+proxy.key
+proxy.pub

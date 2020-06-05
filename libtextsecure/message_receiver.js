@@ -19,6 +19,7 @@
 /* global WebAPI: false */
 /* global ConversationController: false */
 /* global Signal: false */
+/* global log: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
@@ -58,7 +59,7 @@ function MessageReceiver(username, password, signalingKey, options = {}) {
       openGroupBound = true;
     }
   } else {
-    window.log.error('Can not handle open group data, API is not available');
+    window.log.warn('Can not handle open group data, API is not available');
   }
 }
 
@@ -120,7 +121,23 @@ MessageReceiver.prototype.extend({
       );
     }
 
-    const ev = new Event('message');
+    const ourNumber = textsecure.storage.user.getNumber();
+    const primaryDevice = window.storage.get('primaryDevicePubKey');
+    const isOurDevice =
+      message.source &&
+      (message.source === ourNumber || message.source === primaryDevice);
+    const isPublicChatMessage =
+      message.message.group &&
+      message.message.group.id &&
+      !!message.message.group.id.match(/^publicChat:/);
+    let ev;
+
+    if (isPublicChatMessage && isOurDevice) {
+      // Public chat messages from ourselves should be outgoing
+      ev = new Event('sent');
+    } else {
+      ev = new Event('message');
+    }
     ev.confirm = function confirmTerm() {};
     ev.data = message;
     this.dispatchAndWait(ev);
@@ -170,6 +187,11 @@ MessageReceiver.prototype.extend({
       this.calledClose
     );
   },
+
+  pollForAdditionalId(id) {
+    this.httpPollingResource.pollForAdditionalId(id);
+  },
+
   handleRequest(request, options) {
     const { onSuccess, onFailure } = options;
     this.incoming = this.incoming || [];
@@ -189,11 +211,32 @@ MessageReceiver.prototype.extend({
     }
 
     const promise = Promise.resolve(request.body.toArrayBuffer()) // textsecure.crypto
-      .then(plaintext => {
+      .then(plaintextImmutable => {
+        let plaintext = plaintextImmutable;
+
         const envelope = textsecure.protobuf.Envelope.decode(plaintext);
         // After this point, decoding errors are not the server's
         //   fault, and we should handle them gracefully and tell the
         //   user they received an invalid message
+
+        // The message is for a medium size group
+        if (options.conversationId) {
+          const ourNumber = textsecure.storage.user.getNumber();
+          const senderIdentity = envelope.source;
+
+          if (senderIdentity === ourNumber) {
+            // Ignoring our own message
+            return request.respond(200, 'OK');
+          }
+
+          // Sender identity will be lost if we load from cache, because
+          // plaintext (and protobuf.Envelope) does not have that field...
+          envelope.source = options.conversationId;
+          plaintext = textsecure.protobuf.Envelope.encode(
+            envelope
+          ).toArrayBuffer();
+          envelope.senderIdentity = senderIdentity;
+        }
 
         if (this.isBlocked(envelope.source)) {
           return request.respond(200, 'OK');
@@ -334,6 +377,7 @@ MessageReceiver.prototype.extend({
       envelope.id = envelope.serverGuid || item.id;
       envelope.source = envelope.source || item.source;
       envelope.sourceDevice = envelope.sourceDevice || item.sourceDevice;
+      envelope.senderIdentity = envelope.senderIdentity || item.senderIdentity;
       envelope.serverTimestamp =
         envelope.serverTimestamp || item.serverTimestamp;
       envelope.preKeyBundleMessage =
@@ -447,6 +491,11 @@ MessageReceiver.prototype.extend({
       timestamp: Date.now(),
       attempts: 1,
     };
+
+    if (envelope.senderIdentity) {
+      data.senderIdentity = envelope.senderIdentity;
+    }
+
     return textsecure.storage.unprocessed.add(data);
   },
   async updateCache(envelope, plaintext) {
@@ -462,6 +511,11 @@ MessageReceiver.prototype.extend({
     item.source = envelope.source;
     item.sourceDevice = envelope.sourceDevice;
     item.serverTimestamp = envelope.serverTimestamp;
+
+    // For medium-size closed groups
+    if (envelope.senderIdentity) {
+      item.senderIdentity = envelope.senderIdentity;
+    }
 
     if (item.version === 2) {
       item.decrypted = await MessageReceiver.arrayBufferToStringBase64(
@@ -599,6 +653,65 @@ MessageReceiver.prototype.extend({
 
     return plaintext;
   },
+  async postDecrypt(envelope, plaintext) {
+    const { isMe, isBlocked } = plaintext || {};
+    if (isMe || isBlocked) {
+      this.removeFromCache(envelope);
+      return null;
+    }
+
+    this.updateCache(envelope, plaintext).catch(error => {
+      window.log.error(
+        'decrypt failed to save decrypted message contents to cache:',
+        error && error.stack ? error.stack : error
+      );
+    });
+
+    return plaintext;
+  },
+  async decryptForMediumGroup(envelope, ciphertextObj) {
+    const groupId = envelope.source;
+
+    const identity = await window.Signal.Data.getIdentityKeyById(groupId);
+    const secretKeyHex = identity.secretKey;
+
+    if (!secretKeyHex) {
+      throw new Error(`Secret key is empty for group ${groupId}!`);
+    }
+
+    const { senderIdentity } = envelope;
+
+    const {
+      ciphertext: outerCiphertext,
+      ephemeralKey,
+    } = textsecure.protobuf.MediumGroupContent.decode(ciphertextObj);
+
+    const ephemKey = ephemeralKey.toArrayBuffer();
+    const secretKey = dcodeIO.ByteBuffer.wrap(
+      secretKeyHex,
+      'hex'
+    ).toArrayBuffer();
+
+    const mediumGroupCiphertext = await libloki.crypto.decryptForPubkey(
+      secretKey,
+      ephemKey,
+      outerCiphertext.toArrayBuffer()
+    );
+
+    const {
+      ciphertext,
+      keyIdx,
+    } = textsecure.protobuf.MediumGroupCiphertext.decode(mediumGroupCiphertext);
+
+    const plaintext = await window.SenderKeyAPI.decryptWithSenderKey(
+      ciphertext.toArrayBuffer(),
+      keyIdx,
+      groupId,
+      senderIdentity
+    );
+
+    return plaintext;
+  },
   async decrypt(envelope, ciphertext) {
     let promise;
 
@@ -626,6 +739,9 @@ MessageReceiver.prototype.extend({
         promise = lokiSessionCipher
           .decryptWhisperMessage(ciphertext)
           .then(this.unpad);
+        break;
+      case textsecure.protobuf.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT:
+        promise = this.decryptForMediumGroup(envelope, ciphertext);
         break;
       case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST: {
         window.log.info('friend-request message from ', envelope.source);
@@ -731,51 +847,24 @@ MessageReceiver.prototype.extend({
     }
 
     return promise
-      .then(async plaintext => {
-        const { isMe, isBlocked } = plaintext || {};
-        if (isMe || isBlocked) {
-          this.removeFromCache(envelope);
-          return null;
-        }
-
-        let conversation;
-        try {
-          conversation = await window.ConversationController.getOrCreateAndWait(
-            envelope.source,
-            'private'
-          );
-        } catch (e) {
-          window.log.info('Error getting conversation: ', envelope.source);
-        }
-
-        // Type here can actually be UNIDENTIFIED_SENDER even if
-        // the underlying message is FRIEND_REQUEST
-        if (
-          envelope.type !== textsecure.protobuf.Envelope.Type.FRIEND_REQUEST
-        ) {
-          // If we got here there is a valid session, which meants friend request
-          // is complete (if it wasn't already)
-          if (conversation) {
-            const isFriendRequestAccept = await conversation.onFriendRequestAccepted();
-            if (isFriendRequestAccept) {
-              await conversation.notifyFriendRequest(
-                envelope.source,
-                'accepted'
-              );
-            }
-          }
-        }
-
-        this.updateCache(envelope, plaintext).catch(error => {
-          window.log.error(
-            'decrypt failed to save decrypted message contents to cache:',
-            error && error.stack ? error.stack : error
-          );
-        });
-
-        return plaintext;
-      })
+      .then(plaintext => this.postDecrypt(envelope, plaintext))
       .catch(error => {
+        if (error && error instanceof textsecure.SenderKeyMissing) {
+          const groupId = envelope.source;
+          const { senderIdentity } = error;
+
+          log.info(
+            'Requesting missing key for identity: ',
+            senderIdentity,
+            'groupId: ',
+            groupId
+          );
+
+          textsecure.messaging.requestSenderKeys(senderIdentity, groupId);
+
+          return;
+        }
+
         let errorToThrow = error;
 
         const noSession =
@@ -803,7 +892,7 @@ MessageReceiver.prototype.extend({
         ev.confirm = this.removeFromCache.bind(this, envelope);
 
         const returnError = () => Promise.reject(errorToThrow);
-        return this.dispatchAndWait(ev).then(returnError, returnError);
+        this.dispatchAndWait(ev).then(returnError, returnError);
       });
   },
   async decryptPreKeyWhisperMessage(ciphertext, sessionCipher, address) {
@@ -827,7 +916,7 @@ MessageReceiver.prototype.extend({
   },
   // handle a SYNC message for a message
   // sent by another device
-  handleSentMessage(envelope, sentContainer, msg) {
+  async handleSentMessage(envelope, sentContainer, msg) {
     const {
       destination,
       timestamp,
@@ -835,59 +924,64 @@ MessageReceiver.prototype.extend({
       unidentifiedStatus,
     } = sentContainer;
 
-    let p = Promise.resolve();
     // eslint-disable-next-line no-bitwise
     if (msg.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) {
-      p = this.handleEndSession(destination);
+      await this.handleEndSession(destination);
     }
-    return p.then(() =>
-      this.processDecrypted(envelope, msg).then(message => {
-        const groupId = message.group && message.group.id;
-        const isBlocked = this.isGroupBlocked(groupId);
-        const primaryDevicePubKey = window.storage.get('primaryDevicePubKey');
-        const isMe =
-          envelope.source === textsecure.storage.user.getNumber() ||
-          envelope.source === primaryDevicePubKey;
-        const isLeavingGroup = Boolean(
-          message.group &&
-            message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
-        );
 
-        if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
-          window.log.warn(
-            `Message ${this.getEnvelopeId(
-              envelope
-            )} ignored; destined for blocked group`
-          );
-          return this.removeFromCache(envelope);
-        }
+    // if (msg.mediumGroupUpdate) {
+    //   await this.handleMediumGroupUpdate(envelope, msg.mediumGroupUpdate);
+    //   return;
+    // }
 
-        // handle profileKey and avatar updates
-        if (envelope.source === primaryDevicePubKey) {
-          const { profileKey, profile } = message;
-          const primaryConversation = ConversationController.get(
-            primaryDevicePubKey
-          );
-          if (profile) {
-            this.updateProfile(primaryConversation, profile, profileKey);
-          }
-        }
+    const message = await this.processDecrypted(envelope, msg);
 
-        const ev = new Event('sent');
-        ev.confirm = this.removeFromCache.bind(this, envelope);
-        ev.data = {
-          destination,
-          timestamp: timestamp.toNumber(),
-          device: envelope.sourceDevice,
-          unidentifiedStatus,
-          message,
-        };
-        if (expirationStartTimestamp) {
-          ev.data.expirationStartTimestamp = expirationStartTimestamp.toNumber();
-        }
-        return this.dispatchAndWait(ev);
-      })
-    );
+    const primaryDevicePubKey = window.storage.get('primaryDevicePubKey');
+    // const groupId = message.group && message.group.id;
+    // const isBlocked = this.isGroupBlocked(groupId);
+    //
+    // const isMe =
+    //   envelope.source === textsecure.storage.user.getNumber() ||
+    //   envelope.source === primaryDevicePubKey;
+    // const isLeavingGroup = Boolean(
+    //   message.group &&
+    //     message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
+    // );
+
+    // if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
+    //   window.log.warn(
+    //     `Message ${this.getEnvelopeId(
+    //       envelope
+    //     )} ignored; destined for blocked group`
+    //   );
+    //   this.removeFromCache(envelope);
+    //   return;
+    // }
+
+    // handle profileKey and avatar updates
+    if (envelope.source === primaryDevicePubKey) {
+      const { profileKey, profile } = message;
+      const primaryConversation = ConversationController.get(
+        primaryDevicePubKey
+      );
+      if (profile) {
+        this.updateProfile(primaryConversation, profile, profileKey);
+      }
+    }
+
+    const ev = new Event('sent');
+    ev.confirm = this.removeFromCache.bind(this, envelope);
+    ev.data = {
+      destination,
+      timestamp: timestamp.toNumber(),
+      device: envelope.sourceDevice,
+      unidentifiedStatus,
+      message,
+    };
+    if (expirationStartTimestamp) {
+      ev.data.expirationStartTimestamp = expirationStartTimestamp.toNumber();
+    }
+    this.dispatchAndWait(ev);
   },
   async handleLokiAddressMessage(envelope) {
     window.log.warn('Ignoring a Loki address message');
@@ -974,40 +1068,6 @@ MessageReceiver.prototype.extend({
       await this.removeFromCache(envelope);
     }
   },
-  async sendFriendRequestsToSyncContacts(contacts) {
-    const attachmentPointer = await this.handleAttachment(contacts);
-    const contactBuffer = new ContactBuffer(attachmentPointer.data);
-    let contactDetails = contactBuffer.next();
-    // Extract just the pubkeys
-    const friendPubKeys = [];
-    while (contactDetails !== undefined) {
-      friendPubKeys.push(contactDetails.number);
-      contactDetails = contactBuffer.next();
-    }
-    return Promise.all(
-      friendPubKeys.map(async pubKey => {
-        const c = await window.ConversationController.getOrCreateAndWait(
-          pubKey,
-          'private'
-        );
-        if (!c) {
-          return null;
-        }
-        const attachments = [];
-        const quote = null;
-        const linkPreview = null;
-        // Send an empty message, the underlying logic will know
-        // it should send a friend request
-        return c.sendMessage('', attachments, quote, linkPreview);
-      })
-    );
-  },
-  async handleAuthorisationForContact(envelope) {
-    window.log.error(
-      'Unexpected pairing request/authorisation received, ignoring.'
-    );
-    return this.removeFromCache(envelope);
-  },
   async handlePairingAuthorisationMessage(envelope, content) {
     const { pairingAuthorisation } = content;
     const { secondaryDevicePubKey, grantSignature } = pairingAuthorisation;
@@ -1022,45 +1082,6 @@ MessageReceiver.prototype.extend({
       );
     }
     return this.handlePairingRequest(envelope, pairingAuthorisation);
-  },
-
-  async handleSecondaryDeviceFriendRequest(pubKey, deviceMapping) {
-    if (!deviceMapping) {
-      return false;
-    }
-    // Only handle secondary pubkeys
-    if (deviceMapping.isPrimary === '1' || !deviceMapping.authorisations) {
-      return false;
-    }
-    const { authorisations } = deviceMapping;
-    // Secondary devices should only have 1 authorisation from a primary device
-    if (authorisations.length !== 1) {
-      return false;
-    }
-    const authorisation = authorisations[0];
-    if (!authorisation) {
-      return false;
-    }
-    if (!authorisation.grantSignature) {
-      return false;
-    }
-    const isValid = await libloki.crypto.validateAuthorisation(authorisation);
-    if (!isValid) {
-      return false;
-    }
-    const correctSender = pubKey === authorisation.secondaryDevicePubKey;
-    if (!correctSender) {
-      return false;
-    }
-    const { primaryDevicePubKey } = authorisation;
-    // ensure the primary device is a friend
-    const c = window.ConversationController.get(primaryDevicePubKey);
-    if (!c || !c.isFriendWithAnyDevice()) {
-      return false;
-    }
-    await libloki.storage.savePairingAuthorisation(authorisation);
-
-    return true;
   },
 
   async updateProfile(conversation, profile, profileKey) {
@@ -1115,162 +1136,342 @@ MessageReceiver.prototype.extend({
 
     await conversation.setLokiProfile(newProfile);
   },
-  handleDataMessage(envelope, msg) {
+  async unpairingRequestIsLegit(source, ourPubKey) {
+    const isSecondary = textsecure.storage.get('isSecondaryDevice');
+    if (!isSecondary) {
+      return false;
+    }
+    const primaryPubKey = window.storage.get('primaryDevicePubKey');
+    // TODO: allow unpairing from any paired device?
+    if (source !== primaryPubKey) {
+      return false;
+    }
+
+    const primaryMapping = await lokiFileServerAPI.getUserDeviceMapping(
+      primaryPubKey
+    );
+
+    // If we don't have a mapping on the primary then we have been unlinked
+    if (!primaryMapping) {
+      return true;
+    }
+
+    // We expect the primary device to have updated its mapping
+    // before sending the unpairing request
+    const found = primaryMapping.authorisations.find(
+      authorisation => authorisation.secondaryDevicePubKey === ourPubKey
+    );
+
+    // our pubkey should NOT be in the primary device mapping
+    return !found;
+  },
+
+  async clearAppAndRestart() {
+    // remove our device mapping annotations from file server
+    await lokiFileServerAPI.clearOurDeviceMappingAnnotations();
+    // Delete the account and restart
+    try {
+      await window.Signal.Logs.deleteAll();
+      await window.Signal.Data.removeAll();
+      await window.Signal.Data.close();
+      await window.Signal.Data.removeDB();
+      await window.Signal.Data.removeOtherData();
+      // TODO generate an empty db with a flag
+      // to display a message about the unpairing
+      // after the app restarts
+    } catch (error) {
+      window.log.error(
+        'Something went wrong deleting all data:',
+        error && error.stack ? error.stack : error
+      );
+    }
+    window.restart();
+  },
+
+  async handleUnpairRequest(envelope, ourPubKey) {
+    // TODO: move high-level pairing logic to libloki.multidevice.xx
+
+    const legit = await this.unpairingRequestIsLegit(
+      envelope.source,
+      ourPubKey
+    );
+    this.removeFromCache(envelope);
+    if (legit) {
+      await this.clearAppAndRestart();
+    }
+  },
+
+  async handleMediumGroupUpdate(envelope, groupUpdate) {
+    const { type, groupId } = groupUpdate;
+
+    const ourIdentity = await textsecure.storage.user.getNumber();
+    const senderIdentity = envelope.source;
+
+    if (
+      type === textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY_REQUEST
+    ) {
+      log.debug('[sender key] sender key request from:', senderIdentity);
+
+      const proto = new textsecure.protobuf.DataMessage();
+
+      // We reuse the same message type for sender keys
+      const update = new textsecure.protobuf.MediumGroupUpdate();
+
+      const { chainKey, keyIdx } = await window.SenderKeyAPI.getSenderKeys(
+        groupId,
+        ourIdentity
+      );
+
+      update.type = textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY;
+      update.groupId = groupId;
+      update.senderKey = new textsecure.protobuf.SenderKey({
+        chainKey: StringView.arrayBufferToHex(chainKey),
+        keyIdx,
+      });
+
+      proto.mediumGroupUpdate = update;
+
+      textsecure.messaging.updateMediumGroup([senderIdentity], proto);
+
+      this.removeFromCache(envelope);
+    } else if (type === textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY) {
+      const { senderKey } = groupUpdate;
+
+      log.debug('[sender key] got a new sender key from:', senderIdentity);
+
+      await window.SenderKeyAPI.saveSenderKeys(
+        groupId,
+        senderIdentity,
+        senderKey.chainKey,
+        senderKey.keyIdx
+      );
+
+      this.removeFromCache(envelope);
+    } else if (type === textsecure.protobuf.MediumGroupUpdate.Type.NEW_GROUP) {
+      const maybeConvo = await window.ConversationController.get(groupId);
+      const groupExists = !!maybeConvo;
+
+      const {
+        members: membersBinary,
+        groupSecretKey,
+        groupName,
+        senderKey,
+        admins,
+      } = groupUpdate;
+
+      const members = membersBinary.map(pk =>
+        StringView.arrayBufferToHex(pk.toArrayBuffer())
+      );
+
+      const convo = groupExists
+        ? maybeConvo
+        : await window.ConversationController.getOrCreateAndWait(
+            groupId,
+            'group'
+          );
+
+      {
+        // Add group update message
+        const now = Date.now();
+        const message = convo.messageCollection.add({
+          conversationId: convo.id,
+          type: 'incoming',
+          sent_at: now,
+          received_at: now,
+          group_update: {
+            name: groupName,
+            members,
+          },
+        });
+
+        const messageId = await window.Signal.Data.saveMessage(
+          message.attributes,
+          {
+            Message: Whisper.Message,
+          }
+        );
+        message.set({ id: messageId });
+      }
+
+      if (groupExists) {
+        // ***** Updating the group *****
+        log.info('Received a group update for medium group:', groupId);
+
+        // Check that the sender is admin (make sure it words with multidevice)
+        const isAdmin = convo.get('groupAdmins').includes(senderIdentity);
+
+        if (!isAdmin) {
+          log.warn('Rejected attempt to update a group by non-admin');
+          this.removeFromCache(envelope);
+          return;
+        }
+
+        convo.set('name', groupName);
+        convo.set('members', members);
+
+        // TODO: check that we are still in the group (when we enable deleting members)
+        convo.saveChangesToDB();
+
+        // Update other fields. Add a corresponding "update" message to the conversation
+      } else {
+        // ***** Creating a new group *****
+        log.info('Received a new medium group:', groupId);
+
+        // TODO: Check that we are even a part of this group?
+
+        convo.set('is_medium_group', true);
+        convo.set('active_at', Date.now());
+        convo.set('name', groupName);
+        convo.set('groupAdmins', admins);
+
+        convo.setFriendRequestStatus(
+          window.friends.friendRequestStatusEnum.friends
+        );
+
+        const secretKeyHex = StringView.arrayBufferToHex(
+          groupSecretKey.toArrayBuffer()
+        );
+
+        await window.Signal.Data.createOrUpdateIdentityKey({
+          id: groupId,
+          secretKey: secretKeyHex,
+        });
+
+        // Save sender's key
+        await window.SenderKeyAPI.saveSenderKeys(
+          groupId,
+          envelope.source,
+          senderKey.chainKey,
+          senderKey.keyIdx
+        );
+
+        const ownSenderKey = await window.SenderKeyAPI.createSenderKeyForGroup(
+          groupId,
+          ourIdentity
+        );
+
+        {
+          // Send own key to every member
+          const otherMembers = _.without(members, ourIdentity);
+
+          const proto = new textsecure.protobuf.DataMessage();
+
+          // We reuse the same message type for sender keys
+          const update = new textsecure.protobuf.MediumGroupUpdate();
+          update.type = textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY;
+          update.groupId = groupId;
+          update.senderKey = new textsecure.protobuf.SenderKey({
+            chainKey: ownSenderKey,
+            keyIdx: 0,
+          });
+
+          proto.mediumGroupUpdate = update;
+
+          textsecure.messaging.updateMediumGroup(otherMembers, proto);
+        }
+
+        // Subscribe to this group
+        this.pollForAdditionalId(groupId);
+      }
+
+      this.removeFromCache(envelope);
+    }
+  },
+  async handleDataMessage(envelope, msg) {
     window.log.info('data message from', this.getEnvelopeId(envelope));
-    let p = Promise.resolve();
+
+    if (msg.mediumGroupUpdate) {
+      this.handleMediumGroupUpdate(envelope, msg.mediumGroupUpdate);
+      // TODO: investigate the meaning of this return value
+      return true;
+    }
+
     // eslint-disable-next-line no-bitwise
     if (msg.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) {
-      p = this.handleEndSession(envelope.source);
+      await this.handleEndSession(envelope.source);
     }
-    return p.then(() =>
-      this.processDecrypted(envelope, msg).then(async message => {
-        const groupId = message.group && message.group.id;
-        const isBlocked = this.isGroupBlocked(groupId);
-        const ourPubKey = textsecure.storage.user.getNumber();
-        const isMe = envelope.source === ourPubKey;
-        const conversation = window.ConversationController.get(envelope.source);
-        const isLeavingGroup = Boolean(
-          message.group &&
-            message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
-        );
-        const friendRequest =
-          envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST;
-        const { UNPAIRING_REQUEST } = textsecure.protobuf.DataMessage.Flags;
-        // eslint-disable-next-line no-bitwise
-        const isUnpairingRequest = Boolean(message.flags & UNPAIRING_REQUEST);
+    const message = await this.processDecrypted(envelope, msg);
+    const ourPubKey = textsecure.storage.user.getNumber();
+    const senderPubKey = envelope.source;
+    const isMe = senderPubKey === ourPubKey;
+    const conversation = window.ConversationController.get(senderPubKey);
 
-        if (!friendRequest && isUnpairingRequest) {
-          // TODO: move high-level pairing logic to libloki.multidevice.xx
+    const { UNPAIRING_REQUEST } = textsecure.protobuf.DataMessage.Flags;
 
-          const unpairingRequestIsLegit = async () => {
-            const isSecondary = textsecure.storage.get('isSecondaryDevice');
-            if (!isSecondary) {
-              return false;
-            }
-            const primaryPubKey = window.storage.get('primaryDevicePubKey');
-            // TODO: allow unpairing from any paired device?
-            if (envelope.source !== primaryPubKey) {
-              return false;
-            }
+    // eslint-disable-next-line no-bitwise
+    const isUnpairingRequest = Boolean(message.flags & UNPAIRING_REQUEST);
 
-            const primaryMapping = await lokiFileServerAPI.getUserDeviceMapping(
-              primaryPubKey
-            );
+    if (isUnpairingRequest) {
+      return this.handleUnpairRequest(envelope, ourPubKey);
+    }
 
-            // If we don't have a mapping on the primary then we have been unlinked
-            if (!primaryMapping) {
-              return true;
-            }
+    // Check if we need to update any profile names
+    if (!isMe && conversation && message.profile) {
+      await this.updateProfile(
+        conversation,
+        message.profile,
+        message.profileKey
+      );
+    }
+    if (this.isMessageEmpty(message)) {
+      window.log.warn(
+        `Message ${this.getEnvelopeId(envelope)} ignored; it was empty`
+      );
+      return this.removeFromCache(envelope);
+    }
 
-            // We expect the primary device to have updated its mapping
-            // before sending the unpairing request
-            const found = primaryMapping.authorisations.find(
-              authorisation => authorisation.secondaryDevicePubKey === ourPubKey
-            );
+    // Loki - Temp hack until new protocol
+    // A friend request is a non-group text message which we haven't processed yet
+    const isGroupMessage = Boolean(message.group || message.mediumGroupUpdate);
+    const friendRequestStatusNoneOrExpired = conversation
+      ? conversation.isFriendRequestStatusNoneOrExpired()
+      : true;
+    const isFriendRequest =
+      !isGroupMessage &&
+      !_.isEmpty(message.body) &&
+      friendRequestStatusNoneOrExpired;
 
-            // our pubkey should NOT be in the primary device mapping
-            return !found;
-          };
+    const source = envelope.senderIdentity || senderPubKey;
 
-          const legit = await unpairingRequestIsLegit();
+    const isOwnDevice = async pubkey => {
+      const primaryDevice = window.storage.get('primaryDevicePubKey');
+      const secondaryDevices = await window.libloki.storage.getPairedDevicesFor(
+        primaryDevice
+      );
 
-          this.removeFromCache(envelope);
+      const allDevices = [primaryDevice, ...secondaryDevices];
+      return allDevices.includes(pubkey);
+    };
 
-          if (legit) {
-            // remove our device mapping annotations from file server
-            await lokiFileServerAPI.clearOurDeviceMappingAnnotations();
-            // Delete the account and restart
-            try {
-              await window.Signal.Logs.deleteAll();
-              await window.Signal.Data.removeAll();
-              await window.Signal.Data.close();
-              await window.Signal.Data.removeDB();
-              await window.Signal.Data.removeOtherData();
-              // TODO generate an empty db with a flag
-              // to display a message about the unpairing
-              // after the app restarts
-            } catch (error) {
-              window.log.error(
-                'Something went wrong deleting all data:',
-                error && error.stack ? error.stack : error
-              );
-            }
-            window.restart();
-          }
-        }
+    const ownDevice = await isOwnDevice(source);
 
-        // Check if we need to update any profile names
-        if (!isMe && conversation) {
-          if (message.profile) {
-            await this.updateProfile(
-              conversation,
-              message.profile,
-              message.profileKey
-            );
-          }
-        }
+    let ev;
+    if (conversation.isMediumGroup() && ownDevice) {
+      // Data messages for medium groups don't arrive as sync messages. Instead,
+      // linked devices poll for group messages independently, thus they need
+      // to recognise some of those messages at their own.
+      ev = new Event('sent');
+    } else {
+      ev = new Event('message');
+    }
 
-        // If we got a friend request message or
-        //  if we're not friends with the current user that sent this private message
-        // Check to see if we need to auto accept their friend request
-        const isGroupMessage = !!groupId;
-        if (friendRequest || (!isGroupMessage && !conversation.isFriend())) {
-          if (isMe) {
-            window.log.info('refusing to add a friend request to ourselves');
-            throw new Error('Cannot add a friend request for ourselves!');
-          } else {
-            const senderPubKey = envelope.source;
-            // fetch the device mapping from the server
-            const deviceMapping = await lokiFileServerAPI.getUserDeviceMapping(
-              senderPubKey
-            );
-            // auto-accept friend request if the device is paired to one of our friend
-            const autoAccepted = await this.handleSecondaryDeviceFriendRequest(
-              senderPubKey,
-              deviceMapping
-            );
-            if (autoAccepted) {
-              // sending a message back = accepting friend request
-              // Directly setting friend request status to skip the pending state
-              await conversation.setFriendRequestStatus(
-                window.friends.friendRequestStatusEnum.friends
-              );
-              window.libloki.api.sendBackgroundMessage(envelope.source);
-              return this.removeFromCache(envelope);
-            }
-          }
-        }
+    if (envelope.senderIdentity) {
+      message.group = {
+        id: envelope.source,
+      };
+    }
 
-        if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
-          window.log.warn(
-            `Message ${this.getEnvelopeId(
-              envelope
-            )} ignored; destined for blocked group`
-          );
-          return this.removeFromCache(envelope);
-        }
-
-        if (!friendRequest && this.isMessageEmpty(message)) {
-          window.log.warn(
-            `Message ${this.getEnvelopeId(envelope)} ignored; it was empty`
-          );
-          return this.removeFromCache(envelope);
-        }
-
-        const ev = new Event('message');
-        ev.confirm = this.removeFromCache.bind(this, envelope);
-        ev.data = {
-          friendRequest,
-          source: envelope.source,
-          sourceDevice: envelope.sourceDevice,
-          timestamp: envelope.timestamp.toNumber(),
-          receivedAt: envelope.receivedAt,
-          unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
-          message,
-        };
-        return this.dispatchAndWait(ev);
-      })
-    );
+    ev.confirm = this.removeFromCache.bind(this, envelope);
+    ev.data = {
+      friendRequest: isFriendRequest,
+      source,
+      sourceDevice: envelope.sourceDevice,
+      timestamp: envelope.timestamp.toNumber(),
+      receivedAt: envelope.receivedAt,
+      unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
+      message,
+    };
+    return this.dispatchAndWait(ev);
   },
   isMessageEmpty({
     body,
@@ -1281,6 +1482,7 @@ MessageReceiver.prototype.extend({
     contact,
     preview,
     groupInvitation,
+    mediumGroupUpdate,
   }) {
     return (
       !flags &&
@@ -1290,7 +1492,8 @@ MessageReceiver.prototype.extend({
       _.isEmpty(quote) &&
       _.isEmpty(contact) &&
       _.isEmpty(preview) &&
-      _.isEmpty(groupInvitation)
+      _.isEmpty(groupInvitation) &&
+      _.isEmpty(mediumGroupUpdate)
     );
   },
   handleLegacyMessage(envelope) {
@@ -1306,19 +1509,41 @@ MessageReceiver.prototype.extend({
     const message = textsecure.protobuf.DataMessage.decode(plaintext);
     return this.handleDataMessage(envelope, message);
   },
-  handleContentMessage(envelope) {
-    return this.decrypt(envelope, envelope.content).then(plaintext => {
-      if (!plaintext) {
-        window.log.warn('handleContentMessage: plaintext was falsey');
-        return null;
-      } else if (
-        plaintext instanceof ArrayBuffer &&
-        plaintext.byteLength === 0
-      ) {
-        return null;
+  async handleContentMessage(envelope) {
+    const plaintext = await this.decrypt(envelope, envelope.content);
+
+    if (!plaintext) {
+      window.log.warn('handleContentMessage: plaintext was falsey');
+      return null;
+    } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
+      return null;
+    }
+    return this.innerHandleContentMessage(envelope, plaintext);
+  },
+  async handleFriendRequestAcceptIfNeeded(envelope, content) {
+    const isGroupMessage =
+      content &&
+      content.dataMessage &&
+      (content.dataMessage.group || content.dataMessage.mediumGroupUpdate);
+    const isReceiptMessage = content && content.receiptMessage;
+    const isTypingMessage = content && content.typingMessage;
+    if (isGroupMessage || isReceiptMessage || isTypingMessage) {
+      return;
+    }
+
+    // If we sent a friend request and got another message back then we should become friends
+    try {
+      const conversation = await window.ConversationController.getOrCreateAndWait(
+        envelope.source,
+        'private'
+      );
+      const isFriendRequestAccept = await conversation.onFriendRequestAccepted();
+      if (isFriendRequestAccept) {
+        await conversation.notifyFriendRequest(envelope.source, 'accepted');
       }
-      return this.innerHandleContentMessage(envelope, plaintext);
-    });
+    } catch (e) {
+      window.log.info('Error getting conversation: ', envelope.source);
+    }
   },
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
@@ -1329,6 +1554,8 @@ MessageReceiver.prototype.extend({
         content.preKeyBundleMessage
       );
     }
+
+    this.handleFriendRequestAcceptIfNeeded(envelope, content);
 
     if (content.lokiAddressMessage) {
       return this.handleLokiAddressMessage(
@@ -1433,6 +1660,14 @@ MessageReceiver.prototype.extend({
     return this.dispatchEvent(ev);
   },
   handleNullMessage(envelope) {
+    // Loki - Temp hack for new protocl backward compatibility
+    // This should be removed once we add the new protocol
+    if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
+      window.log.info('sent session established to', envelope.source);
+      // We don't need to await the call below because we just want to send it off
+      window.libloki.api.sendSessionEstablishedMessage(envelope.source);
+    }
+
     window.log.info('null message from', this.getEnvelopeId(envelope));
     this.removeFromCache(envelope);
   },
@@ -1441,7 +1676,7 @@ MessageReceiver.prototype.extend({
     const ourNumber = textsecure.storage.user.getNumber();
     const ourPrimaryNumber = window.storage.get('primaryDevicePubKey');
     const ourOtherDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-      window.storage.get('primaryDevicePubKey')
+      ourPrimaryNumber
     );
     const ourDevices = new Set([
       ourNumber,
@@ -1577,6 +1812,10 @@ MessageReceiver.prototype.extend({
     });
   },
   handleOpenGroups(envelope, openGroups) {
+    const groupsArray = openGroups.map(openGroup => openGroup.url);
+    libloki.api.debug.logGroupSync(
+      `Received GROUP_SYNC with open groups: [${groupsArray}]`
+    );
     openGroups.forEach(({ url, channelId }) => {
       window.attemptConnection(url, channelId);
     });
@@ -1623,9 +1862,7 @@ MessageReceiver.prototype.extend({
   isBlocked(number) {
     return textsecure.storage.get('blocked', []).indexOf(number) >= 0;
   },
-  isGroupBlocked(groupId) {
-    return textsecure.storage.get('blocked-groups', []).indexOf(groupId) >= 0;
-  },
+
   cleanAttachment(attachment) {
     return {
       ..._.omit(attachment, 'thumbnail'),
@@ -1666,9 +1903,6 @@ MessageReceiver.prototype.extend({
       ...attachment,
       data: dcodeIO.ByteBuffer.wrap(attachment.data).toArrayBuffer(), // ByteBuffer to ArrayBuffer
     });
-
-    const cleaned = this.cleanAttachment(attachment);
-    return this.downloadAttachment(cleaned);
   },
   async handleEndSession(number) {
     window.log.info('got end session');
@@ -1883,6 +2117,10 @@ textsecure.MessageReceiver = function MessageReceiverWrapper(
   );
 
   this.downloadAttachment = messageReceiver.downloadAttachment.bind(
+    messageReceiver
+  );
+
+  this.pollForAdditionalId = messageReceiver.pollForAdditionalId.bind(
     messageReceiver
   );
   this.stopProcessing = messageReceiver.stopProcessing.bind(messageReceiver);

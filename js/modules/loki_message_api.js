@@ -32,11 +32,50 @@ const calcNonce = (messageEventData, pubKey, data64, timestamp, ttl) => {
   return callWorker('calcPoW', timestamp, ttl, pubKey, data64, difficulty);
 };
 
+// we don't throw or catch here
+// mark private (_ prefix) since no error handling is done here...
+async function _retrieveNextMessages(nodeData, pubkey) {
+  const params = {
+    pubKey: pubkey,
+    lastHash: nodeData.lastHash || '',
+  };
+  const options = {
+    timeout: 40000,
+    ourPubKey: pubkey,
+  };
+
+  // let exceptions bubble up
+  const result = await lokiRpc(
+    `https://${nodeData.ip}`,
+    nodeData.port,
+    'retrieve',
+    params,
+    options,
+    '/storage_rpc/v1',
+    nodeData
+  );
+
+  if (result === false) {
+    // make a note of it because of caller doesn't care...
+    log.warn(
+      `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${
+        nodeData.ip
+      }:${nodeData.port}`
+    );
+
+    return [];
+  }
+
+  return result.messages || [];
+}
+
 class LokiMessageAPI {
   constructor(ourKey) {
     this.jobQueue = new window.JobQueue();
     this.sendingData = {};
     this.ourKey = ourKey;
+    // stop polling for a group if its id is no longer found here
+    this.groupIdsToPoll = {};
   }
 
   async sendMessage(pubKey, data, messageTimeStamp, ttl, options = {}) {
@@ -271,7 +310,110 @@ class LokiMessageAPI {
     return false;
   }
 
-  async _openRetrieveConnection(pSwarmPool, stopPollingPromise, callback) {
+  async pollNodeForGroupId(groupId, nodeParam, onMessages) {
+    const node = nodeParam;
+    const lastHash = await window.Signal.Data.getLastHashBySnode(
+      groupId,
+      node.address
+    );
+
+    node.lastHash = lastHash;
+
+    log.debug(
+      `[last hash] lashHash for group id ${groupId.substr(0, 5)}: node ${
+        node.port
+      }`,
+      lastHash
+    );
+
+    // eslint-disable-next-line no-constant-condition
+    while (this.groupIdsToPoll[groupId]) {
+      try {
+        let messages = await _retrieveNextMessages(node, groupId);
+
+        if (messages.length > 0) {
+          const lastMessage = _.last(messages);
+
+          // TODO: this is for groups, so need to specify ID
+
+          // Is this too early to update last hash??
+          await lokiSnodeAPI.updateLastHash(
+            groupId,
+            node.address,
+            lastMessage.hash,
+            lastMessage.expiration
+          );
+          log.debug(
+            `Updated lashHash for group id ${groupId.substr(0, 5)}: node ${
+              node.port
+            }`,
+            lastMessage.hash
+          );
+
+          node.lastHash = lastMessage.hash;
+
+          messages = await this.jobQueue.add(() =>
+            filterIncomingMessages(messages)
+          );
+
+          // At this point we still know what servier identity the messages
+          // are associated with, so we save it in messages' conversationId field:
+          const modifiedMessages = messages.map(m => {
+            // eslint-disable-next-line no-param-reassign
+            m.conversationId = groupId;
+            return m;
+          });
+
+          onMessages(modifiedMessages);
+        }
+      } catch (e) {
+        log.warn('');
+
+        log.warn(
+          'pollNodeForGroupId - retrieve error:',
+          e.code,
+          e.message,
+          `on ${node.ip}:${node.port}`
+        );
+
+        // TODO: Handle unreachable nodes and wrong swarms
+      }
+
+      await primitives.sleepFor(5000);
+    }
+  }
+
+  async pollForGroupId(groupId, onMessages) {
+    log.info(`Starting to poll for group id: ${groupId}`);
+
+    if (this.groupIdsToPoll[groupId]) {
+      log.warn(`Already polling for group id: ${groupId}`);
+      return;
+    }
+
+    this.groupIdsToPoll[groupId] = true;
+
+    // Get nodes for groupId
+    const nodes = await lokiSnodeAPI.refreshSwarmNodesForPubKey(groupId);
+
+    log.info('Nodes for group id:', nodes);
+
+    _.sampleSize(nodes, 3).forEach(node =>
+      this.pollNodeForGroupId(groupId, node, onMessages)
+    );
+  }
+
+  async stopPollingForGroup(groupId) {
+    if (!this.groupIdsToPoll[groupId]) {
+      log.warn(`Already not polling for group id: ${groupId}`);
+      return;
+    }
+
+    log.warn(`Stop polling for group id: ${groupId}`);
+    delete this.groupIdsToPoll[groupId];
+  }
+
+  async _openRetrieveConnection(pSwarmPool, stopPollingPromise, onMessages) {
     const swarmPool = pSwarmPool; // lint
     let stopPollingResult = false;
 
@@ -299,8 +441,8 @@ class LokiMessageAPI {
           // so the user facing UI can report unhandled errors
           // except in this case of living inside http-resource pollServer
           // because it just restarts more connections...
+          let messages = await _retrieveNextMessages(nodeData, this.ourKey);
 
-          let messages = await this._retrieveNextMessages(nodeData);
           // this only tracks retrieval failures
           // won't include parsing failures...
           successiveFailures = 0;
@@ -308,6 +450,7 @@ class LokiMessageAPI {
             const lastMessage = _.last(messages);
             nodeData.lastHash = lastMessage.hash;
             await lokiSnodeAPI.updateLastHash(
+              this.ourKey,
               address,
               lastMessage.hash,
               lastMessage.expiration
@@ -317,7 +460,7 @@ class LokiMessageAPI {
             );
           }
           // Execute callback even with empty array to signal online status
-          callback(messages);
+          onMessages(messages);
         } catch (e) {
           log.warn(
             'loki_message:::_openRetrieveConnection - retrieve error:',
@@ -327,11 +470,15 @@ class LokiMessageAPI {
           );
           if (e instanceof textsecure.WrongSwarmError) {
             const { newSwarm } = e;
+
+            // Is this a security concern that we replace the list of snodes
+            // based on a response from a single snode?
             await lokiSnodeAPI.updateSwarmNodes(this.ourKey, newSwarm);
             // FIXME: restart all openRetrieves when this happens...
             // FIXME: lokiSnode should handle this
             for (let i = 0; i < newSwarm.length; i += 1) {
               const lastHash = await window.Signal.Data.getLastHashBySnode(
+                this.ourKey,
                 newSwarm[i]
               );
               swarmPool[newSwarm[i]] = {
@@ -379,46 +526,24 @@ class LokiMessageAPI {
   }
 
   // we don't throw or catch here
-  // mark private (_ prefix) since no error handling is done here...
-  async _retrieveNextMessages(nodeData) {
-    const params = {
-      pubKey: this.ourKey,
-      lastHash: nodeData.lastHash || '',
-    };
-    const options = {
-      timeout: 40000,
-      ourPubKey: this.ourKey,
-    };
-
-    // let exceptions bubble up
-    const result = await lokiRpc(
-      `https://${nodeData.ip}`,
-      nodeData.port,
-      'retrieve',
-      params,
-      options,
-      '/storage_rpc/v1',
-      nodeData
-    );
-
-    if (result === false) {
-      // make a note of it because of caller doesn't care...
-      log.warn(
-        `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${
-          nodeData.ip
-        }:${nodeData.port}`
-      );
-    }
-
-    return result.messages || [];
-  }
-
-  // we don't throw or catch here
-  async startLongPolling(numConnections, stopPolling, callback) {
+  async startLongPolling(numConnections, stopPolling, onMessages) {
     // load from local DB
     let nodes = await lokiSnodeAPI.getSwarmNodesForPubKey(this.ourKey, {
       fetchHashes: true,
     });
+
+    // Start polling for medium size groups as well (they might be in different swarms)
+    {
+      const convos = window.getConversations().filter(c => c.isMediumGroup());
+
+      const self = this;
+
+      convos.forEach(c => {
+        self.pollForGroupId(c.id, onMessages);
+        // TODO: unsubscribe if the group is deleted
+      });
+    }
+
     if (nodes.length < numConnections) {
       log.warn(
         'loki_message:::startLongPolling - Not enough SwarmNodes for our pubkey in local database, getting current list from blockchain'
@@ -462,7 +587,7 @@ class LokiMessageAPI {
     for (let i = 0; i < numConnections; i += 1) {
       promises.push(
         // eslint-disable-next-line more/no-then
-        this._openRetrieveConnection(pools[i], stopPolling, callback).then(
+        this._openRetrieveConnection(pools[i], stopPolling, onMessages).then(
           stoppedPolling => {
             unresolved -= 1;
             log.info(
