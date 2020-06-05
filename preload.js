@@ -3,7 +3,6 @@
 /* global window: false */
 const path = require('path');
 const electron = require('electron');
-const Data = require('./js/modules/data');
 
 const { webFrame } = electron;
 const semver = require('semver');
@@ -110,9 +109,6 @@ window.wrapDeferred = deferredToPromise;
 
 const ipc = electron.ipcRenderer;
 const localeMessages = ipc.sendSync('locale-data');
-
-// Initialise Data
-Data.init();
 
 window.blake2b = input =>
   new Promise((resolve, reject) => {
