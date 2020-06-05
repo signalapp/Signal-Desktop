@@ -3,9 +3,6 @@ import { RawMessage } from '../types/RawMessage';
 import { ContentMessage } from '../messages/outgoing';
 import * as MessageUtils from '../utils';
 import { PubKey } from '../types';
-import logger from 'redux-logger';
-
-// TODO: We should be able to import functions straight from the db here without going through the window object
 
 // This is an abstraction for storing pending messages.
 // Ideally we want to store pending messages in the database so that
