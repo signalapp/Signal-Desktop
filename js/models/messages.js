@@ -418,33 +418,79 @@
       if (this.get('friendStatus') !== 'pending') {
         return;
       }
-      const conversation = await this.getSourceDeviceConversation();
-      // If we somehow received an old friend request (e.g. after having restored
-      // from seed, we won't be able to accept it, we should initiate our own
-      // friend request to reset the session:
-      if (conversation.get('sessionRestoreSeen')) {
-        conversation.sendMessage('', null, null, null, null, {
-          sessionRestoration: true,
-        });
-        return;
+
+      const devicePubKey = this.get('conversationId');
+      const otherDevices = await libloki.storage.getPairedDevicesFor(
+        devicePubKey
+      );
+      const allDevices = [devicePubKey, ...otherDevices];
+
+      // Set profile name to primary conversation
+      let profileName;
+      const allConversationsWithUser = allDevices
+        .map(d => ConversationController.get(d))
+        .filter(c => Boolean(c));
+      allConversationsWithUser.forEach(conversation => {
+        // If we somehow received an old friend request (e.g. after having restored
+        // from seed, we won't be able to accept it, we should initiate our own
+        // friend request to reset the session:
+        if (conversation.get('sessionRestoreSeen')) {
+          conversation.sendMessage('', null, null, null, null, {
+            sessionRestoration: true,
+          });
+          return;
+        }
+
+        profileName = conversation.getProfileName() || profileName;
+        conversation.onAcceptFriendRequest();
+      });
+
+      // If you don't have a profile name for this device, and profileName is set,
+      // add profileName to conversation.
+      const primaryDevicePubKey =
+        (await window.Signal.Data.getPrimaryDeviceFor(devicePubKey)) ||
+        devicePubKey;
+      const primaryConversation = allConversationsWithUser.find(
+        c => c.id === primaryDevicePubKey
+      );
+      if (!primaryConversation.getProfileName() && profileName) {
+        await primaryConversation.setNickname(profileName);
       }
-      this.set({ friendStatus: 'accepted' });
+
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
       });
-      conversation.onAcceptFriendRequest();
+
+      this.set({ friendStatus: 'accepted' });
+
+      // Update redux store
+      window.Signal.Data.updateConversation(
+        primaryConversation.id,
+        primaryConversation.attributes,
+        { Conversation: Whisper.Conversation }
+      );
     },
     async declineFriendRequest() {
       if (this.get('friendStatus') !== 'pending') {
         return;
       }
-      const conversation = this.getConversation();
 
       this.set({ friendStatus: 'declined' });
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
       });
-      conversation.onDeclineFriendRequest();
+
+      const devicePubKey = this.attributes.conversationId;
+      const otherDevices = await libloki.storage.getPairedDevicesFor(
+        devicePubKey
+      );
+      const allDevices = [devicePubKey, ...otherDevices];
+      const allConversationsWithUser = allDevices
+        .map(d => ConversationController.get(d))
+        .filter(c => Boolean(c));
+      allConversationsWithUser.forEach(conversation => {
+        conversation.onDeclineFriendRequest();
+      });
     },
     getPropsForFriendRequest() {
       const friendStatus = this.get('friendStatus') || 'pending';
@@ -1444,7 +1490,8 @@
           if (!this.isFriendRequest()) {
             const c = this.getConversation();
             // Don't bother sending sync messages to public chats
-            if (c && !c.isPublic()) {
+            // or groups with sender keys
+            if (c && !c.isPublic() && !c.isMediumGroup()) {
               this.sendSyncMessage();
             }
           }
@@ -2051,6 +2098,7 @@
       return false;
     },
     async handleSessionRequest(source, confirm) {
+      window.console.log(`Received SESSION_REQUEST from source: ${source}`);
       window.libloki.api.sendSessionEstablishedMessage(source);
       confirm();
     },
@@ -2202,11 +2250,10 @@
           return null;
         }
       }
-      const conversation = conversationPrimary;
 
-      return conversation.queueJob(async () => {
+      return conversationPrimary.queueJob(async () => {
         window.log.info(
-          `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
+          `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversationPrimary.idForLogging()}`
         );
         const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
         const type = message.get('type');
@@ -2219,8 +2266,9 @@
         try {
           const now = new Date().getTime();
           let attributes = {
-            ...conversation.attributes,
+            ...conversationPrimary.attributes,
           };
+
           if (dataMessage.group) {
             let groupUpdate = null;
             attributes = {
@@ -2236,18 +2284,18 @@
               };
 
               groupUpdate =
-                conversation.changedAttributes(
+                conversationPrimary.changedAttributes(
                   _.pick(dataMessage.group, 'name', 'avatar')
                 ) || {};
 
               const addedMembers = _.difference(
                 attributes.members,
-                conversation.get('members')
+                conversationPrimary.get('members')
               );
               if (addedMembers.length > 0) {
                 groupUpdate.joined = addedMembers;
               }
-              if (conversation.get('left')) {
+              if (conversationPrimary.get('left')) {
                 // TODO: Maybe we shouldn't assume this message adds us:
                 // we could maybe still get this message by mistake
                 window.log.warn('re-added to a left group');
@@ -2261,7 +2309,7 @@
 
               // Check if anyone got kicked:
               const removedMembers = _.difference(
-                conversation.get('members'),
+                conversationPrimary.get('members'),
                 attributes.members
               );
 
@@ -2283,7 +2331,7 @@
                 groupUpdate = { left: source };
               }
               attributes.members = _.without(
-                conversation.get('members'),
+                conversationPrimary.get('members'),
                 source
               );
             }
@@ -2316,7 +2364,7 @@
             attachments: dataMessage.attachments,
             body: dataMessage.body,
             contact: dataMessage.contact,
-            conversationId: conversation.id,
+            conversationId: conversationPrimary.id,
             decrypted_at: now,
             errors: [],
             flags: dataMessage.flags,
@@ -2330,7 +2378,7 @@
 
           if (type === 'outgoing') {
             const receipts = Whisper.DeliveryReceipts.forMessage(
-              conversation,
+              conversationPrimary,
               message
             );
             receipts.forEach(receipt =>
@@ -2343,10 +2391,10 @@
             );
           }
           attributes.active_at = now;
-          conversation.set(attributes);
+          conversationPrimary.set(attributes);
 
           // Re-enable typing if re-joined the group
-          conversation.updateTextInputState();
+          conversationPrimary.updateTextInputState();
 
           if (message.isExpirationTimerUpdate()) {
             message.set({
@@ -2355,7 +2403,7 @@
                 expireTimer: dataMessage.expireTimer,
               },
             });
-            conversation.set({ expireTimer: dataMessage.expireTimer });
+            conversationPrimary.set({ expireTimer: dataMessage.expireTimer });
           } else if (dataMessage.expireTimer) {
             message.set({ expireTimer: dataMessage.expireTimer });
           }
@@ -2367,7 +2415,7 @@
             message.isExpirationTimerUpdate() || expireTimer;
           if (shouldLogExpireTimerChange) {
             window.log.info("Update conversation 'expireTimer'", {
-              id: conversation.idForLogging(),
+              id: conversationPrimary.idForLogging(),
               expireTimer,
               source: 'handleDataMessage',
             });
@@ -2375,8 +2423,11 @@
 
           if (!message.isEndSession()) {
             if (dataMessage.expireTimer) {
-              if (dataMessage.expireTimer !== conversation.get('expireTimer')) {
-                conversation.updateExpirationTimer(
+              if (
+                dataMessage.expireTimer !==
+                conversationPrimary.get('expireTimer')
+              ) {
+                conversationPrimary.updateExpirationTimer(
                   dataMessage.expireTimer,
                   source,
                   message.get('received_at'),
@@ -2386,18 +2437,18 @@
                 );
               }
             } else if (
-              conversation.get('expireTimer') &&
+              conversationPrimary.get('expireTimer') &&
               // We only turn off timers if it's not a group update
               !message.isGroupUpdate()
             ) {
-              conversation.updateExpirationTimer(
+              conversationPrimary.updateExpirationTimer(
                 null,
                 source,
                 message.get('received_at')
               );
             }
           } else {
-            const endSessionType = conversation.isSessionResetReceived()
+            const endSessionType = conversationPrimary.isSessionResetReceived()
               ? 'ongoing'
               : 'done';
             this.set({ endSessionType });
@@ -2429,11 +2480,11 @@
                 message.attributes.body &&
                 message.attributes.body.indexOf(`@${ourNumber}`) !== -1
               ) {
-                conversation.set({ mentionedUs: true });
+                conversationPrimary.set({ mentionedUs: true });
               }
 
-              conversation.set({
-                unreadCount: conversation.get('unreadCount') + 1,
+              conversationPrimary.set({
+                unreadCount: conversationPrimary.get('unreadCount') + 1,
                 isArchived: false,
               });
             }
@@ -2441,7 +2492,7 @@
 
           if (type === 'outgoing') {
             const reads = Whisper.ReadReceipts.forMessage(
-              conversation,
+              conversationPrimary,
               message
             );
             if (reads.length) {
@@ -2452,39 +2503,35 @@
             }
 
             // A sync'd message to ourself is automatically considered read and delivered
-            if (conversation.isMe()) {
+            if (conversationPrimary.isMe()) {
               message.set({
-                read_by: conversation.getRecipients(),
-                delivered_to: conversation.getRecipients(),
+                read_by: conversationPrimary.getRecipients(),
+                delivered_to: conversationPrimary.getRecipients(),
               });
             }
 
-            message.set({ recipients: conversation.getRecipients() });
+            message.set({ recipients: conversationPrimary.getRecipients() });
           }
 
-          const conversationTimestamp = conversation.get('timestamp');
+          const conversationTimestamp = conversationPrimary.get('timestamp');
           if (
             !conversationTimestamp ||
             message.get('sent_at') > conversationTimestamp
           ) {
-            conversation.lastMessage = message.getNotificationText();
-            conversation.set({
+            conversationPrimary.lastMessage = message.getNotificationText();
+            conversationPrimary.set({
               timestamp: message.get('sent_at'),
             });
           }
 
-          const sendingDeviceConversation = await ConversationController.getOrCreateAndWait(
-            source,
-            'private'
-          );
           if (dataMessage.profileKey) {
             const profileKey = dataMessage.profileKey.toString('base64');
             if (source === textsecure.storage.user.getNumber()) {
-              conversation.set({ profileSharing: true });
-            } else if (conversation.isPrivate()) {
-              conversation.setProfileKey(profileKey);
+              conversationPrimary.set({ profileSharing: true });
+            } else if (conversationPrimary.isPrivate()) {
+              conversationPrimary.setProfileKey(profileKey);
             } else {
-              sendingDeviceConversation.setProfileKey(profileKey);
+              conversationOrigin.setProfileKey(profileKey);
             }
           }
 
@@ -2510,8 +2557,9 @@
                 - We are friends with the user,
                   and that user just sent us a friend request.
               */
-              const isFriend = sendingDeviceConversation.isFriend();
-              const hasSentFriendRequest = sendingDeviceConversation.hasSentFriendRequest();
+
+              const isFriend = conversationOrigin.isFriend();
+              const hasSentFriendRequest = conversationOrigin.hasSentFriendRequest();
               autoAccept = isFriend || hasSentFriendRequest;
 
               if (autoAccept) {
@@ -2525,13 +2573,13 @@
               if (isFriend) {
                 window.Whisper.events.trigger('endSession', source);
               } else if (hasSentFriendRequest) {
-                await sendingDeviceConversation.onFriendRequestAccepted();
+                await conversationOrigin.onFriendRequestAccepted();
               } else {
-                await sendingDeviceConversation.onFriendRequestReceived();
+                await conversationOrigin.onFriendRequestReceived();
               }
             } else if (message.get('type') !== 'outgoing') {
               // Ignore 'outgoing' messages because they are sync messages
-              await sendingDeviceConversation.onFriendRequestAccepted();
+              await conversationOrigin.onFriendRequestAccepted();
             }
           }
 
@@ -2553,11 +2601,11 @@
 
           await window.Signal.Data.updateConversation(
             conversationId,
-            conversation.attributes,
+            conversationPrimary.attributes,
             { Conversation: Whisper.Conversation }
           );
 
-          conversation.trigger('newmessage', message);
+          conversationPrimary.trigger('newmessage', message);
 
           try {
             // We go to the database here because, between the message save above and
@@ -2595,9 +2643,9 @@
           if (message.get('unread')) {
             // Need to do this here because the conversation has already changed states
             if (autoAccept) {
-              await conversation.notifyFriendRequest(source, 'accepted');
+              await conversationPrimary.notifyFriendRequest(source, 'accepted');
             } else {
-              await conversation.notify(message);
+              await conversationPrimary.notify(message);
             }
           }
 

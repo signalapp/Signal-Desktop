@@ -1,4 +1,4 @@
-/* global clearTimeout, dcodeIO, Buffer, TextDecoder, process */
+/* global clearTimeout, dcodeIO, Buffer, TextDecoder, process, log */
 const nodeFetch = require('node-fetch');
 
 class StubMessageAPI {
@@ -26,6 +26,35 @@ class StubMessageAPI {
     );
   }
 
+  async pollForGroupId(groupId, onMessages) {
+    const get = {
+      method: 'GET',
+    };
+    const res = await nodeFetch(
+      `${this.baseUrl}/messages?pubkey=${groupId}`,
+      get
+    );
+
+    try {
+      const json = await res.json();
+
+      const modifiedMessages = json.messages.map(m => {
+        // eslint-disable-next-line no-param-reassign
+        m.conversationId = groupId;
+        return m;
+      });
+
+      onMessages(modifiedMessages || []);
+    } catch (e) {
+      log.error('invalid json for GROUP', e);
+      onMessages([]);
+    }
+
+    setTimeout(() => {
+      this.pollForGroupId(groupId, onMessages);
+    }, 1000);
+  }
+
   async startLongPolling(numConnections, stopPolling, callback) {
     const ourPubkey = this.ourKey;
 
@@ -36,10 +65,15 @@ class StubMessageAPI {
       `${this.baseUrl}/messages?pubkey=${ourPubkey}`,
       get
     );
-    const json = await res.json();
-    // console.warn('STUBBED polling messages ', json.messages);
 
-    callback(json.messages || []);
+    try {
+      const json = await res.json();
+      callback(json.messages || []);
+    } catch (e) {
+      log.error('invalid json: ', e);
+      callback([]);
+    }
+    // console.warn('STUBBED polling messages ', json.messages);
   }
 }
 
