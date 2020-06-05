@@ -1,13 +1,9 @@
 import { expect } from 'chai';
-import * as sinon from 'sinon';
-import uuid from 'uuid';
 
 import * as MessageUtils from '../../../session/utils';
-
 import { TestUtils } from '../../../test/test-utils';
 import { PendingMessageCache } from '../../../session/sending/PendingMessageCache';
 import { PubKey } from '../../../session/types';
-
 
 // Equivalent to Data.StorageItem
 interface StorageItem {
@@ -15,7 +11,8 @@ interface StorageItem {
   value: any;
 }
 
-describe('PendingMessageCache', () => {// Initialize new stubbed cache
+describe('PendingMessageCache', () => {
+  // Initialize new stubbed cache
   let pendingMessageCacheStub: PendingMessageCache;
 
   beforeEach(async () => {
@@ -26,9 +23,11 @@ describe('PendingMessageCache', () => {// Initialize new stubbed cache
       value: '',
     };
 
-    TestUtils.stubData('getItemById').withArgs('pendingMessages').callsFake(async () => {
-      return data;
-    });
+    TestUtils.stubData('getItemById')
+      .withArgs('pendingMessages')
+      .callsFake(async () => {
+        return data;
+      });
 
     TestUtils.stubData('createOrUpdateItem').callsFake((item: StorageItem) => {
       data = item;
@@ -36,7 +35,6 @@ describe('PendingMessageCache', () => {// Initialize new stubbed cache
 
     pendingMessageCacheStub = new PendingMessageCache();
     await pendingMessageCacheStub.init();
-
   });
 
   afterEach(() => {

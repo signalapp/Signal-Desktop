@@ -1,32 +1,16 @@
-import * as crypto from 'crypto';
 import uuid from 'uuid';
 
 import { RawMessage } from '../types/RawMessage';
 import { ChatMessage, ContentMessage } from '../messages/outgoing';
-import { EncryptionType } from '../types/EncryptionType';
+import { EncryptionType, PubKey } from '../types';
 
-
-export function toRawMessage(device: PubKey, message: ContentMessage): RawMessage {
+export function toRawMessage(
+  device: PubKey,
+  message: ContentMessage
+): RawMessage {
   const ttl = message.ttl();
   const timestamp = message.timestamp;
   const plainTextBuffer = message.plainTextBuffer();
-
-  // Get EncryptionType depending on message type.
-  // let encryption: EncryptionType;
-
-  // switch (message.constructor.name) {
-  //   case MessageType.Chat:
-  //     encryption = EncryptionType.Signal;
-  //     break;
-  //   case MessageType.SessionReset:
-  //     encryption = EncryptionType
-  // }
-
-  // export enum EncryptionType {
-  //   Signal,
-  //   SessionReset,
-  //   MediumGroup,
-  // }
 
   // tslint:disable-next-line: no-unnecessary-local-variable
   const rawMessage: RawMessage = {
