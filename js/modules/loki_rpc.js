@@ -284,9 +284,7 @@ const processOnionResponse = async (
 
   if (response.status !== 200) {
     log.warn(
-      `(${reqIdx}) [path] lokiRpc::processOnionResponse - fetch unhandled error code: ${
-        response.status
-      }`
+      `(${reqIdx}) [path] lokiRpc::processOnionResponse - fetch unhandled error code: ${response.status}`
     );
     return false;
   }

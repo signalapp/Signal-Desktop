@@ -167,8 +167,7 @@ function OutgoingMessage(
     publicSendData,
     debugMessageType,
     autoSession,
-  } =
-    options || {};
+  } = options || {};
   this.numberInfo = numberInfo;
   this.isPublic = isPublic;
   this.isMediumGroup = !!isMediumGroup;

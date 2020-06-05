@@ -2229,8 +2229,7 @@
   },
   "invalidHexId": {
     "message": "Invalid Session ID or LNS Name",
-    "description":
-      "Error string shown when user types an invalid pubkey hex string"
+    "description": "Error string shown when user types an invalid pubkey hex string"
   },
   "invalidLnsFormat": {
     "message": "Invalid LNS Name",

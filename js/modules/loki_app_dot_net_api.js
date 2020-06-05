@@ -97,16 +97,12 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
     pathNodes = await lokiSnodeAPI.getOnionPath();
   } catch (e) {
     log.error(
-      `loki_app_dot_net:::sendViaOnion #${
-        options.requestNumber
-      } - getOnionPath Error ${e.code} ${e.message}`
+      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - getOnionPath Error ${e.code} ${e.message}`
     );
   }
   if (!pathNodes || !pathNodes.length) {
     log.warn(
-      `loki_app_dot_net:::sendViaOnion #${
-        options.requestNumber
-      } - failing, no path available`
+      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - failing, no path available`
     );
     // should we retry?
     return {};
@@ -135,9 +131,7 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
   // handle error/retries
   if (!result.status) {
     log.error(
-      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - Retry #${
-        options.retry
-      } Couldnt handle onion request, retrying`,
+      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - Retry #${options.retry} Couldnt handle onion request, retrying`,
       payloadObj
     );
     return sendViaOnion(srvPubKey, url, fetchOptions, {
@@ -155,9 +149,7 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
     body = JSON.parse(result.body);
   } catch (e) {
     log.error(
-      `loki_app_dot_net:::sendViaOnion #${
-        options.requestNumber
-      } - Cant decode JSON body`,
+      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - Cant decode JSON body`,
       result.body
     );
   }

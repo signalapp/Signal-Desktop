@@ -115,9 +115,7 @@ async function tryGetSnodeListFromLokidSeednode(
     }
     if (snodes.length) {
       log.info(
-        `loki_snodes:::tryGetSnodeListFromLokidSeednode - got ${
-          snodes.length
-        } service nodes from seed`
+        `loki_snodes:::tryGetSnodeListFromLokidSeednode - got ${snodes.length} service nodes from seed`
       );
     }
     return snodes;
@@ -277,18 +275,14 @@ class LokiSnodeAPI {
 
     if (shuffled.length < DESIRED_GUARD_COUNT) {
       log.error(
-        `Could not select guard nodes: node pool is not big enough, pool size ${
-          shuffled.length
-        }, need ${DESIRED_GUARD_COUNT}, attempting to refresh randomPool`
+        `Could not select guard nodes: node pool is not big enough, pool size ${shuffled.length}, need ${DESIRED_GUARD_COUNT}, attempting to refresh randomPool`
       );
       await this.refreshRandomPool();
       nodePool = await this.getRandomSnodePool();
       shuffled = _.shuffle(nodePool);
       if (shuffled.length < DESIRED_GUARD_COUNT) {
         log.error(
-          `Could not select guard nodes: node pool is not big enough, pool size ${
-            shuffled.length
-          }, need ${DESIRED_GUARD_COUNT}, failing...`
+          `Could not select guard nodes: node pool is not big enough, pool size ${shuffled.length}, need ${DESIRED_GUARD_COUNT}, failing...`
         );
         return [];
       }
