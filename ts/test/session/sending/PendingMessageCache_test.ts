@@ -2,53 +2,51 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import uuid from 'uuid';
 
-import { ChatMessage } from '../../../session/messages/outgoing';
 import * as MessageUtils from '../../../session/utils';
 
 import { TestUtils } from '../../../test/test-utils';
 import { PendingMessageCache } from '../../../session/sending/PendingMessageCache';
-import { RawMessage } from '../../../session/types/RawMessage';
 import { PubKey } from '../../../session/types';
-import * as Data from '../../../../js/modules/data';
 
-describe('PendingMessageCache', () => {
-  const sandbox = sinon.createSandbox();
+// tslint:disable-next-line: no-require-imports no-var-requires
+const Data = require('../../../../js/modules/data');
+
+// Equivalent to Data.StorageItem
+interface StorageItem {
+  id: string;
+  value: any;
+}
+
+describe('PendingMessageCache', () => {// Initialize new stubbed cache
   let pendingMessageCacheStub: PendingMessageCache;
 
-  // tslint:disable-next-line: promise-function-async
-  const wrapInPromise = (value: any) =>
-    new Promise(resolve => {
-      resolve(value);
-    });
-
   beforeEach(async () => {
-
     // Stub out methods which touch the database
     const storageID = 'pendingMessages';
-    let data: Data.StorageItem = {
+    let data: StorageItem = {
       id: storageID,
       value: '',
     };
 
     TestUtils.stubData('getItemById').withArgs('pendingMessages').callsFake(async () => {
-      return wrapInPromise(data);
+      return data;
     });
 
-    TestUtils.stubData('createOrUpdateItem').callsFake((item: Data.StorageItem) => {
+    TestUtils.stubData('createOrUpdateItem').callsFake((item: StorageItem) => {
       data = item;
     });
 
-    // Initialize new stubbed cache
     pendingMessageCacheStub = new PendingMessageCache();
     await pendingMessageCacheStub.init();
+
   });
 
   afterEach(() => {
-    sandbox.restore();
+    TestUtils.restoreStubs();
   });
 
   it('can initialize cache', async () => {
-    const { cache } = pendingMessageCacheStub;
+    const cache = pendingMessageCacheStub.get();
 
     // We expect the cache to initialise as an empty array
     expect(cache).to.be.instanceOf(Array);
@@ -63,7 +61,7 @@ describe('PendingMessageCache', () => {
     await pendingMessageCacheStub.add(device, message);
 
     // Verify that the message is in the cache
-    const finalCache = pendingMessageCacheStub.cache;
+    const finalCache = pendingMessageCacheStub.get();
 
     expect(finalCache).to.have.length(1);
 
@@ -79,13 +77,13 @@ describe('PendingMessageCache', () => {
 
     await pendingMessageCacheStub.add(device, message);
 
-    const initialCache = pendingMessageCacheStub.cache;
+    const initialCache = pendingMessageCacheStub.get();
     expect(initialCache).to.have.length(1);
 
     // Remove the message
     await pendingMessageCacheStub.remove(rawMessage);
 
-    const finalCache = pendingMessageCacheStub.cache;
+    const finalCache = pendingMessageCacheStub.get();
 
     // Verify that the message was removed
     expect(finalCache).to.have.length(0);
@@ -111,7 +109,7 @@ describe('PendingMessageCache', () => {
       await pendingMessageCacheStub.add(item.device, item.message);
     });
 
-    const { cache } = pendingMessageCacheStub;
+    const cache = pendingMessageCacheStub.get();
     expect(cache).to.have.length(cacheItems.length);
 
     // Get list of devices
@@ -139,7 +137,7 @@ describe('PendingMessageCache', () => {
       await pendingMessageCacheStub.add(item.device, item.message);
     });
 
-    const initialCache = pendingMessageCacheStub.cache;
+    const initialCache = pendingMessageCacheStub.get();
     expect(initialCache).to.have.length(cacheItems.length);
 
     // Get pending for each specific device
@@ -168,7 +166,7 @@ describe('PendingMessageCache', () => {
 
     await pendingMessageCacheStub.add(device, message);
 
-    const finalCache = pendingMessageCacheStub.cache;
+    const finalCache = pendingMessageCacheStub.get();
     expect(finalCache).to.have.length(1);
 
     const foundMessage = pendingMessageCacheStub.find(rawMessage);
@@ -196,13 +194,13 @@ describe('PendingMessageCache', () => {
       await pendingMessageCacheStub.add(item.device, item.message);
     });
 
-    const initialCache = pendingMessageCacheStub.cache;
+    const initialCache = pendingMessageCacheStub.get();
     expect(initialCache).to.have.length(cacheItems.length);
 
     // Clear cache
     await pendingMessageCacheStub.clear();
 
-    const finalCache = pendingMessageCacheStub.cache;
+    const finalCache = pendingMessageCacheStub.get();
     expect(finalCache).to.have.length(0);
   });
 });

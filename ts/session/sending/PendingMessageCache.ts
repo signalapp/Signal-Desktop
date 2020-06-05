@@ -12,7 +12,7 @@ import { PubKey } from '../types';
 // memory and sync its state with the database on modification (add or remove).
 
 export class PendingMessageCache {
-  public cache: Array<RawMessage>;
+  private cache: Array<RawMessage>;
 
   constructor() {
     // Load pending messages from the database
@@ -20,6 +20,11 @@ export class PendingMessageCache {
     //   if you'd like to have instant access to the cache
     this.cache = [];
     void this.init();
+  }
+
+  public get(): Array<RawMessage> {
+    // Get all pending from cache, sorted with oldest first
+    return this.cache.sort((a, b) => a.timestamp - b.timestamp);
   }
 
   public async add(
@@ -67,7 +72,9 @@ export class PendingMessageCache {
   }
 
   public getForDevice(device: PubKey): Array<RawMessage> {
-    return this.cache.filter(m => m.device === device.key);
+    const pending = this.cache.filter(m => m.device === device.key);
+
+    return pending.sort((a, b) => a.timestamp - b.timestamp);
   }
 
   public async clear() {
