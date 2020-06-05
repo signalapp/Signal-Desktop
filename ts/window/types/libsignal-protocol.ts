@@ -7,15 +7,16 @@ export type CipherTextObject = {
   body: BinaryString;
   registrationId?: number;
 };
+export interface SignalProtocolAddressConstructor {
+  new (hexEncodedPublicKey: string, deviceId: number): SignalProtocolAddress;
+  fromString(encodedAddress: string): SignalProtocolAddress;
+}
 
-export declare class SignalProtocolAddress {
-  constructor(hexEncodedPublicKey: string, deviceId: number);
-  // tslint:disable-next-line: function-name
-  public static fromString(encodedAddress: string): SignalProtocolAddress;
-  public getName(): string;
-  public getDeviceId(): number;
-  public toString(): string;
-  public equals(other: SignalProtocolAddress): boolean;
+export interface SignalProtocolAddress {
+  getName(): string;
+  getDeviceId(): number;
+  toString(): string;
+  equals(other: SignalProtocolAddress): boolean;
 }
 
 export type KeyPair = {
@@ -99,29 +100,30 @@ export interface KeyHelperInterface {
   }>;
 }
 
-export declare class SessionCipher {
-  constructor(storage: any, remoteAddress: SignalProtocolAddress);
+export type SessionCipherConstructor = new (
+  storage: any,
+  remoteAddress: SignalProtocolAddress
+) => SessionCipher;
+export interface SessionCipher {
   /**
    * @returns The envelope type, registration id and binary encoded encrypted body.
    */
-  public encrypt(buffer: ArrayBuffer | Uint8Array): Promise<CipherTextObject>;
-  public decryptPreKeyWhisperMessage(
+  encrypt(buffer: ArrayBuffer | Uint8Array): Promise<CipherTextObject>;
+  decryptPreKeyWhisperMessage(
     buffer: ArrayBuffer | Uint8Array
   ): Promise<ArrayBuffer>;
-  public decryptWhisperMessage(
-    buffer: ArrayBuffer | Uint8Array
-  ): Promise<ArrayBuffer>;
-  public getRecord(encodedNumber: string): Promise<any | undefined>;
-  public getRemoteRegistrationId(): Promise<number>;
-  public hasOpenSession(): Promise<boolean>;
-  public closeOpenSessionForDevice(): Promise<void>;
-  public deleteAllSessionsForDevice(): Promise<void>;
+  decryptWhisperMessage(buffer: ArrayBuffer | Uint8Array): Promise<ArrayBuffer>;
+  getRecord(encodedNumber: string): Promise<any | undefined>;
+  getRemoteRegistrationId(): Promise<number>;
+  hasOpenSession(): Promise<boolean>;
+  closeOpenSessionForDevice(): Promise<void>;
+  deleteAllSessionsForDevice(): Promise<void>;
 }
 
 export interface LibsignalProtocol {
-  SignalProtocolAddress: typeof SignalProtocolAddress;
+  SignalProtocolAddress: SignalProtocolAddressConstructor;
   Curve: CurveInterface;
   crypto: CryptoInterface;
   KeyHelper: KeyHelperInterface;
-  SessionCipher: typeof SessionCipher;
+  SessionCipher: SessionCipherConstructor;
 }
