@@ -13,13 +13,13 @@ import * as MessageUtils from '../utils';
 
 export class PendingMessageCache {
   public readonly isReady: Promise<boolean>;
-  private cache: Array<any>;
+  private cache: Array<RawMessage>;
 
   constructor() {
     // Load pending messages from the database
     // You should await isReady on making a new PendingMessageCache
     //   if you'd like to have instant access to the cache
-    this.cache = ['bleep'];
+    this.cache = [];
 
     this.isReady = new Promise(async resolve => {
       await this.loadFromDB();
@@ -116,7 +116,14 @@ export class PendingMessageCache {
     const barePending = JSON.parse(String(data.value));
 
     const pending = barePending.map((message: any) => {
-      const { identifier, plainTextBuffer, timestamp, device, ttl, encryption } = message;
+      const {
+        identifier,
+        plainTextBuffer,
+        timestamp,
+        device,
+        ttl,
+        encryption,
+      } = message;
 
       return {
         identifier,
