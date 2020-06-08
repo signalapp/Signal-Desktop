@@ -5,6 +5,7 @@ import {
 } from '../messages/outgoing';
 import { RawMessage } from '../types/RawMessage';
 import { TypedEventEmitter } from '../utils';
+import { PubKey } from '../types';
 
 type GroupMessageType = OpenGroupMessage | ClosedGroupMessage;
 
@@ -16,7 +17,7 @@ export interface MessageQueueInterfaceEvents {
 export interface MessageQueueInterface {
   events: TypedEventEmitter<MessageQueueInterfaceEvents>;
   sendUsingMultiDevice(user: string, message: ContentMessage): void;
-  send(device: string, message: ContentMessage): void;
+  send(device: PubKey, message: ContentMessage): void;
   sendToGroup(message: GroupMessageType): void;
   sendSyncMessage(message: ContentMessage): void;
 }
