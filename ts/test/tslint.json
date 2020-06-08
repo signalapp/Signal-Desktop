@@ -6,6 +6,11 @@
     "no-implicit-dependencies": false,
 
     // All tests use arrow functions, and they can be long
-    "max-func-body-length": false
+    "max-func-body-length": false,
+
+    "no-unused-expression": false,
+
+    "await-promise": [true, "PromiseLike"],
+    "no-floating-promises": [true, "PromiseLike"]
   }
 }

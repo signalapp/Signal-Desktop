@@ -91,6 +91,7 @@ textarea {
   width: auto;
   display: flex;
   justify-content: center;
+  align-items: center;
   font-weight: 700;
   user-select: none;
   white-space: nowrap;
@@ -189,7 +190,7 @@ textarea {
   &.brand {
     min-width: 165px;
     height: 45px;
-    line-height: 40px;
+    align-items: center;
     padding: 0px $session-margin-lg;
     font-size: $session-font-md;
     font-family: $session-font-accent;
@@ -558,7 +559,9 @@ label {
   max-width: 70vw;
   background-color: $session-shade-4;
   border: 1px solid $session-shade-8;
-  padding-bottom: $session-margin-lg;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 
   &__header {
     display: flex;
@@ -609,6 +612,8 @@ label {
     font-family: $session-font-accent;
     line-height: $session-font-md;
     font-size: $session-font-sm;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     .message {
       text-align: center;
@@ -667,6 +672,17 @@ label {
     border-radius: 3px;
     margin-bottom: $session-margin-md;
   }
+}
+
+.sealed-sender-toggle {
+  display: flex;
+  padding: 6px;
+}
+
+.sender-keys-description {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
 }
 
 .create-group-dialog .session-modal__body {
@@ -1061,7 +1077,8 @@ label {
   flex-direction: column;
 
   &-list {
-    overflow-y: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   &-header {
@@ -1131,6 +1148,7 @@ label {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: hidden;
   }
 
   &__version-info {
@@ -1565,6 +1583,14 @@ input {
     font-family: $session-font-mono;
     text-align: center;
     padding: 20px;
+  }
+
+  // Height at which scroll bar appears on the group member list
+  @media (max-height: 804px) {
+    &__container {
+      overflow-y: visible;
+      max-height: none;
+    }
   }
 }
 .create-group-name-input {

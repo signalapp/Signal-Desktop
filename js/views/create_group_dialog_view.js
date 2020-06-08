@@ -1,4 +1,4 @@
-/* global Whisper, i18n, textsecure, _ */
+/* global Whisper, i18n, textsecure, libloki, _ */
 
 // eslint-disable-next-line func-names
 (function() {
@@ -179,7 +179,8 @@
       this.$el.append(this.dialogView.el);
       return this;
     },
-    onSubmit(newMembers) {
+    async onSubmit(newMembers) {
+      const _ = window.Lodash;
       const ourPK = textsecure.storage.user.getNumber();
       const allMembers = window.Lodash.concat(newMembers, [ourPK]);
 
@@ -187,11 +188,31 @@
       const notPresentInOld = allMembers.filter(
         m => !this.existingMembers.includes(m)
       );
+
       const notPresentInNew = this.existingMembers.filter(
         m => !allMembers.includes(m)
       );
-      // would be easer with _.xor but for some reason we do not have it
-      const xor = notPresentInNew.concat(notPresentInOld);
+
+      // Filter out all linked devices for cases in which one device
+      // exists in group, but hasn't yet synced with its other devices.
+      const getDevicesForRemoved = async () => {
+        const promises = notPresentInNew.map(member =>
+          libloki.storage.getPairedDevicesFor(member)
+        );
+        const devices = _.flatten(await Promise.all(promises));
+
+        return devices;
+      };
+
+      // Get all devices for notPresentInNew
+      const allDevicesOfMembersToRemove = await getDevicesForRemoved();
+
+      // If any extra devices of removed exist in newMembers, ensure that you filter them
+      const filteredMemberes = allMembers.filter(
+        member => !_.includes(allDevicesOfMembersToRemove, member)
+      );
+
+      const xor = _.xor(notPresentInNew, notPresentInOld);
       if (xor.length === 0) {
         window.console.log(
           'skipping group update: no detected changes in group member list'
@@ -203,7 +224,7 @@
       window.doUpdateGroup(
         this.groupId,
         this.groupName,
-        allMembers,
+        filteredMemberes,
         this.avatarPath
       );
     },

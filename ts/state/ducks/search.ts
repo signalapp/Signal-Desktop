@@ -288,11 +288,10 @@ async function queryConversationsAndContacts(
     : ourNumber;
 
   const resultPrimaryDevices: Array<string | null> = await Promise.all(
-    searchResults.map(
-      async conversation =>
-        conversation.id === ourPrimaryDevice
-          ? Promise.resolve(ourPrimaryDevice)
-          : getPrimaryDeviceFor(conversation.id)
+    searchResults.map(async conversation =>
+      conversation.id === ourPrimaryDevice
+        ? Promise.resolve(ourPrimaryDevice)
+        : getPrimaryDeviceFor(conversation.id)
     )
   );
 

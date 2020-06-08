@@ -6,7 +6,6 @@
   libloki,
   StringView,
   lokiMessageAPI,
-  i18n,
   log
 */
 
@@ -167,8 +166,8 @@ function OutgoingMessage(
     isMediumGroup,
     publicSendData,
     debugMessageType,
-  } =
-    options || {};
+    autoSession,
+  } = options || {};
   this.numberInfo = numberInfo;
   this.isPublic = isPublic;
   this.isMediumGroup = !!isMediumGroup;
@@ -182,6 +181,7 @@ function OutgoingMessage(
   this.online = online;
   this.messageType = messageType || 'outgoing';
   this.debugMessageType = debugMessageType;
+  this.autoSession = autoSession || false;
 }
 
 OutgoingMessage.prototype = {
@@ -216,8 +216,16 @@ OutgoingMessage.prototype = {
     this.errors[this.errors.length] = error;
     this.numberCompleted();
   },
-  reloadDevicesAndSend(primaryPubKey) {
+  reloadDevicesAndSend(primaryPubKey, multiDevice = true) {
     const ourNumber = textsecure.storage.user.getNumber();
+
+    if (!multiDevice) {
+      if (primaryPubKey === ourNumber) {
+        return Promise.resolve();
+      }
+
+      return this.doSendMessage(primaryPubKey, [primaryPubKey]);
+    }
 
     return (
       libloki.storage
@@ -319,6 +327,7 @@ OutgoingMessage.prototype = {
   // Default ttl to 24 hours if no value provided
   async transmitMessage(number, data, timestamp, ttl = 24 * 60 * 60 * 1000) {
     const pubKey = number;
+
     try {
       // TODO: Make NUM_CONCURRENT_CONNECTIONS a global constant
       const options = {
@@ -330,7 +339,7 @@ OutgoingMessage.prototype = {
       }
       await lokiMessageAPI.sendMessage(pubKey, data, timestamp, ttl, options);
     } catch (e) {
-      if (e.name === 'HTTPError' && (e.code !== 409 && e.code !== 410)) {
+      if (e.name === 'HTTPError' && e.code !== 409 && e.code !== 410) {
         // 409 and 410 should bubble and be handled by doSendMessage
         // 404 should throw UnregisteredUserError
         // all other network errors can be retried later.
@@ -349,7 +358,7 @@ OutgoingMessage.prototype = {
     const updatedDevices = await getStaleDeviceIdsForNumber(devicePubKey);
     const keysFound = await this.getKeysForNumber(devicePubKey, updatedDevices);
 
-    let isMultiDeviceRequest = false;
+    // let isMultiDeviceRequest = false;
     let thisDeviceMessageType = this.messageType;
     if (
       thisDeviceMessageType !== 'pairing-request' &&
@@ -370,7 +379,7 @@ OutgoingMessage.prototype = {
             // - We haven't received a friend request from this device
             // - We haven't sent a friend request recently
             if (conversation.friendRequestTimerIsExpired()) {
-              isMultiDeviceRequest = true;
+              // isMultiDeviceRequest = true;
               thisDeviceMessageType = 'friend-request';
             } else {
               // Throttle automated friend requests
@@ -412,27 +421,11 @@ OutgoingMessage.prototype = {
       window.log.info('attaching prekeys to outgoing message');
     }
 
-    let messageBuffer;
-    let logDetails;
-    if (isMultiDeviceRequest) {
-      const tempMessage = new textsecure.protobuf.Content();
-      const tempDataMessage = new textsecure.protobuf.DataMessage();
-      tempDataMessage.body = i18n('secondaryDeviceDefaultFR');
-      if (this.message.dataMessage && this.message.dataMessage.profile) {
-        tempDataMessage.profile = this.message.dataMessage.profile;
-      }
-      tempMessage.preKeyBundleMessage = this.message.preKeyBundleMessage;
-      tempMessage.dataMessage = tempDataMessage;
-      messageBuffer = tempMessage.toArrayBuffer();
-      logDetails = {
-        tempMessage,
-      };
-    } else {
-      messageBuffer = this.message.toArrayBuffer();
-      logDetails = {
-        message: this.message,
-      };
-    }
+    const messageBuffer = this.message.toArrayBuffer();
+    const logDetails = {
+      message: this.message,
+    };
+
     const messageTypeStr = this.debugMessageType;
 
     const ourPubKey = textsecure.storage.user.getNumber();
@@ -448,9 +441,7 @@ OutgoingMessage.prototype = {
       aliasedPubkey = 'OUR SECONDARY PUBKEY';
     }
     libloki.api.debug.logSessionMessageSending(
-      `Sending ${messageTypeStr}:${
-        this.messageType
-      } message to ${aliasedPubkey} details:`,
+      `Sending ${messageTypeStr}:${this.messageType} message to ${aliasedPubkey} details:`,
       logDetails
     );
 
@@ -489,6 +480,7 @@ OutgoingMessage.prototype = {
       plaintext,
       pubKey,
       isSessionRequest,
+      isFriendRequest,
       enableFallBackEncryption,
     } = clearMessage;
     // Session doesn't use the deviceId scheme, it's always 1.
@@ -534,7 +526,7 @@ OutgoingMessage.prototype = {
       sourceDevice,
       content,
       pubKey,
-      isFriendRequest: enableFallBackEncryption,
+      isFriendRequest,
       isSessionRequest,
     };
   },
@@ -647,6 +639,7 @@ OutgoingMessage.prototype = {
           this.timestamp,
           ttl
         );
+
         if (!this.isGroup && isFriendRequest && !isSessionRequest) {
           const conversation = ConversationController.get(destination);
           if (conversation) {
@@ -660,16 +653,10 @@ OutgoingMessage.prototype = {
         this.errors.push(e);
       }
     });
-    await Promise.all(promises);
-    // TODO: the retrySend should only send to the devices
-    // for which the transmission failed.
 
-    // ensure numberCompleted() will execute the callback
-    this.numbersCompleted += this.errors.length + this.successfulNumbers.length;
-    // Absorb errors if message sent to at least 1 device
-    if (this.successfulNumbers.length > 0) {
-      this.errors = [];
-    }
+    await Promise.all(promises);
+
+    this.numbersCompleted += this.successfulNumbers.length;
     this.numberCompleted();
   },
   async buildAndEncrypt(devicePubKey) {
@@ -708,14 +695,14 @@ OutgoingMessage.prototype = {
     return promise;
   },
 
-  sendToNumber(number) {
+  sendToNumber(number, multiDevice = true) {
     let conversation;
     try {
       conversation = ConversationController.get(number);
     } catch (e) {
       // do nothing
     }
-    return this.reloadDevicesAndSend(number).catch(error => {
+    return this.reloadDevicesAndSend(number, multiDevice).catch(error => {
       conversation.resetPendingSend();
       if (error.message === 'Identity key changed') {
         // eslint-disable-next-line no-param-reassign
@@ -740,14 +727,15 @@ OutgoingMessage.prototype = {
 OutgoingMessage.buildAutoFriendRequestMessage = function buildAutoFriendRequestMessage(
   pubKey
 ) {
-  const dataMessage = new textsecure.protobuf.DataMessage({});
+  const body = 'Please accept to enable messages to be synced across devices';
+  const dataMessage = new textsecure.protobuf.DataMessage({ body });
 
   const content = new textsecure.protobuf.Content({
     dataMessage,
   });
 
   const options = {
-    messageType: 'onlineBroadcast',
+    messageType: 'friend-request',
     debugMessageType: DebugMessageType.AUTO_FR_REQUEST,
   };
   // Send a empty message with information about how to contact us directly
@@ -767,9 +755,10 @@ OutgoingMessage.buildSessionRequestMessage = function buildSessionRequestMessage
 ) {
   const body =
     '(If you see this message, you must be using an out-of-date client)';
+
   const flags = textsecure.protobuf.DataMessage.Flags.SESSION_REQUEST;
 
-  const dataMessage = new textsecure.protobuf.DataMessage({ body, flags });
+  const dataMessage = new textsecure.protobuf.DataMessage({ flags, body });
 
   const content = new textsecure.protobuf.Content({
     dataMessage,
