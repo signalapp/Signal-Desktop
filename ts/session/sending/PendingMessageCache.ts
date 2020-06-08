@@ -1,9 +1,8 @@
 import {
   createOrUpdateItem,
   getItemById,
-  bulkAddItems,
 } from '../../../js/modules/data';
-import { RawMessage, BareRawMessage } from '../types/RawMessage';
+import { BareRawMessage, RawMessage } from '../types/RawMessage';
 import { ContentMessage } from '../messages/outgoing';
 import { PubKey } from '../types';
 import * as MessageUtils from '../utils';
