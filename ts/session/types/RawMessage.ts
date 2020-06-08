@@ -10,3 +10,12 @@ export interface RawMessage {
   ttl: number;
   encryption: EncryptionType;
 }
+
+export interface BareRawMessage {
+  identifier: string;
+  plainTextBuffer: any;
+  timestamp: number;
+  device: string;
+  ttl: number;
+  encryption: number;
+}

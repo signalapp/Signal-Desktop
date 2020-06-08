@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-
+import * as _ from 'lodash';
 import * as MessageUtils from '../../../session/utils';
 import { TestUtils } from '../../../test/test-utils';
 import { PendingMessageCache } from '../../../session/sending/PendingMessageCache';
@@ -12,14 +12,15 @@ interface StorageItem {
 
 describe('PendingMessageCache', () => {
   // Initialize new stubbed cache
+  let data: StorageItem;
   let pendingMessageCacheStub: PendingMessageCache;
 
   beforeEach(async () => {
     // Stub out methods which touch the database
     const storageID = 'pendingMessages';
-    let data: StorageItem = {
+    data = {
       id: storageID,
-      value: '',
+      value: '[]',
     };
 
     TestUtils.stubData('getItemById')
@@ -199,5 +200,60 @@ describe('PendingMessageCache', () => {
 
     const finalCache = pendingMessageCacheStub.getAllPending();
     expect(finalCache).to.have.length(0);
+  });
+
+  it('can restore from db', async () => {
+    const cacheItems = [
+      {
+        device: TestUtils.generateFakePubkey(),
+        message: TestUtils.generateUniqueChatMessage(),
+      },
+      {
+        device: TestUtils.generateFakePubkey(),
+        message: TestUtils.generateUniqueChatMessage(),
+      },
+      {
+        device: TestUtils.generateFakePubkey(),
+        message: TestUtils.generateUniqueChatMessage(),
+      },
+    ];
+
+    cacheItems.forEach(async item => {
+      await pendingMessageCacheStub.add(item.device, item.message);
+    });
+
+    const addedMessages = pendingMessageCacheStub.getAllPending();
+    expect(addedMessages).to.have.length(cacheItems.length);
+
+    // Rebuild from DB
+    const freshCache = new PendingMessageCache();
+    await freshCache.isReady;
+
+    // Verify messages
+    const rebuiltMessages = freshCache.getAllPending();
+
+    rebuiltMessages.forEach((message, index) => {
+      const addedMessage = addedMessages[index];
+
+      // Pull out plainTextBuffer for a separate check
+      const buffersCompare =
+        Buffer.compare(
+          message.plainTextBuffer,
+          addedMessage.plainTextBuffer
+        ) === 0;
+      expect(buffersCompare).to.equal(
+        true,
+        'buffers were not loaded properly from database'
+      );
+
+      // Compare all other valures
+      const trimmedAdded = _.omit(addedMessage, ['plainTextBuffer']);
+      const trimmedRebuilt = _.omit(message, ['plainTextBuffer']);
+
+      expect(_.isEqual(trimmedAdded, trimmedRebuilt)).to.equal(
+        true,
+        'cached messages were not rebuilt properly'
+      );
+    });
   });
 });
