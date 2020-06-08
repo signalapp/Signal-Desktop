@@ -9,8 +9,8 @@ interface OpenGroup {
 
 interface OpenGroupMessageParams extends MessageParams {
   group: OpenGroup;
-  attachments: Array<AttachmentPointer>;
-  preview: Array<Preview>;
+  attachments?: Array<AttachmentPointer>;
+  preview?: Array<Preview>;
   body?: string;
   quote?: Quote;
 }
@@ -34,8 +34,8 @@ export class OpenGroupMessage extends Message {
     super({ timestamp, identifier });
     this.group = group;
     this.body = body;
-    this.attachments = attachments;
+    this.attachments = attachments ?? [];
     this.quote = quote;
-    this.preview = preview;
+    this.preview = preview ?? [];
   }
 }
