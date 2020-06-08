@@ -1727,7 +1727,8 @@
         message.send(
           this.wrapSend(
             textsecure.messaging.resetSession(
-              this.get('uuid') || this.get('e164'),
+              this.get('uuid'),
+              this.get('e164'),
               now,
               options
             )
