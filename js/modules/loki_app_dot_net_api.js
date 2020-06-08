@@ -478,7 +478,7 @@ const serverRequest = async (endpoint, options = {}) => {
 };
 
 // the core ADN class that handles all communication with a specific server
-export default class LokiAppDotNetServerAPI {
+class LokiAppDotNetServerAPI {
   constructor(ourKey, url) {
     this.ourKey = ourKey;
     this.channels = [];
@@ -2314,3 +2314,7 @@ class LokiPublicChannelAPI {
     return false;
   }
 }
+
+// These files are expected to be in commonjs so we can't use es6 syntax :(
+// If we move these to TS then we should be able to use es6
+module.exports = LokiAppDotNetServerAPI;

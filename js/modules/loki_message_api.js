@@ -67,7 +67,7 @@ async function _retrieveNextMessages(nodeData, pubkey) {
   return result.messages || [];
 }
 
-export default class LokiMessageAPI {
+class LokiMessageAPI {
   constructor(ourKey) {
     this.jobQueue = new window.JobQueue();
     this.sendingData = {};
@@ -610,3 +610,7 @@ export default class LokiMessageAPI {
     // no, our caller already handles this...
   }
 }
+
+// These files are expected to be in commonjs so we can't use es6 syntax :(
+// If we move these to TS then we should be able to use es6
+module.exports = LokiMessageAPI;

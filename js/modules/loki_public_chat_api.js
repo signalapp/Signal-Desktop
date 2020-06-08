@@ -3,7 +3,7 @@ const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 
-export default class LokiPublicChatFactoryAPI extends EventEmitter {
+class LokiPublicChatFactoryAPI extends EventEmitter {
   constructor(ourKey) {
     super();
     this.ourKey = ourKey;
@@ -199,3 +199,7 @@ export default class LokiPublicChatFactoryAPI extends EventEmitter {
     );
   }
 }
+
+// These files are expected to be in commonjs so we can't use es6 syntax :(
+// If we move these to TS then we should be able to use es6
+module.exports = LokiPublicChatFactoryAPI;
