@@ -1,6 +1,8 @@
 import { LibsignalProtocol } from './types/libsignal-protocol';
 import { SignalInterface } from './types/signal';
 import { LocalizerType } from '../types/Util';
+import LokiMessageAPI from '../../js/modules/loki_message_api';
+import LokiPublicChatFactoryAPI from '../../js/modules/loki_public_chat_api';
 
 interface WindowInterface extends Window {
   seedNodeList: any;
@@ -8,7 +10,6 @@ interface WindowInterface extends Window {
   WebAPI: any;
   LokiSnodeAPI: any;
   SenderKeyAPI: any;
-  LokiMessageAPI: any;
   StubMessageAPI: any;
   StubAppDotNetApi: any;
   LokiPublicChatAPI: any;
@@ -72,6 +73,9 @@ interface WindowInterface extends Window {
   lokiFeatureFlags: any;
 
   resetDatabase: any;
+
+  lokiMessageAPI: LokiMessageAPI;
+  lokiPublicChatAPI: LokiPublicChatFactoryAPI;
 }
 
 // In the case for tests
@@ -133,3 +137,6 @@ export const attemptConnection = window.attemptConnection;
 export const libloki = window.libloki;
 export const libsignal = window.libsignal;
 export const textsecure = window.textsecure;
+
+export const lokiMessageAPI = window.lokiMessageAPI;
+export const lokiPublicChatAPI = window.lokiPublicChatAPI;

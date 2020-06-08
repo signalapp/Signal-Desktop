@@ -1,32 +1,41 @@
 import { Message, MessageParams } from './Message';
-import { AttachmentType } from '../../../types/Attachment';
-import { QuotedAttachmentType } from '../../../components/conversation/Quote';
+import { AttachmentPointer, Preview, Quote } from './content';
+
+interface OpenGroup {
+  server: string;
+  channel: number;
+  conversationId: string;
+}
 
 interface OpenGroupMessageParams extends MessageParams {
-  server: string;
-  attachments?: Array<AttachmentType>;
+  group: OpenGroup;
+  attachments: Array<AttachmentPointer>;
+  preview: Array<Preview>;
   body?: string;
-  quote?: QuotedAttachmentType;
+  quote?: Quote;
 }
 
 export class OpenGroupMessage extends Message {
-  public readonly server: string;
+  public readonly group: OpenGroup;
   public readonly body?: string;
-  public readonly attachments?: Array<AttachmentType>;
-  public readonly quote?: QuotedAttachmentType;
+  public readonly attachments: Array<AttachmentPointer>;
+  public readonly quote?: Quote;
+  public readonly preview: Array<Preview>;
 
   constructor({
     timestamp,
-    server,
+    group,
     attachments,
     body,
     quote,
     identifier,
+    preview,
   }: OpenGroupMessageParams) {
     super({ timestamp, identifier });
-    this.server = server;
+    this.group = group;
     this.body = body;
     this.attachments = attachments;
     this.quote = quote;
+    this.preview = preview;
   }
 }

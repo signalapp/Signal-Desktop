@@ -67,7 +67,7 @@ async function _retrieveNextMessages(nodeData, pubkey) {
   return result.messages || [];
 }
 
-class LokiMessageAPI {
+export default class LokiMessageAPI {
   constructor(ourKey) {
     this.jobQueue = new window.JobQueue();
     this.sendingData = {};
@@ -76,6 +76,16 @@ class LokiMessageAPI {
     this.groupIdsToPoll = {};
   }
 
+  /**
+   * Refactor note: We should really clean this up ... it's very messy
+   *
+   * We need to split it into 2 sends:
+   *  - Snodes
+   *  - Open Groups
+   *
+   * Mikunj:
+   *  Temporarily i've made it so `MessageSender` handles open group sends and calls this function for regular sends.
+   */
   async sendMessage(pubKey, data, messageTimeStamp, ttl, options = {}) {
     const {
       isPublic = false,
@@ -600,5 +610,3 @@ class LokiMessageAPI {
     // no, our caller already handles this...
   }
 }
-
-module.exports = LokiMessageAPI;

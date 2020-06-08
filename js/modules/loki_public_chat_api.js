@@ -3,7 +3,7 @@ const EventEmitter = require('events');
 const nodeFetch = require('node-fetch');
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
 
-class LokiPublicChatFactoryAPI extends EventEmitter {
+export default class LokiPublicChatFactoryAPI extends EventEmitter {
   constructor(ourKey) {
     super();
     this.ourKey = ourKey;
@@ -199,5 +199,3 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
     );
   }
 }
-
-module.exports = LokiPublicChatFactoryAPI;
