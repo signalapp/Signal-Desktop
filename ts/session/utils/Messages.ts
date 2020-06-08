@@ -1,5 +1,5 @@
 import { RawMessage } from '../types/RawMessage';
-import { ContentMessage } from '../messages/outgoing';
+import { ContentMessage, SyncMessage } from '../messages/outgoing';
 import { EncryptionType, PubKey } from '../types';
 
 export function toRawMessage(
@@ -21,4 +21,9 @@ export function toRawMessage(
   };
 
   return rawMessage;
+}
+
+export function toSyncMessage(message: ContentMessage):  {
+
+  return SyncMessage;
 }

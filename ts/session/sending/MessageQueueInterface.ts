@@ -16,7 +16,7 @@ export interface MessageQueueInterfaceEvents {
 
 export interface MessageQueueInterface {
   events: TypedEventEmitter<MessageQueueInterfaceEvents>;
-  sendUsingMultiDevice(user: string, message: ContentMessage): void;
+  sendUsingMultiDevice(user: PubKey, message: ContentMessage): void;
   send(device: PubKey, message: ContentMessage): void;
   sendToGroup(message: GroupMessageType): void;
   sendSyncMessage(message: ContentMessage): void;

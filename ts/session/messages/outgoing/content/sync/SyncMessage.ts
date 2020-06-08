@@ -2,6 +2,11 @@ import { ContentMessage } from '../ContentMessage';
 import { SignalService } from '../../../../../protobuf';
 
 export abstract class SyncMessage extends ContentMessage {
+  public static canSync(message: ContentMessage): boolean {
+    // TODO: implement
+    return true;
+  }
+
   public ttl(): number {
     return this.getDefaultTTL();
   }
