@@ -2,7 +2,7 @@ import {
   createOrUpdateItem,
   getItemById,
 } from '../../../js/modules/data';
-import { BareRawMessage, RawMessage } from '../types/RawMessage';
+import { PartialRawMessage, RawMessage } from '../types/RawMessage';
 import { ContentMessage } from '../messages/outgoing';
 import { PubKey } from '../types';
 import * as MessageUtils from '../utils';
@@ -107,11 +107,11 @@ export class PendingMessageCache {
       return [];
     }
 
-    const barePending = JSON.parse(String(data.value)) as Array<BareRawMessage>;
+    const barePending = JSON.parse(String(data.value)) as Array<PartialRawMessage>;
 
     // Rebuild plainTextBuffer
     // tslint:disable-next-line: no-unnecessary-local-variable
-    const pending = barePending.map((message: BareRawMessage) => {
+    const pending = barePending.map((message: PartialRawMessage) => {
       const rebuiltMessage = { ...message };
 
       // From Array<number> to ArrayBuffer

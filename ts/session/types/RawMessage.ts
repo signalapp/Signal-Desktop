@@ -11,7 +11,8 @@ export interface RawMessage {
   encryption: EncryptionType;
 }
 
-export interface BareRawMessage {
+// For building RawMessages from JSON
+export interface PartialRawMessage {
   identifier: string;
   plainTextBuffer: any;
   timestamp: number;
