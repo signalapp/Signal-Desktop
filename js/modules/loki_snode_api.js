@@ -98,9 +98,7 @@ async function tryGetSnodeListFromLokidSeednode(
     // throw before clearing the lock, so the retries can kick in
     if (snodes.length === 0) {
       log.warn(
-        `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${
-          seedNode.url
-        } did not return any snodes, falling back to IP`,
+        `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.url} did not return any snodes, falling back to IP`,
         seedNode.ip_url
       );
       // fall back on ip_url
@@ -108,9 +106,7 @@ async function tryGetSnodeListFromLokidSeednode(
       snodes = await getSnodesFromSeedUrl(tryIpUrl);
       if (snodes.length === 0) {
         log.warn(
-          `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${
-            seedNode.ip_url
-          } did not return any snodes`
+          `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.ip_url} did not return any snodes`
         );
         // does this error message need to be exactly this?
         throw new window.textsecure.SeedNodeError(
@@ -120,9 +116,7 @@ async function tryGetSnodeListFromLokidSeednode(
     }
     if (snodes.length) {
       log.info(
-        `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${
-          seedNode.url
-        } returned ${snodes.length} snodes`
+        `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.url} returned ${snodes.length} snodes`
       );
     }
     return snodes;
@@ -344,9 +338,7 @@ class LokiSnodeAPI {
     let attemptNumber = 0;
     while (goodPaths.length < MIN_GUARD_COUNT) {
       log.error(
-        `Must have at least 2 good onion paths, actual: ${
-          goodPaths.length
-        }, attempt #${attemptNumber} fetching more...`
+        `Must have at least 2 good onion paths, actual: ${goodPaths.length}, attempt #${attemptNumber} fetching more...`
       );
       // eslint-disable-next-line no-await-in-loop
       await this.buildNewOnionPaths();
@@ -444,9 +436,7 @@ class LokiSnodeAPI {
 
         if (this.guardNodes.length < edKeys.length) {
           log.warn(
-            `LokiSnodeAPI::buildNewOnionPaths - could not find some guard nodes: ${
-              this.guardNodes.length
-            }/${edKeys.length} left`
+            `LokiSnodeAPI::buildNewOnionPaths - could not find some guard nodes: ${this.guardNodes.length}/${edKeys.length} left`
           );
         }
       }
@@ -535,9 +525,7 @@ class LokiSnodeAPI {
         await this.refreshRandomPool();
       } catch (e) {
         log.error(
-          `LokiSnodeAPI::getRandomProxySnodeAddress - error ${e.code} ${
-            e.message
-          }`
+          `LokiSnodeAPI::getRandomProxySnodeAddress - error ${e.code} ${e.message}`
         );
         throw e;
       }
@@ -581,9 +569,7 @@ class LokiSnodeAPI {
         } else {
           // maybe already marked bad...
           log.debug(
-            `LokiSnodeAPI::_getVersion - can't find ${node.ip}:${
-              node.port
-            } in randomSnodePool`
+            `LokiSnodeAPI::_getVersion - can't find ${node.ip}:${node.port} in randomSnodePool`
           );
         }
       }
@@ -598,9 +584,7 @@ class LokiSnodeAPI {
         const randomNodesLeft = this.getRandomPoolLength();
         // clean up these error messages to be a little neater
         log.warn(
-          `LokiSnodeAPI::_getVersion - ${node.ip}:${
-            node.port
-          } is offline, removing, leaving ${randomNodesLeft} in the randomPool`
+          `LokiSnodeAPI::_getVersion - ${node.ip}:${node.port} is offline, removing, leaving ${randomNodesLeft} in the randomPool`
         );
         // if not ECONNREFUSED, it's mostly ECONNRESETs
         // ENOTFOUND could mean no internet or hiccup
@@ -617,9 +601,7 @@ class LokiSnodeAPI {
         this.markRandomNodeUnreachable(node);
         const randomNodesLeft = this.getRandomPoolLength();
         log.warn(
-          `LokiSnodeAPI::_getVersion - failing to get version for ${node.ip}:${
-            node.port
-          }, removing, leaving ${randomNodesLeft} in the randomPool`
+          `LokiSnodeAPI::_getVersion - failing to get version for ${node.ip}:${node.port}, removing, leaving ${randomNodesLeft} in the randomPool`
         );
       }
       // maybe throw?
@@ -677,9 +659,7 @@ class LokiSnodeAPI {
       return curVal;
     }, []);
     log.debug(
-      `LokiSnodeAPI::_getAllVerionsForRandomSnodePool - ${
-        versions.length
-      } versions retrieved from network!:`,
+      `LokiSnodeAPI::_getAllVerionsForRandomSnodePool - ${versions.length} versions retrieved from network!:`,
       versions.join(',')
     );
   }
@@ -761,9 +741,7 @@ class LokiSnodeAPI {
     });
     if (!found) {
       log.warn(
-        `LokiSnodeAPI::unreachableNode - snode ${unreachableNode.ip}:${
-          unreachableNode.port
-        } has already been marked as bad`
+        `LokiSnodeAPI::unreachableNode - snode ${unreachableNode.ip}:${unreachableNode.port} has already been marked as bad`
       );
     }
     try {
@@ -807,9 +785,7 @@ class LokiSnodeAPI {
               node.address
             );
             log.debug(
-              `LokiSnodeAPI::getSwarmNodesForPubKey - ${j} ${node.ip}:${
-                node.port
-              }`
+              `LokiSnodeAPI::getSwarmNodesForPubKey - ${j} ${node.ip}:${node.port}`
             );
             swarmNodes[j] = {
               ...node,
@@ -1035,9 +1011,7 @@ class LokiSnodeAPI {
       );
       if (!result) {
         log.warn(
-          `LokiSnodeAPI::_getSnodesForPubkey - lokiRpc on ${snode.ip}:${
-            snode.port
-          } returned falsish value`,
+          `LokiSnodeAPI::_getSnodesForPubkey - lokiRpc on ${snode.ip}:${snode.port} returned falsish value`,
           result
         );
         return [];
@@ -1045,9 +1019,7 @@ class LokiSnodeAPI {
       if (!result.snodes) {
         // we hit this when snode gives 500s
         log.warn(
-          `LokiSnodeAPI::_getSnodesForPubkey - lokiRpc on ${snode.ip}:${
-            snode.port
-          } returned falsish value for snodes`,
+          `LokiSnodeAPI::_getSnodesForPubkey - lokiRpc on ${snode.ip}:${snode.port} returned falsish value for snodes`,
           result
         );
         return [];

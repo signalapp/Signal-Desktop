@@ -169,9 +169,7 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
       body = JSON.parse(result.body);
     } catch (e) {
       log.error(
-        `loki_app_dot_net:::sendViaOnion #${
-          options.requestNumber
-        } - Cant decode JSON body`,
+        `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - Cant decode JSON body`,
         typeof result.body,
         result.body
       );
@@ -181,7 +179,9 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
     // https://chat-dev.lokinet.org/loki/v1/channel/1/deletes?count=200&since_id=
     // difference in response than all the other calls....
     log.info(
-      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - got object response ${url.toString()}`
+      `loki_app_dot_net:::sendViaOnion #${
+        options.requestNumber
+      } - got object response ${url.toString()}`
     );
   }
   // result.status has the http response code

@@ -140,9 +140,7 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
       }
       if (window.isDev) {
         log.info(
-          `loki_public_chat::findOrCreateServer - set token ${
-            thisServer.token
-          } for ${serverUrl}`
+          `loki_public_chat::findOrCreateServer - set token ${thisServer.token} for ${serverUrl}`
         );
       }
 
