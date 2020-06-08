@@ -2259,7 +2259,10 @@
                       'private'
                     );
                   }
-                  return ConversationController.getOrCreateAndWait(member);
+                  return ConversationController.getOrCreateAndWait(
+                    member,
+                    'private'
+                  );
                 })
               );
               const members = memberConversations.map(c => c.get('id'));
