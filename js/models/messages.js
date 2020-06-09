@@ -2298,18 +2298,28 @@
                   attributes.left = false;
                 }
               } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
-                if (ConversationController.get(source || sourceUuid).isMe()) {
+                const sender = ConversationController.get(source || sourceUuid);
+                const inGroup = Boolean(
+                  sender &&
+                    (conversation.get('members') || []).includes(sender.id)
+                );
+                if (!inGroup) {
+                  const senderString = sender ? sender.idForLogging() : null;
+                  window.log.info(
+                    `Got 'left' message from someone not in group: ${senderString}. Dropping.`
+                  );
+                  return;
+                }
+
+                if (sender.isMe()) {
                   attributes.left = true;
                   groupUpdate = { left: 'You' };
                 } else {
-                  const myConversation = ConversationController.get(
-                    source || sourceUuid
-                  );
-                  groupUpdate = { left: myConversation.get('id') };
+                  groupUpdate = { left: sender.get('id') };
                 }
                 attributes.members = _.without(
                   conversation.get('members'),
-                  ConversationController.get(source || sourceUuid).get('id')
+                  sender.get('id')
                 );
               }
 
