@@ -99,7 +99,11 @@ export class SessionProtocol {
       timestamp: Date.now(),
     });
 
-    return SessionProtocol.sendSessionRequest(sessionReset, device);
+    try {
+      await SessionProtocol.sendSessionRequest(sessionReset, device);
+    } catch (error) {
+      window.console.warn('Failed to send session request to:', device, error);
+    }
   }
 
   /**  */
@@ -131,8 +135,7 @@ export class SessionProtocol {
       await MessageSender.send(rawMessage);
       await SessionProtocol.updateSentSessionTimestamp(device, timestamp);
     } catch (e) {
-      // console.log('Failed to send session request to:', device);
-      // console.log('e:', e);
+      throw e;
     } finally {
       SessionProtocol.pendingSendSessionsTimestamp.delete(device);
     }
