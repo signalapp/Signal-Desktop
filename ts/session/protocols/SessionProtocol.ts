@@ -131,8 +131,8 @@ export class SessionProtocol {
       await MessageSender.send(rawMessage);
       await SessionProtocol.updateSentSessionTimestamp(device, timestamp);
     } catch (e) {
-      console.log('Failed to send session request to:', device);
-      console.log('e:', e);
+      // console.log('Failed to send session request to:', device);
+      // console.log('e:', e);
     } finally {
       SessionProtocol.pendingSendSessionsTimestamp.delete(device);
     }
