@@ -1,3 +1,4 @@
-import * as SyncMessage from './SyncMessage';
+import { SyncMessage } from './SyncMessage';
+import { ContactSyncMessage } from './ContactSyncMessage';
 
-export { SyncMessage };
+export { ContactSyncMessage, SyncMessage };

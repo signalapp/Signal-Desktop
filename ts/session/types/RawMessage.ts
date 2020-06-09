@@ -11,7 +11,7 @@ export interface RawMessage {
   encryption: EncryptionType;
 }
 
-export interface BareRawMessage {
+export interface PartialRawMessage {
   identifier: string;
   plainTextBuffer: any;
   timestamp: number;

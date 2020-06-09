@@ -134,6 +134,7 @@ export const deleteAccount = window.deleteAccount;
 export const resetDatabase = window.resetDatabase;
 export const attemptConnection = window.attemptConnection;
 
+export const dcodeIO = window.dcodeIO;
 export const libloki = window.libloki;
 export const libsignal = window.libsignal;
 export const textsecure = window.textsecure;

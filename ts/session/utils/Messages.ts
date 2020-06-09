@@ -22,8 +22,3 @@ export function toRawMessage(
 
   return rawMessage;
 }
-
-export function toSyncMessage(message: ContentMessage):  {
-
-  return SyncMessage;
-}

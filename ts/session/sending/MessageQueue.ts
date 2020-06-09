@@ -9,18 +9,17 @@ import {
   GroupMessageType,
 } from './MessageQueueInterface';
 import {
+  ClosedGroupMessage,
   ContentMessage,
   OpenGroupMessage,
-  SyncMessage,
   SessionResetMessage,
-  ClosedGroupMessage,
+  SyncMessage,
 } from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
 import {
   JobQueue,
   TypedEventEmitter,
   toRawMessage,
-  toSyncMessage,
 } from '../utils';
 import { PubKey } from '../types';
 import { ConversationController } from '../../window';
@@ -57,7 +56,7 @@ export class MessageQueue implements MessageQueueInterface {
 
     if (message.canSync(message)) {
       // Sync to our devices
-      const syncMessage = toSyncMessage(message);
+      const syncMessage = SyncMessage.from(message);
       const ourDevices = await this.sendSyncMessage(syncMessage);
 
       // Remove our devices from currentDevices
@@ -97,7 +96,7 @@ export class MessageQueue implements MessageQueueInterface {
     message: ContentMessage
   ): Promise<Array<PubKey>> {
     // Sync with our devices
-    const syncMessage = toSyncMessage();
+    const syncMessage = SyncMessage.from(message);
     if (!syncMessage.canSync()) {
       return;
     }
