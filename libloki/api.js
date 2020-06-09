@@ -21,8 +21,7 @@
   const debugFlags = DebugFlagsEnum.ALL;
 
   const debugLogFn = (...args) => {
-    if (true) {
-      // process.env.NODE_ENV.includes('test-integration') ||
+    if (window.lokiFeatureFlags.debugMessageLogs) {
       window.console.warn(...args);
     }
   };
@@ -46,7 +45,7 @@
   }
 
   function logContactSync(...args) {
-    if (debugFlags & DebugFlagsEnum.GROUP_CONTACT_MESSAGES) {
+    if (debugFlags & DebugFlagsEnum.CONTACT_SYNC_MESSAGES) {
       debugLogFn(...args);
     }
   }
@@ -90,38 +89,22 @@
     const message = textsecure.OutgoingMessage.buildSessionEstablishedMessage(
       pubKey
     );
-    await message.sendToNumber(pubKey);
+    await message.sendToNumber(pubKey, false);
   }
 
   async function sendBackgroundMessage(pubKey, debugMessageType) {
-    const primaryPubKey = await getPrimaryDevicePubkey(pubKey);
-    if (primaryPubKey !== pubKey) {
-      // if we got the secondary device pubkey first,
-      // call ourself again with the primary device pubkey
-      await sendBackgroundMessage(primaryPubKey, debugMessageType);
-      return;
-    }
-
     const backgroundMessage = textsecure.OutgoingMessage.buildBackgroundMessage(
       pubKey,
       debugMessageType
     );
-    await backgroundMessage.sendToNumber(pubKey);
+    await backgroundMessage.sendToNumber(pubKey, false);
   }
 
   async function sendAutoFriendRequestMessage(pubKey) {
-    const primaryPubKey = await getPrimaryDevicePubkey(pubKey);
-    if (primaryPubKey !== pubKey) {
-      // if we got the secondary device pubkey first,
-      // call ourself again with the primary device pubkey
-      await sendAutoFriendRequestMessage(primaryPubKey);
-      return;
-    }
-
     const autoFrMessage = textsecure.OutgoingMessage.buildAutoFriendRequestMessage(
       pubKey
     );
-    await autoFrMessage.sendToNumber(pubKey);
+    await autoFrMessage.sendToNumber(pubKey, false);
   }
 
   function createPairingAuthorisationProtoMessage({
@@ -157,7 +140,7 @@
     const unpairingMessage = textsecure.OutgoingMessage.buildUnpairingMessage(
       pubKey
     );
-    return unpairingMessage.sendToNumber(pubKey);
+    return unpairingMessage.sendToNumber(pubKey, false);
   }
   // Serialise as <Element0.length><Element0><Element1.length><Element1>...
   // This is an implementation of the reciprocal of contacts_parser.js
@@ -220,6 +203,7 @@
     });
     return syncMessage;
   }
+
   function createGroupSyncProtoMessage(sessionGroup) {
     // We are getting a single open group here
 
@@ -296,7 +280,7 @@
         callback
       );
 
-      pairingRequestMessage.sendToNumber(recipientPubKey);
+      pairingRequestMessage.sendToNumber(recipientPubKey, false);
     });
     return p;
   }
@@ -346,6 +330,7 @@
     createContactSyncProtoMessage,
     createGroupSyncProtoMessage,
     createOpenGroupsSyncProtoMessage,
+    getPrimaryDevicePubkey,
     debug,
   };
 })();

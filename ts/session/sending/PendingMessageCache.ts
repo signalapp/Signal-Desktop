@@ -1,5 +1,5 @@
 import { RawMessage } from '../types/RawMessage';
-import { ContentMessage as OutgoingContentMessage } from '../messages/outgoing';
+import { ContentMessage } from '../messages/outgoing';
 
 // TODO: We should be able to import functions straight from the db here without going through the window object
 
@@ -12,7 +12,7 @@ export class PendingMessageCache {
 
   public addPendingMessage(
     device: string,
-    message: OutgoingContentMessage
+    message: ContentMessage
   ): RawMessage {
     // TODO: Maybe have a util for converting OutgoingContentMessage to RawMessage?
     // TODO: Raw message has uuid, how are we going to set that? maybe use a different identifier?

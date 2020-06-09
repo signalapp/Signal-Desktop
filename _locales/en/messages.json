@@ -683,7 +683,7 @@
     "description": "Shown to separate the types of search results"
   },
   "messagesHeader": {
-    "message": "Session",
+    "message": "Conversations",
     "description": "Shown to separate the types of search results"
   },
   "settingsHeader": {
@@ -984,10 +984,6 @@
   "sendMessage": {
     "message": " Type your message",
     "description": "Placeholder text in the message entry field"
-  },
-  "secondaryDeviceDefaultFR": {
-    "message": "Please accept to enable messages to be synced across devices",
-    "description": "Placeholder text in the message entry field when it is disabled because a secondary device conversation is visible"
   },
   "sendMessageDisabledSecondary": {
     "message": "This pubkey belongs to a secondary device. You should never see this message",
@@ -2232,12 +2228,27 @@
     "message": "Remove"
   },
   "invalidHexId": {
-    "message": "Invalid Hex ID",
-    "description": "Error string shown when user type an invalid pubkey hex string"
+    "message": "Invalid Session ID or LNS Name",
+    "description": "Error string shown when user types an invalid pubkey hex string"
+  },
+  "invalidLnsFormat": {
+    "message": "Invalid LNS Name",
+    "description": "Error string shown when user types an invalid LNS name"
   },
   "invalidPubkeyFormat": {
     "message": "Invalid Pubkey Format",
     "description": "Error string shown when user types an invalid pubkey format"
+  },
+  "lnsMappingNotFound": {
+    "message": "There is no LNS mapping associated with this name",
+    "description": "Shown in toast if user enters an unknown LNS name"
+  },
+  "lnsLookupTimeout": {
+    "message": "LNS lookup timed out",
+    "description": "Shown in toast if user enters an unknown LNS name"
+  },
+  "lnsTooFewNodes": {
+    "message": "Not enough nodes currently active for LNS lookup"
   },
   "conversationsTab": {
     "message": "Conversations",
@@ -2417,7 +2428,7 @@
     "message": "Enter Session ID"
   },
   "pasteSessionIDRecipient": {
-    "message": "Enter a Session ID"
+    "message": "Enter a Session ID or LNS name"
   },
   "usersCanShareTheir...": {
     "message": "Users can share their Session ID from their account settings, or by sharing their QR code."
@@ -2597,5 +2608,8 @@
         "example": "10"
       }
     }
+  },
+  "useSenderKeys": {
+    "message": "Use Sender Keys"
   }
 }

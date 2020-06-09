@@ -1,0 +1,4 @@
+[submodule "session-file-server"]
+	path = session-file-server
+	url = https://github.com/loki-project/session-file-server/
+	branch = session

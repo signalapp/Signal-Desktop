@@ -3,10 +3,7 @@ import {
   MessageQueueInterface,
   MessageQueueInterfaceEvents,
 } from './MessageQueueInterface';
-import {
-  ContentMessage as OutgoingContentMessage,
-  OpenGroupMessage,
-} from '../messages/outgoing';
+import { ContentMessage, OpenGroupMessage } from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
 import { JobQueue, TypedEventEmitter } from '../utils';
 
@@ -21,16 +18,16 @@ export class MessageQueue implements MessageQueueInterface {
     this.processAllPending();
   }
 
-  public sendUsingMultiDevice(user: string, message: OutgoingContentMessage) {
+  public sendUsingMultiDevice(user: string, message: ContentMessage) {
     throw new Error('Method not implemented.');
   }
-  public send(device: string, message: OutgoingContentMessage) {
+  public send(device: string, message: ContentMessage) {
     throw new Error('Method not implemented.');
   }
-  public sendToGroup(message: OutgoingContentMessage | OpenGroupMessage) {
+  public sendToGroup(message: ContentMessage | OpenGroupMessage) {
     throw new Error('Method not implemented.');
   }
-  public sendSyncMessage(message: OutgoingContentMessage) {
+  public sendSyncMessage(message: ContentMessage) {
     throw new Error('Method not implemented.');
   }
 
@@ -42,7 +39,7 @@ export class MessageQueue implements MessageQueueInterface {
     // TODO: Get all devices which are pending here
   }
 
-  private queue(device: string, message: OutgoingContentMessage) {
+  private queue(device: string, message: ContentMessage) {
     // TODO: implement
   }
 

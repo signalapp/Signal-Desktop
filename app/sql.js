@@ -1540,6 +1540,8 @@ async function getGrantAuthorisationsForPrimaryPubKey(primaryDevicePubKey) {
 
 async function createOrUpdatePairingAuthorisation(data) {
   const { primaryDevicePubKey, secondaryDevicePubKey, grantSignature } = data;
+  // remove any existing authorisation for this pubkey (we allow only one secondary device for now)
+  await removePairingAuthorisationForPrimaryPubKey(primaryDevicePubKey);
 
   await db.run(
     `INSERT OR REPLACE INTO ${PAIRING_AUTHORISATIONS_TABLE} (
@@ -1558,6 +1560,15 @@ async function createOrUpdatePairingAuthorisation(data) {
       $secondaryDevicePubKey: secondaryDevicePubKey,
       $isGranted: Boolean(grantSignature),
       $json: objectToJSON(data),
+    }
+  );
+}
+
+async function removePairingAuthorisationForPrimaryPubKey(pubKey) {
+  await db.run(
+    `DELETE FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE primaryDevicePubKey = $primaryDevicePubKey;`,
+    {
+      $primaryDevicePubKey: pubKey,
     }
   );
 }

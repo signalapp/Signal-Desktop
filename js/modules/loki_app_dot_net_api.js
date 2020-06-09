@@ -7,6 +7,8 @@ const FormData = require('form-data');
 const https = require('https');
 const path = require('path');
 
+const lokiRpcUtils = require('./loki_rpc');
+
 // Can't be less than 1200 if we have unauth'd requests
 const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
 const PUBLICCHAT_CHAN_POLL_EVERY = 20 * 1000; // 20s
@@ -14,12 +16,24 @@ const PUBLICCHAT_DELETION_POLL_EVERY = 5 * 1000; // 5s
 const PUBLICCHAT_MOD_POLL_EVERY = 30 * 1000; // 30s
 const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
 
+// FIXME: replace with something on urlPubkeyMap...
 const FILESERVER_HOSTS = [
   'file-dev.lokinet.org',
   'file.lokinet.org',
   'file-dev.getsession.org',
   'file.getsession.org',
 ];
+
+const LOKIFOUNDATION_DEVFILESERVER_PUBKEY =
+  'BSZiMVxOco/b3sYfaeyiMWv/JnqokxGXkHoclEx8TmZ6';
+const LOKIFOUNDATION_FILESERVER_PUBKEY =
+  'BWJQnVm97sQE3Q1InB4Vuo+U/T1hmwHBv0ipkiv8tzEc';
+const urlPubkeyMap = {
+  'https://file-dev.getsession.org': LOKIFOUNDATION_DEVFILESERVER_PUBKEY,
+  'https://file-dev.lokinet.org': LOKIFOUNDATION_DEVFILESERVER_PUBKEY,
+  'https://file.getsession.org': LOKIFOUNDATION_FILESERVER_PUBKEY,
+  'https://file.lokinet.org': LOKIFOUNDATION_FILESERVER_PUBKEY,
+};
 
 const HOMESERVER_USER_ANNOTATION_TYPE = 'network.loki.messenger.homeserver';
 const AVATAR_USER_ANNOTATION_TYPE = 'network.loki.messenger.avatar';
@@ -34,12 +48,153 @@ const snodeHttpsAgent = new https.Agent({
 
 const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-const sendToProxy = async (
-  srvPubKey,
-  endpoint,
-  pFetchOptions,
-  options = {}
-) => {
+const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
+  if (!srvPubKey) {
+    log.error(
+      'loki_app_dot_net:::sendViaOnion - called without a server public key'
+    );
+    return {};
+  }
+
+  // set retry count
+  if (options.retry === undefined) {
+    // eslint-disable-next-line no-param-reassign
+    options.retry = 0;
+    // eslint-disable-next-line no-param-reassign
+    options.requestNumber = window.lokiSnodeAPI.assignOnionRequestNumber();
+  }
+
+  const payloadObj = {
+    method: fetchOptions.method || 'GET',
+    body: fetchOptions.body || '',
+    // safety issue with file server, just safer to have this
+    headers: fetchOptions.headers || {},
+    // no initial /
+    endpoint: url.pathname.replace(/^\//, ''),
+  };
+  if (url.search) {
+    payloadObj.endpoint += url.search;
+  }
+
+  // from https://github.com/sindresorhus/is-stream/blob/master/index.js
+  if (
+    payloadObj.body &&
+    typeof payloadObj.body === 'object' &&
+    typeof payloadObj.body.pipe === 'function'
+  ) {
+    const fData = payloadObj.body.getBuffer();
+    const fHeaders = payloadObj.body.getHeaders();
+    // update headers for boundary
+    payloadObj.headers = { ...payloadObj.headers, ...fHeaders };
+    // update body with base64 chunk
+    payloadObj.body = {
+      fileUpload: fData.toString('base64'),
+    };
+  }
+
+  let pathNodes = [];
+  try {
+    pathNodes = await lokiSnodeAPI.getOnionPath();
+  } catch (e) {
+    log.error(
+      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - getOnionPath Error ${e.code} ${e.message}`
+    );
+  }
+  if (!pathNodes || !pathNodes.length) {
+    log.warn(
+      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - failing, no path available`
+    );
+    // should we retry?
+    return {};
+  }
+
+  // do the request
+  let result;
+  try {
+    result = await lokiRpcUtils.sendOnionRequestLsrpcDest(
+      0,
+      pathNodes,
+      srvPubKey,
+      url.host,
+      payloadObj,
+      options.requestNumber
+    );
+  } catch (e) {
+    log.error(
+      'loki_app_dot_net:::sendViaOnion - lokiRpcUtils error',
+      e.code,
+      e.message
+    );
+    return {};
+  }
+
+  if (result === lokiRpcUtils.BAD_PATH) {
+    return {};
+  }
+
+  // handle error/retries
+  if (!result.status) {
+    log.error(
+      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - Retry #${options.retry} Couldnt handle onion request, retrying`,
+      payloadObj
+    );
+    return sendViaOnion(srvPubKey, url, fetchOptions, {
+      ...options,
+      retry: options.retry + 1,
+      counter: options.requestNumber,
+    });
+  }
+
+  if (options.noJson) {
+    return {
+      result,
+      txtResponse: result.body,
+      response: {
+        data: result.body,
+        headers: result.headers,
+      },
+    };
+  }
+
+  // get the return variables we need
+  let response = {};
+  let txtResponse = '';
+
+  let { body } = result;
+  if (typeof body === 'string') {
+    // adn does uses this path
+    // log.info(`loki_app_dot_net:::sendViaOnion - got text response ${url.toString()}`);
+    txtResponse = result.body;
+    try {
+      body = JSON.parse(result.body);
+    } catch (e) {
+      log.error(
+        `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - Cant decode JSON body`,
+        typeof result.body,
+        result.body
+      );
+    }
+  } else {
+    // why is
+    // https://chat-dev.lokinet.org/loki/v1/channel/1/deletes?count=200&since_id=
+    // difference in response than all the other calls....
+    log.info(
+      `loki_app_dot_net:::sendViaOnion #${
+        options.requestNumber
+      } - got object response ${url.toString()}`
+    );
+  }
+  // result.status has the http response code
+  if (!txtResponse) {
+    txtResponse = JSON.stringify(body);
+  }
+  response = body;
+  response.headers = result.headers;
+
+  return { result, txtResponse, response };
+};
+
+const sendToProxy = async (srvPubKey, endpoint, fetchOptions, options = {}) => {
   if (!srvPubKey) {
     log.error(
       'loki_app_dot_net:::sendToProxy - called without a server public key'
@@ -47,17 +202,12 @@ const sendToProxy = async (
     return {};
   }
 
-  const fetchOptions = pFetchOptions; // make lint happy
-  // safety issue with file server, just safer to have this
-  if (fetchOptions.headers === undefined) {
-    fetchOptions.headers = {};
-  }
-
   const payloadObj = {
     body: fetchOptions.body, // might need to b64 if binary...
     endpoint,
     method: fetchOptions.method,
-    headers: fetchOptions.headers,
+    // safety issue with file server, just safer to have this
+    headers: fetchOptions.headers || {},
   };
 
   // from https://github.com/sindresorhus/is-stream/blob/master/index.js
@@ -87,7 +237,7 @@ const sendToProxy = async (
     log.warn('proxy random snode pool is not ready, retrying 10s', endpoint);
     // no nodes in the pool yet, give it some time and retry
     await timeoutDelay(1000);
-    return sendToProxy(srvPubKey, endpoint, pFetchOptions, options);
+    return sendToProxy(srvPubKey, endpoint, fetchOptions, options);
   }
   const url = `https://${randSnode.ip}:${randSnode.port}/file_proxy`;
 
@@ -98,7 +248,9 @@ const sendToProxy = async (
   payloadObj.body = false; // free memory
 
   // make temporary key for this request/response
-  const ephemeralKey = await libsignal.Curve.async.generateKeyPair();
+  // async maybe preferable to avoid cpu spikes
+  // but I think sync might be more apt in cases like sending...
+  const ephemeralKey = await libloki.crypto.generateEphemeralKeyPair();
 
   // mix server pub key with our priv key
   const symKey = await libsignal.Curve.async.calculateAgreement(
@@ -253,6 +405,25 @@ const serverRequest = async (endpoint, options = {}) => {
     const host = url.host.toLowerCase();
     // log.info('host', host, FILESERVER_HOSTS);
     if (
+      window.lokiFeatureFlags.useFileOnionRequests &&
+      FILESERVER_HOSTS.includes(host)
+    ) {
+      mode = 'sendViaOnion';
+      ({ response, txtResponse, result } = await sendViaOnion(
+        srvPubKey,
+        url,
+        fetchOptions,
+        options
+      ));
+    } else if (window.lokiFeatureFlags.useFileOnionRequests && srvPubKey) {
+      mode = 'sendViaOnionOG';
+      ({ response, txtResponse, result } = await sendViaOnion(
+        srvPubKey,
+        url,
+        fetchOptions,
+        options
+      ));
+    } else if (
       window.lokiFeatureFlags.useSnodeProxy &&
       FILESERVER_HOSTS.includes(host)
     ) {
@@ -275,9 +446,11 @@ const serverRequest = async (endpoint, options = {}) => {
       result = await nodeFetch(url, fetchOptions);
       // always make sure this check is enabled
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
+
       txtResponse = await result.text();
       // cloudflare timeouts (504s) will be html...
       response = options.textResponse ? txtResponse : JSON.parse(txtResponse);
+
       // result.status will always be 200
       // emulate the correct http code if available
       if (response && response.meta && response.meta.code) {
@@ -313,6 +486,14 @@ const serverRequest = async (endpoint, options = {}) => {
       err: e,
     };
   }
+
+  if (!result) {
+    return {
+      err: 'noResult',
+      response,
+    };
+  }
+
   // if it's a response style with a meta
   if (result.status !== 200) {
     if (!forceFreshToken && (!response.meta || response.meta.code === 401)) {
@@ -412,6 +593,58 @@ class LokiAppDotNetServerAPI {
     }
     thisChannel.stop();
     this.channels.splice(i, 1);
+  }
+
+  // set up pubKey & pubKeyHex properties
+  // optionally called for mainly file server comms
+  getPubKeyForUrl() {
+    if (
+      !window.lokiFeatureFlags.useSnodeProxy &&
+      !window.lokiFeatureFlags.useOnionRequests
+    ) {
+      // pubkeys don't matter
+      return '';
+    }
+
+    // Hard coded
+    let pubKeyAB;
+    if (urlPubkeyMap && urlPubkeyMap[this.baseServerUrl]) {
+      pubKeyAB = window.Signal.Crypto.base64ToArrayBuffer(
+        urlPubkeyMap[this.baseServerUrl]
+      );
+    }
+
+    // do we have their pubkey locally?
+    // FIXME: this._server won't be set yet...
+    // can't really do this for the file server because we'll need the key
+    // before we can communicate with lsrpc
+    if (window.lokiFeatureFlags.useFileOnionRequests) {
+      if (
+        window.lokiPublicChatAPI &&
+        window.lokiPublicChatAPI.openGroupPubKeys &&
+        window.lokiPublicChatAPI.openGroupPubKeys[this.baseServerUrl]
+      ) {
+        pubKeyAB =
+          window.lokiPublicChatAPI.openGroupPubKeys[this.baseServerUrl];
+      }
+    } else if (window.lokiFeatureFlags.useSnodeProxy) {
+      // if in proxy mode, replace with "file."...
+      // it only supports this host...
+      pubKeyAB = window.Signal.Crypto.base64ToArrayBuffer(
+        LOKIFOUNDATION_FILESERVER_PUBKEY
+      );
+    }
+    // else will fail validation later
+
+    // now that key is loaded, lets verify
+    if (pubKeyAB && pubKeyAB.byteLength && pubKeyAB.byteLength !== 33) {
+      log.error('FILESERVER PUBKEY is invalid, length:', pubKeyAB.byteLength);
+      process.exit(1);
+    }
+    this.pubKey = pubKeyAB;
+    this.pubKeyHex = StringView.arrayBufferToHex(pubKeyAB);
+
+    return pubKeyAB;
   }
 
   async setProfileName(profileName) {
@@ -884,7 +1117,11 @@ class LokiAppDotNetServerAPI {
 
     if (res.err || !res.response || !res.response.data) {
       if (res.err) {
-        log.error(`getUsers Error ${res.err}`);
+        log.error(
+          `loki_app_dot_net:::getUsers - Error: ${res.err} for ${pubKeys.join(
+            ','
+          )}`
+        );
       }
       return [];
     }
@@ -2104,4 +2341,9 @@ class LokiPublicChannelAPI {
   }
 }
 
+LokiAppDotNetServerAPI.serverRequest = serverRequest;
+LokiAppDotNetServerAPI.sendViaOnion = sendViaOnion;
+
+// These files are expected to be in commonjs so we can't use es6 syntax :(
+// If we move these to TS then we should be able to use es6
 module.exports = LokiAppDotNetServerAPI;

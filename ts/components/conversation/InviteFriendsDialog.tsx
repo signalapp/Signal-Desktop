@@ -108,9 +108,11 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
   private renderMemberList() {
     const members = this.state.friendList;
 
-    return members.map((member: ContactType) => (
+    return members.map((member: ContactType, index: number) => (
       <SessionMemberListItem
         member={member}
+        key={index}
+        index={index}
         isSelected={false}
         onSelect={(selectedMember: ContactType) => {
           this.onMemberClicked(selectedMember);

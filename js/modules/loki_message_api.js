@@ -72,8 +72,20 @@ class LokiMessageAPI {
     this.jobQueue = new window.JobQueue();
     this.sendingData = {};
     this.ourKey = ourKey;
+    // stop polling for a group if its id is no longer found here
+    this.groupIdsToPoll = {};
   }
 
+  /**
+   * Refactor note: We should really clean this up ... it's very messy
+   *
+   * We need to split it into 2 sends:
+   *  - Snodes
+   *  - Open Groups
+   *
+   * Mikunj:
+   *  Temporarily i've made it so `MessageSender` handles open group sends and calls this function for regular sends.
+   */
   async sendMessage(pubKey, data, messageTimeStamp, ttl, options = {}) {
     const {
       isPublic = false,
@@ -315,7 +327,7 @@ class LokiMessageAPI {
     );
 
     // eslint-disable-next-line no-constant-condition
-    while (true) {
+    while (this.groupIdsToPoll[groupId]) {
       try {
         let messages = await _retrieveNextMessages(node, groupId);
 
@@ -374,6 +386,13 @@ class LokiMessageAPI {
   async pollForGroupId(groupId, onMessages) {
     log.info(`Starting to poll for group id: ${groupId}`);
 
+    if (this.groupIdsToPoll[groupId]) {
+      log.warn(`Already polling for group id: ${groupId}`);
+      return;
+    }
+
+    this.groupIdsToPoll[groupId] = true;
+
     // Get nodes for groupId
     const nodes = await lokiSnodeAPI.refreshSwarmNodesForPubKey(groupId);
 
@@ -382,6 +401,16 @@ class LokiMessageAPI {
     _.sampleSize(nodes, 3).forEach(node =>
       this.pollNodeForGroupId(groupId, node, onMessages)
     );
+  }
+
+  async stopPollingForGroup(groupId) {
+    if (!this.groupIdsToPoll[groupId]) {
+      log.warn(`Already not polling for group id: ${groupId}`);
+      return;
+    }
+
+    log.warn(`Stop polling for group id: ${groupId}`);
+    delete this.groupIdsToPoll[groupId];
   }
 
   async _openRetrieveConnection(pSwarmPool, stopPollingPromise, onMessages) {
@@ -505,9 +534,7 @@ class LokiMessageAPI {
 
     // Start polling for medium size groups as well (they might be in different swarms)
     {
-      const convos = window
-        .getConversations()
-        .filter(c => c.get('is_medium_group'));
+      const convos = window.getConversations().filter(c => c.isMediumGroup());
 
       const self = this;
 
@@ -584,4 +611,6 @@ class LokiMessageAPI {
   }
 }
 
+// These files are expected to be in commonjs so we can't use es6 syntax :(
+// If we move these to TS then we should be able to use es6
 module.exports = LokiMessageAPI;

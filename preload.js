@@ -56,6 +56,8 @@ if (
   process.env.NODE_ENV.includes('test-integration')
 ) {
   window.electronRequire = require;
+  // during test-integration, file server is started on localhost
+  window.getDefaultFileServer = () => 'http://127.0.0.1:7070';
 }
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
@@ -70,18 +72,31 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
   }
 };
 
-window.CONSTANTS = {
-  MAX_LOGIN_TRIES: 3,
-  MAX_PASSWORD_LENGTH: 64,
-  MAX_USERNAME_LENGTH: 20,
-  MAX_GROUP_NAME_LENGTH: 64,
-  DEFAULT_PUBLIC_CHAT_URL: appConfig.get('defaultPublicChatServer'),
-  MAX_CONNECTION_DURATION: 5000,
-  MAX_MESSAGE_BODY_LENGTH: 64 * 1024,
+// eslint-disable-next-line func-names
+window.CONSTANTS = new (function() {
+  this.MAX_LOGIN_TRIES = 3;
+  this.MAX_PASSWORD_LENGTH = 64;
+  this.MAX_USERNAME_LENGTH = 20;
+  this.MAX_GROUP_NAME_LENGTH = 64;
+  this.DEFAULT_PUBLIC_CHAT_URL = appConfig.get('defaultPublicChatServer');
+  this.MAX_CONNECTION_DURATION = 5000;
+  this.MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
   // Limited due to the proof-of-work requirement
-  SMALL_GROUP_SIZE_LIMIT: 10,
-  NOTIFICATION_ENABLE_TIMEOUT_SECONDS: 10, // number of seconds to turn on notifications after reconnect/start of app
-};
+  this.SMALL_GROUP_SIZE_LIMIT = 10;
+  // Number of seconds to turn on notifications after reconnect/start of app
+  this.NOTIFICATION_ENABLE_TIMEOUT_SECONDS = 10;
+  this.SESSION_ID_LENGTH = 66;
+
+  // Loki Name System (LNS)
+  this.LNS_DEFAULT_LOOKUP_TIMEOUT = 6000;
+  // Minimum nodes version for LNS lookup
+  this.LNS_CAPABLE_NODES_VERSION = '2.0.3';
+  this.LNS_MAX_LENGTH = 64;
+  // Conforms to naming rules here
+  // https://loki.network/2020/03/25/loki-name-system-the-facts/
+  this.LNS_REGEX = `^[a-zA-Z0-9_]([a-zA-Z0-9_-]{0,${this.LNS_MAX_LENGTH -
+    2}}[a-zA-Z0-9_]){0,1}$`;
+})();
 
 window.versionInfo = {
   environment: window.getEnvironment(),
@@ -151,7 +166,7 @@ window.open = () => null;
 window.eval = global.eval = () => null;
 
 window.drawAttention = () => {
-  // window.log.info('draw attention');
+  // window.log.debug('draw attention');
   ipc.send('draw-attention');
 };
 window.showWindow = () => {
@@ -322,15 +337,30 @@ window.lokiSnodeAPI = new LokiSnodeAPI({
   localUrl: config.localUrl,
 });
 
-window.LokiMessageAPI = require('./js/modules/loki_message_api');
-
 if (process.env.USE_STUBBED_NETWORK) {
-  window.StubMessageAPI = require('./integration_test/stubs/stub_message_api');
-  window.StubAppDotNetApi = require('./integration_test/stubs/stub_app_dot_net_api');
+  const StubMessageAPI = require('./integration_test/stubs/stub_message_api');
+  window.LokiMessageAPI = StubMessageAPI;
+
+  const StubAppDotNetAPI = require('./integration_test/stubs/stub_app_dot_net_api');
+  window.LokiAppDotNetServerAPI = StubAppDotNetAPI;
+
+  const StubSnodeAPI = require('./integration_test/stubs/stub_snode_api');
+
+  window.lokiSnodeAPI = new StubSnodeAPI({
+    serverUrl: config.serverUrl,
+    localUrl: config.localUrl,
+  });
+} else {
+  window.lokiSnodeAPI = new LokiSnodeAPI({
+    serverUrl: config.serverUrl,
+    localUrl: config.localUrl,
+  });
+
+  window.LokiMessageAPI = require('./js/modules/loki_message_api');
+
+  window.LokiAppDotNetServerAPI = require('./js/modules/loki_app_dot_net_api');
 }
 window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
-
-window.LokiAppDotNetServerAPI = require('./js/modules/loki_app_dot_net_api');
 
 window.LokiFileServerAPI = require('./js/modules/loki_file_server_api');
 
@@ -414,7 +444,10 @@ window.lokiFeatureFlags = {
   privateGroupChats: true,
   useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
   useOnionRequests: true,
-  onionRequestHops: 1,
+  useFileOnionRequests: false,
+  enableSenderKeys: false,
+  onionRequestHops: 3,
+  debugMessageLogs: process.env.ENABLE_MESSAGE_LOGS,
 };
 
 // eslint-disable-next-line no-extend-native,func-names
@@ -425,7 +458,8 @@ Promise.prototype.ignore = function() {
 
 if (
   config.environment.includes('test') &&
-  !config.environment.includes('swarm-testing')
+  !config.environment.includes('swarm-testing') &&
+  !config.environment.includes('test-integration')
 ) {
   const isWindows = process.platform === 'win32';
   /* eslint-disable global-require, import/no-extraneous-dependencies */
@@ -440,12 +474,15 @@ if (
   };
   /* eslint-enable global-require, import/no-extraneous-dependencies */
   window.lokiFeatureFlags = {};
-  window.lokiSnodeAPI = {}; // no need stub out each function here
+  window.lokiSnodeAPI = new window.StubLokiSnodeAPI(); // no need stub out each function here
 }
 if (config.environment.includes('test-integration')) {
   window.lokiFeatureFlags = {
     multiDeviceUnpairing: true,
     privateGroupChats: true,
     useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
+    useOnionRequests: false,
+    debugMessageLogs: true,
+    enableSenderKeys: true,
   };
 }

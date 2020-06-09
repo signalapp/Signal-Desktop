@@ -430,7 +430,7 @@ MessageSender.prototype = {
       let keysFound = false;
       // If we don't have a session but we already have prekeys to
       // start communication then we should use them
-      if (!haveSession && !options.isPublic) {
+      if (!haveSession && !options.isPublic && !options.isMediumGroup) {
         keysFound = await hasKeys(number);
       }
 
@@ -460,7 +460,7 @@ MessageSender.prototype = {
           message.dataMessage.group
         );
         // If it was a message to a group then we need to send a session request
-        if (isGroupMessage) {
+        if (isGroupMessage || options.autoSession) {
           const sessionRequestMessage = textsecure.OutgoingMessage.buildSessionRequestMessage(
             number
           );
@@ -666,16 +666,58 @@ MessageSender.prototype = {
     if (!primaryDeviceKey) {
       return Promise.resolve();
     }
-    // Extract required contacts information out of conversations
-    const sessionContacts = conversations.filter(
-      c => c.isPrivate() && !c.isSecondaryDevice() && c.isFriend()
+    // first get all friends with primary devices
+    const sessionContactsPrimary =
+      conversations.filter(
+        c =>
+          c.isPrivate() &&
+          !c.isOurLocalDevice() &&
+          c.isFriend() &&
+          !c.get('secondaryStatus')
+      ) || [];
+
+    // then get all friends with secondary devices
+    let sessionContactsSecondary = conversations.filter(
+      c =>
+        c.isPrivate() &&
+        !c.isOurLocalDevice() &&
+        c.isFriend() &&
+        c.get('secondaryStatus')
     );
-    if (sessionContacts.length === 0) {
+
+    // then morph all secondary conversation to their primary
+    sessionContactsSecondary =
+      (await Promise.all(
+        // eslint-disable-next-line arrow-body-style
+        sessionContactsSecondary.map(async c => {
+          return window.ConversationController.getOrCreateAndWait(
+            c.getPrimaryDevicePubKey(),
+            'private'
+          );
+        })
+      )) || [];
+    // filter out our primary pubkey if it was added.
+    sessionContactsSecondary = sessionContactsSecondary.filter(
+      c => c.id !== primaryDeviceKey
+    );
+
+    const contactsSet = new Set([
+      ...sessionContactsPrimary,
+      ...sessionContactsSecondary,
+    ]);
+
+    if (contactsSet.size === 0) {
+      window.console.info('No contacts to sync.');
+
       return Promise.resolve();
     }
+    libloki.api.debug.logContactSync('Triggering contact sync message with:', [
+      ...contactsSet,
+    ]);
+
     // We need to sync across 3 contacts at a time
     // This is to avoid hitting storage server limit
-    const chunked = _.chunk(sessionContacts, 3);
+    const chunked = _.chunk([...contactsSet], 3);
     const syncMessages = await Promise.all(
       chunked.map(c => libloki.api.createContactSyncProtoMessage(c))
     );
@@ -712,7 +754,11 @@ MessageSender.prototype = {
     }
     // We only want to sync across closed groups that we haven't left
     const sessionGroups = conversations.filter(
-      c => c.isClosedGroup() && !c.get('left') && c.isFriend()
+      c =>
+        c.isClosedGroup() &&
+        !c.get('left') &&
+        c.isFriend() &&
+        !c.isMediumGroup()
     );
     if (sessionGroups.length === 0) {
       window.console.info('No closed group to sync.');
@@ -977,7 +1023,12 @@ MessageSender.prototype = {
     });
   },
 
-  sendGroupProto(providedNumbers, proto, timestamp = Date.now(), options = {}) {
+  async sendGroupProto(
+    providedNumbers,
+    proto,
+    timestamp = Date.now(),
+    options = {}
+  ) {
     // We always assume that only primary device is a member in the group
     const primaryDeviceKey =
       window.storage.get('primaryDevicePubKey') ||
@@ -1016,12 +1067,13 @@ MessageSender.prototype = {
       );
     });
 
-    return sendPromise.then(result => {
-      // Sync the group message to our other devices
-      const encoded = textsecure.protobuf.DataMessage.encode(proto);
-      this.sendSyncMessage(encoded, timestamp, null, null, [], [], options);
-      return result;
-    });
+    const result = await sendPromise;
+
+    // Sync the group message to our other devices
+    const encoded = textsecure.protobuf.DataMessage.encode(proto);
+    this.sendSyncMessage(encoded, timestamp, null, null, [], [], options);
+
+    return result;
   },
 
   async getMessageProto(
@@ -1203,12 +1255,18 @@ MessageSender.prototype = {
   },
 
   async updateMediumGroup(members, groupUpdateProto) {
+    // Automatically request session if not found (updates use pairwise sessions)
+    const autoSession = true;
+
     await this.sendGroupProto(members, groupUpdateProto, Date.now(), {
       isPublic: false,
+      autoSession,
     });
+
+    return true;
   },
 
-  async updateGroup(
+  async sendGroupUpdate(
     groupId,
     name,
     avatar,
@@ -1282,6 +1340,16 @@ MessageSender.prototype = {
       `Sending GROUP_TYPES.REQUEST_INFO to: ${groupNumbers}, about groupId ${groupId}.`
     );
     return this.sendGroupProto(groupNumbers, proto, Date.now(), options);
+  },
+
+  requestSenderKeys(sender, groupId) {
+    const proto = new textsecure.protobuf.DataMessage();
+    const update = new textsecure.protobuf.MediumGroupUpdate();
+    update.type = textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY_REQUEST;
+    update.groupId = groupId;
+    proto.mediumGroupUpdate = update;
+
+    textsecure.messaging.updateMediumGroup([sender], proto);
   },
 
   leaveGroup(groupId, groupNumbers, options) {
@@ -1387,12 +1455,13 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.resetSession = sender.resetSession.bind(sender);
   this.sendMessageToGroup = sender.sendMessageToGroup.bind(sender);
   this.sendTypingMessage = sender.sendTypingMessage.bind(sender);
-  this.updateGroup = sender.updateGroup.bind(sender);
+  this.sendGroupUpdate = sender.sendGroupUpdate.bind(sender);
   this.updateMediumGroup = sender.updateMediumGroup.bind(sender);
   this.addNumberToGroup = sender.addNumberToGroup.bind(sender);
   this.setGroupName = sender.setGroupName.bind(sender);
   this.setGroupAvatar = sender.setGroupAvatar.bind(sender);
   this.requestGroupInfo = sender.requestGroupInfo.bind(sender);
+  this.requestSenderKeys = sender.requestSenderKeys.bind(sender);
   this.leaveGroup = sender.leaveGroup.bind(sender);
   this.sendSyncMessage = sender.sendSyncMessage.bind(sender);
   this.getProfile = sender.getProfile.bind(sender);
