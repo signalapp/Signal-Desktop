@@ -7,6 +7,7 @@ import { Stubs, TestUtils } from '../../test-utils';
 import { UserUtil } from '../../../util';
 import { SignalService } from '../../../protobuf';
 
+// tslint:disable-next-line: max-func-body-length
 describe('MessageEncrypter', () => {
   const sandbox = sinon.createSandbox();
   const ourNumber = 'ourNumber';

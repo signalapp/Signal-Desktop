@@ -1,6 +1,11 @@
 import { SessionResetMessage } from '../messages/outgoing';
 // import { MessageSender } from '../sending';
 import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
+import { libloki, libsignal, textsecure } from '../../window';
+import { MessageSender } from '../sending';
+import { RawMessage } from '../types/RawMessage';
+import { EncryptionType } from '../types/EncryptionType';
+import { TextEncoder } from 'util';
 
 interface StringToNumberMap {
   [key: string]: number;
@@ -8,16 +13,14 @@ interface StringToNumberMap {
 // tslint:disable: function-name
 // tslint:disable: no-unnecessary-class
 export class SessionProtocol {
-
   private static dbLoaded: Boolean = false;
   /**
    * This map olds the sent session timestamps, i.e. session requests message effectively sent to the recipient.
    * It is backed by a database entry so it's loaded from db on startup.
    * This map should not be used directly, but instead through
-   * `updateSendSessionTimestamp()`, `getSendSessionRequest()` or `hasSendSessionRequest()`
+   * `updateSendSessionTimestamp()`, or `hasSendSessionRequest()`
    */
   private static sentSessionsTimestamp: StringToNumberMap;
-
 
   /**
    * This map olds the processed session timestamps, i.e. when we received a session request and handled it.
@@ -34,13 +37,24 @@ export class SessionProtocol {
    */
   private static readonly pendingSendSessionsTimestamp: Set<string> = new Set();
 
+  public static getSentSessionsTimestamp(): Readonly<StringToNumberMap> {
+    return SessionProtocol.sentSessionsTimestamp;
+  }
+
+  public static getProcessedSessionsTimestamp(): Readonly<StringToNumberMap> {
+    return SessionProtocol.processedSessionsTimestamp;
+  }
+
+  public static getPendingSendSessionTimestamp(): Readonly<Set<string>> {
+    return SessionProtocol.pendingSendSessionsTimestamp;
+  }
 
   /** Returns true if we already have a session with that device */
   public static async hasSession(device: string): Promise<boolean> {
     // Session does not use the concept of a deviceId, thus it's always 1
-    const address = new window.libsignal.SignalProtocolAddress(device, 1);
-    const sessionCipher = new window.libsignal.SessionCipher(
-      window.textsecure.storage.protocol,
+    const address = new libsignal.SignalProtocolAddress(device, 1);
+    const sessionCipher = new libsignal.SessionCipher(
+      textsecure.storage.protocol,
       address
     );
 
@@ -52,7 +66,9 @@ export class SessionProtocol {
    *  if a session request to that device is right now being sent.
    */
   public static async hasSentSessionRequest(device: string): Promise<boolean> {
-    const pendingSend = SessionProtocol.pendingSendSessionsTimestamp.has(device);
+    const pendingSend = SessionProtocol.pendingSendSessionsTimestamp.has(
+      device
+    );
     const hasSent = await SessionProtocol._hasSentSessionRequest(device);
 
     return pendingSend || hasSent;
@@ -67,13 +83,17 @@ export class SessionProtocol {
   public static async sendSessionRequestIfNeeded(
     device: string
   ): Promise<void> {
-    if (SessionProtocol.hasSession(device) || SessionProtocol.hasSentSessionRequest(device)) {
+    if (
+      (await SessionProtocol.hasSession(device)) ||
+      (await SessionProtocol.hasSentSessionRequest(device))
+    ) {
       return Promise.resolve();
     }
 
-    const preKeyBundle = await window.libloki.storage.getPreKeyBundleForContact(
+    const preKeyBundle = await libloki.storage.getPreKeyBundleForContact(
       device
     );
+
     const sessionReset = new SessionResetMessage({
       preKeyBundle,
       timestamp: Date.now(),
@@ -92,17 +112,30 @@ export class SessionProtocol {
     // mark the session as being pending send with current timestamp
     // so we know we already triggered a new session with that device
     SessionProtocol.pendingSendSessionsTimestamp.add(device);
-    // const rawMessage = toRawMessage(message);
-    // // TODO: Send out the request via MessageSender
 
-    // try {
-    //   await MessageSender.send(rawMessage);
-    //   await SessionProtocolupdateSentSessionTimestamp(device, timestamp);
-    // } catch (e) {
-    //   window.console.log('Failed to send session request to', device);
-    // } finally {
-    //     SessionProtocolpendingSendSessionsTimestamp.delete(device);
-    // }
+    // FIXME to remove
+    function toRawMessage(m: any): RawMessage {
+      return {
+        identifier: 'identifier',
+        plainTextBuffer: new TextEncoder().encode('jk'),
+        timestamp: Date.now(),
+        device: 'device',
+        ttl: 10,
+        encryption: EncryptionType.SessionReset,
+      };
+    }
+
+    try {
+      // TODO: Send out the request via MessageSender
+      const rawMessage = toRawMessage(message);
+      await MessageSender.send(rawMessage);
+      await SessionProtocol.updateSentSessionTimestamp(device, timestamp);
+    } catch (e) {
+      console.log('Failed to send session request to:', device);
+      console.log('e:', e);
+    } finally {
+      SessionProtocol.pendingSendSessionsTimestamp.delete(device);
+    }
   }
 
   /**
@@ -117,7 +150,8 @@ export class SessionProtocol {
     device: string,
     messageTimestamp: number
   ): Promise<boolean> {
-    const existingSentTimestamp = (await SessionProtocol.getSentSessionRequest(device)) || 0;
+    const existingSentTimestamp =
+      (await SessionProtocol.getSentSessionRequest(device)) || 0;
     const existingProcessedTimestamp =
       (await SessionProtocol.getProcessedSessionRequest(device)) || 0;
 
@@ -137,24 +171,19 @@ export class SessionProtocol {
     SessionProtocol.processedSessionsTimestamp = {};
   }
 
-
   /**
    * We only need to fetch once from the database, because we are the only one writing to it
    */
   private static async fetchFromDBIfNeeded(): Promise<void> {
     if (!SessionProtocol.dbLoaded) {
-      const sentItem = await getItemById(
-        'sentSessionsTimestamp'
-      );
+      const sentItem = await getItemById('sentSessionsTimestamp');
       if (sentItem) {
         SessionProtocol.sentSessionsTimestamp = sentItem.value;
       } else {
         SessionProtocol.sentSessionsTimestamp = {};
       }
 
-      const processedItem = await getItemById(
-        'processedSessionsTimestamp'
-      );
+      const processedItem = await getItemById('processedSessionsTimestamp');
       if (processedItem) {
         SessionProtocol.processedSessionsTimestamp = processedItem.value;
       } else {
@@ -190,11 +219,11 @@ export class SessionProtocol {
     timestamp: number | undefined,
     map: StringToNumberMap
   ): Promise<boolean> {
-    await SessionProtocol.fetchFromDBIfNeeded();
     if (!timestamp) {
       if (!!map[device]) {
-        delete map.device;
-        // FIXME double check how are args handle in ts (by ref/value)
+        // tslint:disable-next-line: no-dynamic-delete
+        delete map[device];
+
         return true;
       }
 
@@ -214,7 +243,14 @@ export class SessionProtocol {
     device: string,
     timestamp: number | undefined
   ): Promise<void> {
-    if (SessionProtocol.updateSessionTimestamp(device, timestamp, SessionProtocol.sentSessionsTimestamp)) {
+    await SessionProtocol.fetchFromDBIfNeeded();
+    if (
+      SessionProtocol.updateSessionTimestamp(
+        device,
+        timestamp,
+        SessionProtocol.sentSessionsTimestamp
+      )
+    ) {
       await SessionProtocol.writeToDBSentSessions();
     }
   }
@@ -226,7 +262,14 @@ export class SessionProtocol {
     device: string,
     timestamp: number | undefined
   ): Promise<void> {
-    if (SessionProtocol.updateSessionTimestamp(device, timestamp, SessionProtocol.processedSessionsTimestamp)) {
+    await SessionProtocol.fetchFromDBIfNeeded();
+    if (
+      SessionProtocol.updateSessionTimestamp(
+        device,
+        timestamp,
+        SessionProtocol.processedSessionsTimestamp
+      )
+    ) {
       await SessionProtocol.writeToDBProcessedSessions();
     }
   }
@@ -246,16 +289,24 @@ export class SessionProtocol {
   private static async getSentSessionRequest(
     device: string
   ): Promise<number | undefined> {
-    return SessionProtocol.getSessionRequest(device, SessionProtocol.sentSessionsTimestamp);
+    return SessionProtocol.getSessionRequest(
+      device,
+      SessionProtocol.sentSessionsTimestamp
+    );
   }
 
   private static async getProcessedSessionRequest(
     device: string
   ): Promise<number | undefined> {
-    return SessionProtocol.getSessionRequest(device, SessionProtocol.processedSessionsTimestamp);
+    return SessionProtocol.getSessionRequest(
+      device,
+      SessionProtocol.processedSessionsTimestamp
+    );
   }
 
-  private static async _hasSentSessionRequest(device: string): Promise<boolean> {
+  private static async _hasSentSessionRequest(
+    device: string
+  ): Promise<boolean> {
     await SessionProtocol.fetchFromDBIfNeeded();
 
     return !!SessionProtocol.sentSessionsTimestamp[device];

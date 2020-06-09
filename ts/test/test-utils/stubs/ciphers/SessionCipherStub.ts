@@ -17,4 +17,8 @@ export class SessionCipherStub {
       body: Buffer.from(buffer).toString('binary'),
     };
   }
+
+  public async hasOpenSession(): Promise<Boolean> {
+    return false;
+  }
 }
