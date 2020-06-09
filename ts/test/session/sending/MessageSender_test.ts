@@ -11,6 +11,7 @@ import { SignalService } from '../../../protobuf';
 import LokiPublicChatFactoryAPI from '../../../../js/modules/loki_public_chat_api';
 import { OpenGroupMessage } from '../../../session/messages/outgoing';
 import { LokiPublicChannelAPI } from '../../../../js/modules/loki_app_dot_net_api';
+import { EncryptionType } from '../../../session/types/EncryptionType';
 
 describe('MessageSender', () => {
   const sandbox = sinon.createSandbox();
@@ -23,7 +24,8 @@ describe('MessageSender', () => {
   describe('send', () => {
     const ourNumber = 'ourNumber';
     let lokiMessageAPIStub: sinon.SinonStubbedInstance<LokiMessageAPI>;
-    let stubEnvelopeType = SignalService.Envelope.Type.CIPHERTEXT;
+    let messageEncyrptReturnEnvelopeType =
+      SignalService.Envelope.Type.CIPHERTEXT;
 
     beforeEach(() => {
       // We can do this because LokiMessageAPI has a module export in it
@@ -36,7 +38,7 @@ describe('MessageSender', () => {
       sandbox
         .stub(MessageEncrypter, 'encrypt')
         .callsFake(async (_device, plainTextBuffer, _type) => ({
-          envelopeType: stubEnvelopeType,
+          envelopeType: messageEncyrptReturnEnvelopeType,
           cipherText: plainTextBuffer,
         }));
     });
@@ -50,7 +52,7 @@ describe('MessageSender', () => {
         identifier: '1',
         device,
         plainTextBuffer: crypto.randomBytes(10),
-        encryption: 0,
+        encryption: EncryptionType.Signal,
         timestamp,
         ttl,
       });
@@ -62,7 +64,7 @@ describe('MessageSender', () => {
     });
 
     it('should correctly build the envelope', async () => {
-      stubEnvelopeType = SignalService.Envelope.Type.CIPHERTEXT;
+      messageEncyrptReturnEnvelopeType = SignalService.Envelope.Type.CIPHERTEXT;
 
       // This test assumes the encryption stub returns the plainText passed into it.
       const plainTextBuffer = crypto.randomBytes(10);
@@ -72,7 +74,7 @@ describe('MessageSender', () => {
         identifier: '1',
         device: '0',
         plainTextBuffer,
-        encryption: 0,
+        encryption: EncryptionType.Signal,
         timestamp,
         ttl: 1,
       });
@@ -100,7 +102,8 @@ describe('MessageSender', () => {
 
     describe('UNIDENTIFIED_SENDER', () => {
       it('should set the envelope source to be empty', async () => {
-        stubEnvelopeType = SignalService.Envelope.Type.UNIDENTIFIED_SENDER;
+        messageEncyrptReturnEnvelopeType =
+          SignalService.Envelope.Type.UNIDENTIFIED_SENDER;
 
         // This test assumes the encryption stub returns the plainText passed into it.
         const plainTextBuffer = crypto.randomBytes(10);
@@ -110,7 +113,7 @@ describe('MessageSender', () => {
           identifier: '1',
           device: '0',
           plainTextBuffer,
-          encryption: 0,
+          encryption: EncryptionType.Signal,
           timestamp,
           ttl: 1,
         });
@@ -134,7 +137,7 @@ describe('MessageSender', () => {
         );
         expect(envelope.source).to.equal(
           '',
-          'envelope source should not exist in UNIDENTIFIED_SENDER'
+          'envelope source should be empty in UNIDENTIFIED_SENDER'
         );
       });
     });
