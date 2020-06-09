@@ -59,4 +59,31 @@ describe('ClosedGroupChatMessage', () => {
       'identifier cannot be undefined'
     );
   });
+
+  it('should use the identifier passed into it over the one set in chatMessage', () => {
+    const chatMessage = new ChatMessage({
+      timestamp: Date.now(),
+      body: 'body',
+      identifier: 'chatMessage',
+    });
+    const message = new ClosedGroupChatMessage({
+      groupId: '12',
+      chatMessage,
+      identifier: 'closedGroupMessage',
+    });
+    expect(message.identifier).to.be.equal('closedGroupMessage');
+  });
+
+  it('should use the identifier of the chatMessage if one is not specified on the closed group message', () => {
+    const chatMessage = new ChatMessage({
+      timestamp: Date.now(),
+      body: 'body',
+      identifier: 'chatMessage',
+    });
+    const message = new ClosedGroupChatMessage({
+      groupId: '12',
+      chatMessage,
+    });
+    expect(message.identifier).to.be.equal('chatMessage');
+  });
 });
