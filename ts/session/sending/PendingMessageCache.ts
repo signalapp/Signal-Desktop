@@ -1,7 +1,4 @@
-import {
-  createOrUpdateItem,
-  getItemById,
-} from '../../../js/modules/data';
+import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
 import { PartialRawMessage, RawMessage } from '../types/RawMessage';
 import { ContentMessage } from '../messages/outgoing';
 import { PubKey } from '../types';
@@ -107,28 +104,17 @@ export class PendingMessageCache {
       return [];
     }
 
-    const barePending = JSON.parse(String(data.value)) as Array<PartialRawMessage>;
+    const barePending = JSON.parse(String(data.value)) as Array<
+      PartialRawMessage
+    >;
 
     // Rebuild plainTextBuffer
-    // tslint:disable-next-line: no-unnecessary-local-variable
-    const pending = barePending.map((message: PartialRawMessage) => {
-      const rebuiltMessage = { ...message };
-
-      // From Array<number> to ArrayBuffer
-      const bufferArray = Uint8Array.from(message.plainTextBuffer);
-
-      // From ArrayBuffer into Buffer
-      const buffer = Buffer.alloc(bufferArray.byteLength);
-      for (let i = 0; i < buffer.length; i++) {
-        buffer[i] = bufferArray[i];
-      }
-
-      rebuiltMessage.plainTextBuffer = buffer;
-
-      return rebuiltMessage as RawMessage;
+    return barePending.map((message: PartialRawMessage) => {
+      return {
+        ...message,
+        plainTextBuffer: new Uint8Array(message.plainTextBuffer),
+      } as RawMessage;
     });
-
-    return pending;
   }
 
   private async saveToDB() {
