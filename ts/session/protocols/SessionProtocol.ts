@@ -3,10 +3,8 @@ import { SessionResetMessage } from '../messages/outgoing';
 import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
 import { libloki, libsignal, textsecure } from '../../window';
 import { MessageSender } from '../sending';
-import { RawMessage } from '../types/RawMessage';
-import { EncryptionType } from '../types/EncryptionType';
-import { TextEncoder } from 'util';
 import * as MessageUtils from '../utils';
+import { PubKey } from '../types';
 
 interface StringToNumberMap {
   [key: string]: number;
@@ -51,9 +49,9 @@ export class SessionProtocol {
   }
 
   /** Returns true if we already have a session with that device */
-  public static async hasSession(device: string): Promise<boolean> {
+  public static async hasSession(pubkey: PubKey): Promise<boolean> {
     // Session does not use the concept of a deviceId, thus it's always 1
-    const address = new libsignal.SignalProtocolAddress(device, 1);
+    const address = new libsignal.SignalProtocolAddress(pubkey.key, 1);
     const sessionCipher = new libsignal.SessionCipher(
       textsecure.storage.protocol,
       address
@@ -66,11 +64,11 @@ export class SessionProtocol {
    * Returns true if we sent a session request to that device already OR
    *  if a session request to that device is right now being sent.
    */
-  public static async hasSentSessionRequest(device: string): Promise<boolean> {
+  public static async hasSentSessionRequest(pubkey: PubKey): Promise<boolean> {
     const pendingSend = SessionProtocol.pendingSendSessionsTimestamp.has(
-      device
+      pubkey.key
     );
-    const hasSent = await SessionProtocol._hasSentSessionRequest(device);
+    const hasSent = await SessionProtocol._hasSentSessionRequest(pubkey.key);
 
     return pendingSend || hasSent;
   }
@@ -82,17 +80,17 @@ export class SessionProtocol {
    *   - we do not have a session request currently being send to that device
    */
   public static async sendSessionRequestIfNeeded(
-    device: string
+    pubkey: PubKey
   ): Promise<void> {
     if (
-      (await SessionProtocol.hasSession(device)) ||
-      (await SessionProtocol.hasSentSessionRequest(device))
+      (await SessionProtocol.hasSession(pubkey)) ||
+      (await SessionProtocol.hasSentSessionRequest(pubkey))
     ) {
       return Promise.resolve();
     }
 
     const preKeyBundle = await libloki.storage.getPreKeyBundleForContact(
-      device
+      pubkey.key
     );
 
     const sessionReset = new SessionResetMessage({
@@ -101,51 +99,50 @@ export class SessionProtocol {
     });
 
     try {
-      await SessionProtocol.sendSessionRequest(sessionReset, device);
+      await SessionProtocol.sendSessionRequest(sessionReset, pubkey);
     } catch (error) {
-      window.console.warn('Failed to send session request to:', device, error);
+      window.console.warn('Failed to send session request to:', pubkey.key, error);
     }
   }
 
   /**  */
   public static async sendSessionRequest(
     message: SessionResetMessage,
-    device: string
+    pubkey: PubKey
   ): Promise<void> {
     const timestamp = Date.now();
 
     // mark the session as being pending send with current timestamp
     // so we know we already triggered a new session with that device
-    SessionProtocol.pendingSendSessionsTimestamp.add(device);
+    SessionProtocol.pendingSendSessionsTimestamp.add(pubkey.key);
 
     try {
-      // TODO: Send out the request via MessageSender
-      const rawMessage = MessageUtils.toRawMessage(device, message);
+      const rawMessage = MessageUtils.toRawMessage(pubkey, message);
       await MessageSender.send(rawMessage);
-      await SessionProtocol.updateSentSessionTimestamp(device, timestamp);
+      await SessionProtocol.updateSentSessionTimestamp(pubkey.key, timestamp);
     } catch (e) {
       throw e;
     } finally {
-      SessionProtocol.pendingSendSessionsTimestamp.delete(device);
+      SessionProtocol.pendingSendSessionsTimestamp.delete(pubkey.key);
     }
   }
 
   /**
    * Called when a session is establish so we store on database this info.
    */
-  public static async onSessionEstablished(device: string) {
+  public static async onSessionEstablished(pubkey: PubKey) {
     // remove our existing sent timestamp for that device
-    return SessionProtocol.updateSentSessionTimestamp(device, undefined);
+    return SessionProtocol.updateSentSessionTimestamp(pubkey.key, undefined);
   }
 
   public static async shouldProcessSessionRequest(
-    device: string,
+    pubkey: PubKey,
     messageTimestamp: number
   ): Promise<boolean> {
     const existingSentTimestamp =
-      (await SessionProtocol.getSentSessionRequest(device)) || 0;
+      (await SessionProtocol.getSentSessionRequest(pubkey.key)) || 0;
     const existingProcessedTimestamp =
-      (await SessionProtocol.getProcessedSessionRequest(device)) || 0;
+      (await SessionProtocol.getProcessedSessionRequest(pubkey.key)) || 0;
 
     return (
       messageTimestamp > existingSentTimestamp &&
@@ -153,8 +150,8 @@ export class SessionProtocol {
     );
   }
 
-  public static async onSessionRequestProcessed(device: string) {
-    return SessionProtocol.updateProcessedSessionTimestamp(device, Date.now());
+  public static async onSessionRequestProcessed(pubkey: PubKey) {
+    return SessionProtocol.updateProcessedSessionTimestamp(pubkey.key, Date.now());
   }
 
   public static reset() {
