@@ -82,7 +82,6 @@
     // Modifying:
 
     // React components and namespaces are Pascal case
-    "variable-name": [true, "allow-pascal-case"],
     "variable-name": [
       true,
       "check-format",
@@ -90,7 +89,16 @@
       "allow-pascal-case"
     ],
 
-    "function-name": [true, { "function-regex": "^_?[a-z][\\w\\d]+$" }],
+    "function-name": [
+      true,
+      {
+        "function-regex": "^[a-z][\\w\\d]+$",
+        "method-regex": "^[a-z][\\w\\d]+$",
+        "private-method-regex": "^[a-z][\\w\\d]+$",
+        "protected-method-regex": "^[a-z][\\w\\d]+$",
+        "static-method-regex": "^[a-zA-Z][\\w\\d]+$"
+      }
+    ],
 
     // Adding select dev dependencies here for now, may turn on all in the future
     "no-implicit-dependencies": [true, ["dashdash", "electron"]],

@@ -1,7 +1,12 @@
 import * as sinon from 'sinon';
-import { ImportMock } from 'ts-mock-imports';
-import * as DataShape from '../../../js/modules/data';
+import * as crypto from 'crypto';
 import * as window from '../../window';
+import * as DataShape from '../../../js/modules/data';
+import { v4 as uuid } from 'uuid';
+
+import { ImportMock } from 'ts-mock-imports';
+import { PubKey } from '../../../ts/session/types';
+import { ChatMessage } from '../../session/messages/outgoing';
 
 const sandbox = sinon.createSandbox();
 
@@ -39,4 +44,26 @@ export function stubWindow<K extends keyof WindowFunction>(
 export function restoreStubs() {
   ImportMock.restore();
   sandbox.restore();
+}
+
+export function generateFakePubkey(): PubKey {
+  // Generates a mock pubkey for testing
+  const numBytes = PubKey.PUBKEY_LEN / 2 - 1;
+  const hexBuffer = crypto.randomBytes(numBytes).toString('hex');
+  const pubkeyString = `05${hexBuffer}`;
+
+  return new PubKey(pubkeyString);
+}
+
+export function generateUniqueChatMessage(): ChatMessage {
+  return new ChatMessage({
+    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+    identifier: uuid(),
+    timestamp: Date.now(),
+    attachments: undefined,
+    quote: undefined,
+    expireTimer: undefined,
+    lokiProfile: undefined,
+    preview: undefined,
+  });
 }

@@ -45,7 +45,11 @@ describe('JobQueue', () => {
         30,
       ]);
       const timeTaken = Date.now() - start;
-      assert.closeTo(timeTaken, 600, 50, 'Queue was delayed');
+      assert.isAtLeast(
+        timeTaken,
+        600,
+        'Queue should take atleast 600ms to run.'
+      );
     });
 
     it('should return the result of the job', async () => {
