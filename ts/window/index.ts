@@ -1,8 +1,8 @@
-import { SignalInterface } from './types/signal';
 import { LocalizerType } from '../types/Util';
 import LokiMessageAPI from '../../js/modules/loki_message_api';
 import LokiPublicChatFactoryAPI from '../../js/modules/loki_public_chat_api';
 import { LibsignalProtocol } from '../../libtextsecure/libsignal-protocol';
+import { SignalInterface } from '../../js/modules/signal';
 
 interface WindowInterface extends Window {
   seedNodeList: any;

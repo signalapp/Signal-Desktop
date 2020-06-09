@@ -1,7 +1,8 @@
 import { SignalService } from '../../../../protobuf';
 import { CipherTextObject } from '../../../../../libtextsecure/libsignal-protocol';
+import { SecretSessionCipherInterface } from '../../../../../js/modules/metadata/SecretSessionCipher';
 
-export class SecretSessionCipherStub {
+export class SecretSessionCipherStub implements SecretSessionCipherInterface {
   public async encrypt(
     _destinationPubkey: string,
     _senderCertificate: SignalService.SenderCertificate,
