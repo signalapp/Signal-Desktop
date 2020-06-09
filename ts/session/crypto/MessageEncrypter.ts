@@ -25,8 +25,6 @@ function getPaddedMessageLength(originalLength: number): number {
   return messagePartCount * 160;
 }
 
-export type Base64String = string;
-
 /**
  * Encrypt `plainTextBuffer` with given `encryptionType` for `device`.
  *
@@ -41,7 +39,7 @@ export async function encrypt(
   encryptionType: EncryptionType
 ): Promise<{
   envelopeType: SignalService.Envelope.Type;
-  cipherText: Base64String;
+  cipherText: Uint8Array;
 }> {
   const plainText = padPlainTextBuffer(plainTextBuffer);
   const address = new libsignal.SignalProtocolAddress(device, 1);
@@ -71,7 +69,7 @@ async function encryptUsingSealedSender(
   innerCipherText: CipherTextObject
 ): Promise<{
   envelopeType: SignalService.Envelope.Type;
-  cipherText: Base64String;
+  cipherText: Uint8Array;
 }> {
   const ourNumber = await UserUtil.getCurrentDevicePubKey();
   if (!ourNumber) {
@@ -94,6 +92,6 @@ async function encryptUsingSealedSender(
 
   return {
     envelopeType: SignalService.Envelope.Type.UNIDENTIFIED_SENDER,
-    cipherText: Buffer.from(cipherTextBuffer).toString('base64'),
+    cipherText: new Uint8Array(cipherTextBuffer),
   };
 }
