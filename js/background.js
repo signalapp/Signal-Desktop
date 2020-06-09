@@ -32,26 +32,28 @@
         const source = sources[i];
         const timestamps = bySource[source].map(item => item.timestamp);
 
-        try {
-          const c = ConversationController.get(source);
-          const { wrap, sendOptions } = ConversationController.prepareForSend(
-            c.get('id')
-          );
-          // eslint-disable-next-line no-await-in-loop
-          await wrap(
-            textsecure.messaging.sendDeliveryReceipt(
-              c.get('e164'),
-              c.get('uuid'),
-              timestamps,
-              sendOptions
-            )
-          );
-        } catch (error) {
-          window.log.error(
-            `Failed to send delivery receipt to ${source} for timestamps ${timestamps}:`,
-            error && error.stack ? error.stack : error
-          );
-        }
+        const c = ConversationController.get(source);
+        c.queueJob(async () => {
+          try {
+            const { wrap, sendOptions } = ConversationController.prepareForSend(
+              c.get('id')
+            );
+            // eslint-disable-next-line no-await-in-loop
+            await wrap(
+              textsecure.messaging.sendDeliveryReceipt(
+                c.get('e164'),
+                c.get('uuid'),
+                timestamps,
+                sendOptions
+              )
+            );
+          } catch (error) {
+            window.log.error(
+              `Failed to send delivery receipt to ${source} for timestamps ${timestamps}:`,
+              error && error.stack ? error.stack : error
+            );
+          }
+        });
       }
     },
   });
