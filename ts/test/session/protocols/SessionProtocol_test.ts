@@ -197,13 +197,6 @@ describe('SessionProtocol', () => {
     });
   });
 
-  it('hasSession: returns false as it is stubbed', () => {
-    expect(SessionProtocol.hasSession('deviceID')).to.be.equal(
-      false,
-      'hasSession() should be false as it is stubbed'
-    );
-  });
-
   describe('onSessionRequestProcessed', () => {
     it('protocol: onSessionRequestProcessed should insert a new item in the processedMap ', async () => {
       // trigger the requestProcessed and check the map is updated
