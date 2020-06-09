@@ -398,6 +398,7 @@
       },
 
       shutdown: async () => {
+        window.log.info('background/shutdown');
         // Stop background processing
         window.Signal.AttachmentDownloads.stop();
         if (idleDetector) {
