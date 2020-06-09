@@ -1919,7 +1919,7 @@
           // Check to see if user has updated their clock to current time
           clockSynced = await window.setClockParams();
         } else {
-          log.info('setClockParams not loaded yet');
+          window.log.info('setClockParams not loaded yet');
         }
         if (clockSynced) {
           toastOptions.title = i18n('clockOutOfSync');
