@@ -1914,8 +1914,13 @@
         toastOptions.id = 'expiredWarning';
       }
       if (!window.clientClockSynced) {
-        // Check to see if user has updated their clock to current time
-        const clockSynced = await window.LokiPublicChatAPI.setClockParams();
+        let clockSynced = false;
+        if (window.setClockParams) {
+          // Check to see if user has updated their clock to current time
+          clockSynced = await window.setClockParams();
+        } else {
+          window.log.info('setClockParams not loaded yet');
+        }
         if (clockSynced) {
           toastOptions.title = i18n('clockOutOfSync');
           toastOptions.id = 'clockOutOfSync';

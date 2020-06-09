@@ -474,6 +474,8 @@ if (
   };
   /* eslint-enable global-require, import/no-extraneous-dependencies */
   window.lokiFeatureFlags = {};
+  // eslint-disable-next-line global-require
+  window.StubLokiSnodeAPI = require('./integration_test/stubs/stub_loki_snode_api');
   window.lokiSnodeAPI = new window.StubLokiSnodeAPI(); // no need stub out each function here
 }
 if (config.environment.includes('test-integration')) {

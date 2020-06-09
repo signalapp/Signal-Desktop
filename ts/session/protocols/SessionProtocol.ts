@@ -6,6 +6,7 @@ import { MessageSender } from '../sending';
 import { RawMessage } from '../types/RawMessage';
 import { EncryptionType } from '../types/EncryptionType';
 import { TextEncoder } from 'util';
+import * as MessageUtils from '../utils';
 
 interface StringToNumberMap {
   [key: string]: number;
@@ -117,21 +118,9 @@ export class SessionProtocol {
     // so we know we already triggered a new session with that device
     SessionProtocol.pendingSendSessionsTimestamp.add(device);
 
-    // FIXME to remove
-    function toRawMessage(m: any): RawMessage {
-      return {
-        identifier: 'identifier',
-        plainTextBuffer: new TextEncoder().encode('jk'),
-        timestamp: Date.now(),
-        device: 'device',
-        ttl: 10,
-        encryption: EncryptionType.SessionReset,
-      };
-    }
-
     try {
       // TODO: Send out the request via MessageSender
-      const rawMessage = toRawMessage(message);
+      const rawMessage = MessageUtils.toRawMessage(device, message);
       await MessageSender.send(rawMessage);
       await SessionProtocol.updateSentSessionTimestamp(device, timestamp);
     } catch (e) {

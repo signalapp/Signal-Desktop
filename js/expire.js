@@ -124,7 +124,7 @@
   };
 
   // require for PoW to work
-  const setClockParams = async () => {
+  window.setClockParams = async () => {
     // Set server-client time difference
     const maxTimeDifferential = 30 + 15; // + 15 for onion requests
     const timeDifferential = await getTimeDifferential();
@@ -133,5 +133,5 @@
     window.clientClockSynced = Math.abs(timeDifferential) < maxTimeDifferential;
     return window.clientClockSynced;
   };
-  setClockParams();
+  window.setClockParams();
 })();
