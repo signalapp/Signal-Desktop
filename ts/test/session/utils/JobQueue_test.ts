@@ -45,7 +45,7 @@ describe('JobQueue', () => {
         30,
       ]);
       const timeTaken = Date.now() - start;
-      assert.closeTo(timeTaken, 600, 50, 'Queue was delayed');
+      assert.closeTo(timeTaken, 600, 75, 'Queue was delayed');
     });
 
     it('should return the result of the job', async () => {

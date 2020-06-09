@@ -5,7 +5,7 @@ import { OpenGroupMessage } from '../messages/outgoing';
 import { SignalService } from '../../protobuf';
 import { UserUtil } from '../../util';
 import { MessageEncrypter } from '../crypto';
-import { lokiMessageAPI, lokiPublicChatAPI, textsecure } from '../../window';
+import { lokiMessageAPI, lokiPublicChatAPI } from '../../window';
 
 // ================ Regular ================
 
