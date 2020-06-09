@@ -1,7 +1,7 @@
 import {
   CipherTextObject,
   SessionCipher,
-} from '../../../../window/types/libsignal-protocol';
+} from '../../../../../libtextsecure/libsignal-protocol';
 import { SignalService } from '../../../../protobuf';
 
 export class SessionCipherStub implements SessionCipher {

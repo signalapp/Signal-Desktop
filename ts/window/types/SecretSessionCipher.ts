@@ -1,5 +1,5 @@
 import { SignalService } from '../../protobuf';
-import { CipherTextObject } from './libsignal-protocol';
+import { CipherTextObject } from '../../../libtextsecure/libsignal-protocol';
 
 export declare class SecretSessionCipher {
   constructor(storage: any);

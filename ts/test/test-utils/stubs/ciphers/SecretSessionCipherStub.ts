@@ -1,5 +1,5 @@
 import { SignalService } from '../../../../protobuf';
-import { CipherTextObject } from '../../../../window/types/libsignal-protocol';
+import { CipherTextObject } from '../../../../../libtextsecure/libsignal-protocol';
 
 export class SecretSessionCipherStub {
   public async encrypt(
