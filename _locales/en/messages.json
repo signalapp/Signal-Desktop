@@ -953,8 +953,8 @@
   "showSafetyNumber": {
     "message": "View safety number"
   },
-  "viewAllMedia": {
-    "message": "View all media",
+  "viewRecentMedia": {
+    "message": "View recent media",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
