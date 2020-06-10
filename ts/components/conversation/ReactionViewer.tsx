@@ -5,13 +5,14 @@ import { ContactName } from './ContactName';
 import { Avatar, Props as AvatarProps } from '../Avatar';
 import { Emoji } from '../emoji/Emoji';
 import { useRestoreFocus } from '../../util/hooks';
+import { ColorType } from '../../types/Util';
 
 export type Reaction = {
   emoji: string;
   timestamp: number;
   from: {
     id: string;
-    color?: string;
+    color?: ColorType;
     avatarPath?: string;
     name?: string;
     profileName?: string;
@@ -151,6 +152,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
                   avatarPath={from.avatarPath}
                   conversationType="direct"
                   size={32}
+                  color={from.color}
                   name={from.name}
                   profileName={from.profileName}
                   phoneNumber={from.phoneNumber}
