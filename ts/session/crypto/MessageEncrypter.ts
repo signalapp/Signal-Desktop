@@ -4,6 +4,10 @@ import { libloki, libsignal, Signal, textsecure } from '../../window';
 import { UserUtil } from '../../util';
 import { CipherTextObject } from '../../../libtextsecure/libsignal-protocol';
 
+/**
+ * Add padding to a message buffer
+ * @param messageBuffer The buffer to add padding to.
+ */
 export function padPlainTextBuffer(messageBuffer: Uint8Array): Uint8Array {
   const plaintext = new Uint8Array(
     getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
