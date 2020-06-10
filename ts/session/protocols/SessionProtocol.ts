@@ -9,7 +9,6 @@ import { PubKey } from '../types';
 interface StringToNumberMap {
   [key: string]: number;
 }
-// tslint:disable: function-name
 // tslint:disable: no-unnecessary-class
 export class SessionProtocol {
   private static dbLoaded: Boolean = false;
@@ -77,7 +76,7 @@ export class SessionProtocol {
    * Triggers a SessionRequestMessage to be sent if:
    *   - we do not already have a session and
    *   - we did not sent a session request already to that device and
-   *   - we do not have a session request currently being send to that device
+   *   - we do not have a session request currently being sent to that device
    */
   public static async sendSessionRequestIfNeeded(
     pubkey: PubKey
@@ -86,7 +85,7 @@ export class SessionProtocol {
       (await SessionProtocol.hasSession(pubkey)) ||
       (await SessionProtocol.hasSentSessionRequest(pubkey))
     ) {
-      return Promise.resolve();
+      return;
     }
 
     const preKeyBundle = await libloki.storage.getPreKeyBundleForContact(
@@ -109,7 +108,10 @@ export class SessionProtocol {
     }
   }
 
-  /**  */
+  /**
+   *  Sends a session request message to that pubkey.
+   *  We store the sent timestamp only if the message is effectively sent.
+   */
   public static async sendSessionRequest(
     message: SessionRequestMessage,
     pubkey: PubKey
@@ -118,6 +120,7 @@ export class SessionProtocol {
 
     // mark the session as being pending send with current timestamp
     // so we know we already triggered a new session with that device
+    // so sendSessionRequestIfNeeded does not sent another session request
     SessionProtocol.pendingSendSessionsTimestamp.add(pubkey.key);
 
     try {
@@ -216,7 +219,7 @@ export class SessionProtocol {
     map: StringToNumberMap
   ): Promise<boolean> {
     if (!timestamp) {
-      if (!!map[device]) {
+      if (device in map) {
         // tslint:disable-next-line: no-dynamic-delete
         delete map[device];
 
