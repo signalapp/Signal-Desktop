@@ -619,6 +619,10 @@
     "message": "Show Keyboard Shortcuts",
     "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
   },
+  "contactUs": {
+    "message": "Contact Us",
+    "description": "Item under the help menu, takes you to the contact us support page"
+  },
   "goToReleaseNotes": {
     "message": "Go to Release Notes",
     "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -631,9 +635,13 @@
     "message": "Go to Support Page",
     "description": "Item under the Help menu, takes you to the support page"
   },
-  "menuReportIssue": {
-    "message": "Report an Issue",
-    "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+  "goToGithub": {
+    "message": "Go to Github",
+    "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+  },
+  "joinTheBeta": {
+    "message": "Join the Beta",
+    "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
   },
   "signalDesktopPreferences": {
     "message": "Signal Desktop Preferences",

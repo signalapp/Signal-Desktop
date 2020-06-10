@@ -16,6 +16,7 @@ const electron = require('electron');
 
 const packageJson = require('./package.json');
 const GlobalErrors = require('./app/global_errors');
+const { isBeta } = require('./app/version');
 const { setup: setupSpellChecker } = require('./app/spell_check');
 
 GlobalErrors.addHandler();
@@ -473,14 +474,24 @@ ipc.once('ready-for-updates', readyForUpdates);
 const TEN_MINUTES = 10 * 60 * 1000;
 setTimeout(readyForUpdates, TEN_MINUTES);
 
+function openContactUs() {
+  shell.openExternal(
+    'https://support.signal.org/hc/en-us/requests/new?desktop'
+  );
+}
+
+function openJoinTheBeta() {
+  shell.openExternal('https://support.signal.org/hc/articles/360007318471');
+}
+
 function openReleaseNotes() {
   shell.openExternal(
     `https://github.com/signalapp/Signal-Desktop/releases/tag/v${app.getVersion()}`
   );
 }
 
-function openNewBugForm() {
-  shell.openExternal('https://github.com/signalapp/Signal-Desktop/issues/new');
+function openGithub() {
+  shell.openExternal('https://github.com/signalapp/Signal-Desktop');
 }
 
 function openSupportPage() {
@@ -944,14 +955,17 @@ function setupMenu(options) {
   const menuOptions = {
     ...options,
     development,
+    isBeta: isBeta(app.getVersion()),
     showDebugLog: showDebugLogWindow,
     showKeyboardShortcuts,
     showWindow,
     showAbout,
     showSettings: showSettingsWindow,
     showStickerCreator,
+    openContactUs,
+    openGithub,
+    openJoinTheBeta,
     openReleaseNotes,
-    openNewBugForm,
     openSupportPage,
     openForums,
     platform,
