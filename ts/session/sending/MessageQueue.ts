@@ -95,8 +95,9 @@ export class MessageQueue implements MessageQueueInterface {
     // Open groups
     if (message instanceof OpenGroupMessage) {
       // No queue needed for Open Groups; send directly
-      const rawMessage = MessageUtils.toRawMessage(message);
+      const rawMessage = MessageUtils.toRawMessage(message.group, message);
       await MessageSender.send(message);
+
       return true;
     }
 
