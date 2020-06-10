@@ -3,7 +3,7 @@ import { SessionProtocol } from '../../../session/protocols';
 import * as sinon from 'sinon';
 import { Stubs, TestUtils, timeout } from '../../test-utils';
 import { UserUtil } from '../../../util';
-import { SessionResetMessage } from '../../../session/messages/outgoing';
+import { SessionRequestMessage } from '../../../session/messages/outgoing';
 import { TextEncoder } from 'util';
 import { MessageSender } from '../../../session/sending';
 import { PubKey } from '../../../session/types';
@@ -16,7 +16,7 @@ describe('SessionProtocol', () => {
   let getItemById: sinon.SinonStub;
   let send: sinon.SinonStub;
 
-  const resetMessage: SessionResetMessage = new SessionResetMessage({
+  const resetMessage: SessionRequestMessage = new SessionRequestMessage({
     timestamp: Date.now(),
     preKeyBundle: {
       identityKey: new TextEncoder().encode('identityKey'),
@@ -117,7 +117,10 @@ describe('SessionProtocol', () => {
 
     it('protocol: onSessionEstablished should remove the device in sentTimestamps and ONLY that one', async () => {
       // add a second item to the map
-      await SessionProtocol.sendSessionRequest(resetMessage, new PubKey('deviceid2'));
+      await SessionProtocol.sendSessionRequest(
+        resetMessage,
+        new PubKey('deviceid2')
+      );
 
       expect(SessionProtocol.getSentSessionsTimestamp()).to.have.property(
         'deviceid'
@@ -231,10 +234,7 @@ describe('SessionProtocol', () => {
     it('protocol: shouldProcessSessionRequest returns true if timestamp is more recent than processed timestamp', async () => {
       await SessionProtocol.onSessionRequestProcessed(pubkey); // adds a Date.now() entry
       expect(
-        SessionProtocol.shouldProcessSessionRequest(
-          pubkey,
-          Date.now() + 1000
-        )
+        SessionProtocol.shouldProcessSessionRequest(pubkey, Date.now() + 1000)
       ).to.be.eventually.equal(
         true,
         'shouldProcessSessionRequest should return true when existingProcessed is less recent'
@@ -273,10 +273,7 @@ describe('SessionProtocol', () => {
     it('protocol: shouldProcessSessionRequest returns true if timestamp is more recent than current sent timestamp', async () => {
       await SessionProtocol.sendSessionRequest(resetMessage, pubkey); // adds a Date.now() entry
       expect(
-        SessionProtocol.shouldProcessSessionRequest(
-          pubkey,
-          Date.now() + 1000
-        )
+        SessionProtocol.shouldProcessSessionRequest(pubkey, Date.now() + 1000)
       ).to.be.eventually.equal(
         true,
         'shouldProcessSessionRequest should return true when existingSent is less recent'
@@ -322,10 +319,7 @@ describe('SessionProtocol', () => {
       await SessionProtocol.onSessionRequestProcessed(pubkey); // adds a Date.now() entry
       await SessionProtocol.sendSessionRequest(resetMessage, pubkey); // adds a Date.now() entry
       expect(
-        SessionProtocol.shouldProcessSessionRequest(
-          pubkey,
-          Date.now() + 1000
-        )
+        SessionProtocol.shouldProcessSessionRequest(pubkey, Date.now() + 1000)
       ).to.be.eventually.equal(
         true,
         'shouldProcessSessionRequest should return true if there if both processed and sent are set but are older'

@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { beforeEach } from 'mocha';
 
-import { SessionResetMessage } from '../../../session/messages/outgoing';
+import { SessionRequestMessage } from '../../../session/messages/outgoing';
 import { SignalService } from '../../../protobuf';
 import { TextDecoder, TextEncoder } from 'util';
 
-describe('SessionResetMessage', () => {
-  let message: SessionResetMessage;
+describe('SessionRequestMessage', () => {
+  let message: SessionRequestMessage;
   const preKeyBundle = {
     deviceId: 123456,
     preKeyId: 654321,
@@ -19,7 +19,7 @@ describe('SessionResetMessage', () => {
 
   beforeEach(() => {
     const timestamp = Date.now();
-    message = new SessionResetMessage({ timestamp, preKeyBundle });
+    message = new SessionRequestMessage({ timestamp, preKeyBundle });
   });
 
   it('has a preKeyBundle', () => {

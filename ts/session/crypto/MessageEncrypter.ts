@@ -50,7 +50,7 @@ export async function encrypt(
   }
 
   let innerCipherText: CipherTextObject;
-  if (encryptionType === EncryptionType.SessionReset) {
+  if (encryptionType === EncryptionType.SessionRequest) {
     const cipher = new libloki.crypto.FallBackSessionCipher(address);
     innerCipherText = await cipher.encrypt(plainText.buffer);
   } else {

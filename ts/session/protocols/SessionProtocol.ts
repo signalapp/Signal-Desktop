@@ -1,4 +1,4 @@
-import { SessionResetMessage } from '../messages/outgoing';
+import { SessionRequestMessage } from '../messages/outgoing';
 // import { MessageSender } from '../sending';
 import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
 import { libloki, libsignal, textsecure } from '../../window';
@@ -74,7 +74,7 @@ export class SessionProtocol {
   }
 
   /**
-   * Triggers a SessionResetMessage to be sent if:
+   * Triggers a SessionRequestMessage to be sent if:
    *   - we do not already have a session and
    *   - we did not sent a session request already to that device and
    *   - we do not have a session request currently being send to that device
@@ -93,7 +93,7 @@ export class SessionProtocol {
       pubkey.key
     );
 
-    const sessionReset = new SessionResetMessage({
+    const sessionReset = new SessionRequestMessage({
       preKeyBundle,
       timestamp: Date.now(),
     });
@@ -101,13 +101,17 @@ export class SessionProtocol {
     try {
       await SessionProtocol.sendSessionRequest(sessionReset, pubkey);
     } catch (error) {
-      window.console.warn('Failed to send session request to:', pubkey.key, error);
+      window.console.warn(
+        'Failed to send session request to:',
+        pubkey.key,
+        error
+      );
     }
   }
 
   /**  */
   public static async sendSessionRequest(
-    message: SessionResetMessage,
+    message: SessionRequestMessage,
     pubkey: PubKey
   ): Promise<void> {
     const timestamp = Date.now();
@@ -151,7 +155,10 @@ export class SessionProtocol {
   }
 
   public static async onSessionRequestProcessed(pubkey: PubKey) {
-    return SessionProtocol.updateProcessedSessionTimestamp(pubkey.key, Date.now());
+    return SessionProtocol.updateProcessedSessionTimestamp(
+      pubkey.key,
+      Date.now()
+    );
   }
 
   public static reset() {
