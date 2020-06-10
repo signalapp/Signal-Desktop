@@ -12,14 +12,14 @@ export interface PreKeyBundleType {
   signature: Uint8Array;
 }
 
-interface SessionResetParams extends MessageParams {
+interface SessionRequestParams extends MessageParams {
   preKeyBundle: PreKeyBundleType;
 }
 
-export class SessionResetMessage extends ContentMessage {
+export class SessionRequestMessage extends ContentMessage {
   private readonly preKeyBundle: PreKeyBundleType;
 
-  constructor(params: SessionResetParams) {
+  constructor(params: SessionRequestParams) {
     super({ timestamp: params.timestamp, identifier: params.identifier });
     this.preKeyBundle = params.preKeyBundle;
   }

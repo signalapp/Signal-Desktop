@@ -7,6 +7,7 @@ import { Stubs, TestUtils } from '../../test-utils';
 import { UserUtil } from '../../../util';
 import { SignalService } from '../../../protobuf';
 
+// tslint:disable-next-line: max-func-body-length
 describe('MessageEncrypter', () => {
   const sandbox = sinon.createSandbox();
   const ourNumber = 'ourNumber';
@@ -58,14 +59,18 @@ describe('MessageEncrypter', () => {
       });
     });
 
-    describe('SessionReset', () => {
+    describe('SessionRequest', () => {
       it('should call FallbackSessionCipher encrypt', async () => {
         const data = crypto.randomBytes(10);
         const spy = sandbox.spy(
           Stubs.FallBackSessionCipherStub.prototype,
           'encrypt'
         );
-        await MessageEncrypter.encrypt('1', data, EncryptionType.SessionReset);
+        await MessageEncrypter.encrypt(
+          '1',
+          data,
+          EncryptionType.SessionRequest
+        );
         expect(spy.called).to.equal(
           true,
           'FallbackSessionCipher.encrypt should be called.'
@@ -78,7 +83,11 @@ describe('MessageEncrypter', () => {
           Stubs.FallBackSessionCipherStub.prototype,
           'encrypt'
         );
-        await MessageEncrypter.encrypt('1', data, EncryptionType.SessionReset);
+        await MessageEncrypter.encrypt(
+          '1',
+          data,
+          EncryptionType.SessionRequest
+        );
 
         const paddedData = MessageEncrypter.padPlainTextBuffer(data);
         const firstArgument = new Uint8Array(spy.args[0][0]);
@@ -90,7 +99,7 @@ describe('MessageEncrypter', () => {
         const result = await MessageEncrypter.encrypt(
           '1',
           data,
-          EncryptionType.SessionReset
+          EncryptionType.SessionRequest
         );
         expect(result.envelopeType).to.deep.equal(
           SignalService.Envelope.Type.UNIDENTIFIED_SENDER
@@ -135,7 +144,7 @@ describe('MessageEncrypter', () => {
 
   describe('Sealed Sender', () => {
     it('should pass the correct values to SecretSessionCipher encrypt', async () => {
-      const types = [EncryptionType.SessionReset, EncryptionType.Signal];
+      const types = [EncryptionType.SessionRequest, EncryptionType.Signal];
       for (const type of types) {
         const spy = sandbox.spy(
           Stubs.SecretSessionCipherStub.prototype,

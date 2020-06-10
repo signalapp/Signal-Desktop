@@ -124,9 +124,6 @@
     'loki/session_icon_128.png',
   ]);
 
-  // Set server-client time difference
-  window.LokiPublicChatAPI.setClockParams();
-
   // We add this to window here because the default Node context is erased at the end
   //   of preload.js processing
   window.setImmediate = window.nodeSetImmediate;
@@ -289,7 +286,10 @@
     // Update zoom
     window.updateZoomFactor();
 
-    if (window.lokiFeatureFlags.useOnionRequests) {
+    if (
+      window.lokiFeatureFlags.useOnionRequests ||
+      window.lokiFeatureFlags.useFileOnionRequests
+    ) {
       // Initialize paths for onion requests
       window.lokiSnodeAPI.buildNewOnionPaths();
     }

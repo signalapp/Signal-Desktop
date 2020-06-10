@@ -14,7 +14,7 @@ export class ClosedGroupChatMessage extends ClosedGroupMessage {
   constructor(params: ClosedGroupChatMessageParams) {
     super({
       timestamp: params.chatMessage.timestamp,
-      identifier: params.identifier,
+      identifier: params.identifier ?? params.chatMessage.identifier,
       groupId: params.groupId,
     });
     this.chatMessage = params.chatMessage;

@@ -5,26 +5,34 @@ import { OpenGroupMessage } from '../messages/outgoing';
 import { SignalService } from '../../protobuf';
 import { UserUtil } from '../../util';
 import { MessageEncrypter } from '../crypto';
-import { lokiMessageAPI, lokiPublicChatAPI, textsecure } from '../../window';
+import { lokiMessageAPI, lokiPublicChatAPI } from '../../window';
+import pRetry from 'p-retry';
 
 // ================ Regular ================
 
+/**
+ * Check if we can send to service nodes.
+ */
 export function canSendToSnode(): boolean {
   // Seems like lokiMessageAPI is not always guaranteed to be initialized
   return Boolean(lokiMessageAPI);
 }
 
-export async function send({
-  device,
-  plainTextBuffer,
-  encryption,
-  timestamp,
-  ttl,
-}: RawMessage): Promise<void> {
+/**
+ * Send a message via service nodes.
+ *
+ * @param message The message to send.
+ * @param attempts The amount of times to attempt sending. Minimum value is 1.
+ */
+export async function send(
+  message: RawMessage,
+  attempts: number = 3
+): Promise<void> {
   if (!canSendToSnode()) {
     throw new Error('lokiMessageAPI is not initialized.');
   }
 
+  const { device, plainTextBuffer, encryption, timestamp, ttl } = message;
   const { envelopeType, cipherText } = await MessageEncrypter.encrypt(
     device,
     plainTextBuffer,
@@ -33,8 +41,13 @@ export async function send({
   const envelope = await buildEnvelope(envelopeType, timestamp, cipherText);
   const data = wrapEnvelope(envelope);
 
-  // TODO: Somehow differentiate between Retryable and Regular erros
-  return lokiMessageAPI.sendMessage(device, data, timestamp, ttl);
+  return pRetry(
+    async () => lokiMessageAPI.sendMessage(device, data, timestamp, ttl),
+    {
+      retries: Math.max(attempts - 1, 0),
+      factor: 1,
+    }
+  );
 }
 
 async function buildEnvelope(
@@ -76,9 +89,18 @@ function wrapEnvelope(envelope: SignalService.Envelope): Uint8Array {
 
 // ================ Open Group ================
 
+/**
+ * Send a message to an open group.
+ * @param message The open group message.
+ */
 export async function sendToOpenGroup(
   message: OpenGroupMessage
 ): Promise<boolean> {
+  /*
+    Note: Retrying wasn't added to this but it can be added in the future if needed.
+    The only problem is that `channelAPI.sendMessage` returns true/false and doesn't throw any error so we can never be sure why sending failed.
+    This should be fixed and we shouldn't rely on returning true/false, rather return nothing (success) or throw an error (failure)
+  */
   const { group, quote, attachments, preview, body } = message;
   const channelAPI = await lokiPublicChatAPI.findOrCreateChannel(
     group.server,
@@ -87,7 +109,6 @@ export async function sendToOpenGroup(
   );
 
   // Don't think returning true/false on `sendMessage` is a good way
-  // We should either: return nothing (success) or throw an error (failure)
   return channelAPI.sendMessage({
     quote,
     attachments: attachments || [],
