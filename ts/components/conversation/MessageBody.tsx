@@ -6,6 +6,7 @@ import { AddNewLines } from './AddNewLines';
 import { Linkify } from './Linkify';
 
 import { LocalizerType, RenderTextCallbackType } from '../../types/Util';
+import { Markdown } from './Markdown';
 
 interface Props {
   text: string;
@@ -86,6 +87,10 @@ export class MessageBody extends React.Component<Props> {
           renderNonEmoji: renderNewLines,
         })
       );
+    }
+
+    if (textWithPending.includes('```') || textWithPending.includes('`')) {
+      return <Markdown text={textWithPending} />;
     }
 
     return this.addDownloading(
