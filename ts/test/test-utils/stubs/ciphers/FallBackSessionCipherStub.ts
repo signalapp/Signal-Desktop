@@ -1,4 +1,4 @@
-import { CipherTextObject } from '../../../../window/types/libsignal-protocol';
+import { CipherTextObject } from '../../../../../libtextsecure/libsignal-protocol';
 import { SignalService } from '../../../../protobuf';
 
 export class FallBackSessionCipherStub {
