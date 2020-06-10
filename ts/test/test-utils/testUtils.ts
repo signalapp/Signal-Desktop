@@ -6,7 +6,11 @@ import { v4 as uuid } from 'uuid';
 
 import { ImportMock } from 'ts-mock-imports';
 import { PubKey } from '../../../ts/session/types';
-import { ChatMessage } from '../../session/messages/outgoing';
+import {
+  ChatMessage,
+  OpenGroupMessage,
+  ClosedGroupChatMessage,
+} from '../../session/messages/outgoing';
 
 const sandbox = sinon.createSandbox();
 
@@ -55,7 +59,7 @@ export function generateFakePubkey(): PubKey {
   return new PubKey(pubkeyString);
 }
 
-export function generateUniqueChatMessage(): ChatMessage {
+export function generateChatMessage(): ChatMessage {
   return new ChatMessage({
     body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
     identifier: uuid(),
@@ -64,6 +68,33 @@ export function generateUniqueChatMessage(): ChatMessage {
     quote: undefined,
     expireTimer: undefined,
     lokiProfile: undefined,
+    preview: undefined,
+  });
+}
+
+export function generateClosedGroupChatMessage(): ClosedGroupChatMessage {
+  const chatMessage = generateChatMessage();
+
+  return new ClosedGroupChatMessage({
+    chatMessage,
+    groupId: 'example-closed-group',
+  });
+}
+
+export function generateOpenGroupMessage(): OpenGroupMessage {
+  const openGroup = {
+    server: 'example.server',
+    channel: 1,
+    conversationId: '@example.server',
+  };
+
+  return new OpenGroupMessage({
+    identifier: uuid(),
+    timestamp: Date.now(),
+    group: openGroup,
+    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+    attachments: undefined,
+    quote: undefined,
     preview: undefined,
   });
 }

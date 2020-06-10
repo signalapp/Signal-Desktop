@@ -19,12 +19,14 @@ import { PendingMessageCache } from './PendingMessageCache';
 import {
   JobQueue,
   TypedEventEmitter,
-  toRawMessage,
+  MessageUtils,
+  SyncMessageUtils,
 } from '../utils';
 import { PubKey } from '../types';
 import { ConversationController } from '../../window';
 import { MessageSender } from '.';
 import { SessionProtocol } from '../protocols';
+import { generateFakePubkey } from '../../test/test-utils/testUtils';
 
 export class MessageQueue implements MessageQueueInterface {
   public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
@@ -54,9 +56,9 @@ export class MessageQueue implements MessageQueueInterface {
   ) {
     let currentDevices = [...devices];
 
-    if (message.canSync(message)) {
+    if (SyncMessageUtils.canSync(message)) {
       // Sync to our devices
-      const syncMessage = SyncMessage.from(message);
+      const syncMessage = SyncMessageUtils.from(message);
       const ourDevices = await this.sendSyncMessage(syncMessage);
 
       // Remove our devices from currentDevices
@@ -68,36 +70,45 @@ export class MessageQueue implements MessageQueueInterface {
     });
   }
 
-  public async sendToGroup(message: OpenGroupMessage | ContentMessage) {
+  public async sendToGroup(message: OpenGroupMessage | ContentMessage): Promise<boolean> {
     if (
       !(message instanceof OpenGroupMessage) &&
       !(message instanceof ClosedGroupMessage)
     ) {
-      return;
+      return false;
     }
 
     // Closed groups
     if (message instanceof ClosedGroupMessage) {
       // Get devices in closed group
       const conversation = ConversationController.get(message.groupId);
-
-      const recipients = 5;
+      const recipientsModels = conversation.contactCollection.models;
+      const recipients: Array<PubKey> = recipientsModels.map(
+        (recipient: any) => new PubKey(recipient.id)
+      );
 
       await this.sendMessageToDevices(recipients, message);
+
+      return true;
     }
 
     // Open groups
     if (message instanceof OpenGroupMessage) {
       // No queue needed for Open Groups; send directly
+      const rawMessage = MessageUtils.toRawMessage(message);
+      await MessageSender.send(message);
+      return true;
     }
+
+    return false;
   }
 
   public async sendSyncMessage(
     message: ContentMessage
-  ): Promise<Array<PubKey>> {
+  ): Promise<Array<PubKey> | undefined> {
     // Sync with our devices
-    const syncMessage = SyncMessage.from(message);
-    if (!syncMessage.canSync()) {
+    const syncMessage = SyncMessageUtils.from(message);
+    if (!SyncMessageUtils.canSync(syncMessage)) {
       return;
     }
 

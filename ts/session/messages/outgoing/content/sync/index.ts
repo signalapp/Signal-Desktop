@@ -1,4 +1,5 @@
-import { SyncMessage } from './SyncMessage';
+import { SyncMessage, SyncMessageEnum } from './SyncMessage';
 import { ContactSyncMessage } from './ContactSyncMessage';
+// import { GroupSyncMessage } from './GroupSyncMessage';
 
-export { ContactSyncMessage, SyncMessage };
+export { ContactSyncMessage, SyncMessage, SyncMessageEnum };

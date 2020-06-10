@@ -3,7 +3,7 @@ import { SessionRequestMessage } from '../messages/outgoing';
 import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
 import { libloki, libsignal, textsecure } from '../../window';
 import { MessageSender } from '../sending';
-import * as MessageUtils from '../utils';
+import { MessageUtils } from '../utils';
 import { PubKey } from '../types';
 
 interface StringToNumberMap {

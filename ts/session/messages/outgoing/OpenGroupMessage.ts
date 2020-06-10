@@ -1,11 +1,6 @@
 import { Message, MessageParams } from './Message';
 import { AttachmentPointer, Preview, Quote } from './content';
-
-interface OpenGroup {
-  server: string;
-  channel: number;
-  conversationId: string;
-}
+import { OpenGroup } from '../../types/OpenGroup';
 
 interface OpenGroupMessageParams extends MessageParams {
   group: OpenGroup;

@@ -2,7 +2,7 @@ import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
 import { PartialRawMessage, RawMessage } from '../types/RawMessage';
 import { ContentMessage } from '../messages/outgoing';
 import { PubKey } from '../types';
-import * as MessageUtils from '../utils';
+import { MessageUtils } from '../utils';
 
 // This is an abstraction for storing pending messages.
 // Ideally we want to store pending messages in the database so that
