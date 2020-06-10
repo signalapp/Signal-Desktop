@@ -20,6 +20,7 @@
 /* global ConversationController: false */
 /* global Signal: false */
 /* global log: false */
+/* global session: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
@@ -1545,24 +1546,42 @@ MessageReceiver.prototype.extend({
       window.log.info('Error getting conversation: ', envelope.source);
     }
   },
+  async handleSessionRequestMessage(envelope, content) {
+    const shouldProcessSessionRequest = await session.Protocols.SessionProtocol.shouldProcessSessionRequest(
+      envelope.source,
+      envelope.timestamp
+    );
+
+    if (shouldProcessSessionRequest) {
+      if (content.preKeyBundleMessage) {
+        await this.savePreKeyBundleMessage(
+          envelope.source,
+          content.preKeyBundleMessage
+        );
+      }
+      await session.Protocols.SessionProtocol.onSessionRequestProcessed(
+        envelope.source
+      );
+      window.log.info('sending session established to', envelope.source);
+      // We don't need to await the call below because we just want to send it off
+      window.libloki.api.sendSessionEstablishedMessage(envelope.source);
+    }
+  },
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
+    const { SESSION_REQUEST } = textsecure.protobuf.Envelope.Type;
 
-    if (content.preKeyBundleMessage) {
-      await this.savePreKeyBundleMessage(
-        envelope.source,
-        content.preKeyBundleMessage
+    if (envelope.type === SESSION_REQUEST) {
+      await this.handleSessionRequestMessage(envelope, content);
+    } else {
+      await session.Protocols.SessionProtocol.onSessionEstablished(
+        envelope.source
       );
+      // TODO process sending queue for this device now that we have a session
     }
 
     this.handleFriendRequestAcceptIfNeeded(envelope, content);
 
-    if (content.lokiAddressMessage) {
-      return this.handleLokiAddressMessage(
-        envelope,
-        content.lokiAddressMessage
-      );
-    }
     if (content.pairingAuthorisation) {
       return this.handlePairingAuthorisationMessage(envelope, content);
     }
@@ -1660,14 +1679,6 @@ MessageReceiver.prototype.extend({
     return this.dispatchEvent(ev);
   },
   handleNullMessage(envelope) {
-    // Loki - Temp hack for new protocl backward compatibility
-    // This should be removed once we add the new protocol
-    if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
-      window.log.info('sent session established to', envelope.source);
-      // We don't need to await the call below because we just want to send it off
-      window.libloki.api.sendSessionEstablishedMessage(envelope.source);
-    }
-
     window.log.info('null message from', this.getEnvelopeId(envelope));
     this.removeFromCache(envelope);
   },
