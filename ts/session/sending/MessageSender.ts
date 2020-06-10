@@ -6,6 +6,7 @@ import { SignalService } from '../../protobuf';
 import { UserUtil } from '../../util';
 import { MessageEncrypter } from '../crypto';
 import { lokiMessageAPI, lokiPublicChatAPI } from '../../window';
+import pRetry from 'p-retry';
 
 // ================ Regular ================
 
@@ -14,13 +15,10 @@ export function canSendToSnode(): boolean {
   return Boolean(lokiMessageAPI);
 }
 
-export async function send({
-  device,
-  plainTextBuffer,
-  encryption,
-  timestamp,
-  ttl,
-}: RawMessage): Promise<void> {
+export async function send(
+  { device, plainTextBuffer, encryption, timestamp, ttl }: RawMessage,
+  retries: number = 3
+): Promise<void> {
   if (!canSendToSnode()) {
     throw new Error('lokiMessageAPI is not initialized.');
   }
@@ -33,8 +31,14 @@ export async function send({
   const envelope = await buildEnvelope(envelopeType, timestamp, cipherText);
   const data = wrapEnvelope(envelope);
 
-  // TODO: Somehow differentiate between Retryable and Regular erros
-  return lokiMessageAPI.sendMessage(device, data, timestamp, ttl);
+  // pRetry doesn't count the first call as a retry
+  return pRetry(
+    async () => lokiMessageAPI.sendMessage(device, data, timestamp, ttl),
+    {
+      retries: retries - 1,
+      factor: 1,
+    }
+  );
 }
 
 async function buildEnvelope(
