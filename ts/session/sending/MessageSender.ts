@@ -20,17 +20,19 @@ export function canSendToSnode(): boolean {
 
 /**
  * Send a message via service nodes.
+ *
  * @param message The message to send.
- * @param retries The amount of times to retry sending.
+ * @param attempts The amount of times to attempt sending. Minimum value is 1.
  */
 export async function send(
-  { device, plainTextBuffer, encryption, timestamp, ttl }: RawMessage,
-  retries: number = 3
+  message: RawMessage,
+  attempts: number = 3
 ): Promise<void> {
   if (!canSendToSnode()) {
     throw new Error('lokiMessageAPI is not initialized.');
   }
 
+  const { device, plainTextBuffer, encryption, timestamp, ttl } = message;
   const { envelopeType, cipherText } = await MessageEncrypter.encrypt(
     device,
     plainTextBuffer,
@@ -39,13 +41,10 @@ export async function send(
   const envelope = await buildEnvelope(envelopeType, timestamp, cipherText);
   const data = wrapEnvelope(envelope);
 
-  // pRetry counts retries after making the first call.
-  // So a retry count of 3 means you make a request then if it fails you make another request 3 times until it succeeds.
-  // This means a total of 4 requests are being sent, where as for us when we want 3 retries we only want 3 requests sent.
   return pRetry(
     async () => lokiMessageAPI.sendMessage(device, data, timestamp, ttl),
     {
-      retries: retries - 1,
+      retries: Math.max(attempts - 1, 0),
       factor: 1,
     }
   );

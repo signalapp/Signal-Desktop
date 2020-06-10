@@ -80,10 +80,10 @@ describe('MessageSender', () => {
 
       it('should only retry the specified amount of times before throwing', async () => {
         lokiMessageAPIStub.sendMessage.throws(new Error('API error'));
-        const retries = 2;
-        const promise = MessageSender.send(rawMessage, retries);
+        const attempts = 2;
+        const promise = MessageSender.send(rawMessage, attempts);
         await expect(promise).is.rejectedWith('API error');
-        expect(lokiMessageAPIStub.sendMessage.callCount).to.equal(retries);
+        expect(lokiMessageAPIStub.sendMessage.callCount).to.equal(attempts);
       });
 
       it('should not throw error if successful send occurs within the retry limit', async () => {
