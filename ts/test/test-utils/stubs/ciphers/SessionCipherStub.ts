@@ -42,7 +42,7 @@ export class SessionCipherStub implements SessionCipher {
   }
 
   public async hasOpenSession(): Promise<boolean> {
-    throw new Error('Method not implemented.');
+    return false;
   }
 
   public async closeOpenSessionForDevice(): Promise<void> {
