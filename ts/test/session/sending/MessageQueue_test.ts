@@ -14,7 +14,7 @@ interface StorageItem {
   value: any;
 }
 
-describe('PendingMessageCache', () => {
+describe('MessageQueue', () => {
   // Initialize new stubbed cache
   let data: StorageItem;
   let pendingMessageCacheStub: PendingMessageCache;
@@ -32,12 +32,14 @@ describe('PendingMessageCache', () => {
     const message = TestUtils.generateChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
-    SyncMessageUtils.from(message);
+    // SyncMessageUtils.from(message);
 
     const myOpenGroup = new OpenGroup({conversationId: 'publicChat:1@feedback.getsession.org'});
-    
     console.log('[vince] myOpenGroup.server:', myOpenGroup.server);
     console.log('[vince] myOpenGroup.channel:', myOpenGroup.channel);
     console.log('[vince] myOpenGroup.conversationId:', myOpenGroup.conversationId);
+
+    
+
   });
 });

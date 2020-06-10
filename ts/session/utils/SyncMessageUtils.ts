@@ -10,29 +10,83 @@ import { EncryptionType, PubKey } from '../types';
 import { SignalService } from '../../protobuf';
 import { SyncMessageType } from '../messages/outgoing/content/sync/SyncMessage';
 
+import * as Data from '../../../js/modules/data';
+import { textsecure, libloki, ConversationController, Whisper } from '../../window';
+
 // export function from(message: ContentMessage): SyncMessage | undefined {
 // testtttingggg
-export function from(
+export async function from(
   message: ContentMessage,
-  syncType: SyncMessageEnum = SyncMessageEnum.CONTACTS
-): SyncMessageType {
+  sendTo: any,
+  syncType: SyncMessageEnum.CONTACTS | SyncMessageEnum.GROUPS = SyncMessageEnum.CONTACTS
+): Promise<SyncMessageType> {
+  const { timestamp, identifier } = message;
+
   // Detect Sync Message Type
   const plainText = message.plainTextBuffer();
   const decoded = SignalService.Content.decode(plainText);
 
-  console.log('[vince] decoded:', decoded);
-
   let syncMessage: SyncMessage;
-
   switch (syncType) {
     case SyncMessageEnum.CONTACTS:
-      syncMessage = new ContactSyncMessage({});
+      
+      // Send to one device at a time
+
+      const builtSyncMessage = await libloki.api.createContactSyncProtoMessage();
+
+
+
       break;
+    case SyncMessageEnum.GROUPS:
+
+      syncMessage = new GroupSyncMessage({
+
+      });
+      break;
+    default:
   }
 
   return syncMessage;
 }
 
-export function canSync(message: ContentMessage): boolean {
-  return Boolean(from(message));
+export async function canSync(message: ContentMessage, device: any): boolean {
+  return Boolean(from(message, device));
+}
+
+
+export async function getSyncContacts(): Promise<Set<any>> {
+  const thisDevice = textsecure.storage.user.getNumber();
+  const primaryDevice = await Data.getPrimaryDeviceFor(thisDevice);
+  const conversations = await Data.getAllConversations({ ConversationCollection: Whisper.ConversationCollection });
+
+  // We are building a set of all contacts
+  const primaryContacts = conversations.filter(c =>
+    c.isPrivate() &&
+    !c.isOurLocalDevice() &&
+    c.isFriend() &&
+    !c.attributes.secondaryStatus
+  ) || [];
+
+  const secondaryContactsPartial = conversations.filter(c =>
+      c.isPrivate() &&
+      !c.isOurLocalDevice() &&
+      c.isFriend() &&
+      c.attributes.secondaryStatus
+  );
+
+  const seondaryContactsPromise = secondaryContactsPartial.map(async c =>
+    ConversationController.getOrCreateAndWait(
+      c.getPrimaryDevicePubKey(),
+      'private'
+    )
+  );
+
+  const secondaryContacts = (await Promise.all(seondaryContactsPromise))
+    // Filter out our primary key if it was added here
+    .filter(c => c.id !== primaryDevice);
+
+  return new Set([
+    ...primaryContacts,
+    ...secondaryContacts,
+  ]);
 }

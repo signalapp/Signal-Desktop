@@ -8,13 +8,13 @@ import { ChatMessage, DataMessage } from '../data';
 
 
 interface ContactSyncMessageParams extends MessageParams {
-  sendTo: Array<PubKey>;
-  blocked: Array<PubKey>;
+  // Send to our devices
+  linkedDevices: Array<PubKey>;
   dataMessage?: DataMessage;
 }
 
 export class ContactSyncMessage extends SyncMessage {
-  constructor(params: MessageParams) {
+  constructor(params: ContactSyncMessageParams) {
     super(params);
   }
   

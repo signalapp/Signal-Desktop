@@ -106,19 +106,19 @@ export class MessageQueue implements MessageQueueInterface {
 
   public async sendSyncMessage(
     message: ContentMessage
-  ): Promise<Array<PubKey> | undefined> {
+  ): Promise<void> {
     // Sync with our devices
-    const syncMessage = SyncMessageUtils.from(message);
-    if (!SyncMessageUtils.canSync(syncMessage)) {
-      return;
-    }
+    
+    
 
-    const ourDevices = await this.getOurDevices();
+    const ourDevices = await SyncMessageUtils.getSyncContacts();
     ourDevices.forEach(async device => {
-      await this.queue(device, message);
-    });
+      const syncMessage = await SyncMessageUtils.from(message, device);
 
-    return ourDevices;
+      if (syncMessage) {
+        await this.queue(device, syncMessage);
+      }
+    });
   }
 
   public async processPending(device: PubKey) {
@@ -177,10 +177,4 @@ export class MessageQueue implements MessageQueueInterface {
     return queue;
   }
 
-  private async getOurDevices(): Promise<Array<PubKey>> {
-    const ourKey = await textsecure.storage.user.getNumber();
-    const ourLinked = await Data.getPairedDevicesFor(ourKey);
-
-    return ourLinked.map(d => new PubKey(d));
-  }
 }
