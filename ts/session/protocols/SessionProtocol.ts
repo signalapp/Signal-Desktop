@@ -67,7 +67,9 @@ export class SessionProtocol {
     const pendingSend = SessionProtocol.pendingSendSessionsTimestamp.has(
       pubkey.key
     );
-    const hasSent = await SessionProtocol._hasSentSessionRequest(pubkey.key);
+    const hasSent = await SessionProtocol.hasAlreadySentSessionRequest(
+      pubkey.key
+    );
 
     return pendingSend || hasSent;
   }
@@ -303,7 +305,7 @@ export class SessionProtocol {
     );
   }
 
-  private static async _hasSentSessionRequest(
+  private static async hasAlreadySentSessionRequest(
     device: string
   ): Promise<boolean> {
     await SessionProtocol.fetchFromDBIfNeeded();
