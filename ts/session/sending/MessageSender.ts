@@ -40,7 +40,7 @@ export async function send(
   const data = wrapEnvelope(envelope);
 
   // pRetry counts retries after making the first call.
-  // So a retry couunt of 3 means you make a request then if it fails you make another request 3 times until it succeeds.
+  // So a retry count of 3 means you make a request then if it fails you make another request 3 times until it succeeds.
   // This means a total of 4 requests are being sent, where as for us when we want 3 retries we only want 3 requests sent.
   return pRetry(
     async () => lokiMessageAPI.sendMessage(device, data, timestamp, ttl),
