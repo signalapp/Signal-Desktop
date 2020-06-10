@@ -97,16 +97,12 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
     pathNodes = await lokiSnodeAPI.getOnionPath();
   } catch (e) {
     log.error(
-      `loki_app_dot_net:::sendViaOnion #${
-        options.requestNumber
-      } - getOnionPath Error ${e.code} ${e.message}`
+      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - getOnionPath Error ${e.code} ${e.message}`
     );
   }
   if (!pathNodes || !pathNodes.length) {
     log.warn(
-      `loki_app_dot_net:::sendViaOnion #${
-        options.requestNumber
-      } - failing, no path available`
+      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - failing, no path available`
     );
     // should we retry?
     return {};
@@ -139,9 +135,7 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
   // handle error/retries
   if (!result.status) {
     log.error(
-      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - Retry #${
-        options.retry
-      } Couldnt handle onion request, retrying`,
+      `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - Retry #${options.retry} Couldnt handle onion request, retrying`,
       payloadObj
     );
     return sendViaOnion(srvPubKey, url, fetchOptions, {
@@ -175,9 +169,7 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
       body = JSON.parse(result.body);
     } catch (e) {
       log.error(
-        `loki_app_dot_net:::sendViaOnion #${
-          options.requestNumber
-        } - Cant decode JSON body`,
+        `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - Cant decode JSON body`,
         typeof result.body,
         result.body
       );
@@ -187,7 +179,9 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
     // https://chat-dev.lokinet.org/loki/v1/channel/1/deletes?count=200&since_id=
     // difference in response than all the other calls....
     log.info(
-      `loki_app_dot_net:::sendViaOnion - got object response ${url.toString()}`
+      `loki_app_dot_net:::sendViaOnion #${
+        options.requestNumber
+      } - got object response ${url.toString()}`
     );
   }
   // result.status has the http response code
@@ -303,11 +297,7 @@ const sendToProxy = async (srvPubKey, endpoint, fetchOptions, options = {}) => {
       randSnode
     );
     log.warn(
-      `loki_app_dot_net:::sendToProxy - Marking random snode bad, internet address ${
-        randSnode.ip
-      }:${
-        randSnode.port
-      }. ${randomPoolRemainingCount} snodes remaining in randomPool`
+      `loki_app_dot_net:::sendToProxy - Marking random snode bad, internet address ${randSnode.ip}:${randSnode.port}. ${randomPoolRemainingCount} snodes remaining in randomPool`
     );
     // retry (hopefully with new snode)
     // FIXME: max number of retries...
@@ -608,6 +598,14 @@ class LokiAppDotNetServerAPI {
   // set up pubKey & pubKeyHex properties
   // optionally called for mainly file server comms
   getPubKeyForUrl() {
+    if (
+      !window.lokiFeatureFlags.useSnodeProxy &&
+      !window.lokiFeatureFlags.useOnionRequests
+    ) {
+      // pubkeys don't matter
+      return '';
+    }
+
     // Hard coded
     let pubKeyAB;
     if (urlPubkeyMap && urlPubkeyMap[this.baseServerUrl]) {
@@ -1251,9 +1249,7 @@ class LokiPublicChannelAPI {
     // end properties
 
     log.info(
-      `registered LokiPublicChannel ${channelId} on ${
-        this.serverAPI.baseServerUrl
-      }`
+      `registered LokiPublicChannel ${channelId} on ${this.serverAPI.baseServerUrl}`
     );
     // start polling
     this.open();
@@ -1287,15 +1283,11 @@ class LokiPublicChannelAPI {
 
   open() {
     log.info(
-      `LokiPublicChannel open ${this.channelId} on ${
-        this.serverAPI.baseServerUrl
-      }`
+      `LokiPublicChannel open ${this.channelId} on ${this.serverAPI.baseServerUrl}`
     );
     if (this.running) {
       log.warn(
-        `LokiPublicChannel already open ${this.channelId} on ${
-          this.serverAPI.baseServerUrl
-        }`
+        `LokiPublicChannel already open ${this.channelId} on ${this.serverAPI.baseServerUrl}`
       );
     }
     this.running = true;
@@ -1316,15 +1308,11 @@ class LokiPublicChannelAPI {
 
   stop() {
     log.info(
-      `LokiPublicChannel close ${this.channelId} on ${
-        this.serverAPI.baseServerUrl
-      }`
+      `LokiPublicChannel close ${this.channelId} on ${this.serverAPI.baseServerUrl}`
     );
     if (!this.running) {
       log.warn(
-        `LokiPublicChannel already open ${this.channelId} on ${
-          this.serverAPI.baseServerUrl
-        }`
+        `LokiPublicChannel already open ${this.channelId} on ${this.serverAPI.baseServerUrl}`
       );
     }
     this.running = false;
@@ -1508,9 +1496,7 @@ class LokiPublicChannelAPI {
 
   // used for sending messages
   getEndpoint() {
-    const endpoint = `${this.serverAPI.baseServerUrl}/${
-      this.baseChannelUrl
-    }/messages`;
+    const endpoint = `${this.serverAPI.baseServerUrl}/${this.baseChannelUrl}/messages`;
     return endpoint;
   }
 
@@ -1668,9 +1654,7 @@ class LokiPublicChannelAPI {
           log.error(`pollOnceForDeletions Error ${res.err}`);
         } else {
           log.error(
-            `pollOnceForDeletions Error: Received incorrect response ${
-              res.response
-            }`
+            `pollOnceForDeletions Error: Received incorrect response ${res.response}`
           );
         }
         break;

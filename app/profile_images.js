@@ -19,8 +19,7 @@ const removeImage = pubKey => {
 };
 
 const removeImagesNotInArray = pubKeyArray => {
-  fs
-    .readdirSync(PATH)
+  fs.readdirSync(PATH)
     // Get all files that end with png
     .filter(file => file.includes('.png'))
     // Strip the extension

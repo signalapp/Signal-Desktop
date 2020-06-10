@@ -1,3 +1,4 @@
+// TODO: Delete this and depend on window.ts instead
 interface Window {
   CONSTANTS: any;
   versionInfo: any;
@@ -62,4 +63,11 @@ interface Window {
 
 interface Promise<T> {
   ignore(): void;
+}
+
+// Types also correspond to messages.json keys
+enum LnsLookupErrorType {
+  lnsTooFewNodes,
+  lnsLookupTimeout,
+  lnsMappingNotFound,
 }

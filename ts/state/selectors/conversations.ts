@@ -129,7 +129,15 @@ export const _getLeftPaneLists = (
     }
 
     if (conversation.hasReceivedFriendRequest) {
-      allReceivedFriendsRequest.push(conversation);
+      // Friend requests should always appear as coming from primary
+      const primaryConversation =
+        conversations.find(c => c.id === conversation.primaryDevice) ||
+        conversation;
+      primaryConversation.hasReceivedFriendRequest =
+        conversation.hasReceivedFriendRequest;
+      primaryConversation.isPendingFriendRequest =
+        conversation.isPendingFriendRequest;
+      allReceivedFriendsRequest.push(primaryConversation);
     } else if (
       unreadCount < 9 &&
       conversation.isFriend &&
@@ -139,7 +147,9 @@ export const _getLeftPaneLists = (
     }
     if (conversation.hasSentFriendRequest) {
       if (!conversation.isFriend) {
-        allSentFriendsRequest.push(conversation);
+        if (!conversation.isSecondary) {
+          allSentFriendsRequest.push(conversation);
+        }
       }
     }
 
@@ -160,33 +170,34 @@ export const _getLeftPaneLists = (
     group: Array<ConversationType | ConversationListItemPropsType>
   ): T => {
     const secondariesToRemove: Array<string> = [];
+
     group.forEach(device => {
       if (!device.isSecondary) {
         return;
       }
 
       const devicePrimary = group.find(c => c.id === device.primaryDevice);
+
       // Remove secondary where primary already exists in group
       if (group.some(c => c === devicePrimary)) {
         secondariesToRemove.push(device.id);
       }
     });
 
-    // tslint:disable-next-line: no-unnecessary-local-variable
-    const filteredGroup = group.filter(
-      c => !secondariesToRemove.find(s => s === c.id)
-    );
+    const filteredGroup = [
+      ...new Set(group.filter(c => !secondariesToRemove.find(s => s === c.id))),
+    ];
 
     return filteredGroup as T;
   };
 
   const friends: Array<ConversationType> = filterToPrimary(allFriends);
-  const receivedFriendsRequest: Array<
-    ConversationListItemPropsType
-  > = filterToPrimary(allReceivedFriendsRequest);
-  const sentFriendsRequest: Array<
-    ConversationListItemPropsType
-  > = filterToPrimary(allSentFriendsRequest);
+  const receivedFriendsRequest: Array<ConversationListItemPropsType> = filterToPrimary(
+    allReceivedFriendsRequest
+  );
+  const sentFriendsRequest: Array<ConversationListItemPropsType> = filterToPrimary(
+    allSentFriendsRequest
+  );
 
   return {
     conversations,

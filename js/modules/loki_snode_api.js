@@ -17,6 +17,7 @@ const snodeHttpsAgent = new https.Agent({
 const RANDOM_SNODES_TO_USE_FOR_PUBKEY_SWARM = 3;
 const SEED_NODE_RETRIES = 3;
 const SNODE_VERSION_RETRIES = 3;
+const MIN_GUARD_COUNT = 2;
 
 const compareSnodes = (current, search) =>
   current.pubkey_ed25519 === search.pubkey_ed25519;
@@ -27,7 +28,7 @@ async function tryGetSnodeListFromLokidSeednode(
 ) {
   if (!seedNodes.length) {
     log.info(
-      'LokiSnodeAPI::tryGetSnodeListFromLokidSeednode - seedNodes are empty'
+      'loki_snode_api::tryGetSnodeListFromLokidSeednode - seedNodes are empty'
     );
     return [];
   }
@@ -47,7 +48,7 @@ async function tryGetSnodeListFromLokidSeednode(
   const seedNode = seedNodes[Math.floor(Math.random() * seedNodes.length)];
   if (!seedNode) {
     log.warn(
-      'LokiSnodeAPI::tryGetSnodeListFromLokidSeednode - Could not select random snodes from',
+      'loki_snode_api::tryGetSnodeListFromLokidSeednode - Could not select random snodes from',
       seedNodes
     );
     return [];
@@ -65,7 +66,7 @@ async function tryGetSnodeListFromLokidSeednode(
       );
       if (!response) {
         log.error(
-          `loki_snodes:::tryGetSnodeListFromLokidSeednode - invalid response from seed ${urlObj.toString()}:`,
+          `loki_snode_api:::tryGetSnodeListFromLokidSeednode - invalid response from seed ${urlObj.toString()}:`,
           response
         );
         return [];
@@ -74,7 +75,7 @@ async function tryGetSnodeListFromLokidSeednode(
       // should we try to JSON.parse this?
       if (typeof response === 'string') {
         log.error(
-          `loki_snodes:::tryGetSnodeListFromLokidSeednode - invalid string response from seed ${urlObj.toString()}:`,
+          `loki_snode_api:::tryGetSnodeListFromLokidSeednode - invalid string response from seed ${urlObj.toString()}:`,
           response
         );
         return [];
@@ -82,7 +83,7 @@ async function tryGetSnodeListFromLokidSeednode(
 
       if (!response.result) {
         log.error(
-          `loki_snodes:::tryGetSnodeListFromLokidSeednode - invalid result from seed ${urlObj.toString()}:`,
+          `loki_snode_api:::tryGetSnodeListFromLokidSeednode - invalid result from seed ${urlObj.toString()}:`,
           response
         );
         return [];
@@ -97,9 +98,7 @@ async function tryGetSnodeListFromLokidSeednode(
     // throw before clearing the lock, so the retries can kick in
     if (snodes.length === 0) {
       log.warn(
-        `LokiSnodeAPI::tryGetSnodeListFromLokidSeednode - ${
-          seedNode.url
-        } did not return any snodes, falling back to IP`,
+        `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.url} did not return any snodes, falling back to IP`,
         seedNode.ip_url
       );
       // fall back on ip_url
@@ -107,9 +106,7 @@ async function tryGetSnodeListFromLokidSeednode(
       snodes = await getSnodesFromSeedUrl(tryIpUrl);
       if (snodes.length === 0) {
         log.warn(
-          `LokiSnodeAPI::tryGetSnodeListFromLokidSeednode - ${
-            seedNode.ip_url
-          } did not return any snodes`
+          `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.ip_url} did not return any snodes`
         );
         // does this error message need to be exactly this?
         throw new window.textsecure.SeedNodeError(
@@ -117,11 +114,11 @@ async function tryGetSnodeListFromLokidSeednode(
         );
       }
     }
-    log.info(
-      `LokiSnodeAPI::tryGetSnodeListFromLokidSeednode - ${
-        seedNode.url
-      } returned ${snodes.length} snodes`
-    );
+    if (snodes.length) {
+      log.info(
+        `loki_snode_api::tryGetSnodeListFromLokidSeednode - ${seedNode.url} returned ${snodes.length} snodes`
+      );
+    }
     return snodes;
   } catch (e) {
     log.warn(
@@ -144,7 +141,7 @@ async function getSnodeListFromLokidSeednode(
 ) {
   if (!seedNodes.length) {
     log.info(
-      'LokiSnodeAPI::getSnodeListFromLokidSeednode - seedNodes are empty'
+      'loki_snode_api::getSnodeListFromLokidSeednode - seedNodes are empty'
     );
     return [];
   }
@@ -153,7 +150,7 @@ async function getSnodeListFromLokidSeednode(
     snodes = await tryGetSnodeListFromLokidSeednode(seedNodes);
   } catch (e) {
     log.warn(
-      'LokiSnodeAPI::getSnodeListFromLokidSeednode - error',
+      'loki_snode_api::getSnodeListFromLokidSeednode - error',
       e.code,
       e.message
     );
@@ -161,7 +158,7 @@ async function getSnodeListFromLokidSeednode(
     if (retries < SEED_NODE_RETRIES) {
       setTimeout(() => {
         log.info(
-          'LokiSnodeAPI::getSnodeListFromLokidSeednode - Retrying initialising random snode pool, try #',
+          'loki_snode_api::getSnodeListFromLokidSeednode - Retrying initialising random snode pool, try #',
           retries,
           'seed nodes total',
           seedNodes.length
@@ -169,7 +166,7 @@ async function getSnodeListFromLokidSeednode(
         getSnodeListFromLokidSeednode(seedNodes, retries + 1);
       }, retries * retries * 5000);
     } else {
-      log.error('LokiSnodeAPI::getSnodeListFromLokidSeednode - failing');
+      log.error('loki_snode_api::getSnodeListFromLokidSeednode - failing');
       throw new window.textsecure.SeedNodeError('Failed to contact seed node');
     }
   }
@@ -279,20 +276,17 @@ class LokiSnodeAPI {
     let guardNodes = [];
 
     const DESIRED_GUARD_COUNT = 3;
+
     if (shuffled.length < DESIRED_GUARD_COUNT) {
       log.error(
-        `Could not select guard nodes: node pool is not big enough, pool size ${
-          shuffled.length
-        }, need ${DESIRED_GUARD_COUNT}, attempting to refresh randomPool`
+        `Could not select guard nodes: node pool is not big enough, pool size ${shuffled.length}, need ${DESIRED_GUARD_COUNT}, attempting to refresh randomPool`
       );
       await this.refreshRandomPool();
       nodePool = await this.getRandomSnodePool();
       shuffled = _.shuffle(nodePool);
       if (shuffled.length < DESIRED_GUARD_COUNT) {
         log.error(
-          `Could not select guard nodes: node pool is not big enough, pool size ${
-            shuffled.length
-          }, need ${DESIRED_GUARD_COUNT}, failing...`
+          `Could not select guard nodes: node pool is not big enough, pool size ${shuffled.length}, need ${DESIRED_GUARD_COUNT}, failing...`
         );
         return [];
       }
@@ -342,11 +336,9 @@ class LokiSnodeAPI {
     let goodPaths = this.onionPaths.filter(x => !x.bad);
 
     let attemptNumber = 0;
-    while (goodPaths.length < 2) {
+    while (goodPaths.length < MIN_GUARD_COUNT) {
       log.error(
-        `Must have at least 2 good onion paths, actual: ${
-          goodPaths.length
-        }, attempt #${attemptNumber} fetching more...`
+        `Must have at least 2 good onion paths, actual: ${goodPaths.length}, attempt #${attemptNumber} fetching more...`
       );
       // eslint-disable-next-line no-await-in-loop
       await this.buildNewOnionPaths();
@@ -382,7 +374,7 @@ class LokiSnodeAPI {
       // await this.buildNewOnionPaths();
       // and restart call?
       log.error(
-        `loki_snode_api::getOnionPath - no paths without`,
+        `LokiSnodeAPI::getOnionPath - no paths without`,
         toExclude.pubkey_ed25519,
         'path count',
         paths.length,
@@ -451,7 +443,8 @@ class LokiSnodeAPI {
         }
 
         // If guard nodes is still empty (the old nodes are now invalid), select new ones:
-        if (this.guardNodes.length === 0) {
+        if (this.guardNodes.length < MIN_GUARD_COUNT) {
+          // TODO: don't throw away potentially good guard nodes
           this.guardNodes = await this.selectGuardNodes();
         }
       }
@@ -534,9 +527,7 @@ class LokiSnodeAPI {
         await this.refreshRandomPool();
       } catch (e) {
         log.error(
-          `LokiSnodeAPI::getRandomProxySnodeAddress - error ${e.code} ${
-            e.message
-          }`
+          `LokiSnodeAPI::getRandomProxySnodeAddress - error ${e.code} ${e.message}`
         );
         throw e;
       }
@@ -580,9 +571,7 @@ class LokiSnodeAPI {
         } else {
           // maybe already marked bad...
           log.debug(
-            `LokiSnodeAPI::_getVersion - can't find ${node.ip}:${
-              node.port
-            } in randomSnodePool`
+            `LokiSnodeAPI::_getVersion - can't find ${node.ip}:${node.port} in randomSnodePool`
           );
         }
       }
@@ -597,9 +586,7 @@ class LokiSnodeAPI {
         const randomNodesLeft = this.getRandomPoolLength();
         // clean up these error messages to be a little neater
         log.warn(
-          `LokiSnodeAPI::_getVersion - ${node.ip}:${
-            node.port
-          } is offline, removing, leaving ${randomNodesLeft} in the randomPool`
+          `LokiSnodeAPI::_getVersion - ${node.ip}:${node.port} is offline, removing, leaving ${randomNodesLeft} in the randomPool`
         );
         // if not ECONNREFUSED, it's mostly ECONNRESETs
         // ENOTFOUND could mean no internet or hiccup
@@ -616,9 +603,7 @@ class LokiSnodeAPI {
         this.markRandomNodeUnreachable(node);
         const randomNodesLeft = this.getRandomPoolLength();
         log.warn(
-          `LokiSnodeAPI::_getVersion - failing to get version for ${node.ip}:${
-            node.port
-          }, removing, leaving ${randomNodesLeft} in the randomPool`
+          `LokiSnodeAPI::_getVersion - failing to get version for ${node.ip}:${node.port}, removing, leaving ${randomNodesLeft} in the randomPool`
         );
       }
       // maybe throw?
@@ -644,12 +629,12 @@ class LokiSnodeAPI {
             // give stats
             const diff = Date.now() - verionStart;
             log.debug(
-              `loki_snode:::_getAllVerionsForRandomSnodePool - ${count}/${total} pool version status update, has taken ${diff.toLocaleString()}ms`
+              `LokiSnodeAPI:::_getAllVerionsForRandomSnodePool - ${count}/${total} pool version status update, has taken ${diff.toLocaleString()}ms`
             );
             Object.keys(this.versionPools).forEach(version => {
               const nodes = this.versionPools[version].length;
               log.debug(
-                `loki_snode:::_getAllVerionsForRandomSnodePool - version ${version} has ${nodes.toLocaleString()} snodes`
+                `LokiSnodeAPI:::_getAllVerionsForRandomSnodePool - version ${version} has ${nodes.toLocaleString()} snodes`
               );
             });
           }
@@ -676,9 +661,7 @@ class LokiSnodeAPI {
       return curVal;
     }, []);
     log.debug(
-      `LokiSnodeAPI::_getAllVerionsForRandomSnodePool - ${
-        versions.length
-      } versions retrieved from network!:`,
+      `LokiSnodeAPI::_getAllVerionsForRandomSnodePool - ${versions.length} versions retrieved from network!:`,
       versions.join(',')
     );
   }
@@ -687,7 +670,7 @@ class LokiSnodeAPI {
     if (!seedNodes.length) {
       if (!window.seedNodeList || !window.seedNodeList.length) {
         log.error(
-          `loki_snodes:::refreshRandomPool - seedNodeList has not been loaded yet`
+          `LokiSnodeAPI:::refreshRandomPool - seedNodeList has not been loaded yet`
         );
         return [];
       }
@@ -724,7 +707,7 @@ class LokiSnodeAPI {
         log.warn('LokiSnodeAPI::refreshRandomPool - error', e.code, e.message);
         /*
         log.error(
-          'loki_snodes:::refreshRandomPoolPromise -  Giving up trying to contact seed node'
+          'LokiSnodeAPI:::refreshRandomPoolPromise -  Giving up trying to contact seed node'
         );
         */
         if (snodes.length === 0) {
@@ -760,9 +743,7 @@ class LokiSnodeAPI {
     });
     if (!found) {
       log.warn(
-        `LokiSnodeAPI::unreachableNode - snode ${unreachableNode.ip}:${
-          unreachableNode.port
-        } has already been marked as bad`
+        `LokiSnodeAPI::unreachableNode - snode ${unreachableNode.ip}:${unreachableNode.port} has already been marked as bad`
       );
     }
     try {
@@ -806,9 +787,7 @@ class LokiSnodeAPI {
               node.address
             );
             log.debug(
-              `LokiSnodeAPI::getSwarmNodesForPubKey - ${j} ${node.ip}:${
-                node.port
-              }`
+              `LokiSnodeAPI::getSwarmNodesForPubKey - ${j} ${node.ip}:${node.port}`
             );
             swarmNodes[j] = {
               ...node,
@@ -898,73 +877,122 @@ class LokiSnodeAPI {
     }
   }
 
-  async getLnsMapping(lnsName) {
+  async getLnsMapping(lnsName, timeout) {
+    // Returns { pubkey, error }
+    // pubkey is
+    //      undefined when unconfirmed or no mapping found
+    //      string    when found
+    // timeout parameter optional (ms)
+
+    // How many nodes to fetch data from?
+    const numRequests = 5;
+
+    // How many nodes must have the same response value?
+    const numRequiredConfirms = 3;
+
+    let ciphertextHex;
+    let pubkey;
+    let error;
+
     const _ = window.Lodash;
 
     const input = Buffer.from(lnsName);
-
     const output = await window.blake2b(input);
-
     const nameHash = dcodeIO.ByteBuffer.wrap(output).toString('base64');
 
+    // Timeouts
+    const maxTimeoutVal = 2 ** 31 - 1;
+    const timeoutPromise = () =>
+      new Promise((_resolve, reject) =>
+        setTimeout(() => reject(), timeout || maxTimeoutVal)
+      );
+
     // Get nodes capable of doing LNS
-    const lnsNodes = this.getNodesMinVersion('2.0.3');
-    // randomPool should already be shuffled
-    // lnsNodes = _.shuffle(lnsNodes);
-
-    // Loop until 3 confirmations
-
-    // We don't trust any single node, so we accumulate
-    // answers here and select a dominating answer
-    const allResults = [];
-    let ciphertextHex = null;
-
-    while (!ciphertextHex) {
-      if (lnsNodes.length < 3) {
-        log.error('Not enough nodes for lns lookup');
-        return false;
-      }
-
-      // extract 3 and make requests in parallel
-      const nodes = lnsNodes.splice(0, 3);
-
-      // eslint-disable-next-line no-await-in-loop
-      const results = await Promise.all(
-        nodes.map(node => this._requestLnsMapping(node, nameHash))
-      );
-
-      results.forEach(res => {
-        if (
-          res &&
-          res.result &&
-          res.result.status === 'OK' &&
-          res.result.entries &&
-          res.result.entries.length > 0
-        ) {
-          allResults.push(results[0].result.entries[0].encrypted_value);
-        }
-      });
-
-      const [winner, count] = _.maxBy(
-        _.entries(_.countBy(allResults)),
-        x => x[1]
-      );
-
-      if (count >= 3) {
-        // eslint-disable-next-lint prefer-destructuring
-        ciphertextHex = winner;
-      }
-    }
-
-    const ciphertext = new Uint8Array(
-      StringView.hexToArrayBuffer(ciphertextHex)
+    const lnsNodes = await this.getNodesMinVersion(
+      window.CONSTANTS.LNS_CAPABLE_NODES_VERSION
     );
 
-    const res = await window.decryptLnsEntry(lnsName, ciphertext);
+    // Enough nodes?
+    if (lnsNodes.length < numRequiredConfirms) {
+      error = { lnsTooFewNodes: window.i18n('lnsTooFewNodes') };
+      return { pubkey, error };
+    }
 
-    const pubkey = StringView.arrayBufferToHex(res);
+    const confirmedNodes = [];
 
-    return pubkey;
+    // Promise is only resolved when a consensus is found
+    let cipherResolve;
+    const cipherPromise = () =>
+      new Promise(resolve => {
+        cipherResolve = resolve;
+      });
+
+    const decryptHex = async cipherHex => {
+      const ciphertext = new Uint8Array(StringView.hexToArrayBuffer(cipherHex));
+
+      const res = await window.decryptLnsEntry(lnsName, ciphertext);
+      const publicKey = StringView.arrayBufferToHex(res);
+
+      return publicKey;
+    };
+
+    const fetchFromNode = async node => {
+      const res = await this._requestLnsMapping(node, nameHash);
+
+      // Do validation
+      if (res && res.result && res.result.status === 'OK') {
+        const hasMapping = res.result.entries && res.result.entries.length > 0;
+
+        const resValue = hasMapping
+          ? res.result.entries[0].encrypted_value
+          : null;
+
+        confirmedNodes.push(resValue);
+
+        if (confirmedNodes.length >= numRequiredConfirms) {
+          if (ciphertextHex) {
+            // Result already found, dont worry
+            return;
+          }
+
+          const [winner, count] = _.maxBy(
+            _.entries(_.countBy(confirmedNodes)),
+            x => x[1]
+          );
+
+          if (count >= numRequiredConfirms) {
+            ciphertextHex = winner === String(null) ? null : winner;
+
+            // null represents no LNS mapping
+            if (ciphertextHex === null) {
+              error = { lnsMappingNotFound: window.i18n('lnsMappingNotFound') };
+            }
+
+            cipherResolve({ ciphertextHex });
+          }
+        }
+      }
+    };
+
+    const nodes = lnsNodes.splice(0, numRequests);
+
+    // Start fetching from nodes
+    nodes.forEach(node => fetchFromNode(node));
+
+    // Timeouts (optional parameter)
+    // Wait for cipher to be found; race against timeout
+    // eslint-disable-next-line more/no-then
+    await Promise.race([cipherPromise, timeoutPromise].map(f => f()))
+      .then(async () => {
+        if (ciphertextHex !== null) {
+          pubkey = await decryptHex(ciphertextHex);
+        }
+      })
+      .catch(() => {
+        error = { lnsLookupTimeout: window.i18n('lnsLookupTimeout') };
+      });
+
+    return { pubkey, error };
   }
 
   // get snodes for pubkey from random snode
@@ -985,9 +1013,7 @@ class LokiSnodeAPI {
       );
       if (!result) {
         log.warn(
-          `LokiSnodeAPI::_getSnodesForPubkey - lokiRpc on ${snode.ip}:${
-            snode.port
-          } returned falsish value`,
+          `LokiSnodeAPI::_getSnodesForPubkey - lokiRpc on ${snode.ip}:${snode.port} returned falsish value`,
           result
         );
         return [];
@@ -995,9 +1021,7 @@ class LokiSnodeAPI {
       if (!result.snodes) {
         // we hit this when snode gives 500s
         log.warn(
-          `LokiSnodeAPI::_getSnodesForPubkey - lokiRpc on ${snode.ip}:${
-            snode.port
-          } returned falsish value for snodes`,
+          `LokiSnodeAPI::_getSnodesForPubkey - lokiRpc on ${snode.ip}:${snode.port} returned falsish value for snodes`,
           result
         );
         return [];
@@ -1011,9 +1035,7 @@ class LokiSnodeAPI {
         'LokiSnodeAPI::_getSnodesForPubkey - error',
         e.code,
         e.message,
-        `for ${snode.ip}:${
-          snode.port
-        }. ${randomPoolRemainingCount} snodes remaining in randomPool`
+        `for ${snode.ip}:${snode.port}. ${randomPoolRemainingCount} snodes remaining in randomPool`
       );
       return [];
     }

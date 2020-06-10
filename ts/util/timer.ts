@@ -17,7 +17,7 @@ export function getTimerBucket(expiration: number, length: number): string {
     return '60';
   }
 
-  const bucket = Math.round(delta / length * 12);
+  const bucket = Math.round((delta / length) * 12);
 
   return padStart(String(bucket * 5), 2, '0');
 }

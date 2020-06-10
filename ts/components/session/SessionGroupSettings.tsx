@@ -222,8 +222,8 @@ export class SessionGroupSettings extends React.Component<Props, any> {
     const leaveGroupString = isPublic
       ? window.i18n('leaveOpenGroup')
       : isKickedFromGroup
-        ? window.i18n('youAreKickedFromThisGroup')
-        : window.i18n('leaveClosedGroup');
+      ? window.i18n('youAreKickedFromThisGroup')
+      : window.i18n('leaveClosedGroup');
 
     const disappearingMessagesOptions = timerOptions.map(option => {
       return {

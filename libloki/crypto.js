@@ -149,10 +149,13 @@
         myPrivateKey
       );
       const ivAndCiphertext = await DHEncrypt(symmetricKey, plaintext);
+      const binaryIvAndCiphertext = dcodeIO.ByteBuffer.wrap(
+        ivAndCiphertext
+      ).toString('binary');
       return {
         type: textsecure.protobuf.Envelope.Type.FRIEND_REQUEST,
-        body: ivAndCiphertext,
-        registrationId: null,
+        body: binaryIvAndCiphertext,
+        registrationId: undefined,
       };
     }
 
@@ -170,9 +173,7 @@
         return await DHDecrypt(symmetricKey, ivAndCiphertext);
       } catch (e) {
         throw new FallBackDecryptionError(
-          `Could not decrypt message from ${
-            this.identityKeyString
-          } using FallBack encryption.`
+          `Could not decrypt message from ${this.identityKeyString} using FallBack encryption.`
         );
       }
     }
