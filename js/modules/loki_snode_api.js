@@ -416,87 +416,87 @@ class LokiSnodeAPI {
     });
   }
 
-  // FIXME: need a lock because it is being called multiple times in parallel
   async buildNewOnionPaths() {
-    // Note: this function may be called concurrently, so
-    // might consider blocking the other calls
+    // Note: this function may be called concurrently
 
-    const _ = window.Lodash;
+    return primitives.allowOnlyOneAtATime('buildNewOnionPaths', async () => {
+      const _ = window.Lodash;
 
-    log.info('LokiSnodeAPI::buildNewOnionPaths - building new onion paths');
+      log.info('LokiSnodeAPI::buildNewOnionPaths - building new onion paths');
 
-    const allNodes = await this.getRandomSnodePool();
+      const allNodes = await this.getRandomSnodePool();
 
-    if (this.guardNodes.length === 0) {
-      // Not cached, load from DB
-      const nodes = await window.libloki.storage.getGuardNodes();
+      if (this.guardNodes.length === 0) {
+        // Not cached, load from DB
+        const nodes = await window.libloki.storage.getGuardNodes();
 
-      if (nodes.length === 0) {
-        log.warn(
-          'LokiSnodeAPI::buildNewOnionPaths - no guard nodes in DB. Will be selecting new guards nodes...'
-        );
-      } else {
-        // We only store the nodes' keys, need to find full entries:
-        const edKeys = nodes.map(x => x.ed25519PubKey);
-        this.guardNodes = allNodes.filter(
-          x => edKeys.indexOf(x.pubkey_ed25519) !== -1
-        );
-
-        if (this.guardNodes.length < edKeys.length) {
+        if (nodes.length === 0) {
           log.warn(
-            `LokiSnodeAPI::buildNewOnionPaths - could not find some guard nodes: ${
-              this.guardNodes.length
-            }/${edKeys.length} left`
+            'LokiSnodeAPI::buildNewOnionPaths - no guard nodes in DB. Will be selecting new guards nodes...'
           );
+        } else {
+          // We only store the nodes' keys, need to find full entries:
+          const edKeys = nodes.map(x => x.ed25519PubKey);
+          this.guardNodes = allNodes.filter(
+            x => edKeys.indexOf(x.pubkey_ed25519) !== -1
+          );
+
+          if (this.guardNodes.length < edKeys.length) {
+            log.warn(
+              `LokiSnodeAPI::buildNewOnionPaths - could not find some guard nodes: ${
+                this.guardNodes.length
+              }/${edKeys.length} left`
+            );
+          }
+        }
+
+        // If guard nodes is still empty (the old nodes are now invalid), select new ones:
+        if (this.guardNodes.length === 0) {
+          this.guardNodes = await this.selectGuardNodes();
         }
       }
 
-      // If guard nodes is still empty (the old nodes are now invalid), select new ones:
-      if (this.guardNodes.length === 0) {
-        this.guardNodes = await this.selectGuardNodes();
+      // TODO: select one guard node and 2 other nodes randomly
+      let otherNodes = _.difference(allNodes, this.guardNodes);
+
+      if (otherNodes.length < 2) {
+        log.warn(
+          'LokiSnodeAPI::buildNewOnionPaths - Too few nodes to build an onion path! Refreshing pool and retrying'
+        );
+        await this.refreshRandomPool();
+        await this.buildNewOnionPaths();
+        return;
       }
-    }
 
-    // TODO: select one guard node and 2 other nodes randomly
-    let otherNodes = _.difference(allNodes, this.guardNodes);
+      otherNodes = _.shuffle(otherNodes);
+      const guards = _.shuffle(this.guardNodes);
 
-    if (otherNodes.length < 2) {
-      log.warn(
-        'LokiSnodeAPI::buildNewOnionPaths - Too few nodes to build an onion path! Refreshing pool and retrying'
+      // Create path for every guard node:
+      const nodesNeededPerPaths = window.lokiFeatureFlags.onionRequestHops - 1;
+
+      // Each path needs X (nodesNeededPerPaths) nodes in addition to the guard node:
+      const maxPath = Math.floor(
+        Math.min(
+          guards.length,
+          nodesNeededPerPaths
+            ? otherNodes.length / nodesNeededPerPaths
+            : otherNodes.length
+        )
       );
-      await this.refreshRandomPool();
-      await this.buildNewOnionPaths();
-      return;
-    }
 
-    otherNodes = _.shuffle(otherNodes);
-    const guards = _.shuffle(this.guardNodes);
+      // TODO: might want to keep some of the existing paths
+      this.onionPaths = [];
 
-    // Create path for every guard node:
-    const nodesNeededPerPaths = window.lokiFeatureFlags.onionRequestHops - 1;
-
-    // Each path needs X (nodesNeededPerPaths) nodes in addition to the guard node:
-    const maxPath = Math.floor(
-      Math.min(
-        guards.length,
-        nodesNeededPerPaths
-          ? otherNodes.length / nodesNeededPerPaths
-          : otherNodes.length
-      )
-    );
-
-    // TODO: might want to keep some of the existing paths
-    this.onionPaths = [];
-
-    for (let i = 0; i < maxPath; i += 1) {
-      const path = [guards[i]];
-      for (let j = 0; j < nodesNeededPerPaths; j += 1) {
-        path.push(otherNodes[i * nodesNeededPerPaths + j]);
+      for (let i = 0; i < maxPath; i += 1) {
+        const path = [guards[i]];
+        for (let j = 0; j < nodesNeededPerPaths; j += 1) {
+          path.push(otherNodes[i * nodesNeededPerPaths + j]);
+        }
+        this.onionPaths.push({ path, bad: false });
       }
-      this.onionPaths.push({ path, bad: false });
-    }
 
-    log.info(`Built ${this.onionPaths.length} onion paths`, this.onionPaths);
+      log.info(`Built ${this.onionPaths.length} onion paths`, this.onionPaths);
+    });
   }
 
   async getRandomSnodeAddress() {
