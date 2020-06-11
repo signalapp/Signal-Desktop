@@ -1567,7 +1567,6 @@ MessageReceiver.prototype.extend({
           envelope.source,
           deviceId
         );
-        // Instead of deleting the sessions now,
         // we process the new prekeys and initiate a new session.
         // The old sessions will get deleted once the correspondant
         // has switch to the new session.
@@ -1954,10 +1953,14 @@ MessageReceiver.prototype.extend({
     let conversation;
     try {
       conversation = window.ConversationController.get(number);
+      if(conversation) {
+        await conversation.onSessionResetReceived();
+      } else {
+        throw new Error();
+      }
     } catch (e) {
       window.log.error('Error getting conversation: ', number);
     }
-    await conversation.onSessionResetReceived();
   },
   processDecrypted(envelope, decrypted) {
     /* eslint-disable no-bitwise, no-param-reassign */
