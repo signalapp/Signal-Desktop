@@ -304,7 +304,7 @@
 .module-message__container {
   position: relative;
   display: inline-block;
-  border-radius: 16px;
+  border-radius: 6px;
   padding-right: 12px;
   padding-left: 12px;
   padding-top: 10px;
@@ -371,6 +371,9 @@
 }
 
 .module-message__container--outgoing {
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+
   @include light-theme {
     background-color: $color-gray-05;
   }
@@ -387,8 +390,12 @@
   }
 }
 
-// In case the color gets messed up
 .module-message__container--incoming {
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+
+  // In case the color gets messed up
+
   background-color: $color-conversation-grey;
 
   @include ios-theme {
@@ -399,6 +406,22 @@
     background-color: $color-gray-75;
     color: $color-gray-05;
   }
+}
+
+.module-message__container--outgoing.module-message__container--first-in-chain {
+  border-top-right-radius: 16px;
+}
+
+.module-message__container--outgoing.module-message__container--last-in-chain {
+  border-bottom-right-radius: 16px;
+}
+
+.module-message__container--incoming.module-message__container--first-in-chain {
+  border-top-left-radius: 16px;
+}
+
+.module-message__container--incoming.module-message__container--last-in-chain {
+  border-bottom-left-radius: 16px;
 }
 
 @each $color, $value in $conversation-colors {

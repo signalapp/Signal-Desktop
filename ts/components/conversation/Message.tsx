@@ -1307,6 +1307,18 @@ export class Message extends React.PureComponent<Props, State> {
     return;
   }
 
+  public isFirstInChain() {
+    const { context } = this.props;
+
+    return !context || !context.before;
+  }
+
+  public isLastInChain() {
+    const { context } = this.props;
+
+    return !context || !context.after;
+  }
+
   public isShowingImage() {
     const { isTapToView, attachments, previews } = this.props;
     const { imageBroken } = this.state;
@@ -1903,6 +1915,9 @@ export class Message extends React.PureComponent<Props, State> {
     } = this.props;
     const { isSelected } = this.state;
 
+    const isFirstInChain = this.isFirstInChain();
+    const isLastInChain = this.isLastInChain();
+
     const isAttachmentPending = this.isAttachmentPending();
 
     const width = this.getWidth();
@@ -1913,6 +1928,8 @@ export class Message extends React.PureComponent<Props, State> {
       isSelected && !isSticker ? 'module-message__container--selected' : null,
       isSticker ? 'module-message__container--with-sticker' : null,
       !isSticker ? `module-message__container--${direction}` : null,
+      isFirstInChain ? 'module-message__container--first-in-chain' : null,
+      isLastInChain ? 'module-message__container--last-in-chain' : null,
       isTapToView ? 'module-message__container--with-tap-to-view' : null,
       isTapToView && isTapToViewExpired
         ? 'module-message__container--with-tap-to-view-expired'
@@ -1975,6 +1992,9 @@ export class Message extends React.PureComponent<Props, State> {
     } = this.props;
     const { expired, expiring, imageBroken, isSelected } = this.state;
 
+    const isFirstInChain = this.isFirstInChain();
+    const isLastInChain = this.isLastInChain();
+
     // This id is what connects our triple-dot click with our associated pop-up menu.
     //   It needs to be unique.
     const triggerId = String(id || `${authorPhoneNumber}-${timestamp}`);
@@ -1994,7 +2014,9 @@ export class Message extends React.PureComponent<Props, State> {
           `module-message--${direction}`,
           isSelected ? 'module-message--selected' : null,
           expiring ? 'module-message--expired' : null,
-          conversationType === 'group' ? 'module-message--group' : null
+          conversationType === 'group' ? 'module-message--group' : null,
+          isFirstInChain ? 'module-message--first-in-chain' : null,
+          isLastInChain ? 'module-message--last-in-chain' : null
         )}
         tabIndex={0}
         // We pretend to be a button because we sometimes contain buttons and a button
