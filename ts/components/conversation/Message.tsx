@@ -20,6 +20,7 @@ import {
   ReactionViewer,
 } from './ReactionViewer';
 import { Props as ReactionPickerProps, ReactionPicker } from './ReactionPicker';
+import { TimelineItemType } from './TimelineItem';
 import { Emoji } from '../emoji/Emoji';
 
 import {
@@ -63,6 +64,10 @@ interface LinkPreviewType {
 export type PropsData = {
   id: string;
   conversationId: string;
+  context: {
+    before?: TimelineItemType;
+    after?: TimelineItemType;
+  };
   text?: string;
   textPending?: boolean;
   isSticker?: boolean;

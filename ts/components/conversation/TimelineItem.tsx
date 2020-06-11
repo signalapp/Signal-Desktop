@@ -79,6 +79,10 @@ type PropsLocalType = {
   conversationId: string;
   item?: TimelineItemType;
   id: string;
+  context: {
+    before?: TimelineItemType;
+    after?: TimelineItemType;
+  };
   isSelected: boolean;
   selectMessage: (messageId: string, conversationId: string) => unknown;
   i18n: LocalizerType;
