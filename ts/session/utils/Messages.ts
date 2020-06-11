@@ -1,14 +1,15 @@
 import { RawMessage } from '../types/RawMessage';
-import { ContentMessage, SyncMessage } from '../messages/outgoing';
+import { ContentMessage, SyncMessage, OpenGroupMessage } from '../messages/outgoing';
 import { EncryptionType, PubKey } from '../types';
 import { OpenGroup } from '../types/OpenGroup';
 
 export function toRawMessage(
   device: PubKey | OpenGroup,
-  message: ContentMessage
+  message: ContentMessage | OpenGroupMessage
 ): RawMessage {
-  const ttl = message.ttl();
   const timestamp = message.timestamp;
+
+  const ttl = message.ttl();
   const plainTextBuffer = message.plainTextBuffer();
 
   const sendTo = device instanceof PubKey

@@ -56,18 +56,22 @@ export class MessageQueue implements MessageQueueInterface {
   ) {
     let currentDevices = [...devices];
 
+    // Sync to our devices if syncable
     if (SyncMessageUtils.canSync(message)) {
-      // Sync to our devices
-      const syncMessage = SyncMessageUtils.from(message);
-      const ourDevices = await this.sendSyncMessage(syncMessage);
+
+      const ourDevices = await SyncMessageUtils.getOurPairedDevices();
+      await this.sendSyncMessage(message, ourDevices);
 
       // Remove our devices from currentDevices
-      currentDevices = _.xor(currentDevices, ourDevices);
+      const ourDeviceContacts = ourDevices.map(device => ConversationController.get(device.key));
+      currentDevices = _.xor(currentDevices, ourDeviceContacts);
     }
 
-    currentDevices.forEach(async device => {
+    const promises = currentDevices.map(async device => {
       await this.queue(device, message);
     });
+
+    return Promise.all(promises);
   }
 
   public async sendToGroup(message: OpenGroupMessage | ContentMessage): Promise<boolean> {
@@ -105,20 +109,17 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   public async sendSyncMessage(
-    message: ContentMessage
-  ): Promise<void> {
+    message: ContentMessage,
+    sendTo: Array<PubKey>
+  ) {
     // Sync with our devices
-    
-    
-
-    const ourDevices = await SyncMessageUtils.getSyncContacts();
-    ourDevices.forEach(async device => {
+    const promises = sendTo.map(async device => {
       const syncMessage = await SyncMessageUtils.from(message, device);
 
-      if (syncMessage) {
-        await this.queue(device, syncMessage);
-      }
+      return this.queue(device, syncMessage);
     });
+
+    return Promise.all(promises);
   }
 
   public async processPending(device: PubKey) {

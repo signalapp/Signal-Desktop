@@ -10,18 +10,18 @@ import { EncryptionType, PubKey } from '../types';
 import { SignalService } from '../../protobuf';
 import { SyncMessageType } from '../messages/outgoing/content/sync/SyncMessage';
 
+import * as _ from 'lodash';
 import * as Data from '../../../js/modules/data';
-import { ConversationController, libloki, Whisper, textsecure } from '../../window';
+import { ConversationController, libloki, textsecure, Whisper } from '../../window';
 import { OpenGroup } from '../types/OpenGroup';
 import { generateFakePubkey } from '../../test/test-utils/testUtils';
 
-// export function from(message: ContentMessage): SyncMessage | undefined {
-// testtttingggg
+
 export async function from(
   message: ContentMessage,
   sendTo: PubKey | OpenGroup,
   syncType: SyncMessageEnum.CONTACTS | SyncMessageEnum.GROUPS = SyncMessageEnum.CONTACTS
-): Promise<SyncMessageType> {
+): Promise<ContactSyncMessage> {
   const { timestamp, identifier } = message;
 
   // Detect Sync Message Type
@@ -40,12 +40,13 @@ export async function from(
       const protoSyncMessage = libloki.api.createContactSyncProtoMessage(contact);
       
       const contentMessage = new ContactSyncMessage({
+        timestamp,
+        identifier,
         dataMessage: protoSyncMessage,
-        linkedDevices: [generateFakePubkey()],
-        timestamp: Date.now(),
+        linkedDevices: [],
       });
       
-
+      break;
 
       
     case SyncMessageEnum.GROUPS:
@@ -60,11 +61,14 @@ export async function from(
   return syncMessage;
 }
 
-export async function canSync(message: ContentMessage, device: any): Promise<boolean> {
-  return Boolean(from(message, device));
+export async function canSync(message: ContentMessage): Promise<boolean> {
+  // This function should be agnostic to the device; it shouldn't need
+  // to know about the recipient
+  // return Boolean(from(message, device));
+  return true;
 }
 
-export async function getSyncContacts(): Promise<Set<any>> {
+export async function getSyncContacts(): Promise<Array<any>> {
   const thisDevice = textsecure.storage.user.getNumber();
   const primaryDevice = await Data.getPrimaryDeviceFor(thisDevice);
   const conversations = await Data.getAllConversations({ ConversationCollection: Whisper.ConversationCollection });
@@ -95,8 +99,16 @@ export async function getSyncContacts(): Promise<Set<any>> {
     // Filter out our primary key if it was added here
     .filter(c => c.id !== primaryDevice);
 
-  return new Set([
+  // Return unique contacts
+  return _.uniqBy([
     ...primaryContacts,
     ...secondaryContacts,
-  ]);
+  ], device => !!device);
+}
+
+export async function getOurPairedDevices(): Promise<Array<PubKey>> {
+  const ourPubKey = textsecure.storage.user.getNumber();
+  const ourDevices = await Data.getPairedDevicesFor(ourPubKey);
+
+  return ourDevices.map(device => new PubKey(device));
 }

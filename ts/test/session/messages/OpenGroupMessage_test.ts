@@ -5,6 +5,7 @@ import {
   OpenGroupMessage,
 } from '../../../session/messages/outgoing';
 import * as MIME from '../../../../ts/types/MIME';
+import { OpenGroup } from '../../../session/types/OpenGroup';
 
 describe('OpenGroupMessage', () => {
   const group = {
@@ -13,10 +14,14 @@ describe('OpenGroupMessage', () => {
     conversationId: '0',
   };
 
+  const group = new OpenGroup({
+    server: 'server'
+  })
+
   it('can create empty message with just a timestamp and group', () => {
     const message = new OpenGroupMessage({
       timestamp: Date.now(),
-      group,
+      group.,
     });
     expect(message?.timestamp).to.be.approximately(Date.now(), 10);
     expect(message?.group).to.deep.equal(group);

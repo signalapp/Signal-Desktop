@@ -9,18 +9,18 @@ import { ChatMessage, DataMessage } from '../data';
 
 interface ContactSyncMessageParams extends MessageParams {
   // Send to our devices
-  linkedDevices: Array<PubKey>;
+  contacts: Array<PubKey>;
   dataMessage?: DataMessage;
 }
 
 export class ContactSyncMessage extends SyncMessage {
-  private readonly linkedDevices: Array<PubKey>;
+  private readonly contacts: Array<PubKey>;
   private readonly dataMessage?: DataMessage;
 
   constructor(params: ContactSyncMessageParams) {
     super(params);
 
-    this.linkedDevices = params.linkedDevices;
+    this.contacts = params.contacts;
     this.dataMessage = params.dataMessage;
 
     this.syncProto();
@@ -40,8 +40,11 @@ export class ContactSyncMessage extends SyncMessage {
     // SignalService.SyncMessage.Read
     
     const syncMessage = new SignalService.SyncMessage({
-      
+
     });
+
+
+    syncMessage.contacts = this.contacts.map(pubkey => ConversationController.get(pubkey.key));
     
     // TODO: Is this a request sync message or a basic sync message?
     // Set request type
