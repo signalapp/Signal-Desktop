@@ -1722,12 +1722,19 @@
 
     // Receive logic
     async queueAttachmentDownloads() {
+      const attachmentsToQueue = this.get('attachments') || [];
       const messageId = this.id;
       let count = 0;
       let bodyPending;
 
+      window.log.info(
+        `Queueing ${
+          attachmentsToQueue.length
+        } attachment downloads for message ${this.idForLogging()}`
+      );
+
       const [longMessageAttachments, normalAttachments] = _.partition(
-        this.get('attachments') || [],
+        attachmentsToQueue,
         attachment =>
           attachment.contentType === Whisper.Message.LONG_MESSAGE_CONTENT_TYPE
       );
@@ -1737,6 +1744,13 @@
           `Received more than one long message attachment in message ${this.idForLogging()}`
         );
       }
+
+      window.log.info(
+        `Queueing ${
+          longMessageAttachments.length
+        } long message attachment downloads for message ${this.idForLogging()}`
+      );
+
       if (longMessageAttachments.length > 0) {
         count += 1;
         bodyPending = true;
@@ -1750,6 +1764,11 @@
         );
       }
 
+      window.log.info(
+        `Queueing ${
+          normalAttachments.length
+        } normal attachment downloads for message ${this.idForLogging()}`
+      );
       const attachments = await Promise.all(
         normalAttachments.map((attachment, index) => {
           count += 1;
@@ -1761,8 +1780,14 @@
         })
       );
 
+      const previewsToQueue = this.get('preview') || [];
+      window.log.info(
+        `Queueing ${
+          previewsToQueue.length
+        } preview attachment downloads for message ${this.idForLogging()}`
+      );
       const preview = await Promise.all(
-        (this.get('preview') || []).map(async (item, index) => {
+        previewsToQueue.map(async (item, index) => {
           if (!item.image) {
             return item;
           }
@@ -1779,8 +1804,14 @@
         })
       );
 
+      const contactsToQueue = this.get('contact') || [];
+      window.log.info(
+        `Queueing ${
+          contactsToQueue.length
+        } contact attachment downloads for message ${this.idForLogging()}`
+      );
       const contact = await Promise.all(
-        (this.get('contact') || []).map(async (item, index) => {
+        contactsToQueue.map(async (item, index) => {
           if (!item.avatar || !item.avatar.avatar) {
             return item;
           }
@@ -1804,7 +1835,14 @@
       );
 
       let quote = this.get('quote');
-      if (quote && quote.attachments && quote.attachments.length) {
+      const quoteAttachmentsToQueue =
+        quote && quote.attachments ? quote.attachments : [];
+      window.log.info(
+        `Queueing ${
+          quoteAttachmentsToQueue.length
+        } quote attachment downloads for message ${this.idForLogging()}`
+      );
+      if (quoteAttachmentsToQueue.length > 0) {
         quote = {
           ...quote,
           attachments: await Promise.all(
@@ -1834,6 +1872,9 @@
 
       let group = this.get('group_update');
       if (group && group.avatar) {
+        window.log.info(
+          `Queueing group avatar download for message ${this.idForLogging()}`
+        );
         count += 1;
         group = {
           ...group,
@@ -1847,6 +1888,9 @@
 
       let sticker = this.get('sticker');
       if (sticker) {
+        window.log.info(
+          `Queueing sticker download for message ${this.idForLogging()}`
+        );
         count += 1;
         const { packId, stickerId, packKey } = sticker;
 
@@ -1890,6 +1934,10 @@
           data,
         };
       }
+
+      window.log.info(
+        `Queued ${count} total attachment downloads for message ${this.idForLogging()}`
+      );
 
       if (count > 0) {
         this.set({
@@ -2211,7 +2259,10 @@
                       'private'
                     );
                   }
-                  return ConversationController.getOrCreateAndWait(member);
+                  return ConversationController.getOrCreateAndWait(
+                    member,
+                    'private'
+                  );
                 })
               );
               const members = memberConversations.map(c => c.get('id'));
@@ -2247,18 +2298,28 @@
                   attributes.left = false;
                 }
               } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
-                if (ConversationController.get(source || sourceUuid).isMe()) {
+                const sender = ConversationController.get(source || sourceUuid);
+                const inGroup = Boolean(
+                  sender &&
+                    (conversation.get('members') || []).includes(sender.id)
+                );
+                if (!inGroup) {
+                  const senderString = sender ? sender.idForLogging() : null;
+                  window.log.info(
+                    `Got 'left' message from someone not in group: ${senderString}. Dropping.`
+                  );
+                  return;
+                }
+
+                if (sender.isMe()) {
                   attributes.left = true;
                   groupUpdate = { left: 'You' };
                 } else {
-                  const myConversation = ConversationController.get(
-                    source || sourceUuid
-                  );
-                  groupUpdate = { left: myConversation.get('id') };
+                  groupUpdate = { left: sender.get('id') };
                 }
                 attributes.members = _.without(
                   conversation.get('members'),
-                  ConversationController.get(source || sourceUuid).get('id')
+                  sender.get('id')
                 );
               }
 

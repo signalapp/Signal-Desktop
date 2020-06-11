@@ -583,9 +583,9 @@
         nonblockingApproval = false;
       }
 
-      const identifer = textsecure.utils.unencodeNumber(encodedAddress)[0];
-      const identityRecord = this.getIdentityRecord(identifer);
-      const id = ConversationController.getConversationId(identifer);
+      const identifier = textsecure.utils.unencodeNumber(encodedAddress)[0];
+      const identityRecord = this.getIdentityRecord(identifier);
+      const id = ConversationController.getConversationId(identifier);
 
       if (!identityRecord || !identityRecord.publicKey) {
         // Lookup failed, or the current key was removed, so save this one.
@@ -626,7 +626,7 @@
         });
 
         try {
-          this.trigger('keychange', identifer);
+          this.trigger('keychange', identifier);
         } catch (error) {
           window.log.error(
             'saveIdentity error triggering keychange:',

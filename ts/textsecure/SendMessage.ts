@@ -1221,7 +1221,8 @@ export default class MessageSender {
   }
 
   async resetSession(
-    identifier: string,
+    uuid: string,
+    e164: string,
     timestamp: number,
     options?: SendOptionsType
   ) {
@@ -1231,6 +1232,8 @@ export default class MessageSender {
     proto.body = 'TERMINATE';
     proto.flags = window.textsecure.protobuf.DataMessage.Flags.END_SESSION;
     proto.timestamp = timestamp;
+
+    const identifier = e164 || uuid;
 
     const logError = (prefix: string) => (error: Error) => {
       window.log.error(prefix, error && error.stack ? error.stack : error);
@@ -1279,7 +1282,7 @@ export default class MessageSender {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     // We already sent the reset session to our other devices in the code above!
-    if (identifier === myNumber || identifier === myUuid) {
+    if (e164 === myNumber || uuid === myUuid) {
       return sendToContactPromise;
     }
 
@@ -1287,8 +1290,8 @@ export default class MessageSender {
     const sendSyncPromise = this.sendSyncMessage(
       buffer,
       timestamp,
-      identifier,
-      null,
+      e164,
+      uuid,
       null,
       [],
       [],

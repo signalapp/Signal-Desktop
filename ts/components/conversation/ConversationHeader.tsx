@@ -255,7 +255,7 @@ export class ConversationHeader extends React.Component<Props> {
             ))}
           </SubMenu>
         )}
-        <MenuItem onClick={onShowAllMedia}>{i18n('viewAllMedia')}</MenuItem>
+        <MenuItem onClick={onShowAllMedia}>{i18n('viewRecentMedia')}</MenuItem>
         {isGroup ? (
           <MenuItem onClick={onShowGroupMembers}>
             {i18n('showMembers')}

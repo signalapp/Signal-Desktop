@@ -198,10 +198,13 @@
 
       return { wrap, sendOptions };
     },
-    async getAllGroupsInvolvingId(id) {
-      const groups = await window.Signal.Data.getAllGroupsInvolvingId(id, {
-        ConversationCollection: Whisper.ConversationCollection,
-      });
+    async getAllGroupsInvolvingId(conversationId) {
+      const groups = await window.Signal.Data.getAllGroupsInvolvingId(
+        conversationId,
+        {
+          ConversationCollection: Whisper.ConversationCollection,
+        }
+      );
       return groups.map(group => conversations.add(group));
     },
     loadPromise() {

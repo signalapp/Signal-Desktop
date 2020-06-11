@@ -57,6 +57,7 @@ async function start(options = {}) {
     throw new Error('attachment_downloads/start: logger must be provided!');
   }
 
+  logger.info('attachment_downloads/start: enabling');
   enabled = true;
   await resetAttachmentDownloadPending();
 
@@ -64,6 +65,7 @@ async function start(options = {}) {
 }
 
 async function stop() {
+  logger.info('attachment_downloads/stop: disabling');
   enabled = false;
   if (timeout) {
     clearTimeout(timeout);
@@ -121,6 +123,7 @@ async function _tick() {
 
 async function _maybeStartJob() {
   if (!enabled) {
+    logger.info('attachment_downloads/_maybeStartJob: not enabled, returning');
     return;
   }
 
@@ -165,6 +168,8 @@ async function _runJob(job) {
         `_runJob: Key information required for job was missing. Job id: ${id}`
       );
     }
+
+    logger.info(`attachment_downloads/_runJob for job id ${id}`);
 
     const found =
       MessageController.getById(messageId) ||
@@ -261,6 +266,7 @@ async function _runJob(job) {
 
 async function _finishJob(message, id) {
   if (message) {
+    logger.info(`attachment_downloads/_finishJob for job id: ${id}`);
     await saveMessage(message.attributes, {
       Message: Whisper.Message,
     });
