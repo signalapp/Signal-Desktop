@@ -408,20 +408,14 @@
   }
 }
 
-.module-message__container--outgoing.module-message__container--first-in-chain {
+.module-message__container--first-in-chain {
+  border-top-left-radius: 16px;
   border-top-right-radius: 16px;
 }
 
-.module-message__container--outgoing.module-message__container--last-in-chain {
-  border-bottom-right-radius: 16px;
-}
-
-.module-message__container--incoming.module-message__container--first-in-chain {
-  border-top-left-radius: 16px;
-}
-
-.module-message__container--incoming.module-message__container--last-in-chain {
+.module-message__container--last-in-chain {
   border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
 }
 
 @each $color, $value in $conversation-colors {
@@ -645,7 +639,6 @@
     bottom: -10px;
   }
 
-  border-radius: 16px;
   overflow: hidden;
 
   @include light-theme {
@@ -653,6 +646,26 @@
   }
   @include dark-theme {
     background-color: $color-gray-95;
+  }
+
+  &--outgoing {
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+  }
+
+  &--incoming {
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+
+  &--first-in-chain {
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+  }
+
+  &--last-in-chain {
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
   }
 
   &--with-content-below {

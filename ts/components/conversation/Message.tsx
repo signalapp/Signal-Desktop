@@ -545,6 +545,9 @@ export class Message extends React.PureComponent<Props, State> {
     } = this.props;
     const { imageBroken } = this.state;
 
+    const isFirstInChain = this.isFirstInChain();
+    const isLastInChain = this.isLastInChain();
+
     if (!attachments || !attachments[0]) {
       return null;
     }
@@ -554,7 +557,9 @@ export class Message extends React.PureComponent<Props, State> {
     const withContentBelow = Boolean(text);
     const withContentAbove =
       Boolean(quote) ||
-      (conversationType === 'group' && direction === 'incoming');
+      (conversationType === 'group' &&
+        direction === 'incoming' &&
+        isFirstInChain);
     const displayImage = canDisplayImage(attachments);
 
     if (
@@ -572,6 +577,13 @@ export class Message extends React.PureComponent<Props, State> {
         <div
           className={classNames(
             `module-message__${prefix}-container`,
+            `module-message__${prefix}-container--${direction}`,
+            isFirstInChain
+              ? `module-message__${prefix}-container--first-in-chain`
+              : null,
+            isLastInChain
+              ? `module-message__${prefix}-container--last-in-chain`
+              : null,
             withContentAbove
               ? `module-message__${prefix}-container--with-content-above`
               : null,
@@ -585,6 +597,9 @@ export class Message extends React.PureComponent<Props, State> {
         >
           <ImageGrid
             attachments={attachments}
+            direction={direction}
+            isFirstInChain={isFirstInChain}
+            isLastInChain={isLastInChain}
             withContentAbove={isSticker || withContentAbove}
             withContentBelow={isSticker || withContentBelow}
             isSticker={isSticker}
@@ -698,6 +713,8 @@ export class Message extends React.PureComponent<Props, State> {
       quote,
     } = this.props;
 
+    const isFirstInChain = this.isFirstInChain();
+
     // Attachments take precedence over Link Previews
     if (attachments && attachments.length) {
       return null;
@@ -714,7 +731,9 @@ export class Message extends React.PureComponent<Props, State> {
 
     const withContentAbove =
       Boolean(quote) ||
-      (conversationType === 'group' && direction === 'incoming');
+      (conversationType === 'group' &&
+        direction === 'incoming' &&
+        isFirstInChain);
 
     const previewHasImage = first.image && isImageAttachment(first.image);
     const width = first.image && first.image.width;
@@ -812,12 +831,16 @@ export class Message extends React.PureComponent<Props, State> {
       scrollToQuotedMessage,
     } = this.props;
 
+    const isFirstInChain = this.isFirstInChain();
+
     if (!quote) {
       return null;
     }
 
     const withContentAbove =
-      conversationType === 'group' && direction === 'incoming';
+      conversationType === 'group' &&
+      direction === 'incoming' &&
+      isFirstInChain;
     const quoteColor =
       direction === 'incoming' ? authorColor : quote.authorColor;
     const { referencedMessageNotFound } = quote;
@@ -859,13 +882,18 @@ export class Message extends React.PureComponent<Props, State> {
       showContactDetail,
       text,
     } = this.props;
+
+    const isFirstInChain = this.isFirstInChain();
+
     if (!contact) {
       return null;
     }
 
     const withCaption = Boolean(text);
     const withContentAbove =
-      conversationType === 'group' && direction === 'incoming';
+      conversationType === 'group' &&
+      direction === 'incoming' &&
+      isFirstInChain;
     const withContentBelow = withCaption || !collapseMetadata;
 
     const otherContent = (contact && contact.signalAccount) || withCaption;
@@ -1450,11 +1478,14 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToViewError,
     } = this.props;
 
+    const isFirstInChain = this.isFirstInChain();
+
     const withContentBelow = !collapseMetadata;
     const withContentAbove =
       !collapseMetadata &&
       conversationType === 'group' &&
-      direction === 'incoming';
+      direction === 'incoming' &&
+      isFirstInChain;
 
     return (
       <div
