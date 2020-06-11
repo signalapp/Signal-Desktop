@@ -1953,7 +1953,7 @@ MessageReceiver.prototype.extend({
     let conversation;
     try {
       conversation = window.ConversationController.get(number);
-      if(conversation) {
+      if (conversation) {
         await conversation.onSessionResetReceived();
       } else {
         throw new Error();

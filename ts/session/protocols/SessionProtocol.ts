@@ -220,17 +220,15 @@ export class SessionProtocol {
     timestamp: number | undefined,
     map: StringToNumberMap
   ): Promise<boolean> {
-    if (!timestamp) {
-      if (device in map) {
-        // tslint:disable-next-line: no-dynamic-delete
-        delete map[device];
-
-        return true;
-      }
-
+    if (map[device] === timestamp) {
       return false;
     }
-    map[device] = timestamp;
+    if (!timestamp) {
+      // tslint:disable-next-line: no-dynamic-delete
+      delete map[device];
+    } else {
+      map[device] = timestamp;
+    }
 
     return true;
   }
