@@ -8,20 +8,16 @@ import * as MIME from '../../../../ts/types/MIME';
 import { OpenGroup } from '../../../session/types/OpenGroup';
 
 describe('OpenGroupMessage', () => {
-  const group = {
-    server: 'server',
+  const group = new OpenGroup({
+    server: 'chat.example.server',
     channel: 1,
     conversationId: '0',
-  };
-
-  const group = new OpenGroup({
-    server: 'server'
-  })
+  });
 
   it('can create empty message with just a timestamp and group', () => {
     const message = new OpenGroupMessage({
       timestamp: Date.now(),
-      group.,
+      group,
     });
     expect(message?.timestamp).to.be.approximately(Date.now(), 10);
     expect(message?.group).to.deep.equal(group);

@@ -15,7 +15,7 @@ export class OpenGroupMessage extends Message {
   public readonly body?: string;
   public readonly attachments: Array<AttachmentPointer>;
   public readonly quote?: Quote;
-  public readonly preview: Array<Preview>;
+  public readonly preview?: Array<Preview>;
 
   constructor({
     timestamp,

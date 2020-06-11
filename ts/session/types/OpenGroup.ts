@@ -13,18 +13,17 @@ export class OpenGroup {
   public readonly channel: number;
   public readonly groupId?: string;
   public readonly conversationId: string;
-  private readonly isValid: boolean;
 
   constructor(params: OpenGroupParams) {
-    this.isValid = OpenGroup.validate(params);
+    const strippedServer = params.server.replace('https://', '');
+    this.server = strippedServer;
 
-    if (!this.isValid) {
+    // Validate server format
+    const isValid = OpenGroup.serverRegex.test(this.server);
+    if (!isValid) {
       throw Error('an invalid server or groupId was provided');
     }
 
-    const strippedServer = params.server.replace('https://', '');
-
-    this.server = strippedServer;
     this.channel = params.channel;
     this.conversationId = params.conversationId;
     this.groupId = OpenGroup.getGroupId(this.server, this.channel);
@@ -34,47 +33,43 @@ export class OpenGroup {
     // Returns a new instance from a groupId if it's valid
     // eg. groupId = 'publicChat:1@chat.getsession.org'
 
-    // Valid groupId?
-    if (!this.groupIdRegex.test(groupId)) {
+    const server = this.getServer(groupId);
+    const channel = this.getChannel(groupId);
+
+    // Was groupId successfully utilized?
+    if (!server || !channel) {
       return;
     }
 
     const openGroupParams = {
-      server: this.getServer(groupId),
-      channel: this.getChannel(groupId),
+      server,
+      channel,
       groupId,
       conversationId,
-    };
+    } as OpenGroupParams;
 
-    if (this.validate(openGroupParams)) {
+    if (this.serverRegex.test(server)) {
       return new OpenGroup(openGroupParams);
     }
 
     return;
   }
 
-  private static validate(openGroup: OpenGroupParams): boolean {
-    // Validate that all the values match by rebuilding groupId.
-    const { server } = openGroup;
+  private static getServer(groupId: string): string | undefined {
+    const isValid = this.groupIdRegex.test(groupId);
 
-    // Valid server?
-    if (!this.serverRegex.test(server)) {
-      return false;
-    }
-
-    return true;
+    return isValid
+      ? groupId.split('@')[1]
+      : undefined;
   }
 
-  private static getServer(groupId: string): string {
-    // groupId is already validated in constructor; no need to re-check
-    return groupId.split('@')[1];
-  }
-
-  private static getChannel(groupId: string): number {
-    // groupId is already validated in constructor; no need to re-check
+  private static getChannel(groupId: string): number | undefined {
+    const isValid = this.groupIdRegex.test(groupId);
     const channelMatch = groupId.match(/^.*\:([0-9]*)\@.*$/);
 
-    return channelMatch ? Number(channelMatch[1]) : 1;
+    return channelMatch && isValid
+      ? Number(channelMatch[1])
+      : undefined;
   }
 
   private static getGroupId(server: string, channel: number): string {
