@@ -499,7 +499,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToViewExpired,
     } = this.props;
 
-    if (collapseMetadata) {
+    if (collapseMetadata || !this.isFirstInChain()) {
       return;
     }
 
@@ -922,7 +922,8 @@ export class Message extends React.PureComponent<Props, State> {
     if (
       collapseMetadata ||
       conversationType !== 'group' ||
-      direction === 'outgoing'
+      direction === 'outgoing' ||
+      !this.isLastInChain()
     ) {
       return;
     }
@@ -1308,15 +1309,41 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public isFirstInChain() {
-    const { context } = this.props;
+    const { before } = this.props.context;
+    const { authorPhoneNumber } = this.props;
 
-    return !context || !context.before;
+    if (!before) {
+      return true;
+    }
+
+    if (before.type !== 'message') {
+      return true;
+    }
+
+    if (before.data.authorPhoneNumber !== authorPhoneNumber) {
+      return true;
+    }
+
+    return false;
   }
 
   public isLastInChain() {
-    const { context } = this.props;
+    const { after } = this.props.context;
+    const { authorPhoneNumber } = this.props;
 
-    return !context || !context.after;
+    if (!after) {
+      return true;
+    }
+
+    if (after.type !== 'message') {
+      return true;
+    }
+
+    if (after.data.authorPhoneNumber !== authorPhoneNumber) {
+      return true;
+    }
+
+    return false;
   }
 
   public isShowingImage() {
