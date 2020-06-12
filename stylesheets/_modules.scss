@@ -418,6 +418,10 @@
   border-bottom-right-radius: 16px;
 }
 
+.module-message__container--typing {
+  border-radius: 16px;
+}
+
 @each $color, $value in $conversation-colors {
   .module-message__container--incoming-#{$color} {
     background-color: $value;
