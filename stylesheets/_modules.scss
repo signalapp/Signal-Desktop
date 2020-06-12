@@ -1620,8 +1620,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   position: relative;
   border-radius: 4px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
 
   display: flex;
   flex-direction: row;
@@ -1642,17 +1640,9 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   cursor: auto;
 }
 
-.module-quote--with-content-above {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-}
-
-.module-quote--with-reference-warning {
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
-
 .module-quote--outgoing {
+  border-top-left-radius: 10px;
+
   border-left-color: $color-conversation-grey;
   @include light-theme {
     background-color: $color-conversation-grey-tint;
@@ -1715,6 +1705,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 
 .module-quote--incoming {
+  border-top-right-radius: 10px;
+
   @include light-theme {
     border-left-color: $color-white;
     background-color: $color-conversation-grey-tint;
@@ -1747,6 +1739,21 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
       background-color: $value;
     }
   }
+}
+
+.module-quote--first-in-chain {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.module-quote--with-content-above {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.module-quote--with-reference-warning {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 .module-quote__primary {

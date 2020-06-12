@@ -867,6 +867,7 @@ export class Message extends React.PureComponent<Props, State> {
         authorColor={quoteColor}
         referencedMessageNotFound={referencedMessageNotFound}
         isFromMe={quote.isFromMe}
+        isFirstInChain={isFirstInChain}
         withContentAbove={withContentAbove}
       />
     );
