@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Measure from 'react-measure';
 import { drop, groupBy, orderBy, take } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
+import moment from 'moment';
 
 import { Avatar } from '../Avatar';
 import { Spinner } from '../Spinner';
@@ -1339,7 +1340,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public isFirstInChain() {
     const { before } = this.props.context;
-    const { authorPhoneNumber } = this.props;
+    const { authorPhoneNumber, timestamp } = this.props;
 
     if (!before) {
       return true;
@@ -1353,12 +1354,19 @@ export class Message extends React.PureComponent<Props, State> {
       return true;
     }
 
+    const beforeMoment = moment(before.data.timestamp).local();
+    const currMoment = moment(timestamp).local();
+
+    if (!currMoment.isSame(beforeMoment, 'day')) {
+      return true;
+    }
+
     return false;
   }
 
   public isLastInChain() {
     const { after } = this.props.context;
-    const { authorPhoneNumber } = this.props;
+    const { authorPhoneNumber, timestamp } = this.props;
 
     if (!after) {
       return true;
@@ -1369,6 +1377,13 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     if (after.data.authorPhoneNumber !== authorPhoneNumber) {
+      return true;
+    }
+
+    const afterMoment = moment(after.data.timestamp).local();
+    const currMoment = moment(timestamp).local();
+
+    if (!currMoment.isSame(afterMoment, 'day')) {
       return true;
     }
 
