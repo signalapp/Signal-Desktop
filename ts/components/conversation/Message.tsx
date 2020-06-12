@@ -716,8 +716,6 @@ export class Message extends React.PureComponent<Props, State> {
       quote,
     } = this.props;
 
-    const isFirstInChain = this.isFirstInChain();
-
     // Attachments take precedence over Link Previews
     if (attachments && attachments.length) {
       return null;
@@ -732,6 +730,7 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const isFirstInChain = this.isFirstInChain();
     const withContentAbove =
       Boolean(quote) ||
       (conversationType === 'group' &&
@@ -750,6 +749,9 @@ export class Message extends React.PureComponent<Props, State> {
         className={classNames(
           'module-message__link-preview',
           `module-message__link-preview--${direction}`,
+          isFirstInChain
+            ? 'module-message__link-preview--first-in-chain'
+            : null,
           withContentAbove
             ? 'module-message__link-preview--with-content-above'
             : null
@@ -772,6 +774,7 @@ export class Message extends React.PureComponent<Props, State> {
         {first.image && previewHasImage && isFullSizeImage ? (
           <ImageGrid
             attachments={[first.image]}
+            isFirstInChain={isFirstInChain}
             withContentAbove={withContentAbove}
             withContentBelow={true}
             onError={this.handleImageError}
@@ -781,6 +784,10 @@ export class Message extends React.PureComponent<Props, State> {
         <div
           className={classNames(
             'module-message__link-preview__content',
+            `module-message__link-preview__content--${direction}`,
+            isFirstInChain
+              ? 'module-message__link-preview__content--first-in-chain'
+              : null,
             withContentAbove || isFullSizeImage
               ? 'module-message__link-preview__content--with-content-above'
               : null
