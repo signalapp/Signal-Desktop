@@ -8,9 +8,7 @@ import { ConversationController, Whisper } from '../../window';
 
 import { ContentMessage, SyncMessage } from '../messages/outgoing';
 
-export async function from(
-  message: ContentMessage
-): Promise<SyncMessage | undefined> {
+export function from(message: ContentMessage): SyncMessage | undefined {
   // const { timestamp, identifier } = message;
 
   // Stubbed for now
@@ -20,9 +18,9 @@ export async function from(
 export async function canSync(message: ContentMessage): Promise<boolean> {
   // This function should be agnostic to the device; it shouldn't need
   // to know about the recipient
-  // return Boolean(from(message));
+
   // Stubbed for now
-  return true;
+  return Boolean(from(message));
 }
 
 export async function getSyncContacts(): Promise<Array<any> | undefined> {
