@@ -31,7 +31,6 @@ const renderEmojiPicker: TimelineItemProps['renderEmojiPicker'] = ({
 const getDefaultProps = () => ({
   conversationId: 'conversation-id',
   id: 'asdf',
-  context: {},
   isSelected: false,
   selectMessage: action('selectMessage'),
   reactToMessage: action('reactToMessage'),

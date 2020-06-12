@@ -47,11 +47,11 @@ type PropsHousekeepingType = {
   renderItem: (
     id: string,
     conversationId: string,
-    context: {
+    actions: Object,
+    context?: {
       beforeId?: string;
       afterId?: string;
-    },
-    actions: Object
+    }
   ) => JSX.Element;
   renderLastSeenIndicator: (id: string) => JSX.Element;
   renderLoadingRow: (id: string) => JSX.Element;
@@ -560,7 +560,7 @@ export class Timeline extends React.PureComponent<Props, State> {
           style={styleWithWidth}
           role="row"
         >
-          {renderItem(messageId, id, { beforeId, afterId }, this.props)}
+          {renderItem(messageId, id, this.props, { beforeId, afterId })}
         </div>
       );
     }

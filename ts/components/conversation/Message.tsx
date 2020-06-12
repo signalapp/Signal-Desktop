@@ -65,7 +65,7 @@ interface LinkPreviewType {
 export type PropsData = {
   id: string;
   conversationId: string;
-  context: {
+  context?: {
     before?: TimelineItemType;
     after?: TimelineItemType;
   };
@@ -1339,8 +1339,13 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public isFirstInChain() {
-    const { before } = this.props.context;
-    const { authorPhoneNumber, timestamp } = this.props;
+    const { authorPhoneNumber, context, timestamp } = this.props;
+
+    if (!context || !context.before) {
+      return true;
+    }
+
+    const { before } = context;
 
     if (!before) {
       return true;
@@ -1365,8 +1370,13 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public isLastInChain() {
-    const { after } = this.props.context;
-    const { authorPhoneNumber, timestamp } = this.props;
+    const { authorPhoneNumber, context, timestamp } = this.props;
+
+    if (!context) {
+      return true;
+    }
+
+    const { after } = context;
 
     if (!after) {
       return true;

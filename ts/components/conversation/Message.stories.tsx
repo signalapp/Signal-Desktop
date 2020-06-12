@@ -33,7 +33,6 @@ const baseDataProps: Pick<
 > = {
   id: 'asdf',
   conversationId: 'asdf',
-  context: {},
   canReply: true,
   interactionMode: 'mouse',
   conversationType: 'direct',

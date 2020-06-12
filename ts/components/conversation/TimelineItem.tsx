@@ -79,7 +79,7 @@ type PropsLocalType = {
   conversationId: string;
   item?: TimelineItemType;
   id: string;
-  context: {
+  context?: {
     before?: TimelineItemType;
     after?: TimelineItemType;
   };

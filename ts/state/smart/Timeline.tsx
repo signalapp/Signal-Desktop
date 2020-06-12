@@ -36,11 +36,11 @@ type ExternalProps = {
 function renderItem(
   messageId: string,
   conversationId: string,
-  context: {
+  actionProps: Object,
+  context?: {
     beforeId?: string;
     afterId?: string;
-  },
-  actionProps: Object
+  }
 ): JSX.Element {
   return (
     <FilteredSmartTimelineItem
