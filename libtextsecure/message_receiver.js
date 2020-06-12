@@ -20,6 +20,7 @@
 /* global ConversationController: false */
 /* global Signal: false */
 /* global log: false */
+/* global libsession: false */
 
 /* eslint-disable more/no-then */
 /* eslint-disable no-unreachable */
@@ -1545,24 +1546,77 @@ MessageReceiver.prototype.extend({
       window.log.info('Error getting conversation: ', envelope.source);
     }
   },
+  async handleSessionRequestMessage(envelope, content) {
+    const shouldProcessSessionRequest = await libsession.Protocols.SessionProtocol.shouldProcessSessionRequest(
+      envelope.source,
+      envelope.timestamp
+    );
+
+    if (shouldProcessSessionRequest) {
+      try {
+        // TODO remember to remove savePreKeyBundleMessage() from the codebase if it's actually irrelevant
+        // if (content.preKeyBundleMessage) {
+        //   await this.savePreKeyBundleMessage(
+        //     envelope.source,
+        //     content.preKeyBundleMessage
+        //   );
+        // }
+        // device id are always 1 with Session
+        const deviceId = 1;
+        const address = new libsignal.SignalProtocolAddress(
+          envelope.source,
+          deviceId
+        );
+        // we process the new prekeys and initiate a new session.
+        // The old sessions will get deleted once the correspondant
+        // has switch to the new session.
+        const { preKey, signedKey, identityKey } = content.preKeyBundleMessage;
+        if (preKey === undefined || signedKey === undefined) {
+          window.console.warn(
+            "Couldn't process prekey bundle without preKey or signedKey"
+          );
+          return;
+        }
+        const device = {
+          identityKey,
+          deviceId,
+          preKey,
+          signedPreKey: signedKey,
+          registrationId: 0,
+        };
+        const builder = new libsignal.SessionBuilder(
+          textsecure.storage.protocol,
+          address
+        );
+        await builder.processPreKey(device);
+
+        await libsession.Protocols.SessionProtocol.onSessionRequestProcessed(
+          envelope.source
+        );
+        window.log.debug('sending session established to', envelope.source);
+        // We don't need to await the call below because we just want to send it off
+        window.libloki.api.sendSessionEstablishedMessage(envelope.source);
+      } catch (e) {
+        window.log.warn('Failed to process session request');
+        // TODO how to handle a failed session request?
+      }
+    }
+  },
   async innerHandleContentMessage(envelope, plaintext) {
     const content = textsecure.protobuf.Content.decode(plaintext);
+    const { SESSION_REQUEST } = textsecure.protobuf.Envelope.Type;
 
-    if (content.preKeyBundleMessage) {
-      await this.savePreKeyBundleMessage(
-        envelope.source,
-        content.preKeyBundleMessage
+    if (envelope.type === SESSION_REQUEST) {
+      await this.handleSessionRequestMessage(envelope, content);
+    } else {
+      await libsession.Protocols.SessionProtocol.onSessionEstablished(
+        envelope.source
       );
+      // TODO process sending queue for this device now that we have a session
     }
 
     this.handleFriendRequestAcceptIfNeeded(envelope, content);
 
-    if (content.lokiAddressMessage) {
-      return this.handleLokiAddressMessage(
-        envelope,
-        content.lokiAddressMessage
-      );
-    }
     if (content.pairingAuthorisation) {
       return this.handlePairingAuthorisationMessage(envelope, content);
     }
@@ -1660,14 +1714,6 @@ MessageReceiver.prototype.extend({
     return this.dispatchEvent(ev);
   },
   handleNullMessage(envelope) {
-    // Loki - Temp hack for new protocl backward compatibility
-    // This should be removed once we add the new protocol
-    if (envelope.type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
-      window.log.info('sent session established to', envelope.source);
-      // We don't need to await the call below because we just want to send it off
-      window.libloki.api.sendSessionEstablishedMessage(envelope.source);
-    }
-
     window.log.info('null message from', this.getEnvelopeId(envelope));
     this.removeFromCache(envelope);
   },
@@ -1904,44 +1950,17 @@ MessageReceiver.prototype.extend({
   },
   async handleEndSession(number) {
     window.log.info('got end session');
-    const deviceIds = await textsecure.storage.protocol.getDeviceIds(number);
-    const identityKey = StringView.hexToArrayBuffer(number);
     let conversation;
     try {
       conversation = window.ConversationController.get(number);
+      if (conversation) {
+        await conversation.onSessionResetReceived();
+      } else {
+        throw new Error();
+      }
     } catch (e) {
       window.log.error('Error getting conversation: ', number);
     }
-
-    await Promise.all(
-      deviceIds.map(async deviceId => {
-        const address = new libsignal.SignalProtocolAddress(number, deviceId);
-        // Instead of deleting the sessions now,
-        // we process the new prekeys and initiate a new session.
-        // The old sessions will get deleted once the correspondant
-        // has switch the the new session.
-        const [preKey, signedPreKey] = await Promise.all([
-          textsecure.storage.protocol.loadContactPreKey(number),
-          textsecure.storage.protocol.loadContactSignedPreKey(number),
-        ]);
-        if (preKey === undefined || signedPreKey === undefined) {
-          return;
-        }
-        const device = {
-          identityKey,
-          deviceId,
-          preKey,
-          signedPreKey,
-          registrationId: 0,
-        };
-        const builder = new libsignal.SessionBuilder(
-          textsecure.storage.protocol,
-          address
-        );
-        await builder.processPreKey(device);
-      })
-    );
-    await conversation.onSessionResetReceived();
   },
   processDecrypted(envelope, decrypted) {
     /* eslint-disable no-bitwise, no-param-reassign */
