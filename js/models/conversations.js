@@ -1666,6 +1666,15 @@
     },
 
     async addMessageHistoryDisclaimer() {
+      const lastMessage = this.messageCollection.last();
+      if (
+        lastMessage &&
+        lastMessage.get('type') === 'message-history-unsynced'
+      ) {
+        // We do not need another message history disclaimer
+        return lastMessage;
+      }
+
       const timestamp = Date.now();
 
       const model = new Whisper.Message({
