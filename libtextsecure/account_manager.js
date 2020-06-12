@@ -3,6 +3,7 @@
   textsecure,
   libsignal,
   libloki,
+  libsession,
   lokiFileServerAPI,
   mnemonic,
   btoa,
@@ -604,8 +605,9 @@
           e && e.stack ? e.stack : e
         );
         // File server upload failed or message sending failed, we should rollback changes
-        await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
-          secondaryDevicePubKey
+        const pubKey = new libsession.Types.PubKey(secondaryDevicePubKey);
+        await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
+          pubKey
         );
         await lokiFileServerAPI.updateOurDeviceMapping();
         throw e;

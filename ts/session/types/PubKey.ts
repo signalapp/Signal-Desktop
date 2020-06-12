@@ -26,3 +26,6 @@ export class PubKey {
     return false;
   }
 }
+
+export class PrimaryPubKey extends PubKey {}
+export class SecondaryPubKey extends PubKey {}

@@ -186,12 +186,6 @@
     await window.Signal.Data.createOrUpdatePairingAuthorisation(authorisation);
   }
 
-  function removePairingAuthorisationForSecondaryPubKey(pubKey) {
-    return window.Signal.Data.removePairingAuthorisationForSecondaryPubKey(
-      pubKey
-    );
-  }
-
   // Transforms signatures from base64 to ArrayBuffer!
   async function getGrantAuthorisationForSecondaryPubKey(secondaryPubKey) {
     const conversation = ConversationController.get(secondaryPubKey);
@@ -264,15 +258,6 @@
     saveContactPreKeyBundle,
     removeContactPreKeyBundle,
     verifyFriendRequestAcceptPreKey,
-    savePairingAuthorisation,
-    saveAllPairingAuthorisationsFor,
-    removePairingAuthorisationForSecondaryPubKey,
-    getGrantAuthorisationForSecondaryPubKey,
-    getAuthorisationForSecondaryPubKey,
-    getPairedDevicesFor,
-    getAllDevicePubKeysForPrimaryPubKey,
-    getSecondaryDevicesFor,
-    getPrimaryDeviceMapping,
     getGuardNodes,
     updateGuardNodes,
   };

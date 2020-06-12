@@ -74,12 +74,8 @@ module.exports = {
   removeAllContactSignedPreKeys,
 
   createOrUpdatePairingAuthorisation,
-  removePairingAuthorisationForSecondaryPubKey,
-  getAuthorisationForSecondaryPubKey,
-  getGrantAuthorisationsForPrimaryPubKey,
-  getSecondaryDevicesFor,
-  getPrimaryDeviceFor,
-  getPairedDevicesFor,
+  getPairingAuthorisationsFor,
+  removePairingAuthorisationsFor,
 
   createOrUpdateItem,
   getItemById,
@@ -1506,42 +1502,19 @@ async function removeAllSignedPreKeys() {
 
 const PAIRING_AUTHORISATIONS_TABLE = 'pairingAuthorisations';
 
-const GUARD_NODE_TABLE = 'guardNodes';
-
-async function getAuthorisationForSecondaryPubKey(pubKey, options) {
-  const granted = options && options.granted;
-  let filter = '';
-  if (granted) {
-    filter = 'AND isGranted = 1';
-  }
-  const row = await db.get(
-    `SELECT json FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE secondaryDevicePubKey = $secondaryDevicePubKey ${filter};`,
-    {
-      $secondaryDevicePubKey: pubKey,
-    }
-  );
-
-  if (!row) {
-    return null;
-  }
-
-  return jsonToObject(row.json);
-}
-
-async function getGrantAuthorisationsForPrimaryPubKey(primaryDevicePubKey) {
+async function getPairingAuthorisationsFor(pubKey) {
   const rows = await db.all(
-    `SELECT json FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE primaryDevicePubKey = $primaryDevicePubKey AND isGranted = 1 ORDER BY secondaryDevicePubKey ASC;`,
-    {
-      $primaryDevicePubKey: primaryDevicePubKey,
-    }
+    `SELECT json FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE primaryDevicePubKey = $pubKey OR secondaryDevicePubKey = $pubKey;`,
+    { $pubKey: pubKey }
   );
-  return map(rows, row => jsonToObject(row.json));
+
+  return rows.map(row => jsonToObject(row.json));
 }
 
 async function createOrUpdatePairingAuthorisation(data) {
   const { primaryDevicePubKey, secondaryDevicePubKey, grantSignature } = data;
   // remove any existing authorisation for this pubkey (we allow only one secondary device for now)
-  await removePairingAuthorisationForPrimaryPubKey(primaryDevicePubKey);
+  await removePairingAuthorisationsFor(primaryDevicePubKey);
 
   await db.run(
     `INSERT OR REPLACE INTO ${PAIRING_AUTHORISATIONS_TABLE} (
@@ -1564,30 +1537,16 @@ async function createOrUpdatePairingAuthorisation(data) {
   );
 }
 
-async function removePairingAuthorisationForPrimaryPubKey(pubKey) {
+async function removePairingAuthorisationsFor(pubKey) {
   await db.run(
-    `DELETE FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE primaryDevicePubKey = $primaryDevicePubKey;`,
+    `DELETE FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE primaryDevicePubKey = $pubKey OR secondaryDevicePubKey = $pubKey;`,
     {
-      $primaryDevicePubKey: pubKey,
+      $pubKey: pubKey,
     }
   );
 }
 
-async function removePairingAuthorisationForSecondaryPubKey(pubKey) {
-  await db.run(
-    `DELETE FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE secondaryDevicePubKey = $secondaryDevicePubKey;`,
-    {
-      $secondaryDevicePubKey: pubKey,
-    }
-  );
-}
-
-async function getSecondaryDevicesFor(primaryDevicePubKey) {
-  const authorisations = await getGrantAuthorisationsForPrimaryPubKey(
-    primaryDevicePubKey
-  );
-  return map(authorisations, row => row.secondaryDevicePubKey);
-}
+const GUARD_NODE_TABLE = 'guardNodes';
 
 async function getGuardNodes() {
   const nodes = await db.all(`SELECT ed25519PubKey FROM ${GUARD_NODE_TABLE};`);
@@ -1620,42 +1579,8 @@ async function updateGuardNodes(nodes) {
   await db.run('END TRANSACTION;');
 }
 
-async function getPrimaryDeviceFor(secondaryDevicePubKey) {
-  const row = await db.get(
-    `SELECT primaryDevicePubKey FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE secondaryDevicePubKey = $secondaryDevicePubKey AND isGranted = 1;`,
-    {
-      $secondaryDevicePubKey: secondaryDevicePubKey,
-    }
-  );
-
-  if (!row) {
-    return null;
-  }
-
-  return row.primaryDevicePubKey;
-}
-
 // Return all the paired pubkeys for a specific pubkey (excluded),
 // irrespective of their Primary or Secondary status.
-async function getPairedDevicesFor(pubKey) {
-  let results = [];
-
-  // get primary pubkey (only works if the pubkey is a secondary pubkey)
-  const primaryPubKey = await getPrimaryDeviceFor(pubKey);
-  if (primaryPubKey) {
-    results.push(primaryPubKey);
-  }
-  // get secondary pubkeys (only works if the pubkey is a primary pubkey)
-  const secondaryPubKeys = await getSecondaryDevicesFor(
-    primaryPubKey || pubKey
-  );
-  results = results.concat(secondaryPubKeys);
-
-  // ensure the input pubkey is not in the results
-  results = results.filter(x => x !== pubKey);
-
-  return results;
-}
 
 const ITEMS_TABLE = 'items';
 async function createOrUpdateItem(data) {

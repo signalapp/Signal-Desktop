@@ -9,6 +9,7 @@
   textsecure,
   Whisper,
   libloki,
+  libsession,
   libsignal,
   StringView,
   BlockedNumberController,
@@ -1425,8 +1426,10 @@
 
     Whisper.events.on('devicePairingRequestRejected', async pubKey => {
       await libloki.storage.removeContactPreKeyBundle(pubKey);
-      await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
-        pubKey
+
+      const pubKeyObject = new libsession.Types.PubKey(pubKey);
+      await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
+        pubKeyObject
       );
     });
 
@@ -1435,9 +1438,9 @@
       if (isSecondaryDevice) {
         return;
       }
-
-      await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
-        pubKey
+      const pubKeyObject = new libsession.Types.PubKey(pubKey);
+      await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
+        pubKeyObject
       );
       await window.lokiFileServerAPI.updateOurDeviceMapping();
       // TODO: we should ensure the message was sent and retry automatically if not
@@ -1752,16 +1755,13 @@
       return;
     }
 
-    let primaryDevice = null;
-    const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
-      sender
-    );
-    if (authorisation) {
-      primaryDevice = authorisation.primaryDevicePubKey;
-    }
+    const user = libsession.Types.PubKey.from(sender);
+    const primaryDevice = user
+      ? await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(user)
+      : null;
 
     const conversation = ConversationController.get(
-      groupId || primaryDevice || sender
+      groupId || (primaryDevice && primaryDevice.key) || sender
     );
 
     if (conversation) {

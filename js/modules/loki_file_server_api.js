@@ -1,6 +1,5 @@
 /* global log, libloki, window */
 /* global storage: false */
-/* global Signal: false */
 /* global log: false */
 
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
@@ -220,16 +219,11 @@ class LokiHomeServerInstance extends LokiFileServerInstance {
 
   async updateOurDeviceMapping() {
     const isPrimary = !storage.get('isSecondaryDevice');
-    let authorisations;
-    if (isPrimary) {
-      authorisations = await Signal.Data.getGrantAuthorisationsForPrimaryPubKey(
-        this.ourKey
-      );
-    } else {
-      authorisations = [
-        await Signal.Data.getGrantAuthorisationForSecondaryPubKey(this.ourKey),
-      ];
-    }
+    const ourKey = new window.libsession.Types.PubKey(this.ourKey);
+    const authorisations = await window.libsession.Protocols.MultiDeviceProtocol.getPairingAuthorisations(
+      ourKey
+    );
+
     return this._setOurDeviceMapping(authorisations, isPrimary);
   }
 

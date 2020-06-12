@@ -876,15 +876,12 @@
         // This is already the primary conversation
         return this;
       }
-      const authorisation = await window.libloki.storage.getAuthorisationForSecondaryPubKey(
-        this.id
-      );
-      if (authorisation) {
-        return ConversationController.getOrCreateAndWait(
-          authorisation.primaryDevicePubKey,
-          'private'
-        );
+
+      const device = window.libsession.Type.PubKey.from(this.id);
+      if (device) {
+        return ConversationController.getOrCreateAndWait(device.key, 'private');
       }
+
       // Something funky has happened
       return this;
     },
