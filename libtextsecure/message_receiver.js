@@ -744,7 +744,7 @@ MessageReceiver.prototype.extend({
       case textsecure.protobuf.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT:
         promise = this.decryptForMediumGroup(envelope, ciphertext);
         break;
-      case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST: {
+      case textsecure.protobuf.Envelope.Type.SESSION_REQUEST: {
         window.log.info('friend-request message from ', envelope.source);
 
         const fallBackSessionCipher = new libloki.crypto.FallBackSessionCipher(
@@ -784,10 +784,10 @@ MessageReceiver.prototype.extend({
               }
 
               // We might have substituted the type based on decrypted content
-              if (type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
+              if (type === textsecure.protobuf.Envelope.Type.SESSION_REQUEST) {
                 // eslint-disable-next-line no-param-reassign
                 envelope.type =
-                  textsecure.protobuf.Envelope.Type.FRIEND_REQUEST;
+                  textsecure.protobuf.Envelope.Type.SESSION_REQUEST;
               }
 
               if (this.isBlocked(sender.getName())) {

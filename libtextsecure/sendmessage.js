@@ -1178,7 +1178,7 @@ MessageSender.prototype = {
     };
 
     // Loki - Temp hack for new protocol
-    // A session reset should be a `FRIEND_REQUEST`
+    // A session reset should be a `SESSION_REQUEST`
     const msgOptions = {
       messageType: 'friend-request',
       ...options,
