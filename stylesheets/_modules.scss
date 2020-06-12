@@ -51,8 +51,6 @@
 
   cursor: inherit;
   width: 100%;
-  margin-top: 4px;
-  margin-bottom: 4px;
 
   &::after {
     visibility: hidden;
@@ -93,6 +91,10 @@
   100% {
     transform: translateX(0px);
   }
+}
+
+.module-message--first-in-chain {
+  margin-top: 8px;
 }
 
 // Spec: container < 438px
@@ -2290,6 +2292,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-inline-notification-wrapper {
   outline: none;
+  margin-top: 8px;
   padding: 5px;
 
   @include keyboard-mode {
@@ -5521,11 +5524,6 @@ button.module-image__border-overlay:focus {
 .module-timeline {
   height: 100%;
   overflow: hidden;
-}
-
-.module-timeline__message-container {
-  padding-top: 4px;
-  padding-bottom: 4px;
 }
 
 .ReactVirtualized__List {
