@@ -69,6 +69,8 @@ export type PropsData = {
     before?: TimelineItemType;
     after?: TimelineItemType;
   };
+  isFirstInChain?: boolean;
+  isLastInChain?: boolean;
   text?: string;
   textPending?: boolean;
   isSticker?: boolean;
@@ -1339,7 +1341,16 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public isFirstInChain() {
-    const { authorPhoneNumber, context, timestamp } = this.props;
+    const {
+      authorPhoneNumber,
+      context,
+      isFirstInChain,
+      timestamp,
+    } = this.props;
+
+    if (isFirstInChain !== undefined) {
+      return isFirstInChain;
+    }
 
     if (!context || !context.before) {
       return true;
@@ -1370,7 +1381,11 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public isLastInChain() {
-    const { authorPhoneNumber, context, timestamp } = this.props;
+    const { authorPhoneNumber, context, isLastInChain, timestamp } = this.props;
+
+    if (isLastInChain !== undefined) {
+      return isLastInChain;
+    }
 
     if (!context) {
       return true;

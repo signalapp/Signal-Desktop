@@ -38,6 +38,118 @@
 </util.ConversationContext>
 ```
 
+#### In a message chain
+
+```jsx
+<util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
+  <div className="module-message-container">
+    <Message
+      isFirstInChain={true}
+      isLastInChain={false}
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="green"
+      text="About six"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'purple',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      isFirstInChain={false}
+      isLastInChain={false}
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="green"
+      text="Actually seven"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'purple',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      isFirstInChain={false}
+      isLastInChain={true}
+      direction="incoming"
+      timestamp={Date.now()}
+      authorColor="green"
+      text="Maybe eight"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'purple',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      isFirstInChain={true}
+      isLastInChain={false}
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="green"
+      text="About six"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'purple',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      isFirstInChain={false}
+      isLastInChain={false}
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="green"
+      text="Actually seven"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'purple',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      isFirstInChain={false}
+      isLastInChain={true}
+      direction="outgoing"
+      timestamp={Date.now()}
+      status="sending"
+      authorColor="green"
+      text="Maybe eight"
+      i18n={util.i18n}
+      quote={{
+        authorColor: 'purple',
+        text: 'How many ferrets do you have?',
+        authorPhoneNumber: '(202) 555-0011',
+        onClick: () => console.log('onClick'),
+      }}
+    />
+  </div>
+</util.ConversationContext>
+```
+
 #### Name variations
 
 ```jsx
