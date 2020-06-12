@@ -152,10 +152,7 @@
       encodedAddress
     );
     try {
-      const conv = await ConversationController.getOrCreateAndWait(
-        identifier,
-        'private'
-      );
+      const conv = ConversationController.getOrCreate(identifier, 'private');
       return `${conv.get('id')}.${deviceId}`;
     } catch (e) {
       window.log.error(
@@ -585,7 +582,9 @@
 
       const identifier = textsecure.utils.unencodeNumber(encodedAddress)[0];
       const identityRecord = this.getIdentityRecord(identifier);
-      const id = ConversationController.getConversationId(identifier);
+      const id = ConversationController.getOrCreate(identifier, 'private').get(
+        'id'
+      );
 
       if (!identityRecord || !identityRecord.publicKey) {
         // Lookup failed, or the current key was removed, so save this one.
@@ -661,10 +660,7 @@
 
       const identifier = textsecure.utils.unencodeNumber(encodedAddress)[0];
       const identityRecord = this.getIdentityRecord(identifier);
-      const conv = await ConversationController.getOrCreateAndWait(
-        identifier,
-        'private'
-      );
+      const conv = ConversationController.getOrCreate(identifier, 'private');
       const id = conv.get('id');
 
       const updates = {

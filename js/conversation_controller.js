@@ -67,7 +67,7 @@
     dangerouslyCreateAndAdd(attributes) {
       return conversations.add(attributes);
     },
-    getOrCreate(identifier, type) {
+    getOrCreate(identifier, type, additionalInitialProps = {}) {
       if (typeof identifier !== 'string') {
         throw new TypeError("'id' must be a string");
       }
@@ -99,6 +99,7 @@
           groupId: identifier,
           type,
           version: 2,
+          ...additionalInitialProps,
         });
       } else if (window.isValidGuid(identifier)) {
         conversation = conversations.add({
@@ -108,6 +109,7 @@
           groupId: null,
           type,
           version: 2,
+          ...additionalInitialProps,
         });
       } else {
         conversation = conversations.add({
@@ -117,6 +119,7 @@
           groupId: null,
           type,
           version: 2,
+          ...additionalInitialProps,
         });
       }
 
@@ -154,9 +157,9 @@
 
       return conversation;
     },
-    getOrCreateAndWait(id, type) {
+    getOrCreateAndWait(id, type, additionalInitialProps = {}) {
       return this._initialPromise.then(() => {
-        const conversation = this.getOrCreate(id, type);
+        const conversation = this.getOrCreate(id, type, additionalInitialProps);
 
         if (conversation) {
           return conversation.initialPromise.then(() => conversation);
@@ -184,7 +187,58 @@
     getOurConversationId() {
       const e164 = textsecure.storage.user.getNumber();
       const uuid = textsecure.storage.user.getUuid();
-      return this.getConversationId(e164 || uuid);
+      return this.ensureContactIds({ e164, uuid });
+    },
+    /**
+     * Given a UUID and/or an E164, resolves to a string representing the local
+     * database of the given contact. If a conversation is found it is updated
+     * to have the given UUID and E164. If a conversation is not found, this
+     * function creates a conversation with the given UUID and E164. If the
+     * conversation * is found in the local database it is updated.
+     *
+     * This function also additionally checks for mismatched e164/uuid pairs out
+     * of abundance of caution.
+     */
+    ensureContactIds({ e164, uuid }) {
+      // Check for at least one parameter being provided. This is necessary
+      // because this path can be called on startup to resolve our own ID before
+      // our phone number or UUID are known. The existing behavior in these
+      // cases can handle a returned `undefined` id, so we do that.
+      if (!e164 && !uuid) {
+        return undefined;
+      }
+
+      const lowerUuid = uuid ? uuid.toLowerCase() : undefined;
+
+      const convoE164 = this.get(e164);
+      const convoUuid = this.get(lowerUuid);
+
+      // Check for mismatched UUID and E164
+      if (
+        convoE164 &&
+        convoUuid &&
+        convoE164.get('id') !== convoUuid.get('id')
+      ) {
+        window.log.warn('Received a message with a mismatched UUID and E164.');
+      }
+
+      const convo = convoUuid || convoE164;
+
+      const idOrIdentifier = convo ? convo.get('id') : e164 || lowerUuid;
+
+      const finalConversation = this.getOrCreate(idOrIdentifier, 'private');
+      finalConversation.updateE164(e164);
+      finalConversation.updateUuid(lowerUuid);
+
+      return finalConversation.get('id');
+    },
+    /**
+     * Given a groupId and optional additional initialization properties,
+     * ensures the existence of a group conversation and returns a string
+     * representing the local database ID of the group conversation.
+     */
+    ensureGroup(groupId, additionalInitProps = {}) {
+      return this.getOrCreate(groupId, 'group', additionalInitProps).get('id');
     },
     /**
      * Given certain metadata about a message (an identifier of who wrote the
