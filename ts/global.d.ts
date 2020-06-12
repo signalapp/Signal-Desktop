@@ -25,6 +25,9 @@ interface Window {
   Signal: any;
   Whisper: any;
   ConversationController: any;
+  MessageController: any;
+
+  StringView: any;
 
   // Following function needs to be written in background.js
   // getMemberList: any;
@@ -59,6 +62,11 @@ interface Window {
   lokiFeatureFlags: any;
 
   resetDatabase: any;
+  restart: () => void;
+
+  lokiFileServerAPI: any;
+  WebAPI: any;
+  SenderKeyAPI: any;
 }
 
 interface Promise<T> {
