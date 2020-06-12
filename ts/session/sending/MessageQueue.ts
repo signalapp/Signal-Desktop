@@ -1,32 +1,27 @@
 import * as _ from 'lodash';
 import * as Data from '../../../js/modules/data';
-import { textsecure } from '../../window';
+import { ConversationController } from '../../window';
 
 import { EventEmitter } from 'events';
 import {
   MessageQueueInterface,
   MessageQueueInterfaceEvents,
-  GroupMessageType,
 } from './MessageQueueInterface';
 import {
   ClosedGroupMessage,
   ContentMessage,
   OpenGroupMessage,
-  SessionResetMessage,
-  SyncMessage,
+  SessionRequestMessage,
 } from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
 import {
   JobQueue,
-  TypedEventEmitter,
-  MessageUtils,
   SyncMessageUtils,
+  TypedEventEmitter,
 } from '../utils';
 import { PubKey } from '../types';
-import { ConversationController } from '../../window';
 import { MessageSender } from '.';
 import { SessionProtocol } from '../protocols';
-import { generateFakePubkey } from '../../test/test-utils/testUtils';
 
 export class MessageQueue implements MessageQueueInterface {
   public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
@@ -99,8 +94,7 @@ export class MessageQueue implements MessageQueueInterface {
     // Open groups
     if (message instanceof OpenGroupMessage) {
       // No queue needed for Open Groups; send directly
-      const rawMessage = MessageUtils.toRawMessage(message.group, message);
-      await MessageSender.send(message);
+      await MessageSender.sendToOpenGroup(message);
 
       return true;
     }
@@ -145,9 +139,8 @@ export class MessageQueue implements MessageQueueInterface {
             // Message sent; remove from cache
             void this.pendingMessageCache.remove(message);
           })
-          .catch(() => {
-            // Message failed to send
-          });
+          // Message failed to send
+          .catch(() => null);
       }
     });
   }
@@ -160,7 +153,7 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   private async queue(device: PubKey, message: ContentMessage) {
-    if (message instanceof SessionResetMessage) {
+    if (message instanceof SessionRequestMessage) {
       return;
     }
 

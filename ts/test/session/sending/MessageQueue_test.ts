@@ -32,14 +32,31 @@ describe('MessageQueue', () => {
     const message = TestUtils.generateChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
-    // SyncMessageUtils.from(message);
-
-    const myOpenGroup = new OpenGroup({conversationId: 'publicChat:1@feedback.getsession.org'});
-    console.log('[vince] myOpenGroup.server:', myOpenGroup.server);
-    console.log('[vince] myOpenGroup.channel:', myOpenGroup.channel);
-    console.log('[vince] myOpenGroup.conversationId:', myOpenGroup.conversationId);
-
-    
 
   });
+
+  it('can add directly to jobs queue', async () => {
+    const device = TestUtils.generateFakePubkey();
+    const message = TestUtils.generateChatMessage();
+    const rawMessage = MessageUtils.toRawMessage(device, message);
+
+
+  });
+
+  it('can queue', async () => {
+    const device = TestUtils.generateFakePubkey();
+    const message = TestUtils.generateChatMessage();
+    const rawMessage = MessageUtils.toRawMessage(device, message);
+
+
+  });
+
+  it('can process pending', async () => {
+    const device = TestUtils.generateFakePubkey();
+    const message = TestUtils.generateChatMessage();
+    const rawMessage = MessageUtils.toRawMessage(device, message);
+
+
+  });
+
 });
