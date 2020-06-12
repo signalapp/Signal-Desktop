@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import * as Data from '../../../js/modules/data';
+import { getPairedDevicesFor } from '../../../js/modules/data';
 import { ConversationController } from '../../window';
 
 import { EventEmitter } from 'events';
@@ -14,14 +14,11 @@ import {
   SessionRequestMessage,
 } from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
-import {
-  JobQueue,
-  SyncMessageUtils,
-  TypedEventEmitter,
-} from '../utils';
+import { JobQueue, SyncMessageUtils, TypedEventEmitter } from '../utils';
 import { PubKey } from '../types';
 import { MessageSender } from '.';
 import { SessionProtocol } from '../protocols';
+import * as UserUtils from '../../util/user';
 
 export class MessageQueue implements MessageQueueInterface {
   public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
@@ -35,7 +32,7 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   public async sendUsingMultiDevice(user: PubKey, message: ContentMessage) {
-    const userLinked = await Data.getPairedDevicesFor(user.key);
+    const userLinked = await getPairedDevicesFor(user.key);
     const userDevices = userLinked.map(d => new PubKey(d));
 
     await this.sendMessageToDevices(userDevices, message);
@@ -53,23 +50,34 @@ export class MessageQueue implements MessageQueueInterface {
 
     // Sync to our devices if syncable
     if (SyncMessageUtils.canSync(message)) {
+      const currentDevice = await UserUtils.getCurrentDevicePubKey();
 
-      const ourDevices = await SyncMessageUtils.getOurPairedDevices();
-      await this.sendSyncMessage(message, ourDevices);
+      if (currentDevice) {
+        const otherDevices = await getPairedDevicesFor(currentDevice);
 
-      // Remove our devices from currentDevices
-      const ourDeviceContacts = ourDevices.map(device => ConversationController.get(device.key));
-      currentDevices = _.xor(currentDevices, ourDeviceContacts);
+        const ourDevices = [currentDevice, ...otherDevices].map(
+          device => new PubKey(device)
+        );
+        await this.sendSyncMessage(message, ourDevices);
+
+        // Remove our devices from currentDevices
+        const ourDeviceContacts = ourDevices.map(device =>
+          ConversationController.get(device.key)
+        );
+        currentDevices = _.xor(currentDevices, ourDeviceContacts);
+      }
     }
 
     const promises = currentDevices.map(async device => {
-      await this.queue(device, message);
+      await this.process(device, message);
     });
 
     return Promise.all(promises);
   }
 
-  public async sendToGroup(message: OpenGroupMessage | ContentMessage): Promise<boolean> {
+  public async sendToGroup(
+    message: OpenGroupMessage | ContentMessage
+  ): Promise<boolean> {
     if (
       !(message instanceof OpenGroupMessage) &&
       !(message instanceof ClosedGroupMessage)
@@ -102,15 +110,12 @@ export class MessageQueue implements MessageQueueInterface {
     return false;
   }
 
-  public async sendSyncMessage(
-    message: ContentMessage,
-    sendTo: Array<PubKey>
-  ) {
+  public async sendSyncMessage(message: ContentMessage, sendTo: Array<PubKey>) {
     // Sync with our devices
     const promises = sendTo.map(async device => {
-      const syncMessage = await SyncMessageUtils.from(message, device);
+      const syncMessage = await SyncMessageUtils.from(message);
 
-      return this.queue(device, syncMessage);
+      return this.process(device, syncMessage);
     });
 
     return Promise.all(promises);
@@ -130,17 +135,19 @@ export class MessageQueue implements MessageQueueInterface {
     }
 
     const jobQueue = this.getJobQueue(device);
-    messages.forEach(message => {
-      if (!jobQueue.has(message.identifier)) {
-        const promise = jobQueue.add(async () => MessageSender.send(message));
+    messages.forEach(async message => {
+      const messageId = String(message.timestamp);
 
-        promise
-          .then(() => {
-            // Message sent; remove from cache
-            void this.pendingMessageCache.remove(message);
-          })
-          // Message failed to send
-          .catch(() => null);
+      if (!jobQueue.has(messageId)) {
+        try {
+          await jobQueue.addWithId(messageId, async () =>
+            MessageSender.send(message)
+          );
+          void this.pendingMessageCache.remove(message);
+          this.events.emit('success', message);
+        } catch (e) {
+          this.events.emit('fail', message, e);
+        }
       }
     });
   }
@@ -152,8 +159,8 @@ export class MessageQueue implements MessageQueueInterface {
     return Promise.all(promises);
   }
 
-  private async queue(device: PubKey, message: ContentMessage) {
-    if (message instanceof SessionRequestMessage) {
+  private async process(device: PubKey, message?: ContentMessage) {
+    if (!message || message instanceof SessionRequestMessage) {
       return;
     }
 
@@ -170,5 +177,4 @@ export class MessageQueue implements MessageQueueInterface {
 
     return queue;
   }
-
 }

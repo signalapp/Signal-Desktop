@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import * as _ from 'lodash';
-import * as MessageUtils from '../../../session/utils';
+import { MessageUtils } from '../../../session/utils';
 import { TestUtils } from '../../../test/test-utils';
 import { PendingMessageCache } from '../../../session/sending/PendingMessageCache';
 
@@ -53,7 +53,7 @@ describe('PendingMessageCache', () => {
 
   it('can add to cache', async () => {
     const device = TestUtils.generateFakePubkey();
-    const message = TestUtils.generateUniqueChatMessage();
+    const message = TestUtils.generateChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
@@ -70,7 +70,7 @@ describe('PendingMessageCache', () => {
 
   it('can remove from cache', async () => {
     const device = TestUtils.generateFakePubkey();
-    const message = TestUtils.generateUniqueChatMessage();
+    const message = TestUtils.generateChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
@@ -91,15 +91,15 @@ describe('PendingMessageCache', () => {
     const cacheItems = [
       {
         device: TestUtils.generateFakePubkey(),
-        message: TestUtils.generateUniqueChatMessage(),
+        message: TestUtils.generateChatMessage(),
       },
       {
         device: TestUtils.generateFakePubkey(),
-        message: TestUtils.generateUniqueChatMessage(),
+        message: TestUtils.generateChatMessage(),
       },
       {
         device: TestUtils.generateFakePubkey(),
-        message: TestUtils.generateUniqueChatMessage(),
+        message: TestUtils.generateChatMessage(),
       },
     ];
 
@@ -123,11 +123,11 @@ describe('PendingMessageCache', () => {
     const cacheItems = [
       {
         device: TestUtils.generateFakePubkey(),
-        message: TestUtils.generateUniqueChatMessage(),
+        message: TestUtils.generateChatMessage(),
       },
       {
         device: TestUtils.generateFakePubkey(),
-        message: TestUtils.generateUniqueChatMessage(),
+        message: TestUtils.generateChatMessage(),
       },
     ];
 
@@ -150,7 +150,7 @@ describe('PendingMessageCache', () => {
 
   it('can find nothing when empty', async () => {
     const device = TestUtils.generateFakePubkey();
-    const message = TestUtils.generateUniqueChatMessage();
+    const message = TestUtils.generateChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
     const foundMessage = pendingMessageCacheStub.find(rawMessage);
@@ -159,7 +159,7 @@ describe('PendingMessageCache', () => {
 
   it('can find message in cache', async () => {
     const device = TestUtils.generateFakePubkey();
-    const message = TestUtils.generateUniqueChatMessage();
+    const message = TestUtils.generateChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
@@ -176,15 +176,15 @@ describe('PendingMessageCache', () => {
     const cacheItems = [
       {
         device: TestUtils.generateFakePubkey(),
-        message: TestUtils.generateUniqueChatMessage(),
+        message: TestUtils.generateChatMessage(),
       },
       {
         device: TestUtils.generateFakePubkey(),
-        message: TestUtils.generateUniqueChatMessage(),
+        message: TestUtils.generateChatMessage(),
       },
       {
         device: TestUtils.generateFakePubkey(),
-        message: TestUtils.generateUniqueChatMessage(),
+        message: TestUtils.generateChatMessage(),
       },
     ];
 
@@ -206,15 +206,15 @@ describe('PendingMessageCache', () => {
     const cacheItems = [
       {
         device: TestUtils.generateFakePubkey(),
-        message: TestUtils.generateUniqueChatMessage(),
+        message: TestUtils.generateChatMessage(),
       },
       {
         device: TestUtils.generateFakePubkey(),
-        message: TestUtils.generateUniqueChatMessage(),
+        message: TestUtils.generateChatMessage(),
       },
       {
         device: TestUtils.generateFakePubkey(),
-        message: TestUtils.generateUniqueChatMessage(),
+        message: TestUtils.generateChatMessage(),
       },
     ];
 

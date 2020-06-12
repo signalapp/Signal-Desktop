@@ -1,7 +1,8 @@
 export class PubKey {
   public static readonly PUBKEY_LEN = 66;
-  private static readonly regex: RegExp = new RegExp(`^05[0-9a-fA-F]{${PubKey.PUBKEY_LEN -
-    2}}$`);
+  private static readonly regex: RegExp = new RegExp(
+    `^05[0-9a-fA-F]{${PubKey.PUBKEY_LEN - 2}}$`
+  );
   public readonly key: string;
 
   constructor(pubkeyString: string) {

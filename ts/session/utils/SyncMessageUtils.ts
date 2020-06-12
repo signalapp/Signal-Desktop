@@ -1,53 +1,54 @@
-import {
-  ContactSyncMessage,
-  ContentMessage,
-  SyncMessageEnum,
-} from '../messages/outgoing';
-import { PubKey } from '../types';
-
 import * as _ from 'lodash';
-import * as Data from '../../../js/modules/data';
-import { ConversationController, textsecure, Whisper } from '../../window';
-import { OpenGroup } from '../types/OpenGroup';
+import * as UserUtils from '../../util/user';
+import {
+  getAllConversations,
+  getPrimaryDeviceFor,
+} from '../../../js/modules/data';
+import { ConversationController, Whisper } from '../../window';
 
+import { ContentMessage, SyncMessage } from '../messages/outgoing';
 
 export async function from(
-  message: ContentMessage,
-  sendTo: PubKey | OpenGroup,
-  syncType: SyncMessageEnum.CONTACTS | SyncMessageEnum.GROUPS = SyncMessageEnum.CONTACTS
-): Promise<ContactSyncMessage> {
-  const { timestamp, identifier } = message;
+  message: ContentMessage
+): Promise<SyncMessage | undefined> {
+  // const { timestamp, identifier } = message;
 
   // Stubbed for now
-  return new ContactSyncMessage({
-    timestamp,
-    identifier,
-    contacts: [],
-  });
+  return undefined;
 }
 
 export async function canSync(message: ContentMessage): Promise<boolean> {
   // This function should be agnostic to the device; it shouldn't need
   // to know about the recipient
-  // return Boolean(from(message, device));
+  // return Boolean(from(message));
   // Stubbed for now
   return true;
 }
 
-export async function getSyncContacts(): Promise<Array<any>> {
-  const thisDevice = textsecure.storage.user.getNumber();
-  const primaryDevice = await Data.getPrimaryDeviceFor(thisDevice);
-  const conversations = await Data.getAllConversations({ ConversationCollection: Whisper.ConversationCollection });
+export async function getSyncContacts(): Promise<Array<any> | undefined> {
+  const thisDevice = await UserUtils.getCurrentDevicePubKey();
+
+  if (!thisDevice) {
+    return [];
+  }
+
+  const primaryDevice = await getPrimaryDeviceFor(thisDevice);
+  const conversations = await getAllConversations({
+    ConversationCollection: Whisper.ConversationCollection,
+  });
 
   // We are building a set of all contacts
-  const primaryContacts = conversations.filter(c =>
-    c.isPrivate() &&
-    !c.isOurLocalDevice() &&
-    c.isFriend() &&
-    !c.attributes.secondaryStatus
-  ) || [];
+  const primaryContacts =
+    conversations.filter(
+      c =>
+        c.isPrivate() &&
+        !c.isOurLocalDevice() &&
+        c.isFriend() &&
+        !c.attributes.secondaryStatus
+    ) || [];
 
-  const secondaryContactsPartial = conversations.filter(c =>
+  const secondaryContactsPartial = conversations.filter(
+    c =>
       c.isPrivate() &&
       !c.isOurLocalDevice() &&
       c.isFriend() &&
@@ -66,15 +67,8 @@ export async function getSyncContacts(): Promise<Array<any>> {
     .filter(c => c.id !== primaryDevice);
 
   // Return unique contacts
-  return _.uniqBy([
-    ...primaryContacts,
-    ...secondaryContacts,
-  ], device => !!device);
-}
-
-export async function getOurPairedDevices(): Promise<Array<PubKey>> {
-  const ourPubKey = textsecure.storage.user.getNumber();
-  const ourDevices = await Data.getPairedDevicesFor(ourPubKey);
-
-  return ourDevices.map(device => new PubKey(device));
+  return _.uniqBy(
+    [...primaryContacts, ...secondaryContacts],
+    device => !!device
+  );
 }

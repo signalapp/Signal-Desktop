@@ -19,5 +19,8 @@ export interface MessageQueueInterface {
   sendUsingMultiDevice(user: PubKey, message: ContentMessage): void;
   send(device: PubKey, message: ContentMessage): void;
   sendToGroup(message: GroupMessageType): void;
-  sendSyncMessage(message: ContentMessage, sendTo: Array<PubKey>): Promise<Array<void>>;
+  sendSyncMessage(
+    message: ContentMessage,
+    sendTo: Array<PubKey>
+  ): Promise<Array<void>>;
 }
