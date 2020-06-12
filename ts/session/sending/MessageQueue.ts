@@ -102,7 +102,13 @@ export class MessageQueue implements MessageQueueInterface {
     // Open groups
     if (message instanceof OpenGroupMessage) {
       // No queue needed for Open Groups; send directly
-      await MessageSender.sendToOpenGroup(message);
+
+      try {
+        await MessageSender.sendToOpenGroup(message);
+        this.events.emit('success', message);
+      } catch (e) {
+        this.events.emit('fail', message, e);
+      }
 
       return true;
     }
@@ -113,7 +119,7 @@ export class MessageQueue implements MessageQueueInterface {
   public async sendSyncMessage(message: ContentMessage, sendTo: Array<PubKey>) {
     // Sync with our devices
     const promises = sendTo.map(async device => {
-      const syncMessage = await SyncMessageUtils.from(message);
+      const syncMessage = SyncMessageUtils.from(message);
 
       return this.process(device, syncMessage);
     });
@@ -124,9 +130,10 @@ export class MessageQueue implements MessageQueueInterface {
   public async processPending(device: PubKey) {
     const messages = this.pendingMessageCache.getForDevice(device);
 
+    // TODO: Simpify the isMediumGroup check to not rely on ANY window objects
+    // const isMediumGroup = messages.some(m => m instanceof MediumGroupMessage);
+    const isMediumGroup = false;
     const hasSession = SessionProtocol.hasSession(device);
-    const conversation = ConversationController.get(device.key);
-    const isMediumGroup = conversation.isMediumGroup();
 
     if (!isMediumGroup && !hasSession) {
       await SessionProtocol.sendSessionRequestIfNeeded(device);
@@ -160,7 +167,13 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   private async process(device: PubKey, message?: ContentMessage) {
-    if (!message || message instanceof SessionRequestMessage) {
+    if (!message) {
+      return;
+    }
+
+    if (message instanceof SessionRequestMessage) {
+      void SessionProtocol.sendSessionRequest(message, device);
+
       return;
     }
 

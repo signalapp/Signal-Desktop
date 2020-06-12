@@ -67,3 +67,4 @@ export function generateChatMessage(): ChatMessage {
     preview: undefined,
   });
 }
+
