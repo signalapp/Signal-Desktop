@@ -1,12 +1,9 @@
-/* global window, libsignal, textsecure, Signal,
-   lokiFileServerAPI, ConversationController */
+/* global window, libsignal, textsecure,
+   lokiFileServerAPI,  */
 
 // eslint-disable-next-line func-names
 (function() {
   window.libloki = window.libloki || {};
-
-  const timers = {};
-  const REFRESH_DELAY = 60 * 1000;
 
   async function getPreKeyBundleForContact(pubKey) {
     const myKeyPair = await textsecure.storage.protocol.getIdentityKeyPair();
@@ -154,84 +151,26 @@
 
   // if the device is a secondary device,
   // fetch the device mappings for its primary device
-  async function saveAllPairingAuthorisationsFor(pubKey) {
-    // Will be false if there is no timer
-    const cacheValid = timers[pubKey] > Date.now();
-    if (cacheValid) {
-      return;
-    }
-    timers[pubKey] = Date.now() + REFRESH_DELAY;
-    const authorisations = await getPrimaryDeviceMapping(pubKey);
-    await Promise.all(
-      authorisations.map(authorisation =>
-        savePairingAuthorisation(authorisation)
-      )
-    );
+  async function saveAllPairingAuthorisationsFor() {
+    throw new Error('Use MultiDeviceProtocol instead.');
   }
 
-  async function savePairingAuthorisation(authorisation) {
-    if (!authorisation) {
-      return;
-    }
-
-    // Ensure that we have a conversation for all the devices
-    const conversation = await ConversationController.getOrCreateAndWait(
-      authorisation.secondaryDevicePubKey,
-      'private'
-    );
-    await conversation.setSecondaryStatus(
-      true,
-      authorisation.primaryDevicePubKey
-    );
-    await window.Signal.Data.createOrUpdatePairingAuthorisation(authorisation);
+  async function savePairingAuthorisation() {
+    throw new Error('Use MultiDeviceProtocol instead.');
   }
 
   // Transforms signatures from base64 to ArrayBuffer!
-  async function getGrantAuthorisationForSecondaryPubKey(secondaryPubKey) {
-    const conversation = ConversationController.get(secondaryPubKey);
-    if (!conversation || conversation.isPublic() || conversation.isRss()) {
-      return null;
-    }
-    await saveAllPairingAuthorisationsFor(secondaryPubKey);
-    const authorisation = await window.Signal.Data.getGrantAuthorisationForSecondaryPubKey(
-      secondaryPubKey
-    );
-    if (!authorisation) {
-      return null;
-    }
-    return {
-      ...authorisation,
-      requestSignature: Signal.Crypto.base64ToArrayBuffer(
-        authorisation.requestSignature
-      ),
-      grantSignature: Signal.Crypto.base64ToArrayBuffer(
-        authorisation.grantSignature
-      ),
-    };
+  async function getGrantAuthorisationForSecondaryPubKey() {
+    throw new Error('Use MultiDeviceProtocol instead.');
   }
 
   // Transforms signatures from base64 to ArrayBuffer!
-  async function getAuthorisationForSecondaryPubKey(secondaryPubKey) {
-    await saveAllPairingAuthorisationsFor(secondaryPubKey);
-    const authorisation = await window.Signal.Data.getAuthorisationForSecondaryPubKey(
-      secondaryPubKey
-    );
-    if (!authorisation) {
-      return null;
-    }
-    return {
-      ...authorisation,
-      requestSignature: Signal.Crypto.base64ToArrayBuffer(
-        authorisation.requestSignature
-      ),
-      grantSignature: authorisation.grantSignature
-        ? Signal.Crypto.base64ToArrayBuffer(authorisation.grantSignature)
-        : null,
-    };
+  async function getAuthorisationForSecondaryPubKey() {
+    throw new Error('Use MultiDeviceProtocol instead.');
   }
 
-  function getSecondaryDevicesFor(primaryDevicePubKey) {
-    return window.Signal.Data.getSecondaryDevicesFor(primaryDevicePubKey);
+  function getSecondaryDevicesFor() {
+    throw new Error('Use MultiDeviceProtocol instead.');
   }
 
   function getGuardNodes() {
@@ -242,15 +181,12 @@
     return window.Signal.Data.updateGuardNodes(nodes);
   }
 
-  async function getAllDevicePubKeysForPrimaryPubKey(primaryDevicePubKey) {
-    await saveAllPairingAuthorisationsFor(primaryDevicePubKey);
-    const secondaryPubKeys =
-      (await getSecondaryDevicesFor(primaryDevicePubKey)) || [];
-    return secondaryPubKeys.concat(primaryDevicePubKey);
+  async function getAllDevicePubKeysForPrimaryPubKey() {
+    throw new Error('Use MultiDeviceProtocol instead.');
   }
 
-  function getPairedDevicesFor(pubkey) {
-    return window.Signal.Data.getPairedDevicesFor(pubkey);
+  function getPairedDevicesFor() {
+    throw new Error('use MultiDeviceProtocol instead');
   }
 
   window.libloki.storage = {
@@ -258,6 +194,14 @@
     saveContactPreKeyBundle,
     removeContactPreKeyBundle,
     verifyFriendRequestAcceptPreKey,
+    getAllDevicePubKeysForPrimaryPubKey,
+    getPairedDevicesFor,
+    getSecondaryDevicesFor,
+    getPrimaryDeviceMapping,
+    saveAllPairingAuthorisationsFor,
+    savePairingAuthorisation,
+    getGrantAuthorisationForSecondaryPubKey,
+    getAuthorisationForSecondaryPubKey,
     getGuardNodes,
     updateGuardNodes,
   };

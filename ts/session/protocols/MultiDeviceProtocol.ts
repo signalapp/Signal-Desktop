@@ -7,6 +7,8 @@ import {
 } from '../../../js/modules/data';
 import { PrimaryPubKey, PubKey, SecondaryPubKey } from '../types';
 
+// TODO: We should fetch mappings when we can and only fetch them once every 5 minutes or something
+
 /**
  * Save pairing authorisation to the database.
  * @param authorisation The pairing authorisation.

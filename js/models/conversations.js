@@ -877,7 +877,7 @@
         return this;
       }
 
-      const device = window.libsession.Type.PubKey.from(this.id);
+      const device = window.libsession.Types.PubKey.from(this.id);
       if (device) {
         return ConversationController.getOrCreateAndWait(device.key, 'private');
       }

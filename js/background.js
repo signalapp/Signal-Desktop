@@ -1817,25 +1817,23 @@
         activeAt = activeAt || Date.now();
       }
       const ourPrimaryKey = window.storage.get('primaryDevicePubKey');
-      const ourDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-        ourPrimaryKey
-      );
-      // TODO: We should probably just *not* send any secondary devices and
-      // just load them all and send FRs when we get the mapping
-      const isOurSecondaryDevice =
-        id !== ourPrimaryKey &&
-        ourDevices &&
-        ourDevices.some(devicePubKey => devicePubKey === id);
-
-      if (isOurSecondaryDevice) {
-        await conversation.setSecondaryStatus(true, ourPrimaryKey);
+      if (ourPrimaryKey) {
+        const user = new libsession.Types.PubKey(ourPrimaryKey);
+        const secondaryDevices = await libsession.Protocols.MultiDeviceProtocol.getSecondaryDevices(
+          user
+        );
+        if (secondaryDevices.some(device => device.key === id)) {
+          await conversation.setSecondaryStatus(true, ourPrimaryKey);
+        }
       }
 
-      const otherDevices = await libloki.storage.getPairedDevicesFor(id);
-      const devices = [id, ...otherDevices];
+      const user = new libsession.Types.PubKey(id);
+      const devices = await libsession.Protocols.MultiDeviceProtocol.getAllDevices(
+        user
+      );
       const deviceConversations = await Promise.all(
         devices.map(d =>
-          ConversationController.getOrCreateAndWait(d, 'private')
+          ConversationController.getOrCreateAndWait(d.key, 'private')
         )
       );
       deviceConversations.forEach(device => {
