@@ -96,7 +96,12 @@ export type ConversationControllerType = {
     identifier: string,
     type: 'private' | 'group'
   ) => Promise<ConversationType>;
+  getOrCreate: (
+    identifier: string,
+    type: 'private' | 'group'
+  ) => ConversationType;
   getConversationId: (identifier: string) => string | null;
+  ensureContactIds: (o: { e164?: string; uuid?: string }) => string;
   prepareForSend: (
     id: string,
     options: Object

@@ -244,9 +244,7 @@
           regionCode: window.storage.get('regionCode'),
           ourNumber,
           ourUuid,
-          ourConversationId: ConversationController.getConversationId(
-            ourNumber || ourUuid
-          ),
+          ourConversationId: ConversationController.getOurConversationId(),
         };
         Whisper.events.trigger('userChanged', user);
 
@@ -616,9 +614,7 @@
     );
     const ourNumber = textsecure.storage.user.getNumber();
     const ourUuid = textsecure.storage.user.getUuid();
-    const ourConversationId = ConversationController.getConversationId(
-      ourNumber || ourUuid
-    );
+    const ourConversationId = ConversationController.getOurConversationId();
     const initialState = {
       conversations: {
         conversationLookup: Signal.Util.makeLookup(conversations, 'id'),
@@ -1803,10 +1799,9 @@
         Whisper.events.trigger('contactsync');
       });
 
-      const ourUuid = textsecure.storage.user.getUuid();
-      const ourNumber = textsecure.storage.user.getNumber();
+      const ourId = ConversationController.getOurConversationId();
       const { wrap, sendOptions } = ConversationController.prepareForSend(
-        ourNumber || ourUuid,
+        ourId,
         {
           syncMessage: true,
         }
@@ -1953,18 +1948,16 @@
       return;
     }
 
-    const conversation = ConversationController.get(
-      groupId || sender || senderUuid
-    );
-    const ourUuid = textsecure.storage.user.getUuid();
-    const ourNumber = textsecure.storage.user.getNumber();
+    const senderId = ConversationController.ensureContactIds({
+      e164: sender,
+      uuid: senderUuid,
+    });
+    const conversation = ConversationController.get(groupId || senderId);
+    const ourId = ConversationController.getOurConversationId();
 
     if (conversation) {
       // We drop typing notifications in groups we're not a part of
-      if (
-        !conversation.isPrivate() &&
-        !conversation.hasMember(ourNumber || ourUuid)
-      ) {
+      if (!conversation.isPrivate() && !conversation.hasMember(ourId)) {
         window.log.warn(
           `Received typing indicator for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
         );
@@ -1973,8 +1966,10 @@
 
       conversation.notifyTyping({
         isTyping: started,
+        isMe: ourId === senderId,
         sender,
         senderUuid,
+        senderId,
         senderDevice,
       });
     }
@@ -2046,10 +2041,11 @@
     }
 
     try {
-      const conversation = await ConversationController.getOrCreateAndWait(
-        details.number || details.uuid,
-        'private'
-      );
+      const detailsId = ConversationController.ensureContactIds({
+        e164: details.number,
+        uuid: details.uuid,
+      });
+      const conversation = ConversationController.get(detailsId);
       let activeAt = conversation.get('active_at');
 
       // The idea is to make any new contact show up in the left pane. If
@@ -2116,15 +2112,16 @@
       const { expireTimer } = details;
       const isValidExpireTimer = typeof expireTimer === 'number';
       if (isValidExpireTimer) {
-        const sourceE164 = textsecure.storage.user.getNumber();
-        const sourceUuid = textsecure.storage.user.getUuid();
+        const ourId = ConversationController.getOurConversationId();
         const receivedAt = Date.now();
 
         await conversation.updateExpirationTimer(
           expireTimer,
-          sourceE164 || sourceUuid,
+          ourId,
           receivedAt,
-          { fromSync: true }
+          {
+            fromSync: true,
+          }
         );
       }
 
@@ -2265,7 +2262,13 @@
   const getDescriptorForReceived = ({ message, source, sourceUuid }) =>
     message.group
       ? getGroupDescriptor(message.group)
-      : { type: Message.PRIVATE, id: source || sourceUuid };
+      : {
+          type: Message.PRIVATE,
+          id: ConversationController.ensureContactIds({
+            e164: source,
+            uuid: sourceUuid,
+          }),
+        };
 
   // Received:
   async function handleMessageReceivedProfileUpdate({
@@ -2304,22 +2307,7 @@
       });
     }
 
-    const message = initIncomingMessage(data);
-
-    const result = ConversationController.getOrCreate(
-      messageDescriptor.id,
-      messageDescriptor.type,
-      messageDescriptor.type === 'group'
-        ? { addedBy: message.getContact().get('id') }
-        : undefined
-    );
-
-    if (messageDescriptor.type === 'private') {
-      result.updateE164(data.source);
-      if (data.sourceUuid) {
-        result.updateUuid(data.sourceUuid);
-      }
-    }
+    const message = initIncomingMessage(data, messageDescriptor);
 
     if (data.message.reaction) {
       const { reaction } = data.message;
@@ -2331,7 +2319,10 @@
         targetAuthorUuid: reaction.targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp.toNumber(),
         timestamp: Date.now(),
-        fromId: data.source || data.sourceUuid,
+        fromId: ConversationController.ensureContactIds({
+          e164: data.source,
+          uuid: data.sourceUuid,
+        }),
       });
       // Note: We do not wait for completion here
       Whisper.Reactions.onReaction(reactionModel);
@@ -2345,7 +2336,10 @@
       const deleteModel = Whisper.Deletes.add({
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: data.serverTimestamp,
-        fromId: data.source || data.sourceUuid,
+        fromId: ConversationController.ensureContactIds({
+          e164: data.source,
+          uuid: data.sourceUuid,
+        }),
       });
       // Note: We do not wait for completion here
       Whisper.Deletes.onDelete(deleteModel);
@@ -2410,13 +2404,9 @@
     window.Signal.Data.updateConversation(conversation.attributes);
 
     // Then we update our own profileKey if it's different from what we have
-    const ourNumber = textsecure.storage.user.getNumber();
-    const ourUuid = textsecure.storage.user.getUuid();
+    const ourId = ConversationController.getOurConversationId();
+    const me = ConversationController.get(ourId);
     const profileKey = data.message.profileKey.toString('base64');
-    const me = await ConversationController.getOrCreate(
-      ourNumber || ourUuid,
-      'private'
-    );
 
     // Will do the save for us if needed
     await me.setProfileKey(profileKey);
@@ -2477,9 +2467,6 @@
 
     const message = createSentMessage(data);
 
-    const ourNumber = textsecure.storage.user.getNumber();
-    const ourUuid = textsecure.storage.user.getUuid();
-
     if (data.message.reaction) {
       const { reaction } = data.message;
       const reactionModel = Whisper.Reactions.add({
@@ -2489,7 +2476,7 @@
         targetAuthorUuid: reaction.targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp.toNumber(),
         timestamp: Date.now(),
-        fromId: ourNumber || ourUuid,
+        fromId: ConversationController.getOurConversationId(),
         fromSync: true,
       });
       // Note: We do not wait for completion here
@@ -2504,7 +2491,7 @@
       const deleteModel = Whisper.Deletes.add({
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: del.serverTimestamp,
-        fromId: ourNumber || ourUuid,
+        fromId: ConversationController.getOurConversationId(),
       });
       // Note: We do not wait for completion here
       Whisper.Deletes.onDelete(deleteModel);
@@ -2525,10 +2512,22 @@
     return Promise.resolve();
   }
 
-  function initIncomingMessage(data) {
-    const targetId = data.source || data.sourceUuid;
-    const conversation = ConversationController.get(targetId);
-    const conversationId = conversation ? conversation.id : targetId;
+  function initIncomingMessage(data, descriptor) {
+    // Ensure that we have an accurate record for who this message is from
+    const fromContactId = ConversationController.ensureContactIds({
+      e164: data.source,
+      uuid: data.sourceUuid,
+    });
+
+    // Determine if this message is in a group
+    const isGroup = descriptor.type === Message.GROUP;
+
+    // Determine the conversationId this message belongs to
+    const conversationId = isGroup
+      ? ConversationController.ensureGroup(descriptor.id, {
+          addedBy: fromContactId,
+        })
+      : fromContactId;
 
     return new Whisper.Message({
       source: data.source,
@@ -2640,7 +2639,13 @@
         return Promise.resolve();
       }
       const envelope = ev.proto;
-      const message = initIncomingMessage(envelope);
+      const message = initIncomingMessage(envelope, {
+        type: Message.PRIVATE,
+        id: ConversationController.ensureContactIds({
+          e164: envelope.source,
+          uuid: envelope.sourceUuid,
+        }),
+      });
 
       const conversationId = message.get('conversationId');
       const conversation = ConversationController.getOrCreate(
@@ -2832,10 +2837,8 @@
       ev.viaContactSync ? 'via contact sync' : ''
     );
 
-    const contact = await ConversationController.getOrCreateAndWait(
-      e164 || uuid,
-      'private'
-    );
+    const verifiedId = ConversationController.ensureContactIds({ e164, uuid });
+    const contact = await ConversationController.get(verifiedId, 'private');
     const options = {
       viaSyncMessage: true,
       viaContactSync: ev.viaContactSync,

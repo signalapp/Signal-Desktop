@@ -164,7 +164,7 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "    async load() {",
-    "lineNumber": 252,
+    "lineNumber": 306,
     "reasonCategory": "falseMatch",
     "updated": "2020-06-19T18:29:40.067Z"
   },
@@ -172,7 +172,7 @@
     "rule": "jQuery-load(",
     "path": "js/conversation_controller.js",
     "line": "      this._initialPromise = load();",
-    "lineNumber": 294,
+    "lineNumber": 348,
     "reasonCategory": "falseMatch",
     "updated": "2020-06-19T18:29:40.067Z"
   },
@@ -225,7 +225,7 @@
     "line": "      await wrap(",
     "lineNumber": 641,
     "reasonCategory": "falseMatch",
-    "updated": "2020-05-27T21:15:43.044Z"
+    "updated": "2020-06-09T20:26:46.515Z"
   },
   {
     "rule": "jQuery-append(",
@@ -325,9 +325,9 @@
     "rule": "jQuery-load(",
     "path": "js/signal_protocol_store.js",
     "line": "      await ConversationController.load();",
-    "lineNumber": 985,
+    "lineNumber": 981,
     "reasonCategory": "falseMatch",
-    "updated": "2020-04-27T20:02:20.424Z"
+    "updated": "2020-06-12T14:20:09.936Z"
   },
   {
     "rule": "DOM-innerHTML",

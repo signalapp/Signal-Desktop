@@ -435,7 +435,7 @@
       const typingValues = _.values(this.contactTypingTimers || {});
       const typingMostRecent = _.first(_.sortBy(typingValues, 'timestamp'));
       const typingContact = typingMostRecent
-        ? ConversationController.getOrCreate(typingMostRecent.sender, 'private')
+        ? ConversationController.get(typingMostRecent.senderId)
         : null;
 
       const timestamp = this.get('timestamp');
@@ -491,7 +491,7 @@
 
     updateE164(e164) {
       const oldValue = this.get('e164');
-      if (e164 !== oldValue) {
+      if (e164 && e164 !== oldValue) {
         this.set('e164', e164);
         window.Signal.Data.updateConversation(this.attributes);
         this.trigger('idUpdated', this, 'e164', oldValue);
@@ -499,15 +499,15 @@
     },
     updateUuid(uuid) {
       const oldValue = this.get('uuid');
-      if (uuid !== oldValue) {
-        this.set('uuid', uuid);
+      if (uuid && uuid !== oldValue) {
+        this.set('uuid', uuid.toLowerCase());
         window.Signal.Data.updateConversation(this.attributes);
         this.trigger('idUpdated', this, 'uuid', oldValue);
       }
     },
     updateGroupId(groupId) {
       const oldValue = this.get('groupId');
-      if (groupId !== oldValue) {
+      if (groupId && groupId !== oldValue) {
         this.set('groupId', groupId);
         window.Signal.Data.updateConversation(this.attributes);
         this.trigger('idUpdated', this, 'groupId', oldValue);
@@ -1716,10 +1716,11 @@
       // START: this code has an Expiration date of ~2018/11/21
       // We don't want to enable unidentified delivery for send unless it is
       //   also enabled for our own account.
-      const me = ConversationController.getOrCreate(
-        this.ourNumber || this.ourUuid,
-        'private'
-      );
+      const myId = ConversationController.ensureContactIds({
+        e164: this.ourNumber,
+        uuid: this.ourUuid,
+      });
+      const me = ConversationController.get(myId);
       if (
         !disableMeCheck &&
         me.get('sealedSender') === SEALED_SENDER.DISABLED
@@ -2262,7 +2263,7 @@
         );
       }
 
-      const c = await ConversationController.getOrCreateAndWait(id, 'private');
+      const c = ConversationController.getOrCreate(id, 'private');
       const {
         generateProfileKeyCredentialRequest,
         getClientZkProfileOperations,
@@ -2613,8 +2614,8 @@
         return Promise.resolve();
       }
       const members = this.get('members') || [];
-      const promises = members.map(number =>
-        ConversationController.getOrCreateAndWait(number, 'private')
+      const promises = members.map(identifier =>
+        ConversationController.getOrCreateAndWait(identifier, 'private')
       );
 
       return Promise.all(promises).then(contacts => {
@@ -2807,10 +2808,17 @@
     },
 
     notifyTyping(options = {}) {
-      const { isTyping, sender, senderUuid, senderDevice } = options;
+      const {
+        isTyping,
+        sender,
+        senderUuid,
+        senderId,
+        isMe,
+        senderDevice,
+      } = options;
 
       // We don't do anything with typing messages from our other devices
-      if (sender === this.ourNumber || senderUuid === this.ourUuid) {
+      if (isMe) {
         return;
       }
 
@@ -2829,6 +2837,8 @@
         ] || {
           timestamp: Date.now(),
           sender,
+          senderId,
+          senderUuid,
           senderDevice,
         };
 

@@ -1228,10 +1228,11 @@
         return null;
       }
 
-      return ConversationController.getOrCreate(
-        source || sourceUuid,
-        'private'
-      );
+      const contactId = ConversationController.ensureContactIds({
+        e164: source,
+        uuid: sourceUuid,
+      });
+      return ConversationController.get(contactId, 'private');
     },
     isOutgoing() {
       return this.get('type') === 'outgoing';
@@ -2562,12 +2563,13 @@
               } else if (conversation.isPrivate()) {
                 conversation.setProfileKey(profileKey);
               } else {
-                ConversationController.getOrCreateAndWait(
-                  source || sourceUuid,
-                  'private'
-                ).then(sender => {
-                  sender.setProfileKey(profileKey);
+                const localId = ConversationController.ensureContactIds({
+                  e164: source,
+                  uuid: sourceUuid,
                 });
+                ConversationController.get(localId, 'private').setProfileKey(
+                  profileKey
+                );
               }
             }
 

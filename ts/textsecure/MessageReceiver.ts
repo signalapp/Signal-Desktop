@@ -1535,6 +1535,11 @@ class MessageReceiverInner extends EventTarget {
       while (contactDetails !== undefined) {
         const contactEvent = new Event('contact');
         contactEvent.contactDetails = contactDetails;
+        window.normalizeUuids(
+          contactEvent,
+          ['contactDetails.verified.destinationUuid'],
+          'message_receiver::handleContacts::handleAttachment'
+        );
         results.push(this.dispatchAndWait(contactEvent));
 
         contactDetails = contactBuffer.next();
