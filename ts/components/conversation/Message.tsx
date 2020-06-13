@@ -41,6 +41,7 @@ import { ContactType } from '../../types/Contact';
 
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
+import { formatRelativeTime } from '../../util/formatRelativeTime';
 import { ColorType, LocalizerType } from '../../types/Util';
 import { createRefMerger } from '../_util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
@@ -391,7 +392,6 @@ export class Message extends React.PureComponent<Props, State> {
   // tslint:disable-next-line cyclomatic-complexity
   public renderMetadata() {
     const {
-      collapseMetadata,
       direction,
       expirationLength,
       expirationTimestamp,
@@ -404,6 +404,8 @@ export class Message extends React.PureComponent<Props, State> {
       textPending,
       timestamp,
     } = this.props;
+
+    const collapseMetadata = this.shouldCollapseMetadata();
 
     if (collapseMetadata) {
       return null;
@@ -494,7 +496,6 @@ export class Message extends React.PureComponent<Props, State> {
       authorName,
       authorPhoneNumber,
       authorProfileName,
-      collapseMetadata,
       conversationType,
       direction,
       isSticker,
@@ -502,8 +503,8 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToViewExpired,
     } = this.props;
 
-    if (collapseMetadata || !this.isFirstInCluster()) {
-      return;
+    if (!this.isFirstInCluster()) {
+      return null;
     }
 
     const title = authorName ? authorName : authorPhoneNumber;
@@ -536,7 +537,6 @@ export class Message extends React.PureComponent<Props, State> {
   public renderAttachment() {
     const {
       attachments,
-      collapseMetadata,
       conversationType,
       direction,
       i18n,
@@ -548,6 +548,7 @@ export class Message extends React.PureComponent<Props, State> {
     } = this.props;
     const { imageBroken } = this.state;
 
+    const collapseMetadata = this.shouldCollapseMetadata();
     const isFirstInCluster = this.isFirstInCluster();
     const isLastInCluster = this.isLastInCluster();
 
@@ -886,7 +887,6 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderEmbeddedContact() {
     const {
-      collapseMetadata,
       contact,
       conversationType,
       direction,
@@ -895,6 +895,7 @@ export class Message extends React.PureComponent<Props, State> {
       text,
     } = this.props;
 
+    const collapseMetadata = this.shouldCollapseMetadata();
     const isFirstInCluster = this.isFirstInCluster();
 
     if (!contact) {
@@ -952,12 +953,13 @@ export class Message extends React.PureComponent<Props, State> {
       authorName,
       authorPhoneNumber,
       authorProfileName,
-      collapseMetadata,
       authorColor,
       conversationType,
       direction,
       i18n,
     } = this.props;
+
+    const collapseMetadata = this.shouldCollapseMetadata();
 
     if (
       collapseMetadata ||
@@ -1366,15 +1368,11 @@ export class Message extends React.PureComponent<Props, State> {
 
     const { before } = context;
 
-    if (!before) {
-      return true;
-    }
-
-    if (before.type !== 'message') {
-      return true;
-    }
-
-    if (before.data.authorPhoneNumber !== authorPhoneNumber) {
+    if (
+      !before ||
+      before.type !== 'message' ||
+      before.data.authorPhoneNumber !== authorPhoneNumber
+    ) {
       return true;
     }
 
@@ -1406,15 +1404,11 @@ export class Message extends React.PureComponent<Props, State> {
 
     const { after } = context;
 
-    if (!after) {
-      return true;
-    }
-
-    if (after.type !== 'message') {
-      return true;
-    }
-
-    if (after.data.authorPhoneNumber !== authorPhoneNumber) {
+    if (
+      !after ||
+      after.type !== 'message' ||
+      after.data.authorPhoneNumber !== authorPhoneNumber
+    ) {
       return true;
     }
 
@@ -1426,6 +1420,60 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     return false;
+  }
+
+  public shouldCollapseMetadata() {
+    const {
+      collapseMetadata,
+      context,
+      direction,
+      timestamp,
+      status,
+      authorPhoneNumber,
+      i18n,
+      expirationLength,
+      expirationTimestamp,
+    } = this.props;
+
+    if (collapseMetadata) {
+      return true;
+    }
+
+    if (
+      !context ||
+      !context.after ||
+      context.after.type !== 'message' ||
+      context.after.data.authorPhoneNumber !== authorPhoneNumber
+    ) {
+      return false;
+    }
+
+    const { after } = context;
+    const timestampString = formatRelativeTime(timestamp, {
+      i18n,
+      extended: true,
+    });
+    const nextTimestampString = formatRelativeTime(after.data.timestamp, {
+      i18n,
+      extended: true,
+    });
+
+    // Collapse metadata if and only if...
+    // ...the timestamp text is the same
+    // ...and the message status is the same as the next for outgoing messages
+    // ...and the message did not fail to send
+    // ...and this is not a disappearing message.
+    if (
+      timestampString !== nextTimestampString ||
+      (direction === 'outgoing' && status !== after.data.status) ||
+      status === 'error' ||
+      expirationLength ||
+      expirationTimestamp
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   public isShowingImage() {
@@ -1525,7 +1573,6 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderTapToView() {
     const {
-      collapseMetadata,
       conversationType,
       direction,
       isTapToViewExpired,
@@ -1533,6 +1580,7 @@ export class Message extends React.PureComponent<Props, State> {
     } = this.props;
 
     const isFirstInCluster = this.isFirstInCluster();
+    const collapseMetadata = this.shouldCollapseMetadata();
 
     const withContentBelow = !collapseMetadata;
     const withContentAbove =
