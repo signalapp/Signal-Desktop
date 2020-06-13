@@ -736,6 +736,7 @@ export class Message extends React.PureComponent<Props, State> {
       (conversationType === 'group' &&
         direction === 'incoming' &&
         isFirstInCluster);
+    const hasCurvedCorner = !withContentAbove && isFirstInCluster;
 
     const previewHasImage = first.image && isImageAttachment(first.image);
     const width = first.image && first.image.width;
@@ -796,7 +797,7 @@ export class Message extends React.PureComponent<Props, State> {
           {first.image && previewHasImage && !isFullSizeImage ? (
             <div className="module-message__link-preview__icon_container">
               <Image
-                smallCurveTopLeft={!withContentAbove && isFirstInCluster}
+                smallCurveTopLeft={!hasCurvedCorner}
                 noBorder={true}
                 noBackground={true}
                 softCorners={true}

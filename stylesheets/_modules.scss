@@ -645,6 +645,7 @@
     bottom: -10px;
   }
 
+  border-radius: 6px;
   overflow: hidden;
 
   @include light-theme {
@@ -891,6 +892,8 @@
 
   margin-top: -10px;
   margin-bottom: 5px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
   overflow: hidden;
 
   @include keyboard-mode {
@@ -921,6 +924,8 @@
 
 .module-message__link-preview__content {
   padding: 8px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
   background-color: $color-white;
   display: flex;
   flex-direction: row;
@@ -4007,6 +4012,18 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 .module-image--small-curved-top-left {
   border-top-left-radius: 10px;
+}
+.module-image--tiny-curved-top-left {
+  border-top-left-radius: 6px;
+}
+.module-image--tiny-curved-top-right {
+  border-top-right-radius: 6px;
+}
+.module-image--tiny-curved-bottom-left {
+  border-bottom-left-radius: 6px;
+}
+.module-image--tiny-curved-bottom-right {
+  border-top-bottom-right: 6px;
 }
 
 .module-image__border-overlay {

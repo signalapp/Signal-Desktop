@@ -26,6 +26,10 @@ interface Props {
   curveTopRight?: boolean;
 
   smallCurveTopLeft?: boolean;
+  tinyCurveTopLeft?: boolean;
+  tinyCurveTopRight?: boolean;
+  tinyCurveBottomLeft?: boolean;
+  tinyCurveBottomRight?: boolean;
 
   darkOverlay?: boolean;
   playIconOverlay?: boolean;
@@ -81,6 +85,10 @@ export class Image extends React.Component<Props> {
       overlayText,
       playIconOverlay,
       smallCurveTopLeft,
+      tinyCurveTopLeft,
+      tinyCurveTopRight,
+      tinyCurveBottomLeft,
+      tinyCurveBottomRight,
       softCorners,
       tabIndex,
       url,
@@ -101,6 +109,10 @@ export class Image extends React.Component<Props> {
       curveBottomLeft ? 'module-image--curved-bottom-left' : null,
       curveBottomRight ? 'module-image--curved-bottom-right' : null,
       smallCurveTopLeft ? 'module-image--small-curved-top-left' : null,
+      tinyCurveTopLeft ? 'module-image--tiny-curved-top-left' : null,
+      tinyCurveTopRight ? 'module-image--tiny-curved-top-right' : null,
+      tinyCurveBottomLeft ? 'module-image--tiny-curved-bottom-left' : null,
+      tinyCurveBottomRight ? 'module-image--tiny-curved-bottom-right' : null,
       softCorners ? 'module-image--soft-corners' : null,
       darkOverlay ? 'module-image__border-overlay--dark' : null
     );
@@ -129,6 +141,12 @@ export class Image extends React.Component<Props> {
           curveTopLeft ? 'module-image--curved-top-left' : null,
           curveTopRight ? 'module-image--curved-top-right' : null,
           smallCurveTopLeft ? 'module-image--small-curved-top-left' : null,
+          tinyCurveTopLeft ? 'module-image--tiny-curved-top-left' : null,
+          tinyCurveTopRight ? 'module-image--tiny-curved-top-right' : null,
+          tinyCurveBottomLeft ? 'module-image--tiny-curved-bottom-left' : null,
+          tinyCurveBottomRight
+            ? 'module-image--tiny-curved-bottom-right'
+            : null,
           softCorners ? 'module-image--soft-corners' : null
         )}
       >

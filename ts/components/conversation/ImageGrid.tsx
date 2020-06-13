@@ -34,7 +34,7 @@ interface Props {
 }
 
 export class ImageGrid extends React.Component<Props> {
-  // tslint:disable-next-line max-func-body-length */
+  // tslint:disable-next-line cyclomatic-complexity max-func-body-length
   public render() {
     const {
       attachments,
@@ -54,17 +54,38 @@ export class ImageGrid extends React.Component<Props> {
     const isFirstInCluster = this.props.isFirstInCluster !== false;
     const isLastInCluster = this.props.isLastInCluster !== false;
 
+    // Curve an image corner...
+    // ...never if there is content above/below.
+    // ...tiny if it is an outside corner with a clustered message above/below.
+    // ...regular otherwise.
     const curveTopLeft =
-      (direction !== 'incoming' || isFirstInCluster) &&
-      !Boolean(withContentAbove);
+      !Boolean(withContentAbove) &&
+      (direction !== 'incoming' || isFirstInCluster);
+    const tinyCurveTopLeft =
+      !Boolean(withContentAbove) &&
+      direction === 'incoming' &&
+      !isFirstInCluster;
     const curveTopRight =
-      (direction !== 'outgoing' || isFirstInCluster) &&
-      !Boolean(withContentAbove);
-
+      !Boolean(withContentAbove) &&
+      (direction !== 'outgoing' || isFirstInCluster);
+    const tinyCurveTopRight =
+      !Boolean(withContentAbove) &&
+      direction === 'outgoing' &&
+      !isFirstInCluster;
     const curveBottomLeft =
-      (direction !== 'incoming' || isLastInCluster) && !Boolean(withContentBelow);
+      !Boolean(withContentBelow) &&
+      (direction !== 'incoming' || isLastInCluster);
+    const tinyCurveBottomLeft =
+      !Boolean(withContentAbove) &&
+      direction === 'incoming' &&
+      !isLastInCluster;
     const curveBottomRight =
-      (direction !== 'outgoing' || isLastInCluster) && !Boolean(withContentBelow);
+      !Boolean(withContentBelow) &&
+      (direction !== 'outgoing' || isLastInCluster);
+    const tinyCurveBottomRight =
+      !Boolean(withContentAbove) &&
+      direction === 'outgoing' &&
+      !isLastInCluster;
 
     const withBottomOverlay = Boolean(
       bottomOverlay && !Boolean(withContentBelow)
@@ -98,6 +119,10 @@ export class ImageGrid extends React.Component<Props> {
             curveTopRight={curveTopRight}
             curveBottomLeft={curveBottomLeft}
             curveBottomRight={curveBottomRight}
+            tinyCurveTopLeft={tinyCurveTopLeft}
+            tinyCurveTopRight={tinyCurveTopRight}
+            tinyCurveBottomLeft={tinyCurveBottomLeft}
+            tinyCurveBottomRight={tinyCurveBottomRight}
             attachment={attachments[0]}
             playIconOverlay={isVideoAttachment(attachments[0])}
             height={height}
@@ -122,6 +147,8 @@ export class ImageGrid extends React.Component<Props> {
             noBorder={false}
             curveTopLeft={curveTopLeft}
             curveBottomLeft={curveBottomLeft}
+            tinyCurveTopLeft={tinyCurveTopLeft}
+            tinyCurveBottomLeft={tinyCurveBottomLeft}
             playIconOverlay={isVideoAttachment(attachments[0])}
             height={149}
             width={149}
@@ -136,6 +163,8 @@ export class ImageGrid extends React.Component<Props> {
             noBorder={false}
             curveTopRight={curveTopRight}
             curveBottomRight={curveBottomRight}
+            tinyCurveTopRight={tinyCurveTopRight}
+            tinyCurveBottomRight={tinyCurveBottomRight}
             playIconOverlay={isVideoAttachment(attachments[1])}
             height={149}
             width={149}
@@ -158,6 +187,8 @@ export class ImageGrid extends React.Component<Props> {
             noBorder={false}
             curveTopLeft={curveTopLeft}
             curveBottomLeft={curveBottomLeft}
+            tinyCurveTopLeft={tinyCurveTopLeft}
+            tinyCurveBottomLeft={tinyCurveBottomLeft}
             attachment={attachments[0]}
             playIconOverlay={isVideoAttachment(attachments[0])}
             height={200}
@@ -171,6 +202,7 @@ export class ImageGrid extends React.Component<Props> {
               alt={getAlt(attachments[1], i18n)}
               i18n={i18n}
               curveTopRight={curveTopRight}
+              tinyCurveTopRight={tinyCurveTopRight}
               height={99}
               width={99}
               attachment={attachments[1]}
@@ -185,6 +217,7 @@ export class ImageGrid extends React.Component<Props> {
               bottomOverlay={withBottomOverlay}
               noBorder={false}
               curveBottomRight={curveBottomRight}
+              tinyCurveBottomRight={tinyCurveBottomRight}
               height={99}
               width={99}
               attachment={attachments[2]}
@@ -207,6 +240,7 @@ export class ImageGrid extends React.Component<Props> {
                 alt={getAlt(attachments[0], i18n)}
                 i18n={i18n}
                 curveTopLeft={curveTopLeft}
+                tinyCurveTopLeft={tinyCurveTopLeft}
                 noBorder={false}
                 attachment={attachments[0]}
                 playIconOverlay={isVideoAttachment(attachments[0])}
@@ -220,6 +254,7 @@ export class ImageGrid extends React.Component<Props> {
                 alt={getAlt(attachments[1], i18n)}
                 i18n={i18n}
                 curveTopRight={curveTopRight}
+                tinyCurveTopRight={tinyCurveTopRight}
                 playIconOverlay={isVideoAttachment(attachments[1])}
                 noBorder={false}
                 height={149}
@@ -237,6 +272,7 @@ export class ImageGrid extends React.Component<Props> {
                 bottomOverlay={withBottomOverlay}
                 noBorder={false}
                 curveBottomLeft={curveBottomLeft}
+                tinyCurveBottomLeft={tinyCurveBottomLeft}
                 playIconOverlay={isVideoAttachment(attachments[2])}
                 height={149}
                 width={149}
@@ -251,6 +287,7 @@ export class ImageGrid extends React.Component<Props> {
                 bottomOverlay={withBottomOverlay}
                 noBorder={false}
                 curveBottomRight={curveBottomRight}
+                tinyCurveBottomRight={tinyCurveBottomRight}
                 playIconOverlay={isVideoAttachment(attachments[3])}
                 height={149}
                 width={149}
@@ -278,6 +315,7 @@ export class ImageGrid extends React.Component<Props> {
               alt={getAlt(attachments[0], i18n)}
               i18n={i18n}
               curveTopLeft={curveTopLeft}
+              tinyCurveTopLeft={tinyCurveTopLeft}
               attachment={attachments[0]}
               playIconOverlay={isVideoAttachment(attachments[0])}
               height={149}
@@ -290,6 +328,7 @@ export class ImageGrid extends React.Component<Props> {
               alt={getAlt(attachments[1], i18n)}
               i18n={i18n}
               curveTopRight={curveTopRight}
+              tinyCurveTopRight={tinyCurveTopRight}
               playIconOverlay={isVideoAttachment(attachments[1])}
               height={149}
               width={149}
@@ -306,6 +345,7 @@ export class ImageGrid extends React.Component<Props> {
               bottomOverlay={withBottomOverlay}
               noBorder={isSticker}
               curveBottomLeft={curveBottomLeft}
+              tinyCurveBottomLeft={tinyCurveBottomLeft}
               playIconOverlay={isVideoAttachment(attachments[2])}
               height={99}
               width={99}
@@ -333,6 +373,7 @@ export class ImageGrid extends React.Component<Props> {
               bottomOverlay={withBottomOverlay}
               noBorder={isSticker}
               curveBottomRight={curveBottomRight}
+              tinyCurveBottomRight={tinyCurveBottomRight}
               playIconOverlay={isVideoAttachment(attachments[4])}
               height={99}
               width={99}
