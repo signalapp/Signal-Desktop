@@ -18,8 +18,8 @@ import { LocalizerType } from '../../types/Util';
 interface Props {
   attachments: Array<AttachmentType>;
   direction?: 'incoming' | 'outgoing';
-  isFirstInChain?: boolean;
-  isLastInChain?: boolean;
+  isFirstInCluster?: boolean;
+  isLastInCluster?: boolean;
   withContentAbove?: boolean;
   withContentBelow?: boolean;
   bottomOverlay?: boolean;
@@ -51,20 +51,20 @@ export class ImageGrid extends React.Component<Props> {
     } = this.props;
 
     // Assume undefined is true for curving purposes
-    const isFirstInChain = this.props.isFirstInChain !== false;
-    const isLastInChain = this.props.isLastInChain !== false;
+    const isFirstInCluster = this.props.isFirstInCluster !== false;
+    const isLastInCluster = this.props.isLastInCluster !== false;
 
     const curveTopLeft =
-      (direction !== 'incoming' || isFirstInChain) &&
+      (direction !== 'incoming' || isFirstInCluster) &&
       !Boolean(withContentAbove);
     const curveTopRight =
-      (direction !== 'outgoing' || isFirstInChain) &&
+      (direction !== 'outgoing' || isFirstInCluster) &&
       !Boolean(withContentAbove);
 
     const curveBottomLeft =
-      (direction !== 'incoming' || isLastInChain) && !Boolean(withContentBelow);
+      (direction !== 'incoming' || isLastInCluster) && !Boolean(withContentBelow);
     const curveBottomRight =
-      (direction !== 'outgoing' || isLastInChain) && !Boolean(withContentBelow);
+      (direction !== 'outgoing' || isLastInCluster) && !Boolean(withContentBelow);
 
     const withBottomOverlay = Boolean(
       bottomOverlay && !Boolean(withContentBelow)

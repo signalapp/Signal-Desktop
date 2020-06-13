@@ -93,7 +93,7 @@
   }
 }
 
-.module-message--first-in-chain {
+.module-message--first-in-cluster {
   margin-top: 8px;
 }
 
@@ -410,12 +410,12 @@
   }
 }
 
-.module-message__container--first-in-chain {
+.module-message__container--first-in-cluster {
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
 }
 
-.module-message__container--last-in-chain {
+.module-message__container--last-in-cluster {
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
 }
@@ -664,12 +664,12 @@
     border-bottom-right-radius: 16px;
   }
 
-  &--first-in-chain {
+  &--first-in-cluster {
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
   }
 
-  &--last-in-chain {
+  &--last-in-cluster {
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
   }
@@ -908,7 +908,7 @@
   border-top-left-radius: 16px;
 }
 
-.module-message__link-preview--first-in-chain {
+.module-message__link-preview--first-in-cluster {
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
 }
@@ -943,7 +943,7 @@
   border-top-right-radius: 16px;
 }
 
-.module-message__link-preview__content--first-in-chain {
+.module-message__link-preview__content--first-in-cluster {
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
 }
@@ -1769,7 +1769,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
-.module-quote--first-in-chain {
+.module-quote--first-in-cluster {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }

@@ -6,8 +6,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={false}
+      isFirstInCluster={true}
+      isLastInCluster={false}
       direction="incoming"
       timestamp={Date.now()}
       authorPhoneNumber="(202) 555-2001"
@@ -22,8 +22,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="green"
@@ -37,8 +37,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       collapseMetadata
       direction="incoming"
       timestamp={Date.now()}
@@ -53,8 +53,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="grey"
@@ -68,8 +68,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={true}
+      isFirstInCluster={false}
+      isLastInCluster={true}
       direction="incoming"
       authorColor="deep_orange"
       timestamp={Date.now()}
@@ -84,8 +84,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={false}
+      isFirstInCluster={true}
+      isLastInCluster={false}
       direction="outgoing"
       timestamp={Date.now()}
       status="sent"
@@ -100,8 +100,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="outgoing"
       timestamp={Date.now()}
       status="read"
@@ -116,8 +116,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       collapseMetadata
       direction="outgoing"
       status="sent"
@@ -132,8 +132,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="outgoing"
       status="sent"
       timestamp={Date.now()}
@@ -148,8 +148,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={true}
+      isFirstInCluster={false}
+      isLastInCluster={true}
       direction="outgoing"
       status="read"
       timestamp={Date.now()}
@@ -171,8 +171,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={false}
+      isFirstInCluster={true}
+      isLastInCluster={false}
       direction="outgoing"
       status="sending"
       authorColor="pink"
@@ -183,8 +183,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="outgoing"
       status="sent"
       authorColor="red"
@@ -195,8 +195,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="outgoing"
       status="delivered"
       authorColor="blue"
@@ -207,8 +207,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="outgoing"
       status="read"
       authorColor="purple"
@@ -219,8 +219,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="outgoing"
       status="error"
       authorColor="purple"
@@ -232,8 +232,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="outgoing"
       status="error"
       authorColor="purple"
@@ -253,8 +253,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="outgoing"
       status="sending"
       authorColor="pink"
@@ -265,8 +265,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="outgoing"
       status="sent"
       authorColor="red"
@@ -277,8 +277,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="outgoing"
       status="delivered"
       authorColor="blue"
@@ -289,8 +289,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="outgoing"
       status="read"
       authorColor="purple"
@@ -301,8 +301,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="outgoing"
       status="error"
       authorColor="purple"
@@ -314,8 +314,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="outgoing"
       status="error"
       authorColor="purple"
@@ -335,8 +335,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={true}
+      isFirstInCluster={false}
+      isLastInCluster={true}
       direction="outgoing"
       status="error"
       authorColor="purple"
@@ -348,8 +348,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={false}
+      isFirstInCluster={true}
+      isLastInCluster={false}
       direction="incoming"
       status="error"
       authorColor="purple"
@@ -360,8 +360,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={true}
+      isFirstInCluster={false}
+      isLastInCluster={true}
       direction="incoming"
       status="error"
       authorColor="purple"
@@ -387,8 +387,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={false}
+      isFirstInCluster={true}
+      isLastInCluster={false}
       direction="incoming"
       status="delivered"
       authorColor="red"
@@ -399,8 +399,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="incoming"
       status="delivered"
       authorColor="deep_orange"
@@ -411,8 +411,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="incoming"
       status="delivered"
       authorColor="brown"
@@ -423,8 +423,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="incoming"
       status="delivered"
       authorColor="pink"
@@ -435,8 +435,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="incoming"
       status="delivered"
       authorColor="purple"
@@ -447,8 +447,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="incoming"
       status="delivered"
       authorColor="indigo"
@@ -459,8 +459,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="incoming"
       status="delivered"
       authorColor="blue"
@@ -471,8 +471,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="incoming"
       status="delivered"
       authorColor="teal"
@@ -483,8 +483,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="incoming"
       status="delivered"
       authorColor="green"
@@ -495,8 +495,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="incoming"
       status="delivered"
       authorColor="light_green"
@@ -507,8 +507,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="incoming"
       status="delivered"
       authorColor="blue_grey"
@@ -519,8 +519,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={true}
+      isFirstInCluster={false}
+      isLastInCluster={true}
       direction="incoming"
       status="delivered"
       authorColor="grey"
@@ -538,7 +538,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 <util.ConversationContext>
   {[
     {
-      firstInChain: true,
+      firstInCluster: true,
       reactions: [{ emoji: '👍', from: { id: '+14155552671' } }],
     },
     {
@@ -679,7 +679,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
       ],
     },
     {
-      lastInChain: true,
+      lastInCluster: true,
       reactions: [
         { emoji: '👍', from: { id: '+14155552671', name: 'Amelia Briggs' } },
         { emoji: '👍', from: { id: '+14155552672', name: 'Amelia Briggs' } },
@@ -697,7 +697,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
     },
     {
       outgoing: true,
-      firstInChain: true,
+      firstInCluster: true,
       reactions: [
         { emoji: '😂', from: { id: '+14155552671', name: 'Amelia Briggs' } },
       ],
@@ -762,7 +762,7 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
     },
     {
       outgoing: true,
-      lastInChain: true,
+      lastInCluster: true,
       short: true,
       reactions: [
         { emoji: '👍', from: { id: '+14155552671', name: 'Amelia Briggs' } },
@@ -773,8 +773,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   ].map((spec, i) => (
     <div key={i} className="module-message-container">
       <Message
-        isFirstInChain={Boolean(spec.firstInChain)}
-        isLastInChain={Boolean(spec.lastInChain)}
+        isFirstInCluster={Boolean(spec.firstInCluster)}
+        isLastInCluster={Boolean(spec.lastInCluster)}
         direction={spec.outgoing ? 'outgoing' : 'incoming'}
         status="delivered"
         authorColor="light_green"
@@ -798,8 +798,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="purple"
       direction="incoming"
       text="A really long link https://app.zeplin.io/project/5b2136b8e490ad6a54399857/screen/5b3bd068e03b763a0ee4c3e9"
@@ -809,8 +809,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="purple"
       direction="outgoing"
       status="delivered"
@@ -821,8 +821,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="purple"
       direction="incoming"
       text={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam efficitur finibus tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu metus leo. Nullam consequat leo ut accumsan aliquam. In est elit, faucibus vel arcu vitae, dapibus egestas nunc. Curabitur nec orci semper, auctor justo ornare, sagittis massa. Aliquam ultrices sem ac ex vestibulum dapibus. Etiam erat purus, interdum sit amet magna vitae, elementum lacinia leo. Duis vel mauris dui. Morbi sed accumsan erat, at facilisis metus. Nullam molestie lectus eleifend congue ultrices. Nunc porta at justo semper egestas. Proin non iaculis nibh. Cras sit amet urna dignissim, venenatis arcu a, pulvinar ipsum.
@@ -842,8 +842,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="purple"
       direction="outgoing"
       status="delivered"
@@ -871,8 +871,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="purple"
       direction="incoming"
       textPending={true}
@@ -887,8 +887,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="purple"
       direction="outgoing"
       status="delivered"
@@ -913,8 +913,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="blue"
       direction="incoming"
       text="I am pretty confused about Pi."
@@ -935,8 +935,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="blue"
       direction="outgoing"
       status="delivered"
@@ -958,8 +958,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="blue"
       direction="incoming"
       text="I am pretty confused about Pi."
@@ -981,8 +981,8 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="blue"
       direction="outgoing"
       text="I am pretty confused about Pi."
@@ -1013,8 +1013,8 @@ First, showing the metadata overlay on dark and light images, then a message wit
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       timestamp={Date.now()}
@@ -1034,8 +1034,8 @@ First, showing the metadata overlay on dark and light images, then a message wit
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       status="sent"
@@ -1056,8 +1056,8 @@ First, showing the metadata overlay on dark and light images, then a message wit
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       timestamp={Date.now()}
@@ -1075,8 +1075,8 @@ First, showing the metadata overlay on dark and light images, then a message wit
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       status="sent"
@@ -1095,8 +1095,8 @@ First, showing the metadata overlay on dark and light images, then a message wit
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       collapseMetadata
@@ -1115,8 +1115,8 @@ First, showing the metadata overlay on dark and light images, then a message wit
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       collapseMetadata
@@ -1145,8 +1145,8 @@ Stickers have no background, but they have all the standard message bubble featu
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       isSticker={true}
@@ -1167,8 +1167,8 @@ Stickers have no background, but they have all the standard message bubble featu
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       isSticker={true}
@@ -1190,8 +1190,8 @@ Stickers have no background, but they have all the standard message bubble featu
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       isSticker={true}
@@ -1210,8 +1210,8 @@ Stickers have no background, but they have all the standard message bubble featu
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       isSticker={true}
@@ -1231,8 +1231,8 @@ Stickers have no background, but they have all the standard message bubble featu
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       isSticker={true}
@@ -1253,8 +1253,8 @@ Stickers have no background, but they have all the standard message bubble featu
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       isSticker={true}
@@ -1275,8 +1275,8 @@ Stickers have no background, but they have all the standard message bubble featu
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       isSticker={true}
@@ -1306,8 +1306,8 @@ First set is in a 1:1 conversation, second set is in a group.
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       isSticker={true}
@@ -1327,8 +1327,8 @@ First set is in a 1:1 conversation, second set is in a group.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       isSticker={true}
@@ -1349,8 +1349,8 @@ First set is in a 1:1 conversation, second set is in a group.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       isSticker={true}
@@ -1372,8 +1372,8 @@ First set is in a 1:1 conversation, second set is in a group.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       isSticker={true}
@@ -1404,8 +1404,8 @@ First set is in a 1:1 conversation, second set is in a group.
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       isSticker={true}
@@ -1424,8 +1424,8 @@ First set is in a 1:1 conversation, second set is in a group.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       isSticker={true}
@@ -1445,8 +1445,8 @@ First set is in a 1:1 conversation, second set is in a group.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       isSticker={true}
@@ -1467,8 +1467,8 @@ First set is in a 1:1 conversation, second set is in a group.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       isSticker={true}
@@ -1498,8 +1498,8 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       isSticker={true}
@@ -1512,8 +1512,8 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       isSticker={true}
@@ -1527,8 +1527,8 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       isSticker={true}
@@ -1543,8 +1543,8 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       isSticker={true}
@@ -1566,8 +1566,8 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       timestamp={Date.now()}
@@ -1591,193 +1591,8 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
-      authorColor="green"
-      direction="incoming"
-      timestamp={Date.now()}
-      i18n={util.i18n}
-      attachments={[
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-      ]}
-      showVisualAttachment={() => console.log('showVisualAttachment')}
-    />
-  </div>
-  <div className="module-message-container">
-    <Message
-      isFirstInChain={true}
-      isLastInChain={true}
-      authorColor="green"
-      direction="incoming"
-      timestamp={Date.now()}
-      i18n={util.i18n}
-      attachments={[
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-      ]}
-      showVisualAttachment={() => console.log('showVisualAttachment')}
-    />
-  </div>
-  <div className="module-message-container">
-    <Message
-      isFirstInChain={true}
-      isLastInChain={true}
-      authorColor="green"
-      direction="incoming"
-      timestamp={Date.now()}
-      i18n={util.i18n}
-      attachments={[
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-      ]}
-      showVisualAttachment={() => console.log('showVisualAttachment')}
-    />
-  </div>
-  <div className="module-message-container">
-    <Message
-      isFirstInChain={true}
-      isLastInChain={true}
-      authorColor="green"
-      direction="incoming"
-      timestamp={Date.now()}
-      i18n={util.i18n}
-      attachments={[
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-      ]}
-      showVisualAttachment={() => console.log('showVisualAttachment')}
-    />
-  </div>
-  <div className="module-message-container">
-    <Message
-      isFirstInChain={true}
-      isLastInChain={false}
-      authorColor="green"
-      direction="incoming"
-      timestamp={Date.now()}
-      i18n={util.i18n}
-      attachments={[
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-        {
-          url: util.gifObjectUrl,
-          contentType: 'image/gif',
-          width: 320,
-          height: 240,
-        },
-      ]}
-      showVisualAttachment={() => console.log('showVisualAttachment')}
-    />
-  </div>
-  <div className="module-message-container">
-    <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       timestamp={Date.now()}
@@ -1807,8 +1622,8 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       timestamp={Date.now()}
@@ -1844,8 +1659,8 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       timestamp={Date.now()}
@@ -1887,8 +1702,193 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      isFirstInCluster={true}
+      isLastInCluster={false}
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      isFirstInCluster={false}
+      isLastInCluster={false}
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      isFirstInCluster={false}
+      isLastInCluster={false}
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      isFirstInCluster={false}
+      isLastInCluster={false}
+      authorColor="green"
+      direction="incoming"
+      timestamp={Date.now()}
+      i18n={util.i18n}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      showVisualAttachment={() => console.log('showVisualAttachment')}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      isFirstInCluster={false}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       timestamp={Date.now()}
@@ -1943,8 +1943,8 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={false}
+      isFirstInCluster={true}
+      isLastInCluster={false}
       authorColor="green"
       direction="incoming"
       timestamp={Date.now()}
@@ -1969,8 +1969,8 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       authorColor="green"
       direction="incoming"
       timestamp={Date.now()}
@@ -2001,8 +2001,8 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       authorColor="green"
       direction="incoming"
       timestamp={Date.now()}
@@ -2039,8 +2039,8 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       authorColor="green"
       direction="incoming"
       timestamp={Date.now()}
@@ -2083,8 +2083,8 @@ A sticker with no attachments (what our selectors produce for a pending sticker)
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={true}
+      isFirstInCluster={false}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       timestamp={Date.now()}
@@ -2142,8 +2142,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={false}
+      isFirstInCluster={true}
+      isLastInCluster={false}
       direction="outgoing"
       status="sending"
       authorColor="pink"
@@ -2162,8 +2162,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="outgoing"
       status="sent"
       authorColor="red"
@@ -2182,8 +2182,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="outgoing"
       status="delivered"
       authorColor="blue"
@@ -2202,8 +2202,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={true}
+      isFirstInCluster={false}
+      isLastInCluster={true}
       direction="outgoing"
       status="read"
       authorColor="purple"
@@ -2229,8 +2229,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
     <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       timestamp={Date.now()}
@@ -2249,8 +2249,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
     </div>
     <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       status="sent"
@@ -2270,8 +2270,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
     </div>
     <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       timestamp={Date.now()}
@@ -2302,8 +2302,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
     </div>
     <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       status="delivered"
@@ -2342,8 +2342,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="purple"
       direction="incoming"
       i18n={util.i18n}
@@ -2361,8 +2361,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="purple"
       direction="outgoing"
       status="delivered"
@@ -2381,8 +2381,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="purple"
       direction="incoming"
       collapseMetadata
@@ -2401,8 +2401,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="purple"
       direction="outgoing"
       collapseMetadata
@@ -2428,8 +2428,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       text="This is an odd yellow bar. Cool, huh?"
       direction="incoming"
@@ -2448,8 +2448,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       status="delivered"
@@ -2469,8 +2469,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       text="This is an odd yellow bar. Cool, huh?"
       direction="incoming"
@@ -2490,8 +2490,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       text="This is an odd yellow bar. Cool, huh?"
@@ -2512,8 +2512,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       text="All notifications"
       direction="incoming"
@@ -2534,8 +2534,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       text="All notifications"
@@ -2564,8 +2564,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
@@ -2583,8 +2583,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
@@ -2603,8 +2603,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       collapseMetadata
@@ -2623,8 +2623,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       collapseMetadata
@@ -2650,8 +2650,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       text="An interesting horizontal bar. It's art."
       direction="incoming"
@@ -2670,8 +2670,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       text="An interesting horizontal bar. It's art."
@@ -2691,8 +2691,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       text="An interesting horizontal bar. It's art."
       direction="incoming"
@@ -2712,8 +2712,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       text="An interesting horizontal bar. It's art."
@@ -2740,8 +2740,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       text="Beautiful, isn't it?"
       direction="incoming"
@@ -2762,8 +2762,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       text="Beautiful, isn't it?"
@@ -2785,8 +2785,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       text="Beautiful, isn't it?"
       collapseMetadata
@@ -2810,8 +2810,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       text="Beautiful, isn't it?"
@@ -2842,8 +2842,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       status="delivered"
@@ -2866,8 +2866,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
@@ -2890,8 +2890,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       status="delivered"
@@ -2915,8 +2915,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       status="delivered"
@@ -2947,8 +2947,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       status="delivered"
@@ -2969,8 +2969,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       status="delivered"
@@ -2991,8 +2991,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       text="Did something go wrong?"
       authorColor="green"
       direction="incoming"
@@ -3014,8 +3014,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       text="Did something go wrong?"
       direction="outgoing"
@@ -3037,8 +3037,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       status="delivered"
@@ -3061,8 +3061,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       timestamp={Date.now()}
@@ -3085,8 +3085,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       text="Did something go wrong?"
       authorColor="green"
       direction="incoming"
@@ -3110,8 +3110,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       text="Did something go wrong?"
       direction="outgoing"
@@ -3142,8 +3142,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       status="delivered"
@@ -3164,8 +3164,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       text="Did something go wrong?"
       direction="outgoing"
@@ -3187,8 +3187,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       status="delivered"
@@ -3211,8 +3211,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       timestamp={Date.now()}
@@ -3242,8 +3242,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       status="delivered"
@@ -3264,8 +3264,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       status="delivered"
@@ -3286,8 +3286,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       status="delivered"
@@ -3310,8 +3310,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       timestamp={Date.now()}
@@ -3341,8 +3341,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       status="delivered"
@@ -3361,8 +3361,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       status="delivered"
@@ -3382,8 +3382,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       status="delivered"
@@ -3407,8 +3407,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       timestamp={Date.now()}
@@ -3436,8 +3436,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       text="This is a nice song"
       direction="incoming"
@@ -3454,8 +3454,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       status="sent"
@@ -3473,8 +3473,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       text="This is a nice song"
       collapseMetadata
@@ -3492,8 +3492,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       text="This is a nice song"
@@ -3518,8 +3518,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
@@ -3535,8 +3535,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       status="sent"
@@ -3553,8 +3553,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       collapseMetadata
@@ -3571,8 +3571,8 @@ Note that the delivered indicator is always Signal Blue, not the conversation co
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
@@ -3600,8 +3600,8 @@ Voice notes are not shown any differently from audio attachments.
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       text="My manifesto is now complete!"
@@ -3620,8 +3620,8 @@ Voice notes are not shown any differently from audio attachments.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       text="My manifesto is now complete!"
@@ -3641,8 +3641,8 @@ Voice notes are not shown any differently from audio attachments.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       text="My manifesto is now complete!"
@@ -3662,8 +3662,8 @@ Voice notes are not shown any differently from audio attachments.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       text="My manifesto is now complete!"
@@ -3683,8 +3683,8 @@ Voice notes are not shown any differently from audio attachments.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       text="My manifesto is now complete!"
@@ -3705,8 +3705,8 @@ Voice notes are not shown any differently from audio attachments.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       text="My manifesto is now complete!"
@@ -3726,8 +3726,8 @@ Voice notes are not shown any differently from audio attachments.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       text="My manifesto is now complete!"
@@ -3753,8 +3753,8 @@ Voice notes are not shown any differently from audio attachments.
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
@@ -3772,8 +3772,8 @@ Voice notes are not shown any differently from audio attachments.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
@@ -3792,8 +3792,8 @@ Voice notes are not shown any differently from audio attachments.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       collapseMetadata
@@ -3812,8 +3812,8 @@ Voice notes are not shown any differently from audio attachments.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
@@ -3839,8 +3839,8 @@ Voice notes are not shown any differently from audio attachments.
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       text="My manifesto is now complete!"
@@ -3859,8 +3859,8 @@ Voice notes are not shown any differently from audio attachments.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       text="My manifesto is now complete!"
@@ -3880,8 +3880,8 @@ Voice notes are not shown any differently from audio attachments.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
@@ -3899,8 +3899,8 @@ Voice notes are not shown any differently from audio attachments.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
@@ -3925,8 +3925,8 @@ Voice notes are not shown any differently from audio attachments.
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
@@ -3946,8 +3946,8 @@ Voice notes are not shown any differently from audio attachments.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
@@ -3975,8 +3975,8 @@ Voice notes are not shown any differently from audio attachments.
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
@@ -3999,8 +3999,8 @@ Voice notes are not shown any differently from audio attachments.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
@@ -4024,8 +4024,8 @@ Voice notes are not shown any differently from audio attachments.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
@@ -4054,8 +4054,8 @@ Voice notes are not shown any differently from audio attachments.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
@@ -4094,8 +4094,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
@@ -4119,8 +4119,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
@@ -4152,8 +4152,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
@@ -4176,8 +4176,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
@@ -4201,8 +4201,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
@@ -4232,8 +4232,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
@@ -4271,8 +4271,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
@@ -4295,8 +4295,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
@@ -4320,8 +4320,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
@@ -4344,8 +4344,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
@@ -4376,8 +4376,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
@@ -4394,8 +4394,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
@@ -4413,8 +4413,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="incoming"
       i18n={util.i18n}
@@ -4438,8 +4438,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       direction="outgoing"
       i18n={util.i18n}
@@ -4471,8 +4471,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="pink"
@@ -4499,8 +4499,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="pink"
@@ -4527,8 +4527,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="blue"
@@ -4553,8 +4553,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="green"
@@ -4581,8 +4581,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       conversationType="group"
@@ -4609,8 +4609,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       conversationType="group"
@@ -4638,8 +4638,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       collapseMetadata={true}
@@ -4665,8 +4665,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="outgoing"
       authorColor="red"
       status="delivered"
@@ -4694,8 +4694,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="outgoing"
       authorColor="green"
       status="read"
@@ -4722,8 +4722,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="outgoing"
       authorColor="red"
       status="delivered"
@@ -4751,8 +4751,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="outgoing"
       authorColor="green"
       status="read"
@@ -4779,8 +4779,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="green"
@@ -4807,8 +4807,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="blue"
@@ -4834,8 +4834,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="outgoing"
       authorColor="red"
       status="delivered"
@@ -4863,8 +4863,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="outgoing"
       authorColor="red"
       status="delivered"
@@ -4892,8 +4892,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       authorColor="red"
       status="delivered"
@@ -4917,8 +4917,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       authorColor="red"
       status="delivered"
@@ -4938,8 +4938,8 @@ Sticker link previews are forced to use the small link preview form, no matter t
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       authorColor="red"
       status="delivered"
@@ -4969,8 +4969,8 @@ Note that the author avatar goes away if `collapseMetadata` is set.
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="pink"
@@ -4983,8 +4983,8 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       collapseMetadata={true}
       timestamp={Date.now()}
@@ -4998,10 +4998,10 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="blue"
@@ -5015,8 +5015,8 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="deep_orange"
@@ -5031,8 +5031,8 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="purple"
@@ -5047,8 +5047,8 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       authorName="Mr. Fire"
       conversationType="group"
@@ -5069,8 +5069,8 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       conversationType="group"
       authorName="Mr. Fire"
@@ -5095,8 +5095,8 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       conversationType="group"
       authorName="Mr. Fire"
@@ -5115,8 +5115,8 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       conversationType="group"
       authorColor="red"
@@ -5137,8 +5137,8 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="deep_orange"
@@ -5154,8 +5154,8 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       conversationType="group"
@@ -5167,8 +5167,8 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="deep_orange"
@@ -5182,8 +5182,8 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       authorName="Mr. Fire"
       conversationType="group"
@@ -5208,8 +5208,8 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       authorColor="green"
       authorName="Mr. Fire"
       conversationType="group"
@@ -5228,8 +5228,8 @@ Note that the author avatar goes away if `collapseMetadata` is set.
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={true}
+      isFirstInCluster={true}
+      isLastInCluster={true}
       direction="outgoing"
       authorColor="pink"
       status="delivered"

@@ -44,8 +44,8 @@
 <util.ConversationContext theme={util.theme} ios={util.ios} mode={util.mode}>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={false}
+      isFirstInCluster={true}
+      isLastInCluster={false}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="green"
@@ -61,8 +61,8 @@
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="green"
@@ -78,8 +78,8 @@
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={true}
+      isFirstInCluster={false}
+      isLastInCluster={true}
       direction="incoming"
       timestamp={Date.now()}
       authorColor="green"
@@ -95,8 +95,8 @@
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={true}
-      isLastInChain={false}
+      isFirstInCluster={true}
+      isLastInCluster={false}
       direction="outgoing"
       timestamp={Date.now()}
       status="sending"
@@ -113,8 +113,8 @@
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={false}
+      isFirstInCluster={false}
+      isLastInCluster={false}
       direction="outgoing"
       timestamp={Date.now()}
       status="sending"
@@ -131,8 +131,8 @@
   </div>
   <div className="module-message-container">
     <Message
-      isFirstInChain={false}
-      isLastInChain={true}
+      isFirstInCluster={false}
+      isLastInCluster={true}
       direction="outgoing"
       timestamp={Date.now()}
       status="sending"
