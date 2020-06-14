@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid';
 
 import { ImportMock } from 'ts-mock-imports';
 import { PubKey } from '../../../ts/session/types';
-import { ChatMessage } from '../../session/messages/outgoing';
+import { ChatMessage, OpenGroupMessage } from '../../session/messages/outgoing';
 
 const sandbox = sinon.createSandbox();
 
@@ -67,3 +67,13 @@ export function generateChatMessage(): ChatMessage {
     preview: undefined,
   });
 }
+
+export function generateOpenGroupMessage(): OpenGroupMessage {
+  const group = new OpenGroup()
+
+  return new OpenGroupMessage({
+    group
+    attachments: undefined,
+  });
+}
+
