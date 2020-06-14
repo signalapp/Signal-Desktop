@@ -1,6 +1,7 @@
 import {
   difference,
   fromPairs,
+  includes,
   intersection,
   omit,
   orderBy,
@@ -273,6 +274,13 @@ export type ShowArchivedConversationsActionType = {
   type: 'SHOW_ARCHIVED_CONVERSATIONS';
   payload: null;
 };
+export type ForceMessageHeightUpdateActionType = {
+  type: 'FORCE_MESSAGE_HEIGHT_UPDATE';
+  payload: {
+    id: string;
+    conversationId: string;
+  };
+};
 
 export type ConversationActionType =
   | ConversationAddedActionType
@@ -296,7 +304,8 @@ export type ConversationActionType =
   | MessageDeletedActionType
   | SelectedConversationChangedActionType
   | ShowInboxActionType
-  | ShowArchivedConversationsActionType;
+  | ShowArchivedConversationsActionType
+  | ForceMessageHeightUpdateActionType;
 
 // Action Creators
 
@@ -322,6 +331,7 @@ export const actions = {
   openConversationExternal,
   showInbox,
   showArchivedConversations,
+  forceMessageHeightUpdate,
 };
 
 function conversationAdded(
@@ -555,6 +565,16 @@ function showArchivedConversations() {
   return {
     type: 'SHOW_ARCHIVED_CONVERSATIONS',
     payload: null,
+  };
+}
+
+function forceMessageHeightUpdate(id: string, conversationId: string) {
+  return {
+    type: 'FORCE_MESSAGE_HEIGHT_UPDATE',
+    payload: {
+      id,
+      conversationId,
+    },
   };
 }
 
@@ -1192,6 +1212,32 @@ export function reducer(
     return {
       ...state,
       showArchived: true,
+    };
+  }
+  if (action.type === 'FORCE_MESSAGE_HEIGHT_UPDATE') {
+    const { payload } = action;
+    const { id, conversationId } = payload;
+    const existingConversation = state.messagesByConversation[conversationId];
+
+    if (
+      !existingConversation ||
+      includes(existingConversation.heightChangeMessageIds, id)
+    ) {
+      return state;
+    }
+
+    return {
+      ...state,
+      messagesByConversation: {
+        ...state.messagesByConversation,
+        [conversationId]: {
+          ...existingConversation,
+          heightChangeMessageIds: [
+            ...existingConversation.heightChangeMessageIds,
+            id,
+          ],
+        },
+      },
     };
   }
 

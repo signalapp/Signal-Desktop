@@ -94,7 +94,11 @@
 }
 
 .module-message--first-in-cluster {
-  margin-top: 8px;
+  margin-top: 4px;
+}
+
+.module-message__container--last-in-cluster {
+  margin-bottom: 4px;
 }
 
 // Spec: container < 438px
@@ -2319,7 +2323,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-inline-notification-wrapper {
   outline: none;
-  margin-top: 8px;
+  margin-top: 4px;
+  margin-bottom: 4px;
   padding: 5px;
 
   @include keyboard-mode {

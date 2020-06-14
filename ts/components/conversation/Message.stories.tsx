@@ -72,6 +72,7 @@ const makeDefaultActionProps = (): PropsActions => ({
   showExpiredOutgoingTapToViewToast: action(
     'showExpiredOutgoingTapToViewToast'
   ),
+  forceMessageHeightUpdate: action('forceMessageHeightUpdate'),
 });
 
 const makeDefaultHousekeepingProps = (): PropsHousekeeping => ({

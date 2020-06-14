@@ -162,6 +162,8 @@ export type PropsActions = {
 
   showExpiredIncomingTapToViewToast: () => unknown;
   showExpiredOutgoingTapToViewToast: () => unknown;
+
+  forceMessageHeightUpdate: (id: string, conversationId: string) => unknown;
 };
 
 export type Props = PropsData &
@@ -183,6 +185,10 @@ interface State {
   isWide: boolean;
 
   containerWidth: number;
+
+  isFirstInCluster: boolean;
+  isLastInCluster: boolean;
+  collapseMetadata: boolean;
 }
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
@@ -223,30 +229,167 @@ export class Message extends React.PureComponent<Props, State> {
       isWide: this.wideMl.matches,
 
       containerWidth: 0,
+
+      isFirstInCluster: true,
+      isLastInCluster: true,
+      collapseMetadata: false,
     };
   }
 
   public static getDerivedStateFromProps(props: Props, state: State): State {
+    let nextState = state;
+
     if (!props.isSelected) {
-      return {
-        ...state,
+      nextState = {
+        ...nextState,
         isSelected: false,
         prevSelectedCounter: 0,
       };
-    }
-
-    if (
+    } else if (
       props.isSelected &&
       props.isSelectedCounter !== state.prevSelectedCounter
     ) {
-      return {
-        ...state,
+      nextState = {
+        ...nextState,
         isSelected: props.isSelected,
         prevSelectedCounter: props.isSelectedCounter,
       };
     }
 
-    return state;
+    const isFirstInCluster = Message.isFirstInCluster(props);
+    const isLastInCluster = Message.isLastInCluster(props);
+    const collapseMetadata = Message.shouldCollapseMetadata(props);
+
+    if (
+      isFirstInCluster !== state.isFirstInCluster ||
+      isLastInCluster !== state.isLastInCluster ||
+      collapseMetadata !== state.collapseMetadata
+    ) {
+      nextState = {
+        ...nextState,
+        isFirstInCluster,
+        isLastInCluster,
+        collapseMetadata,
+      };
+    }
+
+    return nextState;
+  }
+
+  public static isFirstInCluster(props: Props) {
+    const { authorPhoneNumber, context, isFirstInCluster, timestamp } = props;
+
+    if (isFirstInCluster !== undefined) {
+      return isFirstInCluster;
+    }
+
+    if (!context || !context.before) {
+      return true;
+    }
+
+    const { before } = context;
+
+    if (
+      !before ||
+      before.type !== 'message' ||
+      before.data.authorPhoneNumber !== authorPhoneNumber
+    ) {
+      return true;
+    }
+
+    const beforeMoment = moment(before.data.timestamp).local();
+    const currMoment = moment(timestamp).local();
+
+    if (!currMoment.isSame(beforeMoment, 'day')) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public static isLastInCluster(props: Props) {
+    const { authorPhoneNumber, context, isLastInCluster, timestamp } = props;
+
+    if (isLastInCluster !== undefined) {
+      return isLastInCluster;
+    }
+
+    if (!context) {
+      return true;
+    }
+
+    const { after } = context;
+
+    if (
+      !after ||
+      after.type !== 'message' ||
+      after.data.authorPhoneNumber !== authorPhoneNumber
+    ) {
+      return true;
+    }
+
+    const afterMoment = moment(after.data.timestamp).local();
+    const currMoment = moment(timestamp).local();
+
+    if (!currMoment.isSame(afterMoment, 'day')) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public static shouldCollapseMetadata(props: Props) {
+    const {
+      collapseMetadata,
+      context,
+      direction,
+      timestamp,
+      status,
+      authorPhoneNumber,
+      i18n,
+      expirationLength,
+      expirationTimestamp,
+    } = props;
+
+    if (collapseMetadata) {
+      return true;
+    }
+
+    if (
+      !context ||
+      !context.after ||
+      context.after.type !== 'message' ||
+      context.after.data.authorPhoneNumber !== authorPhoneNumber
+    ) {
+      return false;
+    }
+
+    const { after } = context;
+    const timestampString = formatRelativeTime(timestamp, {
+      i18n,
+      extended: true,
+    });
+    const nextTimestampString = formatRelativeTime(after.data.timestamp, {
+      i18n,
+      extended: true,
+    });
+
+    // Collapse metadata if and only if...
+    // ...the timestamp text is the same
+    // ...and the message status is the same as the next for outgoing messages
+    // ...and the message did not fail to send
+    // ...and this is not a disappearing message.
+    if (
+      timestampString !== nextTimestampString ||
+      (direction === 'outgoing' && status !== after.data.status) ||
+      status === 'error' ||
+      expirationLength ||
+      expirationTimestamp
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   public handleWideMlChange = (event: MediaQueryListEvent) => {
@@ -337,11 +480,21 @@ export class Message extends React.PureComponent<Props, State> {
     this.wideMl.removeEventListener('change', this.handleWideMlChange);
   }
 
-  public componentDidUpdate(prevProps: Props) {
+  public componentDidUpdate(prevProps: Props, prevState: State) {
+    const { forceMessageHeightUpdate } = this.props;
+
     this.startSelectedTimer();
 
     if (!prevProps.isSelected && this.props.isSelected) {
       this.setFocus();
+    }
+
+    if (
+      prevState.isFirstInCluster !== this.state.isFirstInCluster ||
+      prevState.isLastInCluster !== this.state.isLastInCluster ||
+      prevState.collapseMetadata !== this.state.collapseMetadata
+    ) {
+      forceMessageHeightUpdate(this.props.id, this.props.conversationId);
     }
 
     this.checkExpired();
@@ -404,8 +557,7 @@ export class Message extends React.PureComponent<Props, State> {
       textPending,
       timestamp,
     } = this.props;
-
-    const collapseMetadata = this.shouldCollapseMetadata();
+    const { collapseMetadata } = this.state;
 
     if (collapseMetadata) {
       return null;
@@ -502,8 +654,9 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToView,
       isTapToViewExpired,
     } = this.props;
+    const { isFirstInCluster } = this.state;
 
-    if (!this.isFirstInCluster()) {
+    if (!isFirstInCluster) {
       return null;
     }
 
@@ -546,11 +699,12 @@ export class Message extends React.PureComponent<Props, State> {
       isSticker,
       text,
     } = this.props;
-    const { imageBroken } = this.state;
-
-    const collapseMetadata = this.shouldCollapseMetadata();
-    const isFirstInCluster = this.isFirstInCluster();
-    const isLastInCluster = this.isLastInCluster();
+    const {
+      imageBroken,
+      isFirstInCluster,
+      isLastInCluster,
+      collapseMetadata,
+    } = this.state;
 
     if (!attachments || !attachments[0]) {
       return null;
@@ -716,6 +870,7 @@ export class Message extends React.PureComponent<Props, State> {
       previews,
       quote,
     } = this.props;
+    const { isFirstInCluster } = this.state;
 
     // Attachments take precedence over Link Previews
     if (attachments && attachments.length) {
@@ -731,7 +886,6 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const isFirstInCluster = this.isFirstInCluster();
     const withContentAbove =
       Boolean(quote) ||
       (conversationType === 'group' &&
@@ -842,8 +996,7 @@ export class Message extends React.PureComponent<Props, State> {
       quote,
       scrollToQuotedMessage,
     } = this.props;
-
-    const isFirstInCluster = this.isFirstInCluster();
+    const { isFirstInCluster } = this.state;
 
     if (!quote) {
       return null;
@@ -894,9 +1047,7 @@ export class Message extends React.PureComponent<Props, State> {
       showContactDetail,
       text,
     } = this.props;
-
-    const collapseMetadata = this.shouldCollapseMetadata();
-    const isFirstInCluster = this.isFirstInCluster();
+    const { isFirstInCluster, collapseMetadata } = this.state;
 
     if (!contact) {
       return null;
@@ -958,14 +1109,13 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       i18n,
     } = this.props;
-
-    const collapseMetadata = this.shouldCollapseMetadata();
+    const { isLastInCluster, collapseMetadata } = this.state;
 
     if (
       collapseMetadata ||
       conversationType !== 'group' ||
       direction === 'outgoing' ||
-      !this.isLastInCluster()
+      !isLastInCluster
     ) {
       return;
     }
@@ -1350,132 +1500,6 @@ export class Message extends React.PureComponent<Props, State> {
     return;
   }
 
-  public isFirstInCluster() {
-    const {
-      authorPhoneNumber,
-      context,
-      isFirstInCluster,
-      timestamp,
-    } = this.props;
-
-    if (isFirstInCluster !== undefined) {
-      return isFirstInCluster;
-    }
-
-    if (!context || !context.before) {
-      return true;
-    }
-
-    const { before } = context;
-
-    if (
-      !before ||
-      before.type !== 'message' ||
-      before.data.authorPhoneNumber !== authorPhoneNumber
-    ) {
-      return true;
-    }
-
-    const beforeMoment = moment(before.data.timestamp).local();
-    const currMoment = moment(timestamp).local();
-
-    if (!currMoment.isSame(beforeMoment, 'day')) {
-      return true;
-    }
-
-    return false;
-  }
-
-  public isLastInCluster() {
-    const {
-      authorPhoneNumber,
-      context,
-      isLastInCluster,
-      timestamp,
-    } = this.props;
-
-    if (isLastInCluster !== undefined) {
-      return isLastInCluster;
-    }
-
-    if (!context) {
-      return true;
-    }
-
-    const { after } = context;
-
-    if (
-      !after ||
-      after.type !== 'message' ||
-      after.data.authorPhoneNumber !== authorPhoneNumber
-    ) {
-      return true;
-    }
-
-    const afterMoment = moment(after.data.timestamp).local();
-    const currMoment = moment(timestamp).local();
-
-    if (!currMoment.isSame(afterMoment, 'day')) {
-      return true;
-    }
-
-    return false;
-  }
-
-  public shouldCollapseMetadata() {
-    const {
-      collapseMetadata,
-      context,
-      direction,
-      timestamp,
-      status,
-      authorPhoneNumber,
-      i18n,
-      expirationLength,
-      expirationTimestamp,
-    } = this.props;
-
-    if (collapseMetadata) {
-      return true;
-    }
-
-    if (
-      !context ||
-      !context.after ||
-      context.after.type !== 'message' ||
-      context.after.data.authorPhoneNumber !== authorPhoneNumber
-    ) {
-      return false;
-    }
-
-    const { after } = context;
-    const timestampString = formatRelativeTime(timestamp, {
-      i18n,
-      extended: true,
-    });
-    const nextTimestampString = formatRelativeTime(after.data.timestamp, {
-      i18n,
-      extended: true,
-    });
-
-    // Collapse metadata if and only if...
-    // ...the timestamp text is the same
-    // ...and the message status is the same as the next for outgoing messages
-    // ...and the message did not fail to send
-    // ...and this is not a disappearing message.
-    if (
-      timestampString !== nextTimestampString ||
-      (direction === 'outgoing' && status !== after.data.status) ||
-      status === 'error' ||
-      expirationLength ||
-      expirationTimestamp
-    ) {
-      return false;
-    }
-
-    return true;
-  }
-
   public isShowingImage() {
     const { isTapToView, attachments, previews } = this.props;
     const { imageBroken } = this.state;
@@ -1578,9 +1602,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToViewExpired,
       isTapToViewError,
     } = this.props;
-
-    const isFirstInCluster = this.isFirstInCluster();
-    const collapseMetadata = this.shouldCollapseMetadata();
+    const { isFirstInCluster, collapseMetadata } = this.state;
 
     const withContentBelow = !collapseMetadata;
     const withContentAbove =
@@ -2073,10 +2095,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToViewError,
       reactions,
     } = this.props;
-    const { isSelected } = this.state;
-
-    const isFirstInCluster = this.isFirstInCluster();
-    const isLastInCluster = this.isLastInCluster();
+    const { isSelected, isFirstInCluster, isLastInCluster } = this.state;
 
     const isAttachmentPending = this.isAttachmentPending();
 
@@ -2150,10 +2169,14 @@ export class Message extends React.PureComponent<Props, State> {
       isSticker,
       timestamp,
     } = this.props;
-    const { expired, expiring, imageBroken, isSelected } = this.state;
-
-    const isFirstInCluster = this.isFirstInCluster();
-    const isLastInCluster = this.isLastInCluster();
+    const {
+      expired,
+      expiring,
+      imageBroken,
+      isSelected,
+      isFirstInCluster,
+      isLastInCluster,
+    } = this.state;
 
     // This id is what connects our triple-dot click with our associated pop-up menu.
     //   It needs to be unique.

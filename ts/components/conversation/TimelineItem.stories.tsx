@@ -55,6 +55,7 @@ const getDefaultProps = () => ({
   downloadNewVersion: action('downloadNewVersion'),
   showIdentity: action('showIdentity'),
   renderEmojiPicker,
+  forceMessageHeightUpdate: action('forceMessageHeightUpdate'),
 });
 
 storiesOf('Components/Conversation/TimelineItem', module)
