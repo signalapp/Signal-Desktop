@@ -1,10 +1,11 @@
 import { ConversationController } from '../../window';
 import { PubKey } from '../types';
 
-
 export async function getGroupMembers(groupId: PubKey): Promise<Array<PubKey>> {
   const groupConversation = ConversationController.get(groupId.key);
-  const groupMembers = groupConversation.attributes.members;
+  const groupMembers = groupConversation
+    ? groupConversation.attributes.members
+    : undefined;
 
   if (!groupMembers) {
     return [];
