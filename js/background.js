@@ -1426,10 +1426,8 @@
 
     Whisper.events.on('devicePairingRequestRejected', async pubKey => {
       await libloki.storage.removeContactPreKeyBundle(pubKey);
-
-      const pubKeyObject = new libsession.Types.PubKey(pubKey);
       await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
-        pubKeyObject
+        pubKey
       );
     });
 
@@ -1438,9 +1436,8 @@
       if (isSecondaryDevice) {
         return;
       }
-      const pubKeyObject = new libsession.Types.PubKey(pubKey);
       await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
-        pubKeyObject
+        pubKey
       );
       await window.lokiFileServerAPI.updateOurDeviceMapping();
       // TODO: we should ensure the message was sent and retry automatically if not
@@ -1755,6 +1752,8 @@
       return;
     }
 
+    // A sender here could be referring to a group.
+    // Groups don't have primary devices so we need to take that into consideration.
     const user = libsession.Types.PubKey.from(sender);
     const primaryDevice = user
       ? await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(user)
@@ -1818,18 +1817,16 @@
       }
       const ourPrimaryKey = window.storage.get('primaryDevicePubKey');
       if (ourPrimaryKey) {
-        const user = new libsession.Types.PubKey(ourPrimaryKey);
         const secondaryDevices = await libsession.Protocols.MultiDeviceProtocol.getSecondaryDevices(
-          user
+          ourPrimaryKey
         );
         if (secondaryDevices.some(device => device.key === id)) {
           await conversation.setSecondaryStatus(true, ourPrimaryKey);
         }
       }
 
-      const user = new libsession.Types.PubKey(id);
       const devices = await libsession.Protocols.MultiDeviceProtocol.getAllDevices(
-        user
+        id
       );
       const deviceConversations = await Promise.all(
         devices.map(d =>

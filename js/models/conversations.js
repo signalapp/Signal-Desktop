@@ -879,7 +879,14 @@
 
       const device = window.libsession.Types.PubKey.from(this.id);
       if (device) {
-        return ConversationController.getOrCreateAndWait(device.key, 'private');
+        const primary = await window.libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+          device
+        );
+
+        return ConversationController.getOrCreateAndWait(
+          primary.key,
+          'private'
+        );
       }
 
       // Something funky has happened

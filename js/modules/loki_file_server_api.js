@@ -219,9 +219,8 @@ class LokiHomeServerInstance extends LokiFileServerInstance {
 
   async updateOurDeviceMapping() {
     const isPrimary = !storage.get('isSecondaryDevice');
-    const ourKey = new window.libsession.Types.PubKey(this.ourKey);
     const authorisations = await window.libsession.Protocols.MultiDeviceProtocol.getPairingAuthorisations(
-      ourKey
+      this.ourKey
     );
 
     return this._setOurDeviceMapping(authorisations, isPrimary);

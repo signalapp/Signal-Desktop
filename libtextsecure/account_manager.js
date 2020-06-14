@@ -605,9 +605,8 @@
           e && e.stack ? e.stack : e
         );
         // File server upload failed or message sending failed, we should rollback changes
-        const pubKey = new libsession.Types.PubKey(secondaryDevicePubKey);
         await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
-          pubKey
+          secondaryDevicePubKey
         );
         await lokiFileServerAPI.updateOurDeviceMapping();
         throw e;

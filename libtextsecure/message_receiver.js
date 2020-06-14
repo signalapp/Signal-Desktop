@@ -1720,9 +1720,8 @@ MessageReceiver.prototype.extend({
   async handleSyncMessage(envelope, syncMessage) {
     // We should only accept sync messages from our devices
     const ourNumber = textsecure.storage.user.getNumber();
-    const user = new libsession.Types.PubKey(ourNumber);
     const ourDevices = await libsession.Protocols.MultiDeviceProtocol.getAllDevices(
-      user
+      ourNumber
     );
     const validSyncSender = ourDevices.some(
       device => device.key === envelope.source
