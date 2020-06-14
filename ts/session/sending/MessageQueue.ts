@@ -14,7 +14,7 @@ import {
   SessionRequestMessage,
 } from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
-import { JobQueue, SyncMessageUtils, TypedEventEmitter } from '../utils';
+import { JobQueue, SyncMessageUtils, TypedEventEmitter, GroupUtils } from '../utils';
 import { PubKey } from '../types';
 import { MessageSender } from '.';
 import { SessionProtocol } from '../protocols';
@@ -130,9 +130,7 @@ export class MessageQueue implements MessageQueueInterface {
   public async processPending(device: PubKey) {
     const messages = this.pendingMessageCache.getForDevice(device);
 
-    // TODO: Simpify the isMediumGroup check to not rely on ANY window objects
-    // const isMediumGroup = messages.some(m => m instanceof MediumGroupMessage);
-    const isMediumGroup = false;
+    const isMediumGroup = GroupUtils.isMediumGroup(device);
     const hasSession = SessionProtocol.hasSession(device);
 
     if (!isMediumGroup && !hasSession) {
