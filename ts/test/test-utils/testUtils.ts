@@ -5,8 +5,9 @@ import * as DataShape from '../../../js/modules/data';
 import { v4 as uuid } from 'uuid';
 
 import { ImportMock } from 'ts-mock-imports';
-import { PubKey } from '../../../ts/session/types';
+import { PubKey, PubKey } from '../../../ts/session/types';
 import { ChatMessage, OpenGroupMessage } from '../../session/messages/outgoing';
+import { OpenGroup } from '../../session/types/OpenGroup';
 
 const sandbox = sinon.createSandbox();
 
@@ -69,11 +70,26 @@ export function generateChatMessage(): ChatMessage {
 }
 
 export function generateOpenGroupMessage(): OpenGroupMessage {
-  const group = new OpenGroup()
+  const group = new OpenGroup({
+    server: 'chat.example.server',
+    channel: 0,
+    conversationId: '0',
+  });
 
   return new OpenGroupMessage({
-    group
+    timestamp: Date.now(),
+    group,
     attachments: undefined,
+    preview: undefined,
+    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+    quote: undefined,
   });
 }
 
+export function generateMemberList(size: number): Array<PubKey> {
+  const numMembers = Math.floor(size);
+
+  return  numMembers > 0
+    ? Array.from({ length: numMembers }, generateFakePubkey)
+    : [];
+}

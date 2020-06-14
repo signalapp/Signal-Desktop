@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import { getPairedDevicesFor } from '../../../js/modules/data';
-import { ConversationController } from '../../window';
 
 import { EventEmitter } from 'events';
 import {
@@ -14,11 +13,16 @@ import {
   SessionRequestMessage,
 } from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
-import { JobQueue, SyncMessageUtils, TypedEventEmitter } from '../utils';
+import {
+  JobQueue,
+  SyncMessageUtils,
+  TypedEventEmitter,
+  GroupUtils,
+} from '../utils';
 import { PubKey } from '../types';
 import { MessageSender } from '.';
 import { SessionProtocol } from '../protocols';
-import * as UserUtils from '../../util/user';
+import * as UserUtil from '../../util/user';
 
 export class MessageQueue implements MessageQueueInterface {
   public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
@@ -50,7 +54,7 @@ export class MessageQueue implements MessageQueueInterface {
 
     // Sync to our devices if syncable
     if (SyncMessageUtils.canSync(message)) {
-      const currentDevice = await UserUtils.getCurrentDevicePubKey();
+      const currentDevice = await UserUtil.getCurrentDevicePubKey();
 
       if (currentDevice) {
         const otherDevices = await getPairedDevicesFor(currentDevice);
@@ -60,11 +64,7 @@ export class MessageQueue implements MessageQueueInterface {
         );
         await this.sendSyncMessage(message, ourDevices);
 
-        // Remove our devices from currentDevices
-        const ourDeviceContacts = ourDevices.map(device =>
-          ConversationController.get(device.key)
-        );
-        currentDevices = _.xor(currentDevices, ourDeviceContacts);
+        currentDevices = _.xor(currentDevices, ourDevices);
       }
     }
 
@@ -78,22 +78,23 @@ export class MessageQueue implements MessageQueueInterface {
   public async sendToGroup(
     message: OpenGroupMessage | ContentMessage
   ): Promise<boolean> {
+    // Ensure message suits its respective type
     if (
       !(message instanceof OpenGroupMessage) &&
       !(message instanceof ClosedGroupMessage)
     ) {
+      console.log('[vince] NOT INSTANCEOF');
+      console.log('instance of message:', message.constructor.name);
+
       return false;
     }
 
     // Closed groups
     if (message instanceof ClosedGroupMessage) {
       // Get devices in closed group
-      const conversation = ConversationController.get(message.groupId);
-      const recipientsModels = conversation.contactCollection.models;
-      const recipients: Array<PubKey> = recipientsModels.map(
-        (recipient: any) => new PubKey(recipient.id)
+      const recipients: Array<PubKey> = await GroupUtils.getGroupMembers(
+        message.groupId
       );
-
       await this.sendMessageToDevices(recipients, message);
 
       return true;
@@ -108,11 +109,16 @@ export class MessageQueue implements MessageQueueInterface {
         this.events.emit('success', message);
       } catch (e) {
         this.events.emit('fail', message, e);
+
+        console.log('[vince] EVENT FAILED', message);
+
+        return false;
       }
 
       return true;
     }
 
+    console.log('[vince] OTHERWISE FAIELD');
     return false;
   }
 

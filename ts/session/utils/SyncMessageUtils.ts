@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import * as UserUtils from '../../util/user';
+import * as UserUtil from '../../util/user';
 import {
   getAllConversations,
   getPrimaryDeviceFor,
@@ -24,7 +24,7 @@ export async function canSync(message: ContentMessage): Promise<boolean> {
 }
 
 export async function getSyncContacts(): Promise<Array<any> | undefined> {
-  const thisDevice = await UserUtils.getCurrentDevicePubKey();
+  const thisDevice = await UserUtil.getCurrentDevicePubKey();
 
   if (!thisDevice) {
     return [];
