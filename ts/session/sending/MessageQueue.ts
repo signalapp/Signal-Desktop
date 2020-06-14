@@ -14,11 +14,16 @@ import {
   SessionRequestMessage,
 } from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
-import { JobQueue, SyncMessageUtils, TypedEventEmitter, GroupUtils } from '../utils';
+import {
+  GroupUtils,
+  JobQueue,
+  SyncMessageUtils,
+  TypedEventEmitter,
+} from '../utils';
 import { PubKey } from '../types';
 import { MessageSender } from '.';
 import { SessionProtocol } from '../protocols';
-import * as UserUtils from '../../util/user';
+import { UserUtil } from '../../util';
 
 export class MessageQueue implements MessageQueueInterface {
   public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
@@ -50,7 +55,7 @@ export class MessageQueue implements MessageQueueInterface {
 
     // Sync to our devices if syncable
     if (SyncMessageUtils.canSync(message)) {
-      const currentDevice = await UserUtils.getCurrentDevicePubKey();
+      const currentDevice = await UserUtil.getCurrentDevicePubKey();
 
       if (currentDevice) {
         const otherDevices = await getPairedDevicesFor(currentDevice);
@@ -88,12 +93,12 @@ export class MessageQueue implements MessageQueueInterface {
     // Closed groups
     if (message instanceof ClosedGroupMessage) {
       // Get devices in closed group
-      const conversation = ConversationController.get(message.groupId);
-      const recipientsModels = conversation.contactCollection.models;
-      const recipients: Array<PubKey> = recipientsModels.map(
-        (recipient: any) => new PubKey(recipient.id)
-      );
+      const groupPubKey = PubKey.from(message.groupId);
+      if (!groupPubKey) {
+        return false;
+      }
 
+      const recipients = await GroupUtils.getGroupMembers(groupPubKey);
       await this.sendMessageToDevices(recipients, message);
 
       return true;
