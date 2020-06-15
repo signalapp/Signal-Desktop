@@ -6,8 +6,8 @@ import {
   removePairingAuthorisationsFor,
 } from '../../../js/modules/data';
 import { PrimaryPubKey, PubKey, SecondaryPubKey } from '../types';
-
-// TODO: We should fetch mappings when we can and only fetch them once every 5 minutes or something
+import { UserUtil } from '../../util';
+import { lokiFileServerAPI } from '../../window';
 
 /*
   The reason we're exporing a class here instead of just exporting the functions directly is for the sake of testing.
@@ -15,6 +15,88 @@ import { PrimaryPubKey, PubKey, SecondaryPubKey } from '../types';
 */
 // tslint:disable-next-line: no-unnecessary-class
 export class MultiDeviceProtocol {
+  public static refreshDelay: number = 5 * 1000 * 1000; // 5 minutes
+  private static lastFetch: { [device: string]: number } = {};
+
+  /**
+   * Fetch pairing authorisations from the file server if needed.
+   * This shouldn't be called outside of the MultiDeviceProtocol file, it is public so it can be stubbed in tests.
+   *
+   * This will fetch authorisations if:
+   *  - It is not one of our device
+   *  - The time since last fetch is more than refresh delay
+   */
+  public static async _fetchPairingAuthorisationsIfNeeded(
+    device: PubKey
+  ): Promise<void> {
+    // This return here stops an infinite loop when we get all our other devices
+    const ourKey = await UserUtil.getCurrentDevicePubKey();
+    if (!ourKey || device.key === ourKey) {
+      return;
+    }
+
+    // We always prefer our local pairing over the one on the server
+    const ourDevices = await this.getAllDevices(ourKey);
+    if (ourDevices.some(d => d.key === device.key)) {
+      return;
+    }
+
+    // Only fetch if we hit the refresh delay
+    const lastFetchTime = this.lastFetch[device.key];
+    if (lastFetchTime && lastFetchTime + this.refreshDelay < Date.now()) {
+      return;
+    }
+
+    this.lastFetch[device.key] = Date.now();
+
+    try {
+      const authorisations = await this.fetchPairingAuthorisations(device);
+      // TODO: validate?
+      await Promise.all(authorisations.map(this.savePairingAuthorisation));
+    } catch (e) {
+      // Something went wrong, let it re-try another time
+      this.lastFetch[device.key] = lastFetchTime;
+    }
+  }
+
+  /**
+   * This function shouldn't be called outside of tests!!
+   */
+  public static _resetFetchCache() {
+    this.lastFetch = {};
+  }
+
+  /**
+   * Fetch pairing authorisations for the given device from the file server.
+   * This function will not save the authorisations to the database.
+   *
+   * @param device The device to fetch the authorisation for.
+   */
+  public static async fetchPairingAuthorisations(
+    device: PubKey
+  ): Promise<Array<PairingAuthorisation>> {
+    if (!lokiFileServerAPI) {
+      throw new Error('lokiFileServerAPI is not initialised.');
+    }
+
+    const mapping = await lokiFileServerAPI.getUserDeviceMapping(device.key);
+    // TODO: Filter out invalid authorisations
+
+    return mapping.authorisations.map(
+      ({
+        primaryDevicePubKey,
+        secondaryDevicePubKey,
+        requestSignature,
+        grantSignature,
+      }) => ({
+        primaryDevicePubKey,
+        secondaryDevicePubKey,
+        requestSignature: Buffer.from(requestSignature, 'base64').buffer,
+        grantSignature: Buffer.from(grantSignature, 'base64').buffer,
+      })
+    );
+  }
+
   /**
    * Save pairing authorisation to the database.
    * @param authorisation The pairing authorisation.
@@ -33,6 +115,7 @@ export class MultiDeviceProtocol {
     device: PubKey | string
   ): Promise<Array<PairingAuthorisation>> {
     const pubKey = typeof device === 'string' ? new PubKey(device) : device;
+    await this._fetchPairingAuthorisationsIfNeeded(pubKey);
 
     return getPairingAuthorisationsFor(pubKey.key);
   }

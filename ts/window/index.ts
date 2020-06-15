@@ -76,6 +76,7 @@ interface WindowInterface extends Window {
 
   lokiMessageAPI: LokiMessageAPI;
   lokiPublicChatAPI: LokiPublicChatFactoryAPI;
+  lokiFileServerAPI: LokiFileServerInstance;
 }
 
 // In the case for tests
@@ -140,3 +141,4 @@ export const textsecure = window.textsecure;
 
 export const lokiMessageAPI = window.lokiMessageAPI;
 export const lokiPublicChatAPI = window.lokiPublicChatAPI;
+export const lokiFileServerAPI = window.lokiFileServerAPI;
