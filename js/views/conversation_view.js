@@ -421,20 +421,19 @@
           this.model.id
         );
 
-        const allMembers = await Promise.all(
-          allPubKeys.map(async pubKey => {
-            const conv = ConversationController.get(pubKey);
-            let profileName = 'Anonymous';
-            if (conv) {
-              profileName = await conv.getProfileName();
-            }
-            return {
-              id: pubKey,
-              authorPhoneNumber: pubKey,
-              authorProfileName: profileName,
-            };
-          })
-        );
+        const allMembers = allPubKeys.map(pubKey => {
+          const conv = ConversationController.get(pubKey);
+          let profileName = 'Anonymous';
+          if (conv) {
+            profileName = conv.getProfileName();
+          }
+          return {
+            id: pubKey,
+            authorPhoneNumber: pubKey,
+            authorProfileName: profileName,
+          };
+        });
+
         window.lokiPublicChatAPI.setListOfMembers(allMembers);
       };
 
@@ -1295,6 +1294,7 @@
       }
     },
 
+    // THIS DOES NOT DOWNLOAD ANYTHING!
     downloadAttachment({ attachment, message, isDangerous }) {
       if (isDangerous) {
         const toast = new Whisper.DangerousFileTypeToast();

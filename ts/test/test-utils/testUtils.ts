@@ -8,8 +8,8 @@ import { ImportMock } from 'ts-mock-imports';
 import { PubKey } from '../../../ts/session/types';
 import {
   ChatMessage,
-  OpenGroupMessage,
   ClosedGroupChatMessage,
+  OpenGroupMessage,
 } from '../../session/messages/outgoing';
 import { OpenGroup } from '../../session/types/OpenGroup';
 

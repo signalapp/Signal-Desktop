@@ -39,10 +39,10 @@ describe('MessageQueue', () => {
   let sendStub: sinon.SinonStub<[RawMessage, (number | undefined)?]>;
   let sendToOpenGroupStub: sinon.SinonStub<[OpenGroupMessage]>;
   // Group Utils Stubs
-  let isMediumGroupStub: sinon.SinonStub;
+  let isMediumGroupStub: sinon.SinonStub<[PubKey], boolean>;
   let groupMembersStub: sinon.SinonStub;
   // Session Protocol Stubs
-  let hasSessionStub: sinon.SinonStub;
+  let hasSessionStub: sinon.SinonStub<[PubKey], Promise<boolean>>;
 
   beforeEach(async () => {
     // Stub out methods which touch the database

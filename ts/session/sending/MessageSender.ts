@@ -101,12 +101,14 @@ export async function sendToOpenGroup(
     The only problem is that `channelAPI.sendMessage` returns true/false and doesn't throw any error so we can never be sure why sending failed.
     This should be fixed and we shouldn't rely on returning true/false, rather return nothing (success) or throw an error (failure)
   */
-  const { group, quote, attachments, preview, body } = message;
+  const { group, quote, attachments, body } = message;
   const channelAPI = await lokiPublicChatAPI.findOrCreateChannel(
     group.server,
     group.channel,
     group.conversationId
   );
+
+  const preview = message.preview || [];
 
   // Don't think returning true/false on `sendMessage` is a good way
   return channelAPI.sendMessage({
