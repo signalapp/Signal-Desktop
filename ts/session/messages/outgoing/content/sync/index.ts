@@ -1,3 +1,1 @@
-import * as SyncMessage from './SyncMessage';
-
-export { SyncMessage };
+export * from './SyncMessage';
