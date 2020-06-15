@@ -41,7 +41,7 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
       c =>
         c.isPrivate() &&
         !c.isOurLocalDevice() &&
-        c.isFriend() &&
+        !c.isBlocked() &&
         !c.attributes.secondaryStatus
     ) || [];
 
@@ -49,7 +49,7 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
     c =>
       c.isPrivate() &&
       !c.isOurLocalDevice() &&
-      c.isFriend() &&
+      !c.isBlocked() &&
       c.attributes.secondaryStatus
   );
 

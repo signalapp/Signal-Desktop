@@ -2,7 +2,6 @@
   textsecure,
   libsignal,
   window,
-  ConversationController,
   libloki,
   StringView,
   lokiMessageAPI,
@@ -15,8 +14,8 @@ const NUM_SEND_CONNECTIONS = 3;
 
 const getTTLForType = type => {
   switch (type) {
-    case 'friend-request':
-      return 4 * 24 * 60 * 60 * 1000; // 4 days for friend request message
+    case 'session-request':
+      return 4 * 24 * 60 * 60 * 1000; // 4 days for session request message
     case 'device-unpairing':
       return 4 * 24 * 60 * 60 * 1000; // 4 days for device unpairing
     case 'onlineBroadcast':
@@ -358,51 +357,11 @@ OutgoingMessage.prototype = {
     const updatedDevices = await getStaleDeviceIdsForNumber(devicePubKey);
     const keysFound = await this.getKeysForNumber(devicePubKey, updatedDevices);
 
-    // let isMultiDeviceRequest = false;
-    let thisDeviceMessageType = this.messageType;
-    if (
-      thisDeviceMessageType !== 'pairing-request' &&
-      thisDeviceMessageType !== 'friend-request' &&
-      thisDeviceMessageType !== 'onlineBroadcast'
-    ) {
-      try {
-        const conversation = ConversationController.get(devicePubKey);
-        if (conversation && !this.isGroup) {
-          const isOurDevice = await conversation.isOurDevice();
-          const isFriends =
-            conversation.isFriend() || conversation.hasReceivedFriendRequest();
-          // We should only send a friend request to our device if we don't have keys
-          const shouldSendAutomatedFR = isOurDevice ? !keysFound : !isFriends;
-          if (shouldSendAutomatedFR) {
-            // We want to send an automated friend request if:
-            // - We aren't already friends
-            // - We haven't received a friend request from this device
-            // - We haven't sent a friend request recently
-            if (conversation.friendRequestTimerIsExpired()) {
-              // isMultiDeviceRequest = true;
-              thisDeviceMessageType = 'friend-request';
-            } else {
-              // Throttle automated friend requests
-              this.successfulNumbers.push(devicePubKey);
-              return null;
-            }
-          }
 
-          // If we're not friends with our own device then we should become friends
-          if (isOurDevice && keysFound && !isFriends) {
-            conversation.setFriendRequestStatus(
-              window.friends.friendRequestStatusEnum.friends
-            );
-          }
-        }
-      } catch (e) {
-        // do nothing
-      }
-    }
 
     // Check if we need to attach the preKeys
     const enableFallBackEncryption =
-      !keysFound || thisDeviceMessageType === 'friend-request';
+      !keysFound || this.messageType === 'session-request';
     const flags = this.message.dataMessage
       ? this.message.dataMessage.get_flags()
       : null;
@@ -451,7 +410,7 @@ OutgoingMessage.prototype = {
     // FIXME options not used at all; if (ourPubkey === number) {
     //   options.messageKeysLimit = false;
     // }
-    const ttl = getTTLForType(thisDeviceMessageType);
+    const ttl = getTTLForType(this.messageType);
     const ourKey = textsecure.storage.user.getNumber();
 
     return {
@@ -634,14 +593,6 @@ OutgoingMessage.prototype = {
           this.timestamp,
           ttl
         );
-
-        if (!this.isGroup && !isSessionRequest) {
-          const conversation = ConversationController.get(destination);
-          if (conversation) {
-            // Redundant for primary device but marks secondary devices as pending
-            await conversation.onFriendRequestSent();
-          }
-        }
         this.successfulNumbers.push(destination);
       } catch (e) {
         e.number = destination;
@@ -691,14 +642,7 @@ OutgoingMessage.prototype = {
   },
 
   sendToNumber(number, multiDevice = true) {
-    let conversation;
-    try {
-      conversation = ConversationController.get(number);
-    } catch (e) {
-      // do nothing
-    }
     return this.reloadDevicesAndSend(number, multiDevice).catch(error => {
-      conversation.resetPendingSend();
       if (error.message === 'Identity key changed') {
         // eslint-disable-next-line no-param-reassign
         error = new textsecure.OutgoingIdentityKeyError(
@@ -719,32 +663,6 @@ OutgoingMessage.prototype = {
   },
 };
 
-OutgoingMessage.buildAutoFriendRequestMessage = function buildAutoFriendRequestMessage(
-  pubKey
-) {
-  const body = 'Please accept to enable messages to be synced across devices';
-  const dataMessage = new textsecure.protobuf.DataMessage({ body });
-
-  const content = new textsecure.protobuf.Content({
-    dataMessage,
-  });
-
-  const options = {
-    messageType: 'friend-request',
-    debugMessageType: DebugMessageType.AUTO_FR_REQUEST,
-  };
-  // Send a empty message with information about how to contact us directly
-  return new OutgoingMessage(
-    null, // server
-    Date.now(), // timestamp,
-    [pubKey], // numbers
-    content, // message
-    true, // silent
-    () => null, // callback
-    options
-  );
-};
-
 OutgoingMessage.buildSessionRequestMessage = function buildSessionRequestMessage(
   pubKey
 ) {
@@ -760,7 +678,7 @@ OutgoingMessage.buildSessionRequestMessage = function buildSessionRequestMessage
   });
 
   const options = {
-    messageType: 'friend-request',
+    messageType: 'session-request',
     debugMessageType: DebugMessageType.SESSION_REQUEST,
   };
   // Send a empty message with information about how to contact us directly

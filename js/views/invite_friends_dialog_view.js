@@ -14,12 +14,12 @@
 
       const convos = window.getConversations().models;
 
-      this.friends = convos.filter(
-        d => !!d && d.isFriend() && d.isPrivate() && !d.isMe()
+      this.contacts = convos.filter(
+        d => !!d && d.isPrivate() && !d.isMe()
       );
       if (!convo.isPublic()) {
         const members = convo.get('members') || [];
-        this.friends = this.friends.filter(d => !members.includes(d.id));
+        this.contacts = this.contacts.filter(d => !members.includes(d.id));
       }
 
       this.chatName = convo.get('name');
@@ -36,7 +36,7 @@
         className: 'invite-friends-dialog',
         Component: window.Signal.Components.InviteFriendsDialog,
         props: {
-          friendList: this.friends,
+          friendList: this.contacts,
           onSubmit: this.submit,
           onClose: this.close,
           chatName: this.chatName,

@@ -22,16 +22,15 @@
       const convos = window.getConversations().models;
 
       // private friends (not you) that aren't already moderators
-      const friends = convos.filter(
+      const contacts = convos.filter(
         d =>
           !!d &&
-          d.isFriend() &&
           d.isPrivate() &&
           !d.isMe() &&
           !modPubKeys.includes(d.id)
       );
 
-      this.friends = friends;
+      this.contacts = contacts;
 
       this.$el.focus();
       this.render();
@@ -41,7 +40,7 @@
         className: 'add-moderators-dialog',
         Component: window.Signal.Components.AddModeratorsDialog,
         props: {
-          friendList: this.friends,
+          friendList: this.contacts,
           chatName: this.chatName,
           onSubmit: this.onSubmit,
           onClose: this.close,

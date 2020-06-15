@@ -18,9 +18,8 @@ export class UserSearchResults extends React.Component<Props> {
 
   public render() {
     const { contacts, searchTerm } = this.props;
-    const friends = contacts.filter(contact => contact.isFriend);
 
-    const noResults = !friends || friends.length <= 0;
+    const noResults = !contacts || contacts.length <= 0;
 
     return (
       <div className="module-search-results">
@@ -29,7 +28,7 @@ export class UserSearchResults extends React.Component<Props> {
             {window.i18n('noSearchResults', [searchTerm])}
           </div>
         ) : (
-          this.renderContacts(friends)
+          this.renderContacts(contacts)
         )}
       </div>
     );
@@ -38,12 +37,12 @@ export class UserSearchResults extends React.Component<Props> {
   private renderContacts(items: Array<ConversationListItemPropsType>) {
     return (
       <div className="contacts-dropdown">
-        {items.map((friend, index) => this.renderFriend(friend, index))}
+        {items.map((contact, index) => this.renderContact(contact, index))}
       </div>
     );
   }
 
-  private renderFriend(contact: ConversationListItemPropsType, index: Number) {
+  private renderContact(contact: ConversationListItemPropsType, index: Number) {
     const { profileName, phoneNumber } = contact;
     const { selectedContact } = this.props;
 

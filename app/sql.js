@@ -110,8 +110,6 @@ module.exports = {
   updateConversation,
   removeConversation,
   getAllConversations,
-  getPubKeysWithFriendStatus,
-  getConversationsWithFriendStatus,
   getAllRssFeedConversations,
   getAllPublicConversations,
   getPublicConversationsByServer,
@@ -471,10 +469,10 @@ async function updateToSchemaVersion6(currentVersion, instance) {
   console.log('updateToSchemaVersion6: starting...');
   await instance.run('BEGIN TRANSACTION;');
 
-  await instance.run(
-    `ALTER TABLE conversations
-     ADD COLUMN friendRequestStatus INTEGER;`
-  );
+  // await instance.run(
+  //   `ALTER TABLE conversations
+  //    ADD COLUMN friendRequestStatus INTEGER;`
+  // );
 
   await instance.run(
     `CREATE TABLE lastHashes(
@@ -837,7 +835,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
 
   const initConversation = async data => {
     // eslint-disable-next-line camelcase
-    const { id, active_at, type, name, friendRequestStatus } = data;
+    const { id, active_at, type, name } = data;
     await instance.run(
       `INSERT INTO conversations (
       id,
@@ -845,8 +843,7 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
       active_at,
       type,
       members,
-      name,
-      friendRequestStatus
+      name
     ) values (
       $id,
       $json,
@@ -854,7 +851,6 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
       $type,
       $members,
       $name,
-      $friendRequestStatus
     );`,
       {
         $id: id,
@@ -863,7 +859,6 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
         $type: type,
         $members: null,
         $name: name,
-        $friendRequestStatus: friendRequestStatus,
       }
     );
   };
@@ -877,7 +872,6 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
 
   const baseData = {
     active_at: Date.now(),
-    friendRequestStatus: 4, // Friends
     sealedSender: 0,
     sessionResetStatus: 0,
     swarmNodes: [],
@@ -1860,7 +1854,6 @@ async function saveConversation(data) {
     type,
     members,
     name,
-    friendRequestStatus,
     profileName,
   } = data;
 
@@ -1873,7 +1866,6 @@ async function saveConversation(data) {
     type,
     members,
     name,
-    friendRequestStatus,
     profileName
   ) values (
     $id,
@@ -1883,7 +1875,6 @@ async function saveConversation(data) {
     $type,
     $members,
     $name,
-    $friendRequestStatus,
     $profileName
   );`,
     {
@@ -1894,7 +1885,6 @@ async function saveConversation(data) {
       $type: type,
       $members: members ? members.join(' ') : null,
       $name: name,
-      $friendRequestStatus: friendRequestStatus,
       $profileName: profileName,
     }
   );
@@ -1924,7 +1914,6 @@ async function updateConversation(data) {
     type,
     members,
     name,
-    friendRequestStatus,
     profileName,
   } = data;
 
@@ -1936,7 +1925,6 @@ async function updateConversation(data) {
     type = $type,
     members = $members,
     name = $name,
-    friendRequestStatus = $friendRequestStatus,
     profileName = $profileName
   WHERE id = $id;`,
     {
@@ -1947,7 +1935,6 @@ async function updateConversation(data) {
       $type: type,
       $members: members ? members.join(' ') : null,
       $name: name,
-      $friendRequestStatus: friendRequestStatus,
       $profileName: profileName,
     }
   );
@@ -2028,31 +2015,6 @@ async function getAllConversations() {
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getPubKeysWithFriendStatus(status) {
-  const rows = await db.all(
-    `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE
-      friendRequestStatus = $status
-      AND type = 'private'
-    ORDER BY id ASC;`,
-    {
-      $status: status,
-    }
-  );
-  return map(rows, row => row.id);
-}
-
-async function getConversationsWithFriendStatus(status) {
-  const rows = await db.all(
-    `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE
-      friendRequestStatus = $status
-      AND type = 'private'
-    ORDER BY id ASC;`,
-    {
-      $status: status,
-    }
-  );
-  return map(rows, row => jsonToObject(row.json));
-}
 
 async function getAllConversationIds() {
   const rows = await db.all(
@@ -2521,7 +2483,7 @@ async function getMessageBySender({ source, sourceDevice, sent_at }) {
 async function getAllUnsentMessages() {
   const rows = await db.all(`
     SELECT json FROM messages WHERE
-      type IN ('outgoing', 'friend-request') AND
+      type IN ('outgoing', 'session-request') AND
       NOT sent
     ORDER BY sent_at DESC;
   `);

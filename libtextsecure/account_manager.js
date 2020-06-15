@@ -611,13 +611,6 @@
         throw e;
       }
 
-      // Always be friends with secondary devices
-      await secondaryConversation.setFriendRequestStatus(
-        window.friends.friendRequestStatusEnum.friends,
-        {
-          blockSync: true,
-        }
-      );
       // Send sync messages
       // bad hack to send sync messages when secondary device is ready to process them
       setTimeout(async () => {

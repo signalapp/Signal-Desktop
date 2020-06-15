@@ -82,21 +82,6 @@ export const getSearchResults = createSelector(
           return value;
         })
       ),
-      friends: compact(
-        state.conversations.map(id => {
-          const value = lookup[id];
-          const friend = value && value.isFriend ? { ...value } : null;
-
-          if (friend && id === selectedConversation) {
-            return {
-              ...friend,
-              isSelected: true,
-            };
-          }
-
-          return friend;
-        })
-      ),
       hideMessagesHeader: false,
       messages: state.messages.map(message => {
         if (message.id === selectedMessage) {

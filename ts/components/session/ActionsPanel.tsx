@@ -21,7 +21,6 @@ interface Props {
   selectedSection: SectionType;
   conversations: Array<ConversationListItemPropsType> | undefined;
   unreadMessageCount: number;
-  receivedFriendRequestCount: number;
 }
 
 export class ActionsPanel extends React.Component<Props, State> {
@@ -130,7 +129,6 @@ export class ActionsPanel extends React.Component<Props, State> {
     const {
       selectedSection,
       unreadMessageCount,
-      receivedFriendRequestCount,
     } = this.props;
 
     const isProfilePageSelected = selectedSection === SectionType.Profile;
@@ -157,7 +155,6 @@ export class ActionsPanel extends React.Component<Props, State> {
           type={SectionType.Contact}
           isSelected={isContactPageSelected}
           onSelect={this.handleSectionSelect}
-          notificationCount={receivedFriendRequestCount}
         />
         <this.Section
           type={SectionType.Settings}

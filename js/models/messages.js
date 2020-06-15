@@ -277,8 +277,8 @@
     isKeyChange() {
       return this.get('type') === 'keychange';
     },
-    isFriendRequest() {
-      return this.get('type') === 'friend-request';
+    isSessionRequest() {
+      return this.get('type') === 'session-request';
     },
     isGroupInvitation() {
       return !!this.get('groupInvitation');

@@ -133,7 +133,7 @@ export class MessageQueue implements MessageQueueInterface {
     const messages = this.pendingMessageCache.getForDevice(device);
 
     const isMediumGroup = GroupUtils.isMediumGroup(device);
-    const hasSession = SessionProtocol.hasSession(device);
+    const hasSession = await SessionProtocol.hasSession(device);
 
     if (!isMediumGroup && !hasSession) {
       await SessionProtocol.sendSessionRequestIfNeeded(device);

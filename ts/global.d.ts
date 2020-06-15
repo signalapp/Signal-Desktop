@@ -38,7 +38,6 @@ interface Window {
   Session: any;
   log: any;
   i18n: any;
-  friends: any;
   generateID: any;
   storage: any;
   pushToast: any;

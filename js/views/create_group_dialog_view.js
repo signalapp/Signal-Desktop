@@ -17,7 +17,7 @@
       const convos = window.getConversations().models;
 
       let allMembers = convos.filter(
-        d => !!d && d.isFriend() && d.isPrivate() && !d.isMe()
+        d => !!d && d.isPrivate() && !d.isMe()
       );
       allMembers = _.uniq(allMembers, true, d => d.id);
 

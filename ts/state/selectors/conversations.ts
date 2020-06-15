@@ -97,9 +97,7 @@ export const _getLeftPaneLists = (
 ): {
   conversations: Array<ConversationType>;
   archivedConversations: Array<ConversationType>;
-  friends: Array<ConversationType>;
-  receivedFriendsRequest: Array<ConversationListItemPropsType>;
-  sentFriendsRequest: Array<ConversationListItemPropsType>;
+  contacts: Array<ConversationType>;
   unreadCount: number;
 } => {
   const values = Object.values(lookup);
@@ -107,9 +105,7 @@ export const _getLeftPaneLists = (
 
   const conversations: Array<ConversationType> = [];
   const archivedConversations: Array<ConversationType> = [];
-  const allFriends: Array<ConversationType> = [];
-  const allReceivedFriendsRequest: Array<ConversationListItemPropsType> = [];
-  const allSentFriendsRequest: Array<ConversationListItemPropsType> = [];
+  const allContacts: Array<ConversationType> = [];
 
   const max = sorted.length;
   let unreadCount = 0;
@@ -124,33 +120,15 @@ export const _getLeftPaneLists = (
       };
     }
 
-    if (conversation.isFriend && conversation.activeAt !== undefined) {
-      allFriends.push(conversation);
+    if (conversation.activeAt !== undefined) {
+      allContacts.push(conversation);
     }
 
-    if (conversation.hasReceivedFriendRequest) {
-      // Friend requests should always appear as coming from primary
-      const primaryConversation =
-        conversations.find(c => c.id === conversation.primaryDevice) ||
-        conversation;
-      primaryConversation.hasReceivedFriendRequest =
-        conversation.hasReceivedFriendRequest;
-      primaryConversation.isPendingFriendRequest =
-        conversation.isPendingFriendRequest;
-      allReceivedFriendsRequest.push(primaryConversation);
-    } else if (
+    if (
       unreadCount < 9 &&
-      conversation.isFriend &&
       conversation.unreadCount > 0
     ) {
       unreadCount += conversation.unreadCount;
-    }
-    if (conversation.hasSentFriendRequest) {
-      if (!conversation.isFriend) {
-        if (!conversation.isSecondary) {
-          allSentFriendsRequest.push(conversation);
-        }
-      }
     }
 
     if (!conversation.activeAt) {
@@ -191,20 +169,12 @@ export const _getLeftPaneLists = (
     return filteredGroup as T;
   };
 
-  const friends: Array<ConversationType> = filterToPrimary(allFriends);
-  const receivedFriendsRequest: Array<ConversationListItemPropsType> = filterToPrimary(
-    allReceivedFriendsRequest
-  );
-  const sentFriendsRequest: Array<ConversationListItemPropsType> = filterToPrimary(
-    allSentFriendsRequest
-  );
+  const contacts: Array<ConversationType> = filterToPrimary(allContacts);
 
   return {
     conversations,
     archivedConversations,
-    friends,
-    receivedFriendsRequest,
-    sentFriendsRequest,
+    contacts,
     unreadCount,
   };
 };

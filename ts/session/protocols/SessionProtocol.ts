@@ -18,7 +18,7 @@ export class SessionProtocol {
    * This map should not be used directly, but instead through
    * `updateSendSessionTimestamp()`, or `hasSendSessionRequest()`
    */
-  private static sentSessionsTimestamp: StringToNumberMap;
+  private static sentSessionsTimestamp: StringToNumberMap = {};
 
   /**
    * This map olds the processed session timestamps, i.e. when we received a session request and handled it.
@@ -26,7 +26,7 @@ export class SessionProtocol {
    * This map should not be used directly, but instead through
    * `updateProcessedSessionTimestamp()`, `getProcessedSessionRequest()` or `hasProcessedSessionRequest()`
    */
-  private static processedSessionsTimestamp: StringToNumberMap;
+  private static processedSessionsTimestamp: StringToNumberMap = {};
 
   /**
    * This map olds the timestamp on which a sent session reset is triggered for a specific device.
@@ -179,6 +179,8 @@ export class SessionProtocol {
     if (!SessionProtocol.dbLoaded) {
       const sentItem = await getItemById('sentSessionsTimestamp');
       if (sentItem) {
+        // FIXME we must update the existing map with those items
+        // or empty the existing map, not create a new one
         SessionProtocol.sentSessionsTimestamp = sentItem.value;
       } else {
         SessionProtocol.sentSessionsTimestamp = {};

@@ -100,13 +100,6 @@
     await backgroundMessage.sendToNumber(pubKey, false);
   }
 
-  async function sendAutoFriendRequestMessage(pubKey) {
-    const autoFrMessage = textsecure.OutgoingMessage.buildAutoFriendRequestMessage(
-      pubKey
-    );
-    await autoFrMessage.sendToNumber(pubKey, false);
-  }
-
   function createPairingAuthorisationProtoMessage({
     primaryDevicePubKey,
     secondaryDevicePubKey,
@@ -322,7 +315,6 @@
   window.libloki.api = {
     sendSessionEstablishedMessage,
     sendBackgroundMessage,
-    sendAutoFriendRequestMessage,
     sendSessionRequestsToMembers,
     sendPairingAuthorisation,
     createPairingAuthorisationProtoMessage,
