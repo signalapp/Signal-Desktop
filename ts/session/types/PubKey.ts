@@ -31,4 +31,3 @@ export class PubKey {
     return key.key === comparator.key;
   }
 }
-

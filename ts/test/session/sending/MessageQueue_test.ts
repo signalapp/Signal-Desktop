@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import * as _ from 'lodash';
-import { GroupUtils, MessageUtils } from '../../../session/utils';
+import { GroupUtils } from '../../../session/utils';
 import { Stubs, TestUtils } from '../../../test/test-utils';
 import { MessageQueue } from '../../../session/sending/MessageQueue';
 import {
@@ -11,7 +10,6 @@ import {
   generateMemberList,
   generateOpenGroupMessage,
 } from '../../test-utils/testUtils';
-import { getGroupMembers, isMediumGroup } from '../../../session/utils/Groups';
 import { OpenGroupMessage } from '../../../session/messages/outgoing';
 import { PubKey, RawMessage } from '../../../session/types';
 import { UserUtil } from '../../../util';
@@ -20,8 +18,15 @@ import { toRawMessage } from '../../../session/utils/Messages';
 import { SessionProtocol } from '../../../session/protocols';
 import { PendingMessageCache } from '../../../session/sending/PendingMessageCache';
 
+// Equivalent to Data.StorageItem
+interface StorageItem {
+  id: string;
+  value: any;
+}
 
 describe('MessageQueue', () => {
+  // Initialize new stubbed cache
+  let data: StorageItem;
   const sandbox = sinon.createSandbox();
   const ourNumber = generateFakePubkey().key;
 
@@ -38,50 +43,76 @@ describe('MessageQueue', () => {
   let groupMembersStub: sinon.SinonStub;
   // Session Protocol Stubs
   let hasSessionStub: sinon.SinonStub;
-  let sendSessionRequestIfNeededStub: sinon.SinonStub;
 
   beforeEach(async () => {
-    sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber);
+    // Stub out methods which touch the database
+    const storageID = 'pendingMessages';
+    data = {
+      id: storageID,
+      value: '[]',
+    };
 
+    // Pending Message Cache Data Stubs
+    TestUtils.stubData('getItemById')
+      .withArgs('pendingMessages')
+      .callsFake(async () => {
+        return data;
+      });
+    TestUtils.stubData('createOrUpdateItem').callsFake((item: StorageItem) => {
+      if (item.id === storageID) {
+        data = item;
+      }
+    });
+
+    // Utils Stubs
+    sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber);
     TestUtils.stubData('getPairedDevicesFor').callsFake(async () => {
       return generateMemberList(2);
     });
-
     TestUtils.stubWindow('libsignal', {
       SignalProtocolAddress: sandbox.stub(),
       SessionCipher: Stubs.SessionCipherStub,
     } as any);
 
-
     // Message Sender Stubs
     sendStub = sandbox.stub(MessageSender, 'send').resolves();
-    sendToOpenGroupStub = sandbox.stub(MessageSender, 'sendToOpenGroup').resolves(true);
+    sendToOpenGroupStub = sandbox
+      .stub(MessageSender, 'sendToOpenGroup')
+      .resolves(true);
 
     // Group Utils Stubs
-    isMediumGroupStub = sandbox.stub(GroupUtils, 'isMediumGroup').resolves(false);
-    groupMembersStub = sandbox.stub(GroupUtils, 'getGroupMembers' as any).callsFake(
-      async () => generateMemberList(10)
-    );
+    isMediumGroupStub = sandbox
+      .stub(GroupUtils, 'isMediumGroup')
+      .resolves(false);
+    groupMembersStub = sandbox
+      .stub(GroupUtils, 'getGroupMembers' as any)
+      .callsFake(async () => generateMemberList(10));
 
     // Session Protocol Stubs
     hasSessionStub = sandbox.stub(SessionProtocol, 'hasSession').resolves(true);
-    sendSessionRequestIfNeededStub = sandbox.stub(SessionProtocol, 'sendSessionRequestIfNeeded').callsFake(
-      async (pubkey: PubKey) => {
+    sandbox.stub(SessionProtocol, 'sendSessionRequest').resolves();
+    sandbox
+      .stub(SessionProtocol, 'sendSessionRequestIfNeeded')
+      .callsFake(async (pubkey: PubKey) => {
         pubkey;
         sessionRequestSent = true;
-      }
-    );
+      });
 
     // Pending Mesage Cache Stubs
     const chatMessages = Array.from({ length: 10 }, generateChatMessage);
-    const rawMessage = toRawMessage(generateFakePubkey(), generateChatMessage());
-
-    sandbox.stub(PendingMessageCache.prototype, 'add' as any).resolves(rawMessage);
-    sandbox.stub(PendingMessageCache.prototype, 'remove').resolves();
-    sandbox.stub(PendingMessageCache.prototype, 'getDevices').returns(generateMemberList(10));
-    sandbox.stub(PendingMessageCache.prototype, 'getForDevice').returns(
-      chatMessages.map(m => toRawMessage(generateFakePubkey(), m))
+    const rawMessage = toRawMessage(
+      generateFakePubkey(),
+      generateChatMessage()
     );
+
+    sandbox.stub(PendingMessageCache.prototype, 'add').resolves(rawMessage);
+    sandbox.stub(PendingMessageCache.prototype, 'remove').resolves();
+    sandbox
+      .stub(PendingMessageCache.prototype, 'getDevices')
+      .returns(generateMemberList(10));
+    sandbox
+      .stub(PendingMessageCache.prototype, 'getForDevice')
+      .returns(chatMessages.map(m => toRawMessage(generateFakePubkey(), m)));
 
     messageQueueStub = new MessageQueue();
   });
@@ -130,9 +161,7 @@ describe('MessageQueue', () => {
   });
 
   it('wont send message to empty group', async () => {
-    groupMembersStub.callsFake(
-      async () => generateMemberList(0)
-    );
+    groupMembersStub.callsFake(async () => generateMemberList(0));
 
     const message = generateClosedGroupMessage();
     const response = await messageQueueStub.sendToGroup(message);
@@ -158,13 +187,16 @@ describe('MessageQueue', () => {
     hasSessionStub.resolves(false);
 
     const device = generateFakePubkey();
-    const message = generateChatMessage();
     const promise = messageQueueStub.processPending(device);
 
     expect(promise).to.be.fulfilled;
   });
 
   it('can send sync message', async () => {
+    const devices = generateMemberList(3);
+    const message = generateChatMessage();
 
+    const promise = messageQueueStub.sendSyncMessage(message, devices);
+    expect(promise).to.be.fulfilled;
   });
 });

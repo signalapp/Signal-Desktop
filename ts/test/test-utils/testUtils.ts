@@ -6,7 +6,11 @@ import { v4 as uuid } from 'uuid';
 
 import { ImportMock } from 'ts-mock-imports';
 import { PubKey } from '../../../ts/session/types';
-import { ChatMessage, OpenGroupMessage, ClosedGroupChatMessage } from '../../session/messages/outgoing';
+import {
+  ChatMessage,
+  OpenGroupMessage,
+  ClosedGroupChatMessage,
+} from '../../session/messages/outgoing';
 import { OpenGroup } from '../../session/types/OpenGroup';
 
 const sandbox = sinon.createSandbox();
@@ -97,7 +101,7 @@ export function generateClosedGroupMessage(): ClosedGroupChatMessage {
 export function generateMemberList(size: number): Array<PubKey> {
   const numMembers = Math.floor(size);
 
-  return  numMembers > 0
+  return numMembers > 0
     ? Array.from({ length: numMembers }, generateFakePubkey)
     : [];
 }

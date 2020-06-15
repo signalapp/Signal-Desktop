@@ -85,8 +85,6 @@ export class MessageQueue implements MessageQueueInterface {
       !(message instanceof OpenGroupMessage) &&
       !(message instanceof ClosedGroupMessage)
     ) {
-      console.log(`[vince] failed; wrong type`);
-
       return false;
     }
 
@@ -99,7 +97,6 @@ export class MessageQueue implements MessageQueueInterface {
       }
 
       const recipients = await GroupUtils.getGroupMembers(groupPubKey);
-      console.log('[vince] recipients:', recipients.length);
 
       if (recipients.length) {
         await this.sendMessageToDevices(recipients, message);
