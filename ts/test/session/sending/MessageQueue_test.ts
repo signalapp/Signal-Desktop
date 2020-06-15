@@ -2,18 +2,18 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as _ from 'lodash';
 import { GroupUtils, MessageUtils } from '../../../session/utils';
-import { TestUtils, Stubs } from '../../../test/test-utils';
+import { Stubs, TestUtils } from '../../../test/test-utils';
 import { MessageQueue } from '../../../session/sending/MessageQueue';
 import {
   generateChatMessage,
+  generateClosedGroupMessage,
   generateFakePubkey,
   generateMemberList,
   generateOpenGroupMessage,
-  generateClosedGroupMessage,
 } from '../../test-utils/testUtils';
 import { getGroupMembers, isMediumGroup } from '../../../session/utils/Groups';
 import { OpenGroupMessage } from '../../../session/messages/outgoing';
-import { RawMessage, PubKey } from '../../../session/types';
+import { PubKey, RawMessage } from '../../../session/types';
 import { UserUtil } from '../../../util';
 import { MessageSender } from '../../../session/sending';
 import { toRawMessage } from '../../../session/utils/Messages';
@@ -24,8 +24,6 @@ import { PendingMessageCache } from '../../../session/sending/PendingMessageCach
 describe('MessageQueue', () => {
   const sandbox = sinon.createSandbox();
   const ourNumber = generateFakePubkey().key;
-
-  let PendingMessageCacheStub: any;
 
   // Keep track of Session Requests in each test
   let sessionRequestSent: boolean;
@@ -41,9 +39,6 @@ describe('MessageQueue', () => {
   // Session Protocol Stubs
   let hasSessionStub: sinon.SinonStub;
   let sendSessionRequestIfNeededStub: sinon.SinonStub;
-  // Pending Mesage Cache Stubs
-  let getForDeviceStub: sinon.SinonStub;
-
 
   beforeEach(async () => {
     sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber);
@@ -78,18 +73,15 @@ describe('MessageQueue', () => {
     );
 
     // Pending Mesage Cache Stubs
-    PendingMessageCacheStub = sinon.createStubInstance(PendingMessageCache);
     const chatMessages = Array.from({ length: 10 }, generateChatMessage);
-    getForDeviceStub = sandbox.stub(PendingMessageCacheStub, 'getForDevice').resolves(
+    const rawMessage = toRawMessage(generateFakePubkey(), generateChatMessage());
+
+    sandbox.stub(PendingMessageCache.prototype, 'add' as any).resolves(rawMessage);
+    sandbox.stub(PendingMessageCache.prototype, 'remove').resolves();
+    sandbox.stub(PendingMessageCache.prototype, 'getDevices').returns(generateMemberList(10));
+    sandbox.stub(PendingMessageCache.prototype, 'getForDevice').returns(
       chatMessages.map(m => toRawMessage(generateFakePubkey(), m))
     );
-
-    const rawMessage = toRawMessage(generateFakePubkey(), generateChatMessage());
-    sandbox.stub(PendingMessageCacheStub, 'add').resolves(rawMessage);
-    sandbox.stub(PendingMessageCacheStub, 'remove').resolves();
-    sandbox.stub(PendingMessageCacheStub, 'getDevices').resolves(generateMemberList(10));
-
-    PendingMessageCacheStub.add = sandbox.stub().resolves(rawMessage);
 
     messageQueueStub = new MessageQueue();
   });
@@ -97,11 +89,6 @@ describe('MessageQueue', () => {
   afterEach(() => {
     TestUtils.restoreStubs();
     sandbox.restore();
-
-    PendingMessageCacheStub.add.restore();
-    PendingMessageCacheStub.remove.restore();
-    PendingMessageCacheStub.getDevices.restore();
-    PendingMessageCacheStub.getForDevice.restore();
   });
 
   it('can send to a single device', async () => {
