@@ -15,5 +15,3 @@ export async function getIdentityKeyPair(): Promise<KeyPair | undefined> {
 
   return item?.value;
 }
-
-export async function getOurDevices()

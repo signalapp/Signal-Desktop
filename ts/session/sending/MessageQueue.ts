@@ -19,7 +19,7 @@ import {
   TypedEventEmitter,
 } from '../utils';
 import { PubKey } from '../types';
-import { MessageSender } from '.';
+import { MessageSender } from './';
 import { SessionProtocol } from '../protocols';
 import { UserUtil } from '../../util';
 
@@ -85,8 +85,7 @@ export class MessageQueue implements MessageQueueInterface {
       !(message instanceof OpenGroupMessage) &&
       !(message instanceof ClosedGroupMessage)
     ) {
-      console.log('[vince] NOT INSTANCEOF');
-      console.log('instance of message:', message.constructor.name);
+      console.log(`[vince] failed; wrong type`);
 
       return false;
     }
@@ -100,9 +99,13 @@ export class MessageQueue implements MessageQueueInterface {
       }
 
       const recipients = await GroupUtils.getGroupMembers(groupPubKey);
-      await this.sendMessageToDevices(recipients, message);
+      console.log('[vince] recipients:', recipients.length);
 
-      return true;
+      if (recipients.length) {
+        await this.sendMessageToDevices(recipients, message);
+
+        return true;
+      }
     }
 
     // Open groups
@@ -115,15 +118,12 @@ export class MessageQueue implements MessageQueueInterface {
       } catch (e) {
         this.events.emit('fail', message, e);
 
-        console.log('[vince] EVENT FAILED', message);
-
         return false;
       }
 
       return true;
     }
 
-    console.log('[vince] OTHERWISE FAIELD');
     return false;
   }
 

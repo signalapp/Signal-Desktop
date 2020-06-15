@@ -5,8 +5,8 @@ import * as DataShape from '../../../js/modules/data';
 import { v4 as uuid } from 'uuid';
 
 import { ImportMock } from 'ts-mock-imports';
-import { PubKey, PubKey } from '../../../ts/session/types';
-import { ChatMessage, OpenGroupMessage } from '../../session/messages/outgoing';
+import { PubKey } from '../../../ts/session/types';
+import { ChatMessage, OpenGroupMessage, ClosedGroupChatMessage } from '../../session/messages/outgoing';
 import { OpenGroup } from '../../session/types/OpenGroup';
 
 const sandbox = sinon.createSandbox();
@@ -83,6 +83,14 @@ export function generateOpenGroupMessage(): OpenGroupMessage {
     preview: undefined,
     body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
     quote: undefined,
+  });
+}
+
+export function generateClosedGroupMessage(): ClosedGroupChatMessage {
+  return new ClosedGroupChatMessage({
+    identifier: uuid(),
+    groupId: generateFakePubkey().key,
+    chatMessage: generateChatMessage(),
   });
 }
 
