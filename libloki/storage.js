@@ -114,65 +114,6 @@
     }
   }
 
-  // fetches device mappings from server.
-  async function getPrimaryDeviceMapping(pubKey) {
-    if (typeof lokiFileServerAPI === 'undefined') {
-      // If this is not defined then we are initiating a pairing
-      return [];
-    }
-    const deviceMapping = await lokiFileServerAPI.getUserDeviceMapping(pubKey);
-    if (!deviceMapping) {
-      return [];
-    }
-    let authorisations = deviceMapping.authorisations || [];
-    if (deviceMapping.isPrimary === '0') {
-      const { primaryDevicePubKey } =
-        authorisations.find(
-          authorisation =>
-            authorisation && authorisation.secondaryDevicePubKey === pubKey
-        ) || {};
-      if (primaryDevicePubKey) {
-        // do NOT call getprimaryDeviceMapping recursively
-        // in case both devices are out of sync and think they are
-        // each others' secondary pubkey.
-        const primaryDeviceMapping = await lokiFileServerAPI.getUserDeviceMapping(
-          primaryDevicePubKey
-        );
-        if (!primaryDeviceMapping) {
-          return [];
-        }
-        ({ authorisations } = primaryDeviceMapping);
-      }
-    }
-
-    // filter out any invalid authorisations
-    return authorisations.filter(a => a && typeof a === 'object') || [];
-  }
-
-  // if the device is a secondary device,
-  // fetch the device mappings for its primary device
-  async function saveAllPairingAuthorisationsFor() {
-    throw new Error('Use MultiDeviceProtocol instead.');
-  }
-
-  async function savePairingAuthorisation() {
-    throw new Error('Use MultiDeviceProtocol instead.');
-  }
-
-  // Transforms signatures from base64 to ArrayBuffer!
-  async function getGrantAuthorisationForSecondaryPubKey() {
-    throw new Error('Use MultiDeviceProtocol instead.');
-  }
-
-  // Transforms signatures from base64 to ArrayBuffer!
-  async function getAuthorisationForSecondaryPubKey() {
-    throw new Error('Use MultiDeviceProtocol instead.');
-  }
-
-  function getSecondaryDevicesFor() {
-    throw new Error('Use MultiDeviceProtocol instead.');
-  }
-
   function getGuardNodes() {
     return window.Signal.Data.getGuardNodes();
   }
@@ -181,27 +122,11 @@
     return window.Signal.Data.updateGuardNodes(nodes);
   }
 
-  async function getAllDevicePubKeysForPrimaryPubKey() {
-    throw new Error('Use MultiDeviceProtocol instead.');
-  }
-
-  function getPairedDevicesFor() {
-    throw new Error('use MultiDeviceProtocol instead');
-  }
-
   window.libloki.storage = {
     getPreKeyBundleForContact,
     saveContactPreKeyBundle,
     removeContactPreKeyBundle,
     verifyFriendRequestAcceptPreKey,
-    getAllDevicePubKeysForPrimaryPubKey,
-    getPairedDevicesFor,
-    getSecondaryDevicesFor,
-    getPrimaryDeviceMapping,
-    saveAllPairingAuthorisationsFor,
-    savePairingAuthorisation,
-    getGrantAuthorisationForSecondaryPubKey,
-    getAuthorisationForSecondaryPubKey,
     getGuardNodes,
     updateGuardNodes,
   };

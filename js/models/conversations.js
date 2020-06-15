@@ -211,10 +211,9 @@
         return true;
       }
 
-      const ourDevices = await window.libloki.storage.getPairedDevicesFor(
-        this.ourNumber
-      );
-      return ourDevices.includes(this.id);
+      const ourDevices = await window.libsession.Protocols.MultiDeviceProtocol.getAllDevices(this.ourNumber);
+
+      return ourDevices.some(device => device.key === this.id);
     },
     isOurLocalDevice() {
       return this.id === this.ourNumber;

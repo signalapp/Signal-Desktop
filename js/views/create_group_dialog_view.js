@@ -197,7 +197,7 @@
       // exists in group, but hasn't yet synced with its other devices.
       const getDevicesForRemoved = async () => {
         const promises = notPresentInNew.map(member =>
-          libloki.storage.getPairedDevicesFor(member)
+          window.libsession.Protocols.MultiDeviceProtocol.getAllDevices(member)
         );
         const devices = _.flatten(await Promise.all(promises));
 

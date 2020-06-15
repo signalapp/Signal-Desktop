@@ -537,12 +537,12 @@ MessageSender.prototype = {
       window.storage.get('primaryDevicePubKey') ||
       textsecure.storage.user.getNumber();
     const allOurDevices = (
-      await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+      await window.libsession.Protocols.MultiDeviceProtocol.getAllDevices(
         primaryDeviceKey
       )
     )
       // Don't send to ourselves
-      .filter(pubKey => pubKey !== textsecure.storage.user.getNumber());
+      .filter(pubKey => pubKey.key !== textsecure.storage.user.getNumber());
     if (allOurDevices.length === 0) {
       return null;
     }

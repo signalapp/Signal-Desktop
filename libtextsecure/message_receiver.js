@@ -968,7 +968,7 @@ MessageReceiver.prototype.extend({
     if (valid) {
       // Pairing dialog is open and is listening
       if (Whisper.events.isListenedTo('devicePairingRequestReceived')) {
-        await window.libloki.storage.savePairingAuthorisation(pairingRequest);
+        await window.libsession.Protocols.MultiDeviceProtocol.savePairingAuthorisation(pairingRequest);
         Whisper.events.trigger(
           'devicePairingRequestReceived',
           pairingRequest.secondaryDevicePubKey
@@ -1014,7 +1014,7 @@ MessageReceiver.prototype.extend({
         window.storage.remove('secondaryDeviceStatus');
         window.storage.put('isSecondaryDevice', true);
         window.storage.put('primaryDevicePubKey', primaryDevicePubKey);
-        await libloki.storage.savePairingAuthorisation(pairingAuthorisation);
+        await window.libsession.Protocols.MultiDeviceProtocol.savePairingAuthorisation(pairingAuthorisation);
         const primaryConversation = await ConversationController.getOrCreateAndWait(
           primaryDevicePubKey,
           'private'

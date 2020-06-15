@@ -431,13 +431,13 @@ OutgoingMessage.prototype = {
     const ourPubKey = textsecure.storage.user.getNumber();
     const ourPrimaryPubkey = window.storage.get('primaryDevicePubKey');
     const secondaryPubKeys =
-      (await window.libloki.storage.getSecondaryDevicesFor(ourPubKey)) || [];
+      (await window.libsession.Protocols.MultiDeviceProtocol.getSecondaryDevices(ourPubKey)) || [];
     let aliasedPubkey = devicePubKey;
     if (devicePubKey === ourPubKey) {
       aliasedPubkey = 'OUR_PUBKEY'; // should not happen
     } else if (devicePubKey === ourPrimaryPubkey) {
       aliasedPubkey = 'OUR_PRIMARY_PUBKEY';
-    } else if (secondaryPubKeys.includes(devicePubKey)) {
+    } else if (secondaryPubKeys.some(device => device.key === devicePubKey)) {
       aliasedPubkey = 'OUR SECONDARY PUBKEY';
     }
     libloki.api.debug.logSessionMessageSending(

@@ -31,18 +31,13 @@
       this.remove(receipts);
       return receipts;
     },
-    async getTargetMessage(source, messages) {
+    async getTargetMessage(originalSource, messages) {
       if (messages.length === 0) {
         return null;
       }
 
-      const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
-        source
-      );
-      if (authorisation) {
-        // eslint-disable-next-line no-param-reassign
-        source = authorisation.primaryDevicePubKey;
-      }
+      const primary = await window.libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(originalSource);
+      const source = primary.key;
 
       const message = messages.find(
         item => !item.isIncoming() && source === item.get('conversationId')

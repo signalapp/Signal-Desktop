@@ -74,15 +74,6 @@
     }
   }
 
-  // Returns the primary device pubkey for this secondary device pubkey
-  // or the same pubkey if there is no other device
-  async function getPrimaryDevicePubkey(pubKey) {
-    const authorisation = await window.libloki.storage.getGrantAuthorisationForSecondaryPubKey(
-      pubKey
-    );
-    return authorisation ? authorisation.primaryDevicePubKey : pubKey;
-  }
-
   async function sendSessionEstablishedMessage(pubKey) {
     // This message shouldn't be routed through multi-device.
     // It needs to go directly to the pubKey specified.
@@ -330,7 +321,6 @@
     createContactSyncProtoMessage,
     createGroupSyncProtoMessage,
     createOpenGroupsSyncProtoMessage,
-    getPrimaryDevicePubkey,
     debug,
   };
 })();
