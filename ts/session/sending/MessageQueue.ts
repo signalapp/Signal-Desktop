@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { getPairedDevicesFor } from '../../../js/modules/data';
 
 import { EventEmitter } from 'events';
@@ -64,7 +63,10 @@ export class MessageQueue implements MessageQueueInterface {
         );
         await this.sendSyncMessage(message, ourDevices);
 
-        currentDevices = _.xor(currentDevices, ourDevices);
+        // Remove our devices from currentDevices
+        currentDevices = currentDevices.filter(device =>
+          ourDevices.some(d => PubKey.isEqual(d, device))
+        );
       }
     }
 
