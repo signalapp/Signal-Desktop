@@ -14,15 +14,15 @@ import {
 } from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
 import {
+  GroupUtils,
   JobQueue,
   SyncMessageUtils,
   TypedEventEmitter,
-  GroupUtils,
 } from '../utils';
 import { PubKey } from '../types';
 import { MessageSender } from '.';
 import { SessionProtocol } from '../protocols';
-import * as UserUtil from '../../util/user';
+import { UserUtil } from '../../util';
 
 export class MessageQueue implements MessageQueueInterface {
   public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
@@ -92,9 +92,12 @@ export class MessageQueue implements MessageQueueInterface {
     // Closed groups
     if (message instanceof ClosedGroupMessage) {
       // Get devices in closed group
-      const recipients: Array<PubKey> = await GroupUtils.getGroupMembers(
-        message.groupId
-      );
+      const groupPubKey = PubKey.from(message.groupId);
+      if (!groupPubKey) {
+        return false;
+      }
+
+      const recipients = await GroupUtils.getGroupMembers(groupPubKey);
       await this.sendMessageToDevices(recipients, message);
 
       return true;
@@ -136,8 +139,7 @@ export class MessageQueue implements MessageQueueInterface {
   public async processPending(device: PubKey) {
     const messages = this.pendingMessageCache.getForDevice(device);
 
-    // const isMediumGroup = messages.some(m => m instance of MediumGroupMessage)
-    const isMediumGroup = false;
+    const isMediumGroup = GroupUtils.isMediumGroup(device);
     const hasSession = SessionProtocol.hasSession(device);
 
     if (!isMediumGroup && !hasSession) {
