@@ -435,6 +435,8 @@ window.addEventListener('contextmenu', e => {
   }
 });
 
+window.NewReceiver = require('./ts/receiver/receiver');
+
 window.shortenPubkey = pubkey => `(...${pubkey.substring(pubkey.length - 6)})`;
 
 window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
