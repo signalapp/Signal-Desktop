@@ -26,7 +26,7 @@ const getTTLForType = type => {
     case 'pairing-request':
       return 2 * 60 * 1000; // 2 minutes for pairing requests
     default:
-      return (window.getMessageTTL() || 24) * 60 * 60 * 1000; // 1 day default for any other message
+      return 24 * 60 * 60 * 1000; // 1 day default for any other message
   }
 };
 

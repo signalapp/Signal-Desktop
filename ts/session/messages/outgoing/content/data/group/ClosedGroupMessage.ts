@@ -8,7 +8,7 @@ interface ClosedGroupMessageParams extends MessageParams {
 }
 
 export abstract class ClosedGroupMessage extends DataMessage {
-  protected readonly groupId: string;
+  public readonly groupId: string;
 
   constructor(params: ClosedGroupMessageParams) {
     super({

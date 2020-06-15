@@ -1,7 +1,8 @@
 export class PubKey {
   public static readonly PUBKEY_LEN = 66;
-  private static readonly regex: string = `^05[0-9a-fA-F]{${PubKey.PUBKEY_LEN -
-    2}}$`;
+  private static readonly regex: RegExp = new RegExp(
+    `^05[0-9a-fA-F]{${PubKey.PUBKEY_LEN - 2}}$`
+  );
   public readonly key: string;
 
   constructor(pubkeyString: string) {
@@ -19,10 +20,14 @@ export class PubKey {
   }
 
   public static validate(pubkeyString: string): boolean {
-    if (pubkeyString.match(PubKey.regex)) {
+    if (this.regex.test(pubkeyString)) {
       return true;
     }
 
     return false;
+  }
+
+  public static isEqual(key: PubKey, comparator: PubKey) {
+    return key.key === comparator.key;
   }
 }

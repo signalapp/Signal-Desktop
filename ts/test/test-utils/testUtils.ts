@@ -55,7 +55,7 @@ export function generateFakePubkey(): PubKey {
   return new PubKey(pubkeyString);
 }
 
-export function generateUniqueChatMessage(): ChatMessage {
+export function generateChatMessage(): ChatMessage {
   return new ChatMessage({
     body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
     identifier: uuid(),

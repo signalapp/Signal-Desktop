@@ -15,10 +15,8 @@
 /* global lokiMessageAPI: false */
 /* global feeds: false */
 /* global Whisper: false */
-/* global lokiFileServerAPI: false */
 /* global WebAPI: false */
 /* global ConversationController: false */
-/* global Signal: false */
 /* global log: false */
 /* global libsession: false */
 
@@ -26,6 +24,17 @@
 /* eslint-disable no-unreachable */
 
 let openGroupBound = false;
+
+// TODO: remove this when no longer needed here
+function getEnvelopeId(envelope) {
+  if (envelope.source) {
+    return `${envelope.source}.${
+      envelope.sourceDevice
+    } ${envelope.timestamp.toNumber()} (${envelope.id})`;
+  }
+
+  return envelope.id;
+}
 
 function MessageReceiver(username, password, signalingKey, options = {}) {
   this.count = 0;
@@ -115,7 +124,7 @@ MessageReceiver.prototype.extend({
         message.source,
         'private'
       );
-      await this.updateProfile(
+      await window.NewReceiver.updateProfile(
         conversation,
         message.message.profile,
         message.message.profileKey
@@ -194,7 +203,6 @@ MessageReceiver.prototype.extend({
   },
 
   handleRequest(request, options) {
-    const { onSuccess, onFailure } = options;
     this.incoming = this.incoming || [];
     const lastPromise = _.last(this.incoming);
 
@@ -254,7 +262,7 @@ MessageReceiver.prototype.extend({
 
             // To ensure that we queue in the same order we receive messages
             await lastPromise;
-            this.queueEnvelope(envelope, onSuccess, onFailure);
+            this.queueEnvelope(envelope);
           },
           error => {
             request.respond(500, 'Failed to cache message');
@@ -431,15 +439,6 @@ MessageReceiver.prototype.extend({
       }
     }
   },
-  getEnvelopeId(envelope) {
-    if (envelope.source) {
-      return `${envelope.source}.${
-        envelope.sourceDevice
-      } ${envelope.timestamp.toNumber()} (${envelope.id})`;
-    }
-
-    return envelope.id;
-  },
   async getAllFromCache() {
     window.log.info('getAllFromCache');
     const count = await textsecure.storage.unprocessed.getCount();
@@ -533,7 +532,7 @@ MessageReceiver.prototype.extend({
     return textsecure.storage.unprocessed.remove(id);
   },
   queueDecryptedEnvelope(envelope, plaintext) {
-    const id = this.getEnvelopeId(envelope);
+    const id = getEnvelopeId(envelope);
     window.log.info('queueing decrypted envelope', id);
 
     const task = this.handleDecryptedEnvelope.bind(this, envelope, plaintext);
@@ -550,8 +549,8 @@ MessageReceiver.prototype.extend({
       );
     });
   },
-  queueEnvelope(envelope, onSuccess = null, onFailure = null) {
-    const id = this.getEnvelopeId(envelope);
+  queueEnvelope(envelope) {
+    const id = getEnvelopeId(envelope);
     window.log.info('queueing envelope', id);
 
     const task = this.handleEnvelope.bind(this, envelope);
@@ -560,11 +559,6 @@ MessageReceiver.prototype.extend({
       `queueEnvelope ${id}`
     );
     const promise = this.addToQueue(taskWithTimeout);
-    promise.then(() => {
-      if (onSuccess) {
-        onSuccess();
-      }
-    });
 
     return promise.catch(error => {
       window.log.error(
@@ -573,9 +567,6 @@ MessageReceiver.prototype.extend({
         ':',
         error && error.stack ? error.stack : error
       );
-      if (onFailure) {
-        onFailure();
-      }
     });
   },
   // Same as handleEnvelope, just without the decryption step. Necessary for handling
@@ -608,9 +599,7 @@ MessageReceiver.prototype.extend({
     if (envelope.content) {
       return this.handleContentMessage(envelope);
     }
-    if (envelope.legacyMessage) {
-      return this.handleLegacyMessage(envelope);
-    }
+
     this.removeFromCache(envelope);
     throw new Error('Received message with no content and no legacyMessage');
   },
@@ -736,7 +725,7 @@ MessageReceiver.prototype.extend({
 
     switch (envelope.type) {
       case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
-        window.log.info('message from', this.getEnvelopeId(envelope));
+        window.log.info('message from', getEnvelopeId(envelope));
         promise = lokiSessionCipher
           .decryptWhisperMessage(ciphertext)
           .then(this.unpad);
@@ -757,7 +746,7 @@ MessageReceiver.prototype.extend({
         break;
       }
       case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
-        window.log.info('prekey message from', this.getEnvelopeId(envelope));
+        window.log.info('prekey message from', getEnvelopeId(envelope));
         promise = this.decryptPreKeyWhisperMessage(
           ciphertext,
           lokiSessionCipher,
@@ -927,37 +916,19 @@ MessageReceiver.prototype.extend({
 
     // eslint-disable-next-line no-bitwise
     if (msg.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) {
-      await this.handleEndSession(destination);
+      await window.NewReceiver.handleEndSession(destination);
     }
 
-    // if (msg.mediumGroupUpdate) {
-    //   await this.handleMediumGroupUpdate(envelope, msg.mediumGroupUpdate);
-    //   return;
-    // }
+    if (msg.mediumGroupUpdate) {
+      await window.NewReceiver.handleMediumGroupUpdate(
+        envelope,
+        msg.mediumGroupUpdate
+      );
+    }
 
-    const message = await this.processDecrypted(envelope, msg);
+    const message = await window.NewReceiver.processDecrypted(envelope, msg);
 
     const primaryDevicePubKey = window.storage.get('primaryDevicePubKey');
-    // const groupId = message.group && message.group.id;
-    // const isBlocked = this.isGroupBlocked(groupId);
-    //
-    // const isMe =
-    //   envelope.source === textsecure.storage.user.getNumber() ||
-    //   envelope.source === primaryDevicePubKey;
-    // const isLeavingGroup = Boolean(
-    //   message.group &&
-    //     message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
-    // );
-
-    // if (groupId && isBlocked && !(isMe && isLeavingGroup)) {
-    //   window.log.warn(
-    //     `Message ${this.getEnvelopeId(
-    //       envelope
-    //     )} ignored; destined for blocked group`
-    //   );
-    //   this.removeFromCache(envelope);
-    //   return;
-    // }
 
     // handle profileKey and avatar updates
     if (envelope.source === primaryDevicePubKey) {
@@ -966,7 +937,11 @@ MessageReceiver.prototype.extend({
         primaryDevicePubKey
       );
       if (profile) {
-        this.updateProfile(primaryConversation, profile, profileKey);
+        window.NewReceiver.updateProfile(
+          primaryConversation,
+          profile,
+          profileKey
+        );
       }
     }
 
@@ -1052,7 +1027,7 @@ MessageReceiver.prototype.extend({
           const ourNumber = window.storage.get('primaryDevicePubKey');
           const me = window.ConversationController.get(ourNumber);
           if (me) {
-            this.updateProfile(me, profile, profileKey);
+            window.NewReceiver.updateProfile(me, profile, profileKey);
           }
         }
         // Update contact list
@@ -1083,418 +1058,6 @@ MessageReceiver.prototype.extend({
       );
     }
     return this.handlePairingRequest(envelope, pairingAuthorisation);
-  },
-
-  async updateProfile(conversation, profile, profileKey) {
-    // Retain old values unless changed:
-    const newProfile = conversation.get('profile') || {};
-
-    newProfile.displayName = profile.displayName;
-
-    // TODO: may need to allow users to reset their avatars to null
-    if (profile.avatar) {
-      const prevPointer = conversation.get('avatarPointer');
-      const needsUpdate =
-        !prevPointer || !_.isEqual(prevPointer, profile.avatar);
-
-      if (needsUpdate) {
-        conversation.set('avatarPointer', profile.avatar);
-        conversation.set('profileKey', profileKey);
-
-        const downloaded = await this.downloadAttachment({
-          url: profile.avatar,
-          isRaw: true,
-        });
-
-        // null => use jazzicon
-        let path = null;
-        if (profileKey) {
-          // Convert profileKey to ArrayBuffer, if needed
-          const encoding = typeof profileKey === 'string' ? 'base64' : null;
-          try {
-            const profileKeyArrayBuffer = dcodeIO.ByteBuffer.wrap(
-              profileKey,
-              encoding
-            ).toArrayBuffer();
-            const decryptedData = await textsecure.crypto.decryptProfile(
-              downloaded.data,
-              profileKeyArrayBuffer
-            );
-            const upgraded = await Signal.Migrations.processNewAttachment({
-              ...downloaded,
-              data: decryptedData,
-            });
-            ({ path } = upgraded);
-          } catch (e) {
-            window.log.error(`Could not decrypt profile image: ${e}`);
-          }
-        }
-        newProfile.avatar = path;
-      }
-    } else {
-      newProfile.avatar = null;
-    }
-
-    await conversation.setLokiProfile(newProfile);
-  },
-  async unpairingRequestIsLegit(source, ourPubKey) {
-    const isSecondary = textsecure.storage.get('isSecondaryDevice');
-    if (!isSecondary) {
-      return false;
-    }
-    const primaryPubKey = window.storage.get('primaryDevicePubKey');
-    // TODO: allow unpairing from any paired device?
-    if (source !== primaryPubKey) {
-      return false;
-    }
-
-    const primaryMapping = await lokiFileServerAPI.getUserDeviceMapping(
-      primaryPubKey
-    );
-
-    // If we don't have a mapping on the primary then we have been unlinked
-    if (!primaryMapping) {
-      return true;
-    }
-
-    // We expect the primary device to have updated its mapping
-    // before sending the unpairing request
-    const found = primaryMapping.authorisations.find(
-      authorisation => authorisation.secondaryDevicePubKey === ourPubKey
-    );
-
-    // our pubkey should NOT be in the primary device mapping
-    return !found;
-  },
-
-  async clearAppAndRestart() {
-    // remove our device mapping annotations from file server
-    await lokiFileServerAPI.clearOurDeviceMappingAnnotations();
-    // Delete the account and restart
-    try {
-      await window.Signal.Logs.deleteAll();
-      await window.Signal.Data.removeAll();
-      await window.Signal.Data.close();
-      await window.Signal.Data.removeDB();
-      await window.Signal.Data.removeOtherData();
-      // TODO generate an empty db with a flag
-      // to display a message about the unpairing
-      // after the app restarts
-    } catch (error) {
-      window.log.error(
-        'Something went wrong deleting all data:',
-        error && error.stack ? error.stack : error
-      );
-    }
-    window.restart();
-  },
-
-  async handleUnpairRequest(envelope, ourPubKey) {
-    // TODO: move high-level pairing logic to libloki.multidevice.xx
-
-    const legit = await this.unpairingRequestIsLegit(
-      envelope.source,
-      ourPubKey
-    );
-    this.removeFromCache(envelope);
-    if (legit) {
-      await this.clearAppAndRestart();
-    }
-  },
-
-  async handleMediumGroupUpdate(envelope, groupUpdate) {
-    const { type, groupId } = groupUpdate;
-
-    const ourIdentity = await textsecure.storage.user.getNumber();
-    const senderIdentity = envelope.source;
-
-    if (
-      type === textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY_REQUEST
-    ) {
-      log.debug('[sender key] sender key request from:', senderIdentity);
-
-      const proto = new textsecure.protobuf.DataMessage();
-
-      // We reuse the same message type for sender keys
-      const update = new textsecure.protobuf.MediumGroupUpdate();
-
-      const { chainKey, keyIdx } = await window.SenderKeyAPI.getSenderKeys(
-        groupId,
-        ourIdentity
-      );
-
-      update.type = textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY;
-      update.groupId = groupId;
-      update.senderKey = new textsecure.protobuf.SenderKey({
-        chainKey: StringView.arrayBufferToHex(chainKey),
-        keyIdx,
-      });
-
-      proto.mediumGroupUpdate = update;
-
-      textsecure.messaging.updateMediumGroup([senderIdentity], proto);
-
-      this.removeFromCache(envelope);
-    } else if (type === textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY) {
-      const { senderKey } = groupUpdate;
-
-      log.debug('[sender key] got a new sender key from:', senderIdentity);
-
-      await window.SenderKeyAPI.saveSenderKeys(
-        groupId,
-        senderIdentity,
-        senderKey.chainKey,
-        senderKey.keyIdx
-      );
-
-      this.removeFromCache(envelope);
-    } else if (type === textsecure.protobuf.MediumGroupUpdate.Type.NEW_GROUP) {
-      const maybeConvo = await window.ConversationController.get(groupId);
-      const groupExists = !!maybeConvo;
-
-      const {
-        members: membersBinary,
-        groupSecretKey,
-        groupName,
-        senderKey,
-        admins,
-      } = groupUpdate;
-
-      const members = membersBinary.map(pk =>
-        StringView.arrayBufferToHex(pk.toArrayBuffer())
-      );
-
-      const convo = groupExists
-        ? maybeConvo
-        : await window.ConversationController.getOrCreateAndWait(
-            groupId,
-            'group'
-          );
-
-      {
-        // Add group update message
-        const now = Date.now();
-        const message = convo.messageCollection.add({
-          conversationId: convo.id,
-          type: 'incoming',
-          sent_at: now,
-          received_at: now,
-          group_update: {
-            name: groupName,
-            members,
-          },
-        });
-
-        const messageId = await window.Signal.Data.saveMessage(
-          message.attributes,
-          {
-            Message: Whisper.Message,
-          }
-        );
-        message.set({ id: messageId });
-      }
-
-      if (groupExists) {
-        // ***** Updating the group *****
-        log.info('Received a group update for medium group:', groupId);
-
-        // Check that the sender is admin (make sure it words with multidevice)
-        const isAdmin = convo.get('groupAdmins').includes(senderIdentity);
-
-        if (!isAdmin) {
-          log.warn('Rejected attempt to update a group by non-admin');
-          this.removeFromCache(envelope);
-          return;
-        }
-
-        convo.set('name', groupName);
-        convo.set('members', members);
-
-        // TODO: check that we are still in the group (when we enable deleting members)
-        convo.saveChangesToDB();
-
-        // Update other fields. Add a corresponding "update" message to the conversation
-      } else {
-        // ***** Creating a new group *****
-        log.info('Received a new medium group:', groupId);
-
-        // TODO: Check that we are even a part of this group?
-
-        convo.set('is_medium_group', true);
-        convo.set('active_at', Date.now());
-        convo.set('name', groupName);
-        convo.set('groupAdmins', admins);
-
-        const secretKeyHex = StringView.arrayBufferToHex(
-          groupSecretKey.toArrayBuffer()
-        );
-
-        await window.Signal.Data.createOrUpdateIdentityKey({
-          id: groupId,
-          secretKey: secretKeyHex,
-        });
-
-        // Save sender's key
-        await window.SenderKeyAPI.saveSenderKeys(
-          groupId,
-          envelope.source,
-          senderKey.chainKey,
-          senderKey.keyIdx
-        );
-
-        const ownSenderKey = await window.SenderKeyAPI.createSenderKeyForGroup(
-          groupId,
-          ourIdentity
-        );
-
-        {
-          // Send own key to every member
-          const otherMembers = _.without(members, ourIdentity);
-
-          const proto = new textsecure.protobuf.DataMessage();
-
-          // We reuse the same message type for sender keys
-          const update = new textsecure.protobuf.MediumGroupUpdate();
-          update.type = textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY;
-          update.groupId = groupId;
-          update.senderKey = new textsecure.protobuf.SenderKey({
-            chainKey: ownSenderKey,
-            keyIdx: 0,
-          });
-
-          proto.mediumGroupUpdate = update;
-
-          textsecure.messaging.updateMediumGroup(otherMembers, proto);
-        }
-
-        // Subscribe to this group
-        this.pollForAdditionalId(groupId);
-      }
-
-      this.removeFromCache(envelope);
-    }
-  },
-  async handleDataMessage(envelope, msg) {
-    window.log.info('data message from', this.getEnvelopeId(envelope));
-
-    if (msg.mediumGroupUpdate) {
-      this.handleMediumGroupUpdate(envelope, msg.mediumGroupUpdate);
-      // TODO: investigate the meaning of this return value
-      return true;
-    }
-
-    // eslint-disable-next-line no-bitwise
-    if (msg.flags & textsecure.protobuf.DataMessage.Flags.END_SESSION) {
-      await this.handleEndSession(envelope.source);
-    }
-    const message = await this.processDecrypted(envelope, msg);
-    const ourPubKey = textsecure.storage.user.getNumber();
-    const senderPubKey = envelope.source;
-    const isMe = senderPubKey === ourPubKey;
-    const conversation = window.ConversationController.get(senderPubKey);
-
-    const { UNPAIRING_REQUEST } = textsecure.protobuf.DataMessage.Flags;
-    const { SESSION_REQUEST } = textsecure.protobuf.Envelope.Type;
-
-    // eslint-disable-next-line no-bitwise
-    const isUnpairingRequest = Boolean(message.flags & UNPAIRING_REQUEST);
-
-    if (isUnpairingRequest) {
-      return this.handleUnpairRequest(envelope, ourPubKey);
-    }
-
-    // Check if we need to update any profile names
-    if (!isMe && conversation && message.profile) {
-      await this.updateProfile(
-        conversation,
-        message.profile,
-        message.profileKey
-      );
-    }
-    if (this.isMessageEmpty(message)) {
-      window.log.warn(
-        `Message ${this.getEnvelopeId(envelope)} ignored; it was empty`
-      );
-      return this.removeFromCache(envelope);
-    }
-
-    const source = envelope.senderIdentity || senderPubKey;
-
-    const isOwnDevice = async pubkey => {
-      const primaryDevice = window.storage.get('primaryDevicePubKey');
-      const secondaryDevices = await window.libloki.storage.getPairedDevicesFor(
-        primaryDevice
-      );
-
-      const allDevices = [primaryDevice, ...secondaryDevices];
-      return allDevices.includes(pubkey);
-    };
-
-    const ownDevice = await isOwnDevice(source);
-
-    let ev;
-    if (conversation.isMediumGroup() && ownDevice) {
-      // Data messages for medium groups don't arrive as sync messages. Instead,
-      // linked devices poll for group messages independently, thus they need
-      // to recognise some of those messages at their own.
-      ev = new Event('sent');
-    } else {
-      ev = new Event('message');
-    }
-
-    if (envelope.senderIdentity) {
-      message.group = {
-        id: envelope.source,
-      };
-    }
-
-    ev.confirm = this.removeFromCache.bind(this, envelope);
-    ev.data = {
-      isSessionRequest: envelope.type === SESSION_REQUEST,
-      source,
-      sourceDevice: envelope.sourceDevice,
-      timestamp: envelope.timestamp.toNumber(),
-      receivedAt: envelope.receivedAt,
-      unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
-      message,
-    };
-    return this.dispatchAndWait(ev);
-  },
-  isMessageEmpty({
-    body,
-    attachments,
-    group,
-    flags,
-    quote,
-    contact,
-    preview,
-    groupInvitation,
-    mediumGroupUpdate,
-  }) {
-    return (
-      !flags &&
-      _.isEmpty(body) &&
-      _.isEmpty(attachments) &&
-      _.isEmpty(group) &&
-      _.isEmpty(quote) &&
-      _.isEmpty(contact) &&
-      _.isEmpty(preview) &&
-      _.isEmpty(groupInvitation) &&
-      _.isEmpty(mediumGroupUpdate)
-    );
-  },
-  handleLegacyMessage(envelope) {
-    return this.decrypt(envelope, envelope.legacyMessage).then(plaintext => {
-      if (!plaintext) {
-        window.log.warn('handleLegacyMessage: plaintext was falsey');
-        return null;
-      }
-      return this.innerHandleLegacyMessage(envelope, plaintext);
-    });
-  },
-  innerHandleLegacyMessage(envelope, plaintext) {
-    const message = textsecure.protobuf.DataMessage.decode(plaintext);
-    return this.handleDataMessage(envelope, message);
   },
   async handleContentMessage(envelope) {
     const plaintext = await this.decrypt(envelope, envelope.content);
@@ -1587,7 +1150,8 @@ MessageReceiver.prototype.extend({
       return this.handleSyncMessage(envelope, content.syncMessage);
     }
     if (content.dataMessage) {
-      return this.handleDataMessage(envelope, content.dataMessage);
+      window.NewReceiver.handleDataMessage(envelope, content.dataMessage);
+      return undefined;
     }
     if (content.nullMessage) {
       return this.handleNullMessage(envelope, content.nullMessage);
@@ -1605,7 +1169,7 @@ MessageReceiver.prototype.extend({
     return null;
   },
   handleCallMessage(envelope) {
-    window.log.info('call message from', this.getEnvelopeId(envelope));
+    window.log.info('call message from', getEnvelopeId(envelope));
     this.removeFromCache(envelope);
   },
   handleReceiptMessage(envelope, receiptMessage) {
@@ -1677,7 +1241,7 @@ MessageReceiver.prototype.extend({
     return this.dispatchEvent(ev);
   },
   handleNullMessage(envelope) {
-    window.log.info('null message from', this.getEnvelopeId(envelope));
+    window.log.info('null message from', getEnvelopeId(envelope));
     this.removeFromCache(envelope);
   },
   async handleSyncMessage(envelope, syncMessage) {
@@ -1710,7 +1274,7 @@ MessageReceiver.prototype.extend({
         to,
         sentMessage.timestamp.toNumber(),
         'from',
-        this.getEnvelopeId(envelope)
+        getEnvelopeId(envelope)
       );
       return this.handleSentMessage(envelope, sentMessage, sentMessage.message);
     } else if (syncMessage.contacts) {
@@ -1725,7 +1289,7 @@ MessageReceiver.prototype.extend({
       window.log.info('Got SyncMessage Request');
       return this.removeFromCache(envelope);
     } else if (syncMessage.read && syncMessage.read.length) {
-      window.log.info('read messages from', this.getEnvelopeId(envelope));
+      window.log.info('read messages from', getEnvelopeId(envelope));
       return this.handleRead(envelope, syncMessage.read);
     } else if (syncMessage.verified) {
       return this.handleVerified(envelope, syncMessage.verified);
@@ -1871,199 +1435,12 @@ MessageReceiver.prototype.extend({
   isBlocked(number) {
     return textsecure.storage.get('blocked', []).indexOf(number) >= 0;
   },
-
-  cleanAttachment(attachment) {
-    return {
-      ..._.omit(attachment, 'thumbnail'),
-      id: attachment.id.toString(),
-      key: attachment.key ? attachment.key.toString('base64') : null,
-      digest: attachment.digest ? attachment.digest.toString('base64') : null,
-    };
-  },
-  async downloadAttachment(attachment) {
-    // The attachment id is actually just the absolute url of the attachment
-    let data = await this.server.getAttachment(attachment.url);
-    if (!attachment.isRaw) {
-      const { key, digest, size } = attachment;
-
-      data = await textsecure.crypto.decryptAttachment(
-        data,
-        window.Signal.Crypto.base64ToArrayBuffer(key),
-        window.Signal.Crypto.base64ToArrayBuffer(digest)
-      );
-
-      if (!size || size !== data.byteLength) {
-        throw new Error(
-          `downloadAttachment: Size ${size} did not match downloaded attachment size ${data.byteLength}`
-        );
-      }
-    }
-
-    return {
-      ..._.omit(attachment, 'digest', 'key'),
-      data,
-    };
-  },
   handleAttachment(attachment) {
     // window.log.info('Not handling attachments.');
     return Promise.resolve({
       ...attachment,
       data: dcodeIO.ByteBuffer.wrap(attachment.data).toArrayBuffer(), // ByteBuffer to ArrayBuffer
     });
-  },
-  async handleEndSession(number) {
-    window.log.info('got end session');
-    let conversation;
-    try {
-      conversation = window.ConversationController.get(number);
-      if (conversation) {
-        await conversation.onSessionResetReceived();
-      } else {
-        throw new Error();
-      }
-    } catch (e) {
-      window.log.error('Error getting conversation: ', number);
-    }
-  },
-  processDecrypted(envelope, decrypted) {
-    /* eslint-disable no-bitwise, no-param-reassign */
-    const FLAGS = textsecure.protobuf.DataMessage.Flags;
-
-    // Now that its decrypted, validate the message and clean it up for consumer
-    //   processing
-    // Note that messages may (generally) only perform one action and we ignore remaining
-    //   fields after the first action.
-
-    if (decrypted.flags == null) {
-      decrypted.flags = 0;
-    }
-    if (decrypted.expireTimer == null) {
-      decrypted.expireTimer = 0;
-    }
-
-    if (decrypted.flags & FLAGS.END_SESSION) {
-      decrypted.body = null;
-      decrypted.attachments = [];
-      decrypted.group = null;
-      return Promise.resolve(decrypted);
-    } else if (decrypted.flags & FLAGS.EXPIRATION_TIMER_UPDATE) {
-      decrypted.body = null;
-      decrypted.attachments = [];
-    } else if (decrypted.flags & FLAGS.PROFILE_KEY_UPDATE) {
-      decrypted.body = null;
-      decrypted.attachments = [];
-    } else if (decrypted.flags & FLAGS.SESSION_REQUEST) {
-      // do nothing
-    } else if (decrypted.flags & FLAGS.SESSION_RESTORE) {
-      // do nothing
-    } else if (decrypted.flags & FLAGS.UNPAIRING_REQUEST) {
-      // do nothing
-    } else if (decrypted.flags !== 0) {
-      throw new Error('Unknown flags in message');
-    }
-
-    const promises = [];
-
-    if (decrypted.group !== null) {
-      decrypted.group.id = decrypted.group.id.toBinary();
-
-      switch (decrypted.group.type) {
-        case textsecure.protobuf.GroupContext.Type.UPDATE:
-          decrypted.body = null;
-          decrypted.attachments = [];
-          break;
-        case textsecure.protobuf.GroupContext.Type.QUIT:
-          decrypted.body = null;
-          decrypted.attachments = [];
-          break;
-        case textsecure.protobuf.GroupContext.Type.DELIVER:
-          decrypted.group.name = null;
-          decrypted.group.members = [];
-          decrypted.group.avatar = null;
-          break;
-        case textsecure.protobuf.GroupContext.Type.REQUEST_INFO:
-          decrypted.body = null;
-          decrypted.attachments = [];
-          break;
-        default:
-          this.removeFromCache(envelope);
-          throw new Error('Unknown group message type');
-      }
-    }
-
-    const attachmentCount = decrypted.attachments.length;
-    const ATTACHMENT_MAX = 32;
-    if (attachmentCount > ATTACHMENT_MAX) {
-      throw new Error(
-        `Too many attachments: ${attachmentCount} included in one message, max is ${ATTACHMENT_MAX}`
-      );
-    }
-
-    // Here we go from binary to string/base64 in all AttachmentPointer digest/key fields
-
-    if (
-      decrypted.group &&
-      decrypted.group.type === textsecure.protobuf.GroupContext.Type.UPDATE
-    ) {
-      if (decrypted.group.avatar !== null) {
-        decrypted.group.avatar = this.cleanAttachment(decrypted.group.avatar);
-      }
-    }
-
-    decrypted.attachments = (decrypted.attachments || []).map(
-      this.cleanAttachment.bind(this)
-    );
-    decrypted.preview = (decrypted.preview || []).map(item => {
-      const { image } = item;
-
-      if (!image) {
-        return item;
-      }
-
-      return {
-        ...item,
-        image: this.cleanAttachment(image),
-      };
-    });
-    decrypted.contact = (decrypted.contact || []).map(item => {
-      const { avatar } = item;
-
-      if (!avatar || !avatar.avatar) {
-        return item;
-      }
-
-      return {
-        ...item,
-        avatar: {
-          ...item.avatar,
-          avatar: this.cleanAttachment(item.avatar.avatar),
-        },
-      };
-    });
-
-    if (decrypted.quote && decrypted.quote.id) {
-      decrypted.quote.id = decrypted.quote.id.toNumber();
-    }
-
-    if (decrypted.quote) {
-      decrypted.quote.attachments = (decrypted.quote.attachments || []).map(
-        item => {
-          const { thumbnail } = item;
-
-          if (!thumbnail) {
-            return item;
-          }
-
-          return {
-            ...item,
-            thumbnail: this.cleanAttachment(item.thumbnail),
-          };
-        }
-      );
-    }
-
-    return Promise.all(promises).then(() => decrypted);
-    /* eslint-enable no-bitwise, no-param-reassign */
   },
 });
 
@@ -2088,15 +1465,8 @@ textsecure.MessageReceiver = function MessageReceiverWrapper(
     messageReceiver
   );
   this.getStatus = messageReceiver.getStatus.bind(messageReceiver);
-  this.handleEndSession = messageReceiver.handleEndSession.bind(
-    messageReceiver
-  );
   this.close = messageReceiver.close.bind(messageReceiver);
   this.savePreKeyBundleMessage = messageReceiver.savePreKeyBundleMessage.bind(
-    messageReceiver
-  );
-
-  this.downloadAttachment = messageReceiver.downloadAttachment.bind(
     messageReceiver
   );
 

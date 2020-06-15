@@ -1544,7 +1544,10 @@
         mySignalingKey,
         options
       );
-      messageReceiver.addEventListener('message', onMessageReceived);
+      messageReceiver.addEventListener(
+        'message',
+        window.NewReceiver.handleMessageEvent
+      );
       messageReceiver.addEventListener('contact', onContactReceived);
       window.textsecure.messaging = new textsecure.MessageSender(
         USERNAME,
@@ -1561,11 +1564,17 @@
       mySignalingKey,
       options
     );
-    messageReceiver.addEventListener('message', onMessageReceived);
+    messageReceiver.addEventListener(
+      'message',
+      window.NewReceiver.handleMessageEvent
+    );
     messageReceiver.addEventListener('delivery', onDeliveryReceipt);
     messageReceiver.addEventListener('contact', onContactReceived);
     messageReceiver.addEventListener('group', onGroupReceived);
-    messageReceiver.addEventListener('sent', onSentMessage);
+    messageReceiver.addEventListener(
+      'sent',
+      window.NewReceiver.handleMessageEvent
+    );
     messageReceiver.addEventListener('readSync', onReadSync);
     messageReceiver.addEventListener('read', onReadReceipt);
     messageReceiver.addEventListener('verified', onVerified);
@@ -1818,7 +1827,7 @@
       // when we do not have a session with it already
       deviceConversations.forEach(device => {
         libsession.Protocols.SessionProtocol.sendSessionRequestIfNeeded(
-          libsession.Types.PubKey(device.id)
+          new libsession.Types.PubKey(device.id)
         );
       });
 
@@ -1978,182 +1987,8 @@
     ev.confirm();
   }
 
-  // Descriptors
-  const getGroupDescriptor = group => ({
-    type: Message.GROUP,
-    id: group.id,
-  });
-
-  // Matches event data from `libtextsecure` `MessageReceiver::handleSentMessage`:
-  const getDescriptorForSent = ({ message, destination }) =>
-    message.group
-      ? getGroupDescriptor(message.group)
-      : { type: Message.PRIVATE, id: destination };
-
-  // Matches event data from `libtextsecure` `MessageReceiver::handleDataMessage`:
-  const getDescriptorForReceived = ({ message, source }) =>
-    message.group
-      ? getGroupDescriptor(message.group)
-      : { type: Message.PRIVATE, id: source };
-
-  function createMessageHandler({
-    createMessage,
-    getMessageDescriptor,
-    handleProfileUpdate,
-  }) {
-    return async event => {
-      const { data, confirm } = event;
-      if (!data) {
-        window.log.warn('Invalid data passed to createMessageHandler.', event);
-        return confirm();
-      }
-
-      const messageDescriptor = getMessageDescriptor(data);
-
-      // Funnel messages to primary device conversation if multi-device
-      const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
-        messageDescriptor.id
-      );
-      if (authorisation) {
-        messageDescriptor.id = authorisation.primaryDevicePubKey;
-      }
-
-      const { PROFILE_KEY_UPDATE } = textsecure.protobuf.DataMessage.Flags;
-      // eslint-disable-next-line no-bitwise
-      const isProfileUpdate = Boolean(data.message.flags & PROFILE_KEY_UPDATE);
-      if (isProfileUpdate) {
-        return handleProfileUpdate({ data, confirm, messageDescriptor });
-      }
-
-      const descriptorId = await textsecure.MessageReceiver.arrayBufferToString(
-        messageDescriptor.id
-      );
-      const message = await createMessage(data);
-
-      const isDuplicate = await isMessageDuplicate(message);
-      if (isDuplicate) {
-        // RSS expects duplicates, so squelch log
-        if (!descriptorId.match(/^rss:/)) {
-          window.log.warn('Received duplicate message', message.idForLogging());
-        }
-        return confirm();
-      }
-
-      await ConversationController.getOrCreateAndWait(
-        messageDescriptor.id,
-        messageDescriptor.type
-      );
-      return message.handleDataMessage(data.message, confirm, {
-        initialLoadComplete,
-      });
-    };
-  }
-
-  // Received:
-  async function handleMessageReceivedProfileUpdate({
-    data,
-    confirm,
-    messageDescriptor,
-  }) {
-    const profileKey = data.message.profileKey.toString('base64');
-    const sender = await ConversationController.getOrCreateAndWait(
-      messageDescriptor.id,
-      'private'
-    );
-
-    // Will do the save for us
-    await sender.setProfileKey(profileKey);
-
-    return confirm();
-  }
-
-  const onMessageReceived = createMessageHandler({
-    handleProfileUpdate: handleMessageReceivedProfileUpdate,
-    getMessageDescriptor: getDescriptorForReceived,
-    createMessage: initIncomingMessage,
-  });
-
-  // Sent:
-  async function handleMessageSentProfileUpdate({
-    data,
-    confirm,
-    messageDescriptor,
-  }) {
-    // First set profileSharing = true for the conversation we sent to
-    const { id, type } = messageDescriptor;
-    const conversation = await ConversationController.getOrCreateAndWait(
-      id,
-      type
-    );
-
-    conversation.set({ profileSharing: true });
-    await window.Signal.Data.updateConversation(id, conversation.attributes, {
-      Conversation: Whisper.Conversation,
-    });
-
-    // Then we update our own profileKey if it's different from what we have
-    const ourNumber = textsecure.storage.user.getNumber();
-    const profileKey = data.message.profileKey.toString('base64');
-    const me = await ConversationController.getOrCreate(ourNumber, 'private');
-
-    // Will do the save for us if needed
-    await me.setProfileKey(profileKey);
-
-    return confirm();
-  }
-
-  function createSentMessage(data) {
-    const now = Date.now();
-    let sentTo = [];
-
-    if (data.unidentifiedStatus && data.unidentifiedStatus.length) {
-      sentTo = data.unidentifiedStatus.map(item => item.destination);
-      const unidentified = _.filter(data.unidentifiedStatus, item =>
-        Boolean(item.unidentified)
-      );
-      // eslint-disable-next-line no-param-reassign
-      data.unidentifiedDeliveries = unidentified.map(item => item.destination);
-    }
-
-    return new Whisper.Message({
-      source: textsecure.storage.user.getNumber(),
-      sourceDevice: data.sourceDevice,
-      sent_at: data.timestamp,
-      sent_to: sentTo,
-      received_at: data.isPublic ? data.receivedAt : now,
-      conversationId: data.destination,
-      type: 'outgoing',
-      sent: true,
-      unidentifiedDeliveries: data.unidentifiedDeliveries || [],
-      expirationStartTimestamp: Math.min(
-        data.expirationStartTimestamp || data.timestamp || Date.now(),
-        Date.now()
-      ),
-    });
-  }
-
-  const onSentMessage = createMessageHandler({
-    handleProfileUpdate: handleMessageSentProfileUpdate,
-    getMessageDescriptor: getDescriptorForSent,
-    createMessage: createSentMessage,
-  });
-
-  async function isMessageDuplicate(message) {
-    try {
-      const { attributes } = message;
-      const result = await window.Signal.Data.getMessageBySender(attributes, {
-        Message: Whisper.Message,
-      });
-
-      return Boolean(result);
-    } catch (error) {
-      window.log.error('isMessageDuplicate error:', Errors.toLogFormat(error));
-      return false;
-    }
-  }
-
-  async function initIncomingMessage(data, options = {}) {
-    const { isError } = options;
+  async function initIncomingMessage(data) {
+    // Now this function is only called for errors, so no delivery receipts
 
     const messageData = {
       source: data.source,
@@ -2170,35 +2005,6 @@
     };
 
     const message = new Whisper.Message(messageData);
-
-    // Send a delivery receipt
-    // If we don't return early here, we can get into infinite error loops. So, no delivery receipts for sealed sender errors.
-    // Note(LOKI): don't send receipt for FR as we don't have a session yet
-    const isGroup = data && data.message && data.message.group;
-    const shouldSendReceipt =
-      !isError &&
-      data.unidentifiedDeliveryReceived &&
-      !data.isSessionRequest &&
-      !isGroup;
-
-    // Send the receipt async and hope that it succeeds
-    if (shouldSendReceipt) {
-      const { wrap, sendOptions } = ConversationController.prepareForSend(
-        data.source
-      );
-      wrap(
-        textsecure.messaging.sendDeliveryReceipt(
-          data.source,
-          data.timestamp,
-          sendOptions
-        )
-      ).catch(error => {
-        window.log.error(
-          `Failed to send delivery receipt to ${data.source} for message ${data.timestamp}:`,
-          error && error.stack ? error.stack : error
-        );
-      });
-    }
 
     return message;
   }
@@ -2331,7 +2137,9 @@
         return;
       }
       const envelope = ev.proto;
-      const message = await initIncomingMessage(envelope, { isError: true });
+
+      // TODO: see if we could reuse the one in receiver.ts
+      const message = await initIncomingMessage(envelope);
 
       await message.saveErrors(error || new Error('Error was null'));
       const id = message.get('conversationId');

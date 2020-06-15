@@ -1,4 +1,4 @@
-/* global Whisper, Signal, setTimeout, clearTimeout, MessageController */
+/* global Whisper, Signal, setTimeout, clearTimeout, MessageController, NewReceiver */
 
 const { isFunction, isNumber, omit } = require('lodash');
 const getGuid = require('uuid/v4');
@@ -168,7 +168,7 @@ async function _runJob(job) {
     }
 
     try {
-      downloaded = await messageReceiver.downloadAttachment(attachment);
+      downloaded = await NewReceiver.downloadAttachment(attachment);
     } catch (error) {
       // Attachments on the server expire after 30 days, then start returning 404
       if (error && error.code === 404) {
