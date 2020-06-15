@@ -78,8 +78,8 @@ function handleSessionReset(
   message: MessageModel
 ) {
   const endSessionType = conversation.isSessionResetReceived()
-    ? EndSessionType.ONGOING
-    : EndSessionType.DONE;
+    ? 'ongoing'
+    : 'done';
   message.set({ endSessionType });
 }
 

@@ -1,13 +1,6 @@
-enum MessageModelType {
-  INCOMING = 'incoming',
-  OUTGOING = 'outgoing',
-  FRIEND_REQUEST = 'friend-request',
-}
 
-export enum EndSessionType {
-  DONE = 'done',
-  ONGOING = 'ongoing',
-}
+type MessageModelType = 'incoming' | 'outgoing' | 'friend-request';
+export type EndSessionType = 'done' | 'ongoing';
 
 interface MessageAttributes {
   id: number;

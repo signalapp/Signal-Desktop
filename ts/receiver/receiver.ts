@@ -735,7 +735,7 @@ export async function handleMessageEvent(event: any): Promise<void> {
   // eslint-disable-next-line no-bitwise
   if (message.flags & SESSION_RESTORE) {
     // Show that the session reset is "in progress" even though we had a valid session
-    msg.set({ endSessionType: EndSessionType.ONGOING });
+    msg.set({ endSessionType: 'ongoing' });
   }
 
   const ourNumber = window.textsecure.storage.user.getNumber();
