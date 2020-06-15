@@ -12,7 +12,6 @@
   Whisper,
   clipboard,
   libloki,
-  lokiFileServerAPI,
 */
 
 /* eslint-disable more/no-then */
@@ -105,8 +104,6 @@
           this.propsForGroupNotification = this.getPropsForGroupNotification();
         } else if (this.isSessionRestoration()) {
           // do nothing
-        } else if (this.isFriendRequest()) {
-          this.propsForFriendRequest = this.getPropsForFriendRequest();
         } else if (this.isGroupInvitation()) {
           this.propsForGroupInvitation = this.getPropsForGroupInvitation();
         } else {
@@ -282,9 +279,7 @@
     isKeyChange() {
       return this.get('type') === 'keychange';
     },
-
     isFriendRequest() {
-      // FIXME exclude session request to be seen as a session request
       return this.get('type') === 'friend-request';
     },
     isGroupInvitation() {
@@ -303,9 +298,6 @@
     getNotificationText() {
       const description = this.getDescription();
       if (description) {
-        if (this.isFriendRequest()) {
-          return `Friend Request: ${description}`;
-        }
         return description;
       }
       if (this.get('attachments').length > 0) {
@@ -411,124 +403,6 @@
     getPropsForResetSessionNotification() {
       return {
         sessionResetMessageKey: this.getEndSessionTranslationKey(),
-      };
-    },
-
-    async acceptFriendRequest() {
-      if (this.get('friendStatus') !== 'pending') {
-        return;
-      }
-
-      const devicePubKey = this.get('conversationId');
-      const otherDevices = await libloki.storage.getPairedDevicesFor(
-        devicePubKey
-      );
-      const allDevices = [devicePubKey, ...otherDevices];
-
-      // Set profile name to primary conversation
-      let profileName;
-      const allConversationsWithUser = allDevices
-        .map(d => ConversationController.get(d))
-        .filter(c => Boolean(c));
-      allConversationsWithUser.forEach(conversation => {
-        // If we somehow received an old friend request (e.g. after having restored
-        // from seed, we won't be able to accept it, we should initiate our own
-        // friend request to reset the session:
-        if (conversation.get('sessionRestoreSeen')) {
-          conversation.sendMessage('', null, null, null, null, {
-            sessionRestoration: true,
-          });
-          return;
-        }
-
-        profileName = conversation.getProfileName() || profileName;
-        conversation.onAcceptFriendRequest();
-      });
-
-      // If you don't have a profile name for this device, and profileName is set,
-      // add profileName to conversation.
-      const primaryDevicePubKey =
-        (await window.Signal.Data.getPrimaryDeviceFor(devicePubKey)) ||
-        devicePubKey;
-      const primaryConversation = allConversationsWithUser.find(
-        c => c.id === primaryDevicePubKey
-      );
-      if (!primaryConversation.getProfileName() && profileName) {
-        await primaryConversation.setNickname(profileName);
-      }
-
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
-
-      this.set({ friendStatus: 'accepted' });
-
-      // Update redux store
-      window.Signal.Data.updateConversation(
-        primaryConversation.id,
-        primaryConversation.attributes,
-        { Conversation: Whisper.Conversation }
-      );
-    },
-    async declineFriendRequest() {
-      if (this.get('friendStatus') !== 'pending') {
-        return;
-      }
-
-      this.set({ friendStatus: 'declined' });
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
-
-      const devicePubKey = this.attributes.conversationId;
-      const otherDevices = await libloki.storage.getPairedDevicesFor(
-        devicePubKey
-      );
-      const allDevices = [devicePubKey, ...otherDevices];
-      const allConversationsWithUser = allDevices
-        .map(d => ConversationController.get(d))
-        .filter(c => Boolean(c));
-      allConversationsWithUser.forEach(conversation => {
-        conversation.onDeclineFriendRequest();
-      });
-    },
-    getPropsForFriendRequest() {
-      const friendStatus = this.get('friendStatus') || 'pending';
-      const direction = this.get('direction') || 'incoming';
-      const conversation = this.getConversation();
-
-      const onAccept = () => this.acceptFriendRequest();
-      const onDecline = () => this.declineFriendRequest();
-      const onRetrySend = () => this.retrySend();
-
-      const onDeleteConversation = async () => {
-        // Delete the whole conversation
-        window.Whisper.events.trigger('deleteConversation', conversation);
-      };
-
-      const onBlockUser = () => {
-        conversation.block();
-        this.trigger('change');
-      };
-
-      const onUnblockUser = () => {
-        conversation.unblock();
-        this.trigger('change');
-      };
-
-      return {
-        text: this.createNonBreakingLastSeparator(this.get('body')),
-        timestamp: this.get('sent_at'),
-        status: this.getMessagePropStatus(),
-        direction,
-        friendStatus,
-        isBlocked: conversation.isBlocked(),
-        onAccept,
-        onDecline,
-        onDeleteConversation,
-        onBlockUser,
-        onUnblockUser,
-        onRetrySend,
       };
     },
     getPropsForGroupInvitation() {
@@ -651,11 +525,7 @@
         return 'error';
       }
 
-      // Handle friend request statuses
-      const isFriendRequest = this.isFriendRequest();
-      const isOutgoingFriendRequest =
-        isFriendRequest && this.get('direction') === 'outgoing';
-      const isOutgoing = this.isOutgoing() || isOutgoingFriendRequest;
+      const isOutgoing = this.isOutgoing();
 
       // Only return the status on outgoing messages
       if (!isOutgoing) {
@@ -1487,7 +1357,8 @@
           });
 
           this.trigger('sent', this);
-          if (!this.isFriendRequest()) {
+          // don't send sync message for EndSession messages
+          if (!this.isEndSession()) {
             const c = this.getConversation();
             // Don't bother sending sync messages to public chats
             // or groups with sender keys
@@ -1954,50 +1825,6 @@
 
       return message;
     },
-
-    async handleSecondaryDeviceFriendRequest(pubKey) {
-      // fetch the device mapping from the server
-      const deviceMapping = await lokiFileServerAPI.getUserDeviceMapping(
-        pubKey
-      );
-      if (!deviceMapping) {
-        return false;
-      }
-      // Only handle secondary pubkeys
-      if (deviceMapping.isPrimary === '1' || !deviceMapping.authorisations) {
-        return false;
-      }
-      const { authorisations } = deviceMapping;
-      // Secondary devices should only have 1 authorisation from a primary device
-      if (authorisations.length !== 1) {
-        return false;
-      }
-      const authorisation = authorisations[0];
-      if (!authorisation) {
-        return false;
-      }
-      if (!authorisation.grantSignature) {
-        return false;
-      }
-      const isValid = await libloki.crypto.validateAuthorisation(authorisation);
-      if (!isValid) {
-        return false;
-      }
-      const correctSender = pubKey === authorisation.secondaryDevicePubKey;
-      if (!correctSender) {
-        return false;
-      }
-      const { primaryDevicePubKey } = authorisation;
-      // ensure the primary device is a friend
-      const c = window.ConversationController.get(primaryDevicePubKey);
-      if (!c || !(await c.isFriendWithAnyDevice())) {
-        return false;
-      }
-      await libloki.storage.savePairingAuthorisation(authorisation);
-
-      return true;
-    },
-
     /**
      * Returns true if the message is already completely handled and confirmed
      * and the processing of this message must stop.
@@ -2013,9 +1840,13 @@
         return true;
       }
 
-      // NOTE: we use friends status to tell if this is
+      // NOTE: we use group admins to tell if this is
       // the creation of the group (initial update)
-      const newGroup = !conversation.isFriend();
+      const groupAdminsSet =
+        conversation.get('groupAdmins') &&
+        conversation.get('groupAdmins').length > 0;
+
+      const newGroup = !groupAdminsSet;
       const knownMembers = conversation.get('members');
 
       if (!newGroup && knownMembers) {
@@ -2046,10 +1877,6 @@
       ) {
         if (newGroup) {
           conversation.updateGroupAdmins(initialMessage.group.admins);
-
-          conversation.setFriendRequestStatus(
-            window.friends.friendRequestStatusEnum.friends
-          );
         } else {
           // be sure to drop a message from a non admin if it tries to change group members
           // or change the group name
@@ -2097,11 +1924,6 @@
       }
       return false;
     },
-    async handleSessionRequest(source, confirm) {
-      window.console.log(`Received SESSION_REQUEST from source: ${source}`);
-      window.libloki.api.sendSessionEstablishedMessage(source);
-      confirm();
-    },
     isGroupBlocked(groupId) {
       return textsecure.storage.get('blocked-groups', []).indexOf(groupId) >= 0;
     },
@@ -2120,47 +1942,6 @@
 
       return groupId && isBlocked && !(isMe && isLeavingGroup);
     },
-
-    async handleAutoFriendRequestMessage(
-      source,
-      ourPubKey,
-      conversation,
-      confirm
-    ) {
-      const isMe = source === ourPubKey;
-      // If we got a friend request message (session request excluded) or
-      // if we're not friends with the current user that sent this private message
-      // Check to see if we need to auto accept their friend request
-      if (isMe) {
-        window.log.info('refusing to add a friend request to ourselves');
-        throw new Error('Cannot add a friend request for ourselves!');
-      } else {
-        // auto-accept friend request if the device is paired to one of our friend's primary device
-        const shouldAutoAcceptFR = await this.handleSecondaryDeviceFriendRequest(
-          source
-        );
-        if (shouldAutoAcceptFR) {
-          libloki.api.debug.logAutoFriendRequest(
-            `Received AUTO_FRIEND_REQUEST from source: ${source}`
-          );
-          // Directly setting friend request status to skip the pending state
-          await conversation.setFriendRequestStatus(
-            window.friends.friendRequestStatusEnum.friends
-          );
-          // sending a message back = accepting friend request
-
-          window.libloki.api.sendBackgroundMessage(
-            source,
-            window.textsecure.OutgoingMessage.DebugMessageType.AUTO_FR_ACCEPT
-          );
-          confirm();
-          // return true to notify the message is fully processed
-          return true;
-        }
-      }
-      return false;
-    },
-
     async handleDataMessage(initialMessage, confirm) {
       // This function is called from the background script in a few scenarios:
       //   1. on an incoming message
@@ -2212,43 +1993,6 @@
       ) {
         // Show that the session reset is "in progress" even though we had a valid session
         this.set({ endSessionType: 'ongoing' });
-      }
-      /**
-       * A session request message is a friend-request message with the flag
-       * SESSION_REQUEST set to true.
-       */
-      const sessionRequestFlag =
-        textsecure.protobuf.DataMessage.Flags.SESSION_REQUEST;
-      /* eslint-disable no-bitwise */
-      if (
-        message.isFriendRequest() &&
-        !!(initialMessage.flags & sessionRequestFlag)
-      ) {
-        await this.handleSessionRequest(source, confirm);
-
-        // Wether or not we accepted the FR, we exit early so session requests
-        // cannot be used for establishing regular private conversations
-        return null;
-      }
-      /* eslint-enable no-bitwise */
-
-      // Session request have been dealt with before, so a friend request here is
-      // not a session request message. Also, handleAutoFriendRequestMessage() only handles the autoAccept logic of an auto friend request.
-      if (
-        message.isFriendRequest() ||
-        (!isGroupMessage && !conversationOrigin.isFriend())
-      ) {
-        const shouldReturn = await this.handleAutoFriendRequestMessage(
-          source,
-          ourNumber,
-          conversationOrigin,
-          confirm
-        );
-        // handleAutoFriendRequestMessage can process fully a message in some cases
-        // so we need to return early if that's the case
-        if (shouldReturn) {
-          return null;
-        }
       }
 
       return conversationPrimary.queueJob(async () => {
@@ -2453,7 +2197,7 @@
               : 'done';
             this.set({ endSessionType });
           }
-          if (type === 'incoming' || message.isFriendRequest()) {
+          if (type === 'incoming' || message.isEndSession()) {
             const readSync = Whisper.ReadSyncs.forMessage(message);
             if (readSync) {
               if (
@@ -2535,54 +2279,6 @@
             }
           }
 
-          let autoAccept = false;
-          // Make sure friend request logic doesn't trigger on messages aimed at groups
-          if (!isGroupMessage) {
-            // We already handled (and returned) session request and auto Friend Request before,
-            // so that can only be a normal Friend Request
-            if (message.isFriendRequest()) {
-              /*
-              Here is the before and after state diagram for the operation before.
-
-              None -> RequestReceived
-              PendingSend -> RequestReceived
-              RequestReceived -> RequestReceived
-              Sent -> Friends
-              Expired -> Friends
-              Friends -> Friends
-
-              The cases where we auto accept are the following:
-                - We sent the user a friend request,
-                  and that user sent us a friend request.
-                - We are friends with the user,
-                  and that user just sent us a friend request.
-              */
-
-              const isFriend = conversationOrigin.isFriend();
-              const hasSentFriendRequest = conversationOrigin.hasSentFriendRequest();
-              autoAccept = isFriend || hasSentFriendRequest;
-
-              if (autoAccept) {
-                message.set({ friendStatus: 'accepted' });
-              }
-
-              libloki.api.debug.logNormalFriendRequest(
-                `Received a NORMAL_FRIEND_REQUEST from source: ${source}, primarySource: ${primarySource}, isAlreadyFriend: ${isFriend}, didWeAlreadySentFR: ${hasSentFriendRequest}`
-              );
-
-              if (isFriend) {
-                window.Whisper.events.trigger('endSession', source);
-              } else if (hasSentFriendRequest) {
-                await conversationOrigin.onFriendRequestAccepted();
-              } else {
-                await conversationOrigin.onFriendRequestReceived();
-              }
-            } else if (message.get('type') !== 'outgoing') {
-              // Ignore 'outgoing' messages because they are sync messages
-              await conversationOrigin.onFriendRequestAccepted();
-            }
-          }
-
           // We need to map the original message source to the primary device
           if (source !== ourNumber) {
             message.set({ source: primarySource });
@@ -2641,12 +2337,7 @@
           }
 
           if (message.get('unread')) {
-            // Need to do this here because the conversation has already changed states
-            if (autoAccept) {
-              await conversationPrimary.notifyFriendRequest(source, 'accepted');
-            } else {
-              await conversationPrimary.notify(message);
-            }
+            await conversationPrimary.notify(message);
           }
 
           confirm();

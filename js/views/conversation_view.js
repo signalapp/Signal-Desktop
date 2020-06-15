@@ -173,8 +173,6 @@
           color: this.model.getColor(),
           avatarPath: this.model.getAvatarPath(),
           isVerified: this.model.isVerified(),
-          isFriendRequestPending: this.model.isPendingFriendRequest(),
-          isFriend: this.model.isFriend(),
           isMe: this.model.isMe(),
           isClosable: this.model.isClosable(),
           isBlocked: this.model.isBlocked(),

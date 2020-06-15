@@ -12,6 +12,7 @@
   libsignal,
   StringView,
   BlockedNumberController,
+  libsession,
 */
 
 // eslint-disable-next-line func-names
@@ -526,10 +527,7 @@
         );
 
         // Make sure we only target outgoing messages
-        if (
-          message.isFriendRequest() &&
-          message.get('direction') === 'incoming'
-        ) {
+        if (message.isEndSession() && message.get('direction') === 'incoming') {
           return;
         }
 
@@ -804,10 +802,6 @@
       convo.updateGroupAdmins([primary]);
       convo.updateGroup(ev.groupDetails);
 
-      convo.setFriendRequestStatus(
-        window.friends.friendRequestStatusEnum.friends
-      );
-
       appView.openConversation(groupId, {});
 
       // Subscribe to this group id
@@ -845,12 +839,6 @@
 
       convo.updateGroupAdmins([primaryDeviceKey]);
       convo.updateGroup(ev.groupDetails);
-
-      // Group conversations are automatically 'friends'
-      // so that we can skip the friend request logic
-      convo.setFriendRequestStatus(
-        window.friends.friendRequestStatusEnum.friends
-      );
 
       textsecure.messaging.sendGroupSyncMessage([convo]);
       appView.openConversation(groupId, {});
@@ -1148,11 +1136,6 @@
 
       // convert conversation to a public one
       await conversation.setPublicSource(sslServerURL, channelId);
-      // set friend and appropriate SYNC messages for multidevice
-      await conversation.setFriendRequestStatus(
-        window.friends.friendRequestStatusEnum.friends,
-        { blockSync: true }
-      );
 
       // and finally activate it
       conversation.getPublicSendData(); // may want "await" if you want to use the API
@@ -1249,9 +1232,6 @@
 
         serverAPI.findOrCreateChannel(channelId, conversationId);
         await conversation.setPublicSource(sslServerUrl, channelId);
-        await conversation.setFriendRequestStatus(
-          window.friends.friendRequestStatusEnum.friends
-        );
 
         appView.openConversation(conversationId, {});
       }
@@ -1596,10 +1576,6 @@
     messageReceiver.addEventListener('configuration', onConfiguration);
     messageReceiver.addEventListener('typing', onTyping);
 
-    Whisper.events.on('endSession', source => {
-      messageReceiver.handleEndSession(source);
-    });
-
     window.Signal.AttachmentDownloads.start({
       getMessageReceiver: () => messageReceiver,
       logger: window.log,
@@ -1838,13 +1814,12 @@
           ConversationController.getOrCreateAndWait(d, 'private')
         )
       );
+      // triger session request with every devices of that user
+      // when we do not have a session with it already
       deviceConversations.forEach(device => {
-        if (device.isFriendRequestStatusNoneOrExpired()) {
-          libloki.api.sendAutoFriendRequestMessage(device.id);
-        } else {
-          // Accept any pending friend requests if there are any
-          device.onAcceptFriendRequest({ blockSync: true });
-        }
+        libsession.Protocols.SessionProtocol.sendSessionRequestIfNeeded(
+          libsession.Types.PubKey(device.id)
+        );
       });
 
       if (details.profileKey) {
@@ -2180,7 +2155,7 @@
   async function initIncomingMessage(data, options = {}) {
     const { isError } = options;
 
-    let messageData = {
+    const messageData = {
       source: data.source,
       sourceDevice: data.sourceDevice,
       serverId: data.serverId,
@@ -2194,15 +2169,6 @@
       isRss: data.isRss,
     };
 
-    if (data.friendRequest) {
-      messageData = {
-        ...messageData,
-        type: 'friend-request',
-        friendStatus: 'pending',
-        direction: 'incoming',
-      };
-    }
-
     const message = new Whisper.Message(messageData);
 
     // Send a delivery receipt
@@ -2212,7 +2178,7 @@
     const shouldSendReceipt =
       !isError &&
       data.unidentifiedDeliveryReceived &&
-      !data.friendRequest &&
+      !data.isSessionRequest &&
       !isGroup;
 
     // Send the receipt async and hope that it succeeds

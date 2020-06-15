@@ -745,7 +745,7 @@ MessageReceiver.prototype.extend({
         promise = this.decryptForMediumGroup(envelope, ciphertext);
         break;
       case textsecure.protobuf.Envelope.Type.SESSION_REQUEST: {
-        window.log.info('friend-request message from ', envelope.source);
+        window.log.info('session-request message from ', envelope.source);
 
         const fallBackSessionCipher = new libloki.crypto.FallBackSessionCipher(
           address
@@ -1035,7 +1035,7 @@ MessageReceiver.prototype.extend({
         );
         // Set current device as secondary.
         // This will ensure the authorisation is sent
-        // along with each friend request.
+        // along with each session request.
         window.storage.remove('secondaryDeviceStatus');
         window.storage.put('isSecondaryDevice', true);
         window.storage.put('primaryDevicePubKey', primaryDevicePubKey);
@@ -1325,10 +1325,6 @@ MessageReceiver.prototype.extend({
         convo.set('name', groupName);
         convo.set('groupAdmins', admins);
 
-        convo.setFriendRequestStatus(
-          window.friends.friendRequestStatusEnum.friends
-        );
-
         const secretKeyHex = StringView.arrayBufferToHex(
           groupSecretKey.toArrayBuffer()
         );
@@ -1398,6 +1394,7 @@ MessageReceiver.prototype.extend({
     const conversation = window.ConversationController.get(senderPubKey);
 
     const { UNPAIRING_REQUEST } = textsecure.protobuf.DataMessage.Flags;
+    const { SESSION_REQUEST } = textsecure.protobuf.Envelope.Type;
 
     // eslint-disable-next-line no-bitwise
     const isUnpairingRequest = Boolean(message.flags & UNPAIRING_REQUEST);
@@ -1420,17 +1417,6 @@ MessageReceiver.prototype.extend({
       );
       return this.removeFromCache(envelope);
     }
-
-    // Loki - Temp hack until new protocol
-    // A friend request is a non-group text message which we haven't processed yet
-    const isGroupMessage = Boolean(message.group || message.mediumGroupUpdate);
-    const friendRequestStatusNoneOrExpired = conversation
-      ? conversation.isFriendRequestStatusNoneOrExpired()
-      : true;
-    const isFriendRequest =
-      !isGroupMessage &&
-      !_.isEmpty(message.body) &&
-      friendRequestStatusNoneOrExpired;
 
     const source = envelope.senderIdentity || senderPubKey;
 
@@ -1464,7 +1450,7 @@ MessageReceiver.prototype.extend({
 
     ev.confirm = this.removeFromCache.bind(this, envelope);
     ev.data = {
-      friendRequest: isFriendRequest,
+      isSessionRequest: envelope.type === SESSION_REQUEST,
       source,
       sourceDevice: envelope.sourceDevice,
       timestamp: envelope.timestamp.toNumber(),
@@ -1521,35 +1507,14 @@ MessageReceiver.prototype.extend({
     }
     return this.innerHandleContentMessage(envelope, plaintext);
   },
-  async handleFriendRequestAcceptIfNeeded(envelope, content) {
-    const isGroupMessage =
-      content &&
-      content.dataMessage &&
-      (content.dataMessage.group || content.dataMessage.mediumGroupUpdate);
-    const isReceiptMessage = content && content.receiptMessage;
-    const isTypingMessage = content && content.typingMessage;
-    if (isGroupMessage || isReceiptMessage || isTypingMessage) {
-      return;
-    }
-
-    // If we sent a friend request and got another message back then we should become friends
-    try {
-      const conversation = await window.ConversationController.getOrCreateAndWait(
-        envelope.source,
-        'private'
-      );
-      const isFriendRequestAccept = await conversation.onFriendRequestAccepted();
-      if (isFriendRequestAccept) {
-        await conversation.notifyFriendRequest(envelope.source, 'accepted');
-      }
-    } catch (e) {
-      window.log.info('Error getting conversation: ', envelope.source);
-    }
-  },
   async handleSessionRequestMessage(envelope, content) {
     const shouldProcessSessionRequest = await libsession.Protocols.SessionProtocol.shouldProcessSessionRequest(
       envelope.source,
       envelope.timestamp
+    );
+
+    window.console.log(
+      `Received SESSION_REQUEST from source: ${envelope.source}`
     );
 
     if (shouldProcessSessionRequest) {
@@ -1614,8 +1579,6 @@ MessageReceiver.prototype.extend({
       );
       // TODO process sending queue for this device now that we have a session
     }
-
-    this.handleFriendRequestAcceptIfNeeded(envelope, content);
 
     if (content.pairingAuthorisation) {
       return this.handlePairingAuthorisationMessage(envelope, content);

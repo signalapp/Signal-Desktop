@@ -621,12 +621,7 @@ OutgoingMessage.prototype = {
       if (!outgoingObject) {
         return;
       }
-      const {
-        pubKey: destination,
-        ttl,
-        isFriendRequest,
-        isSessionRequest,
-      } = outgoingObject;
+      const { pubKey: destination, ttl, isSessionRequest } = outgoingObject;
 
       try {
         const socketMessage = wrapInWebsocketMessage(
@@ -640,7 +635,7 @@ OutgoingMessage.prototype = {
           ttl
         );
 
-        if (!this.isGroup && isFriendRequest && !isSessionRequest) {
+        if (!this.isGroup && !isSessionRequest) {
           const conversation = ConversationController.get(destination);
           if (conversation) {
             // Redundant for primary device but marks secondary devices as pending

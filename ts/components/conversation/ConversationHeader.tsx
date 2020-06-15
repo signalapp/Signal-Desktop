@@ -57,8 +57,6 @@ interface Props {
   hasNickname?: boolean;
 
   isBlocked: boolean;
-  isFriend: boolean;
-  isFriendRequestPending: boolean;
   isOnline?: boolean;
 
   selectedMessages: any;
@@ -138,13 +136,11 @@ export class ConversationHeader extends React.Component<Props> {
       phoneNumber,
       i18n,
       profileName,
-      isFriend,
       isGroup,
       isPublic,
       isRss,
       members,
       subscriberCount,
-      isFriendRequestPending,
       isMe,
       isKickedFromGroup,
       name,
@@ -171,11 +167,7 @@ export class ConversationHeader extends React.Component<Props> {
     })();
 
     let text = '';
-    if (isFriendRequestPending) {
-      text = i18n('pendingAcceptance');
-    } else if (!isFriend && !isGroup) {
-      text = i18n('notFriends');
-    } else if (memberCount > 0) {
+    if (isGroup && memberCount > 0) {
       const count = String(memberCount);
       text = i18n('members', [count]);
     }
@@ -439,7 +431,6 @@ export class ConversationHeader extends React.Component<Props> {
       isBlocked,
       isMe,
       isGroup,
-      isFriend,
       isKickedFromGroup,
       isPublic,
       isRss,
@@ -461,7 +452,7 @@ export class ConversationHeader extends React.Component<Props> {
     const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
     const blockHandler = isBlocked ? onUnblockUser : onBlockUser;
 
-    const disappearingMessagesMenuItem = isFriend && !isKickedFromGroup && (
+    const disappearingMessagesMenuItem = !isKickedFromGroup && (
       <SubMenu title={disappearingTitle}>
         {(timerOptions || []).map(item => (
           <MenuItem
@@ -484,7 +475,7 @@ export class ConversationHeader extends React.Component<Props> {
         {i18n('showSafetyNumber')}
       </MenuItem>
     );
-    const resetSessionMenuItem = isFriend && !isGroup && (
+    const resetSessionMenuItem = !isGroup && (
       <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
     );
     const blockHandlerMenuItem = !isMe && !isGroup && !isRss && (
