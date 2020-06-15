@@ -574,8 +574,12 @@
         secondaryDevicePubKey,
         libloki.crypto.PairingType.GRANT
       );
-      const authorisations = await libsession.Protocols.MultiDeviceProtocol.getPairingAuthorisations(secondaryDevicePubKey);
-      const existingAuthorisation = authorisations.some(pairing => pairing.secondaryDevicePubKey === secondaryDevicePubKey);
+      const authorisations = await libsession.Protocols.MultiDeviceProtocol.getPairingAuthorisations(
+        secondaryDevicePubKey
+      );
+      const existingAuthorisation = authorisations.some(
+        pairing => pairing.secondaryDevicePubKey === secondaryDevicePubKey
+      );
       if (!existingAuthorisation) {
         throw new Error(
           'authoriseSecondaryDevice: request signature missing from database!'
@@ -590,7 +594,9 @@
       };
 
       // Update authorisation in database with the new grant signature
-      await libsession.Protocols.MultiDeviceProtocol.savePairingAuthorisation(authorisation);
+      await libsession.Protocols.MultiDeviceProtocol.savePairingAuthorisation(
+        authorisation
+      );
 
       // Try to upload to the file server and then send a message
       try {

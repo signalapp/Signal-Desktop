@@ -431,7 +431,9 @@ OutgoingMessage.prototype = {
     const ourPubKey = textsecure.storage.user.getNumber();
     const ourPrimaryPubkey = window.storage.get('primaryDevicePubKey');
     const secondaryPubKeys =
-      (await window.libsession.Protocols.MultiDeviceProtocol.getSecondaryDevices(ourPubKey)) || [];
+      (await window.libsession.Protocols.MultiDeviceProtocol.getSecondaryDevices(
+        ourPubKey
+      )) || [];
     let aliasedPubkey = devicePubKey;
     if (devicePubKey === ourPubKey) {
       aliasedPubkey = 'OUR_PUBKEY'; // should not happen

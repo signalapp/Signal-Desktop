@@ -211,7 +211,9 @@
         return true;
       }
 
-      const ourDevices = await window.libsession.Protocols.MultiDeviceProtocol.getAllDevices(this.ourNumber);
+      const ourDevices = await window.libsession.Protocols.MultiDeviceProtocol.getAllDevices(
+        this.ourNumber
+      );
 
       return ourDevices.some(device => device.key === this.id);
     },

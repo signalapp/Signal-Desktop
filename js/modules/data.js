@@ -642,28 +642,12 @@ async function removePairingAuthorisationsFor(pubKey) {
   await channels.removePairingAuthorisationsFor(pubKey);
 }
 
-function getAuthorisationForSecondaryPubKey(pubKey) {
-  return channels.getAuthorisationForSecondaryPubKey(pubKey);
-}
-
-function getSecondaryDevicesFor(primaryDevicePubKey) {
-  return channels.getSecondaryDevicesFor(primaryDevicePubKey);
-}
-
 function getGuardNodes() {
   return channels.getGuardNodes();
 }
 
 function updateGuardNodes(nodes) {
   return channels.updateGuardNodes(nodes);
-}
-
-function getPrimaryDeviceFor(secondaryDevicePubKey) {
-  return channels.getPrimaryDeviceFor(secondaryDevicePubKey);
-}
-
-function getPairedDevicesFor(pubKey) {
-  return channels.getPairedDevicesFor(pubKey);
 }
 
 // Items

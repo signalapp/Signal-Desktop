@@ -7,6 +7,9 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from '../SessionButton';
+import { UserUtil } from '../../../util';
+import { MultiDeviceProtocol } from '../../../session/protocols';
+import { PubKey } from '../../../session/types';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -644,16 +647,14 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     }
   }
 
-  private refreshLinkedDevice() {
-    const ourPubKey = window.textsecure.storage.user.getNumber();
+  private async refreshLinkedDevice() {
+    const ourPubKey = await UserUtil.getCurrentDevicePubKey();
+    if (ourPubKey) {
+      const pubKey = new PubKey(ourPubKey);
+      const devices = await MultiDeviceProtocol.getSecondaryDevices(pubKey);
 
-    window.libloki.storage
-      .getSecondaryDevicesFor(ourPubKey)
-      .then((pubKeys: any) => {
-        this.setState({
-          linkedPubKeys: pubKeys,
-        });
-      });
+      this.setState({ linkedPubKeys: devices.map(d => d.key) });
+    }
   }
 
   private async onKeyUp(event: any) {

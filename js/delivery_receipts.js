@@ -4,7 +4,6 @@
   ConversationController,
   MessageController,
   _,
-  libloki,
 */
 
 /* eslint-disable more/no-then */
@@ -36,7 +35,9 @@
         return null;
       }
 
-      const primary = await window.libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(originalSource);
+      const primary = await window.libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+        originalSource
+      );
       const source = primary.key;
 
       const message = messages.find(

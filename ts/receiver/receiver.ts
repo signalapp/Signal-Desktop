@@ -605,9 +605,9 @@ export async function handleDataMessage(
 
   const isOwnDevice = async (device: string) => {
     const pubKey = new PubKey(device);
-    const allDevices = await  MultiDeviceProtocol.getAllDevices(pubKey);
+    const allDevices = await MultiDeviceProtocol.getAllDevices(pubKey);
 
-    return allDevices.some(device => PubKey.isEqual(device, pubKey));
+    return allDevices.some(d => PubKey.isEqual(d, pubKey));
   };
 
   const ownDevice = await isOwnDevice(source);

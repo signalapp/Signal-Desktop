@@ -5,11 +5,7 @@ import { AdvancedSearchOptions, SearchOptions } from '../../types/Search';
 import { trigger } from '../../shims/events';
 import { getMessageModel } from '../../shims/Whisper';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
-import {
-  getPrimaryDeviceFor,
-  searchConversations,
-  searchMessages,
-} from '../../../js/modules/data';
+import { searchConversations, searchMessages } from '../../../js/modules/data';
 import { makeLookup } from '../../util/makeLookup';
 
 import {
@@ -19,6 +15,8 @@ import {
   RemoveAllConversationsActionType,
   SelectedConversationChangedActionType,
 } from './conversations';
+import { MultiDeviceProtocol } from '../../session/protocols';
+import { PubKey } from '../../session/types';
 
 // State
 
@@ -283,15 +281,13 @@ async function queryConversationsAndContacts(
     query
   );
 
-  const ourPrimaryDevice = isSecondaryDevice
-    ? await getPrimaryDeviceFor(ourNumber)
-    : ourNumber;
+  const ourPrimaryDevice = await MultiDeviceProtocol.getPrimaryDevice(
+    ourNumber
+  );
 
-  const resultPrimaryDevices: Array<string | null> = await Promise.all(
+  const resultPrimaryDevices = await Promise.all(
     searchResults.map(async conversation =>
-      conversation.id === ourPrimaryDevice
-        ? Promise.resolve(ourPrimaryDevice)
-        : getPrimaryDeviceFor(conversation.id)
+      MultiDeviceProtocol.getPrimaryDevice(conversation.id)
     )
   );
 
@@ -303,18 +299,10 @@ async function queryConversationsAndContacts(
     const conversation = searchResults[i];
     const primaryDevice = resultPrimaryDevices[i];
 
-    if (primaryDevice) {
-      if (isSecondaryDevice && primaryDevice === ourPrimaryDevice) {
-        conversations.push(ourNumber);
-      } else {
-        conversations.push(primaryDevice);
-      }
-    } else if (conversation.type === 'direct') {
-      contacts.push(conversation.id);
-    } else if (conversation.type !== 'group') {
-      contacts.push(conversation.id);
+    if (isSecondaryDevice && PubKey.isEqual(primaryDevice, ourPrimaryDevice)) {
+      conversations.push(ourNumber);
     } else {
-      conversations.push(conversation.id);
+      conversations.push(primaryDevice.key);
     }
   }
   // Inject synthetic Note to Self entry if query matches localized 'Note to Self'

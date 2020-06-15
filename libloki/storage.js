@@ -1,5 +1,4 @@
-/* global window, libsignal, textsecure,
-   lokiFileServerAPI,  */
+/* global window, libsignal, textsecure */
 
 // eslint-disable-next-line func-names
 (function() {
