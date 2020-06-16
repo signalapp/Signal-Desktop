@@ -6,4 +6,4 @@ import * as Types from './types';
 // E.g
 // export const messageQueue = new MessageQueue()
 
-export { Messages, Protocols };
+export { Messages, Protocols, Types };

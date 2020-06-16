@@ -14,7 +14,7 @@ import { UserUtil } from '../../util';
 */
 // tslint:disable-next-line: no-unnecessary-class
 export class MultiDeviceProtocol {
-  public static refreshDelay: number = 5 * 1000 * 1000; // 5 minutes
+  public static refreshDelay: number = 5 * 60 * 1000; // 5 minutes
   private static lastFetch: { [device: string]: number } = {};
 
   /**

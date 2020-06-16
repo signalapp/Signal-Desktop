@@ -299,10 +299,21 @@ async function queryConversationsAndContacts(
     const conversation = searchResults[i];
     const primaryDevice = resultPrimaryDevices[i];
 
-    if (isSecondaryDevice && PubKey.isEqual(primaryDevice, ourPrimaryDevice)) {
-      conversations.push(ourNumber);
+    if (primaryDevice) {
+      if (
+        isSecondaryDevice &&
+        PubKey.isEqual(primaryDevice, ourPrimaryDevice)
+      ) {
+        conversations.push(ourNumber);
+      } else {
+        conversations.push(primaryDevice.key);
+      }
+    } else if (conversation.type === 'direct') {
+      contacts.push(conversation.id);
+    } else if (conversation.type !== 'group') {
+      contacts.push(conversation.id);
     } else {
-      conversations.push(primaryDevice.key);
+      conversations.push(conversation.id);
     }
   }
   // Inject synthetic Note to Self entry if query matches localized 'Note to Self'
