@@ -65,7 +65,7 @@ export class MessageQueue implements MessageQueueInterface {
 
         // Remove our devices from currentDevices
         currentDevices = currentDevices.filter(device =>
-          ourDevices.some(d => PubKey.isEqual(d, device))
+          ourDevices.some(d => device.isEqual(d))
         );
       }
     }

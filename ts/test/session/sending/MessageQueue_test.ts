@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import * as sinon from 'sinon';
+import Sinon, * as sinon from 'sinon';
 import { GroupUtils } from '../../../session/utils';
 import { Stubs, TestUtils } from '../../../test/test-utils';
 import { MessageQueue } from '../../../session/sending/MessageQueue';
@@ -23,8 +23,13 @@ describe('MessageQueue', () => {
   const sandbox = sinon.createSandbox();
   const ourNumber = TestUtils.generateFakePubkey().key;
 
-  // Initialize new stubbed cache
+  // Initialize new stubbed queue
   let messageQueueStub: MessageQueue;
+
+  // Spies
+  // let messageQueueSpy: Sinon.SinonSpy;
+  let sendMessageToDevicesSpy: Sinon.SinonSpy;
+
   // Message Sender Stubs
   let sendStub: sinon.SinonStub<[RawMessage, (number | undefined)?]>;
   let sendToOpenGroupStub: sinon.SinonStub<[OpenGroupMessage]>;
@@ -32,11 +37,19 @@ describe('MessageQueue', () => {
   let groupMembersStub: sinon.SinonStub;
   // Session Protocol Stubs
   let hasSessionStub: sinon.SinonStub<[PubKey]>;
+  let sendSessionRequestIfNeededStub: sinon.SinonStub;
 
-  let sessionRequestCalled: boolean;
+  // Helper function returns a promise that resolves after all other promise mocks,
+  // even if they are chained like Promise.resolve().then(...)
+  // Technically: this is designed to resolve on the next macrotask
+  async function tick() {
+    return new Promise(resolve => {
+      // tslint:disable-next-line: no-string-based-set-timeout
+      setTimeout(resolve, 0);
+    });
+  }
 
   beforeEach(async () => {
-
     // Stub out methods which touch the database
     const storageID = 'pendingMessages';
     data = {
@@ -81,8 +94,9 @@ describe('MessageQueue', () => {
     // Session Protocol Stubs
     sandbox.stub(SessionProtocol, 'sendSessionRequest').resolves();
     hasSessionStub = sandbox.stub(SessionProtocol, 'hasSession').resolves(true);
-    sandbox
-      .stub(SessionProtocol, 'sendSessionRequestIfNeeded').resolves();
+    sendSessionRequestIfNeededStub = sandbox
+      .stub(SessionProtocol, 'sendSessionRequestIfNeeded')
+      .resolves();
 
     // Pending Mesage Cache Stubs
     const chatMessages = Array.from(
@@ -105,12 +119,17 @@ describe('MessageQueue', () => {
         chatMessages.map(m => toRawMessage(TestUtils.generateFakePubkey(), m))
       );
 
+    // Spies
+    sendMessageToDevicesSpy = sandbox.spy(
+      MessageQueue.prototype,
+      'sendMessageToDevices'
+    );
+
+    // Init Queue
     messageQueueStub = new MessageQueue();
   });
 
   afterEach(() => {
-    console.log('[vince] sessionRequestCalled:', sessionRequestCalled);
-
     TestUtils.restoreStubs();
     sandbox.restore();
   });
@@ -140,12 +159,8 @@ describe('MessageQueue', () => {
 
       expect(promise).to.be.fulfilled;
 
-      console.log('[vince] calledd::::', sessionRequestCalled);
-
-      expect(sessionRequestCalled).to.equal(
-        true,
-        'Session request not sent for !isMediumGroup && !hasSession'
-      );
+      await tick();
+      expect(sendSessionRequestIfNeededStub.callCount).to.equal(1);
     });
   });
 
@@ -155,7 +170,15 @@ describe('MessageQueue', () => {
       const message = TestUtils.generateChatMessage();
 
       const promise = messageQueueStub.sendUsingMultiDevice(device, message);
-      await expect(promise).to.be.fulfilled;
+
+      // Ensure the arguments passed into sendMessageToDevices are correct
+      await tick();
+      const previousArgs = sendMessageToDevicesSpy.lastCall.args;
+
+      // Need to check that instances of ChatMesasge are equal
+      expect(previousArgs).to.equal({});
+
+      expect(promise).to.be.fulfilled;
     });
   });
 
