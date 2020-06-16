@@ -10,7 +10,7 @@ import { UserUtil } from '../../util';
 
 /*
   The reason we're exporing a class here instead of just exporting the functions directly is for the sake of testing.
-  We might want to stub out specific functions inside the multi device protocol itself but when export functions directly then it's not possible without weird hacks.
+  We might want to stub out specific functions inside the multi device protocol itself but when exporting functions directly then it's not possible without weird hacks.
 */
 // tslint:disable-next-line: no-unnecessary-class
 export class MultiDeviceProtocol {
@@ -18,14 +18,13 @@ export class MultiDeviceProtocol {
   private static lastFetch: { [device: string]: number } = {};
 
   /**
-   * Fetch pairing authorisations from the file server if needed.
-   * This shouldn't be called outside of the MultiDeviceProtocol file, it is public so it can be stubbed in tests.
+   * Fetch pairing authorisations from the file server if needed and store it in the database.
    *
    * This will fetch authorisations if:
    *  - It is not one of our device
    *  - The time since last fetch is more than refresh delay
    */
-  public static async _fetchPairingAuthorisationsIfNeeded(
+  public static async fetchPairingAuthorisationsIfNeeded(
     device: PubKey
   ): Promise<void> {
     // This return here stops an infinite loop when we get all our other devices
@@ -59,9 +58,11 @@ export class MultiDeviceProtocol {
   }
 
   /**
-   * This function shouldn't be called outside of tests!!
+   * Reset the pairing fetched cache.
+   *
+   * This will make it so the next call to `fetchPairingAuthorisationsIfNeeded` will fetch mappings from the server.
    */
-  public static _resetFetchCache() {
+  public static resetFetchCache() {
     this.lastFetch = {};
   }
 
@@ -116,7 +117,7 @@ export class MultiDeviceProtocol {
     device: PubKey | string
   ): Promise<Array<PairingAuthorisation>> {
     const pubKey = typeof device === 'string' ? new PubKey(device) : device;
-    await this._fetchPairingAuthorisationsIfNeeded(pubKey);
+    await this.fetchPairingAuthorisationsIfNeeded(pubKey);
 
     return getPairingAuthorisationsFor(pubKey.key);
   }
