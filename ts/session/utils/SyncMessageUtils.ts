@@ -4,7 +4,6 @@ import {
   getAllConversations,
   getPrimaryDeviceFor,
 } from '../../../js/modules/data';
-import { ConversationController, Whisper } from '../../window';
 
 import { ContentMessage, SyncMessage } from '../messages/outgoing';
 
@@ -32,7 +31,7 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
 
   const primaryDevice = await getPrimaryDeviceFor(thisDevice);
   const conversations = await getAllConversations({
-    ConversationCollection: Whisper.ConversationCollection,
+    ConversationCollection: window.Whisper.ConversationCollection,
   });
 
   // We are building a set of all contacts
@@ -54,7 +53,7 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
   );
 
   const seondaryContactsPromise = secondaryContactsPartial.map(async c =>
-    ConversationController.getOrCreateAndWait(
+    window.ConversationController.getOrCreateAndWait(
       c.getPrimaryDevicePubKey(),
       'private'
     )

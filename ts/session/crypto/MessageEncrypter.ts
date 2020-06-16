@@ -1,6 +1,5 @@
 import { EncryptionType } from '../types/EncryptionType';
 import { SignalService } from '../../protobuf';
-import { libloki, libsignal, Signal, textsecure } from '../../window';
 import { UserUtil } from '../../util';
 import { CipherTextObject } from '../../../libtextsecure/libsignal-protocol';
 
@@ -46,7 +45,7 @@ export async function encrypt(
   cipherText: Uint8Array;
 }> {
   const plainText = padPlainTextBuffer(plainTextBuffer);
-  const address = new libsignal.SignalProtocolAddress(device, 1);
+  const address = new window.libsignal.SignalProtocolAddress(device, 1);
 
   if (encryptionType === EncryptionType.MediumGroup) {
     // TODO: Do medium group stuff here
@@ -55,11 +54,11 @@ export async function encrypt(
 
   let innerCipherText: CipherTextObject;
   if (encryptionType === EncryptionType.SessionRequest) {
-    const cipher = new libloki.crypto.FallBackSessionCipher(address);
+    const cipher = new window.libloki.crypto.FallBackSessionCipher(address);
     innerCipherText = await cipher.encrypt(plainText.buffer);
   } else {
-    const cipher = new libsignal.SessionCipher(
-      textsecure.storage.protocol,
+    const cipher = new window.libsignal.SessionCipher(
+      window.textsecure.storage.protocol,
       address
     );
     innerCipherText = await cipher.encrypt(plainText.buffer);
@@ -85,8 +84,8 @@ async function encryptUsingSealedSender(
     senderDevice: 1,
   });
 
-  const cipher = new Signal.Metadata.SecretSessionCipher(
-    textsecure.storage.protocol
+  const cipher = new window.Signal.Metadata.SecretSessionCipher(
+    window.textsecure.storage.protocol
   );
   const cipherTextBuffer = await cipher.encrypt(
     device,

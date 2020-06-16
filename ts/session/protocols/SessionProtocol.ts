@@ -1,7 +1,6 @@
 import { SessionRequestMessage } from '../messages/outgoing';
 // import { MessageSender } from '../sending';
 import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
-import { libloki, libsignal, textsecure } from '../../window';
 import { MessageSender } from '../sending';
 import { MessageUtils } from '../utils';
 import { PubKey } from '../types';
@@ -50,9 +49,9 @@ export class SessionProtocol {
   /** Returns true if we already have a session with that device */
   public static async hasSession(pubkey: PubKey): Promise<boolean> {
     // Session does not use the concept of a deviceId, thus it's always 1
-    const address = new libsignal.SignalProtocolAddress(pubkey.key, 1);
-    const sessionCipher = new libsignal.SessionCipher(
-      textsecure.storage.protocol,
+    const address = new window.libsignal.SignalProtocolAddress(pubkey.key, 1);
+    const sessionCipher = new window.libsignal.SessionCipher(
+      window.textsecure.storage.protocol,
       address
     );
 
@@ -90,7 +89,7 @@ export class SessionProtocol {
       return;
     }
 
-    const preKeyBundle = await libloki.storage.getPreKeyBundleForContact(
+    const preKeyBundle = await window.libloki.storage.getPreKeyBundleForContact(
       pubkey.key
     );
 
@@ -102,11 +101,7 @@ export class SessionProtocol {
     try {
       await SessionProtocol.sendSessionRequest(sessionReset, pubkey);
     } catch (error) {
-      window.console.warn(
-        'Failed to send session request to:',
-        pubkey.key,
-        error
-      );
+      console.warn('Failed to send session request to:', pubkey.key, error);
     }
   }
 
