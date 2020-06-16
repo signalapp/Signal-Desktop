@@ -1,8 +1,6 @@
 import * as _ from 'lodash';
 import * as UserUtils from '../../util/user';
 import { getAllConversations } from '../../../js/modules/data';
-import { ConversationController, Whisper } from '../../window';
-
 import { ContentMessage, SyncMessage } from '../messages/outgoing';
 import { MultiDeviceProtocol } from '../protocols';
 
@@ -30,7 +28,7 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
 
   const primaryDevice = await MultiDeviceProtocol.getPrimaryDevice(thisDevice);
   const conversations = await getAllConversations({
-    ConversationCollection: Whisper.ConversationCollection,
+    ConversationCollection: window.Whisper.ConversationCollection,
   });
 
   // We are building a set of all contacts
@@ -52,7 +50,7 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
   );
 
   const seondaryContactsPromise = secondaryContactsPartial.map(async c =>
-    ConversationController.getOrCreateAndWait(
+    window.ConversationController.getOrCreateAndWait(
       c.getPrimaryDevicePubKey(),
       'private'
     )
