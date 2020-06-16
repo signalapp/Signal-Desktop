@@ -1,8 +1,7 @@
-import { ConversationController } from '../../window';
 import { PubKey } from '../types';
 
 export async function getGroupMembers(groupId: PubKey): Promise<Array<PubKey>> {
-  const groupConversation = ConversationController.get(groupId.key);
+  const groupConversation = window.ConversationController.get(groupId.key);
   const groupMembers = groupConversation
     ? groupConversation.attributes.members
     : undefined;
@@ -15,7 +14,7 @@ export async function getGroupMembers(groupId: PubKey): Promise<Array<PubKey>> {
 }
 
 export function isMediumGroup(groupId: PubKey): boolean {
-  const conversation = ConversationController.get(groupId.key);
+  const conversation = window.ConversationController.get(groupId.key);
 
   if (!conversation) {
     return false;
