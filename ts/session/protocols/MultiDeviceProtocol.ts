@@ -7,7 +7,6 @@ import {
 } from '../../../js/modules/data';
 import { PrimaryPubKey, PubKey, SecondaryPubKey } from '../types';
 import { UserUtil } from '../../util';
-import { lokiFileServerAPI } from '../../window';
 
 /*
   The reason we're exporing a class here instead of just exporting the functions directly is for the sake of testing.
@@ -75,11 +74,13 @@ export class MultiDeviceProtocol {
   public static async fetchPairingAuthorisations(
     device: PubKey
   ): Promise<Array<PairingAuthorisation>> {
-    if (!lokiFileServerAPI) {
+    if (!window.lokiFileServerAPI) {
       throw new Error('lokiFileServerAPI is not initialised.');
     }
 
-    const mapping = await lokiFileServerAPI.getUserDeviceMapping(device.key);
+    const mapping = await window.lokiFileServerAPI.getUserDeviceMapping(
+      device.key
+    );
     // TODO: Filter out invalid authorisations
 
     return mapping.authorisations.map(

@@ -1,5 +1,5 @@
 interface DeviceMappingAnnotation {
-  isPrimary: boolean;
+  isPrimary: string;
   authorisations: Array<{
     primaryDevicePubKey: string;
     secondaryDevicePubKey: string;
@@ -10,4 +10,5 @@ interface DeviceMappingAnnotation {
 
 interface LokiFileServerInstance {
   getUserDeviceMapping(pubKey: string): Promise<DeviceMappingAnnotation>;
+  clearOurDeviceMappingAnnotations(): Promise<void>;
 }

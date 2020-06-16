@@ -267,7 +267,12 @@ async function handleSecondaryDeviceFriendRequest(pubKey: string) {
   if (!c || !(await c.isFriendWithAnyDevice())) {
     return false;
   }
-  await MultiDeviceProtocol.savePairingAuthorisation(authorisation);
+  await MultiDeviceProtocol.savePairingAuthorisation({
+    primaryDevicePubKey: authorisation.primaryDevicePubKey,
+    secondaryDevicePubKey: authorisation.secondaryDevicePubKey,
+    requestSignature: Buffer.from(authorisation.requestSignature).buffer,
+    grantSignature: Buffer.from(authorisation.grantSignature).buffer,
+  });
 
   return true;
 }
