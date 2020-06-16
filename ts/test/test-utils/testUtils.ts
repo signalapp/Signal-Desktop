@@ -22,7 +22,7 @@ type DataFunction = typeof DataShape;
  * Note: This uses a custom sandbox.
  * Please call `restoreStubs()` or `stub.restore()` to restore original functionality.
  */
-export function stubData(fn: keyof DataFunction): sinon.SinonStub {
+export function stubData<K extends keyof DataFunction>(fn: K): sinon.SinonStub {
   return sandbox.stub(Data, fn);
 }
 
@@ -71,6 +71,11 @@ export function generateFakePubkey(): PubKey {
   const pubkeyString = `05${hexBuffer}`;
 
   return new PubKey(pubkeyString);
+}
+
+export function generateFakePubKeys(amount: number): Array<PubKey> {
+  // tslint:disable-next-line: no-unnecessary-callback-wrapper
+  return new Array(amount).fill(0).map(() => generateFakePubkey());
 }
 
 export function generateChatMessage(): ChatMessage {

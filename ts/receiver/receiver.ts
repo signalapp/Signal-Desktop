@@ -17,6 +17,7 @@ import { toNumber } from 'lodash';
 import { DataMessage } from '../session/messages/outgoing';
 import { MultiDeviceProtocol } from '../session/protocols';
 import { PubKey } from '../session/types';
+import { BufferUtils } from '../session/utils';
 
 export { handleEndSession, handleMediumGroupUpdate };
 
@@ -270,8 +271,11 @@ async function handleSecondaryDeviceFriendRequest(pubKey: string) {
   await MultiDeviceProtocol.savePairingAuthorisation({
     primaryDevicePubKey: authorisation.primaryDevicePubKey,
     secondaryDevicePubKey: authorisation.secondaryDevicePubKey,
-    requestSignature: Buffer.from(authorisation.requestSignature).buffer,
-    grantSignature: Buffer.from(authorisation.grantSignature).buffer,
+    requestSignature: BufferUtils.base64toUint8Array(
+      authorisation.requestSignature
+    ).buffer,
+    grantSignature: BufferUtils.base64toUint8Array(authorisation.grantSignature)
+      .buffer,
   });
 
   return true;
