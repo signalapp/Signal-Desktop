@@ -83,10 +83,10 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
     window.Whisper.events.on('refreshLinkedDeviceList', async () => {
       setTimeout(() => {
-        this.refreshLinkedDevice();
+        void this.refreshLinkedDevice();
       }, 1000);
     });
-    this.refreshLinkedDevice();
+    void this.refreshLinkedDevice();
   }
 
   public componentWillUnmount() {
