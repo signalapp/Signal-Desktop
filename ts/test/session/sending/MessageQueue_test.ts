@@ -32,11 +32,11 @@ describe('MessageQueue', () => {
   let groupMembersStub: sinon.SinonStub;
   // Session Protocol Stubs
   let hasSessionStub: sinon.SinonStub<[PubKey]>;
-  let sendSessionRequestIfNeededStub: sinon.SinonStub<[PubKey]>;
 
   let sessionRequestCalled: boolean;
 
   beforeEach(async () => {
+
     // Stub out methods which touch the database
     const storageID = 'pendingMessages';
     data = {
@@ -73,24 +73,22 @@ describe('MessageQueue', () => {
       .resolves(true);
 
     // Group Utils Stubs
-    sandbox
-      .stub(GroupUtils, 'isMediumGroup')
-      .returns(false);
+    sandbox.stub(GroupUtils, 'isMediumGroup').returns(false);
     groupMembersStub = sandbox
       .stub(GroupUtils, 'getGroupMembers' as any)
       .callsFake(async () => TestUtils.generateMemberList(10));
 
     // Session Protocol Stubs
-    // sessionRequestCalled used instead of sendSessionRequestIfNeededStub.callCount because the call couunt was not registered from methods inside the stubbed MessageQueue.
-    sendSessionRequestIfNeededStub = sandbox.stub(SessionProtocol, 'sendSessionRequestIfNeeded').callsFake(async (pubkey: PubKey) => {
-      pubkey;
-      sessionRequestCalled = true;
-    });
     sandbox.stub(SessionProtocol, 'sendSessionRequest').resolves();
     hasSessionStub = sandbox.stub(SessionProtocol, 'hasSession').resolves(true);
+    sandbox
+      .stub(SessionProtocol, 'sendSessionRequestIfNeeded').resolves();
 
     // Pending Mesage Cache Stubs
-    const chatMessages = Array.from({ length: 10 }, TestUtils.generateChatMessage);
+    const chatMessages = Array.from(
+      { length: 10 },
+      TestUtils.generateChatMessage
+    );
     const rawMessage = toRawMessage(
       TestUtils.generateFakePubkey(),
       TestUtils.generateChatMessage()
@@ -103,99 +101,108 @@ describe('MessageQueue', () => {
       .returns(TestUtils.generateMemberList(10));
     sandbox
       .stub(PendingMessageCache.prototype, 'getForDevice')
-      .returns(chatMessages.map(m => toRawMessage(TestUtils.generateFakePubkey(), m)));
+      .returns(
+        chatMessages.map(m => toRawMessage(TestUtils.generateFakePubkey(), m))
+      );
 
     messageQueueStub = new MessageQueue();
   });
 
   afterEach(() => {
-    sessionRequestCalled = false;
+    console.log('[vince] sessionRequestCalled:', sessionRequestCalled);
 
     TestUtils.restoreStubs();
     sandbox.restore();
-
   });
 
   describe('send', () => {
-    
-  })
+    it('can send to a single device', async () => {
+      const device = TestUtils.generateFakePubkey();
+      const message = TestUtils.generateChatMessage();
 
-  it('can send to a single device', async () => {
-    const device = TestUtils.generateFakePubkey();
-    const message = TestUtils.generateChatMessage();
+      const promise = messageQueueStub.send(device, message);
+      await expect(promise).to.be.fulfilled;
+    });
 
-    const promise = messageQueueStub.send(device, message);
-    await expect(promise).to.be.fulfilled;
+    it('can send sync message', async () => {
+      const devices = TestUtils.generateMemberList(3);
+      const message = TestUtils.generateChatMessage();
+
+      const promise = messageQueueStub.sendSyncMessage(message, devices);
+      expect(promise).to.be.fulfilled;
+    });
+
+    it('will send sync message if no session', async () => {
+      hasSessionStub.resolves(false);
+
+      const device = TestUtils.generateFakePubkey();
+      const promise = messageQueueStub.processPending(device);
+
+      expect(promise).to.be.fulfilled;
+
+      console.log('[vince] calledd::::', sessionRequestCalled);
+
+      expect(sessionRequestCalled).to.equal(
+        true,
+        'Session request not sent for !isMediumGroup && !hasSession'
+      );
+    });
   });
 
-  it('can send to many devices', async () => {
-    const devices = TestUtils.generateMemberList(10);
-    const message = TestUtils.generateChatMessage();
+  describe('sendUsingMultiDevice', () => {
+    it('can send using multidevice', async () => {
+      const device = TestUtils.generateFakePubkey();
+      const message = TestUtils.generateChatMessage();
 
-    const promise = messageQueueStub.sendMessageToDevices(devices, message);
-    await expect(promise).to.be.fulfilled;
+      const promise = messageQueueStub.sendUsingMultiDevice(device, message);
+      await expect(promise).to.be.fulfilled;
+    });
   });
 
-  it('can send using multidevice', async () => {
-    const device = TestUtils.generateFakePubkey();
-    const message = TestUtils.generateChatMessage();
+  describe('sendMessageToDevices', () => {
+    it('can send to many devices', async () => {
+      const devices = TestUtils.generateMemberList(10);
+      const message = TestUtils.generateChatMessage();
 
-    const promise = messageQueueStub.sendUsingMultiDevice(device, message);
-    await expect(promise).to.be.fulfilled;
-  });
+      const promise = messageQueueStub.sendMessageToDevices(devices, message);
+      await expect(promise).to.be.fulfilled;
+    });
 
-  it('can send to open group', async () => {
-    const message = TestUtils.generateOpenGroupMessage();
-    const success = await messageQueueStub.sendToGroup(message);
+    it('can send to open group', async () => {
+      const message = TestUtils.generateOpenGroupMessage();
+      const success = await messageQueueStub.sendToGroup(message);
 
-    expect(success).to.equal(true, 'sending to group failed');
-  });
+      expect(success).to.equal(true, 'sending to group failed');
+    });
 
-  it('can send to closed group', async () => {
-    const message = TestUtils.generateClosedGroupMessage();
-    const success = await messageQueueStub.sendToGroup(message);
+    it('can send to closed group', async () => {
+      const message = TestUtils.generateClosedGroupMessage();
+      const success = await messageQueueStub.sendToGroup(message);
 
-    expect(success).to.equal(true, 'sending to group failed');
-  });
+      expect(success).to.equal(true, 'sending to group failed');
+    });
 
-  it('wont send message to empty closed group', async () => {
-    groupMembersStub.callsFake(async () => TestUtils.generateMemberList(0));
+    it('wont send message to empty closed group', async () => {
+      groupMembersStub.callsFake(async () => TestUtils.generateMemberList(0));
 
-    const message = TestUtils.generateClosedGroupMessage();
-    const response = await messageQueueStub.sendToGroup(message);
+      const message = TestUtils.generateClosedGroupMessage();
+      const response = await messageQueueStub.sendToGroup(message);
 
-    expect(response).to.equal(
-      false,
-      'sendToGroup send a message to an empty group'
-    );
-  });
+      expect(response).to.equal(
+        false,
+        'sendToGroup send a message to an empty group'
+      );
+    });
 
-  it('wont send invalid message type to group', async () => {
-    // Regular chat message should return false
-    const message = TestUtils.generateChatMessage();
-    const response = await messageQueueStub.sendToGroup(message);
+    it('wont send invalid message type to group', async () => {
+      // Regular chat message should return false
+      const message = TestUtils.generateChatMessage();
+      const response = await messageQueueStub.sendToGroup(message);
 
-    expect(response).to.equal(
-      false,
-      'sendToGroup considered an invalid message type as valid'
-    );
-  });
-
-  it('will send sync message if no session', async () => {
-    hasSessionStub.resolves(false);
-
-    const device = TestUtils.generateFakePubkey();
-    const promise = messageQueueStub.processPending(device);
-
-    expect(promise).to.be.fulfilled;
-    expect(sessionRequestCalled).to.equal(true, 'Session request not sent for !isMediumGroup && !hasSession');
-  });
-
-  it('can send sync message', async () => {
-    const devices = TestUtils.generateMemberList(3);
-    const message = TestUtils.generateChatMessage();
-
-    const promise = messageQueueStub.sendSyncMessage(message, devices);
-    expect(promise).to.be.fulfilled;
+      expect(response).to.equal(
+        false,
+        'sendToGroup considered an invalid message type as valid'
+      );
+    });
   });
 });
