@@ -3,13 +3,14 @@ import Sinon, * as sinon from 'sinon';
 import { GroupUtils } from '../../../session/utils';
 import { Stubs, TestUtils } from '../../../test/test-utils';
 import { MessageQueue } from '../../../session/sending/MessageQueue';
-import { OpenGroupMessage } from '../../../session/messages/outgoing';
+import { OpenGroupMessage, ChatMessage } from '../../../session/messages/outgoing';
 import { PubKey, RawMessage } from '../../../session/types';
 import { UserUtil } from '../../../util';
 import { MessageSender } from '../../../session/sending';
 import { toRawMessage } from '../../../session/utils/Messages';
 import { SessionProtocol } from '../../../session/protocols';
 import { PendingMessageCache } from '../../../session/sending/PendingMessageCache';
+import { generateChatMessage } from '../../test-utils/testUtils';
 
 // Equivalent to Data.StorageItem
 interface StorageItem {
@@ -22,6 +23,7 @@ describe('MessageQueue', () => {
   let data: StorageItem;
   const sandbox = sinon.createSandbox();
   const ourNumber = TestUtils.generateFakePubkey().key;
+  const pairedDevices = TestUtils.generateMemberList(2).map(m => m.key);
 
   // Initialize new stubbed queue
   let messageQueueStub: MessageQueue;
@@ -71,9 +73,7 @@ describe('MessageQueue', () => {
 
     // Utils Stubs
     sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber);
-    TestUtils.stubData('getPairedDevicesFor').callsFake(async () => {
-      return TestUtils.generateMemberList(2);
-    });
+    TestUtils.stubData('getPairedDevicesFor').resolves(pairedDevices);
     TestUtils.stubWindow('libsignal', {
       SignalProtocolAddress: sandbox.stub(),
       SessionCipher: Stubs.SessionCipherStub,
@@ -170,15 +170,25 @@ describe('MessageQueue', () => {
       const message = TestUtils.generateChatMessage();
 
       const promise = messageQueueStub.sendUsingMultiDevice(device, message);
+      expect(promise).to.be.fulfilled;
 
       // Ensure the arguments passed into sendMessageToDevices are correct
       await tick();
-      const previousArgs = sendMessageToDevicesSpy.lastCall.args;
+      const previousArgs = sendMessageToDevicesSpy.lastCall.args as [Array<PubKey>, ChatMessage];
 
-      // Need to check that instances of ChatMesasge are equal
-      expect(previousArgs).to.equal({});
+      // Check that instances are equal
+      expect(previousArgs).to.have.length(2);
 
-      expect(promise).to.be.fulfilled;
+      const argsPairedDevices = previousArgs[0];
+      const argsChatMessage = previousArgs[1];
+
+      expect(argsChatMessage instanceof ChatMessage).to.equal(true, 'message passed into sendMessageToDevices was not a valid ChatMessage');
+      expect(argsChatMessage.isEqual(message)).to.equal(true, 'message passed into sendMessageToDevices has been mutated');
+
+      argsPairedDevices.forEach((argsPaired: PubKey, index: number) => {
+        expect(argsPaired instanceof PubKey).to.equal(true, 'a device passed into sendMessageToDevices was not a PubKey');
+        expect(argsPaired.key).to.equal(pairedDevices[index]);
+      });
     });
   });
 

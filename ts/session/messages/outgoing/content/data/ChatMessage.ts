@@ -153,11 +153,10 @@ export class ChatMessage extends DataMessage {
     return dataMessage;
   }
 
-  public isEqual(comparator: ChatMessage) {
+  public isEqual(comparator: ChatMessage): boolean {
     return (
       this.identifier === comparator.identifier &&
-      this.timestamp === comparator.timestamp &&
-      this.plainTextBuffer.prototype.isEqual(comparator.plainTextBuffer)
+      this.timestamp === comparator.timestamp
     );
   }
 }
