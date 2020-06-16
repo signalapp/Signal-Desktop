@@ -241,8 +241,8 @@
             window.Whisper.events.trigger('leaveGroup', this.model);
           },
 
-          onInviteFriends: () => {
-            window.Whisper.events.trigger('inviteFriends', this.model);
+          onInviteContacts: () => {
+            window.Whisper.events.trigger('inviteContacts', this.model);
           },
 
           onUpdateGroupName: () => {
@@ -312,8 +312,8 @@
             window.Whisper.events.trigger('leaveGroup', this.model);
           },
 
-          onInviteFriends: () => {
-            window.Whisper.events.trigger('inviteFriends', this.model);
+          onInviteContacts: () => {
+            window.Whisper.events.trigger('inviteContacts', this.model);
           },
           onShowLightBox: (lightBoxOptions = {}) => {
             this.showChannelLightbox(lightBoxOptions);

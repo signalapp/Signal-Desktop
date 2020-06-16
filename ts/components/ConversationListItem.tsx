@@ -117,12 +117,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderHeader() {
-    const {
-      unreadCount,
-      i18n,
-      isMe,
-      lastUpdated,
-    } = this.props;
+    const { unreadCount, i18n, isMe, lastUpdated } = this.props;
 
     return (
       <div className="module-conversation-list-item__header">
@@ -137,7 +132,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
           {isMe ? i18n('noteToSelf') : this.renderUser()}
         </div>
         {this.renderUnread()}
-        {(
+        {
           <div
             className={classNames(
               'module-conversation-list-item__header__date',
@@ -146,16 +141,16 @@ export class ConversationListItem extends React.PureComponent<Props> {
                 : null
             )}
           >
-            {(
+            {
               <Timestamp
                 timestamp={lastUpdated}
                 extended={false}
                 module="module-conversation-list-item__header__timestamp"
                 i18n={i18n}
               />
-            )}
+            }
           </div>
-        )}
+        }
       </div>
     );
   }
@@ -214,12 +209,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderMessage() {
-    const {
-      lastMessage,
-      isTyping,
-      unreadCount,
-      i18n,
-    } = this.props;
+    const { lastMessage, isTyping, unreadCount, i18n } = this.props;
 
     if (!lastMessage && !isTyping) {
       return null;

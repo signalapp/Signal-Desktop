@@ -47,8 +47,8 @@ export async function preprocessGroupMessage(
   // NOTE: we use group admins to tell if this is
   // the creation of the group (initial update)
   const groupAdminsSet =
-  conversation.get('groupAdmins') &&
-  conversation.get('groupAdmins').length > 0;
+    conversation.get('groupAdmins') &&
+    conversation.get('groupAdmins').length > 0;
   const newGroup = !groupAdminsSet;
   const knownMembers = conversation.get('members');
 

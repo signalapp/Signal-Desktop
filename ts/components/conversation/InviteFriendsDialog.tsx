@@ -8,14 +8,14 @@ import {
 } from '../session/SessionMemberListItem';
 
 interface Props {
-  friendList: Array<any>;
+  contactList: Array<any>;
   chatName: string;
   onSubmit: any;
   onClose: any;
 }
 
 interface State {
-  friendList: Array<ContactType>;
+  contactList: Array<ContactType>;
 }
 
 export class InviteFriendsDialog extends React.Component<Props, State> {
@@ -27,9 +27,9 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
     this.onClickOK = this.onClickOK.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
 
-    let friends = this.props.friendList;
+    let contacts = this.props.contactList;
 
-    friends = friends.map(d => {
+    contacts = contacts.map(d => {
       const lokiProfile = d.getLokiProfile();
       const name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
 
@@ -49,7 +49,7 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
     });
 
     this.state = {
-      friendList: friends,
+      contactList: contacts,
     };
 
     window.addEventListener('keyup', this.onKeyUp);
@@ -60,7 +60,7 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
     const cancelText = window.i18n('cancel');
     const okText = window.i18n('ok');
 
-    const hasFriends = this.state.friendList.length !== 0;
+    const hasContacts = this.state.contactList.length !== 0;
 
     return (
       <SessionModal
@@ -71,7 +71,7 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
         <div className="spacer-lg" />
 
         <div className="friend-selection-list">{this.renderMemberList()}</div>
-        {hasFriends ? null : (
+        {hasContacts ? null : (
           <>
             <div className="spacer-lg" />
             <p className="no-friends">{window.i18n('noFriendsToAdd')}</p>
@@ -85,7 +85,7 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
           <SessionButton text={cancelText} onClick={this.closeDialog} />
           <SessionButton
             text={okText}
-            disabled={!hasFriends}
+            disabled={!hasContacts}
             onClick={this.onClickOK}
           />
         </div>
@@ -94,19 +94,19 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
   }
 
   private onClickOK() {
-    const selectedFriends = this.state.friendList
+    const selectedContacts = this.state.contactList
       .filter(d => d.checkmarked)
       .map(d => d.id);
 
-    if (selectedFriends.length > 0) {
-      this.props.onSubmit(selectedFriends);
+    if (selectedContacts.length > 0) {
+      this.props.onSubmit(selectedContacts);
     }
 
     this.closeDialog();
   }
 
   private renderMemberList() {
-    const members = this.state.friendList;
+    const members = this.state.contactList;
 
     return members.map((member: ContactType, index: number) => (
       <SessionMemberListItem
@@ -138,7 +138,7 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
   }
 
   private onMemberClicked(clickedMember: ContactType) {
-    const updatedFriends = this.state.friendList.map(member => {
+    const updatedContacts = this.state.contactList.map(member => {
       if (member.id === clickedMember.id) {
         return { ...member, checkmarked: !member.checkmarked };
       } else {
@@ -149,7 +149,7 @@ export class InviteFriendsDialog extends React.Component<Props, State> {
     this.setState(state => {
       return {
         ...state,
-        friendList: updatedFriends,
+        contactList: updatedContacts,
       };
     });
   }

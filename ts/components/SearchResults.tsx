@@ -12,7 +12,6 @@ import { LocalizerType } from '../types/Util';
 
 export type PropsData = {
   contacts: Array<ConversationListItemPropsType>;
-  friends: Array<ConversationListItemPropsType>;
   conversations: Array<ConversationListItemPropsType>;
   hideMessagesHeader: boolean;
   messages: Array<MessageSearchResultPropsType>;

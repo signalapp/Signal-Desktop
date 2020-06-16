@@ -124,10 +124,7 @@ export const _getLeftPaneLists = (
       allContacts.push(conversation);
     }
 
-    if (
-      unreadCount < 9 &&
-      conversation.unreadCount > 0
-    ) {
+    if (unreadCount < 9 && conversation.unreadCount > 0) {
       unreadCount += conversation.unreadCount;
     }
 

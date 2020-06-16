@@ -315,9 +315,15 @@
       // We don't send typing messages if the setting is disabled or we do not have a session
       // or we blocked that user
       const devicePubkey = new libsession.Types.PubKey(this.id);
-      const hasSession = await libsession.Protocols.SessionProtocol.hasSession(devicePubkey);
+      const hasSession = await libsession.Protocols.SessionProtocol.hasSession(
+        devicePubkey
+      );
 
-      if (!storage.get('typing-indicators-setting') || !hasSession || this.isBlocked()) {
+      if (
+        !storage.get('typing-indicators-setting') ||
+        !hasSession ||
+        this.isBlocked()
+      ) {
         return;
       }
 
@@ -747,7 +753,6 @@
       // otherwise, enable the input and set default placeholder
       this.trigger('disable:input', false);
       this.trigger('change:placeholder', 'chat');
-
     },
     isSecondaryDevice() {
       return !!this.get('secondaryStatus');
@@ -1399,10 +1404,7 @@
       await serverAPI.setAvatar(url, profileKey);
     },
 
-    async handleMessageSendResult({
-      failoverNumbers,
-      unidentifiedDeliveries,
-    }) {
+    async handleMessageSendResult({ failoverNumbers, unidentifiedDeliveries }) {
       await Promise.all(
         (failoverNumbers || []).map(async number => {
           const conversation = ConversationController.get(number);
@@ -2009,7 +2011,9 @@
       read = read.filter(item => !item.hasErrors);
 
       const devicePubkey = new libsession.Types.PubKey(this.id);
-      const hasSession = await libsession.Protocols.SessionProtocol.hasSession(devicePubkey);
+      const hasSession = await libsession.Protocols.SessionProtocol.hasSession(
+        devicePubkey
+      );
       if (hasSession) {
         return;
       }

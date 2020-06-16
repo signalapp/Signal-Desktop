@@ -126,10 +126,7 @@ export class ActionsPanel extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-    const {
-      selectedSection,
-      unreadMessageCount,
-    } = this.props;
+    const { selectedSection, unreadMessageCount } = this.props;
 
     const isProfilePageSelected = selectedSection === SectionType.Profile;
     const isMessagePageSelected = selectedSection === SectionType.Message;

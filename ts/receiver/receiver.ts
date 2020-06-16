@@ -66,7 +66,6 @@ function initIncomingMessage(data: MessageCreationData): MessageModel {
     isRss, // +
   };
 
-
   return new window.Whisper.Message(messageData);
 }
 
@@ -216,7 +215,6 @@ async function isMessageDuplicate({
     return false;
   }
 }
-
 
 function getEnvelopeId(envelope: EnvelopePlus) {
   if (envelope.source) {
@@ -594,6 +592,8 @@ export async function handleMessageEvent(event: any): Promise<void> {
   source = source || msg.get('source');
 
   const isDuplicate = await isMessageDuplicate(data);
+
+  const testNb: number = 3.1545;
 
   if (isDuplicate) {
     // RSS expects duplicates, so squelch log

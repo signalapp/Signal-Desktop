@@ -89,7 +89,7 @@ interface Props {
   onLeaveGroup: () => void;
   onAddModerators: () => void;
   onRemoveModerators: () => void;
-  onInviteFriends: () => void;
+  onInviteContacts: () => void;
   onAvatarClick?: (userPubKey: string) => void;
   onUpdateGroupName: () => void;
 
@@ -300,7 +300,7 @@ export class ConversationHeader extends React.Component<Props> {
       onLeaveGroup,
       onAddModerators,
       onRemoveModerators,
-      onInviteFriends,
+      onInviteContacts,
       onUpdateGroupName,
     } = this.props;
 
@@ -333,7 +333,9 @@ export class ConversationHeader extends React.Component<Props> {
         ) : null}
         {/* TODO: add delete group */}
         {isGroup && isPublic ? (
-          <MenuItem onClick={onInviteFriends}>{i18n('inviteFriends')}</MenuItem>
+          <MenuItem onClick={onInviteContacts}>
+            {i18n('inviteContacts')}
+          </MenuItem>
         ) : null}
         {!isMe && isClosable && !isPrivateGroup ? (
           !isPublic ? (

@@ -6,7 +6,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  Whisper.InviteFriendsDialogView = Whisper.View.extend({
+  Whisper.InviteContactsDialogView = Whisper.View.extend({
     className: 'loki-dialog modal',
     initialize(convo) {
       this.close = this.close.bind(this);
@@ -14,9 +14,7 @@
 
       const convos = window.getConversations().models;
 
-      this.contacts = convos.filter(
-        d => !!d && d.isPrivate() && !d.isMe()
-      );
+      this.contacts = convos.filter(d => !!d && d.isPrivate() && !d.isMe());
       if (!convo.isPublic()) {
         const members = convo.get('members') || [];
         this.contacts = this.contacts.filter(d => !members.includes(d.id));
@@ -36,7 +34,7 @@
         className: 'invite-friends-dialog',
         Component: window.Signal.Components.InviteFriendsDialog,
         props: {
-          friendList: this.contacts,
+          contactList: this.contacts,
           onSubmit: this.submit,
           onClose: this.close,
           chatName: this.chatName,

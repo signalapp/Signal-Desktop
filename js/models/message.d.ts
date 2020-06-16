@@ -1,4 +1,3 @@
-
 type MessageModelType = 'incoming' | 'outgoing';
 export type EndSessionType = 'done' | 'ongoing';
 

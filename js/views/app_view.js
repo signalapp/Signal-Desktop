@@ -259,8 +259,8 @@
         resolve: () => ConversationController.deleteContact(groupConvo.id),
       });
     },
-    showInviteFriendsDialog(groupConvo) {
-      const dialog = new Whisper.InviteFriendsDialogView(groupConvo);
+    showInviteContactsDialog(groupConvo) {
+      const dialog = new Whisper.InviteContactsDialogView(groupConvo);
       this.el.append(dialog.el);
     },
     showAddModeratorsDialog(groupConvo) {

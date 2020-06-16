@@ -120,7 +120,7 @@ class LokiRssAPI extends EventEmitter {
 
       // if we use group style, we can put the title in the source
       const messageData = {
-        friendRequest: false,
+        isSessionRequest: false,
         source: this.groupId,
         sourceDevice: 1,
         timestamp: pubDate.getTime(),

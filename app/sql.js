@@ -469,6 +469,7 @@ async function updateToSchemaVersion6(currentVersion, instance) {
   console.log('updateToSchemaVersion6: starting...');
   await instance.run('BEGIN TRANSACTION;');
 
+  // friendRequestStatus is no longer needed. So no need to add the column on new apps
   // await instance.run(
   //   `ALTER TABLE conversations
   //    ADD COLUMN friendRequestStatus INTEGER;`
@@ -2014,7 +2015,6 @@ async function getAllConversations() {
   );
   return map(rows, row => jsonToObject(row.json));
 }
-
 
 async function getAllConversationIds() {
   const rows = await db.all(

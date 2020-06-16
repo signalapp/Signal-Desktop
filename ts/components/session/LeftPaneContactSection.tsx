@@ -107,7 +107,6 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     );
   }
 
-
   public renderRow = ({
     index,
     key,
@@ -188,7 +187,6 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
       showAddContactView: !prevState.showAddContactView,
     }));
   }
-
 
   private handleOnAddContact() {
     const sessionID = this.state.addContactRecipientID.trim();

@@ -25,7 +25,6 @@ interface WindowInterface extends Window {
   clearLocalData: any;
   getAccountManager: any;
   getConversations: any;
-  getFriendsFromContacts: any;
   mnemonic: any;
   clipboard: any;
   attemptConnection: any;
@@ -49,7 +48,6 @@ interface WindowInterface extends Window {
   Session: any;
   log: any;
   i18n: LocalizerType;
-  friends: any;
   generateID: any;
   storage: any;
   pushToast: any;
@@ -106,7 +104,6 @@ export const lokiFeatureFlags = window.lokiFeatureFlags;
 // Getters
 export const getAccountManager = window.getAccountManager;
 export const getConversations = window.getConversations;
-export const getFriendsFromContacts = window.getFriendsFromContacts;
 export const getSettingValue = window.getSettingValue;
 
 // Setters

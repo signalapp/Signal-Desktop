@@ -8,12 +8,10 @@
   const DebugFlagsEnum = {
     GROUP_SYNC_MESSAGES: 1,
     CONTACT_SYNC_MESSAGES: 2,
-    AUTO_FRIEND_REQUEST_MESSAGES: 4,
     SESSION_REQUEST_MESSAGES: 8,
     SESSION_MESSAGE_SENDING: 16,
     SESSION_BACKGROUND_MESSAGE: 32,
     GROUP_REQUEST_INFO: 64,
-    NORMAL_FRIEND_REQUEST_MESSAGES: 128,
     // If you add any new flag, be sure it is bitwise safe! (unique and 2 multiples)
     ALL: 65535,
   };
@@ -46,18 +44,6 @@
 
   function logContactSync(...args) {
     if (debugFlags & DebugFlagsEnum.CONTACT_SYNC_MESSAGES) {
-      debugLogFn(...args);
-    }
-  }
-
-  function logAutoFriendRequest(...args) {
-    if (debugFlags & DebugFlagsEnum.AUTO_FRIEND_REQUEST_MESSAGES) {
-      debugLogFn(...args);
-    }
-  }
-
-  function logNormalFriendRequest(...args) {
-    if (debugFlags & DebugFlagsEnum.NORMAL_FRIEND_REQUEST_MESSAGES) {
       debugLogFn(...args);
     }
   }
@@ -304,12 +290,10 @@
   const debug = {
     logContactSync,
     logGroupSync,
-    logAutoFriendRequest,
     logSessionRequest,
     logSessionMessageSending,
     logBackgroundMessage,
     logGroupRequestInfo,
-    logNormalFriendRequest,
   };
 
   window.libloki.api = {

@@ -1177,7 +1177,6 @@ MessageSender.prototype = {
       throw error;
     };
 
-
     // The actual deletion of the session now happens later
     // as we need to ensure the other contact has successfully
     // switch to a new session first.

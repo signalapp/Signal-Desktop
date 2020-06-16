@@ -23,11 +23,7 @@
 
       // private friends (not you) that aren't already moderators
       const contacts = convos.filter(
-        d =>
-          !!d &&
-          d.isPrivate() &&
-          !d.isMe() &&
-          !modPubKeys.includes(d.id)
+        d => !!d && d.isPrivate() && !d.isMe() && !modPubKeys.includes(d.id)
       );
 
       this.contacts = contacts;
@@ -40,7 +36,7 @@
         className: 'add-moderators-dialog',
         Component: window.Signal.Components.AddModeratorsDialog,
         props: {
-          friendList: this.contacts,
+          contactList: this.contacts,
           chatName: this.chatName,
           onSubmit: this.onSubmit,
           onClose: this.close,

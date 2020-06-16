@@ -16,9 +16,7 @@
 
       const convos = window.getConversations().models;
 
-      let allMembers = convos.filter(
-        d => !!d && d.isPrivate() && !d.isMe()
-      );
+      let allMembers = convos.filter(d => !!d && d.isPrivate() && !d.isMe());
       allMembers = _.uniq(allMembers, true, d => d.id);
 
       this.membersToShow = allMembers;
@@ -34,7 +32,7 @@
           titleText: this.titleText,
           okText: this.okText,
           cancelText: this.cancelText,
-          friendList: this.membersToShow,
+          contactList: this.membersToShow,
           onClose: this.close,
         },
       });
@@ -130,8 +128,8 @@
         this.isAdmin = groupConvo.isModerator(
           window.storage.get('primaryDevicePubKey')
         );
-        // zero out friendList for now
-        this.friendsAndMembers = [];
+        // zero out contactList for now
+        this.contactsAndMembers = [];
         this.existingMembers = [];
       } else {
         this.titleText = i18n('updateGroupDialogTitle');
@@ -140,11 +138,11 @@
 
         this.existingMembers = groupConvo.get('members') || [];
         // Show a contact if they are our friend or if they are a member
-        this.friendsAndMembers = convos.filter(
+        this.contactsAndMembers = convos.filter(
           d => this.existingMembers.includes(d.id) && d.isPrivate() && !d.isMe()
         );
-        this.friendsAndMembers = _.uniq(
-          this.friendsAndMembers,
+        this.contactsAndMembers = _.uniq(
+          this.contactsAndMembers,
           true,
           d => d.id
         );
@@ -168,7 +166,7 @@
           cancelText: i18n('cancel'),
           isPublic: this.isPublic,
           existingMembers: this.existingMembers,
-          friendList: this.friendsAndMembers,
+          contactList: this.contactsAndMembers,
           isAdmin: this.isAdmin,
           onClose: this.close,
           onSubmit: this.onSubmit,

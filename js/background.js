@@ -1177,9 +1177,9 @@
       }
     });
 
-    Whisper.events.on('inviteFriends', async groupConvo => {
+    Whisper.events.on('inviteContacts', async groupConvo => {
       if (appView) {
-        appView.showInviteFriendsDialog(groupConvo);
+        appView.showInviteContactsDialog(groupConvo);
       }
     });
 

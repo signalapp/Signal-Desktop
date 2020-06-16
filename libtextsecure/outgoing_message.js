@@ -106,9 +106,6 @@ function getStaleDeviceIdsForNumber(number) {
 }
 
 const DebugMessageType = {
-  AUTO_FR_REQUEST: 'auto-friend-request',
-  AUTO_FR_ACCEPT: 'auto-friend-accept',
-
   SESSION_REQUEST: 'session-request',
   SESSION_REQUEST_ACCEPT: 'session-request-accepted',
 
@@ -357,8 +354,6 @@ OutgoingMessage.prototype = {
     const updatedDevices = await getStaleDeviceIdsForNumber(devicePubKey);
     const keysFound = await this.getKeysForNumber(devicePubKey, updatedDevices);
 
-
-
     // Check if we need to attach the preKeys
     const enableFallBackEncryption =
       !keysFound || this.messageType === 'session-request';
@@ -580,7 +575,7 @@ OutgoingMessage.prototype = {
       if (!outgoingObject) {
         return;
       }
-      const { pubKey: destination, ttl, isSessionRequest } = outgoingObject;
+      const { pubKey: destination, ttl } = outgoingObject;
 
       try {
         const socketMessage = wrapInWebsocketMessage(
