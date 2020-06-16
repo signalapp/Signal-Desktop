@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import * as UserUtil from '../../util/user';
+import { UserUtil } from '../../util';
 import {
   getAllConversations,
   getPrimaryDeviceFor,

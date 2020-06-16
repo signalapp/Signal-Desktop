@@ -3,13 +3,6 @@ import * as sinon from 'sinon';
 import { GroupUtils } from '../../../session/utils';
 import { Stubs, TestUtils } from '../../../test/test-utils';
 import { MessageQueue } from '../../../session/sending/MessageQueue';
-import {
-  generateChatMessage,
-  generateClosedGroupMessage,
-  generateFakePubkey,
-  generateMemberList,
-  generateOpenGroupMessage,
-} from '../../test-utils/testUtils';
 import { OpenGroupMessage } from '../../../session/messages/outgoing';
 import { PubKey, RawMessage } from '../../../session/types';
 import { UserUtil } from '../../../util';
@@ -28,10 +21,7 @@ describe('MessageQueue', () => {
   // Initialize new stubbed cache
   let data: StorageItem;
   const sandbox = sinon.createSandbox();
-  const ourNumber = generateFakePubkey().key;
-
-  // Keep track of Session Requests in each test
-  let sessionRequestSent: boolean;
+  const ourNumber = TestUtils.generateFakePubkey().key;
 
   // Initialize new stubbed cache
   let messageQueueStub: MessageQueue;
@@ -39,10 +29,12 @@ describe('MessageQueue', () => {
   let sendStub: sinon.SinonStub<[RawMessage, (number | undefined)?]>;
   let sendToOpenGroupStub: sinon.SinonStub<[OpenGroupMessage]>;
   // Group Utils Stubs
-  let isMediumGroupStub: sinon.SinonStub<[PubKey], boolean>;
   let groupMembersStub: sinon.SinonStub;
   // Session Protocol Stubs
-  let hasSessionStub: sinon.SinonStub<[PubKey], Promise<boolean>>;
+  let hasSessionStub: sinon.SinonStub<[PubKey]>;
+  let sendSessionRequestIfNeededStub: sinon.SinonStub<[PubKey]>;
+
+  let sessionRequestCalled: boolean;
 
   beforeEach(async () => {
     // Stub out methods which touch the database
@@ -67,7 +59,7 @@ describe('MessageQueue', () => {
     // Utils Stubs
     sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber);
     TestUtils.stubData('getPairedDevicesFor').callsFake(async () => {
-      return generateMemberList(2);
+      return TestUtils.generateMemberList(2);
     });
     TestUtils.stubWindow('libsignal', {
       SignalProtocolAddress: sandbox.stub(),
@@ -81,89 +73,95 @@ describe('MessageQueue', () => {
       .resolves(true);
 
     // Group Utils Stubs
-    isMediumGroupStub = sandbox
+    sandbox
       .stub(GroupUtils, 'isMediumGroup')
-      .resolves(false);
+      .returns(false);
     groupMembersStub = sandbox
       .stub(GroupUtils, 'getGroupMembers' as any)
-      .callsFake(async () => generateMemberList(10));
+      .callsFake(async () => TestUtils.generateMemberList(10));
 
     // Session Protocol Stubs
-    hasSessionStub = sandbox.stub(SessionProtocol, 'hasSession').resolves(true);
+    // sessionRequestCalled used instead of sendSessionRequestIfNeededStub.callCount because the call couunt was not registered from methods inside the stubbed MessageQueue.
+    sendSessionRequestIfNeededStub = sandbox.stub(SessionProtocol, 'sendSessionRequestIfNeeded').callsFake(async (pubkey: PubKey) => {
+      pubkey;
+      sessionRequestCalled = true;
+    });
     sandbox.stub(SessionProtocol, 'sendSessionRequest').resolves();
-    sandbox
-      .stub(SessionProtocol, 'sendSessionRequestIfNeeded')
-      .callsFake(async (pubkey: PubKey) => {
-        pubkey;
-        sessionRequestSent = true;
-      });
+    hasSessionStub = sandbox.stub(SessionProtocol, 'hasSession').resolves(true);
 
     // Pending Mesage Cache Stubs
-    const chatMessages = Array.from({ length: 10 }, generateChatMessage);
+    const chatMessages = Array.from({ length: 10 }, TestUtils.generateChatMessage);
     const rawMessage = toRawMessage(
-      generateFakePubkey(),
-      generateChatMessage()
+      TestUtils.generateFakePubkey(),
+      TestUtils.generateChatMessage()
     );
 
     sandbox.stub(PendingMessageCache.prototype, 'add').resolves(rawMessage);
     sandbox.stub(PendingMessageCache.prototype, 'remove').resolves();
     sandbox
       .stub(PendingMessageCache.prototype, 'getDevices')
-      .returns(generateMemberList(10));
+      .returns(TestUtils.generateMemberList(10));
     sandbox
       .stub(PendingMessageCache.prototype, 'getForDevice')
-      .returns(chatMessages.map(m => toRawMessage(generateFakePubkey(), m)));
+      .returns(chatMessages.map(m => toRawMessage(TestUtils.generateFakePubkey(), m)));
 
     messageQueueStub = new MessageQueue();
   });
 
   afterEach(() => {
+    sessionRequestCalled = false;
+
     TestUtils.restoreStubs();
     sandbox.restore();
+
   });
 
+  describe('send', () => {
+    
+  })
+
   it('can send to a single device', async () => {
-    const device = generateFakePubkey();
-    const message = generateChatMessage();
+    const device = TestUtils.generateFakePubkey();
+    const message = TestUtils.generateChatMessage();
 
     const promise = messageQueueStub.send(device, message);
     await expect(promise).to.be.fulfilled;
   });
 
   it('can send to many devices', async () => {
-    const devices = generateMemberList(10);
-    const message = generateChatMessage();
+    const devices = TestUtils.generateMemberList(10);
+    const message = TestUtils.generateChatMessage();
 
     const promise = messageQueueStub.sendMessageToDevices(devices, message);
     await expect(promise).to.be.fulfilled;
   });
 
   it('can send using multidevice', async () => {
-    const device = generateFakePubkey();
-    const message = generateChatMessage();
+    const device = TestUtils.generateFakePubkey();
+    const message = TestUtils.generateChatMessage();
 
     const promise = messageQueueStub.sendUsingMultiDevice(device, message);
     await expect(promise).to.be.fulfilled;
   });
 
   it('can send to open group', async () => {
-    const message = generateOpenGroupMessage();
+    const message = TestUtils.generateOpenGroupMessage();
     const success = await messageQueueStub.sendToGroup(message);
 
     expect(success).to.equal(true, 'sending to group failed');
   });
 
   it('can send to closed group', async () => {
-    const message = generateClosedGroupMessage();
+    const message = TestUtils.generateClosedGroupMessage();
     const success = await messageQueueStub.sendToGroup(message);
 
     expect(success).to.equal(true, 'sending to group failed');
   });
 
-  it('wont send message to empty group', async () => {
-    groupMembersStub.callsFake(async () => generateMemberList(0));
+  it('wont send message to empty closed group', async () => {
+    groupMembersStub.callsFake(async () => TestUtils.generateMemberList(0));
 
-    const message = generateClosedGroupMessage();
+    const message = TestUtils.generateClosedGroupMessage();
     const response = await messageQueueStub.sendToGroup(message);
 
     expect(response).to.equal(
@@ -174,7 +172,7 @@ describe('MessageQueue', () => {
 
   it('wont send invalid message type to group', async () => {
     // Regular chat message should return false
-    const message = generateChatMessage();
+    const message = TestUtils.generateChatMessage();
     const response = await messageQueueStub.sendToGroup(message);
 
     expect(response).to.equal(
@@ -186,15 +184,16 @@ describe('MessageQueue', () => {
   it('will send sync message if no session', async () => {
     hasSessionStub.resolves(false);
 
-    const device = generateFakePubkey();
+    const device = TestUtils.generateFakePubkey();
     const promise = messageQueueStub.processPending(device);
 
     expect(promise).to.be.fulfilled;
+    expect(sessionRequestCalled).to.equal(true, 'Session request not sent for !isMediumGroup && !hasSession');
   });
 
   it('can send sync message', async () => {
-    const devices = generateMemberList(3);
-    const message = generateChatMessage();
+    const devices = TestUtils.generateMemberList(3);
+    const message = TestUtils.generateChatMessage();
 
     const promise = messageQueueStub.sendSyncMessage(message, devices);
     expect(promise).to.be.fulfilled;
