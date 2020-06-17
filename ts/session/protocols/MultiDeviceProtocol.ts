@@ -192,4 +192,31 @@ export class MultiDeviceProtocol {
       .map(a => a.secondaryDevicePubKey)
       .map(pubKey => new SecondaryPubKey(pubKey));
   }
+
+  /**
+   * Get all devices linked to the current user.
+   */
+  public static async getOurDevices(): Promise<Array<PubKey>> {
+    const ourPubKey = await UserUtil.getCurrentDevicePubKey();
+    if (!ourPubKey) {
+      throw new Error('Public key not set.');
+    }
+
+    return this.getAllDevices(ourPubKey);
+  }
+
+  /**
+   * Check if the given device is one of our own.
+   * @param device The device to check.
+   */
+  public static async isOurDevice(device: PubKey | string): Promise<boolean> {
+    const pubKey = typeof device === 'string' ? new PubKey(device) : device;
+    try {
+      const ourDevices = await this.getOurDevices();
+
+      return ourDevices.some(d => PubKey.isEqual(d, pubKey));
+    } catch (e) {
+      return false;
+    }
+  }
 }

@@ -211,11 +211,9 @@
         return true;
       }
 
-      const ourDevices = await window.libsession.Protocols.MultiDeviceProtocol.getAllDevices(
-        this.ourNumber
+      return window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+        this.id
       );
-
-      return ourDevices.some(device => device.key === this.id);
     },
     isOurLocalDevice() {
       return this.id === this.ourNumber;
