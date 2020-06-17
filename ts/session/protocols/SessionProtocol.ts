@@ -17,7 +17,7 @@ export class SessionProtocol {
    * This map should not be used directly, but instead through
    * `updateSendSessionTimestamp()`, or `hasSendSessionRequest()`
    */
-  private static sentSessionsTimestamp: StringToNumberMap;
+  private static sentSessionsTimestamp: StringToNumberMap = {};
 
   /**
    * This map olds the processed session timestamps, i.e. when we received a session request and handled it.
@@ -25,7 +25,7 @@ export class SessionProtocol {
    * This map should not be used directly, but instead through
    * `updateProcessedSessionTimestamp()`, `getProcessedSessionRequest()` or `hasProcessedSessionRequest()`
    */
-  private static processedSessionsTimestamp: StringToNumberMap;
+  private static processedSessionsTimestamp: StringToNumberMap = {};
 
   /**
    * This map olds the timestamp on which a sent session reset is triggered for a specific device.
@@ -268,34 +268,20 @@ export class SessionProtocol {
     }
   }
 
-  /**
-   * This is a utility function to avoid duplicate code between `getProcessedSessionRequest()` and `getSentSessionRequest()`
-   */
-  private static async getSessionRequest(
-    device: string,
-    map: StringToNumberMap
-  ): Promise<number | undefined> {
-    await SessionProtocol.fetchFromDBIfNeeded();
-
-    return map[device];
-  }
-
   private static async getSentSessionRequest(
     device: string
   ): Promise<number | undefined> {
-    return SessionProtocol.getSessionRequest(
-      device,
-      SessionProtocol.sentSessionsTimestamp
-    );
+    await SessionProtocol.fetchFromDBIfNeeded();
+
+    return SessionProtocol.sentSessionsTimestamp[device];
   }
 
   private static async getProcessedSessionRequest(
     device: string
   ): Promise<number | undefined> {
-    return SessionProtocol.getSessionRequest(
-      device,
-      SessionProtocol.processedSessionsTimestamp
-    );
+    await SessionProtocol.fetchFromDBIfNeeded();
+
+    return SessionProtocol.processedSessionsTimestamp[device];
   }
 
   private static async hasAlreadySentSessionRequest(

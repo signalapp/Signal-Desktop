@@ -12,10 +12,8 @@ interface ConversationAttributes {
 
 export interface ConversationModel
   extends Backbone.Model<ConversationAttributes> {
-  setFriendRequestStatus: (status: any) => Promise<void>;
   idForLogging: () => string;
   saveChangesToDB: () => Promise<void>;
-  notifyFriendRequest: (source: string, type: string) => Promise<void>;
   notify: (message: MessageModel) => void;
   isSessionResetReceived: () => boolean;
   updateExpirationTimer: (
@@ -30,10 +28,6 @@ export interface ConversationModel
   getRecipients: () => Array<string>;
   onReadMessage: (message: MessageModel) => void;
   updateTextInputState: () => void;
-  isFriend: () => boolean;
-  hasSentFriendRequest: () => boolean;
-  onFriendRequestAccepted: () => Promise<void>;
-  onFriendRequestReceived: () => Promise<void>;
 
   lastMessage: string;
 }

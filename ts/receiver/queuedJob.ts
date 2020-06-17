@@ -366,56 +366,6 @@ function handleSyncDeliveryReceipts(message: MessageModel, receipts: any) {
   });
 }
 
-async function handleFriendRequest(
-  message: MessageModel,
-  source: string,
-  primarySource: string,
-  sendingDeviceConversation: ConversationModel
-) {
-  if (message.isFriendRequest()) {
-    /*
-        Here is the before and after state diagram for the operation before.
-
-        None -> RequestReceived
-        PendingSend -> RequestReceived
-        RequestReceived -> RequestReceived
-        Sent -> Friends
-        Expired -> Friends
-        Friends -> Friends
-
-        The cases where we auto accept are the following:
-          - We sent the user a friend request,
-            and that user sent us a friend request.
-          - We are friends with the user,
-            and that user just sent us a friend request.
-        */
-
-    const isFriend = sendingDeviceConversation.isFriend();
-    const hasSentFriendRequest = sendingDeviceConversation.hasSentFriendRequest();
-    const autoAccept = isFriend || hasSentFriendRequest;
-
-    if (autoAccept) {
-      message.set({ friendStatus: 'accepted' });
-    }
-
-    window.libloki.api.debug.logNormalFriendRequest(
-      `Received a NORMAL_FRIEND_REQUEST from source: ${source}, primarySource: ${primarySource}, isAlreadyFriend: ${isFriend}, didWeAlreadySentFR: ${hasSentFriendRequest}`
-    );
-
-    if (isFriend) {
-      // Why end session here?
-      window.Whisper.events.trigger('endSession', source);
-    } else if (hasSentFriendRequest) {
-      await sendingDeviceConversation.onFriendRequestAccepted();
-    } else {
-      await sendingDeviceConversation.onFriendRequestReceived();
-    }
-  } else if (message.get('type') === 'incoming') {
-    // Responses to a FR will be handled here:
-    await sendingDeviceConversation.onFriendRequestAccepted();
-  }
-}
-
 async function handleRegularMessage(
   conversation: ConversationModel,
   message: MessageModel,
@@ -487,7 +437,7 @@ async function handleRegularMessage(
 
   handleMentions(message, conversation, ourNumber);
 
-  if (type === 'incoming' || type === 'friend-request') {
+  if (type === 'incoming') {
     updateReadStatus(message, conversation);
   }
 
@@ -517,18 +467,6 @@ async function handleRegularMessage(
       conversation,
       sendingDeviceConversation,
       dataMessage.profileKey
-    );
-  }
-
-  // Make sure friend request logic doesn't trigger on messages aimed at groups
-  if (!isGroupMessage) {
-    // We already handled (and returned) session request and auto Friend Request before,
-    // so that can only be a normal Friend Request
-    await handleFriendRequest(
-      message,
-      source,
-      primarySource,
-      sendingDeviceConversation
     );
   }
 
@@ -652,23 +590,8 @@ export async function handleMessageJob(
       );
     }
 
-    const sendingDeviceConversation = await ConversationController.getOrCreateAndWait(
-      source,
-      'private'
-    );
-
-    const isFriend = sendingDeviceConversation.isFriend();
-    const hasSentFriendRequest = sendingDeviceConversation.hasSentFriendRequest();
-    const autoAccept =
-      message.isFriendRequest() && (isFriend || hasSentFriendRequest);
-
     if (message.get('unread')) {
-      // Need to do this here because the conversation has already changed states
-      if (autoAccept) {
-        await conversation.notifyFriendRequest(source, 'accepted');
-      } else {
-        conversation.notify(message);
-      }
+      conversation.notify(message);
     }
 
     confirm();

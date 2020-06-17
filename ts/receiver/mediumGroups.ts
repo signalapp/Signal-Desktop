@@ -140,10 +140,6 @@ async function handleNewGroup(envelope: EnvelopePlus, groupUpdate: any) {
     convo.set('name', groupName);
     convo.set('groupAdmins', admins);
 
-    convo.setFriendRequestStatus(
-      window.friends.friendRequestStatusEnum.friends
-    );
-
     const secretKeyHex = StringView.arrayBufferToHex(
       groupSecretKey.toArrayBuffer()
     );

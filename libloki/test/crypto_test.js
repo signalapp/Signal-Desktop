@@ -24,7 +24,7 @@ describe('Crypto', () => {
       const { type } = await fallbackCipher.encrypt(buffer);
       assert.strictEqual(
         type,
-        textsecure.protobuf.Envelope.Type.FRIEND_REQUEST
+        textsecure.protobuf.Envelope.Type.SESSION_REQUEST
       );
     });
 

@@ -28,7 +28,6 @@ interface MessageCreationData {
   receivedAt: number;
   sourceDevice: number; // always 1 isn't it?
   unidentifiedDeliveryReceived: any; // ???
-  friendRequest: boolean;
   isRss: boolean;
   source: boolean;
   serverId: string;
@@ -46,13 +45,12 @@ function initIncomingMessage(data: MessageCreationData): MessageModel {
     receivedAt,
     sourceDevice,
     unidentifiedDeliveryReceived,
-    friendRequest,
     isRss,
     source,
     serverId,
   } = data;
 
-  const type = friendRequest ? 'friend-request' : 'incoming';
+  const type = 'incoming';
 
   const messageData: any = {
     source,
@@ -68,10 +66,6 @@ function initIncomingMessage(data: MessageCreationData): MessageModel {
     isPublic, // +
     isRss, // +
   };
-
-  if (friendRequest) {
-    messageData.friendStatus = 'pending';
-  }
 
   return new window.Whisper.Message(messageData);
 }
@@ -221,95 +215,6 @@ async function isMessageDuplicate({
     window.log.error('isMessageDuplicate error:', Errors.toLogFormat(error));
     return false;
   }
-}
-
-async function handleSessionRequest(source: string) {
-  await window.libloki.api.sendSessionEstablishedMessage(source);
-}
-
-async function handleSecondaryDeviceFriendRequest(pubKey: string) {
-  // fetch the device mapping from the server
-  const deviceMapping = await window.lokiFileServerAPI.getUserDeviceMapping(
-    pubKey
-  );
-  if (!deviceMapping) {
-    return false;
-  }
-  // Only handle secondary pubkeys
-  if (deviceMapping.isPrimary === '1' || !deviceMapping.authorisations) {
-    return false;
-  }
-  const { authorisations } = deviceMapping;
-  // Secondary devices should only have 1 authorisation from a primary device
-  if (authorisations.length !== 1) {
-    return false;
-  }
-  const authorisation = authorisations[0];
-  if (!authorisation) {
-    return false;
-  }
-  if (!authorisation.grantSignature) {
-    return false;
-  }
-  const isValid = await window.libloki.crypto.validateAuthorisation(
-    authorisation
-  );
-  if (!isValid) {
-    return false;
-  }
-  const correctSender = pubKey === authorisation.secondaryDevicePubKey;
-  if (!correctSender) {
-    return false;
-  }
-  const { primaryDevicePubKey } = authorisation;
-  // ensure the primary device is a friend
-  const c = window.ConversationController.get(primaryDevicePubKey);
-  if (!c || !(await c.isFriendWithAnyDevice())) {
-    return false;
-  }
-  await MultiDeviceProtocol.savePairingAuthorisation({
-    primaryDevicePubKey: authorisation.primaryDevicePubKey,
-    secondaryDevicePubKey: authorisation.secondaryDevicePubKey,
-    requestSignature: Buffer.from(authorisation.requestSignature).buffer,
-    grantSignature: Buffer.from(authorisation.grantSignature).buffer,
-  });
-
-  return true;
-}
-
-async function handleAutoFriendRequestMessage(
-  source: string,
-  ourPubKey: string,
-  conversation: ConversationModel
-) {
-  const isMe = source === ourPubKey;
-  // If we got a friend request message (session request excluded) or
-  // if we're not friends with the current user that sent this private message
-  // Check to see if we need to auto accept their friend request
-  if (isMe) {
-    window.log.info('refusing to add a friend request to ourselves');
-    throw new Error('Cannot add a friend request for ourselves!');
-  }
-  // auto-accept friend request if the device is paired to one of our friend's primary device
-  const shouldAutoAcceptFR = await handleSecondaryDeviceFriendRequest(source);
-  if (shouldAutoAcceptFR) {
-    window.libloki.api.debug.logAutoFriendRequest(
-      `Received AUTO_FRIEND_REQUEST from source: ${source}`
-    );
-    // Directly setting friend request status to skip the pending state
-    await conversation.setFriendRequestStatus(
-      window.friends.friendRequestStatusEnum.friends
-    );
-    // sending a message back = accepting friend request
-
-    window.libloki.api.sendBackgroundMessage(
-      source,
-      window.textsecure.OutgoingMessage.DebugMessageType.AUTO_FR_ACCEPT
-    );
-    // return true to notify the message is fully processed
-    return true;
-  }
-  return false;
 }
 
 function getEnvelopeId(envelope: EnvelopePlus) {
@@ -553,6 +458,11 @@ export async function updateProfile(
   }
 
   await conversation.setLokiProfile(newProfile);
+
+  if (conversation.isSecondaryDevice()) {
+    const primaryConversation = await conversation.getPrimaryConversation();
+    await primaryConversation.setLokiProfile(newProfile);
+  }
 }
 
 export async function handleDataMessage(
@@ -578,6 +488,7 @@ export async function handleDataMessage(
   const conversation = window.ConversationController.get(senderPubKey);
 
   const { UNPAIRING_REQUEST } = SignalService.DataMessage.Flags;
+  const { SESSION_REQUEST } = SignalService.Envelope.Type;
 
   // eslint-disable-next-line no-bitwise
   const isUnpairingRequest = Boolean(message.flags & UNPAIRING_REQUEST);
@@ -594,17 +505,6 @@ export async function handleDataMessage(
     window.log.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);
     return removeFromCache(envelope);
   }
-
-  // Loki - Temp hack until new protocol
-  // A friend request is a non-group text message which we haven't processed yet
-  const isGroupMessage = Boolean(message.group || message.mediumGroupUpdate);
-  const friendRequestStatusNoneOrExpired = conversation
-    ? conversation.isFriendRequestStatusNoneOrExpired()
-    : true;
-  const isFriendRequest =
-    !isGroupMessage &&
-    !_.isEmpty(message.body) &&
-    friendRequestStatusNoneOrExpired;
 
   const source = envelope.senderIdentity || senderPubKey;
 
@@ -637,7 +537,6 @@ export async function handleDataMessage(
 
   ev.confirm = () => removeFromCache(envelope);
   ev.data = {
-    friendRequest: isFriendRequest,
     source,
     sourceDevice: envelope.sourceDevice,
     timestamp: toNumber(envelope.timestamp),
@@ -705,12 +604,8 @@ export async function handleMessageEvent(event: any): Promise<void> {
     return;
   }
 
-  // Note(LOKI): don't send receipt for FR as we don't have a session yet
   const shouldSendReceipt =
-    isIncoming &&
-    data.unidentifiedDeliveryReceived &&
-    !data.friendRequest &&
-    !isGroupMessage;
+    isIncoming && data.unidentifiedDeliveryReceived && !isGroupMessage;
 
   if (shouldSendReceipt) {
     sendDeliveryReceipt(source, data.timestamp);
@@ -720,22 +615,6 @@ export async function handleMessageEvent(event: any): Promise<void> {
 
   // =========== Process flags =============
 
-  /**
-   * A session request message is a friend-request message with the flag
-   * SESSION_REQUEST set to true.
-   */
-  // eslint-disable-next-line no-bitwise
-  const sessionRequest =
-    data.friendRequest && !!(message.flags & SESSION_REQUEST);
-
-  // NOTE: I don't need to create/use msg if it is a session request!
-
-  if (sessionRequest) {
-    await handleSessionRequest(source);
-    confirm();
-    return;
-  }
-
   // eslint-disable-next-line no-bitwise
   if (message.flags & SESSION_RESTORE) {
     // Show that the session reset is "in progress" even though we had a valid session
@@ -743,31 +622,6 @@ export async function handleMessageEvent(event: any): Promise<void> {
   }
 
   const ourNumber = window.textsecure.storage.user.getNumber();
-
-  // AFR are only relevant for incoming messages
-  if (isIncoming) {
-    // the conversation with this real device
-    const conversationOrigin = window.ConversationController.get(source);
-
-    // Session request have been dealt with before, so a friend request here is
-    // not a session request message. Also, handleAutoFriendRequestMessage() only
-    // handles the autoAccept logic of an auto friend request.
-    if (
-      data.friendRequest ||
-      (!isGroupMessage && !conversationOrigin.isFriend())
-    ) {
-      const accepted = await handleAutoFriendRequestMessage(
-        source,
-        ourNumber,
-        conversationOrigin
-      );
-
-      if (accepted) {
-        confirm();
-        return;
-      }
-    }
-  }
 
   // =========================================
 

@@ -37,6 +37,11 @@ export async function preprocessGroupMessage(
     conversationId,
     'group'
   );
+
+  if (conversation.isPublic()) {
+    // window.console.log('No need to preprocess public group chat messages');
+    return;
+  }
   const GROUP_TYPES = SignalService.GroupContext.Type;
 
   if (shouldIgnoreBlockedGroup(group, source)) {
@@ -44,9 +49,12 @@ export async function preprocessGroupMessage(
     return true;
   }
 
-  // NOTE: we use friends status to tell if this is
+  // NOTE: we use group admins to tell if this is
   // the creation of the group (initial update)
-  const newGroup = !conversation.isFriend();
+  const groupAdminsSet =
+    conversation.get('groupAdmins') &&
+    conversation.get('groupAdmins').length > 0;
+  const newGroup = !groupAdminsSet;
   const knownMembers = conversation.get('members');
 
   if (!newGroup && knownMembers) {
@@ -72,10 +80,6 @@ export async function preprocessGroupMessage(
   if (group.members && group.type === GROUP_TYPES.UPDATE) {
     if (newGroup) {
       conversation.updateGroupAdmins(group.admins);
-
-      conversation.setFriendRequestStatus(
-        window.friends.friendRequestStatusEnum.friends
-      );
     } else {
       // be sure to drop a message from a non admin if it tries to change group members
       // or change the group name

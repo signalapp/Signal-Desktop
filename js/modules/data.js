@@ -123,8 +123,6 @@ module.exports = {
   _removeConversations,
 
   getAllConversations,
-  getPubKeysWithFriendStatus,
-  getConversationsWithFriendStatus,
   getAllConversationIds,
   getAllPrivateConversations,
   getAllRssFeedConversations,
@@ -802,22 +800,6 @@ async function removeConversation(id, { Conversation }) {
 // Note: this method will not clean up external files, just delete from SQL
 async function _removeConversations(ids) {
   await channels.removeConversation(ids);
-}
-
-async function getConversationsWithFriendStatus(
-  status,
-  { ConversationCollection }
-) {
-  const conversations = await channels.getConversationsWithFriendStatus(status);
-
-  const collection = new ConversationCollection();
-  collection.add(conversations);
-  return collection;
-}
-
-async function getPubKeysWithFriendStatus(status) {
-  const conversations = await getConversationsWithFriendStatus(status);
-  return conversations.map(row => row.id);
 }
 
 async function getAllConversations({ ConversationCollection }) {
