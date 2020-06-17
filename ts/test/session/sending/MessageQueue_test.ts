@@ -14,7 +14,7 @@ import { MessageSender } from '../../../session/sending';
 import { toRawMessage } from '../../../session/utils/Messages';
 import { SessionProtocol } from '../../../session/protocols';
 import { PendingMessageCache } from '../../../session/sending/PendingMessageCache';
-import { generateChatMessage } from '../../test-utils/testUtils';
+import { generateChatMessage, generateFakePubkey } from '../../test-utils/testUtils';
 
 // Equivalent to Data.StorageItem
 interface StorageItem {
@@ -34,9 +34,9 @@ describe('MessageQueue', () => {
   let messageQueueStub: MessageQueue;
 
   // Spies
-  // let messageQueueSpy: Sinon.SinonSpy;
-  let sendMessageToDevicesSpy: Sinon.SinonSpy;
-  let sendSyncMessageSpy: Sinon.SinonSpy;
+  let sendToOpenGroupSpy: sinon.SinonSpy;
+  let sendMessageToDevicesSpy: sinon.SinonSpy;
+  let sendSyncMessageSpy: sinon.SinonSpy;
 
   // Message Sender Stubs
   let sendStub: sinon.SinonStub<[RawMessage, (number | undefined)?]>;
@@ -126,11 +126,12 @@ describe('MessageQueue', () => {
       );
 
     // Spies
+    sendToOpenGroupSpy = sandbox.spy(MessageSender, 'sendToOpenGroup');
+    sendSyncMessageSpy = sandbox.spy(MessageQueue.prototype, 'sendSyncMessage');
     sendMessageToDevicesSpy = sandbox.spy(
       MessageQueue.prototype,
       'sendMessageToDevices'
     );
-    sendSyncMessageSpy = sandbox.spy(MessageQueue.prototype, 'sendSyncMessage');
 
     // Init Queue
     messageQueueStub = new MessageQueue();
@@ -157,7 +158,9 @@ describe('MessageQueue', () => {
       const promise = messageQueueStub.sendSyncMessage(message, devices);
       expect(promise).to.be.fulfilled;
     });
+  });
 
+  describe('processPending', () => {
     it('will send sync message if no session', async () => {
       hasSessionStub.resolves(false);
 
@@ -168,6 +171,15 @@ describe('MessageQueue', () => {
 
       await tick();
       expect(sendSessionRequestIfNeededStub.callCount).to.equal(1);
+    });
+
+    it('will send message is session exists', () => {
+      //
+      //
+      //
+      //
+      //
+      //
     });
   });
 
@@ -320,6 +332,10 @@ describe('MessageQueue', () => {
         false,
         'sendToGroup considered an invalid message type as valid'
       );
+
+      // These should not be called; early exit
+      expect(sendMessageToDevicesSpy.callCount).to.equal(0);
+      expect(sendToOpenGroupSpy.callCount).to.equal(0);
     });
 
     it('can send to open group', async () => {
@@ -328,5 +344,26 @@ describe('MessageQueue', () => {
 
       expect(success).to.equal(true, 'sending to group failed');
     });
+  });
+
+  describe('MessageQueue events', () => {
+    console.log('[vince] messageQueueStub.events:', messageQueueStub);
+    console.log('[vince] messageQueueStub.events:', messageQueueStub);
+    // console.log('[vince] messageQueueStub.events:', messageQueueStub.events);
+
+    const successSpy = sandbox.spy();
+    messageQueueStub.events.on('success', successSpy);
+
+    // messageQueueStub.events.on('success', successSpy);
+
+    // const device = generateFakePubkey();
+    // const promise = messageQueueStub.processPending(device);
+
+    // expect(promise).to.be.fulfilled;
+
+    console.log('[vince] successSpy.callCount:', successSpy.callCount);
+
+
+    
   });
 });
