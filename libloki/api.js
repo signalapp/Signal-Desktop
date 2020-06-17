@@ -70,13 +70,6 @@
     );
     await backgroundMessage.sendToNumber(pubKey, false);
   }
-
- function sendUnpairingMessageToSecondary(pubKey) {
-    const unpairingMessage = textsecure.OutgoingMessage.buildUnpairingMessage(
-      pubKey
-    );
-    return unpairingMessage.sendToNumber(pubKey, false);
-  }
   // Serialise as <Element0.length><Element0><Element1.length><Element1>...
   // This is an implementation of the reciprocal of contacts_parser.js
   function serialiseByteBuffers(buffers) {
@@ -222,7 +215,6 @@
     sendSessionEstablishedMessage,
     sendBackgroundMessage,
     sendSessionRequestsToMembers,
-    sendUnpairingMessageToSecondary,
     createContactSyncProtoMessage,
     createGroupSyncProtoMessage,
     createOpenGroupsSyncProtoMessage,

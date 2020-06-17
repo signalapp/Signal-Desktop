@@ -723,28 +723,6 @@ OutgoingMessage.buildBackgroundMessage = function buildBackgroundMessage(
   );
 };
 
-OutgoingMessage.buildUnpairingMessage = function buildUnpairingMessage(pubKey) {
-  const flags = textsecure.protobuf.DataMessage.Flags.UNPAIRING_REQUEST;
-  const dataMessage = new textsecure.protobuf.DataMessage({
-    flags,
-  });
-  const content = new textsecure.protobuf.Content({
-    dataMessage,
-  });
-  const debugMessageType = DebugMessageType.DEVICE_UNPAIRING_SEND;
-  const options = { messageType: 'device-unpairing', debugMessageType };
-  const outgoingMessage = new textsecure.OutgoingMessage(
-    null, // server
-    Date.now(), // timestamp,
-    [pubKey], // numbers
-    content, // message
-    true, // silent
-    () => null, // callback
-    options
-  );
-  return outgoingMessage;
-};
-
 OutgoingMessage.DebugMessageType = DebugMessageType;
 
 window.textsecure = window.textsecure || {};
