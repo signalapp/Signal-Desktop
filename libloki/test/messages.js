@@ -43,36 +43,4 @@ describe('Loki Messages', () => {
       );
     });
   });
-
-  describe('#autoFriendRequestMessage', () => {
-    it('structure is valid', () => {
-      const pubkey =
-        '05050505050505050505050505050505050505050505050505050505050505050';
-      const autoFrMessage = window.textsecure.OutgoingMessage.buildAutoFriendRequestMessage(
-        pubkey
-      );
-
-      const validAutoFrObject = {
-        server: null,
-        numbers: [pubkey],
-      };
-
-      const validAutoFrMessage = {
-        syncMessage: null,
-        callMessage: null,
-        nullMessage: null,
-        receiptMessage: null,
-        typingMessage: null,
-        preKeyBundleMessage: null,
-        lokiAddressMessage: null,
-        pairingAuthorisation: null,
-      };
-
-      assert.isNumber(autoFrMessage.timestamp);
-      assert.isFunction(autoFrMessage.callback);
-      assert.deepInclude(autoFrMessage.message, validAutoFrMessage);
-      assert.isObject(autoFrMessage.message.dataMessage);
-      assert.deepInclude(autoFrMessage, validAutoFrObject);
-    });
-  });
 });

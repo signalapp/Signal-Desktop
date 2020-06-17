@@ -257,8 +257,6 @@
             promises.concat([
               conversation.updateProfileName(),
               conversation.updateProfileAvatar(),
-              conversation.resetPendingSend(),
-              conversation.setFriendRequestExpiryTimeout(),
             ]);
           });
           await Promise.all(promises);

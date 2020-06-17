@@ -102,7 +102,6 @@ module.exports = grunt => {
       libloki: {
         src: [
           'libloki/api.js',
-          'libloki/friends.js',
           'libloki/crypto.js',
           'libloki/service_nodes.js',
           'libloki/storage.js',

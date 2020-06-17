@@ -57,11 +57,6 @@
     initialize(options) {
       this.listenTo(this.model, 'destroy', this.stopListening);
       this.listenTo(this.model, 'change:verified', this.onVerifiedChange);
-      this.listenTo(
-        this.model,
-        'change:friendRequestStatus',
-        this.onFriendStatusChange
-      );
       this.listenTo(this.model, 'newmessage', this.addMessage);
       this.listenTo(this.model, 'opened', this.onOpened);
       this.listenTo(this.model, 'prune', this.onPrune);
@@ -129,7 +124,6 @@
       );
 
       this.render();
-      this.onFriendStatusChange();
 
       this.model.updateTextInputState();
 
@@ -173,8 +167,6 @@
           color: this.model.getColor(),
           avatarPath: this.model.getAvatarPath(),
           isVerified: this.model.isVerified(),
-          isFriendRequestPending: this.model.isPendingFriendRequest(),
-          isFriend: this.model.isFriend(),
           isMe: this.model.isMe(),
           isClosable: this.model.isClosable(),
           isBlocked: this.model.isBlocked(),
@@ -249,8 +241,8 @@
             window.Whisper.events.trigger('leaveGroup', this.model);
           },
 
-          onInviteFriends: () => {
-            window.Whisper.events.trigger('inviteFriends', this.model);
+          onInviteContacts: () => {
+            window.Whisper.events.trigger('inviteContacts', this.model);
           },
 
           onUpdateGroupName: () => {
@@ -320,8 +312,8 @@
             window.Whisper.events.trigger('leaveGroup', this.model);
           },
 
-          onInviteFriends: () => {
-            window.Whisper.events.trigger('inviteFriends', this.model);
+          onInviteContacts: () => {
+            window.Whisper.events.trigger('inviteContacts', this.model);
           },
           onShowLightBox: (lightBoxOptions = {}) => {
             this.showChannelLightbox(lightBoxOptions);
@@ -534,9 +526,6 @@
       }
       let placeholder;
       switch (type) {
-        case 'friend-request':
-          placeholder = i18n('sendMessageFriendRequest');
-          break;
         case 'disabled':
           placeholder = i18n('sendMessageDisabled');
           break;
@@ -734,14 +723,6 @@
 
       if (this.view.atBottom()) {
         this.typingBubbleView.el.scrollIntoView();
-      }
-    },
-
-    onFriendStatusChange() {
-      if (this.model.isPrivate() && !this.model.isFriend()) {
-        this.$('#choose-file').hide();
-      } else {
-        this.$('#choose-file').show();
       }
     },
 

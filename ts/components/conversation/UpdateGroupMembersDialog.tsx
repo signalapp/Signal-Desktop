@@ -14,8 +14,8 @@ interface Props {
   okText: string;
   isPublic: boolean;
   cancelText: string;
-  // friends not in the group
-  friendList: Array<any>;
+  // contacts not in the group
+  contactList: Array<any>;
   isAdmin: boolean;
   existingMembers: Array<String>;
   i18n: any;
@@ -24,7 +24,7 @@ interface Props {
 }
 
 interface State {
-  friendList: Array<Contact>;
+  contactList: Array<Contact>;
   errorDisplayed: boolean;
   errorMessage: string;
 }
@@ -38,8 +38,8 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     this.onKeyUp = this.onKeyUp.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
 
-    let friends = this.props.friendList;
-    friends = friends.map(d => {
+    let contacts = this.props.contactList;
+    contacts = contacts.map(d => {
       const lokiProfile = d.getLokiProfile();
       const name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
 
@@ -58,7 +58,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     });
 
     this.state = {
-      friendList: friends,
+      contactList: contacts,
       errorDisplayed: false,
       errorMessage: 'placeholder',
     };
@@ -67,7 +67,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   }
 
   public onClickOK() {
-    const members = this.getWouldBeMembers(this.state.friendList).map(
+    const members = this.getWouldBeMembers(this.state.contactList).map(
       d => d.id
     );
 
@@ -77,7 +77,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   }
 
   public render() {
-    const checkMarkedCount = this.getMemberCount(this.state.friendList);
+    const checkMarkedCount = this.getMemberCount(this.state.contactList);
 
     const okText = this.props.okText;
     const cancelText = this.props.cancelText;
@@ -94,7 +94,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       // private group
       titleText = this.props.titleText;
       noFriendsClasses =
-        this.state.friendList.length === 0
+        this.state.contactList.length === 0
           ? 'no-friends'
           : classNames('no-friends', 'hidden');
     }
@@ -145,7 +145,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
   }
 
   private renderMemberList() {
-    const members = this.state.friendList;
+    const members = this.state.contactList;
 
     return members.map((member: ContactType, index: number) => (
       <SessionMemberListItem
@@ -218,7 +218,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
       return;
     }
 
-    const updatedFriends = this.state.friendList.map(member => {
+    const updatedContacts = this.state.contactList.map(member => {
       if (member.id === selected.id) {
         return { ...member, checkmarked: !member.checkmarked };
       } else {
@@ -229,7 +229,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     this.setState(state => {
       return {
         ...state,
-        friendList: updatedFriends,
+        contactList: updatedContacts,
       };
     });
   }

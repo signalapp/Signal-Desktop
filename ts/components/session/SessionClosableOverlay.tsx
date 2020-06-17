@@ -73,7 +73,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         !conversation.isMe() &&
         conversation.isPrivate() &&
         !conversation.isSecondaryDevice() &&
-        conversation.isFriend()
+        !conversation.isBlocked()
       );
     });
 

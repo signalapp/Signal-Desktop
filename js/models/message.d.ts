@@ -1,4 +1,4 @@
-type MessageModelType = 'incoming' | 'outgoing' | 'friend-request';
+type MessageModelType = 'incoming' | 'outgoing';
 export type EndSessionType = 'done' | 'ongoing';
 
 interface MessageAttributes {
@@ -17,7 +17,6 @@ interface MessageAttributes {
   decrypted_at: number;
   recipients: Array<string>;
   delivered: number;
-  friendStatus: any;
   type: MessageModelType;
   group_update: any;
   groupInvitation: any;
@@ -40,7 +39,6 @@ export interface MessageModel extends Backbone.Model<MessageAttributes> {
   idForLogging: () => string;
   isGroupUpdate: () => boolean;
   isExpirationTimerUpdate: () => boolean;
-  isFriendRequest: () => boolean;
   getNotificationText: () => string;
   isEndSession: () => boolean;
   markRead: () => void;
