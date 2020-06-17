@@ -7,6 +7,7 @@ import {
 } from '../../../js/modules/data';
 import { PrimaryPubKey, PubKey, SecondaryPubKey } from '../types';
 import { UserUtil } from '../../util';
+import { BufferUtils } from '../utils';
 
 /*
   The reason we're exporing a class here instead of just exporting the functions directly is for the sake of testing.
@@ -34,14 +35,14 @@ export class MultiDeviceProtocol {
     }
 
     // We always prefer our local pairing over the one on the server
-    const ourDevices = await this.getAllDevices(ourKey);
-    if (ourDevices.some(d => d.key === device.key)) {
+    const isOurDevice = await this.isOurDevice(device);
+    if (isOurDevice) {
       return;
     }
 
     // Only fetch if we hit the refresh delay
     const lastFetchTime = this.lastFetch[device.key];
-    if (lastFetchTime && lastFetchTime + this.refreshDelay < Date.now()) {
+    if (lastFetchTime && lastFetchTime + this.refreshDelay > Date.now()) {
       return;
     }
 
@@ -49,7 +50,6 @@ export class MultiDeviceProtocol {
 
     try {
       const authorisations = await this.fetchPairingAuthorisations(device);
-      // TODO: validate?
       await Promise.all(authorisations.map(this.savePairingAuthorisation));
     } catch (e) {
       // Something went wrong, let it re-try another time
@@ -93,8 +93,9 @@ export class MultiDeviceProtocol {
       }) => ({
         primaryDevicePubKey,
         secondaryDevicePubKey,
-        requestSignature: Buffer.from(requestSignature, 'base64').buffer,
-        grantSignature: Buffer.from(grantSignature, 'base64').buffer,
+        requestSignature: BufferUtils.base64toUint8Array(requestSignature)
+          .buffer,
+        grantSignature: BufferUtils.base64toUint8Array(grantSignature).buffer,
       })
     );
   }
