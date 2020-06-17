@@ -1,9 +1,13 @@
 import { expect } from 'chai';
 import Sinon, * as sinon from 'sinon';
-import { GroupUtils } from '../../../session/utils';
+import { GroupUtils, SyncMessageUtils } from '../../../session/utils';
 import { Stubs, TestUtils } from '../../../test/test-utils';
 import { MessageQueue } from '../../../session/sending/MessageQueue';
-import { OpenGroupMessage, ChatMessage } from '../../../session/messages/outgoing';
+import {
+  ChatMessage,
+  ClosedGroupMessage,
+  OpenGroupMessage,
+} from '../../../session/messages/outgoing';
 import { PubKey, RawMessage } from '../../../session/types';
 import { UserUtil } from '../../../util';
 import { MessageSender } from '../../../session/sending';
@@ -22,7 +26,8 @@ describe('MessageQueue', () => {
   // Initialize new stubbed cache
   let data: StorageItem;
   const sandbox = sinon.createSandbox();
-  const ourNumber = TestUtils.generateFakePubkey().key;
+  const ourDevice = TestUtils.generateFakePubkey();
+  const ourNumber = ourDevice.key;
   const pairedDevices = TestUtils.generateMemberList(2).map(m => m.key);
 
   // Initialize new stubbed queue
@@ -31,6 +36,7 @@ describe('MessageQueue', () => {
   // Spies
   // let messageQueueSpy: Sinon.SinonSpy;
   let sendMessageToDevicesSpy: Sinon.SinonSpy;
+  let sendSyncMessageSpy: Sinon.SinonSpy;
 
   // Message Sender Stubs
   let sendStub: sinon.SinonStub<[RawMessage, (number | undefined)?]>;
@@ -124,6 +130,7 @@ describe('MessageQueue', () => {
       MessageQueue.prototype,
       'sendMessageToDevices'
     );
+    sendSyncMessageSpy = sandbox.spy(MessageQueue.prototype, 'sendSyncMessage');
 
     // Init Queue
     messageQueueStub = new MessageQueue();
@@ -174,7 +181,10 @@ describe('MessageQueue', () => {
 
       // Ensure the arguments passed into sendMessageToDevices are correct
       await tick();
-      const previousArgs = sendMessageToDevicesSpy.lastCall.args as [Array<PubKey>, ChatMessage];
+      const previousArgs = sendMessageToDevicesSpy.lastCall.args as [
+        Array<PubKey>,
+        ChatMessage
+      ];
 
       // Check that instances are equal
       expect(previousArgs).to.have.length(2);
@@ -182,11 +192,20 @@ describe('MessageQueue', () => {
       const argsPairedDevices = previousArgs[0];
       const argsChatMessage = previousArgs[1];
 
-      expect(argsChatMessage instanceof ChatMessage).to.equal(true, 'message passed into sendMessageToDevices was not a valid ChatMessage');
-      expect(argsChatMessage.isEqual(message)).to.equal(true, 'message passed into sendMessageToDevices has been mutated');
+      expect(argsChatMessage instanceof ChatMessage).to.equal(
+        true,
+        'message passed into sendMessageToDevices was not a valid ChatMessage'
+      );
+      expect(argsChatMessage.isEqual(message)).to.equal(
+        true,
+        'message passed into sendMessageToDevices has been mutated'
+      );
 
       argsPairedDevices.forEach((argsPaired: PubKey, index: number) => {
-        expect(argsPaired instanceof PubKey).to.equal(true, 'a device passed into sendMessageToDevices was not a PubKey');
+        expect(argsPaired instanceof PubKey).to.equal(
+          true,
+          'a device passed into sendMessageToDevices was not a PubKey'
+        );
         expect(argsPaired.key).to.equal(pairedDevices[index]);
       });
     });
@@ -201,18 +220,83 @@ describe('MessageQueue', () => {
       await expect(promise).to.be.fulfilled;
     });
 
-    it('can send to open group', async () => {
-      const message = TestUtils.generateOpenGroupMessage();
-      const success = await messageQueueStub.sendToGroup(message);
+    it('can send sync message and confirm canSync is valid', async () => {
+      const devices = TestUtils.generateMemberList(3);
+      const message = TestUtils.generateChatMessage();
+      const ourDevices = [...pairedDevices, ourNumber].sort();
 
+      const promise = messageQueueStub.sendMessageToDevices(devices, message);
+      expect(promise).to.be.fulfilled;
+
+      // Check sendSyncMessage parameters
+      await tick();
+      const previousArgs = sendSyncMessageSpy.lastCall.args as [
+        ChatMessage,
+        Array<PubKey>
+      ];
+      expect(sendSyncMessageSpy.callCount).to.equal(1);
+
+      // Check that instances are equal
+      expect(previousArgs).to.have.length(2);
+
+      const argsChatMessage = previousArgs[0];
+      const argsPairedKeys = [...previousArgs[1]].map(d => d.key).sort();
+
+      expect(argsChatMessage instanceof ChatMessage).to.equal(
+        true,
+        'message passed into sendMessageToDevices was not a valid ChatMessage'
+      );
+      expect(argsChatMessage.isEqual(message)).to.equal(
+        true,
+        'message passed into sendMessageToDevices has been mutated'
+      );
+
+      argsPairedKeys.forEach((argsPaired: string, index: number) => {
+        expect(argsPaired).to.equal(ourDevices[index]);
+      });
+    });
+  });
+
+  describe('sendToGroup', () => {
+    it('can send to closed group', async () => {
+      const message = TestUtils.generateClosedGroupMessage();
+      const success = await messageQueueStub.sendToGroup(message);
       expect(success).to.equal(true, 'sending to group failed');
     });
 
-    it('can send to closed group', async () => {
+    it('uses correct parameters for sendToGroup with ClosedGroupMessage', async () => {
       const message = TestUtils.generateClosedGroupMessage();
       const success = await messageQueueStub.sendToGroup(message);
 
       expect(success).to.equal(true, 'sending to group failed');
+
+      // Check parameters
+      await tick();
+      const previousArgs = sendMessageToDevicesSpy.lastCall.args as [
+        Array<PubKey>,
+        ClosedGroupMessage
+      ];
+      expect(previousArgs).to.have.length(2);
+
+      const argsClosedGroupMessage = previousArgs[1];
+      expect(argsClosedGroupMessage instanceof ClosedGroupMessage).to.equal(
+        true,
+        'message passed into sendMessageToDevices was not a ClosedGroupMessage'
+      );
+    });
+
+    it("won't send to invalid groupId", async () => {
+      const message = TestUtils.generateClosedGroupMessage('invalid-group-id');
+      const success = await messageQueueStub.sendToGroup(message);
+
+      expect(message instanceof ClosedGroupMessage).to.equal(
+        true,
+        'message passed into sendToGroup was not a ClosedGroupMessage'
+      );
+      expect(success).to.equal(
+        false,
+        'invalid ClosedGroupMessage was propogated through sendToGroup'
+      );
     });
 
     it('wont send message to empty closed group', async () => {
@@ -227,7 +311,7 @@ describe('MessageQueue', () => {
       );
     });
 
-    it('wont send invalid message type to group', async () => {
+    it('wont send invalid message type to closed group', async () => {
       // Regular chat message should return false
       const message = TestUtils.generateChatMessage();
       const response = await messageQueueStub.sendToGroup(message);
@@ -236,6 +320,13 @@ describe('MessageQueue', () => {
         false,
         'sendToGroup considered an invalid message type as valid'
       );
+    });
+
+    it('can send to open group', async () => {
+      const message = TestUtils.generateOpenGroupMessage();
+      const success = await messageQueueStub.sendToGroup(message);
+
+      expect(success).to.equal(true, 'sending to group failed');
     });
   });
 });

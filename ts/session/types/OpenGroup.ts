@@ -56,10 +56,10 @@ export class OpenGroup {
     } as OpenGroupParams;
 
     if (this.serverRegex.test(server)) {
-      return new OpenGroup(openGroupParams);
+      return;
     }
 
-    return;
+    return new OpenGroup(openGroupParams);
   }
 
   private static getServer(groupId: string): string | undefined {

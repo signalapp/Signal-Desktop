@@ -90,10 +90,12 @@ export function generateOpenGroupMessage(): OpenGroupMessage {
   });
 }
 
-export function generateClosedGroupMessage(): ClosedGroupChatMessage {
+export function generateClosedGroupMessage(
+  groupId?: string
+): ClosedGroupChatMessage {
   return new ClosedGroupChatMessage({
     identifier: uuid(),
-    groupId: generateFakePubkey().key,
+    groupId: groupId ?? generateFakePubkey().key,
     chatMessage: generateChatMessage(),
   });
 }
