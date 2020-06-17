@@ -6,6 +6,7 @@ import { MessageQueue } from '../../../session/sending/MessageQueue';
 import {
   ChatMessage,
   ClosedGroupMessage,
+  ContentMessage,
   OpenGroupMessage,
 } from '../../../session/messages/outgoing';
 import { PubKey, RawMessage } from '../../../session/types';
@@ -14,7 +15,10 @@ import { MessageSender } from '../../../session/sending';
 import { toRawMessage } from '../../../session/utils/Messages';
 import { SessionProtocol } from '../../../session/protocols';
 import { PendingMessageCache } from '../../../session/sending/PendingMessageCache';
-import { generateChatMessage, generateFakePubkey } from '../../test-utils/testUtils';
+import {
+  generateChatMessage,
+  generateFakePubkey,
+} from '../../test-utils/testUtils';
 
 // Equivalent to Data.StorageItem
 interface StorageItem {
@@ -34,9 +38,14 @@ describe('MessageQueue', () => {
   let messageQueueStub: MessageQueue;
 
   // Spies
-  let sendToOpenGroupSpy: sinon.SinonSpy;
-  let sendMessageToDevicesSpy: sinon.SinonSpy;
-  let sendSyncMessageSpy: sinon.SinonSpy;
+  let sendMessageToDevicesSpy: sinon.SinonSpy<
+    [Array<PubKey>, ContentMessage],
+    Promise<Array<void>>
+  >;
+  let sendSyncMessageSpy: sinon.SinonSpy<
+    [ContentMessage, Array<PubKey>],
+    Promise<Array<void>>
+  >;
 
   // Message Sender Stubs
   let sendStub: sinon.SinonStub<[RawMessage, (number | undefined)?]>;
@@ -45,7 +54,7 @@ describe('MessageQueue', () => {
   let groupMembersStub: sinon.SinonStub;
   // Session Protocol Stubs
   let hasSessionStub: sinon.SinonStub<[PubKey]>;
-  let sendSessionRequestIfNeededStub: sinon.SinonStub;
+  let sendSessionRequestIfNeededStub: sinon.SinonStub<[PubKey], Promise<void>>;
 
   // Helper function returns a promise that resolves after all other promise mocks,
   // even if they are chained like Promise.resolve().then(...)
@@ -126,7 +135,6 @@ describe('MessageQueue', () => {
       );
 
     // Spies
-    sendToOpenGroupSpy = sandbox.spy(MessageSender, 'sendToOpenGroup');
     sendSyncMessageSpy = sandbox.spy(MessageQueue.prototype, 'sendSyncMessage');
     sendMessageToDevicesSpy = sandbox.spy(
       MessageQueue.prototype,
@@ -173,13 +181,16 @@ describe('MessageQueue', () => {
       expect(sendSessionRequestIfNeededStub.callCount).to.equal(1);
     });
 
-    it('will send message is session exists', () => {
-      //
-      //
-      //
-      //
-      //
-      //
+    it('will send message if session exists', async () => {
+      const device = generateFakePubkey();
+      const hasSession = hasSessionStub(device);
+
+      const promise = messageQueueStub.processPending(device);
+      expect(promise).to.be.fulfilled;
+
+      await tick();
+      expect(hasSession).to.equal(true, 'session does not exist');
+      expect(sendSessionRequestIfNeededStub.callCount).to.equal(0);
     });
   });
 
@@ -335,7 +346,7 @@ describe('MessageQueue', () => {
 
       // These should not be called; early exit
       expect(sendMessageToDevicesSpy.callCount).to.equal(0);
-      expect(sendToOpenGroupSpy.callCount).to.equal(0);
+      expect(sendToOpenGroupStub.callCount).to.equal(0);
     });
 
     it('can send to open group', async () => {
@@ -346,24 +357,31 @@ describe('MessageQueue', () => {
     });
   });
 
-  describe('MessageQueue events', () => {
-    console.log('[vince] messageQueueStub.events:', messageQueueStub);
-    console.log('[vince] messageQueueStub.events:', messageQueueStub);
-    // console.log('[vince] messageQueueStub.events:', messageQueueStub.events);
+  describe('events', () => {
+    it('can send events on message sending success', async () => {
+      const successSpy = sandbox.spy();
+      messageQueueStub.events.on('success', successSpy);
 
-    const successSpy = sandbox.spy();
-    messageQueueStub.events.on('success', successSpy);
+      const device = generateFakePubkey();
+      const promise = messageQueueStub.processPending(device);
+      expect(promise).to.be.fulfilled;
 
-    // messageQueueStub.events.on('success', successSpy);
+      await tick();
+      expect(successSpy.callCount).to.equal(1);
+    });
 
-    // const device = generateFakePubkey();
-    // const promise = messageQueueStub.processPending(device);
+    it('can send events on message sending failure', async () => {
+      sendStub.throws(new Error('Failed to send message.'));
 
-    // expect(promise).to.be.fulfilled;
+      const failureSpy = sandbox.spy();
+      messageQueueStub.events.on('fail', failureSpy);
 
-    console.log('[vince] successSpy.callCount:', successSpy.callCount);
+      const device = generateFakePubkey();
+      const promise = messageQueueStub.processPending(device);
+      expect(promise).to.be.fulfilled;
 
-
-    
+      await tick();
+      expect(failureSpy.callCount).to.equal(1);
+    });
   });
 });
