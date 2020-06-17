@@ -92,14 +92,7 @@
       let message;
       let iconUrl;
 
-      // The number of notifications excluding session request
-      // FIXME do we need to filter out session request?
-      // I don't think the filter below might work also add this.models
-      // is created by Whisper.Notifications.add which as not this field
       const messagesNotificationCount = this.models.length;
-      // const messagesNotificationCount = this.models.filter(
-      //   n => !n.get('isSessionRequest')
-      // ).length;
 
       // NOTE: i18n has more complex rules for pluralization than just
       // distinguishing between zero (0) and other (non-zero),
