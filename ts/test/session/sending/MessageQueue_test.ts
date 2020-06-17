@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import Sinon, * as sinon from 'sinon';
-import { GroupUtils, SyncMessageUtils } from '../../../session/utils';
+import * as sinon from 'sinon';
+import { GroupUtils } from '../../../session/utils';
 import { Stubs, TestUtils } from '../../../test/test-utils';
 import { MessageQueue } from '../../../session/sending/MessageQueue';
 import {
@@ -11,14 +11,9 @@ import {
 } from '../../../session/messages/outgoing';
 import { PubKey, RawMessage } from '../../../session/types';
 import { UserUtil } from '../../../util';
-import { MessageSender } from '../../../session/sending';
+import { MessageSender, PendingMessageCache } from '../../../session/sending';
 import { toRawMessage } from '../../../session/utils/Messages';
 import { SessionProtocol } from '../../../session/protocols';
-import { PendingMessageCache } from '../../../session/sending/PendingMessageCache';
-import {
-  generateChatMessage,
-  generateFakePubkey,
-} from '../../test-utils/testUtils';
 
 // Equivalent to Data.StorageItem
 interface StorageItem {
@@ -45,6 +40,10 @@ describe('MessageQueue', () => {
   let sendSyncMessageSpy: sinon.SinonSpy<
     [ContentMessage, Array<PubKey>],
     Promise<Array<void>>
+  >;
+  let sendToGroupSpy: sinon.SinonSpy<
+    [ContentMessage | OpenGroupMessage],
+    Promise<boolean>
   >;
 
   // Message Sender Stubs
@@ -140,6 +139,7 @@ describe('MessageQueue', () => {
       MessageQueue.prototype,
       'sendMessageToDevices'
     );
+    sendToGroupSpy = sandbox.spy(MessageQueue.prototype, 'sendToGroup');
 
     // Init Queue
     messageQueueStub = new MessageQueue();
@@ -182,8 +182,8 @@ describe('MessageQueue', () => {
     });
 
     it('will send message if session exists', async () => {
-      const device = generateFakePubkey();
-      const hasSession = hasSessionStub(device);
+      const device = TestUtils.generateFakePubkey();
+      const hasSession = await hasSessionStub(device);
 
       const promise = messageQueueStub.processPending(device);
       expect(promise).to.be.fulfilled;
@@ -312,7 +312,13 @@ describe('MessageQueue', () => {
       const message = TestUtils.generateClosedGroupMessage('invalid-group-id');
       const success = await messageQueueStub.sendToGroup(message);
 
-      expect(message instanceof ClosedGroupMessage).to.equal(
+      // Ensure message parameter passed into sendToGroup is as expected
+      await tick();
+      expect(sendToGroupSpy.callCount).to.equal(1);
+      expect(sendToGroupSpy.lastCall.args).to.have.length(1);
+
+      const argsMessage = sendToGroupSpy.lastCall.args[0];
+      expect(argsMessage instanceof ClosedGroupMessage).to.equal(
         true,
         'message passed into sendToGroup was not a ClosedGroupMessage'
       );
@@ -362,7 +368,7 @@ describe('MessageQueue', () => {
       const successSpy = sandbox.spy();
       messageQueueStub.events.on('success', successSpy);
 
-      const device = generateFakePubkey();
+      const device = TestUtils.generateFakePubkey();
       const promise = messageQueueStub.processPending(device);
       expect(promise).to.be.fulfilled;
 
@@ -376,7 +382,7 @@ describe('MessageQueue', () => {
       const failureSpy = sandbox.spy();
       messageQueueStub.events.on('fail', failureSpy);
 
-      const device = generateFakePubkey();
+      const device = TestUtils.generateFakePubkey();
       const promise = messageQueueStub.processPending(device);
       expect(promise).to.be.fulfilled;
 
