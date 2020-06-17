@@ -113,7 +113,6 @@ const DebugMessageType = {
   OPEN_GROUP_SYNC_SEND: 'open-group-sync-send',
 
   DEVICE_UNPAIRING_SEND: 'device-unpairing-send',
-  PAIRING_REQUEST_SEND: 'pairing-request',
 };
 
 function OutgoingMessage(
@@ -741,50 +740,6 @@ OutgoingMessage.buildUnpairingMessage = function buildUnpairingMessage(pubKey) {
     content, // message
     true, // silent
     () => null, // callback
-    options
-  );
-  return outgoingMessage;
-};
-
-OutgoingMessage.buildPairingRequestMessage = function buildPairingRequestMessage(
-  pubKey,
-  ourNumber,
-  ourConversation,
-  authorisation,
-  pairingAuthorisation,
-  callback
-) {
-  const content = new textsecure.protobuf.Content({
-    pairingAuthorisation,
-  });
-  const isGrant = authorisation.primaryDevicePubKey === ourNumber;
-  if (isGrant) {
-    // Send profile name to secondary device
-    const lokiProfile = ourConversation.getLokiProfile();
-    // profile.avatar is the path to the local image
-    // replace with the avatar URL
-    const avatarPointer = ourConversation.get('avatarPointer');
-    lokiProfile.avatar = avatarPointer;
-    const profile = new textsecure.protobuf.DataMessage.LokiProfile(
-      lokiProfile
-    );
-    const profileKey = window.storage.get('profileKey');
-    const dataMessage = new textsecure.protobuf.DataMessage({
-      profile,
-      profileKey,
-    });
-    content.dataMessage = dataMessage;
-  }
-
-  const debugMessageType = DebugMessageType.PAIRING_REQUEST_SEND;
-  const options = { messageType: 'pairing-request', debugMessageType };
-  const outgoingMessage = new textsecure.OutgoingMessage(
-    null, // server
-    Date.now(), // timestamp,
-    [pubKey], // numbers
-    content, // message
-    true, // silent
-    callback, // callback
     options
   );
   return outgoingMessage;

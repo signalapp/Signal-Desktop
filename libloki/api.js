@@ -1,4 +1,4 @@
-/* global window, textsecure, dcodeIO, StringView, ConversationController, _ */
+/* global window, textsecure, dcodeIO, StringView, ConversationController, _, libsession */
 /* eslint-disable no-bitwise */
 
 // eslint-disable-next-line func-names
@@ -55,12 +55,12 @@
   }
 
   async function sendSessionEstablishedMessage(pubKey) {
-    // This message shouldn't be routed through multi-device.
-    // It needs to go directly to the pubKey specified.
-    const message = textsecure.OutgoingMessage.buildSessionEstablishedMessage(
-      pubKey
+    const user = libsession.Types.PubKey.from(pubKey);
+
+    const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablished(
+      { timestamp: Date.now() }
     );
-    await message.sendToNumber(pubKey, false);
+    await libsession.messageQueue.send(user, sessionEstablished);
   }
 
   async function sendBackgroundMessage(pubKey, debugMessageType) {
@@ -71,36 +71,7 @@
     await backgroundMessage.sendToNumber(pubKey, false);
   }
 
-  function createPairingAuthorisationProtoMessage({
-    primaryDevicePubKey,
-    secondaryDevicePubKey,
-    requestSignature,
-    grantSignature,
-  }) {
-    if (!primaryDevicePubKey || !secondaryDevicePubKey || !requestSignature) {
-      throw new Error(
-        'createPairingAuthorisationProtoMessage: pubkeys missing'
-      );
-    }
-    if (requestSignature.constructor !== ArrayBuffer) {
-      throw new Error(
-        'createPairingAuthorisationProtoMessage expects a signature as ArrayBuffer'
-      );
-    }
-    if (grantSignature && grantSignature.constructor !== ArrayBuffer) {
-      throw new Error(
-        'createPairingAuthorisationProtoMessage expects a signature as ArrayBuffer'
-      );
-    }
-    return new textsecure.protobuf.PairingAuthorisationMessage({
-      requestSignature: new Uint8Array(requestSignature),
-      grantSignature: grantSignature ? new Uint8Array(grantSignature) : null,
-      primaryDevicePubKey,
-      secondaryDevicePubKey,
-    });
-  }
-
-  function sendUnpairingMessageToSecondary(pubKey) {
+ function sendUnpairingMessageToSecondary(pubKey) {
     const unpairingMessage = textsecure.OutgoingMessage.buildUnpairingMessage(
       pubKey
     );
@@ -216,39 +187,6 @@
     });
     return syncMessage;
   }
-  async function sendPairingAuthorisation(authorisation, recipientPubKey) {
-    const pairingAuthorisation = createPairingAuthorisationProtoMessage(
-      authorisation
-    );
-    const ourNumber = textsecure.storage.user.getNumber();
-    const ourConversation = await ConversationController.getOrCreateAndWait(
-      ourNumber,
-      'private'
-    );
-    // Send
-    const p = new Promise((resolve, reject) => {
-      const callback = result => {
-        // callback
-        if (result.errors.length > 0) {
-          reject(result.errors[0]);
-        } else {
-          resolve();
-        }
-      };
-      const pairingRequestMessage = textsecure.OutgoingMessage.buildPairingRequestMessage(
-        recipientPubKey,
-        ourNumber,
-        ourConversation,
-        authorisation,
-        pairingAuthorisation,
-        callback
-      );
-
-      pairingRequestMessage.sendToNumber(recipientPubKey, false);
-    });
-    return p;
-  }
-
   function sendSessionRequestsToMembers(members = []) {
     // For every member, see if we need to establish a session:
     members.forEach(memberPubKey => {
@@ -284,8 +222,6 @@
     sendSessionEstablishedMessage,
     sendBackgroundMessage,
     sendSessionRequestsToMembers,
-    sendPairingAuthorisation,
-    createPairingAuthorisationProtoMessage,
     sendUnpairingMessageToSecondary,
     createContactSyncProtoMessage,
     createGroupSyncProtoMessage,

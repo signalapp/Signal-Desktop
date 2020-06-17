@@ -168,9 +168,7 @@ export class MessageQueue implements MessageQueueInterface {
     }
 
     if (message instanceof SessionRequestMessage) {
-      void SessionProtocol.sendSessionRequest(message, device);
-
-      return;
+      return SessionProtocol.sendSessionRequest(message, device);
     }
 
     await this.pendingMessageCache.add(device, message);

@@ -625,8 +625,7 @@ async function createOrUpdatePairingAuthorisation(data) {
 }
 
 async function getPairingAuthorisationsFor(pubKey) {
-  const authorisations = channels.getPairingAuthorisationsFor(pubKey);
-
+  const authorisations = await channels.getPairingAuthorisationsFor(pubKey);
   return authorisations.map(authorisation => ({
     ...authorisation,
     requestSignature: base64ToArrayBuffer(authorisation.requestSignature),
