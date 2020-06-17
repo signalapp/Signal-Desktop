@@ -1,4 +1,3 @@
-
 type MessageModelType = 'incoming' | 'outgoing' | 'friend-request';
 export type EndSessionType = 'done' | 'ongoing';
 

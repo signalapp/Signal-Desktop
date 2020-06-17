@@ -211,10 +211,9 @@
         return true;
       }
 
-      const ourDevices = await window.libloki.storage.getPairedDevicesFor(
-        this.ourNumber
+      return window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+        this.id
       );
-      return ourDevices.includes(this.id);
     },
     isOurLocalDevice() {
       return this.id === this.ourNumber;
@@ -876,15 +875,19 @@
         // This is already the primary conversation
         return this;
       }
-      const authorisation = await window.libloki.storage.getAuthorisationForSecondaryPubKey(
-        this.id
-      );
-      if (authorisation) {
+
+      const device = window.libsession.Types.PubKey.from(this.id);
+      if (device) {
+        const primary = await window.libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+          device
+        );
+
         return ConversationController.getOrCreateAndWait(
-          authorisation.primaryDevicePubKey,
+          primary.key,
           'private'
         );
       }
+
       // Something funky has happened
       return this;
     },

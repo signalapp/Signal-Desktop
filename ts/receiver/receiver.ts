@@ -15,6 +15,8 @@ import { SignalService } from './../protobuf';
 import { removeFromCache } from './cache';
 import { toNumber } from 'lodash';
 import { DataMessage } from '../session/messages/outgoing';
+import { MultiDeviceProtocol } from '../session/protocols';
+import { PubKey } from '../session/types';
 
 export { handleEndSession, handleMediumGroupUpdate };
 
@@ -265,7 +267,12 @@ async function handleSecondaryDeviceFriendRequest(pubKey: string) {
   if (!c || !(await c.isFriendWithAnyDevice())) {
     return false;
   }
-  await window.libloki.storage.savePairingAuthorisation(authorisation);
+  await MultiDeviceProtocol.savePairingAuthorisation({
+    primaryDevicePubKey: authorisation.primaryDevicePubKey,
+    secondaryDevicePubKey: authorisation.secondaryDevicePubKey,
+    requestSignature: Buffer.from(authorisation.requestSignature).buffer,
+    grantSignature: Buffer.from(authorisation.grantSignature).buffer,
+  });
 
   return true;
 }
@@ -601,14 +608,11 @@ export async function handleDataMessage(
 
   const source = envelope.senderIdentity || senderPubKey;
 
-  const isOwnDevice = async (pubkey: string) => {
-    const primaryDevice = window.storage.get('primaryDevicePubKey');
-    const secondaryDevices = await window.libloki.storage.getPairedDevicesFor(
-      primaryDevice
-    );
+  const isOwnDevice = async (device: string) => {
+    const pubKey = new PubKey(device);
+    const allDevices = await MultiDeviceProtocol.getAllDevices(pubKey);
 
-    const allDevices = [primaryDevice, ...secondaryDevices];
-    return allDevices.includes(pubkey);
+    return allDevices.some(d => PubKey.isEqual(d, pubKey));
   };
 
   const ownDevice = await isOwnDevice(source);
@@ -773,13 +777,7 @@ export async function handleMessageEvent(event: any): Promise<void> {
   //  - group.id if it is a group message
   let conversationId = id;
 
-  const authorisation = await window.libloki.storage.getGrantAuthorisationForSecondaryPubKey(
-    source
-  );
-
-  const primarySource =
-    (authorisation && authorisation.primaryDevicePubKey) || source;
-
+  const primarySource = await MultiDeviceProtocol.getPrimaryDevice(source);
   if (isGroupMessage) {
     /* handle one part of the group logic here:
            handle requesting info of a new group,
@@ -789,7 +787,7 @@ export async function handleMessageEvent(event: any): Promise<void> {
     const shouldReturn = await preprocessGroupMessage(
       source,
       message.group,
-      primarySource
+      primarySource.key
     );
 
     // handleGroupMessage() can process fully a message in some cases
@@ -800,9 +798,9 @@ export async function handleMessageEvent(event: any): Promise<void> {
     }
   }
 
-  if (source !== ourNumber && authorisation) {
+  if (source !== ourNumber) {
     // Ignore auth from our devices
-    conversationId = authorisation.primaryDevicePubKey;
+    conversationId = primarySource.key;
   }
 
   // the conversation with the primary device of that source (can be the same as conversationOrigin)

@@ -31,3 +31,6 @@ export class PubKey {
     return key.key === comparator.key;
   }
 }
+
+export class PrimaryPubKey extends PubKey {}
+export class SecondaryPubKey extends PubKey {}

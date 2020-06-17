@@ -89,13 +89,8 @@ module.exports = {
   removeAllContactSignedPreKeys,
 
   createOrUpdatePairingAuthorisation,
-  removePairingAuthorisationForSecondaryPubKey,
-  getGrantAuthorisationForSecondaryPubKey,
-  getAuthorisationForSecondaryPubKey,
-  getGrantAuthorisationsForPrimaryPubKey,
-  getSecondaryDevicesFor,
-  getPrimaryDeviceFor,
-  getPairedDevicesFor,
+  getPairingAuthorisationsFor,
+  removePairingAuthorisationsFor,
 
   getGuardNodes,
   updateGuardNodes,
@@ -631,29 +626,20 @@ async function createOrUpdatePairingAuthorisation(data) {
   });
 }
 
-async function removePairingAuthorisationForSecondaryPubKey(pubKey) {
-  if (!pubKey) {
-    return;
-  }
-  await channels.removePairingAuthorisationForSecondaryPubKey(pubKey);
+async function getPairingAuthorisationsFor(pubKey) {
+  const authorisations = channels.getPairingAuthorisationsFor(pubKey);
+
+  return authorisations.map(authorisation => ({
+    ...authorisation,
+    requestSignature: base64ToArrayBuffer(authorisation.requestSignature),
+    grantSignature: authorisation.grantSignature
+      ? base64ToArrayBuffer(authorisation.grantSignature)
+      : undefined,
+  }));
 }
 
-async function getGrantAuthorisationForSecondaryPubKey(pubKey) {
-  return channels.getAuthorisationForSecondaryPubKey(pubKey, {
-    granted: true,
-  });
-}
-
-async function getGrantAuthorisationsForPrimaryPubKey(pubKey) {
-  return channels.getGrantAuthorisationsForPrimaryPubKey(pubKey);
-}
-
-function getAuthorisationForSecondaryPubKey(pubKey) {
-  return channels.getAuthorisationForSecondaryPubKey(pubKey);
-}
-
-function getSecondaryDevicesFor(primaryDevicePubKey) {
-  return channels.getSecondaryDevicesFor(primaryDevicePubKey);
+async function removePairingAuthorisationsFor(pubKey) {
+  await channels.removePairingAuthorisationsFor(pubKey);
 }
 
 function getGuardNodes() {
@@ -662,14 +648,6 @@ function getGuardNodes() {
 
 function updateGuardNodes(nodes) {
   return channels.updateGuardNodes(nodes);
-}
-
-function getPrimaryDeviceFor(secondaryDevicePubKey) {
-  return channels.getPrimaryDeviceFor(secondaryDevicePubKey);
-}
-
-function getPairedDevicesFor(pubKey) {
-  return channels.getPairedDevicesFor(pubKey);
 }
 
 // Items

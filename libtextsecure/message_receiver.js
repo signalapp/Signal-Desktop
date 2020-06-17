@@ -968,7 +968,9 @@ MessageReceiver.prototype.extend({
     if (valid) {
       // Pairing dialog is open and is listening
       if (Whisper.events.isListenedTo('devicePairingRequestReceived')) {
-        await window.libloki.storage.savePairingAuthorisation(pairingRequest);
+        await window.libsession.Protocols.MultiDeviceProtocol.savePairingAuthorisation(
+          pairingRequest
+        );
         Whisper.events.trigger(
           'devicePairingRequestReceived',
           pairingRequest.secondaryDevicePubKey
@@ -1014,7 +1016,9 @@ MessageReceiver.prototype.extend({
         window.storage.remove('secondaryDeviceStatus');
         window.storage.put('isSecondaryDevice', true);
         window.storage.put('primaryDevicePubKey', primaryDevicePubKey);
-        await libloki.storage.savePairingAuthorisation(pairingAuthorisation);
+        await window.libsession.Protocols.MultiDeviceProtocol.savePairingAuthorisation(
+          pairingAuthorisation
+        );
         const primaryConversation = await ConversationController.getOrCreateAndWait(
           primaryDevicePubKey,
           'private'
@@ -1270,16 +1274,12 @@ MessageReceiver.prototype.extend({
   async handleSyncMessage(envelope, syncMessage) {
     // We should only accept sync messages from our devices
     const ourNumber = textsecure.storage.user.getNumber();
-    const ourPrimaryNumber = window.storage.get('primaryDevicePubKey');
-    const ourOtherDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-      ourPrimaryNumber
+    const ourDevices = await libsession.Protocols.MultiDeviceProtocol.getAllDevices(
+      ourNumber
     );
-    const ourDevices = new Set([
-      ourNumber,
-      ourPrimaryNumber,
-      ...ourOtherDevices,
-    ]);
-    const validSyncSender = ourDevices.has(envelope.source);
+    const validSyncSender = ourDevices.some(
+      device => device.key === envelope.source
+    );
     if (!validSyncSender) {
       throw new Error(
         "Received sync message from a device we aren't paired with"

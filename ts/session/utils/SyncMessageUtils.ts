@@ -1,11 +1,8 @@
 import * as _ from 'lodash';
 import * as UserUtils from '../../util/user';
-import {
-  getAllConversations,
-  getPrimaryDeviceFor,
-} from '../../../js/modules/data';
-
+import { getAllConversations } from '../../../js/modules/data';
 import { ContentMessage, SyncMessage } from '../messages/outgoing';
+import { MultiDeviceProtocol } from '../protocols';
 
 export function from(message: ContentMessage): SyncMessage | undefined {
   // const { timestamp, identifier } = message;
@@ -29,7 +26,7 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
     return [];
   }
 
-  const primaryDevice = await getPrimaryDeviceFor(thisDevice);
+  const primaryDevice = await MultiDeviceProtocol.getPrimaryDevice(thisDevice);
   const conversations = await getAllConversations({
     ConversationCollection: window.Whisper.ConversationCollection,
   });
@@ -61,7 +58,7 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
 
   const secondaryContacts = (await Promise.all(seondaryContactsPromise))
     // Filter out our primary key if it was added here
-    .filter(c => c.id !== primaryDevice);
+    .filter(c => c.id !== primaryDevice.key);
 
   // Return unique contacts
   return _.uniqBy(
