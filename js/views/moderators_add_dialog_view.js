@@ -21,9 +21,14 @@
       const modPubKeys = await this.channelAPI.getModerators();
       const convos = window.getConversations().models;
 
-      // private friends (not you) that aren't already moderators
+      // private contacts (not you) that aren't already moderators
       const contacts = convos.filter(
-        d => !!d && d.isPrivate() && !d.isMe() && !modPubKeys.includes(d.id)
+        d =>
+          !!d &&
+          d.isPrivate() &&
+          !d.isBlocked() &&
+          !d.isMe() &&
+          !modPubKeys.includes(d.id)
       );
 
       this.contacts = contacts;

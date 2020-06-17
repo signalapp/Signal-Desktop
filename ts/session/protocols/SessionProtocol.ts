@@ -174,8 +174,6 @@ export class SessionProtocol {
     if (!SessionProtocol.dbLoaded) {
       const sentItem = await getItemById('sentSessionsTimestamp');
       if (sentItem) {
-        // FIXME we must update the existing map with those items
-        // or empty the existing map, not create a new one
         SessionProtocol.sentSessionsTimestamp = sentItem.value;
       } else {
         SessionProtocol.sentSessionsTimestamp = {};

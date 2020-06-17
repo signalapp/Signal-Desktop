@@ -439,8 +439,7 @@ MessageSender.prototype = {
         haveSession ||
         keysFound ||
         options.isPublic ||
-        options.isMediumGroup ||
-        options.messageType === 'session-request'
+        options.isMediumGroup
       ) {
         const outgoing = new OutgoingMessage(
           this.server,

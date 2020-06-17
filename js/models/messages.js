@@ -277,9 +277,6 @@
     isKeyChange() {
       return this.get('type') === 'keychange';
     },
-    isSessionRequest() {
-      return this.get('type') === 'session-request';
-    },
     isGroupInvitation() {
       return !!this.get('groupInvitation');
     },
@@ -523,10 +520,8 @@
         return 'error';
       }
 
-      const isOutgoing = this.isOutgoing();
-
       // Only return the status on outgoing messages
-      if (!isOutgoing) {
+      if (!this.isOutgoing()) {
         return null;
       }
 

@@ -504,9 +504,6 @@
       window.Signal.Data.getOutgoingWithoutExpiresAt({
         MessageCollection: Whisper.MessageCollection,
       }),
-      window.Signal.Data.getAllUnsentMessages({
-        MessageCollection: Whisper.MessageCollection,
-      }),
     ]);
 
     // Combine the models
@@ -525,11 +522,6 @@
         const expirationStartTimestamp = message.get(
           'expirationStartTimestamp'
         );
-
-        // Make sure we only target outgoing messages
-        if (message.isEndSession() && message.get('direction') === 'incoming') {
-          return;
-        }
 
         if (message.isEndSession()) {
           return;
@@ -1159,12 +1151,6 @@
         }
       });
     };
-
-    Whisper.events.on('createNewGroup', async () => {
-      if (appView) {
-        appView.showCreateGroup();
-      }
-    });
 
     Whisper.events.on('updateGroupName', async groupConvo => {
       if (appView) {

@@ -26,7 +26,6 @@ interface MessageCreationData {
   receivedAt: number;
   sourceDevice: number; // always 1 isn't it?
   unidentifiedDeliveryReceived: any; // ???
-  isSessionRequest: boolean;
   isRss: boolean;
   source: boolean;
   serverId: string;
@@ -534,7 +533,6 @@ export async function handleDataMessage(
 
   ev.confirm = () => removeFromCache(envelope);
   ev.data = {
-    isSessionRequest: envelope.type === SESSION_REQUEST,
     source,
     sourceDevice: envelope.sourceDevice,
     timestamp: toNumber(envelope.timestamp),
@@ -593,8 +591,6 @@ export async function handleMessageEvent(event: any): Promise<void> {
 
   const isDuplicate = await isMessageDuplicate(data);
 
-  const testNb: number = 3.1545;
-
   if (isDuplicate) {
     // RSS expects duplicates, so squelch log
     if (!source.match(/^rss:/)) {
@@ -604,11 +600,9 @@ export async function handleMessageEvent(event: any): Promise<void> {
     return;
   }
 
-  // Note(LOKI): don't send receipt for FR as we don't have a session yet
   const shouldSendReceipt =
     isIncoming &&
     data.unidentifiedDeliveryReceived &&
-    !data.isSessionRequest &&
     !isGroupMessage;
 
   if (shouldSendReceipt) {

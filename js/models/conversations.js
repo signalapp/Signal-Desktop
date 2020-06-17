@@ -2014,7 +2014,7 @@
       const hasSession = await libsession.Protocols.SessionProtocol.hasSession(
         devicePubkey
       );
-      if (hasSession) {
+      if (!hasSession) {
         return;
       }
 

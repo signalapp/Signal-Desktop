@@ -48,12 +48,6 @@
     }
   }
 
-  function logSessionRequest(...args) {
-    if (debugFlags & DebugFlagsEnum.SESSION_REQUEST_MESSAGES) {
-      debugLogFn(...args);
-    }
-  }
-
   function logBackgroundMessage(...args) {
     if (debugFlags & DebugFlagsEnum.SESSION_BACKGROUND_MESSAGE) {
       debugLogFn(...args);
@@ -290,7 +284,6 @@
   const debug = {
     logContactSync,
     logGroupSync,
-    logSessionRequest,
     logSessionMessageSending,
     logBackgroundMessage,
     logGroupRequestInfo,

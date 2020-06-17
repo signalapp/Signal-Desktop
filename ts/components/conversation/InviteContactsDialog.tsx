@@ -18,7 +18,7 @@ interface State {
   contactList: Array<ContactType>;
 }
 
-export class InviteFriendsDialog extends React.Component<Props, State> {
+export class InviteContactsDialog extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 

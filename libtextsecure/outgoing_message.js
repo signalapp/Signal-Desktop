@@ -14,8 +14,6 @@ const NUM_SEND_CONNECTIONS = 3;
 
 const getTTLForType = type => {
   switch (type) {
-    case 'session-request':
-      return 4 * 24 * 60 * 60 * 1000; // 4 days for session request message
     case 'device-unpairing':
       return 4 * 24 * 60 * 60 * 1000; // 4 days for device unpairing
     case 'onlineBroadcast':
@@ -106,14 +104,8 @@ function getStaleDeviceIdsForNumber(number) {
 }
 
 const DebugMessageType = {
-  SESSION_REQUEST: 'session-request',
-  SESSION_REQUEST_ACCEPT: 'session-request-accepted',
-
   SESSION_RESET: 'session-reset',
   SESSION_RESET_RECV: 'session-reset-received',
-
-  OUTGOING_FR_ACCEPTED: 'outgoing-friend-request-accepted',
-  INCOMING_FR_ACCEPTED: 'incoming-friend-request-accept',
 
   REQUEST_SYNC_SEND: 'request-sync-send',
   CONTACT_SYNC_SEND: 'contact-sync-send',
@@ -355,8 +347,7 @@ OutgoingMessage.prototype = {
     const keysFound = await this.getKeysForNumber(devicePubKey, updatedDevices);
 
     // Check if we need to attach the preKeys
-    const enableFallBackEncryption =
-      !keysFound || this.messageType === 'session-request';
+    const enableFallBackEncryption = !keysFound;
     const flags = this.message.dataMessage
       ? this.message.dataMessage.get_flags()
       : null;
@@ -414,7 +405,6 @@ OutgoingMessage.prototype = {
       sourceDevice: 1,
       plaintext,
       pubKey: devicePubKey,
-      isFriendRequest: enableFallBackEncryption,
       isSessionRequest,
       enableFallBackEncryption,
     };
@@ -434,7 +424,6 @@ OutgoingMessage.prototype = {
       plaintext,
       pubKey,
       isSessionRequest,
-      isFriendRequest,
       enableFallBackEncryption,
     } = clearMessage;
     // Session doesn't use the deviceId scheme, it's always 1.
@@ -480,7 +469,6 @@ OutgoingMessage.prototype = {
       sourceDevice,
       content,
       pubKey,
-      isFriendRequest,
       isSessionRequest,
     };
   },
@@ -551,8 +539,6 @@ OutgoingMessage.prototype = {
       ourKey: ourIdentity,
       sourceDevice: 1,
       content: contentOuter.encode().toArrayBuffer(),
-      isFriendRequest: false,
-      isSessionRequest: false,
     };
 
     // TODO: Rather than using sealed sender, we just generate a key pair, perform an ECDH against
@@ -672,10 +658,7 @@ OutgoingMessage.buildSessionRequestMessage = function buildSessionRequestMessage
     dataMessage,
   });
 
-  const options = {
-    messageType: 'session-request',
-    debugMessageType: DebugMessageType.SESSION_REQUEST,
-  };
+  const options = {};
   // Send a empty message with information about how to contact us directly
   return new OutgoingMessage(
     null, // server

@@ -14,7 +14,9 @@
 
       const convos = window.getConversations().models;
 
-      this.contacts = convos.filter(d => !!d && d.isPrivate() && !d.isMe());
+      this.contacts = convos.filter(
+        d => !!d && !d.isBlocked() && d.isPrivate() && !d.isMe()
+      );
       if (!convo.isPublic()) {
         const members = convo.get('members') || [];
         this.contacts = this.contacts.filter(d => !members.includes(d.id));
@@ -32,7 +34,7 @@
     render() {
       const view = new Whisper.ReactWrapperView({
         className: 'invite-friends-dialog',
-        Component: window.Signal.Components.InviteFriendsDialog,
+        Component: window.Signal.Components.InviteContactsDialog,
         props: {
           contactList: this.contacts,
           onSubmit: this.submit,

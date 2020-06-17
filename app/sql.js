@@ -834,109 +834,6 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
     );`
   );
 
-  const initConversation = async data => {
-    // eslint-disable-next-line camelcase
-    const { id, active_at, type, name } = data;
-    await instance.run(
-      `INSERT INTO conversations (
-      id,
-      json,
-      active_at,
-      type,
-      members,
-      name
-    ) values (
-      $id,
-      $json,
-      $active_at,
-      $type,
-      $members,
-      $name,
-    );`,
-      {
-        $id: id,
-        $json: objectToJSON(data),
-        $active_at: active_at,
-        $type: type,
-        $members: null,
-        $name: name,
-      }
-    );
-  };
-
-  const lokiPublicServerData = {
-    // make sure we don't have a trailing slash just in case
-    serverUrl: config.get('defaultPublicChatServer').replace(/\/*$/, ''),
-    token: null,
-  };
-  console.log('lokiPublicServerData', lokiPublicServerData);
-
-  const baseData = {
-    active_at: Date.now(),
-    sealedSender: 0,
-    sessionResetStatus: 0,
-    swarmNodes: [],
-    type: 'group',
-    unlockTimestamp: null,
-    unreadCount: 0,
-    verified: 0,
-    version: 2,
-  };
-
-  const publicChatData = {
-    ...baseData,
-    id: `publicChat:1@${lokiPublicServerData.serverUrl.replace(
-      /^https?:\/\//i,
-      ''
-    )}`,
-    server: lokiPublicServerData.serverUrl,
-    name: 'Loki Public Chat',
-    channelId: '1',
-  };
-
-  const { serverUrl, token } = lokiPublicServerData;
-
-  await instance.run(
-    `INSERT INTO servers (
-    serverUrl,
-    token
-  ) values (
-    $serverUrl,
-    $token
-  );`,
-    {
-      $serverUrl: serverUrl,
-      $token: token,
-    }
-  );
-
-  const newsRssFeedData = {
-    ...baseData,
-    id: 'rss://loki.network/feed/',
-    rssFeed: 'https://loki.network/feed/',
-    closable: true,
-    name: 'Loki News',
-    profileAvatar: 'images/session/session_chat_icon.png',
-  };
-
-  const updatesRssFeedData = {
-    ...baseData,
-    id: 'rss://loki.network/category/messenger-updates/feed/',
-    rssFeed: 'https://loki.network/category/messenger-updates/feed/',
-    closable: false,
-    name: 'Session Updates',
-    profileAvatar: 'images/session/session_chat_icon.png',
-  };
-
-  const autoJoinLokiChats = false;
-
-  if (autoJoinLokiChats) {
-    await initConversation(publicChatData);
-  }
-
-  await initConversation(newsRssFeedData);
-  await initConversation(updatesRssFeedData);
-
   await instance.run(
     `INSERT INTO loki_schema (
         version
@@ -2483,7 +2380,7 @@ async function getMessageBySender({ source, sourceDevice, sent_at }) {
 async function getAllUnsentMessages() {
   const rows = await db.all(`
     SELECT json FROM messages WHERE
-      type IN ('outgoing', 'session-request') AND
+      type IN ('outgoing') AND
       NOT sent
     ORDER BY sent_at DESC;
   `);

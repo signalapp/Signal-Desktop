@@ -437,7 +437,7 @@ async function handleRegularMessage(
 
   handleMentions(message, conversation, ourNumber);
 
-  if (type === 'incoming' || message.isEndSession()) {
+  if (type === 'incoming') {
     updateReadStatus(message, conversation);
   }
 

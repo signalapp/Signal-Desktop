@@ -221,13 +221,6 @@
       const dialog = new Whisper.DevicePairingWordsDialogView();
       this.el.prepend(dialog.el);
     },
-    showCreateGroup() {
-      // TODO: make it impossible to open 2 dialogs as once
-      // Currently, if the button is in focus, it is possible to
-      // create a new dialog by pressing 'Enter'
-      const dialog = new Whisper.CreateGroupDialogView();
-      this.el.append(dialog.el);
-    },
     showUpdateGroupNameDialog(groupConvo) {
       const dialog = new Whisper.UpdateGroupNameDialogView(groupConvo);
       this.el.append(dialog.el);
@@ -236,7 +229,6 @@
       const dialog = new Whisper.UpdateGroupMembersDialogView(groupConvo);
       this.el.append(dialog.el);
     },
-
     showSessionRestoreConfirmation(options) {
       const dialog = new Whisper.ConfirmSessionResetView(options);
       this.el.append(dialog.el);
