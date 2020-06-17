@@ -456,6 +456,11 @@ export async function updateProfile(
   }
 
   await conversation.setLokiProfile(newProfile);
+
+  if (conversation.isSecondaryDevice()) {
+    const primaryConversation = await conversation.getPrimaryConversation();
+    await primaryConversation.setLokiProfile(newProfile);
+  }
 }
 
 export async function handleDataMessage(
