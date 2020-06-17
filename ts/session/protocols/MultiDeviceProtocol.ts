@@ -152,7 +152,7 @@ export class MultiDeviceProtocol {
       ]
     );
 
-    return [...new Set(devices)].map(p => new PubKey(p));
+    return _.uniq(devices).map(p => new PubKey(p));
   }
 
   /**
