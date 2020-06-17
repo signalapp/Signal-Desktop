@@ -3,6 +3,7 @@
   textsecure,
   libsignal,
   libloki,
+  libsession,
   lokiFileServerAPI,
   mnemonic,
   btoa,
@@ -573,8 +574,11 @@
         secondaryDevicePubKey,
         libloki.crypto.PairingType.GRANT
       );
-      const existingAuthorisation = await libloki.storage.getAuthorisationForSecondaryPubKey(
+      const authorisations = await libsession.Protocols.MultiDeviceProtocol.getPairingAuthorisations(
         secondaryDevicePubKey
+      );
+      const existingAuthorisation = authorisations.some(
+        pairing => pairing.secondaryDevicePubKey === secondaryDevicePubKey
       );
       if (!existingAuthorisation) {
         throw new Error(
@@ -588,8 +592,11 @@
         requestSignature,
         grantSignature,
       };
+
       // Update authorisation in database with the new grant signature
-      await libloki.storage.savePairingAuthorisation(authorisation);
+      await libsession.Protocols.MultiDeviceProtocol.savePairingAuthorisation(
+        authorisation
+      );
 
       // Try to upload to the file server and then send a message
       try {
@@ -604,7 +611,7 @@
           e && e.stack ? e.stack : e
         );
         // File server upload failed or message sending failed, we should rollback changes
-        await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
+        await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
           secondaryDevicePubKey
         );
         await lokiFileServerAPI.updateOurDeviceMapping();

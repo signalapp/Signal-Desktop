@@ -9,6 +9,7 @@
   textsecure,
   Whisper,
   libloki,
+  libsession,
   libsignal,
   StringView,
   BlockedNumberController,
@@ -1391,7 +1392,7 @@
 
     Whisper.events.on('devicePairingRequestRejected', async pubKey => {
       await libloki.storage.removeContactPreKeyBundle(pubKey);
-      await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
+      await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
         pubKey
       );
     });
@@ -1401,8 +1402,7 @@
       if (isSecondaryDevice) {
         return;
       }
-
-      await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
+      await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
         pubKey
       );
       await window.lokiFileServerAPI.updateOurDeviceMapping();
@@ -1723,16 +1723,15 @@
       return;
     }
 
-    let primaryDevice = null;
-    const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
-      sender
-    );
-    if (authorisation) {
-      primaryDevice = authorisation.primaryDevicePubKey;
-    }
+    // A sender here could be referring to a group.
+    // Groups don't have primary devices so we need to take that into consideration.
+    const user = libsession.Types.PubKey.from(sender);
+    const primaryDevice = user
+      ? await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(user)
+      : null;
 
     const conversation = ConversationController.get(
-      groupId || primaryDevice || sender
+      groupId || (primaryDevice && primaryDevice.key) || sender
     );
 
     if (conversation) {
@@ -1788,25 +1787,21 @@
         activeAt = activeAt || Date.now();
       }
       const ourPrimaryKey = window.storage.get('primaryDevicePubKey');
-      const ourDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-        ourPrimaryKey
-      );
-      // TODO: We should probably just *not* send any secondary devices and
-      // just load them all and send FRs when we get the mapping
-      const isOurSecondaryDevice =
-        id !== ourPrimaryKey &&
-        ourDevices &&
-        ourDevices.some(devicePubKey => devicePubKey === id);
-
-      if (isOurSecondaryDevice) {
-        await conversation.setSecondaryStatus(true, ourPrimaryKey);
+      if (ourPrimaryKey) {
+        const secondaryDevices = await libsession.Protocols.MultiDeviceProtocol.getSecondaryDevices(
+          ourPrimaryKey
+        );
+        if (secondaryDevices.some(device => device.key === id)) {
+          await conversation.setSecondaryStatus(true, ourPrimaryKey);
+        }
       }
 
-      const otherDevices = await libloki.storage.getPairedDevicesFor(id);
-      const devices = [id, ...otherDevices];
+      const devices = await libsession.Protocols.MultiDeviceProtocol.getAllDevices(
+        id
+      );
       const deviceConversations = await Promise.all(
         devices.map(d =>
-          ConversationController.getOrCreateAndWait(d, 'private')
+          ConversationController.getOrCreateAndWait(d.key, 'private')
         )
       );
       // triger session request with every devices of that user

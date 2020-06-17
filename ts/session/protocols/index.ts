@@ -1,4 +1,4 @@
 import { SessionProtocol } from './SessionProtocol';
-import * as MultiDeviceProtocol from './MultiDeviceProtocol';
+export * from './MultiDeviceProtocol';
 
-export { SessionProtocol, MultiDeviceProtocol };
+export { SessionProtocol };

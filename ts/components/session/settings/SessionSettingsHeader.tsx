@@ -3,6 +3,9 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 
 import { SessionSettingCategory, SettingsViewProps } from './SessionSettings';
 import { SessionButton } from '../SessionButton';
+import { UserUtil } from '../../../util';
+import { PubKey } from '../../../session/types';
+import { MultiDeviceProtocol } from '../../../session/protocols';
 
 interface Props extends SettingsViewProps {
   // showLinkDeviceButton is used to completely hide the button while the settings password lock is displayed
@@ -37,22 +40,20 @@ export class SettingsHeader extends React.Component<Props, any> {
   public componentDidMount() {
     if (!this.props.isSecondaryDevice) {
       window.Whisper.events.on('refreshLinkedDeviceList', async () => {
-        this.refreshLinkedDevice();
+        void this.refreshLinkedDevice();
       });
-      this.refreshLinkedDevice();
+      void this.refreshLinkedDevice();
     }
   }
 
-  public refreshLinkedDevice() {
-    const ourPubKey = window.textsecure.storage.user.getNumber();
+  public async refreshLinkedDevice() {
+    const ourPubKey = await UserUtil.getCurrentDevicePubKey();
+    if (ourPubKey) {
+      const pubKey = new PubKey(ourPubKey);
+      const devices = await MultiDeviceProtocol.getSecondaryDevices(pubKey);
 
-    window.libloki.storage
-      .getSecondaryDevicesFor(ourPubKey)
-      .then((pubKeys: any) => {
-        this.setState({
-          disableLinkDeviceButton: pubKeys && pubKeys.length > 0,
-        });
-      });
+      this.setState({ disableLinkDeviceButton: devices.length > 0 });
+    }
   }
 
   public componentWillUnmount() {

@@ -46,7 +46,7 @@ declare global {
     libsignal: LibsignalProtocol;
     log: any;
     lokiFeatureFlags: any;
-    lokiFileServerAPI: any;
+    lokiFileServerAPI: LokiFileServerInstance;
     lokiMessageAPI: LokiMessageAPI;
     lokiPublicChatAPI: LokiPublicChatFactoryAPI;
     mnemonic: any;
