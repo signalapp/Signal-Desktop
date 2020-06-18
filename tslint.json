@@ -145,6 +145,7 @@
     "prefer-type-cast": false,
     // We use || and && shortcutting because we're javascript programmers
     "strict-boolean-expressions": false,
+    "no-promise-as-boolean": true,
     "no-suspicious-comment": false,
     "no-backbone-get-set-outside-model": false,
     "underscore-consistent-invocation": false,
