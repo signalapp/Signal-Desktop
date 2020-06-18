@@ -52,7 +52,7 @@ describe('PendingMessageCache', () => {
   });
 
   it('can add to cache', async () => {
-    const device = TestUtils.generateFakePubkey();
+    const device = TestUtils.generateFakePubKey();
     const message = TestUtils.generateChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
@@ -69,7 +69,7 @@ describe('PendingMessageCache', () => {
   });
 
   it('can remove from cache', async () => {
-    const device = TestUtils.generateFakePubkey();
+    const device = TestUtils.generateFakePubKey();
     const message = TestUtils.generateChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
@@ -90,15 +90,15 @@ describe('PendingMessageCache', () => {
   it('can get devices', async () => {
     const cacheItems = [
       {
-        device: TestUtils.generateFakePubkey(),
+        device: TestUtils.generateFakePubKey(),
         message: TestUtils.generateChatMessage(),
       },
       {
-        device: TestUtils.generateFakePubkey(),
+        device: TestUtils.generateFakePubKey(),
         message: TestUtils.generateChatMessage(),
       },
       {
-        device: TestUtils.generateFakePubkey(),
+        device: TestUtils.generateFakePubKey(),
         message: TestUtils.generateChatMessage(),
       },
     ];
@@ -122,11 +122,11 @@ describe('PendingMessageCache', () => {
   it('can get pending for device', async () => {
     const cacheItems = [
       {
-        device: TestUtils.generateFakePubkey(),
+        device: TestUtils.generateFakePubKey(),
         message: TestUtils.generateChatMessage(),
       },
       {
-        device: TestUtils.generateFakePubkey(),
+        device: TestUtils.generateFakePubKey(),
         message: TestUtils.generateChatMessage(),
       },
     ];
@@ -149,7 +149,7 @@ describe('PendingMessageCache', () => {
   });
 
   it('can find nothing when empty', async () => {
-    const device = TestUtils.generateFakePubkey();
+    const device = TestUtils.generateFakePubKey();
     const message = TestUtils.generateChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
@@ -158,7 +158,7 @@ describe('PendingMessageCache', () => {
   });
 
   it('can find message in cache', async () => {
-    const device = TestUtils.generateFakePubkey();
+    const device = TestUtils.generateFakePubKey();
     const message = TestUtils.generateChatMessage();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
@@ -175,15 +175,15 @@ describe('PendingMessageCache', () => {
   it('can clear cache', async () => {
     const cacheItems = [
       {
-        device: TestUtils.generateFakePubkey(),
+        device: TestUtils.generateFakePubKey(),
         message: TestUtils.generateChatMessage(),
       },
       {
-        device: TestUtils.generateFakePubkey(),
+        device: TestUtils.generateFakePubKey(),
         message: TestUtils.generateChatMessage(),
       },
       {
-        device: TestUtils.generateFakePubkey(),
+        device: TestUtils.generateFakePubKey(),
         message: TestUtils.generateChatMessage(),
       },
     ];
@@ -205,15 +205,15 @@ describe('PendingMessageCache', () => {
   it('can restore from db', async () => {
     const cacheItems = [
       {
-        device: TestUtils.generateFakePubkey(),
+        device: TestUtils.generateFakePubKey(),
         message: TestUtils.generateChatMessage(),
       },
       {
-        device: TestUtils.generateFakePubkey(),
+        device: TestUtils.generateFakePubKey(),
         message: TestUtils.generateChatMessage(),
       },
       {
-        device: TestUtils.generateFakePubkey(),
+        device: TestUtils.generateFakePubKey(),
         message: TestUtils.generateChatMessage(),
       },
     ];

@@ -69,7 +69,7 @@ export function restoreStubs() {
   sandbox.restore();
 }
 
-export function generateFakePubkey(): PubKey {
+export function generateFakePubKey(): PubKey {
   // Generates a mock pubkey for testing
   const numBytes = PubKey.PUBKEY_LEN / 2 - 1;
   const hexBuffer = crypto.randomBytes(numBytes).toString('hex');
@@ -79,8 +79,12 @@ export function generateFakePubkey(): PubKey {
 }
 
 export function generateFakePubKeys(amount: number): Array<PubKey> {
+  const numPubKeys = amount > 0
+    ? Math.floor(amount)
+    : 0;
+
   // tslint:disable-next-line: no-unnecessary-callback-wrapper
-  return new Array(amount).fill(0).map(() => generateFakePubkey());
+  return new Array(numPubKeys).fill(0).map(() => generateFakePubKey());
 }
 
 export function generateChatMessage(): ChatMessage {
@@ -118,15 +122,8 @@ export function generateClosedGroupMessage(
 ): ClosedGroupChatMessage {
   return new ClosedGroupChatMessage({
     identifier: uuid(),
-    groupId: groupId ?? generateFakePubkey().key,
+    groupId: groupId ?? generateFakePubKey().key,
     chatMessage: generateChatMessage(),
   });
 }
 
-export function generateMemberList(size: number): Array<PubKey> {
-  const numMembers = Math.floor(size);
-
-  return numMembers > 0
-    ? Array.from({ length: numMembers }, generateFakePubkey)
-    : [];
-}

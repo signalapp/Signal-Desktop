@@ -31,27 +31,37 @@ export class MultiDeviceProtocol {
     // This return here stops an infinite loop when we get all our other devices
     const ourKey = await UserUtil.getCurrentDevicePubKey();
     if (!ourKey || device.key === ourKey) {
+      console.log(`[vince] 1 GUARD`);
+      console.log('[vince] ourKey:', ourKey);
+      console.log('[vince] device:', device);
+
       return;
     }
 
     // We always prefer our local pairing over the one on the server
     const isOurDevice = await this.isOurDevice(device);
     if (isOurDevice) {
+      console.log(`[vince] 2 GUARD`);
       return;
     }
 
     // Only fetch if we hit the refresh delay
     const lastFetchTime = this.lastFetch[device.key];
     if (lastFetchTime && lastFetchTime + this.refreshDelay > Date.now()) {
+      console.log(`[vince] 3 GUARD`);
       return;
     }
+    
 
     this.lastFetch[device.key] = Date.now();
+    console.log(`[vince] 4 GUARD`);
 
     try {
+      console.log(`[vince] 5 GUARD`);
       const authorisations = await this.fetchPairingAuthorisations(device);
       await Promise.all(authorisations.map(this.savePairingAuthorisation));
     } catch (e) {
+      console.log(`[vince] 6 GUARD`);
       // Something went wrong, let it re-try another time
       this.lastFetch[device.key] = lastFetchTime;
     }

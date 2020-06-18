@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
+import * as _ from 'lodash';
 import { GroupUtils, SyncMessageUtils } from '../../../session/utils';
 import { Stubs, TestUtils } from '../../../test/test-utils';
 import { MessageQueue } from '../../../session/sending/MessageQueue';
@@ -36,9 +37,9 @@ describe('MessageQueue', () => {
   // Initialize new stubbed cache
   let data: StorageItem;
   const sandbox = sinon.createSandbox();
-  const ourDevice = TestUtils.generateFakePubkey();
+  const ourDevice = TestUtils.generateFakePubKey();
   const ourNumber = ourDevice.key;
-  const pairedDevices = TestUtils.generateMemberList(2);
+  const pairedDevices = TestUtils.generateFakePubKeys(2);
 
   // Initialize new stubbed queue
   let messageQueueStub: MessageQueue;
@@ -106,7 +107,7 @@ describe('MessageQueue', () => {
     sandbox.stub(GroupUtils, 'isMediumGroup').returns(false);
     groupMembersStub = sandbox
       .stub(GroupUtils, 'getGroupMembers' as any)
-      .resolves(TestUtils.generateMemberList(10));
+      .resolves(TestUtils.generateFakePubKeys(10));
 
     // Session Protocol Stubs
     sandbox.stub(SessionProtocol, 'sendSessionRequest').resolves();
@@ -121,7 +122,7 @@ describe('MessageQueue', () => {
       TestUtils.generateChatMessage
     );
     const rawMessage = toRawMessage(
-      TestUtils.generateFakePubkey(),
+      TestUtils.generateFakePubKey(),
       TestUtils.generateChatMessage()
     );
 
@@ -129,11 +130,11 @@ describe('MessageQueue', () => {
     sandbox.stub(PendingMessageCache.prototype, 'remove').resolves();
     sandbox
       .stub(PendingMessageCache.prototype, 'getDevices')
-      .returns(TestUtils.generateMemberList(10));
+      .returns(TestUtils.generateFakePubKeys(10));
     sandbox
       .stub(PendingMessageCache.prototype, 'getForDevice')
       .returns(
-        chatMessages.map(m => toRawMessage(TestUtils.generateFakePubkey(), m))
+        chatMessages.map(m => toRawMessage(TestUtils.generateFakePubKey(), m))
       );
 
     // Spies
@@ -155,7 +156,7 @@ describe('MessageQueue', () => {
 
   describe('send', () => {
     it('can send to a single device', async () => {
-      const device = TestUtils.generateFakePubkey();
+      const device = TestUtils.generateFakePubKey();
       const message = TestUtils.generateChatMessage();
 
       const promise = messageQueueStub.send(device, message);
@@ -163,7 +164,7 @@ describe('MessageQueue', () => {
     });
 
     it('can send sync message', async () => {
-      const devices = TestUtils.generateMemberList(3);
+      const devices = TestUtils.generateFakePubKeys(3);
       const message = TestUtils.generateChatMessage();
 
       const promise = messageQueueStub.sendSyncMessage(message, devices);
@@ -175,7 +176,7 @@ describe('MessageQueue', () => {
     it('will send session request message if no session', async () => {
       hasSessionStub.resolves(false);
 
-      const device = TestUtils.generateFakePubkey();
+      const device = TestUtils.generateFakePubKey();
       const promise = messageQueueStub.processPending(device);
 
       await expect(promise).to.be.fulfilled;
@@ -183,7 +184,7 @@ describe('MessageQueue', () => {
     });
 
     it('will send message if session exists', async () => {
-      const device = TestUtils.generateFakePubkey();
+      const device = TestUtils.generateFakePubKey();
       const hasSession = await hasSessionStub(device);
 
       const promise = messageQueueStub.processPending(device);
@@ -196,7 +197,7 @@ describe('MessageQueue', () => {
 
   describe('sendUsingMultiDevice', () => {
     it('can send using multidevice', async () => {
-      const device = TestUtils.generateFakePubkey();
+      const device = TestUtils.generateFakePubKey();
       const message = TestUtils.generateChatMessage();
 
       const promise = messageQueueStub.sendUsingMultiDevice(device, message);
@@ -238,7 +239,7 @@ describe('MessageQueue', () => {
 
   describe('sendMessageToDevices', () => {
     it('can send to many devices', async () => {
-      const devices = TestUtils.generateMemberList(10);
+      const devices = TestUtils.generateFakePubKeys(10);
       const message = TestUtils.generateChatMessage();
 
       const promise = messageQueueStub.sendMessageToDevices(devices, message);
@@ -248,10 +249,9 @@ describe('MessageQueue', () => {
     it('can send sync message and confirm canSync is valid', async () => {
       canSyncStub.returns(true);
 
-      const devices = TestUtils.generateMemberList(3);
+      const devices = TestUtils.generateFakePubKeys(3);
       const message = TestUtils.generateChatMessage();
       const pairedDeviceKeys = pairedDevices.map(device => device.key);
-      const ourDeviceKeys = [...pairedDeviceKeys, ourNumber].sort();
 
       const promise = messageQueueStub.sendMessageToDevices(devices, message);
       await expect(promise).to.be.fulfilled;
@@ -267,7 +267,7 @@ describe('MessageQueue', () => {
       expect(previousArgs).to.have.length(2);
 
       const argsChatMessage = previousArgs[0];
-      const argsPairedKeys = [...previousArgs[1]].map(d => d.key).sort();
+      const argsPairedKeys = [...previousArgs[1]].map(d => d.key);
 
       expect(argsChatMessage instanceof ChatMessage).to.equal(
         true,
@@ -278,9 +278,9 @@ describe('MessageQueue', () => {
         'message passed into sendMessageToDevices has been mutated'
       );
 
-      argsPairedKeys.forEach((argsPaired: string, index: number) => {
-        expect(argsPaired).to.equal(ourDeviceKeys[index]);
-      });
+      // argsPairedKeys and pairedDeviceKeys should contain the same values
+      const keyArgsValid = _.isEmpty(_.xor(argsPairedKeys, pairedDeviceKeys));
+      expect(keyArgsValid).to.equal(true, 'devices passed into sendSyncMessage were invalid');
     });
   });
 
@@ -334,7 +334,7 @@ describe('MessageQueue', () => {
     });
 
     it('wont send message to empty closed group', async () => {
-      groupMembersStub.resolves(TestUtils.generateMemberList(0));
+      groupMembersStub.resolves(TestUtils.generateFakePubKeys(0));
 
       const message = TestUtils.generateClosedGroupMessage();
       const response = await messageQueueStub.sendToGroup(message);
@@ -358,7 +358,7 @@ describe('MessageQueue', () => {
       const successSpy = sandbox.spy();
       messageQueueStub.events.on('success', successSpy);
 
-      const device = TestUtils.generateFakePubkey();
+      const device = TestUtils.generateFakePubKey();
       const promise = messageQueueStub.processPending(device);
       await expect(promise).to.be.fulfilled;
 
@@ -372,7 +372,7 @@ describe('MessageQueue', () => {
       const failureSpy = sandbox.spy();
       messageQueueStub.events.on('fail', failureSpy);
 
-      const device = TestUtils.generateFakePubkey();
+      const device = TestUtils.generateFakePubKey();
       const promise = messageQueueStub.processPending(device);
       await expect(promise).to.be.fulfilled;
 
