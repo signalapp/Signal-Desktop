@@ -63,7 +63,7 @@ describe('MessageQueue', () => {
   let sendToOpenGroupStub: sinon.SinonStub<[OpenGroupMessage]>;
   // Utils Stubs
   let groupMembersStub: sinon.SinonStub;
-  let canSyncStub: sinon.SinonStub;
+  let canSyncStub: sinon.SinonStub<[ContentMessage], boolean>;
   // Session Protocol Stubs
   let hasSessionStub: sinon.SinonStub<[PubKey]>;
   let sendSessionRequestIfNeededStub: sinon.SinonStub<[PubKey], Promise<void>>;
@@ -280,7 +280,10 @@ describe('MessageQueue', () => {
 
       // argsPairedKeys and pairedDeviceKeys should contain the same values
       const keyArgsValid = _.isEmpty(_.xor(argsPairedKeys, pairedDeviceKeys));
-      expect(keyArgsValid).to.equal(true, 'devices passed into sendSyncMessage were invalid');
+      expect(keyArgsValid).to.equal(
+        true,
+        'devices passed into sendSyncMessage were invalid'
+      );
     });
   });
 

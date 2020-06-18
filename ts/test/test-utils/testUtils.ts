@@ -79,9 +79,7 @@ export function generateFakePubKey(): PubKey {
 }
 
 export function generateFakePubKeys(amount: number): Array<PubKey> {
-  const numPubKeys = amount > 0
-    ? Math.floor(amount)
-    : 0;
+  const numPubKeys = amount > 0 ? Math.floor(amount) : 0;
 
   // tslint:disable-next-line: no-unnecessary-callback-wrapper
   return new Array(numPubKeys).fill(0).map(() => generateFakePubKey());
@@ -126,4 +124,3 @@ export function generateClosedGroupMessage(
     chatMessage: generateChatMessage(),
   });
 }
-
