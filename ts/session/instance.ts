@@ -1,4 +1,4 @@
-import { MessageQueue } from './MessageQueue';
+import { MessageQueue } from './sending/';
 
 let messageQueue: MessageQueue;
 
