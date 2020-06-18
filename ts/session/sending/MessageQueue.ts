@@ -49,7 +49,7 @@ export class MessageQueue implements MessageQueueInterface {
     let currentDevices = [...devices];
 
     // Sync to our devices if syncable
-    if (SyncMessageUtils.canSync(message)) {
+    if (await SyncMessageUtils.canSync(message)) {
       const currentDevice = await UserUtil.getCurrentDevicePubKey();
 
       if (currentDevice) {

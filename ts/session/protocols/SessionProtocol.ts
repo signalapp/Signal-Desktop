@@ -239,7 +239,7 @@ export class SessionProtocol {
   ): Promise<void> {
     await SessionProtocol.fetchFromDBIfNeeded();
     if (
-      SessionProtocol.updateSessionTimestamp(
+      await SessionProtocol.updateSessionTimestamp(
         device,
         timestamp,
         SessionProtocol.sentSessionsTimestamp
@@ -258,7 +258,7 @@ export class SessionProtocol {
   ): Promise<void> {
     await SessionProtocol.fetchFromDBIfNeeded();
     if (
-      SessionProtocol.updateSessionTimestamp(
+      await SessionProtocol.updateSessionTimestamp(
         device,
         timestamp,
         SessionProtocol.processedSessionsTimestamp
