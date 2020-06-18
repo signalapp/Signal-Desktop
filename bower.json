@@ -22,9 +22,6 @@
     "indexeddb-backbonejs-adapter": [
       "backbone-indexeddb.js"
     ],
-    "long": [
-      "dist/Long.js"
-    ],
     "mock-socket": [
       "dist/mock-socket.js"
     ],
@@ -45,7 +42,7 @@
   "concat": {
     "app": [
       "node_modules/jquery/dist/jquery.js",
-      "components/long/**/*.js",
+      "node_modules/long/dist/long.js",
       "components/protobuf/**/*.js",
       "node_modules/mustache/mustache.js",
       "node_modules/underscore/underscore.js",
@@ -57,11 +54,11 @@
       "components/multibase/dist/index.js"
     ],
     "libtextsecure": [
-      "components/long/**/*.js",
+      "node_modules/long/dist/long.js",
       "components/protobuf/**/*.js"
     ],
     "libloki": [
-      "components/long/**/*.js",
+      "node_modules/long/dist/long.js",
       "components/JSBI/dist/jsbi.mjs",
       "components/multibase/dist/index.js"
     ]
