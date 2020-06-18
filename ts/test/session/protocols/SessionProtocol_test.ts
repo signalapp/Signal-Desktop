@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { SessionProtocol } from '../../../session/protocols';
 import * as sinon from 'sinon';
-import { Stubs, TestUtils, timeout } from '../../test-utils';
+import { Stubs, TestUtils } from '../../test-utils';
 import { UserUtil } from '../../../util';
 import { SessionRequestMessage } from '../../../session/messages/outgoing';
 import { TextEncoder } from 'util';
@@ -219,7 +219,7 @@ describe('SessionProtocol', () => {
       expect(SessionProtocol.getProcessedSessionsTimestamp())
         .to.have.property('deviceid')
         .to.be.approximately(Date.now(), 5);
-      await timeout(5);
+      await TestUtils.timeout(5);
       const oldTimestamp = SessionProtocol.getProcessedSessionsTimestamp()
         .deviceid;
       await SessionProtocol.onSessionRequestProcessed(pubkey);
@@ -291,7 +291,7 @@ describe('SessionProtocol', () => {
 
     it('protocol: shouldProcessSessionRequest returns false if there is a more recent sent but a less recent processed', async () => {
       await SessionProtocol.sendSessionRequest(resetMessage, pubkey); // adds a Date.now() entry
-      await timeout(100);
+      await TestUtils.timeout(100);
       await SessionProtocol.onSessionRequestProcessed(pubkey); // adds a Date.now() entry 100ms after
 
       expect(
@@ -304,7 +304,7 @@ describe('SessionProtocol', () => {
 
     it('protocol: shouldProcessSessionRequest returns false if there is a more recent processed but a less recent sent', async () => {
       await SessionProtocol.onSessionRequestProcessed(pubkey); // adds a Date.now() entry
-      await timeout(100);
+      await TestUtils.timeout(100);
       await SessionProtocol.sendSessionRequest(resetMessage, pubkey); // adds a Date.now() entry 100ms after
 
       expect(
