@@ -24,7 +24,7 @@ export class ContactName extends React.Component<Props> {
 
     return (
       <span className={prefix} dir="auto">
-        <Emojify text={title} />
+        <Emojify text={title || ''} />
         {shouldShowProfile ? ' ' : null}
         {profileElement}
       </span>
