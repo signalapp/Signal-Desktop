@@ -15,8 +15,8 @@ import { UserUtil } from '../../../util';
 import { MessageSender, PendingMessageCache } from '../../../session/sending';
 import { toRawMessage } from '../../../session/utils/Messages';
 import {
-  SessionProtocol,
   MultiDeviceProtocol,
+  SessionProtocol,
 } from '../../../session/protocols';
 
 // Equivalent to Data.StorageItem
