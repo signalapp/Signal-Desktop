@@ -1,12 +1,8 @@
 import * as _ from 'lodash';
-import { UserUtil } from '../../util';
-import {
-  getAllConversations,
-  getPrimaryDeviceFor,
-} from '../../../js/modules/data';
-import { ConversationController, Whisper } from '../../window';
-
+import { UserUtil } from '../../util/';
+import { getAllConversations } from '../../../js/modules/data';
 import { ContentMessage, SyncMessage } from '../messages/outgoing';
+import { MultiDeviceProtocol } from '../protocols';
 
 export function from(message: ContentMessage): SyncMessage | undefined {
   // const { timestamp, identifier } = message;
@@ -30,9 +26,9 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
     return [];
   }
 
-  const primaryDevice = await getPrimaryDeviceFor(thisDevice);
+  const primaryDevice = await MultiDeviceProtocol.getPrimaryDevice(thisDevice);
   const conversations = await getAllConversations({
-    ConversationCollection: Whisper.ConversationCollection,
+    ConversationCollection: window.Whisper.ConversationCollection,
   });
 
   // We are building a set of all contacts
@@ -41,7 +37,7 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
       c =>
         c.isPrivate() &&
         !c.isOurLocalDevice() &&
-        c.isFriend() &&
+        !c.isBlocked() &&
         !c.attributes.secondaryStatus
     ) || [];
 
@@ -49,12 +45,12 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
     c =>
       c.isPrivate() &&
       !c.isOurLocalDevice() &&
-      c.isFriend() &&
+      !c.isBlocked() &&
       c.attributes.secondaryStatus
   );
 
   const seondaryContactsPromise = secondaryContactsPartial.map(async c =>
-    ConversationController.getOrCreateAndWait(
+    window.ConversationController.getOrCreateAndWait(
       c.getPrimaryDevicePubKey(),
       'private'
     )
@@ -62,7 +58,7 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
 
   const secondaryContacts = (await Promise.all(seondaryContactsPromise))
     // Filter out our primary key if it was added here
-    .filter(c => c.id !== primaryDevice);
+    .filter(c => c.id !== primaryDevice.key);
 
   // Return unique contacts
   return _.uniqBy(

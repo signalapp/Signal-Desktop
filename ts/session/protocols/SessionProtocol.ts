@@ -1,7 +1,6 @@
 import { SessionRequestMessage } from '../messages/outgoing';
 // import { MessageSender } from '../sending';
 import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
-import { libloki, libsignal, textsecure } from '../../window';
 import { MessageSender } from '../sending';
 import { MessageUtils } from '../utils';
 import { PubKey } from '../types';
@@ -18,7 +17,7 @@ export class SessionProtocol {
    * This map should not be used directly, but instead through
    * `updateSendSessionTimestamp()`, or `hasSendSessionRequest()`
    */
-  private static sentSessionsTimestamp: StringToNumberMap;
+  private static sentSessionsTimestamp: StringToNumberMap = {};
 
   /**
    * This map olds the processed session timestamps, i.e. when we received a session request and handled it.
@@ -26,7 +25,7 @@ export class SessionProtocol {
    * This map should not be used directly, but instead through
    * `updateProcessedSessionTimestamp()`, `getProcessedSessionRequest()` or `hasProcessedSessionRequest()`
    */
-  private static processedSessionsTimestamp: StringToNumberMap;
+  private static processedSessionsTimestamp: StringToNumberMap = {};
 
   /**
    * This map olds the timestamp on which a sent session reset is triggered for a specific device.
@@ -50,9 +49,9 @@ export class SessionProtocol {
   /** Returns true if we already have a session with that device */
   public static async hasSession(pubkey: PubKey): Promise<boolean> {
     // Session does not use the concept of a deviceId, thus it's always 1
-    const address = new libsignal.SignalProtocolAddress(pubkey.key, 1);
-    const sessionCipher = new libsignal.SessionCipher(
-      textsecure.storage.protocol,
+    const address = new window.libsignal.SignalProtocolAddress(pubkey.key, 1);
+    const sessionCipher = new window.libsignal.SessionCipher(
+      window.textsecure.storage.protocol,
       address
     );
 
@@ -90,7 +89,7 @@ export class SessionProtocol {
       return;
     }
 
-    const preKeyBundle = await libloki.storage.getPreKeyBundleForContact(
+    const preKeyBundle = await window.libloki.storage.getPreKeyBundleForContact(
       pubkey.key
     );
 
@@ -102,11 +101,7 @@ export class SessionProtocol {
     try {
       await SessionProtocol.sendSessionRequest(sessionReset, pubkey);
     } catch (error) {
-      window.console.warn(
-        'Failed to send session request to:',
-        pubkey.key,
-        error
-      );
+      console.warn('Failed to send session request to:', pubkey.key, error);
     }
   }
 
@@ -273,34 +268,20 @@ export class SessionProtocol {
     }
   }
 
-  /**
-   * This is a utility function to avoid duplicate code between `getProcessedSessionRequest()` and `getSentSessionRequest()`
-   */
-  private static async getSessionRequest(
-    device: string,
-    map: StringToNumberMap
-  ): Promise<number | undefined> {
-    await SessionProtocol.fetchFromDBIfNeeded();
-
-    return map[device];
-  }
-
   private static async getSentSessionRequest(
     device: string
   ): Promise<number | undefined> {
-    return SessionProtocol.getSessionRequest(
-      device,
-      SessionProtocol.sentSessionsTimestamp
-    );
+    await SessionProtocol.fetchFromDBIfNeeded();
+
+    return SessionProtocol.sentSessionsTimestamp[device];
   }
 
   private static async getProcessedSessionRequest(
     device: string
   ): Promise<number | undefined> {
-    return SessionProtocol.getSessionRequest(
-      device,
-      SessionProtocol.processedSessionsTimestamp
-    );
+    await SessionProtocol.fetchFromDBIfNeeded();
+
+    return SessionProtocol.processedSessionsTimestamp[device];
   }
 
   private static async hasAlreadySentSessionRequest(

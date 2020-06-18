@@ -153,7 +153,7 @@
         ivAndCiphertext
       ).toString('binary');
       return {
-        type: textsecure.protobuf.Envelope.Type.FRIEND_REQUEST,
+        type: textsecure.protobuf.Envelope.Type.SESSION_REQUEST,
         body: binaryIvAndCiphertext,
         registrationId: undefined,
       };

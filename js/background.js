@@ -9,9 +9,11 @@
   textsecure,
   Whisper,
   libloki,
+  libsession,
   libsignal,
   StringView,
   BlockedNumberController,
+  libsession,
 */
 
 // eslint-disable-next-line func-names
@@ -503,9 +505,6 @@
       window.Signal.Data.getOutgoingWithoutExpiresAt({
         MessageCollection: Whisper.MessageCollection,
       }),
-      window.Signal.Data.getAllUnsentMessages({
-        MessageCollection: Whisper.MessageCollection,
-      }),
     ]);
 
     // Combine the models
@@ -524,14 +523,6 @@
         const expirationStartTimestamp = message.get(
           'expirationStartTimestamp'
         );
-
-        // Make sure we only target outgoing messages
-        if (
-          message.isFriendRequest() &&
-          message.get('direction') === 'incoming'
-        ) {
-          return;
-        }
 
         if (message.isEndSession()) {
           return;
@@ -804,10 +795,6 @@
       convo.updateGroupAdmins([primary]);
       convo.updateGroup(ev.groupDetails);
 
-      convo.setFriendRequestStatus(
-        window.friends.friendRequestStatusEnum.friends
-      );
-
       appView.openConversation(groupId, {});
 
       // Subscribe to this group id
@@ -845,12 +832,6 @@
 
       convo.updateGroupAdmins([primaryDeviceKey]);
       convo.updateGroup(ev.groupDetails);
-
-      // Group conversations are automatically 'friends'
-      // so that we can skip the friend request logic
-      convo.setFriendRequestStatus(
-        window.friends.friendRequestStatusEnum.friends
-      );
 
       textsecure.messaging.sendGroupSyncMessage([convo]);
       appView.openConversation(groupId, {});
@@ -1148,11 +1129,6 @@
 
       // convert conversation to a public one
       await conversation.setPublicSource(sslServerURL, channelId);
-      // set friend and appropriate SYNC messages for multidevice
-      await conversation.setFriendRequestStatus(
-        window.friends.friendRequestStatusEnum.friends,
-        { blockSync: true }
-      );
 
       // and finally activate it
       conversation.getPublicSendData(); // may want "await" if you want to use the API
@@ -1177,12 +1153,6 @@
       });
     };
 
-    Whisper.events.on('createNewGroup', async () => {
-      if (appView) {
-        appView.showCreateGroup();
-      }
-    });
-
     Whisper.events.on('updateGroupName', async groupConvo => {
       if (appView) {
         appView.showUpdateGroupNameDialog(groupConvo);
@@ -1194,9 +1164,9 @@
       }
     });
 
-    Whisper.events.on('inviteFriends', async groupConvo => {
+    Whisper.events.on('inviteContacts', async groupConvo => {
       if (appView) {
-        appView.showInviteFriendsDialog(groupConvo);
+        appView.showInviteContactsDialog(groupConvo);
       }
     });
 
@@ -1249,9 +1219,6 @@
 
         serverAPI.findOrCreateChannel(channelId, conversationId);
         await conversation.setPublicSource(sslServerUrl, channelId);
-        await conversation.setFriendRequestStatus(
-          window.friends.friendRequestStatusEnum.friends
-        );
 
         appView.openConversation(conversationId, {});
       }
@@ -1425,7 +1392,7 @@
 
     Whisper.events.on('devicePairingRequestRejected', async pubKey => {
       await libloki.storage.removeContactPreKeyBundle(pubKey);
-      await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
+      await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
         pubKey
       );
     });
@@ -1435,8 +1402,7 @@
       if (isSecondaryDevice) {
         return;
       }
-
-      await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
+      await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
         pubKey
       );
       await window.lokiFileServerAPI.updateOurDeviceMapping();
@@ -1605,10 +1571,6 @@
     messageReceiver.addEventListener('configuration', onConfiguration);
     messageReceiver.addEventListener('typing', onTyping);
 
-    Whisper.events.on('endSession', source => {
-      window.NewReceiver.handleEndSession(source);
-    });
-
     window.Signal.AttachmentDownloads.start({
       getMessageReceiver: () => messageReceiver,
       logger: window.log,
@@ -1761,16 +1723,15 @@
       return;
     }
 
-    let primaryDevice = null;
-    const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
-      sender
-    );
-    if (authorisation) {
-      primaryDevice = authorisation.primaryDevicePubKey;
-    }
+    // A sender here could be referring to a group.
+    // Groups don't have primary devices so we need to take that into consideration.
+    const user = libsession.Types.PubKey.from(sender);
+    const primaryDevice = user
+      ? await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(user)
+      : null;
 
     const conversation = ConversationController.get(
-      groupId || primaryDevice || sender
+      groupId || (primaryDevice && primaryDevice.key) || sender
     );
 
     if (conversation) {
@@ -1826,34 +1787,29 @@
         activeAt = activeAt || Date.now();
       }
       const ourPrimaryKey = window.storage.get('primaryDevicePubKey');
-      const ourDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-        ourPrimaryKey
-      );
-      // TODO: We should probably just *not* send any secondary devices and
-      // just load them all and send FRs when we get the mapping
-      const isOurSecondaryDevice =
-        id !== ourPrimaryKey &&
-        ourDevices &&
-        ourDevices.some(devicePubKey => devicePubKey === id);
-
-      if (isOurSecondaryDevice) {
-        await conversation.setSecondaryStatus(true, ourPrimaryKey);
+      if (ourPrimaryKey) {
+        const secondaryDevices = await libsession.Protocols.MultiDeviceProtocol.getSecondaryDevices(
+          ourPrimaryKey
+        );
+        if (secondaryDevices.some(device => device.key === id)) {
+          await conversation.setSecondaryStatus(true, ourPrimaryKey);
+        }
       }
 
-      const otherDevices = await libloki.storage.getPairedDevicesFor(id);
-      const devices = [id, ...otherDevices];
+      const devices = await libsession.Protocols.MultiDeviceProtocol.getAllDevices(
+        id
+      );
       const deviceConversations = await Promise.all(
         devices.map(d =>
-          ConversationController.getOrCreateAndWait(d, 'private')
+          ConversationController.getOrCreateAndWait(d.key, 'private')
         )
       );
+      // triger session request with every devices of that user
+      // when we do not have a session with it already
       deviceConversations.forEach(device => {
-        if (device.isFriendRequestStatusNoneOrExpired()) {
-          libloki.api.sendAutoFriendRequestMessage(device.id);
-        } else {
-          // Accept any pending friend requests if there are any
-          device.onAcceptFriendRequest({ blockSync: true });
-        }
+        libsession.Protocols.SessionProtocol.sendSessionRequestIfNeeded(
+          new libsession.Types.PubKey(device.id)
+        );
       });
 
       if (details.profileKey) {
@@ -2015,7 +1971,7 @@
   async function initIncomingMessage(data) {
     // Now this function is only called for errors, so no delivery receipts
 
-    let messageData = {
+    const messageData = {
       source: data.source,
       sourceDevice: data.sourceDevice,
       serverId: data.serverId,
@@ -2028,15 +1984,6 @@
       isPublic: data.isPublic,
       isRss: data.isRss,
     };
-
-    if (data.friendRequest) {
-      messageData = {
-        ...messageData,
-        type: 'friend-request',
-        friendStatus: 'pending',
-        direction: 'incoming',
-      };
-    }
 
     const message = new Whisper.Message(messageData);
 

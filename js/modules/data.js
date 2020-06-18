@@ -89,13 +89,8 @@ module.exports = {
   removeAllContactSignedPreKeys,
 
   createOrUpdatePairingAuthorisation,
-  removePairingAuthorisationForSecondaryPubKey,
-  getGrantAuthorisationForSecondaryPubKey,
-  getAuthorisationForSecondaryPubKey,
-  getGrantAuthorisationsForPrimaryPubKey,
-  getSecondaryDevicesFor,
-  getPrimaryDeviceFor,
-  getPairedDevicesFor,
+  getPairingAuthorisationsFor,
+  removePairingAuthorisationsFor,
 
   getGuardNodes,
   updateGuardNodes,
@@ -128,8 +123,6 @@ module.exports = {
   _removeConversations,
 
   getAllConversations,
-  getPubKeysWithFriendStatus,
-  getConversationsWithFriendStatus,
   getAllConversationIds,
   getAllPrivateConversations,
   getAllRssFeedConversations,
@@ -631,29 +624,20 @@ async function createOrUpdatePairingAuthorisation(data) {
   });
 }
 
-async function removePairingAuthorisationForSecondaryPubKey(pubKey) {
-  if (!pubKey) {
-    return;
-  }
-  await channels.removePairingAuthorisationForSecondaryPubKey(pubKey);
+async function getPairingAuthorisationsFor(pubKey) {
+  const authorisations = await channels.getPairingAuthorisationsFor(pubKey);
+
+  return authorisations.map(authorisation => ({
+    ...authorisation,
+    requestSignature: base64ToArrayBuffer(authorisation.requestSignature),
+    grantSignature: authorisation.grantSignature
+      ? base64ToArrayBuffer(authorisation.grantSignature)
+      : undefined,
+  }));
 }
 
-async function getGrantAuthorisationForSecondaryPubKey(pubKey) {
-  return channels.getAuthorisationForSecondaryPubKey(pubKey, {
-    granted: true,
-  });
-}
-
-async function getGrantAuthorisationsForPrimaryPubKey(pubKey) {
-  return channels.getGrantAuthorisationsForPrimaryPubKey(pubKey);
-}
-
-function getAuthorisationForSecondaryPubKey(pubKey) {
-  return channels.getAuthorisationForSecondaryPubKey(pubKey);
-}
-
-function getSecondaryDevicesFor(primaryDevicePubKey) {
-  return channels.getSecondaryDevicesFor(primaryDevicePubKey);
+async function removePairingAuthorisationsFor(pubKey) {
+  await channels.removePairingAuthorisationsFor(pubKey);
 }
 
 function getGuardNodes() {
@@ -662,14 +646,6 @@ function getGuardNodes() {
 
 function updateGuardNodes(nodes) {
   return channels.updateGuardNodes(nodes);
-}
-
-function getPrimaryDeviceFor(secondaryDevicePubKey) {
-  return channels.getPrimaryDeviceFor(secondaryDevicePubKey);
-}
-
-function getPairedDevicesFor(pubKey) {
-  return channels.getPairedDevicesFor(pubKey);
 }
 
 // Items
@@ -824,22 +800,6 @@ async function removeConversation(id, { Conversation }) {
 // Note: this method will not clean up external files, just delete from SQL
 async function _removeConversations(ids) {
   await channels.removeConversation(ids);
-}
-
-async function getConversationsWithFriendStatus(
-  status,
-  { ConversationCollection }
-) {
-  const conversations = await channels.getConversationsWithFriendStatus(status);
-
-  const collection = new ConversationCollection();
-  collection.add(conversations);
-  return collection;
-}
-
-async function getPubKeysWithFriendStatus(status) {
-  const conversations = await getConversationsWithFriendStatus(status);
-  return conversations.map(row => row.id);
 }
 
 async function getAllConversations({ ConversationCollection }) {

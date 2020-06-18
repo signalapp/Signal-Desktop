@@ -10,8 +10,7 @@
   Signal,
   textsecure,
   Whisper,
-  clipboard,
-  libloki,
+  clipboard
 */
 
 /* eslint-disable more/no-then */
@@ -103,8 +102,6 @@
           this.propsForGroupNotification = this.getPropsForGroupNotification();
         } else if (this.isSessionRestoration()) {
           // do nothing
-        } else if (this.isFriendRequest()) {
-          this.propsForFriendRequest = this.getPropsForFriendRequest();
         } else if (this.isGroupInvitation()) {
           this.propsForGroupInvitation = this.getPropsForGroupInvitation();
         } else {
@@ -280,11 +277,6 @@
     isKeyChange() {
       return this.get('type') === 'keychange';
     },
-
-    isFriendRequest() {
-      // FIXME exclude session request to be seen as a session request
-      return this.get('type') === 'friend-request';
-    },
     isGroupInvitation() {
       return !!this.get('groupInvitation');
     },
@@ -301,9 +293,6 @@
     getNotificationText() {
       const description = this.getDescription();
       if (description) {
-        if (this.isFriendRequest()) {
-          return `Friend Request: ${description}`;
-        }
         return description;
       }
       if (this.get('attachments').length > 0) {
@@ -409,124 +398,6 @@
     getPropsForResetSessionNotification() {
       return {
         sessionResetMessageKey: this.getEndSessionTranslationKey(),
-      };
-    },
-
-    async acceptFriendRequest() {
-      if (this.get('friendStatus') !== 'pending') {
-        return;
-      }
-
-      const devicePubKey = this.get('conversationId');
-      const otherDevices = await libloki.storage.getPairedDevicesFor(
-        devicePubKey
-      );
-      const allDevices = [devicePubKey, ...otherDevices];
-
-      // Set profile name to primary conversation
-      let profileName;
-      const allConversationsWithUser = allDevices
-        .map(d => ConversationController.get(d))
-        .filter(c => Boolean(c));
-      allConversationsWithUser.forEach(conversation => {
-        // If we somehow received an old friend request (e.g. after having restored
-        // from seed, we won't be able to accept it, we should initiate our own
-        // friend request to reset the session:
-        if (conversation.get('sessionRestoreSeen')) {
-          conversation.sendMessage('', null, null, null, null, {
-            sessionRestoration: true,
-          });
-          return;
-        }
-
-        profileName = conversation.getProfileName() || profileName;
-        conversation.onAcceptFriendRequest();
-      });
-
-      // If you don't have a profile name for this device, and profileName is set,
-      // add profileName to conversation.
-      const primaryDevicePubKey =
-        (await window.Signal.Data.getPrimaryDeviceFor(devicePubKey)) ||
-        devicePubKey;
-      const primaryConversation = allConversationsWithUser.find(
-        c => c.id === primaryDevicePubKey
-      );
-      if (!primaryConversation.getProfileName() && profileName) {
-        await primaryConversation.setNickname(profileName);
-      }
-
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
-
-      this.set({ friendStatus: 'accepted' });
-
-      // Update redux store
-      window.Signal.Data.updateConversation(
-        primaryConversation.id,
-        primaryConversation.attributes,
-        { Conversation: Whisper.Conversation }
-      );
-    },
-    async declineFriendRequest() {
-      if (this.get('friendStatus') !== 'pending') {
-        return;
-      }
-
-      this.set({ friendStatus: 'declined' });
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
-
-      const devicePubKey = this.attributes.conversationId;
-      const otherDevices = await libloki.storage.getPairedDevicesFor(
-        devicePubKey
-      );
-      const allDevices = [devicePubKey, ...otherDevices];
-      const allConversationsWithUser = allDevices
-        .map(d => ConversationController.get(d))
-        .filter(c => Boolean(c));
-      allConversationsWithUser.forEach(conversation => {
-        conversation.onDeclineFriendRequest();
-      });
-    },
-    getPropsForFriendRequest() {
-      const friendStatus = this.get('friendStatus') || 'pending';
-      const direction = this.get('direction') || 'incoming';
-      const conversation = this.getConversation();
-
-      const onAccept = () => this.acceptFriendRequest();
-      const onDecline = () => this.declineFriendRequest();
-      const onRetrySend = () => this.retrySend();
-
-      const onDeleteConversation = async () => {
-        // Delete the whole conversation
-        window.Whisper.events.trigger('deleteConversation', conversation);
-      };
-
-      const onBlockUser = () => {
-        conversation.block();
-        this.trigger('change');
-      };
-
-      const onUnblockUser = () => {
-        conversation.unblock();
-        this.trigger('change');
-      };
-
-      return {
-        text: this.createNonBreakingLastSeparator(this.get('body')),
-        timestamp: this.get('sent_at'),
-        status: this.getMessagePropStatus(),
-        direction,
-        friendStatus,
-        isBlocked: conversation.isBlocked(),
-        onAccept,
-        onDecline,
-        onDeleteConversation,
-        onBlockUser,
-        onUnblockUser,
-        onRetrySend,
       };
     },
     getPropsForGroupInvitation() {
@@ -649,14 +520,8 @@
         return 'error';
       }
 
-      // Handle friend request statuses
-      const isFriendRequest = this.isFriendRequest();
-      const isOutgoingFriendRequest =
-        isFriendRequest && this.get('direction') === 'outgoing';
-      const isOutgoing = this.isOutgoing() || isOutgoingFriendRequest;
-
       // Only return the status on outgoing messages
-      if (!isOutgoing) {
+      if (!this.isOutgoing()) {
         return null;
       }
 
@@ -1485,7 +1350,8 @@
           });
 
           this.trigger('sent', this);
-          if (!this.isFriendRequest()) {
+          // don't send sync message for EndSession messages
+          if (!this.isEndSession()) {
             const c = this.getConversation();
             // Don't bother sending sync messages to public chats
             // or groups with sender keys

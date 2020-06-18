@@ -733,8 +733,8 @@ MessageReceiver.prototype.extend({
       case textsecure.protobuf.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT:
         promise = this.decryptForMediumGroup(envelope, ciphertext);
         break;
-      case textsecure.protobuf.Envelope.Type.FRIEND_REQUEST: {
-        window.log.info('friend-request message from ', envelope.source);
+      case textsecure.protobuf.Envelope.Type.SESSION_REQUEST: {
+        window.log.info('session-request message from ', envelope.source);
 
         const fallBackSessionCipher = new libloki.crypto.FallBackSessionCipher(
           address
@@ -773,10 +773,10 @@ MessageReceiver.prototype.extend({
               }
 
               // We might have substituted the type based on decrypted content
-              if (type === textsecure.protobuf.Envelope.Type.FRIEND_REQUEST) {
+              if (type === textsecure.protobuf.Envelope.Type.SESSION_REQUEST) {
                 // eslint-disable-next-line no-param-reassign
                 envelope.type =
-                  textsecure.protobuf.Envelope.Type.FRIEND_REQUEST;
+                  textsecure.protobuf.Envelope.Type.SESSION_REQUEST;
               }
 
               if (this.isBlocked(sender.getName())) {
@@ -968,7 +968,9 @@ MessageReceiver.prototype.extend({
     if (valid) {
       // Pairing dialog is open and is listening
       if (Whisper.events.isListenedTo('devicePairingRequestReceived')) {
-        await window.libloki.storage.savePairingAuthorisation(pairingRequest);
+        await window.libsession.Protocols.MultiDeviceProtocol.savePairingAuthorisation(
+          pairingRequest
+        );
         Whisper.events.trigger(
           'devicePairingRequestReceived',
           pairingRequest.secondaryDevicePubKey
@@ -1010,11 +1012,13 @@ MessageReceiver.prototype.extend({
         );
         // Set current device as secondary.
         // This will ensure the authorisation is sent
-        // along with each friend request.
+        // along with each session request.
         window.storage.remove('secondaryDeviceStatus');
         window.storage.put('isSecondaryDevice', true);
         window.storage.put('primaryDevicePubKey', primaryDevicePubKey);
-        await libloki.storage.savePairingAuthorisation(pairingAuthorisation);
+        await window.libsession.Protocols.MultiDeviceProtocol.savePairingAuthorisation(
+          pairingAuthorisation
+        );
         const primaryConversation = await ConversationController.getOrCreateAndWait(
           primaryDevicePubKey,
           'private'
@@ -1070,35 +1074,14 @@ MessageReceiver.prototype.extend({
     }
     return this.innerHandleContentMessage(envelope, plaintext);
   },
-  async handleFriendRequestAcceptIfNeeded(envelope, content) {
-    const isGroupMessage =
-      content &&
-      content.dataMessage &&
-      (content.dataMessage.group || content.dataMessage.mediumGroupUpdate);
-    const isReceiptMessage = content && content.receiptMessage;
-    const isTypingMessage = content && content.typingMessage;
-    if (isGroupMessage || isReceiptMessage || isTypingMessage) {
-      return;
-    }
-
-    // If we sent a friend request and got another message back then we should become friends
-    try {
-      const conversation = await window.ConversationController.getOrCreateAndWait(
-        envelope.source,
-        'private'
-      );
-      const isFriendRequestAccept = await conversation.onFriendRequestAccepted();
-      if (isFriendRequestAccept) {
-        await conversation.notifyFriendRequest(envelope.source, 'accepted');
-      }
-    } catch (e) {
-      window.log.info('Error getting conversation: ', envelope.source);
-    }
-  },
   async handleSessionRequestMessage(envelope, content) {
     const shouldProcessSessionRequest = await libsession.Protocols.SessionProtocol.shouldProcessSessionRequest(
       envelope.source,
       envelope.timestamp
+    );
+
+    window.console.log(
+      `Received SESSION_REQUEST from source: ${envelope.source}`
     );
 
     if (shouldProcessSessionRequest) {
@@ -1163,8 +1146,6 @@ MessageReceiver.prototype.extend({
       );
       // TODO process sending queue for this device now that we have a session
     }
-
-    this.handleFriendRequestAcceptIfNeeded(envelope, content);
 
     if (content.pairingAuthorisation) {
       return this.handlePairingAuthorisationMessage(envelope, content);
@@ -1270,16 +1251,12 @@ MessageReceiver.prototype.extend({
   async handleSyncMessage(envelope, syncMessage) {
     // We should only accept sync messages from our devices
     const ourNumber = textsecure.storage.user.getNumber();
-    const ourPrimaryNumber = window.storage.get('primaryDevicePubKey');
-    const ourOtherDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-      ourPrimaryNumber
+    const ourDevices = await libsession.Protocols.MultiDeviceProtocol.getAllDevices(
+      ourNumber
     );
-    const ourDevices = new Set([
-      ourNumber,
-      ourPrimaryNumber,
-      ...ourOtherDevices,
-    ]);
-    const validSyncSender = ourDevices.has(envelope.source);
+    const validSyncSender = ourDevices.some(
+      device => device.key === envelope.source
+    );
     if (!validSyncSender) {
       throw new Error(
         "Received sync message from a device we aren't paired with"

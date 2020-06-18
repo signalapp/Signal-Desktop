@@ -439,8 +439,7 @@ MessageSender.prototype = {
         haveSession ||
         keysFound ||
         options.isPublic ||
-        options.isMediumGroup ||
-        options.messageType === 'friend-request'
+        options.isMediumGroup
       ) {
         const outgoing = new OutgoingMessage(
           this.server,
@@ -537,12 +536,12 @@ MessageSender.prototype = {
       window.storage.get('primaryDevicePubKey') ||
       textsecure.storage.user.getNumber();
     const allOurDevices = (
-      await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
+      await window.libsession.Protocols.MultiDeviceProtocol.getAllDevices(
         primaryDeviceKey
       )
     )
       // Don't send to ourselves
-      .filter(pubKey => pubKey !== textsecure.storage.user.getNumber());
+      .filter(pubKey => pubKey.key !== textsecure.storage.user.getNumber());
     if (allOurDevices.length === 0) {
       return null;
     }
@@ -672,7 +671,7 @@ MessageSender.prototype = {
         c =>
           c.isPrivate() &&
           !c.isOurLocalDevice() &&
-          c.isFriend() &&
+          !c.isBlocked() &&
           !c.get('secondaryStatus')
       ) || [];
 
@@ -681,7 +680,7 @@ MessageSender.prototype = {
       c =>
         c.isPrivate() &&
         !c.isOurLocalDevice() &&
-        c.isFriend() &&
+        !c.isBlocked() &&
         c.get('secondaryStatus')
     );
 
@@ -757,7 +756,7 @@ MessageSender.prototype = {
       c =>
         c.isClosedGroup() &&
         !c.get('left') &&
-        c.isFriend() &&
+        !c.isBlocked() &&
         !c.isMediumGroup()
     );
     if (sessionGroups.length === 0) {
@@ -1177,13 +1176,6 @@ MessageSender.prototype = {
       throw error;
     };
 
-    // Loki - Temp hack for new protocol
-    // A session reset should be a `FRIEND_REQUEST`
-    const msgOptions = {
-      messageType: 'friend-request',
-      ...options,
-    };
-
     // The actual deletion of the session now happens later
     // as we need to ensure the other contact has successfully
     // switch to a new session first.
@@ -1192,7 +1184,7 @@ MessageSender.prototype = {
       proto,
       timestamp,
       silent,
-      msgOptions
+      options
     ).catch(logError('resetSession/sendToContact error:'));
   },
 

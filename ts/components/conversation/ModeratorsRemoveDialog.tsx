@@ -123,7 +123,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
   }
 
   private onModClicked(selected: any) {
-    const updatedFriends = this.state.modList.map(member => {
+    const updatedContacts = this.state.modList.map(member => {
       if (member.id === selected.id) {
         return { ...member, checkmarked: !member.checkmarked };
       } else {
@@ -134,7 +134,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
     this.setState(state => {
       return {
         ...state,
-        modList: updatedFriends,
+        modList: updatedContacts,
       };
     });
   }

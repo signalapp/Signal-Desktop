@@ -46,7 +46,7 @@ type PairingAuthorisation = {
   primaryDevicePubKey: string;
   secondaryDevicePubKey: string;
   requestSignature: ArrayBuffer;
-  grantSignature: ArrayBuffer | null;
+  grantSignature?: ArrayBuffer;
 };
 
 type GuardNode = {
@@ -153,25 +153,10 @@ export function removeAllContactSignedPreKeys(): Promise<void>;
 export function createOrUpdatePairingAuthorisation(
   data: PairingAuthorisation
 ): Promise<void>;
-export function removePairingAuthorisationForSecondaryPubKey(
-  pubKey: string
-): Promise<void>;
-export function getGrantAuthorisationsForPrimaryPubKey(
+export function getPairingAuthorisationsFor(
   pubKey: string
 ): Promise<Array<PairingAuthorisation>>;
-export function getGrantAuthorisationForSecondaryPubKey(
-  pubKey: string
-): Promise<PairingAuthorisation | null>;
-export function getAuthorisationForSecondaryPubKey(
-  pubKey: string
-): Promise<PairingAuthorisation | null>;
-export function getSecondaryDevicesFor(
-  primaryDevicePubKey: string
-): Promise<Array<string>>;
-export function getPrimaryDeviceFor(
-  secondaryDevicePubKey: string
-): Promise<string | null>;
-export function getPairedDevicesFor(pubKey: string): Promise<Array<string>>;
+export function removePairingAuthorisationsFor(pubKey: string): Promise<void>;
 
 // Guard Nodes
 export function getGuardNodes(): Promise<GuardNode>;

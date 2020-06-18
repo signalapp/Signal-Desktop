@@ -1,5 +1,3 @@
-import { getPairedDevicesFor } from '../../../js/modules/data';
-
 import { EventEmitter } from 'events';
 import {
   MessageQueueInterface,
@@ -19,8 +17,8 @@ import {
   TypedEventEmitter,
 } from '../utils';
 import { PubKey } from '../types';
-import { MessageSender } from './';
-import { SessionProtocol } from '../protocols';
+import { MessageSender } from '.';
+import { MultiDeviceProtocol, SessionProtocol } from '../protocols';
 import { UserUtil } from '../../util';
 
 export class MessageQueue implements MessageQueueInterface {
@@ -35,8 +33,7 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   public async sendUsingMultiDevice(user: PubKey, message: ContentMessage) {
-    const userLinked = await getPairedDevicesFor(user.key);
-    const userDevices = userLinked.map(d => new PubKey(d));
+    const userDevices = await MultiDeviceProtocol.getAllDevices(user.key);
 
     await this.sendMessageToDevices(userDevices, message);
   }
@@ -56,11 +53,10 @@ export class MessageQueue implements MessageQueueInterface {
       const currentDevice = await UserUtil.getCurrentDevicePubKey();
 
       if (currentDevice) {
-        const otherDevices = await getPairedDevicesFor(currentDevice);
-
-        const ourDevices = [currentDevice, ...otherDevices].map(
-          device => new PubKey(device)
+        const ourDevices = await MultiDeviceProtocol.getAllDevices(
+          currentDevice
         );
+
         await this.sendSyncMessage(message, ourDevices);
 
         // Remove our devices from currentDevices

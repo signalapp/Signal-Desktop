@@ -4,7 +4,6 @@ import * as window from '../../window';
 import * as DataShape from '../../../js/modules/data';
 import { v4 as uuid } from 'uuid';
 
-import { ImportMock } from 'ts-mock-imports';
 import { PubKey } from '../../../ts/session/types';
 import {
   ChatMessage,
@@ -13,6 +12,7 @@ import {
 } from '../../session/messages/outgoing';
 import { OpenGroup } from '../../session/types/OpenGroup';
 
+const globalAny: any = global;
 const sandbox = sinon.createSandbox();
 
 // We have to do this in a weird way because Data uses module.exports
@@ -27,11 +27,11 @@ type DataFunction = typeof DataShape;
  * Note: This uses a custom sandbox.
  * Please call `restoreStubs()` or `stub.restore()` to restore original functionality.
  */
-export function stubData(fn: keyof DataFunction): sinon.SinonStub {
+export function stubData<K extends keyof DataFunction>(fn: K): sinon.SinonStub {
   return sandbox.stub(Data, fn);
 }
 
-type WindowFunction = typeof window;
+type WindowValue<K extends keyof Window> = Partial<Window[K]> | undefined;
 
 /**
  * Stub a window object.
@@ -39,15 +39,33 @@ type WindowFunction = typeof window;
  * Note: This uses a custom sandbox.
  * Please call `restoreStubs()` or `stub.restore()` to restore original functionality.
  */
-export function stubWindow<K extends keyof WindowFunction>(
+export function stubWindow<K extends keyof Window>(
   fn: K,
-  replaceWith?: Partial<WindowFunction[K]>
+  value: WindowValue<K>
 ) {
-  return ImportMock.mockOther(window, fn, replaceWith);
+  // tslint:disable-next-line: no-typeof-undefined
+  if (typeof globalAny.window === 'undefined') {
+    globalAny.window = {};
+  }
+
+  const set = (newValue: WindowValue<K>) => {
+    globalAny.window[fn] = newValue;
+  };
+
+  const get = () => {
+    return globalAny.window[fn] as WindowValue<K>;
+  };
+
+  globalAny.window[fn] = value;
+
+  return {
+    get,
+    set,
+  };
 }
 
 export function restoreStubs() {
-  ImportMock.restore();
+  globalAny.window = undefined;
   sandbox.restore();
 }
 
@@ -58,6 +76,11 @@ export function generateFakePubkey(): PubKey {
   const pubkeyString = `05${hexBuffer}`;
 
   return new PubKey(pubkeyString);
+}
+
+export function generateFakePubKeys(amount: number): Array<PubKey> {
+  // tslint:disable-next-line: no-unnecessary-callback-wrapper
+  return new Array(amount).fill(0).map(() => generateFakePubkey());
 }
 
 export function generateChatMessage(): ChatMessage {

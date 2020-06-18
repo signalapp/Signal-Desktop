@@ -5,7 +5,6 @@ import { OpenGroupMessage } from '../messages/outgoing';
 import { SignalService } from '../../protobuf';
 import { UserUtil } from '../../util';
 import { MessageEncrypter } from '../crypto';
-import { lokiMessageAPI, lokiPublicChatAPI } from '../../window';
 import pRetry from 'p-retry';
 
 // ================ Regular ================
@@ -15,7 +14,7 @@ import pRetry from 'p-retry';
  */
 export function canSendToSnode(): boolean {
   // Seems like lokiMessageAPI is not always guaranteed to be initialized
-  return Boolean(lokiMessageAPI);
+  return Boolean(window.lokiMessageAPI);
 }
 
 /**
@@ -42,7 +41,7 @@ export async function send(
   const data = wrapEnvelope(envelope);
 
   return pRetry(
-    async () => lokiMessageAPI.sendMessage(device, data, timestamp, ttl),
+    async () => window.lokiMessageAPI.sendMessage(device, data, timestamp, ttl),
     {
       retries: Math.max(attempts - 1, 0),
       factor: 1,
@@ -101,14 +100,12 @@ export async function sendToOpenGroup(
     The only problem is that `channelAPI.sendMessage` returns true/false and doesn't throw any error so we can never be sure why sending failed.
     This should be fixed and we shouldn't rely on returning true/false, rather return nothing (success) or throw an error (failure)
   */
-  const { group, quote, attachments, body } = message;
-  const channelAPI = await lokiPublicChatAPI.findOrCreateChannel(
+  const { group, quote, attachments, preview, body } = message;
+  const channelAPI = await window.lokiPublicChatAPI.findOrCreateChannel(
     group.server,
     group.channel,
     group.conversationId
   );
-
-  const preview = message.preview || [];
 
   // Don't think returning true/false on `sendMessage` is a good way
   return channelAPI.sendMessage({

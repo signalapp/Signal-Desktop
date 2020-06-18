@@ -92,10 +92,7 @@
       let message;
       let iconUrl;
 
-      // The number of notifications excluding friend request
-      const messagesNotificationCount = this.models.filter(
-        n => !n.get('isFriendRequest')
-      ).length;
+      const messagesNotificationCount = this.models.length;
 
       // NOTE: i18n has more complex rules for pluralization than just
       // distinguishing between zero (0) and other (non-zero),
@@ -112,9 +109,7 @@
         case SettingNames.COUNT:
           title = 'Session';
 
-          if (last.isFriendRequest) {
-            message = `Friend request ${last.friendRequestType}`;
-          } else if (messagesNotificationCount > 0) {
+          if (messagesNotificationCount > 0) {
             message = newMessageCountLabel;
           } else {
             return;
@@ -125,7 +120,7 @@
           title = newMessageCountLabel;
           // eslint-disable-next-line prefer-destructuring
           iconUrl = last.iconUrl;
-          if (last.isFriendRequest || messagesNotificationCount === 1) {
+          if (messagesNotificationCount === 1) {
             message = `${i18n('notificationFrom')} ${lastMessageTitle}`;
           } else {
             message = `${i18n(
@@ -135,7 +130,7 @@
           break;
         }
         case SettingNames.MESSAGE:
-          if (last.isFriendRequest || messagesNotificationCount === 1) {
+          if (messagesNotificationCount === 1) {
             // eslint-disable-next-line prefer-destructuring
             title = last.title;
             // eslint-disable-next-line prefer-destructuring
