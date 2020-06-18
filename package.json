@@ -61,6 +61,7 @@
     "blueimp-load-image": "2.18.0",
     "buffer-crc32": "0.2.13",
     "bunyan": "1.8.12",
+    "bytebuffer": "^5.0.1",
     "classnames": "2.2.5",
     "color": "^3.1.2",
     "config": "1.28.1",
@@ -84,6 +85,7 @@
     "libsodium-wrappers": "^0.7.6",
     "linkify-it": "2.0.3",
     "lodash": "4.17.11",
+    "long": "^4.0.0",
     "mkdirp": "0.5.1",
     "moment": "2.21.0",
     "mustache": "2.3.0",
@@ -116,6 +118,7 @@
   },
   "devDependencies": {
     "@types/backbone": "^1.4.2",
+    "@types/bytebuffer": "^5.0.41",
     "@types/chai": "4.1.2",
     "@types/chai-as-promised": "^7.1.2",
     "@types/classnames": "2.2.3",

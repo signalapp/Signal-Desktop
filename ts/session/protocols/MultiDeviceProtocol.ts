@@ -7,7 +7,7 @@ import {
 } from '../../../js/modules/data';
 import { PrimaryPubKey, PubKey, SecondaryPubKey } from '../types';
 import { UserUtil } from '../../util';
-import { BufferUtils } from '../utils';
+import { StringUtils } from '../utils';
 
 /*
   The reason we're exporing a class here instead of just exporting the functions directly is for the sake of testing.
@@ -93,9 +93,8 @@ export class MultiDeviceProtocol {
       }) => ({
         primaryDevicePubKey,
         secondaryDevicePubKey,
-        requestSignature: BufferUtils.base64toUint8Array(requestSignature)
-          .buffer,
-        grantSignature: BufferUtils.base64toUint8Array(grantSignature).buffer,
+        requestSignature: StringUtils.encode(requestSignature, 'base64'),
+        grantSignature: StringUtils.encode(grantSignature, 'base64'),
       })
     );
   }
