@@ -156,6 +156,8 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   private async processAllPending() {
+    await this.pendingMessageCache.isReady;
+
     const devices = this.pendingMessageCache.getDevices();
     const promises = devices.map(async device => this.processPending(device));
 

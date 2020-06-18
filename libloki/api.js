@@ -57,7 +57,7 @@
   async function sendSessionEstablishedMessage(pubKey) {
     const user = libsession.Types.PubKey.from(pubKey);
 
-    const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablished(
+    const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablishedMessage(
       { timestamp: Date.now() }
     );
     await libsession.getMessageQueue().send(user, sessionEstablished);

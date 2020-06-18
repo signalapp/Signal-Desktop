@@ -174,14 +174,14 @@ export class SessionProtocol {
     if (!SessionProtocol.dbLoaded) {
       const sentItem = await getItemById('sentSessionsTimestamp');
       if (sentItem) {
-        SessionProtocol.sentSessionsTimestamp = sentItem.value;
+        SessionProtocol.sentSessionsTimestamp = JSON.parse(sentItem.value);
       } else {
         SessionProtocol.sentSessionsTimestamp = {};
       }
 
       const processedItem = await getItemById('processedSessionsTimestamp');
       if (processedItem) {
-        SessionProtocol.processedSessionsTimestamp = processedItem.value;
+        SessionProtocol.processedSessionsTimestamp = JSON.parse(processedItem.value);
       } else {
         SessionProtocol.processedSessionsTimestamp = {};
       }
@@ -215,6 +215,9 @@ export class SessionProtocol {
     timestamp: number | undefined,
     map: StringToNumberMap
   ): Promise<boolean> {
+    if (device === undefined) {
+      throw new Error('Device cannot be undefined');
+    }
     if (map[device] === timestamp) {
       return false;
     }
