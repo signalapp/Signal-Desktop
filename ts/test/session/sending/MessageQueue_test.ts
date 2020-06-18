@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { GroupUtils } from '../../../session/utils';
+import { GroupUtils, SyncMessageUtils } from '../../../session/utils';
 import { Stubs, TestUtils } from '../../../test/test-utils';
 import { MessageQueue } from '../../../session/sending/MessageQueue';
 import {
@@ -13,7 +13,10 @@ import { PubKey, RawMessage } from '../../../session/types';
 import { UserUtil } from '../../../util';
 import { MessageSender, PendingMessageCache } from '../../../session/sending';
 import { toRawMessage } from '../../../session/utils/Messages';
-import { SessionProtocol } from '../../../session/protocols';
+import {
+  SessionProtocol,
+  MultiDeviceProtocol,
+} from '../../../session/protocols';
 
 // Equivalent to Data.StorageItem
 interface StorageItem {
@@ -35,7 +38,7 @@ describe('MessageQueue', () => {
   const sandbox = sinon.createSandbox();
   const ourDevice = TestUtils.generateFakePubkey();
   const ourNumber = ourDevice.key;
-  const pairedDevices = TestUtils.generateMemberList(2).map(m => m.key);
+  const pairedDevices = TestUtils.generateMemberList(2);
 
   // Initialize new stubbed queue
   let messageQueueStub: MessageQueue;
@@ -57,8 +60,9 @@ describe('MessageQueue', () => {
   // Message Sender Stubs
   let sendStub: sinon.SinonStub<[RawMessage, (number | undefined)?]>;
   let sendToOpenGroupStub: sinon.SinonStub<[OpenGroupMessage]>;
-  // Group Utils Stubs
+  // Utils Stubs
   let groupMembersStub: sinon.SinonStub;
+  let canSyncStub: sinon.SinonStub;
   // Session Protocol Stubs
   let hasSessionStub: sinon.SinonStub<[PubKey]>;
   let sendSessionRequestIfNeededStub: sinon.SinonStub<[PubKey], Promise<void>>;
@@ -82,8 +86,11 @@ describe('MessageQueue', () => {
     });
 
     // Utils Stubs
+    canSyncStub = sandbox.stub(SyncMessageUtils, 'canSync');
+    canSyncStub.returns(false);
     sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber);
-    TestUtils.stubData('getPairedDevicesFor').resolves(pairedDevices);
+    sandbox.stub(MultiDeviceProtocol, 'getAllDevices').resolves(pairedDevices);
+
     TestUtils.stubWindow('libsignal', {
       SignalProtocolAddress: sandbox.stub(),
       SessionCipher: Stubs.SessionCipherStub,
@@ -221,7 +228,10 @@ describe('MessageQueue', () => {
           true,
           'a device passed into sendMessageToDevices was not a PubKey'
         );
-        expect(argsPaired.key).to.equal(pairedDevices[index]);
+        expect(argsPaired.isEqual(pairedDevices[index])).to.equal(
+          true,
+          'a device passed into sendMessageToDevices did not match MessageDeviceProtocol.getAllDevices'
+        );
       });
     });
   });
@@ -236,9 +246,12 @@ describe('MessageQueue', () => {
     });
 
     it('can send sync message and confirm canSync is valid', async () => {
+      canSyncStub.returns(true);
+
       const devices = TestUtils.generateMemberList(3);
       const message = TestUtils.generateChatMessage();
-      const ourDevices = [...pairedDevices, ourNumber].sort();
+      const pairedDeviceKeys = pairedDevices.map(device => device.key);
+      const ourDeviceKeys = [...pairedDeviceKeys, ourNumber].sort();
 
       const promise = messageQueueStub.sendMessageToDevices(devices, message);
       await expect(promise).to.be.fulfilled;
@@ -266,7 +279,7 @@ describe('MessageQueue', () => {
       );
 
       argsPairedKeys.forEach((argsPaired: string, index: number) => {
-        expect(argsPaired).to.equal(ourDevices[index]);
+        expect(argsPaired).to.equal(ourDeviceKeys[index]);
       });
     });
   });

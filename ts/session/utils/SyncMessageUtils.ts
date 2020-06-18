@@ -11,7 +11,7 @@ export function from(message: ContentMessage): SyncMessage | undefined {
   return undefined;
 }
 
-export async function canSync(message: ContentMessage): Promise<boolean> {
+export function canSync(message: ContentMessage): boolean {
   // This function should be agnostic to the device; it shouldn't need
   // to know about the recipient
 
