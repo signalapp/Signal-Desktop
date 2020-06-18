@@ -12,7 +12,6 @@ import { LocalizerType } from '../types/Util';
 
 export type PropsData = {
   contacts: Array<ConversationListItemPropsType>;
-  friends: Array<ConversationListItemPropsType>;
   conversations: Array<ConversationListItemPropsType>;
   hideMessagesHeader: boolean;
   messages: Array<MessageSearchResultPropsType>;
@@ -39,19 +38,16 @@ export class SearchResults extends React.Component<Props> {
       openConversation,
       searchTerm,
       showStartNewConversation,
-      friends,
     } = this.props;
 
     const haveConversations = conversations && conversations.length;
     const haveContacts = contacts && contacts.length;
-    const haveFriends = friends && friends.length;
     const haveMessages = messages && messages.length;
     const noResults =
       !showStartNewConversation &&
       !haveConversations &&
       !haveContacts &&
-      !haveMessages &&
-      !haveFriends;
+      !haveMessages;
 
     return (
       <div className="module-search-results">
@@ -75,8 +71,8 @@ export class SearchResults extends React.Component<Props> {
             ))}
           </div>
         ) : null}
-        {haveFriends
-          ? this.renderContacts(i18n('friendsHeader'), friends, true)
+        {haveContacts
+          ? this.renderContacts(i18n('friendsHeader'), contacts, true)
           : null}
 
         {haveMessages ? (
@@ -102,7 +98,7 @@ export class SearchResults extends React.Component<Props> {
   private renderContacts(
     header: string,
     items: Array<ConversationListItemPropsType>,
-    friends?: boolean
+    contacts?: boolean
   ) {
     const { i18n, openConversation } = this.props;
 
@@ -112,7 +108,6 @@ export class SearchResults extends React.Component<Props> {
         {items.map(contact => (
           <ConversationListItem
             key={contact.phoneNumber}
-            isFriend={friends}
             {...contact}
             onClick={openConversation}
             i18n={i18n}

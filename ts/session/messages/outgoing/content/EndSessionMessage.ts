@@ -1,7 +1,7 @@
-import { SessionResetMessage } from './SessionResetMessage';
+import { SessionRequestMessage } from './SessionRequestMessage';
 import { SignalService } from '../../../../protobuf';
 
-export class EndSessionMessage extends SessionResetMessage {
+export class EndSessionMessage extends SessionRequestMessage {
   public ttl(): number {
     return 4 * 24 * 60 * 60 * 1000; // 4 days
   }

@@ -76,6 +76,16 @@ class LokiMessageAPI {
     this.groupIdsToPoll = {};
   }
 
+  /**
+   * Refactor note: We should really clean this up ... it's very messy
+   *
+   * We need to split it into 2 sends:
+   *  - Snodes
+   *  - Open Groups
+   *
+   * Mikunj:
+   *  Temporarily i've made it so `MessageSender` handles open group sends and calls this function for regular sends.
+   */
   async sendMessage(pubKey, data, messageTimeStamp, ttl, options = {}) {
     const {
       isPublic = false,
@@ -601,4 +611,6 @@ class LokiMessageAPI {
   }
 }
 
+// These files are expected to be in commonjs so we can't use es6 syntax :(
+// If we move these to TS then we should be able to use es6
 module.exports = LokiMessageAPI;

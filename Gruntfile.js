@@ -42,10 +42,10 @@ module.exports = grunt => {
       },
       util_worker: {
         src: [
-          'components/bytebuffer/dist/ByteBufferAB.js',
+          'node_modules/bytebuffer/dist/bytebuffer.js',
           'components/JSBI/dist/jsbi.mjs',
           'libloki/proof-of-work.js',
-          'components/long/dist/Long.js',
+          'node_modules/long/dist/long.js',
           'js/util_worker_tasks.js',
         ],
         dest: 'js/util_worker.js',
@@ -102,7 +102,6 @@ module.exports = grunt => {
       libloki: {
         src: [
           'libloki/api.js',
-          'libloki/friends.js',
           'libloki/crypto.js',
           'libloki/service_nodes.js',
           'libloki/storage.js',
@@ -161,10 +160,10 @@ module.exports = grunt => {
       },
       utilworker: {
         files: [
-          'components/bytebuffer/dist/ByteBufferAB.js',
+          'node_modules/bytebuffer/dist/bytebuffer.js',
           'components/JSBI/dist/jsbi.mjs',
           'libloki/proof-of-work.js',
-          'components/long/dist/Long.js',
+          'node_modules/long/dist/long.js',
           'js/util_worker_tasks.js',
         ],
         tasks: ['concat:util_worker'],

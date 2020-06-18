@@ -118,8 +118,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     let conversationList = conversations;
     if (conversationList !== undefined) {
       conversationList = conversationList.filter(
-        conversation =>
-          !conversation.isPendingFriendRequest && !conversation.isSecondary
+        conversation => !conversation.isSecondary
       );
     }
 
@@ -154,16 +153,13 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
   public renderList(): JSX.Element | Array<JSX.Element | null> {
     const { openConversationInternal, searchResults } = this.props;
-    const friends =
-      (searchResults &&
-        searchResults.contacts.filter(contact => contact.isFriend)) ||
-      [];
+    const contacts = searchResults?.contacts || [];
 
     if (searchResults) {
       return (
         <SearchResults
           {...searchResults}
-          friends={friends}
+          contacts={contacts}
           openConversation={openConversationInternal}
           i18n={window.i18n}
         />

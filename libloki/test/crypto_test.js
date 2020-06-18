@@ -1,4 +1,4 @@
-/* global libsignal, libloki, textsecure, StringView */
+/* global libsignal, libloki, textsecure, StringView, dcodeIO */
 
 'use strict';
 
@@ -24,14 +24,18 @@ describe('Crypto', () => {
       const { type } = await fallbackCipher.encrypt(buffer);
       assert.strictEqual(
         type,
-        textsecure.protobuf.Envelope.Type.FRIEND_REQUEST
+        textsecure.protobuf.Envelope.Type.SESSION_REQUEST
       );
     });
 
     it('should encrypt and then decrypt a message with the same result', async () => {
       const arr = new Uint8Array([1, 2, 3, 4, 5]);
       const { body } = await fallbackCipher.encrypt(arr.buffer);
-      const result = await fallbackCipher.decrypt(body);
+      const bufferBody = dcodeIO.ByteBuffer.wrap(
+        body,
+        'binary'
+      ).toArrayBuffer();
+      const result = await fallbackCipher.decrypt(bufferBody);
       assert.deepEqual(result, arr.buffer);
     });
   });

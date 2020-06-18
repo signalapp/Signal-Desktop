@@ -29,11 +29,9 @@ interface State {
 
 interface Props {
   conversations: Array<ConversationListItemPropsType>;
-  friends: Array<ConversationType>;
-  sentFriendsRequest: Array<ConversationListItemPropsType>;
-  receivedFriendsRequest: Array<ConversationListItemPropsType>;
+  contacts: Array<ConversationType>;
+
   unreadMessageCount: number;
-  receivedFriendRequestCount: number;
   searchResults?: SearchResultsProps;
   searchTerm: string;
   isSecondaryDevice: boolean;
@@ -88,7 +86,6 @@ export class LeftPane extends React.Component<Props, State> {
           selectedSection={this.state.selectedSection}
           onSectionSelected={this.handleSectionSelected}
           conversations={this.props.conversations}
-          receivedFriendRequestCount={this.props.receivedFriendRequestCount}
           unreadMessageCount={this.props.unreadMessageCount}
         />
         <div className="module-left-pane">{this.renderSection()}</div>
@@ -140,9 +137,6 @@ export class LeftPane extends React.Component<Props, State> {
   private renderContactSection() {
     const {
       openConversationInternal,
-      friends,
-      sentFriendsRequest,
-      receivedFriendsRequest,
       conversations,
       searchResults,
       searchTerm,
@@ -150,23 +144,20 @@ export class LeftPane extends React.Component<Props, State> {
       updateSearchTerm,
       search,
       clearSearch,
-      receivedFriendRequestCount,
+      contacts,
     } = this.props;
 
     return (
       <LeftPaneContactSection
         openConversationInternal={openConversationInternal}
         conversations={conversations}
-        friends={friends}
+        contacts={contacts}
         searchResults={searchResults}
         searchTerm={searchTerm}
         isSecondaryDevice={isSecondaryDevice}
         updateSearchTerm={updateSearchTerm}
         search={search}
         clearSearch={clearSearch}
-        sentFriendsRequest={sentFriendsRequest}
-        receivedFriendsRequest={receivedFriendsRequest}
-        receivedFriendRequestCount={receivedFriendRequestCount}
       />
     );
   }

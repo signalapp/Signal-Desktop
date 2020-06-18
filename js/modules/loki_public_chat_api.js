@@ -232,4 +232,6 @@ class LokiPublicChatFactoryAPI extends EventEmitter {
   }
 }
 
+// These files are expected to be in commonjs so we can't use es6 syntax :(
+// If we move these to TS then we should be able to use es6
 module.exports = LokiPublicChatFactoryAPI;

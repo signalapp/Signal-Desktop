@@ -11,6 +11,7 @@ import { trigger } from '../../shims/events';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIdEditable } from './SessionIdEditable';
 import { SessionSpinner } from './SessionSpinner';
+import { StringUtils } from '../../session/utils';
 
 enum SignInMode {
   Default,
@@ -178,7 +179,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
         'hex'
       ).toArrayBuffer();
       const keyPair = await window.libsignal.Curve.async.createKeyPair(seed);
-      const hexGeneratedPubKey = Buffer.from(keyPair.pubKey).toString('hex');
+      const hexGeneratedPubKey = StringUtils.decode(keyPair.pubKey, 'hex');
 
       this.setState({
         generatedMnemonicSeed: mnemonic,

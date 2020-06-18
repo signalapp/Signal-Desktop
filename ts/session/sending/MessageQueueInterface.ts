@@ -5,18 +5,22 @@ import {
 } from '../messages/outgoing';
 import { RawMessage } from '../types/RawMessage';
 import { TypedEventEmitter } from '../utils';
+import { PubKey } from '../types';
 
 type GroupMessageType = OpenGroupMessage | ClosedGroupMessage;
 
 export interface MessageQueueInterfaceEvents {
-  success: (message: RawMessage) => void;
-  fail: (message: RawMessage, error: Error) => void;
+  success: (message: RawMessage | OpenGroupMessage) => void;
+  fail: (message: RawMessage | OpenGroupMessage, error: Error) => void;
 }
 
 export interface MessageQueueInterface {
   events: TypedEventEmitter<MessageQueueInterfaceEvents>;
-  sendUsingMultiDevice(user: string, message: ContentMessage): void;
-  send(device: string, message: ContentMessage): void;
+  sendUsingMultiDevice(user: PubKey, message: ContentMessage): void;
+  send(device: PubKey, message: ContentMessage): void;
   sendToGroup(message: GroupMessageType): void;
-  sendSyncMessage(message: ContentMessage): void;
+  sendSyncMessage(
+    message: ContentMessage,
+    sendTo: Array<PubKey>
+  ): Promise<Array<void>>;
 }

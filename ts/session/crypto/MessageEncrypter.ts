@@ -1,9 +1,12 @@
 import { EncryptionType } from '../types/EncryptionType';
 import { SignalService } from '../../protobuf';
-import { libloki, libsignal, Signal, textsecure } from '../../window';
-import { CipherTextObject } from '../../window/types/libsignal-protocol';
 import { UserUtil } from '../../util';
+import { CipherTextObject } from '../../../libtextsecure/libsignal-protocol';
 
+/**
+ * Add padding to a message buffer
+ * @param messageBuffer The buffer to add padding to.
+ */
 export function padPlainTextBuffer(messageBuffer: Uint8Array): Uint8Array {
   const plaintext = new Uint8Array(
     getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
@@ -25,8 +28,6 @@ function getPaddedMessageLength(originalLength: number): number {
   return messagePartCount * 160;
 }
 
-export type Base64String = string;
-
 /**
  * Encrypt `plainTextBuffer` with given `encryptionType` for `device`.
  *
@@ -41,10 +42,10 @@ export async function encrypt(
   encryptionType: EncryptionType
 ): Promise<{
   envelopeType: SignalService.Envelope.Type;
-  cipherText: Base64String;
+  cipherText: Uint8Array;
 }> {
   const plainText = padPlainTextBuffer(plainTextBuffer);
-  const address = new libsignal.SignalProtocolAddress(device, 1);
+  const address = new window.libsignal.SignalProtocolAddress(device, 1);
 
   if (encryptionType === EncryptionType.MediumGroup) {
     // TODO: Do medium group stuff here
@@ -52,12 +53,12 @@ export async function encrypt(
   }
 
   let innerCipherText: CipherTextObject;
-  if (encryptionType === EncryptionType.SessionReset) {
-    const cipher = new libloki.crypto.FallBackSessionCipher(address);
+  if (encryptionType === EncryptionType.SessionRequest) {
+    const cipher = new window.libloki.crypto.FallBackSessionCipher(address);
     innerCipherText = await cipher.encrypt(plainText.buffer);
   } else {
-    const cipher = new libsignal.SessionCipher(
-      textsecure.storage.protocol,
+    const cipher = new window.libsignal.SessionCipher(
+      window.textsecure.storage.protocol,
       address
     );
     innerCipherText = await cipher.encrypt(plainText.buffer);
@@ -71,7 +72,7 @@ async function encryptUsingSealedSender(
   innerCipherText: CipherTextObject
 ): Promise<{
   envelopeType: SignalService.Envelope.Type;
-  cipherText: Base64String;
+  cipherText: Uint8Array;
 }> {
   const ourNumber = await UserUtil.getCurrentDevicePubKey();
   if (!ourNumber) {
@@ -83,8 +84,8 @@ async function encryptUsingSealedSender(
     senderDevice: 1,
   });
 
-  const cipher = new Signal.Metadata.SecretSessionCipher(
-    textsecure.storage.protocol
+  const cipher = new window.Signal.Metadata.SecretSessionCipher(
+    window.textsecure.storage.protocol
   );
   const cipherTextBuffer = await cipher.encrypt(
     device,
@@ -94,6 +95,6 @@ async function encryptUsingSealedSender(
 
   return {
     envelopeType: SignalService.Envelope.Type.UNIDENTIFIED_SENDER,
-    cipherText: Buffer.from(cipherTextBuffer).toString('base64'),
+    cipherText: new Uint8Array(cipherTextBuffer),
   };
 }

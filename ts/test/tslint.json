@@ -9,6 +9,7 @@
     "max-func-body-length": false,
 
     "no-unused-expression": false,
+    "no-unused-variable": false,
 
     "await-promise": [true, "PromiseLike"],
     "no-floating-promises": [true, "PromiseLike"]

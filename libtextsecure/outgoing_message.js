@@ -2,7 +2,6 @@
   textsecure,
   libsignal,
   window,
-  ConversationController,
   libloki,
   StringView,
   lokiMessageAPI,
@@ -15,8 +14,6 @@ const NUM_SEND_CONNECTIONS = 3;
 
 const getTTLForType = type => {
   switch (type) {
-    case 'friend-request':
-      return 4 * 24 * 60 * 60 * 1000; // 4 days for friend request message
     case 'device-unpairing':
       return 4 * 24 * 60 * 60 * 1000; // 4 days for device unpairing
     case 'onlineBroadcast':
@@ -26,7 +23,7 @@ const getTTLForType = type => {
     case 'pairing-request':
       return 2 * 60 * 1000; // 2 minutes for pairing requests
     default:
-      return (window.getMessageTTL() || 24) * 60 * 60 * 1000; // 1 day default for any other message
+      return 24 * 60 * 60 * 1000; // 1 day default for any other message
   }
 };
 
@@ -107,17 +104,8 @@ function getStaleDeviceIdsForNumber(number) {
 }
 
 const DebugMessageType = {
-  AUTO_FR_REQUEST: 'auto-friend-request',
-  AUTO_FR_ACCEPT: 'auto-friend-accept',
-
-  SESSION_REQUEST: 'session-request',
-  SESSION_REQUEST_ACCEPT: 'session-request-accepted',
-
   SESSION_RESET: 'session-reset',
   SESSION_RESET_RECV: 'session-reset-received',
-
-  OUTGOING_FR_ACCEPTED: 'outgoing-friend-request-accepted',
-  INCOMING_FR_ACCEPTED: 'incoming-friend-request-accept',
 
   REQUEST_SYNC_SEND: 'request-sync-send',
   CONTACT_SYNC_SEND: 'contact-sync-send',
@@ -358,51 +346,8 @@ OutgoingMessage.prototype = {
     const updatedDevices = await getStaleDeviceIdsForNumber(devicePubKey);
     const keysFound = await this.getKeysForNumber(devicePubKey, updatedDevices);
 
-    // let isMultiDeviceRequest = false;
-    let thisDeviceMessageType = this.messageType;
-    if (
-      thisDeviceMessageType !== 'pairing-request' &&
-      thisDeviceMessageType !== 'friend-request' &&
-      thisDeviceMessageType !== 'onlineBroadcast'
-    ) {
-      try {
-        const conversation = ConversationController.get(devicePubKey);
-        if (conversation && !this.isGroup) {
-          const isOurDevice = await conversation.isOurDevice();
-          const isFriends =
-            conversation.isFriend() || conversation.hasReceivedFriendRequest();
-          // We should only send a friend request to our device if we don't have keys
-          const shouldSendAutomatedFR = isOurDevice ? !keysFound : !isFriends;
-          if (shouldSendAutomatedFR) {
-            // We want to send an automated friend request if:
-            // - We aren't already friends
-            // - We haven't received a friend request from this device
-            // - We haven't sent a friend request recently
-            if (conversation.friendRequestTimerIsExpired()) {
-              // isMultiDeviceRequest = true;
-              thisDeviceMessageType = 'friend-request';
-            } else {
-              // Throttle automated friend requests
-              this.successfulNumbers.push(devicePubKey);
-              return null;
-            }
-          }
-
-          // If we're not friends with our own device then we should become friends
-          if (isOurDevice && keysFound && !isFriends) {
-            conversation.setFriendRequestStatus(
-              window.friends.friendRequestStatusEnum.friends
-            );
-          }
-        }
-      } catch (e) {
-        // do nothing
-      }
-    }
-
     // Check if we need to attach the preKeys
-    const enableFallBackEncryption =
-      !keysFound || thisDeviceMessageType === 'friend-request';
+    const enableFallBackEncryption = !keysFound;
     const flags = this.message.dataMessage
       ? this.message.dataMessage.get_flags()
       : null;
@@ -431,13 +376,15 @@ OutgoingMessage.prototype = {
     const ourPubKey = textsecure.storage.user.getNumber();
     const ourPrimaryPubkey = window.storage.get('primaryDevicePubKey');
     const secondaryPubKeys =
-      (await window.libloki.storage.getSecondaryDevicesFor(ourPubKey)) || [];
+      (await window.libsession.Protocols.MultiDeviceProtocol.getSecondaryDevices(
+        ourPubKey
+      )) || [];
     let aliasedPubkey = devicePubKey;
     if (devicePubKey === ourPubKey) {
       aliasedPubkey = 'OUR_PUBKEY'; // should not happen
     } else if (devicePubKey === ourPrimaryPubkey) {
       aliasedPubkey = 'OUR_PRIMARY_PUBKEY';
-    } else if (secondaryPubKeys.includes(devicePubKey)) {
+    } else if (secondaryPubKeys.some(device => device.key === devicePubKey)) {
       aliasedPubkey = 'OUR SECONDARY PUBKEY';
     }
     libloki.api.debug.logSessionMessageSending(
@@ -451,7 +398,7 @@ OutgoingMessage.prototype = {
     // FIXME options not used at all; if (ourPubkey === number) {
     //   options.messageKeysLimit = false;
     // }
-    const ttl = getTTLForType(thisDeviceMessageType);
+    const ttl = getTTLForType(this.messageType);
     const ourKey = textsecure.storage.user.getNumber();
 
     return {
@@ -460,7 +407,6 @@ OutgoingMessage.prototype = {
       sourceDevice: 1,
       plaintext,
       pubKey: devicePubKey,
-      isFriendRequest: enableFallBackEncryption,
       isSessionRequest,
       enableFallBackEncryption,
     };
@@ -480,7 +426,6 @@ OutgoingMessage.prototype = {
       plaintext,
       pubKey,
       isSessionRequest,
-      isFriendRequest,
       enableFallBackEncryption,
     } = clearMessage;
     // Session doesn't use the deviceId scheme, it's always 1.
@@ -526,7 +471,6 @@ OutgoingMessage.prototype = {
       sourceDevice,
       content,
       pubKey,
-      isFriendRequest,
       isSessionRequest,
     };
   },
@@ -597,8 +541,6 @@ OutgoingMessage.prototype = {
       ourKey: ourIdentity,
       sourceDevice: 1,
       content: contentOuter.encode().toArrayBuffer(),
-      isFriendRequest: false,
-      isSessionRequest: false,
     };
 
     // TODO: Rather than using sealed sender, we just generate a key pair, perform an ECDH against
@@ -621,12 +563,7 @@ OutgoingMessage.prototype = {
       if (!outgoingObject) {
         return;
       }
-      const {
-        pubKey: destination,
-        ttl,
-        isFriendRequest,
-        isSessionRequest,
-      } = outgoingObject;
+      const { pubKey: destination, ttl } = outgoingObject;
 
       try {
         const socketMessage = wrapInWebsocketMessage(
@@ -639,14 +576,6 @@ OutgoingMessage.prototype = {
           this.timestamp,
           ttl
         );
-
-        if (!this.isGroup && isFriendRequest && !isSessionRequest) {
-          const conversation = ConversationController.get(destination);
-          if (conversation) {
-            // Redundant for primary device but marks secondary devices as pending
-            await conversation.onFriendRequestSent();
-          }
-        }
         this.successfulNumbers.push(destination);
       } catch (e) {
         e.number = destination;
@@ -696,14 +625,7 @@ OutgoingMessage.prototype = {
   },
 
   sendToNumber(number, multiDevice = true) {
-    let conversation;
-    try {
-      conversation = ConversationController.get(number);
-    } catch (e) {
-      // do nothing
-    }
     return this.reloadDevicesAndSend(number, multiDevice).catch(error => {
-      conversation.resetPendingSend();
       if (error.message === 'Identity key changed') {
         // eslint-disable-next-line no-param-reassign
         error = new textsecure.OutgoingIdentityKeyError(
@@ -724,32 +646,6 @@ OutgoingMessage.prototype = {
   },
 };
 
-OutgoingMessage.buildAutoFriendRequestMessage = function buildAutoFriendRequestMessage(
-  pubKey
-) {
-  const body = 'Please accept to enable messages to be synced across devices';
-  const dataMessage = new textsecure.protobuf.DataMessage({ body });
-
-  const content = new textsecure.protobuf.Content({
-    dataMessage,
-  });
-
-  const options = {
-    messageType: 'friend-request',
-    debugMessageType: DebugMessageType.AUTO_FR_REQUEST,
-  };
-  // Send a empty message with information about how to contact us directly
-  return new OutgoingMessage(
-    null, // server
-    Date.now(), // timestamp,
-    [pubKey], // numbers
-    content, // message
-    true, // silent
-    () => null, // callback
-    options
-  );
-};
-
 OutgoingMessage.buildSessionRequestMessage = function buildSessionRequestMessage(
   pubKey
 ) {
@@ -764,10 +660,7 @@ OutgoingMessage.buildSessionRequestMessage = function buildSessionRequestMessage
     dataMessage,
   });
 
-  const options = {
-    messageType: 'friend-request',
-    debugMessageType: DebugMessageType.SESSION_REQUEST,
-  };
+  const options = {};
   // Send a empty message with information about how to contact us directly
   return new OutgoingMessage(
     null, // server

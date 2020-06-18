@@ -32,7 +32,6 @@ const mapStateToProps = (state: StateType) => {
     showArchived: getShowArchived(state),
     i18n: getIntl(state),
     unreadMessageCount: leftPaneList.unreadCount,
-    receivedFriendRequestCount: leftPaneList.receivedFriendsRequest.length,
   };
 };
 

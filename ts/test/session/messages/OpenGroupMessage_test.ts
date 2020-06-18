@@ -1,94 +1,89 @@
 import { expect } from 'chai';
 
-import { OpenGroupMessage } from '../../../session/messages/outgoing';
-import { AttachmentType } from '../../../types/Attachment';
+import {
+  AttachmentPointer,
+  OpenGroupMessage,
+} from '../../../session/messages/outgoing';
 import * as MIME from '../../../../ts/types/MIME';
-import { QuotedAttachmentType } from '../../../components/conversation/Quote';
+import { OpenGroup } from '../../../session/types';
 
 describe('OpenGroupMessage', () => {
-  it('can create empty message with just a timestamp and server', () => {
+  const group = new OpenGroup({
+    server: 'chat.example.server',
+    channel: 1,
+    conversationId: '0',
+  });
+
+  it('can create empty message with just a timestamp and group', () => {
     const message = new OpenGroupMessage({
       timestamp: Date.now(),
-      server: 'server',
+      group,
     });
-    expect(message)
-      .to.have.property('timestamp')
-      .to.be.approximately(Date.now(), 10);
-    expect(message).to.have.deep.property('server', 'server');
+    expect(message?.timestamp).to.be.approximately(Date.now(), 10);
+    expect(message?.group).to.deep.equal(group);
+    expect(message?.body).to.be.equal(undefined, 'body should be undefined');
+    expect(message?.quote).to.be.equal(undefined, 'quote should be undefined');
+    expect(message?.attachments).to.have.lengthOf(0);
+    expect(message?.preview).to.have.lengthOf(0);
   });
 
   it('can create message with a body', () => {
     const message = new OpenGroupMessage({
       timestamp: Date.now(),
-      server: 'server',
-      body: 'body',
-    });
-    expect(message).to.have.deep.property('body', 'body');
-  });
-
-  it('can create message with a expire timer', () => {
-    const message = new OpenGroupMessage({
-      timestamp: Date.now(),
-      server: 'server',
+      group,
       body: 'body',
     });
     expect(message).to.have.deep.property('body', 'body');
   });
 
   it('can create message with a quote', () => {
-    let quote: QuotedAttachmentType;
-
-    quote = {
+    const attachment = {
       contentType: MIME.IMAGE_JPEG,
       fileName: 'fileName',
       isVoiceMessage: false,
     };
+    const quote = {
+      id: 0,
+      author: 'me',
+      text: 'hi',
+      attachments: [attachment],
+    };
     const message = new OpenGroupMessage({
       timestamp: Date.now(),
-      server: 'server',
+      group,
       quote,
     });
-    expect(message?.quote).to.have.property('contentType', MIME.IMAGE_JPEG);
-    expect(message?.quote).to.have.deep.property('fileName', 'fileName');
-    expect(message?.quote).to.have.deep.property('isVoiceMessage', false);
+    expect(message?.quote).to.deep.equal(quote);
   });
 
   it('can create message with an attachment', () => {
-    let attachment: AttachmentType;
-
-    attachment = {
-      url: 'url',
+    const attachment: AttachmentPointer = {
+      id: 0,
+      contentType: 'type',
+      key: new Uint8Array(1),
+      size: 10,
+      thumbnail: new Uint8Array(2),
+      digest: new Uint8Array(3),
+      filename: 'filename',
+      flags: 0,
+      width: 10,
+      height: 20,
       caption: 'caption',
-      fileName: 'fileName',
-      contentType: MIME.AUDIO_AAC,
+      url: 'url',
     };
-    const attachments = new Array<AttachmentType>();
-    attachments.push(attachment);
-
     const message = new OpenGroupMessage({
       timestamp: Date.now(),
-      server: 'server',
-      attachments: attachments,
+      group,
+      attachments: [attachment],
     });
     expect(message?.attachments).to.have.lengthOf(1);
-    expect(message)
-      .to.have.nested.property('attachments[0].caption')
-      .to.have.be.deep.equal('caption');
-    expect(message)
-      .to.have.nested.property('attachments[0].fileName')
-      .to.have.be.deep.equal('fileName');
-    expect(message)
-      .to.have.nested.property('attachments[0].contentType')
-      .to.be.deep.equal(MIME.AUDIO_AAC);
-    expect(message)
-      .to.have.nested.property('attachments[0].url')
-      .to.be.deep.equal('url');
+    expect(message?.attachments[0]).to.deep.equal(attachment);
   });
 
   it('has an identifier', () => {
     const message = new OpenGroupMessage({
       timestamp: Date.now(),
-      server: 'server',
+      group,
     });
     expect(message.identifier).to.not.equal(null, 'identifier cannot be null');
     expect(message.identifier).to.not.equal(

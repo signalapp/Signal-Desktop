@@ -1,11 +1,12 @@
-import { CipherTextObject } from '../../../../window/types/libsignal-protocol';
+import { CipherTextObject } from '../../../../../libtextsecure/libsignal-protocol';
 import { SignalService } from '../../../../protobuf';
+import { StringUtils } from '../../../../session/utils';
 
 export class FallBackSessionCipherStub {
   public async encrypt(buffer: ArrayBuffer): Promise<CipherTextObject> {
     return {
-      type: SignalService.Envelope.Type.FRIEND_REQUEST,
-      body: Buffer.from(buffer).toString('binary'),
+      type: SignalService.Envelope.Type.SESSION_REQUEST,
+      body: StringUtils.decode(buffer, 'binary'),
     };
   }
 }
