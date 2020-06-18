@@ -60,7 +60,7 @@
     const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablished(
       { timestamp: Date.now() }
     );
-    await libsession.messageQueue.send(user, sessionEstablished);
+    await libsession.getMessageQueue().send(user, sessionEstablished);
   }
 
   async function sendBackgroundMessage(pubKey, debugMessageType) {

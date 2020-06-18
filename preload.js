@@ -160,6 +160,7 @@ window.setPassword = (passPhrase, oldPhrase) =>
 
 window.passwordUtil = require('./app/password_util');
 window.libsession = require('./ts/session');
+window.libsession.getMessageQueue = require('./ts/session/sending/instance').getMessageQueue;
 
 // We never do these in our code, so we'll prevent it everywhere
 window.open = () => null;

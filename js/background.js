@@ -1408,9 +1408,11 @@
       await window.lokiFileServerAPI.updateOurDeviceMapping();
       // TODO: we should ensure the message was sent and retry automatically if not
       const device = new libsession.Types.PubKey(pubKey);
-      const unlinkMessage = new libsession.Messages.Outgoing.DeviceUnlinkMessage(pubKey);
+      const unlinkMessage = new libsession.Messages.Outgoing.DeviceUnlinkMessage(
+        pubKey
+      );
 
-      await libsession.messageQueue.send(device, unlinkMessage);
+      await libsession.getMessageQueue().send(device, unlinkMessage);
       // Remove all traces of the device
       setTimeout(() => {
         ConversationController.deleteContact(pubKey);

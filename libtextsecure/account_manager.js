@@ -556,7 +556,9 @@
           requestSignature,
         }
       );
-      await libsession.messageQueue.send(primaryDevice, requestPairingMessage);
+      await window.libsession
+        .getMessageQueue()
+        .send(primaryDevice, requestPairingMessage);
     },
     async authoriseSecondaryDevice(secondaryDeviceStr) {
       const ourPubKey = textsecure.storage.user.getNumber();
@@ -633,10 +635,9 @@
             lokiProfile,
           }
         );
-        await libsession.messageQueue.send(
-          secondaryDevicePubKey,
-          requestPairingMessage
-        );
+        await libsession
+          .getMessageQueue()
+          .send(secondaryDevicePubKey, requestPairingMessage);
       } catch (e) {
         log.error(
           'Failed to authorise secondary device: ',
