@@ -21,6 +21,14 @@ interface StorageItem {
   value: any;
 }
 
+// Helper function to force sequential on events checks
+async function tick() {
+  return new Promise(resolve => {
+    // tslint:disable-next-line: no-string-based-set-timeout
+    setTimeout(resolve, 0);
+  });
+}
+
 describe('MessageQueue', () => {
   // Initialize new stubbed cache
   let data: StorageItem;
@@ -339,8 +347,9 @@ describe('MessageQueue', () => {
 
       const device = TestUtils.generateFakePubkey();
       const promise = messageQueueStub.processPending(device);
-
       await expect(promise).to.be.fulfilled;
+
+      await tick();
       expect(successSpy.callCount).to.equal(1);
     });
 
@@ -352,8 +361,9 @@ describe('MessageQueue', () => {
 
       const device = TestUtils.generateFakePubkey();
       const promise = messageQueueStub.processPending(device);
-
       await expect(promise).to.be.fulfilled;
+
+      await tick();
       expect(failureSpy.callCount).to.equal(1);
     });
   });
