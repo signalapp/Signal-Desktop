@@ -1,6 +1,7 @@
 import { SignalService } from '../../../../protobuf';
 import { CipherTextObject } from '../../../../../libtextsecure/libsignal-protocol';
 import { SecretSessionCipherInterface } from '../../../../../js/modules/metadata/SecretSessionCipher';
+import { StringUtils } from '../../../../session/utils';
 
 export class SecretSessionCipherStub implements SecretSessionCipherInterface {
   public async encrypt(
@@ -10,7 +11,7 @@ export class SecretSessionCipherStub implements SecretSessionCipherInterface {
   ): Promise<ArrayBuffer> {
     const { body } = innerEncryptedMessage;
 
-    return Buffer.from(body, 'binary').buffer;
+    return StringUtils.encode(body, 'binary');
   }
 
   public async decrypt(

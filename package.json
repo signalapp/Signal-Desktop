@@ -118,6 +118,7 @@
   },
   "devDependencies": {
     "@types/backbone": "^1.4.2",
+    "@types/bytebuffer": "^5.0.41",
     "@types/chai": "4.1.2",
     "@types/chai-as-promised": "^7.1.2",
     "@types/classnames": "2.2.3",

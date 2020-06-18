@@ -5,6 +5,7 @@ import { PairingAuthorisation } from '../../../../js/modules/data';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { PubKey } from '../../../session/types';
 import { UserUtil } from '../../../util';
+import { StringUtils } from '../../../session/utils';
 
 function generateFakeAuthorisations(
   primary: PubKey,
@@ -112,7 +113,7 @@ describe('MultiDeviceProtocol', () => {
       } = authorisations[0];
       expect(primaryDevicePubKey).to.equal(networkAuth.primaryDevicePubKey);
       expect(secondaryDevicePubKey).to.equal(networkAuth.secondaryDevicePubKey);
-      expect(Buffer.from(requestSignature).toString('base64')).to.equal(
+      expect(StringUtils.decode(requestSignature, 'base64')).to.equal(
         networkAuth.requestSignature
       );
       expect(grantSignature).to.not.equal(
@@ -120,7 +121,7 @@ describe('MultiDeviceProtocol', () => {
         'Grant signature should not be undefined.'
       );
       // tslint:disable-next-line: no-non-null-assertion
-      expect(Buffer.from(grantSignature!).toString('base64')).to.equal(
+      expect(StringUtils.decode(grantSignature!, 'base64')).to.equal(
         networkAuth.grantSignature
       );
     });

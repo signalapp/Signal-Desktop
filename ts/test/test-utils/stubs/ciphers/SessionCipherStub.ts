@@ -3,6 +3,7 @@ import {
   SessionCipher,
 } from '../../../../../libtextsecure/libsignal-protocol';
 import { SignalService } from '../../../../protobuf';
+import { StringUtils } from '../../../../session/utils';
 
 export class SessionCipherStub implements SessionCipher {
   public storage: any;
@@ -17,7 +18,7 @@ export class SessionCipherStub implements SessionCipher {
   ): Promise<CipherTextObject> {
     return {
       type: SignalService.Envelope.Type.CIPHERTEXT,
-      body: Buffer.from(buffer).toString('binary'),
+      body: StringUtils.decode(buffer, 'binary'),
     };
   }
 
