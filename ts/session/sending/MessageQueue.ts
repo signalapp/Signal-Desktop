@@ -46,6 +46,8 @@ export class MessageQueue implements MessageQueueInterface {
     devices: Array<PubKey>,
     message: ContentMessage
   ) {
+    await this.pendingMessageCache.isReady;
+
     let currentDevices = [...devices];
 
     // Sync to our devices if syncable
@@ -82,6 +84,7 @@ export class MessageQueue implements MessageQueueInterface {
     ) {
       return false;
     }
+    await this.pendingMessageCache.isReady;
 
     // Closed groups
     if (message instanceof ClosedGroupMessage) {
@@ -115,6 +118,7 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   public async sendSyncMessage(message: ContentMessage, sendTo: Array<PubKey>) {
+    await this.pendingMessageCache.isReady;
     // Sync with our devices
     const promises = sendTo.map(async device => {
       const syncMessage = SyncMessageUtils.from(message);
@@ -126,6 +130,7 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   public async processPending(device: PubKey) {
+    await this.pendingMessageCache.isReady;
     const messages = this.pendingMessageCache.getForDevice(device);
 
     const isMediumGroup = GroupUtils.isMediumGroup(device);
@@ -156,7 +161,6 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   private async processAllPending() {
-    await this.pendingMessageCache.isReady;
 
     const devices = this.pendingMessageCache.getDevices();
     const promises = devices.map(async device => this.processPending(device));

@@ -419,53 +419,16 @@ MessageSender.prototype = {
     // If however we want to use the results from forEach then
     // we would need to convert this to a Promise.all(numbers.map(...))
     numbers.forEach(async number => {
-      // Note: if we are sending a private group message, we do our best to
-      // ensure we have signal protocol sessions with every member, but if we
-      // fail, let's at least send messages to those members with which we do:
-      const haveSession = _.some(
-        textsecure.storage.protocol.sessions,
-        s => s.number === number
+      const outgoing = new OutgoingMessage(
+        this.server,
+        timestamp,
+        numbers,
+        message,
+        silent,
+        callback,
+        options
       );
-
-      let keysFound = false;
-      // If we don't have a session but we already have prekeys to
-      // start communication then we should use them
-      if (!haveSession && !options.isPublic && !options.isMediumGroup) {
-        keysFound = await hasKeys(number);
-      }
-
-      if (
-        number === ourNumber ||
-        haveSession ||
-        keysFound ||
-        options.isPublic ||
-        options.isMediumGroup
-      ) {
-        const outgoing = new OutgoingMessage(
-          this.server,
-          timestamp,
-          numbers,
-          message,
-          silent,
-          callback,
-          options
-        );
-        this.queueJobForNumber(number, () => outgoing.sendToNumber(number));
-      } else {
-        window.log.error(`No session for number: ${number}`);
-        const isGroupMessage = !!(
-          message &&
-          message.dataMessage &&
-          message.dataMessage.group
-        );
-        // If it was a message to a group then we need to send a session request
-        if (isGroupMessage || options.autoSession) {
-          const sessionRequestMessage = textsecure.OutgoingMessage.buildSessionRequestMessage(
-            number
-          );
-          sessionRequestMessage.sendToNumber(number);
-        }
-      }
+      this.queueJobForNumber(number, () => outgoing.sendToNumber(number));
     });
   },
 

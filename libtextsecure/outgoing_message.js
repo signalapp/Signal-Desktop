@@ -215,8 +215,7 @@ OutgoingMessage.prototype = {
     }
 
     return (
-      libloki.storage
-        .getAllDevicePubKeysForPrimaryPubKey(primaryPubKey)
+      window.libsession.Protocols.MultiDeviceProtocol.getAllDevices(primaryPubKey)
         // Don't send to ourselves
         .then(devicesPubKeys =>
           devicesPubKeys.filter(pubKey => pubKey !== ourNumber)

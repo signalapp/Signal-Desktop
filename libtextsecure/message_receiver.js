@@ -1141,7 +1141,7 @@ MessageReceiver.prototype.extend({
         const device = {
           identityKey,
           deviceId,
-          preKey: {...preKey, keyId: preKeyId},
+          preKey: preKeyObject,
           signedPreKey,
           registrationId: 0,
         };
@@ -1172,8 +1172,11 @@ MessageReceiver.prototype.extend({
     if (envelope.type === SESSION_REQUEST) {
       await this.handleSessionRequestMessage(envelope, content);
     } else {
+
+      const device = new libsession.Types.PubKey(envelope.source);
+
       await libsession.Protocols.SessionProtocol.onSessionEstablished(
-        envelope.source
+        device
       );
       // TODO process sending queue for this device now that we have a session
     }
