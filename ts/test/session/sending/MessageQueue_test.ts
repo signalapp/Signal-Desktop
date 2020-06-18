@@ -42,7 +42,7 @@ describe('MessageQueue', () => {
     Promise<Array<void>>
   >;
   let sendToGroupSpy: sinon.SinonSpy<
-    [ContentMessage | OpenGroupMessage],
+    [OpenGroupMessage | ClosedGroupMessage],
     Promise<boolean>
   >;
 
@@ -55,16 +55,6 @@ describe('MessageQueue', () => {
   let hasSessionStub: sinon.SinonStub<[PubKey]>;
   let sendSessionRequestIfNeededStub: sinon.SinonStub<[PubKey], Promise<void>>;
 
-  // Helper function returns a promise that resolves after all other promise mocks,
-  // even if they are chained like Promise.resolve().then(...)
-  // Technically: this is designed to resolve on the next macrotask
-  async function tick() {
-    return new Promise(resolve => {
-      // tslint:disable-next-line: no-string-based-set-timeout
-      setTimeout(resolve, 0);
-    });
-  }
-
   beforeEach(async () => {
     // Stub out methods which touch the database
     const storageID = 'pendingMessages';
@@ -76,9 +66,7 @@ describe('MessageQueue', () => {
     // Pending Message Cache Data Stubs
     TestUtils.stubData('getItemById')
       .withArgs('pendingMessages')
-      .callsFake(async () => {
-        return data;
-      });
+      .resolves(data);
     TestUtils.stubData('createOrUpdateItem').callsFake((item: StorageItem) => {
       if (item.id === storageID) {
         data = item;
@@ -103,7 +91,7 @@ describe('MessageQueue', () => {
     sandbox.stub(GroupUtils, 'isMediumGroup').returns(false);
     groupMembersStub = sandbox
       .stub(GroupUtils, 'getGroupMembers' as any)
-      .callsFake(async () => TestUtils.generateMemberList(10));
+      .resolves(TestUtils.generateMemberList(10));
 
     // Session Protocol Stubs
     sandbox.stub(SessionProtocol, 'sendSessionRequest').resolves();
@@ -169,15 +157,13 @@ describe('MessageQueue', () => {
   });
 
   describe('processPending', () => {
-    it('will send sync message if no session', async () => {
+    it('will send session request message if no session', async () => {
       hasSessionStub.resolves(false);
 
       const device = TestUtils.generateFakePubkey();
       const promise = messageQueueStub.processPending(device);
 
-      expect(promise).to.be.fulfilled;
-
-      await tick();
+      await expect(promise).to.be.fulfilled;
       expect(sendSessionRequestIfNeededStub.callCount).to.equal(1);
     });
 
@@ -186,9 +172,8 @@ describe('MessageQueue', () => {
       const hasSession = await hasSessionStub(device);
 
       const promise = messageQueueStub.processPending(device);
-      expect(promise).to.be.fulfilled;
+      await expect(promise).to.be.fulfilled;
 
-      await tick();
       expect(hasSession).to.equal(true, 'session does not exist');
       expect(sendSessionRequestIfNeededStub.callCount).to.equal(0);
     });
@@ -200,10 +185,9 @@ describe('MessageQueue', () => {
       const message = TestUtils.generateChatMessage();
 
       const promise = messageQueueStub.sendUsingMultiDevice(device, message);
-      expect(promise).to.be.fulfilled;
+      await expect(promise).to.be.fulfilled;
 
       // Ensure the arguments passed into sendMessageToDevices are correct
-      await tick();
       const previousArgs = sendMessageToDevicesSpy.lastCall.args as [
         Array<PubKey>,
         ChatMessage
@@ -249,10 +233,9 @@ describe('MessageQueue', () => {
       const ourDevices = [...pairedDevices, ourNumber].sort();
 
       const promise = messageQueueStub.sendMessageToDevices(devices, message);
-      expect(promise).to.be.fulfilled;
+      await expect(promise).to.be.fulfilled;
 
       // Check sendSyncMessage parameters
-      await tick();
       const previousArgs = sendSyncMessageSpy.lastCall.args as [
         ChatMessage,
         Array<PubKey>
@@ -294,7 +277,6 @@ describe('MessageQueue', () => {
       expect(success).to.equal(true, 'sending to group failed');
 
       // Check parameters
-      await tick();
       const previousArgs = sendMessageToDevicesSpy.lastCall.args as [
         Array<PubKey>,
         ClosedGroupMessage
@@ -313,9 +295,11 @@ describe('MessageQueue', () => {
       const success = await messageQueueStub.sendToGroup(message);
 
       // Ensure message parameter passed into sendToGroup is as expected
-      await tick();
+      expect(success).to.equal(
+        false,
+        'an invalid groupId was treated as valid'
+      );
       expect(sendToGroupSpy.callCount).to.equal(1);
-      expect(sendToGroupSpy.lastCall.args).to.have.length(1);
 
       const argsMessage = sendToGroupSpy.lastCall.args[0];
       expect(argsMessage instanceof ClosedGroupMessage).to.equal(
@@ -329,7 +313,7 @@ describe('MessageQueue', () => {
     });
 
     it('wont send message to empty closed group', async () => {
-      groupMembersStub.callsFake(async () => TestUtils.generateMemberList(0));
+      groupMembersStub.resolves(TestUtils.generateMemberList(0));
 
       const message = TestUtils.generateClosedGroupMessage();
       const response = await messageQueueStub.sendToGroup(message);
@@ -338,21 +322,6 @@ describe('MessageQueue', () => {
         false,
         'sendToGroup send a message to an empty group'
       );
-    });
-
-    it('wont send invalid message type to closed group', async () => {
-      // Regular chat message should return false
-      const message = TestUtils.generateChatMessage();
-      const response = await messageQueueStub.sendToGroup(message);
-
-      expect(response).to.equal(
-        false,
-        'sendToGroup considered an invalid message type as valid'
-      );
-
-      // These should not be called; early exit
-      expect(sendMessageToDevicesSpy.callCount).to.equal(0);
-      expect(sendToOpenGroupStub.callCount).to.equal(0);
     });
 
     it('can send to open group', async () => {
@@ -370,9 +339,8 @@ describe('MessageQueue', () => {
 
       const device = TestUtils.generateFakePubkey();
       const promise = messageQueueStub.processPending(device);
-      expect(promise).to.be.fulfilled;
 
-      await tick();
+      await expect(promise).to.be.fulfilled;
       expect(successSpy.callCount).to.equal(1);
     });
 
@@ -384,9 +352,8 @@ describe('MessageQueue', () => {
 
       const device = TestUtils.generateFakePubkey();
       const promise = messageQueueStub.processPending(device);
-      expect(promise).to.be.fulfilled;
 
-      await tick();
+      await expect(promise).to.be.fulfilled;
       expect(failureSpy.callCount).to.equal(1);
     });
   });

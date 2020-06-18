@@ -78,16 +78,8 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   public async sendToGroup(
-    message: OpenGroupMessage | ContentMessage
+    message: OpenGroupMessage | ClosedGroupMessage
   ): Promise<boolean> {
-    // Ensure message suits its respective type
-    if (
-      !(message instanceof OpenGroupMessage) &&
-      !(message instanceof ClosedGroupMessage)
-    ) {
-      return false;
-    }
-
     // Closed groups
     if (message instanceof ClosedGroupMessage) {
       // Get devices in closed group
@@ -108,17 +100,16 @@ export class MessageQueue implements MessageQueueInterface {
     // Open groups
     if (message instanceof OpenGroupMessage) {
       // No queue needed for Open Groups; send directly
-
       try {
         await MessageSender.sendToOpenGroup(message);
         this.events.emit('success', message);
+
+        return true;
       } catch (e) {
         this.events.emit('fail', message, e);
 
         return false;
       }
-
-      return true;
     }
 
     return false;
@@ -173,7 +164,9 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   private async process(device: PubKey, message?: ContentMessage) {
-    if (!message) {
+    // Don't send to ourselves
+    const currentDevice = await UserUtil.getCurrentDevicePubKey();
+    if (!message || (currentDevice && device.isEqual(currentDevice))) {
       return;
     }
 
