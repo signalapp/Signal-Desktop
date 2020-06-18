@@ -93,12 +93,12 @@ export class PendingMessageCache {
     await this.saveToDB();
   }
 
-  private async loadFromDB() {
+  protected async loadFromDB() {
     const messages = await this.getFromStorage();
     this.cache = messages;
   }
 
-  private async getFromStorage(): Promise<Array<RawMessage>> {
+  protected async getFromStorage(): Promise<Array<RawMessage>> {
     const data = await getItemById('pendingMessages');
     if (!data || !data.value) {
       return [];
@@ -117,7 +117,7 @@ export class PendingMessageCache {
     });
   }
 
-  private async saveToDB() {
+  protected async saveToDB() {
     // For each plainTextBuffer in cache, save in as a simple Array<number> to avoid
     // Node issues with JSON stringifying Buffer without strict typing
     const encodedCache = [...this.cache].map(item => {

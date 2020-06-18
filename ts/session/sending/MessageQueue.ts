@@ -26,9 +26,9 @@ export class MessageQueue implements MessageQueueInterface {
   private readonly jobQueues: Map<PubKey, JobQueue> = new Map();
   private readonly pendingMessageCache: PendingMessageCache;
 
-  constructor() {
+  constructor(cache?: PendingMessageCache) {
     this.events = new EventEmitter();
-    this.pendingMessageCache = new PendingMessageCache();
+    this.pendingMessageCache = cache ?? new PendingMessageCache();
     void this.processAllPending();
   }
 
@@ -143,10 +143,12 @@ export class MessageQueue implements MessageQueueInterface {
           await jobQueue.addWithId(messageId, async () =>
             MessageSender.send(message)
           );
-          void this.pendingMessageCache.remove(message);
           this.events.emit('success', message);
         } catch (e) {
           this.events.emit('fail', message, e);
+        } finally {
+          // Remove from the cache because retrying is done in the sender
+          void this.pendingMessageCache.remove(message);
         }
       }
     });
@@ -173,7 +175,7 @@ export class MessageQueue implements MessageQueueInterface {
     }
 
     await this.pendingMessageCache.add(device, message);
-    await this.processPending(device);
+    void this.processPending(device);
   }
 
   private getJobQueue(device: PubKey): JobQueue {
