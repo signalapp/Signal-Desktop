@@ -19,9 +19,6 @@
     "autosize": [
       "dist/autosize.js"
     ],
-    "bytebuffer": [
-      "dist/ByteBufferAB.js"
-    ],
     "indexeddb-backbonejs-adapter": [
       "backbone-indexeddb.js"
     ],
@@ -49,7 +46,6 @@
     "app": [
       "node_modules/jquery/dist/jquery.js",
       "components/long/**/*.js",
-      "components/bytebuffer/**/*.js",
       "components/protobuf/**/*.js",
       "node_modules/mustache/mustache.js",
       "node_modules/underscore/underscore.js",
@@ -62,12 +58,10 @@
     ],
     "libtextsecure": [
       "components/long/**/*.js",
-      "components/bytebuffer/**/*.js",
       "components/protobuf/**/*.js"
     ],
     "libloki": [
       "components/long/**/*.js",
-      "components/bytebuffer/**/*.js",
       "components/JSBI/dist/jsbi.mjs",
       "components/multibase/dist/index.js"
     ]

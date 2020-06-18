@@ -42,7 +42,7 @@ module.exports = grunt => {
       },
       util_worker: {
         src: [
-          'components/bytebuffer/dist/ByteBufferAB.js',
+          'node_modules/bytebuffer/dist/bytebuffer.js',
           'components/JSBI/dist/jsbi.mjs',
           'libloki/proof-of-work.js',
           'components/long/dist/Long.js',
@@ -160,7 +160,7 @@ module.exports = grunt => {
       },
       utilworker: {
         files: [
-          'components/bytebuffer/dist/ByteBufferAB.js',
+          'node_modules/bytebuffer/dist/bytebuffer.js',
           'components/JSBI/dist/jsbi.mjs',
           'libloki/proof-of-work.js',
           'components/long/dist/Long.js',
