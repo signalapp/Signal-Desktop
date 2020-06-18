@@ -214,7 +214,7 @@ export class MultiDeviceProtocol {
     try {
       const ourDevices = await this.getOurDevices();
 
-      return ourDevices.some(d => PubKey.isEqual(d, pubKey));
+      return ourDevices.some(d => d.isEqual(pubKey));
     } catch (e) {
       return false;
     }

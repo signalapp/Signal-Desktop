@@ -5,13 +5,14 @@ import {
   OpenGroupMessage,
 } from '../../../session/messages/outgoing';
 import * as MIME from '../../../../ts/types/MIME';
+import { OpenGroup } from '../../../session/types';
 
 describe('OpenGroupMessage', () => {
-  const group = {
-    server: 'server',
+  const group = new OpenGroup({
+    server: 'chat.example.server',
     channel: 1,
     conversationId: '0',
-  };
+  });
 
   it('can create empty message with just a timestamp and group', () => {
     const message = new OpenGroupMessage({

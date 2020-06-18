@@ -2,5 +2,6 @@
 import * as MessageSender from './MessageSender';
 export { MessageSender };
 
+export * from './PendingMessageCache';
 export * from './MessageQueue';
 export * from './MessageQueueInterface';

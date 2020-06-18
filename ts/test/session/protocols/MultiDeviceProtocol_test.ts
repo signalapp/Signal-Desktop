@@ -43,7 +43,7 @@ describe('MultiDeviceProtocol', () => {
         'getPairingAuthorisationsFor'
       ).resolves([]);
       await MultiDeviceProtocol.getPairingAuthorisations(
-        TestUtils.generateFakePubkey()
+        TestUtils.generateFakePubKey()
       );
       expect(fetchPairingStub.called).to.equal(true, 'Pairing is not fetched.');
       expect(fetchPairingStub.calledBefore(dataStub)).to.equal(
@@ -53,8 +53,8 @@ describe('MultiDeviceProtocol', () => {
     });
 
     it('should return the authorisations from the database', async () => {
-      const device1 = TestUtils.generateFakePubkey();
-      const device2 = TestUtils.generateFakePubkey();
+      const device1 = TestUtils.generateFakePubKey();
+      const device2 = TestUtils.generateFakePubKey();
       const pairing: PairingAuthorisation = {
         primaryDevicePubKey: device1.key,
         secondaryDevicePubKey: device2.key,
@@ -75,7 +75,7 @@ describe('MultiDeviceProtocol', () => {
       TestUtils.stubWindow('lokiFileServerAPI', undefined);
       expect(
         MultiDeviceProtocol.fetchPairingAuthorisations(
-          TestUtils.generateFakePubkey()
+          TestUtils.generateFakePubKey()
         )
       ).to.be.rejectedWith('lokiFileServerAPI is not initialised.');
     });
@@ -101,7 +101,7 @@ describe('MultiDeviceProtocol', () => {
       });
 
       const authorisations = await MultiDeviceProtocol.fetchPairingAuthorisations(
-        TestUtils.generateFakePubkey()
+        TestUtils.generateFakePubKey()
       );
       expect(authorisations.length).to.equal(1);
 
@@ -140,8 +140,8 @@ describe('MultiDeviceProtocol', () => {
       fetchPairingAuthorisationStub = sandbox
         .stub(MultiDeviceProtocol, 'fetchPairingAuthorisations')
         .resolves([]);
-      currentDevice = TestUtils.generateFakePubkey();
-      device = TestUtils.generateFakePubkey();
+      currentDevice = TestUtils.generateFakePubKey();
+      device = TestUtils.generateFakePubKey();
       sandbox
         .stub(UserUtil, 'getCurrentDevicePubKey')
         .resolves(currentDevice.key);
@@ -236,7 +236,7 @@ describe('MultiDeviceProtocol', () => {
 
   describe('getAllDevices', () => {
     it('should return all devices', async () => {
-      const primary = TestUtils.generateFakePubkey();
+      const primary = TestUtils.generateFakePubKey();
       const otherDevices = TestUtils.generateFakePubKeys(2);
       const authorisations = generateFakeAuthorisations(primary, otherDevices);
       sandbox
@@ -254,7 +254,7 @@ describe('MultiDeviceProtocol', () => {
 
   describe('getPrimaryDevice', () => {
     it('should return the primary device', async () => {
-      const primary = TestUtils.generateFakePubkey();
+      const primary = TestUtils.generateFakePubKey();
       const otherDevices = TestUtils.generateFakePubKeys(2);
       const authorisations = generateFakeAuthorisations(primary, otherDevices);
       sandbox
@@ -271,7 +271,7 @@ describe('MultiDeviceProtocol', () => {
 
   describe('getSecondaryDevices', () => {
     it('should return the secondary devices', async () => {
-      const primary = TestUtils.generateFakePubkey();
+      const primary = TestUtils.generateFakePubKey();
       const otherDevices = TestUtils.generateFakePubKeys(2);
       const authorisations = generateFakeAuthorisations(primary, otherDevices);
       sandbox

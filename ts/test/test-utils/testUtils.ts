@@ -5,7 +5,12 @@ import * as DataShape from '../../../js/modules/data';
 import { v4 as uuid } from 'uuid';
 
 import { PubKey } from '../../../ts/session/types';
-import { ChatMessage } from '../../session/messages/outgoing';
+import {
+  ChatMessage,
+  ClosedGroupChatMessage,
+  OpenGroupMessage,
+} from '../../session/messages/outgoing';
+import { OpenGroup } from '../../session/types/OpenGroup';
 
 const globalAny: any = global;
 const sandbox = sinon.createSandbox();
@@ -64,7 +69,7 @@ export function restoreStubs() {
   sandbox.restore();
 }
 
-export function generateFakePubkey(): PubKey {
+export function generateFakePubKey(): PubKey {
   // Generates a mock pubkey for testing
   const numBytes = PubKey.PUBKEY_LEN / 2 - 1;
   const hexBuffer = crypto.randomBytes(numBytes).toString('hex');
@@ -74,8 +79,10 @@ export function generateFakePubkey(): PubKey {
 }
 
 export function generateFakePubKeys(amount: number): Array<PubKey> {
+  const numPubKeys = amount > 0 ? Math.floor(amount) : 0;
+
   // tslint:disable-next-line: no-unnecessary-callback-wrapper
-  return new Array(amount).fill(0).map(() => generateFakePubkey());
+  return new Array(numPubKeys).fill(0).map(() => generateFakePubKey());
 }
 
 export function generateChatMessage(): ChatMessage {
@@ -88,5 +95,32 @@ export function generateChatMessage(): ChatMessage {
     expireTimer: undefined,
     lokiProfile: undefined,
     preview: undefined,
+  });
+}
+
+export function generateOpenGroupMessage(): OpenGroupMessage {
+  const group = new OpenGroup({
+    server: 'chat.example.server',
+    channel: 0,
+    conversationId: '0',
+  });
+
+  return new OpenGroupMessage({
+    timestamp: Date.now(),
+    group,
+    attachments: undefined,
+    preview: undefined,
+    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+    quote: undefined,
+  });
+}
+
+export function generateClosedGroupMessage(
+  groupId?: string
+): ClosedGroupChatMessage {
+  return new ClosedGroupChatMessage({
+    identifier: uuid(),
+    groupId: groupId ?? generateFakePubKey().key,
+    chatMessage: generateChatMessage(),
   });
 }

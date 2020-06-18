@@ -93,7 +93,7 @@ export class PendingMessageCache {
     await this.saveToDB();
   }
 
-  public async loadFromDB() {
+  private async loadFromDB() {
     const messages = await this.getFromStorage();
     this.cache = messages;
   }

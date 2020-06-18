@@ -152,4 +152,11 @@ export class ChatMessage extends DataMessage {
 
     return dataMessage;
   }
+
+  public isEqual(comparator: ChatMessage): boolean {
+    return (
+      this.identifier === comparator.identifier &&
+      this.timestamp === comparator.timestamp
+    );
+  }
 }
