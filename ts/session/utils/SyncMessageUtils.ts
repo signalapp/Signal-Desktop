@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import * as UserUtils from '../../util/user';
+import { UserUtil } from '../../util/';
 import { getAllConversations } from '../../../js/modules/data';
 import { ContentMessage, SyncMessage } from '../messages/outgoing';
 import { MultiDeviceProtocol } from '../protocols';
@@ -11,7 +11,7 @@ export function from(message: ContentMessage): SyncMessage | undefined {
   return undefined;
 }
 
-export async function canSync(message: ContentMessage): Promise<boolean> {
+export function canSync(message: ContentMessage): boolean {
   // This function should be agnostic to the device; it shouldn't need
   // to know about the recipient
 
@@ -20,7 +20,7 @@ export async function canSync(message: ContentMessage): Promise<boolean> {
 }
 
 export async function getSyncContacts(): Promise<Array<any> | undefined> {
-  const thisDevice = await UserUtils.getCurrentDevicePubKey();
+  const thisDevice = await UserUtil.getCurrentDevicePubKey();
 
   if (!thisDevice) {
     return [];

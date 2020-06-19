@@ -63,7 +63,7 @@ export class MessageQueue implements MessageQueueInterface {
 
         // Remove our devices from currentDevices
         currentDevices = currentDevices.filter(device =>
-          ourDevices.some(d => PubKey.isEqual(d, device))
+          ourDevices.some(d => device.isEqual(d))
         );
       }
     }
@@ -76,14 +76,8 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   public async sendToGroup(
-    message: OpenGroupMessage | ContentMessage
+    message: OpenGroupMessage | ClosedGroupMessage
   ): Promise<boolean> {
-    if (
-      !(message instanceof OpenGroupMessage) &&
-      !(message instanceof ClosedGroupMessage)
-    ) {
-      return false;
-    }
     await this.pendingMessageCache.isReady;
 
     // Closed groups
@@ -95,23 +89,27 @@ export class MessageQueue implements MessageQueueInterface {
       }
 
       const recipients = await GroupUtils.getGroupMembers(groupPubKey);
-      await this.sendMessageToDevices(recipients, message);
 
-      return true;
+      if (recipients.length) {
+        await this.sendMessageToDevices(recipients, message);
+
+        return true;
+      }
     }
 
     // Open groups
     if (message instanceof OpenGroupMessage) {
       // No queue needed for Open Groups; send directly
-
       try {
         await MessageSender.sendToOpenGroup(message);
         this.events.emit('success', message);
+
+        return true;
       } catch (e) {
         this.events.emit('fail', message, e);
-      }
 
-      return true;
+        return false;
+      }
     }
 
     return false;
@@ -169,7 +167,9 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   private async process(device: PubKey, message?: ContentMessage) {
-    if (!message) {
+    // Don't send to ourselves
+    const currentDevice = await UserUtil.getCurrentDevicePubKey();
+    if (!message || (currentDevice && device.isEqual(currentDevice))) {
       return;
     }
 

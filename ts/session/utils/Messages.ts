@@ -6,8 +6,8 @@ export function toRawMessage(
   device: PubKey,
   message: ContentMessage
 ): RawMessage {
-  const ttl = message.ttl();
   const timestamp = message.timestamp;
+  const ttl = message.ttl();
   const plainTextBuffer = message.plainTextBuffer();
   const encryption =
     message instanceof SessionRequestMessage

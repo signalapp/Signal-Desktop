@@ -300,10 +300,7 @@ async function queryConversationsAndContacts(
     const primaryDevice = resultPrimaryDevices[i];
 
     if (primaryDevice) {
-      if (
-        isSecondaryDevice &&
-        PubKey.isEqual(primaryDevice, ourPrimaryDevice)
-      ) {
+      if (isSecondaryDevice && primaryDevice.isEqual(ourPrimaryDevice)) {
         conversations.push(ourNumber);
       } else {
         conversations.push(primaryDevice.key);

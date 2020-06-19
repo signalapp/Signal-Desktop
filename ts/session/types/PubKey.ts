@@ -27,8 +27,10 @@ export class PubKey {
     return false;
   }
 
-  public static isEqual(key: PubKey, comparator: PubKey) {
-    return key.key === comparator.key;
+  public isEqual(comparator: PubKey | string) {
+    return comparator instanceof PubKey
+      ? this.key === comparator.key
+      : this.key === comparator;
   }
 }
 
