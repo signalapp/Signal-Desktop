@@ -1,4 +1,4 @@
-/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window, libloki */
+/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window, libloki, libsession */
 
 /* eslint-disable more/no-then, no-bitwise */
 
@@ -417,27 +417,6 @@ MessageSender.prototype = {
     });
   },
 
-  sendMessageProtoAndWait(timestamp, numbers, message, silent, options = {}) {
-    return new Promise((resolve, reject) => {
-      const callback = result => {
-        if (result && result.errors && result.errors.length > 0) {
-          return reject(result);
-        }
-
-        return resolve(result);
-      };
-
-      this.sendMessageProto(
-        timestamp,
-        numbers,
-        message,
-        callback,
-        silent,
-        options
-      );
-    });
-  },
-
   sendIndividualProto(number, proto, timestamp, silent, options = {}) {
     return new Promise((resolve, reject) => {
       const callback = res => {
@@ -768,28 +747,19 @@ MessageSender.prototype = {
     );
   },
 
-  sendRequestContactSyncMessage(options) {
+  // Currently not in use under session (our device ID are always 1)
+  async sendRequestContactSyncMessage() {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
     if (myDevice !== 1 && myDevice !== '1') {
-      const request = new textsecure.protobuf.SyncMessage.Request();
-      request.type = textsecure.protobuf.SyncMessage.Request.Type.CONTACTS;
-      const syncMessage = this.createSyncMessage();
-      syncMessage.request = request;
-      const contentMessage = new textsecure.protobuf.Content();
-      contentMessage.syncMessage = syncMessage;
+      const user = libsession.Types.PubKey.from(myNumber);
+      const { RequestContactSyncMessage } = window.libsession.Messages.Outgoing;
 
-      const silent = true;
-      return this.sendIndividualProto(
-        myNumber,
-        contentMessage,
-        Date.now(),
-        silent,
-        options
+      const requestContactSyncMessage = new RequestContactSyncMessage(
+        { timestamp: Date.now() }
       );
+      await libsession.getMessageQueue().send(user, requestContactSyncMessage);
     }
-
-    return Promise.resolve();
   },
 
   sendDeliveryReceipt(recipientId, timestamp, options) {
