@@ -91,7 +91,7 @@ export class MessageQueue implements MessageQueueInterface {
       const recipients = await GroupUtils.getGroupMembers(groupPubKey);
 
       if (recipients.length) {
-        await this.sendMessageToDevices(recipients, message);
+        await Promise.all(recipients.map(async recipient => this.sendUsingMultiDevice(recipient, message)));
 
         return true;
       }
