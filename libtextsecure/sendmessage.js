@@ -1213,17 +1213,6 @@ MessageSender.prototype = {
     });
   },
 
-  requestGroupInfo(groupId, groupNumbers, options) {
-    const proto = new textsecure.protobuf.DataMessage();
-    proto.group = new textsecure.protobuf.GroupContext();
-    proto.group.id = stringToArrayBuffer(groupId);
-    proto.group.type = textsecure.protobuf.GroupContext.Type.REQUEST_INFO;
-    libloki.api.debug.logGroupRequestInfo(
-      `Sending GROUP_TYPES.REQUEST_INFO to: ${groupNumbers}, about groupId ${groupId}.`
-    );
-    return this.sendGroupProto(groupNumbers, proto, Date.now(), options);
-  },
-
   requestSenderKeys(sender, groupId) {
     const proto = new textsecure.protobuf.DataMessage();
     const update = new textsecure.protobuf.MediumGroupUpdate();
@@ -1341,7 +1330,6 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.addNumberToGroup = sender.addNumberToGroup.bind(sender);
   this.setGroupName = sender.setGroupName.bind(sender);
   this.setGroupAvatar = sender.setGroupAvatar.bind(sender);
-  this.requestGroupInfo = sender.requestGroupInfo.bind(sender);
   this.requestSenderKeys = sender.requestSenderKeys.bind(sender);
   this.leaveGroup = sender.leaveGroup.bind(sender);
   this.sendSyncMessage = sender.sendSyncMessage.bind(sender);

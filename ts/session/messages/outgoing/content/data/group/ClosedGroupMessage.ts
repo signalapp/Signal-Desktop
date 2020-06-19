@@ -2,8 +2,9 @@ import { DataMessage } from '../DataMessage';
 import { SignalService } from '../../../../../../protobuf';
 import { TextEncoder } from 'util';
 import { MessageParams } from '../../../Message';
+import { StringUtils } from '../../../../../utils';
 
-interface ClosedGroupMessageParams extends MessageParams {
+export interface ClosedGroupMessageParams extends MessageParams {
   groupId: string;
 }
 
@@ -21,7 +22,9 @@ export abstract class ClosedGroupMessage extends DataMessage {
   protected abstract groupContextType(): SignalService.GroupContext.Type;
 
   protected groupContext(): SignalService.GroupContext {
-    const id = new TextEncoder().encode(this.groupId);
+    const id = new Uint8Array(
+      StringUtils.encode(this.groupId, 'utf8')
+    );
     const type = this.groupContextType();
 
     return new SignalService.GroupContext({ id, type });

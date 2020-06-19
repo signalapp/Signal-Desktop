@@ -1,4 +1,6 @@
 import { SignalService } from '../protobuf';
+import { ClosedGroupRequestInfoMessage } from '../session/messages/outgoing/content/data/group/ClosedGroupRequestInfoMessage';
+import { getMessageQueue } from '../session';
 
 const _ = window.Lodash;
 
@@ -112,9 +114,15 @@ export async function preprocessGroupMessage(
     window.libloki.api.sendSessionRequestsToMembers(group.members);
   } else if (newGroup) {
     // We have an unknown group, we should request info from the sender
-    window.textsecure.messaging.requestGroupInfo(conversationId, [
-      primarySource,
-    ]);
+    const requestInfo = {
+      timestamp: Date.now(),
+      groupId: conversationId,
+    };
+    const requestInfoMessage = new ClosedGroupRequestInfoMessage(
+      requestInfo
+    );
+    await getMessageQueue().sendToGroup(requestInfoMessage);
+
   }
   return false;
 }

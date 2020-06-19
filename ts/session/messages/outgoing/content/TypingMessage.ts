@@ -41,7 +41,7 @@ export class TypingMessage extends ContentMessage {
     const typingMessage = new SignalService.TypingMessage();
     if (this.groupId) {
       typingMessage.groupId = new Uint8Array(
-        StringUtils.encode(this.groupId, 'binary')
+        StringUtils.encode(this.groupId, 'utf8')
       );
     }
     typingMessage.action = action;
