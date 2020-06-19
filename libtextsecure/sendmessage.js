@@ -1,4 +1,4 @@
-/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window, libloki */
+/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window, libloki, libsession */
 
 /* eslint-disable more/no-then, no-bitwise */
 
@@ -399,21 +399,6 @@ MessageSender.prototype = {
       );
     }
 
-    const ourNumber = textsecure.storage.user.getNumber();
-
-    // Check wether we have the keys to start a session with the user
-    const hasKeys = async number => {
-      try {
-        const [preKey, signedPreKey] = await Promise.all([
-          textsecure.storage.protocol.loadContactPreKey(number),
-          textsecure.storage.protocol.loadContactSignedPreKey(number),
-        ]);
-        return preKey !== undefined && signedPreKey !== undefined;
-      } catch (e) {
-        return false;
-      }
-    };
-
     // Note: Since we're just doing independant tasks,
     // using `async` in the `forEach` loop should be fine.
     // If however we want to use the results from forEach then
@@ -556,11 +541,6 @@ MessageSender.prototype = {
       options
     );
   },
-
-  async getProfile() {
-    throw new Error('Signal code called. This needs to be removed');
-  },
-
   uploadAvatar(attachment) {
     // isRaw is true since the data is already encrypted
     // and doesn't need to be encrypted again
@@ -812,54 +792,7 @@ MessageSender.prototype = {
     return Promise.resolve();
   },
 
-  async sendTypingMessage(options = {}, sendOptions = {}) {
-    const ACTION_ENUM = textsecure.protobuf.TypingMessage.Action;
-    const { recipientId, groupId, groupNumbers, isTyping, timestamp } = options;
 
-    // We don't want to send typing messages to our other devices, but we will
-    //   in the group case.
-    const myNumber = textsecure.storage.user.getNumber();
-    const primaryDevicePubkey = window.storage.get('primaryDevicePubKey');
-    if (recipientId && primaryDevicePubkey === recipientId) {
-      return null;
-    }
-
-    if (!recipientId && !groupId) {
-      throw new Error('Need to provide either recipientId or groupId!');
-    }
-
-    const recipients = groupId
-      ? _.without(groupNumbers, myNumber)
-      : [recipientId];
-    const groupIdBuffer = groupId
-      ? window.Signal.Crypto.fromEncodedBinaryToArrayBuffer(groupId)
-      : null;
-
-    const action = isTyping ? ACTION_ENUM.STARTED : ACTION_ENUM.STOPPED;
-    const finalTimestamp = timestamp || Date.now();
-
-    const typingMessage = new textsecure.protobuf.TypingMessage();
-    typingMessage.groupId = groupIdBuffer;
-    typingMessage.action = action;
-    typingMessage.timestamp = finalTimestamp;
-
-    const contentMessage = new textsecure.protobuf.Content();
-    contentMessage.typingMessage = typingMessage;
-
-    const silent = true;
-    const online = true;
-
-    return this.sendMessageProtoAndWait(
-      finalTimestamp,
-      recipients,
-      contentMessage,
-      silent,
-      {
-        ...sendOptions,
-        online,
-      }
-    );
-  },
 
   sendDeliveryReceipt(recipientId, timestamp, options) {
     const myNumber = textsecure.storage.user.getNumber();
@@ -1101,10 +1034,6 @@ MessageSender.prototype = {
   ) {
     const profile = this.getOurProfile();
 
-    const flags = options.sessionRequest
-      ? textsecure.protobuf.DataMessage.Flags.SESSION_REQUEST
-      : undefined;
-
     const { groupInvitation, sessionRestoration } = options;
 
     return this.sendMessage(
@@ -1119,7 +1048,7 @@ MessageSender.prototype = {
         expireTimer,
         profileKey,
         profile,
-        flags,
+        undefined,
         groupInvitation,
         sessionRestoration,
       },
@@ -1409,7 +1338,6 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.sendMessage = sender.sendMessage.bind(sender);
   this.resetSession = sender.resetSession.bind(sender);
   this.sendMessageToGroup = sender.sendMessageToGroup.bind(sender);
-  this.sendTypingMessage = sender.sendTypingMessage.bind(sender);
   this.sendGroupUpdate = sender.sendGroupUpdate.bind(sender);
   this.updateMediumGroup = sender.updateMediumGroup.bind(sender);
   this.addNumberToGroup = sender.addNumberToGroup.bind(sender);

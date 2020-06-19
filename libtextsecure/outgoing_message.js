@@ -18,8 +18,6 @@ const getTTLForType = type => {
       return 4 * 24 * 60 * 60 * 1000; // 4 days for device unpairing
     case 'onlineBroadcast':
       return 60 * 1000; // 1 minute for online broadcast message
-    case 'typing':
-      return 60 * 1000; // 1 minute for typing indicators
     case 'pairing-request':
       return 2 * 60 * 1000; // 2 minutes for pairing requests
     default:

@@ -389,21 +389,34 @@
 
       const groupId = !this.isPrivate() ? this.id : null;
       const recipientId = this.isPrivate() ? this.id : null;
-      const groupNumbers = this.getRecipients();
 
-      const sendOptions = this.getSendOptions();
-      sendOptions.messageType = 'typing';
-      this.wrapSend(
-        textsecure.messaging.sendTypingMessage(
-          {
-            isTyping,
-            recipientId,
-            groupId,
-            groupNumbers,
-          },
-          sendOptions
-        )
-      );
+      // We don't want to send typing messages to our other devices, but we will
+      //   in the group case.
+      const primaryDevicePubkey = window.storage.get('primaryDevicePubKey');
+      if (recipientId && primaryDevicePubkey === recipientId) {
+        return;
+      }
+
+      if (!recipientId && !groupId) {
+        throw new Error('Need to provide either recipientId or groupId!');
+      }
+
+      const typingParams = {
+        timestamp: Date.now(),
+        isTyping,
+        typingTimestamp: Date.now(),
+        groupId, // might be null
+      };
+      const typingMessage = new libsession.Messages.Outgoing.TypingMessage(typingParams);
+
+      // send the message to a single recipient if this is a session chat
+      if (this.isPrivate) {
+        const device = new libsession.Types.PubKey(recipientId);
+        libsession.getMessageQueue().sendUsingMultiDevice(device, typingMessage).ignore();
+      } else {
+        // the recipients on the case of a group are found by the messageQueue using message.groupId
+        libsession.getMessageQueue().sendToGroup(typingMessage).ignore();
+      }
     },
 
     async cleanup() {
