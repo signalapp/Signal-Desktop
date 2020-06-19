@@ -671,57 +671,6 @@ OutgoingMessage.buildSessionRequestMessage = function buildSessionRequestMessage
   );
 };
 
-OutgoingMessage.buildSessionEstablishedMessage = pubKey => {
-  const nullMessage = new textsecure.protobuf.NullMessage();
-  const content = new textsecure.protobuf.Content({
-    nullMessage,
-  });
-
-  // The below message type will ignore auto FR
-  const options = { messageType: 'onlineBroadcast' };
-  return new textsecure.OutgoingMessage(
-    null, // server
-    Date.now(), // timestamp,
-    [pubKey], // numbers
-    content, // message
-    true, // silent
-    () => null, // callback
-    options
-  );
-};
-
-OutgoingMessage.buildBackgroundMessage = function buildBackgroundMessage(
-  pubKey,
-  debugMessageType
-) {
-  const p2pAddress = null;
-  const p2pPort = null;
-  // We result loki address message for sending "background" messages
-  const type = textsecure.protobuf.LokiAddressMessage.Type.HOST_UNREACHABLE;
-
-  // This is needed even if LokiAddressMessage shouldn't be used.
-  // looks like the message is not sent or dropped on reception
-  // if the content is completely empty
-  const lokiAddressMessage = new textsecure.protobuf.LokiAddressMessage({
-    p2pAddress,
-    p2pPort,
-    type,
-  });
-  const content = new textsecure.protobuf.Content({ lokiAddressMessage });
-
-  const options = { messageType: 'onlineBroadcast', debugMessageType };
-  // Send a empty message with information about how to contact us directly
-  return new OutgoingMessage(
-    null, // server
-    Date.now(), // timestamp,
-    [pubKey], // numbers
-    content, // message
-    true, // silent
-    () => null, // callback
-    options
-  );
-};
-
 OutgoingMessage.DebugMessageType = DebugMessageType;
 
 window.textsecure = window.textsecure || {};

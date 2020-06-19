@@ -1744,10 +1744,7 @@
       await this.setSessionResetStatus(SessionResetEnum.request_received);
       // send empty message, this will trigger the new session to propagate
       // to the reset initiator.
-      window.libloki.api.sendBackgroundMessage(
-        this.id,
-        window.textsecure.OutgoingMessage.DebugMessageType.SESSION_RESET_RECV
-      );
+      await window.libloki.api.sendSessionEstablishedMessage(this.id);
     },
 
     isSessionResetReceived() {
@@ -1783,10 +1780,7 @@
     async onNewSessionAdopted() {
       if (this.get('sessionResetStatus') === SessionResetEnum.initiated) {
         // send empty message to confirm that we have adopted the new session
-        window.libloki.api.sendBackgroundMessage(
-          this.id,
-          window.textsecure.OutgoingMessage.DebugMessageType.SESSION_RESET
-        );
+        await window.libloki.api.sendSessionEstablishedMessage(this.id);
       }
       await this.createAndStoreEndSessionMessage({
         type: 'incoming',

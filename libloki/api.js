@@ -62,14 +62,6 @@
     );
     await libsession.getMessageQueue().send(user, sessionEstablished);
   }
-
-  async function sendBackgroundMessage(pubKey, debugMessageType) {
-    const backgroundMessage = textsecure.OutgoingMessage.buildBackgroundMessage(
-      pubKey,
-      debugMessageType
-    );
-    await backgroundMessage.sendToNumber(pubKey, false);
-  }
   // Serialise as <Element0.length><Element0><Element1.length><Element1>...
   // This is an implementation of the reciprocal of contacts_parser.js
   function serialiseByteBuffers(buffers) {
@@ -213,7 +205,6 @@
 
   window.libloki.api = {
     sendSessionEstablishedMessage,
-    sendBackgroundMessage,
     sendSessionRequestsToMembers,
     createContactSyncProtoMessage,
     createGroupSyncProtoMessage,
