@@ -529,57 +529,60 @@ MessageSender.prototype = {
     });
   },
 
-  sendRequestConfigurationSyncMessage(options) {
+  sendRequestConfigurationSyncMessage() {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
     if (myDevice !== 1 && myDevice !== '1') {
-      const request = new textsecure.protobuf.SyncMessage.Request();
-      request.type = textsecure.protobuf.SyncMessage.Request.Type.CONFIGURATION;
-      const syncMessage = this.createSyncMessage();
-      syncMessage.request = request;
-      const contentMessage = new textsecure.protobuf.Content();
-      contentMessage.syncMessage = syncMessage;
+      const { CONFIGURATION } = textsecure.protobuf.SyncMessage.Request.Type;
+      const user = libsession.Types.PubKey.from(myNumber);
+      const { RequestContactSyncMessage } = window.libsession.Messages.Outgoing;
 
-      const silent = true;
-      return this.sendIndividualProto(
-        myNumber,
-        contentMessage,
-        Date.now(),
-        silent,
-        options
-      );
+      const requestContactSyncMessage = new RequestContactSyncMessage({
+        timestamp: Date.now(),
+        reqestType: CONFIGURATION,
+      });
+      return libsession.getMessageQueue().send(user, requestContactSyncMessage);
     }
 
     return Promise.resolve();
   },
 
-  sendRequestGroupSyncMessage(options) {
+  // Currently not in use under session (our device ID are always 1)
+
+  sendRequestGroupSyncMessage() {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
     if (myDevice !== 1 && myDevice !== '1') {
-      const request = new textsecure.protobuf.SyncMessage.Request();
-      request.type = textsecure.protobuf.SyncMessage.Request.Type.GROUPS;
-      const syncMessage = this.createSyncMessage();
-      syncMessage.request = request;
-      const contentMessage = new textsecure.protobuf.Content();
-      contentMessage.syncMessage = syncMessage;
+      const { GROUPS } = textsecure.protobuf.SyncMessage.Request.Type;
+      const user = libsession.Types.PubKey.from(myNumber);
+      const { RequestContactSyncMessage } = window.libsession.Messages.Outgoing;
 
-      const silent = true;
-      const debugMessageType =
-        window.textsecure.OutgoingMessage.DebugMessageType.REQUEST_SYNC_SEND;
-
-      return this.sendIndividualProto(
-        myNumber,
-        contentMessage,
-        Date.now(),
-        silent,
-        { ...options, debugMessageType }
-      );
+      const requestContactSyncMessage = new RequestContactSyncMessage({
+        timestamp: Date.now(),
+        reqestType: GROUPS,
+      });
+      return libsession.getMessageQueue().send(user, requestContactSyncMessage);
     }
 
     return Promise.resolve();
   },
+  // Currently not in use under session (our device ID are always 1)
+  async sendRequestContactSyncMessage() {
+    const myNumber = textsecure.storage.user.getNumber();
+    const myDevice = textsecure.storage.user.getDeviceId();
+    if (myDevice !== 1 && myDevice !== '1') {
+      const { CONTACTS } = textsecure.protobuf.SyncMessage.Request.Type;
+      const user = libsession.Types.PubKey.from(myNumber);
+      const { RequestContactSyncMessage } = window.libsession.Messages.Outgoing;
 
+      const requestContactSyncMessage = new RequestContactSyncMessage({
+        timestamp: Date.now(),
+        reqestType: CONTACTS,
+      });
+      return libsession.getMessageQueue().send(user, requestContactSyncMessage);
+    }
+    return Promise.resolve();
+  },
   async sendContactSyncMessage(conversations) {
     // If we havn't got a primaryDeviceKey then we are in the middle of pairing
     // primaryDevicePubKey is set to our own number if we are the master device
@@ -745,21 +748,6 @@ MessageSender.prototype = {
       silent,
       { debugMessageType } // options
     );
-  },
-
-  // Currently not in use under session (our device ID are always 1)
-  async sendRequestContactSyncMessage() {
-    const myNumber = textsecure.storage.user.getNumber();
-    const myDevice = textsecure.storage.user.getDeviceId();
-    if (myDevice !== 1 && myDevice !== '1') {
-      const user = libsession.Types.PubKey.from(myNumber);
-      const { RequestContactSyncMessage } = window.libsession.Messages.Outgoing;
-
-      const requestContactSyncMessage = new RequestContactSyncMessage(
-        { timestamp: Date.now() }
-      );
-      await libsession.getMessageQueue().send(user, requestContactSyncMessage);
-    }
   },
 
   sendDeliveryReceipt(recipientId, timestamp, options) {

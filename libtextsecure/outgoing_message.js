@@ -102,15 +102,9 @@ function getStaleDeviceIdsForNumber(number) {
 }
 
 const DebugMessageType = {
-  SESSION_RESET: 'session-reset',
-  SESSION_RESET_RECV: 'session-reset-received',
-
-  REQUEST_SYNC_SEND: 'request-sync-send',
   CONTACT_SYNC_SEND: 'contact-sync-send',
   CLOSED_GROUP_SYNC_SEND: 'closed-group-sync-send',
   OPEN_GROUP_SYNC_SEND: 'open-group-sync-send',
-
-  DEVICE_UNPAIRING_SEND: 'device-unpairing-send',
 };
 
 function OutgoingMessage(
