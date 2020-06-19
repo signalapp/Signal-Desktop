@@ -650,11 +650,9 @@ export async function handleMessageEvent(event: any): Promise<void> {
       confirm();
       return;
     }
-  }
-
-  if (source !== ourNumber) {
-    // Ignore auth from our devices
-    conversationId = primarySource.key;
+  } else if (source !== ourNumber) {
+      // Ignore auth from our devices
+      conversationId = primarySource.key;
   }
 
   // the conversation with the primary device of that source (can be the same as conversationOrigin)
