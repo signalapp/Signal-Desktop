@@ -1720,6 +1720,7 @@
 
         await libsession.getMessageQueue().sendToGroup(expirationTimerMessage);
       }
+      return message;
     },
 
     isSearchable() {

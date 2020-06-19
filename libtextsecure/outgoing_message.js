@@ -644,33 +644,6 @@ OutgoingMessage.prototype = {
   },
 };
 
-OutgoingMessage.buildSessionRequestMessage = function buildSessionRequestMessage(
-  pubKey
-) {
-  const body =
-    '(If you see this message, you must be using an out-of-date client)';
-
-  const flags = textsecure.protobuf.DataMessage.Flags.SESSION_REQUEST;
-
-  const dataMessage = new textsecure.protobuf.DataMessage({ flags, body });
-
-  const content = new textsecure.protobuf.Content({
-    dataMessage,
-  });
-
-  const options = {};
-  // Send a empty message with information about how to contact us directly
-  return new OutgoingMessage(
-    null, // server
-    Date.now(), // timestamp,
-    [pubKey], // numbers
-    content, // message
-    true, // silent
-    () => null, // callback
-    options
-  );
-};
-
 OutgoingMessage.DebugMessageType = DebugMessageType;
 
 window.textsecure = window.textsecure || {};

@@ -1,4 +1,4 @@
-/* global window, textsecure, dcodeIO, StringView, ConversationController, _, libsession */
+/* global window, textsecure, dcodeIO, StringView, ConversationController, libsession */
 /* eslint-disable no-bitwise */
 
 // eslint-disable-next-line func-names
@@ -172,24 +172,15 @@
     });
     return syncMessage;
   }
-  function sendSessionRequestsToMembers(members = []) {
-    // For every member, see if we need to establish a session:
-    members.forEach(memberPubKey => {
-      const haveSession = _.some(
-        textsecure.storage.protocol.sessions,
-        s => s.number === memberPubKey
-      );
-
+  async function sendSessionRequestsToMembers(members = []) {
+    // For every member, trigger a session request if needed
+    members.forEach(async memberStr => {
       const ourPubKey = textsecure.storage.user.getNumber();
-      if (!haveSession && memberPubKey !== ourPubKey) {
-        // eslint-disable-next-line more/no-then
-        ConversationController.getOrCreateAndWait(memberPubKey, 'private').then(
-          () => {
-            const sessionRequestMessage = textsecure.OutgoingMessage.buildSessionRequestMessage(
-              memberPubKey
-            );
-            sessionRequestMessage.sendToNumber(memberPubKey);
-          }
+      if (memberStr !== ourPubKey) {
+        await ConversationController.getOrCreateAndWait(memberStr, 'private');
+        const memberPubkey = new libsession.Types.PubKey(memberStr);
+        await libsession.Protocols.SessionProtocol.sendSessionRequestIfNeeded(
+          memberPubkey
         );
       }
     });

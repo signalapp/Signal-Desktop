@@ -1956,7 +1956,7 @@
     });
 
     // send a session request for all the members we do not have a session with
-    window.libloki.api.sendSessionRequestsToMembers(updates.members);
+    await window.libloki.api.sendSessionRequestsToMembers(updates.members);
 
     const { expireTimer } = details;
     const isValidExpireTimer = typeof expireTimer === 'number';
