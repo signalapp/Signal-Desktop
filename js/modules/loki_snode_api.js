@@ -408,11 +408,7 @@ class LokiSnodeAPI {
     });
   }
 
-  // FIXME: need a lock because it is being called multiple times in parallel
-  async buildNewOnionPaths() {
-    // Note: this function may be called concurrently, so
-    // might consider blocking the other calls
-
+  async buildNewOnionPathsWorker() {
     const _ = window.Lodash;
 
     log.info('LokiSnodeAPI::buildNewOnionPaths - building new onion paths');
@@ -436,7 +432,9 @@ class LokiSnodeAPI {
 
         if (this.guardNodes.length < edKeys.length) {
           log.warn(
-            `LokiSnodeAPI::buildNewOnionPaths - could not find some guard nodes: ${this.guardNodes.length}/${edKeys.length} left`
+            `LokiSnodeAPI::buildNewOnionPaths - could not find some guard nodes: ${
+              this.guardNodes.length
+            }/${edKeys.length} left`
           );
         }
       }
@@ -488,6 +486,11 @@ class LokiSnodeAPI {
     }
 
     log.info(`Built ${this.onionPaths.length} onion paths`, this.onionPaths);
+  }
+
+  async buildNewOnionPaths() {
+    // this function may be called concurrently make sure we only have one inflight
+    return primitives.allowOnlyOneAtATime('buildNewOnionPaths', this.buildNewOnionPathsWorker);
   }
 
   async getRandomSnodeAddress() {
