@@ -699,8 +699,7 @@
         this.ourNumber,
         { syncMessage: true }
       );
-      const contactSendOptions = this.getSendOptions();
-      const options = Object.assign({}, sendOptions, contactSendOptions);
+      const options = Object.assign({}, sendOptions, {});
 
       const promise = textsecure.storage.protocol.loadIdentityKey(number);
       return promise.then(key =>
@@ -1309,8 +1308,8 @@
           );
           return message.sendSyncMessageOnly(dataMessage);
         }
+        const options = {};
 
-        const options = this.getSendOptions();
         options.messageType = message.get('type');
         options.isPublic = this.isPublic();
         if (options.isPublic) {
@@ -1334,12 +1333,11 @@
                 now,
                 expireTimer,
                 profileKey,
-                options
+                {}
               );
             case Message.GROUP: {
               let dest = destination;
               let numbers = groupNumbers;
-
               if (this.isMediumGroup()) {
                 dest = this.id;
                 numbers = [destination];
@@ -1356,7 +1354,7 @@
                 now,
                 expireTimer,
                 profileKey,
-                options
+                {}
               );
             }
             default:
@@ -1675,7 +1673,6 @@
       if (this.get('profileSharing')) {
         profileKey = storage.get('profileKey');
       }
-      const sendOptions = this.getSendOptions();
       let promise;
 
       if (this.isMe()) {
@@ -1701,7 +1698,7 @@
           expireTimer,
           message.get('sent_at'),
           profileKey,
-          sendOptions
+          {}
         );
       } else {
         promise = textsecure.messaging.sendExpirationTimerUpdateToGroup(
@@ -1710,7 +1707,7 @@
           expireTimer,
           message.get('sent_at'),
           profileKey,
-          sendOptions
+          {}
         );
       }
 
@@ -1805,13 +1802,12 @@
             type: 'outgoing',
             endSessionType: 'ongoing',
           });
-          const options = this.getSendOptions();
           await message.send(
             this.wrapSend(
               textsecure.messaging.resetSession(
                 this.id,
                 message.get('sent_at'),
-                options
+                {}
               )
             )
           );
@@ -1854,7 +1850,6 @@
       );
       message.set({ id: messageId });
 
-      const options = this.getSendOptions();
 
       if (groupUpdate.is_medium_group) {
         // Constructing a "create group" message
@@ -1890,7 +1885,7 @@
             this.get('members'),
             this.get('groupAdmins'),
             groupUpdate.recipients,
-            options
+            {}
           )
         )
       );
@@ -1898,7 +1893,6 @@
 
     sendGroupInfo(recipients) {
       if (this.isClosedGroup()) {
-        const options = this.getSendOptions();
         textsecure.messaging.sendGroupUpdate(
           this.id,
           this.get('name'),
@@ -1906,7 +1900,7 @@
           this.get('members'),
           this.get('groupAdmins'),
           recipients,
-          options
+          {}
         );
       }
     },
@@ -1943,10 +1937,9 @@
         });
         message.set({ id });
 
-        const options = this.getSendOptions();
         message.send(
           this.wrapSend(
-            textsecure.messaging.leaveGroup(this.id, groupNumbers, options)
+            textsecure.messaging.leaveGroup(this.id, groupNumbers, {})
           )
         );
 
@@ -2047,7 +2040,6 @@
         );
 
         if (storage.get('read-receipt-setting')) {
-          const convoSendOptions = this.getSendOptions();
 
           await Promise.all(
             _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
@@ -2056,7 +2048,7 @@
                 textsecure.messaging.sendReadReceipts(
                   sender,
                   timestamps,
-                  convoSendOptions
+                  {}
                 )
               );
             })
