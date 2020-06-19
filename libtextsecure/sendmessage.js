@@ -1222,14 +1222,6 @@ MessageSender.prototype = {
 
     textsecure.messaging.updateMediumGroup([sender], proto);
   },
-
-  leaveGroup(groupId, groupNumbers, options) {
-    const proto = new textsecure.protobuf.DataMessage();
-    proto.group = new textsecure.protobuf.GroupContext();
-    proto.group.id = stringToArrayBuffer(groupId);
-    proto.group.type = textsecure.protobuf.GroupContext.Type.QUIT;
-    return this.sendGroupProto(groupNumbers, proto, Date.now(), options);
-  },
   async sendExpirationTimerUpdateToGroup(
     groupId,
     groupNumbers,
@@ -1331,7 +1323,6 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.setGroupName = sender.setGroupName.bind(sender);
   this.setGroupAvatar = sender.setGroupAvatar.bind(sender);
   this.requestSenderKeys = sender.requestSenderKeys.bind(sender);
-  this.leaveGroup = sender.leaveGroup.bind(sender);
   this.sendSyncMessage = sender.sendSyncMessage.bind(sender);
   this.getProfile = sender.getProfile.bind(sender);
   this.uploadAvatar = sender.uploadAvatar.bind(sender);

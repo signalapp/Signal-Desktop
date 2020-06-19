@@ -1924,7 +1924,6 @@
       }
 
       if (this.get('type') === 'group') {
-        const groupNumbers = this.getRecipients();
         this.set({ left: true });
 
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
@@ -1944,11 +1943,16 @@
         });
         message.set({ id });
 
-        message.send(
-          this.wrapSend(
-            textsecure.messaging.leaveGroup(this.id, groupNumbers, {})
-          )
+        // FIXME what about public groups?
+        const quitGroup = {
+          timestamp: Date.now(),
+          groupId: this.id,
+        };
+        const quitGroupMessage = new new libsession.Messages.Outgoing.ClosedGroupLeaveMessage(
+          quitGroup
         );
+
+        await libsession.getMessageQueue().sendToGroup(quitGroupMessage);
 
         this.updateTextInputState();
       }
