@@ -63,7 +63,9 @@ export class MessageQueue implements MessageQueueInterface {
 
       const ourDevices = await MultiDeviceProtocol.getOurDevices();
       // Remove our devices from currentDevices
-      currentDevices = currentDevices.filter(device => !ourDevices.some(d => device.isEqual(d)));
+      currentDevices = currentDevices.filter(
+        device => !ourDevices.some(d => device.isEqual(d))
+      );
     }
 
     const promises = currentDevices.map(async device => {
@@ -129,7 +131,9 @@ export class MessageQueue implements MessageQueueInterface {
     }
 
     const ourDevices = await MultiDeviceProtocol.getOurDevices();
-    const promises = ourDevices.map(async device => this.process(device, message));
+    const promises = ourDevices.map(async device =>
+      this.process(device, message)
+    );
     return Promise.all(promises);
   }
 

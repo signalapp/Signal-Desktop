@@ -1,7 +1,11 @@
 import chai from 'chai';
 import * as sinon from 'sinon';
-import * as _ from 'lodash';
-import { GroupUtils, SyncMessageUtils } from '../../../session/utils';
+import _ from 'lodash';
+import {
+  GroupUtils,
+  PromiseUtils,
+  SyncMessageUtils,
+} from '../../../session/utils';
 import { Stubs, TestUtils } from '../../../test/test-utils';
 import { MessageQueue } from '../../../session/sending/MessageQueue';
 import {
@@ -81,25 +85,27 @@ describe('MessageQueue', () => {
   describe('processPending', () => {
     it('will send session request message if no session', async () => {
       hasSessionStub.resolves(false);
-      isMediumGroupStub.resolves(false);
+      isMediumGroupStub.returns(false);
 
       const device = TestUtils.generateFakePubKey();
 
-      const stubCallPromise = TestUtils.waitUntil(() => sendSessionRequestIfNeededStub.callCount === 1);
-
       await messageQueueStub.processPending(device);
-      expect(stubCallPromise).to.be.fulfilled;
+
+      const stubCallPromise = PromiseUtils.waitUntil(
+        () => sendSessionRequestIfNeededStub.callCount === 1
+      );
+      await expect(stubCallPromise).to.be.fulfilled;
     });
 
     it('will send message if session exists', async () => {
       hasSessionStub.resolves(true);
-      isMediumGroupStub.resolves(false);
+      isMediumGroupStub.returns(false);
       sendStub.resolves();
 
       const device = TestUtils.generateFakePubKey();
       await pendingMessageCache.add(device, TestUtils.generateChatMessage());
 
-      const successPromise = TestUtils.waitForTask(done => {
+      const successPromise = PromiseUtils.waitForTask(done => {
         messageQueueStub.events.once('success', done);
       });
 
@@ -112,13 +118,13 @@ describe('MessageQueue', () => {
     });
 
     it('will send message if sending to medium group', async () => {
-      isMediumGroupStub.resolves(true);
+      isMediumGroupStub.returns(true);
       sendStub.resolves();
 
       const device = TestUtils.generateFakePubKey();
       await pendingMessageCache.add(device, TestUtils.generateChatMessage());
 
-      const successPromise = TestUtils.waitForTask(done => {
+      const successPromise = PromiseUtils.waitForTask(done => {
         messageQueueStub.events.once('success', done);
       });
 
@@ -132,7 +138,7 @@ describe('MessageQueue', () => {
 
     it('should remove message from cache', async () => {
       hasSessionStub.resolves(true);
-      isMediumGroupStub.resolves(false);
+      isMediumGroupStub.returns(false);
 
       const events = ['success', 'fail'];
       for (const event of events) {
@@ -149,25 +155,27 @@ describe('MessageQueue', () => {
         expect(initialMessages).to.have.length(1);
         await messageQueueStub.processPending(device);
 
-        const promise = TestUtils.waitUntil(async () => {
+        const promise = PromiseUtils.waitUntil(async () => {
           const messages = await pendingMessageCache.getForDevice(device);
           return messages.length === 0;
         });
-        expect(promise).to.be.fulfilled;
+        await expect(promise).to.be.fulfilled;
       }
     });
 
     describe('events', () => {
       it('should send a success event if message was sent', async () => {
         hasSessionStub.resolves(true);
-        isMediumGroupStub.resolves(false);
+        isMediumGroupStub.returns(false);
         sendStub.resolves();
 
         const device = TestUtils.generateFakePubKey();
         const message = TestUtils.generateChatMessage();
         await pendingMessageCache.add(device, message);
 
-        const eventPromise = TestUtils.waitForTask<RawMessage | OpenGroupMessage>(complete => {
+        const eventPromise = PromiseUtils.waitForTask<
+          RawMessage | OpenGroupMessage
+        >(complete => {
           messageQueueStub.events.once('success', complete);
         });
 
@@ -180,7 +188,7 @@ describe('MessageQueue', () => {
 
       it('should send a fail event if something went wrong while sending', async () => {
         hasSessionStub.resolves(true);
-        isMediumGroupStub.resolves(false);
+        isMediumGroupStub.returns(false);
         sendStub.throws(new Error('failure'));
 
         const spy = sandbox.spy();
@@ -190,7 +198,9 @@ describe('MessageQueue', () => {
         const message = TestUtils.generateChatMessage();
         await pendingMessageCache.add(device, message);
 
-        const eventPromise = TestUtils.waitForTask<[RawMessage | OpenGroupMessage, Error]>(complete => {
+        const eventPromise = PromiseUtils.waitForTask<
+          [RawMessage | OpenGroupMessage, Error]
+        >(complete => {
           messageQueueStub.events.once('fail', (...args) => {
             complete(args);
           });
@@ -231,8 +241,7 @@ describe('MessageQueue', () => {
       const message = TestUtils.generateChatMessage();
 
       await messageQueueStub.sendMessageToDevices(devices, message);
-      const promise = TestUtils.waitUntil(() => pendingMessageCache.getCache().length === devices.length);
-      await expect(promise).to.be.fulfilled;
+      expect(pendingMessageCache.getCache()).to.have.length(devices.length);
     });
 
     it('should send sync message if possible', async () => {
@@ -268,7 +277,12 @@ describe('MessageQueue', () => {
         true,
         'sendSyncMessage was not called.'
       );
-      expect(pendingMessageCache.getCache().map(c => c.device)).to.not.have.members(ourDevices.map(d => d.key), 'Sending regular messages to our own device is not allowed.');
+      expect(
+        pendingMessageCache.getCache().map(c => c.device)
+      ).to.not.have.members(
+        ourDevices.map(d => d.key),
+        'Sending regular messages to our own device is not allowed.'
+      );
       expect(pendingMessageCache.getCache()).to.have.length(
         devices.length - ourDevices.length,
         'Messages should not be sent to our devices.'
@@ -288,8 +302,12 @@ describe('MessageQueue', () => {
         new TestSyncMessage({ timestamp: Date.now() })
       );
 
-      expect(pendingMessageCache.getCache()).to.have.length(ourOtherDevices.length);
-      expect(pendingMessageCache.getCache().map(c => c.device)).to.have.members(ourOtherDevices.map(d => d.key));
+      expect(pendingMessageCache.getCache()).to.have.length(
+        ourOtherDevices.length
+      );
+      expect(pendingMessageCache.getCache().map(c => c.device)).to.have.members(
+        ourOtherDevices.map(d => d.key)
+      );
     });
   });
 
@@ -354,7 +372,7 @@ describe('MessageQueue', () => {
 
       it('should emit a success event when send was successful', async () => {
         const message = TestUtils.generateOpenGroupMessage();
-        const eventPromise = TestUtils.waitForTask(complete => {
+        const eventPromise = PromiseUtils.waitForTask(complete => {
           messageQueueStub.events.once('success', complete);
         }, 2000);
 
@@ -365,7 +383,7 @@ describe('MessageQueue', () => {
       it('should emit a fail event if something went wrong', async () => {
         sendToOpenGroupStub.resolves(false);
         const message = TestUtils.generateOpenGroupMessage();
-        const eventPromise = TestUtils.waitForTask(complete => {
+        const eventPromise = PromiseUtils.waitForTask(complete => {
           messageQueueStub.events.once('fail', complete);
         }, 2000);
 

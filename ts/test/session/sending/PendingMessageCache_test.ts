@@ -3,7 +3,6 @@ import * as _ from 'lodash';
 import { MessageUtils } from '../../../session/utils';
 import { TestUtils, timeout } from '../../../test/test-utils';
 import { PendingMessageCache } from '../../../session/sending/PendingMessageCache';
-import { initial } from 'lodash';
 
 // Equivalent to Data.StorageItem
 interface StorageItem {
@@ -271,7 +270,7 @@ describe('PendingMessageCache', () => {
 
     // Verify messages
     const rebuiltMessages = await freshCache.getAllPending();
-    // tslint:disable-next-line: no-for-in no-for-in-array
+
     for (const [index, message] of rebuiltMessages.entries()) {
       const addedMessage = addedMessages[index];
 

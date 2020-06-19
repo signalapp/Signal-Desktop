@@ -67,7 +67,11 @@ export class PendingMessageCache {
 
     // Remove item from cache and sync with database
     const updatedCache = this.cache.filter(
-      cached => !(cached.device === message.device && cached.timestamp === message.timestamp)
+      cached =>
+        !(
+          cached.device === message.device &&
+          cached.timestamp === message.timestamp
+        )
     );
     this.cache = updatedCache;
     await this.saveToDB();
