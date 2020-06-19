@@ -8,6 +8,7 @@ import {
   ContentMessage,
   OpenGroupMessage,
   SessionRequestMessage,
+  SyncMessage,
 } from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
 import {
@@ -20,6 +21,7 @@ import { PubKey } from '../types';
 import { MessageSender } from '.';
 import { MultiDeviceProtocol, SessionProtocol } from '../protocols';
 import { UserUtil } from '../../util';
+import promise from 'redux-promise-middleware';
 
 export class MessageQueue implements MessageQueueInterface {
   public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
@@ -50,20 +52,18 @@ export class MessageQueue implements MessageQueueInterface {
 
     // Sync to our devices if syncable
     if (SyncMessageUtils.canSync(message)) {
-      const currentDevice = await UserUtil.getCurrentDevicePubKey();
-
-      if (currentDevice) {
-        const ourDevices = await MultiDeviceProtocol.getAllDevices(
-          currentDevice
-        );
-
-        await this.sendSyncMessage(message, ourDevices);
-
-        // Remove our devices from currentDevices
-        currentDevices = currentDevices.filter(device =>
-          ourDevices.some(d => device.isEqual(d))
+      const syncMessage = SyncMessageUtils.from(message);
+      if (!syncMessage) {
+        throw new Error(
+          'MessageQueue internal error occured: failed to make sync message'
         );
       }
+
+      await this.sendSyncMessage(syncMessage);
+
+      const ourDevices = await MultiDeviceProtocol.getOurDevices();
+      // Remove our devices from currentDevices
+      currentDevices = currentDevices.filter(device => !ourDevices.some(d => device.isEqual(d)));
     }
 
     const promises = currentDevices.map(async device => {
@@ -79,30 +79,42 @@ export class MessageQueue implements MessageQueueInterface {
     // Closed groups
     if (message instanceof ClosedGroupMessage) {
       // Get devices in closed group
-      const groupPubKey = PubKey.from(message.groupId);
-      if (!groupPubKey) {
+      const recipients = await GroupUtils.getGroupMembers(message.groupId);
+      if (recipients.length === 0) {
         return false;
       }
 
-      const recipients = await GroupUtils.getGroupMembers(groupPubKey);
+      // Send to all devices of members
+      await Promise.all(
+        recipients.map(async recipient =>
+          this.sendUsingMultiDevice(recipient, message)
+        )
+      );
 
-      if (recipients.length) {
-        await this.sendMessageToDevices(recipients, message);
-
-        return true;
-      }
+      return true;
     }
 
     // Open groups
     if (message instanceof OpenGroupMessage) {
       // No queue needed for Open Groups; send directly
-      try {
-        await MessageSender.sendToOpenGroup(message);
-        this.events.emit('success', message);
+      const error = new Error('Failed to send message to open group.');
 
-        return true;
+      // This is absolutely yucky ... we need to make it not use Promise<boolean>
+      try {
+        const result = await MessageSender.sendToOpenGroup(message);
+        if (result) {
+          this.events.emit('success', message);
+        } else {
+          this.events.emit('fail', message, error);
+        }
+
+        return result;
       } catch (e) {
-        this.events.emit('fail', message, e);
+        console.warn(
+          `Failed to send message to open group: ${message.group.server}`,
+          e
+        );
+        this.events.emit('fail', message, error);
 
         return false;
       }
@@ -111,21 +123,20 @@ export class MessageQueue implements MessageQueueInterface {
     return false;
   }
 
-  public async sendSyncMessage(message: ContentMessage, sendTo: Array<PubKey>) {
-    // Sync with our devices
-    const promises = sendTo.map(async device => {
-      const syncMessage = SyncMessageUtils.from(message);
+  public async sendSyncMessage(message: SyncMessage | undefined): Promise<any> {
+    if (!message) {
+      return;
+    }
 
-      return this.process(device, syncMessage);
-    });
-
+    const ourDevices = await MultiDeviceProtocol.getOurDevices();
+    const promises = ourDevices.map(async device => this.process(device, message));
     return Promise.all(promises);
   }
 
   public async processPending(device: PubKey) {
-    const messages = this.pendingMessageCache.getForDevice(device);
+    const messages = await this.pendingMessageCache.getForDevice(device);
 
-    const isMediumGroup = GroupUtils.isMediumGroup(device);
+    const isMediumGroup = GroupUtils.isMediumGroup(device.key);
     const hasSession = await SessionProtocol.hasSession(device);
 
     if (!isMediumGroup && !hasSession) {
@@ -155,13 +166,16 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   private async processAllPending() {
-    const devices = this.pendingMessageCache.getDevices();
+    const devices = await this.pendingMessageCache.getDevices();
     const promises = devices.map(async device => this.processPending(device));
 
     return Promise.all(promises);
   }
 
-  private async process(device: PubKey, message?: ContentMessage) {
+  private async process(
+    device: PubKey,
+    message?: ContentMessage
+  ): Promise<void> {
     // Don't send to ourselves
     const currentDevice = await UserUtil.getCurrentDevicePubKey();
     if (!message || (currentDevice && device.isEqual(currentDevice))) {

@@ -2,6 +2,7 @@ import {
   ClosedGroupMessage,
   ContentMessage,
   OpenGroupMessage,
+  SyncMessage,
 } from '../messages/outgoing';
 import { RawMessage } from '../types/RawMessage';
 import { TypedEventEmitter } from '../utils';
@@ -19,8 +20,5 @@ export interface MessageQueueInterface {
   sendUsingMultiDevice(user: PubKey, message: ContentMessage): void;
   send(device: PubKey, message: ContentMessage): void;
   sendToGroup(message: GroupMessageType): void;
-  sendSyncMessage(
-    message: ContentMessage,
-    sendTo: Array<PubKey>
-  ): Promise<Array<void>>;
+  sendSyncMessage(message: SyncMessage | undefined): Promise<any>;
 }
