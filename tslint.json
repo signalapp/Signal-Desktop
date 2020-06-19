@@ -150,6 +150,7 @@
     "no-backbone-get-set-outside-model": false,
     "underscore-consistent-invocation": false,
     "newline-before-return": false,
+    "number-literal-format": false,
     "react-no-dangerous-html": [
       true,
       {
