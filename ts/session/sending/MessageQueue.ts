@@ -51,7 +51,7 @@ export class MessageQueue implements MessageQueueInterface {
     let currentDevices = [...devices];
 
     // Sync to our devices if syncable
-    if (await SyncMessageUtils.canSync(message)) {
+    if (SyncMessageUtils.canSync(message)) {
       const currentDevice = await UserUtil.getCurrentDevicePubKey();
 
       if (currentDevice) {
@@ -91,7 +91,11 @@ export class MessageQueue implements MessageQueueInterface {
       const recipients = await GroupUtils.getGroupMembers(groupPubKey);
 
       if (recipients.length) {
-        await Promise.all(recipients.map(async recipient => this.sendUsingMultiDevice(recipient, message)));
+        await Promise.all(
+          recipients.map(async recipient =>
+            this.sendUsingMultiDevice(recipient, message)
+          )
+        );
 
         return true;
       }
@@ -159,7 +163,6 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   private async processAllPending() {
-
     const devices = this.pendingMessageCache.getDevices();
     const promises = devices.map(async device => this.processPending(device));
 

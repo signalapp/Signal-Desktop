@@ -213,7 +213,9 @@ OutgoingMessage.prototype = {
     }
 
     return (
-      window.libsession.Protocols.MultiDeviceProtocol.getAllDevices(primaryPubKey)
+      window.libsession.Protocols.MultiDeviceProtocol.getAllDevices(
+        primaryPubKey
+      )
         // Don't send to ourselves
         .then(devicesPubKeys =>
           devicesPubKeys.filter(pubKey => pubKey !== ourNumber)

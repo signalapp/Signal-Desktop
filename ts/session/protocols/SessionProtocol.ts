@@ -181,7 +181,9 @@ export class SessionProtocol {
 
       const processedItem = await getItemById('processedSessionsTimestamp');
       if (processedItem) {
-        SessionProtocol.processedSessionsTimestamp = JSON.parse(processedItem.value);
+        SessionProtocol.processedSessionsTimestamp = JSON.parse(
+          processedItem.value
+        );
       } else {
         SessionProtocol.processedSessionsTimestamp = {};
       }

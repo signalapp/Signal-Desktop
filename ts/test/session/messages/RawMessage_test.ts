@@ -13,7 +13,7 @@ import { TextEncoder } from 'util';
 
 describe('toRawMessage', () => {
   let message: DeviceUnlinkMessage;
-  const pubkey: PubKey = TestUtils.generateFakePubkey();
+  const pubkey: PubKey = TestUtils.generateFakePubKey();
   let raw: RawMessage;
 
   beforeEach(() => {

@@ -40,7 +40,9 @@ export class TypingMessage extends ContentMessage {
 
     const typingMessage = new SignalService.TypingMessage();
     if (this.groupId) {
-      typingMessage.groupId = new Uint8Array(StringUtils.encode(this.groupId, 'binary'));
+      typingMessage.groupId = new Uint8Array(
+        StringUtils.encode(this.groupId, 'binary')
+      );
     }
     typingMessage.action = action;
     typingMessage.timestamp = finalTimestamp;

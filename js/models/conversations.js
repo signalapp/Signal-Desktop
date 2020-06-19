@@ -407,15 +407,23 @@
         typingTimestamp: Date.now(),
         groupId, // might be null
       };
-      const typingMessage = new libsession.Messages.Outgoing.TypingMessage(typingParams);
+      const typingMessage = new libsession.Messages.Outgoing.TypingMessage(
+        typingParams
+      );
 
       // send the message to a single recipient if this is a session chat
       if (this.isPrivate) {
         const device = new libsession.Types.PubKey(recipientId);
-        libsession.getMessageQueue().sendUsingMultiDevice(device, typingMessage).ignore();
+        libsession
+          .getMessageQueue()
+          .sendUsingMultiDevice(device, typingMessage)
+          .ignore();
       } else {
         // the recipients on the case of a group are found by the messageQueue using message.groupId
-        libsession.getMessageQueue().sendToGroup(typingMessage).ignore();
+        libsession
+          .getMessageQueue()
+          .sendToGroup(typingMessage)
+          .ignore();
       }
     },
 
@@ -1850,7 +1858,6 @@
       );
       message.set({ id: messageId });
 
-
       if (groupUpdate.is_medium_group) {
         // Constructing a "create group" message
         const proto = new textsecure.protobuf.DataMessage();
@@ -2040,16 +2047,11 @@
         );
 
         if (storage.get('read-receipt-setting')) {
-
           await Promise.all(
             _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
               const timestamps = _.map(receipts, 'timestamp');
               await this.wrapSend(
-                textsecure.messaging.sendReadReceipts(
-                  sender,
-                  timestamps,
-                  {}
-                )
+                textsecure.messaging.sendReadReceipts(sender, timestamps, {})
               );
             })
           );
