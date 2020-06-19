@@ -118,11 +118,8 @@ export async function preprocessGroupMessage(
       timestamp: Date.now(),
       groupId: conversationId,
     };
-    const requestInfoMessage = new ClosedGroupRequestInfoMessage(
-      requestInfo
-    );
+    const requestInfoMessage = new ClosedGroupRequestInfoMessage(requestInfo);
     await getMessageQueue().sendToGroup(requestInfoMessage);
-
   }
   return false;
 }

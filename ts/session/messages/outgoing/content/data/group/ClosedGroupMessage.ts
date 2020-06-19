@@ -22,9 +22,7 @@ export abstract class ClosedGroupMessage extends DataMessage {
   protected abstract groupContextType(): SignalService.GroupContext.Type;
 
   protected groupContext(): SignalService.GroupContext {
-    const id = new Uint8Array(
-      StringUtils.encode(this.groupId, 'utf8')
-    );
+    const id = new Uint8Array(StringUtils.encode(this.groupId, 'utf8'));
     const type = this.groupContextType();
 
     return new SignalService.GroupContext({ id, type });

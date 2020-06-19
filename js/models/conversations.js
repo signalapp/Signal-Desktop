@@ -1681,7 +1681,6 @@
       if (this.get('profileSharing')) {
         profileKey = storage.get('profileKey');
       }
-      let promise;
 
       if (this.isMe()) {
         const flags =
@@ -1699,29 +1698,28 @@
         );
         return message.sendSyncMessageOnly(dataMessage);
       }
+      const expireUpdate = {
+        timestamp: message.get('sent_at'),
+        expireTimer,
+        profileKey,
+      };
 
       if (this.get('type') === 'private') {
-        promise = textsecure.messaging.sendExpirationTimerUpdateToNumber(
-          this.get('id'),
-          expireTimer,
-          message.get('sent_at'),
-          profileKey,
-          {}
-        );
+        const expirationTimerMessage = new new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+          expireUpdate
+        )();
+
+        await libsession
+          .getMessageQueue()
+          .sendUsingMultiDevice(this.get('id'), expirationTimerMessage);
       } else {
-        promise = textsecure.messaging.sendExpirationTimerUpdateToGroup(
-          this.get('id'),
-          this.getRecipients(),
-          expireTimer,
-          message.get('sent_at'),
-          profileKey,
-          {}
-        );
+        expireUpdate.groupId = this.get('id');
+        const expirationTimerMessage = new new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+          expireUpdate
+        )();
+
+        await libsession.getMessageQueue().sendToGroup(expirationTimerMessage);
       }
-
-      await message.send(this.wrapSend(promise));
-
-      return message;
     },
 
     isSearchable() {
@@ -1950,7 +1948,7 @@
         };
         const quitGroupMessage = new new libsession.Messages.Outgoing.ClosedGroupLeaveMessage(
           quitGroup
-        );
+        )();
 
         await libsession.getMessageQueue().sendToGroup(quitGroupMessage);
 

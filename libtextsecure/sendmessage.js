@@ -1222,64 +1222,6 @@ MessageSender.prototype = {
 
     textsecure.messaging.updateMediumGroup([sender], proto);
   },
-  async sendExpirationTimerUpdateToGroup(
-    groupId,
-    groupNumbers,
-    expireTimer,
-    timestamp,
-    profileKey,
-    options
-  ) {
-    // We always assume that only primary device is a member in the group
-    const primaryDeviceKey =
-      window.storage.get('primaryDevicePubKey') ||
-      textsecure.storage.user.getNumber();
-    const numbers = groupNumbers.filter(number => number !== primaryDeviceKey);
-
-    const attrs = {
-      recipients: numbers,
-      timestamp,
-      needsSync: true,
-      expireTimer,
-      profileKey,
-      flags: textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
-      group: {
-        id: groupId,
-        type: textsecure.protobuf.GroupContext.Type.DELIVER,
-      },
-    };
-
-    if (numbers.length === 0) {
-      return Promise.resolve({
-        successfulNumbers: [],
-        failoverNumbers: [],
-        errors: [],
-        unidentifiedDeliveries: [],
-        dataMessage: await this.getMessageProtoObj(attrs),
-      });
-    }
-
-    return this.sendMessage(attrs, options);
-  },
-  sendExpirationTimerUpdateToNumber(
-    number,
-    expireTimer,
-    timestamp,
-    profileKey,
-    options
-  ) {
-    return this.sendMessage(
-      {
-        recipients: [number],
-        timestamp,
-        needsSync: true,
-        expireTimer,
-        profileKey,
-        flags: textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
-      },
-      options
-    );
-  },
   makeProxiedRequest(url, options) {
     return this.server.makeProxiedRequest(url, options);
   },
@@ -1292,13 +1234,6 @@ window.textsecure = window.textsecure || {};
 
 textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   const sender = new MessageSender(username, password);
-
-  this.sendExpirationTimerUpdateToNumber = sender.sendExpirationTimerUpdateToNumber.bind(
-    sender
-  );
-  this.sendExpirationTimerUpdateToGroup = sender.sendExpirationTimerUpdateToGroup.bind(
-    sender
-  );
   this.sendRequestGroupSyncMessage = sender.sendRequestGroupSyncMessage.bind(
     sender
   );

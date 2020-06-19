@@ -1,9 +1,10 @@
 import { SignalService } from '../../../../../../protobuf';
-import { ClosedGroupMessage, ClosedGroupMessageParams } from './ClosedGroupMessage';
-
+import {
+  ClosedGroupMessage,
+  ClosedGroupMessageParams,
+} from './ClosedGroupMessage';
 
 export class ClosedGroupLeaveMessage extends ClosedGroupMessage {
-
   constructor(params: ClosedGroupMessageParams) {
     super({
       timestamp: params.timestamp,
