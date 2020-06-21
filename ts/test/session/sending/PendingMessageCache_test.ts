@@ -109,11 +109,14 @@ describe('PendingMessageCache', () => {
 
     await pendingMessageCacheStub.add(device, message);
     await timeout(5);
-    await pendingMessageCacheStub.add(
+    const one = await pendingMessageCacheStub.add(
       device,
       TestUtils.generateChatMessage(message.identifier)
     );
-    await pendingMessageCacheStub.add(TestUtils.generateFakePubKey(), message);
+    const two = await pendingMessageCacheStub.add(
+      TestUtils.generateFakePubKey(),
+      message
+    );
 
     const initialCache = await pendingMessageCacheStub.getAllPending();
     expect(initialCache).to.have.length(3);
@@ -125,6 +128,7 @@ describe('PendingMessageCache', () => {
 
     // Verify that the message was removed
     expect(finalCache).to.have.length(2);
+    expect(finalCache).to.have.deep.members([one, two]);
   });
 
   it('can get devices', async () => {

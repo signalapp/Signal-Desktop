@@ -161,7 +161,7 @@ describe('MessageQueue', () => {
         });
         await expect(promise).to.be.fulfilled;
       }
-    });
+    }).timeout(15000);
 
     describe('events', () => {
       it('should send a success event if message was sent', async () => {
