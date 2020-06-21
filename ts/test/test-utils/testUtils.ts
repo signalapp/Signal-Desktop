@@ -85,10 +85,10 @@ export function generateFakePubKeys(amount: number): Array<PubKey> {
   return new Array(numPubKeys).fill(0).map(() => generateFakePubKey());
 }
 
-export function generateChatMessage(): ChatMessage {
+export function generateChatMessage(identifier?: string): ChatMessage {
   return new ChatMessage({
     body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    identifier: uuid(),
+    identifier: identifier ?? uuid(),
     timestamp: Date.now(),
     attachments: undefined,
     quote: undefined,

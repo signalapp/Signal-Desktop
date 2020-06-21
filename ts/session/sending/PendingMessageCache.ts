@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
 import { PartialRawMessage, RawMessage } from '../types/RawMessage';
 import { ContentMessage } from '../messages/outgoing';
@@ -12,33 +13,25 @@ import { MessageUtils } from '../utils';
 // memory and sync its state with the database on modification (add or remove).
 
 export class PendingMessageCache {
-  public readonly isReady: Promise<boolean>;
-  private cache: Array<RawMessage>;
+  protected loadPromise: Promise<void> | undefined;
+  protected cache: Array<RawMessage> = [];
 
-  constructor() {
-    // Load pending messages from the database
-    // You should await isReady on making a new PendingMessageCache
-    //   if you'd like to have instant access to the cache
-    this.cache = [];
-
-    this.isReady = new Promise(async resolve => {
-      await this.loadFromDB();
-      resolve(true);
-    });
-  }
-
-  public getAllPending(): Array<RawMessage> {
+  public async getAllPending(): Promise<Array<RawMessage>> {
+    await this.loadFromDBIfNeeded();
     // Get all pending from cache, sorted with oldest first
     return [...this.cache].sort((a, b) => a.timestamp - b.timestamp);
   }
 
-  public getForDevice(device: PubKey): Array<RawMessage> {
-    return this.getAllPending().filter(m => m.device === device.key);
+  public async getForDevice(device: PubKey): Promise<Array<RawMessage>> {
+    const pending = await this.getAllPending();
+    return pending.filter(m => m.device === device.key);
   }
 
-  public getDevices(): Array<PubKey> {
+  public async getDevices(): Promise<Array<PubKey>> {
+    await this.loadFromDBIfNeeded();
+
     // Gets all unique devices with pending messages
-    const pubkeyStrings = [...new Set(this.cache.map(m => m.device))];
+    const pubkeyStrings = _.uniq(this.cache.map(m => m.device));
 
     return pubkeyStrings.map(PubKey.from).filter((k): k is PubKey => !!k);
   }
@@ -47,6 +40,7 @@ export class PendingMessageCache {
     device: PubKey,
     message: ContentMessage
   ): Promise<RawMessage> {
+    await this.loadFromDBIfNeeded();
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
     // Does it exist in cache already?
@@ -63,6 +57,7 @@ export class PendingMessageCache {
   public async remove(
     message: RawMessage
   ): Promise<Array<RawMessage> | undefined> {
+    await this.loadFromDBIfNeeded();
     // Should only be called after message is processed
 
     // Return if message doesn't exist in cache
@@ -72,7 +67,11 @@ export class PendingMessageCache {
 
     // Remove item from cache and sync with database
     const updatedCache = this.cache.filter(
-      m => m.identifier !== message.identifier
+      cached =>
+        !(
+          cached.device === message.device &&
+          cached.timestamp === message.timestamp
+        )
     );
     this.cache = updatedCache;
     await this.saveToDB();
@@ -93,12 +92,20 @@ export class PendingMessageCache {
     await this.saveToDB();
   }
 
-  private async loadFromDB() {
+  protected async loadFromDBIfNeeded() {
+    if (!this.loadPromise) {
+      this.loadPromise = this.loadFromDB();
+    }
+
+    await this.loadPromise;
+  }
+
+  protected async loadFromDB() {
     const messages = await this.getFromStorage();
     this.cache = messages;
   }
 
-  private async getFromStorage(): Promise<Array<RawMessage>> {
+  protected async getFromStorage(): Promise<Array<RawMessage>> {
     const data = await getItemById('pendingMessages');
     if (!data || !data.value) {
       return [];
@@ -117,7 +124,7 @@ export class PendingMessageCache {
     });
   }
 
-  private async saveToDB() {
+  protected async saveToDB() {
     // For each plainTextBuffer in cache, save in as a simple Array<number> to avoid
     // Node issues with JSON stringifying Buffer without strict typing
     const encodedCache = [...this.cache].map(item => {
