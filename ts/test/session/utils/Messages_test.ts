@@ -1,18 +1,13 @@
-import { expect } from 'chai';
-import * as sinon from 'sinon';
-
-import { v4 as uuid } from 'uuid';
-import { timeout } from '../../test-utils';
+import chai from 'chai';
 import { generateChatMessage, generateFakePubKey } from '../../test-utils/testUtils';
 import { toRawMessage } from '../../../session/utils/Messages';
-import { RawMessage } from '../../../session/types/';
-import { padPlainTextBuffer } from '../../../session/crypto/MessageEncrypter';
+import { PubKey } from '../../../session/types/';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
-const { assert } = chai;
+const { expect } = chai;
 
 describe('Message Utils', () => {
 
@@ -40,7 +35,7 @@ describe('Message Utils', () => {
 
       const rawBuffer = rawMessage.plainTextBuffer;
       const rawBufferJSON = JSON.stringify(rawBuffer);
-      const messageBufferJSON = JSON.stringify(message.plainTextBuffer);
+      const messageBufferJSON = JSON.stringify(message.plainTextBuffer());
 
       expect(rawBuffer instanceof Uint8Array).to.equal(true, 'raw message did not contain a plainTextBuffer');
       expect(rawBufferJSON).to.equal(messageBufferJSON, 'plainTextBuffer was not converted correctly');
@@ -50,7 +45,11 @@ describe('Message Utils', () => {
       const device = generateFakePubKey();
       const message = generateChatMessage();
 
-      const rawMessage = 
+      const rawMessage = toRawMessage(device, message);
+      const derivedPubKey = PubKey.from(rawMessage.device);
+
+      expect(derivedPubKey).to.exist;
+      expect(derivedPubKey?.isEqual(device)).to.equal(true, 'pubkey of message was not converted correctly');
     });
 
   });

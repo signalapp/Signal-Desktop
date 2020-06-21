@@ -1,10 +1,10 @@
 import * as _ from 'lodash';
-import { UserUtil } from '../../util/';
+import { UserUtil } from '../../util';
 import { getAllConversations } from '../../../js/modules/data';
 import { ContentMessage, SyncMessage } from '../messages/outgoing';
 import { MultiDeviceProtocol } from '../protocols';
 
-export function from(message: ContentMessage): SyncMessage | undefined {
+export function toSyncMessage(message: ContentMessage): SyncMessage | undefined {
   if (message instanceof SyncMessage) {
     return message;
   }
@@ -18,7 +18,7 @@ export function canSync(message: ContentMessage): boolean {
   // to know about the recipient
 
   // Stubbed for now
-  return Boolean(from(message));
+  return Boolean(toSyncMessage(message));
 }
 
 export async function getSyncContacts(): Promise<Array<any> | undefined> {

@@ -52,7 +52,7 @@ export class MessageQueue implements MessageQueueInterface {
 
     // Sync to our devices if syncable
     if (SyncMessageUtils.canSync(message)) {
-      const syncMessage = SyncMessageUtils.from(message);
+      const syncMessage = SyncMessageUtils.toSyncMessage(message);
       if (!syncMessage) {
         throw new Error(
           'MessageQueue internal error occured: failed to make sync message'
