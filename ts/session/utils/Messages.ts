@@ -1,4 +1,4 @@
-import { RawMessage } from '../types/RawMessage';
+import { RawMessage } from '../types/';
 import { ContentMessage } from '../messages/outgoing';
 import { EncryptionType, PubKey } from '../types';
 

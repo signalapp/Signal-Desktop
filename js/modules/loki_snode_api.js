@@ -432,9 +432,7 @@ class LokiSnodeAPI {
 
         if (this.guardNodes.length < edKeys.length) {
           log.warn(
-            `LokiSnodeAPI::buildNewOnionPaths - could not find some guard nodes: ${
-              this.guardNodes.length
-            }/${edKeys.length} left`
+            `LokiSnodeAPI::buildNewOnionPaths - could not find some guard nodes: ${this.guardNodes.length}/${edKeys.length} left`
           );
         }
       }
@@ -490,7 +488,10 @@ class LokiSnodeAPI {
 
   async buildNewOnionPaths() {
     // this function may be called concurrently make sure we only have one inflight
-    return primitives.allowOnlyOneAtATime('buildNewOnionPaths', this.buildNewOnionPathsWorker);
+    return primitives.allowOnlyOneAtATime(
+      'buildNewOnionPaths',
+      this.buildNewOnionPathsWorker
+    );
   }
 
   async getRandomSnodeAddress() {
