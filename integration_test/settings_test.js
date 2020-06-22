@@ -31,6 +31,7 @@ describe('Settings', function() {
 
     app = await common.startAndStub(appProps);
   });
+  
 
   after(async () => {
     await common.stopApp(app);

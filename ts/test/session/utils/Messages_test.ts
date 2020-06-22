@@ -1,6 +1,6 @@
 import chai from 'chai';
-import { generateChatMessage, generateFakePubKey } from '../../test-utils/testUtils';
-import { toRawMessage } from '../../../session/utils/Messages';
+import { TestUtils } from '../../test-utils/';
+import { MessageUtils } from '../../../session/utils/';
 import { PubKey } from '../../../session/types/';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
@@ -13,10 +13,10 @@ describe('Message Utils', () => {
 
   describe('toRawMessage', () => {
     it('can convert to raw message', async () => {
-      const device = generateFakePubKey();
-      const message = generateChatMessage();
+      const device = TestUtils.generateFakePubKey();
+      const message = TestUtils.generateChatMessage();
 
-      const rawMessage = toRawMessage(device, message);
+      const rawMessage = MessageUtils.toRawMessage(device, message);
 
       expect(Object.keys(rawMessage)).to.have.length(6);
       expect(rawMessage.identifier).to.exist;
@@ -28,10 +28,10 @@ describe('Message Utils', () => {
     });
 
     it('should generate valid plainTextBuffer', async () => {
-      const device = generateFakePubKey();
-      const message = generateChatMessage();
+      const device = TestUtils.generateFakePubKey();
+      const message = TestUtils.generateChatMessage();
 
-      const rawMessage = toRawMessage(device, message);
+      const rawMessage = MessageUtils.toRawMessage(device, message);
 
       const rawBuffer = rawMessage.plainTextBuffer;
       const rawBufferJSON = JSON.stringify(rawBuffer);
@@ -42,10 +42,10 @@ describe('Message Utils', () => {
     });
 
     it('should maintain pubkey', async () => {
-      const device = generateFakePubKey();
-      const message = generateChatMessage();
+      const device = TestUtils.generateFakePubKey();
+      const message = TestUtils.generateChatMessage();
 
-      const rawMessage = toRawMessage(device, message);
+      const rawMessage = MessageUtils.toRawMessage(device, message);
       const derivedPubKey = PubKey.from(rawMessage.device);
 
       expect(derivedPubKey).to.exist;

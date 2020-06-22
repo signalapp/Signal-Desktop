@@ -250,7 +250,7 @@ describe('MessageQueue', () => {
       sandbox.stub(SyncMessageUtils, 'canSync').returns(true);
 
       sandbox
-        .stub(SyncMessageUtils, 'from')
+        .stub(SyncMessageUtils, 'toSyncMessage')
         .returns(new TestSyncMessage({ timestamp: Date.now() }));
 
       // This stub ensures that the message won't process

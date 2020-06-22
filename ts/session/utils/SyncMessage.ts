@@ -27,11 +27,22 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
   if (!thisDevice) {
     return [];
   }
+  
+  console.log('[vince] window.Whisper:', window.Whisper);
+  console.log('[vince] window.Whisper:', window.Whisper);
+  console.log('[vince] window.Whisper:', window.Whisper);
+  console.log('[vince] window.Whisper:', window.Whisper);
 
   const primaryDevice = await MultiDeviceProtocol.getPrimaryDevice(thisDevice);
   const conversations = await getAllConversations({
     ConversationCollection: window.Whisper.ConversationCollection,
   });
+
+  console.log('[vince] conversations:', conversations);
+  console.log('[vince] conversations:', conversations);
+  console.log('[vince] conversations:', conversations);
+  console.log('[vince] conversations:', conversations);
+  console.log('[vince] conversations:', conversations);
 
   // We are building a set of all contacts
   const primaryContacts =
