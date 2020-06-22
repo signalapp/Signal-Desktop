@@ -529,60 +529,6 @@ MessageSender.prototype = {
     });
   },
 
-  sendRequestConfigurationSyncMessage() {
-    const myNumber = textsecure.storage.user.getNumber();
-    const myDevice = textsecure.storage.user.getDeviceId();
-    if (myDevice !== 1 && myDevice !== '1') {
-      const { CONFIGURATION } = textsecure.protobuf.SyncMessage.Request.Type;
-      const user = libsession.Types.PubKey.from(myNumber);
-      const { RequestContactSyncMessage } = window.libsession.Messages.Outgoing;
-
-      const requestContactSyncMessage = new RequestContactSyncMessage({
-        timestamp: Date.now(),
-        reqestType: CONFIGURATION,
-      });
-      return libsession.getMessageQueue().send(user, requestContactSyncMessage);
-    }
-
-    return Promise.resolve();
-  },
-
-  // Currently not in use under session (our device ID are always 1)
-
-  sendRequestGroupSyncMessage() {
-    const myNumber = textsecure.storage.user.getNumber();
-    const myDevice = textsecure.storage.user.getDeviceId();
-    if (myDevice !== 1 && myDevice !== '1') {
-      const { GROUPS } = textsecure.protobuf.SyncMessage.Request.Type;
-      const user = libsession.Types.PubKey.from(myNumber);
-      const { RequestContactSyncMessage } = window.libsession.Messages.Outgoing;
-
-      const requestContactSyncMessage = new RequestContactSyncMessage({
-        timestamp: Date.now(),
-        reqestType: GROUPS,
-      });
-      return libsession.getMessageQueue().send(user, requestContactSyncMessage);
-    }
-
-    return Promise.resolve();
-  },
-  // Currently not in use under session (our device ID are always 1)
-  async sendRequestContactSyncMessage() {
-    const myNumber = textsecure.storage.user.getNumber();
-    const myDevice = textsecure.storage.user.getDeviceId();
-    if (myDevice !== 1 && myDevice !== '1') {
-      const { CONTACTS } = textsecure.protobuf.SyncMessage.Request.Type;
-      const user = libsession.Types.PubKey.from(myNumber);
-      const { RequestContactSyncMessage } = window.libsession.Messages.Outgoing;
-
-      const requestContactSyncMessage = new RequestContactSyncMessage({
-        timestamp: Date.now(),
-        reqestType: CONTACTS,
-      });
-      return libsession.getMessageQueue().send(user, requestContactSyncMessage);
-    }
-    return Promise.resolve();
-  },
   async sendContactSyncMessage(conversations) {
     // If we havn't got a primaryDeviceKey then we are in the middle of pairing
     // primaryDevicePubKey is set to our own number if we are the master device
@@ -1125,18 +1071,9 @@ window.textsecure = window.textsecure || {};
 
 textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   const sender = new MessageSender(username, password);
-  this.sendRequestGroupSyncMessage = sender.sendRequestGroupSyncMessage.bind(
-    sender
-  );
-  this.sendRequestContactSyncMessage = sender.sendRequestContactSyncMessage.bind(
-    sender
-  );
   this.sendContactSyncMessage = sender.sendContactSyncMessage.bind(sender);
   this.sendGroupSyncMessage = sender.sendGroupSyncMessage.bind(sender);
   this.sendOpenGroupsSyncMessage = sender.sendOpenGroupsSyncMessage.bind(
-    sender
-  );
-  this.sendRequestConfigurationSyncMessage = sender.sendRequestConfigurationSyncMessage.bind(
     sender
   );
   this.sendMessageToNumber = sender.sendMessageToNumber.bind(sender);
@@ -1149,7 +1086,6 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.setGroupAvatar = sender.setGroupAvatar.bind(sender);
   this.requestSenderKeys = sender.requestSenderKeys.bind(sender);
   this.sendSyncMessage = sender.sendSyncMessage.bind(sender);
-  this.getProfile = sender.getProfile.bind(sender);
   this.uploadAvatar = sender.uploadAvatar.bind(sender);
   this.syncReadMessages = sender.syncReadMessages.bind(sender);
   this.syncVerification = sender.syncVerification.bind(sender);
