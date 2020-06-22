@@ -6,15 +6,17 @@
 const { before } = require('mocha');
 const common = require('./common');
 
-require('./registration_test');
-require('./open_group_test');
-require('./add_friends_test');
-require('./link_device_test');
-require('./closed_group_test');
-require('./message_functions_test');
-require('./settings_test');
-require('./message_sync_test');
-require('./sender_keys_test');
+// require('./registration_test');
+// require('./open_group_test');
+// require('./add_friends_test');
+// require('./link_device_test');
+// require('./closed_group_test');
+// require('./message_functions_test');
+// require('./settings_test');
+// require('./message_sync_test');
+// require('./sender_keys_test');
+
+require('./utils/sync_message_test');
 
 before(async () => {
   // start the app once before all tests to get the platform-dependent

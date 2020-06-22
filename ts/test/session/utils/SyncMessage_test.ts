@@ -16,8 +16,7 @@ chai.use(chaiAsPromised);
 const { expect } = chai;
 
 describe('Sync Message Utils', () => {
-  // getSyncContacts function is tested in test-integration with Electron
-
+  
   describe('toSyncMessage', () => {
     it('can convert to sync message', async () => {
       const message = TestUtils.generateChatMessage();
