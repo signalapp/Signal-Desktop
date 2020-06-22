@@ -36,7 +36,6 @@ describe('PendingMessageCache', () => {
     });
 
     pendingMessageCacheStub = new PendingMessageCache();
-    await pendingMessageCacheStub.isReady;
   });
 
   afterEach(() => {
@@ -44,7 +43,7 @@ describe('PendingMessageCache', () => {
   });
 
   it('can initialize cache', async () => {
-    const cache = pendingMessageCacheStub.getAllPending();
+    const cache = await pendingMessageCacheStub.getAllPending();
 
     // We expect the cache to initialise as an empty array
     expect(cache).to.be.instanceOf(Array);
@@ -59,13 +58,29 @@ describe('PendingMessageCache', () => {
     await pendingMessageCacheStub.add(device, message);
 
     // Verify that the message is in the cache
-    const finalCache = pendingMessageCacheStub.getAllPending();
+    const finalCache = await pendingMessageCacheStub.getAllPending();
 
     expect(finalCache).to.have.length(1);
 
     const addedMessage = finalCache[0];
     expect(addedMessage.device).to.deep.equal(rawMessage.device);
     expect(addedMessage.timestamp).to.deep.equal(rawMessage.timestamp);
+  });
+
+  it('can add multiple messages belonging to the same user', async () => {
+    const device = TestUtils.generateFakePubKey();
+
+    await pendingMessageCacheStub.add(device, TestUtils.generateChatMessage());
+    // We have to timeout here otherwise it's processed too fast and messages start having the same timestamp
+    await TestUtils.timeout(5);
+    await pendingMessageCacheStub.add(device, TestUtils.generateChatMessage());
+    await TestUtils.timeout(5);
+    await pendingMessageCacheStub.add(device, TestUtils.generateChatMessage());
+
+    // Verify that the message is in the cache
+    const finalCache = await pendingMessageCacheStub.getAllPending();
+
+    expect(finalCache).to.have.length(3);
   });
 
   it('can remove from cache', async () => {
@@ -75,16 +90,45 @@ describe('PendingMessageCache', () => {
 
     await pendingMessageCacheStub.add(device, message);
 
-    const initialCache = pendingMessageCacheStub.getAllPending();
+    const initialCache = await pendingMessageCacheStub.getAllPending();
     expect(initialCache).to.have.length(1);
 
     // Remove the message
     await pendingMessageCacheStub.remove(rawMessage);
 
-    const finalCache = pendingMessageCacheStub.getAllPending();
+    const finalCache = await pendingMessageCacheStub.getAllPending();
 
     // Verify that the message was removed
     expect(finalCache).to.have.length(0);
+  });
+
+  it('should only remove messages with different timestamp and device', async () => {
+    const device = TestUtils.generateFakePubKey();
+    const message = TestUtils.generateChatMessage();
+    const rawMessage = MessageUtils.toRawMessage(device, message);
+
+    await pendingMessageCacheStub.add(device, message);
+    await TestUtils.timeout(5);
+    const one = await pendingMessageCacheStub.add(
+      device,
+      TestUtils.generateChatMessage(message.identifier)
+    );
+    const two = await pendingMessageCacheStub.add(
+      TestUtils.generateFakePubKey(),
+      message
+    );
+
+    const initialCache = await pendingMessageCacheStub.getAllPending();
+    expect(initialCache).to.have.length(3);
+
+    // Remove the message
+    await pendingMessageCacheStub.remove(rawMessage);
+
+    const finalCache = await pendingMessageCacheStub.getAllPending();
+
+    // Verify that the message was removed
+    expect(finalCache).to.have.length(2);
+    expect(finalCache).to.have.deep.members([one, two]);
   });
 
   it('can get devices', async () => {
@@ -103,16 +147,16 @@ describe('PendingMessageCache', () => {
       },
     ];
 
-    cacheItems.forEach(async item => {
+    for (const item of cacheItems) {
       await pendingMessageCacheStub.add(item.device, item.message);
-    });
+    }
 
-    const cache = pendingMessageCacheStub.getAllPending();
+    const cache = await pendingMessageCacheStub.getAllPending();
     expect(cache).to.have.length(cacheItems.length);
 
     // Get list of devices
     const devicesKeys = cacheItems.map(item => item.device.key);
-    const pulledDevices = pendingMessageCacheStub.getDevices();
+    const pulledDevices = await pendingMessageCacheStub.getDevices();
     const pulledDevicesKeys = pulledDevices.map(d => d.key);
 
     // Verify that device list from cache is equivalent to devices added
@@ -131,21 +175,21 @@ describe('PendingMessageCache', () => {
       },
     ];
 
-    cacheItems.forEach(async item => {
+    for (const item of cacheItems) {
       await pendingMessageCacheStub.add(item.device, item.message);
-    });
+    }
 
-    const initialCache = pendingMessageCacheStub.getAllPending();
+    const initialCache = await pendingMessageCacheStub.getAllPending();
     expect(initialCache).to.have.length(cacheItems.length);
 
     // Get pending for each specific device
-    cacheItems.forEach(item => {
-      const pendingForDevice = pendingMessageCacheStub.getForDevice(
+    for (const item of cacheItems) {
+      const pendingForDevice = await pendingMessageCacheStub.getForDevice(
         item.device
       );
       expect(pendingForDevice).to.have.length(1);
       expect(pendingForDevice[0].device).to.equal(item.device.key);
-    });
+    }
   });
 
   it('can find nothing when empty', async () => {
@@ -164,7 +208,7 @@ describe('PendingMessageCache', () => {
 
     await pendingMessageCacheStub.add(device, message);
 
-    const finalCache = pendingMessageCacheStub.getAllPending();
+    const finalCache = await pendingMessageCacheStub.getAllPending();
     expect(finalCache).to.have.length(1);
 
     const foundMessage = pendingMessageCacheStub.find(rawMessage);
@@ -188,17 +232,17 @@ describe('PendingMessageCache', () => {
       },
     ];
 
-    cacheItems.forEach(async item => {
+    for (const item of cacheItems) {
       await pendingMessageCacheStub.add(item.device, item.message);
-    });
+    }
 
-    const initialCache = pendingMessageCacheStub.getAllPending();
+    const initialCache = await pendingMessageCacheStub.getAllPending();
     expect(initialCache).to.have.length(cacheItems.length);
 
     // Clear cache
     await pendingMessageCacheStub.clear();
 
-    const finalCache = pendingMessageCacheStub.getAllPending();
+    const finalCache = await pendingMessageCacheStub.getAllPending();
     expect(finalCache).to.have.length(0);
   });
 
@@ -218,21 +262,20 @@ describe('PendingMessageCache', () => {
       },
     ];
 
-    cacheItems.forEach(async item => {
+    for (const item of cacheItems) {
       await pendingMessageCacheStub.add(item.device, item.message);
-    });
+    }
 
-    const addedMessages = pendingMessageCacheStub.getAllPending();
+    const addedMessages = await pendingMessageCacheStub.getAllPending();
     expect(addedMessages).to.have.length(cacheItems.length);
 
     // Rebuild from DB
     const freshCache = new PendingMessageCache();
-    await freshCache.isReady;
 
     // Verify messages
-    const rebuiltMessages = freshCache.getAllPending();
+    const rebuiltMessages = await freshCache.getAllPending();
 
-    rebuiltMessages.forEach((message, index) => {
+    for (const [index, message] of rebuiltMessages.entries()) {
       const addedMessage = addedMessages[index];
 
       // Pull out plainTextBuffer for a separate check
@@ -254,6 +297,6 @@ describe('PendingMessageCache', () => {
         true,
         'cached messages were not rebuilt properly'
       );
-    });
+    }
   });
 });

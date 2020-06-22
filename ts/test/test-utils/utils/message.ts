@@ -7,10 +7,10 @@ import { v4 as uuid } from 'uuid';
 import { OpenGroup } from '../../../session/types';
 import { generateFakePubKey } from './pubkey';
 
-export function generateChatMessage(): ChatMessage {
+export function generateChatMessage(identifier?: string): ChatMessage {
   return new ChatMessage({
     body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    identifier: uuid(),
+    identifier: identifier ?? uuid(),
     timestamp: Date.now(),
     attachments: undefined,
     quote: undefined,
