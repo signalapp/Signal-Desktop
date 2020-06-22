@@ -7,7 +7,6 @@
   window.textsecure = window.textsecure || {};
 
   async function SyncRequest() {
-
     // this.receiver = receiver;
 
     // this.oncontact = this.onContactSyncComplete.bind(this);
@@ -27,7 +26,9 @@
       timestamp: Date.now(),
       reqestType: CONFIGURATION,
     });
-    await libsession.getMessageQueue().send(user, requestConfigurationSyncMessage);
+    await libsession
+      .getMessageQueue()
+      .send(user, requestConfigurationSyncMessage);
 
     window.log.info('SyncRequest now sending contact sync message...');
     const { CONTACTS } = textsecure.protobuf.SyncMessage.Request.Type;

@@ -1324,59 +1324,86 @@
           options.publicSendData = await this.getPublicSendData();
         }
 
-        options.groupInvitation = groupInvitation;
         options.sessionRestoration = sessionRestoration;
+        const destinationPubkey = new libsession.Types.PubKey(destination);
+        // Handle Group Invitation Message
+        if (groupInvitation) {
+          if (conversationType !== Message.PRIVATE) {
+            window.console.warning('Cannot send groupInvite to group chat');
 
-        const groupNumbers = this.getRecipients();
-
-        const promise = (() => {
-          switch (conversationType) {
-            case Message.PRIVATE:
-              return textsecure.messaging.sendMessageToNumber(
-                destination,
-                messageBody,
-                finalAttachments,
-                quote,
-                preview,
-                now,
-                expireTimer,
-                profileKey,
-                {}
-              );
-            case Message.GROUP: {
-              let dest = destination;
-              let numbers = groupNumbers;
-              if (this.isMediumGroup()) {
-                dest = this.id;
-                numbers = [destination];
-                options.isMediumGroup = true;
-              }
-
-              return textsecure.messaging.sendMessageToGroup(
-                dest,
-                numbers,
-                messageBody,
-                finalAttachments,
-                quote,
-                preview,
-                now,
-                expireTimer,
-                profileKey,
-                {}
-              );
-            }
-            default:
-              throw new TypeError(
-                `Invalid conversation type: '${conversationType}'`
-              );
+            return null;
           }
-        })();
 
-        // Add the message sending on another queue so that our UI doesn't get blocked
-        this.queueMessageSend(async () => {
-          message.send(this.wrapSend(promise));
+          const groupInvitMessage = new libsession.Messages.Outgoing.GroupInvitationMessage(
+            {
+              serverName: groupInvitation.name,
+              channelId: groupInvitation.channelId,
+              serverAddress: groupInvitation.address,
+            }
+          );
+
+          return libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(destinationPubkey, groupInvitMessage);
+        }
+        const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+          body,
+          timestamp: Date.now(),
         });
+        // Start handle ChatMessages (attachments/quote/preview/body)
+        if (conversationType === Message.PRIVATE) {
+          await libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(destinationPubkey, chatMessage);
 
+          // return textsecure.messaging.sendMessageToNumber(
+          //   destination,
+          //   messageBody,
+          //   finalAttachments,
+          //   quote,
+          //   preview,
+          //   now,
+          //   expireTimer,
+          //   profileKey,
+          //   {}
+          // );
+        } else if (conversationType === Message.GROUP) {
+          // return textsecure.messaging.sendMessageToGroup(
+          //   dest,
+          //   numbers,
+          //   messageBody,
+          //   finalAttachments,
+          //   quote,
+          //   preview,
+          //   now,
+          //   expireTimer,
+          //   profileKey,
+          //   {}
+          // );
+
+          // let dest = destination;
+          // let numbers = groupNumbers;
+          if (this.isMediumGroup()) {
+            // dest = this.id;
+            // numbers = [destination];
+            // options.isMediumGroup = true;
+            throw new Error('To implement');
+          } else {
+            const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
+              {
+                chatMessage,
+                groupId: destination,
+              }
+            );
+            await libsession
+              .getMessageQueue()
+              .sendToGroup(closedGroupChatMessage);
+          }
+        } else {
+          throw new TypeError(
+            `Invalid conversation type: '${conversationType}'`
+          );
+        }
         return true;
       });
     },

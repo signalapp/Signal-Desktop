@@ -14,7 +14,6 @@ const {
   map,
   set,
   omit,
-  isArrayBuffer,
 } = require('lodash');
 
 const _ = require('lodash');
@@ -603,11 +602,10 @@ async function removeAllContactSignedPreKeys() {
 function signatureToBase64(signature) {
   if (typeof signature === 'string') {
     return signature;
-}
+  }
 
-// Ensure signature is ByteBuffer, ArrayBuffer or Uint8Array otherwise throw error
-return dcodeIO.ByteBuffer.wrap(signature).toString('base64');
-
+  // Ensure signature is ByteBuffer, ArrayBuffer or Uint8Array otherwise throw error
+  return dcodeIO.ByteBuffer.wrap(signature).toString('base64');
 }
 
 async function createOrUpdatePairingAuthorisation(data) {

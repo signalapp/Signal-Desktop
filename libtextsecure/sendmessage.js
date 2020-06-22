@@ -1,4 +1,4 @@
-/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window, libloki, libsession */
+/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window, libloki */
 
 /* eslint-disable more/no-then, no-bitwise */
 
@@ -351,36 +351,35 @@ MessageSender.prototype = {
     });
   },
 
-  sendMessage(attrs, options) {
+  async sendMessage(attrs, options) {
     const message = new Message(attrs);
     const silent = false;
     const publicServer =
       options.publicSendData && options.publicSendData.serverAPI;
 
-    return Promise.all([
+    await Promise.all([
       this.uploadAttachments(message, publicServer),
       this.uploadThumbnails(message, publicServer),
       this.uploadLinkPreviews(message, publicServer),
-    ]).then(
-      () =>
-        new Promise((resolve, reject) => {
-          this.sendMessageProto(
-            message.timestamp,
-            message.recipients,
-            message.toProto(),
-            res => {
-              res.dataMessage = message.toArrayBuffer();
-              if (res.errors.length > 0) {
-                reject(res);
-              } else {
-                resolve(res);
-              }
-            },
-            silent,
-            options
-          );
-        })
-    );
+    ]);
+
+    return new Promise((resolve, reject) => {
+      this.sendMessageProto(
+        message.timestamp,
+        message.recipients,
+        message.toProto(),
+        res => {
+          res.dataMessage = message.toArrayBuffer();
+          if (res.errors.length > 0) {
+            reject(res);
+          } else {
+            resolve(res);
+          }
+        },
+        silent,
+        options
+      );
+    });
   },
   sendMessageProto(
     timestamp,

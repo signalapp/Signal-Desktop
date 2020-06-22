@@ -670,7 +670,7 @@ export async function handleMessageEvent(event: any): Promise<void> {
       confirm,
       source,
       isGroupMessage,
-      primarySource
+      primarySource.key
     ).ignore();
   });
 }

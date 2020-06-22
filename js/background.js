@@ -1137,9 +1137,9 @@
     };
 
     window.sendGroupInvitations = (serverInfo, pubkeys) => {
-      pubkeys.forEach(async pubkey => {
+      pubkeys.forEach(async pubkeyStr => {
         const convo = await ConversationController.getOrCreateAndWait(
-          pubkey,
+          pubkeyStr,
           'private'
         );
 

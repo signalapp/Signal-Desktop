@@ -84,6 +84,10 @@ export class MultiDeviceProtocol {
     );
     // TODO: Filter out invalid authorisations
 
+    if (!mapping || !mapping.authorisations) {
+      return [];
+    }
+
     return mapping.authorisations.map(
       ({
         primaryDevicePubKey,
@@ -144,6 +148,11 @@ export class MultiDeviceProtocol {
   ): Promise<Array<PubKey>> {
     const pubKey = typeof user === 'string' ? new PubKey(user) : user;
     const authorisations = await this.getPairingAuthorisations(pubKey);
+    if (authorisations.length === 0) {
+      const array: Array<PubKey> = new Array();
+      array.push(pubKey);
+      return array;
+    }
     const devices = _.flatMap(
       authorisations,
       ({ primaryDevicePubKey, secondaryDevicePubKey }) => [
