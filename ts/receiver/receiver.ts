@@ -14,9 +14,13 @@ import { SignalService } from './../protobuf';
 
 import { removeFromCache } from './cache';
 import { toNumber } from 'lodash';
-import { DataMessage } from '../session/messages/outgoing';
+import {
+  DataMessage,
+  DeliveryReceiptMessage,
+} from '../session/messages/outgoing';
 import { MultiDeviceProtocol } from '../session/protocols';
 import { PubKey } from '../session/types';
+import { getMessageQueue } from '../session';
 
 export { handleEndSession, handleMediumGroupUpdate };
 
@@ -171,22 +175,14 @@ enum ConversationType {
   PRIVATE = 'private',
 }
 
-function sendDeliveryReceipt(source: string, timestamp: any) {
-  const { wrap, sendOptions } = window.ConversationController.prepareForSend(
-    source
-  );
-  wrap(
-    window.textsecure.messaging.sendDeliveryReceipt(
-      source,
-      timestamp,
-      sendOptions
-    )
-  ).catch((error: any) => {
-    window.log.error(
-      `Failed to send delivery receipt to ${source} for message ${timestamp}:`,
-      error && error.stack ? error.stack : error
-    );
+async function sendDeliveryReceipt(source: string, timestamp: any) {
+  const receiptMessage = new DeliveryReceiptMessage({
+    timestamp: Date.now(),
+    timestamps: [timestamp],
   });
+
+  const device = new PubKey(source);
+  await getMessageQueue().sendUsingMultiDevice(device, receiptMessage);
 }
 
 interface MessageId {
@@ -604,11 +600,13 @@ export async function handleMessageEvent(event: any): Promise<void> {
     return;
   }
 
+  const isOurDevice = await MultiDeviceProtocol.isOurDevice(source);
+
   const shouldSendReceipt =
-    isIncoming && data.unidentifiedDeliveryReceived && !isGroupMessage;
+    isIncoming && data.unidentifiedDeliveryReceived && !isGroupMessage && !isOurDevice;
 
   if (shouldSendReceipt) {
-    sendDeliveryReceipt(source, data.timestamp);
+    await sendDeliveryReceipt(source, data.timestamp);
   }
 
   await window.ConversationController.getOrCreateAndWait(id, type);

@@ -2047,9 +2047,17 @@
           await Promise.all(
             _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
               const timestamps = _.map(receipts, 'timestamp');
-              await this.wrapSend(
-                textsecure.messaging.sendReadReceipts(sender, timestamps, {})
+              const receiptMessage = new libsession.Messages.Outgoing.ReadReceiptMessage(
+                {
+                  timestamp: Date.now(),
+                  timestamps,
+                }
               );
+
+              const device = new libsession.Types.PubKey(sender);
+              await libsession
+                .getMessageQueue()
+                .sendUsingMultiDevice(device, receiptMessage);
             })
           );
         }

@@ -749,48 +749,6 @@ MessageSender.prototype = {
       { debugMessageType } // options
     );
   },
-
-  sendDeliveryReceipt(recipientId, timestamp, options) {
-    const myNumber = textsecure.storage.user.getNumber();
-    const myDevice = textsecure.storage.user.getDeviceId();
-    if (myNumber === recipientId && (myDevice === 1 || myDevice === '1')) {
-      return Promise.resolve();
-    }
-
-    const receiptMessage = new textsecure.protobuf.ReceiptMessage();
-    receiptMessage.type = textsecure.protobuf.ReceiptMessage.Type.DELIVERY;
-    receiptMessage.timestamp = [timestamp];
-
-    const contentMessage = new textsecure.protobuf.Content();
-    contentMessage.receiptMessage = receiptMessage;
-
-    const silent = true;
-    return this.sendIndividualProto(
-      recipientId,
-      contentMessage,
-      Date.now(),
-      silent,
-      options
-    );
-  },
-
-  sendReadReceipts(sender, timestamps, options) {
-    const receiptMessage = new textsecure.protobuf.ReceiptMessage();
-    receiptMessage.type = textsecure.protobuf.ReceiptMessage.Type.READ;
-    receiptMessage.timestamp = timestamps;
-
-    const contentMessage = new textsecure.protobuf.Content();
-    contentMessage.receiptMessage = receiptMessage;
-
-    const silent = true;
-    return this.sendIndividualProto(
-      sender,
-      contentMessage,
-      Date.now(),
-      silent,
-      options
-    );
-  },
   syncReadMessages(reads, options) {
     const myNumber = textsecure.storage.user.getNumber();
     const myDevice = textsecure.storage.user.getDeviceId();
@@ -1221,8 +1179,6 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.uploadAvatar = sender.uploadAvatar.bind(sender);
   this.syncReadMessages = sender.syncReadMessages.bind(sender);
   this.syncVerification = sender.syncVerification.bind(sender);
-  this.sendDeliveryReceipt = sender.sendDeliveryReceipt.bind(sender);
-  this.sendReadReceipts = sender.sendReadReceipts.bind(sender);
   this.makeProxiedRequest = sender.makeProxiedRequest.bind(sender);
   this.getProxiedSize = sender.getProxiedSize.bind(sender);
   this.getMessageProto = sender.getMessageProto.bind(sender);
