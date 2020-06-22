@@ -35,8 +35,8 @@ export class DeviceLinkGrantMessage extends DeviceLinkRequestMessage {
     return new SignalService.PairingAuthorisationMessage({
       primaryDevicePubKey: this.primaryDevicePubKey,
       secondaryDevicePubKey: this.secondaryDevicePubKey,
-      requestSignature: this.requestSignature,
-      grantSignature: this.grantSignature,
+      requestSignature: new Uint8Array(this.requestSignature),
+      grantSignature: new Uint8Array(this.grantSignature),
     });
   }
 

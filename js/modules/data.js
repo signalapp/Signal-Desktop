@@ -601,17 +601,13 @@ async function removeAllContactSignedPreKeys() {
 }
 
 function signatureToBase64(signature) {
-  if (signature.constructor === dcodeIO.ByteBuffer) {
-    return dcodeIO.ByteBuffer.wrap(signature).toString('base64');
-  } else if (isArrayBuffer(signature)) {
-    return arrayBufferToBase64(signature);
-  } else if (typeof signature === 'string') {
-    // assume it's already base64
+  if (typeof signature === 'string') {
     return signature;
-  }
-  throw new Error(
-    'Invalid signature provided in createOrUpdatePairingAuthorisation. Needs to be either ArrayBuffer or ByteBuffer.'
-  );
+}
+
+// Ensure signature is ByteBuffer, ArrayBuffer or Uint8Array otherwise throw error
+return dcodeIO.ByteBuffer.wrap(signature).toString('base64');
+
 }
 
 async function createOrUpdatePairingAuthorisation(data) {

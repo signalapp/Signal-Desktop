@@ -1175,7 +1175,7 @@ MessageReceiver.prototype.extend({
       const device = new libsession.Types.PubKey(envelope.source);
 
       await libsession.Protocols.SessionProtocol.onSessionEstablished(device);
-      // TODO process sending queue for this device now that we have a session
+      await libsession.getMessageQueue().processPending(device);
     }
 
     if (content.pairingAuthorisation) {

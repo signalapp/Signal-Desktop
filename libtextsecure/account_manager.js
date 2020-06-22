@@ -590,8 +590,8 @@
       const authorisations = await libsession.Protocols.MultiDeviceProtocol.getPairingAuthorisations(
         secondaryDeviceStr
       );
-      const existingAuthorisation = authorisations.some(
-        pairing => pairing.secondaryDevicePubKey === secondaryDevicePubKey
+      const existingAuthorisation = authorisations.find(
+        pairing => pairing.secondaryDevicePubKey === secondaryDeviceStr
       );
       if (!existingAuthorisation) {
         throw new Error(
@@ -628,7 +628,7 @@
       // Try to upload to the file server and then send a message
       try {
         await lokiFileServerAPI.updateOurDeviceMapping();
-        const requestPairingMessage = new libsession.Messages.Outgoing.DeviceLinkGrantMessageParams(
+        const requestPairingMessage = new libsession.Messages.Outgoing.DeviceLinkGrantMessage(
           {
             timestamp: Date.now(),
             ...authorisation,
