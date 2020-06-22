@@ -1,6 +1,5 @@
 import { DataMessage } from '../DataMessage';
 import { SignalService } from '../../../../../../protobuf';
-import { TextEncoder } from 'util';
 import { MessageParams } from '../../../Message';
 import { StringUtils } from '../../../../../utils';
 
@@ -17,6 +16,10 @@ export abstract class ClosedGroupMessage extends DataMessage {
       identifier: params.identifier,
     });
     this.groupId = params.groupId;
+  }
+
+  public ttl(): number {
+    return this.getDefaultTTL();
   }
 
   protected abstract groupContextType(): SignalService.GroupContext.Type;

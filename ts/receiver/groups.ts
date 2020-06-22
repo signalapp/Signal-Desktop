@@ -75,7 +75,7 @@ export async function preprocessGroupMessage(
     window.libloki.api.debug.logGroupRequestInfo(
       `Received GROUP_TYPES.REQUEST_INFO from source: ${source}, primarySource: ${primarySource}, sending back group info.`
     );
-    conversation.sendGroupInfo([source]);
+    conversation.sendGroupInfo(source);
     return true;
   }
 

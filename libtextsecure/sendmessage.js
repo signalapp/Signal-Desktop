@@ -1078,7 +1078,6 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.sendMessageToNumber = sender.sendMessageToNumber.bind(sender);
   this.sendMessage = sender.sendMessage.bind(sender);
   this.sendMessageToGroup = sender.sendMessageToGroup.bind(sender);
-  this.sendGroupUpdate = sender.sendGroupUpdate.bind(sender);
   this.updateMediumGroup = sender.updateMediumGroup.bind(sender);
   this.addNumberToGroup = sender.addNumberToGroup.bind(sender);
   this.setGroupName = sender.setGroupName.bind(sender);

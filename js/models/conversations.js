@@ -1908,32 +1908,53 @@
         return;
       }
 
-      message.send(
-        this.wrapSend(
-          textsecure.messaging.sendGroupUpdate(
-            this.id,
-            this.get('name'),
-            this.get('avatar'),
-            this.get('members'),
-            this.get('groupAdmins'),
-            groupUpdate.recipients,
-            {}
-          )
-        )
+      const updateParams = {
+        timestamp: Date.now(),
+        groupId: this.id,
+        name: this.get('name'),
+        avatar: this.get('avatar'),
+        members: this.get('members'),
+        admins: this.get('groupAdmins'),
+      };
+      const groupUpdateMessage = new libsession.Messages.Outgoing.ClosedGroupUpdateMessage(
+        updateParams
       );
+
+      groupUpdate.recipients.forEach(r => {
+        const recipientPubKey = new libsession.Types.PubKey(r);
+        if (!recipientPubKey) {
+          window.console.warn('updateGroup invalid pubkey:', r);
+          return;
+        }
+        libsession
+          .getMessageQueue()
+          .sendUsingMultiDevice(recipientPubKey, groupUpdateMessage)
+          .ignore();
+      });
     },
 
-    sendGroupInfo(recipients) {
+    sendGroupInfo(recipient) {
       if (this.isClosedGroup()) {
-        textsecure.messaging.sendGroupUpdate(
-          this.id,
-          this.get('name'),
-          this.get('avatar'),
-          this.get('members'),
-          this.get('groupAdmins'),
-          recipients,
-          {}
+        const updateParams = {
+          timestamp: Date.now(),
+          groupId: this.id,
+          name: this.get('name'),
+          avatar: this.get('avatar'),
+          members: this.get('members'),
+          admins: this.get('groupAdmins'),
+        };
+        const groupUpdateMessage = new libsession.Messages.Outgoing.ClosedGroupUpdateMessage(
+          updateParams
         );
+        const recipientPubKey = new libsession.Types.PubKey(recipient);
+        if (!recipientPubKey) {
+          window.console.warn('sendGroupInfo invalid pubkey:', recipient);
+          return;
+        }
+        libsession
+          .getMessageQueue()
+          .send(recipientPubKey, groupUpdateMessage)
+          .ignore();
       }
     },
 
