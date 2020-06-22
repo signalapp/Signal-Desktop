@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import * as _ from 'lodash';
 import { MessageUtils } from '../../../session/utils';
-import { TestUtils, timeout } from '../../../test/test-utils';
+import { TestUtils } from '../../../test/test-utils';
 import { PendingMessageCache } from '../../../session/sending/PendingMessageCache';
 
 // Equivalent to Data.StorageItem
@@ -72,9 +72,9 @@ describe('PendingMessageCache', () => {
 
     await pendingMessageCacheStub.add(device, TestUtils.generateChatMessage());
     // We have to timeout here otherwise it's processed too fast and messages start having the same timestamp
-    await timeout(5);
+    await TestUtils.timeout(5);
     await pendingMessageCacheStub.add(device, TestUtils.generateChatMessage());
-    await timeout(5);
+    await TestUtils.timeout(5);
     await pendingMessageCacheStub.add(device, TestUtils.generateChatMessage());
 
     // Verify that the message is in the cache
@@ -108,7 +108,7 @@ describe('PendingMessageCache', () => {
     const rawMessage = MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
-    await timeout(5);
+    await TestUtils.timeout(5);
     const one = await pendingMessageCacheStub.add(
       device,
       TestUtils.generateChatMessage(message.identifier)
