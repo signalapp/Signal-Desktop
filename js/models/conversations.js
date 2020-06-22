@@ -1803,15 +1803,20 @@
             type: 'outgoing',
             endSessionType: 'ongoing',
           });
-          await message.send(
-            this.wrapSend(
-              textsecure.messaging.resetSession(
-                this.id,
-                message.get('sent_at'),
-                {}
-              )
-            )
+          window.log.info('resetting secure session');
+          const device = new libsession.Types.PubKey(this.id);
+          const preKeyBundle = await window.libloki.storage.getPreKeyBundleForContact(
+            device.key
           );
+          const endSessionMessage = new libsession.Messages.Outgoing.EndSessionMessage(
+            {
+              timestamp: message.get('sent_at'),
+              preKeyBundle,
+            }
+          );
+
+          await libsession.getMessageQueue().send(device, endSessionMessage);
+          // TODO handle errors to reset session reset status with the new pipeline
           if (message.hasErrors()) {
             await this.setSessionResetStatus(SessionResetEnum.none);
           }

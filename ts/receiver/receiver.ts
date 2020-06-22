@@ -603,7 +603,10 @@ export async function handleMessageEvent(event: any): Promise<void> {
   const isOurDevice = await MultiDeviceProtocol.isOurDevice(source);
 
   const shouldSendReceipt =
-    isIncoming && data.unidentifiedDeliveryReceived && !isGroupMessage && !isOurDevice;
+    isIncoming &&
+    data.unidentifiedDeliveryReceived &&
+    !isGroupMessage &&
+    !isOurDevice;
 
   if (shouldSendReceipt) {
     await sendDeliveryReceipt(source, data.timestamp);

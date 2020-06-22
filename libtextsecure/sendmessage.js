@@ -969,31 +969,6 @@ MessageSender.prototype = {
       options
     );
   },
-
-  resetSession(number, timestamp, options) {
-    window.log.info('resetting secure session');
-    const silent = false;
-    const proto = new textsecure.protobuf.DataMessage();
-    proto.body = 'TERMINATE';
-    proto.flags = textsecure.protobuf.DataMessage.Flags.END_SESSION;
-
-    const logError = prefix => error => {
-      window.log.error(prefix, error && error.stack ? error.stack : error);
-      throw error;
-    };
-
-    // The actual deletion of the session now happens later
-    // as we need to ensure the other contact has successfully
-    // switch to a new session first.
-    return this.sendIndividualProto(
-      number,
-      proto,
-      timestamp,
-      silent,
-      options
-    ).catch(logError('resetSession/sendToContact error:'));
-  },
-
   async sendMessageToGroup(
     groupId,
     groupNumbers,
@@ -1166,7 +1141,6 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   );
   this.sendMessageToNumber = sender.sendMessageToNumber.bind(sender);
   this.sendMessage = sender.sendMessage.bind(sender);
-  this.resetSession = sender.resetSession.bind(sender);
   this.sendMessageToGroup = sender.sendMessageToGroup.bind(sender);
   this.sendGroupUpdate = sender.sendGroupUpdate.bind(sender);
   this.updateMediumGroup = sender.updateMediumGroup.bind(sender);
