@@ -174,16 +174,14 @@ export class SessionProtocol {
     if (!SessionProtocol.dbLoaded) {
       const sentItem = await getItemById('sentSessionsTimestamp');
       if (sentItem) {
-        SessionProtocol.sentSessionsTimestamp = JSON.parse(sentItem.value);
+        SessionProtocol.sentSessionsTimestamp = sentItem.value;
       } else {
         SessionProtocol.sentSessionsTimestamp = {};
       }
 
       const processedItem = await getItemById('processedSessionsTimestamp');
       if (processedItem) {
-        SessionProtocol.processedSessionsTimestamp = JSON.parse(
-          processedItem.value
-        );
+        SessionProtocol.processedSessionsTimestamp = processedItem.value;
       } else {
         SessionProtocol.processedSessionsTimestamp = {};
       }
@@ -194,7 +192,7 @@ export class SessionProtocol {
   private static async writeToDBSentSessions(): Promise<void> {
     const data = {
       id: 'sentSessionsTimestamp',
-      value: JSON.stringify(SessionProtocol.sentSessionsTimestamp),
+      value: SessionProtocol.sentSessionsTimestamp,
     };
 
     await createOrUpdateItem(data);
@@ -203,7 +201,7 @@ export class SessionProtocol {
   private static async writeToDBProcessedSessions(): Promise<void> {
     const data = {
       id: 'processedSessionsTimestamp',
-      value: JSON.stringify(SessionProtocol.processedSessionsTimestamp),
+      value: SessionProtocol.processedSessionsTimestamp,
     };
 
     await createOrUpdateItem(data);
