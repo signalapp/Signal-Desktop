@@ -37,37 +37,10 @@
 
   window.doesAcountCheckJobExist = number =>
     Boolean(window.AccountJobs[number]);
-  window.checkForSignalAccount = number => {
-    if (window.AccountJobs[number]) {
-      return window.AccountJobs[number];
-    }
-
-    let job;
-    if (textsecure.messaging) {
-      // eslint-disable-next-line more/no-then
-      job = textsecure.messaging
-        .getProfile(number)
-        .then(() => {
-          window.AccountCache[number] = true;
-        })
-        .catch(() => {
-          window.AccountCache[number] = false;
-        });
-    } else {
-      // We're offline!
-      job = Promise.resolve().then(() => {
-        window.AccountCache[number] = false;
-      });
-    }
-
-    window.AccountJobs[number] = job;
-
-    return job;
-  };
 
   window.isSignalAccountCheckComplete = number =>
     window.AccountCache[number] !== undefined;
-  window.hasSignalAccount = number => window.AccountCache[number];
+  window.hasSignalAccount = () => true;
 
   window.Whisper.Message = Backbone.Model.extend({
     initialize(attributes) {
@@ -706,20 +679,12 @@
         : null;
       const onClick = async () => {
         // First let's be sure that the signal account check is complete.
-        await window.checkForSignalAccount(firstNumber);
 
         this.trigger('show-contact-detail', {
           contact,
           hasSignalAccount: window.hasSignalAccount(firstNumber),
         });
       };
-
-      // Would be nice to do this before render, on initial load of message
-      if (!window.isSignalAccountCheckComplete(firstNumber)) {
-        window.checkForSignalAccount(firstNumber).then(() => {
-          this.trigger('change', this);
-        });
-      }
 
       return contactSelector(contact, {
         regionCode,
