@@ -13,7 +13,7 @@ export abstract class SyncMessage extends ContentMessage {
     });
   }
 
-  protected createSyncMessage(): SignalService.SyncMessage {
+  protected syncProto(): SignalService.SyncMessage {
     const syncMessage = new SignalService.SyncMessage();
 
     // Generate a random int from 1 and 512
@@ -27,6 +27,4 @@ export abstract class SyncMessage extends ContentMessage {
 
     return syncMessage;
   }
-
-  protected abstract syncProto(): SignalService.SyncMessage;
 }

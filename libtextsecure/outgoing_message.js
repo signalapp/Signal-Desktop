@@ -212,7 +212,7 @@ OutgoingMessage.prototype = {
       )
         // Don't send to ourselves
         .then(devicesPubKeys =>
-          devicesPubKeys.filter(pubKey => pubKey !== ourNumber)
+          devicesPubKeys.filter(pubKey => pubKey.key !== ourNumber)
         )
         .then(devicesPubKeys => {
           if (devicesPubKeys.length === 0) {

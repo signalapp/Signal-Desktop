@@ -1,6 +1,7 @@
 import { SignalService } from '../protobuf';
 import { ClosedGroupRequestInfoMessage } from '../session/messages/outgoing/content/data/group/ClosedGroupRequestInfoMessage';
 import { getMessageQueue } from '../session';
+import { PubKey } from '../session/types';
 
 const _ = window.Lodash;
 
@@ -119,7 +120,11 @@ export async function preprocessGroupMessage(
       groupId: conversationId,
     };
     const requestInfoMessage = new ClosedGroupRequestInfoMessage(requestInfo);
-    await getMessageQueue().sendToGroup(requestInfoMessage);
+    const primarySourcePubKey = new PubKey(primarySource);
+    await getMessageQueue().sendUsingMultiDevice(
+      primarySourcePubKey,
+      requestInfoMessage
+    );
   }
   return false;
 }

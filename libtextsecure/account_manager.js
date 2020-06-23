@@ -546,7 +546,7 @@
         libloki.crypto.PairingType.REQUEST
       );
 
-      const primaryDevice = libsession.Types.PubKey.from(primaryDevicePubKey);
+      const primaryDevice = new libsession.Types.PubKey(primaryDevicePubKey);
 
       const requestPairingMessage = new window.libsession.Messages.Outgoing.DeviceLinkRequestMessage(
         {

@@ -1121,22 +1121,10 @@ MessageReceiver.prototype.extend({
           signature,
         };
 
-        const signedKeyPromise = textsecure.storage.protocol.storeContactSignedPreKey(
-          pubkey,
-          signedPreKey
-        );
-
         const preKeyObject = {
           publicKey: preKey,
           keyId: preKeyId,
         };
-
-        const preKeyPromise = textsecure.storage.protocol.storeContactPreKey(
-          pubkey,
-          preKeyObject
-        );
-
-        await Promise.all([signedKeyPromise, preKeyPromise]);
 
         const device = {
           identityKey,

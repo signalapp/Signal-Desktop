@@ -1735,18 +1735,18 @@
       };
 
       if (this.get('type') === 'private') {
-        const expirationTimerMessage = new new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
           expireUpdate
-        )();
-
+        );
+        const pubkey = new libsession.Types.PubKey(this.get('id'));
         await libsession
           .getMessageQueue()
-          .sendUsingMultiDevice(this.get('id'), expirationTimerMessage);
+          .sendUsingMultiDevice(pubkey, expirationTimerMessage);
       } else {
         expireUpdate.groupId = this.get('id');
-        const expirationTimerMessage = new new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
           expireUpdate
-        )();
+        );
 
         await libsession.getMessageQueue().sendToGroup(expirationTimerMessage);
       }
@@ -1922,18 +1922,10 @@
       const groupUpdateMessage = new libsession.Messages.Outgoing.ClosedGroupUpdateMessage(
         updateParams
       );
-
-      groupUpdate.recipients.forEach(r => {
-        const recipientPubKey = new libsession.Types.PubKey(r);
-        if (!recipientPubKey) {
-          window.console.warn('updateGroup invalid pubkey:', r);
-          return;
-        }
-        libsession
-          .getMessageQueue()
-          .sendUsingMultiDevice(recipientPubKey, groupUpdateMessage)
-          .ignore();
-      });
+      libsession
+        .getMessageQueue()
+        .sendToGroup(groupUpdateMessage)
+        .ignore();
     },
 
     sendGroupInfo(recipient) {
@@ -1997,9 +1989,9 @@
           timestamp: Date.now(),
           groupId: this.id,
         };
-        const quitGroupMessage = new new libsession.Messages.Outgoing.ClosedGroupLeaveMessage(
+        const quitGroupMessage = new libsession.Messages.Outgoing.ClosedGroupLeaveMessage(
           quitGroup
-        )();
+        );
 
         await libsession.getMessageQueue().sendToGroup(quitGroupMessage);
 

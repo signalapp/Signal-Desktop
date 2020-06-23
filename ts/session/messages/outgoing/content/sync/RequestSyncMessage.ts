@@ -25,7 +25,7 @@ export abstract class RequestSyncMessage extends SyncMessage {
   }
 
   protected syncProto(): SignalService.SyncMessage {
-    const syncMessage = this.createSyncMessage();
+    const syncMessage = super.syncProto();
     syncMessage.request = new SignalService.SyncMessage.Request({
       type: this.requestType,
     });

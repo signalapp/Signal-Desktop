@@ -13,18 +13,7 @@ export class ClosedGroupRequestInfoMessage extends ClosedGroupMessage {
     });
   }
 
-  public ttl(): number {
-    return this.getDefaultTTL();
-  }
-
   protected groupContextType(): SignalService.GroupContext.Type {
     return SignalService.GroupContext.Type.REQUEST_INFO;
-  }
-
-  protected dataProto(): SignalService.DataMessage {
-    const messageProto = new SignalService.DataMessage();
-    messageProto.group = this.groupContext();
-
-    return messageProto;
   }
 }

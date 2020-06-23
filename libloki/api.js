@@ -1,4 +1,4 @@
-/* global window, textsecure, dcodeIO, StringView, ConversationController, libsession */
+/* global window, textsecure, dcodeIO, StringView, libsession */
 /* eslint-disable no-bitwise */
 
 // eslint-disable-next-line func-names
@@ -55,7 +55,7 @@
   }
 
   async function sendSessionEstablishedMessage(pubKey) {
-    const user = libsession.Types.PubKey.from(pubKey);
+    const user = new libsession.Types.PubKey(pubKey);
 
     const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablishedMessage(
       { timestamp: Date.now() }
@@ -177,7 +177,6 @@
     members.forEach(async memberStr => {
       const ourPubKey = textsecure.storage.user.getNumber();
       if (memberStr !== ourPubKey) {
-        await ConversationController.getOrCreateAndWait(memberStr, 'private');
         const memberPubkey = new libsession.Types.PubKey(memberStr);
         await libsession.Protocols.SessionProtocol.sendSessionRequestIfNeeded(
           memberPubkey
