@@ -43,7 +43,7 @@ describe('MessageQueue', () => {
   // Message Sender Stubs
   let sendStub: sinon.SinonStub<[RawMessage, (number | undefined)?]>;
   // Utils Stubs
-  let isMediumGroupStub: sinon.SinonStub<[string], boolean>;
+  let isMediumGroupStub: sinon.SinonStub<[PubKey], boolean>;
   // Session Protocol Stubs
   let hasSessionStub: sinon.SinonStub<[PubKey]>;
   let sendSessionRequestIfNeededStub: sinon.SinonStub<[PubKey], Promise<void>>;

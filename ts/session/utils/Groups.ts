@@ -1,11 +1,11 @@
 import _ from 'lodash';
-import { PrimaryPubKey } from '../types';
+import { PrimaryPubKey, PubKey } from '../types';
 import { MultiDeviceProtocol } from '../protocols';
 
 export async function getGroupMembers(
-  groupId: string
+  groupId: PubKey
 ): Promise<Array<PrimaryPubKey>> {
-  const groupConversation = window.ConversationController.get(groupId);
+  const groupConversation = window.ConversationController.get(groupId.key);
   const groupMembers = groupConversation
     ? groupConversation.attributes.members
     : undefined;
@@ -22,8 +22,8 @@ export async function getGroupMembers(
   return _.uniqWith(primaryDevices, (a, b) => a.isEqual(b));
 }
 
-export function isMediumGroup(groupId: string): boolean {
-  const conversation = window.ConversationController.get(groupId);
+export function isMediumGroup(groupId: PubKey): boolean {
+  const conversation = window.ConversationController.get(groupId.key);
 
   if (!conversation) {
     return false;
