@@ -1,11 +1,6 @@
-/* global clearTimeout */
+/* global clearTimeout, log */
 // was timeoutDelay
 const sleepFor = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-let log;
-function configure(options = {}) {
-  ({ log } = options);
-}
 
 // Taken from https://stackoverflow.com/questions/51160260/clean-way-to-wait-for-first-true-returned-by-promise
 // The promise returned by this function will resolve true when the first promise
@@ -73,17 +68,7 @@ async function allowOnlyOneAtATime(name, process, timeout) {
   }
   let outerRetval;
   // handle any timeouts
-  try {
-    outerRetval = await snodeGlobalLocks[name];
-  } catch (e) {
-    // we will throw for each time allowOnlyOneAtATime has been called in parallel
-    log.error(
-      'loki_primitives:::allowOnlyOneAtATime - error',
-      e.code,
-      e.message
-    );
-    throw e;
-  }
+  outerRetval = await snodeGlobalLocks[name];
   return outerRetval;
 }
 
@@ -110,15 +95,8 @@ function abortableIterator(array, iterator) {
       let item = destructableList.pop();
       while (item && !abortIteration) {
         if (serially) {
-          try {
-            // eslint-disable-next-line no-await-in-loop
-            accum.push(await iterator(item));
-          } catch (e) {
-            log.error(
-              `loki_primitives:::abortableIterator - error ${e.code} ${e.message}`
-            );
-            throw e;
-          }
+          // eslint-disable-next-line no-await-in-loop
+          accum.push(await iterator(item));
         } else {
           accum.push(iterator(item));
         }
@@ -127,18 +105,12 @@ function abortableIterator(array, iterator) {
       return accum;
     },
     stop: () => {
-      /*
-      log.debug('loki_primitives:::abortableIterator - Stopping',
-                destructableList.length, '+', accum.length, '=', array.length,
-                'aborted?', abortIteration);
-      */
       controlResolveFunctor();
     },
   };
 }
 
 module.exports = {
-  configure,
   sleepFor,
   allowOnlyOneAtATime,
   abortableIterator,
