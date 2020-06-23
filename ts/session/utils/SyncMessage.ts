@@ -65,8 +65,5 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
     .filter(c => c.id !== primaryDevice.key);
 
   // Return unique contacts
-  return _.uniqBy(
-    [...primaryContacts, ...secondaryContacts],
-    'id'
-  );
+  return _.uniqBy([...primaryContacts, ...secondaryContacts], 'id');
 }

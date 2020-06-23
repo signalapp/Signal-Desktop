@@ -10,8 +10,10 @@ import {
   ClosedGroupChatMessage,
   OpenGroupMessage,
 } from '../../session/messages/outgoing';
-import { Integer } from '../../types/Util';
-import { ConversationModel, ConversationAttributes } from '../../../js/models/conversation';
+import {
+  ConversationAttributes,
+} from '../../../js/models/conversation';
+import { TestUtils } from '.';
 
 const globalAny: any = global;
 const sandbox = sinon.createSandbox();
@@ -79,11 +81,11 @@ export function generateFakePubKey(): PubKey {
   return new PubKey(pubkeyString);
 }
 
-export function generateFakePubKeys(amount: Integer): Array<PubKey> {
+export function generateFakePubKeys(amount: number): Array<PubKey> {
   const numPubKeys = amount > 0 ? Math.floor(amount) : 0;
 
   // tslint:disable-next-line: no-unnecessary-callback-wrapper
-  return new Array(amount).fill(0).map(() => generateFakePubKey());
+  return new Array(numPubKeys).fill(0).map(() => generateFakePubKey());
 }
 
 export function generateChatMessage(identifier?: string): ChatMessage {
@@ -126,19 +128,34 @@ export function generateClosedGroupMessage(
   });
 }
 
-    // Mock ConversationModel
-export class MockPrivateConversation implements ConversationModel {
+interface MockPrivateConversationParams {
+  id?: string;
+  isPrimary: boolean;
+}
+
+export class MockPrivateConversation {
   public id: string;
   public isPrimary: boolean;
   public attributes: ConversationAttributes;
 
-  constructor(isPrimary: boolean) {
-    this.isPrimary = isPrimary;
+  constructor(params: MockPrivateConversationParams) {
+    const dayInSeconds = 86400;
 
-    this.id = TestUtils.generateFakePubKey().key;
+    this.isPrimary = params.isPrimary;
+    this.id = params.id ?? TestUtils.generateFakePubKey().key;
+
     this.attributes = {
-      members
-    }
+      members: [],
+      left: false,
+      expireTimer: dayInSeconds,
+      profileSharing: true,
+      mentionedUs: false,
+      unreadCount: 99,
+      isArchived: false,
+      active_at: Date.now(),
+      timestamp: Date.now(),
+      secondaryStatus: !this.isPrimary,
+    };
   }
 
   public isPrivate() {
@@ -154,10 +171,6 @@ export class MockPrivateConversation implements ConversationModel {
   }
 
   public getPrimaryDevicePubKey() {
-    return this.isPrimary
-      ? this.id
-      : TestUtils.generateFakePubKey().key;
+    return this.isPrimary ? this.id : TestUtils.generateFakePubKey().key;
   }
-  }
-
-  const myconv = new MockPrivateConversation(false) ;
+}

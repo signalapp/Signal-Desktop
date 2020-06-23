@@ -1,13 +1,10 @@
 import chai from 'chai';
 import * as sinon from 'sinon';
 
-import { PubKey } from '../../../session/types/';
 import { SyncMessageUtils } from '../../../session/utils/';
-import { SyncMessage } from '../../../session/messages/outgoing';
 import { TestUtils } from '../../test-utils';
 import { UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
-import { Integer } from '../../../types/Util';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');
@@ -24,8 +21,6 @@ describe('Sync Message Utils', () => {
       // Stubbed
       expect(syncMessage).to.not.exist;
       // expect(syncMessage instanceof SyncMessage).to.equal(true, 'message was not converted to SyncMessage');
-
-      // Further tests required
     });
   });
 
@@ -52,36 +47,14 @@ describe('Sync Message Utils', () => {
     let getOrCreateAndWaitStub: sinon.SinonStub;
     let getOrCreatAndWaitItem: any;
 
-    // tslint:disable-next-line: insecure-random
-    const randomBoolean = () => !!Math.round(Math.random());
-    const randomMockConv = (primary: boolean) => (
-      // new (function(primary) {
-        
-      //   return {
-      //     id: generateFakePubKey().key,
-      //     isPrivate: () => true,
-      //     isOurLocalDevice: () => false,
-      //     isBlocked: () => false,
-      //     getPrimaryDevicePubKey: () => this.isPrivate ? 
-
-      //     attributes: {
-      //       secondaryStatus: !primary,
-      //     },
-      //   };
-      // })();
-    {}
-    );
-
-
-
     // Fill half with secondaries, half with primaries
     const numConversations = 20;
     const primaryConversations = new Array(numConversations / 2)
       .fill({})
-      .map(() => randomMockConv(true));
+      .map(() => new TestUtils.MockPrivateConversation({ isPrimary: true }));
     const secondaryConversations = new Array(numConversations / 2)
       .fill({})
-      .map(() => randomMockConv(false));
+      .map(() => new TestUtils.MockPrivateConversation({ isPrimary: false }));
     const conversations = [...primaryConversations, ...secondaryConversations];
 
     const sandbox = sinon.createSandbox();
@@ -102,7 +75,8 @@ describe('Sync Message Utils', () => {
 
       // Scale result in sync with secondaryConversations on callCount
       getOrCreateAndWaitStub = sandbox.stub().callsFake(() => {
-        const item = secondaryConversations[getOrCreateAndWaitStub.callCount - 1];
+        const item =
+          secondaryConversations[getOrCreateAndWaitStub.callCount - 1];
 
         // Make the item a primary device to match the call in SyncMessage under secondaryContactsPromise
         getOrCreatAndWaitItem = {
@@ -150,14 +124,12 @@ describe('Sync Message Utils', () => {
 
       // We should have numConversations unique contacts
       expect(contacts).to.have.length(numConversations);
-      
+
       // All contacts should be primary; half of which some from secondaries in secondaryContactsPromise
       expect(contacts?.find(c => c.attributes.secondaryStatus)).to.not.exist;
-      expect(contacts)
-
-      
+      expect(contacts?.filter(c => c.isPrimary)).to.have.length(
+        numConversations / 2
+      );
     });
   });
-
-  // MAKE MORE SPECIFIC, CHECK PARAMETERS
 });
