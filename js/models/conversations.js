@@ -1351,6 +1351,7 @@
           timestamp: Date.now(),
         });
         // Start handle ChatMessages (attachments/quote/preview/body)
+        // FIXME AUDRIC handle attachments, quote, preview
         if (conversationType === Message.PRIVATE) {
           await libsession
             .getMessageQueue()

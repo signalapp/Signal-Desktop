@@ -149,9 +149,7 @@ export class MultiDeviceProtocol {
     const pubKey = typeof user === 'string' ? new PubKey(user) : user;
     const authorisations = await this.getPairingAuthorisations(pubKey);
     if (authorisations.length === 0) {
-      const array: Array<PubKey> = new Array();
-      array.push(pubKey);
-      return array;
+      return [pubKey];
     }
     const devices = _.flatMap(
       authorisations,

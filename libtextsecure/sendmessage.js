@@ -1,4 +1,4 @@
-/* global _, textsecure, WebAPI, libsignal, OutgoingMessage, window, libloki */
+/* global _, textsecure, WebAPI, libsignal, window, OutgoingMessage, libloki */
 
 /* eslint-disable more/no-then, no-bitwise */
 
