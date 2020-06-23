@@ -33,7 +33,7 @@ describe('MessageEncrypter', () => {
     TestUtils.stubWindow('libloki', {
       crypto: {
         FallBackSessionCipher: Stubs.FallBackSessionCipherStub,
-      },
+      } as any,
     });
 
     sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber);

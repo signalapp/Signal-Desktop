@@ -1,4 +1,4 @@
-import { CryptoInterface } from "./crypto";
+import { CryptoInterface } from './crypto';
 
 export interface Libloki {
   api: any;
