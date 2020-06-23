@@ -1,4 +1,4 @@
-/* global _, textsecure, WebAPI, libsignal, window, OutgoingMessage, libloki */
+/* global textsecure, WebAPI, libsignal, window, OutgoingMessage, libloki */
 
 /* eslint-disable more/no-then, no-bitwise */
 
@@ -519,7 +519,7 @@ MessageSender.prototype = {
     });
   },
 
-  async sendContactSyncMessage(conversations) {
+  async sendContactSyncMessage() {
     return Promise.resolve();
 
     // // If we havn't got a primaryDeviceKey then we are in the middle of pairing
@@ -606,7 +606,7 @@ MessageSender.prototype = {
     // return Promise.all(syncPromises);
   },
 
-  sendGroupSyncMessage(conversations) {
+  sendGroupSyncMessage() {
     return Promise.resolve();
     // // If we havn't got a primaryDeviceKey then we are in the middle of pairing
     // // primaryDevicePubKey is set to our own number if we are the master device

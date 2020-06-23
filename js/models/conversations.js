@@ -724,7 +724,7 @@
         return false;
       }
       // console.log('this.contactCollection', this.contactCollection);
-      //FIXME AUDRIC
+      // FIXME AUDRIC
       return true;
       // return this.contactCollection.every(contact => {
       //   if (contact.isMe()) {
