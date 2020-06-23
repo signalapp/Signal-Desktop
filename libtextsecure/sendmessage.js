@@ -389,14 +389,6 @@ MessageSender.prototype = {
     silent,
     options = {}
   ) {
-    const rejections = textsecure.storage.get('signedKeyRotationRejected', 0);
-    if (rejections > 5) {
-      throw new textsecure.SignedPreKeyRotationError(
-        numbers,
-        message.toArrayBuffer(),
-        timestamp
-      );
-    }
 
     // Note: Since we're just doing independant tasks,
     // using `async` in the `forEach` loop should be fine.
@@ -529,135 +521,138 @@ MessageSender.prototype = {
   },
 
   async sendContactSyncMessage(conversations) {
-    // If we havn't got a primaryDeviceKey then we are in the middle of pairing
-    // primaryDevicePubKey is set to our own number if we are the master device
-    const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
-    if (!primaryDeviceKey) {
-      return Promise.resolve();
-    }
-    // first get all friends with primary devices
-    const sessionContactsPrimary =
-      conversations.filter(
-        c =>
-          c.isPrivate() &&
-          !c.isOurLocalDevice() &&
-          !c.isBlocked() &&
-          !c.get('secondaryStatus')
-      ) || [];
+    return Promise.resolve();
 
-    // then get all friends with secondary devices
-    let sessionContactsSecondary = conversations.filter(
-      c =>
-        c.isPrivate() &&
-        !c.isOurLocalDevice() &&
-        !c.isBlocked() &&
-        c.get('secondaryStatus')
-    );
+    // // If we havn't got a primaryDeviceKey then we are in the middle of pairing
+    // // primaryDevicePubKey is set to our own number if we are the master device
+    // const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
+    // if (!primaryDeviceKey) {
+    //   return Promise.resolve();
+    // }
+    // // first get all friends with primary devices
+    // const sessionContactsPrimary =
+    //   conversations.filter(
+    //     c =>
+    //       c.isPrivate() &&
+    //       !c.isOurLocalDevice() &&
+    //       !c.isBlocked() &&
+    //       !c.get('secondaryStatus')
+    //   ) || [];
 
-    // then morph all secondary conversation to their primary
-    sessionContactsSecondary =
-      (await Promise.all(
-        // eslint-disable-next-line arrow-body-style
-        sessionContactsSecondary.map(async c => {
-          return window.ConversationController.getOrCreateAndWait(
-            c.getPrimaryDevicePubKey(),
-            'private'
-          );
-        })
-      )) || [];
-    // filter out our primary pubkey if it was added.
-    sessionContactsSecondary = sessionContactsSecondary.filter(
-      c => c.id !== primaryDeviceKey
-    );
+    // // then get all friends with secondary devices
+    // let sessionContactsSecondary = conversations.filter(
+    //   c =>
+    //     c.isPrivate() &&
+    //     !c.isOurLocalDevice() &&
+    //     !c.isBlocked() &&
+    //     c.get('secondaryStatus')
+    // );
 
-    const contactsSet = new Set([
-      ...sessionContactsPrimary,
-      ...sessionContactsSecondary,
-    ]);
+    // // then morph all secondary conversation to their primary
+    // sessionContactsSecondary =
+    //   (await Promise.all(
+    //     // eslint-disable-next-line arrow-body-style
+    //     sessionContactsSecondary.map(async c => {
+    //       return window.ConversationController.getOrCreateAndWait(
+    //         c.getPrimaryDevicePubKey(),
+    //         'private'
+    //       );
+    //     })
+    //   )) || [];
+    // // filter out our primary pubkey if it was added.
+    // sessionContactsSecondary = sessionContactsSecondary.filter(
+    //   c => c.id !== primaryDeviceKey
+    // );
 
-    if (contactsSet.size === 0) {
-      window.console.info('No contacts to sync.');
+    // const contactsSet = new Set([
+    //   ...sessionContactsPrimary,
+    //   ...sessionContactsSecondary,
+    // ]);
 
-      return Promise.resolve();
-    }
-    libloki.api.debug.logContactSync('Triggering contact sync message with:', [
-      ...contactsSet,
-    ]);
+    // if (contactsSet.size === 0) {
+    //   window.console.info('No contacts to sync.');
 
-    // We need to sync across 3 contacts at a time
-    // This is to avoid hitting storage server limit
-    const chunked = _.chunk([...contactsSet], 3);
-    const syncMessages = await Promise.all(
-      chunked.map(c => libloki.api.createContactSyncProtoMessage(c))
-    );
-    const syncPromises = syncMessages
-      .filter(message => message != null)
-      .map(syncMessage => {
-        const contentMessage = new textsecure.protobuf.Content();
-        contentMessage.syncMessage = syncMessage;
+    //   return Promise.resolve();
+    // }
+    // libloki.api.debug.logContactSync('Triggering contact sync message with:', [
+    //   ...contactsSet,
+    // ]);
 
-        const silent = true;
+    // // We need to sync across 3 contacts at a time
+    // // This is to avoid hitting storage server limit
+    // const chunked = _.chunk([...contactsSet], 3);
+    // const syncMessages = await Promise.all(
+    //   chunked.map(c => libloki.api.createContactSyncProtoMessage(c))
+    // );
+    // const syncPromises = syncMessages
+    //   .filter(message => message != null)
+    //   .map(syncMessage => {
+    //     const contentMessage = new textsecure.protobuf.Content();
+    //     contentMessage.syncMessage = syncMessage;
 
-        const debugMessageType =
-          window.textsecure.OutgoingMessage.DebugMessageType.CONTACT_SYNC_SEND;
+    //     const silent = true;
 
-        return this.sendIndividualProto(
-          primaryDeviceKey,
-          contentMessage,
-          Date.now(),
-          silent,
-          { debugMessageType } // options
-        );
-      });
+    //     const debugMessageType =
+    //       window.textsecure.OutgoingMessage.DebugMessageType.CONTACT_SYNC_SEND;
 
-    return Promise.all(syncPromises);
+    //     return this.sendIndividualProto(
+    //       primaryDeviceKey,
+    //       contentMessage,
+    //       Date.now(),
+    //       silent,
+    //       { debugMessageType } // options
+    //     );
+    //   });
+
+    // return Promise.all(syncPromises);
   },
 
   sendGroupSyncMessage(conversations) {
-    // If we havn't got a primaryDeviceKey then we are in the middle of pairing
-    // primaryDevicePubKey is set to our own number if we are the master device
-    const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
-    if (!primaryDeviceKey) {
-      window.console.debug('sendGroupSyncMessage: no primary device pubkey');
-      return Promise.resolve();
-    }
-    // We only want to sync across closed groups that we haven't left
-    const sessionGroups = conversations.filter(
-      c =>
-        c.isClosedGroup() &&
-        !c.get('left') &&
-        !c.isBlocked() &&
-        !c.isMediumGroup()
-    );
-    if (sessionGroups.length === 0) {
-      window.console.info('No closed group to sync.');
-      return Promise.resolve();
-    }
+    return Promise.resolve();
+    // // If we havn't got a primaryDeviceKey then we are in the middle of pairing
+    // // primaryDevicePubKey is set to our own number if we are the master device
+    // const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
+    // if (!primaryDeviceKey) {
+    //   window.console.debug('sendGroupSyncMessage: no primary device pubkey');
+    //   return Promise.resolve();
+    // }
+    // // We only want to sync across closed groups that we haven't left
+    // const sessionGroups = conversations.filter(
+    //   c =>
+    //     c.isClosedGroup() &&
+    //     !c.get('left') &&
+    //     !c.isBlocked() &&
+    //     !c.isMediumGroup()
+    // );
+    // if (sessionGroups.length === 0) {
+    //   window.console.info('No closed group to sync.');
+    //   return Promise.resolve();
+    // }
 
-    // We need to sync across 1 group at a time
-    // This is because we could hit the storage server limit with one group
-    const syncPromises = sessionGroups
-      .map(c => libloki.api.createGroupSyncProtoMessage(c))
-      .filter(message => message != null)
-      .map(syncMessage => {
-        const contentMessage = new textsecure.protobuf.Content();
-        contentMessage.syncMessage = syncMessage;
+    // // We need to sync across 1 group at a time
+    // // This is because we could hit the storage server limit with one group
+    // const syncPromises = sessionGroups
+    //   .map(c => libloki.api.createGroupSyncProtoMessage(c))
+    //   .filter(message => message != null)
+    //   .map(syncMessage => {
+    //     const contentMessage = new textsecure.protobuf.Content();
+    //     contentMessage.syncMessage = syncMessage;
 
-        const silent = true;
-        const debugMessageType =
-          window.textsecure.OutgoingMessage.DebugMessageType
-            .CLOSED_GROUP_SYNC_SEND;
+    //     const silent = true;
+    //     const debugMessageType =
+    //       window.textsecure.OutgoingMessage.DebugMessageType
+    //         .CLOSED_GROUP_SYNC_SEND;
 
-        return this.sendIndividualProto(
-          primaryDeviceKey,
-          contentMessage,
-          Date.now(),
-          silent,
-          { debugMessageType } // options
-        );
-      });
+    //     return this.sendIndividualProto(
+    //       primaryDeviceKey,
+    //       contentMessage,
+    //       Date.now(),
+    //       silent,
+    //       { debugMessageType } // options
+    //     );
+    //   });
 
-    return Promise.all(syncPromises);
+    // return Promise.all(syncPromises);
   },
 
   sendOpenGroupsSyncMessage(conversations) {

@@ -490,7 +490,7 @@ class LokiSnodeAPI {
     // this function may be called concurrently make sure we only have one inflight
     return primitives.allowOnlyOneAtATime(
       'buildNewOnionPaths',
-      this.buildNewOnionPathsWorker
+      () => this.buildNewOnionPathsWorker()
     );
   }
 

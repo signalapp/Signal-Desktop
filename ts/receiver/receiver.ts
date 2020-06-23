@@ -176,13 +176,13 @@ enum ConversationType {
 }
 
 async function sendDeliveryReceipt(source: string, timestamp: any) {
-  const receiptMessage = new DeliveryReceiptMessage({
-    timestamp: Date.now(),
-    timestamps: [timestamp],
-  });
+  // const receiptMessage = new DeliveryReceiptMessage({
+  //   timestamp: Date.now(),
+  //   timestamps: [timestamp],
+  // });
 
-  const device = new PubKey(source);
-  await getMessageQueue().sendUsingMultiDevice(device, receiptMessage);
+  // const device = new PubKey(source);
+  // await getMessageQueue().sendUsingMultiDevice(device, receiptMessage);
 }
 
 interface MessageId {

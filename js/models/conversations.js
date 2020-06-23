@@ -723,13 +723,15 @@
       if (!this.contactCollection.length) {
         return false;
       }
-
-      return this.contactCollection.every(contact => {
-        if (contact.isMe()) {
-          return true;
-        }
-        return contact.isVerified();
-      });
+      console.log('this.contactCollection', this.contactCollection)
+      //FIXME AUDRIC
+      return true;
+      // return this.contactCollection.every(contact => {
+      //   if (contact.isMe()) {
+      //     return true;
+      //   }
+      //   return contact.isVerified();
+      // });
     },
     async getPrimaryConversation() {
       if (!this.isSecondaryDevice()) {
@@ -2097,24 +2099,25 @@
           textsecure.messaging.syncReadMessages(read, sendOptions)
         );
 
-        if (storage.get('read-receipt-setting')) {
-          await Promise.all(
-            _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
-              const timestamps = _.map(receipts, 'timestamp');
-              const receiptMessage = new libsession.Messages.Outgoing.ReadReceiptMessage(
-                {
-                  timestamp: Date.now(),
-                  timestamps,
-                }
-              );
+        // FIXME AUDRIC
+        // if (storage.get('read-receipt-setting')) {
+        //   await Promise.all(
+        //     _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
+        //       const timestamps = _.map(receipts, 'timestamp');
+        //       const receiptMessage = new libsession.Messages.Outgoing.ReadReceiptMessage(
+        //         {
+        //           timestamp: Date.now(),
+        //           timestamps,
+        //         }
+        //       );
 
-              const device = new libsession.Types.PubKey(sender);
-              await libsession
-                .getMessageQueue()
-                .sendUsingMultiDevice(device, receiptMessage);
-            })
-          );
-        }
+        //       const device = new libsession.Types.PubKey(sender);
+        //       await libsession
+        //         .getMessageQueue()
+        //         .sendUsingMultiDevice(device, receiptMessage);
+        //     })
+        //   );
+        // }
       }
     },
 
