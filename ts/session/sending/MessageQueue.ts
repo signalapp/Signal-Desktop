@@ -139,7 +139,7 @@ export class MessageQueue implements MessageQueueInterface {
   public async processPending(device: PubKey) {
     const messages = await this.pendingMessageCache.getForDevice(device);
 
-    const isMediumGroup = GroupUtils.isMediumGroup(device.key);
+    const isMediumGroup = GroupUtils.isMediumGroup(device);
     const hasSession = await SessionProtocol.hasSession(device);
 
     if (!isMediumGroup && !hasSession) {

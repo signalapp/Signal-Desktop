@@ -723,7 +723,7 @@
       if (!this.contactCollection.length) {
         return false;
       }
-      console.log('this.contactCollection', this.contactCollection)
+      // console.log('this.contactCollection', this.contactCollection);
       //FIXME AUDRIC
       return true;
       // return this.contactCollection.every(contact => {

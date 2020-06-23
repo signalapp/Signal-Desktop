@@ -180,7 +180,6 @@ async function sendDeliveryReceipt(source: string, timestamp: any) {
   //   timestamp: Date.now(),
   //   timestamps: [timestamp],
   // });
-
   // const device = new PubKey(source);
   // await getMessageQueue().sendUsingMultiDevice(device, receiptMessage);
 }

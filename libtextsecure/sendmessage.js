@@ -389,7 +389,6 @@ MessageSender.prototype = {
     silent,
     options = {}
   ) {
-
     // Note: Since we're just doing independant tasks,
     // using `async` in the `forEach` loop should be fine.
     // If however we want to use the results from forEach then
