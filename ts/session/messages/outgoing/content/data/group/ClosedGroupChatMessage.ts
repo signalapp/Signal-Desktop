@@ -1,10 +1,11 @@
 import { SignalService } from '../../../../../../protobuf';
 import { ChatMessage } from '../ChatMessage';
 import { ClosedGroupMessage } from './ClosedGroupMessage';
+import { PubKey } from '../../../../../types';
 
 interface ClosedGroupChatMessageParams {
   identifier?: string;
-  groupId: string;
+  groupId: string | PubKey;
   chatMessage: ChatMessage;
 }
 
