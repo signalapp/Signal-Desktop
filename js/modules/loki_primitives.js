@@ -66,10 +66,7 @@ async function allowOnlyOneAtATime(name, process, timeout) {
       resolve(innerRetVal);
     });
   }
-  let outerRetval;
-  // handle any timeouts
-  outerRetval = await snodeGlobalLocks[name];
-  return outerRetval;
+  return snodeGlobalLocks[name];
 }
 
 function abortableIterator(array, iterator) {
