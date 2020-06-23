@@ -1,5 +1,4 @@
-import * as TestUtils from './testUtils';
+import * as TestUtils from './utils';
 import * as Stubs from './stubs';
-export * from './timeout';
 
 export { TestUtils, Stubs };

@@ -1,96 +1,56 @@
-import { expect } from 'chai';
+import chai from 'chai';
 import * as sinon from 'sinon';
-import * as _ from 'lodash';
-import { GroupUtils, SyncMessageUtils } from '../../../session/utils';
+import _ from 'lodash';
+import {
+  GroupUtils,
+  PromiseUtils,
+  SyncMessageUtils,
+} from '../../../session/utils';
 import { Stubs, TestUtils } from '../../../test/test-utils';
 import { MessageQueue } from '../../../session/sending/MessageQueue';
 import {
-  ChatMessage,
   ClosedGroupMessage,
   ContentMessage,
   OpenGroupMessage,
 } from '../../../session/messages/outgoing';
-import { PubKey, RawMessage } from '../../../session/types';
+import { PrimaryPubKey, PubKey, RawMessage } from '../../../session/types';
 import { UserUtil } from '../../../util';
-import { MessageSender, PendingMessageCache } from '../../../session/sending';
-import { toRawMessage } from '../../../session/utils/Messages';
+import { MessageSender } from '../../../session/sending';
 import {
   MultiDeviceProtocol,
   SessionProtocol,
 } from '../../../session/protocols';
+import { PendingMessageCacheStub } from '../../test-utils/stubs';
+import { describe } from 'mocha';
+import { TestSyncMessage } from '../../test-utils/stubs/messages/TestSyncMessage';
 
-// Equivalent to Data.StorageItem
-interface StorageItem {
-  id: string;
-  value: any;
-}
+// tslint:disable-next-line: no-require-imports no-var-requires
+const chaiAsPromised = require('chai-as-promised');
+chai.use(chaiAsPromised);
 
-// Helper function to force sequential on events checks
-async function tick() {
-  return new Promise(resolve => {
-    // tslint:disable-next-line: no-string-based-set-timeout
-    setTimeout(resolve, 0);
-  });
-}
+const { expect } = chai;
 
 describe('MessageQueue', () => {
   // Initialize new stubbed cache
-  let data: StorageItem;
   const sandbox = sinon.createSandbox();
   const ourDevice = TestUtils.generateFakePubKey();
   const ourNumber = ourDevice.key;
-  const pairedDevices = TestUtils.generateFakePubKeys(2);
 
   // Initialize new stubbed queue
+  let pendingMessageCache: PendingMessageCacheStub;
   let messageQueueStub: MessageQueue;
-
-  // Spies
-  let sendMessageToDevicesSpy: sinon.SinonSpy<
-    [Array<PubKey>, ContentMessage],
-    Promise<Array<void>>
-  >;
-  let sendSyncMessageSpy: sinon.SinonSpy<
-    [ContentMessage, Array<PubKey>],
-    Promise<Array<void>>
-  >;
-  let sendToGroupSpy: sinon.SinonSpy<
-    [OpenGroupMessage | ClosedGroupMessage],
-    Promise<boolean>
-  >;
 
   // Message Sender Stubs
   let sendStub: sinon.SinonStub<[RawMessage, (number | undefined)?]>;
-  let sendToOpenGroupStub: sinon.SinonStub<[OpenGroupMessage]>;
   // Utils Stubs
-  let groupMembersStub: sinon.SinonStub;
-  let canSyncStub: sinon.SinonStub<[ContentMessage], boolean>;
+  let isMediumGroupStub: sinon.SinonStub<[string], boolean>;
   // Session Protocol Stubs
   let hasSessionStub: sinon.SinonStub<[PubKey]>;
   let sendSessionRequestIfNeededStub: sinon.SinonStub<[PubKey], Promise<void>>;
 
   beforeEach(async () => {
-    // Stub out methods which touch the database
-    const storageID = 'pendingMessages';
-    data = {
-      id: storageID,
-      value: '[]',
-    };
-
-    // Pending Message Cache Data Stubs
-    TestUtils.stubData('getItemById')
-      .withArgs('pendingMessages')
-      .resolves(data);
-    TestUtils.stubData('createOrUpdateItem').callsFake((item: StorageItem) => {
-      if (item.id === storageID) {
-        data = item;
-      }
-    });
-
     // Utils Stubs
-    canSyncStub = sandbox.stub(SyncMessageUtils, 'canSync');
-    canSyncStub.returns(false);
     sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber);
-    sandbox.stub(MultiDeviceProtocol, 'getAllDevices').resolves(pairedDevices);
 
     TestUtils.stubWindow('libsignal', {
       SignalProtocolAddress: sandbox.stub(),
@@ -99,15 +59,11 @@ describe('MessageQueue', () => {
 
     // Message Sender Stubs
     sendStub = sandbox.stub(MessageSender, 'send').resolves();
-    sendToOpenGroupStub = sandbox
-      .stub(MessageSender, 'sendToOpenGroup')
-      .resolves(true);
 
     // Group Utils Stubs
-    sandbox.stub(GroupUtils, 'isMediumGroup').returns(false);
-    groupMembersStub = sandbox
-      .stub(GroupUtils, 'getGroupMembers' as any)
-      .resolves(TestUtils.generateFakePubKeys(10));
+    isMediumGroupStub = sandbox
+      .stub(GroupUtils, 'isMediumGroup')
+      .returns(false);
 
     // Session Protocol Stubs
     sandbox.stub(SessionProtocol, 'sendSessionRequest').resolves();
@@ -116,37 +72,9 @@ describe('MessageQueue', () => {
       .stub(SessionProtocol, 'sendSessionRequestIfNeeded')
       .resolves();
 
-    // Pending Mesage Cache Stubs
-    const chatMessages = Array.from(
-      { length: 10 },
-      TestUtils.generateChatMessage
-    );
-    const rawMessage = toRawMessage(
-      TestUtils.generateFakePubKey(),
-      TestUtils.generateChatMessage()
-    );
-
-    sandbox.stub(PendingMessageCache.prototype, 'add').resolves(rawMessage);
-    sandbox.stub(PendingMessageCache.prototype, 'remove').resolves();
-    sandbox
-      .stub(PendingMessageCache.prototype, 'getDevices')
-      .returns(TestUtils.generateFakePubKeys(10));
-    sandbox
-      .stub(PendingMessageCache.prototype, 'getForDevice')
-      .returns(
-        chatMessages.map(m => toRawMessage(TestUtils.generateFakePubKey(), m))
-      );
-
-    // Spies
-    sendSyncMessageSpy = sandbox.spy(MessageQueue.prototype, 'sendSyncMessage');
-    sendMessageToDevicesSpy = sandbox.spy(
-      MessageQueue.prototype,
-      'sendMessageToDevices'
-    );
-    sendToGroupSpy = sandbox.spy(MessageQueue.prototype, 'sendToGroup');
-
     // Init Queue
-    messageQueueStub = new MessageQueue();
+    pendingMessageCache = new PendingMessageCacheStub();
+    messageQueueStub = new MessageQueue(pendingMessageCache);
   });
 
   afterEach(() => {
@@ -154,233 +82,314 @@ describe('MessageQueue', () => {
     sandbox.restore();
   });
 
-  describe('send', () => {
-    it('can send to a single device', async () => {
-      const device = TestUtils.generateFakePubKey();
-      const message = TestUtils.generateChatMessage();
-
-      const promise = messageQueueStub.send(device, message);
-      await expect(promise).to.be.fulfilled;
-    });
-
-    it('can send sync message', async () => {
-      const devices = TestUtils.generateFakePubKeys(3);
-      const message = TestUtils.generateChatMessage();
-
-      const promise = messageQueueStub.sendSyncMessage(message, devices);
-      expect(promise).to.be.fulfilled;
-    });
-  });
-
   describe('processPending', () => {
     it('will send session request message if no session', async () => {
       hasSessionStub.resolves(false);
+      isMediumGroupStub.returns(false);
 
       const device = TestUtils.generateFakePubKey();
-      const promise = messageQueueStub.processPending(device);
 
-      await expect(promise).to.be.fulfilled;
-      expect(sendSessionRequestIfNeededStub.callCount).to.equal(1);
+      await messageQueueStub.processPending(device);
+
+      const stubCallPromise = PromiseUtils.waitUntil(
+        () => sendSessionRequestIfNeededStub.callCount === 1
+      );
+      await expect(stubCallPromise).to.be.fulfilled;
     });
 
     it('will send message if session exists', async () => {
+      hasSessionStub.resolves(true);
+      isMediumGroupStub.returns(false);
+      sendStub.resolves();
+
       const device = TestUtils.generateFakePubKey();
-      const hasSession = await hasSessionStub(device);
+      await pendingMessageCache.add(device, TestUtils.generateChatMessage());
 
-      const promise = messageQueueStub.processPending(device);
-      await expect(promise).to.be.fulfilled;
+      const successPromise = PromiseUtils.waitForTask(done => {
+        messageQueueStub.events.once('success', done);
+      });
 
-      expect(hasSession).to.equal(true, 'session does not exist');
-      expect(sendSessionRequestIfNeededStub.callCount).to.equal(0);
+      await messageQueueStub.processPending(device);
+      await expect(successPromise).to.be.fulfilled;
+      expect(sendSessionRequestIfNeededStub.called).to.equal(
+        false,
+        'Session request triggered when we have a session.'
+      );
+    });
+
+    it('will send message if sending to medium group', async () => {
+      isMediumGroupStub.returns(true);
+      sendStub.resolves();
+
+      const device = TestUtils.generateFakePubKey();
+      await pendingMessageCache.add(device, TestUtils.generateChatMessage());
+
+      const successPromise = PromiseUtils.waitForTask(done => {
+        messageQueueStub.events.once('success', done);
+      });
+
+      await messageQueueStub.processPending(device);
+      await expect(successPromise).to.be.fulfilled;
+      expect(sendSessionRequestIfNeededStub.called).to.equal(
+        false,
+        'Session request triggered on medium group'
+      );
+    });
+
+    it('should remove message from cache', async () => {
+      hasSessionStub.resolves(true);
+      isMediumGroupStub.returns(false);
+
+      const events = ['success', 'fail'];
+      for (const event of events) {
+        if (event === 'success') {
+          sendStub.resolves();
+        } else {
+          sendStub.throws(new Error('fail'));
+        }
+
+        const device = TestUtils.generateFakePubKey();
+        await pendingMessageCache.add(device, TestUtils.generateChatMessage());
+
+        const initialMessages = await pendingMessageCache.getForDevice(device);
+        expect(initialMessages).to.have.length(1);
+        await messageQueueStub.processPending(device);
+
+        const promise = PromiseUtils.waitUntil(async () => {
+          const messages = await pendingMessageCache.getForDevice(device);
+          return messages.length === 0;
+        });
+        await expect(promise).to.be.fulfilled;
+      }
+    }).timeout(15000);
+
+    describe('events', () => {
+      it('should send a success event if message was sent', async () => {
+        hasSessionStub.resolves(true);
+        isMediumGroupStub.returns(false);
+        sendStub.resolves();
+
+        const device = TestUtils.generateFakePubKey();
+        const message = TestUtils.generateChatMessage();
+        await pendingMessageCache.add(device, message);
+
+        const eventPromise = PromiseUtils.waitForTask<
+          RawMessage | OpenGroupMessage
+        >(complete => {
+          messageQueueStub.events.once('success', complete);
+        });
+
+        await messageQueueStub.processPending(device);
+        await expect(eventPromise).to.be.fulfilled;
+
+        const rawMessage = await eventPromise;
+        expect(rawMessage.identifier).to.equal(message.identifier);
+      });
+
+      it('should send a fail event if something went wrong while sending', async () => {
+        hasSessionStub.resolves(true);
+        isMediumGroupStub.returns(false);
+        sendStub.throws(new Error('failure'));
+
+        const spy = sandbox.spy();
+        messageQueueStub.events.on('fail', spy);
+
+        const device = TestUtils.generateFakePubKey();
+        const message = TestUtils.generateChatMessage();
+        await pendingMessageCache.add(device, message);
+
+        const eventPromise = PromiseUtils.waitForTask<
+          [RawMessage | OpenGroupMessage, Error]
+        >(complete => {
+          messageQueueStub.events.once('fail', (...args) => {
+            complete(args);
+          });
+        });
+
+        await messageQueueStub.processPending(device);
+        await expect(eventPromise).to.be.fulfilled;
+
+        const [rawMessage, error] = await eventPromise;
+        expect(rawMessage.identifier).to.equal(message.identifier);
+        expect(error.message).to.equal('failure');
+      });
     });
   });
 
   describe('sendUsingMultiDevice', () => {
-    it('can send using multidevice', async () => {
-      const device = TestUtils.generateFakePubKey();
+    it('should send the message to all the devices', async () => {
+      const devices = TestUtils.generateFakePubKeys(3);
+      sandbox.stub(MultiDeviceProtocol, 'getAllDevices').resolves(devices);
+      const stub = sandbox
+        .stub(messageQueueStub, 'sendMessageToDevices')
+        .resolves();
+
       const message = TestUtils.generateChatMessage();
+      await messageQueueStub.sendUsingMultiDevice(devices[0], message);
 
-      const promise = messageQueueStub.sendUsingMultiDevice(device, message);
-      await expect(promise).to.be.fulfilled;
-
-      // Ensure the arguments passed into sendMessageToDevices are correct
-      const previousArgs = sendMessageToDevicesSpy.lastCall.args as [
-        Array<PubKey>,
-        ChatMessage
-      ];
-
-      // Check that instances are equal
-      expect(previousArgs).to.have.length(2);
-
-      const argsPairedDevices = previousArgs[0];
-      const argsChatMessage = previousArgs[1];
-
-      expect(argsChatMessage instanceof ChatMessage).to.equal(
-        true,
-        'message passed into sendMessageToDevices was not a valid ChatMessage'
-      );
-      expect(argsChatMessage.isEqual(message)).to.equal(
-        true,
-        'message passed into sendMessageToDevices has been mutated'
-      );
-
-      argsPairedDevices.forEach((argsPaired: PubKey, index: number) => {
-        expect(argsPaired instanceof PubKey).to.equal(
-          true,
-          'a device passed into sendMessageToDevices was not a PubKey'
-        );
-        expect(argsPaired.isEqual(pairedDevices[index])).to.equal(
-          true,
-          'a device passed into sendMessageToDevices did not match MessageDeviceProtocol.getAllDevices'
-        );
-      });
+      const args = stub.lastCall.args as [Array<PubKey>, ContentMessage];
+      expect(args[0]).to.have.same.members(devices);
+      expect(args[1]).to.equal(message);
     });
   });
 
   describe('sendMessageToDevices', () => {
     it('can send to many devices', async () => {
-      const devices = TestUtils.generateFakePubKeys(10);
+      hasSessionStub.resolves(false);
+
+      const devices = TestUtils.generateFakePubKeys(5);
       const message = TestUtils.generateChatMessage();
 
-      const promise = messageQueueStub.sendMessageToDevices(devices, message);
-      await expect(promise).to.be.fulfilled;
+      await messageQueueStub.sendMessageToDevices(devices, message);
+      expect(pendingMessageCache.getCache()).to.have.length(devices.length);
     });
 
-    it('can send sync message and confirm canSync is valid', async () => {
-      canSyncStub.returns(true);
+    it('should send sync message if possible', async () => {
+      hasSessionStub.returns(false);
 
-      const devices = TestUtils.generateFakePubKeys(3);
+      sandbox.stub(SyncMessageUtils, 'canSync').returns(true);
+
+      sandbox
+        .stub(SyncMessageUtils, 'from')
+        .returns(new TestSyncMessage({ timestamp: Date.now() }));
+
+      // This stub ensures that the message won't process
+      const sendSyncMessageStub = sandbox
+        .stub(messageQueueStub, 'sendSyncMessage')
+        .resolves();
+
+      const ourDevices = [ourDevice, ...TestUtils.generateFakePubKeys(2)];
+      sandbox
+        .stub(MultiDeviceProtocol, 'getAllDevices')
+        .callsFake(async user => {
+          if (ourDevice.isEqual(user)) {
+            return ourDevices;
+          }
+
+          return [];
+        });
+
+      const devices = [...ourDevices, ...TestUtils.generateFakePubKeys(3)];
       const message = TestUtils.generateChatMessage();
-      const pairedDeviceKeys = pairedDevices.map(device => device.key);
 
-      const promise = messageQueueStub.sendMessageToDevices(devices, message);
-      await expect(promise).to.be.fulfilled;
-
-      // Check sendSyncMessage parameters
-      const previousArgs = sendSyncMessageSpy.lastCall.args as [
-        ChatMessage,
-        Array<PubKey>
-      ];
-      expect(sendSyncMessageSpy.callCount).to.equal(1);
-
-      // Check that instances are equal
-      expect(previousArgs).to.have.length(2);
-
-      const argsChatMessage = previousArgs[0];
-      const argsPairedKeys = [...previousArgs[1]].map(d => d.key);
-
-      expect(argsChatMessage instanceof ChatMessage).to.equal(
+      await messageQueueStub.sendMessageToDevices(devices, message);
+      expect(sendSyncMessageStub.called).to.equal(
         true,
-        'message passed into sendMessageToDevices was not a valid ChatMessage'
+        'sendSyncMessage was not called.'
       );
-      expect(argsChatMessage.isEqual(message)).to.equal(
-        true,
-        'message passed into sendMessageToDevices has been mutated'
+      expect(
+        pendingMessageCache.getCache().map(c => c.device)
+      ).to.not.have.members(
+        ourDevices.map(d => d.key),
+        'Sending regular messages to our own device is not allowed.'
+      );
+      expect(pendingMessageCache.getCache()).to.have.length(
+        devices.length - ourDevices.length,
+        'Messages should not be sent to our devices.'
+      );
+    });
+  });
+
+  describe('sendSyncMessage', () => {
+    it('should send a message to all our devices', async () => {
+      hasSessionStub.resolves(false);
+
+      const ourOtherDevices = TestUtils.generateFakePubKeys(2);
+      const ourDevices = [ourDevice, ...ourOtherDevices];
+      sandbox.stub(MultiDeviceProtocol, 'getAllDevices').resolves(ourDevices);
+
+      await messageQueueStub.sendSyncMessage(
+        new TestSyncMessage({ timestamp: Date.now() })
       );
 
-      // argsPairedKeys and pairedDeviceKeys should contain the same values
-      const keyArgsValid = _.isEmpty(_.xor(argsPairedKeys, pairedDeviceKeys));
-      expect(keyArgsValid).to.equal(
-        true,
-        'devices passed into sendSyncMessage were invalid'
+      expect(pendingMessageCache.getCache()).to.have.length(
+        ourOtherDevices.length
+      );
+      expect(pendingMessageCache.getCache().map(c => c.device)).to.have.members(
+        ourOtherDevices.map(d => d.key)
       );
     });
   });
 
   describe('sendToGroup', () => {
-    it('can send to closed group', async () => {
-      const message = TestUtils.generateClosedGroupMessage();
-      const success = await messageQueueStub.sendToGroup(message);
-      expect(success).to.equal(true, 'sending to group failed');
+    describe('closed groups', async () => {
+      it('can send to closed group', async () => {
+        const members = TestUtils.generateFakePubKeys(4).map(
+          p => new PrimaryPubKey(p.key)
+        );
+        sandbox.stub(GroupUtils, 'getGroupMembers').resolves(members);
+
+        const sendUsingMultiDeviceStub = sandbox
+          .stub(messageQueueStub, 'sendUsingMultiDevice')
+          .resolves();
+
+        const message = TestUtils.generateClosedGroupMessage();
+        const success = await messageQueueStub.sendToGroup(message);
+        expect(success).to.equal(true, 'sending to group failed');
+        expect(sendUsingMultiDeviceStub.callCount).to.equal(members.length);
+
+        const arg = sendUsingMultiDeviceStub.getCall(0).args;
+        expect(arg[1] instanceof ClosedGroupMessage).to.equal(
+          true,
+          'message sent to group member was not a ClosedGroupMessage'
+        );
+      });
+
+      it('wont send message to empty closed group', async () => {
+        sandbox.stub(GroupUtils, 'getGroupMembers').resolves([]);
+        const sendUsingMultiDeviceStub = sandbox
+          .stub(messageQueueStub, 'sendUsingMultiDevice')
+          .resolves();
+
+        const message = TestUtils.generateClosedGroupMessage();
+        const response = await messageQueueStub.sendToGroup(message);
+
+        expect(response).to.equal(
+          false,
+          'sendToGroup sent a message to an empty group'
+        );
+        expect(sendUsingMultiDeviceStub.callCount).to.equal(0);
+      });
     });
 
-    it('uses correct parameters for sendToGroup with ClosedGroupMessage', async () => {
-      const message = TestUtils.generateClosedGroupMessage();
-      const success = await messageQueueStub.sendToGroup(message);
+    describe('open groups', async () => {
+      let sendToOpenGroupStub: sinon.SinonStub<
+        [OpenGroupMessage],
+        Promise<boolean>
+      >;
+      beforeEach(() => {
+        sendToOpenGroupStub = sandbox
+          .stub(MessageSender, 'sendToOpenGroup')
+          .resolves(true);
+      });
 
-      expect(success).to.equal(true, 'sending to group failed');
+      it('can send to open group', async () => {
+        const message = TestUtils.generateOpenGroupMessage();
+        const success = await messageQueueStub.sendToGroup(message);
+        expect(sendToOpenGroupStub.callCount).to.equal(1);
+        expect(success).to.equal(true, 'Sending to open group failed');
+      });
 
-      // Check parameters
-      const previousArgs = sendMessageToDevicesSpy.lastCall.args as [
-        Array<PubKey>,
-        ClosedGroupMessage
-      ];
-      expect(previousArgs).to.have.length(2);
+      it('should emit a success event when send was successful', async () => {
+        const message = TestUtils.generateOpenGroupMessage();
+        const eventPromise = PromiseUtils.waitForTask(complete => {
+          messageQueueStub.events.once('success', complete);
+        }, 2000);
 
-      const argsClosedGroupMessage = previousArgs[1];
-      expect(argsClosedGroupMessage instanceof ClosedGroupMessage).to.equal(
-        true,
-        'message passed into sendMessageToDevices was not a ClosedGroupMessage'
-      );
-    });
+        await messageQueueStub.sendToGroup(message);
+        await expect(eventPromise).to.be.fulfilled;
+      });
 
-    it("won't send to invalid groupId", async () => {
-      const message = TestUtils.generateClosedGroupMessage('invalid-group-id');
-      const success = await messageQueueStub.sendToGroup(message);
+      it('should emit a fail event if something went wrong', async () => {
+        sendToOpenGroupStub.resolves(false);
+        const message = TestUtils.generateOpenGroupMessage();
+        const eventPromise = PromiseUtils.waitForTask(complete => {
+          messageQueueStub.events.once('fail', complete);
+        }, 2000);
 
-      // Ensure message parameter passed into sendToGroup is as expected
-      expect(success).to.equal(
-        false,
-        'an invalid groupId was treated as valid'
-      );
-      expect(sendToGroupSpy.callCount).to.equal(1);
-
-      const argsMessage = sendToGroupSpy.lastCall.args[0];
-      expect(argsMessage instanceof ClosedGroupMessage).to.equal(
-        true,
-        'message passed into sendToGroup was not a ClosedGroupMessage'
-      );
-      expect(success).to.equal(
-        false,
-        'invalid ClosedGroupMessage was propogated through sendToGroup'
-      );
-    });
-
-    it('wont send message to empty closed group', async () => {
-      groupMembersStub.resolves(TestUtils.generateFakePubKeys(0));
-
-      const message = TestUtils.generateClosedGroupMessage();
-      const response = await messageQueueStub.sendToGroup(message);
-
-      expect(response).to.equal(
-        false,
-        'sendToGroup send a message to an empty group'
-      );
-    });
-
-    it('can send to open group', async () => {
-      const message = TestUtils.generateOpenGroupMessage();
-      const success = await messageQueueStub.sendToGroup(message);
-
-      expect(success).to.equal(true, 'sending to group failed');
-    });
-  });
-
-  describe('events', () => {
-    it('can send events on message sending success', async () => {
-      const successSpy = sandbox.spy();
-      messageQueueStub.events.on('success', successSpy);
-
-      const device = TestUtils.generateFakePubKey();
-      const promise = messageQueueStub.processPending(device);
-      await expect(promise).to.be.fulfilled;
-
-      await tick();
-      expect(successSpy.callCount).to.equal(1);
-    });
-
-    it('can send events on message sending failure', async () => {
-      sendStub.throws(new Error('Failed to send message.'));
-
-      const failureSpy = sandbox.spy();
-      messageQueueStub.events.on('fail', failureSpy);
-
-      const device = TestUtils.generateFakePubKey();
-      const promise = messageQueueStub.processPending(device);
-      await expect(promise).to.be.fulfilled;
-
-      await tick();
-      expect(failureSpy.callCount).to.equal(1);
+        await messageQueueStub.sendToGroup(message);
+        await expect(eventPromise).to.be.fulfilled;
+      });
     });
   });
 });

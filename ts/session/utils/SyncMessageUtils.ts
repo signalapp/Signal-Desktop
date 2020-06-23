@@ -5,7 +5,9 @@ import { ContentMessage, SyncMessage } from '../messages/outgoing';
 import { MultiDeviceProtocol } from '../protocols';
 
 export function from(message: ContentMessage): SyncMessage | undefined {
-  // const { timestamp, identifier } = message;
+  if (message instanceof SyncMessage) {
+    return message;
+  }
 
   // Stubbed for now
   return undefined;

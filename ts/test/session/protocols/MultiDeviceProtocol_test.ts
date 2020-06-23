@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { TestUtils, timeout } from '../../test-utils';
+import { TestUtils } from '../../test-utils';
 import { PairingAuthorisation } from '../../../../js/modules/data';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { PubKey } from '../../../session/types';
@@ -183,7 +183,7 @@ describe('MultiDeviceProtocol', () => {
 
     it('should not fetch if the refresh delay has not been met', async () => {
       await MultiDeviceProtocol.fetchPairingAuthorisationsIfNeeded(device);
-      await timeout(100);
+      await TestUtils.timeout(100);
       await MultiDeviceProtocol.fetchPairingAuthorisationsIfNeeded(device);
       expect(fetchPairingAuthorisationStub.callCount).to.equal(
         1,
@@ -202,21 +202,21 @@ describe('MultiDeviceProtocol', () => {
     it('should fetch again if something went wrong while fetching', async () => {
       fetchPairingAuthorisationStub.throws(new Error('42'));
       await MultiDeviceProtocol.fetchPairingAuthorisationsIfNeeded(device);
-      await timeout(100);
+      await TestUtils.timeout(100);
       await MultiDeviceProtocol.fetchPairingAuthorisationsIfNeeded(device);
       expect(fetchPairingAuthorisationStub.callCount).to.equal(2);
     });
 
     it('should fetch only once if called rapidly', async () => {
       fetchPairingAuthorisationStub.callsFake(async () => {
-        await timeout(200);
+        await TestUtils.timeout(200);
         return [];
       });
 
       void MultiDeviceProtocol.fetchPairingAuthorisationsIfNeeded(device);
-      await timeout(10);
+      await TestUtils.timeout(10);
       void MultiDeviceProtocol.fetchPairingAuthorisationsIfNeeded(device);
-      await timeout(200);
+      await TestUtils.timeout(200);
       expect(fetchPairingAuthorisationStub.callCount).to.equal(1);
     });
 
