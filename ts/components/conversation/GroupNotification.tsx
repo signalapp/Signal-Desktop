@@ -53,7 +53,7 @@ export class GroupNotification extends React.Component<Props> {
         return `${i18n('titleIsNow', [newName || ''])}.`;
       case 'add':
         if (!contacts || !contacts.length) {
-          throw new Error('Group update is missing contacts');
+          throw new Error('Group update add is missing contacts');
         }
 
         const joinKey =
@@ -66,7 +66,7 @@ export class GroupNotification extends React.Component<Props> {
         }
 
         if (!contacts || !contacts.length) {
-          throw new Error('Group update is missing contacts');
+          throw new Error('Group update remove is missing contacts');
         }
 
         const leftKey =
@@ -79,7 +79,9 @@ export class GroupNotification extends React.Component<Props> {
         }
 
         if (!contacts || !contacts.length) {
-          throw new Error('Group update is missing contacts');
+          // FIXME audric
+          return 'FIXME audric';
+          // throw new Error('Group update kicked is missing contacts');
         }
 
         const kickedKey =

@@ -1,4 +1,7 @@
 import { SignalService } from '../protobuf';
+import { ClosedGroupRequestInfoMessage } from '../session/messages/outgoing/content/data/group/ClosedGroupRequestInfoMessage';
+import { getMessageQueue } from '../session';
+import { PubKey } from '../session/types';
 
 const _ = window.Lodash;
 
@@ -73,7 +76,7 @@ export async function preprocessGroupMessage(
     window.libloki.api.debug.logGroupRequestInfo(
       `Received GROUP_TYPES.REQUEST_INFO from source: ${source}, primarySource: ${primarySource}, sending back group info.`
     );
-    conversation.sendGroupInfo([source]);
+    conversation.sendGroupInfo(source);
     return true;
   }
 
@@ -109,12 +112,19 @@ export async function preprocessGroupMessage(
       }
     }
     // send a session request for all the members we do not have a session with
-    window.libloki.api.sendSessionRequestsToMembers(group.members);
+    await window.libloki.api.sendSessionRequestsToMembers(group.members);
   } else if (newGroup) {
     // We have an unknown group, we should request info from the sender
-    window.textsecure.messaging.requestGroupInfo(conversationId, [
-      primarySource,
-    ]);
+    const requestInfo = {
+      timestamp: Date.now(),
+      groupId: conversationId,
+    };
+    const requestInfoMessage = new ClosedGroupRequestInfoMessage(requestInfo);
+    const primarySourcePubKey = new PubKey(primarySource);
+    await getMessageQueue().sendUsingMultiDevice(
+      primarySourcePubKey,
+      requestInfoMessage
+    );
   }
   return false;
 }

@@ -209,8 +209,8 @@ MessageReceiver.prototype.extend({
     // We do the message decryption here, instead of in the ordered pending queue,
     // to avoid exposing the time it took us to process messages through the time-to-ack.
 
-    if (request.path !== '/api/v1/message') {
-      window.log.info('got request', request.verb, request.path);
+    if (request.path && request.path !== '/api/v1/message') {
+      window.log.info('got request', request, request.path);
       request.respond(200, 'OK');
 
       if (request.verb === 'PUT' && request.path === '/api/v1/queue/empty') {
@@ -1086,15 +1086,9 @@ MessageReceiver.prototype.extend({
 
     if (shouldProcessSessionRequest) {
       try {
-        // TODO remember to remove savePreKeyBundleMessage() from the codebase if it's actually irrelevant
-        // if (content.preKeyBundleMessage) {
-        //   await this.savePreKeyBundleMessage(
-        //     envelope.source,
-        //     content.preKeyBundleMessage
-        //   );
-        // }
         // device id are always 1 with Session
         const deviceId = 1;
+        const pubkey = envelope.source;
         const address = new libsignal.SignalProtocolAddress(
           envelope.source,
           deviceId
@@ -1102,18 +1096,41 @@ MessageReceiver.prototype.extend({
         // we process the new prekeys and initiate a new session.
         // The old sessions will get deleted once the correspondant
         // has switch to the new session.
-        const { preKey, signedKey, identityKey } = content.preKeyBundleMessage;
+        const [identityKey, preKey, signedKey, signature] = [
+          content.preKeyBundleMessage.identityKey,
+          content.preKeyBundleMessage.preKey,
+          content.preKeyBundleMessage.signedKey,
+          content.preKeyBundleMessage.signature,
+        ].map(k => dcodeIO.ByteBuffer.wrap(k).toArrayBuffer());
+        const { preKeyId, signedKeyId } = content.preKeyBundleMessage;
+
+        if (pubkey !== StringView.arrayBufferToHex(identityKey)) {
+          throw new Error(
+            'Error in savePreKeyBundleMessage: envelope pubkey does not match pubkey in prekey bundle'
+          );
+        }
         if (preKey === undefined || signedKey === undefined) {
           window.console.warn(
             "Couldn't process prekey bundle without preKey or signedKey"
           );
           return;
         }
+        const signedPreKey = {
+          keyId: signedKeyId,
+          publicKey: signedKey,
+          signature,
+        };
+
+        const preKeyObject = {
+          publicKey: preKey,
+          keyId: preKeyId,
+        };
+
         const device = {
           identityKey,
           deviceId,
-          preKey,
-          signedPreKey: signedKey,
+          preKey: preKeyObject,
+          signedPreKey,
           registrationId: 0,
         };
         const builder = new libsignal.SessionBuilder(
@@ -1123,13 +1140,13 @@ MessageReceiver.prototype.extend({
         await builder.processPreKey(device);
 
         await libsession.Protocols.SessionProtocol.onSessionRequestProcessed(
-          envelope.source
+          new libsession.Types.PubKey(envelope.source)
         );
         window.log.debug('sending session established to', envelope.source);
         // We don't need to await the call below because we just want to send it off
         window.libloki.api.sendSessionEstablishedMessage(envelope.source);
       } catch (e) {
-        window.log.warn('Failed to process session request');
+        window.log.warn('Failed to process session request', e);
         // TODO how to handle a failed session request?
       }
     }
@@ -1138,13 +1155,15 @@ MessageReceiver.prototype.extend({
     const content = textsecure.protobuf.Content.decode(plaintext);
     const { SESSION_REQUEST } = textsecure.protobuf.Envelope.Type;
 
+    await ConversationController.getOrCreateAndWait(envelope.source, 'private');
+
     if (envelope.type === SESSION_REQUEST) {
       await this.handleSessionRequestMessage(envelope, content);
     } else {
-      await libsession.Protocols.SessionProtocol.onSessionEstablished(
-        envelope.source
-      );
-      // TODO process sending queue for this device now that we have a session
+      const device = new libsession.Types.PubKey(envelope.source);
+
+      await libsession.Protocols.SessionProtocol.onSessionEstablished(device);
+      await libsession.getMessageQueue().processPending(device);
     }
 
     if (content.pairingAuthorisation) {
@@ -1407,31 +1426,6 @@ MessageReceiver.prototype.extend({
 
     return this.removeFromCache(envelope);
   },
-  async savePreKeyBundleMessage(pubKey, preKeyBundleMessage) {
-    const [identityKey, preKey, signedKey, signature] = [
-      preKeyBundleMessage.identityKey,
-      preKeyBundleMessage.preKey,
-      preKeyBundleMessage.signedKey,
-      preKeyBundleMessage.signature,
-    ].map(k => dcodeIO.ByteBuffer.wrap(k).toArrayBuffer());
-
-    const { preKeyId, signedKeyId } = preKeyBundleMessage;
-
-    if (pubKey !== StringView.arrayBufferToHex(identityKey)) {
-      throw new Error(
-        'Error in savePreKeyBundleMessage: envelope pubkey does not match pubkey in prekey bundle'
-      );
-    }
-
-    await libloki.storage.saveContactPreKeyBundle({
-      pubKey,
-      preKeyId,
-      signedKeyId,
-      preKey,
-      signedKey,
-      signature,
-    });
-  },
   isBlocked(number) {
     return textsecure.storage.get('blocked', []).indexOf(number) >= 0;
   },
@@ -1466,9 +1460,6 @@ textsecure.MessageReceiver = function MessageReceiverWrapper(
   );
   this.getStatus = messageReceiver.getStatus.bind(messageReceiver);
   this.close = messageReceiver.close.bind(messageReceiver);
-  this.savePreKeyBundleMessage = messageReceiver.savePreKeyBundleMessage.bind(
-    messageReceiver
-  );
 
   this.pollForAdditionalId = messageReceiver.pollForAdditionalId.bind(
     messageReceiver

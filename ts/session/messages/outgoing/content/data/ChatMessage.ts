@@ -150,6 +150,8 @@ export class ChatMessage extends DataMessage {
       });
     }
 
+    dataMessage.timestamp = this.timestamp;
+
     return dataMessage;
   }
 

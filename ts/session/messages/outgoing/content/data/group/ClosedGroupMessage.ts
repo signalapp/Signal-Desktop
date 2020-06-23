@@ -1,10 +1,10 @@
 import { DataMessage } from '../DataMessage';
 import { SignalService } from '../../../../../../protobuf';
-import { TextEncoder } from 'util';
 import { MessageParams } from '../../../Message';
 import { PubKey } from '../../../../../types';
+import { StringUtils } from '../../../../../utils';
 
-interface ClosedGroupMessageParams extends MessageParams {
+export interface ClosedGroupMessageParams extends MessageParams {
   groupId: string | PubKey;
 }
 
@@ -20,10 +20,14 @@ export abstract class ClosedGroupMessage extends DataMessage {
     this.groupId = typeof groupId === 'string' ? new PubKey(groupId) : groupId;
   }
 
+  public ttl(): number {
+    return this.getDefaultTTL();
+  }
+
   protected abstract groupContextType(): SignalService.GroupContext.Type;
 
   protected groupContext(): SignalService.GroupContext {
-    const id = new TextEncoder().encode(this.groupId.key);
+    const id = new Uint8Array(StringUtils.encode(this.groupId.key, 'utf8'));
     const type = this.groupContextType();
 
     return new SignalService.GroupContext({ id, type });

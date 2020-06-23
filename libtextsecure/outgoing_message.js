@@ -18,8 +18,6 @@ const getTTLForType = type => {
       return 4 * 24 * 60 * 60 * 1000; // 4 days for device unpairing
     case 'onlineBroadcast':
       return 60 * 1000; // 1 minute for online broadcast message
-    case 'typing':
-      return 60 * 1000; // 1 minute for typing indicators
     case 'pairing-request':
       return 2 * 60 * 1000; // 2 minutes for pairing requests
     default:
@@ -104,16 +102,9 @@ function getStaleDeviceIdsForNumber(number) {
 }
 
 const DebugMessageType = {
-  SESSION_RESET: 'session-reset',
-  SESSION_RESET_RECV: 'session-reset-received',
-
-  REQUEST_SYNC_SEND: 'request-sync-send',
   CONTACT_SYNC_SEND: 'contact-sync-send',
   CLOSED_GROUP_SYNC_SEND: 'closed-group-sync-send',
   OPEN_GROUP_SYNC_SEND: 'open-group-sync-send',
-
-  DEVICE_UNPAIRING_SEND: 'device-unpairing-send',
-  PAIRING_REQUEST_SEND: 'pairing-request',
 };
 
 function OutgoingMessage(
@@ -216,11 +207,12 @@ OutgoingMessage.prototype = {
     }
 
     return (
-      libloki.storage
-        .getAllDevicePubKeysForPrimaryPubKey(primaryPubKey)
+      window.libsession.Protocols.MultiDeviceProtocol.getAllDevices(
+        primaryPubKey
+      )
         // Don't send to ourselves
         .then(devicesPubKeys =>
-          devicesPubKeys.filter(pubKey => pubKey !== ourNumber)
+          devicesPubKeys.filter(pubKey => pubKey.key !== ourNumber)
         )
         .then(devicesPubKeys => {
           if (devicesPubKeys.length === 0) {
@@ -644,150 +636,6 @@ OutgoingMessage.prototype = {
       }
     });
   },
-};
-
-OutgoingMessage.buildSessionRequestMessage = function buildSessionRequestMessage(
-  pubKey
-) {
-  const body =
-    '(If you see this message, you must be using an out-of-date client)';
-
-  const flags = textsecure.protobuf.DataMessage.Flags.SESSION_REQUEST;
-
-  const dataMessage = new textsecure.protobuf.DataMessage({ flags, body });
-
-  const content = new textsecure.protobuf.Content({
-    dataMessage,
-  });
-
-  const options = {};
-  // Send a empty message with information about how to contact us directly
-  return new OutgoingMessage(
-    null, // server
-    Date.now(), // timestamp,
-    [pubKey], // numbers
-    content, // message
-    true, // silent
-    () => null, // callback
-    options
-  );
-};
-
-OutgoingMessage.buildSessionEstablishedMessage = pubKey => {
-  const nullMessage = new textsecure.protobuf.NullMessage();
-  const content = new textsecure.protobuf.Content({
-    nullMessage,
-  });
-
-  // The below message type will ignore auto FR
-  const options = { messageType: 'onlineBroadcast' };
-  return new textsecure.OutgoingMessage(
-    null, // server
-    Date.now(), // timestamp,
-    [pubKey], // numbers
-    content, // message
-    true, // silent
-    () => null, // callback
-    options
-  );
-};
-
-OutgoingMessage.buildBackgroundMessage = function buildBackgroundMessage(
-  pubKey,
-  debugMessageType
-) {
-  const p2pAddress = null;
-  const p2pPort = null;
-  // We result loki address message for sending "background" messages
-  const type = textsecure.protobuf.LokiAddressMessage.Type.HOST_UNREACHABLE;
-
-  // This is needed even if LokiAddressMessage shouldn't be used.
-  // looks like the message is not sent or dropped on reception
-  // if the content is completely empty
-  const lokiAddressMessage = new textsecure.protobuf.LokiAddressMessage({
-    p2pAddress,
-    p2pPort,
-    type,
-  });
-  const content = new textsecure.protobuf.Content({ lokiAddressMessage });
-
-  const options = { messageType: 'onlineBroadcast', debugMessageType };
-  // Send a empty message with information about how to contact us directly
-  return new OutgoingMessage(
-    null, // server
-    Date.now(), // timestamp,
-    [pubKey], // numbers
-    content, // message
-    true, // silent
-    () => null, // callback
-    options
-  );
-};
-
-OutgoingMessage.buildUnpairingMessage = function buildUnpairingMessage(pubKey) {
-  const flags = textsecure.protobuf.DataMessage.Flags.UNPAIRING_REQUEST;
-  const dataMessage = new textsecure.protobuf.DataMessage({
-    flags,
-  });
-  const content = new textsecure.protobuf.Content({
-    dataMessage,
-  });
-  const debugMessageType = DebugMessageType.DEVICE_UNPAIRING_SEND;
-  const options = { messageType: 'device-unpairing', debugMessageType };
-  const outgoingMessage = new textsecure.OutgoingMessage(
-    null, // server
-    Date.now(), // timestamp,
-    [pubKey], // numbers
-    content, // message
-    true, // silent
-    () => null, // callback
-    options
-  );
-  return outgoingMessage;
-};
-
-OutgoingMessage.buildPairingRequestMessage = function buildPairingRequestMessage(
-  pubKey,
-  ourNumber,
-  ourConversation,
-  authorisation,
-  pairingAuthorisation,
-  callback
-) {
-  const content = new textsecure.protobuf.Content({
-    pairingAuthorisation,
-  });
-  const isGrant = authorisation.primaryDevicePubKey === ourNumber;
-  if (isGrant) {
-    // Send profile name to secondary device
-    const lokiProfile = ourConversation.getLokiProfile();
-    // profile.avatar is the path to the local image
-    // replace with the avatar URL
-    const avatarPointer = ourConversation.get('avatarPointer');
-    lokiProfile.avatar = avatarPointer;
-    const profile = new textsecure.protobuf.DataMessage.LokiProfile(
-      lokiProfile
-    );
-    const profileKey = window.storage.get('profileKey');
-    const dataMessage = new textsecure.protobuf.DataMessage({
-      profile,
-      profileKey,
-    });
-    content.dataMessage = dataMessage;
-  }
-
-  const debugMessageType = DebugMessageType.PAIRING_REQUEST_SEND;
-  const options = { messageType: 'pairing-request', debugMessageType };
-  const outgoingMessage = new textsecure.OutgoingMessage(
-    null, // server
-    Date.now(), // timestamp,
-    [pubKey], // numbers
-    content, // message
-    true, // silent
-    callback, // callback
-    options
-  );
-  return outgoingMessage;
 };
 
 OutgoingMessage.DebugMessageType = DebugMessageType;

@@ -2,6 +2,7 @@ import { ContentMessage } from './ContentMessage';
 import { SignalService } from '../../../../protobuf';
 import { TextEncoder } from 'util';
 import { MessageParams } from '../Message';
+import { StringUtils } from '../../../utils';
 
 interface TypingMessageParams extends MessageParams {
   isTyping: boolean;
@@ -39,7 +40,9 @@ export class TypingMessage extends ContentMessage {
 
     const typingMessage = new SignalService.TypingMessage();
     if (this.groupId) {
-      typingMessage.groupId = new TextEncoder().encode(this.groupId);
+      typingMessage.groupId = new Uint8Array(
+        StringUtils.encode(this.groupId, 'utf8')
+      );
     }
     typingMessage.action = action;
     typingMessage.timestamp = finalTimestamp;
