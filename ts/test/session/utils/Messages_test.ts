@@ -10,7 +10,6 @@ chai.use(chaiAsPromised);
 const { expect } = chai;
 
 describe('Message Utils', () => {
-
   describe('toRawMessage', () => {
     it('can convert to raw message', async () => {
       const device = TestUtils.generateFakePubKey();
@@ -37,8 +36,14 @@ describe('Message Utils', () => {
       const rawBufferJSON = JSON.stringify(rawBuffer);
       const messageBufferJSON = JSON.stringify(message.plainTextBuffer());
 
-      expect(rawBuffer instanceof Uint8Array).to.equal(true, 'raw message did not contain a plainTextBuffer');
-      expect(rawBufferJSON).to.equal(messageBufferJSON, 'plainTextBuffer was not converted correctly');
+      expect(rawBuffer instanceof Uint8Array).to.equal(
+        true,
+        'raw message did not contain a plainTextBuffer'
+      );
+      expect(rawBufferJSON).to.equal(
+        messageBufferJSON,
+        'plainTextBuffer was not converted correctly'
+      );
     });
 
     it('should maintain pubkey', async () => {
@@ -49,8 +54,10 @@ describe('Message Utils', () => {
       const derivedPubKey = PubKey.from(rawMessage.device);
 
       expect(derivedPubKey).to.exist;
-      expect(derivedPubKey?.isEqual(device)).to.equal(true, 'pubkey of message was not converted correctly');
+      expect(derivedPubKey?.isEqual(device)).to.equal(
+        true,
+        'pubkey of message was not converted correctly'
+      );
     });
-
   });
 });

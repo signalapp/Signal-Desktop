@@ -4,13 +4,14 @@ import * as window from '../../window';
 import * as DataShape from '../../../js/modules/data';
 import { v4 as uuid } from 'uuid';
 
-import { PubKey } from '../../../ts/session/types';
+import { OpenGroup, PubKey } from '../../../ts/session/types';
 import {
   ChatMessage,
   ClosedGroupChatMessage,
   OpenGroupMessage,
 } from '../../session/messages/outgoing';
-import { OpenGroup } from '../../session/types/OpenGroup';
+import { Integer } from '../../types/Util';
+import { ConversationModel, ConversationAttributes } from '../../../js/models/conversation';
 
 const globalAny: any = global;
 const sandbox = sinon.createSandbox();
@@ -78,11 +79,11 @@ export function generateFakePubKey(): PubKey {
   return new PubKey(pubkeyString);
 }
 
-export function generateFakePubKeys(amount: number): Array<PubKey> {
+export function generateFakePubKeys(amount: Integer): Array<PubKey> {
   const numPubKeys = amount > 0 ? Math.floor(amount) : 0;
 
   // tslint:disable-next-line: no-unnecessary-callback-wrapper
-  return new Array(numPubKeys).fill(0).map(() => generateFakePubKey());
+  return new Array(amount).fill(0).map(() => generateFakePubKey());
 }
 
 export function generateChatMessage(identifier?: string): ChatMessage {
@@ -124,3 +125,39 @@ export function generateClosedGroupMessage(
     chatMessage: generateChatMessage(),
   });
 }
+
+    // Mock ConversationModel
+export class MockPrivateConversation implements ConversationModel {
+  public id: string;
+  public isPrimary: boolean;
+  public attributes: ConversationAttributes;
+
+  constructor(isPrimary: boolean) {
+    this.isPrimary = isPrimary;
+
+    this.id = TestUtils.generateFakePubKey().key;
+    this.attributes = {
+      members
+    }
+  }
+
+  public isPrivate() {
+    return true;
+  }
+
+  public isOurLocalDevice() {
+    return false;
+  }
+
+  public isBlocked() {
+    return false;
+  }
+
+  public getPrimaryDevicePubKey() {
+    return this.isPrimary
+      ? this.id
+      : TestUtils.generateFakePubKey().key;
+  }
+  }
+
+  const myconv = new MockPrivateConversation(false) ;

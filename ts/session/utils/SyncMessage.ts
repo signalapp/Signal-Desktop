@@ -4,7 +4,9 @@ import { getAllConversations } from '../../../js/modules/data';
 import { ContentMessage, SyncMessage } from '../messages/outgoing';
 import { MultiDeviceProtocol } from '../protocols';
 
-export function toSyncMessage(message: ContentMessage): SyncMessage | undefined {
+export function toSyncMessage(
+  message: ContentMessage
+): SyncMessage | undefined {
   if (message instanceof SyncMessage) {
     return message;
   }
@@ -27,22 +29,11 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
   if (!thisDevice) {
     return [];
   }
-  
-  console.log('[vince] window.Whisper:', window.Whisper);
-  console.log('[vince] window.Whisper:', window.Whisper);
-  console.log('[vince] window.Whisper:', window.Whisper);
-  console.log('[vince] window.Whisper:', window.Whisper);
 
   const primaryDevice = await MultiDeviceProtocol.getPrimaryDevice(thisDevice);
   const conversations = await getAllConversations({
     ConversationCollection: window.Whisper.ConversationCollection,
   });
-
-  console.log('[vince] conversations:', conversations);
-  console.log('[vince] conversations:', conversations);
-  console.log('[vince] conversations:', conversations);
-  console.log('[vince] conversations:', conversations);
-  console.log('[vince] conversations:', conversations);
 
   // We are building a set of all contacts
   const primaryContacts =
@@ -62,20 +53,20 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
       c.attributes.secondaryStatus
   );
 
-  const seondaryContactsPromise = secondaryContactsPartial.map(async c =>
+  const secondaryContactsPromise = secondaryContactsPartial.map(async c =>
     window.ConversationController.getOrCreateAndWait(
       c.getPrimaryDevicePubKey(),
       'private'
     )
   );
 
-  const secondaryContacts = (await Promise.all(seondaryContactsPromise))
+  const secondaryContacts = (await Promise.all(secondaryContactsPromise))
     // Filter out our primary key if it was added here
     .filter(c => c.id !== primaryDevice.key);
 
   // Return unique contacts
   return _.uniqBy(
     [...primaryContacts, ...secondaryContacts],
-    device => !!device
+    'id'
   );
 }

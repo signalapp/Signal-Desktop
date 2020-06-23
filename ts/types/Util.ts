@@ -1,3 +1,8 @@
+
+// Integer Type - primarily for incremental values in ConversationModel etc
+export type Integer = number & { __int__: void };
+export const roundToInt = (num: number): Integer => Math.round(num) as Integer;
+
 export type RenderTextCallbackType = (options: {
   text: string;
   key: number;

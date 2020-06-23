@@ -14,13 +14,10 @@ chai.use(chaiAsPromised);
 const { expect } = chai;
 
 describe('Groups Utils', () => {
-
   describe('getGroupMembers', () => {
     it('', async () => {
       //
     });
-
-
   });
 
   describe('isMediumGroup', () => {
@@ -28,8 +25,4 @@ describe('Groups Utils', () => {
       //
     });
   });
-
-
-
-  
 });

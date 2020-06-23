@@ -14,27 +14,21 @@ chai.use(chaiAsPromised);
 const { expect } = chai;
 
 describe('Promise Utils', () => {
-
   describe('poll', () => {
     it('', async () => {
       //
     });
   });
-  
+
   describe('waitForTask', () => {
     it('', async () => {
       //
     });
-
-
   });
-
-  
 
   describe('waitUntil', () => {
     it('', async () => {
       //
     });
   });
-
 });

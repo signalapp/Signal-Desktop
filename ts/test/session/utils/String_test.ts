@@ -14,13 +14,10 @@ chai.use(chaiAsPromised);
 const { expect } = chai;
 
 describe('String Utils', () => {
-
   describe('encode', () => {
     it('', async () => {
       //
     });
-
-
   });
 
   describe('decode', () => {
@@ -28,5 +25,4 @@ describe('String Utils', () => {
       //
     });
   });
-
 });
