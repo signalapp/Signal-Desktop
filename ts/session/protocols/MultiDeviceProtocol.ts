@@ -103,11 +103,11 @@ export class MultiDeviceProtocol {
       );
 
       const validAuthorisations = await Promise.all(
-        authorisations.map(async authoritsation => {
+        authorisations.map(async authorisation => {
           const valid = await window.libloki.crypto.verifyAuthorisation(
-            authoritsation
+            authorisation
           );
-          return valid ? authoritsation : undefined;
+          return valid ? authorisation : undefined;
         })
       );
 
