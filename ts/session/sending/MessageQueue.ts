@@ -6,6 +6,7 @@ import {
 import {
   ClosedGroupMessage,
   ContentMessage,
+  ExpirationTimerUpdateMessage,
   OpenGroupMessage,
   SessionRequestMessage,
   SyncMessage,
@@ -22,7 +23,6 @@ import { PubKey } from '../types';
 import { MessageSender } from '.';
 import { MultiDeviceProtocol, SessionProtocol } from '../protocols';
 import { UserUtil } from '../../util';
-import { ExpirationTimerUpdateMessage } from '../messages/outgoing/content/data/ExpirationTimerUpdateMessage';
 
 export class MessageQueue implements MessageQueueInterface {
   public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
