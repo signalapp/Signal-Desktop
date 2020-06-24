@@ -54,14 +54,6 @@
     }
   }
 
-  async function sendSessionEstablishedMessage(pubKey) {
-    const user = new libsession.Types.PubKey(pubKey);
-
-    const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablishedMessage(
-      { timestamp: Date.now() }
-    );
-    await libsession.getMessageQueue().send(user, sessionEstablished);
-  }
   // Serialise as <Element0.length><Element0><Element1.length><Element1>...
   // This is an implementation of the reciprocal of contacts_parser.js
   function serialiseByteBuffers(buffers) {
@@ -166,7 +158,6 @@
   };
 
   window.libloki.api = {
-    sendSessionEstablishedMessage,
     sendSessionRequestsToMembers,
     createContactSyncMessage,
     createGroupSyncMessage,
