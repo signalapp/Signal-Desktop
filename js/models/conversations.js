@@ -417,13 +417,13 @@
         libsession
           .getMessageQueue()
           .sendUsingMultiDevice(device, typingMessage)
-          .ignore();
+          .catch(log.error);
       } else {
         // the recipients on the case of a group are found by the messageQueue using message.groupId
         libsession
           .getMessageQueue()
           .sendToGroup(typingMessage)
-          .ignore();
+          .catch(log.error);
       }
     },
 
@@ -1925,7 +1925,7 @@
       libsession
         .getMessageQueue()
         .sendToGroup(groupUpdateMessage)
-        .ignore();
+        .catch(log.error);
     },
 
     sendGroupInfo(recipient) {
@@ -1949,7 +1949,7 @@
         libsession
           .getMessageQueue()
           .send(recipientPubKey, groupUpdateMessage)
-          .ignore();
+          .catch(log.error);
       }
     },
 

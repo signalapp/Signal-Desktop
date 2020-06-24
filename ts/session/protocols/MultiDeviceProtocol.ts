@@ -140,7 +140,7 @@ export class MultiDeviceProtocol {
   public static async getPairingAuthorisations(
     device: PubKey | string
   ): Promise<Array<PairingAuthorisation>> {
-    const pubKey = typeof device === 'string' ? new PubKey(device) : device;
+    const pubKey = PubKey.cast(device);
     await this.fetchPairingAuthorisationsIfNeeded(pubKey);
 
     return getPairingAuthorisationsFor(pubKey.key);
@@ -153,7 +153,7 @@ export class MultiDeviceProtocol {
   public static async removePairingAuthorisations(
     device: PubKey | string
   ): Promise<void> {
-    const pubKey = typeof device === 'string' ? new PubKey(device) : device;
+    const pubKey = PubKey.cast(device);
 
     return removePairingAuthorisationsFor(pubKey.key);
   }
@@ -166,7 +166,7 @@ export class MultiDeviceProtocol {
   public static async getAllDevices(
     user: PubKey | string
   ): Promise<Array<PubKey>> {
-    const pubKey = typeof user === 'string' ? new PubKey(user) : user;
+    const pubKey = PubKey.cast(user);
     const authorisations = await this.getPairingAuthorisations(pubKey);
     if (authorisations.length === 0) {
       return [pubKey];
@@ -190,7 +190,7 @@ export class MultiDeviceProtocol {
   public static async getPrimaryDevice(
     user: PubKey | string
   ): Promise<PrimaryPubKey> {
-    const pubKey = typeof user === 'string' ? new PubKey(user) : user;
+    const pubKey = PubKey.cast(user);
     const authorisations = await this.getPairingAuthorisations(pubKey);
     if (authorisations.length === 0) {
       return pubKey;
@@ -237,7 +237,7 @@ export class MultiDeviceProtocol {
    * @param device The device to check.
    */
   public static async isOurDevice(device: PubKey | string): Promise<boolean> {
-    const pubKey = typeof device === 'string' ? new PubKey(device) : device;
+    const pubKey = PubKey.cast(device);
     try {
       const ourDevices = await this.getOurDevices();
 
