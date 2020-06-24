@@ -68,3 +68,20 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
     device => !!device
   );
 }
+
+export async function filterOpenGroupsConvos(
+  conversations: Array<any>
+): Promise<Array<any> | undefined> {
+  // If we haven't got a primaryDeviceKey then we are in the middle of pairing
+  // primaryDevicePubKey is set to our own number if we are the master device
+  const thisDevice = await UserUtil.getCurrentDevicePubKey();
+
+  if (!thisDevice) {
+    return [];
+  }
+
+  // We only want to sync across open groups that we haven't left
+  return conversations.filter(
+    c => c.isPublic() && !c.isRss() && !c.get('left')
+  );
+}

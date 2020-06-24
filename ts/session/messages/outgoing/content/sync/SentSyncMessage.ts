@@ -4,9 +4,6 @@ import { MessageParams } from '../../Message';
 import { PubKey } from '../../../../types';
 
 interface SentSyncMessageParams extends MessageParams {
-  //   const dataMessage = textsecure.protobuf.DataMessage.decode(
-  // encodedDataMessage
-  // );
   dataMessage: SignalService.DataMessage;
   expirationStartTimestamp?: number;
   sentTo?: [PubKey];

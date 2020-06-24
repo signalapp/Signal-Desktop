@@ -76,7 +76,7 @@
     result.reset();
     return result;
   }
-  async function createContactSyncProtoMessage(sessionContacts) {
+  async function createContactSyncMessage(sessionContacts) {
     if (sessionContacts.length === 0) {
       return null;
     }
@@ -115,16 +115,13 @@
     // Serialise array of byteBuffers into 1 byteBuffer
     const byteBuffer = serialiseByteBuffers(contactDetails);
     const data = new Uint8Array(byteBuffer.toArrayBuffer());
-    const contacts = new textsecure.protobuf.SyncMessage.Contacts({
+    return new libsession.Messages.Outgoing.ContactSyncMessage({
+      timestamp: Date.now(),
       data,
     });
-    const syncMessage = new textsecure.protobuf.SyncMessage({
-      contacts,
-    });
-    return syncMessage;
   }
 
-  function createGroupSyncProtoMessage(sessionGroup) {
+  function createGroupSyncMessage(sessionGroup) {
     // We are getting a single open group here
 
     const rawGroup = {
@@ -141,37 +138,12 @@
     // Serialise array of byteBuffers into 1 byteBuffer
     const byteBuffer = serialiseByteBuffers([groupDetail]);
     const data = new Uint8Array(byteBuffer.toArrayBuffer());
-    const groups = new textsecure.protobuf.SyncMessage.Groups({
+    return new libsession.Messages.Outgoing.ClosedGroupSyncMessage({
+      timestamp: Date.now(),
       data,
     });
-    const syncMessage = new textsecure.protobuf.SyncMessage({
-      groups,
-    });
-    return syncMessage;
   }
-  function createOpenGroupsSyncProtoMessage(conversations) {
-    // We only want to sync across open groups that we haven't left
-    const sessionOpenGroups = conversations.filter(
-      c => c.isPublic() && !c.isRss() && !c.get('left')
-    );
 
-    if (sessionOpenGroups.length === 0) {
-      return null;
-    }
-
-    const openGroups = sessionOpenGroups.map(
-      conversation =>
-        new textsecure.protobuf.SyncMessage.OpenGroupDetails({
-          url: conversation.id.split('@').pop(),
-          channelId: conversation.get('channelId'),
-        })
-    );
-
-    const syncMessage = new textsecure.protobuf.SyncMessage({
-      openGroups,
-    });
-    return syncMessage;
-  }
   async function sendSessionRequestsToMembers(members = []) {
     // For every member, trigger a session request if needed
     members.forEach(async memberStr => {
@@ -196,9 +168,8 @@
   window.libloki.api = {
     sendSessionEstablishedMessage,
     sendSessionRequestsToMembers,
-    createContactSyncProtoMessage,
-    createGroupSyncProtoMessage,
-    createOpenGroupsSyncProtoMessage,
+    createContactSyncMessage,
+    createGroupSyncMessage,
     debug,
   };
 })();
