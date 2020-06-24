@@ -9,6 +9,7 @@ import {
   OpenGroupMessage,
   SessionRequestMessage,
   SyncMessage,
+  TypingMessage,
 } from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
 import {
@@ -21,6 +22,7 @@ import { PubKey } from '../types';
 import { MessageSender } from '.';
 import { MultiDeviceProtocol, SessionProtocol } from '../protocols';
 import { UserUtil } from '../../util';
+import { ExpirationTimerUpdateMessage } from '../messages/outgoing/content/data/ExpirationTimerUpdateMessage';
 
 export class MessageQueue implements MessageQueueInterface {
   public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;
@@ -33,13 +35,16 @@ export class MessageQueue implements MessageQueueInterface {
     void this.processAllPending();
   }
 
-  public async sendUsingMultiDevice(user: PubKey, message: ContentMessage) {
+  public async sendUsingMultiDevice(
+    user: PubKey,
+    message: ContentMessage
+  ): Promise<void> {
     const userDevices = await MultiDeviceProtocol.getAllDevices(user.key);
 
     await this.sendMessageToDevices(userDevices, message);
   }
 
-  public async send(device: PubKey, message: ContentMessage) {
+  public async send(device: PubKey, message: ContentMessage): Promise<void> {
     await this.sendMessageToDevices([device], message);
   }
 
@@ -75,26 +80,8 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   public async sendToGroup(
-    message: OpenGroupMessage | ClosedGroupMessage
-  ): Promise<boolean> {
-    // Closed groups
-    if (message instanceof ClosedGroupMessage) {
-      // Get devices in closed group
-      const recipients = await GroupUtils.getGroupMembers(message.groupId);
-      if (recipients.length === 0) {
-        return false;
-      }
-
-      // Send to all devices of members
-      await Promise.all(
-        recipients.map(async recipient =>
-          this.sendUsingMultiDevice(recipient, message)
-        )
-      );
-
-      return true;
-    }
-
+    message: OpenGroupMessage | ContentMessage
+  ): Promise<void> {
     // Open groups
     if (message instanceof OpenGroupMessage) {
       // No queue needed for Open Groups; send directly
@@ -108,20 +95,42 @@ export class MessageQueue implements MessageQueueInterface {
         } else {
           this.events.emit('fail', message, error);
         }
-
-        return result;
       } catch (e) {
         console.warn(
           `Failed to send message to open group: ${message.group.server}`,
           e
         );
         this.events.emit('fail', message, error);
-
-        return false;
       }
+
+      return;
     }
 
-    return false;
+    let groupId: PubKey | undefined;
+    if (message instanceof ClosedGroupMessage) {
+      groupId = message.groupId;
+    } else if (message instanceof TypingMessage) {
+      groupId = message.groupId;
+    } else if (message instanceof ExpirationTimerUpdateMessage) {
+      groupId = message.groupId;
+    }
+
+    if (!groupId) {
+      throw new Error('Invalid group message passed in sendToGroup.');
+    }
+
+    // Get devices in group
+    const recipients = await GroupUtils.getGroupMembers(groupId);
+    if (recipients.length === 0) {
+      return;
+    }
+
+    // Send to all devices of members
+    await Promise.all(
+      recipients.map(async recipient =>
+        this.sendUsingMultiDevice(recipient, message)
+      )
+    );
   }
 
   public async sendSyncMessage(message: SyncMessage | undefined): Promise<any> {

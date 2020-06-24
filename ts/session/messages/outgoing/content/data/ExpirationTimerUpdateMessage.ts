@@ -3,23 +3,26 @@ import { SignalService } from '../../../../../protobuf';
 import { MessageParams } from '../../Message';
 import { StringUtils } from '../../../../utils';
 import { DataMessage } from './DataMessage';
+import { PubKey } from '../../../../types';
 
 interface ExpirationTimerUpdateMessageParams extends MessageParams {
-  groupId?: string;
+  groupId?: string | PubKey;
   expireTimer: number | null;
   profileKey?: Uint8Array;
 }
 
 export class ExpirationTimerUpdateMessage extends DataMessage {
-  private readonly groupId?: string;
-  private readonly expireTimer: number | null;
-  private readonly profileKey?: Uint8Array;
+  public readonly groupId?: PubKey;
+  public readonly expireTimer: number | null;
+  public readonly profileKey?: Uint8Array;
 
   constructor(params: ExpirationTimerUpdateMessageParams) {
     super({ timestamp: params.timestamp, identifier: params.identifier });
-    this.groupId = params.groupId;
     this.expireTimer = params.expireTimer;
     this.profileKey = params.profileKey;
+
+    const { groupId } = params;
+    this.groupId = groupId ? PubKey.cast(groupId) : undefined;
   }
 
   public ttl(): number {
@@ -32,7 +35,7 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
     const groupMessage = new SignalService.GroupContext();
     if (this.groupId) {
       groupMessage.id = new Uint8Array(
-        StringUtils.encode(this.groupId, 'utf8')
+        StringUtils.encode(this.groupId.key, 'utf8')
       );
       groupMessage.type = SignalService.GroupContext.Type.DELIVER;
     }
