@@ -1780,7 +1780,7 @@
       const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablishedMessage(
         { timestamp: Date.now() }
       );
-      await libsession.getMessageQueue().send(user, sessionEstablished);    
+      await libsession.getMessageQueue().send(user, sessionEstablished);
     },
 
     isSessionResetReceived() {

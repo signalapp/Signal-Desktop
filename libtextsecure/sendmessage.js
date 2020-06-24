@@ -539,87 +539,46 @@ MessageSender.prototype = {
 
     return libsession.getMessageQueue().sendSyncMessage(openGroupsSyncMessage);
   },
-  syncReadMessages(reads, options) {
-    const myNumber = textsecure.storage.user.getNumber();
+  syncReadMessages(reads) {
     const myDevice = textsecure.storage.user.getDeviceId();
+    // FIXME audric currently not in used
     if (myDevice !== 1 && myDevice !== '1') {
-      const syncMessage = this.createSyncMessage();
-      syncMessage.read = [];
-      for (let i = 0; i < reads.length; i += 1) {
-        const read = new textsecure.protobuf.SyncMessage.Read();
-        read.timestamp = reads[i].timestamp;
-        read.sender = reads[i].sender;
-        syncMessage.read.push(read);
-      }
-      const contentMessage = new textsecure.protobuf.Content();
-      contentMessage.syncMessage = syncMessage;
-
-      const silent = true;
-      return this.sendIndividualProto(
-        myNumber,
-        contentMessage,
-        Date.now(),
-        silent,
-        options
+      const syncReadMessages = new libsession.Messages.Outgoing.OpenGroupSyncMessage(
+        {
+          readMessages: reads,
+        }
       );
+
+      return libsession.getMessageQueue().sendSyncMessage(syncReadMessages);
     }
 
     return Promise.resolve();
   },
-  syncVerification(destination, state, identityKey, options) {
-    const myNumber = textsecure.storage.user.getNumber();
+  async syncVerification(destination, state, identityKey) {
     const myDevice = textsecure.storage.user.getDeviceId();
-    const now = Date.now();
 
     if (myDevice === 1 || myDevice === '1') {
       return Promise.resolve();
     }
+    // send a session established message (used as a nullMessage)
+    const destinationPubKey = new libsession.Types.PubKey(destination);
 
-    // First send a null message to mask the sync message.
-    const nullMessage = new textsecure.protobuf.NullMessage();
-
-    // Generate a random int from 1 and 512
-    const buffer = libsignal.crypto.getRandomBytes(1);
-    const paddingLength = (new Uint8Array(buffer)[0] & 0x1ff) + 1;
-
-    // Generate a random padding buffer of the chosen size
-    nullMessage.padding = libsignal.crypto.getRandomBytes(paddingLength);
-
-    const contentMessage = new textsecure.protobuf.Content();
-    contentMessage.nullMessage = nullMessage;
-
-    // We want the NullMessage to look like a normal outgoing message; not silent
-    const silent = false;
-    const promise = this.sendIndividualProto(
-      destination,
-      contentMessage,
-      now,
-      silent,
-      options
+    const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablishedMessage(
+      { timestamp: Date.now() }
     );
+    const { padding } = sessionEstablished;
+    await libsession.getMessageQueue().send(destinationPubKey, sessionEstablished);
 
-    return promise.then(() => {
-      const verified = new textsecure.protobuf.Verified();
-      verified.state = state;
-      verified.destination = destination;
-      verified.identityKey = identityKey;
-      verified.nullMessage = nullMessage.padding;
 
-      const syncMessage = this.createSyncMessage();
-      syncMessage.verified = verified;
-
-      const secondMessage = new textsecure.protobuf.Content();
-      secondMessage.syncMessage = syncMessage;
-
-      const innerSilent = true;
-      return this.sendIndividualProto(
-        myNumber,
-        secondMessage,
-        now,
-        innerSilent,
-        options
-      );
-    });
+    const verifiedSyncParams = {
+      state,
+      destination: destinationPubKey,
+      identityKey,
+      padding,
+      timestamp: Date.now(),
+    }
+    const verifiedSyncMessage = new window.libsession.Messages.Outgoing.VerifiedSyncMessage(verifiedSyncParams);
+    return libsession.getMessageQueue().sendSyncMessage(verifiedSyncMessage);
   },
 
   async sendGroupProto(
