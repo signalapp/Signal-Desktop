@@ -9,7 +9,6 @@ interface SyncReadMessageParams extends MessageParams {
 export abstract class SyncReadMessage extends SyncMessage {
   public readonly readMessages: any;
 
-
   constructor(params: SyncReadMessageParams) {
     super({ timestamp: params.timestamp, identifier: params.identifier });
     this.readMessages = params.readMessages;

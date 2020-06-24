@@ -1822,7 +1822,6 @@
           { timestamp: Date.now() }
         );
         await libsession.getMessageQueue().send(user, sessionEstablished);
-
       }
       await this.createAndStoreEndSessionMessage({
         type: 'incoming',

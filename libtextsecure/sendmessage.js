@@ -407,39 +407,6 @@ MessageSender.prototype = {
     });
   },
 
-  sendIndividualProto(number, proto, timestamp, silent, options = {}) {
-    return new Promise((resolve, reject) => {
-      const callback = res => {
-        if (res && res.errors && res.errors.length > 0) {
-          reject(res);
-        } else {
-          resolve(res);
-        }
-      };
-      this.sendMessageProto(
-        timestamp,
-        [number],
-        proto,
-        callback,
-        silent,
-        options
-      );
-    });
-  },
-
-  createSyncMessage() {
-    const syncMessage = new textsecure.protobuf.SyncMessage();
-
-    // Generate a random int from 1 and 512
-    const buffer = libsignal.crypto.getRandomBytes(1);
-    const paddingLength = (new Uint8Array(buffer)[0] & 0x1ff) + 1;
-
-    // Generate a random padding buffer of the chosen size
-    syncMessage.padding = libsignal.crypto.getRandomBytes(paddingLength);
-
-    return syncMessage;
-  },
-
   uploadAvatar(attachment) {
     // isRaw is true since the data is already encrypted
     // and doesn't need to be encrypted again
@@ -567,8 +534,9 @@ MessageSender.prototype = {
       { timestamp: Date.now() }
     );
     const { padding } = sessionEstablished;
-    await libsession.getMessageQueue().send(destinationPubKey, sessionEstablished);
-
+    await libsession
+      .getMessageQueue()
+      .send(destinationPubKey, sessionEstablished);
 
     const verifiedSyncParams = {
       state,
@@ -576,8 +544,10 @@ MessageSender.prototype = {
       identityKey,
       padding,
       timestamp: Date.now(),
-    }
-    const verifiedSyncMessage = new window.libsession.Messages.Outgoing.VerifiedSyncMessage(verifiedSyncParams);
+    };
+    const verifiedSyncMessage = new window.libsession.Messages.Outgoing.VerifiedSyncMessage(
+      verifiedSyncParams
+    );
     return libsession.getMessageQueue().sendSyncMessage(verifiedSyncMessage);
   },
 
