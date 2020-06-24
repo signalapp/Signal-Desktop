@@ -10,7 +10,8 @@
   Signal,
   textsecure,
   Whisper,
-  clipboard
+  clipboard,
+  libsession
 */
 
 /* eslint-disable more/no-then */
@@ -1447,39 +1448,40 @@
     },
 
     sendSyncMessage() {
-      const ourNumber = textsecure.storage.user.getNumber();
-      const { wrap, sendOptions } = ConversationController.prepareForSend(
-        ourNumber,
-        {
-          syncMessage: true,
-        }
-      );
-
       this.syncPromise = this.syncPromise || Promise.resolve();
       const next = () => {
-        const dataMessage = this.get('dataMessage');
-        if (this.get('synced') || !dataMessage) {
+        const encodedDataMessage = this.get('dataMessage');
+        if (this.get('synced') || !encodedDataMessage) {
           return Promise.resolve();
         }
-        return wrap(
-          textsecure.messaging.sendSyncMessage(
-            dataMessage,
-            this.get('sent_at'),
-            this.get('destination'),
-            this.get('expirationStartTimestamp'),
-            this.get('sent_to'),
-            this.get('unidentifiedDeliveries'),
-            sendOptions
-          )
-        ).then(result => {
-          this.set({
-            synced: true,
-            dataMessage: null,
+        const dataMessage = textsecure.protobuf.DataMessage.decode(
+          encodedDataMessage
+        );
+        // Sync the group message to our other devices
+        const sentSyncMessageParams = {
+          timestamp: this.get('sent_at'),
+          dataMessage,
+          destination: this.get('destination'),
+          expirationStartTimestamp: this.get('expirationStartTimestamp'),
+          sent_to: this.get('sent_to'),
+          unidentifiedDeliveries: this.get('unidentifiedDeliveries'),
+        };
+        const sentSyncMessage = new libsession.Messages.Outgoing.SentSyncMessage(
+          sentSyncMessageParams
+        );
+
+        return libsession
+          .getMessageQueue()
+          .sendSyncMessage(sentSyncMessage)
+          .then(result => {
+            this.set({
+              synced: true,
+              dataMessage: null,
+            });
+            return window.Signal.Data.saveMessage(this.attributes, {
+              Message: Whisper.Message,
+            }).then(() => result);
           });
-          return window.Signal.Data.saveMessage(this.attributes, {
-            Message: Whisper.Message,
-          }).then(() => result);
-        });
       };
 
       this.syncPromise = this.syncPromise.then(next, next);

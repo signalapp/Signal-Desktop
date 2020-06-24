@@ -1,4 +1,4 @@
-/* global textsecure, WebAPI, libsignal, window, OutgoingMessage, libloki */
+/* global textsecure, WebAPI, libsignal, window, OutgoingMessage, libloki, libsession */
 
 /* eslint-disable more/no-then, no-bitwise */
 
@@ -440,76 +440,6 @@ MessageSender.prototype = {
     return syncMessage;
   },
 
-  async sendSyncMessage(
-    encodedDataMessage,
-    timestamp,
-    destination,
-    expirationStartTimestamp,
-    sentTo = [],
-    unidentifiedDeliveries = [],
-    options
-  ) {
-    const primaryDeviceKey =
-      window.storage.get('primaryDevicePubKey') ||
-      textsecure.storage.user.getNumber();
-    const allOurDevices = (
-      await window.libsession.Protocols.MultiDeviceProtocol.getAllDevices(
-        primaryDeviceKey
-      )
-    )
-      // Don't send to ourselves
-      .filter(pubKey => pubKey.key !== textsecure.storage.user.getNumber());
-    if (allOurDevices.length === 0) {
-      return null;
-    }
-
-    const dataMessage = textsecure.protobuf.DataMessage.decode(
-      encodedDataMessage
-    );
-    const sentMessage = new textsecure.protobuf.SyncMessage.Sent();
-    sentMessage.timestamp = timestamp;
-    sentMessage.message = dataMessage;
-    if (destination) {
-      sentMessage.destination = destination;
-    }
-    if (expirationStartTimestamp) {
-      sentMessage.expirationStartTimestamp = expirationStartTimestamp;
-    }
-
-    const unidentifiedLookup = unidentifiedDeliveries.reduce(
-      (accumulator, item) => {
-        // eslint-disable-next-line no-param-reassign
-        accumulator[item] = true;
-        return accumulator;
-      },
-      Object.create(null)
-    );
-
-    // Though this field has 'unidenified' in the name, it should have entries for each
-    //   number we sent to.
-    if (sentTo && sentTo.length) {
-      sentMessage.unidentifiedStatus = sentTo.map(number => {
-        const status = new textsecure.protobuf.SyncMessage.Sent.UnidentifiedDeliveryStatus();
-        status.destination = number;
-        status.unidentified = Boolean(unidentifiedLookup[number]);
-        return status;
-      });
-    }
-
-    const syncMessage = this.createSyncMessage();
-    syncMessage.sent = sentMessage;
-    const contentMessage = new textsecure.protobuf.Content();
-    contentMessage.syncMessage = syncMessage;
-
-    const silent = true;
-    return this.sendIndividualProto(
-      primaryDeviceKey,
-      contentMessage,
-      Date.now(),
-      silent,
-      options
-    );
-  },
   uploadAvatar(attachment) {
     // isRaw is true since the data is already encrypted
     // and doesn't need to be encrypted again
@@ -818,8 +748,15 @@ MessageSender.prototype = {
     const result = await sendPromise;
 
     // Sync the group message to our other devices
-    const encoded = textsecure.protobuf.DataMessage.encode(proto);
-    this.sendSyncMessage(encoded, timestamp, null, null, [], [], options);
+    const sentSyncMessageParams = {
+      timestamp,
+      dataMessage: proto,
+    };
+    const sentSyncMessage = new libsession.Messages.Outgoing.SentSyncMessage(
+      sentSyncMessageParams
+    );
+
+    await libsession.getMessageQueue().sendSyncMessage(sentSyncMessage);
 
     return result;
   },
@@ -978,71 +915,6 @@ MessageSender.prototype = {
     return true;
   },
 
-  async sendGroupUpdate(
-    groupId,
-    name,
-    avatar,
-    members,
-    admins,
-    recipients,
-    options
-  ) {
-    const proto = new textsecure.protobuf.DataMessage();
-    proto.group = new textsecure.protobuf.GroupContext();
-
-    proto.group.id = stringToArrayBuffer(groupId);
-    proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
-    proto.group.name = name;
-    proto.group.members = members;
-
-    const primaryDeviceKey =
-      window.storage.get('primaryDevicePubKey') ||
-      textsecure.storage.user.getNumber();
-    proto.group.admins = [primaryDeviceKey];
-
-    const attachment = await this.makeAttachmentPointer(avatar);
-
-    proto.group.avatar = attachment;
-    // TODO: re-enable this once we have attachments
-    proto.group.avatar = null;
-    await this.sendGroupProto(recipients, proto, Date.now(), options);
-
-    return proto.group.id;
-  },
-
-  addNumberToGroup(groupId, newNumbers, options) {
-    const proto = new textsecure.protobuf.DataMessage();
-    proto.group = new textsecure.protobuf.GroupContext();
-    proto.group.id = stringToArrayBuffer(groupId);
-    proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
-    proto.group.members = newNumbers;
-    return this.sendGroupProto(newNumbers, proto, Date.now(), options);
-  },
-
-  setGroupName(groupId, name, groupNumbers, options) {
-    const proto = new textsecure.protobuf.DataMessage();
-    proto.group = new textsecure.protobuf.GroupContext();
-    proto.group.id = stringToArrayBuffer(groupId);
-    proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
-    proto.group.name = name;
-    proto.group.members = groupNumbers;
-
-    return this.sendGroupProto(groupNumbers, proto, Date.now(), options);
-  },
-
-  setGroupAvatar(groupId, avatar, groupNumbers, options) {
-    const proto = new textsecure.protobuf.DataMessage();
-    proto.group = new textsecure.protobuf.GroupContext();
-    proto.group.id = stringToArrayBuffer(groupId);
-    proto.group.type = textsecure.protobuf.GroupContext.Type.UPDATE;
-    proto.group.members = groupNumbers;
-
-    return this.makeAttachmentPointer(avatar).then(attachment => {
-      proto.group.avatar = attachment;
-      return this.sendGroupProto(groupNumbers, proto, Date.now(), options);
-    });
-  },
-
   requestSenderKeys(sender, groupId) {
     const proto = new textsecure.protobuf.DataMessage();
     const update = new textsecure.protobuf.MediumGroupUpdate();
@@ -1073,9 +945,6 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.sendMessage = sender.sendMessage.bind(sender);
   this.sendMessageToGroup = sender.sendMessageToGroup.bind(sender);
   this.updateMediumGroup = sender.updateMediumGroup.bind(sender);
-  this.addNumberToGroup = sender.addNumberToGroup.bind(sender);
-  this.setGroupName = sender.setGroupName.bind(sender);
-  this.setGroupAvatar = sender.setGroupAvatar.bind(sender);
   this.requestSenderKeys = sender.requestSenderKeys.bind(sender);
   this.sendSyncMessage = sender.sendSyncMessage.bind(sender);
   this.uploadAvatar = sender.uploadAvatar.bind(sender);
