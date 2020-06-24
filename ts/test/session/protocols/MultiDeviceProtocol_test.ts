@@ -71,6 +71,21 @@ describe('MultiDeviceProtocol', () => {
   });
 
   describe('fetchPairingAuthorisations', () => {
+    let verifyAuthorisationStub: sinon.SinonStub<
+      [PairingAuthorisation],
+      Promise<boolean>
+    >;
+    beforeEach(() => {
+      verifyAuthorisationStub = sandbox
+        .stub<[PairingAuthorisation], Promise<boolean>>()
+        .resolves(true);
+      TestUtils.stubWindow('libloki', {
+        crypto: {
+          verifyAuthorisation: verifyAuthorisationStub,
+        } as any,
+      });
+    });
+
     it('should throw if lokiFileServerAPI does not exist', async () => {
       TestUtils.stubWindow('lokiFileServerAPI', undefined);
       expect(
@@ -125,9 +140,96 @@ describe('MultiDeviceProtocol', () => {
         networkAuth.grantSignature
       );
     });
+
+    it('should not return invalid authorisations', async () => {
+      const networkAuth = {
+        primaryDevicePubKey:
+          '05caa6310a490415df45f8f4ad1b3655ad7a11e722257887a30cf71601d679720b',
+        secondaryDevicePubKey:
+          '051296b9588641eea268d60ad6636eecb53a95150e91c0531a00203e01a2c16a39',
+        requestSignature:
+          '+knEdlenTV+MooRqlFsZRPWW8s9pcjKwB40fY5o0GJmAi2RPZtaVGRTqgApTIn2zPBTE4GQlmPD7uxcczHDjAg==',
+        grantSignature:
+          'eKzcOWMEVetybkuiVK2u18B9en5pywohn2Hn25/VOVTMrIsKSCW4xXpqwipfqvgvi62WtUt6SA9bCEB5Ngcyiw==',
+      };
+
+      const stub = sinon.stub().resolves({
+        isPrimary: false,
+        authorisations: [networkAuth],
+      });
+      TestUtils.stubWindow('lokiFileServerAPI', {
+        getUserDeviceMapping: stub,
+      });
+
+      verifyAuthorisationStub.resolves(false);
+
+      const authorisations = await MultiDeviceProtocol.fetchPairingAuthorisations(
+        TestUtils.generateFakePubKey()
+      );
+      expect(verifyAuthorisationStub.callCount).to.equal(1);
+      expect(authorisations.length).to.equal(0);
+    });
+
+    it('should handle incorrect pairing authorisations from the file server', async () => {
+      const invalidAuth = {
+        primaryDevicePubKey:
+          '05caa6310a490415df45f8f4ad1b3655ad7a11e722257887a30cf71601d679720b',
+        secondaryDevicePubKey:
+          '051296b9588641eea268d60ad6636eecb53a95150e91c0531a00203e01a2c16a39',
+        requestSignatures:
+          '+knEdlenTV+MooRqlFsZRPWW8s9pcjKwB40fY5o0GJmAi2RPZtaVGRTqgApTIn2zPBTE4GQlmPD7uxcczHDjAg==',
+      };
+
+      const stub = sinon.stub().resolves({
+        isPrimary: false,
+        authorisations: [invalidAuth],
+      });
+      TestUtils.stubWindow('lokiFileServerAPI', {
+        getUserDeviceMapping: stub,
+      });
+      const authorisations = await MultiDeviceProtocol.fetchPairingAuthorisations(
+        TestUtils.generateFakePubKey()
+      );
+      expect(authorisations.length).to.equal(0);
+    });
+
+    it('should return empty array if mapping is null', async () => {
+      const stub = sinon.stub().resolves(null);
+      TestUtils.stubWindow('lokiFileServerAPI', {
+        getUserDeviceMapping: stub,
+      });
+
+      const authorisations = await MultiDeviceProtocol.fetchPairingAuthorisations(
+        TestUtils.generateFakePubKey()
+      );
+      expect(authorisations.length).to.equal(0);
+    });
+
+    it('should return empty array if authorisations in mapping are null', async () => {
+      const stub = sinon.stub().resolves({
+        isPrimary: false,
+        authorisations: null,
+      });
+      TestUtils.stubWindow('lokiFileServerAPI', {
+        getUserDeviceMapping: stub,
+      });
+
+      const authorisations = await MultiDeviceProtocol.fetchPairingAuthorisations(
+        TestUtils.generateFakePubKey()
+      );
+      expect(authorisations.length).to.equal(0);
+    });
   });
 
   describe('fetchPairingAuthorisationIfNeeded', () => {
+    beforeEach(() => {
+      TestUtils.stubWindow('libloki', {
+        crypto: {
+          verifyAuthorisation: async () => true,
+        } as any,
+      });
+    });
+
     let fetchPairingAuthorisationStub: sinon.SinonStub<
       [PubKey],
       Promise<Array<PairingAuthorisation>>
@@ -249,6 +351,16 @@ describe('MultiDeviceProtocol', () => {
         const allDevicePubKeys = allDevices.map(p => p.key);
         expect(allDevicePubKeys).to.have.same.members(devices.map(d => d.key));
       }
+    });
+
+    it('should return the passed in user device if no pairing authorisations are found', async () => {
+      const pubKey = TestUtils.generateFakePubKey();
+      sandbox
+        .stub(MultiDeviceProtocol, 'getPairingAuthorisations')
+        .resolves([]);
+      const allDevices = await MultiDeviceProtocol.getAllDevices(pubKey);
+      expect(allDevices).to.have.length(1);
+      expect(allDevices[0].key).to.equal(pubKey.key);
     });
   });
 

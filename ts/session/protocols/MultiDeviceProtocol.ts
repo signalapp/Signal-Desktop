@@ -82,25 +82,45 @@ export class MultiDeviceProtocol {
     const mapping = await window.lokiFileServerAPI.getUserDeviceMapping(
       device.key
     );
-    // TODO: Filter out invalid authorisations
 
     if (!mapping || !mapping.authorisations) {
       return [];
     }
 
-    return mapping.authorisations.map(
-      ({
-        primaryDevicePubKey,
-        secondaryDevicePubKey,
-        requestSignature,
-        grantSignature,
-      }) => ({
-        primaryDevicePubKey,
-        secondaryDevicePubKey,
-        requestSignature: StringUtils.encode(requestSignature, 'base64'),
-        grantSignature: StringUtils.encode(grantSignature, 'base64'),
-      })
-    );
+    try {
+      const authorisations = mapping.authorisations.map(
+        ({
+          primaryDevicePubKey,
+          secondaryDevicePubKey,
+          requestSignature,
+          grantSignature,
+        }) => ({
+          primaryDevicePubKey,
+          secondaryDevicePubKey,
+          requestSignature: StringUtils.encode(requestSignature, 'base64'),
+          grantSignature: StringUtils.encode(grantSignature, 'base64'),
+        })
+      );
+
+      const validAuthorisations = await Promise.all(
+        authorisations.map(async authorisation => {
+          const valid = await window.libloki.crypto.verifyAuthorisation(
+            authorisation
+          );
+          return valid ? authorisation : undefined;
+        })
+      );
+
+      return validAuthorisations.filter(a => !!a) as Array<
+        PairingAuthorisation
+      >;
+    } catch (e) {
+      console.warn(
+        `MultiDeviceProtocol::fetchPairingAuthorisation: Failed to map authorisations for ${device.key}.`,
+        e
+      );
+      return [];
+    }
   }
 
   /**
