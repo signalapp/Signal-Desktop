@@ -1005,9 +1005,9 @@
       const successfulRecipients = this.get('sent_to') || [];
       const currentRecipients = conversation.getRecipients();
 
-      const profileKey = conversation.get('profileSharing')
-        ? storage.get('profileKey')
-        : null;
+      // const profileKey = conversation.get('profileSharing')
+      //   ? storage.get('profileKey')
+      //   : null;
 
       let recipients = _.intersection(intendedRecipients, currentRecipients);
       recipients = _.without(recipients, successfulRecipients);
@@ -1031,65 +1031,42 @@
 
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
-
+      const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+        body,
+        timestamp: this.get('sent_at'),
+        attachments,
+        quote: quoteWithData,
+        preview: previewWithData,
+        expireTimer: this.get('expireTimer'),
+      });
       // Special-case the self-send case - we send only a sync message
       if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
-        const [number] = recipients;
-        const dataMessage = await textsecure.messaging.getMessageProto(
-          number,
-          body,
-          attachments,
-          quoteWithData,
-          previewWithData,
-          this.get('sent_at'),
-          this.get('expireTimer'),
-          profileKey
-        );
-        return this.sendSyncMessageOnly(dataMessage);
+        this.trigger('pending');
+        // FIXME audric add back profileKey
+        return libsession.getMessageQueue().sendSyncMessage(chatMessage);
       }
-
-      let promise;
-      const options = conversation.getSendOptions();
-      options.messageType = this.get('type');
 
       if (conversation.isPrivate()) {
         const [number] = recipients;
-        promise = textsecure.messaging.sendMessageToNumber(
-          number,
-          body,
-          attachments,
-          quoteWithData,
-          previewWithData,
-          this.get('sent_at'),
-          this.get('expireTimer'),
-          profileKey,
-          options
-        );
-      } else {
-        // Because this is a partial group send, we manually construct the request like
-        //   sendMessageToGroup does.
+        const recipientPubKey = new libsession.Types.PubKey(number);
+        this.trigger('pending');
 
-        promise = textsecure.messaging.sendMessage(
-          {
-            recipients,
-            body,
-            timestamp: this.get('sent_at'),
-            attachments,
-            quote: quoteWithData,
-            preview: previewWithData,
-            needsSync: !this.get('synced'),
-            expireTimer: this.get('expireTimer'),
-            profileKey,
-            group: {
-              id: this.get('conversationId'),
-              type: textsecure.protobuf.GroupContext.Type.DELIVER,
-            },
-          },
-          options
-        );
+        return libsession
+          .getMessageQueue()
+          .sendUsingMultiDevice(recipientPubKey, chatMessage);
       }
-
-      return this.send(conversation.wrapSend(promise));
+      // Because this is a partial group send, we manually construct the request like
+      //   sendMessageToGroup does.
+      this.trigger('pending');
+      // TODO should we handle open groups message here too?
+      // Not sure there is the concept of retrySend for those
+      const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
+        {
+          chatMessage,
+          groupId: this.get('conversationId'),
+        }
+      );
+      return libsession.getMessageQueue().sendToGroup(closedGroupChatMessage);
     },
     isReplayableError(e) {
       return (
@@ -1113,7 +1090,6 @@
         return null;
       }
 
-      const profileKey = null;
       const attachmentsWithData = await Promise.all(
         (this.get('attachments') || []).map(loadAttachmentData)
       );
@@ -1125,38 +1101,41 @@
 
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
+      const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+        body,
+        timestamp: this.get('sent_at'),
+        attachments,
+        quote: quoteWithData,
+        preview: previewWithData,
+        expireTimer: this.get('expireTimer'),
+      });
 
       // Special-case the self-send case - we send only a sync message
       if (number === this.OUR_NUMBER) {
-        const dataMessage = await textsecure.messaging.getMessageProto(
-          number,
-          body,
-          attachments,
-          quoteWithData,
-          previewWithData,
-          this.get('sent_at'),
-          this.get('expireTimer'),
-          profileKey
-        );
-        return this.sendSyncMessageOnly(dataMessage);
+        this.trigger('pending');
+        return libsession.getMessageQueue().sendSyncMessage(chatMessage);
+      }
+      const conversation = this.getConversation();
+      const recipientPubKey = new libsession.Types.PubKey(number);
+
+      if (conversation.isPrivate()) {
+        this.trigger('pending');
+        return libsession
+          .getMessageQueue()
+          .sendUsingMultiDevice(recipientPubKey, chatMessage);
       }
 
-      const { wrap, sendOptions } = ConversationController.prepareForSend(
-        number
+      const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
+        {
+          chatMessage,
+          groupId: this.get('conversationId'),
+        }
       );
-      const promise = textsecure.messaging.sendMessageToNumber(
-        number,
-        body,
-        attachments,
-        quoteWithData,
-        previewWithData,
-        this.get('sent_at'),
-        this.get('expireTimer'),
-        profileKey,
-        sendOptions
-      );
-
-      return this.send(wrap(promise));
+      // resend tries to send the message to that specific user only in the context of a closed group
+      this.trigger('pending');
+      return libsession
+        .getMessageQueue()
+        .sendUsingMultiDevice(recipientPubKey, closedGroupChatMessage);
     },
     removeOutgoingErrors(number) {
       const errors = _.partition(
