@@ -1205,10 +1205,10 @@
       const expireTimer = this.get('expireTimer');
       const recipients = this.getRecipients();
 
-      let profileKey;
-      if (this.get('profileSharing')) {
-        profileKey = storage.get('profileKey');
-      }
+      // let profileKey;
+      // if (this.get('profileSharing')) {
+      //   profileKey = storage.get('profileKey');
+      // }
 
       this.queueJob(async () => {
         const now = Date.now();
@@ -1304,19 +1304,22 @@
           now,
         });
 
+        // FIXME audric add back profileKey
+        const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+          body: messageBody,
+          timestamp: Date.now(),
+          attachments: finalAttachments,
+          expireTimer,
+          preview,
+          quote,
+        });
+        // Start handle ChatMessages (attachments/quote/preview/body)
+        // FIXME AUDRIC handle attachments, quote, preview, profileKey
+
         // Special-case the self-send case - we send only a sync message
         if (this.isMe()) {
-          const dataMessage = await textsecure.messaging.getMessageProto(
-            destination,
-            messageBody,
-            finalAttachments,
-            quote,
-            preview,
-            now,
-            expireTimer,
-            profileKey
-          );
-          return message.sendSyncMessageOnly(dataMessage);
+          await message.markMessageSyncOnly();
+          return libsession.getMessageQueue().sendSyncMessage(chatMessage);
         }
         const options = {};
 
@@ -1364,42 +1367,14 @@
             .getMessageQueue()
             .sendUsingMultiDevice(destinationPubkey, groupInvitMessage);
         }
-        const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
-          body,
-          timestamp: Date.now(),
-        });
-        // Start handle ChatMessages (attachments/quote/preview/body)
-        // FIXME AUDRIC handle attachments, quote, preview
+
         if (conversationType === Message.PRIVATE) {
-          await libsession
+          return libsession
             .getMessageQueue()
             .sendUsingMultiDevice(destinationPubkey, chatMessage);
+        }
 
-          // return textsecure.messaging.sendMessageToNumber(
-          //   destination,
-          //   messageBody,
-          //   finalAttachments,
-          //   quote,
-          //   preview,
-          //   now,
-          //   expireTimer,
-          //   profileKey,
-          //   {}
-          // );
-        } else if (conversationType === Message.GROUP) {
-          // return textsecure.messaging.sendMessageToGroup(
-          //   dest,
-          //   numbers,
-          //   messageBody,
-          //   finalAttachments,
-          //   quote,
-          //   preview,
-          //   now,
-          //   expireTimer,
-          //   profileKey,
-          //   {}
-          // );
-
+        if (conversationType === Message.GROUP) {
           // let dest = destination;
           // let numbers = groupNumbers;
           if (this.isMediumGroup()) {
@@ -1408,7 +1383,7 @@
             // dest = this.id;
             // numbers = [destination];
             // options.isMediumGroup = true;
-            throw new Error('To implement');
+            throw new Error('To implement back');
           } else {
             const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
               {
@@ -1658,27 +1633,21 @@
         profileKey = storage.get('profileKey');
       }
 
-      if (this.isMe()) {
-        const flags =
-          textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
-        const dataMessage = await textsecure.messaging.getMessageProto(
-          this.get('id'),
-          null,
-          [],
-          null,
-          [],
-          message.get('sent_at'),
-          expireTimer,
-          profileKey,
-          flags
-        );
-        return message.sendSyncMessageOnly(dataMessage);
-      }
       const expireUpdate = {
         timestamp: message.get('sent_at'),
         expireTimer,
         profileKey,
       };
+
+      if (this.isMe()) {
+        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+          expireUpdate
+        );
+        await message.markMessageSyncOnly();
+        return libsession
+          .getMessageQueue()
+          .sendSyncMessage(expirationTimerMessage);
+      }
 
       if (this.get('type') === 'private') {
         const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(

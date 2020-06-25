@@ -661,98 +661,6 @@ MessageSender.prototype = {
     }
   },
 
-  async sendMessageToNumber(
-    number,
-    messageText,
-    attachments,
-    quote,
-    preview,
-    timestamp,
-    expireTimer,
-    profileKey,
-    options
-  ) {
-    const profile = this.getOurProfile();
-
-    const { groupInvitation, sessionRestoration } = options;
-
-    return this.sendMessage(
-      {
-        recipients: [number],
-        body: messageText,
-        timestamp,
-        attachments,
-        quote,
-        preview,
-        needsSync: true,
-        expireTimer,
-        profileKey,
-        profile,
-        undefined,
-        groupInvitation,
-        sessionRestoration,
-      },
-      options
-    );
-  },
-  async sendMessageToGroup(
-    groupId,
-    groupNumbers,
-    messageText,
-    attachments,
-    quote,
-    preview,
-    timestamp,
-    expireTimer,
-    profileKey,
-    options
-  ) {
-    // We always assume that only primary device is a member in the group
-    const primaryDeviceKey =
-      window.storage.get('primaryDevicePubKey') ||
-      textsecure.storage.user.getNumber();
-    let numbers = groupNumbers.filter(number => number !== primaryDeviceKey);
-    if (options.isPublic) {
-      numbers = [groupId];
-    }
-    const profile = this.getOurProfile();
-
-    let group;
-    // Medium groups don't need this info
-    if (!options.isMediumGroup) {
-      group = {
-        id: groupId,
-        type: textsecure.protobuf.GroupContext.Type.DELIVER,
-      };
-    }
-
-    const attrs = {
-      recipients: numbers,
-      body: messageText,
-      timestamp,
-      attachments,
-      quote,
-      preview,
-      needsSync: true,
-      expireTimer,
-      profileKey,
-      profile,
-      group,
-    };
-
-    if (numbers.length === 0) {
-      return {
-        successfulNumbers: [],
-        failoverNumbers: [],
-        errors: [],
-        unidentifiedDeliveries: [],
-        dataMessage: await this.getMessageProtoObj(attrs),
-      };
-    }
-
-    return this.sendMessage(attrs, options);
-  },
-
   async updateMediumGroup(members, groupUpdateProto) {
     // Automatically request session if not found (updates use pairwise sessions)
     const autoSession = true;
@@ -791,9 +699,7 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.sendOpenGroupsSyncMessage = sender.sendOpenGroupsSyncMessage.bind(
     sender
   );
-  this.sendMessageToNumber = sender.sendMessageToNumber.bind(sender);
   this.sendMessage = sender.sendMessage.bind(sender);
-  this.sendMessageToGroup = sender.sendMessageToGroup.bind(sender);
   this.updateMediumGroup = sender.updateMediumGroup.bind(sender);
   this.requestSenderKeys = sender.requestSenderKeys.bind(sender);
   this.uploadAvatar = sender.uploadAvatar.bind(sender);

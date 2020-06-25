@@ -1043,6 +1043,7 @@
       if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
         this.trigger('pending');
         // FIXME audric add back profileKey
+        await this.markMessageSyncOnly();
         return libsession.getMessageQueue().sendSyncMessage(chatMessage);
       }
 
@@ -1055,8 +1056,7 @@
           .getMessageQueue()
           .sendUsingMultiDevice(recipientPubKey, chatMessage);
       }
-      // Because this is a partial group send, we manually construct the request like
-      //   sendMessageToGroup does.
+
       this.trigger('pending');
       // TODO should we handle open groups message here too?
       // Not sure there is the concept of retrySend for those
@@ -1066,7 +1066,16 @@
           groupId: this.get('conversationId'),
         }
       );
-      return libsession.getMessageQueue().sendToGroup(closedGroupChatMessage);
+      // Because this is a partial group send, we send the message with the groupId field set, but individually
+      // to each recipient listed
+      return Promise.all(
+        recipients.map(async r => {
+          const recipientPubKey = new libsession.Types.PubKey(r);
+          return libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(recipientPubKey, closedGroupChatMessage);
+        })
+      );
     },
     isReplayableError(e) {
       return (
@@ -1113,6 +1122,7 @@
       // Special-case the self-send case - we send only a sync message
       if (number === this.OUR_NUMBER) {
         this.trigger('pending');
+        await this.markMessageSyncOnly();
         return libsession.getMessageQueue().sendSyncMessage(chatMessage);
       }
       const conversation = this.getConversation();
@@ -1387,46 +1397,21 @@
       return false;
     },
 
-    async sendSyncMessageOnly(dataMessage) {
-      this.set({ dataMessage });
+    async markMessageSyncOnly(dataMessage) {
+      this.set({
+        // These are the same as a normal send()
+        dataMessage,
+        sent_to: [this.OUR_NUMBER],
+        sent: true,
+        expirationStartTimestamp: Date.now(),
+      });
 
-      try {
-        this.set({
-          // These are the same as a normal send()
-          sent_to: [this.OUR_NUMBER],
-          sent: true,
-          expirationStartTimestamp: Date.now(),
-        });
-        const result = await this.sendSyncMessage();
-        this.set({
-          // We have to do this afterward, since we didn't have a previous send!
-          unidentifiedDeliveries: result ? result.unidentifiedDeliveries : null,
-
-          // These are unique to a Note to Self message - immediately read/delivered
-          delivered_to: [this.OUR_NUMBER],
-          read_by: [this.OUR_NUMBER],
-        });
-      } catch (result) {
-        const errors = (result && result.errors) || [
-          new Error('Unknown error'),
-        ];
-        this.set({ errors });
-      } finally {
-        await window.Signal.Data.saveMessage(this.attributes, {
-          Message: Whisper.Message,
-        });
-        this.trigger('done');
-
-        const errors = this.get('errors');
-        if (errors) {
-          this.trigger('send-error', errors);
-        } else {
-          this.trigger('sent');
-        }
-      }
+      return window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
     },
 
-    async sendSyncMessage() {
+    sendSyncMessage() {
       this.syncPromise = this.syncPromise || Promise.resolve();
       const next = async () => {
         const encodedDataMessage = this.get('dataMessage');
