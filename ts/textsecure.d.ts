@@ -372,6 +372,7 @@ export declare class EnvelopeClass {
   // Note: these additional properties are added in the course of processing
   id: string;
   unidentifiedDeliveryReceived?: boolean;
+  messageAgeSec?: number;
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript
