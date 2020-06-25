@@ -26,11 +26,9 @@ export abstract class ContactSyncMessage extends SyncMessage {
   protected syncProto(): SignalService.SyncMessage {
     const syncMessage = super.syncProto();
     const contactsWithVerified = this.rawContacts.map(c => {
-      let protoState = SignalService.Verified.State.DEFAULT;
+      const { DEFAULT, VERIFIED } = SignalService.Verified.State;
+      const protoState = c.verifiedStatus === 0 ? DEFAULT : VERIFIED;
 
-      if (c.verifiedStatus === 1 || c.verifiedStatus === 2) {
-        protoState = SignalService.Verified.State.VERIFIED;
-      }
       const verified = new SignalService.Verified({
         state: protoState,
         destination: c.number,
