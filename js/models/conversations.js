@@ -2019,9 +2019,7 @@
           this.ourNumber,
           { syncMessage: true }
         );
-        await this.wrapSend(
-          textsecure.messaging.syncReadMessages(read, sendOptions)
-        );
+        await textsecure.messaging.syncReadMessages(read, sendOptions);
 
         // FIXME AUDRIC
         // if (storage.get('read-receipt-setting')) {

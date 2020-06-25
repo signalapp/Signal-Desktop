@@ -351,36 +351,6 @@ MessageSender.prototype = {
     });
   },
 
-  async sendMessage(attrs, options) {
-    const message = new Message(attrs);
-    const silent = false;
-    const publicServer =
-      options.publicSendData && options.publicSendData.serverAPI;
-
-    await Promise.all([
-      this.uploadAttachments(message, publicServer),
-      this.uploadThumbnails(message, publicServer),
-      this.uploadLinkPreviews(message, publicServer),
-    ]);
-
-    return new Promise((resolve, reject) => {
-      this.sendMessageProto(
-        message.timestamp,
-        message.recipients,
-        message.toProto(),
-        res => {
-          res.dataMessage = message.toArrayBuffer();
-          if (res.errors.length > 0) {
-            reject(res);
-          } else {
-            resolve(res);
-          }
-        },
-        silent,
-        options
-      );
-    });
-  },
   sendMessageProto(
     timestamp,
     numbers,
@@ -699,7 +669,6 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.sendOpenGroupsSyncMessage = sender.sendOpenGroupsSyncMessage.bind(
     sender
   );
-  this.sendMessage = sender.sendMessage.bind(sender);
   this.updateMediumGroup = sender.updateMediumGroup.bind(sender);
   this.requestSenderKeys = sender.requestSenderKeys.bind(sender);
   this.uploadAvatar = sender.uploadAvatar.bind(sender);
