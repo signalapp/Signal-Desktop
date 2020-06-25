@@ -369,6 +369,12 @@ class MessageReceiverInner extends EventTarget {
           ? envelope.serverTimestamp.toNumber()
           : null;
 
+        // Calculate the message age (time on server).
+        envelope.messageAgeSec = this.calculateMessageAge(
+          headers,
+          envelope.serverTimestamp
+        );
+
         this.cacheAndQueue(envelope, plaintext, request);
       } catch (e) {
         request.respond(500, 'Bad encrypted websocket message');
@@ -384,6 +390,33 @@ class MessageReceiverInner extends EventTarget {
 
     // tslint:disable-next-line no-floating-promises
     this.incomingQueue.add(job);
+  }
+  calculateMessageAge(
+    headers: Array<string>,
+    serverTimestamp?: number
+  ): number {
+    let messageAgeSec = 0; // Default to 0 in case of unreliable parameters.
+
+    if (serverTimestamp) {
+      // The 'X-Signal-Timestamp' is usually the last item, so start there.
+      let it = headers.length;
+      while (--it >= 0) {
+        const match = headers[it].match(/^X-Signal-Timestamp:\s*(\d+)\s*$/);
+        if (match && match.length === 2) {
+          const timestamp = Number(match[1]);
+
+          // One final sanity check, the timestamp when a message is pulled from
+          // the server should be later than when it was pushed.
+          if (timestamp > serverTimestamp) {
+            messageAgeSec = Math.floor((timestamp - serverTimestamp) / 1000);
+          }
+
+          break;
+        }
+      }
+    }
+
+    return messageAgeSec;
   }
   async addToQueue(task: () => Promise<void>) {
     this.count += 1;

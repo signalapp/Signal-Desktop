@@ -165,11 +165,7 @@ export class CallingClass {
       return;
     }
 
-    const now = new Date();
-    const serverTimestamp = envelope.serverTimestamp
-      ? envelope.serverTimestamp
-      : now.valueOf();
-    const messageAgeSec = Math.floor((now.valueOf() - serverTimestamp) / 1000);
+    const messageAgeSec = envelope.messageAgeSec ? envelope.messageAgeSec : 0;
 
     RingRTC.handleCallingMessage(
       remoteUserId,
