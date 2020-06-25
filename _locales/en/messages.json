@@ -636,7 +636,7 @@
     "description": "Item under the Help menu, takes you to the support page"
   },
   "goToGithub": {
-    "message": "Go to Github",
+    "message": "Go to GitHub",
     "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
   },
   "joinTheBeta": {
