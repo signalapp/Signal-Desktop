@@ -311,6 +311,10 @@
     },
 
     async bumpTyping() {
+      if (this.isPublic()) {
+        window.console.debug('public conversation... No need to bumpTyping');
+        return;
+      }
       // We don't send typing messages if the setting is disabled or we do not have a session
       // or we blocked that user
       const devicePubkey = new libsession.Types.PubKey(this.id);
@@ -699,7 +703,7 @@
         await this.sendVerifySyncMessage(this.id, verified);
       }
     },
-    sendVerifySyncMessage(number, state) {
+    async sendVerifySyncMessage(number, state) {
       // Because syncVerification sends a (null) message to the target of the verify and
       //   a sync message to our own devices, we need to send the accessKeys down for both
       //   contacts. So we merge their sendOptions.
@@ -709,12 +713,8 @@
       );
       const options = Object.assign({}, sendOptions, {});
 
-      const promise = textsecure.storage.protocol.loadIdentityKey(number);
-      return promise.then(key =>
-        this.wrapSend(
-          textsecure.messaging.syncVerification(number, state, key, options)
-        )
-      );
+      const key = await textsecure.storage.protocol.loadIdentityKey(number);
+      return textsecure.messaging.syncVerification(number, state, key, options);
     },
     isVerified() {
       if (this.isPrivate()) {
@@ -1322,8 +1322,24 @@
 
         options.messageType = message.get('type');
         options.isPublic = this.isPublic();
-        if (options.isPublic) {
-          options.publicSendData = await this.getPublicSendData();
+        if (this.isPublic()) {
+          // FIXME audric add back attachments, quote, preview
+          const openGroup = {
+            server: this.get('server'),
+            channel: this.get('channelId'),
+            conversationId: this.id,
+          };
+          const openGroupParams = {
+            body,
+            timestamp: Date.now(),
+            group: openGroup,
+          };
+          const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
+            openGroupParams
+          );
+          await libsession.getMessageQueue().sendToGroup(openGroupMessage);
+
+          return null;
         }
 
         options.sessionRestoration = sessionRestoration;
@@ -1387,6 +1403,8 @@
           // let dest = destination;
           // let numbers = groupNumbers;
           if (this.isMediumGroup()) {
+            // FIXME audric to implement back
+
             // dest = this.id;
             // numbers = [destination];
             // options.isMediumGroup = true;
@@ -1775,7 +1793,12 @@
       await this.setSessionResetStatus(SessionResetEnum.request_received);
       // send empty message, this will trigger the new session to propagate
       // to the reset initiator.
-      await window.libloki.api.sendSessionEstablishedMessage(this.id);
+      const user = new libsession.Types.PubKey(this.id);
+
+      const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablishedMessage(
+        { timestamp: Date.now() }
+      );
+      await libsession.getMessageQueue().send(user, sessionEstablished);
     },
 
     isSessionResetReceived() {
@@ -1811,7 +1834,12 @@
     async onNewSessionAdopted() {
       if (this.get('sessionResetStatus') === SessionResetEnum.initiated) {
         // send empty message to confirm that we have adopted the new session
-        await window.libloki.api.sendSessionEstablishedMessage(this.id);
+        const user = new libsession.Types.PubKey(this.id);
+
+        const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablishedMessage(
+          { timestamp: Date.now() }
+        );
+        await libsession.getMessageQueue().send(user, sessionEstablished);
       }
       await this.createAndStoreEndSessionMessage({
         type: 'incoming',
@@ -2070,6 +2098,13 @@
       //   read receipts - here we can run into infinite loops, where each time the
       //      conversation is viewed, another error message shows up for the contact
       read = read.filter(item => !item.hasErrors);
+
+      if (this.isPublic()) {
+        window.console.debug(
+          'public conversation... No need to send read receipt'
+        );
+        return;
+      }
 
       const devicePubkey = new libsession.Types.PubKey(this.id);
       const hasSession = await libsession.Protocols.SessionProtocol.hasSession(

@@ -101,12 +101,6 @@ function getStaleDeviceIdsForNumber(number) {
   });
 }
 
-const DebugMessageType = {
-  CONTACT_SYNC_SEND: 'contact-sync-send',
-  CLOSED_GROUP_SYNC_SEND: 'closed-group-sync-send',
-  OPEN_GROUP_SYNC_SEND: 'open-group-sync-send',
-};
-
 function OutgoingMessage(
   server,
   timestamp,
@@ -144,7 +138,6 @@ function OutgoingMessage(
     isPublic,
     isMediumGroup,
     publicSendData,
-    debugMessageType,
     autoSession,
   } = options || {};
   this.numberInfo = numberInfo;
@@ -159,7 +152,6 @@ function OutgoingMessage(
   this.senderCertificate = senderCertificate;
   this.online = online;
   this.messageType = messageType || 'outgoing';
-  this.debugMessageType = debugMessageType;
   this.autoSession = autoSession || false;
 }
 
@@ -363,8 +355,6 @@ OutgoingMessage.prototype = {
       message: this.message,
     };
 
-    const messageTypeStr = this.debugMessageType;
-
     const ourPubKey = textsecure.storage.user.getNumber();
     const ourPrimaryPubkey = window.storage.get('primaryDevicePubKey');
     const secondaryPubKeys =
@@ -380,7 +370,7 @@ OutgoingMessage.prototype = {
       aliasedPubkey = 'OUR SECONDARY PUBKEY';
     }
     libloki.api.debug.logSessionMessageSending(
-      `Sending ${messageTypeStr}:${this.messageType} message to ${aliasedPubkey} details:`,
+      `Sending :${this.messageType} message to ${aliasedPubkey} details:`,
       logDetails
     );
 
@@ -637,8 +627,6 @@ OutgoingMessage.prototype = {
     });
   },
 };
-
-OutgoingMessage.DebugMessageType = DebugMessageType;
 
 window.textsecure = window.textsecure || {};
 window.textsecure.OutgoingMessage = OutgoingMessage;

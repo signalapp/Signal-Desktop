@@ -1,4 +1,4 @@
-/* global window, textsecure, dcodeIO, StringView, libsession */
+/* global window, textsecure, libsession */
 /* eslint-disable no-bitwise */
 
 // eslint-disable-next-line func-names
@@ -54,29 +54,7 @@
     }
   }
 
-  async function sendSessionEstablishedMessage(pubKey) {
-    const user = new libsession.Types.PubKey(pubKey);
-
-    const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablishedMessage(
-      { timestamp: Date.now() }
-    );
-    await libsession.getMessageQueue().send(user, sessionEstablished);
-  }
-  // Serialise as <Element0.length><Element0><Element1.length><Element1>...
-  // This is an implementation of the reciprocal of contacts_parser.js
-  function serialiseByteBuffers(buffers) {
-    const result = new dcodeIO.ByteBuffer();
-    buffers.forEach(buffer => {
-      // bytebuffer container expands and increments
-      // offset automatically
-      result.writeInt32(buffer.limit);
-      result.append(buffer);
-    });
-    result.limit = result.offset;
-    result.reset();
-    return result;
-  }
-  async function createContactSyncProtoMessage(sessionContacts) {
+  async function createContactSyncMessage(sessionContacts) {
     if (sessionContacts.length === 0) {
       return null;
     }
@@ -84,51 +62,33 @@
     const rawContacts = await Promise.all(
       sessionContacts.map(async conversation => {
         const profile = conversation.getLokiProfile();
-        const number = conversation.getNumber();
         const name = profile
           ? profile.displayName
           : conversation.getProfileName();
         const status = await conversation.safeGetVerified();
-        const protoState = textsecure.storage.protocol.convertVerifiedStatusToProtoState(
-          status
-        );
-        const verified = new textsecure.protobuf.Verified({
-          state: protoState,
-          destination: number,
-          identityKey: StringView.hexToArrayBuffer(number),
-        });
+
         return {
           name,
-          verified,
-          number,
+          number: conversation.getNumber(),
           nickname: conversation.getNickname(),
           blocked: conversation.isBlocked(),
           expireTimer: conversation.get('expireTimer'),
+          verifiedStatus: status,
         };
       })
     );
-    // Convert raw contacts to an array of buffers
-    const contactDetails = rawContacts
-      .filter(x => x.number !== textsecure.storage.user.getNumber())
-      .map(x => new textsecure.protobuf.ContactDetails(x))
-      .map(x => x.encode());
-    // Serialise array of byteBuffers into 1 byteBuffer
-    const byteBuffer = serialiseByteBuffers(contactDetails);
-    const data = new Uint8Array(byteBuffer.toArrayBuffer());
-    const contacts = new textsecure.protobuf.SyncMessage.Contacts({
-      data,
+
+    return new libsession.Messages.Outgoing.ContactSyncMessage({
+      timestamp: Date.now(),
+      rawContacts,
     });
-    const syncMessage = new textsecure.protobuf.SyncMessage({
-      contacts,
-    });
-    return syncMessage;
   }
 
-  function createGroupSyncProtoMessage(sessionGroup) {
+  function createGroupSyncMessage(sessionGroup) {
     // We are getting a single open group here
 
     const rawGroup = {
-      id: window.Signal.Crypto.bytesFromString(sessionGroup.id),
+      id: sessionGroup.id,
       name: sessionGroup.get('name'),
       members: sessionGroup.get('members') || [],
       blocked: sessionGroup.isBlocked(),
@@ -136,42 +96,12 @@
       admins: sessionGroup.get('groupAdmins') || [],
     };
 
-    // Convert raw group to a buffer
-    const groupDetail = new textsecure.protobuf.GroupDetails(rawGroup).encode();
-    // Serialise array of byteBuffers into 1 byteBuffer
-    const byteBuffer = serialiseByteBuffers([groupDetail]);
-    const data = new Uint8Array(byteBuffer.toArrayBuffer());
-    const groups = new textsecure.protobuf.SyncMessage.Groups({
-      data,
+    return new libsession.Messages.Outgoing.ClosedGroupSyncMessage({
+      timestamp: Date.now(),
+      rawGroup,
     });
-    const syncMessage = new textsecure.protobuf.SyncMessage({
-      groups,
-    });
-    return syncMessage;
   }
-  function createOpenGroupsSyncProtoMessage(conversations) {
-    // We only want to sync across open groups that we haven't left
-    const sessionOpenGroups = conversations.filter(
-      c => c.isPublic() && !c.isRss() && !c.get('left')
-    );
 
-    if (sessionOpenGroups.length === 0) {
-      return null;
-    }
-
-    const openGroups = sessionOpenGroups.map(
-      conversation =>
-        new textsecure.protobuf.SyncMessage.OpenGroupDetails({
-          url: conversation.id.split('@').pop(),
-          channelId: conversation.get('channelId'),
-        })
-    );
-
-    const syncMessage = new textsecure.protobuf.SyncMessage({
-      openGroups,
-    });
-    return syncMessage;
-  }
   async function sendSessionRequestsToMembers(members = []) {
     // For every member, trigger a session request if needed
     members.forEach(async memberStr => {
@@ -194,11 +124,9 @@
   };
 
   window.libloki.api = {
-    sendSessionEstablishedMessage,
     sendSessionRequestsToMembers,
-    createContactSyncProtoMessage,
-    createGroupSyncProtoMessage,
-    createOpenGroupsSyncProtoMessage,
+    createContactSyncMessage,
+    createGroupSyncMessage,
     debug,
   };
 })();

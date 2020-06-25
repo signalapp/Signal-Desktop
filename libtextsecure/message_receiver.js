@@ -1144,7 +1144,12 @@ MessageReceiver.prototype.extend({
         );
         window.log.debug('sending session established to', envelope.source);
         // We don't need to await the call below because we just want to send it off
-        window.libloki.api.sendSessionEstablishedMessage(envelope.source);
+        const user = new libsession.Types.PubKey(envelope.source);
+
+        const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablishedMessage(
+          { timestamp: Date.now() }
+        );
+        await libsession.getMessageQueue().send(user, sessionEstablished);
       } catch (e) {
         window.log.warn('Failed to process session request', e);
         // TODO how to handle a failed session request?
