@@ -75,35 +75,25 @@ export class GroupNotification extends React.Component<Props> {
           throw new Error('Group update is missing contacts');
         }
 
-        if (contacts.length === 1) {
-          if (contactsIncludesMe) {
-            return <Intl i18n={i18n} id="youJoinedTheGroup" />;
-          } else {
-            return (
-              <Intl
-                i18n={i18n}
-                id="joinedTheGroup"
-                components={[otherPeopleWithCommas]}
-              />
-            );
-          }
-        }
-
-        const joinedKey =
-          contacts.length > 1 ? 'multipleJoinedTheGroup' : 'joinedTheGroup';
+        const otherPeopleNotifMsg =
+          otherPeople.length === 1
+            ? 'joinedTheGroup'
+            : 'multipleJoinedTheGroup';
 
         return (
           <>
-            <Intl
-              i18n={i18n}
-              id={joinedKey}
-              components={[otherPeopleWithCommas]}
-            />
-            {contactsIncludesMe ? (
+            {otherPeople.length > 0 && (
+              <Intl
+                i18n={i18n}
+                id={otherPeopleNotifMsg}
+                components={[otherPeopleWithCommas]}
+              />
+            )}
+            {contactsIncludesMe && (
               <div className="module-group-notification__change">
                 <Intl i18n={i18n} id="youJoinedTheGroup" />
               </div>
-            ) : null}
+            )}
           </>
         );
       case 'remove':

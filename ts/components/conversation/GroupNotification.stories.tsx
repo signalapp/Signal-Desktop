@@ -179,6 +179,29 @@ const stories: Array<GroupNotificationStory> = [
         ],
         i18n,
       },
+      {
+        from: {
+          name: 'Alice',
+          phoneNumber: '(202) 555-1000',
+        },
+        changes: [
+          {
+            type: 'add',
+            contacts: [
+              {
+                phoneNumber: '(202) 555-1000',
+                profileName: 'Mr. Fire',
+                isMe: true,
+              },
+              {
+                phoneNumber: '(202) 555-1001',
+                profileName: 'Mrs. Ice',
+              },
+            ],
+          },
+        ],
+        i18n,
+      },
     ],
   ],
   [
