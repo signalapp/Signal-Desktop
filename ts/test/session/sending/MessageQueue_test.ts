@@ -312,6 +312,13 @@ describe('MessageQueue', () => {
   });
 
   describe('sendToGroup', () => {
+    it('should throw an error if invalid non-group message was passed', async () => {
+      const chatMessage = TestUtils.generateChatMessage();
+      await expect(
+        messageQueueStub.sendToGroup(chatMessage)
+      ).to.be.rejectedWith('Invalid group message passed in sendToGroup.');
+    });
+
     describe('closed groups', async () => {
       it('can send to closed group', async () => {
         const members = TestUtils.generateFakePubKeys(4).map(
@@ -324,8 +331,7 @@ describe('MessageQueue', () => {
           .resolves();
 
         const message = TestUtils.generateClosedGroupMessage();
-        const success = await messageQueueStub.sendToGroup(message);
-        expect(success).to.equal(true, 'sending to group failed');
+        await messageQueueStub.sendToGroup(message);
         expect(sendUsingMultiDeviceStub.callCount).to.equal(members.length);
 
         const arg = sendUsingMultiDeviceStub.getCall(0).args;
@@ -342,12 +348,7 @@ describe('MessageQueue', () => {
           .resolves();
 
         const message = TestUtils.generateClosedGroupMessage();
-        const response = await messageQueueStub.sendToGroup(message);
-
-        expect(response).to.equal(
-          false,
-          'sendToGroup sent a message to an empty group'
-        );
+        await messageQueueStub.sendToGroup(message);
         expect(sendUsingMultiDeviceStub.callCount).to.equal(0);
       });
     });
@@ -365,9 +366,8 @@ describe('MessageQueue', () => {
 
       it('can send to open group', async () => {
         const message = TestUtils.generateOpenGroupMessage();
-        const success = await messageQueueStub.sendToGroup(message);
+        await messageQueueStub.sendToGroup(message);
         expect(sendToOpenGroupStub.callCount).to.equal(1);
-        expect(success).to.equal(true, 'Sending to open group failed');
       });
 
       it('should emit a success event when send was successful', async () => {

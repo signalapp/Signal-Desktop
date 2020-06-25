@@ -16,8 +16,7 @@ export abstract class ClosedGroupMessage extends DataMessage {
       timestamp: params.timestamp,
       identifier: params.identifier,
     });
-    const { groupId } = params;
-    this.groupId = typeof groupId === 'string' ? new PubKey(groupId) : groupId;
+    this.groupId = PubKey.cast(params.groupId);
   }
 
   public ttl(): number {
