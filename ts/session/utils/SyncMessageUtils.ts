@@ -3,6 +3,7 @@ import { UserUtil } from '../../util/';
 import { getAllConversations } from '../../../js/modules/data';
 import { ContentMessage, SyncMessage } from '../messages/outgoing';
 import { MultiDeviceProtocol } from '../protocols';
+import ByteBuffer from 'bytebuffer';
 
 export function from(message: ContentMessage): SyncMessage | undefined {
   if (message instanceof SyncMessage) {
@@ -84,4 +85,19 @@ export async function filterOpenGroupsConvos(
   return conversations.filter(
     c => c.isPublic() && !c.isRss() && !c.get('left')
   );
+}
+
+// Serialise as <Element0.length><Element0><Element1.length><Element1>...
+// This is an implementation of the reciprocal of contacts_parser.js
+export function serialiseByteBuffers(buffers: Array<Uint8Array>): ByteBuffer {
+  const result = new ByteBuffer();
+  buffers.forEach(buffer => {
+    // bytebuffer container expands and increments
+    // offset automatically
+    result.writeInt32(buffer.length);
+    result.append(buffer);
+  });
+  result.limit = result.offset;
+  result.reset();
+  return result;
 }

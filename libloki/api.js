@@ -1,4 +1,4 @@
-/* global window, textsecure, dcodeIO, StringView, libsession */
+/* global window, textsecure, libsession */
 /* eslint-disable no-bitwise */
 
 // eslint-disable-next-line func-names
@@ -54,20 +54,6 @@
     }
   }
 
-  // Serialise as <Element0.length><Element0><Element1.length><Element1>...
-  // This is an implementation of the reciprocal of contacts_parser.js
-  function serialiseByteBuffers(buffers) {
-    const result = new dcodeIO.ByteBuffer();
-    buffers.forEach(buffer => {
-      // bytebuffer container expands and increments
-      // offset automatically
-      result.writeInt32(buffer.limit);
-      result.append(buffer);
-    });
-    result.limit = result.offset;
-    result.reset();
-    return result;
-  }
   async function createContactSyncMessage(sessionContacts) {
     if (sessionContacts.length === 0) {
       return null;
@@ -76,40 +62,25 @@
     const rawContacts = await Promise.all(
       sessionContacts.map(async conversation => {
         const profile = conversation.getLokiProfile();
-        const number = conversation.getNumber();
         const name = profile
           ? profile.displayName
           : conversation.getProfileName();
         const status = await conversation.safeGetVerified();
-        const protoState = textsecure.storage.protocol.convertVerifiedStatusToProtoState(
-          status
-        );
-        const verified = new textsecure.protobuf.Verified({
-          state: protoState,
-          destination: number,
-          identityKey: StringView.hexToArrayBuffer(number),
-        });
+
         return {
           name,
-          verified,
-          number,
+          number: conversation.getNumber(),
           nickname: conversation.getNickname(),
           blocked: conversation.isBlocked(),
           expireTimer: conversation.get('expireTimer'),
+          verifiedStatus: status,
         };
       })
     );
-    // Convert raw contacts to an array of buffers
-    const contactDetails = rawContacts
-      .filter(x => x.number !== textsecure.storage.user.getNumber())
-      .map(x => new textsecure.protobuf.ContactDetails(x))
-      .map(x => x.encode());
-    // Serialise array of byteBuffers into 1 byteBuffer
-    const byteBuffer = serialiseByteBuffers(contactDetails);
-    const data = new Uint8Array(byteBuffer.toArrayBuffer());
+
     return new libsession.Messages.Outgoing.ContactSyncMessage({
       timestamp: Date.now(),
-      data,
+      rawContacts,
     });
   }
 
@@ -117,7 +88,7 @@
     // We are getting a single open group here
 
     const rawGroup = {
-      id: window.Signal.Crypto.bytesFromString(sessionGroup.id),
+      id: sessionGroup.id,
       name: sessionGroup.get('name'),
       members: sessionGroup.get('members') || [],
       blocked: sessionGroup.isBlocked(),
@@ -125,14 +96,9 @@
       admins: sessionGroup.get('groupAdmins') || [],
     };
 
-    // Convert raw group to a buffer
-    const groupDetail = new textsecure.protobuf.GroupDetails(rawGroup).encode();
-    // Serialise array of byteBuffers into 1 byteBuffer
-    const byteBuffer = serialiseByteBuffers([groupDetail]);
-    const data = new Uint8Array(byteBuffer.toArrayBuffer());
     return new libsession.Messages.Outgoing.ClosedGroupSyncMessage({
       timestamp: Date.now(),
-      data,
+      rawGroup,
     });
   }
 
