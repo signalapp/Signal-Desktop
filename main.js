@@ -474,13 +474,55 @@ ipc.once('ready-for-updates', readyForUpdates);
 const TEN_MINUTES = 10 * 60 * 1000;
 setTimeout(readyForUpdates, TEN_MINUTES);
 
+// the support only provides a subset of languages available within the app
+// so we have to list them out here and fallback to english if not included
+
+const SUPPORT_LANGUAGES = [
+  'ar',
+  'bn',
+  'de',
+  'en-us',
+  'es',
+  'fr',
+  'hi',
+  'hi-in',
+  'hc',
+  'id',
+  'it',
+  'ja',
+  'ko',
+  'mr',
+  'ms',
+  'nl',
+  'pl',
+  'pt',
+  'ru',
+  'sv',
+  'ta',
+  'te',
+  'tr',
+  'uk',
+  'ur',
+  'vi',
+  'zh-cn',
+  'zh-tw',
+];
+
 function openContactUs() {
+  const userLanguage = app.getLocale();
+  const language = SUPPORT_LANGUAGES.includes(userLanguage)
+    ? userLanguage
+    : 'en-us';
+
+  // This URL needs a hardcoded language because the '?desktop' is dropped if the page
+  //   auto-redirects to the proper URL
   shell.openExternal(
-    'https://support.signal.org/hc/en-us/requests/new?desktop'
+    `https://support.signal.org/hc/${language}/requests/new?desktop`
   );
 }
 
 function openJoinTheBeta() {
+  // If we omit the language, the site will detect the language and redirect
   shell.openExternal('https://support.signal.org/hc/articles/360007318471');
 }
 
@@ -495,9 +537,8 @@ function openGithub() {
 }
 
 function openSupportPage() {
-  shell.openExternal(
-    'https://support.signal.org/hc/en-us/categories/202319038-Desktop'
-  );
+  // If we omit the language, the site will detect the language and redirect
+  shell.openExternal('https://support.signal.org/hc/sections/360001602812');
 }
 
 function openForums() {
