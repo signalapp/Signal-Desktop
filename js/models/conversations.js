@@ -699,7 +699,7 @@
         await this.sendVerifySyncMessage(this.id, verified);
       }
     },
-    sendVerifySyncMessage(number, state) {
+    async sendVerifySyncMessage(number, state) {
       // Because syncVerification sends a (null) message to the target of the verify and
       //   a sync message to our own devices, we need to send the accessKeys down for both
       //   contacts. So we merge their sendOptions.
@@ -709,12 +709,8 @@
       );
       const options = Object.assign({}, sendOptions, {});
 
-      const promise = textsecure.storage.protocol.loadIdentityKey(number);
-      return promise.then(key =>
-        this.wrapSend(
-          textsecure.messaging.syncVerification(number, state, key, options)
-        )
-      );
+      const key = await textsecure.storage.protocol.loadIdentityKey(number);
+      return textsecure.messaging.syncVerification(number, state, key, options);
     },
     isVerified() {
       if (this.isPrivate()) {

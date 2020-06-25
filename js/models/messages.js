@@ -1447,9 +1447,9 @@
       }
     },
 
-    sendSyncMessage() {
+    async sendSyncMessage() {
       this.syncPromise = this.syncPromise || Promise.resolve();
-      const next = () => {
+      const next = async () => {
         const encodedDataMessage = this.get('dataMessage');
         if (this.get('synced') || !encodedDataMessage) {
           return Promise.resolve();
@@ -1470,18 +1470,17 @@
           sentSyncMessageParams
         );
 
-        return libsession
+        const result = await libsession
           .getMessageQueue()
-          .sendSyncMessage(sentSyncMessage)
-          .then(result => {
-            this.set({
-              synced: true,
-              dataMessage: null,
-            });
-            return window.Signal.Data.saveMessage(this.attributes, {
-              Message: Whisper.Message,
-            }).then(() => result);
-          });
+          .sendSyncMessage(sentSyncMessage);
+        this.set({
+          synced: true,
+          dataMessage: null,
+        });
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+        return result;
       };
 
       this.syncPromise = this.syncPromise.then(next, next);
