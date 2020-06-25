@@ -220,7 +220,7 @@ export class CallingClass {
   private async handleOutgoingSignaling(
     remoteUserId: UserId,
     message: CallingMessageClass
-  ): Promise<void> {
+  ): Promise<boolean> {
     const conversation = window.ConversationController.get(remoteUserId);
     const sendOptions = conversation ? conversation.getSendOptions() : {};
 
@@ -232,6 +232,7 @@ export class CallingClass {
       );
 
       window.log.info('handleOutgoingSignaling() completed successfully');
+      return true;
     } catch (err) {
       if (err && err.errors && err.errors.length > 0) {
         window.log.error(
@@ -240,6 +241,7 @@ export class CallingClass {
       } else {
         window.log.error('handleOutgoingSignaling() failed');
       }
+      return false;
     }
   }
 
