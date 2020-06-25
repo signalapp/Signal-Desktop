@@ -15,7 +15,7 @@ export class PubKey {
     if (!PubKey.validate(pubkeyString)) {
       throw new Error(`Invalid pubkey string passed: ${pubkeyString}`);
     }
-    this.key = pubkeyString;
+    this.key = pubkeyString.toLowerCase();
   }
 
   /**
@@ -54,7 +54,7 @@ export class PubKey {
   public isEqual(comparator: PubKey | string) {
     return comparator instanceof PubKey
       ? this.key === comparator.key
-      : this.key === comparator;
+      : this.key === comparator.toLowerCase();
   }
 }
 
