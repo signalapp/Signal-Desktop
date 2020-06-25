@@ -1979,8 +1979,9 @@
     const details = ev.contactDetails;
 
     if (
-      details.number === textsecure.storage.user.getNumber() ||
-      details.uuid === textsecure.storage.user.getUuid()
+      (details.number &&
+        details.number === textsecure.storage.user.getNumber()) ||
+      (details.uuid && details.uuid === textsecure.storage.user.getUuid())
     ) {
       // special case for syncing details about ourselves
       if (details.profileKey) {
