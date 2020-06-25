@@ -2292,8 +2292,8 @@
   "groupNamePlaceholder": {
     "message": "Group Name"
   },
-  "inviteFriends": {
-    "message": "Invite Friends"
+  "inviteContacts": {
+    "message": "Invite Contacts"
   },
   "manageModerators": {
     "message": "Manage Moderators"

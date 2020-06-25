@@ -311,6 +311,10 @@
     },
 
     async bumpTyping() {
+      if (this.isPublic()) {
+        window.console.debug('public conversation... No need to bumpTyping');
+        return;
+      }
       // We don't send typing messages if the setting is disabled or we do not have a session
       // or we blocked that user
       const devicePubkey = new libsession.Types.PubKey(this.id);
@@ -1318,8 +1322,24 @@
 
         options.messageType = message.get('type');
         options.isPublic = this.isPublic();
-        if (options.isPublic) {
-          options.publicSendData = await this.getPublicSendData();
+        if (this.isPublic()) {
+          // FIXME audric add back attachments, quote, preview
+          const openGroup = {
+            server: this.get('server'),
+            channel: this.get('channelId'),
+            conversationId: this.id,
+          };
+          const openGroupParams = {
+            body,
+            timestamp: Date.now(),
+            group: openGroup,
+          };
+          const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
+            openGroupParams
+          );
+          await libsession.getMessageQueue().sendToGroup(openGroupMessage);
+
+          return null;
         }
 
         options.sessionRestoration = sessionRestoration;
@@ -1383,6 +1403,8 @@
           // let dest = destination;
           // let numbers = groupNumbers;
           if (this.isMediumGroup()) {
+            // FIXME audric to implement back
+
             // dest = this.id;
             // numbers = [destination];
             // options.isMediumGroup = true;
@@ -2076,6 +2098,13 @@
       //   read receipts - here we can run into infinite loops, where each time the
       //      conversation is viewed, another error message shows up for the contact
       read = read.filter(item => !item.hasErrors);
+
+      if (this.isPublic()) {
+        window.console.debug(
+          'public conversation... No need to send read receipt'
+        );
+        return;
+      }
 
       const devicePubkey = new libsession.Types.PubKey(this.id);
       const hasSession = await libsession.Protocols.SessionProtocol.hasSession(

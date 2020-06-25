@@ -14,12 +14,15 @@ declare class LokiAppDotNetServerAPI {
 }
 
 export interface LokiPublicChannelAPI {
-  sendMessage(data: {
-    quote?: Quote;
-    attachments: Array<AttachmentPointer>;
-    preview: Array<Preview>;
-    body?: string;
-  }): Promise<boolean>;
+  sendMessage(
+    data: {
+      quote?: Quote;
+      attachments: Array<AttachmentPointer>;
+      preview: Array<Preview>;
+      body?: string;
+    },
+    timestamp: number
+  ): Promise<boolean>;
 }
 
 export default LokiAppDotNetServerAPI;
