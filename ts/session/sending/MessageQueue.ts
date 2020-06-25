@@ -21,7 +21,6 @@ import { PubKey } from '../types';
 import { MessageSender } from '.';
 import { MultiDeviceProtocol, SessionProtocol } from '../protocols';
 import { UserUtil } from '../../util';
-import promise from 'redux-promise-middleware';
 
 export class MessageQueue implements MessageQueueInterface {
   public readonly events: TypedEventEmitter<MessageQueueInterfaceEvents>;

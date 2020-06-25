@@ -233,7 +233,7 @@ export function saveSeenMessageHash(data: {
   hash: string;
 }): Promise<void>;
 
-// TODO: Strictly export type the following
+// TODO: Strictly type the following
 export function updateLastHash(data: any): Promise<any>;
 export function saveSeenMessageHashes(data: any): Promise<any>;
 export function saveLegacyMessage(data: any): Promise<any>;
