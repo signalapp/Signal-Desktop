@@ -1319,7 +1319,10 @@
         // Special-case the self-send case - we send only a sync message
         if (this.isMe()) {
           await message.markMessageSyncOnly();
-          return libsession.getMessageQueue().sendSyncMessage(chatMessage);
+          const syncMessage = libsession.Utils.SyncMessageUtils.from(
+            chatMessage
+          );
+          return libsession.getMessageQueue().sendSyncMessage(syncMessage);
         }
         const options = {};
 
@@ -1651,9 +1654,10 @@
           expireUpdate
         );
         await message.markMessageSyncOnly();
-        return libsession
-          .getMessageQueue()
-          .sendSyncMessage(expirationTimerMessage);
+        const syncMessage = libsession.Utils.SyncMessageUtils.from(
+          expirationTimerMessage
+        );
+        return libsession.getMessageQueue().sendSyncMessage(syncMessage);
       }
 
       if (this.get('type') === 'private') {

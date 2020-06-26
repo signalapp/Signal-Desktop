@@ -1044,7 +1044,8 @@
         this.trigger('pending');
         // FIXME audric add back profileKey
         await this.markMessageSyncOnly();
-        return libsession.getMessageQueue().sendSyncMessage(chatMessage);
+        const syncMessage = libsession.Utils.SyncMessageUtils.from(chatMessage);
+        return libsession.getMessageQueue().sendSyncMessage(syncMessage);
       }
 
       if (conversation.isPrivate()) {
@@ -1058,7 +1059,7 @@
       }
 
       this.trigger('pending');
-      // TODO should we handle open groups message here too?
+      // TODO should we handle open groups message here too? and mediumgroups
       // Not sure there is the concept of retrySend for those
       const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
         {
@@ -1123,7 +1124,8 @@
       if (number === this.OUR_NUMBER) {
         this.trigger('pending');
         await this.markMessageSyncOnly();
-        return libsession.getMessageQueue().sendSyncMessage(chatMessage);
+        const syncMessage = libsession.Utils.SyncMessageUtils.from(chatMessage);
+        return libsession.getMessageQueue().sendSyncMessage(syncMessage);
       }
       const conversation = this.getConversation();
       const recipientPubKey = new libsession.Types.PubKey(number);
