@@ -1621,22 +1621,16 @@
       });
 
       if (Whisper.Import.isComplete()) {
-        // FIXME Audric; Is that needed for us?
-        // const {
-        //   wrap,
-        //   sendOptions,
-        // } = ConversationController.prepareForSend(
-        //   textsecure.storage.user.getNumber(),
-        //   { syncMessage: true }
-        // );
-        // wrap(
-        //   textsecure.messaging.sendRequestConfigurationSyncMessage(sendOptions)
-        // ).catch(error => {
-        //   window.log.error(
-        //     'Import complete, but failed to send sync message',
-        //     error && error.stack ? error.stack : error
-        //   );
-        // });
+        const { CONFIGURATION } = textsecure.protobuf.SyncMessage.Request.Type;
+        const { RequestSyncMessage } = window.libsession.Messages.Outgoing;
+
+        const requestConfigurationSyncMessage = new RequestSyncMessage({
+          timestamp: Date.now(),
+          reqestType: CONFIGURATION,
+        });
+        await libsession
+          .getMessageQueue()
+          .sendSyncMessage(requestConfigurationSyncMessage);
       }
     }
 

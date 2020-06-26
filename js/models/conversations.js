@@ -1375,15 +1375,22 @@
         }
 
         if (conversationType === Message.GROUP) {
-          // let dest = destination;
-          // let numbers = groupNumbers;
           if (this.isMediumGroup()) {
-            // FIXME audric to implement back
-
-            // dest = this.id;
-            // numbers = [destination];
-            // options.isMediumGroup = true;
-            throw new Error('To implement back');
+            const mediumGroupChatMessage = new libsession.Messages.Outgoing.MediumGroupChatMessage(
+              {
+                chatMessage,
+                groupId: destination,
+              }
+            );
+            const members = this.get('members');
+            await Promise.all(
+              members.map(async m => {
+                const memberPubKey = new libsession.Types.PubKey(m);
+                await libsession
+                  .getMessageQueue()
+                  .sendUsingMultiDevice(memberPubKey, mediumGroupChatMessage);
+              })
+            );
           } else {
             const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
               {

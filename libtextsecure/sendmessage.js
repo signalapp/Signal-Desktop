@@ -1,4 +1,4 @@
-/* global textsecure, WebAPI, libsignal, window, OutgoingMessage, libloki, _, libsession */
+/* global textsecure, WebAPI, libsignal, window, libloki, _, libsession */
 
 /* eslint-disable more/no-then, no-bitwise */
 
@@ -350,7 +350,6 @@ MessageSender.prototype = {
       }
     });
   },
-
 
   uploadAvatar(attachment) {
     // isRaw is true since the data is already encrypted
