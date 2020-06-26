@@ -23,13 +23,10 @@ export abstract class ClosedGroupMessage extends DataMessage {
     return this.getDefaultTTL();
   }
 
-  protected abstract groupContextType(): SignalService.GroupContext.Type;
-
   protected groupContext(): SignalService.GroupContext {
     const id = new Uint8Array(StringUtils.encode(this.groupId.key, 'utf8'));
-    const type = this.groupContextType();
 
-    return new SignalService.GroupContext({ id, type });
+    return new SignalService.GroupContext({ id });
   }
 
   protected dataProto(): SignalService.DataMessage {

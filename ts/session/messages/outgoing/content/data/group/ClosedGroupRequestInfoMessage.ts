@@ -13,7 +13,11 @@ export class ClosedGroupRequestInfoMessage extends ClosedGroupMessage {
     });
   }
 
-  protected groupContextType(): SignalService.GroupContext.Type {
-    return SignalService.GroupContext.Type.REQUEST_INFO;
+  protected groupContext(): SignalService.GroupContext {
+    // use the parent method to fill id correctly
+    const groupContext = super.groupContext();
+    groupContext.type = SignalService.GroupContext.Type.REQUEST_INFO;
+
+    return groupContext;
   }
 }

@@ -52,13 +52,11 @@ export abstract class ClosedGroupUpdateMessage extends ClosedGroupMessage {
     this.avatar = params.avatar;
   }
 
-  protected groupContextType(): SignalService.GroupContext.Type {
-    return SignalService.GroupContext.Type.UPDATE;
-  }
-
   protected groupContext(): SignalService.GroupContext {
-    // use the parent method to fill id and type correctly
+    // use the parent method to fill id correctly
     const groupContext = super.groupContext();
+
+    groupContext.type = SignalService.GroupContext.Type.UPDATE;
 
     if (this.name) {
       groupContext.name = this.name;

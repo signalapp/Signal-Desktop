@@ -25,8 +25,12 @@ export class ClosedGroupChatMessage extends ClosedGroupMessage {
     return this.getDefaultTTL();
   }
 
-  protected groupContextType(): SignalService.GroupContext.Type {
-    return SignalService.GroupContext.Type.DELIVER;
+  protected groupContext(): SignalService.GroupContext {
+    // use the parent method to fill id correctly
+    const groupContext = super.groupContext();
+    groupContext.type = SignalService.GroupContext.Type.DELIVER;
+
+    return groupContext;
   }
 
   protected dataProto(): SignalService.DataMessage {
