@@ -1,4 +1,4 @@
-// tslint:disable no-backbone-get-set-outside-model no-default-export no-unnecessary-local-variable
+// tslint:disable no-default-export no-unnecessary-local-variable
 
 import EventTarget from './EventTarget';
 import { WebAPIType } from './WebAPI';

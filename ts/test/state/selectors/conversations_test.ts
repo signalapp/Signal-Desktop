@@ -14,6 +14,7 @@ describe('state/selectors/conversations', () => {
       const data: ConversationLookupType = {
         id1: {
           id: 'id1',
+          e164: '+18005551111',
           activeAt: Date.now(),
           name: 'No timestamp',
           timestamp: 0,
@@ -24,6 +25,7 @@ describe('state/selectors/conversations', () => {
           type: 'direct',
           isMe: false,
           lastUpdated: Date.now(),
+          title: 'No timestamp',
           unreadCount: 1,
           isSelected: false,
           typingContact: {
@@ -36,6 +38,7 @@ describe('state/selectors/conversations', () => {
         },
         id2: {
           id: 'id2',
+          e164: '+18005551111',
           activeAt: Date.now(),
           name: 'B',
           timestamp: 20,
@@ -46,6 +49,7 @@ describe('state/selectors/conversations', () => {
           type: 'direct',
           isMe: false,
           lastUpdated: Date.now(),
+          title: 'B',
           unreadCount: 1,
           isSelected: false,
           typingContact: {
@@ -58,6 +62,7 @@ describe('state/selectors/conversations', () => {
         },
         id3: {
           id: 'id3',
+          e164: '+18005551111',
           activeAt: Date.now(),
           name: 'C',
           timestamp: 20,
@@ -68,6 +73,7 @@ describe('state/selectors/conversations', () => {
           type: 'direct',
           isMe: false,
           lastUpdated: Date.now(),
+          title: 'C',
           unreadCount: 1,
           isSelected: false,
           typingContact: {
@@ -80,6 +86,7 @@ describe('state/selectors/conversations', () => {
         },
         id4: {
           id: 'id4',
+          e164: '+18005551111',
           activeAt: Date.now(),
           name: 'Á',
           timestamp: 20,
@@ -90,6 +97,7 @@ describe('state/selectors/conversations', () => {
           type: 'direct',
           isMe: false,
           lastUpdated: Date.now(),
+          title: 'A',
           unreadCount: 1,
           isSelected: false,
           typingContact: {
@@ -102,6 +110,7 @@ describe('state/selectors/conversations', () => {
         },
         id5: {
           id: 'id5',
+          e164: '+18005551111',
           activeAt: Date.now(),
           name: 'First!',
           timestamp: 30,
@@ -112,6 +121,7 @@ describe('state/selectors/conversations', () => {
           type: 'direct',
           isMe: false,
           lastUpdated: Date.now(),
+          title: 'First!',
           unreadCount: 1,
           isSelected: false,
           typingContact: {

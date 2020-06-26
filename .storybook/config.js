@@ -52,6 +52,28 @@ addDecorator((storyFn /* , context */) => {
   const secondPaneDeviceTheme = makeDeviceThemeKnob('Second');
   const secondPaneMode = makeModeKnob('Second');
 
+  // Adding it to the body as well so that we can cover modals and other
+  // components that are rendered outside of this decorator container
+  if (firstPaneTheme === '') {
+    document.body.classList.remove('dark-theme');
+  } else {
+    document.body.classList.add('dark-theme');
+  }
+
+  if (firstPaneDeviceTheme === '') {
+    document.body.classList.remove('ios-theme');
+  } else {
+    document.body.classList.add('ios-theme');
+  }
+
+  if (firstPaneMode === 'mouse-mode') {
+    document.body.classList.remove('keyboard-mode');
+    document.body.classList.add('mouse-mode');
+  } else {
+    document.body.classList.remove('mouse-mode');
+    document.body.classList.add('keyboard-mode');
+  }
+
   return (
     <div className={styles.container}>
       <ClassyProvider themes={['dark']}>

@@ -1,4 +1,3 @@
-// tslint:disable: no-backbone-get-set-outside-model
 import { get, throttle } from 'lodash';
 import { WebAPIType } from './textsecure/WebAPI';
 

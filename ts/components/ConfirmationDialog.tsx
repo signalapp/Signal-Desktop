@@ -70,33 +70,35 @@ export const ConfirmationDialog = React.memo(
         <div className="module-confirmation-dialog__container__content">
           {children}
         </div>
-        <div className="module-confirmation-dialog__container__buttons">
-          <button
-            onClick={handleCancel}
-            ref={focusRef}
-            className="module-confirmation-dialog__container__buttons__button"
-          >
-            {i18n('confirmation-dialog--Cancel')}
-          </button>
-          {actions.map((action, i) => (
+        {actions.length > 0 && (
+          <div className="module-confirmation-dialog__container__buttons">
             <button
-              key={i}
-              onClick={handleAction}
-              data-action={i}
-              className={classNames(
-                'module-confirmation-dialog__container__buttons__button',
-                action.style === 'affirmative'
-                  ? 'module-confirmation-dialog__container__buttons__button--affirmative'
-                  : null,
-                action.style === 'negative'
-                  ? 'module-confirmation-dialog__container__buttons__button--negative'
-                  : null
-              )}
+              onClick={handleCancel}
+              ref={focusRef}
+              className="module-confirmation-dialog__container__buttons__button"
             >
-              {action.text}
+              {i18n('confirmation-dialog--Cancel')}
             </button>
-          ))}
-        </div>
+            {actions.map((action, i) => (
+              <button
+                key={i}
+                onClick={handleAction}
+                data-action={i}
+                className={classNames(
+                  'module-confirmation-dialog__container__buttons__button',
+                  action.style === 'affirmative'
+                    ? 'module-confirmation-dialog__container__buttons__button--affirmative'
+                    : null,
+                  action.style === 'negative'
+                    ? 'module-confirmation-dialog__container__buttons__button--negative'
+                    : null
+                )}
+              >
+                {action.text}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     );
   }

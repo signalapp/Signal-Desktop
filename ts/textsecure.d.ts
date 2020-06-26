@@ -96,6 +96,14 @@ type StoredSignedPreKeyType = SignedPreKeyType & {
   created_at: number;
 };
 
+type IdentityKeyRecord = {
+  publicKey: ArrayBuffer;
+  firstUse: boolean;
+  timestamp: number;
+  verified: number;
+  nonblockingApproval: boolean;
+};
+
 export type StorageProtocolType = StorageType & {
   VerifiedStatus: {
     DEFAULT: number;
@@ -105,6 +113,7 @@ export type StorageProtocolType = StorageType & {
   archiveSiblingSessions: (identifier: string) => Promise<void>;
   removeSession: (identifier: string) => Promise<void>;
   getDeviceIds: (identifier: string) => Promise<Array<number>>;
+  getIdentityRecord: (identifier: string) => IdentityKeyRecord | undefined;
   hydrateCaches: () => Promise<void>;
   clearPreKeyStore: () => Promise<void>;
   clearSignedPreKeysStore: () => Promise<void>;
@@ -119,13 +128,7 @@ export type StorageProtocolType = StorageType & {
   loadSignedPreKeys: () => Promise<Array<StoredSignedPreKeyType>>;
   saveIdentityWithAttributes: (
     number: string,
-    options: {
-      publicKey: ArrayBuffer;
-      firstUse: boolean;
-      timestamp: number;
-      verified: number;
-      nonblockingApproval: boolean;
-    }
+    options: IdentityKeyRecord
   ) => Promise<void>;
   removeSignedPreKey: (keyId: number) => Promise<void>;
   removeAllData: () => Promise<void>;

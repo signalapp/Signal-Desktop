@@ -451,9 +451,12 @@
 
       const result = {
         id: this.id,
+        uuid: this.get('uuid'),
+        e164: this.get('e164'),
 
         isArchived: this.get('isArchived'),
         isBlocked: this.isBlocked(),
+        isVerified: this.isVerified(),
         activeAt: this.get('active_at'),
         avatarPath: this.getAvatarPath(),
         color,

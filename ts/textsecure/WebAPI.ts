@@ -189,7 +189,6 @@ const agents: AgentCacheType = {};
 
 function getContentType(response: Response) {
   if (response.headers && response.headers.get) {
-    // tslint:disable-next-line no-backbone-get-set-outside-model
     return response.headers.get('content-type');
   }
 
@@ -310,7 +309,6 @@ async function _promiseAjax(
         let resultPromise;
         if (
           options.responseType === 'json' &&
-          // tslint:disable-next-line no-backbone-get-set-outside-model
           response.headers.get('Content-Type') === 'application/json'
         ) {
           resultPromise = response.json();
@@ -1464,7 +1462,6 @@ export function initialize({
         throw new Error('makeProxiedRequest: Problem retrieving header value');
       }
 
-      // tslint:disable-next-line no-backbone-get-set-outside-model
       const range = response.headers.get('content-range');
       const match = PARSE_RANGE_HEADER.exec(range);
 

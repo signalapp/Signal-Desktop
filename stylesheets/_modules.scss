@@ -6139,6 +6139,279 @@ button.module-image__border-overlay:focus {
   }
 }
 
+// Module: SafetyNumberChangeDialog
+
+.module-sfn-dialog__title {
+  @include font-body-1-bold;
+  text-align: center;
+
+  @include dark-theme {
+    color: $color-white;
+  }
+}
+
+.module-sfn-dialog__message {
+  @include font-body-2;
+  text-align: center;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.module-sfn-dialog__contacts {
+  list-style-type: none;
+  max-height: 300px;
+  overflow-y: scroll;
+  padding: 0;
+}
+
+.module-sfn-dialog__contact {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 16px;
+
+  &--wrapper {
+    flex-grow: 1;
+    margin-left: 12px;
+  }
+
+  &--name {
+    @include font-body-1-bold;
+
+    @include dark-theme {
+      color: $color-white;
+    }
+  }
+
+  &--number {
+    @include light-theme {
+      color: $color-gray-60;
+    }
+
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+  }
+
+  &--view {
+    @include font-body-1-bold;
+    background: inherit;
+    border: none;
+    cursor: pointer;
+    margin-right: 2px;
+    outline: none;
+    padding: 8px 14px;
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+      }
+    }
+
+    @include light-theme {
+      color: $ultramarine-ui-light;
+    }
+
+    @include dark-theme {
+      color: $ultramarine-ui-dark;
+    }
+  }
+}
+
+.module-sfn-dialog__actions {
+  border-top: 1px solid $color-gray-05;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -18px;
+  margin-left: -16px;
+  margin-right: -16px;
+  margin-top: -14px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 16px;
+
+  &--cancel {
+    @include font-body-1-bold;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    padding: 7px 14px;
+
+    @include mouse-mode {
+      &:hover {
+        background: $color-gray-15;
+      }
+    }
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+      }
+    }
+
+    @include light-theme {
+      background-color: $color-gray-05;
+      color: $ultramarine-ui-light;
+    }
+
+    @include dark-theme {
+      background-color: $color-gray-75;
+      color: $ultramarine-ui-dark;
+    }
+  }
+
+  &--confirm {
+    @include font-body-1-bold;
+    background: $ultramarine-ui-light;
+    border: none;
+    border-radius: 4px;
+    color: $color-white;
+    margin-left: 12px;
+    outline: none;
+    padding: 7px 14px;
+
+    @include mouse-mode {
+      &:hover {
+        background: $ultramarine-brand-dark;
+      }
+    }
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 2px $ultramarine-brand-dark;
+      }
+    }
+  }
+}
+
+/* Safety Number verification */
+
+.module-safety-number {
+  &__icon {
+    height: 1.25em;
+    width: 1.25em;
+    vertical-align: text-bottom;
+    display: inline-block;
+  }
+
+  &__verification-label {
+    margin: 10px 0;
+  }
+
+  &__icon--verified {
+    display: inline-block;
+    height: 1.25em;
+    margin-right: 4px;
+    vertical-align: text-bottom;
+    width: 1.25em;
+
+    @include light-theme {
+      -webkit-mask: url('../images/icons/v2/check-24.svg') no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #121212;
+    }
+
+    @include dark-theme {
+      -webkit-mask: url('../images/icons/v2/check-24.svg') no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #f6f6f6;
+    }
+  }
+
+  &__icon--shield {
+    display: inline-block;
+    height: 1.25em;
+    margin-right: 4px;
+    vertical-align: text-bottom;
+    width: 1.25em;
+
+    @include light-theme {
+      -webkit-mask: url('../images/icons/v2/safety-number-outline-24.svg')
+        no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #121212;
+    }
+
+    @include dark-theme {
+      -webkit-mask: url('../images/icons/v2/safety-number-solid-24.svg')
+        no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #f6f6f6;
+    }
+  }
+
+  &__verify-container {
+    text-align: center;
+  }
+
+  &__button--verify {
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 0;
+    outline: none;
+    padding: 10px;
+  }
+
+  &__number {
+    background: #f6f6f6;
+    border-radius: 5px;
+    border: solid 1px #dedede;
+    font-family: monospace;
+    margin: 20px auto 20px auto;
+    padding: 10px;
+    text-align: center;
+    width: 16em;
+
+    @include dark-theme {
+      background: #1b1b1b;
+      border: solid 1px #848484;
+      color: #f6f6f6;
+    }
+  }
+
+  &__verification-status {
+    margin: 30px 0 10px;
+    text-align: center;
+  }
+
+  &__close-button {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      background: inherit;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+
+      @include keyboard-mode {
+        &:focus {
+          border: 1px solid $ultramarine-ui-light;
+        }
+      }
+
+      span {
+        display: inline-block;
+        height: 24px;
+        width: 24px;
+
+        @include light-theme {
+          @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+        }
+        @include dark-theme {
+          @include color-svg('../images/icons/v2/x-24.svg', $color-gray-05);
+        }
+      }
+    }
+  }
+}
+
 // Module: StickerPicker
 
 .module-sticker-picker {
@@ -7094,7 +7367,7 @@ button.module-image__border-overlay:focus {
     }
 
     @include dark-theme() {
-      background: $color-gray-75;
+      background: $color-gray-80;
       color: $color-gray-05;
     }
 

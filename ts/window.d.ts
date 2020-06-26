@@ -13,9 +13,12 @@ import * as Crypto from './Crypto';
 import { ColorType, LocalizerType } from './types/Util';
 import { SendOptionsType } from './textsecure/SendMessage';
 
+type TaskResultType = any;
+
 declare global {
   interface Window {
     dcodeIO: DCodeIOType;
+    getConversations: () => ConversationControllerType;
     getExpiration: () => string;
     getEnvironment: () => string;
     getSocketStatus: () => number;
@@ -83,12 +86,16 @@ export type ConversationType = {
   getColor(): ColorType | undefined;
   getName(): string | undefined;
   getNumber(): string;
+  getProfiles(): Promise<Array<Promise<void>>>;
   getProfileName(): string | undefined;
   getRecipients: () => Array<string>;
   getSendOptions(): SendOptionsType;
+  getTitle(): string;
+  isVerified(): boolean;
   safeGetVerified(): Promise<number>;
   getIsAddedByContact(): boolean;
   addCallHistory(details: CallHistoryDetailsType): void;
+  toggleVerified(): Promise<TaskResultType>;
 };
 
 export type ConversationControllerType = {

@@ -13,11 +13,9 @@ export function remove() {
 }
 
 export function isDone() {
-  // tslint:disable-next-line no-backbone-get-set-outside-model
   return window.storage.get('chromiumRegistrationDone') === '';
 }
 
 export function everDone() {
-  // tslint:disable-next-line no-backbone-get-set-outside-model
   return window.storage.get('chromiumRegistrationDoneEver') === '' || isDone();
 }
