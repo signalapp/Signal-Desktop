@@ -13,19 +13,6 @@ index 72a59df..0a9a8b8 100644
      }
 
      await packager.info.callArtifactBuildCompleted({
-diff --git a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
-index 6e674b9..8e5be4f 100644
---- a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
-+++ b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
-@@ -135,7 +135,7 @@ class LinuxTargetHelper {
-         exec += executableArgs.join(" ");
-       }
-
--      exec += " %U";
-+      exec += " --no-sandbox %U";
-     }
-
-     const desktopMeta = Object.assign(Object.assign({
 diff --git a/node_modules/app-builder-lib/templates/linux/after-install.tpl b/node_modules/app-builder-lib/templates/linux/after-install.tpl
 index 16eab30..0077182 100644
 --- a/node_modules/app-builder-lib/templates/linux/after-install.tpl
