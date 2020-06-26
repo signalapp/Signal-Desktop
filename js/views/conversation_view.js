@@ -2502,33 +2502,17 @@
 
     showSendAnywayDialog(contacts) {
       return new Promise(resolve => {
-        let message;
-        const isUnverified = this.model.isUnverified();
-
-        if (contacts.length > 1) {
-          if (isUnverified) {
-            message = i18n('changedSinceVerifiedMultiple');
-          } else {
-            message = i18n('changedRecentlyMultiple');
-          }
-        } else {
-          const contactName = contacts.at(0).getTitle();
-          if (isUnverified) {
-            message = i18n('changedSinceVerified', [contactName, contactName]);
-          } else {
-            message = i18n('changedRecently', [contactName, contactName]);
-          }
-        }
-
-        const dialog = new Whisper.ConfirmationDialogView({
-          message,
-          okText: i18n('sendAnyway'),
-          resolve: () => resolve(true),
-          reject: () => resolve(false),
+        const dialog = new Whisper.SafetyNumberChangeDialogView({
+          contacts,
+          reject: () => {
+            resolve(false);
+          },
+          resolve: () => {
+            resolve(true);
+          },
         });
 
         this.$el.prepend(dialog.el);
-        dialog.focusCancel();
       });
     },
 

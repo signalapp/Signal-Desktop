@@ -223,7 +223,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/models/conversations.js",
     "line": "      await wrap(",
-    "lineNumber": 641,
+    "lineNumber": 644,
     "reasonCategory": "falseMatch",
     "updated": "2020-06-09T20:26:46.515Z"
   },
@@ -710,46 +710,18 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
-    "line": "      new QRCode(this.$('.qr')[0]).makeCode(",
-    "lineNumber": 43,
+    "line": "      this.$('.key-verification-wrapper').append(view.el);",
+    "lineNumber": 23,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-02-14T20:02:37.507Z",
-    "reasonDetail": "Hardcoded selector"
+    "updated": "2020-06-23T06:48:06.829Z"
   },
   {
-    "rule": "jQuery-wrap(",
+    "rule": "jQuery-append(",
     "path": "js/views/key_verification_view.js",
-    "line": "        dcodeIO.ByteBuffer.wrap(this.ourKey).toString('base64')",
-    "lineNumber": 44,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-14T20:02:37.507Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "js/views/key_verification_view.js",
-    "line": "      dialog.$el.insertBefore(this.el);",
-    "lineNumber": 86,
+    "line": "      this.$('.key-verification-wrapper').append(view.el);",
+    "lineNumber": 23,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-02-14T20:02:37.507Z",
-    "reasonDetail": "Known DOM elements"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/key_verification_view.js",
-    "line": "      this.$('button.verify').attr('disabled', true);",
-    "lineNumber": 90,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-02-14T20:02:37.507Z",
-    "reasonDetail": "Hardcoded selector"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/key_verification_view.js",
-    "line": "          this.$('button.verify').removeAttr('disabled');",
-    "lineNumber": 121,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-02-14T20:02:37.507Z",
-    "reasonDetail": "Hardcoded selector"
+    "updated": "2020-06-23T06:48:06.829Z"
   },
   {
     "rule": "jQuery-append(",
@@ -840,6 +812,22 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-10-11T19:22:47.331Z",
     "reasonDetail": "Operating on already-existing DOM elements"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/safety_number_change_dialog_view.js",
+    "line": "      this.$('.safety-number-change-dialog-wrapper').append(dialog.el);",
+    "lineNumber": 36,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-06-23T06:48:06.829Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "js/views/safety_number_change_dialog_view.js",
+    "line": "      this.$('.safety-number-change-dialog-wrapper').append(dialog.el);",
+    "lineNumber": 36,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-06-23T06:48:06.829Z"
   },
   {
     "rule": "jQuery-$(",
@@ -11578,6 +11566,15 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Used only to set focus"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/SafetyNumberChangeDialog.js",
+    "line": "    const cancelButtonRef = React.createRef();",
+    "lineNumber": 14,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-06-23T06:48:06.829Z",
+    "reasonDetail": "Used to focus cancel button when dialog opens"
   },
   {
     "rule": "React-createRef",

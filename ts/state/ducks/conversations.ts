@@ -24,12 +24,15 @@ export type DBConversationType = {
 };
 export type ConversationType = {
   id: string;
+  uuid?: string;
+  e164: string;
   name?: string;
   profileName?: string;
   avatarPath?: string;
   color?: ColorType;
   isArchived?: boolean;
   isBlocked?: boolean;
+  isVerified?: boolean;
   activeAt?: number;
   timestamp: number;
   inboxPosition: number;
@@ -42,6 +45,7 @@ export type ConversationType = {
   type: 'direct' | 'group';
   isMe: boolean;
   lastUpdated: number;
+  title: string;
   unreadCount: number;
   isSelected: boolean;
   typingContact?: {

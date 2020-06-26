@@ -31,6 +31,11 @@ import {
   reducer as network,
 } from './ducks/network';
 import {
+  reducer as safetyNumber,
+  SafetyNumberActionTypes,
+  SafetyNumberStateType,
+} from './ducks/safetyNumber';
+import {
   reducer as search,
   SEARCH_TYPES as SearchActionType,
   SearchStateType,
@@ -54,6 +59,7 @@ export type StateType = {
   expiration: ExpirationStateType;
   items: ItemsStateType;
   network: NetworkStateType;
+  safetyNumber: SafetyNumberStateType;
   search: SearchStateType;
   stickers: StickersStateType;
   updates: UpdatesStateType;
@@ -67,6 +73,7 @@ export type ActionsType =
   | ConversationActionType
   | ItemsActionType
   | NetworkActionType
+  | SafetyNumberActionTypes
   | StickersActionType
   | SearchActionType
   | UpdatesActionType;
@@ -78,6 +85,7 @@ export const reducers = {
   expiration,
   items,
   network,
+  safetyNumber,
   search,
   stickers,
   updates,

@@ -345,20 +345,6 @@
     "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
     "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
-  "changedSinceVerifiedMultiple": {
-    "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
-    "description": "Shown on confirmation dialog when user attempts to send a message"
-  },
-  "changedSinceVerified": {
-    "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
-    "description": "Shown on confirmation dialog when user attempts to send a message",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
-  },
   "changedRightAfterVerify": {
     "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
@@ -369,19 +355,9 @@
       }
     }
   },
-  "changedRecentlyMultiple": {
-    "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Signal.",
+  "changedVerificationWarning": {
+    "message": "The following people may have reinstalled or changed devices. Verify your safety number with them to ensure privacy.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
-  },
-  "changedRecently": {
-    "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
-    "description": "Shown on confirmation dialog when user attempts to send a message",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
   },
   "identityKeyErrorOnSend": {
     "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
@@ -1578,6 +1554,10 @@
   "safetyNumberChanged": {
     "message": "Safety Number has changed",
     "description": "A notification shown in the conversation when a contact reinstalls"
+  },
+  "safetyNumberChanges": {
+    "message": "Safety Number Changes",
+    "description": "Title for safety number changed modal"
   },
   "safetyNumberChangedGroup": {
     "message": "Safety Number with $name$ has changed",

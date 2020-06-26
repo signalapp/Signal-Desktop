@@ -1,4 +1,4 @@
-// tslint:disable no-backbone-get-set-outside-model no-console no-default-export no-unnecessary-local-variable
+// tslint:disable no-console no-default-export no-unnecessary-local-variable
 
 import { join } from 'path';
 import mkdirp from 'mkdirp';

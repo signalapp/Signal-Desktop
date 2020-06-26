@@ -37,7 +37,6 @@ const SENT = 'sent' as 'sent';
 const START_NEW_CONVERSATION = 'start-new-conversation' as 'start-new-conversation';
 const SMS_MMS_NOT_SUPPORTED = 'sms-mms-not-supported-text' as 'sms-mms-not-supported-text';
 
-// tslint:disable-next-line no-backbone-get-set-outside-model
 messageLookup.set('1-guid-guid-guid-guid-guid', {
   id: '1-guid-guid-guid-guid-guid',
   conversationId: '(202) 555-0015',
@@ -56,7 +55,6 @@ messageLookup.set('1-guid-guid-guid-guid-guid', {
   },
 });
 
-// tslint:disable-next-line no-backbone-get-set-outside-model
 messageLookup.set('2-guid-guid-guid-guid-guid', {
   id: '2-guid-guid-guid-guid-guid',
   conversationId: '(202) 555-0016',
@@ -73,7 +71,6 @@ messageLookup.set('2-guid-guid-guid-guid-guid', {
   },
 });
 
-// tslint:disable-next-line no-backbone-get-set-outside-model
 messageLookup.set('3-guid-guid-guid-guid-guid', {
   id: '3-guid-guid-guid-guid-guid',
   conversationId: 'EveryoneGroupID',
@@ -91,7 +88,6 @@ messageLookup.set('3-guid-guid-guid-guid-guid', {
   },
 });
 
-// tslint:disable-next-line no-backbone-get-set-outside-model
 messageLookup.set('4-guid-guid-guid-guid-guid', {
   id: '4-guid-guid-guid-guid-guid',
   conversationId: 'EveryoneGroupID',

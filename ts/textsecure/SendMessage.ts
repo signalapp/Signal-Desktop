@@ -1,4 +1,4 @@
-// tslint:disable no-backbone-get-set-outside-model no-bitwise no-default-export
+// tslint:disable no-bitwise no-default-export
 
 import { without } from 'lodash';
 import PQueue from 'p-queue';

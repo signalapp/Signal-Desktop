@@ -45,6 +45,9 @@
     // We always want 'as Type'
     "no-angle-bracket-type-assertion": true,
 
+    // mostly always a false positive
+    "no-backbone-get-set-outside-model": false,
+
     "no-consecutive-blank-lines": [true, 2],
     "object-literal-key-quotes": [true, "as-needed"],
     "object-literal-sort-keys": false,
