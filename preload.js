@@ -13,9 +13,6 @@ try {
   const { app } = remote;
   const { nativeTheme } = remote.require('electron');
 
-  // Derive profile key versions, then use those to fetch versioned profiles from server
-  window.VERSIONED_PROFILE_FETCH = false;
-
   window.PROTO_ROOT = 'protos';
   const config = require('url').parse(window.location.toString(), true).query;
 

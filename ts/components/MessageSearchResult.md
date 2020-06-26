@@ -230,3 +230,20 @@
   />
 </util.LeftPaneContext>
 ```
+
+#### Empty
+
+```jsx
+<util.LeftPaneContext theme={util.theme}>
+  <MessageSearchResult
+    from={{}}
+    to={{}}
+    snippet="What's <<left>>going<<right>> on?"
+    id="messageId1"
+    conversationId="conversationId1"
+    sentAt={Date.now() - 24 * 60 * 1000}
+    onClick={result => console.log('onClick', result)}
+    i18n={util.i18n}
+  />
+</util.LeftPaneContext>
+```

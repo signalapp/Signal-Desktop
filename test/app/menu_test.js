@@ -46,8 +46,11 @@ describe('SignalMenu', () => {
                 },
               };
               const options = {
+                isBeta: true,
+                openContactUs: null,
                 openForums: null,
-                openNewBugForm: null,
+                openGithub: null,
+                openJoinTheBeta: null,
                 openReleaseNotes: null,
                 openSupportPage: null,
                 platform,

@@ -2,7 +2,7 @@ import React from 'react';
 import { compact, flatten } from 'lodash';
 
 import { ContactName } from './ContactName';
-import { FullJSXType, Intl } from '../Intl';
+import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
@@ -36,7 +36,7 @@ export class GroupNotification extends React.Component<Props> {
     const { contacts, type, newName } = change;
     const { i18n } = this.props;
 
-    const otherPeople = compact(
+    const otherPeople: Array<JSX.Element> = compact(
       (contacts || []).map(contact => {
         if (contact.isMe) {
           return null;
@@ -56,7 +56,7 @@ export class GroupNotification extends React.Component<Props> {
         );
       })
     );
-    const otherPeopleWithCommas: FullJSXType = compact(
+    const otherPeopleWithCommas: Array<JSX.Element | string> = compact(
       flatten(
         otherPeople.map((person, index) => [index > 0 ? ', ' : null, person])
       )
@@ -89,11 +89,14 @@ export class GroupNotification extends React.Component<Props> {
           }
         }
 
+        const joinedKey =
+          contacts.length > 1 ? 'multipleJoinedTheGroup' : 'joinedTheGroup';
+
         return (
           <>
             <Intl
               i18n={i18n}
-              id="multipleJoinedTheGroup"
+              id={joinedKey}
               components={[otherPeopleWithCommas]}
             />
             {contactsIncludesMe ? (

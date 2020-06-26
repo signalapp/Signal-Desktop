@@ -199,13 +199,15 @@
         fromContact.isMe = true;
       }
 
-      const conversation = this.getConversation();
-      let to = this.findAndFormatContact(conversation.get('id'));
-      if (conversation.isMe()) {
+      const convo = this.getConversation();
+
+      let to = convo ? this.findAndFormatContact(convo.get('id')) : {};
+
+      if (convo && convo.isMe()) {
         to.isMe = true;
       } else if (
-        sourceE164 === conversation.get('e164') ||
-        sourceUuid === conversation.get('uuid')
+        (sourceE164 && convo && sourceE164 === convo.get('e164')) ||
+        (sourceUuid && convo && sourceUuid === convo.get('uuid'))
       ) {
         to = {
           isMe: true,
@@ -213,7 +215,7 @@
       }
 
       return {
-        from: fromContact,
+        from: fromContact || {},
         to,
 
         isSelected: this.isSelected,
@@ -967,9 +969,11 @@
 
     // General
     idForLogging() {
-      return `${this.get('source')}.${this.get('sourceDevice')} ${this.get(
-        'sent_at'
-      )}`;
+      const source = this.getSource();
+      const device = this.getSourceDevice();
+      const timestamp = this.get('sent_at');
+
+      return `${source}.${device} ${timestamp}`;
     },
     defaults() {
       return {
@@ -1160,6 +1164,13 @@
       }
 
       return this.OUR_NUMBER;
+    },
+    getSourceDevice() {
+      if (this.isIncoming()) {
+        return this.get('sourceDevice');
+      }
+
+      return window.textsecure.storage.user.getDeviceId();
     },
     getSourceUuid() {
       if (this.isIncoming()) {

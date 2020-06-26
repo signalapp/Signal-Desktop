@@ -16,6 +16,7 @@ const electron = require('electron');
 
 const packageJson = require('./package.json');
 const GlobalErrors = require('./app/global_errors');
+const { isBeta } = require('./app/version');
 const { setup: setupSpellChecker } = require('./app/spell_check');
 
 GlobalErrors.addHandler();
@@ -473,20 +474,71 @@ ipc.once('ready-for-updates', readyForUpdates);
 const TEN_MINUTES = 10 * 60 * 1000;
 setTimeout(readyForUpdates, TEN_MINUTES);
 
+// the support only provides a subset of languages available within the app
+// so we have to list them out here and fallback to english if not included
+
+const SUPPORT_LANGUAGES = [
+  'ar',
+  'bn',
+  'de',
+  'en-us',
+  'es',
+  'fr',
+  'hi',
+  'hi-in',
+  'hc',
+  'id',
+  'it',
+  'ja',
+  'ko',
+  'mr',
+  'ms',
+  'nl',
+  'pl',
+  'pt',
+  'ru',
+  'sv',
+  'ta',
+  'te',
+  'tr',
+  'uk',
+  'ur',
+  'vi',
+  'zh-cn',
+  'zh-tw',
+];
+
+function openContactUs() {
+  const userLanguage = app.getLocale();
+  const language = SUPPORT_LANGUAGES.includes(userLanguage)
+    ? userLanguage
+    : 'en-us';
+
+  // This URL needs a hardcoded language because the '?desktop' is dropped if the page
+  //   auto-redirects to the proper URL
+  shell.openExternal(
+    `https://support.signal.org/hc/${language}/requests/new?desktop`
+  );
+}
+
+function openJoinTheBeta() {
+  // If we omit the language, the site will detect the language and redirect
+  shell.openExternal('https://support.signal.org/hc/articles/360007318471');
+}
+
 function openReleaseNotes() {
   shell.openExternal(
     `https://github.com/signalapp/Signal-Desktop/releases/tag/v${app.getVersion()}`
   );
 }
 
-function openNewBugForm() {
-  shell.openExternal('https://github.com/signalapp/Signal-Desktop/issues/new');
+function openGithub() {
+  shell.openExternal('https://github.com/signalapp/Signal-Desktop');
 }
 
 function openSupportPage() {
-  shell.openExternal(
-    'https://support.signal.org/hc/en-us/categories/202319038-Desktop'
-  );
+  // If we omit the language, the site will detect the language and redirect
+  shell.openExternal('https://support.signal.org/hc/sections/360001602812');
 }
 
 function openForums() {
@@ -944,14 +996,17 @@ function setupMenu(options) {
   const menuOptions = {
     ...options,
     development,
+    isBeta: isBeta(app.getVersion()),
     showDebugLog: showDebugLogWindow,
     showKeyboardShortcuts,
     showWindow,
     showAbout,
     showSettings: showSettingsWindow,
     showStickerCreator,
+    openContactUs,
+    openGithub,
+    openJoinTheBeta,
     openReleaseNotes,
-    openNewBugForm,
     openSupportPage,
     openForums,
     platform,

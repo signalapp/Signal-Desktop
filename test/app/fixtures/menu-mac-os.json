@@ -186,6 +186,10 @@
         "type": "separator"
       },
       {
+        "label": "Contact Us",
+        "click": null
+      },
+      {
         "label": "Go to Release Notes",
         "click": null
       },
@@ -198,7 +202,11 @@
         "click": null
       },
       {
-        "label": "Report an Issue",
+        "label": "Go to GitHub",
+        "click": null
+      },
+      {
+        "label": "Join the Beta",
         "click": null
       }
     ]
