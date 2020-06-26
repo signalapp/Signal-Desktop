@@ -1305,15 +1305,6 @@
           });
 
           this.trigger('sent', this);
-          // don't send sync message for EndSession messages
-          if (!this.isEndSession()) {
-            const c = this.getConversation();
-            // Don't bother sending sync messages to public chats
-            // or groups with sender keys
-            if (c && !c.isPublic() && !c.isMediumGroup()) {
-              this.sendSyncMessage();
-            }
-          }
         })
         .catch(result => {
           this.trigger('done');
@@ -1358,7 +1349,6 @@
                 expirationStartTimestamp,
                 unidentifiedDeliveries: result.unidentifiedDeliveries,
               });
-              promises.push(this.sendSyncMessage());
             } else {
               this.saveErrors(result.errors);
             }
@@ -1409,47 +1399,6 @@
       return window.Signal.Data.saveMessage(this.attributes, {
         Message: Whisper.Message,
       });
-    },
-
-    sendSyncMessage() {
-      this.syncPromise = this.syncPromise || Promise.resolve();
-      const next = async () => {
-        const encodedDataMessage = this.get('dataMessage');
-        if (this.get('synced') || !encodedDataMessage) {
-          return Promise.resolve();
-        }
-        const dataMessage = textsecure.protobuf.DataMessage.decode(
-          encodedDataMessage
-        );
-        // Sync the group message to our other devices
-        const sentSyncMessageParams = {
-          timestamp: this.get('sent_at'),
-          dataMessage,
-          destination: this.get('destination'),
-          expirationStartTimestamp: this.get('expirationStartTimestamp'),
-          sent_to: this.get('sent_to'),
-          unidentifiedDeliveries: this.get('unidentifiedDeliveries'),
-        };
-        const sentSyncMessage = new libsession.Messages.Outgoing.SentSyncMessage(
-          sentSyncMessageParams
-        );
-
-        const result = await libsession
-          .getMessageQueue()
-          .sendSyncMessage(sentSyncMessage);
-        this.set({
-          synced: true,
-          dataMessage: null,
-        });
-        await window.Signal.Data.saveMessage(this.attributes, {
-          Message: Whisper.Message,
-        });
-        return result;
-      };
-
-      this.syncPromise = this.syncPromise.then(next, next);
-
-      return this.syncPromise;
     },
 
     async saveErrors(providedErrors) {
