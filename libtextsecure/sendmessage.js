@@ -351,31 +351,6 @@ MessageSender.prototype = {
     });
   },
 
-  sendMessageProto(
-    timestamp,
-    numbers,
-    message,
-    callback,
-    silent,
-    options = {}
-  ) {
-    // Note: Since we're just doing independant tasks,
-    // using `async` in the `forEach` loop should be fine.
-    // If however we want to use the results from forEach then
-    // we would need to convert this to a Promise.all(numbers.map(...))
-    numbers.forEach(async number => {
-      const outgoing = new OutgoingMessage(
-        this.server,
-        timestamp,
-        numbers,
-        message,
-        silent,
-        callback,
-        options
-      );
-      this.queueJobForNumber(number, () => outgoing.sendToNumber(number));
-    });
-  },
 
   uploadAvatar(attachment) {
     // isRaw is true since the data is already encrypted
@@ -521,103 +496,6 @@ MessageSender.prototype = {
     return libsession.getMessageQueue().sendSyncMessage(verifiedSyncMessage);
   },
 
-  async sendGroupProto(
-    providedNumbers,
-    proto,
-    timestamp = Date.now(),
-    options = {}
-  ) {
-    // We always assume that only primary device is a member in the group
-    const primaryDeviceKey =
-      window.storage.get('primaryDevicePubKey') ||
-      textsecure.storage.user.getNumber();
-    const numbers = providedNumbers.filter(
-      number => number !== primaryDeviceKey
-    );
-    if (numbers.length === 0) {
-      return Promise.resolve({
-        successfulNumbers: [],
-        failoverNumbers: [],
-        errors: [],
-        unidentifiedDeliveries: [],
-        dataMessage: proto.toArrayBuffer(),
-      });
-    }
-
-    const sendPromise = new Promise((resolve, reject) => {
-      const silent = true;
-      const callback = res => {
-        res.dataMessage = proto.toArrayBuffer();
-        if (res.errors.length > 0) {
-          reject(res);
-        } else {
-          resolve(res);
-        }
-      };
-
-      this.sendMessageProto(
-        timestamp,
-        numbers,
-        proto,
-        callback,
-        silent,
-        options
-      );
-    });
-
-    const result = await sendPromise;
-
-    // Sync the group message to our other devices
-    const sentSyncMessageParams = {
-      timestamp,
-      dataMessage: proto,
-    };
-    const sentSyncMessage = new libsession.Messages.Outgoing.SentSyncMessage(
-      sentSyncMessageParams
-    );
-
-    await libsession.getMessageQueue().sendSyncMessage(sentSyncMessage);
-
-    return result;
-  },
-
-  async getMessageProto(
-    number,
-    body,
-    attachments,
-    quote,
-    preview,
-    timestamp,
-    expireTimer,
-    profileKey,
-    flags
-  ) {
-    const attributes = {
-      recipients: [number],
-      body,
-      timestamp,
-      attachments,
-      quote,
-      preview,
-      expireTimer,
-      profileKey,
-      flags,
-    };
-
-    return this.getMessageProtoObj(attributes);
-  },
-
-  async getMessageProtoObj(attributes) {
-    const message = new Message(attributes);
-    await Promise.all([
-      this.uploadAttachments(message),
-      this.uploadThumbnails(message),
-      this.uploadLinkPreviews(message),
-    ]);
-
-    return message.toArrayBuffer();
-  },
-
   getOurProfile() {
     try {
       // Secondary devices have their profile stored
@@ -631,17 +509,6 @@ MessageSender.prototype = {
     }
   },
 
-  requestSenderKeys(sender, groupId) {
-    const params = {
-      timestamp: Date.now(),
-      groupId,
-    };
-    const requestKeysMessage = new libsession.Messages.Outgoing.MediumGroupRequestKeysMessage(
-      params
-    );
-    const senderPubKey = new libsession.Types.PubKey(sender);
-    libsession.getMessageQueue().send(senderPubKey, requestKeysMessage);
-  },
   makeProxiedRequest(url, options) {
     return this.server.makeProxiedRequest(url, options);
   },
@@ -659,13 +526,11 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.sendOpenGroupsSyncMessage = sender.sendOpenGroupsSyncMessage.bind(
     sender
   );
-  this.requestSenderKeys = sender.requestSenderKeys.bind(sender);
   this.uploadAvatar = sender.uploadAvatar.bind(sender);
   this.syncReadMessages = sender.syncReadMessages.bind(sender);
   this.syncVerification = sender.syncVerification.bind(sender);
   this.makeProxiedRequest = sender.makeProxiedRequest.bind(sender);
   this.getProxiedSize = sender.getProxiedSize.bind(sender);
-  this.getMessageProto = sender.getMessageProto.bind(sender);
 };
 
 textsecure.MessageSender.prototype = {
