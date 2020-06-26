@@ -9,12 +9,23 @@ chai.use(chaiAsPromised);
 
 const { expect } = chai;
 
-
 describe('Promise Utils', () => {
   const sandbox = sinon.createSandbox();
-  let pollSpy: sinon.SinonSpy<[(done: (arg: any) => void) => Promise<void> | void, (Partial<PromiseUtils.PollOptions> | undefined)?], Promise<void>>;
-  let waitForTaskSpy: sinon.SinonSpy<[(done: (arg: any) => void) => Promise<void> | void, (number | undefined)?], Promise<unknown>>;
-  let waitUntilSpy: sinon.SinonSpy<[() => Promise<boolean> | boolean, (number | undefined)?], Promise<void>>;
+  let pollSpy: sinon.SinonSpy<
+    [
+      (done: (arg: any) => void) => Promise<void> | void,
+      (Partial<PromiseUtils.PollOptions> | undefined)?
+    ],
+    Promise<void>
+  >;
+  let waitForTaskSpy: sinon.SinonSpy<
+    [(done: (arg: any) => void) => Promise<void> | void, (number | undefined)?],
+    Promise<unknown>
+  >;
+  let waitUntilSpy: sinon.SinonSpy<
+    [() => Promise<boolean> | boolean, (number | undefined)?],
+    Promise<void>
+  >;
 
   beforeEach(() => {
     pollSpy = sandbox.spy(PromiseUtils, 'poll');

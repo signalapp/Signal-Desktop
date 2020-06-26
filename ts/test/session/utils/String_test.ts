@@ -82,7 +82,8 @@ describe('String Utils', () => {
     });
 
     it('can encode huge string', async () => {
-      const testString = Array(Math.pow(2, 16))
+      const stringSize = Math.pow(2, 16);
+      const testString = Array(stringSize)
         .fill('0')
         .join('');
 
@@ -127,8 +128,100 @@ describe('String Utils', () => {
   });
 
   describe('decode', () => {
-    it('', async () => {
-      //
+    it('can decode empty buffer', async () => {
+      const buffer = new ByteBuffer(0);
+
+      const encodings = ['base64', 'hex', 'binary', 'utf8'] as Array<Encoding>;
+
+      // Each encoding should be valid
+      encodings.forEach(encoding => {
+        const decoded = StringUtils.decode(buffer, encoding);
+
+        expect(decoded).to.exist;
+        expect(typeof decoded === String.name.toLowerCase());
+        expect(decoded).to.have.length(0);
+      });
+    });
+
+    it('can decode huge buffer', async () => {
+      const bytes = Math.pow(2, 16);
+      const bufferString = Array(bytes)
+        .fill('A')
+        .join('');
+      const buffer = ByteBuffer.fromUTF8(bufferString);
+
+      const encodings = ['base64', 'hex', 'binary', 'utf8'] as Array<Encoding>;
+
+      // Each encoding should be valid
+      encodings.forEach(encoding => {
+        const decoded = StringUtils.decode(buffer, encoding);
+
+        expect(decoded).to.exist;
+        expect(typeof decoded === String.name.toLowerCase());
+        expect(decoded).to.have.length.greaterThan(0);
+      });
+    });
+
+    it('can decode from ByteBuffer', async () => {
+      const buffer = ByteBuffer.fromUTF8('AAAAAAAAAA');
+
+      const encodings = ['base64', 'hex', 'binary', 'utf8'] as Array<Encoding>;
+
+      // Each encoding should be valid
+      encodings.forEach(encoding => {
+        const decoded = StringUtils.decode(buffer, encoding);
+
+        expect(decoded).to.exist;
+        expect(typeof decoded === String.name.toLowerCase());
+        expect(decoded).to.have.length.greaterThan(0);
+      });
+    });
+
+    it('can decode from Buffer', async () => {
+      const arrayBuffer = new ArrayBuffer(10);
+      const buffer = Buffer.from(arrayBuffer);
+      buffer.writeUInt8(0, 0);
+
+      const encodings = ['base64', 'hex', 'binary', 'utf8'] as Array<Encoding>;
+
+      // Each encoding should be valid
+      encodings.forEach(encoding => {
+        const decoded = StringUtils.decode(buffer, encoding);
+
+        expect(decoded).to.exist;
+        expect(typeof decoded === String.name.toLowerCase());
+        expect(decoded).to.have.length.greaterThan(0);
+      });
+    });
+
+    it('can decode from ArrayBuffer', async () => {
+      const buffer = new ArrayBuffer(10);
+
+      const encodings = ['base64', 'hex', 'binary', 'utf8'] as Array<Encoding>;
+
+      // Each encoding should be valid
+      encodings.forEach(encoding => {
+        const decoded = StringUtils.decode(buffer, encoding);
+
+        expect(decoded).to.exist;
+        expect(typeof decoded === String.name.toLowerCase());
+        expect(decoded).to.have.length.greaterThan(0);
+      });
+    });
+
+    it('can decode from Uint8Array', async () => {
+      const buffer = new Uint8Array(10);
+
+      const encodings = ['base64', 'hex', 'binary', 'utf8'] as Array<Encoding>;
+
+      // Each encoding should be valid
+      encodings.forEach(encoding => {
+        const decoded = StringUtils.decode(buffer, encoding);
+
+        expect(decoded).to.exist;
+        expect(typeof decoded === String.name.toLowerCase());
+        expect(decoded).to.have.length.greaterThan(0);
+      });
     });
   });
 });
