@@ -10,9 +10,7 @@ import {
   ClosedGroupChatMessage,
   OpenGroupMessage,
 } from '../../session/messages/outgoing';
-import {
-  ConversationAttributes,
-} from '../../../js/models/conversation';
+import { ConversationAttributes } from '../../../js/models/conversation';
 import { TestUtils } from '.';
 
 const globalAny: any = global;

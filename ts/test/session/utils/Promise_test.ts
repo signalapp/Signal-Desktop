@@ -48,7 +48,7 @@ describe('Promise Utils', () => {
       const completionSpy = sandbox.spy();
       const task = (_done: any) => undefined;
 
-      const promise = PromiseUtils.poll(task, {timeout: 1});
+      const promise = PromiseUtils.poll(task, { timeout: 1 });
 
       await expect(promise).to.be.rejectedWith('Periodic check timeout');
       expect(pollSpy.callCount).to.equal(1);
@@ -70,7 +70,7 @@ describe('Promise Utils', () => {
         }
       };
 
-      const promise = PromiseUtils.poll(task, {timeout, interval});
+      const promise = PromiseUtils.poll(task, { timeout, interval });
 
       await expect(promise).to.be.fulfilled;
       expect(pollSpy.callCount).to.equal(1);
