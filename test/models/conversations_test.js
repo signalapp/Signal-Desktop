@@ -96,7 +96,7 @@ describe('Conversation', () => {
   it('adds conversation to message collection upon leaving group', async () => {
     const convo = new Whisper.ConversationCollection().add({
       type: 'group',
-      id: 'a random string',
+      id: '052d11d01e56d9bfc3d74115c33225a632321b509ac17a13fdeac71165d09b94ab',
     });
     await convo.leaveGroup();
     assert.notEqual(convo.messageCollection.length, 0);

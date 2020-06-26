@@ -45,39 +45,6 @@
       signature: new Uint8Array(signedKey.signature),
     };
   }
-
-  async function saveContactPreKeyBundle({
-    pubKey,
-    preKeyId,
-    preKey,
-    signedKeyId,
-    signedKey,
-    signature,
-  }) {
-    const signedPreKey = {
-      keyId: signedKeyId,
-      publicKey: signedKey,
-      signature,
-    };
-
-    const signedKeyPromise = textsecure.storage.protocol.storeContactSignedPreKey(
-      pubKey,
-      signedPreKey
-    );
-
-    const preKeyObject = {
-      publicKey: preKey,
-      keyId: preKeyId,
-    };
-
-    const preKeyPromise = textsecure.storage.protocol.storeContactPreKey(
-      pubKey,
-      preKeyObject
-    );
-
-    await Promise.all([signedKeyPromise, preKeyPromise]);
-  }
-
   async function removeContactPreKeyBundle(pubKey) {
     await Promise.all([
       textsecure.storage.protocol.removeContactPreKey(pubKey),
@@ -123,7 +90,6 @@
 
   window.libloki.storage = {
     getPreKeyBundleForContact,
-    saveContactPreKeyBundle,
     removeContactPreKeyBundle,
     verifyFriendRequestAcceptPreKey,
     getGuardNodes,

@@ -1,4 +1,4 @@
-/* global Event, textsecure, window, ConversationController */
+/* global Event, textsecure, window, libsession */
 
 /* eslint-disable more/no-then */
 
@@ -6,44 +6,45 @@
 (function() {
   window.textsecure = window.textsecure || {};
 
-  function SyncRequest(sender, receiver) {
-    if (
-      !(sender instanceof textsecure.MessageSender) ||
-      !(receiver instanceof textsecure.MessageReceiver)
-    ) {
-      throw new Error(
-        'Tried to construct a SyncRequest without MessageSender and MessageReceiver'
-      );
-    }
-    this.receiver = receiver;
+  async function SyncRequest() {
+    // this.receiver = receiver;
 
-    this.oncontact = this.onContactSyncComplete.bind(this);
-    receiver.addEventListener('contactsync', this.oncontact);
+    // this.oncontact = this.onContactSyncComplete.bind(this);
+    // receiver.addEventListener('contactsync', this.oncontact);
 
-    this.ongroup = this.onGroupSyncComplete.bind(this);
-    receiver.addEventListener('groupsync', this.ongroup);
-
-    const ourNumber = textsecure.storage.user.getNumber();
-    const {
-      wrap,
-      sendOptions,
-    } = ConversationController.prepareForSend(ourNumber, { syncMessage: true });
+    // this.ongroup = this.onGroupSyncComplete.bind(this);
+    // receiver.addEventListener('groupsync', this.ongroup);
 
     window.log.info('SyncRequest created. Sending config sync request...');
-    wrap(sender.sendRequestConfigurationSyncMessage(sendOptions));
+    const { CONFIGURATION } = textsecure.protobuf.SyncMessage.Request.Type;
+    const { RequestSyncMessage } = window.libsession.Messages.Outgoing;
+
+    const requestConfigurationSyncMessage = new RequestSyncMessage({
+      timestamp: Date.now(),
+      reqestType: CONFIGURATION,
+    });
+    await libsession
+      .getMessageQueue()
+      .sendSyncMessage(requestConfigurationSyncMessage);
 
     window.log.info('SyncRequest now sending contact sync message...');
-    wrap(sender.sendRequestContactSyncMessage(sendOptions))
-      .then(() => {
-        window.log.info('SyncRequest now sending group sync messsage...');
-        return wrap(sender.sendRequestGroupSyncMessage(sendOptions));
-      })
-      .catch(error => {
-        window.log.error(
-          'SyncRequest error:',
-          error && error.stack ? error.stack : error
-        );
-      });
+    const { CONTACTS } = textsecure.protobuf.SyncMessage.Request.Type;
+    const requestContactSyncMessage = new RequestSyncMessage({
+      timestamp: Date.now(),
+      reqestType: CONTACTS,
+    });
+    await libsession
+      .getMessageQueue()
+      .sendSyncMessage(requestContactSyncMessage);
+
+    window.log.info('SyncRequest now sending group sync messsage...');
+    const { GROUPS } = textsecure.protobuf.SyncMessage.Request.Type;
+    const requestGroupSyncMessage = new RequestSyncMessage({
+      timestamp: Date.now(),
+      reqestType: GROUPS,
+    });
+    await libsession.getMessageQueue().sendSyncMessage(requestGroupSyncMessage);
+
     this.timeout = setTimeout(this.onTimeout.bind(this), 60000);
   }
 
@@ -80,8 +81,8 @@
     },
   });
 
-  textsecure.SyncRequest = function SyncRequestWrapper(sender, receiver) {
-    const syncRequest = new SyncRequest(sender, receiver);
+  textsecure.SyncRequest = function SyncRequestWrapper() {
+    const syncRequest = new SyncRequest();
     this.addEventListener = syncRequest.addEventListener.bind(syncRequest);
     this.removeEventListener = syncRequest.removeEventListener.bind(
       syncRequest

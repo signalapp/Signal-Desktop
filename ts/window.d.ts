@@ -3,6 +3,7 @@ import LokiMessageAPI from '../../js/modules/loki_message_api';
 import LokiPublicChatFactoryAPI from '../../js/modules/loki_public_chat_api';
 import { LibsignalProtocol } from '../../libtextsecure/libsignal-protocol';
 import { SignalInterface } from '../../js/modules/signal';
+import { Libloki } from '../libloki';
 
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
@@ -42,7 +43,7 @@ declare global {
     getFriendsFromContacts: any;
     getSettingValue: any;
     i18n: LocalizerType;
-    libloki: any;
+    libloki: Libloki;
     libsignal: LibsignalProtocol;
     log: any;
     lokiFeatureFlags: any;

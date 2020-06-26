@@ -5,6 +5,8 @@ import { SignalService } from '../../../protobuf';
 import { TextEncoder } from 'util';
 import Long from 'long';
 import { toNumber } from 'lodash';
+import { StringUtils } from '../../../session/utils';
+import { TestUtils } from '../../test-utils';
 
 describe('TypingMessage', () => {
   it('has Action.STARTED if isTyping = true', () => {
@@ -60,7 +62,7 @@ describe('TypingMessage', () => {
   });
 
   it('has groupId set if a value given', () => {
-    const groupId = '6666666666';
+    const groupId = TestUtils.generateFakePubKey();
     const message = new TypingMessage({
       timestamp: Date.now(),
       isTyping: true,
@@ -68,7 +70,9 @@ describe('TypingMessage', () => {
     });
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
-    const manuallyEncodedGroupId = new TextEncoder().encode(groupId);
+    const manuallyEncodedGroupId = new Uint8Array(
+      StringUtils.encode(groupId.key, 'utf8')
+    );
 
     expect(decoded.typingMessage?.groupId).to.be.deep.equal(
       manuallyEncodedGroupId

@@ -25,6 +25,7 @@ export class JobQueue {
       return this.jobs.get(id) as Promise<Result>;
     }
 
+    // tslint:disable-next-line: no-promise-as-boolean
     const previous = this.pending || Promise.resolve();
     this.pending = previous.then(job, job);
 

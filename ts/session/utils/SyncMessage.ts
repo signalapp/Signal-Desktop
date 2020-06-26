@@ -3,6 +3,7 @@ import { UserUtil } from '../../util';
 import { getAllConversations } from '../../../js/modules/data';
 import { ContentMessage, SyncMessage } from '../messages/outgoing';
 import { MultiDeviceProtocol } from '../protocols';
+import ByteBuffer from 'bytebuffer';
 
 export function toSyncMessage(
   message: ContentMessage
@@ -66,4 +67,36 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
 
   // Return unique contacts
   return _.uniqBy([...primaryContacts, ...secondaryContacts], 'id');
+}
+
+export async function filterOpenGroupsConvos(
+  conversations: Array<any>
+): Promise<Array<any> | undefined> {
+  // If we haven't got a primaryDeviceKey then we are in the middle of pairing
+  // primaryDevicePubKey is set to our own number if we are the master device
+  const thisDevice = await UserUtil.getCurrentDevicePubKey();
+
+  if (!thisDevice) {
+    return [];
+  }
+
+  // We only want to sync across open groups that we haven't left
+  return conversations.filter(
+    c => c.isPublic() && !c.isRss() && !c.get('left')
+  );
+}
+
+// Serialise as <Element0.length><Element0><Element1.length><Element1>...
+// This is an implementation of the reciprocal of contacts_parser.js
+export function serialiseByteBuffers(buffers: Array<Uint8Array>): ByteBuffer {
+  const result = new ByteBuffer();
+  buffers.forEach(buffer => {
+    // bytebuffer container expands and increments
+    // offset automatically
+    result.writeInt32(buffer.length);
+    result.append(buffer);
+  });
+  result.limit = result.offset;
+  result.reset();
+  return result;
 }

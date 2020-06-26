@@ -6,22 +6,32 @@ import {
 } from '../../../session/messages/outgoing';
 import { SignalService } from '../../../protobuf';
 import { TextEncoder } from 'util';
+import { TestUtils } from '../../test-utils';
+import { StringUtils } from '../../../session/utils';
+import { PubKey } from '../../../session/types';
 
 describe('ClosedGroupChatMessage', () => {
+  let groupId: PubKey;
+  beforeEach(() => {
+    groupId = TestUtils.generateFakePubKey();
+  });
   it('can create empty message with timestamp, groupId and chatMessage', () => {
     const chatMessage = new ChatMessage({
       timestamp: Date.now(),
       body: 'body',
     });
     const message = new ClosedGroupChatMessage({
-      groupId: '12',
+      groupId,
       chatMessage,
     });
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
     expect(decoded.dataMessage)
       .to.have.property('group')
-      .to.have.deep.property('id', new TextEncoder().encode('12'));
+      .to.have.deep.property(
+        'id',
+        new Uint8Array(StringUtils.encode(groupId.key, 'utf8'))
+      );
     expect(decoded.dataMessage)
       .to.have.property('group')
       .to.have.deep.property('type', SignalService.GroupContext.Type.DELIVER);
@@ -39,7 +49,7 @@ describe('ClosedGroupChatMessage', () => {
       timestamp: Date.now(),
     });
     const message = new ClosedGroupChatMessage({
-      groupId: '12',
+      groupId,
       chatMessage,
     });
     expect(message.ttl()).to.equal(24 * 60 * 60 * 1000);
@@ -50,7 +60,7 @@ describe('ClosedGroupChatMessage', () => {
       timestamp: Date.now(),
     });
     const message = new ClosedGroupChatMessage({
-      groupId: '12',
+      groupId,
       chatMessage,
     });
     expect(message.identifier).to.not.equal(null, 'identifier cannot be null');
@@ -67,7 +77,7 @@ describe('ClosedGroupChatMessage', () => {
       identifier: 'chatMessage',
     });
     const message = new ClosedGroupChatMessage({
-      groupId: '12',
+      groupId,
       chatMessage,
       identifier: 'closedGroupMessage',
     });
@@ -81,7 +91,7 @@ describe('ClosedGroupChatMessage', () => {
       identifier: 'chatMessage',
     });
     const message = new ClosedGroupChatMessage({
-      groupId: '12',
+      groupId,
       chatMessage,
     });
     expect(message.identifier).to.be.equal('chatMessage');

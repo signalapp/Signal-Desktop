@@ -10,7 +10,8 @@
   Signal,
   textsecure,
   Whisper,
-  clipboard
+  clipboard,
+  libsession
 */
 
 /* eslint-disable more/no-then */
@@ -37,37 +38,10 @@
 
   window.doesAcountCheckJobExist = number =>
     Boolean(window.AccountJobs[number]);
-  window.checkForSignalAccount = number => {
-    if (window.AccountJobs[number]) {
-      return window.AccountJobs[number];
-    }
-
-    let job;
-    if (textsecure.messaging) {
-      // eslint-disable-next-line more/no-then
-      job = textsecure.messaging
-        .getProfile(number)
-        .then(() => {
-          window.AccountCache[number] = true;
-        })
-        .catch(() => {
-          window.AccountCache[number] = false;
-        });
-    } else {
-      // We're offline!
-      job = Promise.resolve().then(() => {
-        window.AccountCache[number] = false;
-      });
-    }
-
-    window.AccountJobs[number] = job;
-
-    return job;
-  };
 
   window.isSignalAccountCheckComplete = number =>
     window.AccountCache[number] !== undefined;
-  window.hasSignalAccount = number => window.AccountCache[number];
+  window.hasSignalAccount = () => true;
 
   window.Whisper.Message = Backbone.Model.extend({
     initialize(attributes) {
@@ -706,20 +680,12 @@
         : null;
       const onClick = async () => {
         // First let's be sure that the signal account check is complete.
-        await window.checkForSignalAccount(firstNumber);
 
         this.trigger('show-contact-detail', {
           contact,
           hasSignalAccount: window.hasSignalAccount(firstNumber),
         });
       };
-
-      // Would be nice to do this before render, on initial load of message
-      if (!window.isSignalAccountCheckComplete(firstNumber)) {
-        window.checkForSignalAccount(firstNumber).then(() => {
-          this.trigger('change', this);
-        });
-      }
 
       return contactSelector(contact, {
         regionCode,
@@ -1481,40 +1447,40 @@
       }
     },
 
-    sendSyncMessage() {
-      const ourNumber = textsecure.storage.user.getNumber();
-      const { wrap, sendOptions } = ConversationController.prepareForSend(
-        ourNumber,
-        {
-          syncMessage: true,
-        }
-      );
-
+    async sendSyncMessage() {
       this.syncPromise = this.syncPromise || Promise.resolve();
-      const next = () => {
-        const dataMessage = this.get('dataMessage');
-        if (this.get('synced') || !dataMessage) {
+      const next = async () => {
+        const encodedDataMessage = this.get('dataMessage');
+        if (this.get('synced') || !encodedDataMessage) {
           return Promise.resolve();
         }
-        return wrap(
-          textsecure.messaging.sendSyncMessage(
-            dataMessage,
-            this.get('sent_at'),
-            this.get('destination'),
-            this.get('expirationStartTimestamp'),
-            this.get('sent_to'),
-            this.get('unidentifiedDeliveries'),
-            sendOptions
-          )
-        ).then(result => {
-          this.set({
-            synced: true,
-            dataMessage: null,
-          });
-          return window.Signal.Data.saveMessage(this.attributes, {
-            Message: Whisper.Message,
-          }).then(() => result);
+        const dataMessage = textsecure.protobuf.DataMessage.decode(
+          encodedDataMessage
+        );
+        // Sync the group message to our other devices
+        const sentSyncMessageParams = {
+          timestamp: this.get('sent_at'),
+          dataMessage,
+          destination: this.get('destination'),
+          expirationStartTimestamp: this.get('expirationStartTimestamp'),
+          sent_to: this.get('sent_to'),
+          unidentifiedDeliveries: this.get('unidentifiedDeliveries'),
+        };
+        const sentSyncMessage = new libsession.Messages.Outgoing.SentSyncMessage(
+          sentSyncMessageParams
+        );
+
+        const result = await libsession
+          .getMessageQueue()
+          .sendSyncMessage(sentSyncMessage);
+        this.set({
+          synced: true,
+          dataMessage: null,
         });
+        await window.Signal.Data.saveMessage(this.attributes, {
+          Message: Whisper.Message,
+        });
+        return result;
       };
 
       this.syncPromise = this.syncPromise.then(next, next);

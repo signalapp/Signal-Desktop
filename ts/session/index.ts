@@ -1,9 +1,8 @@
 import * as Messages from './messages';
 import * as Protocols from './protocols';
 import * as Types from './types';
+import * as Utils from './utils';
 
-// TODO: Do we export class instances here?
-// E.g
-// export const messageQueue = new MessageQueue()
+export * from './instance';
 
-export { Messages, Protocols, Types };
+export { Messages, Utils, Protocols, Types };
