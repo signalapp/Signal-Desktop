@@ -82,21 +82,45 @@ export class MultiDeviceProtocol {
     const mapping = await window.lokiFileServerAPI.getUserDeviceMapping(
       device.key
     );
-    // TODO: Filter out invalid authorisations
 
-    return mapping.authorisations.map(
-      ({
-        primaryDevicePubKey,
-        secondaryDevicePubKey,
-        requestSignature,
-        grantSignature,
-      }) => ({
-        primaryDevicePubKey,
-        secondaryDevicePubKey,
-        requestSignature: StringUtils.encode(requestSignature, 'base64'),
-        grantSignature: StringUtils.encode(grantSignature, 'base64'),
-      })
-    );
+    if (!mapping || !mapping.authorisations) {
+      return [];
+    }
+
+    try {
+      const authorisations = mapping.authorisations.map(
+        ({
+          primaryDevicePubKey,
+          secondaryDevicePubKey,
+          requestSignature,
+          grantSignature,
+        }) => ({
+          primaryDevicePubKey,
+          secondaryDevicePubKey,
+          requestSignature: StringUtils.encode(requestSignature, 'base64'),
+          grantSignature: StringUtils.encode(grantSignature, 'base64'),
+        })
+      );
+
+      const validAuthorisations = await Promise.all(
+        authorisations.map(async authorisation => {
+          const valid = await window.libloki.crypto.verifyAuthorisation(
+            authorisation
+          );
+          return valid ? authorisation : undefined;
+        })
+      );
+
+      return validAuthorisations.filter(a => !!a) as Array<
+        PairingAuthorisation
+      >;
+    } catch (e) {
+      console.warn(
+        `MultiDeviceProtocol::fetchPairingAuthorisation: Failed to map authorisations for ${device.key}.`,
+        e
+      );
+      return [];
+    }
   }
 
   /**
@@ -116,7 +140,7 @@ export class MultiDeviceProtocol {
   public static async getPairingAuthorisations(
     device: PubKey | string
   ): Promise<Array<PairingAuthorisation>> {
-    const pubKey = typeof device === 'string' ? new PubKey(device) : device;
+    const pubKey = PubKey.cast(device);
     await this.fetchPairingAuthorisationsIfNeeded(pubKey);
 
     return getPairingAuthorisationsFor(pubKey.key);
@@ -129,7 +153,7 @@ export class MultiDeviceProtocol {
   public static async removePairingAuthorisations(
     device: PubKey | string
   ): Promise<void> {
-    const pubKey = typeof device === 'string' ? new PubKey(device) : device;
+    const pubKey = PubKey.cast(device);
 
     return removePairingAuthorisationsFor(pubKey.key);
   }
@@ -142,8 +166,11 @@ export class MultiDeviceProtocol {
   public static async getAllDevices(
     user: PubKey | string
   ): Promise<Array<PubKey>> {
-    const pubKey = typeof user === 'string' ? new PubKey(user) : user;
+    const pubKey = PubKey.cast(user);
     const authorisations = await this.getPairingAuthorisations(pubKey);
+    if (authorisations.length === 0) {
+      return [pubKey];
+    }
     const devices = _.flatMap(
       authorisations,
       ({ primaryDevicePubKey, secondaryDevicePubKey }) => [
@@ -163,7 +190,7 @@ export class MultiDeviceProtocol {
   public static async getPrimaryDevice(
     user: PubKey | string
   ): Promise<PrimaryPubKey> {
-    const pubKey = typeof user === 'string' ? new PubKey(user) : user;
+    const pubKey = PubKey.cast(user);
     const authorisations = await this.getPairingAuthorisations(pubKey);
     if (authorisations.length === 0) {
       return pubKey;
@@ -210,7 +237,7 @@ export class MultiDeviceProtocol {
    * @param device The device to check.
    */
   public static async isOurDevice(device: PubKey | string): Promise<boolean> {
-    const pubKey = typeof device === 'string' ? new PubKey(device) : device;
+    const pubKey = PubKey.cast(device);
     try {
       const ourDevices = await this.getOurDevices();
 

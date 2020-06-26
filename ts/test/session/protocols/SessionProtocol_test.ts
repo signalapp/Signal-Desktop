@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { SessionProtocol } from '../../../session/protocols';
 import * as sinon from 'sinon';
-import { Stubs, TestUtils, timeout } from '../../test-utils';
+import { Stubs, TestUtils } from '../../test-utils';
 import { UserUtil } from '../../../util';
 import { SessionRequestMessage } from '../../../session/messages/outgoing';
 import { TextEncoder } from 'util';
@@ -12,7 +12,7 @@ import { PubKey } from '../../../session/types';
 describe('SessionProtocol', () => {
   const sandbox = sinon.createSandbox();
   const ourNumber = 'ourNumber';
-  const pubkey = new PubKey('deviceid');
+  const pubkey = TestUtils.generateFakePubKey();
   let getItemById: sinon.SinonStub;
   let send: sinon.SinonStub;
 
@@ -88,14 +88,14 @@ describe('SessionProtocol', () => {
 
     it('protocol: sendSessionRequest should add the deviceID to the sentMap', async () => {
       expect(SessionProtocol.getSentSessionsTimestamp())
-        .to.have.property('deviceid')
+        .to.have.property(pubkey.key)
         .to.be.approximately(Date.now(), 100);
     });
 
     it('protocol: sendSessionRequest should not have pendingSend set after', async () => {
       expect(
         SessionProtocol.getPendingSendSessionTimestamp()
-      ).to.not.have.property('deviceid');
+      ).to.not.have.property(pubkey.key);
     });
   });
 
@@ -107,34 +107,32 @@ describe('SessionProtocol', () => {
 
     it('protocol: onSessionEstablished should remove the device in sentTimestamps', async () => {
       expect(SessionProtocol.getSentSessionsTimestamp()).to.have.property(
-        'deviceid'
+        pubkey.key
       );
       await SessionProtocol.onSessionEstablished(pubkey);
       expect(SessionProtocol.getSentSessionsTimestamp()).to.not.have.property(
-        'deviceid'
+        pubkey.key
       );
     });
 
     it('protocol: onSessionEstablished should remove the device in sentTimestamps and ONLY that one', async () => {
       // add a second item to the map
-      await SessionProtocol.sendSessionRequest(
-        resetMessage,
-        new PubKey('deviceid2')
-      );
+      const anotherPubKey = TestUtils.generateFakePubKey();
+      await SessionProtocol.sendSessionRequest(resetMessage, anotherPubKey);
 
       expect(SessionProtocol.getSentSessionsTimestamp()).to.have.property(
-        'deviceid'
+        pubkey.key
       );
       expect(SessionProtocol.getSentSessionsTimestamp()).to.have.property(
-        'deviceid2'
+        anotherPubKey.key
       );
 
       await SessionProtocol.onSessionEstablished(pubkey);
       expect(SessionProtocol.getSentSessionsTimestamp()).to.not.have.property(
-        'deviceid'
+        pubkey.key
       );
       expect(SessionProtocol.getSentSessionsTimestamp()).to.have.property(
-        'deviceid2'
+        anotherPubKey.key
       );
     });
   });
@@ -144,7 +142,7 @@ describe('SessionProtocol', () => {
       const hasSent = await SessionProtocol.hasSentSessionRequest(pubkey);
       expect(hasSent).to.be.equal(
         false,
-        'hasSent should be false for `deviceid`'
+        `hasSent should be false for ${pubkey.key}`
       );
     });
 
@@ -154,7 +152,7 @@ describe('SessionProtocol', () => {
       const hasSent = await SessionProtocol.hasSentSessionRequest(pubkey);
       expect(hasSent).to.be.equal(
         true,
-        'hasSent should be true for `deviceid`'
+        `hasSent should be true for ${pubkey.key}`
       );
     });
 
@@ -174,7 +172,7 @@ describe('SessionProtocol', () => {
       const hasSent = await SessionProtocol.hasSentSessionRequest(pubkey);
       expect(hasSent).to.be.equal(
         true,
-        'hasSent should be true for `deviceid`'
+        `hasSent should be true for ${pubkey.key}`
       );
     });
 
@@ -189,7 +187,7 @@ describe('SessionProtocol', () => {
       const hasSent = await SessionProtocol.hasSentSessionRequest(pubkey);
       expect(hasSent).to.be.equal(
         true,
-        'hasSent should be true for `deviceid`'
+        `hasSent should be true for ${pubkey.key}`
       );
       send.resetHistory();
 
@@ -207,7 +205,7 @@ describe('SessionProtocol', () => {
       // trigger the requestProcessed and check the map is updated
       await SessionProtocol.onSessionRequestProcessed(pubkey);
       expect(SessionProtocol.getProcessedSessionsTimestamp())
-        .to.have.property('deviceid')
+        .to.have.property(pubkey.key)
         .to.be.approximately(Date.now(), 5);
     });
 
@@ -217,14 +215,15 @@ describe('SessionProtocol', () => {
 
       await SessionProtocol.onSessionRequestProcessed(pubkey);
       expect(SessionProtocol.getProcessedSessionsTimestamp())
-        .to.have.property('deviceid')
+        .to.have.property(pubkey.key)
         .to.be.approximately(Date.now(), 5);
-      await timeout(5);
-      const oldTimestamp = SessionProtocol.getProcessedSessionsTimestamp()
-        .deviceid;
+      await TestUtils.timeout(5);
+      const oldTimestamp = SessionProtocol.getProcessedSessionsTimestamp()[
+        pubkey.key
+      ];
       await SessionProtocol.onSessionRequestProcessed(pubkey);
       expect(SessionProtocol.getProcessedSessionsTimestamp())
-        .to.have.property('deviceid')
+        .to.have.property(pubkey.key)
         .to.be.approximately(Date.now(), 5)
         .to.not.be.equal(oldTimestamp);
     });
@@ -291,7 +290,7 @@ describe('SessionProtocol', () => {
 
     it('protocol: shouldProcessSessionRequest returns false if there is a more recent sent but a less recent processed', async () => {
       await SessionProtocol.sendSessionRequest(resetMessage, pubkey); // adds a Date.now() entry
-      await timeout(100);
+      await TestUtils.timeout(100);
       await SessionProtocol.onSessionRequestProcessed(pubkey); // adds a Date.now() entry 100ms after
 
       expect(
@@ -304,7 +303,7 @@ describe('SessionProtocol', () => {
 
     it('protocol: shouldProcessSessionRequest returns false if there is a more recent processed but a less recent sent', async () => {
       await SessionProtocol.onSessionRequestProcessed(pubkey); // adds a Date.now() entry
-      await timeout(100);
+      await TestUtils.timeout(100);
       await SessionProtocol.sendSessionRequest(resetMessage, pubkey); // adds a Date.now() entry 100ms after
 
       expect(

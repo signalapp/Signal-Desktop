@@ -192,7 +192,7 @@ export class SessionProtocol {
   private static async writeToDBSentSessions(): Promise<void> {
     const data = {
       id: 'sentSessionsTimestamp',
-      value: JSON.stringify(SessionProtocol.sentSessionsTimestamp),
+      value: SessionProtocol.sentSessionsTimestamp,
     };
 
     await createOrUpdateItem(data);
@@ -201,7 +201,7 @@ export class SessionProtocol {
   private static async writeToDBProcessedSessions(): Promise<void> {
     const data = {
       id: 'processedSessionsTimestamp',
-      value: JSON.stringify(SessionProtocol.processedSessionsTimestamp),
+      value: SessionProtocol.processedSessionsTimestamp,
     };
 
     await createOrUpdateItem(data);
@@ -215,6 +215,9 @@ export class SessionProtocol {
     timestamp: number | undefined,
     map: StringToNumberMap
   ): Promise<boolean> {
+    if (device === undefined) {
+      throw new Error('Device cannot be undefined');
+    }
     if (map[device] === timestamp) {
       return false;
     }
@@ -239,7 +242,7 @@ export class SessionProtocol {
   ): Promise<void> {
     await SessionProtocol.fetchFromDBIfNeeded();
     if (
-      SessionProtocol.updateSessionTimestamp(
+      await SessionProtocol.updateSessionTimestamp(
         device,
         timestamp,
         SessionProtocol.sentSessionsTimestamp
@@ -258,7 +261,7 @@ export class SessionProtocol {
   ): Promise<void> {
     await SessionProtocol.fetchFromDBIfNeeded();
     if (
-      SessionProtocol.updateSessionTimestamp(
+      await SessionProtocol.updateSessionTimestamp(
         device,
         timestamp,
         SessionProtocol.processedSessionsTimestamp

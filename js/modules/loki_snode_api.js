@@ -488,10 +488,9 @@ class LokiSnodeAPI {
 
   async buildNewOnionPaths() {
     // this function may be called concurrently make sure we only have one inflight
-    return primitives.allowOnlyOneAtATime(
-      'buildNewOnionPaths',
-      this.buildNewOnionPathsWorker
-    );
+    return primitives.allowOnlyOneAtATime('buildNewOnionPaths', async () => {
+      await this.buildNewOnionPathsWorker();
+    });
   }
 
   async getRandomSnodeAddress() {
@@ -776,6 +775,9 @@ class LokiSnodeAPI {
     const { fetchHashes } = options;
     try {
       const conversation = ConversationController.get(pubKey);
+      if (!conversation) {
+        throw new Error('Could not find conversation ', pubKey);
+      }
       const swarmNodes = [...conversation.get('swarmNodes')];
 
       // always? include lashHash

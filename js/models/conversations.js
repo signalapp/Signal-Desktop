@@ -311,6 +311,10 @@
     },
 
     async bumpTyping() {
+      if (this.isPublic()) {
+        window.console.debug('public conversation... No need to bumpTyping');
+        return;
+      }
       // We don't send typing messages if the setting is disabled or we do not have a session
       // or we blocked that user
       const devicePubkey = new libsession.Types.PubKey(this.id);
@@ -389,21 +393,42 @@
 
       const groupId = !this.isPrivate() ? this.id : null;
       const recipientId = this.isPrivate() ? this.id : null;
-      const groupNumbers = this.getRecipients();
 
-      const sendOptions = this.getSendOptions();
-      sendOptions.messageType = 'typing';
-      this.wrapSend(
-        textsecure.messaging.sendTypingMessage(
-          {
-            isTyping,
-            recipientId,
-            groupId,
-            groupNumbers,
-          },
-          sendOptions
-        )
+      // We don't want to send typing messages to our other devices, but we will
+      //   in the group case.
+      const primaryDevicePubkey = window.storage.get('primaryDevicePubKey');
+      if (recipientId && primaryDevicePubkey === recipientId) {
+        return;
+      }
+
+      if (!recipientId && !groupId) {
+        throw new Error('Need to provide either recipientId or groupId!');
+      }
+
+      const typingParams = {
+        timestamp: Date.now(),
+        isTyping,
+        typingTimestamp: Date.now(),
+        groupId, // might be null
+      };
+      const typingMessage = new libsession.Messages.Outgoing.TypingMessage(
+        typingParams
       );
+
+      // send the message to a single recipient if this is a session chat
+      if (this.isPrivate) {
+        const device = new libsession.Types.PubKey(recipientId);
+        libsession
+          .getMessageQueue()
+          .sendUsingMultiDevice(device, typingMessage)
+          .catch(log.error);
+      } else {
+        // the recipients on the case of a group are found by the messageQueue using message.groupId
+        libsession
+          .getMessageQueue()
+          .sendToGroup(typingMessage)
+          .catch(log.error);
+      }
     },
 
     async cleanup() {
@@ -678,7 +703,7 @@
         await this.sendVerifySyncMessage(this.id, verified);
       }
     },
-    sendVerifySyncMessage(number, state) {
+    async sendVerifySyncMessage(number, state) {
       // Because syncVerification sends a (null) message to the target of the verify and
       //   a sync message to our own devices, we need to send the accessKeys down for both
       //   contacts. So we merge their sendOptions.
@@ -686,15 +711,10 @@
         this.ourNumber,
         { syncMessage: true }
       );
-      const contactSendOptions = this.getSendOptions();
-      const options = Object.assign({}, sendOptions, contactSendOptions);
+      const options = Object.assign({}, sendOptions, {});
 
-      const promise = textsecure.storage.protocol.loadIdentityKey(number);
-      return promise.then(key =>
-        this.wrapSend(
-          textsecure.messaging.syncVerification(number, state, key, options)
-        )
-      );
+      const key = await textsecure.storage.protocol.loadIdentityKey(number);
+      return textsecure.messaging.syncVerification(number, state, key, options);
     },
     isVerified() {
       if (this.isPrivate()) {
@@ -703,13 +723,15 @@
       if (!this.contactCollection.length) {
         return false;
       }
-
-      return this.contactCollection.every(contact => {
-        if (contact.isMe()) {
-          return true;
-        }
-        return contact.isVerified();
-      });
+      // console.log('this.contactCollection', this.contactCollection);
+      // FIXME AUDRIC
+      return true;
+      // return this.contactCollection.every(contact => {
+      //   if (contact.isMe()) {
+      //     return true;
+      //   }
+      //   return contact.isVerified();
+      // });
     },
     async getPrimaryConversation() {
       if (!this.isSecondaryDevice()) {
@@ -1296,68 +1318,113 @@
           );
           return message.sendSyncMessageOnly(dataMessage);
         }
+        const options = {};
 
-        const options = this.getSendOptions();
         options.messageType = message.get('type');
         options.isPublic = this.isPublic();
-        if (options.isPublic) {
-          options.publicSendData = await this.getPublicSendData();
+        if (this.isPublic()) {
+          // FIXME audric add back attachments, quote, preview
+          const openGroup = {
+            server: this.get('server'),
+            channel: this.get('channelId'),
+            conversationId: this.id,
+          };
+          const openGroupParams = {
+            body,
+            timestamp: Date.now(),
+            group: openGroup,
+          };
+          const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
+            openGroupParams
+          );
+          await libsession.getMessageQueue().sendToGroup(openGroupMessage);
+
+          return null;
         }
 
-        options.groupInvitation = groupInvitation;
         options.sessionRestoration = sessionRestoration;
+        const destinationPubkey = new libsession.Types.PubKey(destination);
+        // Handle Group Invitation Message
+        if (groupInvitation) {
+          if (conversationType !== Message.PRIVATE) {
+            window.console.warning('Cannot send groupInvite to group chat');
 
-        const groupNumbers = this.getRecipients();
-
-        const promise = (() => {
-          switch (conversationType) {
-            case Message.PRIVATE:
-              return textsecure.messaging.sendMessageToNumber(
-                destination,
-                messageBody,
-                finalAttachments,
-                quote,
-                preview,
-                now,
-                expireTimer,
-                profileKey,
-                options
-              );
-            case Message.GROUP: {
-              let dest = destination;
-              let numbers = groupNumbers;
-
-              if (this.isMediumGroup()) {
-                dest = this.id;
-                numbers = [destination];
-                options.isMediumGroup = true;
-              }
-
-              return textsecure.messaging.sendMessageToGroup(
-                dest,
-                numbers,
-                messageBody,
-                finalAttachments,
-                quote,
-                preview,
-                now,
-                expireTimer,
-                profileKey,
-                options
-              );
-            }
-            default:
-              throw new TypeError(
-                `Invalid conversation type: '${conversationType}'`
-              );
+            return null;
           }
-        })();
 
-        // Add the message sending on another queue so that our UI doesn't get blocked
-        this.queueMessageSend(async () => {
-          message.send(this.wrapSend(promise));
+          const groupInvitMessage = new libsession.Messages.Outgoing.GroupInvitationMessage(
+            {
+              serverName: groupInvitation.name,
+              channelId: groupInvitation.channelId,
+              serverAddress: groupInvitation.address,
+            }
+          );
+
+          return libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(destinationPubkey, groupInvitMessage);
+        }
+        const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+          body,
+          timestamp: Date.now(),
         });
+        // Start handle ChatMessages (attachments/quote/preview/body)
+        // FIXME AUDRIC handle attachments, quote, preview
+        if (conversationType === Message.PRIVATE) {
+          await libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(destinationPubkey, chatMessage);
 
+          // return textsecure.messaging.sendMessageToNumber(
+          //   destination,
+          //   messageBody,
+          //   finalAttachments,
+          //   quote,
+          //   preview,
+          //   now,
+          //   expireTimer,
+          //   profileKey,
+          //   {}
+          // );
+        } else if (conversationType === Message.GROUP) {
+          // return textsecure.messaging.sendMessageToGroup(
+          //   dest,
+          //   numbers,
+          //   messageBody,
+          //   finalAttachments,
+          //   quote,
+          //   preview,
+          //   now,
+          //   expireTimer,
+          //   profileKey,
+          //   {}
+          // );
+
+          // let dest = destination;
+          // let numbers = groupNumbers;
+          if (this.isMediumGroup()) {
+            // FIXME audric to implement back
+
+            // dest = this.id;
+            // numbers = [destination];
+            // options.isMediumGroup = true;
+            throw new Error('To implement');
+          } else {
+            const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
+              {
+                chatMessage,
+                groupId: destination,
+              }
+            );
+            await libsession
+              .getMessageQueue()
+              .sendToGroup(closedGroupChatMessage);
+          }
+        } else {
+          throw new TypeError(
+            `Invalid conversation type: '${conversationType}'`
+          );
+        }
         return true;
       });
     },
@@ -1662,8 +1729,6 @@
       if (this.get('profileSharing')) {
         profileKey = storage.get('profileKey');
       }
-      const sendOptions = this.getSendOptions();
-      let promise;
 
       if (this.isMe()) {
         const flags =
@@ -1681,28 +1746,28 @@
         );
         return message.sendSyncMessageOnly(dataMessage);
       }
+      const expireUpdate = {
+        timestamp: message.get('sent_at'),
+        expireTimer,
+        profileKey,
+      };
 
       if (this.get('type') === 'private') {
-        promise = textsecure.messaging.sendExpirationTimerUpdateToNumber(
-          this.get('id'),
-          expireTimer,
-          message.get('sent_at'),
-          profileKey,
-          sendOptions
+        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+          expireUpdate
         );
+        const pubkey = new libsession.Types.PubKey(this.get('id'));
+        await libsession
+          .getMessageQueue()
+          .sendUsingMultiDevice(pubkey, expirationTimerMessage);
       } else {
-        promise = textsecure.messaging.sendExpirationTimerUpdateToGroup(
-          this.get('id'),
-          this.getRecipients(),
-          expireTimer,
-          message.get('sent_at'),
-          profileKey,
-          sendOptions
+        expireUpdate.groupId = this.get('id');
+        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+          expireUpdate
         );
+
+        await libsession.getMessageQueue().sendToGroup(expirationTimerMessage);
       }
-
-      await message.send(this.wrapSend(promise));
-
       return message;
     },
 
@@ -1728,10 +1793,12 @@
       await this.setSessionResetStatus(SessionResetEnum.request_received);
       // send empty message, this will trigger the new session to propagate
       // to the reset initiator.
-      window.libloki.api.sendBackgroundMessage(
-        this.id,
-        window.textsecure.OutgoingMessage.DebugMessageType.SESSION_RESET_RECV
+      const user = new libsession.Types.PubKey(this.id);
+
+      const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablishedMessage(
+        { timestamp: Date.now() }
       );
+      await libsession.getMessageQueue().send(user, sessionEstablished);
     },
 
     isSessionResetReceived() {
@@ -1767,10 +1834,12 @@
     async onNewSessionAdopted() {
       if (this.get('sessionResetStatus') === SessionResetEnum.initiated) {
         // send empty message to confirm that we have adopted the new session
-        window.libloki.api.sendBackgroundMessage(
-          this.id,
-          window.textsecure.OutgoingMessage.DebugMessageType.SESSION_RESET
+        const user = new libsession.Types.PubKey(this.id);
+
+        const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablishedMessage(
+          { timestamp: Date.now() }
         );
+        await libsession.getMessageQueue().send(user, sessionEstablished);
       }
       await this.createAndStoreEndSessionMessage({
         type: 'incoming',
@@ -1792,16 +1861,20 @@
             type: 'outgoing',
             endSessionType: 'ongoing',
           });
-          const options = this.getSendOptions();
-          await message.send(
-            this.wrapSend(
-              textsecure.messaging.resetSession(
-                this.id,
-                message.get('sent_at'),
-                options
-              )
-            )
+          window.log.info('resetting secure session');
+          const device = new libsession.Types.PubKey(this.id);
+          const preKeyBundle = await window.libloki.storage.getPreKeyBundleForContact(
+            device.key
           );
+          const endSessionMessage = new libsession.Messages.Outgoing.EndSessionMessage(
+            {
+              timestamp: message.get('sent_at'),
+              preKeyBundle,
+            }
+          );
+
+          await libsession.getMessageQueue().send(device, endSessionMessage);
+          // TODO handle errors to reset session reset status with the new pipeline
           if (message.hasErrors()) {
             await this.setSessionResetStatus(SessionResetEnum.none);
           }
@@ -1841,8 +1914,6 @@
       );
       message.set({ id: messageId });
 
-      const options = this.getSendOptions();
-
       if (groupUpdate.is_medium_group) {
         // Constructing a "create group" message
         const proto = new textsecure.protobuf.DataMessage();
@@ -1868,33 +1939,45 @@
         return;
       }
 
-      message.send(
-        this.wrapSend(
-          textsecure.messaging.sendGroupUpdate(
-            this.id,
-            this.get('name'),
-            this.get('avatar'),
-            this.get('members'),
-            this.get('groupAdmins'),
-            groupUpdate.recipients,
-            options
-          )
-        )
+      const updateParams = {
+        timestamp: Date.now(),
+        groupId: this.id,
+        name: this.get('name'),
+        avatar: this.get('avatar'),
+        members: this.get('members'),
+        admins: this.get('groupAdmins'),
+      };
+      const groupUpdateMessage = new libsession.Messages.Outgoing.ClosedGroupUpdateMessage(
+        updateParams
       );
+      libsession
+        .getMessageQueue()
+        .sendToGroup(groupUpdateMessage)
+        .catch(log.error);
     },
 
-    sendGroupInfo(recipients) {
+    sendGroupInfo(recipient) {
       if (this.isClosedGroup()) {
-        const options = this.getSendOptions();
-        textsecure.messaging.sendGroupUpdate(
-          this.id,
-          this.get('name'),
-          this.get('avatar'),
-          this.get('members'),
-          this.get('groupAdmins'),
-          recipients,
-          options
+        const updateParams = {
+          timestamp: Date.now(),
+          groupId: this.id,
+          name: this.get('name'),
+          avatar: this.get('avatar'),
+          members: this.get('members'),
+          admins: this.get('groupAdmins'),
+        };
+        const groupUpdateMessage = new libsession.Messages.Outgoing.ClosedGroupUpdateMessage(
+          updateParams
         );
+        const recipientPubKey = new libsession.Types.PubKey(recipient);
+        if (!recipientPubKey) {
+          window.console.warn('sendGroupInfo invalid pubkey:', recipient);
+          return;
+        }
+        libsession
+          .getMessageQueue()
+          .send(recipientPubKey, groupUpdateMessage)
+          .catch(log.error);
       }
     },
 
@@ -1910,7 +1993,6 @@
       }
 
       if (this.get('type') === 'group') {
-        const groupNumbers = this.getRecipients();
         this.set({ left: true });
 
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
@@ -1930,12 +2012,16 @@
         });
         message.set({ id });
 
-        const options = this.getSendOptions();
-        message.send(
-          this.wrapSend(
-            textsecure.messaging.leaveGroup(this.id, groupNumbers, options)
-          )
+        // FIXME what about public groups?
+        const quitGroup = {
+          timestamp: Date.now(),
+          groupId: this.id,
+        };
+        const quitGroupMessage = new libsession.Messages.Outgoing.ClosedGroupLeaveMessage(
+          quitGroup
         );
+
+        await libsession.getMessageQueue().sendToGroup(quitGroupMessage);
 
         this.updateTextInputState();
       }
@@ -2013,6 +2099,13 @@
       //      conversation is viewed, another error message shows up for the contact
       read = read.filter(item => !item.hasErrors);
 
+      if (this.isPublic()) {
+        window.console.debug(
+          'public conversation... No need to send read receipt'
+        );
+        return;
+      }
+
       const devicePubkey = new libsession.Types.PubKey(this.id);
       const hasSession = await libsession.Protocols.SessionProtocol.hasSession(
         devicePubkey
@@ -2033,22 +2126,25 @@
           textsecure.messaging.syncReadMessages(read, sendOptions)
         );
 
-        if (storage.get('read-receipt-setting')) {
-          const convoSendOptions = this.getSendOptions();
+        // FIXME AUDRIC
+        // if (storage.get('read-receipt-setting')) {
+        //   await Promise.all(
+        //     _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
+        //       const timestamps = _.map(receipts, 'timestamp');
+        //       const receiptMessage = new libsession.Messages.Outgoing.ReadReceiptMessage(
+        //         {
+        //           timestamp: Date.now(),
+        //           timestamps,
+        //         }
+        //       );
 
-          await Promise.all(
-            _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
-              const timestamps = _.map(receipts, 'timestamp');
-              await this.wrapSend(
-                textsecure.messaging.sendReadReceipts(
-                  sender,
-                  timestamps,
-                  convoSendOptions
-                )
-              );
-            })
-          );
-        }
+        //       const device = new libsession.Types.PubKey(sender);
+        //       await libsession
+        //         .getMessageQueue()
+        //         .sendUsingMultiDevice(device, receiptMessage);
+        //     })
+        //   );
+        // }
       }
     },
 

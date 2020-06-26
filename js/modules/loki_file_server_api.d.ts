@@ -11,6 +11,6 @@ interface DeviceMappingAnnotation {
 }
 
 interface LokiFileServerInstance {
-  getUserDeviceMapping(pubKey: string): Promise<DeviceMappingAnnotation>;
+  getUserDeviceMapping(pubKey: string): Promise<DeviceMappingAnnotation | null>;
   clearOurDeviceMappingAnnotations(): Promise<void>;
 }

@@ -1137,9 +1137,9 @@
     };
 
     window.sendGroupInvitations = (serverInfo, pubkeys) => {
-      pubkeys.forEach(async pubkey => {
+      pubkeys.forEach(async pubkeyStr => {
         const convo = await ConversationController.getOrCreateAndWait(
-          pubkey,
+          pubkeyStr,
           'private'
         );
 
@@ -1407,7 +1407,12 @@
       );
       await window.lokiFileServerAPI.updateOurDeviceMapping();
       // TODO: we should ensure the message was sent and retry automatically if not
-      await libloki.api.sendUnpairingMessageToSecondary(pubKey);
+      const device = new libsession.Types.PubKey(pubKey);
+      const unlinkMessage = new libsession.Messages.Outgoing.DeviceUnlinkMessage(
+        pubKey
+      );
+
+      await libsession.getMessageQueue().send(device, unlinkMessage);
       // Remove all traces of the device
       setTimeout(() => {
         ConversationController.deleteContact(pubKey);
@@ -1616,21 +1621,22 @@
       });
 
       if (Whisper.Import.isComplete()) {
-        const {
-          wrap,
-          sendOptions,
-        } = ConversationController.prepareForSend(
-          textsecure.storage.user.getNumber(),
-          { syncMessage: true }
-        );
-        wrap(
-          textsecure.messaging.sendRequestConfigurationSyncMessage(sendOptions)
-        ).catch(error => {
-          window.log.error(
-            'Import complete, but failed to send sync message',
-            error && error.stack ? error.stack : error
-          );
-        });
+        // FIXME Audric; Is that needed for us?
+        // const {
+        //   wrap,
+        //   sendOptions,
+        // } = ConversationController.prepareForSend(
+        //   textsecure.storage.user.getNumber(),
+        //   { syncMessage: true }
+        // );
+        // wrap(
+        //   textsecure.messaging.sendRequestConfigurationSyncMessage(sendOptions)
+        // ).catch(error => {
+        //   window.log.error(
+        //     'Import complete, but failed to send sync message',
+        //     error && error.stack ? error.stack : error
+        //   );
+        // });
       }
     }
 
@@ -1951,7 +1957,7 @@
     });
 
     // send a session request for all the members we do not have a session with
-    window.libloki.api.sendSessionRequestsToMembers(updates.members);
+    await window.libloki.api.sendSessionRequestsToMembers(updates.members);
 
     const { expireTimer } = details;
     const isValidExpireTimer = typeof expireTimer === 'number';
