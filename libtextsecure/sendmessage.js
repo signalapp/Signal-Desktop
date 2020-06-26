@@ -631,26 +631,16 @@ MessageSender.prototype = {
     }
   },
 
-  async updateMediumGroup(members, groupUpdateProto) {
-    // Automatically request session if not found (updates use pairwise sessions)
-    const autoSession = true;
-
-    await this.sendGroupProto(members, groupUpdateProto, Date.now(), {
-      isPublic: false,
-      autoSession,
-    });
-
-    return true;
-  },
-
   requestSenderKeys(sender, groupId) {
-    const proto = new textsecure.protobuf.DataMessage();
-    const update = new textsecure.protobuf.MediumGroupUpdate();
-    update.type = textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY_REQUEST;
-    update.groupId = groupId;
-    proto.mediumGroupUpdate = update;
-
-    textsecure.messaging.updateMediumGroup([sender], proto);
+    const params = {
+      timestamp: Date.now(),
+      groupId,
+    };
+    const requestKeysMessage = new libsession.Messages.Outgoing.MediumGroupRequestKeysMessage(
+      params
+    );
+    const senderPubKey = new libsession.Types.PubKey(sender);
+    libsession.getMessageQueue().send(senderPubKey, requestKeysMessage);
   },
   makeProxiedRequest(url, options) {
     return this.server.makeProxiedRequest(url, options);
@@ -669,7 +659,6 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.sendOpenGroupsSyncMessage = sender.sendOpenGroupsSyncMessage.bind(
     sender
   );
-  this.updateMediumGroup = sender.updateMediumGroup.bind(sender);
   this.requestSenderKeys = sender.requestSenderKeys.bind(sender);
   this.uploadAvatar = sender.uploadAvatar.bind(sender);
   this.syncReadMessages = sender.syncReadMessages.bind(sender);

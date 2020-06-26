@@ -1813,26 +1813,32 @@
 
       if (groupUpdate.is_medium_group) {
         // Constructing a "create group" message
-        const proto = new textsecure.protobuf.DataMessage();
-
-        const mgUpdate = new textsecure.protobuf.MediumGroupUpdate();
-
         const { id, name, secretKey, senderKey, members } = groupUpdate;
+        const { chainKey, keyIdx } = senderKey;
 
-        mgUpdate.type = textsecure.protobuf.MediumGroupUpdate.Type.NEW_GROUP;
-        mgUpdate.groupId = id;
-        mgUpdate.groupSecretKey = secretKey;
-        mgUpdate.senderKey = new textsecure.protobuf.SenderKey(senderKey);
-        mgUpdate.members = members.map(pkHex =>
-          StringView.hexToArrayBuffer(pkHex)
-        );
-        mgUpdate.groupName = name;
-        mgUpdate.admins = this.get('groupAdmins');
-        proto.mediumGroupUpdate = mgUpdate;
+        const createParams = {
+          timestamp: Date.now(),
+          groupId: id,
+          groupSecretKey: secretKey,
+          members: members.map(pkHex => StringView.hexToArrayBuffer(pkHex)),
+          groupName: name,
+          admins: this.get('groupAdmins'),
+          chainKey,
+          keyIdx,
+        };
 
-        message.send(
-          this.wrapSend(textsecure.messaging.updateMediumGroup(members, proto))
+        const mediumGroupCreateMessage = new libsession.Messages.Outgoing.MediumGroupCreateMessage(
+          createParams
         );
+        message.trigger('pending');
+
+        members.forEach(member => {
+          const memberPubKey = new libsession.Types.PubKey(member);
+          libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(memberPubKey, mediumGroupCreateMessage);
+        });
+
         return;
       }
 
