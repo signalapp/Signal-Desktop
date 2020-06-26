@@ -12,7 +12,7 @@ interface StringToNumberMap {
 export class SessionProtocol {
   private static dbLoaded: Boolean = false;
   /**
-   * This map olds the sent session timestamps, i.e. session requests message effectively sent to the recipient.
+   * This map holds the sent session timestamps, i.e. session requests message effectively sent to the recipient.
    * It is backed by a database entry so it's loaded from db on startup.
    * This map should not be used directly, but instead through
    * `updateSendSessionTimestamp()`, or `hasSendSessionRequest()`
@@ -71,6 +71,29 @@ export class SessionProtocol {
     );
 
     return pendingSend || hasSent;
+  }
+
+  /**
+   * Checks to see if any outgoing session requests have expired and re-sends them again if they have.
+   */
+  public static async checkSessionRequestExpiry(): Promise<any> {
+    await this.fetchFromDBIfNeeded();
+
+    const now = Date.now();
+    const sentTimestamps = Object.entries(this.sentSessionsTimestamp);
+    const promises = sentTimestamps.map(async ([device, sent]) => {
+      const expireTime = sent + SessionRequestMessage.ttl;
+      // Check if we need to send a session request
+      if (now < expireTime) {
+        return;
+      }
+
+      // Unset the timestamp, so that if it fails to send in this function, it will be guaranteed to send later on.
+      await this.updateSentSessionTimestamp(device, undefined);
+      await this.sendSessionRequestIfNeeded(new PubKey(device));
+    });
+
+    return Promise.all(promises) as Promise<any>;
   }
 
   /**

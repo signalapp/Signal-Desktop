@@ -17,6 +17,7 @@ interface SessionRequestParams extends MessageParams {
 }
 
 export class SessionRequestMessage extends ContentMessage {
+  public static readonly ttl = 4 * 24 * 60 * 60 * 1000; // 4 days
   private readonly preKeyBundle: PreKeyBundleType;
 
   constructor(params: SessionRequestParams) {
@@ -25,7 +26,7 @@ export class SessionRequestMessage extends ContentMessage {
   }
 
   public ttl(): number {
-    return 4 * 24 * 60 * 60 * 1000; // 4 days
+    return SessionRequestMessage.ttl;
   }
 
   protected getPreKeyBundleMessage(): SignalService.PreKeyBundleMessage {
