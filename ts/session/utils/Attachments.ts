@@ -1,7 +1,12 @@
 import * as crypto from 'crypto';
 import { Attachment } from '../../types/Attachment';
 import { OpenGroup } from '../types';
-import { AttachmentPointer } from '../messages/outgoing';
+import {
+  AttachmentPointer,
+  Preview,
+  Quote,
+  QuotedAttachment,
+} from '../messages/outgoing';
 import { LokiAppDotNetServerInterface } from '../../../js/modules/loki_app_dot_net_api';
 
 interface UploadParams {
@@ -11,8 +16,27 @@ interface UploadParams {
   isRaw?: boolean;
 }
 
+interface RawPreview {
+  url?: string;
+  title?: string;
+  image: Attachment;
+}
+
+interface RawQuoteAttachment {
+  contentType?: string;
+  fileName?: string;
+  thumbnail?: Attachment;
+}
+
+interface RawQuote {
+  id?: number;
+  author?: string;
+  text?: string;
+  attachments?: Array<RawQuoteAttachment>;
+}
+
 // tslint:disable-next-line: no-unnecessary-class
-export class Attachments {
+export class AttachmentUtils {
   private constructor() {}
 
   public static getDefaultServer(): LokiAppDotNetServerInterface {
@@ -78,5 +102,59 @@ export class Attachments {
     pointer.url = result.url;
 
     return pointer;
+  }
+
+  public static async uploadAttachments(
+    attachments: Array<Attachment>,
+    openGroup?: OpenGroup
+  ): Promise<Array<AttachmentPointer>> {
+    const promises = attachments.map(async attachment =>
+      this.upload({
+        attachment,
+        openGroup,
+      })
+    );
+
+    return Promise.all(promises);
+  }
+
+  public static async uploadLinkPreviews(
+    previews: Array<RawPreview>,
+    openGroup?: OpenGroup
+  ): Promise<Array<Preview>> {
+    const promises = previews.map(async item => ({
+      ...item,
+      image: await this.upload({
+        attachment: item.image,
+        openGroup,
+      }),
+    }));
+    return Promise.all(promises);
+  }
+
+  public static async uploadQuoteThumbnails(
+    quote: RawQuote,
+    openGroup?: OpenGroup
+  ): Promise<Quote> {
+    const promises = (quote.attachments ?? []).map(async attachment => {
+      let thumbnail: AttachmentPointer | undefined;
+      if (attachment.thumbnail) {
+        thumbnail = await this.upload({
+          attachment: attachment.thumbnail,
+          openGroup,
+        });
+      }
+      return {
+        ...attachment,
+        thumbnail,
+      } as QuotedAttachment;
+    });
+
+    const attachments = await Promise.all(promises);
+
+    return {
+      ...quote,
+      attachments,
+    };
   }
 }
