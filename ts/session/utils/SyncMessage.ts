@@ -4,6 +4,7 @@ import { getAllConversations } from '../../../js/modules/data';
 import { ContentMessage, SyncMessage } from '../messages/outgoing';
 import { MultiDeviceProtocol } from '../protocols';
 import ByteBuffer from 'bytebuffer';
+import { TestUtils } from '../../test/test-utils';
 
 export function toSyncMessage(
   message: ContentMessage
