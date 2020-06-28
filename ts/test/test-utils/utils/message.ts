@@ -5,7 +5,7 @@ import {
 } from '../../../session/messages/outgoing';
 import { v4 as uuid } from 'uuid';
 import { OpenGroup } from '../../../session/types';
-import { generateFakePubKey } from './pubkey';
+import { generateFakePubKey, generateFakePubKeys } from './pubkey';
 import { ConversationAttributes } from '../../../../js/models/conversation';
 
 export function generateChatMessage(identifier?: string): ChatMessage {
@@ -48,24 +48,37 @@ export function generateClosedGroupMessage(
   });
 }
 
-interface MockPrivateConversationParams {
+interface MockConversationParams {
   id?: string;
-  isPrimary: boolean;
+  type: MockConversationType;
+  members?: Array<string>;
 }
 
-export class MockPrivateConversation {
-  public id: string;
-  public isPrimary: boolean;
-  public attributes: ConversationAttributes;
+export enum MockConversationType {
+  Primary = 'primary',
+  Secondary = 'secondary',
+  Group = 'group',
+}
 
-  constructor(params: MockPrivateConversationParams) {
+export class MockConversation {
+  public id: string;
+  public type: MockConversationType;
+  public attributes: ConversationAttributes;
+  public isPrimary?: boolean;
+
+  constructor(params: MockConversationParams) {
     const dayInSeconds = 86400;
 
-    this.isPrimary = params.isPrimary;
+    this.type = params.type;
     this.id = params.id ?? generateFakePubKey().key;
+    this.isPrimary = this.type === MockConversationType.Primary;
+
+    const members = this.type === MockConversationType.Group
+      ? params.members ?? generateFakePubKeys(10).map(m => m.key)
+      : [];
 
     this.attributes = {
-      members: [],
+      members,
       left: false,
       expireTimer: dayInSeconds,
       profileSharing: true,
@@ -91,6 +104,10 @@ export class MockPrivateConversation {
   }
 
   public getPrimaryDevicePubKey() {
+    if (this.type === MockConversationType.Group) {
+      return undefined;
+    }
+
     return this.isPrimary ? this.id : generateFakePubKey().key;
   }
 }
