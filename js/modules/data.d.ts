@@ -1,5 +1,5 @@
 import { ConversationType } from '../../ts/state/ducks/conversations';
-import { Mesasge } from '../../ts/types/Message';
+import { Message } from '../../ts/types/Message';
 
 export type IdentityKey = {
   id: string;

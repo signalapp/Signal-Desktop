@@ -1640,6 +1640,15 @@
       }
     }
 
+    libsession.Protocols.SessionProtocol.checkSessionRequestExpiry().catch(
+      e => {
+        window.log.error(
+          'Error occured which checking for session request expiry',
+          e
+        );
+      }
+    );
+
     storage.onready(async () => {
       idleDetector.start();
     });
