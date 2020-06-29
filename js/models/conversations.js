@@ -1205,10 +1205,10 @@
       const expireTimer = this.get('expireTimer');
       const recipients = this.getRecipients();
 
-      let profileKey;
-      if (this.get('profileSharing')) {
-        profileKey = storage.get('profileKey');
-      }
+      // let profileKey;
+      // if (this.get('profileSharing')) {
+      //   profileKey = storage.get('profileKey');
+      // }
 
       this.queueJob(async () => {
         const now = Date.now();
@@ -1304,19 +1304,21 @@
           now,
         });
 
-        // Special-case the self-send case - we send only a sync message
+        // FIXME audric add back profileKey
+        const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+          body: messageBody,
+          timestamp: Date.now(),
+          attachments: finalAttachments,
+          expireTimer,
+          preview,
+          quote,
+        });
+        // Start handle ChatMessages (attachments/quote/preview/body)
+        // FIXME AUDRIC handle attachments, quote, preview, profileKey
+
         if (this.isMe()) {
-          const dataMessage = await textsecure.messaging.getMessageProto(
-            destination,
-            messageBody,
-            finalAttachments,
-            quote,
-            preview,
-            now,
-            expireTimer,
-            profileKey
-          );
-          return message.sendSyncMessageOnly(dataMessage);
+          await message.markMessageSyncOnly();
+          // sending is done in the 'private' case below
         }
         const options = {};
 
@@ -1364,51 +1366,30 @@
             .getMessageQueue()
             .sendUsingMultiDevice(destinationPubkey, groupInvitMessage);
         }
-        const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
-          body,
-          timestamp: Date.now(),
-        });
-        // Start handle ChatMessages (attachments/quote/preview/body)
-        // FIXME AUDRIC handle attachments, quote, preview
+
         if (conversationType === Message.PRIVATE) {
-          await libsession
+          return libsession
             .getMessageQueue()
             .sendUsingMultiDevice(destinationPubkey, chatMessage);
+        }
 
-          // return textsecure.messaging.sendMessageToNumber(
-          //   destination,
-          //   messageBody,
-          //   finalAttachments,
-          //   quote,
-          //   preview,
-          //   now,
-          //   expireTimer,
-          //   profileKey,
-          //   {}
-          // );
-        } else if (conversationType === Message.GROUP) {
-          // return textsecure.messaging.sendMessageToGroup(
-          //   dest,
-          //   numbers,
-          //   messageBody,
-          //   finalAttachments,
-          //   quote,
-          //   preview,
-          //   now,
-          //   expireTimer,
-          //   profileKey,
-          //   {}
-          // );
-
-          // let dest = destination;
-          // let numbers = groupNumbers;
+        if (conversationType === Message.GROUP) {
           if (this.isMediumGroup()) {
-            // FIXME audric to implement back
-
-            // dest = this.id;
-            // numbers = [destination];
-            // options.isMediumGroup = true;
-            throw new Error('To implement');
+            const mediumGroupChatMessage = new libsession.Messages.Outgoing.MediumGroupChatMessage(
+              {
+                chatMessage,
+                groupId: destination,
+              }
+            );
+            const members = this.get('members');
+            await Promise.all(
+              members.map(async m => {
+                const memberPubKey = new libsession.Types.PubKey(m);
+                await libsession
+                  .getMessageQueue()
+                  .sendUsingMultiDevice(memberPubKey, mediumGroupChatMessage);
+              })
+            );
           } else {
             const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
               {
@@ -1531,78 +1512,6 @@
       );
     },
 
-    getSendOptions(options = {}) {
-      const senderCertificate = storage.get('senderCertificate');
-      const numberInfo = this.getNumberInfo(options);
-
-      return {
-        senderCertificate,
-        numberInfo,
-      };
-    },
-
-    getNumberInfo(options = {}) {
-      const { syncMessage, disableMeCheck } = options;
-
-      if (!this.ourNumber) {
-        return null;
-      }
-
-      // START: this code has an Expiration date of ~2018/11/21
-      // We don't want to enable unidentified delivery for send unless it is
-      //   also enabled for our own account.
-      const me = ConversationController.getOrCreate(this.ourNumber, 'private');
-      if (
-        !disableMeCheck &&
-        me.get('sealedSender') === SEALED_SENDER.DISABLED
-      ) {
-        return null;
-      }
-      // END
-
-      if (!this.isPrivate()) {
-        const infoArray = this.contactCollection.map(conversation =>
-          conversation.getNumberInfo(options)
-        );
-        return Object.assign({}, ...infoArray);
-      }
-
-      const accessKey = this.get('accessKey');
-      const sealedSender = this.get('sealedSender');
-
-      // We never send sync messages as sealed sender
-      if (syncMessage && this.id === this.ourNumber) {
-        return null;
-      }
-
-      // If we've never fetched user's profile, we default to what we have
-      if (sealedSender === SEALED_SENDER.UNKNOWN) {
-        return {
-          [this.id]: {
-            accessKey:
-              accessKey ||
-              window.Signal.Crypto.arrayBufferToBase64(
-                window.Signal.Crypto.getRandomBytes(16)
-              ),
-          },
-        };
-      }
-
-      if (sealedSender === SEALED_SENDER.DISABLED) {
-        return null;
-      }
-
-      return {
-        [this.id]: {
-          accessKey:
-            accessKey && sealedSender === SEALED_SENDER.ENABLED
-              ? accessKey
-              : window.Signal.Crypto.arrayBufferToBase64(
-                  window.Signal.Crypto.getRandomBytes(16)
-                ),
-        },
-      };
-    },
     async updateSwarmNodes(swarmNodes) {
       this.set({ swarmNodes });
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
@@ -1730,27 +1639,16 @@
         profileKey = storage.get('profileKey');
       }
 
-      if (this.isMe()) {
-        const flags =
-          textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
-        const dataMessage = await textsecure.messaging.getMessageProto(
-          this.get('id'),
-          null,
-          [],
-          null,
-          [],
-          message.get('sent_at'),
-          expireTimer,
-          profileKey,
-          flags
-        );
-        return message.sendSyncMessageOnly(dataMessage);
-      }
       const expireUpdate = {
         timestamp: message.get('sent_at'),
         expireTimer,
         profileKey,
       };
+
+      if (this.isMe()) {
+        await message.markMessageSyncOnly();
+        // sending of the message is handled in the 'private' case below
+      }
 
       if (this.get('type') === 'private') {
         const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
@@ -1916,26 +1814,32 @@
 
       if (groupUpdate.is_medium_group) {
         // Constructing a "create group" message
-        const proto = new textsecure.protobuf.DataMessage();
-
-        const mgUpdate = new textsecure.protobuf.MediumGroupUpdate();
-
         const { id, name, secretKey, senderKey, members } = groupUpdate;
+        const { chainKey, keyIdx } = senderKey;
 
-        mgUpdate.type = textsecure.protobuf.MediumGroupUpdate.Type.NEW_GROUP;
-        mgUpdate.groupId = id;
-        mgUpdate.groupSecretKey = secretKey;
-        mgUpdate.senderKey = new textsecure.protobuf.SenderKey(senderKey);
-        mgUpdate.members = members.map(pkHex =>
-          StringView.hexToArrayBuffer(pkHex)
-        );
-        mgUpdate.groupName = name;
-        mgUpdate.admins = this.get('groupAdmins');
-        proto.mediumGroupUpdate = mgUpdate;
+        const createParams = {
+          timestamp: Date.now(),
+          groupId: id,
+          groupSecretKey: secretKey,
+          members: members.map(pkHex => StringView.hexToArrayBuffer(pkHex)),
+          groupName: name,
+          admins: this.get('groupAdmins'),
+          chainKey,
+          keyIdx,
+        };
 
-        message.send(
-          this.wrapSend(textsecure.messaging.updateMediumGroup(members, proto))
+        const mediumGroupCreateMessage = new libsession.Messages.Outgoing.MediumGroupCreateMessage(
+          createParams
         );
+        message.trigger('pending');
+
+        members.forEach(member => {
+          const memberPubKey = new libsession.Types.PubKey(member);
+          libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(memberPubKey, mediumGroupCreateMessage);
+        });
+
         return;
       }
 
@@ -2122,9 +2026,7 @@
           this.ourNumber,
           { syncMessage: true }
         );
-        await this.wrapSend(
-          textsecure.messaging.syncReadMessages(read, sendOptions)
-        );
+        await textsecure.messaging.syncReadMessages(read, sendOptions);
 
         // FIXME AUDRIC
         // if (storage.get('read-receipt-setting')) {

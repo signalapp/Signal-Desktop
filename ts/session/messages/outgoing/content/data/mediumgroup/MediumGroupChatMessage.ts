@@ -1,18 +1,18 @@
 import { SignalService } from '../../../../../../protobuf';
 import { ChatMessage } from '../ChatMessage';
-import { ClosedGroupMessage } from './ClosedGroupMessage';
 import { PubKey } from '../../../../../types';
+import { MediumGroupMessage } from './MediumGroupMessage';
 
-interface ClosedGroupChatMessageParams {
+interface MediumGroupChatMessageParams {
   identifier?: string;
   groupId: string | PubKey;
   chatMessage: ChatMessage;
 }
 
-export class ClosedGroupChatMessage extends ClosedGroupMessage {
+export class MediumGroupChatMessage extends MediumGroupMessage {
   private readonly chatMessage: ChatMessage;
 
-  constructor(params: ClosedGroupChatMessageParams) {
+  constructor(params: MediumGroupChatMessageParams) {
     super({
       timestamp: params.chatMessage.timestamp,
       identifier: params.identifier ?? params.chatMessage.identifier,
@@ -21,21 +21,9 @@ export class ClosedGroupChatMessage extends ClosedGroupMessage {
     this.chatMessage = params.chatMessage;
   }
 
-  public ttl(): number {
-    return this.getDefaultTTL();
-  }
-
-  protected groupContext(): SignalService.GroupContext {
-    // use the parent method to fill id correctly
-    const groupContext = super.groupContext();
-    groupContext.type = SignalService.GroupContext.Type.DELIVER;
-
-    return groupContext;
-  }
-
   protected dataProto(): SignalService.DataMessage {
     const messageProto = this.chatMessage.dataProto();
-    messageProto.group = this.groupContext();
+    messageProto.mediumGroupUpdate = super.dataProto().mediumGroupUpdate;
 
     return messageProto;
   }

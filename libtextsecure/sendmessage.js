@@ -1,4 +1,4 @@
-/* global textsecure, WebAPI, libsignal, window, OutgoingMessage, libloki, _, libsession */
+/* global textsecure, WebAPI, libsignal, window, libloki, _, libsession */
 
 /* eslint-disable more/no-then, no-bitwise */
 
@@ -351,62 +351,6 @@ MessageSender.prototype = {
     });
   },
 
-  async sendMessage(attrs, options) {
-    const message = new Message(attrs);
-    const silent = false;
-    const publicServer =
-      options.publicSendData && options.publicSendData.serverAPI;
-
-    await Promise.all([
-      this.uploadAttachments(message, publicServer),
-      this.uploadThumbnails(message, publicServer),
-      this.uploadLinkPreviews(message, publicServer),
-    ]);
-
-    return new Promise((resolve, reject) => {
-      this.sendMessageProto(
-        message.timestamp,
-        message.recipients,
-        message.toProto(),
-        res => {
-          res.dataMessage = message.toArrayBuffer();
-          if (res.errors.length > 0) {
-            reject(res);
-          } else {
-            resolve(res);
-          }
-        },
-        silent,
-        options
-      );
-    });
-  },
-  sendMessageProto(
-    timestamp,
-    numbers,
-    message,
-    callback,
-    silent,
-    options = {}
-  ) {
-    // Note: Since we're just doing independant tasks,
-    // using `async` in the `forEach` loop should be fine.
-    // If however we want to use the results from forEach then
-    // we would need to convert this to a Promise.all(numbers.map(...))
-    numbers.forEach(async number => {
-      const outgoing = new OutgoingMessage(
-        this.server,
-        timestamp,
-        numbers,
-        message,
-        silent,
-        callback,
-        options
-      );
-      this.queueJobForNumber(number, () => outgoing.sendToNumber(number));
-    });
-  },
-
   uploadAvatar(attachment) {
     // isRaw is true since the data is already encrypted
     // and doesn't need to be encrypted again
@@ -435,6 +379,7 @@ MessageSender.prototype = {
     const syncMessages = await Promise.all(
       chunked.map(c => libloki.api.createContactSyncMessage(c))
     );
+
     const syncPromises = syncMessages.map(syncMessage =>
       libsession.getMessageQueue().sendSyncMessage(syncMessage)
     );
@@ -515,7 +460,6 @@ MessageSender.prototype = {
           readMessages: reads,
         }
       );
-
       return libsession.getMessageQueue().sendSyncMessage(syncReadMessages);
     }
 
@@ -548,232 +492,10 @@ MessageSender.prototype = {
     const verifiedSyncMessage = new window.libsession.Messages.Outgoing.VerifiedSyncMessage(
       verifiedSyncParams
     );
+
     return libsession.getMessageQueue().sendSyncMessage(verifiedSyncMessage);
   },
 
-  async sendGroupProto(
-    providedNumbers,
-    proto,
-    timestamp = Date.now(),
-    options = {}
-  ) {
-    // We always assume that only primary device is a member in the group
-    const primaryDeviceKey =
-      window.storage.get('primaryDevicePubKey') ||
-      textsecure.storage.user.getNumber();
-    const numbers = providedNumbers.filter(
-      number => number !== primaryDeviceKey
-    );
-    if (numbers.length === 0) {
-      return Promise.resolve({
-        successfulNumbers: [],
-        failoverNumbers: [],
-        errors: [],
-        unidentifiedDeliveries: [],
-        dataMessage: proto.toArrayBuffer(),
-      });
-    }
-
-    const sendPromise = new Promise((resolve, reject) => {
-      const silent = true;
-      const callback = res => {
-        res.dataMessage = proto.toArrayBuffer();
-        if (res.errors.length > 0) {
-          reject(res);
-        } else {
-          resolve(res);
-        }
-      };
-
-      this.sendMessageProto(
-        timestamp,
-        numbers,
-        proto,
-        callback,
-        silent,
-        options
-      );
-    });
-
-    const result = await sendPromise;
-
-    // Sync the group message to our other devices
-    const sentSyncMessageParams = {
-      timestamp,
-      dataMessage: proto,
-    };
-    const sentSyncMessage = new libsession.Messages.Outgoing.SentSyncMessage(
-      sentSyncMessageParams
-    );
-
-    await libsession.getMessageQueue().sendSyncMessage(sentSyncMessage);
-
-    return result;
-  },
-
-  async getMessageProto(
-    number,
-    body,
-    attachments,
-    quote,
-    preview,
-    timestamp,
-    expireTimer,
-    profileKey,
-    flags
-  ) {
-    const attributes = {
-      recipients: [number],
-      body,
-      timestamp,
-      attachments,
-      quote,
-      preview,
-      expireTimer,
-      profileKey,
-      flags,
-    };
-
-    return this.getMessageProtoObj(attributes);
-  },
-
-  async getMessageProtoObj(attributes) {
-    const message = new Message(attributes);
-    await Promise.all([
-      this.uploadAttachments(message),
-      this.uploadThumbnails(message),
-      this.uploadLinkPreviews(message),
-    ]);
-
-    return message.toArrayBuffer();
-  },
-
-  getOurProfile() {
-    try {
-      // Secondary devices have their profile stored
-      // in their primary device's conversation
-      const ourNumber = window.storage.get('primaryDevicePubKey');
-      const conversation = window.ConversationController.get(ourNumber);
-      return conversation.getLokiProfile();
-    } catch (e) {
-      window.log.error(`Failed to get our profile: ${e}`);
-      return null;
-    }
-  },
-
-  async sendMessageToNumber(
-    number,
-    messageText,
-    attachments,
-    quote,
-    preview,
-    timestamp,
-    expireTimer,
-    profileKey,
-    options
-  ) {
-    const profile = this.getOurProfile();
-
-    const { groupInvitation, sessionRestoration } = options;
-
-    return this.sendMessage(
-      {
-        recipients: [number],
-        body: messageText,
-        timestamp,
-        attachments,
-        quote,
-        preview,
-        needsSync: true,
-        expireTimer,
-        profileKey,
-        profile,
-        undefined,
-        groupInvitation,
-        sessionRestoration,
-      },
-      options
-    );
-  },
-  async sendMessageToGroup(
-    groupId,
-    groupNumbers,
-    messageText,
-    attachments,
-    quote,
-    preview,
-    timestamp,
-    expireTimer,
-    profileKey,
-    options
-  ) {
-    // We always assume that only primary device is a member in the group
-    const primaryDeviceKey =
-      window.storage.get('primaryDevicePubKey') ||
-      textsecure.storage.user.getNumber();
-    let numbers = groupNumbers.filter(number => number !== primaryDeviceKey);
-    if (options.isPublic) {
-      numbers = [groupId];
-    }
-    const profile = this.getOurProfile();
-
-    let group;
-    // Medium groups don't need this info
-    if (!options.isMediumGroup) {
-      group = {
-        id: groupId,
-        type: textsecure.protobuf.GroupContext.Type.DELIVER,
-      };
-    }
-
-    const attrs = {
-      recipients: numbers,
-      body: messageText,
-      timestamp,
-      attachments,
-      quote,
-      preview,
-      needsSync: true,
-      expireTimer,
-      profileKey,
-      profile,
-      group,
-    };
-
-    if (numbers.length === 0) {
-      return {
-        successfulNumbers: [],
-        failoverNumbers: [],
-        errors: [],
-        unidentifiedDeliveries: [],
-        dataMessage: await this.getMessageProtoObj(attrs),
-      };
-    }
-
-    return this.sendMessage(attrs, options);
-  },
-
-  async updateMediumGroup(members, groupUpdateProto) {
-    // Automatically request session if not found (updates use pairwise sessions)
-    const autoSession = true;
-
-    await this.sendGroupProto(members, groupUpdateProto, Date.now(), {
-      isPublic: false,
-      autoSession,
-    });
-
-    return true;
-  },
-
-  requestSenderKeys(sender, groupId) {
-    const proto = new textsecure.protobuf.DataMessage();
-    const update = new textsecure.protobuf.MediumGroupUpdate();
-    update.type = textsecure.protobuf.MediumGroupUpdate.Type.SENDER_KEY_REQUEST;
-    update.groupId = groupId;
-    proto.mediumGroupUpdate = update;
-
-    textsecure.messaging.updateMediumGroup([sender], proto);
-  },
   makeProxiedRequest(url, options) {
     return this.server.makeProxiedRequest(url, options);
   },
@@ -791,17 +513,11 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.sendOpenGroupsSyncMessage = sender.sendOpenGroupsSyncMessage.bind(
     sender
   );
-  this.sendMessageToNumber = sender.sendMessageToNumber.bind(sender);
-  this.sendMessage = sender.sendMessage.bind(sender);
-  this.sendMessageToGroup = sender.sendMessageToGroup.bind(sender);
-  this.updateMediumGroup = sender.updateMediumGroup.bind(sender);
-  this.requestSenderKeys = sender.requestSenderKeys.bind(sender);
   this.uploadAvatar = sender.uploadAvatar.bind(sender);
   this.syncReadMessages = sender.syncReadMessages.bind(sender);
   this.syncVerification = sender.syncVerification.bind(sender);
   this.makeProxiedRequest = sender.makeProxiedRequest.bind(sender);
   this.getProxiedSize = sender.getProxiedSize.bind(sender);
-  this.getMessageProto = sender.getMessageProto.bind(sender);
 };
 
 textsecure.MessageSender.prototype = {
