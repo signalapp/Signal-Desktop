@@ -28,8 +28,8 @@
     deleteExternalMessageFiles,
     getAbsoluteAttachmentPath,
     loadAttachmentData,
-    loadQuoteData,
-    loadPreviewData,
+    // loadQuoteData,
+    // loadPreviewData,
   } = window.Signal.Migrations;
   const { bytesFromString } = window.Signal.Crypto;
 
@@ -1023,20 +1023,23 @@
       const attachmentsWithData = await Promise.all(
         (this.get('attachments') || []).map(loadAttachmentData)
       );
-      const { body, attachments } = Whisper.Message.getLongMessageAttachment({
+      const { body } = Whisper.Message.getLongMessageAttachment({
         body: this.get('body'),
         attachments: attachmentsWithData,
         now: this.get('sent_at'),
       });
+      // TODO add logic for attachments, quote and preview here
+      // don't blindly reuse the one from loadQuoteData loadPreviewData and getLongMessageAttachment.
+      // they have similar data structure to the ones we need
+      // but the main difference is that they haven't been uploaded
+      // so no url exists in them
+      // so passing it to chat message is incorrect
 
-      const quoteWithData = await loadQuoteData(this.get('quote'));
-      const previewWithData = await loadPreviewData(this.get('preview'));
+      // const quoteWithData = await loadQuoteData(this.get('quote'));
+      // const previewWithData = await loadPreviewData(this.get('preview'));
       const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
         body,
         timestamp: this.get('sent_at'),
-        attachments,
-        quote: quoteWithData,
-        preview: previewWithData,
         expireTimer: this.get('expireTimer'),
       });
       // Special-case the self-send case - we send only a sync message
@@ -1044,8 +1047,7 @@
         this.trigger('pending');
         // FIXME audric add back profileKey
         await this.markMessageSyncOnly();
-        const syncMessage = libsession.Utils.SyncMessageUtils.from(chatMessage);
-        return libsession.getMessageQueue().sendSyncMessage(syncMessage);
+        // sending is done in the private case below
       }
 
       if (conversation.isPrivate()) {
@@ -1103,20 +1105,22 @@
       const attachmentsWithData = await Promise.all(
         (this.get('attachments') || []).map(loadAttachmentData)
       );
-      const { body, attachments } = Whisper.Message.getLongMessageAttachment({
+      const { body } = Whisper.Message.getLongMessageAttachment({
         body: this.get('body'),
         attachments: attachmentsWithData,
         now: this.get('sent_at'),
       });
-
-      const quoteWithData = await loadQuoteData(this.get('quote'));
-      const previewWithData = await loadPreviewData(this.get('preview'));
+      // TODO add logic for attachments, quote and preview here
+      // don't blindly reuse the one from loadQuoteData loadPreviewData and getLongMessageAttachment.
+      // they have similar data structure to the ones we need
+      // but the main difference is that they haven't been uploaded
+      // so no url exists in them
+      // so passing it to chat message is incorrect
+      // const quoteWithData = await loadQuoteData(this.get('quote'));
+      // const previewWithData = await loadPreviewData(this.get('preview'));
       const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
         body,
         timestamp: this.get('sent_at'),
-        attachments,
-        quote: quoteWithData,
-        preview: previewWithData,
         expireTimer: this.get('expireTimer'),
       });
 
@@ -1124,8 +1128,7 @@
       if (number === this.OUR_NUMBER) {
         this.trigger('pending');
         await this.markMessageSyncOnly();
-        const syncMessage = libsession.Utils.SyncMessageUtils.from(chatMessage);
-        return libsession.getMessageQueue().sendSyncMessage(syncMessage);
+        // sending is done in the private case below
       }
       const conversation = this.getConversation();
       const recipientPubKey = new libsession.Types.PubKey(number);

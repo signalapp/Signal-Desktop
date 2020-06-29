@@ -379,8 +379,14 @@ MessageSender.prototype = {
     const syncMessages = await Promise.all(
       chunked.map(c => libloki.api.createContactSyncMessage(c))
     );
+    const pubKey = textsecure.storage.user.getNumber();
+
+    const currentPubKey = new libsession.Types.PubKey(pubKey);
+
     const syncPromises = syncMessages.map(syncMessage =>
-      libsession.getMessageQueue().sendSyncMessage(syncMessage)
+      libsession
+        .getMessageQueue()
+        .sendUsingMultiDevice(currentPubKey, syncMessage)
     );
 
     return Promise.all(syncPromises);
@@ -406,13 +412,17 @@ MessageSender.prototype = {
       window.console.info('No closed group to sync.');
       return Promise.resolve();
     }
+    const pubKey = textsecure.storage.user.getNumber();
+    const currentPubKey = new libsession.Types.PubKey(pubKey);
 
     // We need to sync across 1 group at a time
     // This is because we could hit the storage server limit with one group
     const syncPromises = sessionGroups
       .map(c => libloki.api.createGroupSyncMessage(c))
       .map(syncMessage =>
-        libsession.getMessageQueue().sendSyncMessage(syncMessage)
+        libsession
+          .getMessageQueue()
+          .sendUsingMultiDevice(currentPubKey, syncMessage)
       );
 
     return Promise.all(syncPromises);
@@ -448,7 +458,12 @@ MessageSender.prototype = {
       openGroupsSyncParams
     );
 
-    return libsession.getMessageQueue().sendSyncMessage(openGroupsSyncMessage);
+    const pubKey = textsecure.storage.user.getNumber();
+    const currentPubKey = new libsession.Types.PubKey(pubKey);
+
+    return libsession
+      .getMessageQueue()
+      .sendUsingMultiDevice(currentPubKey, openGroupsSyncMessage);
   },
   syncReadMessages(reads) {
     const myDevice = textsecure.storage.user.getDeviceId();
@@ -459,8 +474,11 @@ MessageSender.prototype = {
           readMessages: reads,
         }
       );
-
-      return libsession.getMessageQueue().sendSyncMessage(syncReadMessages);
+      const pubKey = textsecure.storage.user.getNumber();
+      const currentPubKey = new libsession.Types.PubKey(pubKey);
+      return libsession
+        .getMessageQueue()
+        .sendUsingMultiDevice(currentPubKey, syncReadMessages);
     }
 
     return Promise.resolve();
@@ -492,7 +510,13 @@ MessageSender.prototype = {
     const verifiedSyncMessage = new window.libsession.Messages.Outgoing.VerifiedSyncMessage(
       verifiedSyncParams
     );
-    return libsession.getMessageQueue().sendSyncMessage(verifiedSyncMessage);
+    const pubKey = textsecure.storage.user.getNumber();
+
+    const currentPubKey = new libsession.Types.PubKey(pubKey);
+
+    return libsession
+      .getMessageQueue()
+      .sendUsingMultiDevice(currentPubKey, verifiedSyncMessage);
   },
 
   getOurProfile() {

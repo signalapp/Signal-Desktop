@@ -1316,13 +1316,9 @@
         // Start handle ChatMessages (attachments/quote/preview/body)
         // FIXME AUDRIC handle attachments, quote, preview, profileKey
 
-        // Special-case the self-send case - we send only a sync message
         if (this.isMe()) {
           await message.markMessageSyncOnly();
-          const syncMessage = libsession.Utils.SyncMessageUtils.from(
-            chatMessage
-          );
-          return libsession.getMessageQueue().sendSyncMessage(syncMessage);
+          // sending is done in the 'private' case below
         }
         const options = {};
 
@@ -1650,14 +1646,8 @@
       };
 
       if (this.isMe()) {
-        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
-          expireUpdate
-        );
         await message.markMessageSyncOnly();
-        const syncMessage = libsession.Utils.SyncMessageUtils.from(
-          expirationTimerMessage
-        );
-        return libsession.getMessageQueue().sendSyncMessage(syncMessage);
+        // sending of the message is handled in the 'private' case below
       }
 
       if (this.get('type') === 'private') {
