@@ -55,7 +55,7 @@ async function handleGroups(
     if (removedMembers.includes(ourNumber)) {
       groupUpdate.kicked = 'You';
       attributes.isKickedFromGroup = true;
-    } else {
+    } else if (removedMembers.length) {
       groupUpdate.kicked = removedMembers;
     }
   } else if (group.type === GROUP_TYPES.QUIT) {

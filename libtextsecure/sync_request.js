@@ -23,6 +23,7 @@
       timestamp: Date.now(),
       reqestType: CONFIGURATION,
     });
+
     await libsession
       .getMessageQueue()
       .sendSyncMessage(requestConfigurationSyncMessage);

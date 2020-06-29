@@ -79,9 +79,7 @@ export class GroupNotification extends React.Component<Props> {
         }
 
         if (!contacts || !contacts.length) {
-          // FIXME audric
-          return 'FIXME audric';
-          // throw new Error('Group update kicked is missing contacts');
+          throw new Error('Group update kicked is missing contacts');
         }
 
         const kickedKey =

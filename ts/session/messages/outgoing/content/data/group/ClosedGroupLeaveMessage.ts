@@ -13,7 +13,12 @@ export class ClosedGroupLeaveMessage extends ClosedGroupMessage {
     });
   }
 
-  protected groupContextType(): SignalService.GroupContext.Type {
-    return SignalService.GroupContext.Type.QUIT;
+  protected groupContext(): SignalService.GroupContext {
+    // use the parent method to fill id correctly
+    const groupContext = super.groupContext();
+
+    groupContext.type = SignalService.GroupContext.Type.QUIT;
+
+    return groupContext;
   }
 }

@@ -850,8 +850,15 @@ MessageReceiver.prototype.extend({
             groupId
           );
 
-          textsecure.messaging.requestSenderKeys(senderIdentity, groupId);
-
+          const params = {
+            timestamp: Date.now(),
+            groupId,
+          };
+          const requestKeysMessage = new libsession.Messages.Outgoing.MediumGroupRequestKeysMessage(
+            params
+          );
+          const senderPubKey = new libsession.Types.PubKey(senderIdentity);
+          libsession.getMessageQueue().send(senderPubKey, requestKeysMessage);
           return;
         }
 

@@ -4,14 +4,14 @@ import { MessageParams } from '../../../Message';
 import { PubKey } from '../../../../../types';
 import { StringUtils } from '../../../../../utils';
 
-export interface ClosedGroupMessageParams extends MessageParams {
+export interface MediumGroupMessageParams extends MessageParams {
   groupId: string | PubKey;
 }
 
-export abstract class ClosedGroupMessage extends DataMessage {
+export abstract class MediumGroupMessage extends DataMessage {
   public readonly groupId: PubKey;
 
-  constructor(params: ClosedGroupMessageParams) {
+  constructor(params: MediumGroupMessageParams) {
     super({
       timestamp: params.timestamp,
       identifier: params.identifier,
@@ -23,15 +23,13 @@ export abstract class ClosedGroupMessage extends DataMessage {
     return this.getDefaultTTL();
   }
 
-  protected groupContext(): SignalService.GroupContext {
-    const id = new Uint8Array(StringUtils.encode(this.groupId.key, 'utf8'));
-
-    return new SignalService.GroupContext({ id });
+  protected mediumGroupContext(): SignalService.MediumGroupUpdate {
+    return new SignalService.MediumGroupUpdate({ groupId: this.groupId.key });
   }
 
   protected dataProto(): SignalService.DataMessage {
     const dataMessage = new SignalService.DataMessage();
-    dataMessage.group = this.groupContext();
+    dataMessage.mediumGroupUpdate = this.mediumGroupContext();
 
     return dataMessage;
   }
