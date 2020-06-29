@@ -108,7 +108,7 @@ export class AttachmentUtils {
     attachments: Array<Attachment>,
     openGroup?: OpenGroup
   ): Promise<Array<AttachmentPointer>> {
-    const promises = attachments.map(async attachment =>
+    const promises = (attachments || []).map(async attachment =>
       this.upload({
         attachment,
         openGroup,
@@ -122,7 +122,7 @@ export class AttachmentUtils {
     previews: Array<RawPreview>,
     openGroup?: OpenGroup
   ): Promise<Array<Preview>> {
-    const promises = previews.map(async item => ({
+    const promises = (previews || []).map(async item => ({
       ...item,
       image: await this.upload({
         attachment: item.image,
@@ -133,9 +133,13 @@ export class AttachmentUtils {
   }
 
   public static async uploadQuoteThumbnails(
-    quote: RawQuote,
+    quote?: RawQuote,
     openGroup?: OpenGroup
-  ): Promise<Quote> {
+  ): Promise<Quote | undefined> {
+    if (!quote) {
+      return undefined;
+    }
+
     const promises = (quote.attachments ?? []).map(async attachment => {
       let thumbnail: AttachmentPointer | undefined;
       if (attachment.thumbnail) {

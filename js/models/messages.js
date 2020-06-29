@@ -28,8 +28,8 @@
     deleteExternalMessageFiles,
     getAbsoluteAttachmentPath,
     loadAttachmentData,
-    // loadQuoteData,
-    // loadPreviewData,
+    loadQuoteData,
+    loadPreviewData,
   } = window.Signal.Migrations;
   const { bytesFromString } = window.Signal.Crypto;
 
@@ -991,6 +991,49 @@
       });
     },
 
+    /**
+     * Uploads attachments, previews and quotes.
+     * If body is too long then it is also converted to an attachment.
+     *
+     * @returns The uploaded data which includes: body, attachments, preview and quote.
+     */
+    async uploadData() {
+      // TODO: In the future it might be best if we cache the upload results if possible.
+      // This way we don't upload duplicated data.
+
+      const attachmentsWithData = await Promise.all(
+        (this.get('attachments') || []).map(loadAttachmentData)
+      );
+      const {
+        body,
+        attachments: finalAttachments,
+      } = Whisper.Message.getLongMessageAttachment({
+        body: this.get('body'),
+        attachments: attachmentsWithData,
+        now: this.get('sent_at'),
+      });
+
+      const quoteWithData = await loadQuoteData(this.get('quote'));
+      const previewWithData = await loadPreviewData(this.get('preview'));
+
+      const conversation = this.getConversation();
+      const openGroup = conversation && conversation.getOpenGroup();
+
+      const { AttachmentUtils } = libsession.Utils;
+      const [attachments, preview, quote] = await Promise.all([
+        AttachmentUtils.uploadAttachments(finalAttachments, openGroup),
+        AttachmentUtils.uploadLinkPreviews(previewWithData, openGroup),
+        AttachmentUtils.uploadQuoteThumbnails(quoteWithData, openGroup),
+      ]);
+
+      return {
+        body,
+        attachments,
+        preview,
+        quote,
+      };
+    },
+
     // One caller today: event handler for the 'Retry Send' entry in triple-dot menu
     async retrySend() {
       if (!textsecure.messaging) {
@@ -1000,85 +1043,80 @@
 
       this.set({ errors: null });
 
-      const conversation = this.getConversation();
-      const intendedRecipients = this.get('recipients') || [];
-      const successfulRecipients = this.get('sent_to') || [];
-      const currentRecipients = conversation.getRecipients();
+      try {
+        const conversation = this.getConversation();
+        const intendedRecipients = this.get('recipients') || [];
+        const successfulRecipients = this.get('sent_to') || [];
+        const currentRecipients = conversation.getRecipients();
 
-      // const profileKey = conversation.get('profileSharing')
-      //   ? storage.get('profileKey')
-      //   : null;
+        // const profileKey = conversation.get('profileSharing')
+        //   ? storage.get('profileKey')
+        //   : null;
 
-      let recipients = _.intersection(intendedRecipients, currentRecipients);
-      recipients = _.without(recipients, successfulRecipients);
+        let recipients = _.intersection(intendedRecipients, currentRecipients);
+        recipients = _.without(recipients, successfulRecipients);
 
-      if (!recipients.length) {
-        window.log.warn('retrySend: Nobody to send to!');
+        if (!recipients.length) {
+          window.log.warn('retrySend: Nobody to send to!');
 
-        return window.Signal.Data.saveMessage(this.attributes, {
-          Message: Whisper.Message,
-        });
-      }
-
-      const attachmentsWithData = await Promise.all(
-        (this.get('attachments') || []).map(loadAttachmentData)
-      );
-      const { body } = Whisper.Message.getLongMessageAttachment({
-        body: this.get('body'),
-        attachments: attachmentsWithData,
-        now: this.get('sent_at'),
-      });
-      // TODO add logic for attachments, quote and preview here
-      // don't blindly reuse the one from loadQuoteData loadPreviewData and getLongMessageAttachment.
-      // they have similar data structure to the ones we need
-      // but the main difference is that they haven't been uploaded
-      // so no url exists in them
-      // so passing it to chat message is incorrect
-
-      // const quoteWithData = await loadQuoteData(this.get('quote'));
-      // const previewWithData = await loadPreviewData(this.get('preview'));
-      const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
-        body,
-        timestamp: this.get('sent_at'),
-        expireTimer: this.get('expireTimer'),
-      });
-      // Special-case the self-send case - we send only a sync message
-      if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
-        this.trigger('pending');
-        // FIXME audric add back profileKey
-        await this.markMessageSyncOnly();
-        // sending is done in the private case below
-      }
-
-      if (conversation.isPrivate()) {
-        const [number] = recipients;
-        const recipientPubKey = new libsession.Types.PubKey(number);
-        this.trigger('pending');
-
-        return libsession
-          .getMessageQueue()
-          .sendUsingMultiDevice(recipientPubKey, chatMessage);
-      }
-
-      this.trigger('pending');
-      // TODO should we handle open groups message here too? and mediumgroups
-      // Not sure there is the concept of retrySend for those
-      const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
-        {
-          chatMessage,
-          groupId: this.get('conversationId'),
+          return window.Signal.Data.saveMessage(this.attributes, {
+            Message: Whisper.Message,
+          });
         }
-      );
-      // Because this is a partial group send, we send the message with the groupId field set, but individually
-      // to each recipient listed
-      return Promise.all(
-        recipients.map(async r => {
-          const recipientPubKey = new libsession.Types.PubKey(r);
+
+        const { body, attachments, preview, quote } = await this.uploadData();
+
+        const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+          body,
+          timestamp: this.get('sent_at'),
+          expireTimer: this.get('expireTimer'),
+          attachments,
+          preview,
+          quote,
+        });
+
+        // Special-case the self-send case - we send only a sync message
+        if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
+          this.trigger('pending');
+          // FIXME audric add back profileKey
+          await this.markMessageSyncOnly();
+          // sending is done in the private case below
+        }
+
+        if (conversation.isPrivate()) {
+          const [number] = recipients;
+          const recipientPubKey = new libsession.Types.PubKey(number);
+          this.trigger('pending');
+
           return libsession
             .getMessageQueue()
-            .sendUsingMultiDevice(recipientPubKey, closedGroupChatMessage);
-        })
-      );
+            .sendUsingMultiDevice(recipientPubKey, chatMessage);
+        }
+
+        this.trigger('pending');
+        // TODO should we handle open groups message here too? and mediumgroups
+        // Not sure there is the concept of retrySend for those
+        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
+          {
+            chatMessage,
+            groupId: this.get('conversationId'),
+          }
+        );
+        // Because this is a partial group send, we send the message with the groupId field set, but individually
+        // to each recipient listed
+        return Promise.all(
+          recipients.map(async r => {
+            const recipientPubKey = new libsession.Types.PubKey(r);
+            return libsession
+              .getMessageQueue()
+              .sendUsingMultiDevice(recipientPubKey, closedGroupChatMessage);
+          })
+        );
+      } catch (e) {
+        window.log.warn('Failed message retry send: ', e);
+        await this.saveErrors(e);
+        return null;
+      }
     },
     isReplayableError(e) {
       return (
@@ -1102,55 +1140,48 @@
         return null;
       }
 
-      const attachmentsWithData = await Promise.all(
-        (this.get('attachments') || []).map(loadAttachmentData)
-      );
-      const { body } = Whisper.Message.getLongMessageAttachment({
-        body: this.get('body'),
-        attachments: attachmentsWithData,
-        now: this.get('sent_at'),
-      });
-      // TODO add logic for attachments, quote and preview here
-      // don't blindly reuse the one from loadQuoteData loadPreviewData and getLongMessageAttachment.
-      // they have similar data structure to the ones we need
-      // but the main difference is that they haven't been uploaded
-      // so no url exists in them
-      // so passing it to chat message is incorrect
-      // const quoteWithData = await loadQuoteData(this.get('quote'));
-      // const previewWithData = await loadPreviewData(this.get('preview'));
-      const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
-        body,
-        timestamp: this.get('sent_at'),
-        expireTimer: this.get('expireTimer'),
-      });
+      try {
+        const { body, attachments, preview, quote } = await this.uploadData();
 
-      // Special-case the self-send case - we send only a sync message
-      if (number === this.OUR_NUMBER) {
-        this.trigger('pending');
-        await this.markMessageSyncOnly();
-        // sending is done in the private case below
-      }
-      const conversation = this.getConversation();
-      const recipientPubKey = new libsession.Types.PubKey(number);
+        const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+          body,
+          timestamp: this.get('sent_at'),
+          expireTimer: this.get('expireTimer'),
+          attachments,
+          preview,
+          quote,
+        });
 
-      if (conversation.isPrivate()) {
         this.trigger('pending');
+
+        // Special-case the self-send case - we send only a sync message
+        if (number === this.OUR_NUMBER) {
+          await this.markMessageSyncOnly();
+          // sending is done in the private case below
+        }
+        const conversation = this.getConversation();
+        const recipientPubKey = new libsession.Types.PubKey(number);
+
+        if (conversation.isPrivate()) {
+          return libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(recipientPubKey, chatMessage);
+        }
+
+        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
+          {
+            chatMessage,
+            groupId: this.get('conversationId'),
+          }
+        );
+        // resend tries to send the message to that specific user only in the context of a closed group
         return libsession
           .getMessageQueue()
-          .sendUsingMultiDevice(recipientPubKey, chatMessage);
+          .sendUsingMultiDevice(recipientPubKey, closedGroupChatMessage);
+      } catch (e) {
+        await this.saveErrors(e);
+        return null;
       }
-
-      const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
-        {
-          chatMessage,
-          groupId: this.get('conversationId'),
-        }
-      );
-      // resend tries to send the message to that specific user only in the context of a closed group
-      this.trigger('pending');
-      return libsession
-        .getMessageQueue()
-        .sendUsingMultiDevice(recipientPubKey, closedGroupChatMessage);
     },
     removeOutgoingErrors(number) {
       const errors = _.partition(
