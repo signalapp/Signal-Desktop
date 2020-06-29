@@ -1113,7 +1113,6 @@
           })
         );
       } catch (e) {
-        window.log.warn('Failed message retry send: ', e);
         await this.saveErrors(e);
         return null;
       }

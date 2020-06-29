@@ -1405,7 +1405,6 @@
 
           return true;
         } catch (e) {
-          log.warn('Failed to send message: ', e);
           await message.saveErrors(e);
 
           return null;
