@@ -107,6 +107,9 @@ export class ChatMessage extends DataMessage {
     }
     if (this.profileKey) {
       dataMessage.profileKey = this.profileKey;
+      dataMessage.flags =
+        // tslint:disable-next-line: no-bitwise
+        dataMessage.flags | SignalService.DataMessage.Flags.PROFILE_KEY_UPDATE;
     }
 
     if (this.quote) {

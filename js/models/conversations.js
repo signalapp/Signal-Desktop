@@ -1305,6 +1305,7 @@
         });
 
         // FIXME audric add back profileKey
+        const lokiProfile = this.getOurProfile();
         const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
           body: messageBody,
           timestamp: Date.now(),
@@ -1312,6 +1313,7 @@
           expireTimer,
           preview,
           quote,
+          lokiProfile,
         });
         // Start handle ChatMessages (attachments/quote/preview/body)
         // FIXME AUDRIC handle attachments, quote, preview, profileKey
@@ -2553,6 +2555,30 @@
       }
 
       return this.getNumber();
+    },
+    /**
+     * Returns
+     *   displayName: string;
+     *   avatarPointer: string;
+     *   profileKey: Uint8Array;
+     */
+    getOurProfile() {
+      try {
+        // Secondary devices have their profile stored
+        // in their primary device's conversation
+        const ourNumber = window.storage.get('primaryDevicePubKey');
+        const ourConversation = window.ConversationController.get(ourNumber);
+        let profileKey = null;
+        if (this.get('profileSharing')) {
+          profileKey = storage.get('profileKey');
+        }
+        const avatarPointer = ourConversation.get('avatarPointer');
+        const { displayName } = ourConversation.getLokiProfile();
+        return { displayName, avatarPointer, profileKey };
+      } catch (e) {
+        window.log.error(`Failed to get our profile: ${e}`);
+        return null;
+      }
     },
 
     getNumber() {
