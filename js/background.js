@@ -1628,11 +1628,9 @@
           timestamp: Date.now(),
           reqestType: CONFIGURATION,
         });
-        const myPubKey = textsecure.storage.user.getNumber();
-        const currentPubKey = new libsession.Types.PubKey(myPubKey);
         await libsession
           .getMessageQueue()
-          .sendUsingMultiDevice(currentPubKey, requestConfigurationSyncMessage);
+          .sendSyncMessage(requestConfigurationSyncMessage);
         // sending of the message is handled in the 'private' case below
       }
     }

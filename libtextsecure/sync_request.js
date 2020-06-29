@@ -24,13 +24,9 @@
       reqestType: CONFIGURATION,
     });
 
-    const pubKey = textsecure.storage.user.getNumber();
-
-    const currentPubKey = new libsession.Types.PubKey(pubKey);
-
     await libsession
       .getMessageQueue()
-      .sendUsingMultiDevice(currentPubKey, requestConfigurationSyncMessage);
+      .sendSyncMessage(requestConfigurationSyncMessage);
 
     window.log.info('SyncRequest now sending contact sync message...');
     const { CONTACTS } = textsecure.protobuf.SyncMessage.Request.Type;
@@ -40,7 +36,7 @@
     });
     await libsession
       .getMessageQueue()
-      .sendUsingMultiDevice(currentPubKey, requestContactSyncMessage);
+      .sendSyncMessage(requestContactSyncMessage);
 
     window.log.info('SyncRequest now sending group sync messsage...');
     const { GROUPS } = textsecure.protobuf.SyncMessage.Request.Type;
@@ -48,9 +44,7 @@
       timestamp: Date.now(),
       reqestType: GROUPS,
     });
-    await libsession
-      .getMessageQueue()
-      .sendUsingMultiDevice(currentPubKey, requestGroupSyncMessage);
+    await libsession.getMessageQueue().sendSyncMessage(requestGroupSyncMessage);
 
     this.timeout = setTimeout(this.onTimeout.bind(this), 60000);
   }
