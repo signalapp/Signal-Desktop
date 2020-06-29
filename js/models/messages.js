@@ -1017,7 +1017,7 @@
       const previewWithData = await loadPreviewData(this.get('preview'));
 
       const conversation = this.getConversation();
-      const openGroup = conversation && conversation.getOpenGroup();
+      const openGroup = conversation && conversation.toOpenGroup();
 
       const { AttachmentUtils } = libsession.Utils;
       const [attachments, preview, quote] = await Promise.all([

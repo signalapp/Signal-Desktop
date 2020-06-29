@@ -1191,7 +1191,7 @@
       };
     },
 
-    getOpenGroup() {
+    toOpenGroup() {
       if (!this.isPublic()) {
         return undefined;
       }
@@ -1325,7 +1325,7 @@
           options.messageType = message.get('type');
           options.isPublic = this.isPublic();
           if (this.isPublic()) {
-            const openGroup = this.getOpenGroup();
+            const openGroup = this.toOpenGroup();
 
             const openGroupParams = {
               body,

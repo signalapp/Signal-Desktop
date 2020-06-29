@@ -1,8 +1,8 @@
 import { queueAttachmentDownloads } from './attachments';
 
 import { Quote } from './types';
-import { ConversationModel } from '../../js/models/conversation';
-import { EndSessionType, MessageModel } from '../../js/models/message';
+import { ConversationModel } from '../../js/models/conversations';
+import { MessageModel } from '../../js/models/messages';
 
 async function handleGroups(
   conversation: ConversationModel,
