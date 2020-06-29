@@ -11,7 +11,7 @@ import { PubKey } from '../../../session/types';
 // tslint:disable-next-line: max-func-body-length
 describe('SessionProtocol', () => {
   const sandbox = sinon.createSandbox();
-  const ourNumber = 'ourNumber';
+  const ourNumber = TestUtils.generateFakePubKey();
   const pubkey = TestUtils.generateFakePubKey();
   let getItemById: sinon.SinonStub;
   let send: sinon.SinonStub;
@@ -51,7 +51,7 @@ describe('SessionProtocol', () => {
 
     getItemById = TestUtils.stubData('getItemById').resolves({ value: {} });
 
-    sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber);
+    sandbox.stub(UserUtil, 'getCurrentDevicePubKey').resolves(ourNumber.key);
     send = sandbox.stub(MessageSender, 'send' as any);
     SessionProtocol.reset();
   });
@@ -96,6 +96,80 @@ describe('SessionProtocol', () => {
       expect(
         SessionProtocol.getPendingSendSessionTimestamp()
       ).to.not.have.property(pubkey.key);
+    });
+  });
+
+  describe('checkSessionRequestExpiry', () => {
+    let clock: sinon.SinonFakeTimers;
+    let now: number;
+    let sendSessionRequestStub: sinon.SinonStub<
+      [SessionRequestMessage, PubKey],
+      Promise<void>
+    >;
+    beforeEach(() => {
+      now = Date.now();
+      clock = sandbox.useFakeTimers(now);
+
+      sendSessionRequestStub = sandbox
+        .stub(SessionProtocol, 'sendSessionRequest')
+        .resolves();
+    });
+
+    it('should not send a session request if none have expired', async () => {
+      getItemById.withArgs('sentSessionsTimestamp').resolves({
+        id: 'sentSessionsTimestamp',
+        value: {
+          [pubkey.key]: now,
+        },
+      });
+
+      // Set the time just before expiry
+      clock.tick(SessionRequestMessage.ttl - 100);
+
+      await SessionProtocol.checkSessionRequestExpiry();
+      expect(getItemById.calledWith('sentSessionsTimestamp'));
+      expect(sendSessionRequestStub.callCount).to.equal(0);
+    });
+
+    it('should send a session request if expired', async () => {
+      getItemById.withArgs('sentSessionsTimestamp').resolves({
+        id: 'sentSessionsTimestamp',
+        value: {
+          [pubkey.key]: now,
+        },
+      });
+
+      // Expire the request
+      clock.tick(SessionRequestMessage.ttl + 100);
+
+      await SessionProtocol.checkSessionRequestExpiry();
+      expect(getItemById.calledWith('sentSessionsTimestamp'));
+      expect(sendSessionRequestStub.callCount).to.equal(1);
+    });
+
+    it('should remove the old sent timestamp when expired', async () => {
+      getItemById.withArgs('sentSessionsTimestamp').resolves({
+        id: 'sentSessionsTimestamp',
+        value: {
+          [pubkey.key]: now,
+        },
+      });
+
+      // Remove this call from the equation
+      sandbox.stub(SessionProtocol, 'sendSessionRequestIfNeeded').resolves();
+
+      // Expire the request
+      clock.tick(SessionRequestMessage.ttl + 100);
+
+      await SessionProtocol.checkSessionRequestExpiry();
+      expect(getItemById.calledWith('sentSessionsTimestamp'));
+      expect(await SessionProtocol.hasSentSessionRequest(pubkey)).to.equal(
+        false,
+        'hasSentSessionRequest should return false.'
+      );
+      expect(SessionProtocol.getSentSessionsTimestamp()).to.not.have.property(
+        pubkey.key
+      );
     });
   });
 

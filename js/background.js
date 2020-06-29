@@ -1621,24 +1621,28 @@
       });
 
       if (Whisper.Import.isComplete()) {
-        // FIXME Audric; Is that needed for us?
-        // const {
-        //   wrap,
-        //   sendOptions,
-        // } = ConversationController.prepareForSend(
-        //   textsecure.storage.user.getNumber(),
-        //   { syncMessage: true }
-        // );
-        // wrap(
-        //   textsecure.messaging.sendRequestConfigurationSyncMessage(sendOptions)
-        // ).catch(error => {
-        //   window.log.error(
-        //     'Import complete, but failed to send sync message',
-        //     error && error.stack ? error.stack : error
-        //   );
-        // });
+        const { CONFIGURATION } = textsecure.protobuf.SyncMessage.Request.Type;
+        const { RequestSyncMessage } = window.libsession.Messages.Outgoing;
+
+        const requestConfigurationSyncMessage = new RequestSyncMessage({
+          timestamp: Date.now(),
+          reqestType: CONFIGURATION,
+        });
+        await libsession
+          .getMessageQueue()
+          .sendSyncMessage(requestConfigurationSyncMessage);
+        // sending of the message is handled in the 'private' case below
       }
     }
+
+    libsession.Protocols.SessionProtocol.checkSessionRequestExpiry().catch(
+      e => {
+        window.log.error(
+          'Error occured which checking for session request expiry',
+          e
+        );
+      }
+    );
 
     storage.onready(async () => {
       idleDetector.start();

@@ -1,6 +1,9 @@
 import { SignalService } from '../protobuf';
 import { removeFromCache } from './cache';
 import { EnvelopePlus } from './types';
+import { MediumGroupResponseKeysMessage } from '../session/messages/outgoing';
+import { getMessageQueue } from '../session';
+import { PubKey } from '../session/types';
 
 async function handleSenderKeyRequest(
   envelope: EnvelopePlus,
@@ -14,26 +17,26 @@ async function handleSenderKeyRequest(
 
   log.debug('[sender key] sender key request from:', senderIdentity);
 
-  const proto = new SignalService.DataMessage();
-
   // We reuse the same message type for sender keys
-  const update = new SignalService.MediumGroupUpdate();
-
   const { chainKey, keyIdx } = await SenderKeyAPI.getSenderKeys(
     groupId,
     ourIdentity
   );
 
-  update.type = SignalService.MediumGroupUpdate.Type.SENDER_KEY;
-  update.groupId = groupId;
-  update.senderKey = new SignalService.SenderKey({
-    chainKey: StringView.arrayBufferToHex(chainKey),
+  const chainKeyHex = StringView.arrayBufferToHex(chainKey);
+  const responseParams = {
+    timestamp: Date.now(),
+    groupId,
+    chainKey: chainKeyHex,
     keyIdx,
-  });
+  };
 
-  proto.mediumGroupUpdate = update;
+  const keysResponseMessage = new MediumGroupResponseKeysMessage(
+    responseParams
+  );
 
-  textsecure.messaging.updateMediumGroup([senderIdentity], proto);
+  const senderPubKey = new PubKey(senderIdentity);
+  await getMessageQueue().send(senderPubKey, keysResponseMessage);
 
   removeFromCache(envelope);
 }
@@ -157,7 +160,7 @@ async function handleNewGroup(envelope: EnvelopePlus, groupUpdate: any) {
       senderKey.keyIdx
     );
 
-    const ownSenderKey = await SenderKeyAPI.createSenderKeyForGroup(
+    const ownSenderKeyHex = await SenderKeyAPI.createSenderKeyForGroup(
       groupId,
       ourIdentity
     );
@@ -166,20 +169,24 @@ async function handleNewGroup(envelope: EnvelopePlus, groupUpdate: any) {
       // Send own key to every member
       const otherMembers = _.without(members, ourIdentity);
 
-      const proto = new SignalService.DataMessage();
-
       // We reuse the same message type for sender keys
-      const update = new SignalService.MediumGroupUpdate();
-      update.type = SignalService.MediumGroupUpdate.Type.SENDER_KEY;
-      update.groupId = groupId;
-      update.senderKey = new SignalService.SenderKey({
-        chainKey: ownSenderKey,
+      const responseParams = {
+        timestamp: Date.now(),
+        groupId,
+        chainKey: ownSenderKeyHex,
         keyIdx: 0,
+      };
+
+      const keysResponseMessage = new MediumGroupResponseKeysMessage(
+        responseParams
+      );
+      // send our senderKey to every other member
+      otherMembers.forEach((member: string) => {
+        const memberPubKey = new PubKey(member);
+        getMessageQueue()
+          .sendUsingMultiDevice(memberPubKey, keysResponseMessage)
+          .ignore();
       });
-
-      proto.mediumGroupUpdate = update;
-
-      textsecure.messaging.updateMediumGroup(otherMembers, proto);
     }
 
     // TODO: !!!! This will need to be re-enabled after message polling refactor !!!!!
