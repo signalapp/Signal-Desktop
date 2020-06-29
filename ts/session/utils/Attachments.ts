@@ -104,6 +104,22 @@ export class AttachmentUtils {
     return pointer;
   }
 
+  public static async uploadAvatar(
+    attachment?: Attachment
+  ): Promise<AttachmentPointer | undefined> {
+    if (!attachment) {
+      return undefined;
+    }
+
+    // isRaw is true since the data is already encrypted
+    // and doesn't need to be encrypted again
+    return this.upload({
+      attachment,
+      isAvatar: true,
+      isRaw: true,
+    });
+  }
+
   public static async uploadAttachments(
     attachments: Array<Attachment>,
     openGroup?: OpenGroup
