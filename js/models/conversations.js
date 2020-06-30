@@ -1317,8 +1317,7 @@
           });
 
           if (this.isMe()) {
-            await message.markMessageSyncOnly();
-            // sending is done in the 'private' case below
+            return message.sendSyncMessageOnly(chatMessage);
           }
           const options = {};
 

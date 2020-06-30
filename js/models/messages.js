@@ -1328,7 +1328,7 @@
       });
 
       const data =
-        dataMessage instanceof libsession.Message.Outgoing.DataMessage
+        dataMessage instanceof libsession.Messages.Outgoing.DataMessage
           ? dataMessage.dataProto()
           : dataMessage;
       await this.sendSyncMessage(data);
@@ -1340,7 +1340,7 @@
         return;
       }
 
-      const syncMessage = new libsession.Message.Outgoing.SentSyncMessage({
+      const syncMessage = new libsession.Messages.Outgoing.SentSyncMessage({
         timestamp: this.get('sent_at'),
         identifier: this.id,
         dataMessage,
