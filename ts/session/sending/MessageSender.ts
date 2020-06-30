@@ -107,12 +107,16 @@ export async function sendToOpenGroup(
     group.conversationId
   );
 
+  if (!channelAPI) {
+    return false;
+  }
+
   // Don't think returning true/false on `sendMessage` is a good way
   return channelAPI.sendMessage(
     {
       quote,
       attachments: attachments || [],
-      preview,
+      preview: preview || [],
       body,
     },
     timestamp

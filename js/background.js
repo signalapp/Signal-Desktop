@@ -914,11 +914,13 @@
                 profileKey
               );
 
-              const avatarPointer = await textsecure.messaging.uploadAvatar({
-                ...data,
-                data: encryptedData,
-                size: encryptedData.byteLength,
-              });
+              const avatarPointer = await libsession.Utils.AttachmentUtils.uploadAvatar(
+                {
+                  ...data,
+                  data: encryptedData,
+                  size: encryptedData.byteLength,
+                }
+              );
 
               ({ url } = avatarPointer);
 

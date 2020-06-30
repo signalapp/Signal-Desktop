@@ -4,13 +4,21 @@ import {
   Preview,
 } from '../../ts/session/messages/outgoing';
 
-declare class LokiAppDotNetServerAPI {
-  constructor(ourKey: string, url: string);
+interface UploadResponse {
+  url: string;
+  id?: number;
+}
+
+export interface LokiAppDotNetServerInterface {
   findOrCreateChannel(
     api: LokiPublicChatFactoryAPI,
     channelId: number,
     conversationId: string
   ): Promise<LokiPublicChannelAPI>;
+  uploadData(data: FormData): Promise<UploadResponse>;
+  uploadAvatar(data: FormData): Promise<UploadResponse>;
+  putAttachment(data: ArrayBuffer): Promise<UploadResponse>;
+  putAvatar(data: ArrayBuffer): Promise<UploadResponse>;
 }
 
 export interface LokiPublicChannelAPI {
@@ -23,6 +31,10 @@ export interface LokiPublicChannelAPI {
     },
     timestamp: number
   ): Promise<boolean>;
+}
+
+declare class LokiAppDotNetServerAPI implements LokiAppDotNetServerInterface {
+  constructor(ourKey: string, url: string);
 }
 
 export default LokiAppDotNetServerAPI;

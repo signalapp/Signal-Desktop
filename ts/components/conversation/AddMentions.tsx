@@ -5,7 +5,6 @@ import classNames from 'classnames';
 
 declare global {
   interface Window {
-    lokiPublicChatAPI: any;
     shortenPubkey: any;
     pubkeyPattern: any;
     getConversations: any;
