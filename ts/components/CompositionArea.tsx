@@ -43,7 +43,7 @@ export type Props = Pick<
   | 'onEditorSizeChange'
   | 'onEditorStateChange'
   | 'onTextTooLong'
-  | 'startingText'
+  | 'startingText' | 'clearQuotedMessage' | 'getQuotedMessage'
 > &
   Pick<
     EmojiButtonProps,
@@ -102,6 +102,8 @@ export const CompositionArea = ({
   clearShowIntroduction,
   showPickerHint,
   clearShowPickerHint,
+  clearQuotedMessage,
+  getQuotedMessage,
 }: Props) => {
   const [disabled, setDisabled] = React.useState(false);
   const [showMic, setShowMic] = React.useState(!startingText);
@@ -339,6 +341,8 @@ export const CompositionArea = ({
             onDirtyChange={setDirty}
             skinTone={skinTone}
             startingText={startingText}
+            clearQuotedMessage={clearQuotedMessage}
+            getQuotedMessage={getQuotedMessage}
           />
         </div>
         {!large ? (
