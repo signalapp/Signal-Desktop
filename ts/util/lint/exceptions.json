@@ -11534,7 +11534,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
     "line": "        this.audioRef = react_1.default.createRef();",
-    "lineNumber": 46,
+    "lineNumber": 48,
     "reasonCategory": "usageTrusted",
     "updated": "2020-01-21T15:46:51.245Z"
   },
@@ -11542,7 +11542,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
     "line": "        this.reactionsContainerRef = react_1.default.createRef();",
-    "lineNumber": 48,
+    "lineNumber": 50,
     "reasonCategory": "usageTrusted",
     "updated": "2020-01-21T15:46:51.245Z",
     "reasonDetail": "Used for detecting clicks outside reaction viewer"
@@ -11551,7 +11551,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
-    "lineNumber": 184,
+    "lineNumber": 199,
     "reasonCategory": "usageTrusted",
     "updated": "2020-04-30T15:59:13.160Z"
   },
@@ -11559,7 +11559,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 188,
+    "lineNumber": 203,
     "reasonCategory": "usageTrusted",
     "updated": "2020-04-30T15:59:13.160Z"
   },
