@@ -1293,7 +1293,6 @@
       });
     },
 
-
     someRecipientsFailed() {
       const c = this.getConversation();
       if (!c || c.isPrivate()) {

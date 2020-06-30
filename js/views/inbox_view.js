@@ -244,7 +244,9 @@
       //     }
       //   }
       // });
-      this.fetchHandleMessageSentData = this.fetchHandleMessageSentData.bind(this);
+      this.fetchHandleMessageSentData = this.fetchHandleMessageSentData.bind(
+        this
+      );
       this.handleMessageSentFailure = this.handleMessageSentFailure.bind(this);
       this.handleMessageSentSuccess = this.handleMessageSentSuccess.bind(this);
 
@@ -262,11 +264,13 @@
       });
       this.listenTo(convoCollection, 'reset', removeAllConversations);
 
+      window.libsession
+        .getMessageQueue()
+        .events.addListener('success', this.handleMessageSentSuccess);
 
-      window.libsession.getMessageQueue().events.addListener('success', this.handleMessageSentSuccess);
-
-
-      window.libsession.getMessageQueue().events.addListener('fail', this.handleMessageSentFailure);
+      window.libsession
+        .getMessageQueue()
+        .events.addListener('fail', this.handleMessageSentFailure);
 
       Whisper.events.on('messageExpired', messageExpired);
       Whisper.events.on('userChanged', userChanged);
@@ -286,7 +290,9 @@
       }
 
       // find the corresponding conversation of this message
-      const conv = window.ConversationController.get(tmpMsg.get('conversationId'));
+      const conv = window.ConversationController.get(
+        tmpMsg.get('conversationId')
+      );
 
       // then, find in this conversation the very same message
       const msg = conv.messageCollection.models.find(
@@ -353,7 +359,10 @@
       //   const sentTo = this.get('sent_to') || [];
 
       const expirationStartTimestamp = Date.now();
-      if (m.device === window.textsecure.storage.user.getNumber() && !msg.get('sync')) {
+      if (
+        m.device === window.textsecure.storage.user.getNumber() &&
+        !msg.get('sync')
+      ) {
         msg.set({ sentSync: false });
       }
       msg.set({

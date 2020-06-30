@@ -305,7 +305,6 @@ OutgoingMessage.prototype = {
       await lokiMessageAPI.sendMessage(pubKey, data, timestamp, ttl, options);
     } catch (e) {
       if (e.name === 'HTTPError' && e.code !== 409 && e.code !== 410) {
-
         throw new textsecure.SendMessageNetworkError(number, '', e, timestamp);
       } else if (e.name === 'TimedOutError') {
         throw new textsecure.PoWError(number, e);
