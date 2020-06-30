@@ -244,6 +244,9 @@
       //     }
       //   }
       // });
+      this.fetchHandleMessageSentData = this.fetchHandleMessageSentData.bind(this);
+      this.handleMessageSentFailure = this.handleMessageSentFailure.bind(this);
+      this.handleMessageSentSuccess = this.handleMessageSentSuccess.bind(this);
 
       this.listenTo(convoCollection, 'remove', conversation => {
         const { id } = conversation || {};
@@ -259,12 +262,115 @@
       });
       this.listenTo(convoCollection, 'reset', removeAllConversations);
 
+
+      window.libsession.getMessageQueue().events.addListener('success', this.handleMessageSentSuccess);
+
+
+      window.libsession.getMessageQueue().events.addListener('fail', this.handleMessageSentFailure);
+
       Whisper.events.on('messageExpired', messageExpired);
       Whisper.events.on('userChanged', userChanged);
 
       // Finally, add it to the DOM
       this.$('.left-pane-placeholder').append(this.leftPaneView.el);
     },
+
+    async fetchHandleMessageSentData(m) {
+      // nobody is listening to this freshly fetched message .trigger calls
+      const tmpMsg = await window.Signal.Data.getMessageById(m.identifier, {
+        Message: Whisper.Message,
+      });
+
+      if (!tmpMsg) {
+        return null;
+      }
+
+      // find the corresponding conversation of this message
+      const conv = window.ConversationController.get(tmpMsg.get('conversationId'));
+
+      // then, find in this conversation the very same message
+      const msg = conv.messageCollection.models.find(
+        convMsg => convMsg.id === tmpMsg.id
+      );
+      return { conv, msg };
+    },
+
+    async handleMessageSentSuccess(m) {
+      const fetchedData = await this.fetchHandleMessageSentData(m);
+      if (!fetchedData) {
+        return;
+      }
+      const { msg, conv } = fetchedData;
+
+      const sentTo = msg.get('sent_to') || [];
+
+      const isOurDevice = window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+        m.device
+      );
+
+      // Handle the sync logic here
+      if (!isOurDevice && !msg.get('synced') && !msg.get('sentSync')) {
+        // FIXME audric send the syncMessage
+        // const contentDecoded = textsecure.protobuf.Content.decode(m.plainTextBuffer);
+        // const { dataMessage } = contentDecoded;
+
+        msg.set({ sentSync: true });
+      } else if (isOurDevice && msg.get('sentSync')) {
+        msg.set({ synced: true });
+      }
+
+      msg.set({
+        sent_to: _.union(sentTo, m.device),
+        sent: true,
+        expirationStartTimestamp: Date.now(),
+        // unidentifiedDeliveries: result.unidentifiedDeliveries,
+      });
+
+      await window.Signal.Data.saveMessage(msg.attributes, {
+        Message: Whisper.Message,
+      });
+      conv.updateLastMessage();
+
+      msg.trigger('sent', msg);
+    },
+
+    async handleMessageSentFailure(m, error) {
+      const fetchedData = await this.fetchHandleMessageSentData(m);
+      if (!fetchedData) {
+        return;
+      }
+      const { msg, conv } = fetchedData;
+      if (error instanceof Error) {
+        msg.saveErrors(error);
+        if (error.name === 'SignedPreKeyRotationError') {
+          await window.getAccountManager().rotateSignedPreKey();
+        } else if (error.name === 'OutgoingIdentityKeyError') {
+          const c = ConversationController.get(m.device);
+          await c.getProfiles();
+        }
+      }
+      // if (result.successfulNumbers.length > 0) {
+      //   const sentTo = this.get('sent_to') || [];
+
+      const expirationStartTimestamp = Date.now();
+      if (m.device === window.textsecure.storage.user.getNumber() && !msg.get('sync')) {
+        msg.set({ sentSync: false });
+      }
+      msg.set({
+        // sent_to: _.union(sentTo, m.device),
+        sent: true,
+        expirationStartTimestamp,
+        // unidentifiedDeliveries: result.unidentifiedDeliveries,
+      });
+      await window.Signal.Data.saveMessage(msg.attributes, {
+        Message: Whisper.Message,
+      });
+      msg.trigger('change', msg);
+
+      conv.updateLastMessage();
+      msg.trigger('done');
+    },
+
     startConnectionListener() {
       this.interval = setInterval(() => {
         const status = window.getSocketStatus();
