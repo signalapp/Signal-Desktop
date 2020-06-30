@@ -403,7 +403,21 @@ async function createWindow() {
 
     // Prevent the shutdown
     e.preventDefault();
-    mainWindow.hide();
+
+    /**
+     * if the user is in fullscreen mode and closes the window, not the
+     * application, we need them leave fullscreen first before closing it to
+     * prevent a black screen.
+     *
+     * issue: https://github.com/signalapp/Signal-Desktop/issues/4348
+     */
+
+    if (mainWindow.isFullScreen()) {
+      mainWindow.once('leave-full-screen', () => mainWindow.hide())
+      mainWindow.setFullScreen(false)
+    } else {
+      mainWindow.hide()
+    }
 
     // On Mac, or on other platforms when the tray icon is in use, the window
     // should be only hidden, not closed, when the user clicks the close button
