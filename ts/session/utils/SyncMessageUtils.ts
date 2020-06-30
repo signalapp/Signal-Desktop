@@ -1,71 +1,32 @@
 import * as _ from 'lodash';
 import { UserUtil } from '../../util/';
 import { getAllConversations } from '../../../js/modules/data';
-import {
-  ClosedGroupChatMessage,
-  ClosedGroupMessage,
-  ClosedGroupRequestInfoMessage,
-  ContentMessage,
-  ReadReceiptMessage,
-  SentSyncMessage,
-  SyncMessage,
-  SyncReadMessage,
-} from '../messages/outgoing';
 import { MultiDeviceProtocol } from '../protocols';
 import ByteBuffer from 'bytebuffer';
+import {
+  ContentMessage,
+  DataMessage,
+  SentSyncMessage,
+} from '../messages/outgoing';
 import { PubKey } from '../types';
-import { SignalService } from '../../protobuf';
 
-export function from(
-  message: ContentMessage,
-  destination: string | PubKey
-): SyncMessage | undefined {
-  if (message instanceof SyncMessage) {
-    return message;
-  }
-
-  if (message instanceof ClosedGroupMessage) {
-    return fromClosedGroupMessage(message);
-  }
-
-  if (message instanceof ReadReceiptMessage) {
-    const pubKey = PubKey.cast(destination);
-    const read = message.timestamps.map(timestamp => ({
-      sender: pubKey.key,
-      timestamp,
-    }));
-
-    return new SyncReadMessage({
-      timestamp: Date.now(),
-      readMessages: read,
-    });
-  }
-
-  return undefined;
-}
-
-export function fromClosedGroupMessage(
-  message: ClosedGroupMessage
-): SyncMessage | undefined {
-  // Sync messages for ClosedGroupChatMessage need to be built manually
-  // This is because it needs the `expireStartTimestamp` field.
-  if (
-    message instanceof ClosedGroupRequestInfoMessage ||
-    message instanceof ClosedGroupChatMessage
-  ) {
+export function getSentSyncMessage(params: {
+  message: ContentMessage;
+  expirationStartTimestamp?: number;
+  sentTo?: Array<PubKey>;
+  destination: PubKey | string;
+}): SentSyncMessage | undefined {
+  if (!(params.message instanceof DataMessage)) {
     return undefined;
   }
 
-  const pubKey = PubKey.cast(message.groupId);
-  const content = SignalService.Content.decode(message.plainTextBuffer());
-  if (!content.dataMessage) {
-    return undefined;
-  }
-
+  const pubKey = PubKey.cast(params.destination);
   return new SentSyncMessage({
-    timestamp: message.timestamp,
+    timestamp: Date.now(),
     destination: pubKey,
-    dataMessage: content.dataMessage,
+    dataMessage: params.message.dataProto(),
+    expirationStartTimestamp: params.expirationStartTimestamp,
+    sentTo: params.sentTo,
   });
 }
 

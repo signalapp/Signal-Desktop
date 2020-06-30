@@ -8,7 +8,7 @@ interface SentSyncMessageParams extends MessageParams {
   expirationStartTimestamp?: number;
   sentTo?: Array<PubKey>;
   unidentifiedDeliveries?: Array<PubKey>;
-  destination?: PubKey;
+  destination?: PubKey | string;
 }
 
 export class SentSyncMessage extends SyncMessage {
@@ -25,7 +25,9 @@ export class SentSyncMessage extends SyncMessage {
     this.expirationStartTimestamp = params.expirationStartTimestamp;
     this.sentTo = params.sentTo;
     this.unidentifiedDeliveries = params.unidentifiedDeliveries;
-    this.destination = params.destination;
+
+    const { destination } = params;
+    this.destination = destination ? PubKey.cast(destination) : undefined;
   }
 
   protected syncProto(): SignalService.SyncMessage {
