@@ -151,6 +151,7 @@
     "underscore-consistent-invocation": false,
     "newline-before-return": false,
     "number-literal-format": false,
+    "no-unnecessary-local-variable": false,
     "react-no-dangerous-html": [
       true,
       {

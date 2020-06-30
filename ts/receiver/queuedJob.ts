@@ -376,13 +376,7 @@ async function handleRegularMessage(
   primarySource: any
 ) {
   const _ = window.Lodash;
-  const {
-    textsecure,
-    Whisper,
-    ConversationController,
-    MessageController,
-    libloki,
-  } = window;
+  const { ConversationController } = window;
   const { upgradeMessageSchema } = window.Signal.Migrations;
 
   const type = message.get('type');
@@ -470,7 +464,7 @@ async function handleRegularMessage(
     );
   }
 
-  if (source !== ourNumber) {
+  if (source !== ourNumber && primarySource) {
     message.set({ source: primarySource });
   }
 }
@@ -537,7 +531,7 @@ export async function handleMessageJob(
         source,
         isGroupMessage,
         ourNumber,
-        primarySource
+        primarySource.key
       );
     }
 

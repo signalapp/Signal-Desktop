@@ -38,7 +38,7 @@ async function handleSenderKeyRequest(
   const senderPubKey = new PubKey(senderIdentity);
   await getMessageQueue().send(senderPubKey, keysResponseMessage);
 
-  removeFromCache(envelope);
+  await removeFromCache(envelope);
 }
 
 async function handleSenderKey(envelope: EnvelopePlus, groupUpdate: any) {
@@ -55,7 +55,7 @@ async function handleSenderKey(envelope: EnvelopePlus, groupUpdate: any) {
     senderKey.keyIdx
   );
 
-  removeFromCache(envelope);
+  await removeFromCache(envelope);
 }
 
 async function handleNewGroup(envelope: EnvelopePlus, groupUpdate: any) {
@@ -121,7 +121,7 @@ async function handleNewGroup(envelope: EnvelopePlus, groupUpdate: any) {
 
     if (!isAdmin) {
       log.warn('Rejected attempt to update a group by non-admin');
-      removeFromCache(envelope);
+      await removeFromCache(envelope);
       return;
     }
 
@@ -189,12 +189,10 @@ async function handleNewGroup(envelope: EnvelopePlus, groupUpdate: any) {
       });
     }
 
-    // TODO: !!!! This will need to be re-enabled after message polling refactor !!!!!
-    // Subscribe to this group
-    // this.pollForAdditionalId(groupId);
+    window.SwarmPolling.addGroupId(groupId);
   }
 
-  removeFromCache(envelope);
+  await removeFromCache(envelope);
 }
 
 export async function handleMediumGroupUpdate(

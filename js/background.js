@@ -138,11 +138,10 @@
     runMigrations,
     doesDatabaseExist,
   } = Signal.IndexedDB;
-  const { Errors, Message } = window.Signal.Types;
+  const { Message } = window.Signal.Types;
   const {
     upgradeMessageSchema,
     writeNewAttachmentData,
-    deleteAttachmentData,
   } = window.Signal.Migrations;
   const { Views } = window.Signal;
 
@@ -640,7 +639,7 @@
         confirm: () => {},
       };
 
-      await onGroupReceived(ev);
+      await window.NewReceiver.onGroupReceived(ev);
 
       const convo = await ConversationController.getOrCreateAndWait(
         groupId,
@@ -785,7 +784,7 @@
         confirm: () => {},
       };
 
-      await onGroupReceived(ev);
+      await window.NewReceiver.onGroupReceived(ev);
 
       const convo = await ConversationController.getOrCreateAndWait(
         groupId,
@@ -798,7 +797,7 @@
       appView.openConversation(groupId, {});
 
       // Subscribe to this group id
-      messageReceiver.pollForAdditionalId(groupId);
+      window.SwarmPolling.addGroupId(new libsession.Types.PubKey(groupId));
     };
 
     window.doCreateGroup = async (groupName, members) => {
@@ -823,7 +822,7 @@
         confirm: () => {},
       };
 
-      await onGroupReceived(ev);
+      await window.NewReceiver.onGroupReceived(ev);
 
       const convo = await ConversationController.getOrCreateAndWait(
         groupId,
@@ -1522,8 +1521,14 @@
       Whisper.Notifications.enable();
     }, window.CONSTANTS.NOTIFICATION_ENABLE_TIMEOUT_SECONDS * 1000);
 
+    // TODO: Investigate the case where we reconnect
+    const ourKey = textsecure.storage.user.getNumber();
+    window.SwarmPolling.addPubkey(ourKey);
+    window.SwarmPolling.start();
+
+    window.NewReceiver.queueAllCached();
+
     if (Whisper.Registration.ongoingSecondaryDeviceRegistration()) {
-      const ourKey = textsecure.storage.user.getNumber();
       window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
       window.lokiFileServerAPIFactory = new window.LokiFileServerAPI(ourKey);
       window.lokiFileServerAPI = window.lokiFileServerAPIFactory.establishHomeConnection(
@@ -1541,7 +1546,6 @@
         'message',
         window.NewReceiver.handleMessageEvent
       );
-      messageReceiver.addEventListener('contact', onContactReceived);
       window.textsecure.messaging = new textsecure.MessageSender(
         USERNAME,
         PASSWORD
@@ -1561,22 +1565,19 @@
       'message',
       window.NewReceiver.handleMessageEvent
     );
-    messageReceiver.addEventListener('delivery', onDeliveryReceipt);
-    messageReceiver.addEventListener('contact', onContactReceived);
-    messageReceiver.addEventListener('group', onGroupReceived);
+    messageReceiver.addEventListener(
+      'group',
+      window.NewReceiver.onGroupReceived
+    );
     messageReceiver.addEventListener(
       'sent',
       window.NewReceiver.handleMessageEvent
     );
-    messageReceiver.addEventListener('readSync', onReadSync);
-    messageReceiver.addEventListener('read', onReadReceipt);
-    messageReceiver.addEventListener('verified', onVerified);
-    messageReceiver.addEventListener('error', onError);
     messageReceiver.addEventListener('empty', onEmpty);
     messageReceiver.addEventListener('reconnect', onReconnect);
     messageReceiver.addEventListener('progress', onProgress);
     messageReceiver.addEventListener('configuration', onConfiguration);
-    messageReceiver.addEventListener('typing', onTyping);
+    // messageReceiver.addEventListener('typing', onTyping);
 
     window.Signal.AttachmentDownloads.start({
       getMessageReceiver: () => messageReceiver,
@@ -1724,565 +1725,5 @@
     }
 
     ev.confirm();
-  }
-
-  async function onTyping(ev) {
-    const { typing, sender, senderDevice } = ev;
-    const { groupId, started } = typing || {};
-
-    // We don't do anything with incoming typing messages if the setting is disabled
-    if (!storage.get('typing-indicators-setting')) {
-      return;
-    }
-
-    // A sender here could be referring to a group.
-    // Groups don't have primary devices so we need to take that into consideration.
-    const user = libsession.Types.PubKey.from(sender);
-    const primaryDevice = user
-      ? await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(user)
-      : null;
-
-    const conversation = ConversationController.get(
-      groupId || (primaryDevice && primaryDevice.key) || sender
-    );
-
-    if (conversation) {
-      conversation.notifyTyping({
-        isTyping: started,
-        sender,
-        senderDevice,
-      });
-    }
-  }
-
-  async function onContactReceived(ev) {
-    const details = ev.contactDetails;
-
-    const id = details.number;
-    libloki.api.debug.logContactSync(
-      'Got sync contact message with',
-      id,
-      ' details:',
-      details
-    );
-
-    if (id === textsecure.storage.user.getNumber()) {
-      // special case for syncing details about ourselves
-      if (details.profileKey) {
-        window.log.info('Got sync message with our own profile key');
-        storage.put('profileKey', details.profileKey);
-      }
-    }
-
-    const c = new Whisper.Conversation({
-      id,
-    });
-    const validationError = c.validateNumber();
-    if (validationError) {
-      window.log.error(
-        'Invalid contact received:',
-        Errors.toLogFormat(validationError)
-      );
-      return;
-    }
-
-    try {
-      const conversation = await ConversationController.getOrCreateAndWait(
-        id,
-        'private'
-      );
-      let activeAt = conversation.get('active_at');
-
-      // The idea is to make any new contact show up in the left pane. If
-      //   activeAt is null, then this contact has been purposefully hidden.
-      if (activeAt !== null) {
-        activeAt = activeAt || Date.now();
-      }
-      const ourPrimaryKey = window.storage.get('primaryDevicePubKey');
-      if (ourPrimaryKey) {
-        const secondaryDevices = await libsession.Protocols.MultiDeviceProtocol.getSecondaryDevices(
-          ourPrimaryKey
-        );
-        if (secondaryDevices.some(device => device.key === id)) {
-          await conversation.setSecondaryStatus(true, ourPrimaryKey);
-        }
-      }
-
-      const devices = await libsession.Protocols.MultiDeviceProtocol.getAllDevices(
-        id
-      );
-      const deviceConversations = await Promise.all(
-        devices.map(d =>
-          ConversationController.getOrCreateAndWait(d.key, 'private')
-        )
-      );
-      // triger session request with every devices of that user
-      // when we do not have a session with it already
-      deviceConversations.forEach(device => {
-        libsession.Protocols.SessionProtocol.sendSessionRequestIfNeeded(
-          new libsession.Types.PubKey(device.id)
-        );
-      });
-
-      if (details.profileKey) {
-        const profileKey = window.Signal.Crypto.arrayBufferToBase64(
-          details.profileKey
-        );
-        conversation.setProfileKey(profileKey);
-      }
-
-      if (typeof details.blocked !== 'undefined') {
-        if (details.blocked) {
-          storage.addBlockedNumber(id);
-        } else {
-          storage.removeBlockedNumber(id);
-        }
-      }
-
-      // Do not set name to allow working with lokiProfile and nicknames
-      conversation.set({
-        // name: details.name,
-        color: details.color,
-        active_at: activeAt,
-      });
-
-      await conversation.setLokiProfile({ displayName: details.name });
-
-      if (details.nickname) {
-        await conversation.setNickname(details.nickname);
-      }
-
-      // Update the conversation avatar only if new avatar exists and hash differs
-      const { avatar } = details;
-      if (avatar && avatar.data) {
-        const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
-          conversation.attributes,
-          avatar.data,
-          {
-            writeNewAttachmentData,
-            deleteAttachmentData,
-          }
-        );
-        conversation.set(newAttributes);
-      }
-
-      await window.Signal.Data.updateConversation(id, conversation.attributes, {
-        Conversation: Whisper.Conversation,
-      });
-      const { expireTimer } = details;
-      const isValidExpireTimer = typeof expireTimer === 'number';
-      if (isValidExpireTimer) {
-        const source = textsecure.storage.user.getNumber();
-        const receivedAt = Date.now();
-
-        await conversation.updateExpirationTimer(
-          expireTimer,
-          source,
-          receivedAt,
-          { fromSync: true }
-        );
-      }
-
-      if (details.verified) {
-        const { verified } = details;
-        const verifiedEvent = new Event('verified');
-        verifiedEvent.verified = {
-          state: verified.state,
-          destination: verified.destination,
-          identityKey: verified.identityKey.toArrayBuffer(),
-        };
-        verifiedEvent.viaContactSync = true;
-        await onVerified(verifiedEvent);
-      }
-    } catch (error) {
-      window.log.error('onContactReceived error:', Errors.toLogFormat(error));
-    }
-  }
-
-  async function onGroupReceived(ev) {
-    const details = ev.groupDetails;
-    const { id } = details;
-
-    libloki.api.debug.logGroupSync(
-      'Got sync group message with group id',
-      id,
-      ' details:',
-      details
-    );
-
-    const conversation = await ConversationController.getOrCreateAndWait(
-      id,
-      'group'
-    );
-
-    const updates = {
-      name: details.name,
-      members: details.members,
-      color: details.color,
-      type: 'group',
-      is_medium_group: details.is_medium_group || false,
-    };
-
-    if (details.active) {
-      const activeAt = conversation.get('active_at');
-
-      // The idea is to make any new group show up in the left pane. If
-      //   activeAt is null, then this group has been purposefully hidden.
-      if (activeAt !== null) {
-        updates.active_at = activeAt || Date.now();
-      }
-      updates.left = false;
-    } else {
-      updates.left = true;
-    }
-
-    if (details.blocked) {
-      storage.addBlockedGroup(id);
-    } else {
-      storage.removeBlockedGroup(id);
-    }
-
-    conversation.set(updates);
-
-    // Update the conversation avatar only if new avatar exists and hash differs
-    const { avatar } = details;
-    if (avatar && avatar.data) {
-      const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
-        conversation.attributes,
-        avatar.data,
-        {
-          writeNewAttachmentData,
-          deleteAttachmentData,
-        }
-      );
-      conversation.set(newAttributes);
-    }
-
-    await window.Signal.Data.updateConversation(id, conversation.attributes, {
-      Conversation: Whisper.Conversation,
-    });
-
-    // send a session request for all the members we do not have a session with
-    await window.libloki.api.sendSessionRequestsToMembers(updates.members);
-
-    const { expireTimer } = details;
-    const isValidExpireTimer = typeof expireTimer === 'number';
-    if (!isValidExpireTimer) {
-      return;
-    }
-
-    const source = textsecure.storage.user.getNumber();
-    const receivedAt = Date.now();
-    await conversation.updateExpirationTimer(expireTimer, source, receivedAt, {
-      fromSync: true,
-    });
-
-    ev.confirm();
-  }
-
-  async function initIncomingMessage(data) {
-    // Now this function is only called for errors, so no delivery receipts
-
-    const messageData = {
-      source: data.source,
-      sourceDevice: data.sourceDevice,
-      serverId: data.serverId,
-      sent_at: data.timestamp,
-      received_at: data.receivedAt || Date.now(),
-      conversationId: data.source,
-      unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
-      type: 'incoming',
-      unread: 1,
-      isPublic: data.isPublic,
-      isRss: data.isRss,
-    };
-
-    const message = new Whisper.Message(messageData);
-
-    return message;
-  }
-
-  async function onError(ev) {
-    const noSession =
-      ev.error &&
-      ev.error.message &&
-      ev.error.message.indexOf('No record for device') === 0;
-    const pubkey = ev.proto.source;
-
-    if (noSession) {
-      const convo = await ConversationController.getOrCreateAndWait(
-        pubkey,
-        'private'
-      );
-
-      if (!convo.get('sessionRestoreSeen')) {
-        convo.set({ sessionRestoreSeen: true });
-
-        await window.Signal.Data.updateConversation(
-          convo.id,
-          convo.attributes,
-          { Conversation: Whisper.Conversation }
-        );
-
-        window.Whisper.events.trigger('showSessionRestoreConfirmation', {
-          pubkey,
-          onOk: () => {
-            convo.sendMessage('', null, null, null, null, {
-              sessionRestoration: true,
-            });
-          },
-        });
-      } else {
-        window.log.debug(`Already seen session restore for pubkey: ${pubkey}`);
-        if (ev.confirm) {
-          ev.confirm();
-        }
-      }
-
-      // We don't want to display any failed messages in the conversation:
-      return;
-    }
-
-    const { error } = ev;
-    window.log.error('background onError:', Errors.toLogFormat(error));
-
-    if (
-      error &&
-      error.name === 'HTTPError' &&
-      (error.code === 401 || error.code === 403)
-    ) {
-      Whisper.events.trigger('unauthorized');
-
-      if (messageReceiver) {
-        await messageReceiver.stopProcessing();
-        messageReceiver = null;
-      }
-
-      onEmpty();
-
-      window.log.warn(
-        'Client is no longer authorized; deleting local configuration'
-      );
-      Whisper.Registration.remove();
-
-      const NUMBER_ID_KEY = 'number_id';
-      const VERSION_KEY = 'version';
-      const LAST_PROCESSED_INDEX_KEY = 'attachmentMigration_lastProcessedIndex';
-      const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
-
-      const previousNumberId = textsecure.storage.get(NUMBER_ID_KEY);
-      const lastProcessedIndex = textsecure.storage.get(
-        LAST_PROCESSED_INDEX_KEY
-      );
-      const isMigrationComplete = textsecure.storage.get(
-        IS_MIGRATION_COMPLETE_KEY
-      );
-
-      try {
-        await textsecure.storage.protocol.removeAllConfiguration();
-
-        // These two bits of data are important to ensure that the app loads up
-        //   the conversation list, instead of showing just the QR code screen.
-        Whisper.Registration.markEverDone();
-        textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
-
-        // These two are important to ensure we don't rip through every message
-        //   in the database attempting to upgrade it after starting up again.
-        textsecure.storage.put(
-          IS_MIGRATION_COMPLETE_KEY,
-          isMigrationComplete || false
-        );
-        textsecure.storage.put(
-          LAST_PROCESSED_INDEX_KEY,
-          lastProcessedIndex || null
-        );
-        textsecure.storage.put(VERSION_KEY, window.getVersion());
-
-        window.log.info('Successfully cleared local configuration');
-      } catch (eraseError) {
-        window.log.error(
-          'Something went wrong clearing local configuration',
-          eraseError && eraseError.stack ? eraseError.stack : eraseError
-        );
-      }
-
-      return;
-    }
-
-    if (error && error.name === 'HTTPError' && error.code === -1) {
-      // Failed to connect to server
-      if (navigator.onLine) {
-        window.log.info('retrying in 1 minute');
-        setTimeout(connect, 60000);
-
-        Whisper.events.trigger('reconnectTimer');
-      }
-      return;
-    }
-
-    if (ev.proto) {
-      if (error && error.name === 'MessageCounterError') {
-        if (ev.confirm) {
-          ev.confirm();
-        }
-        // Ignore this message. It is likely a duplicate delivery
-        // because the server lost our ack the first time.
-        return;
-      }
-      const envelope = ev.proto;
-
-      // TODO: see if we could reuse the one in receiver.ts
-      const message = await initIncomingMessage(envelope);
-
-      await message.saveErrors(error || new Error('Error was null'));
-      const id = message.get('conversationId');
-      const conversation = await ConversationController.getOrCreateAndWait(
-        id,
-        'private'
-      );
-      conversation.set({
-        active_at: Date.now(),
-        unreadCount: conversation.get('unreadCount') + 1,
-      });
-
-      const conversationTimestamp = conversation.get('timestamp');
-      const messageTimestamp = message.get('timestamp');
-      if (!conversationTimestamp || messageTimestamp > conversationTimestamp) {
-        conversation.set({ timestamp: message.get('sent_at') });
-      }
-
-      conversation.trigger('newmessage', message);
-      conversation.notify(message);
-
-      if (ev.confirm) {
-        ev.confirm();
-      }
-
-      await window.Signal.Data.updateConversation(id, conversation.attributes, {
-        Conversation: Whisper.Conversation,
-      });
-    }
-
-    throw error;
-  }
-
-  function onReadReceipt(ev) {
-    const readAt = ev.timestamp;
-    const { timestamp } = ev.read;
-    const { reader } = ev.read;
-    window.log.info('read receipt', reader, timestamp);
-
-    if (!storage.get('read-receipt-setting')) {
-      return ev.confirm();
-    }
-
-    const receipt = Whisper.ReadReceipts.add({
-      reader,
-      timestamp,
-      read_at: readAt,
-    });
-
-    receipt.on('remove', ev.confirm);
-
-    // Calling this directly so we can wait for completion
-    return Whisper.ReadReceipts.onReceipt(receipt);
-  }
-
-  function onReadSync(ev) {
-    const readAt = ev.timestamp;
-    const { timestamp } = ev.read;
-    const { sender } = ev.read;
-    window.log.info('read sync', sender, timestamp);
-
-    const receipt = Whisper.ReadSyncs.add({
-      sender,
-      timestamp,
-      read_at: readAt,
-    });
-
-    receipt.on('remove', ev.confirm);
-
-    // Calling this directly so we can wait for completion
-    return Whisper.ReadSyncs.onReceipt(receipt);
-  }
-
-  async function onVerified(ev) {
-    const number = ev.verified.destination;
-    const key = ev.verified.identityKey;
-    let state;
-
-    const c = new Whisper.Conversation({
-      id: number,
-    });
-    const error = c.validateNumber();
-    if (error) {
-      window.log.error(
-        'Invalid verified sync received:',
-        Errors.toLogFormat(error)
-      );
-      return;
-    }
-
-    switch (ev.verified.state) {
-      case textsecure.protobuf.Verified.State.DEFAULT:
-        state = 'DEFAULT';
-        break;
-      case textsecure.protobuf.Verified.State.VERIFIED:
-        state = 'VERIFIED';
-        break;
-      case textsecure.protobuf.Verified.State.UNVERIFIED:
-        state = 'UNVERIFIED';
-        break;
-      default:
-        window.log.error(`Got unexpected verified state: ${ev.verified.state}`);
-    }
-
-    window.log.info(
-      'got verified sync for',
-      number,
-      state,
-      ev.viaContactSync ? 'via contact sync' : ''
-    );
-
-    const contact = await ConversationController.getOrCreateAndWait(
-      number,
-      'private'
-    );
-    const options = {
-      viaSyncMessage: true,
-      viaContactSync: ev.viaContactSync,
-      key,
-    };
-
-    if (state === 'VERIFIED') {
-      await contact.setVerified(options);
-    } else if (state === 'DEFAULT') {
-      await contact.setVerifiedDefault(options);
-    } else {
-      await contact.setUnverified(options);
-    }
-
-    if (ev.confirm) {
-      ev.confirm();
-    }
-  }
-
-  function onDeliveryReceipt(ev) {
-    const { deliveryReceipt } = ev;
-    window.log.info(
-      'delivery receipt from',
-      `${deliveryReceipt.source}.${deliveryReceipt.sourceDevice}`,
-      deliveryReceipt.timestamp
-    );
-
-    const receipt = Whisper.DeliveryReceipts.add({
-      timestamp: deliveryReceipt.timestamp,
-      source: deliveryReceipt.source,
-    });
-
-    ev.confirm();
-
-    // Calling this directly so we can wait for completion
-    return Whisper.DeliveryReceipts.onReceipt(receipt);
   }
 })();

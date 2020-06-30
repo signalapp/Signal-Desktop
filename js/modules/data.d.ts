@@ -224,7 +224,7 @@ export function searchMessagesInConversation(
 export function getMessageCount(): Promise<number>;
 export function saveMessage(
   data: Mesasge,
-  { forceSave, Message }?: { forceSave: any; Message: any }
+  { forceSave, Message }?: { forceSave?: any; Message?: any }
 ): Promise<string>;
 export function cleanSeenMessages(): Promise<void>;
 export function cleanLastHashes(): Promise<void>;

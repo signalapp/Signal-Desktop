@@ -9,12 +9,6 @@
   async function SyncRequest() {
     // this.receiver = receiver;
 
-    // this.oncontact = this.onContactSyncComplete.bind(this);
-    // receiver.addEventListener('contactsync', this.oncontact);
-
-    // this.ongroup = this.onGroupSyncComplete.bind(this);
-    // receiver.addEventListener('groupsync', this.ongroup);
-
     window.log.info('SyncRequest created. Sending config sync request...');
     const { CONFIGURATION } = textsecure.protobuf.SyncMessage.Request.Type;
     const { RequestSyncMessage } = window.libsession.Messages.Outgoing;
@@ -76,8 +70,6 @@
     },
     cleanup() {
       clearTimeout(this.timeout);
-      this.receiver.removeEventListener('contactsync', this.oncontact);
-      this.receiver.removeEventListener('groupSync', this.ongroup);
       delete this.listeners;
     },
   });

@@ -1,0 +1,100 @@
+import { initIncomingMessage } from './dataMessage';
+import { toNumber } from 'lodash';
+
+async function onNoSession(ev: any) {
+  const { ConversationController, Whisper } = window;
+
+  const pubkey = ev.proto.source;
+
+  const convo = await ConversationController.getOrCreateAndWait(
+    pubkey,
+    'private'
+  );
+
+  if (!convo.get('sessionRestoreSeen')) {
+    convo.set({ sessionRestoreSeen: true });
+
+    await window.Signal.Data.updateConversation(convo.id, convo.attributes, {
+      Conversation: Whisper.Conversation,
+    });
+
+    window.Whisper.events.trigger('showSessionRestoreConfirmation', {
+      pubkey,
+      onOk: () => {
+        convo.sendMessage('', null, null, null, null, {
+          sessionRestoration: true,
+        });
+      },
+    });
+  } else {
+    window.log.debug(`Already seen session restore for pubkey: ${pubkey}`);
+    if (ev.confirm) {
+      ev.confirm();
+    }
+  }
+}
+
+export async function onError(ev: any) {
+  const noSession =
+    ev.error &&
+    ev.error.message &&
+    ev.error.message.indexOf('No record for device') === 0;
+
+  if (noSession) {
+    await onNoSession(ev);
+
+    // We don't want to display any failed messages in the conversation:
+    return;
+  }
+
+  const { ConversationController, Whisper } = window;
+  const { error } = ev;
+  window.log.error(
+    'background onError:',
+    window.Signal.Errors.toLogFormat(error)
+  );
+
+  if (ev.proto) {
+    if (error && error.name === 'MessageCounterError') {
+      if (ev.confirm) {
+        ev.confirm();
+      }
+      // Ignore this message. It is likely a duplicate delivery
+      // because the server lost our ack the first time.
+      return;
+    }
+    const envelope = ev.proto;
+
+    const message = initIncomingMessage(envelope);
+
+    message.saveErrors(error || new Error('Error was null'));
+    const id = message.get('conversationId');
+    const conversation = await ConversationController.getOrCreateAndWait(
+      id,
+      'private'
+    );
+    conversation.set({
+      active_at: Date.now(),
+      unreadCount: toNumber(conversation.get('unreadCount')) + 1,
+    });
+
+    const conversationTimestamp = conversation.get('timestamp');
+    const messageTimestamp = message.get('timestamp');
+    if (!conversationTimestamp || messageTimestamp > conversationTimestamp) {
+      conversation.set({ timestamp: message.get('sent_at') });
+    }
+
+    conversation.trigger('newmessage', message);
+    conversation.notify(message);
+
+    if (ev.confirm) {
+      ev.confirm();
+    }
+
+    await window.Signal.Data.updateConversation(id, conversation.attributes, {
+      Conversation: Whisper.Conversation,
+    });
+  }
+
+  throw error;
+}

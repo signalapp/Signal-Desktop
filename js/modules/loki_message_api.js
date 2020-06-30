@@ -3,7 +3,6 @@
 /* global log, dcodeIO, window, callWorker, lokiSnodeAPI, textsecure */
 
 const _ = require('lodash');
-const { lokiRpc } = require('./loki_rpc');
 const primitives = require('./loki_primitives');
 
 const DEFAULT_CONNECTIONS = 3;
@@ -31,41 +30,6 @@ const calcNonce = (messageEventData, pubKey, data64, timestamp, ttl) => {
   window.Whisper.events.trigger('calculatingPoW', messageEventData);
   return callWorker('calcPoW', timestamp, ttl, pubKey, data64, difficulty);
 };
-
-// we don't throw or catch here
-// mark private (_ prefix) since no error handling is done here...
-async function _retrieveNextMessages(nodeData, pubkey) {
-  const params = {
-    pubKey: pubkey,
-    lastHash: nodeData.lastHash || '',
-  };
-  const options = {
-    timeout: 40000,
-    ourPubKey: pubkey,
-  };
-
-  // let exceptions bubble up
-  const result = await lokiRpc(
-    `https://${nodeData.ip}`,
-    nodeData.port,
-    'retrieve',
-    params,
-    options,
-    '/storage_rpc/v1',
-    nodeData
-  );
-
-  if (result === false) {
-    // make a note of it because of caller doesn't care...
-    log.warn(
-      `loki_message:::_retrieveNextMessages - lokiRpc could not talk to ${nodeData.ip}:${nodeData.port}`
-    );
-
-    return [];
-  }
-
-  return result.messages || [];
-}
 
 class LokiMessageAPI {
   constructor(ourKey) {
@@ -198,7 +162,10 @@ class LokiMessageAPI {
     while (!_.isEmpty(this.sendingData[params.timestamp].swarm)) {
       const snode = this.sendingData[params.timestamp].swarm.shift();
       // TODO: Revert back to using snode address instead of IP
-      const successfulSend = await this._sendToNode(snode, params);
+      const successfulSend = await window.NewSnodeAPI.storeOnNode(
+        snode,
+        params
+      );
       if (successfulSend) {
         return snode;
       }
@@ -222,94 +189,6 @@ class LokiMessageAPI {
     return false;
   }
 
-  async _sendToNode(targetNode, params) {
-    let successiveFailures = 0;
-    while (successiveFailures < MAX_ACCEPTABLE_FAILURES) {
-      // the higher this is, the longer the user delay is
-      // we don't want to burn through all our retries quickly
-      // we need to give the node a chance to heal
-      // also failed the user quickly, just means they pound the retry faster
-      // this favors a lot more retries and lower delays
-      // but that may chew up the bandwidth...
-      await primitives.sleepFor(successiveFailures * 500);
-      try {
-        const result = await lokiRpc(
-          `https://${targetNode.ip}`,
-          targetNode.port,
-          'store',
-          params,
-          {},
-          '/storage_rpc/v1',
-          targetNode
-        );
-        // succcessful messages should look like
-        // `{\"difficulty\":1}`
-        // but so does invalid pow, so be careful!
-
-        // do not return true if we get false here...
-        if (result === false) {
-          // this means the node we asked for is likely down
-          log.warn(
-            `loki_message:::_sendToNode - Try #${successiveFailures}/${MAX_ACCEPTABLE_FAILURES} ${targetNode.ip}:${targetNode.port} failed`
-          );
-          successiveFailures += 1;
-          // eslint-disable-next-line no-continue
-          continue;
-        }
-
-        // Make sure we aren't doing too much PoW
-        const currentDifficulty = window.storage.get('PoWDifficulty', null);
-        if (
-          result &&
-          result.difficulty &&
-          result.difficulty !== currentDifficulty
-        ) {
-          window.storage.put('PoWDifficulty', result.difficulty);
-          // should we return false?
-        }
-        return true;
-      } catch (e) {
-        log.warn(
-          'loki_message:::_sendToNode - send error:',
-          e.code,
-          e.message,
-          `destination ${targetNode.ip}:${targetNode.port}`
-        );
-        if (e instanceof textsecure.WrongSwarmError) {
-          const { newSwarm } = e;
-          await lokiSnodeAPI.updateSwarmNodes(params.pubKey, newSwarm);
-          this.sendingData[params.timestamp].swarm = newSwarm;
-          this.sendingData[params.timestamp].hasFreshList = true;
-          return false;
-        } else if (e instanceof textsecure.WrongDifficultyError) {
-          const { newDifficulty } = e;
-          if (!Number.isNaN(newDifficulty)) {
-            window.storage.put('PoWDifficulty', newDifficulty);
-          }
-          throw e;
-        } else if (e instanceof textsecure.NotFoundError) {
-          // TODO: Handle resolution error
-        } else if (e instanceof textsecure.TimestampError) {
-          log.warn('loki_message:::_sendToNode - Timestamp is invalid');
-          throw e;
-        } else if (e instanceof textsecure.HTTPError) {
-          // TODO: Handle working connection but error response
-          const body = await e.response.text();
-          log.warn('loki_message:::_sendToNode - HTTPError body:', body);
-        }
-        successiveFailures += 1;
-      }
-    }
-    const remainingSwarmSnodes = await lokiSnodeAPI.unreachableNode(
-      params.pubKey,
-      targetNode
-    );
-    log.error(
-      `loki_message:::_sendToNode - Too many successive failures trying to send to node ${targetNode.ip}:${targetNode.port}, ${remainingSwarmSnodes.lengt} remaining swarm nodes`
-    );
-    return false;
-  }
-
   async pollNodeForGroupId(groupId, nodeParam, onMessages) {
     const node = nodeParam;
     const lastHash = await window.Signal.Data.getLastHashBySnode(
@@ -329,7 +208,11 @@ class LokiMessageAPI {
     // eslint-disable-next-line no-constant-condition
     while (this.groupIdsToPoll[groupId]) {
       try {
-        let messages = await _retrieveNextMessages(node, groupId);
+        let messages = await window.NewSnodeAPI.retrieveNextMessages(
+          node,
+          node.lastHash,
+          groupId
+        );
 
         if (messages.length > 0) {
           const lastMessage = _.last(messages);
@@ -383,26 +266,6 @@ class LokiMessageAPI {
     }
   }
 
-  async pollForGroupId(groupId, onMessages) {
-    log.info(`Starting to poll for group id: ${groupId}`);
-
-    if (this.groupIdsToPoll[groupId]) {
-      log.warn(`Already polling for group id: ${groupId}`);
-      return;
-    }
-
-    this.groupIdsToPoll[groupId] = true;
-
-    // Get nodes for groupId
-    const nodes = await lokiSnodeAPI.refreshSwarmNodesForPubKey(groupId);
-
-    log.info('Nodes for group id:', nodes);
-
-    _.sampleSize(nodes, 3).forEach(node =>
-      this.pollNodeForGroupId(groupId, node, onMessages)
-    );
-  }
-
   async stopPollingForGroup(groupId) {
     if (!this.groupIdsToPoll[groupId]) {
       log.warn(`Already not polling for group id: ${groupId}`);
@@ -441,7 +304,11 @@ class LokiMessageAPI {
           // so the user facing UI can report unhandled errors
           // except in this case of living inside http-resource pollServer
           // because it just restarts more connections...
-          let messages = await _retrieveNextMessages(nodeData, this.ourKey);
+          let messages = await window.NewSnodeAPI.retrieveNextMessages(
+            nodeData,
+            nodeData.lastHash,
+            this.ourKey
+          );
 
           // this only tracks retrieval failures
           // won't include parsing failures...
@@ -460,6 +327,7 @@ class LokiMessageAPI {
             );
           }
           // Execute callback even with empty array to signal online status
+
           onMessages(messages);
         } catch (e) {
           log.warn(
@@ -500,7 +368,7 @@ class LokiMessageAPI {
         await primitives.sleepFor(Math.max(successiveFailures, 2) * 1000);
       }
       if (successiveFailures >= MAX_ACCEPTABLE_FAILURES) {
-        const remainingSwarmSnodes = await lokiSnodeAPI.unreachableNode(
+        const remainingSwarmSnodes = await window.SnodePool.markUnreachableForPubkey(
           this.ourKey,
           nodeData
         );
@@ -531,18 +399,6 @@ class LokiMessageAPI {
     let nodes = await lokiSnodeAPI.getSwarmNodesForPubKey(this.ourKey, {
       fetchHashes: true,
     });
-
-    // Start polling for medium size groups as well (they might be in different swarms)
-    {
-      const convos = window.getConversations().filter(c => c.isMediumGroup());
-
-      const self = this;
-
-      convos.forEach(c => {
-        self.pollForGroupId(c.id, onMessages);
-        // TODO: unsubscribe if the group is deleted
-      });
-    }
 
     if (nodes.length < numConnections) {
       log.warn(
