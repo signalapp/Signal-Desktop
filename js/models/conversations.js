@@ -1648,8 +1648,10 @@
       };
 
       if (this.isMe()) {
-        await message.markMessageSyncOnly();
-        // sending of the message is handled in the 'private' case below
+        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+          expireUpdate
+        );
+        return message.sendSyncMessageOnly(expirationTimerMessage);
       }
 
       if (this.get('type') === 'private') {

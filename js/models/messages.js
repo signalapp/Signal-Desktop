@@ -1079,8 +1079,7 @@
         if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
           this.trigger('pending');
           // FIXME audric add back profileKey
-          await this.markMessageSyncOnly();
-          // sending is done in the private case below
+          return this.sendSyncMessageOnly(chatMessage);
         }
 
         if (conversation.isPrivate()) {
@@ -1155,9 +1154,9 @@
 
         // Special-case the self-send case - we send only a sync message
         if (number === this.OUR_NUMBER) {
-          await this.markMessageSyncOnly();
-          // sending is done in the private case below
+          return this.sendSyncMessageOnly(chatMessage);
         }
+
         const conversation = this.getConversation();
         const recipientPubKey = new libsession.Types.PubKey(number);
 
@@ -1316,6 +1315,43 @@
         Message: Whisper.Message,
       });
     },
+
+    async sendSyncMessageOnly(dataMessage) {
+      this.set({
+        sent_to: [this.OUR_NUMBER],
+        sent: true,
+        expirationStartTimestamp: Date.now(),
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+
+      const data =
+        dataMessage instanceof libsession.Message.Outgoing.DataMessage
+          ? dataMessage.dataProto()
+          : dataMessage;
+      await this.sendSyncMessage(data);
+    },
+
+    async sendSyncMessage(dataMessage) {
+      // TODO: Return here if we've already sent a sync message
+      if (this.get('synced')) {
+        return;
+      }
+
+      const syncMessage = new libsession.Message.Outgoing.SentSyncMessage({
+        timestamp: this.get('sent_at'),
+        dataMessage,
+        destination: this.id,
+        expirationStartTimestamp: this.get('expirationStartTimestamp'),
+        sent_to: this.get('sent_to'),
+        unidentifiedDeliveries: this.get('unidentifiedDeliveries'),
+      });
+
+      await libsession.getMessageQueue().sendSyncMessage(syncMessage);
+    },
+
     send(promise) {
       this.trigger('pending');
       return promise
