@@ -21,7 +21,7 @@ export class MediumGroupChatMessage extends MediumGroupMessage {
     this.chatMessage = params.chatMessage;
   }
 
-  protected dataProto(): SignalService.DataMessage {
+  public dataProto(): SignalService.DataMessage {
     const messageProto = this.chatMessage.dataProto();
     messageProto.mediumGroupUpdate = super.dataProto().mediumGroupUpdate;
 
