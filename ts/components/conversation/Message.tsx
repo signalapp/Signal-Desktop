@@ -230,9 +230,9 @@ export class Message extends React.PureComponent<Props, State> {
 
       containerWidth: 0,
 
-      isFirstInCluster: true,
-      isLastInCluster: true,
-      collapseMetadata: false,
+      isFirstInCluster: Message.isFirstInCluster(props),
+      isLastInCluster: Message.isLastInCluster(props),
+      collapseMetadata: Message.shouldCollapseMetadata(props),
     };
   }
 
@@ -256,22 +256,12 @@ export class Message extends React.PureComponent<Props, State> {
       };
     }
 
-    const isFirstInCluster = Message.isFirstInCluster(props);
-    const isLastInCluster = Message.isLastInCluster(props);
-    const collapseMetadata = Message.shouldCollapseMetadata(props);
-
-    if (
-      isFirstInCluster !== state.isFirstInCluster ||
-      isLastInCluster !== state.isLastInCluster ||
-      collapseMetadata !== state.collapseMetadata
-    ) {
-      nextState = {
-        ...nextState,
-        isFirstInCluster,
-        isLastInCluster,
-        collapseMetadata,
-      };
-    }
+    nextState = {
+      ...nextState,
+      isFirstInCluster: Message.isFirstInCluster(props),
+      isLastInCluster: Message.isLastInCluster(props),
+      collapseMetadata: Message.shouldCollapseMetadata(props),
+    };
 
     return nextState;
   }
