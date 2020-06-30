@@ -23,6 +23,7 @@ export function getSentSyncMessage(params: {
   const pubKey = PubKey.cast(params.destination);
   return new SentSyncMessage({
     timestamp: Date.now(),
+    identifier: params.message.identifier,
     destination: pubKey,
     dataMessage: params.message.dataProto(),
     expirationStartTimestamp: params.expirationStartTimestamp,

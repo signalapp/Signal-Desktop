@@ -1342,8 +1342,9 @@
 
       const syncMessage = new libsession.Message.Outgoing.SentSyncMessage({
         timestamp: this.get('sent_at'),
+        identifier: this.id,
         dataMessage,
-        destination: this.id,
+        destination: this.get('destination'),
         expirationStartTimestamp: this.get('expirationStartTimestamp'),
         sent_to: this.get('sent_to'),
         unidentifiedDeliveries: this.get('unidentifiedDeliveries'),

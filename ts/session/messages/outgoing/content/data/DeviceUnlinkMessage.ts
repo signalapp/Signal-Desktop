@@ -6,7 +6,7 @@ export class DeviceUnlinkMessage extends DataMessage {
     return 4 * 24 * 60 * 60 * 1000; // 4 days for device unlinking
   }
 
-  protected dataProto(): SignalService.DataMessage {
+  public dataProto(): SignalService.DataMessage {
     const flags = SignalService.DataMessage.Flags.UNPAIRING_REQUEST;
 
     return new SignalService.DataMessage({
