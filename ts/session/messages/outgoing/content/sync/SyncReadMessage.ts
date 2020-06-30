@@ -1,13 +1,14 @@
+import _ from 'lodash';
 import { SyncMessage } from './SyncMessage';
 import { SignalService } from '../../../../../protobuf';
 import { MessageParams } from '../../Message';
 
 interface SyncReadMessageParams extends MessageParams {
-  readMessages: any;
+  readMessages: Array<{ sender: string; timestamp: number }>;
 }
 
-export abstract class SyncReadMessage extends SyncMessage {
-  public readonly readMessages: any;
+export class SyncReadMessage extends SyncMessage {
+  public readonly readMessages: Array<{ sender: string; timestamp: number }>;
 
   constructor(params: SyncReadMessageParams) {
     super({ timestamp: params.timestamp, identifier: params.identifier });
@@ -19,7 +20,7 @@ export abstract class SyncReadMessage extends SyncMessage {
     syncMessage.read = [];
     for (const read of this.readMessages) {
       const readMessage = new SignalService.SyncMessage.Read();
-      read.timestamp = readMessage.timestamp;
+      read.timestamp = _.toNumber(readMessage.timestamp);
       read.sender = readMessage.sender;
       syncMessage.read.push(readMessage);
     }

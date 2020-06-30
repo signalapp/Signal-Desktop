@@ -23,16 +23,16 @@ export abstract class ClosedGroupMessage extends DataMessage {
     return this.getDefaultTTL();
   }
 
-  protected groupContext(): SignalService.GroupContext {
-    const id = new Uint8Array(StringUtils.encode(this.groupId.key, 'utf8'));
-
-    return new SignalService.GroupContext({ id });
-  }
-
-  protected dataProto(): SignalService.DataMessage {
+  public dataProto(): SignalService.DataMessage {
     const dataMessage = new SignalService.DataMessage();
     dataMessage.group = this.groupContext();
 
     return dataMessage;
+  }
+
+  protected groupContext(): SignalService.GroupContext {
+    const id = new Uint8Array(StringUtils.encode(this.groupId.key, 'utf8'));
+
+    return new SignalService.GroupContext({ id });
   }
 }
