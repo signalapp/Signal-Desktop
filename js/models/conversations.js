@@ -1856,10 +1856,7 @@
       const groupUpdateMessage = new libsession.Messages.Outgoing.ClosedGroupUpdateMessage(
         updateParams
       );
-      libsession
-        .getMessageQueue()
-        .sendToGroup(groupUpdateMessage)
-        .catch(log.error);
+      await this.sendClosedGroupMessage(groupUpdateMessage);
     },
 
     sendGroupInfo(recipient) {
@@ -1927,9 +1924,40 @@
           quitGroup
         );
 
-        await libsession.getMessageQueue().sendToGroup(quitGroupMessage);
+        await this.sendClosedGroupMessage(quitGroupMessage);
 
         this.updateTextInputState();
+      }
+    },
+
+    async sendClosedGroupMessage(message) {
+      const { ClosedGroupMessage, ClosedGroupChatMessage } = libsession.Messages.Outgoing;
+      if (
+        !(message instanceof ClosedGroupMessage)
+      ) {
+        throw new Error('Invalid closed group message.');
+      }
+
+      // Sync messages for Chat Messages need to be constructed after confirming send was successful.
+      if (
+        message instanceof ClosedGroupChatMessage
+      ) {
+        throw new Error(
+          'ClosedGroupChatMessage should be constructed manually and sent'
+        );
+      }
+
+      try {
+        await libsession.getMessageQueue().sendToGroup(message);
+
+        const syncMessage = libsession.Utils.SyncMessageUtils.fromClosedGroupMessage(
+          message
+        );
+        if (syncMessage) {
+          await libsession.getMessageQueue().sendSyncMessage(syncMessage);
+        }
+      } catch (e) {
+        window.log.error(e);
       }
     },
 

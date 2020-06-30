@@ -1,25 +1,72 @@
 import * as _ from 'lodash';
 import { UserUtil } from '../../util/';
 import { getAllConversations } from '../../../js/modules/data';
-import { ContentMessage, SyncMessage } from '../messages/outgoing';
+import {
+  ClosedGroupChatMessage,
+  ClosedGroupMessage,
+  ClosedGroupRequestInfoMessage,
+  ContentMessage,
+  ReadReceiptMessage,
+  SentSyncMessage,
+  SyncMessage,
+  SyncReadMessage,
+} from '../messages/outgoing';
 import { MultiDeviceProtocol } from '../protocols';
 import ByteBuffer from 'bytebuffer';
+import { PubKey } from '../types';
+import { SignalService } from '../../protobuf';
 
-export function from(message: ContentMessage): SyncMessage | undefined {
+export function from(
+  message: ContentMessage,
+  destination: string | PubKey
+): SyncMessage | undefined {
   if (message instanceof SyncMessage) {
     return message;
   }
 
-  // Stubbed for now
+  if (message instanceof ClosedGroupMessage) {
+    return fromClosedGroupMessage(message);
+  }
+
+  if (message instanceof ReadReceiptMessage) {
+    const pubKey = PubKey.cast(destination);
+    const read = message.timestamps.map(timestamp => ({
+      sender: pubKey.key,
+      timestamp,
+    }));
+
+    return new SyncReadMessage({
+      timestamp: Date.now(),
+      readMessages: read,
+    });
+  }
+
   return undefined;
 }
 
-export function canSync(message: ContentMessage): boolean {
-  // This function should be agnostic to the device; it shouldn't need
-  // to know about the recipient
+export function fromClosedGroupMessage(
+  message: ClosedGroupMessage
+): SyncMessage | undefined {
+  // Sync messages for ClosedGroupChatMessage need to be built manually
+  // This is because it needs the `expireStartTimestamp` field.
+  if (
+    message instanceof ClosedGroupRequestInfoMessage ||
+    message instanceof ClosedGroupChatMessage
+  ) {
+    return undefined;
+  }
 
-  // Stubbed for now
-  return Boolean(from(message));
+  const pubKey = PubKey.cast(message.groupId);
+  const content = SignalService.Content.decode(message.plainTextBuffer());
+  if (!content.dataMessage) {
+    return undefined;
+  }
+
+  return new SentSyncMessage({
+    timestamp: message.timestamp,
+    destination: pubKey,
+    dataMessage: content.dataMessage,
+  });
 }
 
 export async function getSyncContacts(): Promise<Array<any> | undefined> {

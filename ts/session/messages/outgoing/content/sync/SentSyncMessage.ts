@@ -4,15 +4,15 @@ import { MessageParams } from '../../Message';
 import { PubKey } from '../../../../types';
 
 interface SentSyncMessageParams extends MessageParams {
-  dataMessage: SignalService.DataMessage;
+  dataMessage: SignalService.IDataMessage;
   expirationStartTimestamp?: number;
   sentTo?: Array<PubKey>;
   unidentifiedDeliveries?: Array<PubKey>;
   destination?: PubKey;
 }
 
-export abstract class SentSyncMessage extends SyncMessage {
-  public readonly dataMessage: SignalService.DataMessage;
+export class SentSyncMessage extends SyncMessage {
+  public readonly dataMessage: SignalService.IDataMessage;
   public readonly expirationStartTimestamp?: number;
   public readonly sentTo?: Array<PubKey>;
   public readonly unidentifiedDeliveries?: Array<PubKey>;
