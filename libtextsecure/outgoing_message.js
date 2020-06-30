@@ -281,14 +281,7 @@ OutgoingMessage.prototype = {
             }).then(results => results.every(value => value === true));
           })
           .catch(e => {
-            if (e.name === 'HTTPError' && e.code === 404) {
-              if (device !== 1) {
-                return this.removeDeviceIdsForNumber(number, [device]);
-              }
-              throw new textsecure.UnregisteredUserError(number, e);
-            } else {
-              throw e;
-            }
+            throw e;
           })
       );
     });
@@ -312,12 +305,7 @@ OutgoingMessage.prototype = {
       await lokiMessageAPI.sendMessage(pubKey, data, timestamp, ttl, options);
     } catch (e) {
       if (e.name === 'HTTPError' && e.code !== 409 && e.code !== 410) {
-        // 409 and 410 should bubble and be handled by doSendMessage
-        // 404 should throw UnregisteredUserError
-        // all other network errors can be retried later.
-        if (e.code === 404) {
-          throw new textsecure.UnregisteredUserError(number, e);
-        }
+
         throw new textsecure.SendMessageNetworkError(number, '', e, timestamp);
       } else if (e.name === 'TimedOutError') {
         throw new textsecure.PoWError(number, e);

@@ -1267,6 +1267,7 @@
           Message: Whisper.Message,
         });
         message.set({ id });
+        message.markPendingSend();
 
         this.set({
           lastMessage: model.getNotificationText(),
@@ -1307,6 +1308,7 @@
         // FIXME audric add back profileKey
         const lokiProfile = this.getOurProfile();
         const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+          identifier: id,
           body: messageBody,
           timestamp: Date.now(),
           attachments: finalAttachments,
@@ -1322,10 +1324,7 @@
           await message.markMessageSyncOnly();
           // sending is done in the 'private' case below
         }
-        const options = {};
 
-        options.messageType = message.get('type');
-        options.isPublic = this.isPublic();
         if (this.isPublic()) {
           // FIXME audric add back attachments, quote, preview
           const openGroup = {
@@ -1334,6 +1333,7 @@
             conversationId: this.id,
           };
           const openGroupParams = {
+            identifier: id,
             body,
             timestamp: Date.now(),
             group: openGroup,
@@ -1346,7 +1346,6 @@
           return null;
         }
 
-        options.sessionRestoration = sessionRestoration;
         const destinationPubkey = new libsession.Types.PubKey(destination);
         // Handle Group Invitation Message
         if (groupInvitation) {
@@ -1358,6 +1357,8 @@
 
           const groupInvitMessage = new libsession.Messages.Outgoing.GroupInvitationMessage(
             {
+              identifier: id,
+              timestamp: Date.now(),
               serverName: groupInvitation.name,
               channelId: groupInvitation.channelId,
               serverAddress: groupInvitation.address,
@@ -1379,6 +1380,8 @@
           if (this.isMediumGroup()) {
             const mediumGroupChatMessage = new libsession.Messages.Outgoing.MediumGroupChatMessage(
               {
+                identifier: id,
+                timestamp: chatMessage.timestamp,
                 chatMessage,
                 groupId: destination,
               }
@@ -1395,7 +1398,9 @@
           } else {
             const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
               {
+                identifier: id,
                 chatMessage,
+                timestamp: chatMessage.timestamp,
                 groupId: destination,
               }
             );
@@ -1642,6 +1647,7 @@
       }
 
       const expireUpdate = {
+        identifier: id,
         timestamp: message.get('sent_at'),
         expireTimer,
         profileKey,
@@ -1822,6 +1828,7 @@
         const createParams = {
           timestamp: Date.now(),
           groupId: id,
+          identifier: messageId,
           groupSecretKey: secretKey,
           members: members.map(pkHex => StringView.hexToArrayBuffer(pkHex)),
           groupName: name,
@@ -1833,7 +1840,7 @@
         const mediumGroupCreateMessage = new libsession.Messages.Outgoing.MediumGroupCreateMessage(
           createParams
         );
-        message.trigger('pending');
+        message.markPendingSend();
 
         members.forEach(member => {
           const memberPubKey = new libsession.Types.PubKey(member);
@@ -1847,6 +1854,7 @@
 
       const updateParams = {
         timestamp: Date.now(),
+        identifier: messageId,
         groupId: this.id,
         name: this.get('name'),
         avatar: this.get('avatar'),
@@ -1922,6 +1930,7 @@
         const quitGroup = {
           timestamp: Date.now(),
           groupId: this.id,
+          identifier: id,
         };
         const quitGroupMessage = new libsession.Messages.Outgoing.ClosedGroupLeaveMessage(
           quitGroup

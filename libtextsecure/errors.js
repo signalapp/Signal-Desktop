@@ -108,25 +108,6 @@
   }
   inherit(ReplayableError, MessageError);
 
-  function UnregisteredUserError(number, httpError) {
-    this.message = httpError.message;
-    this.name = 'UnregisteredUserError';
-
-    Error.call(this, this.message);
-
-    // Maintains proper stack trace, where our error was thrown (only available on V8)
-    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this);
-    }
-
-    this.number = number;
-    this.code = httpError.code;
-
-    appendStack(this, httpError);
-  }
-  inherit(Error, UnregisteredUserError);
-
   function EmptySwarmError(number, message) {
     // eslint-disable-next-line prefer-destructuring
     this.number = number.split('.')[0];
@@ -276,7 +257,6 @@
     }
   }
 
-  window.textsecure.UnregisteredUserError = UnregisteredUserError;
   window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
   window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
   window.textsecure.OutgoingIdentityKeyError = OutgoingIdentityKeyError;

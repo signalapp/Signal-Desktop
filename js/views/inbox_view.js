@@ -9,7 +9,8 @@
   i18n,
   Whisper,
   textsecure,
-  Signal
+  Signal,
+  _
 */
 
 // eslint-disable-next-line func-names
