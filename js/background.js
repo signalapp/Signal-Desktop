@@ -2116,6 +2116,15 @@
     const details = ev.groupDetails;
     const { id } = details;
 
+    const idBuffer = window.Signal.Crypto.fromEncodedBinaryToArrayBuffer(id);
+    const idBytes = idBuffer.byteLength;
+    if (idBytes !== 16) {
+      window.log.error(
+        `onGroupReceived: Id was ${idBytes} bytes, expected 16 bytes. Dropping group.`
+      );
+      return;
+    }
+
     const conversation = await ConversationController.getOrCreateAndWait(
       id,
       'group'
