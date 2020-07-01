@@ -1861,7 +1861,8 @@
     },
 
     sendGroupInfo(recipient) {
-      if (this.isClosedGroup()) {
+      // Only send group info if we're a closed group and we haven't left
+      if (this.isClosedGroup() && !this.get('left')) {
         const updateParams = {
           timestamp: Date.now(),
           groupId: this.id,
