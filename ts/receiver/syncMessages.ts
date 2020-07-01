@@ -1,9 +1,8 @@
 import { EnvelopePlus } from './types';
 import { SignalService } from '../protobuf';
-import * as libsession from './../session';
 import { removeFromCache } from './cache';
 import { getEnvelopeId } from './common';
-import { toNumber } from 'lodash';
+import _ from 'lodash';
 
 import { handleEndSession } from './sessionHandling';
 import { handleMediumGroupUpdate } from './mediumGroups';
@@ -11,6 +10,7 @@ import { handleMessageEvent, processDecrypted } from './dataMessage';
 import { updateProfile } from './receiver';
 import { handleContacts } from './multidevice';
 import { onGroupReceived } from './groups';
+import { MultiDeviceProtocol } from '../session/protocols';
 
 export async function handleSyncMessage(
   envelope: EnvelopePlus,
@@ -20,9 +20,7 @@ export async function handleSyncMessage(
 
   // We should only accept sync messages from our devices
   const ourNumber = textsecure.storage.user.getNumber();
-  const ourDevices = await libsession.Protocols.MultiDeviceProtocol.getAllDevices(
-    ourNumber
-  );
+  const ourDevices = await MultiDeviceProtocol.getAllDevices(ourNumber);
   const validSyncSender = ourDevices.some(
     device => device.key === envelope.source
   );
@@ -42,7 +40,7 @@ export async function handleSyncMessage(
     window.log.info(
       'sent message to',
       to,
-      toNumber(sentMessage.timestamp),
+      _.toNumber(sentMessage.timestamp),
       'from',
       getEnvelopeId(envelope)
     );
@@ -117,13 +115,13 @@ async function handleSentMessage(
   ev.confirm = removeFromCache.bind(null, envelope);
   ev.data = {
     destination,
-    timestamp: toNumber(timestamp),
+    timestamp: _.toNumber(timestamp),
     device: envelope.sourceDevice,
     unidentifiedStatus,
     message,
   };
   if (expirationStartTimestamp) {
-    ev.data.expirationStartTimestamp = toNumber(expirationStartTimestamp);
+    ev.data.expirationStartTimestamp = _.toNumber(expirationStartTimestamp);
   }
 
   await handleMessageEvent(ev);
@@ -158,7 +156,7 @@ async function handleBlocked(
   window.log.info('Setting these numbers as blocked:', blocked.numbers);
   window.textsecure.storage.put('blocked', blocked.numbers);
 
-  const groupIds = window.Lodash.map(blocked.groupIds, (groupId: any) =>
+  const groupIds = _.map(blocked.groupIds, (groupId: any) =>
     groupId.toBinary()
   );
   window.log.info(
@@ -189,9 +187,9 @@ async function handleRead(
   const results = [];
   for (const read of readArray) {
     const promise = onReadSync(
-      toNumber(envelope.timestamp),
+      _.toNumber(envelope.timestamp),
       read.sender,
-      toNumber(read.timestamp)
+      _.toNumber(read.timestamp)
     );
     results.push(promise);
   }

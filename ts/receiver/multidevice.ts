@@ -9,6 +9,7 @@ import { updateProfile } from './receiver';
 import { onVerified } from './syncMessages';
 
 import { StringUtils } from '../session/utils';
+import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
 
 async function unpairingRequestIsLegit(source: string, ourPubKey: string) {
   const { textsecure, storage, lokiFileServerAPI } = window;
@@ -110,7 +111,7 @@ async function handlePairingRequest(
   if (valid) {
     // Pairing dialog is open and is listening
     if (Whisper.events.isListenedTo('devicePairingRequestReceived')) {
-      await libsession.Protocols.MultiDeviceProtocol.savePairingAuthorisation(
+      await MultiDeviceProtocol.savePairingAuthorisation(
         pairingRequest as Data.PairingAuthorisation
       );
       Whisper.events.trigger(
@@ -162,7 +163,7 @@ async function handleAuthorisationForSelf(
       window.storage.remove('secondaryDeviceStatus');
       window.storage.put('isSecondaryDevice', true);
       window.storage.put('primaryDevicePubKey', primaryDevicePubKey);
-      await libsession.Protocols.MultiDeviceProtocol.savePairingAuthorisation(
+      await MultiDeviceProtocol.savePairingAuthorisation(
         pairingAuthorisation as Data.PairingAuthorisation
       );
       const primaryConversation = await ConversationController.getOrCreateAndWait(
@@ -338,7 +339,7 @@ async function onContactReceived(details: any) {
     }
     const ourPrimaryKey = window.storage.get('primaryDevicePubKey');
     if (ourPrimaryKey) {
-      const secondaryDevices = await libsession.Protocols.MultiDeviceProtocol.getSecondaryDevices(
+      const secondaryDevices = await MultiDeviceProtocol.getSecondaryDevices(
         ourPrimaryKey
       );
       if (secondaryDevices.some(device => device.key === id)) {
@@ -346,9 +347,7 @@ async function onContactReceived(details: any) {
       }
     }
 
-    const devices = await libsession.Protocols.MultiDeviceProtocol.getAllDevices(
-      id
-    );
+    const devices = await MultiDeviceProtocol.getAllDevices(id);
     const deviceConversations = await Promise.all(
       devices.map(d =>
         ConversationController.getOrCreateAndWait(d.key, 'private')
@@ -358,7 +357,7 @@ async function onContactReceived(details: any) {
     // when we do not have a session with it already
     deviceConversations.forEach(device => {
       // tslint:disable-next-line: no-floating-promises
-      libsession.Protocols.SessionProtocol.sendSessionRequestIfNeeded(
+      SessionProtocol.sendSessionRequestIfNeeded(
         new libsession.Types.PubKey(device.id)
       );
     });

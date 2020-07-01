@@ -1,6 +1,5 @@
 import { SignalService } from './../protobuf';
-import { addToCache, removeFromCache } from './cache';
-import { toNumber } from 'lodash';
+import { removeFromCache } from './cache';
 import { MultiDeviceProtocol } from '../session/protocols';
 import { EnvelopePlus } from './types';
 import { ConversationType, getEnvelopeId } from './common';
@@ -13,6 +12,7 @@ import { handleEndSession } from './sessionHandling';
 import { handleMediumGroupUpdate } from './mediumGroups';
 import { handleUnpairRequest } from './multidevice';
 import { downloadAttachment } from './attachments';
+import _ from 'lodash';
 
 export async function updateProfile(
   conversation: any,
@@ -79,7 +79,7 @@ export async function updateProfile(
 
 function cleanAttachment(attachment: any) {
   return {
-    ...window.Lodash.omit(attachment, 'thumbnail'),
+    ..._.omit(attachment, 'thumbnail'),
     id: attachment.id.toString(),
     key: attachment.key ? attachment.key.toString('base64') : null,
     digest: attachment.digest ? attachment.digest.toString('base64') : null,
@@ -129,7 +129,7 @@ function cleanAttachments(decrypted: any) {
 
   if (quote) {
     if (quote.id) {
-      quote.id = toNumber(quote.id);
+      quote.id = _.toNumber(quote.id);
     }
 
     quote.attachments = (quote.attachments || []).map((item: any) => {
@@ -227,8 +227,6 @@ export async function processDecrypted(envelope: EnvelopePlus, decrypted: any) {
 }
 
 function isMessageEmpty(message: SignalService.DataMessage) {
-  const { Lodash: _ } = window;
-
   const {
     flags,
     body,
@@ -261,14 +259,14 @@ export async function handleDataMessage(
   window.log.info('data message from', getEnvelopeId(envelope));
 
   if (dataMessage.mediumGroupUpdate) {
-    handleMediumGroupUpdate(envelope, dataMessage.mediumGroupUpdate).ignore();
-    // TODO: investigate the meaning of this return value
+    await handleMediumGroupUpdate(envelope, dataMessage.mediumGroupUpdate);
     return;
   }
 
   // tslint:disable-next-line no-bitwise
   if (dataMessage.flags & SignalService.DataMessage.Flags.END_SESSION) {
     await handleEndSession(envelope.source);
+    return;
   }
   const message = await processDecrypted(envelope, dataMessage);
   const ourPubKey = window.textsecure.storage.user.getNumber();
@@ -277,7 +275,6 @@ export async function handleDataMessage(
   const conversation = window.ConversationController.get(senderPubKey);
 
   const { UNPAIRING_REQUEST } = SignalService.DataMessage.Flags;
-  const { SESSION_REQUEST } = SignalService.Envelope.Type;
 
   // eslint-disable-next-line no-bitwise
   const isUnpairingRequest = Boolean(message.flags & UNPAIRING_REQUEST);
@@ -328,7 +325,7 @@ export async function handleDataMessage(
   ev.data = {
     source,
     sourceDevice: envelope.sourceDevice,
-    timestamp: toNumber(envelope.timestamp),
+    timestamp: _.toNumber(envelope.timestamp),
     receivedAt: envelope.receivedAt,
     unidentifiedDeliveryReceived: envelope.unidentifiedDeliveryReceived,
     message,
@@ -451,8 +448,6 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
 }
 
 function createSentMessage(data: MessageCreationData): MessageModel {
-  const { Lodash: _ } = window;
-
   const now = Date.now();
   let sentTo = [];
 
@@ -652,8 +647,7 @@ export async function handleMessageEvent(event: any): Promise<void> {
       ourNumber,
       confirm,
       source,
-      isGroupMessage,
-      primarySource.key
+      primarySource
     ).ignore();
   });
 }

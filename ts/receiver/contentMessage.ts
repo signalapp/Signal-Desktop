@@ -8,6 +8,8 @@ import { toNumber } from 'lodash';
 import * as libsession from '../session';
 import { handleSessionRequestMessage } from './sessionHandling';
 import { handlePairingAuthorisationMessage } from './multidevice';
+import { MediumGroupRequestKeysMessage } from '../session/messages/outgoing';
+import { MultiDeviceProtocol } from '../session/protocols';
 
 import { handleSyncMessage } from './syncMessages';
 import { onError } from './errors';
@@ -288,9 +290,7 @@ async function decrypt(envelope: EnvelopePlus, ciphertext: any): Promise<any> {
         groupId,
       };
 
-      const requestKeysMessage = new libsession.Messages.Outgoing.MediumGroupRequestKeysMessage(
-        params
-      );
+      const requestKeysMessage = new MediumGroupRequestKeysMessage(params);
       const senderPubKey = new libsession.Types.PubKey(senderIdentity);
       // tslint:disable-next-line no-floating-promises
       libsession.getMessageQueue().send(senderPubKey, requestKeysMessage);
@@ -494,7 +494,7 @@ async function handleTypingMessage(
   // Groups don't have primary devices so we need to take that into consideration.
   const user = libsession.Types.PubKey.from(source);
   const primaryDevice = user
-    ? await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(user)
+    ? await MultiDeviceProtocol.getPrimaryDevice(user)
     : null;
 
   const convoId = groupId || (primaryDevice && primaryDevice.key) || source;

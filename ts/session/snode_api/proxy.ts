@@ -4,6 +4,7 @@ import https from 'https';
 import * as SnodePool from './snodePool';
 import { sleepFor } from '../../../js/modules/loki_primitives';
 import { SnodeResponse } from './onions';
+import _ from 'lodash';
 
 const snodeHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
@@ -197,7 +198,7 @@ export async function sendToProxy(
   targetNode: Snode,
   retryNumber: any = 0
 ): Promise<boolean | SnodeResponse> {
-  const { log, Lodash: _, StringView, libloki, libsignal } = window;
+  const { log, StringView, libloki, libsignal } = window;
 
   let snodePool = await SnodePool.getRandomSnodePool();
 
@@ -226,7 +227,12 @@ export async function sendToProxy(
     _.find(snodePool, { pubkey_ed25519: targetNode.pubkey_ed25519 })
   );
 
-  const randSnode = window.Lodash.sample(snodePoolSafe);
+  const randSnode = _.sample(snodePoolSafe);
+
+  if (!randSnode) {
+    log.error('No snodes left for a proxy request');
+    return false;
+  }
 
   // Don't allow arbitrary URLs, only snodes and loki servers
   const url = `https://${randSnode.ip}:${randSnode.port}/proxy`;

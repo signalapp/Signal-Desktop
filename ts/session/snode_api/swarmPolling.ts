@@ -3,7 +3,7 @@ import { getSnodesFor, Snode } from './snodePool';
 import { retrieveNextMessages } from './serviceNodeAPI';
 import { SignalService } from '../../protobuf';
 import * as Receiver from '../../receiver/receiver';
-// import { retrieveNextMessages, getSnodesForPubkey } from './serviceNodeAPI';
+import _ from 'lodash';
 
 import { StringUtils } from '../../session/utils';
 
@@ -104,8 +104,6 @@ export class SwarmPolling {
   }
 
   private async pollForAllKeys() {
-    const { Lodash: _ } = window;
-
     const directPromises = this.pubkeys.map(async pk => {
       return this.pollOnceForKey(pk);
     });
@@ -170,8 +168,6 @@ export class SwarmPolling {
   ): Promise<Array<any>> {
     // console.warn('Polling node: ', node.pubkey_ed25519);
 
-    const { Lodash: _ } = window;
-
     const edkey = node.pubkey_ed25519;
 
     const pkStr = pubkey.key ? pubkey.key : pubkey;
@@ -197,8 +193,6 @@ export class SwarmPolling {
   }
 
   private async pollOnceForKey(pubkey: PubKey) {
-    const { Lodash: _ } = window;
-
     // NOTE: sometimes pubkey is string, sometimes it is object, so
     // accept both until this is fixed:
     const pk = pubkey.key ? pubkey.key : pubkey;

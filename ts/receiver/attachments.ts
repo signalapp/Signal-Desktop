@@ -1,4 +1,5 @@
 import { MessageModel } from '../../js/models/messages';
+import _ from 'lodash';
 
 import * as Data from '../../js/modules/data';
 
@@ -6,8 +7,6 @@ import * as Data from '../../js/modules/data';
 let webAPI: any;
 
 export async function downloadAttachment(attachment: any) {
-  const _ = window.Lodash;
-
   if (!webAPI) {
     webAPI = window.WebAPI.connect();
   }
@@ -204,7 +203,6 @@ async function processGroupAvatar(message: MessageModel): Promise<boolean> {
 export async function queueAttachmentDownloads(
   message: MessageModel
 ): Promise<boolean> {
-  const _ = window.Lodash;
   const { Whisper } = window;
 
   let count = 0;

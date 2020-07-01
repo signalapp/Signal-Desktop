@@ -2,8 +2,7 @@ import { SignalService } from '../protobuf';
 import { ClosedGroupRequestInfoMessage } from '../session/messages/outgoing/content/data/group/ClosedGroupRequestInfoMessage';
 import { getMessageQueue } from '../session';
 import { PubKey } from '../session/types';
-
-const _ = window.Lodash;
+import _ from 'lodash';
 
 function isGroupBlocked(groupId: string) {
   return (
