@@ -4,6 +4,7 @@ import { retrieveNextMessages } from './serviceNodeAPI';
 import { SignalService } from '../../protobuf';
 import * as Receiver from '../../receiver/receiver';
 import _ from 'lodash';
+import * as Data from '../../../js/modules/data';
 
 import { StringUtils } from '../../session/utils';
 
@@ -16,7 +17,7 @@ interface Message {
 }
 
 // Some websocket nonsence
-export function processMessage(message: any, options: any = {}) {
+export function processMessage(message: string, options: any = {}) {
   try {
     const dataPlaintext = new Uint8Array(StringUtils.encode(message, 'base64'));
     const messageBuf = SignalService.WebSocketMessage.decode(dataPlaintext);
@@ -87,18 +88,18 @@ export class SwarmPolling {
     }
 
     const incomingHashes = messages.map((m: Message) => m.hash);
-    const dupHashes = await window.Signal.Data.getSeenMessagesByHashList(
-      incomingHashes
-    );
+
+    const dupHashes = await Data.getSeenMessagesByHashList(incomingHashes);
     const newMessages = messages.filter(
       (m: Message) => !dupHashes.includes(m.hash)
     );
+
     if (newMessages.length) {
       const newHashes = newMessages.map((m: Message) => ({
         expiresAt: m.expiration,
         hash: m.hash,
       }));
-      await window.Signal.Data.saveSeenMessageHashes(newHashes);
+      await Data.saveSeenMessageHashes(newHashes);
     }
     return newMessages;
   }
@@ -125,7 +126,7 @@ export class SwarmPolling {
   ): Promise<void> {
     const pkStr = (pubkey.key ? pubkey.key : pubkey) as string;
 
-    await window.Signal.Data.updateLastHash({
+    await Data.updateLastHash({
       convoId: pkStr,
       snode: edkey,
       hash,
@@ -148,10 +149,7 @@ export class SwarmPolling {
     const nodeRecords = this.lastHashes[nodeEdKey];
 
     if (!nodeRecords || !nodeRecords[pubkey]) {
-      const lastHash = await window.Signal.Data.getLastHashBySnode(
-        pubkey,
-        nodeEdKey
-      );
+      const lastHash = await Data.getLastHashBySnode(pubkey, nodeEdKey);
 
       return lastHash || '';
     } else {
@@ -166,7 +164,6 @@ export class SwarmPolling {
     node: Snode,
     pubkey: PubKey
   ): Promise<Array<any>> {
-    // console.warn('Polling node: ', node.pubkey_ed25519);
 
     const edkey = node.pubkey_ed25519;
 

@@ -128,7 +128,7 @@ async function handleRequestDetail(
 ): Promise<void> {
   const { textsecure } = window;
 
-  const envelope : any = SignalService.Envelope.decode(plaintext);
+  const envelope: any = SignalService.Envelope.decode(plaintext);
 
   // After this point, decoding errors are not the server's
   //   fault, and we should handle them gracefully and tell the
@@ -147,7 +147,7 @@ async function handleRequestDetail(
     // plaintext (and protobuf.Envelope) does not have that field...
     envelope.source = options.conversationId;
     // tslint:disable-next-line no-parameter-reassignment
-    plaintext = textsecure.protobuf.Envelope.encode(envelope).toArrayBuffer();
+    plaintext = SignalService.Envelope.encode(envelope).finish();
     envelope.senderIdentity = senderIdentity;
   }
 
@@ -241,12 +241,6 @@ async function queueCached(item: any) {
     if (decrypted) {
       const payloadPlaintext = StringUtils.encode(decrypted, 'base64');
 
-      if (typeof payloadPlaintext === 'string') {
-        // payloadPlaintext = await MessageReceiver.stringToArrayBuffer(
-        //   payloadPlaintext
-        // );
-      }
-
       // Convert preKeys to array buffer
       if (typeof envelope.preKeyBundleMessage === 'string') {
         // envelope.preKeyBundleMessage = await MessageReceiver.stringToArrayBuffer(
@@ -279,7 +273,7 @@ async function queueCached(item: any) {
   }
 }
 
-async function queueDecryptedEnvelope(envelope: any, plaintext: any) {
+async function queueDecryptedEnvelope(envelope: any, plaintext: ArrayBuffer) {
   const id = getEnvelopeId(envelope);
   window.log.info('queueing decrypted envelope', id);
 
@@ -298,7 +292,10 @@ async function queueDecryptedEnvelope(envelope: any, plaintext: any) {
   });
 }
 
-async function handleDecryptedEnvelope(envelope: EnvelopePlus, plaintext: any) {
+async function handleDecryptedEnvelope(
+  envelope: EnvelopePlus,
+  plaintext: ArrayBuffer
+) {
   // if (this.stoppingProcessing) {
   //   return Promise.resolve();
   // }

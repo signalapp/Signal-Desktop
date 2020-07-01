@@ -8,7 +8,10 @@ import { toNumber } from 'lodash';
 import * as libsession from '../session';
 import { handleSessionRequestMessage } from './sessionHandling';
 import { handlePairingAuthorisationMessage } from './multidevice';
-import { MediumGroupRequestKeysMessage } from '../session/messages/outgoing';
+import {
+  MediumGroupRequestKeysMessage,
+  ReceiptMessage,
+} from '../session/messages/outgoing';
 import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
 import { PubKey } from '../session/types';
 
@@ -29,7 +32,7 @@ export async function handleContentMessage(envelope: EnvelopePlus) {
 
 async function decryptForMediumGroup(
   envelope: EnvelopePlus,
-  ciphertextObj: any
+  ciphertextObj: ArrayBuffer
 ) {
   const { textsecure, dcodeIO, libloki } = window;
 
@@ -47,9 +50,9 @@ async function decryptForMediumGroup(
   const {
     ciphertext: outerCiphertext,
     ephemeralKey,
-  } = textsecure.protobuf.MediumGroupContent.decode(ciphertextObj);
+  } = SignalService.MediumGroupContent.decode(new Uint8Array(ciphertextObj));
 
-  const ephemKey = ephemeralKey.toArrayBuffer();
+  const ephemKey = ephemeralKey.buffer;
   const secretKey = dcodeIO.ByteBuffer.wrap(
     secretKeyHex,
     'hex'
@@ -58,16 +61,15 @@ async function decryptForMediumGroup(
   const mediumGroupCiphertext = await libloki.crypto.decryptForPubkey(
     secretKey,
     ephemKey,
-    outerCiphertext.toArrayBuffer()
+    outerCiphertext.buffer
   );
 
-  const {
-    ciphertext,
-    keyIdx,
-  } = textsecure.protobuf.MediumGroupCiphertext.decode(mediumGroupCiphertext);
+  const { ciphertext, keyIdx } = SignalService.MediumGroupCiphertext.decode(
+    mediumGroupCiphertext
+  );
 
   const plaintext = await window.SenderKeyAPI.decryptWithSenderKey(
-    ciphertext.toArrayBuffer(),
+    ciphertext.buffer,
     keyIdx,
     groupId,
     senderIdentity
@@ -206,7 +208,7 @@ async function decryptUnidentifiedSender(
 
 async function doDecrypt(
   envelope: EnvelopePlus,
-  ciphertext: any,
+  ciphertext: ArrayBuffer,
   address: any
 ): Promise<ArrayBuffer | null> {
   const { textsecure, libloki } = window;
@@ -229,9 +231,7 @@ async function doDecrypt(
         address
       );
 
-      return fallBackSessionCipher
-        .decrypt(ciphertext.toArrayBuffer())
-        .then(unpad);
+      return fallBackSessionCipher.decrypt(ciphertext).then(unpad);
     }
     case SignalService.Envelope.Type.PREKEY_BUNDLE:
       window.log.info('prekey message from', getEnvelopeId(envelope));
@@ -241,14 +241,17 @@ async function doDecrypt(
         address
       );
     case SignalService.Envelope.Type.UNIDENTIFIED_SENDER: {
-      return decryptUnidentifiedSender(envelope, ciphertext.toArrayBuffer());
+      return decryptUnidentifiedSender(envelope, ciphertext);
     }
     default:
       throw new Error('Unknown message type');
   }
 }
 
-async function decrypt(envelope: EnvelopePlus, ciphertext: any): Promise<any> {
+async function decrypt(
+  envelope: EnvelopePlus,
+  ciphertext: ArrayBuffer
+): Promise<any> {
   const { textsecure, libsignal, log } = window;
 
   // Envelope.source will be null on UNIDENTIFIED_SENDER
@@ -332,11 +335,11 @@ async function decrypt(envelope: EnvelopePlus, ciphertext: any): Promise<any> {
 
 export async function innerHandleContentMessage(
   envelope: EnvelopePlus,
-  plaintext: any
+  plaintext: ArrayBuffer
 ): Promise<void> {
-  const { ConversationController, textsecure } = window;
+  const { ConversationController } = window;
 
-  const content = textsecure.protobuf.Content.decode(plaintext);
+  const content = SignalService.Content.decode(new Uint8Array(plaintext));
 
   const { SESSION_REQUEST } = SignalService.Envelope.Type;
 
@@ -352,6 +355,11 @@ export async function innerHandleContentMessage(
   }
 
   if (content.pairingAuthorisation) {
+    if (!content.dataMessage || !content.syncMessage) {
+      window.log.error('Missing fields in pairingAuthorisation');
+      return;
+    }
+
     await handlePairingAuthorisationMessage(
       envelope,
       content.pairingAuthorisation,
@@ -426,10 +434,11 @@ export function onDeliveryReceipt(source: any, timestamp: any) {
 
 async function handleReceiptMessage(
   envelope: EnvelopePlus,
-  receiptMessage: SignalService.ReceiptMessage
+  receiptMessage: SignalService.IReceiptMessage
 ) {
-  const { textsecure } = window;
-  const { type, timestamp } = receiptMessage;
+  const receipt = receiptMessage as SignalService.ReceiptMessage;
+
+  const { type, timestamp } = receipt;
 
   const results = [];
   if (type === SignalService.ReceiptMessage.Type.DELIVERY) {
@@ -464,9 +473,11 @@ async function handleCallMessage(envelope: EnvelopePlus) {
 
 async function handleTypingMessage(
   envelope: EnvelopePlus,
-  typingMessage: SignalService.TypingMessage
+  iTypingMessage: SignalService.ITypingMessage
 ): Promise<void> {
   const ev = new Event('typing');
+
+  const typingMessage = iTypingMessage as SignalService.TypingMessage;
 
   const { ConversationController } = window;
   const { timestamp, groupId, action } = typingMessage;

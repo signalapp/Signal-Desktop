@@ -2,9 +2,9 @@ import { EnvelopePlus } from './types';
 import { SignalService } from '../protobuf';
 import * as libsession from './../session';
 import { toNumber } from 'lodash';
-import { PubKey }  from '../session/types';
+import { PubKey } from '../session/types';
 import { SessionEstablishedMessage } from '../session/messages/outgoing';
-import { SessionProtocol } from '../session/protocols'
+import { SessionProtocol } from '../session/protocols';
 
 export async function handleEndSession(number: string): Promise<void> {
   window.log.info('got end session');
@@ -110,9 +110,9 @@ export async function handleSessionRequestMessage(
 
     const user = new PubKey(envelope.source);
 
-    const sessionEstablished = new SessionEstablishedMessage(
-      { timestamp: Date.now() }
-    );
+    const sessionEstablished = new SessionEstablishedMessage({
+      timestamp: Date.now(),
+    });
     await libsession.getMessageQueue().send(user, sessionEstablished);
 
     libloki.api.sendSessionEstablishedMessage(envelope.source);

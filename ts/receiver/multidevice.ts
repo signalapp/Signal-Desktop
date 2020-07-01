@@ -357,9 +357,7 @@ async function onContactReceived(details: any) {
     // when we do not have a session with it already
     deviceConversations.forEach(device => {
       // tslint:disable-next-line: no-floating-promises
-      SessionProtocol.sendSessionRequestIfNeeded(
-        new PubKey(device.id)
-      );
+      SessionProtocol.sendSessionRequestIfNeeded(new PubKey(device.id));
     });
 
     if (details.profileKey) {

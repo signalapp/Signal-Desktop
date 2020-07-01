@@ -14,7 +14,7 @@ import { MultiDeviceProtocol } from '../session/protocols';
 
 export async function handleSyncMessage(
   envelope: EnvelopePlus,
-  syncMessage: SignalService.SyncMessage
+  syncMessage: SignalService.ISyncMessage
 ): Promise<void> {
   const { textsecure } = window;
 

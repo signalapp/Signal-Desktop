@@ -254,7 +254,7 @@ function isMessageEmpty(message: SignalService.DataMessage) {
 
 export async function handleDataMessage(
   envelope: EnvelopePlus,
-  dataMessage: SignalService.DataMessage
+  dataMessage: SignalService.IDataMessage
 ): Promise<void> {
   window.log.info('data message from', getEnvelopeId(envelope));
 
@@ -264,7 +264,10 @@ export async function handleDataMessage(
   }
 
   // tslint:disable-next-line no-bitwise
-  if (dataMessage.flags & SignalService.DataMessage.Flags.END_SESSION) {
+  if (
+    dataMessage.flags &&
+    dataMessage.flags & SignalService.DataMessage.Flags.END_SESSION
+  ) {
     await handleEndSession(envelope.source);
     return;
   }
