@@ -326,7 +326,7 @@
       }
 
       msg.set({
-        sent_to: _.union(sentTo, m.device),
+        sent_to: _.union(sentTo, [m.device]),
         sent: true,
         expirationStartTimestamp: Date.now(),
         // unidentifiedDeliveries: result.unidentifiedDeliveries,
@@ -366,7 +366,6 @@
         msg.set({ sentSync: false });
       }
       msg.set({
-        // sent_to: _.union(sentTo, m.device),
         sent: true,
         expirationStartTimestamp,
         // unidentifiedDeliveries: result.unidentifiedDeliveries,

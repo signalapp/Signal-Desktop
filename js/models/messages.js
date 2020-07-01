@@ -5,7 +5,6 @@
   filesize,
   ConversationController,
   MessageController,
-  getAccountManager,
   i18n,
   Signal,
   textsecure,
@@ -1003,7 +1002,9 @@
       }
 
       this.set({ errors: null });
-
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
       const conversation = this.getConversation();
       const intendedRecipients = this.get('recipients') || [];
       const successfulRecipients = this.get('sent_to') || [];
@@ -1014,7 +1015,7 @@
       //   : null;
 
       let recipients = _.intersection(intendedRecipients, currentRecipients);
-      recipients = _.without(recipients, successfulRecipients);
+      recipients = recipients.filter(key => !successfulRecipients.includes(key));
 
       if (!recipients.length) {
         window.log.warn('retrySend: Nobody to send to!');
@@ -1032,6 +1033,7 @@
         attachments: attachmentsWithData,
         now: this.get('sent_at'),
       });
+
       // TODO add logic for attachments, quote and preview here
       // don't blindly reuse the one from loadQuoteData loadPreviewData and getLongMessageAttachment.
       // they have similar data structure to the ones we need
