@@ -1,5 +1,5 @@
 import { ConversationType } from '../../ts/state/ducks/conversations';
-import { Mesasge } from '../../ts/types/Message';
+import { Message } from '../../ts/types/Message';
 
 type IdentityKey = {
   id: string;
@@ -223,7 +223,7 @@ export function searchMessagesInConversation(
 ): Promise<any>;
 export function getMessageCount(): Promise<number>;
 export function saveMessage(
-  data: Mesasge,
+  data: Message,
   { forceSave, Message }?: { forceSave: any; Message: any }
 ): Promise<string>;
 export function cleanSeenMessages(): Promise<void>;
