@@ -413,10 +413,10 @@ async function createWindow() {
      */
 
     if (mainWindow.isFullScreen()) {
-      mainWindow.once('leave-full-screen', () => mainWindow.hide())
-      mainWindow.setFullScreen(false)
+      mainWindow.once('leave-full-screen', () => mainWindow.hide());
+      mainWindow.setFullScreen(false);
     } else {
-      mainWindow.hide()
+      mainWindow.hide();
     }
 
     // On Mac, or on other platforms when the tray icon is in use, the window

@@ -43,7 +43,9 @@ export type Props = Pick<
   | 'onEditorSizeChange'
   | 'onEditorStateChange'
   | 'onTextTooLong'
-  | 'startingText' | 'clearQuotedMessage' | 'getQuotedMessage'
+  | 'startingText'
+  | 'clearQuotedMessage'
+  | 'getQuotedMessage'
 > &
   Pick<
     EmojiButtonProps,
