@@ -23,10 +23,20 @@ describe('Sync Message Utils', () => {
     const numConversations = 20;
     const primaryConversations = new Array(numConversations / 2)
       .fill({})
-      .map(() => new TestUtils.MockConversation({ type: TestUtils.MockConversationType.Primary }));
+      .map(
+        () =>
+          new TestUtils.MockConversation({
+            type: TestUtils.MockConversationType.Primary,
+          })
+      );
     const secondaryConversations = new Array(numConversations / 2)
       .fill({})
-      .map(() => new TestUtils.MockConversation({ type: TestUtils.MockConversationType.Secondary }));
+      .map(
+        () =>
+          new TestUtils.MockConversation({
+            type: TestUtils.MockConversationType.Secondary,
+          })
+      );
     const conversations = [...primaryConversations, ...secondaryConversations];
 
     const sandbox = sinon.createSandbox();

@@ -6,7 +6,7 @@ import {
 import { v4 as uuid } from 'uuid';
 import { OpenGroup } from '../../../session/types';
 import { generateFakePubKey, generateFakePubKeys } from './pubkey';
-import { ConversationAttributes } from '../../../../js/models/conversation';
+import { ConversationAttributes } from '../../../../js/models/conversations';
 
 export function generateChatMessage(identifier?: string): ChatMessage {
   return new ChatMessage({
@@ -73,9 +73,10 @@ export class MockConversation {
     this.id = params.id ?? generateFakePubKey().key;
     this.isPrimary = this.type === MockConversationType.Primary;
 
-    const members = this.type === MockConversationType.Group
-      ? params.members ?? generateFakePubKeys(10).map(m => m.key)
-      : [];
+    const members =
+      this.type === MockConversationType.Group
+        ? params.members ?? generateFakePubKeys(10).map(m => m.key)
+        : [];
 
     this.attributes = {
       members,
