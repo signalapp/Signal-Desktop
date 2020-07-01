@@ -1098,7 +1098,6 @@
 
         // Special-case the self-send case - we send only a sync message
         if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
-          this.trigger('pending');
           // FIXME audric add back profileKey
           return this.sendSyncMessageOnly(chatMessage);
         }
@@ -1106,14 +1105,12 @@
         if (conversation.isPrivate()) {
           const [number] = recipients;
           const recipientPubKey = new libsession.Types.PubKey(number);
-          this.trigger('pending');
 
           return libsession
             .getMessageQueue()
             .sendUsingMultiDevice(recipientPubKey, chatMessage);
         }
 
-        this.trigger('pending');
         // TODO should we handle medium groups message here too?
         // Not sure there is the concept of retrySend for those
         const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
@@ -1172,8 +1169,6 @@
           preview,
           quote,
         });
-
-        this.trigger('pending');
 
         // Special-case the self-send case - we send only a sync message
         if (number === this.OUR_NUMBER) {

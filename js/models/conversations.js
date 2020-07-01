@@ -1279,7 +1279,6 @@
           Message: Whisper.Message,
         });
         message.set({ id });
-        message.markPendingSend();
 
         this.set({
           lastMessage: model.getNotificationText(),
@@ -1840,7 +1839,6 @@
         const mediumGroupCreateMessage = new libsession.Messages.Outgoing.MediumGroupCreateMessage(
           createParams
         );
-        message.markPendingSend();
 
         members.forEach(member => {
           const memberPubKey = new libsession.Types.PubKey(member);

@@ -10,6 +10,7 @@
   Whisper,
   textsecure,
   Signal,
+  libsession,
   _
 */
 
@@ -316,17 +317,21 @@
 
       // Handle the sync logic here
       if (!isOurDevice && !msg.get('synced') && !msg.get('sentSync')) {
-        // FIXME audric send the syncMessage
-        // const contentDecoded = textsecure.protobuf.Content.decode(m.plainTextBuffer);
-        // const { dataMessage } = contentDecoded;
+        const contentDecoded = textsecure.protobuf.Content.decode(
+          m.plainTextBuffer
+        );
+        const { dataMessage } = contentDecoded;
+        msg.sendSyncMessageOnly(dataMessage);
 
         msg.set({ sentSync: true });
       } else if (isOurDevice && msg.get('sentSync')) {
         msg.set({ synced: true });
       }
-
+      const primaryPubKey = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+        m.device
+      );
       msg.set({
-        sent_to: _.union(sentTo, [m.device]),
+        sent_to: _.union(sentTo, [primaryPubKey.key]),
         sent: true,
         expirationStartTimestamp: Date.now(),
         // unidentifiedDeliveries: result.unidentifiedDeliveries,
@@ -355,8 +360,6 @@
           await c.getProfiles();
         }
       }
-      // if (result.successfulNumbers.length > 0) {
-      //   const sentTo = this.get('sent_to') || [];
 
       const expirationStartTimestamp = Date.now();
       if (
