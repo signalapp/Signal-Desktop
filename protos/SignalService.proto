@@ -142,7 +142,6 @@ message DataMessage {
     PROFILE_KEY_UPDATE        = 4;
     SESSION_RESTORE           = 64;
     UNPAIRING_REQUEST         = 128;
-    SESSION_REQUEST           = 256;
   }
 
   message Quote {
