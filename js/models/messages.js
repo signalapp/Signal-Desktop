@@ -1014,8 +1014,28 @@
       //   ? storage.get('profileKey')
       //   : null;
 
+      if (conversation.isPublic()) {
+        const openGroup = {
+          server: conversation.get('server'),
+          channel: conversation.get('channelId'),
+          conversationId: conversation.id,
+        };
+        const openGroupParams = {
+          identifier: this.id,
+          body: this.get('body'),
+          timestamp: Date.now(),
+          group: openGroup,
+        };
+        const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
+          openGroupParams
+        );
+        return libsession.getMessageQueue().sendToGroup(openGroupMessage);
+      }
+
       let recipients = _.intersection(intendedRecipients, currentRecipients);
-      recipients = recipients.filter(key => !successfulRecipients.includes(key));
+      recipients = recipients.filter(
+        key => !successfulRecipients.includes(key)
+      );
 
       if (!recipients.length) {
         window.log.warn('retrySend: Nobody to send to!');
