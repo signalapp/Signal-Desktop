@@ -458,6 +458,8 @@
           this.onEditorStateChange(msg, caretLocation),
         onTextTooLong: () => this.showToast(Whisper.MessageBodyTooLongToast),
         onChooseAttachment: this.onChooseAttachment.bind(this),
+        getQuotedMessage: () => this.model.get('quotedMessageId'),
+        clearQuotedMessage: () => this.setQuoteMessage(null),
         micCellEl,
         attachmentListEl,
       };
@@ -2582,8 +2584,7 @@
         this.quotedMessage = message;
 
         if (message) {
-          const quote = await this.model.makeQuote(this.quotedMessage);
-          this.quote = quote;
+          this.quote = await this.model.makeQuote(this.quotedMessage);
 
           this.focusMessageFieldAndClearDisabled();
         }

@@ -42,6 +42,8 @@ export type Props = {
   onTextTooLong(): unknown;
   onPickEmoji(o: EmojiPickDataType): unknown;
   onSubmit(message: string): unknown;
+  getQuotedMessage(): unknown;
+  clearQuotedMessage(): unknown;
 };
 
 export type InputApi = {
@@ -217,6 +219,8 @@ export const CompositionInput = ({
   onSubmit,
   skinTone,
   startingText,
+  getQuotedMessage,
+  clearQuotedMessage,
 }: Props) => {
   const [editorRenderState, setEditorRenderState] = React.useState(
     getInitialEditorState(startingText)
@@ -462,6 +466,8 @@ export const CompositionInput = ({
       if (emojiResults.length > 0) {
         e.preventDefault();
         resetEmojiResults();
+      } else if (getQuotedMessage()) {
+        clearQuotedMessage();
       }
     },
     [resetEmojiResults, emojiResults]
