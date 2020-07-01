@@ -1166,8 +1166,7 @@ class LokiAppDotNetServerAPI {
     );
 
     if (statusCode !== 200) {
-      log.warn('Failed to upload avatar to fileserver');
-      return null;
+      throw new Error(`Failed to upload avatar to ${this.baseServerUrl}`);
     }
 
     const url =
@@ -1175,10 +1174,14 @@ class LokiAppDotNetServerAPI {
       response.data.avatar_image &&
       response.data.avatar_image.url;
 
+    if (!url) {
+      throw new Error(`Failed to upload data: Invalid url.`);
+    }
+
     // We don't use the server id for avatars
     return {
       url,
-      id: null,
+      id: undefined,
     };
   }
 
@@ -1195,12 +1198,16 @@ class LokiAppDotNetServerAPI {
       options
     );
     if (statusCode !== 200) {
-      log.warn('Failed to upload data to server', this.baseServerUrl);
-      return null;
+      throw new Error(`Failed to upload data to server: ${this.baseServerUrl}`);
     }
 
     const url = response.data && response.data.url;
     const id = response.data && response.data.id;
+
+    if (!url || !id) {
+      throw new Error(`Failed to upload data: Invalid url or id returned.`);
+    }
+
     return {
       url,
       id,
@@ -1220,6 +1227,17 @@ class LokiAppDotNetServerAPI {
     });
 
     return this.uploadData(formData);
+  }
+
+  putAvatar(buf) {
+    const formData = new FormData();
+    const buffer = Buffer.from(buf);
+    formData.append('avatar', buffer, {
+      contentType: 'application/octet-stream',
+      name: 'avatar',
+      filename: 'attachment',
+    });
+    return this.uploadAvatar(formData);
   }
 }
 

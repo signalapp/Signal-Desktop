@@ -5,6 +5,7 @@ import { SyncMessageUtils } from '../../../session/utils/';
 import { TestUtils } from '../../test-utils';
 import { UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
+import { SyncMessage } from '../../../session/messages/outgoing';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');
@@ -13,35 +14,6 @@ chai.use(chaiAsPromised);
 const { expect } = chai;
 
 describe('Sync Message Utils', () => {
-  describe('toSyncMessage', () => {
-    it('can convert to sync message', async () => {
-      const message = TestUtils.generateChatMessage();
-      const syncMessage = SyncMessageUtils.toSyncMessage(message);
-
-      // Stubbed
-      expect(syncMessage).to.not.exist;
-      // expect(syncMessage instanceof SyncMessage).to.equal(true, 'message was not converted to SyncMessage');
-    });
-  });
-
-  describe('canSync', () => {
-    it('syncable message returns true', async () => {
-      const message = TestUtils.generateChatMessage();
-
-      // Stubbed
-      const canSync = SyncMessageUtils.canSync(message);
-      expect(canSync).to.equal(false, '');
-    });
-
-    it('un-syncable message returns false', async () => {
-      const message = TestUtils.generateChatMessage();
-
-      // Stubbed
-      const canSync = SyncMessageUtils.canSync(message);
-      expect(canSync).to.equal(false, '');
-    });
-  });
-
   describe('getSyncContacts', () => {
     let getAllConversationsStub: sinon.SinonStub;
     let getOrCreateAndWaitStub: sinon.SinonStub;

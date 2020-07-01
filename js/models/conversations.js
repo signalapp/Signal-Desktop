@@ -1191,6 +1191,18 @@
       };
     },
 
+    toOpenGroup() {
+      if (!this.isPublic()) {
+        return undefined;
+      }
+
+      return new libsession.Types.OpenGroup({
+        server: this.get('server'),
+        channel: this.get('channelId'),
+        conversationId: this.id,
+      });
+    },
+
     async sendMessage(
       body,
       attachments,
@@ -1291,122 +1303,111 @@
           return null;
         }
 
-        const attachmentsWithData = await Promise.all(
-          messageWithSchema.attachments.map(loadAttachmentData)
-        );
+        try {
+          const uploads = await message.uploadData();
 
-        const {
-          body: messageBody,
-          attachments: finalAttachments,
-        } = Whisper.Message.getLongMessageAttachment({
-          body,
-          attachments: attachmentsWithData,
-          now,
-        });
-
-        // FIXME audric add back profileKey
-        const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
-          body: messageBody,
-          timestamp: Date.now(),
-          attachments: finalAttachments,
-          expireTimer,
-          preview,
-          quote,
-        });
-        // Start handle ChatMessages (attachments/quote/preview/body)
-        // FIXME AUDRIC handle attachments, quote, preview, profileKey
-
-        if (this.isMe()) {
-          await message.markMessageSyncOnly();
-          // sending is done in the 'private' case below
-        }
-        const options = {};
-
-        options.messageType = message.get('type');
-        options.isPublic = this.isPublic();
-        if (this.isPublic()) {
-          // FIXME audric add back attachments, quote, preview
-          const openGroup = {
-            server: this.get('server'),
-            channel: this.get('channelId'),
-            conversationId: this.id,
-          };
-          const openGroupParams = {
-            body,
+          // FIXME audric add back profileKey
+          const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+            body: uploads.body,
             timestamp: Date.now(),
-            group: openGroup,
-          };
-          const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
-            openGroupParams
-          );
-          await libsession.getMessageQueue().sendToGroup(openGroupMessage);
+            attachments: uploads.attachments,
+            expireTimer,
+            preview: uploads.preview,
+            quote: uploads.quote,
+          });
 
-          return null;
-        }
+          if (this.isMe()) {
+            return message.sendSyncMessageOnly(chatMessage);
+          }
+          const options = {};
 
-        options.sessionRestoration = sessionRestoration;
-        const destinationPubkey = new libsession.Types.PubKey(destination);
-        // Handle Group Invitation Message
-        if (groupInvitation) {
-          if (conversationType !== Message.PRIVATE) {
-            window.console.warning('Cannot send groupInvite to group chat');
+          options.messageType = message.get('type');
+          options.isPublic = this.isPublic();
+          if (this.isPublic()) {
+            const openGroup = this.toOpenGroup();
+
+            const openGroupParams = {
+              body,
+              timestamp: Date.now(),
+              group: openGroup,
+            };
+            const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
+              openGroupParams
+            );
+            await libsession.getMessageQueue().sendToGroup(openGroupMessage);
 
             return null;
           }
 
-          const groupInvitMessage = new libsession.Messages.Outgoing.GroupInvitationMessage(
-            {
-              serverName: groupInvitation.name,
-              channelId: groupInvitation.channelId,
-              serverAddress: groupInvitation.address,
+          options.sessionRestoration = sessionRestoration;
+          const destinationPubkey = new libsession.Types.PubKey(destination);
+          // Handle Group Invitation Message
+          if (groupInvitation) {
+            if (conversationType !== Message.PRIVATE) {
+              window.console.warning('Cannot send groupInvite to group chat');
+
+              return null;
             }
-          );
 
-          return libsession
-            .getMessageQueue()
-            .sendUsingMultiDevice(destinationPubkey, groupInvitMessage);
-        }
-
-        if (conversationType === Message.PRIVATE) {
-          return libsession
-            .getMessageQueue()
-            .sendUsingMultiDevice(destinationPubkey, chatMessage);
-        }
-
-        if (conversationType === Message.GROUP) {
-          if (this.isMediumGroup()) {
-            const mediumGroupChatMessage = new libsession.Messages.Outgoing.MediumGroupChatMessage(
+            const groupInvitMessage = new libsession.Messages.Outgoing.GroupInvitationMessage(
               {
-                chatMessage,
-                groupId: destination,
+                serverName: groupInvitation.name,
+                channelId: groupInvitation.channelId,
+                serverAddress: groupInvitation.address,
               }
             );
-            const members = this.get('members');
-            await Promise.all(
-              members.map(async m => {
-                const memberPubKey = new libsession.Types.PubKey(m);
-                await libsession
-                  .getMessageQueue()
-                  .sendUsingMultiDevice(memberPubKey, mediumGroupChatMessage);
-              })
-            );
-          } else {
-            const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
-              {
-                chatMessage,
-                groupId: destination,
-              }
-            );
-            await libsession
+
+            return libsession
               .getMessageQueue()
-              .sendToGroup(closedGroupChatMessage);
+              .sendUsingMultiDevice(destinationPubkey, groupInvitMessage);
           }
-        } else {
-          throw new TypeError(
-            `Invalid conversation type: '${conversationType}'`
-          );
+
+          if (conversationType === Message.PRIVATE) {
+            return libsession
+              .getMessageQueue()
+              .sendUsingMultiDevice(destinationPubkey, chatMessage);
+          }
+
+          if (conversationType === Message.GROUP) {
+            if (this.isMediumGroup()) {
+              const mediumGroupChatMessage = new libsession.Messages.Outgoing.MediumGroupChatMessage(
+                {
+                  chatMessage,
+                  groupId: destination,
+                }
+              );
+              const members = this.get('members');
+              await Promise.all(
+                members.map(async m => {
+                  const memberPubKey = new libsession.Types.PubKey(m);
+                  await libsession
+                    .getMessageQueue()
+                    .sendUsingMultiDevice(memberPubKey, mediumGroupChatMessage);
+                })
+              );
+            } else {
+              const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
+                {
+                  chatMessage,
+                  groupId: destination,
+                }
+              );
+              await libsession
+                .getMessageQueue()
+                .sendToGroup(closedGroupChatMessage);
+            }
+          } else {
+            throw new TypeError(
+              `Invalid conversation type: '${conversationType}'`
+            );
+          }
+
+          return true;
+        } catch (e) {
+          await message.saveErrors(e);
+
+          return null;
         }
-        return true;
       });
     },
     wrapSend(promise) {
@@ -1646,8 +1647,10 @@
       };
 
       if (this.isMe()) {
-        await message.markMessageSyncOnly();
-        // sending of the message is handled in the 'private' case below
+        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+          expireUpdate
+        );
+        return message.sendSyncMessageOnly(expirationTimerMessage);
       }
 
       if (this.get('type') === 'private') {
@@ -1854,10 +1857,7 @@
       const groupUpdateMessage = new libsession.Messages.Outgoing.ClosedGroupUpdateMessage(
         updateParams
       );
-      libsession
-        .getMessageQueue()
-        .sendToGroup(groupUpdateMessage)
-        .catch(log.error);
+      await this.sendClosedGroupMessageWithSync(groupUpdateMessage);
     },
 
     sendGroupInfo(recipient) {
@@ -1925,9 +1925,43 @@
           quitGroup
         );
 
-        await libsession.getMessageQueue().sendToGroup(quitGroupMessage);
+        await this.sendClosedGroupMessageWithSync(quitGroupMessage);
 
         this.updateTextInputState();
+      }
+    },
+
+    async sendClosedGroupMessageWithSync(message) {
+      const {
+        ClosedGroupMessage,
+        ClosedGroupChatMessage,
+      } = libsession.Messages.Outgoing;
+      if (!(message instanceof ClosedGroupMessage)) {
+        throw new Error('Invalid closed group message.');
+      }
+
+      // Sync messages for Chat Messages need to be constructed after confirming send was successful.
+      if (message instanceof ClosedGroupChatMessage) {
+        throw new Error(
+          'ClosedGroupChatMessage should be constructed manually and sent'
+        );
+      }
+
+      try {
+        await libsession.getMessageQueue().sendToGroup(message);
+
+        const syncMessage = libsession.Utils.SyncMessageUtils.getSentSyncMessage(
+          {
+            destination: message.groupId,
+            message,
+          }
+        );
+
+        if (syncMessage) {
+          await libsession.getMessageQueue().sendSyncMessage(syncMessage);
+        }
+      } catch (e) {
+        window.log.error(e);
       }
     },
 

@@ -29,7 +29,7 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
     return this.getDefaultTTL();
   }
 
-  protected dataProto(): SignalService.DataMessage {
+  public dataProto(): SignalService.DataMessage {
     const data = new SignalService.DataMessage();
 
     const groupMessage = new SignalService.GroupContext();

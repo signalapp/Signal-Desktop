@@ -231,6 +231,18 @@ describe('MessageQueue', () => {
       expect(args[0]).to.have.same.members(devices);
       expect(args[1]).to.equal(message);
     });
+
+    it('should send sync message if it was passed in', async () => {
+      const devices = TestUtils.generateFakePubKeys(3);
+      sandbox.stub(MultiDeviceProtocol, 'getAllDevices').resolves(devices);
+      const stub = sandbox.stub(messageQueueStub, 'sendSyncMessage').resolves();
+
+      const message = new TestSyncMessage({ timestamp: Date.now() });
+      await messageQueueStub.sendUsingMultiDevice(devices[0], message);
+
+      const args = stub.lastCall.args as [ContentMessage];
+      expect(args[0]).to.equal(message);
+    });
   });
 
   describe('sendMessageToDevices', () => {
@@ -242,51 +254,6 @@ describe('MessageQueue', () => {
 
       await messageQueueStub.sendMessageToDevices(devices, message);
       expect(pendingMessageCache.getCache()).to.have.length(devices.length);
-    });
-
-    it('should send sync message if possible', async () => {
-      hasSessionStub.returns(false);
-
-      sandbox.stub(SyncMessageUtils, 'canSync').returns(true);
-
-      sandbox
-        .stub(SyncMessageUtils, 'toSyncMessage')
-        .returns(new TestSyncMessage({ timestamp: Date.now() }));
-
-      // This stub ensures that the message won't process
-      const sendSyncMessageStub = sandbox
-        .stub(messageQueueStub, 'sendSyncMessage')
-        .resolves();
-
-      const ourDevices = [ourDevice, ...TestUtils.generateFakePubKeys(2)];
-      sandbox
-        .stub(MultiDeviceProtocol, 'getAllDevices')
-        .callsFake(async user => {
-          if (ourDevice.isEqual(user)) {
-            return ourDevices;
-          }
-
-          return [];
-        });
-
-      const devices = [...ourDevices, ...TestUtils.generateFakePubKeys(3)];
-      const message = TestUtils.generateChatMessage();
-
-      await messageQueueStub.sendMessageToDevices(devices, message);
-      expect(sendSyncMessageStub.called).to.equal(
-        true,
-        'sendSyncMessage was not called.'
-      );
-      expect(
-        pendingMessageCache.getCache().map(c => c.device)
-      ).to.not.have.members(
-        ourDevices.map(d => d.key),
-        'Sending regular messages to our own device is not allowed.'
-      );
-      expect(pendingMessageCache.getCache()).to.have.length(
-        devices.length - ourDevices.length,
-        'Messages should not be sent to our devices.'
-      );
     });
   });
 
@@ -320,6 +287,12 @@ describe('MessageQueue', () => {
     });
 
     describe('closed groups', async () => {
+      beforeEach(() => {
+        sandbox
+          .stub(MultiDeviceProtocol, 'getPrimaryDevice')
+          .resolves(new PrimaryPubKey(ourNumber));
+      });
+
       it('can send to closed group', async () => {
         const members = TestUtils.generateFakePubKeys(4).map(
           p => new PrimaryPubKey(p.key)
@@ -343,6 +316,19 @@ describe('MessageQueue', () => {
 
       it('wont send message to empty closed group', async () => {
         sandbox.stub(GroupUtils, 'getGroupMembers').resolves([]);
+        const sendUsingMultiDeviceStub = sandbox
+          .stub(messageQueueStub, 'sendUsingMultiDevice')
+          .resolves();
+
+        const message = TestUtils.generateClosedGroupMessage();
+        await messageQueueStub.sendToGroup(message);
+        expect(sendUsingMultiDeviceStub.callCount).to.equal(0);
+      });
+
+      it('wont send message to our device', async () => {
+        sandbox
+          .stub(GroupUtils, 'getGroupMembers')
+          .resolves([new PrimaryPubKey(ourNumber)]);
         const sendUsingMultiDeviceStub = sandbox
           .stub(messageQueueStub, 'sendUsingMultiDevice')
           .resolves();

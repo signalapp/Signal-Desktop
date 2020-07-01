@@ -4,6 +4,7 @@ import * as SyncMessageUtils from './SyncMessage';
 import * as StringUtils from './String';
 import * as PromiseUtils from './Promise';
 
+export * from './Attachments';
 export * from './TypedEmitter';
 export * from './JobQueue';
 

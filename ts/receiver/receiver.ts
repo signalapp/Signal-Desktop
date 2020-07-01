@@ -5,8 +5,7 @@ import { handleMessageJob } from './queuedJob';
 import { handleEndSession } from './sessionHandling';
 import { handleUnpairRequest } from './multidevice';
 import { EnvelopePlus } from './types';
-import { ConversationModel } from '../../js/models/conversation';
-import { EndSessionType, MessageModel } from '../../js/models/message';
+import { MessageModel } from '../../js/models/messages';
 import { downloadAttachment } from './attachments';
 import { handleMediumGroupUpdate } from './mediumGroups';
 

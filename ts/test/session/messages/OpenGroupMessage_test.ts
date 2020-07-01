@@ -64,7 +64,7 @@ describe('OpenGroupMessage', () => {
       size: 10,
       thumbnail: new Uint8Array(2),
       digest: new Uint8Array(3),
-      filename: 'filename',
+      fileName: 'filename',
       flags: 0,
       width: 10,
       height: 20,

@@ -13,12 +13,7 @@ import {
   TypingMessage,
 } from '../messages/outgoing';
 import { PendingMessageCache } from './PendingMessageCache';
-import {
-  GroupUtils,
-  JobQueue,
-  SyncMessageUtils,
-  TypedEventEmitter,
-} from '../utils';
+import { GroupUtils, JobQueue, TypedEventEmitter } from '../utils';
 import { PubKey } from '../types';
 import { MessageSender } from '.';
 import { MultiDeviceProtocol, SessionProtocol } from '../protocols';
@@ -39,44 +34,20 @@ export class MessageQueue implements MessageQueueInterface {
     user: PubKey,
     message: ContentMessage
   ): Promise<void> {
-    const userDevices = await MultiDeviceProtocol.getAllDevices(user.key);
+    if (message instanceof SyncMessage) {
+      return this.sendSyncMessage(message);
+    }
 
+    const userDevices = await MultiDeviceProtocol.getAllDevices(user.key);
     await this.sendMessageToDevices(userDevices, message);
   }
 
   public async send(device: PubKey, message: ContentMessage): Promise<void> {
-    await this.sendMessageToDevices([device], message);
-  }
-
-  public async sendMessageToDevices(
-    devices: Array<PubKey>,
-    message: ContentMessage
-  ) {
-    let currentDevices = [...devices];
-
-    // Sync to our devices if syncable
-    if (SyncMessageUtils.canSync(message)) {
-      const syncMessage = SyncMessageUtils.toSyncMessage(message);
-      if (!syncMessage) {
-        throw new Error(
-          'MessageQueue internal error occured: failed to make sync message'
-        );
-      }
-
-      await this.sendSyncMessage(syncMessage);
-
-      const ourDevices = await MultiDeviceProtocol.getOurDevices();
-      // Remove our devices from currentDevices
-      currentDevices = currentDevices.filter(
-        device => !ourDevices.some(d => device.isEqual(d))
-      );
+    if (message instanceof SyncMessage) {
+      return this.sendSyncMessage(message);
     }
 
-    const promises = currentDevices.map(async device => {
-      await this.process(device, message);
-    });
-
-    return Promise.all(promises);
+    await this.sendMessageToDevices([device], message);
   }
 
   public async sendToGroup(
@@ -120,7 +91,16 @@ export class MessageQueue implements MessageQueueInterface {
     }
 
     // Get devices in group
-    const recipients = await GroupUtils.getGroupMembers(groupId);
+    let recipients = await GroupUtils.getGroupMembers(groupId);
+
+    // Don't send to our own device as they'll likely be synced across.
+    const ourKey = await UserUtil.getCurrentDevicePubKey();
+    if (!ourKey) {
+      throw new Error('Cannot get current user public key');
+    }
+    const ourPrimary = await MultiDeviceProtocol.getPrimaryDevice(ourKey);
+    recipients = recipients.filter(member => !ourPrimary.isEqual(member));
+
     if (recipients.length === 0) {
       return;
     }
@@ -133,16 +113,15 @@ export class MessageQueue implements MessageQueueInterface {
     );
   }
 
-  public async sendSyncMessage(message: SyncMessage | undefined): Promise<any> {
+  public async sendSyncMessage(
+    message: SyncMessage | undefined
+  ): Promise<void> {
     if (!message) {
       return;
     }
 
     const ourDevices = await MultiDeviceProtocol.getOurDevices();
-    const promises = ourDevices.map(async device =>
-      this.process(device, message)
-    );
-    return Promise.all(promises);
+    await this.sendMessageToDevices(ourDevices, message);
   }
 
   public async processPending(device: PubKey) {
@@ -177,6 +156,17 @@ export class MessageQueue implements MessageQueueInterface {
         await jobQueue.addWithId(messageId, job);
       }
     });
+  }
+
+  public async sendMessageToDevices(
+    devices: Array<PubKey>,
+    message: ContentMessage
+  ) {
+    const promises = devices.map(async device => {
+      await this.process(device, message);
+    });
+
+    return Promise.all(promises);
   }
 
   private async processAllPending() {
