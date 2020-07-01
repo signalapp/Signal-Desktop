@@ -1,6 +1,6 @@
 import * as MessageUtils from './Messages';
 import * as GroupUtils from './Groups';
-import * as SyncMessageUtils from './SyncMessageUtils';
+import * as SyncMessageUtils from './SyncMessage';
 import * as StringUtils from './String';
 import * as PromiseUtils from './Promise';
 

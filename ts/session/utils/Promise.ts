@@ -34,7 +34,7 @@ export async function waitForTask<T>(
   return Promise.race([timeoutPromise, taskPromise]) as Promise<T>;
 }
 
-interface PollOptions {
+export interface PollOptions {
   timeout: number;
   interval: number;
 }
@@ -43,7 +43,7 @@ interface PollOptions {
  * Creates a promise which calls the `task` every `interval` until `done` is called or until `timeout` period is reached.
  * If `timeout` is reached then this will throw an Error.
  *
- * @param check The check which runs every `interval` ms.
+ * @param task The task which runs every `interval` ms.
  * @param options The polling options.
  */
 export async function poll(

@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { UserUtil } from '../../util/';
+import { UserUtil } from '../../util';
 import { getAllConversations } from '../../../js/modules/data';
 import { MultiDeviceProtocol } from '../protocols';
 import ByteBuffer from 'bytebuffer';
@@ -73,10 +73,7 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
     .filter(c => c.id !== primaryDevice.key);
 
   // Return unique contacts
-  return _.uniqBy(
-    [...primaryContacts, ...secondaryContacts],
-    device => !!device
-  );
+  return _.uniqBy([...primaryContacts, ...secondaryContacts], 'id');
 }
 
 export async function filterOpenGroupsConvos(

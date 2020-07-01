@@ -1,7 +1,7 @@
 import { ConversationType } from '../../ts/state/ducks/conversations';
-import { Mesasge } from '../../ts/types/Message';
+import { Message } from '../../ts/types/Message';
 
-type IdentityKey = {
+export type IdentityKey = {
   id: string;
   publicKey: ArrayBuffer;
   firstUse: boolean;
@@ -9,14 +9,14 @@ type IdentityKey = {
   nonblockingApproval: boolean;
 };
 
-type PreKey = {
+export type PreKey = {
   id: number;
   publicKey: ArrayBuffer;
   privateKey: ArrayBuffer;
   recipient: string;
 };
 
-type SignedPreKey = {
+export type SignedPreKey = {
   id: number;
   publicKey: ArrayBuffer;
   privateKey: ArrayBuffer;
@@ -25,14 +25,14 @@ type SignedPreKey = {
   signature: ArrayBuffer;
 };
 
-type ContactPreKey = {
+export type ContactPreKey = {
   id: number;
   identityKeyString: string;
   publicKey: ArrayBuffer;
   keyId: number;
 };
 
-type ContactSignedPreKey = {
+export type ContactSignedPreKey = {
   id: number;
   identityKeyString: string;
   publicKey: ArrayBuffer;
@@ -42,18 +42,18 @@ type ContactSignedPreKey = {
   confirmed: boolean;
 };
 
-type PairingAuthorisation = {
+export type PairingAuthorisation = {
   primaryDevicePubKey: string;
   secondaryDevicePubKey: string;
   requestSignature: ArrayBuffer;
   grantSignature?: ArrayBuffer;
 };
 
-type GuardNode = {
+export type GuardNode = {
   ed25519PubKey: string;
 };
 
-type SwarmNode = {
+export type SwarmNode = {
   address: string;
   ip: string;
   port: string;
@@ -61,19 +61,19 @@ type SwarmNode = {
   pubkey_x25519: string;
 };
 
-type StorageItem = {
+export type StorageItem = {
   id: string;
   value: any;
 };
 
-type SessionDataInfo = {
+export type SessionDataInfo = {
   id: string;
   number: string;
   deviceId: number;
   record: string;
 };
 
-type ServerToken = {
+export type ServerToken = {
   serverUrl: string;
   token: string;
 };
