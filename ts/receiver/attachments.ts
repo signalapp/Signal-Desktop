@@ -1,4 +1,4 @@
-import { MessageModel } from '../../js/models/message';
+import { MessageModel } from '../../js/models/messages';
 
 // TODO: Might convert it to a class later
 let webAPI: any;

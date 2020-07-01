@@ -24,7 +24,7 @@ export class GroupInvitationMessage extends DataMessage {
     return this.getDefaultTTL();
   }
 
-  protected dataProto(): SignalService.DataMessage {
+  public dataProto(): SignalService.DataMessage {
     const groupInvitation = new SignalService.DataMessage.GroupInvitation({
       serverAddress: this.serverAddress,
       channelId: this.channelId,

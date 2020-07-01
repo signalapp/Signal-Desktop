@@ -8,9 +8,7 @@ import { TestUtils } from '../../test-utils';
 import { UserUtil } from '../../../util';
 import { MessageEncrypter } from '../../../session/crypto';
 import { SignalService } from '../../../protobuf';
-import LokiPublicChatFactoryAPI from '../../../../js/modules/loki_public_chat_api';
 import { OpenGroupMessage } from '../../../session/messages/outgoing';
-import { LokiPublicChannelAPI } from '../../../../js/modules/loki_app_dot_net_api';
 import { EncryptionType } from '../../../session/types/EncryptionType';
 
 describe('MessageSender', () => {
@@ -38,15 +36,21 @@ describe('MessageSender', () => {
 
   describe('send', () => {
     const ourNumber = 'ourNumber';
-    let lokiMessageAPIStub: sinon.SinonStubbedInstance<LokiMessageAPI>;
+    let lokiMessageAPISendStub: sinon.SinonStub<
+      [string, Uint8Array, number, number],
+      Promise<void>
+    >;
     let encryptStub: sinon.SinonStub<[string, Uint8Array, EncryptionType]>;
 
     beforeEach(() => {
       // We can do this because LokiMessageAPI has a module export in it
-      lokiMessageAPIStub = sandbox.createStubInstance(LokiMessageAPI, {
-        sendMessage: sandbox.stub(),
+      lokiMessageAPISendStub = sandbox.stub<
+        [string, Uint8Array, number, number],
+        Promise<void>
+      >();
+      TestUtils.stubWindow('lokiMessageAPI', {
+        sendMessage: lokiMessageAPISendStub,
       });
-      TestUtils.stubWindow('lokiMessageAPI', lokiMessageAPIStub);
 
       encryptStub = sandbox.stub(MessageEncrypter, 'encrypt').resolves({
         envelopeType: SignalService.Envelope.Type.CIPHERTEXT,
@@ -70,28 +74,26 @@ describe('MessageSender', () => {
         encryptStub.throws(new Error('Failed to encrypt.'));
         const promise = MessageSender.send(rawMessage);
         await expect(promise).is.rejectedWith('Failed to encrypt.');
-        expect(lokiMessageAPIStub.sendMessage.callCount).to.equal(0);
+        expect(lokiMessageAPISendStub.callCount).to.equal(0);
       });
 
       it('should only call lokiMessageAPI once if no errors occured', async () => {
         await MessageSender.send(rawMessage);
-        expect(lokiMessageAPIStub.sendMessage.callCount).to.equal(1);
+        expect(lokiMessageAPISendStub.callCount).to.equal(1);
       });
 
       it('should only retry the specified amount of times before throwing', async () => {
-        lokiMessageAPIStub.sendMessage.throws(new Error('API error'));
+        lokiMessageAPISendStub.throws(new Error('API error'));
         const attempts = 2;
         const promise = MessageSender.send(rawMessage, attempts);
         await expect(promise).is.rejectedWith('API error');
-        expect(lokiMessageAPIStub.sendMessage.callCount).to.equal(attempts);
+        expect(lokiMessageAPISendStub.callCount).to.equal(attempts);
       });
 
       it('should not throw error if successful send occurs within the retry limit', async () => {
-        lokiMessageAPIStub.sendMessage
-          .onFirstCall()
-          .throws(new Error('API error'));
+        lokiMessageAPISendStub.onFirstCall().throws(new Error('API error'));
         await MessageSender.send(rawMessage, 3);
-        expect(lokiMessageAPIStub.sendMessage.callCount).to.equal(2);
+        expect(lokiMessageAPISendStub.callCount).to.equal(2);
       });
     });
 
@@ -120,7 +122,7 @@ describe('MessageSender', () => {
           ttl,
         });
 
-        const args = lokiMessageAPIStub.sendMessage.getCall(0).args;
+        const args = lokiMessageAPISendStub.getCall(0).args;
         expect(args[0]).to.equal(device);
         expect(args[2]).to.equal(timestamp);
         expect(args[3]).to.equal(ttl);
@@ -143,7 +145,7 @@ describe('MessageSender', () => {
           ttl: 1,
         });
 
-        const data = lokiMessageAPIStub.sendMessage.getCall(0).args[1];
+        const data = lokiMessageAPISendStub.getCall(0).args[1];
         const webSocketMessage = SignalService.WebSocketMessage.decode(data);
         expect(webSocketMessage.request?.body).to.not.equal(
           undefined,
@@ -182,7 +184,7 @@ describe('MessageSender', () => {
             ttl: 1,
           });
 
-          const data = lokiMessageAPIStub.sendMessage.getCall(0).args[1];
+          const data = lokiMessageAPISendStub.getCall(0).args[1];
           const webSocketMessage = SignalService.WebSocketMessage.decode(data);
           expect(webSocketMessage.request?.body).to.not.equal(
             undefined,
@@ -211,12 +213,13 @@ describe('MessageSender', () => {
   describe('sendToOpenGroup', () => {
     it('should send the message to the correct server and channel', async () => {
       // We can do this because LokiPublicChatFactoryAPI has a module export in it
-      const stub = sandbox.createStubInstance(LokiPublicChatFactoryAPI, {
-        findOrCreateChannel: sandbox.stub().resolves({
-          sendMessage: sandbox.stub(),
-        } as LokiPublicChannelAPI) as any,
+      const stub = sandbox.stub().resolves({
+        sendMessage: sandbox.stub(),
       });
-      TestUtils.stubWindow('lokiPublicChatAPI', stub);
+
+      TestUtils.stubWindow('lokiPublicChatAPI', {
+        findOrCreateChannel: stub,
+      });
 
       const group = {
         server: 'server',
@@ -231,11 +234,7 @@ describe('MessageSender', () => {
 
       await MessageSender.sendToOpenGroup(message);
 
-      const [
-        server,
-        channel,
-        conversationId,
-      ] = stub.findOrCreateChannel.getCall(0).args;
+      const [server, channel, conversationId] = stub.getCall(0).args;
       expect(server).to.equal(group.server);
       expect(channel).to.equal(group.channel);
       expect(conversationId).to.equal(group.conversationId);

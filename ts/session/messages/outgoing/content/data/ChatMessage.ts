@@ -10,7 +10,7 @@ export interface AttachmentPointer {
   size?: number;
   thumbnail?: Uint8Array;
   digest?: Uint8Array;
-  filename?: string;
+  fileName?: string;
   flags?: number;
   width?: number;
   height?: number;

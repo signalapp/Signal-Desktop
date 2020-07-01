@@ -914,11 +914,13 @@
                 profileKey
               );
 
-              const avatarPointer = await textsecure.messaging.uploadAvatar({
-                ...data,
-                data: encryptedData,
-                size: encryptedData.byteLength,
-              });
+              const avatarPointer = await libsession.Utils.AttachmentUtils.uploadAvatar(
+                {
+                  ...data,
+                  data: encryptedData,
+                  size: encryptedData.byteLength,
+                }
+              );
 
               ({ url } = avatarPointer);
 
@@ -1634,6 +1636,15 @@
         // sending of the message is handled in the 'private' case below
       }
     }
+
+    libsession.Protocols.SessionProtocol.checkSessionRequestExpiry().catch(
+      e => {
+        window.log.error(
+          'Error occured which checking for session request expiry',
+          e
+        );
+      }
+    );
 
     storage.onready(async () => {
       idleDetector.start();

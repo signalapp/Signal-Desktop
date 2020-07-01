@@ -1,9 +1,11 @@
 import { LocalizerType } from '../types/Util';
-import LokiMessageAPI from '../../js/modules/loki_message_api';
-import LokiPublicChatFactoryAPI from '../../js/modules/loki_public_chat_api';
+import { LokiMessageAPIInterface } from '../../js/modules/loki_message_api';
 import { LibsignalProtocol } from '../../libtextsecure/libsignal-protocol';
 import { SignalInterface } from '../../js/modules/signal';
 import { Libloki } from '../libloki';
+import { LokiPublicChatFactoryInterface } from '../js/modules/loki_public_chat_api';
+import { LokiAppDotNetServerInterface } from '../js/modules/loki_app_dot_net_api';
+import { LokiMessageInterface } from '../js/modules/loki_message_api';
 
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
@@ -48,8 +50,8 @@ declare global {
     log: any;
     lokiFeatureFlags: any;
     lokiFileServerAPI: LokiFileServerInstance;
-    lokiMessageAPI: LokiMessageAPI;
-    lokiPublicChatAPI: LokiPublicChatFactoryAPI;
+    lokiMessageAPI: LokiMessageInterface;
+    lokiPublicChatAPI: LokiPublicChatFactoryInterface;
     mnemonic: any;
     onLogin: any;
     passwordUtil: any;
@@ -71,6 +73,7 @@ declare global {
     toggleMenuBar: any;
     toggleSpellCheck: any;
     toggleTheme: any;
+    tokenlessFileServerAdnAPI: LokiAppDotNetServerInterface;
     userConfig: any;
     versionInfo: any;
   }
