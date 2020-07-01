@@ -9,7 +9,8 @@ import * as libsession from '../session';
 import { handleSessionRequestMessage } from './sessionHandling';
 import { handlePairingAuthorisationMessage } from './multidevice';
 import { MediumGroupRequestKeysMessage } from '../session/messages/outgoing';
-import { MultiDeviceProtocol } from '../session/protocols';
+import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
+import { PubKey } from '../session/types';
 
 import { handleSyncMessage } from './syncMessages';
 import { onError } from './errors';
@@ -178,9 +179,9 @@ async function decryptUnidentifiedSender(
   }
 
   // We might have substituted the type based on decrypted content
-  if (type === textsecure.protobuf.Envelope.Type.SESSION_REQUEST) {
+  if (type === SignalService.Envelope.Type.SESSION_REQUEST) {
     // eslint-disable-next-line no-param-reassign
-    envelope.type = textsecure.protobuf.Envelope.Type.SESSION_REQUEST;
+    envelope.type = SignalService.Envelope.Type.SESSION_REQUEST;
   }
 
   if (isBlocked(sender.getName())) {
@@ -216,12 +217,12 @@ async function doDecrypt(
   );
 
   switch (envelope.type) {
-    case textsecure.protobuf.Envelope.Type.CIPHERTEXT:
+    case SignalService.Envelope.Type.CIPHERTEXT:
       window.log.info('message from', getEnvelopeId(envelope));
       return lokiSessionCipher.decryptWhisperMessage(ciphertext).then(unpad);
-    case textsecure.protobuf.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT:
+    case SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT:
       return decryptForMediumGroup(envelope, ciphertext);
-    case textsecure.protobuf.Envelope.Type.SESSION_REQUEST: {
+    case SignalService.Envelope.Type.SESSION_REQUEST: {
       window.log.info('session-request message from ', envelope.source);
 
       const fallBackSessionCipher = new libloki.crypto.FallBackSessionCipher(
@@ -232,14 +233,14 @@ async function doDecrypt(
         .decrypt(ciphertext.toArrayBuffer())
         .then(unpad);
     }
-    case textsecure.protobuf.Envelope.Type.PREKEY_BUNDLE:
+    case SignalService.Envelope.Type.PREKEY_BUNDLE:
       window.log.info('prekey message from', getEnvelopeId(envelope));
       return decryptPreKeyWhisperMessage(
         ciphertext,
         lokiSessionCipher,
         address
       );
-    case textsecure.protobuf.Envelope.Type.UNIDENTIFIED_SENDER: {
+    case SignalService.Envelope.Type.UNIDENTIFIED_SENDER: {
       return decryptUnidentifiedSender(envelope, ciphertext.toArrayBuffer());
     }
     default:
@@ -291,7 +292,7 @@ async function decrypt(envelope: EnvelopePlus, ciphertext: any): Promise<any> {
       };
 
       const requestKeysMessage = new MediumGroupRequestKeysMessage(params);
-      const senderPubKey = new libsession.Types.PubKey(senderIdentity);
+      const senderPubKey = new PubKey(senderIdentity);
       // tslint:disable-next-line no-floating-promises
       libsession.getMessageQueue().send(senderPubKey, requestKeysMessage);
 
@@ -337,16 +338,16 @@ export async function innerHandleContentMessage(
 
   const content = textsecure.protobuf.Content.decode(plaintext);
 
-  const { SESSION_REQUEST } = textsecure.protobuf.Envelope.Type;
+  const { SESSION_REQUEST } = SignalService.Envelope.Type;
 
   await ConversationController.getOrCreateAndWait(envelope.source, 'private');
 
   if (envelope.type === SESSION_REQUEST) {
     await handleSessionRequestMessage(envelope, content);
   } else {
-    const device = new libsession.Types.PubKey(envelope.source);
+    const device = new PubKey(envelope.source);
 
-    await libsession.Protocols.SessionProtocol.onSessionEstablished(device);
+    await SessionProtocol.onSessionEstablished(device);
     await libsession.getMessageQueue().processPending(device);
   }
 
@@ -492,7 +493,7 @@ async function handleTypingMessage(
 
   // A sender here could be referring to a group.
   // Groups don't have primary devices so we need to take that into consideration.
-  const user = libsession.Types.PubKey.from(source);
+  const user = PubKey.from(source);
   const primaryDevice = user
     ? await MultiDeviceProtocol.getPrimaryDevice(user)
     : null;

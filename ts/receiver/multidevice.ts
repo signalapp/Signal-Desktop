@@ -3,13 +3,13 @@ import { EnvelopePlus } from './types';
 
 import * as Data from '../../js/modules/data';
 
-import * as libsession from '../session';
 import { SignalService } from '../protobuf';
 import { updateProfile } from './receiver';
 import { onVerified } from './syncMessages';
 
 import { StringUtils } from '../session/utils';
 import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
+import { PubKey } from '../session/types';
 
 async function unpairingRequestIsLegit(source: string, ourPubKey: string) {
   const { textsecure, storage, lokiFileServerAPI } = window;
@@ -358,7 +358,7 @@ async function onContactReceived(details: any) {
     deviceConversations.forEach(device => {
       // tslint:disable-next-line: no-floating-promises
       SessionProtocol.sendSessionRequestIfNeeded(
-        new libsession.Types.PubKey(device.id)
+        new PubKey(device.id)
       );
     });
 

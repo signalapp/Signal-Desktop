@@ -6,6 +6,7 @@ import { MessageModel } from '../../js/models/messages';
 import { PrimaryPubKey, PubKey } from '../session/types';
 import _ from 'lodash';
 import { MultiDeviceProtocol } from '../session/protocols';
+import { SignalService } from '../protobuf';
 
 async function handleGroups(
   conversation: ConversationModel,
@@ -13,7 +14,7 @@ async function handleGroups(
   source: any
 ): Promise<any> {
   const textsecure = window.textsecure;
-  const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
+  const GROUP_TYPES = SignalService.GroupContext.Type;
 
   // TODO: this should be primary device id!
   const ourNumber = textsecure.storage.user.getNumber();

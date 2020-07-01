@@ -19,7 +19,7 @@ export async function updateProfile(
   profile: SignalService.DataMessage.ILokiProfile,
   profileKey: any
 ) {
-  const { dcodeIO, textsecure, Signal, Lodash: _ } = window;
+  const { dcodeIO, textsecure, Signal } = window;
 
   // Retain old values unless changed:
   const newProfile = conversation.get('profile') || {};

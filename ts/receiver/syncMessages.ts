@@ -237,13 +237,13 @@ export async function onVerified(ev: any) {
   }
 
   switch (ev.verified.state) {
-    case textsecure.protobuf.Verified.State.DEFAULT:
+    case SignalService.Verified.State.DEFAULT:
       state = 'DEFAULT';
       break;
-    case textsecure.protobuf.Verified.State.VERIFIED:
+    case SignalService.Verified.State.VERIFIED:
       state = 'VERIFIED';
       break;
-    case textsecure.protobuf.Verified.State.UNVERIFIED:
+    case SignalService.Verified.State.UNVERIFIED:
       state = 'UNVERIFIED';
       break;
     default:

@@ -2,6 +2,9 @@ import { EnvelopePlus } from './types';
 import { SignalService } from '../protobuf';
 import * as libsession from './../session';
 import { toNumber } from 'lodash';
+import { PubKey }  from '../session/types';
+import { SessionEstablishedMessage } from '../session/messages/outgoing';
+import { SessionProtocol } from '../session/protocols'
 
 export async function handleEndSession(number: string): Promise<void> {
   window.log.info('got end session');
@@ -36,8 +39,8 @@ export async function handleSessionRequestMessage(
     return;
   }
 
-  const shouldProcessSessionRequest = await libsession.Protocols.SessionProtocol.shouldProcessSessionRequest(
-    new libsession.Types.PubKey(envelope.source),
+  const shouldProcessSessionRequest = await SessionProtocol.shouldProcessSessionRequest(
+    new PubKey(envelope.source),
     toNumber(envelope.timestamp)
   );
 
@@ -99,15 +102,15 @@ export async function handleSessionRequestMessage(
     );
     await builder.processPreKey(device);
 
-    await libsession.Protocols.SessionProtocol.onSessionRequestProcessed(
-      new libsession.Types.PubKey(envelope.source)
+    await SessionProtocol.onSessionRequestProcessed(
+      new PubKey(envelope.source)
     );
     log.debug('sending session established to', envelope.source);
     // We don't need to await the call below because we just want to send it off
 
-    const user = new libsession.Types.PubKey(envelope.source);
+    const user = new PubKey(envelope.source);
 
-    const sessionEstablished = new libsession.Messages.Outgoing.SessionEstablishedMessage(
+    const sessionEstablished = new SessionEstablishedMessage(
       { timestamp: Date.now() }
     );
     await libsession.getMessageQueue().send(user, sessionEstablished);

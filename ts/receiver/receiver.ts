@@ -55,7 +55,7 @@ async function handleEnvelope(envelope: EnvelopePlus) {
   //   return Promise.resolve();
   // }
 
-  if (envelope.type === textsecure.protobuf.Envelope.Type.RECEIPT) {
+  if (envelope.type === SignalService.Envelope.Type.RECEIPT) {
     return onDeliveryReceipt(envelope.source, envelope.timestamp);
   }
 
@@ -128,7 +128,7 @@ async function handleRequestDetail(
 ): Promise<void> {
   const { textsecure } = window;
 
-  const envelope = textsecure.protobuf.Envelope.decode(plaintext);
+  const envelope : any = SignalService.Envelope.decode(plaintext);
 
   // After this point, decoding errors are not the server's
   //   fault, and we should handle them gracefully and tell the
