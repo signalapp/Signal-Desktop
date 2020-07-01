@@ -1315,6 +1315,7 @@
             expireTimer,
             preview: uploads.preview,
             quote: uploads.quote,
+            lokiProfile: this.getOurProfile(),
           });
 
           if (this.isMe()) {
