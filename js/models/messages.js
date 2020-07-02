@@ -990,7 +990,8 @@
       });
     },
 
-    /* Uploads attachments, previews and quotes.
+    /**
+     * Uploads attachments, previews and quotes.
      * If body is too long then it is also converted to an attachment.
      *
      * @returns The uploaded data which includes: body, attachments, preview and quote.
@@ -1213,6 +1214,75 @@
       );
       this.set({ errors: errors[1] });
       return errors[0][0];
+    },
+
+    async handleMessageSentSuccess(sentMessage) {
+      const sentTo = this.get('sent_to') || [];
+
+      const isOurDevice = window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+        sentMessage.device
+      );
+
+      // Handle the sync logic here
+      if (!isOurDevice && !this.get('synced') && !this.get('sentSync')) {
+        const contentDecoded = textsecure.protobuf.Content.decode(
+          sentMessage.plainTextBuffer
+        );
+        const { dataMessage } = contentDecoded;
+        this.sendSyncMessageOnly(dataMessage);
+
+        this.set({ sentSync: true });
+      } else if (isOurDevice && this.get('sentSync')) {
+        this.set({ synced: true });
+      }
+      const primaryPubKey = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+        sentMessage.device
+      );
+      this.set({
+        sent_to: _.union(sentTo, [primaryPubKey.key]),
+        sent: true,
+        expirationStartTimestamp: Date.now(),
+        // unidentifiedDeliveries: result.unidentifiedDeliveries,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+      this.getConversation().updateLastMessage();
+
+      this.trigger('sent', this);
+    },
+
+    async handleMessageSentFailure(sentMessage, error) {
+      if (error instanceof Error) {
+        this.saveErrors(error);
+        if (error.name === 'SignedPreKeyRotationError') {
+          await window.getAccountManager().rotateSignedPreKey();
+        } else if (error.name === 'OutgoingIdentityKeyError') {
+          const c = ConversationController.get(sentMessage.device);
+          await c.getProfiles();
+        }
+      }
+
+      const expirationStartTimestamp = Date.now();
+      if (
+        sentMessage.device === window.textsecure.storage.user.getNumber() &&
+        !this.get('sync')
+      ) {
+        this.set({ sentSync: false });
+      }
+      this.set({
+        sent: true,
+        expirationStartTimestamp,
+        // unidentifiedDeliveries: result.unidentifiedDeliveries,
+      });
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+      this.trigger('change', this);
+
+      this.getConversation().updateLastMessage();
+      this.trigger('done');
     },
 
     getConversation() {

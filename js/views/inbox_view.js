@@ -10,8 +10,6 @@
   Whisper,
   textsecure,
   Signal,
-  libsession,
-  _
 */
 
 // eslint-disable-next-line func-names
@@ -299,87 +297,27 @@
       const msg = conv.messageCollection.models.find(
         convMsg => convMsg.id === tmpMsg.id
       );
-      return { conv, msg };
+      return { msg };
     },
 
-    async handleMessageSentSuccess(m) {
-      const fetchedData = await this.fetchHandleMessageSentData(m);
+    async handleMessageSentSuccess(sentMessage) {
+      const fetchedData = await this.fetchHandleMessageSentData(sentMessage);
       if (!fetchedData) {
         return;
       }
-      const { msg, conv } = fetchedData;
+      const { msg } = fetchedData;
 
-      const sentTo = msg.get('sent_to') || [];
-
-      const isOurDevice = window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
-        m.device
-      );
-
-      // Handle the sync logic here
-      if (!isOurDevice && !msg.get('synced') && !msg.get('sentSync')) {
-        const contentDecoded = textsecure.protobuf.Content.decode(
-          m.plainTextBuffer
-        );
-        const { dataMessage } = contentDecoded;
-        msg.sendSyncMessageOnly(dataMessage);
-
-        msg.set({ sentSync: true });
-      } else if (isOurDevice && msg.get('sentSync')) {
-        msg.set({ synced: true });
-      }
-      const primaryPubKey = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
-        m.device
-      );
-      msg.set({
-        sent_to: _.union(sentTo, [primaryPubKey.key]),
-        sent: true,
-        expirationStartTimestamp: Date.now(),
-        // unidentifiedDeliveries: result.unidentifiedDeliveries,
-      });
-
-      await window.Signal.Data.saveMessage(msg.attributes, {
-        Message: Whisper.Message,
-      });
-      conv.updateLastMessage();
-
-      msg.trigger('sent', msg);
+      msg.handleMessageSentSuccess(sentMessage);
     },
 
-    async handleMessageSentFailure(m, error) {
-      const fetchedData = await this.fetchHandleMessageSentData(m);
+    async handleMessageSentFailure(sentMessage, error) {
+      const fetchedData = await this.fetchHandleMessageSentData(sentMessage);
       if (!fetchedData) {
         return;
       }
-      const { msg, conv } = fetchedData;
-      if (error instanceof Error) {
-        msg.saveErrors(error);
-        if (error.name === 'SignedPreKeyRotationError') {
-          await window.getAccountManager().rotateSignedPreKey();
-        } else if (error.name === 'OutgoingIdentityKeyError') {
-          const c = ConversationController.get(m.device);
-          await c.getProfiles();
-        }
-      }
+      const { msg } = fetchedData;
 
-      const expirationStartTimestamp = Date.now();
-      if (
-        m.device === window.textsecure.storage.user.getNumber() &&
-        !msg.get('sync')
-      ) {
-        msg.set({ sentSync: false });
-      }
-      msg.set({
-        sent: true,
-        expirationStartTimestamp,
-        // unidentifiedDeliveries: result.unidentifiedDeliveries,
-      });
-      await window.Signal.Data.saveMessage(msg.attributes, {
-        Message: Whisper.Message,
-      });
-      msg.trigger('change', msg);
-
-      conv.updateLastMessage();
-      msg.trigger('done');
+      await msg.handleMessageSentFailure(sentMessage, error);
     },
 
     startConnectionListener() {
