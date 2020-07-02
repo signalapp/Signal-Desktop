@@ -174,8 +174,6 @@ export async function processDecrypted(envelope: EnvelopePlus, decrypted: any) {
   } else if (decrypted.flags & FLAGS.PROFILE_KEY_UPDATE) {
     decrypted.body = '';
     decrypted.attachments = [];
-  } else if (decrypted.flags & FLAGS.SESSION_REQUEST) {
-    // do nothing
   } else if (decrypted.flags & FLAGS.SESSION_RESTORE) {
     // do nothing
   } else if (decrypted.flags & FLAGS.UNPAIRING_REQUEST) {
@@ -510,21 +508,13 @@ function createMessage(
 }
 
 function sendDeliveryReceipt(source: string, timestamp: any) {
-  // const { wrap, sendOptions } = window.ConversationController.prepareForSend(
-  //   source
-  // );
-  // wrap(
-  //   window.textsecure.messaging.sendDeliveryReceipt(
-  //     source,
-  //     timestamp,
-  //     sendOptions
-  //   )
-  // ).catch((error: any) => {
-  //   window.log.error(
-  //     `Failed to send delivery receipt to ${source} for message ${timestamp}:`,
-  //     error && error.stack ? error.stack : error
-  //   );
+// FIXME audric
+  // const receiptMessage = new DeliveryReceiptMessage({
+  //   timestamp: Date.now(),
+  //   timestamps: [timestamp],
   // });
+  // const device = new PubKey(source);
+  // await getMessageQueue().sendUsingMultiDevice(device, receiptMessage);
 }
 
 // tslint:disable:cyclomatic-complexity max-func-body-length */
@@ -554,7 +544,6 @@ export async function handleMessageEvent(event: any): Promise<void> {
 
   const {
     PROFILE_KEY_UPDATE,
-    SESSION_REQUEST,
     SESSION_RESTORE,
   } = SignalService.DataMessage.Flags;
 

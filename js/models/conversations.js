@@ -723,15 +723,13 @@
       if (!this.contactCollection.length) {
         return false;
       }
-      // console.log('this.contactCollection', this.contactCollection);
-      // FIXME AUDRIC
-      return true;
-      // return this.contactCollection.every(contact => {
-      //   if (contact.isMe()) {
-      //     return true;
-      //   }
-      //   return contact.isVerified();
-      // });
+
+      return this.contactCollection.every(contact => {
+        if (contact.isMe()) {
+          return true;
+        }
+        return contact.isVerified();
+      });
     },
     async getPrimaryConversation() {
       if (!this.isSecondaryDevice()) {
@@ -1217,11 +1215,6 @@
       const expireTimer = this.get('expireTimer');
       const recipients = this.getRecipients();
 
-      // let profileKey;
-      // if (this.get('profileSharing')) {
-      //   profileKey = storage.get('profileKey');
-      // }
-
       this.queueJob(async () => {
         const now = Date.now();
 
@@ -1306,14 +1299,15 @@
         try {
           const uploads = await message.uploadData();
 
-          // FIXME audric add back profileKey
           const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
             body: uploads.body,
+            identifier: id,
             timestamp: Date.now(),
             attachments: uploads.attachments,
             expireTimer,
             preview: uploads.preview,
             quote: uploads.quote,
+            lokiProfile: this.getOurProfile(),
           });
 
           if (this.isMe()) {
@@ -1330,6 +1324,9 @@
               body,
               timestamp: Date.now(),
               group: openGroup,
+              attachments: uploads.attachments,
+              preview: uploads.preview,
+              quote: uploads.quote,
             };
             const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
               openGroupParams
@@ -1351,6 +1348,8 @@
 
             const groupInvitMessage = new libsession.Messages.Outgoing.GroupInvitationMessage(
               {
+                identifier: id,
+
                 serverName: groupInvitation.name,
                 channelId: groupInvitation.channelId,
                 serverAddress: groupInvitation.address,
@@ -1641,6 +1640,7 @@
       }
 
       const expireUpdate = {
+        identifier: id,
         timestamp: message.get('sent_at'),
         expireTimer,
         profileKey,
@@ -1823,6 +1823,7 @@
         const createParams = {
           timestamp: Date.now(),
           groupId: id,
+          identifier: messageId,
           groupSecretKey: secretKey,
           members: members.map(pkHex => StringView.hexToArrayBuffer(pkHex)),
           groupName: name,
@@ -1834,10 +1835,10 @@
         const mediumGroupCreateMessage = new libsession.Messages.Outgoing.MediumGroupCreateMessage(
           createParams
         );
-        message.trigger('pending');
 
-        members.forEach(member => {
+        members.forEach(async member => {
           const memberPubKey = new libsession.Types.PubKey(member);
+          await ConversationController.getOrCreateAndWait(member, 'private');
           libsession
             .getMessageQueue()
             .sendUsingMultiDevice(memberPubKey, mediumGroupCreateMessage);
@@ -1847,6 +1848,7 @@
       }
 
       const updateParams = {
+        // if we do set an identifier here, be sure to not sync the message two times in msg.handleMessageSentSuccess()
         timestamp: Date.now(),
         groupId: this.id,
         name: this.get('name'),
@@ -1921,6 +1923,7 @@
         const quitGroup = {
           timestamp: Date.now(),
           groupId: this.id,
+          // if we do set an identifier here, be sure to not sync it a second time in handleMessageSentSuccess()
         };
         const quitGroupMessage = new libsession.Messages.Outgoing.ClosedGroupLeaveMessage(
           quitGroup
@@ -2588,6 +2591,30 @@
       }
 
       return this.getNumber();
+    },
+    /**
+     * Returns
+     *   displayName: string;
+     *   avatarPointer: string;
+     *   profileKey: Uint8Array;
+     */
+    getOurProfile() {
+      try {
+        // Secondary devices have their profile stored
+        // in their primary device's conversation
+        const ourNumber = window.storage.get('primaryDevicePubKey');
+        const ourConversation = window.ConversationController.get(ourNumber);
+        let profileKey = null;
+        if (this.get('profileSharing')) {
+          profileKey = storage.get('profileKey');
+        }
+        const avatarPointer = ourConversation.get('avatarPointer');
+        const { displayName } = ourConversation.getLokiProfile();
+        return { displayName, avatarPointer, profileKey };
+      } catch (e) {
+        window.log.error(`Failed to get our profile: ${e}`);
+        return null;
+      }
     },
 
     getNumber() {

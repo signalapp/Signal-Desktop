@@ -1,4 +1,4 @@
-/* global window, textsecure, libsession */
+/* global window, textsecure, libsession, ConversationController */
 /* eslint-disable no-bitwise */
 
 // eslint-disable-next-line func-names
@@ -108,6 +108,7 @@
       const ourPubKey = textsecure.storage.user.getNumber();
       if (memberStr !== ourPubKey) {
         const memberPubkey = new libsession.Types.PubKey(memberStr);
+        await ConversationController.getOrCreateAndWait(memberStr, 'private');
         await libsession.Protocols.SessionProtocol.sendSessionRequestIfNeeded(
           memberPubkey
         );
