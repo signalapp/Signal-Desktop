@@ -175,6 +175,7 @@ enum ConversationType {
 }
 
 async function sendDeliveryReceipt(source: string, timestamp: any) {
+  // FIXME audric
   // const receiptMessage = new DeliveryReceiptMessage({
   //   timestamp: Date.now(),
   //   timestamps: [timestamp],
@@ -344,8 +345,6 @@ export function processDecrypted(envelope: EnvelopePlus, decrypted: any) {
   } else if (decrypted.flags & FLAGS.PROFILE_KEY_UPDATE) {
     decrypted.body = '';
     decrypted.attachments = [];
-  } else if (decrypted.flags & FLAGS.SESSION_REQUEST) {
-    // do nothing
   } else if (decrypted.flags & FLAGS.SESSION_RESTORE) {
     // do nothing
   } else if (decrypted.flags & FLAGS.UNPAIRING_REQUEST) {
@@ -569,7 +568,6 @@ export async function handleMessageEvent(event: any): Promise<void> {
 
   const {
     PROFILE_KEY_UPDATE,
-    SESSION_REQUEST,
     SESSION_RESTORE,
   } = SignalService.DataMessage.Flags;
 

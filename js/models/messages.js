@@ -5,7 +5,6 @@
   filesize,
   ConversationController,
   MessageController,
-  getAccountManager,
   i18n,
   Signal,
   textsecure,
@@ -1042,19 +1041,42 @@
       }
 
       this.set({ errors: null });
-
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
       try {
         const conversation = this.getConversation();
         const intendedRecipients = this.get('recipients') || [];
         const successfulRecipients = this.get('sent_to') || [];
         const currentRecipients = conversation.getRecipients();
 
-        // const profileKey = conversation.get('profileSharing')
-        //   ? storage.get('profileKey')
-        //   : null;
+        if (conversation.isPublic()) {
+          const openGroup = {
+            server: conversation.get('server'),
+            channel: conversation.get('channelId'),
+            conversationId: conversation.id,
+          };
+          const { body, attachments, preview, quote } = await this.uploadData();
+
+          const openGroupParams = {
+            identifier: this.id,
+            body,
+            timestamp: Date.now(),
+            group: openGroup,
+            attachments,
+            preview,
+            quote,
+          };
+          const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
+            openGroupParams
+          );
+          return libsession.getMessageQueue().sendToGroup(openGroupMessage);
+        }
 
         let recipients = _.intersection(intendedRecipients, currentRecipients);
-        recipients = _.without(recipients, successfulRecipients);
+        recipients = recipients.filter(
+          key => !successfulRecipients.includes(key)
+        );
 
         if (!recipients.length) {
           window.log.warn('retrySend: Nobody to send to!');
@@ -1067,36 +1089,35 @@
         const { body, attachments, preview, quote } = await this.uploadData();
 
         const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+          identifier: this.id,
           body,
           timestamp: this.get('sent_at'),
           expireTimer: this.get('expireTimer'),
           attachments,
           preview,
           quote,
+          lokiProfile: this.getOurProfile(),
         });
 
         // Special-case the self-send case - we send only a sync message
         if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
-          this.trigger('pending');
-          // FIXME audric add back profileKey
           return this.sendSyncMessageOnly(chatMessage);
         }
 
         if (conversation.isPrivate()) {
           const [number] = recipients;
           const recipientPubKey = new libsession.Types.PubKey(number);
-          this.trigger('pending');
 
           return libsession
             .getMessageQueue()
             .sendUsingMultiDevice(recipientPubKey, chatMessage);
         }
 
-        this.trigger('pending');
-        // TODO should we handle open groups message here too? and mediumgroups
+        // TODO should we handle medium groups message here too?
         // Not sure there is the concept of retrySend for those
         const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
           {
+            identifier: this.id,
             chatMessage,
             groupId: this.get('conversationId'),
           }
@@ -1142,6 +1163,7 @@
         const { body, attachments, preview, quote } = await this.uploadData();
 
         const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+          identifier: this.id,
           body,
           timestamp: this.get('sent_at'),
           expireTimer: this.get('expireTimer'),
@@ -1149,8 +1171,6 @@
           preview,
           quote,
         });
-
-        this.trigger('pending');
 
         // Special-case the self-send case - we send only a sync message
         if (number === this.OUR_NUMBER) {
@@ -1194,6 +1214,74 @@
       );
       this.set({ errors: errors[1] });
       return errors[0][0];
+    },
+
+    async handleMessageSentSuccess(sentMessage) {
+      const sentTo = this.get('sent_to') || [];
+
+      const isOurDevice = await window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+        sentMessage.device
+      );
+
+      // Handle the sync logic here
+      if (!isOurDevice && !this.get('synced') && !this.get('sentSync')) {
+        const contentDecoded = textsecure.protobuf.Content.decode(
+          sentMessage.plainTextBuffer
+        );
+        const { dataMessage } = contentDecoded;
+        if (dataMessage) {
+          this.sendSyncMessage(dataMessage);
+        }
+      } else if (isOurDevice && this.get('sentSync')) {
+        this.set({ synced: true });
+      }
+      const primaryPubKey = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+        sentMessage.device
+      );
+      this.set({
+        sent_to: _.union(sentTo, [primaryPubKey.key]),
+        sent: true,
+        expirationStartTimestamp: Date.now(),
+        // unidentifiedDeliveries: result.unidentifiedDeliveries,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+      this.getConversation().updateLastMessage();
+
+      this.trigger('sent', this);
+    },
+
+    async handleMessageSentFailure(sentMessage, error) {
+      if (error instanceof Error) {
+        this.saveErrors(error);
+        if (error.name === 'SignedPreKeyRotationError') {
+          await window.getAccountManager().rotateSignedPreKey();
+        } else if (error.name === 'OutgoingIdentityKeyError') {
+          const c = ConversationController.get(sentMessage.device);
+          await c.getProfiles();
+        }
+      }
+      const isOurDevice = await window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+        sentMessage.device
+      );
+      const expirationStartTimestamp = Date.now();
+      if (isOurDevice && !this.get('sync')) {
+        this.set({ sentSync: false });
+      }
+      this.set({
+        sent: true,
+        expirationStartTimestamp,
+        // unidentifiedDeliveries: result.unidentifiedDeliveries,
+      });
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+      this.trigger('change', this);
+
+      this.getConversation().updateLastMessage();
+      this.trigger('done');
     },
 
     getConversation() {
@@ -1335,8 +1423,7 @@
     },
 
     async sendSyncMessage(dataMessage) {
-      // TODO: Return here if we've already sent a sync message
-      if (this.get('synced')) {
+      if (this.get('synced') || this.get('sentSync')) {
         return;
       }
 
@@ -1351,93 +1438,11 @@
       });
 
       await libsession.getMessageQueue().sendSyncMessage(syncMessage);
-    },
 
-    send(promise) {
-      this.trigger('pending');
-      return promise
-        .then(async result => {
-          this.trigger('done');
-
-          // This is used by sendSyncMessage, then set to null
-          if (!this.get('synced') && result.dataMessage) {
-            this.set({ dataMessage: result.dataMessage });
-          }
-
-          const sentTo = this.get('sent_to') || [];
-          this.set({
-            sent_to: _.union(sentTo, result.successfulNumbers),
-            sent: true,
-            expirationStartTimestamp: Date.now(),
-            unidentifiedDeliveries: result.unidentifiedDeliveries,
-          });
-
-          await window.Signal.Data.saveMessage(this.attributes, {
-            Message: Whisper.Message,
-          });
-
-          this.trigger('sent', this);
-        })
-        .catch(result => {
-          this.trigger('done');
-
-          if (result.dataMessage) {
-            this.set({ dataMessage: result.dataMessage });
-          }
-
-          let promises = [];
-
-          if (result instanceof Error) {
-            this.saveErrors(result);
-            if (result.name === 'SignedPreKeyRotationError') {
-              promises.push(getAccountManager().rotateSignedPreKey());
-            } else if (result.name === 'OutgoingIdentityKeyError') {
-              const c = ConversationController.get(result.number);
-              promises.push(c.getProfiles());
-            }
-          } else {
-            if (result.successfulNumbers.length > 0) {
-              const sentTo = this.get('sent_to') || [];
-
-              // In groups, we don't treat unregistered users as a user-visible
-              //   error. The message will look successful, but the details
-              //   screen will show that we didn't send to these unregistered users.
-              const filteredErrors = _.reject(
-                result.errors,
-                error => error.name === 'UnregisteredUserError'
-              );
-
-              // We don't start the expiration timer if there are real errors
-              //   left after filtering out all of the unregistered user errors.
-              const expirationStartTimestamp = filteredErrors.length
-                ? null
-                : Date.now();
-
-              this.saveErrors(filteredErrors);
-
-              this.set({
-                sent_to: _.union(sentTo, result.successfulNumbers),
-                sent: true,
-                expirationStartTimestamp,
-                unidentifiedDeliveries: result.unidentifiedDeliveries,
-              });
-            } else {
-              this.saveErrors(result.errors);
-            }
-            promises = promises.concat(
-              _.map(result.errors, error => {
-                if (error.name === 'OutgoingIdentityKeyError') {
-                  const c = ConversationController.get(error.number);
-                  promises.push(c.getProfiles());
-                }
-              })
-            );
-          }
-
-          this.trigger('send-error', this.get('errors'));
-
-          return Promise.all(promises);
-        });
+      this.set({ sentSync: true });
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
     },
 
     someRecipientsFailed() {

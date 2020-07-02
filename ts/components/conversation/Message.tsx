@@ -266,6 +266,14 @@ export class Message extends React.PureComponent<Props, State> {
     const isShowingImage = this.isShowingImage();
     const withImageNoCaption = Boolean(!text && isShowingImage);
     const showError = status === 'error' && direction === 'outgoing';
+    const showSentNoErrors =
+      !textPending &&
+      direction === 'outgoing' &&
+      status !== 'error' &&
+      status !== 'sending';
+
+    const showSending =
+      !textPending && direction === 'outgoing' && status === 'sending';
 
     return (
       <div
@@ -314,7 +322,15 @@ export class Message extends React.PureComponent<Props, State> {
           </div>
         ) : null}
         <span className="module-message__metadata__spacer" />
-        {!textPending && direction === 'outgoing' && status !== 'error' ? (
+        {showSending ? (
+          <div
+            className={classNames(
+              'module-message-detail__contact__status-icon',
+              `module-message-detail__contact__status-icon--${status}`
+            )}
+          />
+        ) : null}
+        {showSentNoErrors ? (
           <div className="message-read-receipt-container">
             <SessionIcon
               iconType={SessionIconType.Check}

@@ -2,6 +2,7 @@ import { DataMessage } from './DataMessage';
 import { SignalService } from '../../../../../protobuf';
 import { MessageParams } from '../../Message';
 import { LokiProfile } from '../../../../../types/Message';
+import ByteBuffer from 'bytebuffer';
 
 export interface AttachmentPointer {
   id?: number;
@@ -62,7 +63,12 @@ export class ChatMessage extends DataMessage {
     this.body = params.body;
     this.quote = params.quote;
     this.expireTimer = params.expireTimer;
-    this.profileKey = params.lokiProfile && params.lokiProfile.profileKey;
+    if (params.lokiProfile && params.lokiProfile.profileKey) {
+      this.profileKey = new Uint8Array(
+        ByteBuffer.wrap(params.lokiProfile.profileKey).toArrayBuffer()
+      );
+    }
+
     this.displayName = params.lokiProfile && params.lokiProfile.displayName;
     this.avatarPointer = params.lokiProfile && params.lokiProfile.avatarPointer;
     this.preview = params.preview;
@@ -83,10 +89,6 @@ export class ChatMessage extends DataMessage {
 
     if (this.expireTimer) {
       dataMessage.expireTimer = this.expireTimer;
-    }
-
-    if (this.profileKey) {
-      dataMessage.profileKey = this.profileKey;
     }
 
     if (this.preview) {
