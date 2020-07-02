@@ -2,6 +2,8 @@ import fetch from 'node-fetch';
 import https from 'https';
 
 import { Snode } from './snodePool';
+import ByteBuffer from 'bytebuffer';
+import { StringUtils } from '../utils';
 
 const BAD_PATH = 'bad_path';
 
@@ -43,7 +45,7 @@ async function encryptForRelay(
 
   const reqObj = {
     ...destination,
-    ciphertext: dcodeIO.ByteBuffer.wrap(payload).toString('base64'),
+    ciphertext: ByteBuffer.wrap(payload).toString('base64'),
     ephemeral_key: StringView.arrayBufferToHex(ctx.ephemeralKey),
   };
 
@@ -51,13 +53,11 @@ async function encryptForRelay(
 }
 
 async function makeGuardPayload(guardCtx: any) {
-  const ciphertextBase64 = window.dcodeIO.ByteBuffer.wrap(
-    guardCtx.ciphertext
-  ).toString('base64');
+  const ciphertextBase64 = StringUtils.decode(guardCtx.ciphertext, 'base64');
 
   const guardPayloadObj = {
     ciphertext: ciphertextBase64,
-    ephemeral_key: window.StringView.arrayBufferToHex(guardCtx.ephemeralKey),
+    ephemeral_key: StringUtils.decode(guardCtx.ephemeralKey, 'hex'),
   };
   return guardPayloadObj;
 }

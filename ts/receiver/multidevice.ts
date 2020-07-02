@@ -11,6 +11,8 @@ import { StringUtils } from '../session/utils';
 import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
 import { PubKey } from '../session/types';
 
+import ByteBuffer from 'bytebuffer';
+
 async function unpairingRequestIsLegit(source: string, ourPubKey: string) {
   const { textsecure, storage, lokiFileServerAPI } = window;
 
@@ -204,7 +206,7 @@ async function handleAuthorisationForSelf(
 }
 
 function parseContacts(arrbuf: ArrayBuffer): Array<any> {
-  const buffer = new window.dcodeIO.ByteBuffer();
+  const buffer = new ByteBuffer();
   buffer.append(arrbuf);
   buffer.offset = 0;
   buffer.limit = arrbuf.byteLength;
@@ -270,9 +272,14 @@ export async function handleContacts(
   window.log.info('contact sync');
   // const { blob } = contacts;
 
+  if (!contacts.data) {
+    window.log.error('Contacts without data');
+    return;
+  }
+
   const attachmentPointer = {
     contacts,
-    data: window.dcodeIO.ByteBuffer.wrap(contacts.data).toArrayBuffer(), // ByteBuffer to ArrayBuffer
+    data: ByteBuffer.wrap(contacts.data).toArrayBuffer(), // ByteBuffer to ArrayBuffer
   };
 
   const contactDetails = parseContacts(attachmentPointer.data);

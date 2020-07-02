@@ -1,6 +1,6 @@
 import { EnvelopePlus } from './types';
 import { StringUtils } from '../session/utils';
-import { toNumber } from 'lodash';
+import _ from 'lodash';
 
 export async function removeFromCache(envelope: EnvelopePlus) {
   const { id } = envelope;
@@ -33,7 +33,7 @@ export async function addToCache(
 export async function getAllFromCache() {
   window.log.info('getAllFromCache');
 
-  const { textsecure, Lodash: _ } = window;
+  const { textsecure } = window;
 
   const count = await textsecure.storage.unprocessed.getCount();
 
@@ -50,7 +50,7 @@ export async function getAllFromCache() {
 
   return Promise.all(
     _.map(items, async (item: any) => {
-      const attempts = toNumber(item.attempts || 0) + 1;
+      const attempts = _.toNumber(item.attempts || 0) + 1;
 
       try {
         if (attempts >= 3) {

@@ -3,6 +3,7 @@ import { SignalService } from '../protobuf';
 import { removeFromCache } from './cache';
 import { getEnvelopeId } from './common';
 import _ from 'lodash';
+import ByteBuffer from 'bytebuffer';
 
 import { handleEndSession } from './sessionHandling';
 import { handleMediumGroupUpdate } from './mediumGroups';
@@ -131,7 +132,7 @@ async function handleSentMessage(
 function handleAttachment(attachment: any) {
   return {
     ...attachment,
-    data: window.dcodeIO.ByteBuffer.wrap(attachment.data).toArrayBuffer(), // ByteBuffer to ArrayBuffer
+    data: ByteBuffer.wrap(attachment.data).toArrayBuffer(), // ByteBuffer to ArrayBuffer
   };
 }
 

@@ -10,6 +10,7 @@ import {
 } from './serviceNodeAPI';
 
 import semver from 'semver';
+import _ from 'lodash';
 
 export type SnodeEdKey = string;
 
@@ -34,7 +35,7 @@ const nodesForPubkey: { [key: string]: Array<SnodeEdKey> } = {};
 async function tryGetSnodeListFromLokidSeednode(
   seedNodes = window.seedNodeList
 ): Promise<Array<Snode>> {
-  const { log, Lodash: _ } = window;
+  const { log } = window;
 
   if (!seedNodes.length) {
     log.info(
@@ -130,7 +131,7 @@ export async function markUnreachableForPubkey(
 }
 
 export function markNodeUnreachable(snode: Snode): void {
-  const { Lodash: _, log } = window;
+  const { log } = window;
   randomSnodePool = _.without(randomSnodePool, snode);
 
   log.warn(
@@ -139,8 +140,6 @@ export function markNodeUnreachable(snode: Snode): void {
 }
 
 export async function getRandomSnodeAddress(): Promise<Snode> {
-  const { Lodash: _ } = window;
-
   // resolve random snode
   if (randomSnodePool.length === 0) {
     // allow exceptions to pass through upwards without the unhandled promise rejection
@@ -154,7 +153,8 @@ export async function getRandomSnodeAddress(): Promise<Snode> {
     }
   }
 
-  return _.sample(randomSnodePool);
+  // We know the pool can't be empty at this point
+  return _.sample(randomSnodePool) as Snode;
 }
 
 function compareSnodes(lhs: any, rhs: any): boolean {
@@ -284,7 +284,7 @@ async function getSnodeListFromLokidSeednode(
 }
 
 async function refreshRandomPoolDetail(seedNodes: Array<any>): Promise<void> {
-  const { log, Lodash: _ } = window;
+  const { log } = window;
 
   // are we running any _getAllVerionsForRandomSnodePool
   if (stopGetAllVersionPromiseControl !== false) {
@@ -303,6 +303,7 @@ async function refreshRandomPoolDetail(seedNodes: Array<any>): Promise<void> {
       port: snode.storage_port,
       pubkey_x25519: snode.pubkey_x25519,
       pubkey_ed25519: snode.pubkey_ed25519,
+      version: '',
     }));
     log.info(
       'LokiSnodeAPI::refreshRandomPool - Refreshed random snode pool with',

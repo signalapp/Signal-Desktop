@@ -17,6 +17,7 @@ import { PubKey } from '../session/types';
 
 import { handleSyncMessage } from './syncMessages';
 import { onError } from './errors';
+import ByteBuffer from 'bytebuffer';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   const plaintext = await decrypt(envelope, envelope.content);
@@ -113,7 +114,7 @@ async function decryptPreKeyWhisperMessage(
     if (e.message === 'Unknown identity key') {
       // create an error that the UI will pick up and ask the
       // user if they want to re-negotiate
-      const buffer = window.dcodeIO.ByteBuffer.wrap(ciphertext);
+      const buffer = ByteBuffer.wrap(ciphertext);
       throw new window.textsecure.IncomingIdentityKeyError(
         address.toString(),
         buffer.toArrayBuffer(),
@@ -312,7 +313,7 @@ async function decrypt(
     if (error && error.message === 'Unknown identity key') {
       // create an error that the UI will pick up and ask the
       // user if they want to re-negotiate
-      const buffer = window.dcodeIO.ByteBuffer.wrap(ciphertext);
+      const buffer = ByteBuffer.wrap(ciphertext);
       errorToThrow = new textsecure.IncomingIdentityKeyError(
         address.toString(),
         buffer.toArrayBuffer(),

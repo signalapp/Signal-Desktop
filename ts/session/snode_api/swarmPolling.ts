@@ -62,9 +62,9 @@ export class SwarmPolling {
 
   public removePubkey(pubkey: PubKey) {
     if (this.pubkeys.indexOf(pubkey) !== -1) {
-      window.Lodash.remove(this.pubkeys, pubkey);
+      _.remove(this.pubkeys, pubkey);
     } else if (this.groupPubkeys.indexOf(pubkey) !== -1) {
-      window.Lodash.remove(this.groupPubkeys, pubkey);
+      _.remove(this.groupPubkeys, pubkey);
     }
   }
 

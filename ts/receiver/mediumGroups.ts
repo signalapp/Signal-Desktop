@@ -4,6 +4,7 @@ import { EnvelopePlus } from './types';
 import { MediumGroupResponseKeysMessage } from '../session/messages/outgoing';
 import { getMessageQueue } from '../session';
 import { PubKey } from '../session/types';
+import _ from 'lodash';
 
 async function handleSenderKeyRequest(
   envelope: EnvelopePlus,
@@ -59,14 +60,7 @@ async function handleSenderKey(envelope: EnvelopePlus, groupUpdate: any) {
 }
 
 async function handleNewGroup(envelope: EnvelopePlus, groupUpdate: any) {
-  const {
-    SenderKeyAPI,
-    StringView,
-    Whisper,
-    log,
-    textsecure,
-    Lodash: _,
-  } = window;
+  const { SenderKeyAPI, StringView, Whisper, log, textsecure } = window;
 
   const senderIdentity = envelope.source;
 
