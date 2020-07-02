@@ -175,6 +175,7 @@ enum ConversationType {
 }
 
 async function sendDeliveryReceipt(source: string, timestamp: any) {
+  // FIXME audric
   // const receiptMessage = new DeliveryReceiptMessage({
   //   timestamp: Date.now(),
   //   timestamps: [timestamp],

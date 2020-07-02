@@ -1050,10 +1050,6 @@
         const successfulRecipients = this.get('sent_to') || [];
         const currentRecipients = conversation.getRecipients();
 
-        // const profileKey = conversation.get('profileSharing')
-        //   ? storage.get('profileKey')
-        //   : null;
-
         if (conversation.isPublic()) {
           const openGroup = {
             server: conversation.get('server'),
@@ -1100,7 +1096,6 @@
 
         // Special-case the self-send case - we send only a sync message
         if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
-          // FIXME audric add back profileKey
           return this.sendSyncMessageOnly(chatMessage);
         }
 

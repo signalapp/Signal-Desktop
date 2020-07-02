@@ -1304,7 +1304,6 @@
         try {
           const uploads = await message.uploadData();
 
-          // FIXME audric add back profileKey
           const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
             body: uploads.body,
             identifier: id,
