@@ -7,8 +7,6 @@ const FormData = require('form-data');
 const https = require('https');
 const path = require('path');
 
-const lokiRpcUtils = require('./loki_rpc');
-
 // Can't be less than 1200 if we have unauth'd requests
 const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
 const PUBLICCHAT_CHAN_POLL_EVERY = 20 * 1000; // 20s
@@ -111,7 +109,7 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
   // do the request
   let result;
   try {
-    result = await lokiRpcUtils.sendOnionRequestLsrpcDest(
+    result = await window.NewSnodeAPI.sendOnionRequestLsrpcDest(
       0,
       pathNodes,
       srvPubKey,
@@ -125,10 +123,6 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
       e.code,
       e.message
     );
-    return {};
-  }
-
-  if (result === lokiRpcUtils.BAD_PATH) {
     return {};
   }
 
@@ -211,7 +205,6 @@ const sendToProxy = async (srvPubKey, endpoint, fetchOptions, options = {}) => {
   };
 
   // from https://github.com/sindresorhus/is-stream/blob/master/index.js
-  let fileUpload = false;
   if (
     payloadObj.body &&
     typeof payloadObj.body === 'object' &&
@@ -225,14 +218,9 @@ const sendToProxy = async (srvPubKey, endpoint, fetchOptions, options = {}) => {
     payloadObj.body = {
       fileUpload: fData.toString('base64'),
     };
-    fileUpload = true;
   }
 
-  // use nodes that support more than 1mb
-  const randomFunc = fileUpload
-    ? 'getRandomProxySnodeAddress'
-    : 'getRandomSnodeAddress';
-  const randSnode = await lokiSnodeAPI[randomFunc]();
+  const randSnode = await window.SnodePool.getRandomSnodeAddress();
   if (randSnode === false) {
     log.warn('proxy random snode pool is not ready, retrying 10s', endpoint);
     // no nodes in the pool yet, give it some time and retry
@@ -293,7 +281,7 @@ const sendToProxy = async (srvPubKey, endpoint, fetchOptions, options = {}) => {
   const txtResponse = await result.text();
   if (txtResponse.match(/^Service node is not ready: not in any swarm/i)) {
     // mark snode bad
-    const randomPoolRemainingCount = lokiSnodeAPI.markRandomNodeUnreachable(
+    const randomPoolRemainingCount = window.SnodePool.markNodeUnreachable(
       randSnode
     );
     log.warn(

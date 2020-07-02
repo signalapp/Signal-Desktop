@@ -6,6 +6,7 @@ import { Libloki } from '../libloki';
 import { LokiPublicChatFactoryInterface } from '../js/modules/loki_public_chat_api';
 import { LokiAppDotNetServerInterface } from '../js/modules/loki_app_dot_net_api';
 import { LokiMessageInterface } from '../js/modules/loki_message_api';
+import { SwarmPolling } from './session/snode_api/swarmPolling';
 
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
@@ -52,6 +53,8 @@ declare global {
     lokiFileServerAPI: LokiFileServerInstance;
     lokiMessageAPI: LokiMessageInterface;
     lokiPublicChatAPI: LokiPublicChatFactoryInterface;
+    lokiSnodeAPI: LokiSnodeAPI;
+    lokiPublicChatAPI: LokiPublicChatFactoryAPI;
     mnemonic: any;
     onLogin: any;
     passwordUtil: any;
@@ -76,5 +79,10 @@ declare global {
     tokenlessFileServerAdnAPI: LokiAppDotNetServerInterface;
     userConfig: any;
     versionInfo: any;
+    getStoragePubKey: any;
+    getGuid: any;
+    ContactBuffer: any;
+    GroupBuffer: any;
+    SwarmPolling: SwarmPolling;
   }
 }

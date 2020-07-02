@@ -1307,7 +1307,9 @@
         return null;
       }
 
-      return ConversationController.getOrCreate(source, 'private');
+      const key = source.key ? source.key : source;
+
+      return ConversationController.getOrCreate(key, 'private');
     },
     getQuoteContact() {
       const quote = this.get('quote');
@@ -1336,7 +1338,11 @@
         return null;
       }
 
-      return ConversationController.getOrCreate(source, 'private');
+      // TODO: remove this when we are certain that source
+      // is PubKey ano not a string
+      const sourceStr = source.key ? source.key : source;
+
+      return ConversationController.getOrCreate(sourceStr, 'private');
     },
     isOutgoing() {
       return this.get('type') === 'outgoing';

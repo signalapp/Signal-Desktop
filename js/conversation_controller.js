@@ -195,7 +195,8 @@
     },
     getOrCreateAndWait(id, type) {
       return this._initialPromise.then(() => {
-        const conversation = this.getOrCreate(id, type);
+        const pubkey = id.key ? id.key : id;
+        const conversation = this.getOrCreate(pubkey, type);
 
         if (conversation) {
           return conversation.initialPromise.then(() => conversation);

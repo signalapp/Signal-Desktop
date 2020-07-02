@@ -2,8 +2,7 @@ import { SignalService } from '../protobuf';
 import { ClosedGroupRequestInfoMessage } from '../session/messages/outgoing/content/data/group/ClosedGroupRequestInfoMessage';
 import { getMessageQueue } from '../session';
 import { PubKey } from '../session/types';
-
-const _ = window.Lodash;
+import _ from 'lodash';
 
 function isGroupBlocked(groupId: string) {
   return (
@@ -130,4 +129,93 @@ export async function preprocessGroupMessage(
     );
   }
   return false;
+}
+
+export async function onGroupReceived(ev: any) {
+  const {
+    ConversationController,
+    libloki,
+    storage,
+    textsecure,
+    Whisper,
+  } = window;
+
+  const details = ev.groupDetails;
+  const { id } = details;
+
+  libloki.api.debug.logGroupSync(
+    'Got sync group message with group id',
+    id,
+    ' details:',
+    details
+  );
+
+  const conversation = await ConversationController.getOrCreateAndWait(
+    id,
+    'group'
+  );
+
+  const updates: any = {
+    name: details.name,
+    members: details.members,
+    color: details.color,
+    type: 'group',
+    is_medium_group: details.is_medium_group || false,
+  };
+
+  if (details.active) {
+    const activeAt = conversation.get('active_at');
+
+    // The idea is to make any new group show up in the left pane. If
+    //   activeAt is null, then this group has been purposefully hidden.
+    if (activeAt !== null) {
+      updates.active_at = activeAt || Date.now();
+    }
+    updates.left = false;
+  } else {
+    updates.left = true;
+  }
+
+  if (details.blocked) {
+    storage.addBlockedGroup(id);
+  } else {
+    storage.removeBlockedGroup(id);
+  }
+
+  conversation.set(updates);
+
+  // Update the conversation avatar only if new avatar exists and hash differs
+  const { avatar } = details;
+  if (avatar && avatar.data) {
+    const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
+      conversation.attributes,
+      avatar.data,
+      {
+        writeNewAttachmentData: window.Signal.writeNewAttachmentData,
+        deleteAttachmentData: window.Signal.deleteAttachmentData,
+      }
+    );
+    conversation.set(newAttributes);
+  }
+
+  await window.Signal.Data.updateConversation(id, conversation.attributes, {
+    Conversation: Whisper.Conversation,
+  });
+
+  // send a session request for all the members we do not have a session with
+  await window.libloki.api.sendSessionRequestsToMembers(updates.members);
+
+  const { expireTimer } = details;
+  const isValidExpireTimer = typeof expireTimer === 'number';
+  if (!isValidExpireTimer) {
+    return;
+  }
+
+  const source = textsecure.storage.user.getNumber();
+  const receivedAt = Date.now();
+  await conversation.updateExpirationTimer(expireTimer, source, receivedAt, {
+    fromSync: true,
+  });
+
+  ev.confirm();
 }

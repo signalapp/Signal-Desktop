@@ -33,6 +33,7 @@ interface MessageAttributes {
   unread: boolean;
   group: any;
   bodyPending: boolean;
+  timestamp: number;
 }
 
 export interface MessageModel extends Backbone.Model<MessageAttributes> {
@@ -43,4 +44,5 @@ export interface MessageModel extends Backbone.Model<MessageAttributes> {
   isEndSession: () => boolean;
   markRead: () => void;
   merge: (other: MessageModel) => void;
+  saveErrors: (error: any) => void;
 }

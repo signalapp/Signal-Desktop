@@ -1,6 +1,6 @@
 /* global Whisper, Signal, setTimeout, clearTimeout, MessageController, NewReceiver */
 
-const { isFunction, isNumber, omit } = require('lodash');
+const { isNumber, omit } = require('lodash');
 const getGuid = require('uuid/v4');
 const {
   getMessageById,
@@ -34,17 +34,11 @@ const RETRY_BACKOFF = {
 
 let enabled = false;
 let timeout;
-let getMessageReceiver;
 let logger;
 const _activeAttachmentDownloadJobs = {};
 
 async function start(options = {}) {
-  ({ getMessageReceiver, logger } = options);
-  if (!isFunction(getMessageReceiver)) {
-    throw new Error(
-      'attachment_downloads/start: getMessageReceiver must be a function'
-    );
-  }
+  ({ logger } = options);
   if (!logger) {
     throw new Error('attachment_downloads/start: logger must be provided!');
   }
@@ -162,10 +156,6 @@ async function _runJob(job) {
     await setAttachmentDownloadJobPending(id, pending);
 
     let downloaded;
-    const messageReceiver = getMessageReceiver();
-    if (!messageReceiver) {
-      throw new Error('_runJob: messageReceiver not found');
-    }
 
     try {
       downloaded = await NewReceiver.downloadAttachment(attachment);

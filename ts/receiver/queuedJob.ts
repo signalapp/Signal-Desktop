@@ -3,15 +3,18 @@ import { queueAttachmentDownloads } from './attachments';
 import { Quote } from './types';
 import { ConversationModel } from '../../js/models/conversations';
 import { MessageModel } from '../../js/models/messages';
+import { PrimaryPubKey, PubKey } from '../session/types';
+import _ from 'lodash';
+import { MultiDeviceProtocol } from '../session/protocols';
+import { SignalService } from '../protobuf';
 
 async function handleGroups(
   conversation: ConversationModel,
   group: any,
   source: any
 ): Promise<any> {
-  const _ = window.Lodash;
   const textsecure = window.textsecure;
-  const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
+  const GROUP_TYPES = SignalService.GroupContext.Type;
 
   // TODO: this should be primary device id!
   const ourNumber = textsecure.storage.user.getNumber();
@@ -93,7 +96,6 @@ async function copyFromQuotedMessage(
   quote: Quote,
   attemptCount: number = 1
 ): Promise<void> {
-  const _ = window.Lodash;
   const { Whisper, MessageController } = window;
   const { upgradeMessageSchema } = window.Signal.Migrations;
   const { Message: TypedMessage, Errors } = window.Signal.Types;
@@ -277,10 +279,10 @@ function processProfileKey(
 function handleMentions(
   message: MessageModel,
   conversation: ConversationModel,
-  ourPrimaryNumber: string
+  ourPrimaryNumber: PrimaryPubKey
 ) {
   const body = message.get('body');
-  if (body && body.indexOf(`@${ourPrimaryNumber}`) !== -1) {
+  if (body && body.indexOf(`@${ourPrimaryNumber.key}`) !== -1) {
     conversation.set({ mentionedUs: true });
   }
 }
@@ -317,8 +319,6 @@ function handleSyncedReceipts(
   message: MessageModel,
   conversation: ConversationModel
 ) {
-  const _ = window.Lodash;
-
   const readReceipts = window.Whisper.ReadReceipts.forMessage(
     conversation,
     message
@@ -352,8 +352,6 @@ function handleSyncedReceipts(
 }
 
 function handleSyncDeliveryReceipts(message: MessageModel, receipts: any) {
-  const _ = window.Lodash;
-
   const sources = receipts.map((receipt: any) => receipt.get('source'));
 
   const deliveredTo = _.union(message.get('delivered_to') || [], sources);
@@ -371,18 +369,10 @@ async function handleRegularMessage(
   message: MessageModel,
   initialMessage: any,
   source: string,
-  isGroupMessage: boolean,
   ourNumber: any,
-  primarySource: any
+  primarySource: PubKey
 ) {
-  const _ = window.Lodash;
-  const {
-    textsecure,
-    Whisper,
-    ConversationController,
-    MessageController,
-    libloki,
-  } = window;
+  const { ConversationController } = window;
   const { upgradeMessageSchema } = window.Signal.Migrations;
 
   const type = message.get('type');
@@ -435,7 +425,9 @@ async function handleRegularMessage(
   // Handle expireTimer found directly as part of a regular message
   handleExpireTimer(source, message, dataMessage.expireTimer, conversation);
 
-  handleMentions(message, conversation, ourNumber);
+  const ourPrimary = await MultiDeviceProtocol.getPrimaryDevice(ourNumber);
+
+  handleMentions(message, conversation, ourPrimary);
 
   if (type === 'incoming') {
     updateReadStatus(message, conversation);
@@ -470,8 +462,8 @@ async function handleRegularMessage(
     );
   }
 
-  if (source !== ourNumber) {
-    message.set({ source: primarySource });
+  if (source !== ourNumber && primarySource) {
+    message.set({ source: primarySource.key });
   }
 }
 
@@ -512,10 +504,9 @@ export async function handleMessageJob(
   conversation: ConversationModel,
   initialMessage: any,
   ourNumber: string,
-  confirm: any,
+  confirm: () => void,
   source: string,
-  isGroupMessage: any,
-  primarySource: any
+  primarySource: PubKey
 ) {
   window.log.info(
     `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
@@ -535,13 +526,12 @@ export async function handleMessageJob(
         message,
         initialMessage,
         source,
-        isGroupMessage,
         ourNumber,
         primarySource
       );
     }
 
-    const { Whisper, MessageController, ConversationController } = window;
+    const { Whisper, MessageController } = window;
 
     const id = await window.Signal.Data.saveMessage(message.attributes, {
       Message: Whisper.Message,
@@ -594,7 +584,9 @@ export async function handleMessageJob(
       conversation.notify(message);
     }
 
-    confirm();
+    if (confirm) {
+      confirm();
+    }
   } catch (error) {
     const errorForLog = error && error.stack ? error.stack : error;
     window.log.error(

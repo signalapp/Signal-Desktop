@@ -2181,10 +2181,10 @@ async function saveSeenMessageHash(data) {
     `INSERT INTO seenMessages (
       expiresAt,
       hash
-    ) values (
-      $expiresAt,
-      $hash
-    );`,
+      ) values (
+        $expiresAt,
+        $hash
+        );`,
     {
       $expiresAt: expiresAt,
       $hash: hash,

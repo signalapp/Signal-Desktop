@@ -1,11 +1,12 @@
 import { MessageModel } from '../../js/models/messages';
+import _ from 'lodash';
+
+import * as Data from '../../js/modules/data';
 
 // TODO: Might convert it to a class later
 let webAPI: any;
 
 export async function downloadAttachment(attachment: any) {
-  const _ = window.Lodash;
-
   if (!webAPI) {
     webAPI = window.WebAPI.connect();
   }
@@ -202,7 +203,6 @@ async function processGroupAvatar(message: MessageModel): Promise<boolean> {
 export async function queueAttachmentDownloads(
   message: MessageModel
 ): Promise<boolean> {
-  const _ = window.Lodash;
   const { Whisper } = window;
 
   let count = 0;
@@ -230,7 +230,7 @@ export async function queueAttachmentDownloads(
   }
 
   if (count > 0) {
-    await window.Signal.Data.saveMessage(message.attributes, {
+    await Data.saveMessage(message.attributes, {
       Message: Whisper.Message,
     });
 

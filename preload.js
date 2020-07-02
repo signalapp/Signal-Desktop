@@ -439,8 +439,18 @@ window.addEventListener('contextmenu', e => {
 });
 
 window.NewReceiver = require('./ts/receiver/receiver');
+window.NewSnodeAPI = require('./ts/session/snode_api/serviceNodeAPI');
+window.SnodePool = require('./ts/session/snode_api/snodePool');
 
-window.shortenPubkey = pubkey => `(...${pubkey.substring(pubkey.length - 6)})`;
+const { SwarmPolling } = require('./ts/session/snode_api/swarmPolling');
+
+window.SwarmPolling = new SwarmPolling();
+
+window.shortenPubkey = pubkey => {
+  const pk = pubkey.key ? pubkey.key : pubkey;
+
+  return `(...${pk.substring(pk.length - 6)})`;
+};
 
 window.pubkeyPattern = /@[a-fA-F0-9]{64,66}\b/g;
 
