@@ -36,8 +36,8 @@ export function processMessage(message: string, options: any = {}) {
 }
 
 export class SwarmPolling {
-  private readonly pubkeys: Array<PubKey>;
-  private readonly groupPubkeys: Array<PubKey>;
+  private pubkeys: Array<PubKey>;
+  private groupPubkeys: Array<PubKey>;
   private readonly lastHashes: { [key: string]: PubkeyToHash };
 
   constructor() {
@@ -61,11 +61,8 @@ export class SwarmPolling {
   }
 
   public removePubkey(pubkey: PubKey) {
-    if (this.pubkeys.indexOf(pubkey) !== -1) {
-      _.remove(this.pubkeys, pubkey);
-    } else if (this.groupPubkeys.indexOf(pubkey) !== -1) {
-      _.remove(this.groupPubkeys, pubkey);
-    }
+    this.pubkeys = this.pubkeys.filter(key => !pubkey.isEqual(key));
+    this.groupPubkeys = this.groupPubkeys.filter(key => !pubkey.isEqual(key));
   }
 
   private loadGroupIds() {
