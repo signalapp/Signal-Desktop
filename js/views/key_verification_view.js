@@ -18,6 +18,11 @@
         JSX: Signal.State.Roots.createSafetyNumberViewer(window.reduxStore, {
           contactID: options.model.get('id'),
         }),
+        onInitialRender: () => {
+          if (options.onLoad) {
+            options.onLoad(this);
+          }
+        },
       });
 
       this.$('.key-verification-wrapper').append(view.el);

@@ -711,7 +711,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
     "line": "      this.$('.key-verification-wrapper').append(view.el);",
-    "lineNumber": 23,
+    "lineNumber": 28,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-23T06:48:06.829Z"
   },
@@ -719,7 +719,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/key_verification_view.js",
     "line": "      this.$('.key-verification-wrapper').append(view.el);",
-    "lineNumber": 23,
+    "lineNumber": 28,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-23T06:48:06.829Z"
   },
