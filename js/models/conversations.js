@@ -1839,8 +1839,9 @@
           createParams
         );
 
-        members.forEach(member => {
+        members.forEach(async member => {
           const memberPubKey = new libsession.Types.PubKey(member);
+          await ConversationController.getOrCreateAndWait(member, 'private');
           libsession
             .getMessageQueue()
             .sendUsingMultiDevice(memberPubKey, mediumGroupCreateMessage);
