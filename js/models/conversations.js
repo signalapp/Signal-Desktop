@@ -1852,8 +1852,8 @@
       }
 
       const updateParams = {
+        // if we do set an identifier here, be sure to not sync the message two times in msg.handleMessageSentSuccess()
         timestamp: Date.now(),
-        identifier: messageId,
         groupId: this.id,
         name: this.get('name'),
         avatar: this.get('avatar'),
@@ -1926,7 +1926,7 @@
         const quitGroup = {
           timestamp: Date.now(),
           groupId: this.id,
-          identifier: id,
+          // if we do set an identifier here, be sure to not sync it a second time in handleMessageSentSuccess()
         };
         const quitGroupMessage = new libsession.Messages.Outgoing.ClosedGroupLeaveMessage(
           quitGroup
