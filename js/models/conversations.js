@@ -1317,8 +1317,7 @@
           });
 
           if (this.isMe()) {
-            await message.markMessageSyncOnly();
-            // sending is done in the 'private' case below
+            return message.sendSyncMessageOnly(chatMessage);
           }
           const options = {};
 
@@ -1648,8 +1647,10 @@
       };
 
       if (this.isMe()) {
-        await message.markMessageSyncOnly();
-        // sending of the message is handled in the 'private' case below
+        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+          expireUpdate
+        );
+        return message.sendSyncMessageOnly(expirationTimerMessage);
       }
 
       if (this.get('type') === 'private') {
@@ -1856,14 +1857,12 @@
       const groupUpdateMessage = new libsession.Messages.Outgoing.ClosedGroupUpdateMessage(
         updateParams
       );
-      libsession
-        .getMessageQueue()
-        .sendToGroup(groupUpdateMessage)
-        .catch(log.error);
+      await this.sendClosedGroupMessageWithSync(groupUpdateMessage);
     },
 
     sendGroupInfo(recipient) {
-      if (this.isClosedGroup()) {
+      // Only send group info if we're a closed group and we haven't left
+      if (this.isClosedGroup() && !this.get('left')) {
         const updateParams = {
           timestamp: Date.now(),
           groupId: this.id,
@@ -1927,9 +1926,43 @@
           quitGroup
         );
 
-        await libsession.getMessageQueue().sendToGroup(quitGroupMessage);
+        await this.sendClosedGroupMessageWithSync(quitGroupMessage);
 
         this.updateTextInputState();
+      }
+    },
+
+    async sendClosedGroupMessageWithSync(message) {
+      const {
+        ClosedGroupMessage,
+        ClosedGroupChatMessage,
+      } = libsession.Messages.Outgoing;
+      if (!(message instanceof ClosedGroupMessage)) {
+        throw new Error('Invalid closed group message.');
+      }
+
+      // Sync messages for Chat Messages need to be constructed after confirming send was successful.
+      if (message instanceof ClosedGroupChatMessage) {
+        throw new Error(
+          'ClosedGroupChatMessage should be constructed manually and sent'
+        );
+      }
+
+      try {
+        await libsession.getMessageQueue().sendToGroup(message);
+
+        const syncMessage = libsession.Utils.SyncMessageUtils.getSentSyncMessage(
+          {
+            destination: message.groupId,
+            message,
+          }
+        );
+
+        if (syncMessage) {
+          await libsession.getMessageQueue().sendSyncMessage(syncMessage);
+        }
+      } catch (e) {
+        window.log.error(e);
       }
     },
 

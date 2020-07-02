@@ -23,14 +23,14 @@ export abstract class MediumGroupMessage extends DataMessage {
     return this.getDefaultTTL();
   }
 
-  protected mediumGroupContext(): SignalService.MediumGroupUpdate {
-    return new SignalService.MediumGroupUpdate({ groupId: this.groupId.key });
-  }
-
-  protected dataProto(): SignalService.DataMessage {
+  public dataProto(): SignalService.DataMessage {
     const dataMessage = new SignalService.DataMessage();
     dataMessage.mediumGroupUpdate = this.mediumGroupContext();
 
     return dataMessage;
+  }
+
+  protected mediumGroupContext(): SignalService.MediumGroupUpdate {
+    return new SignalService.MediumGroupUpdate({ groupId: this.groupId.key });
   }
 }

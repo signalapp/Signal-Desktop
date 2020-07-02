@@ -1,7 +1,7 @@
 import ByteBuffer from 'bytebuffer';
 
-type Encoding = 'base64' | 'hex' | 'binary' | 'utf8';
-type BufferType = ByteBuffer | Buffer | ArrayBuffer | Uint8Array;
+export type Encoding = 'base64' | 'hex' | 'binary' | 'utf8';
+export type BufferType = ByteBuffer | Buffer | ArrayBuffer | Uint8Array;
 
 /**
  * Take a string value with the given encoding and converts it to an `ArrayBuffer`.

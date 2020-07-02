@@ -1,25 +1,34 @@
 import * as _ from 'lodash';
-import { UserUtil } from '../../util/';
+import { UserUtil } from '../../util';
 import { getAllConversations } from '../../../js/modules/data';
-import { ContentMessage, SyncMessage } from '../messages/outgoing';
 import { MultiDeviceProtocol } from '../protocols';
 import ByteBuffer from 'bytebuffer';
+import {
+  ContentMessage,
+  DataMessage,
+  SentSyncMessage,
+} from '../messages/outgoing';
+import { PubKey } from '../types';
 
-export function from(message: ContentMessage): SyncMessage | undefined {
-  if (message instanceof SyncMessage) {
-    return message;
+export function getSentSyncMessage(params: {
+  message: ContentMessage;
+  expirationStartTimestamp?: number;
+  sentTo?: Array<PubKey>;
+  destination: PubKey | string;
+}): SentSyncMessage | undefined {
+  if (!(params.message instanceof DataMessage)) {
+    return undefined;
   }
 
-  // Stubbed for now
-  return undefined;
-}
-
-export function canSync(message: ContentMessage): boolean {
-  // This function should be agnostic to the device; it shouldn't need
-  // to know about the recipient
-
-  // Stubbed for now
-  return Boolean(from(message));
+  const pubKey = PubKey.cast(params.destination);
+  return new SentSyncMessage({
+    timestamp: Date.now(),
+    identifier: params.message.identifier,
+    destination: pubKey,
+    dataMessage: params.message.dataProto(),
+    expirationStartTimestamp: params.expirationStartTimestamp,
+    sentTo: params.sentTo,
+  });
 }
 
 export async function getSyncContacts(): Promise<Array<any> | undefined> {
@@ -64,10 +73,7 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
     .filter(c => c.id !== primaryDevice.key);
 
   // Return unique contacts
-  return _.uniqBy(
-    [...primaryContacts, ...secondaryContacts],
-    device => !!device
-  );
+  return _.uniqBy([...primaryContacts, ...secondaryContacts], 'id');
 }
 
 export async function filterOpenGroupsConvos(

@@ -3,6 +3,7 @@ interface ConversationAttributes {
   left: boolean;
   expireTimer: number;
   profileSharing: boolean;
+  secondaryStatus: boolean;
   mentionedUs: boolean;
   unreadCount: number;
   isArchived: boolean;

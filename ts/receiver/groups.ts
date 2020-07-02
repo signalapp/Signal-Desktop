@@ -71,11 +71,14 @@ export async function preprocessGroupMessage(
       return true;
     }
   }
-  if (group.type === GROUP_TYPES.REQUEST_INFO && !newGroup) {
-    window.libloki.api.debug.logGroupRequestInfo(
-      `Received GROUP_TYPES.REQUEST_INFO from source: ${source}, primarySource: ${primarySource}, sending back group info.`
-    );
-    conversation.sendGroupInfo(source);
+  if (group.type === GROUP_TYPES.REQUEST_INFO) {
+    // We can only send the request info back if we have the information
+    if (!newGroup) {
+      window.libloki.api.debug.logGroupRequestInfo(
+        `Received GROUP_TYPES.REQUEST_INFO from source: ${source}, primarySource: ${primarySource}, sending back group info.`
+      );
+      conversation.sendGroupInfo(source);
+    }
     return true;
   }
 
