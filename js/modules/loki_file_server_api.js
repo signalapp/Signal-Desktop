@@ -1,4 +1,4 @@
-/* global log, libloki, window */
+/* global log, libloki, window, dcodeIO */
 /* global storage: false */
 /* global log: false */
 
@@ -223,7 +223,23 @@ class LokiHomeServerInstance extends LokiFileServerInstance {
       this.ourKey
     );
 
-    return this._setOurDeviceMapping(authorisations, isPrimary);
+    const authorisationsBase64 = authorisations.map(authorisation => {
+      const requestSignature = dcodeIO.ByteBuffer.wrap(
+        authorisation.requestSignature
+      ).toString('base64');
+      const grantSignature = authorisation.grantSignature
+        ? dcodeIO.ByteBuffer.wrap(authorisation.grantSignature).toString(
+            'base64'
+          )
+        : null;
+      return {
+        ...authorisation,
+        requestSignature,
+        grantSignature,
+      };
+    });
+
+    return this._setOurDeviceMapping(authorisationsBase64, isPrimary);
   }
 
   // you only upload to your own home server
