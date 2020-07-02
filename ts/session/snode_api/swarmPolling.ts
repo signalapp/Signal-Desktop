@@ -164,7 +164,6 @@ export class SwarmPolling {
     node: Snode,
     pubkey: PubKey
   ): Promise<Array<any>> {
-
     const edkey = node.pubkey_ed25519;
 
     const pkStr = pubkey.key ? pubkey.key : pubkey;

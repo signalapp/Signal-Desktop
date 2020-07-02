@@ -301,9 +301,7 @@ async function handleDecryptedEnvelope(
   }
 }
 
-
-export async function handleUnencryptedMessage({message : outerMessage} : any) {
-
+export async function handleUnencryptedMessage({ message: outerMessage }: any) {
   const { source } = outerMessage;
   const { group, profile, profileKey } = outerMessage.message;
 
@@ -315,27 +313,20 @@ export async function handleUnencryptedMessage({message : outerMessage} : any) {
       source,
       'private'
     );
-    await updateProfile(
-      conversation,
-      profile,
-      profileKey
-    );
+    await updateProfile(conversation, profile, profileKey);
   }
 
   const primaryDevice = window.storage.get('primaryDevicePubKey');
-  const isOurDevice = source &&
-    (source === ourNumber || source === primaryDevice);
+  const isOurDevice =
+    source && (source === ourNumber || source === primaryDevice);
   const isPublicChatMessage =
-    group &&
-    group.id &&
-    !!group.id.match(/^publicChat:/);
+    group && group.id && !!group.id.match(/^publicChat:/);
 
   const ev = {
     // Public chat messages from ourselves should be outgoing
-    type: (isPublicChatMessage && isOurDevice) ? 'sent' : 'message',
+    type: isPublicChatMessage && isOurDevice ? 'sent' : 'message',
     data: outerMessage,
   };
 
   await handleMessageEvent(ev);
-
 }
