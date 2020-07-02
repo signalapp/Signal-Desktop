@@ -185,7 +185,7 @@ export async function processDecrypted(envelope: EnvelopePlus, decrypted: any) {
   }
 
   if (decrypted.group) {
-    decrypted.group.id = decrypted.group.id?.toBinary();
+    decrypted.group.id = new TextDecoder('utf-8').decode(decrypted.group.id);
 
     switch (decrypted.group.type) {
       case SignalService.GroupContext.Type.UPDATE:

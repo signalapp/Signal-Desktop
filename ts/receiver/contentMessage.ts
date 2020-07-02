@@ -34,7 +34,7 @@ async function decryptForMediumGroup(
   envelope: EnvelopePlus,
   ciphertextObj: ArrayBuffer
 ) {
-  const { textsecure, dcodeIO, libloki } = window;
+  const { dcodeIO, libloki } = window;
 
   const groupId = envelope.source;
 

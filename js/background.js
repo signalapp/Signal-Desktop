@@ -1580,7 +1580,6 @@
     // messageReceiver.addEventListener('typing', onTyping);
 
     window.Signal.AttachmentDownloads.start({
-      getMessageReceiver: () => messageReceiver,
       logger: window.log,
     });
 

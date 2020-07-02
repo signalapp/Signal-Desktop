@@ -21,4 +21,5 @@ export interface MessageQueueInterface {
   send(device: PubKey, message: ContentMessage): Promise<void>;
   sendToGroup(message: GroupMessageType): Promise<void>;
   sendSyncMessage(message: SyncMessage | undefined): Promise<void>;
+  processPending(device: PubKey): Promise<void>;
 }

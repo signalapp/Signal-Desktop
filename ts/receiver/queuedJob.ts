@@ -584,7 +584,9 @@ export async function handleMessageJob(
       conversation.notify(message);
     }
 
-    confirm();
+    if (confirm) {
+      confirm();
+    }
   } catch (error) {
     const errorForLog = error && error.stack ? error.stack : error;
     window.log.error(

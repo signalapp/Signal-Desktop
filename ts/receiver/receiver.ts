@@ -241,12 +241,6 @@ async function queueCached(item: any) {
     if (decrypted) {
       const payloadPlaintext = StringUtils.encode(decrypted, 'base64');
 
-      // Convert preKeys to array buffer
-      if (typeof envelope.preKeyBundleMessage === 'string') {
-        // envelope.preKeyBundleMessage = await MessageReceiver.stringToArrayBuffer(
-        //   envelope.preKeyBundleMessage
-        // );
-      }
       await queueDecryptedEnvelope(envelope, payloadPlaintext);
     } else {
       queueEnvelope(envelope);
@@ -305,4 +299,43 @@ async function handleDecryptedEnvelope(
   } else {
     await removeFromCache(envelope);
   }
+}
+
+
+export async function handleUnencryptedMessage({message : outerMessage} : any) {
+
+  const { source } = outerMessage;
+  const { group, profile, profileKey } = outerMessage.message;
+
+  const ourNumber = window.textsecure.storage.user.getNumber();
+  const isMe = source === ourNumber;
+
+  if (!isMe && profile) {
+    const conversation = await window.ConversationController.getOrCreateAndWait(
+      source,
+      'private'
+    );
+    await updateProfile(
+      conversation,
+      profile,
+      profileKey
+    );
+  }
+
+  const primaryDevice = window.storage.get('primaryDevicePubKey');
+  const isOurDevice = source &&
+    (source === ourNumber || source === primaryDevice);
+  const isPublicChatMessage =
+    group &&
+    group.id &&
+    !!group.id.match(/^publicChat:/);
+
+  const ev = {
+    // Public chat messages from ourselves should be outgoing
+    type: (isPublicChatMessage && isOurDevice) ? 'sent' : 'message',
+    data: outerMessage,
+  };
+
+  await handleMessageEvent(ev);
+
 }
