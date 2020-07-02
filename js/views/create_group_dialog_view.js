@@ -6,6 +6,69 @@
 
   window.Whisper = window.Whisper || {};
 
+  Whisper.UpdateGroupNameDialogView = Whisper.View.extend({
+    className: 'loki-dialog modal',
+    initialize(groupConvo) {
+      this.groupName = groupConvo.get('name');
+
+      this.conversation = groupConvo;
+      this.titleText = i18n('updateGroupDialogTitle');
+      this.close = this.close.bind(this);
+      this.onSubmit = this.onSubmit.bind(this);
+      this.isPublic = groupConvo.isPublic();
+      this.groupId = groupConvo.id;
+      this.members = groupConvo.get('members') || [];
+      this.avatarPath = groupConvo.getAvatarPath();
+
+      const ourPK = textsecure.storage.user.getNumber();
+
+      this.isAdmin = groupConvo.get('groupAdmins').includes(ourPK);
+
+      // public chat settings overrides
+      if (this.isPublic) {
+        // fix the title
+        this.titleText = `${i18n('updatePublicGroupDialogTitle')}: ${
+          this.groupName
+        }`;
+        // I'd much prefer to integrate mods with groupAdmins
+        // but lets discuss first...
+        this.isAdmin = groupConvo.isModerator(
+          window.storage.get('primaryDevicePubKey')
+        );
+      }
+
+      this.$el.focus();
+      this.render();
+    },
+    render() {
+      this.dialogView = new Whisper.ReactWrapperView({
+        className: 'create-group-dialog',
+        Component: window.Signal.Components.UpdateGroupNameDialog,
+        props: {
+          titleText: this.titleText,
+          isPublic: this.isPublic,
+          groupName: this.groupName,
+          okText: i18n('ok'),
+          cancelText: i18n('cancel'),
+          isAdmin: this.isAdmin,
+          i18n,
+          onSubmit: this.onSubmit,
+          onClose: this.close,
+          avatarPath: this.avatarPath,
+        },
+      });
+
+      this.$el.append(this.dialogView.el);
+      return this;
+    },
+    onSubmit(groupName, avatar) {
+      window.doUpdateGroup(this.groupId, groupName, this.members, avatar);
+    },
+    close() {
+      this.remove();
+    },
+  });
+
   Whisper.UpdateGroupMembersDialogView = Whisper.View.extend({
     className: 'loki-dialog modal',
     initialize(groupConvo) {
