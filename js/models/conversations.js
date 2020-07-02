@@ -723,15 +723,13 @@
       if (!this.contactCollection.length) {
         return false;
       }
-      // console.log('this.contactCollection', this.contactCollection);
-      // FIXME AUDRIC
-      return true;
-      // return this.contactCollection.every(contact => {
-      //   if (contact.isMe()) {
-      //     return true;
-      //   }
-      //   return contact.isVerified();
-      // });
+
+      return this.contactCollection.every(contact => {
+        if (contact.isMe()) {
+          return true;
+        }
+        return contact.isVerified();
+      });
     },
     async getPrimaryConversation() {
       if (!this.isSecondaryDevice()) {
