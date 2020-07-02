@@ -1056,11 +1056,16 @@
             channel: conversation.get('channelId'),
             conversationId: conversation.id,
           };
+          const { body, attachments, preview, quote } = await this.uploadData();
+
           const openGroupParams = {
             identifier: this.id,
-            body: this.get('body'),
+            body,
             timestamp: Date.now(),
             group: openGroup,
+            attachments,
+            preview,
+            quote,
           };
           const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
             openGroupParams
@@ -1214,7 +1219,7 @@
     async handleMessageSentSuccess(sentMessage) {
       const sentTo = this.get('sent_to') || [];
 
-      const isOurDevice = window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+      const isOurDevice = await window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
         sentMessage.device
       );
 
@@ -1224,9 +1229,9 @@
           sentMessage.plainTextBuffer
         );
         const { dataMessage } = contentDecoded;
-        this.sendSyncMessageOnly(dataMessage);
-
-        this.set({ sentSync: true });
+        if (dataMessage) {
+          this.sendSyncMessage(dataMessage);
+        }
       } else if (isOurDevice && this.get('sentSync')) {
         this.set({ synced: true });
       }
@@ -1258,12 +1263,11 @@
           await c.getProfiles();
         }
       }
-
+      const isOurDevice = await window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+        sentMessage.device
+      );
       const expirationStartTimestamp = Date.now();
-      if (
-        sentMessage.device === window.textsecure.storage.user.getNumber() &&
-        !this.get('sync')
-      ) {
+      if (isOurDevice && !this.get('sync')) {
         this.set({ sentSync: false });
       }
       this.set({
@@ -1419,8 +1423,7 @@
     },
 
     async sendSyncMessage(dataMessage) {
-      // TODO: Return here if we've already sent a sync message
-      if (this.get('synced')) {
+      if (this.get('synced') || this.get('sentSync')) {
         return;
       }
 
@@ -1435,6 +1438,11 @@
       });
 
       await libsession.getMessageQueue().sendSyncMessage(syncMessage);
+
+      this.set({ sentSync: true });
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
     },
 
     someRecipientsFailed() {

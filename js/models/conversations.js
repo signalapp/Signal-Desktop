@@ -1215,11 +1215,6 @@
       const expireTimer = this.get('expireTimer');
       const recipients = this.getRecipients();
 
-      // let profileKey;
-      // if (this.get('profileSharing')) {
-      //   profileKey = storage.get('profileKey');
-      // }
-
       this.queueJob(async () => {
         const now = Date.now();
 
@@ -1329,6 +1324,9 @@
               body,
               timestamp: Date.now(),
               group: openGroup,
+              attachments: uploads.attachments,
+              preview: uploads.preview,
+              quote: uploads.quote,
             };
             const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
               openGroupParams
