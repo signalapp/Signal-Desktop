@@ -1100,8 +1100,13 @@
         });
 
         // Special-case the self-send case - we send only a sync message
-        if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
-          return this.sendSyncMessageOnly(chatMessage);
+        if (recipients.length === 1) {
+          const isOurDevice = await libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+            recipients[0]
+          );
+          if (isOurDevice) {
+            return this.sendSyncMessageOnly(chatMessage);
+          }
         }
 
         if (conversation.isPrivate()) {
@@ -1433,10 +1438,15 @@
         return;
       }
 
+      const data =
+        dataMessage instanceof libsession.Messages.Outgoing.DataMessage
+          ? dataMessage.dataProto()
+          : dataMessage;
+
       const syncMessage = new libsession.Messages.Outgoing.SentSyncMessage({
         timestamp: this.get('sent_at'),
         identifier: this.id,
-        dataMessage,
+        dataMessage: data,
         destination: this.get('destination'),
         expirationStartTimestamp: this.get('expirationStartTimestamp'),
         sent_to: this.get('sent_to'),

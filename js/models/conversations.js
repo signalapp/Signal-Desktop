@@ -1239,12 +1239,12 @@
           recipients,
         });
 
-        if (this.isPrivate()) {
-          messageWithSchema.destination = destination;
-        } else if (this.isPublic()) {
+        if (this.isPublic()) {
           // Public chats require this data to detect duplicates
           messageWithSchema.source = textsecure.storage.user.getNumber();
           messageWithSchema.sourceDevice = 1;
+        } else {
+          messageWithSchema.destination = destination;
         }
 
         const { sessionRestoration = false } = otherOptions;
@@ -1368,6 +1368,7 @@
           }
 
           if (conversationType === Message.GROUP) {
+            const members = this.get('members');
             if (this.isMediumGroup()) {
               const mediumGroupChatMessage = new libsession.Messages.Outgoing.MediumGroupChatMessage(
                 {
@@ -1375,7 +1376,6 @@
                   groupId: destination,
                 }
               );
-              const members = this.get('members');
               await Promise.all(
                 members.map(async m => {
                   const memberPubKey = new libsession.Types.PubKey(m);
@@ -1391,6 +1391,18 @@
                   groupId: destination,
                 }
               );
+
+              // Special-case the self-send case - we send only a sync message
+              if (members.length === 1) {
+                const isOurDevice = await libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+                  members[0]
+                );
+                if (isOurDevice) {
+                  await message.sendSyncMessageOnly(closedGroupChatMessage);
+                  return true;
+                }
+              }
+
               await libsession
                 .getMessageQueue()
                 .sendToGroup(closedGroupChatMessage);
@@ -1815,9 +1827,12 @@
       );
       message.set({ id: messageId });
 
+      // Difference between `recipients` and `members` is that `recipients` includes the members which were removed in this update
+      const { id, name, members, avatar, recipients } = groupUpdate;
+
       if (groupUpdate.is_medium_group) {
+        const { secretKey, senderKey } = groupUpdate;
         // Constructing a "create group" message
-        const { id, name, secretKey, senderKey, members } = groupUpdate;
         const { chainKey, keyIdx } = senderKey;
 
         const createParams = {
@@ -1850,16 +1865,17 @@
       const updateParams = {
         // if we do set an identifier here, be sure to not sync the message two times in msg.handleMessageSentSuccess()
         timestamp: now,
-        groupId: this.id,
-        name: this.get('name'),
-        avatar: this.get('avatar'),
-        members: this.get('members'),
+        groupId: id,
+        name,
+        avatar,
+        members,
         admins: this.get('groupAdmins'),
       };
       const groupUpdateMessage = new libsession.Messages.Outgoing.ClosedGroupUpdateMessage(
         updateParams
       );
-      await this.sendClosedGroupMessageWithSync(groupUpdateMessage);
+
+      await this.sendClosedGroupMessageWithSync(groupUpdateMessage, recipients);
     },
 
     sendGroupInfo(recipient) {
@@ -1935,7 +1951,7 @@
       }
     },
 
-    async sendClosedGroupMessageWithSync(message) {
+    async sendClosedGroupMessageWithSync(message, recipients) {
       const {
         ClosedGroupMessage,
         ClosedGroupChatMessage,
@@ -1951,19 +1967,34 @@
         );
       }
 
+      const members = recipients || this.get('members');
+
       try {
-        await libsession.getMessageQueue().sendToGroup(message);
-
-        const syncMessage = libsession.Utils.SyncMessageUtils.getSentSyncMessage(
-          {
-            destination: message.groupId,
-            message,
-          }
+        // Exclude our device from members and send them the message
+        const ourNumber = textsecure.storage.user.getNumber();
+        const primary = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+          ourNumber
         );
+        const otherMembers = (members || []).filter(
+          member => !primary.isEqual(member)
+        );
+        const sendPromises = otherMembers.map(member => {
+          const memberPubKey = libsession.Types.PubKey.cast(member);
+          return libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(memberPubKey, message);
+        });
+        await Promise.all(sendPromises);
 
-        if (syncMessage) {
-          await libsession.getMessageQueue().sendSyncMessage(syncMessage);
-        }
+        // Send the sync message to our devices
+        const syncMessage = new libsession.Messages.Outgoing.SentSyncMessage({
+          timestamp: Date.now(),
+          identifier: message.identifier,
+          destination: message.groupId,
+          dataMessage: message.dataProto(),
+        });
+
+        await libsession.getMessageQueue().sendSyncMessage(syncMessage);
       } catch (e) {
         window.log.error(e);
       }

@@ -2,6 +2,7 @@ import { SyncMessage } from './SyncMessage';
 import { SignalService } from '../../../../../protobuf';
 import { MessageParams } from '../../Message';
 import { PubKey } from '../../../../types';
+import { ProtobufUtils } from '../../../../utils';
 
 interface SentSyncMessageParams extends MessageParams {
   dataMessage: SignalService.IDataMessage;
@@ -21,7 +22,7 @@ export class SentSyncMessage extends SyncMessage {
   constructor(params: SentSyncMessageParams) {
     super({ timestamp: params.timestamp, identifier: params.identifier });
 
-    this.dataMessage = params.dataMessage;
+    this.dataMessage = ProtobufUtils.convertToTS(params.dataMessage);
     this.expirationStartTimestamp = params.expirationStartTimestamp;
     this.sentTo = params.sentTo;
     this.unidentifiedDeliveries = params.unidentifiedDeliveries;

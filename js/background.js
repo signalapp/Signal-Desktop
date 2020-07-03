@@ -639,12 +639,14 @@
         confirm: () => {},
       };
 
-      await window.NewReceiver.onGroupReceived(ev);
-
       const convo = await ConversationController.getOrCreateAndWait(
         groupId,
         'group'
       );
+
+      const recipients = _.union(convo.get('members'), members);
+
+      await window.NewReceiver.onGroupReceived(ev);
 
       if (convo.isPublic()) {
         const API = await convo.getPublicSendData();
@@ -702,8 +704,6 @@
         // and reference the local file
       }
       const options = {};
-
-      const recipients = _.union(convo.get('members'), members);
 
       const isMediumGroup = convo.isMediumGroup();
 

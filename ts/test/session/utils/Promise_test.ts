@@ -69,8 +69,8 @@ describe('Promise Utils', () => {
 
     it('will recur according to interval option', async () => {
       const expectedRecurrences = 4;
-      const timeout = 1000;
-      const interval = timeout / expectedRecurrences;
+      const timeout = 3000;
+      const interval = 50;
 
       const recurrenceSpy = sandbox.spy();
       const task = (done: any) => {
