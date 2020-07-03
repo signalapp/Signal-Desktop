@@ -7,6 +7,7 @@ import { LokiPublicChatFactoryInterface } from '../js/modules/loki_public_chat_a
 import { LokiAppDotNetServerInterface } from '../js/modules/loki_app_dot_net_api';
 import { LokiMessageInterface } from '../js/modules/loki_message_api';
 import { SwarmPolling } from './session/snode_api/swarmPolling';
+import { LibTextsecure } from '../libtextsecure';
 
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
@@ -70,7 +71,7 @@ declare global {
     showQRDialog: any;
     showSeedDialog: any;
     storage: any;
-    textsecure: any;
+    textsecure: LibTextsecure;
     toggleLinkPreview: any;
     toggleMediaPermissions: any;
     toggleMenuBar: any;
