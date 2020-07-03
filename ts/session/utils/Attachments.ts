@@ -90,7 +90,7 @@ export class AttachmentUtils {
         pointer.key.buffer,
         iv.buffer
       );
-      pointer.digest = data.digest;
+      pointer.digest = new Uint8Array(data.digest);
       attachmentData = data.ciphertext;
     }
 
