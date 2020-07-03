@@ -1,4 +1,4 @@
-/* global clearTimeout, dcodeIO, Buffer, TextDecoder, process, log */
+/* global clearTimeout, dcodeIO, Buffer, TextDecoder, process */
 const nodeFetch = require('node-fetch');
 
 class StubMessageAPI {
@@ -24,56 +24,6 @@ class StubMessageAPI {
       )}`,
       post
     );
-  }
-
-  async pollForGroupId(groupId, onMessages) {
-    const get = {
-      method: 'GET',
-    };
-    const res = await nodeFetch(
-      `${this.baseUrl}/messages?pubkey=${groupId}`,
-      get
-    );
-
-    try {
-      const json = await res.json();
-
-      const modifiedMessages = json.messages.map(m => {
-        // eslint-disable-next-line no-param-reassign
-        m.conversationId = groupId;
-        return m;
-      });
-
-      onMessages(modifiedMessages || []);
-    } catch (e) {
-      log.error('invalid json for GROUP', e);
-      onMessages([]);
-    }
-
-    setTimeout(() => {
-      this.pollForGroupId(groupId, onMessages);
-    }, 1000);
-  }
-
-  async startLongPolling(numConnections, stopPolling, callback) {
-    const ourPubkey = this.ourKey;
-
-    const get = {
-      method: 'GET',
-    };
-    const res = await nodeFetch(
-      `${this.baseUrl}/messages?pubkey=${ourPubkey}`,
-      get
-    );
-
-    try {
-      const json = await res.json();
-      callback(json.messages || []);
-    } catch (e) {
-      log.error('invalid json: ', e);
-      callback([]);
-    }
-    // console.warn('STUBBED polling messages ', json.messages);
   }
 }
 

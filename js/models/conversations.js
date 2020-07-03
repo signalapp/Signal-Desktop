@@ -1912,7 +1912,7 @@
         // and its secret key, but it is low priority
 
         // TODO: need to reset everyone's sender keys
-        window.lokiMessageAPI.stopPollingForGroup(this.id);
+        window.SwarmPolling.removePubkey(this.id);
       }
 
       if (this.get('type') === 'group') {
