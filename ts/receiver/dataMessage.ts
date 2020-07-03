@@ -533,7 +533,7 @@ export async function handleMessageEvent(event: any): Promise<void> {
 
   let { source } = data;
 
-  const isGroupMessage = message.group;
+  const isGroupMessage = Boolean(message.group);
 
   const type = isGroupMessage
     ? ConversationType.GROUP
