@@ -242,7 +242,7 @@
     }
     const ourKey = textsecure.storage.user.getNumber();
     window.feeds = [];
-    window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
+    window.lokiMessageAPI = new window.LokiMessageAPI();
     // singleton to relay events to libtextsecure/message_receiver
     window.lokiPublicChatAPI = new window.LokiPublicChatAPI(ourKey);
     // singleton to interface the File server
@@ -1529,7 +1529,7 @@
     window.NewReceiver.queueAllCached();
 
     if (Whisper.Registration.ongoingSecondaryDeviceRegistration()) {
-      window.lokiMessageAPI = new window.LokiMessageAPI(ourKey);
+      window.lokiMessageAPI = new window.LokiMessageAPI();
       window.lokiFileServerAPIFactory = new window.LokiFileServerAPI(ourKey);
       window.lokiFileServerAPI = window.lokiFileServerAPIFactory.establishHomeConnection(
         window.getDefaultFileServer()
