@@ -1629,9 +1629,9 @@
           fromGroupUpdate: options.fromGroupUpdate,
         },
       });
-      if (this.isPrivate()) {
-        message.set({ destination: this.id });
-      }
+
+      message.set({ destination: this.id });
+
       if (message.isOutgoing()) {
         message.set({ recipients: this.getRecipients() });
       }

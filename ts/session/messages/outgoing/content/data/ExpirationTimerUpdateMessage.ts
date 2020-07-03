@@ -32,14 +32,18 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
   public dataProto(): SignalService.DataMessage {
     const data = new SignalService.DataMessage();
 
-    const groupMessage = new SignalService.GroupContext();
+    data.flags = SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+
     if (this.groupId) {
+      const groupMessage = new SignalService.GroupContext();
       groupMessage.id = new Uint8Array(
         StringUtils.encode(this.groupId.key, 'utf8')
       );
       groupMessage.type = SignalService.GroupContext.Type.DELIVER;
+
+      data.group = groupMessage;
     }
-    data.flags = SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
+
     if (this.expireTimer) {
       data.expireTimer = this.expireTimer;
     }
