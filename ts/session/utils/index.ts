@@ -15,5 +15,5 @@ export {
   GroupUtils,
   StringUtils,
   PromiseUtils,
-  ProtobufUtils
+  ProtobufUtils,
 };

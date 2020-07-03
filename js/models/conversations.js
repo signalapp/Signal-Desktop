@@ -1394,7 +1394,9 @@
 
               // Special-case the self-send case - we send only a sync message
               if (members.length === 1) {
-                const isOurDevice = await libsession.Protocols.MultiDeviceProtocol.isOurDevice(members[0]);
+                const isOurDevice = await libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+                  members[0]
+                );
                 if (isOurDevice) {
                   await message.sendSyncMessageOnly(closedGroupChatMessage);
                   return true;
@@ -1970,11 +1972,17 @@
       try {
         // Exclude our device from members and send them the message
         const ourNumber = textsecure.storage.user.getNumber();
-        const primary = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(ourNumber);
-        const otherMembers = (members || []).filter(member => !primary.isEqual(member));
+        const primary = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+          ourNumber
+        );
+        const otherMembers = (members || []).filter(
+          member => !primary.isEqual(member)
+        );
         const sendPromises = otherMembers.map(member => {
           const memberPubKey = libsession.Types.PubKey.cast(member);
-          return libsession.getMessageQueue().sendUsingMultiDevice(memberPubKey, message);
+          return libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(memberPubKey, message);
         });
         await Promise.all(sendPromises);
 

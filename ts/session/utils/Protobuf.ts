@@ -8,9 +8,18 @@ import ByteBuffer from 'bytebuffer';
  */
 export function convertToTS(object: any): any {
   // No idea why js `ByteBuffer` and ts `ByteBuffer` differ ...
-  if (object && object.constructor && object.constructor.name === 'ByteBuffer') {
+  if (
+    object &&
+    object.constructor &&
+    object.constructor.name === 'ByteBuffer'
+  ) {
     return new Uint8Array(object.toArrayBuffer());
-  } else if (object instanceof ByteBuffer || object instanceof Buffer || object instanceof ArrayBuffer || object instanceof SharedArrayBuffer) {
+  } else if (
+    object instanceof ByteBuffer ||
+    object instanceof Buffer ||
+    object instanceof ArrayBuffer ||
+    object instanceof SharedArrayBuffer
+  ) {
     const arrayBuffer = ByteBuffer.wrap(object).toArrayBuffer();
     return new Uint8Array(arrayBuffer);
   } else if (Array.isArray(object)) {

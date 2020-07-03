@@ -1,12 +1,9 @@
-import { DataMessage } from '../DataMessage';
 import { SignalService } from '../../../../../../protobuf';
-import { StringUtils } from '../../../../../utils';
 import {
   ClosedGroupMessage,
   ClosedGroupMessageParams,
 } from './ClosedGroupMessage';
 import { AttachmentPointer } from '../ChatMessage';
-import { PubKey } from '../../../../../types';
 
 export interface ClosedGroupUpdateMessageParams
   extends ClosedGroupMessageParams {

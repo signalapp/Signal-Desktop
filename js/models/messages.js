@@ -1101,7 +1101,9 @@
 
         // Special-case the self-send case - we send only a sync message
         if (recipients.length === 1) {
-          const isOurDevice = await libsession.Protocols.MultiDeviceProtocol.isOurDevice(recipients[0]);
+          const isOurDevice = await libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+            recipients[0]
+          );
           if (isOurDevice) {
             return this.sendSyncMessageOnly(chatMessage);
           }

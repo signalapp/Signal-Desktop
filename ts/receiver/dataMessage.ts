@@ -508,7 +508,7 @@ function createMessage(
 }
 
 function sendDeliveryReceipt(source: string, timestamp: any) {
-// FIXME audric
+  // FIXME audric
   // const receiptMessage = new DeliveryReceiptMessage({
   //   timestamp: Date.now(),
   //   timestamps: [timestamp],
