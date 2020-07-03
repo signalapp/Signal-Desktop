@@ -297,6 +297,11 @@
       const msg = conv.messageCollection.models.find(
         convMsg => convMsg.id === tmpMsg.id
       );
+
+      if (!msg) {
+        return null;
+      }
+
       return { msg };
     },
 
