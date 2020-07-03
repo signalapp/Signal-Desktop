@@ -443,8 +443,13 @@ window.NewSnodeAPI = require('./ts/session/snode_api/serviceNodeAPI');
 window.SnodePool = require('./ts/session/snode_api/snodePool');
 
 const { SwarmPolling } = require('./ts/session/snode_api/swarmPolling');
+const { SwarmPollingStub } = require('./ts/session/snode_api/swarmPollingStub');
 
-window.SwarmPolling = new SwarmPolling();
+if (process.env.USE_STUBBED_NETWORK) {
+  window.SwarmPolling = new SwarmPollingStub();
+} else {
+  window.SwarmPolling = new SwarmPolling();
+}
 
 window.shortenPubkey = pubkey => {
   const pk = pubkey.key ? pubkey.key : pubkey;

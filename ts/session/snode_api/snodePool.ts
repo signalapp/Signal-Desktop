@@ -142,12 +142,8 @@ export function markNodeUnreachable(snode: Snode): void {
 export async function getRandomSnodeAddress(): Promise<Snode> {
   // resolve random snode
   if (randomSnodePool.length === 0) {
-    // allow exceptions to pass through upwards without the unhandled promise rejection
-    try {
-      await refreshRandomPool([]);
-    } catch (e) {
-      throw e;
-    }
+    await refreshRandomPool([]);
+
     if (randomSnodePool.length === 0) {
       throw new window.textsecure.SeedNodeError('Invalid seed node response');
     }
