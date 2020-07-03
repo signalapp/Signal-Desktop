@@ -1302,7 +1302,7 @@
           const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
             body: uploads.body,
             identifier: id,
-            timestamp: Date.now(),
+            timestamp: now,
             attachments: uploads.attachments,
             expireTimer,
             preview: uploads.preview,
@@ -1322,7 +1322,7 @@
 
             const openGroupParams = {
               body,
-              timestamp: Date.now(),
+              timestamp: now,
               group: openGroup,
               attachments: uploads.attachments,
               preview: uploads.preview,
@@ -1937,7 +1937,7 @@
 
         // FIXME what about public groups?
         const quitGroup = {
-          timestamp: Date.now(),
+          timestamp: now,
           groupId: this.id,
           // if we do set an identifier here, be sure to not sync it a second time in handleMessageSentSuccess()
         };

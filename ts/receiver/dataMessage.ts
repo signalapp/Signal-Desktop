@@ -13,6 +13,7 @@ import { handleMediumGroupUpdate } from './mediumGroups';
 import { handleUnpairRequest } from './multidevice';
 import { downloadAttachment } from './attachments';
 import _ from 'lodash';
+import { StringUtils } from '../session/utils';
 
 export async function updateProfile(
   conversation: any,
@@ -81,8 +82,10 @@ function cleanAttachment(attachment: any) {
   return {
     ..._.omit(attachment, 'thumbnail'),
     id: attachment.id.toString(),
-    key: attachment.key ? attachment.key.toString('base64') : null,
-    digest: attachment.digest ? attachment.digest.toString('base64') : null,
+    key: attachment.key ? StringUtils.decode(attachment.key, 'base64') : null,
+    digest: attachment.digest
+      ? StringUtils.decode(attachment.digest, 'base64')
+      : null,
   };
 }
 
