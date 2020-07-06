@@ -222,7 +222,7 @@
     "description": "Message shown if the import went wrong; first paragraph"
   },
   "importErrorSecond": {
-    "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+    "message": "If these steps don't work for you, please submit a debug log (View 🠖 Debug Log) so that we can help you get migrated!",
     "description": "Message shown if the import went wrong; second paragraph"
   },
   "importAgain": {
@@ -872,7 +872,7 @@
     "message": "Device linking request received."
   },
   "devicePairingRequestReceivedNoListenerDescription": {
-    "message": "Device linking request received but you are not on the device linking screen. \nFirst go to Settings -> Device -> Link New Device."
+    "message": "Device linking request received but you are not on the device linking screen. \nGo to Settings 🠖 Device 🠖 Link New Device."
   },
   "waitingForDeviceToRegister": {
     "message": "Waiting for device to register..."
@@ -2379,11 +2379,23 @@
   "verifyPassword": {
     "message": "Verify Password"
   },
-  "devicePairingHeader": {
-    "message": "1. Open Session on your other device. <br/>2. Navigate to the Linked Devices section in your user account screen.<br/>3. Select <strong>'Link a Device'</strong> to prepare your other device for pairing<br/>4. Enter your Session ID below to link this device to your Session ID."
+  "devicePairingHeaderReassure": {
+    "message": "Linking may take up to one minute to register on your primary device. Please be patient."
+  },
+  "devicePairingHeader_Step1": {
+    "message": "Open Session on your other device."
+  },
+  "devicePairingHeader_Step2": {
+    "message": "Navigate to the <strong>Devices</strong> section in your user account screen."
+  },
+  "devicePairingHeader_Step3": {
+    "message": "Select <strong>Link New Device</strong> to prepare your other device for pairing."
+  },
+  "devicePairingHeader_Step4": {
+    "message": "Enter your <strong>Session ID</strong> below to link this device to your <strong>Session ID</strong>."
   },
   "enterSessionIDHere": {
-    "message": "Enter other device’s Session ID here"
+    "message": "Enter your Session ID here"
   },
   "continueYourSession": {
     "message": "Continue Your Session"

@@ -1390,7 +1390,7 @@
         title,
         description,
         type,
-        id: 'pairingRequestNoListener',
+        id: 'pairingRequestReceived',
         shouldFade: false,
       });
     });
