@@ -1,5 +1,7 @@
 import { initIncomingMessage } from './dataMessage';
 import { toNumber } from 'lodash';
+import { SessionProtocol } from '../session/protocols';
+import { PubKey } from '../session/types';
 
 async function onNoSession(ev: any) {
   const { ConversationController, Whisper } = window;
@@ -18,14 +20,7 @@ async function onNoSession(ev: any) {
       Conversation: Whisper.Conversation,
     });
 
-    window.Whisper.events.trigger('showSessionRestoreConfirmation', {
-      pubkey,
-      onOk: () => {
-        convo.sendMessage('', null, null, null, null, {
-          sessionRestoration: true,
-        });
-      },
-    });
+    await SessionProtocol.sendSessionRequestIfNeeded(new PubKey(pubkey));
   } else {
     window.log.debug(`Already seen session restore for pubkey: ${pubkey}`);
     if (ev.confirm) {
