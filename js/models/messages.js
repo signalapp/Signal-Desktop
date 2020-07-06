@@ -1142,18 +1142,6 @@
         return null;
       }
     },
-    isReplayableError(e) {
-      return (
-        e.name === 'MessageError' ||
-        e.name === 'OutgoingMessageError' ||
-        e.name === 'SendMessageNetworkError' ||
-        e.name === 'SignedPreKeyRotationError' ||
-        e.name === 'OutgoingIdentityKeyError' ||
-        e.name === 'DNSResolutionError' ||
-        e.name === 'EmptySwarmError' ||
-        e.name === 'PoWError'
-      );
-    },
 
     // Called when the user ran into an error with a specific user, wants to send to them
     //   One caller today: ConversationView.forceSend()

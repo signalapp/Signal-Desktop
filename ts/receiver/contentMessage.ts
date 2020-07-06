@@ -370,7 +370,12 @@ export async function innerHandleContentMessage(
   }
 
   if (content.dataMessage) {
-    // Are we not supposed to await here?
+    if (
+      content.dataMessage.profileKey &&
+      content.dataMessage.profileKey.length === 0
+    ) {
+      content.dataMessage.profileKey = null;
+    }
     await handleDataMessage(envelope, content.dataMessage);
     return;
   }
@@ -387,6 +392,12 @@ export async function innerHandleContentMessage(
     return;
   }
   if (content.typingMessage) {
+    if (
+      content.typingMessage.groupId &&
+      content.typingMessage.groupId.length === 0
+    ) {
+      content.typingMessage.groupId = null;
+    }
     await handleTypingMessage(envelope, content.typingMessage);
     return;
   }

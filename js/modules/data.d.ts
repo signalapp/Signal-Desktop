@@ -233,6 +233,11 @@ export function saveSeenMessageHash(data: {
   hash: string;
 }): Promise<void>;
 
+export function getSwarmNodesForPubkey(pubkey: string): Promise<Array<string>>;
+export function updateSwarmNodesForPubkey(
+  pubkey: string,
+  snodeEdKeys: Array<string>
+): Promise<void>;
 // TODO: Strictly type the following
 export function updateLastHash(data: any): Promise<any>;
 export function saveSeenMessageHashes(data: any): Promise<any>;

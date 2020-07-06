@@ -48,7 +48,6 @@ interface ReqOptions {
 const incomingMessagePromises: Array<Promise<any>> = [];
 
 async function handleEnvelope(envelope: EnvelopePlus) {
-  const { textsecure } = window;
   // TODO: enable below
 
   // if (this.stoppingProcessing) {
@@ -59,7 +58,7 @@ async function handleEnvelope(envelope: EnvelopePlus) {
     return onDeliveryReceipt(envelope.source, envelope.timestamp);
   }
 
-  if (envelope.content) {
+  if (envelope.content && envelope.content.length > 0) {
     return handleContentMessage(envelope);
   }
 

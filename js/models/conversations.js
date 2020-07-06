@@ -81,7 +81,6 @@
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
         sessionResetStatus: SessionResetEnum.none,
-        swarmNodes: [],
         groupAdmins: [],
         isKickedFromGroup: false,
         isOnline: false,
@@ -1522,13 +1521,6 @@
           }
         })
       );
-    },
-
-    async updateSwarmNodes(swarmNodes) {
-      this.set({ swarmNodes });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
     },
     async updateLastMessage() {
       if (!this.id) {
