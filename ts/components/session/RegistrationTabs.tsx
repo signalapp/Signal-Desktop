@@ -613,6 +613,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       passwordFieldsMatch,
       displayNameError,
       mnemonicError,
+      primaryDevicePubKey,
       displayName,
       mnemonicSeed,
       password,
@@ -627,7 +628,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     if (signInMode === SignInMode.UsingSeed) {
       enableContinue = displayNameOK && mnemonicOK && passwordsOK;
     } else if (signInMode === SignInMode.LinkingDevice) {
-      enableContinue = true;
+      enableContinue = !!primaryDevicePubKey;
       text = window.i18n('linkDevice');
     } else if (signUpMode === SignUpMode.EnterDetails) {
       enableContinue = displayNameOK && passwordsOK;
