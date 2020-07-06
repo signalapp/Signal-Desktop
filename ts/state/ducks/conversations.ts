@@ -209,6 +209,9 @@ export type MessagesResetActionType = {
     messages: Array<MessageType>;
     metrics: MessageMetricsType;
     scrollToMessageId?: string;
+    // The set of provided messages should be trusted, even if it conflicts with metrics,
+    //   because we weren't looking for a specific time window of messages with our query.
+    unboundedFetch: boolean;
   };
 };
 export type SetMessagesLoadingActionType = {
@@ -424,11 +427,13 @@ function messagesReset(
   conversationId: string,
   messages: Array<MessageType>,
   metrics: MessageMetricsType,
-  scrollToMessageId?: string
+  scrollToMessageId?: string,
+  unboundedFetch?: boolean
 ): MessagesResetActionType {
   return {
     type: 'MESSAGES_RESET',
     payload: {
+      unboundedFetch: Boolean(unboundedFetch),
       conversationId,
       messages,
       metrics,
@@ -784,6 +789,7 @@ export function reducer(
       messages,
       metrics,
       scrollToMessageId,
+      unboundedFetch,
     } = action.payload;
     const { messagesByConversation, messagesLookup } = state;
 
@@ -807,7 +813,10 @@ export function reducer(
       }
 
       const last = messages[messages.length - 1];
-      if (last && (!newest || last.received_at >= newest.received_at)) {
+      if (
+        last &&
+        (!newest || unboundedFetch || last.received_at >= newest.received_at)
+      ) {
         newest = pick(last, ['id', 'received_at']);
       }
     }
