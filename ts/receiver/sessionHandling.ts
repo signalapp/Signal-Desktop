@@ -114,8 +114,6 @@ export async function handleSessionRequestMessage(
       timestamp: Date.now(),
     });
     await libsession.getMessageQueue().send(user, sessionEstablished);
-
-    libloki.api.sendSessionEstablishedMessage(envelope.source);
   } catch (e) {
     log.warn('Failed to process session request', e);
     // TODO how to handle a failed session request?
