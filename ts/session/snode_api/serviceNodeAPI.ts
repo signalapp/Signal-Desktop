@@ -261,7 +261,7 @@ export async function storeOnNode(
   targetNode: Snode,
   params: SendParams
 ): Promise<boolean> {
-  const { log, textsecure, lokiSnodeAPI } = window;
+  const { log, textsecure } = window;
 
   let successiveFailures = 0;
   while (successiveFailures < MAX_ACCEPTABLE_FAILURES) {

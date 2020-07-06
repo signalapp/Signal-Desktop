@@ -332,14 +332,12 @@ const { initialize: initializeWebAPI } = require('./js/modules/web_api');
 window.WebAPI = initializeWebAPI();
 
 window.seedNodeList = JSON.parse(config.seedNodeList);
-const LokiSnodeAPI = require('./js/modules/loki_snode_api');
 
 window.SenderKeyAPI = require('./js/modules/loki_sender_key_api');
 
-window.lokiSnodeAPI = new LokiSnodeAPI({
-  serverUrl: config.serverUrl,
-  localUrl: config.localUrl,
-});
+const { OnionAPI } = require('./ts/session/onions');
+
+window.OnionAPI = OnionAPI;
 
 if (process.env.USE_STUBBED_NETWORK) {
   const StubMessageAPI = require('./integration_test/stubs/stub_message_api');

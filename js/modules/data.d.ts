@@ -159,7 +159,7 @@ export function getPairingAuthorisationsFor(
 export function removePairingAuthorisationsFor(pubKey: string): Promise<void>;
 
 // Guard Nodes
-export function getGuardNodes(): Promise<GuardNode>;
+export function getGuardNodes(): Promise<Array<GuardNode>>;
 export function updateGuardNodes(nodes: Array<string>): Promise<void>;
 
 // Storage Items

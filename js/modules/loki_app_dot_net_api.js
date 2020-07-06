@@ -1,6 +1,6 @@
 /* global log, textsecure, libloki, Signal, Whisper, ConversationController,
 clearTimeout, MessageController, libsignal, StringView, window, _,
-dcodeIO, Buffer, lokiSnodeAPI, TextDecoder, process */
+dcodeIO, Buffer, TextDecoder, process */
 const nodeFetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const FormData = require('form-data');
@@ -59,7 +59,7 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
     // eslint-disable-next-line no-param-reassign
     options.retry = 0;
     // eslint-disable-next-line no-param-reassign
-    options.requestNumber = window.lokiSnodeAPI.assignOnionRequestNumber();
+    options.requestNumber = window.OnionAPI.assignOnionRequestNumber();
   }
 
   const payloadObj = {
@@ -92,7 +92,7 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
 
   let pathNodes = [];
   try {
-    pathNodes = await lokiSnodeAPI.getOnionPath();
+    pathNodes = await window.OnionAPI.getOnionPath();
   } catch (e) {
     log.error(
       `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - getOnionPath Error ${e.code} ${e.message}`
