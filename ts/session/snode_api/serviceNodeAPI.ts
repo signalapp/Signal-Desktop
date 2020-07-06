@@ -12,8 +12,8 @@ import { sleepFor } from '../../../js/modules/loki_primitives';
 import {
   getRandomSnodeAddress,
   markNodeUnreachable,
-  markUnreachableForPubkey,
   Snode,
+  updateSnodesFor,
 } from './snodePool';
 
 const snodeHttpsAgent = new https.Agent({
@@ -142,9 +142,6 @@ export async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
     return [];
   }
 }
-
-// Not entirely sure what this is used for
-const sendingData: any = {};
 
 interface SendParams {
   pubKey: string;
@@ -319,9 +316,7 @@ export async function storeOnNode(
       );
       if (e instanceof textsecure.WrongSwarmError) {
         const { newSwarm } = e;
-        await lokiSnodeAPI.updateSwarmNodes(params.pubKey, newSwarm);
-        sendingData[params.timestamp].swarm = newSwarm;
-        sendingData[params.timestamp].hasFreshList = true;
+        await updateSnodesFor(params.pubKey, newSwarm);
         return false;
       } else if (e instanceof textsecure.WrongDifficultyError) {
         const { newDifficulty } = e;
@@ -342,12 +337,9 @@ export async function storeOnNode(
       successiveFailures += 1;
     }
   }
-  const remainingSwarmSnodes = await markUnreachableForPubkey(
-    params.pubKey,
-    targetNode
-  );
+  markNodeUnreachable(targetNode);
   log.error(
-    `loki_message:::storeOnNode - Too many successive failures trying to send to node ${targetNode.ip}:${targetNode.port}, ${remainingSwarmSnodes.length} remaining swarm nodes`
+    `loki_message:::storeOnNode - Too many successive failures trying to send to node ${targetNode.ip}:${targetNode.port}`
   );
   return false;
 }

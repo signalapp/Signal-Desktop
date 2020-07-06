@@ -347,19 +347,7 @@ if (process.env.USE_STUBBED_NETWORK) {
 
   const StubAppDotNetAPI = require('./integration_test/stubs/stub_app_dot_net_api');
   window.LokiAppDotNetServerAPI = StubAppDotNetAPI;
-
-  const StubSnodeAPI = require('./integration_test/stubs/stub_snode_api');
-
-  window.lokiSnodeAPI = new StubSnodeAPI({
-    serverUrl: config.serverUrl,
-    localUrl: config.localUrl,
-  });
 } else {
-  window.lokiSnodeAPI = new LokiSnodeAPI({
-    serverUrl: config.serverUrl,
-    localUrl: config.localUrl,
-  });
-
   window.LokiMessageAPI = require('./js/modules/loki_message_api');
 
   window.LokiAppDotNetServerAPI = require('./js/modules/loki_app_dot_net_api');
@@ -495,9 +483,6 @@ if (
   };
   /* eslint-enable global-require, import/no-extraneous-dependencies */
   window.lokiFeatureFlags = {};
-  // eslint-disable-next-line global-require
-  window.StubLokiSnodeAPI = require('./integration_test/stubs/stub_loki_snode_api');
-  window.lokiSnodeAPI = new window.StubLokiSnodeAPI(); // no need stub out each function here
 }
 if (config.environment.includes('test-integration')) {
   window.lokiFeatureFlags = {

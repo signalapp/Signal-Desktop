@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-loop-func */
-/* global log, dcodeIO, window, callWorker, lokiSnodeAPI, textsecure */
+/* global log, dcodeIO, window, callWorker, textsecure */
 
 const _ = require('lodash');
 const primitives = require('./loki_primitives');
@@ -14,11 +14,18 @@ const calcNonce = (messageEventData, pubKey, data64, timestamp, ttl) => {
   return callWorker('calcPoW', timestamp, ttl, pubKey, data64, difficulty);
 };
 
-class LokiMessageAPI {
-  constructor() {
-    this.sendingData = {};
+async function _openSendConnection(snode, params) {
+  // TODO: Revert back to using snode address instead of IP
+  const successfulSend = await window.NewSnodeAPI.storeOnNode(snode, params);
+  if (successfulSend) {
+    return snode;
   }
+  // should we mark snode as bad if it can't store our message?
 
+  return false;
+}
+
+class LokiMessageAPI {
   /**
    * Refactor note: We should really clean this up ... it's very messy
    *
@@ -69,14 +76,7 @@ class LokiMessageAPI {
       ttl
     );
     // Using timestamp as a unique identifier
-    const swarm = await lokiSnodeAPI.getSwarmNodesForPubKey(pubKey);
-    this.sendingData[timestamp] = {
-      swarm,
-      hasFreshList: false,
-    };
-    if (this.sendingData[timestamp].swarm.length < numConnections) {
-      await this.refreshSendingSwarm(pubKey, timestamp);
-    }
+    const swarm = await window.SnodePool.getSnodesFor(pubKey);
 
     // send parameters
     const params = {
@@ -86,17 +86,10 @@ class LokiMessageAPI {
       timestamp: timestamp.toString(),
       data: data64,
     };
-    const promises = [];
-    let completedConnections = 0;
-    for (let i = 0; i < numConnections; i += 1) {
-      const connectionPromise = this._openSendConnection(params).finally(() => {
-        completedConnections += 1;
-        if (completedConnections >= numConnections) {
-          delete this.sendingData[timestamp];
-        }
-      });
-      promises.push(connectionPromise);
-    }
+
+    const promises = _.slice(swarm, 0, numConnections).map(snode =>
+      _openSendConnection(snode, params)
+    );
 
     let snode;
     try {
@@ -122,50 +115,11 @@ class LokiMessageAPI {
         pubKey,
         'Ran out of swarm nodes to query'
       );
-    }
-    log.info(
-      `loki_message:::sendMessage - Successfully stored message to ${pubKey} via ${snode.ip}:${snode.port}`
-    );
-  }
-
-  async refreshSendingSwarm(pubKey, timestamp) {
-    const freshNodes = await lokiSnodeAPI.refreshSwarmNodesForPubKey(pubKey);
-    this.sendingData[timestamp].swarm = freshNodes;
-    this.sendingData[timestamp].hasFreshList = true;
-    return true;
-  }
-
-  async _openSendConnection(params) {
-    // timestamp is likely the current second...
-
-    while (!_.isEmpty(this.sendingData[params.timestamp].swarm)) {
-      const snode = this.sendingData[params.timestamp].swarm.shift();
-      // TODO: Revert back to using snode address instead of IP
-      const successfulSend = await window.NewSnodeAPI.storeOnNode(
-        snode,
-        params
+    } else {
+      log.info(
+        `loki_message:::sendMessage - Successfully stored message to ${pubKey} via ${snode.ip}:${snode.port}`
       );
-      if (successfulSend) {
-        return snode;
-      }
-      // should we mark snode as bad if it can't store our message?
     }
-
-    if (!this.sendingData[params.timestamp].hasFreshList) {
-      // Ensure that there is only a single refresh per outgoing message
-      if (!this.sendingData[params.timestamp].refreshPromise) {
-        this.sendingData[
-          params.timestamp
-        ].refreshPromise = this.refreshSendingSwarm(
-          params.pubKey,
-          params.timestamp
-        );
-      }
-      await this.sendingData[params.timestamp].refreshPromise;
-      // Retry with a fresh list again
-      return this._openSendConnection(params);
-    }
-    return false;
   }
 }
 
