@@ -66,6 +66,8 @@ export abstract class ClosedGroupUpdateMessage extends ClosedGroupMessage {
       groupContext.admins = this.admins;
     }
 
+    groupContext.avatar = this.avatar;
+
     return groupContext;
   }
 }

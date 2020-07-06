@@ -626,23 +626,25 @@
     window.doUpdateGroup = async (groupId, groupName, members, avatar) => {
       const ourKey = textsecure.storage.user.getNumber();
 
+      const convo = await ConversationController.getOrCreateAndWait(
+        groupId,
+        'group'
+      );
+
       const ev = {
         groupDetails: {
           id: groupId,
           name: groupName,
           members,
           active: true,
-          expireTimer: 0,
-          avatar: '',
+          expireTimer: convo.get('expireTimer'),
+          avatar,
           is_medium_group: false,
         },
         confirm: () => {},
       };
 
-      const convo = await ConversationController.getOrCreateAndWait(
-        groupId,
-        'group'
-      );
+
 
       const recipients = _.union(convo.get('members'), members);
 
