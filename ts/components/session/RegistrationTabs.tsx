@@ -420,21 +420,29 @@ export class RegistrationTabs extends React.Component<{}, State> {
       return (
         <div className="registration-content-centered">
           <div className="session-signin-device-pairing-header">
-            {this.state.loading ? (
+            {!!this.state.secretWords ? (
               <p>{window.i18n('devicePairingHeaderReassure')}</p>
             ) : (
               <ol>
                 <li>
-                  <SessionHtmlRenderer html={window.i18n('devicePairingHeader_Step1')} />
+                  <SessionHtmlRenderer
+                    html={window.i18n('devicePairingHeader_Step1')}
+                  />
                 </li>
                 <li>
-                  <SessionHtmlRenderer html={window.i18n('devicePairingHeader_Step2')} />
+                  <SessionHtmlRenderer
+                    html={window.i18n('devicePairingHeader_Step2')}
+                  />
                 </li>
                 <li>
-                  <SessionHtmlRenderer html={window.i18n('devicePairingHeader_Step3')} />
+                  <SessionHtmlRenderer
+                    html={window.i18n('devicePairingHeader_Step3')}
+                  />
                 </li>
                 <li>
-                  <SessionHtmlRenderer html={window.i18n('devicePairingHeader_Step4')} />
+                  <SessionHtmlRenderer
+                    html={window.i18n('devicePairingHeader_Step4')}
+                  />
                 </li>
               </ol>
             )}
@@ -446,7 +454,6 @@ export class RegistrationTabs extends React.Component<{}, State> {
               <div className="subtle">{this.state.secretWords}</div>
             </div>
           )}
-          
           <SessionSpinner loading={!!this.state.secretWords} />
         </div>
       );
@@ -560,10 +567,14 @@ export class RegistrationTabs extends React.Component<{}, State> {
       return (
         <div>
           {this.renderContinueYourSessionButton()}
-          <h4>{or}</h4>
-          {this.renderRestoreUsingSeedButton(
-            SessionButtonType.BrandOutline,
-            SessionButtonColor.White
+          {!this.state.secretWords && (
+            <>
+              <h4>{or}</h4>
+              {this.renderRestoreUsingSeedButton(
+                SessionButtonType.BrandOutline,
+                SessionButtonColor.White
+              )}
+            </>
           )}
         </div>
       );
@@ -602,13 +613,10 @@ export class RegistrationTabs extends React.Component<{}, State> {
       passwordFieldsMatch,
       displayNameError,
       mnemonicError,
-      primaryDevicePubKey,
       displayName,
       mnemonicSeed,
       password,
     } = this.state;
-
-    const shouldRenderCancel = this.state.signInMode === SignInMode.LinkingDevice && this.state.loading && !!this.state.secretWords;
 
     let enableContinue = true;
     let text = window.i18n('continueYourSession');
@@ -620,23 +628,32 @@ export class RegistrationTabs extends React.Component<{}, State> {
       enableContinue = displayNameOK && mnemonicOK && passwordsOK;
     } else if (signInMode === SignInMode.LinkingDevice) {
       enableContinue = true;
-      text = window.i18n(shouldRenderCancel ? 'cancel' : 'linkDevice');
+      text = window.i18n('linkDevice');
     } else if (signUpMode === SignUpMode.EnterDetails) {
       enableContinue = displayNameOK && passwordsOK;
     }
 
+    const shouldRenderCancel =
+      this.state.signInMode === SignInMode.LinkingDevice &&
+      !!this.state.secretWords;
+
+    text = shouldRenderCancel ? window.i18n('cancel') : text;
+    const buttonColor = shouldRenderCancel
+      ? SessionButtonColor.White
+      : SessionButtonColor.Green;
+    const buttonType = shouldRenderCancel
+      ? SessionButtonType.BrandOutline
+      : SessionButtonType.Brand;
     const onClick = () => {
       shouldRenderCancel
         ? this.cancelSecondaryDevice()
         : this.handleContinueYourSessionClick();
     };
 
-    const buttonColor = shouldRenderCancel ? SessionButtonColor.White : SessionButtonColor.Green;
-
     return (
       <SessionButton
         onClick={onClick}
-        buttonType={SessionButtonType.Brand}
+        buttonType={buttonType}
         buttonColor={buttonColor}
         text={text}
         disabled={!enableContinue}
@@ -932,7 +949,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       await this.accountManager.requestPairing(primaryPubKey);
       const pubkey = window.textsecure.storage.user.getNumber();
       const secretWords = window.mnemonic.pubkey_to_secret_words(pubkey);
-      this.setState({secretWords});
+      this.setState({ secretWords });
     } catch (e) {
       window.console.log(e);
       await this.resetRegistration();

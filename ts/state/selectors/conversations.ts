@@ -120,16 +120,21 @@ export const _getLeftPaneLists = (
       };
     }
 
+    // Remove all invalid conversations and conversatons of devices associated with cancelled attempted links
+    if (!conversation.timestamp) {
+      continue;
+    }
+
+    if (!conversation.activeAt) {
+      continue;
+    }
+
     if (conversation.activeAt !== undefined) {
       allContacts.push(conversation);
     }
 
     if (unreadCount < 9 && conversation.unreadCount > 0) {
       unreadCount += conversation.unreadCount;
-    }
-
-    if (!conversation.activeAt) {
-      continue;
     }
 
     if (conversation.isArchived) {
