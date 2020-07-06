@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-/* global window, textsecure, ConversationController, log, process, Buffer, StringView, dcodeIO */
+/* global window, textsecure, log, process, Buffer, StringView, dcodeIO */
 
 // not sure I like this name but it's been than util
 const primitives = require('./loki_primitives');
@@ -7,11 +7,7 @@ const primitives = require('./loki_primitives');
 const is = require('@sindresorhus/is');
 const nodeFetch = require('node-fetch');
 
-const RANDOM_SNODES_TO_USE_FOR_PUBKEY_SWARM = 3;
 const MIN_GUARD_COUNT = 2;
-
-const compareSnodes = (current, search) =>
-  current.pubkey_ed25519 === search.pubkey_ed25519;
 
 class LokiSnodeAPI {
   constructor({ serverUrl, localUrl }) {
@@ -316,103 +312,6 @@ class LokiSnodeAPI {
     });
   }
 
-  async updateLastHash(convoId, snodeAddress, hash, expiresAt) {
-    // FIXME: handle rejections
-    await window.Signal.Data.updateLastHash({
-      convoId,
-      snode: snodeAddress,
-      hash,
-      expiresAt,
-    });
-  }
-
-  // called by loki_message:::sendMessage & loki_message:::startLongPolling
-  async getSwarmNodesForPubKey(pubKey, options = {}) {
-    const { fetchHashes } = options;
-    try {
-      const conversation = ConversationController.get(pubKey);
-      if (!conversation) {
-        throw new Error('Could not find conversation ', pubKey);
-      }
-      const swarmNodes = [...conversation.get('swarmNodes')];
-
-      // always? include lashHash
-      if (fetchHashes) {
-        await Promise.all(
-          Object.keys(swarmNodes).map(async j => {
-            const node = swarmNodes[j];
-            // FIXME make a batch function call
-            const lastHash = await window.Signal.Data.getLastHashBySnode(
-              pubKey,
-              node.address
-            );
-            log.debug(
-              `LokiSnodeAPI::getSwarmNodesForPubKey - ${j} ${node.ip}:${node.port}`
-            );
-            swarmNodes[j] = {
-              ...node,
-              lastHash,
-            };
-          })
-        );
-      }
-
-      return swarmNodes;
-    } catch (e) {
-      log.error('getSwarmNodesForPubKey expection: ', e);
-      throw new window.textsecure.ReplayableError({
-        message: 'Could not get conversation',
-      });
-    }
-  }
-
-  async updateSwarmNodes(pubKey, newNodes) {
-    try {
-      const filteredNodes = newNodes.filter(snode => snode.ip !== '0.0.0.0');
-      const conversation = ConversationController.get(pubKey);
-      await conversation.updateSwarmNodes(filteredNodes);
-      return filteredNodes;
-    } catch (e) {
-      log.error(
-        `LokiSnodeAPI::updateSwarmNodes - error ${e.code} ${e.message}`
-      );
-      throw new window.textsecure.ReplayableError({
-        message: 'Could not get conversation',
-      });
-    }
-  }
-
-  // FIXME: in it's own PR, reorder functions: put _getFreshSwarmNodes and it's callee
-  // only loki_message::startLongPolling calls this...
-  async refreshSwarmNodesForPubKey(pubKey) {
-    // FIXME: handle rejections
-    const newNodes = await this._getFreshSwarmNodes(pubKey);
-    log.debug(
-      'LokiSnodeAPI::refreshSwarmNodesForPubKey - newNodes',
-      newNodes.length
-    );
-    const filteredNodes = this.updateSwarmNodes(pubKey, newNodes);
-    return filteredNodes;
-  }
-
-  async _getFreshSwarmNodes(pubKey) {
-    return primitives.allowOnlyOneAtATime(`swarmRefresh${pubKey}`, async () => {
-      let newSwarmNodes = [];
-      try {
-        newSwarmNodes = await this._getSwarmNodes(pubKey);
-      } catch (e) {
-        log.error(
-          'LokiSnodeAPI::_getFreshSwarmNodes - error',
-          e.code,
-          e.message
-        );
-        // TODO: Handle these errors sensibly
-        newSwarmNodes = [];
-      }
-      return newSwarmNodes;
-    });
-  }
-
   async getLnsMapping(lnsName, timeout) {
     // Returns { pubkey, error }
     // pubkey is
@@ -529,33 +428,6 @@ class LokiSnodeAPI {
       });
 
     return { pubkey, error };
-  }
-
-  async _getSwarmNodes(pubKey) {
-    const snodes = [];
-    // creates a range: [0, 1, 2]
-    const questions = [...Array(RANDOM_SNODES_TO_USE_FOR_PUBKEY_SWARM).keys()];
-    // FIXME: handle rejections
-    await Promise.all(
-      questions.map(async qNum => {
-        // allow exceptions to pass through upwards
-        const resList = await window.NewSnodeAPI.getSnodesForPubkey(pubKey);
-        log.info(
-          `LokiSnodeAPI::_getSwarmNodes - question ${qNum} got`,
-          resList.length,
-          'snodes'
-        );
-        resList.map(item => {
-          const hasItem = snodes.some(n => compareSnodes(n, item));
-          if (!hasItem) {
-            snodes.push(item);
-          }
-          return true;
-        });
-      })
-    );
-    // should we only activate entries that are in all results? yes
-    return snodes;
   }
 }
 

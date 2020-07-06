@@ -9,6 +9,8 @@ import {
   getVersion,
 } from './serviceNodeAPI';
 
+import * as Data from '../../../js/modules/data';
+
 import semver from 'semver';
 import _ from 'lodash';
 
@@ -29,7 +31,7 @@ let randomSnodePool: Array<Snode> = [];
 let stopGetAllVersionPromiseControl: any = false;
 
 // We only store nodes' identifiers here,
-const nodesForPubkey: { [key: string]: Array<SnodeEdKey> } = {};
+const nodesForPubkey: Map<string, Array<SnodeEdKey>> = new Map();
 
 // just get the filtered list
 async function tryGetSnodeListFromLokidSeednode(
@@ -96,43 +98,16 @@ async function tryGetSnodeListFromLokidSeednode(
   return [];
 }
 
-// This simply removes the node from the conversation, but not in the pool! (fix this?)
-export async function markUnreachableForPubkey(
-  pubKey: string,
-  unreachableNode: Snode
-): Promise<Array<Snode>> {
-  const { log, ConversationController } = window;
-
-  const conversation = ConversationController.get(pubKey);
-  const swarmNodes = [...conversation.get('swarmNodes')];
-  if (typeof unreachableNode === 'string') {
-    log.warn(
-      'LokiSnodeAPI::unreachableNode - String passed as unreachableNode to unreachableNode'
-    );
-    return swarmNodes;
-  }
-
-  const filteredNodes = swarmNodes.filter(node =>
-    compareSnodes(unreachableNode, node)
-  );
-  if (filteredNodes.length === swarmNodes.length) {
-    log.warn(
-      `LokiSnodeAPI::unreachableNode - snode ${unreachableNode.ip}:${unreachableNode.port} has already been marked as bad`
-    );
-  }
-
-  try {
-    await conversation.updateSwarmNodes(filteredNodes);
-  } catch (e) {
-    log.error(`LokiSnodeAPI::unreachableNode - error ${e.code} ${e.message}`);
-    throw e;
-  }
-  return filteredNodes;
-}
-
 export function markNodeUnreachable(snode: Snode): void {
   const { log } = window;
-  randomSnodePool = _.without(randomSnodePool, snode);
+  _.remove(randomSnodePool, x => x.pubkey_ed25519 === snode.pubkey_ed25519);
+
+  for (const [pubkey, nodes] of nodesForPubkey) {
+    const edkeys = _.filter(nodes, edkey => edkey !== snode.pubkey_ed25519);
+
+    // tslint:disable-next-line no-floating-promises
+    internalUpdateSnodesFor(pubkey, edkeys);
+  }
 
   log.warn(
     `Marking ${snode.ip}:${snode.port} as unreachable, ${randomSnodePool.length} snodes remaining in randomPool`
@@ -342,22 +317,46 @@ export async function refreshRandomPool(seedNodes?: Array<any>): Promise<void> {
   });
 }
 
+export async function updateSnodesFor(
+  pubkey: string,
+  snodes: Array<Snode>
+): Promise<void> {
+  const edkeys = snodes.map((sn: Snode) => sn.pubkey_ed25519);
+  await internalUpdateSnodesFor(pubkey, edkeys);
+}
+
+async function internalUpdateSnodesFor(pubkey: string, edkeys: Array<string>) {
+  nodesForPubkey.set(pubkey, edkeys);
+  await Data.updateSwarmNodesForPubkey(pubkey, edkeys);
+}
+
 export async function getSnodesFor(pubkey: string): Promise<Array<Snode>> {
-  const nodes = nodesForPubkey[pubkey];
+  let maybeNodes = nodesForPubkey.get(pubkey);
+  let nodes: Array<string>;
+
+  maybeNodes = [];
+
+  // NOTE: important that maybeNodes is not [] here
+  if (maybeNodes === undefined) {
+    // First time access, try the database:
+    nodes = await Data.getSwarmNodesForPubkey(pubkey);
+    nodesForPubkey.set(pubkey, nodes);
+  } else {
+    nodes = maybeNodes;
+  }
 
   // See how many are actually still reachable
-  const goodNodes = nodes
-    ? randomSnodePool.filter(
-        (n: Snode) => nodes.indexOf(n.pubkey_ed25519) !== -1
-      )
-    : [];
+  const goodNodes = randomSnodePool.filter(
+    (n: Snode) => nodes.indexOf(n.pubkey_ed25519) !== -1
+  );
 
   if (goodNodes.length < MIN_NODES) {
     // Request new node list from the network
     const freshNodes = await getSnodesForPubkey(pubkey);
 
     const edkeys = freshNodes.map((n: Snode) => n.pubkey_ed25519);
-    nodesForPubkey[pubkey] = edkeys;
+    // tslint:disable-next-line no-floating-promises
+    internalUpdateSnodesFor(pubkey, edkeys);
     // TODO: We could probably check that the retuned sndoes are not "unreachable"
 
     return freshNodes;

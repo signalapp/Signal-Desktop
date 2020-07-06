@@ -110,8 +110,8 @@ module.exports = {
   removeAllSessions,
   getAllSessions,
 
-  // Doesn't look like this is used at all
-  getSwarmNodesByPubkey,
+  getSwarmNodesForPubkey,
+  updateSwarmNodesForPubkey,
 
   getConversationCount,
   saveConversation,
@@ -736,12 +736,15 @@ async function getAllSessions(id) {
   return sessions;
 }
 
-// Conversation
-
-async function getSwarmNodesByPubkey(pubkey) {
-  return channels.getSwarmNodesByPubkey(pubkey);
+async function getSwarmNodesForPubkey(pubkey) {
+  return channels.getSwarmNodesForPubkey(pubkey);
 }
 
+async function updateSwarmNodesForPubkey(pubkey, snodeEdKeys) {
+  await channels.updateSwarmNodesForPubkey(pubkey, snodeEdKeys);
+}
+
+// Conversation
 async function getConversationCount() {
   return channels.getConversationCount();
 }
@@ -773,7 +776,6 @@ async function updateConversation(id, data, { Conversation }) {
   // it will take a union of old and new members and that's not
   // what we want for member deletion, so:
   merged.members = data.members;
-  merged.swarmNodes = data.swarmNodes;
 
   // Don't save the online status of the object
   const cleaned = omit(merged, 'isOnline');

@@ -92,7 +92,8 @@ module.exports = {
   removeAllSessions,
   getAllSessions,
 
-  getSwarmNodesByPubkey,
+  getSwarmNodesForPubkey,
+  updateSwarmNodesForPubkey,
   getGuardNodes,
   updateGuardNodes,
 
@@ -808,6 +809,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion2,
   updateToLokiSchemaVersion3,
   updateToLokiSchemaVersion4,
+  updateToLokiSchemaVersion5,
 ];
 
 async function updateToLokiSchemaVersion1(currentVersion, instance) {
@@ -965,6 +967,36 @@ async function updateToLokiSchemaVersion4(currentVersion, instance) {
 
   await instance.run('COMMIT TRANSACTION;');
   console.log('updateToLokiSchemaVersion4: success!');
+}
+
+const NODES_FOR_PUBKEY_TABLE = 'nodesForPubkey';
+
+async function updateToLokiSchemaVersion5(currentVersion, instance) {
+  if (currentVersion >= 5) {
+    return;
+  }
+
+  console.log('updateToLokiSchemaVersion5: starting...');
+
+  await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run(
+    `CREATE TABLE ${NODES_FOR_PUBKEY_TABLE} (
+      pubkey TEXT PRIMARY KEY,
+      json TEXT
+    );`
+  );
+
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        5
+      );`
+  );
+
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToLokiSchemaVersion5: success!');
 }
 
 async function updateLokiSchema(instance) {
@@ -1643,16 +1675,35 @@ async function getAllFromTable(table) {
 
 // Conversations
 
-async function getSwarmNodesByPubkey(pubkey) {
-  const row = await db.get('SELECT * FROM conversations WHERE id = $pubkey;', {
-    $pubkey: pubkey,
-  });
+async function getSwarmNodesForPubkey(pubkey) {
+  const row = await db.get(
+    `SELECT * FROM ${NODES_FOR_PUBKEY_TABLE} WHERE pubkey = $pubkey;`,
+    {
+      $pubkey: pubkey,
+    }
+  );
 
   if (!row) {
     return [];
   }
 
-  return jsonToObject(row.json).swarmNodes;
+  return jsonToObject(row.json);
+}
+
+async function updateSwarmNodesForPubkey(pubkey, snodeEdKeys) {
+  await db.run(
+    `INSERT OR REPLACE INTO ${NODES_FOR_PUBKEY_TABLE} (
+        pubkey,
+        json
+        ) values (
+          $pubkey,
+          $json
+          );`,
+    {
+      $pubkey: pubkey,
+      $json: objectToJSON(snodeEdKeys),
+    }
+  );
 }
 
 const CONVERSATIONS_TABLE = 'conversations';
@@ -2682,6 +2733,7 @@ function getRemoveConfigurationPromises() {
     db.run('DELETE FROM servers;'),
     db.run('DELETE FROM lastHashes;'),
     db.run(`DELETE FROM ${SENDER_KEYS_TABLE};`),
+    db.run(`DELETE FROM ${NODES_FOR_PUBKEY_TABLE};`),
     db.run('DELETE FROM seenMessages;'),
   ];
 }
