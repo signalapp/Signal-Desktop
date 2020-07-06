@@ -215,6 +215,10 @@ function parseContacts(arrbuf: ArrayBuffer): Array<any> {
         new Uint8Array(nextBuffer)
       );
 
+      if (proto.profileKey && proto.profileKey.length === 0) {
+        proto.profileKey = null;
+      }
+
       buffer.skip(len);
 
       if (proto.avatar) {
@@ -259,7 +263,7 @@ export async function handleContacts(
   window.log.info('contact sync');
   // const { blob } = contacts;
 
-  if (!contacts.data) {
+  if (!contacts.data || contacts.data.length === 0) {
     window.log.error('Contacts without data');
     return;
   }

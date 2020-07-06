@@ -83,9 +83,10 @@ function cleanAttachment(attachment: any) {
     ..._.omit(attachment, 'thumbnail'),
     id: attachment.id.toString(),
     key: attachment.key ? StringUtils.decode(attachment.key, 'base64') : null,
-    digest: attachment.digest
-      ? StringUtils.decode(attachment.digest, 'base64')
-      : null,
+    digest:
+      attachment.digest && attachment.digest.length > 0
+        ? StringUtils.decode(attachment.digest, 'base64')
+        : null,
   };
 }
 
@@ -138,7 +139,7 @@ function cleanAttachments(decrypted: any) {
     quote.attachments = (quote.attachments || []).map((item: any) => {
       const { thumbnail } = item;
 
-      if (!thumbnail) {
+      if (!thumbnail || thumbnail.length === 0) {
         return item;
       }
 
