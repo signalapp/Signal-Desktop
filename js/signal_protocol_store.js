@@ -898,7 +898,7 @@
       ConversationController.reset();
       BlockedNumberController.reset();
       await ConversationController.load();
-      BlockedNumberController.refresh();
+      await BlockedNumberController.load();
     },
     async removeAllConfiguration() {
       await window.Signal.Data.removeAllConfiguration();

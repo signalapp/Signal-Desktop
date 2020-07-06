@@ -430,8 +430,8 @@
       await Promise.all([
         ConversationController.load(),
         textsecure.storage.protocol.hydrateCaches(),
+        BlockedNumberController.load(),
       ]);
-      BlockedNumberController.refresh();
     } catch (error) {
       window.log.error(
         'background.js: ConversationController failed to load:',

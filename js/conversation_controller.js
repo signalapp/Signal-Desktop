@@ -195,7 +195,12 @@
     },
     getOrCreateAndWait(id, type) {
       return this._initialPromise.then(() => {
-        const pubkey = id.key ? id.key : id;
+        if (!id) {
+          return Promise.reject(
+            new Error('getOrCreateAndWait: invalid id passed.')
+          );
+        }
+        const pubkey = id && id.key ? id.key : id;
         const conversation = this.getOrCreate(pubkey, type);
 
         if (conversation) {

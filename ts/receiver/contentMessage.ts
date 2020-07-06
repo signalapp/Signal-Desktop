@@ -18,6 +18,7 @@ import { PubKey } from '../session/types';
 import { handleSyncMessage } from './syncMessages';
 import { onError } from './errors';
 import ByteBuffer from 'bytebuffer';
+import { BlockedNumberController } from '../util/blockedNumberController';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   const plaintext = await decrypt(envelope, envelope.content);
@@ -96,9 +97,7 @@ function unpad(paddedData: ArrayBuffer): ArrayBuffer {
 }
 
 export function isBlocked(number: string) {
-  // TODO: should probably use primary pubkeys here!
-  const blockedNumbers = window.textsecure.storage.get('blocked', []);
-  return blockedNumbers.indexOf(number) >= 0;
+  return BlockedNumberController.isBlocked(number);
 }
 
 async function decryptPreKeyWhisperMessage(

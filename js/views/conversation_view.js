@@ -535,6 +535,9 @@
         case 'left-group':
           placeholder = i18n('sendMessageLeftGroup');
           break;
+        case 'blocked-user':
+          placeholder = i18n('sendMessageBlockedUser');
+          break;
         default:
           placeholder = i18n('sendMessage');
           break;

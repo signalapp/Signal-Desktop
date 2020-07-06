@@ -1000,6 +1000,9 @@
   "sendMessageLeftGroup": {
     "message": "You left this group"
   },
+  "sendMessageBlockedUser": {
+    "message": "You have blocked the user"
+  },
   "groupMembers": {
     "message": "Group members"
   },
