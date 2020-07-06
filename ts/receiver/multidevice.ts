@@ -84,19 +84,18 @@ export async function handleUnpairRequest(
 export async function handlePairingAuthorisationMessage(
   envelope: EnvelopePlus,
   pairingAuthorisation: SignalService.IPairingAuthorisationMessage,
-  dataMessage: SignalService.IDataMessage,
-  syncMessage: SignalService.ISyncMessage
+  dataMessage: SignalService.IDataMessage | undefined | null
 ): Promise<void> {
   const { secondaryDevicePubKey, grantSignature } = pairingAuthorisation;
   const isGrant =
     grantSignature &&
+    grantSignature.length > 0 &&
     secondaryDevicePubKey === window.textsecure.storage.user.getNumber();
   if (isGrant) {
     await handleAuthorisationForSelf(
       envelope,
       pairingAuthorisation,
-      dataMessage,
-      syncMessage
+      dataMessage
     );
   } else {
     await handlePairingRequest(envelope, pairingAuthorisation);
@@ -134,8 +133,7 @@ async function handlePairingRequest(
 async function handleAuthorisationForSelf(
   envelope: EnvelopePlus,
   pairingAuthorisation: SignalService.IPairingAuthorisationMessage,
-  dataMessage: SignalService.IDataMessage,
-  syncMessage: SignalService.ISyncMessage
+  dataMessage: SignalService.IDataMessage | undefined | null
 ) {
   const { ConversationController, libloki, Whisper } = window;
 
@@ -143,7 +141,6 @@ async function handleAuthorisationForSelf(
     pairingAuthorisation
   );
   const alreadySecondaryDevice = !!window.storage.get('isSecondaryDevice');
-  let removedFromCache = false;
   if (alreadySecondaryDevice) {
     window.log.warn(
       'Received an unexpected pairing authorisation (device is already paired as secondary device). Ignoring.'
@@ -154,7 +151,7 @@ async function handleAuthorisationForSelf(
     );
   } else {
     const { primaryDevicePubKey, grantSignature } = pairingAuthorisation;
-    if (grantSignature) {
+    if (grantSignature && grantSignature.length > 0) {
       // Authorisation received to become a secondary device
       window.log.info(
         `Received pairing authorisation from ${primaryDevicePubKey}`
@@ -188,21 +185,11 @@ async function handleAuthorisationForSelf(
           window.log.warn('profile or profileKey are missing in DataMessage');
         }
       }
-      // Update contact list
-      if (syncMessage && syncMessage.contacts) {
-        // Note: we do not return here because we don't want to block the next message on
-        //   this attachment download and a lot of processing of that attachment.
-        // This call already removes the envelope from the cache
-        void handleContacts(envelope, syncMessage.contacts);
-        removedFromCache = true;
-      }
     } else {
       window.log.warn('Unimplemented pairing authorisation message type');
     }
   }
-  if (!removedFromCache) {
-    await removeFromCache(envelope);
-  }
+  await removeFromCache(envelope);
 }
 
 function parseContacts(arrbuf: ArrayBuffer): Array<any> {

@@ -321,10 +321,10 @@ async function refreshRandomPoolDetail(seedNodes: Array<any>): Promise<void> {
   }
 }
 
-export async function refreshRandomPool(seedNodes: Array<any>): Promise<void> {
+export async function refreshRandomPool(seedNodes?: Array<any>): Promise<void> {
   const { log } = window;
 
-  if (!seedNodes.length) {
+  if (!seedNodes || !seedNodes.length) {
     if (!window.seedNodeList || !window.seedNodeList.length) {
       log.error(
         'LokiSnodeAPI:::refreshRandomPool - seedNodeList has not been loaded yet'
@@ -335,9 +335,11 @@ export async function refreshRandomPool(seedNodes: Array<any>): Promise<void> {
     seedNodes = window.seedNodeList;
   }
 
-  return allowOnlyOneAtATime('refreshRandomPool', async () =>
-    refreshRandomPoolDetail(seedNodes)
-  );
+  return allowOnlyOneAtATime('refreshRandomPool', async () => {
+    if (seedNodes) {
+      await refreshRandomPoolDetail(seedNodes);
+    }
+  });
 }
 
 export async function getSnodesFor(pubkey: string): Promise<Array<Snode>> {

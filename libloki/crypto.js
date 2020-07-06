@@ -223,7 +223,7 @@
       requestSignature,
       grantSignature,
     } = authorisation;
-    const isGrant = !!grantSignature;
+    const isGrant = !!(grantSignature && grantSignature.length > 0);
     if (!primaryDevicePubKey || !secondaryDevicePubKey) {
       window.log.warn(
         'Received a pairing request with missing pubkeys. Ignored.'
@@ -277,7 +277,7 @@
     } = authorisation;
     const alreadySecondaryDevice = !!window.storage.get('isSecondaryDevice');
     const ourPubKey = textsecure.storage.user.getNumber();
-    const isRequest = !grantSignature;
+    const isRequest = !(grantSignature && grantSignature.length > 0);
     if (isRequest && alreadySecondaryDevice) {
       window.log.warn(
         'Received a pairing request while being a secondary device. Ignored.'

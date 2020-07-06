@@ -356,16 +356,10 @@ export async function innerHandleContentMessage(
   }
 
   if (content.pairingAuthorisation) {
-    if (!content.dataMessage || !content.syncMessage) {
-      window.log.error('Missing fields in pairingAuthorisation');
-      return;
-    }
-
     await handlePairingAuthorisationMessage(
       envelope,
       content.pairingAuthorisation,
-      content.dataMessage,
-      content.syncMessage
+      content.dataMessage
     );
     return;
   }
