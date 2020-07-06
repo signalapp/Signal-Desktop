@@ -418,7 +418,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       return (
         <div className="registration-content-centered">
           <div className="session-signin-device-pairing-header">
-            {window.i18n('devicePairingHeader')}
+            <SessionHtmlRenderer html={window.i18n('devicePairingHeader')} />
           </div>
           {this.renderEnterSessionID(true)}
           <SessionSpinner loading={this.state.loading} />

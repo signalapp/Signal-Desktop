@@ -862,6 +862,12 @@
   "devicePairingReceived": {
     "message": "Device Linking Received"
   },
+  "devicePairingRequestReceivedLimitTitle": {
+    "message": "Device linking limit reached."
+  },
+  "devicePairingRequestReceivedLimitDescription": {
+    "message": "To change your linked devices, please unlink a device first."
+  },
   "devicePairingRequestReceivedNoListenerTitle": {
     "message": "Device linking request received."
   },
@@ -2374,7 +2380,7 @@
     "message": "Verify Password"
   },
   "devicePairingHeader": {
-    "message": "Open Session on your other device and navigate to the Linked Devices section in your user account screen. Select Link a Device to prepare your other device for pairing, then enter your Session ID below to link this device to your Session ID."
+    "message": "1. Open Session on your other device. <br/>2. Navigate to the Linked Devices section in your user account screen.<br/>3. Select <strong>'Link a Device'</strong> to prepare your other device for pairing<br/>4. Enter your Session ID below to link this device to your Session ID."
   },
   "enterSessionIDHere": {
     "message": "Enter other device’s Session ID here"
