@@ -139,7 +139,8 @@
         if (!conversation.isPublic() && !conversation.isRss()) {
           Promise.all([
             conversation.updateProfileAvatar(),
-            window.lokiSnodeAPI.refreshSwarmNodesForPubKey(id),
+            // NOTE: we request snodes updating the cache, but ignore the result
+            window.SnodePool.getSnodesFor(id),
           ]);
         }
       });

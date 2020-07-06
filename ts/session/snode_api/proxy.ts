@@ -53,7 +53,7 @@ async function processProxyResponse(
         'after 3 retries'
       );
       if (options.ourPubKey) {
-        void SnodePool.markUnreachableForPubkey(options.ourPubKey, targetNode);
+        SnodePool.markNodeUnreachable(targetNode);
       }
       return false;
     }
@@ -92,7 +92,7 @@ async function processProxyResponse(
         `lokiRpc:::sendToProxy - Failing ${targetNode.ip}:${targetNode.port} after 5 retries`
       );
       if (options.ourPubKey) {
-        void SnodePool.markUnreachableForPubkey(options.ourPubKey, targetNode);
+        SnodePool.markNodeUnreachable(targetNode);
       }
       return false;
     }
