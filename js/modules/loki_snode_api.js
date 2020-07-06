@@ -332,7 +332,7 @@ class LokiSnodeAPI {
     try {
       const conversation = ConversationController.get(pubKey);
       if (!conversation) {
-        throw new Error('Could not find conversation ', pubKey);
+        throw new Error(`Could not find conversation '${pubKey}'`);
       }
       const swarmNodes = [...conversation.get('swarmNodes')];
 

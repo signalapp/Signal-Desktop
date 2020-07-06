@@ -105,6 +105,10 @@ export class SessionProtocol {
   public static async sendSessionRequestIfNeeded(
     pubkey: PubKey
   ): Promise<void> {
+    const { ConversationController } = window;
+    // FIXME audric: to remove once swarm nodes are not stored on the conversation itself.
+    await ConversationController.getOrCreateAndWait(pubkey.key, 'private');
+
     if (
       (await SessionProtocol.hasSession(pubkey)) ||
       (await SessionProtocol.hasSentSessionRequest(pubkey))
