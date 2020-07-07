@@ -1371,13 +1371,31 @@
     });
 
     Whisper.events.on('devicePairingRequestReceivedNoListener', async () => {
+      // If linking limit has been reached, let master know.
+      const ourKey = textsecure.storage.user.getNumber();
+      const ourPubKey = window.libsession.Types.PubKey.cast(ourKey);
+      const authorisations = await window.libsession.Protocols.MultiDeviceProtocol.fetchPairingAuthorisations(
+        ourPubKey
+      );
+
+      const title = authorisations.length
+        ? window.i18n('devicePairingRequestReceivedLimitTitle')
+        : window.i18n('devicePairingRequestReceivedNoListenerTitle');
+
+      const description = authorisations.length
+        ? window.i18n(
+            'devicePairingRequestReceivedLimitDescription',
+            window.CONSTANTS.MAX_LINKED_DEVICES
+          )
+        : window.i18n('devicePairingRequestReceivedNoListenerDescription');
+
+      const type = authorisations.length ? 'info' : 'warning';
+
       window.pushToast({
-        title: window.i18n('devicePairingRequestReceivedNoListenerTitle'),
-        description: window.i18n(
-          'devicePairingRequestReceivedNoListenerDescription'
-        ),
-        type: 'info',
-        id: 'pairingRequestNoListener',
+        title,
+        description,
+        type,
+        id: 'pairingRequestReceived',
         shouldFade: false,
       });
     });
