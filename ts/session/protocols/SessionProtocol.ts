@@ -105,6 +105,8 @@ export class SessionProtocol {
   public static async sendSessionRequestIfNeeded(
     pubkey: PubKey
   ): Promise<void> {
+    const { ConversationController } = window;
+
     if (
       (await SessionProtocol.hasSession(pubkey)) ||
       (await SessionProtocol.hasSentSessionRequest(pubkey))
