@@ -22,7 +22,7 @@ export class OpenGroup {
 
   constructor(params: OpenGroupParams) {
     // https will be prepended unless explicitly http
-    this.server = OpenGroup.prefixify(params.server);
+    this.server = OpenGroup.prefixify(params.server.toLowerCase());
 
     // Validate server format
     const isValid = OpenGroup.serverRegex.test(this.server);
@@ -72,7 +72,7 @@ export class OpenGroup {
 
     // We don't know for sure if the server is https or http when taken from the groupId. Preifx accordingly.
     return strippedServer
-      ? this.prefixify(strippedServer, hasSSL)
+      ? this.prefixify(strippedServer.toLowerCase(), hasSSL)
       : undefined;
   }
 
