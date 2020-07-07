@@ -1,5 +1,6 @@
 {
   "serverUrl": "https://textsecure-service-staging.whispersystems.org",
+  "storageUrl": "https://storage-staging.signal.org",
   "cdn": {
     "0": "https://cdn-staging.signal.org",
     "2": "https://cdn2-staging.signal.org"

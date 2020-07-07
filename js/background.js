@@ -1675,6 +1675,8 @@
     addQueuedEventListener('viewSync', onViewSync);
     addQueuedEventListener('messageRequestResponse', onMessageRequestResponse);
     addQueuedEventListener('profileKeyUpdate', onProfileKeyUpdate);
+    addQueuedEventListener('fetchLatest', onFetchLatestSync);
+    addQueuedEventListener('keys', onKeysSync);
 
     window.Signal.AttachmentDownloads.start({
       getMessageReceiver: () => messageReceiver,
@@ -1688,6 +1690,7 @@
 
     if (connectCount === 1) {
       window.Signal.Stickers.downloadQueuedPacks();
+      await window.textsecure.messaging.sendRequestKeySyncMessage();
     }
 
     // On startup after upgrading to a new version, request a contact sync
@@ -2726,6 +2729,45 @@
     });
 
     Whisper.ViewSyncs.onSync(sync);
+  }
+
+  async function onFetchLatestSync(ev) {
+    ev.confirm();
+
+    const { eventType } = ev;
+
+    const FETCH_LATEST_ENUM = textsecure.protobuf.SyncMessage.FetchLatest.Type;
+
+    switch (eventType) {
+      case FETCH_LATEST_ENUM.LOCAL_PROFILE:
+        // Intentionally do nothing since we'll be receiving the storage manifest request
+        // and will update local profile along with that.
+        break;
+      case FETCH_LATEST_ENUM.STORAGE_MANIFEST:
+        window.log.info('onFetchLatestSync: fetching latest manifest');
+        await window.Signal.Util.runStorageServiceSyncJob();
+        break;
+      default:
+        window.log.info(
+          `onFetchLatestSync: Unknown type encountered ${eventType}`
+        );
+    }
+  }
+
+  async function onKeysSync(ev) {
+    ev.confirm();
+
+    const { storageServiceKey } = ev;
+
+    if (storageServiceKey) {
+      window.log.info('onKeysSync: received keys');
+      const storageServiceKeyBase64 = window.Signal.Crypto.arrayBufferToBase64(
+        storageServiceKey
+      );
+      storage.put('storageKey', storageServiceKeyBase64);
+
+      await window.Signal.Util.runStorageServiceSyncJob();
+    }
   }
 
   async function onMessageRequestResponse(ev) {

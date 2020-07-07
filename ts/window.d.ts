@@ -6,12 +6,13 @@ import {
   SignalProtocolAddressClass,
   StorageType,
 } from './libsignal.d';
-import { TextSecureType } from './textsecure.d';
+import { ContactRecordIdentityState, TextSecureType } from './textsecure.d';
 import { WebAPIConnectType } from './textsecure/WebAPI';
 import { CallingClass, CallHistoryDetailsType } from './services/calling';
 import * as Crypto from './Crypto';
 import { ColorType, LocalizerType } from './types/Util';
 import { SendOptionsType } from './textsecure/SendMessage';
+import Data from './sql/Client';
 
 type TaskResultType = any;
 
@@ -49,11 +50,15 @@ declare global {
       put: (key: string, value: any) => void;
       remove: (key: string) => void;
       get: <T = any>(key: string) => T | undefined;
+      addBlockedNumber: (number: string) => void;
+      isBlocked: (number: string) => boolean;
+      removeBlockedNumber: (number: string) => void;
     };
     textsecure: TextSecureType;
 
     Signal: {
       Crypto: typeof Crypto;
+      Data: typeof Data;
       Metadata: {
         SecretSessionCipher: typeof SecretSessionCipherClass;
         createCertificateValidator: (
@@ -77,7 +82,25 @@ declare global {
   }
 }
 
+export type ConversationAttributes = {
+  e164?: string | null;
+  isArchived?: boolean;
+  profileFamilyName?: string | null;
+  profileKey?: string | null;
+  profileName?: string | null;
+  profileSharing?: boolean;
+  name?: string;
+  storageID?: string;
+  uuid?: string | null;
+  verified?: number;
+};
+
 export type ConversationType = {
+  attributes: ConversationAttributes;
+  fromRecordVerified: (
+    verified: ContactRecordIdentityState
+  ) => ContactRecordIdentityState;
+  set: (props: Partial<ConversationAttributes>) => void;
   updateE164: (e164?: string) => void;
   updateUuid: (uuid?: string) => void;
   id: string;
@@ -109,6 +132,7 @@ export type ConversationControllerType = {
   ) => ConversationType;
   getConversationId: (identifier: string) => string | null;
   ensureContactIds: (o: { e164?: string; uuid?: string }) => string;
+  getOurConversationId: () => string | null;
   prepareForSend: (
     id: string,
     options: Object
@@ -117,6 +141,7 @@ export type ConversationControllerType = {
     sendOptions: Object;
   };
   get: (identifier: string) => null | ConversationType;
+  map: (mapFn: (conversation: ConversationType) => any) => any;
 };
 
 export type DCodeIOType = {
@@ -161,6 +186,7 @@ export class ByteBufferClass {
   static wrap: (value: any, type?: string) => ByteBufferClass;
   toString: (type: string) => string;
   toArrayBuffer: () => ArrayBuffer;
+  toBinary: () => string;
   slice: (start: number, end?: number) => ByteBufferClass;
   append: (data: ArrayBuffer) => void;
   limit: number;

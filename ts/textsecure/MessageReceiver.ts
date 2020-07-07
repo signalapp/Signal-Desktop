@@ -42,6 +42,7 @@ declare global {
     data?: any;
     deliveryReceipt?: any;
     error?: any;
+    eventType?: string | number;
     groupDetails?: any;
     groupId?: string;
     messageRequestResponseType?: number;
@@ -56,6 +57,7 @@ declare global {
     stickerPacks?: any;
     threadE164?: string;
     threadUuid?: string;
+    storageServiceKey?: ArrayBuffer;
     timestamp?: any;
     typing?: any;
     verified?: any;
@@ -1437,6 +1439,10 @@ class MessageReceiverInner extends EventTarget {
         envelope,
         syncMessage.messageRequestResponse
       );
+    } else if (syncMessage.fetchLatest) {
+      return this.handleFetchLatest(envelope, syncMessage.fetchLatest);
+    } else if (syncMessage.keys) {
+      return this.handleKeys(envelope, syncMessage.keys);
     }
 
     this.removeFromCache(envelope);
@@ -1490,6 +1496,29 @@ class MessageReceiverInner extends EventTarget {
       ['threadUuid'],
       'MessageReceiver::handleMessageRequestResponse'
     );
+  }
+  async handleFetchLatest(
+    envelope: EnvelopeClass,
+    sync: SyncMessageClass.FetchLatest
+  ) {
+    window.log.info('got fetch latest sync message');
+
+    const ev = new Event('fetchLatest');
+    ev.confirm = this.removeFromCache.bind(this, envelope);
+    ev.eventType = sync.type;
+
+    return this.dispatchAndWait(ev);
+  }
+  async handleKeys(envelope: EnvelopeClass, sync: SyncMessageClass.Keys) {
+    window.log.info('got keys sync message');
+
+    if (!sync.storageService) {
+      return;
+    }
+
+    const ev = new Event('keys');
+    ev.confirm = this.removeFromCache.bind(this, envelope);
+    ev.storageServiceKey = sync.storageService.toArrayBuffer();
 
     return this.dispatchAndWait(ev);
   }

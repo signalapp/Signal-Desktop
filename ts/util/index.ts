@@ -15,6 +15,7 @@ import { isFileDangerous } from './isFileDangerous';
 import { makeLookup } from './makeLookup';
 import { migrateColor } from './migrateColor';
 import { missingCaseError } from './missingCaseError';
+import { runStorageServiceSyncJob } from './storageService';
 import * as zkgroup from './zkgroup';
 
 export {
@@ -33,5 +34,6 @@ export {
   migrateColor,
   missingCaseError,
   Registration,
+  runStorageServiceSyncJob,
   zkgroup,
 };

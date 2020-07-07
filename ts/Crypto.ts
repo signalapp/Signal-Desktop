@@ -184,6 +184,20 @@ export async function decryptFile(
   return decryptSymmetric(key, ciphertext);
 }
 
+export async function deriveStorageManifestKey(
+  storageServiceKey: ArrayBuffer,
+  version: number
+) {
+  return hmacSha256(storageServiceKey, bytesFromString(`Manifest_${version}`));
+}
+
+export async function deriveStorageItemKey(
+  storageServiceKey: ArrayBuffer,
+  itemID: string
+) {
+  return hmacSha256(storageServiceKey, bytesFromString(`Item_${itemID}`));
+}
+
 export async function deriveAccessKey(profileKey: ArrayBuffer) {
   const iv = getZeroes(12);
   const plaintext = getZeroes(16);

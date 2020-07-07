@@ -223,7 +223,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/models/conversations.js",
     "line": "      await wrap(",
-    "lineNumber": 644,
+    "lineNumber": 652,
     "reasonCategory": "falseMatch",
     "updated": "2020-06-09T20:26:46.515Z"
   },
@@ -11799,7 +11799,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SendMessage.ts",
     "line": "  return window.dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();",
-    "lineNumber": 30,
+    "lineNumber": 32,
     "reasonCategory": "falseMatch",
     "updated": "2020-05-28T18:08:02.658Z"
   },
@@ -11807,7 +11807,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SendMessage.ts",
     "line": "  return window.dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();",
-    "lineNumber": 33,
+    "lineNumber": 35,
     "reasonCategory": "falseMatch",
     "updated": "2020-05-28T18:08:02.658Z"
   },
