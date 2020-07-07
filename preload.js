@@ -82,6 +82,7 @@ window.CONSTANTS = new (function() {
   this.MAX_USERNAME_LENGTH = 20;
   this.MAX_GROUP_NAME_LENGTH = 64;
   this.DEFAULT_PUBLIC_CHAT_URL = appConfig.get('defaultPublicChatServer');
+  this.MAX_LINKED_DEVICES = 1;
   this.MAX_CONNECTION_DURATION = 5000;
   this.MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
   // Limited due to the proof-of-work requirement
