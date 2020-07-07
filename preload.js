@@ -195,7 +195,7 @@ window.resetDatabase = () => {
   ipc.send('resetDatabase');
 };
 
-window.onUnblockNumber = number => {
+window.onUnblockNumber = async number => {
   // Unblock the number
   if (window.BlockedNumberController) {
     window.BlockedNumberController.unblock(number);
@@ -205,7 +205,7 @@ window.onUnblockNumber = number => {
   if (window.ConversationController) {
     try {
       const conversation = window.ConversationController.get(number);
-      conversation.unblock();
+      await conversation.unblock();
     } catch (e) {
       window.log.info(
         'IPC on unblock: failed to fetch conversation for number: ',
@@ -495,3 +495,11 @@ if (config.environment.includes('test-integration')) {
     enableSenderKeys: true,
   };
 }
+
+// Blocking
+
+const {
+  BlockedNumberController,
+} = require('./ts/util/blockedNumberController');
+
+window.BlockedNumberController = BlockedNumberController;

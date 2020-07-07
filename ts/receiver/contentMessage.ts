@@ -18,6 +18,7 @@ import { PubKey } from '../session/types';
 import { handleSyncMessage } from './syncMessages';
 import { onError } from './errors';
 import ByteBuffer from 'bytebuffer';
+import { BlockedNumberController } from '../util/blockedNumberController';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   const plaintext = await decrypt(envelope, envelope.content);
@@ -95,10 +96,8 @@ function unpad(paddedData: ArrayBuffer): ArrayBuffer {
   throw new Error('Invalid padding');
 }
 
-export function isBlocked(number: string) {
-  // TODO: should probably use primary pubkeys here!
-  const blockedNumbers = window.textsecure.storage.get('blocked', []);
-  return blockedNumbers.indexOf(number) >= 0;
+export async function isBlocked(number: string) {
+  return BlockedNumberController.isBlockedAsync(number);
 }
 
 async function decryptPreKeyWhisperMessage(
@@ -152,7 +151,9 @@ async function decryptUnidentifiedSender(
     const { sender: source } = error || {};
 
     if (source) {
-      if (isBlocked(source.getName())) {
+      // tslint:disable-next-line: no-shadowed-variable
+      const blocked = await isBlocked(source.getName());
+      if (blocked) {
         window.log.info(
           'Dropping blocked message with error after sealed sender decryption'
         );
@@ -187,7 +188,8 @@ async function decryptUnidentifiedSender(
     envelope.type = SignalService.Envelope.Type.SESSION_REQUEST;
   }
 
-  if (isBlocked(sender.getName())) {
+  const blocked = await isBlocked(sender.getName());
+  if (blocked) {
     window.log.info('Dropping blocked message after sealed sender decryption');
     return null;
   }
