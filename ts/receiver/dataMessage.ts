@@ -632,11 +632,9 @@ export async function handleMessageEvent(event: any): Promise<void> {
     conversationId = primarySource.key;
   }
 
-  // be sure to call this one with conversationId. because we might need to create the primary conversation from a message of a secondary device
-  const conversation = await window.ConversationController.getOrCreateAndWait(
-    conversationId,
-    type
-  );
+  // the conversation with the primary device of that source (can be the same as conversationOrigin)
+  const conversation = window.ConversationController.get(conversationId);
+
   conversation.queueJob(() => {
     handleMessageJob(
       msg,

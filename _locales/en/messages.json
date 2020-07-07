@@ -222,7 +222,7 @@
     "description": "Message shown if the import went wrong; first paragraph"
   },
   "importErrorSecond": {
-    "message": "If these steps don't work for you, please submit a debug log (View 🠖 Debug Log) so that we can help you get migrated!",
+    "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
     "description": "Message shown if the import went wrong; second paragraph"
   },
   "importAgain": {
@@ -872,7 +872,7 @@
     "message": "Device linking request received."
   },
   "devicePairingRequestReceivedNoListenerDescription": {
-    "message": "Device linking request received but you are not on the device linking screen. \nGo to Settings 🠖 Device 🠖 Link New Device."
+    "message": "Device linking request received but you are not on the device linking screen. \nGo to Settings > Device > Link New Device."
   },
   "waitingForDeviceToRegister": {
     "message": "Waiting for device to register..."
