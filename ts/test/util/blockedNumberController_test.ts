@@ -5,6 +5,7 @@ import { BlockedNumberController } from '../../util/blockedNumberController';
 import { TestUtils } from '../test-utils';
 import { PubKey } from '../../session/types';
 import { MultiDeviceProtocol } from '../../session/protocols';
+import { UserUtil } from '../../util';
 
 describe('BlockedNumberController', () => {
   const sandbox = sinon.createSandbox();
@@ -63,34 +64,29 @@ describe('BlockedNumberController', () => {
   });
 
   describe('block', async () => {
-    it('should block all linked devices of a user', async () => {
-      const pubKey = TestUtils.generateFakePubKey();
-      const linkedDevice = TestUtils.generateFakePubKey();
-      sandbox
-        .stub(MultiDeviceProtocol, 'getAllDevices')
-        .resolves([pubKey, linkedDevice]);
+    it('should block the primary device of the user', async () => {
+      const primary = TestUtils.generateFakePubKey();
+      const secondary = TestUtils.generateFakePubKey();
+      sandbox.stub(MultiDeviceProtocol, 'getPrimaryDevice').resolves(primary);
 
-      await BlockedNumberController.block(linkedDevice);
+      await BlockedNumberController.block(secondary);
 
-      const expected = [pubKey.key, linkedDevice.key];
       const blockedNumbers = BlockedNumberController.getBlockedNumbers();
-      expect(blockedNumbers).to.have.lengthOf(2);
-      expect(blockedNumbers).to.have.same.members(expected);
-      expect(memoryDB.blocked).to.have.same.members(expected);
+      expect(blockedNumbers).to.have.lengthOf(1);
+      expect(blockedNumbers).to.include(primary.key);
+      expect(memoryDB.blocked).to.include(primary.key);
       expect(BlockedNumberController.getBlockedGroups()).to.be.empty;
     });
   });
 
   describe('unblock', async () => {
-    it('should unblock all linked device of a user', async () => {
-      const pubKey = TestUtils.generateFakePubKey();
-      const linkedDevice = TestUtils.generateFakePubKey();
-      memoryDB.blocked = [pubKey.key, linkedDevice.key];
-      sandbox
-        .stub(MultiDeviceProtocol, 'getAllDevices')
-        .resolves([pubKey, linkedDevice]);
+    it('should unblock the primary device', async () => {
+      const primary = TestUtils.generateFakePubKey();
+      const secondary = TestUtils.generateFakePubKey();
+      memoryDB.blocked = [primary.key];
+      sandbox.stub(MultiDeviceProtocol, 'getPrimaryDevice').resolves(primary);
 
-      await BlockedNumberController.unblock(linkedDevice);
+      await BlockedNumberController.unblock(secondary);
 
       const blockedNumbers = BlockedNumberController.getBlockedNumbers();
       expect(blockedNumbers).to.be.empty;
@@ -101,7 +97,7 @@ describe('BlockedNumberController', () => {
       const pubKey = TestUtils.generateFakePubKey();
       const another = TestUtils.generateFakePubKey();
       memoryDB.blocked = [pubKey.key, another.key];
-      sandbox.stub(MultiDeviceProtocol, 'getAllDevices').resolves([pubKey]);
+      sandbox.stub(MultiDeviceProtocol, 'getPrimaryDevice').resolves(pubKey);
 
       await BlockedNumberController.unblock(pubKey);
 
@@ -145,7 +141,7 @@ describe('BlockedNumberController', () => {
   });
 
   describe('isBlocked', async () => {
-    it('should return the correct value', async () => {
+    it('should return true if number is blocked', async () => {
       const pubKey = TestUtils.generateFakePubKey();
       const groupPubKey = TestUtils.generateFakePubKey();
       memoryDB.blocked = [pubKey.key];
@@ -160,10 +156,62 @@ describe('BlockedNumberController', () => {
         'Expected isBlocked to return false for a group pubkey'
       );
     });
+
+    it('should return false if number is not blocked', async () => {
+      const pubKey = TestUtils.generateFakePubKey();
+      memoryDB.blocked = [];
+      await BlockedNumberController.load();
+      expect(BlockedNumberController.isBlocked(pubKey.key)).to.equal(
+        false,
+        'Expected isBlocked to return false'
+      );
+    });
+  });
+
+  describe('isBlockedAsync', () => {
+    let ourDevices: Array<PubKey>;
+    beforeEach(() => {
+      ourDevices = TestUtils.generateFakePubKeys(2);
+      sandbox.stub(MultiDeviceProtocol, 'getOurDevices').resolves(ourDevices);
+    });
+    it('should return false for our device', async () => {
+      for (const device of ourDevices) {
+        const isBlocked = await BlockedNumberController.isBlockedAsync(device);
+        expect(isBlocked).to.equal(
+          false,
+          'Expected our devices to return false'
+        );
+      }
+    });
+
+    it('should return true if the primary device is blocked', async () => {
+      const primary = TestUtils.generateFakePubKey();
+      const secondary = TestUtils.generateFakePubKey();
+      sandbox.stub(MultiDeviceProtocol, 'getPrimaryDevice').resolves(primary);
+      memoryDB.blocked = [primary.key];
+
+      const isBlocked = await BlockedNumberController.isBlockedAsync(secondary);
+      expect(isBlocked).to.equal(
+        true,
+        'Expected isBlockedAsync to return true.'
+      );
+    });
+
+    it('should return false if device is not blocked', async () => {
+      const primary = TestUtils.generateFakePubKey();
+      sandbox.stub(MultiDeviceProtocol, 'getPrimaryDevice').resolves(primary);
+      memoryDB.blocked = [];
+
+      const isBlocked = await BlockedNumberController.isBlockedAsync(primary);
+      expect(isBlocked).to.equal(
+        false,
+        'Expected isBlockedAsync to return false.'
+      );
+    });
   });
 
   describe('isGroupBlocked', async () => {
-    it('should return the correct value', async () => {
+    it('should return true if group is blocked', async () => {
       const pubKey = TestUtils.generateFakePubKey();
       const groupPubKey = TestUtils.generateFakePubKey();
       memoryDB.blocked = [pubKey.key];
@@ -176,6 +224,16 @@ describe('BlockedNumberController', () => {
       expect(BlockedNumberController.isGroupBlocked(groupPubKey.key)).to.equal(
         true,
         'Expected isGroupBlocked to return true for a group pubkey'
+      );
+    });
+
+    it('should return false if group is not blocked', async () => {
+      const groupPubKey = TestUtils.generateFakePubKey();
+      memoryDB['blocked-groups'] = [];
+      await BlockedNumberController.load();
+      expect(BlockedNumberController.isGroupBlocked(groupPubKey.key)).to.equal(
+        false,
+        'Expected isGroupBlocked to return false'
       );
     });
   });

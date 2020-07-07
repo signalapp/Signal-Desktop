@@ -97,16 +97,7 @@ function unpad(paddedData: ArrayBuffer): ArrayBuffer {
 }
 
 export async function isBlocked(number: string) {
-  const ourDevice = await MultiDeviceProtocol.isOurDevice(number);
-  if (ourDevice) {
-    return false;
-  }
-
-  const primary = await MultiDeviceProtocol.getPrimaryDevice(number);
-  return (
-    BlockedNumberController.isBlocked(primary) ||
-    BlockedNumberController.isBlocked(number)
-  );
+  return BlockedNumberController.isBlockedAsync(number);
 }
 
 async function decryptPreKeyWhisperMessage(
@@ -163,7 +154,6 @@ async function decryptUnidentifiedSender(
       // tslint:disable-next-line: no-shadowed-variable
       const blocked = await isBlocked(source.getName());
       if (blocked) {
-        await BlockedNumberController.block(source.getName());
         window.log.info(
           'Dropping blocked message with error after sealed sender decryption'
         );
@@ -200,7 +190,6 @@ async function decryptUnidentifiedSender(
 
   const blocked = await isBlocked(sender.getName());
   if (blocked) {
-    await BlockedNumberController.block(sender.getName());
     window.log.info('Dropping blocked message after sealed sender decryption');
     return null;
   }

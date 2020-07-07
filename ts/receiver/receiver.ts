@@ -156,7 +156,6 @@ async function handleRequestDetail(
   // so this check is not appropriate here
   const blocked = await isBlocked(envelope.source);
   if (blocked) {
-    await BlockedNumberController.block(envelope.source);
     return;
   }
 

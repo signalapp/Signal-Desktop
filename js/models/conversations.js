@@ -234,10 +234,7 @@
 
       if (this.isPrivate()) {
         const primary = this.getPrimaryDevicePubKey();
-        return (
-          BlockedNumberController.isBlocked(primary) ||
-          BlockedNumberController.isBlocked(this.id)
-        );
+        return BlockedNumberController.isBlocked(primary);
       }
 
       return false;

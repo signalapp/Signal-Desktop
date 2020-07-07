@@ -13,6 +13,25 @@ export class BlockedNumberController {
 
   /**
    * Check if a device is blocked.
+   * This will use `MultiDeviceProtocol` to determine wether a user is blocked or not.
+   *
+   * @param user The user.
+   */
+  public static async isBlockedAsync(user: string | PubKey): Promise<boolean> {
+    await this.load();
+    const isOurDevice = await MultiDeviceProtocol.isOurDevice(user);
+    if (isOurDevice) {
+      return false;
+    }
+
+    const primary = await MultiDeviceProtocol.getPrimaryDevice(user);
+    return this.blockedNumbers.has(primary.key);
+  }
+
+  /**
+   * Check if a device is blocked synchronously.
+   * This will only check against the memory cache on if a device is blocked, it is reccomended to pass in the primary device pub key.
+   *
    * Make sure `load()` has been called before this function so that the correct blocked state is returned.
    *
    * @param number The device.
@@ -32,15 +51,14 @@ export class BlockedNumberController {
    * @param groupId The group id.
    */
   public static isGroupBlocked(groupId: string | PubKey): boolean {
-    // This function is not `async` because the old `isBlocked` function in js was also not async.
-    // To convert it means we'll have to re-wire all our UI components to work with async.
     const stringValue =
       groupId instanceof PubKey ? groupId.key : groupId.toLowerCase();
     return this.blockedGroups.has(stringValue);
   }
 
   /**
-   * Block a user (including their linked devices).
+   * Block a user.
+   * This will only block the primary device of the user.
    *
    * @param user The user to block.
    */
@@ -49,20 +67,26 @@ export class BlockedNumberController {
     // `isBlocked` is used synchronously in the code. To check if any device is blocked needs it to be async, which would mean all calls to `isBlocked` will also need to be async and so on
     // This is too much of a hassle at the moment as some UI code will have to be migrated to work with this async call.
     await this.load();
-    const devices = await MultiDeviceProtocol.getAllDevices(user);
-    devices.forEach(pubKey => this.blockedNumbers.add(pubKey.key));
-    await this.saveToDB(BLOCKED_NUMBERS_ID, this.blockedNumbers);
+    const primary = await MultiDeviceProtocol.getPrimaryDevice(user);
+    if (!this.blockedNumbers.has(primary.key)) {
+      this.blockedNumbers.add(primary.key);
+      await this.saveToDB(BLOCKED_NUMBERS_ID, this.blockedNumbers);
+    }
   }
 
   /**
-   * Unblock a user (including their linked devices).
+   * Unblock a user.
+   * This will only unblock the primary device of the user.
+   *
    * @param user The user to unblock.
    */
   public static async unblock(user: string | PubKey): Promise<void> {
     await this.load();
-    const devices = await MultiDeviceProtocol.getAllDevices(user);
-    devices.forEach(pubKey => this.blockedNumbers.delete(pubKey.key));
-    await this.saveToDB(BLOCKED_NUMBERS_ID, this.blockedNumbers);
+    const primary = await MultiDeviceProtocol.getPrimaryDevice(user);
+    if (this.blockedNumbers.has(primary.key)) {
+      this.blockedNumbers.delete(primary.key);
+      await this.saveToDB(BLOCKED_NUMBERS_ID, this.blockedNumbers);
+    }
   }
 
   public static async blockGroup(groupId: string | PubKey): Promise<void> {
