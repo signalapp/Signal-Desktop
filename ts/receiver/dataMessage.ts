@@ -521,8 +521,14 @@ function sendDeliveryReceipt(source: string, timestamp: any) {
   // await getMessageQueue().sendUsingMultiDevice(device, receiptMessage);
 }
 
+interface MessageEvent {
+  data: any;
+  type: string;
+  confirm: () => void;
+}
+
 // tslint:disable:cyclomatic-complexity max-func-body-length */
-export async function handleMessageEvent(event: any): Promise<void> {
+export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   const { data, confirm } = event;
 
   const isIncoming = event.type === 'message';

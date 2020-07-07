@@ -292,7 +292,7 @@
       window.lokiFeatureFlags.useFileOnionRequests
     ) {
       // Initialize paths for onion requests
-      window.lokiSnodeAPI.buildNewOnionPaths();
+      window.OnionAPI.buildNewOnionPaths();
     }
 
     const currentPoWDifficulty = storage.get('PoWDifficulty', null);

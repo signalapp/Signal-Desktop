@@ -100,6 +100,8 @@ window.CONSTANTS = new (function() {
   // https://loki.network/2020/03/25/loki-name-system-the-facts/
   this.LNS_REGEX = `^[a-zA-Z0-9_]([a-zA-Z0-9_-]{0,${this.LNS_MAX_LENGTH -
     2}}[a-zA-Z0-9_]){0,1}$`;
+  this.MIN_GUARD_COUNT = 2;
+  this.DESIRED_GUARD_COUNT = 3;
 })();
 
 window.versionInfo = {
@@ -333,14 +335,12 @@ const { initialize: initializeWebAPI } = require('./js/modules/web_api');
 window.WebAPI = initializeWebAPI();
 
 window.seedNodeList = JSON.parse(config.seedNodeList);
-const LokiSnodeAPI = require('./js/modules/loki_snode_api');
 
 window.SenderKeyAPI = require('./js/modules/loki_sender_key_api');
 
-window.lokiSnodeAPI = new LokiSnodeAPI({
-  serverUrl: config.serverUrl,
-  localUrl: config.localUrl,
-});
+const { OnionAPI } = require('./ts/session/onions');
+
+window.OnionAPI = OnionAPI;
 
 if (process.env.USE_STUBBED_NETWORK) {
   const StubMessageAPI = require('./integration_test/stubs/stub_message_api');

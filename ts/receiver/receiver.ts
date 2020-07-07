@@ -327,6 +327,9 @@ export async function handleUnencryptedMessage({ message: outerMessage }: any) {
     // Public chat messages from ourselves should be outgoing
     type: isPublicChatMessage && isOurDevice ? 'sent' : 'message',
     data: outerMessage,
+    confirm: () => {
+      /* do nothing */
+    },
   };
 
   await handleMessageEvent(ev);
