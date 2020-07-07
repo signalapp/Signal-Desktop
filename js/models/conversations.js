@@ -1868,9 +1868,20 @@
       );
 
       await this.sendClosedGroupMessageWithSync(groupUpdateMessage, recipients);
+
+      const expireUpdate = {
+        timestamp: Date.now(),
+        expireTimer: this.get('expireTimer'),
+        groupId: this.get('id'),
+      };
+
+      const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+        expireUpdate
+      );
+      await libsession.getMessageQueue().sendToGroup(expirationTimerMessage);
     },
 
-    sendGroupInfo(recipient) {
+    async sendGroupInfo(recipient) {
       // Only send group info if we're a closed group and we haven't left
       if (this.isClosedGroup() && !this.get('left')) {
         const updateParams = {
@@ -1889,9 +1900,24 @@
           window.console.warn('sendGroupInfo invalid pubkey:', recipient);
           return;
         }
-        libsession
+        await libsession
           .getMessageQueue()
           .send(recipientPubKey, groupUpdateMessage)
+          .catch(log.error);
+
+        const expireUpdate = {
+          timestamp: Date.now(),
+          expireTimer: this.get('expireTimer'),
+          groupId: this.get('id'),
+        };
+
+        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+          expireUpdate
+        );
+
+        await libsession
+          .getMessageQueue()
+          .sendUsingMultiDevice(recipientPubKey, expirationTimerMessage)
           .catch(log.error);
       }
     },
