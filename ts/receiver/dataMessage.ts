@@ -413,6 +413,7 @@ interface MessageCreationData {
   isRss: boolean;
   source: boolean;
   serverId: string;
+  message: any;
 
   // Needed for synced outgoing messages
   unidentifiedStatus: any; // ???
@@ -430,9 +431,11 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     isRss,
     source,
     serverId,
+    message,
   } = data;
 
   const type = 'incoming';
+  const groupId = message?.group?.id;
 
   const messageData: any = {
     source,
@@ -440,7 +443,7 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     serverId, // + (not present below in `createSentMessage`)
     sent_at: timestamp,
     received_at: receivedAt || Date.now(),
-    conversationId: source,
+    conversationId: groupId ?? source,
     unidentifiedDeliveryReceived, // +
     type,
     direction: 'incoming', // +
