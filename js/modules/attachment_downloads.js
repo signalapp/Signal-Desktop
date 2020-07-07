@@ -1,5 +1,4 @@
 /* global
-  ConversationController,
   Whisper,
   Signal,
   setTimeout,
@@ -8,7 +7,6 @@
 */
 
 const { isFunction, isNumber, omit } = require('lodash');
-const { computeHash } = require('./types/conversation');
 const getGuid = require('uuid/v4');
 const {
   getMessageById,
@@ -19,6 +17,7 @@ const {
   saveMessage,
   setAttachmentDownloadJobPending,
 } = require('../../ts/sql/Client').default;
+const { downloadAttachment } = require('../../ts/util/downloadAttachment');
 const { stringFromBytes } = require('../../ts/Crypto');
 
 module.exports = {
@@ -186,38 +185,28 @@ async function _runJob(job) {
     const pending = true;
     await setAttachmentDownloadJobPending(id, pending);
 
-    let downloaded;
     const messageReceiver = getMessageReceiver();
     if (!messageReceiver) {
       throw new Error('_runJob: messageReceiver not found');
     }
 
-    try {
-      if (attachment.id) {
-        // eslint-disable-next-line no-param-reassign
-        attachment.cdnId = attachment.id;
-      }
-      downloaded = await messageReceiver.downloadAttachment(attachment);
-    } catch (error) {
-      // Attachments on the server expire after 30 days, then start returning 404
-      if (error && error.code === 404) {
-        logger.warn(
-          `_runJob: Got 404 from server for CDN ${
-            attachment.cdnNumber
-          }, marking attachment ${attachment.cdnId ||
-            attachment.cdnKey} from message ${message.idForLogging()} as permanent error`
-        );
+    const downloaded = await downloadAttachment(attachment);
 
-        await _finishJob(message, id);
-        await _addAttachmentToMessage(
-          message,
-          _markAttachmentAsError(attachment),
-          { type, index }
-        );
+    if (!downloaded) {
+      logger.warn(
+        `_runJob: Got 404 from server for CDN ${
+          attachment.cdnNumber
+        }, marking attachment ${attachment.cdnId ||
+          attachment.cdnKey} from message ${message.idForLogging()} as permanent error`
+      );
 
-        return;
-      }
-      throw error;
+      await _finishJob(message, id);
+      await _addAttachmentToMessage(
+        message,
+        _markAttachmentAsError(attachment),
+        { type, index }
+      );
+      return;
     }
 
     const upgradedAttachment = await Signal.Migrations.processNewAttachment(
@@ -421,50 +410,6 @@ async function _addAttachmentToMessage(message, attachment, { type, index }) {
     };
 
     message.set({ quote: newQuote });
-
-    return;
-  }
-
-  if (type === 'group-avatar') {
-    const conversationId = message.get('conversationId');
-    const conversation = ConversationController.get(conversationId);
-    if (!conversation) {
-      logger.warn("_addAttachmentToMessage: conversation didn't exist");
-      return;
-    }
-
-    const loadedAttachment = await Signal.Migrations.loadAttachmentData(
-      attachment
-    );
-    const hash = await computeHash(loadedAttachment.data);
-    const existingAvatar = conversation.get('avatar');
-
-    if (existingAvatar) {
-      if (existingAvatar.hash === hash) {
-        logger.info(
-          '_addAttachmentToMessage: Group avatar hash matched; not replacing group avatar'
-        );
-        return;
-      }
-
-      await Signal.Migrations.deleteAttachmentData(existingAvatar.path);
-    }
-
-    conversation.set({
-      avatar: {
-        ...attachment,
-        hash,
-      },
-    });
-    Signal.Data.updateConversation(conversation.attributes);
-
-    message.set({
-      group_update: {
-        ...message.get('group_update'),
-        avatar: null,
-        avatarUpdated: true,
-      },
-    });
 
     return;
   }

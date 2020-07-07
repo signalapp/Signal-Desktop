@@ -1614,6 +1614,7 @@
       mySignalingKey,
       options
     );
+    window.textsecure.messageReceiver = messageReceiver;
 
     function addQueuedEventListener(name, handler) {
       messageReceiver.addEventListener(name, (...args) =>

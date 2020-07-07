@@ -62,6 +62,11 @@ export type TextSecureType = {
     remove: (key: string | Array<string>) => Promise<void>;
     protocol: StorageProtocolType;
   };
+  messageReceiver: {
+    downloadAttachment: (
+      attachment: AttachmentPointerClass
+    ) => Promise<DownloadAttachmentType>;
+  };
   messaging: {
     sendStickerPackSync: (
       operations: Array<{
@@ -171,6 +176,23 @@ export declare class AttachmentPointerClass {
   uploadTimestamp?: ProtoBigNumberType;
   cdnNumber?: number;
 }
+
+export type DownloadAttachmentType = {
+  data: ArrayBuffer;
+  cdnId?: ProtoBigNumberType;
+  cdnKey?: string;
+  contentType?: string;
+  size?: number;
+  thumbnail?: ProtoBinaryType;
+  fileName?: string;
+  flags?: number;
+  width?: number;
+  height?: number;
+  caption?: string;
+  blurHash?: string;
+  uploadTimestamp?: ProtoBigNumberType;
+  cdnNumber?: number;
+};
 
 export declare class ContactDetailsClass {
   static decode: (

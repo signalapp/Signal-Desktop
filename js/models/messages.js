@@ -1881,22 +1881,6 @@
         };
       }
 
-      let group = this.get('group_update');
-      if (group && group.avatar) {
-        window.log.info(
-          `Queueing group avatar download for message ${this.idForLogging()}`
-        );
-        count += 1;
-        group = {
-          ...group,
-          avatar: await window.Signal.AttachmentDownloads.addJob(group.avatar, {
-            messageId,
-            type: 'group-avatar',
-            index: 0,
-          }),
-        };
-      }
-
       let sticker = this.get('sticker');
       if (sticker) {
         window.log.info(
@@ -1957,7 +1941,6 @@
           preview,
           contact,
           quote,
-          group_update: group,
           sticker,
         });
 
@@ -2259,7 +2242,7 @@
               ...conversation.attributes,
             };
             if (dataMessage.group) {
-              let groupUpdate = null;
+              const pendingGroupUpdate = [];
               const memberConversations = await Promise.all(
                 (
                   dataMessage.group.members || dataMessage.group.membersE164
@@ -2289,20 +2272,83 @@
                   members: _.union(members, conversation.get('members')),
                 };
 
-                groupUpdate = {};
                 if (dataMessage.group.name !== conversation.get('name')) {
-                  groupUpdate.name = dataMessage.group.name;
+                  pendingGroupUpdate.push(['name', dataMessage.group.name]);
                 }
 
-                // Note: used and later cleared by background attachment downloader
-                groupUpdate.avatar = dataMessage.group.avatar;
+                const avatarAttachment = dataMessage.group.avatar;
+
+                let downloadedAvatar;
+                let hash;
+                if (avatarAttachment) {
+                  try {
+                    downloadedAvatar = await window.Signal.Util.downloadAttachment(
+                      avatarAttachment
+                    );
+
+                    if (downloadedAvatar) {
+                      const loadedAttachment = await Signal.Migrations.loadAttachmentData(
+                        downloadedAvatar
+                      );
+
+                      hash = await Signal.Types.Conversation.computeHash(
+                        loadedAttachment.data
+                      );
+                    }
+                  } catch (err) {
+                    window.log.info(
+                      'handleDataMessage: group avatar download failed'
+                    );
+                  }
+                }
+
+                const existingAvatar = conversation.get('avatar');
+
+                if (
+                  // Avatar added
+                  !existingAvatar ||
+                  // Avatar changed
+                  (existingAvatar && existingAvatar.hash !== hash) ||
+                  // Avatar removed
+                  avatarAttachment === null
+                ) {
+                  // Removes existing avatar from disk
+                  if (existingAvatar && existingAvatar.path) {
+                    await Signal.Migrations.deleteAttachmentData(
+                      existingAvatar.path
+                    );
+                  }
+
+                  let avatar = null;
+                  if (downloadedAvatar && avatarAttachment !== null) {
+                    const onDiskAttachment = await window.Signal.Types.Attachment.migrateDataToFileSystem(
+                      downloadedAvatar,
+                      {
+                        writeNewAttachmentData:
+                          window.Signal.Migrations.writeNewAttachmentData,
+                      }
+                    );
+                    avatar = {
+                      ...onDiskAttachment,
+                      hash,
+                    };
+                  }
+
+                  attributes.avatar = avatar;
+
+                  pendingGroupUpdate.push(['avatarUpdated', true]);
+                } else {
+                  window.log.info(
+                    'handleDataMessage: Group avatar hash matched; not replacing group avatar'
+                  );
+                }
 
                 const difference = _.difference(
                   members,
                   conversation.get('members')
                 );
                 if (difference.length > 0) {
-                  groupUpdate.joined = difference;
+                  pendingGroupUpdate.push(['joined', difference]);
                 }
                 if (conversation.get('left')) {
                   window.log.warn('re-added to a left group');
@@ -2324,9 +2370,9 @@
 
                 if (sender.isMe()) {
                   attributes.left = true;
-                  groupUpdate = { left: 'You' };
+                  pendingGroupUpdate.push(['left', 'You']);
                 } else {
-                  groupUpdate = { left: sender.get('id') };
+                  pendingGroupUpdate.push(['left', sender.get('id')]);
                 }
                 attributes.members = _.without(
                   conversation.get('members'),
@@ -2334,7 +2380,14 @@
                 );
               }
 
-              if (groupUpdate !== null) {
+              if (pendingGroupUpdate.length) {
+                const groupUpdate = pendingGroupUpdate.reduce(
+                  (acc, [key, value]) => {
+                    acc[key] = value;
+                    return acc;
+                  },
+                  {}
+                );
                 message.set({ group_update: groupUpdate });
               }
             }

@@ -20,8 +20,8 @@ import { IncomingIdentityKeyError } from './Errors';
 import {
   AttachmentPointerClass,
   DataMessageClass,
+  DownloadAttachmentType,
   EnvelopeClass,
-  ProtoBigNumberType,
   ReceiptMessageClass,
   SyncMessageClass,
   TypingMessageClass,
@@ -61,22 +61,6 @@ declare global {
     senderUuid?: SignalProtocolAddressClass;
   }
 }
-
-type AttachmentType = {
-  cdnId?: string;
-  cdnKey?: string;
-  data: ArrayBuffer;
-  contentType?: string;
-  size?: number;
-  fileName?: string;
-  flags?: number;
-  width?: number;
-  height?: number;
-  caption?: string;
-  blurHash?: string;
-  uploadTimestamp?: ProtoBigNumberType;
-  cdnNumber?: number;
-};
 
 type CacheAddItemType = {
   envelope: EnvelopeClass;
@@ -1591,7 +1575,9 @@ class MessageReceiverInner extends EventTarget {
       digest: attachment.digest ? attachment.digest.toString('base64') : null,
     };
   }
-  async downloadAttachment(attachment: AttachmentPointerClass) {
+  async downloadAttachment(
+    attachment: AttachmentPointerClass
+  ): Promise<DownloadAttachmentType> {
     const encrypted = await this.server.getAttachment(
       attachment.cdnId || attachment.cdnKey,
       attachment.cdnNumber || 0
@@ -1623,7 +1609,7 @@ class MessageReceiverInner extends EventTarget {
   }
   async handleAttachment(
     attachment: AttachmentPointerClass
-  ): Promise<AttachmentType> {
+  ): Promise<DownloadAttachmentType> {
     const cleaned = this.cleanAttachment(attachment);
     return this.downloadAttachment(cleaned);
   }
@@ -1866,7 +1852,7 @@ export default class MessageReceiver {
   close: () => Promise<void>;
   downloadAttachment: (
     attachment: AttachmentPointerClass
-  ) => Promise<AttachmentType>;
+  ) => Promise<DownloadAttachmentType>;
   stopProcessing: () => Promise<void>;
   unregisterBatchers: () => void;
 
