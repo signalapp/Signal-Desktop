@@ -748,7 +748,6 @@ export class OfferMessageClass {
 export enum OfferType {
   AudioCall = 0,
   VideoCall = 1,
-  NeedsPermission = 2,
 }
 
 export class AnswerMessageClass {
@@ -778,4 +777,5 @@ export enum HangupType {
   Accepted = 1,
   Declined = 2,
   Busy = 3,
+  NeedPermission = 4,
 }
