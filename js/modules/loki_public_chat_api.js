@@ -7,6 +7,8 @@ const nodeFetch = require('node-fetch');
 const validOpenGroupServer = async serverUrl => {
   // test to make sure it's online (and maybe has a valid SSL cert)
   try {
+    console.log('[vince] loki_public_chat_api --> serverUrl:', serverUrl);
+
     const url = new URL(serverUrl);
 
     if (window.lokiFeatureFlags.useFileOnionRequests) {
