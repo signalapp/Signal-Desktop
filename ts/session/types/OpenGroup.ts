@@ -89,17 +89,27 @@ export class OpenGroup {
 
     // Make this not hard coded
     const channel = 1;
-    const conversation = window.attemptConnection(server, channel);
-    const groupId = OpenGroup.getGroupId(server, channel);
+    let conversation;
+    try {
+      conversation = await window.attemptConnection(server, channel);
+    } catch (e) {
+      console.warn(e);
+      return;
+    }
 
     return new OpenGroup({
       server,
-      groupId,
-      conversation.cid,
-    })
-    
-    return {serverInfo, connectionPromise};
+      channel,
+      conversationId: conversation?.cid,
+    });
+  }
 
+  public static async isConnected(server: string): Promise<boolean> {
+    if (!OpenGroup.validate(server)) {
+      return false;
+    }
+
+    return Boolean(window.lokiPublicChatAPI.findOrCreateServer(server));
   }
 
   private static getServer(groupId: string, hasSSL: boolean): string | undefined {
