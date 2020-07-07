@@ -218,7 +218,7 @@ class OnionPaths {
 
     log.info('new guard nodes: ', guardNodes);
 
-    const edKeys = guardNodes.map(n => _.pick(n, 'pubkey_ed25519'));
+    const edKeys = guardNodes.map(n => n.pubkey_ed25519);
 
     await window.libloki.storage.updateGuardNodes(edKeys);
 
