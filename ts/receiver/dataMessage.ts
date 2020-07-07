@@ -306,15 +306,7 @@ export async function handleDataMessage(
   }
 
   const source = envelope.senderIdentity || senderPubKey;
-
-  const isOwnDevice = async (device: string) => {
-    const pubKey = new PubKey(device);
-    const allDevices = await MultiDeviceProtocol.getAllDevices(pubKey);
-
-    return allDevices.some(d => d.isEqual(pubKey));
-  };
-
-  const ownDevice = await isOwnDevice(source);
+  const ownDevice = await MultiDeviceProtocol.isOurDevice(source);
 
   const ownMessage = conversation.isMediumGroup() && ownDevice;
 
