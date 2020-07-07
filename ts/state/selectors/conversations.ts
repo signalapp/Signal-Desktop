@@ -125,16 +125,16 @@ export const _getLeftPaneLists = (
       continue;
     }
 
-    if (!conversation.activeAt) {
-      continue;
-    }
-
     if (conversation.activeAt !== undefined) {
       allContacts.push(conversation);
     }
 
     if (unreadCount < 9 && conversation.unreadCount > 0) {
       unreadCount += conversation.unreadCount;
+    }
+
+    if (!conversation.activeAt) {
+      continue;
     }
 
     if (conversation.isArchived) {
