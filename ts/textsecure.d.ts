@@ -25,6 +25,16 @@ export type UnprocessedType = {
   version: number;
 };
 
+export type StorageServiceCallOptionsType = {
+  credentials?: StorageServiceCredentials;
+  greaterThanVersion?: string;
+};
+
+export type StorageServiceCredentials = {
+  username: string;
+  password: string;
+};
+
 export type TextSecureType = {
   createTaskWithTimeout: (
     task: () => Promise<any>,
@@ -70,6 +80,14 @@ export type TextSecureType = {
     ) => Promise<DownloadAttachmentType>;
   };
   messaging: {
+    getStorageCredentials: () => Promise<StorageServiceCredentials>;
+    getStorageManifest: (
+      options: StorageServiceCallOptionsType
+    ) => Promise<ArrayBuffer>;
+    getStorageRecords: (
+      data: ArrayBuffer,
+      options: StorageServiceCallOptionsType
+    ) => Promise<ArrayBuffer>;
     sendStickerPackSync: (
       operations: Array<{
         packId: string;
@@ -125,10 +143,21 @@ export type StorageProtocolType = StorageType & {
     keyPair: KeyPairType,
     confirmed?: boolean
   ) => Promise<void>;
+  loadIdentityKey: (identifier: string) => Promise<ArrayBuffer | undefined>;
   loadSignedPreKeys: () => Promise<Array<StoredSignedPreKeyType>>;
+  processVerifiedMessage: (
+    identifier: string,
+    verifiedStatus: number,
+    publicKey: ArrayBuffer
+  ) => Promise<boolean>;
   saveIdentityWithAttributes: (
     number: string,
     options: IdentityKeyRecord
+  ) => Promise<void>;
+  setVerified: (
+    encodedAddress: string,
+    verifiedStatus: number,
+    publicKey?: ArrayBuffer
   ) => Promise<void>;
   removeSignedPreKey: (keyId: number) => Promise<void>;
   removeAllData: () => Promise<void>;
@@ -136,7 +165,20 @@ export type StorageProtocolType = StorageType & {
 
 // Protobufs
 
-type ProtobufCollectionType = {
+type StorageServiceProtobufTypes = {
+  AccountRecord: typeof AccountRecordClass;
+  ContactRecord: typeof ContactRecordClass;
+  GroupV1Record: typeof GroupV1RecordClass;
+  GroupV2Record: typeof GroupV2RecordClass;
+  ManifestRecord: typeof ManifestRecordClass;
+  ReadOperation: typeof ReadOperation;
+  StorageItem: typeof StorageItemClass;
+  StorageItems: typeof StorageItemsClass;
+  StorageManifest: typeof StorageManifest;
+  StorageRecord: typeof StorageRecordClass;
+};
+
+type ProtobufCollectionType = StorageServiceProtobufTypes & {
   AttachmentPointer: typeof AttachmentPointerClass;
   ContactDetails: typeof ContactDetailsClass;
   Content: typeof ContentClass;
@@ -458,6 +500,33 @@ export declare namespace GroupDetailsClass {
   }
 }
 
+declare enum ManifestType {
+  UNKNOWN,
+  CONTACT,
+  GROUPV1,
+  GROUPV2,
+  ACCOUNT,
+}
+
+type ManifestRecordIdentifier = {
+  raw: ProtoBinaryType;
+  type: ManifestType;
+};
+
+export declare class ManifestRecordClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => ManifestRecordClass;
+
+  static Identifier: {
+    Type: typeof ManifestType;
+  };
+
+  version: ProtoBigNumberType;
+  keys: ManifestRecordIdentifier[];
+}
+
 export declare class NullMessageClass {
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
@@ -526,6 +595,127 @@ export declare namespace ReceiptMessageClass {
   }
 }
 
+// Storage Service related types
+
+declare class StorageManifest {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => StorageManifest;
+
+  version?: ProtoBigNumberType | null;
+  value?: ByteBufferClass | null;
+}
+
+export declare class StorageRecordClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => StorageRecordClass;
+
+  contact?: ContactRecordClass | null;
+  groupV1?: GroupV1RecordClass | null;
+  groupV2?: GroupV2RecordClass | null;
+  account?: AccountRecordClass | null;
+}
+
+export declare class StorageItemClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => StorageItemClass;
+
+  key?: ByteBufferClass | null;
+  value?: ByteBufferClass | null;
+}
+
+export declare class StorageItemsClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => StorageItemsClass;
+
+  items?: StorageItemClass[] | null;
+}
+
+export declare enum ContactRecordIdentityState {
+  DEFAULT = 0,
+  VERIFIED = 1,
+  UNVERIFIED = 2,
+}
+
+export declare class ContactRecordClass {
+  static IdentityState: typeof ContactRecordIdentityState;
+
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => ContactRecordClass;
+
+  serviceUuid?: string | null;
+  serviceE164?: string | null;
+  profileKey?: ByteBufferClass | null;
+  identityKey?: ByteBufferClass | null;
+  identityState?: ContactRecordIdentityState | null;
+  givenName?: string | null;
+  familyName?: string | null;
+  username?: string | null;
+  blocked?: boolean | null;
+  whitelisted?: boolean | null;
+  archived?: boolean | null;
+}
+
+export declare class GroupV1RecordClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => GroupV1RecordClass;
+
+  id?: ByteBufferClass | null;
+  blocked?: boolean | null;
+  whitelisted?: boolean | null;
+  archived?: boolean | null;
+}
+
+export declare class GroupV2RecordClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => GroupV2RecordClass;
+
+  masterKey?: ByteBufferClass | null;
+  blocked?: boolean | null;
+  whitelisted?: boolean | null;
+  archived?: boolean | null;
+}
+
+export declare class AccountRecordClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => AccountRecordClass;
+
+  profileKey?: ByteBufferClass | null;
+  givenName?: string | null;
+  familyName?: string | null;
+  avatarUrl?: string | null;
+  noteToSelfArchived?: boolean | null;
+  readReceipts?: boolean | null;
+  sealedSenderIndicators?: boolean | null;
+  typingIndicators?: boolean | null;
+  linkPreviews?: boolean | null;
+}
+
+declare class ReadOperation {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => ReadOperation;
+
+  readKey: ArrayBuffer[] | ByteBufferClass[];
+  toArrayBuffer: () => ArrayBuffer;
+}
+
 export declare class SyncMessageClass {
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
@@ -544,6 +734,8 @@ export declare class SyncMessageClass {
   stickerPackOperation?: Array<SyncMessageClass.StickerPackOperation>;
   viewOnceOpen?: SyncMessageClass.ViewOnceOpen;
   messageRequestResponse?: SyncMessageClass.MessageRequestResponse;
+  fetchLatest?: SyncMessageClass.FetchLatest;
+  keys?: SyncMessageClass.Keys;
 }
 
 // Note: we need to use namespaces to express nested classes in Typescript
@@ -595,6 +787,12 @@ export declare namespace SyncMessageClass {
     senderUuid?: string;
     timestamp?: ProtoBinaryType;
   }
+  class FetchLatest {
+    type?: number;
+  }
+  class Keys {
+    storageService?: ByteBufferClass;
+  }
 
   class MessageRequestResponse {
     threadE164?: string;
@@ -612,6 +810,7 @@ export declare namespace SyncMessageClass.Request {
     static CONFIGURATION: number;
     static CONTACTS: number;
     static GROUPS: number;
+    static KEYS: number;
   }
 }
 

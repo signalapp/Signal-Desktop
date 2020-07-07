@@ -191,6 +191,7 @@ function prepareURL(pathSegments, moreKeys) {
       version: app.getVersion(),
       buildExpiration: config.get('buildExpiration'),
       serverUrl: config.get('serverUrl'),
+      storageUrl: config.get('storageUrl'),
       cdnUrl0: config.get('cdn').get('0'),
       cdnUrl2: config.get('cdn').get('2'),
       certificateAuthority: config.get('certificateAuthority'),
