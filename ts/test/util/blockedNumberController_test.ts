@@ -72,12 +72,11 @@ describe('BlockedNumberController', () => {
 
       await BlockedNumberController.block(linkedDevice);
 
+      const expected = [pubKey.key, linkedDevice.key];
       const blockedNumbers = BlockedNumberController.getBlockedNumbers();
       expect(blockedNumbers).to.have.lengthOf(2);
-      expect(blockedNumbers).to.have.same.members([
-        pubKey.key,
-        linkedDevice.key,
-      ]);
+      expect(blockedNumbers).to.have.same.members(expected);
+      expect(memoryDB.blocked).to.have.same.members(expected);
       expect(BlockedNumberController.getBlockedGroups()).to.be.empty;
     });
   });
@@ -95,6 +94,7 @@ describe('BlockedNumberController', () => {
 
       const blockedNumbers = BlockedNumberController.getBlockedNumbers();
       expect(blockedNumbers).to.be.empty;
+      expect(memoryDB.blocked).to.be.empty;
     });
 
     it('should only unblock if a device was blocked', async () => {
@@ -108,6 +108,8 @@ describe('BlockedNumberController', () => {
       const blockedNumbers = BlockedNumberController.getBlockedNumbers();
       expect(blockedNumbers).to.have.lengthOf(1);
       expect(blockedNumbers).to.include(another.key);
+      expect(memoryDB.blocked).to.have.lengthOf(1);
+      expect(memoryDB.blocked).to.include(another.key);
     });
   });
 
@@ -120,6 +122,8 @@ describe('BlockedNumberController', () => {
       const blockedGroups = BlockedNumberController.getBlockedGroups();
       expect(blockedGroups).to.have.lengthOf(1);
       expect(blockedGroups).to.include(group.key);
+      expect(memoryDB['blocked-groups']).to.have.lengthOf(1);
+      expect(memoryDB['blocked-groups']).to.include(group.key);
       expect(BlockedNumberController.getBlockedNumbers()).to.be.empty;
     });
   });
@@ -135,6 +139,8 @@ describe('BlockedNumberController', () => {
       const blockedGroups = BlockedNumberController.getBlockedGroups();
       expect(blockedGroups).to.have.lengthOf(1);
       expect(blockedGroups).to.include(another.key);
+      expect(memoryDB['blocked-groups']).to.have.lengthOf(1);
+      expect(memoryDB['blocked-groups']).to.include(another.key);
     });
   });
 
