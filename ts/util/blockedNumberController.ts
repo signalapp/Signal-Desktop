@@ -13,11 +13,13 @@ export class BlockedNumberController {
 
   /**
    * Check if a device is blocked.
+   * Make sure `load()` has been called before this function so that the correct blocked state is returned.
    *
    * @param number The device.
    */
   public static isBlocked(device: string | PubKey): boolean {
-    void this.load();
+    // This function is not `async` because the old `isBlocked` function in js was also not async.
+    // To convert it means we'll have to re-wire all our UI components to work with async.
     const stringValue =
       device instanceof PubKey ? device.key : device.toLowerCase();
     return this.blockedNumbers.has(stringValue);
@@ -25,10 +27,13 @@ export class BlockedNumberController {
 
   /**
    * Check if a group id is blocked.
+   * Make sure `load()` has been called before this function so that the correct blocked state is returned.
+   *
    * @param groupId The group id.
    */
   public static isGroupBlocked(groupId: string | PubKey): boolean {
-    void this.load();
+    // This function is not `async` because the old `isBlocked` function in js was also not async.
+    // To convert it means we'll have to re-wire all our UI components to work with async.
     const stringValue =
       groupId instanceof PubKey ? groupId.key : groupId.toLowerCase();
     return this.blockedGroups.has(stringValue);
