@@ -644,8 +644,6 @@
         confirm: () => {},
       };
 
-
-
       const recipients = _.union(convo.get('members'), members);
 
       await window.NewReceiver.onGroupReceived(ev);

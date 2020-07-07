@@ -70,12 +70,20 @@ export async function updateProfile(
     newProfile.avatar = null;
   }
 
-  await conversation.setLokiProfile(newProfile);
+  const allUserDevices = await MultiDeviceProtocol.getAllDevices(
+    conversation.id
+  );
+  const { ConversationController } = window;
 
-  if (conversation.isSecondaryDevice()) {
-    const primaryConversation = await conversation.getPrimaryConversation();
-    await primaryConversation.setLokiProfile(newProfile);
-  }
+  await Promise.all(
+    allUserDevices.map(async device => {
+      const conv = await ConversationController.getOrCreateAndWait(
+        device.key,
+        'private'
+      );
+      await conv.setLokiProfile(newProfile);
+    })
+  );
 }
 
 function cleanAttachment(attachment: any) {
