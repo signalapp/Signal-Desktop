@@ -119,11 +119,11 @@ export class SwarmPolling {
   ): Promise<Array<any>> {
     const edkey = node.pubkey_ed25519;
 
-    const pkStr = pubkey.key ? pubkey.key : pubkey;
+    const pkStr = (pubkey.key ? pubkey.key : pubkey) as string;
 
-    const prevHash = await this.getLastHash(edkey, pkStr as string);
+    const prevHash = await this.getLastHash(edkey, pkStr);
 
-    const messages = await retrieveNextMessages(node, prevHash, pubkey);
+    const messages = await retrieveNextMessages(node, prevHash, pkStr);
 
     if (!messages.length) {
       return [];

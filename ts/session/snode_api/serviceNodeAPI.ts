@@ -347,7 +347,7 @@ export async function storeOnNode(
 export async function retrieveNextMessages(
   nodeData: Snode,
   lastHash: string,
-  pubkey: PubKey
+  pubkey: string
 ): Promise<Array<any>> {
   const params = {
     pubKey: pubkey,
