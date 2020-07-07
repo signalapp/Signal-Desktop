@@ -97,6 +97,11 @@ function unpad(paddedData: ArrayBuffer): ArrayBuffer {
 }
 
 export async function isBlocked(number: string) {
+  const ourDevice = await MultiDeviceProtocol.isOurDevice(number);
+  if (ourDevice) {
+    return false;
+  }
+
   const primary = await MultiDeviceProtocol.getPrimaryDevice(number);
   return (
     BlockedNumberController.isBlocked(primary) ||

@@ -224,7 +224,7 @@
       return !!(this.id && this.id.match(/^rss:/));
     },
     isBlocked() {
-      if (this.isMe()) {
+      if (!this.id || this.isMe()) {
         return false;
       }
 
