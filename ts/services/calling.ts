@@ -410,7 +410,9 @@ export class CallingClass {
       (endedReason === CallEndedReason.Declined ||
         endedReason === CallEndedReason.DeclinedOnAnotherDevice ||
         (isIncoming && endedReason === CallEndedReason.LocalHangup) ||
-        (isOutgoing && endedReason === CallEndedReason.RemoteHangup));
+        (isOutgoing && endedReason === CallEndedReason.RemoteHangup) ||
+        (isOutgoing &&
+          endedReason === CallEndedReason.RemoteHangupNeedPermission));
     if (call.endedReason === CallEndedReason.AcceptedOnAnotherDevice) {
       // tslint:disable-next-line no-parameter-reassignment
       acceptedTime = Date.now();
