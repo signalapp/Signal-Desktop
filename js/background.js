@@ -1090,7 +1090,7 @@
       window.setMediaPermissions(!mediaPermissions);
     };
 
-    // attempts a connection to an open group server
+    // Attempts a connection to an open group server
     window.attemptConnection = async (serverURL, channelId) => {
       let rawserverURL = serverURL
         .replace(/^https?:\/\//i, '')
@@ -1099,7 +1099,7 @@
       const sslServerURL = `https://${rawserverURL}`;
       const conversationId = `publicChat:${channelId}@${rawserverURL}`;
 
-      // quickly peak to make sure we don't already have it
+      // Quickly peak to make sure we don't already have it
       const conversationExists = window.ConversationController.get(
         conversationId
       );
@@ -1110,7 +1110,7 @@
         });
       }
 
-      // get server
+      // Get server
       const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
         sslServerURL
       );
@@ -1122,13 +1122,13 @@
         });
       }
 
-      // create conversation
+      // Create conversation
       const conversation = await window.ConversationController.getOrCreateAndWait(
         conversationId,
         'group'
       );
 
-      // convert conversation to a public one
+      // Convert conversation to a public one
       await conversation.setPublicSource(sslServerURL, channelId);
 
       // and finally activate it

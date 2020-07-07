@@ -1,5 +1,9 @@
 // This is the Open Group equivalent to the PubKey type.
 
+import LokiPublicChatFactoryAPI from "../../../js/modules/loki_public_chat_api";
+import { UserUtil } from "../../util";
+import { ConversationType } from "../../receiver/common";
+
 interface OpenGroupParams {
   server: string;
   channel: number;
@@ -18,7 +22,11 @@ export class OpenGroup {
   public readonly server: string;
   public readonly channel: number;
   public readonly groupId?: string;
-  public readonly conversationId: string;
+  public readonly conversationId: string; // eg. c12
+
+  // The following are set on join() - not required
+  public connected?: boolean;
+  public conversation?: ConversationType;
 
   constructor(params: OpenGroupParams) {
     // https will be prepended unless explicitly http
@@ -33,6 +41,14 @@ export class OpenGroup {
     this.channel = params.channel;
     this.conversationId = params.conversationId;
     this.groupId = OpenGroup.getGroupId(this.server, this.channel);
+  }
+
+  public static validate(serverUrl: string): boolean {
+    if (this.serverRegex.test(serverUrl)) {
+      return true;
+    }
+
+    return false;
   }
 
   public static from(
@@ -64,6 +80,26 @@ export class OpenGroup {
     }
 
     return new OpenGroup(openGroupParams);
+  }
+
+  public static async join(server: string): Promise<OpenGroup | undefined> {
+    if (!OpenGroup.validate(server)) {
+      return;
+    }
+
+    // Make this not hard coded
+    const channel = 1;
+    const conversation = window.attemptConnection(server, channel);
+    const groupId = OpenGroup.getGroupId(server, channel);
+
+    return new OpenGroup({
+      server,
+      groupId,
+      conversation.cid,
+    })
+    
+    return {serverInfo, connectionPromise};
+
   }
 
   private static getServer(groupId: string, hasSSL: boolean): string | undefined {
@@ -102,4 +138,6 @@ export class OpenGroup {
 
     return `http${hasSSL ? 's' : ''}://${server}`;
   }
+
+
 }

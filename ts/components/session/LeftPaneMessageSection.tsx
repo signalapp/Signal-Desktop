@@ -28,6 +28,7 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from './SessionButton';
+import { OpenGroup } from '../../session/types';
 
 export interface Props {
   searchTerm: string;
@@ -438,15 +439,22 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     }
   }
 
-  private handleJoinChannelButtonClick(groupUrl: string) {
+  private async handleJoinChannelButtonClick(server: string) {
     const { loading } = this.state;
 
     if (loading) {
       return false;
     }
 
-    // longest TLD is now (20/02/06) 24 characters per https://jasontucker.blog/8945/what-is-the-longest-tld-you-can-get-for-a-domain-name
-    const regexURL = /(http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,24}(:[0-9]{1,5})?(\/.*)?/;
+    if (!OpenGroup.validate(server)) {
+      window.pushToast({
+        title: window.i18n('noServerURL'),
+        type: 'error',
+        id: 'connectToServerFail',
+      });
+
+    await OpenGroup.join(server);
+
 
     if (groupUrl.length <= 0) {
       window.pushToast({
@@ -458,15 +466,12 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       return false;
     }
 
-    if (!regexURL.test(groupUrl)) {
-      window.pushToast({
-        title: window.i18n('noServerURL'),
-        type: 'error',
-        id: 'connectToServerFail',
-      });
+
 
       return false;
     }
+
+   
 
     MainViewController.joinChannelStateManager(this, groupUrl, () => {
       this.handleToggleOverlay(undefined);
