@@ -96,8 +96,12 @@ function unpad(paddedData: ArrayBuffer): ArrayBuffer {
   throw new Error('Invalid padding');
 }
 
-export function isBlocked(number: string) {
-  return BlockedNumberController.isBlocked(number);
+export async function isBlocked(number: string) {
+  const primary = await MultiDeviceProtocol.getPrimaryDevice(number);
+  return (
+    BlockedNumberController.isBlocked(primary) ||
+    BlockedNumberController.isBlocked(number)
+  );
 }
 
 async function decryptPreKeyWhisperMessage(
@@ -151,7 +155,10 @@ async function decryptUnidentifiedSender(
     const { sender: source } = error || {};
 
     if (source) {
-      if (isBlocked(source.getName())) {
+      // tslint:disable-next-line: no-shadowed-variable
+      const blocked = await isBlocked(source.getName());
+      if (blocked) {
+        await BlockedNumberController.block(source.getName());
         window.log.info(
           'Dropping blocked message with error after sealed sender decryption'
         );
@@ -186,7 +193,9 @@ async function decryptUnidentifiedSender(
     envelope.type = SignalService.Envelope.Type.SESSION_REQUEST;
   }
 
-  if (isBlocked(sender.getName())) {
+  const blocked = await isBlocked(sender.getName());
+  if (blocked) {
+    await BlockedNumberController.block(sender.getName());
     window.log.info('Dropping blocked message after sealed sender decryption');
     return null;
   }

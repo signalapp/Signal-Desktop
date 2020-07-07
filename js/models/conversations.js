@@ -224,13 +224,23 @@
       return !!(this.id && this.id.match(/^rss:/));
     },
     isBlocked() {
-      if (!this.id || this.isPublic() || this.isRss()) {
+      if (this.isMe()) {
         return false;
       }
 
-      return this.isPrivate()
-        ? BlockedNumberController.isBlocked(this.id)
-        : BlockedNumberController.isGroupBlocked(this.id);
+      if (this.isClosedGroup()) {
+        return BlockedNumberController.isGroupBlocked(this.id);
+      }
+
+      if (this.isPrivate()) {
+        const primary = this.getPrimaryDevicePubKey();
+        return (
+          BlockedNumberController.isBlocked(primary) ||
+          BlockedNumberController.isBlocked(this.id)
+        );
+      }
+
+      return false;
     },
     isMediumGroup() {
       return this.get('is_medium_group');

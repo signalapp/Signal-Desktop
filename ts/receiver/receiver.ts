@@ -30,6 +30,7 @@ import {
 import { getEnvelopeId } from './common';
 import { StringUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
+import { BlockedNumberController } from '../util/blockedNumberController';
 
 // TODO: check if some of these exports no longer needed
 export {
@@ -153,7 +154,9 @@ async function handleRequestDetail(
 
   // TODO: 'source' is almost certainly undefined here (sealed sender),
   // so this check is not appropriate here
-  if (isBlocked(envelope.source)) {
+  const blocked = await isBlocked(envelope.source);
+  if (blocked) {
+    await BlockedNumberController.block(envelope.source);
     return;
   }
 
