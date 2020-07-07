@@ -19,30 +19,16 @@ export class OpenGroup {
   public readonly channel: number;
   public readonly groupId?: string;
   public readonly conversationId: string;
-  private readonly rawServer: string;
 
   constructor(params: OpenGroupParams) {
     // https will be prepended unless explicitly http
-    const prefixRegex = new RegExp('https:\//\//');
-    this.rawServer = params.server.replace(prefixRegex, '');
-    
-    const isHttps = Boolean(params.server.match('^(https:\/\/){1}'));
-    const isHttp = Boolean(params.server.match('^(http:\/\/){1}'));
-    const hasNoPrefix = !(params.server.match(prefixRegex));
-
-    console.log('[vince] isHttps:', isHttps);
-    console.log('[vince] isHttp:', isHttp);
-    console.log('[vince] hasNoPrefix:', hasNoPrefix);
-
-    this.server = params.server;
+    this.server = OpenGroup.prefixify(params.server);
 
     // Validate server format
     const isValid = OpenGroup.serverRegex.test(this.server);
     if (!isValid) {
       throw Error('an invalid server or groupId was provided');
     }
-
-    console.log('[vince] OpenGroup --> constructor:', this.server);
 
     this.channel = params.channel;
     this.conversationId = params.conversationId;
@@ -51,12 +37,13 @@ export class OpenGroup {
 
   public static from(
     groupId: string,
-    conversationId: string
+    conversationId: string,
+    hasSSL: boolean = true
   ): OpenGroup | undefined {
     // Returns a new instance from a groupId if it's valid
     // eg. groupId = 'publicChat:1@chat.getsession.org'
 
-    const server = this.getServer(groupId);
+    const server = this.getServer(groupId, hasSSL);
     const channel = this.getChannel(groupId);
 
     // Was groupId successfully utilized?
@@ -71,17 +58,22 @@ export class OpenGroup {
       conversationId,
     } as OpenGroupParams;
 
-    if (this.serverRegex.test(server)) {
+    const isValid = OpenGroup.serverRegex.test(server);
+    if (!isValid) {
       return;
     }
 
     return new OpenGroup(openGroupParams);
   }
 
-  private static getServer(groupId: string): string | undefined {
+  private static getServer(groupId: string, hasSSL: boolean): string | undefined {
     const isValid = this.groupIdRegex.test(groupId);
+    const strippedServer = isValid ? groupId.split('@')[1] : undefined;
 
-    return isValid ? groupId.split('@')[1] : undefined;
+    // We don't know for sure if the server is https or http when taken from the groupId. Preifx accordingly.
+    return strippedServer
+      ? this.prefixify(strippedServer, hasSSL)
+      : undefined;
   }
 
   private static getChannel(groupId: string): number | undefined {
@@ -92,7 +84,22 @@ export class OpenGroup {
   }
 
   private static getGroupId(server: string, channel: number): string {
-    // server is already validated in constructor; no need to re-check
-    return `publicChat:${channel}@${server}`;
+    // Server is already validated in constructor; no need to re-check
+
+    // Strip server prefix
+    const prefixRegex = new RegExp('https?:\\/\\/');
+    const strippedServer = server.replace(prefixRegex, '');
+
+    return `publicChat:${channel}@${strippedServer}`;
+  }
+
+  private static prefixify(server: string, hasSSL: boolean = true): string {
+    // Prefix server with https:// if it's not already prefixed with http or https.
+    const hasPrefix = server.match('^https?:\/\/');
+    if (hasPrefix) {
+      return server;
+    }
+
+    return `http${hasSSL ? 's' : ''}://${server}`;
   }
 }
