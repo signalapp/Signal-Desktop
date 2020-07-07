@@ -11,6 +11,12 @@ export function convertToTS(object: any): any {
   if (
     object &&
     object.constructor &&
+    object.constructor.name === 'Uint8Array'
+  ) {
+    return object;
+  } else if (
+    object &&
+    object.constructor &&
     object.constructor.name === 'ByteBuffer'
   ) {
     return new Uint8Array(object.toArrayBuffer());
