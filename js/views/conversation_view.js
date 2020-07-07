@@ -10,6 +10,7 @@
   textsecure,
   Whisper,
   ConversationController,
+  BlockedNumberController,
 */
 
 // eslint-disable-next-line func-names
@@ -1910,11 +1911,17 @@
           toastOptions.id = 'clockOutOfSync';
         }
       }
-      if (this.model.isPrivate() && storage.isBlocked(this.model.id)) {
+      if (
+        this.model.isPrivate() &&
+        BlockedNumberController.isBlocked(this.model.id)
+      ) {
         toastOptions.title = i18n('unblockToSend');
         toastOptions.id = 'unblockToSend';
       }
-      if (!this.model.isPrivate() && storage.isGroupBlocked(this.model.id)) {
+      if (
+        !this.model.isPrivate() &&
+        BlockedNumberController.isGroupBlocked(this.model.id)
+      ) {
         toastOptions.title = i18n('unblockGroupToSend');
         toastOptions.id = 'unblockGroupToSend';
       }

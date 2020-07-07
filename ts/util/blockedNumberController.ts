@@ -74,12 +74,12 @@ export class BlockedNumberController {
     await this.saveToDB(BLOCKED_GROUPS_ID, this.blockedGroups);
   }
 
-  public static getBlockedNumbers(): Set<string> {
-    return new Set(this.blockedNumbers);
+  public static getBlockedNumbers(): Array<string> {
+    return [...this.blockedNumbers];
   }
 
-  public static getBlockedGroups(): Set<string> {
-    return new Set(this.blockedGroups);
+  public static getBlockedGroups(): Array<string> {
+    return [...this.blockedGroups];
   }
 
   // ---- DB
@@ -92,7 +92,7 @@ export class BlockedNumberController {
     }
   }
 
-  public static async reset() {
+  public static reset() {
     this.loaded = false;
     this.blockedNumbers = new Set();
     this.blockedGroups = new Set();
