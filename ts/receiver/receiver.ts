@@ -151,13 +151,6 @@ async function handleRequestDetail(
     envelope.senderIdentity = senderIdentity;
   }
 
-  // TODO: 'source' is almost certainly undefined here (sealed sender),
-  // so this check is not appropriate here
-  const blocked = await isBlocked(envelope.source);
-  if (blocked) {
-    return;
-  }
-
   envelope.id = envelope.serverGuid || window.getGuid();
   envelope.serverTimestamp = envelope.serverTimestamp
     ? envelope.serverTimestamp.toNumber()
