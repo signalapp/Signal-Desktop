@@ -1900,25 +1900,28 @@
           window.console.warn('sendGroupInfo invalid pubkey:', recipient);
           return;
         }
-        await libsession
-          .getMessageQueue()
-          .send(recipientPubKey, groupUpdateMessage)
-          .catch(log.error);
 
-        const expireUpdate = {
-          timestamp: Date.now(),
-          expireTimer: this.get('expireTimer'),
-          groupId: this.get('id'),
-        };
+        try {
+          await libsession
+            .getMessageQueue()
+            .send(recipientPubKey, groupUpdateMessage);
 
-        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
-          expireUpdate
-        );
+          const expireUpdate = {
+            timestamp: Date.now(),
+            expireTimer: this.get('expireTimer'),
+            groupId: this.get('id'),
+          };
 
-        await libsession
-          .getMessageQueue()
-          .sendUsingMultiDevice(recipientPubKey, expirationTimerMessage)
-          .catch(log.error);
+          const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+            expireUpdate
+          );
+
+          await libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(recipientPubKey, expirationTimerMessage);
+        } catch (e) {
+          log.error('Failed to send groupInfo:', e);
+        }
       }
     },
 

@@ -8,11 +8,7 @@ import ByteBuffer from 'bytebuffer';
  */
 export function convertToTS(object: any): any {
   // No idea why js `ByteBuffer` and ts `ByteBuffer` differ ...
-  if (
-    object &&
-    object.constructor &&
-    object.constructor.name === 'Uint8Array'
-  ) {
+  if (object instanceof Uint8Array) {
     return object;
   } else if (
     object &&

@@ -435,15 +435,9 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
   } = data;
 
   const type = 'incoming';
-  if (
-    message &&
-    message.group &&
-    message.group.id &&
-    message.group.id.length === 0
-  ) {
-    message.group.id = null;
-  }
-  const groupId = message?.group?.id;
+  const messageGroupId = message?.group?.id;
+  const groupId =
+    messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
 
   const messageData: any = {
     source,
