@@ -13,11 +13,7 @@ async function handleGroups(
   group: any,
   source: any
 ): Promise<any> {
-  const textsecure = window.textsecure;
   const GROUP_TYPES = SignalService.GroupContext.Type;
-
-  // TODO: this should be primary device id!
-  const ourNumber = textsecure.storage.user.getNumber();
 
   let groupUpdate = null;
 
@@ -25,6 +21,7 @@ async function handleGroups(
   const attributes: any = {
     type: 'group',
     groupId: group.id,
+    ...conversation.attributes,
   };
 
   const oldMembers = conversation.get('members');
@@ -54,15 +51,21 @@ async function handleGroups(
 
     // Check if anyone got kicked:
     const removedMembers = _.difference(oldMembers, attributes.members);
+    const isOurDeviceMap = await Promise.all(
+      removedMembers.map(async member =>
+        MultiDeviceProtocol.isOurDevice(member)
+      )
+    );
+    const ourDeviceWasRemoved = isOurDeviceMap.includes(true);
 
-    if (removedMembers.includes(ourNumber)) {
+    if (ourDeviceWasRemoved) {
       groupUpdate.kicked = 'You';
       attributes.isKickedFromGroup = true;
     } else if (removedMembers.length) {
       groupUpdate.kicked = removedMembers;
     }
   } else if (group.type === GROUP_TYPES.QUIT) {
-    if (source === ourNumber) {
+    if (await MultiDeviceProtocol.isOurDevice(source)) {
       attributes.left = true;
       groupUpdate = { left: 'You' };
     } else {

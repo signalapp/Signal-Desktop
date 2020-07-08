@@ -3,11 +3,10 @@ import { ClosedGroupRequestInfoMessage } from '../session/messages/outgoing/cont
 import { getMessageQueue } from '../session';
 import { PubKey } from '../session/types';
 import _ from 'lodash';
+import { BlockedNumberController } from '../util/blockedNumberController';
 
 function isGroupBlocked(groupId: string) {
-  return (
-    window.textsecure.storage.get('blocked-groups', []).indexOf(groupId) >= 0
-  );
+  return BlockedNumberController.isGroupBlocked(groupId);
 }
 
 function shouldIgnoreBlockedGroup(group: any, senderPubKey: string) {

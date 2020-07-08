@@ -6,6 +6,8 @@ import { migrateColor } from './migrateColor';
 import { makeLookup } from './makeLookup';
 import * as UserUtil from './user';
 
+export * from './blockedNumberController';
+
 export {
   arrayBufferToObjectURL,
   GoogleChrome,

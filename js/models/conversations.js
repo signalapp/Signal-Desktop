@@ -223,20 +223,48 @@
       return !!(this.id && this.id.match(/^rss:/));
     },
     isBlocked() {
-      return BlockedNumberController.isBlocked(this.id);
+      if (!this.id || this.isMe()) {
+        return false;
+      }
+
+      if (this.isClosedGroup()) {
+        return BlockedNumberController.isGroupBlocked(this.id);
+      }
+
+      if (this.isPrivate()) {
+        const primary = this.getPrimaryDevicePubKey();
+        return BlockedNumberController.isBlocked(primary);
+      }
+
+      return false;
     },
     isMediumGroup() {
       return this.get('is_medium_group');
     },
-    block() {
-      BlockedNumberController.block(this.id);
+    async block() {
+      if (!this.id || this.isPublic() || this.isRss()) {
+        return;
+      }
+
+      const promise = this.isPrivate()
+        ? BlockedNumberController.block(this.id)
+        : BlockedNumberController.blockGroup(this.id);
+      await promise;
       this.trigger('change');
       this.messageCollection.forEach(m => m.trigger('change'));
+      this.updateTextInputState();
     },
-    unblock() {
-      BlockedNumberController.unblock(this.id);
+    async unblock() {
+      if (!this.id || this.isPublic() || this.isRss()) {
+        return;
+      }
+      const promise = this.isPrivate()
+        ? BlockedNumberController.unblock(this.id)
+        : BlockedNumberController.unblockGroup(this.id);
+      await promise;
       this.trigger('change');
       this.messageCollection.forEach(m => m.trigger('change'));
+      this.updateTextInputState();
     },
     setMessageSelectionBackdrop() {
       const messageSelected = this.selectedMessages.size > 0;
@@ -770,6 +798,11 @@
       if (!this.isPrivate() && this.get('left')) {
         this.trigger('disable:input', true);
         this.trigger('change:placeholder', 'left-group');
+        return;
+      }
+      if (this.isBlocked()) {
+        this.trigger('disable:input', true);
+        this.trigger('change:placeholder', 'blocked-user');
         return;
       }
       // otherwise, enable the input and set default placeholder
@@ -1868,9 +1901,20 @@
       );
 
       await this.sendClosedGroupMessageWithSync(groupUpdateMessage, recipients);
+
+      const expireUpdate = {
+        timestamp: Date.now(),
+        expireTimer: this.get('expireTimer'),
+        groupId: this.get('id'),
+      };
+
+      const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+        expireUpdate
+      );
+      await libsession.getMessageQueue().sendToGroup(expirationTimerMessage);
     },
 
-    sendGroupInfo(recipient) {
+    async sendGroupInfo(recipient) {
       // Only send group info if we're a closed group and we haven't left
       if (this.isClosedGroup() && !this.get('left')) {
         const updateParams = {
@@ -1889,10 +1933,28 @@
           window.console.warn('sendGroupInfo invalid pubkey:', recipient);
           return;
         }
-        libsession
-          .getMessageQueue()
-          .send(recipientPubKey, groupUpdateMessage)
-          .catch(log.error);
+
+        try {
+          await libsession
+            .getMessageQueue()
+            .send(recipientPubKey, groupUpdateMessage);
+
+          const expireUpdate = {
+            timestamp: Date.now(),
+            expireTimer: this.get('expireTimer'),
+            groupId: this.get('id'),
+          };
+
+          const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+            expireUpdate
+          );
+
+          await libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(recipientPubKey, expirationTimerMessage);
+        } catch (e) {
+          log.error('Failed to send groupInfo:', e);
+        }
       }
     },
 

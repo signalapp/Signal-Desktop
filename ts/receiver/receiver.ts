@@ -30,6 +30,7 @@ import {
 import { getEnvelopeId } from './common';
 import { StringUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
+import { BlockedNumberController } from '../util/blockedNumberController';
 
 // TODO: check if some of these exports no longer needed
 export {
@@ -148,12 +149,6 @@ async function handleRequestDetail(
     // tslint:disable-next-line no-parameter-reassignment
     plaintext = SignalService.Envelope.encode(envelope).finish();
     envelope.senderIdentity = senderIdentity;
-  }
-
-  // TODO: 'source' is almost certainly undefined here (sealed sender),
-  // so this check is not appropriate here
-  if (isBlocked(envelope.source)) {
-    return;
   }
 
   envelope.id = envelope.serverGuid || window.getGuid();
@@ -325,6 +320,9 @@ export async function handleUnencryptedMessage({ message: outerMessage }: any) {
     // Public chat messages from ourselves should be outgoing
     type: isPublicChatMessage && isOurDevice ? 'sent' : 'message',
     data: outerMessage,
+    confirm: () => {
+      /* do nothing */
+    },
   };
 
   await handleMessageEvent(ev);

@@ -1096,7 +1096,7 @@
           attachments,
           preview,
           quote,
-          lokiProfile: this.getOurProfile(),
+          lokiProfile: this.conversation.getOurProfile(),
         });
 
         // Special-case the self-send case - we send only a sync message

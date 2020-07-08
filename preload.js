@@ -82,6 +82,7 @@ window.CONSTANTS = new (function() {
   this.MAX_USERNAME_LENGTH = 20;
   this.MAX_GROUP_NAME_LENGTH = 64;
   this.DEFAULT_PUBLIC_CHAT_URL = appConfig.get('defaultPublicChatServer');
+  this.MAX_LINKED_DEVICES = 1;
   this.MAX_CONNECTION_DURATION = 5000;
   this.MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
   // Limited due to the proof-of-work requirement
@@ -99,6 +100,8 @@ window.CONSTANTS = new (function() {
   // https://loki.network/2020/03/25/loki-name-system-the-facts/
   this.LNS_REGEX = `^[a-zA-Z0-9_]([a-zA-Z0-9_-]{0,${this.LNS_MAX_LENGTH -
     2}}[a-zA-Z0-9_]){0,1}$`;
+  this.MIN_GUARD_COUNT = 2;
+  this.DESIRED_GUARD_COUNT = 3;
 })();
 
 window.versionInfo = {
@@ -194,7 +197,7 @@ window.resetDatabase = () => {
   ipc.send('resetDatabase');
 };
 
-window.onUnblockNumber = number => {
+window.onUnblockNumber = async number => {
   // Unblock the number
   if (window.BlockedNumberController) {
     window.BlockedNumberController.unblock(number);
@@ -204,7 +207,7 @@ window.onUnblockNumber = number => {
   if (window.ConversationController) {
     try {
       const conversation = window.ConversationController.get(number);
-      conversation.unblock();
+      await conversation.unblock();
     } catch (e) {
       window.log.info(
         'IPC on unblock: failed to fetch conversation for number: ',
@@ -332,14 +335,12 @@ const { initialize: initializeWebAPI } = require('./js/modules/web_api');
 window.WebAPI = initializeWebAPI();
 
 window.seedNodeList = JSON.parse(config.seedNodeList);
-const LokiSnodeAPI = require('./js/modules/loki_snode_api');
 
 window.SenderKeyAPI = require('./js/modules/loki_sender_key_api');
 
-window.lokiSnodeAPI = new LokiSnodeAPI({
-  serverUrl: config.serverUrl,
-  localUrl: config.localUrl,
-});
+const { OnionAPI } = require('./ts/session/onions');
+
+window.OnionAPI = OnionAPI;
 
 if (process.env.USE_STUBBED_NETWORK) {
   const StubMessageAPI = require('./integration_test/stubs/stub_message_api');
@@ -494,3 +495,11 @@ if (config.environment.includes('test-integration')) {
     enableSenderKeys: true,
   };
 }
+
+// Blocking
+
+const {
+  BlockedNumberController,
+} = require('./ts/util/blockedNumberController');
+
+window.BlockedNumberController = BlockedNumberController;

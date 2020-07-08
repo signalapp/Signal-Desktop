@@ -56,11 +56,13 @@ export class SwarmPolling {
     this.groupPubkeys.push(pubkey);
   }
 
-  public addPubkey(pubkey: PubKey) {
+  public addPubkey(pk: PubKey | string) {
+    const pubkey = PubKey.cast(pk);
     this.pubkeys.push(pubkey);
   }
 
-  public removePubkey(pubkey: PubKey) {
+  public removePubkey(pk: PubKey | string) {
+    const pubkey = PubKey.cast(pk);
     this.pubkeys = this.pubkeys.filter(key => !pubkey.isEqual(key));
     this.groupPubkeys = this.groupPubkeys.filter(key => !pubkey.isEqual(key));
   }
@@ -68,9 +70,9 @@ export class SwarmPolling {
   protected async pollOnceForKey(pubkey: PubKey, isGroup: boolean) {
     // NOTE: sometimes pubkey is string, sometimes it is object, so
     // accept both until this is fixed:
-    const pk = (pubkey.key ? pubkey.key : pubkey) as string;
+    const pkStr = pubkey.key;
 
-    const snodes = await getSnodesFor(pk);
+    const snodes = await getSnodesFor(pkStr);
 
     // Select nodes for which we already have lastHashes
     const alreadyPolled = snodes.filter(
@@ -106,7 +108,7 @@ export class SwarmPolling {
     const newMessages = await this.handleSeenMessages(messages);
 
     newMessages.forEach((m: Message) => {
-      const options = isGroup ? { conversationId: pk } : {};
+      const options = isGroup ? { conversationId: pkStr } : {};
       processMessage(m.data, options);
     });
   }
@@ -119,11 +121,11 @@ export class SwarmPolling {
   ): Promise<Array<any>> {
     const edkey = node.pubkey_ed25519;
 
-    const pkStr = pubkey.key ? pubkey.key : pubkey;
+    const pkStr = pubkey.key;
 
-    const prevHash = await this.getLastHash(edkey, pkStr as string);
+    const prevHash = await this.getLastHash(edkey, pkStr);
 
-    const messages = await retrieveNextMessages(node, prevHash, pubkey);
+    const messages = await retrieveNextMessages(node, prevHash, pkStr);
 
     if (!messages.length) {
       return [];
@@ -197,7 +199,7 @@ export class SwarmPolling {
     hash: string,
     expiration: number
   ): Promise<void> {
-    const pkStr = (pubkey.key ? pubkey.key : pubkey) as string;
+    const pkStr = pubkey.key;
 
     await Data.updateLastHash({
       convoId: pkStr,

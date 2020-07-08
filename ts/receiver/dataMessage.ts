@@ -70,12 +70,20 @@ export async function updateProfile(
     newProfile.avatar = null;
   }
 
-  await conversation.setLokiProfile(newProfile);
+  const allUserDevices = await MultiDeviceProtocol.getAllDevices(
+    conversation.id
+  );
+  const { ConversationController } = window;
 
-  if (conversation.isSecondaryDevice()) {
-    const primaryConversation = await conversation.getPrimaryConversation();
-    await primaryConversation.setLokiProfile(newProfile);
-  }
+  await Promise.all(
+    allUserDevices.map(async device => {
+      const conv = await ConversationController.getOrCreateAndWait(
+        device.key,
+        'private'
+      );
+      await conv.setLokiProfile(newProfile);
+    })
+  );
 }
 
 function cleanAttachment(attachment: any) {
@@ -298,15 +306,7 @@ export async function handleDataMessage(
   }
 
   const source = envelope.senderIdentity || senderPubKey;
-
-  const isOwnDevice = async (device: string) => {
-    const pubKey = new PubKey(device);
-    const allDevices = await MultiDeviceProtocol.getAllDevices(pubKey);
-
-    return allDevices.some(d => d.isEqual(pubKey));
-  };
-
-  const ownDevice = await isOwnDevice(source);
+  const ownDevice = await MultiDeviceProtocol.isOurDevice(source);
 
   const ownMessage = conversation.isMediumGroup() && ownDevice;
 
@@ -413,6 +413,7 @@ interface MessageCreationData {
   isRss: boolean;
   source: boolean;
   serverId: string;
+  message: any;
 
   // Needed for synced outgoing messages
   unidentifiedStatus: any; // ???
@@ -430,9 +431,13 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     isRss,
     source,
     serverId,
+    message,
   } = data;
 
   const type = 'incoming';
+  const messageGroupId = message?.group?.id;
+  const groupId =
+    messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
 
   const messageData: any = {
     source,
@@ -440,7 +445,7 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     serverId, // + (not present below in `createSentMessage`)
     sent_at: timestamp,
     received_at: receivedAt || Date.now(),
-    conversationId: source,
+    conversationId: groupId ?? source,
     unidentifiedDeliveryReceived, // +
     type,
     direction: 'incoming', // +
@@ -521,8 +526,14 @@ function sendDeliveryReceipt(source: string, timestamp: any) {
   // await getMessageQueue().sendUsingMultiDevice(device, receiptMessage);
 }
 
+interface MessageEvent {
+  data: any;
+  type: string;
+  confirm: () => void;
+}
+
 // tslint:disable:cyclomatic-complexity max-func-body-length */
-export async function handleMessageEvent(event: any): Promise<void> {
+export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   const { data, confirm } = event;
 
   const isIncoming = event.type === 'message';
@@ -611,10 +622,11 @@ export async function handleMessageEvent(event: any): Promise<void> {
   const primarySource = await MultiDeviceProtocol.getPrimaryDevice(source);
   if (isGroupMessage) {
     /* handle one part of the group logic here:
-               handle requesting info of a new group,
-               dropping an admin only update from a non admin, ...
-             */
+       handle requesting info of a new group,
+       dropping an admin only update from a non admin, ...
+    */
     conversationId = message.group.id;
+
     const shouldReturn = await preprocessGroupMessage(
       source,
       message.group,

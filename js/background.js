@@ -292,7 +292,7 @@
       window.lokiFeatureFlags.useFileOnionRequests
     ) {
       // Initialize paths for onion requests
-      window.lokiSnodeAPI.buildNewOnionPaths();
+      window.OnionAPI.buildNewOnionPaths();
     }
 
     const currentPoWDifficulty = storage.get('PoWDifficulty', null);
@@ -430,8 +430,8 @@
       await Promise.all([
         ConversationController.load(),
         textsecure.storage.protocol.hydrateCaches(),
+        BlockedNumberController.load(),
       ]);
-      BlockedNumberController.refresh();
     } catch (error) {
       window.log.error(
         'background.js: ConversationController failed to load:',
@@ -626,23 +626,23 @@
     window.doUpdateGroup = async (groupId, groupName, members, avatar) => {
       const ourKey = textsecure.storage.user.getNumber();
 
+      const convo = await ConversationController.getOrCreateAndWait(
+        groupId,
+        'group'
+      );
+
       const ev = {
         groupDetails: {
           id: groupId,
           name: groupName,
           members,
           active: true,
-          expireTimer: 0,
-          avatar: '',
+          expireTimer: convo.get('expireTimer'),
+          avatar,
           is_medium_group: false,
         },
         confirm: () => {},
       };
-
-      const convo = await ConversationController.getOrCreateAndWait(
-        groupId,
-        'group'
-      );
 
       const recipients = _.union(convo.get('members'), members);
 
@@ -1371,13 +1371,31 @@
     });
 
     Whisper.events.on('devicePairingRequestReceivedNoListener', async () => {
+      // If linking limit has been reached, let master know.
+      const ourKey = textsecure.storage.user.getNumber();
+      const ourPubKey = window.libsession.Types.PubKey.cast(ourKey);
+      const authorisations = await window.libsession.Protocols.MultiDeviceProtocol.fetchPairingAuthorisations(
+        ourPubKey
+      );
+
+      const title = authorisations.length
+        ? window.i18n('devicePairingRequestReceivedLimitTitle')
+        : window.i18n('devicePairingRequestReceivedNoListenerTitle');
+
+      const description = authorisations.length
+        ? window.i18n(
+            'devicePairingRequestReceivedLimitDescription',
+            window.CONSTANTS.MAX_LINKED_DEVICES
+          )
+        : window.i18n('devicePairingRequestReceivedNoListenerDescription');
+
+      const type = authorisations.length ? 'info' : 'warning';
+
       window.pushToast({
-        title: window.i18n('devicePairingRequestReceivedNoListenerTitle'),
-        description: window.i18n(
-          'devicePairingRequestReceivedNoListenerDescription'
-        ),
-        type: 'info',
-        id: 'pairingRequestNoListener',
+        title,
+        description,
+        type,
+        id: 'pairingRequestReceived',
         shouldFade: false,
       });
     });

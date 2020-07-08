@@ -4,8 +4,7 @@ import https from 'https';
 import { Snode } from './snodePool';
 import ByteBuffer from 'bytebuffer';
 import { StringUtils } from '../utils';
-
-const BAD_PATH = 'bad_path';
+import { OnionAPI } from '../onions';
 
 enum RequestError {
   BAD_PATH,
@@ -401,15 +400,15 @@ export async function lokiOnionFetch(
   body: any,
   targetNode: Snode
 ): Promise<SnodeResponse | boolean> {
-  const { lokiSnodeAPI, log } = window;
+  const { log } = window;
 
   // Loop until the result is not BAD_PATH
   // tslint:disable-next-line no-constant-condition
   while (true) {
     // Get a path excluding `targetNode`:
     // eslint-disable-next-line no-await-in-loop
-    const path = await lokiSnodeAPI.getOnionPath(targetNode);
-    const thisIdx = lokiSnodeAPI.assignOnionRequestNumber();
+    const path = await OnionAPI.getOnionPath(targetNode);
+    const thisIdx = OnionAPI.assignOnionRequestNumber();
 
     // At this point I only care about BAD_PATH
 
@@ -427,7 +426,7 @@ export async function lokiOnionFetch(
           targetNode.port
         }`
       );
-      lokiSnodeAPI.markPathAsBad(path);
+      OnionAPI.markPathAsBad(path);
       return false;
     } else if (result === RequestError.OTHER) {
       // could mean, fail to parse results

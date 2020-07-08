@@ -261,7 +261,7 @@ export async function storeOnNode(
   targetNode: Snode,
   params: SendParams
 ): Promise<boolean> {
-  const { log, textsecure, lokiSnodeAPI } = window;
+  const { log, textsecure } = window;
 
   let successiveFailures = 0;
   while (successiveFailures < MAX_ACCEPTABLE_FAILURES) {
@@ -347,7 +347,7 @@ export async function storeOnNode(
 export async function retrieveNextMessages(
   nodeData: Snode,
   lastHash: string,
-  pubkey: PubKey
+  pubkey: string
 ): Promise<Array<any>> {
   const params = {
     pubKey: pubkey,
