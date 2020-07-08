@@ -522,6 +522,16 @@ export async function handleMessageJob(
       handleSessionReset(conversation, message);
     } else if (message.isExpirationTimerUpdate()) {
       const { expireTimer } = initialMessage;
+      const oldValue = conversation.get('expireTimer');
+      if (expireTimer === oldValue) {
+        if (confirm) {
+          confirm();
+        }
+        window.console.log(
+          'Dropping ExpireTimerUpdate message as we already have the same one set.'
+        );
+        return;
+      }
       handleExpirationTimerUpdate(conversation, message, source, expireTimer);
     } else {
       await handleRegularMessage(

@@ -1891,7 +1891,7 @@
         // if we do set an identifier here, be sure to not sync the message two times in msg.handleMessageSentSuccess()
         timestamp: now,
         groupId: id,
-        name,
+        name: name || this.getName(),
         avatar,
         members,
         admins: this.get('groupAdmins'),

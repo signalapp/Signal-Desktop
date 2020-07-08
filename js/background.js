@@ -630,6 +630,8 @@
         groupId,
         'group'
       );
+      const oldMembers = convo.get('members');
+      const oldName = convo.getName();
 
       const ev = {
         groupDetails: {
@@ -709,7 +711,6 @@
 
       const updateObj = {
         id: groupId,
-        name: groupName,
         avatar: nullAvatar,
         recipients,
         members,
@@ -717,6 +718,19 @@
         options,
       };
 
+      if (oldName !== groupName) {
+        updateObj.name = groupName;
+      }
+
+      const addedMembers = _.difference(updateObj.members, oldMembers);
+      if (addedMembers.length > 0) {
+        updateObj.joined = addedMembers;
+      }
+      // Check if anyone got kicked:
+      const removedMembers = _.difference(oldMembers, updateObj.members);
+      if (removedMembers.length > 0) {
+        updateObj.kicked = removedMembers;
+      }
       // Send own sender keys and group secret key
       if (isMediumGroup) {
         const { chainKey, keyIdx } = await window.SenderKeyAPI.getSenderKeys(
