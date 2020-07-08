@@ -631,6 +631,7 @@
         'group'
       );
       const oldMembers = convo.get('members');
+      const oldName = convo.getName();
 
       const ev = {
         groupDetails: {
@@ -717,7 +718,7 @@
         options,
       };
 
-      if (!convo.getName() || convo.getName() !== groupName) {
+      if (oldName !== groupName) {
         updateObj.name = groupName;
       }
 
