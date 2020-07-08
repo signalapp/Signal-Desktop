@@ -488,10 +488,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         }
       });
     } catch (e) {
-      this.setState({
-        loading: false,
-      });
-
       window.pushToast({
         title: window.i18n('connectToServerFail'),
         id: 'connectToServerFail',
