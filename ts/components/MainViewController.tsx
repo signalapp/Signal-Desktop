@@ -7,7 +7,6 @@ import {
 } from './session/settings/SessionSettings';
 
 export const MainViewController = {
-  joinChannelStateManager,
   createClosedGroup,
   renderMessageView,
   renderSettingsView,
@@ -39,71 +38,6 @@ export class MessageView extends React.Component {
 // /////////////////////////////////////
 // //////////// Management /////////////
 // /////////////////////////////////////
-
-function joinChannelStateManager(
-  thisRef: any,
-  serverURL: string,
-  onSuccess?: any
-) {
-  // Any component that uses this function MUST have the keys [loading, connectSuccess]
-  // in their State
-
-  // TODO: Make this not hard coded
-  const channelId = 1;
-  thisRef.setState({ loading: true });
-  const connectionResult = window.attemptConnection(serverURL, channelId);
-
-  // Give 5s maximum for promise to revole. Else, throw error.
-  const connectionTimeout = setTimeout(() => {
-    if (!thisRef.state.connectSuccess) {
-      thisRef.setState({ loading: false });
-      window.pushToast({
-        title: window.i18n('connectToServerFail'),
-        type: 'error',
-        id: 'connectToServerFail',
-      });
-
-      return;
-    }
-  }, window.CONSTANTS.MAX_CONNECTION_DURATION);
-
-  connectionResult
-    .then(() => {
-      clearTimeout(connectionTimeout);
-
-      if (thisRef.state.loading) {
-        thisRef.setState({
-          connectSuccess: true,
-          loading: false,
-        });
-        window.pushToast({
-          title: window.i18n('connectToServerSuccess'),
-          id: 'connectToServerSuccess',
-          type: 'success',
-        });
-
-        if (onSuccess) {
-          onSuccess();
-        }
-      }
-    })
-    .catch((connectionError: string) => {
-      clearTimeout(connectionTimeout);
-      thisRef.setState({
-        connectSuccess: true,
-        loading: false,
-      });
-      window.pushToast({
-        title: connectionError,
-        id: 'connectToServerFail',
-        type: 'error',
-      });
-
-      return false;
-    });
-
-  return true;
-}
 
 async function createClosedGroup(
   groupName: string,

@@ -70,7 +70,10 @@ export class OpenGroup {
     return new OpenGroup(openGroupParams);
   }
 
-  public static async join(server: string, onLoading?: any): Promise<OpenGroup | undefined> {
+  public static async join(
+    server: string,
+    onLoading?: any
+  ): Promise<OpenGroup | undefined> {
     // onLoading called when the server begins connecting - after passing every guard
 
     const prefixedServer = OpenGroup.prefixify(server);
@@ -122,7 +125,9 @@ export class OpenGroup {
     }
 
     const prefixedServer = this.prefixify(server);
-    const serverInfo = await window.lokiPublicChatAPI.findOrCreateServer(prefixedServer) as any;
+    const serverInfo = (await window.lokiPublicChatAPI.findOrCreateServer(
+      prefixedServer
+    )) as any;
 
     if (!serverInfo?.channels?.length) {
       return;
@@ -137,7 +142,9 @@ export class OpenGroup {
     }
 
     const prefixedServer = this.prefixify(server);
-    return Boolean(await window.lokiPublicChatAPI.findOrCreateServer(prefixedServer));
+    return Boolean(
+      await window.lokiPublicChatAPI.findOrCreateServer(prefixedServer)
+    );
   }
 
   public static getConversationByCID(conversationId: string): any {
@@ -145,7 +152,10 @@ export class OpenGroup {
     return ConversationController.get(conversationId);
   }
 
-  private static getServer(groupId: string, hasSSL: boolean): string | undefined {
+  private static getServer(
+    groupId: string,
+    hasSSL: boolean
+  ): string | undefined {
     const isValid = this.groupIdRegex.test(groupId);
     const strippedServer = isValid ? groupId.split('@')[1] : undefined;
 
@@ -174,7 +184,7 @@ export class OpenGroup {
 
   private static prefixify(server: string, hasSSL: boolean = true): string {
     // Prefix server with https:// if it's not already prefixed with http or https.
-    const hasPrefix = server.match('^https?:\/\/');
+    const hasPrefix = server.match('^https?://');
     if (hasPrefix) {
       return server;
     }

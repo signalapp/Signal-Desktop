@@ -483,26 +483,28 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           type: 'success',
         });
 
-        this.setState({loading: true});
+        this.setState({ loading: true });
       }
     });
 
-    successPromise.then(() => {
-      this.handleToggleOverlay(undefined);
-      this.setState({
-        loading: false,
-      });
-    }).catch(() => {
-      this.setState({
-        loading: false,
-      });
+    successPromise
+      .then(() => {
+        this.handleToggleOverlay(undefined);
+        this.setState({
+          loading: false,
+        });
+      })
+      .catch(() => {
+        this.setState({
+          loading: false,
+        });
 
-      window.pushToast({
-        title: window.i18n('connectToServerFail'),
-        id: 'connectToServerFail',
-        type: 'error',
+        window.pushToast({
+          title: window.i18n('connectToServerFail'),
+          id: 'connectToServerFail',
+          type: 'error',
+        });
       });
-    });
   }
 
   private async onCreateClosedGroup(
