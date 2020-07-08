@@ -4,8 +4,12 @@ import moment from 'moment';
 
 import { getTimestamp } from './SessionConversationManager';
 
-import {  SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
-import { SessionButton, SessionButtonType, SessionButtonColor } from '../SessionButton';
+import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
+import {
+  SessionButton,
+  SessionButtonType,
+  SessionButtonColor,
+} from '../SessionButton';
 
 interface Props {
   sendVoiceMessage: any;
@@ -25,12 +29,12 @@ interface State {
   // Steam information and data
   mediaBlob?: any;
   audioElement?: HTMLAudioElement;
-  streamParams?:  {
+  streamParams?: {
     stream: any;
     media: any;
-    input: any; 
+    input: any;
     processor: any;
-  }
+  };
 
   canvasParams: {
     width: number;
@@ -42,11 +46,11 @@ interface State {
     barColorPlay: string;
     maxBarHeight: number;
     minBarHeight: number;
-  }
+  };
 
   startTimestamp: number;
   nowTimestamp: number;
-  
+
   updateTimerInterval: NodeJS.Timeout;
 }
 
@@ -61,7 +65,7 @@ export class SessionRecording extends React.Component<Props, State> {
     // Mouse interaction
     this.handleHoverActions = this.handleHoverActions.bind(this);
     this.handleUnhoverActions = this.handleUnhoverActions.bind(this);
-    
+
     // Component actions
     this.playAudio = this.playAudio.bind(this);
     this.pauseAudio = this.pauseAudio.bind(this);
@@ -87,7 +91,7 @@ export class SessionRecording extends React.Component<Props, State> {
 
     const now = getTimestamp();
     const updateTimerInterval = setInterval(this.timerUpdate, 500);
-    
+
     this.state = {
       recordDuration: 0,
       isRecording: true,
@@ -98,7 +102,7 @@ export class SessionRecording extends React.Component<Props, State> {
       mediaBlob: undefined,
       audioElement: undefined,
       streamParams: undefined,
-      
+
       startTimestamp: now,
       nowTimestamp: now,
       updateTimerInterval,
@@ -116,10 +120,9 @@ export class SessionRecording extends React.Component<Props, State> {
         minBarHeight: 3,
       },
     };
-    
   }
 
-  public async componentWillMount(){
+  public async componentWillMount() {
     // This turns on the microphone on the system. Later we need to turn it off.
     this.initiateRecordingStream();
   }
@@ -129,15 +132,15 @@ export class SessionRecording extends React.Component<Props, State> {
     this.updateCanvasDimensions();
   }
 
-  public componentWillUnmount(){
+  public componentWillUnmount() {
     clearInterval(this.state.updateTimerInterval);
     window.removeEventListener('resize', this.updateCanvasDimensions);
   }
 
   public componentDidUpdate() {
     const { audioElement, isPlaying } = this.state;
-    
-    if (audioElement){
+
+    if (audioElement) {
       if (isPlaying) {
         audioElement.play();
       } else {
@@ -160,16 +163,18 @@ export class SessionRecording extends React.Component<Props, State> {
     const actionStopRecording = actionHover && isRecording;
     const actionPlayAudio = !isRecording && !isPlaying;
     const actionPauseAudio = !isRecording && !isPaused && isPlaying;
-    const actionDefault = !actionStopRecording && !actionPlayAudio && !actionPauseAudio;
+    const actionDefault =
+      !actionStopRecording && !actionPlayAudio && !actionPauseAudio;
 
-    
     const displayTimeMs = isRecording
       ? (nowTimestamp - startTimestamp) * 1000
-      : audioElement && audioElement?.currentTime * 1000 || 0;
-    
+      : (audioElement && audioElement?.currentTime * 1000) || 0;
+
     const displayTimeString = moment.utc(displayTimeMs).format('m:ss');
-    
-    const actionPauseFn = isPlaying ? this.pauseAudio : this.stopRecordingStream;
+
+    const actionPauseFn = isPlaying
+      ? this.pauseAudio
+      : this.stopRecordingStream;
 
     return (
       <div
@@ -178,9 +183,9 @@ export class SessionRecording extends React.Component<Props, State> {
         onKeyDown={this.onKeyDown}
       >
         <div
-            className="session-recording--actions"
-            onMouseEnter={this.handleHoverActions}
-            onMouseLeave={this.handleUnhoverActions}
+          className="session-recording--actions"
+          onMouseEnter={this.handleHoverActions}
+          onMouseLeave={this.handleUnhoverActions}
         >
           {actionStopRecording && (
             <SessionIconButton
@@ -207,7 +212,7 @@ export class SessionRecording extends React.Component<Props, State> {
               onClick={this.playAudio}
             />
           )}
-          
+
           {actionDefault && (
             <SessionIconButton
               iconType={SessionIconType.Microphone}
@@ -217,22 +222,26 @@ export class SessionRecording extends React.Component<Props, State> {
         </div>
 
         <div
-         className="session-recording--visualisation"
-         ref={this.visualisationRef}
+          className="session-recording--visualisation"
+          ref={this.visualisationRef}
         >
           {!isRecording && <canvas ref={this.playbackCanvas}></canvas>}
           {isRecording && <canvas ref={this.visualisationCanvas}></canvas>}
         </div>
-        
-        
-        <div className={classNames('session-recording--timer', !isRecording && 'playback-timer')}>
-          { displayTimeString }
-          { isRecording && (
+
+        <div
+          className={classNames(
+            'session-recording--timer',
+            !isRecording && 'playback-timer'
+          )}
+        >
+          {displayTimeString}
+          {isRecording && (
             <div className="session-recording--timer-light"></div>
           )}
         </div>
-          
-        { !isRecording && (
+
+        {!isRecording && (
           <div className="send-message-button">
             <SessionIconButton
               iconType={SessionIconType.Send}
@@ -245,7 +254,7 @@ export class SessionRecording extends React.Component<Props, State> {
         )}
 
         <div className="session-recording--status">
-          { isRecording ? (
+          {isRecording ? (
             <SessionButton
               text={window.i18n('recording')}
               buttonType={SessionButtonType.Brand}
@@ -259,47 +268,45 @@ export class SessionRecording extends React.Component<Props, State> {
               onClick={this.onDeleteVoiceMessage}
             />
           )}
-          
         </div>
       </div>
     );
   }
 
   private handleHoverActions() {
-    if ((this.state.isRecording) && !this.state.actionHover) {
-        this.setState({
-            actionHover: true,
-        });
+    if (this.state.isRecording && !this.state.actionHover) {
+      this.setState({
+        actionHover: true,
+      });
     }
   }
 
-  private timerUpdate(){
+  private timerUpdate() {
     const { nowTimestamp, startTimestamp } = this.state;
-    const elapsedTime = (nowTimestamp - startTimestamp);
+    const elapsedTime = nowTimestamp - startTimestamp;
 
     // Prevent voice messages exceeding max length.
-    if (elapsedTime >= window.CONSTANTS.MAX_VOICE_MESSAGE_DURATION){
+    if (elapsedTime >= window.CONSTANTS.MAX_VOICE_MESSAGE_DURATION) {
       this.stopRecordingStream();
     }
 
     this.setState({
-      nowTimestamp: getTimestamp()
+      nowTimestamp: getTimestamp(),
     });
   }
 
   private handleUnhoverActions() {
     if (this.state.isRecording && this.state.actionHover) {
-        this.setState({
-            actionHover: false,
-        });
+      this.setState({
+        actionHover: false,
+      });
     }
   }
 
   private async stopRecording() {
-
     this.setState({
-        isRecording: false,
-        isPaused: true,
+      isRecording: false,
+      isPaused: true,
     });
   }
 
@@ -307,11 +314,11 @@ export class SessionRecording extends React.Component<Props, State> {
     // Generate audio element if it doesn't exist
     const generateAudioElement = () => {
       const { mediaBlob, recordDuration } = this.state;
-  
-      if (!mediaBlob){
+
+      if (!mediaBlob) {
         return undefined;
       }
-  
+
       const audioURL = window.URL.createObjectURL(mediaBlob.data);
       const audioElement = new Audio(audioURL);
 
@@ -323,50 +330,47 @@ export class SessionRecording extends React.Component<Props, State> {
         if (duration && audioElement.currentTime < duration) {
           audioElement.play();
         }
-        
       };
 
       return audioElement;
-    }
+    };
 
     const audioElement = this.state.audioElement || generateAudioElement();
     if (!audioElement) return;
-    
 
     // Draw sweeping timeline
     const drawSweepingTimeline = () => {
       const { isPaused } = this.state;
-      const {
-        width,
-        height,
-        barColorPlay,
-      } = this.state.canvasParams;
-
+      const { width, height, barColorPlay } = this.state.canvasParams;
 
       const canvas = this.playbackCanvas.current;
-      if ( !canvas || isPaused ) return;
+      if (!canvas || isPaused) return;
 
       // Once audioElement is fully buffered, we get the true duration
-      let audioDuration = this.state.recordDuration
-      if (audioElement.duration !== Infinity) audioDuration = audioElement.duration;
+      let audioDuration = this.state.recordDuration;
+      if (audioElement.duration !== Infinity)
+        audioDuration = audioElement.duration;
       const progress = width * (audioElement.currentTime / audioDuration);
-      
+
       const canvasContext = canvas.getContext(`2d`);
       if (!canvasContext) return;
 
       canvasContext.beginPath();
-      canvasContext.fillStyle = barColorPlay
+      canvasContext.fillStyle = barColorPlay;
       canvasContext.globalCompositeOperation = 'source-atop';
       canvasContext.fillRect(0, 0, progress, height);
 
       // Pause audio when it reaches the end of the blob
-      if (audioElement.duration && audioElement.currentTime === audioElement.duration){
+      if (
+        audioElement.duration &&
+        audioElement.currentTime === audioElement.duration
+      ) {
         this.pauseAudio();
         return;
       }
 
       requestAnimationFrame(drawSweepingTimeline);
-    }
+    };
 
     this.setState({
       audioElement,
@@ -375,17 +379,18 @@ export class SessionRecording extends React.Component<Props, State> {
       isPlaying: true,
     });
 
-
     // If end of audio reached, reset the position of the sweeping timeline
-    if (audioElement.duration && audioElement.currentTime === audioElement.duration){
+    if (
+      audioElement.duration &&
+      audioElement.currentTime === audioElement.duration
+    ) {
       this.initPlaybackView();
     }
 
     audioElement.play();
     requestAnimationFrame(drawSweepingTimeline);
-
   }
-  
+
   private pauseAudio() {
     this.state.audioElement?.pause();
 
@@ -409,7 +414,9 @@ export class SessionRecording extends React.Component<Props, State> {
 
     // Is the audio file > attachment filesize limit
     if (audioBlob.size > window.CONSTANTS.MAX_ATTACHMENT_FILESIZE) {
-      console.log(`[send] Voice message too large: ${audioBlob.size / 1000000} MB`);
+      console.log(
+        `[send] Voice message too large: ${audioBlob.size / 1000000} MB`
+      );
       return;
     }
 
@@ -419,23 +426,27 @@ export class SessionRecording extends React.Component<Props, State> {
   }
 
   private async initiateRecordingStream() {
-    navigator.getUserMedia({audio:true}, this.onRecordingStream, this.onStreamError);
+    navigator.getUserMedia(
+      { audio: true },
+      this.onRecordingStream,
+      this.onStreamError
+    );
   }
 
   private stopRecordingStream() {
-    const { streamParams} = this.state;
-    
+    const { streamParams } = this.state;
+
     // Exit if parameters aren't yet set
-    if (!streamParams){
+    if (!streamParams) {
       return;
     }
-    
+
     // Stop the stream
     if (streamParams.media.state !== 'inactive') streamParams.media.stop();
     streamParams.input.disconnect();
     streamParams.processor.disconnect();
     streamParams.stream.getTracks().forEach((track: any) => track.stop);
-        
+
     // Stop recording
     this.stopRecording();
   }
@@ -448,9 +459,9 @@ export class SessionRecording extends React.Component<Props, State> {
     }
 
     // Start recording the stream
-    const media = new window.MediaRecorder(stream, {mimeType: 'audio/webm'});
+    const media = new window.MediaRecorder(stream, { mimeType: 'audio/webm' });
     media.ondataavailable = (mediaBlob: any) => {
-      this.setState({mediaBlob}, () => {
+      this.setState({ mediaBlob }, () => {
         // Generate PCM waveform for playback
         this.initPlaybackView();
       });
@@ -460,7 +471,7 @@ export class SessionRecording extends React.Component<Props, State> {
     // Audio Context
     const audioContext = new window.AudioContext();
     const input = audioContext.createMediaStreamSource(stream);
-    
+
     const bufferSize = 1024;
     const analyser = audioContext.createAnalyser();
     analyser.smoothingTimeConstant = 0.3;
@@ -469,8 +480,8 @@ export class SessionRecording extends React.Component<Props, State> {
     const processor = audioContext.createScriptProcessor(bufferSize, 1, 1);
 
     processor.onaudioprocess = () => {
-      const streamParams = {stream, media, input, processor};
-      this.setState({streamParams});
+      const streamParams = { stream, media, input, processor };
+      this.setState({ streamParams });
 
       const {
         width,
@@ -479,7 +490,7 @@ export class SessionRecording extends React.Component<Props, State> {
         barPadding,
         barColorInit,
         maxBarHeight,
-        minBarHeight 
+        minBarHeight,
       } = this.state.canvasParams;
 
       // Array of volumes by frequency (not in Hz, arbitrary unit)
@@ -487,54 +498,52 @@ export class SessionRecording extends React.Component<Props, State> {
       analyser.getByteFrequencyData(freqTypedArray);
 
       const freqArray = Array.from(freqTypedArray);
-      
+
       // CANVAS CONTEXT
       const drawRecordingCanvas = () => {
         const canvas = this.visualisationCanvas.current;
 
         const numBars = width / (barPadding + barWidth);
-        
+
         let volumeArray = freqArray.map(n => {
           const maxVal = Math.max(...freqArray);
           const initialHeight = maxBarHeight * (n / maxVal);
-          const freqBarHeight = initialHeight > minBarHeight
-            ? initialHeight
-            : minBarHeight;
-  
+          const freqBarHeight =
+            initialHeight > minBarHeight ? initialHeight : minBarHeight;
+
           return freqBarHeight;
         });
-        
+
         // Create initial fake bars to improve appearance.
         // Gradually increasing wave rather than a wall at the beginning
         const frontLoadLen = Math.ceil(volumeArray.length / 10);
-        const frontLoad = volumeArray.slice(0, frontLoadLen - 1).reverse().map(n => n * 0.80);
+        const frontLoad = volumeArray
+          .slice(0, frontLoadLen - 1)
+          .reverse()
+          .map(n => n * 0.8);
         volumeArray = [...frontLoad, ...volumeArray];
-        
+
         // Chop off values which exceed the bounds of the container
         volumeArray = volumeArray.slice(0, numBars);
 
         canvas && (canvas.height = height);
         canvas && (canvas.width = width);
-        const canvasContext = canvas && (canvas.getContext(`2d`));
-        
+        const canvasContext = canvas && canvas.getContext(`2d`);
+
         for (var i = 0; i < volumeArray.length; i++) {
           const barHeight = Math.ceil(volumeArray[i]);
           const offset_x = Math.ceil(i * (barWidth + barPadding));
-          const offset_y = Math.ceil((height / 2 ) - (barHeight / 2 ));
+          const offset_y = Math.ceil(height / 2 - barHeight / 2);
 
           // FIXME VINCE - Globalise JS references to colors
           canvasContext && (canvasContext.fillStyle = barColorInit);
-          canvasContext && this.drawRoundedRect(
-            canvasContext,
-            offset_x,
-            offset_y,
-            barHeight,
-          );
+          canvasContext &&
+            this.drawRoundedRect(canvasContext, offset_x, offset_y, barHeight);
         }
-      }
+      };
 
       this.state.isRecording && requestAnimationFrame(drawRecordingCanvas);
-    }
+    };
 
     // Init listeners for visualisation
     input.connect(analyser);
@@ -552,18 +561,18 @@ export class SessionRecording extends React.Component<Props, State> {
     // Eg. [73, 6, 1, 9, 5, 11, 2, 19, 35] of groupSize 3, becomes
     // = [(73 + 6 + 1) / 3 + (9 + 5 + 11) / 3 + (2 + 19 + 35) / 3]
     // = [27, 8, 19]
-    // It's used to get a fixed number of freqBars or volumeBars out of 
+    // It's used to get a fixed number of freqBars or volumeBars out of
     // a huge sample array.
 
     const groupSize = Math.floor(array.length / numGroups);
 
     let compacted = new Float32Array(numGroups);
     let sum = 0;
-    for (let i = 0; i < array.length; i++){
+    for (let i = 0; i < array.length; i++) {
       sum += array[i];
 
-      if ((i + 1) % groupSize === 0){
-        const compactedIndex = ((i + 1) / groupSize)
+      if ((i + 1) % groupSize === 0) {
+        const compactedIndex = (i + 1) / groupSize;
         const average = sum / groupSize;
         compacted[compactedIndex] = average;
         sum = 0;
@@ -581,7 +590,7 @@ export class SessionRecording extends React.Component<Props, State> {
       barPadding,
       barColorInit,
       maxBarHeight,
-      minBarHeight 
+      minBarHeight,
     } = this.state.canvasParams;
 
     const numBars = width / (barPadding + barWidth);
@@ -589,30 +598,30 @@ export class SessionRecording extends React.Component<Props, State> {
     // Scan through audio file getting average volume per bar
     // to display amplitude over time as a static image
     const blob = this.state.mediaBlob.data;
-    
+
     const arrayBuffer = await new Response(blob).arrayBuffer();
     const audioContext = new window.AudioContext();
-    
+
     audioContext.decodeAudioData(arrayBuffer, (buffer: AudioBuffer) => {
       this.setState({
-        recordDuration: buffer.duration
+        recordDuration: buffer.duration,
       });
-      
+
       // Get audio amplitude with PCM Data in Float32
       // Grab single channel only to save compuation
       const channelData = buffer.getChannelData(0);
       const pcmData = this.compactPCM(channelData, numBars);
       const pcmDataArray = Array.from(pcmData);
       const pcmDataArrayNormalised = pcmDataArray.map(v => Math.abs(v));
-      
+
       // Prepare values for drawing to canvas
       const maxAmplitude = Math.max(...pcmDataArrayNormalised);
 
       const barSizeArray = pcmDataArrayNormalised.map(amplitude => {
         let barSize = maxBarHeight * (amplitude / maxAmplitude);
-        
+
         // Prevent values that are too small
-        if (barSize < minBarHeight){
+        if (barSize < minBarHeight) {
           barSize = minBarHeight;
         }
 
@@ -621,60 +630,58 @@ export class SessionRecording extends React.Component<Props, State> {
 
       // CANVAS CONTEXT
       const drawPlaybackCanvas = () => {
-        
         const canvas = this.playbackCanvas.current;
         if (!canvas) return;
         canvas.height = height;
         canvas.width = width;
-          
+
         const canvasContext = canvas.getContext(`2d`);
         if (!canvasContext) return;
-        
-        for (let i = 0; i < barSizeArray.length; i++){
+
+        for (let i = 0; i < barSizeArray.length; i++) {
           const barHeight = Math.ceil(barSizeArray[i]);
           const offset_x = Math.ceil(i * (barWidth + barPadding));
-          const offset_y = Math.ceil((height / 2 ) - (barHeight / 2 ));
+          const offset_y = Math.ceil(height / 2 - barHeight / 2);
 
           // FIXME VINCE - Globalise JS references to colors
           canvasContext.fillStyle = barColorInit;
 
-          this.drawRoundedRect(
-            canvasContext,
-            offset_x,
-            offset_y,
-            barHeight,
-          );
+          this.drawRoundedRect(canvasContext, offset_x, offset_y, barHeight);
         }
-      }
+      };
 
       drawPlaybackCanvas();
-
     });
-
   }
 
-  private drawRoundedRect (ctx: CanvasRenderingContext2D, x: number, y: number, h: number) {
+  private drawRoundedRect(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    h: number
+  ) {
     let r = this.state.canvasParams.barRadius;
     const w = this.state.canvasParams.barWidth;
-    
+
     if (w < 2 * r) r = w / 2;
     if (h < 2 * r) r = h / 2;
     ctx.beginPath();
-    ctx.moveTo(x+r, y);
-    ctx.arcTo(x+w, y,   x+w, y+h, r);
-    ctx.arcTo(x+w, y+h, x,   y+h, r);
-    ctx.arcTo(x,   y+h, x,   y,   r);
-    ctx.arcTo(x,   y,   x+w, y,   r);
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
     ctx.closePath();
     ctx.fill();
   }
 
-  private updateCanvasDimensions(){
-    const canvas = this.visualisationCanvas.current || this.playbackCanvas.current;
+  private updateCanvasDimensions() {
+    const canvas =
+      this.visualisationCanvas.current || this.playbackCanvas.current;
     const width = canvas?.clientWidth || 0;
 
     this.setState({
-      canvasParams: {...this.state.canvasParams, width}
+      canvasParams: { ...this.state.canvasParams, width },
     });
   }
 
@@ -684,5 +691,4 @@ export class SessionRecording extends React.Component<Props, State> {
       this.onDeleteVoiceMessage();
     }
   }
-  
 }

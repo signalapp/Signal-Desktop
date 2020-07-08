@@ -12,7 +12,6 @@ import { SessionRecording } from './SessionRecording';
 
 import { SignalService } from '../../../../ts/protobuf';
 
-
 interface Props {
   placeholder?: string;
 
@@ -76,16 +75,15 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onChange = this.onChange.bind(this);
-
   }
 
-  public componentWillReceiveProps(){
+  public componentWillReceiveProps() {
     console.log(`[vince][info] Here are my composition props: `, this.props);
   }
 
-  public async componentWillMount(){
+  public async componentWillMount() {
     const mediaSetting = await window.getSettingValue('media-permissions');
-    this.setState({mediaSetting});
+    this.setState({ mediaSetting });
   }
 
   public render() {
@@ -93,7 +91,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     return (
       <div className="composition-container">
-        { showRecordingView ? (
+        {showRecordingView ? (
           <>{this.renderRecordingView()}</>
         ) : (
           <>{this.renderCompositionView()}</>
@@ -108,7 +106,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     }
 
     this.toggleEmojiPanel();
-  };
+  }
 
   private showEmojiPanel() {
     document.addEventListener('mousedown', this.handleClick, false);
@@ -141,7 +139,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         onLoadVoiceNoteView={this.onLoadVoiceNoteView}
         onExitVoiceNoteView={this.onExitVoiceNoteView}
       />
-      );
+    );
   }
 
   private renderCompositionView() {
@@ -163,7 +161,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           type="file"
           onChange={this.onChoseAttachment}
         />
-        
+
         <SessionIconButton
           iconType={SessionIconType.Microphone}
           iconSize={SessionIconSize.Huge}
@@ -203,17 +201,18 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           onKeyDown={this.onKeyDown}
           role="button"
         >
-          <SessionEmojiPanel onEmojiClicked={this.onEmojiClick} show={showEmojiPanel}/>
+          <SessionEmojiPanel
+            onEmojiClicked={this.onEmojiClick}
+            show={showEmojiPanel}
+          />
         </div>
       </>
     );
   }
-  
-
 
   private onChooseAttachment() {
     const fileInput = this.fileInput.current;
-    if(fileInput) fileInput.click();
+    if (fileInput) fileInput.click();
   }
 
   private onChoseAttachment() {
@@ -223,7 +222,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     const attachments: Array<Attachment> = [];
     Array.from(attachmentsFileList).forEach(async (file: File) => {
-
       const fileBlob = new Blob([file]);
       const fileBuffer = await new Response(fileBlob).arrayBuffer();
 
@@ -242,10 +240,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       }
     });
 
-    this.setState({attachments});
+    this.setState({ attachments });
   }
 
-  private onKeyDown(event: any) {    
+  private onKeyDown(event: any) {
     if (event.key === 'Enter' && !event.shiftKey) {
       // If shift, newline. Else send message.
       event.preventDefault();
@@ -254,7 +252,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       this.hideEmojiPanel();
     }
   }
-
 
   private onSendMessage() {
     const messageInput = this.textarea.current;
@@ -269,42 +266,41 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       return;
     }
 
-
     // handle Attachments
-    const {attachments} = this.state;
+    const { attachments } = this.state;
 
     console.log(`[vince][msg] Message:`, messagePlaintext);
     console.log(`[vince][msg] fileAttachments:`, attachments);
 
-
     // Handle emojis
-
 
     // Send message
     this.props.onMessageSending();
 
-    this.props.sendMessage(
-      messagePlaintext,
-      attachments,
-      undefined,
-      undefined,
-      null,
-      {}
-    ).then(() => {
-      // Message sending sucess
-      this.props.onMessageSuccess();
+    this.props
+      .sendMessage(
+        messagePlaintext,
+        attachments,
+        undefined,
+        undefined,
+        null,
+        {}
+      )
+      .then(() => {
+        // Message sending sucess
+        this.props.onMessageSuccess();
 
-      // Empty attachments
-      // Empty composition box
-      this.setState({
-        message: '',
-        attachments: [],
+        // Empty attachments
+        // Empty composition box
+        this.setState({
+          message: '',
+          attachments: [],
+        });
+      })
+      .catch(() => {
+        // Message sending failed
+        this.props.onMessageFailure();
       });
-    }).catch(() => {
-      // Message sending failed
-      this.props.onMessageFailure();
-    });
-
   }
 
   private async sendVoiceMessage(audioBlob: Blob) {
@@ -326,7 +322,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       undefined,
       undefined,
       null,
-      {},
+      {}
     );
 
     if (messageSuccess) {
@@ -335,13 +331,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     console.log(`[compositionbox] Sending voice message:`, audioBlob);
 
-
     this.onExitVoiceNoteView();
   }
 
   private onLoadVoiceNoteView() {
     // Do stuff for component, then run callback to SessionConversation
-    const {mediaSetting} = this.state;
+    const { mediaSetting } = this.state;
 
     if (mediaSetting) {
       this.setState({
@@ -359,7 +354,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       description: window.i18n('audioPermissionNeededDescription'),
       type: 'info',
     });
-
   }
 
   private onExitVoiceNoteView() {
@@ -375,10 +369,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private onChange(event: any) {
-    this.setState({message: event.target.value});
+    this.setState({ message: event.target.value });
   }
 
-  private onEmojiClick({native}: any) {
+  private onEmojiClick({ native }: any) {
     const messageBox = this.textarea.current;
     if (!messageBox) {
       return;
@@ -405,5 +399,4 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       }, 20);
     });
   }
-
 }

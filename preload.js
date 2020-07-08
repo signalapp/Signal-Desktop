@@ -106,21 +106,21 @@ window.CONSTANTS = new (function() {
   // ///////////////////////// //
   //      User Interface       //
   // //////////////////////// //
-  this.MAX_MESSAGE_BODY_LENGTH = 2000,
+  this.MAX_MESSAGE_BODY_LENGTH = 2000;
   // Limited due to the proof-of-work requirement
-  this.DEFAULT_MEDIA_FETCH_COUNT = 50,
-  this.DEFAULT_DOCUMENTS_FETCH_COUNT = 150,
-  this.DEFAULT_MESSAGE_FETCH_COUNT = 30,
-  this.MAX_MESSAGE_FETCH_COUNT = 500,
+  this.DEFAULT_MEDIA_FETCH_COUNT = 50;
+  this.DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
+  this.DEFAULT_MESSAGE_FETCH_COUNT = 30;
+  this.MAX_MESSAGE_FETCH_COUNT = 500;
   // Pixels (scroll) from the top of the top of message container
   // at which more messages should be loaded
-  this.MESSAGE_CONTAINER_BUFFER_OFFSET_PX = 30,
-  this.MESSAGE_FETCH_INTERVAL = 1,
+  this.MESSAGE_CONTAINER_BUFFER_OFFSET_PX = 30;
+  this.MESSAGE_FETCH_INTERVAL = 1;
   // Maximum voice message duraiton of 5 minutes
   // which equates to 1.97 MB
-  this.MAX_VOICE_MESSAGE_DURATION = 300,
+  this.MAX_VOICE_MESSAGE_DURATION = 300;
   // Max attachment size: 10 MB
-  this.MAX_ATTACHMENT_FILESIZE = 10000000,
+  this.MAX_ATTACHMENT_FILESIZE = 10000000;
 })();
 
 window.versionInfo = {

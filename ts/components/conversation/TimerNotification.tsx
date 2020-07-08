@@ -80,9 +80,7 @@ export class TimerNotification extends React.Component<Props> {
             />
           </div>
 
-          <div>
-            {this.renderContents()}
-          </div>
+          <div>{this.renderContents()}</div>
         </div>
       </div>
     );

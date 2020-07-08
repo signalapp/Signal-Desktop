@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import { ConversationHeader } from '../../conversation/ConversationHeader';
 import { SessionCompositionBox } from './SessionCompositionBox';
-import { SessionProgress } from '../SessionProgress'
+import { SessionProgress } from '../SessionProgress';
 
 import { Message } from '../../conversation/Message';
 import { FriendRequest } from '../../conversation/FriendRequest';
@@ -16,7 +16,6 @@ import { getTimestamp } from './SessionConversationManager';
 import { SessionScrollButton } from '../SessionScrollButton';
 import { SessionGroupSettings } from './SessionGroupSettings';
 import { ResetSessionNotification } from '../../conversation/ResetSessionNotification';
-
 
 interface State {
   conversationKey: string;
@@ -49,7 +48,9 @@ export class SessionConversation extends React.Component<any, State> {
     super(props);
 
     const conversationKey = this.props.conversations.selectedConversation;
-    const conversation = this.props.conversations.conversationLookup[conversationKey];
+    const conversation = this.props.conversations.conversationLookup[
+      conversationKey
+    ];
     const unreadCount = conversation.unreadCount;
 
     console.log(`[conv] Conversation:`, conversation);
@@ -100,7 +101,6 @@ export class SessionConversation extends React.Component<any, State> {
 
     // Keyboard navigation
     this.onKeyDown = this.onKeyDown.bind(this);
-
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -108,24 +108,26 @@ export class SessionConversation extends React.Component<any, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   public componentDidMount() {
-    this.getMessages().then(() => {
-      // Pause thread to wait for rendering to complete
-      setTimeout(() => {
-        this.scrollToUnread();
-      }, 0);
-      setTimeout(() => {
-        this.setState({
-          doneInitialScroll: true,
-        });
-      }, 100);
-    }).catch();
+    this.getMessages()
+      .then(() => {
+        // Pause thread to wait for rendering to complete
+        setTimeout(() => {
+          this.scrollToUnread();
+        }, 0);
+        setTimeout(() => {
+          this.setState({
+            doneInitialScroll: true,
+          });
+        }, 100);
+      })
+      .catch();
 
     this.updateReadMessages();
   }
 
-  public componentDidUpdate(){
+  public componentDidUpdate() {
     // Keep scrolled to bottom unless user scrolls up
-    if (this.state.isScrolledToBottom){
+    if (this.state.isScrolledToBottom) {
       this.scrollToBottom();
     }
 
@@ -146,30 +148,43 @@ export class SessionConversation extends React.Component<any, State> {
   // ~~~~~~~~~~~~~~ RENDER METHODS ~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public render() {
-    const { messages, conversationKey, doneInitialScroll, showRecordingView, showOptionsPane, showScrollButton } = this.state;
+    const {
+      messages,
+      conversationKey,
+      doneInitialScroll,
+      showRecordingView,
+      showOptionsPane,
+      showScrollButton,
+    } = this.state;
     const loading = !doneInitialScroll || messages.length === 0;
     const selectionMode = !!this.state.selectedMessages.length;
 
-    const conversation = this.props.conversations.conversationLookup[conversationKey];
-    const conversationModel = window.ConversationController.get(conversationKey);
+    const conversation = this.props.conversations.conversationLookup[
+      conversationKey
+    ];
+    const conversationModel = window.ConversationController.get(
+      conversationKey
+    );
     const isRss = conversation.isRss;
 
     const sendMessageFn = conversationModel.sendMessage.bind(conversationModel);
 
-    const shouldRenderGroupSettings = !conversationModel.isPrivate() && !conversationModel.isRss()
+    const shouldRenderGroupSettings =
+      !conversationModel.isPrivate() && !conversationModel.isRss();
     const groupSettingsProps = this.getGroupSettingsProps();
 
     return (
       <>
         <div
-          className={classNames('conversation-item__content', selectionMode && 'selection-mode')}
+          className={classNames(
+            'conversation-item__content',
+            selectionMode && 'selection-mode'
+          )}
           tabIndex={0}
           onKeyDown={this.onKeyDown}
           role="navigation"
         >
-          <div className="conversation-header">
-            {this.renderHeader()}
-          </div>
+          <div className="conversation-header">{this.renderHeader()}</div>
 
           <SessionProgress
             visible={true}
@@ -180,9 +195,7 @@ export class SessionConversation extends React.Component<any, State> {
           />
 
           <div className="messages-wrapper">
-            { loading && (
-              <div className="messages-container__loading"/>
-            )}
+            {loading && <div className="messages-container__loading" />}
 
             <div
               className="messages-container"
@@ -193,13 +206,16 @@ export class SessionConversation extends React.Component<any, State> {
               <div ref={this.messagesEndRef} />
             </div>
 
-            <SessionScrollButton show={showScrollButton} onClick={this.scrollToBottom}/>
-            { showRecordingView && (
-              <div className="messages-wrapper--blocking-overlay"/>
+            <SessionScrollButton
+              show={showScrollButton}
+              onClick={this.scrollToBottom}
+            />
+            {showRecordingView && (
+              <div className="messages-wrapper--blocking-overlay" />
             )}
           </div>
 
-          { !isRss && (
+          {!isRss && (
             <SessionCompositionBox
               sendMessage={sendMessageFn}
               onMessageSending={this.onMessageSending}
@@ -209,12 +225,16 @@ export class SessionConversation extends React.Component<any, State> {
               onExitVoiceNoteView={this.onExitVoiceNoteView}
             />
           )}
-
         </div>
 
         {shouldRenderGroupSettings && (
-          <div className={classNames('conversation-item__options-pane', showOptionsPane && 'show')}>
-              <SessionGroupSettings {...groupSettingsProps}/>
+          <div
+            className={classNames(
+              'conversation-item__options-pane',
+              showOptionsPane && 'show'
+            )}
+          >
+            <SessionGroupSettings {...groupSettingsProps} />
           </div>
         )}
       </>
@@ -227,14 +247,23 @@ export class SessionConversation extends React.Component<any, State> {
     // FIXME VINCE: IF MESSAGE IS THE TOP OF UNREAD, THEN INSERT AN UNREAD BANNER
 
     return (
-      <>{
-        messages.map((message: any) => {
+      <>
+        {messages.map((message: any) => {
           const messageProps = message.propsForMessage;
           const quoteProps = message.propsForQuote;
 
-          const timerProps = message.propsForTimerNotification && {i18n: window.i18n, ...message.propsForTimerNotification};
-          const friendRequestProps = message.propsForFriendRequest && {i18n: window.i18n, ...message.propsForFriendRequest};
-          const resetSessionProps = message.propsForResetSessionNotification && {i18n: window.i18n, ...message.propsForResetSessionNotification};
+          const timerProps = message.propsForTimerNotification && {
+            i18n: window.i18n,
+            ...message.propsForTimerNotification,
+          };
+          const friendRequestProps = message.propsForFriendRequest && {
+            i18n: window.i18n,
+            ...message.propsForFriendRequest,
+          };
+          const resetSessionProps = message.propsForResetSessionNotification && {
+            i18n: window.i18n,
+            ...message.propsForResetSessionNotification,
+          };
 
           const attachmentProps = message.propsForAttachment;
           const groupNotificationProps = message.propsForGroupNotification;
@@ -242,19 +271,34 @@ export class SessionConversation extends React.Component<any, State> {
           let item;
           // firstMessageOfSeries tells us to render the avatar only for the first message
           // in a series of messages from the same user
-          item = messageProps       ? this.renderMessage(messageProps, message.firstMessageOfSeries) : item;
-          item = quoteProps         ? this.renderMessage(timerProps, message.firstMessageOfSeries, quoteProps) : item;
+          item = messageProps
+            ? this.renderMessage(messageProps, message.firstMessageOfSeries)
+            : item;
+          item = quoteProps
+            ? this.renderMessage(
+                timerProps,
+                message.firstMessageOfSeries,
+                quoteProps
+              )
+            : item;
 
-          item = timerProps         ? <TimerNotification {...timerProps} /> : item;
-          item = friendRequestProps ? <FriendRequest {...friendRequestProps} /> : item;
-          item = resetSessionProps  ? <ResetSessionNotification {...resetSessionProps} /> : item;
+          item = timerProps ? <TimerNotification {...timerProps} /> : item;
+          item = friendRequestProps ? (
+            <FriendRequest {...friendRequestProps} />
+          ) : (
+            item
+          );
+          item = resetSessionProps ? (
+            <ResetSessionNotification {...resetSessionProps} />
+          ) : (
+            item
+          );
           // item = attachmentProps  ? this.renderMessage(timerProps) : item;
 
           return item;
-        })
-      }</>
+        })}
+      </>
     );
-
   }
 
   public renderHeader() {
@@ -265,24 +309,27 @@ export class SessionConversation extends React.Component<any, State> {
     return (
       <ConversationHeader
         id={headerProps.id}
+        name={headerProps.name}
         phoneNumber={headerProps.phoneNumber}
+        profileName={headerProps.profileName}
+        avatarPath={headerProps.avatarPath}
         isVerified={headerProps.isVerified}
         isMe={headerProps.isMe}
-        isFriend={headerProps.isFriend}
-        i18n={window.i18n}
+        isClosable={headerProps.isClosable}
         isGroup={headerProps.isGroup}
         isPublic={headerProps.isPublic}
         isRss={headerProps.isRss}
         amMod={headerProps.amMod}
         members={headerProps.members}
+        subscriberCount={headerProps.subscriberCount}
+        expirationSettingName={headerProps.expirationSettingName}
         showBackButton={headerProps.showBackButton}
         timerOptions={headerProps.timerOptions}
-        isBlocked={headerProps.isBlocked}
         hasNickname={headerProps.hasNickname}
-        isFriendRequestPending={headerProps.isFriendRequestPending}
+        isBlocked={headerProps.isBlocked}
         isOnline={headerProps.isOnline}
         selectedMessages={headerProps.selectedMessages}
-        onUpdateGroupName={headerProps.onUpdateGroupName}
+        isKickedFromGroup={headerProps.isKickedFromGroup}
         onSetDisappearingMessages={headerProps.onSetDisappearingMessages}
         onDeleteMessages={headerProps.onDeleteMessages}
         onDeleteContact={headerProps.onDeleteContact}
@@ -302,16 +349,21 @@ export class SessionConversation extends React.Component<any, State> {
         onLeaveGroup={headerProps.onLeaveGroup}
         onAddModerators={headerProps.onAddModerators}
         onRemoveModerators={headerProps.onRemoveModerators}
-        onInviteFriends={headerProps.onInviteFriends}
-
         onAvatarClick={headerProps.onAvatarClick}
+        onUpdateGroupName={headerProps.onUpdateGroupName}
+        i18n={window.i18n}
       />
     );
   }
 
-  public renderMessage(messageProps: any, firstMessageOfSeries: boolean, quoteProps?: any) {
-    const selected = !! messageProps?.id
-      && this.state.selectedMessages.includes(messageProps.id);
+  public renderMessage(
+    messageProps: any,
+    firstMessageOfSeries: boolean,
+    quoteProps?: any
+  ) {
+    const selected =
+      !!messageProps?.id &&
+      this.state.selectedMessages.includes(messageProps.id);
 
     messageProps.i18n = window.i18n;
     messageProps.selected = selected;
@@ -322,17 +374,17 @@ export class SessionConversation extends React.Component<any, State> {
 
     messageProps.quote = quoteProps || undefined;
 
-    return (
-      <Message {...messageProps} />
-    );
-
+    return <Message {...messageProps} />;
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~ GETTER METHODS ~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  public async getMessages(numMessages?: number, fetchInterval = window.CONSTANTS.MESSAGE_FETCH_INTERVAL) {
+  public async getMessages(
+    numMessages?: number,
+    fetchInterval = window.CONSTANTS.MESSAGE_FETCH_INTERVAL
+  ) {
     const { conversationKey, messageFetchTimestamp } = this.state;
     const timestamp = getTimestamp();
 
@@ -343,28 +395,32 @@ export class SessionConversation extends React.Component<any, State> {
       return { newTopMessage: undefined, previousTopMessage: undefined };
     }
 
-    let msgCount = numMessages || Number(window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT) + this.state.unreadCount;
-    msgCount = msgCount > window.CONSTANTS.MAX_MESSAGE_FETCH_COUNT
-      ? window.CONSTANTS.MAX_MESSAGE_FETCH_COUNT
-      : msgCount;
+    let msgCount =
+      numMessages ||
+      Number(window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT) +
+        this.state.unreadCount;
+    msgCount =
+      msgCount > window.CONSTANTS.MAX_MESSAGE_FETCH_COUNT
+        ? window.CONSTANTS.MAX_MESSAGE_FETCH_COUNT
+        : msgCount;
 
     const messageSet = await window.Signal.Data.getMessagesByConversation(
       conversationKey,
-      { limit: msgCount, MessageCollection: window.Whisper.MessageCollection },
+      { limit: msgCount, MessageCollection: window.Whisper.MessageCollection }
     );
 
     // Set first member of series here.
     const messageModels = messageSet.models;
     const messages = [];
     let previousSender;
-    for (let i = 0; i < messageModels.length; i++){
+    for (let i = 0; i < messageModels.length; i++) {
       // Handle firstMessageOfSeries for conditional avatar rendering
       let firstMessageOfSeries = true;
-      if (i > 0 && previousSender === messageModels[i].authorPhoneNumber){
+      if (i > 0 && previousSender === messageModels[i].authorPhoneNumber) {
         firstMessageOfSeries = false;
       }
 
-      messages.push({...messageModels[i], firstMessageOfSeries});
+      messages.push({ ...messageModels[i], firstMessageOfSeries });
       previousSender = messageModels[i].authorPhoneNumber;
     }
 
@@ -384,7 +440,7 @@ export class SessionConversation extends React.Component<any, State> {
   }
 
   public getHeaderProps() {
-    const {conversationKey} = this.state;
+    const { conversationKey } = this.state;
     const conversation = window.ConversationController.get(conversationKey);
 
     const expireTimer = conversation.get('expireTimer');
@@ -402,8 +458,6 @@ export class SessionConversation extends React.Component<any, State> {
       color: conversation.getColor(),
       avatarPath: conversation.getAvatarPath(),
       isVerified: conversation.isVerified(),
-      isFriendRequestPending: conversation.isPendingFriendRequest(),
-      isFriend: conversation.isFriend(),
       isMe: conversation.isMe(),
       isClosable: conversation.isClosable(),
       isBlocked: conversation.isBlocked(),
@@ -417,8 +471,11 @@ export class SessionConversation extends React.Component<any, State> {
       members,
       subscriberCount: conversation.get('subscriberCount'),
       selectedMessages: this.state.selectedMessages,
+      isKickedFromGroup: conversation.get('isKickedFromGroup'),
       expirationSettingName,
-      showBackButton: Boolean(conversation.panels && conversation.panels.length),
+      showBackButton: Boolean(
+        conversation.panels && conversation.panels.length
+      ),
       timerOptions: window.Whisper.ExpirationTimerOptions.map((item: any) => ({
         name: item.getName(),
         value: item.get('seconds'),
@@ -426,7 +483,7 @@ export class SessionConversation extends React.Component<any, State> {
       hasNickname: !!conversation.getNickname(),
 
       onSetDisappearingMessages: (seconds: any) =>
-      conversation.updateExpirationTimer(seconds),
+        conversation.updateExpirationTimer(seconds),
       onDeleteMessages: () => conversation.destroyMessages(),
       onDeleteSelectedMessages: () => conversation.deleteSelectedMessages(),
       onCloseOverlay: () => conversation.resetMessageSelection(),
@@ -475,10 +532,6 @@ export class SessionConversation extends React.Component<any, State> {
       },
       onLeaveGroup: () => {
         window.Whisper.events.trigger('leaveGroup', conversation);
-      },
-
-      onInviteFriends: () => {
-        window.Whisper.events.trigger('inviteFriends', conversation);
       },
 
       onAddModerators: () => {
@@ -549,14 +602,11 @@ export class SessionConversation extends React.Component<any, State> {
         window.Whisper.events.trigger('leaveGroup', conversation);
       },
 
-      onInviteFriends: () => {
-        window.Whisper.events.trigger('inviteFriends', conversation);
-      },
       onShowLightBox: (lightBoxOptions = {}) => {
         conversation.showChannelLightbox(lightBoxOptions);
       },
     };
-  };
+  }
 
   public toggleGroupSettingsPane() {
     const { showOptionsPane } = this.state;
@@ -593,12 +643,12 @@ export class SessionConversation extends React.Component<any, State> {
     console.log(`[sending] Message Sending`);
   }
 
-  public onMessageSuccess(){
+  public onMessageSuccess() {
     console.log(`[sending] Message Sent`);
     this.updateSendingProgress(100, 2);
   }
 
-  public onMessageFailure(){
+  public onMessageFailure() {
     console.log(`[sending] Message Failure`);
     this.updateSendingProgress(100, -1);
   }
@@ -609,7 +659,7 @@ export class SessionConversation extends React.Component<any, State> {
     // If you're not friends, don't mark anything as read. Otherwise
     // this will automatically accept friend request.
     const conversation = window.ConversationController.get(conversationKey);
-    if (!conversation.isFriend()){
+    if (conversation.isBlocked()) {
       return;
     }
 
@@ -640,7 +690,8 @@ export class SessionConversation extends React.Component<any, State> {
     const { messages, unreadCount } = this.state;
     const { length } = messages;
 
-    const viewportBottom = (messageContainer?.clientHeight + messageContainer?.scrollTop) || 0;
+    const viewportBottom =
+      messageContainer?.clientHeight + messageContainer?.scrollTop || 0;
 
     // Start with the most recent message, search backwards in time
     let foundUnread = 0;
@@ -697,27 +748,32 @@ export class SessionConversation extends React.Component<any, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public async handleScroll() {
     const messageContainer = this.messageContainerRef.current;
-    if (!messageContainer){
+    if (!messageContainer) {
       return;
     }
-
 
     const scrollTop = messageContainer.scrollTop;
     const scrollHeight = messageContainer.scrollHeight;
     const clientHeight = messageContainer.clientHeight;
 
     const scrollButtonViewShowLimit = 0.75;
-    const scrollButtonViewHideLimit = 0.40;
+    const scrollButtonViewHideLimit = 0.4;
     const scrollOffsetPx = scrollHeight - scrollTop - clientHeight;
     const scrollOffsetPc = scrollOffsetPx / clientHeight;
 
     // Scroll button appears if you're more than 75% scrolled up
-    if (scrollOffsetPc > scrollButtonViewShowLimit && !this.state.showScrollButton){
-      this.setState({showScrollButton: true});
+    if (
+      scrollOffsetPc > scrollButtonViewShowLimit &&
+      !this.state.showScrollButton
+    ) {
+      this.setState({ showScrollButton: true });
     }
     // Scroll button disappears if you're more less than 40% scrolled up
-    if (scrollOffsetPc < scrollButtonViewHideLimit && this.state.showScrollButton){
-      this.setState({showScrollButton: false});
+    if (
+      scrollOffsetPc < scrollButtonViewHideLimit &&
+      this.state.showScrollButton
+    ) {
+      this.setState({ showScrollButton: false });
     }
 
     console.log(`[scroll] scrollOffsetPx: `, scrollOffsetPx);
@@ -733,26 +789,31 @@ export class SessionConversation extends React.Component<any, State> {
     this.updateReadMessages();
 
     // Pin scroll to bottom on new message, unless user has scrolled up
-    if (this.state.isScrolledToBottom !== isScrolledToBottom){
+    if (this.state.isScrolledToBottom !== isScrolledToBottom) {
       this.setState({ isScrolledToBottom });
     }
 
     // Fetch more messages when nearing the top of the message list
-    const shouldFetchMoreMessages = scrollTop <= window.CONSTANTS.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
+    const shouldFetchMoreMessages =
+      scrollTop <= window.CONSTANTS.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
 
-    if (shouldFetchMoreMessages){
-      const numMessages = this.state.messages.length + window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT;
+    if (shouldFetchMoreMessages) {
+      const numMessages =
+        this.state.messages.length +
+        window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT;
 
       // Prevent grabbing messags with scroll more frequently than once per 5s.
       const messageFetchInterval = 2;
-      const previousTopMessage = (await this.getMessages(numMessages, messageFetchInterval, true))?.previousTopMessage;
+      const previousTopMessage = (
+        await this.getMessages(numMessages, messageFetchInterval, true)
+      )?.previousTopMessage;
       previousTopMessage && this.scrollToMessage(previousTopMessage);
     }
   }
 
   public scrollToUnread() {
     const { messages, unreadCount } = this.state;
-    const message = messages[(messages.length - 1) - unreadCount];
+    const message = messages[messages.length - 1 - unreadCount];
 
     if (message) {
       this.scrollToMessage(message.id);
@@ -774,7 +835,8 @@ export class SessionConversation extends React.Component<any, State> {
     if (!messageContainer) {
       return;
     }
-    messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
+    messageContainer.scrollTop =
+      messageContainer.scrollHeight - messageContainer.clientHeight;
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -782,15 +844,15 @@ export class SessionConversation extends React.Component<any, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public selectMessage(messageId: string) {
     const selectedMessages = this.state.selectedMessages.includes(messageId)
-      // Add to array if not selected. Else remove.
-      ? this.state.selectedMessages.filter(id => id !== messageId)
+      ? // Add to array if not selected. Else remove.
+        this.state.selectedMessages.filter(id => id !== messageId)
       : [...this.state.selectedMessages, messageId];
 
     this.setState({ selectedMessages });
   }
 
-  public resetSelection(){
-    this.setState({selectedMessages: []});
+  public resetSelection() {
+    this.setState({ selectedMessages: [] });
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -800,7 +862,7 @@ export class SessionConversation extends React.Component<any, State> {
     this.setState({
       showRecordingView: true,
       selectedMessages: [],
-    })
+    });
   }
 
   private onExitVoiceNoteView() {
@@ -823,7 +885,7 @@ export class SessionConversation extends React.Component<any, State> {
 
     const pageHeight = messageContainer.clientHeight;
     const arrowScrollPx = 50;
-    const pageScrollPx = 0.80 * pageHeight;
+    const pageScrollPx = 0.8 * pageHeight;
 
     console.log(`[vince][key] event: `, event);
 
@@ -833,7 +895,7 @@ export class SessionConversation extends React.Component<any, State> {
       //
     }
 
-    switch(event.key){
+    switch (event.key) {
       case 'Escape':
         if (selectionMode) {
           this.resetSelection();
@@ -855,6 +917,5 @@ export class SessionConversation extends React.Component<any, State> {
         break;
       default:
     }
-
   }
 }

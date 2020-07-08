@@ -38,7 +38,6 @@ interface Props {
   isMe: boolean;
   isClosable?: boolean;
   isGroup: boolean;
-  isArchived?: boolean;
   isPublic: boolean;
   isRss: boolean;
   amMod: boolean;
@@ -73,9 +72,7 @@ interface Props {
   onCloseOverlay: () => void;
   onDeleteSelectedMessages: () => void;
 
-  onArchive?: () => void;
   onMoveToInbox: () => void;
-
   onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
   onShowGroupMembers: () => void;
@@ -92,7 +89,6 @@ interface Props {
   onLeaveGroup: () => void;
   onAddModerators: () => void;
   onRemoveModerators: () => void;
-  onInviteContacts: () => void;
   onAvatarClick?: (userPubKey: string) => void;
   onUpdateGroupName: () => void;
 

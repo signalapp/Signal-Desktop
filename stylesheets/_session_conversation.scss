@@ -248,7 +248,6 @@ $composition-container-height: 60px;
     border-radius: 8px;
     padding-bottom: $session-margin-sm;
 
-
     .emoji-mart-category-label {
       top: -2px;
 
@@ -262,13 +261,12 @@ $composition-container-height: 60px;
     .emoji-mart-bar:last-child {
       border: none;
 
-      .emoji-mart-preview { 
+      .emoji-mart-preview {
         display: none;
       }
-
     }
 
-    &:after{
+    &:after {
       content: '';
       position: absolute;
       top: calc(100% - 40px);
@@ -291,7 +289,7 @@ $composition-container-height: 60px;
 
   &__progress {
     will-change: transform;
-    
+
     width: 100%;
     position: absolute;
     left: 0px;
@@ -403,5 +401,4 @@ $composition-container-height: 60px;
       animation: pulseLight 4s infinite;
     }
   }
-
 }

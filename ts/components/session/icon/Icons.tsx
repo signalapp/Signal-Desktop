@@ -225,4 +225,3 @@ export const icons = {
     viewBox: '0 0 486.463 486.463',
   },
 };
-

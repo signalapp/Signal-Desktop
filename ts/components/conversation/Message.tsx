@@ -1015,7 +1015,7 @@ export class Message extends React.PureComponent<Props, State> {
       const dimensions = getGridDimensions(attachments);
       if (dimensions) {
         return dimensions.width;
-      } 
+      }
     }
 
     if (previews && previews.length) {
@@ -1133,10 +1133,7 @@ export class Message extends React.PureComponent<Props, State> {
     const enableContextMenu = !isRss && !multiSelectMode && !isKickedFromGroup;
 
     return (
-      <div
-        id={id}
-        className={classNames(divClasses)}
-      >
+      <div id={id} className={classNames(divClasses)}>
         <ContextMenuTrigger id={rightClickTriggerId}>
           {this.renderAvatar()}
           <div
@@ -1159,10 +1156,9 @@ export class Message extends React.PureComponent<Props, State> {
                 return;
               }
 
-              if (id){
+              if (id) {
                 this.props.onSelectMessage(id);
               }
-              
             }}
           >
             {this.renderError(isIncoming)}

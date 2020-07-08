@@ -2066,7 +2066,6 @@
       );
 
       let unreadMessages = await this.getUnread();
-      
 
       const oldUnread = unreadMessages.filter(
         message => message.get('received_at') <= newestUnreadDate

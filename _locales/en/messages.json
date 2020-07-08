@@ -790,8 +790,7 @@
   },
   "audioPermissionNeededTitle": {
     "message": "Microphone access required",
-    "description":
-      "Shown if the user attempts to send an audio message without audio permssions turned on"
+    "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
   },
   "audioPermissionNeededDescription": {
     "message": "To send audio messages, allow Session to access your microphone.",

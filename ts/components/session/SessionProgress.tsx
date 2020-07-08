@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames'; 
+import classNames from 'classnames';
 
 interface Props {
   // Value ranges from 0 to 100
@@ -39,7 +39,7 @@ export class SessionProgress extends React.PureComponent<Props, State> {
 
   public componentWillReceiveProps() {
     // Reset show for each reset
-    this.setState({show: true});
+    this.setState({ show: true });
   }
 
   public render() {
@@ -53,7 +53,7 @@ export class SessionProgress extends React.PureComponent<Props, State> {
     // 1. Width depends on progress.
     // 2. Transition duration scales with the
     //    distance it needs to travel
-    
+
     // FIXME VINCE - globalise all JS color references
     const sessionBrandColor = '#00f782';
     const sessionDangerAlt = '#ff4538';
@@ -61,55 +61,49 @@ export class SessionProgress extends React.PureComponent<Props, State> {
     const failureColor = sessionDangerAlt;
     const backgroundColor = sendStatus === -1 ? failureColor : successColor;
 
-    const shiftDurationMs = this.getShiftDuration(this.props.value, prevValue) * 1000;
+    const shiftDurationMs =
+      this.getShiftDuration(this.props.value, prevValue) * 1000;
     const showDurationMs = 500;
     const showOffsetMs = shiftDurationMs + 500;
 
     const willComplete = value >= 100;
-    if (willComplete && !show){
-      setTimeout(
-        this.onComplete,
-        shiftDurationMs,
-      );
+    if (willComplete && !show) {
+      setTimeout(this.onComplete, shiftDurationMs);
     }
 
     const style = {
-      'background-color':         backgroundColor,
-      'transform':                `translateX(-${100 - value}%)`,
-      'transition-property':      'transform',
+      'background-color': backgroundColor,
+      transform: `translateX(-${100 - value}%)`,
+      'transition-property': 'transform',
       // 'transition-property':      'transform, opacity',
-      'transition-duration':      `${shiftDurationMs}ms`,
+      'transition-duration': `${shiftDurationMs}ms`,
       // 'transition-duration':      `${shiftDurationMs}ms, ${showDurationMs}ms`,
-      'transition-delay':         `0ms`,
+      'transition-delay': `0ms`,
       // 'transition-delay':         `0ms, ${showOffsetMs}ms`,
-      'transition-timing-funtion':'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+      'transition-timing-funtion': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
       //'transition-timing-funtion':'cubic-bezier(0.25, 0.46, 0.45, 0.94), linear',
-    }
-      
+    };
+
     return (
       <div className="session-progress">
-        { show && (
-          <div
-            className="session-progress__progress"
-            style={style}
-          >
+        {show && (
+          <div className="session-progress__progress" style={style}>
             &nbsp
           </div>
         )}
       </div>
     );
   }
-  
-  public onComplete(){
+
+  public onComplete() {
     if (!this.state.show) {
       return;
     }
 
     console.log(`[sending] ONCOMPLETE`);
-    this.setState({show: false}, () => {
+    this.setState({ show: false }, () => {
       setTimeout(this.props.resetProgress, 2000);
     });
-    
   }
 
   private getShiftDuration(value: number, prevValue?: number) {
