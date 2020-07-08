@@ -1210,14 +1210,23 @@
     },
 
     async handleMessageSentSuccess(sentMessage) {
-      const sentTo = this.get('sent_to') || [];
+      let sentTo = this.get('sent_to') || [];
 
       const isOurDevice = await window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
         sentMessage.device
       );
 
+      const isOpenGroupMessage =
+        sentMessage.group &&
+        sentMessage.group instanceof libsession.Types.OpenGroup;
+
       // Handle the sync logic here
-      if (!isOurDevice && !this.get('synced') && !this.get('sentSync')) {
+      if (
+        !isOurDevice &&
+        !isOpenGroupMessage &&
+        !this.get('synced') &&
+        !this.get('sentSync')
+      ) {
         const contentDecoded = textsecure.protobuf.Content.decode(
           sentMessage.plainTextBuffer
         );
@@ -1228,11 +1237,15 @@
       } else if (isOurDevice && this.get('sentSync')) {
         this.set({ synced: true });
       }
-      const primaryPubKey = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
-        sentMessage.device
-      );
+      if (!isOpenGroupMessage) {
+        const primaryPubKey = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+          sentMessage.device
+        );
+        sentTo = _.union(sentTo, [primaryPubKey.key]);
+      }
+
       this.set({
-        sent_to: _.union(sentTo, [primaryPubKey.key]),
+        sent_to: sentTo,
         sent: true,
         expirationStartTimestamp: Date.now(),
         // unidentifiedDeliveries: result.unidentifiedDeliveries,
