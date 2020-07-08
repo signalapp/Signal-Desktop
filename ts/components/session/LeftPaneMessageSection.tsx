@@ -462,7 +462,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       return;
     }
 
-
     // Already connected?
     if (Boolean(await OpenGroup.getConversation(serverUrl))) {
       window.pushToast({
@@ -474,15 +473,12 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       return;
     }
 
-    const successPromise = OpenGroup.join(serverUrl);
-    const timeoutPromise = new Promise((_resolve, reject) =>
-      // tslint:disable-next-line: no-unnecessary-callback-wrapper no-void-expression
-      setTimeout(() => reject(), window.CONSTANTS.MAX_CONNECTION_DURATION)
-    );
+    // Connect to server
+    const successPromise = OpenGroup.join(serverUrl, () => {
+      this.setState({ loading: true });
+    });
 
-    // Connect to server with timeout.
-    this.setState({ loading: true });
-    await Promise.race([successPromise, timeoutPromise]).then(() => {
+    successPromise.then(() => {
       this.handleToggleOverlay(undefined);
       this.setState({
         loading: false,
@@ -501,8 +497,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       });
 
       window.pushToast({
-        title: window.i18n('attemptedConnectionTimeout'),
-        id: 'attemptedConnectionTimeout',
+        title: window.i18n('connectToServerFail'),
+        id: 'connectToServerFail',
         type: 'error',
       });
     });

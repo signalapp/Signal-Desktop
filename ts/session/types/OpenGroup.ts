@@ -70,7 +70,9 @@ export class OpenGroup {
     return new OpenGroup(openGroupParams);
   }
 
-  public static async join(server: string): Promise<OpenGroup | undefined> {
+  public static async join(server: string, onLoading?: any): Promise<OpenGroup | undefined> {
+    // onLoading called when the server begins connecting - after passing every guard
+
     const prefixedServer = OpenGroup.prefixify(server);
     if (!OpenGroup.validate(server)) {
       return;
@@ -94,12 +96,16 @@ export class OpenGroup {
       }
     }
 
+    // Try to connect to server
     try {
+      if (onLoading) {
+        onLoading();
+      }
+
       conversation = await window.attemptConnection(prefixedServer, channel);
       conversationId = conversation?.cid;
     } catch (e) {
-      console.warn(e);
-      return;
+      throw new Error(e);
     }
 
     // Do we want to add conversation as a property of OpenGroup?
