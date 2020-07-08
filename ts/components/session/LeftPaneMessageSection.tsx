@@ -487,11 +487,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           this.setState({ loading: true });
         }
       });
-
-      this.handleToggleOverlay(undefined);
-      this.setState({
-        loading: false,
-      });
     } catch (e) {
       this.setState({
         loading: false,
@@ -502,6 +497,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         id: 'connectToServerFail',
         type: 'error',
       });
+    } finally {
+      this.setState({
+        loading: false,
+       });
     }
   }
 
