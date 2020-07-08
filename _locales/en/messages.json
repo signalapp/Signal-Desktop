@@ -2180,7 +2180,7 @@
     "message": "You have removed your password."
   },
   "publicChatExists": {
-    "message": "You are already connected to this public channel"
+    "message": "You are already connected to this open group"
   },
   "connectToServerFail": {
     "message": "Failed to connect to server. Check URL"
@@ -2238,6 +2238,10 @@
   "invalidPubkeyFormat": {
     "message": "Invalid Pubkey Format",
     "description": "Error string shown when user types an invalid pubkey format"
+  },
+  "attemptedConnectionTimeout": {
+    "message": "Connection to open group timed out",
+    "description": "Shown in toast when attempted connection to OpenGroup times out"
   },
   "lnsMappingNotFound": {
     "message": "There is no LNS mapping associated with this name",

@@ -439,45 +439,79 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     }
   }
 
-  private async handleJoinChannelButtonClick(server: string) {
+  private async handleJoinChannelButtonClick(serverUrl: string) {
     const { loading } = this.state;
 
     if (loading) {
-      return false;
+      return;
     }
 
-    if (!OpenGroup.validate(server)) {
+    // Server URL entered?
+    if (serverUrl.length === 0) {
       window.pushToast({
         title: window.i18n('noServerURL'),
         type: 'error',
         id: 'connectToServerFail',
       });
 
-    await OpenGroup.join(server);
+      return;
+    }
 
-
-    if (groupUrl.length <= 0) {
+    // Server URL valid?
+    if (!OpenGroup.validate(serverUrl)) {
       window.pushToast({
         title: window.i18n('noServerURL'),
-        type: 'error',
         id: 'connectToServerFail',
+        type: 'error',
       });
 
-      return false;
+      return;
     }
 
 
+    // Already connected?
+    if (Boolean(await OpenGroup.getConversation(serverUrl))) {
+      window.pushToast({
+        title: window.i18n('publicChatExists'),
+        id: 'publicChatExists',
+        type: 'error',
+      });
 
-      return false;
+      return;
     }
 
-   
+    const successPromise = OpenGroup.join(serverUrl);
+    const timeoutPromise = new Promise((_resolve, reject) =>
+      // tslint:disable-next-line: no-unnecessary-callback-wrapper no-void-expression
+      setTimeout(() => reject(), window.CONSTANTS.MAX_CONNECTION_DURATION)
+    );
 
-    MainViewController.joinChannelStateManager(this, groupUrl, () => {
+    // Connect to server with timeout.
+    this.setState({ loading: true });
+    await Promise.race([successPromise, timeoutPromise]).then(() => {
       this.handleToggleOverlay(undefined);
-    });
+      this.setState({
+        loading: false,
+        connectSuccess: true,
+      });
 
-    return true;
+      window.pushToast({
+        title: window.i18n('connectToServerSuccess'),
+        id: 'connectToServerSuccess',
+        type: 'success',
+      });
+    }).catch(() => {
+      this.setState({
+        connectSuccess: false,
+        loading: false,
+      });
+
+      window.pushToast({
+        title: window.i18n('attemptedConnectionTimeout'),
+        id: 'attemptedConnectionTimeout',
+        type: 'error',
+      });
+    });
   }
 
   private async onCreateClosedGroup(

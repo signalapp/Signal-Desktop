@@ -1,8 +1,6 @@
 // This is the Open Group equivalent to the PubKey type.
 
-import LokiPublicChatFactoryAPI from "../../../js/modules/loki_public_chat_api";
-import { UserUtil } from "../../util";
-import { ConversationType } from "../../receiver/common";
+import { LokiPublicChatFactoryInterface } from "../../../js/modules/loki_public_chat_api";
 
 interface OpenGroupParams {
   server: string;
@@ -23,10 +21,6 @@ export class OpenGroup {
   public readonly channel: number;
   public readonly groupId?: string;
   public readonly conversationId: string; // eg. c12
-
-  // The following are set on join() - not required
-  public connected?: boolean;
-  public conversation?: ConversationType;
 
   constructor(params: OpenGroupParams) {
     // https will be prepended unless explicitly http
@@ -92,6 +86,20 @@ export class OpenGroup {
     const channel = 1;
     let conversation;
     let conversationId;
+
+    // Return OpenGroup if we're already connected
+    conversation = await OpenGroup.getConversation(prefixedServer);
+    if (conversation) {
+      conversationId = conversation?.cid;
+      if (conversationId) {
+        return new OpenGroup({
+          server: prefixedServer,
+          channel: 1,
+          conversationId,
+        });
+      }
+    }
+
     try {
       conversation = await window.attemptConnection(prefixedServer, channel);
       conversationId = conversation?.cid;
@@ -108,12 +116,24 @@ export class OpenGroup {
     });
   }
 
-  public static async isConnected(server: string): Promise<boolean> {
+  public static async getConversation(server: string): Promise<any> {
     if (!OpenGroup.validate(server)) {
-      return false;
+      return;
     }
 
-    return Boolean(window.lokiPublicChatAPI.findOrCreateServer(server));
+    const prefixedServer = this.prefixify(server);
+    const serverInfo = await window.lokiPublicChatAPI.findOrCreateServer(prefixedServer) as any;
+
+    if (!serverInfo?.channels?.length) {
+      return;
+    }
+
+    return serverInfo.channels[0].conversation;
+  }
+
+  public static getConversationByCID(conversationId: string): any {
+    const { ConversationController } = window;
+    return ConversationController.get(conversationId);
   }
 
   private static getServer(groupId: string, hasSSL: boolean): string | undefined {
@@ -152,6 +172,4 @@ export class OpenGroup {
 
     return `http${hasSSL ? 's' : ''}://${server}`;
   }
-
-
 }
