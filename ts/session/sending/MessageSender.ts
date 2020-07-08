@@ -76,13 +76,14 @@ function wrapEnvelope(envelope: SignalService.Envelope): Uint8Array {
   const request = SignalService.WebSocketRequestMessage.create({
     id: 0,
     body: SignalService.Envelope.encode(envelope).finish(),
+    verb: 'PUT',
+    path: '/api/v1/message',
   });
 
   const websocket = SignalService.WebSocketMessage.create({
     type: SignalService.WebSocketMessage.Type.REQUEST,
     request,
   });
-
   return SignalService.WebSocketMessage.encode(websocket).finish();
 }
 
