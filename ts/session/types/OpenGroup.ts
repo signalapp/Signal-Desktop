@@ -1,4 +1,3 @@
-
 interface OpenGroupParams {
   server: string;
   channel: number;
