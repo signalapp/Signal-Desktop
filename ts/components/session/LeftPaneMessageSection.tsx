@@ -448,12 +448,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     // Server URL entered?
     if (serverUrl.length === 0) {
-      window.pushToast({
-        title: window.i18n('noServerURL'),
-        type: 'error',
-        id: 'connectToServerFail',
-      });
-
       return;
     }
 

@@ -1,7 +1,5 @@
 // This is the Open Group equivalent to the PubKey type.
 
-import { LokiPublicChatFactoryInterface } from "../../../js/modules/loki_public_chat_api";
-
 interface OpenGroupParams {
   server: string;
   channel: number;
@@ -12,7 +10,7 @@ export class OpenGroup {
   // Matches prefixes https:// http:// plus no prefix.
   // Servers without prefix default to https://
   private static readonly serverRegex = new RegExp(
-    '^(https?:\\/\\/){0,1}([\\w-]{2,}.){1,2}[\\w-]{2,}$'
+    '^((https?:\\/\\/){0,1})([\\w-]{2,}\\.){1,2}[\\w-]{2,}$'
   );
   private static readonly groupIdRegex = new RegExp(
     '^publicChat:[0-9]*@([\\w-]{2,}.){1,2}[\\w-]{2,}$'
@@ -38,11 +36,7 @@ export class OpenGroup {
   }
 
   public static validate(serverUrl: string): boolean {
-    if (this.serverRegex.test(serverUrl)) {
-      return true;
-    }
-
-    return false;
+    return this.serverRegex.test(serverUrl);
   }
 
   public static from(
