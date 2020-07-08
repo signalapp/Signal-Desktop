@@ -435,6 +435,14 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
   } = data;
 
   const type = 'incoming';
+  if (
+    message &&
+    message.group &&
+    message.group.id &&
+    message.group.id.length === 0
+  ) {
+    message.group.id = null;
+  }
   const groupId = message?.group?.id;
 
   const messageData: any = {
@@ -614,10 +622,11 @@ export async function handleMessageEvent(event: any): Promise<void> {
   const primarySource = await MultiDeviceProtocol.getPrimaryDevice(source);
   if (isGroupMessage) {
     /* handle one part of the group logic here:
-               handle requesting info of a new group,
-               dropping an admin only update from a non admin, ...
-             */
+       handle requesting info of a new group,
+       dropping an admin only update from a non admin, ...
+    */
     conversationId = message.group.id;
+
     const shouldReturn = await preprocessGroupMessage(
       source,
       message.group,
