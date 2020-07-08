@@ -422,7 +422,6 @@ export async function runStorageServiceSyncJob() {
   const shouldUpdateVersion = await processManifest(manifest);
 
   if (shouldUpdateVersion) {
-    return;
     window.storage.put('manifestVersion', version);
   }
 }
