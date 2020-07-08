@@ -475,36 +475,34 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     }
 
     // Connect to server
-    const successPromise = OpenGroup.join(serverUrl, async () => {
-      if (await OpenGroup.serverExists(serverUrl)) {
-        window.pushToast({
-          title: window.i18n('connectingToServer'),
-          id: 'connectToServerSuccess',
-          type: 'success',
-        });
+    try {
+      await OpenGroup.join(serverUrl, async () => {
+        if (await OpenGroup.serverExists(serverUrl)) {
+          window.pushToast({
+            title: window.i18n('connectingToServer'),
+            id: 'connectToServerSuccess',
+            type: 'success',
+          });
 
-        this.setState({ loading: true });
-      }
-    });
-
-    successPromise
-      .then(() => {
-        this.handleToggleOverlay(undefined);
-        this.setState({
-          loading: false,
-        });
-      })
-      .catch(() => {
-        this.setState({
-          loading: false,
-        });
-
-        window.pushToast({
-          title: window.i18n('connectToServerFail'),
-          id: 'connectToServerFail',
-          type: 'error',
-        });
+          this.setState({ loading: true });
+        }
       });
+
+      this.handleToggleOverlay(undefined);
+      this.setState({
+        loading: false,
+      });
+    } catch (e) {
+      this.setState({
+        loading: false,
+      });
+
+      window.pushToast({
+        title: window.i18n('connectToServerFail'),
+        id: 'connectToServerFail',
+        type: 'error',
+      });
+    }
   }
 
   private async onCreateClosedGroup(

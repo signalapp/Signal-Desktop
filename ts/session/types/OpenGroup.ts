@@ -1,3 +1,5 @@
+import { ConversationModel } from '../../../js/models/conversations';
+
 interface OpenGroupParams {
   server: string;
   channel: number;
@@ -144,7 +146,9 @@ export class OpenGroup {
    * @param server The server URL
    * @returns BackBone conversation model corresponding to the server if it exists, otherwise `undefined`
    */
-  public static async getConversation(server: string): Promise<any> {
+  public static async getConversation(
+    server: string
+  ): Promise<ConversationModel | undefined> {
     if (!OpenGroup.validate(server)) {
       return;
     }
@@ -159,17 +163,6 @@ export class OpenGroup {
     }
 
     return serverInfo.channels[0].conversation;
-  }
-
-  /**
-   * Get the conversation model of a server from conversation ID
-   *
-   * @param conversationId The server's conversation ID
-   * @returns BackBone conversation model corresponding to the server if it exists, otherwise `undefined`
-   */
-  public static getConversationByCID(conversationId: string): any {
-    const { ConversationController } = window;
-    return ConversationController.get(conversationId);
   }
 
   /**

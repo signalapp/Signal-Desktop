@@ -69,7 +69,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     const contactsList = this.props.contacts ?? [];
 
     return contactsList.map((d: any) => {
-      const name = d.name ?? 'Anonymous';
+      const name = d.name ?? window.i18n('anonymous');
 
       // TODO: should take existing members into account
       const existingMember = false;

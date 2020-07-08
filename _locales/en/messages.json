@@ -2377,6 +2377,10 @@
   "displayName": {
     "message": "Display Name"
   },
+  "anonymous": {
+    "message": "Anonymous",
+    "description": "The name of currently unidentified users"
+  },
   "enterDisplayName": {
     "message": "Enter a display name"
   },

@@ -1093,7 +1093,9 @@
     // Attempts a connection to an open group server
     window.attemptConnection = async (serverURL, channelId) => {
       let completeServerURL = serverURL.toLowerCase();
-      const valid = window.libsession.Types.OpenGroup.validate(completeServerURL);
+      const valid = window.libsession.Types.OpenGroup.validate(
+        completeServerURL
+      );
       if (!valid) {
         return new Promise((_resolve, reject) => {
           reject(window.i18n('connectToServerFail'));
@@ -1101,7 +1103,9 @@
       }
 
       // Add http or https prefix to server
-      completeServerURL = window.libsession.Types.OpenGroup.prefixify(completeServerURL);
+      completeServerURL = window.libsession.Types.OpenGroup.prefixify(
+        completeServerURL
+      );
 
       const rawServerURL = serverURL
         .replace(/^https?:\/\//i, '')
