@@ -83,6 +83,7 @@ export class OpenGroup {
   }
 
   public static async join(server: string): Promise<OpenGroup | undefined> {
+    const prefixedServer = OpenGroup.prefixify(server);
     if (!OpenGroup.validate(server)) {
       return;
     }
@@ -90,17 +91,20 @@ export class OpenGroup {
     // Make this not hard coded
     const channel = 1;
     let conversation;
+    let conversationId;
     try {
-      conversation = await window.attemptConnection(server, channel);
+      conversation = await window.attemptConnection(prefixedServer, channel);
+      conversationId = conversation?.cid;
     } catch (e) {
       console.warn(e);
       return;
     }
 
+    // Do we want to add conversation as a property of OpenGroup?
     return new OpenGroup({
       server,
       channel,
-      conversationId: conversation?.cid,
+      conversationId,
     });
   }
 
