@@ -1104,16 +1104,30 @@
       window.setMediaPermissions(!mediaPermissions);
     };
 
-    // attempts a connection to an open group server
+    // Attempts a connection to an open group server
     window.attemptConnection = async (serverURL, channelId) => {
-      let rawserverURL = serverURL
+      let completeServerURL = serverURL.toLowerCase();
+      const valid = window.libsession.Types.OpenGroup.validate(
+        completeServerURL
+      );
+      if (!valid) {
+        return new Promise((_resolve, reject) => {
+          reject(window.i18n('connectToServerFail'));
+        });
+      }
+
+      // Add http or https prefix to server
+      completeServerURL = window.libsession.Types.OpenGroup.prefixify(
+        completeServerURL
+      );
+
+      const rawServerURL = serverURL
         .replace(/^https?:\/\//i, '')
         .replace(/[/\\]+$/i, '');
-      rawserverURL = rawserverURL.toLowerCase();
-      const sslServerURL = `https://${rawserverURL}`;
-      const conversationId = `publicChat:${channelId}@${rawserverURL}`;
 
-      // quickly peak to make sure we don't already have it
+      const conversationId = `publicChat:${channelId}@${rawServerURL}`;
+
+      // Quickly peak to make sure we don't already have it
       const conversationExists = window.ConversationController.get(
         conversationId
       );
@@ -1124,9 +1138,9 @@
         });
       }
 
-      // get server
+      // Get server
       const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
-        sslServerURL
+        completeServerURL
       );
       // SSL certificate failure or offline
       if (!serverAPI) {
@@ -1136,14 +1150,14 @@
         });
       }
 
-      // create conversation
+      // Create conversation
       const conversation = await window.ConversationController.getOrCreateAndWait(
         conversationId,
         'group'
       );
 
-      // convert conversation to a public one
-      await conversation.setPublicSource(sslServerURL, channelId);
+      // Convert conversation to a public one
+      await conversation.setPublicSource(completeServerURL, channelId);
 
       // and finally activate it
       conversation.getPublicSendData(); // may want "await" if you want to use the API

@@ -2189,13 +2189,16 @@
     "message": "You have removed your password."
   },
   "publicChatExists": {
-    "message": "You are already connected to this public channel"
+    "message": "You are already connected to this open group"
   },
   "connectToServerFail": {
     "message": "Failed to connect to server. Check URL"
   },
+  "connectingToServer": {
+    "message": "Connecting to server..."
+  },
   "connectToServerSuccess": {
-    "message": "Successfully connected to new open group server"
+    "message": "Successfully connected to open group"
   },
   "setPasswordFail": {
     "message": "Failed to set password"
@@ -2247,6 +2250,10 @@
   "invalidPubkeyFormat": {
     "message": "Invalid Pubkey Format",
     "description": "Error string shown when user types an invalid pubkey format"
+  },
+  "attemptedConnectionTimeout": {
+    "message": "Connection to open group timed out",
+    "description": "Shown in toast when attempted connection to OpenGroup times out"
   },
   "lnsMappingNotFound": {
     "message": "There is no LNS mapping associated with this name",
@@ -2369,6 +2376,10 @@
   },
   "displayName": {
     "message": "Display Name"
+  },
+  "anonymous": {
+    "message": "Anonymous",
+    "description": "The name of currently unidentified users"
   },
   "enterDisplayName": {
     "message": "Enter a display name"

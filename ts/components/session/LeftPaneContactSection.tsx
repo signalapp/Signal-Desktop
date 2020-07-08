@@ -29,7 +29,6 @@ export interface Props {
 
   conversations: Array<ConversationListItemPropsType>;
   contacts: Array<ConversationType>;
-
   searchResults?: SearchResultsProps;
 
   updateSearchTerm: (searchTerm: string) => void;

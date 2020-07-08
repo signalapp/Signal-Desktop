@@ -120,8 +120,26 @@ export const _getLeftPaneLists = (
       };
     }
 
-    // Remove all invalid conversations and conversatons of devices associated with cancelled attempted links
-    if (!conversation.timestamp) {
+    // Add Open Group to list as soon as the name has been set
+    if (
+      conversation.isPublic &&
+      (!conversation.name || conversation.name === 'Unknown group')
+    ) {
+      continue;
+    }
+
+    // Show loading icon while fetching messages
+    if (conversation.isPublic && !conversation.timestamp) {
+      conversation.lastMessage = {
+        status: 'sending',
+        text: '',
+        isRss: false,
+      };
+    }
+
+    // Remove all invalid conversations and conversatons of devices associated
+    //  with cancelled attempted links
+    if (!conversation.isPublic && !conversation.timestamp) {
       continue;
     }
 
@@ -133,7 +151,7 @@ export const _getLeftPaneLists = (
       unreadCount += conversation.unreadCount;
     }
 
-    if (!conversation.activeAt) {
+    if (!conversation.isPublic && !conversation.activeAt) {
       continue;
     }
 
