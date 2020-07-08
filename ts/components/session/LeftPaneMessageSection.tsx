@@ -7,6 +7,7 @@ import {
   ConversationListItem,
   PropsData as ConversationListItemPropsType,
 } from '../ConversationListItem';
+import { ConversationType } from '../../state/ducks/conversations';
 import {
   PropsData as SearchResultsProps,
   SearchResults,
@@ -34,6 +35,7 @@ export interface Props {
   searchTerm: string;
   isSecondaryDevice: boolean;
 
+  contacts: Array<ConversationType>;
   conversations?: Array<ConversationListItemPropsType>;
   searchResults?: SearchResultsProps;
 
@@ -313,6 +315,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     const closedGroupElement = (
       <SessionClosableOverlay
+        contacts={this.props.contacts}
         overlayMode={SessionClosableOverlayType.ClosedGroup}
         onChangeSessionID={this.handleOnPaste}
         onCloseClick={() => {
@@ -481,31 +484,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         });
 
         this.setState({loading: true});
-
-        // Call conversationRenderedResolve when the conversation is rendered.
-        let conversationRenderedResolve: any;
-        const conversationRenderedPromise = async () =>
-          // tslint:disable-next-line: promise-must-complete
-          new Promise(resolve => {
-            conversationRenderedResolve = resolve;
-        });
-      
-        // STOP IT AT THE SOURCE; SELECTORS/CONVERSATIONS.TS
-        const isRenderedInterval = setInterval(async () => {
-          // The conversation is shown in LeftPane when lastMessage is set.
-          // Notify the user when we're ready to render in LeftPane.
-          if ((await OpenGroup.getConversation(serverUrl))?.lastMessage) {
-            conversationRenderedResolve();
-            window.pushToast({
-              title: window.i18n('connectToServerFail'),
-              id: 'connectToServerFail',
-              type: 'error',
-            });
-          }
-        }, 100);
-
-
-
       }
     });
 

@@ -66,20 +66,10 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
   }
 
   public getContacts() {
-    const conversations = window.getConversations() || [];
+    const contactsList = this.props.contacts ?? [];
 
-    const conversationList = conversations.filter((conversation: any) => {
-      return (
-        !conversation.isMe() &&
-        conversation.isPrivate() &&
-        !conversation.isSecondaryDevice() &&
-        !conversation.isBlocked()
-      );
-    });
-
-    return conversationList.map((d: any) => {
-      const lokiProfile = d.getLokiProfile();
-      const name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
+    return contactsList.map((d: any) => {
+      const name = d.name ?? 'Anonymous';
 
       // TODO: should take existing members into account
       const existingMember = false;
@@ -87,10 +77,10 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       return {
         id: d.id,
         authorPhoneNumber: d.id,
-        authorProfileName: name,
+        authorProfileName: d.name,
         selected: false,
         authorName: name,
-        authorColor: d.getColor(),
+        authorColor: d.color,
         checkmarked: false,
         existingMember,
       };

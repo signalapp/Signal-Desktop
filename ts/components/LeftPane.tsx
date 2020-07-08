@@ -122,6 +122,7 @@ export class LeftPane extends React.Component<Props, State> {
 
     return (
       <LeftPaneMessageSection
+        contacts={this.props.contacts}
         openConversationInternal={openConversationInternal}
         conversations={conversations}
         searchResults={searchResults}
