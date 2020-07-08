@@ -2,8 +2,10 @@
 /* eslint-disable func-names  */
 /* eslint-disable import/no-extraneous-dependencies */
 
-const common = require('./common');
 const { afterEach, beforeEach, describe, it } = require('mocha');
+
+const common = require('./common');
+const SettingsPage = require('./page-objects/settings.page');
 const RegistrationPage = require('./page-objects/registration.page');
 const ConversationPage = require('./page-objects/conversation.page');
 
@@ -103,7 +105,6 @@ describe('Window Test and Login', function() {
     const login = {
       mnemonic: common.TEST_MNEMONIC1,
       displayName: common.TEST_DISPLAY_NAME1,
-      stubOpenGroups: true,
     };
     app = await common.startAndStub(login);
 
@@ -116,7 +117,7 @@ describe('Window Test and Login', function() {
       .executeJavaScript("window.storage.get('primaryDevicePubKey')")
       .should.eventually.be.equal(common.TEST_PUBKEY1);
     // delete account
-    await app.client.element(ConversationPage.settingsButtonSection).click();
+    await app.client.element(SettingsPage.settingsButtonSection).click();
     await app.client.element(ConversationPage.deleteAccountButton).click();
     await app.client.isExisting(ConversationPage.descriptionDeleteAccount)
       .should.eventually.be.true;

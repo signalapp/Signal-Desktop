@@ -63,7 +63,7 @@ class LokiRssAPI extends EventEmitter {
       log.warn('LokiRssAPI unsupported rss feed', this.feedUrl);
       return;
     }
-    const result = await window.lokiFileServerAPI._server.serverRequest(
+    const result = await window.tokenlessFileServerAdnAPI.serverRequest(
       map[this.feedUrl]
     );
     if (!result) {
@@ -77,6 +77,7 @@ class LokiRssAPI extends EventEmitter {
     if (!result.response.data) {
       log.error(
         'LokiRssAPI rss proxy error, no data, response',
+        typeof result.response,
         result.response
       );
       return;
@@ -119,7 +120,7 @@ class LokiRssAPI extends EventEmitter {
 
       // if we use group style, we can put the title in the source
       const messageData = {
-        friendRequest: false,
+        isSessionRequest: false,
         source: this.groupId,
         sourceDevice: 1,
         timestamp: pubDate.getTime(),

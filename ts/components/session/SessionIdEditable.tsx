@@ -55,6 +55,7 @@ export class SessionIdEditable extends React.PureComponent<Props> {
 
   private handleChange(e: any) {
     const { editable, onChange } = this.props;
+
     if (editable) {
       onChange(e.target.value);
     }

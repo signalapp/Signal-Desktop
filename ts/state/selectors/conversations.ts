@@ -97,9 +97,7 @@ export const _getLeftPaneLists = (
 ): {
   conversations: Array<ConversationType>;
   archivedConversations: Array<ConversationType>;
-  friends: Array<ConversationType>;
-  receivedFriendsRequest: Array<ConversationListItemPropsType>;
-  sentFriendsRequest: Array<ConversationListItemPropsType>;
+  contacts: Array<ConversationType>;
   unreadCount: number;
 } => {
   const values = Object.values(lookup);
@@ -107,9 +105,7 @@ export const _getLeftPaneLists = (
 
   const conversations: Array<ConversationType> = [];
   const archivedConversations: Array<ConversationType> = [];
-  const friends: Array<ConversationType> = [];
-  const receivedFriendsRequest: Array<ConversationListItemPropsType> = [];
-  const sentFriendsRequest: Array<ConversationListItemPropsType> = [];
+  const allContacts: Array<ConversationType> = [];
 
   const max = sorted.length;
   let unreadCount = 0;
@@ -124,21 +120,17 @@ export const _getLeftPaneLists = (
       };
     }
 
-    if (conversation.isFriend && conversation.activeAt !== undefined) {
-      friends.push(conversation);
+    // Remove all invalid conversations and conversatons of devices associated with cancelled attempted links
+    if (!conversation.timestamp) {
+      continue;
     }
 
-    if (conversation.hasReceivedFriendRequest) {
-      receivedFriendsRequest.push(conversation);
-    } else if (
-      unreadCount < 9 &&
-      conversation.isFriend &&
-      conversation.unreadCount > 0
-    ) {
-      unreadCount += conversation.unreadCount;
+    if (conversation.activeAt !== undefined) {
+      allContacts.push(conversation);
     }
-    if (conversation.hasSentFriendRequest) {
-      sentFriendsRequest.push(conversation);
+
+    if (unreadCount < 9 && conversation.unreadCount > 0) {
+      unreadCount += conversation.unreadCount;
     }
 
     if (!conversation.activeAt) {
@@ -152,12 +144,39 @@ export const _getLeftPaneLists = (
     }
   }
 
+  const filterToPrimary = <
+    T extends Array<ConversationType | ConversationListItemPropsType>
+  >(
+    group: Array<ConversationType | ConversationListItemPropsType>
+  ): T => {
+    const secondariesToRemove: Array<string> = [];
+
+    group.forEach(device => {
+      if (!device.isSecondary) {
+        return;
+      }
+
+      const devicePrimary = group.find(c => c.id === device.primaryDevice);
+
+      // Remove secondary where primary already exists in group
+      if (group.some(c => c === devicePrimary)) {
+        secondariesToRemove.push(device.id);
+      }
+    });
+
+    const filteredGroup = [
+      ...new Set(group.filter(c => !secondariesToRemove.find(s => s === c.id))),
+    ];
+
+    return filteredGroup as T;
+  };
+
+  const contacts: Array<ConversationType> = filterToPrimary(allContacts);
+
   return {
     conversations,
     archivedConversations,
-    friends,
-    receivedFriendsRequest,
-    sentFriendsRequest,
+    contacts,
     unreadCount,
   };
 };

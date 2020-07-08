@@ -24,7 +24,7 @@ interface Props {
   isKickedFromGroup: boolean;
 
   onGoBack: () => void;
-  onInviteFriends: () => void;
+  onInviteContacts: () => void;
   onLeaveGroup: () => void;
   onUpdateGroupName: () => void;
   onUpdateGroupMembers: () => void;
@@ -220,8 +220,8 @@ export class SessionGroupSettings extends React.Component<Props, any> {
     const leaveGroupString = isPublic
       ? window.i18n('leaveOpenGroup')
       : isKickedFromGroup
-        ? window.i18n('youAreKickedFromThisGroup')
-        : window.i18n('leaveClosedGroup');
+      ? window.i18n('youGotKickedFromGroup')
+      : window.i18n('leaveClosedGroup');
 
     const disappearingMessagesOptions = timerOptions.map(option => {
       return {
@@ -306,14 +306,14 @@ export class SessionGroupSettings extends React.Component<Props, any> {
     const {
       id,
       onGoBack,
-      onInviteFriends,
+      onInviteContacts,
       avatarPath,
       isAdmin,
       isPublic,
       isKickedFromGroup,
     } = this.props;
 
-    const showInviteFriends = (isPublic || isAdmin) && !isKickedFromGroup;
+    const showInviteContacts = (isPublic || isAdmin) && !isKickedFromGroup;
 
     return (
       <div className="group-settings-header">
@@ -330,11 +330,11 @@ export class SessionGroupSettings extends React.Component<Props, any> {
           size={80}
         />
         <div className="invite-friends-container">
-          {showInviteFriends && (
+          {showInviteContacts && (
             <SessionIconButton
               iconType={SessionIconType.AddUser}
               iconSize={SessionIconSize.Medium}
-              onClick={onInviteFriends}
+              onClick={onInviteContacts}
             />
           )}
         </div>

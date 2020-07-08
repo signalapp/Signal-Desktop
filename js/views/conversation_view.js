@@ -10,6 +10,7 @@
   textsecure,
   Whisper,
   ConversationController,
+  BlockedNumberController,
 */
 
 // eslint-disable-next-line func-names
@@ -57,11 +58,6 @@
     initialize(options) {
       this.listenTo(this.model, 'destroy', this.stopListening);
       this.listenTo(this.model, 'change:verified', this.onVerifiedChange);
-      this.listenTo(
-        this.model,
-        'change:friendRequestStatus',
-        this.onFriendStatusChange
-      );
       this.listenTo(this.model, 'newmessage', this.addMessage);
       this.listenTo(this.model, 'opened', this.onOpened);
       this.listenTo(this.model, 'prune', this.onPrune);
@@ -129,7 +125,6 @@
       );
 
       this.render();
-      this.onFriendStatusChange();
 
       this.model.updateTextInputState();
 
@@ -173,8 +168,6 @@
           color: this.model.getColor(),
           avatarPath: this.model.getAvatarPath(),
           isVerified: this.model.isVerified(),
-          isFriendRequestPending: this.model.isPendingFriendRequest(),
-          isFriend: this.model.isFriend(),
           isMe: this.model.isMe(),
           isClosable: this.model.isClosable(),
           isBlocked: this.model.isBlocked(),
@@ -249,8 +242,8 @@
             window.Whisper.events.trigger('leaveGroup', this.model);
           },
 
-          onInviteFriends: () => {
-            window.Whisper.events.trigger('inviteFriends', this.model);
+          onInviteContacts: () => {
+            window.Whisper.events.trigger('inviteContacts', this.model);
           },
 
           onUpdateGroupName: () => {
@@ -320,8 +313,8 @@
             window.Whisper.events.trigger('leaveGroup', this.model);
           },
 
-          onInviteFriends: () => {
-            window.Whisper.events.trigger('inviteFriends', this.model);
+          onInviteContacts: () => {
+            window.Whisper.events.trigger('inviteContacts', this.model);
           },
           onShowLightBox: (lightBoxOptions = {}) => {
             this.showChannelLightbox(lightBoxOptions);
@@ -421,20 +414,19 @@
           this.model.id
         );
 
-        const allMembers = await Promise.all(
-          allPubKeys.map(async pubKey => {
-            const conv = ConversationController.get(pubKey);
-            let profileName = 'Anonymous';
-            if (conv) {
-              profileName = await conv.getProfileName();
-            }
-            return {
-              id: pubKey,
-              authorPhoneNumber: pubKey,
-              authorProfileName: profileName,
-            };
-          })
-        );
+        const allMembers = allPubKeys.map(pubKey => {
+          const conv = ConversationController.get(pubKey);
+          let profileName = 'Anonymous';
+          if (conv) {
+            profileName = conv.getProfileName();
+          }
+          return {
+            id: pubKey,
+            authorPhoneNumber: pubKey,
+            authorProfileName: profileName,
+          };
+        });
+
         window.lokiPublicChatAPI.setListOfMembers(allMembers);
       };
 
@@ -535,9 +527,6 @@
       }
       let placeholder;
       switch (type) {
-        case 'friend-request':
-          placeholder = i18n('sendMessageFriendRequest');
-          break;
         case 'disabled':
           placeholder = i18n('sendMessageDisabled');
           break;
@@ -546,6 +535,9 @@
           break;
         case 'left-group':
           placeholder = i18n('sendMessageLeftGroup');
+          break;
+        case 'blocked-user':
+          placeholder = i18n('sendMessageBlockedUser');
           break;
         default:
           placeholder = i18n('sendMessage');
@@ -735,14 +727,6 @@
 
       if (this.view.atBottom()) {
         this.typingBubbleView.el.scrollIntoView();
-      }
-    },
-
-    onFriendStatusChange() {
-      if (this.model.isPrivate() && !this.model.isFriend()) {
-        this.$('#choose-file').hide();
-      } else {
-        this.$('#choose-file').show();
       }
     },
 
@@ -1086,7 +1070,7 @@
       }, 1);
     },
     fetchMessages() {
-      window.log.info('fetchMessages');
+      // window.log.info('fetchMessages');
       this.$('.bar-container').show();
       if (this.inProgressFetch) {
         window.log.warn('Multiple fetchMessage calls!');
@@ -1295,6 +1279,7 @@
       }
     },
 
+    // THIS DOES NOT DOWNLOAD ANYTHING!
     downloadAttachment({ attachment, message, isDangerous }) {
       if (isDangerous) {
         const toast = new Whisper.DangerousFileTypeToast();
@@ -1914,18 +1899,29 @@
         toastOptions.id = 'expiredWarning';
       }
       if (!window.clientClockSynced) {
-        // Check to see if user has updated their clock to current time
-        const clockSynced = await window.LokiPublicChatAPI.setClockParams();
+        let clockSynced = false;
+        if (window.setClockParams) {
+          // Check to see if user has updated their clock to current time
+          clockSynced = await window.setClockParams();
+        } else {
+          window.log.info('setClockParams not loaded yet');
+        }
         if (clockSynced) {
           toastOptions.title = i18n('clockOutOfSync');
           toastOptions.id = 'clockOutOfSync';
         }
       }
-      if (this.model.isPrivate() && storage.isBlocked(this.model.id)) {
+      if (
+        this.model.isPrivate() &&
+        BlockedNumberController.isBlocked(this.model.id)
+      ) {
         toastOptions.title = i18n('unblockToSend');
         toastOptions.id = 'unblockToSend';
       }
-      if (!this.model.isPrivate() && storage.isGroupBlocked(this.model.id)) {
+      if (
+        !this.model.isPrivate() &&
+        BlockedNumberController.isGroupBlocked(this.model.id)
+      ) {
         toastOptions.title = i18n('unblockGroupToSend');
         toastOptions.id = 'unblockGroupToSend';
       }

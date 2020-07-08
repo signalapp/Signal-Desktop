@@ -1,5 +1,4 @@
 import React from 'react';
-// import classNames from 'classnames';
 import { compact, flatten } from 'lodash';
 
 import { Intl } from '../Intl';
@@ -25,6 +24,8 @@ interface Props {
   i18n: LocalizerType;
 }
 
+// This class is used to display group updates in the conversation view.
+// This is a not a "notification" as the name suggests, but a message inside the conversation
 export class GroupNotification extends React.Component<Props> {
   public renderChange(change: Change) {
     const { isMe, contacts, type, newName } = change;
@@ -52,7 +53,7 @@ export class GroupNotification extends React.Component<Props> {
         return `${i18n('titleIsNow', [newName || ''])}.`;
       case 'add':
         if (!contacts || !contacts.length) {
-          throw new Error('Group update is missing contacts');
+          throw new Error('Group update add is missing contacts');
         }
 
         const joinKey =
@@ -65,7 +66,7 @@ export class GroupNotification extends React.Component<Props> {
         }
 
         if (!contacts || !contacts.length) {
-          throw new Error('Group update is missing contacts');
+          throw new Error('Group update remove is missing contacts');
         }
 
         const leftKey =
@@ -78,7 +79,7 @@ export class GroupNotification extends React.Component<Props> {
         }
 
         if (!contacts || !contacts.length) {
-          throw new Error('Group update is missing contacts');
+          throw new Error('Group update kicked is missing contacts');
         }
 
         const kickedKey =

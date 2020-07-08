@@ -1,4 +1,4 @@
-/* global LokiAppDotNetServerAPI, LokiFileServerAPI, semver, log */
+/* global LokiAppDotNetServerAPI, semver, log */
 // eslint-disable-next-line func-names
 (function() {
   'use strict';
@@ -12,9 +12,8 @@
   );
   // use the anonymous access token
   window.tokenlessFileServerAdnAPI.token = 'loki';
-  window.tokenlessFileServerAdnAPI.pubKey = window.Signal.Crypto.base64ToArrayBuffer(
-    LokiFileServerAPI.secureRpcPubKey
-  );
+  // configure for file server comms
+  window.tokenlessFileServerAdnAPI.getPubKeyForUrl();
 
   let nextWaitSeconds = 5;
   const checkForUpgrades = async () => {
@@ -53,6 +52,8 @@
     }
     // no message logged means serverRequest never returned...
   };
+
+  // don't wait for this to finish
   checkForUpgrades();
 
   window.extension = window.extension || {};
@@ -92,4 +93,45 @@
     // yes we know
     cb(expiredVersion);
   };
+
+  const getServerTime = async () => {
+    let timestamp = NaN;
+
+    try {
+      const res = await window.tokenlessFileServerAdnAPI.serverRequest(
+        'loki/v1/time'
+      );
+      if (res.statusCode === 200) {
+        timestamp = res.response;
+      }
+    } catch (e) {
+      return timestamp;
+    }
+
+    return Number(timestamp);
+  };
+
+  const getTimeDifferential = async () => {
+    // Get time differential between server and client in seconds
+    const serverTime = await getServerTime();
+    const clientTime = Math.ceil(Date.now() / 1000);
+
+    if (Number.isNaN(serverTime)) {
+      log.error('expire:::getTimeDifferential - serverTime is not valid');
+      return 0;
+    }
+    return serverTime - clientTime;
+  };
+
+  // require for PoW to work
+  window.setClockParams = async () => {
+    // Set server-client time difference
+    const maxTimeDifferential = 30 + 15; // + 15 for onion requests
+    const timeDifferential = await getTimeDifferential();
+    log.info('expire:::setClockParams - Clock difference', timeDifferential);
+
+    window.clientClockSynced = Math.abs(timeDifferential) < maxTimeDifferential;
+    return window.clientClockSynced;
+  };
+  window.setClockParams();
 })();

@@ -10,6 +10,7 @@
     height: 100%;
     display: flex;
     align-items: center;
+    flex-direction: column;
 
     &-accent {
       flex-grow: 1;
@@ -28,21 +29,32 @@
     }
 
     &-registration {
-      height: 45%;
       padding-right: 128px;
     }
 
+    &-header {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      justify-content: space-between;
+      padding: 17px 20px;
+    }
+
+    &-body {
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      align-items: center;
+      width: 100%;
+      padding-bottom: 20px;
+    }
+
     &-close-button {
-      position: absolute;
-      top: 17px;
-      left: 20px;
+      display: flex;
+      align-items: center;
     }
 
     &-session-button {
-      position: absolute;
-      top: 17px;
-      right: 20px;
-
       img {
         width: 30px;
       }
@@ -63,6 +75,20 @@
     &__content {
       width: 100%;
       padding-top: 20px;
+
+      &__secret-words {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: $session-shade-6;
+        padding: $session-margin-sm $session-margin-lg;
+        border-radius: 8px;
+        margin-bottom: 0px;
+
+        label {
+          margin-bottom: 5px;
+        }
+      }
     }
 
     &__sections {
@@ -216,11 +242,17 @@
   &-description-long,
   &-signin-device-pairing-header {
     padding-top: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     color: $session-color-light-grey;
     text-align: center;
     font-size: 12px;
     line-height: 20px;
+
+    ol {
+      margin-left: 20px;
+      padding: 0px;
+      text-align: justify;
+    }
   }
 
   &-id-editable {
@@ -246,6 +278,8 @@
       display: inline-block;
       font-family: $session-font-mono;
       user-select: all;
+      overflow: hidden;
+      resize: none;
     }
   }
 }

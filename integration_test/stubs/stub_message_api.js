@@ -25,22 +25,6 @@ class StubMessageAPI {
       post
     );
   }
-
-  async startLongPolling(numConnections, stopPolling, callback) {
-    const ourPubkey = this.ourKey;
-
-    const get = {
-      method: 'GET',
-    };
-    const res = await nodeFetch(
-      `${this.baseUrl}/messages?pubkey=${ourPubkey}`,
-      get
-    );
-    const json = await res.json();
-    // console.warn('STUBBED polling messages ', json.messages);
-
-    callback(json.messages || []);
-  }
 }
 
 module.exports = StubMessageAPI;

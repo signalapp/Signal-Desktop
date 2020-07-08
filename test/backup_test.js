@@ -565,7 +565,6 @@ describe('Backup', () => {
         const ommited = [
           'profileAvatar',
           'swarmNodes',
-          'friendRequestStatus',
           'groupAdmins',
           'isKickedFromGroup',
           'unlockTimestamp',

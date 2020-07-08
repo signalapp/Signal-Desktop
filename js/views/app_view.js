@@ -137,7 +137,7 @@
       //     this.initialLoadComplete. An example of this: on a phone-pairing setup.
       _.defaults(options, { initialLoadComplete: this.initialLoadComplete });
 
-      window.log.info('open inbox');
+      // window.log.info('open inbox');
       this.closeInstaller();
 
       if (!this.inboxView) {
@@ -221,16 +221,13 @@
       const dialog = new Whisper.DevicePairingWordsDialogView();
       this.el.prepend(dialog.el);
     },
-    showCreateGroup() {
-      // TODO: make it impossible to open 2 dialogs as once
-      // Currently, if the button is in focus, it is possible to
-      // create a new dialog by pressing 'Enter'
-      const dialog = new Whisper.CreateGroupDialogView();
+    showUpdateGroupNameDialog(groupConvo) {
+      const dialog = new Whisper.UpdateGroupNameDialogView(groupConvo);
       this.el.append(dialog.el);
     },
-    showUpdateGroupDialog(groupConvo) {
-      const dialog = new Whisper.UpdateGroupDialogView(groupConvo);
-      this.el.prepend(dialog.el);
+    showUpdateGroupMembersDialog(groupConvo) {
+      const dialog = new Whisper.UpdateGroupMembersDialogView(groupConvo);
+      this.el.append(dialog.el);
     },
     showSessionRestoreConfirmation(options) {
       const dialog = new Whisper.ConfirmSessionResetView(options);
@@ -254,8 +251,8 @@
         resolve: () => ConversationController.deleteContact(groupConvo.id),
       });
     },
-    showInviteFriendsDialog(groupConvo) {
-      const dialog = new Whisper.InviteFriendsDialogView(groupConvo);
+    showInviteContactsDialog(groupConvo) {
+      const dialog = new Whisper.InviteContactsDialogView(groupConvo);
       this.el.append(dialog.el);
     },
     showAddModeratorsDialog(groupConvo) {

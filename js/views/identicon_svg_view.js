@@ -7,8 +7,8 @@
   window.Whisper = window.Whisper || {};
 
   /*
-    * Render an avatar identicon to an svg for use in a notification.
-    */
+   * Render an avatar identicon to an svg for use in a notification.
+   */
   Whisper.IdenticonSVGView = Whisper.View.extend({
     templateName: 'identicon-svg',
     initialize(options) {

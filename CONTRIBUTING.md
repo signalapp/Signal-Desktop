@@ -94,9 +94,9 @@ There are a few scripts which you can use:
 
 ```
 yarn start - Start development
-yarn start-multi - Start second instance of development
+MULTI=1 yarn start - Start second instance of development
 yarn start-prod - Start production but in development mode
-yarn start-prod-multi - Start another instance of production
+MULTI=1 yarn start-prod - Start another instance of production
 ```
 
 For more than 2 clients, you may run the above command with `NODE_APP_INSTANCE` set before them.

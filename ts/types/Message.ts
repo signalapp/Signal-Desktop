@@ -103,3 +103,9 @@ export const hasExpiration = (message: Message): boolean => {
 
   return typeof expireTimer === 'number' && expireTimer > 0;
 };
+
+export type LokiProfile = {
+  displayName: string;
+  avatarPointer: string;
+  profileKey: Uint8Array;
+};

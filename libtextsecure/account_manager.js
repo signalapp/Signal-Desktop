@@ -3,6 +3,7 @@
   textsecure,
   libsignal,
   libloki,
+  libsession,
   lokiFileServerAPI,
   mnemonic,
   btoa,
@@ -544,37 +545,53 @@
         primaryDevicePubKey,
         libloki.crypto.PairingType.REQUEST
       );
-      const authorisation = {
-        primaryDevicePubKey,
-        secondaryDevicePubKey: ourPubKey,
-        requestSignature,
-      };
-      await libloki.api.sendPairingAuthorisation(
-        authorisation,
-        primaryDevicePubKey
+
+      const primaryDevice = new libsession.Types.PubKey(primaryDevicePubKey);
+
+      const requestPairingMessage = new window.libsession.Messages.Outgoing.DeviceLinkRequestMessage(
+        {
+          timestamp: Date.now(),
+          primaryDevicePubKey,
+          secondaryDevicePubKey: ourPubKey,
+          requestSignature,
+        }
       );
+      await window.libsession
+        .getMessageQueue()
+        .send(primaryDevice, requestPairingMessage);
     },
-    async authoriseSecondaryDevice(secondaryDevicePubKey) {
+    async authoriseSecondaryDevice(secondaryDeviceStr) {
       const ourPubKey = textsecure.storage.user.getNumber();
-      if (secondaryDevicePubKey === ourPubKey) {
+      if (secondaryDeviceStr === ourPubKey) {
         throw new Error(
           'Cannot register primary device pubkey as secondary device'
         );
       }
+      const secondaryDevicePubKey = libsession.Types.PubKey.from(
+        secondaryDeviceStr
+      );
 
-      // throws if invalid
-      this.validatePubKeyHex(secondaryDevicePubKey);
+      if (!secondaryDevicePubKey) {
+        window.console.error(
+          'Invalid secondary pubkey on authoriseSecondaryDevice'
+        );
+
+        return;
+      }
       // we need a conversation for sending a message
       const secondaryConversation = await ConversationController.getOrCreateAndWait(
-        secondaryDevicePubKey,
+        secondaryDeviceStr,
         'private'
       );
       const grantSignature = await libloki.crypto.generateSignatureForPairing(
-        secondaryDevicePubKey,
+        secondaryDeviceStr,
         libloki.crypto.PairingType.GRANT
       );
-      const existingAuthorisation = await libloki.storage.getAuthorisationForSecondaryPubKey(
-        secondaryDevicePubKey
+      const authorisations = await libsession.Protocols.MultiDeviceProtocol.getPairingAuthorisations(
+        secondaryDeviceStr
+      );
+      const existingAuthorisation = authorisations.find(
+        pairing => pairing.secondaryDevicePubKey === secondaryDeviceStr
       );
       if (!existingAuthorisation) {
         throw new Error(
@@ -584,45 +601,64 @@
       const { requestSignature } = existingAuthorisation;
       const authorisation = {
         primaryDevicePubKey: ourPubKey,
-        secondaryDevicePubKey,
+        secondaryDevicePubKey: secondaryDeviceStr,
         requestSignature,
         grantSignature,
       };
+
       // Update authorisation in database with the new grant signature
-      await libloki.storage.savePairingAuthorisation(authorisation);
+      await libsession.Protocols.MultiDeviceProtocol.savePairingAuthorisation(
+        authorisation
+      );
+      const ourConversation = await ConversationController.getOrCreateAndWait(
+        ourPubKey,
+        'private'
+      );
+
+      // We need to send the our profile to the secondary device
+      const { displayName } = ourConversation.getLokiProfile();
+      const avatarPointer = ourConversation.get('avatarPointer');
+      const profileKey = window.storage.get('profileKey');
+      const lokiProfile = {
+        displayName,
+        profileKey,
+        avatarPointer,
+      };
 
       // Try to upload to the file server and then send a message
       try {
         await lokiFileServerAPI.updateOurDeviceMapping();
-        await libloki.api.sendPairingAuthorisation(
-          authorisation,
-          secondaryDevicePubKey
+        const requestPairingMessage = new libsession.Messages.Outgoing.DeviceLinkGrantMessage(
+          {
+            timestamp: Date.now(),
+            ...authorisation,
+            lokiProfile,
+          }
         );
+        await libsession
+          .getMessageQueue()
+          .send(secondaryDevicePubKey, requestPairingMessage);
       } catch (e) {
         log.error(
           'Failed to authorise secondary device: ',
           e && e.stack ? e.stack : e
         );
         // File server upload failed or message sending failed, we should rollback changes
-        await libloki.storage.removePairingAuthorisationForSecondaryPubKey(
-          secondaryDevicePubKey
+        await libsession.Protocols.MultiDeviceProtocol.removePairingAuthorisations(
+          secondaryDeviceStr
         );
         await lokiFileServerAPI.updateOurDeviceMapping();
         throw e;
       }
 
-      // Always be friends with secondary devices
-      await secondaryConversation.setFriendRequestStatus(
-        window.friends.friendRequestStatusEnum.friends,
-        {
-          blockSync: true,
-        }
-      );
       // Send sync messages
-      const conversations = window.getConversations().models;
-      textsecure.messaging.sendContactSyncMessage(conversations);
-      textsecure.messaging.sendGroupSyncMessage(conversations);
-      textsecure.messaging.sendOpenGroupsSyncMessage(conversations);
+      // bad hack to send sync messages when secondary device is ready to process them
+      setTimeout(async () => {
+        const conversations = window.getConversations().models;
+        await textsecure.messaging.sendGroupSyncMessage(conversations);
+        await textsecure.messaging.sendOpenGroupsSyncMessage(conversations);
+        await textsecure.messaging.sendContactSyncMessage(conversations);
+      }, 5000);
     },
     validatePubKeyHex(pubKey) {
       const c = new Whisper.Conversation({

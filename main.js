@@ -175,6 +175,7 @@ function prepareURL(pathSegments, moreKeys) {
       localUrl: config.get('localUrl'),
       cdnUrl: config.get('cdnUrl'),
       defaultPoWDifficulty: config.get('defaultPoWDifficulty'),
+      // one day explain why we need to do this - neuroscr
       seedNodeList: JSON.stringify(config.get('seedNodeList')),
       certificateAuthority: config.get('certificateAuthority'),
       environment: config.environment,
@@ -205,19 +206,33 @@ function captureClicks(window) {
   window.webContents.on('new-window', handleUrl);
 }
 
-const DEFAULT_WIDTH = 880;
-// add contact button needs to be visible (on HiDpi screens?)
-// otherwise integration test fail
-const DEFAULT_HEIGHT = 820;
-const MIN_WIDTH = 880;
-const MIN_HEIGHT = 820;
-const BOUNDS_BUFFER = 100;
+const WINDOW_SIZE = Object.freeze({
+  defaultWidth: 880,
+  defaultHeight: 820,
+  minWidth: 880,
+  minHeight: 600,
+});
+
+function getWindowSize() {
+  const { screen } = electron;
+  const screenSize = screen.getPrimaryDisplay().workAreaSize;
+  const { minWidth, minHeight, defaultWidth, defaultHeight } = WINDOW_SIZE;
+  // Ensure that the screen can fit within the default size
+  const width = Math.min(defaultWidth, Math.max(minWidth, screenSize.width));
+  const height = Math.min(
+    defaultHeight,
+    Math.max(minHeight, screenSize.height)
+  );
+
+  return { width, height, minWidth, minHeight };
+}
 
 function isVisible(window, bounds) {
   const boundsX = _.get(bounds, 'x') || 0;
   const boundsY = _.get(bounds, 'y') || 0;
-  const boundsWidth = _.get(bounds, 'width') || DEFAULT_WIDTH;
-  const boundsHeight = _.get(bounds, 'height') || DEFAULT_HEIGHT;
+  const boundsWidth = _.get(bounds, 'width') || WINDOW_SIZE.defaultWidth;
+  const boundsHeight = _.get(bounds, 'height') || WINDOW_SIZE.defaultHeight;
+  const BOUNDS_BUFFER = 100;
 
   // requiring BOUNDS_BUFFER pixels on the left or right side
   const rightSideClearOfLeftBound =
@@ -240,13 +255,14 @@ function isVisible(window, bounds) {
 
 async function createWindow() {
   const { screen } = electron;
+  const { minWidth, minHeight, width, height } = getWindowSize();
   const windowOptions = Object.assign(
     {
       show: !startInTray, // allow to start minimised in tray
-      width: DEFAULT_WIDTH,
-      height: DEFAULT_HEIGHT,
-      minWidth: MIN_WIDTH,
-      minHeight: MIN_HEIGHT,
+      width,
+      height,
+      minWidth,
+      minHeight,
       autoHideMenuBar: false,
       backgroundColor: '#fff',
       webPreferences: {
@@ -269,11 +285,11 @@ async function createWindow() {
     ])
   );
 
-  if (!_.isNumber(windowOptions.width) || windowOptions.width < MIN_WIDTH) {
-    windowOptions.width = DEFAULT_WIDTH;
+  if (!_.isNumber(windowOptions.width) || windowOptions.width < minWidth) {
+    windowOptions.width = Math.max(minWidth, width);
   }
-  if (!_.isNumber(windowOptions.height) || windowOptions.height < MIN_HEIGHT) {
-    windowOptions.height = DEFAULT_HEIGHT;
+  if (!_.isNumber(windowOptions.height) || windowOptions.height < minHeight) {
+    windowOptions.height = Math.max(minHeight, height);
   }
   if (!_.isBoolean(windowOptions.maximized)) {
     delete windowOptions.maximized;
@@ -307,9 +323,6 @@ async function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
   setupSpellChecker(mainWindow, locale.messages);
-
-  // Disable system main menu
-  mainWindow.setMenu(null);
 
   electronLocalshortcut.register(mainWindow, 'F5', () => {
     mainWindow.reload();
@@ -518,13 +531,13 @@ function showPasswordWindow() {
     passwordWindow.show();
     return;
   }
-
+  const { minWidth, minHeight, width, height } = getWindowSize();
   const windowOptions = {
     show: true, // allow to start minimised in tray
-    width: DEFAULT_WIDTH,
-    height: DEFAULT_HEIGHT,
-    minWidth: MIN_WIDTH,
-    minHeight: MIN_HEIGHT,
+    width,
+    height,
+    minWidth,
+    minHeight,
     autoHideMenuBar: false,
     webPreferences: {
       nodeIntegration: false,
@@ -633,8 +646,8 @@ async function showDebugLogWindow() {
   const theme = await getThemeFromMainWindow();
   const size = mainWindow.getSize();
   const options = {
-    width: Math.max(size[0] - 100, MIN_WIDTH),
-    height: Math.max(size[1] - 100, MIN_HEIGHT),
+    width: Math.max(size[0] - 100, WINDOW_SIZE.minWidth),
+    height: Math.max(size[1] - 100, WINDOW_SIZE.minHeight),
     resizable: false,
     title: locale.messages.signalDesktopPreferences.message,
     autoHideMenuBar: true,

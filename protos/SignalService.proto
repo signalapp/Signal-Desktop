@@ -12,7 +12,8 @@ message Envelope {
     PREKEY_BUNDLE = 3; //Used By Signal. DO NOT TOUCH! we don't use this at all.
     RECEIPT       = 5;
     UNIDENTIFIED_SENDER = 6;
-    FRIEND_REQUEST = 101; // contains prekeys + message and is using simple encryption
+    MEDIUM_GROUP_CIPHERTEXT = 7;
+    SESSION_REQUEST = 101; // contains prekeys and is using simple encryption
   }
 
   optional Type   type            = 1;
@@ -37,6 +38,40 @@ message Content {
   optional PreKeyBundleMessage preKeyBundleMessage = 101;
   optional LokiAddressMessage lokiAddressMessage = 102;
   optional PairingAuthorisationMessage pairingAuthorisation = 103;
+}
+
+message MediumGroupCiphertext {
+  optional bytes ciphertext = 1;
+  optional string source = 2;
+  optional uint32 keyIdx = 3;
+}
+
+message MediumGroupContent {
+  optional bytes ciphertext = 1;
+  optional bytes ephemeralKey = 2;
+}
+
+message SenderKey {
+  optional string chainKey = 1;
+  optional uint32 keyIdx = 2;
+}
+
+message MediumGroupUpdate {
+
+  enum Type {
+    NEW_GROUP = 0; // groupId, groupName, groupSecretKey, members, senderKey
+    GROUP_INFO = 1; // groupId, groupName, members, senderKey
+    SENDER_KEY_REQUEST = 2; // groupId
+    SENDER_KEY = 3; // groupId, SenderKey
+  }
+
+  optional string groupName = 1;
+  optional string groupId = 2; // should this be bytes?
+  optional bytes groupSecretKey = 3;
+  optional SenderKey senderKey = 4;
+  repeated bytes members = 5;
+  repeated string admins = 6;
+  optional Type type = 7;
 }
 
 message LokiAddressMessage {
@@ -107,7 +142,6 @@ message DataMessage {
     PROFILE_KEY_UPDATE        = 4;
     SESSION_RESTORE           = 64;
     UNPAIRING_REQUEST         = 128;
-    SESSION_REQUEST           = 256;
   }
 
   message Quote {
@@ -218,8 +252,9 @@ message DataMessage {
   optional Quote              quote       = 8;
   repeated Contact            contact     = 9;
   repeated Preview            preview     = 10;
-  optional LokiProfile        profile     = 101;  // Loki: The profile of the current user
-  optional GroupInvitation groupInvitation = 102; // Loki: Invitation to a public chat
+  optional LokiProfile        profile     = 101; // Loki: The profile of the current user
+  optional GroupInvitation    groupInvitation = 102; // Loki: Invitation to a public chat
+  optional MediumGroupUpdate  mediumGroupUpdate = 103; // Loki
 }
 
 message NullMessage {
@@ -398,4 +433,5 @@ message GroupDetails {
   optional string color       = 7;
   optional bool   blocked     = 8;
   repeated string admins      = 9;
+  optional bool is_medium_group = 10;
 }

@@ -15,12 +15,16 @@ import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { SessionSearchInput } from './SessionSearchInput';
 import { SessionSettingCategory } from './settings/SessionSettings';
 
+interface Props {
+  isSecondaryDevice: boolean;
+}
+
 export interface State {
   settingCategory: SessionSettingCategory;
   searchQuery: string;
 }
 
-export class LeftPaneSettingSection extends React.Component<any, State> {
+export class LeftPaneSettingSection extends React.Component<Props, State> {
   public constructor(props: any) {
     super(props);
 
@@ -30,6 +34,7 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
     };
 
     this.setCategory = this.setCategory.bind(this);
+    this.onDeleteAccount = this.onDeleteAccount.bind(this);
   }
 
   public componentDidMount() {
@@ -55,6 +60,7 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
     return LeftPane.RENDER_HEADER(
       labels,
       null,
+      undefined,
       undefined,
       undefined,
       undefined
@@ -140,41 +146,61 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
     );
   }
 
-  public renderBottomButtons(): JSX.Element {
-    const deleteAccount = window.i18n('deleteAccount');
+  public renderBottomButtons(): JSX.Element | undefined {
+    const { isSecondaryDevice } = this.props;
+
+    const dangerButtonText = isSecondaryDevice
+      ? window.i18n('unpairDevice')
+      : window.i18n('deleteAccount');
     const showSeed = window.i18n('showSeed');
 
     return (
       <div className="left-pane-setting-bottom-buttons">
         <SessionButton
-          text={deleteAccount}
+          text={dangerButtonText}
           buttonType={SessionButtonType.SquareOutline}
           buttonColor={SessionButtonColor.Danger}
           onClick={this.onDeleteAccount}
         />
-        <SessionButton
-          text={showSeed}
-          buttonType={SessionButtonType.SquareOutline}
-          buttonColor={SessionButtonColor.White}
-          onClick={window.showSeedDialog}
-        />
+        {!isSecondaryDevice && (
+          <SessionButton
+            text={showSeed}
+            buttonType={SessionButtonType.SquareOutline}
+            buttonColor={SessionButtonColor.White}
+            onClick={window.showSeedDialog}
+          />
+        )}
       </div>
     );
   }
 
   public onDeleteAccount() {
-    const params = {
-      title: window.i18n('deleteAccount'),
-      message: window.i18n('deleteAccountWarning'),
-      messageSub: window.i18n('deleteAccountWarningSub'),
+    const { isSecondaryDevice } = this.props;
+
+    const title = window.i18n(
+      isSecondaryDevice ? 'unpairDevice' : 'deleteAccount'
+    );
+
+    const message = window.i18n(
+      isSecondaryDevice ? 'unpairDeviceWarning' : 'deleteAccountWarning'
+    );
+
+    const messageSub = window.i18n(
+      isSecondaryDevice ? 'unpairDeviceWarningSub' : 'deleteAccountWarningSub'
+    );
+
+    window.confirmationDialog({
+      title,
+      message,
+      messageSub,
       resolve: window.deleteAccount,
       okTheme: 'danger',
-    };
-
-    window.confirmationDialog(params);
+    });
   }
 
   public getCategories() {
+    const { isSecondaryDevice } = this.props;
+
     return [
       {
         id: SessionSettingCategory.Appearance,
@@ -199,6 +225,7 @@ export class LeftPaneSettingSection extends React.Component<any, State> {
       {
         id: SessionSettingCategory.Devices,
         title: window.i18n('devicesSettingsTitle'),
+        hidden: isSecondaryDevice,
       },
     ];
   }

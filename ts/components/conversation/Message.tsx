@@ -267,6 +267,14 @@ export class Message extends React.PureComponent<Props, State> {
     const isShowingImage = this.isShowingImage();
     const withImageNoCaption = Boolean(!text && isShowingImage);
     const showError = status === 'error' && direction === 'outgoing';
+    const showSentNoErrors =
+      !textPending &&
+      direction === 'outgoing' &&
+      status !== 'error' &&
+      status !== 'sending';
+
+    const showSending =
+      !textPending && direction === 'outgoing' && status === 'sending';
 
     return (
       <div
@@ -315,7 +323,15 @@ export class Message extends React.PureComponent<Props, State> {
           </div>
         ) : null}
         <span className="module-message__metadata__spacer" />
-        {!textPending && direction === 'outgoing' && status !== 'error' ? (
+        {showSending ? (
+          <div
+            className={classNames(
+              'module-message-detail__contact__status-icon',
+              `module-message-detail__contact__status-icon--${status}`
+            )}
+          />
+        ) : null}
+        {showSentNoErrors ? (
           <div className="message-read-receipt-container">
             <SessionIcon
               iconType={SessionIconType.Check}
@@ -1070,6 +1086,8 @@ export class Message extends React.PureComponent<Props, State> {
       selected,
       multiSelectMode,
       conversationType,
+      isPublic,
+      text,
     } = this.props;
     const { expired, expiring } = this.state;
 
@@ -1092,16 +1110,14 @@ export class Message extends React.PureComponent<Props, State> {
     // We parse the message later, but we still need to do an early check
     // to see if the message mentions us, so we can display the entire
     // message differently
-    const mentions = this.props.text
-      ? this.props.text.match(window.pubkeyPattern)
-      : [];
+    const mentions = text ? text.match(window.pubkeyPattern) : [];
     const mentionMe =
       mentions &&
       mentions.some(m => m.slice(1) === window.lokiPublicChatAPI.ourKey);
 
     const isIncoming = direction === 'incoming';
-    const shouldHightlight = mentionMe && isIncoming && this.props.isPublic;
-    const divClasses = ['session-message'];
+    const shouldHightlight = mentionMe && isIncoming && isPublic;
+    const divClasses = ['loki-message-wrapper'];
 
     if (shouldHightlight) {
       //divClasses.push('message-highlighted');

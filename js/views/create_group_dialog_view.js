@@ -6,47 +6,6 @@
 
   window.Whisper = window.Whisper || {};
 
-  Whisper.CreateGroupDialogView = Whisper.View.extend({
-    className: 'loki-dialog modal',
-    initialize() {
-      this.titleText = i18n('createGroupDialogTitle');
-      this.okText = i18n('ok');
-      this.cancelText = i18n('cancel');
-      this.close = this.close.bind(this);
-
-      const convos = window.getConversations().models;
-
-      let allMembers = convos.filter(
-        d => !!d && d.isFriend() && d.isPrivate() && !d.isMe()
-      );
-      allMembers = _.uniq(allMembers, true, d => d.id);
-
-      this.membersToShow = allMembers;
-
-      this.$el.focus();
-      this.render();
-    },
-    render() {
-      this.dialogView = new Whisper.ReactWrapperView({
-        className: 'create-group-dialog',
-        Component: window.Signal.Components.CreateGroupDialog,
-        props: {
-          titleText: this.titleText,
-          okText: this.okText,
-          cancelText: this.cancelText,
-          friendList: this.membersToShow,
-          onClose: this.close,
-        },
-      });
-
-      this.$el.append(this.dialogView.el);
-      return this;
-    },
-    close() {
-      this.remove();
-    },
-  });
-
   Whisper.UpdateGroupNameDialogView = Whisper.View.extend({
     className: 'loki-dialog modal',
     initialize(groupConvo) {
@@ -130,8 +89,8 @@
         this.isAdmin = groupConvo.isModerator(
           window.storage.get('primaryDevicePubKey')
         );
-        // zero out friendList for now
-        this.friendsAndMembers = [];
+        // zero out contactList for now
+        this.contactsAndMembers = [];
         this.existingMembers = [];
       } else {
         this.titleText = i18n('updateGroupDialogTitle');
@@ -140,11 +99,11 @@
 
         this.existingMembers = groupConvo.get('members') || [];
         // Show a contact if they are our friend or if they are a member
-        this.friendsAndMembers = convos.filter(
+        this.contactsAndMembers = convos.filter(
           d => this.existingMembers.includes(d.id) && d.isPrivate() && !d.isMe()
         );
-        this.friendsAndMembers = _.uniq(
-          this.friendsAndMembers,
+        this.contactsAndMembers = _.uniq(
+          this.contactsAndMembers,
           true,
           d => d.id
         );
@@ -164,12 +123,11 @@
         Component: window.Signal.Components.UpdateGroupMembersDialog,
         props: {
           titleText: this.titleText,
-          groupName: this.groupName,
           okText: i18n('ok'),
           cancelText: i18n('cancel'),
           isPublic: this.isPublic,
           existingMembers: this.existingMembers,
-          friendList: this.friendsAndMembers,
+          contactList: this.contactsAndMembers,
           isAdmin: this.isAdmin,
           onClose: this.close,
           onSubmit: this.onSubmit,
@@ -180,14 +138,52 @@
       this.$el.append(this.dialogView.el);
       return this;
     },
-    onSubmit(groupName, newMembers) {
+    async onSubmit(newMembers) {
+      const _ = window.Lodash;
       const ourPK = textsecure.storage.user.getNumber();
       const allMembers = window.Lodash.concat(newMembers, [ourPK]);
 
+      // We need to NOT trigger an group update if the list of member is the same.
+      const notPresentInOld = allMembers.filter(
+        m => !this.existingMembers.includes(m)
+      );
+
+      const notPresentInNew = this.existingMembers.filter(
+        m => !allMembers.includes(m)
+      );
+
+      // Filter out all linked devices for cases in which one device
+      // exists in group, but hasn't yet synced with its other devices.
+      const getDevicesForRemoved = async () => {
+        const promises = notPresentInNew.map(member =>
+          window.libsession.Protocols.MultiDeviceProtocol.getAllDevices(member)
+        );
+        const devices = _.flatten(await Promise.all(promises));
+
+        return devices;
+      };
+
+      // Get all devices for notPresentInNew
+      const allDevicesOfMembersToRemove = await getDevicesForRemoved();
+
+      // If any extra devices of removed exist in newMembers, ensure that you filter them
+      const filteredMemberes = allMembers.filter(
+        member => !_.includes(allDevicesOfMembersToRemove, member)
+      );
+
+      const xor = _.xor(notPresentInNew, notPresentInOld);
+      if (xor.length === 0) {
+        window.console.log(
+          'skipping group update: no detected changes in group member list'
+        );
+
+        return;
+      }
+
       window.doUpdateGroup(
         this.groupId,
-        groupName,
-        allMembers,
+        this.groupName,
+        filteredMemberes,
         this.avatarPath
       );
     },

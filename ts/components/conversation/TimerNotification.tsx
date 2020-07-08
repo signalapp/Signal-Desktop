@@ -31,14 +31,29 @@ export class TimerNotification extends React.Component<Props> {
       ? 'disabledDisappearingMessages'
       : 'theyChangedTheTimer';
 
-    const recipient = profileName ?? phoneNumber;
+    const displayedPubkey = profileName
+      ? window.shortenPubkey(phoneNumber)
+      : phoneNumber;
 
     switch (type) {
       case 'fromOther':
         return (
-          <>
-            {i18n(changeKey, [recipient, timespan])}
-          </>
+          <Intl
+            i18n={i18n}
+            id={changeKey}
+            components={[
+              <ContactName
+                i18n={i18n}
+                key="external-1"
+                phoneNumber={displayedPubkey}
+                profileName={profileName}
+                name={name}
+                module="module-message__author"
+                boldProfileName={true}
+              />,
+              timespan,
+            ]}
+          />
         );
       case 'fromMe':
         return disabled

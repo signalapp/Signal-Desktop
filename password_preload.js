@@ -8,6 +8,9 @@ const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
 const localeMessages = ipcRenderer.sendSync('locale-data');
 
+global.dcodeIO = global.dcodeIO || {};
+global.dcodeIO.ByteBuffer = require('bytebuffer');
+
 window.React = require('react');
 window.ReactDOM = require('react-dom');
 

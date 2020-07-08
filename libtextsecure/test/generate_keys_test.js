@@ -50,12 +50,12 @@ describe('Key generation', function thisNeeded() {
   describe('the first time', () => {
     let result;
     /* result should have this format
-         * {
-         *   preKeys: [ { keyId, publicKey }, ... ],
-         *   signedPreKey: { keyId, publicKey, signature },
-         *   identityKey: <ArrayBuffer>
-         * }
-         */
+     * {
+     *   preKeys: [ { keyId, publicKey }, ... ],
+     *   signedPreKey: { keyId, publicKey, signature },
+     *   identityKey: <ArrayBuffer>
+     * }
+     */
     before(() => {
       const accountManager = new textsecure.AccountManager('');
       return accountManager.generateKeys(count).then(res => {

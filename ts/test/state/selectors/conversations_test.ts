@@ -19,6 +19,8 @@ describe('state/selectors/conversations', () => {
           timestamp: 0,
           phoneNumber: 'notused',
           isArchived: false,
+          isSecondary: false,
+          primaryDevice: 'id1',
 
           type: 'direct',
           isMe: false,
@@ -35,6 +37,8 @@ describe('state/selectors/conversations', () => {
           timestamp: 20,
           phoneNumber: 'notused',
           isArchived: false,
+          isSecondary: false,
+          primaryDevice: 'id2',
 
           type: 'direct',
           isMe: false,
@@ -51,6 +55,8 @@ describe('state/selectors/conversations', () => {
           timestamp: 20,
           phoneNumber: 'notused',
           isArchived: false,
+          isSecondary: false,
+          primaryDevice: 'id3',
 
           type: 'direct',
           isMe: false,
@@ -67,6 +73,8 @@ describe('state/selectors/conversations', () => {
           timestamp: 20,
           phoneNumber: 'notused',
           isArchived: false,
+          isSecondary: false,
+          primaryDevice: 'id4',
 
           type: 'direct',
           isMe: false,
@@ -83,6 +91,8 @@ describe('state/selectors/conversations', () => {
           timestamp: 30,
           phoneNumber: 'notused',
           isArchived: false,
+          isSecondary: false,
+          primaryDevice: 'id5',
 
           type: 'direct',
           isMe: false,
@@ -100,7 +110,6 @@ describe('state/selectors/conversations', () => {
       assert.strictEqual(conversations[1].name, 'Á');
       assert.strictEqual(conversations[2].name, 'B');
       assert.strictEqual(conversations[3].name, 'C');
-      assert.strictEqual(conversations[4].name, 'No timestamp');
     });
   });
 });

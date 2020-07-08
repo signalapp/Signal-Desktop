@@ -5,7 +5,6 @@ const sql = require('@journeyapps/sqlcipher');
 const { app, dialog, clipboard } = require('electron');
 const { redactAll } = require('../js/modules/privacy');
 const { remove: removeUserConfig } = require('./user_config');
-const config = require('./config');
 
 const pify = require('pify');
 const uuidv4 = require('uuid/v4');
@@ -74,12 +73,8 @@ module.exports = {
   removeAllContactSignedPreKeys,
 
   createOrUpdatePairingAuthorisation,
-  removePairingAuthorisationForSecondaryPubKey,
-  getAuthorisationForSecondaryPubKey,
-  getGrantAuthorisationsForPrimaryPubKey,
-  getSecondaryDevicesFor,
-  getPrimaryDeviceFor,
-  getPairedDevicesFor,
+  getPairingAuthorisationsFor,
+  removePairingAuthorisationsFor,
 
   createOrUpdateItem,
   getItemById,
@@ -97,7 +92,8 @@ module.exports = {
   removeAllSessions,
   getAllSessions,
 
-  getSwarmNodesByPubkey,
+  getSwarmNodesForPubkey,
+  updateSwarmNodesForPubkey,
   getGuardNodes,
   updateGuardNodes,
 
@@ -110,8 +106,6 @@ module.exports = {
   updateConversation,
   removeConversation,
   getAllConversations,
-  getPubKeysWithFriendStatus,
-  getConversationsWithFriendStatus,
   getAllRssFeedConversations,
   getAllPublicConversations,
   getPublicConversationsByServer,
@@ -175,6 +169,9 @@ module.exports = {
   getMessagesWithFileAttachments,
 
   removeKnownAttachments,
+
+  getSenderKeys,
+  createOrUpdateSenderKeys,
 };
 
 function generateUUID() {
@@ -468,10 +465,11 @@ async function updateToSchemaVersion6(currentVersion, instance) {
   console.log('updateToSchemaVersion6: starting...');
   await instance.run('BEGIN TRANSACTION;');
 
-  await instance.run(
-    `ALTER TABLE conversations
-     ADD COLUMN friendRequestStatus INTEGER;`
-  );
+  // friendRequestStatus is no longer needed. So no need to add the column on new apps
+  // await instance.run(
+  //   `ALTER TABLE conversations
+  //    ADD COLUMN friendRequestStatus INTEGER;`
+  // );
 
   await instance.run(
     `CREATE TABLE lastHashes(
@@ -810,6 +808,8 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion1,
   updateToLokiSchemaVersion2,
   updateToLokiSchemaVersion3,
+  updateToLokiSchemaVersion4,
+  updateToLokiSchemaVersion5,
 ];
 
 async function updateToLokiSchemaVersion1(currentVersion, instance) {
@@ -830,113 +830,6 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
       token TEXT
     );`
   );
-
-  const initConversation = async data => {
-    // eslint-disable-next-line camelcase
-    const { id, active_at, type, name, friendRequestStatus } = data;
-    await instance.run(
-      `INSERT INTO conversations (
-      id,
-      json,
-      active_at,
-      type,
-      members,
-      name,
-      friendRequestStatus
-    ) values (
-      $id,
-      $json,
-      $active_at,
-      $type,
-      $members,
-      $name,
-      $friendRequestStatus
-    );`,
-      {
-        $id: id,
-        $json: objectToJSON(data),
-        $active_at: active_at,
-        $type: type,
-        $members: null,
-        $name: name,
-        $friendRequestStatus: friendRequestStatus,
-      }
-    );
-  };
-
-  const lokiPublicServerData = {
-    // make sure we don't have a trailing slash just in case
-    serverUrl: config.get('defaultPublicChatServer').replace(/\/*$/, ''),
-    token: null,
-  };
-  console.log('lokiPublicServerData', lokiPublicServerData);
-
-  const baseData = {
-    active_at: Date.now(),
-    friendRequestStatus: 4, // Friends
-    sealedSender: 0,
-    sessionResetStatus: 0,
-    swarmNodes: [],
-    type: 'group',
-    unlockTimestamp: null,
-    unreadCount: 0,
-    verified: 0,
-    version: 2,
-  };
-
-  const publicChatData = {
-    ...baseData,
-    id: `publicChat:1@${lokiPublicServerData.serverUrl.replace(
-      /^https?:\/\//i,
-      ''
-    )}`,
-    server: lokiPublicServerData.serverUrl,
-    name: 'Loki Public Chat',
-    channelId: '1',
-  };
-
-  const { serverUrl, token } = lokiPublicServerData;
-
-  await instance.run(
-    `INSERT INTO servers (
-    serverUrl,
-    token
-  ) values (
-    $serverUrl,
-    $token
-  );`,
-    {
-      $serverUrl: serverUrl,
-      $token: token,
-    }
-  );
-
-  const newsRssFeedData = {
-    ...baseData,
-    id: 'rss://loki.network/feed/',
-    rssFeed: 'https://loki.network/feed/',
-    closable: true,
-    name: 'Loki News',
-    profileAvatar: 'images/session/session_chat_icon.png',
-  };
-
-  const updatesRssFeedData = {
-    ...baseData,
-    id: 'rss://loki.network/category/messenger-updates/feed/',
-    rssFeed: 'https://loki.network/category/messenger-updates/feed/',
-    closable: false,
-    name: 'Session Updates',
-    profileAvatar: 'images/session/session_chat_icon.png',
-  };
-
-  const autoJoinLokiChats = false;
-
-  if (autoJoinLokiChats) {
-    await initConversation(publicChatData);
-  }
-
-  await initConversation(newsRssFeedData);
-  await initConversation(updatesRssFeedData);
 
   await instance.run(
     `INSERT INTO loki_schema (
@@ -1003,6 +896,107 @@ async function updateToLokiSchemaVersion3(currentVersion, instance) {
 
   await instance.run('COMMIT TRANSACTION;');
   console.log('updateToLokiSchemaVersion3: success!');
+}
+
+const SENDER_KEYS_TABLE = 'senderKeys';
+
+async function createOrUpdateSenderKeys(data) {
+  const { groupId, senderIdentity } = data;
+
+  await db.run(
+    `INSERT OR REPLACE INTO ${SENDER_KEYS_TABLE} (
+      groupId,
+      senderIdentity,
+      json
+    ) values (
+      $groupId,
+      $senderIdentity,
+      $json
+    );`,
+    {
+      $groupId: groupId,
+      $senderIdentity: senderIdentity,
+      $json: objectToJSON(data),
+    }
+  );
+}
+
+async function updateToLokiSchemaVersion4(currentVersion, instance) {
+  if (currentVersion >= 4) {
+    return;
+  }
+
+  console.log('updateToLokiSchemaVersion4: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  // We don't bother migrating values, any old messages that
+  // we might receive as a result will we filtered out anyway
+  await instance.run(`DROP TABLE lastHashes;`);
+
+  await instance.run(
+    `CREATE TABLE lastHashes(
+      id TEXT,
+      snode TEXT,
+      hash TEXT,
+      expiresAt INTEGER,
+      PRIMARY KEY (id, snode)
+    );`
+  );
+
+  // Create a table for Sender Keys
+  await instance.run(
+    `CREATE TABLE ${SENDER_KEYS_TABLE} (
+      groupId TEXT,
+      senderIdentity TEXT,
+      json TEXT,
+      PRIMARY KEY (groupId, senderIdentity)
+    );`
+  );
+
+  // Add senderIdentity field to `unprocessed` needed
+  // for medium size groups
+  await instance.run(`ALTER TABLE unprocessed ADD senderIdentity TEXT`);
+
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        4
+      );`
+  );
+
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToLokiSchemaVersion4: success!');
+}
+
+const NODES_FOR_PUBKEY_TABLE = 'nodesForPubkey';
+
+async function updateToLokiSchemaVersion5(currentVersion, instance) {
+  if (currentVersion >= 5) {
+    return;
+  }
+
+  console.log('updateToLokiSchemaVersion5: starting...');
+
+  await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run(
+    `CREATE TABLE ${NODES_FOR_PUBKEY_TABLE} (
+      pubkey TEXT PRIMARY KEY,
+      json TEXT
+    );`
+  );
+
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        5
+      );`
+  );
+
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToLokiSchemaVersion5: success!');
 }
 
 async function updateLokiSchema(instance) {
@@ -1431,40 +1425,19 @@ async function removeAllSignedPreKeys() {
 
 const PAIRING_AUTHORISATIONS_TABLE = 'pairingAuthorisations';
 
-const GUARD_NODE_TABLE = 'guardNodes';
-
-async function getAuthorisationForSecondaryPubKey(pubKey, options) {
-  const granted = options && options.granted;
-  let filter = '';
-  if (granted) {
-    filter = 'AND isGranted = 1';
-  }
-  const row = await db.get(
-    `SELECT json FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE secondaryDevicePubKey = $secondaryDevicePubKey ${filter};`,
-    {
-      $secondaryDevicePubKey: pubKey,
-    }
-  );
-
-  if (!row) {
-    return null;
-  }
-
-  return jsonToObject(row.json);
-}
-
-async function getGrantAuthorisationsForPrimaryPubKey(primaryDevicePubKey) {
+async function getPairingAuthorisationsFor(pubKey) {
   const rows = await db.all(
-    `SELECT json FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE primaryDevicePubKey = $primaryDevicePubKey AND isGranted = 1 ORDER BY secondaryDevicePubKey ASC;`,
-    {
-      $primaryDevicePubKey: primaryDevicePubKey,
-    }
+    `SELECT json FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE primaryDevicePubKey = $pubKey OR secondaryDevicePubKey = $pubKey;`,
+    { $pubKey: pubKey }
   );
-  return map(rows, row => jsonToObject(row.json));
+
+  return rows.map(row => jsonToObject(row.json));
 }
 
 async function createOrUpdatePairingAuthorisation(data) {
   const { primaryDevicePubKey, secondaryDevicePubKey, grantSignature } = data;
+  // remove any existing authorisation for this pubkey (we allow only one secondary device for now)
+  await removePairingAuthorisationsFor(primaryDevicePubKey);
 
   await db.run(
     `INSERT OR REPLACE INTO ${PAIRING_AUTHORISATIONS_TABLE} (
@@ -1487,21 +1460,16 @@ async function createOrUpdatePairingAuthorisation(data) {
   );
 }
 
-async function removePairingAuthorisationForSecondaryPubKey(pubKey) {
+async function removePairingAuthorisationsFor(pubKey) {
   await db.run(
-    `DELETE FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE secondaryDevicePubKey = $secondaryDevicePubKey;`,
+    `DELETE FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE primaryDevicePubKey = $pubKey OR secondaryDevicePubKey = $pubKey;`,
     {
-      $secondaryDevicePubKey: pubKey,
+      $pubKey: pubKey,
     }
   );
 }
 
-async function getSecondaryDevicesFor(primaryDevicePubKey) {
-  const authorisations = await getGrantAuthorisationsForPrimaryPubKey(
-    primaryDevicePubKey
-  );
-  return map(authorisations, row => row.secondaryDevicePubKey);
-}
+const GUARD_NODE_TABLE = 'guardNodes';
 
 async function getGuardNodes() {
   const nodes = await db.all(`SELECT ed25519PubKey FROM ${GUARD_NODE_TABLE};`);
@@ -1534,42 +1502,8 @@ async function updateGuardNodes(nodes) {
   await db.run('END TRANSACTION;');
 }
 
-async function getPrimaryDeviceFor(secondaryDevicePubKey) {
-  const row = await db.get(
-    `SELECT primaryDevicePubKey FROM ${PAIRING_AUTHORISATIONS_TABLE} WHERE secondaryDevicePubKey = $secondaryDevicePubKey AND isGranted = 1;`,
-    {
-      $secondaryDevicePubKey: secondaryDevicePubKey,
-    }
-  );
-
-  if (!row) {
-    return null;
-  }
-
-  return row.primaryDevicePubKey;
-}
-
 // Return all the paired pubkeys for a specific pubkey (excluded),
 // irrespective of their Primary or Secondary status.
-async function getPairedDevicesFor(pubKey) {
-  let results = [];
-
-  // get primary pubkey (only works if the pubkey is a secondary pubkey)
-  const primaryPubKey = await getPrimaryDeviceFor(pubKey);
-  if (primaryPubKey) {
-    results.push(primaryPubKey);
-  }
-  // get secondary pubkeys (only works if the pubkey is a primary pubkey)
-  const secondaryPubKeys = await getSecondaryDevicesFor(
-    primaryPubKey || pubKey
-  );
-  results = results.concat(secondaryPubKeys);
-
-  // ensure the input pubkey is not in the results
-  results = results.filter(x => x !== pubKey);
-
-  return results;
-}
 
 const ITEMS_TABLE = 'items';
 async function createOrUpdateItem(data) {
@@ -1685,6 +1619,22 @@ async function bulkAdd(table, array) {
   await promise;
 }
 
+async function getSenderKeys(groupId, senderIdentity) {
+  const row = await db.get(
+    `SELECT * FROM ${SENDER_KEYS_TABLE} WHERE groupId = $groupId AND senderIdentity = $senderIdentity;`,
+    {
+      $groupId: groupId,
+      $senderIdentity: senderIdentity,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+
 async function getById(table, id) {
   const row = await db.get(`SELECT * FROM ${table} WHERE id = $id;`, {
     $id: id,
@@ -1725,16 +1675,35 @@ async function getAllFromTable(table) {
 
 // Conversations
 
-async function getSwarmNodesByPubkey(pubkey) {
-  const row = await db.get('SELECT * FROM conversations WHERE id = $pubkey;', {
-    $pubkey: pubkey,
-  });
+async function getSwarmNodesForPubkey(pubkey) {
+  const row = await db.get(
+    `SELECT * FROM ${NODES_FOR_PUBKEY_TABLE} WHERE pubkey = $pubkey;`,
+    {
+      $pubkey: pubkey,
+    }
+  );
 
   if (!row) {
     return [];
   }
 
-  return jsonToObject(row.json).swarmNodes;
+  return jsonToObject(row.json);
+}
+
+async function updateSwarmNodesForPubkey(pubkey, snodeEdKeys) {
+  await db.run(
+    `INSERT OR REPLACE INTO ${NODES_FOR_PUBKEY_TABLE} (
+        pubkey,
+        json
+        ) values (
+          $pubkey,
+          $json
+          );`,
+    {
+      $pubkey: pubkey,
+      $json: objectToJSON(snodeEdKeys),
+    }
+  );
 }
 
 const CONVERSATIONS_TABLE = 'conversations';
@@ -1758,7 +1727,6 @@ async function saveConversation(data) {
     type,
     members,
     name,
-    friendRequestStatus,
     profileName,
   } = data;
 
@@ -1771,7 +1739,6 @@ async function saveConversation(data) {
     type,
     members,
     name,
-    friendRequestStatus,
     profileName
   ) values (
     $id,
@@ -1781,7 +1748,6 @@ async function saveConversation(data) {
     $type,
     $members,
     $name,
-    $friendRequestStatus,
     $profileName
   );`,
     {
@@ -1792,7 +1758,6 @@ async function saveConversation(data) {
       $type: type,
       $members: members ? members.join(' ') : null,
       $name: name,
-      $friendRequestStatus: friendRequestStatus,
       $profileName: profileName,
     }
   );
@@ -1822,7 +1787,6 @@ async function updateConversation(data) {
     type,
     members,
     name,
-    friendRequestStatus,
     profileName,
   } = data;
 
@@ -1834,7 +1798,6 @@ async function updateConversation(data) {
     type = $type,
     members = $members,
     name = $name,
-    friendRequestStatus = $friendRequestStatus,
     profileName = $profileName
   WHERE id = $id;`,
     {
@@ -1845,7 +1808,6 @@ async function updateConversation(data) {
       $type: type,
       $members: members ? members.join(' ') : null,
       $name: name,
-      $friendRequestStatus: friendRequestStatus,
       $profileName: profileName,
     }
   );
@@ -1922,32 +1884,6 @@ async function getConversationById(id) {
 async function getAllConversations() {
   const rows = await db.all(
     `SELECT json FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`
-  );
-  return map(rows, row => jsonToObject(row.json));
-}
-
-async function getPubKeysWithFriendStatus(status) {
-  const rows = await db.all(
-    `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE
-      friendRequestStatus = $status
-      AND type = 'private'
-    ORDER BY id ASC;`,
-    {
-      $status: status,
-    }
-  );
-  return map(rows, row => row.id);
-}
-
-async function getConversationsWithFriendStatus(status) {
-  const rows = await db.all(
-    `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE
-      friendRequestStatus = $status
-      AND type = 'private'
-    ORDER BY id ASC;`,
-    {
-      $status: status,
-    }
   );
   return map(rows, row => jsonToObject(row.json));
 }
@@ -2265,19 +2201,24 @@ async function saveSeenMessageHashes(arrayOfHashes) {
 }
 
 async function updateLastHash(data) {
-  const { snode, hash, expiresAt } = data;
+  const { convoId, snode, hash, expiresAt } = data;
+
+  const id = convoId;
 
   await db.run(
     `INSERT OR REPLACE INTO lastHashes (
+      id,
       snode,
       hash,
       expiresAt
     ) values (
+      $id,
       $snode,
       $hash,
       $expiresAt
     )`,
     {
+      $id: id,
       $snode: snode,
       $hash: hash,
       $expiresAt: expiresAt,
@@ -2291,10 +2232,10 @@ async function saveSeenMessageHash(data) {
     `INSERT INTO seenMessages (
       expiresAt,
       hash
-    ) values (
-      $expiresAt,
-      $hash
-    );`,
+      ) values (
+        $expiresAt,
+        $hash
+        );`,
     {
       $expiresAt: expiresAt,
       $hash: hash,
@@ -2414,7 +2355,7 @@ async function getMessageBySender({ source, sourceDevice, sent_at }) {
 async function getAllUnsentMessages() {
   const rows = await db.all(`
     SELECT json FROM messages WHERE
-      type IN ('outgoing', 'friend-request') AND
+      type IN ('outgoing') AND
       NOT sent
     ORDER BY sent_at DESC;
   `);
@@ -2473,16 +2414,20 @@ async function getMessagesBySentAt(sentAt) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-async function getLastHashBySnode(snode) {
-  const row = await db.get('SELECT * FROM lastHashes WHERE snode = $snode;', {
-    $snode: snode,
-  });
+async function getLastHashBySnode(convoId, snode) {
+  const row = await db.get(
+    'SELECT * FROM lastHashes WHERE snode = $snode AND id = $id;',
+    {
+      $snode: snode,
+      $id: convoId,
+    }
+  );
 
   if (!row) {
     return null;
   }
 
-  return row.lastHash;
+  return row.hash;
 }
 
 async function getSeenMessagesByHashList(hashes) {
@@ -2537,7 +2482,7 @@ async function getNextExpiringMessage() {
 }
 
 async function saveUnprocessed(data, { forceSave } = {}) {
-  const { id, timestamp, version, attempts, envelope } = data;
+  const { id, timestamp, version, attempts, envelope, senderIdentity } = data;
   if (!id) {
     throw new Error('saveUnprocessed: id was falsey');
   }
@@ -2549,13 +2494,15 @@ async function saveUnprocessed(data, { forceSave } = {}) {
         timestamp,
         version,
         attempts,
-        envelope
+        envelope,
+        senderIdentity
       ) values (
         $id,
         $timestamp,
         $version,
         $attempts,
-        $envelope
+        $envelope,
+        $senderIdentity
       );`,
       {
         $id: id,
@@ -2563,6 +2510,7 @@ async function saveUnprocessed(data, { forceSave } = {}) {
         $version: version,
         $attempts: attempts,
         $envelope: envelope,
+        $senderIdentity: senderIdentity,
       }
     );
 
@@ -2574,7 +2522,8 @@ async function saveUnprocessed(data, { forceSave } = {}) {
       timestamp = $timestamp,
       version = $version,
       attempts = $attempts,
-      envelope = $envelope
+      envelope = $envelope,
+      senderIdentity = $senderIdentity
     WHERE id = $id;`,
     {
       $id: id,
@@ -2582,6 +2531,7 @@ async function saveUnprocessed(data, { forceSave } = {}) {
       $version: version,
       $attempts: attempts,
       $envelope: envelope,
+      $senderIdentity: senderIdentity,
     }
   );
 
@@ -2611,14 +2561,21 @@ async function updateUnprocessedAttempts(id, attempts) {
   });
 }
 async function updateUnprocessedWithData(id, data = {}) {
-  const { source, sourceDevice, serverTimestamp, decrypted } = data;
+  const {
+    source,
+    sourceDevice,
+    serverTimestamp,
+    decrypted,
+    senderIdentity,
+  } = data;
 
   await db.run(
     `UPDATE unprocessed SET
       source = $source,
       sourceDevice = $sourceDevice,
       serverTimestamp = $serverTimestamp,
-      decrypted = $decrypted
+      decrypted = $decrypted,
+      senderIdentity = $senderIdentity
     WHERE id = $id;`,
     {
       $id: id,
@@ -2626,6 +2583,7 @@ async function updateUnprocessedWithData(id, data = {}) {
       $sourceDevice: sourceDevice,
       $serverTimestamp: serverTimestamp,
       $decrypted: decrypted,
+      $senderIdentity: senderIdentity,
     }
   );
 }
@@ -2750,16 +2708,9 @@ async function removeAll() {
   db.serialize(() => {
     promise = Promise.all([
       db.run('BEGIN TRANSACTION;'),
+      ...getRemoveConfigurationPromises(),
       db.run('DELETE FROM conversations;'),
-      db.run('DELETE FROM identityKeys;'),
-      db.run('DELETE FROM items;'),
       db.run('DELETE FROM messages;'),
-      db.run('DELETE FROM preKeys;'),
-      db.run('DELETE FROM sessions;'),
-      db.run('DELETE FROM signedPreKeys;'),
-      db.run('DELETE FROM unprocessed;'),
-      db.run('DELETE FROM contactPreKeys;'),
-      db.run('DELETE FROM contactSignedPreKeys;'),
       db.run('DELETE FROM attachment_downloads;'),
       db.run('DELETE FROM messages_fts;'),
       db.run('COMMIT TRANSACTION;'),
@@ -2769,6 +2720,24 @@ async function removeAll() {
   await promise;
 }
 
+function getRemoveConfigurationPromises() {
+  return [
+    db.run('DELETE FROM identityKeys;'),
+    db.run('DELETE FROM items;'),
+    db.run('DELETE FROM preKeys;'),
+    db.run('DELETE FROM sessions;'),
+    db.run('DELETE FROM signedPreKeys;'),
+    db.run('DELETE FROM unprocessed;'),
+    db.run('DELETE FROM contactPreKeys;'),
+    db.run('DELETE FROM contactSignedPreKeys;'),
+    db.run('DELETE FROM servers;'),
+    db.run('DELETE FROM lastHashes;'),
+    db.run(`DELETE FROM ${SENDER_KEYS_TABLE};`),
+    db.run(`DELETE FROM ${NODES_FOR_PUBKEY_TABLE};`),
+    db.run('DELETE FROM seenMessages;'),
+  ];
+}
+
 // Anything that isn't user-visible data
 async function removeAllConfiguration() {
   let promise;
@@ -2776,14 +2745,7 @@ async function removeAllConfiguration() {
   db.serialize(() => {
     promise = Promise.all([
       db.run('BEGIN TRANSACTION;'),
-      db.run('DELETE FROM identityKeys;'),
-      db.run('DELETE FROM items;'),
-      db.run('DELETE FROM preKeys;'),
-      db.run('DELETE FROM sessions;'),
-      db.run('DELETE FROM signedPreKeys;'),
-      db.run('DELETE FROM unprocessed;'),
-      db.run('DELETE FROM contactPreKeys;'),
-      db.run('DELETE FROM contactSignedPreKeys;'),
+      ...getRemoveConfigurationPromises(),
       db.run('COMMIT TRANSACTION;'),
     ]);
   });

@@ -1,8 +1,7 @@
 const fetch = require('node-fetch');
 const { Agent } = require('https');
-const FormData = require('form-data');
 
-/* global Buffer, setTimeout, log, _, lokiFileServerAPI */
+/* global Buffer, setTimeout, log, _ */
 
 /* eslint-disable more/no-then, no-bitwise, no-nested-ternary */
 
@@ -302,8 +301,6 @@ function initialize() {
       getAttachment,
       getProxiedSize,
       makeProxiedRequest,
-      putAttachment,
-      putAvatar,
     };
 
     function getAttachment(fileUrl) {
@@ -313,30 +310,6 @@ function initialize() {
         timeout: 0,
         type: 'GET',
       });
-    }
-
-    function putAttachment(maybeEncryptedBin) {
-      const formData = new FormData();
-      const buffer = Buffer.from(maybeEncryptedBin);
-      formData.append('type', 'network.loki');
-      formData.append('content', buffer, {
-        contentType: 'application/octet-stream',
-        name: 'content',
-        filename: 'attachment',
-      });
-
-      return lokiFileServerAPI.constructor.uploadPrivateAttachment(formData);
-    }
-
-    function putAvatar(bin) {
-      const formData = new FormData();
-      const buffer = Buffer.from(bin);
-      formData.append('avatar', buffer, {
-        contentType: 'application/octet-stream',
-        name: 'avatar',
-        filename: 'attachment',
-      });
-      return lokiFileServerAPI.uploadAvatar(formData);
     }
 
     // eslint-disable-next-line no-shadow

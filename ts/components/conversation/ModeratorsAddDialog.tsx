@@ -3,7 +3,7 @@ import { Contact, MemberList } from './MemberList';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 
 interface Props {
-  friendList: Array<any>;
+  contactList: Array<any>;
   chatName: string;
   onSubmit: any;
   onClose: any;
@@ -16,7 +16,7 @@ declare global {
 }
 
 interface State {
-  friendList: Array<Contact>;
+  contactList: Array<Contact>;
   inputBoxValue: string;
 }
 
@@ -37,8 +37,8 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
     this.onKeyUp = this.onKeyUp.bind(this);
     this.inputRef = React.createRef();
 
-    let friends = this.props.friendList;
-    friends = friends.map(d => {
+    let contacts = this.props.contactList;
+    contacts = contacts.map(d => {
       const lokiProfile = d.getLokiProfile();
       const name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
 
@@ -57,7 +57,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
       };
     });
     this.state = {
-      friendList: friends,
+      contactList: contacts,
       inputBoxValue: '',
     };
 
@@ -82,15 +82,15 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
   public add() {
     // if we have valid data
     if (this.state.inputBoxValue.length > 64) {
-      const weHave = this.state.friendList.some(
+      const weHave = this.state.contactList.some(
         user => user.authorPhoneNumber === this.state.inputBoxValue
       );
       if (!weHave) {
         // lookup to verify it's registered?
 
         // convert pubKey into local object...
-        const friends = this.state.friendList;
-        friends.push({
+        const contacts = this.state.contactList;
+        contacts.push({
           id: this.state.inputBoxValue,
           authorPhoneNumber: this.state.inputBoxValue,
           authorProfileName: this.state.inputBoxValue,
@@ -104,7 +104,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
         this.setState(state => {
           return {
             ...state,
-            friendList: friends,
+            contactList: contacts,
           };
         });
       }
@@ -125,7 +125,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
   public render() {
     const i18n = window.i18n;
 
-    const hasFriends = this.state.friendList.length !== 0;
+    const hasContacts = this.state.contactList.length !== 0;
 
     return (
       <div className="content">
@@ -150,13 +150,13 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
           <p>From friends:</p>
           <div className="friend-selection-list">
             <MemberList
-              members={this.state.friendList}
+              members={this.state.contactList}
               selected={{}}
               i18n={i18n}
               onMemberClicked={this.onMemberClicked}
             />
           </div>
-          {hasFriends ? null : (
+          {hasContacts ? null : (
             <p className="no-friends">{i18n('noFriendsToAdd')}</p>
           )}
         </div>
@@ -174,11 +174,11 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
 
   private onClickOK() {
     this.add(); // process inputBox
-    const selectedFriends = this.state.friendList
+    const selectedContacts = this.state.contactList
       .filter(d => d.checkmarked)
       .map(d => d.id);
-    if (selectedFriends.length > 0) {
-      this.props.onSubmit(selectedFriends);
+    if (selectedContacts.length > 0) {
+      this.props.onSubmit(selectedContacts);
     }
 
     this.closeDialog();
@@ -204,7 +204,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
   }
 
   private onMemberClicked(selected: any) {
-    const updatedFriends = this.state.friendList.map(member => {
+    const updatedContacts = this.state.contactList.map(member => {
       if (member.id === selected.id) {
         return { ...member, checkmarked: !member.checkmarked };
       } else {
@@ -215,7 +215,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
     this.setState(state => {
       return {
         ...state,
-        friendList: updatedFriends,
+        contactList: updatedContacts,
       };
     });
   }

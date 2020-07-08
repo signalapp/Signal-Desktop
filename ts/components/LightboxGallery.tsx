@@ -23,9 +23,11 @@ interface Props {
   close: () => void;
   i18n: LocalizerType;
   media: Array<MediaItemType>;
-  onSave?: (
-    options: { attachment: AttachmentType; message: Message; index: number }
-  ) => void;
+  onSave?: (options: {
+    attachment: AttachmentType;
+    message: Message;
+    index: number;
+  }) => void;
   selectedIndex: number;
 }
 

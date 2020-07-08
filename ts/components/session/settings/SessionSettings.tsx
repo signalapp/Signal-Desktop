@@ -7,6 +7,9 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from '../SessionButton';
+import { UserUtil } from '../../../util';
+import { MultiDeviceProtocol } from '../../../session/protocols';
+import { PubKey } from '../../../session/types';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -88,10 +91,10 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
     window.Whisper.events.on('refreshLinkedDeviceList', async () => {
       setTimeout(() => {
-        this.refreshLinkedDevice();
+        void this.refreshLinkedDevice();
       }, 1000);
     });
-    this.refreshLinkedDevice();
+    void this.refreshLinkedDevice();
   }
 
   public componentWillUnmount() {
@@ -147,21 +150,18 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
             return (
               <div key={setting.id}>
-                {shouldRenderSettings &&
-                  !setting.hidden && (
-                    <SessionSettingListItem
-                      title={setting.title}
-                      description={description}
-                      type={setting.type}
-                      value={value}
-                      onClick={onClickFn}
-                      onSliderChange={sliderFn}
-                      content={content}
-                      confirmationDialogParams={
-                        setting.confirmationDialogParams
-                      }
-                    />
-                  )}
+                {shouldRenderSettings && !setting.hidden && (
+                  <SessionSettingListItem
+                    title={setting.title}
+                    description={description}
+                    type={setting.type}
+                    value={value}
+                    onClick={onClickFn}
+                    onSliderChange={sliderFn}
+                    content={content}
+                    confirmationDialogParams={setting.confirmationDialogParams}
+                  />
+                )}
               </div>
             );
           })}
@@ -264,8 +264,8 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   public renderSessionInfo(): JSX.Element {
     return (
       <div className="session-settings__version-info">
-        <span>v{window.versionInfo.version}</span>
-        <span>{window.versionInfo.commitHash}</span>
+        <span className="text-selectable">v{window.versionInfo.version}</span>
+        <span className="text-selectable">{window.versionInfo.commitHash}</span>
       </div>
     );
   }
@@ -655,16 +655,14 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     }
   }
 
-  private refreshLinkedDevice() {
-    const ourPubKey = window.textsecure.storage.user.getNumber();
+  private async refreshLinkedDevice() {
+    const ourPubKey = await UserUtil.getCurrentDevicePubKey();
+    if (ourPubKey) {
+      const pubKey = new PubKey(ourPubKey);
+      const devices = await MultiDeviceProtocol.getSecondaryDevices(pubKey);
 
-    window.libloki.storage
-      .getSecondaryDevicesFor(ourPubKey)
-      .then((pubKeys: any) => {
-        this.setState({
-          linkedPubKeys: pubKeys,
-        });
-      });
+      this.setState({ linkedPubKeys: devices.map(d => d.key) });
+    }
   }
 
   private async onKeyUp(event: any) {

@@ -18,6 +18,7 @@ export interface ContactType {
 
 interface Props {
   member: ContactType;
+  index: number; // index in the list
   isSelected: boolean;
   onSelect?: any;
   onUnselect?: any;
@@ -54,7 +55,11 @@ export class SessionMemberListItem extends React.Component<Props, State> {
 
     return (
       <div
-        className={classNames('session-member-item', isSelected && 'selected')}
+        className={classNames(
+          `session-member-item-${this.props.index}`,
+          'session-member-item',
+          isSelected && 'selected'
+        )}
         onClick={this.handleSelectionAction}
         role="button"
       >

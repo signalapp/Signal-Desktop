@@ -4,19 +4,28 @@
 
 const { Application } = require('spectron');
 const path = require('path');
-
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-const RegistrationPage = require('./page-objects/registration.page');
-const ConversationPage = require('./page-objects/conversation.page');
-const { exec } = require('child_process');
 const url = require('url');
 const http = require('http');
 const fse = require('fs-extra');
+const { exec } = require('child_process');
+
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const CommonPage = require('./page-objects/common.page');
+const RegistrationPage = require('./page-objects/registration.page');
+const ConversationPage = require('./page-objects/conversation.page');
+const SettingsPage = require('./page-objects/settings.page');
 
 chai.should();
 chai.use(chaiAsPromised);
 chai.config.includeStack = true;
+
+// From https://github.com/chaijs/chai/issues/200
+chai.use((_chai, _) => {
+  _chai.Assertion.addMethod('withMessage', msg => {
+    _.flag(this, 'message', msg);
+  });
+});
 
 const STUB_SNODE_SERVER_PORT = 3000;
 const ENABLE_LOG = false;
@@ -27,13 +36,19 @@ module.exports = {
     'faxed mechanic mocked agony unrest loincloth pencil eccentric boyfriend oasis speedy ribbon faxed',
   TEST_PUBKEY1:
     '0552b85a43fb992f6bdb122a5a379505a0b99a16f0628ab8840249e2a60e12a413',
-  TEST_DISPLAY_NAME1: 'integration_tester_1',
+  TEST_DISPLAY_NAME1: 'tester_Alice',
 
   TEST_MNEMONIC2:
     'guide inbound jerseys bays nouns basin sulking awkward stockpile ostrich ascend pylons ascend',
   TEST_PUBKEY2:
     '054e1ca8681082dbd9aad1cf6fc89a32254e15cba50c75b5a73ac10a0b96bcbd2a',
-  TEST_DISPLAY_NAME2: 'integration_tester_2',
+  TEST_DISPLAY_NAME2: 'tester_Bob',
+
+  TEST_MNEMONIC3:
+    'alpine lukewarm oncoming blender kiwi fuel lobster upkeep vogue simplest gasp fully simplest',
+  TEST_PUBKEY3:
+    '05f8662b6e83da5a31007cc3ded44c601f191e07999acb6db2314a896048d9036c',
+  TEST_DISPLAY_NAME3: 'tester_Charlie',
 
   /* **************  OPEN GROUPS  ****************** */
   VALID_GROUP_URL: 'https://chat.getsession.org',
@@ -50,36 +65,43 @@ module.exports = {
     return new Promise(resolve => setTimeout(resolve, ms));
   },
 
+  async closeToast(app) {
+    app.client.element(CommonPage.toastCloseButton).click();
+  },
+
   // a wrapper to work around electron/spectron bug
   async setValueWrapper(app, selector, value) {
-    await app.client.element(selector).click();
     // keys, setValue and addValue hang on certain platforms
-    // could put a branch here to use one of those
-    // if we know what platforms are good and which ones are broken
-    await app.client.execute(
-      (slctr, val) => {
-        // eslint-disable-next-line no-undef
-        const iter = document.evaluate(
-          slctr,
+
+    if (process.platform === 'darwin') {
+      await app.client.execute(
+        (slctr, val) => {
           // eslint-disable-next-line no-undef
-          document,
-          null,
-          // eslint-disable-next-line no-undef
-          XPathResult.UNORDERED_NODE_ITERATOR_TYPE,
-          null
-        );
-        const elem = iter.iterateNext();
-        if (elem) {
-          elem.value = val;
-        } else {
-          console.error('Cant find', slctr, elem, iter);
-        }
-      },
-      selector,
-      value
-    );
-    // let session js detect the text change
-    await app.client.element(selector).click();
+          const iter = document.evaluate(
+            slctr,
+            // eslint-disable-next-line no-undef
+            document,
+            null,
+            // eslint-disable-next-line no-undef
+            XPathResult.UNORDERED_NODE_ITERATOR_TYPE,
+            null
+          );
+          const elem = iter.iterateNext();
+          if (elem) {
+            elem.value = val;
+          } else {
+            console.error('Cant find', slctr, elem, iter);
+          }
+        },
+        selector,
+        value
+      );
+      // let session js detect the text change
+      await app.client.element(selector).click();
+    } else {
+      // Linux & Windows don't require wrapper
+      await app.client.element(selector).setValue(value);
+    }
   },
 
   async startApp(environment = 'test-integration-session') {
@@ -135,12 +157,8 @@ module.exports = {
         ? 'taskkill /im electron.exe /t /f'
         : 'pkill -f "node_modules/electron/dist/electron" | pkill -f "node_modules/.bin/electron"';
     return new Promise(resolve => {
-      exec(killStr, (err, stdout, stderr) => {
-        if (err) {
-          resolve({ stdout, stderr });
-        } else {
-          resolve({ stdout, stderr });
-        }
+      exec(killStr, (_err, stdout, stderr) => {
+        resolve({ stdout, stderr });
       });
     });
   },
@@ -173,20 +191,11 @@ module.exports = {
   async startAndStub({
     mnemonic,
     displayName,
-    stubSnode = false,
-    stubOpenGroups = false,
     env = 'test-integration-session',
   }) {
     const app = await this.startAndAssureCleanedApp(env);
 
-    if (stubSnode) {
-      await this.startStubSnodeServer();
-      this.stubSnodeCalls(app);
-    }
-
-    if (stubOpenGroups) {
-      this.stubOpenGroupsCalls(app);
-    }
+    await this.startStubSnodeServer();
 
     if (mnemonic && displayName) {
       await this.restoreFromMnemonic(app, mnemonic, displayName);
@@ -197,13 +206,14 @@ module.exports = {
     return app;
   },
 
-  async startAndStub2(props) {
-    const app2 = await this.startAndStub({
-      env: 'test-integration-session-2',
+  async startAndStubN(props, n) {
+    // Make app with stub as number n
+    const appN = await this.startAndStub({
+      env: `test-integration-session-${n}`,
       ...props,
     });
 
-    return app2;
+    return appN;
   },
 
   async restoreFromMnemonic(app, mnemonic, displayName) {
@@ -221,30 +231,17 @@ module.exports = {
       displayName
     );
 
-    await app.client.element(RegistrationPage.continueSessionButton).click();
+    // await app.client.element(RegistrationPage.continueSessionButton).click();
+    await app.client.keys('Enter');
+
     await app.client.waitForExist(
       RegistrationPage.conversationListContainer,
       4000
     );
   },
 
-  async startAppsAsFriends() {
-    const app1Props = {
-      mnemonic: this.TEST_MNEMONIC1,
-      displayName: this.TEST_DISPLAY_NAME1,
-      stubSnode: true,
-    };
-
-    const app2Props = {
-      mnemonic: this.TEST_MNEMONIC2,
-      displayName: this.TEST_DISPLAY_NAME2,
-      stubSnode: true,
-    };
-
-    const [app1, app2] = await Promise.all([
-      this.startAndStub(app1Props),
-      this.startAndStub2(app2Props),
-    ]);
+  async makeFriends(app1, client2) {
+    const [app2, pubkey2] = client2;
 
     /** add each other as friends */
     const textMessage = this.generateSendMessageText();
@@ -252,11 +249,7 @@ module.exports = {
     await app1.client.element(ConversationPage.contactsButtonSection).click();
     await app1.client.element(ConversationPage.addContactButton).click();
 
-    await this.setValueWrapper(
-      app1,
-      ConversationPage.sessionIDInput,
-      this.TEST_PUBKEY2
-    );
+    await this.setValueWrapper(app1, ConversationPage.sessionIDInput, pubkey2);
     await app1.client.element(ConversationPage.nextButton).click();
     await app1.client.waitForExist(
       ConversationPage.sendFriendRequestTextarea,
@@ -303,15 +296,140 @@ module.exports = {
       ConversationPage.acceptedFriendRequestMessage,
       5000
     );
+  },
+
+  async startAppsAsFriends() {
+    const app1Props = {
+      mnemonic: this.TEST_MNEMONIC1,
+      displayName: this.TEST_DISPLAY_NAME1,
+      stubSnode: true,
+    };
+
+    const app2Props = {
+      mnemonic: this.TEST_MNEMONIC2,
+      displayName: this.TEST_DISPLAY_NAME2,
+      stubSnode: true,
+    };
+
+    const [app1, app2] = await Promise.all([
+      this.startAndStub(app1Props),
+      this.startAndStubN(app2Props, 2),
+    ]);
+
+    await this.makeFriends(app1, [app2, this.TEST_PUBKEY2]);
 
     return [app1, app2];
   },
 
-  async linkApp2ToApp(app1, app2) {
+  async addFriendToNewClosedGroup(members, useSenderKeys) {
+    const [app, ...others] = members;
+
+    await app.client
+      .element(ConversationPage.conversationButtonSection)
+      .click();
+    await app.client.element(ConversationPage.createClosedGroupButton).click();
+
+    await this.setValueWrapper(
+      app,
+      ConversationPage.closedGroupNameTextarea,
+      this.VALID_CLOSED_GROUP_NAME1
+    );
+
+    await app.client
+      .element(ConversationPage.closedGroupNameTextarea)
+      .getValue()
+      .should.eventually.equal(this.VALID_CLOSED_GROUP_NAME1);
+
+    // This assumes that app does not have any other friends
+
+    for (let i = 0; i < others.length; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await app.client
+        .element(ConversationPage.createClosedGroupMemberItem(i))
+        .isVisible().should.eventually.be.true;
+
+      // eslint-disable-next-line no-await-in-loop
+      await app.client
+        .element(ConversationPage.createClosedGroupMemberItem(i))
+        .click();
+    }
+
+    await app.client
+      .element(ConversationPage.createClosedGroupMemberItemSelected)
+      .isVisible().should.eventually.be.true;
+
+    if (useSenderKeys) {
+      // Select Sender Keys
+      await app.client
+        .element(ConversationPage.createClosedGroupSealedSenderToggle)
+        .click();
+    }
+
+    // trigger the creation of the group
+    await app.client
+      .element(ConversationPage.validateCreationClosedGroupButton)
+      .click();
+
+    await app.client.waitForExist(
+      ConversationPage.sessionToastGroupCreatedSuccess,
+      1000
+    );
+    await app.client.isExisting(
+      ConversationPage.headerTitleGroupName(this.VALID_CLOSED_GROUP_NAME1)
+    ).should.eventually.be.true;
+    await app.client
+      .element(ConversationPage.headerTitleMembers(members.length))
+      .isVisible().should.eventually.be.true;
+
+    // validate overlay is closed
+    await app.client
+      .isExisting(ConversationPage.leftPaneOverlay)
+      .should.eventually.be.equal(false);
+
+    // move back to the conversation section
+    await app.client
+      .element(ConversationPage.conversationButtonSection)
+      .click();
+
+    // validate open chat has been added
+    await app.client.isExisting(
+      ConversationPage.rowOpenGroupConversationName(
+        this.VALID_CLOSED_GROUP_NAME1
+      )
+    ).should.eventually.be.true;
+
+    await Promise.all(
+      others.map(async otherApp => {
+        // next check that other members have been invited and have the group in their conversations
+        await otherApp.client.waitForExist(
+          ConversationPage.rowOpenGroupConversationName(
+            this.VALID_CLOSED_GROUP_NAME1
+          ),
+          6000
+        );
+        // open the closed group conversation on otherApp
+        await otherApp.client
+          .element(ConversationPage.conversationButtonSection)
+          .click();
+        await this.timeout(500);
+        await otherApp.client
+          .element(
+            ConversationPage.rowOpenGroupConversationName(
+              this.VALID_CLOSED_GROUP_NAME1
+            )
+          )
+          .click();
+      })
+    );
+  },
+
+  async linkApp2ToApp(app1, app2, app1Pubkey) {
     // app needs to be logged in as user1 and app2 needs to be logged out
     // start the pairing dialog for the first app
-    await app1.client.element(ConversationPage.settingsButtonSection).click();
-    await app1.client.element(ConversationPage.deviceSettingsRow).click();
+    await app1.client.element(SettingsPage.settingsButtonSection).click();
+    await app1.client
+      .element(SettingsPage.settingsRowWithText('Devices'))
+      .click();
 
     await app1.client.isVisible(ConversationPage.noPairedDeviceMessage);
     // we should not find the linkDeviceButtonDisabled button (as DISABLED)
@@ -330,20 +448,19 @@ module.exports = {
     await this.setValueWrapper(
       app2,
       RegistrationPage.textareaLinkDevicePubkey,
-      this.TEST_PUBKEY1
+      app1Pubkey
     );
     await app2.client.element(RegistrationPage.linkDeviceTriggerButton).click();
-    await app1.client.waitForExist(RegistrationPage.toastWrapper, 7000);
-    let secretWordsapp1 = await app1.client
-      .element(RegistrationPage.secretToastDescription)
+    await app1.client.waitForExist(SettingsPage.secretWordsTextInDialog, 7000);
+    const secretWordsapp1 = await app1.client
+      .element(SettingsPage.secretWordsTextInDialog)
       .getText();
-    secretWordsapp1 = secretWordsapp1.split(': ')[1];
-
     await app2.client.waitForExist(RegistrationPage.toastWrapper, 6000);
     await app2.client
       .element(RegistrationPage.secretToastDescription)
       .getText()
       .should.eventually.be.equal(secretWordsapp1);
+
     await app1.client.element(ConversationPage.allowPairingButton).click();
     await app1.client.element(ConversationPage.okButton).click();
     // validate device paired in settings list with correct secrets
@@ -366,7 +483,7 @@ module.exports = {
     // validate primary pubkey of app2 is the same that in app1
     await app2.webContents
       .executeJavaScript("window.storage.get('primaryDevicePubKey')")
-      .should.eventually.be.equal(this.TEST_PUBKEY1);
+      .should.eventually.be.equal(app1Pubkey);
   },
 
   async triggerUnlinkApp2FromApp(app1, app2) {
@@ -374,8 +491,10 @@ module.exports = {
     await app2.client.isExisting(RegistrationPage.conversationListContainer)
       .should.eventually.be.true;
 
-    await app1.client.element(ConversationPage.settingsButtonSection).click();
-    await app1.client.element(ConversationPage.deviceSettingsRow).click();
+    await app1.client.element(SettingsPage.settingsButtonSection).click();
+    await app1.client
+      .element(SettingsPage.settingsRowWithText('Devices'))
+      .click();
     await app1.client.isExisting(ConversationPage.linkDeviceButtonDisabled)
       .should.eventually.be.true;
     // click the unlink button
@@ -384,7 +503,7 @@ module.exports = {
 
     await app1.client.waitForExist(
       ConversationPage.noPairedDeviceMessage,
-      2000
+      5000
     );
     await app1.client.element(ConversationPage.linkDeviceButton).isEnabled()
       .should.eventually.be.true;
@@ -411,25 +530,33 @@ module.exports = {
     }
   },
 
+  async sendMessage(app, messageText, fileLocation = undefined) {
+    await this.setValueWrapper(
+      app,
+      ConversationPage.sendMessageTextarea,
+      messageText
+    );
+    await app.client
+      .element(ConversationPage.sendMessageTextarea)
+      .getValue()
+      .should.eventually.equal(messageText);
+
+    // attach a file
+    if (fileLocation) {
+      await this.setValueWrapper(
+        app,
+        ConversationPage.attachmentInput,
+        fileLocation
+      );
+    }
+
+    // send message
+    await app.client.element(ConversationPage.sendMessageTextarea).click();
+    await app.client.keys('Enter');
+  },
+
   generateSendMessageText: () =>
     `Test message from integration tests ${Date.now()}`,
-
-  stubOpenGroupsCalls: app1 => {
-    app1.webContents.executeJavaScript(
-      'window.LokiAppDotNetServerAPI = window.StubAppDotNetAPI;'
-    );
-  },
-
-  stubSnodeCalls(app1) {
-    app1.webContents.executeJavaScript(
-      'window.LokiMessageAPI = window.StubMessageAPI;'
-    );
-  },
-
-  logsContainsString: async (app1, str) => {
-    const logs = JSON.stringify(await app1.client.getRenderProcessLogs());
-    return logs.includes(str);
-  },
 
   async startStubSnodeServer() {
     if (!this.stubSnode) {
@@ -438,46 +565,128 @@ module.exports = {
         const { query } = url.parse(request.url, true);
         const { pubkey, data, timestamp } = query;
 
-        if (pubkey) {
-          if (request.method === 'POST') {
-            if (ENABLE_LOG) {
-              console.warn('POST', [data, timestamp]);
-            }
-
-            let ori = this.messages[pubkey];
-            if (!this.messages[pubkey]) {
-              ori = [];
-            }
-
-            this.messages[pubkey] = [...ori, { data, timestamp }];
-
-            response.writeHead(200, { 'Content-Type': 'text/html' });
-            response.end();
-          } else {
-            const retrievedMessages = { messages: this.messages[pubkey] };
-            if (ENABLE_LOG) {
-              console.warn('GET', pubkey, retrievedMessages);
-            }
-            if (this.messages[pubkey]) {
-              response.writeHead(200, { 'Content-Type': 'application/json' });
-              response.write(JSON.stringify(retrievedMessages));
-              this.messages[pubkey] = [];
-            }
-            response.end();
-          }
+        if (!pubkey) {
+          console.warn('NO PUBKEY');
+          response.writeHead(400, { 'Content-Type': 'text/html' });
+          response.end();
+          return;
         }
-        response.end();
+
+        if (request.method === 'POST') {
+          if (ENABLE_LOG) {
+            console.warn(
+              'POST',
+              pubkey.substr(2, 3),
+              data.substr(4, 10),
+              timestamp
+            );
+          }
+
+          let ori = this.messages[pubkey];
+
+          if (!this.messages[pubkey]) {
+            ori = [];
+          }
+
+          this.messages[pubkey] = [...ori, { data, timestamp }];
+
+          response.writeHead(200, { 'Content-Type': 'text/html' });
+          response.end();
+        } else {
+          const retrievedMessages = { messages: this.messages[pubkey] || [] };
+
+          if (ENABLE_LOG) {
+            const messages = retrievedMessages.messages.map(m =>
+              m.data.substr(4, 10)
+            );
+            console.warn('GET', pubkey.substr(2, 3), messages);
+          }
+          response.writeHead(200, { 'Content-Type': 'application/json' });
+          response.write(JSON.stringify(retrievedMessages));
+          response.end();
+        }
       });
+      this.startLocalFileServer();
       this.stubSnode.listen(STUB_SNODE_SERVER_PORT);
     } else {
       this.messages = {};
     }
   },
 
+  async startLocalFileServer() {
+    if (!this.fileServer) {
+      // be sure to run `git submodule update --init && cd session-file-server && yarn install; cd -`
+      // eslint-disable-next-line global-require
+      this.fileServer = require('../session-file-server/app');
+    }
+  },
+
+  async joinOpenGroup(app, openGroupUrl, name) {
+    await app.client
+      .element(ConversationPage.conversationButtonSection)
+      .click();
+    await app.client.element(ConversationPage.joinOpenGroupButton).click();
+
+    await this.setValueWrapper(
+      app,
+      ConversationPage.openGroupInputUrl,
+      openGroupUrl
+    );
+    await app.client
+      .element(ConversationPage.openGroupInputUrl)
+      .getValue()
+      .should.eventually.equal(openGroupUrl);
+    await app.client.element(ConversationPage.joinOpenGroupButton).click();
+
+    // validate session loader is shown
+    await app.client.isExisting(ConversationPage.sessionLoader).should
+      .eventually.be.true;
+    // account for slow home internet connection delays...
+    await app.client.waitForExist(
+      ConversationPage.sessionToastJoinOpenGroupSuccess,
+      60 * 1000
+    );
+
+    // validate overlay is closed
+    await app.client.isExisting(ConversationPage.leftPaneOverlay).should
+      .eventually.be.false;
+
+    // validate open chat has been added
+    await app.client.isExisting(
+      ConversationPage.rowOpenGroupConversationName(name)
+    ).should.eventually.be.true;
+  },
+
   async stopStubSnodeServer() {
     if (this.stubSnode) {
       this.stubSnode.close();
       this.stubSnode = null;
+    }
+  },
+
+  /**
+   * Search for a string in logs
+   * @param {*} app the render logs to search in
+   * @param {*} str the string to search (not regex)
+   * Note: getRenderProcessLogs() clears the app logs each calls.
+   */
+  async logsContains(renderLogs, str, count = undefined) {
+    const foundLines = renderLogs.filter(log => log.message.includes(str));
+
+    // eslint-disable-next-line no-unused-expressions
+    chai.expect(
+      foundLines.length > 0,
+      `'${str}' not found in logs but was expected`
+    ).to.be.true;
+
+    if (count) {
+      // eslint-disable-next-line no-unused-expressions
+      chai
+        .expect(
+          foundLines.length,
+          `'${str}' found but not the correct number of times`
+        )
+        .to.be.equal(count);
     }
   },
 

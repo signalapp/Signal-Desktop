@@ -57,8 +57,6 @@ interface Props {
   hasNickname?: boolean;
 
   isBlocked: boolean;
-  isFriend: boolean;
-  isFriendRequestPending: boolean;
   isOnline?: boolean;
 
   // We don't pass this as a bool, because in future we
@@ -94,7 +92,7 @@ interface Props {
   onLeaveGroup: () => void;
   onAddModerators: () => void;
   onRemoveModerators: () => void;
-  onInviteFriends: () => void;
+  onInviteContacts: () => void;
   onAvatarClick?: (userPubKey: string) => void;
   onUpdateGroupName: () => void;
 
@@ -141,13 +139,11 @@ export class ConversationHeader extends React.Component<Props> {
       phoneNumber,
       i18n,
       profileName,
-      isFriend,
       isGroup,
       isPublic,
       isRss,
       members,
       subscriberCount,
-      isFriendRequestPending,
       isMe,
       isKickedFromGroup,
       name,
@@ -174,11 +170,7 @@ export class ConversationHeader extends React.Component<Props> {
     })();
 
     let text = '';
-    if (isFriendRequestPending) {
-      text = i18n('pendingAcceptance');
-    } else if (!isFriend && !isGroup) {
-      text = i18n('notFriends');
-    } else if (memberCount > 0) {
+    if (isGroup && memberCount > 0) {
       const count = String(memberCount);
       text = i18n('members', [count]);
     }
@@ -311,7 +303,7 @@ export class ConversationHeader extends React.Component<Props> {
       onLeaveGroup,
       onAddModerators,
       onRemoveModerators,
-      onInviteFriends,
+      onInviteContacts,
       onUpdateGroupName,
     } = this.props;
 
@@ -344,7 +336,9 @@ export class ConversationHeader extends React.Component<Props> {
         ) : null}
         {/* TODO: add delete group */}
         {isGroup && isPublic ? (
-          <MenuItem onClick={onInviteFriends}>{i18n('inviteFriends')}</MenuItem>
+          <MenuItem onClick={onInviteContacts}>
+            {i18n('inviteContacts')}
+          </MenuItem>
         ) : null}
         {!isMe && isClosable && !isPrivateGroup ? (
           !isPublic ? (
@@ -444,24 +438,16 @@ export class ConversationHeader extends React.Component<Props> {
       isBlocked,
       isMe,
       isGroup,
-      isFriend,
       isKickedFromGroup,
-      isArchived,
       isPublic,
       isRss,
       onResetSession,
       onSetDisappearingMessages,
-      // onShowAllMedia,
       onShowGroupMembers,
       onShowSafetyNumber,
-      onArchive,
-      onMoveToInbox,
       timerOptions,
       onBlockUser,
       onUnblockUser,
-      // hasNickname,
-      // onClearNickname,
-      // onChangeNickname,
     } = this.props;
 
     if (isPublic || isRss) {
@@ -473,67 +459,44 @@ export class ConversationHeader extends React.Component<Props> {
     const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
     const blockHandler = isBlocked ? onUnblockUser : onBlockUser;
 
-    const disappearingMessagesMenuItem = isFriend &&
-      !isKickedFromGroup && (
-        <SubMenu title={disappearingTitle}>
-          {(timerOptions || []).map(item => (
-            <MenuItem
-              key={item.value}
-              onClick={() => {
-                onSetDisappearingMessages(item.value);
-              }}
-            >
-              {item.name}
-            </MenuItem>
-          ))}
-        </SubMenu>
-      );
+    const disappearingMessagesMenuItem = !isKickedFromGroup && (
+      <SubMenu title={disappearingTitle}>
+        {(timerOptions || []).map(item => (
+          <MenuItem
+            key={item.value}
+            onClick={() => {
+              onSetDisappearingMessages(item.value);
+            }}
+          >
+            {item.name}
+          </MenuItem>
+        ))}
+      </SubMenu>
+    );
     const showMembersMenuItem = isGroup && (
       <MenuItem onClick={onShowGroupMembers}>{i18n('showMembers')}</MenuItem>
     );
-    const showSafetyNumberMenuItem = !isGroup &&
-      !isMe && (
-        <MenuItem onClick={onShowSafetyNumber}>
-          {i18n('showSafetyNumber')}
-        </MenuItem>
-      );
-    const resetSessionMenuItem = isFriend &&
-      !isGroup && (
-        <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
-      );
-    const blockHandlerMenuItem = !isMe &&
-      !isGroup &&
-      !isRss && <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>;
-    // const changeNicknameMenuItem = !isMe &&
-    //   !isGroup && (
-    //     <MenuItem onClick={onChangeNickname}>{i18n('changeNickname')}</MenuItem>
-    //   );
-    // const clearNicknameMenuItem = !isMe &&
-    //   !isGroup &&
-    //   hasNickname && (
-    //     <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
-    //   );
-    const archiveConversationMenuItem = window.CONSTANTS.ARCHIVING_ENABLED
-      && (isArchived ? (
-      <MenuItem onClick={onMoveToInbox}>
-        {i18n('moveConversationToInbox')}
+
+    const showSafetyNumberMenuItem = !isGroup && !isMe && (
+      <MenuItem onClick={onShowSafetyNumber}>
+        {i18n('showSafetyNumber')}
       </MenuItem>
-    ) : (
-      <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
-    ));
+    );
+    const resetSessionMenuItem = !isGroup && (
+      <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
+    );
+    const blockHandlerMenuItem = !isMe && !isGroup && !isRss && (
+      <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
+    );
 
     return (
-      <>
-        {/* <MenuItem onClick={onShowAllMedia}>{i18n('viewAllMedia')}</MenuItem> */}
+      <React.Fragment>
         {disappearingMessagesMenuItem}
         {showMembersMenuItem}
         {showSafetyNumberMenuItem}
         {resetSessionMenuItem}
         {blockHandlerMenuItem}
-        {/* {changeNicknameMenuItem}
-        {clearNicknameMenuItem} */}
-        {archiveConversationMenuItem}
-      </>
+      </React.Fragment>
     );
   }
 }

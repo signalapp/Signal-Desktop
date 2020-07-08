@@ -4,16 +4,16 @@ module.exports = {
   // conversation view
   sessionLoader: commonPage.divWithClass('session-loader'),
   leftPaneOverlay: commonPage.divWithClass('module-left-pane-overlay'),
-  sendMessageTextarea: commonPage.textAreaWithPlaceholder('Type your message'),
+  sendMessageTextarea: commonPage.textAreaWithClass('send-message'),
   sendFriendRequestTextarea: commonPage.textAreaWithPlaceholder(
     'Send your first message'
   ),
   existingSendMessageText: textMessage =>
-    `//*[contains(@class, "module-message__text--outgoing")and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
+    `//*[contains(@class, "module-message__text--outgoing") and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
   existingFriendRequestText: textMessage =>
-    `//*[contains(@class, "module-message-friend-request__container")and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
+    `//*[contains(@class, "module-message-friend-request__container") and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
   existingReceivedMessageText: textMessage =>
-    `//*[contains(@class, "module-message__text--incoming")and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
+    `//*[contains(@class, "module-message__text--incoming") and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
 
   // conversations
   conversationButtonSection:
@@ -28,9 +28,20 @@ module.exports = {
       `${number} members`
     ),
 
+  conversationItem: commonPage.divWithClass('module-conversation-list-item'),
+
+  attachmentInput: '//*[contains(@class, "choose-file")]/input[@type="file"]',
+  attachmentButton: '//*[contains(@class, "choose-file")]/button',
+
+  messageCtxMenu: message =>
+    `//div[contains(@class, 'message-wrapper')]//span[contains(string(), '${message}')]/parent::div/parent::div/parent::div/parent::div//div[contains(@class, 'module-message__buttons__menu')]`,
+
+  deleteMessageCtxButton:
+    '//*[contains(@class, "react-contextmenu--visible")]/div[contains(string(), "Delete")]',
+  deleteMessageModalButton:
+    '//*[contains(@class, "session-modal")]//div[contains(string(), "Delete") and contains(@class, "session-button")]',
+
   // channels
-  globeButtonSection:
-    '//*[contains(@class,"session-icon-button")  and .//*[contains(@class, "globe")]]',
   joinOpenGroupButton: commonPage.divRoleButtonWithText('Join Open Group'),
   openGroupInputUrl: commonPage.textAreaWithPlaceholder('chat.getsession.org'),
   sessionToastJoinOpenGroupSuccess: commonPage.toastWithText(
@@ -52,7 +63,11 @@ module.exports = {
   closedGroupNameTextarea: commonPage.textAreaWithPlaceholder(
     'Enter a group name'
   ),
-  createClosedGroupMemberItem: commonPage.divWithClass('session-member-item'),
+  createClosedGroupMemberItem: idx =>
+    commonPage.divWithClass(`session-member-item-${idx}`),
+  createClosedGroupSealedSenderToggle: commonPage.divWithClass(
+    'session-toggle'
+  ),
   createClosedGroupMemberItemSelected: commonPage.divWithClass(
     'session-member-item selected'
   ),
@@ -86,12 +101,6 @@ module.exports = {
     '//*[contains(@role, "button")][contains(@class, "session-button")][contains(string(), "Accept")]',
   acceptedFriendRequestMessage:
     '//*[contains(@class, "module-friend-request__title")][contains(string(), "Friend request accepted")]',
-
-  // settings
-  settingsButtonSection:
-    '//*[contains(@class,"session-icon-button")  and .//*[contains(@class, "gear")]]',
-  deviceSettingsRow:
-    '//*[contains(@class, "left-pane-setting-category-list-item")][contains(string(), "Devices")]',
 
   descriptionDeleteAccount: commonPage.spanWithClassAndText(
     'session-confirm-main-message',

@@ -42,10 +42,10 @@ module.exports = grunt => {
       },
       util_worker: {
         src: [
-          'components/bytebuffer/dist/ByteBufferAB.js',
+          'node_modules/bytebuffer/dist/bytebuffer.js',
           'components/JSBI/dist/jsbi.mjs',
           'libloki/proof-of-work.js',
-          'components/long/dist/Long.js',
+          'node_modules/long/dist/long.js',
           'js/util_worker_tasks.js',
         ],
         dest: 'js/util_worker.js',
@@ -102,7 +102,6 @@ module.exports = grunt => {
       libloki: {
         src: [
           'libloki/api.js',
-          'libloki/friends.js',
           'libloki/crypto.js',
           'libloki/service_nodes.js',
           'libloki/storage.js',
@@ -161,10 +160,10 @@ module.exports = grunt => {
       },
       utilworker: {
         files: [
-          'components/bytebuffer/dist/ByteBufferAB.js',
+          'node_modules/bytebuffer/dist/bytebuffer.js',
           'components/JSBI/dist/jsbi.mjs',
           'libloki/proof-of-work.js',
-          'components/long/dist/Long.js',
+          'node_modules/long/dist/long.js',
           'js/util_worker_tasks.js',
         ],
         tasks: ['concat:util_worker'],
@@ -202,22 +201,14 @@ module.exports = grunt => {
     },
     'test-release': {
       osx: {
-        archive: `mac/${
-          packageJson.productName
-        }.app/Contents/Resources/app.asar`,
-        appUpdateYML: `mac/${
-          packageJson.productName
-        }.app/Contents/Resources/app-update.yml`,
-        exe: `mac/${packageJson.productName}.app/Contents/MacOS/${
-          packageJson.productName
-        }`,
+        archive: `mac/${packageJson.productName}.app/Contents/Resources/app.asar`,
+        appUpdateYML: `mac/${packageJson.productName}.app/Contents/Resources/app-update.yml`,
+        exe: `mac/${packageJson.productName}.app/Contents/MacOS/${packageJson.productName}`,
       },
       mas: {
         archive: 'mas/Signal.app/Contents/Resources/app.asar',
         appUpdateYML: 'mac/Signal.app/Contents/Resources/app-update.yml',
-        exe: `mas/${packageJson.productName}.app/Contents/MacOS/${
-          packageJson.productName
-        }`,
+        exe: `mas/${packageJson.productName}.app/Contents/MacOS/${packageJson.productName}`,
       },
       linux: {
         archive: 'linux-unpacked/resources/app.asar',
