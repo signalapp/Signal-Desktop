@@ -1,4 +1,3 @@
-// This is the Open Group equivalent to the PubKey type.
 
 interface OpenGroupParams {
   server: string;
@@ -7,8 +6,6 @@ interface OpenGroupParams {
 }
 
 export class OpenGroup {
-  // Matches prefixes https:// http:// plus no prefix.
-  // Servers without prefix default to https://
   private static readonly serverRegex = new RegExp(
     '^((https?:\\/\\/){0,1})([\\w-]{2,}\\.){1,2}[\\w-]{2,}$'
   );
@@ -18,10 +15,18 @@ export class OpenGroup {
   public readonly server: string;
   public readonly channel: number;
   public readonly groupId?: string;
-  public readonly conversationId: string; // eg. c12
+  public readonly conversationId: string;
 
+  /**
+   * An OpenGroup object.
+   * If `params.server` is not valid, this will throw an `Error`.
+   *
+   * @param params.server The server URL. `https` will be prepended if `http` or `https` is not explicitly set
+   * @param params.channel The server channel
+   * @param params.groupId The string corresponding to the server. Eg. `publicChat:1@chat.getsession.org`
+   * @param params.conversationId The conversation ID for the backbone model
+   */
   constructor(params: OpenGroupParams) {
-    // https will be prepended unless explicitly http
     this.server = OpenGroup.prefixify(params.server.toLowerCase());
 
     // Validate server format
@@ -35,18 +40,28 @@ export class OpenGroup {
     this.groupId = OpenGroup.getGroupId(this.server, this.channel);
   }
 
+  /**
+   * Validate the URL of an open group server
+   *
+   * @param serverUrl The server URL to validate
+   */
   public static validate(serverUrl: string): boolean {
     return this.serverRegex.test(serverUrl);
   }
 
+  /**
+   * Try to make a new instance of `OpenGroup`.
+   * This does NOT respect `ConversationController` and does not guarentee the conversation's existence.
+   *
+   * @param groupId The string corresponding to the server. Eg. `publicChat:1@chat.getsession.org`
+   * @param conversationId The conversation ID for the backbone model
+   * @returns `OpenGroup` if valid otherwise returns `undefined`.
+   */
   public static from(
     groupId: string,
     conversationId: string,
     hasSSL: boolean = true
   ): OpenGroup | undefined {
-    // Returns a new instance from a groupId if it's valid
-    // eg. groupId = 'publicChat:1@chat.getsession.org'
-
     const server = this.getServer(groupId, hasSSL);
     const channel = this.getChannel(groupId);
 
@@ -70,12 +85,17 @@ export class OpenGroup {
     return new OpenGroup(openGroupParams);
   }
 
+  /**
+   * Join an open group
+   *
+   * @param server The server URL
+   * @param onLoading Callback function to be called once server begins connecting
+   * @returns `OpenGroup` if connection success or if already connected
+   */
   public static async join(
     server: string,
     onLoading?: any
   ): Promise<OpenGroup | undefined> {
-    // onLoading called when the server begins connecting - after passing every guard
-
     const prefixedServer = OpenGroup.prefixify(server);
     if (!OpenGroup.validate(server)) {
       return;
@@ -119,6 +139,12 @@ export class OpenGroup {
     });
   }
 
+  /**
+   * Get the conversation model of a server from its URL
+   *
+   * @param server The server URL
+   * @returns BackBone conversation model corresponding to the server if it exists, otherwise `undefined`
+   */
   public static async getConversation(server: string): Promise<any> {
     if (!OpenGroup.validate(server)) {
       return;
@@ -136,6 +162,23 @@ export class OpenGroup {
     return serverInfo.channels[0].conversation;
   }
 
+  /**
+   * Get the conversation model of a server from conversation ID
+   *
+   * @param conversationId The server's conversation ID
+   * @returns BackBone conversation model corresponding to the server if it exists, otherwise `undefined`
+   */
+  public static getConversationByCID(conversationId: string): any {
+    const { ConversationController } = window;
+    return ConversationController.get(conversationId);
+  }
+
+  /**
+   * Check if the server exists.
+   * This does not compare against your conversations with the server.
+   *
+   * @param server The server URL
+   */
   public static async serverExists(server: string): Promise<boolean> {
     if (!OpenGroup.validate(server)) {
       return false;
@@ -145,11 +188,6 @@ export class OpenGroup {
     return Boolean(
       await window.lokiPublicChatAPI.findOrCreateServer(prefixedServer)
     );
-  }
-
-  public static getConversationByCID(conversationId: string): any {
-    const { ConversationController } = window;
-    return ConversationController.get(conversationId);
   }
 
   private static getServer(
