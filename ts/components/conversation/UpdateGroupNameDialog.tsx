@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { SessionModal } from '../session/SessionModal';
-import { SessionButton } from '../session/SessionButton';
+import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { Avatar } from '../Avatar';
 
 interface Props {
@@ -106,9 +106,13 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
         />
 
         <div className="session-modal__button-group">
-          <SessionButton text={okText} onClick={this.onClickOK} />
-
           <SessionButton text={cancelText} onClick={this.closeDialog} />
+
+          <SessionButton
+            text={okText}
+            onClick={this.onClickOK}
+            buttonColor={SessionButtonColor.Green}
+          />
         </div>
       </SessionModal>
     );

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { SessionModal } from '../session/SessionModal';
-import { SessionButton } from '../session/SessionButton';
+import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import {
   ContactType,
   SessionMemberListItem,
@@ -87,6 +87,7 @@ export class InviteContactsDialog extends React.Component<Props, State> {
             text={okText}
             disabled={!hasContacts}
             onClick={this.onClickOK}
+            buttonColor={SessionButtonColor.Green}
           />
         </div>
       </SessionModal>
