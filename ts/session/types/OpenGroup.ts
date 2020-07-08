@@ -131,6 +131,15 @@ export class OpenGroup {
     return serverInfo.channels[0].conversation;
   }
 
+  public static async serverExists(server: string): Promise<boolean> {
+    if (!OpenGroup.validate(server)) {
+      return false;
+    }
+
+    const prefixedServer = this.prefixify(server);
+    return Boolean(await window.lokiPublicChatAPI.findOrCreateServer(prefixedServer));
+  }
+
   public static getConversationByCID(conversationId: string): any {
     const { ConversationController } = window;
     return ConversationController.get(conversationId);

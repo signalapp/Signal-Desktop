@@ -2194,8 +2194,11 @@
   "connectToServerFail": {
     "message": "Failed to connect to server. Check URL"
   },
+  "connectingToServer": {
+    "message": "Connecting to server..."
+  },
   "connectToServerSuccess": {
-    "message": "Successfully connected to new open group server"
+    "message": "Successfully connected to open group"
   },
   "setPasswordFail": {
     "message": "Failed to set password"

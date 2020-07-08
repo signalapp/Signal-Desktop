@@ -120,6 +120,12 @@ export const _getLeftPaneLists = (
       };
     }
 
+    const isPublic = conversation.isPublic;
+    console.log('[vince] isPublic:', isPublic);
+    console.log('[vince] isPublic:', isPublic);
+    console.log('[vince] isPublic:', isPublic);
+    console.log('[vince] isPublic:', isPublic);
+    
     // Remove all invalid conversations and conversatons of devices associated with cancelled attempted links
     if (!conversation.timestamp) {
       continue;

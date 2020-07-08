@@ -59,7 +59,6 @@ interface State {
   loading: boolean;
   overlay: false | SessionComposeToType;
   valuePasted: string;
-  connectSuccess: boolean;
 }
 
 export class LeftPaneMessageSection extends React.Component<Props, State> {
@@ -73,7 +72,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       loading: false,
       overlay: false,
       valuePasted: '',
-      connectSuccess: false,
     };
 
     const conversations = this.getCurrentConversations();
@@ -474,25 +472,50 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     }
 
     // Connect to server
-    const successPromise = OpenGroup.join(serverUrl, () => {
-      this.setState({ loading: true });
+    const successPromise = OpenGroup.join(serverUrl, async () => {
+      if (await OpenGroup.serverExists(serverUrl)) {
+        window.pushToast({
+          title: window.i18n('connectingToServer'),
+          id: 'connectToServerSuccess',
+          type: 'success',
+        });
+
+        this.setState({loading: true});
+
+        // Call conversationRenderedResolve when the conversation is rendered.
+        let conversationRenderedResolve: any;
+        const conversationRenderedPromise = async () =>
+          // tslint:disable-next-line: promise-must-complete
+          new Promise(resolve => {
+            conversationRenderedResolve = resolve;
+        });
+      
+        // STOP IT AT THE SOURCE; SELECTORS/CONVERSATIONS.TS
+        const isRenderedInterval = setInterval(async () => {
+          // The conversation is shown in LeftPane when lastMessage is set.
+          // Notify the user when we're ready to render in LeftPane.
+          if ((await OpenGroup.getConversation(serverUrl))?.lastMessage) {
+            conversationRenderedResolve();
+            window.pushToast({
+              title: window.i18n('connectToServerFail'),
+              id: 'connectToServerFail',
+              type: 'error',
+            });
+          }
+        }, 100);
+
+
+
+      }
     });
 
     successPromise.then(() => {
       this.handleToggleOverlay(undefined);
       this.setState({
         loading: false,
-        connectSuccess: true,
-      });
-
-      window.pushToast({
-        title: window.i18n('connectToServerSuccess'),
-        id: 'connectToServerSuccess',
-        type: 'success',
       });
     }).catch(() => {
       this.setState({
-        connectSuccess: false,
         loading: false,
       });
 
