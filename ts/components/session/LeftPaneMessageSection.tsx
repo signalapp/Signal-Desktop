@@ -496,7 +496,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     } finally {
       this.setState({
         loading: false,
-       });
+      });
     }
   }
 
