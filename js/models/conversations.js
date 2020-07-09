@@ -1359,6 +1359,7 @@
               attachments: uploads.attachments,
               preview: uploads.preview,
               quote: uploads.quote,
+              identifier: id,
             };
             const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
               openGroupParams

@@ -334,6 +334,7 @@ async function onContactReceived(details: any) {
     //   activeAt is null, then this contact has been purposefully hidden.
     if (activeAt !== null) {
       activeAt = activeAt || Date.now();
+      conversation.set('active_at', activeAt);
     }
     const ourPrimaryKey = window.storage.get('primaryDevicePubKey');
     if (ourPrimaryKey) {
@@ -375,7 +376,6 @@ async function onContactReceived(details: any) {
     conversation.set({
       // name: details.name,
       color: details.color,
-      active_at: activeAt,
     });
 
     await conversation.setLokiProfile({ displayName: details.name });
@@ -427,6 +427,7 @@ async function onContactReceived(details: any) {
       verifiedEvent.viaContactSync = true;
       await onVerified(verifiedEvent);
     }
+    await conversation.trigger('change');
   } catch (error) {
     window.log.error('onContactReceived error:', Errors.toLogFormat(error));
   }

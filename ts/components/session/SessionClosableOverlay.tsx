@@ -66,18 +66,34 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
   }
 
   public getContacts() {
+    const { overlayMode } = this.props;
     const contactsList = this.props.contacts ?? [];
+    // Depending on the rendered overlay type we have to filter the contact list.
+    let filteredContactsList = contactsList;
+    const isClosedGroupView =
+      overlayMode === SessionClosableOverlayType.ClosedGroup;
+    if (isClosedGroupView) {
+      filteredContactsList = filteredContactsList.filter(
+        c => c.type === 'direct'
+      );
+    }
 
-    return contactsList.map((d: any) => {
-      const name = d.name ?? window.i18n('anonymous');
-
+    return filteredContactsList.map((d: any) => {
       // TODO: should take existing members into account
       const existingMember = false;
+      // if it has a profilename, use it and the shortened pubkey will be added automatically
+      // if no profile name, Anonymous and the shortened pubkey will be added automatically
+      let title;
+      if (d.profileName) {
+        title = `${d.profileName}`;
+      } else {
+        title = `${window.i18n('anonymous')}`;
+      }
 
       return {
         id: d.id,
         authorPhoneNumber: d.id,
-        authorProfileName: name,
+        authorProfileName: title,
         selected: false,
         authorName: name,
         authorColor: d.color,

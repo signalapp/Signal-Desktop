@@ -456,7 +456,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     if (!OpenGroup.validate(serverUrl)) {
       window.pushToast({
         title: window.i18n('noServerURL'),
-        id: 'connectToServerFail',
+        id: 'connectToServer',
         type: 'error',
       });
 
@@ -480,7 +480,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         if (await OpenGroup.serverExists(serverUrl)) {
           window.pushToast({
             title: window.i18n('connectingToServer'),
-            id: 'connectToServerSuccess',
+            id: 'connectToServer',
             type: 'success',
           });
 
@@ -488,9 +488,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         }
       });
     } catch (e) {
+      window.console.error('Failed to connect to server:', e);
       window.pushToast({
         title: window.i18n('connectToServerFail'),
-        id: 'connectToServerFail',
+        id: 'connectToServer',
         type: 'error',
       });
     } finally {
