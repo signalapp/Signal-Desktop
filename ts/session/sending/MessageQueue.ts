@@ -130,10 +130,9 @@ export class MessageQueue implements MessageQueueInterface {
     const isMediumGroup = GroupUtils.isMediumGroup(device);
     const hasSession = await SessionProtocol.hasSession(device);
 
+    // If we don't have a session then try and establish one and then continue sending messages
     if (!isMediumGroup && !hasSession) {
       await SessionProtocol.sendSessionRequestIfNeeded(device);
-
-      return;
     }
 
     const jobQueue = this.getJobQueue(device);

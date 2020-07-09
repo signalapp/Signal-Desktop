@@ -183,9 +183,9 @@ async function decryptUnidentifiedSender(
   }
 
   // We might have substituted the type based on decrypted content
-  if (type === SignalService.Envelope.Type.SESSION_REQUEST) {
+  if (type === SignalService.Envelope.Type.FALLBACK_MESSAGE) {
     // eslint-disable-next-line no-param-reassign
-    envelope.type = SignalService.Envelope.Type.SESSION_REQUEST;
+    envelope.type = SignalService.Envelope.Type.FALLBACK_MESSAGE;
   }
 
   const blocked = await isBlocked(sender.getName());
@@ -227,8 +227,8 @@ async function doDecrypt(
       return lokiSessionCipher.decryptWhisperMessage(ciphertext).then(unpad);
     case SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT:
       return decryptForMediumGroup(envelope, ciphertext);
-    case SignalService.Envelope.Type.SESSION_REQUEST: {
-      window.log.info('session-request message from ', envelope.source);
+    case SignalService.Envelope.Type.FALLBACK_MESSAGE: {
+      window.log.info('fallback message from ', envelope.source);
 
       const fallBackSessionCipher = new libloki.crypto.FallBackSessionCipher(
         address
@@ -344,13 +344,13 @@ export async function innerHandleContentMessage(
 
   const content = SignalService.Content.decode(new Uint8Array(plaintext));
 
-  const { SESSION_REQUEST } = SignalService.Envelope.Type;
+  const { FALLBACK_MESSAGE } = SignalService.Envelope.Type;
 
   await ConversationController.getOrCreateAndWait(envelope.source, 'private');
 
-  if (envelope.type === SESSION_REQUEST) {
-    await handleSessionRequestMessage(envelope, content);
-  } else {
+  if (content.preKeyBundleMessage) {
+    await handleSessionRequestMessage(envelope, content.preKeyBundleMessage);
+  } else if (envelope.type !== FALLBACK_MESSAGE) {
     const device = new PubKey(envelope.source);
 
     await SessionProtocol.onSessionEstablished(device);

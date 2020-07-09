@@ -25,10 +25,9 @@ export async function handleEndSession(number: string): Promise<void> {
 
 export async function handleSessionRequestMessage(
   envelope: EnvelopePlus,
-  content: SignalService.Content
+  preKeyBundleMessage: SignalService.IPreKeyBundleMessage
 ) {
   const { libsignal, libloki, StringView, textsecure, dcodeIO, log } = window;
-  const { preKeyBundleMessage } = content;
 
   window.console.log(
     `Received SESSION_REQUEST from source: ${envelope.source}`

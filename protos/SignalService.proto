@@ -13,7 +13,7 @@ message Envelope {
     RECEIPT       = 5;
     UNIDENTIFIED_SENDER = 6;
     MEDIUM_GROUP_CIPHERTEXT = 7;
-    SESSION_REQUEST = 101; // contains prekeys and is using simple encryption
+    FALLBACK_MESSAGE = 101; // contains prekeys and is using simple encryption
   }
 
   optional Type   type            = 1;

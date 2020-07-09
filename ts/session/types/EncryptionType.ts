@@ -1,5 +1,5 @@
 export enum EncryptionType {
   Signal,
-  SessionRequest,
+  Fallback,
   MediumGroup,
 }
