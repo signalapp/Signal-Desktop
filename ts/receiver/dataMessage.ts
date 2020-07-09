@@ -368,12 +368,12 @@ async function isMessageDuplicate({
 }
 
 async function handleProfileUpdate(
-  profileKeyBuffer: any,
+  profileKeyBuffer: Uint8Array,
   convoId: string,
   convoType: ConversationType,
   isIncoming: boolean
 ) {
-  const profileKey = profileKeyBuffer.toString('base64');
+  const profileKey = StringUtils.decode(profileKeyBuffer, 'base64');
 
   if (!isIncoming) {
     const receiver = await window.ConversationController.getOrCreateAndWait(
