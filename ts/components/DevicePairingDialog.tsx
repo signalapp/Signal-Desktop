@@ -98,6 +98,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
                 text={window.i18n('ok')}
                 onClick={this.validateSecondaryDevice}
                 disabled={!deviceAlias}
+                buttonColor={SessionButtonColor.Green}
               />
             </div>
             <SessionSpinner loading={this.state.loading} />
