@@ -1,6 +1,7 @@
 import { LibTextsecureCryptoInterface } from './crypto';
 
 export interface LibTextsecure {
+  messaging: any;
   crypto: LibTextsecureCryptoInterface;
   storage: any;
   SendMessageNetworkError: any;
