@@ -613,7 +613,10 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   }
 
   if (!conversationId) {
-    window.console.warn('Invalid conversation id for incoming message', conversationId);
+    window.console.warn(
+      'Invalid conversation id for incoming message',
+      conversationId
+    );
   }
 
   await window.ConversationController.getOrCreateAndWait(conversationId, type);
