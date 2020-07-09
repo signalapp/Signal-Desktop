@@ -15,7 +15,12 @@
       const convos = window.getConversations().models;
 
       this.contacts = convos.filter(
-        d => !!d && !d.isBlocked() && d.isPrivate() && !d.isMe()
+        d =>
+          !!d &&
+          !d.isBlocked() &&
+          d.isPrivate() &&
+          !d.isMe() &&
+          !!d.attributes.timestamp
       );
       if (!convo.isPublic()) {
         const members = convo.get('members') || [];
