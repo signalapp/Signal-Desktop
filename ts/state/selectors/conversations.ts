@@ -139,7 +139,7 @@ export const _getLeftPaneLists = (
 
     // Remove all invalid conversations and conversatons of devices associated
     //  with cancelled attempted links
-    if (!conversation.isPublic && !conversation.timestamp) {
+    if (!conversation.isPublic && !conversation.activeAt) {
       continue;
     }
 
@@ -149,10 +149,6 @@ export const _getLeftPaneLists = (
 
     if (unreadCount < 9 && conversation.unreadCount > 0) {
       unreadCount += conversation.unreadCount;
-    }
-
-    if (!conversation.isPublic && !conversation.activeAt) {
-      continue;
     }
 
     if (conversation.isArchived) {

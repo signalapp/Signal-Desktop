@@ -20,7 +20,7 @@
           !d.isBlocked() &&
           d.isPrivate() &&
           !d.isMe() &&
-          !!d.attributes.timestamp
+          !!d.get('active_at')
       );
       if (!convo.isPublic()) {
         const members = convo.get('members') || [];
