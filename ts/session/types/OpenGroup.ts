@@ -152,17 +152,14 @@ export class OpenGroup {
     if (!OpenGroup.validate(server)) {
       return;
     }
+    const rawServerURL = server
+      .replace(/^https?:\/\//i, '')
+      .replace(/[/\\]+$/i, '');
+    const channelId = 1;
+    const conversationId = `publicChat:${channelId}@${rawServerURL}`;
 
-    const prefixedServer = this.prefixify(server);
-    const serverInfo = (await window.lokiPublicChatAPI.findOrCreateServer(
-      prefixedServer
-    )) as any;
-
-    if (!serverInfo?.channels?.length) {
-      return;
-    }
-
-    return serverInfo.channels[0].conversation;
+    // Quickly peak to make sure we don't already have it
+    return window.ConversationController.get(conversationId);
   }
 
   /**
