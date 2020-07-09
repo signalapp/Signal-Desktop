@@ -1903,16 +1903,26 @@
 
       await this.sendClosedGroupMessageWithSync(groupUpdateMessage, recipients);
 
-      const expireUpdate = {
-        timestamp: Date.now(),
-        expireTimer: this.get('expireTimer'),
-        groupId: this.get('id'),
-      };
+      if (groupUpdate.joined && groupUpdate.joined.length) {
+        const expireUpdate = {
+          timestamp: Date.now(),
+          expireTimer: this.get('expireTimer'),
+          groupId: this.get('id'),
+        };
 
-      const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
-        expireUpdate
-      );
-      await libsession.getMessageQueue().sendToGroup(expirationTimerMessage);
+        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+          expireUpdate
+        );
+        await Promise.all(
+          groupUpdate.joined.map(async join => {
+            const device = new libsession.Types.PubKey(join);
+            await libsession
+              .getMessageQueue()
+              .sendUsingMultiDevice(device, expirationTimerMessage)
+              .catch(log.error);
+          })
+        );
+      }
     },
 
     async sendGroupInfo(recipient) {
