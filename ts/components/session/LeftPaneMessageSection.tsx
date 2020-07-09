@@ -487,6 +487,19 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           this.setState({ loading: true });
         }
       });
+      const openGroupConversation = await OpenGroup.getConversation(serverUrl);
+
+      if (openGroupConversation) {
+        // if no errors happened, trigger a sync with just this open group
+        // so our other devices joins it
+        await window.textsecure.messaging.sendOpenGroupsSyncMessage(
+          openGroupConversation
+        );
+      } else {
+        window.console.error(
+          'Joined an opengroup but did not find ther corresponding conversation'
+        );
+      }
     } catch (e) {
       window.console.error('Failed to connect to server:', e);
       window.pushToast({
