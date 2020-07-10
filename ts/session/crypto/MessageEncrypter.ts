@@ -46,12 +46,12 @@ export async function encrypt(
   cipherText: Uint8Array;
 }> {
   const plainText = padPlainTextBuffer(plainTextBuffer);
-  const address = new window.libsignal.SignalProtocolAddress(device.key, 1);
 
   if (encryptionType === EncryptionType.MediumGroup) {
-    // TODO: Do medium group stuff here
-    throw new Error('Encryption is not yet supported');
+    throw new Error('MediumGroup should not be encypted here');
   }
+
+  const address = new window.libsignal.SignalProtocolAddress(device.key, 1);
 
   let innerCipherText: CipherTextObject;
   if (encryptionType === EncryptionType.Fallback) {

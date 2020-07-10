@@ -6,11 +6,14 @@ import { getMessageQueue } from '../session';
 import { PubKey } from '../session/types';
 import _ from 'lodash';
 
+import * as SenderKeyAPI from '../session/medium_group';
+import { StringUtils } from '../session/utils';
+
 async function handleSenderKeyRequest(
   envelope: EnvelopePlus,
   groupUpdate: any
 ) {
-  const { SenderKeyAPI, StringView, textsecure, log } = window;
+  const { StringView, textsecure, log } = window;
 
   const senderIdentity = envelope.source;
   const ourIdentity = await textsecure.storage.user.getNumber();
@@ -19,7 +22,7 @@ async function handleSenderKeyRequest(
   log.debug('[sender key] sender key request from:', senderIdentity);
 
   // We reuse the same message type for sender keys
-  const { chainKey, keyIdx } = await SenderKeyAPI.getSenderKeys(
+  const { chainKey, keyIdx } = await SenderKeyAPI.getChainKey(
     groupId,
     ourIdentity
   );
@@ -28,8 +31,11 @@ async function handleSenderKeyRequest(
   const responseParams = {
     timestamp: Date.now(),
     groupId,
-    chainKey: chainKeyHex,
-    keyIdx,
+    senderKey: {
+      chainKey: chainKeyHex,
+      keyIdx,
+      pubKey: ourIdentity,
+    },
   };
 
   const keysResponseMessage = new MediumGroupResponseKeysMessage(
@@ -43,7 +49,7 @@ async function handleSenderKeyRequest(
 }
 
 async function handleSenderKey(envelope: EnvelopePlus, groupUpdate: any) {
-  const { SenderKeyAPI, log } = window;
+  const { log } = window;
   const { groupId, senderKey } = groupUpdate;
   const senderIdentity = envelope.source;
 
@@ -51,7 +57,7 @@ async function handleSenderKey(envelope: EnvelopePlus, groupUpdate: any) {
 
   await SenderKeyAPI.saveSenderKeys(
     groupId,
-    senderIdentity,
+    PubKey.cast(senderIdentity),
     senderKey.chainKey,
     senderKey.keyIdx
   );
@@ -59,29 +65,35 @@ async function handleSenderKey(envelope: EnvelopePlus, groupUpdate: any) {
   await removeFromCache(envelope);
 }
 
-async function handleNewGroup(envelope: EnvelopePlus, groupUpdate: any) {
-  const { SenderKeyAPI, StringView, Whisper, log, textsecure } = window;
+async function handleNewGroup(
+  envelope: EnvelopePlus,
+  groupUpdate: SignalService.MediumGroupUpdate
+) {
+  const { Whisper, log } = window;
 
   const senderIdentity = envelope.source;
 
-  const ourIdentity = await textsecure.storage.user.getNumber();
-
   const {
-    groupId,
+    name,
+    groupPublicKey,
+    groupPrivateKey,
     members: membersBinary,
-    groupSecretKey,
-    groupName,
-    senderKey,
-    admins,
+    admins: adminsBinary,
+    senderKeys,
   } = groupUpdate;
 
+  const groupId = StringUtils.decode(groupPublicKey, 'hex');
   const maybeConvo = await window.ConversationController.get(groupId);
-  const groupExists = !!maybeConvo;
 
-  const members = membersBinary.map((pk: any) =>
-    StringView.arrayBufferToHex(pk.toArrayBuffer())
+  const members = membersBinary.map((pk: Uint8Array) =>
+    StringUtils.decode(pk, 'hex')
   );
 
+  const admins = adminsBinary.map((pk: Uint8Array) =>
+    StringUtils.decode(pk, 'hex')
+  );
+
+  const groupExists = !!maybeConvo;
   const convo = groupExists
     ? maybeConvo
     : await window.ConversationController.getOrCreateAndWait(groupId, 'group');
@@ -95,7 +107,7 @@ async function handleNewGroup(envelope: EnvelopePlus, groupUpdate: any) {
       sent_at: now,
       received_at: now,
       group_update: {
-        name: groupName,
+        name,
         members,
       },
     });
@@ -119,7 +131,7 @@ async function handleNewGroup(envelope: EnvelopePlus, groupUpdate: any) {
       return;
     }
 
-    convo.set('name', groupName);
+    convo.set('name', name);
     convo.set('members', members);
 
     // TODO: check that we are still in the group (when we enable deleting members)
@@ -134,56 +146,41 @@ async function handleNewGroup(envelope: EnvelopePlus, groupUpdate: any) {
 
     convo.set('is_medium_group', true);
     convo.set('active_at', Date.now());
-    convo.set('name', groupName);
+    convo.set('name', name);
     convo.set('groupAdmins', admins);
 
-    const secretKeyHex = StringView.arrayBufferToHex(
-      groupSecretKey.toArrayBuffer()
-    );
+    const secretKeyHex = StringUtils.decode(groupPrivateKey, 'hex');
 
     await window.Signal.Data.createOrUpdateIdentityKey({
       id: groupId,
       secretKey: secretKeyHex,
     });
 
-    // Save sender's key
-    await SenderKeyAPI.saveSenderKeys(
-      groupId,
-      envelope.source,
-      senderKey.chainKey,
-      senderKey.keyIdx
+    // Save everyone's ratchet key
+    await Promise.all(
+      senderKeys.map(async senderKey => {
+        // Note that keyIndex is a number and 0 is considered a valid value:
+        if (
+          senderKey.chainKey &&
+          senderKey.keyIndex !== undefined &&
+          senderKey.publicKey
+        ) {
+          const pubKey = StringUtils.decode(senderKey.publicKey, 'hex');
+          const chainKey = StringUtils.decode(senderKey.chainKey, 'hex');
+          const keyIndex = senderKey.keyIndex as number;
+          await SenderKeyAPI.saveSenderKeys(
+            groupId,
+            PubKey.cast(pubKey),
+            chainKey,
+            keyIndex
+          );
+        } else {
+          log.error('Received invalid sender key');
+        }
+      })
     );
 
-    const ownSenderKeyHex = await SenderKeyAPI.createSenderKeyForGroup(
-      groupId,
-      ourIdentity
-    );
-
-    {
-      // Send own key to every member
-      const otherMembers = _.without(members, ourIdentity);
-
-      // We reuse the same message type for sender keys
-      const responseParams = {
-        timestamp: Date.now(),
-        groupId,
-        chainKey: ownSenderKeyHex,
-        keyIdx: 0,
-      };
-
-      const keysResponseMessage = new MediumGroupResponseKeysMessage(
-        responseParams
-      );
-      // send our senderKey to every other member
-      otherMembers.forEach((member: string) => {
-        const memberPubKey = new PubKey(member);
-        getMessageQueue()
-          .sendUsingMultiDevice(memberPubKey, keysResponseMessage)
-          .ignore();
-      });
-    }
-
-    window.SwarmPolling.addGroupId(groupId);
+    window.SwarmPolling.addGroupId(PubKey.cast(groupId));
   }
 
   await removeFromCache(envelope);
@@ -200,7 +197,7 @@ export async function handleMediumGroupUpdate(
     await handleSenderKeyRequest(envelope, groupUpdate);
   } else if (type === Type.SENDER_KEY) {
     await handleSenderKey(envelope, groupUpdate);
-  } else if (type === Type.NEW_GROUP) {
+  } else if (type === Type.NEW) {
     await handleNewGroup(envelope, groupUpdate);
   }
 }

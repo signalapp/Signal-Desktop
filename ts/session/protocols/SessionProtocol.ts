@@ -1,5 +1,4 @@
 import { SessionRequestMessage } from '../messages/outgoing';
-// import { MessageSender } from '../sending';
 import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
 import { MessageSender } from '../sending';
 import { MessageUtils } from '../utils';

@@ -88,7 +88,9 @@ export function removeIndexedDBFiles(): Promise<void>;
 export function getPasswordHash(): Promise<string | null>;
 
 // Identity Keys
-export function createOrUpdateIdentityKey(data: IdentityKey): Promise<void>;
+// TODO: identity key has different shape depending on how it is called,
+// so we need to come up with a way to make TS work with all of them
+export function createOrUpdateIdentityKey(data: any): Promise<void>;
 export function getIdentityKeyById(id: string): Promise<IdentityKey | null>;
 export function bulkAddIdentityKeys(array: Array<IdentityKey>): Promise<void>;
 export function removeIdentityKeyById(id: string): Promise<void>;

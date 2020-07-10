@@ -28,7 +28,6 @@ declare global {
     LokiRssAPI: any;
     LokiSnodeAPI: any;
     MessageController: any;
-    SenderKeyAPI: any;
     Session: any;
     Signal: SignalInterface;
     StringView: any;
@@ -88,5 +87,6 @@ declare global {
     ContactBuffer: any;
     GroupBuffer: any;
     SwarmPolling: SwarmPolling;
+    owsDesktopApp: any;
   }
 }
