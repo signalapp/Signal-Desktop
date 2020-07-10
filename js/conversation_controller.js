@@ -186,6 +186,40 @@
       const uuid = textsecure.storage.user.getUuid();
       return this.getConversationId(e164 || uuid);
     },
+    /**
+     * Given certain metadata about a message (an identifier of who wrote the
+     * message and the sent_at timestamp of the message) returns the
+     * conversation the message belongs to OR null if a conversation isn't
+     * found.
+     * @param {string} targetFrom The E164, UUID, or Conversation ID of the message author
+     * @param {number} targetTimestamp The sent_at timestamp of the target message
+     */
+    async getConversationForTargetMessage(targetFrom, targetTimestamp) {
+      const targetFromId = this.getConversationId(targetFrom);
+
+      const messages = await window.Signal.Data.getMessagesBySentAt(
+        targetTimestamp,
+        {
+          MessageCollection: Whisper.MessageCollection,
+        }
+      );
+      const targetMessage = messages.find(m => {
+        const contact = m.getContact();
+
+        if (!contact) {
+          return false;
+        }
+
+        const mcid = contact.get('id');
+        return mcid === targetFromId;
+      });
+
+      if (targetMessage) {
+        return targetMessage.getConversation();
+      }
+
+      return null;
+    },
     prepareForSend(id, options) {
       // id is any valid conversation identifier
       const conversation = this.get(id);
