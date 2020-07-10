@@ -511,6 +511,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       this.setState({
         loading: false,
       });
+      this.handleToggleOverlay(undefined);
     }
   }
 
