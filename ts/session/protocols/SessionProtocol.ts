@@ -144,7 +144,7 @@ export class SessionProtocol {
     SessionProtocol.pendingSendSessionsTimestamp.add(pubkey.key);
 
     try {
-      const rawMessage = MessageUtils.toRawMessage(pubkey, message);
+      const rawMessage = await MessageUtils.toRawMessage(pubkey, message);
       await MessageSender.send(rawMessage);
       await SessionProtocol.updateSentSessionTimestamp(pubkey.key, timestamp);
     } catch (e) {

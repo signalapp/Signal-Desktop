@@ -325,8 +325,7 @@ OutgoingMessage.prototype = {
     // END_SESSION means Session reset message
     const isEndSession =
       flags === textsecure.protobuf.DataMessage.Flags.END_SESSION;
-    const isSessionRequest =
-      flags === textsecure.protobuf.DataMessage.Flags.SESSION_REQUEST;
+    const isSessionRequest = false;
 
     if (enableFallBackEncryption || isEndSession) {
       // Encrypt them with the fallback

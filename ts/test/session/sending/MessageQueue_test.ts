@@ -83,7 +83,7 @@ describe('MessageQueue', () => {
   });
 
   describe('processPending', () => {
-    it('will send session request message if no session', async () => {
+    it('will send session request if no session and not sending to medium group', async () => {
       hasSessionStub.resolves(false);
       isMediumGroupStub.returns(false);
 
@@ -97,48 +97,33 @@ describe('MessageQueue', () => {
       await expect(stubCallPromise).to.be.fulfilled;
     });
 
-    it('will send message if session exists', async () => {
-      hasSessionStub.resolves(true);
-      isMediumGroupStub.returns(false);
-      sendStub.resolves();
+    it('will not send session request if sending to medium group', async () => {
+      hasSessionStub.resolves(false);
+      isMediumGroupStub.returns(true);
 
       const device = TestUtils.generateFakePubKey();
-      await pendingMessageCache.add(device, TestUtils.generateChatMessage());
-
-      const successPromise = PromiseUtils.waitForTask(done => {
-        messageQueueStub.events.once('success', done);
-      });
-
       await messageQueueStub.processPending(device);
-      await expect(successPromise).to.be.fulfilled;
-      expect(sendSessionRequestIfNeededStub.called).to.equal(
-        false,
-        'Session request triggered when we have a session.'
-      );
+
+      expect(sendSessionRequestIfNeededStub.callCount).to.equal(0);
     });
 
-    it('will send message if sending to medium group', async () => {
-      isMediumGroupStub.returns(true);
-      sendStub.resolves();
+    it('will send messages', async () => {
+      for (const hasSession of [true, false]) {
+        hasSessionStub.resolves(hasSession);
 
-      const device = TestUtils.generateFakePubKey();
-      await pendingMessageCache.add(device, TestUtils.generateChatMessage());
+        const device = TestUtils.generateFakePubKey();
+        await pendingMessageCache.add(device, TestUtils.generateChatMessage());
 
-      const successPromise = PromiseUtils.waitForTask(done => {
-        messageQueueStub.events.once('success', done);
-      });
-
-      await messageQueueStub.processPending(device);
-      await expect(successPromise).to.be.fulfilled;
-      expect(sendSessionRequestIfNeededStub.called).to.equal(
-        false,
-        'Session request triggered on medium group'
-      );
+        const successPromise = PromiseUtils.waitForTask(done => {
+          messageQueueStub.events.once('success', done);
+        });
+        await messageQueueStub.processPending(device);
+        await expect(successPromise).to.be.fulfilled;
+      }
     });
 
     it('should remove message from cache', async () => {
       hasSessionStub.resolves(true);
-      isMediumGroupStub.returns(false);
 
       const events = ['success', 'fail'];
       for (const event of events) {
@@ -166,8 +151,6 @@ describe('MessageQueue', () => {
     describe('events', () => {
       it('should send a success event if message was sent', async () => {
         hasSessionStub.resolves(true);
-        isMediumGroupStub.returns(false);
-        sendStub.resolves();
 
         const device = TestUtils.generateFakePubKey();
         const message = TestUtils.generateChatMessage();
@@ -188,7 +171,6 @@ describe('MessageQueue', () => {
 
       it('should send a fail event if something went wrong while sending', async () => {
         hasSessionStub.resolves(true);
-        isMediumGroupStub.returns(false);
         sendStub.throws(new Error('failure'));
 
         const spy = sandbox.spy();

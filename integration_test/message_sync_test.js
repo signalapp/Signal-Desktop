@@ -50,7 +50,7 @@ describe('Message Syncing', function() {
 
     // Linking Alice2 to Alice1
     // alice2 should trigger auto FR with bob1 as it's one of her friend
-    // and alice2 should trigger a SESSION_REQUEST with bob1 as he is in a closed group with her
+    // and alice2 should trigger a FALLBACK_MESSAGE with bob1 as he is in a closed group with her
     await common.linkApp2ToApp(Alice1, Alice2, common.TEST_PUBKEY1);
     await common.timeout(25000);
 
@@ -119,7 +119,7 @@ describe('Message Syncing', function() {
     // once autoFR is auto-accepted, alice2 trigger contact sync
     await common.logsContains(
       bob1Logs,
-      `Received SESSION_REQUEST from source: ${alice2Pubkey}`,
+      `Received FALLBACK_MESSAGE from source: ${alice2Pubkey}`,
       1
     );
     await common.logsContains(

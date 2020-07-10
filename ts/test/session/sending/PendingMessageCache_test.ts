@@ -1,8 +1,10 @@
 import { expect } from 'chai';
+import * as sinon from 'sinon';
 import * as _ from 'lodash';
 import { MessageUtils } from '../../../session/utils';
 import { TestUtils } from '../../../test/test-utils';
 import { PendingMessageCache } from '../../../session/sending/PendingMessageCache';
+import { SessionProtocol } from '../../../session/protocols';
 
 // Equivalent to Data.StorageItem
 interface StorageItem {
@@ -11,6 +13,7 @@ interface StorageItem {
 }
 
 describe('PendingMessageCache', () => {
+  const sandbox = sinon.createSandbox();
   // Initialize new stubbed cache
   let data: StorageItem;
   let pendingMessageCacheStub: PendingMessageCache;
@@ -36,9 +39,12 @@ describe('PendingMessageCache', () => {
     });
 
     pendingMessageCacheStub = new PendingMessageCache();
+
+    sandbox.stub(SessionProtocol, 'hasSession').resolves(true);
   });
 
   afterEach(() => {
+    sandbox.restore();
     TestUtils.restoreStubs();
   });
 
@@ -53,7 +59,7 @@ describe('PendingMessageCache', () => {
   it('can add to cache', async () => {
     const device = TestUtils.generateFakePubKey();
     const message = TestUtils.generateChatMessage();
-    const rawMessage = MessageUtils.toRawMessage(device, message);
+    const rawMessage = await MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
 
@@ -86,7 +92,7 @@ describe('PendingMessageCache', () => {
   it('can remove from cache', async () => {
     const device = TestUtils.generateFakePubKey();
     const message = TestUtils.generateChatMessage();
-    const rawMessage = MessageUtils.toRawMessage(device, message);
+    const rawMessage = await MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
 
@@ -105,7 +111,7 @@ describe('PendingMessageCache', () => {
   it('should only remove messages with different timestamp and device', async () => {
     const device = TestUtils.generateFakePubKey();
     const message = TestUtils.generateChatMessage();
-    const rawMessage = MessageUtils.toRawMessage(device, message);
+    const rawMessage = await MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
     await TestUtils.timeout(5);
@@ -195,7 +201,7 @@ describe('PendingMessageCache', () => {
   it('can find nothing when empty', async () => {
     const device = TestUtils.generateFakePubKey();
     const message = TestUtils.generateChatMessage();
-    const rawMessage = MessageUtils.toRawMessage(device, message);
+    const rawMessage = await MessageUtils.toRawMessage(device, message);
 
     const foundMessage = pendingMessageCacheStub.find(rawMessage);
     expect(foundMessage, 'a message was found in empty cache').to.be.undefined;
@@ -204,7 +210,7 @@ describe('PendingMessageCache', () => {
   it('can find message in cache', async () => {
     const device = TestUtils.generateFakePubKey();
     const message = TestUtils.generateChatMessage();
-    const rawMessage = MessageUtils.toRawMessage(device, message);
+    const rawMessage = await MessageUtils.toRawMessage(device, message);
 
     await pendingMessageCacheStub.add(device, message);
 

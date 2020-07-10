@@ -41,7 +41,7 @@ export class PendingMessageCache {
     message: ContentMessage
   ): Promise<RawMessage> {
     await this.loadFromDBIfNeeded();
-    const rawMessage = MessageUtils.toRawMessage(device, message);
+    const rawMessage = await MessageUtils.toRawMessage(device, message);
 
     // Does it exist in cache already?
     if (this.find(rawMessage)) {
