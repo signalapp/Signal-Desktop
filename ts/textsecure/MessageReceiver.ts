@@ -1058,6 +1058,7 @@ class MessageReceiverInner extends EventTarget {
   ) {
     const {
       destination,
+      destinationUuid,
       timestamp,
       message: msg,
       expirationStartTimestamp,
@@ -1083,12 +1084,13 @@ class MessageReceiverInner extends EventTarget {
       msg.flags &&
       msg.flags & window.textsecure.protobuf.DataMessage.Flags.END_SESSION
     ) {
-      if (!destination) {
+      const identifier = destination || destinationUuid;
+      if (!identifier) {
         throw new Error(
           'MessageReceiver.handleSentMessage: Cannot end session with falsey destination'
         );
       }
-      p = this.handleEndSession(destination);
+      p = this.handleEndSession(identifier);
     }
     return p.then(async () =>
       this.processDecrypted(envelope, msg).then(message => {
@@ -1120,6 +1122,7 @@ class MessageReceiverInner extends EventTarget {
         ev.confirm = this.removeFromCache.bind(this, envelope);
         ev.data = {
           destination,
+          destinationUuid,
           timestamp: timestamp.toNumber(),
           serverTimestamp: envelope.serverTimestamp,
           device: envelope.sourceDevice,
@@ -1303,7 +1306,8 @@ class MessageReceiverInner extends EventTarget {
         ev.timestamp = envelope.timestamp.toNumber();
         ev.read = {
           timestamp: receiptMessage.timestamp[i].toNumber(),
-          reader: envelope.source || envelope.sourceUuid,
+          source: envelope.source,
+          sourceUuid: envelope.sourceUuid,
         };
         results.push(this.dispatchAndWait(ev));
       }

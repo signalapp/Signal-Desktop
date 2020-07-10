@@ -17,7 +17,7 @@ import {
   ManifestRecordClass,
   StorageItemClass,
 } from '../textsecure.d';
-import { ConversationType } from '../window.d';
+import { ConversationModelType } from '../model-types.d';
 
 function fromRecordVerified(verified: number): number {
   const VERIFIED_ENUM = window.textsecure.storage.protocol.VerifiedStatus;
@@ -35,6 +35,11 @@ function fromRecordVerified(verified: number): number {
 
 async function fetchManifest(manifestVersion: string) {
   window.log.info('storageService.fetchManifest');
+
+  if (!window.textsecure.messaging) {
+    throw new Error('fetchManifest: We are offline!');
+  }
+
   try {
     const credentials = await window.textsecure.messaging.getStorageCredentials();
     window.storage.put('storageCredentials', credentials);
@@ -286,6 +291,10 @@ async function processManifest(
   const storageKeyBase64 = window.storage.get('storageKey');
   const storageKey = base64ToArrayBuffer(storageKeyBase64);
 
+  if (!window.textsecure.messaging) {
+    throw new Error('processManifest: We are offline!');
+  }
+
   const remoteKeysTypeMap = new Map();
   manifest.keys.forEach(key => {
     remoteKeysTypeMap.set(
@@ -296,7 +305,7 @@ async function processManifest(
 
   const localKeys = window
     .getConversations()
-    .map((conversation: ConversationType) => conversation.get('storageID'))
+    .map((conversation: ConversationModelType) => conversation.get('storageID'))
     .filter(Boolean);
   window.log.info(
     `storageService.processManifest localKeys.length ${localKeys.length}`

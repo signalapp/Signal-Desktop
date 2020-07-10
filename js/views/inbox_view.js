@@ -84,6 +84,13 @@
         model: { window: options.window },
       });
 
+      Whisper.events.on('refreshConversation', ({ oldId, newId }) => {
+        const convo = this.conversation_stack.lastConversation;
+        if (convo && convo.get('id') === oldId) {
+          this.conversation_stack.open(newId);
+        }
+      });
+
       if (!options.initialLoadComplete) {
         this.appLoadingScreen = new Whisper.AppLoadingScreen();
         this.appLoadingScreen.render();

@@ -15,15 +15,8 @@ let scheduleNext = null;
 //   do not support unidentified delivery.
 function refreshOurProfile() {
   window.log.info('refreshOurProfile');
-  const ourNumber = textsecure.storage.user.getNumber();
-  const ourUuid = textsecure.storage.user.getUuid();
-  const ourId = ConversationController.ensureContactIds({
-    e164: ourNumber,
-    uuid: ourUuid,
-  });
-  const conversation = ConversationController.get(ourId, 'private');
-  conversation.updateUuid(ourUuid);
-  conversation.updateE164(ourNumber);
+  const ourId = ConversationController.getOurConversationId();
+  const conversation = ConversationController.get(ourId);
   conversation.getProfiles();
 }
 

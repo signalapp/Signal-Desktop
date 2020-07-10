@@ -10,6 +10,8 @@ import EventTarget from './textsecure/EventTarget';
 import { ByteBufferClass } from './window.d';
 import { SendOptionsType } from './textsecure/SendMessage';
 import { WebAPIType } from './textsecure/WebAPI';
+import utils from './textsecure/Helpers';
+import SendMessage from './textsecure/SendMessage';
 
 type AttachmentType = any;
 
@@ -79,31 +81,9 @@ export type TextSecureType = {
       attachment: AttachmentPointerClass
     ) => Promise<DownloadAttachmentType>;
   };
-  messaging: {
-    getStorageCredentials: () => Promise<StorageServiceCredentials>;
-    getStorageManifest: (
-      options: StorageServiceCallOptionsType
-    ) => Promise<ArrayBuffer>;
-    getStorageRecords: (
-      data: ArrayBuffer,
-      options: StorageServiceCallOptionsType
-    ) => Promise<ArrayBuffer>;
-    sendStickerPackSync: (
-      operations: Array<{
-        packId: string;
-        packKey: string;
-        installed: boolean;
-      }>,
-      options: Object
-    ) => Promise<void>;
-    sendCallingMessage: (
-      recipientId: string,
-      callingMessage: CallingMessageClass,
-      sendOptions: SendOptionsType
-    ) => Promise<void>;
-    server: WebAPIType;
-  };
+  messaging?: SendMessage;
   protobuf: ProtobufCollectionType;
+  utils: typeof utils;
 
   EventTarget: typeof EventTarget;
   MessageReceiver: typeof MessageReceiver;
@@ -150,6 +130,7 @@ export type StorageProtocolType = StorageType & {
     verifiedStatus: number,
     publicKey: ArrayBuffer
   ) => Promise<boolean>;
+  removeIdentityKey: (identifier: string) => Promise<void>;
   saveIdentityWithAttributes: (
     number: string,
     options: IdentityKeyRecord

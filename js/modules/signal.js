@@ -3,6 +3,9 @@
 const { bindActionCreators } = require('redux');
 const Backbone = require('../../ts/backbone');
 const Crypto = require('../../ts/Crypto');
+const {
+  start: conversationControllerStart,
+} = require('../../ts/ConversationController');
 const Data = require('../../ts/sql/Client').default;
 const Emojis = require('./emojis');
 const EmojiLib = require('../../ts/components/emoji/lib');
@@ -357,6 +360,7 @@ exports.setup = (options = {}) => {
     Backbone,
     Components,
     Crypto,
+    conversationControllerStart,
     Data,
     Emojis,
     EmojiLib,

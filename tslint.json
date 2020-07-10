@@ -12,6 +12,9 @@
     // Preferred by Prettier:
     "arrow-parens": [true, "ban-single-arg-parens"],
 
+    // Breaks when we use .extend() to create a Backbone subclass
+    "no-invalid-this": false,
+
     "import-spacing": false,
     "indent": [true, "spaces", 2],
     "interface-name": [true, "never-prefix"],

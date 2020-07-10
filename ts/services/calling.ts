@@ -16,7 +16,7 @@ import {
   CallDetailsType,
 } from '../state/ducks/calling';
 import { CallingMessageClass, EnvelopeClass } from '../textsecure.d';
-import { ConversationType } from '../window.d';
+import { ConversationModelType } from '../model-types.d';
 import is from '@sindresorhus/is';
 
 export {
@@ -72,7 +72,7 @@ export class CallingClass {
   }
 
   async startOutgoingCall(
-    conversation: ConversationType,
+    conversation: ConversationModelType,
     isVideoCall: boolean
   ) {
     if (!this.uxActions) {
@@ -218,7 +218,14 @@ export class CallingClass {
     message: CallingMessageClass
   ): Promise<boolean> {
     const conversation = window.ConversationController.get(remoteUserId);
-    const sendOptions = conversation ? conversation.getSendOptions() : {};
+    const sendOptions = conversation
+      ? conversation.getSendOptions()
+      : undefined;
+
+    if (!window.textsecure.messaging) {
+      window.log.warn('handleOutgoingSignaling() returning false; offline');
+      return false;
+    }
 
     try {
       await window.textsecure.messaging.sendCallingMessage(
@@ -292,7 +299,7 @@ export class CallingClass {
     this.addCallHistoryForAutoEndedIncomingCall(conversation, reason);
   }
 
-  private attachToCall(conversation: ConversationType, call: Call): void {
+  private attachToCall(conversation: ConversationModelType, call: Call): void {
     const { uxActions } = this;
     if (!uxActions) {
       return;
@@ -340,7 +347,7 @@ export class CallingClass {
   }
 
   private getRemoteUserIdFromConversation(
-    conversation: ConversationType
+    conversation: ConversationModelType
   ): UserId | undefined {
     const recipients = conversation.getRecipients();
     if (recipients.length !== 1) {
@@ -366,8 +373,12 @@ export class CallingClass {
   }
 
   private async getCallSettings(
-    conversation: ConversationType
+    conversation: ConversationModelType
   ): Promise<CallSettings> {
+    if (!window.textsecure.messaging) {
+      throw new Error('getCallSettings: offline!');
+    }
+
     const iceServerJson = await window.textsecure.messaging.server.getIceServers();
 
     const shouldRelayCalls = Boolean(await window.getAlwaysRelayCalls());
@@ -382,7 +393,7 @@ export class CallingClass {
   }
 
   private getUxCallDetails(
-    conversation: ConversationType,
+    conversation: ConversationModelType,
     call: Call
   ): CallDetailsType {
     return {
@@ -398,7 +409,7 @@ export class CallingClass {
   }
 
   private addCallHistoryForEndedCall(
-    conversation: ConversationType,
+    conversation: ConversationModelType,
     call: Call,
     acceptedTime: number | undefined
   ) {
@@ -429,7 +440,7 @@ export class CallingClass {
   }
 
   private addCallHistoryForFailedIncomingCall(
-    conversation: ConversationType,
+    conversation: ConversationModelType,
     call: Call
   ) {
     const callHistoryDetails: CallHistoryDetailsType = {
@@ -444,7 +455,7 @@ export class CallingClass {
   }
 
   private addCallHistoryForAutoEndedIncomingCall(
-    conversation: ConversationType,
+    conversation: ConversationModelType,
     _reason: CallEndedReason
   ) {
     const callHistoryDetails: CallHistoryDetailsType = {

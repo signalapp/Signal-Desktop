@@ -696,6 +696,7 @@ export default class AccountManager extends EventTarget {
     const conversationId = window.ConversationController.ensureContactIds({
       e164: number,
       uuid,
+      highTrust: true,
     });
     if (!conversationId) {
       throw new Error('registrationDone: no conversationId!');

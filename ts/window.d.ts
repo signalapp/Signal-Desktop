@@ -1,6 +1,14 @@
 // Captures the globals put in place by preload.js, background.js and others
 
+import * as Backbone from 'backbone';
+import * as Underscore from 'underscore';
 import { Ref } from 'react';
+import {
+  ConversationModelCollectionType,
+  ConversationModelType,
+  MessageModelCollectionType,
+  MessageModelType,
+} from './model-types.d';
 import {
   LibSignalType,
   SignalProtocolAddressClass,
@@ -11,6 +19,7 @@ import { WebAPIConnectType } from './textsecure/WebAPI';
 import { CallingClass, CallHistoryDetailsType } from './services/calling';
 import * as Crypto from './Crypto';
 import { ColorType, LocalizerType } from './types/Util';
+import { ConversationController } from './ConversationController';
 import { SendOptionsType } from './textsecure/SendMessage';
 import Data from './sql/Client';
 
@@ -19,18 +28,22 @@ type TaskResultType = any;
 declare global {
   interface Window {
     dcodeIO: DCodeIOType;
-    getConversations: () => ConversationControllerType;
-    getExpiration: () => string;
-    getEnvironment: () => string;
-    getSocketStatus: () => number;
     getAlwaysRelayCalls: () => Promise<boolean>;
-    getIncomingCallNotification: () => Promise<boolean>;
     getCallRingtoneNotification: () => Promise<boolean>;
     getCallSystemNotification: () => Promise<boolean>;
-    getMediaPermissions: () => Promise<boolean>;
+    getConversations: () => ConversationModelCollectionType;
+    getEnvironment: () => string;
+    getExpiration: () => string;
+    getGuid: () => string;
+    getInboxCollection: () => ConversationModelCollectionType;
+    getIncomingCallNotification: () => Promise<boolean>;
     getMediaCameraPermissions: () => Promise<boolean>;
+    getMediaPermissions: () => Promise<boolean>;
+    getSocketStatus: () => number;
+    getTitle: () => string;
     showCallingPermissionsPopup: (forCamera: boolean) => Promise<void>;
     i18n: LocalizerType;
+    isValidGuid: (maybeGuid: string) => boolean;
     libphonenumber: {
       util: {
         getRegionCodeForNumber: (number: string) => string;
@@ -46,6 +59,7 @@ declare global {
     platform: string;
     restart: () => void;
     showWindow: () => void;
+    setBadgeCount: (count: number) => void;
     storage: {
       put: (key: string, value: any) => void;
       remove: (key: string) => void;
@@ -55,7 +69,9 @@ declare global {
       removeBlockedNumber: (number: string) => void;
     };
     textsecure: TextSecureType;
+    updateTrayIcon: (count: number) => void;
 
+    Backbone: typeof Backbone;
     Signal: {
       Crypto: typeof Crypto;
       Data: typeof Data;
@@ -69,7 +85,7 @@ declare global {
         calling: CallingClass;
       };
     };
-    ConversationController: ConversationControllerType;
+    ConversationController: ConversationController;
     WebAPI: WebAPIConnectType;
     Whisper: WhisperType;
 
@@ -81,68 +97,6 @@ declare global {
     cause?: Event;
   }
 }
-
-export type ConversationAttributes = {
-  e164?: string | null;
-  isArchived?: boolean;
-  profileFamilyName?: string | null;
-  profileKey?: string | null;
-  profileName?: string | null;
-  profileSharing?: boolean;
-  name?: string;
-  storageID?: string;
-  uuid?: string | null;
-  verified?: number;
-};
-
-export type ConversationType = {
-  attributes: ConversationAttributes;
-  fromRecordVerified: (
-    verified: ContactRecordIdentityState
-  ) => ContactRecordIdentityState;
-  set: (props: Partial<ConversationAttributes>) => void;
-  updateE164: (e164?: string) => void;
-  updateUuid: (uuid?: string) => void;
-  id: string;
-  get: (key: string) => any;
-  getAvatarPath(): string | undefined;
-  getColor(): ColorType | undefined;
-  getName(): string | undefined;
-  getNumber(): string;
-  getProfiles(): Promise<Array<Promise<void>>>;
-  getProfileName(): string | undefined;
-  getRecipients: () => Array<string>;
-  getSendOptions(): SendOptionsType;
-  getTitle(): string;
-  isVerified(): boolean;
-  safeGetVerified(): Promise<number>;
-  getIsAddedByContact(): boolean;
-  addCallHistory(details: CallHistoryDetailsType): void;
-  toggleVerified(): Promise<TaskResultType>;
-};
-
-export type ConversationControllerType = {
-  getOrCreateAndWait: (
-    identifier: string,
-    type: 'private' | 'group'
-  ) => Promise<ConversationType>;
-  getOrCreate: (
-    identifier: string,
-    type: 'private' | 'group'
-  ) => ConversationType;
-  getConversationId: (identifier: string) => string | null;
-  ensureContactIds: (o: { e164?: string; uuid?: string }) => string;
-  getOurConversationId: () => string | null;
-  prepareForSend: (
-    id: string,
-    options: Object
-  ) => {
-    wrap: (promise: Promise<any>) => Promise<void>;
-    sendOptions: Object;
-  };
-  get: (identifier: string) => null | ConversationType;
-  map: (mapFn: (conversation: ConversationType) => any) => any;
-};
 
 export type DCodeIOType = {
   ByteBuffer: typeof ByteBufferClass;
@@ -212,7 +166,7 @@ export type LoggerType = (...args: Array<any>) => void;
 
 export type WhisperType = {
   events: {
-    trigger: (name: string, param1: any, param2: any) => void;
+    trigger: (name: string, param1: any, param2?: any) => void;
   };
   Database: {
     open: () => Promise<IDBDatabase>;
@@ -222,4 +176,8 @@ export type WhisperType = {
       reject: Function
     ) => void;
   };
+  ConversationCollection: typeof ConversationModelCollectionType;
+  Conversation: typeof ConversationModelType;
+  MessageCollection: typeof MessageModelCollectionType;
+  Message: typeof MessageModelType;
 };
