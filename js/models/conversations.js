@@ -65,10 +65,13 @@
 
     idForLogging() {
       if (this.isPrivate()) {
-        return this.id;
+        const uuid = this.get('uuid');
+        const e164 = this.get('e164');
+        return `${uuid || e164} (${this.id})`;
       }
 
-      return `group(${this.id})`;
+      const groupId = this.get('groupId');
+      return `group(${groupId})`;
     },
 
     handleMessageError(message, errors) {
