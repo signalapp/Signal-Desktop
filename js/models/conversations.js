@@ -2320,9 +2320,9 @@
 
     getTitle() {
       if (this.isPrivate()) {
-        return this.get('name') || this.getNumber();
+        return this.get('name') || this.getNumber() || i18n('unknownContact');
       }
-      return this.get('name') || 'Unknown group';
+      return this.get('name') || i18n('unknownGroup');
     },
 
     getProfileName() {
