@@ -276,7 +276,7 @@ export class SessionProtocol {
   }
 
   /**
-   * timestamp undefined to remove the key/value pair, otherwise updates the processed timestamp and writes to DB
+   * Timestamp undefined to remove the `key`/`value` pair, otherwise updates the processed timestamp and writes to database
    */
   private static async updateProcessedSessionTimestamp(
     device: string,
