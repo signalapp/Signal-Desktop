@@ -1,7 +1,9 @@
 import * as Backbone from 'backbone';
+
 import { ColorType, LocalizerType } from './types/Util';
-import { SendOptionsType } from './textsecure/SendMessage';
 import { ConversationType } from './state/ducks/conversations';
+import { CallingClass, CallHistoryDetailsType } from './services/calling';
+import { SendOptionsType } from './textsecure/SendMessage';
 import { SyncMessageClass } from './textsecure.d';
 
 interface ModelAttributesInterface {
@@ -74,6 +76,7 @@ declare class ConversationModelType extends Backbone.Model<
   cachedProps: ConversationType;
   initialPromise: Promise<any>;
 
+  addCallHistory(details: CallHistoryDetailsType): void;
   applyMessageRequestResponse(
     response: number,
     options?: { fromSync: boolean }

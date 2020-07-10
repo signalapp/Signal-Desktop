@@ -925,7 +925,7 @@ export default class MessageSender {
   async sendCallingMessage(
     recipientId: string,
     callingMessage: CallingMessageClass,
-    sendOptions: SendOptionsType
+    sendOptions?: SendOptionsType
   ) {
     const recipients = [recipientId];
     const finalTimestamp = Date.now();
@@ -1001,7 +1001,11 @@ export default class MessageSender {
     );
   }
   async syncReadMessages(
-    reads: Array<{ sender: string; timestamp: number }>,
+    reads: Array<{
+      senderUuid?: string;
+      senderE164?: string;
+      timestamp: number;
+    }>,
     options?: SendOptionsType
   ) {
     const myNumber = window.textsecure.storage.user.getNumber();
@@ -1013,7 +1017,8 @@ export default class MessageSender {
       for (let i = 0; i < reads.length; i += 1) {
         const read = new window.textsecure.protobuf.SyncMessage.Read();
         read.timestamp = reads[i].timestamp;
-        read.sender = reads[i].sender;
+        read.sender = reads[i].senderE164;
+        read.senderUuid = reads[i].senderUuid;
 
         syncMessage.read.push(read);
       }
@@ -1352,20 +1357,20 @@ export default class MessageSender {
     proto.flags = window.textsecure.protobuf.DataMessage.Flags.END_SESSION;
     proto.timestamp = timestamp;
 
-    const identifier = e164 || uuid;
+    const identifier = uuid || e164;
 
     const logError = (prefix: string) => (error: Error) => {
       window.log.error(prefix, error && error.stack ? error.stack : error);
       throw error;
     };
-    const deleteAllSessions = async (targetNumber: string) =>
+    const deleteAllSessions = async (targetIdentifier: string) =>
       window.textsecure.storage.protocol
-        .getDeviceIds(targetNumber)
+        .getDeviceIds(targetIdentifier)
         .then(async deviceIds =>
           Promise.all(
             deviceIds.map(async deviceId => {
               const address = new window.libsignal.SignalProtocolAddress(
-                targetNumber,
+                targetIdentifier,
                 deviceId
               );
               window.log.info('deleting sessions for', address.toString());
@@ -1401,7 +1406,7 @@ export default class MessageSender {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     // We already sent the reset session to our other devices in the code above!
-    if (e164 === myNumber || uuid === myUuid) {
+    if ((e164 && e164 === myNumber) || (uuid && uuid === myUuid)) {
       return sendToContactPromise;
     }
 

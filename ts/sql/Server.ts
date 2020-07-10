@@ -131,6 +131,7 @@ const dataInterface: ServerInterface = {
   getOlderMessagesByConversation,
   getNewerMessagesByConversation,
   getMessageMetricsForConversation,
+  migrateConversationMessages,
 
   getUnprocessedCount,
   getAllUnprocessed,
@@ -2796,6 +2797,25 @@ async function getMessageMetricsForConversation(conversationId: string) {
   };
 }
 getMessageMetricsForConversation.needsSerial = true;
+
+async function migrateConversationMessages(
+  obsoleteId: string,
+  currentId: string
+) {
+  const db = getInstance();
+
+  await db.run(
+    `UPDATE messages SET
+      conversationId = $currentId,
+      json = json_set(json, '$.conversationId', $currentId)
+     WHERE conversationId = $obsoleteId;`,
+    {
+      $obsoleteId: obsoleteId,
+      $currentId: currentId,
+    }
+  );
+}
+migrateConversationMessages.needsSerial = true;
 
 async function getMessagesBySentAt(sentAt: number) {
   const db = getInstance();

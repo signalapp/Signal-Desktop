@@ -15,7 +15,7 @@
     forConversation(conversation) {
       if (conversation.get('e164')) {
         const syncByE164 = this.findWhere({
-          e164: conversation.get('e164'),
+          threadE164: conversation.get('e164'),
         });
         if (syncByE164) {
           window.log.info(
@@ -30,7 +30,7 @@
 
       if (conversation.get('uuid')) {
         const syncByUuid = this.findWhere({
-          uuid: conversation.get('uuid'),
+          threadUuid: conversation.get('uuid'),
         });
         if (syncByUuid) {
           window.log.info(
@@ -45,7 +45,7 @@
 
       if (conversation.get('groupId')) {
         const syncByGroupId = this.findWhere({
-          uuid: conversation.get('groupId'),
+          groupId: conversation.get('groupId'),
         });
         if (syncByGroupId) {
           window.log.info(
@@ -65,12 +65,19 @@
         const threadE164 = sync.get('threadE164');
         const threadUuid = sync.get('threadUuid');
         const groupId = sync.get('groupId');
-        const identifier = threadE164 || threadUuid || groupId;
-        const conversation = ConversationController.get(identifier);
+
+        const conversation = groupId
+          ? ConversationController.get(groupId)
+          : ConversationController.get(
+              ConversationController.ensureContactIds({
+                e164: threadE164,
+                uuid: threadUuid,
+              })
+            );
 
         if (!conversation) {
           window.log(
-            `Received message request response for unknown conversation: ${identifier}`
+            `Received message request response for unknown conversation: ${groupId} ${threadUuid} ${threadE164}`
           );
           return;
         }

@@ -17,10 +17,12 @@ export type StickerPackType = any;
 export type StickerType = any;
 export type UnprocessedType = any;
 
-export type BackboneConversationModelType = any;
-export type BackboneConversationCollectionType = any;
-export type BackboneMessageModelType = any;
-export type BackboneMessageCollectionType = any;
+import {
+  ConversationModelCollectionType,
+  ConversationModelType,
+  MessageModelCollectionType,
+  MessageModelType,
+} from '../model-types.d';
 
 export interface DataInterface {
   close: () => Promise<void>;
@@ -94,6 +96,10 @@ export interface DataInterface {
   getMessageMetricsForConversation: (
     conversationId: string
   ) => Promise<ConverationMetricsType>;
+  migrateConversationMessages: (
+    obsoleteId: string,
+    currentId: string
+  ) => Promise<void>;
 
   getUnprocessedCount: () => Promise<number>;
   getAllUnprocessed: () => Promise<Array<UnprocessedType>>;
@@ -242,33 +248,33 @@ export type ClientInterface = DataInterface & {
   getAllConversations: ({
     ConversationCollection,
   }: {
-    ConversationCollection: BackboneConversationCollectionType;
-  }) => Promise<Array<ConversationType>>;
+    ConversationCollection: typeof ConversationModelCollectionType;
+  }) => Promise<ConversationModelCollectionType>;
   getAllGroupsInvolvingId: (
     id: string,
     {
       ConversationCollection,
     }: {
-      ConversationCollection: BackboneConversationCollectionType;
+      ConversationCollection: typeof ConversationModelCollectionType;
     }
-  ) => Promise<Array<ConversationType>>;
+  ) => Promise<ConversationModelCollectionType>;
   getAllPrivateConversations: ({
     ConversationCollection,
   }: {
-    ConversationCollection: BackboneConversationCollectionType;
-  }) => Promise<Array<ConversationType>>;
+    ConversationCollection: typeof ConversationModelCollectionType;
+  }) => Promise<ConversationModelCollectionType>;
   getConversationById: (
     id: string,
-    { Conversation }: { Conversation: BackboneConversationModelType }
-  ) => Promise<ConversationType>;
+    { Conversation }: { Conversation: typeof ConversationModelType }
+  ) => Promise<ConversationModelType>;
   getExpiredMessages: ({
     MessageCollection,
   }: {
-    MessageCollection: BackboneMessageCollectionType;
-  }) => Promise<Array<MessageType>>;
+    MessageCollection: typeof MessageModelCollectionType;
+  }) => Promise<MessageModelCollectionType>;
   getMessageById: (
     id: string,
-    { Message }: { Message: BackboneMessageModelType }
+    { Message }: { Message: typeof MessageModelType }
   ) => Promise<MessageType | undefined>;
   getMessageBySender: (
     options: {
@@ -277,63 +283,67 @@ export type ClientInterface = DataInterface & {
       sourceDevice: string;
       sent_at: number;
     },
-    { Message }: { Message: BackboneMessageModelType }
-  ) => Promise<Array<MessageType>>;
+    { Message }: { Message: typeof MessageModelType }
+  ) => Promise<MessageModelType | null>;
   getMessagesBySentAt: (
     sentAt: number,
-    { MessageCollection }: { MessageCollection: BackboneMessageCollectionType }
-  ) => Promise<Array<MessageType>>;
+    {
+      MessageCollection,
+    }: { MessageCollection: typeof MessageModelCollectionType }
+  ) => Promise<MessageModelCollectionType>;
   getOlderMessagesByConversation: (
     conversationId: string,
     options: {
       limit?: number;
       receivedAt?: number;
-      MessageCollection: BackboneMessageCollectionType;
+      MessageCollection: typeof MessageModelCollectionType;
     }
-  ) => Promise<Array<MessageTypeUnhydrated>>;
+  ) => Promise<MessageModelCollectionType>;
   getNewerMessagesByConversation: (
     conversationId: string,
     options: {
       limit?: number;
       receivedAt?: number;
-      MessageCollection: BackboneMessageCollectionType;
+      MessageCollection: typeof MessageModelCollectionType;
     }
-  ) => Promise<Array<MessageTypeUnhydrated>>;
+  ) => Promise<MessageModelCollectionType>;
   getNextExpiringMessage: ({
     Message,
   }: {
-    Message: BackboneMessageModelType;
-  }) => Promise<MessageType>;
+    Message: typeof MessageModelType;
+  }) => Promise<MessageModelType | null>;
   getNextTapToViewMessageToAgeOut: ({
     Message,
   }: {
-    Message: BackboneMessageModelType;
-  }) => Promise<MessageType>;
+    Message: typeof MessageModelType;
+  }) => Promise<MessageModelType | null>;
   getOutgoingWithoutExpiresAt: ({
     MessageCollection,
   }: {
-    MessageCollection: BackboneMessageCollectionType;
-  }) => Promise<Array<MessageType>>;
+    MessageCollection: typeof MessageModelCollectionType;
+  }) => Promise<MessageModelCollectionType>;
   getTapToViewMessagesNeedingErase: ({
     MessageCollection,
   }: {
-    MessageCollection: BackboneMessageCollectionType;
-  }) => Promise<Array<MessageType>>;
+    MessageCollection: typeof MessageModelCollectionType;
+  }) => Promise<MessageModelCollectionType>;
   getUnreadByConversation: (
     conversationId: string,
-    { MessageCollection }: { MessageCollection: BackboneMessageCollectionType }
-  ) => Promise<Array<MessageType>>;
+    {
+      MessageCollection,
+    }: { MessageCollection: typeof MessageModelCollectionType }
+  ) => Promise<MessageModelCollectionType>;
   removeConversation: (
     id: string,
-    { Conversation }: { Conversation: BackboneConversationModelType }
+    { Conversation }: { Conversation: typeof ConversationModelType }
   ) => Promise<void>;
   removeMessage: (
     id: string,
-    { Message }: { Message: BackboneMessageModelType }
+    { Message }: { Message: typeof MessageModelType }
   ) => Promise<void>;
   saveMessage: (
     data: MessageType,
-    options: { forceSave?: boolean; Message: BackboneMessageModelType }
+    options: { forceSave?: boolean; Message: typeof MessageModelType }
   ) => Promise<number>;
   updateConversation: (data: ConversationType) => void;
 
@@ -342,15 +352,17 @@ export type ClientInterface = DataInterface & {
   _getAllMessages: ({
     MessageCollection,
   }: {
-    MessageCollection: BackboneMessageCollectionType;
-  }) => Promise<Array<MessageType>>;
+    MessageCollection: typeof MessageModelCollectionType;
+  }) => Promise<MessageModelCollectionType>;
 
   // Client-side only
 
   shutdown: () => Promise<void>;
   removeAllMessagesInConversation: (
     conversationId: string,
-    { MessageCollection }: { MessageCollection: BackboneMessageCollectionType }
+    {
+      MessageCollection,
+    }: { MessageCollection: typeof MessageModelCollectionType }
   ) => Promise<void>;
   removeOtherData: () => Promise<void>;
   cleanupOrphanedAttachments: () => Promise<void>;

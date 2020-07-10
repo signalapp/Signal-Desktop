@@ -6,6 +6,7 @@ import { Agent } from 'https';
 import is from '@sindresorhus/is';
 import { redactPackId } from '../../js/modules/stickers';
 import { getRandomValue } from '../Crypto';
+import MessageSender from './SendMessage';
 
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
@@ -13,7 +14,6 @@ import { v4 as getGuid } from 'uuid';
 import {
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
-  TextSecureType,
 } from '../textsecure.d';
 
 // tslint:disable no-bitwise
@@ -589,9 +589,9 @@ export type WebAPIType = {
   getSenderCertificate: (withUuid?: boolean) => Promise<any>;
   getSticker: (packId: string, stickerId: string) => Promise<any>;
   getStickerPackManifest: (packId: string) => Promise<StickerPackManifestType>;
-  getStorageCredentials: TextSecureType['messaging']['getStorageCredentials'];
-  getStorageManifest: TextSecureType['messaging']['getStorageManifest'];
-  getStorageRecords: TextSecureType['messaging']['getStorageRecords'];
+  getStorageCredentials: MessageSender['getStorageCredentials'];
+  getStorageManifest: MessageSender['getStorageManifest'];
+  getStorageRecords: MessageSender['getStorageRecords'];
   makeProxiedRequest: (
     targetUrl: string,
     options?: ProxiedRequestOptionsType
