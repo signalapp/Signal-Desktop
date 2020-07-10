@@ -15,14 +15,14 @@
  */
 
 /**
- * @license ProtoBuf.js (c) 2013 Daniel Wirtz <dcode@dcode.io>
+ * @license protobuf.js (c) 2013 Daniel Wirtz <dcode@dcode.io>
  * Released under the Apache License, Version 2.0
- * see: https://github.com/dcodeIO/ProtoBuf.js for details
+ * see: https://github.com/dcodeIO/protobuf.js for details
  */
 (function(global, factory) {
 
     /* AMD */ if (typeof define === 'function' && define["amd"])
-        define(["ByteBuffer"], factory);
+        define(["bytebuffer"], factory);
     /* CommonJS */ else if (typeof require === "function" && typeof module === "object" && module && module["exports"])
         module["exports"] = factory(require("bytebuffer"), true);
     /* Global */ else
@@ -57,7 +57,7 @@
      * @const
      * @expose
      */
-    ProtoBuf.VERSION = "4.1.2";
+    ProtoBuf.VERSION = "5.0.1";
 
     /**
      * Wire types.
@@ -725,7 +725,8 @@
                 // "syntax": undefined
             };
             var token,
-                head = true;
+                head = true,
+                weak;
             try {
                 while (token = this.tn.next()) {
                     switch (token) {
@@ -742,11 +743,12 @@
                             if (!head)
                                 throw Error("unexpected 'import'");
                             token = this.tn.peek();
-                            if (token === "public") // ignored
+                            if (token === "public" || (weak = token === "weak")) // token ignored
                                 this.tn.next();
                             token = this._readString();
                             this.tn.skip(";");
-                            topLevel["imports"].push(token);
+                            if (!weak) // import ignored
+                                topLevel["imports"].push(token);
                             break;
                         case 'syntax':
                             if (!head)
@@ -1071,6 +1073,7 @@
                 "enums": [],
                 "messages": [],
                 "options": {},
+                "services": [],
                 "oneofs": {}
                 // "extensions": undefined
             };
@@ -1097,8 +1100,12 @@
                     this._parseMessage(msg);
                 else if (token === "option")
                     this._parseOption(msg);
+                else if (token === "service")
+                    this._parseService(msg);
                 else if (token === "extensions")
-                    this._parseExtensions(msg);
+                    msg["extensions"] = this._parseExtensionRanges();
+                else if (token === "reserved")
+                    this._parseIgnored(); // TODO
                 else if (token === "extend")
                     this._parseExtend(msg);
                 else if (Lang.TYPEREF.test(token)) {
@@ -1111,6 +1118,16 @@
             this.tn.omit(";");
             parent["messages"].push(msg);
             return msg;
+        };
+
+        /**
+         * Parses an ignored statement.
+         * @private
+         */
+        ParserPrototype._parseIgnored = function() {
+            while (this.tn.peek() !== ';')
+                this.tn.next();
+            this.tn.skip(";");
         };
 
         /**
@@ -1275,29 +1292,43 @@
         };
 
         /**
-         * Parses an extensions statement.
-         * @param {!Object} msg Message object
+         * Parses extension / reserved ranges.
+         * @returns {!Array.<!Array.<number>>}
          * @private
          */
-        ParserPrototype._parseExtensions = function(msg) {
-            var token = this.tn.next(),
+        ParserPrototype._parseExtensionRanges = function() {
+            var ranges = [];
+            var token,
+                range,
+                value;
+            do {
                 range = [];
-            if (token === "min")
-                range.push(ProtoBuf.ID_MIN);
-            else if (token === "max")
-                range.push(ProtoBuf.ID_MAX);
-            else
-                range.push(mkNumber(token));
-            this.tn.skip("to");
-            token = this.tn.next();
-            if (token === "min")
-                range.push(ProtoBuf.ID_MIN);
-            else if (token === "max")
-                range.push(ProtoBuf.ID_MAX);
-            else
-                range.push(mkNumber(token));
+                while (true) {
+                    token = this.tn.next();
+                    switch (token) {
+                        case "min":
+                            value = ProtoBuf.ID_MIN;
+                            break;
+                        case "max":
+                            value = ProtoBuf.ID_MAX;
+                            break;
+                        default:
+                            value = mkNumber(token);
+                            break;
+                    }
+                    range.push(value);
+                    if (range.length === 2)
+                        break;
+                    if (this.tn.peek() !== "to") {
+                        range.push(value);
+                        break;
+                    }
+                    this.tn.next();
+                }
+                ranges.push(range);
+            } while (this.tn.omit(","));
             this.tn.skip(";");
-            msg["extensions"] = range;
+            return ranges;
         };
 
         /**
@@ -1765,9 +1796,10 @@
          * @expose
          */
         ElementPrototype.verifyValue = function(value) {
-            var fail = function(val, msg) {
-                throw Error("Illegal value for "+this.toString(true)+" of type "+this.type.name+": "+val+" ("+msg+")");
-            }.bind(this);
+            var self = this;
+            function fail(val, msg) {
+                throw Error("Illegal value for "+self.toString(true)+" of type "+self.type.name+": "+val+" ("+msg+")");
+            }
             switch (this.type) {
                 // Signed 32bit
                 case ProtoBuf.TYPES["int32"]:
@@ -2257,10 +2289,10 @@
 
             /**
              * Extensions range.
-             * @type {!Array.<number>}
+             * @type {!Array.<number>|undefined}
              * @expose
              */
-            this.extensions = [ProtoBuf.ID_MIN, ProtoBuf.ID_MAX];
+            this.extensions = undefined;
 
             /**
              * Runtime message class.
@@ -2373,6 +2405,14 @@
                  * @inner
                  */
                 var MessagePrototype = Message.prototype = Object.create(ProtoBuf.Builder.Message.prototype);
+
+
+                Object.defineProperty(MessagePrototype, '__unknownFields', {
+                    configurable: true,
+                    enumerable: false,
+                    value: null,
+                    writable: true,
+                });
 
                 /**
                  * Adds a value to a repeated field.
@@ -2659,18 +2699,19 @@
                  * @name ProtoBuf.Builder.Message#encodeDelimited
                  * @function
                  * @param {(!ByteBuffer|boolean)=} buffer ByteBuffer to encode to. Will create a new one and flip it if omitted.
+                 * @param {boolean=} noVerify Whether to not verify field values, defaults to `false`
                  * @return {!ByteBuffer} Encoded message as a ByteBuffer
                  * @throws {Error} If the message cannot be encoded or if required fields are missing. The later still
                  *  returns the encoded ByteBuffer in the `encoded` property on the error.
                  * @expose
                  */
-                MessagePrototype.encodeDelimited = function(buffer) {
+                MessagePrototype.encodeDelimited = function(buffer, noVerify) {
                     var isNew = false;
                     if (!buffer)
                         buffer = new ByteBuffer(),
                         isNew = true;
                     var enc = new ByteBuffer().LE();
-                    T.encode(this, enc).flip();
+                    T.encode(this, enc, noVerify).flip();
                     buffer.writeVarint32(enc.remaining());
                     buffer.append(enc);
                     return isNew ? buffer.flip() : buffer;
@@ -2817,7 +2858,7 @@
                         return binaryAsBase64 ? obj.toBase64() : obj.toBuffer();
                     // Convert Longs to proper objects or strings
                     if (ProtoBuf.Long.isLong(obj))
-                        return longsAsStrings ? obj.toString() : new ProtoBuf.Long(obj);
+                        return longsAsStrings ? obj.toString() : ProtoBuf.Long.fromValue(obj);
                     var clone;
                     // Clone arrays
                     if (Array.isArray(obj)) {
@@ -2879,6 +2920,7 @@
                  * @name ProtoBuf.Builder.Message.decode
                  * @function
                  * @param {!ByteBuffer|!ArrayBuffer|!Buffer|string} buffer Buffer to decode from
+                 * @param {(number|string)=} length Message length. Defaults to decode all the remainig data.
                  * @param {string=} enc Encoding if buffer is a string: hex, utf8 (not recommended), defaults to base64
                  * @return {!ProtoBuf.Builder.Message} Decoded message
                  * @throws {Error} If the message cannot be decoded or if required fields are missing. The later still
@@ -2887,7 +2929,10 @@
                  * @see ProtoBuf.Builder.Message.decode64
                  * @see ProtoBuf.Builder.Message.decodeHex
                  */
-                Message.decode = function(buffer, enc) {
+                Message.decode = function(buffer, length, enc) {
+                    if (typeof length === 'string')
+                        enc = length,
+                        length = -1;
                     if (typeof buffer === 'string')
                         buffer = ByteBuffer.wrap(buffer, enc ? enc : "base64");
                     buffer = ByteBuffer.isByteBuffer(buffer) ? buffer : ByteBuffer.wrap(buffer); // May throw
@@ -3082,6 +3127,9 @@
                 err["encoded"] = buffer; // Still expose what we got
                 throw(err);
             }
+            if (message.__unknownFields) {
+                buffer.append(message.__unknownFields);
+            }
             return buffer;
         };
 
@@ -3148,7 +3196,7 @@
         /**
          * Decodes an encoded message and returns the decoded message.
          * @param {ByteBuffer} buffer ByteBuffer to decode from
-         * @param {number=} length Message length. Defaults to decode all the available data.
+         * @param {number=} length Message length. Defaults to decode all remaining data.
          * @param {number=} expectedGroupEndId Expected GROUPEND id if this is a legacy group
          * @return {ProtoBuf.Builder.Message} Decoded message
          * @throws {Error} If the message cannot be decoded
@@ -3168,8 +3216,16 @@
                         throw Error("Illegal group end indicator for "+this.toString(true)+": "+id+" ("+(expectedGroupEndId ? expectedGroupEndId+" expected" : "not a group")+")");
                     break;
                 }
+                // "messages created by your new code can be parsed by your old code: old binaries simply append the buffer to unknownFields when parsing.
                 if (!(field = this._fieldsById[id])) {
-                    // "messages created by your new code can be parsed by your old code: old binaries simply ignore the new field when parsing."
+                    // Finds the starting offset to slice
+                    let start = buffer.offset;
+                    do {
+                        --start;
+                        buffer.offset = start;
+                    } while (buffer.readVarint32() !== tag);
+
+                    // Skip the piece in the buffer
                     switch (wireType) {
                         case ProtoBuf.WIRE_TYPES.VARINT:
                             buffer.readVarint32();
@@ -3190,6 +3246,14 @@
                         default:
                             throw Error("Illegal wire type for unknown field "+id+" in "+this.toString(true)+"#decode: "+wireType);
                     }
+
+                    // Slice the part of the buffer we can't parse and add it to unknownFields
+                    const unknownFields = msg.__unknownFields ? msg.__unknownFields : new ByteBuffer(0);
+                    const slicedBuffer = buffer.slice(start, buffer.offset);
+                    msg.__unknownFields = ByteBuffer.concat([
+                        unknownFields,
+                        slicedBuffer
+                    ]);
                     continue;
                 }
                 if (field.repeated && !field.options["packed"]) {
@@ -3398,9 +3462,10 @@
          */
         FieldPrototype.verifyValue = function(value, skipRepeated) {
             skipRepeated = skipRepeated || false;
-            var fail = function(val, msg) {
-                throw Error("Illegal value for "+this.toString(true)+" of type "+this.type.name+": "+val+" ("+msg+")");
-            }.bind(this);
+            var self = this;
+            function fail(val, msg) {
+                throw Error("Illegal value for "+self.toString(true)+" of type "+self.type.name+": "+val+" ("+msg+")");
+            }
             if (value === null) { // NULL values for optional fields
                 if (this.required)
                     fail(typeof value, "required");
@@ -4014,6 +4079,9 @@
                                         callback(err);
                                         return;
                                     }
+                                    // Coalesce to empty string when service response has empty content
+                                    if (res === null)
+                                        res = ''
                                     try { res = method.resolvedResponseType.clazz.decode(res); } catch (notABuffer) {}
                                     if (!res || !(res instanceof method.resolvedResponseType.clazz)) {
                                         callback(Error("Illegal response type received in service method "+ T.name+"#"+method.name));
@@ -4457,13 +4525,12 @@
                                 subObj.push(svc);
                             });
 
-                        // Set extension range
+                        // Set extension ranges
                         if (def["extensions"]) {
-                            obj.extensions = def["extensions"];
-                            if (obj.extensions[0] < ProtoBuf.ID_MIN)
-                                obj.extensions[0] = ProtoBuf.ID_MIN;
-                            if (obj.extensions[1] > ProtoBuf.ID_MAX)
-                                obj.extensions[1] = ProtoBuf.ID_MAX;
+                            if (typeof def["extensions"][0] === 'number') // pre 5.0.1
+                                obj.extensions = [ def["extensions"] ];
+                            else
+                                obj.extensions = def["extensions"];
                         }
 
                         // Create on top of current namespace
@@ -4502,8 +4569,16 @@
                             def["fields"].forEach(function(fld) {
                                 if (obj.getChild(fld['id']|0) !== null)
                                     throw Error("duplicate extended field id in "+obj.name+": "+fld['id']);
-                                if (fld['id'] < obj.extensions[0] || fld['id'] > obj.extensions[1])
-                                    throw Error("illegal extended field id in "+obj.name+": "+fld['id']+" ("+obj.extensions.join(' to ')+" expected)");
+                                // Check if field id is allowed to be extended
+                                if (obj.extensions) {
+                                    var valid = false;
+                                    obj.extensions.forEach(function(range) {
+                                        if (fld["id"] >= range[0] && fld["id"] <= range[1])
+                                            valid = true;
+                                    });
+                                    if (!valid)
+                                        throw Error("illegal extended field id in "+obj.name+": "+fld['id']+" (not within valid ranges)");
+                                }
                                 // Convert extension field names to camel case notation if the override is set
                                 var name = fld["name"];
                                 if (this.options['convertFieldsToCamelCase'])
