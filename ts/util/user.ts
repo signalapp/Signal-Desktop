@@ -10,6 +10,15 @@ export async function getCurrentDevicePubKey(): Promise<string | undefined> {
   return item.value.split('.')[0];
 }
 
+export async function getCurrentPrimaryDevicePubKey(): Promise<string | undefined> {
+  const item = await getItemById('primaryDevicePubKey');
+  if (!item || !item.value) {
+    return undefined;
+  }
+
+  return item.value;
+}
+
 export async function getIdentityKeyPair(): Promise<KeyPair | undefined> {
   const item = await getItemById('identityKey');
 
