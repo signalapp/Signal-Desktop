@@ -66,7 +66,11 @@ describe('MessageEncrypter', () => {
           Stubs.FallBackSessionCipherStub.prototype,
           'encrypt'
         );
-        await MessageEncrypter.encrypt(TestUtils.generateFakePubKey(), data, EncryptionType.Fallback);
+        await MessageEncrypter.encrypt(
+          TestUtils.generateFakePubKey(),
+          data,
+          EncryptionType.Fallback
+        );
         expect(spy.called).to.equal(
           true,
           'FallbackSessionCipher.encrypt should be called.'
@@ -79,7 +83,11 @@ describe('MessageEncrypter', () => {
           Stubs.FallBackSessionCipherStub.prototype,
           'encrypt'
         );
-        await MessageEncrypter.encrypt(TestUtils.generateFakePubKey(), data, EncryptionType.Fallback);
+        await MessageEncrypter.encrypt(
+          TestUtils.generateFakePubKey(),
+          data,
+          EncryptionType.Fallback
+        );
 
         const paddedData = MessageEncrypter.padPlainTextBuffer(data);
         const firstArgument = new Uint8Array(spy.args[0][0]);
@@ -103,7 +111,11 @@ describe('MessageEncrypter', () => {
       it('should call SessionCipher encrypt', async () => {
         const data = crypto.randomBytes(10);
         const spy = sandbox.spy(Stubs.SessionCipherStub.prototype, 'encrypt');
-        await MessageEncrypter.encrypt(TestUtils.generateFakePubKey(), data, EncryptionType.Signal);
+        await MessageEncrypter.encrypt(
+          TestUtils.generateFakePubKey(),
+          data,
+          EncryptionType.Signal
+        );
         expect(spy.called).to.equal(
           true,
           'SessionCipher.encrypt should be called.'
@@ -113,7 +125,11 @@ describe('MessageEncrypter', () => {
       it('should pass the padded message body to encrypt', async () => {
         const data = crypto.randomBytes(10);
         const spy = sandbox.spy(Stubs.SessionCipherStub.prototype, 'encrypt');
-        await MessageEncrypter.encrypt(TestUtils.generateFakePubKey(), data, EncryptionType.Signal);
+        await MessageEncrypter.encrypt(
+          TestUtils.generateFakePubKey(),
+          data,
+          EncryptionType.Signal
+        );
 
         const paddedData = MessageEncrypter.padPlainTextBuffer(data);
         const firstArgument = new Uint8Array(spy.args[0][0]);

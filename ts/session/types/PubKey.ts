@@ -12,9 +12,6 @@ export class PubKey {
    * @param pubkeyString The public key string.
    */
   constructor(pubkeyString: string) {
-
-    console.log('[vince] pubkeyString:', pubkeyString);
-
     if (!PubKey.validate(pubkeyString)) {
       throw new Error(`Invalid pubkey string passed: ${pubkeyString}`);
     }

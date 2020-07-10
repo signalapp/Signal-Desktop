@@ -43,7 +43,8 @@ export async function send(
   const data = wrapEnvelope(envelope);
 
   return pRetry(
-    async () => window.lokiMessageAPI.sendMessage(device.key, data, timestamp, ttl),
+    async () =>
+      window.lokiMessageAPI.sendMessage(device.key, data, timestamp, ttl),
     {
       retries: Math.max(attempts - 1, 0),
       factor: 1,
