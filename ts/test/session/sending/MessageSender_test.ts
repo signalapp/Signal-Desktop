@@ -10,6 +10,7 @@ import { MessageEncrypter } from '../../../session/crypto';
 import { SignalService } from '../../../protobuf';
 import { OpenGroupMessage } from '../../../session/messages/outgoing';
 import { EncryptionType } from '../../../session/types/EncryptionType';
+import { PubKey } from '../../../session/types';
 
 describe('MessageSender', () => {
   const sandbox = sinon.createSandbox();
@@ -40,7 +41,7 @@ describe('MessageSender', () => {
       [string, Uint8Array, number, number],
       Promise<void>
     >;
-    let encryptStub: sinon.SinonStub<[string, Uint8Array, EncryptionType]>;
+    let encryptStub: sinon.SinonStub<[PubKey, Uint8Array, EncryptionType]>;
 
     beforeEach(() => {
       // We can do this because LokiMessageAPI has a module export in it
@@ -63,7 +64,7 @@ describe('MessageSender', () => {
     describe('retry', () => {
       const rawMessage = {
         identifier: '1',
-        device: '0',
+        device: TestUtils.generateFakePubKey().key,
         plainTextBuffer: crypto.randomBytes(10),
         encryption: EncryptionType.Signal,
         timestamp: Date.now(),
@@ -109,7 +110,7 @@ describe('MessageSender', () => {
       });
 
       it('should pass the correct values to lokiMessageAPI', async () => {
-        const device = '0';
+        const device = TestUtils.generateFakePubKey().key;
         const timestamp = Date.now();
         const ttl = 100;
 
@@ -133,12 +134,13 @@ describe('MessageSender', () => {
           SignalService.Envelope.Type.CIPHERTEXT;
 
         // This test assumes the encryption stub returns the plainText passed into it.
+        const device = TestUtils.generateFakePubKey().key;
         const plainTextBuffer = crypto.randomBytes(10);
         const timestamp = Date.now();
 
         await MessageSender.send({
           identifier: '1',
-          device: '0',
+          device,
           plainTextBuffer,
           encryption: EncryptionType.Signal,
           timestamp,
@@ -172,12 +174,13 @@ describe('MessageSender', () => {
             SignalService.Envelope.Type.UNIDENTIFIED_SENDER;
 
           // This test assumes the encryption stub returns the plainText passed into it.
+          const device = TestUtils.generateFakePubKey().key;
           const plainTextBuffer = crypto.randomBytes(10);
           const timestamp = Date.now();
 
           await MessageSender.send({
             identifier: '1',
-            device: '0',
+            device,
             plainTextBuffer,
             encryption: EncryptionType.Signal,
             timestamp,

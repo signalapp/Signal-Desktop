@@ -2,6 +2,7 @@ import { EncryptionType } from '../types/EncryptionType';
 import { SignalService } from '../../protobuf';
 import { UserUtil } from '../../util';
 import { CipherTextObject } from '../../../libtextsecure/libsignal-protocol';
+import { PubKey } from '../types';
 
 /**
  * Add padding to a message buffer
@@ -31,13 +32,13 @@ function getPaddedMessageLength(originalLength: number): number {
 /**
  * Encrypt `plainTextBuffer` with given `encryptionType` for `device`.
  *
- * @param device The device to encrypt for.
+ * @param device The device `PubKey` to encrypt for.
  * @param plainTextBuffer The unpadded plaintext buffer.
  * @param encryptionType The type of encryption.
  * @returns The envelope type and the base64 encoded cipher text
  */
 export async function encrypt(
-  device: string,
+  device: PubKey,
   plainTextBuffer: Uint8Array,
   encryptionType: EncryptionType
 ): Promise<{
@@ -45,7 +46,7 @@ export async function encrypt(
   cipherText: Uint8Array;
 }> {
   const plainText = padPlainTextBuffer(plainTextBuffer);
-  const address = new window.libsignal.SignalProtocolAddress(device, 1);
+  const address = new window.libsignal.SignalProtocolAddress(device.key, 1);
 
   if (encryptionType === EncryptionType.MediumGroup) {
     // TODO: Do medium group stuff here
@@ -68,7 +69,7 @@ export async function encrypt(
 }
 
 async function encryptUsingSealedSender(
-  device: string,
+  device: PubKey,
   innerCipherText: CipherTextObject
 ): Promise<{
   envelopeType: SignalService.Envelope.Type;
@@ -88,7 +89,7 @@ async function encryptUsingSealedSender(
     window.textsecure.storage.protocol
   );
   const cipherTextBuffer = await cipher.encrypt(
-    device,
+    device.key,
     certificate,
     innerCipherText
   );
