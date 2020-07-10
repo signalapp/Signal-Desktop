@@ -88,6 +88,7 @@ export type SetVideoRendererType = {
 
 const ACCEPT_CALL = 'calling/ACCEPT_CALL';
 const CALL_STATE_CHANGE = 'calling/CALL_STATE_CHANGE';
+const CALL_STATE_CHANGE_FULFILLED = 'calling/CALL_STATE_CHANGE_FULFILLED';
 const DECLINE_CALL = 'calling/DECLINE_CALL';
 const HANG_UP = 'calling/HANG_UP';
 const INCOMING_CALL = 'calling/INCOMING_CALL';
@@ -104,6 +105,11 @@ type AcceptCallActionType = {
 
 type CallStateChangeActionType = {
   type: 'calling/CALL_STATE_CHANGE';
+  payload: Promise<CallStateChangeType>;
+};
+
+type CallStateChangeFulfilledActionType = {
+  type: 'calling/CALL_STATE_CHANGE_FULFILLED';
   payload: CallStateChangeType;
 };
 
@@ -150,6 +156,7 @@ type SetLocalVideoFulfilledActionType = {
 export type CallingActionType =
   | AcceptCallActionType
   | CallStateChangeActionType
+  | CallStateChangeFulfilledActionType
   | DeclineCallActionType
   | HangUpActionType
   | IncomingCallActionType
@@ -182,13 +189,20 @@ function acceptCall(
 function callStateChange(
   payload: CallStateChangeType
 ): CallStateChangeActionType {
+  return {
+    type: CALL_STATE_CHANGE,
+    payload: doCallStateChange(payload),
+  };
+}
+
+async function doCallStateChange(
+  payload: CallStateChangeType
+): Promise<CallStateChangeType> {
   const { callDetails, callState } = payload;
   const { isIncoming } = callDetails;
   if (callState === CallState.Ringing && isIncoming) {
-    // tslint:disable-next-line no-floating-promises
-    callingTones.playRingtone();
-    // tslint:disable-next-line no-floating-promises
-    showCallNotification(callDetails);
+    await callingTones.playRingtone();
+    await showCallNotification(callDetails);
     bounceAppIconStart();
   }
   if (callState !== CallState.Ringing) {
@@ -199,11 +213,7 @@ function callStateChange(
     // tslint:disable-next-line no-floating-promises
     callingTones.playEndCall();
   }
-
-  return {
-    type: CALL_STATE_CHANGE,
-    payload,
-  };
+  return payload;
 }
 
 async function showCallNotification(callDetails: CallDetailsType) {
@@ -382,7 +392,7 @@ export function reducer(
     };
   }
 
-  if (action.type === CALL_STATE_CHANGE) {
+  if (action.type === CALL_STATE_CHANGE_FULFILLED) {
     if (action.payload.callState === CallState.Ended) {
       return getEmptyState();
     }
