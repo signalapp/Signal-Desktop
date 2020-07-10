@@ -1890,6 +1890,7 @@
 
       const updateParams = {
         // if we do set an identifier here, be sure to not sync the message two times in msg.handleMessageSentSuccess()
+        identifier: messageId,
         timestamp: now,
         groupId: id,
         name: name || this.getName(),
@@ -1901,7 +1902,7 @@
         updateParams
       );
 
-      await this.sendClosedGroupMessageWithSync(groupUpdateMessage, recipients);
+      await this.sendClosedGroupMessage(groupUpdateMessage, recipients);
 
       if (groupUpdate.joined && groupUpdate.joined.length) {
         const expireUpdate = {
@@ -2010,13 +2011,13 @@
           quitGroup
         );
 
-        await this.sendClosedGroupMessageWithSync(quitGroupMessage);
+        await this.sendClosedGroupMessage(quitGroupMessage);
 
         this.updateTextInputState();
       }
     },
 
-    async sendClosedGroupMessageWithSync(message, recipients) {
+    async sendClosedGroupMessage(message, recipients) {
       const {
         ClosedGroupMessage,
         ClosedGroupChatMessage,
@@ -2050,16 +2051,6 @@
             .sendUsingMultiDevice(memberPubKey, message);
         });
         await Promise.all(sendPromises);
-
-        // Send the sync message to our devices
-        const syncMessage = new libsession.Messages.Outgoing.SentSyncMessage({
-          timestamp: Date.now(),
-          identifier: message.identifier,
-          destination: message.groupId,
-          dataMessage: message.dataProto(),
-        });
-
-        await libsession.getMessageQueue().sendSyncMessage(syncMessage);
       } catch (e) {
         window.log.error(e);
       }
