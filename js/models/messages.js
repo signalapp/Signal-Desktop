@@ -1087,6 +1087,9 @@
         }
 
         const { body, attachments, preview, quote } = await this.uploadData();
+        const ourNumber = window.storage.get('primaryDevicePubKey');
+        const ourConversation = window.ConversationController.get(ourNumber);
+        const lokiProfile = ourConversation.getOurProfile();
 
         const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
           identifier: this.id,
@@ -1096,7 +1099,7 @@
           attachments,
           preview,
           quote,
-          lokiProfile: this.conversation.getOurProfile(),
+          lokiProfile,
         });
 
         // Special-case the self-send case - we send only a sync message
