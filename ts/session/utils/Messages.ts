@@ -1,7 +1,7 @@
 import { RawMessage } from '../types/RawMessage';
 import {
   ContentMessage,
-  MediumGroupMessage,
+  MediumGroupChatMessage,
   SessionRequestMessage,
 } from '../messages/outgoing';
 import { EncryptionType, PubKey } from '../types';
@@ -16,7 +16,7 @@ export async function toRawMessage(
   const plainTextBuffer = message.plainTextBuffer();
 
   let encryption: EncryptionType;
-  if (message instanceof MediumGroupMessage) {
+  if (message instanceof MediumGroupChatMessage) {
     encryption = EncryptionType.MediumGroup;
   } else if (message instanceof SessionRequestMessage) {
     encryption = EncryptionType.Fallback;

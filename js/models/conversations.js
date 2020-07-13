@@ -1410,14 +1410,7 @@
                 }
               );
 
-              const rawMessage = libsession.Utils.MessageUtils.toRawMessage(
-                destinationPubkey,
-                mediumGroupChatMessage
-              );
-              await libsession.Sending.MessageSender.sendToMediumGroup(
-                rawMessage,
-                this.get('id')
-              );
+              await libsession.getMessageQueue().send(destinationPubkey, mediumGroupChatMessage);
             } else {
               const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
                 {

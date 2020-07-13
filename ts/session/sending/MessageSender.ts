@@ -5,7 +5,6 @@ import { OpenGroupMessage } from '../messages/outgoing';
 import { SignalService } from '../../protobuf';
 import { UserUtil } from '../../util';
 import { MessageEncrypter } from '../crypto';
-import { encryptWithSenderKey } from '../../session/medium_group/ratchet';
 import pRetry from 'p-retry';
 import { PubKey } from '../types';
 
@@ -53,56 +52,6 @@ export async function send(
   );
 }
 
-export async function sendToMediumGroup(
-  message: RawMessage,
-  groupId: string,
-  attempts: number = 3
-): Promise<void> {
-  if (!canSendToSnode()) {
-    throw new Error('lokiMessageAPI is not initialized.');
-  }
-
-  const { plainTextBuffer, timestamp, ttl } = message;
-
-  const ourKey = window.textsecure.storage.user.getNumber();
-
-  const { ciphertext, keyIdx } = await encryptWithSenderKey(
-    plainTextBuffer,
-    groupId,
-    ourKey
-  );
-  const envelopeType = SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT;
-
-  // We should include ciphertext idx in the message
-  const content = SignalService.MediumGroupCiphertext.encode({
-    ciphertext,
-    source: ourKey,
-    keyIdx,
-  }).finish();
-
-  // Encrypt for the group's identity key to hide source and key idx:
-  const {
-    ciphertext: ciphertextOuter,
-    ephemeralKey,
-  } = await window.libloki.crypto.encryptForPubkey(groupId, content);
-
-  const contentOuter = SignalService.MediumGroupContent.encode({
-    ciphertext: ciphertextOuter,
-    ephemeralKey: new Uint8Array(ephemeralKey),
-  }).finish();
-
-  const envelope = await buildEnvelope(envelopeType, timestamp, contentOuter);
-  const data = wrapEnvelope(envelope);
-
-  return pRetry(
-    async () =>
-      window.lokiMessageAPI.sendMessage(groupId, data, timestamp, ttl),
-    {
-      retries: Math.max(attempts - 1, 0),
-      factor: 1,
-    }
-  );
-}
 
 async function buildEnvelope(
   type: SignalService.Envelope.Type,
