@@ -14,7 +14,6 @@ import { onError } from './errors';
 import {
   handleContentMessage,
   innerHandleContentMessage,
-  isBlocked,
   onDeliveryReceipt,
 } from './contentMessage';
 import _ from 'lodash';

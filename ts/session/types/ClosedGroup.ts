@@ -4,6 +4,7 @@
 
 import { PubKey } from '.';
 import { UserUtil } from '../../util';
+import { MultiDeviceProtocol } from '../protocols';
 
 enum ClosedGroupType {
     SMALL,
@@ -44,7 +45,12 @@ class ClosedGroup {
       console.warn(`ClosedGroup create: Cannot create a small group with more than ${window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT} members`);
     }
 
-    const primaryDevice = UserUtil.getCurrentPrimaryDevicePubKey();
+    const user = await UserUtil.getCurrentDevicePubKey();
+    if (!user) {
+        return;
+    }
+
+    const primaryDevice = await MultiDeviceProtocol.getPrimaryDevice(user);
     const allMembers = [primaryDevice, ...members];
 
     // Create Group Identity
