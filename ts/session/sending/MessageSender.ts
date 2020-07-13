@@ -52,7 +52,6 @@ export async function send(
   );
 }
 
-
 async function buildEnvelope(
   type: SignalService.Envelope.Type,
   timestamp: number,

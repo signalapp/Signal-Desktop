@@ -1410,7 +1410,9 @@
                 }
               );
 
-              await libsession.getMessageQueue().send(destinationPubkey, mediumGroupChatMessage);
+              await libsession
+                .getMessageQueue()
+                .send(destinationPubkey, mediumGroupChatMessage);
             } else {
               const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
                 {

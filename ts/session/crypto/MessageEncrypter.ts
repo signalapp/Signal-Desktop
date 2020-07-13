@@ -75,8 +75,7 @@ export async function encryptForMediumGroup(
   device: PubKey,
   plainTextBuffer: Uint8Array
 ): Promise<EncryptResult> {
-
-  const ourKey = await UserUtil.getCurrentDevicePubKey() as string;
+  const ourKey = (await UserUtil.getCurrentDevicePubKey()) as string;
 
   // "Device" does not really make sense for medium groups, but
   // that's where the group pubkey is currently stored
@@ -109,7 +108,6 @@ export async function encryptForMediumGroup(
   const envelopeType = SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT;
 
   return { envelopeType, cipherText: contentOuter };
-
 }
 
 async function encryptUsingSealedSender(
