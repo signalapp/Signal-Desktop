@@ -580,18 +580,6 @@ OutgoingMessage.prototype = {
     this.sendSessionMessage(outgoingObjects);
   },
 
-  removeDeviceIdsForNumber(number, deviceIdsToRemove) {
-    let promise = Promise.resolve();
-    // eslint-disable-next-line no-restricted-syntax, guard-for-in
-    for (const j in deviceIdsToRemove) {
-      promise = promise.then(() => {
-        const encodedNumber = `${number}.${deviceIdsToRemove[j]}`;
-        return textsecure.storage.protocol.removeSession(encodedNumber);
-      });
-    }
-    return promise;
-  },
-
   sendToNumber(number, multiDevice = true) {
     return this.reloadDevicesAndSend(number, multiDevice).catch(error => {
       if (error.message === 'Identity key changed') {

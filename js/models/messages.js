@@ -1200,7 +1200,6 @@
         e =>
           e.number === number &&
           (e.name === 'MessageError' ||
-            e.name === 'OutgoingMessageError' ||
             e.name === 'SendMessageNetworkError' ||
             e.name === 'SignedPreKeyRotationError' ||
             e.name === 'OutgoingIdentityKeyError')
@@ -1547,7 +1546,6 @@
         this.get('errors'),
         e =>
           e.name === 'MessageError' ||
-          e.name === 'OutgoingMessageError' ||
           e.name === 'SendMessageNetworkError' ||
           e.name === 'SignedPreKeyRotationError'
       );
