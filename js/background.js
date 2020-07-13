@@ -700,7 +700,7 @@
         return;
       }
 
-      const nullAvatar = '';
+      const nullAvatar = undefined;
       if (avatar) {
         // would get to download this file on each client in the group
         // and reference the local file
@@ -831,7 +831,7 @@
           recipients: allMembers,
           active: true,
           expireTimer: 0,
-          avatar: '',
+          avatar: undefined,
         },
         confirm: () => {},
       };
