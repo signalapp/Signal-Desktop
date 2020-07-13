@@ -43,6 +43,13 @@ export abstract class ClosedGroupUpdateMessage extends ClosedGroupMessage {
       throw new Error('admins has not the correct type');
     }
 
+    if (
+      params.avatar !== undefined &&
+      !(params.avatar instanceof SignalService.AttachmentPointer)
+    ) {
+      throw new Error('avatar has not the correct type');
+    }
+
     this.name = params.name;
     this.members = params.members;
     this.admins = params.admins;
