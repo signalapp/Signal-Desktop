@@ -1,6 +1,7 @@
 import { ContentMessage } from './ContentMessage';
 import { SignalService } from '../../../../protobuf';
 import { MessageParams } from '../Message';
+import { Constants } from '../../..';
 
 export interface PreKeyBundleType {
   identityKey: Uint8Array;
@@ -17,7 +18,6 @@ interface SessionRequestParams extends MessageParams {
 }
 
 export class SessionRequestMessage extends ContentMessage {
-  public static readonly ttl = 4 * 24 * 60 * 60 * 1000; // 4 days
   private readonly preKeyBundle: PreKeyBundleType;
 
   constructor(params: SessionRequestParams) {
@@ -25,8 +25,12 @@ export class SessionRequestMessage extends ContentMessage {
     this.preKeyBundle = params.preKeyBundle;
   }
 
+  public static getTTL(): number {
+    return Constants.TTL_DEFAULT.SESSION_REQUEST;
+  }
+
   public ttl(): number {
-    return SessionRequestMessage.ttl;
+    return SessionRequestMessage.getTTL();
   }
 
   protected getPreKeyBundleMessage(): SignalService.PreKeyBundleMessage {

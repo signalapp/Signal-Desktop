@@ -124,7 +124,7 @@ describe('SessionProtocol', () => {
       });
 
       // Set the time just before expiry
-      clock.tick(SessionRequestMessage.ttl - 100);
+      clock.tick(SessionRequestMessage.getTTL() - 100);
 
       await SessionProtocol.checkSessionRequestExpiry();
       expect(getItemById.calledWith('sentSessionsTimestamp'));
@@ -140,7 +140,7 @@ describe('SessionProtocol', () => {
       });
 
       // Expire the request
-      clock.tick(SessionRequestMessage.ttl + 100);
+      clock.tick(SessionRequestMessage.getTTL() + 100);
 
       await SessionProtocol.checkSessionRequestExpiry();
       expect(getItemById.calledWith('sentSessionsTimestamp'));
@@ -159,7 +159,7 @@ describe('SessionProtocol', () => {
       sandbox.stub(SessionProtocol, 'sendSessionRequestIfNeeded').resolves();
 
       // Expire the request
-      clock.tick(SessionRequestMessage.ttl + 100);
+      clock.tick(SessionRequestMessage.getTTL() + 100);
 
       await SessionProtocol.checkSessionRequestExpiry();
       expect(getItemById.calledWith('sentSessionsTimestamp'));

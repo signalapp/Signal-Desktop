@@ -1,5 +1,6 @@
 import { Message } from '../Message';
 import { SignalService } from '../../../../protobuf';
+import { Constants } from '../../..';
 
 export abstract class ContentMessage extends Message {
   public plainTextBuffer(): Uint8Array {
@@ -14,7 +15,6 @@ export abstract class ContentMessage extends Message {
    * this value can be used in all child classes
    */
   protected getDefaultTTL(): number {
-    // 1 day default for any other message
-    return 24 * 60 * 60 * 1000;
+    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
   }
 }

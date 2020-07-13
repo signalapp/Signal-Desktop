@@ -10,6 +10,8 @@ import {
 import { UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { PubKey } from '../../../session/types';
+import { Constants } from '../../../session';
+import { NumberUtils } from '../../../session/utils';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -441,10 +443,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         id: 'message-ttl',
         title: window.i18n('messageTTL'),
         description: window.i18n('messageTTLSettingDescription'),
-        // TODO: Revert
-        // TTL set to 2 days for mobile push notification compabability
-        // temporary fix .t 13/07/2020
-        hidden: true,
+        hidden: false,
         type: SessionSettingType.Slider,
         category: SessionSettingCategory.Privacy,
         setFn: undefined,
@@ -455,10 +454,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           step: 6,
           min: 12,
           max: 96,
-          defaultValue: window.msAsUnit(
-            window.CONSTANTS.TTL_DEFAULT_REGULAR_MESSAGE,
-            'hour'
-          ),
+          defaultValue: 24,
           info: (value: number) => `${value} Hours`,
         },
         confirmationDialogParams: undefined,

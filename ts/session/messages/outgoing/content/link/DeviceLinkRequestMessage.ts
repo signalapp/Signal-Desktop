@@ -1,6 +1,7 @@
 import { ContentMessage } from '../ContentMessage';
 import { SignalService } from '../../../../../protobuf';
 import { MessageParams } from '../../Message';
+import { Constants } from '../../../..';
 export interface DeviceLinkMessageParams extends MessageParams {
   primaryDevicePubKey: string;
   secondaryDevicePubKey: string;
@@ -20,7 +21,7 @@ export class DeviceLinkRequestMessage extends ContentMessage {
   }
 
   public ttl(): number {
-    return 2 * 60 * 1000; // 2 minutes for pairing requests
+    return Constants.TTL_DEFAULT.PAIRING_REQUEST;
   }
 
   protected getDataMessage(): SignalService.DataMessage | undefined {
