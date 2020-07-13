@@ -2,6 +2,7 @@ import { PubKey } from '../types';
 import { onGroupReceived } from '../../receiver/receiver';
 import { StringUtils } from '../utils';
 import * as Data from '../../../js/modules/data';
+import _ from 'lodash';
 
 import {
   createSenderKeyForGroup,
@@ -10,6 +11,7 @@ import {
   saveSenderKeysInner,
 } from './senderKeys';
 import { getChainKey } from './ratchet';
+import { MultiDeviceProtocol } from '../protocols';
 
 export {
   createSenderKeyForGroup,
@@ -22,9 +24,16 @@ async function createSenderKeysForMembers(
   groupId: string,
   members: Array<string>
 ): Promise<Array<RatchetState>> {
-  // TODO: generate for secondary devices too
-  return Promise.all(
+  const allDevices = await Promise.all(
     members.map(async pk => {
+      return MultiDeviceProtocol.getAllDevices(pk);
+    })
+  );
+
+  const devicesFlat = _.flatten(allDevices);
+
+  return Promise.all(
+    devicesFlat.map(async pk => {
       return createSenderKeyForGroup(groupId, PubKey.cast(pk));
     })
   );
