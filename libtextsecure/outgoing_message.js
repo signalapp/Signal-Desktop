@@ -15,13 +15,13 @@ const NUM_SEND_CONNECTIONS = 3;
 const getTTLForType = type => {
   switch (type) {
     case 'pairing-request':
-      return window.CONSTANTS.TTL_DEFAULT_PAIRING_REQUEST;
+      return window.libsession.Constants.TTL_DEFAULT.PAIRING_REQUEST;
     case 'device-unpairing':
-      return window.CONSTANTS.TTL_DEFAULT_DEVICE_UNPAIRING;
+      return window.libsession.Constants.TTL_DEFAULT.DEVICE_UNPAIRING;
     case 'onlineBroadcast':
-      return window.CONSTANTS.TTL_DEFAULT_ONLINE_BROADCAST;
+      return window.libsession.Constants.TTL_DEFAULT.ONLINE_BROADCAST;
     default:
-      return window.CONSTANTS.TTL_DEFAULT_REGULAR_MESSAGE;
+      return window.libsession.Constants.TTL_DEFAULT.REGULAR_MESSAGE;
   }
 };
 

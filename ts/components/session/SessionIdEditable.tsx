@@ -29,7 +29,14 @@ export class SessionIdEditable extends React.PureComponent<Props> {
   }
 
   public render() {
-    const { placeholder, editable, text, value, maxLength, isGroup } = this.props;
+    const {
+      placeholder,
+      editable,
+      text,
+      value,
+      maxLength,
+      isGroup,
+    } = this.props;
 
     return (
       <div
@@ -40,7 +47,10 @@ export class SessionIdEditable extends React.PureComponent<Props> {
       >
         <textarea
           className={classNames(
-            isGroup ? 'group-id-editable-textarea' : 'session-id-editable-textarea')}
+            isGroup
+              ? 'group-id-editable-textarea'
+              : 'session-id-editable-textarea'
+          )}
           ref={this.inputRef}
           placeholder={placeholder}
           disabled={!editable}
