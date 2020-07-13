@@ -1350,6 +1350,16 @@ label {
   overflow: hidden;
   user-select: all;
   overflow-y: auto;
+  padding: 0px 5px 20px 5px;
+
+  &.session-id-editable-textarea:placeholder-shown {
+    padding: 20px 5px 0px 5px;
+  }
+
+  &.group-id-editable-textarea {
+    margin-top: 15px;
+    white-space: nowrap;
+  }
 }
 
 input {
@@ -1594,6 +1604,10 @@ input {
   }
 }
 .create-group-name-input {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
   .session-id-editable {
     height: 60px !important;
 

@@ -2409,7 +2409,7 @@
     "message": "Enter your <strong>Session ID</strong> below to link this device to your <strong>Session ID</strong>."
   },
   "enterSessionIDHere": {
-    "message": "Enter your Session ID here"
+    "message": "Enter your Session ID"
   },
   "continueYourSession": {
     "message": "Continue Your Session"
