@@ -75,6 +75,44 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
   }
 };
 
+window.timeAsMs = (value, unit) => {
+  // Converts a time to milliseconds
+  // Valid units: second, minute, hour, day
+  const unitAsSingular = unit.replace(new RegExp('s?$'), '');
+
+  switch (unitAsSingular) {
+    case 'second':
+      return value * 1000;
+    case 'minute':
+      return value * 60 * 1000;
+    case 'hour':
+      return value * 60 * 60 * 1000;
+    case 'day':
+      return value * 24 * 60 * 60 * 1000;
+    default:
+      return value;
+  }
+};
+
+window.msAsUnit = (value, unit) => {
+  // Converts milliseconds to your preferred unit
+  // Valid units: second(s), minute(s), hour(s), day(s)
+  const unitAsSingular = unit.replace(new RegExp('s?$'), '');
+
+  switch (unitAsSingular) {
+    case 'second':
+      return value / 1000;
+    case 'minute':
+      return value / 60 / 1000;
+    case 'hour':
+      return value / 60 / 60 / 1000;
+    case 'day':
+      return value / 24 / 60 / 60 / 1000;
+    default:
+      return value;
+  }
+};
+
 // eslint-disable-next-line func-names
 window.CONSTANTS = new (function() {
   this.MAX_LOGIN_TRIES = 3;
@@ -90,6 +128,12 @@ window.CONSTANTS = new (function() {
   // Number of seconds to turn on notifications after reconnect/start of app
   this.NOTIFICATION_ENABLE_TIMEOUT_SECONDS = 10;
   this.SESSION_ID_LENGTH = 66;
+
+  // TTL Defaults
+  this.TTL_DEFAULT_PAIRING_REQUEST = window.timeAsMs(2, 'minutes');
+  this.TTL_DEFAULT_DEVICE_UNPAIRING = window.timeAsMs(4, 'days');
+  this.TTL_DEFAULT_ONLINE_BROADCAST = window.timeAsMs(1, 'minute');
+  this.TTL_DEFAULT_REGULAR_MESSAGE = window.timeAsMs(2, 'days');
 
   // Loki Name System (LNS)
   this.LNS_DEFAULT_LOOKUP_TIMEOUT = 6000;

@@ -441,7 +441,10 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         id: 'message-ttl',
         title: window.i18n('messageTTL'),
         description: window.i18n('messageTTLSettingDescription'),
-        hidden: false,
+        // TODO: Revert
+        // TTL set to 2 days for mobile push notification compabability
+        // temporary fix .t 13/07/2020
+        hidden: true,
         type: SessionSettingType.Slider,
         category: SessionSettingCategory.Privacy,
         setFn: undefined,
@@ -452,7 +455,10 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           step: 6,
           min: 12,
           max: 96,
-          defaultValue: 24,
+          defaultValue: window.msAsUnit(
+            window.CONSTANTS.TTL_DEFAULT_REGULAR_MESSAGE,
+            'hour'
+          ),
           info: (value: number) => `${value} Hours`,
         },
         confirmationDialogParams: undefined,

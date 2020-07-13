@@ -19,6 +19,7 @@ If you import anything in global.d.ts, the type system won't work correctly.
 declare global {
   interface Window {
     CONSTANTS: any;
+    msAsUnit: any;
     ConversationController: any;
     Events: any;
     Lodash: any;
