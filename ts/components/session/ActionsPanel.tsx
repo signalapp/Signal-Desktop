@@ -42,6 +42,16 @@ export class ActionsPanel extends React.Component<Props, State> {
         this.setState({
           avatarPath: conversation.getAvatarPath(),
         });
+        // When our primary device updates its avatar, we will need for a message sync to know about that.
+        // Once we get the avatar update, we need to refresh this react component.
+        // So we listen to changes on our profile avatar and use the updated avatarPath (done on message received).
+        conversation.on('change', () => {
+          if (conversation.changed?.profileAvatar) {
+            this.setState({
+              avatarPath: conversation.getAvatarPath(),
+            });
+          }
+        });
       }
     );
   }
