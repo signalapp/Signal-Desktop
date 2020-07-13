@@ -1704,7 +1704,17 @@
         const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
           expireUpdate
         );
-
+        // special case when we are the only member of a closed group
+        const ourNumber = textsecure.storage.user.getNumber();
+        const primary = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+          ourNumber
+        );
+        if (
+          this.get('members').length === 1 &&
+          this.get('members')[0] === primary.key
+        ) {
+          return message.sendSyncMessageOnly(expirationTimerMessage);
+        }
         await libsession.getMessageQueue().sendToGroup(expirationTimerMessage);
       }
       return message;
@@ -1890,6 +1900,7 @@
 
       const updateParams = {
         // if we do set an identifier here, be sure to not sync the message two times in msg.handleMessageSentSuccess()
+        identifier: messageId,
         timestamp: now,
         groupId: id,
         name: name || this.getName(),
@@ -1901,7 +1912,11 @@
         updateParams
       );
 
-      await this.sendClosedGroupMessageWithSync(groupUpdateMessage, recipients);
+      await this.sendClosedGroupMessage(
+        groupUpdateMessage,
+        recipients,
+        message
+      );
 
       if (groupUpdate.joined && groupUpdate.joined.length) {
         const expireUpdate = {
@@ -2002,6 +2017,7 @@
 
         // FIXME what about public groups?
         const quitGroup = {
+          identifier: id,
           timestamp: now,
           groupId: this.id,
           // if we do set an identifier here, be sure to not sync it a second time in handleMessageSentSuccess()
@@ -2010,13 +2026,13 @@
           quitGroup
         );
 
-        await this.sendClosedGroupMessageWithSync(quitGroupMessage);
+        await this.sendClosedGroupMessage(quitGroupMessage, undefined, message);
 
         this.updateTextInputState();
       }
     },
 
-    async sendClosedGroupMessageWithSync(message, recipients) {
+    async sendClosedGroupMessage(message, recipients, dbMessage) {
       const {
         ClosedGroupMessage,
         ClosedGroupChatMessage,
@@ -2043,6 +2059,11 @@
         const otherMembers = (members || []).filter(
           member => !primary.isEqual(member)
         );
+        // we are the only member in here
+        if (members.length === 1 && members[0] === primary.key) {
+          dbMessage.sendSyncMessageOnly(message);
+          return;
+        }
         const sendPromises = otherMembers.map(member => {
           const memberPubKey = libsession.Types.PubKey.cast(member);
           return libsession
@@ -2050,16 +2071,6 @@
             .sendUsingMultiDevice(memberPubKey, message);
         });
         await Promise.all(sendPromises);
-
-        // Send the sync message to our devices
-        const syncMessage = new libsession.Messages.Outgoing.SentSyncMessage({
-          timestamp: Date.now(),
-          identifier: message.identifier,
-          destination: message.groupId,
-          dataMessage: message.dataProto(),
-        });
-
-        await libsession.getMessageQueue().sendSyncMessage(syncMessage);
       } catch (e) {
         window.log.error(e);
       }

@@ -1245,7 +1245,7 @@
         );
         const { dataMessage } = contentDecoded;
         if (dataMessage) {
-          this.sendSyncMessage(dataMessage);
+          await this.sendSyncMessage(dataMessage);
         }
       } else if (shouldMarkMessageAsSynced) {
         this.set({ synced: true });
