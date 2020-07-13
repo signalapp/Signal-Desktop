@@ -90,7 +90,6 @@ module.exports = grunt => {
           'libtextsecure/websocket-resources.js',
           'libtextsecure/http-resources.js',
           'libtextsecure/message_receiver.js',
-          'libtextsecure/outgoing_message.js',
           'libtextsecure/sendmessage.js',
           'libtextsecure/sync_request.js',
           'libtextsecure/contacts_parser.js',

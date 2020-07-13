@@ -3,7 +3,7 @@ import { Contact } from './Contact';
 import { IndexableBoolean, IndexablePresence } from './IndexedDB';
 
 export type Message = UserMessage | VerifiedChangeMessage;
-export type UserMessage = IncomingMessage | OutgoingMessage;
+export type UserMessage = IncomingMessage;
 
 export type IncomingMessage = Readonly<
   {
@@ -24,32 +24,6 @@ export type IncomingMessage = Readonly<
   } & SharedMessageProperties &
     MessageSchemaVersion5 &
     MessageSchemaVersion6 &
-    ExpirationTimerUpdate
->;
-
-export type OutgoingMessage = Readonly<
-  {
-    type: 'outgoing';
-
-    // Required
-    attachments: Array<Attachment>;
-    delivered: number;
-    delivered_to: Array<string>;
-    destination: string; // PhoneNumber
-    expirationStartTimestamp: number;
-    id: string;
-    received_at: number;
-    sent: boolean;
-    sent_to: Array<string>; // Array<PhoneNumber>
-
-    // Optional
-    body?: string;
-    expires_at?: number;
-    expireTimer?: number;
-    recipients?: Array<string>; // Array<PhoneNumber>
-    synced: boolean;
-  } & SharedMessageProperties &
-    MessageSchemaVersion5 &
     ExpirationTimerUpdate
 >;
 
@@ -92,7 +66,7 @@ type MessageSchemaVersion6 = Partial<
 >;
 
 export const isUserMessage = (message: Message): message is UserMessage =>
-  message.type === 'incoming' || message.type === 'outgoing';
+  message.type === 'incoming';
 
 export const hasExpiration = (message: Message): boolean => {
   if (!isUserMessage(message)) {
