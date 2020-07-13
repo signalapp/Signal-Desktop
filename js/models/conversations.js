@@ -1704,7 +1704,17 @@
         const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
           expireUpdate
         );
-
+        // special case when we are the only member of a closed group
+        const ourNumber = textsecure.storage.user.getNumber();
+        const primary = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+          ourNumber
+        );
+        if (
+          this.get('members').length === 1 &&
+          this.get('members')[0] === primary.key
+        ) {
+          return message.sendSyncMessageOnly(expirationTimerMessage);
+        }
         await libsession.getMessageQueue().sendToGroup(expirationTimerMessage);
       }
       return message;
@@ -1902,7 +1912,11 @@
         updateParams
       );
 
-      await this.sendClosedGroupMessage(groupUpdateMessage, recipients);
+      await this.sendClosedGroupMessage(
+        groupUpdateMessage,
+        recipients,
+        message
+      );
 
       if (groupUpdate.joined && groupUpdate.joined.length) {
         const expireUpdate = {
@@ -2003,6 +2017,7 @@
 
         // FIXME what about public groups?
         const quitGroup = {
+          identifier: id,
           timestamp: now,
           groupId: this.id,
           // if we do set an identifier here, be sure to not sync it a second time in handleMessageSentSuccess()
@@ -2011,13 +2026,13 @@
           quitGroup
         );
 
-        await this.sendClosedGroupMessage(quitGroupMessage);
+        await this.sendClosedGroupMessage(quitGroupMessage, undefined, message);
 
         this.updateTextInputState();
       }
     },
 
-    async sendClosedGroupMessage(message, recipients) {
+    async sendClosedGroupMessage(message, recipients, dbMessage) {
       const {
         ClosedGroupMessage,
         ClosedGroupChatMessage,
@@ -2044,6 +2059,11 @@
         const otherMembers = (members || []).filter(
           member => !primary.isEqual(member)
         );
+        // we are the only member in here
+        if (members.length === 1 && members[0] === primary.key) {
+          dbMessage.sendSyncMessageOnly(message);
+          return;
+        }
         const sendPromises = otherMembers.map(member => {
           const memberPubKey = libsession.Types.PubKey.cast(member);
           return libsession
