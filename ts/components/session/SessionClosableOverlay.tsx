@@ -74,7 +74,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       overlayMode === SessionClosableOverlayType.ClosedGroup;
     if (isClosedGroupView) {
       filteredContactsList = filteredContactsList.filter(
-        c => c.type === 'direct'
+        c => c.type === 'direct' && !c.isMe
       );
     }
 
