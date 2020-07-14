@@ -11,6 +11,7 @@ import {
 
 import { getIntl, getRegionCode, getUserNumber } from './user';
 import { PropsData as ConversationListItemPropsType } from '../../components/ConversationListItem';
+import { BlockedNumberController } from '../../util';
 
 export const getConversations = (state: StateType): ConversationsStateType =>
   state.conversations;
@@ -117,6 +118,16 @@ export const _getLeftPaneLists = (
       conversation = {
         ...conversation,
         isSelected: true,
+      };
+    }
+    const isBlocked =
+      BlockedNumberController.isBlocked(conversation.primaryDevice) ||
+      BlockedNumberController.isGroupBlocked(conversation.id);
+
+    if (isBlocked) {
+      conversation = {
+        ...conversation,
+        isBlocked: true,
       };
     }
 

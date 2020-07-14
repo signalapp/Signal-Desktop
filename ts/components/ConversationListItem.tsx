@@ -11,7 +11,6 @@ import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
 import { Colors, LocalizerType } from '../types/Util';
-import { SessionButton, SessionButtonColor } from './session/SessionButton';
 
 export type PropsData = {
   id: string;
@@ -181,11 +180,11 @@ export class ConversationListItem extends React.PureComponent<Props> {
         {!isPublic && !isRss && !isMe ? (
           <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
         ) : null}
-        {!isPublic && !isRss && !isMe ? (
+        {/* {!isPublic && !isRss && !isMe ? (
           <MenuItem onClick={onChangeNickname}>
             {i18n('changeNickname')}
           </MenuItem>
-        ) : null}
+        ) : null} */}
         {!isPublic && !isRss && !isMe && hasNickname ? (
           <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
         ) : null}
