@@ -2720,7 +2720,7 @@
         const ourConversation = window.ConversationController.get(ourNumber);
         let profileKey = null;
         if (this.get('profileSharing')) {
-          profileKey = storage.get('profileKey');
+          profileKey = new Uint8Array(storage.get('profileKey'));
         }
         const avatarPointer = ourConversation.get('avatarPointer');
         const { displayName } = ourConversation.getLokiProfile();
