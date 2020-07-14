@@ -458,6 +458,7 @@ MessageSender.prototype = {
     if (myDevice !== 1 && myDevice !== '1') {
       const syncReadMessages = new libsession.Messages.Outgoing.SyncReadMessage(
         {
+          timestamp: Date.now(),
           readMessages: reads,
         }
       );

@@ -1391,10 +1391,11 @@
         pubKey
       );
       await window.lokiFileServerAPI.updateOurDeviceMapping();
-      // TODO: we should ensure the message was sent and retry automatically if not
       const device = new libsession.Types.PubKey(pubKey);
       const unlinkMessage = new libsession.Messages.Outgoing.DeviceUnlinkMessage(
-        pubKey
+        {
+          timestamp: Date.now(),
+        }
       );
 
       await libsession.getMessageQueue().send(device, unlinkMessage);

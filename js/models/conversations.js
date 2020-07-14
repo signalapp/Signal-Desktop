@@ -1382,7 +1382,7 @@
             const groupInvitMessage = new libsession.Messages.Outgoing.GroupInvitationMessage(
               {
                 identifier: id,
-
+                timestamp: Date.now(),
                 serverName: groupInvitation.name,
                 channelId: groupInvitation.channelId,
                 serverAddress: groupInvitation.address,
