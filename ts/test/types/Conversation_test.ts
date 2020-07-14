@@ -1,11 +1,7 @@
 import { assert } from 'chai';
 
 import * as Conversation from '../../types/Conversation';
-import {
-  IncomingMessage,
-  OutgoingMessage,
-  VerifiedChangeMessage,
-} from '../../types/Message';
+import { IncomingMessage, VerifiedChangeMessage } from '../../types/Message';
 
 describe('Conversation', () => {
   describe('createLastMessageUpdate', () => {
@@ -31,7 +27,7 @@ describe('Conversation', () => {
             conversationId: 'foo',
             sent_at: 666,
             timestamp: 666,
-          } as OutgoingMessage,
+          } as any,
           lastMessageNotificationText: 'New outgoing message',
         };
         const expected = {

@@ -6,6 +6,8 @@ import {
   SettingsView,
 } from './session/settings/SessionSettings';
 
+import { createMediumSizeGroup } from '../session/medium_group';
+
 export const MainViewController = {
   createClosedGroup,
   renderMessageView,
@@ -82,7 +84,7 @@ async function createClosedGroup(
   const groupMemberIds = groupMembers.map(m => m.id);
 
   if (senderKeys) {
-    await window.createMediumSizeGroup(groupName, groupMemberIds);
+    await createMediumSizeGroup(groupName, groupMemberIds);
   } else {
     await window.doCreateGroup(groupName, groupMemberIds);
   }

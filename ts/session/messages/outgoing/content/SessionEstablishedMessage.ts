@@ -2,6 +2,7 @@ import { ContentMessage } from './ContentMessage';
 import { SignalService } from '../../../../protobuf';
 import * as crypto from 'crypto';
 import { MessageParams } from '../Message';
+import { Constants } from '../../..';
 
 export class SessionEstablishedMessage extends ContentMessage {
   public readonly padding: Buffer;
@@ -18,7 +19,7 @@ export class SessionEstablishedMessage extends ContentMessage {
     this.padding = crypto.randomBytes(paddingLength);
   }
   public ttl(): number {
-    return 5 * 60 * 1000;
+    return Constants.TTL_DEFAULT.SESSION_ESTABLISHED;
   }
 
   protected contentProto(): SignalService.Content {

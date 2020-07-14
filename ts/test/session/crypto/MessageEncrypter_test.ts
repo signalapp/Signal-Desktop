@@ -7,6 +7,8 @@ import { Stubs, TestUtils } from '../../test-utils';
 import { UserUtil } from '../../../util';
 import { SignalService } from '../../../protobuf';
 
+import * as Ratchet from '../../../session/medium_group/ratchet';
+
 // tslint:disable-next-line: max-func-body-length
 describe('MessageEncrypter', () => {
   const sandbox = sinon.createSandbox();
@@ -33,6 +35,7 @@ describe('MessageEncrypter', () => {
     TestUtils.stubWindow('libloki', {
       crypto: {
         FallBackSessionCipher: Stubs.FallBackSessionCipherStub,
+        encryptForPubkey: sinon.fake.returns(''),
       } as any,
     });
 
@@ -46,15 +49,20 @@ describe('MessageEncrypter', () => {
 
   describe('EncryptionType', () => {
     describe('MediumGroup', () => {
-      it('should throw an error', async () => {
+      it('should return a MEDIUM_GROUP_CIPHERTEXT envelope type', async () => {
         const data = crypto.randomBytes(10);
-        const promise = MessageEncrypter.encrypt(
+
+        sandbox
+          .stub(Ratchet, 'encryptWithSenderKey')
+          .resolves({ ciphertext: '' });
+
+        const result = await MessageEncrypter.encrypt(
           TestUtils.generateFakePubKey(),
           data,
           EncryptionType.MediumGroup
         );
-        await expect(promise).to.be.rejectedWith(
-          'Encryption is not yet supported'
+        expect(result.envelopeType).to.deep.equal(
+          SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT
         );
       });
     });

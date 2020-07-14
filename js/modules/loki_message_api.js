@@ -96,8 +96,9 @@ class LokiMessageAPI {
       // eslint-disable-next-line more/no-then
       snode = await primitives.firstTrue(promises);
     } catch (e) {
+      const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
       log.warn(
-        `loki_message:::sendMessage - ${e.code} ${e.message} to ${pubKey} via ${snode.ip}:${snode.port}`
+        `loki_message:::sendMessage - ${e.code} ${e.message} to ${pubKey} via snode:${snodeStr}`
       );
       if (e instanceof textsecure.WrongDifficultyError) {
         // Force nonce recalculation

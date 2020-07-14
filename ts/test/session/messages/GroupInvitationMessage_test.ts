@@ -3,6 +3,7 @@ import { beforeEach } from 'mocha';
 
 import { GroupInvitationMessage } from '../../../session/messages/outgoing';
 import { SignalService } from '../../../protobuf';
+import { Constants } from '../../../session';
 
 describe('GroupInvitationMessage', () => {
   let message: GroupInvitationMessage;
@@ -38,8 +39,8 @@ describe('GroupInvitationMessage', () => {
     );
   });
 
-  it('ttl of 1 day', () => {
-    expect(message.ttl()).to.equal(24 * 60 * 60 * 1000);
+  it('correct ttl', () => {
+    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.REGULAR_MESSAGE);
   });
 
   it('has an identifier', () => {

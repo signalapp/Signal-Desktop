@@ -379,11 +379,6 @@
       const sessions = allSessions.filter(session => session.number === number);
       return _.pluck(sessions, 'deviceId');
     },
-    async removeSession(encodedNumber) {
-      window.log.info('deleting session for ', encodedNumber);
-      delete this.sessions[encodedNumber];
-      await window.Signal.Data.removeSessionById(encodedNumber);
-    },
     async removeAllSessions(number) {
       if (number === null || number === undefined) {
         throw new Error('Tried to remove sessions for undefined/null number');

@@ -4,6 +4,12 @@ import { MessageParams } from '../../../Message';
 import { PubKey } from '../../../../../types';
 import { StringUtils } from '../../../../../utils';
 
+export interface RatchetKey {
+  chainKey: Uint8Array;
+  keyIdx: number;
+  pubKey: Uint8Array;
+}
+
 export interface MediumGroupMessageParams extends MessageParams {
   groupId: string | PubKey;
 }
@@ -31,6 +37,9 @@ export abstract class MediumGroupMessage extends DataMessage {
   }
 
   protected mediumGroupContext(): SignalService.MediumGroupUpdate {
-    return new SignalService.MediumGroupUpdate({ groupId: this.groupId.key });
+    const groupPublicKey = new Uint8Array(
+      StringUtils.encode(this.groupId.key, 'hex')
+    );
+    return new SignalService.MediumGroupUpdate({ groupPublicKey });
   }
 }

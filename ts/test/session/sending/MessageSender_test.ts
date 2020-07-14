@@ -49,7 +49,6 @@ describe('MessageSender', () => {
         [string, Uint8Array, number, number],
         Promise<void>
       >();
-       
       TestUtils.stubWindow('lokiMessageAPI', {
         sendMessage: lokiMessageAPISendStub,
       });
