@@ -332,10 +332,8 @@ async function handleGroups(
   const promises = [];
   while (groupDetails !== undefined) {
     groupDetails.id = groupDetails.id.toBinary();
-    const ev: any = new Event('group');
-    ev.groupDetails = groupDetails;
 
-    const promise = onGroupReceived(ev).catch((e: any) => {
+    const promise = onGroupReceived(groupDetails).catch((e: any) => {
       window.log.error('error processing group', e);
     });
 

@@ -19,6 +19,7 @@ import { handleSyncMessage } from './syncMessages';
 import { onError } from './errors';
 import ByteBuffer from 'bytebuffer';
 import { BlockedNumberController } from '../util/blockedNumberController';
+import { decryptWithSenderKey } from '../session/medium_group/ratchet';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   const plaintext = await decrypt(envelope, envelope.content);
@@ -54,7 +55,6 @@ async function decryptForMediumGroup(
     ephemeralKey,
   } = SignalService.MediumGroupContent.decode(new Uint8Array(ciphertextObj));
 
-  const ephemKey = ephemeralKey.buffer;
   const secretKey = dcodeIO.ByteBuffer.wrap(
     secretKeyHex,
     'hex'
@@ -62,16 +62,16 @@ async function decryptForMediumGroup(
 
   const mediumGroupCiphertext = await libloki.crypto.decryptForPubkey(
     secretKey,
-    ephemKey,
-    outerCiphertext.buffer
+    ephemeralKey,
+    outerCiphertext
   );
 
   const { ciphertext, keyIdx } = SignalService.MediumGroupCiphertext.decode(
-    mediumGroupCiphertext
+    new Uint8Array(mediumGroupCiphertext)
   );
 
-  const plaintext = await window.SenderKeyAPI.decryptWithSenderKey(
-    ciphertext.buffer,
+  const plaintext = await decryptWithSenderKey(
+    ciphertext,
     keyIdx,
     groupId,
     senderIdentity

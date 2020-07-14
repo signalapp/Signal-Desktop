@@ -1409,14 +1409,10 @@
                   groupId: destination,
                 }
               );
-              await Promise.all(
-                members.map(async m => {
-                  const memberPubKey = new libsession.Types.PubKey(m);
-                  await libsession
-                    .getMessageQueue()
-                    .sendUsingMultiDevice(memberPubKey, mediumGroupChatMessage);
-                })
-              );
+
+              await libsession
+                .getMessageQueue()
+                .send(destinationPubkey, mediumGroupChatMessage);
             } else {
               const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
                 {
@@ -1847,12 +1843,18 @@
         groupUpdate = this.pick(['name', 'avatar', 'members']);
       }
       const now = Date.now();
+
       const message = this.messageCollection.add({
         conversationId: this.id,
         type: 'outgoing',
         sent_at: now,
         received_at: now,
-        group_update: groupUpdate,
+        group_update: _.pick(groupUpdate, [
+          'name',
+          'members',
+          'avatar',
+          'admins',
+        ]),
       });
 
       const messageId = await window.Signal.Data.saveMessage(
@@ -1863,24 +1865,30 @@
       );
       message.set({ id: messageId });
 
+      // TODO: if I added members, it is my responsibility to generate ratchet keys for them
+
       // Difference between `recipients` and `members` is that `recipients` includes the members which were removed in this update
       const { id, name, members, avatar, recipients } = groupUpdate;
 
       if (groupUpdate.is_medium_group) {
-        const { secretKey, senderKey } = groupUpdate;
-        // Constructing a "create group" message
-        const { chainKey, keyIdx } = senderKey;
+        const { secretKey, senderKeys } = groupUpdate;
+
+        const membersBin = members.map(
+          pkHex => new Uint8Array(StringView.hexToArrayBuffer(pkHex))
+        );
+        const adminsBin = this.get('groupAdmins').map(
+          pkHex => new Uint8Array(StringView.hexToArrayBuffer(pkHex))
+        );
 
         const createParams = {
           timestamp: now,
           groupId: id,
           identifier: messageId,
           groupSecretKey: secretKey,
-          members: members.map(pkHex => StringView.hexToArrayBuffer(pkHex)),
+          members: membersBin,
           groupName: name,
-          admins: this.get('groupAdmins'),
-          chainKey,
-          keyIdx,
+          admins: adminsBin,
+          senderKeys,
         };
 
         const mediumGroupCreateMessage = new libsession.Messages.Outgoing.MediumGroupCreateMessage(
@@ -1889,7 +1897,6 @@
 
         members.forEach(async member => {
           const memberPubKey = new libsession.Types.PubKey(member);
-          await ConversationController.getOrCreateAndWait(member, 'private');
           libsession
             .getMessageQueue()
             .sendUsingMultiDevice(memberPubKey, mediumGroupCreateMessage);

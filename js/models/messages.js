@@ -1219,6 +1219,11 @@
         sentMessage.device
       );
 
+      // At this point the only way to check for medium
+      // group is by comparing the encryption type
+      const isMediumGroupMessage =
+        sentMessage.encryption === libsession.Types.EncryptionType.MediumGroup;
+
       const isOpenGroupMessage =
         sentMessage.group &&
         sentMessage.group instanceof libsession.Types.OpenGroup;
@@ -1229,6 +1234,7 @@
       const shouldTriggerSyncMessage =
         !isOurDevice &&
         !isOpenGroupMessage &&
+        !isMediumGroupMessage &&
         !this.get('synced') &&
         !this.get('sentSync');
 
