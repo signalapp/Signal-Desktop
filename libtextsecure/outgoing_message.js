@@ -13,14 +13,14 @@ const NUM_SEND_CONNECTIONS = 3;
 
 const getTTLForType = type => {
   switch (type) {
-    case 'device-unpairing':
-      return 4 * 24 * 60 * 60 * 1000; // 4 days for device unpairing
-    case 'onlineBroadcast':
-      return 60 * 1000; // 1 minute for online broadcast message
     case 'pairing-request':
-      return 2 * 60 * 1000; // 2 minutes for pairing requests
+      return window.libsession.Constants.TTL_DEFAULT.PAIRING_REQUEST;
+    case 'device-unpairing':
+      return window.libsession.Constants.TTL_DEFAULT.DEVICE_UNPAIRING;
+    case 'onlineBroadcast':
+      return window.libsession.Constants.TTL_DEFAULT.ONLINE_BROADCAST;
     default:
-      return 24 * 60 * 60 * 1000; // 1 day default for any other message
+      return window.libsession.Constants.TTL_DEFAULT.REGULAR_MESSAGE;
   }
 };
 

@@ -7,6 +7,7 @@ import {
 } from '../../../session/messages/outgoing';
 import { SignalService } from '../../../protobuf';
 import { toNumber } from 'lodash';
+import { Constants } from '../../../session';
 
 describe('ReceiptMessage', () => {
   let readMessage: ReadReceiptMessage;
@@ -42,9 +43,11 @@ describe('ReceiptMessage', () => {
     expect(decodedTimestamps).to.deep.equal(timestamps);
   });
 
-  it('ttl of 1 day', () => {
-    expect(readMessage.ttl()).to.equal(24 * 60 * 60 * 1000);
-    expect(deliveryMessage.ttl()).to.equal(24 * 60 * 60 * 1000);
+  it('correct ttl', () => {
+    expect(readMessage.ttl()).to.equal(Constants.TTL_DEFAULT.REGULAR_MESSAGE);
+    expect(deliveryMessage.ttl()).to.equal(
+      Constants.TTL_DEFAULT.REGULAR_MESSAGE
+    );
   });
 
   it('has an identifier', () => {

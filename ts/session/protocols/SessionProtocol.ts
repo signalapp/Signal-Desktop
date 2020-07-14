@@ -81,7 +81,7 @@ export class SessionProtocol {
     const now = Date.now();
     const sentTimestamps = Object.entries(this.sentSessionsTimestamp);
     const promises = sentTimestamps.map(async ([device, sent]) => {
-      const expireTime = sent + SessionRequestMessage.ttl;
+      const expireTime = sent + SessionRequestMessage.defaultTTL();
       // Check if we need to send a session request
       if (now < expireTime) {
         return;
