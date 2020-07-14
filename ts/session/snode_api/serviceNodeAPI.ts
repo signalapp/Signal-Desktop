@@ -298,8 +298,6 @@ export async function storeOnNode(
         return false;
       }
 
-      const res = snodeRes as any;
-
       const json = JSON.parse(snodeRes.body);
       // Make sure we aren't doing too much PoW
       const currentDifficulty = window.storage.get('PoWDifficulty', null);
