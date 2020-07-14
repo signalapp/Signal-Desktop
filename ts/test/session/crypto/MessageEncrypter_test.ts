@@ -52,11 +52,10 @@ describe('MessageEncrypter', () => {
       it('should return a MEDIUM_GROUP_CIPHERTEXT envelope type', async () => {
         const data = crypto.randomBytes(10);
 
-        sandbox.replace(
+        sandbox.stub(
           Ratchet,
-          'encryptWithSenderKey',
-          sinon.fake.returns({ ciphertext: '' })
-        );
+          'encryptWithSenderKey'
+        ).resolves({ ciphertext: '' });
 
         const result = await MessageEncrypter.encrypt(
           TestUtils.generateFakePubKey(),
