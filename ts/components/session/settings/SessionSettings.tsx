@@ -10,8 +10,6 @@ import {
 import { UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { PubKey } from '../../../session/types';
-import { Constants } from '../../../session';
-import { NumberUtils } from '../../../session/utils';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -454,10 +452,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           step: 6,
           min: 12,
           max: 96,
-          defaultValue: NumberUtils.msAsUnit(
-            Constants.TTL_DEFAULT.REGULAR_MESSAGE,
-            'hour'
-          ),
+          defaultValue: 24,
           info: (value: number) => `${value} Hours`,
         },
         confirmationDialogParams: undefined,
