@@ -9,11 +9,11 @@ message Envelope {
     UNKNOWN       = 0;
     CIPHERTEXT    = 1;
     KEY_EXCHANGE  = 2;
-    PREKEY_BUNDLE = 3; //Used By Signal. DO NOT TOUCH! we don't use this at all.
+    PREKEY_BUNDLE = 3; //This field is used by Signal. DO NOT TOUCH!.
     RECEIPT       = 5;
     UNIDENTIFIED_SENDER = 6;
     MEDIUM_GROUP_CIPHERTEXT = 7;
-    FALLBACK_MESSAGE = 101; // contains prekeys and is using simple encryption
+    FALLBACK_MESSAGE = 101; // Custom Encryption for when we don't have a session or we need to establish a session
   }
 
   optional Type   type            = 1;
@@ -35,7 +35,7 @@ message Content {
   optional NullMessage    nullMessage    = 4;
   optional ReceiptMessage receiptMessage = 5;
   optional TypingMessage  typingMessage  = 6;
-  optional PreKeyBundleMessage preKeyBundleMessage = 101;
+  optional PreKeyBundleMessage preKeyBundleMessage = 101; // The presence of this indicated that we want to establish a new session (Session Request)
   optional LokiAddressMessage lokiAddressMessage = 102;
   optional PairingAuthorisationMessage pairingAuthorisation = 103;
 }
