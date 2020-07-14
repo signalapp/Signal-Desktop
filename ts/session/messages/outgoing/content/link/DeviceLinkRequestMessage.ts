@@ -14,6 +14,16 @@ export class DeviceLinkRequestMessage extends ContentMessage {
 
   constructor(params: DeviceLinkMessageParams) {
     super({ timestamp: params.timestamp, identifier: params.identifier });
+
+    if (!(params.requestSignature instanceof Uint8Array)) {
+      throw new TypeError('requestSignature must be of type Uint8Array');
+    }
+    if (typeof params.primaryDevicePubKey !== 'string') {
+      throw new TypeError('primaryDevicePubKey must be of type string');
+    }
+    if (typeof params.secondaryDevicePubKey !== 'string') {
+      throw new TypeError('secondaryDevicePubKey must be of type string');
+    }
     this.primaryDevicePubKey = params.primaryDevicePubKey;
     this.secondaryDevicePubKey = params.secondaryDevicePubKey;
     this.requestSignature = params.requestSignature;
