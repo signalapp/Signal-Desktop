@@ -1966,7 +1966,6 @@
         props: await getProps(),
         onClose: () => {
           this.stopListening(this.model.messageCollection, 'remove', update);
-          this.resetPanel();
         },
       });
 

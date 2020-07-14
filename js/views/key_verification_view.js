@@ -1,4 +1,4 @@
-/* global Whisper, Signal */
+/* global Backbone, Signal, Whisper */
 
 /* eslint-disable more/no-then */
 
@@ -14,7 +14,7 @@
     initialize(options) {
       this.render();
 
-      const view = new Whisper.ReactWrapperView({
+      this.view = new Whisper.ReactWrapperView({
         JSX: Signal.State.Roots.createSafetyNumberViewer(window.reduxStore, {
           contactID: options.model.get('id'),
         }),
@@ -25,7 +25,14 @@
         },
       });
 
-      this.$('.key-verification-wrapper').append(view.el);
+      this.$('.key-verification-wrapper').append(this.view.el);
+    },
+
+    remove() {
+      if (this.view) {
+        this.view.remove();
+      }
+      Backbone.View.prototype.remove.call(this);
     },
   });
 })();
