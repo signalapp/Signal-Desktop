@@ -7,6 +7,7 @@ import Long from 'long';
 import { toNumber } from 'lodash';
 import { StringUtils } from '../../../session/utils';
 import { TestUtils } from '../../test-utils';
+import { Constants } from '../../../session';
 
 describe('TypingMessage', () => {
   it('has Action.STARTED if isTyping = true', () => {
@@ -79,12 +80,12 @@ describe('TypingMessage', () => {
     );
   });
 
-  it('ttl of 1 minute', () => {
+  it('correct ttl', () => {
     const message = new TypingMessage({
       timestamp: Date.now(),
       isTyping: true,
     });
-    expect(message.ttl()).to.equal(60 * 1000);
+    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.TYPING_MESSAGE);
   });
 
   it('has an identifier', () => {
