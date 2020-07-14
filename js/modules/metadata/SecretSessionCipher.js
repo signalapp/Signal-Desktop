@@ -411,16 +411,6 @@ SecretSessionCipher.prototype = {
     return cipher.getRemoteRegistrationId();
   },
 
-  // Used by outgoing_message.js
-  closeOpenSessionForDevice(remoteAddress) {
-    const { SessionCipher } = this;
-    const signalProtocolStore = this.storage;
-
-    const cipher = new SessionCipher(signalProtocolStore, remoteAddress);
-
-    return cipher.closeOpenSessionForDevice();
-  },
-
   // private EphemeralKeys calculateEphemeralKeys(
   //   ECPublicKey ephemeralPublic, ECPrivateKey ephemeralPrivate, byte[] salt)
   async _calculateEphemeralKeys(ephemeralPublic, ephemeralPrivate, salt) {
