@@ -7,6 +7,7 @@ import {
 } from '../../../session/messages/outgoing';
 import { SignalService } from '../../../protobuf';
 import { LokiProfile } from '../../../types/Message';
+import { Constants } from '../../../session';
 
 describe('DeviceLinkMessage', () => {
   let linkRequestMessage: DeviceLinkRequestMessage;
@@ -115,9 +116,9 @@ describe('DeviceLinkMessage', () => {
     });
   });
 
-  it('ttl of 2 minutes', () => {
-    expect(linkRequestMessage.ttl()).to.equal(2 * 60 * 1000);
-    expect(linkGrantMessage.ttl()).to.equal(2 * 60 * 1000);
+  it('correct ttl', () => {
+    expect(linkRequestMessage.ttl()).to.equal(Constants.TTL_DEFAULT.PAIRING_REQUEST);
+    expect(linkGrantMessage.ttl()).to.equal(Constants.TTL_DEFAULT.PAIRING_REQUEST);
   });
 
   it('has an identifier', () => {

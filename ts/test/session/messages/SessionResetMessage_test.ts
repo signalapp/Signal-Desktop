@@ -4,6 +4,7 @@ import { beforeEach } from 'mocha';
 import { SessionRequestMessage } from '../../../session/messages/outgoing';
 import { SignalService } from '../../../protobuf';
 import { TextDecoder, TextEncoder } from 'util';
+import { Constants } from '../../../session';
 
 describe('SessionRequestMessage', () => {
   let message: SessionRequestMessage;
@@ -64,8 +65,8 @@ describe('SessionRequestMessage', () => {
     );
   });
 
-  it('ttl of 4 days', () => {
-    expect(message.ttl()).to.equal(4 * 24 * 60 * 60 * 1000);
+  it('correct ttl', () => {
+    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.SESSION_REQUEST);
   });
 
   it('has an identifier', () => {

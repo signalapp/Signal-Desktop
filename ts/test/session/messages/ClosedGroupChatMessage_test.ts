@@ -9,6 +9,7 @@ import { TextEncoder } from 'util';
 import { TestUtils } from '../../test-utils';
 import { StringUtils } from '../../../session/utils';
 import { PubKey } from '../../../session/types';
+import { Constants } from '../../../session';
 
 describe('ClosedGroupChatMessage', () => {
   let groupId: PubKey;
@@ -44,7 +45,7 @@ describe('ClosedGroupChatMessage', () => {
       .to.be.equal(chatMessage.timestamp);
   });
 
-  it('ttl of 1 day', () => {
+  it('correct ttl', () => {
     const chatMessage = new ChatMessage({
       timestamp: Date.now(),
     });
@@ -52,7 +53,7 @@ describe('ClosedGroupChatMessage', () => {
       groupId,
       chatMessage,
     });
-    expect(message.ttl()).to.equal(24 * 60 * 60 * 1000);
+    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.REGULAR_MESSAGE);
   });
 
   it('has an identifier', () => {

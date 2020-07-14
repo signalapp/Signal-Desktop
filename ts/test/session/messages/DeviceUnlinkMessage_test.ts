@@ -3,6 +3,7 @@ import { beforeEach } from 'mocha';
 
 import { DeviceUnlinkMessage } from '../../../session/messages/outgoing';
 import { SignalService } from '../../../protobuf';
+import { Constants } from '../../../session';
 
 describe('DeviceUnlinkMessage', () => {
   let message: DeviceUnlinkMessage;
@@ -21,8 +22,8 @@ describe('DeviceUnlinkMessage', () => {
     );
   });
 
-  it('ttl of 4 days', () => {
-    expect(message.ttl()).to.equal(4 * 24 * 60 * 60 * 1000);
+  it('correct ttl', () => {
+    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.DEVICE_UNPAIRING);
   });
 
   it('has an identifier', () => {
