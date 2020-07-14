@@ -189,12 +189,6 @@ export async function onGroupReceived(details: GroupInfo) {
     updates.left = true;
   }
 
-  if (details.blocked) {
-    storage.addBlockedGroup(id);
-  } else {
-    storage.removeBlockedGroup(id);
-  }
-
   conversation.set(updates);
 
   // Update the conversation avatar only if new avatar exists and hash differs
