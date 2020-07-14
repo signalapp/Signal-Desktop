@@ -117,8 +117,12 @@ describe('DeviceLinkMessage', () => {
   });
 
   it('correct ttl', () => {
-    expect(linkRequestMessage.ttl()).to.equal(Constants.TTL_DEFAULT.PAIRING_REQUEST);
-    expect(linkGrantMessage.ttl()).to.equal(Constants.TTL_DEFAULT.PAIRING_REQUEST);
+    expect(linkRequestMessage.ttl()).to.equal(
+      Constants.TTL_DEFAULT.PAIRING_REQUEST
+    );
+    expect(linkGrantMessage.ttl()).to.equal(
+      Constants.TTL_DEFAULT.PAIRING_REQUEST
+    );
   });
 
   it('has an identifier', () => {

@@ -45,7 +45,9 @@ describe('ReceiptMessage', () => {
 
   it('correct ttl', () => {
     expect(readMessage.ttl()).to.equal(Constants.TTL_DEFAULT.REGULAR_MESSAGE);
-    expect(deliveryMessage.ttl()).to.equal(Constants.TTL_DEFAULT.REGULAR_MESSAGE);
+    expect(deliveryMessage.ttl()).to.equal(
+      Constants.TTL_DEFAULT.REGULAR_MESSAGE
+    );
   });
 
   it('has an identifier', () => {
