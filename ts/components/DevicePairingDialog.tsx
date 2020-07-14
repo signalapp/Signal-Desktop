@@ -262,14 +262,6 @@ export class DevicePairingDialog extends React.Component<Props, State> {
   private requestReceived(secondaryDevicePubKey: string | EventHandlerNonNull) {
     // FIFO: push at the front of the array with unshift()
     this.state.pubKeyRequests.unshift(secondaryDevicePubKey);
-    window.pushToast({
-      title: window.i18n('gotPairingRequest'),
-      description: `${window.shortenPubkey(
-        secondaryDevicePubKey
-      )} ${window.i18n(
-        'showPairingWordsTitle'
-      )}: ${window.mnemonic.pubkey_to_secret_words(secondaryDevicePubKey)}`,
-    });
     if (!this.state.currentPubKey) {
       this.nextPubKey();
       this.stopReceivingRequests();
