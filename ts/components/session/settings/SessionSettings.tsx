@@ -445,6 +445,9 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         // TODO: Revert
         // TTL set to 2 days for mobile push notification compabability
         // temporary fix .t 13/07/2020
+        //
+        // TODO: Hook up this TTL to message sending when re-enabling.
+        // This setting is not used in any libsession sending code
         hidden: true,
         type: SessionSettingType.Slider,
         category: SessionSettingCategory.Privacy,
