@@ -411,7 +411,6 @@ SecretSessionCipher.prototype = {
     return cipher.getRemoteRegistrationId();
   },
 
-  // Used by outgoing_message.js
   closeOpenSessionForDevice(remoteAddress) {
     const { SessionCipher } = this;
     const signalProtocolStore = this.storage;

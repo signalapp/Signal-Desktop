@@ -23,7 +23,6 @@ export class MediumGroupChatMessage extends MediumGroupMessage {
 
   public dataProto(): SignalService.DataMessage {
     const messageProto = this.chatMessage.dataProto();
-    messageProto.mediumGroupUpdate = super.dataProto().mediumGroupUpdate;
 
     return messageProto;
   }

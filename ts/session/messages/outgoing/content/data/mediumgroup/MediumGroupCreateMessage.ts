@@ -1,48 +1,60 @@
 import { SignalService } from '../../../../../../protobuf';
 import {
-  MediumGroupResponseKeysMessage,
-  MediumGroupResponseKeysParams,
-} from './MediumGroupResponseKeysMessage';
+  MediumGroupMessage,
+  MediumGroupMessageParams,
+  RatchetKey,
+} from './MediumGroupMessage';
 
-interface MediumGroupCreateParams extends MediumGroupResponseKeysParams {
+interface MediumGroupCreateParams extends MediumGroupMessageParams {
   groupSecretKey: Uint8Array;
   members: Array<Uint8Array>;
-  admins: Array<string>;
+  admins: Array<Uint8Array>;
   groupName: string;
+  senderKeys: Array<RatchetKey>;
 }
 
-export abstract class MediumGroupCreateMessage extends MediumGroupResponseKeysMessage {
+export abstract class MediumGroupCreateMessage extends MediumGroupMessage {
   public readonly groupSecretKey: Uint8Array;
   public readonly members: Array<Uint8Array>;
-  public readonly admins: Array<string>;
+  public readonly admins: Array<Uint8Array>;
   public readonly groupName: string;
+  public readonly senderKeys: Array<RatchetKey>;
 
   constructor({
     timestamp,
     identifier,
-    chainKey,
-    keyIdx,
     groupId,
     groupSecretKey,
     members,
     admins,
     groupName,
+    senderKeys,
   }: MediumGroupCreateParams) {
-    super({ timestamp, identifier, groupId, chainKey, keyIdx });
+    super({ timestamp, identifier, groupId });
     this.groupSecretKey = groupSecretKey;
     this.members = members;
     this.admins = admins;
     this.groupName = groupName;
+    this.senderKeys = senderKeys;
   }
 
   protected mediumGroupContext(): SignalService.MediumGroupUpdate {
     const mediumGroupContext = super.mediumGroupContext();
 
-    mediumGroupContext.type = SignalService.MediumGroupUpdate.Type.NEW_GROUP;
-    mediumGroupContext.groupSecretKey = this.groupSecretKey;
+    const senderKeys = this.senderKeys.map(sk => {
+      return {
+        chainKey: sk.chainKey,
+        keyIndex: sk.keyIdx,
+        publicKey: sk.pubKey,
+      };
+    });
+
+    mediumGroupContext.type = SignalService.MediumGroupUpdate.Type.NEW;
+    mediumGroupContext.groupPrivateKey = this.groupSecretKey;
     mediumGroupContext.members = this.members;
     mediumGroupContext.admins = this.admins;
-    mediumGroupContext.groupName = this.groupName;
+    mediumGroupContext.name = this.groupName;
+    mediumGroupContext.senderKeys = senderKeys;
 
     return mediumGroupContext;
   }

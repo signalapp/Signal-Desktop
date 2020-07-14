@@ -5,7 +5,6 @@
   libloki,
   StringView,
   lokiMessageAPI,
-  log
 */
 
 /* eslint-disable more/no-then */
@@ -454,76 +453,6 @@ OutgoingMessage.prototype = {
     this.successfulNumbers[this.successfulNumbers.length] = number;
     this.numberCompleted();
   },
-  async sendMediumGroupMessage(groupId) {
-    const ttl = getTTLForType(this.messageType);
-
-    const plaintext = this.message.toArrayBuffer();
-
-    const ourIdentity = textsecure.storage.user.getNumber();
-
-    const {
-      ciphertext,
-      keyIdx,
-    } = await window.SenderKeyAPI.encryptWithSenderKey(
-      plaintext,
-      groupId,
-      ourIdentity
-    );
-
-    if (!ciphertext) {
-      log.error('could not encrypt for medium group');
-      return;
-    }
-
-    const source = ourIdentity;
-
-    // We should include ciphertext idx in the message
-    const content = new textsecure.protobuf.MediumGroupCiphertext({
-      ciphertext,
-      source,
-      keyIdx,
-    });
-
-    // Encrypt for the group's identity key to hide source and key idx:
-    const {
-      ciphertext: ciphertextOuter,
-      ephemeralKey,
-    } = await libloki.crypto.encryptForPubkey(
-      groupId,
-      content.encode().toArrayBuffer()
-    );
-
-    const contentOuter = new textsecure.protobuf.MediumGroupContent({
-      ciphertext: ciphertextOuter,
-      ephemeralKey,
-    });
-
-    log.debug(
-      'Group ciphertext: ',
-      window.Signal.Crypto.arrayBufferToBase64(ciphertext)
-    );
-
-    const outgoingObject = {
-      type: textsecure.protobuf.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT,
-      ttl,
-      ourKey: ourIdentity,
-      sourceDevice: 1,
-      content: contentOuter.encode().toArrayBuffer(),
-    };
-
-    // TODO: Rather than using sealed sender, we just generate a key pair, perform an ECDH against
-    // the group's public key and encrypt using the derived key
-
-    const socketMessage = wrapInWebsocketMessage(
-      outgoingObject,
-      this.timestamp
-    );
-
-    await this.transmitMessage(groupId, socketMessage, this.timestamp, ttl);
-
-    this.successfulNumbers[this.successfulNumbers.length] = groupId;
-    this.numberCompleted();
-  },
   // Send a message to a private group member or a session chat (one to one)
   async sendSessionMessage(outgoingObjects) {
     // TODO: handle multiple devices/messages per transmit
@@ -578,18 +507,6 @@ OutgoingMessage.prototype = {
     );
 
     this.sendSessionMessage(outgoingObjects);
-  },
-
-  removeDeviceIdsForNumber(number, deviceIdsToRemove) {
-    let promise = Promise.resolve();
-    // eslint-disable-next-line no-restricted-syntax, guard-for-in
-    for (const j in deviceIdsToRemove) {
-      promise = promise.then(() => {
-        const encodedNumber = `${number}.${deviceIdsToRemove[j]}`;
-        return textsecure.storage.protocol.removeSession(encodedNumber);
-      });
-    }
-    return promise;
   },
 
   sendToNumber(number, multiDevice = true) {

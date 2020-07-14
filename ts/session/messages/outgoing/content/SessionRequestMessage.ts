@@ -25,12 +25,14 @@ export class SessionRequestMessage extends ContentMessage {
     this.preKeyBundle = params.preKeyBundle;
   }
 
-  public static getTTL(): number {
+  public static defaultTTL(): number {
+    // Gets the default TTL for Session Request, as
+    // public static readonly ttl: number <-- cannot be assigned a non-literal
     return Constants.TTL_DEFAULT.SESSION_REQUEST;
   }
 
   public ttl(): number {
-    return SessionRequestMessage.getTTL();
+    return SessionRequestMessage.defaultTTL();
   }
 
   protected getPreKeyBundleMessage(): SignalService.PreKeyBundleMessage {
