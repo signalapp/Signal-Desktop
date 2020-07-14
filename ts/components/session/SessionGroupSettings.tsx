@@ -322,7 +322,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
         <SessionIconButton
           iconType={SessionIconType.Chevron}
           iconSize={SessionIconSize.Medium}
-          iconRotation={90}
+          iconRotation={270}
           onClick={onGoBack}
         />
         <Avatar

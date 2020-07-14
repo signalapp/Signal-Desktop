@@ -878,7 +878,7 @@
     "message": "Waiting for device to register..."
   },
   "pairNewDevicePrompt": {
-    "message": "Scan the QR Code on your secondary device"
+    "message": "Scan the QR Code on your other device"
   },
   "pairedDevices": {
     "message": "Linked Devices"
@@ -2240,7 +2240,7 @@
     "message": "Remove"
   },
   "invalidHexId": {
-    "message": "Invalid Session ID or LNS Name",
+    "message": "Invalid Session ID",
     "description": "Error string shown when user types an invalid pubkey hex string"
   },
   "invalidLnsFormat": {
@@ -2360,7 +2360,7 @@
     "message": "Say hello to your Session ID"
   },
   "allUsersAreRandomly...": {
-    "message": "Your Session ID is the unique address people can use to contact you on Session. Your Session ID is totally private, anonymous, and has no connection to your real identity."
+    "message": "Your Session ID is the unique address people can use to contact you on Session. With no connection to your real identity, your Session ID is totally anonymous and private by design."
   },
   "getStarted": {
     "message": "Get started"
@@ -2409,7 +2409,7 @@
     "message": "Enter your <strong>Session ID</strong> below to link this device to your <strong>Session ID</strong>."
   },
   "enterSessionIDHere": {
-    "message": "Enter your Session ID here"
+    "message": "Enter your Session ID"
   },
   "continueYourSession": {
     "message": "Continue Your Session"
@@ -2460,7 +2460,7 @@
     "message": "Enter Session ID"
   },
   "pasteSessionIDRecipient": {
-    "message": "Enter a Session ID or LNS name"
+    "message": "Enter a Session ID"
   },
   "usersCanShareTheir...": {
     "message": "Users can share their Session ID from their account settings, or by sharing their QR code."
@@ -2604,10 +2604,10 @@
     "message": "Secret words"
   },
   "pairingDevice": {
-    "message": "Pairing Device"
+    "message": "Linking Device"
   },
   "gotPairingRequest": {
-    "message": "Pairing request received"
+    "message": "Linking request received"
   },
   "devicePairedSuccessfully": {
     "message": "Device linked successfully"
