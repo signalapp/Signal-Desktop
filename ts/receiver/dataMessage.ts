@@ -587,6 +587,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     return;
   }
 
+  // TODO: this shouldn't be called when source is not a pubkey!!!
   const isOurDevice = await MultiDeviceProtocol.isOurDevice(source);
 
   const shouldSendReceipt =

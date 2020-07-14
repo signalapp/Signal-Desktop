@@ -443,10 +443,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         id: 'message-ttl',
         title: window.i18n('messageTTL'),
         description: window.i18n('messageTTLSettingDescription'),
-        // TODO: Revert
-        // TTL set to 2 days for mobile push notification compabability
-        // temporary fix .t 13/07/2020
-        hidden: true,
+        hidden: false,
         type: SessionSettingType.Slider,
         category: SessionSettingCategory.Privacy,
         setFn: undefined,

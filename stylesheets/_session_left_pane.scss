@@ -238,11 +238,9 @@ $session-compose-margin: 20px;
     box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
     align-items: center;
     overflow-y: auto;
     overflow-x: hidden;
-
     .session-icon .exit {
       padding: 13px;
     }
@@ -309,8 +307,6 @@ $session-compose-margin: 20px;
     }
 
     .session-id-editable {
-      width: 90%;
-
       textarea::-webkit-inner-spin-button {
         margin: 0px 20px;
         width: -webkit-fill-available;

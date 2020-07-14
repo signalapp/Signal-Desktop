@@ -1409,14 +1409,10 @@
                   groupId: destination,
                 }
               );
-              await Promise.all(
-                members.map(async m => {
-                  const memberPubKey = new libsession.Types.PubKey(m);
-                  await libsession
-                    .getMessageQueue()
-                    .sendUsingMultiDevice(memberPubKey, mediumGroupChatMessage);
-                })
-              );
+
+              await libsession
+                .getMessageQueue()
+                .send(destinationPubkey, mediumGroupChatMessage);
             } else {
               const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
                 {
@@ -1704,7 +1700,17 @@
         const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
           expireUpdate
         );
-
+        // special case when we are the only member of a closed group
+        const ourNumber = textsecure.storage.user.getNumber();
+        const primary = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+          ourNumber
+        );
+        if (
+          this.get('members').length === 1 &&
+          this.get('members')[0] === primary.key
+        ) {
+          return message.sendSyncMessageOnly(expirationTimerMessage);
+        }
         await libsession.getMessageQueue().sendToGroup(expirationTimerMessage);
       }
       return message;
@@ -1837,12 +1843,18 @@
         groupUpdate = this.pick(['name', 'avatar', 'members']);
       }
       const now = Date.now();
+
       const message = this.messageCollection.add({
         conversationId: this.id,
         type: 'outgoing',
         sent_at: now,
         received_at: now,
-        group_update: groupUpdate,
+        group_update: _.pick(groupUpdate, [
+          'name',
+          'members',
+          'avatar',
+          'admins',
+        ]),
       });
 
       const messageId = await window.Signal.Data.saveMessage(
@@ -1853,24 +1865,30 @@
       );
       message.set({ id: messageId });
 
+      // TODO: if I added members, it is my responsibility to generate ratchet keys for them
+
       // Difference between `recipients` and `members` is that `recipients` includes the members which were removed in this update
       const { id, name, members, avatar, recipients } = groupUpdate;
 
       if (groupUpdate.is_medium_group) {
-        const { secretKey, senderKey } = groupUpdate;
-        // Constructing a "create group" message
-        const { chainKey, keyIdx } = senderKey;
+        const { secretKey, senderKeys } = groupUpdate;
+
+        const membersBin = members.map(
+          pkHex => new Uint8Array(StringView.hexToArrayBuffer(pkHex))
+        );
+        const adminsBin = this.get('groupAdmins').map(
+          pkHex => new Uint8Array(StringView.hexToArrayBuffer(pkHex))
+        );
 
         const createParams = {
           timestamp: now,
           groupId: id,
           identifier: messageId,
           groupSecretKey: secretKey,
-          members: members.map(pkHex => StringView.hexToArrayBuffer(pkHex)),
+          members: membersBin,
           groupName: name,
-          admins: this.get('groupAdmins'),
-          chainKey,
-          keyIdx,
+          admins: adminsBin,
+          senderKeys,
         };
 
         const mediumGroupCreateMessage = new libsession.Messages.Outgoing.MediumGroupCreateMessage(
@@ -1879,7 +1897,6 @@
 
         members.forEach(async member => {
           const memberPubKey = new libsession.Types.PubKey(member);
-          await ConversationController.getOrCreateAndWait(member, 'private');
           libsession
             .getMessageQueue()
             .sendUsingMultiDevice(memberPubKey, mediumGroupCreateMessage);
@@ -1890,6 +1907,7 @@
 
       const updateParams = {
         // if we do set an identifier here, be sure to not sync the message two times in msg.handleMessageSentSuccess()
+        identifier: messageId,
         timestamp: now,
         groupId: id,
         name: name || this.getName(),
@@ -1901,7 +1919,11 @@
         updateParams
       );
 
-      await this.sendClosedGroupMessageWithSync(groupUpdateMessage, recipients);
+      await this.sendClosedGroupMessage(
+        groupUpdateMessage,
+        recipients,
+        message
+      );
 
       if (groupUpdate.joined && groupUpdate.joined.length) {
         const expireUpdate = {
@@ -2002,6 +2024,7 @@
 
         // FIXME what about public groups?
         const quitGroup = {
+          identifier: id,
           timestamp: now,
           groupId: this.id,
           // if we do set an identifier here, be sure to not sync it a second time in handleMessageSentSuccess()
@@ -2010,13 +2033,13 @@
           quitGroup
         );
 
-        await this.sendClosedGroupMessageWithSync(quitGroupMessage);
+        await this.sendClosedGroupMessage(quitGroupMessage, undefined, message);
 
         this.updateTextInputState();
       }
     },
 
-    async sendClosedGroupMessageWithSync(message, recipients) {
+    async sendClosedGroupMessage(message, recipients, dbMessage) {
       const {
         ClosedGroupMessage,
         ClosedGroupChatMessage,
@@ -2043,6 +2066,11 @@
         const otherMembers = (members || []).filter(
           member => !primary.isEqual(member)
         );
+        // we are the only member in here
+        if (members.length === 1 && members[0] === primary.key) {
+          dbMessage.sendSyncMessageOnly(message);
+          return;
+        }
         const sendPromises = otherMembers.map(member => {
           const memberPubKey = libsession.Types.PubKey.cast(member);
           return libsession
@@ -2050,16 +2078,6 @@
             .sendUsingMultiDevice(memberPubKey, message);
         });
         await Promise.all(sendPromises);
-
-        // Send the sync message to our devices
-        const syncMessage = new libsession.Messages.Outgoing.SentSyncMessage({
-          timestamp: Date.now(),
-          identifier: message.identifier,
-          destination: message.groupId,
-          dataMessage: message.dataProto(),
-        });
-
-        await libsession.getMessageQueue().sendSyncMessage(syncMessage);
       } catch (e) {
         window.log.error(e);
       }

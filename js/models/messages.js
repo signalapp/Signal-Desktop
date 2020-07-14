@@ -1200,7 +1200,6 @@
         e =>
           e.number === number &&
           (e.name === 'MessageError' ||
-            e.name === 'OutgoingMessageError' ||
             e.name === 'SendMessageNetworkError' ||
             e.name === 'SignedPreKeyRotationError' ||
             e.name === 'OutgoingIdentityKeyError')
@@ -1220,6 +1219,11 @@
         sentMessage.device
       );
 
+      // At this point the only way to check for medium
+      // group is by comparing the encryption type
+      const isMediumGroupMessage =
+        sentMessage.encryption === libsession.Types.EncryptionType.MediumGroup;
+
       const isOpenGroupMessage =
         sentMessage.group &&
         sentMessage.group instanceof libsession.Types.OpenGroup;
@@ -1230,6 +1234,7 @@
       const shouldTriggerSyncMessage =
         !isOurDevice &&
         !isOpenGroupMessage &&
+        !isMediumGroupMessage &&
         !this.get('synced') &&
         !this.get('sentSync');
 
@@ -1245,7 +1250,7 @@
         );
         const { dataMessage } = contentDecoded;
         if (dataMessage) {
-          this.sendSyncMessage(dataMessage);
+          await this.sendSyncMessage(dataMessage);
         }
       } else if (shouldMarkMessageAsSynced) {
         this.set({ synced: true });
@@ -1547,7 +1552,6 @@
         this.get('errors'),
         e =>
           e.name === 'MessageError' ||
-          e.name === 'OutgoingMessageError' ||
           e.name === 'SendMessageNetworkError' ||
           e.name === 'SignedPreKeyRotationError'
       );

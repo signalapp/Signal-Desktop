@@ -16,7 +16,7 @@ interface Message {
   data: string;
 }
 
-// Some websocket nonsence
+// Some websocket nonsense
 export function processMessage(message: string, options: any = {}) {
   try {
     const dataPlaintext = new Uint8Array(StringUtils.encode(message, 'base64'));

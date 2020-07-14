@@ -1,6 +1,5 @@
 import { ContentMessage } from './ContentMessage';
 import { SignalService } from '../../../../protobuf';
-import { TextEncoder } from 'util';
 import { MessageParams } from '../Message';
 import { StringUtils } from '../../../utils';
 import { PubKey } from '../../../types';
