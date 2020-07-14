@@ -1089,9 +1089,8 @@
         const { body, attachments, preview, quote } = await this.uploadData();
         const ourNumber = window.storage.get('primaryDevicePubKey');
         const ourConversation = window.ConversationController.get(ourNumber);
-        const lokiProfile = ourConversation.getOurProfile();
 
-        const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+        const chatParams = {
           identifier: this.id,
           body,
           timestamp: this.get('sent_at'),
@@ -1099,8 +1098,14 @@
           attachments,
           preview,
           quote,
-          lokiProfile,
-        });
+        };
+        if (ourConversation) {
+          chatParams.lokiProfile = ourConversation.getOurProfile();
+        }
+
+        const chatMessage = new libsession.Messages.Outgoing.ChatMessage(
+          chatParams
+        );
 
         // Special-case the self-send case - we send only a sync message
         if (recipients.length === 1) {
