@@ -3,6 +3,7 @@ import { beforeEach } from 'mocha';
 
 import { SessionEstablishedMessage } from '../../../session/messages/outgoing';
 import { SignalService } from '../../../protobuf';
+import { Constants } from '../../../session';
 
 describe('SessionEstablishedMessage', () => {
   let message: SessionEstablishedMessage;
@@ -21,8 +22,8 @@ describe('SessionEstablishedMessage', () => {
     );
   });
 
-  it('ttl of 5 minutes', () => {
-    expect(message.ttl()).to.equal(5 * 60 * 1000);
+  it('correct ttl', () => {
+    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.SESSION_ESTABLISHED);
   });
 
   it('has an identifier', () => {
