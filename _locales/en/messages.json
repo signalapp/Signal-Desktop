@@ -7,6 +7,10 @@
     "message": "Copy error and quit",
     "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
   },
+  "unknownContact": {
+    "message": "Unknown contact",
+    "description": "Shown as the name of a contact if we don't have any displayable information about them"
+  },
   "unknownGroup": {
     "message": "Unknown group",
     "description": "Shown as the name of a group if we don't have any information about it"

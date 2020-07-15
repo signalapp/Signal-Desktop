@@ -458,6 +458,8 @@
           this.onEditorStateChange(msg, caretLocation),
         onTextTooLong: () => this.showToast(Whisper.MessageBodyTooLongToast),
         onChooseAttachment: this.onChooseAttachment.bind(this),
+        getQuotedMessage: () => this.model.get('quotedMessageId'),
+        clearQuotedMessage: () => this.setQuoteMessage(null),
         micCellEl,
         attachmentListEl,
       };
@@ -565,6 +567,7 @@
           const receivedAt = message.get('received_at');
           const models = await getOlderMessagesByConversation(conversationId, {
             receivedAt,
+            messageId: oldestMessageId,
             limit: 500,
             MessageCollection: Whisper.MessageCollection,
           });
@@ -794,6 +797,7 @@
         const older = await getOlderMessagesByConversation(conversationId, {
           limit: 250,
           receivedAt,
+          messageId,
           MessageCollection: Whisper.MessageCollection,
         });
         const newer = await getNewerMessagesByConversation(conversationId, {
@@ -872,11 +876,18 @@
         const scrollToMessageId =
           setFocus && metrics.newest ? metrics.newest.id : undefined;
 
+        // Because our `getOlderMessages` fetch above didn't specify a receivedAt, we got
+        //   the most recent 500 messages in the conversation. If it has a conflict with
+        //   metrics, fetched a bit before, that's likely a race condition. So we tell our
+        //   reducer to trust the message set we just fetched for determining if we have
+        //   the newest message loaded.
+        const unboundedFetch = true;
         messagesReset(
           conversationId,
           cleaned.map(model => model.getReduxData()),
           metrics,
-          scrollToMessageId
+          scrollToMessageId,
+          unboundedFetch
         );
       } catch (error) {
         setMessagesLoading(conversationId, false);
@@ -1733,12 +1744,8 @@
         window.log.warn(`onOpened: Did not find message ${messageId}`);
       }
 
-      // Incoming messages may still be processing, so we wait until those are
-      //   complete to pull the 500 most-recent messages in this conversation.
-      this.model.queueJob(() => {
-        this.loadNewestMessages();
-        this.model.updateLastMessage();
-      });
+      this.loadNewestMessages();
+      this.model.updateLastMessage();
 
       this.focusMessageField();
 
@@ -2582,8 +2589,7 @@
         this.quotedMessage = message;
 
         if (message) {
-          const quote = await this.model.makeQuote(this.quotedMessage);
-          this.quote = quote;
+          this.quote = await this.model.makeQuote(this.quotedMessage);
 
           this.focusMessageFieldAndClearDisabled();
         }

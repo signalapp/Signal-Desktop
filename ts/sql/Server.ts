@@ -2252,14 +2252,14 @@ async function searchConversations(
   const rows = await db.all(
     `SELECT json FROM conversations WHERE
       (
-        id LIKE $id OR
+        e164 LIKE $e164 OR
         name LIKE $name OR
         profileFullName LIKE $profileFullName
       )
      ORDER BY active_at DESC
      LIMIT $limit`,
     {
-      $id: `%${query}%`,
+      $e164: `%${query}%`,
       $name: `%${query}%`,
       $profileFullName: `%${query}%`,
       $limit: limit || 100,
@@ -2598,21 +2598,45 @@ async function getOlderMessagesByConversation(
   {
     limit = 100,
     receivedAt = Number.MAX_VALUE,
-  }: { limit?: number; receivedAt?: number } = {}
+    messageId,
+  }: { limit?: number; receivedAt?: number; messageId?: string } = {}
 ) {
+  if (receivedAt !== Number.MAX_VALUE && !messageId) {
+    throw new Error('If receivedAt is supplied, messageId should be as well');
+  }
+
   const db = getInstance();
-  const rows = await db.all(
-    `SELECT json FROM messages WHERE
+  let rows;
+
+  if (messageId) {
+    rows = await db.all(
+      `SELECT json FROM messages WHERE
+       conversationId = $conversationId AND
+       received_at <= $received_at AND
+       id != $messageId
+     ORDER BY received_at DESC
+     LIMIT $limit;`,
+      {
+        $conversationId: conversationId,
+        $received_at: receivedAt,
+        $limit: limit,
+        $messageId: messageId,
+      }
+    );
+  } else {
+    rows = await db.all(
+      `SELECT json FROM messages WHERE
        conversationId = $conversationId AND
        received_at < $received_at
      ORDER BY received_at DESC
      LIMIT $limit;`,
-    {
-      $conversationId: conversationId,
-      $received_at: receivedAt,
-      $limit: limit,
-    }
-  );
+      {
+        $conversationId: conversationId,
+        $received_at: receivedAt,
+        $limit: limit,
+      }
+    );
+  }
 
   return rows.reverse();
 }

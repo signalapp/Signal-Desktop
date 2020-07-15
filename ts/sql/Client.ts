@@ -969,10 +969,12 @@ async function getOlderMessagesByConversation(
   {
     limit = 100,
     receivedAt = Number.MAX_VALUE,
+    messageId,
     MessageCollection,
   }: {
     limit?: number;
     receivedAt?: number;
+    messageId?: string;
     MessageCollection: BackboneMessageCollectionType;
   }
 ) {
@@ -981,6 +983,7 @@ async function getOlderMessagesByConversation(
     {
       limit,
       receivedAt,
+      messageId,
     }
   );
 

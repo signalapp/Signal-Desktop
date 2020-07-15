@@ -1614,6 +1614,7 @@
       mySignalingKey,
       options
     );
+    window.textsecure.messageReceiver = messageReceiver;
 
     function addQueuedEventListener(name, handler) {
       messageReceiver.addEventListener(name, (...args) =>
@@ -1979,8 +1980,9 @@
     const details = ev.contactDetails;
 
     if (
-      details.number === textsecure.storage.user.getNumber() ||
-      details.uuid === textsecure.storage.user.getUuid()
+      (details.number &&
+        details.number === textsecure.storage.user.getNumber()) ||
+      (details.uuid && details.uuid === textsecure.storage.user.getUuid())
     ) {
       // special case for syncing details about ourselves
       if (details.profileKey) {
@@ -2114,6 +2116,15 @@
   async function onGroupReceived(ev) {
     const details = ev.groupDetails;
     const { id } = details;
+
+    const idBuffer = window.Signal.Crypto.fromEncodedBinaryToArrayBuffer(id);
+    const idBytes = idBuffer.byteLength;
+    if (idBytes !== 16) {
+      window.log.error(
+        `onGroupReceived: Id was ${idBytes} bytes, expected 16 bytes. Dropping group.`
+      );
+      return;
+    }
 
     const conversation = await ConversationController.getOrCreateAndWait(
       id,

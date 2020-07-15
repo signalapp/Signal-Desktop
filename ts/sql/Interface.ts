@@ -197,7 +197,7 @@ export type ServerInterface = DataInterface & {
   getMessagesBySentAt: (sentAt: number) => Promise<Array<MessageType>>;
   getOlderMessagesByConversation: (
     conversationId: string,
-    options?: { limit?: number; receivedAt?: number }
+    options?: { limit?: number; receivedAt?: number; messageId?: string }
   ) => Promise<Array<MessageTypeUnhydrated>>;
   getNewerMessagesByConversation: (
     conversationId: string,
