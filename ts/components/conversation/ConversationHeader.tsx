@@ -480,7 +480,7 @@ export class ConversationHeader extends React.Component<Props> {
     const resetSessionMenuItem = !isGroup && (
       <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
     );
-    const blockHandlerMenuItem = !isMe && !isGroup && !isRss && (
+    const blockHandlerMenuItem = !isMe && !isRss && (
       <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
     );
 
