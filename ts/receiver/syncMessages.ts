@@ -7,7 +7,11 @@ import ByteBuffer from 'bytebuffer';
 
 import { handleEndSession } from './sessionHandling';
 import { handleMediumGroupUpdate } from './mediumGroups';
-import { handleMessageEvent, processDecrypted } from './dataMessage';
+import {
+  handleMessageEvent,
+  isBodyAutoFRContent,
+  processDecrypted,
+} from './dataMessage';
 import { updateProfile } from './receiver';
 import { handleContacts } from './multidevice';
 import { onGroupReceived } from './groups';
@@ -84,6 +88,11 @@ async function handleSentMessage(
 
   if (!msg) {
     window.log('Inner message is missing in a sync message');
+    return;
+  }
+
+  if (msg.body && isBodyAutoFRContent(msg.body)) {
+    window.console.log('dropping autoFR message synced');
     await removeFromCache(envelope);
     return;
   }
