@@ -146,13 +146,7 @@ interface GroupInfo {
 }
 
 export async function onGroupReceived(details: GroupInfo) {
-  const {
-    ConversationController,
-    libloki,
-    storage,
-    textsecure,
-    Whisper,
-  } = window;
+  const { ConversationController, libloki, textsecure, Whisper } = window;
 
   const { id } = details;
 
@@ -189,12 +183,6 @@ export async function onGroupReceived(details: GroupInfo) {
     updates.left = true;
   }
 
-  if (details.blocked) {
-    storage.addBlockedGroup(id);
-  } else {
-    storage.removeBlockedGroup(id);
-  }
-
   conversation.set(updates);
 
   // Update the conversation avatar only if new avatar exists and hash differs
@@ -210,6 +198,13 @@ export async function onGroupReceived(details: GroupInfo) {
     );
     conversation.set(newAttributes);
   }
+  const isBlocked = details.blocked || false;
+  if (conversation.isClosedGroup()) {
+    await BlockedNumberController.setGroupBlocked(conversation.id, isBlocked);
+  }
+
+  conversation.trigger('change', conversation);
+  conversation.updateTextInputState();
 
   await window.Signal.Data.updateConversation(id, conversation.attributes, {
     Conversation: Whisper.Conversation,

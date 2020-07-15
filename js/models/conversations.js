@@ -250,9 +250,14 @@
         ? BlockedNumberController.block(this.id)
         : BlockedNumberController.blockGroup(this.id);
       await promise;
-      this.trigger('change');
+      this.trigger('change', this);
       this.messageCollection.forEach(m => m.trigger('change'));
       this.updateTextInputState();
+      if (this.isPrivate()) {
+        await textsecure.messaging.sendContactSyncMessage([this]);
+      } else {
+        await textsecure.messaging.sendGroupSyncMessage([this]);
+      }
     },
     async unblock() {
       if (!this.id || this.isPublic() || this.isRss()) {
@@ -262,9 +267,14 @@
         ? BlockedNumberController.unblock(this.id)
         : BlockedNumberController.unblockGroup(this.id);
       await promise;
-      this.trigger('change');
+      this.trigger('change', this);
       this.messageCollection.forEach(m => m.trigger('change'));
       this.updateTextInputState();
+      if (this.isPrivate()) {
+        await textsecure.messaging.sendContactSyncMessage([this]);
+      } else {
+        await textsecure.messaging.sendGroupSyncMessage([this]);
+      }
     },
     setMessageSelectionBackdrop() {
       const messageSelected = this.selectedMessages.size > 0;

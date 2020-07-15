@@ -47,15 +47,6 @@
 
     return _.include(groupIds, groupId);
   };
-  storage.addBlockedGroup = groupId => {
-    const groupIds = storage.get(BLOCKED_GROUPS_ID, []);
-    if (_.include(groupIds, groupId)) {
-      return;
-    }
-
-    window.log.info(`adding groupId(${groupId}) to blocked list`);
-    storage.put(BLOCKED_GROUPS_ID, groupIds.concat(groupId));
-  };
   storage.removeBlockedGroup = groupId => {
     const groupIds = storage.get(BLOCKED_GROUPS_ID, []);
     if (!_.include(groupIds, groupId)) {

@@ -22,6 +22,7 @@ interface Props {
   isAdmin: boolean;
   amMod: boolean;
   isKickedFromGroup: boolean;
+  isBlocked: boolean;
 
   onGoBack: () => void;
   onInviteContacts: () => void;
@@ -215,10 +216,12 @@ export class SessionGroupSettings extends React.Component<Props, any> {
       isAdmin,
       isKickedFromGroup,
       amMod,
+      isBlocked,
     } = this.props;
     const { documents, media, onItemClick } = this.state;
     const showMemberCount = !!(memberCount && memberCount > 0);
-    const hasDisappearingMessages = !isPublic && !isKickedFromGroup;
+    const hasDisappearingMessages =
+      !isPublic && !isKickedFromGroup && !isBlocked;
     const leaveGroupString = isPublic
       ? window.i18n('leaveOpenGroup')
       : isKickedFromGroup
@@ -235,9 +238,11 @@ export class SessionGroupSettings extends React.Component<Props, any> {
     });
 
     const showUpdateGroupNameButton =
-      isPublic && !isKickedFromGroup ? amMod : isAdmin;
+      isPublic && !isKickedFromGroup
+        ? amMod && !isBlocked
+        : isAdmin && !isBlocked;
     const showUpdateGroupMembersButton =
-      !isPublic && !isKickedFromGroup && isAdmin;
+      !isPublic && !isKickedFromGroup && !isBlocked && isAdmin;
 
     return (
       <div className="group-settings">
@@ -313,9 +318,11 @@ export class SessionGroupSettings extends React.Component<Props, any> {
       isAdmin,
       isPublic,
       isKickedFromGroup,
+      isBlocked,
     } = this.props;
 
-    const showInviteContacts = (isPublic || isAdmin) && !isKickedFromGroup;
+    const showInviteContacts =
+      (isPublic || isAdmin) && !isKickedFromGroup && !isBlocked;
 
     return (
       <div className="group-settings-header">
