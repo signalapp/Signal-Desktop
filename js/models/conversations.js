@@ -1935,7 +1935,12 @@
         message
       );
 
-      if (groupUpdate.joined && groupUpdate.joined.length) {
+      // send a expireTimer update message to all add members if the expireTimer is set
+      if (
+        groupUpdate.joined &&
+        groupUpdate.joined.length &&
+        this.get('expireTimer')
+      ) {
         const expireUpdate = {
           timestamp: Date.now(),
           expireTimer: this.get('expireTimer'),
