@@ -251,7 +251,10 @@ function isMessageEmpty(message: SignalService.DataMessage) {
 
   return (
     !flags &&
-    _.isEmpty(body) &&
+    // FIXME remove this hack to drop auto friend requests messages in a few weeks 15/07/2020
+    (_.isEmpty(body) ||
+      body ===
+        'Please accept to enable messages to be synced across devices') &&
     _.isEmpty(attachments) &&
     _.isEmpty(group) &&
     _.isEmpty(quote) &&
