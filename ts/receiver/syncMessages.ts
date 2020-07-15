@@ -88,6 +88,7 @@ async function handleSentMessage(
 
   if (!msg) {
     window.log('Inner message is missing in a sync message');
+    await removeFromCache(envelope);
     return;
   }
 
