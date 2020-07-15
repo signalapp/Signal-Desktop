@@ -3,6 +3,10 @@
         "message": "Kopiraj napako in zapusti aplikacijo",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Neznan uporabnik",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "Neznana skupina",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -411,6 +415,18 @@
         "message": "Prišlo je do težav pri prenosu! Morda bi želeli priložiti sistemsko zabeležbo prijavi hrošča razvijalcem.",
         "description": ""
     },
+    "debugLogCopy": {
+        "message": "Kopiraj",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "Kopiraj povezavo v odložišče",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "Povezava je bila kopirana v odložišče",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
+    },
     "reportIssue": {
         "message": "Prijava napake",
         "description": "Link to open the issue tracker"
@@ -613,6 +629,10 @@
         "message": "Prikaz bližnjic tipkovnice",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "Kontaktirajte nas",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "Opombe k izdaji",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,9 +645,13 @@
         "message": "Podporna stran",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "Prijava napake",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "Povezava na GitHub",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Pridružite se 'Beta' programu",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "Nastavitve Signal Desktop",
@@ -957,8 +981,8 @@
         "message": "Preglej varnostno število",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "Vse medijske datoteke",
+    "viewRecentMedia": {
+        "message": "Nedavne medijske datoteke",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1083,9 +1107,17 @@
         "message": "Na žalost imate dodanih preveč naprav. Poskusite odstraniti kakšno izmed njih.",
         "description": ""
     },
-    "settings": {
-        "message": "Nastavitve",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "Za povezavo s telefonom morate posodobiti Signal na tej napravi.",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "Nekaj je šlo narobe!",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "Poskusi znova",
+        "description": ""
     },
     "theme": {
         "message": "Tema",
@@ -1142,6 +1174,14 @@
     "deleteAllDataProgress": {
         "message": "Odjava in brisanje vseh podatkov",
         "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "deleteOldIndexedDBData": {
+        "message": "Na napravi imate zastarele podatke iz starejše različice aplikacije Signal Desktop. Če boste nadaljevali, bodo ti izbrisani in boste začeli znova iz nič.",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "Izbris starih podatkov",
+        "description": "Button to make the delete happen"
     },
     "notifications": {
         "message": "Obvestila",
@@ -1656,7 +1696,7 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Skupinski avatar je bil spremenjen.",
+        "message": "Avatar skupine je bil posodobljen.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
@@ -1716,6 +1756,10 @@
     "message--getDescription--disappearing-video": {
         "message": "Video za enkratni ogled",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
+    },
+    "message--deletedForEveryone": {
+        "message": "Sporočilo je bilo izbrisano",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
         "message": "Paket nalepk ni mogel biti nameščen",
@@ -2003,6 +2047,10 @@
         "message": "Odstrani vse osnutke priponk",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "Skok na pogovor",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Enter",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Zavihek",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1 do 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "Bližnjice tipkovnice",
@@ -2288,6 +2344,10 @@
     "Reactions--error": {
         "message": "Odziv ni bil uspešen. Poskusite znova.",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "Več",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "Vse",

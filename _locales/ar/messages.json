@@ -3,6 +3,10 @@
         "message": "Copy error and quit",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Unknown contact",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "Unknown group",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -72,7 +76,7 @@
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "editMenuCopy": {
-        "message": "Copy",
+        "message": "نسخ",
         "description": "Edit menu command to add selected text to clipboard"
     },
     "editMenuPaste": {
@@ -88,7 +92,7 @@
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Select All",
+        "message": "اختيار الكل",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
@@ -156,7 +160,7 @@
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
-        "message": "جاري التحميل",
+        "message": "يُحمّل...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
@@ -178,11 +182,11 @@
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "archiveHelperText": {
-        "message": "These conversations are archived and will only appear in the Inbox if new messages are received.",
+        "message": "إن هذه المحادثات مؤرشفة و سوف تظهر فقط في علبة البريد الوارد إذا استلمت رسائل جديدة.",
         "description": "Shown at the top of the archived converations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Archive Conversation",
+        "message": "قم بأرشفة المحادثة",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "moveConversationToInbox": {
@@ -264,7 +268,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You left the group.",
+        "message": "لقد تركت المجموعة.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -411,6 +415,18 @@
         "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
         "description": ""
     },
+    "debugLogCopy": {
+        "message": "نسخ",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "Copy link to your clipboard",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "Link Copied to Your Clipboard",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
+    },
     "reportIssue": {
         "message": "بلّغ عن مشكل",
         "description": "Link to open the issue tracker"
@@ -472,7 +488,7 @@
         "description": ""
     },
     "media": {
-        "message": "Media",
+        "message": "الوسائط",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
@@ -480,7 +496,7 @@
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
-        "message": "Documents",
+        "message": "الوثائق",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
@@ -488,11 +504,11 @@
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
-        "message": "Today",
+        "message": "اليوم",
         "description": "Section header in the media gallery"
     },
     "yesterday": {
-        "message": "Yesterday",
+        "message": "البارحة",
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
@@ -500,7 +516,7 @@
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "This Month",
+        "message": "هذا الشهر",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -613,6 +629,10 @@
         "message": "Show Keyboard Shortcuts",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "وسائل الأتصال",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "Go to Release Notes",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,9 +645,13 @@
         "message": "Go to Support Page",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "Report an Issue",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "Go to GitHub",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Join the Beta",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "Signal Desktop Preferences",
@@ -646,7 +670,7 @@
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "show": {
-        "message": "Show",
+        "message": "اظهار",
         "description": "Command under Window menu, to show the window"
     },
     "hide": {
@@ -730,7 +754,7 @@
         }
     },
     "sendMessageToContact": {
-        "message": "Send Message",
+        "message": "إرسال رسالة",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
@@ -846,11 +870,11 @@
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
-        "message": "Video",
+        "message": "فيديو",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "photo": {
-        "message": "Photo",
+        "message": "صورة",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
@@ -957,12 +981,12 @@
         "message": "عرض رقم السلامة",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "View all media",
+    "viewRecentMedia": {
+        "message": "View recent media",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+        "message": "إذا كنت ترغب في التحقق من أمان التشفير الشامل مع $name$ قم بمقارنة الأرقام أعلاه بالأرقام الموجودة على أجهزتهم.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1044,11 +1068,11 @@
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "Signal Settings",
+        "message": "إعدادات تطبيق Signal",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
-        "message": "Linked Devices",
+        "message": "الأجهزة المرتبطة",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
@@ -1056,7 +1080,7 @@
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
-        "message": "Link New Device",
+        "message": "ربط جهاز جديد",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
@@ -1083,9 +1107,17 @@
         "message": "معذرة، لديك أجهزة كثيرة مرتبطة مسبقا. حاول إزالة بعضها.",
         "description": ""
     },
-    "settings": {
-        "message": "إعدادات",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "Update Signal on this device to link your phone.",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "حدث خطأٌ ما",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "حاول مجددا",
+        "description": ""
     },
     "theme": {
         "message": "السمة",
@@ -1143,6 +1175,14 @@
         "message": "Disconnecting and deleting all data",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
+    "deleteOldIndexedDBData": {
+        "message": "You have obsolete data from a prior installation of Signal Desktop. If you choose to continue, it will be deleted and you will start from scratch.",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "Delete Old Data",
+        "description": "Button to make the delete happen"
+    },
     "notifications": {
         "message": "الإشعارات",
         "description": "Header for notification settings"
@@ -1180,7 +1220,7 @@
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "notificationFrom": {
-        "message": "From:",
+        "message": "من:",
         "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "notificationMostRecent": {
@@ -1540,7 +1580,7 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Verify Safety Number",
+        "message": "التحقق من الرقم اﻷمان",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
@@ -1554,11 +1594,11 @@
         }
     },
     "themeLight": {
-        "message": "Light",
+        "message": "فاتح",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "Dark",
+        "message": "داكن",
         "description": "Label text for dark theme"
     },
     "themeSystem": {
@@ -1614,11 +1654,11 @@
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Restart Signal",
+        "message": "اعادة تشغيل سيجنال Signal",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Later",
+        "message": "فيما بعد",
         "description": ""
     },
     "leftTheGroup": {
@@ -1670,7 +1710,7 @@
         }
     },
     "youJoinedTheGroup": {
-        "message": "You joined the group.",
+        "message": "لقد انضممت إلى المجموعة.",
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
@@ -1717,6 +1757,10 @@
         "message": "View-once Video",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
+    "message--deletedForEveryone": {
+        "message": "تم حذف هذه الرسالة.",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
+    },
     "stickers--toast--InstallFailed": {
         "message": "Sticker pack could not be installed",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -1750,7 +1794,7 @@
         "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
     },
     "stickers--StickerManager--Uninstall": {
-        "message": "Uninstall",
+        "message": "إلغاء التثبيت",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
@@ -1794,7 +1838,7 @@
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
-        "message": "Sticker Pack",
+        "message": "حزمة الملصقات",
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
@@ -1864,7 +1908,7 @@
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming--expired-toast": {
-        "message": "You already viewed this message.",
+        "message": "لقد قمت مسبقا بمعاينة هذه الرسالة.",
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
@@ -2003,6 +2047,10 @@
         "message": "Remove all draft attachments",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "Jump to conversation",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Enter",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Tab",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1 to 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "Keyboard Shortcuts",
@@ -2289,12 +2345,16 @@
         "message": "Failed to send reaction. Please try again.",
         "description": "Shown when a reaction fails to send"
     },
+    "ReactionsViewer--more": {
+        "message": "More",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
+    },
     "ReactionsViewer--all": {
         "message": "الجميع",
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "privacyPolicy": {
-        "message": "Terms & Privacy Policy",
+        "message": "الشروط وسياسة الخصوصية",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

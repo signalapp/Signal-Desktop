@@ -3,6 +3,10 @@
         "message": "Copiar erro e sair",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Unknown contact",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "Grupo desconhecido",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -411,6 +415,18 @@
         "message": "Algo correu mal ao carregar! Por favor considere que adicionar um relatório de erros para o Erro que vai enviar.",
         "description": ""
     },
+    "debugLogCopy": {
+        "message": "Copiar",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "Copiar link para a área de transferência",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "Link copiado para a sua área de transferência",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
+    },
     "reportIssue": {
         "message": "Reportar um problema",
         "description": "Link to open the issue tracker"
@@ -613,6 +629,10 @@
         "message": "Exibir atalhos de teclado",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "Contacte-nos",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "Ir para as notas de lançamento",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,9 +645,13 @@
         "message": "Ir para a página de suporte",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "Reportar um problema",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "Ir para o GitHub",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Juntar-se ao Beta",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "Definições do Signal Desktop",
@@ -662,7 +686,7 @@
         "description": "Tooltip for the tray icon"
     },
     "search": {
-        "message": "Procurar",
+        "message": "Pesquisar",
         "description": "Placeholder text in the search input"
     },
     "searchIn": {
@@ -957,8 +981,8 @@
         "message": "Ver número de segurança",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "Ver todos os ficheiros multimédia",
+    "viewRecentMedia": {
+        "message": "Ver média recente",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1083,9 +1107,17 @@
         "message": "Existem demasiados dispositivos associados. Tente remover alguns.",
         "description": ""
     },
-    "settings": {
-        "message": "Definições",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "Atualize o Signal neste dispositivo para ligar ao seu telemóvel.",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "Ocorreu algo de errado!",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "Tentar novamente",
+        "description": ""
     },
     "theme": {
         "message": "Tema",
@@ -1104,7 +1136,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Ative a verificação ortográfica para o texto introduzido",
+        "message": "Ativar a verificação ortográfica para o texto introduzido",
         "description": "Description of the media permission description"
     },
     "spellCheckWillBeEnabled": {
@@ -1143,12 +1175,20 @@
         "message": "A desligar e a eliminar todos os dados",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
+    "deleteOldIndexedDBData": {
+        "message": "Você tem dados obsoletos resultantes de uma instalação anterior do Signal Desktop. Se escolher continuar, serão eliminados e irá começar a partir do início.",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "Eliminar dados antigos",
+        "description": "Button to make the delete happen"
+    },
     "notifications": {
         "message": "Notificações",
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "Ao chegar uma mensagem, mostrar notificações que mostrem:",
+        "message": "Ao chegar uma mensagem, exibir nas notificações:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
@@ -1717,6 +1757,10 @@
         "message": "Vídeo de visualização única",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
+    "message--deletedForEveryone": {
+        "message": "Esta mensagem foi eliminada.",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
+    },
     "stickers--toast--InstallFailed": {
         "message": "Não foi possível instalar o pacote de autocolantes",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -1806,7 +1850,7 @@
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "Procurar emoji",
+        "message": "Pesquisar emoji",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
@@ -1928,7 +1972,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search": {
-        "message": "Procurar",
+        "message": "Pesquisar",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search-in-conversation": {
@@ -2003,6 +2047,10 @@
         "message": "Remover todos os anexos de rascunho",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "Saltar para a conversa",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Enter",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Tab",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1 a 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "Atalhos de teclado",
@@ -2288,6 +2344,10 @@
     "Reactions--error": {
         "message": "Falha ao enviar reação. Por favor, tente novamente.",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "Mais",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "Tudo",

@@ -3,6 +3,10 @@
         "message": "Kopiera felmeddelande och avsluta",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Okänd kontakt",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "Okänd grupp",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -128,11 +132,11 @@
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Slå av/på fullskärm",
+        "message": "Växla helskärmsläge",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Slå på utvecklingsverktyg",
+        "message": "Slå på/av utvecklingsverktyg",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupAsNewDevice": {
@@ -178,7 +182,7 @@
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "archiveHelperText": {
-        "message": "Konversationerna här är arkiverade och kommer bara visas i inkorgen ifall nya meddelanden tas emot.",
+        "message": "Dessa konversationerna är arkiverade och kommer endast att visas i inkorgen om nya meddelanden tas emot.",
         "description": "Shown at the top of the archived converations list in the left pane"
     },
     "archiveConversation": {
@@ -404,12 +408,24 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Den här loggen kommer att bli postad publikt på internet så att våra medarbetare kan kolla igenom den. Du kan gå igenom och ändra på den innan du skickar in den.",
+        "message": "Den här logg kommer att publiceras offentligt på nätet så att bidragsgivarna kan se. Du kan granska och redigera det innan du skickar in den.",
         "description": ""
     },
     "debugLogError": {
         "message": "Något gick fel med sändningen! Vänligen överväg att manuellt lägga till loggen till felrapporten du skriver.",
         "description": ""
+    },
+    "debugLogCopy": {
+        "message": "Kopiera",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "Kopiera länk till ditt urklipp",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "Länk kopierad till ditt urklipp",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
         "message": "Anmäl ett programfel",
@@ -613,6 +629,10 @@
         "message": "Visa kortkommandon",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "Kontakta oss",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "Gå till versionsanteckningar",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,9 +645,13 @@
         "message": "Gå till supportsida",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "Rapportera ett fel",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "Gå till GitHub",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Gå med i Beta",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "Signal Desktop-inställningar",
@@ -798,7 +822,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Röstmeddelanden är begränsade till fem minuter. Inspelningen stoppas om du byter till en annan app.",
+        "message": "Röstmeddelanden är begränsade till fem minuter. Inspelningen kommer att stoppas om du byter till en annan app.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -830,7 +854,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Om du vill skicka röstmeddelanden måste Signal Desktop ha tillgång till din mikrofon.",
+        "message": "För att skicka ljudmeddelanden, vänligen ge Signal Desktop åtkomst till din mikrofon.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -910,7 +934,7 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Är du säker? Om du klickar \"ta bort\" så tas detta meddelande bort permanent, men bara från denna enhet.",
+        "message": "Är du säker? Om du klickar på \"Ta bort\" kommer detta meddelandet att tas från den här enheten permanent.",
         "description": ""
     },
     "deleteThisMessage": {
@@ -957,12 +981,12 @@
         "message": "Visa säkerhetsnummer",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "Visa alla media",
+    "viewRecentMedia": {
+        "message": "Visa senaste media",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Om du vill verifiera krypteringen mellan dig och $name$, jämför siffrorna ovan med siffrorna på deras enhet.",
+        "message": "Om du vill verifiera säkerheten för din ände-till-ände-kryptering med $name$, jämför siffrorna ovan med siffrorna på deras enhet.",
         "description": "",
         "placeholders": {
             "name": {
@@ -972,7 +996,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Du har inte utbytt några meddelanden med denna kontakt ännu. Ditt säkerhetsnummer med dem kommer att vara tillgängliga efter det första meddelandet.",
+        "message": "Du har inte utbytt några meddelanden med denna kontakt ännu. Ditt säkerhetsnummer med dem kommer att vara tillgängligt efter det första meddelandet.",
         "description": ""
     },
     "moreInfo": {
@@ -1068,7 +1092,7 @@
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Slutför koppling till telefon",
+        "message": "Slutför länkning med mobil",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
@@ -1083,9 +1107,17 @@
         "message": "Tyvärr har du för många enheter redan länkade. Försök att ta bort några.",
         "description": ""
     },
-    "settings": {
-        "message": "Inställningar",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "Uppdatera Signal på den här enheten för att länka din telefon.",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "Något gick fel!",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "Försök igen",
+        "description": ""
     },
     "theme": {
         "message": "Tema",
@@ -1108,11 +1140,11 @@
         "description": "Description of the media permission description"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Stavningskontroll aktiveras nästa gång Signal startas.",
+        "message": "Stavningskontrollen kommer att aktiveras nästa gång Signal startas.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Stavningskontroll inaktiveras nästa gång Signal startas.",
+        "message": "Stavningskontrollen kommer att inaktiveras nästa gång Signal startas.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "clearDataHeader": {
@@ -1142,6 +1174,14 @@
     "deleteAllDataProgress": {
         "message": "Kopplar bort och tar bort alla data",
         "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "deleteOldIndexedDBData": {
+        "message": "Du har föråldrade data från en tidigare installation av Signal Desktop. Om du väljer att fortsätta kommer det att tas bort och du kommer att börja från början.",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "Ta bort gamla data",
+        "description": "Button to make the delete happen"
     },
     "notifications": {
         "message": "Aviseringar",
@@ -1268,7 +1308,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Den här versionen av Signal Desktop har utgått. Vänligen uppgradera till den senaste versionen för att fortsätta chatta.",
+        "message": "Den här versionen av Signal Desktop har löpt ut. Vänligen uppgradera till den senaste versionen för att fortsätta chatta.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1352,11 +1392,11 @@
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
-        "message": "Avblockera denna kontakt för att skicka meddelanden.",
+        "message": "Sluta blockera denna kontakt för att skicka meddelanden.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Avblockera denna grupp för att skicka meddelanden.",
+        "message": "Sluta blockera denna grupp för att skicka meddelanden.",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
@@ -1717,6 +1757,10 @@
         "message": "Visa-en-gång video",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
+    "message--deletedForEveryone": {
+        "message": "Det här meddelandet togs bort.",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
+    },
     "stickers--toast--InstallFailed": {
         "message": "Klistermärkespaketet kan inte installeras",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -1742,7 +1786,7 @@
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Klistermärken från inkommande meddelanden visas här",
+        "message": "Klistermärken från inkommande meddelanden kommer att visas här",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
@@ -2003,6 +2047,10 @@
         "message": "Ta bort alla utkast till bilagor",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "Hoppa till konversation",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Retur",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Tab",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1 till 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "Kortkommandon",
@@ -2170,7 +2226,7 @@
         "description": "Label for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover--help": {
-        "message": "Detta är den bild som kommer att dyka upp när du delar din klistermärkespaket",
+        "message": "Detta är den bild som kommer att dyka upp när du delar ditt klistermärkespaket",
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
@@ -2208,7 +2264,7 @@
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "Få tillgång till dina nya klistermärken via ikonen klistermärke, eller dela med dina vänner med hjälp av länken nedan.",
+        "message": "Få åtkomst till dina nya klistermärken via klistermärkesikonen, eller dela med dina vänner med hjälp av länken nedan.",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
@@ -2288,6 +2344,10 @@
     "Reactions--error": {
         "message": "Det gick inte att skicka reaktion. Vänligen försök igen.",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "Mer",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "Alla",

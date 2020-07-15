@@ -1,7 +1,11 @@
 {
     "copyErrorAndQuit": {
-        "message": "Copy error and quit",
+        "message": "エラーメッセージをコピーして終了します",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
+    },
+    "unknownContact": {
+        "message": "不明な連絡先",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
     },
     "unknownGroup": {
         "message": "不明なグループ",
@@ -56,7 +60,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Signalを終了する",
+        "message": "Signal を終了",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -148,7 +152,7 @@
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuNoSuggestions": {
-        "message": "No Suggestions",
+        "message": "提案がありません",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
@@ -264,7 +268,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You left the group.",
+        "message": "グループを退会しました。",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -290,7 +294,7 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "For your security, conversation history isn't transferred to new linked devices.",
+        "message": "セキュリティ上の理由から、過去の会話履歴は新しくリンクされたデバイスには転送されません。",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
@@ -376,7 +380,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
+        "message": "$name$との安全番号に変更がありました。誰かが通信を傍受しようとしているかも知れませんし，$name$がSignalを再インストールしただけかも知れません。この相手との安全番号を検証することをお勧めします。",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -410,6 +414,18 @@
     "debugLogError": {
         "message": "アップロードには失敗ありました！手入力でログをバグ報告に付けることを考慮して下さい。",
         "description": ""
+    },
+    "debugLogCopy": {
+        "message": "コピー",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "クリップボードにリンクをコピー",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "リンクをクリップボードにコピーしました",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
         "message": "問題を報告",
@@ -528,7 +544,7 @@
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Draft thumbnail link preview for $domain$",
+        "message": "$domain$のリンクプレビュー (サムネイル)のドラフト",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -538,7 +554,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Thumbnail link preview for $domain$",
+        "message": "$domain$のリンクプレビュー",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -548,7 +564,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Draft image attachment: $path$",
+        "message": "画像添付ファイルのドラフト: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -558,15 +574,15 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "When including a non-image attachment, the limit is one attachment per message.",
+        "message": "画像以外の添付ファイルを追加する場合、メッセージ1件に添付できるのは1つだけです。",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAdnNonImageAttachments": {
-        "message": "You cannot mix non-image and image attachments in one message.",
+        "message": "1つのメッセージに画像と画像以外のファイルを同時に添付することはできません。",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "You cannot add any more attachments to this message.",
+        "message": "メッセージに添付ファイルを追加できませんでした。",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
@@ -586,11 +602,11 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Connect",
+        "message": "接続",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long...",
+        "message": "少しお待ちください...",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -613,6 +629,10 @@
         "message": "キーボードショートカットを表示",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "お問い合わせ",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "リリースノートを閲覧",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,16 +645,20 @@
         "message": "サポートページへ",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "バグを報告",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "GitHub へ",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "ベータ版に参加",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "Signal Desktop設定",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "ステッカーパックの作成",
+        "message": "Sticker Pack Creator",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -708,7 +732,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
-        "message": "Signalにようこそ",
+        "message": "Signal へようこそ",
         "description": ""
     },
     "selectAContact": {
@@ -716,7 +740,7 @@
         "description": ""
     },
     "typingAlt": {
-        "message": "Typing animation for this conversation",
+        "message": "この会話で入力中の状態を示すアニメーション",
         "description": "Used as the 'title' attibute for the typing animation"
     },
     "contactAvatarAlt": {
@@ -770,7 +794,7 @@
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
-        "message": "React to Message",
+        "message": "メッセージに反応",
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
@@ -790,23 +814,23 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecordingInterruptedMax": {
-        "message": "Voice message recording stopped because the maximum time limit was reached.",
+        "message": "制限時間がきたので音声メッセージの録音は停止されました。",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
-        "message": "Voice message recording stopped because you switched to another app.",
+        "message": "別のアプリに切り替えられたのでボイスメッセージの録音は停止しました。",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Voice messages are limited to five minutes. Recording will stop if you switch to another app.",
+        "message": "ボイスメッセージは5分に制限されています。他のアプリに変えると録音がとまります。",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "A voice message must have only one attachment.",
+        "message": "音声メッセージには別のファイルを添付することはできません。",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
-        "message": "Attachment saved. Click to show in folder.",
+        "message": "添付ファイルを保存しました。保存したフォルダを表示する",
         "description": "Shown after user selects to save to downloads",
         "placeholders": {
             "name": {
@@ -858,7 +882,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to $url$ and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "Signal Desktop はアップデートに失敗しましたが、新しいバージョンが利用可能です。$url$ から手動で新しいバージョンをインストールしてからサポートに問い合わせるか、このバグを報告してください。",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -868,7 +892,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving $app$ to $folder$ with Finder.",
+        "message": "Signal Desktop が macOS の検疫にかかっていて自動更新できないようです。$app$を Finder で$folder$へ移動してください。",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -957,8 +981,8 @@
         "message": "安全番号を表示する",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "すべてのメディアを表示",
+    "viewRecentMedia": {
+        "message": "最近使用したメディア",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1016,7 +1040,7 @@
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "Icon showing that this image has a caption",
+        "message": "この画像にキャプションがついていることを示すアイコン",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
@@ -1036,7 +1060,7 @@
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "プライバシーは守れます。Signalを使えば簡単に。",
+        "message": "Signal を使えば簡単にプライバシーを守れます。",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
@@ -1083,9 +1107,17 @@
         "message": "結び付けているデバイスが多すぎます。どれかを切り離してください。",
         "description": ""
     },
-    "settings": {
-        "message": "設定",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "スマートフォンとリンクするために Signal を更新してください。",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "エラーが発生しました。",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "もう一度試す",
+        "description": ""
     },
     "theme": {
         "message": "テーマ",
@@ -1108,11 +1140,11 @@
         "description": "Description of the media permission description"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Spell check will be enabled the next time Signal starts.",
+        "message": "スペルチェックは次回 Signal を開始したときに有効になります。",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Spell check will be disabled the next time Signal starts.",
+        "message": "スペルチェックは次回 Signal を開始したときに無効になります。",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "clearDataHeader": {
@@ -1143,12 +1175,20 @@
         "message": "接続を切って全データを削除しています",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
+    "deleteOldIndexedDBData": {
+        "message": "以前のバージョンの Signal Desktop で利用していた、すでに利用できなくなっているデータが残っています。続行するとこのデータは削除され、フレッシュな状態で改めて利用を始めることになります。",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "古いデータを削除",
+        "description": "Button to make the delete happen"
+    },
     "notifications": {
         "message": "通知",
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "新着メッセージの通知で表示する項目：",
+        "message": "新着メッセージの通知で表示する項目:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
@@ -1188,7 +1228,7 @@
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "notificationReaction": {
-        "message": "$sender$ reacted $emoji$ to your message",
+        "message": "$sender$の反応 $emoji$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1202,7 +1242,7 @@
         }
     },
     "notificationReactionMostRecent": {
-        "message": "Most recent: $sender$ reacted $emoji$ to your message",
+        "message": "最新: $sender$の反応 $emoji$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1216,7 +1256,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ reacted $emoji$ to: $message$",
+        "message": "$sender$の$message$への反応 $emoji$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1234,7 +1274,7 @@
         }
     },
     "notificationReactionMessageMostRecent": {
-        "message": "Most recent: $sender$ reacted $emoji$ to: $message$",
+        "message": "最新: $sender$の$message$へのh反応 $emoji$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1574,11 +1614,11 @@
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Start new conversation…",
+        "message": "新しい会話を始める...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "notSupportedSMS": {
-        "message": "SMS/MMS messages are not supported.",
+        "message": "SMS/MMS メッセージはサポートしていません。",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
@@ -1622,7 +1662,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$がグループを退会しました。",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1632,7 +1672,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$がグループを退会しました。",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1682,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ updated the group.",
+        "message": "$name$がグループを修正しました。",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1656,11 +1696,11 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Group avatar was updated.",
+        "message": "グループ画像を更新しました。",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Group name is now '$name$'.",
+        "message": "グループ名が「$name$」に設定されました。",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1670,11 +1710,11 @@
         }
     },
     "youJoinedTheGroup": {
-        "message": "You joined the group.",
+        "message": "あなたがグループに参加しました。",
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group.",
+        "message": "$name$ がグループに参加しました。",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1684,7 +1724,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group.",
+        "message": "$names$ がグループに参加しました。　",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1717,6 +1757,10 @@
         "message": "消える動画",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
+    "message--deletedForEveryone": {
+        "message": "このメッセージが削除されました。",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
+    },
     "stickers--toast--InstallFailed": {
         "message": "ステッカーパックをインストールできませんでした",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -1734,7 +1778,7 @@
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "No Signal Artist stickers available",
+        "message": "Signal Artist によるステッカーがありません。",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
@@ -1754,11 +1798,11 @@
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "You may not be able to re-install this sticker pack if you no longer have the source message.",
+        "message": "送信元のメッセージを持っていない場合は、ステッカーパックを再インストールできないかもしれません。",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Image": {
-        "message": "Introducing Stickers: Bandit the Cat",
+        "message": "ステッカーのご紹介: Bandit the Cat",
         "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
@@ -1782,7 +1826,7 @@
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "New sticker packs from your messages are available to install",
+        "message": "送られてきたステッカーを含むステッカーパックをダウンロードできます。",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
@@ -1798,7 +1842,7 @@
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Error opening sticker pack. Check your internet connection and try again.",
+        "message": "ステッカーパックを開けませんでした。インターネットの接続状態を確認して再度お試しください。",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
@@ -1810,7 +1854,7 @@
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
-        "message": "Skin tone $tone$",
+        "message": "肌色: $tone$",
         "description": "Shown as a tooltip over the emoji tone buttons.",
         "placeholders": {
             "status": {
@@ -1824,7 +1868,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ sent you a message that can't be processed or displayed because it uses a new Signal feature.",
+        "message": "$contact$からメッセージが届きましたが、Signal の新機能を利用しているため処理または表示できません。",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1834,7 +1878,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "You can ask $contact$ to re-send this message now that you are using an up-to-date version of Signal.",
+        "message": "Signal を最新版に更新したので、$contact$にメッセージの再送を依頼してください。",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1844,11 +1888,11 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "One of your devices sent a message that can't be processed or displayed because it uses a new Signal feature.",
+        "message": "別のデバイスで Signal の新機能を使用してメッセージを送信したため、処理または表示できませんでした。",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Future messages like this will be synchronized now that you are using an up-to-date version of Signal.",
+        "message": "Signal を最新版に更新したので、今後はこのようなメッセージも同期されます。",
         "description": ""
     },
     "Message--update-signal": {
@@ -1884,7 +1928,7 @@
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--quote": {
-        "message": "(quote)",
+        "message": "(引用)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--draft": {
@@ -1892,7 +1936,7 @@
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Keyboard--navigate-by-section": {
-        "message": "Navigate by section",
+        "message": "セクションごとの移動",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-conversation": {
@@ -1964,11 +2008,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
-        "message": "Toggle reply to selected message",
+        "message": "選択したメッセージへの返信に切り替える",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Toggle reaction picker for selected message",
+        "message": "選択したメッセージへのリアクションに切り替える",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2003,12 +2047,16 @@
         "message": "下書きのすべての添付ファイルを削除する",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "会話へ飛ぶ",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--option": {
-        "message": "Option",
+        "message": "設定",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--alt": {
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Enter",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Tab",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1 から 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "キーボードショートカット",
@@ -2056,7 +2112,7 @@
         "description": "Used as alt text for any button closing a popup"
     },
     "add-image-attachment": {
-        "message": "Add image attachment",
+        "message": "画像の添付ファイルを追加",
         "description": "Used in draft attachment list for the big 'add new attachment' button"
     },
     "remove-attachment": {
@@ -2076,11 +2132,11 @@
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "StickerCreator--title": {
-        "message": "ステッカーパックの作成",
+        "message": "Sticker Pack Creator",
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "Click to add or drop images here",
+        "message": "クリックで追加するかここに画像をドロップ",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
@@ -2256,11 +2312,11 @@
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
-        "message": "Error processing image",
+        "message": "画像の処理中にエラーが発生しました。",
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorUploading": {
-        "message": "Error uploading stickers: $message$",
+        "message": "ステッカーのアップロード中にエラーが発生しました: $message$",
         "description": "Text for the toast when a sticker pack cannot be uploaded",
         "placeholders": {
             "message": {
@@ -2274,20 +2330,24 @@
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
-        "message": "My sticker in light theme",
+        "message": "ライトテーマのステッカー",
         "description": "Text for the sticker preview for the light theme"
     },
     "StickerCreator--StickerPreview--dark": {
-        "message": "My sticker in dark theme",
+        "message": "ダークテーマのステッカー",
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+        "message": "Sticker Pack Creator を使うには、Signal をスマートフォンとデスクトップで設定してください。",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
-        "message": "Failed to send reaction. Please try again.",
+        "message": "リアクションを送信に失敗しました。再度お試しください。",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "さらに",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "すべて",

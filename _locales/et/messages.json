@@ -3,6 +3,10 @@
         "message": "Kopeeri tõrke tekst ja välju",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Tundmatu kontakt",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "Tundmatu grupp",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -264,7 +268,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You left the group.",
+        "message": "Sa lahkusid grupist.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -410,6 +414,18 @@
     "debugLogError": {
         "message": "Midagi läks üleslaadimisega kehvasti! Palun lisa logifailid sellele raportile käsitsi.",
         "description": ""
+    },
+    "debugLogCopy": {
+        "message": "Kopeeri",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "Kopeeri link lõikepuhvrisse",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "Link kopeeriti lõikepuhvrisse",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
         "message": "Teavita probleemist",
@@ -613,6 +629,10 @@
         "message": "Näita klaviatuuri kiirklahve",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "Võta meiega ühendust",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "Mine väljalaskemärkmete juurde",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,16 +645,20 @@
         "message": "Mine kasutajatoelehele",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "Teavita probleemist",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "Mine GitHubi",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Ühine beeta-programmiga",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "Signal Desktopi eelistused",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "Kleepsupaki looja",
+        "message": "Kleebisepaki looja",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -790,15 +814,15 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecordingInterruptedMax": {
-        "message": "Voice message recording stopped because the maximum time limit was reached.",
+        "message": "Kõnesõnumi salvestamine peatati, sest maksimaalne ajalimiit oli saavutatud.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
-        "message": "Voice message recording stopped because you switched to another app.",
+        "message": "Kõnesõnumi salvestamine peatati, sest sa lülitusid teisele rakendusele.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Voice messages are limited to five minutes. Recording will stop if you switch to another app.",
+        "message": "Kõnesõnumite pikkus on piiratud viie minutiga. Salvestamine peatub, kui lülitud teisele rakendusele.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -858,7 +882,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to $url$ and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "Signal Desktop värskendamine nurjus, kuid saadaval on uus versioon. Palun mine aadressile $url$ ja paigalda uus versioon käsitsi. Seejärel võta ühendust kasutajatoega või sisesta selle probleemi kohta veateade.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -868,7 +892,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving $app$ to $folder$ with Finder.",
+        "message": "Signal Desktop on tõenäoliselt macOS-i karantiinis ja seda pole võimalik automaatselt uuendada. Palun teisalda $app$ kausta $folder$ Finderi abil.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -957,8 +981,8 @@
         "message": "Näita turvanumbrit",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "Näita kogu meediat",
+    "viewRecentMedia": {
+        "message": "Näita hiljutist meediat",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1083,12 +1107,20 @@
         "message": "Kahjuks on sul juba liiga palju ühendatud seadmeid. Proovi mõni eemaldada.",
         "description": ""
     },
-    "settings": {
-        "message": "Sätted",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "Telefoni ühendamiseks pead selles seadmes Signal-it uuendama.",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "Midagi läks valesti!",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "Proovi uuesti",
+        "description": ""
     },
     "theme": {
-        "message": "Teema",
+        "message": "Värviteema",
         "description": "Header for theme settings"
     },
     "permissions": {
@@ -1108,11 +1140,11 @@
         "description": "Description of the media permission description"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Spell check will be enabled the next time Signal starts.",
+        "message": "Õigekirja kontroll lubatakse järgmisel Signal-i käivitamisel.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Spell check will be disabled the next time Signal starts.",
+        "message": "Õigekirja kontroll keelatakse järgmisel Signal-i käivitamisel.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "clearDataHeader": {
@@ -1143,12 +1175,20 @@
         "message": "Ühenduse lõpetamine ja kõigi andmete kustutamine",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
+    "deleteOldIndexedDBData": {
+        "message": "Sul on Signal Desktop-i varasematest paigaldustest jäänud üleliigseid andmeid. Kui valid jätkamise, siis need andmed kustutatakse ja sa alustad algusest peale.",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "Kustuta vanad andmed",
+        "description": "Button to make the delete happen"
+    },
     "notifications": {
         "message": "Teavitused",
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "Kui saabub sõnum, siis kuva teavitusi, mis avaldavad:",
+        "message": "Sõnumi saabumisel näita teavitusi, mis avaldavad:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
@@ -1188,7 +1228,7 @@
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "notificationReaction": {
-        "message": "$sender$ reacted $emoji$ to your message",
+        "message": "$sender$ reageeris $emoji$ sinu sõnumile",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1202,7 +1242,7 @@
         }
     },
     "notificationReactionMostRecent": {
-        "message": "Most recent: $sender$ reacted $emoji$ to your message",
+        "message": "Uusim: $sender$ reageeris $emoji$ sinu sõnumile",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1216,7 +1256,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ reacted $emoji$ to: $message$",
+        "message": "$sender$ reageeris $emoji$ sõnumile: $message$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1234,7 +1274,7 @@
         }
     },
     "notificationReactionMessageMostRecent": {
-        "message": "Most recent: $sender$ reacted $emoji$ to: $message$",
+        "message": "Uusim: $sender$ reageeris $emoji$ sõnumile: $message$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1578,7 +1618,7 @@
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "notSupportedSMS": {
-        "message": "SMS/MMS messages are not supported.",
+        "message": "SMS/MMS-sõnumid pole toetatud.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
@@ -1622,7 +1662,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ lahkus grupist.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1632,7 +1672,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ lahkus grupist.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1682,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ updated the group.",
+        "message": "$name$ uuendas gruppi.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1656,11 +1696,11 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Group avatar was updated.",
+        "message": "Grupi pilti muudeti.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Group name is now '$name$'.",
+        "message": "Grupi nimi on nüüd '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1670,11 +1710,11 @@
         }
     },
     "youJoinedTheGroup": {
-        "message": "You joined the group.",
+        "message": "Sa ühinesid grupiga.",
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group.",
+        "message": "$name$ ühines grupiga.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1684,7 +1724,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group.",
+        "message": "$names$ ühinesid grupiga.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1698,7 +1738,7 @@
         "description": "Prefix shown in italic in conversation view when a draft is saved"
     },
     "message--getNotificationText--stickers": {
-        "message": "Kleepsu sõnum",
+        "message": "Kleebise sõnum",
         "description": "Shown in notifications and in the left pane instead of sticker image."
     },
     "message--getDescription--unsupported-message": {
@@ -1706,27 +1746,31 @@
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
-        "message": "View-once Media",
+        "message": "Ühekordseks nägemiseks meedia",
         "description": "Shown in notifications and in the left pane after view-once message is deleted."
     },
     "message--getDescription--disappearing-photo": {
-        "message": "View-once Photo",
+        "message": "Ühekordseks nägemiseks foto",
         "description": "Shown in notifications and in the left pane when a message is a view once photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "View-once Video",
+        "message": "Ühekordseks nägemiseks video",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
+    "message--deletedForEveryone": {
+        "message": "See sõnum kustutati.",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
+    },
     "stickers--toast--InstallFailed": {
-        "message": "Kleepsupaki paigaldamine ei õnnestunud",
+        "message": "Kleebisepaki paigaldamine ei õnnestunud",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
     },
     "stickers--StickerManager--InstalledPacks": {
-        "message": "Paigaldatud kleepsud",
+        "message": "Paigaldatud kleebised",
         "description": "Shown in the sticker pack manager above your installed sticker packs."
     },
     "stickers--StickerManager--InstalledPacks--Empty": {
-        "message": "Kleepse pole paigaldatud",
+        "message": "Kleebiseid pole paigaldatud",
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
@@ -1734,15 +1778,15 @@
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "Signal Artist kleepse pole saadaval",
+        "message": "Signal Artist kleebiseid pole saadaval",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
-        "message": "Vastuvõetud kleepsud",
+        "message": "Vastuvõetud kleebised",
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Kleepsud sissetulevatelt sõnumitelt kuvatakse siin",
+        "message": "Siia ilmuvad saabuvate sõnumite kleebised",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
@@ -1754,51 +1798,51 @@
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "Sa ei saa seda kleepsupakki uuesti paigaldada, kui sul pole enam algsõnumit.",
+        "message": "Sa ei saa seda kleebisepakki uuesti paigaldada, kui sul pole enam algsõnumit.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Image": {
-        "message": "Introducing Stickers: Bandit the Cat",
+        "message": "Tutvustame kleebiseid: Bandiit kass",
         "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
-        "message": "Tutvustame kleepse",
+        "message": "Tutvustame kleebiseid",
         "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
-        "message": "Miks kasutada sõnu, kui saab kasutada kleepse?",
+        "message": "Miks kasutada sõnu, kui saab kasutada kleebiseid?",
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--DownloadError": {
-        "message": "Mõnede kleepsude allalaadimine ei õnnestunud.",
+        "message": "Mõnede kleebiste allalaadimine ei õnnestunud.",
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "Kleepsupaki paigaldamine...",
+        "message": "Kleebisepaki paigaldamine...",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
-        "message": "Kleepse ei leitud",
+        "message": "Kleebiseid ei leitud",
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "Uued kleepsupakid sinu sõnumitest on paigaldamiseks saadaval",
+        "message": "Uued kleebisepakid sinu sõnumitest on paigaldamiseks saadaval",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
-        "message": "Kleepsupakke ei leitud",
+        "message": "Kleebisepakke ei leitud",
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
-        "message": "Hiljuti kasutatud kleepsud ilmuvad siia.",
+        "message": "Siia ilmuvad hiljuti kasutatud kleebised.",
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
-        "message": "Kleepsupakk",
+        "message": "Kleebisepakk",
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Kleepsupaki avamisel tekkis tõrge. Palun kontrolli enda internetiühendust ja proovi uuesti.",
+        "message": "Kleebisepaki avamisel tekkis tõrge. Kontrolli internetiühendust ja proovi uuesti.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
@@ -1868,7 +1912,7 @@
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
-        "message": "View-once messages are not stored in your conversation history.",
+        "message": "Ühekordseks nägemiseks sõnumeid ei salvestata vestluse ajaloos.",
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
@@ -1948,7 +1992,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-sticker-chooser": {
-        "message": "Ava kleepsude valija",
+        "message": "Ava kleebiste valija",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
@@ -2003,6 +2047,10 @@
         "message": "Eemalda kõik mustandite manused",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "Hüppa vestluse juurde",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Enter",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Tab",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1 - 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "Klaviatuuri kiirklahvid",
@@ -2076,7 +2132,7 @@
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "StickerCreator--title": {
-        "message": "Kleepsupaki looja",
+        "message": "Kleebisepaki looja",
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
@@ -2088,7 +2144,7 @@
         "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
     },
     "StickerCreator--Preview--title": {
-        "message": "Kleepsupakk",
+        "message": "Kleebisepakk",
         "description": "The 'title' of the sticker pack preview 'modal'"
     },
     "StickerCreator--ConfirmDialog--cancel": {
@@ -2124,19 +2180,19 @@
         "description": "Default text for the previous button on all stages of the sticker creator"
     },
     "StickerCreator--DropStage--title": {
-        "message": "Lisa enda kleepsud",
+        "message": "Lisa enda kleebised",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Stickers must be in PNG or WebP format with a transparent background and 512x512 pixels. Recommended margin is 16px.",
+        "message": "Kleebised peavad olema PNG- või WebP-vormingus, läbipaistva taustaga ja 512x512 pikslit. Soovitatav veeris on 16 pikslit.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
-        "message": "Show margins",
+        "message": "Näita veeriseid",
         "description": "Text for the show margins toggle on the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--addMore": {
-        "message": "Add $count$ or more",
+        "message": "Lisa $count$ või rohkem",
         "description": "Text to show user how many more stickers they must add",
         "placeholders": {
             "hashtag": {
@@ -2146,15 +2202,15 @@
         }
     },
     "StickerCreator--EmojiStage--title": {
-        "message": "Add an emoji to each sticker",
+        "message": "Lisa emotikon igale kleebisele",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--EmojiStage--help": {
-        "message": "This allows us to suggest stickers to you as you're messaging.",
+        "message": "See võimaldab meil teile sõnumite saatmise ajal soovitada kleebiseid.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
-        "message": "Just a few more details...",
+        "message": "Lihtsalt mõned detailid veel...",
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
@@ -2170,11 +2226,11 @@
         "description": "Label for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover--help": {
-        "message": "This is the image that will show up when you share your sticker pack",
+        "message": "See pilt kuvatakse siis, kui jagate oma kleebisepakki",
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
-        "message": "Are you sure you want to upload your sticker pack?",
+        "message": "Kas sa soovid kindlasti oma kleebisepaki üles laadida?",
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
@@ -2182,11 +2238,11 @@
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "You will no longer be able to make edits or delete after creating a sticker pack.",
+        "message": "Pärast kleebisepaki loomist ei saa enam muudatusi teha ega kustutada.",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
-        "message": "Kleepsupaki loomine",
+        "message": "Kleebisepaki loomine",
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
@@ -2204,15 +2260,15 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "Palju õnne! Sa tegid uue kleepsupaki.",
+        "message": "Palju õnne! Sa tegid uue kleebisepaki.",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "Access your new stickers through the sticker icon, or share with your friends using the link below.",
+        "message": "Kasuta uutele kleebistele ligipääsuks kleebiste ikooni või jaga oma sõpradega alloleva lingi kaudu.",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Use the hashtag $hashtag$ to help other people find the URLs for any custom sticker packs that you would like to make publicly accessible.",
+        "message": "Kasuta hashtag $hashtag$, et aidata teistel inimestel leida kõigi kohandatud kleebispakkide URL-id, mida soovid avalikkusele kättesaadavaks teha.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -2222,7 +2278,7 @@
         }
     },
     "StickerCreator--ShareStage--copyTitle": {
-        "message": "Kleepsupaki URL",
+        "message": "Kleebisepaki URL",
         "description": "Title for the copy button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--close": {
@@ -2230,11 +2286,11 @@
         "description": "Text for the close button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--createAnother": {
-        "message": "Loo veel üks kleepsupakk",
+        "message": "Loo veel üks kleebisepakk",
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Vaata seda uut kleepsupakki, mille ma Signal-i jaoks tegin. #makeprivacystick",
+        "message": "Vaata seda uut kleebisepakki, mille ma Signal-i jaoks tegin. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -2248,7 +2304,7 @@
         }
     },
     "StickerCreator--Toasts--animated": {
-        "message": "Animeeritud kleepsud ei ole hetkel toetatud",
+        "message": "Animeeritud kleebised pole hetkel toetatud",
         "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--tooLarge": {
@@ -2260,7 +2316,7 @@
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorUploading": {
-        "message": "Kleepsude üleslaadimisel tekkis tõrge: $message$",
+        "message": "Kleebiste üleslaadimisel tekkis tõrge: $message$",
         "description": "Text for the toast when a sticker pack cannot be uploaded",
         "placeholders": {
             "message": {
@@ -2274,20 +2330,24 @@
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
-        "message": "Minu kleeps heledas teemas",
+        "message": "Minu kleebis heledas teemas",
         "description": "Text for the sticker preview for the light theme"
     },
     "StickerCreator--StickerPreview--dark": {
-        "message": "Minu kleeps tumedas teemas",
+        "message": "Minu kleebis tumedas teemas",
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Kleepsupaki looja kasutamiseks seadista palun Signal enda telefonis ja arvutis.",
+        "message": "Kleebisepaki loomisvahendi kasutamiseks pead seadistama Signal-i nii  enda telefonis kui ka arvutis",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
         "message": "Reaktsiooni saatmine ei õnnestunud. Palun proovi uuesti.",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "Rohkem",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "Kõik",

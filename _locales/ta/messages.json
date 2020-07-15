@@ -3,6 +3,10 @@
         "message": "பிழையை நகலெடுத்து வெளியேற்றவும்",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Unknown contact",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "தெரியாத குழு",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -20,7 +24,7 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Create/upload sticker pack",
+        "message": " ஓட்டிகள் தொகுப்பை உருவாக்கவும் அல்லது பதிவேற்றவும்",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -264,7 +268,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You left the group.",
+        "message": "நீங்கள் குழுவிலிருந்து வெளியேறிவிட்டீர்கள்.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -290,7 +294,7 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "For your security, conversation history isn't transferred to new linked devices.",
+        "message": "உங்கள் பாதுகாப்பிற்காக, உரையாடல் வரலாறு புதிய இணைக்கப்பட்ட சாதனங்களுக்கு மாற்றமுடியாது.",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
@@ -410,6 +414,18 @@
     "debugLogError": {
         "message": "பதிவேற்றுவதில் ஏதோ தவறு ஏற்பட்டது! நீங்கள் பதிவுசெய்த பிழையில் உங்கள் பதிவை கைமுறையாகச் சேர்க்கவும்.",
         "description": ""
+    },
+    "debugLogCopy": {
+        "message": "நகல்",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "உங்களுடைய இடைநிலைப் பலகைக்கு இணைப்பை நகலெடுக்குக",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "இணைப்பு உங்கள் இடைநிலைப் பலகைக்கு நகலெடுக்கப்பட்டது",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
         "message": "சிக்கலைப் புகாரளிக்கவும்",
@@ -586,11 +602,11 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Connect",
+        "message": "இணை",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long...",
+        "message": " நீளமா இருக்கக்கூடாது...",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -610,8 +626,12 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "helpMenuShowKeyboardShortcuts": {
-        "message": "Show Keyboard Shortcuts",
+        "message": "விசைப்பலகை குறுக்குவழிகளைக் காட்டு",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
+    },
+    "contactUs": {
+        "message": "எங்களை தொடர்பு கொள்ள",
+        "description": "Item under the help menu, takes you to the contact us support page"
     },
     "goToReleaseNotes": {
         "message": "வெளியீட்டுக் குறிப்புகளுக்குச் செல்லவும்",
@@ -625,9 +645,13 @@
         "message": "ஆதரவு பக்கத்திற்குச் செல்லவும்",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "ஒரு சிக்கலைப் புகாரளிக்கவும்",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "கிட்ஹப்பிற்குச் செல்லவும்",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Join the Beta",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "Signal Desktop விருப்பத்தேர்வுகள்",
@@ -957,8 +981,8 @@
         "message": "பாதுகாப்பு எண்ணைக் காண்க",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "எல்லா ஊடகங்களையும் காண்க",
+    "viewRecentMedia": {
+        "message": "View recent media",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1083,9 +1107,17 @@
         "message": "மன்னிக்கவும், உங்களிடம் ஏற்கனவே பல சாதனங்கள் இணைக்கப்பட்டுள்ளன. சிலவற்றை நீக்க முயற்சிக்கவும்.",
         "description": ""
     },
-    "settings": {
-        "message": "அமைப்புகள்",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "Update Signal on this device to link your phone.",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "ஏதோ தவறு நடைபெற்றிருக்கிறது!",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "மீண்டும் முயற்சிக்கவும்",
+        "description": ""
     },
     "theme": {
         "message": "தீம்",
@@ -1142,6 +1174,14 @@
     "deleteAllDataProgress": {
         "message": "எல்லா தரவையும் துண்டித்து நீக்குகிறது",
         "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "deleteOldIndexedDBData": {
+        "message": "You have obsolete data from a prior installation of Signal Desktop. If you choose to continue, it will be deleted and you will start from scratch.",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "Delete Old Data",
+        "description": "Button to make the delete happen"
     },
     "notifications": {
         "message": "அறிவிப்புகள்",
@@ -1670,7 +1710,7 @@
         }
     },
     "youJoinedTheGroup": {
-        "message": "You joined the group.",
+        "message": "நீங்கள் குழுவில் சேர்ந்தார்.",
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
@@ -1716,6 +1756,10 @@
     "message--getDescription--disappearing-video": {
         "message": "View-once Video",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
+    },
+    "message--deletedForEveryone": {
+        "message": "இந்த செய்தி இருந்தது நீக்கப்பட்டது",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
         "message": "ஸ்டிக்கர் பேக் நிறுவ முடியவில்லை",
@@ -1864,7 +1908,7 @@
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming--expired-toast": {
-        "message": "You already viewed this message.",
+        "message": "நீங்கள் ஏற்கனவே இந்த செய்தியைப் பார்த்தேன்.",
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
@@ -2003,6 +2047,10 @@
         "message": "அனைத்து வரைவு இணைப்புகளையும் அகற்று",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "Jump to conversation",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "உள்ளிடவும்",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Tab",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1 to 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "Keyboard Shortcuts",
@@ -2288,6 +2344,10 @@
     "Reactions--error": {
         "message": "Failed to send reaction. Please try again.",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "More",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "அனைத்து",

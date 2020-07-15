@@ -3,6 +3,10 @@
         "message": "Skopiuj błąd i zakończ",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Nieznany kontakt",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "Nieznana grupa",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -411,6 +415,18 @@
         "message": "Coś poszło nie tak podczas przesyłania! Rozważ ręczne dodanie swojego logu do zgłoszonego błędu.",
         "description": ""
     },
+    "debugLogCopy": {
+        "message": "Kopiuj",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "Kopiuj łącze do schowka",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "Łącze skopiowane do schowka",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
+    },
     "reportIssue": {
         "message": "Zgłoś problem",
         "description": "Link to open the issue tracker"
@@ -472,7 +488,7 @@
         "description": ""
     },
     "media": {
-        "message": "Media",
+        "message": "Multimedia",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
@@ -613,6 +629,10 @@
         "message": "Pokaż skróty klawiszowe",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "Skontaktuj się z nami",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "Przejdź do informacji o wersji",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,9 +645,13 @@
         "message": "Przejdź do strony wsparcia",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "Zgłoś problem",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "Repozytorium na GitHub",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Dołącz do programu beta",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "Preferencje",
@@ -957,8 +981,8 @@
         "message": "Zobacz numer bezpieczeństwa",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "Wyświetl wszystkie multimedia",
+    "viewRecentMedia": {
+        "message": "Pokaż ostatnie multimedia",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1083,9 +1107,17 @@
         "message": "Niestety, masz za dużo połączonych urządzeń. Spróbuj usunąć kilka.",
         "description": ""
     },
-    "settings": {
-        "message": "Ustawienia",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "Uaktualnij Signal na tym urządzeniu, aby połączyć z telefonem.",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "Coś poszło nie tak!",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "Spróbuj ponownie",
+        "description": ""
     },
     "theme": {
         "message": "Motyw",
@@ -1142,6 +1174,14 @@
     "deleteAllDataProgress": {
         "message": "Odłączanie i usuwanie wszystkich danych",
         "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "deleteOldIndexedDBData": {
+        "message": "Masz przestarzałe dane ze starej instalacji Signal Desktop. Kontynuacja spowoduje ich usunięcie i zaczniesz od zera.",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "Usuń stare dane",
+        "description": "Button to make the delete happen"
     },
     "notifications": {
         "message": "Powiadomienia",
@@ -1717,6 +1757,10 @@
         "message": "Wideo jednorazowe",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
+    "message--deletedForEveryone": {
+        "message": "Ta wiadomość została usunięta.",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
+    },
     "stickers--toast--InstallFailed": {
         "message": "Nie można zainstalować pakietu naklejek",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -1738,7 +1782,7 @@
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
-        "message": "Naklejki, które odebrano",
+        "message": "Odebrane naklejki",
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
@@ -2003,6 +2047,10 @@
         "message": "Usuń wszystkie szkice załączników",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "Przejdź do konwersacji",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Enter",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Tab",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1 do 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "Skróty klawiszowe",
@@ -2288,6 +2344,10 @@
     "Reactions--error": {
         "message": "Nie udało się zareagować. Spróbuj ponownie.",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "Więcej",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "Wszystkie",

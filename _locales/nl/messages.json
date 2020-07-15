@@ -3,6 +3,10 @@
         "message": "Foutmelding kopiëren en afsluiten",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Unknown contact",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "Onbekende groep",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -40,7 +44,7 @@
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "Voorkeuren…",
+        "message": "Voorkeuren …",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
@@ -156,15 +160,15 @@
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
-        "message": "Bezig met laden…",
+        "message": "Bezig met laden …",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Toepassing aan het optimaliseren…",
+        "message": "Toepassing aan het optimaliseren …",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Bezig met optimaliseren van berichten… $status$ voltooid.",
+        "message": "Bezig met optimaliseren van berichten … $status$ voltooid.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -246,11 +250,11 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "De databank wordt opgewaardeerd. Dit kan even duren…",
+        "message": "De databank wordt opgewaardeerd. Dit kan even duren …",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Berichten worden geladen, $count$ tot nu toe…",
+        "message": "Berichten worden geladen, $count$ tot nu toe …",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -411,6 +415,18 @@
         "message": "Er is iets misgegaan bij het uploaden. Voeg het logbestand handmatig toe aan een foutrapport op Github.",
         "description": ""
     },
+    "debugLogCopy": {
+        "message": "Kopiëren",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "Verwijzing naar klembord kopiëren",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "De verwijzing is naar het klembord gekopieerd",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
+    },
     "reportIssue": {
         "message": "Meld een probleem",
         "description": "Link to open the issue tracker"
@@ -524,7 +540,7 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Voorbeeld laden…",
+        "message": "Voorbeeld laden …",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
@@ -590,7 +606,7 @@
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Dit zou niet lang moeten duren…",
+        "message": "Dit zou niet lang moeten duren …",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -613,6 +629,10 @@
         "message": "Toetsenbord-snelkoppelingen weergeven",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "Neem contact met ons op",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "Ga naar uitgaveopmerkingen",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,9 +645,13 @@
         "message": "Ga naar ondersteuningspagina",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "Een probleem melden",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "GitHub bezoeken",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Aan bétaprogramma deelnemen",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "Signal Desktop-instellingen",
@@ -957,8 +981,8 @@
         "message": "Veiligheidsnummer bekijken",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "Alle media bekijken",
+    "viewRecentMedia": {
+        "message": "Recente media weergeven",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -976,7 +1000,7 @@
         "description": ""
     },
     "moreInfo": {
-        "message": "Meer informatie…",
+        "message": "Meer informatie …",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
@@ -1020,7 +1044,7 @@
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
-        "message": "Voeg een bijschrift toe…",
+        "message": "Voeg een bijschrift toe …",
         "description": ""
     },
     "save": {
@@ -1083,9 +1107,17 @@
         "message": "Sorry, je hebt te veel apparaten gekoppeld. Probeer er enkele te verwijderen.",
         "description": ""
     },
-    "settings": {
-        "message": "Instellingen",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "Je moet Signal op dit apparaat bijwerken om Signal te kunnen koppelen aan je telefoon.",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "Er ging iets mis!",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "Opnieuw proberen",
+        "description": ""
     },
     "theme": {
         "message": "Thema",
@@ -1143,6 +1175,14 @@
         "message": "Verbinding wordt verbroken en alle gegevens worden verwijderd",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
+    "deleteOldIndexedDBData": {
+        "message": "Je hebt nog overbodige gegevens op je apparaat van een Signal-Desktop installatie van voor oktober 2018. Als je er voor kiest om verder te gaan, dan zullen alle gegevens inclusief al je gesprekjen worden gewist van Signal-Desktop en zal je met een schone installatie beginnen.",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "Oude gegevens wissen",
+        "description": "Button to make the delete happen"
+    },
     "notifications": {
         "message": "Meldingen",
         "description": "Header for notification settings"
@@ -1156,11 +1196,11 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Zowel naam van afzender als berichtinhoud",
+        "message": "Zowel de naam van de afzender als berichtinhoud",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Noch de naam van de afzender noch berichtinhoud",
+        "message": "Niet de naam van de afzender en geen berichtinhoud",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
@@ -1300,7 +1340,7 @@
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "Bezig met importeren…",
+        "message": "Bezig met importeren …",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
@@ -1360,7 +1400,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Je hebt de timer voor zelf-wissende berichten op $time$gezet",
+        "message": "Je hebt de timer voor zelfwissende berichten op $time$gezet",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1370,7 +1410,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "De timer voor zelf-wissende berichten is bijgewerkt naar $time$",
+        "message": "De timer voor zelfwissende berichten is bijgewerkt naar $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1380,7 +1420,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$heeft de timer voor zelf-wissende berichten op $time$gezet",
+        "message": "$name$heeft de timer voor zelfwissende berichten op $time$gezet",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1442,7 +1482,7 @@
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
-        "message": "Zelf-wissende berichten",
+        "message": "Zelfwissende berichten",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "timerOption_0_seconds_abbreviated": {
@@ -1494,11 +1534,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Zelf-wissende berichten zijn uitgeschakeld",
+        "message": "Zelfwissende berichten zijn uitgeschakeld",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ heeft zelf-wissende berichten uitgeschakeld",
+        "message": "$name$ heeft zelfwissende berichten uitgeschakeld",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1508,7 +1548,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Je hebt zelf-wissende berichten uitgeschakeld",
+        "message": "Je hebt zelfwissende berichten uitgeschakeld",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
@@ -1522,7 +1562,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Audiomelding afspelen",
+        "message": "Bij meldingen geluid afspelen",
         "description": "Description for audio notification setting"
     },
     "safetyNumberChanged": {
@@ -1574,7 +1614,7 @@
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Begin een nieuw gesprek…",
+        "message": "Begin een nieuw gesprek …",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "notSupportedSMS": {
@@ -1717,6 +1757,10 @@
         "message": "Eenmaligeweergave-video",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
+    "message--deletedForEveryone": {
+        "message": "Dit bericht is gewist.",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
+    },
     "stickers--toast--InstallFailed": {
         "message": "Stickerpakket kon niet worden geïnstalleerd",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -1774,7 +1818,7 @@
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "Stickerpakket wordt geïnstalleerd…",
+        "message": "Stickerpakket wordt geïnstalleerd …",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
@@ -2003,6 +2047,10 @@
         "message": "Alle concept-bijlagen verwijderen",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "Naar gesprek springen",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Enter",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Tab",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1 tot en met 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "Toetsenbord-snelkoppelingen",
@@ -2154,7 +2210,7 @@
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
-        "message": "Nog slechts enkele details…",
+        "message": "Nog slechts enkele details …",
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
@@ -2288,6 +2344,10 @@
     "Reactions--error": {
         "message": "Verzenden van reactie mislukt. Probeer het opnieuw.",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "Meer reacties weergeven",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "Alles",

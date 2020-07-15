@@ -3,6 +3,10 @@
         "message": "העתק שגיאה וצא",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Unknown contact",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "קבוצה לא ידועה",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -411,6 +415,18 @@
         "message": "משהו השתבש עם ההעלאה! אנא שקול להוסיף באופן ידני את יומן התקלים שלך לתקל שאתה מגיש.",
         "description": ""
     },
+    "debugLogCopy": {
+        "message": "העתק",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "העתק קישור אל לוח הגזירה",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "קישור הועתק אל לוח הגזירה",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
+    },
     "reportIssue": {
         "message": "דווח על סוגייה",
         "description": "Link to open the issue tracker"
@@ -613,6 +629,10 @@
         "message": "הראה קיצורי מקלדת",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "צור איתנו קשר",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "לך אל הערות שחרור",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,9 +645,13 @@
         "message": "לך אל דף התמיכה",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "דווח על סוגייה",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "לך אל GitHub",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "הצטרף אל הבטא",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "העדפות Signal Desktop",
@@ -957,8 +981,8 @@
         "message": "הצג מספר בטיחות",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "הצג את כל המדיה",
+    "viewRecentMedia": {
+        "message": "הצג מדיה אחרונה",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1083,9 +1107,17 @@
         "message": "סליחה, יש לך כבר יותר מדי מכשירים מקושרים. נסה להסיר קצת.",
         "description": ""
     },
-    "settings": {
-        "message": "הגדרות",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "עדכן את Signal על מכשיר זה כדי לקשר את הטלפון שלך.",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "משהו השתבש!",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "נסה שוב",
+        "description": ""
     },
     "theme": {
         "message": "ערכת נושא",
@@ -1142,6 +1174,14 @@
     "deleteAllDataProgress": {
         "message": "מתנתק ומוחק את כל הנתונים",
         "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "deleteOldIndexedDBData": {
+        "message": "יש לך נתונים מיושנים מהתקנה קודמת של Signal Desktop. אם תבחר להמשיך, הם יימחקו ותתחיל מאפס.",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "מחק נתונים ישנים",
+        "description": "Button to make the delete happen"
     },
     "notifications": {
         "message": "התראות",
@@ -1717,6 +1757,10 @@
         "message": "סרטון לצפייה חד־פעמית",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
+    "message--deletedForEveryone": {
+        "message": "הודעה זו נמחקה.",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
+    },
     "stickers--toast--InstallFailed": {
         "message": "חבילת מדבקות לא יכלה להיות מותקנת",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -2003,6 +2047,10 @@
         "message": "הסר את כל צרופות הטיוטה",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "קפוץ אל שיחה",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Enter",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "טַבְלָר",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1 עד 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "קיצורי מקלדת",
@@ -2288,6 +2344,10 @@
     "Reactions--error": {
         "message": "נכשל בשליחת תגובה. אנא נסה שוב.",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "עוד",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "הכל",
