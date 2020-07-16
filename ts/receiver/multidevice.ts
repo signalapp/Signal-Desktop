@@ -338,32 +338,28 @@ async function onContactReceived(details: any) {
       activeAt = activeAt || Date.now();
       conversation.set('active_at', activeAt);
     }
-    const ourPrimaryKey = window.storage.get('primaryDevicePubKey');
-    if (ourPrimaryKey) {
-      const ourSecondaryDevices = await MultiDeviceProtocol.getSecondaryDevices(
-        ourPrimaryKey
-      );
-      if (ourSecondaryDevices.some(device => device.key === id)) {
-        await conversation.setSecondaryStatus(true, ourPrimaryKey);
-      }
-    }
 
-    const devices = await MultiDeviceProtocol.getAllDevices(id);
-    const deviceConversations = await Promise.all(
-      devices.map(d =>
-        ConversationController.getOrCreateAndWait(d.key, 'private')
-      )
-    );
+    const primaryDevice = await MultiDeviceProtocol.getPrimaryDevice(id);
     const secondaryDevices = await MultiDeviceProtocol.getSecondaryDevices(id);
-    await Promise.all(
+    const primaryConversation = await ConversationController.getOrCreateAndWait(
+      primaryDevice.key,
+      'private'
+    );
+    const secondaryConversations = await Promise.all(
       secondaryDevices.map(async d => {
         const secondaryConv = await ConversationController.getOrCreateAndWait(
           d.key,
           'private'
         );
-        await secondaryConv.setSecondaryStatus(true, id);
+        await secondaryConv.setSecondaryStatus(true, primaryDevice.key);
+        return conversation;
       })
     );
+
+    const deviceConversations = [
+      primaryConversation,
+      ...secondaryConversations,
+    ];
 
     // triger session request with every devices of that user
     // when we do not have a session with it already
