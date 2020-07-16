@@ -216,14 +216,6 @@
     if (specialConvInited) {
       return;
     }
-    const rssFeedConversations = await window.Signal.Data.getAllRssFeedConversations(
-      {
-        ConversationCollection: Whisper.ConversationCollection,
-      }
-    );
-    rssFeedConversations.forEach(conversation => {
-      window.feeds.push(new window.LokiRssAPI(conversation.getRssSettings()));
-    });
     const publicConversations = await window.Signal.Data.getAllPublicConversations(
       {
         ConversationCollection: Whisper.ConversationCollection,

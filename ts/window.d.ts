@@ -25,7 +25,6 @@ declare global {
     LokiAppDotNetServerAPI: any;
     LokiFileServerAPI: any;
     LokiPublicChatAPI: any;
-    LokiRssAPI: any;
     LokiSnodeAPI: any;
     MessageController: any;
     Session: any;
