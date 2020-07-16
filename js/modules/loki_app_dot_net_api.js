@@ -1533,6 +1533,10 @@ class LokiPublicChannelAPI {
     });
 
     if (res.err || !res.response || !res.response.data) {
+      if (res.statusCode === 403) {
+        // token is now invalid
+        this.serverAPI.getOrRefreshServerToken(true);
+      }
       return;
     }
 
@@ -1656,6 +1660,10 @@ class LokiPublicChannelAPI {
         !res.response.data ||
         !res.response.meta
       ) {
+        if (res.statusCode === 403) {
+          // token is now invalid
+          this.serverAPI.getOrRefreshServerToken(true);
+        }
         if (res.err) {
           log.error(`pollOnceForDeletions Error ${res.err}`);
         } else {
@@ -1852,6 +1860,10 @@ class LokiPublicChannelAPI {
     });
 
     if (res.err || !res.response) {
+      if (res.statusCode === 403) {
+        // token is now invalid
+        this.serverAPI.getOrRefreshServerToken(true);
+      }
       log.error(
         `app_dot_net:::pollOnceForMessages - Could not get messages from`,
         this.serverAPI.baseServerUrl,
