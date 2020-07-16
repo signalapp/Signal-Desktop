@@ -366,13 +366,6 @@ async function onContactReceived(details: any) {
       conversation.setProfileKey(profileKey);
     }
 
-    if (details.blocked !== 'undefined') {
-      if (details.blocked) {
-        storage.addBlockedNumber(id);
-      } else {
-        storage.removeBlockedNumber(id);
-      }
-    }
 
     // Do not set name to allow working with lokiProfile and nicknames
     conversation.set({
