@@ -377,16 +377,17 @@ async function onContactReceived(details: any) {
       conversation.setProfileKey(profileKey);
     }
 
-
     // Do not set name to allow working with lokiProfile and nicknames
     conversation.set({
       // name: details.name,
       color: details.color,
     });
 
-    await conversation.setLokiProfile({ displayName: details.name });
+    if (details.name && details.name.length) {
+      await conversation.setLokiProfile({ displayName: details.name });
+    }
 
-    if (details.nickname) {
+    if (details.nickname && details.nickname.length) {
       await conversation.setNickname(details.nickname);
     }
 
