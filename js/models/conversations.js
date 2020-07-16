@@ -2099,31 +2099,26 @@
         window.log.info(`Sending ${read.length} read receipts`);
         // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
         //   to a contact, we need accessKeys for both.
-        const { sendOptions } = ConversationController.prepareForSend(
-          this.ourNumber,
-          { syncMessage: true }
-        );
-        await textsecure.messaging.syncReadMessages(read, sendOptions);
+        await textsecure.messaging.syncReadMessages(read);
 
-        // FIXME AUDRIC
-        // if (storage.get('read-receipt-setting')) {
-        //   await Promise.all(
-        //     _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
-        //       const timestamps = _.map(receipts, 'timestamp');
-        //       const receiptMessage = new libsession.Messages.Outgoing.ReadReceiptMessage(
-        //         {
-        //           timestamp: Date.now(),
-        //           timestamps,
-        //         }
-        //       );
+        if (storage.get('read-receipt-setting')) {
+          await Promise.all(
+            _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
+              const timestamps = _.map(receipts, 'timestamp');
+              const receiptMessage = new libsession.Messages.Outgoing.ReadReceiptMessage(
+                {
+                  timestamp: Date.now(),
+                  timestamps,
+                }
+              );
 
-        //       const device = new libsession.Types.PubKey(sender);
-        //       await libsession
-        //         .getMessageQueue()
-        //         .sendUsingMultiDevice(device, receiptMessage);
-        //     })
-        //   );
-        // }
+              const device = new libsession.Types.PubKey(sender);
+              await libsession
+                .getMessageQueue()
+                .sendUsingMultiDevice(device, receiptMessage);
+            })
+          );
+        }
       }
     },
 
