@@ -340,10 +340,10 @@ async function onContactReceived(details: any) {
     }
     const ourPrimaryKey = window.storage.get('primaryDevicePubKey');
     if (ourPrimaryKey) {
-      const secondaryDevices = await MultiDeviceProtocol.getSecondaryDevices(
+      const ourSecondaryDevices = await MultiDeviceProtocol.getSecondaryDevices(
         ourPrimaryKey
       );
-      if (secondaryDevices.some(device => device.key === id)) {
+      if (ourSecondaryDevices.some(device => device.key === id)) {
         await conversation.setSecondaryStatus(true, ourPrimaryKey);
       }
     }
@@ -354,6 +354,17 @@ async function onContactReceived(details: any) {
         ConversationController.getOrCreateAndWait(d.key, 'private')
       )
     );
+    const secondaryDevices = await MultiDeviceProtocol.getSecondaryDevices(id);
+    await Promise.all(
+      secondaryDevices.map(async d => {
+        const secondaryConv = await ConversationController.getOrCreateAndWait(
+          d.key,
+          'private'
+        );
+        await secondaryConv.setSecondaryStatus(true, id);
+      })
+    );
+
     // triger session request with every devices of that user
     // when we do not have a session with it already
     deviceConversations.forEach(device => {
