@@ -5,14 +5,12 @@
   filesize,
   ConversationController,
   MessageController,
-  getAccountManager,
   i18n,
   Signal,
   textsecure,
   Whisper,
   clipboard,
-  libloki,
-  lokiFileServerAPI,
+  libsession
 */
 
 /* eslint-disable more/no-then */
@@ -23,7 +21,7 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Message: TypedMessage, Contact, PhoneNumber, Errors } = Signal.Types;
+  const { Message: TypedMessage, Contact, PhoneNumber } = Signal.Types;
 
   const {
     deleteExternalMessageFiles,
@@ -31,7 +29,6 @@
     loadAttachmentData,
     loadQuoteData,
     loadPreviewData,
-    upgradeMessageSchema,
   } = window.Signal.Migrations;
   const { bytesFromString } = window.Signal.Crypto;
 
@@ -40,37 +37,10 @@
 
   window.doesAcountCheckJobExist = number =>
     Boolean(window.AccountJobs[number]);
-  window.checkForSignalAccount = number => {
-    if (window.AccountJobs[number]) {
-      return window.AccountJobs[number];
-    }
-
-    let job;
-    if (textsecure.messaging) {
-      // eslint-disable-next-line more/no-then
-      job = textsecure.messaging
-        .getProfile(number)
-        .then(() => {
-          window.AccountCache[number] = true;
-        })
-        .catch(() => {
-          window.AccountCache[number] = false;
-        });
-    } else {
-      // We're offline!
-      job = Promise.resolve().then(() => {
-        window.AccountCache[number] = false;
-      });
-    }
-
-    window.AccountJobs[number] = job;
-
-    return job;
-  };
 
   window.isSignalAccountCheckComplete = number =>
     window.AccountCache[number] !== undefined;
-  window.hasSignalAccount = number => window.AccountCache[number];
+  window.hasSignalAccount = () => true;
 
   window.Whisper.Message = Backbone.Model.extend({
     initialize(attributes) {
@@ -105,8 +75,6 @@
           this.propsForGroupNotification = this.getPropsForGroupNotification();
         } else if (this.isSessionRestoration()) {
           // do nothing
-        } else if (this.isFriendRequest()) {
-          this.propsForFriendRequest = this.getPropsForFriendRequest();
         } else if (this.isGroupInvitation()) {
           this.propsForGroupInvitation = this.getPropsForGroupInvitation();
         } else {
@@ -282,11 +250,6 @@
     isKeyChange() {
       return this.get('type') === 'keychange';
     },
-
-    isFriendRequest() {
-      // FIXME exclude session request to be seen as a session request
-      return this.get('type') === 'friend-request';
-    },
     isGroupInvitation() {
       return !!this.get('groupInvitation');
     },
@@ -303,9 +266,6 @@
     getNotificationText() {
       const description = this.getDescription();
       if (description) {
-        if (this.isFriendRequest()) {
-          return `Friend Request: ${description}`;
-        }
         return description;
       }
       if (this.get('attachments').length > 0) {
@@ -411,124 +371,6 @@
     getPropsForResetSessionNotification() {
       return {
         sessionResetMessageKey: this.getEndSessionTranslationKey(),
-      };
-    },
-
-    async acceptFriendRequest() {
-      if (this.get('friendStatus') !== 'pending') {
-        return;
-      }
-
-      const devicePubKey = this.get('conversationId');
-      const otherDevices = await libloki.storage.getPairedDevicesFor(
-        devicePubKey
-      );
-      const allDevices = [devicePubKey, ...otherDevices];
-
-      // Set profile name to primary conversation
-      let profileName;
-      const allConversationsWithUser = allDevices
-        .map(d => ConversationController.get(d))
-        .filter(c => Boolean(c));
-      allConversationsWithUser.forEach(conversation => {
-        // If we somehow received an old friend request (e.g. after having restored
-        // from seed, we won't be able to accept it, we should initiate our own
-        // friend request to reset the session:
-        if (conversation.get('sessionRestoreSeen')) {
-          conversation.sendMessage('', null, null, null, null, {
-            sessionRestoration: true,
-          });
-          return;
-        }
-
-        profileName = conversation.getProfileName() || profileName;
-        conversation.onAcceptFriendRequest();
-      });
-
-      // If you don't have a profile name for this device, and profileName is set,
-      // add profileName to conversation.
-      const primaryDevicePubKey =
-        (await window.Signal.Data.getPrimaryDeviceFor(devicePubKey)) ||
-        devicePubKey;
-      const primaryConversation = allConversationsWithUser.find(
-        c => c.id === primaryDevicePubKey
-      );
-      if (!primaryConversation.getProfileName() && profileName) {
-        await primaryConversation.setNickname(profileName);
-      }
-
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
-
-      this.set({ friendStatus: 'accepted' });
-
-      // Update redux store
-      window.Signal.Data.updateConversation(
-        primaryConversation.id,
-        primaryConversation.attributes,
-        { Conversation: Whisper.Conversation }
-      );
-    },
-    async declineFriendRequest() {
-      if (this.get('friendStatus') !== 'pending') {
-        return;
-      }
-
-      this.set({ friendStatus: 'declined' });
-      await window.Signal.Data.saveMessage(this.attributes, {
-        Message: Whisper.Message,
-      });
-
-      const devicePubKey = this.attributes.conversationId;
-      const otherDevices = await libloki.storage.getPairedDevicesFor(
-        devicePubKey
-      );
-      const allDevices = [devicePubKey, ...otherDevices];
-      const allConversationsWithUser = allDevices
-        .map(d => ConversationController.get(d))
-        .filter(c => Boolean(c));
-      allConversationsWithUser.forEach(conversation => {
-        conversation.onDeclineFriendRequest();
-      });
-    },
-    getPropsForFriendRequest() {
-      const friendStatus = this.get('friendStatus') || 'pending';
-      const direction = this.get('direction') || 'incoming';
-      const conversation = this.getConversation();
-
-      const onAccept = () => this.acceptFriendRequest();
-      const onDecline = () => this.declineFriendRequest();
-      const onRetrySend = () => this.retrySend();
-
-      const onDeleteConversation = async () => {
-        // Delete the whole conversation
-        window.Whisper.events.trigger('deleteConversation', conversation);
-      };
-
-      const onBlockUser = () => {
-        conversation.block();
-        this.trigger('change');
-      };
-
-      const onUnblockUser = () => {
-        conversation.unblock();
-        this.trigger('change');
-      };
-
-      return {
-        text: this.createNonBreakingLastSeparator(this.get('body')),
-        timestamp: this.get('sent_at'),
-        status: this.getMessagePropStatus(),
-        direction,
-        friendStatus,
-        isBlocked: conversation.isBlocked(),
-        onAccept,
-        onDecline,
-        onDeleteConversation,
-        onBlockUser,
-        onUnblockUser,
-        onRetrySend,
       };
     },
     getPropsForGroupInvitation() {
@@ -651,14 +493,8 @@
         return 'error';
       }
 
-      // Handle friend request statuses
-      const isFriendRequest = this.isFriendRequest();
-      const isOutgoingFriendRequest =
-        isFriendRequest && this.get('direction') === 'outgoing';
-      const isOutgoing = this.isOutgoing() || isOutgoingFriendRequest;
-
       // Only return the status on outgoing messages
-      if (!isOutgoing) {
+      if (!this.isOutgoing()) {
         return null;
       }
 
@@ -843,20 +679,12 @@
         : null;
       const onClick = async () => {
         // First let's be sure that the signal account check is complete.
-        await window.checkForSignalAccount(firstNumber);
 
         this.trigger('show-contact-detail', {
           contact,
           hasSignalAccount: window.hasSignalAccount(firstNumber),
         });
       };
-
-      // Would be nice to do this before render, on initial load of message
-      if (!window.isSignalAccountCheckComplete(firstNumber)) {
-        window.checkForSignalAccount(firstNumber).then(() => {
-          this.trigger('change', this);
-        });
-      }
 
       return contactSelector(contact, {
         regionCode,
@@ -1162,39 +990,23 @@
       });
     },
 
-    // One caller today: event handler for the 'Retry Send' entry in triple-dot menu
-    async retrySend() {
-      if (!textsecure.messaging) {
-        window.log.error('retrySend: Cannot retry since we are offline!');
-        return null;
-      }
-
-      this.set({ errors: null });
-
-      const conversation = this.getConversation();
-      const intendedRecipients = this.get('recipients') || [];
-      const successfulRecipients = this.get('sent_to') || [];
-      const currentRecipients = conversation.getRecipients();
-
-      const profileKey = conversation.get('profileSharing')
-        ? storage.get('profileKey')
-        : null;
-
-      let recipients = _.intersection(intendedRecipients, currentRecipients);
-      recipients = _.without(recipients, successfulRecipients);
-
-      if (!recipients.length) {
-        window.log.warn('retrySend: Nobody to send to!');
-
-        return window.Signal.Data.saveMessage(this.attributes, {
-          Message: Whisper.Message,
-        });
-      }
+    /**
+     * Uploads attachments, previews and quotes.
+     * If body is too long then it is also converted to an attachment.
+     *
+     * @returns The uploaded data which includes: body, attachments, preview and quote.
+     */
+    async uploadData() {
+      // TODO: In the future it might be best if we cache the upload results if possible.
+      // This way we don't upload duplicated data.
 
       const attachmentsWithData = await Promise.all(
         (this.get('attachments') || []).map(loadAttachmentData)
       );
-      const { body, attachments } = Whisper.Message.getLongMessageAttachment({
+      const {
+        body,
+        attachments: finalAttachments,
+      } = Whisper.Message.getLongMessageAttachment({
         body: this.get('body'),
         attachments: attachmentsWithData,
         now: this.get('sent_at'),
@@ -1203,76 +1015,140 @@
       const quoteWithData = await loadQuoteData(this.get('quote'));
       const previewWithData = await loadPreviewData(this.get('preview'));
 
-      // Special-case the self-send case - we send only a sync message
-      if (recipients.length === 1 && recipients[0] === this.OUR_NUMBER) {
-        const [number] = recipients;
-        const dataMessage = await textsecure.messaging.getMessageProto(
-          number,
-          body,
-          attachments,
-          quoteWithData,
-          previewWithData,
-          this.get('sent_at'),
-          this.get('expireTimer'),
-          profileKey
-        );
-        return this.sendSyncMessageOnly(dataMessage);
-      }
+      const conversation = this.getConversation();
+      const openGroup = conversation && conversation.toOpenGroup();
 
-      let promise;
-      const options = conversation.getSendOptions();
-      options.messageType = this.get('type');
+      const { AttachmentUtils } = libsession.Utils;
+      const [attachments, preview, quote] = await Promise.all([
+        AttachmentUtils.uploadAttachments(finalAttachments, openGroup),
+        AttachmentUtils.uploadLinkPreviews(previewWithData, openGroup),
+        AttachmentUtils.uploadQuoteThumbnails(quoteWithData, openGroup),
+      ]);
 
-      if (conversation.isPrivate()) {
-        const [number] = recipients;
-        promise = textsecure.messaging.sendMessageToNumber(
-          number,
-          body,
-          attachments,
-          quoteWithData,
-          previewWithData,
-          this.get('sent_at'),
-          this.get('expireTimer'),
-          profileKey,
-          options
-        );
-      } else {
-        // Because this is a partial group send, we manually construct the request like
-        //   sendMessageToGroup does.
-
-        promise = textsecure.messaging.sendMessage(
-          {
-            recipients,
-            body,
-            timestamp: this.get('sent_at'),
-            attachments,
-            quote: quoteWithData,
-            preview: previewWithData,
-            needsSync: !this.get('synced'),
-            expireTimer: this.get('expireTimer'),
-            profileKey,
-            group: {
-              id: this.get('conversationId'),
-              type: textsecure.protobuf.GroupContext.Type.DELIVER,
-            },
-          },
-          options
-        );
-      }
-
-      return this.send(conversation.wrapSend(promise));
+      return {
+        body,
+        attachments,
+        preview,
+        quote,
+      };
     },
-    isReplayableError(e) {
-      return (
-        e.name === 'MessageError' ||
-        e.name === 'OutgoingMessageError' ||
-        e.name === 'SendMessageNetworkError' ||
-        e.name === 'SignedPreKeyRotationError' ||
-        e.name === 'OutgoingIdentityKeyError' ||
-        e.name === 'DNSResolutionError' ||
-        e.name === 'EmptySwarmError' ||
-        e.name === 'PoWError'
-      );
+
+    // One caller today: event handler for the 'Retry Send' entry in triple-dot menu
+    async retrySend() {
+      if (!textsecure.messaging) {
+        window.log.error('retrySend: Cannot retry since we are offline!');
+        return null;
+      }
+
+      this.set({ errors: null });
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+      try {
+        const conversation = this.getConversation();
+        const intendedRecipients = this.get('recipients') || [];
+        const successfulRecipients = this.get('sent_to') || [];
+        const currentRecipients = conversation.getRecipients();
+
+        if (conversation.isPublic()) {
+          const openGroup = {
+            server: conversation.get('server'),
+            channel: conversation.get('channelId'),
+            conversationId: conversation.id,
+          };
+          const { body, attachments, preview, quote } = await this.uploadData();
+
+          const openGroupParams = {
+            identifier: this.id,
+            body,
+            timestamp: Date.now(),
+            group: openGroup,
+            attachments,
+            preview,
+            quote,
+          };
+          const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
+            openGroupParams
+          );
+          return libsession.getMessageQueue().sendToGroup(openGroupMessage);
+        }
+
+        let recipients = _.intersection(intendedRecipients, currentRecipients);
+        recipients = recipients.filter(
+          key => !successfulRecipients.includes(key)
+        );
+
+        if (!recipients.length) {
+          window.log.warn('retrySend: Nobody to send to!');
+
+          return window.Signal.Data.saveMessage(this.attributes, {
+            Message: Whisper.Message,
+          });
+        }
+
+        const { body, attachments, preview, quote } = await this.uploadData();
+        const ourNumber = window.storage.get('primaryDevicePubKey');
+        const ourConversation = window.ConversationController.get(ourNumber);
+
+        const chatParams = {
+          identifier: this.id,
+          body,
+          timestamp: this.get('sent_at'),
+          expireTimer: this.get('expireTimer'),
+          attachments,
+          preview,
+          quote,
+        };
+        if (ourConversation) {
+          chatParams.lokiProfile = ourConversation.getOurProfile();
+        }
+
+        const chatMessage = new libsession.Messages.Outgoing.ChatMessage(
+          chatParams
+        );
+
+        // Special-case the self-send case - we send only a sync message
+        if (recipients.length === 1) {
+          const isOurDevice = await libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+            recipients[0]
+          );
+          if (isOurDevice) {
+            return this.sendSyncMessageOnly(chatMessage);
+          }
+        }
+
+        if (conversation.isPrivate()) {
+          const [number] = recipients;
+          const recipientPubKey = new libsession.Types.PubKey(number);
+
+          return libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(recipientPubKey, chatMessage);
+        }
+
+        // TODO should we handle medium groups message here too?
+        // Not sure there is the concept of retrySend for those
+        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
+          {
+            identifier: this.id,
+            chatMessage,
+            groupId: this.get('conversationId'),
+          }
+        );
+        // Because this is a partial group send, we send the message with the groupId field set, but individually
+        // to each recipient listed
+        return Promise.all(
+          recipients.map(async r => {
+            const recipientPubKey = new libsession.Types.PubKey(r);
+            return libsession
+              .getMessageQueue()
+              .sendUsingMultiDevice(recipientPubKey, closedGroupChatMessage);
+          })
+        );
+      } catch (e) {
+        await this.saveErrors(e);
+        return null;
+      }
     },
 
     // Called when the user ran into an error with a specific user, wants to send to them
@@ -1284,50 +1160,47 @@
         return null;
       }
 
-      const profileKey = null;
-      const attachmentsWithData = await Promise.all(
-        (this.get('attachments') || []).map(loadAttachmentData)
-      );
-      const { body, attachments } = Whisper.Message.getLongMessageAttachment({
-        body: this.get('body'),
-        attachments: attachmentsWithData,
-        now: this.get('sent_at'),
-      });
+      try {
+        const { body, attachments, preview, quote } = await this.uploadData();
 
-      const quoteWithData = await loadQuoteData(this.get('quote'));
-      const previewWithData = await loadPreviewData(this.get('preview'));
-
-      // Special-case the self-send case - we send only a sync message
-      if (number === this.OUR_NUMBER) {
-        const dataMessage = await textsecure.messaging.getMessageProto(
-          number,
+        const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+          identifier: this.id,
           body,
+          timestamp: this.get('sent_at'),
+          expireTimer: this.get('expireTimer'),
           attachments,
-          quoteWithData,
-          previewWithData,
-          this.get('sent_at'),
-          this.get('expireTimer'),
-          profileKey
+          preview,
+          quote,
+        });
+
+        // Special-case the self-send case - we send only a sync message
+        if (number === this.OUR_NUMBER) {
+          return this.sendSyncMessageOnly(chatMessage);
+        }
+
+        const conversation = this.getConversation();
+        const recipientPubKey = new libsession.Types.PubKey(number);
+
+        if (conversation.isPrivate()) {
+          return libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(recipientPubKey, chatMessage);
+        }
+
+        const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
+          {
+            chatMessage,
+            groupId: this.get('conversationId'),
+          }
         );
-        return this.sendSyncMessageOnly(dataMessage);
+        // resend tries to send the message to that specific user only in the context of a closed group
+        return libsession
+          .getMessageQueue()
+          .sendUsingMultiDevice(recipientPubKey, closedGroupChatMessage);
+      } catch (e) {
+        await this.saveErrors(e);
+        return null;
       }
-
-      const { wrap, sendOptions } = ConversationController.prepareForSend(
-        number
-      );
-      const promise = textsecure.messaging.sendMessageToNumber(
-        number,
-        body,
-        attachments,
-        quoteWithData,
-        previewWithData,
-        this.get('sent_at'),
-        this.get('expireTimer'),
-        profileKey,
-        sendOptions
-      );
-
-      return this.send(wrap(promise));
     },
     removeOutgoingErrors(number) {
       const errors = _.partition(
@@ -1335,13 +1208,112 @@
         e =>
           e.number === number &&
           (e.name === 'MessageError' ||
-            e.name === 'OutgoingMessageError' ||
             e.name === 'SendMessageNetworkError' ||
             e.name === 'SignedPreKeyRotationError' ||
             e.name === 'OutgoingIdentityKeyError')
       );
       this.set({ errors: errors[1] });
       return errors[0][0];
+    },
+
+    /**
+     * This function is called by inbox_view.js when a message was successfully sent for one device.
+     * So it might be called several times for the same message
+     */
+    async handleMessageSentSuccess(sentMessage) {
+      let sentTo = this.get('sent_to') || [];
+
+      const isOurDevice = await window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+        sentMessage.device
+      );
+
+      // At this point the only way to check for medium
+      // group is by comparing the encryption type
+      const isMediumGroupMessage =
+        sentMessage.encryption === libsession.Types.EncryptionType.MediumGroup;
+
+      const isOpenGroupMessage =
+        sentMessage.group &&
+        sentMessage.group instanceof libsession.Types.OpenGroup;
+
+      // We trigger a sync message only when the message is not to one of our devices, AND
+      // the message is not for an open group (there is no sync for opengroups, each device pulls all messages), AND
+      // if we did not sync or trigger a sync message for this specific message already
+      const shouldTriggerSyncMessage =
+        !isOurDevice &&
+        !isOpenGroupMessage &&
+        !isMediumGroupMessage &&
+        !this.get('synced') &&
+        !this.get('sentSync');
+
+      // A message is synced if we triggered a sync message (sentSync)
+      // and the current message was sent to our device (so a sync message)
+      const shouldMarkMessageAsSynced =
+        isOurDevice && !isOpenGroupMessage && this.get('sentSync');
+
+      // Handle the sync logic here
+      if (shouldTriggerSyncMessage) {
+        const contentDecoded = textsecure.protobuf.Content.decode(
+          sentMessage.plainTextBuffer
+        );
+        const { dataMessage } = contentDecoded;
+        if (dataMessage) {
+          await this.sendSyncMessage(dataMessage);
+        }
+      } else if (shouldMarkMessageAsSynced) {
+        this.set({ synced: true });
+      }
+      if (!isOpenGroupMessage) {
+        const primaryPubKey = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+          sentMessage.device
+        );
+        sentTo = _.union(sentTo, [primaryPubKey.key]);
+      }
+
+      this.set({
+        sent_to: sentTo,
+        sent: true,
+        expirationStartTimestamp: Date.now(),
+        // unidentifiedDeliveries: result.unidentifiedDeliveries,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+      this.getConversation().updateLastMessage();
+
+      this.trigger('sent', this);
+    },
+
+    async handleMessageSentFailure(sentMessage, error) {
+      if (error instanceof Error) {
+        this.saveErrors(error);
+        if (error.name === 'SignedPreKeyRotationError') {
+          await window.getAccountManager().rotateSignedPreKey();
+        } else if (error.name === 'OutgoingIdentityKeyError') {
+          const c = ConversationController.get(sentMessage.device);
+          await c.getProfiles();
+        }
+      }
+      const isOurDevice = await window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+        sentMessage.device
+      );
+      const expirationStartTimestamp = Date.now();
+      if (isOurDevice && !this.get('sync')) {
+        this.set({ sentSync: false });
+      }
+      this.set({
+        sent: true,
+        expirationStartTimestamp,
+        // unidentifiedDeliveries: result.unidentifiedDeliveries,
+      });
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+      this.trigger('change', this);
+
+      this.getConversation().updateLastMessage();
+      this.trigger('done');
     },
 
     getConversation() {
@@ -1367,7 +1339,9 @@
         return null;
       }
 
-      return ConversationController.getOrCreate(source, 'private');
+      const key = source.key ? source.key : source;
+
+      return ConversationController.getOrCreate(key, 'private');
     },
     getQuoteContact() {
       const quote = this.get('quote');
@@ -1396,7 +1370,11 @@
         return null;
       }
 
-      return ConversationController.getOrCreate(source, 'private');
+      // TODO: remove this when we are certain that source
+      // is PubKey ano not a string
+      const sourceStr = source.key ? source.key : source;
+
+      return ConversationController.getOrCreate(sourceStr, 'private');
     },
     isOutgoing() {
       return this.get('type') === 'outgoing';
@@ -1463,100 +1441,51 @@
         Message: Whisper.Message,
       });
     },
-    send(promise) {
-      this.trigger('pending');
-      return promise
-        .then(async result => {
-          this.trigger('done');
 
-          // This is used by sendSyncMessage, then set to null
-          if (!this.get('synced') && result.dataMessage) {
-            this.set({ dataMessage: result.dataMessage });
-          }
+    async sendSyncMessageOnly(dataMessage) {
+      this.set({
+        sent_to: [this.OUR_NUMBER],
+        sent: true,
+        expirationStartTimestamp: Date.now(),
+      });
 
-          const sentTo = this.get('sent_to') || [];
-          this.set({
-            sent_to: _.union(sentTo, result.successfulNumbers),
-            sent: true,
-            expirationStartTimestamp: Date.now(),
-            unidentifiedDeliveries: result.unidentifiedDeliveries,
-          });
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
 
-          await window.Signal.Data.saveMessage(this.attributes, {
-            Message: Whisper.Message,
-          });
+      const data =
+        dataMessage instanceof libsession.Messages.Outgoing.DataMessage
+          ? dataMessage.dataProto()
+          : dataMessage;
+      await this.sendSyncMessage(data);
+    },
 
-          this.trigger('sent', this);
-          if (!this.isFriendRequest()) {
-            const c = this.getConversation();
-            // Don't bother sending sync messages to public chats
-            // or groups with sender keys
-            if (c && !c.isPublic() && !c.isMediumGroup()) {
-              this.sendSyncMessage();
-            }
-          }
-        })
-        .catch(result => {
-          this.trigger('done');
+    async sendSyncMessage(dataMessage) {
+      if (this.get('synced') || this.get('sentSync')) {
+        return;
+      }
 
-          if (result.dataMessage) {
-            this.set({ dataMessage: result.dataMessage });
-          }
+      const data =
+        dataMessage instanceof libsession.Messages.Outgoing.DataMessage
+          ? dataMessage.dataProto()
+          : dataMessage;
 
-          let promises = [];
+      const syncMessage = new libsession.Messages.Outgoing.SentSyncMessage({
+        timestamp: this.get('sent_at'),
+        identifier: this.id,
+        dataMessage: data,
+        destination: this.get('destination'),
+        expirationStartTimestamp: this.get('expirationStartTimestamp'),
+        sent_to: this.get('sent_to'),
+        unidentifiedDeliveries: this.get('unidentifiedDeliveries'),
+      });
 
-          if (result instanceof Error) {
-            this.saveErrors(result);
-            if (result.name === 'SignedPreKeyRotationError') {
-              promises.push(getAccountManager().rotateSignedPreKey());
-            } else if (result.name === 'OutgoingIdentityKeyError') {
-              const c = ConversationController.get(result.number);
-              promises.push(c.getProfiles());
-            }
-          } else {
-            if (result.successfulNumbers.length > 0) {
-              const sentTo = this.get('sent_to') || [];
+      await libsession.getMessageQueue().sendSyncMessage(syncMessage);
 
-              // In groups, we don't treat unregistered users as a user-visible
-              //   error. The message will look successful, but the details
-              //   screen will show that we didn't send to these unregistered users.
-              const filteredErrors = _.reject(
-                result.errors,
-                error => error.name === 'UnregisteredUserError'
-              );
-
-              // We don't start the expiration timer if there are real errors
-              //   left after filtering out all of the unregistered user errors.
-              const expirationStartTimestamp = filteredErrors.length
-                ? null
-                : Date.now();
-
-              this.saveErrors(filteredErrors);
-
-              this.set({
-                sent_to: _.union(sentTo, result.successfulNumbers),
-                sent: true,
-                expirationStartTimestamp,
-                unidentifiedDeliveries: result.unidentifiedDeliveries,
-              });
-              promises.push(this.sendSyncMessage());
-            } else {
-              this.saveErrors(result.errors);
-            }
-            promises = promises.concat(
-              _.map(result.errors, error => {
-                if (error.name === 'OutgoingIdentityKeyError') {
-                  const c = ConversationController.get(error.number);
-                  promises.push(c.getProfiles());
-                }
-              })
-            );
-          }
-
-          this.trigger('send-error', this.get('errors'));
-
-          return Promise.all(promises);
-        });
+      this.set({ sentSync: true });
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
     },
 
     someRecipientsFailed() {
@@ -1578,82 +1507,18 @@
       return false;
     },
 
-    async sendSyncMessageOnly(dataMessage) {
-      this.set({ dataMessage });
+    async markMessageSyncOnly(dataMessage) {
+      this.set({
+        // These are the same as a normal send()
+        dataMessage,
+        sent_to: [this.OUR_NUMBER],
+        sent: true,
+        expirationStartTimestamp: Date.now(),
+      });
 
-      try {
-        this.set({
-          // These are the same as a normal send()
-          sent_to: [this.OUR_NUMBER],
-          sent: true,
-          expirationStartTimestamp: Date.now(),
-        });
-        const result = await this.sendSyncMessage();
-        this.set({
-          // We have to do this afterward, since we didn't have a previous send!
-          unidentifiedDeliveries: result ? result.unidentifiedDeliveries : null,
-
-          // These are unique to a Note to Self message - immediately read/delivered
-          delivered_to: [this.OUR_NUMBER],
-          read_by: [this.OUR_NUMBER],
-        });
-      } catch (result) {
-        const errors = (result && result.errors) || [
-          new Error('Unknown error'),
-        ];
-        this.set({ errors });
-      } finally {
-        await window.Signal.Data.saveMessage(this.attributes, {
-          Message: Whisper.Message,
-        });
-        this.trigger('done');
-
-        const errors = this.get('errors');
-        if (errors) {
-          this.trigger('send-error', errors);
-        } else {
-          this.trigger('sent');
-        }
-      }
-    },
-
-    sendSyncMessage() {
-      const ourNumber = textsecure.storage.user.getNumber();
-      const { wrap, sendOptions } = ConversationController.prepareForSend(
-        ourNumber,
-        { syncMessage: true }
-      );
-
-      this.syncPromise = this.syncPromise || Promise.resolve();
-      const next = () => {
-        const dataMessage = this.get('dataMessage');
-        if (this.get('synced') || !dataMessage) {
-          return Promise.resolve();
-        }
-        return wrap(
-          textsecure.messaging.sendSyncMessage(
-            dataMessage,
-            this.get('sent_at'),
-            this.get('destination'),
-            this.get('expirationStartTimestamp'),
-            this.get('sent_to'),
-            this.get('unidentifiedDeliveries'),
-            sendOptions
-          )
-        ).then(result => {
-          this.set({
-            synced: true,
-            dataMessage: null,
-          });
-          return window.Signal.Data.saveMessage(this.attributes, {
-            Message: Whisper.Message,
-          }).then(() => result);
-        });
-      };
-
-      this.syncPromise = this.syncPromise.then(next, next);
-
-      return this.syncPromise;
+      return window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
     },
 
     async saveErrors(providedErrors) {
@@ -1681,7 +1546,7 @@
       });
       errors = errors.concat(this.get('errors') || []);
 
-      if (this.isEndSession) {
+      if (this.isEndSession()) {
         this.set({ endSessionType: 'failed' });
       }
 
@@ -1695,970 +1560,10 @@
         this.get('errors'),
         e =>
           e.name === 'MessageError' ||
-          e.name === 'OutgoingMessageError' ||
           e.name === 'SendMessageNetworkError' ||
           e.name === 'SignedPreKeyRotationError'
       );
       return !!error;
-    },
-    async queueAttachmentDownloads() {
-      const messageId = this.id;
-      let count = 0;
-      let bodyPending;
-
-      const [longMessageAttachments, normalAttachments] = _.partition(
-        this.get('attachments') || [],
-        attachment =>
-          attachment.contentType === Whisper.Message.LONG_MESSAGE_CONTENT_TYPE
-      );
-
-      if (longMessageAttachments.length > 1) {
-        window.log.error(
-          `Received more than one long message attachment in message ${this.idForLogging()}`
-        );
-      }
-      if (longMessageAttachments.length > 0) {
-        count += 1;
-        bodyPending = true;
-        await window.Signal.AttachmentDownloads.addJob(
-          longMessageAttachments[0],
-          {
-            messageId,
-            type: 'long-message',
-            index: 0,
-          }
-        );
-      }
-
-      const attachments = await Promise.all(
-        normalAttachments.map((attachment, index) => {
-          count += 1;
-          return window.Signal.AttachmentDownloads.addJob(attachment, {
-            messageId,
-            type: 'attachment',
-            index,
-          });
-        })
-      );
-
-      const preview = await Promise.all(
-        (this.get('preview') || []).map(async (item, index) => {
-          if (!item.image) {
-            return item;
-          }
-
-          count += 1;
-          return {
-            ...item,
-            image: await window.Signal.AttachmentDownloads.addJob(item.image, {
-              messageId,
-              type: 'preview',
-              index,
-            }),
-          };
-        })
-      );
-
-      const contact = await Promise.all(
-        (this.get('contact') || []).map(async (item, index) => {
-          if (!item.avatar || !item.avatar.avatar) {
-            return item;
-          }
-
-          count += 1;
-          return {
-            ...item,
-            avatar: {
-              ...item.avatar,
-              avatar: await window.Signal.AttachmentDownloads.addJob(
-                item.avatar.avatar,
-                {
-                  messageId,
-                  type: 'contact',
-                  index,
-                }
-              ),
-            },
-          };
-        })
-      );
-
-      let quote = this.get('quote');
-      if (quote && quote.attachments && quote.attachments.length) {
-        quote = {
-          ...quote,
-          attachments: await Promise.all(
-            (quote.attachments || []).map(async (item, index) => {
-              // If we already have a path, then we copied this image from the quoted
-              //    message and we don't need to download the attachment.
-              if (!item.thumbnail || item.thumbnail.path) {
-                return item;
-              }
-
-              count += 1;
-              return {
-                ...item,
-                thumbnail: await window.Signal.AttachmentDownloads.addJob(
-                  item.thumbnail,
-                  {
-                    messageId,
-                    type: 'quote',
-                    index,
-                  }
-                ),
-              };
-            })
-          ),
-        };
-      }
-
-      let group = this.get('group');
-      if (group && group.avatar) {
-        group = {
-          ...group,
-          avatar: await window.Signal.AttachmentDownloads.addJob(group.avatar, {
-            messageId,
-            type: 'group-avatar',
-            index: 0,
-          }),
-        };
-      }
-
-      if (count > 0) {
-        this.set({ bodyPending, attachments, preview, contact, quote, group });
-
-        await window.Signal.Data.saveMessage(this.attributes, {
-          Message: Whisper.Message,
-        });
-
-        return true;
-      }
-
-      return false;
-    },
-
-    async copyFromQuotedMessage(message, attemptCount = 1) {
-      const { quote } = message;
-      if (!quote) {
-        return message;
-      }
-
-      const { attachments, id, author } = quote;
-      const firstAttachment = attachments[0];
-
-      const collection = await window.Signal.Data.getMessagesBySentAt(id, {
-        MessageCollection: Whisper.MessageCollection,
-      });
-      const found = collection.find(item => {
-        const messageAuthor = item.getContact();
-
-        return messageAuthor && author === messageAuthor.id;
-      });
-
-      if (!found) {
-        // Exponential backoff, giving up after 5 attempts:
-        if (attemptCount < 5) {
-          setTimeout(() => {
-            window.log.info(
-              `Looking for the message id : ${id}, attempt: ${attemptCount + 1}`
-            );
-            this.copyFromQuotedMessage(message, attemptCount + 1);
-          }, attemptCount * attemptCount * 500);
-        }
-
-        quote.referencedMessageNotFound = true;
-        return message;
-      }
-
-      window.log.info(`Found quoted message id: ${id}`);
-      quote.referencedMessageNotFound = false;
-
-      const queryMessage = MessageController.register(found.id, found);
-      quote.text = queryMessage.get('body');
-
-      if (attemptCount > 1) {
-        // Normally the caller would save the message, but in case we are
-        // called by a timer, we need to update the message manually
-        this.set({ quote });
-        await window.Signal.Data.saveMessage(this.attributes, {
-          Message: Whisper.Message,
-        });
-        return null;
-      }
-
-      if (firstAttachment) {
-        firstAttachment.thumbnail = null;
-      }
-
-      if (
-        !firstAttachment ||
-        (!window.Signal.Util.GoogleChrome.isImageTypeSupported(
-          firstAttachment.contentType
-        ) &&
-          !window.Signal.Util.GoogleChrome.isVideoTypeSupported(
-            firstAttachment.contentType
-          ))
-      ) {
-        return message;
-      }
-
-      try {
-        if (
-          queryMessage.get('schemaVersion') <
-          TypedMessage.VERSION_NEEDED_FOR_DISPLAY
-        ) {
-          const upgradedMessage = await upgradeMessageSchema(
-            queryMessage.attributes
-          );
-          queryMessage.set(upgradedMessage);
-          await window.Signal.Data.saveMessage(upgradedMessage, {
-            Message: Whisper.Message,
-          });
-        }
-      } catch (error) {
-        window.log.error(
-          'Problem upgrading message quoted message from database',
-          Errors.toLogFormat(error)
-        );
-        return message;
-      }
-
-      const queryAttachments = queryMessage.get('attachments') || [];
-
-      if (queryAttachments.length > 0) {
-        const queryFirst = queryAttachments[0];
-        const { thumbnail } = queryFirst;
-
-        if (thumbnail && thumbnail.path) {
-          firstAttachment.thumbnail = {
-            ...thumbnail,
-            copied: true,
-          };
-        }
-      }
-
-      const queryPreview = queryMessage.get('preview') || [];
-      if (queryPreview.length > 0) {
-        const queryFirst = queryPreview[0];
-        const { image } = queryFirst;
-
-        if (image && image.path) {
-          firstAttachment.thumbnail = {
-            ...image,
-            copied: true,
-          };
-        }
-      }
-
-      return message;
-    },
-
-    async handleSecondaryDeviceFriendRequest(pubKey) {
-      // fetch the device mapping from the server
-      const deviceMapping = await lokiFileServerAPI.getUserDeviceMapping(
-        pubKey
-      );
-      if (!deviceMapping) {
-        return false;
-      }
-      // Only handle secondary pubkeys
-      if (deviceMapping.isPrimary === '1' || !deviceMapping.authorisations) {
-        return false;
-      }
-      const { authorisations } = deviceMapping;
-      // Secondary devices should only have 1 authorisation from a primary device
-      if (authorisations.length !== 1) {
-        return false;
-      }
-      const authorisation = authorisations[0];
-      if (!authorisation) {
-        return false;
-      }
-      if (!authorisation.grantSignature) {
-        return false;
-      }
-      const isValid = await libloki.crypto.validateAuthorisation(authorisation);
-      if (!isValid) {
-        return false;
-      }
-      const correctSender = pubKey === authorisation.secondaryDevicePubKey;
-      if (!correctSender) {
-        return false;
-      }
-      const { primaryDevicePubKey } = authorisation;
-      // ensure the primary device is a friend
-      const c = window.ConversationController.get(primaryDevicePubKey);
-      if (!c || !await c.isFriendWithAnyDevice()) {
-        return false;
-      }
-      await libloki.storage.savePairingAuthorisation(authorisation);
-
-      return true;
-    },
-
-    /**
-     * Returns true if the message is already completely handled and confirmed
-     * and the processing of this message must stop.
-     */
-    handleGroupMessage(source, initialMessage, primarySource, confirm) {
-      const conversationId = initialMessage.group.id;
-      const conversation = ConversationController.get(conversationId);
-      const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
-
-      if (this.shouldIgnoreBlockedGroup(initialMessage, source)) {
-        window.log.warn(`Message ignored; destined for blocked group`);
-        confirm();
-        return true;
-      }
-
-      // NOTE: we use friends status to tell if this is
-      // the creation of the group (initial update)
-      const newGroup = !conversation.isFriend();
-      const knownMembers = conversation.get('members');
-
-      if (!newGroup && knownMembers) {
-        const fromMember = knownMembers.includes(primarySource);
-        // if the group exists and we have its members,
-        // we must drop a message from anyone else than the existing members.
-        if (!fromMember) {
-          window.log.warn(
-            `Ignoring group message from non-member: ${primarySource}`
-          );
-          confirm();
-          // returning true drops the message
-          return true;
-        }
-      }
-      if (initialMessage.group.type === GROUP_TYPES.REQUEST_INFO && !newGroup) {
-        libloki.api.debug.logGroupRequestInfo(
-          `Received GROUP_TYPES.REQUEST_INFO from source: ${source}, primarySource: ${primarySource}, sending back group info.`
-        );
-        conversation.sendGroupInfo([source]);
-        confirm();
-        return true;
-      }
-
-      if (
-        initialMessage.group.members &&
-        initialMessage.group.type === GROUP_TYPES.UPDATE
-      ) {
-        if (newGroup) {
-          conversation.updateGroupAdmins(initialMessage.group.admins);
-
-          conversation.setFriendRequestStatus(
-            window.friends.friendRequestStatusEnum.friends
-          );
-        } else {
-          // be sure to drop a message from a non admin if it tries to change group members
-          // or change the group name
-          const fromAdmin = conversation
-            .get('groupAdmins')
-            .includes(primarySource);
-
-          if (!fromAdmin) {
-            // Make sure the message is not removing members / renaming the group
-            const nameChanged =
-              conversation.get('name') !== initialMessage.group.name;
-
-            if (nameChanged) {
-              window.log.warn(
-                'Non-admin attempts to change the name of the group'
-              );
-            }
-
-            const membersMissing =
-              _.difference(
-                conversation.get('members'),
-                initialMessage.group.members
-              ).length > 0;
-
-            if (membersMissing) {
-              window.log.warn('Non-admin attempts to remove group members');
-            }
-
-            const messageAllowed = !nameChanged && !membersMissing;
-
-            // Returning true drops the message
-            if (!messageAllowed) {
-              confirm();
-              return true;
-            }
-          }
-        }
-        // send a session request for all the members we do not have a session with
-        window.libloki.api.sendSessionRequestsToMembers(
-          initialMessage.group.members
-        );
-      } else if (newGroup) {
-        // We have an unknown group, we should request info from the sender
-        textsecure.messaging.requestGroupInfo(conversationId, [primarySource]);
-      }
-      return false;
-    },
-    async handleSessionRequest(source, confirm) {
-      window.console.log(`Received SESSION_REQUEST from source: ${source}`);
-      window.libloki.api.sendSessionEstablishedMessage(source);
-      confirm();
-    },
-    isGroupBlocked(groupId) {
-      return textsecure.storage.get('blocked-groups', []).indexOf(groupId) >= 0;
-    },
-    shouldIgnoreBlockedGroup(message, senderPubKey) {
-      const groupId = message.group && message.group.id;
-      const isBlocked = this.isGroupBlocked(groupId);
-      const isLeavingGroup = Boolean(
-        message.group &&
-          message.group.type === textsecure.protobuf.GroupContext.Type.QUIT
-      );
-
-      const primaryDevicePubKey = window.storage.get('primaryDevicePubKey');
-      const isMe =
-        senderPubKey === textsecure.storage.user.getNumber() ||
-        senderPubKey === primaryDevicePubKey;
-
-      return groupId && isBlocked && !(isMe && isLeavingGroup);
-    },
-
-    async handleAutoFriendRequestMessage(
-      source,
-      ourPubKey,
-      conversation,
-      confirm
-    ) {
-      const isMe = source === ourPubKey;
-      // If we got a friend request message (session request excluded) or
-      // if we're not friends with the current user that sent this private message
-      // Check to see if we need to auto accept their friend request
-      if (isMe) {
-        window.log.info('refusing to add a friend request to ourselves');
-        throw new Error('Cannot add a friend request for ourselves!');
-      } else {
-        // auto-accept friend request if the device is paired to one of our friend's primary device
-        const shouldAutoAcceptFR = await this.handleSecondaryDeviceFriendRequest(
-          source
-        );
-        if (shouldAutoAcceptFR) {
-          libloki.api.debug.logAutoFriendRequest(
-            `Received AUTO_FRIEND_REQUEST from source: ${source}`
-          );
-          // Directly setting friend request status to skip the pending state
-          await conversation.setFriendRequestStatus(
-            window.friends.friendRequestStatusEnum.friends
-          );
-          // sending a message back = accepting friend request
-
-          window.libloki.api.sendBackgroundMessage(
-            source,
-            window.textsecure.OutgoingMessage.DebugMessageType.AUTO_FR_ACCEPT
-          );
-          confirm();
-          // return true to notify the message is fully processed
-          return true;
-        }
-      }
-      return false;
-    },
-
-    async handleDataMessage(initialMessage, confirm) {
-      // This function is called from the background script in a few scenarios:
-      //   1. on an incoming message
-      //   2. on a sent message sync'd from another device
-      //   3. in rare cases, an incoming message can be retried, though it will
-      //      still go through one of the previous two codepaths
-      const ourNumber = textsecure.storage.user.getNumber();
-      const message = this;
-      const source = message.get('source');
-      let conversationId = message.get('conversationId');
-      const authorisation = await libloki.storage.getGrantAuthorisationForSecondaryPubKey(
-        source
-      );
-      const primarySource =
-        (authorisation && authorisation.primaryDevicePubKey) || source;
-      const isGroupMessage = !!initialMessage.group;
-      if (isGroupMessage) {
-        /* handle one part of the group logic here:
-           handle requesting info of a new group,
-           dropping an admin only update from a non admin, ...
-         */
-        conversationId = initialMessage.group.id;
-        const shouldReturn = this.handleGroupMessage(
-          source,
-          initialMessage,
-          primarySource,
-          confirm
-        );
-
-        // handleGroupMessage() can process fully a message in some cases
-        // so we need to return early if that's the case
-        if (shouldReturn) {
-          return null;
-        }
-      } else if (source !== ourNumber && authorisation) {
-        // Ignore auth from our devices
-        conversationId = authorisation.primaryDevicePubKey;
-      }
-
-      // the conversation with the primary device of that source (can be the same as conversationOrigin)
-      const conversationPrimary = ConversationController.get(conversationId);
-      // the conversation with this real device
-      const conversationOrigin = ConversationController.get(source);
-
-      if (
-        // eslint-disable-next-line no-bitwise
-        initialMessage.flags &
-        textsecure.protobuf.DataMessage.Flags.SESSION_RESTORE
-      ) {
-        // Show that the session reset is "in progress" even though we had a valid session
-        this.set({ endSessionType: 'ongoing' });
-      }
-      /**
-       * A session request message is a friend-request message with the flag
-       * SESSION_REQUEST set to true.
-       */
-      const sessionRequestFlag =
-        textsecure.protobuf.DataMessage.Flags.SESSION_REQUEST;
-      /* eslint-disable no-bitwise */
-      if (
-        message.isFriendRequest() &&
-        !!(initialMessage.flags & sessionRequestFlag)
-      ) {
-        await this.handleSessionRequest(source, confirm);
-
-        // Wether or not we accepted the FR, we exit early so session requests
-        // cannot be used for establishing regular private conversations
-        return null;
-      }
-      /* eslint-enable no-bitwise */
-
-      // Session request have been dealt with before, so a friend request here is
-      // not a session request message. Also, handleAutoFriendRequestMessage() only handles the autoAccept logic of an auto friend request.
-      if (
-        message.isFriendRequest() ||
-        (!isGroupMessage && !conversationOrigin.isFriend())
-      ) {
-        const shouldReturn = await this.handleAutoFriendRequestMessage(
-          source,
-          ourNumber,
-          conversationOrigin,
-          confirm
-        );
-        // handleAutoFriendRequestMessage can process fully a message in some cases
-        // so we need to return early if that's the case
-        if (shouldReturn) {
-          return null;
-        }
-      }
-
-      return conversationPrimary.queueJob(async () => {
-        window.log.info(
-          `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversationPrimary.idForLogging()}`
-        );
-        const GROUP_TYPES = textsecure.protobuf.GroupContext.Type;
-        const type = message.get('type');
-
-        const withQuoteReference = await this.copyFromQuotedMessage(
-          initialMessage
-        );
-        const dataMessage = await upgradeMessageSchema(withQuoteReference);
-
-        try {
-          const now = new Date().getTime();
-          let attributes = {
-            ...conversationPrimary.attributes,
-          };
-
-          if (dataMessage.group) {
-            let groupUpdate = null;
-            attributes = {
-              ...attributes,
-              type: 'group',
-              groupId: dataMessage.group.id,
-            };
-            if (dataMessage.group.type === GROUP_TYPES.UPDATE) {
-              attributes = {
-                ...attributes,
-                name: dataMessage.group.name,
-                members: dataMessage.group.members,
-              };
-
-              groupUpdate =
-                conversationPrimary.changedAttributes(
-                  _.pick(dataMessage.group, 'name', 'avatar')
-                ) || {};
-
-              const addedMembers = _.difference(
-                attributes.members,
-                conversationPrimary.get('members')
-              );
-              if (addedMembers.length > 0) {
-                groupUpdate.joined = addedMembers;
-              }
-              if (conversationPrimary.get('left')) {
-                // TODO: Maybe we shouldn't assume this message adds us:
-                // we could maybe still get this message by mistake
-                window.log.warn('re-added to a left group');
-                attributes.left = false;
-              }
-
-              if (attributes.isKickedFromGroup) {
-                // Assume somebody re-invited us since we received this update
-                attributes.isKickedFromGroup = false;
-              }
-
-              // Check if anyone got kicked:
-              const removedMembers = _.difference(
-                conversationPrimary.get('members'),
-                attributes.members
-              );
-
-              if (removedMembers.length > 0) {
-                if (
-                  removedMembers.includes(textsecure.storage.user.getNumber())
-                ) {
-                  groupUpdate.kicked = 'You';
-                  attributes.isKickedFromGroup = true;
-                } else {
-                  groupUpdate.kicked = removedMembers;
-                }
-              }
-            } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
-              if (source === textsecure.storage.user.getNumber()) {
-                attributes.left = true;
-                groupUpdate = { left: 'You' };
-              } else {
-                groupUpdate = { left: source };
-              }
-              attributes.members = _.without(
-                conversationPrimary.get('members'),
-                source
-              );
-            }
-
-            if (groupUpdate !== null) {
-              message.set({ group_update: groupUpdate });
-            }
-          }
-
-          if (initialMessage.groupInvitation) {
-            message.set({ groupInvitation: initialMessage.groupInvitation });
-          }
-
-          const urls = window.Signal.LinkPreviews.findLinks(dataMessage.body);
-          const incomingPreview = dataMessage.preview || [];
-          const preview = incomingPreview.filter(
-            item =>
-              (item.image || item.title) &&
-              urls.includes(item.url) &&
-              window.Signal.LinkPreviews.isLinkInWhitelist(item.url)
-          );
-          if (preview.length < incomingPreview.length) {
-            window.log.info(
-              `${message.idForLogging()}: Eliminated ${preview.length -
-                incomingPreview.length} previews with invalid urls'`
-            );
-          }
-
-          message.set({
-            attachments: dataMessage.attachments,
-            body: dataMessage.body,
-            contact: dataMessage.contact,
-            conversationId: conversationPrimary.id,
-            decrypted_at: now,
-            errors: [],
-            flags: dataMessage.flags,
-            hasAttachments: dataMessage.hasAttachments,
-            hasFileAttachments: dataMessage.hasFileAttachments,
-            hasVisualMediaAttachments: dataMessage.hasVisualMediaAttachments,
-            quote: dataMessage.quote,
-            preview,
-            schemaVersion: dataMessage.schemaVersion,
-          });
-
-          if (type === 'outgoing') {
-            const receipts = Whisper.DeliveryReceipts.forMessage(
-              conversationPrimary,
-              message
-            );
-            receipts.forEach(receipt =>
-              message.set({
-                delivered: (message.get('delivered') || 0) + 1,
-                delivered_to: _.union(message.get('delivered_to') || [], [
-                  receipt.get('source'),
-                ]),
-              })
-            );
-          }
-          attributes.active_at = now;
-          conversationPrimary.set(attributes);
-
-          // Re-enable typing if re-joined the group
-          conversationPrimary.updateTextInputState();
-
-          if (message.isExpirationTimerUpdate()) {
-            message.set({
-              expirationTimerUpdate: {
-                source,
-                expireTimer: dataMessage.expireTimer,
-              },
-            });
-            conversationPrimary.set({ expireTimer: dataMessage.expireTimer });
-          } else if (dataMessage.expireTimer) {
-            message.set({ expireTimer: dataMessage.expireTimer });
-          }
-
-          // NOTE: Remove once the above uses
-          // `Conversation::updateExpirationTimer`:
-          const { expireTimer } = dataMessage;
-          const shouldLogExpireTimerChange =
-            message.isExpirationTimerUpdate() || expireTimer;
-          if (shouldLogExpireTimerChange) {
-            window.log.info("Update conversation 'expireTimer'", {
-              id: conversationPrimary.idForLogging(),
-              expireTimer,
-              source: 'handleDataMessage',
-            });
-          }
-
-          if (!message.isEndSession()) {
-            if (dataMessage.expireTimer) {
-              if (
-                dataMessage.expireTimer !==
-                conversationPrimary.get('expireTimer')
-              ) {
-                conversationPrimary.updateExpirationTimer(
-                  dataMessage.expireTimer,
-                  source,
-                  message.get('received_at'),
-                  {
-                    fromGroupUpdate: message.isGroupUpdate(),
-                  }
-                );
-              }
-            } else if (
-              conversationPrimary.get('expireTimer') &&
-              // We only turn off timers if it's not a group update
-              !message.isGroupUpdate()
-            ) {
-              conversationPrimary.updateExpirationTimer(
-                null,
-                source,
-                message.get('received_at')
-              );
-            }
-          } else {
-            const endSessionType = conversationPrimary.isSessionResetReceived()
-              ? 'ongoing'
-              : 'done';
-            this.set({ endSessionType });
-          }
-          if (type === 'incoming' || message.isFriendRequest()) {
-            const readSync = Whisper.ReadSyncs.forMessage(message);
-            if (readSync) {
-              if (
-                message.get('expireTimer') &&
-                !message.get('expirationStartTimestamp')
-              ) {
-                message.set(
-                  'expirationStartTimestamp',
-                  Math.min(readSync.get('read_at'), Date.now())
-                );
-              }
-            }
-            if (readSync || message.isExpirationTimerUpdate()) {
-              message.unset('unread');
-              // This is primarily to allow the conversation to mark all older
-              // messages as read, as is done when we receive a read sync for
-              // a message we already know about.
-              const c = message.getConversation();
-              if (c) {
-                c.onReadMessage(message);
-              }
-            } else {
-              if (
-                message.attributes.body &&
-                message.attributes.body.indexOf(`@${ourNumber}`) !== -1
-              ) {
-                conversationPrimary.set({ mentionedUs: true });
-              }
-
-              conversationPrimary.set({
-                unreadCount: conversationPrimary.get('unreadCount') + 1,
-                isArchived: false,
-              });
-            }
-          }
-
-          if (type === 'outgoing') {
-            const reads = Whisper.ReadReceipts.forMessage(
-              conversationPrimary,
-              message
-            );
-            if (reads.length) {
-              const readBy = reads.map(receipt => receipt.get('reader'));
-              message.set({
-                read_by: _.union(message.get('read_by'), readBy),
-              });
-            }
-
-            // A sync'd message to ourself is automatically considered read and delivered
-            if (conversationPrimary.isMe()) {
-              message.set({
-                read_by: conversationPrimary.getRecipients(),
-                delivered_to: conversationPrimary.getRecipients(),
-              });
-            }
-
-            message.set({ recipients: conversationPrimary.getRecipients() });
-          }
-
-          const conversationTimestamp = conversationPrimary.get('timestamp');
-          if (
-            !conversationTimestamp ||
-            message.get('sent_at') > conversationTimestamp
-          ) {
-            conversationPrimary.lastMessage = message.getNotificationText();
-            conversationPrimary.set({
-              timestamp: message.get('sent_at'),
-            });
-          }
-
-          if (dataMessage.profileKey) {
-            const profileKey = dataMessage.profileKey.toString('base64');
-            if (source === textsecure.storage.user.getNumber()) {
-              conversationPrimary.set({ profileSharing: true });
-            } else if (conversationPrimary.isPrivate()) {
-              conversationPrimary.setProfileKey(profileKey);
-            } else {
-              conversationOrigin.setProfileKey(profileKey);
-            }
-          }
-
-          let autoAccept = false;
-          // Make sure friend request logic doesn't trigger on messages aimed at groups
-          if (!isGroupMessage) {
-            // We already handled (and returned) session request and auto Friend Request before,
-            // so that can only be a normal Friend Request
-            if (message.isFriendRequest()) {
-              /*
-              Here is the before and after state diagram for the operation before.
-
-              None -> RequestReceived
-              PendingSend -> RequestReceived
-              RequestReceived -> RequestReceived
-              Sent -> Friends
-              Expired -> Friends
-              Friends -> Friends
-
-              The cases where we auto accept are the following:
-                - We sent the user a friend request,
-                  and that user sent us a friend request.
-                - We are friends with the user,
-                  and that user just sent us a friend request.
-              */
-
-              const isFriend = conversationOrigin.isFriend();
-              const hasSentFriendRequest = conversationOrigin.hasSentFriendRequest();
-              autoAccept = isFriend || hasSentFriendRequest;
-
-              if (autoAccept) {
-                message.set({ friendStatus: 'accepted' });
-              }
-
-              libloki.api.debug.logNormalFriendRequest(
-                `Received a NORMAL_FRIEND_REQUEST from source: ${source}, primarySource: ${primarySource}, isAlreadyFriend: ${isFriend}, didWeAlreadySentFR: ${hasSentFriendRequest}`
-              );
-
-              if (isFriend) {
-                window.Whisper.events.trigger('endSession', source);
-              } else if (hasSentFriendRequest) {
-                await conversationOrigin.onFriendRequestAccepted();
-              } else {
-                await conversationOrigin.onFriendRequestReceived();
-              }
-            } else if (message.get('type') !== 'outgoing') {
-              // Ignore 'outgoing' messages because they are sync messages
-              await conversationOrigin.onFriendRequestAccepted();
-            }
-          }
-
-          // We need to map the original message source to the primary device
-          if (source !== ourNumber) {
-            message.set({ source: primarySource });
-          }
-
-          const id = await window.Signal.Data.saveMessage(message.attributes, {
-            Message: Whisper.Message,
-          });
-          message.set({ id });
-          MessageController.register(message.id, message);
-
-          // Note that this can save the message again, if jobs were queued. We need to
-          //   call it after we have an id for this message, because the jobs refer back
-          //   to their source message.
-          await message.queueAttachmentDownloads();
-
-          await window.Signal.Data.updateConversation(
-            conversationId,
-            conversationPrimary.attributes,
-            { Conversation: Whisper.Conversation }
-          );
-
-          conversationPrimary.trigger('newmessage', message);
-
-          try {
-            // We go to the database here because, between the message save above and
-            // the previous line's trigger() call, we might have marked all messages
-            // unread in the database. This message might already be read!
-            const fetched = await window.Signal.Data.getMessageById(
-              message.get('id'),
-              {
-                Message: Whisper.Message,
-              }
-            );
-            const previousUnread = message.get('unread');
-
-            // Important to update message with latest read state from database
-            message.merge(fetched);
-
-            if (previousUnread !== message.get('unread')) {
-              window.log.warn(
-                'Caught race condition on new message read state! ' +
-                  'Manually starting timers.'
-              );
-              // We call markRead() even though the message is already
-              // marked read because we need to start expiration
-              // timers, etc.
-              message.markRead();
-            }
-          } catch (error) {
-            window.log.warn(
-              'handleDataMessage: Message',
-              message.idForLogging(),
-              'was deleted'
-            );
-          }
-
-          if (message.get('unread')) {
-            // Need to do this here because the conversation has already changed states
-            if (autoAccept) {
-              await conversationPrimary.notifyFriendRequest(source, 'accepted');
-            } else {
-              await conversationPrimary.notify(message);
-            }
-          }
-
-          confirm();
-        } catch (error) {
-          const errorForLog = error && error.stack ? error.stack : error;
-          window.log.error(
-            'handleDataMessage',
-            message.idForLogging(),
-            'error:',
-            errorForLog
-          );
-          throw error;
-        }
-      });
     },
     async markRead(readAt) {
       this.unset('unread');

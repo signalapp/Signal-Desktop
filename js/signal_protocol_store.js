@@ -39,21 +39,6 @@
     return false;
   }
 
-  function convertVerifiedStatusToProtoState(status) {
-    switch (status) {
-      case VerifiedStatus.VERIFIED:
-        return textsecure.protobuf.Verified.State.VERIFIED;
-
-      case VerifiedStatus.UNVERIFIED:
-        return textsecure.protobuf.Verified.State.VERIFIED;
-
-      case VerifiedStatus.DEFAULT:
-      // intentional fallthrough
-      default:
-        return textsecure.protobuf.Verified.State.DEFAULT;
-    }
-  }
-
   const StaticByteBufferProto = new dcodeIO.ByteBuffer().__proto__;
   const StaticArrayBufferProto = new ArrayBuffer().__proto__;
   const StaticUint8ArrayProto = new Uint8Array().__proto__;
@@ -393,11 +378,6 @@
       const allSessions = Object.values(this.sessions);
       const sessions = allSessions.filter(session => session.number === number);
       return _.pluck(sessions, 'deviceId');
-    },
-    async removeSession(encodedNumber) {
-      window.log.info('deleting session for ', encodedNumber);
-      delete this.sessions[encodedNumber];
-      await window.Signal.Data.removeSessionById(encodedNumber);
     },
     async removeAllSessions(number) {
       if (number === null || number === undefined) {
@@ -913,7 +893,7 @@
       ConversationController.reset();
       BlockedNumberController.reset();
       await ConversationController.load();
-      BlockedNumberController.refresh();
+      await BlockedNumberController.load();
     },
     async removeAllConfiguration() {
       await window.Signal.Data.removeAllConfiguration();
@@ -928,5 +908,4 @@
   window.SignalProtocolStore = SignalProtocolStore;
   window.SignalProtocolStore.prototype.Direction = Direction;
   window.SignalProtocolStore.prototype.VerifiedStatus = VerifiedStatus;
-  window.SignalProtocolStore.prototype.convertVerifiedStatusToProtoState = convertVerifiedStatusToProtoState;
 })();

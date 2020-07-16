@@ -9,7 +9,7 @@
   i18n,
   Whisper,
   textsecure,
-  Signal
+  Signal,
 */
 
 // eslint-disable-next-line func-names
@@ -243,6 +243,11 @@
       //     }
       //   }
       // });
+      this.fetchHandleMessageSentData = this.fetchHandleMessageSentData.bind(
+        this
+      );
+      this.handleMessageSentFailure = this.handleMessageSentFailure.bind(this);
+      this.handleMessageSentSuccess = this.handleMessageSentSuccess.bind(this);
 
       this.listenTo(convoCollection, 'remove', conversation => {
         const { id } = conversation || {};
@@ -258,12 +263,68 @@
       });
       this.listenTo(convoCollection, 'reset', removeAllConversations);
 
+      window.libsession
+        .getMessageQueue()
+        .events.addListener('success', this.handleMessageSentSuccess);
+
+      window.libsession
+        .getMessageQueue()
+        .events.addListener('fail', this.handleMessageSentFailure);
+
       Whisper.events.on('messageExpired', messageExpired);
       Whisper.events.on('userChanged', userChanged);
 
       // Finally, add it to the DOM
       this.$('.left-pane-placeholder').append(this.leftPaneView.el);
     },
+
+    async fetchHandleMessageSentData(m) {
+      // nobody is listening to this freshly fetched message .trigger calls
+      const tmpMsg = await window.Signal.Data.getMessageById(m.identifier, {
+        Message: Whisper.Message,
+      });
+
+      if (!tmpMsg) {
+        return null;
+      }
+
+      // find the corresponding conversation of this message
+      const conv = window.ConversationController.get(
+        tmpMsg.get('conversationId')
+      );
+
+      // then, find in this conversation the very same message
+      const msg = conv.messageCollection.models.find(
+        convMsg => convMsg.id === tmpMsg.id
+      );
+
+      if (!msg) {
+        return null;
+      }
+
+      return { msg };
+    },
+
+    async handleMessageSentSuccess(sentMessage) {
+      const fetchedData = await this.fetchHandleMessageSentData(sentMessage);
+      if (!fetchedData) {
+        return;
+      }
+      const { msg } = fetchedData;
+
+      msg.handleMessageSentSuccess(sentMessage);
+    },
+
+    async handleMessageSentFailure(sentMessage, error) {
+      const fetchedData = await this.fetchHandleMessageSentData(sentMessage);
+      if (!fetchedData) {
+        return;
+      }
+      const { msg } = fetchedData;
+
+      await msg.handleMessageSentFailure(sentMessage, error);
+    },
+
     startConnectionListener() {
       this.interval = setInterval(() => {
         const status = window.getSocketStatus();

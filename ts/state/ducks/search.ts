@@ -5,11 +5,7 @@ import { AdvancedSearchOptions, SearchOptions } from '../../types/Search';
 import { trigger } from '../../shims/events';
 import { getMessageModel } from '../../shims/Whisper';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
-import {
-  getPrimaryDeviceFor,
-  searchConversations,
-  searchMessages,
-} from '../../../js/modules/data';
+import { searchConversations, searchMessages } from '../../../js/modules/data';
 import { makeLookup } from '../../util/makeLookup';
 
 import {
@@ -19,6 +15,8 @@ import {
   RemoveAllConversationsActionType,
   SelectedConversationChangedActionType,
 } from './conversations';
+import { MultiDeviceProtocol } from '../../session/protocols';
+import { PubKey } from '../../session/types';
 
 // State
 
@@ -283,16 +281,13 @@ async function queryConversationsAndContacts(
     query
   );
 
-  const ourPrimaryDevice = isSecondaryDevice
-    ? await getPrimaryDeviceFor(ourNumber)
-    : ourNumber;
+  const ourPrimaryDevice = await MultiDeviceProtocol.getPrimaryDevice(
+    ourNumber
+  );
 
-  const resultPrimaryDevices: Array<string | null> = await Promise.all(
-    searchResults.map(
-      async conversation =>
-        conversation.id === ourPrimaryDevice
-          ? Promise.resolve(ourPrimaryDevice)
-          : getPrimaryDeviceFor(conversation.id)
+  const resultPrimaryDevices = await Promise.all(
+    searchResults.map(async conversation =>
+      MultiDeviceProtocol.getPrimaryDevice(conversation.id)
     )
   );
 
@@ -305,10 +300,10 @@ async function queryConversationsAndContacts(
     const primaryDevice = resultPrimaryDevices[i];
 
     if (primaryDevice) {
-      if (isSecondaryDevice && primaryDevice === ourPrimaryDevice) {
+      if (isSecondaryDevice && primaryDevice.isEqual(ourPrimaryDevice)) {
         conversations.push(ourNumber);
       } else {
-        conversations.push(primaryDevice);
+        conversations.push(primaryDevice.key);
       }
     } else if (conversation.type === 'direct') {
       contacts.push(conversation.id);

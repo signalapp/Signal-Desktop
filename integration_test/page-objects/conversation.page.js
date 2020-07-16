@@ -28,6 +28,8 @@ module.exports = {
       `${number} members`
     ),
 
+  conversationItem: commonPage.divWithClass('module-conversation-list-item'),
+
   attachmentInput: '//*[contains(@class, "choose-file")]/input[@type="file"]',
   attachmentButton: '//*[contains(@class, "choose-file")]/button',
 

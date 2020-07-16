@@ -7,6 +7,7 @@ import {
   ConversationListItem,
   PropsData as ConversationListItemPropsType,
 } from '../ConversationListItem';
+import { ConversationType } from '../../state/ducks/conversations';
 import {
   PropsData as SearchResultsProps,
   SearchResults,
@@ -28,11 +29,13 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from './SessionButton';
+import { OpenGroup } from '../../session/types';
 
 export interface Props {
   searchTerm: string;
   isSecondaryDevice: boolean;
 
+  contacts: Array<ConversationType>;
   conversations?: Array<ConversationListItemPropsType>;
   searchResults?: SearchResultsProps;
 
@@ -58,7 +61,6 @@ interface State {
   loading: boolean;
   overlay: false | SessionComposeToType;
   valuePasted: string;
-  connectSuccess: boolean;
 }
 
 export class LeftPaneMessageSection extends React.Component<Props, State> {
@@ -72,7 +74,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       loading: false,
       overlay: false,
       valuePasted: '',
-      connectSuccess: false,
     };
 
     const conversations = this.getCurrentConversations();
@@ -118,8 +119,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     let conversationList = conversations;
     if (conversationList !== undefined) {
       conversationList = conversationList.filter(
-        conversation =>
-          !conversation.isPendingFriendRequest && !conversation.isSecondary
+        conversation => !conversation.isSecondary
       );
     }
 
@@ -154,16 +154,13 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
   public renderList(): JSX.Element | Array<JSX.Element | null> {
     const { openConversationInternal, searchResults } = this.props;
-    const friends =
-      (searchResults &&
-        searchResults.contacts.filter(contact => contact.isFriend)) ||
-      [];
+    const contacts = searchResults?.contacts || [];
 
     if (searchResults) {
       return (
         <SearchResults
           {...searchResults}
-          friends={friends}
+          contacts={contacts}
           openConversation={openConversationInternal}
           i18n={window.i18n}
         />
@@ -318,6 +315,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     const closedGroupElement = (
       <SessionClosableOverlay
+        contacts={this.props.contacts}
         overlayMode={SessionClosableOverlayType.ClosedGroup}
         onChangeSessionID={this.handleOnPaste}
         onCloseClick={() => {
@@ -442,41 +440,79 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     }
   }
 
-  private handleJoinChannelButtonClick(groupUrl: string) {
+  private async handleJoinChannelButtonClick(serverUrl: string) {
     const { loading } = this.state;
 
     if (loading) {
-      return false;
+      return;
     }
 
-    // longest TLD is now (20/02/06) 24 characters per https://jasontucker.blog/8945/what-is-the-longest-tld-you-can-get-for-a-domain-name
-    const regexURL = /(http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,24}(:[0-9]{1,5})?(\/.*)?/;
+    // Server URL entered?
+    if (serverUrl.length === 0) {
+      return;
+    }
 
-    if (groupUrl.length <= 0) {
+    // Server URL valid?
+    if (!OpenGroup.validate(serverUrl)) {
       window.pushToast({
         title: window.i18n('noServerURL'),
+        id: 'connectToServer',
         type: 'error',
-        id: 'connectToServerFail',
       });
 
-      return false;
+      return;
     }
 
-    if (!regexURL.test(groupUrl)) {
+    // Already connected?
+    if (Boolean(await OpenGroup.getConversation(serverUrl))) {
       window.pushToast({
-        title: window.i18n('noServerURL'),
+        title: window.i18n('publicChatExists'),
+        id: 'publicChatExists',
         type: 'error',
-        id: 'connectToServerFail',
       });
 
-      return false;
+      return;
     }
 
-    MainViewController.joinChannelStateManager(this, groupUrl, () => {
+    // Connect to server
+    try {
+      await OpenGroup.join(serverUrl, async () => {
+        if (await OpenGroup.serverExists(serverUrl)) {
+          window.pushToast({
+            title: window.i18n('connectingToServer'),
+            id: 'connectToServer',
+            type: 'success',
+          });
+
+          this.setState({ loading: true });
+        }
+      });
+      const openGroupConversation = await OpenGroup.getConversation(serverUrl);
+
+      if (openGroupConversation) {
+        // if no errors happened, trigger a sync with just this open group
+        // so our other devices joins it
+        await window.textsecure.messaging.sendOpenGroupsSyncMessage(
+          openGroupConversation
+        );
+      } else {
+        window.console.error(
+          'Joined an opengroup but did not find ther corresponding conversation'
+        );
+      }
+    } catch (e) {
+      window.console.error('Failed to connect to server:', e);
+      window.pushToast({
+        title: window.i18n('connectToServerFail'),
+        id: 'connectToServer',
+        type: 'error',
+      });
+    } finally {
+      this.setState({
+        loading: false,
+      });
       this.handleToggleOverlay(undefined);
-    });
-
-    return true;
+    }
   }
 
   private async onCreateClosedGroup(

@@ -1,6 +1,7 @@
 /* global window, setTimeout, clearTimeout, IDBKeyRange, dcodeIO */
-
 const electron = require('electron');
+
+const { ipcRenderer } = electron;
 
 // TODO: this results in poor readability, would be
 // much better to explicitly call with `_`.
@@ -13,19 +14,12 @@ const {
   map,
   set,
   omit,
-  isArrayBuffer,
 } = require('lodash');
 
 const _ = require('lodash');
 
 const { base64ToArrayBuffer, arrayBufferToBase64 } = require('./crypto');
 const MessageType = require('./types/message');
-
-const { ipcRenderer } = electron;
-
-// We listen to a lot of events on ipcRenderer, often on the same channel. This prevents
-//   any warnings that might be sent to the console in that case.
-ipcRenderer.setMaxListeners(0);
 
 const DATABASE_UPDATE_TIMEOUT = 2 * 60 * 1000; // two minutes
 
@@ -44,6 +38,7 @@ let _shutdownPromise = null;
 const channels = {};
 
 module.exports = {
+  init,
   _jobs,
   _cleanData,
 
@@ -93,13 +88,8 @@ module.exports = {
   removeAllContactSignedPreKeys,
 
   createOrUpdatePairingAuthorisation,
-  removePairingAuthorisationForSecondaryPubKey,
-  getGrantAuthorisationForSecondaryPubKey,
-  getAuthorisationForSecondaryPubKey,
-  getGrantAuthorisationsForPrimaryPubKey,
-  getSecondaryDevicesFor,
-  getPrimaryDeviceFor,
-  getPairedDevicesFor,
+  getPairingAuthorisationsFor,
+  removePairingAuthorisationsFor,
 
   getGuardNodes,
   updateGuardNodes,
@@ -120,8 +110,8 @@ module.exports = {
   removeAllSessions,
   getAllSessions,
 
-  // Doesn't look like this is used at all
-  getSwarmNodesByPubkey,
+  getSwarmNodesForPubkey,
+  updateSwarmNodesForPubkey,
 
   getConversationCount,
   saveConversation,
@@ -132,11 +122,8 @@ module.exports = {
   _removeConversations,
 
   getAllConversations,
-  getPubKeysWithFriendStatus,
-  getConversationsWithFriendStatus,
   getAllConversationIds,
   getAllPrivateConversations,
-  getAllRssFeedConversations,
   getAllPublicConversations,
   getPublicConversationsByServer,
   getPubkeysInPublicConversation,
@@ -211,6 +198,42 @@ module.exports = {
   getSenderKeys,
   createOrUpdateSenderKeys,
 };
+
+function init() {
+  // We listen to a lot of events on ipcRenderer, often on the same channel. This prevents
+  //   any warnings that might be sent to the console in that case.
+  ipcRenderer.setMaxListeners(0);
+
+  forEach(module.exports, fn => {
+    if (isFunction(fn) && fn.name !== 'init') {
+      makeChannel(fn.name);
+    }
+  });
+
+  ipcRenderer.on(
+    `${SQL_CHANNEL_KEY}-done`,
+    (event, jobId, errorForDisplay, result) => {
+      const job = _getJob(jobId);
+      if (!job) {
+        throw new Error(
+          `Received SQL channel reply to job ${jobId}, but did not have it in our registry!`
+        );
+      }
+
+      const { resolve, reject, fnName } = job;
+
+      if (errorForDisplay) {
+        return reject(
+          new Error(
+            `Error received from SQL channel job ${jobId} (${fnName}): ${errorForDisplay}`
+          )
+        );
+      }
+
+      return resolve(result);
+    }
+  );
+}
 
 // When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
 // We can't send ArrayBuffers or BigNumbers (what we get from proto library for dates).
@@ -352,30 +375,6 @@ function _getJob(id) {
   return _jobs[id];
 }
 
-ipcRenderer.on(
-  `${SQL_CHANNEL_KEY}-done`,
-  (event, jobId, errorForDisplay, result) => {
-    const job = _getJob(jobId);
-    if (!job) {
-      throw new Error(
-        `Received SQL channel reply to job ${jobId}, but did not have it in our registry!`
-      );
-    }
-
-    const { resolve, reject, fnName } = job;
-
-    if (errorForDisplay) {
-      return reject(
-        new Error(
-          `Error received from SQL channel job ${jobId} (${fnName}): ${errorForDisplay}`
-        )
-      );
-    }
-
-    return resolve(result);
-  }
-);
-
 function makeChannel(fnName) {
   channels[fnName] = (...args) => {
     const jobId = _makeJob(fnName);
@@ -397,12 +396,6 @@ function makeChannel(fnName) {
     });
   };
 }
-
-forEach(module.exports, fn => {
-  if (isFunction(fn)) {
-    makeChannel(fn.name);
-  }
-});
 
 function keysToArrayBuffer(keys, data) {
   const updated = cloneDeep(data);
@@ -606,17 +599,12 @@ async function removeAllContactSignedPreKeys() {
 }
 
 function signatureToBase64(signature) {
-  if (signature.constructor === dcodeIO.ByteBuffer) {
-    return dcodeIO.ByteBuffer.wrap(signature).toString('base64');
-  } else if (isArrayBuffer(signature)) {
-    return arrayBufferToBase64(signature);
-  } else if (typeof signature === 'string') {
-    // assume it's already base64
+  if (typeof signature === 'string') {
     return signature;
   }
-  throw new Error(
-    'Invalid signature provided in createOrUpdatePairingAuthorisation. Needs to be either ArrayBuffer or ByteBuffer.'
-  );
+
+  // Ensure signature is ByteBuffer, ArrayBuffer or Uint8Array otherwise throw error
+  return dcodeIO.ByteBuffer.wrap(signature).toString('base64');
 }
 
 async function createOrUpdatePairingAuthorisation(data) {
@@ -629,29 +617,20 @@ async function createOrUpdatePairingAuthorisation(data) {
   });
 }
 
-async function removePairingAuthorisationForSecondaryPubKey(pubKey) {
-  if (!pubKey) {
-    return;
-  }
-  await channels.removePairingAuthorisationForSecondaryPubKey(pubKey);
+async function getPairingAuthorisationsFor(pubKey) {
+  const authorisations = await channels.getPairingAuthorisationsFor(pubKey);
+
+  return authorisations.map(authorisation => ({
+    ...authorisation,
+    requestSignature: base64ToArrayBuffer(authorisation.requestSignature),
+    grantSignature: authorisation.grantSignature
+      ? base64ToArrayBuffer(authorisation.grantSignature)
+      : undefined,
+  }));
 }
 
-async function getGrantAuthorisationForSecondaryPubKey(pubKey) {
-  return channels.getAuthorisationForSecondaryPubKey(pubKey, {
-    granted: true,
-  });
-}
-
-async function getGrantAuthorisationsForPrimaryPubKey(pubKey) {
-  return channels.getGrantAuthorisationsForPrimaryPubKey(pubKey);
-}
-
-function getAuthorisationForSecondaryPubKey(pubKey) {
-  return channels.getAuthorisationForSecondaryPubKey(pubKey);
-}
-
-function getSecondaryDevicesFor(primaryDevicePubKey) {
-  return channels.getSecondaryDevicesFor(primaryDevicePubKey);
+async function removePairingAuthorisationsFor(pubKey) {
+  await channels.removePairingAuthorisationsFor(pubKey);
 }
 
 function getGuardNodes() {
@@ -660,14 +639,6 @@ function getGuardNodes() {
 
 function updateGuardNodes(nodes) {
   return channels.updateGuardNodes(nodes);
-}
-
-function getPrimaryDeviceFor(secondaryDevicePubKey) {
-  return channels.getPrimaryDeviceFor(secondaryDevicePubKey);
-}
-
-function getPairedDevicesFor(pubKey) {
-  return channels.getPairedDevicesFor(pubKey);
 }
 
 // Items
@@ -764,12 +735,15 @@ async function getAllSessions(id) {
   return sessions;
 }
 
-// Conversation
-
-async function getSwarmNodesByPubkey(pubkey) {
-  return channels.getSwarmNodesByPubkey(pubkey);
+async function getSwarmNodesForPubkey(pubkey) {
+  return channels.getSwarmNodesForPubkey(pubkey);
 }
 
+async function updateSwarmNodesForPubkey(pubkey, snodeEdKeys) {
+  await channels.updateSwarmNodesForPubkey(pubkey, snodeEdKeys);
+}
+
+// Conversation
 async function getConversationCount() {
   return channels.getConversationCount();
 }
@@ -801,7 +775,6 @@ async function updateConversation(id, data, { Conversation }) {
   // it will take a union of old and new members and that's not
   // what we want for member deletion, so:
   merged.members = data.members;
-  merged.swarmNodes = data.swarmNodes;
 
   // Don't save the online status of the object
   const cleaned = omit(merged, 'isOnline');
@@ -824,22 +797,6 @@ async function _removeConversations(ids) {
   await channels.removeConversation(ids);
 }
 
-async function getConversationsWithFriendStatus(
-  status,
-  { ConversationCollection }
-) {
-  const conversations = await channels.getConversationsWithFriendStatus(status);
-
-  const collection = new ConversationCollection();
-  collection.add(conversations);
-  return collection;
-}
-
-async function getPubKeysWithFriendStatus(status) {
-  const conversations = await getConversationsWithFriendStatus(status);
-  return conversations.map(row => row.id);
-}
-
 async function getAllConversations({ ConversationCollection }) {
   const conversations = await channels.getAllConversations();
 
@@ -851,14 +808,6 @@ async function getAllConversations({ ConversationCollection }) {
 async function getAllConversationIds() {
   const ids = await channels.getAllConversationIds();
   return ids;
-}
-
-async function getAllRssFeedConversations({ ConversationCollection }) {
-  const conversations = await channels.getAllRssFeedConversations();
-
-  const collection = new ConversationCollection();
-  collection.add(conversations);
-  return collection;
 }
 
 async function getAllPublicConversations({ ConversationCollection }) {

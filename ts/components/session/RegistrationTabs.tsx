@@ -11,6 +11,7 @@ import { trigger } from '../../shims/events';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIdEditable } from './SessionIdEditable';
 import { SessionSpinner } from './SessionSpinner';
+import { StringUtils } from '../../session/utils';
 
 enum SignInMode {
   Default,
@@ -33,6 +34,7 @@ interface State {
   selectedTab: TabType;
   signInMode: SignInMode;
   signUpMode: SignUpMode;
+  secretWords: string | undefined;
   displayName: string;
   password: string;
   validatePassword: string;
@@ -108,6 +110,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       selectedTab: TabType.Create,
       signInMode: SignInMode.Default,
       signUpMode: SignUpMode.Default,
+      secretWords: undefined,
       displayName: '',
       password: '',
       validatePassword: '',
@@ -178,7 +181,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
         'hex'
       ).toArrayBuffer();
       const keyPair = await window.libsignal.Curve.async.createKeyPair(seed);
-      const hexGeneratedPubKey = Buffer.from(keyPair.pubKey).toString('hex');
+      const hexGeneratedPubKey = StringUtils.decode(keyPair.pubKey, 'hex');
 
       this.setState({
         generatedMnemonicSeed: mnemonic,
@@ -417,10 +420,41 @@ export class RegistrationTabs extends React.Component<{}, State> {
       return (
         <div className="registration-content-centered">
           <div className="session-signin-device-pairing-header">
-            {window.i18n('devicePairingHeader')}
+            {!!this.state.secretWords ? (
+              <p>{window.i18n('devicePairingHeaderReassure')}</p>
+            ) : (
+              <ol>
+                <li>
+                  <SessionHtmlRenderer
+                    html={window.i18n('devicePairingHeader_Step1')}
+                  />
+                </li>
+                <li>
+                  <SessionHtmlRenderer
+                    html={window.i18n('devicePairingHeader_Step2')}
+                  />
+                </li>
+                <li>
+                  <SessionHtmlRenderer
+                    html={window.i18n('devicePairingHeader_Step3')}
+                  />
+                </li>
+                <li>
+                  <SessionHtmlRenderer
+                    html={window.i18n('devicePairingHeader_Step4')}
+                  />
+                </li>
+              </ol>
+            )}
           </div>
-          {this.renderEnterSessionID(true)}
-          <SessionSpinner loading={this.state.loading} />
+          {this.renderEnterSessionID(!this.state.secretWords)}
+          {this.state.secretWords && (
+            <div className="session-registration__content__secret-words">
+              <label>Secret words</label>
+              <div className="subtle">{this.state.secretWords}</div>
+            </div>
+          )}
+          <SessionSpinner loading={!!this.state.secretWords} />
         </div>
       );
     }
@@ -533,10 +567,14 @@ export class RegistrationTabs extends React.Component<{}, State> {
       return (
         <div>
           {this.renderContinueYourSessionButton()}
-          <h4>{or}</h4>
-          {this.renderRestoreUsingSeedButton(
-            SessionButtonType.BrandOutline,
-            SessionButtonColor.White
+          {!this.state.secretWords && (
+            <>
+              <h4>{or}</h4>
+              {this.renderRestoreUsingSeedButton(
+                SessionButtonType.BrandOutline,
+                SessionButtonColor.White
+              )}
+            </>
           )}
         </div>
       );
@@ -583,8 +621,8 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
     let enableContinue = true;
     let text = window.i18n('continueYourSession');
-    const displayNameOK = !displayNameError && !!displayName; //display name required
-    const mnemonicOK = !mnemonicError && !!mnemonicSeed; //Mnemonic required
+    const displayNameOK = !displayNameError && !!displayName; // Display name required
+    const mnemonicOK = !mnemonicError && !!mnemonicSeed; // Mnemonic required
     const passwordsOK =
       !password || (!passwordErrorString && passwordFieldsMatch); // password is valid if empty, or if no error and fields are matching
     if (signInMode === SignInMode.UsingSeed) {
@@ -596,13 +634,28 @@ export class RegistrationTabs extends React.Component<{}, State> {
       enableContinue = displayNameOK && passwordsOK;
     }
 
+    const shouldRenderCancel =
+      this.state.signInMode === SignInMode.LinkingDevice &&
+      !!this.state.secretWords;
+
+    text = shouldRenderCancel ? window.i18n('cancel') : text;
+    const buttonColor = shouldRenderCancel
+      ? SessionButtonColor.White
+      : SessionButtonColor.Green;
+    const buttonType = shouldRenderCancel
+      ? SessionButtonType.BrandOutline
+      : SessionButtonType.Brand;
+    const onClick = () => {
+      shouldRenderCancel
+        ? this.cancelSecondaryDevice()
+        : this.handleContinueYourSessionClick();
+    };
+
     return (
       <SessionButton
-        onClick={() => {
-          this.handleContinueYourSessionClick();
-        }}
-        buttonType={SessionButtonType.Brand}
-        buttonColor={SessionButtonColor.Green}
+        onClick={onClick}
+        buttonType={buttonType}
+        buttonColor={buttonColor}
         text={text}
         disabled={!enableContinue}
       />
@@ -718,6 +771,11 @@ export class RegistrationTabs extends React.Component<{}, State> {
     window.ConversationController.reset();
     await window.ConversationController.load();
     window.Whisper.RotateSignedPreKeyListener.stop(window.Whisper.events);
+
+    this.setState({
+      loading: false,
+      secretWords: undefined,
+    });
   }
 
   private async register(language: string) {
@@ -891,14 +949,8 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
       await this.accountManager.requestPairing(primaryPubKey);
       const pubkey = window.textsecure.storage.user.getNumber();
-      const words = window.mnemonic.pubkey_to_secret_words(pubkey);
-      // window.console.log(`Here is your secret:\n${words}`);
-      window.pushToast({
-        title: `${window.i18n('secretPrompt')}`,
-        description: words,
-        id: 'yourSecret',
-        shouldFade: false,
-      });
+      const secretWords = window.mnemonic.pubkey_to_secret_words(pubkey);
+      this.setState({ secretWords });
     } catch (e) {
       window.console.log(e);
       await this.resetRegistration();

@@ -11,6 +11,7 @@ import {
 
 import { getIntl, getRegionCode, getUserNumber } from './user';
 import { PropsData as ConversationListItemPropsType } from '../../components/ConversationListItem';
+import { BlockedNumberController } from '../../util';
 
 export const getConversations = (state: StateType): ConversationsStateType =>
   state.conversations;
@@ -97,9 +98,7 @@ export const _getLeftPaneLists = (
 ): {
   conversations: Array<ConversationType>;
   archivedConversations: Array<ConversationType>;
-  friends: Array<ConversationType>;
-  receivedFriendsRequest: Array<ConversationListItemPropsType>;
-  sentFriendsRequest: Array<ConversationListItemPropsType>;
+  contacts: Array<ConversationType>;
   unreadCount: number;
 } => {
   const values = Object.values(lookup);
@@ -107,9 +106,7 @@ export const _getLeftPaneLists = (
 
   const conversations: Array<ConversationType> = [];
   const archivedConversations: Array<ConversationType> = [];
-  const allFriends: Array<ConversationType> = [];
-  const allReceivedFriendsRequest: Array<ConversationListItemPropsType> = [];
-  const allSentFriendsRequest: Array<ConversationListItemPropsType> = [];
+  const allContacts: Array<ConversationType> = [];
 
   const max = sorted.length;
   let unreadCount = 0;
@@ -123,38 +120,46 @@ export const _getLeftPaneLists = (
         isSelected: true,
       };
     }
+    const isBlocked =
+      BlockedNumberController.isBlocked(conversation.primaryDevice) ||
+      BlockedNumberController.isGroupBlocked(conversation.id);
 
-    if (conversation.isFriend && conversation.activeAt !== undefined) {
-      allFriends.push(conversation);
+    if (isBlocked) {
+      conversation = {
+        ...conversation,
+        isBlocked: true,
+      };
     }
 
-    if (conversation.hasReceivedFriendRequest) {
-      // Friend requests should always appear as coming from primary
-      const primaryConversation =
-        conversations.find(c => c.id === conversation.primaryDevice) ||
-        conversation;
-      primaryConversation.hasReceivedFriendRequest =
-        conversation.hasReceivedFriendRequest;
-      primaryConversation.isPendingFriendRequest =
-        conversation.isPendingFriendRequest;
-      allReceivedFriendsRequest.push(primaryConversation);
-    } else if (
-      unreadCount < 9 &&
-      conversation.isFriend &&
-      conversation.unreadCount > 0
+    // Add Open Group to list as soon as the name has been set
+    if (
+      conversation.isPublic &&
+      (!conversation.name || conversation.name === 'Unknown group')
     ) {
-      unreadCount += conversation.unreadCount;
-    }
-    if (conversation.hasSentFriendRequest) {
-      if (!conversation.isFriend) {
-        if (!conversation.isSecondary) {
-          allSentFriendsRequest.push(conversation);
-        }
-      }
+      continue;
     }
 
-    if (!conversation.activeAt) {
+    // Show loading icon while fetching messages
+    if (conversation.isPublic && !conversation.timestamp) {
+      conversation.lastMessage = {
+        status: 'sending',
+        text: '',
+        isRss: false,
+      };
+    }
+
+    // Remove all invalid conversations and conversatons of devices associated
+    //  with cancelled attempted links
+    if (!conversation.isPublic && !conversation.activeAt) {
       continue;
+    }
+
+    if (conversation.activeAt !== undefined) {
+      allContacts.push(conversation);
+    }
+
+    if (unreadCount < 9 && conversation.unreadCount > 0) {
+      unreadCount += conversation.unreadCount;
     }
 
     if (conversation.isArchived) {
@@ -191,20 +196,12 @@ export const _getLeftPaneLists = (
     return filteredGroup as T;
   };
 
-  const friends: Array<ConversationType> = filterToPrimary(allFriends);
-  const receivedFriendsRequest: Array<
-    ConversationListItemPropsType
-  > = filterToPrimary(allReceivedFriendsRequest);
-  const sentFriendsRequest: Array<
-    ConversationListItemPropsType
-  > = filterToPrimary(allSentFriendsRequest);
+  const contacts: Array<ConversationType> = filterToPrimary(allContacts);
 
   return {
     conversations,
     archivedConversations,
-    friends,
-    receivedFriendsRequest,
-    sentFriendsRequest,
+    contacts,
     unreadCount,
   };
 };

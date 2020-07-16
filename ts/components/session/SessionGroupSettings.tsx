@@ -22,9 +22,10 @@ interface Props {
   isAdmin: boolean;
   amMod: boolean;
   isKickedFromGroup: boolean;
+  isBlocked: boolean;
 
   onGoBack: () => void;
-  onInviteFriends: () => void;
+  onInviteContacts: () => void;
   onLeaveGroup: () => void;
   onUpdateGroupName: () => void;
   onUpdateGroupMembers: () => void;
@@ -215,15 +216,17 @@ export class SessionGroupSettings extends React.Component<Props, any> {
       isAdmin,
       isKickedFromGroup,
       amMod,
+      isBlocked,
     } = this.props;
     const { documents, media, onItemClick } = this.state;
     const showMemberCount = !!(memberCount && memberCount > 0);
-    const hasDisappearingMessages = !isPublic && !isKickedFromGroup;
+    const hasDisappearingMessages =
+      !isPublic && !isKickedFromGroup && !isBlocked;
     const leaveGroupString = isPublic
       ? window.i18n('leaveOpenGroup')
       : isKickedFromGroup
-        ? window.i18n('youAreKickedFromThisGroup')
-        : window.i18n('leaveClosedGroup');
+      ? window.i18n('youGotKickedFromGroup')
+      : window.i18n('leaveClosedGroup');
 
     const disappearingMessagesOptions = timerOptions.map(option => {
       return {
@@ -235,9 +238,11 @@ export class SessionGroupSettings extends React.Component<Props, any> {
     });
 
     const showUpdateGroupNameButton =
-      isPublic && !isKickedFromGroup ? amMod : isAdmin;
+      isPublic && !isKickedFromGroup
+        ? amMod && !isBlocked
+        : isAdmin && !isBlocked;
     const showUpdateGroupMembersButton =
-      !isPublic && !isKickedFromGroup && isAdmin;
+      !isPublic && !isKickedFromGroup && !isBlocked && isAdmin;
 
     return (
       <div className="group-settings">
@@ -308,21 +313,23 @@ export class SessionGroupSettings extends React.Component<Props, any> {
     const {
       id,
       onGoBack,
-      onInviteFriends,
+      onInviteContacts,
       avatarPath,
       isAdmin,
       isPublic,
       isKickedFromGroup,
+      isBlocked,
     } = this.props;
 
-    const showInviteFriends = (isPublic || isAdmin) && !isKickedFromGroup;
+    const showInviteContacts =
+      (isPublic || isAdmin) && !isKickedFromGroup && !isBlocked;
 
     return (
       <div className="group-settings-header">
         <SessionIconButton
           iconType={SessionIconType.Chevron}
           iconSize={SessionIconSize.Medium}
-          iconRotation={90}
+          iconRotation={270}
           onClick={onGoBack}
         />
         <Avatar
@@ -332,11 +339,11 @@ export class SessionGroupSettings extends React.Component<Props, any> {
           size={80}
         />
         <div className="invite-friends-container">
-          {showInviteFriends && (
+          {showInviteContacts && (
             <SessionIconButton
               iconType={SessionIconType.AddUser}
               iconSize={SessionIconSize.Medium}
-              onClick={onInviteFriends}
+              onClick={onInviteContacts}
             />
           )}
         </div>

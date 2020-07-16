@@ -326,6 +326,7 @@ SecretSessionCipher.prototype = {
     const _decryptWithSecretKeys = this._decryptWithSecretKeys.bind(this);
 
     const ourIdentity = await signalProtocolStore.getIdentityKeyPair();
+
     const wrapper = _createUnidentifiedSenderMessageFromBuffer(ciphertext);
     const ephemeralSalt = concatenateBytes(
       bytesFromString(UNIDENTIFIED_DELIVERY_PREFIX),
@@ -410,7 +411,6 @@ SecretSessionCipher.prototype = {
     return cipher.getRemoteRegistrationId();
   },
 
-  // Used by outgoing_message.js
   closeOpenSessionForDevice(remoteAddress) {
     const { SessionCipher } = this;
     const signalProtocolStore = this.storage;

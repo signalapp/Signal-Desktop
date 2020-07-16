@@ -52,12 +52,9 @@ export type ConversationType = {
   mentionedUs: boolean;
   isSelected: boolean;
   isTyping: boolean;
-  isFriend?: boolean;
   isSecondary?: boolean;
   primaryDevice: string;
-  isPendingFriendRequest?: boolean;
-  hasReceivedFriendRequest?: boolean;
-  hasSentFriendRequest?: boolean;
+  isBlocked: boolean;
 };
 export type ConversationLookupType = {
   [key: string]: ConversationType;

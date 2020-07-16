@@ -149,10 +149,13 @@
         myPrivateKey
       );
       const ivAndCiphertext = await DHEncrypt(symmetricKey, plaintext);
+      const binaryIvAndCiphertext = dcodeIO.ByteBuffer.wrap(
+        ivAndCiphertext
+      ).toString('binary');
       return {
-        type: textsecure.protobuf.Envelope.Type.FRIEND_REQUEST,
-        body: ivAndCiphertext,
-        registrationId: null,
+        type: textsecure.protobuf.Envelope.Type.FALLBACK_MESSAGE,
+        body: binaryIvAndCiphertext,
+        registrationId: undefined,
       };
     }
 
@@ -170,9 +173,7 @@
         return await DHDecrypt(symmetricKey, ivAndCiphertext);
       } catch (e) {
         throw new FallBackDecryptionError(
-          `Could not decrypt message from ${
-            this.identityKeyString
-          } using FallBack encryption.`
+          `Could not decrypt message from ${this.identityKeyString} using FallBack encryption.`
         );
       }
     }
@@ -222,7 +223,7 @@
       requestSignature,
       grantSignature,
     } = authorisation;
-    const isGrant = !!grantSignature;
+    const isGrant = !!(grantSignature && grantSignature.length > 0);
     if (!primaryDevicePubKey || !secondaryDevicePubKey) {
       window.log.warn(
         'Received a pairing request with missing pubkeys. Ignored.'
@@ -276,7 +277,7 @@
     } = authorisation;
     const alreadySecondaryDevice = !!window.storage.get('isSecondaryDevice');
     const ourPubKey = textsecure.storage.user.getNumber();
-    const isRequest = !grantSignature;
+    const isRequest = !(grantSignature && grantSignature.length > 0);
     if (isRequest && alreadySecondaryDevice) {
       window.log.warn(
         'Received a pairing request while being a secondary device. Ignored.'

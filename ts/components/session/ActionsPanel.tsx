@@ -21,10 +21,10 @@ interface Props {
   selectedSection: SectionType;
   conversations: Array<ConversationListItemPropsType> | undefined;
   unreadMessageCount: number;
-  receivedFriendRequestCount: number;
 }
 
 export class ActionsPanel extends React.Component<Props, State> {
+  private ourConversation: any;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -32,6 +32,7 @@ export class ActionsPanel extends React.Component<Props, State> {
     };
 
     this.editProfileHandle = this.editProfileHandle.bind(this);
+    this.refreshAvatarCallback = this.refreshAvatarCallback.bind(this);
   }
 
   public componentDidMount() {
@@ -43,8 +44,34 @@ export class ActionsPanel extends React.Component<Props, State> {
         this.setState({
           avatarPath: conversation.getAvatarPath(),
         });
+        // When our primary device updates its avatar, we will need for a message sync to know about that.
+        // Once we get the avatar update, we need to refresh this react component.
+        // So we listen to changes on our profile avatar and use the updated avatarPath (done on message received).
+        this.ourConversation = conversation;
+
+        this.ourConversation.on(
+          'change',
+          () => {
+            this.refreshAvatarCallback(this.ourConversation);
+          },
+          'refreshAvatarCallback'
+        );
       }
     );
+  }
+
+  public refreshAvatarCallback(conversation: any) {
+    if (conversation.changed?.profileAvatar) {
+      this.setState({
+        avatarPath: conversation.getAvatarPath(),
+      });
+    }
+  }
+
+  public componentWillUnmount() {
+    if (this.ourConversation) {
+      this.ourConversation.off('change', null, 'refreshAvatarCallback');
+    }
   }
 
   public Section = ({
@@ -127,11 +154,7 @@ export class ActionsPanel extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-    const {
-      selectedSection,
-      unreadMessageCount,
-      receivedFriendRequestCount,
-    } = this.props;
+    const { selectedSection, unreadMessageCount } = this.props;
 
     const isProfilePageSelected = selectedSection === SectionType.Profile;
     const isMessagePageSelected = selectedSection === SectionType.Message;
@@ -157,7 +180,6 @@ export class ActionsPanel extends React.Component<Props, State> {
           type={SectionType.Contact}
           isSelected={isContactPageSelected}
           onSelect={this.handleSectionSelect}
-          notificationCount={receivedFriendRequestCount}
         />
         <this.Section
           type={SectionType.Settings}

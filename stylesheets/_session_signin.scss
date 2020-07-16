@@ -75,6 +75,20 @@
     &__content {
       width: 100%;
       padding-top: 20px;
+
+      &__secret-words {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: $session-shade-6;
+        padding: $session-margin-sm $session-margin-lg;
+        border-radius: 8px;
+        margin-bottom: 0px;
+
+        label {
+          margin-bottom: 5px;
+        }
+      }
     }
 
     &__sections {
@@ -228,11 +242,17 @@
   &-description-long,
   &-signin-device-pairing-header {
     padding-top: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     color: $session-color-light-grey;
     text-align: center;
     font-size: 12px;
     line-height: 20px;
+
+    ol {
+      margin-left: 20px;
+      padding: 0px;
+      text-align: justify;
+    }
   }
 
   &-id-editable {

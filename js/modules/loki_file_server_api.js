@@ -1,6 +1,5 @@
-/* global log, libloki, window */
+/* global log, libloki, window, dcodeIO */
 /* global storage: false */
-/* global Signal: false */
 /* global log: false */
 
 const LokiAppDotNetAPI = require('./loki_app_dot_net_api');
@@ -115,9 +114,7 @@ class LokiFileServerInstance {
         newSlavePrimaryMap[slaveKey] !== auth.primaryDevicePubKey
       ) {
         log.warn(
-          `file server user annotation primaryKey mismatch, had ${
-            newSlavePrimaryMap[slaveKey]
-          } now ${auth.primaryDevicePubKey} for ${slaveKey}`
+          `file server user annotation primaryKey mismatch, had ${newSlavePrimaryMap[slaveKey]} now ${auth.primaryDevicePubKey} for ${slaveKey}`
         );
         return;
       }
@@ -222,17 +219,27 @@ class LokiHomeServerInstance extends LokiFileServerInstance {
 
   async updateOurDeviceMapping() {
     const isPrimary = !storage.get('isSecondaryDevice');
-    let authorisations;
-    if (isPrimary) {
-      authorisations = await Signal.Data.getGrantAuthorisationsForPrimaryPubKey(
-        this.ourKey
-      );
-    } else {
-      authorisations = [
-        await Signal.Data.getGrantAuthorisationForSecondaryPubKey(this.ourKey),
-      ];
-    }
-    return this._setOurDeviceMapping(authorisations, isPrimary);
+    const authorisations = await window.libsession.Protocols.MultiDeviceProtocol.getPairingAuthorisations(
+      this.ourKey
+    );
+
+    const authorisationsBase64 = authorisations.map(authorisation => {
+      const requestSignature = dcodeIO.ByteBuffer.wrap(
+        authorisation.requestSignature
+      ).toString('base64');
+      const grantSignature = authorisation.grantSignature
+        ? dcodeIO.ByteBuffer.wrap(authorisation.grantSignature).toString(
+            'base64'
+          )
+        : null;
+      return {
+        ...authorisation,
+        requestSignature,
+        grantSignature,
+      };
+    });
+
+    return this._setOurDeviceMapping(authorisationsBase64, isPrimary);
   }
 
   // you only upload to your own home server

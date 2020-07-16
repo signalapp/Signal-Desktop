@@ -40,9 +40,6 @@ const {
 } = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
 const {
-  FriendRequest,
-} = require('../../ts/components/conversation/FriendRequest');
-const {
   GroupNotification,
 } = require('../../ts/components/conversation/GroupNotification');
 const { Lightbox } = require('../../ts/components/Lightbox');
@@ -98,8 +95,8 @@ const {
   UpdateGroupMembersDialog,
 } = require('../../ts/components/conversation/UpdateGroupMembersDialog');
 const {
-  InviteFriendsDialog,
-} = require('../../ts/components/conversation/InviteFriendsDialog');
+  InviteContactsDialog,
+} = require('../../ts/components/conversation/InviteContactsDialog');
 
 const {
   AddModeratorsDialog,
@@ -263,6 +260,8 @@ function initializeMigrations({
 exports.setup = (options = {}) => {
   const { Attachments, userDataPath, getRegionCode, logger } = options;
 
+  Data.init();
+
   const Migrations = initializeMigrations({
     userDataPath,
     getRegionCode,
@@ -284,7 +283,6 @@ exports.setup = (options = {}) => {
     SettingsView,
     EmbeddedContact,
     Emojify,
-    FriendRequest,
     GroupNotification,
     Lightbox,
     LightboxGallery,
@@ -297,7 +295,7 @@ exports.setup = (options = {}) => {
     ConfirmDialog,
     UpdateGroupNameDialog,
     UpdateGroupMembersDialog,
-    InviteFriendsDialog,
+    InviteContactsDialog,
     AddModeratorsDialog,
     RemoveModeratorsDialog,
     GroupInvitation,

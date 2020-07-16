@@ -59,22 +59,6 @@
   }
   inherit(ReplayableError, OutgoingIdentityKeyError);
 
-  function OutgoingMessageError(number, message, timestamp, httpError) {
-    // eslint-disable-next-line prefer-destructuring
-    this.number = number.split('.')[0];
-
-    ReplayableError.call(this, {
-      name: 'OutgoingMessageError',
-      message: httpError ? httpError.message : 'no http error',
-    });
-
-    if (httpError) {
-      this.code = httpError.code;
-      appendStack(this, httpError);
-    }
-  }
-  inherit(ReplayableError, OutgoingMessageError);
-
   function SendMessageNetworkError(number, jsonData, httpError) {
     this.number = number;
     this.code = httpError.code;
@@ -108,25 +92,6 @@
   }
   inherit(ReplayableError, MessageError);
 
-  function UnregisteredUserError(number, httpError) {
-    this.message = httpError.message;
-    this.name = 'UnregisteredUserError';
-
-    Error.call(this, this.message);
-
-    // Maintains proper stack trace, where our error was thrown (only available on V8)
-    //   via https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this);
-    }
-
-    this.number = number;
-    this.code = httpError.code;
-
-    appendStack(this, httpError);
-  }
-  inherit(Error, UnregisteredUserError);
-
   function EmptySwarmError(number, message) {
     // eslint-disable-next-line prefer-destructuring
     this.number = number.split('.')[0];
@@ -137,21 +102,6 @@
     });
   }
   inherit(ReplayableError, EmptySwarmError);
-
-  function PoWError(number, error) {
-    // eslint-disable-next-line prefer-destructuring
-    this.number = number.split('.')[0];
-
-    ReplayableError.call(this, {
-      name: 'PoWError',
-      message: 'Failed to calculate PoW',
-    });
-
-    if (error) {
-      appendStack(this, error);
-    }
-  }
-  inherit(ReplayableError, PoWError);
 
   function DNSResolutionError(message) {
     // eslint-disable-next-line prefer-destructuring
@@ -276,15 +226,12 @@
     }
   }
 
-  window.textsecure.UnregisteredUserError = UnregisteredUserError;
   window.textsecure.SendMessageNetworkError = SendMessageNetworkError;
   window.textsecure.IncomingIdentityKeyError = IncomingIdentityKeyError;
   window.textsecure.OutgoingIdentityKeyError = OutgoingIdentityKeyError;
   window.textsecure.ReplayableError = ReplayableError;
-  window.textsecure.OutgoingMessageError = OutgoingMessageError;
   window.textsecure.MessageError = MessageError;
   window.textsecure.SignedPreKeyRotationError = SignedPreKeyRotationError;
-  window.textsecure.PoWError = PoWError;
   window.textsecure.EmptySwarmError = EmptySwarmError;
   window.textsecure.SeedNodeError = SeedNodeError;
   window.textsecure.DNSResolutionError = DNSResolutionError;

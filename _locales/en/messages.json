@@ -1,18 +1,15 @@
 {
   "privacyPolicy": {
     "message": "Terms & Privacy Policy",
-    "description":
-      "Shown in the about box for the link to https://getsession.org/privacy-policy/"
+    "description": "Shown in the about box for the link to https://getsession.org/privacy-policy/"
   },
   "copyErrorAndQuit": {
     "message": "Copy error and quit",
-    "description":
-      "Shown in the top-level error popup, allowing user to copy the error text and close the app"
+    "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
   },
   "unknownGroup": {
     "message": "Unknown group",
-    "description":
-      "Shown as the name of a group if we don't have any information about it"
+    "description": "Shown as the name of a group if we don't have any information about it"
   },
   "databaseError": {
     "message": "Database Error",
@@ -20,38 +17,31 @@
   },
   "deleteAndRestart": {
     "message": "Delete all data and restart",
-    "description":
-      "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
+    "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
   },
   "mainMenuFile": {
     "message": "&File",
-    "description":
-      "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuEdit": {
     "message": "&Edit",
-    "description":
-      "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuView": {
     "message": "&View",
-    "description":
-      "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuWindow": {
     "message": "&Window",
-    "description":
-      "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuHelp": {
     "message": "&Help",
-    "description":
-      "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "mainMenuSettings": {
     "message": "Preferences…",
-    "description":
-      "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
+    "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
   },
   "appMenuHide": {
     "message": "Hide",
@@ -79,8 +69,7 @@
   },
   "editMenuCut": {
     "message": "Cut",
-    "description":
-      "Edit menu command to remove selected text and add it to clipboard"
+    "description": "Edit menu command to remove selected text and add it to clipboard"
   },
   "editMenuCopy": {
     "message": "Copy",
@@ -88,13 +77,11 @@
   },
   "editMenuPaste": {
     "message": "Paste",
-    "description":
-      "Edit menu command to insert text from clipboard at cursor location"
+    "description": "Edit menu command to insert text from clipboard at cursor location"
   },
   "editMenuPasteAndMatchStyle": {
     "message": "Paste and Match Style",
-    "description":
-      "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
+    "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
   },
   "editMenuDelete": {
     "message": "Delete",
@@ -102,8 +89,7 @@
   },
   "editMenuSelectAll": {
     "message": "Select All",
-    "description":
-      "Edit menu comand to select all of the text in selected text box"
+    "description": "Edit menu comand to select all of the text in selected text box"
   },
   "editMenuStartSpeaking": {
     "message": "Start speaking",
@@ -123,13 +109,11 @@
   },
   "windowMenuZoom": {
     "message": "Zoom",
-    "description":
-      "Window menu command to make the current window the size of the whole screen"
+    "description": "Window menu command to make the current window the size of the whole screen"
   },
   "windowMenuBringAllToFront": {
     "message": "Bring All to Front",
-    "description":
-      "Window menu command to bring all windows of current applicatinon to front"
+    "description": "Window menu command to bring all windows of current applicatinon to front"
   },
   "viewMenuResetZoom": {
     "message": "Actual Size",
@@ -153,43 +137,35 @@
   },
   "menuSetupWithImport": {
     "message": "Set Up with Import",
-    "description":
-      "When the application is not yet set up, menu option to start up the import sequence"
+    "description": "When the application is not yet set up, menu option to start up the import sequence"
   },
   "menuSetupAsNewDevice": {
     "message": "Set Up as New Device",
-    "description":
-      "When the application is not yet set up, menu option to start up the set up as fresh device"
+    "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
   },
   "menuSetupAsStandalone": {
     "message": "Set Up as Standalone Device",
-    "description":
-      "Only available on development modes, menu option to open up the standalone device setup sequence"
+    "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
   },
   "contextMenuNoSuggestions": {
     "message": "No Suggestions",
-    "description":
-      "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
+    "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
   },
   "connectingLoad": {
     "message": "Connecting To Server",
-    "description":
-      "Message shown on the as a loading screen while we are connecting to something"
+    "description": "Message shown on the as a loading screen while we are connecting to something"
   },
   "loading": {
     "message": "Loading...",
-    "description":
-      "Message shown on the loading screen before we've loaded any messages"
+    "description": "Message shown on the loading screen before we've loaded any messages"
   },
   "optimizingApplication": {
     "message": "Optimizing application...",
-    "description":
-      "Message shown on the loading screen while we are doing application optimizations"
+    "description": "Message shown on the loading screen while we are doing application optimizations"
   },
   "migratingToSQLCipher": {
     "message": "Optimizing messages... $status$ complete.",
-    "description":
-      "Message shown on the loading screen while we are doing application optimizations",
+    "description": "Message shown on the loading screen while we are doing application optimizations",
     "placeholders": {
       "status": {
         "content": "$1",
@@ -199,24 +175,19 @@
   },
   "archivedConversations": {
     "message": "Archived Conversations",
-    "description":
-      "Shown in place of the search box when showing archived conversation list"
+    "description": "Shown in place of the search box when showing archived conversation list"
   },
   "archiveHelperText": {
-    "message":
-      "These conversations are archived and will only appear in the Inbox if new messages are received.",
-    "description":
-      "Shown at the top of the archived converations list in the left pane"
+    "message": "These conversations are archived and will only appear in the Inbox if new messages are received.",
+    "description": "Shown at the top of the archived converations list in the left pane"
   },
   "archiveConversation": {
     "message": "Archive Conversation",
-    "description":
-      "Shown in menu for conversation, and moves conversation out of main conversation list"
+    "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
   },
   "moveConversationToInbox": {
     "message": "Move Conversation to Inbox",
-    "description":
-      "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
+    "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
   },
   "chooseDirectory": {
     "message": "Choose folder",
@@ -231,15 +202,12 @@
     "description": "Header shown on the first screen in the data import process"
   },
   "loadDataDescription": {
-    "message":
-      "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Session data.",
-    "description":
-      "Introduction to the process of importing messages and contacts from disk"
+    "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Session data.",
+    "description": "Introduction to the process of importing messages and contacts from disk"
   },
   "importChooserTitle": {
     "message": "Choose directory with exported data",
-    "description":
-      "Title of the popup window used to select data previously exported"
+    "description": "Title of the popup window used to select data previously exported"
   },
   "importErrorHeader": {
     "message": "Something went wrong!",
@@ -250,49 +218,40 @@
     "description": "Header of screen shown as data is import"
   },
   "importErrorFirst": {
-    "message":
-      "Make sure you have chosen the correct directory that contains your saved Session data. Its name should begin with 'Session Export.' You can also save a new copy of your data from the Chrome App.",
+    "message": "Make sure you have chosen the correct directory that contains your saved Session data. Its name should begin with 'Session Export.' You can also save a new copy of your data from the Chrome App.",
     "description": "Message shown if the import went wrong; first paragraph"
   },
   "importErrorSecond": {
-    "message":
-      "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
+    "message": "If these steps don't work for you, please submit a debug log (View -> Debug Log) so that we can help you get migrated!",
     "description": "Message shown if the import went wrong; second paragraph"
   },
   "importAgain": {
     "message": "Choose folder and try again",
-    "description":
-      "Button shown if the user runs into an error during import, allowing them to start over"
+    "description": "Button shown if the user runs into an error during import, allowing them to start over"
   },
   "importCompleteHeader": {
     "message": "Success!",
-    "description":
-      "Header shown on the screen at the end of a successful import process"
+    "description": "Header shown on the screen at the end of a successful import process"
   },
   "importCompleteStartButton": {
     "message": "Start using Session",
-    "description":
-      "Button shown at end of successful import process, nothing left but a restart"
+    "description": "Button shown at end of successful import process, nothing left but a restart"
   },
   "importCompleteLinkButton": {
     "message": "Link this device to your phone",
-    "description":
-      "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
+    "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
   },
   "selectedLocation": {
     "message": "your selected location",
-    "description":
-      "Message shown as the export location if we didn't capture the target directory"
+    "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "upgradingDatabase": {
     "message": "Upgrading database. This may take some time...",
-    "description":
-      "Message shown on the loading screen when we're changing database structure on first run of a new version"
+    "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "loadingMessages": {
     "message": "Loading messages. $count$ so far...",
-    "description":
-      "Message shown on the loading screen when we're catching up on the backlog of messages",
+    "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -309,33 +268,27 @@
   },
   "view": {
     "message": "View",
-    "description":
-      "Used as a label on a button allowing user to see more information"
+    "description": "Used as a label on a button allowing user to see more information"
   },
   "youLeftTheGroup": {
     "message": "You left the group",
-    "description":
-      "Displayed when a user can't send a message because they have left the group"
+    "description": "Displayed when a user can't send a message because they have left the group"
   },
   "youGotKickedFromGroup": {
     "message": "You were removed from the group",
-    "description":
-      "Displayed when a user can't send a message because they have left the group"
+    "description": "Displayed when a user can't send a message because they have left the group"
   },
   "scrollDown": {
     "message": "Scroll to bottom of conversation",
-    "description":
-      "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
+    "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "messageBelow": {
     "message": "New message below",
-    "description":
-      "Alt text for button to take user down to bottom of conversation with a new message out of screen"
+    "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
   },
   "messagesBelow": {
     "message": "New messages below",
-    "description":
-      "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
+    "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
   "unreadMessage": {
     "message": "1 Unread Message",
@@ -353,8 +306,7 @@
   },
   "youMarkedAsVerified": {
     "message": "You marked your Safety Number with $name$ as verified",
-    "description":
-      "Shown in the conversation history when the user marks a contact as verified.",
+    "description": "Shown in the conversation history when the user marks a contact as verified.",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -364,8 +316,7 @@
   },
   "youMarkedAsNotVerified": {
     "message": "You marked your Safety Number with $name$ as not verified",
-    "description":
-      "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
+    "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -374,10 +325,8 @@
     }
   },
   "youMarkedAsVerifiedOtherDevice": {
-    "message":
-      "You marked your Safety Number with $name$ as verified from another device",
-    "description":
-      "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
+    "message": "You marked your Safety Number with $name$ as verified from another device",
+    "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -386,10 +335,8 @@
     }
   },
   "youMarkedAsNotVerifiedOtherDevice": {
-    "message":
-      "You marked your Safety Number with $name$ as not verified from another device",
-    "description":
-      "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
+    "message": "You marked your Safety Number with $name$ as not verified from another device",
+    "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -398,25 +345,19 @@
     }
   },
   "membersNeedingVerification": {
-    "message":
-      "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
-    "description":
-      "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
+    "message": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+    "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "changedSinceVerifiedTitle": {
     "message": "Safety Number Changed"
   },
   "changedSinceVerifiedMultiple": {
-    "message":
-      "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Session.",
-    "description":
-      "Shown on confirmation dialog when user attempts to send a message"
+    "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Session.",
+    "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "changedSinceVerified": {
-    "message":
-      "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session.",
-    "description":
-      "Shown on confirmation dialog when user attempts to send a message",
+    "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session.",
+    "description": "Shown on confirmation dialog when user attempts to send a message",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -425,10 +366,8 @@
     }
   },
   "changedRightAfterVerify": {
-    "message":
-      "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session.",
-    "description":
-      "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
+    "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session.",
+    "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -437,16 +376,12 @@
     }
   },
   "changedRecentlyMultiple": {
-    "message":
-      "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Session.",
-    "description":
-      "Shown on confirmation dialog when user attempts to send a message"
+    "message": "Your safety numbers with multiple group members have changed recently. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Session.",
+    "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "changedRecently": {
-    "message":
-      "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session.",
-    "description":
-      "Shown on confirmation dialog when user attempts to send a message",
+    "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session.",
+    "description": "Shown on confirmation dialog when user attempts to send a message",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -455,10 +390,8 @@
     }
   },
   "identityKeyErrorOnSend": {
-    "message":
-      "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session. You may wish to verify your saftey number with this contact.",
-    "description":
-      "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+    "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session. You may wish to verify your saftey number with this contact.",
+    "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -468,14 +401,11 @@
   },
   "sendAnyway": {
     "message": "Send Anyway",
-    "description":
-      "Used on a warning dialog to make it clear that it might be risky to send the message."
+    "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
   },
   "noLongerVerified": {
-    "message":
-      "Your safety number with $name$ has changed and is no longer verified. Click to show.",
-    "description":
-      "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+    "message": "Your safety number with $name$ has changed and is no longer verified. Click to show.",
+    "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -484,18 +414,14 @@
     }
   },
   "multipleNoLongerVerified": {
-    "message":
-      "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
-    "description":
-      "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
+    "message": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+    "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
   },
   "debugLogExplanation": {
-    "message":
-      "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting."
+    "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting."
   },
   "debugLogError": {
-    "message":
-      "Something went wrong with the upload! Please consider manually adding your log to the bug you file."
+    "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file."
   },
   "reportIssue": {
     "message": "Report an issue",
@@ -503,8 +429,7 @@
   },
   "gotIt": {
     "message": "Got it!",
-    "description":
-      "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
+    "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "submit": {
     "message": "Submit"
@@ -521,8 +446,7 @@
   },
   "isVerified": {
     "message": "You have verified your safety number with $name$.",
-    "description":
-      "Summary state shown at top of the safety number screen if user has verified contact.",
+    "description": "Summary state shown at top of the safety number screen if user has verified contact.",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -532,8 +456,7 @@
   },
   "isNotVerified": {
     "message": "You have not verified your safety number with $name$.",
-    "description":
-      "Summary state shown at top of the safety number screen if user has not verified contact.",
+    "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -549,31 +472,26 @@
     "description": "Header for a key change dialog"
   },
   "identityChanged": {
-    "message":
-      "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Session. You may wish to verify the new safety number below."
+    "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Session. You may wish to verify the new safety number below."
   },
   "incomingError": {
     "message": "Error handling incoming message"
   },
   "media": {
     "message": "Media",
-    "description":
-      "Header of the default pane in the media gallery, showing images and videos"
+    "description": "Header of the default pane in the media gallery, showing images and videos"
   },
   "mediaEmptyState": {
     "message": "You don’t have any media in this conversation",
-    "description":
-      "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
   },
   "documents": {
     "message": "Documents",
-    "description":
-      "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
   },
   "documentsEmptyState": {
     "message": "You don’t have any documents in this conversation",
-    "description":
-      "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "today": {
     "message": "Today",
@@ -609,18 +527,15 @@
   },
   "dangerousFileType": {
     "message": "For security reasons, this file type cannot be sent",
-    "description":
-      "Shown in toast when user attempts to send .exe file, for example"
+    "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "loadingPreview": {
     "message": "Loading Preview...",
-    "description":
-      "Shown while Session Desktop is fetching metadata for a url in composition area"
+    "description": "Shown while Session Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
     "message": "Draft thumbnail link preview for $domain$",
-    "description":
-      "Shown while Session Desktop is fetching metadata for a url in composition area",
+    "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
     "placeholders": {
       "path": {
         "content": "$1",
@@ -630,8 +545,7 @@
   },
   "previewThumbnail": {
     "message": "Thumbnail link preview for $domain$",
-    "description":
-      "Shown while Session Desktop is fetching metadata for a url in composition area",
+    "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
     "placeholders": {
       "path": {
         "content": "$1",
@@ -650,22 +564,16 @@
     }
   },
   "oneNonImageAtATimeToast": {
-    "message":
-      "Sorry, there is a limit of one non-image attachment per message",
-    "description":
-      "An error popup when the user has attempted to add an attachment"
+    "message": "Sorry, there is a limit of one non-image attachment per message",
+    "description": "An error popup when the user has attempted to add an attachment"
   },
   "cannotMixImageAndNonImageAttachments": {
-    "message":
-      "Sorry, you cannot mix images with other file types in one message",
-    "description":
-      "An error popup when the user has attempted to add an attachment"
+    "message": "Sorry, you cannot mix images with other file types in one message",
+    "description": "An error popup when the user has attempted to add an attachment"
   },
   "maximumAttachments": {
-    "message":
-      "Maximum number of attachments reached. Please send remaining attachments in a separate message.",
-    "description":
-      "An error popup when the user has attempted to add an attachment"
+    "message": "Maximum number of attachments reached. Please send remaining attachments in a separate message.",
+    "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
     "message": "Sorry, the selected attachment is too large"
@@ -678,27 +586,22 @@
   },
   "disconnected": {
     "message": "Disconnected",
-    "description":
-      "Displayed when the desktop client cannot connect to the server."
+    "description": "Displayed when the desktop client cannot connect to the server."
   },
   "connecting": {
     "message": "Connecting",
-    "description":
-      "Displayed when the desktop client is currently connecting to the server."
+    "description": "Displayed when the desktop client is currently connecting to the server."
   },
   "offline": {
     "message": "Offline",
-    "description":
-      "Displayed when the desktop client has no network connection."
+    "description": "Displayed when the desktop client has no network connection."
   },
   "checkNetworkConnection": {
     "message": "Check your network connection.",
-    "description":
-      "Obvious instructions for when a user's computer loses its network connection"
+    "description": "Obvious instructions for when a user's computer loses its network connection"
   },
   "attemptingReconnection": {
-    "message":
-      "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
+    "message": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
     "placeholders": {
       "reconnect_duration_in_seconds": {
         "content": "$1",
@@ -708,8 +611,7 @@
   },
   "submitDebugLog": {
     "message": "Debug log",
-    "description":
-      "Menu item and header text for debug log modal (sentence case)"
+    "description": "Menu item and header text for debug log modal (sentence case)"
   },
   "debugLog": {
     "message": "Debug Log",
@@ -725,13 +627,11 @@
   },
   "menuReportIssue": {
     "message": "Report an Issue",
-    "description":
-      "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
   },
   "signalDesktopPreferences": {
     "message": "Session Preferences",
-    "description":
-      "Title of the window that pops up with Session Desktop preferences in it"
+    "description": "Title of the window that pops up with Session Desktop preferences in it"
   },
   "aboutSignalDesktop": {
     "message": "About Session",
@@ -739,8 +639,7 @@
   },
   "speech": {
     "message": "Speech",
-    "description":
-      "Item under the Edit menu, with 'start/stop speaking' items below it"
+    "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
   },
   "show": {
     "message": "Show",
@@ -813,89 +712,71 @@
   },
   "sendMessageToContact": {
     "message": "Send Message",
-    "description":
-      "Shown when you are sent a contact and that contact has a session"
+    "description": "Shown when you are sent a contact and that contact has a session"
   },
   "home": {
     "message": "home",
-    "description":
-      "Shown on contact detail screen as a label for an address/phone/email"
+    "description": "Shown on contact detail screen as a label for an address/phone/email"
   },
   "work": {
     "message": "work",
-    "description":
-      "Shown on contact detail screen as a label for an address/phone/email"
+    "description": "Shown on contact detail screen as a label for an address/phone/email"
   },
   "mobile": {
     "message": "mobile",
-    "description":
-      "Shown on contact detail screen as a label for aa phone or email"
+    "description": "Shown on contact detail screen as a label for aa phone or email"
   },
   "email": {
     "message": "email",
-    "description":
-      "Generic label shown if contact email has custom type but no label"
+    "description": "Generic label shown if contact email has custom type but no label"
   },
   "phone": {
     "message": "phone",
-    "description":
-      "Generic label shown if contact phone has custom type but no label"
+    "description": "Generic label shown if contact phone has custom type but no label"
   },
   "address": {
     "message": "address",
-    "description":
-      "Generic label shown if contact address has custom type but no label"
+    "description": "Generic label shown if contact address has custom type but no label"
   },
   "poBox": {
     "message": "PO Box",
-    "description":
-      "When rendering an address, used to provide context to a post office box"
+    "description": "When rendering an address, used to provide context to a post office box"
   },
   "downloading": {
     "message": "Downloading",
-    "description":
-      "Shown in the message bubble while a long message attachment is being downloaded"
+    "description": "Shown in the message bubble while a long message attachment is being downloaded"
   },
   "downloadAttachment": {
     "message": "Download Attachment",
-    "description":
-      "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
+    "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "replyToMessage": {
     "message": "Reply to Message",
-    "description":
-      "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
+    "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
   },
   "originalMessageNotFound": {
     "message": "Original message not found",
-    "description":
-      "Shown in quote if reference message was not found as message was initially downloaded and processed"
+    "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
   },
   "originalMessageNotAvailable": {
     "message": "Original message no longer available",
-    "description":
-      "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "Shown in toast if user clicks on quote that references message no longer in database"
   },
   "messageFoundButNotLoaded": {
     "message": "Original message found, but not loaded. Scroll up to load it.",
-    "description":
-      "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
   },
   "voiceNoteMustBeOnlyAttachment": {
-    "message":
-      "A voice note must be the only attachment included in a message.",
-    "description":
-      "Shown in toast if tries to record a voice note with any staged attachments"
+    "message": "A voice note must be the only attachment included in a message.",
+    "description": "Shown in toast if tries to record a voice note with any staged attachments"
   },
   "you": {
     "message": "You",
-    "description":
-      "In Android theme, shown in quote if you or someone else replies to you"
+    "description": "In Android theme, shown in quote if you or someone else replies to you"
   },
   "replyingTo": {
     "message": "Replying to $name$",
-    "description":
-      "Shown in iOS theme when you or someone quotes to a message which is not from you",
+    "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -904,51 +785,40 @@
     }
   },
   "audioPermissionNeeded": {
-    "message":
-      "To send audio messages, allow Session to access your microphone.",
-    "description":
-      "Shown if the user attempts to send an audio message without audio permssions turned on"
+    "message": "To send audio messages, allow Session to access your microphone.",
+    "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
   },
   "allowAccess": {
     "message": "Allow Access",
-    "description":
-      "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+    "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
   },
   "showSettings": {
     "message": "Show Settings",
-    "description":
-      "A button shown in dialog requesting the user to turn on audio permissions"
+    "description": "A button shown in dialog requesting the user to turn on audio permissions"
   },
   "audio": {
     "message": "Audio",
-    "description":
-      "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
+    "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
   },
   "video": {
     "message": "Video",
-    "description":
-      "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
   },
   "photo": {
     "message": "Photo",
-    "description":
-      "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
   },
   "cannotUpdate": {
     "message": "Cannot Update",
     "description": "Shown as the title of our update error dialogs on windows"
   },
   "cannotUpdateDetail": {
-    "message":
-      "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem.",
-    "description":
-      "Shown if a general error happened while trying to install update package"
+    "message": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem.",
+    "description": "Shown if a general error happened while trying to install update package"
   },
   "readOnlyVolume": {
-    "message":
-      "Session Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Session.app to /Applications with Finder.",
-    "description":
-      "Shown on MacOS if running on a read-only volume and we cannot update"
+    "message": "Session Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Session.app to /Applications with Finder.",
+    "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "ok": {
     "message": "OK"
@@ -992,18 +862,23 @@
   "devicePairingReceived": {
     "message": "Device Linking Received"
   },
+  "devicePairingRequestReceivedLimitTitle": {
+    "message": "Device linking limit reached."
+  },
+  "devicePairingRequestReceivedLimitDescription": {
+    "message": "To change your linked devices, please unlink a device first."
+  },
   "devicePairingRequestReceivedNoListenerTitle": {
     "message": "Device linking request received."
   },
   "devicePairingRequestReceivedNoListenerDescription": {
-    "message":
-      "Device linking request received but you are not on the device linking screen. \nFirst go to Settings -> Device -> Link New Device."
+    "message": "Device linking request received but you are not on the device linking screen. \nGo to Settings > Device > Link New Device."
   },
   "waitingForDeviceToRegister": {
     "message": "Waiting for device to register..."
   },
   "pairNewDevicePrompt": {
-    "message": "Scan the QR Code on your secondary device"
+    "message": "Scan the QR Code on your other device"
   },
   "pairedDevices": {
     "message": "Linked Devices"
@@ -1015,8 +890,7 @@
     "message": "This device is a secondary device and so cannot be linked."
   },
   "pairingOngoing": {
-    "message":
-      "A pairing request is already ongoing. Restart the app if it takes too long."
+    "message": "A pairing request is already ongoing. Restart the app if it takes too long."
   },
   "allowPairing": {
     "message": "Allow Linking"
@@ -1044,8 +918,7 @@
     "description": "Warning for device unlinking in settings view"
   },
   "unpairDeviceWarningSub": {
-    "message":
-      "Unlinking this device will delete all history, including all messages, sessions, and contacts from this device.",
+    "message": "Unlinking this device will delete all history, including all messages, sessions, and contacts from this device.",
     "description": "Warning description for device unlinking in settings view"
   },
   "deviceUnpaired": {
@@ -1061,8 +934,7 @@
     "message": "Confirm"
   },
   "failedToSend": {
-    "message":
-      "Failed to send to some recipients. Check your network connection."
+    "message": "Failed to send to some recipients. Check your network connection."
   },
   "error": {
     "message": "Error"
@@ -1081,25 +953,20 @@
     "description": "Text of Forward Message button"
   },
   "deletePublicWarning": {
-    "message":
-      "Are you sure? Clicking 'unsend' will permanently remove this message for everyone in this channel."
+    "message": "Are you sure? Clicking 'unsend' will permanently remove this message for everyone in this channel."
   },
   "deleteMultiplePublicWarning": {
-    "message":
-      "Are you sure? Clicking 'unsend' will permanently remove these messages for everyone in this channel."
+    "message": "Are you sure? Clicking 'unsend' will permanently remove these messages for everyone in this channel."
   },
   "deleteWarning": {
-    "message":
-      "Are you sure? Clicking 'delete' will permanently remove this message from this device only."
+    "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device only."
   },
   "deleteMultipleWarning": {
-    "message":
-      "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
+    "message": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
   },
   "messageDeletionForbidden": {
     "message": "You don’t have permission to delete others’ messages",
-    "description":
-      "Toast message explaining that the user doens't have the rights to delete other people's messages."
+    "description": "Toast message explaining that the user doens't have the rights to delete other people's messages."
   },
   "deleteThisMessage": {
     "message": "Delete this message"
@@ -1125,23 +992,22 @@
     "description": "Placeholder text in the message entry field"
   },
   "sendMessageDisabledSecondary": {
-    "message":
-      "This pubkey belongs to a secondary device. You should never see this message",
-    "description":
-      "Placeholder text in the message entry field when it is disabled because a secondary device conversation is visible"
+    "message": "This pubkey belongs to a secondary device. You should never see this message",
+    "description": "Placeholder text in the message entry field when it is disabled because a secondary device conversation is visible"
   },
   "sendMessageDisabled": {
     "message": "Waiting for friend request approval",
-    "description":
-      "Placeholder text in the message entry field when it is disabled while we are waiting for a friend request approval"
+    "description": "Placeholder text in the message entry field when it is disabled while we are waiting for a friend request approval"
   },
   "sendMessageFriendRequest": {
     "message": "Send your first message",
-    "description":
-      "Placeholder text in the message entry field when it is the first message sent to that contact"
+    "description": "Placeholder text in the message entry field when it is the first message sent to that contact"
   },
   "sendMessageLeftGroup": {
     "message": "You left this group"
+  },
+  "sendMessageBlockedUser": {
+    "message": "You have blocked the user"
   },
   "groupMembers": {
     "message": "Group members"
@@ -1151,20 +1017,17 @@
   },
   "resetSession": {
     "message": "Reset Session",
-    "description":
-      "This is a menu item for resetting the session, using the imperative case, as in a command."
+    "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
   },
   "showSafetyNumber": {
     "message": "View Safety Number"
   },
   "viewAllMedia": {
     "message": "View all media",
-    "description":
-      "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
+    "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
-    "message":
-      "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
+    "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -1173,33 +1036,27 @@
     }
   },
   "theirIdentityUnknown": {
-    "message":
-      "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
+    "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
   },
   "moreInfo": {
     "message": "More Info...",
-    "description":
-      "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+    "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "retrySend": {
     "message": "Retry Send",
-    "description":
-      "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
+    "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
   },
   "deleteMessage": {
     "message": "Delete Message",
-    "description":
-      "Shown on the drop-down menu for an individual message, deletes single message"
+    "description": "Shown on the drop-down menu for an individual message, deletes single message"
   },
   "unsendMessage": {
     "message": "Unsend Message",
-    "description":
-      "Shown on the drop-down menu for an individual message being removed from the server"
+    "description": "Shown on the drop-down menu for an individual message being removed from the server"
   },
   "unsendMessages": {
     "message": "Unsend Messages",
-    "description":
-      "Tiitle for prompt and header button for messages being removed from the server"
+    "description": "Tiitle for prompt and header button for messages being removed from the server"
   },
   "messages": {
     "message": "Messages",
@@ -1211,25 +1068,20 @@
   },
 
   "deletePublicConversationConfirmation": {
-    "message":
-      "Permanently delete the messages locally from this public channel?",
-    "description":
-      "Confirmation dialog text that asks the user if they really wish to delete the public channel messages locally. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "message": "Permanently delete the messages locally from this public channel?",
+    "description": "Confirmation dialog text that asks the user if they really wish to delete the public channel messages locally. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "deleteConversationConfirmation": {
     "message": "Permanently delete the messages in this conversation?",
-    "description":
-      "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "deletePublicChannel": {
     "message": "Leave Channel",
-    "description":
-      "Confirmation dialog title that asks the user if they really wish to delete a public channel. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "Confirmation dialog title that asks the user if they really wish to delete a public channel. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "deletePublicChannelConfirmation": {
     "message": "Leave this Open Group?",
-    "description":
-      "Confirmation dialog text that tells the user what will happen if they leave the public channel."
+    "description": "Confirmation dialog text that tells the user what will happen if they leave the public channel."
   },
   "deleteAccount": {
     "message": "Delete Account",
@@ -1240,34 +1092,28 @@
     "description": "Warning for account deletion in settings view"
   },
   "deleteAccountWarningSub": {
-    "message":
-      "Delete all history, including all messages, sessions, and contacts. Once deleted, these cannot be restored.",
+    "message": "Delete all history, including all messages, sessions, and contacts. Once deleted, these cannot be restored.",
     "description": "Warning for account deletion in settings view"
   },
   "deleteContact": {
     "message": "Delete Contact",
-    "description":
-      "Confirmation dialog title that asks the user if they really wish to delete the contact. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "Confirmation dialog title that asks the user if they really wish to delete the contact. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "deleteContactConfirmation": {
     "message": "Permanently delete this contact and destroy all sessions?",
-    "description":
-      "Confirmation dialog text that tells the user what will happen if they delete the contact."
+    "description": "Confirmation dialog text that tells the user what will happen if they delete the contact."
   },
   "sessionResetFailed": {
     "message": "Secure session reset failed",
-    "description":
-      "your secure session could not been transmitted to the other participant."
+    "description": "your secure session could not been transmitted to the other participant."
   },
   "sessionResetOngoing": {
     "message": "Secure session reset in progress",
-    "description":
-      "your secure session is currently being reset, waiting for the reset acknowledgment."
+    "description": "your secure session is currently being reset, waiting for the reset acknowledgment."
   },
   "sessionEnded": {
     "message": "Secure session reset succeeded",
-    "description":
-      "This is a past tense, informational message. In other words, your secure session has been reset."
+    "description": "This is a past tense, informational message. In other words, your secure session has been reset."
   },
   "betaDisclaimerTitle": {
     "message": "Thanks for using Session!",
@@ -1278,14 +1124,12 @@
     "description": "Subtitle for beta disclaimer modal"
   },
   "betaDisclaimerDescription": {
-    "message":
-      "While your messages are secured with end-to-end encryption, third parties like your ISP can see who you're talking to while in the beta version. It is also possible that third parties could correlate your public key to your IP address and real identity if they learn your public key.",
+    "message": "While your messages are secured with end-to-end encryption, third parties like your ISP can see who you're talking to while in the beta version. It is also possible that third parties could correlate your public key to your IP address and real identity if they learn your public key.",
     "description": "Description for beta disclaimer modal"
   },
   "quoteThumbnailAlt": {
     "message": "Thumbnail of image from quoted message",
-    "description":
-      "Used in alt tag of thumbnail images inside of an embedded message quote"
+    "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
   },
   "imageAttachmentAlt": {
     "message": "Image attached to message",
@@ -1297,28 +1141,23 @@
   },
   "lightboxImageAlt": {
     "message": "Image sent in conversation",
-    "description":
-      "Used in the alt tag for the image shown in a full-screen lightbox view"
+    "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
   },
   "imageCaptionIconAlt": {
     "message": "Icon showing that this image has a caption",
-    "description":
-      "Used for the icon layered on top of an image in message bubbles"
+    "description": "Used for the icon layered on top of an image in message bubbles"
   },
   "addACaption": {
     "message": "Add a caption...",
-    "descripton":
-      "Used as the placeholder text in the caption editor text field"
+    "descripton": "Used as the placeholder text in the caption editor text field"
   },
   "save": {
     "message": "Save",
-    "descripton":
-      "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+    "descripton": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
   },
   "fileIconAlt": {
     "message": "File icon",
-    "description":
-      "Used in the media gallery documents tab to visually represent a file"
+    "description": "Used in the media gallery documents tab to visually represent a file"
   },
   "emojiAlt": {
     "message": "Emoji image of '$title$'",
@@ -1336,61 +1175,50 @@
   },
   "installTagline": {
     "message": "Privacy is possible. Signal makes it easy.",
-    "description":
-      "Tagline displayed under 'installWelcome' string on the install page"
+    "description": "Tagline displayed under 'installWelcome' string on the install page"
   },
   "linkYourPhone": {
     "message": "Link your phone to Session",
-    "description":
-      "Shown on the front page when the application first starst, above the QR code"
+    "description": "Shown on the front page when the application first starst, above the QR code"
   },
   "signalSettings": {
     "message": "Session Settings",
-    "description":
-      "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
   },
   "linkedDevices": {
     "message": "Linked Devices",
-    "description":
-      "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
+    "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
   },
   "plusButton": {
     "message": "'+' Button",
-    "description":
-      "The button used in Signal Android to add a new linked device"
+    "description": "The button used in Signal Android to add a new linked device"
   },
   "linkNewDevice": {
     "message": "Link New Device",
-    "description":
-      "The menu option shown in Signal iOS to add a new linked device"
+    "description": "The menu option shown in Signal iOS to add a new linked device"
   },
   "deviceName": {
     "message": "Device name",
-    "description":
-      "The label in settings panel shown for the user-provided name for this desktop instance"
+    "description": "The label in settings panel shown for the user-provided name for this desktop instance"
   },
   "chooseDeviceName": {
     "message": "Choose this device's name",
-    "description":
-      "The header shown on the 'choose device name' screen in the device linking process"
+    "description": "The header shown on the 'choose device name' screen in the device linking process"
   },
   "finishLinkingPhone": {
     "message": "Finish linking phone",
-    "description":
-      "The text on the button to finish the linking process, after choosing the device name"
+    "description": "The text on the button to finish the linking process, after choosing the device name"
   },
   "initialSync": {
     "message": "Syncing contacts and groups",
-    "description":
-      "Shown during initial link while contacts and groups are being pulled from mobile device"
+    "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
   "installConnectionFailed": {
     "message": "Failed to connect to server.",
     "description": "Displayed when we can't connect to the server."
   },
   "installTooManyDevices": {
-    "message":
-      "Sorry, you have too many devices linked already. Try removing some."
+    "message": "Sorry, you have too many devices linked already. Try removing some."
   },
   "settings": {
     "message": "Settings",
@@ -1410,20 +1238,17 @@
   },
   "linkPreviewsTitle": {
     "message": "Link Previews",
-    "description":
-      "Option to control creation and send of link previews in setting screen"
+    "description": "Option to control creation and send of link previews in setting screen"
   },
   "linkPreviewDescription": {
-    "message":
-      "Link previews supported for Imgur, Instagram, Pinterest, Reddit, and YouTube.",
+    "message": "Link previews supported for Imgur, Instagram, Pinterest, Reddit, and YouTube.",
     "description": "Description shown for the Link Preview option "
   },
   "linkPreviewsConfirmTitle": {
     "message": "Warning"
   },
   "linkPreviewsConfirmMessage": {
-    "message":
-      "You will not have full metadata protection when sending or receiving link previews."
+    "message": "You will not have full metadata protection when sending or receiving link previews."
   },
 
   "mediaPermissionsTitle": {
@@ -1443,33 +1268,27 @@
   },
   "spellCheckDirty": {
     "message": "You must restart Session to apply your new settings",
-    "description":
-      "Shown when the user changes their spellcheck setting to indicate that they must restart Signal."
+    "description": "Shown when the user changes their spellcheck setting to indicate that they must restart Signal."
   },
   "clearDataHeader": {
     "message": "Clear All Local Data",
-    "description":
-      "Header in the settings dialog for the section dealing with data deletion"
+    "description": "Header in the settings dialog for the section dealing with data deletion"
   },
   "clearDataExplanation": {
-    "message":
-      "This will clear all data in the application, removing all messages and saved account information.",
+    "message": "This will clear all data in the application, removing all messages and saved account information.",
     "description": "Text describing what the clear data button will do."
   },
   "clearDataButton": {
     "message": "Clear Data",
-    "description":
-      "Button in the settings dialog starting process to delete all data"
+    "description": "Button in the settings dialog starting process to delete all data"
   },
   "deleteAllDataHeader": {
     "message": "Delete all data?",
     "description": "Header of the full-screen delete data confirmation screen"
   },
   "deleteAllDataBody": {
-    "message":
-      "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always register with your seed again, but that will not restore deleted messages.",
-    "description":
-      "Text describing what exactly will happen if the user clicks the button to delete all data"
+    "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always register with your seed again, but that will not restore deleted messages.",
+    "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
   },
   "deleteAllDataButton": {
     "message": "Delete all data",
@@ -1477,16 +1296,14 @@
   },
   "deleteAllDataProgress": {
     "message": "Disconnecting and deleting all data",
-    "description":
-      "Message shown to user when app is disconnected and data deleted"
+    "description": "Message shown to user when app is disconnected and data deleted"
   },
   "notifications": {
     "message": "Notifications",
     "description": "Header for notification settings"
   },
   "readReceiptSettingDescription": {
-    "message":
-      "See and share when messages have been read (enables read receipts in all sessions).",
+    "message": "See and share when messages have been read (enables read receipts in all sessions).",
     "description": "Description of the read receipts setting"
   },
   "readReceiptSettingTitle": {
@@ -1494,8 +1311,7 @@
     "description": "Title of the read receipts setting"
   },
   "typingIndicatorsSettingDescription": {
-    "message":
-      "See and share when messages are being typed (applies to all sessions).",
+    "message": "See and share when messages are being typed (applies to all sessions).",
     "description": "Description of the typing indicators setting"
   },
   "typingIndicatorsSettingTitle": {
@@ -1507,13 +1323,11 @@
     "description": "Title of the Message TTL setting"
   },
   "messageTTLSettingDescription": {
-    "message":
-      "Time to live (how long the recipient will have to collect their messages)",
+    "message": "Time to live (how long the recipient will have to collect their messages)",
     "description": "Description of the time to live setting"
   },
   "messageTTLSettingWarning": {
-    "message":
-      "Warning! Lowering the TTL could result in messages being lost if the recipient doesn't collect them in time!",
+    "message": "Warning! Lowering the TTL could result in messages being lost if the recipient doesn't collect them in time!",
     "description": "Warning for the time to live setting"
   },
   "zoomFactorSettingTitle": {
@@ -1530,13 +1344,11 @@
   },
   "nameAndMessage": {
     "message": "Name and content",
-    "description":
-      "Label for setting notifications to display name and message text"
+    "description": "Label for setting notifications to display name and message text"
   },
   "noNameOrMessage": {
     "message": "No name or content",
-    "description":
-      "Label for setting notifications to display no name and no message text"
+    "description": "Label for setting notifications to display no name and no message text"
   },
   "nameOnly": {
     "message": "Name Only",
@@ -1552,18 +1364,15 @@
   },
   "notificationMostRecentFrom": {
     "message": "Most recent from:",
-    "description":
-      "Displayed in notifications when setting is 'name only' and more than one message is waiting"
+    "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
   },
   "notificationFrom": {
     "message": "From:",
-    "description":
-      "Displayed in notifications when setting is 'name only' and one message is waiting"
+    "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
   },
   "notificationMostRecent": {
     "message": "Most recent:",
-    "description":
-      "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
   },
   "sendFailed": {
     "message": "Send failed",
@@ -1579,35 +1388,27 @@
   },
   "learnMore": {
     "message": "Learn more about verifying safety numbers",
-    "description":
-      "Text that links to a support article on verifying safety numbers"
+    "description": "Text that links to a support article on verifying safety numbers"
   },
   "expiredWarning": {
-    "message":
-      "This version of Session has expired. Please upgrade to the latest version to continue messaging.",
-    "description":
-      "Warning notification that this version of the app has expired"
+    "message": "This version of Session has expired. Please upgrade to the latest version to continue messaging.",
+    "description": "Warning notification that this version of the app has expired"
   },
   "clockOutOfSync": {
-    "message":
-      "Your clock is out of sync. Please update your clock and try again.",
-    "description":
-      "Notifcation that user's clock is out of sync with Loki's servers."
+    "message": "Your clock is out of sync. Please update your clock and try again.",
+    "description": "Notifcation that user's clock is out of sync with Loki's servers."
   },
   "upgrade": {
     "message": "Upgrade",
-    "description":
-      "Label text for button to upgrade the app to the latest version"
+    "description": "Label text for button to upgrade the app to the latest version"
   },
   "mediaMessage": {
     "message": "Media message",
-    "description":
-      "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
+    "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
   },
   "unregisteredUser": {
     "message": "Number is not registered",
-    "description":
-      "Error message displayed when sending to an unregistered user."
+    "description": "Error message displayed when sending to an unregistered user."
   },
   "sync": {
     "message": "Contacts",
@@ -1623,37 +1424,31 @@
   },
   "syncNow": {
     "message": "Import now",
-    "description":
-      "Label for a button that syncs contacts and groups from your phone"
+    "description": "Label for a button that syncs contacts and groups from your phone"
   },
   "syncing": {
     "message": "Importing...",
     "description": "Label for a disabled sync button while sync is in progress."
   },
   "syncFailed": {
-    "message":
-      "Import failed. Make sure your computer and your phone are connected to the internet.",
+    "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
     "description": "Informational text displayed if a sync operation times out."
   },
   "timestamp_s": {
     "message": "now",
-    "description":
-      "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
+    "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
   },
   "timestamp_m": {
     "message": "1 minute",
-    "description":
-      "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
+    "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
   },
   "timestamp_h": {
     "message": "1 hour",
-    "description":
-      "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
+    "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
   },
   "hoursAgoShort": {
     "message": "$hours$ hr",
-    "description":
-      "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
+    "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
     "placeholders": {
       "hours": {
         "content": "$1",
@@ -1663,8 +1458,7 @@
   },
   "hoursAgo": {
     "message": "$hours$ hr ago",
-    "description":
-      "Contracted form of 'X hours ago' which works both for singular and plural",
+    "description": "Contracted form of 'X hours ago' which works both for singular and plural",
     "placeholders": {
       "hours": {
         "content": "$1",
@@ -1674,8 +1468,7 @@
   },
   "minutesAgoShort": {
     "message": "$minutes$ min",
-    "description":
-      "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
+    "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
     "placeholders": {
       "minutes": {
         "content": "$1",
@@ -1685,8 +1478,7 @@
   },
   "minutesAgo": {
     "message": "$minutes$ min ago",
-    "description":
-      "Contracted form of 'X minutes ago' which works both for singular and plural",
+    "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
     "placeholders": {
       "minutes": {
         "content": "$1",
@@ -1700,8 +1492,7 @@
   },
   "timestampFormat_M": {
     "message": "MMM D",
-    "description":
-      "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
   },
   "messageBodyTooLong": {
     "message": "Message body is too long.",
@@ -1712,14 +1503,12 @@
     "description": "Brief message shown when trying to message a blocked number"
   },
   "unblockGroupToSend": {
-    "message":
-      "This group is blocked. Unlock it if you would like to send a message.",
+    "message": "This group is blocked. Unlock it if you would like to send a message.",
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
     "message": "You set the disappearing message timer to $time$",
-    "description":
-      "Message displayed when you change the message expiration timer in a conversation.",
+    "description": "Message displayed when you change the message expiration timer in a conversation.",
     "placeholders": {
       "time": {
         "content": "$1",
@@ -1729,8 +1518,7 @@
   },
   "timerSetOnSync": {
     "message": "Updated disappearing message timer to $time$",
-    "description":
-      "Message displayed when timer is set on initial link of desktop device.",
+    "description": "Message displayed when timer is set on initial link of desktop device.",
     "placeholders": {
       "time": {
         "content": "$1",
@@ -1740,8 +1528,7 @@
   },
   "theyChangedTheTimer": {
     "message": "$name$ set the disappearing message timer to $time$",
-    "description":
-      "Message displayed when someone else changes the message expiration timer in a conversation.",
+    "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -1755,63 +1542,51 @@
   },
   "timerOption_0_seconds": {
     "message": "Off",
-    "description":
-      "Label for option to turn off message expiration in the timer menu"
+    "description": "Label for option to turn off message expiration in the timer menu"
   },
   "timerOption_5_seconds": {
     "message": "5 seconds",
-    "description":
-      "Label for a selectable option in the message expiration timer menu"
+    "description": "Label for a selectable option in the message expiration timer menu"
   },
   "timerOption_10_seconds": {
     "message": "10 seconds",
-    "description":
-      "Label for a selectable option in the message expiration timer menu"
+    "description": "Label for a selectable option in the message expiration timer menu"
   },
   "timerOption_30_seconds": {
     "message": "30 seconds",
-    "description":
-      "Label for a selectable option in the message expiration timer menu"
+    "description": "Label for a selectable option in the message expiration timer menu"
   },
   "timerOption_1_minute": {
     "message": "1 minute",
-    "description":
-      "Label for a selectable option in the message expiration timer menu"
+    "description": "Label for a selectable option in the message expiration timer menu"
   },
   "timerOption_5_minutes": {
     "message": "5 minutes",
-    "description":
-      "Label for a selectable option in the message expiration timer menu"
+    "description": "Label for a selectable option in the message expiration timer menu"
   },
   "timerOption_30_minutes": {
     "message": "30 minutes",
-    "description":
-      "Label for a selectable option in the message expiration timer menu"
+    "description": "Label for a selectable option in the message expiration timer menu"
   },
   "timerOption_1_hour": {
     "message": "1 hour",
-    "description":
-      "Label for a selectable option in the message expiration timer menu"
+    "description": "Label for a selectable option in the message expiration timer menu"
   },
   "timerOption_6_hours": {
     "message": "6 hours",
-    "description":
-      "Label for a selectable option in the message expiration timer menu"
+    "description": "Label for a selectable option in the message expiration timer menu"
   },
   "timerOption_12_hours": {
     "message": "12 hours",
-    "description":
-      "Label for a selectable option in the message expiration timer menu"
+    "description": "Label for a selectable option in the message expiration timer menu"
   },
   "timerOption_1_day": {
     "message": "1 day",
-    "description":
-      "Label for a selectable option in the message expiration timer menu"
+    "description": "Label for a selectable option in the message expiration timer menu"
   },
   "timerOption_1_week": {
     "message": "1 week",
-    "description":
-      "Label for a selectable option in the message expiration timer menu"
+    "description": "Label for a selectable option in the message expiration timer menu"
   },
   "disappearingMessages": {
     "message": "Disappearing messages",
@@ -1827,63 +1602,51 @@
   },
   "timerOption_0_seconds_abbreviated": {
     "message": "off",
-    "description":
-      "Short format indicating current timer setting in the conversation list snippet"
+    "description": "Short format indicating current timer setting in the conversation list snippet"
   },
   "timerOption_5_seconds_abbreviated": {
     "message": "5s",
-    "description":
-      "Very short format indicating current timer setting in the conversation header"
+    "description": "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_10_seconds_abbreviated": {
     "message": "10s",
-    "description":
-      "Very short format indicating current timer setting in the conversation header"
+    "description": "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_30_seconds_abbreviated": {
     "message": "30s",
-    "description":
-      "Very short format indicating current timer setting in the conversation header"
+    "description": "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_1_minute_abbreviated": {
     "message": "1m",
-    "description":
-      "Very short format indicating current timer setting in the conversation header"
+    "description": "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_5_minutes_abbreviated": {
     "message": "5m",
-    "description":
-      "Very short format indicating current timer setting in the conversation header"
+    "description": "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_30_minutes_abbreviated": {
     "message": "30m",
-    "description":
-      "Very short format indicating current timer setting in the conversation header"
+    "description": "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_1_hour_abbreviated": {
     "message": "1h",
-    "description":
-      "Very short format indicating current timer setting in the conversation header"
+    "description": "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_6_hours_abbreviated": {
     "message": "6h",
-    "description":
-      "Very short format indicating current timer setting in the conversation header"
+    "description": "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_12_hours_abbreviated": {
     "message": "12h",
-    "description":
-      "Very short format indicating current timer setting in the conversation header"
+    "description": "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_1_day_abbreviated": {
     "message": "1d",
-    "description":
-      "Very short format indicating current timer setting in the conversation header"
+    "description": "Very short format indicating current timer setting in the conversation header"
   },
   "timerOption_1_week_abbreviated": {
     "message": "1w",
-    "description":
-      "Very short format indicating current timer setting in the conversation header"
+    "description": "Very short format indicating current timer setting in the conversation header"
   },
   "disappearingMessagesDisabled": {
     "message": "Disappearing messages disabled",
@@ -1891,8 +1654,7 @@
   },
   "disabledDisappearingMessages": {
     "message": "$name$ disabled disappearing messages",
-    "description":
-      "Displayed in the conversation list when the timer is turned off",
+    "description": "Displayed in the conversation list when the timer is turned off",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -1902,13 +1664,11 @@
   },
   "youDisabledDisappearingMessages": {
     "message": "You disabled disappearing messages",
-    "description":
-      "Displayed in the conversation list when the timer is turned off"
+    "description": "Displayed in the conversation list when the timer is turned off"
   },
   "timerSetTo": {
     "message": "Timer set to $time$",
-    "description":
-      "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
+    "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
     "placeholders": {
       "time": {
         "content": "$1",
@@ -1922,13 +1682,11 @@
   },
   "safetyNumberChanged": {
     "message": "Safety Number has changed",
-    "description":
-      "A notification shown in the conversation when a contact reinstalls"
+    "description": "A notification shown in the conversation when a contact reinstalls"
   },
   "safetyNumberChangedGroup": {
     "message": "Safety Number with $name$ has changed",
-    "description":
-      "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
+    "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -1938,8 +1696,7 @@
   },
   "verifyNewNumber": {
     "message": "Verify Safety Number",
-    "description":
-      "Label on button included with safety number change notification in the conversation"
+    "description": "Label on button included with safety number change notification in the conversation"
   },
   "yourSafetyNumberWith": {
     "message": "Your safety number with $name$:",
@@ -1979,8 +1736,7 @@
   },
   "startConversation": {
     "message": "Start New Conversation",
-    "description":
-      "Label underneath number a user enters that is not an existing contact"
+    "description": "Label underneath number a user enters that is not an existing contact"
   },
   "newPhoneNumber": {
     "message": "Enter a phone number to add a contact.",
@@ -1991,8 +1747,7 @@
     "description": "When a person inputs a public key that is invalid"
   },
   "unlinkedWarning": {
-    "message":
-      "Relink Session Desktop to your mobile device to continue messaging."
+    "message": "Relink Session Desktop to your mobile device to continue messaging."
   },
   "unlinked": {
     "message": "Unlinked"
@@ -2032,8 +1787,7 @@
   },
   "leftTheGroup": {
     "message": "$name$ left the group",
-    "description":
-      "Shown in the conversation history when a single person leaves the group",
+    "description": "Shown in the conversation history when a single person leaves the group",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -2043,8 +1797,7 @@
   },
   "multipleLeftTheGroup": {
     "message": "$name$ left the group",
-    "description":
-      "Shown in the conversation history when multiple people leave the group",
+    "description": "Shown in the conversation history when multiple people leave the group",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -2054,15 +1807,12 @@
   },
   "updatedTheGroup": {
     "message": "Group updated",
-    "description":
-      "Shown in the conversation history when someone updates the group"
+    "description": "Shown in the conversation history when someone updates the group"
   },
   "titleIsNow": {
-    "comment":
-      "Do not add a period here, used as a fragment and will break unit test",
+    "comment": "Do not add a period here, used as a fragment and will break unit test",
     "message": "Group name has been set to '$name$'",
-    "description":
-      "Shown in the conversation history when someone changes the title of the group",
+    "description": "Shown in the conversation history when someone changes the title of the group",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -2072,8 +1822,7 @@
   },
   "joinedTheGroup": {
     "message": "$name$ joined the group",
-    "description":
-      "Shown in the conversation history when a single person joins the group",
+    "description": "Shown in the conversation history when a single person joins the group",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -2083,8 +1832,7 @@
   },
   "multipleJoinedTheGroup": {
     "message": "$names$ joined the group",
-    "description":
-      "Shown in the conversation history when more than one person joins the group",
+    "description": "Shown in the conversation history when more than one person joins the group",
     "placeholders": {
       "names": {
         "content": "$1",
@@ -2094,8 +1842,7 @@
   },
   "kickedFromTheGroup": {
     "message": "$name$ was removed from the group",
-    "description":
-      "Shown in the conversation history when a single person is removed from the group",
+    "description": "Shown in the conversation history when a single person is removed from the group",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -2105,8 +1852,7 @@
   },
   "multipleKickedFromTheGroup": {
     "message": "$names$ were removed from the group",
-    "description":
-      "Shown in the conversation history when more than one person is removed from the group",
+    "description": "Shown in the conversation history when more than one person is removed from the group",
     "placeholders": {
       "names": {
         "content": "$1",
@@ -2116,33 +1862,27 @@
   },
   "friendRequestPending": {
     "message": "Friend request",
-    "description":
-      "Shown in the conversation history when the user sends or recieves a friend request"
+    "description": "Shown in the conversation history when the user sends or recieves a friend request"
   },
   "friendRequestAccepted": {
     "message": "Friend request accepted",
-    "description":
-      "Shown in the conversation history when the user accepts a friend request"
+    "description": "Shown in the conversation history when the user accepts a friend request"
   },
   "friendRequestDeclined": {
     "message": "Session request declined",
-    "description":
-      "Shown in the conversation history when the user declines a friend request"
+    "description": "Shown in the conversation history when the user declines a friend request"
   },
   "friendRequestExpired": {
     "message": "Friend request expired",
-    "description":
-      "Shown in the conversation history when the users friend request expires"
+    "description": "Shown in the conversation history when the users friend request expires"
   },
   "friendRequestNotificationTitle": {
     "message": "Friend request",
-    "description":
-      "Shown in a notification title when receiving a friend request"
+    "description": "Shown in a notification title when receiving a friend request"
   },
   "friendRequestNotificationMessage": {
     "message": "$name$ sent you a friend request",
-    "description":
-      "Shown in a notification body when receiving a friend request",
+    "description": "Shown in a notification body when receiving a friend request",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -2152,13 +1892,11 @@
   },
   "friendRequestAcceptedNotificationTitle": {
     "message": "Friend request accepted",
-    "description":
-      "Shown in a notification title when friend request was accepted by the other user"
+    "description": "Shown in a notification title when friend request was accepted by the other user"
   },
   "friendRequestAcceptedNotificationMessage": {
     "message": "$name$ accepted your friend request",
-    "description":
-      "Shown in a notification body when friend request was accepted by the other user",
+    "description": "Shown in a notification body when friend request was accepted by the other user",
     "placeholders": {
       "name": {
         "content": "$1",
@@ -2174,8 +1912,7 @@
   },
   "settingsUnblockHeader": {
     "message": "Blocked Users",
-    "description":
-      "Shown in the settings page as the heading for the blocked user settings"
+    "description": "Shown in the settings page as the heading for the blocked user settings"
   },
   "editProfileTitle": {
     "message": "Change your own display name",
@@ -2187,8 +1924,7 @@
   },
   "copyPublicKey": {
     "message": "Copy Public Key",
-    "description":
-      "Button action that the user can click to copy their public keys"
+    "description": "Button action that the user can click to copy their public keys"
   },
   "banUser": {
     "message": "Ban User",
@@ -2211,8 +1947,7 @@
   },
   "updateGroup": {
     "message": "Update Group",
-    "description":
-      "Button action that the user can click to rename the group or add a new member"
+    "description": "Button action that the user can click to rename the group or add a new member"
   },
   "leaveGroup": {
     "message": "Leave Group",
@@ -2228,13 +1963,11 @@
   },
   "leaveClosedGroupConfirmation": {
     "message": "Leave this Closed Group?",
-    "description":
-      "Confirmation dialog text that tells the user what will happen if they leave the closed group."
+    "description": "Confirmation dialog text that tells the user what will happen if they leave the closed group."
   },
   "leaveGroupDialogTitle": {
     "message": "Are you sure you want to leave this group?",
-    "description":
-      "Title shown to the user to confirm they want to leave the group"
+    "description": "Title shown to the user to confirm they want to leave the group"
   },
   "noContactsForGroup": {
     "message": "You don't have any contacts to start a group with."
@@ -2249,8 +1982,7 @@
   },
   "copyMessage": {
     "message": "Copy message text",
-    "description":
-      "Button action that the user can click to copy their public keys"
+    "description": "Button action that the user can click to copy their public keys"
   },
   "selectMessage": {
     "message": "Select message",
@@ -2258,8 +1990,7 @@
   },
   "copiedMessage": {
     "message": "Message text copied",
-    "description":
-      "A toast message telling the user that the message text was copied"
+    "description": "A toast message telling the user that the message text was copied"
   },
   "editProfile": {
     "message": "Edit Profile",
@@ -2267,13 +1998,11 @@
   },
   "editGroupNameOrPicture": {
     "message": "Edit group name or picture",
-    "description":
-      "Button action that the user can click to edit a group name (open)"
+    "description": "Button action that the user can click to edit a group name (open)"
   },
   "editGroupName": {
     "message": "Edit group name",
-    "description":
-      "Button action that the user can click to edit a group name (closed)"
+    "description": "Button action that the user can click to edit a group name (closed)"
   },
   "createGroupDialogTitle": {
     "message": "Creating a Closed Group",
@@ -2281,18 +2010,15 @@
   },
   "updateGroupDialogTitle": {
     "message": "Updating a Closed Group",
-    "description":
-      "Title for the dialog box used to update an existing private group"
+    "description": "Title for the dialog box used to update an existing private group"
   },
   "updatePublicGroupDialogTitle": {
     "message": "Updating a open group Channel",
-    "description":
-      "Title for the dialog box used to update an existing open group channel"
+    "description": "Title for the dialog box used to update an existing open group channel"
   },
   "showSeed": {
     "message": "Show Seed",
-    "description":
-      "Button action that the user can click to view their unique seed"
+    "description": "Button action that the user can click to view their unique seed"
   },
   "yourSessionID": {
     "message": "Your Session ID"
@@ -2305,8 +2031,7 @@
     "description": "Prompt for user to set account password in settings view"
   },
   "setAccountPasswordDescription": {
-    "message":
-      "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed",
+    "message": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed",
     "description": "Description for set account password setting view"
   },
   "changeAccountPasswordTitle": {
@@ -2332,10 +2057,8 @@
     "message": "Confirm password"
   },
   "pasteLongPasswordToastTitle": {
-    "message":
-      "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters.",
-    "description":
-      "Shown when user pastes a password which is longer than MAX_PASSWORD_LEN"
+    "message": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters.",
+    "description": "Shown when user pastes a password which is longer than MAX_PASSWORD_LEN"
   },
   "showSeedPasswordRequest": {
     "message": "Please enter your password",
@@ -2343,22 +2066,18 @@
   },
   "seedSavePromptMain": {
     "message": "Please save the seed below in a safe location.",
-    "description":
-      "Prompt on seed modal requesting user to save their seed. Line one"
+    "description": "Prompt on seed modal requesting user to save their seed. Line one"
   },
   "seedSavePromptAlt": {
-    "message":
-      "They can be used to restore your account if you lose access or migrate to a new device.",
-    "description":
-      "Prompt on seed modal requesting user to save their seed. Line two"
+    "message": "They can be used to restore your account if you lose access or migrate to a new device.",
+    "description": "Prompt on seed modal requesting user to save their seed. Line two"
   },
   "QRCodeTitle": {
     "message": "View My QR Code",
     "description": "Title given to QR Code modal"
   },
   "QRCodeDescription": {
-    "message":
-      "This is <strong>your unique public QR Code.</strong><br/>Other users may scan this in order to begin a conversation with you.",
+    "message": "This is <strong>your unique public QR Code.</strong><br/>Other users may scan this in order to begin a conversation with you.",
     "description": "Description given to QRCode modal"
   },
   "showQRCode": {
@@ -2367,8 +2086,7 @@
   },
   "showAddServer": {
     "message": "Add Public Server",
-    "description":
-      "Button action that the user can click to connect to a new public server"
+    "description": "Button action that the user can click to connect to a new public server"
   },
   "serverUrl": {
     "message": "Server URL",
@@ -2380,41 +2098,34 @@
   },
   "addServerDialogTitle": {
     "message": "Connect To New Public Server",
-    "description":
-      "Title for the dialog box used to connect to a new public server"
+    "description": "Title for the dialog box used to connect to a new public server"
   },
   "createPrivateGroup": {
     "message": "Create Private Group",
-    "description":
-      "Button action that the user can click to show a dialog for creating a new private group chat"
+    "description": "Button action that the user can click to show a dialog for creating a new private group chat"
   },
   "seedViewTitle": {
-    "message":
-      "Please save the seed below in a safe location. They can be used to restore your account if you lose access or migrate to a new device.",
+    "message": "Please save the seed below in a safe location. They can be used to restore your account if you lose access or migrate to a new device.",
     "description": "The title shown when the user views their seeds"
   },
   "copiedMnemonic": {
     "message": "Recovery phrase copied successfully",
-    "description":
-      "A toast message telling the user that the mnemonic seed was copied"
+    "description": "A toast message telling the user that the mnemonic seed was copied"
   },
   "copiedSessionID": {
     "message": "Copied Session ID to clipboard",
-    "description":
-      "A toast message telling the user that their Session ID was copied"
+    "description": "A toast message telling the user that their Session ID was copied"
   },
   "passwordViewTitle": {
     "message": "Type In Your Password",
-    "description":
-      "The title shown when user needs to type in a password to unlock the messenger"
+    "description": "The title shown when user needs to type in a password to unlock the messenger"
   },
   "unlock": {
     "message": "Unlock"
   },
   "resetDatabase": {
     "message": "Reset Database",
-    "description":
-      "A button action that the user can click to reset the database"
+    "description": "A button action that the user can click to reset the database"
   },
   "password": {
     "message": "Password",
@@ -2478,13 +2189,16 @@
     "message": "You have removed your password."
   },
   "publicChatExists": {
-    "message": "You are already connected to this public channel"
+    "message": "You are already connected to this open group"
   },
   "connectToServerFail": {
     "message": "Failed to connect to server. Check URL"
   },
+  "connectingToServer": {
+    "message": "Connecting to server..."
+  },
   "connectToServerSuccess": {
-    "message": "Successfully connected to new open group server"
+    "message": "Successfully connected to open group"
   },
   "setPasswordFail": {
     "message": "Failed to set password"
@@ -2506,18 +2220,15 @@
   },
   "passwordLengthError": {
     "message": "Password must be between 6 and 50 characters long",
-    "description":
-      "Error string shown to the user when password doesn't meet length criteria"
+    "description": "Error string shown to the user when password doesn't meet length criteria"
   },
   "passwordTypeError": {
     "message": "Password must be a string",
-    "description":
-      "Error string shown to the user when password is not a string"
+    "description": "Error string shown to the user when password is not a string"
   },
   "passwordCharacterError": {
     "message": "Password must only contain letters, numbers and symbols",
-    "description":
-      "Error string shown to the user when password contains an invalid character"
+    "description": "Error string shown to the user when password contains an invalid character"
   },
   "change": {
     "message": "Change"
@@ -2529,9 +2240,8 @@
     "message": "Remove"
   },
   "invalidHexId": {
-    "message": "Invalid Session ID or LNS Name",
-    "description":
-      "Error string shown when user types an invalid pubkey hex string"
+    "message": "Invalid Session ID",
+    "description": "Error string shown when user types an invalid pubkey hex string"
   },
   "invalidLnsFormat": {
     "message": "Invalid LNS Name",
@@ -2540,6 +2250,10 @@
   "invalidPubkeyFormat": {
     "message": "Invalid Pubkey Format",
     "description": "Error string shown when user types an invalid pubkey format"
+  },
+  "attemptedConnectionTimeout": {
+    "message": "Connection to open group timed out",
+    "description": "Shown in toast when attempted connection to OpenGroup times out"
   },
   "lnsMappingNotFound": {
     "message": "There is no LNS mapping associated with this name",
@@ -2594,8 +2308,8 @@
   "groupNamePlaceholder": {
     "message": "Group Name"
   },
-  "inviteFriends": {
-    "message": "Invite Friends"
+  "inviteContacts": {
+    "message": "Invite Contacts"
   },
   "manageModerators": {
     "message": "Manage Moderators"
@@ -2628,8 +2342,7 @@
     "message": "Couldn't decrypt a message"
   },
   "confirmSessionRestore": {
-    "message":
-      "Would you like to start a new session with $pubkey$? Only do so if you know this pubkey.",
+    "message": "Would you like to start a new session with $pubkey$? Only do so if you know this pubkey.",
     "placeholders": {
       "pubkey": {
         "content": "$1",
@@ -2647,8 +2360,7 @@
     "message": "Say hello to your Session ID"
   },
   "allUsersAreRandomly...": {
-    "message":
-      "Your Session ID is the unique address people can use to contact you on Session. Your Session ID is totally private, anonymous, and has no connection to your real identity."
+    "message": "Your Session ID is the unique address people can use to contact you on Session. With no connection to your real identity, your Session ID is totally anonymous and private by design."
   },
   "getStarted": {
     "message": "Get started"
@@ -2665,6 +2377,10 @@
   "displayName": {
     "message": "Display Name"
   },
+  "anonymous": {
+    "message": "Anonymous",
+    "description": "The name of currently unidentified users"
+  },
   "enterDisplayName": {
     "message": "Enter a display name"
   },
@@ -2677,12 +2393,23 @@
   "verifyPassword": {
     "message": "Verify Password"
   },
-  "devicePairingHeader": {
-    "message":
-      "Open Session on your other device and navigate to the Linked Devices section in your user account screen. Select Link a Device to prepare your other device for pairing, then enter your Session ID below to link this device to your Session ID."
+  "devicePairingHeaderReassure": {
+    "message": "Linking may take up to one minute to register on your primary device. Please be patient."
+  },
+  "devicePairingHeader_Step1": {
+    "message": "Open Session on your other device."
+  },
+  "devicePairingHeader_Step2": {
+    "message": "Navigate to the <strong>Devices</strong> section in your user account screen."
+  },
+  "devicePairingHeader_Step3": {
+    "message": "Select <strong>Link New Device</strong> to prepare your other device for pairing."
+  },
+  "devicePairingHeader_Step4": {
+    "message": "Enter your <strong>Session ID</strong> below to link this device to your <strong>Session ID</strong>."
   },
   "enterSessionIDHere": {
-    "message": "Enter other device’s Session ID here"
+    "message": "Enter your Session ID"
   },
   "continueYourSession": {
     "message": "Continue Your Session"
@@ -2703,8 +2430,7 @@
     "message": "or"
   },
   "ByUsingThisService...": {
-    "message":
-      "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>"
+    "message": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>"
   },
   "beginYourSession": {
     "message": "Begin<br />your<br />Session."
@@ -2734,11 +2460,10 @@
     "message": "Enter Session ID"
   },
   "pasteSessionIDRecipient": {
-    "message": "Enter a Session ID or LNS name"
+    "message": "Enter a Session ID"
   },
   "usersCanShareTheir...": {
-    "message":
-      "Users can share their Session ID from their account settings, or by sharing their QR code."
+    "message": "Users can share their Session ID from their account settings, or by sharing their QR code."
   },
   "searchByIDOrDisplayName": {
     "message": "Search by ID # or Display Name"
@@ -2840,8 +2565,7 @@
     "message": "Create Closed Group"
   },
   "createClosedGroupDescription": {
-    "message":
-      "Closed groups are end-to-end encrypted group chats for up to 10 members. They provide the same privacy protections as one-on-one sessions."
+    "message": "Closed groups are end-to-end encrypted group chats for up to 10 members. They provide the same privacy protections as one-on-one sessions."
   },
   "createClosedGroupNamePrompt": {
     "message": "Group Name"
@@ -2880,10 +2604,10 @@
     "message": "Secret words"
   },
   "pairingDevice": {
-    "message": "Pairing Device"
+    "message": "Linking Device"
   },
   "gotPairingRequest": {
-    "message": "Pairing request received"
+    "message": "Linking request received"
   },
   "devicePairedSuccessfully": {
     "message": "Device linked successfully"

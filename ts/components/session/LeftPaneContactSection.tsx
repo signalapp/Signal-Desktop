@@ -28,11 +28,7 @@ export interface Props {
   isSecondaryDevice: boolean;
 
   conversations: Array<ConversationListItemPropsType>;
-  friends: Array<ConversationType>;
-  receivedFriendsRequest: Array<ConversationListItemPropsType>;
-  receivedFriendRequestCount: number;
-  sentFriendsRequest: Array<ConversationListItemPropsType>;
-
+  contacts: Array<ConversationType>;
   searchResults?: SearchResultsProps;
 
   updateSearchTerm: (searchTerm: string) => void;
@@ -45,7 +41,6 @@ interface State {
   showAddContactView: boolean;
   selectedTab: number;
   addContactRecipientID: string;
-  showFriendRequestsPopup: boolean;
   pubKeyPasted: string;
 }
 
@@ -59,7 +54,6 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
       selectedTab: 0,
       addContactRecipientID: '',
       pubKeyPasted: '',
-      showFriendRequestsPopup: false,
     };
 
     this.debouncedSearch = debounce(this.search.bind(this), 20);
@@ -67,9 +61,6 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
     this.handleOnAddContact = this.handleOnAddContact.bind(this);
     this.handleRecipientSessionIDChanged = this.handleRecipientSessionIDChanged.bind(
-      this
-    );
-    this.handleToggleFriendRequestPopup = this.handleToggleFriendRequestPopup.bind(
       this
     );
   }
@@ -84,17 +75,15 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   }
 
   public renderHeader(): JSX.Element | undefined {
-    const { receivedFriendRequestCount } = this.props;
-    // The feature "organize your friends as custom list" is not included in the first release
-    const labels = [window.i18n('contactsHeader') /*, window.i18n('lists')*/];
+    const labels = [window.i18n('contactsHeader')];
 
     return LeftPane.RENDER_HEADER(
       labels,
       this.handleTabSelected,
       undefined,
       undefined,
-      this.handleToggleFriendRequestPopup,
-      receivedFriendRequestCount
+      undefined,
+      undefined
     );
   }
 
@@ -117,37 +106,13 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     );
   }
 
-  public renderRowFriendRequest = ({
-    index,
-    key,
-    style,
-  }: RowRendererParamsType): JSX.Element | undefined => {
-    const receivedFriendsRequest = this.props.receivedFriendsRequest;
-
-    const item = receivedFriendsRequest[index];
-    const onClick = this.props.openConversationInternal;
-
-    return (
-      <ConversationListItem
-        key={key}
-        style={style}
-        {...item}
-        i18n={window.i18n}
-        onClick={onClick}
-      />
-    );
-  };
-
   public renderRow = ({
     index,
     key,
     style,
   }: RowRendererParamsType): JSX.Element | undefined => {
-    const { sentFriendsRequest } = this.props;
-    const contacts = this.props.friends.filter(f => f.type === 'direct');
-    const friends = contacts.filter(c => c.isFriend);
-    const combined = [...sentFriendsRequest, ...friends];
-    const item = combined[index];
+    const contacts = this.getDirectContactsOnly();
+    const item = contacts[index];
 
     return (
       <ConversationListItem
@@ -222,12 +187,6 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     }));
   }
 
-  private handleToggleFriendRequestPopup() {
-    this.setState((prevState: { showFriendRequestsPopup: boolean }) => ({
-      showFriendRequestsPopup: !prevState.showFriendRequestsPopup,
-    }));
-  }
-
   private handleOnAddContact() {
     const sessionID = this.state.addContactRecipientID.trim();
     const error = validateNumber(sessionID, window.i18n);
@@ -248,16 +207,9 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   }
 
   private renderContacts() {
-    const { showFriendRequestsPopup } = this.state;
-    const hasReceivedFriendRequest =
-      this.props.receivedFriendsRequest.length > 0;
-
     return (
       <div className="left-pane-contact-content">
         {this.renderList()}
-        {showFriendRequestsPopup &&
-          hasReceivedFriendRequest &&
-          this.renderFriendRequestPopup()}
         {this.renderBottomButtons()}
       </div>
     );
@@ -298,40 +250,13 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     );
   }
 
-  private renderFriendRequestPopup() {
-    const frTitle = window.i18n('youHaveFriendRequestFrom');
-    const length = this.props.receivedFriendsRequest.length;
-
-    return (
-      <div className="module-left-pane__list-popup">
-        <div className="friend-request-title">{frTitle}</div>
-        <div className="module-left-pane__list-popup" key={0}>
-          <AutoSizer>
-            {({ height, width }) => (
-              <List
-                className="module-left-pane__virtual-list"
-                height={height}
-                rowCount={length}
-                rowHeight={64}
-                rowRenderer={this.renderRowFriendRequest}
-                width={width}
-                autoHeight={true}
-              />
-            )}
-          </AutoSizer>
-        </div>
-      </div>
-    );
+  private getDirectContactsOnly() {
+    return this.props.contacts.filter(f => f.type === 'direct');
   }
 
   private renderList() {
-    const { sentFriendsRequest } = this.props;
-
-    const contacts = this.props.friends.filter(f => f.type === 'direct');
-    const friends = contacts.filter(c => c.isFriend);
-    const length = Number(sentFriendsRequest.length) + Number(friends.length);
-
-    const combined = [...sentFriendsRequest, ...friends];
+    const contacts = this.getDirectContactsOnly();
+    const length = Number(contacts.length);
 
     const list = (
       <div className="module-left-pane__list" key={0}>
@@ -341,7 +266,6 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
               className="module-left-pane__virtual-list"
               height={height}
               rowCount={length}
-              combined={combined}
               rowHeight={64}
               rowRenderer={this.renderRow}
               width={width}

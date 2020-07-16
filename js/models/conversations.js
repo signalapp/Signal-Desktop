@@ -4,7 +4,7 @@
   log,
   i18n,
   Backbone,
-  libloki,
+  libsession,
   ConversationController,
   MessageController,
   storage,
@@ -50,9 +50,6 @@
     deleteAttachmentData,
   } = window.Signal.Migrations;
 
-  // Possible conversation friend states
-  const FriendRequestStatusEnum = window.friends.friendRequestStatusEnum;
-
   // Possible session reset states
   const SessionResetEnum = Object.freeze({
     // No ongoing reset
@@ -83,10 +80,7 @@
       return {
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
-        friendRequestStatus: FriendRequestStatusEnum.none,
-        unlockTimestamp: null, // Timestamp used for expiring friend requests.
         sessionResetStatus: SessionResetEnum.none,
-        swarmNodes: [],
         groupAdmins: [],
         isKickedFromGroup: false,
         isOnline: false,
@@ -181,10 +175,6 @@
       this.typingRefreshTimer = null;
       this.typingPauseTimer = null;
 
-      if (this.id === this.ourNumber) {
-        this.set({ friendRequestStatus: FriendRequestStatusEnum.friends });
-      }
-
       this.messageSendQueue = new JobQueue();
 
       this.selectedMessages = new Set();
@@ -211,10 +201,9 @@
         return true;
       }
 
-      const ourDevices = await window.libloki.storage.getPairedDevicesFor(
-        this.ourNumber
+      return window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+        this.id
       );
-      return ourDevices.includes(this.id);
     },
     isOurLocalDevice() {
       return this.id === this.ourNumber;
@@ -234,61 +223,57 @@
       return !!(this.id && this.id.match(/^rss:/));
     },
     isBlocked() {
-      return BlockedNumberController.isBlocked(this.id);
+      if (!this.id || this.isMe()) {
+        return false;
+      }
+
+      if (this.isClosedGroup()) {
+        return BlockedNumberController.isGroupBlocked(this.id);
+      }
+
+      if (this.isPrivate()) {
+        const primary = this.getPrimaryDevicePubKey();
+        return BlockedNumberController.isBlocked(primary);
+      }
+
+      return false;
     },
     isMediumGroup() {
       return this.get('is_medium_group');
     },
-    block() {
-      BlockedNumberController.block(this.id);
-      this.trigger('change');
-      this.messageCollection.forEach(m => m.trigger('change'));
-    },
-    unblock() {
-      BlockedNumberController.unblock(this.id);
-      this.trigger('change');
-      this.messageCollection.forEach(m => m.trigger('change'));
-    },
-    async acceptFriendRequest() {
-      // Friend request message conmfirmations (Accept / Decline) are always
-      // sent to the primary device conversation
-      const messages = await window.Signal.Data.getMessagesByConversation(
-        this.getPrimaryDevicePubKey(),
-        {
-          limit: 5,
-          MessageCollection: Whisper.MessageCollection,
-          type: 'friend-request',
-        }
-      );
+    async block() {
+      if (!this.id || this.isPublic() || this.isRss()) {
+        return;
+      }
 
-      let lastMessage = null;
-      messages.forEach(m => {
-        m.acceptFriendRequest();
-        lastMessage = m;
-      });
-
-      if (lastMessage) {
-        await this.markRead();
-        window.Whisper.events.trigger(
-          'showConversation',
-          this.id,
-          lastMessage.id
-        );
+      const promise = this.isPrivate()
+        ? BlockedNumberController.block(this.id)
+        : BlockedNumberController.blockGroup(this.id);
+      await promise;
+      this.trigger('change', this);
+      this.messageCollection.forEach(m => m.trigger('change'));
+      this.updateTextInputState();
+      if (this.isPrivate()) {
+        await textsecure.messaging.sendContactSyncMessage([this]);
+      } else {
+        await textsecure.messaging.sendGroupSyncMessage([this]);
       }
     },
-    async declineFriendRequest() {
-      const messages = await window.Signal.Data.getMessagesByConversation(
-        this.id,
-        {
-          limit: 1,
-          MessageCollection: Whisper.MessageCollection,
-          type: 'friend-request',
-        }
-      );
-
-      const lastMessageModel = messages.at(0);
-      if (lastMessageModel) {
-        lastMessageModel.declineFriendRequest();
+    async unblock() {
+      if (!this.id || this.isPublic() || this.isRss()) {
+        return;
+      }
+      const promise = this.isPrivate()
+        ? BlockedNumberController.unblock(this.id)
+        : BlockedNumberController.unblockGroup(this.id);
+      await promise;
+      this.trigger('change', this);
+      this.messageCollection.forEach(m => m.trigger('change'));
+      this.updateTextInputState();
+      if (this.isPrivate()) {
+        await textsecure.messaging.sendContactSyncMessage([this]);
+      } else {
+        await textsecure.messaging.sendGroupSyncMessage([this]);
       }
     },
     setMessageSelectionBackdrop() {
@@ -363,9 +348,22 @@
     },
 
     async bumpTyping() {
-      // We don't send typing messages if the setting is disabled or we aren't friends
-      const hasFriendDevice = await this.isFriendWithAnyDevice();
-      if (!storage.get('typing-indicators-setting') || !hasFriendDevice) {
+      if (this.isPublic()) {
+        window.console.debug('public conversation... No need to bumpTyping');
+        return;
+      }
+      // We don't send typing messages if the setting is disabled or we do not have a session
+      // or we blocked that user
+      const devicePubkey = new libsession.Types.PubKey(this.id);
+      const hasSession = await libsession.Protocols.SessionProtocol.hasSession(
+        devicePubkey
+      );
+
+      if (
+        !storage.get('typing-indicators-setting') ||
+        !hasSession ||
+        this.isBlocked()
+      ) {
         return;
       }
 
@@ -432,21 +430,42 @@
 
       const groupId = !this.isPrivate() ? this.id : null;
       const recipientId = this.isPrivate() ? this.id : null;
-      const groupNumbers = this.getRecipients();
 
-      const sendOptions = this.getSendOptions();
-      sendOptions.messageType = 'typing';
-      this.wrapSend(
-        textsecure.messaging.sendTypingMessage(
-          {
-            isTyping,
-            recipientId,
-            groupId,
-            groupNumbers,
-          },
-          sendOptions
-        )
+      // We don't want to send typing messages to our other devices, but we will
+      //   in the group case.
+      const primaryDevicePubkey = window.storage.get('primaryDevicePubKey');
+      if (recipientId && primaryDevicePubkey === recipientId) {
+        return;
+      }
+
+      if (!recipientId && !groupId) {
+        throw new Error('Need to provide either recipientId or groupId!');
+      }
+
+      const typingParams = {
+        timestamp: Date.now(),
+        isTyping,
+        typingTimestamp: Date.now(),
+        groupId, // might be null
+      };
+      const typingMessage = new libsession.Messages.Outgoing.TypingMessage(
+        typingParams
       );
+
+      // send the message to a single recipient if this is a session chat
+      if (this.isPrivate) {
+        const device = new libsession.Types.PubKey(recipientId);
+        libsession
+          .getMessageQueue()
+          .sendUsingMultiDevice(device, typingMessage)
+          .catch(log.error);
+      } else {
+        // the recipients on the case of a group are found by the messageQueue using message.groupId
+        libsession
+          .getMessageQueue()
+          .sendToGroup(typingMessage)
+          .catch(log.error);
+      }
     },
 
     async cleanup() {
@@ -549,36 +568,6 @@
         : `${message.source}.${message.sourceDevice}`;
       this.clearContactTypingTimer(identifier);
     },
-
-    // This goes through all our message history and finds a friend request
-    async getFriendRequests(direction = null, status = ['pending']) {
-      // Theoretically all our messages could be friend requests,
-      // thus we have to unfortunately go through each one :(
-      const messages = await window.Signal.Data.getMessagesByConversation(
-        this.id,
-        {
-          type: 'friend-request',
-          MessageCollection: Whisper.MessageCollection,
-        }
-      );
-
-      if (typeof status === 'string') {
-        // eslint-disable-next-line no-param-reassign
-        status = [status];
-      }
-      // Get the pending friend requests that match the direction
-      // If no direction is supplied then return all pending friend requests
-      return messages.models.filter(m => {
-        if (!status.includes(m.get('friendStatus'))) {
-          return false;
-        }
-        return direction === null || m.get('direction') === direction;
-      });
-    },
-    async getPendingFriendRequests(direction = null) {
-      return this.getFriendRequests(direction, ['pending']);
-    },
-
     addSingleMessage(message, setToExpire = true) {
       const model = this.messageCollection.add(message, { merge: true });
       if (setToExpire) {
@@ -614,9 +603,6 @@
         title: this.getTitle(),
         unreadCount: this.get('unreadCount') || 0,
         mentionedUs: this.get('mentionedUs') || false,
-        isPendingFriendRequest: this.isPendingFriendRequest(),
-        hasReceivedFriendRequest: this.hasReceivedFriendRequest(),
-        hasSentFriendRequest: this.hasSentFriendRequest(),
         isBlocked: this.isBlocked(),
         isSecondary: !!this.get('secondaryStatus'),
         primaryDevice: this.getPrimaryDevicePubKey(),
@@ -630,7 +616,6 @@
         },
         isOnline: this.isOnline(),
         hasNickname: !!this.getNickname(),
-        isFriend: !!this.isFriendWithAnyCache,
 
         selectedMessages: this.selectedMessages,
 
@@ -643,11 +628,7 @@
         onDeleteContact: () => this.deleteContact(),
         onDeleteMessages: () => this.deleteMessages(),
         onCloseOverlay: () => this.resetMessageSelection(),
-        acceptFriendRequest: () => this.acceptFriendRequest(),
-        declineFriendRequest: () => this.declineFriendRequest(),
       };
-
-      this.updateAsyncPropsCache();
 
       return result;
     },
@@ -759,7 +740,7 @@
         await this.sendVerifySyncMessage(this.id, verified);
       }
     },
-    sendVerifySyncMessage(number, state) {
+    async sendVerifySyncMessage(number, state) {
       // Because syncVerification sends a (null) message to the target of the verify and
       //   a sync message to our own devices, we need to send the accessKeys down for both
       //   contacts. So we merge their sendOptions.
@@ -767,15 +748,10 @@
         this.ourNumber,
         { syncMessage: true }
       );
-      const contactSendOptions = this.getSendOptions();
-      const options = Object.assign({}, sendOptions, contactSendOptions);
+      const options = Object.assign({}, sendOptions, {});
 
-      const promise = textsecure.storage.protocol.loadIdentityKey(number);
-      return promise.then(key =>
-        this.wrapSend(
-          textsecure.messaging.syncVerification(number, state, key, options)
-        )
-      );
+      const key = await textsecure.storage.protocol.loadIdentityKey(number);
+      return textsecure.messaging.syncVerification(number, state, key, options);
     },
     isVerified() {
       if (this.isPrivate()) {
@@ -792,99 +768,24 @@
         return contact.isVerified();
       });
     },
-    isFriendRequestStatusNone() {
-      return this.get('friendRequestStatus') === FriendRequestStatusEnum.none;
-    },
-    isFriendRequestStatusNoneOrExpired() {
-      const status = this.get('friendRequestStatus');
-      return (
-        status === FriendRequestStatusEnum.none ||
-        status === FriendRequestStatusEnum.requestExpired
-      );
-    },
-    isPendingFriendRequest() {
-      const status = this.get('friendRequestStatus');
-      return (
-        status === FriendRequestStatusEnum.requestSent ||
-        status === FriendRequestStatusEnum.requestReceived ||
-        status === FriendRequestStatusEnum.pendingSend
-      );
-    },
-    hasSentFriendRequest() {
-      const status = this.get('friendRequestStatus');
-      return (
-        status === FriendRequestStatusEnum.pendingSend ||
-        status === FriendRequestStatusEnum.requestSent
-      );
-    },
-    hasReceivedFriendRequest() {
-      return (
-        this.get('friendRequestStatus') ===
-        FriendRequestStatusEnum.requestReceived
-      );
-    },
-    isFriend() {
-      return (
-        this.get('friendRequestStatus') === FriendRequestStatusEnum.friends
-      );
-    },
-    async getAnyDeviceFriendRequestStatus() {
-      const secondaryDevices = await window.libloki.storage.getSecondaryDevicesFor(
-        this.id
-      );
-      const allDeviceStatus = secondaryDevices
-        // Get all the secondary device friend status'
-        .map(pubKey => {
-          const conversation = ConversationController.get(pubKey);
-          if (!conversation) {
-            return FriendRequestStatusEnum.none;
-          }
-          return conversation.getFriendRequestStatus();
-        })
-        // Also include this conversation's friend status
-        .concat(this.get('friendRequestStatus'))
-        .reduce((acc, cur) => {
-          if (
-            acc === FriendRequestStatusEnum.friends ||
-            cur === FriendRequestStatusEnum.friends
-          ) {
-            return FriendRequestStatusEnum.friends;
-          }
-          if (acc !== FriendRequestStatusEnum.none) {
-            return acc;
-          }
-          return cur;
-        }, FriendRequestStatusEnum.none);
-      return allDeviceStatus;
-    },
-    async updateAsyncPropsCache() {
-      const isFriendWithAnyDevice = await this.isFriendWithAnyDevice();
-      if (this.isFriendWithAnyCache !== isFriendWithAnyDevice) {
-        this.isFriendWithAnyCache = isFriendWithAnyDevice;
-        this.trigger('change');
-      }
-    },
-    async isFriendWithAnyDevice() {
-      const allDeviceStatus = await this.getAnyDeviceFriendRequestStatus();
-      return allDeviceStatus === FriendRequestStatusEnum.friends;
-    },
-    getFriendRequestStatus() {
-      return this.get('friendRequestStatus');
-    },
     async getPrimaryConversation() {
       if (!this.isSecondaryDevice()) {
         // This is already the primary conversation
         return this;
       }
-      const authorisation = await window.libloki.storage.getAuthorisationForSecondaryPubKey(
-        this.id
-      );
-      if (authorisation) {
+
+      const device = window.libsession.Types.PubKey.from(this.id);
+      if (device) {
+        const primary = await window.libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+          device
+        );
+
         return ConversationController.getOrCreateAndWait(
-          authorisation.primaryDevicePubKey,
+          primary.key,
           'private'
         );
       }
+
       // Something funky has happened
       return this;
     },
@@ -900,8 +801,6 @@
         primaryConversation.updateTextInputState();
         return;
       }
-      const allDeviceStatus = await this.getAnyDeviceFriendRequestStatus();
-
       if (this.get('isKickedFromGroup')) {
         this.trigger('disable:input', true);
         return;
@@ -911,25 +810,14 @@
         this.trigger('change:placeholder', 'left-group');
         return;
       }
-      switch (allDeviceStatus) {
-        case FriendRequestStatusEnum.none:
-        case FriendRequestStatusEnum.requestExpired:
-          this.trigger('disable:input', false);
-          this.trigger('change:placeholder', 'friend-request');
-          return;
-        case FriendRequestStatusEnum.pendingSend:
-        case FriendRequestStatusEnum.requestReceived:
-        case FriendRequestStatusEnum.requestSent:
-          this.trigger('disable:input', true);
-          this.trigger('change:placeholder', 'disabled');
-          return;
-        case FriendRequestStatusEnum.friends:
-          this.trigger('disable:input', false);
-          this.trigger('change:placeholder', 'chat');
-          return;
-        default:
-          throw new Error('Invalid friend request state');
+      if (this.isBlocked()) {
+        this.trigger('disable:input', true);
+        this.trigger('change:placeholder', 'blocked-user');
+        return;
       }
+      // otherwise, enable the input and set default placeholder
+      this.trigger('disable:input', false);
+      this.trigger('change:placeholder', 'chat');
     },
     isSecondaryDevice() {
       return !!this.get('secondaryStatus');
@@ -948,253 +836,11 @@
         });
       }
     },
-    async setFriendRequestStatus(newStatus, options = {}) {
-      const { blockSync } = options;
-      // Ensure that the new status is a valid FriendStatusEnum value
-      if (!(newStatus in Object.values(FriendRequestStatusEnum))) {
-        return;
-      }
-      if (
-        this.ourNumber === this.id &&
-        newStatus !== FriendRequestStatusEnum.friends
-      ) {
-        return;
-      }
-      if (this.get('friendRequestStatus') !== newStatus) {
-        this.set({ friendRequestStatus: newStatus });
-        if (newStatus === FriendRequestStatusEnum.friends) {
-          if (!blockSync) {
-            // Sync contact
-            this.wrapSend(textsecure.messaging.sendContactSyncMessage([this]));
-          }
-          // Only enable sending profileKey after becoming friends
-          this.set({ profileSharing: true });
-        }
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
-        await this.updateTextInputState();
-      }
-    },
     async updateGroupAdmins(groupAdmins) {
       this.set({ groupAdmins });
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
         Conversation: Whisper.Conversation,
       });
-    },
-    async updateAllFriendRequestsMessages(options) {
-      const { response, status, direction = null } = options;
-      // Ignore if no response supplied
-      if (!response) {
-        return;
-      }
-
-      // Accept FRs from all the user's devices
-      const allDevices = await libloki.storage.getAllDevicePubKeysForPrimaryPubKey(
-        this.getPrimaryDevicePubKey()
-      );
-
-      if (!allDevices.length) {
-        return;
-      }
-
-      const allConversationsWithUser = allDevices.map(d =>
-        ConversationController.get(d)
-      );
-
-      // Search through each conversation (device) for friend request messages
-      const pendingRequestPromises = allConversationsWithUser.map(
-        async conversation => {
-          const request = (await conversation.getFriendRequests(
-            direction,
-            status
-          ))[0];
-          return { conversation, request };
-        }
-      );
-
-      let pendingRequests = await Promise.all(pendingRequestPromises);
-
-      // Filter out all undefined requests
-      pendingRequests = pendingRequests.filter(p => Boolean(p.request));
-
-      // We set all friend request messages from all devices
-      // from a user here to accepted where possible
-      await Promise.all(
-        pendingRequests.map(async friendRequest => {
-          const { conversation, request } = friendRequest;
-
-          if (request.hasErrors()) {
-            return;
-          }
-
-          request.set({ friendStatus: response });
-          await window.Signal.Data.saveMessage(request.attributes, {
-            Message: Whisper.Message,
-          });
-          conversation.trigger('updateMessage', request);
-        })
-      );
-    },
-    async updateAllPendingFriendRequestsMessages(options) {
-      return this.updateAllFriendRequestsMessages({
-        ...options,
-        status: 'pending',
-      });
-    },
-    async resetPendingSend() {
-      if (
-        this.get('friendRequestStatus') === FriendRequestStatusEnum.pendingSend
-      ) {
-        await this.setFriendRequestStatus(FriendRequestStatusEnum.none);
-      }
-    },
-    // We have declined an incoming friend request
-    async onDeclineFriendRequest() {
-      this.setFriendRequestStatus(FriendRequestStatusEnum.none);
-      await this.updateAllPendingFriendRequestsMessages({
-        response: 'declined',
-        direction: 'incoming',
-      });
-      await window.libloki.storage.removeContactPreKeyBundle(this.id);
-      await this.destroyMessages();
-      window.pushToast({
-        title: i18n('friendRequestDeclined'),
-        type: 'success',
-        id: 'declineFriendRequest',
-      });
-    },
-    // We have accepted an incoming friend request
-    async onAcceptFriendRequest(options = {}) {
-      if (this.get('type') !== Message.PRIVATE) {
-        return;
-      }
-      if (this.unlockTimer) {
-        clearTimeout(this.unlockTimer);
-      }
-      if (this.hasReceivedFriendRequest()) {
-        this.setFriendRequestStatus(FriendRequestStatusEnum.friends, options);
-
-        await this.updateAllFriendRequestsMessages({
-          response: 'accepted',
-          direction: 'incoming',
-          status: ['pending', 'expired'],
-        });
-        window.libloki.api.sendBackgroundMessage(
-          this.id,
-          window.textsecure.OutgoingMessage.DebugMessageType
-            .INCOMING_FR_ACCEPTED
-        );
-      } else if (this.isFriendRequestStatusNoneOrExpired()) {
-        // send AFR if we haven't sent a message before
-        const autoFrMessage = textsecure.OutgoingMessage.buildAutoFriendRequestMessage(
-          this.id
-        );
-        await autoFrMessage.sendToNumber(this.id, false);
-      }
-    },
-    // Our outgoing friend request has been accepted
-    async onFriendRequestAccepted() {
-      if (this.isFriend()) {
-        return false;
-      }
-      if (this.unlockTimer) {
-        clearTimeout(this.unlockTimer);
-      }
-      if (this.hasSentFriendRequest()) {
-        this.setFriendRequestStatus(FriendRequestStatusEnum.friends);
-        await this.updateAllFriendRequestsMessages({
-          response: 'accepted',
-          status: ['pending', 'expired'],
-        });
-        window.libloki.api.sendBackgroundMessage(
-          this.id,
-          window.textsecure.OutgoingMessage.DebugMessageType
-            .OUTGOING_FR_ACCEPTED
-        );
-        return true;
-      }
-      return false;
-    },
-    async onFriendRequestTimeout() {
-      // Unset the timer
-      if (this.unlockTimer) {
-        clearTimeout(this.unlockTimer);
-      }
-      this.unlockTimer = null;
-      if (this.isFriend()) {
-        return;
-      }
-
-      // Set the unlock timestamp to null
-      if (this.get('unlockTimestamp')) {
-        this.set({ unlockTimestamp: null });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
-      }
-
-      // Change any pending outgoing friend requests to expired
-      await this.updateAllPendingFriendRequestsMessages({
-        response: 'expired',
-        direction: 'outgoing',
-      });
-      await this.setFriendRequestStatus(FriendRequestStatusEnum.requestExpired);
-    },
-    async onFriendRequestReceived() {
-      if (this.isFriendRequestStatusNone()) {
-        this.setFriendRequestStatus(FriendRequestStatusEnum.requestReceived);
-      } else if (this.hasSentFriendRequest()) {
-        await Promise.all([
-          this.setFriendRequestStatus(FriendRequestStatusEnum.friends),
-          // Accept all outgoing FR
-          this.updateAllPendingFriendRequestsMessages({
-            direction: 'outgoing',
-            response: 'accepted',
-          }),
-        ]);
-      }
-      // Delete stale incoming friend requests
-      const incoming = await this.getPendingFriendRequests('incoming');
-      await Promise.all(
-        incoming.map(request => this._removeMessage(request.id))
-      );
-      this.trigger('change');
-    },
-    async onFriendRequestSent() {
-      // Check if we need to set the friend request expiry
-      const unlockTimestamp = this.get('unlockTimestamp');
-      if (!this.isFriend() && !unlockTimestamp) {
-        // Expire the messages after 72 hours
-        const hourLockDuration = 72;
-        const ms = 60 * 60 * 1000 * hourLockDuration;
-
-        this.set({ unlockTimestamp: Date.now() + ms });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
-        this.setFriendRequestExpiryTimeout();
-      }
-      await this.setFriendRequestStatus(FriendRequestStatusEnum.requestSent);
-    },
-    friendRequestTimerIsExpired() {
-      const unlockTimestamp = this.get('unlockTimestamp');
-      if (unlockTimestamp && unlockTimestamp > Date.now()) {
-        return false;
-      }
-      return true;
-    },
-    setFriendRequestExpiryTimeout() {
-      if (this.isFriend()) {
-        return;
-      }
-      const unlockTimestamp = this.get('unlockTimestamp');
-      if (unlockTimestamp && !this.unlockTimer) {
-        const delta = Math.max(unlockTimestamp - Date.now(), 0);
-        this.unlockTimer = setTimeout(() => {
-          this.onFriendRequestTimeout();
-        }, delta);
-      }
     },
     isUnverified() {
       if (this.isPrivate()) {
@@ -1585,6 +1231,18 @@
       };
     },
 
+    toOpenGroup() {
+      if (!this.isPublic()) {
+        return undefined;
+      }
+
+      return new libsession.Types.OpenGroup({
+        server: this.get('server'),
+        channel: this.get('channelId'),
+        conversationId: this.id,
+      });
+    },
+
     async sendMessage(
       body,
       attachments,
@@ -1599,11 +1257,6 @@
       const expireTimer = this.get('expireTimer');
       const recipients = this.getRecipients();
 
-      let profileKey;
-      if (this.get('profileSharing')) {
-        profileKey = storage.get('profileKey');
-      }
-
       this.queueJob(async () => {
         const now = Date.now();
 
@@ -1615,80 +1268,25 @@
         );
 
         const conversationType = this.get('type');
+        const messageWithSchema = await upgradeMessageSchema({
+          type: 'outgoing',
+          body,
+          conversationId: destination,
+          quote,
+          preview,
+          attachments,
+          sent_at: now,
+          received_at: now,
+          expireTimer,
+          recipients,
+        });
 
-        let messageWithSchema = null;
-
-        // If we are a friend with any of the devices, send the message normally
-        const canSendNormalMessage = await this.isFriendWithAnyDevice();
-        const isGroup = conversationType === Message.GROUP;
-        if (canSendNormalMessage || isGroup) {
-          messageWithSchema = await upgradeMessageSchema({
-            type: 'outgoing',
-            body,
-            conversationId: destination,
-            quote,
-            preview,
-            attachments,
-            sent_at: now,
-            received_at: now,
-            expireTimer,
-            recipients,
-          });
-        } else {
-          // Check if we have sent a friend request
-          const outgoingRequests = await this.getPendingFriendRequests(
-            'outgoing'
-          );
-          if (outgoingRequests.length > 0) {
-            // Check if the requests have errored, if so then remove them
-            // and send the new request if possible
-            let friendRequestSent = false;
-            const promises = [];
-            outgoingRequests.forEach(outgoing => {
-              if (outgoing.hasErrors()) {
-                promises.push(this._removeMessage(outgoing.id));
-              } else {
-                // No errors = we have sent over the friend request
-                friendRequestSent = true;
-              }
-            });
-            await Promise.all(promises);
-
-            // If the requests didn't error then don't add a new friend request
-            // because one of them was sent successfully
-            if (friendRequestSent) {
-              return null;
-            }
-          }
-          await this.setFriendRequestStatus(
-            FriendRequestStatusEnum.pendingSend
-          );
-
-          // Always share our profileKey in the friend request
-          // This will get added automatically after the FR
-          // is accepted, via the profileSharing flag
-          profileKey = storage.get('profileKey');
-
-          // Send the friend request!
-          messageWithSchema = await upgradeMessageSchema({
-            type: 'friend-request',
-            body,
-            conversationId: destination,
-            sent_at: now,
-            received_at: now,
-            expireTimer,
-            recipients,
-            direction: 'outgoing',
-            friendStatus: 'pending',
-          });
-        }
-
-        if (this.isPrivate()) {
-          messageWithSchema.destination = destination;
-        } else if (this.isPublic()) {
+        if (this.isPublic()) {
           // Public chats require this data to detect duplicates
           messageWithSchema.source = textsecure.storage.user.getNumber();
           messageWithSchema.sourceDevice = 1;
+        } else {
+          messageWithSchema.destination = destination;
         }
 
         const { sessionRestoration = false } = otherOptions;
@@ -1740,96 +1338,126 @@
           return null;
         }
 
-        const attachmentsWithData = await Promise.all(
-          messageWithSchema.attachments.map(loadAttachmentData)
-        );
+        try {
+          const uploads = await message.uploadData();
 
-        const {
-          body: messageBody,
-          attachments: finalAttachments,
-        } = Whisper.Message.getLongMessageAttachment({
-          body,
-          attachments: attachmentsWithData,
-          now,
-        });
-
-        // Special-case the self-send case - we send only a sync message
-        if (this.isMe()) {
-          const dataMessage = await textsecure.messaging.getMessageProto(
-            destination,
-            messageBody,
-            finalAttachments,
-            quote,
-            preview,
-            now,
+          const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+            body: uploads.body,
+            identifier: id,
+            timestamp: now,
+            attachments: uploads.attachments,
             expireTimer,
-            profileKey
-          );
-          return message.sendSyncMessageOnly(dataMessage);
-        }
+            preview: uploads.preview,
+            quote: uploads.quote,
+            lokiProfile: this.getOurProfile(),
+          });
 
-        const options = this.getSendOptions();
-        options.messageType = message.get('type');
-        options.isPublic = this.isPublic();
-        if (options.isPublic) {
-          options.publicSendData = await this.getPublicSendData();
-        }
+          if (this.isMe()) {
+            return message.sendSyncMessageOnly(chatMessage);
+          }
+          const options = {};
 
-        options.groupInvitation = groupInvitation;
-        options.sessionRestoration = sessionRestoration;
+          options.messageType = message.get('type');
+          options.isPublic = this.isPublic();
+          if (this.isPublic()) {
+            const openGroup = this.toOpenGroup();
 
-        const groupNumbers = this.getRecipients();
+            const openGroupParams = {
+              body,
+              timestamp: now,
+              group: openGroup,
+              attachments: uploads.attachments,
+              preview: uploads.preview,
+              quote: uploads.quote,
+              identifier: id,
+            };
+            const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
+              openGroupParams
+            );
+            await libsession.getMessageQueue().sendToGroup(openGroupMessage);
 
-        const promise = (() => {
-          switch (conversationType) {
-            case Message.PRIVATE:
-              return textsecure.messaging.sendMessageToNumber(
-                destination,
-                messageBody,
-                finalAttachments,
-                quote,
-                preview,
-                now,
-                expireTimer,
-                profileKey,
-                options
+            return null;
+          }
+
+          options.sessionRestoration = sessionRestoration;
+          const destinationPubkey = new libsession.Types.PubKey(destination);
+          // Handle Group Invitation Message
+          if (groupInvitation) {
+            if (conversationType !== Message.PRIVATE) {
+              window.console.warning('Cannot send groupInvite to group chat');
+
+              return null;
+            }
+
+            const groupInvitMessage = new libsession.Messages.Outgoing.GroupInvitationMessage(
+              {
+                identifier: id,
+                timestamp: Date.now(),
+                serverName: groupInvitation.name,
+                channelId: groupInvitation.channelId,
+                serverAddress: groupInvitation.address,
+              }
+            );
+
+            return libsession
+              .getMessageQueue()
+              .sendUsingMultiDevice(destinationPubkey, groupInvitMessage);
+          }
+
+          if (conversationType === Message.PRIVATE) {
+            return libsession
+              .getMessageQueue()
+              .sendUsingMultiDevice(destinationPubkey, chatMessage);
+          }
+
+          if (conversationType === Message.GROUP) {
+            const members = this.get('members');
+            if (this.isMediumGroup()) {
+              const mediumGroupChatMessage = new libsession.Messages.Outgoing.MediumGroupChatMessage(
+                {
+                  chatMessage,
+                  groupId: destination,
+                }
               );
-            case Message.GROUP: {
-              let dest = destination;
-              let numbers = groupNumbers;
 
-              if (this.isMediumGroup()) {
-                dest = this.id;
-                numbers = [destination];
-                options.isMediumGroup = true;
+              await libsession
+                .getMessageQueue()
+                .send(destinationPubkey, mediumGroupChatMessage);
+            } else {
+              const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
+                {
+                  chatMessage,
+                  groupId: destination,
+                }
+              );
+
+              // Special-case the self-send case - we send only a sync message
+              if (members.length === 1) {
+                const isOurDevice = await libsession.Protocols.MultiDeviceProtocol.isOurDevice(
+                  members[0]
+                );
+                if (isOurDevice) {
+                  await message.sendSyncMessageOnly(closedGroupChatMessage);
+                  return true;
+                }
               }
 
-              return textsecure.messaging.sendMessageToGroup(
-                dest,
-                numbers,
-                messageBody,
-                finalAttachments,
-                quote,
-                preview,
-                now,
-                expireTimer,
-                profileKey,
-                options
-              );
+              await libsession
+                .getMessageQueue()
+                .sendToGroup(closedGroupChatMessage);
             }
-            default:
-              throw new TypeError(
-                `Invalid conversation type: '${conversationType}'`
-              );
+          } else {
+            throw new TypeError(
+              `Invalid conversation type: '${conversationType}'`
+            );
           }
-        })();
 
-        // Add the message sending on another queue so that our UI doesn't get blocked
-        this.queueMessageSend(async () => {
-          message.send(this.wrapSend(promise));
-        });
+          return true;
+        } catch (e) {
+          await message.saveErrors(e);
 
-        return true;
+          return null;
+        }
       });
     },
     wrapSend(promise) {
@@ -1878,15 +1506,7 @@
       await serverAPI.setAvatar(url, profileKey);
     },
 
-    async handleMessageSendResult({
-      failoverNumbers,
-      unidentifiedDeliveries,
-      messageType,
-      success,
-    }) {
-      if (success && messageType === 'friend-request') {
-        await this.onFriendRequestSent();
-      }
+    async handleMessageSendResult({ failoverNumbers, unidentifiedDeliveries }) {
       await Promise.all(
         (failoverNumbers || []).map(async number => {
           const conversation = ConversationController.get(number);
@@ -1941,85 +1561,6 @@
           }
         })
       );
-    },
-
-    getSendOptions(options = {}) {
-      const senderCertificate = storage.get('senderCertificate');
-      const numberInfo = this.getNumberInfo(options);
-
-      return {
-        senderCertificate,
-        numberInfo,
-      };
-    },
-
-    getNumberInfo(options = {}) {
-      const { syncMessage, disableMeCheck } = options;
-
-      if (!this.ourNumber) {
-        return null;
-      }
-
-      // START: this code has an Expiration date of ~2018/11/21
-      // We don't want to enable unidentified delivery for send unless it is
-      //   also enabled for our own account.
-      const me = ConversationController.getOrCreate(this.ourNumber, 'private');
-      if (
-        !disableMeCheck &&
-        me.get('sealedSender') === SEALED_SENDER.DISABLED
-      ) {
-        return null;
-      }
-      // END
-
-      if (!this.isPrivate()) {
-        const infoArray = this.contactCollection.map(conversation =>
-          conversation.getNumberInfo(options)
-        );
-        return Object.assign({}, ...infoArray);
-      }
-
-      const accessKey = this.get('accessKey');
-      const sealedSender = this.get('sealedSender');
-
-      // We never send sync messages as sealed sender
-      if (syncMessage && this.id === this.ourNumber) {
-        return null;
-      }
-
-      // If we've never fetched user's profile, we default to what we have
-      if (sealedSender === SEALED_SENDER.UNKNOWN) {
-        return {
-          [this.id]: {
-            accessKey:
-              accessKey ||
-              window.Signal.Crypto.arrayBufferToBase64(
-                window.Signal.Crypto.getRandomBytes(16)
-              ),
-          },
-        };
-      }
-
-      if (sealedSender === SEALED_SENDER.DISABLED) {
-        return null;
-      }
-
-      return {
-        [this.id]: {
-          accessKey:
-            accessKey && sealedSender === SEALED_SENDER.ENABLED
-              ? accessKey
-              : window.Signal.Crypto.arrayBufferToBase64(
-                  window.Signal.Crypto.getRandomBytes(16)
-                ),
-        },
-      };
-    },
-    async updateSwarmNodes(swarmNodes) {
-      this.set({ swarmNodes });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
     },
     async updateLastMessage() {
       if (!this.id) {
@@ -2120,9 +1661,9 @@
           fromGroupUpdate: options.fromGroupUpdate,
         },
       });
-      if (this.isPrivate()) {
-        message.set({ destination: this.id });
-      }
+
+      message.set({ destination: this.id });
+
       if (message.isOutgoing()) {
         message.set({ recipients: this.getRecipients() });
       }
@@ -2141,47 +1682,47 @@
       if (this.get('profileSharing')) {
         profileKey = storage.get('profileKey');
       }
-      const sendOptions = this.getSendOptions();
-      let promise;
+
+      const expireUpdate = {
+        identifier: id,
+        timestamp: message.get('sent_at'),
+        expireTimer,
+        profileKey,
+      };
 
       if (this.isMe()) {
-        const flags =
-          textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
-        const dataMessage = await textsecure.messaging.getMessageProto(
-          this.get('id'),
-          null,
-          [],
-          null,
-          [],
-          message.get('sent_at'),
-          expireTimer,
-          profileKey,
-          flags
+        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+          expireUpdate
         );
-        return message.sendSyncMessageOnly(dataMessage);
+        return message.sendSyncMessageOnly(expirationTimerMessage);
       }
 
       if (this.get('type') === 'private') {
-        promise = textsecure.messaging.sendExpirationTimerUpdateToNumber(
-          this.get('id'),
-          expireTimer,
-          message.get('sent_at'),
-          profileKey,
-          sendOptions
+        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+          expireUpdate
         );
+        const pubkey = new libsession.Types.PubKey(this.get('id'));
+        await libsession
+          .getMessageQueue()
+          .sendUsingMultiDevice(pubkey, expirationTimerMessage);
       } else {
-        promise = textsecure.messaging.sendExpirationTimerUpdateToGroup(
-          this.get('id'),
-          this.getRecipients(),
-          expireTimer,
-          message.get('sent_at'),
-          profileKey,
-          sendOptions
+        expireUpdate.groupId = this.get('id');
+        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+          expireUpdate
         );
+        // special case when we are the only member of a closed group
+        const ourNumber = textsecure.storage.user.getNumber();
+        const primary = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+          ourNumber
+        );
+        if (
+          this.get('members').length === 1 &&
+          this.get('members')[0] === primary.key
+        ) {
+          return message.sendSyncMessageOnly(expirationTimerMessage);
+        }
+        await libsession.getMessageQueue().sendToGroup(expirationTimerMessage);
       }
-
-      await message.send(this.wrapSend(promise));
-
       return message;
     },
 
@@ -2207,10 +1748,12 @@
       await this.setSessionResetStatus(SessionResetEnum.request_received);
       // send empty message, this will trigger the new session to propagate
       // to the reset initiator.
-      window.libloki.api.sendBackgroundMessage(
-        this.id,
-        window.textsecure.OutgoingMessage.DebugMessageType.SESSION_RESET_RECV
+      const user = new libsession.Types.PubKey(this.id);
+
+      const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablishedMessage(
+        { timestamp: Date.now() }
       );
+      await libsession.getMessageQueue().send(user, sessionEstablished);
     },
 
     isSessionResetReceived() {
@@ -2246,10 +1789,12 @@
     async onNewSessionAdopted() {
       if (this.get('sessionResetStatus') === SessionResetEnum.initiated) {
         // send empty message to confirm that we have adopted the new session
-        window.libloki.api.sendBackgroundMessage(
-          this.id,
-          window.textsecure.OutgoingMessage.DebugMessageType.SESSION_RESET
+        const user = new libsession.Types.PubKey(this.id);
+
+        const sessionEstablished = new window.libsession.Messages.Outgoing.SessionEstablishedMessage(
+          { timestamp: Date.now() }
         );
+        await libsession.getMessageQueue().send(user, sessionEstablished);
       }
       await this.createAndStoreEndSessionMessage({
         type: 'incoming',
@@ -2271,16 +1816,20 @@
             type: 'outgoing',
             endSessionType: 'ongoing',
           });
-          const options = this.getSendOptions();
-          await message.send(
-            this.wrapSend(
-              textsecure.messaging.resetSession(
-                this.id,
-                message.get('sent_at'),
-                options
-              )
-            )
+          window.log.info('resetting secure session');
+          const device = new libsession.Types.PubKey(this.id);
+          const preKeyBundle = await window.libloki.storage.getPreKeyBundleForContact(
+            device.key
           );
+          const endSessionMessage = new libsession.Messages.Outgoing.EndSessionMessage(
+            {
+              timestamp: message.get('sent_at'),
+              preKeyBundle,
+            }
+          );
+
+          await libsession.getMessageQueue().send(device, endSessionMessage);
+          // TODO handle errors to reset session reset status with the new pipeline
           if (message.hasErrors()) {
             await this.setSessionResetStatus(SessionResetEnum.none);
           }
@@ -2304,12 +1853,18 @@
         groupUpdate = this.pick(['name', 'avatar', 'members']);
       }
       const now = Date.now();
+
       const message = this.messageCollection.add({
         conversationId: this.id,
         type: 'outgoing',
         sent_at: now,
         received_at: now,
-        group_update: groupUpdate,
+        group_update: _.pick(groupUpdate, [
+          'name',
+          'members',
+          'avatar',
+          'admins',
+        ]),
       });
 
       const messageId = await window.Signal.Data.saveMessage(
@@ -2320,60 +1875,134 @@
       );
       message.set({ id: messageId });
 
-      const options = this.getSendOptions();
+      // TODO: if I added members, it is my responsibility to generate ratchet keys for them
+
+      // Difference between `recipients` and `members` is that `recipients` includes the members which were removed in this update
+      const { id, name, members, avatar, recipients } = groupUpdate;
 
       if (groupUpdate.is_medium_group) {
-        // Constructing a "create group" message
-        const proto = new textsecure.protobuf.DataMessage();
+        const { secretKey, senderKeys } = groupUpdate;
 
-        const mgUpdate = new textsecure.protobuf.MediumGroupUpdate();
-
-        const { id, name, secretKey, senderKey, members } = groupUpdate;
-
-        mgUpdate.type = textsecure.protobuf.MediumGroupUpdate.Type.NEW_GROUP;
-        mgUpdate.groupId = id;
-        mgUpdate.groupSecretKey = secretKey;
-        mgUpdate.senderKey = new textsecure.protobuf.SenderKey(senderKey);
-        mgUpdate.members = members.map(pkHex =>
-          StringView.hexToArrayBuffer(pkHex)
+        const membersBin = members.map(
+          pkHex => new Uint8Array(StringView.hexToArrayBuffer(pkHex))
         );
-        mgUpdate.groupName = name;
-        mgUpdate.admins = this.get('groupAdmins');
-        proto.mediumGroupUpdate = mgUpdate;
-
-        message.send(
-          this.wrapSend(textsecure.messaging.updateMediumGroup(members, proto))
+        const adminsBin = this.get('groupAdmins').map(
+          pkHex => new Uint8Array(StringView.hexToArrayBuffer(pkHex))
         );
+
+        const createParams = {
+          timestamp: now,
+          groupId: id,
+          identifier: messageId,
+          groupSecretKey: secretKey,
+          members: membersBin,
+          groupName: name,
+          admins: adminsBin,
+          senderKeys,
+        };
+
+        const mediumGroupCreateMessage = new libsession.Messages.Outgoing.MediumGroupCreateMessage(
+          createParams
+        );
+
+        members.forEach(async member => {
+          const memberPubKey = new libsession.Types.PubKey(member);
+          libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(memberPubKey, mediumGroupCreateMessage);
+        });
+
         return;
       }
 
-      message.send(
-        this.wrapSend(
-          textsecure.messaging.sendGroupUpdate(
-            this.id,
-            this.get('name'),
-            this.get('avatar'),
-            this.get('members'),
-            this.get('groupAdmins'),
-            groupUpdate.recipients,
-            options
-          )
-        )
+      const updateParams = {
+        // if we do set an identifier here, be sure to not sync the message two times in msg.handleMessageSentSuccess()
+        identifier: messageId,
+        timestamp: now,
+        groupId: id,
+        name: name || this.getName(),
+        avatar,
+        members,
+        admins: this.get('groupAdmins'),
+      };
+      const groupUpdateMessage = new libsession.Messages.Outgoing.ClosedGroupUpdateMessage(
+        updateParams
       );
+
+      await this.sendClosedGroupMessage(
+        groupUpdateMessage,
+        recipients,
+        message
+      );
+
+      // send a expireTimer update message to all add members if the expireTimer is set
+      if (
+        groupUpdate.joined &&
+        groupUpdate.joined.length &&
+        this.get('expireTimer')
+      ) {
+        const expireUpdate = {
+          timestamp: Date.now(),
+          expireTimer: this.get('expireTimer'),
+          groupId: this.get('id'),
+        };
+
+        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+          expireUpdate
+        );
+        await Promise.all(
+          groupUpdate.joined.map(async join => {
+            const device = new libsession.Types.PubKey(join);
+            await libsession
+              .getMessageQueue()
+              .sendUsingMultiDevice(device, expirationTimerMessage)
+              .catch(log.error);
+          })
+        );
+      }
     },
 
-    sendGroupInfo(recipients) {
-      if (this.isClosedGroup()) {
-        const options = this.getSendOptions();
-        textsecure.messaging.sendGroupUpdate(
-          this.id,
-          this.get('name'),
-          this.get('avatar'),
-          this.get('members'),
-          this.get('groupAdmins'),
-          recipients,
-          options
+    async sendGroupInfo(recipient) {
+      // Only send group info if we're a closed group and we haven't left
+      if (this.isClosedGroup() && !this.get('left')) {
+        const updateParams = {
+          timestamp: Date.now(),
+          groupId: this.id,
+          name: this.get('name'),
+          avatar: this.get('avatar'),
+          members: this.get('members'),
+          admins: this.get('groupAdmins'),
+        };
+        const groupUpdateMessage = new libsession.Messages.Outgoing.ClosedGroupUpdateMessage(
+          updateParams
         );
+        const recipientPubKey = new libsession.Types.PubKey(recipient);
+        if (!recipientPubKey) {
+          window.console.warn('sendGroupInfo invalid pubkey:', recipient);
+          return;
+        }
+
+        try {
+          await libsession
+            .getMessageQueue()
+            .send(recipientPubKey, groupUpdateMessage);
+
+          const expireUpdate = {
+            timestamp: Date.now(),
+            expireTimer: this.get('expireTimer'),
+            groupId: this.get('id'),
+          };
+
+          const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+            expireUpdate
+          );
+
+          await libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(recipientPubKey, expirationTimerMessage);
+        } catch (e) {
+          log.error('Failed to send groupInfo:', e);
+        }
       }
     },
 
@@ -2385,11 +2014,10 @@
         // and its secret key, but it is low priority
 
         // TODO: need to reset everyone's sender keys
-        window.lokiMessageAPI.stopPollingForGroup(this.id);
+        window.SwarmPolling.removePubkey(this.id);
       }
 
       if (this.get('type') === 'group') {
-        const groupNumbers = this.getRecipients();
         this.set({ left: true });
 
         await window.Signal.Data.updateConversation(this.id, this.attributes, {
@@ -2409,14 +2037,64 @@
         });
         message.set({ id });
 
-        const options = this.getSendOptions();
-        message.send(
-          this.wrapSend(
-            textsecure.messaging.leaveGroup(this.id, groupNumbers, options)
-          )
+        // FIXME what about public groups?
+        const quitGroup = {
+          identifier: id,
+          timestamp: now,
+          groupId: this.id,
+          // if we do set an identifier here, be sure to not sync it a second time in handleMessageSentSuccess()
+        };
+        const quitGroupMessage = new libsession.Messages.Outgoing.ClosedGroupLeaveMessage(
+          quitGroup
         );
 
+        await this.sendClosedGroupMessage(quitGroupMessage, undefined, message);
+
         this.updateTextInputState();
+      }
+    },
+
+    async sendClosedGroupMessage(message, recipients, dbMessage) {
+      const {
+        ClosedGroupMessage,
+        ClosedGroupChatMessage,
+      } = libsession.Messages.Outgoing;
+      if (!(message instanceof ClosedGroupMessage)) {
+        throw new Error('Invalid closed group message.');
+      }
+
+      // Sync messages for Chat Messages need to be constructed after confirming send was successful.
+      if (message instanceof ClosedGroupChatMessage) {
+        throw new Error(
+          'ClosedGroupChatMessage should be constructed manually and sent'
+        );
+      }
+
+      const members = recipients || this.get('members');
+
+      try {
+        // Exclude our device from members and send them the message
+        const ourNumber = textsecure.storage.user.getNumber();
+        const primary = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+          ourNumber
+        );
+        const otherMembers = (members || []).filter(
+          member => !primary.isEqual(member)
+        );
+        // we are the only member in here
+        if (members.length === 1 && members[0] === primary.key) {
+          dbMessage.sendSyncMessageOnly(message);
+          return;
+        }
+        const sendPromises = otherMembers.map(member => {
+          const memberPubKey = libsession.Types.PubKey.cast(member);
+          return libsession
+            .getMessageQueue()
+            .sendUsingMultiDevice(memberPubKey, message);
+        });
+        await Promise.all(sendPromises);
+      } catch (e) {
+        window.log.error(e);
       }
     },
 
@@ -2492,8 +2170,18 @@
       //      conversation is viewed, another error message shows up for the contact
       read = read.filter(item => !item.hasErrors);
 
-      // Do not send read receipt if not friends yet
-      if (!this.isFriendWithAnyDevice()) {
+      if (this.isPublic()) {
+        window.console.debug(
+          'public conversation... No need to send read receipt'
+        );
+        return;
+      }
+
+      const devicePubkey = new libsession.Types.PubKey(this.id);
+      const hasSession = await libsession.Protocols.SessionProtocol.hasSession(
+        devicePubkey
+      );
+      if (!hasSession) {
         return;
       }
 
@@ -2505,26 +2193,27 @@
           this.ourNumber,
           { syncMessage: true }
         );
-        await this.wrapSend(
-          textsecure.messaging.syncReadMessages(read, sendOptions)
-        );
+        await textsecure.messaging.syncReadMessages(read, sendOptions);
 
-        if (storage.get('read-receipt-setting')) {
-          const convoSendOptions = this.getSendOptions();
+        // FIXME AUDRIC
+        // if (storage.get('read-receipt-setting')) {
+        //   await Promise.all(
+        //     _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
+        //       const timestamps = _.map(receipts, 'timestamp');
+        //       const receiptMessage = new libsession.Messages.Outgoing.ReadReceiptMessage(
+        //         {
+        //           timestamp: Date.now(),
+        //           timestamps,
+        //         }
+        //       );
 
-          await Promise.all(
-            _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
-              const timestamps = _.map(receipts, 'timestamp');
-              await this.wrapSend(
-                textsecure.messaging.sendReadReceipts(
-                  sender,
-                  timestamps,
-                  convoSendOptions
-                )
-              );
-            })
-          );
-        }
+        //       const device = new libsession.Types.PubKey(sender);
+        //       await libsession
+        //         .getMessageQueue()
+        //         .sendUsingMultiDevice(device, receiptMessage);
+        //     })
+        //   );
+        // }
       }
     },
 
@@ -2593,7 +2282,7 @@
         this.get('server') !== newServer ||
         this.get('channelId') !== newChannelId
       ) {
-        // mark active so it's not in the friends list but the conversation list
+        // mark active so it's not in the contacts list but in the conversation list
         this.set({
           server: newServer,
           channelId: newChannelId,
@@ -2986,11 +2675,6 @@
         });
       }
 
-      // Reset our friend status if we're not friends
-      if (!this.isFriend()) {
-        this.set({ friendRequestStatus: FriendRequestStatusEnum.none });
-      }
-
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
         Conversation: Whisper.Conversation,
       });
@@ -3036,6 +2720,30 @@
       }
 
       return this.getNumber();
+    },
+    /**
+     * Returns
+     *   displayName: string;
+     *   avatarPointer: string;
+     *   profileKey: Uint8Array;
+     */
+    getOurProfile() {
+      try {
+        // Secondary devices have their profile stored
+        // in their primary device's conversation
+        const ourNumber = window.storage.get('primaryDevicePubKey');
+        const ourConversation = window.ConversationController.get(ourNumber);
+        let profileKey = null;
+        if (this.get('profileSharing')) {
+          profileKey = new Uint8Array(storage.get('profileKey'));
+        }
+        const avatarPointer = ourConversation.get('avatarPointer');
+        const { displayName } = ourConversation.getLokiProfile();
+        return { displayName, avatarPointer, profileKey };
+      } catch (e) {
+        window.log.error(`Failed to get our profile: ${e}`);
+        return null;
+      }
     },
 
     getNumber() {
@@ -3114,12 +2822,6 @@
     },
 
     notify(message) {
-      if (message.isFriendRequest()) {
-        if (this.hasSentFriendRequest()) {
-          return this.notifyFriendRequest(message.get('source'), 'accepted');
-        }
-        return this.notifyFriendRequest(message.get('source'), 'requested');
-      }
       if (!message.isIncoming()) {
         return Promise.resolve();
       }
@@ -3152,55 +2854,6 @@
         })
       );
     },
-    // Notification for friend request received
-    async notifyFriendRequest(source, type) {
-      // Data validation
-      if (!source) {
-        throw new Error('Invalid source');
-      }
-      if (!['accepted', 'requested'].includes(type)) {
-        throw new Error('Type must be accepted or requested.');
-      }
-
-      // Call the notification on the right conversation
-      let conversation = this;
-      if (conversation.id !== source) {
-        try {
-          conversation = await ConversationController.getOrCreateAndWait(
-            source,
-            'private'
-          );
-          window.log.info(`Notify called on a different conversation.
-                           Expected: ${this.id}. Actual: ${conversation.id}`);
-        } catch (e) {
-          throw new Error('Failed to fetch conversation.');
-        }
-      }
-
-      const isTypeAccepted = type === 'accepted';
-      const title = isTypeAccepted
-        ? 'friendRequestAcceptedNotificationTitle'
-        : 'friendRequestNotificationTitle';
-      const message = isTypeAccepted
-        ? 'friendRequestAcceptedNotificationMessage'
-        : 'friendRequestNotificationMessage';
-
-      const iconUrl = await conversation.getNotificationIcon();
-      // window.log.info('Add notification for friend request updated', {
-      //   conversationId: conversation.idForLogging(),
-      // });
-      Whisper.Notifications.add({
-        conversationId: conversation.id,
-        iconUrl,
-        isExpiringMessage: false,
-        message: i18n(message, conversation.getTitle()),
-        messageSentAt: Date.now(),
-        title: i18n(title),
-        isFriendRequest: true,
-        friendRequestType: type,
-      });
-    },
-
     notifyTyping(options = {}) {
       const { isTyping, sender, senderDevice } = options;
 

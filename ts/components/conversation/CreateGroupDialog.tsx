@@ -17,13 +17,13 @@ interface Props {
   titleText: string;
   okText: string;
   cancelText: string;
-  friendList: Array<any>;
+  contactList: Array<any>;
   i18n: any;
   onClose: any;
 }
 
 interface State {
-  friendList: Array<Contact>;
+  contactList: Array<Contact>;
   groupName: string;
   errorDisplayed: boolean;
   errorMessage: string;
@@ -39,9 +39,9 @@ export class CreateGroupDialog extends React.Component<Props, State> {
     this.closeDialog = this.closeDialog.bind(this);
     this.onGroupNameChanged = this.onGroupNameChanged.bind(this);
 
-    let friends = this.props.friendList;
+    let contacts = this.props.contactList;
 
-    friends = friends.map(d => {
+    contacts = contacts.map(d => {
       const lokiProfile = d.getLokiProfile();
       const name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
 
@@ -57,7 +57,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
     });
 
     this.state = {
-      friendList: friends,
+      contactList: contacts,
       groupName: '',
       errorDisplayed: false,
       // if empty, the initial height is 0, which is not desirable
@@ -68,7 +68,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
   }
 
   public onClickOK() {
-    const members = this.state.friendList
+    const members = this.state.contactList
       .filter(d => d.checkmarked)
       .map(d => d.id);
 
@@ -118,7 +118,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
         />
         <div className="friend-selection-list">
           <MemberList
-            members={this.state.friendList}
+            members={this.state.contactList}
             selected={{}}
             i18n={this.props.i18n}
             onMemberClicked={this.onMemberClicked}
@@ -182,7 +182,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
 
   private getMemberCount() {
     // Add 1 to include yourself
-    return this.state.friendList.filter(d => d.checkmarked).length + 1;
+    return this.state.contactList.filter(d => d.checkmarked).length + 1;
   }
 
   private closeDialog() {
@@ -192,7 +192,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
   }
 
   private onMemberClicked(selected: any) {
-    const updatedFriends = this.state.friendList.map(member => {
+    const updatedContacts = this.state.contactList.map(member => {
       if (member.id === selected.id) {
         return { ...member, checkmarked: !member.checkmarked };
       } else {
@@ -201,7 +201,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
     });
 
     if (
-      updatedFriends.filter(d => d.checkmarked).length >
+      updatedContacts.filter(d => d.checkmarked).length >
       window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT - 1
     ) {
       const msg = `${this.props.i18n('maxGroupMembersError')} ${
@@ -215,7 +215,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
     this.setState(state => {
       return {
         ...state,
-        friendList: updatedFriends,
+        contactList: updatedContacts,
       };
     });
   }

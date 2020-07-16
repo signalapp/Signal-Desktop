@@ -139,7 +139,8 @@
         if (!conversation.isPublic() && !conversation.isRss()) {
           Promise.all([
             conversation.updateProfileAvatar(),
-            window.lokiSnodeAPI.refreshSwarmNodesForPubKey(id),
+            // NOTE: we request snodes updating the cache, but ignore the result
+            window.SnodePool.getSnodesFor(id),
           ]);
         }
       });
@@ -195,7 +196,13 @@
     },
     getOrCreateAndWait(id, type) {
       return this._initialPromise.then(() => {
-        const conversation = this.getOrCreate(id, type);
+        if (!id) {
+          return Promise.reject(
+            new Error('getOrCreateAndWait: invalid id passed.')
+          );
+        }
+        const pubkey = id && id.key ? id.key : id;
+        const conversation = this.getOrCreate(pubkey, type);
 
         if (conversation) {
           return conversation.initialPromise.then(() => conversation);
@@ -206,12 +213,10 @@
         );
       });
     },
-    prepareForSend(id, options) {
+    prepareForSend(id) {
       // id is either a group id or an individual user's id
       const conversation = this.get(id);
-      const sendOptions = conversation
-        ? conversation.getSendOptions(options)
-        : null;
+      const sendOptions = {};
       const wrap = conversation
         ? conversation.wrapSend.bind(conversation)
         : promise => promise;
@@ -257,8 +262,6 @@
             promises.concat([
               conversation.updateProfileName(),
               conversation.updateProfileAvatar(),
-              conversation.resetPendingSend(),
-              conversation.setFriendRequestExpiryTimeout(),
             ]);
           });
           await Promise.all(promises);
