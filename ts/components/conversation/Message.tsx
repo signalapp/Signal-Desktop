@@ -430,15 +430,27 @@ export class Message extends React.PureComponent<Props, State> {
             <source src={firstAttachment.url} />
           </audio> */}
           <H5AudioPlayer
-              src={firstAttachment.url}
-              layout="horizontal-reverse"
-              showSkipControls={false}
-              showJumpControls={false}
-              showDownloadProgress={false}
-              customIcons={{
-                play: <SessionIcon iconType={SessionIconType.Play} iconSize={SessionIconSize.Small}/>,
-                pause: <SessionIcon iconType={SessionIconType.Pause} iconSize={SessionIconSize.Small}/>,
-              }}
+            src={firstAttachment.url}
+            layout="horizontal-reverse"
+            showSkipControls={false}
+            showJumpControls={false}
+            showDownloadProgress={false}
+            customIcons={{
+              play: (
+                <SessionIcon
+                  iconType={SessionIconType.Play}
+                  iconSize={SessionIconSize.Small}
+                  iconColor="#868686"
+                />
+              ),
+              pause: (
+                <SessionIcon
+                  iconType={SessionIconType.Pause}
+                  iconSize={SessionIconSize.Small}
+                  iconColor="#868686"
+                />
+              ),
+            }}
           />
         </div>
       );

@@ -649,7 +649,7 @@ export class SessionRecording extends React.Component<Props, State> {
       // CANVAS CONTEXT
       const drawPlaybackCanvas = () => {
         const canvas = this.playbackCanvas.current;
-        if (!canvas){
+        if (!canvas) {
           return;
         }
         canvas.height = height;

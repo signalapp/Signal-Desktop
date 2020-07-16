@@ -1,7 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-
-import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart';
 
 interface Props {

@@ -12,7 +12,6 @@ export const TTL_DEFAULT = {
   REGULAR_MESSAGE: NumberUtils.timeAsMs(2, 'days'),
 };
 
-
 // User Interface
 export const CONVERSATION = {
   MAX_MESSAGE_BODY_LENGTH: 2000,

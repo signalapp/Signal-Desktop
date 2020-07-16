@@ -122,6 +122,7 @@
     "tar": "4.4.8",
     "tmp": "0.0.33",
     "to-arraybuffer": "1.0.1",
+    "typings-for-css-modules-loader": "^1.7.0",
     "underscore": "1.9.0",
     "uuid": "3.3.2"
   },
