@@ -2,7 +2,7 @@
   "name": "session-messenger-desktop",
   "productName": "Session",
   "description": "Private messaging from your desktop",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "license": "GPL-3.0",
   "author": {
     "name": "Loki Project",
@@ -299,7 +299,7 @@
       "!**/node_modules/*/build/**",
       "!**/*.{o,hprof,orig,pyc,pyo,rbc}",
       "!**/._*",
-      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.editorconfig,.flowconfig,.yarn-metadata.json,.idea,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity}",
+      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.editorconfig,.flowconfig,.yarn-metadata.json,.idea,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity,.map}",
       "node_modules/spellchecker/build/Release/*.node",
       "node_modules/websocket/build/Release/*.node",
       "node_modules/socks/build/*.js",
