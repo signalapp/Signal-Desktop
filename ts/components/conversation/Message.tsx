@@ -14,7 +14,7 @@ import { EmbeddedContact } from './EmbeddedContact';
 
 // Audio Player
 import H5AudioPlayer from 'react-h5-audio-player';
-import 'react-h5-audio-player/lib/styles.css';
+// import 'react-h5-audio-player/lib/styles.css';
 
 import {
   canDisplayImage,
@@ -431,8 +431,14 @@ export class Message extends React.PureComponent<Props, State> {
           </audio> */}
           <H5AudioPlayer
               src={firstAttachment.url}
-              layout="horizontal"
-              
+              layout="horizontal-reverse"
+              showSkipControls={false}
+              showJumpControls={false}
+              showDownloadProgress={false}
+              customIcons={{
+                play: <SessionIcon iconType={SessionIconType.Play} iconSize={SessionIconSize.Small}/>,
+                pause: <SessionIcon iconType={SessionIconType.Pause} iconSize={SessionIconSize.Small}/>,
+              }}
           />
         </div>
       );
@@ -1133,7 +1139,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const isIncoming = direction === 'incoming';
     const shouldHightlight = mentionMe && isIncoming && isPublic;
-    const divClasses = ['loki-message-wrapper'];
+    const divClasses = ['session-message-wrapper'];
 
     if (shouldHightlight) {
       //divClasses.push('message-highlighted');

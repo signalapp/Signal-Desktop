@@ -12,6 +12,8 @@ import { SessionRecording } from './SessionRecording';
 
 import { SignalService } from '../../../../ts/protobuf';
 
+import { Constants } from '../../../session';
+
 interface Props {
   placeholder?: string;
 
@@ -156,6 +158,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
         <input
           className="hidden"
+          placeholder="Attachment"
           multiple={true}
           ref={this.fileInput}
           type="file"
@@ -174,7 +177,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             maxRows={3}
             ref={this.textarea}
             placeholder={placeholder}
-            maxLength={window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH}
+            maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
             onKeyDown={this.onKeyDown}
             value={message}
             onChange={this.onChange}

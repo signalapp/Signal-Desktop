@@ -1,3 +1,5 @@
+import { Constants } from '../../../session';
+
 export interface MessageFetchType {
   messages: Array<any>;
   messageFetchTimestamp: number;
@@ -12,8 +14,7 @@ export async function getMessages(
   unreadCount: number,
   onGotMessages?: any,
   numMessages?: number,
-  fetchInterval = window.CONSTANTS.MESSAGE_FETCH_INTERVAL,
-  loopback = false
+  fetchInterval = Constants.CONVERSATION.MESSAGE_FETCH_INTERVAL,
 ) {
   const timestamp = getTimestamp();
 
@@ -33,10 +34,10 @@ export async function getMessages(
   }
 
   let msgCount =
-    numMessages || window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT + unreadCount;
+    numMessages || Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT + unreadCount;
   msgCount =
-    msgCount > window.CONSTANTS.MAX_MESSAGE_FETCH_COUNT
-      ? window.CONSTANTS.MAX_MESSAGE_FETCH_COUNT
+    msgCount > Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
+      ? Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
       : msgCount;
 
   const messageSet = await window.Signal.Data.getMessagesByConversation(

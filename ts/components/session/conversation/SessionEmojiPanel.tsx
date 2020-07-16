@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart';
 
 interface Props {
@@ -22,7 +23,7 @@ export class SessionEmojiPanel extends React.Component<Props, State> {
     };
   }
 
-  render() {
+  public render() {
     const { onEmojiClicked, show } = this.props;
 
     return (
@@ -31,6 +32,7 @@ export class SessionEmojiPanel extends React.Component<Props, State> {
           backgroundImageFn={(_set, sheetSize) =>
             `./images/emoji/emoji-sheet-${sheetSize}.png`
           }
+          sheetSize={64}
           darkMode={true}
           color={'#00F782'}
           showPreview={true}

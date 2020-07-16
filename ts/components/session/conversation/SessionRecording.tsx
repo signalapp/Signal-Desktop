@@ -10,6 +10,7 @@ import {
   SessionButtonType,
   SessionButtonColor,
 } from '../SessionButton';
+import { Constants } from '../../../session';
 
 interface Props {
   sendVoiceMessage: any;
@@ -288,7 +289,7 @@ export class SessionRecording extends React.Component<Props, State> {
     const elapsedTime = nowTimestamp - startTimestamp;
 
     // Prevent voice messages exceeding max length.
-    if (elapsedTime >= window.CONSTANTS.MAX_VOICE_MESSAGE_DURATION) {
+    if (elapsedTime >= Constants.CONVERSATION.MAX_VOICE_MESSAGE_DURATION) {
       this.stopRecordingStream();
     }
 
@@ -424,7 +425,7 @@ export class SessionRecording extends React.Component<Props, State> {
     }
 
     // Is the audio file > attachment filesize limit
-    if (audioBlob.size > window.CONSTANTS.MAX_ATTACHMENT_FILESIZE) {
+    if (audioBlob.size > Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE) {
       console.log(
         `[send] Voice message too large: ${audioBlob.size / 1000000} MB`
       );

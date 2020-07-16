@@ -10,18 +10,20 @@ import { SessionDropdown } from '../SessionDropdown';
 import { MediaGallery } from '../../conversation/media-gallery/MediaGallery';
 import _ from 'lodash';
 import { TimerOption } from '../../conversation/ConversationHeader';
+import { Constants } from '../../../session';
 
 interface Props {
   id: string;
   name: string;
   memberCount: number;
-  description?: string;
+  description: string;
   avatarPath: string;
   timerOptions: Array<TimerOption>;
   isPublic: boolean;
-  isAdmin?: boolean;
-  amMod?: boolean;
+  isAdmin: boolean;
+  amMod: boolean;
   isKickedFromGroup: boolean;
+  isBlocked: boolean;
 
   onGoBack: () => void;
   onInviteContacts: () => void;
@@ -78,14 +80,14 @@ export class SessionGroupSettings extends React.Component<Props, any> {
     const rawMedia = await window.Signal.Data.getMessagesWithVisualMediaAttachments(
       conversationId,
       {
-        limit: window.CONSTANTS.DEFAULT_MEDIA_FETCH_COUNT,
+        limit: Constants.CONVERSATION.DEFAULT_MEDIA_FETCH_COUNT,
         MessageCollection: window.Whisper.MessageCollection,
       }
     );
     const rawDocuments = await window.Signal.Data.getMessagesWithFileAttachments(
       conversationId,
       {
-        limit: window.CONSTANTS.DEFAULT_DOCUMENTS_FETCH_COUNT,
+        limit: Constants.CONVERSATION.DEFAULT_DOCUMENTS_FETCH_COUNT,
         MessageCollection: window.Whisper.MessageCollection,
       }
     );
@@ -209,18 +211,18 @@ export class SessionGroupSettings extends React.Component<Props, any> {
       name,
       timerOptions,
       onLeaveGroup,
+      isKickedFromGroup,
       isPublic,
       isAdmin,
-      isKickedFromGroup,
       amMod,
+      isBlocked,
     } = this.props;
     const { documents, media, onItemClick } = this.state;
     const showMemberCount = !!(memberCount && memberCount > 0);
-    const hasDisappearingMessages = !isPublic && !isKickedFromGroup;
+    const hasDisappearingMessages =
+      !isPublic && !isKickedFromGroup && !isBlocked;
     const leaveGroupString = isPublic
       ? window.i18n('leaveOpenGroup')
-      : isKickedFromGroup
-      ? window.i18n('youGotKickedFromGroup')
       : window.i18n('leaveClosedGroup');
 
     const disappearingMessagesOptions = timerOptions.map(option => {
@@ -233,9 +235,11 @@ export class SessionGroupSettings extends React.Component<Props, any> {
     });
 
     const showUpdateGroupNameButton =
-      isPublic && !isKickedFromGroup ? amMod : isAdmin;
+      isPublic && !isKickedFromGroup
+        ? amMod && !isBlocked
+        : isAdmin && !isBlocked;
     const showUpdateGroupMembersButton =
-      !isPublic && !isKickedFromGroup && isAdmin;
+      !isPublic && !isKickedFromGroup && !isBlocked && isAdmin;
 
     return (
       <div className="group-settings">
@@ -296,7 +300,6 @@ export class SessionGroupSettings extends React.Component<Props, any> {
           buttonColor={SessionButtonColor.Danger}
           buttonType={SessionButtonType.SquareOutline}
           onClick={onLeaveGroup}
-          disabled={isKickedFromGroup}
         />
       </div>
     );
@@ -311,9 +314,11 @@ export class SessionGroupSettings extends React.Component<Props, any> {
       isAdmin,
       isPublic,
       isKickedFromGroup,
+      isBlocked,
     } = this.props;
 
-    const showInviteContacts = (isPublic || isAdmin) && !isKickedFromGroup;
+    const showInviteContacts =
+      (isPublic || isAdmin) && !isKickedFromGroup && !isBlocked;
 
     return (
       <div className="group-settings-header">

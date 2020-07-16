@@ -15,6 +15,8 @@ import { getTimestamp } from './SessionConversationManager';
 import { SessionScrollButton } from '../SessionScrollButton';
 import { SessionGroupSettings } from './SessionGroupSettings';
 import { ResetSessionNotification } from '../../conversation/ResetSessionNotification';
+import { Constants, getMessageQueue } from '../../../session';
+import { MessageQueue } from '../../../session/sending';
 
 interface State {
   conversationKey: string;
@@ -166,6 +168,7 @@ export class SessionConversation extends React.Component<any, State> {
     );
     const isRss = conversation.isRss;
 
+    // TODO VINCE: OPTIMISE FOR NEW SENDING???
     const sendMessageFn = conversationModel.sendMessage.bind(conversationModel);
 
     const shouldRenderGroupSettings =
@@ -324,6 +327,7 @@ export class SessionConversation extends React.Component<any, State> {
         isOnline={headerProps.isOnline}
         selectedMessages={headerProps.selectedMessages}
         isKickedFromGroup={headerProps.isKickedFromGroup}
+        onInviteContacts={headerProps.onInviteContacts}
         onSetDisappearingMessages={headerProps.onSetDisappearingMessages}
         onDeleteMessages={headerProps.onDeleteMessages}
         onDeleteContact={headerProps.onDeleteContact}
@@ -377,7 +381,7 @@ export class SessionConversation extends React.Component<any, State> {
 
   public async getMessages(
     numMessages?: number,
-    fetchInterval = window.CONSTANTS.MESSAGE_FETCH_INTERVAL
+    fetchInterval = Constants.CONVERSATION.MESSAGE_FETCH_INTERVAL
   ) {
     const { conversationKey, messageFetchTimestamp } = this.state;
     const timestamp = getTimestamp();
@@ -391,11 +395,11 @@ export class SessionConversation extends React.Component<any, State> {
 
     let msgCount =
       numMessages ||
-      Number(window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT) +
+      Number(Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT) +
         this.state.unreadCount;
     msgCount =
-      msgCount > window.CONSTANTS.MAX_MESSAGE_FETCH_COUNT
-        ? window.CONSTANTS.MAX_MESSAGE_FETCH_COUNT
+      msgCount > Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
+        ? Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
         : msgCount;
 
     const messageSet = await window.Signal.Data.getMessagesByConversation(
@@ -527,6 +531,10 @@ export class SessionConversation extends React.Component<any, State> {
       onLeaveGroup: () => {
         window.Whisper.events.trigger('leaveGroup', conversation);
       },
+      onInviteContacts: () => {
+        // VINCE TODO: Inviting contacts ⚡️
+        return;
+      },
 
       onAddModerators: () => {
         window.Whisper.events.trigger('addModerators', conversation);
@@ -567,12 +575,15 @@ export class SessionConversation extends React.Component<any, State> {
       phoneNumber: conversation.getNumber(),
       profileName: conversation.getProfileName(),
       color: conversation.getColor(),
+      description: '', // TODO VINCE: ENSURE DESCRIPTION IS SET
       avatarPath: conversation.getAvatarPath(),
-      isKickedFromGroup: conversation.isKickedFromGroup(),
+      amMod: conversation.isModerator(),
+      isKickedFromGroup: conversation.attributes.isKickedFromGroup,
       isGroup: !conversation.isPrivate(),
       isPublic: conversation.isPublic(),
       isAdmin: conversation.get('groupAdmins').includes(ourPK),
       isRss: conversation.isRss(),
+      isBlocked: conversation.isBlocked(),
 
       timerOptions: window.Whisper.ExpirationTimerOptions.map((item: any) => ({
         name: item.getName(),
@@ -593,7 +604,8 @@ export class SessionConversation extends React.Component<any, State> {
         window.Whisper.events.trigger('updateGroupMembers', conversation);
       },
       onInviteContacts: () => {
-        // VINCE TODO: Inviting contacts
+        // VINCE TODO: Inviting contacts ⚡️
+        return;
       },
       onLeaveGroup: () => {
         window.Whisper.events.trigger('leaveGroup', conversation);
@@ -602,8 +614,6 @@ export class SessionConversation extends React.Component<any, State> {
       onShowLightBox: (lightBoxOptions = {}) => {
         conversation.showChannelLightbox(lightBoxOptions);
       },
-
-      
     };
   }
 
@@ -794,12 +804,12 @@ export class SessionConversation extends React.Component<any, State> {
 
     // Fetch more messages when nearing the top of the message list
     const shouldFetchMoreMessages =
-      scrollTop <= window.CONSTANTS.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
+      scrollTop <= Constants.UI.MESSAGE_CONTAINER_BUFFER_OFFSET_PX;
 
     if (shouldFetchMoreMessages) {
       const numMessages =
         this.state.messages.length +
-        window.CONSTANTS.DEFAULT_MESSAGE_FETCH_COUNT;
+        Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
 
       // Prevent grabbing messags with scroll more frequently than once per 5s.
       const messageFetchInterval = 2;

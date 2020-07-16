@@ -64,6 +64,7 @@ interface Props {
   selectedMessages: Array<string>;
   isKickedFromGroup: boolean;
 
+  onInviteContacts: () => void;
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
   onDeleteContact: () => void;

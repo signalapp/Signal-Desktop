@@ -84,7 +84,6 @@ window.CONSTANTS = new (function() {
   this.DEFAULT_PUBLIC_CHAT_URL = appConfig.get('defaultPublicChatServer');
   this.MAX_LINKED_DEVICES = 1;
   this.MAX_CONNECTION_DURATION = 5000;
-  this.MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
   // Limited due to the proof-of-work requirement
   this.SMALL_GROUP_SIZE_LIMIT = 10;
   // Number of seconds to turn on notifications after reconnect/start of app
@@ -102,25 +101,6 @@ window.CONSTANTS = new (function() {
     2}}[a-zA-Z0-9_]){0,1}$`;
   this.MIN_GUARD_COUNT = 2;
   this.DESIRED_GUARD_COUNT = 3;
-
-  // ///////////////////////// //
-  //      User Interface       //
-  // //////////////////////// //
-  this.MAX_MESSAGE_BODY_LENGTH = 2000;
-  // Limited due to the proof-of-work requirement
-  this.DEFAULT_MEDIA_FETCH_COUNT = 50;
-  this.DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
-  this.DEFAULT_MESSAGE_FETCH_COUNT = 30;
-  this.MAX_MESSAGE_FETCH_COUNT = 500;
-  // Pixels (scroll) from the top of the top of message container
-  // at which more messages should be loaded
-  this.MESSAGE_CONTAINER_BUFFER_OFFSET_PX = 30;
-  this.MESSAGE_FETCH_INTERVAL = 1;
-  // Maximum voice message duraiton of 5 minutes
-  // which equates to 1.97 MB
-  this.MAX_VOICE_MESSAGE_DURATION = 300;
-  // Max attachment size: 10 MB
-  this.MAX_ATTACHMENT_FILESIZE = 10000000;
 })();
 
 window.versionInfo = {

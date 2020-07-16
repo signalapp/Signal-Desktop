@@ -10,6 +10,7 @@ import { SessionDropdown } from './SessionDropdown';
 import { MediaGallery } from '../conversation/media-gallery/MediaGallery';
 import _ from 'lodash';
 import { TimerOption } from '../conversation/ConversationHeader';
+import { Constants } from '../../session';
 
 interface Props {
   id: string;
@@ -21,7 +22,7 @@ interface Props {
   isPublic: boolean;
 
   onGoBack: () => void;
-  onInviteFriends: () => void;
+  onInviteContacts: () => void;
   onLeaveGroup: () => void;
   onShowLightBox: (options: any) => void;
   onSetDisappearingMessages: (seconds: number) => void;
@@ -69,20 +70,18 @@ export class SessionChannelSettings extends React.Component<Props, any> {
   public async getMediaGalleryProps() {
     // We fetch more documents than media as they don’t require to be loaded
     // into memory right away. Revisit this once we have infinite scrolling:
-    const DEFAULT_MEDIA_FETCH_COUNT = 50;
-    const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
     const conversationId = this.props.id;
     const rawMedia = await window.Signal.Data.getMessagesWithVisualMediaAttachments(
       conversationId,
       {
-        limit: DEFAULT_MEDIA_FETCH_COUNT,
+        limit: Constants.CONVERSATION.DEFAULT_MEDIA_FETCH_COUNT,
         MessageCollection: window.Whisper.MessageCollection,
       }
     );
     const rawDocuments = await window.Signal.Data.getMessagesWithFileAttachments(
       conversationId,
       {
-        limit: DEFAULT_DOCUMENTS_FETCH_COUNT,
+        limit: Constants.CONVERSATION.DEFAULT_DOCUMENTS_FETCH_COUNT,
         MessageCollection: window.Whisper.MessageCollection,
       }
     );
@@ -269,7 +268,7 @@ export class SessionChannelSettings extends React.Component<Props, any> {
   }
 
   private renderHeader() {
-    const { id, onGoBack, onInviteFriends, avatarPath } = this.props;
+    const { id, onGoBack, onInviteContacts, avatarPath } = this.props;
     const shouldShowInviteFriends = !this.props.isPublic;
 
     return (
@@ -292,7 +291,7 @@ export class SessionChannelSettings extends React.Component<Props, any> {
             <SessionIconButton
               iconType={SessionIconType.AddUser}
               iconSize={SessionIconSize.Medium}
-              onClick={onInviteFriends}
+              onClick={onInviteContacts}
             />
           )}
         </div>

@@ -161,6 +161,7 @@
     "bower": "1.8.2",
     "chai": "4.1.2",
     "chai-as-promised": "^7.1.1",
+    "css-loader": "^3.6.0",
     "dashdash": "1.14.1",
     "electron": "8.2.0",
     "electron-builder": "22.3.6",

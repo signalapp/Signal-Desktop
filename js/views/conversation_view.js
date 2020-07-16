@@ -1930,7 +1930,7 @@
         toastOptions.title = i18n('youLeftTheGroup');
         toastOptions.id = 'youLeftTheGroup';
       }
-      if (message.length > window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH) {
+      if (message.length > window.libsession.Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH) {
         toastOptions.title = i18n('messageBodyTooLong');
         toastOptions.id = 'messageBodyTooLong';
       }
