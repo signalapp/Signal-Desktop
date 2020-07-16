@@ -149,6 +149,7 @@ export class SessionRecording extends React.Component<Props, State> {
     }
   }
 
+  // tslint:disable-next-line: cyclomatic-complexity
   public render() {
     const {
       actionHover,
@@ -178,6 +179,7 @@ export class SessionRecording extends React.Component<Props, State> {
 
     return (
       <div
+        role="main"
         className="session-recording"
         tabIndex={0}
         onKeyDown={this.onKeyDown}
@@ -310,7 +312,7 @@ export class SessionRecording extends React.Component<Props, State> {
     });
   }
 
-  private playAudio() {
+  private async playAudio() {
     // Generate audio element if it doesn't exist
     const generateAudioElement = () => {
       const { mediaBlob, recordDuration } = this.state;
@@ -324,11 +326,11 @@ export class SessionRecording extends React.Component<Props, State> {
 
       audioElement.loop = false;
 
-      audioElement.oncanplaythrough = () => {
+      audioElement.oncanplaythrough = async () => {
         const duration = recordDuration;
 
         if (duration && audioElement.currentTime < duration) {
-          audioElement.play();
+          await audioElement.play();
         }
       };
 
@@ -336,7 +338,9 @@ export class SessionRecording extends React.Component<Props, State> {
     };
 
     const audioElement = this.state.audioElement || generateAudioElement();
-    if (!audioElement) return;
+    if (!audioElement) {
+      return;
+    }
 
     // Draw sweeping timeline
     const drawSweepingTimeline = () => {
@@ -344,16 +348,21 @@ export class SessionRecording extends React.Component<Props, State> {
       const { width, height, barColorPlay } = this.state.canvasParams;
 
       const canvas = this.playbackCanvas.current;
-      if (!canvas || isPaused) return;
+      if (!canvas || isPaused) {
+        return;
+      }
 
       // Once audioElement is fully buffered, we get the true duration
       let audioDuration = this.state.recordDuration;
-      if (audioElement.duration !== Infinity)
+      if (audioElement.duration !== Infinity) {
         audioDuration = audioElement.duration;
+      }
       const progress = width * (audioElement.currentTime / audioDuration);
 
-      const canvasContext = canvas.getContext(`2d`);
-      if (!canvasContext) return;
+      const canvasContext = canvas.getContext('2d');
+      if (!canvasContext) {
+        return;
+      }
 
       canvasContext.beginPath();
       canvasContext.fillStyle = barColorPlay;
@@ -384,10 +393,10 @@ export class SessionRecording extends React.Component<Props, State> {
       audioElement.duration &&
       audioElement.currentTime === audioElement.duration
     ) {
-      this.initPlaybackView();
+      await this.initPlaybackView();
     }
 
-    audioElement.play();
+    await audioElement.play();
     requestAnimationFrame(drawSweepingTimeline);
   }
 
@@ -400,9 +409,9 @@ export class SessionRecording extends React.Component<Props, State> {
     });
   }
 
-  private onDeleteVoiceMessage() {
+  private async onDeleteVoiceMessage() {
     this.pauseAudio();
-    this.stopRecordingStream();
+    await this.stopRecordingStream();
     this.props.onExitVoiceNoteView();
   }
 
@@ -410,7 +419,9 @@ export class SessionRecording extends React.Component<Props, State> {
     console.log(`[vince][mic] Sending voice message to composition box1`);
 
     const audioBlob = this.state.mediaBlob.data;
-    if (!audioBlob) return;
+    if (!audioBlob) {
+      return;
+    }
 
     // Is the audio file > attachment filesize limit
     if (audioBlob.size > window.CONSTANTS.MAX_ATTACHMENT_FILESIZE) {
@@ -433,7 +444,7 @@ export class SessionRecording extends React.Component<Props, State> {
     );
   }
 
-  private stopRecordingStream() {
+  private async stopRecordingStream() {
     const { streamParams } = this.state;
 
     // Exit if parameters aren't yet set
@@ -442,28 +453,31 @@ export class SessionRecording extends React.Component<Props, State> {
     }
 
     // Stop the stream
-    if (streamParams.media.state !== 'inactive') streamParams.media.stop();
+    if (streamParams.media.state !== 'inactive') {
+      streamParams.media.stop();
+    }
+
     streamParams.input.disconnect();
     streamParams.processor.disconnect();
     streamParams.stream.getTracks().forEach((track: any) => track.stop);
 
     // Stop recording
-    this.stopRecording();
+    await this.stopRecording();
   }
 
-  private onRecordingStream(stream: any) {
+  private async onRecordingStream(stream: any) {
     // If not recording, stop stream
     if (!this.state.isRecording) {
-      this.stopRecordingStream();
+      await this.stopRecordingStream();
       return;
     }
 
     // Start recording the stream
     const media = new window.MediaRecorder(stream, { mimeType: 'audio/webm' });
     media.ondataavailable = (mediaBlob: any) => {
-      this.setState({ mediaBlob }, () => {
+      this.setState({ mediaBlob }, async () => {
         // Generate PCM waveform for playback
-        this.initPlaybackView();
+        await this.initPlaybackView();
       });
     };
     media.start();
@@ -526,9 +540,12 @@ export class SessionRecording extends React.Component<Props, State> {
         // Chop off values which exceed the bounds of the container
         volumeArray = volumeArray.slice(0, numBars);
 
-        canvas && (canvas.height = height);
-        canvas && (canvas.width = width);
-        const canvasContext = canvas && canvas.getContext(`2d`);
+        if (canvas) {
+          canvas.width = width;
+          canvas.height = height;
+        }
+
+        const canvasContext = canvas && canvas.getContext('2d');
 
         for (var i = 0; i < volumeArray.length; i++) {
           const barHeight = Math.ceil(volumeArray[i]);
@@ -566,8 +583,8 @@ export class SessionRecording extends React.Component<Props, State> {
 
     const groupSize = Math.floor(array.length / numGroups);
 
-    let compacted = new Float32Array(numGroups);
     let sum = 0;
+    const compacted = new Float32Array(numGroups);
     for (let i = 0; i < array.length; i++) {
       sum += array[i];
 
@@ -602,7 +619,7 @@ export class SessionRecording extends React.Component<Props, State> {
     const arrayBuffer = await new Response(blob).arrayBuffer();
     const audioContext = new window.AudioContext();
 
-    audioContext.decodeAudioData(arrayBuffer, (buffer: AudioBuffer) => {
+    await audioContext.decodeAudioData(arrayBuffer, (buffer: AudioBuffer) => {
       this.setState({
         recordDuration: buffer.duration,
       });
@@ -631,22 +648,26 @@ export class SessionRecording extends React.Component<Props, State> {
       // CANVAS CONTEXT
       const drawPlaybackCanvas = () => {
         const canvas = this.playbackCanvas.current;
-        if (!canvas) return;
+        if (!canvas){
+          return;
+        }
         canvas.height = height;
         canvas.width = width;
 
-        const canvasContext = canvas.getContext(`2d`);
-        if (!canvasContext) return;
+        const canvasContext = canvas.getContext('2d');
+        if (!canvasContext) {
+          return;
+        }
 
         for (let i = 0; i < barSizeArray.length; i++) {
           const barHeight = Math.ceil(barSizeArray[i]);
-          const offset_x = Math.ceil(i * (barWidth + barPadding));
-          const offset_y = Math.ceil(height / 2 - barHeight / 2);
+          const offsetX = Math.ceil(i * (barWidth + barPadding));
+          const offsetY = Math.ceil(height / 2 - barHeight / 2);
 
           // FIXME VINCE - Globalise JS references to colors
           canvasContext.fillStyle = barColorInit;
 
-          this.drawRoundedRect(canvasContext, offset_x, offset_y, barHeight);
+          this.drawRoundedRect(canvasContext, offsetX, offsetY, barHeight);
         }
       };
 
@@ -663,8 +684,12 @@ export class SessionRecording extends React.Component<Props, State> {
     let r = this.state.canvasParams.barRadius;
     const w = this.state.canvasParams.barWidth;
 
-    if (w < 2 * r) r = w / 2;
-    if (h < 2 * r) r = h / 2;
+    if (w < r * 2) {
+      r = w / 2;
+    }
+    if (h < r * 2) {
+      r = h / 2;
+    }
     ctx.beginPath();
     ctx.moveTo(x + r, y);
     ctx.arcTo(x + w, y, x + w, y + h, r);

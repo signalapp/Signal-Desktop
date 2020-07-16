@@ -8,7 +8,6 @@ import { SessionCompositionBox } from './SessionCompositionBox';
 import { SessionProgress } from '../SessionProgress';
 
 import { Message } from '../../conversation/Message';
-import { FriendRequest } from '../../conversation/FriendRequest';
 import { TimerNotification } from '../../conversation/TimerNotification';
 
 import { getTimestamp } from './SessionConversationManager';
@@ -283,11 +282,6 @@ export class SessionConversation extends React.Component<any, State> {
             : item;
 
           item = timerProps ? <TimerNotification {...timerProps} /> : item;
-          item = friendRequestProps ? (
-            <FriendRequest {...friendRequestProps} />
-          ) : (
-            item
-          );
           item = resetSessionProps ? (
             <ResetSessionNotification {...resetSessionProps} />
           ) : (
@@ -574,6 +568,7 @@ export class SessionConversation extends React.Component<any, State> {
       profileName: conversation.getProfileName(),
       color: conversation.getColor(),
       avatarPath: conversation.getAvatarPath(),
+      isKickedFromGroup: conversation.isKickedFromGroup(),
       isGroup: !conversation.isPrivate(),
       isPublic: conversation.isPublic(),
       isAdmin: conversation.get('groupAdmins').includes(ourPK),
@@ -597,7 +592,9 @@ export class SessionConversation extends React.Component<any, State> {
       onUpdateGroupMembers: () => {
         window.Whisper.events.trigger('updateGroupMembers', conversation);
       },
-
+      onInviteContacts: () => {
+        // VINCE TODO: Inviting contacts
+      },
       onLeaveGroup: () => {
         window.Whisper.events.trigger('leaveGroup', conversation);
       },
@@ -605,6 +602,8 @@ export class SessionConversation extends React.Component<any, State> {
       onShowLightBox: (lightBoxOptions = {}) => {
         conversation.showChannelLightbox(lightBoxOptions);
       },
+
+      
     };
   }
 
@@ -805,9 +804,12 @@ export class SessionConversation extends React.Component<any, State> {
       // Prevent grabbing messags with scroll more frequently than once per 5s.
       const messageFetchInterval = 2;
       const previousTopMessage = (
-        await this.getMessages(numMessages, messageFetchInterval, true)
+        await this.getMessages(numMessages, messageFetchInterval)
       )?.previousTopMessage;
-      previousTopMessage && this.scrollToMessage(previousTopMessage);
+
+      if (previousTopMessage) {
+        this.scrollToMessage(previousTopMessage);
+      }
     }
   }
 

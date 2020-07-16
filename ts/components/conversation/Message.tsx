@@ -12,6 +12,10 @@ import { ContactName } from './ContactName';
 import { Quote, QuotedAttachmentType } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
 
+// Audio Player
+import H5AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
+
 import {
   canDisplayImage,
   getExtensionForDisplay,
@@ -400,25 +404,37 @@ export class Message extends React.PureComponent<Props, State> {
       );
     } else if (!firstAttachment.pending && isAudio(attachments)) {
       return (
-        <audio
-          role="button"
+        <div
+          role="main"
           onClick={(e: any) => {
             e.stopPropagation();
           }}
-          controls={true}
-          className={classNames(
-            'module-message__audio-attachment',
-            withContentBelow
-              ? 'module-message__audio-attachment--with-content-below'
-              : null,
-            withContentAbove
-              ? 'module-message__audio-attachment--with-content-above'
-              : null
-          )}
-          key={firstAttachment.url}
         >
-          <source src={firstAttachment.url} />
-        </audio>
+          {/* <audio
+            role="button"
+            onClick={(e: any) => {
+              e.stopPropagation();
+            }}
+            controls={true}
+            className={classNames(
+              'module-message__audio-attachment',
+              withContentBelow
+                ? 'module-message__audio-attachment--with-content-below'
+                : null,
+              withContentAbove
+                ? 'module-message__audio-attachment--with-content-above'
+                : null
+            )}
+            key={firstAttachment.url}
+          >
+            <source src={firstAttachment.url} />
+          </audio> */}
+          <H5AudioPlayer
+              src={firstAttachment.url}
+              layout="horizontal"
+              
+          />
+        </div>
       );
     } else {
       const { pending, fileName, fileSize, contentType } = firstAttachment;
