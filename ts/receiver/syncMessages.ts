@@ -7,11 +7,16 @@ import ByteBuffer from 'bytebuffer';
 
 import { handleEndSession } from './sessionHandling';
 import { handleMediumGroupUpdate } from './mediumGroups';
-import { handleMessageEvent, processDecrypted } from './dataMessage';
+import {
+  handleMessageEvent,
+  isMessageEmpty,
+  processDecrypted,
+} from './dataMessage';
 import { updateProfile } from './receiver';
 import { handleContacts } from './multidevice';
 import { onGroupReceived } from './groups';
 import { MultiDeviceProtocol } from '../session/protocols';
+import { DataMessage } from '../session/messages/outgoing';
 
 export async function handleSyncMessage(
   envelope: EnvelopePlus,
@@ -84,6 +89,12 @@ async function handleSentMessage(
 
   if (!msg) {
     window.log('Inner message is missing in a sync message');
+    await removeFromCache(envelope);
+    return;
+  }
+
+  if (isMessageEmpty(msg as SignalService.DataMessage)) {
+    window.console.log('dropping empty message synced');
     await removeFromCache(envelope);
     return;
   }

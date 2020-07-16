@@ -236,7 +236,7 @@ export async function processDecrypted(envelope: EnvelopePlus, decrypted: any) {
   /* tslint:disable:no-bitwise */
 }
 
-function isMessageEmpty(message: SignalService.DataMessage) {
+export function isMessageEmpty(message: SignalService.DataMessage) {
   const {
     flags,
     body,
@@ -251,7 +251,8 @@ function isMessageEmpty(message: SignalService.DataMessage) {
 
   return (
     !flags &&
-    _.isEmpty(body) &&
+    // FIXME remove this hack to drop auto friend requests messages in a few weeks 15/07/2020
+    isBodyEmpty(body) &&
     _.isEmpty(attachments) &&
     _.isEmpty(group) &&
     _.isEmpty(quote) &&
@@ -259,6 +260,16 @@ function isMessageEmpty(message: SignalService.DataMessage) {
     _.isEmpty(preview) &&
     _.isEmpty(groupInvitation) &&
     _.isEmpty(mediumGroupUpdate)
+  );
+}
+
+function isBodyEmpty(body: string) {
+  return _.isEmpty(body) || isBodyAutoFRContent(body);
+}
+
+function isBodyAutoFRContent(body: string) {
+  return (
+    body === 'Please accept to enable messages to be synced across devices'
   );
 }
 
