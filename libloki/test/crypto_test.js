@@ -19,12 +19,12 @@ describe('Crypto', () => {
       fallbackCipher = new libloki.crypto.FallBackSessionCipher(address);
     });
 
-    it('should encrypt fallback cipher messages as friend requests', async () => {
+    it('should encrypt fallback cipher messages as fallback messages', async () => {
       const buffer = new ArrayBuffer(10);
       const { type } = await fallbackCipher.encrypt(buffer);
       assert.strictEqual(
         type,
-        textsecure.protobuf.Envelope.Type.SESSION_REQUEST
+        textsecure.protobuf.Envelope.Type.FALLBACK_MESSAGE
       );
     });
 

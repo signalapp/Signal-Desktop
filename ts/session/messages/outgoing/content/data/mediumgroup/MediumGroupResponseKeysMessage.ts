@@ -1,36 +1,34 @@
 import { SignalService } from '../../../../../../protobuf';
-import { MediumGroupMessage, MediumGroupMessageParams } from '.';
+import { MediumGroupMessage, MediumGroupMessageParams, RatchetKey } from '.';
 
 export interface MediumGroupResponseKeysParams
   extends MediumGroupMessageParams {
-  chainKey: string;
-  keyIdx: number;
+  senderKey: RatchetKey;
 }
 
 export class MediumGroupResponseKeysMessage extends MediumGroupMessage {
-  public readonly chainKey: string;
-  public readonly keyIdx: number;
+  public readonly senderKey: RatchetKey;
 
   constructor({
     timestamp,
     identifier,
     groupId,
-    chainKey,
-    keyIdx,
+    senderKey,
   }: MediumGroupResponseKeysParams) {
     super({ timestamp, identifier, groupId });
-    this.chainKey = chainKey;
-    this.keyIdx = keyIdx;
+    this.senderKey = senderKey;
   }
 
   protected mediumGroupContext(): SignalService.MediumGroupUpdate {
     const mediumGroupContext = super.mediumGroupContext();
 
     mediumGroupContext.type = SignalService.MediumGroupUpdate.Type.SENDER_KEY;
-    mediumGroupContext.senderKey = new SignalService.SenderKey({
-      chainKey: this.chainKey,
-      keyIdx: this.keyIdx,
+    const senderKey = new SignalService.MediumGroupUpdate.SenderKey({
+      chainKey: this.senderKey.chainKey,
+      keyIndex: this.senderKey.keyIdx,
+      publicKey: this.senderKey.pubKey,
     });
+    mediumGroupContext.senderKeys = [senderKey];
 
     return mediumGroupContext;
   }

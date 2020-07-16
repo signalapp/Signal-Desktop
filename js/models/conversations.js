@@ -250,9 +250,14 @@
         ? BlockedNumberController.block(this.id)
         : BlockedNumberController.blockGroup(this.id);
       await promise;
-      this.trigger('change');
+      this.trigger('change', this);
       this.messageCollection.forEach(m => m.trigger('change'));
       this.updateTextInputState();
+      if (this.isPrivate()) {
+        await textsecure.messaging.sendContactSyncMessage([this]);
+      } else {
+        await textsecure.messaging.sendGroupSyncMessage([this]);
+      }
     },
     async unblock() {
       if (!this.id || this.isPublic() || this.isRss()) {
@@ -262,9 +267,14 @@
         ? BlockedNumberController.unblock(this.id)
         : BlockedNumberController.unblockGroup(this.id);
       await promise;
-      this.trigger('change');
+      this.trigger('change', this);
       this.messageCollection.forEach(m => m.trigger('change'));
       this.updateTextInputState();
+      if (this.isPrivate()) {
+        await textsecure.messaging.sendContactSyncMessage([this]);
+      } else {
+        await textsecure.messaging.sendGroupSyncMessage([this]);
+      }
     },
     setMessageSelectionBackdrop() {
       const messageSelected = this.selectedMessages.size > 0;
@@ -1359,6 +1369,7 @@
               attachments: uploads.attachments,
               preview: uploads.preview,
               quote: uploads.quote,
+              identifier: id,
             };
             const openGroupMessage = new libsession.Messages.Outgoing.OpenGroupMessage(
               openGroupParams
@@ -1381,7 +1392,7 @@
             const groupInvitMessage = new libsession.Messages.Outgoing.GroupInvitationMessage(
               {
                 identifier: id,
-
+                timestamp: Date.now(),
                 serverName: groupInvitation.name,
                 channelId: groupInvitation.channelId,
                 serverAddress: groupInvitation.address,
@@ -1408,14 +1419,10 @@
                   groupId: destination,
                 }
               );
-              await Promise.all(
-                members.map(async m => {
-                  const memberPubKey = new libsession.Types.PubKey(m);
-                  await libsession
-                    .getMessageQueue()
-                    .sendUsingMultiDevice(memberPubKey, mediumGroupChatMessage);
-                })
-              );
+
+              await libsession
+                .getMessageQueue()
+                .send(destinationPubkey, mediumGroupChatMessage);
             } else {
               const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
                 {
@@ -1703,7 +1710,17 @@
         const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
           expireUpdate
         );
-
+        // special case when we are the only member of a closed group
+        const ourNumber = textsecure.storage.user.getNumber();
+        const primary = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+          ourNumber
+        );
+        if (
+          this.get('members').length === 1 &&
+          this.get('members')[0] === primary.key
+        ) {
+          return message.sendSyncMessageOnly(expirationTimerMessage);
+        }
         await libsession.getMessageQueue().sendToGroup(expirationTimerMessage);
       }
       return message;
@@ -1836,12 +1853,18 @@
         groupUpdate = this.pick(['name', 'avatar', 'members']);
       }
       const now = Date.now();
+
       const message = this.messageCollection.add({
         conversationId: this.id,
         type: 'outgoing',
         sent_at: now,
         received_at: now,
-        group_update: groupUpdate,
+        group_update: _.pick(groupUpdate, [
+          'name',
+          'members',
+          'avatar',
+          'admins',
+        ]),
       });
 
       const messageId = await window.Signal.Data.saveMessage(
@@ -1852,24 +1875,30 @@
       );
       message.set({ id: messageId });
 
+      // TODO: if I added members, it is my responsibility to generate ratchet keys for them
+
       // Difference between `recipients` and `members` is that `recipients` includes the members which were removed in this update
       const { id, name, members, avatar, recipients } = groupUpdate;
 
       if (groupUpdate.is_medium_group) {
-        const { secretKey, senderKey } = groupUpdate;
-        // Constructing a "create group" message
-        const { chainKey, keyIdx } = senderKey;
+        const { secretKey, senderKeys } = groupUpdate;
+
+        const membersBin = members.map(
+          pkHex => new Uint8Array(StringView.hexToArrayBuffer(pkHex))
+        );
+        const adminsBin = this.get('groupAdmins').map(
+          pkHex => new Uint8Array(StringView.hexToArrayBuffer(pkHex))
+        );
 
         const createParams = {
           timestamp: now,
           groupId: id,
           identifier: messageId,
           groupSecretKey: secretKey,
-          members: members.map(pkHex => StringView.hexToArrayBuffer(pkHex)),
+          members: membersBin,
           groupName: name,
-          admins: this.get('groupAdmins'),
-          chainKey,
-          keyIdx,
+          admins: adminsBin,
+          senderKeys,
         };
 
         const mediumGroupCreateMessage = new libsession.Messages.Outgoing.MediumGroupCreateMessage(
@@ -1878,7 +1907,6 @@
 
         members.forEach(async member => {
           const memberPubKey = new libsession.Types.PubKey(member);
-          await ConversationController.getOrCreateAndWait(member, 'private');
           libsession
             .getMessageQueue()
             .sendUsingMultiDevice(memberPubKey, mediumGroupCreateMessage);
@@ -1889,9 +1917,10 @@
 
       const updateParams = {
         // if we do set an identifier here, be sure to not sync the message two times in msg.handleMessageSentSuccess()
+        identifier: messageId,
         timestamp: now,
         groupId: id,
-        name,
+        name: name || this.getName(),
         avatar,
         members,
         admins: this.get('groupAdmins'),
@@ -1900,18 +1929,37 @@
         updateParams
       );
 
-      await this.sendClosedGroupMessageWithSync(groupUpdateMessage, recipients);
-
-      const expireUpdate = {
-        timestamp: Date.now(),
-        expireTimer: this.get('expireTimer'),
-        groupId: this.get('id'),
-      };
-
-      const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
-        expireUpdate
+      await this.sendClosedGroupMessage(
+        groupUpdateMessage,
+        recipients,
+        message
       );
-      await libsession.getMessageQueue().sendToGroup(expirationTimerMessage);
+
+      // send a expireTimer update message to all add members if the expireTimer is set
+      if (
+        groupUpdate.joined &&
+        groupUpdate.joined.length &&
+        this.get('expireTimer')
+      ) {
+        const expireUpdate = {
+          timestamp: Date.now(),
+          expireTimer: this.get('expireTimer'),
+          groupId: this.get('id'),
+        };
+
+        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
+          expireUpdate
+        );
+        await Promise.all(
+          groupUpdate.joined.map(async join => {
+            const device = new libsession.Types.PubKey(join);
+            await libsession
+              .getMessageQueue()
+              .sendUsingMultiDevice(device, expirationTimerMessage)
+              .catch(log.error);
+          })
+        );
+      }
     },
 
     async sendGroupInfo(recipient) {
@@ -1991,6 +2039,7 @@
 
         // FIXME what about public groups?
         const quitGroup = {
+          identifier: id,
           timestamp: now,
           groupId: this.id,
           // if we do set an identifier here, be sure to not sync it a second time in handleMessageSentSuccess()
@@ -1999,13 +2048,13 @@
           quitGroup
         );
 
-        await this.sendClosedGroupMessageWithSync(quitGroupMessage);
+        await this.sendClosedGroupMessage(quitGroupMessage, undefined, message);
 
         this.updateTextInputState();
       }
     },
 
-    async sendClosedGroupMessageWithSync(message, recipients) {
+    async sendClosedGroupMessage(message, recipients, dbMessage) {
       const {
         ClosedGroupMessage,
         ClosedGroupChatMessage,
@@ -2032,6 +2081,11 @@
         const otherMembers = (members || []).filter(
           member => !primary.isEqual(member)
         );
+        // we are the only member in here
+        if (members.length === 1 && members[0] === primary.key) {
+          dbMessage.sendSyncMessageOnly(message);
+          return;
+        }
         const sendPromises = otherMembers.map(member => {
           const memberPubKey = libsession.Types.PubKey.cast(member);
           return libsession
@@ -2039,16 +2093,6 @@
             .sendUsingMultiDevice(memberPubKey, message);
         });
         await Promise.all(sendPromises);
-
-        // Send the sync message to our devices
-        const syncMessage = new libsession.Messages.Outgoing.SentSyncMessage({
-          timestamp: Date.now(),
-          identifier: message.identifier,
-          destination: message.groupId,
-          dataMessage: message.dataProto(),
-        });
-
-        await libsession.getMessageQueue().sendSyncMessage(syncMessage);
       } catch (e) {
         window.log.error(e);
       }
@@ -2694,7 +2738,7 @@
         const ourConversation = window.ConversationController.get(ourNumber);
         let profileKey = null;
         if (this.get('profileSharing')) {
-          profileKey = storage.get('profileKey');
+          profileKey = new Uint8Array(storage.get('profileKey'));
         }
         const avatarPointer = ourConversation.get('avatarPointer');
         const { displayName } = ourConversation.getLokiProfile();

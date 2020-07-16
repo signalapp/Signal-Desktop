@@ -12,6 +12,7 @@ import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
 import { PubKey } from '../session/types';
 
 import ByteBuffer from 'bytebuffer';
+import { BlockedNumberController } from '../util';
 
 async function unpairingRequestIsLegit(source: string, ourPubKey: string) {
   const { textsecure, storage, lokiFileServerAPI } = window;
@@ -287,6 +288,7 @@ export async function handleContacts(
   await removeFromCache(envelope);
 }
 
+// tslint:disable-next-line: max-func-body-length
 async function onContactReceived(details: any) {
   const {
     ConversationController,
@@ -334,6 +336,7 @@ async function onContactReceived(details: any) {
     //   activeAt is null, then this contact has been purposefully hidden.
     if (activeAt !== null) {
       activeAt = activeAt || Date.now();
+      conversation.set('active_at', activeAt);
     }
     const ourPrimaryKey = window.storage.get('primaryDevicePubKey');
     if (ourPrimaryKey) {
@@ -375,7 +378,6 @@ async function onContactReceived(details: any) {
     conversation.set({
       // name: details.name,
       color: details.color,
-      active_at: activeAt,
     });
 
     await conversation.setLokiProfile({ displayName: details.name });
@@ -427,6 +429,15 @@ async function onContactReceived(details: any) {
       verifiedEvent.viaContactSync = true;
       await onVerified(verifiedEvent);
     }
+
+    const isBlocked = details.blocked || false;
+
+    if (conversation.isPrivate()) {
+      await BlockedNumberController.setBlocked(conversation.id, isBlocked);
+    }
+    conversation.updateTextInputState();
+
+    await conversation.trigger('change', conversation);
   } catch (error) {
     window.log.error('onContactReceived error:', Errors.toLogFormat(error));
   }

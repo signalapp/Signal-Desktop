@@ -337,7 +337,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
         setProfileName: this.state.profileName,
       },
       () => {
-        // Update settinngs in dialog complete;
+        // Update settings in dialog complete;
         // now callback to reloadactions panel avatar
         this.props.callback(this.state.avatar);
       }

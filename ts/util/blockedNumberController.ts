@@ -89,6 +89,26 @@ export class BlockedNumberController {
     }
   }
 
+  public static async setBlocked(
+    user: string | PubKey,
+    blocked: boolean
+  ): Promise<void> {
+    if (blocked) {
+      return BlockedNumberController.block(user);
+    }
+    return BlockedNumberController.unblock(user);
+  }
+
+  public static async setGroupBlocked(
+    groupId: string | PubKey,
+    blocked: boolean
+  ): Promise<void> {
+    if (blocked) {
+      return BlockedNumberController.blockGroup(groupId);
+    }
+    return BlockedNumberController.unblockGroup(groupId);
+  }
+
   public static async blockGroup(groupId: string | PubKey): Promise<void> {
     await this.load();
     const id = PubKey.cast(groupId);

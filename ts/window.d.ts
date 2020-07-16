@@ -7,12 +7,15 @@ import { LokiPublicChatFactoryInterface } from '../js/modules/loki_public_chat_a
 import { LokiAppDotNetServerInterface } from '../js/modules/loki_app_dot_net_api';
 import { LokiMessageInterface } from '../js/modules/loki_message_api';
 import { SwarmPolling } from './session/snode_api/swarmPolling';
+
 import { LibTextsecure } from '../libtextsecure';
+import { ConversationType } from '../js/modules/data';
 
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
 If you import anything in global.d.ts, the type system won't work correctly.
 */
+
 declare global {
   interface Window {
     CONSTANTS: any;
@@ -25,7 +28,6 @@ declare global {
     LokiRssAPI: any;
     LokiSnodeAPI: any;
     MessageController: any;
-    SenderKeyAPI: any;
     Session: any;
     Signal: SignalInterface;
     StringView: any;
@@ -33,7 +35,7 @@ declare global {
     StubMessageAPI: any;
     WebAPI: any;
     Whisper: any;
-    attemptConnection: any;
+    attemptConnection: ConversationType;
     clearLocalData: any;
     clipboard: any;
     confirmationDialog: any;
@@ -86,5 +88,6 @@ declare global {
     GroupBuffer: any;
     SwarmPolling: SwarmPolling;
     MediaRecorder: any;
+    owsDesktopApp: any;
   }
 }

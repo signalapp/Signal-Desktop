@@ -1,5 +1,4 @@
 import { SessionRequestMessage } from '../messages/outgoing';
-// import { MessageSender } from '../sending';
 import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
 import { MessageSender } from '../sending';
 import { MessageUtils } from '../utils';
@@ -82,7 +81,7 @@ export class SessionProtocol {
     const now = Date.now();
     const sentTimestamps = Object.entries(this.sentSessionsTimestamp);
     const promises = sentTimestamps.map(async ([device, sent]) => {
-      const expireTime = sent + SessionRequestMessage.ttl;
+      const expireTime = sent + SessionRequestMessage.defaultTTL();
       // Check if we need to send a session request
       if (now < expireTime) {
         return;
@@ -144,7 +143,7 @@ export class SessionProtocol {
     SessionProtocol.pendingSendSessionsTimestamp.add(pubkey.key);
 
     try {
-      const rawMessage = MessageUtils.toRawMessage(pubkey, message);
+      const rawMessage = await MessageUtils.toRawMessage(pubkey, message);
       await MessageSender.send(rawMessage);
       await SessionProtocol.updateSentSessionTimestamp(pubkey.key, timestamp);
     } catch (e) {
@@ -276,7 +275,7 @@ export class SessionProtocol {
   }
 
   /**
-   * timestamp undefined to remove the key/value pair, otherwise updates the processed timestamp and writes to DB
+   * Timestamp undefined to remove the `key`/`value` pair, otherwise updates the processed timestamp and writes to database
    */
   private static async updateProcessedSessionTimestamp(
     device: string,

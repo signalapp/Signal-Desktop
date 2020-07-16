@@ -21,6 +21,8 @@ interface Props {
   isPublic: boolean;
   isAdmin: boolean;
   amMod: boolean;
+  isKickedFromGroup: boolean;
+  isBlocked: boolean;
 
   onGoBack: () => void;
   onInviteFriends: () => void;
@@ -213,10 +215,16 @@ export class SessionGroupSettings extends React.Component<Props, any> {
       isPublic,
       isAdmin,
       amMod,
+      isBlocked,
     } = this.props;
     const { documents, media, onItemClick } = this.state;
     const showMemberCount = !!(memberCount && memberCount > 0);
+<<<<<<< HEAD
     const hasDisappearingMessages = !isPublic;
+=======
+    const hasDisappearingMessages =
+      !isPublic && !isKickedFromGroup && !isBlocked;
+>>>>>>> 5ec3a5b3f7bd86d920f243f5850eecaddedb0da1
     const leaveGroupString = isPublic
       ? window.i18n('leaveOpenGroup')
       : window.i18n('leaveClosedGroup');
@@ -230,8 +238,17 @@ export class SessionGroupSettings extends React.Component<Props, any> {
       };
     });
 
+<<<<<<< HEAD
     const showUpdateGroupNameButton = isPublic ? amMod : isAdmin;
     const showUpdateGroupMembersButton = !isPublic && isAdmin;
+=======
+    const showUpdateGroupNameButton =
+      isPublic && !isKickedFromGroup
+        ? amMod && !isBlocked
+        : isAdmin && !isBlocked;
+    const showUpdateGroupMembersButton =
+      !isPublic && !isKickedFromGroup && !isBlocked && isAdmin;
+>>>>>>> 5ec3a5b3f7bd86d920f243f5850eecaddedb0da1
 
     return (
       <div className="group-settings">
@@ -305,16 +322,25 @@ export class SessionGroupSettings extends React.Component<Props, any> {
       avatarPath,
       isAdmin,
       isPublic,
+<<<<<<< HEAD
     } = this.props;
 
     const showInviteFriends = isPublic || isAdmin;
+=======
+      isKickedFromGroup,
+      isBlocked,
+    } = this.props;
+
+    const showInviteContacts =
+      (isPublic || isAdmin) && !isKickedFromGroup && !isBlocked;
+>>>>>>> 5ec3a5b3f7bd86d920f243f5850eecaddedb0da1
 
     return (
       <div className="group-settings-header">
         <SessionIconButton
           iconType={SessionIconType.Chevron}
           iconSize={SessionIconSize.Medium}
-          iconRotation={90}
+          iconRotation={270}
           onClick={onGoBack}
         />
         <Avatar

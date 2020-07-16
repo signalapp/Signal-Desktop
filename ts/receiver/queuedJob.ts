@@ -7,6 +7,7 @@ import { PrimaryPubKey, PubKey } from '../session/types';
 import _ from 'lodash';
 import { MultiDeviceProtocol } from '../session/protocols';
 import { SignalService } from '../protobuf';
+import { StringUtils } from '../session/utils';
 
 async function handleGroups(
   conversation: ConversationModel,
@@ -265,11 +266,11 @@ function processProfileKey(
   source: string,
   conversation: ConversationModel,
   sendingDeviceConversation: ConversationModel,
-  profileKeyBuffer: any
+  profileKeyBuffer: Uint8Array
 ) {
   const ourNumber = window.textsecure.storage.user.getNumber();
 
-  const profileKey = profileKeyBuffer.toString('base64');
+  const profileKey = StringUtils.decode(profileKeyBuffer, 'base64');
   if (source === ourNumber) {
     conversation.set({ profileSharing: true });
   } else if (conversation.isPrivate()) {
@@ -522,6 +523,16 @@ export async function handleMessageJob(
       handleSessionReset(conversation, message);
     } else if (message.isExpirationTimerUpdate()) {
       const { expireTimer } = initialMessage;
+      const oldValue = conversation.get('expireTimer');
+      if (expireTimer === oldValue) {
+        if (confirm) {
+          confirm();
+        }
+        window.console.log(
+          'Dropping ExpireTimerUpdate message as we already have the same one set.'
+        );
+        return;
+      }
       handleExpirationTimerUpdate(conversation, message, source, expireTimer);
     } else {
       await handleRegularMessage(

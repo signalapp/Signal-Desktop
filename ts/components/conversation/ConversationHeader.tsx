@@ -455,7 +455,7 @@ export class ConversationHeader extends React.Component<Props> {
     const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
     const blockHandler = isBlocked ? onUnblockUser : onBlockUser;
 
-    const disappearingMessagesMenuItem = !isKickedFromGroup && (
+    const disappearingMessagesMenuItem = !isKickedFromGroup && !isBlocked && (
       <SubMenu title={disappearingTitle}>
         {(timerOptions || []).map(item => (
           <MenuItem
@@ -481,7 +481,7 @@ export class ConversationHeader extends React.Component<Props> {
     const resetSessionMenuItem = !isGroup && (
       <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
     );
-    const blockHandlerMenuItem = !isMe && !isGroup && !isRss && (
+    const blockHandlerMenuItem = !isMe && !isRss && (
       <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
     );
 

@@ -98,7 +98,9 @@ export class MultiDeviceProtocol {
           primaryDevicePubKey,
           secondaryDevicePubKey,
           requestSignature: StringUtils.encode(requestSignature, 'base64'),
-          grantSignature: StringUtils.encode(grantSignature, 'base64'),
+          grantSignature: grantSignature
+            ? StringUtils.encode(grantSignature, 'base64')
+            : undefined,
         })
       );
 

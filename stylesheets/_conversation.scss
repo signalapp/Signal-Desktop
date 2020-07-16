@@ -5,7 +5,6 @@
 
   .panel,
   .panel-wrapper {
-    height: calc(100% - #{$header-height});
     overflow-y: scroll;
   }
 
@@ -22,7 +21,14 @@
   .panel-wrapper {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     overflow: initial;
+  }
+
+  .conversation-content-left {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
   }
 
   .main.panel {

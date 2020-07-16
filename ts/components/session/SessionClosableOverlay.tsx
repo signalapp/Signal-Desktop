@@ -66,31 +66,37 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
   }
 
   public getContacts() {
-    const conversations = window.getConversations() || [];
-
-    const conversationList = conversations.filter((conversation: any) => {
-      return (
-        !conversation.isMe() &&
-        conversation.isPrivate() &&
-        !conversation.isSecondaryDevice() &&
-        !conversation.isBlocked()
+    const { overlayMode } = this.props;
+    const contactsList = this.props.contacts ?? [];
+    // Depending on the rendered overlay type we have to filter the contact list.
+    let filteredContactsList = contactsList;
+    const isClosedGroupView =
+      overlayMode === SessionClosableOverlayType.ClosedGroup;
+    if (isClosedGroupView) {
+      filteredContactsList = filteredContactsList.filter(
+        c => c.type === 'direct' && !c.isMe
       );
-    });
+    }
 
-    return conversationList.map((d: any) => {
-      const lokiProfile = d.getLokiProfile();
-      const name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
-
+    return filteredContactsList.map((d: any) => {
       // TODO: should take existing members into account
       const existingMember = false;
+      // if it has a profilename, use it and the shortened pubkey will be added automatically
+      // if no profile name, Anonymous and the shortened pubkey will be added automatically
+      let title;
+      if (d.profileName) {
+        title = `${d.profileName}`;
+      } else {
+        title = `${window.i18n('anonymous')}`;
+      }
 
       return {
         id: d.id,
         authorPhoneNumber: d.id,
-        authorProfileName: name,
+        authorProfileName: title,
         selected: false,
         authorName: name,
-        authorColor: d.getColor(),
+        authorColor: d.color,
         checkmarked: false,
         existingMember,
       };
@@ -190,6 +196,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
               editable={!noContactsForClosedGroup}
               placeholder={placeholder}
               value={groupName}
+              isGroup={true}
               maxLength={window.CONSTANTS.MAX_GROUPNAME_LENGTH}
               onChange={this.onGroupNameChanged}
               onPressEnter={() => onButtonClick(groupName, selectedMembers)}

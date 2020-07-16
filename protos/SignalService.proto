@@ -9,11 +9,11 @@ message Envelope {
     UNKNOWN       = 0;
     CIPHERTEXT    = 1;
     KEY_EXCHANGE  = 2;
-    PREKEY_BUNDLE = 3; //Used By Signal. DO NOT TOUCH! we don't use this at all.
+    PREKEY_BUNDLE = 3; //This field is used by Signal. DO NOT TOUCH!.
     RECEIPT       = 5;
     UNIDENTIFIED_SENDER = 6;
     MEDIUM_GROUP_CIPHERTEXT = 7;
-    SESSION_REQUEST = 101; // contains prekeys and is using simple encryption
+    FALLBACK_MESSAGE = 101; // Custom Encryption for when we don't have a session or we need to establish a session
   }
 
   optional Type   type            = 1;
@@ -35,7 +35,7 @@ message Content {
   optional NullMessage    nullMessage    = 4;
   optional ReceiptMessage receiptMessage = 5;
   optional TypingMessage  typingMessage  = 6;
-  optional PreKeyBundleMessage preKeyBundleMessage = 101;
+  optional PreKeyBundleMessage preKeyBundleMessage = 101; // The presence of this indicated that we want to establish a new session (Session Request)
   optional LokiAddressMessage lokiAddressMessage = 102;
   optional PairingAuthorisationMessage pairingAuthorisation = 103;
 }
@@ -51,27 +51,27 @@ message MediumGroupContent {
   optional bytes ephemeralKey = 2;
 }
 
-message SenderKey {
-  optional string chainKey = 1;
-  optional uint32 keyIdx = 2;
-}
-
 message MediumGroupUpdate {
+    enum Type {
+        NEW        = 0; // groupPublicKey, name, groupPrivateKey, senderKeys, members, admins
+        INFO       = 1; // groupPublicKey, name, senderKeys, members, admins
+        SENDER_KEY = 2; // groupPublicKey, senderKeys
+        SENDER_KEY_REQUEST = 3; // groupId
+    }
 
-  enum Type {
-    NEW_GROUP = 0; // groupId, groupName, groupSecretKey, members, senderKey
-    GROUP_INFO = 1; // groupId, groupName, members, senderKey
-    SENDER_KEY_REQUEST = 2; // groupId
-    SENDER_KEY = 3; // groupId, SenderKey
-  }
+    message SenderKey {
+        optional bytes  chainKey  = 1;
+        optional uint32 keyIndex  = 2;
+        optional bytes publicKey = 3;
+    }
 
-  optional string groupName = 1;
-  optional string groupId = 2; // should this be bytes?
-  optional bytes groupSecretKey = 3;
-  optional SenderKey senderKey = 4;
-  repeated bytes members = 5;
-  repeated string admins = 6;
-  optional Type type = 7;
+    optional string    name            = 1;
+    optional bytes     groupPublicKey  = 2;
+    optional bytes     groupPrivateKey = 3;
+    repeated SenderKey senderKeys      = 4;
+    repeated bytes     members         = 5;
+    repeated bytes     admins          = 6;
+    optional Type      type            = 7;
 }
 
 message LokiAddressMessage {

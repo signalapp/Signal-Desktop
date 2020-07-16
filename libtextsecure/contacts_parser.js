@@ -55,5 +55,7 @@ GroupBuffer.prototype.constructor = GroupBuffer;
 const ContactBuffer = function Constructor(arrayBuffer) {
   ProtoParser.call(this, arrayBuffer, textsecure.protobuf.ContactDetails);
 };
+
+window.GroupBuffer = GroupBuffer;
 ContactBuffer.prototype = Object.create(ProtoParser.prototype);
 ContactBuffer.prototype.constructor = ContactBuffer;

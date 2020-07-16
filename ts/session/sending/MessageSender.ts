@@ -6,6 +6,7 @@ import { SignalService } from '../../protobuf';
 import { UserUtil } from '../../util';
 import { MessageEncrypter } from '../crypto';
 import pRetry from 'p-retry';
+import { PubKey } from '../types';
 
 // ================ Regular ================
 
@@ -31,7 +32,8 @@ export async function send(
     throw new Error('lokiMessageAPI is not initialized.');
   }
 
-  const { device, plainTextBuffer, encryption, timestamp, ttl } = message;
+  const device = PubKey.cast(message.device);
+  const { plainTextBuffer, encryption, timestamp, ttl } = message;
   const { envelopeType, cipherText } = await MessageEncrypter.encrypt(
     device,
     plainTextBuffer,
@@ -41,7 +43,8 @@ export async function send(
   const data = wrapEnvelope(envelope);
 
   return pRetry(
-    async () => window.lokiMessageAPI.sendMessage(device, data, timestamp, ttl),
+    async () =>
+      window.lokiMessageAPI.sendMessage(device.key, data, timestamp, ttl),
     {
       retries: Math.max(attempts - 1, 0),
       factor: 1,
@@ -76,13 +79,14 @@ function wrapEnvelope(envelope: SignalService.Envelope): Uint8Array {
   const request = SignalService.WebSocketRequestMessage.create({
     id: 0,
     body: SignalService.Envelope.encode(envelope).finish(),
+    verb: 'PUT',
+    path: '/api/v1/message',
   });
 
   const websocket = SignalService.WebSocketMessage.create({
     type: SignalService.WebSocketMessage.Type.REQUEST,
     request,
   });
-
   return SignalService.WebSocketMessage.encode(websocket).finish();
 }
 

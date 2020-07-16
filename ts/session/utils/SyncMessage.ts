@@ -50,7 +50,8 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
         c.isPrivate() &&
         !c.isOurLocalDevice() &&
         !c.isBlocked() &&
-        !c.attributes.secondaryStatus
+        !c.attributes.secondaryStatus &&
+        !!c.get('active_at')
     ) || [];
 
   const secondaryContactsPartial = conversations.filter(
@@ -58,7 +59,8 @@ export async function getSyncContacts(): Promise<Array<any> | undefined> {
       c.isPrivate() &&
       !c.isOurLocalDevice() &&
       !c.isBlocked() &&
-      c.attributes.secondaryStatus
+      c.attributes.secondaryStatus &&
+      !!c.get('active_at')
   );
 
   const secondaryContactsPromise = secondaryContactsPartial.map(async c =>

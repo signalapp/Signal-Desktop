@@ -1,9 +1,9 @@
 import { ContentMessage } from './ContentMessage';
 import { SignalService } from '../../../../protobuf';
-import { TextEncoder } from 'util';
 import { MessageParams } from '../Message';
 import { StringUtils } from '../../../utils';
 import { PubKey } from '../../../types';
+import { Constants } from '../../..';
 
 interface TypingMessageParams extends MessageParams {
   isTyping: boolean;
@@ -26,7 +26,7 @@ export class TypingMessage extends ContentMessage {
   }
 
   public ttl(): number {
-    return 60 * 1000; // 1 minute for typing indicators
+    return Constants.TTL_DEFAULT.TYPING_MESSAGE;
   }
 
   protected contentProto(): SignalService.Content {

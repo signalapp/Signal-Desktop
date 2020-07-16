@@ -298,13 +298,15 @@ export async function storeOnNode(
         return false;
       }
 
-      const res = snodeRes as any;
-
+      const json = JSON.parse(snodeRes.body);
       // Make sure we aren't doing too much PoW
       const currentDifficulty = window.storage.get('PoWDifficulty', null);
-      if (res && res.difficulty && res.difficulty !== currentDifficulty) {
-        window.storage.put('PoWDifficulty', res.difficulty);
-        // should we return false?
+      if (
+        json &&
+        json.difficulty &&
+        json.difficulty !== parseInt(currentDifficulty, 10)
+      ) {
+        window.storage.put('PoWDifficulty', json.difficulty);
       }
       return true;
     } catch (e) {

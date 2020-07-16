@@ -1087,8 +1087,10 @@
         }
 
         const { body, attachments, preview, quote } = await this.uploadData();
+        const ourNumber = window.storage.get('primaryDevicePubKey');
+        const ourConversation = window.ConversationController.get(ourNumber);
 
-        const chatMessage = new libsession.Messages.Outgoing.ChatMessage({
+        const chatParams = {
           identifier: this.id,
           body,
           timestamp: this.get('sent_at'),
@@ -1096,8 +1098,14 @@
           attachments,
           preview,
           quote,
-          lokiProfile: this.conversation.getOurProfile(),
-        });
+        };
+        if (ourConversation) {
+          chatParams.lokiProfile = ourConversation.getOurProfile();
+        }
+
+        const chatMessage = new libsession.Messages.Outgoing.ChatMessage(
+          chatParams
+        );
 
         // Special-case the self-send case - we send only a sync message
         if (recipients.length === 1) {
@@ -1200,7 +1208,6 @@
         e =>
           e.number === number &&
           (e.name === 'MessageError' ||
-            e.name === 'OutgoingMessageError' ||
             e.name === 'SendMessageNetworkError' ||
             e.name === 'SignedPreKeyRotationError' ||
             e.name === 'OutgoingIdentityKeyError')
@@ -1209,30 +1216,62 @@
       return errors[0][0];
     },
 
+    /**
+     * This function is called by inbox_view.js when a message was successfully sent for one device.
+     * So it might be called several times for the same message
+     */
     async handleMessageSentSuccess(sentMessage) {
-      const sentTo = this.get('sent_to') || [];
+      let sentTo = this.get('sent_to') || [];
 
       const isOurDevice = await window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
         sentMessage.device
       );
 
+      // At this point the only way to check for medium
+      // group is by comparing the encryption type
+      const isMediumGroupMessage =
+        sentMessage.encryption === libsession.Types.EncryptionType.MediumGroup;
+
+      const isOpenGroupMessage =
+        sentMessage.group &&
+        sentMessage.group instanceof libsession.Types.OpenGroup;
+
+      // We trigger a sync message only when the message is not to one of our devices, AND
+      // the message is not for an open group (there is no sync for opengroups, each device pulls all messages), AND
+      // if we did not sync or trigger a sync message for this specific message already
+      const shouldTriggerSyncMessage =
+        !isOurDevice &&
+        !isOpenGroupMessage &&
+        !isMediumGroupMessage &&
+        !this.get('synced') &&
+        !this.get('sentSync');
+
+      // A message is synced if we triggered a sync message (sentSync)
+      // and the current message was sent to our device (so a sync message)
+      const shouldMarkMessageAsSynced =
+        isOurDevice && !isOpenGroupMessage && this.get('sentSync');
+
       // Handle the sync logic here
-      if (!isOurDevice && !this.get('synced') && !this.get('sentSync')) {
+      if (shouldTriggerSyncMessage) {
         const contentDecoded = textsecure.protobuf.Content.decode(
           sentMessage.plainTextBuffer
         );
         const { dataMessage } = contentDecoded;
         if (dataMessage) {
-          this.sendSyncMessage(dataMessage);
+          await this.sendSyncMessage(dataMessage);
         }
-      } else if (isOurDevice && this.get('sentSync')) {
+      } else if (shouldMarkMessageAsSynced) {
         this.set({ synced: true });
       }
-      const primaryPubKey = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
-        sentMessage.device
-      );
+      if (!isOpenGroupMessage) {
+        const primaryPubKey = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+          sentMessage.device
+        );
+        sentTo = _.union(sentTo, [primaryPubKey.key]);
+      }
+
       this.set({
-        sent_to: _.union(sentTo, [primaryPubKey.key]),
+        sent_to: sentTo,
         sent: true,
         expirationStartTimestamp: Date.now(),
         // unidentifiedDeliveries: result.unidentifiedDeliveries,
@@ -1521,7 +1560,6 @@
         this.get('errors'),
         e =>
           e.name === 'MessageError' ||
-          e.name === 'OutgoingMessageError' ||
           e.name === 'SendMessageNetworkError' ||
           e.name === 'SignedPreKeyRotationError'
       );

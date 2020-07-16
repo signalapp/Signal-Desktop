@@ -7,6 +7,8 @@ import { Stubs, TestUtils } from '../../test-utils';
 import { UserUtil } from '../../../util';
 import { SignalService } from '../../../protobuf';
 
+import * as Ratchet from '../../../session/medium_group/ratchet';
+
 // tslint:disable-next-line: max-func-body-length
 describe('MessageEncrypter', () => {
   const sandbox = sinon.createSandbox();
@@ -33,6 +35,7 @@ describe('MessageEncrypter', () => {
     TestUtils.stubWindow('libloki', {
       crypto: {
         FallBackSessionCipher: Stubs.FallBackSessionCipherStub,
+        encryptForPubkey: sinon.fake.returns(''),
       } as any,
     });
 
@@ -46,15 +49,20 @@ describe('MessageEncrypter', () => {
 
   describe('EncryptionType', () => {
     describe('MediumGroup', () => {
-      it('should throw an error', async () => {
+      it('should return a MEDIUM_GROUP_CIPHERTEXT envelope type', async () => {
         const data = crypto.randomBytes(10);
-        const promise = MessageEncrypter.encrypt(
-          '1',
+
+        sandbox
+          .stub(Ratchet, 'encryptWithSenderKey')
+          .resolves({ ciphertext: '' });
+
+        const result = await MessageEncrypter.encrypt(
+          TestUtils.generateFakePubKey(),
           data,
           EncryptionType.MediumGroup
         );
-        await expect(promise).to.be.rejectedWith(
-          'Encryption is not yet supported'
+        expect(result.envelopeType).to.deep.equal(
+          SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT
         );
       });
     });
@@ -67,9 +75,9 @@ describe('MessageEncrypter', () => {
           'encrypt'
         );
         await MessageEncrypter.encrypt(
-          '1',
+          TestUtils.generateFakePubKey(),
           data,
-          EncryptionType.SessionRequest
+          EncryptionType.Fallback
         );
         expect(spy.called).to.equal(
           true,
@@ -84,9 +92,9 @@ describe('MessageEncrypter', () => {
           'encrypt'
         );
         await MessageEncrypter.encrypt(
-          '1',
+          TestUtils.generateFakePubKey(),
           data,
-          EncryptionType.SessionRequest
+          EncryptionType.Fallback
         );
 
         const paddedData = MessageEncrypter.padPlainTextBuffer(data);
@@ -97,9 +105,9 @@ describe('MessageEncrypter', () => {
       it('should return an UNIDENTIFIED SENDER envelope type', async () => {
         const data = crypto.randomBytes(10);
         const result = await MessageEncrypter.encrypt(
-          '1',
+          TestUtils.generateFakePubKey(),
           data,
-          EncryptionType.SessionRequest
+          EncryptionType.Fallback
         );
         expect(result.envelopeType).to.deep.equal(
           SignalService.Envelope.Type.UNIDENTIFIED_SENDER
@@ -111,7 +119,11 @@ describe('MessageEncrypter', () => {
       it('should call SessionCipher encrypt', async () => {
         const data = crypto.randomBytes(10);
         const spy = sandbox.spy(Stubs.SessionCipherStub.prototype, 'encrypt');
-        await MessageEncrypter.encrypt('1', data, EncryptionType.Signal);
+        await MessageEncrypter.encrypt(
+          TestUtils.generateFakePubKey(),
+          data,
+          EncryptionType.Signal
+        );
         expect(spy.called).to.equal(
           true,
           'SessionCipher.encrypt should be called.'
@@ -121,7 +133,11 @@ describe('MessageEncrypter', () => {
       it('should pass the padded message body to encrypt', async () => {
         const data = crypto.randomBytes(10);
         const spy = sandbox.spy(Stubs.SessionCipherStub.prototype, 'encrypt');
-        await MessageEncrypter.encrypt('1', data, EncryptionType.Signal);
+        await MessageEncrypter.encrypt(
+          TestUtils.generateFakePubKey(),
+          data,
+          EncryptionType.Signal
+        );
 
         const paddedData = MessageEncrypter.padPlainTextBuffer(data);
         const firstArgument = new Uint8Array(spy.args[0][0]);
@@ -131,7 +147,7 @@ describe('MessageEncrypter', () => {
       it('should return an UNIDENTIFIED SENDER envelope type', async () => {
         const data = crypto.randomBytes(10);
         const result = await MessageEncrypter.encrypt(
-          '1',
+          TestUtils.generateFakePubKey(),
           data,
           EncryptionType.Signal
         );
@@ -144,13 +160,15 @@ describe('MessageEncrypter', () => {
 
   describe('Sealed Sender', () => {
     it('should pass the correct values to SecretSessionCipher encrypt', async () => {
-      const types = [EncryptionType.SessionRequest, EncryptionType.Signal];
+      const types = [EncryptionType.Fallback, EncryptionType.Signal];
       for (const type of types) {
         const spy = sandbox.spy(
           Stubs.SecretSessionCipherStub.prototype,
           'encrypt'
         );
-        await MessageEncrypter.encrypt('user', crypto.randomBytes(10), type);
+
+        const user = TestUtils.generateFakePubKey();
+        await MessageEncrypter.encrypt(user, crypto.randomBytes(10), type);
 
         const args = spy.args[0];
         const [device, certificate] = args;
@@ -160,7 +178,7 @@ describe('MessageEncrypter', () => {
           senderDevice: 1,
         });
 
-        expect(device).to.equal('user');
+        expect(device).to.equal(user.key);
         expect(certificate.toJSON()).to.deep.equal(
           expectedCertificate.toJSON()
         );

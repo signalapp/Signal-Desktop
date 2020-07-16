@@ -368,12 +368,12 @@ async function isMessageDuplicate({
 }
 
 async function handleProfileUpdate(
-  profileKeyBuffer: any,
+  profileKeyBuffer: Uint8Array,
   convoId: string,
   convoType: ConversationType,
   isIncoming: boolean
 ) {
-  const profileKey = profileKeyBuffer.toString('base64');
+  const profileKey = StringUtils.decode(profileKeyBuffer, 'base64');
 
   if (!isIncoming) {
     const receiver = await window.ConversationController.getOrCreateAndWait(
@@ -587,6 +587,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     return;
   }
 
+  // TODO: this shouldn't be called when source is not a pubkey!!!
   const isOurDevice = await MultiDeviceProtocol.isOurDevice(source);
 
   const shouldSendReceipt =
@@ -599,7 +600,27 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     sendDeliveryReceipt(source, data.timestamp);
   }
 
-  await window.ConversationController.getOrCreateAndWait(id, type);
+  // Conversation Id is:
+  //  - primarySource if it is an incoming DM message,
+  //  - destination if it is an outgoing message,
+  //  - group.id if it is a group message
+  let conversationId = id;
+  if (isGroupMessage) {
+    /* handle one part of the group logic here:
+       handle requesting info of a new group,
+       dropping an admin only update from a non admin, ...
+    */
+    conversationId = message.group.id;
+  }
+
+  if (!conversationId) {
+    window.console.warn(
+      'Invalid conversation id for incoming message',
+      conversationId
+    );
+  }
+
+  await window.ConversationController.getOrCreateAndWait(conversationId, type);
 
   // =========== Process flags =============
 
@@ -613,20 +634,12 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
 
   // =========================================
 
-  // Conversation Id is:
-  //  - primarySource if it is an incoming DM message,
-  //  - destination if it is an outgoing message,
-  //  - group.id if it is a group message
-  let conversationId = id;
-
   const primarySource = await MultiDeviceProtocol.getPrimaryDevice(source);
   if (isGroupMessage) {
     /* handle one part of the group logic here:
        handle requesting info of a new group,
        dropping an admin only update from a non admin, ...
     */
-    conversationId = message.group.id;
-
     const shouldReturn = await preprocessGroupMessage(
       source,
       message.group,

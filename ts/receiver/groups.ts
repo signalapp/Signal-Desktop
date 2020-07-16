@@ -4,6 +4,7 @@ import { getMessageQueue } from '../session';
 import { PubKey } from '../session/types';
 import _ from 'lodash';
 import { BlockedNumberController } from '../util/blockedNumberController';
+import { RatchetKey } from '../session/messages/outgoing/content/data/mediumgroup/MediumGroupMessage';
 
 function isGroupBlocked(groupId: string) {
   return BlockedNumberController.isGroupBlocked(groupId);
@@ -130,16 +131,23 @@ export async function preprocessGroupMessage(
   return false;
 }
 
-export async function onGroupReceived(ev: any) {
-  const {
-    ConversationController,
-    libloki,
-    storage,
-    textsecure,
-    Whisper,
-  } = window;
+interface GroupInfo {
+  id: string;
+  name: string;
+  members: Array<string>; // Primary keys
+  is_medium_group: boolean;
+  active: boolean;
+  avatar: any;
+  expireTimer: number;
+  secretKey: any;
+  color?: any; // what is this???
+  blocked?: boolean;
+  senderKeys: Array<RatchetKey>;
+}
 
-  const details = ev.groupDetails;
+export async function onGroupReceived(details: GroupInfo) {
+  const { ConversationController, libloki, textsecure, Whisper } = window;
+
   const { id } = details;
 
   libloki.api.debug.logGroupSync(
@@ -175,12 +183,6 @@ export async function onGroupReceived(ev: any) {
     updates.left = true;
   }
 
-  if (details.blocked) {
-    storage.addBlockedGroup(id);
-  } else {
-    storage.removeBlockedGroup(id);
-  }
-
   conversation.set(updates);
 
   // Update the conversation avatar only if new avatar exists and hash differs
@@ -196,13 +198,17 @@ export async function onGroupReceived(ev: any) {
     );
     conversation.set(newAttributes);
   }
+  const isBlocked = details.blocked || false;
+  if (conversation.isClosedGroup()) {
+    await BlockedNumberController.setGroupBlocked(conversation.id, isBlocked);
+  }
+
+  conversation.trigger('change', conversation);
+  conversation.updateTextInputState();
 
   await window.Signal.Data.updateConversation(id, conversation.attributes, {
     Conversation: Whisper.Conversation,
   });
-
-  // send a session request for all the members we do not have a session with
-  await window.libloki.api.sendSessionRequestsToMembers(updates.members);
 
   const { expireTimer } = details;
   const isValidExpireTimer = typeof expireTimer === 'number';
@@ -215,6 +221,4 @@ export async function onGroupReceived(ev: any) {
   await conversation.updateExpirationTimer(expireTimer, source, receivedAt, {
     fromSync: true,
   });
-
-  ev.confirm();
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { SessionModal } from '../session/SessionModal';
-import { SessionButton } from '../session/SessionButton';
+import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import {
   ContactType,
   SessionMemberListItem,
@@ -31,7 +31,9 @@ export class InviteContactsDialog extends React.Component<Props, State> {
 
     contacts = contacts.map(d => {
       const lokiProfile = d.getLokiProfile();
-      const name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
+      const name = lokiProfile
+        ? lokiProfile.displayName
+        : window.i18n('anonymous');
 
       // TODO: should take existing members into account
       const existingMember = false;
@@ -87,6 +89,7 @@ export class InviteContactsDialog extends React.Component<Props, State> {
             text={okText}
             disabled={!hasContacts}
             onClick={this.onClickOK}
+            buttonColor={SessionButtonColor.Green}
           />
         </div>
       </SessionModal>

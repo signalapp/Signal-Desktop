@@ -359,8 +359,6 @@ window.WebAPI = initializeWebAPI();
 
 window.seedNodeList = JSON.parse(config.seedNodeList);
 
-window.SenderKeyAPI = require('./js/modules/loki_sender_key_api');
-
 const { OnionAPI } = require('./ts/session/onions');
 
 window.OnionAPI = OnionAPI;
@@ -453,6 +451,8 @@ window.addEventListener('contextmenu', e => {
 window.NewReceiver = require('./ts/receiver/receiver');
 window.NewSnodeAPI = require('./ts/session/snode_api/serviceNodeAPI');
 window.SnodePool = require('./ts/session/snode_api/snodePool');
+
+window.MediumGroups = require('./ts/session/medium_group');
 
 const { SwarmPolling } = require('./ts/session/snode_api/swarmPolling');
 const { SwarmPollingStub } = require('./ts/session/snode_api/swarmPollingStub');

@@ -623,6 +623,7 @@
       }
     });
 
+    // TODO: make sure updating still works
     window.doUpdateGroup = async (groupId, groupName, members, avatar) => {
       const ourKey = textsecure.storage.user.getNumber();
 
@@ -630,23 +631,22 @@
         groupId,
         'group'
       );
+      const oldMembers = convo.get('members');
+      const oldName = convo.getName();
 
-      const ev = {
-        groupDetails: {
-          id: groupId,
-          name: groupName,
-          members,
-          active: true,
-          expireTimer: convo.get('expireTimer'),
-          avatar,
-          is_medium_group: false,
-        },
-        confirm: () => {},
+      const groupDetails = {
+        id: groupId,
+        name: groupName,
+        members,
+        active: true,
+        expireTimer: convo.get('expireTimer'),
+        avatar,
+        is_medium_group: false,
       };
 
       const recipients = _.union(convo.get('members'), members);
 
-      await window.NewReceiver.onGroupReceived(ev);
+      await window.NewReceiver.onGroupReceived(groupDetails);
 
       if (convo.isPublic()) {
         const API = await convo.getPublicSendData();
@@ -698,7 +698,7 @@
         return;
       }
 
-      const nullAvatar = '';
+      const nullAvatar = undefined;
       if (avatar) {
         // would get to download this file on each client in the group
         // and reference the local file
@@ -709,7 +709,6 @@
 
       const updateObj = {
         id: groupId,
-        name: groupName,
         avatar: nullAvatar,
         recipients,
         members,
@@ -717,9 +716,22 @@
         options,
       };
 
+      if (oldName !== groupName) {
+        updateObj.name = groupName;
+      }
+
+      const addedMembers = _.difference(updateObj.members, oldMembers);
+      if (addedMembers.length > 0) {
+        updateObj.joined = addedMembers;
+      }
+      // Check if anyone got kicked:
+      const removedMembers = _.difference(oldMembers, updateObj.members);
+      if (removedMembers.length > 0) {
+        updateObj.kicked = removedMembers;
+      }
       // Send own sender keys and group secret key
       if (isMediumGroup) {
-        const { chainKey, keyIdx } = await window.SenderKeyAPI.getSenderKeys(
+        const { chainKey, keyIdx } = await window.MediumGroups.getSenderKeys(
           groupId,
           ourKey
         );
@@ -743,63 +755,6 @@
       convo.updateGroup(updateObj);
     };
 
-    window.createMediumSizeGroup = async (groupName, members) => {
-      // Create Group Identity
-      const identityKeys = await libsignal.KeyHelper.generateIdentityKeyPair();
-      const groupId = StringView.arrayBufferToHex(identityKeys.pubKey);
-
-      const ourIdentity = await textsecure.storage.user.getNumber();
-
-      const senderKey = await window.SenderKeyAPI.createSenderKeyForGroup(
-        groupId,
-        ourIdentity
-      );
-
-      const groupSecretKeyHex = StringView.arrayBufferToHex(
-        identityKeys.privKey
-      );
-
-      const primary = window.storage.get('primaryDevicePubKey');
-
-      const allMembers = [primary, ...members];
-
-      await window.Signal.Data.createOrUpdateIdentityKey({
-        id: groupId,
-        secretKey: groupSecretKeyHex,
-      });
-
-      const ev = {
-        groupDetails: {
-          id: groupId,
-          name: groupName,
-          members: allMembers,
-          recipients: allMembers,
-          active: true,
-          expireTimer: 0,
-          avatar: '',
-          secretKey: identityKeys.privKey,
-          senderKey,
-          is_medium_group: true,
-        },
-        confirm: () => {},
-      };
-
-      await window.NewReceiver.onGroupReceived(ev);
-
-      const convo = await ConversationController.getOrCreateAndWait(
-        groupId,
-        'group'
-      );
-
-      convo.updateGroupAdmins([primary]);
-      convo.updateGroup(ev.groupDetails);
-
-      appView.openConversation(groupId, {});
-
-      // Subscribe to this group id
-      window.SwarmPolling.addGroupId(new libsession.Types.PubKey(groupId));
-    };
-
     window.doCreateGroup = async (groupName, members) => {
       const keypair = await libsignal.KeyHelper.generateIdentityKeyPair();
       const groupId = StringView.arrayBufferToHex(keypair.pubKey);
@@ -809,20 +764,17 @@
         textsecure.storage.user.getNumber();
       const allMembers = [primaryDeviceKey, ...members];
 
-      const ev = {
-        groupDetails: {
-          id: groupId,
-          name: groupName,
-          members: allMembers,
-          recipients: allMembers,
-          active: true,
-          expireTimer: 0,
-          avatar: '',
-        },
-        confirm: () => {},
+      const groupDetails = {
+        id: groupId,
+        name: groupName,
+        members: allMembers,
+        recipients: allMembers,
+        active: true,
+        expireTimer: 0,
+        avatar: undefined,
       };
 
-      await window.NewReceiver.onGroupReceived(ev);
+      await window.NewReceiver.onGroupReceived(groupDetails);
 
       const convo = await ConversationController.getOrCreateAndWait(
         groupId,
@@ -830,7 +782,7 @@
       );
 
       convo.updateGroupAdmins([primaryDeviceKey]);
-      convo.updateGroup(ev.groupDetails);
+      convo.updateGroup(groupDetails);
 
       textsecure.messaging.sendGroupSyncMessage([convo]);
       appView.openConversation(groupId, {});
@@ -1091,16 +1043,30 @@
       window.setMediaPermissions(!value);
     };
 
-    // attempts a connection to an open group server
+    // Attempts a connection to an open group server
     window.attemptConnection = async (serverURL, channelId) => {
-      let rawserverURL = serverURL
+      let completeServerURL = serverURL.toLowerCase();
+      const valid = window.libsession.Types.OpenGroup.validate(
+        completeServerURL
+      );
+      if (!valid) {
+        return new Promise((_resolve, reject) => {
+          reject(window.i18n('connectToServerFail'));
+        });
+      }
+
+      // Add http or https prefix to server
+      completeServerURL = window.libsession.Types.OpenGroup.prefixify(
+        completeServerURL
+      );
+
+      const rawServerURL = serverURL
         .replace(/^https?:\/\//i, '')
         .replace(/[/\\]+$/i, '');
-      rawserverURL = rawserverURL.toLowerCase();
-      const sslServerURL = `https://${rawserverURL}`;
-      const conversationId = `publicChat:${channelId}@${rawserverURL}`;
 
-      // quickly peak to make sure we don't already have it
+      const conversationId = `publicChat:${channelId}@${rawServerURL}`;
+
+      // Quickly peak to make sure we don't already have it
       const conversationExists = window.ConversationController.get(
         conversationId
       );
@@ -1111,9 +1077,9 @@
         });
       }
 
-      // get server
+      // Get server
       const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
-        sslServerURL
+        completeServerURL
       );
       // SSL certificate failure or offline
       if (!serverAPI) {
@@ -1123,14 +1089,14 @@
         });
       }
 
-      // create conversation
+      // Create conversation
       const conversation = await window.ConversationController.getOrCreateAndWait(
         conversationId,
         'group'
       );
 
-      // convert conversation to a public one
-      await conversation.setPublicSource(sslServerURL, channelId);
+      // Convert conversation to a public one
+      await conversation.setPublicSource(completeServerURL, channelId);
 
       // and finally activate it
       conversation.getPublicSendData(); // may want "await" if you want to use the API
@@ -1426,10 +1392,11 @@
         pubKey
       );
       await window.lokiFileServerAPI.updateOurDeviceMapping();
-      // TODO: we should ensure the message was sent and retry automatically if not
       const device = new libsession.Types.PubKey(pubKey);
       const unlinkMessage = new libsession.Messages.Outgoing.DeviceUnlinkMessage(
-        pubKey
+        {
+          timestamp: Date.now(),
+        }
       );
 
       await libsession.getMessageQueue().send(device, unlinkMessage);
@@ -1583,10 +1550,6 @@
     messageReceiver.addEventListener(
       'message',
       window.NewReceiver.handleMessageEvent
-    );
-    messageReceiver.addEventListener(
-      'group',
-      window.NewReceiver.onGroupReceived
     );
     messageReceiver.addEventListener(
       'sent',

@@ -2,6 +2,8 @@ import { EncryptionType } from '../types/EncryptionType';
 import { SignalService } from '../../protobuf';
 import { UserUtil } from '../../util';
 import { CipherTextObject } from '../../../libtextsecure/libsignal-protocol';
+import { encryptWithSenderKey } from '../../session/medium_group/ratchet';
+import { PubKey } from '../types';
 
 /**
  * Add padding to a message buffer
@@ -28,32 +30,34 @@ function getPaddedMessageLength(originalLength: number): number {
   return messagePartCount * 160;
 }
 
+type EncryptResult = {
+  envelopeType: SignalService.Envelope.Type;
+  cipherText: Uint8Array;
+};
+
 /**
  * Encrypt `plainTextBuffer` with given `encryptionType` for `device`.
  *
- * @param device The device to encrypt for.
+ * @param device The device `PubKey` to encrypt for.
  * @param plainTextBuffer The unpadded plaintext buffer.
  * @param encryptionType The type of encryption.
  * @returns The envelope type and the base64 encoded cipher text
  */
 export async function encrypt(
-  device: string,
+  device: PubKey,
   plainTextBuffer: Uint8Array,
   encryptionType: EncryptionType
-): Promise<{
-  envelopeType: SignalService.Envelope.Type;
-  cipherText: Uint8Array;
-}> {
+): Promise<EncryptResult> {
   const plainText = padPlainTextBuffer(plainTextBuffer);
-  const address = new window.libsignal.SignalProtocolAddress(device, 1);
 
   if (encryptionType === EncryptionType.MediumGroup) {
-    // TODO: Do medium group stuff here
-    throw new Error('Encryption is not yet supported');
+    return encryptForMediumGroup(device, plainTextBuffer);
   }
 
+  const address = new window.libsignal.SignalProtocolAddress(device.key, 1);
+
   let innerCipherText: CipherTextObject;
-  if (encryptionType === EncryptionType.SessionRequest) {
+  if (encryptionType === EncryptionType.Fallback) {
     const cipher = new window.libloki.crypto.FallBackSessionCipher(address);
     innerCipherText = await cipher.encrypt(plainText.buffer);
   } else {
@@ -67,8 +71,47 @@ export async function encrypt(
   return encryptUsingSealedSender(device, innerCipherText);
 }
 
+export async function encryptForMediumGroup(
+  device: PubKey,
+  plainTextBuffer: Uint8Array
+): Promise<EncryptResult> {
+  const ourKey = (await UserUtil.getCurrentDevicePubKey()) as string;
+
+  // "Device" does not really make sense for medium groups, but
+  // that's where the group pubkey is currently stored
+  const groupId = device.key;
+
+  const { ciphertext, keyIdx } = await encryptWithSenderKey(
+    plainTextBuffer,
+    groupId,
+    ourKey
+  );
+
+  // We should include ciphertext idx in the message
+  const content = SignalService.MediumGroupCiphertext.encode({
+    ciphertext,
+    source: ourKey,
+    keyIdx,
+  }).finish();
+
+  // Encrypt for the group's identity key to hide source and key idx:
+  const {
+    ciphertext: ciphertextOuter,
+    ephemeralKey,
+  } = await window.libloki.crypto.encryptForPubkey(groupId, content);
+
+  const contentOuter = SignalService.MediumGroupContent.encode({
+    ciphertext: ciphertextOuter,
+    ephemeralKey: new Uint8Array(ephemeralKey),
+  }).finish();
+
+  const envelopeType = SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT;
+
+  return { envelopeType, cipherText: contentOuter };
+}
+
 async function encryptUsingSealedSender(
-  device: string,
+  device: PubKey,
   innerCipherText: CipherTextObject
 ): Promise<{
   envelopeType: SignalService.Envelope.Type;
@@ -88,7 +131,7 @@ async function encryptUsingSealedSender(
     window.textsecure.storage.protocol
   );
   const cipherTextBuffer = await cipher.encrypt(
-    device,
+    device.key,
     certificate,
     innerCipherText
   );

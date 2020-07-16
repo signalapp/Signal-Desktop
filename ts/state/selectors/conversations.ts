@@ -11,6 +11,7 @@ import {
 
 import { getIntl, getRegionCode, getUserNumber } from './user';
 import { PropsData as ConversationListItemPropsType } from '../../components/ConversationListItem';
+import { BlockedNumberController } from '../../util';
 
 export const getConversations = (state: StateType): ConversationsStateType =>
   state.conversations;
@@ -119,9 +120,37 @@ export const _getLeftPaneLists = (
         isSelected: true,
       };
     }
+    const isBlocked =
+      BlockedNumberController.isBlocked(conversation.primaryDevice) ||
+      BlockedNumberController.isGroupBlocked(conversation.id);
 
-    // Remove all invalid conversations and conversatons of devices associated with cancelled attempted links
-    if (!conversation.timestamp) {
+    if (isBlocked) {
+      conversation = {
+        ...conversation,
+        isBlocked: true,
+      };
+    }
+
+    // Add Open Group to list as soon as the name has been set
+    if (
+      conversation.isPublic &&
+      (!conversation.name || conversation.name === 'Unknown group')
+    ) {
+      continue;
+    }
+
+    // Show loading icon while fetching messages
+    if (conversation.isPublic && !conversation.timestamp) {
+      conversation.lastMessage = {
+        status: 'sending',
+        text: '',
+        isRss: false,
+      };
+    }
+
+    // Remove all invalid conversations and conversatons of devices associated
+    //  with cancelled attempted links
+    if (!conversation.isPublic && !conversation.activeAt) {
       continue;
     }
 
@@ -131,10 +160,6 @@ export const _getLeftPaneLists = (
 
     if (unreadCount < 9 && conversation.unreadCount > 0) {
       unreadCount += conversation.unreadCount;
-    }
-
-    if (!conversation.activeAt) {
-      continue;
     }
 
     if (conversation.isArchived) {

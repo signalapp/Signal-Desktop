@@ -111,4 +111,8 @@ export class MockConversation {
 
     return this.isPrimary ? this.id : generateFakePubKey().key;
   }
+
+  public get(obj: string) {
+    return (this.attributes as any)[obj];
+  }
 }

@@ -8,8 +8,7 @@
   const DebugFlagsEnum = {
     GROUP_SYNC_MESSAGES: 1,
     CONTACT_SYNC_MESSAGES: 2,
-    SESSION_REQUEST_MESSAGES: 8,
-    SESSION_MESSAGE_SENDING: 16,
+    FALLBACK_MESSAGES: 8,
     SESSION_BACKGROUND_MESSAGE: 32,
     GROUP_REQUEST_INFO: 64,
     // If you add any new flag, be sure it is bitwise safe! (unique and 2 multiples)
@@ -23,12 +22,6 @@
       window.console.warn(...args);
     }
   };
-
-  function logSessionMessageSending(...args) {
-    if (debugFlags & DebugFlagsEnum.SESSION_MESSAGE_SENDING) {
-      debugLogFn(...args);
-    }
-  }
 
   function logGroupSync(...args) {
     if (debugFlags & DebugFlagsEnum.GROUP_SYNC_MESSAGES) {
@@ -119,7 +112,6 @@
   const debug = {
     logContactSync,
     logGroupSync,
-    logSessionMessageSending,
     logBackgroundMessage,
     logGroupRequestInfo,
   };

@@ -360,8 +360,13 @@ MessageSender.prototype = {
     });
   },
 
-  async sendContactSyncMessage() {
-    const convosToSync = await libsession.Utils.SyncMessageUtils.getSyncContacts();
+  async sendContactSyncMessage(convos) {
+    let convosToSync;
+    if (!convos) {
+      convosToSync = await libsession.Utils.SyncMessageUtils.getSyncContacts();
+    } else {
+      convosToSync = convos;
+    }
 
     if (convosToSync.size === 0) {
       window.console.info('No contacts to sync.');
@@ -397,11 +402,7 @@ MessageSender.prototype = {
     }
     // We only want to sync across closed groups that we haven't left
     const sessionGroups = conversations.filter(
-      c =>
-        c.isClosedGroup() &&
-        !c.get('left') &&
-        !c.isBlocked() &&
-        !c.isMediumGroup()
+      c => c.isClosedGroup() && !c.get('left') && !c.isMediumGroup()
     );
     if (sessionGroups.length === 0) {
       window.console.info('No closed group to sync.');
@@ -419,13 +420,14 @@ MessageSender.prototype = {
     return Promise.all(syncPromises);
   },
 
-  async sendOpenGroupsSyncMessage(conversations) {
+  async sendOpenGroupsSyncMessage(convos) {
     // If we havn't got a primaryDeviceKey then we are in the middle of pairing
     // primaryDevicePubKey is set to our own number if we are the master device
     const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
     if (!primaryDeviceKey) {
       return Promise.resolve();
     }
+    const conversations = Array.isArray(convos) ? convos : [convos];
 
     const openGroupsConvos = await libsession.Utils.SyncMessageUtils.filterOpenGroupsConvos(
       conversations
@@ -453,10 +455,11 @@ MessageSender.prototype = {
   },
   syncReadMessages(reads) {
     const myDevice = textsecure.storage.user.getDeviceId();
-    // FIXME audric currently not in used
+    // FIXME currently not in used
     if (myDevice !== 1 && myDevice !== '1') {
-      const syncReadMessages = new libsession.Messages.Outgoing.OpenGroupSyncMessage(
+      const syncReadMessages = new libsession.Messages.Outgoing.SyncReadMessage(
         {
+          timestamp: Date.now(),
           readMessages: reads,
         }
       );
@@ -467,7 +470,7 @@ MessageSender.prototype = {
   },
   async syncVerification(destination, state, identityKey) {
     const myDevice = textsecure.storage.user.getDeviceId();
-
+    // FIXME currently not in used
     if (myDevice === 1 || myDevice === '1') {
       return Promise.resolve();
     }
