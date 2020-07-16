@@ -9,6 +9,7 @@ import {
 import { SignalService } from '../../../protobuf';
 import { TextEncoder } from 'util';
 import { toNumber } from 'lodash';
+import { Constants } from '../../../session';
 
 describe('ChatMessage', () => {
   it('can create empty message with just a timestamp', () => {
@@ -128,11 +129,11 @@ describe('ChatMessage', () => {
     expect(firstAttachment?.url).to.be.deep.equal('url');
   });
 
-  it('ttl of 1 day', () => {
+  it('correct ttl', () => {
     const message = new ChatMessage({
       timestamp: Date.now(),
     });
-    expect(message.ttl()).to.equal(24 * 60 * 60 * 1000);
+    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.REGULAR_MESSAGE);
   });
 
   it('has an identifier', () => {

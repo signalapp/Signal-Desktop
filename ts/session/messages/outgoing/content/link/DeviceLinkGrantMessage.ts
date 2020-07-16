@@ -25,6 +25,13 @@ export class DeviceLinkGrantMessage extends DeviceLinkRequestMessage {
       requestSignature: params.requestSignature,
     });
 
+    if (!(params.lokiProfile.profileKey instanceof Uint8Array)) {
+      throw new TypeError('profileKey must be of type Uint8Array');
+    }
+    if (!(params.grantSignature instanceof Uint8Array)) {
+      throw new TypeError('grantSignature must be of type Uint8Array');
+    }
+
     this.displayName = params.lokiProfile.displayName;
     this.avatarPointer = params.lokiProfile.avatarPointer;
     this.profileKey = params.lokiProfile.profileKey;

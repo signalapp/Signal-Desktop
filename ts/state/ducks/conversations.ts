@@ -54,6 +54,7 @@ export type ConversationType = {
   isTyping: boolean;
   isSecondary?: boolean;
   primaryDevice: string;
+  isBlocked: boolean;
 };
 export type ConversationLookupType = {
   [key: string]: ConversationType;

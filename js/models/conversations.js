@@ -250,9 +250,14 @@
         ? BlockedNumberController.block(this.id)
         : BlockedNumberController.blockGroup(this.id);
       await promise;
-      this.trigger('change');
+      this.trigger('change', this);
       this.messageCollection.forEach(m => m.trigger('change'));
       this.updateTextInputState();
+      if (this.isPrivate()) {
+        await textsecure.messaging.sendContactSyncMessage([this]);
+      } else {
+        await textsecure.messaging.sendGroupSyncMessage([this]);
+      }
     },
     async unblock() {
       if (!this.id || this.isPublic() || this.isRss()) {
@@ -262,9 +267,14 @@
         ? BlockedNumberController.unblock(this.id)
         : BlockedNumberController.unblockGroup(this.id);
       await promise;
-      this.trigger('change');
+      this.trigger('change', this);
       this.messageCollection.forEach(m => m.trigger('change'));
       this.updateTextInputState();
+      if (this.isPrivate()) {
+        await textsecure.messaging.sendContactSyncMessage([this]);
+      } else {
+        await textsecure.messaging.sendGroupSyncMessage([this]);
+      }
     },
     setMessageSelectionBackdrop() {
       const messageSelected = this.selectedMessages.size > 0;
@@ -1382,7 +1392,7 @@
             const groupInvitMessage = new libsession.Messages.Outgoing.GroupInvitationMessage(
               {
                 identifier: id,
-
+                timestamp: Date.now(),
                 serverName: groupInvitation.name,
                 channelId: groupInvitation.channelId,
                 serverAddress: groupInvitation.address,
@@ -2720,7 +2730,7 @@
         const ourConversation = window.ConversationController.get(ourNumber);
         let profileKey = null;
         if (this.get('profileSharing')) {
-          profileKey = storage.get('profileKey');
+          profileKey = new Uint8Array(storage.get('profileKey'));
         }
         const avatarPointer = ourConversation.get('avatarPointer');
         const { displayName } = ourConversation.getLokiProfile();
