@@ -236,7 +236,7 @@ export async function processDecrypted(envelope: EnvelopePlus, decrypted: any) {
   /* tslint:disable:no-bitwise */
 }
 
-function isMessageEmpty(message: SignalService.DataMessage) {
+export function isMessageEmpty(message: SignalService.DataMessage) {
   const {
     flags,
     body,
@@ -267,7 +267,7 @@ function isBodyEmpty(body: string) {
   return _.isEmpty(body) || isBodyAutoFRContent(body);
 }
 
-export function isBodyAutoFRContent(body: string) {
+function isBodyAutoFRContent(body: string) {
   return (
     body === 'Please accept to enable messages to be synced across devices'
   );

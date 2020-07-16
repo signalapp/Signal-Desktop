@@ -9,13 +9,14 @@ import { handleEndSession } from './sessionHandling';
 import { handleMediumGroupUpdate } from './mediumGroups';
 import {
   handleMessageEvent,
-  isBodyAutoFRContent,
+  isMessageEmpty,
   processDecrypted,
 } from './dataMessage';
 import { updateProfile } from './receiver';
 import { handleContacts } from './multidevice';
 import { onGroupReceived } from './groups';
 import { MultiDeviceProtocol } from '../session/protocols';
+import { DataMessage } from '../session/messages/outgoing';
 
 export async function handleSyncMessage(
   envelope: EnvelopePlus,
@@ -92,8 +93,8 @@ async function handleSentMessage(
     return;
   }
 
-  if (msg.body && isBodyAutoFRContent(msg.body)) {
-    window.console.log('dropping autoFR message synced');
+  if (isMessageEmpty(msg as SignalService.DataMessage)) {
+    window.console.log('dropping empty message synced');
     await removeFromCache(envelope);
     return;
   }
