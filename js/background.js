@@ -1472,6 +1472,10 @@
       return;
     }
 
+    if (firstRun) {
+      window.readyForUpdates();
+    }
+
     if (!Whisper.Registration.everDone()) {
       return;
     }
