@@ -355,8 +355,6 @@ window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
 
 window.LokiFileServerAPI = require('./js/modules/loki_file_server_api');
 
-window.LokiRssAPI = require('./js/modules/loki_rss_api');
-
 window.mnemonic = require('./libloki/modules/mnemonic');
 const WorkerInterface = require('./js/modules/util_worker_interface');
 

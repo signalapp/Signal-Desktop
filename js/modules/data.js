@@ -124,7 +124,6 @@ module.exports = {
   getAllConversations,
   getAllConversationIds,
   getAllPrivateConversations,
-  getAllRssFeedConversations,
   getAllPublicConversations,
   getPublicConversationsByServer,
   getPubkeysInPublicConversation,
@@ -809,14 +808,6 @@ async function getAllConversations({ ConversationCollection }) {
 async function getAllConversationIds() {
   const ids = await channels.getAllConversationIds();
   return ids;
-}
-
-async function getAllRssFeedConversations({ ConversationCollection }) {
-  const conversations = await channels.getAllRssFeedConversations();
-
-  const collection = new ConversationCollection();
-  collection.add(conversations);
-  return collection;
 }
 
 async function getAllPublicConversations({ ConversationCollection }) {

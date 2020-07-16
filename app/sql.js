@@ -106,7 +106,6 @@ module.exports = {
   updateConversation,
   removeConversation,
   getAllConversations,
-  getAllRssFeedConversations,
   getAllPublicConversations,
   getPublicConversationsByServer,
   getPubkeysInPublicConversation,
@@ -810,6 +809,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion3,
   updateToLokiSchemaVersion4,
   updateToLokiSchemaVersion5,
+  updateToLokiSchemaVersion6,
 ];
 
 async function updateToLokiSchemaVersion1(currentVersion, instance) {
@@ -997,6 +997,34 @@ async function updateToLokiSchemaVersion5(currentVersion, instance) {
 
   await instance.run('COMMIT TRANSACTION;');
   console.log('updateToLokiSchemaVersion5: success!');
+}
+
+async function updateToLokiSchemaVersion6(currentVersion, instance) {
+  if (currentVersion >= 6) {
+    return;
+  }
+
+  console.log('updateToLokiSchemaVersion6: starting...');
+
+  await instance.run('BEGIN TRANSACTION;');
+
+  // Remove RSS Feed conversations
+  await instance.run(
+    `DELETE FROM conversations WHERE
+      type = 'group' AND
+      id LIKE 'rss://%';`
+  );
+
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        6
+      );`
+  );
+
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToLokiSchemaVersion6: success!');
 }
 
 async function updateLokiSchema(instance) {
@@ -1899,17 +1927,6 @@ async function getAllPrivateConversations() {
   const rows = await db.all(
     `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'private'
-     ORDER BY id ASC;`
-  );
-
-  return map(rows, row => jsonToObject(row.json));
-}
-
-async function getAllRssFeedConversations() {
-  const rows = await db.all(
-    `SELECT json FROM conversations WHERE
-      type = 'group' AND
-      id LIKE 'rss://%'
      ORDER BY id ASC;`
   );
 
