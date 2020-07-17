@@ -37,6 +37,7 @@ interface State {
   displayScrollToBottomButton: boolean;
   messageFetchTimestamp: number;
 
+  showOverlay: boolean;
   showRecordingView: boolean;
   showOptionsPane: boolean;
   showScrollButton: boolean;
@@ -72,6 +73,7 @@ export class SessionConversation extends React.Component<any, State> {
       displayScrollToBottomButton: false,
       messageFetchTimestamp: 0,
 
+      showOverlay: false,
       showRecordingView: false,
       showOptionsPane: false,
       showScrollButton: false,
@@ -179,7 +181,7 @@ export class SessionConversation extends React.Component<any, State> {
     const groupSettingsProps = this.getGroupSettingsProps();
 
     return (
-      <div className="session-conversation">
+      <>
         <div
           className={classNames(
             'conversation-item__content',

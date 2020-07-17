@@ -68,6 +68,7 @@ $composition-container-height: 60px;
   &__content {
     display: flex;
     flex-direction: column;
+    height: 100%;
     width: 100%;
     outline: none;
   }
@@ -153,6 +154,8 @@ $composition-container-height: 60px;
   flex-direction: column;
   position: relative;
   overflow-y: auto;
+  overflow-x: hidden;
+  min-width: 370px;
   scrollbar-width: 4px;
   padding: $session-margin-sm $session-margin-lg;
 
