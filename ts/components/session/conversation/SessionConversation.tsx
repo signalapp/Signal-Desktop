@@ -21,6 +21,9 @@ import { MessageQueue } from '../../../session/sending';
 
 interface State {
   conversationKey: string;
+  
+  // Message sending progress
+  messageProgressVisible: boolean;
   sendingProgress: number;
   prevSendingProgress: number;
   // Sending failed:  -1
@@ -61,6 +64,7 @@ export class SessionConversation extends React.Component<any, State> {
     const unreadCount = conversation.unreadCount;
 
     this.state = {
+      messageProgressVisible: false,
       sendingProgress: 0,
       prevSendingProgress: 0,
       sendingProgressStatus: 0,
@@ -193,13 +197,13 @@ export class SessionConversation extends React.Component<any, State> {
         >
           <div className="conversation-header">{this.renderHeader()}</div>
 
-          <SessionProgress
-            visible={true}
+          {/* <SessionProgress
+            visible={this.state.messageProgressVisible}
             value={this.state.sendingProgress}
             prevValue={this.state.prevSendingProgress}
             sendStatus={this.state.sendingProgressStatus}
             resetProgress={this.resetSendingProgress}
-          />
+          /> */}
 
           <div className="messages-wrapper">
             {loading && <div className="messages-container__loading" />}
@@ -431,12 +435,9 @@ export class SessionConversation extends React.Component<any, State> {
 
     this.setState({ messages, messageFetchTimestamp: timestamp }, () => {
       if (this.state.isScrolledToBottom) {
-        console.log(`[unread] Updating messages from getMessage`);
         this.updateReadMessages();
       }
     });
-
-    console.log(`[header] messages: `, messages);
 
     return { newTopMessage, previousTopMessage };
   }
@@ -559,9 +560,6 @@ export class SessionConversation extends React.Component<any, State> {
       },
     };
 
-    console.log(`[header] HeaderProps:`, headerProps);
-    console.log(`[header] Conv: `, conversation);
-
     return headerProps;
   }
 
@@ -652,17 +650,14 @@ export class SessionConversation extends React.Component<any, State> {
     // Set sending state 5% to show message sending
     const initialValue = 5;
     this.updateSendingProgress(initialValue, 1);
-
-    console.log(`[sending] Message Sending`);
   }
 
   public onMessageSuccess() {
-    console.log(`[sending] Message Sent`);
     this.updateSendingProgress(100, 2);
+
   }
 
   public onMessageFailure() {
-    console.log(`[sending] Message Failure`);
     this.updateSendingProgress(100, -1);
   }
 
@@ -789,14 +784,8 @@ export class SessionConversation extends React.Component<any, State> {
       this.setState({ showScrollButton: false });
     }
 
-    console.log(`[scroll] scrollOffsetPx: `, scrollOffsetPx);
-    console.log(`[scroll] scrollOffsetPc: `, scrollOffsetPc);
-
     // Scrolled to bottom
     const isScrolledToBottom = scrollOffsetPc === 0;
-    if (isScrolledToBottom) {
-      console.log(`[scroll] Scrolled to bottom`);
-    }
 
     // Mark messages read
     this.updateReadMessages();
