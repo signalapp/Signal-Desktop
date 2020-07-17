@@ -5516,7 +5516,7 @@ button.module-image__border-overlay:focus {
 
 .module-sticker-picker {
   @extend %module-composition-popper;
-  height: 400px;
+  height: 350px;
   display: grid;
   grid-template-rows: 44px 1fr;
   grid-template-columns: 1fr;
@@ -5728,7 +5728,7 @@ button.module-image__border-overlay:focus {
 
   &__content {
     width: 332px;
-    height: 356px;
+    height: 306px;
     padding: 8px 20px 16px 16px;
     overflow-y: auto;
     display: grid;
@@ -6623,7 +6623,7 @@ button.module-image__border-overlay:focus {
 
 .module-emoji-picker {
   @extend %module-composition-popper;
-  height: 428px;
+  height: 350px;
   display: grid;
   grid-template-rows: 44px 1fr;
   grid-template-columns: 1fr;
