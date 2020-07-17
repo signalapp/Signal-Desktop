@@ -1,6 +1,7 @@
 // tslint:disable: no-backbone-get-set-outside-model
 
 import React from 'react';
+
 import classNames from 'classnames';
 
 import { ConversationHeader } from '../../conversation/ConversationHeader';
@@ -39,6 +40,9 @@ interface State {
   showRecordingView: boolean;
   showOptionsPane: boolean;
   showScrollButton: boolean;
+
+  // dropZoneFiles?: FileList
+  dropZoneFiles: any;
 }
 
 export class SessionConversation extends React.Component<any, State> {
@@ -52,9 +56,8 @@ export class SessionConversation extends React.Component<any, State> {
     const conversation = this.props.conversations.conversationLookup[
       conversationKey
     ];
-    const unreadCount = conversation.unreadCount;
 
-    console.log(`[conv] Conversation:`, conversation);
+    const unreadCount = conversation.unreadCount;
 
     this.state = {
       sendingProgress: 0,
@@ -72,6 +75,8 @@ export class SessionConversation extends React.Component<any, State> {
       showRecordingView: false,
       showOptionsPane: false,
       showScrollButton: false,
+
+      dropZoneFiles: undefined, // <-- FileList or something else?
     };
 
     this.handleScroll = this.handleScroll.bind(this);
@@ -131,8 +136,6 @@ export class SessionConversation extends React.Component<any, State> {
     if (this.state.isScrolledToBottom) {
       this.scrollToBottom();
     }
-
-    console.log(`[update] Props: `, this.props);
   }
 
   public async componentWillReceiveProps() {
@@ -176,7 +179,7 @@ export class SessionConversation extends React.Component<any, State> {
     const groupSettingsProps = this.getGroupSettingsProps();
 
     return (
-      <>
+      <div className="session-conversation">
         <div
           className={classNames(
             'conversation-item__content',
@@ -220,6 +223,7 @@ export class SessionConversation extends React.Component<any, State> {
           {!isRss && (
             <SessionCompositionBox
               sendMessage={sendMessageFn}
+              dropZoneFiles={this.state.dropZoneFiles}
               onMessageSending={this.onMessageSending}
               onMessageSuccess={this.onMessageSuccess}
               onMessageFailure={this.onMessageFailure}
@@ -300,8 +304,6 @@ export class SessionConversation extends React.Component<any, State> {
 
   public renderHeader() {
     const headerProps = this.getHeaderProps();
-
-    console.log(`[header] Headerprops: `, headerProps);
 
     return (
       <ConversationHeader
@@ -897,14 +899,15 @@ export class SessionConversation extends React.Component<any, State> {
 
     const pageHeight = messageContainer.clientHeight;
     const arrowScrollPx = 50;
-    const pageScrollPx = 0.8 * pageHeight;
+    const pageScrollPx = pageHeight * 0.8;
 
-    console.log(`[vince][key] event: `, event);
-
-    console.log(`[vince][key] key: `, event.key);
-    console.log(`[vince][key] key: `, event.keyCode);
     if (event.key === 'Escape') {
-      //
+      // EXIT MEDIA VIEW
+
+      if (recordingMode) {
+        // EXIT RECORDING VIEW
+      }
+      // EXIT WHAT ELSE?
     }
 
     switch (event.key) {

@@ -24,6 +24,8 @@ interface Props {
 
   onLoadVoiceNoteView: any;
   onExitVoiceNoteView: any;
+
+  dropZoneFiles: FileList;
 }
 
 interface State {
@@ -81,16 +83,16 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     // Events
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.onTextareaContainerClick = this.onTextareaContainerClick.bind(this);
-  }
-
-  public componentWillReceiveProps() {
-    console.log(`[vince][info] Here are my composition props: `, this.props);
+    this.focusCompositionBox = this.focusCompositionBox.bind(this);
   }
 
   public async componentWillMount() {
     const mediaSetting = await window.getSettingValue('media-permissions');
     this.setState({ mediaSetting });
+  }
+
+  public componentDidMount() {
+    setTimeout(this.focusCompositionBox, 100);
   }
 
   public render() {
@@ -176,7 +178,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           onClick={this.onLoadVoiceNoteView}
         />
 
-        <div className="send-message-input" role="main" onClick={this.onTextareaContainerClick}>
+        <div className="send-message-input" role="main" onClick={this.focusCompositionBox}>
           <TextareaAutosize
             rows={1}
             maxRows={3}
@@ -278,9 +280,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     // handle Attachments
     const { attachments } = this.state;
-
-    console.log(`[vince][msg] Message:`, messagePlaintext);
-    console.log(`[vince][msg] fileAttachments:`, attachments);
 
     // Handle emojis
 
@@ -411,9 +410,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     });
   }
 
-  private onTextareaContainerClick() {
+  private focusCompositionBox() {
     // Focus the textarea when user clicks anywhere in the composition box
-    setTimeout(() => this.textarea.current?.focus(), 50);
+    this.textarea.current?.focus();
   }
 
 }
