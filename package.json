@@ -107,6 +107,7 @@
     "react-autosize-textarea": "^7.0.0",
     "react-contextmenu": "2.11.0",
     "react-dom": "16.8.3",
+    "react-emoji": "^0.5.0",
     "react-h5-audio-player": "^3.2.0",
     "react-portal": "^4.2.0",
     "react-qr-svg": "^2.2.1",
@@ -122,6 +123,7 @@
     "tar": "4.4.8",
     "tmp": "0.0.33",
     "to-arraybuffer": "1.0.1",
+    "twemoji": "^13.0.0",
     "typings-for-css-modules-loader": "^1.7.0",
     "underscore": "1.9.0",
     "uuid": "3.3.2"

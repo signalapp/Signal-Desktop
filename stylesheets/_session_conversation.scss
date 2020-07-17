@@ -227,7 +227,7 @@ $composition-container-height: 60px;
       background: transparent;
       outline: none;
       border: none;
-      font-size: $session-font-md;
+      font-size: 14px;
       line-height: $session-font-h2;
       letter-spacing: 0.5px;
     }
@@ -449,6 +449,14 @@ $rhap_font-family: inherit !default;
   padding: 0px;
   background-color: transparent;
   box-shadow: none;
+
+  svg {
+    transition: fill $session-transition-duration;
+
+    &:hover path {
+      fill: #FFFFFF;
+    }
+  }
 }
 
 .rhap_total-time {
@@ -456,7 +464,7 @@ $rhap_font-family: inherit !default;
 }
 
 .rhap_current-time {
-  margin-right: 5px;
+  margin: 0 5px 0 4px;
 }
 
 .rhap_play-pause-button {
@@ -476,8 +484,7 @@ $rhap_font-family: inherit !default;
 .rhap_time {
   color: $rhap_time-color;
   font-size: 12px;
-  user-select: none;
-  -webkit-user-select: none;
+  width: 32px;
 }
 
 .rhap_progress-bar {
@@ -491,7 +498,10 @@ $rhap_font-family: inherit !default;
 }
 
 .rhap_progress-filled {
+  opacity: 0.6;
   background-color: #00f782;
+  padding-left: 5px;
+  left: -5px;
 }
 
 .rhap_download-progress {
@@ -503,15 +513,14 @@ $rhap_font-family: inherit !default;
 }
 
 .rhap_progress-indicator {
-  display: none;
-  // z-index: 3;
-  // width: 10px;
-  // height: 5px;
-  // margin-left: -5px;
-  // top: 0px;
-  // background: $session-color-green;
-  // box-shadow: none;
-  // box-shadow: rgba($rhap_theme-color, .5) 0 0 5px;
+  z-index: 3;
+  width: 15px;
+  height: 15px;
+  top: -5px;
+  margin-left: -10px;
+  background: $session-color-green;
+  box-shadow: none;
+  box-shadow: rgba($rhap_theme-color, .5) 0 0 5px;
 }
 
 .rhap_controls-section {
