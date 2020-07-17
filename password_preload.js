@@ -22,7 +22,7 @@ window.getVersion = () => config.version;
 window.getAppInstance = () => config.appInstance;
 
 // So far we're only using this for Signal.Types
-const Signal = require('./js/modules/signal');
+const Signal = require('./js/modules/signal_password');
 const electron = require('electron');
 
 const ipc = electron.ipcRenderer;
@@ -32,8 +32,6 @@ window.Signal = Signal.setup({
   userDataPath: null,
   getRegionCode: () => null,
 });
-
-window.Signal.Logs = require('./js/modules/logs');
 
 window.CONSTANTS = {
   MAX_LOGIN_TRIES: 3,
