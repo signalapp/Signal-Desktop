@@ -255,6 +255,8 @@ $composition-container-height: 60px;
   }
 
   & > section.emoji-mart {
+    font-family: $session-font-default;
+    font-size: $session-font-sm;
     background-color: $session-shade-4;
     border: 1px solid $session-shade-6-alt;
     border-radius: 8px;
@@ -268,6 +270,14 @@ $composition-container-height: 60px;
         padding-top: $session-margin-sm;
         background-color: $session-shade-4;
       }
+    }
+
+    .emoji-mart-scroll {
+      height: 340px;
+    }
+
+    .emoji-mart-category .emoji-mart-emoji span {
+      cursor: pointer;
     }
 
     .emoji-mart-bar:last-child {

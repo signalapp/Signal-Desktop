@@ -75,8 +75,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.onChoseAttachment = this.onChoseAttachment.bind(this);
     this.onChooseAttachment = this.onChooseAttachment.bind(this);
 
+    // Events
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.onTextareaContainerClick = this.onTextareaContainerClick.bind(this);
   }
 
   public componentWillReceiveProps() {
@@ -171,11 +173,11 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           onClick={this.onLoadVoiceNoteView}
         />
 
-        <div className="send-message-input">
+        <div className="send-message-input" role="main" onClick={this.onTextareaContainerClick}>
           <TextareaAutosize
             rows={1}
             maxRows={3}
-            ref={this.textarea}
+            spellCheck={false}
             placeholder={placeholder}
             maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
             onKeyDown={this.onKeyDown}
@@ -401,5 +403,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         messageBox.selectionEnd = selectionStart;
       }, 20);
     });
+  }
+
+  private onTextareaContainerClick() {
+    // Focus textarea when user clicks anywhere in the container
+    this.textarea.current?.focus();
   }
 }

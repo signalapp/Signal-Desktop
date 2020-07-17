@@ -27,17 +27,17 @@ export class SessionEmojiPanel extends React.Component<Props, State> {
     return (
       <div className={classNames('session-emoji-panel', show && 'show')}>
         <Picker
-          backgroundImageFn={(_set, sheetSize) =>
-            `./images/emoji/emoji-sheet-${sheetSize}.png`
+          backgroundImageFn={() =>
+            './images/emoji/emoji-sheet-twitter-32.png'
           }
-          sheetSize={64}
+          set={'twitter'}
+          sheetSize={32}
           darkMode={true}
           color={'#00F782'}
           showPreview={true}
           title={''}
           onSelect={onEmojiClicked}
           autoFocus={true}
-          // set="apple"
         />
       </div>
     );

@@ -1038,7 +1038,6 @@
     };
 
     window.toggleMediaPermissions = () => {
-      // eslint-disable-next-line more/no-then
       const value = window.getMediaPermissions();
       window.setMediaPermissions(!value);
     };
