@@ -338,22 +338,29 @@ async function onContactReceived(details: any) {
       activeAt = activeAt || Date.now();
       conversation.set('active_at', activeAt);
     }
-    const ourPrimaryKey = window.storage.get('primaryDevicePubKey');
-    if (ourPrimaryKey) {
-      const secondaryDevices = await MultiDeviceProtocol.getSecondaryDevices(
-        ourPrimaryKey
-      );
-      if (secondaryDevices.some(device => device.key === id)) {
-        await conversation.setSecondaryStatus(true, ourPrimaryKey);
-      }
-    }
 
-    const devices = await MultiDeviceProtocol.getAllDevices(id);
-    const deviceConversations = await Promise.all(
-      devices.map(d =>
-        ConversationController.getOrCreateAndWait(d.key, 'private')
-      )
+    const primaryDevice = await MultiDeviceProtocol.getPrimaryDevice(id);
+    const secondaryDevices = await MultiDeviceProtocol.getSecondaryDevices(id);
+    const primaryConversation = await ConversationController.getOrCreateAndWait(
+      primaryDevice.key,
+      'private'
     );
+    const secondaryConversations = await Promise.all(
+      secondaryDevices.map(async d => {
+        const secondaryConv = await ConversationController.getOrCreateAndWait(
+          d.key,
+          'private'
+        );
+        await secondaryConv.setSecondaryStatus(true, primaryDevice.key);
+        return conversation;
+      })
+    );
+
+    const deviceConversations = [
+      primaryConversation,
+      ...secondaryConversations,
+    ];
+
     // triger session request with every devices of that user
     // when we do not have a session with it already
     deviceConversations.forEach(device => {
@@ -366,23 +373,17 @@ async function onContactReceived(details: any) {
       conversation.setProfileKey(profileKey);
     }
 
-    if (details.blocked !== 'undefined') {
-      if (details.blocked) {
-        storage.addBlockedNumber(id);
-      } else {
-        storage.removeBlockedNumber(id);
-      }
-    }
-
     // Do not set name to allow working with lokiProfile and nicknames
     conversation.set({
       // name: details.name,
       color: details.color,
     });
 
-    await conversation.setLokiProfile({ displayName: details.name });
+    if (details.name && details.name.length) {
+      await conversation.setLokiProfile({ displayName: details.name });
+    }
 
-    if (details.nickname) {
+    if (details.nickname && details.nickname.length) {
       await conversation.setNickname(details.nickname);
     }
 
