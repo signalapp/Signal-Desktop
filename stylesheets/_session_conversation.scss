@@ -211,14 +211,14 @@ $composition-container-height: 60px;
 
   .send-message-input {
     display: flex;
+    align-items: center;
     flex-grow: 1;
     min-height: $composition-container-height;
-    padding: 16px 0px;
 
     textarea {
       font-family: $session-font-default;
       min-height: $composition-container-height / 3;
-      max-height: 2 * $composition-container-height;
+      max-height: 3 * $composition-container-height;
       margin-right: $session-margin-md;
       color: $session-color-white;
       resize: none;

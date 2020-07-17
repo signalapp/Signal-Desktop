@@ -75,6 +75,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.onChoseAttachment = this.onChoseAttachment.bind(this);
     this.onChooseAttachment = this.onChooseAttachment.bind(this);
 
+    // On Sending
+    this.onSendMessage = this.onSendMessage.bind(this);
+
     // Events
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -177,6 +180,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           <TextareaAutosize
             rows={1}
             maxRows={3}
+            ref={this.textarea}
             spellCheck={false}
             placeholder={placeholder}
             maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
@@ -216,14 +220,15 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private onChooseAttachment() {
-    const fileInput = this.fileInput.current;
-    if (fileInput) fileInput.click();
+    this.fileInput.current?.click();
   }
 
   private onChoseAttachment() {
     // Build attachments list
     const attachmentsFileList = this.fileInput.current?.files;
-    if (!attachmentsFileList) return;
+    if (!attachmentsFileList) {
+      return;
+    }
 
     const attachments: Array<Attachment> = [];
     Array.from(attachmentsFileList).forEach(async (file: File) => {
@@ -371,6 +376,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     // On drop attachments!
     // this.textarea.current?.ondrop;
     // Look into react-dropzone
+    // DROP AREA COMES FROM SessionConversation NOT HERE
   }
 
   private onChange(event: any) {
@@ -406,7 +412,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private onTextareaContainerClick() {
-    // Focus textarea when user clicks anywhere in the container
-    this.textarea.current?.focus();
+    // Focus the textarea when user clicks anywhere in the composition box
+    setTimeout(() => this.textarea.current?.focus(), 50);
   }
+
 }
