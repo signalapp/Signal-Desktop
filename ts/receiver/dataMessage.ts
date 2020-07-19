@@ -631,7 +631,20 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     );
   }
 
-  await window.ConversationController.getOrCreateAndWait(conversationId, type);
+  const conv = await window.ConversationController.getOrCreateAndWait(
+    conversationId,
+    type
+  );
+  if (!isGroupMessage && !isIncoming) {
+    const primaryDestination = await MultiDeviceProtocol.getPrimaryDevice(
+      destination
+    );
+
+    if (destination !== primaryDestination.key) {
+      // mark created conversation as secondary if this is one
+      conv.setSecondaryStatus(true, primaryDestination.key);
+    }
+  }
 
   // =========== Process flags =============
 
