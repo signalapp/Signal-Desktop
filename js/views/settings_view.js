@@ -159,7 +159,7 @@
         audioNotificationDescription: i18n('audioNotificationDescription'),
         isAudioNotificationSupported: Settings.isAudioNotificationSupported(),
         isHideMenuBarSupported: Settings.isHideMenuBarSupported(),
-        hasSystemTheme: window.platform === 'darwin',
+        hasSystemTheme: true,
         themeLight: i18n('themeLight'),
         themeDark: i18n('themeDark'),
         themeSystem: i18n('themeSystem'),
