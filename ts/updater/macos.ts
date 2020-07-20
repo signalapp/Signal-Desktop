@@ -15,6 +15,7 @@ import {
   deleteTempDir,
   downloadUpdate,
   getPrintableError,
+  setUpdateListener,
   showCannotUpdateDialog,
   showUpdateDialog,
 } from './common';
@@ -46,6 +47,8 @@ export async function start(
     }
   }, INTERVAL);
 
+  setUpdateListener(createUpdater(logger));
+
   await checkDownloadAndInstall(getMainWindow, locale, logger);
 }
 
@@ -72,6 +75,11 @@ async function checkDownloadAndInstall(
       fileName = newFileName;
       version = newVersion;
       updateFilePath = await downloadUpdate(fileName, logger);
+    }
+
+    if (!updateFilePath) {
+      logger.info('checkDownloadAndInstall: no update file path. Skipping!');
+      return;
     }
 
     const publicKey = hexToBinary(getFromConfig('updatesPublicKey'));
@@ -107,11 +115,7 @@ async function checkDownloadAndInstall(
 
     logger.info('checkDownloadAndInstall: showing update dialog...');
 
-    showUpdateDialog(getMainWindow(), locale, () => {
-      logger.info('checkDownloadAndInstall: calling quitAndInstall...');
-      markShouldQuit();
-      autoUpdater.quitAndInstall();
-    });
+    showUpdateDialog(getMainWindow(), locale, createUpdater(logger));
   } catch (error) {
     logger.error('checkDownloadAndInstall: error', getPrintableError(error));
   }
@@ -371,4 +375,12 @@ async function showFallbackReadOnlyDialog(
   await dialog.showMessageBox(mainWindow, options);
 
   showingReadOnlyDialog = false;
+}
+
+function createUpdater(logger: LoggerType) {
+  return () => {
+    logger.info('performUpdate: calling quitAndInstall...');
+    markShouldQuit();
+    autoUpdater.quitAndInstall();
+  };
 }
