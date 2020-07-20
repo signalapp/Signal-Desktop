@@ -304,6 +304,10 @@
       }
     }
   },
+  "verificationKeysLoadFail": {
+    "message": "Failed to load verification keys",
+    "description": "Displayed on `Show Safety Number` option in conversation screen"
+  },
   "youMarkedAsVerified": {
     "message": "You marked your Safety Number with $name$ as verified",
     "description": "Shown in the conversation history when the user marks a contact as verified.",
@@ -439,10 +443,10 @@
     "description": "Label for a button to accept a new safety number"
   },
   "verify": {
-    "message": "Mark as verified"
+    "message": "Mark As Verified"
   },
   "unverify": {
-    "message": "Mark as not verified"
+    "message": "Mark As Not Verified"
   },
   "isVerified": {
     "message": "You have verified your safety number with $name$.",
@@ -1687,6 +1691,10 @@
   "audioNotificationDescription": {
     "message": "Play audio notification",
     "description": "Description for audio notification setting"
+  },
+  "safetyNumber": {
+    "message": "Safety Number",
+    "description": "Title to the safety number view"
   },
   "safetyNumberChanged": {
     "message": "Safety Number has changed",

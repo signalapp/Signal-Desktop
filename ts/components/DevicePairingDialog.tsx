@@ -4,6 +4,7 @@ import { QRCode } from 'react-qr-svg';
 import { SessionModal } from './session/SessionModal';
 import { SessionButton, SessionButtonColor } from './session/SessionButton';
 import { SessionSpinner } from './session/SessionSpinner';
+import classNames from 'classnames';
 
 interface Props {
   onClose: any;
@@ -119,7 +120,12 @@ export class DevicePairingDialog extends React.Component<Props, State> {
           </h4>
           {this.renderErrors()}
 
-          <div className="device-pairing-dialog__secret-words">
+          <div
+            className={classNames(
+              'device-pairing-dialog__secret-words',
+              'session-info-box'
+            )}
+          >
             <label>{window.i18n('secretWords')}</label>
             <div className="subtle">{secretWords}</div>
           </div>

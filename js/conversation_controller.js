@@ -61,8 +61,7 @@
 
   window.getConversationByKey = key => {
     // Key is pubkey or public chat name
-    const conversation =
-      conversations.models.find(conv => conv.id === key);
+    const conversation = conversations.models.find(conv => conv.id === key);
 
     return conversation;
   };

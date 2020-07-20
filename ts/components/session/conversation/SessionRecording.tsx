@@ -417,8 +417,6 @@ export class SessionRecording extends React.Component<Props, State> {
   }
 
   private onSendVoiceMessage() {
-    console.log(`[vince][mic] Sending voice message to composition box1`);
-
     const audioBlob = this.state.mediaBlob.data;
     if (!audioBlob) {
       return;
@@ -711,10 +709,9 @@ export class SessionRecording extends React.Component<Props, State> {
     });
   }
 
-  private onKeyDown(event: any) {
+  private async onKeyDown(event: any) {
     if (event.key === 'Escape') {
-      // FIXME VINCE: Add SessionConfirm
-      this.onDeleteVoiceMessage();
+      await this.onDeleteVoiceMessage();
     }
   }
 }

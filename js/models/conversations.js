@@ -622,8 +622,6 @@
         onClick: () => this.trigger('select', this),
         onBlockContact: () => this.block(),
         onUnblockContact: () => this.unblock(),
-        onChangeNickname: () => this.changeNickname(),
-        onClearNickname: () => this.setNickname(null),
         onCopyPublicKey: () => this.copyPublicKey(),
         onDeleteContact: () => this.deleteContact(),
         onDeleteMessages: () => this.deleteMessages(),
@@ -2135,8 +2133,6 @@
           };
         })
       );
-
-      console.log(`[vince][unread] Read:`, read);
 
       // Some messages we're marking read are local notifications with no sender
       read = _.filter(read, m => Boolean(m.sender));

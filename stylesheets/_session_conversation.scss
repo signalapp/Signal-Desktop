@@ -132,12 +132,47 @@ $composition-container-height: 60px;
   background-color: $session-shade-2;
 }
 
+.conversation-content {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  position: relative;
+  background-color: $session-background;
+
+  .conversation-messages {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: inherit;
+  }
+
+  .conversation-info-panel {
+    position: absolute;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    background-color: inherit;
+    display: none;
+    padding: 20px;
+
+    &.show {
+      display: flex;
+    }
+  }
+}
+
 .messages-wrapper {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
   position: relative;
-  height: 0px;
+  height: 100%;
 
   &--blocking-overlay {
     background-color: rgba(0, 0, 0, 0.8);
@@ -213,10 +248,12 @@ $composition-container-height: 60px;
   }
 
   .send-message-input {
+    cursor: text;
     display: flex;
     align-items: center;
     flex-grow: 1;
     min-height: $composition-container-height;
+    padding: $session-margin-md 0;
 
     textarea {
       font-family: $session-font-default;
@@ -467,7 +504,7 @@ $rhap_font-family: inherit !default;
     transition: fill $session-transition-duration;
 
     &:hover path {
-      fill: #FFFFFF;
+      fill: #ffffff;
     }
   }
 }
@@ -533,7 +570,7 @@ $rhap_font-family: inherit !default;
   margin-left: -10px;
   background: $session-color-green;
   box-shadow: none;
-  box-shadow: rgba($rhap_theme-color, .5) 0 0 5px;
+  box-shadow: rgba($rhap_theme-color, 0.5) 0 0 5px;
 }
 
 .rhap_controls-section {

@@ -382,15 +382,6 @@
     "reasonDetail": "Protected from arbitrary input"
   },
   {
-    "rule": "jQuery-append(",
-    "path": "js/views/contact_list_view.js",
-    "line": "        this.$el.append(this.contactView.el);",
-    "lineNumber": 44,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-10-02T21:18:39.026Z",
-    "reasonDetail": "Operating on previously-existing DOM elements"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
     "line": "      this.$('textarea').val(i18n('loading'));",
@@ -736,50 +727,6 @@
     "path": "js/views/install_view.js",
     "line": "            this.$(DEVICE_NAME_SELECTOR).focus();",
     "lineNumber": 174,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/key_verification_view.js",
-    "line": "      new QRCode(this.$('.qr')[0]).makeCode(",
-    "lineNumber": 36,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/views/key_verification_view.js",
-    "line": "        dcodeIO.ByteBuffer.wrap(this.ourKey).toString('base64')",
-    "lineNumber": 37,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "js/views/key_verification_view.js",
-    "line": "      dialog.$el.insertBefore(this.el);",
-    "lineNumber": 72,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM nodes"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/key_verification_view.js",
-    "line": "      this.$('button.verify').attr('disabled', true);",
-    "lineNumber": 76,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/key_verification_view.js",
-    "line": "          this.$('button.verify').removeAttr('disabled');",
-    "lineNumber": 107,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"

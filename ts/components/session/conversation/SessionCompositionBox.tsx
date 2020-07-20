@@ -178,7 +178,11 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           onClick={this.onLoadVoiceNoteView}
         />
 
-        <div className="send-message-input" role="main" onClick={this.focusCompositionBox}>
+        <div
+          className="send-message-input"
+          role="main"
+          onClick={this.focusCompositionBox}
+        >
           <TextareaAutosize
             rows={1}
             maxRows={3}
@@ -414,5 +418,4 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     // Focus the textarea when user clicks anywhere in the composition box
     this.textarea.current?.focus();
   }
-
 }

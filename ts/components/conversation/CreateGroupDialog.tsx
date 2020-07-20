@@ -103,7 +103,9 @@ export class CreateGroupDialog extends React.Component<Props, State> {
       >
         <div className="spacer-lg" />
 
-        {this.state.errorDisplayed && <p className={errorMessageClasses}>{this.state.errorMessage}</p>}
+        {this.state.errorDisplayed && (
+          <p className={errorMessageClasses}>{this.state.errorMessage}</p>
+        )}
         <input
           type="text"
           id="group-name"

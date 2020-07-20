@@ -30,6 +30,10 @@ div.spacer-lg {
   width: 100%;
 }
 
+.break-word {
+  word-break: break-all;
+}
+
 input,
 textarea {
   caret-color: $session-color-green !important;
@@ -643,12 +647,6 @@ label {
   }
 
   &__secret-words {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: $session-shade-6;
-    padding: $session-margin-sm $session-margin-lg;
-    border-radius: 3px;
     margin-bottom: $session-margin-md;
   }
 }
@@ -1626,3 +1624,75 @@ input {
     pointer-events: none;
   }
 }
+
+.session-info-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $session-shade-6;
+  padding: $session-margin-sm $session-margin-lg;
+  border-radius: 4px;
+}
+
+/* ************************************* */
+/* KEY VERIFICATION VIEW (SAFETY NUMBER) */
+/* ************************************* */
+
+.key-verification {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: $session-margin-lg;
+  text-align: center;
+
+  &__header {
+    word-break: break-all;
+
+    h2 {
+      margin-bottom: 0px;
+    }
+
+    small {
+      margin-top: -25px;
+      opacity: 0.6;
+    }
+  }
+
+  &__key {
+    font-family: $session-font-mono;
+    margin: 30px 0;
+    width: 250px;
+  }
+
+  &__is-verified {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: $session-font-md;
+    margin: 30px 0;
+
+    & > span {
+      svg {
+        min-width: 30px;
+        margin-right: 10px;
+      }
+
+      height: 50px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .session-button {
+      margin: 20px 0;
+      width: 100%;
+    }
+  }
+
+  .session-loader {
+    margin-top: $session-margin-md;
+  }
+}
+
+/* ************************************* */
+/* ************************************* */
+/* ************************************* */

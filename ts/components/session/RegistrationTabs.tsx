@@ -449,7 +449,12 @@ export class RegistrationTabs extends React.Component<{}, State> {
           </div>
           {this.renderEnterSessionID(!this.state.secretWords)}
           {this.state.secretWords && (
-            <div className="session-registration__content__secret-words">
+            <div
+              className={classNames(
+                'session-registration__content__secret-words',
+                'session-info-box'
+              )}
+            >
               <label>Secret words</label>
               <div className="subtle">{this.state.secretWords}</div>
             </div>

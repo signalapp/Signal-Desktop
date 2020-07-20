@@ -18,10 +18,11 @@ import { SessionGroupSettings } from './SessionGroupSettings';
 import { ResetSessionNotification } from '../../conversation/ResetSessionNotification';
 import { Constants, getMessageQueue } from '../../../session';
 import { MessageQueue } from '../../../session/sending';
+import { SessionKeyVerification } from '../SessionKeyVerification';
 
 interface State {
   conversationKey: string;
-  
+
   // Message sending progress
   messageProgressVisible: boolean;
   sendingProgress: number;
@@ -44,6 +45,9 @@ interface State {
   showRecordingView: boolean;
   showOptionsPane: boolean;
   showScrollButton: boolean;
+
+  // For displaying `More Info` on messages, and `Safety Number`, etc.
+  infoViewState?: 'safetyNumber' | 'messageDetails';
 
   // dropZoneFiles?: FileList
   dropZoneFiles: any;
@@ -81,6 +85,8 @@ export class SessionConversation extends React.Component<any, State> {
       showRecordingView: false,
       showOptionsPane: false,
       showScrollButton: false,
+
+      infoViewState: undefined,
 
       dropZoneFiles: undefined, // <-- FileList or something else?
     };
@@ -184,6 +190,9 @@ export class SessionConversation extends React.Component<any, State> {
       !conversationModel.isPrivate() && !conversationModel.isRss();
     const groupSettingsProps = this.getGroupSettingsProps();
 
+    const showSafetyNumber = this.state.infoViewState === 'safetyNumber';
+    const showMessageDetails = this.state.infoViewState === 'messageDetails';
+
     return (
       <>
         <div
@@ -205,38 +214,54 @@ export class SessionConversation extends React.Component<any, State> {
             resetProgress={this.resetSendingProgress}
           /> */}
 
-          <div className="messages-wrapper">
-            {loading && <div className="messages-container__loading" />}
-
+          <div className="conversation-content">
             <div
-              className="messages-container"
-              onScroll={this.handleScroll}
-              ref={this.messageContainerRef}
+              className={classNames(
+                'conversation-info-panel',
+                this.state.infoViewState && 'show'
+              )}
             >
-              {this.renderMessages()}
-              <div ref={this.messagesEndRef} />
+              {showSafetyNumber && (
+                <SessionKeyVerification conversation={conversationModel} />
+              )}
+              {showMessageDetails && <>&nbsp</>}
             </div>
 
-            <SessionScrollButton
-              show={showScrollButton}
-              onClick={this.scrollToBottom}
-            />
-            {showRecordingView && (
-              <div className="messages-wrapper--blocking-overlay" />
-            )}
-          </div>
+            <div className="conversation-messages">
+              <div className="messages-wrapper">
+                {loading && <div className="messages-container__loading" />}
 
-          {!isRss && (
-            <SessionCompositionBox
-              sendMessage={sendMessageFn}
-              dropZoneFiles={this.state.dropZoneFiles}
-              onMessageSending={this.onMessageSending}
-              onMessageSuccess={this.onMessageSuccess}
-              onMessageFailure={this.onMessageFailure}
-              onLoadVoiceNoteView={this.onLoadVoiceNoteView}
-              onExitVoiceNoteView={this.onExitVoiceNoteView}
-            />
-          )}
+                <div
+                  className="messages-container"
+                  onScroll={this.handleScroll}
+                  ref={this.messageContainerRef}
+                >
+                  {this.renderMessages()}
+                  <div ref={this.messagesEndRef} />
+                </div>
+
+                <SessionScrollButton
+                  show={showScrollButton}
+                  onClick={this.scrollToBottom}
+                />
+                {showRecordingView && (
+                  <div className="messages-wrapper--blocking-overlay" />
+                )}
+              </div>
+
+              {!isRss && (
+                <SessionCompositionBox
+                  sendMessage={sendMessageFn}
+                  dropZoneFiles={this.state.dropZoneFiles}
+                  onMessageSending={this.onMessageSending}
+                  onMessageSuccess={this.onMessageSuccess}
+                  onMessageFailure={this.onMessageFailure}
+                  onLoadVoiceNoteView={this.onLoadVoiceNoteView}
+                  onExitVoiceNoteView={this.onExitVoiceNoteView}
+                />
+              )}
+            </div>
+          </div>
         </div>
 
         {shouldRenderGroupSettings && (
@@ -311,55 +336,7 @@ export class SessionConversation extends React.Component<any, State> {
   public renderHeader() {
     const headerProps = this.getHeaderProps();
 
-    return (
-      <ConversationHeader
-        id={headerProps.id}
-        name={headerProps.name}
-        phoneNumber={headerProps.phoneNumber}
-        profileName={headerProps.profileName}
-        avatarPath={headerProps.avatarPath}
-        isVerified={headerProps.isVerified}
-        isMe={headerProps.isMe}
-        isClosable={headerProps.isClosable}
-        isGroup={headerProps.isGroup}
-        isPublic={headerProps.isPublic}
-        isRss={headerProps.isRss}
-        amMod={headerProps.amMod}
-        members={headerProps.members}
-        subscriberCount={headerProps.subscriberCount}
-        expirationSettingName={headerProps.expirationSettingName}
-        showBackButton={headerProps.showBackButton}
-        timerOptions={headerProps.timerOptions}
-        hasNickname={headerProps.hasNickname}
-        isBlocked={headerProps.isBlocked}
-        isOnline={headerProps.isOnline}
-        selectedMessages={headerProps.selectedMessages}
-        isKickedFromGroup={headerProps.isKickedFromGroup}
-        onInviteContacts={headerProps.onInviteContacts}
-        onSetDisappearingMessages={headerProps.onSetDisappearingMessages}
-        onDeleteMessages={headerProps.onDeleteMessages}
-        onDeleteContact={headerProps.onDeleteContact}
-        onResetSession={headerProps.onResetSession}
-        onCloseOverlay={headerProps.onCloseOverlay}
-        onDeleteSelectedMessages={headerProps.onDeleteSelectedMessages}
-        onMoveToInbox={headerProps.onMoveToInbox}
-        onShowSafetyNumber={headerProps.onShowSafetyNumber}
-        onShowAllMedia={headerProps.onShowAllMedia}
-        onShowGroupMembers={headerProps.onShowGroupMembers}
-        onGoBack={headerProps.onGoBack}
-        onBlockUser={headerProps.onBlockUser}
-        onUnblockUser={headerProps.onUnblockUser}
-        onClearNickname={headerProps.onClearNickname}
-        onChangeNickname={headerProps.onChangeNickname}
-        onCopyPublicKey={headerProps.onCopyPublicKey}
-        onLeaveGroup={headerProps.onLeaveGroup}
-        onAddModerators={headerProps.onAddModerators}
-        onRemoveModerators={headerProps.onRemoveModerators}
-        onAvatarClick={headerProps.onAvatarClick}
-        onUpdateGroupName={headerProps.onUpdateGroupName}
-        i18n={window.i18n}
-      />
-    );
+    return <ConversationHeader {...headerProps} />;
   }
 
   public renderMessage(
@@ -454,6 +431,7 @@ export class SessionConversation extends React.Component<any, State> {
     const members = conversation.get('members') || [];
 
     const headerProps = {
+      i18n: window.i18n,
       id: conversation.id,
       name: conversation.getName(),
       phoneNumber: conversation.getNumber(),
@@ -476,9 +454,7 @@ export class SessionConversation extends React.Component<any, State> {
       selectedMessages: this.state.selectedMessages,
       isKickedFromGroup: conversation.get('isKickedFromGroup'),
       expirationSettingName,
-      showBackButton: Boolean(
-        conversation.panels && conversation.panels.length
-      ),
+      showBackButton: Boolean(this.state.infoViewState),
       timerOptions: window.Whisper.ExpirationTimerOptions.map((item: any) => ({
         name: item.getName(),
         value: item.get('seconds'),
@@ -495,11 +471,14 @@ export class SessionConversation extends React.Component<any, State> {
         conversation.endSession();
       },
 
-      // These are view only and don't update the Conversation model, so they
-      //   need a manual update call.
       onShowSafetyNumber: () => {
-        conversation.showSafetyNumber();
+        this.setState({ infoViewState: 'safetyNumber' });
       },
+
+      onGoBack: () => {
+        this.setState({ infoViewState: undefined });
+      },
+
       onShowAllMedia: async () => {
         conversation.updateHeader();
       },
@@ -507,11 +486,7 @@ export class SessionConversation extends React.Component<any, State> {
         conversation.onUpdateGroupName();
       },
       onShowGroupMembers: async () => {
-        await conversation.showMembers();
-        conversation.updateHeader();
-      },
-      onGoBack: () => {
-        conversation.resetPanel();
+        window.Whisper.events.trigger('updateGroupMembers', conversation);
         conversation.updateHeader();
       },
 
@@ -521,24 +496,14 @@ export class SessionConversation extends React.Component<any, State> {
       onUnblockUser: () => {
         conversation.unblock();
       },
-      onChangeNickname: () => {
-        conversation.changeNickname();
-      },
-      onClearNickname: () => {
-        conversation.setNickname(null);
-      },
       onCopyPublicKey: () => {
         conversation.copyPublicKey();
-      },
-      onMoveToInbox: () => {
-        conversation.setArchived(false);
       },
       onLeaveGroup: () => {
         window.Whisper.events.trigger('leaveGroup', conversation);
       },
       onInviteContacts: () => {
-        // VINCE TODO: Inviting contacts ⚡️
-        return;
+        window.Whisper.events.trigger('inviteContacts', conversation);
       },
 
       onAddModerators: () => {
@@ -654,7 +619,6 @@ export class SessionConversation extends React.Component<any, State> {
 
   public onMessageSuccess() {
     this.updateSendingProgress(100, 2);
-
   }
 
   public onMessageFailure() {

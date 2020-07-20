@@ -73,7 +73,6 @@ interface Props {
   onCloseOverlay: () => void;
   onDeleteSelectedMessages: () => void;
 
-  onMoveToInbox: () => void;
   onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
   onShowGroupMembers: () => void;
@@ -81,9 +80,6 @@ interface Props {
 
   onBlockUser: () => void;
   onUnblockUser: () => void;
-
-  onClearNickname: () => void;
-  onChangeNickname: () => void;
 
   onCopyPublicKey: () => void;
 

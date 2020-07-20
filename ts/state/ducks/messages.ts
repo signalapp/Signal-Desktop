@@ -1,4 +1,3 @@
-export const reducer = (state: any, action: any) => {
-  console.log(`[vince][redux] Action: `, action);
+export const reducer = (state: any, _action: any) => {
   return state;
 };

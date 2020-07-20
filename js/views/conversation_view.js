@@ -222,21 +222,12 @@
           onUnblockUser: () => {
             this.model.unblock();
           },
-          onChangeNickname: () => {
-            this.model.changeNickname();
-          },
-          onClearNickname: () => {
-            this.model.setNickname(null);
-          },
           onCopyPublicKey: () => {
             this.model.copyPublicKey();
           },
           onArchive: () => {
             this.unload('archive');
             this.model.setArchived(true);
-          },
-          onMoveToInbox: () => {
-            this.model.setArchived(false);
           },
           onLeaveGroup: () => {
             window.Whisper.events.trigger('leaveGroup', this.model);
@@ -1262,22 +1253,6 @@
           message.resend(contact.id);
         },
       });
-    },
-
-    showSafetyNumber(providedModel) {
-      let model = providedModel;
-
-      if (!model && this.model.isPrivate()) {
-        // eslint-disable-next-line prefer-destructuring
-        model = this.model;
-      }
-      if (model) {
-        const view = new Whisper.KeyVerificationPanelView({
-          model,
-        });
-        this.listenBack(view);
-        this.updateHeader();
-      }
     },
 
     // THIS DOES NOT DOWNLOAD ANYTHING!

@@ -52,8 +52,6 @@ type PropsHousekeeping = {
   onDeleteMessages?: () => void;
   onDeleteContact?: () => void;
   onBlockContact?: () => void;
-  onChangeNickname?: () => void;
-  onClearNickname?: () => void;
   onCopyPublicKey?: () => void;
   onUnblockContact?: () => void;
 };
@@ -166,8 +164,6 @@ export class ConversationListItem extends React.PureComponent<Props> {
       onDeleteContact,
       onDeleteMessages,
       onBlockContact,
-      onChangeNickname,
-      onClearNickname,
       onCopyPublicKey,
       onUnblockContact,
     } = this.props;
@@ -179,14 +175,6 @@ export class ConversationListItem extends React.PureComponent<Props> {
       <ContextMenu id={triggerId}>
         {!isPublic && !isRss && !isMe ? (
           <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
-        ) : null}
-        {/* {!isPublic && !isRss && !isMe ? (
-          <MenuItem onClick={onChangeNickname}>
-            {i18n('changeNickname')}
-          </MenuItem>
-        ) : null} */}
-        {!isPublic && !isRss && !isMe && hasNickname ? (
-          <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
         ) : null}
         {!isPublic && !isRss ? (
           <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>

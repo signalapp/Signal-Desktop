@@ -793,6 +793,7 @@
         closeTheme: params.closeTheme || undefined,
         cancelText: params.cancelText || undefined,
         hideCancel: params.hideCancel || false,
+        centeredText: params.centeredText || false,
       });
 
       confirmDialog.render();
