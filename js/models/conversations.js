@@ -741,17 +741,8 @@
       }
     },
     async sendVerifySyncMessage(number, state) {
-      // Because syncVerification sends a (null) message to the target of the verify and
-      //   a sync message to our own devices, we need to send the accessKeys down for both
-      //   contacts. So we merge their sendOptions.
-      const { sendOptions } = ConversationController.prepareForSend(
-        this.ourNumber,
-        { syncMessage: true }
-      );
-      const options = Object.assign({}, sendOptions, {});
-
       const key = await textsecure.storage.protocol.loadIdentityKey(number);
-      return textsecure.messaging.syncVerification(number, state, key, options);
+      return textsecure.messaging.syncVerification(number, state, key);
     },
     isVerified() {
       if (this.isPrivate()) {
@@ -1460,30 +1451,6 @@
         }
       });
     },
-    wrapSend(promise) {
-      return promise.then(
-        async result => {
-          // success
-          if (result) {
-            await this.handleMessageSendResult({
-              ...result,
-              success: true,
-            });
-          }
-          return result;
-        },
-        async result => {
-          // failure
-          if (result) {
-            await this.handleMessageSendResult({
-              ...result,
-              success: false,
-            });
-          }
-          throw result;
-        }
-      );
-    },
 
     async updateAvatarOnPublicChat({ url, profileKey }) {
       if (!this.isPublic()) {
@@ -1504,63 +1471,6 @@
         this.get('server')
       );
       await serverAPI.setAvatar(url, profileKey);
-    },
-
-    async handleMessageSendResult({ failoverNumbers, unidentifiedDeliveries }) {
-      await Promise.all(
-        (failoverNumbers || []).map(async number => {
-          const conversation = ConversationController.get(number);
-
-          if (
-            conversation &&
-            conversation.get('sealedSender') !== SEALED_SENDER.DISABLED
-          ) {
-            window.log.info(
-              `Setting sealedSender to DISABLED for conversation ${conversation.idForLogging()}`
-            );
-            conversation.set({
-              sealedSender: SEALED_SENDER.DISABLED,
-            });
-            await window.Signal.Data.updateConversation(
-              conversation.id,
-              conversation.attributes,
-              { Conversation: Whisper.Conversation }
-            );
-          }
-        })
-      );
-
-      await Promise.all(
-        (unidentifiedDeliveries || []).map(async number => {
-          const conversation = ConversationController.get(number);
-
-          if (
-            conversation &&
-            conversation.get('sealedSender') === SEALED_SENDER.UNKNOWN
-          ) {
-            if (conversation.get('accessKey')) {
-              window.log.info(
-                `Setting sealedSender to ENABLED for conversation ${conversation.idForLogging()}`
-              );
-              conversation.set({
-                sealedSender: SEALED_SENDER.ENABLED,
-              });
-            } else {
-              window.log.info(
-                `Setting sealedSender to UNRESTRICTED for conversation ${conversation.idForLogging()}`
-              );
-              conversation.set({
-                sealedSender: SEALED_SENDER.UNRESTRICTED,
-              });
-            }
-            await window.Signal.Data.updateConversation(
-              conversation.id,
-              conversation.attributes,
-              { Conversation: Whisper.Conversation }
-            );
-          }
-        })
-      );
     },
     async updateLastMessage() {
       if (!this.id) {
@@ -2189,31 +2099,26 @@
         window.log.info(`Sending ${read.length} read receipts`);
         // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
         //   to a contact, we need accessKeys for both.
-        const { sendOptions } = ConversationController.prepareForSend(
-          this.ourNumber,
-          { syncMessage: true }
-        );
-        await textsecure.messaging.syncReadMessages(read, sendOptions);
+        await textsecure.messaging.syncReadMessages(read);
 
-        // FIXME AUDRIC
-        // if (storage.get('read-receipt-setting')) {
-        //   await Promise.all(
-        //     _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
-        //       const timestamps = _.map(receipts, 'timestamp');
-        //       const receiptMessage = new libsession.Messages.Outgoing.ReadReceiptMessage(
-        //         {
-        //           timestamp: Date.now(),
-        //           timestamps,
-        //         }
-        //       );
+        if (storage.get('read-receipt-setting')) {
+          await Promise.all(
+            _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
+              const timestamps = _.map(receipts, 'timestamp');
+              const receiptMessage = new libsession.Messages.Outgoing.ReadReceiptMessage(
+                {
+                  timestamp: Date.now(),
+                  timestamps,
+                }
+              );
 
-        //       const device = new libsession.Types.PubKey(sender);
-        //       await libsession
-        //         .getMessageQueue()
-        //         .sendUsingMultiDevice(device, receiptMessage);
-        //     })
-        //   );
-        // }
+              const device = new libsession.Types.PubKey(sender);
+              await libsession
+                .getMessageQueue()
+                .sendUsingMultiDevice(device, receiptMessage);
+            })
+          );
+        }
       }
     },
 
