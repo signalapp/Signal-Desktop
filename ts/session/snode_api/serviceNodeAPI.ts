@@ -152,7 +152,7 @@ interface SendParams {
 }
 
 // get snodes for pubkey from random snode. Uses an existing snode
-export async function getSnodesForPubkey(
+export async function requestSnodesForPubkey(
   pubKey: string
 ): Promise<Array<Snode>> {
   const { log } = window;
@@ -170,7 +170,7 @@ export async function getSnodesForPubkey(
 
     if (!result) {
       log.warn(
-        `LokiSnodeAPI::_getSnodesForPubkey - lokiRpc on ${snode.ip}:${snode.port} returned falsish value`,
+        `LokiSnodeAPI::requestSnodesForPubkey - lokiRpc on ${snode.ip}:${snode.port} returned falsish value`,
         result
       );
       return [];
@@ -189,7 +189,7 @@ export async function getSnodesForPubkey(
       if (!json.snodes) {
         // we hit this when snode gives 500s
         log.warn(
-          `LokiSnodeAPI::_getSnodesForPubkey - lokiRpc on ${snode.ip}:${snode.port} returned falsish value for snodes`,
+          `LokiSnodeAPI::requestSnodesForPubkey - lokiRpc on ${snode.ip}:${snode.port} returned falsish value for snodes`,
           result
         );
         return [];
@@ -204,7 +204,7 @@ export async function getSnodesForPubkey(
       return [];
     }
   } catch (e) {
-    log.error('LokiSnodeAPI::_getSnodesForPubkey - error', e.code, e.message);
+    log.error('LokiSnodeAPI::requestSnodesForPubkey - error', e.code, e.message);
 
     if (snode) {
       markNodeUnreachable(snode);
