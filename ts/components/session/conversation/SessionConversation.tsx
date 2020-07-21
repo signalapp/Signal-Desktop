@@ -127,11 +127,16 @@ export class SessionConversation extends React.Component<any, State> {
     // Keyboard navigation
     this.onKeyDown = this.onKeyDown.bind(this);
 
-    const conversationModel = window.ConversationController.get(this.state.conversationKey);
+    const conversationModel = window.ConversationController.get(
+      this.state.conversationKey
+    );
     conversationModel.on('change', () => {
-      this.setState({
-        messages: conversationModel.messageCollection.models,
-      });
+      this.setState(
+        {
+          messages: conversationModel.messageCollection.models,
+        },
+        this.updateReadMessages
+      );
     });
   }
 
@@ -141,7 +146,7 @@ export class SessionConversation extends React.Component<any, State> {
 
   public async componentWillMount() {
     await this.loadInitialMessages();
-    this.setState({initialFetchComplete: true});
+    this.setState({ initialFetchComplete: true });
   }
 
   public componentDidMount() {
@@ -162,16 +167,15 @@ export class SessionConversation extends React.Component<any, State> {
       this.scrollToBottom();
     }
 
-
     // New messages get from message collection.
-    const messageCollection = window.ConversationController.get(this.state.conversationKey).messageCollection;
+    const messageCollection = window.ConversationController.get(
+      this.state.conversationKey
+    ).messageCollection;
     console.log('[vince] messageCollection:', messageCollection);
     console.log('[vince] this.state.messages:', this.state.messages);
   }
 
-  public async componentWillReceiveProps(nextProps: any) {
-
-  }
+  public async componentWillReceiveProps(nextProps: any) {}
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~ RENDER METHODS ~~~~~~~~~~~~~~
@@ -288,7 +292,6 @@ export class SessionConversation extends React.Component<any, State> {
   }
 
   public renderMessages(messages: any) {
-
     const multiSelectMode = Boolean(this.state.selectedMessages.length);
     // FIXME VINCE: IF MESSAGE IS THE TOP OF UNREAD, THEN INSERT AN UNREAD BANNER
 
@@ -381,7 +384,9 @@ export class SessionConversation extends React.Component<any, State> {
     // in the conversation model.
     // The only time we need to call getMessages() is to grab more messages on scroll.
     const { conversationKey, initialFetchComplete } = this.state;
-    const conversationModel = window.ConversationController.get(conversationKey);
+    const conversationModel = window.ConversationController.get(
+      conversationKey
+    );
 
     if (initialFetchComplete) {
       return;
@@ -389,7 +394,10 @@ export class SessionConversation extends React.Component<any, State> {
 
     const messageSet = await window.Signal.Data.getMessagesByConversation(
       conversationKey,
-      { limit: Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT, MessageCollection: window.Whisper.MessageCollection }
+      {
+        limit: Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT,
+        MessageCollection: window.Whisper.MessageCollection,
+      }
     );
 
     const messages = messageSet.models;
@@ -410,7 +418,9 @@ export class SessionConversation extends React.Component<any, State> {
     fetchInterval = Constants.CONVERSATION.MESSAGE_FETCH_INTERVAL
   ) {
     const { conversationKey, messageFetchTimestamp } = this.state;
-    const conversationModel = window.ConversationController.get(conversationKey);
+    const conversationModel = window.ConversationController.get(
+      conversationKey
+    );
     const timestamp = getTimestamp();
 
     // If we have pulled messages in the last interval, don't bother rescanning
@@ -770,9 +780,11 @@ export class SessionConversation extends React.Component<any, State> {
 
   public async deleteSelectedMessages() {
     // Get message objects
-    const selectedMessages = this.state.messages.filter(message => this.state.selectedMessages.find(
-      selectedMessage => selectedMessage === message.id
-    ));
+    const selectedMessages = this.state.messages.filter(message =>
+      this.state.selectedMessages.find(
+        selectedMessage => selectedMessage === message.id
+      )
+    );
 
     const { conversationKey } = this.state;
     const conversationModel = window.ConversationController.get(
@@ -793,7 +805,9 @@ export class SessionConversation extends React.Component<any, State> {
           ? window.i18n('deleteMultiplePublicWarning')
           : window.i18n('deletePublicWarning');
       }
-      return multiple ? window.i18n('deleteMultipleWarning') : window.i18n('deleteWarning');
+      return multiple
+        ? window.i18n('deleteMultipleWarning')
+        : window.i18n('deleteWarning');
     })();
 
     const doDelete = async () => {
@@ -807,7 +821,9 @@ export class SessionConversation extends React.Component<any, State> {
         if (!ourDevicePubkey) {
           return;
         }
-        const ourPrimaryPubkey = (await MultiDeviceProtocol.getPrimaryDevice(ourDevicePubkey)).key;
+        const ourPrimaryPubkey = (
+          await MultiDeviceProtocol.getPrimaryDevice(ourDevicePubkey)
+        ).key;
         const isModerator = conversationModel.isModerator(ourPrimaryPubkey);
         const isAllOurs = selectedMessages.every(
           message =>
@@ -821,16 +837,21 @@ export class SessionConversation extends React.Component<any, State> {
             id: 'messageDeletionForbidden',
           });
 
+          this.setState({ selectedMessages: [] });
           return;
         }
 
-        toDeleteLocally = await conversationModel.deletePublicMessages(selectedMessages);
+        toDeleteLocally = await conversationModel.deletePublicMessages(
+          selectedMessages
+        );
         if (toDeleteLocally.length === 0) {
           // Message failed to delete from server, show error?
           return;
         }
       } else {
-        selectedMessages.forEach(m => conversationModel.messageCollection.remove(m.id));
+        selectedMessages.forEach(m =>
+          conversationModel.messageCollection.remove(m.id)
+        );
         toDeleteLocally = selectedMessages;
       }
 
@@ -844,7 +865,7 @@ export class SessionConversation extends React.Component<any, State> {
       );
 
       // Update view and trigger update
-      this.setState({selectedMessages: [] }, () => {
+      this.setState({ selectedMessages: [] }, () => {
         conversationModel.trigger('change', conversationModel);
       });
     };
@@ -859,9 +880,7 @@ export class SessionConversation extends React.Component<any, State> {
     // If removable from server, we "Unsend" - otherwise "Delete"
     const pluralSuffix = multiple ? 's' : '';
     const title = window.i18n(
-      isPublic
-        ? `unsendMessage${pluralSuffix}`
-        : `deleteMessage${pluralSuffix}`
+      isPublic ? `unsendMessage${pluralSuffix}` : `deleteMessage${pluralSuffix}`
     );
 
     const okText = window.i18n(isServerDeletable ? 'unsend' : 'delete');

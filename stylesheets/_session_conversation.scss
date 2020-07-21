@@ -141,6 +141,7 @@ $composition-container-height: 60px;
     height: 0;
     background-color: inherit;
     outline: none;
+    position: relative;
 
     &__blocking-overlay {
       background-color: rgba(0, 0, 0, 0.8);

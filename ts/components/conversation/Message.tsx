@@ -113,7 +113,6 @@ export interface Props {
   onClickLinkPreview?: (url: string) => void;
   onCopyText?: () => void;
   onSelectMessage: (messageId: string) => void;
-  onSelectMessageUnchecked: () => void;
   onReply?: () => void;
   onRetrySend?: () => void;
   onDownload?: (isDangerous: boolean) => void;
@@ -919,7 +918,6 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       attachments,
       onCopyText,
-      onSelectMessageUnchecked,
       direction,
       status,
       isDeletable,
@@ -966,8 +964,6 @@ export class Message extends React.PureComponent<Props, State> {
     const isServerDeletable = !!this.props.isPublic;
     const deleteMessageCtxText = i18n(isServerDeletable ? 'unsend' : 'delete');
 
-    // CONTEXT MENU "Select Message" does not work
-
     return (
       <ContextMenu
         id={triggerId}
@@ -991,9 +987,6 @@ export class Message extends React.PureComponent<Props, State> {
         ) : null}
 
         <MenuItem onClick={wrap(onCopyText)}>{i18n('copyMessage')}</MenuItem>
-        <MenuItem onClick={wrap(onSelectMessageUnchecked)}>
-          {i18n('selectMessage')}
-        </MenuItem>
         <MenuItem
           attributes={{
             className: 'module-message__context__reply',

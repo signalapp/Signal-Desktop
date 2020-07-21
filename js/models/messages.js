@@ -603,7 +603,6 @@
         isModerator,
 
         onCopyText: () => this.copyText(),
-        onSelectMessage: () => this.selectMessage(),
         onSelectMessageUnchecked: () => this.selectMessageUnchecked(),
         onCopyPubKey: () => this.copyPubKey(),
         onBanUser: () => this.banUser(),
@@ -955,14 +954,6 @@
       }
 
       this.trigger('change');
-    },
-
-    selectMessage() {
-      if (window.contextMenuShown || this.get('isRss')) {
-        return;
-      }
-
-      this.selectMessageUnchecked();
     },
 
     copyText() {
