@@ -20,6 +20,8 @@ import { Constants, getMessageQueue } from '../../../session';
 import { MessageQueue } from '../../../session/sending';
 import { SessionKeyVerification } from '../SessionKeyVerification';
 import _ from 'lodash';
+import { UserUtil } from '../../../util';
+import { MultiDeviceProtocol } from '../../../session/protocols';
 
 interface State {
   conversationKey: string;
@@ -35,6 +37,7 @@ interface State {
   sendingProgressStatus: -1 | 0 | 1 | 2;
 
   unreadCount: number;
+  initialFetchComplete: boolean;
   messages: Array<any>;
   selectedMessages: Array<string>;
   isScrolledToBottom: boolean;
@@ -75,6 +78,7 @@ export class SessionConversation extends React.Component<any, State> {
       sendingProgressStatus: 0,
       conversationKey,
       unreadCount,
+      initialFetchComplete: false,
       messages: [],
       selectedMessages: [],
       isScrolledToBottom: !unreadCount,
@@ -107,6 +111,7 @@ export class SessionConversation extends React.Component<any, State> {
     this.onExitVoiceNoteView = this.onExitVoiceNoteView.bind(this);
 
     // Messages
+    this.loadInitialMessages = this.loadInitialMessages.bind(this);
     this.selectMessage = this.selectMessage.bind(this);
     this.resetSelection = this.resetSelection.bind(this);
     this.updateSendingProgress = this.updateSendingProgress.bind(this);
@@ -121,26 +126,32 @@ export class SessionConversation extends React.Component<any, State> {
 
     // Keyboard navigation
     this.onKeyDown = this.onKeyDown.bind(this);
+
+    const conversationModel = window.ConversationController.get(this.state.conversationKey);
+    conversationModel.on('change', () => {
+      this.setState({
+        messages: conversationModel.messageCollection.models,
+      });
+    });
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~ LIFECYCLES ~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  public async componentWillMount() {
+    await this.loadInitialMessages();
+    this.setState({initialFetchComplete: true});
+  }
+
   public componentDidMount() {
-    this.loadInitialMessages()
-      .then(() => {
-        // Pause thread to wait for rendering to complete
-        setTimeout(() => {
-          this.scrollToUnread();
-        }, 0);
-        setTimeout(() => {
-          this.setState({
-            doneInitialScroll: true,
-          });
-        }, 100);
-      })
-      .catch();
+    // Pause thread to wait for rendering to complete
+    setTimeout(this.scrollToUnread, 0);
+    setTimeout(() => {
+      this.setState({
+        doneInitialScroll: true,
+      });
+    }, 100);
 
     this.updateReadMessages();
   }
@@ -150,24 +161,16 @@ export class SessionConversation extends React.Component<any, State> {
     if (this.state.isScrolledToBottom) {
       this.scrollToBottom();
     }
+
+
+    // New messages get from message collection.
+    const messageCollection = window.ConversationController.get(this.state.conversationKey).messageCollection;
+    console.log('[vince] messageCollection:', messageCollection);
+    console.log('[vince] this.state.messages:', this.state.messages);
   }
 
-  public async componentWillReceiveProps() {
-    const timestamp = getTimestamp();
+  public async componentWillReceiveProps(nextProps: any) {
 
-    // If we have pulled messages in the last second, don't bother rescanning
-    // This avoids getting messages on every re-render.
-    if (timestamp > this.state.messageFetchTimestamp) {
-      await this.getMessages();
-    }
-
-    // console.log('[vince] this.props.conversations:', this.props.conversations);
-    console.log(`[vince] Conversation changed from redux`);
-    
-    const conversationModel = window.ConversationController.get(this.state.conversationKey);
-    const messages = conversationModel.messageCollection;
-
-    console.log('[vince] messages:', messages);
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -244,7 +247,7 @@ export class SessionConversation extends React.Component<any, State> {
               onScroll={this.handleScroll}
               ref={this.messageContainerRef}
             >
-              {this.renderMessages()}
+              {this.renderMessages(messages)}
               <div ref={this.messagesEndRef} />
             </div>
 
@@ -284,8 +287,7 @@ export class SessionConversation extends React.Component<any, State> {
     );
   }
 
-  public renderMessages() {
-    const { messages } = this.state;
+  public renderMessages(messages: any) {
 
     const multiSelectMode = Boolean(this.state.selectedMessages.length);
     // FIXME VINCE: IF MESSAGE IS THE TOP OF UNREAD, THEN INSERT AN UNREAD BANNER
@@ -378,25 +380,29 @@ export class SessionConversation extends React.Component<any, State> {
     // After the inital fetch, all new messages are automatically added from onNewMessage
     // in the conversation model.
     // The only time we need to call getMessages() is to grab more messages on scroll.
-    const { conversationKey } = this.state;
+    const { conversationKey, initialFetchComplete } = this.state;
     const conversationModel = window.ConversationController.get(conversationKey);
+
+    if (initialFetchComplete) {
+      return;
+    }
 
     const messageSet = await window.Signal.Data.getMessagesByConversation(
       conversationKey,
       { limit: Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT, MessageCollection: window.Whisper.MessageCollection }
     );
 
-    const messageModels = messageSet.models;
-    const messages = messageModels.map((message: any) => message.id);
+    const messages = messageSet.models;
+    const messageFetchTimestamp = Date.now();
 
-    this.setState({ messages }, () => {
+    this.setState({ messages, messageFetchTimestamp }, () => {
       if (this.state.isScrolledToBottom) {
         this.updateReadMessages();
       }
-    });
 
-    // Add new messages to conversation collection
-    conversationModel.messageCollection = messageSet;
+      // Add new messages to conversation collection
+      conversationModel.messageCollection = messageSet;
+    });
   }
 
   public async getMessages(
@@ -429,19 +435,19 @@ export class SessionConversation extends React.Component<any, State> {
     );
 
     // Set first member of series here.
-    // const messageModels = messageSet.models;
-    // const messages = [];
-    // let previousSender;
-    // for (let i = 0; i < messageModels.length; i++) {
-    //   // Handle firstMessageOfSeries for conditional avatar rendering
-    //   let firstMessageOfSeries = true;
-    //   if (i > 0 && previousSender === messageModels[i].authorPhoneNumber) {
-    //     firstMessageOfSeries = false;
-    //   }
+    const messageModels = messageSet.models;
+    const messages = [];
+    let previousSender;
+    for (let i = 0; i < messageModels.length; i++) {
+      // Handle firstMessageOfSeries for conditional avatar rendering
+      let firstMessageOfSeries = true;
+      if (i > 0 && previousSender === messageModels[i].authorPhoneNumber) {
+        firstMessageOfSeries = false;
+      }
 
-    //   messages.push({ ...messageModels[i], firstMessageOfSeries });
-    //   previousSender = messageModels[i].authorPhoneNumber;
-    // }
+      messages.push({ ...messageModels[i], firstMessageOfSeries });
+      previousSender = messageModels[i].authorPhoneNumber;
+    }
 
     const previousTopMessage = this.state.messages[0]?.id;
     const newTopMessage = messages[0]?.id;
@@ -762,20 +768,18 @@ export class SessionConversation extends React.Component<any, State> {
     return null;
   }
 
-  public async deleteSelectedMessages(onSuccess?: any) {
+  public async deleteSelectedMessages() {
     // Get message objects
-    const messageObjects = this.state.messages.filter(message => this.state.selectedMessages.find(
+    const selectedMessages = this.state.messages.filter(message => this.state.selectedMessages.find(
       selectedMessage => selectedMessage === message.id
     ));
-    // Get message model for each message
-    const messages = messageObjects.map(message => message?.collection?.models[0]);
 
     const { conversationKey } = this.state;
     const conversationModel = window.ConversationController.get(
       conversationKey
     );
 
-    const multiple = messages.length > 1;
+    const multiple = selectedMessages.length > 1;
     const isPublic = conversationModel.isPublic();
 
     // In future, we may be able to unsend private messages also
@@ -795,21 +799,39 @@ export class SessionConversation extends React.Component<any, State> {
     const doDelete = async () => {
       let toDeleteLocally;
 
-      console.log('[vince] conversationKey:', conversationKey);
-      console.log('[vince] conversationModel:', conversationModel);
-      console.log('[vince] messages:', messages);
-
       // VINCE TOOD: MARK TO-DELETE MESSAGES AS READ
 
       if (isPublic) {
-        toDeleteLocally = await conversationModel.deletePublicMessages(messages);
+        // Get our Moderator status
+        const ourDevicePubkey = await UserUtil.getCurrentDevicePubKey();
+        if (!ourDevicePubkey) {
+          return;
+        }
+        const ourPrimaryPubkey = (await MultiDeviceProtocol.getPrimaryDevice(ourDevicePubkey)).key;
+        const isModerator = conversationModel.isModerator(ourPrimaryPubkey);
+        const isAllOurs = selectedMessages.every(
+          message =>
+            message.propsForMessage.authorPhoneNumber === message.OUR_NUMBER
+        );
+
+        if (!isAllOurs && !isModerator) {
+          window.pushToast({
+            title: window.i18n('messageDeletionForbidden'),
+            type: 'error',
+            id: 'messageDeletionForbidden',
+          });
+
+          return;
+        }
+
+        toDeleteLocally = await conversationModel.deletePublicMessages(selectedMessages);
         if (toDeleteLocally.length === 0) {
           // Message failed to delete from server, show error?
           return;
         }
       } else {
-        messages.forEach(m => conversationModel.messageCollection.remove(m.id));
-        toDeleteLocally = messages;
+        selectedMessages.forEach(m => conversationModel.messageCollection.remove(m.id));
+        toDeleteLocally = selectedMessages;
       }
 
       await Promise.all(
@@ -821,14 +843,15 @@ export class SessionConversation extends React.Component<any, State> {
         })
       );
 
-      if (onSuccess) {
-        onSuccess();
-      }
+      // Update view and trigger update
+      this.setState({selectedMessages: [] }, () => {
+        conversationModel.trigger('change', conversationModel);
+      });
     };
 
     // Only show a warning when at least one messages was successfully
     // saved in on the server
-    if (!messages.some(m => !m.hasErrors())) {
+    if (!selectedMessages.some(m => !m.hasErrors())) {
       await doDelete();
       return;
     }
