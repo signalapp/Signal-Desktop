@@ -180,7 +180,7 @@ $composition-container-height: 60px;
   overflow-x: hidden;
   min-width: 370px;
   scrollbar-width: 4px;
-  padding: $session-margin-sm $session-margin-lg;
+  padding: $session-margin-sm $session-margin-lg $session-margin-lg;
 
   &__loading {
     position: absolute;

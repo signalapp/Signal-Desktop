@@ -14,6 +14,9 @@ import { SignalService } from '../../../../ts/protobuf';
 
 import { Constants } from '../../../session';
 
+import { Twemoji } from 'react-emoji-render';
+import { Emojify } from '../../conversation/Emojify';
+
 interface Props {
   placeholder?: string;
 
@@ -194,6 +197,18 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             value={message}
             onChange={this.onChange}
           />
+          <div
+            contentEditable={true}
+
+          >
+            <Twemoji
+              text="EMOJIIIIS 😍😶😥🇬🇧😥😥🏴😆"
+              options={{
+                baseUrl: '/images/session/emojis/',
+                ext: 'svg',
+              }}
+            />
+          </div>
         </div>
 
         <SessionIconButton
