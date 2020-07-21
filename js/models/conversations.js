@@ -567,6 +567,11 @@
         ? `${message.get('source')}.${message.get('sourceDevice')}`
         : `${message.source}.${message.sourceDevice}`;
       this.clearContactTypingTimer(identifier);
+
+      const model = this.addSingleMessage(message);
+      MessageController.register(model.id, model);
+      
+      this.trigger('change');
     },
     addSingleMessage(message, setToExpire = true) {
       const model = this.messageCollection.add(message, { merge: true });

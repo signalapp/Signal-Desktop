@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Picker } from 'emoji-mart';
+import { Constants } from '../../../session';
 
 interface Props {
   onEmojiClicked: (emoji: any) => void;
@@ -31,7 +32,7 @@ export class SessionEmojiPanel extends React.Component<Props, State> {
           set={'twitter'}
           sheetSize={32}
           darkMode={true}
-          color={'#00F782'}
+          color={Constants.UI.COLORS.GREEN}
           showPreview={true}
           title={''}
           onSelect={onEmojiClicked}

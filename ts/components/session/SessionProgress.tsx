@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { Constants } from '../../session';
 
 interface Props {
   // Value ranges from 0 to 100
@@ -54,11 +55,8 @@ export class SessionProgress extends React.PureComponent<Props, State> {
     // 2. Transition duration scales with the
     //    distance it needs to travel
 
-    // FIXME VINCE - globalise all JS color references
-    const sessionBrandColor = '#00f782';
-    const sessionDangerAlt = '#ff4538';
-    const successColor = sessionBrandColor;
-    const failureColor = sessionDangerAlt;
+    const successColor = Constants.UI.COLORS.GREEN;
+    const failureColor = Constants.UI.COLORS.DANGER_ALT;
     const backgroundColor = sendStatus === -1 ? failureColor : successColor;
 
     const shiftDurationMs =
@@ -78,7 +76,7 @@ export class SessionProgress extends React.PureComponent<Props, State> {
       // 'transition-property':      'transform, opacity',
       'transition-duration': `${shiftDurationMs}ms`,
       // 'transition-duration':      `${shiftDurationMs}ms, ${showDurationMs}ms`,
-      'transition-delay': `0ms`,
+      'transition-delay': '0ms',
       // 'transition-delay':         `0ms, ${showOffsetMs}ms`,
       'transition-timing-funtion': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
       //'transition-timing-funtion':'cubic-bezier(0.25, 0.46, 0.45, 0.94), linear',

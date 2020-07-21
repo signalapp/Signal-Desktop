@@ -7,6 +7,7 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from './SessionButton';
+import { Constants } from '../../session';
 
 interface State {
   error: string;
@@ -82,7 +83,7 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
       <SessionIcon
         iconType={SessionIconType.Lock}
         iconSize={35}
-        iconColor="#00f782"
+        iconColor={Constants.UI.COLORS.GREEN}
       />
     );
     const errorSection = !this.state.clearDataView && (

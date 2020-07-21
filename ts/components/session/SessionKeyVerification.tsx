@@ -13,6 +13,7 @@ import { ConversationModel } from '../../../js/models/conversations';
 import { SessionSpinner } from './SessionSpinner';
 import classNames from 'classnames';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
+import { Constants } from '../../session';
 
 interface Props {
   conversation: ConversationModel;
@@ -70,7 +71,9 @@ export class SessionKeyVerification extends React.Component<Props, State> {
       );
     }
 
-    const verificationIconColor = isVerified ? '#00f782' : '#ff453a';
+    const verificationIconColor = isVerified
+      ? Constants.UI.COLORS.GREEN
+      : Constants.UI.COLORS.DANGER;
     const verificationButtonColor = isVerified
       ? SessionButtonColor.Warning
       : SessionButtonColor.Success;
@@ -112,7 +115,7 @@ export class SessionKeyVerification extends React.Component<Props, State> {
               <span>
                 <SessionIcon
                   iconType={SessionIconType.Lock}
-                  iconSize={SessionIconSize.Large}
+                  iconSize={SessionIconSize.Huge}
                   iconColor={verificationIconColor}
                 />
                 {window.i18n(

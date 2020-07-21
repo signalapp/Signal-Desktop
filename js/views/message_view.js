@@ -49,11 +49,6 @@
           Component: Components.TimerNotification,
           props: this.model.propsForTimerNotification,
         };
-      } else if (this.model.propsForSafetyNumberNotification) {
-        return {
-          Component: Components.SafetyNumberNotification,
-          props: this.model.propsForSafetyNumberNotification,
-        };
       } else if (this.model.propsForVerificationNotification) {
         return {
           Component: Components.VerificationNotification,

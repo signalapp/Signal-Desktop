@@ -31,4 +31,51 @@ export const UI = {
   // Pixels (scroll) from the top of the top of message container
   // at which more messages should be loaded
   MESSAGE_CONTAINER_BUFFER_OFFSET_PX: 30,
+
+  COLORS: {
+    // COMMON
+    WHITE: '#FFFFFF',
+    WHITE_PALE: '#AFAFAF',
+    LIGHT_GREY: '#A0A0A0',
+    DARK_GREY: '#353535',
+    BLACK: '#000000',
+    GREEN: '#00F782',
+    GREEN_ALT_1: '#00F480',
+    GREEN_ALT_2: '#00FD73',
+    GREEN_ALT_3: '#00F782',
+    BACKGROUND: '#121212',
+
+    // SHADES
+    SHADE_1: '#0C0C0C',
+    SHADE_1_ALT: '#0F1011',
+    SHADE_2: '#161616',
+    SHADE_3: '#191818',
+    SHADE_4: '#1B1B1B',
+    SHADE_5: '#222325',
+    SHADE_6: '#232323',
+    SHADE_6_ALT: '#2C2C2C',
+    SHADE_7: '#2E2E2E',
+    SHADE_8: '#2F2F2F',
+    SHADE_9: '#313131',
+    SHADE_10: '#3E3E3E',
+    SHADE_11: '#3F3F3F',
+    SHADE_12: '#3F4146',
+    SHADE_13: '#474646',
+    SHADE_14: '#535865',
+    SHADE_15: '#5B6C72',
+    SHADE_16: '#979797',
+    SHADE_17: '#A0A0A0',
+    SHADE_18: '#141414',
+
+    // SEMANTIC COLORS
+    INFO: '#3F3F3F',
+    SUCCESS: '#35D388',
+    ERROR: '#EDD422',
+    WARNING: '#A0A0A0',
+    WARNING_ALT: '#FF9D00',
+    DANGER: '#FF453A',
+    DANGER_ALT: '#FF4538',
+    PRIMARY: '#474646',
+    SECONDARY: '#232323',
+  },
 };

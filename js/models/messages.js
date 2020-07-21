@@ -65,8 +65,6 @@
       const generateProps = () => {
         if (this.isExpirationTimerUpdate()) {
           this.propsForTimerNotification = this.getPropsForTimerNotification();
-        } else if (this.isKeyChange()) {
-          this.propsForSafetyNumberNotification = this.getPropsForSafetyNumberNotification();
         } else if (this.isVerifiedChange()) {
           this.propsForVerificationNotification = this.getPropsForVerificationNotification();
         } else if (this.isEndSession()) {
@@ -343,19 +341,6 @@
       }
 
       return basicProps;
-    },
-    getPropsForSafetyNumberNotification() {
-      const conversation = this.getConversation();
-      const isGroup = conversation && !conversation.isPrivate();
-      const phoneNumber = this.get('key_changed');
-      const onVerify = () =>
-        this.trigger('show-identity', this.findContact(phoneNumber));
-
-      return {
-        isGroup,
-        contact: this.findAndFormatContact(phoneNumber),
-        onVerify,
-      };
     },
     getPropsForVerificationNotification() {
       const type = this.get('verified') ? 'markVerified' : 'markNotVerified';

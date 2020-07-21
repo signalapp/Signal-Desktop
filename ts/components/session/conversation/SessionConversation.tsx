@@ -19,6 +19,7 @@ import { ResetSessionNotification } from '../../conversation/ResetSessionNotific
 import { Constants, getMessageQueue } from '../../../session';
 import { MessageQueue } from '../../../session/sending';
 import { SessionKeyVerification } from '../SessionKeyVerification';
+import _ from 'lodash';
 
 interface State {
   conversationKey: string;
@@ -113,6 +114,7 @@ export class SessionConversation extends React.Component<any, State> {
     this.onMessageSending = this.onMessageSending.bind(this);
     this.onMessageSuccess = this.onMessageSuccess.bind(this);
     this.onMessageFailure = this.onMessageFailure.bind(this);
+    this.deleteSelectedMessages = this.deleteSelectedMessages.bind(this);
 
     this.messagesEndRef = React.createRef();
     this.messageContainerRef = React.createRef();
@@ -126,7 +128,7 @@ export class SessionConversation extends React.Component<any, State> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   public componentDidMount() {
-    this.getMessages()
+    this.loadInitialMessages()
       .then(() => {
         // Pause thread to wait for rendering to complete
         setTimeout(() => {
@@ -158,6 +160,14 @@ export class SessionConversation extends React.Component<any, State> {
     if (timestamp > this.state.messageFetchTimestamp) {
       await this.getMessages();
     }
+
+    // console.log('[vince] this.props.conversations:', this.props.conversations);
+    console.log(`[vince] Conversation changed from redux`);
+    
+    const conversationModel = window.ConversationController.get(this.state.conversationKey);
+    const messages = conversationModel.messageCollection;
+
+    console.log('[vince] messages:', messages);
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -172,7 +182,7 @@ export class SessionConversation extends React.Component<any, State> {
       showOptionsPane,
       showScrollButton,
     } = this.state;
-    const loading = !doneInitialScroll || messages.length === 0;
+    const loading = !doneInitialScroll;
     const selectionMode = !!this.state.selectedMessages.length;
 
     const conversation = this.props.conversations.conversationLookup[
@@ -195,18 +205,9 @@ export class SessionConversation extends React.Component<any, State> {
 
     return (
       <>
-        <div
-          className={classNames(
-            'conversation-item__content',
-            selectionMode && 'selection-mode'
-          )}
-          tabIndex={0}
-          onKeyDown={this.onKeyDown}
-          role="navigation"
-        >
-          <div className="conversation-header">{this.renderHeader()}</div>
+        <div className="conversation-header">{this.renderHeader()}</div>
 
-          {/* <SessionProgress
+        {/* <SessionProgress
             visible={this.state.messageProgressVisible}
             value={this.state.sendingProgress}
             prevValue={this.state.prevSendingProgress}
@@ -214,54 +215,59 @@ export class SessionConversation extends React.Component<any, State> {
             resetProgress={this.resetSendingProgress}
           /> */}
 
-          <div className="conversation-content">
-            <div
-              className={classNames(
-                'conversation-info-panel',
-                this.state.infoViewState && 'show'
-              )}
-            >
-              {showSafetyNumber && (
-                <SessionKeyVerification conversation={conversationModel} />
-              )}
-              {showMessageDetails && <>&nbsp</>}
-            </div>
-
-            <div className="conversation-messages">
-              <div className="messages-wrapper">
-                {loading && <div className="messages-container__loading" />}
-
-                <div
-                  className="messages-container"
-                  onScroll={this.handleScroll}
-                  ref={this.messageContainerRef}
-                >
-                  {this.renderMessages()}
-                  <div ref={this.messagesEndRef} />
-                </div>
-
-                <SessionScrollButton
-                  show={showScrollButton}
-                  onClick={this.scrollToBottom}
-                />
-                {showRecordingView && (
-                  <div className="messages-wrapper--blocking-overlay" />
-                )}
-              </div>
-
-              {!isRss && (
-                <SessionCompositionBox
-                  sendMessage={sendMessageFn}
-                  dropZoneFiles={this.state.dropZoneFiles}
-                  onMessageSending={this.onMessageSending}
-                  onMessageSuccess={this.onMessageSuccess}
-                  onMessageFailure={this.onMessageFailure}
-                  onLoadVoiceNoteView={this.onLoadVoiceNoteView}
-                  onExitVoiceNoteView={this.onExitVoiceNoteView}
-                />
-              )}
-            </div>
+        <div
+          className={classNames(
+            'conversation-content',
+            selectionMode && 'selection-mode'
+          )}
+          tabIndex={0}
+          onKeyDown={this.onKeyDown}
+          role="navigation"
+        >
+          <div
+            className={classNames(
+              'conversation-info-panel',
+              this.state.infoViewState && 'show'
+            )}
+          >
+            {showSafetyNumber && (
+              <SessionKeyVerification conversation={conversationModel} />
+            )}
+            {showMessageDetails && <>&nbsp</>}
           </div>
+
+          <div className="conversation-messages">
+            {loading && <div className="messages-container__loading" />}
+
+            <div
+              className="messages-container"
+              onScroll={this.handleScroll}
+              ref={this.messageContainerRef}
+            >
+              {this.renderMessages()}
+              <div ref={this.messagesEndRef} />
+            </div>
+
+            <SessionScrollButton
+              show={showScrollButton}
+              onClick={this.scrollToBottom}
+            />
+            {showRecordingView && (
+              <div className="conversation-messages__blocking-overlay" />
+            )}
+          </div>
+
+          {!isRss && (
+            <SessionCompositionBox
+              sendMessage={sendMessageFn}
+              dropZoneFiles={this.state.dropZoneFiles}
+              onMessageSending={this.onMessageSending}
+              onMessageSuccess={this.onMessageSuccess}
+              onMessageFailure={this.onMessageFailure}
+              onLoadVoiceNoteView={this.onLoadVoiceNoteView}
+              onExitVoiceNoteView={this.onExitVoiceNoteView}
+            />
+          )}
         </div>
 
         {shouldRenderGroupSettings && (
@@ -281,6 +287,7 @@ export class SessionConversation extends React.Component<any, State> {
   public renderMessages() {
     const { messages } = this.state;
 
+    const multiSelectMode = Boolean(this.state.selectedMessages.length);
     // FIXME VINCE: IF MESSAGE IS THE TOP OF UNREAD, THEN INSERT AN UNREAD BANNER
 
     return (
@@ -292,10 +299,6 @@ export class SessionConversation extends React.Component<any, State> {
           const timerProps = message.propsForTimerNotification && {
             i18n: window.i18n,
             ...message.propsForTimerNotification,
-          };
-          const friendRequestProps = message.propsForFriendRequest && {
-            i18n: window.i18n,
-            ...message.propsForFriendRequest,
           };
           const resetSessionProps = message.propsForResetSessionNotification && {
             i18n: window.i18n,
@@ -309,12 +312,17 @@ export class SessionConversation extends React.Component<any, State> {
           // firstMessageOfSeries tells us to render the avatar only for the first message
           // in a series of messages from the same user
           item = messageProps
-            ? this.renderMessage(messageProps, message.firstMessageOfSeries)
+            ? this.renderMessage(
+                messageProps,
+                message.firstMessageOfSeries,
+                multiSelectMode
+              )
             : item;
           item = quoteProps
             ? this.renderMessage(
                 timerProps,
                 message.firstMessageOfSeries,
+                multiSelectMode,
                 quoteProps
               )
             : item;
@@ -335,13 +343,13 @@ export class SessionConversation extends React.Component<any, State> {
 
   public renderHeader() {
     const headerProps = this.getHeaderProps();
-
     return <ConversationHeader {...headerProps} />;
   }
 
   public renderMessage(
     messageProps: any,
     firstMessageOfSeries: boolean,
+    multiSelectMode: boolean,
     quoteProps?: any
   ) {
     const selected =
@@ -351,6 +359,7 @@ export class SessionConversation extends React.Component<any, State> {
     messageProps.i18n = window.i18n;
     messageProps.selected = selected;
     messageProps.firstMessageOfSeries = firstMessageOfSeries;
+    messageProps.multiSelectMode = multiSelectMode;
     messageProps.onSelectMessage = (messageId: string) => {
       this.selectMessage(messageId);
     };
@@ -364,11 +373,38 @@ export class SessionConversation extends React.Component<any, State> {
   // ~~~~~~~~~~~~~~ GETTER METHODS ~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  public async loadInitialMessages() {
+    // Grabs the initial set of messages and adds them to our conversation model.
+    // After the inital fetch, all new messages are automatically added from onNewMessage
+    // in the conversation model.
+    // The only time we need to call getMessages() is to grab more messages on scroll.
+    const { conversationKey } = this.state;
+    const conversationModel = window.ConversationController.get(conversationKey);
+
+    const messageSet = await window.Signal.Data.getMessagesByConversation(
+      conversationKey,
+      { limit: Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT, MessageCollection: window.Whisper.MessageCollection }
+    );
+
+    const messageModels = messageSet.models;
+    const messages = messageModels.map((message: any) => message.id);
+
+    this.setState({ messages }, () => {
+      if (this.state.isScrolledToBottom) {
+        this.updateReadMessages();
+      }
+    });
+
+    // Add new messages to conversation collection
+    conversationModel.messageCollection = messageSet;
+  }
+
   public async getMessages(
     numMessages?: number,
     fetchInterval = Constants.CONVERSATION.MESSAGE_FETCH_INTERVAL
   ) {
     const { conversationKey, messageFetchTimestamp } = this.state;
+    const conversationModel = window.ConversationController.get(conversationKey);
     const timestamp = getTimestamp();
 
     // If we have pulled messages in the last interval, don't bother rescanning
@@ -393,19 +429,19 @@ export class SessionConversation extends React.Component<any, State> {
     );
 
     // Set first member of series here.
-    const messageModels = messageSet.models;
-    const messages = [];
-    let previousSender;
-    for (let i = 0; i < messageModels.length; i++) {
-      // Handle firstMessageOfSeries for conditional avatar rendering
-      let firstMessageOfSeries = true;
-      if (i > 0 && previousSender === messageModels[i].authorPhoneNumber) {
-        firstMessageOfSeries = false;
-      }
+    // const messageModels = messageSet.models;
+    // const messages = [];
+    // let previousSender;
+    // for (let i = 0; i < messageModels.length; i++) {
+    //   // Handle firstMessageOfSeries for conditional avatar rendering
+    //   let firstMessageOfSeries = true;
+    //   if (i > 0 && previousSender === messageModels[i].authorPhoneNumber) {
+    //     firstMessageOfSeries = false;
+    //   }
 
-      messages.push({ ...messageModels[i], firstMessageOfSeries });
-      previousSender = messageModels[i].authorPhoneNumber;
-    }
+    //   messages.push({ ...messageModels[i], firstMessageOfSeries });
+    //   previousSender = messageModels[i].authorPhoneNumber;
+    // }
 
     const previousTopMessage = this.state.messages[0]?.id;
     const newTopMessage = messages[0]?.id;
@@ -415,6 +451,12 @@ export class SessionConversation extends React.Component<any, State> {
         this.updateReadMessages();
       }
     });
+
+    // Add new messages to conversation collection
+    // const newMessages = _.xor(messages, previousMessageSet);
+    // newMessages.forEach(message => conversationModel.addSingleMessage(message));
+
+    // console.log('[vince] conversationModel.messageCollection:', conversationModel.messageCollection);
 
     return { newTopMessage, previousTopMessage };
   }
@@ -463,9 +505,14 @@ export class SessionConversation extends React.Component<any, State> {
 
       onSetDisappearingMessages: (seconds: any) =>
         conversation.updateExpirationTimer(seconds),
-      onDeleteMessages: () => conversation.destroyMessages(),
-      onDeleteSelectedMessages: () => conversation.deleteSelectedMessages(),
-      onCloseOverlay: () => conversation.resetMessageSelection(),
+      onDeleteMessages: () => null,
+      onDeleteSelectedMessages: async () => {
+        await this.deleteSelectedMessages();
+      },
+      onCloseOverlay: () => {
+        this.setState({ selectedMessages: [] });
+        conversation.resetMessageSelection();
+      },
       onDeleteContact: () => conversation.deleteContact(),
       onResetSession: () => {
         conversation.endSession();
@@ -713,6 +760,97 @@ export class SessionConversation extends React.Component<any, State> {
     }
 
     return null;
+  }
+
+  public async deleteSelectedMessages(onSuccess?: any) {
+    // Get message objects
+    const messageObjects = this.state.messages.filter(message => this.state.selectedMessages.find(
+      selectedMessage => selectedMessage === message.id
+    ));
+    // Get message model for each message
+    const messages = messageObjects.map(message => message?.collection?.models[0]);
+
+    const { conversationKey } = this.state;
+    const conversationModel = window.ConversationController.get(
+      conversationKey
+    );
+
+    const multiple = messages.length > 1;
+    const isPublic = conversationModel.isPublic();
+
+    // In future, we may be able to unsend private messages also
+    // isServerDeletable also defined in ConversationHeader.tsx for
+    // future reference
+    const isServerDeletable = isPublic;
+
+    const warningMessage = (() => {
+      if (isPublic) {
+        return multiple
+          ? window.i18n('deleteMultiplePublicWarning')
+          : window.i18n('deletePublicWarning');
+      }
+      return multiple ? window.i18n('deleteMultipleWarning') : window.i18n('deleteWarning');
+    })();
+
+    const doDelete = async () => {
+      let toDeleteLocally;
+
+      console.log('[vince] conversationKey:', conversationKey);
+      console.log('[vince] conversationModel:', conversationModel);
+      console.log('[vince] messages:', messages);
+
+      // VINCE TOOD: MARK TO-DELETE MESSAGES AS READ
+
+      if (isPublic) {
+        toDeleteLocally = await conversationModel.deletePublicMessages(messages);
+        if (toDeleteLocally.length === 0) {
+          // Message failed to delete from server, show error?
+          return;
+        }
+      } else {
+        messages.forEach(m => conversationModel.messageCollection.remove(m.id));
+        toDeleteLocally = messages;
+      }
+
+      await Promise.all(
+        toDeleteLocally.map(async (message: any) => {
+          await window.Signal.Data.removeMessage(message.id, {
+            Message: window.Whisper.Message,
+          });
+          message.trigger('unload');
+        })
+      );
+
+      if (onSuccess) {
+        onSuccess();
+      }
+    };
+
+    // Only show a warning when at least one messages was successfully
+    // saved in on the server
+    if (!messages.some(m => !m.hasErrors())) {
+      await doDelete();
+      return;
+    }
+
+    // If removable from server, we "Unsend" - otherwise "Delete"
+    const pluralSuffix = multiple ? 's' : '';
+    const title = window.i18n(
+      isPublic
+        ? `unsendMessage${pluralSuffix}`
+        : `deleteMessage${pluralSuffix}`
+    );
+
+    const okText = window.i18n(isServerDeletable ? 'unsend' : 'delete');
+
+    window.confirmationDialog({
+      title,
+      message: warningMessage,
+      okText,
+      okTheme: 'danger',
+      resolve: doDelete,
+      centeredText: true,
+    });
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

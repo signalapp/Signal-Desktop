@@ -1186,7 +1186,7 @@ export class Message extends React.PureComponent<Props, State> {
 
               // User clicked on message body
               const target = event.target as HTMLDivElement;
-              if (target.className === 'text-selectable') {
+              if (!multiSelectMode && target.className === 'text-selectable') {
                 return;
               }
 
@@ -1196,9 +1196,8 @@ export class Message extends React.PureComponent<Props, State> {
             }}
           >
             {this.renderError(isIncoming)}
-            {isRss || isKickedFromGroup
-              ? null
-              : this.renderMenu(!isIncoming, triggerId)}
+            {enableContextMenu ? this.renderMenu(!isIncoming, triggerId) : null}
+
             <div
               className={classNames(
                 'module-message__container',

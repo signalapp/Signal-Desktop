@@ -125,9 +125,6 @@ const {
   ResetSessionNotification,
 } = require('../../ts/components/conversation/ResetSessionNotification');
 const {
-  SafetyNumberNotification,
-} = require('../../ts/components/conversation/SafetyNumberNotification');
-const {
   StagedLinkPreview,
 } = require('../../ts/components/conversation/StagedLinkPreview');
 const {
@@ -323,7 +320,6 @@ exports.setup = (options = {}) => {
     MessageDetail,
     Quote,
     ResetSessionNotification,
-    SafetyNumberNotification,
     StagedLinkPreview,
     TimerNotification,
     Types: {

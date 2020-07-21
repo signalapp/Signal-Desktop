@@ -351,7 +351,6 @@ export class ConversationHeader extends React.Component<Props> {
   public renderSelectionOverlay() {
     const {
       onDeleteSelectedMessages,
-      onResetSession,
       onCloseOverlay,
       isPublic,
       i18n,
@@ -367,7 +366,7 @@ export class ConversationHeader extends React.Component<Props> {
           <SessionIconButton
             iconType={SessionIconType.Exit}
             iconSize={SessionIconSize.Medium}
-            onClick={onResetSession}
+            onClick={onCloseOverlay}
           />
         </div>
 
@@ -394,17 +393,15 @@ export class ConversationHeader extends React.Component<Props> {
           {this.renderBackButton()}
           <div className="module-conversation-header__title-container">
             <div className="module-conversation-header__title-flex">
-              {this.renderOptions(triggerId)}
+              {!selectionMode && this.renderOptions(triggerId)}
               {this.renderTitle()}
-              {/* This might be redundant as we show the title in the title: */}
-              {/*isPrivateGroup ? this.renderMemberCount() : null*/}
             </div>
           </div>
           {!isKickedFromGroup && this.renderExpirationLength()}
 
-          {!this.props.isRss && this.renderAvatar()}
+          {!this.props.isRss && !selectionMode && this.renderAvatar()}
 
-          {this.renderMenu(triggerId)}
+          {!selectionMode && this.renderMenu(triggerId)}
         </div>
 
         {selectionMode && this.renderSelectionOverlay()}

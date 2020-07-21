@@ -115,8 +115,8 @@ export class SessionRecording extends React.Component<Props, State> {
         barRadius: 15,
         barWidth: 4,
         barPadding: 3,
-        barColorInit: '#AFAFAF',
-        barColorPlay: '#FFFFFF',
+        barColorInit: Constants.UI.COLORS.WHITE_PALE,
+        barColorPlay: Constants.UI.COLORS.WHITE,
         maxBarHeight: 30,
         minBarHeight: 3,
       },
@@ -194,8 +194,7 @@ export class SessionRecording extends React.Component<Props, State> {
             <SessionIconButton
               iconType={SessionIconType.Pause}
               iconSize={SessionIconSize.Medium}
-              // FIXME VINCE: Globalise constants for JS Session Colors
-              iconColor={'#FF4538'}
+              iconColor={Constants.UI.COLORS.DANGER_ALT}
               onClick={actionPauseFn}
             />
           )}
@@ -203,8 +202,7 @@ export class SessionRecording extends React.Component<Props, State> {
             <SessionIconButton
               iconType={SessionIconType.Pause}
               iconSize={SessionIconSize.Medium}
-              // FIXME VINCE: Globalise constants for JS Session Colors
-              iconColor={'#FFFFFF'}
+              iconColor={Constants.UI.COLORS.WHITE}
               onClick={actionPauseFn}
             />
           )}
@@ -249,7 +247,7 @@ export class SessionRecording extends React.Component<Props, State> {
             <SessionIconButton
               iconType={SessionIconType.Send}
               iconSize={SessionIconSize.Large}
-              iconColor={'#FFFFFF'}
+              iconColor={Constants.UI.COLORS.WHITE}
               iconRotation={90}
               onClick={this.onSendVoiceMessage}
             />
@@ -546,19 +544,21 @@ export class SessionRecording extends React.Component<Props, State> {
 
         const canvasContext = canvas && canvas.getContext('2d');
 
-        for (var i = 0; i < volumeArray.length; i++) {
+        for (let i = 0; i < volumeArray.length; i++) {
           const barHeight = Math.ceil(volumeArray[i]);
-          const offset_x = Math.ceil(i * (barWidth + barPadding));
-          const offset_y = Math.ceil(height / 2 - barHeight / 2);
+          const offsetX = Math.ceil(i * (barWidth + barPadding));
+          const offsetY = Math.ceil(height / 2 - barHeight / 2);
 
-          // FIXME VINCE - Globalise JS references to colors
-          canvasContext && (canvasContext.fillStyle = barColorInit);
-          canvasContext &&
-            this.drawRoundedRect(canvasContext, offset_x, offset_y, barHeight);
+          if (canvasContext) {
+            canvasContext.fillStyle = barColorInit;
+            this.drawRoundedRect(canvasContext, offsetX, offsetY, barHeight);
+          }
         }
       };
 
-      this.state.isRecording && requestAnimationFrame(drawRecordingCanvas);
+      if (this.state.isRecording) {
+        requestAnimationFrame(drawRecordingCanvas);
+      }
     };
 
     // Init listeners for visualisation
@@ -663,7 +663,6 @@ export class SessionRecording extends React.Component<Props, State> {
           const offsetX = Math.ceil(i * (barWidth + barPadding));
           const offsetY = Math.ceil(height / 2 - barHeight / 2);
 
-          // FIXME VINCE - Globalise JS references to colors
           canvasContext.fillStyle = barColorInit;
 
           this.drawRoundedRect(canvasContext, offsetX, offsetY, barHeight);

@@ -205,7 +205,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           <SessionIconButton
             iconType={SessionIconType.Send}
             iconSize={SessionIconSize.Large}
-            iconColor={'#FFFFFF'}
+            iconColor={Constants.UI.COLORS.WHITE}
             iconRotation={90}
             onClick={this.onSendMessage}
           />
