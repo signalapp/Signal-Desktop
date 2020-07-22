@@ -1426,16 +1426,6 @@
     window.log.info('listening for registration events');
     Whisper.events.on('registration_done', () => {
       window.log.info('handling registration event');
-
-      // listeners
-      Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
-      window.Signal.RefreshSenderCertificate.initialize({
-        events: Whisper.events,
-        storage,
-        navigator,
-        logger: window.log,
-      });
-
       connect(true);
     });
 
@@ -1450,15 +1440,6 @@
     Whisper.TapToViewMessagesListener.init(Whisper.events);
 
     if (window.Signal.Util.Registration.everDone()) {
-      // listeners
-      Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
-      window.Signal.RefreshSenderCertificate.initialize({
-        events: Whisper.events,
-        storage,
-        navigator,
-        logger: window.log,
-      });
-
       connect();
       appView.openInbox({
         initialLoadComplete,
@@ -1823,6 +1804,15 @@
     initialLoadComplete = true;
 
     window.readyForUpdates();
+
+    // Start listeners here, after we get through our queue.
+    Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
+    window.Signal.RefreshSenderCertificate.initialize({
+      events: Whisper.events,
+      storage,
+      navigator,
+      logger: window.log,
+    });
 
     let interval = setInterval(() => {
       const view = window.owsDesktopApp.appView;

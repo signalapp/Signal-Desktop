@@ -70,7 +70,7 @@
   Whisper.RotateSignedPreKeyListener = {
     init(events, newVersion) {
       if (initComplete) {
-        window.log.warn('Rotate signed prekey listener: Already initialized');
+        window.log.info('Rotate signed prekey listener: Already initialized');
         return;
       }
       initComplete = true;
