@@ -59,7 +59,7 @@ export class Timestamp extends React.Component<Props> {
     // Use relative time for under 24hrs ago.
     const now = Math.floor(Date.now());
     const messageAgeInDays =
-      (now - timestamp) / (1000 * window.CONSTANTS.SECS_IN_DAY);
+      (now - timestamp) / (window.CONSTANTS.SECS_IN_DAY * 1000);
     const daysBeforeRelativeTiming = 1;
 
     let dateString;
@@ -68,7 +68,11 @@ export class Timestamp extends React.Component<Props> {
     } else {
       dateString = moment(timestamp).fromNow();
       // Prevent times reading "NOW AGO"
-      if (dateString.startsWith('now')) dateString = 'now';
+      if (dateString.startsWith('now')) {
+        dateString = 'now';
+      }
+
+      dateString.replace('minutes', 'mins');
     }
 
     return (

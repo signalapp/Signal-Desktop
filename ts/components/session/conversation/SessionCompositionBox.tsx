@@ -33,8 +33,7 @@ interface Props {
 
 interface State {
   message: string;
-  messageSpaced: string;
-  messageJSX: JSX.Element;
+  nativeMessage: string; // Message with native emojis
   showRecordingView: boolean;
 
   mediaSetting: boolean | null;
@@ -54,8 +53,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     this.state = {
       message: '',
-      messageSpaced: '',
-      messageJSX: <></>,
+      nativeMessage: '',
       attachments: [],
       voiceRecording: undefined,
       showRecordingView: false,
@@ -161,7 +159,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   private renderCompositionView() {
     const { placeholder } = this.props;
-    const { showEmojiPanel, message, messageSpaced, messageJSX } = this.state;
+    const { showEmojiPanel, message } = this.state;
 
     return (
       <>
@@ -191,9 +189,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           role="main"
           onClick={this.focusCompositionBox}
         >
-          <span className="send-message-input__emoji-overlay">
-            {messageJSX}
-          </span>
           <TextareaAutosize
             rows={1}
             maxRows={3}
@@ -202,12 +197,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             placeholder={placeholder}
             maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
             onKeyDown={this.onKeyDown}
-            value={messageSpaced}
+            value={message}
             onChange={this.onChange}
-          >
-            {messageJSX}
-          </TextareaAutosize>
-
+          />
         </div>
 
         <SessionIconButton
@@ -284,7 +276,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private onSendMessage() {
-    const messagePlaintext = this.state.message;
+    const messagePlaintext = this.state.nativeMessage;
     if (!messagePlaintext) {
       return;
     }
@@ -355,8 +347,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       // success!
     }
 
-    console.log(`[compositionbox] Sending voice message:`, audioBlob);
-
     this.onExitVoiceNoteView();
   }
 
@@ -407,14 +397,21 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       return;
     }
 
-    const { message } = this.state;
+    const { message, nativeMessage } = this.state;
     const currentSelectionStart = Number(messageBox.selectionStart);
     const currentSelectionEnd = Number(messageBox.selectionEnd);
-    const before = message.slice(0, currentSelectionStart);
-    const end = message.slice(currentSelectionEnd);
-    const newMessage = `${before}${colons}${end}`;
 
-    this.setState({ message: newMessage }, () => {
+    const getNewMessage = (comparisonMessage: any, emojiSorter: any) => {
+      const before = comparisonMessage.slice(0, currentSelectionStart);
+      const end = comparisonMessage.slice(currentSelectionEnd);
+      return `${before}${colons}${end}`;
+    };
+
+
+    const newMessage = getNewMessage(message, colons);
+    const newNativeMessage = getNewMessage(nativeMessage, native);
+
+    this.setState({ message: newMessage, nativeMessage: newNativeMessage }, () => {
       // update our selection because updating text programmatically
       // will put the selection at the end of the textarea
       const selectionStart = currentSelectionStart + Number(colons.length);

@@ -1249,6 +1249,8 @@
     ) {
       this.clearTypingTimers();
 
+      console.log('[vince] body:', body);
+
       const destination = this.id;
       const expireTimer = this.get('expireTimer');
       const recipients = this.getRecipients();
