@@ -388,7 +388,8 @@ async function handleRegularMessage(
 
   const now = new Date().getTime();
 
-  if (dataMessage.group) {
+  // Medium grups might have `group` set even if with group chat messages...
+  if (dataMessage.group && !conversation.isMediumGroup()) {
     // This is not necessarily a group update message, it could also be a regular group message
     const groupUpdate = await handleGroups(
       conversation,
@@ -557,7 +558,7 @@ export async function handleMessageJob(
     //   call it after we have an id for this message, because the jobs refer back
     //   to their source message.
     await queueAttachmentDownloads(message);
-    await conversation.saveChangesToDB();
+    await conversation.commit();
 
     conversation.trigger('newmessage', message);
 

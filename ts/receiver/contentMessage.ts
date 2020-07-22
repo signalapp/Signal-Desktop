@@ -298,9 +298,9 @@ async function decrypt(
       };
 
       const requestKeysMessage = new MediumGroupRequestKeysMessage(params);
-      const senderPubKey = new PubKey(senderIdentity);
+      const sender = new PubKey(senderIdentity);
       // tslint:disable-next-line no-floating-promises
-      libsession.getMessageQueue().send(senderPubKey, requestKeysMessage);
+      libsession.getMessageQueue().send(sender, requestKeysMessage);
 
       return;
     }

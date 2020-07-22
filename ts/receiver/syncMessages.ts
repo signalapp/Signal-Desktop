@@ -10,7 +10,7 @@ import { handleMediumGroupUpdate } from './mediumGroups';
 import { handleMessageEvent, processDecrypted } from './dataMessage';
 import { updateProfile } from './receiver';
 import { handleContacts } from './multidevice';
-import { onGroupReceived } from './groups';
+import { updateOrCreateGroupFromSync } from '../session/medium_group';
 import { MultiDeviceProtocol } from '../session/protocols';
 
 export async function handleSyncMessage(
@@ -49,7 +49,7 @@ export async function handleSyncMessage(
   } else if (syncMessage.contacts) {
     return handleContacts(envelope, syncMessage.contacts);
   } else if (syncMessage.groups) {
-    await handleGroups(envelope, syncMessage.groups);
+    await handleGroupsSync(envelope, syncMessage.groups);
   } else if (syncMessage.openGroups) {
     await handleOpenGroups(envelope, syncMessage.openGroups);
   } else if (syncMessage.blocked) {
@@ -319,7 +319,7 @@ async function handleConfiguration(
   await removeFromCache(envelope);
 }
 
-async function handleGroups(
+async function handleGroupsSync(
   envelope: EnvelopePlus,
   groups: SignalService.SyncMessage.IGroups
 ) {
@@ -333,9 +333,11 @@ async function handleGroups(
   while (groupDetails !== undefined) {
     groupDetails.id = groupDetails.id.toBinary();
 
-    const promise = onGroupReceived(groupDetails).catch((e: any) => {
-      window.log.error('error processing group', e);
-    });
+    const promise = updateOrCreateGroupFromSync(groupDetails).catch(
+      (e: any) => {
+        window.log.error('error processing group', e);
+      }
+    );
 
     promises.push(promise);
     groupDetails = groupBuffer.next();
@@ -344,4 +346,6 @@ async function handleGroups(
   // Note: we do not return here because we don't want to block the next message on
   // this attachment download and a lot of processing of that attachment.
   void Promise.all(promises);
+
+  await removeFromCache(envelope);
 }

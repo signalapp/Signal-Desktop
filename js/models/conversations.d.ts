@@ -1,4 +1,8 @@
+import { MessageModel, MessageAttributes } from './messages';
+
 interface ConversationAttributes {
+  id: string;
+  name: string;
   members: Array<string>;
   left: boolean;
   expireTimer: number;
@@ -9,12 +13,15 @@ interface ConversationAttributes {
   isArchived: boolean;
   active_at: number;
   timestamp: number; // timestamp of what?
+  groupAdmins?: Array<string>;
+  isKickedFromGroup?: boolean;
 }
 
 export interface ConversationModel
   extends Backbone.Model<ConversationAttributes> {
   idForLogging: () => string;
-  saveChangesToDB: () => Promise<void>;
+  // Save model changes to the database
+  commit: () => Promise<void>;
   notify: (message: MessageModel) => void;
   isSessionResetReceived: () => boolean;
   updateExpirationTimer: (
@@ -29,6 +36,10 @@ export interface ConversationModel
   getRecipients: () => Array<string>;
   onReadMessage: (message: MessageModel) => void;
   updateTextInputState: () => void;
+  getName: () => string;
+  addMessage: (attributes: Partial<MessageAttributes>) => Promise<MessageModel>;
+  isMediumGroup: () => boolean;
 
   lastMessage: string;
+  messageCollection: Backbone.Collection<MessageModel>;
 }

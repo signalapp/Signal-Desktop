@@ -204,7 +204,11 @@ export async function requestSnodesForPubkey(
       return [];
     }
   } catch (e) {
-    log.error('LokiSnodeAPI::requestSnodesForPubkey - error', e.code, e.message);
+    log.error(
+      'LokiSnodeAPI::requestSnodesForPubkey - error',
+      e.code,
+      e.message
+    );
 
     if (snode) {
       markNodeUnreachable(snode);

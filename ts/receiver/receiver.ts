@@ -4,7 +4,6 @@ import { handleEndSession } from './sessionHandling';
 import { EnvelopePlus } from './types';
 import { downloadAttachment } from './attachments';
 import { handleMediumGroupUpdate } from './mediumGroups';
-import { onGroupReceived } from './groups';
 
 import { addToCache, getAllFromCache, removeFromCache } from './cache';
 import { processMessage } from '../session/snode_api/swarmPolling';
@@ -14,12 +13,11 @@ import { onError } from './errors';
 import {
   handleContentMessage,
   innerHandleContentMessage,
-  isBlocked,
   onDeliveryReceipt,
 } from './contentMessage';
 import _ from 'lodash';
 
-export { processMessage, onDeliveryReceipt, onGroupReceived };
+export { processMessage, onDeliveryReceipt };
 
 import {
   handleDataMessage,

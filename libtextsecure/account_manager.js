@@ -578,11 +578,6 @@
 
         return;
       }
-      // we need a conversation for sending a message
-      const secondaryConversation = await ConversationController.getOrCreateAndWait(
-        secondaryDeviceStr,
-        'private'
-      );
       const grantSignature = await libloki.crypto.generateSignatureForPairing(
         secondaryDeviceStr,
         libloki.crypto.PairingType.GRANT
