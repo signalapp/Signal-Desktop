@@ -14,8 +14,8 @@ import { SignalService } from '../../../../ts/protobuf';
 
 import { Constants } from '../../../session';
 
-import { Twemoji } from 'react-emoji-render';
-import { Emojify } from '../../conversation/Emojify';
+import { toArray, Twemoji } from 'react-emoji-render';
+
 
 interface Props {
   placeholder?: string;
@@ -33,6 +33,8 @@ interface Props {
 
 interface State {
   message: string;
+  messageSpaced: string;
+  messageJSX: JSX.Element;
   showRecordingView: boolean;
 
   mediaSetting: boolean | null;
@@ -42,6 +44,7 @@ interface State {
 }
 
 export class SessionCompositionBox extends React.Component<Props, State> {
+  // private readonly textarea: React.RefObject<HTMLTextAreaElement>;
   private readonly textarea: React.RefObject<HTMLTextAreaElement>;
   private readonly fileInput: React.RefObject<HTMLInputElement>;
   private emojiPanel: any;
@@ -51,6 +54,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     this.state = {
       message: '',
+      messageSpaced: '',
+      messageJSX: <></>,
       attachments: [],
       voiceRecording: undefined,
       showRecordingView: false,
@@ -156,7 +161,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
   private renderCompositionView() {
     const { placeholder } = this.props;
-    const { showEmojiPanel, message } = this.state;
+    const { showEmojiPanel, message, messageSpaced, messageJSX } = this.state;
 
     return (
       <>
@@ -186,6 +191,9 @@ export class SessionCompositionBox extends React.Component<Props, State> {
           role="main"
           onClick={this.focusCompositionBox}
         >
+          <span className="send-message-input__emoji-overlay">
+            {messageJSX}
+          </span>
           <TextareaAutosize
             rows={1}
             maxRows={3}
@@ -194,21 +202,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
             placeholder={placeholder}
             maxLength={Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH}
             onKeyDown={this.onKeyDown}
-            value={message}
+            value={messageSpaced}
             onChange={this.onChange}
-          />
-          <div
-            contentEditable={true}
-
           >
-            <Twemoji
-              text="EMOJIIIIS 😍😶😥🇬🇧😥😥🏴😆"
-              options={{
-                baseUrl: '/images/session/emojis/',
-                ext: 'svg',
-              }}
-            />
-          </div>
+            {messageJSX}
+          </TextareaAutosize>
+
         </div>
 
         <SessionIconButton
@@ -285,13 +284,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private onSendMessage() {
-    const messageInput = this.textarea.current;
-    if (!messageInput) {
+    const messagePlaintext = this.state.message;
+    if (!messagePlaintext) {
       return;
     }
 
     // Verify message length
-    const messagePlaintext = messageInput.value;
     const msgLen = messagePlaintext.length;
     if (msgLen === 0 || msgLen > window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH) {
       return;
@@ -398,10 +396,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private onChange(event: any) {
-    this.setState({ message: event.target.value });
+    const message = event.target.value ?? '';
+
+    this.setState({message});
   }
 
-  private onEmojiClick({ native }: any) {
+  private onEmojiClick({colons, native}: {colons: string; native: string}) {
     const messageBox = this.textarea.current;
     if (!messageBox) {
       return;
@@ -412,12 +412,12 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     const currentSelectionEnd = Number(messageBox.selectionEnd);
     const before = message.slice(0, currentSelectionStart);
     const end = message.slice(currentSelectionEnd);
-    const newMessage = `${before}${native}${end}`;
+    const newMessage = `${before}${colons}${end}`;
 
     this.setState({ message: newMessage }, () => {
       // update our selection because updating text programmatically
       // will put the selection at the end of the textarea
-      const selectionStart = currentSelectionStart + Number(native.length);
+      const selectionStart = currentSelectionStart + Number(colons.length);
       messageBox.selectionStart = selectionStart;
       messageBox.selectionEnd = selectionStart;
 

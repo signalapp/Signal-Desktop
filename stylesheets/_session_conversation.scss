@@ -259,6 +259,17 @@ $composition-container-height: 60px;
       line-height: $session-font-h2;
       letter-spacing: 0.5px;
     }
+
+    &__emoji-overlay {
+      // Should have identical properties to the textarea above to line up perfectly.
+      position: absolute;
+      font-size: 14px;
+      font-family: $session-font-default;
+      margin-left: 2px;
+      line-height: $session-font-h2;
+      letter-spacing: 0.5px;
+      color: rgba(0,0,0,0);
+    }
   }
 }
 
