@@ -955,7 +955,9 @@
         fromContact ||
         hasSentMessages ||
         hasMessagesBeforeMessageRequests ||
-        hasNoMessages
+        // an empty conversation is the scenario where we need to rely on
+        // whether the profile has already been shared or not
+        (hasNoMessages && this.get('profileSharing'))
       );
     },
 

@@ -89,6 +89,35 @@ async function fetchManifest(manifestVersion: string) {
   }
 }
 
+type MessageRequestCapableRecord = ContactRecordClass | GroupV1RecordClass;
+
+function applyMessageRequestState(
+  record: MessageRequestCapableRecord,
+  conversation: ConversationModelType
+): void {
+  if (record.blocked) {
+    conversation.applyMessageRequestResponse(
+      conversation.messageRequestEnum.BLOCK,
+      { fromSync: true }
+    );
+  } else if (record.whitelisted) {
+    // unblocking is also handled by this function which is why the next
+    // condition is part of the else-if and not separate
+    conversation.applyMessageRequestResponse(
+      conversation.messageRequestEnum.ACCEPT,
+      { fromSync: true }
+    );
+  } else if (!record.blocked) {
+    // if the condition above failed the state could still be blocked=false
+    // in which case we should unblock the conversation
+    conversation.unblock();
+  }
+
+  if (!record.whitelisted) {
+    conversation.disableProfileSharing();
+  }
+}
+
 async function mergeGroupV1Record(
   storageID: string,
   groupV1Record: GroupV1RecordClass
@@ -112,6 +141,8 @@ async function mergeGroupV1Record(
     storageID,
   });
 
+  applyMessageRequestState(groupV1Record, conversation);
+
   window.Signal.Data.updateConversation(conversation.attributes);
 
   window.log.info(`storageService.mergeGroupV1Record: merged ${storageID}`);
@@ -121,20 +152,22 @@ async function mergeContactRecord(
   storageID: string,
   contactRecord: ContactRecordClass
 ): Promise<void> {
+  window.log.info(`storageService.mergeContactRecord: merging ${storageID}`);
+
   window.normalizeUuids(
     contactRecord,
     ['serviceUuid'],
     'storageService.mergeContactRecord'
   );
 
-  if (!contactRecord.serviceE164) {
-    window.log.info(
-      `storageService.mergeContactRecord: no E164 for ${storageID}, uuid: ${contactRecord.serviceUuid}. Dropping record`
-    );
-    return;
-  }
+  const e164 = contactRecord.serviceE164 || undefined;
+  const uuid = contactRecord.serviceUuid || undefined;
 
-  const id = contactRecord.serviceE164 || contactRecord.serviceUuid;
+  const id = window.ConversationController.ensureContactIds({
+    e164,
+    uuid,
+    highTrust: true,
+  });
 
   if (!id) {
     window.log.info(
@@ -143,18 +176,10 @@ async function mergeContactRecord(
     return;
   }
 
-  window.log.info(`storageService.mergeContactRecord: merging ${storageID}`);
-
   const conversation = await window.ConversationController.getOrCreateAndWait(
     id,
     'private'
   );
-
-  if (contactRecord.blocked === true) {
-    window.storage.addBlockedNumber(conversation.id);
-  } else if (contactRecord.blocked === false) {
-    window.storage.removeBlockedNumber(conversation.id);
-  }
 
   const verified = contactRecord.identityState
     ? fromRecordVerified(contactRecord.identityState)
@@ -167,28 +192,11 @@ async function mergeContactRecord(
       ? arrayBufferToBase64(contactRecord.profileKey.toArrayBuffer())
       : null,
     profileName: contactRecord.givenName,
-    profileSharing: Boolean(contactRecord.whitelisted),
     storageID,
     verified,
   });
 
-  if (
-    contactRecord.serviceUuid &&
-    (!conversation.get('uuid') ||
-      conversation.get('uuid') !== contactRecord.serviceUuid)
-  ) {
-    window.log.info(
-      `storageService.mergeContactRecord: updating UUID ${storageID}`
-    );
-    conversation.set({ uuid: contactRecord.serviceUuid });
-  }
-
-  if (contactRecord.serviceE164 && !conversation.get('e164')) {
-    window.log.info(
-      `storageService.mergeContactRecord: updating E164 ${storageID}`
-    );
-    conversation.set({ e164: contactRecord.serviceE164 });
-  }
+  applyMessageRequestState(contactRecord, conversation);
 
   const identityKey = await window.textsecure.storage.protocol.loadIdentityKey(
     conversation.id
@@ -307,6 +315,7 @@ async function processManifest(
     .getConversations()
     .map((conversation: ConversationModelType) => conversation.get('storageID'))
     .filter(Boolean);
+
   window.log.info(
     `storageService.processManifest localKeys.length ${localKeys.length}`
   );
@@ -402,7 +411,7 @@ async function processManifest(
 }
 
 export async function runStorageServiceSyncJob() {
-  const localManifestVersion = '0'; // window.storage.get('manifestVersion') || 0;
+  const localManifestVersion = window.storage.get('manifestVersion') || 0;
 
   let manifest;
   try {
