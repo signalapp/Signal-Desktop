@@ -75,6 +75,7 @@ declare class ConversationModelType extends Backbone.Model<
   id: string;
   cachedProps: ConversationType;
   initialPromise: Promise<any>;
+  messageRequestEnum: typeof SyncMessageClass.MessageRequestResponse.Type;
 
   addCallHistory(details: CallHistoryDetailsType): void;
   applyMessageRequestResponse(
