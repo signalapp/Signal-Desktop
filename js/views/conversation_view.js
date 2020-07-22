@@ -289,6 +289,7 @@
             window.storage.get('primaryDevicePubKey')
           ),
           isKickedFromGroup: this.model.get('isKickedFromGroup'),
+          isBlocked: this.model.isBlocked(),
 
           timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
             name: item.getName(),

@@ -1,10 +1,17 @@
 export class PubKey {
   public static readonly PUBKEY_LEN = 66;
+  // This is a temporary fix to allow groupPubkeys created from mobile to be handled correctly
+  // They have a different regex to match
+  // FIXME move this to a new class which validates group ids and use it in all places where we have group ids (message sending included)
+  public static readonly MOBILE_GROUP_PUBKEY_LEN = 32;
+
+  private static readonly regexForMobileGroupID = `__textsecure_group__![0-9a-fA-F]{${PubKey.MOBILE_GROUP_PUBKEY_LEN}}`;
+  // prettier-ignore
+  private static readonly regexForPubkeys = `((05)?[0-9a-fA-F]{${PubKey.PUBKEY_LEN - 2}})`;
   private static readonly regex: RegExp = new RegExp(
-    `^(05)?[0-9a-fA-F]{${PubKey.PUBKEY_LEN - 2}}$`
+    `^${PubKey.regexForPubkeys}|${PubKey.regexForMobileGroupID}$`
   );
   public readonly key: string;
-
   /**
    * A PubKey object.
    * If `pubKeyString` is not valid then this will throw an `Error`.
@@ -44,11 +51,7 @@ export class PubKey {
   }
 
   public static validate(pubkeyString: string): boolean {
-    if (this.regex.test(pubkeyString)) {
-      return true;
-    }
-
-    return false;
+    return this.regex.test(pubkeyString);
   }
 
   public isEqual(comparator: PubKey | string) {

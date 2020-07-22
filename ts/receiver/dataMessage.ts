@@ -14,6 +14,8 @@ import { handleUnpairRequest } from './multidevice';
 import { downloadAttachment } from './attachments';
 import _ from 'lodash';
 import { StringUtils } from '../session/utils';
+import { DeliveryReceiptMessage } from '../session/messages/outgoing';
+import { getMessageQueue } from '../session';
 
 export async function updateProfile(
   conversation: any,
@@ -236,7 +238,7 @@ export async function processDecrypted(envelope: EnvelopePlus, decrypted: any) {
   /* tslint:disable:no-bitwise */
 }
 
-function isMessageEmpty(message: SignalService.DataMessage) {
+export function isMessageEmpty(message: SignalService.DataMessage) {
   const {
     flags,
     body,
@@ -251,7 +253,8 @@ function isMessageEmpty(message: SignalService.DataMessage) {
 
   return (
     !flags &&
-    _.isEmpty(body) &&
+    // FIXME remove this hack to drop auto friend requests messages in a few weeks 15/07/2020
+    isBodyEmpty(body) &&
     _.isEmpty(attachments) &&
     _.isEmpty(group) &&
     _.isEmpty(quote) &&
@@ -259,6 +262,16 @@ function isMessageEmpty(message: SignalService.DataMessage) {
     _.isEmpty(preview) &&
     _.isEmpty(groupInvitation) &&
     _.isEmpty(mediumGroupUpdate)
+  );
+}
+
+function isBodyEmpty(body: string) {
+  return _.isEmpty(body) || isBodyAutoFRContent(body);
+}
+
+function isBodyAutoFRContent(body: string) {
+  return (
+    body === 'Please accept to enable messages to be synced across devices'
   );
 }
 
@@ -517,13 +530,12 @@ function createMessage(
 }
 
 function sendDeliveryReceipt(source: string, timestamp: any) {
-  // FIXME audric
-  // const receiptMessage = new DeliveryReceiptMessage({
-  //   timestamp: Date.now(),
-  //   timestamps: [timestamp],
-  // });
-  // const device = new PubKey(source);
-  // await getMessageQueue().sendUsingMultiDevice(device, receiptMessage);
+  const receiptMessage = new DeliveryReceiptMessage({
+    timestamp: Date.now(),
+    timestamps: [timestamp],
+  });
+  const device = new PubKey(source);
+  void getMessageQueue().sendUsingMultiDevice(device, receiptMessage);
 }
 
 interface MessageEvent {
@@ -620,7 +632,20 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     );
   }
 
-  await window.ConversationController.getOrCreateAndWait(conversationId, type);
+  const conv = await window.ConversationController.getOrCreateAndWait(
+    conversationId,
+    type
+  );
+  if (!isGroupMessage && !isIncoming) {
+    const primaryDestination = await MultiDeviceProtocol.getPrimaryDevice(
+      destination
+    );
+
+    if (destination !== primaryDestination.key) {
+      // mark created conversation as secondary if this is one
+      conv.setSecondaryStatus(true, primaryDestination.key);
+    }
+  }
 
   // =========== Process flags =============
 

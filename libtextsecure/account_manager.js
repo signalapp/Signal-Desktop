@@ -553,7 +553,7 @@
           timestamp: Date.now(),
           primaryDevicePubKey,
           secondaryDevicePubKey: ourPubKey,
-          requestSignature,
+          requestSignature: new Uint8Array(requestSignature),
         }
       );
       await window.libsession
@@ -611,14 +611,7 @@
       );
 
       // We need to send the our profile to the secondary device
-      const { displayName } = ourConversation.getLokiProfile();
-      const avatarPointer = ourConversation.get('avatarPointer');
-      const profileKey = window.storage.get('profileKey');
-      const lokiProfile = {
-        displayName,
-        profileKey,
-        avatarPointer,
-      };
+      const lokiProfile = ourConversation.getOurProfile();
 
       // Try to upload to the file server and then send a message
       try {
@@ -626,7 +619,10 @@
         const requestPairingMessage = new libsession.Messages.Outgoing.DeviceLinkGrantMessage(
           {
             timestamp: Date.now(),
-            ...authorisation,
+            primaryDevicePubKey: ourPubKey,
+            secondaryDevicePubKey: secondaryDeviceStr,
+            requestSignature: new Uint8Array(requestSignature),
+            grantSignature: new Uint8Array(grantSignature),
             lokiProfile,
           }
         );
@@ -652,7 +648,7 @@
         const conversations = window.getConversations().models;
         await textsecure.messaging.sendGroupSyncMessage(conversations);
         await textsecure.messaging.sendOpenGroupsSyncMessage(conversations);
-        await textsecure.messaging.sendContactSyncMessage(conversations);
+        await textsecure.messaging.sendContactSyncMessage();
       }, 5000);
     },
     validatePubKeyHex(pubKey) {

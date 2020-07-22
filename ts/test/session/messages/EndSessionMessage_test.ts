@@ -4,6 +4,7 @@ import { beforeEach } from 'mocha';
 import { EndSessionMessage } from '../../../session/messages/outgoing';
 import { SignalService } from '../../../protobuf';
 import { TextEncoder } from 'util';
+import { Constants } from '../../../session';
 
 describe('EndSessionMessage', () => {
   let message: EndSessionMessage;
@@ -64,8 +65,8 @@ describe('EndSessionMessage', () => {
     expect(decoded.dataMessage).to.have.deep.property('body', 'TERMINATE');
   });
 
-  it('ttl of 4 days', () => {
-    expect(message.ttl()).to.equal(4 * 24 * 60 * 60 * 1000);
+  it('correct ttl', () => {
+    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.END_SESSION_MESSAGE);
   });
 
   it('has an identifier', () => {

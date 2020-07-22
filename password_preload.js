@@ -21,19 +21,18 @@ window.getEnvironment = () => config.environment;
 window.getVersion = () => config.version;
 window.getAppInstance = () => config.appInstance;
 
-// So far we're only using this for Signal.Types
-const Signal = require('./js/modules/signal');
 const electron = require('electron');
 
 const ipc = electron.ipcRenderer;
+const {
+  SessionPasswordPrompt,
+} = require('./ts/components/session/SessionPasswordPrompt');
 
-window.Signal = Signal.setup({
-  Attachments: null,
-  userDataPath: null,
-  getRegionCode: () => null,
-});
-
-window.Signal.Logs = require('./js/modules/logs');
+window.Signal = {
+  Components: {
+    SessionPasswordPrompt,
+  },
+};
 
 window.CONSTANTS = {
   MAX_LOGIN_TRIES: 3,

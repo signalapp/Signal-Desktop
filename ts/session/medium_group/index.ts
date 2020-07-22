@@ -28,6 +28,7 @@ import { getMessageQueue } from '../../session';
 import { ConversationModel } from '../../../js/models/conversations';
 import { MediumGroupUpdateMessage } from '../messages/outgoing/content/data/mediumgroup/MediumGroupUpdateMessage';
 import uuid from 'uuid';
+import { BlockedNumberController } from '../../util/blockedNumberController';
 
 export {
   createSenderKeyForGroup,
@@ -531,8 +532,6 @@ export async function addUpdateMessage(
   diff: GroupDiff,
   type: MessageModelType
 ): Promise<MessageModel> {
-  window.log.error('addUpdateMessage', diff);
-
   const groupUpdate: any = {};
 
   if (diff.newName) {
@@ -828,12 +827,6 @@ async function updateOrCreateGroup(details: GroupInfo) {
     updates.left = true;
   }
 
-  if (details.blocked) {
-    storage.addBlockedGroup(id);
-  } else {
-    storage.removeBlockedGroup(id);
-  }
-
   conversation.set(updates);
 
   // Update the conversation avatar only if new avatar exists and hash differs
@@ -849,6 +842,14 @@ async function updateOrCreateGroup(details: GroupInfo) {
     );
     conversation.set(newAttributes);
   }
+
+  const isBlocked = details.blocked || false;
+  if (conversation.isClosedGroup()) {
+    await BlockedNumberController.setGroupBlocked(conversation.id, isBlocked);
+  }
+
+  conversation.trigger('change', conversation);
+  conversation.updateTextInputState();
 
   await conversation.commit();
 
