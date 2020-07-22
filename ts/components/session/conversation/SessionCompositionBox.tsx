@@ -14,7 +14,7 @@ import { SignalService } from '../../../../ts/protobuf';
 
 import { Constants } from '../../../session';
 
-import { toArray, Twemoji } from 'react-emoji-render';
+import { toArray } from 'react-emoji-render';
 
 
 interface Props {
@@ -33,7 +33,6 @@ interface Props {
 
 interface State {
   message: string;
-  nativeMessage: string; // Message with native emojis
   showRecordingView: boolean;
 
   mediaSetting: boolean | null;
@@ -53,7 +52,6 @@ export class SessionCompositionBox extends React.Component<Props, State> {
 
     this.state = {
       message: '',
-      nativeMessage: '',
       attachments: [],
       voiceRecording: undefined,
       showRecordingView: false,
@@ -265,18 +263,31 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.setState({ attachments });
   }
 
-  private onKeyDown(event: any) {
+  private async onKeyDown(event: any) {
     if (event.key === 'Enter' && !event.shiftKey) {
       // If shift, newline. Else send message.
       event.preventDefault();
-      this.onSendMessage();
+      await this.onSendMessage();
     } else if (event.key === 'Escape' && this.state.showEmojiPanel) {
       this.hideEmojiPanel();
     }
   }
 
-  private onSendMessage() {
-    const messagePlaintext = this.state.nativeMessage;
+  private parseEmojis(value: string) {
+      const emojisArray = toArray(value);
+
+      // toArray outputs React elements for emojis and strings for other
+      return emojisArray.reduce((previous: string, current: any) => {
+        if (typeof current === 'string') {
+          return previous + current;
+        }
+        return previous + (current.props.children as string);
+      }, '');
+  }
+
+  private async onSendMessage() {
+    const messagePlaintext = this.parseEmojis(this.state.message);
+
     if (!messagePlaintext) {
       return;
     }
@@ -290,12 +301,11 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     // handle Attachments
     const { attachments } = this.state;
 
-    // Handle emojis
-
     // Send message
     this.props.onMessageSending();
 
-    this.props
+    try {
+      await this.props
       .sendMessage(
         messagePlaintext,
         attachments,
@@ -303,22 +313,22 @@ export class SessionCompositionBox extends React.Component<Props, State> {
         undefined,
         null,
         {}
-      )
-      .then(() => {
-        // Message sending sucess
-        this.props.onMessageSuccess();
+      );
 
-        // Empty attachments
-        // Empty composition box
-        this.setState({
-          message: '',
-          attachments: [],
-        });
-      })
-      .catch(() => {
-        // Message sending failed
-        this.props.onMessageFailure();
+      // Message sending sucess
+      this.props.onMessageSuccess();
+
+      // Empty attachments
+      // Empty composition box
+      this.setState({
+        message: '',
+        attachments: [],
+        showEmojiPanel: false,
       });
+    } catch (e) {
+      // Message sending failed
+      this.props.onMessageFailure();
+    }
   }
 
   private async sendVoiceMessage(audioBlob: Blob) {
@@ -397,21 +407,15 @@ export class SessionCompositionBox extends React.Component<Props, State> {
       return;
     }
 
-    const { message, nativeMessage } = this.state;
+    const { message } = this.state;
     const currentSelectionStart = Number(messageBox.selectionStart);
     const currentSelectionEnd = Number(messageBox.selectionEnd);
 
-    const getNewMessage = (comparisonMessage: any, emojiSorter: any) => {
-      const before = comparisonMessage.slice(0, currentSelectionStart);
-      const end = comparisonMessage.slice(currentSelectionEnd);
-      return `${before}${colons}${end}`;
-    };
+    const before = message.slice(0, currentSelectionStart);
+    const end = message.slice(currentSelectionEnd);
+    const newMessage = `${before}${colons}${end}`;
 
-
-    const newMessage = getNewMessage(message, colons);
-    const newNativeMessage = getNewMessage(nativeMessage, native);
-
-    this.setState({ message: newMessage, nativeMessage: newNativeMessage }, () => {
+    this.setState({ message: newMessage }, () => {
       // update our selection because updating text programmatically
       // will put the selection at the end of the textarea
       const selectionStart = currentSelectionStart + Number(colons.length);

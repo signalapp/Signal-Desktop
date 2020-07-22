@@ -72,7 +72,9 @@ export class Timestamp extends React.Component<Props> {
         dateString = 'now';
       }
 
-      dateString.replace('minutes', 'mins');
+      dateString = dateString
+        .replace('minutes', 'mins')
+        .replace('minute', 'min');
     }
 
     return (

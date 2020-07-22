@@ -84,21 +84,22 @@ export class Emojify extends React.Component<Props> {
         default:
       }
 
-      const style = {
-        fontSize: `${size}em`,
-      };
+      const style = {fontSize: `${size}em`};
+
+      const emojiText = match[0] ?? match[1];
 
       results.push(
-        <Twemoji
-          style={style}
-          key={count++}
-          text={text}
-          options={{
-            baseUrl: 'images/twemoji/',
-            protocol: '',
-            ext: 'png',
-          }}
-        />
+        <span style={style}>
+          <Twemoji
+            key={count++}
+            text={emojiText}
+            options={{
+              baseUrl: 'images/twemoji/',
+              protocol: '',
+              ext: 'png',
+            } as any}
+          />
+        </span>
       );
 
       last = regex.lastIndex;

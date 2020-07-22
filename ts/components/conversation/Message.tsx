@@ -780,6 +780,8 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
+    console.log('[vince] contents:', contents);
+
     return (
       <div
         dir="auto"
