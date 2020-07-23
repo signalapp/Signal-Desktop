@@ -32,7 +32,7 @@ window.Signal = {
   Components: {
     SessionPasswordPrompt,
   },
-}
+};
 
 window.CONSTANTS = {
   MAX_LOGIN_TRIES: 3,
