@@ -533,8 +533,8 @@ MessageSender.prototype = {
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageSender = function MessageSenderWrapper(username, password) {
-  const sender = new MessageSender(username, password);
+textsecure.MessageSender = function MessageSenderWrapper() {
+  const sender = new MessageSender();
   this.sendContactSyncMessage = sender.sendContactSyncMessage.bind(sender);
   this.sendGroupSyncMessage = sender.sendGroupSyncMessage.bind(sender);
   this.sendOpenGroupsSyncMessage = sender.sendOpenGroupsSyncMessage.bind(
