@@ -464,18 +464,15 @@ MessageSender.prototype = {
 
     const conversations = Array.isArray(convos) ? convos : [convos];
 
-    const {
-      blockedNumbersConvos,
-      blockedGroupsConvos,
-    } = await libsession.Utils.SyncMessageUtils.filterBlockedNumbers(
+    const blockedConvos = await libsession.Utils.SyncMessageUtils.filterBlockedNumbers(
       conversations
     );
-
+    // currently we only sync user blocked, not groups
     const blockedSyncMessage = new libsession.Messages.Outgoing.BlockedListSyncMessage(
       {
         timestamp: Date.now(),
-        numbers: blockedNumbersConvos.map(n => n.id),
-        groups: blockedGroupsConvos.map(g => g.id),
+        numbers: blockedConvos.map(n => n.id),
+        groups: [],
       }
     );
     return libsession.getMessageQueue().sendSyncMessage(blockedSyncMessage);

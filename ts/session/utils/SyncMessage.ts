@@ -103,18 +103,12 @@ export async function filterBlockedNumbers(
   const thisDevice = await UserUtil.getCurrentDevicePubKey();
 
   if (!thisDevice) {
-    return { blockedNumbers: [], blockedGroupsIds: [] };
+    return [];
   }
 
-  const blockedNumbersConvos = conversations.filter(
-    c => c.isPrivate() && c.isBlocked()
+  return conversations.filter(
+    c => c.isBlocked() && c.isPrivate()
   );
-
-  const blockedGroupsConvos = conversations.filter(
-    c => c.isClosedGroup() && c.isBlocked()
-  );
-
-  return { blockedNumbersConvos, blockedGroupsConvos };
 }
 
 // Serialise as <Element0.length><Element0><Element1.length><Element1>...

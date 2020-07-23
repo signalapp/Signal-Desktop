@@ -32,9 +32,10 @@ export abstract class BlockedListSyncMessage extends SyncMessage {
 
   protected syncProto(): SignalService.SyncMessage {
     const syncMessage = super.syncProto();
+    // currently we do not handle the closed group blocked
     syncMessage.blocked = new SignalService.SyncMessage.Blocked({
-      groupIds: this.groups,
       numbers: this.numbers,
+      groupIds: this.groups,
     });
 
     return syncMessage;

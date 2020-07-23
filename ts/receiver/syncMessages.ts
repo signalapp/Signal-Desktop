@@ -177,13 +177,8 @@ async function handleBlocked(
 ) {
   window.log.info('Setting these numbers as blocked:', blocked.numbers);
 
-  async function fetchAndRefreshConversation(n: string) {
-    const conv = await window.ConversationController.get(n);
-    if (conv) {
-      conv.trigger('change', conv);
-    }
-  }
 
+  // blocked.numbers contains numbers
   if (blocked.numbers) {
     const currentlyBlockedNumbers = BlockedNumberController.getBlockedNumbers();
     const toRemoveFromBlocked = _.difference(
@@ -195,43 +190,26 @@ async function handleBlocked(
       currentlyBlockedNumbers
     );
 
-    await Promise.all(
-      toAddToBlocked.map(async n => {
-        await BlockedNumberController.block(n);
-        await fetchAndRefreshConversation(n);
-      })
-    );
-    await Promise.all(
-      toRemoveFromBlocked.map(async n => {
-        await BlockedNumberController.unblock(n);
-        await fetchAndRefreshConversation(n);
-      })
-    );
-  }
-
-  if (blocked.groupIds) {
-    const groupIds = _.map(blocked.groupIds, (groupId: any) =>
-      StringUtils.decode(groupId, 'utf8')
-    );
-    window.log.info(
-      'Setting these groups as blocked:',
-      groupIds.map((groupId: any) => `group(${groupId})`)
-    );
-    const currentlyBlockedGroups = BlockedNumberController.getBlockedGroups();
-    const toRemoveFromBlocked = _.difference(currentlyBlockedGroups, groupIds);
-    const toAddToBlocked = _.difference(groupIds, currentlyBlockedGroups);
+    async function markConvoBlocked(block: boolean, n: string) {
+      const conv = await window.ConversationController.get(n);
+      if (conv) {
+        if (conv.isPrivate()) {
+          await BlockedNumberController.setBlocked(n, block);
+        } else {
+          window.console.warn('Ignoring block/unblock for group:', n);
+        }
+        conv.trigger('change', conv);
+      } else {
+        window.console.warn('Did not find corresponding conversation to block', n);
+      }
+    }
 
     await Promise.all(
-      toAddToBlocked.map(async n => {
-        await BlockedNumberController.blockGroup(n);
-        await fetchAndRefreshConversation(n);
-      })
+      toAddToBlocked.map(async n => markConvoBlocked(true, n))
     );
+
     await Promise.all(
-      toRemoveFromBlocked.map(async n => {
-        await BlockedNumberController.unblockGroup(n);
-        await fetchAndRefreshConversation(n);
-      })
+      toRemoveFromBlocked.map(async n => markConvoBlocked(false, n))
     );
   }
 
