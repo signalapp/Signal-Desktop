@@ -269,7 +269,19 @@ export class CallingClass {
         verifiedEnum ===
         window.textsecure.storage.protocol.VerifiedStatus.UNVERIFIED
       ) {
-        window.log.info('Peer is not trusted, ignoring incoming call.');
+        window.log.info(
+          `Peer is not trusted, ignoring incoming call for conversation: ${conversation.idForLogging()}`
+        );
+        this.addCallHistoryForFailedIncomingCall(conversation, call);
+        return null;
+      }
+
+      // Simple Call Requests: Ensure that the conversation is accepted.
+      // If not, do not allow the call.
+      if (!conversation.getAccepted()) {
+        window.log.info(
+          `Messaging is not accepted, ignoring incoming call for conversation: ${conversation.idForLogging()}`
+        );
         this.addCallHistoryForFailedIncomingCall(conversation, call);
         return null;
       }
