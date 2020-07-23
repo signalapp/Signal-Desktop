@@ -15,24 +15,6 @@ body.dark-theme {
     background-color: $color-gray-95;
   }
 
-  .key-verification {
-    .key {
-      color: $color-dark-05;
-      background: $color-dark-85;
-      border: solid 1px $color-dark-60;
-      border-radius: $border-radius;
-    }
-
-    .icon {
-      &.verified {
-        @include color-svg('../images/verified-check.svg', $color-dark-05);
-      }
-      &.shield {
-        @include color-svg('../images/shield.svg', $color-dark-05);
-      }
-    }
-  }
-
   .bottom-bar {
     form.send {
       &.video-attachment {
@@ -729,9 +711,9 @@ body.dark-theme {
   }
 
   .module-message__text {
-    color: $color-dark-05;
+    color: #ffffff;
     a {
-      color: $color-dark-05;
+      color: #ffffff;
     }
   }
 
@@ -1646,6 +1628,7 @@ body.dark-theme {
 
   .react-contextmenu-item.react-contextmenu-submenu
     > .react-contextmenu-item:after {
+    content: '⯈';
     color: $color-dark-05;
   }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
+import classNames from 'classnames';
 
 interface Props {
   message: string;
@@ -15,6 +16,7 @@ interface Props {
   hideCancel: boolean;
   okTheme: SessionButtonColor;
   closeTheme: SessionButtonColor;
+  centeredText?: boolean;
 }
 
 export class SessionConfirm extends React.Component<Props> {
@@ -40,6 +42,7 @@ export class SessionConfirm extends React.Component<Props> {
       onClickOk,
       onClickClose,
       hideCancel,
+      centeredText,
     } = this.props;
 
     const okText = this.props.okText || window.i18n('ok');
@@ -63,7 +66,12 @@ export class SessionConfirm extends React.Component<Props> {
         <div className="session-modal__centered">
           <span className={messageSubText}>{message}</span>
           {messageSub && (
-            <span className="session-confirm-sub-message subtle">
+            <span
+              className={classNames(
+                'session-confirm-sub-message subtle',
+                centeredText && 'text-center'
+              )}
+            >
               {messageSub}
             </span>
           )}

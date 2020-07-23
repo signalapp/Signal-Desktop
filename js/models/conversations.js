@@ -567,6 +567,13 @@
         ? `${message.get('source')}.${message.get('sourceDevice')}`
         : `${message.source}.${message.sourceDevice}`;
       this.clearContactTypingTimer(identifier);
+
+      const model = this.addSingleMessage(message);
+      MessageController.register(model.id, model);
+
+      console.log(`[vince] Changed triggered from model`);
+
+      this.trigger('change');
     },
     addSingleMessage(message, setToExpire = true) {
       const model = this.messageCollection.add(message, { merge: true });
@@ -622,8 +629,6 @@
         onClick: () => this.trigger('select', this),
         onBlockContact: () => this.block(),
         onUnblockContact: () => this.unblock(),
-        onChangeNickname: () => this.changeNickname(),
-        onClearNickname: () => this.setNickname(null),
         onCopyPublicKey: () => this.copyPublicKey(),
         onDeleteContact: () => this.deleteContact(),
         onDeleteMessages: () => this.deleteMessages(),
@@ -2020,6 +2025,7 @@
       );
 
       let unreadMessages = await this.getUnread();
+
       const oldUnread = unreadMessages.filter(
         message => message.get('received_at') <= newestUnreadDate
       );

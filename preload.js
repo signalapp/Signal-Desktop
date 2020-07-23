@@ -84,7 +84,6 @@ window.CONSTANTS = new (function() {
   this.DEFAULT_PUBLIC_CHAT_URL = appConfig.get('defaultPublicChatServer');
   this.MAX_LINKED_DEVICES = 1;
   this.MAX_CONNECTION_DURATION = 5000;
-  this.MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
   // Limited due to the proof-of-work requirement
   this.SMALL_GROUP_SIZE_LIMIT = 10;
   // Number of seconds to turn on notifications after reconnect/start of app
@@ -286,12 +285,16 @@ window.setSettingValue = (settingID, value) => {
 
   window.storage.put(settingID, value);
 
+  // FIXME - This should be called in the settings object in
+  // SessionSettings
   if (settingID === 'zoom-factor-setting') {
     window.updateZoomFactor();
   }
 };
 
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
+window.setMediaPermissions = value =>
+  ipc.send('set-media-permissions', !!value);
 
 // Auto update setting
 window.getAutoUpdateEnabled = () => ipc.sendSync('get-auto-update-setting');

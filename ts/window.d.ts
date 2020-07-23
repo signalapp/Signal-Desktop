@@ -86,6 +86,7 @@ declare global {
     ContactBuffer: any;
     GroupBuffer: any;
     SwarmPolling: SwarmPolling;
+    MediaRecorder: any;
     owsDesktopApp: any;
   }
 }

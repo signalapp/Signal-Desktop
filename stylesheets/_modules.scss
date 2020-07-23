@@ -33,6 +33,10 @@
 
 .module-contact-name.compact {
   display: block;
+
+  span::after {
+    content: '\00a0';
+  }
 }
 
 // Module: Message
@@ -1239,11 +1243,11 @@
 
 .module-group-notification__change,
 .module-timer-notification__message {
-  background-color: #212121;
+  background-color: rgba(33, 33, 33, 0.4);
   width: 90%;
   max-width: 700px;
   margin: 10px auto;
-  padding: 5px 20px;
+  padding: 5px 0px;
   border-radius: 4px;
   word-break: break-word;
 }
@@ -1340,7 +1344,7 @@
 // Module: Timer Notification
 
 .module-timer-notification {
-  margin-top: 14px;
+  margin-top: 20px;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.3px;
@@ -1380,9 +1384,23 @@
 }
 
 .module-timer-notification__message {
+  display: grid;
+  grid-template-columns: 40px auto 40px;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.3px;
+
+  & > div {
+    align-self: center;
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .module-contact-name__profile-name {
+    text-align: center;
+  }
 }
 
 .module-notification--with-click-handler {

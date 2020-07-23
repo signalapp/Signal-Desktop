@@ -35,7 +35,6 @@ export type SearchStateType = {
 };
 
 // Actions
-
 type SearchResultsPayloadType = {
   query: string;
   normalizedPhoneNumber?: string;

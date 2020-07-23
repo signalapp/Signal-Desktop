@@ -67,77 +67,6 @@
   background-color: $color-white;
 }
 
-.key-verification {
-  label {
-    display: block;
-    margin: 10px 0;
-    font-size: $font-size-small;
-  }
-
-  .icon {
-    height: 1.25em;
-    width: 1.25em;
-    vertical-align: text-bottom;
-    display: inline-block;
-
-    &.verified {
-      @include color-svg('../images/verified-check.svg', $color-light-90);
-    }
-    &.shield {
-      @include color-svg('../images/shield.svg', $color-light-90);
-    }
-  }
-
-  .key,
-  .placeholder {
-    padding: 0 1em;
-    -webkit-user-select: text;
-  }
-  .key {
-    font-family: monospace;
-    padding: 10px;
-    margin: 20px auto 20px auto;
-    width: 16em;
-    background: $grey_l;
-    border: solid 1px $grey_l2;
-    border-radius: $border-radius;
-  }
-  .placeholder {
-    font-weight: bold;
-  }
-  .qr {
-    border-radius: 200px;
-    border: solid 1px $grey_l2;
-    width: 150px;
-    height: 150px;
-    text-align: center;
-    padding: 25px;
-    margin: 10px auto;
-    canvas {
-      display: none;
-    }
-    img {
-      display: inline-block;
-      max-width: 100%;
-    }
-  }
-
-  .summary {
-    margin: 30px 0 10px;
-    text-align: center;
-  }
-
-  div.verify {
-    text-align: center;
-  }
-  button.verify {
-    border-radius: 5px;
-    font-weight: bold;
-    padding: 10px;
-    margin: 0;
-  }
-}
-
 .message-container,
 .message-list {
   list-style: none;
@@ -175,14 +104,14 @@
   opacity: 1;
 }
 
-.loki-message-wrapper {
+.session-message {
   .react-contextmenu-wrapper {
     display: inline-flex;
     width: 100%;
   }
 }
 
-.loki-message-wrapper {
+.session-message {
   padding-left: 16px;
   padding-right: 16px;
 }
@@ -192,7 +121,7 @@
   padding-right: 10px;
 }
 
-.loki-message-wrapper {
+.session-message {
   display: flow-root;
   padding-bottom: 4px;
   padding-top: 4px;

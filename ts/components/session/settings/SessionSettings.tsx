@@ -37,6 +37,7 @@ export interface SettingsViewProps {
 interface State {
   hasPassword: boolean | null;
   pwdLockError: string | null;
+  mediaSetting: boolean | null;
   shouldLockSettings: boolean | null;
   linkedPubKeys: Array<any>;
 }
@@ -46,6 +47,7 @@ interface LocalSettingType {
   description: string | undefined;
   comparisonValue: string | undefined;
   id: any;
+  value?: any;
   content: any | undefined;
   hidden: any;
   title: string;
@@ -64,6 +66,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     this.state = {
       hasPassword: null,
       pwdLockError: null,
+      mediaSetting: null,
       shouldLockSettings: true,
       linkedPubKeys: new Array(),
     };
@@ -77,6 +80,11 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
     this.onKeyUp = this.onKeyUp.bind(this);
     window.addEventListener('keyup', this.onKeyUp);
+  }
+
+  public async componentWillMount() {
+    const mediaSetting = await window.getSettingValue('media-permissions');
+    this.setState({ mediaSetting });
   }
 
   public componentDidMount() {
@@ -95,7 +103,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   /* tslint:disable-next-line:max-func-body-length */
-  public renderSettingInCategory(): JSX.Element {
+  public renderSettingInCategory() {
     const { category } = this.props;
 
     let settings: Array<LocalSettingType>;
@@ -426,19 +434,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         confirmationDialogParams: undefined,
       },
       {
-        id: 'media-permissions',
-        title: window.i18n('mediaPermissionsTitle'),
-        description: window.i18n('mediaPermissionsDescription'),
-        hidden: false,
-        type: SessionSettingType.Toggle,
-        category: SessionSettingCategory.Permissions,
-        setFn: window.toggleMediaPermissions,
-        content: undefined,
-        comparisonValue: undefined,
-        onClick: undefined,
-        confirmationDialogParams: undefined,
-      },
-      {
         id: 'message-ttl',
         title: window.i18n('messageTTL'),
         description: window.i18n('messageTTLSettingDescription'),
@@ -485,6 +480,19 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           defaultValue: 100,
           info: (value: number) => `${value}%`,
         },
+        confirmationDialogParams: undefined,
+      },
+      {
+        id: 'media-permissions',
+        title: window.i18n('mediaPermissionsTitle'),
+        description: window.i18n('mediaPermissionsDescription'),
+        hidden: false,
+        type: SessionSettingType.Toggle,
+        category: SessionSettingCategory.Privacy,
+        setFn: window.toggleMediaPermissions,
+        content: undefined,
+        comparisonValue: undefined,
+        onClick: undefined,
         confirmationDialogParams: undefined,
       },
       {

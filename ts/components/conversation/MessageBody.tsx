@@ -114,6 +114,16 @@ export class MessageBody extends React.Component<Props> {
     const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
     const textWithPending = textPending ? `${text}...` : text;
 
+    const emoji = renderEmoji({
+      i18n,
+      text: textWithPending,
+      sizeClass,
+      key: 0,
+      renderNonEmoji: renderNewLines,
+      isGroup,
+      convoId,
+    });
+
     if (disableLinks) {
       return this.addDownloading(
         renderEmoji({
@@ -127,6 +137,27 @@ export class MessageBody extends React.Component<Props> {
         })
       );
     }
+
+    const bodyContents = this.addDownloading(
+      <Linkify
+        text={textWithPending}
+        isRss={isRss}
+        renderNonLink={({ key, text: nonLinkText }) => {
+          return renderEmoji({
+            i18n,
+            text: nonLinkText,
+            sizeClass,
+            key,
+            renderNonEmoji: renderNewLines,
+            isGroup,
+            convoId,
+          });
+        }}
+      />
+    );
+
+    console.log('[vince] bodyContents:', bodyContents);
+
 
     return this.addDownloading(
       <Linkify

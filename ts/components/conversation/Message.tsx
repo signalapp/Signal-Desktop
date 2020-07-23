@@ -12,6 +12,10 @@ import { ContactName } from './ContactName';
 import { Quote, QuotedAttachmentType } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
 
+// Audio Player
+import H5AudioPlayer from 'react-h5-audio-player';
+// import 'react-h5-audio-player/lib/styles.css';
+
 import {
   canDisplayImage,
   getExtensionForDisplay,
@@ -77,6 +81,7 @@ export interface Props {
   authorProfileName?: string;
   /** Note: this should be formatted for display */
   authorPhoneNumber: string;
+  firstMessageOfSeries: boolean;
   authorColor?: ColorType;
   conversationType: 'group' | 'direct';
   attachments?: Array<AttachmentType>;
@@ -107,8 +112,7 @@ export interface Props {
   onClickAttachment?: (attachment: AttachmentType) => void;
   onClickLinkPreview?: (url: string) => void;
   onCopyText?: () => void;
-  onSelectMessage: () => void;
-  onSelectMessageUnchecked: () => void;
+  onSelectMessage: (messageId: string) => void;
   onReply?: () => void;
   onRetrySend?: () => void;
   onDownload?: (isDangerous: boolean) => void;
@@ -399,25 +403,55 @@ export class Message extends React.PureComponent<Props, State> {
       );
     } else if (!firstAttachment.pending && isAudio(attachments)) {
       return (
-        <audio
-          role="button"
+        <div
+          role="main"
           onClick={(e: any) => {
             e.stopPropagation();
           }}
-          controls={true}
-          className={classNames(
-            'module-message__audio-attachment',
-            withContentBelow
-              ? 'module-message__audio-attachment--with-content-below'
-              : null,
-            withContentAbove
-              ? 'module-message__audio-attachment--with-content-above'
-              : null
-          )}
-          key={firstAttachment.url}
         >
-          <source src={firstAttachment.url} />
-        </audio>
+          {/* <audio
+            role="button"
+            onClick={(e: any) => {
+              e.stopPropagation();
+            }}
+            controls={true}
+            className={classNames(
+              'module-message__audio-attachment',
+              withContentBelow
+                ? 'module-message__audio-attachment--with-content-below'
+                : null,
+              withContentAbove
+                ? 'module-message__audio-attachment--with-content-above'
+                : null
+            )}
+            key={firstAttachment.url}
+          >
+            <source src={firstAttachment.url} />
+          </audio> */}
+          <H5AudioPlayer
+            src={firstAttachment.url}
+            layout="horizontal-reverse"
+            showSkipControls={false}
+            showJumpControls={false}
+            showDownloadProgress={false}
+            customIcons={{
+              play: (
+                <SessionIcon
+                  iconType={SessionIconType.Play}
+                  iconSize={SessionIconSize.Small}
+                  iconColor="#868686"
+                />
+              ),
+              pause: (
+                <SessionIcon
+                  iconType={SessionIconType.Pause}
+                  iconSize={SessionIconSize.Small}
+                  iconColor="#868686"
+                />
+              ),
+            }}
+          />
+        </div>
       );
     } else {
       const { pending, fileName, fileSize, contentType } = firstAttachment;
@@ -681,6 +715,7 @@ export class Message extends React.PureComponent<Props, State> {
       authorName,
       authorPhoneNumber,
       authorProfileName,
+      firstMessageOfSeries,
       collapseMetadata,
       senderIsModerator,
       authorColor,
@@ -690,29 +725,31 @@ export class Message extends React.PureComponent<Props, State> {
       onShowUserDetails,
     } = this.props;
 
-    if (
-      collapseMetadata ||
-      conversationType !== 'group' ||
-      direction === 'outgoing'
-    ) {
-      return;
-    }
+    const shouldRenderAvatar =
+      (firstMessageOfSeries ||
+        !collapseMetadata ||
+        conversationType === 'group') &&
+      direction === 'incoming';
 
     return (
       <div className="module-message__author-avatar">
-        <Avatar
-          avatarPath={authorAvatarPath}
-          color={authorColor}
-          conversationType="direct"
-          i18n={i18n}
-          name={authorName}
-          phoneNumber={authorPhoneNumber}
-          profileName={authorProfileName}
-          size={36}
-          onAvatarClick={() => {
-            onShowUserDetails(authorPhoneNumber);
-          }}
-        />
+        <>
+          {shouldRenderAvatar && (
+            <Avatar
+              avatarPath={authorAvatarPath}
+              color={authorColor}
+              conversationType="direct"
+              i18n={i18n}
+              name={authorName}
+              phoneNumber={authorPhoneNumber}
+              profileName={authorProfileName}
+              size={36}
+              onAvatarClick={() => {
+                onShowUserDetails(authorPhoneNumber);
+              }}
+            />
+          )}
+        </>
         {senderIsModerator && (
           <div className="module-avatar__icon--crown-wrapper">
             <div className="module-avatar__icon--crown" />
@@ -742,6 +779,8 @@ export class Message extends React.PureComponent<Props, State> {
     if (!contents) {
       return null;
     }
+
+    console.log('[vince] contents:', contents);
 
     return (
       <div
@@ -881,7 +920,6 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       attachments,
       onCopyText,
-      onSelectMessageUnchecked,
       direction,
       status,
       isDeletable,
@@ -928,8 +966,6 @@ export class Message extends React.PureComponent<Props, State> {
     const isServerDeletable = !!this.props.isPublic;
     const deleteMessageCtxText = i18n(isServerDeletable ? 'unsend' : 'delete');
 
-    // CONTEXT MENU "Select Message" does not work
-
     return (
       <ContextMenu
         id={triggerId}
@@ -953,9 +989,6 @@ export class Message extends React.PureComponent<Props, State> {
         ) : null}
 
         <MenuItem onClick={wrap(onCopyText)}>{i18n('copyMessage')}</MenuItem>
-        <MenuItem onClick={wrap(onSelectMessageUnchecked)}>
-          {i18n('selectMessage')}
-        </MenuItem>
         <MenuItem
           attributes={{
             className: 'module-message__context__reply',
@@ -1113,7 +1146,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const isIncoming = direction === 'incoming';
     const shouldHightlight = mentionMe && isIncoming && isPublic;
-    const divClasses = ['loki-message-wrapper'];
+    const divClasses = ['session-message-wrapper'];
 
     if (shouldHightlight) {
       //divClasses.push('message-highlighted');
@@ -1129,7 +1162,7 @@ export class Message extends React.PureComponent<Props, State> {
     const enableContextMenu = !isRss && !multiSelectMode && !isKickedFromGroup;
 
     return (
-      <div className={classNames(divClasses)}>
+      <div id={id} className={classNames(divClasses)}>
         <ContextMenuTrigger id={rightClickTriggerId}>
           {this.renderAvatar()}
           <div
@@ -1148,17 +1181,18 @@ export class Message extends React.PureComponent<Props, State> {
 
               // User clicked on message body
               const target = event.target as HTMLDivElement;
-              if (target.className === 'text-selectable') {
+              if (!multiSelectMode && target.className === 'text-selectable') {
                 return;
               }
 
-              this.props.onSelectMessage();
+              if (id) {
+                this.props.onSelectMessage(id);
+              }
             }}
           >
             {this.renderError(isIncoming)}
-            {isRss || isKickedFromGroup
-              ? null
-              : this.renderMenu(!isIncoming, triggerId)}
+            {enableContextMenu ? this.renderMenu(!isIncoming, triggerId) : null}
+
             <div
               className={classNames(
                 'module-message__container',

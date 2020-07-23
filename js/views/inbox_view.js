@@ -21,61 +21,16 @@
   Whisper.ConversationStack = Whisper.View.extend({
     className: 'conversation-stack',
     open(conversation) {
-      const id = `conversation-${conversation.cid}`;
-      const container = $('#main-view .conversation-stack');
+      // const container = $('#main-view .conversation-stack');
+      // container.html('');
 
-      // Has been opened since app start, but not focussed
-      const conversationExists = container.children(`#${id}`).length > 0;
-      // Is focussed
-      const conversationOpened = container.children().first().id === id;
+      this.setupSessionConversation(conversation.id);
+      // const sessionConversationView = new Whisper.SessionConversationView({
+      //   el: container,
+      //   conversationKey: conversation.id,
+      // });
+      // sessionConversationView.render();
 
-      // To limit the size of the DOM for speed
-      const maxNumConversations = 10;
-      const numConversations = container
-        .children()
-        .not('.conversation.placeholder').length;
-      const shouldTrimConversations = numConversations > maxNumConversations;
-
-      if (shouldTrimConversations) {
-        // Removes conversation which has been hidden the longest
-        container.children()[numConversations - 1].remove();
-      }
-
-      if (conversationExists) {
-        // User opened conversation, move it to top of stack, rather than re-rendering
-        const conversations = container
-          .children()
-          .not('.conversation.placeholder');
-        container
-          .children(`#${id}`)
-          .first()
-          .insertBefore(conversations.first());
-        conversation.trigger('opened');
-
-        return;
-      }
-
-      if (!conversationOpened) {
-        this.$el
-          .first()
-          .find('video, audio')
-          .each(function pauseMedia() {
-            this.pause();
-          });
-        let $el = this.$(`#${id}`);
-        if ($el === null || $el.length === 0) {
-          const view = new Whisper.ConversationView({
-            model: conversation,
-            window: this.model.window,
-          });
-          view.view.resetScrollPosition();
-
-          // eslint-disable-next-line prefer-destructuring
-          $el = view.$el;
-        }
-
-        container.prepend($el);
-      }
       conversation.trigger('opened');
     },
     close(conversation) {
@@ -97,6 +52,20 @@
         resolve: onOk,
         reject: onCancel,
       });
+    },
+    setupSessionConversation() {
+      // Here we set up a full redux store with initial state for our Conversation Root
+
+      this.sessionConversationView = new Whisper.ReactWrapperView({
+        JSX: Signal.State.Roots.createSessionConversation(window.inboxStore),
+        className: 'conversation-item',
+      });
+
+      // Add sessionConversation to the DOM
+      $('#main-view .conversation-stack').html('');
+      $('#main-view .conversation-stack').append(
+        this.sessionConversationView.el
+      );
     },
   });
 
@@ -176,16 +145,26 @@
       click: 'onClick',
       'click .section-toggle': 'toggleSection',
     },
-    setupLeftPane() {
+    async setupLeftPane() {
       // Here we set up a full redux store with initial state for our LeftPane Root
       const convoCollection = getConversations();
       const conversations = convoCollection.map(
         conversation => conversation.cachedProps
       );
 
+      const filledConversations = conversations.map(async conv => {
+        const messages = await window.getMessagesByKey(conv.id);
+        return { ...conv, messages };
+      });
+
+      const fullFilledConversations = await Promise.all(filledConversations);
+
       const initialState = {
         conversations: {
-          conversationLookup: Signal.Util.makeLookup(conversations, 'id'),
+          conversationLookup: Signal.Util.makeLookup(
+            fullFilledConversations,
+            'id'
+          ),
         },
         user: {
           regionCode: window.storage.get('regionCode'),
@@ -406,7 +385,7 @@
       }
 
       this.conversation_stack.open(conversation);
-      this.focusConversation();
+      // this.focusConversation();
     },
     closeConversation(conversation) {
       if (conversation) {

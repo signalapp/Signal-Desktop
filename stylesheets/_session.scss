@@ -30,6 +30,10 @@ div.spacer-lg {
   width: 100%;
 }
 
+.break-word {
+  word-break: break-all;
+}
+
 input,
 textarea {
   caret-color: $session-color-green !important;
@@ -65,6 +69,7 @@ textarea {
   height: 100vh;
   display: flex;
   flex-grow: 1;
+  position: relative;
 
   .conversation-stack {
     display: block;
@@ -142,6 +147,9 @@ textarea {
     }
     &.danger {
       background-color: $session-color-danger;
+    }
+    &.danger-alt {
+      background-color: $session-color-danger-alt;
     }
     &.warning {
       background-color: $session-color-warning;
@@ -385,7 +393,7 @@ $session-element-border-green: 4px solid $session-color-green;
 .module-message__author-avatar {
   display: inline-flex;
   margin-right: 20px;
-  padding-top: 5px;
+  margin-top: 3px;
 }
 
 .module-message__container {
@@ -432,34 +440,9 @@ label {
     margin-bottom: 6px;
   }
 }
-.message-selection-overlay {
-  display: none;
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  margin: 0px $session-margin-lg;
-  align-items: center;
-  justify-content: space-between;
-  height: $main-view-header-height;
-
-  .close-button {
-    float: left;
-  }
-
-  .session-button.default.danger {
-    display: flex;
-    width: 80px;
-  }
-}
-.message-selection-overlay div[role='button'] {
-  display: inline-block;
-}
-
-.message-selection-overlay .button-group {
-  float: right;
-}
 
 .hidden {
+  display: none;
   visibility: hidden;
 }
 
@@ -664,12 +647,6 @@ label {
   }
 
   &__secret-words {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: $session-shade-6;
-    padding: $session-margin-sm $session-margin-lg;
-    border-radius: 3px;
     margin-bottom: $session-margin-md;
   }
 }
@@ -1252,41 +1229,6 @@ label {
   }
 }
 
-.bottom-bar {
-  .compose {
-    max-height: 200px;
-  }
-
-  .send-message-container {
-    display: flex;
-    flex-grow: 1;
-    height: 48px;
-    margin-bottom: -5px;
-  }
-
-  textarea.send-message {
-    background-color: $session-shade-4;
-    border: none;
-    margin: 0px;
-    padding: 0px $session-margin-lg;
-    font-size: $session-font-md;
-    line-height: 1.3em;
-    align-self: center;
-
-    @include session-color-subtle($session-color-white);
-  }
-}
-
-.bottom-bar form {
-  &.send {
-    background-color: $session-shade-4;
-  }
-
-  &.active textarea {
-    border: none;
-  }
-}
-
 .dark-theme .bottom-bar .send-message[disabled='disabled'] {
   background: $session-shade-4 !important;
 }
@@ -1430,9 +1372,11 @@ input {
   }
 }
 
-.module-scroll-down {
+.session-scroll-button {
   animation: fadein $session-fadein-duration;
+  position: absolute;
   bottom: 15px;
+  right: 25px;
 
   .session-icon-button {
     display: flex;
@@ -1443,7 +1387,7 @@ input {
     border-radius: 50%;
     opacity: 1;
     background-color: $session-shade-2;
-    box-shadow: 0px 0px $session-font-sm 0px rgba($session-color-white, 0.1);
+    box-shadow: 0px 0px 10px 0px rgba($session-color-white, 0.1);
 
     svg path {
       transition: $session-transition-duration;
@@ -1680,3 +1624,75 @@ input {
     pointer-events: none;
   }
 }
+
+.session-info-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $session-shade-6;
+  padding: $session-margin-sm $session-margin-lg;
+  border-radius: 4px;
+}
+
+/* ************************************* */
+/* KEY VERIFICATION VIEW (SAFETY NUMBER) */
+/* ************************************* */
+
+.key-verification {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: $session-margin-lg;
+  text-align: center;
+
+  &__header {
+    word-break: break-all;
+
+    h2 {
+      margin-bottom: 0px;
+    }
+
+    small {
+      margin-top: -25px;
+      opacity: 0.6;
+    }
+  }
+
+  &__key {
+    font-family: $session-font-mono;
+    margin: 30px 0;
+    width: 250px;
+  }
+
+  &__is-verified {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: $session-font-md;
+    margin: 30px 0;
+
+    & > span {
+      svg {
+        min-width: 30px;
+        margin-right: 10px;
+      }
+
+      height: 50px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .session-button {
+      margin: 20px 0;
+      width: 100%;
+    }
+  }
+
+  .session-loader {
+    margin-top: $session-margin-md;
+  }
+}
+
+/* ************************************* */
+/* ************************************* */
+/* ************************************* */

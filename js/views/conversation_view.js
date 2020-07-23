@@ -222,21 +222,12 @@
           onUnblockUser: () => {
             this.model.unblock();
           },
-          onChangeNickname: () => {
-            this.model.changeNickname();
-          },
-          onClearNickname: () => {
-            this.model.setNickname(null);
-          },
           onCopyPublicKey: () => {
             this.model.copyPublicKey();
           },
           onArchive: () => {
             this.unload('archive');
             this.model.setArchived(true);
-          },
-          onMoveToInbox: () => {
-            this.model.setArchived(false);
           },
           onLeaveGroup: () => {
             window.Whisper.events.trigger('leaveGroup', this.model);
@@ -1264,22 +1255,6 @@
       });
     },
 
-    showSafetyNumber(providedModel) {
-      let model = providedModel;
-
-      if (!model && this.model.isPrivate()) {
-        // eslint-disable-next-line prefer-destructuring
-        model = this.model;
-      }
-      if (model) {
-        const view = new Whisper.KeyVerificationPanelView({
-          model,
-        });
-        this.listenBack(view);
-        this.updateHeader();
-      }
-    },
-
     // THIS DOES NOT DOWNLOAD ANYTHING!
     downloadAttachment({ attachment, message, isDangerous }) {
       if (isDangerous) {
@@ -1930,7 +1905,10 @@
         toastOptions.title = i18n('youLeftTheGroup');
         toastOptions.id = 'youLeftTheGroup';
       }
-      if (message.length > window.CONSTANTS.MAX_MESSAGE_BODY_LENGTH) {
+      if (
+        message.length >
+        window.libsession.Constants.CONVERSATION.MAX_MESSAGE_BODY_LENGTH
+      ) {
         toastOptions.title = i18n('messageBodyTooLong');
         toastOptions.id = 'messageBodyTooLong';
       }

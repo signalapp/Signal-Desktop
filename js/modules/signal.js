@@ -55,6 +55,9 @@ const {
   DevicePairingDialog,
 } = require('../../ts/components/DevicePairingDialog');
 const {
+  SessionConversation,
+} = require('../../ts/components/session/conversation/SessionConversation');
+const {
   SettingsView,
 } = require('../../ts/components/session/settings/SessionSettings');
 const { SessionToast } = require('../../ts/components/session/SessionToast');
@@ -122,9 +125,6 @@ const {
   ResetSessionNotification,
 } = require('../../ts/components/conversation/ResetSessionNotification');
 const {
-  SafetyNumberNotification,
-} = require('../../ts/components/conversation/SafetyNumberNotification');
-const {
   StagedLinkPreview,
 } = require('../../ts/components/conversation/StagedLinkPreview');
 const {
@@ -139,6 +139,9 @@ const {
 
 // State
 const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
+const {
+  createSessionConversation,
+} = require('../../ts/state/roots/createSessionConversation');
 const { createStore } = require('../../ts/state/createStore');
 const conversationsDuck = require('../../ts/state/ducks/conversations');
 const userDuck = require('../../ts/state/ducks/user');
@@ -300,6 +303,7 @@ exports.setup = (options = {}) => {
     RemoveModeratorsDialog,
     GroupInvitation,
     BulkEdit,
+    SessionConversation,
     SessionToast,
     SessionToggle,
     SessionConfirm,
@@ -316,7 +320,6 @@ exports.setup = (options = {}) => {
     MessageDetail,
     Quote,
     ResetSessionNotification,
-    SafetyNumberNotification,
     StagedLinkPreview,
     TimerNotification,
     Types: {
@@ -328,6 +331,7 @@ exports.setup = (options = {}) => {
 
   const Roots = {
     createLeftPane,
+    createSessionConversation,
   };
   const Ducks = {
     conversations: conversationsDuck,

@@ -1,4 +1,5 @@
 interface ConversationAttributes {
+  profileName?: string;
   members: Array<string>;
   left: boolean;
   expireTimer: number;
@@ -24,11 +25,15 @@ export interface ConversationModel
     options: object
   ) => void;
   isPrivate: () => boolean;
+  isVerified: () => boolean;
+  toggleVerified: () => Promise<void>;
+  getProfile: (id: string) => Promise<any>;
+  getProfiles: () => Promise<any>;
   setProfileKey: (key: string) => void;
   isMe: () => boolean;
   getRecipients: () => Array<string>;
+  getTitle: () => string;
   onReadMessage: (message: MessageModel) => void;
   updateTextInputState: () => void;
-
   lastMessage: string;
 }

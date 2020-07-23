@@ -1,3 +1,7 @@
+// Modules
+@import 'node_modules/emoji-mart/css/emoji-mart.css';
+@import 'node_modules/react-h5-audio-player/lib/styles.css';
+
 // Global Settings, Variables, and Mixins
 @import 'session_constants';
 @import 'variables';
@@ -36,7 +40,8 @@
 @import 'session_left_pane';
 @import 'session_group_panel';
 
-@import 'session-slider';
+@import 'session_slider';
+@import 'session_conversation';
 
 // Installer
 @import 'options';

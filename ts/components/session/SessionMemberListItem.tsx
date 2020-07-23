@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import { Avatar } from '../Avatar';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
+import { Constants } from '../../session';
 
 export interface ContactType {
   id: string;
@@ -79,7 +80,7 @@ export class SessionMemberListItem extends React.Component<Props, State> {
           <SessionIcon
             iconType={SessionIconType.Check}
             iconSize={SessionIconSize.Medium}
-            iconColor={'#00f782'}
+            iconColor={Constants.UI.COLORS.GREEN}
           />
         </span>
       </div>

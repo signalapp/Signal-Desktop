@@ -10,6 +10,7 @@ import { SessionDropdown } from './SessionDropdown';
 import { MediaGallery } from '../conversation/media-gallery/MediaGallery';
 import _ from 'lodash';
 import { TimerOption } from '../conversation/ConversationHeader';
+import { Constants } from '../../session';
 
 interface Props {
   id: string;
@@ -19,21 +20,15 @@ interface Props {
   avatarPath: string;
   timerOptions: Array<TimerOption>;
   isPublic: boolean;
-  isAdmin: boolean;
-  amMod: boolean;
-  isKickedFromGroup: boolean;
-  isBlocked: boolean;
 
   onGoBack: () => void;
   onInviteContacts: () => void;
   onLeaveGroup: () => void;
-  onUpdateGroupName: () => void;
-  onUpdateGroupMembers: () => void;
   onShowLightBox: (options: any) => void;
   onSetDisappearingMessages: (seconds: number) => void;
 }
 
-export class SessionGroupSettings extends React.Component<Props, any> {
+export class SessionChannelSettings extends React.Component<Props, any> {
   public constructor(props: Props) {
     super(props);
 
@@ -75,20 +70,18 @@ export class SessionGroupSettings extends React.Component<Props, any> {
   public async getMediaGalleryProps() {
     // We fetch more documents than media as they don’t require to be loaded
     // into memory right away. Revisit this once we have infinite scrolling:
-    const DEFAULT_MEDIA_FETCH_COUNT = 50;
-    const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
     const conversationId = this.props.id;
     const rawMedia = await window.Signal.Data.getMessagesWithVisualMediaAttachments(
       conversationId,
       {
-        limit: DEFAULT_MEDIA_FETCH_COUNT,
+        limit: Constants.CONVERSATION.DEFAULT_MEDIA_FETCH_COUNT,
         MessageCollection: window.Whisper.MessageCollection,
       }
     );
     const rawDocuments = await window.Signal.Data.getMessagesWithFileAttachments(
       conversationId,
       {
-        limit: DEFAULT_DOCUMENTS_FETCH_COUNT,
+        limit: Constants.CONVERSATION.DEFAULT_DOCUMENTS_FETCH_COUNT,
         MessageCollection: window.Whisper.MessageCollection,
       }
     );
@@ -213,19 +206,12 @@ export class SessionGroupSettings extends React.Component<Props, any> {
       timerOptions,
       onLeaveGroup,
       isPublic,
-      isAdmin,
-      isKickedFromGroup,
-      amMod,
-      isBlocked,
     } = this.props;
     const { documents, media, onItemClick } = this.state;
     const showMemberCount = !!(memberCount && memberCount > 0);
-    const hasDisappearingMessages =
-      !isPublic && !isKickedFromGroup && !isBlocked;
+    const hasDisappearingMessages = !isPublic;
     const leaveGroupString = isPublic
       ? window.i18n('leaveOpenGroup')
-      : isKickedFromGroup
-      ? window.i18n('youGotKickedFromGroup')
       : window.i18n('leaveClosedGroup');
 
     const disappearingMessagesOptions = timerOptions.map(option => {
@@ -237,13 +223,6 @@ export class SessionGroupSettings extends React.Component<Props, any> {
       };
     });
 
-    const showUpdateGroupNameButton =
-      isPublic && !isKickedFromGroup
-        ? amMod && !isBlocked
-        : isAdmin && !isBlocked;
-    const showUpdateGroupMembersButton =
-      !isPublic && !isKickedFromGroup && !isBlocked && isAdmin;
-
     return (
       <div className="group-settings">
         {this.renderHeader()}
@@ -251,7 +230,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
         {showMemberCount && (
           <>
             <div className="spacer-lg" />
-            <div role="button" className="subtle">
+            <div className="text-subtle">
               {window.i18n('members', memberCount)}
             </div>
             <div className="spacer-lg" />
@@ -261,30 +240,10 @@ export class SessionGroupSettings extends React.Component<Props, any> {
           className="description"
           placeholder={window.i18n('description')}
         />
-        {showUpdateGroupNameButton && (
-          <div
-            className="group-settings-item"
-            role="button"
-            onClick={this.props.onUpdateGroupName}
-          >
-            {isPublic
-              ? window.i18n('editGroupNameOrPicture')
-              : window.i18n('editGroupName')}
-          </div>
-        )}
-        {showUpdateGroupMembersButton && (
-          <div
-            className="group-settings-item"
-            role="button"
-            onClick={this.props.onUpdateGroupMembers}
-          >
-            {window.i18n('showMembers')}
-          </div>
-        )}
-        {/*<div className="group-settings-item">
+
+        <div className="group-settings-item">
           {window.i18n('notifications')}
         </div>
-        */}
 
         {hasDisappearingMessages && (
           <SessionDropdown
@@ -303,26 +262,14 @@ export class SessionGroupSettings extends React.Component<Props, any> {
           buttonColor={SessionButtonColor.Danger}
           buttonType={SessionButtonType.SquareOutline}
           onClick={onLeaveGroup}
-          disabled={isKickedFromGroup}
         />
       </div>
     );
   }
 
   private renderHeader() {
-    const {
-      id,
-      onGoBack,
-      onInviteContacts,
-      avatarPath,
-      isAdmin,
-      isPublic,
-      isKickedFromGroup,
-      isBlocked,
-    } = this.props;
-
-    const showInviteContacts =
-      (isPublic || isAdmin) && !isKickedFromGroup && !isBlocked;
+    const { id, onGoBack, onInviteContacts, avatarPath } = this.props;
+    const shouldShowInviteFriends = !this.props.isPublic;
 
     return (
       <div className="group-settings-header">
@@ -338,8 +285,9 @@ export class SessionGroupSettings extends React.Component<Props, any> {
           conversationType="group"
           size={80}
         />
+
         <div className="invite-friends-container">
-          {showInviteContacts && (
+          {shouldShowInviteFriends && (
             <SessionIconButton
               iconType={SessionIconType.AddUser}
               iconSize={SessionIconSize.Medium}

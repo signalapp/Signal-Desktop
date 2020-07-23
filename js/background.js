@@ -793,6 +793,7 @@
         closeTheme: params.closeTheme || undefined,
         cancelText: params.cancelText || undefined,
         hideCancel: params.hideCancel || false,
+        centeredText: params.centeredText || false,
       });
 
       confirmDialog.render();
@@ -1030,8 +1031,8 @@
     };
 
     window.toggleMediaPermissions = () => {
-      const mediaPermissions = window.getMediaPermissions();
-      window.setMediaPermissions(!mediaPermissions);
+      const value = window.getMediaPermissions();
+      window.setMediaPermissions(!value);
     };
 
     // Attempts a connection to an open group server

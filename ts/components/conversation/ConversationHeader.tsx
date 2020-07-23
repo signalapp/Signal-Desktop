@@ -38,7 +38,6 @@ interface Props {
   isMe: boolean;
   isClosable?: boolean;
   isGroup: boolean;
-  isArchived: boolean;
   isPublic: boolean;
   isRss: boolean;
   amMod: boolean;
@@ -59,9 +58,13 @@ interface Props {
   isBlocked: boolean;
   isOnline?: boolean;
 
-  selectedMessages: any;
+  // We don't pass this as a bool, because in future we
+  // want to forward messages from Header and will need
+  // the message ID.
+  selectedMessages: Array<string>;
   isKickedFromGroup: boolean;
 
+  onInviteContacts: () => void;
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
   onDeleteContact: () => void;
@@ -69,9 +72,6 @@ interface Props {
 
   onCloseOverlay: () => void;
   onDeleteSelectedMessages: () => void;
-
-  onArchive: () => void;
-  onMoveToInbox: () => void;
 
   onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
@@ -81,15 +81,11 @@ interface Props {
   onBlockUser: () => void;
   onUnblockUser: () => void;
 
-  onClearNickname: () => void;
-  onChangeNickname: () => void;
-
   onCopyPublicKey: () => void;
 
   onLeaveGroup: () => void;
   onAddModerators: () => void;
   onRemoveModerators: () => void;
-  onInviteContacts: () => void;
   onAvatarClick?: (userPubKey: string) => void;
   onUpdateGroupName: () => void;
 
@@ -359,7 +355,6 @@ export class ConversationHeader extends React.Component<Props> {
       isPublic,
       i18n,
     } = this.props;
-
     const isServerDeletable = isPublic;
     const deleteMessageButtonText = i18n(
       isServerDeletable ? 'unsend' : 'delete'
@@ -390,27 +385,27 @@ export class ConversationHeader extends React.Component<Props> {
   public render() {
     const { id, isKickedFromGroup } = this.props;
     const triggerId = `conversation-${id}-${Date.now()}`;
+    const selectionMode = !!this.props.selectedMessages.length;
 
     return (
-      <>
-        {this.renderSelectionOverlay()}
-        <div className="module-conversation-header">
+      <div className="module-conversation-header">
+        <div className="conversation-header--items-wrapper">
           {this.renderBackButton()}
           <div className="module-conversation-header__title-container">
             <div className="module-conversation-header__title-flex">
-              {this.renderOptions(triggerId)}
+              {!selectionMode && this.renderOptions(triggerId)}
               {this.renderTitle()}
-              {/* This might be redundant as we show the title in the title: */}
-              {/*isPrivateGroup ? this.renderMemberCount() : null*/}
             </div>
           </div>
           {!isKickedFromGroup && this.renderExpirationLength()}
 
-          {!this.props.isRss && this.renderAvatar()}
+          {!this.props.isRss && !selectionMode && this.renderAvatar()}
 
-          {this.renderMenu(triggerId)}
+          {!selectionMode && this.renderMenu(triggerId)}
         </div>
-      </>
+
+        {selectionMode && this.renderSelectionOverlay()}
+      </div>
     );
   }
 
