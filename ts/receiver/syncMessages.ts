@@ -177,7 +177,6 @@ async function handleBlocked(
 ) {
   window.log.info('Setting these numbers as blocked:', blocked.numbers);
 
-
   // blocked.numbers contains numbers
   if (blocked.numbers) {
     const currentlyBlockedNumbers = BlockedNumberController.getBlockedNumbers();
@@ -200,13 +199,14 @@ async function handleBlocked(
         }
         conv.trigger('change', conv);
       } else {
-        window.console.warn('Did not find corresponding conversation to block', n);
+        window.console.warn(
+          'Did not find corresponding conversation to block',
+          n
+        );
       }
     }
 
-    await Promise.all(
-      toAddToBlocked.map(async n => markConvoBlocked(true, n))
-    );
+    await Promise.all(toAddToBlocked.map(async n => markConvoBlocked(true, n)));
 
     await Promise.all(
       toRemoveFromBlocked.map(async n => markConvoBlocked(false, n))

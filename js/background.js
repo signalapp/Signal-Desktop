@@ -1514,10 +1514,7 @@
       );
       window.lokiPublicChatAPI = null;
       window.feeds = [];
-      messageReceiver = new textsecure.MessageReceiver(
-        mySignalingKey,
-        options
-      );
+      messageReceiver = new textsecure.MessageReceiver(mySignalingKey, options);
       messageReceiver.addEventListener(
         'message',
         window.NewReceiver.handleMessageEvent
@@ -1528,10 +1525,7 @@
 
     initAPIs();
     await initSpecialConversations();
-    messageReceiver = new textsecure.MessageReceiver(
-      mySignalingKey,
-      options
-    );
+    messageReceiver = new textsecure.MessageReceiver(mySignalingKey, options);
     messageReceiver.addEventListener(
       'message',
       window.NewReceiver.handleMessageEvent

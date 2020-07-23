@@ -106,9 +106,7 @@ export async function filterBlockedNumbers(
     return [];
   }
 
-  return conversations.filter(
-    c => c.isBlocked() && c.isPrivate()
-  );
+  return conversations.filter(c => c.isBlocked() && c.isPrivate());
 }
 
 // Serialise as <Element0.length><Element0><Element1.length><Element1>...
