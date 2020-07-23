@@ -95,6 +95,28 @@ export async function filterOpenGroupsConvos(
   );
 }
 
+export async function filterBlockedNumbers(
+  conversations: Array<any>
+): Promise<any> {
+  // If we haven't got a primaryDeviceKey then we are in the middle of pairing
+  // primaryDevicePubKey is set to our own number if we are the master device
+  const thisDevice = await UserUtil.getCurrentDevicePubKey();
+
+  if (!thisDevice) {
+    return { blockedNumbers: [], blockedGroupsIds: [] };
+  }
+
+  const blockedNumbersConvos = conversations.filter(
+    c => c.isPrivate() && c.isBlocked()
+  );
+
+  const blockedGroupsConvos = conversations.filter(
+    c => c.isClosedGroup() && c.isBlocked()
+  );
+
+  return { blockedNumbersConvos, blockedGroupsConvos };
+}
+
 // Serialise as <Element0.length><Element0><Element1.length><Element1>...
 // This is an implementation of the reciprocal of contacts_parser.js
 export function serialiseByteBuffers(buffers: Array<Uint8Array>): ByteBuffer {

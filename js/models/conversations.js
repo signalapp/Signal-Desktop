@@ -253,11 +253,7 @@
       this.trigger('change', this);
       this.messageCollection.forEach(m => m.trigger('change'));
       this.updateTextInputState();
-      if (this.isPrivate()) {
-        await textsecure.messaging.sendContactSyncMessage([this]);
-      } else {
-        await textsecure.messaging.sendGroupSyncMessage([this]);
-      }
+      await textsecure.messaging.sendBlockedListSyncMessage();
     },
     async unblock() {
       if (!this.id || this.isPublic() || this.isRss()) {
@@ -270,11 +266,7 @@
       this.trigger('change', this);
       this.messageCollection.forEach(m => m.trigger('change'));
       this.updateTextInputState();
-      if (this.isPrivate()) {
-        await textsecure.messaging.sendContactSyncMessage([this]);
-      } else {
-        await textsecure.messaging.sendGroupSyncMessage([this]);
-      }
+      await textsecure.messaging.sendBlockedListSyncMessage();
     },
     setMessageSelectionBackdrop() {
       const messageSelected = this.selectedMessages.size > 0;

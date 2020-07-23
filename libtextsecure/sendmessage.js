@@ -453,6 +453,33 @@ MessageSender.prototype = {
 
     return libsession.getMessageQueue().sendSyncMessage(openGroupsSyncMessage);
   },
+  async sendBlockedListSyncMessage() {
+    // If we havn't got a primaryDeviceKey then we are in the middle of pairing
+    // primaryDevicePubKey is set to our own number if we are the master device
+    const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
+    if (!primaryDeviceKey) {
+      return Promise.resolve();
+    }
+    const convos = window.getConversations().models;
+
+    const conversations = Array.isArray(convos) ? convos : [convos];
+
+    const {
+      blockedNumbersConvos,
+      blockedGroupsConvos,
+    } = await libsession.Utils.SyncMessageUtils.filterBlockedNumbers(
+      conversations
+    );
+
+    const blockedSyncMessage = new libsession.Messages.Outgoing.BlockedListSyncMessage(
+      {
+        timestamp: Date.now(),
+        numbers: blockedNumbersConvos.map(n => n.id),
+        groups: blockedGroupsConvos.map(g => g.id),
+      }
+    );
+    return libsession.getMessageQueue().sendSyncMessage(blockedSyncMessage);
+  },
   syncReadMessages(reads) {
     const myDevice = textsecure.storage.user.getDeviceId();
     // FIXME currently not in used
@@ -521,6 +548,9 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.syncVerification = sender.syncVerification.bind(sender);
   this.makeProxiedRequest = sender.makeProxiedRequest.bind(sender);
   this.getProxiedSize = sender.getProxiedSize.bind(sender);
+  this.sendBlockedListSyncMessage = sender.sendBlockedListSyncMessage.bind(
+    sender
+  );
 };
 
 textsecure.MessageSender.prototype = {
