@@ -163,6 +163,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       isRss,
       isPublic,
       hasNickname,
+      type,
       onDeleteContact,
       onDeleteMessages,
       onBlockContact,
@@ -174,10 +175,11 @@ export class ConversationListItem extends React.PureComponent<Props> {
 
     const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
     const blockHandler = isBlocked ? onUnblockContact : onBlockContact;
+    const isPrivate = type === 'direct';
 
     return (
       <ContextMenu id={triggerId}>
-        {!isPublic && !isRss && !isMe ? (
+        {!isPublic && !isRss && !isMe && isPrivate ? (
           <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
         ) : null}
         {/* {!isPublic && !isRss && !isMe ? (
