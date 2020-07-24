@@ -8,7 +8,7 @@ on:
       - development
       - clearnet
       - github-actions
-      - refactor-ts-react
+      - react-refactor
 
 jobs:
   build:
