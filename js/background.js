@@ -2121,16 +2121,8 @@
       'group'
     );
 
-    const memberConversations = await Promise.all(
-      (details.members || details.membersE164).map(member => {
-        if (member.e164 || member.uuid) {
-          return ConversationController.getOrCreateAndWait(
-            member.e164 || member.uuid,
-            'private'
-          );
-        }
-        return ConversationController.getOrCreateAndWait(member, 'private');
-      })
+    const memberConversations = details.membersE164.map(e164 =>
+      ConversationController.getOrCreate(e164, 'private')
     );
 
     const members = memberConversations.map(c => c.get('id'));

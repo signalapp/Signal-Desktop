@@ -2246,20 +2246,9 @@
             if (dataMessage.group) {
               const pendingGroupUpdate = [];
               const memberConversations = await Promise.all(
-                (
-                  dataMessage.group.members || dataMessage.group.membersE164
-                ).map(member => {
-                  if (member.e164 || member.uuid) {
-                    return ConversationController.getOrCreateAndWait(
-                      member.e164 || member.uuid,
-                      'private'
-                    );
-                  }
-                  return ConversationController.getOrCreateAndWait(
-                    member,
-                    'private'
-                  );
-                })
+                dataMessage.group.membersE164.map(e164 =>
+                  ConversationController.getOrCreateAndWait(e164, 'private')
+                )
               );
               const members = memberConversations.map(c => c.get('id'));
               attributes = {

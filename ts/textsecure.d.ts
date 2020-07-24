@@ -386,7 +386,6 @@ export declare class GroupContextClass {
   type?: number;
   name?: string | null;
   membersE164?: Array<string>;
-  members?: Array<GroupContextClass.Member>;
   avatar?: AttachmentPointerClass | null;
 }
 
