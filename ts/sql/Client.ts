@@ -129,6 +129,7 @@ const dataInterface: ClientInterface = {
   updateConversations,
   removeConversation,
 
+  eraseStorageIdFromConversations,
   getAllConversations,
   getAllConversationIds,
   getAllPrivateConversations,
@@ -768,6 +769,10 @@ async function removeConversation(
 // Note: this method will not clean up external files, just delete from SQL
 async function _removeConversations(ids: Array<string>) {
   await channels.removeConversation(ids);
+}
+
+async function eraseStorageIdFromConversations() {
+  await channels.eraseStorageIdFromConversations();
 }
 
 async function getAllConversations({

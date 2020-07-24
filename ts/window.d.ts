@@ -62,7 +62,7 @@ declare global {
     setBadgeCount: (count: number) => void;
     storage: {
       put: (key: string, value: any) => void;
-      remove: (key: string) => void;
+      remove: (key: string) => Promise<void>;
       get: <T = any>(key: string) => T | undefined;
       addBlockedNumber: (number: string) => void;
       isBlocked: (number: string) => boolean;

@@ -10,6 +10,8 @@ import {
   deriveStorageItemKey,
   deriveStorageManifestKey,
 } from '../Crypto';
+import dataInterface from '../sql/Client';
+const { eraseStorageIdFromConversations, updateConversation } = dataInterface;
 import {
   AccountRecordClass,
   ContactRecordClass,
@@ -143,7 +145,7 @@ async function mergeGroupV1Record(
 
   applyMessageRequestState(groupV1Record, conversation);
 
-  window.Signal.Data.updateConversation(conversation.attributes);
+  updateConversation(conversation.attributes);
 
   window.log.info(`storageService.mergeGroupV1Record: merged ${storageID}`);
 }
@@ -223,7 +225,7 @@ async function mergeContactRecord(
     );
   }
 
-  window.Signal.Data.updateConversation(conversation.attributes);
+  updateConversation(conversation.attributes);
 
   window.log.info(`storageService.mergeContactRecord: merged ${storageID}`);
 }
@@ -284,7 +286,7 @@ async function mergeAccountRecord(
     storageID,
   });
 
-  window.Signal.Data.updateConversation(conversation.attributes);
+  updateConversation(conversation.attributes);
 
   window.log.info(
     `storageService.mergeAccountRecord: merged profile ${storageID}`
@@ -411,6 +413,12 @@ async function processManifest(
 }
 
 export async function runStorageServiceSyncJob() {
+  if (!window.storage.get('storageKey')) {
+    throw new Error('runStorageServiceSyncJob: Cannot start; no storage key!');
+  }
+
+  window.log.info('runStorageServiceSyncJob: starting...');
+
   const localManifestVersion = window.storage.get('manifestVersion') || 0;
 
   let manifest;
@@ -419,6 +427,7 @@ export async function runStorageServiceSyncJob() {
 
     // Guarding against no manifests being returned, everything should be ok
     if (!manifest) {
+      window.log.info('runStorageServiceSyncJob: no manifest, returning early');
       return;
     }
   } catch (err) {
@@ -442,4 +451,14 @@ export async function runStorageServiceSyncJob() {
   if (shouldUpdateVersion) {
     window.storage.put('manifestVersion', version);
   }
+  window.log.info('runStorageServiceSyncJob: complete');
+}
+
+// Note: this function is meant to be called before ConversationController is hydrated.
+//   It goes directly to the database, so in-memory conversations will be out of date.
+export async function eraseAllStorageServiceState() {
+  window.log.info('eraseAllStorageServiceState: starting...');
+  await window.storage.remove('manifestVersion');
+  await eraseStorageIdFromConversations();
+  window.log.info('eraseAllStorageServiceState: complete');
 }

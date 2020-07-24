@@ -614,8 +614,9 @@
       if (response === this.messageRequestEnum.ACCEPT) {
         this.unblock();
         this.enableProfileSharing();
-        this.sendProfileKeyUpdate();
+
         if (!fromSync) {
+          this.sendProfileKeyUpdate();
           // Locally accepted
           await this.handleReadAndDownloadAttachments();
         }
@@ -945,14 +946,14 @@
         return true;
       }
 
-      const fromContact = this.getIsAddedByContact();
+      const isFromOrAddedByTrustedContact = this.isFromOrAddedByTrustedContact();
       const hasSentMessages = this.getSentMessageCount() > 0;
       const hasMessagesBeforeMessageRequests =
         (this.get('messageCountBeforeMessageRequests') || 0) > 0;
       const hasNoMessages = (this.get('messageCount') || 0) === 0;
 
       return (
-        fromContact ||
+        isFromOrAddedByTrustedContact ||
         hasSentMessages ||
         hasMessagesBeforeMessageRequests ||
         // an empty conversation is the scenario where we need to rely on
@@ -1183,10 +1184,17 @@
         return [this.getSendTarget()];
       }
       const me = ConversationController.getOurConversationId();
-      return _.without(this.get('members'), me).map(memberId => {
-        const c = ConversationController.get(memberId);
-        return c.getSendTarget();
-      });
+
+      // The list of members might not always be conversationIds for old groups.
+      return _.compact(
+        this.get('members').map(memberId => {
+          const c = ConversationController.get(memberId);
+          if (c.id === me) {
+            return null;
+          }
+          return c.getSendTarget();
+        })
+      );
     },
 
     async getQuoteAttachment(attachments, preview, sticker) {
@@ -1793,17 +1801,12 @@
       };
     },
 
-    getIsContact() {
+    // Is this someone who is a contact, or are we sharing our profile with them?
+    //   Or is the person who added us to this group a contact or are we sharing profile
+    //   with them?
+    isFromOrAddedByTrustedContact() {
       if (this.isPrivate()) {
-        return Boolean(this.get('name'));
-      }
-
-      return false;
-    },
-
-    getIsAddedByContact() {
-      if (this.isPrivate()) {
-        return this.getIsContact();
+        return Boolean(this.get('name')) || this.get('profileSharing');
       }
 
       const addedBy = this.get('addedBy');
@@ -1816,7 +1819,7 @@
         return false;
       }
 
-      return conv.getIsContact();
+      return Boolean(conv.get('name')) || conv.get('profileSharing');
     },
 
     async updateLastMessage() {

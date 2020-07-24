@@ -8,8 +8,8 @@ export function markDone() {
   window.storage.put('chromiumRegistrationDone', '');
 }
 
-export function remove() {
-  window.storage.remove('chromiumRegistrationDone');
+export async function remove() {
+  await window.storage.remove('chromiumRegistrationDone');
 }
 
 export function isDone() {

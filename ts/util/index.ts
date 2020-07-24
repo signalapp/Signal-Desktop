@@ -15,7 +15,10 @@ import { isFileDangerous } from './isFileDangerous';
 import { makeLookup } from './makeLookup';
 import { migrateColor } from './migrateColor';
 import { missingCaseError } from './missingCaseError';
-import { runStorageServiceSyncJob } from './storageService';
+import {
+  eraseAllStorageServiceState,
+  runStorageServiceSyncJob,
+} from './storageService';
 import * as zkgroup from './zkgroup';
 
 export {
@@ -25,6 +28,7 @@ export {
   createWaitBatcher,
   deleteForEveryone,
   downloadAttachment,
+  eraseAllStorageServiceState,
   generateSecurityNumber,
   getSafetyNumberPlaceholder,
   GoogleChrome,
