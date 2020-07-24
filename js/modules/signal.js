@@ -33,9 +33,6 @@ const {
   ConversationHeader,
 } = require('../../ts/components/conversation/ConversationHeader');
 const {
-  SessionGroupSettings,
-} = require('../../ts/components/session/SessionGroupSettings');
-const {
   EmbeddedContact,
 } = require('../../ts/components/conversation/EmbeddedContact');
 const { Emojify } = require('../../ts/components/conversation/Emojify');
@@ -282,7 +279,6 @@ exports.setup = (options = {}) => {
     ContactListItem,
     ContactName,
     ConversationHeader,
-    SessionGroupSettings,
     SettingsView,
     EmbeddedContact,
     Emojify,

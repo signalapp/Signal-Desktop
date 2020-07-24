@@ -260,59 +260,6 @@
           },
         };
       };
-      const getGroupSettingsProps = () => {
-        const ourPK = window.textsecure.storage.user.getNumber();
-        const members = this.model.get('members') || [];
-
-        return {
-          id: this.model.id,
-          name: this.model.getName(),
-          phoneNumber: this.model.getNumber(),
-          profileName: this.model.getProfileName(),
-          color: this.model.getColor(),
-          avatarPath: this.model.getAvatarPath(),
-          isGroup: !this.model.isPrivate(),
-          isPublic: this.model.isPublic(),
-          isAdmin: this.model.get('groupAdmins').includes(ourPK),
-          isRss: this.model.isRss(),
-          memberCount: members.length,
-          amMod: this.model.isModerator(
-            window.storage.get('primaryDevicePubKey')
-          ),
-          isKickedFromGroup: this.model.get('isKickedFromGroup'),
-          isBlocked: this.model.isBlocked(),
-
-          timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
-            name: item.getName(),
-            value: item.get('seconds'),
-          })),
-
-          onSetDisappearingMessages: seconds =>
-            this.setDisappearingMessages(seconds),
-
-          onGoBack: () => {
-            this.hideConversationRight();
-          },
-
-          onUpdateGroupName: () => {
-            window.Whisper.events.trigger('updateGroupName', this.model);
-          },
-          onUpdateGroupMembers: () => {
-            window.Whisper.events.trigger('updateGroupMembers', this.model);
-          },
-
-          onLeaveGroup: () => {
-            window.Whisper.events.trigger('leaveGroup', this.model);
-          },
-
-          onInviteContacts: () => {
-            window.Whisper.events.trigger('inviteContacts', this.model);
-          },
-          onShowLightBox: (lightBoxOptions = {}) => {
-            this.showChannelLightbox(lightBoxOptions);
-          },
-        };
-      };
       this.titleView = new Whisper.ReactWrapperView({
         className: 'title-wrapper',
         Component: window.Signal.Components.ConversationHeader,
@@ -343,28 +290,6 @@
         this.$('.conversation-content-right').css({
           'margin-right': '0vw',
         });
-      };
-
-      this.showGroupSettings = () => {
-        if (!this.groupSettings) {
-          this.groupSettings = new Whisper.ReactWrapperView({
-            className: 'group-settings',
-            Component: window.Signal.Components.SessionGroupSettings,
-            props: getGroupSettingsProps(this.model),
-          });
-          this.$('.conversation-content-right').append(this.groupSettings.el);
-          this.updateGroupSettingsPanel = () =>
-            this.groupSettings.update(getGroupSettingsProps(this.model));
-          this.listenTo(this.model, 'change', this.updateGroupSettingsPanel);
-        } else {
-          this.groupSettings.update(getGroupSettingsProps(this.model));
-        }
-
-        this.showConversationRight();
-      };
-
-      this.hideGroupSettings = () => {
-        this.showConversationRight();
       };
 
       this.memberView.render();
