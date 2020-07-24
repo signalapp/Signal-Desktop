@@ -7,7 +7,7 @@ on:
       - development
       - clearnet
       - github-actions
-      - message-sending-refactor
+      - react-refactor
 
 jobs:
   build:
