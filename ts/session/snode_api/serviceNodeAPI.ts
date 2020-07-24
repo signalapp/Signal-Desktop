@@ -5,9 +5,11 @@ import fetch from 'node-fetch';
 
 import { PubKey } from '../types';
 import { snodeRpc } from './lokiRpc';
-import { SnodeResponse } from './onions';
+import { sendOnionRequestLsrpcDest, SnodeResponse } from './onions';
 
 import { sleepFor } from '../../../js/modules/loki_primitives';
+
+export { sendOnionRequestLsrpcDest };
 
 import {
   getRandomSnodeAddress,
