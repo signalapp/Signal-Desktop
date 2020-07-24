@@ -207,7 +207,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/models/conversations.js",
     "line": "      await wrap(",
-    "lineNumber": 663,
+    "lineNumber": 664,
     "reasonCategory": "falseMatch",
     "updated": "2020-06-09T20:26:46.515Z"
   },

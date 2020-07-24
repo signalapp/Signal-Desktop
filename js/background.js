@@ -539,6 +539,13 @@
         window.Events.setThemeSetting(newThemeSetting);
       }
 
+      if (
+        window.isBeforeVersion(lastVersion, 'v1.35.0-beta.11') &&
+        window.isAfterVersion(lastVersion, 'v1.35.0-beta.1')
+      ) {
+        await window.Signal.Util.eraseAllStorageServiceState();
+      }
+
       // This one should always be last - it could restart the app
       if (window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5')) {
         await window.Signal.Logs.deleteAll();

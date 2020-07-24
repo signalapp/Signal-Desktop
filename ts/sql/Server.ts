@@ -104,6 +104,7 @@ const dataInterface: ServerInterface = {
   updateConversation,
   updateConversations,
   removeConversation,
+  eraseStorageIdFromConversations,
   getAllConversations,
   getAllConversationIds,
   getAllPrivateConversations,
@@ -2238,6 +2239,16 @@ async function getConversationById(id: string) {
   }
 
   return jsonToObject(row.json);
+}
+
+async function eraseStorageIdFromConversations() {
+  const db = getInstance();
+
+  await db.run(
+    `UPDATE conversations SET
+      json = json_remove(json, '$.storageID');
+    `
+  );
 }
 
 async function getAllConversations() {
