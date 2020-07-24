@@ -16,14 +16,16 @@ import {
 export type CallId = any;
 
 export type CallDetailsType = {
-  avatarPath?: string;
   callId: CallId;
-  contactColor?: ColorType;
   isIncoming: boolean;
   isVideoCall: boolean;
+
+  avatarPath?: string;
+  color?: ColorType;
   name?: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   profileName?: string;
+  title: string;
 };
 
 export type CallingStateType = {
@@ -221,10 +223,10 @@ async function showCallNotification(callDetails: CallDetailsType) {
   if (!canNotify) {
     return;
   }
-  const { name, phoneNumber, profileName, isVideoCall } = callDetails;
+  const { title, isVideoCall } = callDetails;
   notify({
     platform: window.platform,
-    title: `${name || phoneNumber} ${profileName || ''}`,
+    title,
     icon: isVideoCall
       ? 'images/icons/v2/video-solid-24.svg'
       : 'images/icons/v2/phone-right-solid-24.svg',

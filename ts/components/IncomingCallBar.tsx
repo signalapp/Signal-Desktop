@@ -62,7 +62,8 @@ export const IncomingCallBar = ({
   const {
     avatarPath,
     callId,
-    contactColor,
+    color,
+    title,
     name,
     phoneNumber,
     profileName,
@@ -74,22 +75,25 @@ export const IncomingCallBar = ({
         <div className="module-incoming-call__contact--avatar">
           <Avatar
             avatarPath={avatarPath}
-            color={contactColor || 'ultramarine'}
+            color={color || 'ultramarine'}
             noteToSelf={false}
             conversationType="direct"
             i18n={i18n}
             name={name}
             phoneNumber={phoneNumber}
             profileName={profileName}
+            title={title}
             size={52}
           />
         </div>
         <div className="module-incoming-call__contact--name">
           <div className="module-incoming-call__contact--name-header">
             <ContactName
-              phoneNumber={phoneNumber}
               name={name}
+              phoneNumber={phoneNumber}
               profileName={profileName}
+              title={title}
+              i18n={i18n}
             />
           </div>
           <div

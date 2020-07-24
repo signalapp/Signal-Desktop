@@ -20,6 +20,7 @@ const stories: Array<GroupNotificationStory> = [
     [
       {
         from: {
+          title: 'Alice',
           name: 'Alice',
           phoneNumber: '(202) 555-1000',
         },
@@ -28,12 +29,14 @@ const stories: Array<GroupNotificationStory> = [
             type: 'add',
             contacts: [
               {
+                title: 'Mrs. Ice',
                 phoneNumber: '(202) 555-1001',
                 profileName: 'Mrs. Ice',
               },
               {
                 phoneNumber: '(202) 555-1002',
                 name: 'Ms. Earth',
+                title: 'Ms. Earth',
               },
             ],
           },
@@ -44,6 +47,7 @@ const stories: Array<GroupNotificationStory> = [
       },
       {
         from: {
+          title: 'Alice',
           name: 'Alice',
           phoneNumber: '(202) 555-1000',
           isMe: true,
@@ -53,10 +57,12 @@ const stories: Array<GroupNotificationStory> = [
             type: 'add',
             contacts: [
               {
+                title: 'Mrs. Ice',
                 phoneNumber: '(202) 555-1001',
                 profileName: 'Mrs. Ice',
               },
               {
+                title: 'Ms. Earth',
                 phoneNumber: '(202) 555-1002',
                 name: 'Ms. Earth',
               },
@@ -74,6 +80,7 @@ const stories: Array<GroupNotificationStory> = [
     [
       {
         from: {
+          title: 'Alice',
           name: 'Alice',
           phoneNumber: '(202) 555-1000',
         },
@@ -82,13 +89,16 @@ const stories: Array<GroupNotificationStory> = [
             type: 'add',
             contacts: [
               {
+                title: '(202) 555-1000',
                 phoneNumber: '(202) 555-1000',
               },
               {
+                title: 'Mrs. Ice',
                 phoneNumber: '(202) 555-1001',
                 profileName: 'Mrs. Ice',
               },
               {
+                title: 'Ms. Earth',
                 phoneNumber: '(202) 555-1002',
                 name: 'Ms. Earth',
               },
@@ -99,6 +109,7 @@ const stories: Array<GroupNotificationStory> = [
       },
       {
         from: {
+          title: 'Alice',
           name: 'Alice',
           phoneNumber: '(202) 555-1000',
         },
@@ -107,14 +118,17 @@ const stories: Array<GroupNotificationStory> = [
             type: 'add',
             contacts: [
               {
+                title: '(202) 555-1000',
                 phoneNumber: '(202) 555-1000',
                 isMe: true,
               },
               {
+                title: 'Mrs. Ice',
                 phoneNumber: '(202) 555-1001',
                 profileName: 'Mrs. Ice',
               },
               {
+                title: 'Ms. Earth',
                 phoneNumber: '(202) 555-1002',
                 name: 'Ms. Earth',
               },
@@ -125,6 +139,7 @@ const stories: Array<GroupNotificationStory> = [
       },
       {
         from: {
+          title: 'Alice',
           name: 'Alice',
           phoneNumber: '(202) 555-1000',
         },
@@ -133,6 +148,7 @@ const stories: Array<GroupNotificationStory> = [
             type: 'add',
             contacts: [
               {
+                title: 'Mr. Fire',
                 phoneNumber: '(202) 555-1000',
                 profileName: 'Mr. Fire',
               },
@@ -143,6 +159,7 @@ const stories: Array<GroupNotificationStory> = [
       },
       {
         from: {
+          title: 'Alice',
           name: 'Alice',
           phoneNumber: '(202) 555-1000',
           isMe: true,
@@ -152,6 +169,7 @@ const stories: Array<GroupNotificationStory> = [
             type: 'add',
             contacts: [
               {
+                title: 'Mr. Fire',
                 phoneNumber: '(202) 555-1000',
                 profileName: 'Mr. Fire',
               },
@@ -162,6 +180,7 @@ const stories: Array<GroupNotificationStory> = [
       },
       {
         from: {
+          title: 'Alice',
           name: 'Alice',
           phoneNumber: '(202) 555-1000',
         },
@@ -170,6 +189,7 @@ const stories: Array<GroupNotificationStory> = [
             type: 'add',
             contacts: [
               {
+                title: 'Mr. Fire',
                 phoneNumber: '(202) 555-1000',
                 profileName: 'Mr. Fire',
                 isMe: true,
@@ -181,6 +201,7 @@ const stories: Array<GroupNotificationStory> = [
       },
       {
         from: {
+          title: 'Alice',
           name: 'Alice',
           phoneNumber: '(202) 555-1000',
         },
@@ -189,11 +210,13 @@ const stories: Array<GroupNotificationStory> = [
             type: 'add',
             contacts: [
               {
+                title: 'Mr. Fire',
                 phoneNumber: '(202) 555-1000',
                 profileName: 'Mr. Fire',
                 isMe: true,
               },
               {
+                title: 'Mrs. Ice',
                 phoneNumber: '(202) 555-1001',
                 profileName: 'Mrs. Ice',
               },
@@ -209,6 +232,7 @@ const stories: Array<GroupNotificationStory> = [
     [
       {
         from: {
+          title: 'Alice',
           name: 'Alice',
           phoneNumber: '(202) 555-1000',
         },
@@ -217,14 +241,17 @@ const stories: Array<GroupNotificationStory> = [
             type: 'remove',
             contacts: [
               {
+                title: 'Mr. Fire',
                 phoneNumber: '(202) 555-1000',
                 profileName: 'Mr. Fire',
               },
               {
+                title: 'Mrs. Ice',
                 phoneNumber: '(202) 555-1001',
                 profileName: 'Mrs. Ice',
               },
               {
+                title: 'Ms. Earth',
                 phoneNumber: '(202) 555-1002',
                 name: 'Ms. Earth',
               },
@@ -235,6 +262,7 @@ const stories: Array<GroupNotificationStory> = [
       },
       {
         from: {
+          title: 'Alice',
           name: 'Alice',
           phoneNumber: '(202) 555-1000',
         },
@@ -243,6 +271,7 @@ const stories: Array<GroupNotificationStory> = [
             type: 'remove',
             contacts: [
               {
+                title: 'Mr. Fire',
                 phoneNumber: '(202) 555-1000',
                 profileName: 'Mr. Fire',
               },
@@ -253,6 +282,7 @@ const stories: Array<GroupNotificationStory> = [
       },
       {
         from: {
+          title: 'Alice',
           name: 'Alice',
           phoneNumber: '(202) 555-1000',
           isMe: true,
@@ -262,6 +292,7 @@ const stories: Array<GroupNotificationStory> = [
             type: 'remove',
             contacts: [
               {
+                title: 'Alice',
                 name: 'Alice',
                 phoneNumber: '(202) 555-1000',
                 isMe: true,
@@ -278,6 +309,7 @@ const stories: Array<GroupNotificationStory> = [
     [
       {
         from: {
+          title: 'Alice',
           name: 'Alice',
           phoneNumber: '(202) 555-1000',
         },
@@ -291,6 +323,7 @@ const stories: Array<GroupNotificationStory> = [
       },
       {
         from: {
+          title: 'Alice',
           name: 'Alice',
           phoneNumber: '(202) 555-1000',
           isMe: true,
@@ -310,6 +343,7 @@ const stories: Array<GroupNotificationStory> = [
     [
       {
         from: {
+          title: 'Alice',
           name: 'Alice',
           phoneNumber: '(202) 555-1000',
         },
@@ -323,6 +357,7 @@ const stories: Array<GroupNotificationStory> = [
       },
       {
         from: {
+          title: 'Alice',
           name: 'Alice',
           phoneNumber: '(202) 555-1000',
           isMe: true,
@@ -342,6 +377,7 @@ const stories: Array<GroupNotificationStory> = [
     [
       {
         from: {
+          title: 'Alice',
           name: 'Alice',
           phoneNumber: '(202) 555-1000',
         },

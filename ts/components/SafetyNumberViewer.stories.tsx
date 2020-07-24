@@ -13,11 +13,39 @@ import { storiesOf } from '@storybook/react';
 
 const i18n = setupI18n('en', enMessages);
 
+const contactWithAllData = {
+  name: 'Summer Smith',
+  phoneNumber: '(305) 123-4567',
+  isVerified: true,
+} as ConversationType;
+
+const contactWithJustProfile = {
+  avatarPath: undefined,
+  color: 'signal-blue',
+  profileName: '-*Smartest Dude*-',
+  name: undefined,
+  phoneNumber: '(305) 123-4567',
+} as ConversationType;
+
+const contactWithJustNumber = {
+  avatarPath: undefined,
+  color: 'signal-blue',
+  profileName: undefined,
+  name: undefined,
+  phoneNumber: '(305) 123-4567',
+} as ConversationType;
+
+const contactWithNothing = {
+  id: 'some-guid',
+  avatarPath: undefined,
+  color: 'signal-blue',
+  profileName: undefined,
+  name: undefined,
+  phoneNumber: undefined,
+} as ConversationType;
+
 const defaultProps = {
-  contact: {
-    title: 'Summer Smith',
-    isVerified: true,
-  } as ConversationType,
+  contact: contactWithAllData,
   generateSafetyNumber: action('generate-safety-number'),
   i18n,
   safetyNumber: 'XXX',
@@ -35,9 +63,9 @@ const permutations = [
     title: 'Safety Number (not verified)',
     props: {
       contact: {
-        title: 'Morty Smith',
-        isVerified: false,
-      } as ConversationType,
+        ...contactWithAllData,
+        verified: false,
+      },
     },
   },
   {
@@ -56,6 +84,24 @@ const permutations = [
     title: 'Safety Number (dialog close)',
     props: {
       onClose: action('close'),
+    },
+  },
+  {
+    title: 'Just Profile',
+    props: {
+      contact: contactWithJustProfile,
+    },
+  },
+  {
+    title: 'Just Number',
+    props: {
+      contact: contactWithJustNumber,
+    },
+  },
+  {
+    title: 'No display info',
+    props: {
+      contact: contactWithNothing,
     },
   },
 ];

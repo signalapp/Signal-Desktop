@@ -16,6 +16,7 @@ export type Reaction = {
     avatarPath?: string;
     name?: string;
     profileName?: string;
+    title: string;
     isMe?: boolean;
     phoneNumber?: string;
   };
@@ -156,6 +157,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
                   name={from.name}
                   profileName={from.profileName}
                   phoneNumber={from.phoneNumber}
+                  title={from.title}
                   i18n={i18n}
                 />
               </div>
@@ -168,6 +170,8 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
                     name={from.name}
                     profileName={from.profileName}
                     phoneNumber={from.phoneNumber}
+                    title={from.title}
+                    i18n={i18n}
                   />
                 )}
               </div>

@@ -17,7 +17,9 @@ const i18n = setupI18n('en', enMessages);
 const getBaseProps = (isGroup = false): MessageRequestActionsProps => ({
   i18n,
   conversationType: isGroup ? 'group' : 'direct',
-  profileName: isGroup ? undefined : text('profileName', 'Cayce Bollard'),
+  title: isGroup
+    ? text('title', 'NYC Rock Climbers')
+    : text('title', 'Cayce Bollard'),
   name: isGroup
     ? text('name', 'NYC Rock Climbers')
     : text('name', 'Cayce Bollard'),

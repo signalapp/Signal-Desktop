@@ -10,6 +10,7 @@ export type Props = {
 
   conversationType: 'group' | 'direct';
   noteToSelf?: boolean;
+  title: string;
   name?: string;
   phoneNumber?: string;
   profileName?: string;
@@ -63,16 +64,12 @@ export class Avatar extends React.Component<Props, State> {
   }
 
   public renderImage() {
-    const { avatarPath, i18n, name, phoneNumber, profileName } = this.props;
+    const { avatarPath, i18n, title } = this.props;
     const { imageBroken } = this.state;
 
     if (!avatarPath || imageBroken) {
       return null;
     }
-
-    const title = `${name || phoneNumber}${
-      !name && profileName ? ` ~${profileName}` : ''
-    }`;
 
     return (
       <img

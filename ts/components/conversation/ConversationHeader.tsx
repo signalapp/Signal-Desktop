@@ -1,9 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-
-import { Emojify } from './Emojify';
-import { Avatar } from '../Avatar';
-import { ColorType, LocalizerType } from '../../types/Util';
 import {
   ContextMenu,
   ContextMenuTrigger,
@@ -11,24 +7,31 @@ import {
   SubMenu,
 } from 'react-contextmenu';
 
+import { Emojify } from './Emojify';
+import { Avatar } from '../Avatar';
+import { InContactsIcon } from '../InContactsIcon';
+
+import { ColorType, LocalizerType } from '../../types/Util';
+
 interface TimerOption {
   name: string;
   value: number;
 }
 
-export interface PropsData {
+export interface PropsDataType {
   id: string;
   name?: string;
 
-  phoneNumber: string;
+  phoneNumber?: string;
   profileName?: string;
   color?: ColorType;
   avatarPath?: string;
+  type: 'direct' | 'group';
+  title: string;
 
   isAccepted?: boolean;
   isVerified?: boolean;
   isMe?: boolean;
-  isGroup?: boolean;
   isArchived?: boolean;
   leftGroup?: boolean;
 
@@ -37,7 +40,7 @@ export interface PropsData {
   timerOptions?: Array<TimerOption>;
 }
 
-export interface PropsActions {
+export interface PropsActionsType {
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
   onResetSession: () => void;
@@ -54,17 +57,19 @@ export interface PropsActions {
   onMoveToInbox: () => void;
 }
 
-export interface PropsHousekeeping {
+export interface PropsHousekeepingType {
   i18n: LocalizerType;
 }
 
-export type Props = PropsData & PropsActions & PropsHousekeeping;
+export type PropsType = PropsDataType &
+  PropsActionsType &
+  PropsHousekeepingType;
 
-export class ConversationHeader extends React.Component<Props> {
+export class ConversationHeader extends React.Component<PropsType> {
   public showMenuBound: (event: React.MouseEvent<HTMLButtonElement>) => void;
   public menuTriggerRef: React.RefObject<any>;
 
-  public constructor(props: Props) {
+  public constructor(props: PropsType) {
     super(props);
 
     this.menuTriggerRef = React.createRef();
@@ -96,6 +101,8 @@ export class ConversationHeader extends React.Component<Props> {
     const {
       name,
       phoneNumber,
+      title,
+      type,
       i18n,
       isMe,
       profileName,
@@ -110,19 +117,22 @@ export class ConversationHeader extends React.Component<Props> {
       );
     }
 
+    const shouldShowIcon = Boolean(name && type === 'direct');
+    const shouldShowNumber = Boolean(phoneNumber && (name || profileName));
+
     return (
       <div className="module-conversation-header__title">
-        {name ? <Emojify text={name} /> : null}
-        {name && phoneNumber ? ' · ' : null}
-        {phoneNumber ? phoneNumber : null}{' '}
-        {profileName && !name ? (
-          <span className="module-conversation-header__title__profile-name">
-            ~<Emojify text={profileName} />
+        <Emojify text={title} />
+        {shouldShowIcon ? (
+          <span>
+            {' '}
+            <InContactsIcon i18n={i18n} />
           </span>
         ) : null}
-        {isVerified ? ' · ' : null}
+        {shouldShowNumber ? ` · ${phoneNumber}` : null}
         {isVerified ? (
           <span>
+            {' · '}
             <span className="module-conversation-header__title__verified-icon" />
             {i18n('verified')}
           </span>
@@ -136,23 +146,23 @@ export class ConversationHeader extends React.Component<Props> {
       avatarPath,
       color,
       i18n,
-      isGroup,
+      type,
       isMe,
       name,
       phoneNumber,
       profileName,
+      title,
     } = this.props;
-
-    const conversationType = isGroup ? 'group' : 'direct';
 
     return (
       <span className="module-conversation-header__avatar">
         <Avatar
           avatarPath={avatarPath}
           color={color}
-          conversationType={conversationType}
+          conversationType={type}
           i18n={i18n}
           noteToSelf={isMe}
+          title={title}
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
@@ -226,7 +236,7 @@ export class ConversationHeader extends React.Component<Props> {
     if (!window.CALLING) {
       return null;
     }
-    if (this.props.isGroup || this.props.isMe) {
+    if (this.props.type === 'group' || this.props.isMe) {
       return null;
     }
 
@@ -250,7 +260,7 @@ export class ConversationHeader extends React.Component<Props> {
     if (!window.CALLING) {
       return null;
     }
-    if (this.props.isGroup || this.props.isMe) {
+    if (this.props.type === 'group' || this.props.isMe) {
       return null;
     }
 
@@ -275,7 +285,7 @@ export class ConversationHeader extends React.Component<Props> {
       i18n,
       isAccepted,
       isMe,
-      isGroup,
+      type,
       isArchived,
       leftGroup,
       onDeleteMessages,
@@ -290,6 +300,7 @@ export class ConversationHeader extends React.Component<Props> {
     } = this.props;
 
     const disappearingTitle = i18n('disappearingMessages') as any;
+    const isGroup = type === 'group';
 
     return (
       <ContextMenu id={triggerId}>

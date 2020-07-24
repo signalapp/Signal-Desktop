@@ -467,6 +467,7 @@
         uuid: this.get('uuid'),
         e164: this.get('e164'),
 
+        isAccepted: this.getAccepted(),
         isArchived: this.get('isArchived'),
         isBlocked: this.isBlocked(),
         isVerified: this.isVerified(),
@@ -477,7 +478,7 @@
         isMe: this.isMe(),
         typingContact: typingContact ? typingContact.format() : null,
         lastUpdated: this.get('timestamp'),
-        name: this.getName(),
+        name: this.get('name'),
         profileName: this.getProfileName(),
         timestamp,
         inboxPosition,
@@ -589,10 +590,9 @@
         const receiptSpecs = readMessages.map(m => ({
           senderE164: m.get('source'),
           senderUuid: m.get('sourceUuid'),
-          senderId: ConversationController.get({
+          senderId: ConversationController.ensureContactIds({
             e164: m.get('source'),
             uuid: m.get('sourceUuid'),
-            lowTrust: true,
           }),
           timestamp: m.get('sent_at'),
           hasErrors: m.hasErrors(),
@@ -2651,16 +2651,14 @@
       });
     },
 
-    getName() {
-      if (this.isPrivate()) {
-        return this.get('name');
-      }
-      return this.get('name') || i18n('unknownGroup');
-    },
-
     getTitle() {
       if (this.isPrivate()) {
-        return this.get('name') || this.getNumber() || i18n('unknownContact');
+        return (
+          this.get('name') ||
+          this.getProfileName() ||
+          this.getNumber() ||
+          i18n('unknownContact')
+        );
       }
       return this.get('name') || i18n('unknownGroup');
     },
@@ -2673,24 +2671,6 @@
         );
       }
       return null;
-    },
-
-    getDisplayName() {
-      if (!this.isPrivate()) {
-        return this.getTitle();
-      }
-
-      const name = this.get('name');
-      if (name) {
-        return name;
-      }
-
-      const profileName = this.get('profileName');
-      if (profileName) {
-        return `${this.getNumber()} ~${profileName}`;
-      }
-
-      return this.getNumber();
     },
 
     getNumber() {

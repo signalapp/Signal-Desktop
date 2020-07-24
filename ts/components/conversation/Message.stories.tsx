@@ -29,7 +29,7 @@ const baseDataProps: Pick<
   | 'conversationType'
   | 'previews'
   | 'timestamp'
-  | 'authorPhoneNumber'
+  | 'authorTitle'
 > = {
   id: 'asdf',
   canReply: true,
@@ -38,7 +38,7 @@ const baseDataProps: Pick<
   conversationType: 'direct',
   previews: [],
   timestamp: Date.now(),
-  authorPhoneNumber: '(202) 555-2001',
+  authorTitle: '(202) 555-2001',
 };
 
 type MessageStory = [

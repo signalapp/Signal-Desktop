@@ -114,18 +114,19 @@ export const CompositionArea = ({
   showPickerHint,
   clearShowPickerHint,
   // Message Requests
-  messageRequestsEnabled,
   acceptedMessageRequest,
   conversationType,
   isBlocked,
+  messageRequestsEnabled,
   name,
   onAccept,
   onBlock,
   onBlockAndDelete,
-  onUnblock,
   onDelete,
-  profileName,
+  onUnblock,
   phoneNumber,
+  profileName,
+  title,
 }: Props) => {
   const [disabled, setDisabled] = React.useState(false);
   const [showMic, setShowMic] = React.useState(!startingText);
@@ -333,6 +334,7 @@ export const CompositionArea = ({
         name={name}
         profileName={profileName}
         phoneNumber={phoneNumber}
+        title={title}
       />
     );
   }

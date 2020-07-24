@@ -275,22 +275,24 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     const { i18n } = this.props;
     const {
       avatarPath,
-      contactColor,
+      color,
       name,
       phoneNumber,
       profileName,
+      title,
     } = callDetails;
     return (
       <div className="module-ongoing-call__remote-video-disabled">
         <Avatar
           avatarPath={avatarPath}
-          color={contactColor || 'ultramarine'}
+          color={color || 'ultramarine'}
           noteToSelf={false}
           conversationType="direct"
           i18n={i18n}
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
+          title={title}
           size={112}
         />
       </div>

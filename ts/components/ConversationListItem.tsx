@@ -12,9 +12,10 @@ import { ColorType, LocalizerType } from '../types/Util';
 
 export type PropsData = {
   id: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   color?: ColorType;
   profileName?: string;
+  title: string;
   name?: string;
   type: 'group' | 'direct';
   avatarPath?: string;
@@ -54,6 +55,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       name,
       phoneNumber,
       profileName,
+      title,
     } = this.props;
 
     return (
@@ -67,6 +69,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
+          title={title}
           size={52}
         />
         {this.renderUnread()}
@@ -97,6 +100,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       name,
       phoneNumber,
       profileName,
+      title,
     } = this.props;
 
     return (
@@ -116,6 +120,8 @@ export class ConversationListItem extends React.PureComponent<Props> {
               phoneNumber={phoneNumber}
               name={name}
               profileName={profileName}
+              title={title}
+              i18n={i18n}
             />
           )}
         </div>

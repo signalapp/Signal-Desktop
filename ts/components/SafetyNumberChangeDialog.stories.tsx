@@ -12,19 +12,44 @@ import { storiesOf } from '@storybook/react';
 
 const i18n = setupI18n('en', enMessages);
 
-const contact = {
+const contactWithAllData = {
+  avatarPath: undefined,
+  color: 'signal-blue',
+  profileName: '-*Smartest Dude*-',
+  name: 'Rick Sanchez',
+  phoneNumber: '(305) 123-4567',
+} as ConversationType;
+
+const contactWithJustProfile = {
+  avatarPath: undefined,
+  color: 'signal-blue',
+  profileName: '-*Smartest Dude*-',
+  name: undefined,
+  phoneNumber: '(305) 123-4567',
+} as ConversationType;
+
+const contactWithJustNumber = {
   avatarPath: undefined,
   color: 'signal-blue',
   profileName: undefined,
-  name: 'Rick Sanchez',
-  phoneNumber: '3051234567',
+  name: undefined,
+  phoneNumber: '(305) 123-4567',
+} as ConversationType;
+
+const contactWithNothing = {
+  id: 'some-guid',
+  avatarPath: undefined,
+  color: 'signal-blue',
+  profileName: undefined,
+  name: undefined,
+  phoneNumber: undefined,
 } as ConversationType;
 
 storiesOf('Components/SafetyNumberChangeDialog', module)
   .add('Single Contact Dialog', () => {
     return (
       <SafetyNumberChangeDialog
-        contacts={[contact]}
+        contacts={[contactWithAllData]}
         i18n={i18n}
         onCancel={action('cancel')}
         onConfirm={action('confirm')}
@@ -38,7 +63,12 @@ storiesOf('Components/SafetyNumberChangeDialog', module)
   .add('Multi Contact Dialog', () => {
     return (
       <SafetyNumberChangeDialog
-        contacts={[contact, contact, contact, contact]}
+        contacts={[
+          contactWithAllData,
+          contactWithJustProfile,
+          contactWithJustNumber,
+          contactWithNothing,
+        ]}
         i18n={i18n}
         onCancel={action('cancel')}
         onConfirm={action('confirm')}
@@ -53,16 +83,16 @@ storiesOf('Components/SafetyNumberChangeDialog', module)
     return (
       <SafetyNumberChangeDialog
         contacts={[
-          contact,
-          contact,
-          contact,
-          contact,
-          contact,
-          contact,
-          contact,
-          contact,
-          contact,
-          contact,
+          contactWithAllData,
+          contactWithJustProfile,
+          contactWithJustNumber,
+          contactWithNothing,
+          contactWithAllData,
+          contactWithAllData,
+          contactWithAllData,
+          contactWithAllData,
+          contactWithAllData,
+          contactWithAllData,
         ]}
         i18n={i18n}
         onCancel={action('cancel')}

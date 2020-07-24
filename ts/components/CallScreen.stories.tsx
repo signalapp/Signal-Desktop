@@ -15,11 +15,13 @@ import { action } from '@storybook/addon-actions';
 const i18n = setupI18n('en', enMessages);
 
 const callDetails = {
-  avatarPath: undefined,
   callId: 0,
-  contactColor: 'ultramarine' as ColorType,
   isIncoming: true,
   isVideoCall: true,
+
+  avatarPath: undefined,
+  color: 'ultramarine' as ColorType,
+  title: 'Rick Sanchez',
   name: 'Rick Sanchez',
   phoneNumber: '3051234567',
   profileName: 'Rick Sanchez',

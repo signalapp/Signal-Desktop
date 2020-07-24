@@ -22,12 +22,13 @@ export interface PropsType {
   regionCode: string;
 
   // For display
-  phoneNumber: string;
+  phoneNumber?: string;
   isMe: boolean;
   name?: string;
   color?: ColorType;
-  verified: boolean;
+  isVerified?: boolean;
   profileName?: string;
+  title: string;
   avatarPath?: string;
 
   i18n: LocalizerType;
@@ -295,6 +296,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       name,
       phoneNumber,
       profileName,
+      title,
       searchConversationId,
       searchConversationName,
       searchTerm,
@@ -319,6 +321,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                 name={name}
                 phoneNumber={phoneNumber}
                 profileName={profileName}
+                title={title}
                 size={28}
                 innerRef={ref}
                 onClick={this.showAvatarPopup}
@@ -338,6 +341,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                       name={name}
                       phoneNumber={phoneNumber}
                       profileName={profileName}
+                      title={title}
                       avatarPath={avatarPath}
                       size={28}
                       onViewPreferences={() => {

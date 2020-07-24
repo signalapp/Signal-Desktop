@@ -36,12 +36,6 @@
   }
 }
 
-// Module: Contact Name
-
-.module-contact-name__profile-name {
-  font-style: italic;
-}
-
 // Module: Message
 
 // Note: this does the same thing as module-timeline__message-container but
@@ -2389,6 +2383,10 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
+.module-safety-number__bold-name {
+  font-weight: bold;
+}
+
 .module-message-calling {
   &--audio {
     text-align: center;
@@ -2612,17 +2610,39 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   cursor: inherit;
 
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding: 8px;
+  width: 100%;
+
   display: flex;
   flex-direction: row;
   align-items: center;
 
   @include light-theme {
     color: $color-gray-60;
+
+    @include mouse-mode {
+      &:hover {
+        background-color: $color-gray-02;
+      }
+    }
+    @include keyboard-mode {
+      &:focus {
+        background-color: $color-gray-02;
+      }
+    }
   }
   @include dark-theme {
     color: $color-gray-15;
+  }
+  @include dark-mouse-mode {
+    &:hover {
+      background-color: $color-gray-80;
+    }
+  }
+  @include dark-keyboard-mode {
+    &:focus {
+      background-color: $color-gray-80;
+    }
   }
 }
 
@@ -2662,6 +2682,61 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
   @include dark-theme {
     @include color-svg('../images/icons/v2/check-24.svg', $color-gray-25);
+  }
+}
+
+// Module: In Contacts Icon
+
+.module-in-contacts-icon__icon {
+  display: inline-block;
+  height: 15px;
+  width: 15px;
+
+  margin-bottom: 2px;
+  vertical-align: middle;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-circle-outline-24.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-circle-outline-24.svg',
+      $color-gray-25
+    );
+  }
+
+  @include keyboard-mode {
+    &:focus {
+      @include color-svg(
+        '../images/icons/v2/profile-circle-outline-24.svg',
+        $ultramarine-ui-light
+      );
+    }
+  }
+}
+
+.module-in-contacts-icon__tooltip {
+  .react-tooltip-lite {
+    color: $color-white;
+    background-color: $ultramarine-ui-light;
+  }
+
+  .react-tooltip-lite-arrow {
+    border-color: $ultramarine-ui-light;
+  }
+
+  @include dark-theme {
+    .react-tooltip-lite {
+      color: $color-white;
+      background-color: $ultramarine-ui-light;
+    }
+
+    .react-tooltip-lite-arrow {
+      border-color: $ultramarine-ui-light;
+    }
   }
 }
 
@@ -2768,6 +2843,37 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
   @include dark-theme {
     color: $color-gray-02;
+  }
+}
+
+.module-conversation-header__contacts-icon {
+  display: inline-block;
+  height: 15px;
+  width: 15px;
+
+  margin-bottom: 3px;
+  vertical-align: middle;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-circle-outline-24.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-circle-outline-24.svg',
+      $color-gray-25
+    );
+  }
+
+  @include keyboard-mode {
+    &:focus {
+      @include color-svg(
+        '../images/icons/v2/profile-circle-outline-24.svg',
+        $ultramarine-ui-light
+      );
+    }
   }
 }
 
@@ -4380,7 +4486,10 @@ button.module-image__border-overlay:focus {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 2;
+  z-index: 3;
+
+  // This allows click-through to the overlay button behind it
+  pointer-events: none;
 
   color: $color-white;
 

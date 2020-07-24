@@ -25,7 +25,7 @@ export type DBConversationType = {
 export type ConversationType = {
   id: string;
   uuid?: string;
-  e164: string;
+  e164?: string;
   name?: string;
   profileName?: string;
   avatarPath?: string;
@@ -34,13 +34,13 @@ export type ConversationType = {
   isBlocked?: boolean;
   isVerified?: boolean;
   activeAt?: number;
-  timestamp: number;
-  inboxPosition: number;
+  timestamp?: number;
+  inboxPosition?: number;
   lastMessage?: {
     status: 'error' | 'sending' | 'sent' | 'delivered' | 'read';
     text: string;
   };
-  phoneNumber: string;
+  phoneNumber?: string;
   membersCount?: number;
   type: 'direct' | 'group';
   isMe: boolean;
