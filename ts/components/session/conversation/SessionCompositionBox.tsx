@@ -16,6 +16,7 @@ import { Constants } from '../../../session';
 
 import { toArray } from 'react-emoji-render';
 
+
 interface Props {
   placeholder?: string;
 
@@ -273,15 +274,15 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   }
 
   private parseEmojis(value: string) {
-    const emojisArray = toArray(value);
+      const emojisArray = toArray(value);
 
-    // toArray outputs React elements for emojis and strings for other
-    return emojisArray.reduce((previous: string, current: any) => {
-      if (typeof current === 'string') {
-        return previous + current;
-      }
-      return previous + (current.props.children as string);
-    }, '');
+      // toArray outputs React elements for emojis and strings for other
+      return emojisArray.reduce((previous: string, current: any) => {
+        if (typeof current === 'string') {
+          return previous + current;
+        }
+        return previous + (current.props.children as string);
+      }, '');
   }
 
   private async onSendMessage() {
@@ -304,7 +305,8 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     this.props.onMessageSending();
 
     try {
-      await this.props.sendMessage(
+      await this.props
+      .sendMessage(
         messagePlaintext,
         attachments,
         undefined,
@@ -396,10 +398,10 @@ export class SessionCompositionBox extends React.Component<Props, State> {
   private onChange(event: any) {
     const message = event.target.value ?? '';
 
-    this.setState({ message });
+    this.setState({message});
   }
 
-  private onEmojiClick({ colons, native }: { colons: string; native: string }) {
+  private onEmojiClick({colons, native}: {colons: string; native: string}) {
     const messageBox = this.textarea.current;
     if (!messageBox) {
       return;

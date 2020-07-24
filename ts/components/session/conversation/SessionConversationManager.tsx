@@ -64,17 +64,16 @@ export async function getMessages(
   const previousTopMessage = currentMessages[0]?.id;
   const newTopMessage = messages[0]?.id;
 
-  const newMessageFetchTimestamp = getTimestamp();
+  messageFetchTimestamp = getTimestamp();
 
   // Callback to onGotMessages
-  if (onGotMessages) {
+  if (onGotMessages)
     onGotMessages(
       messages,
-      newMessageFetchTimestamp,
+      messageFetchTimestamp,
       previousTopMessage,
       newTopMessage
     );
-  }
 
   return { newTopMessage, previousTopMessage };
 }

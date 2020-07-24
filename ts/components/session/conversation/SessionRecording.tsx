@@ -7,15 +7,15 @@ import { getTimestamp } from './SessionConversationManager';
 import { SessionIconButton, SessionIconSize, SessionIconType } from '../icon';
 import {
   SessionButton,
-  SessionButtonColor,
   SessionButtonType,
+  SessionButtonColor,
 } from '../SessionButton';
 import { Constants } from '../../../session';
 
 interface Props {
-  onExitVoiceNoteView: any;
-  onLoadVoiceNoteView: any;
   sendVoiceMessage: any;
+  onLoadVoiceNoteView: any;
+  onExitVoiceNoteView: any;
 }
 
 interface State {
@@ -56,9 +56,9 @@ interface State {
 }
 
 export class SessionRecording extends React.Component<Props, State> {
-  private readonly visualisationRef: React.RefObject<HTMLDivElement>;
-  private readonly visualisationCanvas: React.RefObject<HTMLCanvasElement>;
-  private readonly playbackCanvas: React.RefObject<HTMLCanvasElement>;
+  private visualisationRef: React.RefObject<HTMLDivElement>;
+  private visualisationCanvas: React.RefObject<HTMLCanvasElement>;
+  private playbackCanvas: React.RefObject<HTMLCanvasElement>;
 
   constructor(props: any) {
     super(props);
@@ -125,17 +125,12 @@ export class SessionRecording extends React.Component<Props, State> {
 
   public async componentWillMount() {
     // This turns on the microphone on the system. Later we need to turn it off.
-    await this.initiateRecordingStream();
+    this.initiateRecordingStream();
   }
 
   public componentDidMount() {
     window.addEventListener('resize', this.updateCanvasDimensions);
     this.updateCanvasDimensions();
-
-    // Callback to parent on load complete
-    if (this.props.onLoadVoiceNoteView) {
-      this.props.onLoadVoiceNoteView();
-    }
   }
 
   public componentWillUnmount() {
@@ -143,12 +138,12 @@ export class SessionRecording extends React.Component<Props, State> {
     window.removeEventListener('resize', this.updateCanvasDimensions);
   }
 
-  public async componentDidUpdate() {
+  public componentDidUpdate() {
     const { audioElement, isPlaying } = this.state;
 
     if (audioElement) {
       if (isPlaying) {
-        await audioElement.play();
+        audioElement.play();
       } else {
         audioElement.pause();
       }
@@ -231,8 +226,8 @@ export class SessionRecording extends React.Component<Props, State> {
           className="session-recording--visualisation"
           ref={this.visualisationRef}
         >
-          {!isRecording && <canvas ref={this.playbackCanvas} />}
-          {isRecording && <canvas ref={this.visualisationCanvas} />}
+          {!isRecording && <canvas ref={this.playbackCanvas}></canvas>}
+          {isRecording && <canvas ref={this.visualisationCanvas}></canvas>}
         </div>
 
         <div
@@ -242,7 +237,9 @@ export class SessionRecording extends React.Component<Props, State> {
           )}
         >
           {displayTimeString}
-          {isRecording && <div className="session-recording--timer-light" />}
+          {isRecording && (
+            <div className="session-recording--timer-light"></div>
+          )}
         </div>
 
         {!isRecording && (
@@ -285,13 +282,13 @@ export class SessionRecording extends React.Component<Props, State> {
     }
   }
 
-  private async timerUpdate() {
+  private timerUpdate() {
     const { nowTimestamp, startTimestamp } = this.state;
     const elapsedTime = nowTimestamp - startTimestamp;
 
     // Prevent voice messages exceeding max length.
     if (elapsedTime >= Constants.CONVERSATION.MAX_VOICE_MESSAGE_DURATION) {
-      await this.stopRecordingStream();
+      this.stopRecordingStream();
     }
 
     this.setState({
@@ -324,19 +321,19 @@ export class SessionRecording extends React.Component<Props, State> {
       }
 
       const audioURL = window.URL.createObjectURL(mediaBlob.data);
-      const audioElementN = new Audio(audioURL);
+      const audioElement = new Audio(audioURL);
 
-      audioElementN.loop = false;
+      audioElement.loop = false;
 
-      audioElementN.oncanplaythrough = async () => {
+      audioElement.oncanplaythrough = async () => {
         const duration = recordDuration;
 
-        if (duration && audioElementN.currentTime < duration) {
-          await audioElementN.play();
+        if (duration && audioElement.currentTime < duration) {
+          await audioElement.play();
         }
       };
 
-      return audioElementN;
+      return audioElement;
     };
 
     const audioElement = this.state.audioElement || generateAudioElement();
@@ -425,7 +422,9 @@ export class SessionRecording extends React.Component<Props, State> {
 
     // Is the audio file > attachment filesize limit
     if (audioBlob.size > Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE) {
-      // TODO VINCE: warn the user that it's too big
+      console.log(
+        `[send] Voice message too large: ${audioBlob.size / 1000000} MB`
+      );
       return;
     }
 

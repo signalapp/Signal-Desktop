@@ -3,7 +3,10 @@ import React from 'react';
 import classNames from 'classnames';
 import is from '@sindresorhus/is';
 
-import { getRegex, SizeClassType } from '../../util/emoji';
+import {
+  getRegex,
+  SizeClassType,
+} from '../../util/emoji';
 
 import { LocalizerType, RenderTextCallbackType } from '../../types/Util';
 import { Twemoji } from 'react-emoji-render';
@@ -64,24 +67,24 @@ export class Emojify extends React.Component<Props> {
         );
       }
 
-      let size = 1.0;
+      let size = 1.00;
       switch (sizeClass) {
         case 'jumbo':
-          size = 2.0;
+          size = 2.00;
           break;
         case 'large':
-          size = 1.8;
+          size = 1.80;
           break;
         case 'medium':
-          size = 1.5;
+          size = 1.50;
           break;
         case 'small':
-          size = 1.1;
+          size = 1.10;
           break;
         default:
       }
 
-      const style = { fontSize: `${size}em` };
+      const style = {fontSize: `${size}em`};
 
       const emojiText = match[0] ?? match[1];
 
@@ -90,13 +93,11 @@ export class Emojify extends React.Component<Props> {
           <Twemoji
             key={count++}
             text={emojiText}
-            options={
-              {
-                baseUrl: 'images/twemoji/',
-                protocol: '',
-                ext: 'png',
-              } as any
-            }
+            options={{
+              baseUrl: 'images/twemoji/',
+              protocol: '',
+              ext: 'png',
+            } as any}
           />
         </span>
       );

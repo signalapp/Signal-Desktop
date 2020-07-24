@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { Constants } from '../../session';
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
   sendStatus: -1 | 0 | 1 | 2;
   visible: boolean;
   showOnComplete: boolean;
+
   resetProgress: any;
 }
 
@@ -96,8 +98,9 @@ export class SessionProgress extends React.PureComponent<Props, State> {
       return;
     }
 
+    console.log(`[sending] ONCOMPLETE`);
     this.setState({ show: false }, () => {
-      setTimeout(() => this.props.resetProgress(), 2000);
+      setTimeout(this.props.resetProgress, 2000);
     });
   }
 
