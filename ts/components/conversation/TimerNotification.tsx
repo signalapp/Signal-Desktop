@@ -7,8 +7,9 @@ import { LocalizerType } from '../../types/Util';
 
 export type PropsData = {
   type: 'fromOther' | 'fromMe' | 'fromSync';
-  phoneNumber: string;
+  phoneNumber?: string;
   profileName?: string;
+  title: string;
   name?: string;
   disabled: boolean;
   timespan: string;
@@ -27,6 +28,7 @@ export class TimerNotification extends React.Component<Props> {
       name,
       phoneNumber,
       profileName,
+      title,
       timespan,
       type,
       disabled,
@@ -46,7 +48,9 @@ export class TimerNotification extends React.Component<Props> {
                 key="external-1"
                 phoneNumber={phoneNumber}
                 profileName={profileName}
+                title={title}
                 name={name}
+                i18n={i18n}
               />,
               timespan,
             ]}

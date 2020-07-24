@@ -1,6 +1,9 @@
 import * as React from 'react';
+
 import { Avatar } from './Avatar';
 import { ConfirmationModal } from './ConfirmationModal';
+import { InContactsIcon } from './InContactsIcon';
+
 import { ConversationType } from '../state/ducks/conversations';
 import { LocalizerType } from '../types/Util';
 
@@ -45,46 +48,53 @@ const SafetyDialogContents = ({
         {i18n('changedVerificationWarning')}
       </div>
       <ul className="module-sfn-dialog__contacts">
-        {contacts.map((contact: ConversationType) => (
-          <li className="module-sfn-dialog__contact" key={contact.phoneNumber}>
-            <Avatar
-              avatarPath={contact.avatarPath}
-              color={contact.color}
-              conversationType="direct"
-              i18n={i18n}
-              name={contact.name}
-              phoneNumber={contact.phoneNumber}
-              profileName={contact.profileName}
-              size={52}
-            />
-            <div className="module-sfn-dialog__contact--wrapper">
-              {contact.name && (
-                <>
-                  <div className="module-sfn-dialog__contact--name">
-                    {contact.name}
-                  </div>
+        {contacts.map((contact: ConversationType) => {
+          const shouldShowNumber = Boolean(contact.name || contact.profileName);
+
+          return (
+            <li
+              className="module-sfn-dialog__contact"
+              key={contact.phoneNumber}
+            >
+              <Avatar
+                avatarPath={contact.avatarPath}
+                color={contact.color}
+                conversationType="direct"
+                i18n={i18n}
+                name={contact.name}
+                phoneNumber={contact.phoneNumber}
+                profileName={contact.profileName}
+                title={contact.title}
+                size={52}
+              />
+              <div className="module-sfn-dialog__contact--wrapper">
+                <div className="module-sfn-dialog__contact--name">
+                  {contact.title}
+                  {contact.name ? (
+                    <span>
+                      {' '}
+                      <InContactsIcon i18n={i18n} />
+                    </span>
+                  ) : null}
+                </div>
+                {shouldShowNumber ? (
                   <div className="module-sfn-dialog__contact--number">
                     {contact.phoneNumber}
                   </div>
-                </>
-              )}
-              {!contact.name && (
-                <div className="module-sfn-dialog__contact--name">
-                  {contact.phoneNumber}
-                </div>
-              )}
-            </div>
-            <button
-              className="module-sfn-dialog__contact--view"
-              onClick={() => {
-                onView(contact);
-              }}
-              tabIndex={0}
-            >
-              {i18n('view')}
-            </button>
-          </li>
-        ))}
+                ) : null}
+              </div>
+              <button
+                className="module-sfn-dialog__contact--view"
+                onClick={() => {
+                  onView(contact);
+                }}
+                tabIndex={0}
+              >
+                {i18n('view')}
+              </button>
+            </li>
+          );
+        })}
       </ul>
       <div className="module-sfn-dialog__actions">
         <button

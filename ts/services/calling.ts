@@ -409,14 +409,11 @@ export class CallingClass {
     call: Call
   ): CallDetailsType {
     return {
-      avatarPath: conversation.getAvatarPath(),
+      ...conversation.cachedProps,
+
       callId: call.callId,
-      contactColor: conversation.getColor(),
       isIncoming: call.isIncoming,
       isVideoCall: call.isVideoCall,
-      name: conversation.getName(),
-      phoneNumber: conversation.getNumber(),
-      profileName: conversation.getProfileName(),
     };
   }
 

@@ -16,14 +16,16 @@ const i18n = setupI18n('en', enMessages);
 const defaultProps = {
   acceptCall: action('accept-call'),
   callDetails: {
-    avatarPath: undefined,
     callId: 0,
-    contactColor: 'ultramarine' as ColorType,
     isIncoming: true,
     isVideoCall: true,
+
+    avatarPath: undefined,
+    contactColor: 'ultramarine' as ColorType,
     name: 'Rick Sanchez',
     phoneNumber: '3051234567',
     profileName: 'Rick Sanchez',
+    title: 'Rick Sanchez',
   },
   declineCall: action('decline-call'),
   i18n,
@@ -72,7 +74,7 @@ const permutations = [
 
 storiesOf('Components/IncomingCallBar', module)
   .add('Knobs Playground', () => {
-    const contactColor = select('contactColor', colors, 'ultramarine');
+    const color = select('color', colors, 'ultramarine');
     const isVideoCall = boolean('isVideoCall', false);
     const name = text(
       'name',
@@ -84,7 +86,7 @@ storiesOf('Components/IncomingCallBar', module)
         {...defaultProps}
         callDetails={{
           ...defaultProps.callDetails,
-          contactColor,
+          color,
           isVideoCall,
           name,
         }}

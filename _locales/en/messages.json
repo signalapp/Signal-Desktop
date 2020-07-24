@@ -715,6 +715,10 @@
     "message": "Typing animation for this conversation",
     "description": "Used as the 'title' attibute for the typing animation"
   },
+  "contactInAddressBook": {
+    "message": "This person is in your contacts.",
+    "description": "Description of icon denoting that contact is from your address book"
+  },
   "contactAvatarAlt": {
     "message": "Avatar for contact $name$",
     "description": "Used in the alt tag for the image avatar of a contact",

@@ -24,7 +24,7 @@ export function renderAvatar({
 
   const avatarPath = avatar && avatar.avatar && avatar.avatar.path;
   const pending = avatar && avatar.avatar && avatar.avatar.pending;
-  const name = getName(contact) || '';
+  const title = getName(contact) || '';
   const spinnerSvgSize = size < 50 ? 'small' : 'normal';
   const spinnerSize = size < 50 ? '24px' : undefined;
 
@@ -46,7 +46,7 @@ export function renderAvatar({
       color="grey"
       conversationType="direct"
       i18n={i18n}
-      name={name}
+      title={title}
       size={size}
     />
   );

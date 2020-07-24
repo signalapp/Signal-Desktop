@@ -19,7 +19,8 @@ export type PropsDataType = {
   snippet: string;
 
   from: {
-    phoneNumber: string;
+    phoneNumber?: string;
+    title: string;
     isMe?: boolean;
     name?: string;
     color?: ColorType;
@@ -29,7 +30,8 @@ export type PropsDataType = {
 
   to: {
     groupName?: string;
-    phoneNumber: string;
+    phoneNumber?: string;
+    title: string;
     isMe?: boolean;
     name?: string;
     profileName?: string;
@@ -70,7 +72,9 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
         phoneNumber={from.phoneNumber}
         name={from.name}
         profileName={from.profileName}
+        title={from.title}
         module="module-message-search-result__header__name"
+        i18n={i18n}
       />
     );
   }
@@ -88,6 +92,8 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
               phoneNumber={to.phoneNumber}
               name={to.name}
               profileName={to.profileName}
+              title={to.title}
+              i18n={i18n}
             />
           </span>
         </div>
@@ -115,6 +121,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
         noteToSelf={isNoteToSelf}
         phoneNumber={from.phoneNumber}
         profileName={from.profileName}
+        title={from.title}
         size={52}
       />
     );

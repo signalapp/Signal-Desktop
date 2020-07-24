@@ -8,9 +8,10 @@ import { LocalizerType } from '../../types/Util';
 import { missingCaseError } from '../../util/missingCaseError';
 
 interface Contact {
-  phoneNumber: string;
+  phoneNumber?: string;
   profileName?: string;
   name?: string;
+  title: string;
 }
 
 export type PropsData = {
@@ -56,7 +57,9 @@ export class VerificationNotification extends React.Component<Props> {
             name={contact.name}
             profileName={contact.profileName}
             phoneNumber={contact.phoneNumber}
+            title={contact.title}
             module="module-verification-notification__contact"
+            i18n={i18n}
           />,
         ]}
         i18n={i18n}

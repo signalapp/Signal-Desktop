@@ -73,10 +73,10 @@ export type PropsData = {
   timestamp: number;
   status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
   contact?: ContactType;
+  authorTitle: string;
   authorName?: string;
   authorProfileName?: string;
-  /** Note: this should be formatted for display */
-  authorPhoneNumber: string;
+  authorPhoneNumber?: string;
   authorColor?: ColorType;
   conversationType: 'group' | 'direct';
   attachments?: Array<AttachmentType>;
@@ -86,8 +86,9 @@ export type PropsData = {
     isFromMe: boolean;
     sentAt: number;
     authorId: string;
-    authorPhoneNumber: string;
+    authorPhoneNumber?: string;
     authorProfileName?: string;
+    authorTitle: string;
     authorName?: string;
     authorColor?: ColorType;
     referencedMessageNotFound: boolean;
@@ -483,12 +484,14 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderAuthor() {
     const {
+      authorTitle,
       authorName,
       authorPhoneNumber,
       authorProfileName,
       collapseMetadata,
       conversationType,
       direction,
+      i18n,
       isSticker,
       isTapToView,
       isTapToViewExpired,
@@ -498,9 +501,11 @@ export class Message extends React.PureComponent<Props, State> {
       return;
     }
 
-    const title = authorName ? authorName : authorPhoneNumber;
-
-    if (direction !== 'incoming' || conversationType !== 'group' || !title) {
+    if (
+      direction !== 'incoming' ||
+      conversationType !== 'group' ||
+      !authorTitle
+    ) {
       return null;
     }
 
@@ -515,10 +520,12 @@ export class Message extends React.PureComponent<Props, State> {
     return (
       <div className={moduleName}>
         <ContactName
+          title={authorTitle}
           phoneNumber={authorPhoneNumber}
           name={authorName}
           profileName={authorProfileName}
           module={moduleName}
+          i18n={i18n}
         />
       </div>
     );
@@ -847,6 +854,7 @@ export class Message extends React.PureComponent<Props, State> {
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
         authorColor={quoteColor}
+        authorTitle={quote.authorTitle}
         referencedMessageNotFound={referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}
@@ -917,6 +925,7 @@ export class Message extends React.PureComponent<Props, State> {
       authorName,
       authorPhoneNumber,
       authorProfileName,
+      authorTitle,
       collapseMetadata,
       authorColor,
       conversationType,
@@ -942,6 +951,7 @@ export class Message extends React.PureComponent<Props, State> {
           name={authorName}
           phoneNumber={authorPhoneNumber}
           profileName={authorProfileName}
+          title={authorTitle}
           size={28}
         />
       </div>

@@ -228,11 +228,10 @@ export class ConversationController {
   }
   /**
    * Given a UUID and/or an E164, resolves to a string representing the local
-   * database id of the given contact. It may create new contacts, and it may merge
-   * contacts.
+   * database id of the given contact. In high trust mode, it may create new contacts,
+   * and it may merge contacts.
    *
-   * lowTrust = uuid/e164 pairing came from source like GroupV1 member list
-   * highTrust = uuid/e164 pairing came from source like CDS
+   * highTrust = uuid/e164 pairing came from CDS, the server, or your own device
    */
   // tslint:disable-next-line cyclomatic-complexity max-func-body-length
   ensureContactIds({

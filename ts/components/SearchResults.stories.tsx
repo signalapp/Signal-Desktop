@@ -45,12 +45,14 @@ messageLookup.set('1-guid-guid-guid-guid-guid', {
 
   from: {
     phoneNumber: '(202) 555-0020',
+    title: '(202) 555-0020',
     isMe: true,
     color: 'blue',
     avatarPath: gifUrl,
   },
   to: {
     phoneNumber: '(202) 555-0015',
+    title: 'Mr. Fire 🔥',
     name: 'Mr. Fire 🔥',
   },
 });
@@ -63,10 +65,12 @@ messageLookup.set('2-guid-guid-guid-guid-guid', {
   from: {
     phoneNumber: '(202) 555-0016',
     name: 'Jon ❄️',
+    title: 'Jon ❄️',
     color: 'green',
   },
   to: {
     phoneNumber: '(202) 555-0020',
+    title: '(202) 555-0020',
     isMe: true,
   },
 });
@@ -79,12 +83,14 @@ messageLookup.set('3-guid-guid-guid-guid-guid', {
   from: {
     phoneNumber: '(202) 555-0011',
     name: 'Someone',
+    title: 'Someone',
     color: 'green',
     avatarPath: pngUrl,
   },
   to: {
     phoneNumber: '(202) 555-0016',
     name: "Y'all 🌆",
+    title: "Y'all 🌆",
   },
 });
 
@@ -95,6 +101,7 @@ messageLookup.set('4-guid-guid-guid-guid-guid', {
   snippet: 'Well, <<left>>everyone<<right>>, happy new year!',
   from: {
     phoneNumber: '(202) 555-0020',
+    title: '(202) 555-0020',
     isMe: true,
     color: 'light_green',
     avatarPath: gifUrl,
@@ -102,6 +109,7 @@ messageLookup.set('4-guid-guid-guid-guid-guid', {
   to: {
     phoneNumber: '(202) 555-0016',
     name: "Y'all 🌆",
+    title: "Y'all 🌆",
   },
 });
 
@@ -142,6 +150,7 @@ const conversations = [
       id: '+12025550011',
       phoneNumber: '(202) 555-0011',
       name: 'Everyone 🌆',
+      title: 'Everyone 🌆',
       type: GROUP,
       color: 'signal-blue' as 'signal-blue',
       avatarPath: landscapeGreenUrl,
@@ -161,6 +170,7 @@ const conversations = [
       id: '+12025550012',
       phoneNumber: '(202) 555-0012',
       name: 'Everyone Else 🔥',
+      title: 'Everyone Else 🔥',
       color: 'pink' as 'pink',
       type: DIRECT,
       avatarPath: landscapePurpleUrl,
@@ -183,6 +193,7 @@ const contacts = [
       id: '+12025550013',
       phoneNumber: '(202) 555-0013',
       name: 'The one Everyone',
+      title: 'The one Everyone',
       color: 'blue' as 'blue',
       type: DIRECT,
       avatarPath: gifUrl,
@@ -198,6 +209,7 @@ const contacts = [
       id: '+12025550014',
       phoneNumber: '(202) 555-0014',
       name: 'No likey everyone',
+      title: 'No likey everyone',
       type: DIRECT,
       color: 'red' as 'red',
       isMe: false,

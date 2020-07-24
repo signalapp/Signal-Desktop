@@ -2,6 +2,7 @@ import React from 'react';
 import { ConversationType } from '../state/ducks/conversations';
 import { LocalizerType } from '../types/Util';
 import { getPlaceholder } from '../util/safetyNumber';
+import { Intl } from './Intl';
 
 type SafetyNumberViewerProps = {
   contact?: ConversationType;
@@ -32,11 +33,20 @@ export const SafetyNumberViewer = ({
     generateSafetyNumber(contact);
   }, [safetyNumber]);
 
-  const name = contact.title;
+  const showNumber = Boolean(contact.name || contact.profileName);
+  const numberFragment = showNumber ? ` · ${contact.phoneNumber}` : '';
+  const name = `${contact.title}${numberFragment}`;
+  const boldName = (key?: number) => (
+    <span className="module-safety-number__bold-name" key={key}>
+      {name}
+    </span>
+  );
+
   const isVerified = contact.isVerified;
-  const verifiedStatus = isVerified
-    ? i18n('isVerified', [name])
-    : i18n('isNotVerified', [name]);
+  const verifiedStatusKey = isVerified ? 'isVerified' : 'isNotVerified';
+  const safetyNumberChangedKey = safetyNumberChanged
+    ? 'changedRightAfterVerify'
+    : 'yourSafetyNumberWith';
   const verifyButtonText = isVerified ? i18n('unverify') : i18n('verify');
 
   return (
@@ -49,21 +59,23 @@ export const SafetyNumberViewer = ({
         </div>
       )}
       <div className="module-safety-number__verification-label">
-        {safetyNumberChanged
-          ? i18n('changedRightAfterVerify', [name, name])
-          : i18n('yourSafetyNumberWith', [name])}
+        <Intl
+          i18n={i18n}
+          id={safetyNumberChangedKey}
+          components={[boldName(1), boldName(2)]}
+        />
       </div>
       <div className="module-safety-number__number">
         {safetyNumber || getPlaceholder()}
       </div>
-      {i18n('verifyHelp', [name])}
+      <Intl i18n={i18n} id="verifyHelp" components={[boldName()]} />
       <div className="module-safety-number__verification-status">
         {isVerified ? (
           <span className="module-safety-number__icon--verified" />
         ) : (
           <span className="module-safety-number__icon--shield" />
         )}
-        {verifiedStatus}
+        <Intl i18n={i18n} id={verifiedStatusKey} components={[boldName()]} />
       </div>
       <div className="module-safety-number__verify-container">
         <button

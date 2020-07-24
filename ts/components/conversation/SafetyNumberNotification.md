@@ -5,7 +5,11 @@
   <SafetyNumberNotification
     i18n={util.i18n}
     isGroup={true}
-    contact={{ phoneNumber: '(202) 500-1000', profileName: 'Mr. Fire' }}
+    contact={{
+      phoneNumber: '(202) 500-1000',
+      profileName: 'Mr. Fire',
+      title: 'Mr. Fire',
+    }}
     onVerify={() => console.log('onVerify')}
   />
 </util.ConversationContext>
@@ -18,7 +22,11 @@
   <SafetyNumberNotification
     i18n={util.i18n}
     isGroup={false}
-    contact={{ phoneNumber: '(202) 500-1000', profileName: 'Mr. Fire' }}
+    contact={{
+      phoneNumber: '(202) 500-1000',
+      profileName: 'Mr. Fire',
+      title: 'Mr. Fire',
+    }}
     onVerify={() => console.log('onVerify')}
   />
 </util.ConversationContext>

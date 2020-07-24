@@ -353,7 +353,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/contact_list_view.js",
     "line": "        this.$el.append(this.contactView.el);",
-    "lineNumber": 46,
+    "lineNumber": 37,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Known DOM elements"
@@ -11546,7 +11546,7 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.tsx",
     "line": "    this.inputRef = React.createRef();",
-    "lineNumber": 69,
+    "lineNumber": 70,
     "reasonCategory": "usageTrusted",
     "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Used only to set focus"
@@ -11555,7 +11555,7 @@
     "rule": "React-createRef",
     "path": "ts/components/SafetyNumberChangeDialog.js",
     "line": "    const cancelButtonRef = React.createRef();",
-    "lineNumber": 14,
+    "lineNumber": 15,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-23T06:48:06.829Z",
     "reasonDetail": "Used to focus cancel button when dialog opens"
@@ -11573,7 +11573,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.js",
     "line": "        this.menuTriggerRef = react_1.default.createRef();",
-    "lineNumber": 14,
+    "lineNumber": 15,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Used to reference popup menu"
@@ -11582,7 +11582,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
     "line": "    this.menuTriggerRef = React.createRef();",
-    "lineNumber": 70,
+    "lineNumber": 75,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Used to reference popup menu"
@@ -11626,7 +11626,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
-    "lineNumber": 184,
+    "lineNumber": 185,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-21T16:56:07.875Z"
   },
@@ -11634,7 +11634,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 188,
+    "lineNumber": 189,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-21T16:56:07.875Z"
   },

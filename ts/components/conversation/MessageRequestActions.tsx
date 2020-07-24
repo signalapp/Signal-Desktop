@@ -12,17 +12,19 @@ import { LocalizerType } from '../../types/Util';
 export type Props = {
   i18n: LocalizerType;
   onAccept(): unknown;
-} & Omit<ContactNameProps, 'module'> &
+} & Omit<ContactNameProps, 'module' | 'i18n'> &
   Omit<
     MessageRequestActionsConfirmationProps,
     'i18n' | 'state' | 'onChangeState'
   >;
 
+// tslint:disable-next-line max-func-body-length
 export const MessageRequestActions = ({
   i18n,
   name,
   profileName,
   phoneNumber,
+  title,
   conversationType,
   isBlocked,
   onBlock,
@@ -45,6 +47,7 @@ export const MessageRequestActions = ({
           name={name}
           profileName={profileName}
           phoneNumber={phoneNumber}
+          title={title}
           conversationType={conversationType}
           state={mrState}
           onChangeState={setMrState}
@@ -66,6 +69,8 @@ export const MessageRequestActions = ({
                   name={name}
                   profileName={profileName}
                   phoneNumber={phoneNumber}
+                  title={title}
+                  i18n={i18n}
                 />
               </strong>,
             ]}

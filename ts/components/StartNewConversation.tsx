@@ -20,7 +20,7 @@ export class StartNewConversation extends React.PureComponent<Props> {
           color="grey"
           conversationType="direct"
           i18n={i18n}
-          phoneNumber={phoneNumber}
+          title={phoneNumber}
           size={52}
         />
         <div className="module-start-new-conversation__content">

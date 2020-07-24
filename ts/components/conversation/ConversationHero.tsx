@@ -11,7 +11,7 @@ export type Props = {
   isMe?: boolean;
   groups?: Array<string>;
   membersCount?: number;
-  phoneNumber: string;
+  phoneNumber?: string;
   onHeightChange?: () => unknown;
 } & Omit<AvatarProps, 'onClick' | 'size' | 'noteToSelf'>;
 
@@ -60,6 +60,7 @@ export const ConversationHero = ({
   name,
   phoneNumber,
   profileName,
+  title,
   onHeightChange,
 }: Props) => {
   const firstRenderRef = React.useRef(true);
@@ -86,6 +87,12 @@ export const ConversationHero = ({
     ...groups.map(g => `g-${g}`),
   ]);
 
+  const displayName =
+    name || (conversationType === 'group' ? i18n('unknownGroup') : undefined);
+  const phoneNumberOnly = Boolean(
+    !name && !profileName && conversationType === 'direct'
+  );
+
   return (
     <div className="module-conversation-hero">
       <Avatar
@@ -96,6 +103,7 @@ export const ConversationHero = ({
         conversationType={conversationType}
         name={name}
         profileName={profileName}
+        title={title}
         size={112}
         className="module-conversation-hero__avatar"
       />
@@ -104,9 +112,11 @@ export const ConversationHero = ({
           i18n('noteToSelf')
         ) : (
           <ContactName
-            name={name}
+            title={title}
+            name={displayName}
             profileName={profileName}
             phoneNumber={phoneNumber}
+            i18n={i18n}
           />
         )}
       </h1>
@@ -116,6 +126,8 @@ export const ConversationHero = ({
             ? i18n('ConversationHero--members-1')
             : membersCount !== undefined
             ? i18n('ConversationHero--members', [`${membersCount}`])
+            : phoneNumberOnly
+            ? null
             : phoneNumber}
         </div>
       ) : null}

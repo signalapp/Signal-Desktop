@@ -21,7 +21,7 @@ export type Props = {
   onDelete(): unknown;
   state: MessageRequestState;
   onChangeState(state: MessageRequestState): unknown;
-} & Omit<ContactNameProps, 'module'>;
+} & Omit<ContactNameProps, 'module' | 'i18n'>;
 
 // tslint:disable-next-line: max-func-body-length
 export const MessageRequestActionsConfirmation = ({
@@ -29,6 +29,7 @@ export const MessageRequestActionsConfirmation = ({
   name,
   profileName,
   phoneNumber,
+  title,
   conversationType,
   onBlock,
   onBlockAndDelete,
@@ -55,6 +56,8 @@ export const MessageRequestActionsConfirmation = ({
                 name={name}
                 profileName={profileName}
                 phoneNumber={phoneNumber}
+                title={title}
+                i18n={i18n}
               />,
             ]}
           />
@@ -95,6 +98,8 @@ export const MessageRequestActionsConfirmation = ({
                 name={name}
                 profileName={profileName}
                 phoneNumber={phoneNumber}
+                title={title}
+                i18n={i18n}
               />,
             ]}
           />
@@ -135,6 +140,8 @@ export const MessageRequestActionsConfirmation = ({
                 name={name}
                 profileName={profileName}
                 phoneNumber={phoneNumber}
+                title={title}
+                i18n={i18n}
               />,
             ]}
           />

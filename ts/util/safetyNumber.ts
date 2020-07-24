@@ -42,6 +42,13 @@ export async function generateSecurityNumberBlock(
     throw new Error('Could not load their key');
   }
 
+  if (!contact.e164) {
+    window.log.error(
+      'generateSecurityNumberBlock: Attempted to generate security number for contact with no e164'
+    );
+    return [];
+  }
+
   const securityNumber = await generateSecurityNumber(
     ourNumber,
     ourKey,

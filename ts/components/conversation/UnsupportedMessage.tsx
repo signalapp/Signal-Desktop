@@ -7,8 +7,9 @@ import { LocalizerType } from '../../types/Util';
 
 interface ContactType {
   id: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   profileName?: string;
+  title: string;
   name?: string;
   isMe: boolean;
 }
@@ -63,7 +64,9 @@ export class UnsupportedMessage extends React.Component<Props> {
                   name={contact.name}
                   profileName={contact.profileName}
                   phoneNumber={contact.phoneNumber}
+                  title={contact.title}
                   module="module-unsupported-message__contact"
+                  i18n={i18n}
                 />
               </span>,
             ]}

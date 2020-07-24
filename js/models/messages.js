@@ -594,6 +594,7 @@
         status: this.getMessagePropStatus(),
         contact: this.getPropsForEmbeddedContact(),
         canReply: this.canReply(),
+        authorTitle: contact.title,
         authorColor,
         authorName: contact.name,
         authorProfileName: contact.profileName,
@@ -781,7 +782,8 @@
         ourRegionCode: regionCode,
       });
       const authorProfileName = contact ? contact.getProfileName() : null;
-      const authorName = contact ? contact.getName() : null;
+      const authorName = contact ? contact.get('name') : null;
+      const authorTitle = contact ? contact.getTitle() : null;
       const isFromMe = contact ? contact.isMe() : false;
       const firstAttachment = quote.attachments && quote.attachments[0];
 
@@ -795,6 +797,7 @@
         authorId: author,
         authorPhoneNumber,
         authorProfileName,
+        authorTitle,
         authorName,
         authorColor,
         referencedMessageNotFound,
@@ -891,7 +894,7 @@
         if (fromContact.isMe()) {
           messages.push(i18n('youUpdatedTheGroup'));
         } else {
-          messages.push(i18n('updatedTheGroup', fromContact.getDisplayName()));
+          messages.push(i18n('updatedTheGroup', fromContact.getTitle()));
         }
 
         if (groupUpdate.joined && groupUpdate.joined.length) {
@@ -906,9 +909,7 @@
             messages.push(
               i18n(
                 'multipleJoinedTheGroup',
-                _.map(joinedWithoutMe, contact =>
-                  contact.getDisplayName()
-                ).join(', ')
+                _.map(joinedWithoutMe, contact => contact.getTitle()).join(', ')
               )
             );
 
@@ -924,7 +925,7 @@
               messages.push(i18n('youJoinedTheGroup'));
             } else {
               messages.push(
-                i18n('joinedTheGroup', joinedContacts[0].getDisplayName())
+                i18n('joinedTheGroup', joinedContacts[0].getTitle())
               );
             }
           }
@@ -1018,7 +1019,7 @@
       if (!conversation) {
         return number;
       }
-      return conversation.getDisplayName();
+      return conversation.getTitle();
     },
     onDestroy() {
       this.cleanup();
@@ -2346,11 +2347,11 @@
 
                 if (
                   // Avatar added
-                  !existingAvatar ||
+                  (!existingAvatar && avatarAttachment) ||
                   // Avatar changed
                   (existingAvatar && existingAvatar.hash !== hash) ||
                   // Avatar removed
-                  avatarAttachment === null
+                  (existingAvatar && !avatarAttachment)
                 ) {
                   // Removes existing avatar from disk
                   if (existingAvatar && existingAvatar.path) {
@@ -2396,10 +2397,11 @@
                   conversation.set({ addedBy: message.getContactId() });
                 }
               } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
-                const sender = ConversationController.ensureContactIds({
+                const senderId = ConversationController.ensureContactIds({
                   e164: source,
                   uuid: sourceUuid,
                 });
+                const sender = ConversationController.get(senderId);
                 const inGroup = Boolean(
                   sender &&
                     (conversation.get('members') || []).includes(sender.id)

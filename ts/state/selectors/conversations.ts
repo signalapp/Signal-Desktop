@@ -1,9 +1,7 @@
 import memoizee from 'memoizee';
 import { fromPairs, isNumber } from 'lodash';
 import { createSelector } from 'reselect';
-import { format } from '../../types/PhoneNumber';
 
-import { LocalizerType } from '../../types/Util';
 import { StateType } from '../reducer';
 import {
   ConversationLookupType,
@@ -81,29 +79,11 @@ export const getMessagesByConversation = createSelector(
   }
 );
 
-function getConversationTitle(
-  conversation: ConversationType,
-  options: { i18n: LocalizerType; ourRegionCode: string }
-): string {
-  if (conversation.name) {
-    return conversation.name;
-  }
-
-  if (conversation.type === 'group') {
-    const { i18n } = options;
-
-    return i18n('unknownGroup');
-  }
-
-  return format(conversation.phoneNumber, options);
-}
-
 const collator = new Intl.Collator();
 
-export const _getConversationComparator = (
-  i18n: LocalizerType,
-  ourRegionCode: string
-) => {
+// Note: we will probably want to put i18n and regionCode back when we are formatting
+//   phone numbers and contacts from scratch here again.
+export const _getConversationComparator = () => {
   return (left: ConversationType, right: ConversationType): number => {
     const leftTimestamp = left.timestamp;
     const rightTimestamp = right.timestamp;
@@ -132,16 +112,7 @@ export const _getConversationComparator = (
       return 1;
     }
 
-    const leftTitle = getConversationTitle(left, {
-      i18n,
-      ourRegionCode,
-    });
-    const rightTitle = getConversationTitle(right, {
-      i18n,
-      ourRegionCode,
-    });
-
-    return collator.compare(leftTitle, rightTitle);
+    return collator.compare(left.title, right.title);
   };
 };
 export const getConversationComparator = createSelector(

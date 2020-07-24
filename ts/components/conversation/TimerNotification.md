@@ -6,6 +6,7 @@
     type="fromOther"
     phoneNumber="(202) 555-1000"
     profileName="Mr. Fire"
+    title="Mr. Fire"
     timespan="1 hour"
     i18n={util.i18n}
   />
@@ -13,6 +14,7 @@
     type="fromOther"
     phoneNumber="(202) 555-1000"
     profileName="Mr. Fire"
+    title="Mr. Fire"
     disabled={true}
     timespan="Off"
     i18n={util.i18n}
@@ -27,12 +29,14 @@
   <TimerNotification
     type="fromMe"
     phoneNumber="(202) 555-1000"
+    title="(202) 555-1000"
     timespan="1 hour"
     i18n={util.i18n}
   />
   <TimerNotification
     type="fromMe"
     phoneNumber="(202) 555-1000"
+    title="(202) 555-1000"
     disabled={true}
     timespan="Off"
     i18n={util.i18n}
@@ -47,12 +51,14 @@
   <TimerNotification
     type="fromSync"
     phoneNumber="(202) 555-1000"
+    title="(202) 555-1000"
     timespan="1 hour"
     i18n={util.i18n}
   />
   <TimerNotification
     type="fromSync"
     phoneNumber="(202) 555-1000"
+    title="(202) 555-1000"
     disabled={true}
     timespan="Off"
     i18n={util.i18n}
