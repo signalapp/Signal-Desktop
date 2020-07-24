@@ -608,6 +608,7 @@
         },
         isOnline: this.isOnline(),
         hasNickname: !!this.getNickname(),
+        isKickedFromGroup: !!this.get('isKickedFromGroup'),
 
         selectedMessages: this.selectedMessages,
 
@@ -620,6 +621,9 @@
         onDeleteContact: () => this.deleteContact(),
         onDeleteMessages: () => this.deleteMessages(),
         onCloseOverlay: () => this.resetMessageSelection(),
+        onInviteContacts: () => {
+          window.Whisper.events.trigger('inviteContacts', this);
+        },
       };
 
       return result;

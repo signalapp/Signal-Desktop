@@ -12,10 +12,12 @@ import { TypingAnimation } from './conversation/TypingAnimation';
 
 import { Colors, LocalizerType } from '../types/Util';
 import {
-  showClearNickname,
-  showBlock,
-  showCopyId,
-  showDeleteContact,
+  getBlockMenuItem,
+  getClearNicknameMenuItem,
+  getCopyIdMenuItem,
+  getDeleteContactMenuItem,
+  getInviteContactMenuItem,
+  getLeaveGroupMenuItem,
 } from '../session/utils/Menu';
 
 export type PropsData = {
@@ -49,6 +51,7 @@ export type PropsData = {
   hasNickname?: boolean;
   isSecondary?: boolean;
   isGroupInvitation?: boolean;
+  isKickedFromGroup?: boolean;
 };
 
 type PropsHousekeeping = {
@@ -62,6 +65,7 @@ type PropsHousekeeping = {
   onClearNickname?: () => void;
   onCopyPublicKey?: () => void;
   onUnblockContact?: () => void;
+  onInviteContacts?: () => void;
 };
 
 type Props = PropsData & PropsHousekeeping;
@@ -170,53 +174,72 @@ export class ConversationListItem extends React.PureComponent<Props> {
       isPublic,
       hasNickname,
       type,
+      isKickedFromGroup,
       onDeleteContact,
       onDeleteMessages,
       onBlockContact,
-      onChangeNickname,
       onClearNickname,
       onCopyPublicKey,
       onUnblockContact,
+      onInviteContacts,
     } = this.props;
 
-    const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
-    const blockHandler = isBlocked ? onUnblockContact : onBlockContact;
     const isPrivate = type === 'direct';
 
     return (
       <ContextMenu id={triggerId}>
-        {showBlock(isMe, isPrivate) ? (
-          <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
-        ) : null}
+        {getBlockMenuItem(
+          isMe,
+          isPrivate,
+          isBlocked,
+          onBlockContact,
+          onUnblockContact,
+          i18n
+        )}
         {/* {!isPublic && !isRss && !isMe ? (
           <MenuItem onClick={onChangeNickname}>
             {i18n('changeNickname')}
           </MenuItem>
         ) : null} */}
-        {showClearNickname(isPublic, isRss, isMe, hasNickname) ? (
-          <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
-        ) : null}
-        {showCopyId(isPublic, isRss) ? (
-          <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
-        ) : null}
+        {getClearNicknameMenuItem(
+          isPublic,
+          isRss,
+          isMe,
+          hasNickname,
+          onClearNickname,
+          i18n
+        )}
+        {getCopyIdMenuItem(
+          isPublic,
+          isRss,
+          type === 'group',
+          onCopyPublicKey,
+          i18n
+        )}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        {showDeleteContact(
+        {getInviteContactMenuItem(
+          type === 'group',
+          isPublic,
+          onInviteContacts,
+          i18n
+        )}
+        {getDeleteContactMenuItem(
           isMe,
           isClosable,
           type === 'group',
           isPublic,
-          isRss
-        ) ? (
-          !isPublic ? (
-            <MenuItem onClick={onDeleteContact}>
-              {i18n('deleteContact')}
-            </MenuItem>
-          ) : (
-            <MenuItem onClick={onDeleteContact}>
-              {i18n('deletePublicChannel')}
-            </MenuItem>
-          )
-        ) : null}
+          isRss,
+          onDeleteContact,
+          i18n
+        )}
+        {getLeaveGroupMenuItem(
+          isKickedFromGroup,
+          type === 'group',
+          isPublic,
+          isRss,
+          onDeleteContact,
+          i18n
+        )}
       </ContextMenu>
     );
   }
