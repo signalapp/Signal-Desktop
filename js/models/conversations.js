@@ -2860,9 +2860,7 @@
      * than just their id.
      */
     initialize() {
-      this._byE164 = Object.create(null);
-      this._byUuid = Object.create(null);
-      this._byGroupId = Object.create(null);
+      this.eraseLookups();
       this.on('idUpdated', (model, idProp, oldValue) => {
         if (oldValue) {
           if (idProp === 'e164') {
@@ -2889,14 +2887,16 @@
 
     reset(...args) {
       Backbone.Collection.prototype.reset.apply(this, args);
-      this._byE164 = Object.create(null);
-      this._byUuid = Object.create(null);
-      this._byGroupId = Object.create(null);
+      this.resetLookups();
     },
 
-    add(...models) {
-      const res = Backbone.Collection.prototype.add.apply(this, models);
-      [].concat(res).forEach(model => {
+    resetLookups() {
+      this.eraseLookups();
+      this.generateLookups(this.models);
+    },
+
+    generateLookups(models) {
+      models.forEach(model => {
         const e164 = model.get('e164');
         if (e164) {
           const existing = this._byE164[e164];
@@ -2922,7 +2922,20 @@
           this._byGroupId[groupId] = model;
         }
       });
-      return res;
+    },
+
+    eraseLookups() {
+      this._byE164 = Object.create(null);
+      this._byUuid = Object.create(null);
+      this._byGroupId = Object.create(null);
+    },
+
+    add(...models) {
+      const result = Backbone.Collection.prototype.add.apply(this, models);
+
+      this.generateLookups(Array.isArray(result) ? result.slice(0) : [result]);
+
+      return result;
     },
 
     /**

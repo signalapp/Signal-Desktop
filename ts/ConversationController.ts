@@ -366,6 +366,7 @@ export class ConversationController {
 
       // Conflict: If e164 match has no UUID, we merge. We prefer the UUID match.
       // Note: no await here, we want to keep this function synchronous
+      convoUuid.updateE164(e164);
       this.combineContacts(convoUuid, convoE164)
         .then(() => {
           // If the old conversation was currently displayed, we load the new one
@@ -537,20 +538,12 @@ export class ConversationController {
       'combineContacts: Eliminate old conversation from ConversationController lookups'
     );
     this._conversations.remove(obsolete);
-    this.regenerateLookups();
+    this._conversations.resetLookups();
 
     window.log.warn('combineContacts: Complete!', {
       obsolete: obsoleteId,
       current: currentId,
     });
-  }
-  regenerateLookups() {
-    const models = [...this._conversations.models];
-    this.reset();
-    this._conversations.add(models);
-
-    // We force the initial fetch to be true
-    this._initialFetchComplete = true;
   }
   /**
    * Given a groupId and optional additional initialization properties,
