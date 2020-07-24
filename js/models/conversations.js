@@ -571,6 +571,8 @@
       const model = this.addSingleMessage(message);
       MessageController.register(model.id, model);
 
+      console.log(`[vince] Changed triggered from model`);
+
       this.trigger('change');
     },
     addSingleMessage(message, setToExpire = true) {

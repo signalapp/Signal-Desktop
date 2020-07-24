@@ -171,11 +171,11 @@ export class SessionConversation extends React.Component<any, State> {
     const messageCollection = window.ConversationController.get(
       this.state.conversationKey
     ).messageCollection;
+    console.log('[vince] messageCollection:', messageCollection);
+    console.log('[vince] this.state.messages:', this.state.messages);
   }
 
-  public async componentWillReceiveProps(nextProps: any) {
-    return;
-  }
+  public async componentWillReceiveProps(nextProps: any) {}
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~ RENDER METHODS ~~~~~~~~~~~~~~
@@ -467,6 +467,12 @@ export class SessionConversation extends React.Component<any, State> {
         this.updateReadMessages();
       }
     });
+
+    // Add new messages to conversation collection
+    // const newMessages = _.xor(messages, previousMessageSet);
+    // newMessages.forEach(message => conversationModel.addSingleMessage(message));
+
+    // console.log('[vince] conversationModel.messageCollection:', conversationModel.messageCollection);
 
     return { newTopMessage, previousTopMessage };
   }

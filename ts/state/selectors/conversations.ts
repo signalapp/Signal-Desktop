@@ -221,7 +221,7 @@ export const _getSessionConversationInfo = (
   const max = sorted.length;
 
   for (let i = 0; i < max; i += 1) {
-    const conv = sorted[i];
+    let conv = sorted[i];
 
     if (conv.id === selectedConversation) {
       conversation = conv;
