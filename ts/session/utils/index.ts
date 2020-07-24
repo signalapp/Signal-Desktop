@@ -5,6 +5,7 @@ import * as StringUtils from './String';
 import * as NumberUtils from './Number';
 import * as PromiseUtils from './Promise';
 import * as ProtobufUtils from './Protobuf';
+import * as MenuUtils from './Menu';
 
 export * from './Attachments';
 export * from './TypedEmitter';
@@ -18,4 +19,5 @@ export {
   NumberUtils,
   PromiseUtils,
   ProtobufUtils,
+  MenuUtils,
 };

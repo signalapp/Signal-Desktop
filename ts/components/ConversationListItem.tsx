@@ -11,6 +11,12 @@ import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
 import { Colors, LocalizerType } from '../types/Util';
+import {
+  showClearNickname,
+  showBlock,
+  showCopyId,
+  showDeleteContact,
+} from '../session/utils/Menu';
 
 export type PropsData = {
   id: string;
@@ -179,7 +185,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
 
     return (
       <ContextMenu id={triggerId}>
-        {!isPublic && !isRss && !isMe && isPrivate ? (
+        {showBlock(isMe, isPrivate) ? (
           <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
         ) : null}
         {/* {!isPublic && !isRss && !isMe ? (
@@ -187,14 +193,20 @@ export class ConversationListItem extends React.PureComponent<Props> {
             {i18n('changeNickname')}
           </MenuItem>
         ) : null} */}
-        {!isPublic && !isRss && !isMe && hasNickname ? (
+        {showClearNickname(isPublic, isRss, isMe, hasNickname) ? (
           <MenuItem onClick={onClearNickname}>{i18n('clearNickname')}</MenuItem>
         ) : null}
-        {!isPublic && !isRss ? (
+        {showCopyId(isPublic, isRss) ? (
           <MenuItem onClick={onCopyPublicKey}>{i18n('copyPublicKey')}</MenuItem>
         ) : null}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        {!isMe && isClosable ? (
+        {showDeleteContact(
+          isMe,
+          isClosable,
+          type === 'group',
+          isPublic,
+          isRss
+        ) ? (
           !isPublic ? (
             <MenuItem onClick={onDeleteContact}>
               {i18n('deleteContact')}
