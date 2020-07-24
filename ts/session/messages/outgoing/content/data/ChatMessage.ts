@@ -3,6 +3,7 @@ import { SignalService } from '../../../../../protobuf';
 import { MessageParams } from '../../Message';
 import { LokiProfile } from '../../../../../types/Message';
 import ByteBuffer from 'bytebuffer';
+import { Constants } from '../../../..';
 
 export interface AttachmentPointer {
   id?: number;
@@ -75,7 +76,7 @@ export class ChatMessage extends DataMessage {
   }
 
   public ttl(): number {
-    return this.getDefaultTTL();
+    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
   }
 
   public dataProto(): SignalService.DataMessage {

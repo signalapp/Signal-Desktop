@@ -1,6 +1,7 @@
 import { ContentMessage } from '../ContentMessage';
 import { SignalService } from '../../../../../protobuf';
 import { MessageParams } from '../../Message';
+import { Constants } from '../../../..';
 
 interface ReceiptMessageParams extends MessageParams {
   timestamps: Array<number>;
@@ -14,7 +15,7 @@ export abstract class ReceiptMessage extends ContentMessage {
   }
 
   public ttl(): number {
-    return this.getDefaultTTL();
+    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
   }
 
   public abstract getReceiptType(): SignalService.ReceiptMessage.Type;
