@@ -6,8 +6,7 @@ import {
   reducer as conversations,
 } from './ducks/conversations';
 import { reducer as user, UserStateType } from './ducks/user';
-
-import { reducer as messages } from './ducks/search';
+// import { reducer as messages } from './ducks/messages';
 
 export type StateType = {
   search: SearchStateType;
@@ -18,7 +17,9 @@ export type StateType = {
 
 export const reducers = {
   search,
-  messages,
+  // Temporary until ./ducks/messages is working
+  // messages,
+  messages: search,
   conversations,
   user,
 };

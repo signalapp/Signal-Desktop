@@ -210,8 +210,6 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public handleImageError() {
-    // tslint:disable-next-line no-console
-    console.log('Message: Image failed to load; failing over to placeholder');
     this.setState({
       imageBroken: true,
     });
@@ -779,8 +777,6 @@ export class Message extends React.PureComponent<Props, State> {
     if (!contents) {
       return null;
     }
-
-    console.log('[vince] contents:', contents);
 
     return (
       <div

@@ -156,9 +156,6 @@ export class MessageBody extends React.Component<Props> {
       />
     );
 
-    console.log('[vince] bodyContents:', bodyContents);
-
-
     return this.addDownloading(
       <Linkify
         text={textWithPending}
