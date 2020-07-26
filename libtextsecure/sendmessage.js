@@ -463,9 +463,10 @@ MessageSender.prototype = {
     const convos = window.getConversations().models;
 
     const conversations = Array.isArray(convos) ? convos : [convos];
+    const currentlyBlockedNumbers = window.BlockedNumberController.getBlockedNumbers();
 
-    const blockedConvos = await libsession.Utils.SyncMessageUtils.filterBlockedNumbers(
-      conversations
+    const blockedConvos = conversations.filter(
+      c => c.isPrivate() && currentlyBlockedNumbers.includes(c.id)
     );
     // currently we only sync user blocked, not groups
     const blockedSyncMessage = new libsession.Messages.Outgoing.BlockedListSyncMessage(
