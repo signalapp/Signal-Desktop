@@ -42,7 +42,9 @@ export const AvatarPopup = (props: Props) => {
       <div className="module-avatar-popup__profile">
         <Avatar {...props} size={52} />
         <div className="module-avatar-popup__profile__text">
-          <div className="module-avatar-popup__profile__name">{title}</div>
+          <div className="module-avatar-popup__profile__name">
+            {profileName || title}
+          </div>
           {shouldShowNumber ? (
             <div className="module-avatar-popup__profile__number">
               {phoneNumber}
