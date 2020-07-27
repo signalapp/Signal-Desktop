@@ -53,11 +53,22 @@
           reaction.get('targetTimestamp')
         );
         if (!targetConversation) {
+          window.log.info(
+            'No contact for reaction',
+            reaction.get('targetAuthorE164'),
+            reaction.get('targetAuthorUuid'),
+            reaction.get('targetTimestamp')
+          );
           return;
         }
 
         // awaiting is safe since `onReaction` is never called from inside the queue
         await targetConversation.queueJob(async () => {
+          window.log.info(
+            'Handling reaction for',
+            reaction.get('targetTimestamp')
+          );
+
           const messages = await window.Signal.Data.getMessagesBySentAt(
             reaction.get('targetTimestamp'),
             {

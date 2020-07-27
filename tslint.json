@@ -21,6 +21,7 @@
     "prefer-for-of": false,
     "no-this-assignment": false,
     "binary-expression-operand-order": false,
+    "no-backbone-get-set-outside-model": false,
 
     // Allows us to write inline `style`s. Revisit when we have a more sophisticated
     // CSS-in-JS solution:

@@ -156,6 +156,7 @@
     "@storybook/addons": "5.1.11",
     "@storybook/react": "5.1.11",
     "@types/agent-base": "4.2.0",
+    "@types/backbone": "1.4.3",
     "@types/chai": "4.1.2",
     "@types/classnames": "2.2.3",
     "@types/config": "0.0.34",

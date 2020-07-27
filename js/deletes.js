@@ -11,8 +11,6 @@
 (function() {
   'use strict';
 
-  const ONE_DAY = 24 * 60 * 60 * 1000;
-
   window.Whisper = window.Whisper || {};
   Whisper.Deletes = new (Backbone.Collection.extend({
     forMessage(message) {
@@ -46,6 +44,8 @@
 
         // Do not await, since this can deadlock the queue
         fromContact.queueJob(async () => {
+          window.log.info('Handling DOE for', del.get('targetSentTimestamp'));
+
           const messages = await window.Signal.Data.getMessagesBySentAt(
             del.get('targetSentTimestamp'),
             {
@@ -74,29 +74,12 @@
             return;
           }
 
-          // Make sure the server timestamps for the DOE and the matching message
-          // are less than one day apart
-          const delta = Math.abs(
-            del.get('serverTimestamp') - targetMessage.get('serverTimestamp')
-          );
-          if (delta > ONE_DAY) {
-            window.log.info('Received late DOE. Dropping.', {
-              fromId: del.get('fromId'),
-              targetSentTimestamp: del.get('targetSentTimestamp'),
-              messageServerTimestamp: message.get('serverTimestamp'),
-              deleteServerTimestamp: del.get('serverTimestamp'),
-            });
-            this.remove(del);
-
-            return;
-          }
-
           const message = MessageController.register(
             targetMessage.id,
             targetMessage
           );
 
-          await message.handleDeleteForEveryone(del);
+          await window.Signal.Util.deleteForEveryone(message, del);
 
           this.remove(del);
         });
