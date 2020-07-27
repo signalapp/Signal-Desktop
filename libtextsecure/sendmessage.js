@@ -453,6 +453,26 @@ MessageSender.prototype = {
 
     return libsession.getMessageQueue().sendSyncMessage(openGroupsSyncMessage);
   },
+  async sendBlockedListSyncMessage() {
+    // If we havn't got a primaryDeviceKey then we are in the middle of pairing
+    // primaryDevicePubKey is set to our own number if we are the master device
+    const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
+    if (!primaryDeviceKey) {
+      return Promise.resolve();
+    }
+
+    const currentlyBlockedNumbers = window.BlockedNumberController.getBlockedNumbers();
+
+    // currently we only sync user blocked, not groups
+    const blockedSyncMessage = new libsession.Messages.Outgoing.BlockedListSyncMessage(
+      {
+        timestamp: Date.now(),
+        numbers: currentlyBlockedNumbers,
+        groups: [],
+      }
+    );
+    return libsession.getMessageQueue().sendSyncMessage(blockedSyncMessage);
+  },
   syncReadMessages(reads) {
     const myDevice = textsecure.storage.user.getDeviceId();
     // FIXME currently not in used
@@ -509,8 +529,8 @@ MessageSender.prototype = {
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageSender = function MessageSenderWrapper(username, password) {
-  const sender = new MessageSender(username, password);
+textsecure.MessageSender = function MessageSenderWrapper() {
+  const sender = new MessageSender();
   this.sendContactSyncMessage = sender.sendContactSyncMessage.bind(sender);
   this.sendGroupSyncMessage = sender.sendGroupSyncMessage.bind(sender);
   this.sendOpenGroupsSyncMessage = sender.sendOpenGroupsSyncMessage.bind(
@@ -521,6 +541,9 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.syncVerification = sender.syncVerification.bind(sender);
   this.makeProxiedRequest = sender.makeProxiedRequest.bind(sender);
   this.getProxiedSize = sender.getProxiedSize.bind(sender);
+  this.sendBlockedListSyncMessage = sender.sendBlockedListSyncMessage.bind(
+    sender
+  );
 };
 
 textsecure.MessageSender.prototype = {

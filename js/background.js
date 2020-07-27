@@ -1486,9 +1486,6 @@
     if (messageReceiver) {
       await messageReceiver.close();
     }
-
-    const USERNAME = storage.get('number_id');
-    const PASSWORD = storage.get('password');
     const mySignalingKey = storage.get('signaling_key');
 
     connectCount += 1;
@@ -1517,31 +1514,18 @@
       );
       window.lokiPublicChatAPI = null;
       window.feeds = [];
-      messageReceiver = new textsecure.MessageReceiver(
-        USERNAME,
-        PASSWORD,
-        mySignalingKey,
-        options
-      );
+      messageReceiver = new textsecure.MessageReceiver(mySignalingKey, options);
       messageReceiver.addEventListener(
         'message',
         window.NewReceiver.handleMessageEvent
       );
-      window.textsecure.messaging = new textsecure.MessageSender(
-        USERNAME,
-        PASSWORD
-      );
+      window.textsecure.messaging = new textsecure.MessageSender();
       return;
     }
 
     initAPIs();
     await initSpecialConversations();
-    messageReceiver = new textsecure.MessageReceiver(
-      USERNAME,
-      PASSWORD,
-      mySignalingKey,
-      options
-    );
+    messageReceiver = new textsecure.MessageReceiver(mySignalingKey, options);
     messageReceiver.addEventListener(
       'message',
       window.NewReceiver.handleMessageEvent
@@ -1560,10 +1544,7 @@
       logger: window.log,
     });
 
-    window.textsecure.messaging = new textsecure.MessageSender(
-      USERNAME,
-      PASSWORD
-    );
+    window.textsecure.messaging = new textsecure.MessageSender();
 
     // On startup after upgrading to a new version, request a contact sync
     //   (but only if we're not the primary device)

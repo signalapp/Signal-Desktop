@@ -172,6 +172,7 @@
           isClosable: this.model.isClosable(),
           isBlocked: this.model.isBlocked(),
           isGroup: !this.model.isPrivate(),
+          isPrivate: this.model.isPrivate(),
           isOnline: this.model.isOnline(),
           isArchived: this.model.get('isArchived'),
           isPublic: this.model.isPublic(),

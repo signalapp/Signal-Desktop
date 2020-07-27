@@ -1,7 +1,6 @@
 /* global window: false */
 /* global callWorker: false */
 /* global textsecure: false */
-/* global libsignal: false */
 /* global WebSocket: false */
 /* global Event: false */
 /* global dcodeIO: false */
@@ -18,13 +17,7 @@ function MessageReceiver(username, password, signalingKey) {
   this.count = 0;
 
   this.signalingKey = signalingKey;
-  this.username = username;
-  this.password = password;
   this.server = WebAPI.connect();
-
-  const address = libsignal.SignalProtocolAddress.fromString(username);
-  this.number = address.getName();
-  this.deviceId = address.getDeviceId();
 
   this.pending = Promise.resolve();
 

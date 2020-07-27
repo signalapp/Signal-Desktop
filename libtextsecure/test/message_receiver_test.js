@@ -95,8 +95,6 @@ describe('MessageReceiver', () => {
       });
 
       window.messageReceiver = new textsecure.MessageReceiver(
-        'username',
-        'password',
         'signalingKey'
         // 'ws://localhost:8080',
         // window,
