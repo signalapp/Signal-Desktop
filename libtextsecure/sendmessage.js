@@ -460,19 +460,14 @@ MessageSender.prototype = {
     if (!primaryDeviceKey) {
       return Promise.resolve();
     }
-    const convos = window.getConversations().models;
 
-    const conversations = Array.isArray(convos) ? convos : [convos];
     const currentlyBlockedNumbers = window.BlockedNumberController.getBlockedNumbers();
 
-    const blockedConvos = conversations.filter(
-      c => c.isPrivate() && currentlyBlockedNumbers.includes(c.id)
-    );
     // currently we only sync user blocked, not groups
     const blockedSyncMessage = new libsession.Messages.Outgoing.BlockedListSyncMessage(
       {
         timestamp: Date.now(),
-        numbers: blockedConvos.map(n => n.id),
+        numbers: currentlyBlockedNumbers,
         groups: [],
       }
     );
