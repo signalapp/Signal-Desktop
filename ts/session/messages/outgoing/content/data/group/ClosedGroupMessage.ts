@@ -3,6 +3,7 @@ import { SignalService } from '../../../../../../protobuf';
 import { MessageParams } from '../../../Message';
 import { PubKey } from '../../../../../types';
 import { StringUtils } from '../../../../../utils';
+import { Constants } from '../../../../..';
 
 export interface ClosedGroupMessageParams extends MessageParams {
   groupId: string | PubKey;
@@ -20,7 +21,7 @@ export abstract class ClosedGroupMessage extends DataMessage {
   }
 
   public ttl(): number {
-    return this.getDefaultTTL();
+    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
   }
 
   public dataProto(): SignalService.DataMessage {

@@ -1,10 +1,11 @@
 import { ContentMessage } from '../ContentMessage';
 import { SignalService } from '../../../../../protobuf';
 import * as crypto from 'crypto';
+import { Constants } from '../../../..';
 
 export abstract class SyncMessage extends ContentMessage {
   public ttl(): number {
-    return this.getDefaultTTL();
+    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
   }
 
   protected contentProto(): SignalService.Content {

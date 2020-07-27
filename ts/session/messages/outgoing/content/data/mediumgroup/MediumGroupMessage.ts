@@ -3,6 +3,7 @@ import { SignalService } from '../../../../../../protobuf';
 import { MessageParams } from '../../../Message';
 import { PubKey } from '../../../../../types';
 import { StringUtils } from '../../../../../utils';
+import { Constants } from '../../../../..';
 
 export interface RatchetKey {
   chainKey: Uint8Array;
@@ -26,7 +27,7 @@ export abstract class MediumGroupMessage extends DataMessage {
   }
 
   public ttl(): number {
-    return this.getDefaultTTL();
+    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
   }
 
   public dataProto(): SignalService.DataMessage {
