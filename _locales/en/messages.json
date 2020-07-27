@@ -1318,6 +1318,18 @@
     "message": "Typing Indicators",
     "description": "Title of the typing indicators setting"
   },
+  "multiDeviceDisabledTemporary": {
+    "message": "<FIXME placeholder>",
+    "description": "Description of why multi device is disabled"
+  },
+  "multiDeviceDisabledTemporaryToastMessage": {
+    "message": "<FIXME placeholder>",
+    "description": "Description of why multi device is disabled on a toast on app start"
+  },
+  "multiDeviceDisabledTemporaryToastDescription": {
+    "message": "<FIXME placeholder> ",
+    "description": "Description of why multi device is disabled on a toast on app start"
+  },
   "messageTTL": {
     "message": "Message TTL",
     "description": "Title of the Message TTL setting"

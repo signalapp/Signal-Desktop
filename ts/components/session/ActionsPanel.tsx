@@ -56,6 +56,19 @@ export class ActionsPanel extends React.Component<Props, State> {
           },
           'refreshAvatarCallback'
         );
+        setTimeout(
+          () =>
+            window.pushToast({
+              title: window.i18n('multiDeviceDisabledTemporaryToastMessage'),
+              description: window.i18n(
+                'multiDeviceDisabledTemporaryToastMessage'
+              ),
+              type: 'warning',
+              id: 'multiDeviceDisabledTemporaryToastMessage',
+              shouldFade: false,
+            }),
+          4000
+        );
       }
     );
   }
