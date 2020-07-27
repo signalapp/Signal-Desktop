@@ -59,7 +59,7 @@ describe('Open groups', function() {
       1 * 1000
     );
 
-    // validate overlay is still opened
+    // validate overlay is still opened as connection failed
     await app.client.isExisting(ConversationPage.leftPaneOverlay).should
       .eventually.be.true;
   });

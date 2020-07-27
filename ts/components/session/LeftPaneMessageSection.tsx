@@ -476,10 +476,15 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     // Connect to server
     try {
+      window.pushToast({
+        title: window.i18n('connectingToServer'),
+        id: 'connectToServer',
+        type: 'success',
+      });
       await OpenGroup.join(serverUrl, async () => {
         if (await OpenGroup.serverExists(serverUrl)) {
           window.pushToast({
-            title: window.i18n('connectingToServer'),
+            title: window.i18n('connectToServerSuccess'),
             id: 'connectToServer',
             type: 'success',
           });

@@ -85,7 +85,7 @@ export async function snodeRpc(
   params: any,
   targetNode: Snode
 ): Promise<boolean | SnodeResponse> {
-  const url = `https://${targetNode.ip}${targetNode.port}/storage_rpc/v1`;
+  const url = `https://${targetNode.ip}:${targetNode.port}/storage_rpc/v1`;
 
   // TODO: The jsonrpc and body field will be ignored on storage server
   if (params.pubKey) {

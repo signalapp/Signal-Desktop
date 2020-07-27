@@ -638,13 +638,15 @@ module.exports = {
       .should.eventually.equal(openGroupUrl);
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
 
-    // validate session loader is shown
-    await app.client.isExisting(ConversationPage.sessionLoader).should
-      .eventually.be.true;
+    await app.client.waitForExist(
+      ConversationPage.sessionToastJoinOpenGroup,
+      2 * 1000
+    );
+
     // account for slow home internet connection delays...
     await app.client.waitForExist(
       ConversationPage.sessionToastJoinOpenGroupSuccess,
-      60 * 1000
+      20 * 1000
     );
 
     // validate overlay is closed
@@ -652,9 +654,10 @@ module.exports = {
       .eventually.be.false;
 
     // validate open chat has been added
-    await app.client.isExisting(
-      ConversationPage.rowOpenGroupConversationName(name)
-    ).should.eventually.be.true;
+    await app.client.waitForExist(
+      ConversationPage.rowOpenGroupConversationName(name),
+      20 * 1000
+    );
   },
 
   async stopStubSnodeServer() {

@@ -44,11 +44,14 @@ module.exports = {
   // channels
   joinOpenGroupButton: commonPage.divRoleButtonWithText('Join Open Group'),
   openGroupInputUrl: commonPage.textAreaWithPlaceholder('chat.getsession.org'),
+  sessionToastJoinOpenGroup: commonPage.toastWithText(
+    'Connecting to server...'
+  ),
   sessionToastJoinOpenGroupSuccess: commonPage.toastWithText(
-    'Successfully connected to new open group server'
+    'Successfully connected to open group'
   ),
   sessionToastJoinOpenGroupAlreadyExist: commonPage.toastWithText(
-    'You are already connected to this public channel'
+    'You are already connected to this open group'
   ),
   rowOpenGroupConversationName: groupName =>
     commonPage.spanWithClassAndText(
