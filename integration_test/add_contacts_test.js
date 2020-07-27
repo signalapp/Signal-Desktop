@@ -5,7 +5,7 @@ const { afterEach, beforeEach, describe, it } = require('mocha');
 const common = require('./common');
 const ConversationPage = require('./page-objects/conversation.page');
 
-describe('Add friends', function() {
+describe('Add contact', function() {
   let app;
   let app2;
   this.timeout(60000);
@@ -37,7 +37,7 @@ describe('Add friends', function() {
     await common.stopStubSnodeServer();
   });
 
-  it('addFriends: can add a friend by sessionID', async () => {
+  it('addContacts: can add a contact by sessionID', async () => {
     const textMessage = common.generateSendMessageText();
 
     await app.client.element(ConversationPage.contactsButtonSection).click();
@@ -58,7 +58,7 @@ describe('Add friends', function() {
     await app.client.element(ConversationPage.nextButton).click();
     await app.client.waitForExist(ConversationPage.sendMessageTextarea, 1000);
 
-    // send a text message to that user (will be a friend request)
+    // send a text message to that user
     await app.client
       .element(ConversationPage.sendMessageTextarea)
       .setValue(textMessage);
@@ -68,7 +68,7 @@ describe('Add friends', function() {
       1000
     );
 
-    // assure friend request message has been sent
+    // assure session request message has been sent
     await common.timeout(3000);
     await app.client.isExisting(ConversationPage.retrySendButton).should
       .eventually.be.false;
