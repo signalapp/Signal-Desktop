@@ -30,15 +30,12 @@ async function lokiPlainFetch(
   if (!response.ok) {
     throw new window.textsecure.HTTPError('Loki_rpc error', response);
   }
+  const result = await response.text();
 
-  let result;
-  if (response.headers.get('Content-Type') === 'application/json') {
-    result = await response.json();
-  } else {
-    result = await response.text();
-  }
-
-  return result;
+  return {
+    body: result,
+    status: response.status,
+  };
 }
 
 interface FetchOptions {
