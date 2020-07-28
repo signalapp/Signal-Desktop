@@ -1,6 +1,6 @@
-const commonPage = require('./common.page');
+import commonPage from './common.page';
 
-module.exports = {
+export = {
   // conversation view
   sessionLoader: commonPage.divWithClass('session-loader'),
   leftPaneOverlay: commonPage.divWithClass('module-left-pane-overlay'),
@@ -8,11 +8,11 @@ module.exports = {
   sendFriendRequestTextarea: commonPage.textAreaWithPlaceholder(
     'Send your first message'
   ),
-  existingSendMessageText: textMessage =>
+  existingSendMessageText: (textMessage: string) =>
     `//*[contains(@class, "module-message__text--outgoing") and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
-  existingFriendRequestText: textMessage =>
+  existingFriendRequestText: (textMessage: string) =>
     `//*[contains(@class, "module-message-friend-request__container") and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
-  existingReceivedMessageText: textMessage =>
+  existingReceivedMessageText: (textMessage: string) =>
     `//*[contains(@class, "module-message__text--incoming") and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
 
   // conversations
@@ -22,10 +22,10 @@ module.exports = {
     'module-friend-request__buttonContainer--outgoing',
     'Retry Send'
   ),
-  headerTitleMembers: number =>
+  headerTitleMembers: (num: number) =>
     commonPage.spanWithClassAndText(
       'module-conversation-header__title-text',
-      `${number} members`
+      `${num} members`
     ),
 
   conversationItem: commonPage.divWithClass('module-conversation-list-item'),
@@ -33,7 +33,7 @@ module.exports = {
   attachmentInput: '//*[contains(@class, "choose-file")]/input[@type="file"]',
   attachmentButton: '//*[contains(@class, "choose-file")]/button',
 
-  messageCtxMenu: message =>
+  messageCtxMenu: (message: string) =>
     `//div[contains(@class, 'message-wrapper')]//span[contains(string(), '${message}')]/parent::div/parent::div/parent::div/parent::div//div[contains(@class, 'module-message__buttons__menu')]`,
 
   deleteMessageCtxButton:
@@ -53,7 +53,7 @@ module.exports = {
   sessionToastJoinOpenGroupAlreadyExist: commonPage.toastWithText(
     'You are already connected to this open group'
   ),
-  rowOpenGroupConversationName: groupName =>
+  rowOpenGroupConversationName: (groupName: string) =>
     commonPage.spanWithClassAndText(
       'module-conversation__user__profile-number',
       groupName
@@ -66,7 +66,7 @@ module.exports = {
   closedGroupNameTextarea: commonPage.textAreaWithPlaceholder(
     'Enter a group name'
   ),
-  createClosedGroupMemberItem: idx =>
+  createClosedGroupMemberItem: (idx: number) =>
     commonPage.divWithClass(`session-member-item-${idx}`),
   createClosedGroupSealedSenderToggle: commonPage.divWithClass(
     'session-toggle'
@@ -80,7 +80,7 @@ module.exports = {
   sessionToastGroupCreatedSuccess: commonPage.toastWithText(
     'Group created successfully'
   ),
-  headerTitleGroupName: groupname =>
+  headerTitleGroupName: (groupname: string) =>
     commonPage.spanWithClassAndText(
       'module-contact-name__profile-name',
       groupname
@@ -96,7 +96,7 @@ module.exports = {
     '//*[contains(@class,"session-icon-button")  and .//*[contains(@class, "users")]  and .//*[contains(@class, "notification-count") and contains(string(), "1")] ]',
   oneNotificationFriendRequestTop:
     '//*[contains(@class,"notification-count hover") and contains(string(), "1")]',
-  friendRequestFromUser: (displayName, pubkey) =>
+  friendRequestFromUser: (displayName: string, pubkey: string) =>
     `//*[contains(@class,"module-left-pane__list-popup")  and .//*[contains(@class, "module-conversation__user") and .//*[contains(string(), "${displayName}")] and .//*[contains(string(), "(...${pubkey.substring(
       60
     )})")]]]`,
@@ -122,7 +122,7 @@ module.exports = {
   qrImageDiv: commonPage.divWithClass('qr-image'),
   allowPairingButton: commonPage.divRoleButtonWithText('Allow Linking'),
   okButton: commonPage.divRoleButtonWithText('OK'),
-  devicePairedDescription: secretWords =>
+  devicePairedDescription: (secretWords: string) =>
     commonPage.divWithClassAndText(
       'session-settings-item__description',
       secretWords

@@ -1,6 +1,7 @@
-const commonPage = require('./common.page');
+import commonPage from './common.page';
 
-module.exports = {
+
+export = {
   registrationTabSignIn:
     '//div[contains(string(), "Sign In")][contains(@class, "session-registration__tab")][contains(@role, "tab")]',
 
@@ -31,10 +32,10 @@ module.exports = {
     'Link Device to Existing Session ID'
   ),
   textareaLinkDevicePubkey: commonPage.textAreaWithPlaceholder(
-    'Enter other device’s Session ID here'
+    'Enter your Session ID'
   ),
   linkDeviceTriggerButton: commonPage.divRoleButtonWithText('Link Device'),
   toastWrapper: '//*[contains(@class,"session-toast-wrapper")]',
-
-  secretToastDescription: '//p[contains(@class, "description")]',
+  secretWordsText: '//div[contains(@class,"session-registration__content__secret-words")]/div[contains(@class,"subtle")]',
+  linkWithThisDevice: commonPage.objWithClassAndText('h4', 'device-pairing-dialog__desc', 'Allow linking with this device?'),
 };
