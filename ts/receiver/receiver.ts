@@ -31,6 +31,7 @@ import { getEnvelopeId } from './common';
 import { StringUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
 import { BlockedNumberController } from '../util/blockedNumberController';
+import { MultiDeviceProtocol } from '../session/protocols';
 
 // TODO: check if some of these exports no longer needed
 export {
@@ -310,9 +311,7 @@ export async function handleUnencryptedMessage({ message: outerMessage }: any) {
     await updateProfile(conversation, profile, profileKey);
   }
 
-  const primaryDevice = window.storage.get('primaryDevicePubKey');
-  const isOurDevice =
-    source && (source === ourNumber || source === primaryDevice);
+  const isOurDevice = await MultiDeviceProtocol.isOurDevice(source);
   const isPublicChatMessage =
     group && group.id && !!group.id.match(/^publicChat:/);
 
