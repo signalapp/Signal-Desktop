@@ -160,7 +160,6 @@ async function handleNewGroup(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.MediumGroupUpdate
 ) {
-  window.log.error('mediumGroups.ts:hanldeNewGroup');
   const { log } = window;
 
   const {

@@ -296,8 +296,20 @@ async function getOrCreateSenderKeysForUpdate(
 }
 
 async function getGroupSecretKey(groupId: string): Promise<Uint8Array> {
-  const groupIdentity = await window.Signal.Data.getIdentityKeyById(groupId);
-  return new Uint8Array(fromHex(groupIdentity.secretKey));
+  const groupIdentity = await Data.getIdentityKeyById(groupId);
+  if (!groupIdentity) {
+    throw new Error(`Could not load secret key for group ${groupId}`);
+  }
+
+  const secretKey = groupIdentity.secretKey;
+
+  if (!secretKey) {
+    throw new Error(
+      `Secret key not found in identity key record for group ${groupId}`
+    );
+  }
+
+  return new Uint8Array(fromHex(secretKey));
 }
 
 async function syncMediumGroup(group: ConversationModel) {
@@ -336,7 +348,7 @@ async function syncMediumGroup(group: ConversationModel) {
   };
 
   // Note: we send this to our primary device which will in effect will send to
-  // our secondary devices, actually ignoring the primary
+  // our other devices, actually ignoring the current device
   await sendGroupUpdateForMedium(
     { joiningMembers: [ourPrimary.key] },
     groupUpdate
