@@ -1,59 +1,63 @@
 /* eslint-disable func-names  */
 /* eslint-disable import/no-extraneous-dependencies */
-const { afterEach, beforeEach, describe, it } = require('mocha');
+// tslint:disable: await-promise
+// tslint:disable: no-implicit-dependencies
 
-const common = require('./common');
-const ConversationPage = require('./page-objects/conversation.page');
+import { afterEach, beforeEach, describe, it } from 'mocha';
+import { Common } from './common';
+import { Application } from 'spectron';
+
+import ConversationPage from './page-objects/conversation.page';
 
 describe('Add contact', function() {
-  let app;
-  let app2;
+  let app: Application;
+  let app2: Application;
   this.timeout(60000);
   this.slow(15000);
 
   beforeEach(async () => {
-    await common.killallElectron();
-    await common.stopStubSnodeServer();
+    await Common.killallElectron();
+    await Common.stopStubSnodeServer();
 
     const app1Props = {
-      mnemonic: common.TEST_MNEMONIC1,
-      displayName: common.TEST_DISPLAY_NAME1,
+      mnemonic: Common.TEST_MNEMONIC1,
+      displayName: Common.TEST_DISPLAY_NAME1,
     };
 
     const app2Props = {
-      mnemonic: common.TEST_MNEMONIC2,
-      displayName: common.TEST_DISPLAY_NAME2,
+      mnemonic: Common.TEST_MNEMONIC2,
+      displayName: Common.TEST_DISPLAY_NAME2,
     };
 
     [app, app2] = await Promise.all([
-      common.startAndStub(app1Props),
-      common.startAndStubN(app2Props, 2),
+      Common.startAndStub(app1Props),
+      Common.startAndStubN(app2Props, 2),
     ]);
   });
 
   afterEach(async () => {
-    await common.stopApp(app);
-    await common.killallElectron();
-    await common.stopStubSnodeServer();
+    await Common.stopApp(app);
+    await Common.killallElectron();
+    await Common.stopStubSnodeServer();
   });
 
   it('addContacts: can add a contact by sessionID', async () => {
-    const textMessage = common.generateSendMessageText();
+    const textMessage = Common.generateSendMessageText();
 
     await app.client.element(ConversationPage.contactsButtonSection).click();
     await app.client.element(ConversationPage.addContactButton).click();
     await app.client.isExisting(ConversationPage.leftPaneOverlay).should
       .eventually.be.true;
 
-    await common.setValueWrapper(
+    await Common.setValueWrapper(
       app,
       ConversationPage.sessionIDInput,
-      common.TEST_PUBKEY2
+      Common.TEST_PUBKEY2
     );
     await app.client
       .element(ConversationPage.sessionIDInput)
       .getValue()
-      .should.eventually.equal(common.TEST_PUBKEY2);
+      .should.eventually.equal(Common.TEST_PUBKEY2);
 
     await app.client.element(ConversationPage.nextButton).click();
     await app.client.waitForExist(ConversationPage.sendMessageTextarea, 1000);
@@ -69,7 +73,7 @@ describe('Add contact', function() {
     );
 
     // assure session request message has been sent
-    await common.timeout(3000);
+    await Common.timeout(3000);
     await app.client.isExisting(ConversationPage.retrySendButton).should
       .eventually.be.false;
 

@@ -12,9 +12,9 @@ import { Common } from './common';
 
 // tslint:disable: no-import-side-effect
 
-// import './registration_test';
-// import './open_group_test';
-// import './add_contacts_test';
+import './registration_test';
+import './open_group_test';
+import './add_contacts_test';
 import './link_device_test';
 // import './closed_group_test';
 // import './message_functions_test';

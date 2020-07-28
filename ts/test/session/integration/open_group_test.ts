@@ -1,41 +1,45 @@
 /* eslint-disable func-names  */
 /* eslint-disable import/no-extraneous-dependencies */
-const { afterEach, beforeEach, describe, it } = require('mocha');
+// tslint:disable: await-promise
+// tslint:disable: no-implicit-dependencies
 
-const common = require('./common');
-const ConversationPage = require('./page-objects/conversation.page');
+import { afterEach, beforeEach, describe, it } from 'mocha';
+import { Common } from './common';
+import { Application } from 'spectron';
+
+import ConversationPage from './page-objects/conversation.page';
 
 describe('Open groups', function() {
-  let app;
+  let app: Application;
   this.timeout(40000);
   this.slow(15000);
 
   beforeEach(async () => {
-    await common.killallElectron();
+    await Common.killallElectron();
     const login = {
-      mnemonic: common.TEST_MNEMONIC1,
-      displayName: common.TEST_DISPLAY_NAME1,
+      mnemonic: Common.TEST_MNEMONIC1,
+      displayName: Common.TEST_DISPLAY_NAME1,
     };
-    app = await common.startAndStub(login);
+    app = await Common.startAndStub(login);
   });
 
   afterEach(async () => {
-    await common.killallElectron();
+    await Common.killallElectron();
   });
 
   it('openGroup: works with valid open group url', async () => {
-    await common.joinOpenGroup(
+    await Common.joinOpenGroup(
       app,
-      common.VALID_GROUP_URL,
-      common.VALID_GROUP_NAME
+      Common.VALID_GROUP_URL,
+      Common.VALID_GROUP_NAME
     );
   });
 
   it('openGroup: cannot join two times the same open group', async () => {
-    await common.joinOpenGroup(
+    await Common.joinOpenGroup(
       app,
-      common.VALID_GROUP_URL2,
-      common.VALID_GROUP_NAME2
+      Common.VALID_GROUP_URL2,
+      Common.VALID_GROUP_NAME2
     );
 
     // adding a second time the same open group
@@ -44,10 +48,10 @@ describe('Open groups', function() {
       .click();
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
 
-    await common.setValueWrapper(
+    await Common.setValueWrapper(
       app,
       ConversationPage.openGroupInputUrl,
-      common.VALID_GROUP_URL2
+      Common.VALID_GROUP_URL2
     );
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
     // validate session loader is not shown
@@ -71,10 +75,10 @@ describe('Open groups', function() {
       .click();
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
 
-    await common.setValueWrapper(
+    await Common.setValueWrapper(
       app,
       ConversationPage.openGroupInputUrl,
-      common.VALID_GROUP_URL2
+      Common.VALID_GROUP_URL2
     );
     await app.client.element(ConversationPage.joinOpenGroupButton).click();
 
@@ -83,29 +87,29 @@ describe('Open groups', function() {
       ConversationPage.sessionToastJoinOpenGroupSuccess,
       30 * 1000
     );
-    await common.timeout(5 * 1000); // wait for toast to clear
+    await Common.timeout(5 * 1000); // wait for toast to clear
 
     await app.client.waitForExist(
-      ConversationPage.rowOpenGroupConversationName(common.VALID_GROUP_NAME2),
+      ConversationPage.rowOpenGroupConversationName(Common.VALID_GROUP_NAME2),
       10 * 1000
     );
     // generate a message containing the current timestamp so we can find it in the list of messages
-    const textMessage = common.generateSendMessageText();
+    const textMessage = Common.generateSendMessageText();
     await app.client
       .element(ConversationPage.conversationButtonSection)
       .click();
 
     await app.client.isExisting(
-      ConversationPage.rowOpenGroupConversationName(common.VALID_GROUP_NAME2)
+      ConversationPage.rowOpenGroupConversationName(Common.VALID_GROUP_NAME2)
     );
 
     await app.client
       .element(
-        ConversationPage.rowOpenGroupConversationName(common.VALID_GROUP_NAME2)
+        ConversationPage.rowOpenGroupConversationName(Common.VALID_GROUP_NAME2)
       )
       .click();
 
-    await common.setValueWrapper(
+    await Common.setValueWrapper(
       app,
       ConversationPage.sendMessageTextarea,
       textMessage
@@ -115,11 +119,11 @@ describe('Open groups', function() {
       .getValue()
       .should.eventually.equal(textMessage);
     // allow some time to fetch some messages
-    await common.timeout(3000);
+    await Common.timeout(3000);
 
     // send the message
     await app.client.keys('Enter');
-    await common.timeout(5000);
+    await Common.timeout(5000);
     // validate that the message has been added to the message list view
     await app.client.waitForExist(
       ConversationPage.existingSendMessageText(textMessage),
