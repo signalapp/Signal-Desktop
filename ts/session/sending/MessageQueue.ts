@@ -177,11 +177,11 @@ export class MessageQueue implements MessageQueueInterface {
 
   private async process(
     device: PubKey,
-    message?: ContentMessage
+    message: ContentMessage
   ): Promise<void> {
     // Don't send to ourselves
     const currentDevice = await UserUtil.getCurrentDevicePubKey();
-    if (!message || (currentDevice && device.isEqual(currentDevice))) {
+    if (currentDevice && device.isEqual(currentDevice)) {
       return;
     }
 

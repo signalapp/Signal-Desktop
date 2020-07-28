@@ -5,12 +5,6 @@ import { PubKey } from '../../../../../types';
 import { StringUtils } from '../../../../../utils';
 import { Constants } from '../../../../..';
 
-export interface RatchetKey {
-  chainKey: Uint8Array;
-  keyIdx: number;
-  pubKey: Uint8Array;
-}
-
 export interface MediumGroupMessageParams extends MessageParams {
   groupId: string | PubKey;
 }

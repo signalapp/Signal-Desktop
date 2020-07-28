@@ -401,17 +401,23 @@ MessageSender.prototype = {
       return Promise.resolve();
     }
     // We only want to sync across closed groups that we haven't left
-    const sessionGroups = conversations.filter(
-      c => c.isClosedGroup() && !c.get('left') && !c.isMediumGroup()
+    const activeGroups = conversations.filter(
+      c => c.isClosedGroup() && !c.get('left') && !c.get('isKickedFromGroup')
     );
-    if (sessionGroups.length === 0) {
+    if (activeGroups.length === 0) {
       window.console.info('No closed group to sync.');
       return Promise.resolve();
     }
 
+    const mediumGroups = activeGroups.filter(c => c.isMediumGroup());
+
+    window.MediumGroups.syncMediumGroups(mediumGroups);
+
+    const legacyGroups = activeGroups.filter(c => !c.isMediumGroup());
+
     // We need to sync across 1 group at a time
     // This is because we could hit the storage server limit with one group
-    const syncPromises = sessionGroups
+    const syncPromises = legacyGroups
       .map(c => libloki.api.createGroupSyncMessage(c))
       .map(syncMessage =>
         libsession.getMessageQueue().sendSyncMessage(syncMessage)

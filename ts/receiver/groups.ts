@@ -4,7 +4,6 @@ import { getMessageQueue } from '../session';
 import { PubKey } from '../session/types';
 import _ from 'lodash';
 import { BlockedNumberController } from '../util/blockedNumberController';
-import { RatchetKey } from '../session/messages/outgoing/content/data/mediumgroup/MediumGroupMessage';
 
 function isGroupBlocked(groupId: string) {
   return BlockedNumberController.isGroupBlocked(groupId);
@@ -40,7 +39,7 @@ export async function preprocessGroupMessage(
     'group'
   );
 
-  if (conversation.isPublic()) {
+  if (conversation.isPublic() || conversation.isMediumGroup()) {
     // window.console.log('No need to preprocess public group chat messages');
     return;
   }
@@ -129,96 +128,4 @@ export async function preprocessGroupMessage(
     );
   }
   return false;
-}
-
-interface GroupInfo {
-  id: string;
-  name: string;
-  members: Array<string>; // Primary keys
-  is_medium_group: boolean;
-  active: boolean;
-  avatar: any;
-  expireTimer: number;
-  secretKey: any;
-  color?: any; // what is this???
-  blocked?: boolean;
-  senderKeys: Array<RatchetKey>;
-}
-
-export async function onGroupReceived(details: GroupInfo) {
-  const { ConversationController, libloki, textsecure, Whisper } = window;
-
-  const { id } = details;
-
-  libloki.api.debug.logGroupSync(
-    'Got sync group message with group id',
-    id,
-    ' details:',
-    details
-  );
-
-  const conversation = await ConversationController.getOrCreateAndWait(
-    id,
-    'group'
-  );
-
-  const updates: any = {
-    name: details.name,
-    members: details.members,
-    color: details.color,
-    type: 'group',
-    is_medium_group: details.is_medium_group || false,
-  };
-
-  if (details.active) {
-    const activeAt = conversation.get('active_at');
-
-    // The idea is to make any new group show up in the left pane. If
-    //   activeAt is null, then this group has been purposefully hidden.
-    if (activeAt !== null) {
-      updates.active_at = activeAt || Date.now();
-    }
-    updates.left = false;
-  } else {
-    updates.left = true;
-  }
-
-  conversation.set(updates);
-
-  // Update the conversation avatar only if new avatar exists and hash differs
-  const { avatar } = details;
-  if (avatar && avatar.data) {
-    const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
-      conversation.attributes,
-      avatar.data,
-      {
-        writeNewAttachmentData: window.Signal.writeNewAttachmentData,
-        deleteAttachmentData: window.Signal.deleteAttachmentData,
-      }
-    );
-    conversation.set(newAttributes);
-  }
-  const isBlocked = details.blocked || false;
-  if (conversation.isClosedGroup()) {
-    await BlockedNumberController.setGroupBlocked(conversation.id, isBlocked);
-  }
-
-  conversation.trigger('change', conversation);
-  conversation.updateTextInputState();
-
-  await window.Signal.Data.updateConversation(id, conversation.attributes, {
-    Conversation: Whisper.Conversation,
-  });
-
-  const { expireTimer } = details;
-  const isValidExpireTimer = typeof expireTimer === 'number';
-  if (!isValidExpireTimer) {
-    return;
-  }
-
-  const source = textsecure.storage.user.getNumber();
-  const receivedAt = Date.now();
-  await conversation.updateExpirationTimer(expireTimer, source, receivedAt, {
-    fromSync: true,
-  });
 }

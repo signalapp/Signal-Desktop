@@ -30,14 +30,16 @@ interface Ratchet {
   messageKeys: any;
 }
 
-async function loadChainKey(groupId: string, senderIdentity: string) {
+// TODO: change the signature to return "NO KEY" instead of throwing
+async function loadChainKey(
+  groupId: string,
+  senderIdentity: string
+): Promise<Ratchet | null> {
   const senderKeyEntry = await Data.getSenderKeys(groupId, senderIdentity);
 
   if (!senderKeyEntry) {
     // TODO: we should try to request the key from the sender in this case
-    throw Error(
-      `Sender key not found for group ${groupId} sender ${senderIdentity}`
-    );
+    return null;
   }
 
   const { chainKeyHex, idx: keyIdx, messageKeys } = senderKeyEntry.ratchet;
@@ -53,10 +55,18 @@ async function loadChainKey(groupId: string, senderIdentity: string) {
   return { chainKey, keyIdx, messageKeys };
 }
 
-export async function getChainKey(groupId: string, senderIdentity: string) {
-  const { chainKey, keyIdx } = await loadChainKey(groupId, senderIdentity);
+export async function getChainKey(
+  groupId: string,
+  senderIdentity: string
+): Promise<{ chainKey: Uint8Array; keyIdx: number } | null> {
+  const maybeKey = await loadChainKey(groupId, senderIdentity);
 
-  return { chainKey, keyIdx };
+  if (!maybeKey) {
+    return null;
+  } else {
+    const { chainKey, keyIdx } = maybeKey;
+    return { chainKey, keyIdx };
+  }
 }
 
 export async function encryptWithSenderKey(
@@ -250,6 +260,10 @@ async function decryptWithSenderKeyInner(
   senderIdentity: string
 ) {
   const messageKey = await advanceRatchet(groupId, senderIdentity, curKeyIdx);
+
+  if (!messageKey) {
+    return null;
+  }
 
   // TODO: this might fail, handle this
   const plaintext = await window.libloki.crypto.DecryptGCM(
