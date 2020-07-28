@@ -423,7 +423,7 @@ export class ConversationHeader extends React.Component<Props> {
   public highlightMessageSearch() {
     // This is a temporary fix. In future we want to search
     // messages in the current conversation
-    $('.session-search-input input').focus();
+    ($('.session-search-input input') as any).focus();
   }
 
   // tslint:disable-next-line: cyclomatic-complexity
