@@ -29,228 +29,249 @@ chai.config.includeStack = true;
 const STUB_SNODE_SERVER_PORT = 3000;
 const ENABLE_LOG = false;
 
-
 // tslint:disable-next-line: no-unnecessary-class
 export class Common {
-    /* **************  USERS  ****************** */
-    public static readonly TEST_MNEMONIC1 =
-        'faxed mechanic mocked agony unrest loincloth pencil eccentric boyfriend oasis speedy ribbon faxed';
-    public static readonly TEST_PUBKEY1 =
-        '0552b85a43fb992f6bdb122a5a379505a0b99a16f0628ab8840249e2a60e12a413';
-    public static readonly TEST_DISPLAY_NAME1 = 'tester_Alice';
+  /* **************  USERS  ****************** */
+  public static readonly TEST_MNEMONIC1 =
+    'faxed mechanic mocked agony unrest loincloth pencil eccentric boyfriend oasis speedy ribbon faxed';
+  public static readonly TEST_PUBKEY1 =
+    '0552b85a43fb992f6bdb122a5a379505a0b99a16f0628ab8840249e2a60e12a413';
+  public static readonly TEST_DISPLAY_NAME1 = 'tester_Alice';
 
-    public static readonly TEST_MNEMONIC2 =
-        'guide inbound jerseys bays nouns basin sulking awkward stockpile ostrich ascend pylons ascend';
-    public static readonly TEST_PUBKEY2 =
-        '054e1ca8681082dbd9aad1cf6fc89a32254e15cba50c75b5a73ac10a0b96bcbd2a';
-    public static readonly TEST_DISPLAY_NAME2 = 'tester_Bob';
+  public static readonly TEST_MNEMONIC2 =
+    'guide inbound jerseys bays nouns basin sulking awkward stockpile ostrich ascend pylons ascend';
+  public static readonly TEST_PUBKEY2 =
+    '054e1ca8681082dbd9aad1cf6fc89a32254e15cba50c75b5a73ac10a0b96bcbd2a';
+  public static readonly TEST_DISPLAY_NAME2 = 'tester_Bob';
 
-    public static readonly TEST_MNEMONIC3 =
-        'alpine lukewarm oncoming blender kiwi fuel lobster upkeep vogue simplest gasp fully simplest';
-    public static readonly TEST_PUBKEY3 =
-        '05f8662b6e83da5a31007cc3ded44c601f191e07999acb6db2314a896048d9036c';
-    public static readonly TEST_DISPLAY_NAME3 = 'tester_Charlie';
+  public static readonly TEST_MNEMONIC3 =
+    'alpine lukewarm oncoming blender kiwi fuel lobster upkeep vogue simplest gasp fully simplest';
+  public static readonly TEST_PUBKEY3 =
+    '05f8662b6e83da5a31007cc3ded44c601f191e07999acb6db2314a896048d9036c';
+  public static readonly TEST_DISPLAY_NAME3 = 'tester_Charlie';
 
-    /* **************  OPEN GROUPS  ****************** */
-    public static readonly VALID_GROUP_URL = 'https://chat.getsession.org';
-    public static readonly VALID_GROUP_URL2 = 'https://chat-dev.lokinet.org';
-    public static readonly VALID_GROUP_NAME = 'Session Public Chat';
-    public static readonly VALID_GROUP_NAME2 = 'Loki Dev Chat';
+  /* **************  OPEN GROUPS  ****************** */
+  public static readonly VALID_GROUP_URL = 'https://chat.getsession.org';
+  public static readonly VALID_GROUP_URL2 = 'https://chat-dev.lokinet.org';
+  public static readonly VALID_GROUP_NAME = 'Session Public Chat';
+  public static readonly VALID_GROUP_NAME2 = 'Loki Dev Chat';
 
-    /* **************  CLOSED GROUPS  ****************** */
-    public static readonly VALID_CLOSED_GROUP_NAME1 = 'Closed Group 1';
+  /* **************  CLOSED GROUPS  ****************** */
+  public static readonly VALID_CLOSED_GROUP_NAME1 = 'Closed Group 1';
 
-    public static USER_DATA_ROOT_FOLDER = '';
-    private static stubSnode: any;
-    private static messages: any;
-    private static fileServer: any;
+  public static USER_DATA_ROOT_FOLDER = '';
+  private static stubSnode: any;
+  private static messages: any;
+  private static fileServer: any;
 
-    // tslint:disable: await-promise
-    // tslint:disable: no-console
+  // tslint:disable: await-promise
+  // tslint:disable: no-console
 
-    public static async timeout(ms: number) {
-        // tslint:disable-next-line: no-string-based-set-timeout
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
+  public static async timeout(ms: number) {
+    // tslint:disable-next-line: no-string-based-set-timeout
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
-    public static async closeToast(app: Application) {
-        app.client.element(CommonPage.toastCloseButton).click();
-    }
+  public static async closeToast(app: Application) {
+    app.client.element(CommonPage.toastCloseButton).click();
+  }
 
-    // a wrapper to work around electron/spectron bug
-    public static async setValueWrapper(app: Application, selector: any, value: string) {
+  // a wrapper to work around electron/spectron bug
+  public static async setValueWrapper(
+    app: Application,
+    selector: any,
+    value: string
+  ) {
     // keys, setValue and addValue hang on certain platforms
 
     if (process.platform === 'darwin') {
       await app.client.execute(
         (slctr, val) => {
-            // eslint-disable-next-line no-undef
-            const iter = document.evaluate(
-                slctr,
-                document,
-                null,
-                XPathResult.UNORDERED_NODE_ITERATOR_TYPE,
-                null
-            );
-            const elem = iter.iterateNext() as any;
-            if (elem) {
-                elem.value = val;
-            } else {
-                console.error('Cant find', slctr, elem, iter);
-            }
+          // eslint-disable-next-line no-undef
+          const iter = document.evaluate(
+            slctr,
+            document,
+            null,
+            XPathResult.UNORDERED_NODE_ITERATOR_TYPE,
+            null
+          );
+          const elem = iter.iterateNext() as any;
+          if (elem) {
+            elem.value = val;
+          } else {
+            console.error('Cant find', slctr, elem, iter);
+          }
         },
         selector,
         value
-        );
-        // let session js detect the text change
+      );
+      // let session js detect the text change
       await app.client.element(selector).click();
     } else {
-        // Linux & Windows don't require wrapper
+      // Linux & Windows don't require wrapper
       await app.client.element(selector).setValue(value);
     }
+  }
+
+  public static async startApp(environment = 'test-integration-session') {
+    const env = environment.startsWith('test-integration')
+      ? 'test-integration'
+      : environment;
+    const instance = environment.replace('test-integration-', '');
+
+    const app1 = new Application({
+      path: path.join(
+        __dirname,
+        '..',
+        '..',
+        '..',
+        '..',
+        'node_modules',
+        '.bin',
+        'electron'
+      ),
+      args: ['.'],
+      env: {
+        NODE_ENV: env,
+        NODE_APP_INSTANCE: instance,
+        USE_STUBBED_NETWORK: true,
+        ELECTRON_ENABLE_LOGGING: true,
+        ELECTRON_ENABLE_STACK_DUMPING: true,
+        ELECTRON_DISABLE_SANDBOX: 1,
+      },
+      requireName: 'electronRequire',
+      // chromeDriverLogPath: '../chromedriverlog.txt',
+      chromeDriverArgs: [
+        `remote-debugging-port=${Math.floor(
+          // tslint:disable-next-line: insecure-random
+          Math.random() * (9999 - 9000) + 9000
+        )}`,
+      ],
+    });
+    // FIXME audric
+    // chaiAsPromised.transferPromiseness = app1.transferPromiseness;
+
+    await app1.start();
+    await app1.client.waitUntilWindowLoaded();
+
+    return app1;
+  }
+
+  public static async startApp2() {
+    const app2 = await Common.startApp('test-integration-session-2');
+    return app2;
+  }
+
+  public static async stopApp(app1: Application) {
+    if (app1 && app1.isRunning()) {
+      await app1.stop();
+    }
+  }
+
+  public static async killallElectron() {
+    // rtharp - my 2nd client on MacOs needs: pkill -f "node_modules/.bin/electron"
+    // node_modules/electron/dist/electron is node_modules/electron/dist/Electron.app on MacOS
+    const killStr =
+      process.platform === 'win32'
+        ? 'taskkill /im electron.exe /t /f'
+        : 'pkill -f "node_modules/electron/dist/electron" | pkill -f "node_modules/.bin/electron"';
+    return new Promise(resolve => {
+      exec(killStr, (_err, stdout, stderr) => {
+        resolve({ stdout, stderr });
+      });
+    });
+  }
+
+  public static async rmFolder(folder: string) {
+    await fse.remove(folder);
+  }
+
+  public static async startAndAssureCleanedApp2() {
+    const app2 = await Common.startAndAssureCleanedApp(
+      'test-integration-session-2'
+    );
+    return app2;
+  }
+
+  public static async startAndAssureCleanedApp(
+    env = 'test-integration-session'
+  ) {
+    const userData = path.join(Common.USER_DATA_ROOT_FOLDER, `Session-${env}`);
+
+    await Common.rmFolder(userData);
+
+    const app1 = await Common.startApp(env);
+    await app1.client.waitForExist(
+      RegistrationPage.registrationTabSignIn,
+      4000
+    );
+
+    return app1;
+  }
+
+  public static async startAndStub({
+    mnemonic,
+    displayName,
+    env = 'test-integration-session',
+  }: {
+    mnemonic: string;
+    displayName: string;
+    env?: string;
+  }) {
+    const app = await Common.startAndAssureCleanedApp(env);
+    await Common.startStubSnodeServer();
+
+    if (mnemonic && displayName) {
+      await Common.restoreFromMnemonic(app, mnemonic, displayName);
+      // not sure we need Common - rtharp.
+      await Common.timeout(2000);
     }
 
-    public static async startApp(environment = 'test-integration-session') {
-        const env = environment.startsWith('test-integration')
-            ? 'test-integration'
-            : environment;
-        const instance = environment.replace('test-integration-', '');
+    return app;
+  }
 
-        const app1 = new Application({
-            path: path.join(__dirname, '..', '..', '..', '..', 'node_modules', '.bin', 'electron'),
-            args: ['.'],
-            env: {
-            NODE_ENV: env,
-            NODE_APP_INSTANCE: instance,
-            USE_STUBBED_NETWORK: true,
-            ELECTRON_ENABLE_LOGGING: true,
-            ELECTRON_ENABLE_STACK_DUMPING: true,
-            ELECTRON_DISABLE_SANDBOX: 1,
-            },
-            requireName: 'electronRequire',
-            // chromeDriverLogPath: '../chromedriverlog.txt',
-            chromeDriverArgs: [
-            `remote-debugging-port=${Math.floor(
-                // tslint:disable-next-line: insecure-random
-                Math.random() * (9999 - 9000) + 9000
-            )}`,
-            ],
-        });
-	// FIXME audric
-        // chaiAsPromised.transferPromiseness = app1.transferPromiseness;
+  public static async startAndStubN(props: any, n: number) {
+    // Make app with stub as number n
+    const appN = await Common.startAndStub({
+      env: `test-integration-session-${n}`,
+      ...props,
+    });
 
-        await app1.start();
-        await app1.client.waitUntilWindowLoaded();
+    return appN;
+  }
 
-        return app1;
-    }
+  public static async restoreFromMnemonic(
+    app: Application,
+    mnemonic: string,
+    displayName: string
+  ) {
+    await app.client.element(RegistrationPage.registrationTabSignIn).click();
+    await app.client.element(RegistrationPage.restoreFromSeedMode).click();
+    await Common.setValueWrapper(
+      app,
+      RegistrationPage.recoveryPhraseInput,
+      mnemonic
+    );
 
-    public static async startApp2() {
-        const app2 = await Common.startApp('test-integration-session-2');
-        return app2;
-    }
+    await Common.setValueWrapper(
+      app,
+      RegistrationPage.displayNameInput,
+      displayName
+    );
 
-    public static async stopApp(app1: Application) {
-        if (app1 && app1.isRunning()) {
-            await app1.stop();
-        }
-    }
+    // await app.client.element(RegistrationPage.continueSessionButton).click();
+    await app.client.keys('Enter');
 
-    public static async killallElectron() {
-        // rtharp - my 2nd client on MacOs needs: pkill -f "node_modules/.bin/electron"
-        // node_modules/electron/dist/electron is node_modules/electron/dist/Electron.app on MacOS
-        const killStr =
-            process.platform === 'win32'
-            ? 'taskkill /im electron.exe /t /f'
-            : 'pkill -f "node_modules/electron/dist/electron" | pkill -f "node_modules/.bin/electron"';
-        return new Promise(resolve => {
-            exec(killStr, (_err, stdout, stderr) => {
-            resolve({ stdout, stderr });
-            });
-        });
-    }
+    await app.client.waitForExist(
+      RegistrationPage.conversationListContainer,
+      4000
+    );
+  }
 
-    public static async rmFolder(folder: string) {
-        await fse.remove(folder);
-    }
-
-    public static async startAndAssureCleanedApp2() {
-        const app2 = await Common.startAndAssureCleanedApp(
-            'test-integration-session-2'
-        );
-        return app2;
-    }
-
-  public static async startAndAssureCleanedApp(env = 'test-integration-session') {
-        const userData = path.join(Common.USER_DATA_ROOT_FOLDER, `Session-${env}`);
-
-        await Common.rmFolder(userData);
-
-        const app1 = await Common.startApp(env);
-        await app1.client.waitForExist(
-            RegistrationPage.registrationTabSignIn,
-            4000
-        );
-
-        return app1;
-    }
-
-    public static async startAndStub({
-        mnemonic,
-        displayName,
-        env = 'test-integration-session',
-    }: {
-            mnemonic: string;
-            displayName: string;
-            env?: string;
-    }) {
-        const app = await Common.startAndAssureCleanedApp(env);
-        await Common.startStubSnodeServer();
-
-        if (mnemonic && displayName) {
-            await Common.restoreFromMnemonic(app, mnemonic, displayName);
-            // not sure we need Common - rtharp.
-            await Common.timeout(2000);
-        }
-
-        return app;
-    }
-
-    public static async startAndStubN(props: any, n: number) {
-        // Make app with stub as number n
-        const appN = await Common.startAndStub({
-            env: `test-integration-session-${n}`,
-            ...props,
-        });
-
-        return appN;
-    }
-
-    public static async restoreFromMnemonic(app: Application, mnemonic: string, displayName: string) {
-        await app.client.element(RegistrationPage.registrationTabSignIn).click();
-        await app.client.element(RegistrationPage.restoreFromSeedMode).click();
-        await Common.setValueWrapper(
-            app,
-            RegistrationPage.recoveryPhraseInput,
-            mnemonic
-        );
-
-        await Common.setValueWrapper(
-            app,
-            RegistrationPage.displayNameInput,
-            displayName
-        );
-
-        // await app.client.element(RegistrationPage.continueSessionButton).click();
-        await app.client.keys('Enter');
-
-        await app.client.waitForExist(
-            RegistrationPage.conversationListContainer,
-            4000
-        );
-    }
-
-    public static async makeFriends(app1: Application, client2: [Application, string]) {
+  public static async makeFriends(
+    app1: Application,
+    client2: [Application, string]
+  ) {
     const [app2, pubkey2] = client2;
 
     /** add each other as friends */
@@ -259,7 +280,11 @@ export class Common {
     await app1.client.element(ConversationPage.contactsButtonSection).click();
     await app1.client.element(ConversationPage.addContactButton).click();
 
-    await Common.setValueWrapper(app1, ConversationPage.sessionIDInput, pubkey2);
+    await Common.setValueWrapper(
+      app1,
+      ConversationPage.sessionIDInput,
+      pubkey2
+    );
     await app1.client.element(ConversationPage.nextButton).click();
     await app1.client.waitForExist(
       ConversationPage.sendFriendRequestTextarea,
@@ -331,7 +356,10 @@ export class Common {
     return [app1, app2];
   }
 
-  public static async addFriendToNewClosedGroup(members: Array<Application>, useSenderKeys?: boolean) {
+  public static async addFriendToNewClosedGroup(
+    members: Array<Application>,
+    useSenderKeys?: boolean
+  ) {
     const [app, ...others] = members;
 
     await app.client
@@ -433,7 +461,11 @@ export class Common {
     );
   }
 
-  public static async linkApp2ToApp(app1: Application, app2: Application, app1Pubkey: string) {
+  public static async linkApp2ToApp(
+    app1: Application,
+    app2: Application,
+    app1Pubkey: string
+  ) {
     // app needs to be logged in as user1 and app2 needs to be logged out
     // start the pairing dialog for the first app
     await app1.client.element(SettingsPage.settingsButtonSection).click();
@@ -497,7 +529,10 @@ export class Common {
       .should.eventually.be.equal(app1Pubkey);
   }
 
-  public static async triggerUnlinkApp2FromApp(app1: Application, app2: Application) {
+  public static async triggerUnlinkApp2FromApp(
+    app1: Application,
+    app2: Application
+  ) {
     // check app2 is loggedin
     await app2.client.isExisting(RegistrationPage.conversationListContainer)
       .should.eventually.be.true;
@@ -541,7 +576,11 @@ export class Common {
     }
   }
 
-  public static async sendMessage(app: Application, messageText: string, fileLocation?: string) {
+  public static async sendMessage(
+    app: Application,
+    messageText: string,
+    fileLocation?: string
+  ) {
     await Common.setValueWrapper(
       app,
       ConversationPage.sendMessageTextarea,
@@ -567,7 +606,7 @@ export class Common {
   }
 
   public static generateSendMessageText(): string {
-      return `Test message from integration tests ${Date.now()}`;
+    return `Test message from integration tests ${Date.now()}`;
   }
 
   public static async startStubSnodeServer() {
@@ -584,17 +623,17 @@ export class Common {
           return;
         }
         if (Array.isArray(pubkey)) {
-            console.error('pubkey cannot be an array');
-            response.writeHead(400, { 'Content-Type': 'text/html' });
-            response.end();
-            return;
+          console.error('pubkey cannot be an array');
+          response.writeHead(400, { 'Content-Type': 'text/html' });
+          response.end();
+          return;
         }
 
         if (Array.isArray(data)) {
-            console.error('data cannot be an array');
-            response.writeHead(400, { 'Content-Type': 'text/html' });
-            response.end();
-            return;
+          console.error('data cannot be an array');
+          response.writeHead(400, { 'Content-Type': 'text/html' });
+          response.end();
+          return;
         }
 
         if (request.method === 'POST') {
@@ -647,7 +686,11 @@ export class Common {
     }
   }
 
-  public static async joinOpenGroup(app: Application, openGroupUrl: string, name: string) {
+  public static async joinOpenGroup(
+    app: Application,
+    openGroupUrl: string,
+    name: string
+  ) {
     await app.client
       .element(ConversationPage.conversationButtonSection)
       .click();
@@ -699,7 +742,11 @@ export class Common {
    * @param str the string to search (not regex)
    * Note: getRenderProcessLogs() clears the app logs each calls.
    */
-  public static async logsContains(renderLogs: Array<{message: string}>, str: string, count?: number) {
+  public static async logsContains(
+    renderLogs: Array<{ message: string }>,
+    str: string,
+    count?: number
+  ) {
     const foundLines = renderLogs.filter(log => log.message.includes(str));
 
     // tslint:disable-next-line: no-unused-expression

@@ -1,4 +1,4 @@
-/* global textsecure, WebAPI, libsignal, window, libloki, _, libsession */
+/* global textsecure, WebAPI, window, libloki, _, libsession */
 
 /* eslint-disable more/no-then, no-bitwise */
 
@@ -192,174 +192,6 @@ function MessageSender() {
 MessageSender.prototype = {
   constructor: MessageSender,
 
-  //  makeAttachmentPointer :: Attachment -> Promise AttachmentPointerProto
-  async makeAttachmentPointer(attachment, publicServer = null, options = {}) {
-    const { isRaw = false, isAvatar = false } = options;
-    if (typeof attachment !== 'object' || attachment == null) {
-      return Promise.resolve(undefined);
-    }
-
-    if (
-      !(attachment.data instanceof ArrayBuffer) &&
-      !ArrayBuffer.isView(attachment.data)
-    ) {
-      return Promise.reject(
-        new TypeError(
-          `\`attachment.data\` must be an \`ArrayBuffer\` or \`ArrayBufferView\`; got: ${typeof attachment.data}`
-        )
-      );
-    }
-
-    const proto = new textsecure.protobuf.AttachmentPointer();
-    let attachmentData;
-    const server = publicServer || this.server;
-
-    if (publicServer || isRaw) {
-      attachmentData = attachment.data;
-    } else {
-      proto.key = libsignal.crypto.getRandomBytes(64);
-      const iv = libsignal.crypto.getRandomBytes(16);
-      const result = await textsecure.crypto.encryptAttachment(
-        attachment.data,
-        proto.key,
-        iv
-      );
-      proto.digest = result.digest;
-      attachmentData = result.ciphertext;
-    }
-
-    const result = isAvatar
-      ? await server.putAvatar(attachmentData)
-      : await server.putAttachment(attachmentData);
-
-    if (!result) {
-      return Promise.reject(
-        new Error('Failed to upload data to attachment fileserver')
-      );
-    }
-    const { url, id } = result;
-    proto.id = id;
-    proto.url = url;
-    proto.contentType = attachment.contentType;
-
-    if (attachment.size) {
-      proto.size = attachment.size;
-    }
-    if (attachment.fileName) {
-      proto.fileName = attachment.fileName;
-    }
-    if (attachment.flags) {
-      proto.flags = attachment.flags;
-    }
-    if (attachment.width) {
-      proto.width = attachment.width;
-    }
-    if (attachment.height) {
-      proto.height = attachment.height;
-    }
-    if (attachment.caption) {
-      proto.caption = attachment.caption;
-    }
-
-    return proto;
-  },
-
-  queueJobForNumber(number, runJob) {
-    const taskWithTimeout = textsecure.createTaskWithTimeout(
-      runJob,
-      `queueJobForNumber ${number}`
-    );
-
-    const runPrevious = this.pendingMessages[number] || Promise.resolve();
-    this.pendingMessages[number] = runPrevious.then(
-      taskWithTimeout,
-      taskWithTimeout
-    );
-
-    const runCurrent = this.pendingMessages[number];
-    runCurrent.then(() => {
-      if (this.pendingMessages[number] === runCurrent) {
-        delete this.pendingMessages[number];
-      }
-    });
-  },
-
-  uploadAttachments(message, publicServer) {
-    return Promise.all(
-      message.attachments.map(attachment =>
-        this.makeAttachmentPointer(attachment, publicServer)
-      )
-    )
-      .then(attachmentPointers => {
-        // eslint-disable-next-line no-param-reassign
-        message.attachmentPointers = attachmentPointers;
-      })
-      .catch(error => {
-        if (error instanceof Error && error.name === 'HTTPError') {
-          throw new textsecure.MessageError(message, error);
-        } else {
-          throw error;
-        }
-      });
-  },
-
-  async uploadLinkPreviews(message, publicServer) {
-    try {
-      const preview = await Promise.all(
-        (message.preview || []).map(async item => ({
-          ...item,
-          image: await this.makeAttachmentPointer(item.image, publicServer),
-        }))
-      );
-      // eslint-disable-next-line no-param-reassign
-      message.preview = preview;
-    } catch (error) {
-      if (error instanceof Error && error.name === 'HTTPError') {
-        throw new textsecure.MessageError(message, error);
-      } else {
-        throw error;
-      }
-    }
-  },
-
-  uploadThumbnails(message, publicServer) {
-    const makePointer = this.makeAttachmentPointer.bind(this);
-    const { quote } = message;
-
-    if (!quote || !quote.attachments || quote.attachments.length === 0) {
-      return Promise.resolve();
-    }
-
-    return Promise.all(
-      quote.attachments.map(attachment => {
-        const { thumbnail } = attachment;
-        if (!thumbnail) {
-          return null;
-        }
-
-        return makePointer(thumbnail, publicServer).then(pointer => {
-          // eslint-disable-next-line no-param-reassign
-          attachment.attachmentPointer = pointer;
-        });
-      })
-    ).catch(error => {
-      if (error instanceof Error && error.name === 'HTTPError') {
-        throw new textsecure.MessageError(message, error);
-      } else {
-        throw error;
-      }
-    });
-  },
-
-  uploadAvatar(attachment) {
-    // isRaw is true since the data is already encrypted
-    // and doesn't need to be encrypted again
-    return this.makeAttachmentPointer(attachment, null, {
-      isRaw: true,
-      isAvatar: true,
-    });
-  },
-
   async sendContactSyncMessage(convos) {
     let convosToSync;
     if (!convos) {
@@ -516,7 +348,6 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.sendOpenGroupsSyncMessage = sender.sendOpenGroupsSyncMessage.bind(
     sender
   );
-  this.uploadAvatar = sender.uploadAvatar.bind(sender);
   this.syncReadMessages = sender.syncReadMessages.bind(sender);
   this.syncVerification = sender.syncVerification.bind(sender);
   this.makeProxiedRequest = sender.makeProxiedRequest.bind(sender);

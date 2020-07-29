@@ -1,6 +1,5 @@
 import commonPage from './common.page';
 
-
 export = {
   registrationTabSignIn:
     '//div[contains(string(), "Sign In")][contains(@class, "session-registration__tab")][contains(@role, "tab")]',
@@ -36,6 +35,11 @@ export = {
   ),
   linkDeviceTriggerButton: commonPage.divRoleButtonWithText('Link Device'),
   toastWrapper: '//*[contains(@class,"session-toast-wrapper")]',
-  secretWordsText: '//div[contains(@class,"session-registration__content__secret-words")]/div[contains(@class,"subtle")]',
-  linkWithThisDevice: commonPage.objWithClassAndText('h4', 'device-pairing-dialog__desc', 'Allow linking with this device?'),
+  secretWordsText:
+    '//div[contains(@class,"session-registration__content__secret-words")]/div[contains(@class,"subtle")]',
+  linkWithThisDevice: commonPage.objWithClassAndText(
+    'h4',
+    'device-pairing-dialog__desc',
+    'Allow linking with this device?'
+  ),
 };

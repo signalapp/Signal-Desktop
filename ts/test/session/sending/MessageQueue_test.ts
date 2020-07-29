@@ -1,11 +1,7 @@
 import chai from 'chai';
 import * as sinon from 'sinon';
 import _ from 'lodash';
-import {
-  GroupUtils,
-  PromiseUtils,
-  SyncMessageUtils,
-} from '../../../session/utils';
+import { GroupUtils, PromiseUtils } from '../../../session/utils';
 import { Stubs, TestUtils } from '../../../test/test-utils';
 import { MessageQueue } from '../../../session/sending/MessageQueue';
 import {

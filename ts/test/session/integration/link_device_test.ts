@@ -3,9 +3,13 @@
 /* eslint-disable func-names  */
 /* eslint-disable import/no-extraneous-dependencies */
 // tslint:disable: no-implicit-dependencies
+// tslint:disable: await-promise
+
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import { Common } from './common';
 import { Application } from 'spectron';
+import * as TestUtils from '../../test-utils/utils/stubbing';
+import { expect } from 'chai';
 
 describe('Link Device', function() {
   let app: Application;
@@ -44,27 +48,34 @@ describe('Link Device', function() {
   });
 
   it('linkDevice:sync no groups, closed group, nor open groups', async () => {
+    await TestUtils.spyMessageQueueSend(app);
+    await TestUtils.spyMessageQueueSend(app2);
+
     await Common.linkApp2ToApp(app, app2, Common.TEST_PUBKEY1);
     await Common.timeout(10000);
+    const allMessagesSentApp = await TestUtils.getAllMessagesSent(app);
+    const allMessagesSentApp2 = await TestUtils.getAllMessagesSent(app2);
 
-    // get logs at this stage (getRenderProcessLogs() clears the app logs)
-    const secondaryRenderLogs = await app2.client.getRenderProcessLogs();
-    // pairing request message sent from secondary to primary pubkey
-    await Common.logsContains(
-      secondaryRenderLogs,
-      `Sending pairing-request:pairing-request message to ${Common.TEST_PUBKEY1}`
+    expect(allMessagesSentApp2[0][1]).to.have.property('requestSignature');
+    expect(allMessagesSentApp2[0][1]).to.have.property(
+      'primaryDevicePubKey',
+      Common.TEST_PUBKEY1
     );
+    expect(allMessagesSentApp2[0][1]).to.have.property('secondaryDevicePubKey');
 
-    const primaryRenderLogs = await app.client.getRenderProcessLogs();
-    // primary grant pairing request
-    await Common.logsContains(
-      primaryRenderLogs,
-      'Sending pairing-request:pairing-request message to OUR SECONDARY PUBKEY'
+    expect(allMessagesSentApp[1][1]).to.have.property('requestSignature');
+    expect(allMessagesSentApp[1][1]).to.have.property('grantSignature');
+    expect(allMessagesSentApp[1][1]).to.have.property(
+      'displayName',
+      Common.TEST_DISPLAY_NAME1
     );
+    expect(allMessagesSentApp[1][1]).to.have.property(
+      'primaryDevicePubKey',
+      Common.TEST_PUBKEY1
+    );
+    expect(allMessagesSentApp[1][1]).to.have.property('secondaryDevicePubKey');
 
-    // no friends, no closed groups, no open groups. we should see those message sync in the log
-    await Common.logsContains(primaryRenderLogs, 'No closed group to sync.', 1);
-    await Common.logsContains(primaryRenderLogs, 'No open groups to sync', 1);
-    await Common.logsContains(primaryRenderLogs, 'No contacts to sync.', 1);
+    // one message for session establishment, one for grant authorization. No group or anything to sync
+    expect(allMessagesSentApp.length).to.be.equal(2);
   });
 });

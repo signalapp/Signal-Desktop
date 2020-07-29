@@ -264,7 +264,9 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   public setOptionsSetting(settingID: string) {
-    const selectedValue = ($(`#${settingID} .session-radio input:checked`) as any).val();
+    const selectedValue = ($(
+      `#${settingID} .session-radio input:checked`
+    ) as any).val();
     window.setSettingValue(settingID, selectedValue);
   }
 
@@ -668,7 +670,9 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   private async onKeyUp(event: any) {
-    const lockPasswordFocussed = ($('#password-lock-input') as any).is(':focus');
+    const lockPasswordFocussed = ($('#password-lock-input') as any).is(
+      ':focus'
+    );
 
     if (event.key === 'Enter' && lockPasswordFocussed) {
       await this.validatePasswordLock();

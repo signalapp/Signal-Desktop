@@ -5,7 +5,8 @@ export = {
   settingsRowWithText: (text: string) =>
     `//*[contains(@class, "left-pane-setting-category-list-item")][contains(string(), '${text}')]`,
 
-  leftPaneSettingsButton: '//*[contains(@class,"session-icon-button")  and .//*[contains(@class, "gear")]]',
+  leftPaneSettingsButton:
+    '//*[contains(@class,"session-icon-button")  and .//*[contains(@class, "gear")]]',
 
   settingToggleWithText: (text: string) =>
     `//div[contains(@class, 'session-settings-item') and contains(string(), '${text}')]//*[contains(@class, 'session-toggle')]`,
@@ -15,7 +16,7 @@ export = {
     `//div[contains(@class, 'left-pane-setting-category-list-item') and contains(string(), '${text}')]`,
 
   // Confirm is a boolean. Selects confirmation input
-  passwordSetModalInput: (_confirm: boolean|undefined) =>
+  passwordSetModalInput: (_confirm: boolean | undefined) =>
     `//input[@id = 'password-modal-input${_confirm ? '-confirm' : ''}']`,
 
   secretWordsTextInDialog:

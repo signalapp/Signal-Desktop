@@ -12,7 +12,6 @@ import SettingsPage from './page-objects/settings.page';
 import RegistrationPage from './page-objects/registration.page';
 import ConversationPage from './page-objects/conversation.page';
 
-
 describe('Window Test and Login', function() {
   let app: Application;
   this.timeout(20000);
