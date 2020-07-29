@@ -1341,10 +1341,7 @@
           if (this.isMe()) {
             return message.sendSyncMessageOnly(chatMessage);
           }
-          const options = {};
 
-          options.messageType = message.get('type');
-          options.isPublic = this.isPublic();
           if (this.isPublic()) {
             const openGroup = this.toOpenGroup();
 
@@ -1365,7 +1362,6 @@
             return null;
           }
 
-          options.sessionRestoration = sessionRestoration;
           const destinationPubkey = new libsession.Types.PubKey(destination);
           // Handle Group Invitation Message
           if (groupInvitation) {
