@@ -52,10 +52,7 @@ const SafetyDialogContents = ({
           const shouldShowNumber = Boolean(contact.name || contact.profileName);
 
           return (
-            <li
-              className="module-sfn-dialog__contact"
-              key={contact.phoneNumber}
-            >
+            <li className="module-sfn-dialog__contact" key={contact.id}>
               <Avatar
                 avatarPath={contact.avatarPath}
                 color={contact.color}

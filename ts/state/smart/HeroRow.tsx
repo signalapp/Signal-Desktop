@@ -21,14 +21,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
   return {
     i18n: getIntl(state),
-    avatarPath: conversation.avatarPath,
-    color: conversation.color,
+    ...conversation,
     conversationType: conversation.type,
-    isMe: conversation.isMe,
-    membersCount: conversation.membersCount,
-    name: conversation.name,
-    phoneNumber: conversation.phoneNumber,
-    profileName: conversation.profileName,
   };
 };
 

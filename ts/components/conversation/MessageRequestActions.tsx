@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { ContactName, Props as ContactNameProps } from './ContactName';
+import { ContactName, PropsType as ContactNameProps } from './ContactName';
 import {
   MessageRequestActionsConfirmation,
   MessageRequestState,
@@ -11,6 +11,7 @@ import { LocalizerType } from '../../types/Util';
 
 export type Props = {
   i18n: LocalizerType;
+  firstName?: string;
   onAccept(): unknown;
 } & Omit<ContactNameProps, 'module' | 'i18n'> &
   Omit<
@@ -20,18 +21,19 @@ export type Props = {
 
 // tslint:disable-next-line max-func-body-length
 export const MessageRequestActions = ({
-  i18n,
-  name,
-  profileName,
-  phoneNumber,
-  title,
   conversationType,
+  firstName,
+  i18n,
   isBlocked,
+  name,
+  onAccept,
   onBlock,
   onBlockAndDelete,
-  onUnblock,
   onDelete,
-  onAccept,
+  onUnblock,
+  phoneNumber,
+  profileName,
+  title,
 }: Props) => {
   const [mrState, setMrState] = React.useState(MessageRequestState.default);
 
@@ -69,7 +71,7 @@ export const MessageRequestActions = ({
                   name={name}
                   profileName={profileName}
                   phoneNumber={phoneNumber}
-                  title={title}
+                  title={firstName || title}
                   i18n={i18n}
                 />
               </strong>,

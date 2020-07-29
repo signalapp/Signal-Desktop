@@ -207,7 +207,7 @@
     "rule": "jQuery-wrap(",
     "path": "js/models/conversations.js",
     "line": "      await wrap(",
-    "lineNumber": 664,
+    "lineNumber": 665,
     "reasonCategory": "falseMatch",
     "updated": "2020-06-09T20:26:46.515Z"
   },
@@ -242,6 +242,14 @@
     "lineNumber": 11,
     "reasonCategory": "falseMatch",
     "updated": "2019-10-31T17:28:08.684Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/modules/i18n.js",
+    "line": "    const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
+    "lineNumber": 44,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-07-21T18:34:59.251Z"
   },
   {
     "rule": "jQuery-load(",
@@ -11417,6 +11425,14 @@
     "updated": "2020-04-13T23:38:26.065Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "sticker-creator/util/i18n.tsx",
+    "line": "      const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
+    "lineNumber": 39,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-07-21T18:34:59.251Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "ts/backbone/views/Lightbox.js",
     "line": "    container.innerHTML = '';",
@@ -11505,6 +11521,22 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-03T19:23:21.195Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/components/Intl.js",
+    "line": "        const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
+    "lineNumber": 35,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-07-21T18:34:59.251Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/components/Intl.tsx",
+    "line": "    const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
+    "lineNumber": 69,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-07-21T18:34:59.251Z"
   },
   {
     "rule": "React-createRef",

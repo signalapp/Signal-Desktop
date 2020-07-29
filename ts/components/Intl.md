@@ -1,7 +1,7 @@
 #### No replacements
 
 ```jsx
-<Intl id="leftTheGroup" i18n={util.i18n} />
+<Intl id="deleteAndRestart" i18n={util.i18n} />
 ```
 
 #### Single string replacement
@@ -33,7 +33,10 @@
 <Intl
   id="changedSinceVerified"
   i18n={util.i18n}
-  components={['Alice', 'Bob']}
+  components={{
+    name1: 'Alice',
+    name2: 'Bob',
+  }}
 />
 ```
 
@@ -43,19 +46,23 @@
 <Intl
   id="changedSinceVerified"
   i18n={util.i18n}
-  components={[
-    <button
-      key="external-1"
-      style={{ backgroundColor: 'blue', color: 'white' }}
-    >
-      Alice
-    </button>,
-    <button
-      key="external-2"
-      style={{ backgroundColor: 'black', color: 'white' }}
-    >
-      Bob
-    </button>,
-  ]}
+  components={{
+    name1: (
+      <button
+        key="external-1"
+        style={{ backgroundColor: 'blue', color: 'white' }}
+      >
+        Alice
+      </button>
+    ),
+    name2: (
+      <button
+        key="external-2"
+        style={{ backgroundColor: 'black', color: 'white' }}
+      >
+        Bob
+      </button>
+    ),
+  }}
 />
 ```

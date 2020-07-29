@@ -248,6 +248,7 @@ export class CallingClass {
     }
   }
 
+  // If we return null here, we hang up the call.
   private async handleIncomingCall(call: Call): Promise<CallSettings | null> {
     if (!this.uxActions || !this.localDeviceId) {
       window.log.error('Missing required objects, ignoring incoming call.');

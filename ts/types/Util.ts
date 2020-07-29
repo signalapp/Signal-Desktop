@@ -3,7 +3,14 @@ export type RenderTextCallbackType = (options: {
   key: number;
 }) => JSX.Element | string;
 
-export type LocalizerType = (key: string, values?: Array<string>) => string;
+export type ReplacementValuesType = {
+  [key: string]: string;
+};
+
+export type LocalizerType = (
+  key: string,
+  values?: Array<string> | ReplacementValuesType
+) => string;
 
 export type ColorType =
   | 'red'

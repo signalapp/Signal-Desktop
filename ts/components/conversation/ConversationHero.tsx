@@ -35,15 +35,46 @@ const renderMembershipRow = ({
       </strong>
     ));
 
-    return (
-      <div className={className}>
-        <Intl
-          i18n={i18n}
-          id={`ConversationHero--membership-${firstThreeGroups.length}`}
-          components={firstThreeGroups}
-        />
-      </div>
-    );
+    if (firstThreeGroups.length >= 3) {
+      return (
+        <div className={className}>
+          <Intl
+            i18n={i18n}
+            id="ConversationHero--membership-3"
+            components={{
+              group1: firstThreeGroups[0],
+              group2: firstThreeGroups[1],
+              group3: firstThreeGroups[2],
+            }}
+          />
+        </div>
+      );
+    } else if (firstThreeGroups.length >= 2) {
+      return (
+        <div className={className}>
+          <Intl
+            i18n={i18n}
+            id="ConversationHero--membership-2"
+            components={{
+              group1: firstThreeGroups[0],
+              group2: firstThreeGroups[1],
+            }}
+          />
+        </div>
+      );
+    } else if (firstThreeGroups.length >= 1) {
+      return (
+        <div className={className}>
+          <Intl
+            i18n={i18n}
+            id="ConversationHero--membership-1"
+            components={{
+              group: firstThreeGroups[0],
+            }}
+          />
+        </div>
+      );
+    }
   }
 
   return null;
@@ -87,8 +118,6 @@ export const ConversationHero = ({
     ...groups.map(g => `g-${g}`),
   ]);
 
-  const displayName =
-    name || (conversationType === 'group' ? i18n('unknownGroup') : undefined);
   const phoneNumberOnly = Boolean(
     !name && !profileName && conversationType === 'direct'
   );
@@ -113,7 +142,7 @@ export const ConversationHero = ({
         ) : (
           <ContactName
             title={title}
-            name={displayName}
+            name={name}
             profileName={profileName}
             phoneNumber={phoneNumber}
             i18n={i18n}

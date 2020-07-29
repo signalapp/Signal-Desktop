@@ -36,6 +36,10 @@ import {
   PropsData as GroupNotificationProps,
 } from './GroupNotification';
 import { ResetSessionNotification } from './ResetSessionNotification';
+import {
+  ProfileChangeNotification,
+  PropsType as ProfileChangeNotificationPropsType,
+} from './ProfileChangeNotification';
 
 type CallHistoryType = {
   type: 'callHistory';
@@ -73,16 +77,22 @@ type ResetSessionNotificationType = {
   type: 'resetSessionNotification';
   data: null;
 };
+type ProfileChangeNotificationType = {
+  type: 'profileChange';
+  data: ProfileChangeNotificationPropsType;
+};
+
 export type TimelineItemType =
   | CallHistoryType
+  | GroupNotificationType
   | LinkNotificationType
   | MessageType
+  | ProfileChangeNotificationType
   | ResetSessionNotificationType
   | SafetyNumberNotificationType
   | TimerNotificationType
   | UnsupportedMessageType
-  | VerificationNotificationType
-  | GroupNotificationType;
+  | VerificationNotificationType;
 
 type PropsLocalType = {
   conversationId: string;
@@ -158,6 +168,10 @@ export class TimelineItem extends React.PureComponent<PropsType> {
     } else if (item.type === 'resetSessionNotification') {
       notification = (
         <ResetSessionNotification {...this.props} {...item.data} i18n={i18n} />
+      );
+    } else if (item.type === 'profileChange') {
+      notification = (
+        <ProfileChangeNotification {...this.props} {...item.data} i18n={i18n} />
       );
     } else {
       throw new Error('TimelineItem: Unknown type!');

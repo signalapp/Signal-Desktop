@@ -183,6 +183,11 @@
           type: 'callHistory',
           data: this.getPropsForCallHistory(),
         };
+      } else if (this.isProfileChange()) {
+        return {
+          type: 'profileChange',
+          data: this.getPropsForProfileChange(),
+        };
       }
 
       return {
@@ -364,6 +369,9 @@
     isCallHistory() {
       return this.get('type') === 'call-history';
     },
+    isProfileChange() {
+      return this.get('type') === 'profile-change';
+    },
 
     // Props for each message type
     getPropsForUnsupportedMessage() {
@@ -508,6 +516,16 @@
         callHistoryDetails: this.get('callHistoryDetails'),
       };
     },
+    getPropsForProfileChange() {
+      const change = this.get('profileChange');
+      const changedId = this.get('changedId');
+
+      return {
+        changedContact: this.findAndFormatContact(changedId),
+        change,
+      };
+    },
+
     getAttachmentsForMessage() {
       const sticker = this.get('sticker');
       if (sticker && sticker.data) {
@@ -856,6 +874,17 @@
       if (this.isUnsupportedMessage()) {
         return i18n('message--getDescription--unsupported-message');
       }
+      if (this.isProfileChange()) {
+        const change = this.get('profileChange');
+        const changedId = this.get('changedId');
+        const changedContact = this.findAndFormatContact(changedId);
+
+        return Signal.Util.getStringForProfileChange(
+          change,
+          changedContact,
+          i18n
+        );
+      }
       if (this.isTapToView()) {
         if (this.isErased()) {
           return i18n('message--getDescription--disappearing-media');
@@ -884,7 +913,9 @@
         if (groupUpdate.left === 'You') {
           return i18n('youLeftTheGroup');
         } else if (groupUpdate.left) {
-          return i18n('leftTheGroup', this.getNameForNumber(groupUpdate.left));
+          return i18n('leftTheGroup', [
+            this.getNameForNumber(groupUpdate.left),
+          ]);
         }
 
         if (!fromContact) {
@@ -894,7 +925,7 @@
         if (fromContact.isMe()) {
           messages.push(i18n('youUpdatedTheGroup'));
         } else {
-          messages.push(i18n('updatedTheGroup', fromContact.getTitle()));
+          messages.push(i18n('updatedTheGroup', [fromContact.getTitle()]));
         }
 
         if (groupUpdate.joined && groupUpdate.joined.length) {
@@ -907,10 +938,11 @@
 
           if (joinedContacts.length > 1) {
             messages.push(
-              i18n(
-                'multipleJoinedTheGroup',
-                _.map(joinedWithoutMe, contact => contact.getTitle()).join(', ')
-              )
+              i18n('multipleJoinedTheGroup', [
+                _.map(joinedWithoutMe, contact => contact.getTitle()).join(
+                  ', '
+                ),
+              ])
             );
 
             if (joinedWithoutMe.length < joinedContacts.length) {
@@ -925,14 +957,14 @@
               messages.push(i18n('youJoinedTheGroup'));
             } else {
               messages.push(
-                i18n('joinedTheGroup', joinedContacts[0].getTitle())
+                i18n('joinedTheGroup', [joinedContacts[0].getTitle()])
               );
             }
           }
         }
 
         if (groupUpdate.name) {
-          messages.push(i18n('titleIsNow', groupUpdate.name));
+          messages.push(i18n('titleIsNow', [groupUpdate.name]));
         }
         if (groupUpdate.avatarUpdated) {
           messages.push(i18n('updatedGroupAvatar'));
@@ -965,18 +997,16 @@
           return i18n('disappearingMessagesDisabled');
         }
 
-        return i18n(
-          'timerSetTo',
-          Whisper.ExpirationTimerOptions.getAbbreviated(expireTimer || 0)
-        );
+        return i18n('timerSetTo', [
+          Whisper.ExpirationTimerOptions.getAbbreviated(expireTimer || 0),
+        ]);
       }
       if (this.isKeyChange()) {
         const identifier = this.get('key_changed');
         const conversation = this.findContact(identifier);
-        return i18n(
-          'safetyNumberChangedGroup',
-          conversation ? conversation.getTitle() : null
-        );
+        return i18n('safetyNumberChangedGroup', [
+          conversation ? conversation.getTitle() : null,
+        ]);
       }
       const contacts = this.get('contact');
       if (contacts && contacts.length) {

@@ -19,6 +19,9 @@ export const initializeAttachmentMetadata = async (
   if (message.type === 'message-history-unsynced') {
     return message;
   }
+  if (message.type === 'profile-change') {
+    return message;
+  }
   if (message.messageTimer || message.isViewOnce) {
     return message;
   }

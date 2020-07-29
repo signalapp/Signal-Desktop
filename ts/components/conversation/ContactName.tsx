@@ -1,18 +1,18 @@
 import React from 'react';
 
-import { Emojify } from './Emojify';
 import { LocalizerType } from '../../types/Util';
+import { Emojify } from './Emojify';
 
-export interface Props {
-  title: string;
-  phoneNumber?: string;
-  name?: string;
-  profileName?: string;
-  module?: string;
+export interface PropsType {
   i18n: LocalizerType;
+  title: string;
+  module?: string;
+  name?: string;
+  phoneNumber?: string;
+  profileName?: string;
 }
 
-export class ContactName extends React.Component<Props> {
+export class ContactName extends React.Component<PropsType> {
   public render() {
     const { module, title } = this.props;
     const prefix = module ? module : 'module-contact-name';
