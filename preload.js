@@ -492,6 +492,9 @@ if (config.environment.includes('test-integration')) {
     debugMessageLogs: true,
     enableSenderKeys: true,
   };
+  /* eslint-disable global-require, import/no-extraneous-dependencies */
+  window.sinon = require('sinon');
+  /* eslint-enable global-require, import/no-extraneous-dependencies */
 }
 
 // Blocking
