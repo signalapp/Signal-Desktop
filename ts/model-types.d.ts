@@ -87,7 +87,6 @@ declare class ConversationModelType extends Backbone.Model<
   getAccepted(): boolean;
   getAvatarPath(): string | undefined;
   getColor(): ColorType | undefined;
-  getIsAddedByContact(): boolean;
   getName(): string | undefined;
   getNumber(): string;
   getProfileName(): string | undefined;
@@ -96,6 +95,7 @@ declare class ConversationModelType extends Backbone.Model<
   getSendOptions(options?: any): SendOptionsType | undefined;
   getTitle(): string;
   idForLogging(): string;
+  isFromOrAddedByTrustedContact(): boolean;
   isVerified(): boolean;
   safeGetVerified(): Promise<number>;
   setProfileKey(profileKey?: string | null): Promise<void>;

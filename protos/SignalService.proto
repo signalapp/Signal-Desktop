@@ -40,25 +40,33 @@ message Content {
 message CallingMessage {
   message Offer {
     enum Type {
-      OFFER_AUDIO_CALL       = 0;
-      OFFER_VIDEO_CALL       = 1;
+      OFFER_AUDIO_CALL = 0;
+      OFFER_VIDEO_CALL = 1;
     }
 
     optional uint64 callId = 1;
+    // Legacy/deprecated; replaced by 'opaque'
     optional string sdp    = 2;
-    optional Type type     = 3;
+    optional Type   type   = 3;
+    optional bytes  opaque = 4;
   }
 
   message Answer {
-    optional uint64 callId  = 1;
-    optional string sdp = 2;
+    optional uint64 callId = 1;
+    // Legacy/deprecated; replaced by 'opaque'
+    optional string sdp    = 2;
+    optional bytes  opaque = 3;
   }
 
   message IceCandidate {
-    optional uint64 callId   = 1;
-    optional string mid      = 2;
-    optional uint32 midIndex = 3;
-    optional string sdp      = 4;
+    optional uint64 callId = 1;
+    // Legacy/deprecated; remove when old clients are gone.
+    optional string mid    = 2;
+    // Legacy/deprecated; remove when old clients are gone.
+    optional uint32 line   = 3;
+    // Legacy/deprecated; replaced by 'opaque'
+    optional string sdp    = 4;
+    optional bytes  opaque = 5;
   }
 
   message Busy {

@@ -904,6 +904,9 @@ export declare class WebSocketResponseMessageClass {
 // Everything from here down to HangupType (everything related to calling)
 // must be kept in sync with RingRTC (ringrtc-node).
 // Whenever you change this, make sure you change RingRTC as well.
+
+type ProtobufArrayBuffer = ArrayBuffer | { toArrayBuffer: () => ArrayBuffer };
+
 export type DeviceId = number;
 
 export type CallId = any;
@@ -938,7 +941,8 @@ export class AnswerMessageClass {
 export class IceCandidateMessageClass {
   callId?: CallId;
   mid?: string;
-  midIndex?: number;
+  line?: number;
+  opaque?: ProtobufArrayBuffer;
   sdp?: string;
 }
 

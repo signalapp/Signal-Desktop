@@ -396,7 +396,7 @@ export class CallingClass {
     const shouldRelayCalls = Boolean(await window.getAlwaysRelayCalls());
 
     // If the peer is 'unknown', i.e. not in the contact list, force IP hiding.
-    const isContactUnknown = !conversation.getIsAddedByContact();
+    const isContactUnknown = !conversation.isFromOrAddedByTrustedContact();
 
     return {
       iceServer: JSON.parse(iceServerJson),
