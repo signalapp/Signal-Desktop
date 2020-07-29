@@ -28,7 +28,12 @@ describe('app/logging', () => {
 
   afterEach(done => {
     // we need the unsafe option to recursively remove the directory
-    tmpDir.removeCallback(done);
+    try {
+      tmpDir.removeCallback(done);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('removeCallback failed with ', e);
+    }
   });
 
   describe('#isLineAfterDate', () => {
