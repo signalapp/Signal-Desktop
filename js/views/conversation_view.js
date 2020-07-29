@@ -210,7 +210,7 @@
     template: i18n('oneNonImageAtATimeToast'),
   });
   Whisper.CannotMixImageAndNonImageAttachmentsToast = Whisper.ToastView.extend({
-    template: i18n('cannotMixImageAdnNonImageAttachments'),
+    template: i18n('cannotMixImageAndNonImageAttachments'),
   });
   Whisper.MaxAttachmentsToast = Whisper.ToastView.extend({
     template: i18n('maximumAttachments'),
@@ -1655,7 +1655,7 @@
         if (unverified.length > 1) {
           message = i18n('multipleNoLongerVerified');
         } else {
-          message = i18n('noLongerVerified', unverified.at(0).getTitle());
+          message = i18n('noLongerVerified', [unverified.at(0).getTitle()]);
         }
 
         // Need to re-add, since unverified set may have changed
@@ -2030,10 +2030,10 @@
       }
 
       const dialog = new Whisper.ConfirmationDialogView({
-        message: i18n('identityKeyErrorOnSend', [
-          contact.getTitle(),
-          contact.getTitle(),
-        ]),
+        message: i18n('identityKeyErrorOnSend', {
+          name1: contact.getTitle(),
+          name2: contact.getTitle(),
+        }),
         okText: i18n('sendAnyway'),
         resolve: async () => {
           await contact.updateVerified();

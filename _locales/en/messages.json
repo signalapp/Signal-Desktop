@@ -346,11 +346,15 @@
     "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "changedRightAfterVerify": {
-    "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name$. Remember, this change could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+    "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name1$. Remember, this change could mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal.",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
     "placeholders": {
-      "name": {
+      "name1": {
         "content": "$1",
+        "example": "Bob"
+      },
+      "name2": {
+        "content": "$2",
         "example": "Bob"
       }
     }
@@ -360,11 +364,15 @@
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "identityKeyErrorOnSend": {
-    "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
+    "message": "Your safety number with $name1$ has changed. This could either mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
     "placeholders": {
-      "name": {
+      "name1": {
         "content": "$1",
+        "example": "Bob"
+      },
+      "name2": {
+        "content": "$2",
         "example": "Bob"
       }
     }
@@ -549,7 +557,7 @@
     "message": "When including a non-image attachment, the limit is one attachment per message.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
-  "cannotMixImageAdnNonImageAttachments": {
+  "cannotMixImageAndNonImageAttachments": {
     "message": "You cannot mix non-image and image attachments in one message.",
     "description": "An error popup when the user has attempted to add an attachment"
   },
@@ -687,7 +695,7 @@
         "content": "$1",
         "example": "dog"
       },
-      "searchTerm": {
+      "conversationName": {
         "content": "$2",
         "example": "Friends"
       }
@@ -1378,7 +1386,7 @@
     "description": "Brief message shown when trying to message a blocked group"
   },
   "youChangedTheTimer": {
-    "message": "You set the disappearing message timer to $time$",
+    "message": "You set the disappearing message time to $time$.",
     "description": "Message displayed when you change the message expiration timer in a conversation.",
     "placeholders": {
       "time": {
@@ -1388,7 +1396,7 @@
     }
   },
   "timerSetOnSync": {
-    "message": "Updated disappearing message timer to $time$",
+    "message": "Updated the disappearing message time to $time$.",
     "description": "Message displayed when timer is set on initial link of desktop device.",
     "placeholders": {
       "time": {
@@ -1398,7 +1406,7 @@
     }
   },
   "theyChangedTheTimer": {
-    "message": "$name$ set the disappearing message timer to $time$",
+    "message": "$name$ set the disappearing message time to $time$.",
     "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
     "placeholders": {
       "name": {
@@ -1516,7 +1524,7 @@
     "description": "Displayed in the left pane when the timer is turned off"
   },
   "disabledDisappearingMessages": {
-    "message": "$name$ disabled disappearing messages",
+    "message": "$name$ disabled disappearing messages.",
     "description": "Displayed in the conversation list when the timer is turned off",
     "placeholders": {
       "name": {
@@ -1526,7 +1534,7 @@
     }
   },
   "youDisabledDisappearingMessages": {
-    "message": "You disabled disappearing messages",
+    "message": "You disabled disappearing messages.",
     "description": "Displayed in the conversation list when the timer is turned off"
   },
   "timerSetTo": {
@@ -1555,6 +1563,38 @@
     "message": "Enable incoming calls",
     "description": "Description for incoming calls setting"
   },
+  "contactChangedProfileName": {
+    "message": "$sender$ changed their profile name from $oldProfile$ to $newProfile$.",
+    "description": "Description for incoming calls setting",
+    "placeholders": {
+      "sender": {
+        "content": "$1",
+        "example": "Bob"
+      },
+      "oldProfile": {
+        "content": "$2",
+        "example": ".x8Skillz8x."
+      },
+      "newProfile": {
+        "content": "$3",
+        "example": "Bob Smith"
+      }
+    }
+  },
+  "changedProfileName": {
+    "message": "$oldProfile$ changed their profile name to $newProfile$.",
+    "description": "Shown when a contact not in your address book changes their profile name",
+    "placeholders": {
+      "oldProfile": {
+        "content": "$2",
+        "example": ".x8Skillz8x."
+      },
+      "newProfile": {
+        "content": "$3",
+        "example": "Bob Smith"
+      }
+    }
+  },
   "safetyNumberChanged": {
     "message": "Safety Number has changed",
     "description": "A notification shown in the conversation when a contact reinstalls"
@@ -1578,10 +1618,10 @@
     "description": "Label on button included with safety number change notification in the conversation"
   },
   "yourSafetyNumberWith": {
-    "message": "Your safety number with $name$:",
+    "message": "Your safety number with $name1$:",
     "description": "Heading for safety number view",
     "placeholders": {
-      "name": {
+      "name1": {
         "content": "$1",
         "example": "John"
       }
@@ -2353,27 +2393,27 @@
     "description": "Shown in reaction viewer as the title for the 'all' category"
   },
   "MessageRequests--message-direct": {
-    "message": "Do you want to let $name$ message you? They won't know you've seen their message until you accept.",
+    "message": "Let $name$ message you and share your name and photo with them? They won’t know you’ve seen their messages until you accept.",
     "description": "Shown as the message for a message request in a direct message",
     "placeholders": {
       "name": {
         "content": "$1",
-        "example": "Cayce Pollard"
+        "example": "Cayce"
       }
     }
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "Unblock $name$ to message and call each other.",
+    "message": "Let $name$ message you and share your name and photo with them? You won't receive any messages until you unblock them.",
     "description": "Shown as the message for a message request in a direct message with a blocked account",
     "placeholders": {
       "name": {
         "content": "$1",
-        "example": "Cayce Pollard"
+        "example": "Cayce"
       }
     }
   },
   "MessageRequests--message-group": {
-    "message": "Do you want to join $group$? They won't know you've seen their message until you accept.",
+    "message": "Join this group and share your name and photo with its members? They won’t know you’ve seen their messages until you accept.",
     "description": "Shown as the message for a message request in a group",
     "placeholders": {
       "name": {
@@ -2383,7 +2423,7 @@
     }
   },
   "MessageRequests--message-group-blocked": {
-    "message": "Unblock to allow group members to add you to this group again.",
+    "message": "Unblock this group and share your name and photo with its members? You won't receive any messages until you unblock them.",
     "description": "Shown as the message for a message request in a blocked group"
   },
   "MessageRequests--block": {

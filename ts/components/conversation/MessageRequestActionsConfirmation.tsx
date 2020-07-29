@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ContactName, Props as ContactNameProps } from './ContactName';
+import { ContactName, PropsType as ContactNameProps } from './ContactName';
 import { ConfirmationModal } from '../ConfirmationModal';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
@@ -25,18 +25,18 @@ export type Props = {
 
 // tslint:disable-next-line: max-func-body-length
 export const MessageRequestActionsConfirmation = ({
+  conversationType,
   i18n,
   name,
-  profileName,
-  phoneNumber,
-  title,
-  conversationType,
   onBlock,
   onBlockAndDelete,
-  onUnblock,
-  onDelete,
-  state,
   onChangeState,
+  onDelete,
+  onUnblock,
+  phoneNumber,
+  profileName,
+  state,
+  title,
 }: Props) => {
   if (state === MessageRequestState.blocking) {
     return (

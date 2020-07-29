@@ -479,6 +479,7 @@
         typingContact: typingContact ? typingContact.format() : null,
         lastUpdated: this.get('timestamp'),
         name: this.get('name'),
+        firstName: this.get('profileName'),
         profileName: this.getProfileName(),
         timestamp,
         inboxPosition,
@@ -1081,7 +1082,41 @@
           id,
         })
       );
+
       this.trigger('newmessage', model);
+    },
+
+    async addProfileChange(profileChange, conversationId) {
+      const message = {
+        conversationId: this.id,
+        type: 'profile-change',
+        sent_at: Date.now(),
+        received_at: Date.now(),
+        unread: true,
+        changedId: conversationId || this.id,
+        profileChange,
+      };
+
+      const id = await window.Signal.Data.saveMessage(message, {
+        Message: Whisper.Message,
+      });
+      const model = MessageController.register(
+        id,
+        new Whisper.Message({
+          ...message,
+          id,
+        })
+      );
+
+      this.trigger('newmessage', model);
+
+      if (this.isPrivate()) {
+        ConversationController.getAllGroupsInvolvingId(this.id).then(groups => {
+          _.forEach(groups, group => {
+            group.addProfileChange(profileChange, this.id);
+          });
+        });
+      }
     },
 
     async onReadMessage(message, readAt) {
@@ -2489,8 +2524,28 @@
       );
 
       // encode
-      const profileFamilyName = family ? stringFromBytes(family) : null;
       const profileName = given ? stringFromBytes(given) : null;
+      const profileFamilyName = family ? stringFromBytes(family) : null;
+
+      // check for changes
+      const oldName = this.getProfileName();
+      const newName = Util.combineNames(profileName, profileFamilyName);
+      const hadPreviousName = Boolean(oldName);
+
+      // Note that we compare the combined names to ensure that we don't present the exact
+      //   same before/after string, even if someone is moving from just first name to
+      //   first/last name in their profile data.
+      const nameChanged = oldName !== newName;
+
+      if (!this.isMe() && hadPreviousName && nameChanged) {
+        const change = {
+          type: 'name',
+          oldName,
+          newName,
+        };
+
+        this.addProfileChange(change);
+      }
 
       // set
       this.set({ profileName, profileFamilyName });

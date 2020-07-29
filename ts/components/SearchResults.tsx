@@ -554,10 +554,12 @@ export class SearchResults extends React.Component<PropsType, StateType> {
                 <Intl
                   id="noSearchResultsInConversation"
                   i18n={i18n}
-                  components={[
+                  components={{
                     searchTerm,
-                    <Emojify key="item-1" text={searchConversationName} />,
-                  ]}
+                    conversationName: (
+                      <Emojify key="item-1" text={searchConversationName} />
+                    ),
+                  }}
                 />
               ) : (
                 i18n('noSearchResults', [searchTerm])

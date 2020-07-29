@@ -63,7 +63,7 @@
     className: 'app-loading-screen',
     updateProgress(count) {
       if (count > 0) {
-        const message = i18n('loadingMessages', count.toString());
+        const message = i18n('loadingMessages', [count.toString()]);
         this.$('.message').text(message);
       }
     },

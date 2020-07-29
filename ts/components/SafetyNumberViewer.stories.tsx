@@ -14,6 +14,7 @@ import { storiesOf } from '@storybook/react';
 const i18n = setupI18n('en', enMessages);
 
 const contactWithAllData = {
+  title: 'Summer Smith',
   name: 'Summer Smith',
   phoneNumber: '(305) 123-4567',
   isVerified: true,
@@ -22,6 +23,7 @@ const contactWithAllData = {
 const contactWithJustProfile = {
   avatarPath: undefined,
   color: 'signal-blue',
+  title: '-*Smartest Dude*-',
   profileName: '-*Smartest Dude*-',
   name: undefined,
   phoneNumber: '(305) 123-4567',
@@ -32,6 +34,7 @@ const contactWithJustNumber = {
   color: 'signal-blue',
   profileName: undefined,
   name: undefined,
+  title: '(305) 123-4567',
   phoneNumber: '(305) 123-4567',
 } as ConversationType;
 
@@ -40,6 +43,7 @@ const contactWithNothing = {
   avatarPath: undefined,
   color: 'signal-blue',
   profileName: undefined,
+  title: 'Unknown contact',
   name: undefined,
   phoneNumber: undefined,
 } as ConversationType;

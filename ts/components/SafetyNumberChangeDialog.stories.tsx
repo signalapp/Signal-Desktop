@@ -16,6 +16,7 @@ const contactWithAllData = {
   avatarPath: undefined,
   color: 'signal-blue',
   profileName: '-*Smartest Dude*-',
+  title: 'Rick Sanchez',
   name: 'Rick Sanchez',
   phoneNumber: '(305) 123-4567',
 } as ConversationType;
@@ -23,6 +24,7 @@ const contactWithAllData = {
 const contactWithJustProfile = {
   avatarPath: undefined,
   color: 'signal-blue',
+  title: '-*Smartest Dude*-',
   profileName: '-*Smartest Dude*-',
   name: undefined,
   phoneNumber: '(305) 123-4567',
@@ -33,6 +35,7 @@ const contactWithJustNumber = {
   color: 'signal-blue',
   profileName: undefined,
   name: undefined,
+  title: '(305) 123-4567',
   phoneNumber: '(305) 123-4567',
 } as ConversationType;
 
@@ -43,6 +46,7 @@ const contactWithNothing = {
   profileName: undefined,
   name: undefined,
   phoneNumber: undefined,
+  title: 'Unknown contact',
 } as ConversationType;
 
 storiesOf('Components/SafetyNumberChangeDialog', module)

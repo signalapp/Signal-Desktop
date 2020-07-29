@@ -57,7 +57,10 @@ export const UploadStage = () => {
       <div className={styles.base}>
         <H2>{i18n('StickerCreator--UploadStage--title')}</H2>
         <Text>
-          {i18n('StickerCreator--UploadStage-uploaded', [complete, total])}
+          {i18n('StickerCreator--UploadStage-uploaded', {
+            count: complete,
+            total,
+          })}
         </Text>
         <ProgressBar
           count={complete}

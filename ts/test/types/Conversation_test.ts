@@ -5,6 +5,7 @@ import {
   IncomingMessage,
   MessageHistoryUnsyncedMessage,
   OutgoingMessage,
+  ProfileChangeNotificationMessage,
   VerifiedChangeMessage,
 } from '../../types/Message';
 
@@ -114,6 +115,30 @@ describe('Conversation', () => {
         };
         const expected = {
           lastMessage: 'Last message before expired',
+          lastMessageStatus: null,
+          lastMessageDeletedForEveryone: undefined,
+          timestamp: 555,
+        };
+
+        const actual = Conversation.createLastMessageUpdate(input);
+        assert.deepEqual(actual, expected);
+      });
+    });
+
+    context('for profile change message', () => {
+      it('should update message but not timestamp (to prevent bump to top)', () => {
+        const input = {
+          currentTimestamp: 555,
+          lastMessage: {
+            type: 'profile-change',
+            conversationId: 'foo',
+            sent_at: 666,
+            timestamp: 666,
+          } as ProfileChangeNotificationMessage,
+          lastMessageNotificationText: 'John changed their profile name',
+        };
+        const expected = {
+          lastMessage: 'John changed their profile name',
           lastMessageStatus: null,
           lastMessageDeletedForEveryone: undefined,
           timestamp: 555,

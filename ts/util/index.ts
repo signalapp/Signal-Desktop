@@ -10,6 +10,7 @@ import {
   generateSecurityNumber,
   getPlaceholder as getSafetyNumberPlaceholder,
 } from './safetyNumber';
+import { getStringForProfileChange } from './getStringForProfileChange';
 import { hasExpired } from './hasExpired';
 import { isFileDangerous } from './isFileDangerous';
 import { makeLookup } from './makeLookup';
@@ -31,6 +32,7 @@ export {
   eraseAllStorageServiceState,
   generateSecurityNumber,
   getSafetyNumberPlaceholder,
+  getStringForProfileChange,
   GoogleChrome,
   hasExpired,
   isFileDangerous,

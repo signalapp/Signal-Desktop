@@ -28,6 +28,7 @@ export const createLastMessageUpdate = ({
 
   const { type, expirationTimerUpdate, deletedForEveryone } = lastMessage;
   const isMessageHistoryUnsynced = type === 'message-history-unsynced';
+  const isProfileChangedMessage = type === 'profile-change';
   const isVerifiedChangeMessage = type === 'verified-change';
   const isExpireTimerUpdateFromSync = Boolean(
     expirationTimerUpdate && expirationTimerUpdate.fromSync
@@ -35,6 +36,7 @@ export const createLastMessageUpdate = ({
 
   const shouldUpdateTimestamp = Boolean(
     !isMessageHistoryUnsynced &&
+      !isProfileChangedMessage &&
       !isVerifiedChangeMessage &&
       !isExpireTimerUpdateFromSync
   );

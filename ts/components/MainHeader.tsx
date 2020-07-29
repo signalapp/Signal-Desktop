@@ -23,7 +23,7 @@ export interface PropsType {
 
   // For display
   phoneNumber?: string;
-  isMe: boolean;
+  isMe?: boolean;
   name?: string;
   color?: ColorType;
   isVerified?: boolean;

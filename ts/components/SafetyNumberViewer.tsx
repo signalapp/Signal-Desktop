@@ -36,10 +36,8 @@ export const SafetyNumberViewer = ({
   const showNumber = Boolean(contact.name || contact.profileName);
   const numberFragment = showNumber ? ` · ${contact.phoneNumber}` : '';
   const name = `${contact.title}${numberFragment}`;
-  const boldName = (key?: number) => (
-    <span className="module-safety-number__bold-name" key={key}>
-      {name}
-    </span>
+  const boldName = (
+    <span className="module-safety-number__bold-name">{name}</span>
   );
 
   const isVerified = contact.isVerified;
@@ -62,20 +60,23 @@ export const SafetyNumberViewer = ({
         <Intl
           i18n={i18n}
           id={safetyNumberChangedKey}
-          components={[boldName(1), boldName(2)]}
+          components={{
+            name1: boldName,
+            name2: boldName,
+          }}
         />
       </div>
       <div className="module-safety-number__number">
         {safetyNumber || getPlaceholder()}
       </div>
-      <Intl i18n={i18n} id="verifyHelp" components={[boldName()]} />
+      <Intl i18n={i18n} id="verifyHelp" components={[boldName]} />
       <div className="module-safety-number__verification-status">
         {isVerified ? (
           <span className="module-safety-number__icon--verified" />
         ) : (
           <span className="module-safety-number__icon--shield" />
         )}
-        <Intl i18n={i18n} id={verifiedStatusKey} components={[boldName()]} />
+        <Intl i18n={i18n} id={verifiedStatusKey} components={[boldName]} />
       </div>
       <div className="module-safety-number__verify-container">
         <button

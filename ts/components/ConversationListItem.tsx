@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { isNumber } from 'lodash';
 
 import { Avatar } from './Avatar';
 import { MessageBody } from './conversation/MessageBody';
@@ -19,10 +20,10 @@ export type PropsData = {
   name?: string;
   type: 'group' | 'direct';
   avatarPath?: string;
-  isMe: boolean;
+  isMe?: boolean;
 
   lastUpdated: number;
-  unreadCount: number;
+  unreadCount?: number;
   isSelected: boolean;
 
   draftPreview?: string;
@@ -80,7 +81,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
   public renderUnread() {
     const { unreadCount } = this.props;
 
-    if (unreadCount > 0) {
+    if (isNumber(unreadCount) && unreadCount > 0) {
       return (
         <div className="module-conversation-list-item__unread-count">
           {unreadCount}
@@ -103,12 +104,14 @@ export class ConversationListItem extends React.PureComponent<Props> {
       title,
     } = this.props;
 
+    const withUnread = isNumber(unreadCount) && unreadCount > 0;
+
     return (
       <div className="module-conversation-list-item__header">
         <div
           className={classNames(
             'module-conversation-list-item__header__name',
-            unreadCount > 0
+            withUnread
               ? 'module-conversation-list-item__header__name--with-unread'
               : null
           )}
@@ -128,7 +131,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
         <div
           className={classNames(
             'module-conversation-list-item__header__date',
-            unreadCount > 0
+            withUnread
               ? 'module-conversation-list-item__header__date--has-unread'
               : null
           )}
@@ -137,7 +140,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
             timestamp={lastUpdated}
             extended={false}
             module="module-conversation-list-item__header__timestamp"
-            withUnread={unreadCount > 0}
+            withUnread={withUnread}
             i18n={i18n}
           />
         </div>
@@ -158,6 +161,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       return null;
     }
 
+    const withUnread = isNumber(unreadCount) && unreadCount > 0;
     const showingDraft = shouldShowDraft && draftPreview;
     const deletedForEveryone = Boolean(
       lastMessage && lastMessage.deletedForEveryone
@@ -178,7 +182,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
           dir="auto"
           className={classNames(
             'module-conversation-list-item__message__text',
-            unreadCount > 0
+            withUnread
               ? 'module-conversation-list-item__message__text--has-unread'
               : null
           )}
@@ -219,6 +223,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
 
   public render() {
     const { unreadCount, onClick, id, isSelected, style } = this.props;
+    const withUnread = isNumber(unreadCount) && unreadCount > 0;
 
     return (
       <button
@@ -230,7 +235,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
         style={style}
         className={classNames(
           'module-conversation-list-item',
-          unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
+          withUnread ? 'module-conversation-list-item--has-unread' : null,
           isSelected ? 'module-conversation-list-item--is-selected' : null
         )}
         data-id={cleanId(id)}

@@ -27,6 +27,7 @@ export type ConversationType = {
   uuid?: string;
   e164?: string;
   name?: string;
+  firstName?: string;
   profileName?: string;
   avatarPath?: string;
   color?: ColorType;
@@ -43,11 +44,11 @@ export type ConversationType = {
   phoneNumber?: string;
   membersCount?: number;
   type: 'direct' | 'group';
-  isMe: boolean;
+  isMe?: boolean;
   lastUpdated: number;
   title: string;
-  unreadCount: number;
-  isSelected: boolean;
+  unreadCount?: number;
+  isSelected?: boolean;
   typingContact?: {
     avatarPath?: string;
     color: string;

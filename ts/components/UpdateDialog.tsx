@@ -71,10 +71,10 @@ export const UpdateDialog = ({
           <h3>{i18n('cannotUpdate')}</h3>
           <span>
             <Intl
-              components={[
-                <strong key="app">Signal.app</strong>,
-                <strong key="folder">/Applications</strong>,
-              ]}
+              components={{
+                app: <strong key="app">Signal.app</strong>,
+                folder: <strong key="folder">/Applications</strong>,
+              }}
               i18n={i18n}
               id="readOnlyVolume"
             />
