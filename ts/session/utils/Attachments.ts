@@ -75,6 +75,7 @@ export class AttachmentUtils {
       size: attachment.size,
       fileName: attachment.fileName,
       flags: attachment.flags,
+      caption: attachment.caption,
     };
 
     let attachmentData: ArrayBuffer;
