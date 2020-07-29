@@ -72,7 +72,7 @@ export class SearchResults extends React.Component<Props> {
           </div>
         ) : null}
         {haveContacts
-          ? this.renderContacts(i18n('friendsHeader'), contacts, true)
+          ? this.renderContacts(i18n('contactsHeader'), contacts, true)
           : null}
 
         {haveMessages ? (
