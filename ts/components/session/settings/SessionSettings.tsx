@@ -103,6 +103,9 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     if (category === SessionSettingCategory.Devices) {
       // special case for linked devices
       settings = this.getLinkedDeviceSettings();
+    } else if(category === SessionSettingCategory.Blocked) {
+      // special case for blocked user
+      settings = this.getBlockedUserSettings();
     } else {
       // Grab initial values from database on startup
       // ID corresponds to installGetter parameters in preload.js
@@ -587,6 +590,44 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         confirmationDialogParams: undefined,
       },
     ];
+  }
+
+  private getBlockedUserSettings(): Array<LocalSettingType> {
+    const results: Array<LocalSettingType> = [];
+    const model = window.getConversations();
+
+    for (const currentModel of model.models) {
+      let displayName = currentModel.id;
+
+      if (currentModel.attributes.profile && currentModel.attributes.profile.displayName) {
+        displayName = currentModel.attributes.profile.displayName
+      }
+
+      if(currentModel.isBlocked()) {
+        results.push({
+          id: currentModel.id,
+          title: displayName,
+          description: currentModel.id,
+          type: SessionSettingType.Button,
+          category: SessionSettingCategory.Blocked,
+          content: {
+            buttonColor: SessionButtonColor.Danger,
+            buttonText: window.i18n('unblockUser'),
+          },
+          comparisonValue: undefined,
+          setFn: () => { 
+            currentModel.unblock()
+          },
+          hidden: false,
+          onClick: undefined,
+          confirmationDialogParams: undefined,
+        });
+      }
+    }
+
+    console.log(results);
+
+    return results;
   }
 
   private getLinkedDeviceSettings(): Array<LocalSettingType> {
