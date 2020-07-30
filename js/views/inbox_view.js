@@ -90,7 +90,14 @@
         type: 'success',
       });
     },
-    showConfirmationDialog({ title, message, messageSub, onOk, onCancel, hideCancel }) {
+    showConfirmationDialog({
+      title,
+      message,
+      messageSub,
+      onOk,
+      onCancel,
+      hideCancel,
+    }) {
       window.confirmationDialog({
         title,
         message,

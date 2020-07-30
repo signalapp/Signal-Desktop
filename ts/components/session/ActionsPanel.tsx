@@ -57,26 +57,29 @@ export class ActionsPanel extends React.Component<Props, State> {
           },
           'refreshAvatarCallback'
         );
-        setTimeout(
-          async () => {
-            const hasMultipleDevices = (await MultiDeviceProtocol.getOurDevices()).length > 1;
-            const primaryWithSecondary = !window.textsecure.storage.get('isSecondaryDevice') && hasMultipleDevices;
-            const isSecondary = !!window.textsecure.storage.get('isSecondaryDevice');
+        setTimeout(async () => {
+          const hasMultipleDevices =
+            (await MultiDeviceProtocol.getOurDevices()).length > 1;
+          const primaryWithSecondary =
+            !window.textsecure.storage.get('isSecondaryDevice') &&
+            hasMultipleDevices;
+          const isSecondary = !!window.textsecure.storage.get(
+            'isSecondaryDevice'
+          );
 
-            if (!primaryWithSecondary && !isSecondary) {
-              return;
-            }
+          if (!primaryWithSecondary && !isSecondary) {
+            return;
+          }
 
-            const opts = {
-              hideCancel: true,
-              title: window.i18n('multiDeviceDisabledTemporaryTitle'),
-              message: primaryWithSecondary ? window.i18n('multiDeviceDisabledTemporaryDescriptionPrimary') : window.i18n('multiDeviceDisabledTemporaryDescriptionSecondary')
-              ,
-            };
-            window.Whisper.events.trigger('showConfirmationDialog', opts);
-          },
-          1000
-        );
+          const opts = {
+            hideCancel: true,
+            title: window.i18n('multiDeviceDisabledTemporaryTitle'),
+            message: primaryWithSecondary
+              ? window.i18n('multiDeviceDisabledTemporaryDescriptionPrimary')
+              : window.i18n('multiDeviceDisabledTemporaryDescriptionSecondary'),
+          };
+          window.Whisper.events.trigger('showConfirmationDialog', opts);
+        }, 1000);
       }
     );
   }

@@ -62,7 +62,11 @@ export class SessionConfirm extends React.Component<Props> {
         {!showHeader && <div className="spacer-lg" />}
 
         <div className="session-modal__centered">
-          <SessionHtmlRenderer tag="span" className={messageSubText} html={message} />
+          <SessionHtmlRenderer
+            tag="span"
+            className={messageSubText}
+            html={message}
+          />
           {messageSub && (
             <span className="session-confirm-sub-message subtle">
               {messageSub}
