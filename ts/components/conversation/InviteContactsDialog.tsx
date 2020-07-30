@@ -58,7 +58,7 @@ export class InviteContactsDialog extends React.Component<Props, State> {
   }
 
   public render() {
-    const titleText = `${window.i18n('addingFriends')} ${this.props.chatName}`;
+    const titleText = `${window.i18n('addingContacts')} ${this.props.chatName}`;
     const cancelText = window.i18n('cancel');
     const okText = window.i18n('ok');
 
@@ -76,7 +76,7 @@ export class InviteContactsDialog extends React.Component<Props, State> {
         {hasContacts ? null : (
           <>
             <div className="spacer-lg" />
-            <p className="no-friends">{window.i18n('noFriendsToAdd')}</p>
+            <p className="no-friends">{window.i18n('noContactsToAdd')}</p>
             <div className="spacer-lg" />
           </>
         )}

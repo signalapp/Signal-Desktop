@@ -529,12 +529,6 @@
       }
       let placeholder;
       switch (type) {
-        case 'disabled':
-          placeholder = i18n('sendMessageDisabled');
-          break;
-        case 'secondary':
-          placeholder = i18n('sendMessageDisabledSecondary');
-          break;
         case 'left-group':
           placeholder = i18n('sendMessageLeftGroup');
           break;
