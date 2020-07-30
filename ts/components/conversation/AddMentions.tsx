@@ -2,6 +2,7 @@ import React from 'react';
 
 import { RenderTextCallbackType } from '../../types/Util';
 import classNames from 'classnames';
+import { MultiDeviceProtocol } from '../../session/protocols';
 
 declare global {
   interface Window {
@@ -19,6 +20,7 @@ interface MentionProps {
 
 interface MentionState {
   found: any;
+  us: boolean;
 }
 
 class Mention extends React.Component<MentionProps, MentionState> {
@@ -45,8 +47,7 @@ class Mention extends React.Component<MentionProps, MentionState> {
   public render() {
     if (this.state.found) {
       // TODO: We don't have to search the database of message just to know that the message is for us!
-      const us =
-        this.state.found.authorPhoneNumber === window.lokiPublicChatAPI.ourKey;
+      const us = this.state.us;
       const className = classNames(
         'mention-profile-name',
         us && 'mention-profile-name-us'
@@ -73,7 +74,9 @@ class Mention extends React.Component<MentionProps, MentionState> {
   private async tryRenameMention() {
     const found = await this.findMember(this.props.text.slice(1));
     if (found) {
-      this.setState({ found });
+      const us = await MultiDeviceProtocol.isOurDevice(found.authorPhoneNumber);
+
+      this.setState({ found, us });
       this.clearOurInterval();
     }
   }
