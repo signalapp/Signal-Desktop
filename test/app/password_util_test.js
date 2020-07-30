@@ -1,6 +1,6 @@
 const { assert } = require('chai');
 
-const passwordUtil = require('../../app/password_util');
+const passwordUtil = require('../../ts/util/passwordUtils');
 
 describe('Password Util', () => {
   describe('hash generation', () => {

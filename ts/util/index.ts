@@ -5,6 +5,7 @@ import { missingCaseError } from './missingCaseError';
 import { migrateColor } from './migrateColor';
 import { makeLookup } from './makeLookup';
 import * as UserUtil from './user';
+import * as PasswordUtil from './passwordUtils';
 
 export * from './blockedNumberController';
 
@@ -16,4 +17,5 @@ export {
   migrateColor,
   missingCaseError,
   UserUtil,
+  PasswordUtil,
 };

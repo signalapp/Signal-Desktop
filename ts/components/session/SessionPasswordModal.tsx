@@ -2,7 +2,7 @@ import React from 'react';
 
 import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
-
+import { PasswordUtil } from '../../util/';
 export enum PasswordAction {
   Set = 'set',
   Change = 'change',
@@ -117,7 +117,7 @@ export class SessionPasswordModal extends React.Component<Props, State> {
   public async validatePasswordHash(password: string | null) {
     // Check if the password matches the hash we have stored
     const hash = await window.Signal.Data.getPasswordHash();
-    if (hash && !window.passwordUtil.matchesHash(password, hash)) {
+    if (hash && !PasswordUtil.matchesHash(password, hash)) {
       return false;
     }
 
@@ -153,7 +153,7 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     const enteredPasswordConfirm = (currentPasswordConfirmEntered || '').trim();
 
     // if user did not fill the first password field, we can't do anything
-    const errorFirstInput = window.passwordUtil.validatePassword(
+    const errorFirstInput = PasswordUtil.validatePassword(
       enteredPassword,
       window.i18n
     );
@@ -166,7 +166,7 @@ export class SessionPasswordModal extends React.Component<Props, State> {
 
     // if action is Set or Change, we need a valid ConfirmPassword
     if (action === Set || action === Change) {
-      const errorSecondInput = window.passwordUtil.validatePassword(
+      const errorSecondInput = PasswordUtil.validatePassword(
         enteredPasswordConfirm,
         window.i18n
       );

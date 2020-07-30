@@ -164,7 +164,7 @@ window.setPassword = (passPhrase, oldPhrase) =>
     ipc.send('set-password', passPhrase, oldPhrase);
   });
 
-window.passwordUtil = require('./app/password_util');
+window.passwordUtil = require('./ts/util/passwordUtils');
 window.libsession = require('./ts/session');
 
 // We never do these in our code, so we'll prevent it everywhere
