@@ -264,8 +264,20 @@
       /* eslint-enable no-bitwise */
     },
     getNotificationText() {
-      const description = this.getDescription();
+      let description = this.getDescription();
       if (description) {
+        // regex with a 'g' to ignore part groups
+        const regex = new RegExp(
+          `@${window.libsession.Types.PubKey.regexForPubkeys}`,
+          'g'
+        );
+        const pubkeysInDesc = description.match(regex);
+        (pubkeysInDesc || []).forEach(pubkey => {
+          const displayName = this.getLokiNameForNumber(pubkey.slice(1));
+          if (displayName && displayName.length) {
+            description = description.replace(pubkey, `@${displayName}`);
+          }
+        });
         return description;
       }
       if (this.get('attachments').length > 0) {

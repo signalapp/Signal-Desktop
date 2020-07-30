@@ -250,6 +250,7 @@ export function getAlt(
 
 export type Attachment = {
   fileName?: string;
+  caption?: string;
   flags?: SignalService.AttachmentPointer.Flags;
   contentType?: MIME.MIMEType;
   size?: number;
