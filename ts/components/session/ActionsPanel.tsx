@@ -3,6 +3,7 @@ import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar } from '../Avatar';
 import { PropsData as ConversationListItemPropsType } from '../ConversationListItem';
 import { MultiDeviceProtocol } from '../../session/protocols';
+import { UserUtil } from '../../util';
 
 export enum SectionType {
   Profile,
@@ -58,14 +59,18 @@ export class ActionsPanel extends React.Component<Props, State> {
           'refreshAvatarCallback'
         );
         setTimeout(async () => {
+          const currentDevice = await UserUtil.getCurrentDevicePubKey();
+          if (!currentDevice) {
+            return;
+          }
+          const secondaryDevices = await MultiDeviceProtocol.getSecondaryDevices(currentDevice);
+          const isSecondary = secondaryDevices.find(s => s.key === currentDevice) || !!window.textsecure.storage.get('isSecondaryDevice');
+
           const hasMultipleDevices =
             (await MultiDeviceProtocol.getOurDevices()).length > 1;
           const primaryWithSecondary =
-            !window.textsecure.storage.get('isSecondaryDevice') &&
+            !isSecondary &&
             hasMultipleDevices;
-          const isSecondary = !!window.textsecure.storage.get(
-            'isSecondaryDevice'
-          );
 
           if (!primaryWithSecondary && !isSecondary) {
             return;
