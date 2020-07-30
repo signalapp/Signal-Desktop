@@ -557,7 +557,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
             SessionButtonType.BrandOutline,
             SessionButtonColor.Green
           )}
-          <h4>{or}</h4>
+          {/*<h4>{or}</h4>*/}
           {/* FIXME enable back to allow linking of device
               this.renderLinkDeviceToExistingAccountButton() */}
         </div>
@@ -584,7 +584,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     return (
       <div>
         {this.renderContinueYourSessionButton()}
-        <h4>{or}</h4>
+          {/*<h4>{or}</h4>*/}
         {/* FIXME enable back to allow linking of device
             this.renderLinkDeviceToExistingAccountButton()*/}
       </div>

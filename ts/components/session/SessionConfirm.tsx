@@ -1,6 +1,7 @@
 import React from 'react';
 import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
+import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 
 interface Props {
   message: string;
@@ -61,7 +62,7 @@ export class SessionConfirm extends React.Component<Props> {
         {!showHeader && <div className="spacer-lg" />}
 
         <div className="session-modal__centered">
-          <span className={messageSubText}>{message}</span>
+          <SessionHtmlRenderer tag="span" className={messageSubText} html={message} />
           {messageSub && (
             <span className="session-confirm-sub-message subtle">
               {messageSub}

@@ -1319,16 +1319,20 @@
     "description": "Title of the typing indicators setting"
   },
   "multiDeviceDisabledTemporary": {
-    "message": "<FIXME placeholder>",
+    "message": "MultiDevice disabled temporarily",
     "description": "Description of why multi device is disabled"
   },
-  "multiDeviceDisabledTemporaryToastMessage": {
-    "message": "<FIXME placeholder>",
-    "description": "Description of why multi device is disabled on a toast on app start"
+  "multiDeviceDisabledTemporaryTitle": {
+    "message": "Changes to Multi-device",
+    "description": "Description of why multi device is disabled on app start"
   },
-  "multiDeviceDisabledTemporaryToastDescription": {
-    "message": "<FIXME placeholder> ",
-    "description": "Description of why multi device is disabled on a toast on app start"
+  "multiDeviceDisabledTemporaryDescriptionPrimary": {
+    "message": "You’re seeing this because you have a secondary device linked to your Session ID. To improve reliability and stability, we’ve decided to temporarily disable Session’s multi-device functionality on <span style=\"color:#00f782\">August 6th</span>. Device linking has been disabled, and the next update will erase existing secondary devices. </br></br>To read more about this change, visit the Session FAQ at <a href=\"https://getsession.org/faq\">getsession.org/faq</a>",
+    "description": "Description of why multi device is disabled on app start for a primary device"
+  },
+  "multiDeviceDisabledTemporaryDescriptionSecondary": {
+    "message": "You’re seeing this because this is a secondary device in a multi-device setup. To improve reliability and stability, we’ve decided to temporarily disable Session’s multi-device functionality on <span style=\"color:#00f782\">August 6th</span>. Device linking has been disabled, and the next update will erase existing secondary devices.</br>To read more about this change, visit the Session FAQ at <a href=\"https://getsession.org/faq\">getsession.org/faq</a>",
+    "description": "Description of why multi device is disabled on app start for a secondary device"
   },
   "messageTTL": {
     "message": "Message TTL",

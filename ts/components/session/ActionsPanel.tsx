@@ -2,6 +2,7 @@ import React from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar } from '../Avatar';
 import { PropsData as ConversationListItemPropsType } from '../ConversationListItem';
+import { MultiDeviceProtocol } from '../../session/protocols';
 
 export enum SectionType {
   Profile,
@@ -57,17 +58,24 @@ export class ActionsPanel extends React.Component<Props, State> {
           'refreshAvatarCallback'
         );
         setTimeout(
-          () =>
-            window.pushToast({
-              title: window.i18n('multiDeviceDisabledTemporaryToastMessage'),
-              description: window.i18n(
-                'multiDeviceDisabledTemporaryToastMessage'
-              ),
-              type: 'warning',
-              id: 'multiDeviceDisabledTemporaryToastMessage',
-              shouldFade: false,
-            }),
-          4000
+          async () => {
+            const hasMultipleDevices = (await MultiDeviceProtocol.getOurDevices()).length > 1;
+            const primaryWithSecondary = !window.textsecure.storage.get('isSecondaryDevice') && hasMultipleDevices;
+            const isSecondary = !!window.textsecure.storage.get('isSecondaryDevice');
+
+            if (!primaryWithSecondary && !isSecondary) {
+              return;
+            }
+
+            const opts = {
+              hideCancel: true,
+              title: window.i18n('multiDeviceDisabledTemporaryTitle'),
+              message: primaryWithSecondary ? window.i18n('multiDeviceDisabledTemporaryDescriptionPrimary') : window.i18n('multiDeviceDisabledTemporaryDescriptionSecondary')
+              ,
+            };
+            window.Whisper.events.trigger('showConfirmationDialog', opts);
+          },
+          1000
         );
       }
     );
