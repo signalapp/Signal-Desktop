@@ -54,7 +54,7 @@ const config = require('./app/config');
 // Very important to put before the single instance check, since it is based on the
 //   userData directory.
 const userConfig = require('./app/user_config');
-const passwordUtil = require('./app/password_util');
+const passwordUtil = require('./ts/util/passwordUtils');
 
 const importMode =
   process.argv.some(arg => arg === '--import') || config.get('import');

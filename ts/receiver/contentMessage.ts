@@ -8,9 +8,7 @@ import * as Lodash from 'lodash';
 import * as libsession from '../session';
 import { handleSessionRequestMessage } from './sessionHandling';
 import { handlePairingAuthorisationMessage } from './multidevice';
-import {
-  MediumGroupRequestKeysMessage,
-} from '../session/messages/outgoing';
+import { MediumGroupRequestKeysMessage } from '../session/messages/outgoing';
 import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
 import { PubKey } from '../session/types';
 
