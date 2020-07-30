@@ -324,7 +324,7 @@ describe('MessageQueue', () => {
     describe('open groups', async () => {
       let sendToOpenGroupStub: sinon.SinonStub<
         [OpenGroupMessage],
-        Promise<boolean>
+        Promise<boolean | number>
       >;
       beforeEach(() => {
         sendToOpenGroupStub = sandbox

@@ -61,10 +61,18 @@ export class MessageQueue implements MessageQueueInterface {
       // This is absolutely yucky ... we need to make it not use Promise<boolean>
       try {
         const result = await MessageSender.sendToOpenGroup(message);
-        if (result) {
-          this.events.emit('success', message);
-        } else {
+        // sendToOpenGroup returns false if failed or a number if succeeded
+        if (typeof result === 'boolean') {
           this.events.emit('fail', message, error);
+        } else {
+          const messageEventData = {
+            pubKey: message.group.groupId,
+            timestamp: message.timestamp,
+            serverId: result,
+          };
+          this.events.emit('success', message);
+
+          window.Whisper.events.trigger('publicMessageSent', messageEventData);
         }
       } catch (e) {
         console.warn(
