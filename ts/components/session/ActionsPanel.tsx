@@ -4,6 +4,7 @@ import { Avatar } from '../Avatar';
 import { PropsData as ConversationListItemPropsType } from '../ConversationListItem';
 import { MultiDeviceProtocol } from '../../session/protocols';
 import { UserUtil } from '../../util';
+import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
 
 export enum SectionType {
   Profile,
@@ -59,18 +60,33 @@ export class ActionsPanel extends React.Component<Props, State> {
           'refreshAvatarCallback'
         );
         setTimeout(async () => {
+          const disabledMultiDeviceCountDb = await getItemById(
+            'disabledMultiDeviceCount'
+          );
+          const disabledMultiDeviceCount =
+            Number(disabledMultiDeviceCountDb?.value) || 0;
+          const data = {
+            id: 'disabledMultiDeviceCount',
+            value: String(disabledMultiDeviceCount + 1),
+          };
+          await createOrUpdateItem(data);
+          if (disabledMultiDeviceCount % 5 !== 0) {
+            return;
+          }
           const currentDevice = await UserUtil.getCurrentDevicePubKey();
           if (!currentDevice) {
             return;
           }
-          const secondaryDevices = await MultiDeviceProtocol.getSecondaryDevices(currentDevice);
-          const isSecondary = secondaryDevices.find(s => s.key === currentDevice) || !!window.textsecure.storage.get('isSecondaryDevice');
+          const secondaryDevices = await MultiDeviceProtocol.getSecondaryDevices(
+            currentDevice
+          );
+          const isSecondary =
+            secondaryDevices.find(s => s.key === currentDevice) ||
+            !!window.textsecure.storage.get('isSecondaryDevice');
 
           const hasMultipleDevices =
             (await MultiDeviceProtocol.getOurDevices()).length > 1;
-          const primaryWithSecondary =
-            !isSecondary &&
-            hasMultipleDevices;
+          const primaryWithSecondary = !isSecondary && hasMultipleDevices;
 
           if (!primaryWithSecondary && !isSecondary) {
             return;
