@@ -17,17 +17,20 @@ interface Props {
 
 interface State {
   error: string | null;
+  currentPasswordEntered: string | null;
+  currentPasswordConfirmEntered: string | null;
 }
 
 export class SessionPasswordModal extends React.Component<Props, State> {
-  private readonly passwordInput: React.RefObject<HTMLInputElement>;
-  private readonly passwordInputConfirm: React.RefObject<HTMLInputElement>;
+  private passportInput: HTMLInputElement | null = null;
 
   constructor(props: any) {
     super(props);
 
     this.state = {
       error: null,
+      currentPasswordEntered: null,
+      currentPasswordConfirmEntered: null,
     };
 
     this.showError = this.showError.bind(this);
@@ -35,32 +38,28 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     this.setPassword = this.setPassword.bind(this);
     this.closeDialog = this.closeDialog.bind(this);
 
-    this.onKeyUp = this.onKeyUp.bind(this);
-    this.onPaste = this.onPaste.bind(this);
+    this.onPasswordInput = this.onPasswordInput.bind(this);
+    this.onPasswordConfirmInput = this.onPasswordConfirmInput.bind(this);
 
-    this.passwordInput = React.createRef();
-    this.passwordInputConfirm = React.createRef();
+    this.onPaste = this.onPaste.bind(this);
   }
 
   public componentDidMount() {
     setTimeout(() => {
-      if (!this.passwordInput.current) {
-        return;
-      }
-
-      this.passwordInput.current.focus();
-    }, 100);
+      // tslint:disable-next-line: no-unused-expression
+      this.passportInput && this.passportInput.focus();
+    }, 1);
   }
 
   public render() {
     const { action, onOk } = this.props;
     const placeholders =
-      this.props.action === PasswordAction.Change
+      action === PasswordAction.Change
         ? [window.i18n('typeInOldPassword'), window.i18n('enterPassword')]
         : [window.i18n('enterPassword'), window.i18n('confirmPassword')];
 
     const confirmButtonColor =
-      this.props.action === PasswordAction.Remove
+      action === PasswordAction.Remove
         ? SessionButtonColor.Danger
         : SessionButtonColor.Primary;
 
@@ -76,9 +75,11 @@ export class SessionPasswordModal extends React.Component<Props, State> {
           <input
             type="password"
             id="password-modal-input"
-            ref={this.passwordInput}
+            ref={input => {
+              this.passportInput = input;
+            }}
             placeholder={placeholders[0]}
-            onKeyUp={this.onKeyUp}
+            onKeyUp={this.onPasswordInput}
             maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
             onPaste={this.onPaste}
           />
@@ -86,9 +87,8 @@ export class SessionPasswordModal extends React.Component<Props, State> {
             <input
               type="password"
               id="password-modal-input-confirm"
-              ref={this.passwordInputConfirm}
               placeholder={placeholders[1]}
-              onKeyUp={this.onKeyUp}
+              onKeyUp={this.onPasswordConfirmInput}
               maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
               onPaste={this.onPaste}
             />
@@ -139,61 +139,60 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     );
   }
 
+  // tslint:disable-next-line: cyclomatic-complexity
   private async setPassword(onSuccess?: any) {
-    // Only initial input required for PasswordAction.Remove
-    if (
-      !this.passwordInput.current ||
-      (!this.passwordInputConfirm.current &&
-        this.props.action !== PasswordAction.Remove)
-    ) {
-      return;
-    }
+    const { action } = this.props;
+    const {
+      currentPasswordEntered,
+      currentPasswordConfirmEntered,
+    } = this.state;
+    const { Set, Remove, Change } = PasswordAction;
 
     // Trim leading / trailing whitespace for UX
-    const enteredPassword = String(this.passwordInput.current.value).trim();
-    const enteredPasswordConfirm =
-      (this.passwordInputConfirm.current &&
-        String(this.passwordInputConfirm.current.value).trim()) ||
-      '';
+    const enteredPassword = (currentPasswordEntered || '').trim();
+    const enteredPasswordConfirm = (currentPasswordConfirmEntered || '').trim();
 
-    if (
-      enteredPassword.length === 0 ||
-      (enteredPasswordConfirm.length === 0 &&
-        this.props.action !== PasswordAction.Remove)
-    ) {
+    // if user did not fill the first password field, we can't do anything
+    const errorFirstInput = window.passwordUtil.validatePassword(
+      enteredPassword,
+      window.i18n
+    );
+    if (errorFirstInput !== null) {
+      this.setState({
+        error: errorFirstInput,
+      });
       return;
     }
 
-    // Check passwords entered
-    if (
-      enteredPassword.length === 0 ||
-      (this.props.action === PasswordAction.Change &&
-        enteredPasswordConfirm.length === 0)
-    ) {
-      this.setState({
-        error: window.i18n('noGivenPassword'),
-      });
-
-      return;
+    // if action is Set or Change, we need a valid ConfirmPassword
+    if (action === Set || action === Change) {
+      const errorSecondInput = window.passwordUtil.validatePassword(
+        enteredPasswordConfirm,
+        window.i18n
+      );
+      if (errorSecondInput !== null) {
+        this.setState({
+          error: errorSecondInput,
+        });
+        return;
+      }
     }
 
     // Passwords match or remove password successful
-    const newPassword =
-      this.props.action === PasswordAction.Remove
-        ? null
-        : enteredPasswordConfirm;
-    const oldPassword =
-      this.props.action === PasswordAction.Set ? null : enteredPassword;
+    const newPassword = action === Remove ? null : enteredPasswordConfirm;
+    const oldPassword = action === Set ? null : enteredPassword;
 
     // Check if password match, when setting, changing or removing
-    const valid =
-      this.props.action !== PasswordAction.Set
-        ? Boolean(await this.validatePasswordHash(oldPassword))
-        : enteredPassword === enteredPasswordConfirm;
+    let valid;
+    if (action === Set) {
+      valid = enteredPassword === enteredPasswordConfirm;
+    } else {
+      valid = Boolean(await this.validatePasswordHash(oldPassword));
+    }
 
     if (!valid) {
       this.setState({
-        error: window.i18n(`${this.props.action}PasswordInvalid`),
+        error: window.i18n(`${action}PasswordInvalid`),
       });
 
       return;
@@ -202,10 +201,10 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     await window.setPassword(newPassword, oldPassword);
 
     const toastParams = {
-      title: window.i18n(`${this.props.action}PasswordTitle`),
-      description: window.i18n(`${this.props.action}PasswordToastDescription`),
-      type: this.props.action !== PasswordAction.Remove ? 'success' : 'warning',
-      icon: this.props.action !== PasswordAction.Remove ? 'lock' : undefined,
+      title: window.i18n(`${action}PasswordTitle`),
+      description: window.i18n(`${action}PasswordToastDescription`),
+      type: action !== Remove ? 'success' : 'warning',
+      icon: action !== Remove ? 'lock' : undefined,
     };
 
     window.pushToast({
@@ -244,13 +243,17 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     return false;
   }
 
-  private async onKeyUp(event: any) {
-    const { onOk } = this.props;
-
+  private async onPasswordInput(event: any) {
     if (event.key === 'Enter') {
-      await this.setPassword(onOk);
+      return this.setPassword(this.props.onOk);
     }
+    this.setState({ currentPasswordEntered: event.target.value });
+  }
 
-    event.preventDefault();
+  private async onPasswordConfirmInput(event: any) {
+    if (event.key === 'Enter') {
+      return this.setPassword(this.props.onOk);
+    }
+    this.setState({ currentPasswordConfirmEntered: event.target.value });
   }
 }

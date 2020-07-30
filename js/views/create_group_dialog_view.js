@@ -62,7 +62,7 @@
       return this;
     },
     onSubmit(groupName, avatar) {
-      if(groupName !== this.groupName || avatar !== this.avatarPath) {
+      if (groupName !== this.groupName || avatar !== this.avatarPath) {
         window.MediumGroups.initiateGroupUpdate(
           this.groupId,
           groupName,

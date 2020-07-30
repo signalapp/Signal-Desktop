@@ -22,6 +22,10 @@ const validatePassword = (phrase, i18n) => {
   }
 
   const trimmed = phrase.trim();
+  if (trimmed.length === 0) {
+    return i18n ? i18n('noGivenPassword') : ERRORS.LENGTH;
+  }
+
   if (trimmed.length < 6 || trimmed.length > 50) {
     return i18n ? i18n('passwordLengthError') : ERRORS.LENGTH;
   }
