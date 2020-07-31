@@ -41,4 +41,5 @@ tags
 
 proxy.key
 proxy.pub
-tsconfig.tsbuildinfo
+
+*.tsbuildinfo
