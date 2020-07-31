@@ -2355,7 +2355,7 @@ class LokiPublicChannelAPI {
     }
     // there's no retry on desktop
     // this is supposed to be after retries
-    return false;
+    return -1;
   }
 }
 

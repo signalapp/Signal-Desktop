@@ -30,7 +30,7 @@ export interface LokiPublicChannelAPI {
       body?: string;
     },
     timestamp: number
-  ): Promise<boolean | number>;
+  ): Promise<number>;
 }
 
 declare class LokiAppDotNetServerAPI implements LokiAppDotNetServerInterface {

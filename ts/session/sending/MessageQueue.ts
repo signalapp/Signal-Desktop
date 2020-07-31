@@ -61,8 +61,8 @@ export class MessageQueue implements MessageQueueInterface {
       // This is absolutely yucky ... we need to make it not use Promise<boolean>
       try {
         const result = await MessageSender.sendToOpenGroup(message);
-        // sendToOpenGroup returns false if failed or a number if succeeded
-        if (typeof result === 'boolean') {
+        // sendToOpenGroup returns -1 if failed or an id if succeeded
+        if (result < 0) {
           this.events.emit('fail', message, error);
         } else {
           const messageEventData = {
