@@ -59,6 +59,9 @@
   window.getInboxCollection = () => inboxCollection;
   window.getConversations = () => conversations;
 
+  window.getConversationByName = name =>
+    conversations.find(d => d.get('name') === name);
+
   window.ConversationController = {
     get(id) {
       if (!this._initialFetchComplete) {
@@ -212,16 +215,6 @@
           new Error('getOrCreateAndWait: did not get conversation')
         );
       });
-    },
-    prepareForSend(id) {
-      // id is either a group id or an individual user's id
-      const conversation = this.get(id);
-      const sendOptions = {};
-      const wrap = conversation
-        ? conversation.wrapSend.bind(conversation)
-        : promise => promise;
-
-      return { wrap, sendOptions };
     },
     async getAllGroupsInvolvingId(id) {
       const groups = await window.Signal.Data.getAllGroupsInvolvingId(id, {

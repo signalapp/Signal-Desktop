@@ -172,6 +172,7 @@
           isClosable: this.model.isClosable(),
           isBlocked: this.model.isBlocked(),
           isGroup: !this.model.isPrivate(),
+          isPrivate: this.model.isPrivate(),
           isOnline: this.model.isOnline(),
           isArchived: this.model.get('isArchived'),
           isPublic: this.model.isPublic(),
@@ -528,12 +529,6 @@
       }
       let placeholder;
       switch (type) {
-        case 'disabled':
-          placeholder = i18n('sendMessageDisabled');
-          break;
-        case 'secondary':
-          placeholder = i18n('sendMessageDisabledSecondary');
-          break;
         case 'left-group':
           placeholder = i18n('sendMessageLeftGroup');
           break;

@@ -2,6 +2,8 @@ import React from 'react';
 
 import { RenderTextCallbackType } from '../../types/Util';
 import classNames from 'classnames';
+import { MultiDeviceProtocol } from '../../session/protocols';
+import { FindMember } from '../../util';
 
 declare global {
   interface Window {
@@ -19,6 +21,7 @@ interface MentionProps {
 
 interface MentionState {
   found: any;
+  us: boolean;
 }
 
 class Mention extends React.Component<MentionProps, MentionState> {
@@ -45,8 +48,7 @@ class Mention extends React.Component<MentionProps, MentionState> {
   public render() {
     if (this.state.found) {
       // TODO: We don't have to search the database of message just to know that the message is for us!
-      const us =
-        this.state.found.authorPhoneNumber === window.lokiPublicChatAPI.ourKey;
+      const us = this.state.us;
       const className = classNames(
         'mention-profile-name',
         us && 'mention-profile-name-us'
@@ -71,60 +73,18 @@ class Mention extends React.Component<MentionProps, MentionState> {
   }
 
   private async tryRenameMention() {
-    const found = await this.findMember(this.props.text.slice(1));
-    if (found) {
-      this.setState({ found });
-      this.clearOurInterval();
-    }
-  }
-
-  private async findMember(pubkey: String) {
-    let groupMembers;
-
-    const groupConvos = window.getConversations().models.filter((d: any) => {
-      return !d.isPrivate();
-    });
-    const thisConvo = groupConvos.find((d: any) => {
-      return d.id === this.props.convoId;
-    });
-
-    if (!thisConvo) {
-      // If this gets triggered, is is likely because we deleted the conversation
-      this.clearOurInterval();
-
-      return;
-    }
-
-    if (thisConvo.isPublic()) {
-      groupMembers = await window.lokiPublicChatAPI.getListOfMembers();
-      groupMembers = groupMembers.filter((m: any) => !!m);
-    } else {
-      const privateConvos = window
-        .getConversations()
-        .models.filter((d: any) => d.isPrivate());
-      const members = thisConvo.attributes.members;
-      if (!members) {
-        return null;
-      }
-      const memberConversations = members
-        .map((m: any) => privateConvos.find((c: any) => c.id === m))
-        .filter((c: any) => !!c);
-      groupMembers = memberConversations.map((m: any) => {
-        const name = m.getLokiProfile()
-          ? m.getLokiProfile().displayName
-          : m.attributes.displayName;
-
-        return {
-          id: m.id,
-          authorPhoneNumber: m.id,
-          authorProfileName: name,
-        };
-      });
-    }
-
-    return groupMembers.find(
-      ({ authorPhoneNumber: pn }: any) => pn && pn === pubkey
+    const bound = this.clearOurInterval.bind(this);
+    const found = await FindMember.findMember(
+      this.props.text.slice(1),
+      this.props.convoId,
+      bound
     );
+    if (found) {
+      const us = await MultiDeviceProtocol.isOurDevice(found.authorPhoneNumber);
+
+      this.setState({ found, us });
+      this.clearOurInterval();
+    }
   }
 }
 

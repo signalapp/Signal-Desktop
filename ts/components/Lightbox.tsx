@@ -56,6 +56,9 @@ const styles = {
     paddingLeft: 40,
     paddingRight: 40,
     paddingBottom: 0,
+    minHeight: 0,
+    overflow: 'hidden',
+    minWidth: 0,
   } as React.CSSProperties,
   objectContainer: {
     position: 'relative',

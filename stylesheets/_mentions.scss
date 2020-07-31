@@ -184,11 +184,11 @@
 }
 
 .module-conversation-list-item--mentioned-us {
-  border-left: 4px solid #ffb000 !important;
+  border-left: 4px solid $session-color-green !important;
 }
 
 .at-symbol {
-  background-color: #ffb000;
+  background-color: $session-color-green;
 
   color: $color-black;
   text-align: center;
@@ -198,8 +198,9 @@
   padding-right: 3px;
 
   position: absolute;
-  right: -6px;
-  top: 12px;
+  left: 50%;
+  margin-left: 30px;
+  top: 2px;
 
   font-weight: 300;
   font-size: 11px;

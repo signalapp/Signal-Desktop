@@ -4,7 +4,9 @@ import { isFileDangerous } from './isFileDangerous';
 import { missingCaseError } from './missingCaseError';
 import { migrateColor } from './migrateColor';
 import { makeLookup } from './makeLookup';
+import { FindMember } from './findMember';
 import * as UserUtil from './user';
+import * as PasswordUtil from './passwordUtils';
 
 export * from './blockedNumberController';
 
@@ -16,4 +18,6 @@ export {
   migrateColor,
   missingCaseError,
   UserUtil,
+  PasswordUtil,
+  FindMember,
 };

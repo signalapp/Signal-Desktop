@@ -52,7 +52,7 @@ export async function poll(
 ): Promise<void> {
   const defaults: PollOptions = {
     timeout: 2000,
-    interval: 1000,
+    interval: 100,
   };
 
   const { timeout, interval } = {
@@ -113,6 +113,7 @@ export async function waitUntil(
     },
     {
       timeout,
+      interval: timeout / 20,
     }
   );
 }

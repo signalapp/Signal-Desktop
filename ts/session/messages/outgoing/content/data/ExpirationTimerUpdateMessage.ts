@@ -4,6 +4,7 @@ import { MessageParams } from '../../Message';
 import { StringUtils } from '../../../../utils';
 import { DataMessage } from './DataMessage';
 import { PubKey } from '../../../../types';
+import { Constants } from '../../../..';
 
 interface ExpirationTimerUpdateMessageParams extends MessageParams {
   groupId?: string | PubKey;
@@ -26,7 +27,7 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
   }
 
   public ttl(): number {
-    return this.getDefaultTTL();
+    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
   }
 
   public dataProto(): SignalService.DataMessage {

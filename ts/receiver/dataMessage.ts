@@ -14,6 +14,8 @@ import { handleUnpairRequest } from './multidevice';
 import { downloadAttachment } from './attachments';
 import _ from 'lodash';
 import { StringUtils } from '../session/utils';
+import { DeliveryReceiptMessage } from '../session/messages/outgoing';
+import { getMessageQueue } from '../session';
 
 export async function updateProfile(
   conversation: any,
@@ -393,7 +395,7 @@ async function handleProfileUpdate(
     );
     // First set profileSharing = true for the conversation we sent to
     receiver.set({ profileSharing: true });
-    await receiver.saveChangesToDB();
+    await receiver.commit();
 
     // Then we update our own profileKey if it's different from what we have
     const ourNumber = window.textsecure.storage.user.getNumber();
@@ -528,13 +530,12 @@ function createMessage(
 }
 
 function sendDeliveryReceipt(source: string, timestamp: any) {
-  // FIXME audric
-  // const receiptMessage = new DeliveryReceiptMessage({
-  //   timestamp: Date.now(),
-  //   timestamps: [timestamp],
-  // });
-  // const device = new PubKey(source);
-  // await getMessageQueue().sendUsingMultiDevice(device, receiptMessage);
+  const receiptMessage = new DeliveryReceiptMessage({
+    timestamp: Date.now(),
+    timestamps: [timestamp],
+  });
+  const device = new PubKey(source);
+  void getMessageQueue().sendUsingMultiDevice(device, receiptMessage);
 }
 
 interface MessageEvent {
@@ -631,7 +632,20 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     );
   }
 
-  await window.ConversationController.getOrCreateAndWait(conversationId, type);
+  const conv = await window.ConversationController.getOrCreateAndWait(
+    conversationId,
+    type
+  );
+  if (!isGroupMessage && !isIncoming) {
+    const primaryDestination = await MultiDeviceProtocol.getPrimaryDevice(
+      destination
+    );
+
+    if (destination !== primaryDestination.key) {
+      // mark created conversation as secondary if this is one
+      conv.setSecondaryStatus(true, primaryDestination.key);
+    }
+  }
 
   // =========== Process flags =============
 

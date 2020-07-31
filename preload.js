@@ -164,7 +164,7 @@ window.setPassword = (passPhrase, oldPhrase) =>
     ipc.send('set-password', passPhrase, oldPhrase);
   });
 
-window.passwordUtil = require('./app/password_util');
+window.passwordUtil = require('./ts/util/passwordUtils');
 window.libsession = require('./ts/session');
 
 // We never do these in our code, so we'll prevent it everywhere
@@ -452,7 +452,7 @@ window.lokiFeatureFlags = {
   privateGroupChats: true,
   useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
   useOnionRequests: true,
-  useFileOnionRequests: false,
+  useFileOnionRequests: true,
   enableSenderKeys: false,
   onionRequestHops: 3,
   debugMessageLogs: process.env.ENABLE_MESSAGE_LOGS,
@@ -489,6 +489,7 @@ if (config.environment.includes('test-integration')) {
     privateGroupChats: true,
     useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
     useOnionRequests: false,
+    useFileOnionRequests: false,
     debugMessageLogs: true,
     enableSenderKeys: true,
   };
