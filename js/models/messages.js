@@ -131,13 +131,15 @@
 
     isNormalBubble() {
       return (
-        !this.isUnsupportedMessage() &&
+        !this.isCallHistory() &&
+        !this.isEndSession() &&
         !this.isExpirationTimerUpdate() &&
+        !this.isGroupUpdate() &&
         !this.isKeyChange() &&
         !this.isMessageHistoryUnsynced() &&
-        !this.isVerifiedChange() &&
-        !this.isGroupUpdate() &&
-        !this.isEndSession()
+        !this.isProfileChange() &&
+        !this.isUnsupportedMessage() &&
+        !this.isVerifiedChange()
       );
     },
 
@@ -1195,26 +1197,56 @@
       }
     },
     isEmpty() {
-      const body = this.get('body');
+      // Core message types - we check for all four because they can each stand alone
+      const hasBody = Boolean(this.get('body'));
       const hasAttachment = (this.get('attachments') || []).length > 0;
-      const quote = this.get('quote');
-      const hasContact = (this.get('contact') || []).length > 0;
-      const sticker = this.get('sticker');
-      const hasPreview = (this.get('preview') || []).length > 0;
-      const groupUpdate = this.get('group_update');
-      const expirationTimerUpdate = this.get('expirationTimerUpdate');
+      const hasEmbeddedContact = (this.get('contact') || []).length > 0;
+      const isSticker = Boolean(this.get('sticker'));
 
-      const notEmpty = Boolean(
-        body ||
-          hasAttachment ||
-          quote ||
-          hasContact ||
-          sticker ||
-          hasPreview ||
-          groupUpdate ||
-          expirationTimerUpdate
-      );
-      return !notEmpty;
+      // Rendered sync messages
+      const isCallHistory = this.isCallHistory();
+      const isGroupUpdate = this.isGroupUpdate();
+      const isEndSession = this.isEndSession();
+      const isExpirationTimerUpdate = this.isExpirationTimerUpdate();
+      const isVerifiedChange = this.isVerifiedChange();
+
+      // Placeholder messages
+      const isUnsupportedMessage = this.isUnsupportedMessage();
+      const isTapToView = this.isTapToView();
+
+      // Errors
+      const hasErrors = this.hasErrors();
+
+      // Locally-generated notifications
+      const isKeyChange = this.isKeyChange();
+      const isMessageHistoryUnsynced = this.isMessageHistoryUnsynced();
+      const isProfileChange = this.isProfileChange();
+
+      // Note: not all of these message types go through message.handleDataMessage
+
+      const hasSomethingToDisplay =
+        // Core message types
+        hasBody ||
+        hasAttachment ||
+        hasEmbeddedContact ||
+        isSticker ||
+        // Rendered sync messages
+        isCallHistory ||
+        isGroupUpdate ||
+        isEndSession ||
+        isExpirationTimerUpdate ||
+        isVerifiedChange ||
+        // Placeholder messages
+        isUnsupportedMessage ||
+        isTapToView ||
+        // Errors
+        hasErrors ||
+        // Locally-generated notifications
+        isKeyChange ||
+        isMessageHistoryUnsynced ||
+        isProfileChange;
+
+      return !hasSomethingToDisplay;
     },
     unload() {
       if (this.quotedMessage) {
