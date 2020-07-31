@@ -339,6 +339,8 @@ describe('MessageQueue', () => {
       });
 
       it('should emit a success event when send was successful', async () => {
+        sendToOpenGroupStub.resolves(123456);
+
         const message = TestUtils.generateOpenGroupMessage();
         const eventPromise = PromiseUtils.waitForTask(complete => {
           messageQueueStub.events.once('success', complete);
