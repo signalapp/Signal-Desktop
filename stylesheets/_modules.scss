@@ -2790,11 +2790,22 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   margin-right: auto;
   padding: 20px;
   outline: none;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-areas:
+    'message-container message-container'
+    'error-message-label error-message'
+    'label-sent date-time-sent'
+    'label-received date-time-received'
+    'label-contact .'
+    'contact-container contact-container'
+    'delete-button-container delete-button-container';
 }
 
 .module-message-detail__message-container {
   padding-top: 20px;
   padding-bottom: 20px;
+  grid-area: message-container;
 
   &::after {
     content: '.';
@@ -2809,6 +2820,33 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include font-body-1-bold;
 }
 
+.module-message-detail__date-time {
+  text-align: right;
+  padding-right: 16px;
+}
+
+.module-message-detail__label-sent {
+  grid-area: label-sent;
+}
+.module-message-detail__label-received {
+  grid-area: label-received;
+}
+.module-message-detail__date-time-sent {
+  grid-area: date-time-sent;
+}
+.module-message-detail__date-time-received {
+  grid-area: date-time-received;
+}
+.module-message-detail__label-contact {
+  grid-area: label-contact;
+}
+.error-message-label {
+  grid-area: error-message-label;
+}
+.error-message {
+  grid-area: error-message;
+}
+
 .module-message-detail__unix-timestamp {
   @include light-theme {
     color: $color-gray-05;
@@ -2821,24 +2859,20 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-message-detail__delete-button-container {
   text-align: center;
   margin-top: 10px;
+  grid-area: delete-button-container;
 }
-
 .module-message-detail__delete-button {
   @include button-reset;
-
   @include keyboard-mode {
     &:focus {
       outline: -webkit-focus-ring-color auto 5px;
     }
   }
-
   border-radius: 5px;
   margin: 1em auto;
   padding: 1em;
-
   background-color: $color-accent-red;
   color: $color-white;
-
   @include light-theme {
     border: solid 1px $color-gray-45;
     box-shadow: 0 0 10px -3px $color-black-alpha-60;
@@ -2851,6 +2885,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-message-detail__contact-container {
   margin: 20px;
+  grid-area: contact-container;
 }
 
 .module-message-detail__contact {
@@ -2859,12 +2894,10 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   flex-direction: row;
   align-items: center;
 }
-
 .module-message-detail__contact__text {
   margin-left: 10px;
   flex-grow: 1;
 }
-
 .module-message-detail__contact__error {
   color: $color-accent-red;
   font-weight: bold;
@@ -2876,11 +2909,9 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   display: inline-block;
   margin-bottom: 2px;
 }
-
 .module-message-detail__contact__status-icon--sending {
   animation: module-message-detail__contact__status-icon--spinning 4s linear
     infinite;
-
   @include light-theme {
     @include color-svg('../images/sending.svg', $color-gray-60);
   }
@@ -2888,14 +2919,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     @include color-svg('../images/sending.svg', $color-gray-25);
   }
 }
-
 @keyframes module-message-detail__contact__status-icon--spinning {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
 }
-
 .module-message-detail__contact__status-icon--sent {
   @include light-theme {
     @include color-svg('../images/check-circle-outline.svg', $color-gray-60);
@@ -2906,7 +2935,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 .module-message-detail__contact__status-icon--delivered {
   width: 18px;
-
   @include light-theme {
     @include color-svg('../images/double-check.svg', $color-gray-60);
   }
@@ -2916,7 +2944,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 }
 .module-message-detail__contact__status-icon--read {
   width: 18px;
-
   @include light-theme {
     @include color-svg('../images/read.svg', $color-gray-60);
   }
@@ -2938,15 +2965,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     );
   }
 }
-
 .module-message-detail__contact__unidentified-delivery-icon {
   margin-left: 6px;
   margin-right: 10px;
-
   width: 20px;
   height: 20px;
   display: inline-block;
-
   @include light-theme {
     @include color-svg('../images/unidentified-delivery.svg', $color-gray-60);
   }
@@ -2954,18 +2978,14 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     @include color-svg('../images/unidentified-delivery.svg', $color-gray-25);
   }
 }
-
 .module-message-detail__contact__error-buttons {
   text-align: right;
 }
-
 .module-message-detail__contact__show-safety-number {
   @include button-reset;
   padding: 4px;
   border-radius: 4px;
-
   color: $color-white;
-
   @include light-theme {
     background-color: $color-gray-45;
   }
@@ -2979,7 +2999,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   margin-top: 5px;
   padding: 4px;
   border-radius: 4px;
-
   color: $color-white;
   background-color: $color-accent-red;
 }
