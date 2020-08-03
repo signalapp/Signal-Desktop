@@ -47,11 +47,16 @@ jobs:
           npm config set python python2.7
           npm config set msvs_version 2015
 
-      - name: Install yarn
-        run: npm install yarn --no-save
+      - uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+      - name: Install Dependencies  #skipped if step before set variable to true
+        if: |
+          steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile --prefer-offline
 
       - name: Generate and concat files
         run: yarn generate
@@ -59,7 +64,7 @@ jobs:
       - name: Lint Files
         if: runner.os != 'Windows'
         run: |
-          yarn format-full
+          yarn format-full-check
           yarn eslint
           yarn tslint
 
