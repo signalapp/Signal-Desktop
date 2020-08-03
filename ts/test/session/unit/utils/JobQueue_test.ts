@@ -1,7 +1,7 @@
 import chai from 'chai';
 import { v4 as uuid } from 'uuid';
-import { JobQueue } from '../../../session/utils/JobQueue';
-import { TestUtils } from '../../test-utils';
+import { JobQueue } from '../../../../session/utils/JobQueue';
+import { TestUtils } from '../../../test-utils';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');

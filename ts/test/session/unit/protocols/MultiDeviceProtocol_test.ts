@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { TestUtils } from '../../test-utils';
-import { PairingAuthorisation } from '../../../../js/modules/data';
-import { MultiDeviceProtocol } from '../../../session/protocols';
-import { PubKey } from '../../../session/types';
-import { UserUtil } from '../../../util';
-import { StringUtils } from '../../../session/utils';
+import { TestUtils } from '../../../test-utils';
+import { PairingAuthorisation } from '../../../../../js/modules/data';
+import { MultiDeviceProtocol } from '../../../../session/protocols';
+import { PubKey } from '../../../../session/types';
+import { UserUtil } from '../../../../util';
+import { StringUtils } from '../../../../session/utils';
 
 function generateFakeAuthorisations(
   primary: PubKey,

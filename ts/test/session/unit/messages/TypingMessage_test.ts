@@ -1,13 +1,12 @@
 import { expect } from 'chai';
 
-import { TypingMessage } from '../../../session/messages/outgoing';
-import { SignalService } from '../../../protobuf';
-import { TextEncoder } from 'util';
+import { TypingMessage } from '../../../../session/messages/outgoing';
+import { SignalService } from '../../../../protobuf';
 import Long from 'long';
 import { toNumber } from 'lodash';
-import { StringUtils } from '../../../session/utils';
-import { TestUtils } from '../../test-utils';
-import { Constants } from '../../../session';
+import { StringUtils } from '../../../../session/utils';
+import { TestUtils } from '../../../test-utils';
+import { Constants } from '../../../../session';
 
 describe('TypingMessage', () => {
   it('has Action.STARTED if isTyping = true', () => {

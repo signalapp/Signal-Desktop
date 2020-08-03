@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import {
   ChatMessage,
   ClosedGroupChatMessage,
-} from '../../../session/messages/outgoing';
-import { SignalService } from '../../../protobuf';
+} from '../../../../session/messages/outgoing';
+import { SignalService } from '../../../../protobuf';
 import { TextEncoder } from 'util';
-import { TestUtils } from '../../test-utils';
-import { StringUtils } from '../../../session/utils';
-import { PubKey } from '../../../session/types';
-import { Constants } from '../../../session';
+import { TestUtils } from '../../../test-utils';
+import { StringUtils } from '../../../../session/utils';
+import { PubKey } from '../../../../session/types';
+import { Constants } from '../../../../session';
 
 describe('ClosedGroupChatMessage', () => {
   let groupId: PubKey;

@@ -1,7 +1,7 @@
 import chai from 'chai';
 import * as sinon from 'sinon';
 
-import { PromiseUtils } from '../../../session/utils/';
+import { PromiseUtils } from '../../../../session/utils';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');

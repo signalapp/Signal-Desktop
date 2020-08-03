@@ -2,15 +2,15 @@ import { expect } from 'chai';
 import * as crypto from 'crypto';
 import * as sinon from 'sinon';
 import { toNumber } from 'lodash';
-import { MessageSender } from '../../../session/sending';
-import LokiMessageAPI from '../../../../js/modules/loki_message_api';
-import { TestUtils } from '../../test-utils';
-import { UserUtil } from '../../../util';
-import { MessageEncrypter } from '../../../session/crypto';
-import { SignalService } from '../../../protobuf';
-import { OpenGroupMessage } from '../../../session/messages/outgoing';
-import { EncryptionType } from '../../../session/types/EncryptionType';
-import { PubKey } from '../../../session/types';
+import { MessageSender } from '../../../../session/sending';
+import LokiMessageAPI from '../../../../../js/modules/loki_message_api';
+import { TestUtils } from '../../../test-utils';
+import { UserUtil } from '../../../../util';
+import { MessageEncrypter } from '../../../../session/crypto';
+import { SignalService } from '../../../../protobuf';
+import { OpenGroupMessage } from '../../../../session/messages/outgoing';
+import { EncryptionType } from '../../../../session/types/EncryptionType';
+import { PubKey } from '../../../../session/types';
 
 describe('MessageSender', () => {
   const sandbox = sinon.createSandbox();

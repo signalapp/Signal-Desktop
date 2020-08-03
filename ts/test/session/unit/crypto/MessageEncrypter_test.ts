@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import * as crypto from 'crypto';
 import * as sinon from 'sinon';
-import { MessageEncrypter } from '../../../session/crypto';
-import { EncryptionType } from '../../../session/types/EncryptionType';
-import { Stubs, TestUtils } from '../../test-utils';
-import { UserUtil } from '../../../util';
-import { SignalService } from '../../../protobuf';
+import { MessageEncrypter } from '../../../../session/crypto';
+import { EncryptionType } from '../../../../session/types/EncryptionType';
+import { Stubs, TestUtils } from '../../../test-utils';
+import { UserUtil } from '../../../../util';
+import { SignalService } from '../../../../protobuf';
 
-import * as Ratchet from '../../../session/medium_group/ratchet';
+import * as Ratchet from '../../../../session/medium_group/ratchet';
 
 // tslint:disable-next-line: max-func-body-length
 describe('MessageEncrypter', () => {

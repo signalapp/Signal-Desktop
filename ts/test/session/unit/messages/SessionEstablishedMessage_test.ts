@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import { beforeEach } from 'mocha';
 
-import { SessionEstablishedMessage } from '../../../session/messages/outgoing';
-import { SignalService } from '../../../protobuf';
-import { Constants } from '../../../session';
+import { SessionEstablishedMessage } from '../../../../session/messages/outgoing';
+import { SignalService } from '../../../../protobuf';
+import { Constants } from '../../../../session';
 
 describe('SessionEstablishedMessage', () => {
   let message: SessionEstablishedMessage;

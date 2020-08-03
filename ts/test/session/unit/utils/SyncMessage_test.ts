@@ -1,11 +1,11 @@
 import chai from 'chai';
 import * as sinon from 'sinon';
 
-import { SyncMessageUtils } from '../../../session/utils/';
-import { TestUtils } from '../../test-utils';
-import { UserUtil } from '../../../util';
-import { MultiDeviceProtocol } from '../../../session/protocols';
-import { SyncMessage } from '../../../session/messages/outgoing';
+import { SyncMessageUtils } from '../../../../session/utils';
+import { TestUtils } from '../../../test-utils';
+import { UserUtil } from '../../../../util';
+import { MultiDeviceProtocol } from '../../../../session/protocols';
+import { SyncMessage } from '../../../../session/messages/outgoing';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');

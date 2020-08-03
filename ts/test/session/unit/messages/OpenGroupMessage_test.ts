@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import {
   AttachmentPointer,
   OpenGroupMessage,
-} from '../../../session/messages/outgoing';
-import * as MIME from '../../../../ts/types/MIME';
-import { OpenGroup } from '../../../session/types';
+} from '../../../../session/messages/outgoing';
+import * as MIME from '../../../../../ts/types/MIME';
+import { OpenGroup } from '../../../../session/types';
 
 describe('OpenGroupMessage', () => {
   const group = new OpenGroup({

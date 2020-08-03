@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import { beforeEach } from 'mocha';
 
-import { DeviceUnlinkMessage } from '../../../session/messages/outgoing';
-import { SignalService } from '../../../protobuf';
-import { Constants } from '../../../session';
+import { DeviceUnlinkMessage } from '../../../../session/messages/outgoing';
+import { SignalService } from '../../../../protobuf';
+import { Constants } from '../../../../session';
 
 describe('DeviceUnlinkMessage', () => {
   let message: DeviceUnlinkMessage;

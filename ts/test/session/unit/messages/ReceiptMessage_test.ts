@@ -4,10 +4,10 @@ import { beforeEach } from 'mocha';
 import {
   DeliveryReceiptMessage,
   ReadReceiptMessage,
-} from '../../../session/messages/outgoing';
-import { SignalService } from '../../../protobuf';
+} from '../../../../session/messages/outgoing';
+import { SignalService } from '../../../../protobuf';
 import { toNumber } from 'lodash';
-import { Constants } from '../../../session';
+import { Constants } from '../../../../session';
 
 describe('ReceiptMessage', () => {
   let readMessage: ReadReceiptMessage;

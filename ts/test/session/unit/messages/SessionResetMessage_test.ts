@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { beforeEach } from 'mocha';
 
-import { SessionRequestMessage } from '../../../session/messages/outgoing';
-import { SignalService } from '../../../protobuf';
+import { SessionRequestMessage } from '../../../../session/messages/outgoing';
+import { SignalService } from '../../../../protobuf';
 import { TextDecoder, TextEncoder } from 'util';
-import { Constants } from '../../../session';
+import { Constants } from '../../../../session';
 
 describe('SessionRequestMessage', () => {
   let message: SessionRequestMessage;

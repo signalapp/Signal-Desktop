@@ -2,8 +2,8 @@ import chai from 'chai';
 import ByteBuffer from 'bytebuffer';
 
 // Can't import type as StringUtils.Encoding
-import { Encoding } from '../../../session/utils/String';
-import { StringUtils } from '../../../session/utils/';
+import { Encoding } from '../../../../session/utils/String';
+import { StringUtils } from '../../../../session/utils';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');

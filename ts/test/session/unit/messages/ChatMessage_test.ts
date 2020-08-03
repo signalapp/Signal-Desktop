@@ -5,11 +5,11 @@ import {
   ChatMessage,
   Preview,
   Quote,
-} from '../../../session/messages/outgoing';
-import { SignalService } from '../../../protobuf';
+} from '../../../../session/messages/outgoing';
+import { SignalService } from '../../../../protobuf';
 import { TextEncoder } from 'util';
 import { toNumber } from 'lodash';
-import { Constants } from '../../../session';
+import { Constants } from '../../../../session';
 
 describe('ChatMessage', () => {
   it('can create empty message with just a timestamp', () => {

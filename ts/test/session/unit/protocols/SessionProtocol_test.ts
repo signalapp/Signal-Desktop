@@ -1,12 +1,12 @@
 import { expect } from 'chai';
-import { SessionProtocol } from '../../../session/protocols';
 import * as sinon from 'sinon';
-import { Stubs, TestUtils } from '../../test-utils';
-import { UserUtil } from '../../../util';
-import { SessionRequestMessage } from '../../../session/messages/outgoing';
+import { SessionProtocol } from '../../../../session/protocols';
+import { Stubs, TestUtils } from '../../../test-utils';
+import { UserUtil } from '../../../../util';
+import { SessionRequestMessage } from '../../../../session/messages/outgoing';
 import { TextEncoder } from 'util';
-import { MessageSender } from '../../../session/sending';
-import { PubKey } from '../../../session/types';
+import { MessageSender } from '../../../../session/sending';
+import { PubKey } from '../../../../session/types';
 
 // tslint:disable-next-line: max-func-body-length
 describe('SessionProtocol', () => {

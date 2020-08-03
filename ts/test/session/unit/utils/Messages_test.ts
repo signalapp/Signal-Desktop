@@ -1,14 +1,14 @@
 import chai from 'chai';
 import * as sinon from 'sinon';
 import crypto from 'crypto';
-import { TestUtils } from '../../test-utils/';
-import { MessageUtils } from '../../../session/utils/';
-import { EncryptionType, PubKey } from '../../../session/types/';
-import { SessionProtocol } from '../../../session/protocols';
+import { TestUtils } from '../../../test-utils';
+import { MessageUtils } from '../../../../session/utils';
+import { EncryptionType, PubKey } from '../../../../session/types';
+import { SessionProtocol } from '../../../../session/protocols';
 import {
   MediumGroupChatMessage,
   SessionRequestMessage,
-} from '../../../session/messages/outgoing';
+} from '../../../../session/messages/outgoing';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');

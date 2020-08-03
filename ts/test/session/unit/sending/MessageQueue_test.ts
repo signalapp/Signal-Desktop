@@ -1,24 +1,25 @@
 import chai from 'chai';
 import * as sinon from 'sinon';
 import _ from 'lodash';
-import { GroupUtils, PromiseUtils } from '../../../session/utils';
-import { Stubs, TestUtils } from '../../../test/test-utils';
-import { MessageQueue } from '../../../session/sending/MessageQueue';
+import { describe } from 'mocha';
+
+import { GroupUtils, PromiseUtils } from '../../../../session/utils';
+import { Stubs, TestUtils } from '../../../../test/test-utils';
+import { MessageQueue } from '../../../../session/sending/MessageQueue';
 import {
   ClosedGroupMessage,
   ContentMessage,
   OpenGroupMessage,
-} from '../../../session/messages/outgoing';
-import { PrimaryPubKey, PubKey, RawMessage } from '../../../session/types';
-import { UserUtil } from '../../../util';
-import { MessageSender } from '../../../session/sending';
+} from '../../../../session/messages/outgoing';
+import { PrimaryPubKey, PubKey, RawMessage } from '../../../../session/types';
+import { UserUtil } from '../../../../util';
+import { MessageSender } from '../../../../session/sending';
 import {
   MultiDeviceProtocol,
   SessionProtocol,
-} from '../../../session/protocols';
-import { PendingMessageCacheStub } from '../../test-utils/stubs';
-import { describe } from 'mocha';
-import { TestSyncMessage } from '../../test-utils/stubs/messages/TestSyncMessage';
+} from '../../../../session/protocols';
+import { PendingMessageCacheStub } from '../../../test-utils/stubs';
+import { TestSyncMessage } from '../../../test-utils/stubs/messages/TestSyncMessage';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
 const chaiAsPromised = require('chai-as-promised');

@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { beforeEach } from 'mocha';
 
-import { EndSessionMessage } from '../../../session/messages/outgoing';
-import { SignalService } from '../../../protobuf';
+import { EndSessionMessage } from '../../../../session/messages/outgoing';
+import { SignalService } from '../../../../protobuf';
 import { TextEncoder } from 'util';
-import { Constants } from '../../../session';
+import { Constants } from '../../../../session';
 
 describe('EndSessionMessage', () => {
   let message: EndSessionMessage;

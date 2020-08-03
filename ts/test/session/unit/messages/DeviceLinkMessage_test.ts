@@ -4,10 +4,10 @@ import { beforeEach } from 'mocha';
 import {
   DeviceLinkGrantMessage,
   DeviceLinkRequestMessage,
-} from '../../../session/messages/outgoing';
-import { SignalService } from '../../../protobuf';
-import { LokiProfile } from '../../../types/Message';
-import { Constants } from '../../../session';
+} from '../../../../session/messages/outgoing';
+import { SignalService } from '../../../../protobuf';
+import { LokiProfile } from '../../../../types/Message';
+import { Constants } from '../../../../session';
 
 describe('DeviceLinkMessage', () => {
   let linkRequestMessage: DeviceLinkRequestMessage;
