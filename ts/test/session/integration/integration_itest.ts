@@ -2,15 +2,15 @@ import { Common } from './common';
 
 // tslint:disable: no-import-side-effect no-invalid-this await-promise
 
-import './registration_test';
-import './open_group_test';
-import './add_contacts_test';
-import './link_device_test';
-// import './closed_group_test';
-// import './message_functions_test';
-// import './settings_test';
-// import'./message_sync_test';
-// import './sender_keys_test';
+import './registration_itest';
+import './open_group_itest';
+import './add_contacts_itest';
+import './link_device_itest';
+// import './closed_group_itest';
+// import './message_functions_itest';
+// import './settings_itest';
+// import'./message_sync_itest';
+// import './sender_keys_itest';
 
 before(async function() {
   // start the app once before all tests to get the platform-dependent
