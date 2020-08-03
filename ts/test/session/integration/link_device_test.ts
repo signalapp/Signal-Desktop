@@ -37,17 +37,17 @@ describe('Link Device', function() {
     await Common.killallElectron();
   });
 
-  it('linkDevice: link two desktop devices', async () => {
+  xit('linkDevice: link two desktop devices', async () => {
     await Common.linkApp2ToApp(app, app2, Common.TEST_PUBKEY1);
   });
 
-  it('linkDevice: unlink two devices', async () => {
+  xit('linkDevice: unlink two devices', async () => {
     await Common.linkApp2ToApp(app, app2, Common.TEST_PUBKEY1);
     await Common.timeout(1000);
     await Common.triggerUnlinkApp2FromApp(app, app2);
   });
 
-  it('linkDevice:sync no groups, closed group, nor open groups', async () => {
+  xit('linkDevice:sync no groups, closed group, nor open groups', async () => {
     await TestUtils.spyMessageQueueSend(app);
     await TestUtils.spyMessageQueueSend(app2);
 
