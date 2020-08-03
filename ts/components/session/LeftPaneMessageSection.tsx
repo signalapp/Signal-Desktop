@@ -192,7 +192,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
               rowHeight={64}
               rowRenderer={this.renderRow}
               width={width}
-              autoHeight={true}
+              autoHeight={false}
             />
           )}
         </AutoSizer>

@@ -4,9 +4,9 @@ import {
 } from '../../../js/modules/loki_primitives';
 
 import {
-  getSnodesForPubkey,
   getSnodesFromSeedUrl,
   getVersion,
+  requestSnodesForPubkey,
 } from './serviceNodeAPI';
 
 import * as Data from '../../../js/modules/data';
@@ -117,6 +117,8 @@ export function markNodeUnreachable(snode: Snode): void {
 export async function getRandomSnodeAddress(): Promise<Snode> {
   // resolve random snode
   if (randomSnodePool.length === 0) {
+    // TODO: ensure that we only call this once at a time
+    // Should not this be saved to the database?
     await refreshRandomPool([]);
 
     if (randomSnodePool.length === 0) {
@@ -331,10 +333,8 @@ async function internalUpdateSnodesFor(pubkey: string, edkeys: Array<string>) {
 }
 
 export async function getSnodesFor(pubkey: string): Promise<Array<Snode>> {
-  let maybeNodes = nodesForPubkey.get(pubkey);
+  const maybeNodes = nodesForPubkey.get(pubkey);
   let nodes: Array<string>;
-
-  maybeNodes = [];
 
   // NOTE: important that maybeNodes is not [] here
   if (maybeNodes === undefined) {
@@ -352,7 +352,7 @@ export async function getSnodesFor(pubkey: string): Promise<Array<Snode>> {
 
   if (goodNodes.length < MIN_NODES) {
     // Request new node list from the network
-    const freshNodes = await getSnodesForPubkey(pubkey);
+    const freshNodes = _.shuffle(await requestSnodesForPubkey(pubkey));
 
     const edkeys = freshNodes.map((n: Snode) => n.pubkey_ed25519);
     // tslint:disable-next-line no-floating-promises

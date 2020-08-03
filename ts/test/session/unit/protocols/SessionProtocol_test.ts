@@ -7,6 +7,7 @@ import { SessionRequestMessage } from '../../../../session/messages/outgoing';
 import { TextEncoder } from 'util';
 import { MessageSender } from '../../../../session/sending';
 import { PubKey } from '../../../../session/types';
+import { Constants } from '../../../../session';
 
 // tslint:disable-next-line: max-func-body-length
 describe('SessionProtocol', () => {
@@ -124,7 +125,7 @@ describe('SessionProtocol', () => {
       });
 
       // Set the time just before expiry
-      clock.tick(SessionRequestMessage.defaultTTL() - 100);
+      clock.tick(Constants.TTL_DEFAULT.SESSION_REQUEST - 100);
 
       await SessionProtocol.checkSessionRequestExpiry();
       expect(getItemById.calledWith('sentSessionsTimestamp'));
@@ -140,7 +141,7 @@ describe('SessionProtocol', () => {
       });
 
       // Expire the request
-      clock.tick(SessionRequestMessage.defaultTTL() + 100);
+      clock.tick(Constants.TTL_DEFAULT.SESSION_REQUEST + 100);
 
       await SessionProtocol.checkSessionRequestExpiry();
       expect(getItemById.calledWith('sentSessionsTimestamp'));
@@ -159,7 +160,7 @@ describe('SessionProtocol', () => {
       sandbox.stub(SessionProtocol, 'sendSessionRequestIfNeeded').resolves();
 
       // Expire the request
-      clock.tick(SessionRequestMessage.defaultTTL() + 100);
+      clock.tick(Constants.TTL_DEFAULT.SESSION_REQUEST + 100);
 
       await SessionProtocol.checkSessionRequestExpiry();
       expect(getItemById.calledWith('sentSessionsTimestamp'));

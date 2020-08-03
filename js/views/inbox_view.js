@@ -90,12 +90,21 @@
         type: 'success',
       });
     },
-    showConfirmationDialog({ title, message, onOk, onCancel }) {
+    showConfirmationDialog({
+      title,
+      message,
+      messageSub,
+      onOk,
+      onCancel,
+      hideCancel,
+    }) {
       window.confirmationDialog({
         title,
         message,
         resolve: onOk,
         reject: onCancel,
+        hideCancel,
+        messageSub,
       });
     },
   });

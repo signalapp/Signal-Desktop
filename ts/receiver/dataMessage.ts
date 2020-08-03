@@ -395,7 +395,7 @@ async function handleProfileUpdate(
     );
     // First set profileSharing = true for the conversation we sent to
     receiver.set({ profileSharing: true });
-    await receiver.saveChangesToDB();
+    await receiver.commit();
 
     // Then we update our own profileKey if it's different from what we have
     const ourNumber = window.textsecure.storage.user.getNumber();

@@ -4,7 +4,6 @@ import { handleEndSession } from './sessionHandling';
 import { EnvelopePlus } from './types';
 import { downloadAttachment } from './attachments';
 import { handleMediumGroupUpdate } from './mediumGroups';
-import { onGroupReceived } from './groups';
 
 import { addToCache, getAllFromCache, removeFromCache } from './cache';
 import { processMessage } from '../session/snode_api/swarmPolling';
@@ -14,12 +13,11 @@ import { onError } from './errors';
 import {
   handleContentMessage,
   innerHandleContentMessage,
-  isBlocked,
   onDeliveryReceipt,
 } from './contentMessage';
 import _ from 'lodash';
 
-export { processMessage, onDeliveryReceipt, onGroupReceived };
+export { processMessage, onDeliveryReceipt };
 
 import {
   handleDataMessage,
@@ -31,6 +29,7 @@ import { getEnvelopeId } from './common';
 import { StringUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
 import { BlockedNumberController } from '../util/blockedNumberController';
+import { MultiDeviceProtocol } from '../session/protocols';
 
 // TODO: check if some of these exports no longer needed
 export {
@@ -310,9 +309,7 @@ export async function handleUnencryptedMessage({ message: outerMessage }: any) {
     await updateProfile(conversation, profile, profileKey);
   }
 
-  const primaryDevice = window.storage.get('primaryDevicePubKey');
-  const isOurDevice =
-    source && (source === ourNumber || source === primaryDevice);
+  const isOurDevice = await MultiDeviceProtocol.isOurDevice(source);
   const isPublicChatMessage =
     group && group.id && !!group.id.match(/^publicChat:/);
 

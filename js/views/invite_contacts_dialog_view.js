@@ -103,7 +103,11 @@
           const groupId = this.convo.get('id');
           const groupName = this.convo.get('name');
 
-          window.doUpdateGroup(groupId, groupName, uniqMembers);
+          window.MediumGroups.initiateGroupUpdate(
+            groupId,
+            groupName,
+            uniqMembers
+          );
         }
       }
     },

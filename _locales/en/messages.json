@@ -674,10 +674,6 @@
     "message": "Conversations",
     "description": "Shown to separate the types of search results"
   },
-  "friendsHeader": {
-    "message": "Friends",
-    "description": "Shown to separate the types of search results"
-  },
   "contactsHeader": {
     "message": "Contacts",
     "description": "Shown to separate the types of search results"
@@ -990,18 +986,6 @@
   "sendMessage": {
     "message": " Type your message",
     "description": "Placeholder text in the message entry field"
-  },
-  "sendMessageDisabledSecondary": {
-    "message": "This pubkey belongs to a secondary device. You should never see this message",
-    "description": "Placeholder text in the message entry field when it is disabled because a secondary device conversation is visible"
-  },
-  "sendMessageDisabled": {
-    "message": "Waiting for friend request approval",
-    "description": "Placeholder text in the message entry field when it is disabled while we are waiting for a friend request approval"
-  },
-  "sendMessageFriendRequest": {
-    "message": "Send your first message",
-    "description": "Placeholder text in the message entry field when it is the first message sent to that contact"
   },
   "sendMessageLeftGroup": {
     "message": "You left this group"
@@ -1317,6 +1301,22 @@
   "typingIndicatorsSettingTitle": {
     "message": "Typing Indicators",
     "description": "Title of the typing indicators setting"
+  },
+  "multiDeviceDisabledTemporary": {
+    "message": "MultiDevice disabled temporarily",
+    "description": "Description of why multi device is disabled"
+  },
+  "multiDeviceDisabledTemporaryTitle": {
+    "message": "Changes to Multi-device",
+    "description": "Description of why multi device is disabled on app start"
+  },
+  "multiDeviceDisabledTemporaryDescriptionPrimary": {
+    "message": "You’re seeing this because you have a secondary device linked to your Session ID. To improve reliability and stability, we’ve decided to temporarily disable Session’s multi-device functionality. Device linking has been disabled, and existing secondary clients will be erased on <span style=\"color:#00f782\">August 6th</span>.</br></br>To read more about this change, visit the Session FAQ at <a href=\"https://getsession.org/faq\">getsession.org/faq</a>.",
+    "description": "Description of why multi device is disabled on app start for a primary device"
+  },
+  "multiDeviceDisabledTemporaryDescriptionSecondary": {
+    "message": "You’re seeing this because this is a secondary device in a multi-device setup. To improve reliability and stability, we’ve decided to temporarily disable Session’s multi-device functionality. Device linking has been disabled, and existing secondary clients will be erased on <span style=\"color:#00f782\">August 6th</span>.</br></br>To read more about this change, visit the Session FAQ at <a href=\"https://getsession.org/faq\">getsession.org/faq</a>.",
+    "description": "Description of why multi device is disabled on app start for a secondary device"
   },
   "messageTTL": {
     "message": "Message TTL",
@@ -1860,50 +1860,6 @@
       }
     }
   },
-  "friendRequestPending": {
-    "message": "Friend request",
-    "description": "Shown in the conversation history when the user sends or recieves a friend request"
-  },
-  "friendRequestAccepted": {
-    "message": "Friend request accepted",
-    "description": "Shown in the conversation history when the user accepts a friend request"
-  },
-  "friendRequestDeclined": {
-    "message": "Session request declined",
-    "description": "Shown in the conversation history when the user declines a friend request"
-  },
-  "friendRequestExpired": {
-    "message": "Friend request expired",
-    "description": "Shown in the conversation history when the users friend request expires"
-  },
-  "friendRequestNotificationTitle": {
-    "message": "Friend request",
-    "description": "Shown in a notification title when receiving a friend request"
-  },
-  "friendRequestNotificationMessage": {
-    "message": "$name$ sent you a friend request",
-    "description": "Shown in a notification body when receiving a friend request",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
-  },
-  "friendRequestAcceptedNotificationTitle": {
-    "message": "Friend request accepted",
-    "description": "Shown in a notification title when friend request was accepted by the other user"
-  },
-  "friendRequestAcceptedNotificationMessage": {
-    "message": "$name$ accepted your friend request",
-    "description": "Shown in a notification body when friend request was accepted by the other user",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Bob"
-      }
-    }
-  },
   "blockUser": {
     "message": "Block User"
   },
@@ -2270,18 +2226,6 @@
     "message": "Conversations",
     "description": "conversation tab title"
   },
-  "friendsTab": {
-    "message": "Friends",
-    "description": "friend tab title"
-  },
-  "pendingAcceptance": {
-    "message": "Pending Acceptance",
-    "description": "Indicates that a friend request is pending"
-  },
-  "notFriends": {
-    "message": "Not Friends",
-    "description": "Indicates that a conversation is not friends with us"
-  },
   "emptyGroupNameError": {
     "message": "Group Name cannot be empty",
     "description": "Error message displayed on empty group name"
@@ -2326,11 +2270,11 @@
   "groupInvitation": {
     "message": "Group Invitation"
   },
-  "addingFriends": {
-    "message": "Adding friends to"
+  "addingContacts": {
+    "message": "Adding contacts to"
   },
-  "noFriendsToAdd": {
-    "message": "No friends to add"
+  "noContactsToAdd": {
+    "message": "No contacts to add"
   },
   "noMembersInThisGroup": {
     "message": "No other members in this group"
@@ -2533,9 +2477,6 @@
   },
   "displayNameEmpty": {
     "message": "Display Name Is Mandatory"
-  },
-  "youHaveFriendRequestFrom": {
-    "message": "You have friend requests from..."
   },
   "members": {
     "message": "$count$ members",

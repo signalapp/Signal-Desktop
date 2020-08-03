@@ -3,7 +3,7 @@
 'use strict';
 
 describe('ConversationCollection', () => {
-  textsecure.messaging = new textsecure.MessageSender('');
+  textsecure.messaging = new textsecure.MessageSender();
 
   before(clearDatabase);
   after(clearDatabase);

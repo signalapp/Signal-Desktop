@@ -4,14 +4,11 @@ import { getEnvelopeId } from './common';
 
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
-import { toNumber } from 'lodash';
+import * as Lodash from 'lodash';
 import * as libsession from '../session';
 import { handleSessionRequestMessage } from './sessionHandling';
 import { handlePairingAuthorisationMessage } from './multidevice';
-import {
-  MediumGroupRequestKeysMessage,
-  ReceiptMessage,
-} from '../session/messages/outgoing';
+import { MediumGroupRequestKeysMessage } from '../session/messages/outgoing';
 import { MultiDeviceProtocol, SessionProtocol } from '../session/protocols';
 import { PubKey } from '../session/types';
 
@@ -20,6 +17,7 @@ import { onError } from './errors';
 import ByteBuffer from 'bytebuffer';
 import { BlockedNumberController } from '../util/blockedNumberController';
 import { decryptWithSenderKey } from '../session/medium_group/ratchet';
+import { StringUtils } from '../session/utils';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   const plaintext = await decrypt(envelope, envelope.content);
@@ -188,12 +186,6 @@ async function decryptUnidentifiedSender(
     envelope.type = SignalService.Envelope.Type.FALLBACK_MESSAGE;
   }
 
-  const blocked = await isBlocked(sender.getName());
-  if (blocked) {
-    window.log.info('Dropping blocked message after sealed sender decryption');
-    return null;
-  }
-
   // Here we take this sender information and attach it back to the envelope
   //   to make the rest of the app work properly.
 
@@ -298,9 +290,9 @@ async function decrypt(
       };
 
       const requestKeysMessage = new MediumGroupRequestKeysMessage(params);
-      const senderPubKey = new PubKey(senderIdentity);
+      const sender = new PubKey(senderIdentity);
       // tslint:disable-next-line no-floating-promises
-      libsession.getMessageQueue().send(senderPubKey, requestKeysMessage);
+      libsession.getMessageQueue().send(sender, requestKeysMessage);
 
       return;
     }
@@ -336,6 +328,50 @@ async function decrypt(
   }
 }
 
+function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
+  // Even if the user is blocked, we should allow the message if:
+  //   - it is a group message AND
+  //   - the group exists already on the db (to not join a closed group created by a blocked user) AND
+  //   - the group is not blocked AND
+  //   - the message is only control (no body/attachments/quote/groupInvitation/contact/preview)
+
+  if (!content?.dataMessage?.group?.id) {
+    return true;
+  }
+  const groupId = StringUtils.decode(content.dataMessage.group.id, 'utf8');
+
+  const groupConvo = window.ConversationController.get(groupId);
+  if (!groupConvo) {
+    return true;
+  }
+
+  if (groupConvo.isBlocked()) {
+    return true;
+  }
+
+  // first check that dataMessage is the only field set in the Content
+  let msgWithoutDataMessage = Lodash.pickBy(
+    content,
+    (_, key) => key !== 'dataMessage' && key !== 'toJSON'
+  );
+  msgWithoutDataMessage = Lodash.pickBy(msgWithoutDataMessage, Lodash.identity);
+
+  const isMessageDataMessageOnly = Lodash.isEmpty(msgWithoutDataMessage);
+  if (!isMessageDataMessageOnly) {
+    return true;
+  }
+  const data = content.dataMessage;
+  const isControlDataMessageOnly =
+    !data.body &&
+    !data.contact?.length &&
+    !data.preview?.length &&
+    !data.attachments?.length &&
+    !data.groupInvitation &&
+    !data.quote;
+
+  return !isControlDataMessageOnly;
+}
+
 export async function innerHandleContentMessage(
   envelope: EnvelopePlus,
   plaintext: ArrayBuffer
@@ -343,6 +379,17 @@ export async function innerHandleContentMessage(
   const { ConversationController } = window;
 
   const content = SignalService.Content.decode(new Uint8Array(plaintext));
+
+  const blocked = await isBlocked(envelope.source);
+  if (blocked) {
+    // We want to allow a blocked user message if that's a control message for a known group and the group is not blocked
+    if (shouldDropBlockedUserMessage(content)) {
+      window.log.info('Dropping blocked user message');
+      return;
+    } else {
+      window.log.info('Allowing group-control message only from blocked user');
+    }
+  }
 
   const { FALLBACK_MESSAGE } = SignalService.Envelope.Type;
 
@@ -451,14 +498,14 @@ async function handleReceiptMessage(
   const results = [];
   if (type === SignalService.ReceiptMessage.Type.DELIVERY) {
     for (const ts of timestamp) {
-      const promise = onDeliveryReceipt(envelope.source, toNumber(ts));
+      const promise = onDeliveryReceipt(envelope.source, Lodash.toNumber(ts));
       results.push(promise);
     }
   } else if (type === SignalService.ReceiptMessage.Type.READ) {
     for (const ts of timestamp) {
       const promise = onReadReceipt(
-        toNumber(envelope.timestamp),
-        toNumber(ts),
+        Lodash.toNumber(envelope.timestamp),
+        Lodash.toNumber(ts),
         envelope.source
       );
       results.push(promise);
@@ -494,8 +541,8 @@ async function handleTypingMessage(
   await removeFromCache(envelope);
 
   if (envelope.timestamp && timestamp) {
-    const envelopeTimestamp = toNumber(envelope.timestamp);
-    const typingTimestamp = toNumber(timestamp);
+    const envelopeTimestamp = Lodash.toNumber(envelope.timestamp);
+    const typingTimestamp = Lodash.toNumber(timestamp);
 
     if (typingTimestamp !== envelopeTimestamp) {
       window.log.warn(

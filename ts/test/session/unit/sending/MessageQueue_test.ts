@@ -321,12 +321,12 @@ describe('MessageQueue', () => {
     describe('open groups', async () => {
       let sendToOpenGroupStub: sinon.SinonStub<
         [OpenGroupMessage],
-        Promise<boolean>
+        Promise<number>
       >;
       beforeEach(() => {
         sendToOpenGroupStub = sandbox
           .stub(MessageSender, 'sendToOpenGroup')
-          .resolves(true);
+          .resolves(-1);
       });
 
       it('can send to open group', async () => {
@@ -336,6 +336,8 @@ describe('MessageQueue', () => {
       });
 
       it('should emit a success event when send was successful', async () => {
+        sendToOpenGroupStub.resolves(123456);
+
         const message = TestUtils.generateOpenGroupMessage();
         const eventPromise = PromiseUtils.waitForTask(complete => {
           messageQueueStub.events.once('success', complete);
@@ -346,7 +348,7 @@ describe('MessageQueue', () => {
       });
 
       it('should emit a fail event if something went wrong', async () => {
-        sendToOpenGroupStub.resolves(false);
+        sendToOpenGroupStub.resolves(-1);
         const message = TestUtils.generateOpenGroupMessage();
         const eventPromise = PromiseUtils.waitForTask(complete => {
           messageQueueStub.events.once('fail', complete);

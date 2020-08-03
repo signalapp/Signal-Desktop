@@ -98,7 +98,7 @@ function wrapEnvelope(envelope: SignalService.Envelope): Uint8Array {
  */
 export async function sendToOpenGroup(
   message: OpenGroupMessage
-): Promise<boolean> {
+): Promise<number> {
   /*
     Note: Retrying wasn't added to this but it can be added in the future if needed.
     The only problem is that `channelAPI.sendMessage` returns true/false and doesn't throw any error so we can never be sure why sending failed.
@@ -112,10 +112,10 @@ export async function sendToOpenGroup(
   );
 
   if (!channelAPI) {
-    return false;
+    return -1;
   }
 
-  // Don't think returning true/false on `sendMessage` is a good way
+  // Returns -1 on fail or an id > 0 on success
   return channelAPI.sendMessage(
     {
       quote,
@@ -125,18 +125,4 @@ export async function sendToOpenGroup(
     },
     timestamp
   );
-
-  // TODO: The below should be handled in whichever class calls this
-  /*
-    const res = await sendToOpenGroup(message);
-    if (!res) {
-      throw new textsecure.PublicChatError('Failed to send public chat message');
-    }
-    const messageEventData = {
-      pubKey,
-      timestamp: messageTimeStamp,
-    };
-    messageEventData.serverId = res;
-    window.Whisper.events.trigger('publicMessageSent', messageEventData);
-  */
 }

@@ -3,6 +3,7 @@ import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
 import { MessageSender } from '../sending';
 import { MessageUtils } from '../utils';
 import { PubKey } from '../types';
+import { Constants } from '..';
 
 interface StringToNumberMap {
   [key: string]: number;
@@ -81,7 +82,7 @@ export class SessionProtocol {
     const now = Date.now();
     const sentTimestamps = Object.entries(this.sentSessionsTimestamp);
     const promises = sentTimestamps.map(async ([device, sent]) => {
-      const expireTime = sent + SessionRequestMessage.defaultTTL();
+      const expireTime = sent + Constants.TTL_DEFAULT.SESSION_REQUEST;
       // Check if we need to send a session request
       if (now < expireTime) {
         return;

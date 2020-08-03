@@ -157,7 +157,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
             />
           </div>
           {hasContacts ? null : (
-            <p className="no-friends">{i18n('noFriendsToAdd')}</p>
+            <p className="no-friends">{i18n('noContactsToAdd')}</p>
           )}
         </div>
         <div className="buttons">
