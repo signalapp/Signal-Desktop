@@ -1,41 +1,44 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable more/no-then */
 /* eslint-disable func-names  */
 /* eslint-disable import/no-extraneous-dependencies */
-const path = require('path');
+// tslint:disable: await-promise
+// tslint:disable: no-implicit-dependencies
+// tslint:disable: no-invalid-this
 
-const { afterEach, beforeEach, describe, it } = require('mocha');
-const common = require('./common');
-const ConversationPage = require('./page-objects/conversation.page');
+import path from 'path';
+import { afterEach, beforeEach, describe, it } from 'mocha';
+import { Common } from './common';
+import { Application } from 'spectron';
+
+import ConversationPage from './page-objects/conversation.page';
 
 describe('Message Functions', function() {
-  let app;
-  let app2;
   this.timeout(60000);
-  this.slow(15000);
+  this.slow(20000);
+  let app: Application;
+  let app2: Application;
 
   beforeEach(async () => {
-    await common.killallElectron();
-    await common.stopStubSnodeServer();
+    await Common.killallElectron();
+    await Common.stopStubSnodeServer();
 
-    [app, app2] = await common.startAppsAsFriends();
+    [app, app2] = await Common.startAppsAsFriends();
   });
 
   afterEach(async () => {
-    await common.stopApp(app);
-    await common.killallElectron();
-    await common.stopStubSnodeServer();
+    await Common.stopApp(app);
+    await Common.killallElectron();
+    await Common.stopStubSnodeServer();
   });
 
   it('can send attachment', async () => {
     // create group and add new friend
-    await common.addFriendToNewClosedGroup([app, app2], false);
+    await Common.addFriendToNewClosedGroup([app, app2], false);
 
     // send attachment from app1 to closed group
     const fileLocation = path.join(__dirname, 'test_attachment');
     const messageText = 'test_attachment';
 
-    await common.sendMessage(app, messageText, fileLocation);
+    await Common.sendMessage(app, messageText, fileLocation);
 
     // validate attachment sent
     await app.client.waitForExist(
@@ -51,9 +54,9 @@ describe('Message Functions', function() {
 
   it('can delete message', async () => {
     // create group and add new friend
-    await common.addFriendToNewClosedGroup([app, app2], false);
+    await Common.addFriendToNewClosedGroup([app, app2], false);
     const messageText = 'delete_me';
-    await common.sendMessage(app, messageText);
+    await Common.sendMessage(app, messageText);
 
     await app.client.waitForExist(
       ConversationPage.existingSendMessageText(messageText),

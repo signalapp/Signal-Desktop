@@ -2,6 +2,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 // tslint:disable: await-promise
 // tslint:disable: no-implicit-dependencies
+// tslint:disable: no-invalid-this
 
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import { Common } from './common';
@@ -10,10 +11,10 @@ import { Application } from 'spectron';
 import ConversationPage from './page-objects/conversation.page';
 
 describe('Add contact', function() {
+  this.timeout(60000);
+  this.slow(20000);
   let app: Application;
   let app2: Application;
-  this.timeout(60000);
-  this.slow(15000);
 
   beforeEach(async () => {
     await Common.killallElectron();

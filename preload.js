@@ -341,10 +341,10 @@ const { OnionAPI } = require('./ts/session/onions');
 window.OnionAPI = OnionAPI;
 
 if (process.env.USE_STUBBED_NETWORK) {
-  const StubMessageAPI = require('./integration_test/stubs/stub_message_api');
+  const StubMessageAPI = require('./ts/test/session/integration/stubs/stub_message_api');
   window.LokiMessageAPI = StubMessageAPI;
 
-  const StubAppDotNetAPI = require('./integration_test/stubs/stub_app_dot_net_api');
+  const StubAppDotNetAPI = require('./ts/test/session/integration/stubs/stub_app_dot_net_api');
   window.LokiAppDotNetServerAPI = StubAppDotNetAPI;
 } else {
   window.LokiMessageAPI = require('./js/modules/loki_message_api');

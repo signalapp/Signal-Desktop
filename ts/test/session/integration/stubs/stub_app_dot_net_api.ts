@@ -1,6 +1,6 @@
 /* global clearTimeout, Buffer, TextDecoder, process */
 
-const OriginalAppDotNetApi = require('../../js/modules/loki_app_dot_net_api.js');
+import LokiAppDotNetServerAPI from '../../../../../js/modules/loki_app_dot_net_api';
 
 const sampleFeed =
   '<?xml version="1.0" encoding="windows-1252"?><rss version="2.0"><channel>    <title>FeedForAll Sample Feed</title></channel></rss>';
@@ -69,9 +69,12 @@ const samplesGetMessages = {
   ],
 };
 
-class StubAppDotNetAPI extends OriginalAppDotNetApi {
+class StubAppDotNetAPI extends LokiAppDotNetServerAPI {
   // make a request to the server
-  async serverRequest(endpoint, options = {}) {
+  public async serverRequest(
+    endpoint: string,
+    options: { method?: string } = {}
+  ) {
     const { method } = options;
     // console.warn('STUBBED ', method, ':', endpoint);
 

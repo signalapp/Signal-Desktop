@@ -1,13 +1,17 @@
 /* eslint-disable func-names  */
 /* eslint-disable import/no-extraneous-dependencies */
-const { afterEach, beforeEach, describe, it } = require('mocha');
-const common = require('./common');
+// tslint:disable: await-promise
+// tslint:disable: no-implicit-dependencies
+// tslint:disable: no-invalid-this
 
-const ConversationPage = require('./page-objects/conversation.page');
+import { afterEach, beforeEach, describe, it } from 'mocha';
+import { Common } from './common';
+import { Application } from 'spectron';
+import ConversationPage from './page-objects/conversation.page';
 
-async function generateAndSendMessage(app) {
+async function generateAndSendMessage(app: Application) {
   // send a message from app and validate it is received on app2
-  const textMessage = common.generateSendMessageText();
+  const textMessage = Common.generateSendMessageText();
   await app.client
     .element(ConversationPage.sendMessageTextarea)
     .setValue(textMessage);
@@ -28,8 +32,11 @@ async function generateAndSendMessage(app) {
   return textMessage;
 }
 
-async function makeFriendsPlusMessage(app, [app2, pubkey]) {
-  await common.makeFriends(app, [app2, pubkey]);
+async function makeFriendsPlusMessage(
+  app: Application,
+  [app2, pubkey]: [Application, string]
+) {
+  await Common.makeFriends(app, [app2, pubkey]);
 
   // Send something back so that `app` can see our name
   const text = await generateAndSendMessage(app2);
@@ -43,12 +50,12 @@ async function makeFriendsPlusMessage(app, [app2, pubkey]) {
 }
 
 async function testTwoMembers() {
-  const [app, app2] = await common.startAppsAsFriends();
+  const [app, app2] = await Common.startAppsAsFriends();
 
   const useSenderKeys = true;
 
   // create group and add new friend
-  await common.addFriendToNewClosedGroup([app, app2], useSenderKeys);
+  await Common.addFriendToNewClosedGroup([app, app2], useSenderKeys);
 
   const text1 = await generateAndSendMessage(app);
 
@@ -73,39 +80,39 @@ async function testThreeMembers() {
   // 1. Make three clients A, B, C
 
   const app1Props = {
-    mnemonic: common.TEST_MNEMONIC1,
-    displayName: common.TEST_DISPLAY_NAME1,
+    mnemonic: Common.TEST_MNEMONIC1,
+    displayName: Common.TEST_DISPLAY_NAME1,
     stubSnode: true,
   };
 
   const app2Props = {
-    mnemonic: common.TEST_MNEMONIC2,
-    displayName: common.TEST_DISPLAY_NAME2,
+    mnemonic: Common.TEST_MNEMONIC2,
+    displayName: Common.TEST_DISPLAY_NAME2,
     stubSnode: true,
   };
 
   const app3Props = {
-    mnemonic: common.TEST_MNEMONIC3,
-    displayName: common.TEST_DISPLAY_NAME3,
+    mnemonic: Common.TEST_MNEMONIC3,
+    displayName: Common.TEST_DISPLAY_NAME3,
     stubSnode: true,
   };
 
   const [app1, app2, app3] = await Promise.all([
-    common.startAndStub(app1Props),
-    common.startAndStubN(app2Props, 2),
-    common.startAndStubN(app3Props, 3),
+    Common.startAndStub(app1Props),
+    Common.startAndStubN(app2Props, 2),
+    Common.startAndStubN(app3Props, 3),
   ]);
 
   // 2. Make A friends with B and C (B and C are not friends)
 
-  await makeFriendsPlusMessage(app1, [app2, common.TEST_PUBKEY2]);
-  await makeFriendsPlusMessage(app1, [app3, common.TEST_PUBKEY3]);
+  await makeFriendsPlusMessage(app1, [app2, Common.TEST_PUBKEY2]);
+  await makeFriendsPlusMessage(app1, [app3, Common.TEST_PUBKEY3]);
 
   const useSenderKeys = true;
 
   // 3. Add all three to the group
 
-  await common.addFriendToNewClosedGroup([app1, app2, app3], useSenderKeys);
+  await Common.addFriendToNewClosedGroup([app1, app2, app3], useSenderKeys);
 
   // 4. Test that all members can see the message from app1
   const text1 = await generateAndSendMessage(app1);
@@ -131,20 +138,16 @@ async function testThreeMembers() {
 }
 
 describe('senderkeys', function() {
-  let app;
-
-  this.timeout(600000);
-  this.slow(40000);
-
+  this.timeout(60000);
+  this.slow(20000);
   beforeEach(async () => {
-    await common.killallElectron();
-    await common.stopStubSnodeServer();
+    await Common.killallElectron();
+    await Common.stopStubSnodeServer();
   });
 
   afterEach(async () => {
-    await common.stopApp(app);
-    await common.killallElectron();
-    await common.stopStubSnodeServer();
+    await Common.killallElectron();
+    await Common.stopStubSnodeServer();
   });
 
   it('Two member group', testTwoMembers);

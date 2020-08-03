@@ -1,41 +1,43 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable more/no-then */
-/* eslint-disable func-names  */
 /* eslint-disable import/no-extraneous-dependencies */
+// tslint:disable: await-promise
+// tslint:disable: no-implicit-dependencies
+// tslint:disable: no-invalid-this
 
-const { after, before, describe, it } = require('mocha');
-const common = require('./common');
+import { after, before, describe, it } from 'mocha';
+import { Common } from './common';
+import { Application } from 'spectron';
 
-const SettingsPage = require('./page-objects/settings.page');
-const CommonPage = require('./page-objects/common.page');
+import SettingsPage from './page-objects/settings.page';
+import CommonPage from './page-objects/common.page';
 
 // Generate random password
+// tslint:disable-next-line: insecure-random
 const password = Math.random()
   .toString(36)
   .substr(2, 8);
 const passwordInputID = 'password-modal-input';
 
 describe('Settings', function() {
-  let app;
   this.timeout(60000);
-  this.slow(15000);
+  this.slow(20000);
+  let app: Application;
 
   before(async () => {
-    await common.killallElectron();
-    await common.stopStubSnodeServer();
+    await Common.killallElectron();
+    await Common.stopStubSnodeServer();
 
     const appProps = {
-      mnemonic: common.TEST_MNEMONIC1,
-      displayName: common.TEST_DISPLAY_NAME1,
+      mnemonic: Common.TEST_MNEMONIC1,
+      displayName: Common.TEST_DISPLAY_NAME1,
     };
 
-    app = await common.startAndStub(appProps);
+    app = await Common.startAndStub(appProps);
   });
 
   after(async () => {
-    await common.stopApp(app);
-    await common.killallElectron();
-    await common.stopStubSnodeServer();
+    await Common.stopApp(app);
+    await Common.killallElectron();
+    await Common.stopStubSnodeServer();
   });
 
   it('can toggle menubar', async () => {
@@ -60,12 +62,12 @@ describe('Settings', function() {
       .element(SettingsPage.settingButtonWithText('Set Password'))
       .click();
 
-    await common.setValueWrapper(
+    await Common.setValueWrapper(
       app,
       CommonPage.inputWithId(passwordInputID),
       password
     );
-    await common.setValueWrapper(
+    await Common.setValueWrapper(
       app,
       CommonPage.inputWithId(`${passwordInputID}-confirm`),
       password
@@ -79,12 +81,12 @@ describe('Settings', function() {
       2000
     );
 
-    await common.closeToast(app);
+    await Common.closeToast(app);
   });
 
   it('can remove password', async () => {
     // Enter password to unlock settings
-    await common.setValueWrapper(
+    await Common.setValueWrapper(
       app,
       CommonPage.inputWithId('password-lock-input'),
       password
@@ -97,7 +99,7 @@ describe('Settings', function() {
       .element(SettingsPage.settingButtonWithText('Remove Password'))
       .click();
 
-    await common.setValueWrapper(
+    await Common.setValueWrapper(
       app,
       CommonPage.inputWithId(passwordInputID),
       password

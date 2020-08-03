@@ -1,39 +1,43 @@
 /* eslint-disable func-names  */
 /* eslint-disable import/no-extraneous-dependencies */
-const { after, before, describe, it } = require('mocha');
+// tslint:disable: await-promise
+// tslint:disable: no-implicit-dependencies
+// tslint:disable: no-invalid-this
 
-const common = require('./common');
+import { after, before, describe, it } from 'mocha';
+import { Common } from './common';
+import { Application } from 'spectron';
 
 describe('Message Syncing', function() {
-  let Alice1;
-  let Bob1;
-  let Alice2;
   this.timeout(60000);
-  this.slow(15000);
+  this.slow(20000);
+  let Alice1: Application;
+  let Bob1: Application;
+  let Alice2: Application;
 
   // this test suite builds a complex usecase over several tests,
   // so you need to run all of those tests together (running only one might fail)
   before(async () => {
-    await common.killallElectron();
-    await common.stopStubSnodeServer();
+    await Common.killallElectron();
+    await Common.stopStubSnodeServer();
 
     const alice2Props = {};
 
-    [Alice1, Bob1] = await common.startAppsAsFriends(); // Alice and Bob are friends
+    [Alice1, Bob1] = await Common.startAppsAsFriends(); // Alice and Bob are friends
 
-    await common.addFriendToNewClosedGroup([Alice1, Bob1], false);
-    await common.joinOpenGroup(
+    await Common.addFriendToNewClosedGroup([Alice1, Bob1], false);
+    await Common.joinOpenGroup(
       Alice1,
-      common.VALID_GROUP_URL,
-      common.VALID_GROUP_NAME
+      Common.VALID_GROUP_URL,
+      Common.VALID_GROUP_NAME
     );
 
-    Alice2 = await common.startAndStubN(alice2Props, 4); // Alice secondary, just start the app for now. no linking
+    Alice2 = await Common.startAndStubN(alice2Props, 4); // Alice secondary, just start the app for now. no linking
   });
 
   after(async () => {
-    await common.killallElectron();
-    await common.stopStubSnodeServer();
+    await Common.killallElectron();
+    await Common.stopStubSnodeServer();
   });
 
   it('message syncing with 1 friend, 1 closed group, 1 open group', async () => {
@@ -51,8 +55,8 @@ describe('Message Syncing', function() {
     // Linking Alice2 to Alice1
     // alice2 should trigger auto FR with bob1 as it's one of her friend
     // and alice2 should trigger a FALLBACK_MESSAGE with bob1 as he is in a closed group with her
-    await common.linkApp2ToApp(Alice1, Alice2, common.TEST_PUBKEY1);
-    await common.timeout(25000);
+    await Common.linkApp2ToApp(Alice1, Alice2, Common.TEST_PUBKEY1);
+    await Common.timeout(25000);
 
     // validate pubkey of app2 is the set
     const alice2Pubkey = await Alice2.webContents.executeJavaScript(
@@ -65,17 +69,17 @@ describe('Message Syncing', function() {
     const alice2Logs = await Alice2.client.getRenderProcessLogs();
 
     // validate primary alice
-    await common.logsContains(
+    await Common.logsContains(
       alice1Logs,
       'Sending closed-group-sync-send:outgoing message to OUR SECONDARY PUBKEY',
       1
     );
-    await common.logsContains(
+    await Common.logsContains(
       alice1Logs,
       'Sending open-group-sync-send:outgoing message to OUR SECONDARY PUBKEY',
       1
     );
-    await common.logsContains(
+    await Common.logsContains(
       alice1Logs,
       'Sending contact-sync-send:outgoing message to OUR SECONDARY PUBKEY',
       1
@@ -86,29 +90,29 @@ describe('Message Syncing', function() {
     // alice2 receives group sync, contact sync and open group sync
     // alice2 triggers session request with closed group members and autoFR with contact sync received
     // once autoFR is auto-accepted, alice2 trigger contact sync
-    await common.logsContains(
+    await Common.logsContains(
       alice2Logs,
       'Got sync group message with group id',
       1
     );
-    await common.logsContains(
+    await Common.logsContains(
       alice2Logs,
       'Received GROUP_SYNC with open groups: [chat.getsession.org]',
       1
     );
-    await common.logsContains(
+    await Common.logsContains(
       alice2Logs,
-      `Sending auto-friend-request:friend-request message to ${common.TEST_PUBKEY2}`,
+      `Sending auto-friend-request:friend-request message to ${Common.TEST_PUBKEY2}`,
       1
     );
-    await common.logsContains(
+    await Common.logsContains(
       alice2Logs,
-      `Sending session-request:friend-request message to ${common.TEST_PUBKEY2}`,
+      `Sending session-request:friend-request message to ${Common.TEST_PUBKEY2}`,
       1
     );
-    await common.logsContains(
+    await Common.logsContains(
       alice2Logs,
-      `Sending contact-sync-send:outgoing message to OUR_PRIMARY_PUBKEY`,
+      'Sending contact-sync-send:outgoing message to OUR_PRIMARY_PUBKEY',
       1
     );
 
@@ -117,25 +121,25 @@ describe('Message Syncing', function() {
     // bob1 receives session request from alice2
     // bob1 accept auto fr by sending a bg message
     // once autoFR is auto-accepted, alice2 trigger contact sync
-    await common.logsContains(
+    await Common.logsContains(
       bob1Logs,
       `Received FALLBACK_MESSAGE from source: ${alice2Pubkey}`,
       1
     );
-    await common.logsContains(
+    await Common.logsContains(
       bob1Logs,
       `Received AUTO_FRIEND_REQUEST from source: ${alice2Pubkey}`,
       1
     );
-    await common.logsContains(
+    await Common.logsContains(
       bob1Logs,
       `Sending auto-friend-accept:onlineBroadcast message to ${alice2Pubkey}`,
       1
     );
     // be sure only one autoFR accept was sent (even if multi device, we need to reply to that specific device only)
-    await common.logsContains(
+    await Common.logsContains(
       bob1Logs,
-      `Sending auto-friend-accept:onlineBroadcast message to`,
+      'Sending auto-friend-accept:onlineBroadcast message to',
       1
     );
   });

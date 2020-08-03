@@ -1,37 +1,42 @@
 /* eslint-disable func-names  */
 /* eslint-disable import/no-extraneous-dependencies */
-const { afterEach, beforeEach, describe, it } = require('mocha');
-const common = require('./common');
+// tslint:disable: await-promise
+// tslint:disable: no-implicit-dependencies
+// tslint:disable: no-invalid-this
 
-const ConversationPage = require('./page-objects/conversation.page');
+import { afterEach, beforeEach, describe, it } from 'mocha';
+import { Common } from './common';
+import { Application } from 'spectron';
+
+import ConversationPage from './page-objects/conversation.page';
 
 describe('Closed groups', function() {
-  let app;
-  let app2;
   this.timeout(60000);
-  this.slow(15000);
+  this.slow(20000);
+  let app: Application;
+  let app2: Application;
 
   beforeEach(async () => {
-    await common.killallElectron();
-    await common.stopStubSnodeServer();
+    await Common.killallElectron();
+    await Common.stopStubSnodeServer();
 
-    [app, app2] = await common.startAppsAsFriends();
+    [app, app2] = await Common.startAppsAsFriends();
   });
 
   afterEach(async () => {
-    await common.stopApp(app);
-    await common.killallElectron();
-    await common.stopStubSnodeServer();
+    await Common.stopApp(app);
+    await Common.killallElectron();
+    await Common.stopStubSnodeServer();
   });
 
   it('closedGroup: can create a closed group with a friend and send/receive a message', async () => {
     const useSenderKeys = false;
 
     // create group and add new friend
-    await common.addFriendToNewClosedGroup([app, app2], useSenderKeys);
+    await Common.addFriendToNewClosedGroup([app, app2], useSenderKeys);
 
     // send a message from app and validate it is received on app2
-    const textMessage = common.generateSendMessageText();
+    const textMessage = Common.generateSendMessageText();
     await app.client
       .element(ConversationPage.sendMessageTextarea)
       .setValue(textMessage);

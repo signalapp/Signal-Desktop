@@ -3,6 +3,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 // tslint:disable: no-implicit-dependencies
 // tslint:disable: await-promise
+// tslint:disable: no-invalid-this
 
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import { Common } from './common';
@@ -13,9 +14,9 @@ import RegistrationPage from './page-objects/registration.page';
 import ConversationPage from './page-objects/conversation.page';
 
 describe('Window Test and Login', function() {
+  this.timeout(60000);
+  this.slow(20000);
   let app: Application;
-  this.timeout(20000);
-  this.slow(15000);
 
   beforeEach(async () => {
     await Common.killallElectron();

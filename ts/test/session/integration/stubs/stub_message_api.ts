@@ -1,22 +1,30 @@
-/* global clearTimeout, dcodeIO, Buffer, TextDecoder, process */
-const nodeFetch = require('node-fetch');
+import { StringUtils } from '../../../../session/utils';
+
+import fetch from 'node-fetch';
 
 class StubMessageAPI {
-  constructor(ourKey) {
+  public ourKey: string;
+  public baseUrl: string;
+  constructor(ourKey: string) {
     this.ourKey = ourKey;
     this.baseUrl = 'http://localhost:3000';
   }
 
   // eslint-disable-next-line no-unused-vars
-  async sendMessage(pubKey, data, messageTimeStamp, ttl, options = {}) {
+  public async sendMessage(
+    pubKey: string,
+    data: any,
+    messageTimeStamp: number,
+    ttl: number,
+    options = {}
+  ) {
     // console.warn('STUBBED message api ', pubKey, ttl);
     const post = {
       method: 'POST',
     };
 
-    const data64 = dcodeIO.ByteBuffer.wrap(data).toString('base64');
-
-    await nodeFetch(
+    const data64 = StringUtils.decode(data, 'base64');
+    await fetch(
       `${
         this.baseUrl
       }/messages?pubkey=${pubKey}&timestamp=${messageTimeStamp}&data=${encodeURIComponent(
