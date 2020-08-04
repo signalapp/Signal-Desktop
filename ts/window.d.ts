@@ -52,15 +52,15 @@ declare global {
     libsignal: LibsignalProtocol;
     log: any;
     lokiFeatureFlags: {
-      multiDeviceUnpairing: boolean,
-      privateGroupChats: boolean,
-      useSnodeProxy: boolean,
-      useOnionRequests: boolean,
-      useFileOnionRequests: boolean,
-      enableSenderKeys: boolean,
-      onionRequestHops: number,
-      debugMessageLogs: boolean,
-      useMultiDevice: boolean,
+      multiDeviceUnpairing: boolean;
+      privateGroupChats: boolean;
+      useSnodeProxy: boolean;
+      useOnionRequests: boolean;
+      useFileOnionRequests: boolean;
+      enableSenderKeys: boolean;
+      onionRequestHops: number;
+      debugMessageLogs: boolean;
+      useMultiDevice: boolean;
     };
     lokiFileServerAPI: LokiFileServerInstance;
     lokiMessageAPI: LokiMessageInterface;

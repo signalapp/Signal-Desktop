@@ -504,3 +504,24 @@ const {
 } = require('./ts/util/blockedNumberController');
 
 window.BlockedNumberController = BlockedNumberController;
+
+window.deleteAccount = async () => {
+  try {
+    window.log.info('Deleting everything!');
+
+    const { Logs } = window.Signal;
+    await Logs.deleteAll();
+
+    await window.Signal.Data.removeAll();
+    await window.Signal.Data.close();
+    await window.Signal.Data.removeDB();
+
+    await window.Signal.Data.removeOtherData();
+  } catch (error) {
+    window.log.error(
+      'Something went wrong deleting all data:',
+      error && error.stack ? error.stack : error
+    );
+  }
+  window.restart();
+};
