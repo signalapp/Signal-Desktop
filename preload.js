@@ -456,6 +456,7 @@ window.lokiFeatureFlags = {
   enableSenderKeys: false,
   onionRequestHops: 3,
   debugMessageLogs: process.env.ENABLE_MESSAGE_LOGS,
+  useMultiDevice: false,
 };
 
 // eslint-disable-next-line no-extend-native,func-names
@@ -492,6 +493,7 @@ if (config.environment.includes('test-integration')) {
     useFileOnionRequests: false,
     debugMessageLogs: true,
     enableSenderKeys: true,
+    useMultiDevice: false,
   };
 }
 

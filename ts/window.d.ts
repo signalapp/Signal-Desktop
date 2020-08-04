@@ -51,7 +51,17 @@ declare global {
     libloki: Libloki;
     libsignal: LibsignalProtocol;
     log: any;
-    lokiFeatureFlags: any;
+    lokiFeatureFlags: {
+      multiDeviceUnpairing: boolean,
+      privateGroupChats: boolean,
+      useSnodeProxy: boolean,
+      useOnionRequests: boolean,
+      useFileOnionRequests: boolean,
+      enableSenderKeys: boolean,
+      onionRequestHops: number,
+      debugMessageLogs: boolean,
+      useMultiDevice: boolean,
+    };
     lokiFileServerAPI: LokiFileServerInstance;
     lokiMessageAPI: LokiMessageInterface;
     lokiPublicChatAPI: LokiPublicChatFactoryInterface;

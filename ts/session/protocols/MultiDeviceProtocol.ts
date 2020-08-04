@@ -28,6 +28,11 @@ export class MultiDeviceProtocol {
   public static async fetchPairingAuthorisationsIfNeeded(
     device: PubKey
   ): Promise<void> {
+    // Disable fetching if we don't want to use multi device
+    if (!window.lokiFeatureFlags.useMultiDevice) {
+      return;
+    }
+
     // This return here stops an infinite loop when we get all our other devices
     const ourKey = await UserUtil.getCurrentDevicePubKey();
     if (!ourKey || device.key === ourKey) {
