@@ -88,6 +88,9 @@ export async function handlePairingAuthorisationMessage(
   dataMessage: SignalService.IDataMessage | undefined | null
 ): Promise<void> {
   if (!window.lokiFeatureFlags.useMultiDevice) {
+    window.log.info(
+      `Received a pairing authorisation message from ${envelope.source} while multi device is disabled.`
+    );
     await removeFromCache(envelope);
     return;
   }
