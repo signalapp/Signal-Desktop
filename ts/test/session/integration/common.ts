@@ -276,7 +276,6 @@ export class Common {
 
     /** add each other as friends */
     const textMessage = Common.generateSendMessageText();
-
     await app1.client.element(ConversationPage.contactsButtonSection).click();
     await app1.client.element(ConversationPage.addContactButton).click();
 
@@ -287,49 +286,20 @@ export class Common {
     );
     await app1.client.element(ConversationPage.nextButton).click();
     await app1.client.waitForExist(
-      ConversationPage.sendFriendRequestTextarea,
+      ConversationPage.sendMessageTextareaAndMessage,
       1000
     );
 
     // send a text message to that user (will be a friend request)
     await Common.setValueWrapper(
       app1,
-      ConversationPage.sendFriendRequestTextarea,
+      ConversationPage.sendMessageTextareaAndMessage,
       textMessage
     );
     await app1.client.keys('Enter');
     await app1.client.waitForExist(
-      ConversationPage.existingFriendRequestText(textMessage),
+      ConversationPage.existingSendMessageText(textMessage),
       1000
-    );
-
-    // wait for left notification Friend Request count to go to 1 and click it
-    await app2.client.waitForExist(
-      ConversationPage.oneNotificationFriendRequestLeft,
-      5000
-    );
-    await app2.client
-      .element(ConversationPage.oneNotificationFriendRequestLeft)
-      .click();
-    // open the dropdown from the top friend request count
-    await app2.client.isExisting(
-      ConversationPage.oneNotificationFriendRequestTop
-    ).should.eventually.be.true;
-    await app2.client
-      .element(ConversationPage.oneNotificationFriendRequestTop)
-      .click();
-
-    // accept the friend request and validate that on both side the "accepted FR" message is shown
-    await app2.client
-      .element(ConversationPage.acceptFriendRequestButton)
-      .click();
-    await app2.client.waitForExist(
-      ConversationPage.acceptedFriendRequestMessage,
-      1000
-    );
-    await app1.client.waitForExist(
-      ConversationPage.acceptedFriendRequestMessage,
-      5000
     );
   }
 

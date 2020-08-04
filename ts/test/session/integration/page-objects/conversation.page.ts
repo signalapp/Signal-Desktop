@@ -5,13 +5,11 @@ export = {
   sessionLoader: commonPage.divWithClass('session-loader'),
   leftPaneOverlay: commonPage.divWithClass('module-left-pane-overlay'),
   sendMessageTextarea: commonPage.textAreaWithClass('send-message'),
-  sendFriendRequestTextarea: commonPage.textAreaWithPlaceholder(
-    'Send your first message'
+  sendMessageTextareaAndMessage: commonPage.textAreaWithPlaceholder(
+    'Type your message'
   ),
   existingSendMessageText: (textMessage: string) =>
     `//*[contains(@class, "module-message__text--outgoing") and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
-  existingFriendRequestText: (textMessage: string) =>
-    `//*[contains(@class, "module-message-friend-request__container") and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
   existingReceivedMessageText: (textMessage: string) =>
     `//*[contains(@class, "module-message__text--incoming") and .//span[contains(@class, "text-selectable")][contains(string(), '${textMessage}')]]`,
 
@@ -92,18 +90,6 @@ export = {
   addContactButton: commonPage.divRoleButtonWithText('Add Contact'),
   sessionIDInput: commonPage.textAreaWithPlaceholder('Enter a Session ID'),
   nextButton: commonPage.divRoleButtonWithText('Next'),
-  oneNotificationFriendRequestLeft:
-    '//*[contains(@class,"session-icon-button")  and .//*[contains(@class, "users")]  and .//*[contains(@class, "notification-count") and contains(string(), "1")] ]',
-  oneNotificationFriendRequestTop:
-    '//*[contains(@class,"notification-count hover") and contains(string(), "1")]',
-  friendRequestFromUser: (displayName: string, pubkey: string) =>
-    `//*[contains(@class,"module-left-pane__list-popup")  and .//*[contains(@class, "module-conversation__user") and .//*[contains(string(), "${displayName}")] and .//*[contains(string(), "(...${pubkey.substring(
-      60
-    )})")]]]`,
-  acceptFriendRequestButton:
-    '//*[contains(@role, "button")][contains(@class, "session-button")][contains(string(), "Accept")]',
-  acceptedFriendRequestMessage:
-    '//*[contains(@class, "module-friend-request__title")][contains(string(), "Friend request accepted")]',
 
   descriptionDeleteAccount: commonPage.spanWithClassAndText(
     'session-confirm-main-message',

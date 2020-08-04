@@ -6,7 +6,7 @@ import './registration_itest';
 import './open_group_itest';
 import './add_contacts_itest';
 import './link_device_itest';
-// import './closed_group_itest';
+import './closed_group_itest';
 // import './message_functions_itest';
 // import './settings_itest';
 // import'./message_sync_itest';
