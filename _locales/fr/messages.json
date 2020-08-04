@@ -3,6 +3,10 @@
         "message": "Copier l’erreur et quitter",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Contact inconnu",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "Groupe inconnu",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -264,7 +268,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You left the group.",
+        "message": "Vous avez quitté le groupe.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -290,11 +294,11 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "Pour votre sécurité, l’historique des conversations n’est pas transféré vers les nouveaux appareils reliés.",
+        "message": "Pour votre sécurité, l’historique des conversations n’est pas transféré vers les appareils nouvellement reliés",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
-        "message": "Vous avez marqué votre numéro de sécurité avec $name$ comme vérifié",
+        "message": "Vous avez marqué votre numéro de sécurité avec $name$ comme confirmé",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -304,7 +308,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Vous avez marqué votre numéro de sécurité avec $name$ comme non vérifié",
+        "message": "Vous avez marqué votre numéro de sécurité avec $name$ comme non confirmé",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -314,7 +318,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Vous avez marqué votre numéro de sécurité avec $name$ comme vérifié à partir d’un autre appareil.",
+        "message": "Vous avez marqué votre numéro de sécurité avec $name$ comme confirmé à partir d’un autre appareil.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -324,7 +328,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Vous avez marqué votre numéro de sécurité avec $name$ comme non vérifié à partir d’un autre appareil",
+        "message": "Vous avez marqué votre numéro de sécurité avec $name$ comme non confirmé à partir d’un autre appareil",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -334,11 +338,11 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Vos numéros de sécurité avec les membres de ce groupe ont changé depuis votre dernière vérification. Cliquez sur un membre du groupe pour visualiser votre nouveau numéro de sécurité avec ce membre.",
+        "message": "Vos numéros de sécurité avec les membres de ce groupe ont changé depuis votre dernière confirmation. Cliquez sur un membre du groupe pour visualiser votre nouveau numéro de sécurité avec ce membre.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Vos numéros de sécurité avec plusieurs membres du groupe ont changé depuis votre dernière vérification. Cela pourrait signifier soit que quelqu’un tente d’intercepter votre communication, soit qu’ils ont simplement réinstallé Signal.",
+        "message": "Vos numéros de sécurité avec plusieurs membres du groupe ont changé depuis votre dernière confirmation. Cela pourrait signifier soit que quelqu’un tente d’intercepter votre communication, soit qu’ils ont simplement réinstallé Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
@@ -390,7 +394,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Votre numéro de sécurité avec $name$ a changé et n’est plus vérifié. Cliquez pour l’afficher.",
+        "message": "Votre numéro de sécurité avec $name$ a changé et n’est plus confirmé. Cliquez pour l’afficher.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -400,7 +404,7 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Vos numéros de sécurité avec plusieurs membres de ce groupe ont changé et ne sont plus vérifiés. Cliquez pour afficher.",
+        "message": "Vos numéros de sécurité avec plusieurs membres de ce groupe ont changé et ne sont plus confirmés. Cliquez pour afficher.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
@@ -410,6 +414,18 @@
     "debugLogError": {
         "message": "Un problème est survenu lors du téléversement. Veuillez envisager d’ajouter manuellement votre journal à votre rapport de bogue.",
         "description": ""
+    },
+    "debugLogCopy": {
+        "message": "Copier",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "Copier le lien dans votre presse-papiers",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "Le lien a été copié dans votre presse-papiers",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
         "message": "Signaler un problème",
@@ -428,15 +444,15 @@
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Marquer comme vérifié",
+        "message": "Marquer comme confirmé",
         "description": ""
     },
     "unverify": {
-        "message": "Marquer comme non vérifié",
+        "message": "Marquer comme non confirmé",
         "description": ""
     },
     "isVerified": {
-        "message": "Vous avez vérifié votre numéro de sécurité avec $name$.",
+        "message": "Vous avez confirmé votre numéro de sécurité avec $name$.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -446,7 +462,7 @@
         }
     },
     "isNotVerified": {
-        "message": "Vous n’avez pas vérifié votre numéro de sécurité avec $name$",
+        "message": "Vous n’avez pas confirmé votre numéro de sécurité avec $name$",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -456,7 +472,7 @@
         }
     },
     "verified": {
-        "message": "Vérifié",
+        "message": "Confirmé",
         "description": ""
     },
     "newIdentity": {
@@ -504,7 +520,7 @@
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Le type de pièce jointe n’est pas pris en charge. Cliquez pour l’enregistrer.",
+        "message": "Le type de fichier joint n’est pas pris en charge. Cliquez pour l’enregistrer.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
@@ -613,6 +629,10 @@
         "message": "Afficher les raccourcis-clavier",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "Nous contacter",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "Accéder aux notes de mise à jour",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,9 +645,13 @@
         "message": "Accéder à la page d’assistance",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "Signaler un problème",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "Accéder à GitHub",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Tester la version bêta",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "Préférences de Signal Desktop pour ordinateur",
@@ -766,7 +790,7 @@
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
-        "message": "Télécharger la pièce jointe",
+        "message": "Télécharger le fichier joint",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
@@ -790,15 +814,15 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecordingInterruptedMax": {
-        "message": "L'enregistrement du message vocal s'est arrêté, car vous avez atteint la limite de temps maximale.",
+        "message": "L’enregistrement du message vocal s’est arrêté, car vous avez atteint la limite de temps maximale.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
-        "message": "L'enregistrement du message vocal s'est arrêté, car vous avez changé d'application.",
+        "message": "L’enregistrement du message vocal s’est arrêté, car vous avez changé d’appli.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Les messages vocaux sont limités à cinq minutes. L'enregistrement s'arrêtera si vous changez d'application.",
+        "message": "Les messages vocaux sont limités à cinq minutes. L’enregistrement s’arrêtera si vous changez d’appli.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -957,12 +981,12 @@
         "message": "Afficher le numéro de sécurité",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "Afficher tous les médias",
+    "viewRecentMedia": {
+        "message": "Afficher les médias récents",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Si vous souhaitez vérifier la sécurité de votre chiffrement de bout en bout avec $name$, comparez les numéros ci-dessus avec les numéros sur son appareil.",
+        "message": "Si vous souhaitez confirmer la sécurité de votre chiffrement de bout en bout avec $name$, comparez les numéros ci-dessus avec les numéros sur son appareil.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1083,9 +1107,17 @@
         "message": "Désolé, trop d’appareils sont déjà reliés. Essayez d’en supprimer.",
         "description": ""
     },
-    "settings": {
-        "message": "Paramètres",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "Mettez Signal à jour sur cet appareil afin de relier votre téléphone.",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "Une erreur s’est produite.",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "Ressayer",
+        "description": ""
     },
     "theme": {
         "message": "Thème",
@@ -1142,6 +1174,14 @@
     "deleteAllDataProgress": {
         "message": "Déconnexion et suppression de toutes les données",
         "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "deleteOldIndexedDBData": {
+        "message": "Vous avez des données périmées qui proviennent d’une ancienne installation de Signal pour ordinateur. Si vous choisissez de poursuivre, elles seront supprimées et vous commencerez à zéro.",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "Supprimer les anciennes données",
+        "description": "Button to make the delete happen"
     },
     "notifications": {
         "message": "Notifications",
@@ -1264,7 +1304,7 @@
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "En savoir plus sur la conformation des numéros de sécurité",
+        "message": "En apprendre davantage sur la conformation des numéros de sécurité",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
@@ -1288,7 +1328,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Importer tous les groupes et contacts Signal de votre appareil mobile",
+        "message": "Importer tous les groupes et contacts Signal de votre appareil mobile",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1498,7 +1538,7 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$a désactivé les messages éphémères",
+        "message": "$name$ a désactivé les messages éphémères",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1578,7 +1618,7 @@
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "notSupportedSMS": {
-        "message": "Les SMS/MMS ne sont pas pris en charge.",
+        "message": "Les textos et les messages multimédias ne sont pas pris en charge.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
@@ -1622,7 +1662,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ a quitté le groupe.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1632,7 +1672,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ ont quitté le groupe.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1682,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ updated the group.",
+        "message": "$name$ a mis le groupe à jour.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1656,11 +1696,11 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Group avatar was updated.",
+        "message": "L’avatar du groupe a été mis à jour.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Group name is now '$name$'.",
+        "message": "Le nom du groupe est désormais « $name$ ».",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1670,11 +1710,11 @@
         }
     },
     "youJoinedTheGroup": {
-        "message": "Vous avez rejoint le groupe.",
+        "message": "Vous vous êtes joint au groupe.",
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group.",
+        "message": "$name$ s’est joint au groupe.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1684,7 +1724,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group.",
+        "message": "$names$ se sont joints au groupe.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1717,6 +1757,10 @@
         "message": "Vidéo éphémère",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
+    "message--deletedForEveryone": {
+        "message": "Ce message a été supprimé.",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
+    },
     "stickers--toast--InstallFailed": {
         "message": "Le paquet d’autocollants n’a pas pu être installé",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
@@ -1730,7 +1774,7 @@
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Série artiste Signal",
+        "message": "Série artiste de Signal",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
@@ -1798,7 +1842,7 @@
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Erreur lors de l’ouverture du paquets d’autocollants.Veuillez vérifier votre connexion à Internet et ressayer.",
+        "message": "Erreur d’ouverture du paquets d’autocollants. Veuillez vérifier votre connexion à Internet et ressayer.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
@@ -1936,7 +1980,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
-        "message": "Aller dans la zone de rédaction",
+        "message": "Accéder à la zone de rédaction",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
@@ -2003,6 +2047,10 @@
         "message": "Supprimer tous les brouillons de fichiers joints",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "Aller à la conversation",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Entrée",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Tab",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1 à 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "Raccourcis-clavier",
@@ -2234,7 +2290,7 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Découvre ce nouveau paquet d’autocollants que j’ai créé pour Signal. #makeprivacystick",
+        "message": "Découvre ce nouveau paquet d’autocollants que j’ai créé pour Signal. #makeprivacystick #confidentialitéquicolle",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -2288,6 +2344,10 @@
     "Reactions--error": {
         "message": "Échec d’envoi de la réaction. Veuillez ressayer.",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "Plus",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "Tout",

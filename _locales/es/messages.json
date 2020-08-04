@@ -3,6 +3,10 @@
         "message": "Copiar fallo y cerrar Signal",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Persona desconocida",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "Grupo sin nombre",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -214,7 +218,7 @@
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Cargando contactos y mensajes",
+        "message": "Transfiriendo personas y mensajes",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
@@ -294,7 +298,7 @@
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
-        "message": "Has marcado las cifras de seguridad con $name$ como verificadas",
+        "message": "Has marcado tus cifras de seguridad con $name$ como verificadas",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -314,7 +318,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Has marcado las cifras de seguridad con $name$ como verificadas en otro dispositivo",
+        "message": "Has marcado tus cifras de seguridad con $name$ como verificadas en otro dispositivo",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -334,15 +338,15 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Las cifras de seguridad con estos participantes del grupo han cambiado desde la última vez que las verificaste. Haz clic en un participante del grupo para ver las cifras de seguridad nuevas.",
+        "message": "Tus cifras de seguridad con estos participantes del grupo han cambiado desde la última vez que las verificaste. Haz clic en un participante del grupo para ver las cifras de seguridad nuevas.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Las cifras de seguridad con varios participantes de este grupo han cambiado desde la última vez que las verificaste, lo que significaría que alguien ha tratado de interceptar la comunicación o que simplemente han reinstalado Signal.",
+        "message": "Tus cifras de seguridad con varios participantes de este grupo han cambiado desde la última vez que las verificaste, lo que significaría que alguien ha tratado de interceptar la comunicación o que simplemente han reinstalado Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Las cifras de seguridad con $name$ han cambiado desde la última vez que las verificaste, lo que significaría que alguien ha tratado de interceptar la comunicación o que $name$ simplemente ha reinstalado Signal.",
+        "message": "Tus cifras de seguridad con $name$ han cambiado desde la última vez que las verificaste, lo que significaría que alguien ha tratado de interceptar la comunicación o que $name$ simplemente ha reinstalado Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -352,7 +356,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Las cifras de seguridad que estás intentando verificar han cambiado. Revisa las nuevas cifras de seguridad con $name$. Recuerda que este cambio podría significar que alguien ha tratado de interceptar la comunicación o que $name$ simplemente ha reinstalado Signal.",
+        "message": "Las cifras de seguridad que estás intentando verificar han cambiado. Revisa tus nuevas cifras de seguridad con $name$. Recuerda que este cambio podría significar que alguien ha tratado de interceptar la comunicación o que $name$ simplemente ha reinstalado Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -376,7 +380,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Las cifras de seguridad con $name$ han cambiado, lo que significaría que alguien ha tratado de interceptar la comunicación o que $name$ simplemente ha reinstalado Signal.  Tal vez desees verificar las cifras de seguridad con este contacto.",
+        "message": "Tus cifras de seguridad con $name$ han cambiado, lo que significaría que alguien ha tratado de interceptar la comunicación o que $name$ simplemente ha reinstalado Signal.  Tal vez desees verificar las cifras de seguridad con esta persona.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -390,7 +394,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Las cifras de seguridad con $name$ han cambiado y ya no están verificadas. Haz clic para mostrar.",
+        "message": "Tus cifras de seguridad con $name$ han cambiado y ya no están verificadas. Haz clic para mostrar.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -400,16 +404,28 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Las cifras de seguridad con varios participantes de este grupo han cambiado y ya no están verificadas. Haz clic para mostrar.",
+        "message": "Tus cifras de seguridad con varios participantes de este grupo han cambiado y ya no están verificadas. Haz clic para mostrar.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Este registro se publicará on line para que los colaboradores tengan acceso. Puedes examinarlo y editarlo antes de enviarlo.",
+        "message": "Este registro se publicará on line para que l*s colaborador*s de Signal tengan acceso. Puedes examinarlo y editarlo antes de enviarlo.",
         "description": ""
     },
     "debugLogError": {
         "message": "Se ha producido un fallo al adjuntar el archivo con el registro de depuración. Considera añadir el archivo manualmente al enviar el informe del fallo. ",
         "description": ""
+    },
+    "debugLogCopy": {
+        "message": "Copiar",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "Copiar enlace al portapapeles",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "Enlace copiado al portapapeles",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
         "message": "Informar de un problema",
@@ -428,7 +444,7 @@
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Marcar como verificado",
+        "message": "Marcar persona como verificada",
         "description": ""
     },
     "unverify": {
@@ -436,7 +452,7 @@
         "description": ""
     },
     "isVerified": {
-        "message": "Has verificado las cifras de seguridad con $name$.",
+        "message": "Has verificado tus cifras de seguridad con $name$.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -446,7 +462,7 @@
         }
     },
     "isNotVerified": {
-        "message": "No has verificado las cifras de seguridad con $name$.",
+        "message": "No has verificado tus cifras de seguridad con $name$.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -456,7 +472,7 @@
         }
     },
     "verified": {
-        "message": "Verificado",
+        "message": "Persona verificada",
         "description": ""
     },
     "newIdentity": {
@@ -464,7 +480,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Las cifras de seguridad con este contacto han cambiado, lo que significaría que, o bien alguien has tratado de interceptar la comunicación, o que este contacto simplemente ha reinstalado Signal. Tal vez desees verificar las nuevas cifras de seguridad.",
+        "message": "Tus cifras de seguridad con esta persona han cambiado, lo que significaría que, o bien alguien ha tratado de interceptar la comunicación, o que esta persona simplemente ha reinstalado Signal. Tal vez desees verificar las nuevas cifras de seguridad.",
         "description": ""
     },
     "incomingError": {
@@ -613,6 +629,10 @@
         "message": "Mostrar atajos de teclado",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "Contáctanos",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "Ir a las notas de versión",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,9 +645,13 @@
         "message": "Ir a la página de soporte técnico",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "Informar de un problema",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "Ir a GitHub",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Probar la versión beta",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "Ajustes de Signal Desktop",
@@ -700,7 +724,7 @@
         "description": "Shown to separate the types of search results"
     },
     "contactsHeader": {
-        "message": "Contactos",
+        "message": "Personas",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
@@ -708,11 +732,11 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
-        "message": "Bienvenida a Signal",
+        "message": "Bienvenid* a Signal",
         "description": ""
     },
     "selectAContact": {
-        "message": "Selecciona un contacto o grupo para empezar a chatear.",
+        "message": "Selecciona una persona o grupo para empezar a chatear.",
         "description": ""
     },
     "typingAlt": {
@@ -720,7 +744,7 @@
         "description": "Used as the 'title' attibute for the typing animation"
     },
     "contactAvatarAlt": {
-        "message": "Avatar del contacto $name$",
+        "message": "Avatar de $name$",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -894,7 +918,7 @@
         "description": ""
     },
     "failedToSend": {
-        "message": "Fallo al enviar a algunos destinatarios. Comprueba la conexión.",
+        "message": "Fallo al enviar a algun*s destinatari*s. Comprueba la conexión.",
         "description": ""
     },
     "error": {
@@ -957,12 +981,12 @@
         "message": "Ver cifras de seguridad",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "Ver todos los adjuntos",
+    "viewRecentMedia": {
+        "message": "Ver adjuntos recientes",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Si deseas verificar la seguridad del cifrado de extremo a extremo con $name$, compara las cifras de arriba con las cifras presentes en el dispositivo de tu contacto.",
+        "message": "Si deseas verificar la seguridad del cifrado de extremo a extremo con $name$, compara las cifras de arriba con las cifras presentes en el dispositivo de la otra persona.",
         "description": "",
         "placeholders": {
             "name": {
@@ -972,7 +996,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "No has intercambiado ningún mensaje con este contacto. Las cifras de seguridad estarán disponibles después de enviar el primer mensaje.",
+        "message": "No has intercambiado ningún mensaje con esta persona. Vuestras cifras de seguridad estarán disponibles después de enviar el primer mensaje.",
         "description": ""
     },
     "moreInfo": {
@@ -1032,7 +1056,7 @@
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Bienvenida a Signal Desktop",
+        "message": "Bienvenid* a Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
@@ -1072,7 +1096,7 @@
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Sincronizando contactos y grupos",
+        "message": "Sincronizando personas y grupos",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1083,9 +1107,17 @@
         "message": "Lo sentimos, ya tienes demasiados dispositivos vinculados. Prueba a eliminar algunos.",
         "description": ""
     },
-    "settings": {
-        "message": "Ajustes",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "Actualiza Signal en este dispositivo para enlazar con tu teléfono.",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "¡Algo ha ido mal!",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "Inténtalo de nuevo",
+        "description": ""
     },
     "theme": {
         "message": "Tema",
@@ -1132,7 +1164,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Vas a eliminar toda la información de la cuenta de Signal en esta aplicación, incluyendo todos los contactos y mensajes. Siempre puedes volver a enlazar tu dispositivo móvil de nuevo, pero los mensajes eliminados no se restaurarán.",
+        "message": "Vas a eliminar toda la información de la cuenta de Signal en esta aplicación, incluyendo todos los mensajes. Siempre puedes volver a enlazar tu dispositivo móvil de nuevo, pero los mensajes eliminados no se restaurarán.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -1142,6 +1174,14 @@
     "deleteAllDataProgress": {
         "message": "Desconectando y borrando datos",
         "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "deleteOldIndexedDBData": {
+        "message": "Hemos encontrado datos antiguos de una versión obsoleta de Signal Desktop. Si decides continuar, se eliminarán esos datos y tu nueva instalación de Signal no los mostrará. ",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "Eliminar datos antiguos",
+        "description": "Button to make the delete happen"
     },
     "notifications": {
         "message": "Notificaciones",
@@ -1156,7 +1196,7 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Nombre de contacto y mensaje",
+        "message": "Persona y mensaje",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
@@ -1164,7 +1204,7 @@
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
-        "message": "Solo nombre de contacto",
+        "message": "Sólo nombre de la persona",
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
@@ -1284,11 +1324,11 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Contactos",
+        "message": "Personas",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Importa todos los grupos y contactos de Signal desde tu teléfono móvil.",
+        "message": "Importa todos los grupos y personas de Signal desde tu teléfono móvil.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1352,7 +1392,7 @@
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
-        "message": "Desbloquea este contacto para enviarle mensajes.",
+        "message": "Desbloquea esta persona para enviar mensajes.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
@@ -1582,7 +1622,7 @@
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
-        "message": "Introduce un número de teléfono para añadir un contacto.",
+        "message": "Añade un número de teléfono a esta persona.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
@@ -1716,6 +1756,10 @@
     "message--getDescription--disappearing-video": {
         "message": "Vídeo para ver solo una vez",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
+    },
+    "message--deletedForEveryone": {
+        "message": "Mensaje borrado.",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
         "message": "Fallo al instalar el paquete de cromos (stickers)",
@@ -2003,6 +2047,10 @@
         "message": "Eliminar todos los adjuntos preseleccionados",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "Saltar al chat",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Intro",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Tabulador",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1 a 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "Atajos de teclado",
@@ -2212,7 +2268,7 @@
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Usa el hashtag $hashtag$ en las redes sociales para ayudar a más usuarios a encontrar tu paquete de cromos (si así lo deseas).",
+        "message": "Usa el hashtag $hashtag$ en las redes sociales para ayudar a más personas a encontrar tu paquete de cromos (si así lo deseas).",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -2289,8 +2345,12 @@
         "message": "Fallo al enviar la reacción. Inténtalo de nuevo.",
         "description": "Shown when a reaction fails to send"
     },
+    "ReactionsViewer--more": {
+        "message": "Más",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
+    },
     "ReactionsViewer--all": {
-        "message": "Todo",
+        "message": "Todas",
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "privacyPolicy": {

@@ -1696,7 +1696,6 @@ class MessageReceiverInner extends EventTarget {
         case window.textsecure.protobuf.GroupContext.Type.DELIVER:
           decrypted.group.name = null;
           decrypted.group.membersE164 = [];
-          decrypted.group.members = [];
           decrypted.group.avatar = null;
           break;
         default: {
@@ -1797,18 +1796,6 @@ class MessageReceiverInner extends EventTarget {
         del.targetSentTimestamp = del.targetSentTimestamp.toNumber();
       }
     }
-
-    const groupMembers = decrypted.group ? decrypted.group.members || [] : [];
-
-    window.normalizeUuids(
-      decrypted,
-      [
-        'quote.authorUuid',
-        'reaction.targetAuthorUuid',
-        ...groupMembers.map((_member, i) => `group.members.${i}.uuid`),
-      ],
-      'message_receiver::processDecrypted'
-    );
 
     return Promise.resolve(decrypted);
     /* eslint-enable no-bitwise, no-param-reassign */

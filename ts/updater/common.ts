@@ -170,8 +170,6 @@ export function showUpdateDialog(
 ): void {
   let ack = false;
 
-  ipcMain.once('start-update', performUpdateCallback);
-
   ipcMain.once('show-update-dialog-ack', () => {
     ack = true;
   });
@@ -379,4 +377,8 @@ export function getCliOptions<T>(options: any): T {
   }
 
   return cliOptions;
+}
+
+export function setUpdateListener(performUpdateCallback: () => void): void {
+  ipcMain.once('start-update', performUpdateCallback);
 }

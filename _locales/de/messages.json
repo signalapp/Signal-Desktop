@@ -3,6 +3,10 @@
         "message": "Fehler kopieren und beenden",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Unbekannter Kontakt",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "Unbekannte Gruppe",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -411,6 +415,18 @@
         "message": "Beim Hochladen gab es ein Problem. Falls möglich, füge bitte das Protokoll manuell deiner eingereichten Problembeschreibung hinzu.",
         "description": ""
     },
+    "debugLogCopy": {
+        "message": "Kopieren",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "Link in Zwischenablage kopieren",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "Link in Zwischenablage kopiert",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
+    },
     "reportIssue": {
         "message": "Problem melden",
         "description": "Link to open the issue tracker"
@@ -613,6 +629,10 @@
         "message": "Tastaturkurzbefehle anzeigen",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "Kontaktiere uns",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "Versionshinweise",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,9 +645,13 @@
         "message": "Support",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "Problem melden",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "GitHub",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Beta beitreten",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "Einstellungen für Signal Desktop",
@@ -957,8 +981,8 @@
         "message": "Sicherheitsnummer anzeigen",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "Alle Medieninhalte anzeigen",
+    "viewRecentMedia": {
+        "message": "Letzte Medieninhalte anzeigen",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1083,9 +1107,17 @@
         "message": "Es sind bereits zu viele Geräte gekoppelt. Versuche einige zu entfernen.",
         "description": ""
     },
-    "settings": {
-        "message": "Einstellungen",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "Aktualisiere Signal auf diesem Gerät, um es mit deinem Mobiltelefon zu koppeln.",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "Etwas ist schiefgelaufen!",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "Erneut versuchen",
+        "description": ""
     },
     "theme": {
         "message": "Design",
@@ -1108,11 +1140,11 @@
         "description": "Description of the media permission description"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Rechtschreibüberprüfung wird beim nächsten Start von Signal aktiviert.",
+        "message": "Die Rechtschreibprüfung wird beim nächsten Start von Signal aktiviert.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Rechtschreibüberprüfung wird beim nächsten Start von Signal deaktiviert.",
+        "message": "Die Rechtschreibprüfung wird beim nächsten Start von Signal deaktiviert.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "clearDataHeader": {
@@ -1142,6 +1174,14 @@
     "deleteAllDataProgress": {
         "message": "Verbindung wird getrennt und alle Daten gelöscht",
         "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "deleteOldIndexedDBData": {
+        "message": "Du hast veraltete Daten aus einer früheren Installation von Signal Desktop. Falls du fortfährst, werden sämtliche Daten gelöscht und du beginnst komplett neu.",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "Alte Daten löschen",
+        "description": "Button to make the delete happen"
     },
     "notifications": {
         "message": "Benachrichtigungen",
@@ -1660,7 +1700,7 @@
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Gruppenname lautet jetzt »$name$«.",
+        "message": "Der Gruppenname lautet jetzt »$name$«.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1716,6 +1756,10 @@
     "message--getDescription--disappearing-video": {
         "message": "Einmalig anzeigbares Video",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
+    },
+    "message--deletedForEveryone": {
+        "message": "Diese Nachricht wurde gelöscht.",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
         "message": "Sticker-Set konnte nicht installiert werden",
@@ -2003,6 +2047,10 @@
         "message": "Alle Anhangsentwürfe entfernen",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "Zu Unterhaltung springen",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Strg",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Eingabetaste",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Tab",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1 bis 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "Tastaturkurzbefehle",
@@ -2288,6 +2344,10 @@
     "Reactions--error": {
         "message": "Reaktion konnte nicht versendet werden. Bitte erneut versuchen.",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "Mehr",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "Alle",

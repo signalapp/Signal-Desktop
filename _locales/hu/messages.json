@@ -3,6 +3,10 @@
         "message": "Hiba másolása és kilépés",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Ismeretlen kontakt",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "Ismeretlen csoport",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -338,11 +342,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Biztonsági számod a csoport több tagjával is megváltozott az utolsó hitelesítés óta. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy valaki egyszerűen csak újratelepítette a Signal-t.",
+        "message": "Biztonsági számod a csoport több tagjával is megváltozott az utolsó hitelesítés óta. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy valaki egyszerűen csak újratelepítette a Signalt.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Biztonsági számod $name$ nevű partnereddel megváltozott az utolsó hitelesítés óta. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy $name$ egyszerűen csak újratelepítette a Signal-t.",
+        "message": "Biztonsági számod $name$ nevű partnereddel megváltozott az utolsó hitelesítés óta. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy $name$ egyszerűen csak újratelepítette a Signalt.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -352,7 +356,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "A hitelesítés alatt álló biztonsági szám megváltozott. Kérlek ellenőrizd új biztonsági számodat $name$ nevű partnereddel. Ne felejtsd, ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy $name$ egyszerűen csak újratelepítette a Signal-t.",
+        "message": "A hitelesítés alatt álló biztonsági szám megváltozott. Kérlek ellenőrizd új biztonsági számodat $name$ nevű partnereddel. Ne felejtsd, ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy $name$ egyszerűen csak újratelepítette a Signalt.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -362,11 +366,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Biztonsági számod a csoport több tagjával is megváltozott az utóbbi időben. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy valaki egyszerűen csak újratelepítette a Signal-t.",
+        "message": "Biztonsági számod a csoport több tagjával is megváltozott az utóbbi időben. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy valaki egyszerűen csak újratelepítette a Signalt.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Biztonsági számod $name$ nevű partnereddel nemrég megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy $name$ egyszerűen csak újratelepítette a Signal-t.",
+        "message": "Biztonsági számod $name$ nevű partnereddel nemrég megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, vagy $name$ egyszerűen csak újratelepítette a Signalt.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -376,7 +380,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Biztonsági számod $name$ nevű partnereddel megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy $name$ egyszerűen csak újratelepítette a Signal-t. Javasolt újraellenőrizni a partnereddel közös biztonsági számotokat.",
+        "message": "Biztonsági számod $name$ nevű partnereddel megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetéseteket, de azt is jelentheti, hogy $name$ egyszerűen csak újratelepítette a Signalt. Javasolt újraellenőrizni a partnereddel közös biztonsági számotokat.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -410,6 +414,18 @@
     "debugLogError": {
         "message": "Valamiért nem sikerült a feltöltés! Kérjük vedd fontolóra a naplófájl kézi feltöltését a hiba bejelentése során.",
         "description": ""
+    },
+    "debugLogCopy": {
+        "message": "Másolás",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "Hivatkozás másolása vágólapra",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "Hivatkozás vágólapra másolva",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
         "message": "Hiba bejelentése",
@@ -464,7 +480,7 @@
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "A partnerhez kapcsolódó biztonsági számod megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetést. De az is előfordulhat, hogy partnered egyszerűen újratelepítette a Signal-t. Lentebb lehetőséged van az új biztonsági szám hitelesítésére.",
+        "message": "A partnerhez kapcsolódó biztonsági számod megváltozott. Ez arra utalhat, hogy valaki megpróbálja lehallgatni a beszélgetést. De az is előfordulhat, hogy partnered egyszerűen újratelepítette a Signalt. Lentebb lehetőséged van az új biztonsági szám hitelesítésére.",
         "description": ""
     },
     "incomingError": {
@@ -613,6 +629,10 @@
         "message": "Gyorsbillentyűk megjelenítése",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "Kapcsolat",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "Release notes megnyitása",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,9 +645,13 @@
         "message": "Támogatás megnyitása",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "Hiba bejelentése",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "GitHub megnyitása",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Csatolakozás a béta programhoz",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "A Signal Desktop beállításai",
@@ -957,8 +981,8 @@
         "message": "Biztonsági szám megjelenítése",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "Összes média megtekintése",
+    "viewRecentMedia": {
+        "message": "Friss médiafájlok megtekintése",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1040,7 +1064,7 @@
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Telefonod összepárosítása Signal Desktop-pal",
+        "message": "Telefonod összepárosítása Signal Desktop-al",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
@@ -1083,9 +1107,17 @@
         "message": "Sajnáljuk, de már túl sok párosított eszközöd van. Próbálj kitörölni néhányat!",
         "description": ""
     },
-    "settings": {
-        "message": "Beállítások",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "A telefonod párosításához frissítsd a Signalt ezen az eszközön!",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "Probléma merült fel!",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "Újra",
+        "description": ""
     },
     "theme": {
         "message": "Téma",
@@ -1142,6 +1174,14 @@
     "deleteAllDataProgress": {
         "message": "Lecsatlakozás és összes adat törlése",
         "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "deleteOldIndexedDBData": {
+        "message": "Egy korábbi Signal Desktop telepítés elavult adatokat hagyott hátra. Ha úgy döntesz, hogy folytatod, akkor ezek az adatok törölve lesznek.",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "Régi adatok törlése",
+        "description": "Button to make the delete happen"
     },
     "notifications": {
         "message": "Értesítések",
@@ -1544,7 +1584,7 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "Biztonsági számod (partner: $name$):",
+        "message": "Biztonsági számotok (partner: $name$):",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -1716,6 +1756,10 @@
     "message--getDescription--disappearing-video": {
         "message": "Egyszer megjelenő videó",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
+    },
+    "message--deletedForEveryone": {
+        "message": "Ez az üzenet ki lett törölve.",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
         "message": "A matricacsomagot nem sikerült telepíteni",
@@ -2003,6 +2047,10 @@
         "message": "Az összes csatolmány-piszkozat eltávolítása",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "Ugrás a beszélgetéshez",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Enter",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Tab",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1-től 9-ig",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "Gyorsbillentyűk",
@@ -2234,7 +2290,7 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Nézd meg az új Signal-os matricacsomagomat! #makeprivacystick",
+        "message": "Nézd meg az új Signalos matricacsomagomat! #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -2282,12 +2338,16 @@
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "A matricacsomag létrehozásához állítsd be a Signal-t telefonodon, valamint az asztali alkalmazáson is",
+        "message": "A matricacsomag létrehozásához állítsd be a Signalt telefonodon, valamint az asztali alkalmazáson is",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
         "message": "Nem sikerült a reakció elküldése. Kérlek próbáld újra!",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "Továbbiak",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "Összes",

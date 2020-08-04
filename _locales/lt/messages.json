@@ -3,6 +3,10 @@
         "message": "Kopijuoti klaidą ir išeiti",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Nežinomas adresatas",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "Nežinoma grupė",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -264,7 +268,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You left the group.",
+        "message": "Jūs išėjote iš grupės.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -334,11 +338,11 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Jūsų saugumo numeriai su šiais grupės dalyviais nuo paskutinio patvirtinimo pasikeitė. Spustelėkite ant grupės dalyvio, norėdami pamatyti savo naują saugumo numerį su juo.",
+        "message": "Jūsų saugumo numeriai su šiais grupės nariais nuo paskutinio patvirtinimo pasikeitė. Spustelėkite ant grupės nario, norėdami pamatyti savo naują saugumo numerį su juo.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Jūsų saugumo numeriai su keliais grupės dalyviais nuo paskutinio patvirtinimo pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad šie asmenys, tiesiog, iš naujo įdiegė Signal.",
+        "message": "Jūsų saugumo numeriai su keliais grupės nariais nuo paskutinio patvirtinimo pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad šie asmenys, tiesiog, iš naujo įdiegė Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
@@ -362,7 +366,7 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Jūsų saugumo numeriai su keliais grupės dalyviais neseniai pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad šie asmenys, tiesiog, iš naujo įdiegė Signal. ",
+        "message": "Jūsų saugumo numeriai su keliais grupės nariais neseniai pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad šie asmenys, tiesiog, iš naujo įdiegė Signal.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
@@ -400,7 +404,7 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Jūsų saugumo numeriai su keliais šios grupės dalyviais pasikeitė ir daugiau nebėra patvirtinti. Spustelėkite, norėdami rodyti.",
+        "message": "Jūsų saugumo numeriai su keliais šios grupės nariais pasikeitė ir daugiau nebėra patvirtinti. Spustelėkite, norėdami rodyti.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
@@ -410,6 +414,18 @@
     "debugLogError": {
         "message": "Kažkas nutiko su nusiuntimu! Apsvarstykite galimybę rankiniu būdu pridėti savo žurnalą į klaidos pranešimą, kurį pateiksite.",
         "description": ""
+    },
+    "debugLogCopy": {
+        "message": "Kopijuoti",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "Kopijuoti nuorodą į iškarpinę",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "Nuoroda nukopijuota į iškarpinę",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
         "message": "Pranešti apie klaidą",
@@ -613,6 +629,10 @@
         "message": "Rodyti sparčiuosius klavišus",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "Susisiekti su mumis",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "Pereiti į laidos informaciją",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,9 +645,13 @@
         "message": "Pereiti į palaikymo puslapį",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "Pranešti apie klaidą",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "Eiti į GitHub",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Prisijungti prie Beta laidos",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "Signal Desktop nuostatos",
@@ -942,11 +966,11 @@
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
-        "message": "Grupės dalyviai",
+        "message": "Grupės nariai",
         "description": ""
     },
     "showMembers": {
-        "message": "Rodyti dalyvius",
+        "message": "Rodyti narius",
         "description": ""
     },
     "resetSession": {
@@ -957,8 +981,8 @@
         "message": "Rodyti saugumo numerį",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "Rodyti visą mediją",
+    "viewRecentMedia": {
+        "message": "Rodyk paskiausią mediją",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1036,7 +1060,7 @@
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Privatumas yra įmanomas. Signal jį padaro lengvą.",
+        "message": "Privatumas yra įmanomas. Signal padaro jį lengvu.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
@@ -1083,9 +1107,17 @@
         "message": "Atleiskite, jūs jau turite per daug susietų įrenginių. Pabandykite kai kuriuos pašalinti.",
         "description": ""
     },
-    "settings": {
-        "message": "Nustatymai",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "Norėdami susieti šį įrenginį su savo telefonu, atnaujinkite jame Signal.",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "Kažkas nutiko!",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "Bandykite dar kartą",
+        "description": ""
     },
     "theme": {
         "message": "Apipavidalinimas",
@@ -1142,6 +1174,14 @@
     "deleteAllDataProgress": {
         "message": "Atsijungiama ir ištrinami visi duomenys",
         "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "deleteOldIndexedDBData": {
+        "message": "Turite nebenaudojamų duomenų, likusių iš ankstesnio Signal Desktop diegimo. Jei pasirinksite tęsti, jie bus ištrinti ir pradėsite viską nuo nulio.",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "Ištrinti senus duomenis",
+        "description": "Button to make the delete happen"
     },
     "notifications": {
         "message": "Pranešimai",
@@ -1622,7 +1662,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ išėjo iš grupės.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1632,7 +1672,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ išėjo iš grupės.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1682,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ updated the group.",
+        "message": "$name$ atnaujino grupę.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1656,11 +1696,11 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Group avatar was updated.",
+        "message": "Grupės avataras buvo atnaujintas.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Group name is now '$name$'.",
+        "message": "Dabar, grupės pavadinimas yra \"$name$\".",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1674,7 +1714,7 @@
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group.",
+        "message": "$name$ prisijungė prie grupės.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1684,7 +1724,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group.",
+        "message": "$names$ prisijungė prie grupės.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1716,6 +1756,10 @@
     "message--getDescription--disappearing-video": {
         "message": "Vienkartinės peržiūros vaizdo įrašas",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
+    },
+    "message--deletedForEveryone": {
+        "message": "Ši žinutė buvo ištrinta.",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
         "message": "Nepavyko įdiegti lipdukų paketo",
@@ -2003,6 +2047,10 @@
         "message": "Šalinti visus priedų juodraščius",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "Peršokti į pokalbį",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Vald (Ctrl)",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Įvesti (Enter)",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Tab",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1 iki 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "Spartieji klavišai",
@@ -2288,6 +2344,10 @@
     "Reactions--error": {
         "message": "Nepavyko išsiųsti reakcijos. Bandykite dar kartą.",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "Daugiau",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "Visi",

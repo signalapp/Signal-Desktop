@@ -172,7 +172,9 @@ function _createSocket(
     };
   }
 
-  return new WebSocket(url, undefined, undefined, undefined, requestOptions);
+  return new WebSocket(url, undefined, undefined, undefined, requestOptions, {
+    maxReceivedFrameSize: 0x210000,
+  });
 }
 
 const FIVE_MINUTES = 1000 * 60 * 5;

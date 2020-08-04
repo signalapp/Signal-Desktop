@@ -3,6 +3,10 @@
         "message": "Copia l'error i surt",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Contacte desconegut",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "Grup desconegut",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -386,7 +390,7 @@
         }
     },
     "sendAnyway": {
-        "message": "Tot i així, envia'l",
+        "message": "Envia'l tanmateix",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
@@ -410,6 +414,18 @@
     "debugLogError": {
         "message": "S'ha produït un error amb la càrrega! Considereu afegir manualment el registre a l'error que envieu.",
         "description": ""
+    },
+    "debugLogCopy": {
+        "message": "Copia",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "Copia l'enllaç al porta-retalls",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "Enllaç copiat al porta-retalls",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
         "message": "Informeu d'un error",
@@ -613,6 +629,10 @@
         "message": "Mostra les dreceres del teclat",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "Contacteu-nos",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "Ves a les notes de versió",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,9 +645,13 @@
         "message": "Ves a la pàgina de suport",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "Informeu d'un error",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "Ves a GitHub",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Uniu-vos a la versió Beta",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "Preferències del Signal Desktop",
@@ -708,7 +732,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
-        "message": "Benvingut al Signal",
+        "message": "Benvingut/da al Signal",
         "description": ""
     },
     "selectAContact": {
@@ -957,8 +981,8 @@
         "message": "Mostra el número de seguretat",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "Mostra tots els elements multimèdia",
+    "viewRecentMedia": {
+        "message": "Mostra el contingut recent",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1032,7 +1056,7 @@
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Us donem la benvinguda al Signal Desktop",
+        "message": "Benvingut/da al Signal Desktop",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
@@ -1083,9 +1107,17 @@
         "message": "Teniu massa dipositius enllaçats. Proveu de suprimir-ne algun.",
         "description": ""
     },
-    "settings": {
-        "message": "Configuració",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "Actualitzeu el Signal d'aquest dispositiu per enllaçar-lo amb el telèfon.",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "Alguna cosa ha anat malament!",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "Torna a provar-ho",
+        "description": ""
     },
     "theme": {
         "message": "Tema",
@@ -1104,7 +1136,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Activa la comprovació ortogràfica del text introduït en el quadre d'edició de missatges",
+        "message": "Activa la comprovació ortogràfica del text del quadre d'edició de missatges",
         "description": "Description of the media permission description"
     },
     "spellCheckWillBeEnabled": {
@@ -1142,6 +1174,14 @@
     "deleteAllDataProgress": {
         "message": "Desconnexió i supressió de dades",
         "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "deleteOldIndexedDBData": {
+        "message": "Teniu dades obsoletes d'una instal·lació anterior del Signal Desktop. Si trieu continuar, se suprimiran i començareu de zero.",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "Suprimeix les dades antigues",
+        "description": "Button to make the delete happen"
     },
     "notifications": {
         "message": "Notificacions",
@@ -1582,7 +1622,7 @@
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
-        "message": "Introduïu un número de mòbil per a afegir un contacte.",
+        "message": "Marqueu un número de telèfon per afegir un contacte.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
@@ -1602,7 +1642,7 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Disponible una actualització del Signal",
+        "message": "Actualització del Signal disponible",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -1716,6 +1756,10 @@
     "message--getDescription--disappearing-video": {
         "message": "Vídeo d'una sola visualització",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
+    },
+    "message--deletedForEveryone": {
+        "message": "Aquest missatge s'ha suprimit.",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
         "message": "No s'ha pogut instal·lar el paquet d'adhesius.",
@@ -2003,6 +2047,10 @@
         "message": "Suprimeix tots els adjunts de l'esborrany",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "Salta a la conversa",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Retorn",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Tabulador",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "d'1 a 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "Dreceres del teclat",
@@ -2288,6 +2344,10 @@
     "Reactions--error": {
         "message": "Ha fallat enviar la reacció. Si us plau, torneu-ho a provar.",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "Més",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "Tot",

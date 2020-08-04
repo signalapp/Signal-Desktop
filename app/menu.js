@@ -167,7 +167,7 @@ exports.createTemplate = (options, messages) => {
           label: messages.goToGithub.message,
           click: openGithub,
         },
-        ...(isBeta
+        ...(!isBeta
           ? [
               {
                 label: messages.joinTheBeta.message,

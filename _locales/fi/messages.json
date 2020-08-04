@@ -3,6 +3,10 @@
         "message": "Kopioi virheilmoitus ja lopeta",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Unknown contact",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "Tuntematon ryhmä",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -264,7 +268,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You left the group.",
+        "message": "Olet poistunut ryhmästä.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -410,6 +414,18 @@
     "debugLogError": {
         "message": "Jokin meni pieleen lataamisessa! Ole hyvä ja liitä virheenkorjausloki vikailmoitukseesi.",
         "description": ""
+    },
+    "debugLogCopy": {
+        "message": "Kopioi",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "Kopioi linkki leikepöydälle",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "Linkki kopioitu leikepöydälle",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
         "message": "Ilmoita ongelmasta",
@@ -613,6 +629,10 @@
         "message": "Näytä näppäinoikotiet",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "Ota meihin yhteyttä",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "Siirry julkaisutietoihin",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,9 +645,13 @@
         "message": "Siirry tukisivulle",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "Ilmoita ongelmasta",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "Siirry GitHubiin",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Liity beetaan",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "Signal Desktop -asetukset",
@@ -957,8 +981,8 @@
         "message": "Näytä turvanumero",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "Näytä kaikki media",
+    "viewRecentMedia": {
+        "message": "Näytä äskeinen media",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1083,9 +1107,17 @@
         "message": "Valitettavasti sinulla on jo liian monta laitetta yhdistettynä. Kokeile poistaa joitakin.",
         "description": ""
     },
-    "settings": {
-        "message": "Asetukset",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "Päivitä Signal tällä laitteella linkittääksesi puhelimesi.",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "Jokin meni pieleen!",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "Yritä uudelleen",
+        "description": ""
     },
     "theme": {
         "message": "Teema",
@@ -1142,6 +1174,14 @@
     "deleteAllDataProgress": {
         "message": "Katkaistaan yhteyttä ja tuhotaan kaikki tiedot",
         "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "deleteOldIndexedDBData": {
+        "message": "Sinulla on vanhentuneita tietoja aiemmasta Signal Desktopin asennuksesta. Jos päätät jatkaa, tiedot poistetaan ja aloitat alusta.",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "Poista vanhat tiedot",
+        "description": "Button to make the delete happen"
     },
     "notifications": {
         "message": "Ilmoitukset",
@@ -1622,7 +1662,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ poistui ryhmästä.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1632,7 +1672,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ poistui ryhmästä.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1682,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ updated the group.",
+        "message": "$name$ päivitti ryhmää.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1656,11 +1696,11 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Group avatar was updated.",
+        "message": "Ryhmän kuvake päivitettiin.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Group name is now '$name$'.",
+        "message": "Ryhmän nimi on nyt '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1674,7 +1714,7 @@
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group.",
+        "message": "$name$ liittyi ryhmään.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1684,7 +1724,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group.",
+        "message": "$names$ liittyivät ryhmään.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1716,6 +1756,10 @@
     "message--getDescription--disappearing-video": {
         "message": "Kerran katsottava video",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
+    },
+    "message--deletedForEveryone": {
+        "message": "Tämä viesti poistettiin.",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
         "message": "Tarrapakettia ei voitu asentaa",
@@ -2003,6 +2047,10 @@
         "message": "Poista luonnosten liitteet",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "Siirry keskusteluun",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Enter",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Tab",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1:stä 9:ään",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "Näppäinoikotiet",
@@ -2288,6 +2344,10 @@
     "Reactions--error": {
         "message": "Reaktion lähetys epäonnistui. Yritä uudelleen.",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "Lisää",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "Kaikki",

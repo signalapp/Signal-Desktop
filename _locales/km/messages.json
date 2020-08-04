@@ -3,6 +3,10 @@
         "message": "ចម្លងបញ្ហា និងចាកចេញ",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Unknown contact",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "ក្រុមមិនស្គាល់",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -148,7 +152,7 @@
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuNoSuggestions": {
-        "message": "No Suggestions",
+        "message": "គ្មានការផ្តល់យោបល់ទេ",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
@@ -264,7 +268,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You left the group.",
+        "message": "អ្នកបានចាកចេញពីក្រុម។",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -290,7 +294,7 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "For your security, conversation history isn't transferred to new linked devices.",
+        "message": "សម្រាប់សុវត្ថិភាព ប្រវត្តិការសន្ទនាមិនត្រូវបានបញ្ជូនទៅឧបករណ៍តភ្ជាប់ថ្មីនោះទេ។",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
@@ -410,6 +414,18 @@
     "debugLogError": {
         "message": "មានបញ្ហាក្នុងការផ្ទុក! សូមបន្ថែមក្នុងកំណត់ត្រា ដើម្បីកត់ត្រាបញ្ហាក្នុងឯកសារអ្នក។",
         "description": ""
+    },
+    "debugLogCopy": {
+        "message": "ចម្លង",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "ចម្លងតំណ ទៅកាន់ clipboard",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "តំណត្រូវបានចម្លង ទៅកាន់ clipboard",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
         "message": "រាយការណ៍បញ្ហាមួយ",
@@ -586,11 +602,11 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Connect",
+        "message": "តភ្ជាប់",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long...",
+        "message": "មិនគួរយូរទេ...",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -613,6 +629,10 @@
         "message": "បង្ហាញផ្លូវកាត់ក្តារចុច",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "Contact Us",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "ចូលទៅកាន់កំណត់ចេញថ្មី",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,9 +645,13 @@
         "message": "ចូលទៅកាន់ទំព័រគាំទ្រ",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "រាយការណ៍បញ្ហាមួយ",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "Go to GitHub",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Join the Beta",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "ចំណង់ចំណូលចិត្តSignal Desktop ",
@@ -790,15 +814,15 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecordingInterruptedMax": {
-        "message": "Voice message recording stopped because the maximum time limit was reached.",
+        "message": "ការថតសារជាសំឡេង ត្រូវបានបញ្ឈប់ ដោយសារវាលើសកាលកំណត់។",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
-        "message": "Voice message recording stopped because you switched to another app.",
+        "message": "ការថតសារជាសំឡេង ត្រូវបានបញ្ឈប់ ដោយសារអ្នកបានផ្លាស់ប្តូរទៅកម្មវិធីផ្សេង។",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Voice messages are limited to five minutes. Recording will stop if you switch to another app.",
+        "message": "សារជាសំឡេង ត្រូវមានកំណត់ត្រឹម ៥ នាទី។ ការថត នឹងត្រូវបញ្ឈប់ បើអ្នកផ្លាស់ប្តូរទៅកម្មវិធីផ្សេង។",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -858,7 +882,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to $url$ and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "Signal Desktop បានបរាជ័យក្នុងការធ្វើបច្ចុប្បន្នភាព​ តែមានជំនាន់ថ្មីមួយ។ សូមចូលទៅកាន់​ $url$ និងដំឡើងជំនាន់ថ្មីដោយខ្លួនឯង បន្ទាប់មកទាក់ទងមកក្រុមការងារ​ ឬផ្ញើកំណត់ត្រាបញ្ហាអំពីបញ្ហានេះ។",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -868,7 +892,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving $app$ to $folder$ with Finder.",
+        "message": "Signal Desktop ហាក់ដូចជាត្រូវបានដាក់ដាច់គេនៅ macOS និងមិនអាចធ្វើបច្ចុប្បន្នភាពដោយស្វ័យប្រវត្តិបានទេ។​ សូមសាកល្បងផ្លាស់ប្តូរ $app$ ទៅ $folder$ ជាមួយ Finder។",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -957,8 +981,8 @@
         "message": "បង្ហាញលេខសុវត្ថិភាព",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "បង្ហាញឯកសារមេឌាទាំងអស់",
+    "viewRecentMedia": {
+        "message": "បង្ហាញឯកសារមេឌាថ្មីៗ",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1083,9 +1107,17 @@
         "message": "សុំទោស, អ្នកបានភ្ជាប់ឧបករណ៍ច្រើនរួចហើយ។ ព្យាយាមលុបចោលខ្លះ។",
         "description": ""
     },
-    "settings": {
-        "message": "ការកំណត់",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "ធ្វើបច្ចុប្បន្នភាព Signal លើឧបករណ៍នេះ ដើម្បីតភ្ជាប់ទូរស័ព្ទរបស់អ្នក។",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "មានបញ្ហាខុសប្រក្រតី!",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "ព្យាយាមម្តងទៀត",
+        "description": ""
     },
     "theme": {
         "message": "រូបរាង",
@@ -1108,11 +1140,11 @@
         "description": "Description of the media permission description"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Spell check will be enabled the next time Signal starts.",
+        "message": "ការត្រួតពិនិត្យអក្ខាវិរុទ្ធ នឹងត្រូវបើកនៅពេល Signal ដំណើរការលើកក្រោយ។",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Spell check will be disabled the next time Signal starts.",
+        "message": "ការត្រួតពិនិត្យអក្ខាវិរុទ្ធ នឹងត្រូវបិទនៅពេល Signal ដំណើរការលើកក្រោយ។",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "clearDataHeader": {
@@ -1142,6 +1174,14 @@
     "deleteAllDataProgress": {
         "message": "កំពុងផ្តាច់ និងលុបចោលទិន្នន័យទាំងអស់",
         "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "deleteOldIndexedDBData": {
+        "message": "អ្នកមានទិន្នន័យដែលលែងប្រើពីការតំឡើង Signal Desktop ពីមុន។ ប្រសិនបើអ្នកជ្រើសរើសបន្តវានឹងត្រូវលុបចោល ហើយអ្នកនឹងចាប់ផ្តើមពីដំបូង។",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "លុបទិន្នន័យចាស់ៗ",
+        "description": "Button to make the delete happen"
     },
     "notifications": {
         "message": "ការជូនដំណឹង",
@@ -1578,7 +1618,7 @@
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "notSupportedSMS": {
-        "message": "SMS/MMS messages are not supported.",
+        "message": "សារ SMS/MMS មិនគាំទ្រទេ។",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
@@ -1622,7 +1662,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ បានចាកចេញពីក្រុម។",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1632,7 +1672,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ បានចាកចេញពីក្រុម។",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1682,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ updated the group.",
+        "message": "$name$ បានធ្វើបច្ចុប្បន្នភាពក្រុម។",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1656,11 +1696,11 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Group avatar was updated.",
+        "message": "រូបតំណាងក្រុមត្រូវបានធ្វើបច្ចុប្បន្នភាព។",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Group name is now '$name$'.",
+        "message": "ឈ្មោះក្រុមឥឡូវគឺ '$name$'។",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1670,11 +1710,11 @@
         }
     },
     "youJoinedTheGroup": {
-        "message": "You joined the group.",
+        "message": "អ្នកបានចូលក្រុមនេះ។",
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group.",
+        "message": "$name$ បានចាកចេញពីក្រុម។",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1684,7 +1724,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group.",
+        "message": "$names$បានចូលក្រុម។",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1716,6 +1756,10 @@
     "message--getDescription--disappearing-video": {
         "message": "វីដេអូមើលម្តង",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
+    },
+    "message--deletedForEveryone": {
+        "message": "សារនេះត្រូវបានលុប។",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
         "message": "កញ្ចប់ស្ទីកគ័រមិនអាចដំឡើងបាន",
@@ -2003,6 +2047,10 @@
         "message": "លុបចោលឯកសារភ្ជាប់ព្រាងទាំងអស់",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "លោតទៅការសន្ទនា",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Ctrl",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Enter",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "ចុច",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1 ទៅ 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "ផ្លូវកាត់ក្តារចុច",
@@ -2288,6 +2344,10 @@
     "Reactions--error": {
         "message": "បរាជ័យក្នុងការផ្ញើប្រតិកម្ម។ សូមសាកល្បងម្តងទៀត។",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "បន្ថែម",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "ទាំងអស់",

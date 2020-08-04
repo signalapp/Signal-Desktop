@@ -1,114 +1,114 @@
 {
     "copyErrorAndQuit": {
-        "message": "Copia l'errore ed esci",
+        "message": "Kopiatu errorea eta irten",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownContact": {
-        "message": "Contatto sconosciuto",
+        "message": "Unknown contact",
         "description": "Shown as the name of a contact if we don't have any displayable information about them"
     },
     "unknownGroup": {
-        "message": "Gruppo sconosciuto",
+        "message": "Talde ezezaguna",
         "description": "Shown as the name of a group if we don't have any information about it"
     },
     "databaseError": {
-        "message": "Errore del database",
+        "message": "Datubasearen Errorea",
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "deleteAndRestart": {
-        "message": "Elimina tutti i dati e riavvia",
+        "message": "Ezabatu datu guztiak eta berrabiarazi",
         "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
-        "message": "&File",
+        "message": "&Fitxategia",
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Crea/carica pacchetto adesivi",
+        "message": "Sortu/igo eranskailu paketea",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
-        "message": "&Modifica",
+        "message": "&Editatu",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
-        "message": "&Vista",
+        "message": "&Ikusi",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
-        "message": "&Finestra",
+        "message": "&Leihoa",
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "&Aiuto",
+        "message": "L&aguntza",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "Preferenze…",
+        "message": "Hobespenak...",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
-        "message": "Nascondi",
+        "message": "Ezkutatu",
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Nascondi altri",
+        "message": "Ezkutau besteak",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
-        "message": "Mostra tutto",
+        "message": "Erakutsi Denak",
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Termina Signal",
+        "message": "Irten Signal-etik",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "Annulla",
+        "message": "Desegin",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "Ripeti",
+        "message": "Berregin",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
-        "message": "Taglia",
+        "message": "Ebaki",
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "editMenuCopy": {
-        "message": "Copia",
+        "message": "Kopiatu",
         "description": "Edit menu command to add selected text to clipboard"
     },
     "editMenuPaste": {
-        "message": "Incolla",
+        "message": "Itsatsi",
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Incolla e verifica stile",
+        "message": "Itsatsi eta Kopiatu Estiloa",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "Elimina",
+        "message": "Ezabatu",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Seleziona tutto",
+        "message": "Hautatu Dena",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "Inizia a parlare",
+        "message": "Hasi hitz egiten",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "Non parlare",
+        "message": "Utzi hitz egiteari",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
-        "message": "Chiudi la finestra",
+        "message": "Itxi Leihoa",
         "description": "Window menu command to close the current window"
     },
     "windowMenuMinimize": {
-        "message": "Minimizza",
+        "message": "Minimizau",
         "description": "Window menu command to minimize the current window"
     },
     "windowMenuZoom": {
@@ -116,59 +116,59 @@
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
-        "message": "Porta tutto in primo piano",
+        "message": "Ekarri Denak Aurrera",
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "viewMenuResetZoom": {
-        "message": "Dimensione attuale",
+        "message": "Tamaina Erreala",
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "Ingrandisci",
+        "message": "Hurbildu",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "Rimpicciolisci",
+        "message": "Urrundu",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Modalità schermo intero",
+        "message": "Aktibatu Pantaila Osoa",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Apri strumenti di sviluppo",
+        "message": "Aktibatu/Desaktibatu Garatzaileen Tresnak",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupAsNewDevice": {
-        "message": "Configura come nuovo dispositivo",
+        "message": "Ezarri Gailu Berri Gisa",
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "Imposta come dispositivo autonomo",
+        "message": "Ezarri Gailu Independiente Gisa",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "contextMenuCopyLink": {
-        "message": "Copia link",
+        "message": "Lotura kopiatu",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuNoSuggestions": {
-        "message": "Nessun suggerimento",
+        "message": "Iradokizunik ez",
         "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
     },
     "avatarMenuViewArchive": {
-        "message": "Visualizza archivio",
+        "message": "Ikusi Fitxategia",
         "description": "One of the menu options available in the Avatar Popup menu"
     },
     "loading": {
-        "message": "Caricamento...",
+        "message": "Kargatzen...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Ottimizzazione applicazione...",
+        "message": "Aplikazioa optimizatzen...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Ottimizzazione dei messaggi... $status$ completato.",
+        "message": "Mezuak optimizatzen... $status$ eginda.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -178,83 +178,83 @@
         }
     },
     "archivedConversations": {
-        "message": "Conversazioni archiviate",
+        "message": "Artxibatutako solasaldiak",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "archiveHelperText": {
-        "message": "Queste conversazioni sono archiviate e compariranno nella lista di chat solo se verranno ricevuti nuovi messaggi.",
+        "message": "Solasaldi hauek artxibatuta daude eta bakarrik mezu berriak jasotakoan agertuko dira sarrera erretiluan.",
         "description": "Shown at the top of the archived converations list in the left pane"
     },
     "archiveConversation": {
-        "message": "Archivia conversazione",
+        "message": "Artxibatu solasaldia",
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "moveConversationToInbox": {
-        "message": "Ripristina conversazione",
+        "message": "Mugitu solasaldiak sarrera erretilura",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "chooseDirectory": {
-        "message": "Scegli la cartella",
+        "message": "Aukeratu karpeta",
         "description": "Button to allow the user to find a folder on disk"
     },
     "chooseFile": {
-        "message": "Scegli file",
+        "message": "Hautatu fitxategia",
         "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
-        "message": "Carica i tuoi dati",
+        "message": "Kargatu zure datuak",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Hai appena completato il processo di esportazione e i tuoi contatti e i tuoi messaggi sono in attesa sul tuo computer. Seleziona la cartella che contiene i dati di Signal salvati.",
+        "message": "Esportatzeko prozesua osatu da eta zure kontaktuak eta mezuak zure konputagailuan duzu zain. Hautu zure Signal  datuak dituen karpeta.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
-        "message": "Scegli una cartella con i dati esportati",
+        "message": "Hautatu esportatutako datua duen direktorioa",
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
-        "message": "Qualcosa non ha funzionato!",
+        "message": "Zerbait oker joan da",
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Caricamento contatti e messaggi",
+        "message": "Kontaktuak eta mezuak kargatzen",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Controlla di aver scelto la cartella corretta che contiene i tuoi dati di Signal. Il suo nome dovrebbe iniziare con \"Signal Export\". Puoi anche salvare una nuova copia dei tuoi dati dall'applicazione Chrome.",
+        "message": "Egiazta ezazu data duen karpeta zuzena hatutatu duzula. Bere izena 'Signal Export' hitzez hasi beharko litzateke. Honez gain, zure datuen kopia berri bat gorde dezakezu Chrome Aplikaziotik.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "Se questi passaggi non funzionano, invia un log di debug (Visualizza -> Log di debug) per poterti aiutare a risolvere!",
+        "message": "Hurrats hauek ez badute funtzionatzen, mesedez errorea jakinarazteko txosten bat bidali (Ikusi->Arazteko Informazioa), lagundu ahal izan diezazugun migrazioarekin!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
-        "message": "Scegli una cartella e riprova",
+        "message": "Aukeratu karpeta eta saiatu berriro",
         "description": "Button shown if the user runs into an error during import, allowing them to start over"
     },
     "importCompleteHeader": {
-        "message": "Completato!",
+        "message": "Ondo!",
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Inizia a usare Signal Desktop",
+        "message": "Hasi Signal Desktop erabiltzen",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
-        "message": "Collega questo dispositivo con il tuo telefono",
+        "message": "Lotu gailu hau zure telefonoarekin",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
     "selectedLocation": {
-        "message": "il percorso selezionato",
+        "message": "aukeratu duzun kokapena",
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "Aggiornamento database. Questo potrebbe richiedere del tempo...",
+        "message": "Datubasea eguneratzen. Honek denbora bat hartuko du...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Caricamento messaggi. Finora $count$...",
+        "message": "Mezuak kargatzen. $count$ dagoeneko...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -264,27 +264,27 @@
         }
     },
     "view": {
-        "message": "Mostra",
+        "message": "Ikusi",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Hai abbandonato il gruppo.",
+        "message": "Taldea utzi duzu.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
-        "message": "Scorri verso la fine della conversazione",
+        "message": "Korritu solasaldiaren hondora",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messagesBelow": {
-        "message": "Nuovi messaggi a seguire",
+        "message": "Mezu berriak azpian",
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": "1 messaggio non letto",
+        "message": "Irakurri gabeko mezu bat",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$ messaggi non letti",
+        "message": "Irakurri gabeko $count$ mezu",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -294,11 +294,11 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "Per la tua sicurezza, la cronologia delle conversazioni non viene trasferita ai nuovi dispositivi collegati.",
+        "message": "Zure segurtasunerako, solasaldien historia ez da bidaltzen lotutako gailu berrietara.",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
-        "message": "Hai segnato il numero di sicurezza con $name$ come verificato",
+        "message": "$name$ erabiltzailearekin duzun segurtasun zenbakia egiaztatu gisa markatu duzu",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -308,7 +308,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "Hai segnato il numero di sicurezza con $name$ come non verificato",
+        "message": " $name$ erabiltzailearekin duzun segurtasun zenbakia ez egiaztatu gisa markatu duzu",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -318,7 +318,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Hai segnato il numero di sicurezza con $name$ come verificato da un altro dispositivo",
+        "message": "$name$ erabiltzailearekin duzu segurtasun zenbakia egiaztatu gisa markatu duzu beste gailu batean.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -328,7 +328,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "Hai segnato il numero di sicurezza con $name$ come non verificato da un altro dispositivo",
+        "message": "$name$ erabiltzailearekin duzu segurtasun zenbakia ez egiaztatu gisa markatu duzu beste gailu batean.",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -338,15 +338,15 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Dall'ultima verifica è cambiato il codice di sicurezza con questi membri del gruppo. Fai clic su uno di essi per vedere il suo nuovo codice di sicurezza.",
+        "message": "Taldeko kide hauekin zenituen segurtasun zenbakiak aldatu dira egiaztatu zenuen azkenengo alditik. Ukitu taldeko kide baten gainean ikusteko zer segurtasun zenbaki duzun orain.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Il codice di sicurezza con più membri del gruppo è cambiato. Questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che hanno semplicemente reinstallato Signal.",
+        "message": "Egiaztatu zenituen azkenengo alditik, taldeko kide askorekin dituzun segurtasun zenbakiak aldatu dira. Agian norbait zure komunikazioa atzematen saiatzen ari da edo, besterik gabe, aipatutako erabiltzaileok Signal berrinstalatu dute.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Il codice di sicurezza con $name$ è cambiato dall'ultima verifica. Questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che $name$ ha semplicemente reinstallato Signal.",
+        "message": "$name$ erabiltzailearekin duzun segurtasun zenbakia aldatu da egiaztatu zenuen azkenengo alditik. Agian norbait zure komunikazioa atzematen saiatzen ari da edo, besterik gabe, $name$ erabiltzaileak Signal berrinstalatu du.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -356,7 +356,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Il codice di sicurezza che stai cercando di verificare è cambiato. Verificalo ancora con $name$. Ricorda che questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che $name$ ha semplicemente reinstallato Signal.",
+        "message": "Egiaztazen saiatzen ari zaren segurtasun zenbakia aldatu da. Mesedez, egiaztatu $name$ erabiltzailearekin duzun segurtasun zenbaki berria. Gogoratu, agian norbait zure komunikazioa atzematen saiatzen ari da edo, besterik gabe, $name$ erabiltzaileak Signal berrinstalatu du.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -366,11 +366,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Di recente il codice di sicurezza con più membri del gruppo è cambiato. Questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che hanno semplicemente reinstallato Signal.",
+        "message": "Taldeko kide askorekin dituzun segurtasun zenbakiak aldatu dira egiaztatu zenituen azkenengo alditik. Agian norbait zure komunikazioa atzematen saiatzen ari da edo, besterik gabe, aipatutako erabiltzaileok Signal berrinstalatu dute.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Di recente il codice di sicurezza con $name$ è cambiato. Questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che $name$ ha semplicemente reinstallato Signal.",
+        "message": "$name$ erabiltzailearekin duzun segurtasun zenbakia aldatu da duela gutxi. Agian norbait zure komunikazioa atzematen saiatzen ari da edo, besterik gabe, $name$ erabiltzaileak Signal berrinstalatu du.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -380,7 +380,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Il codice di sicurezza con $name$ è cambiato. Questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione oppure che $name$ ha semplicemente reinstallato Signal. Potresti voler verificare il tuo codice di sicurezza con questo contatto.",
+        "message": "$name$ erabiltzailearekin duzun segurtasun zenbakia aldatu da. Agian norbait zure komunikazioa atzematen saiatzen ari da edo, besterik gabe, $name$ erabiltzaileak Signal berrinstalatu du. Beharbada azpian dagoen segurtasun zenbaki berria egiaztatu nahiko duzu.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -390,11 +390,11 @@
         }
     },
     "sendAnyway": {
-        "message": "Invia ugualmente",
+        "message": "Bidali dena den",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Il tuo numero di sicurezza con $name$ è cambiato e non è più valido. Fai clic per visualizzarlo.",
+        "message": " $name$(r)ekin duzun segurtasun zenbakia aldatu da eta egiaztatu gabe dago. Klik erakusteko.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -404,55 +404,55 @@
         }
     },
     "multipleNoLongerVerified": {
-        "message": "Il codice di sicurezza con più membri del gruppo è cambiato è non è più verificato. Fai clic per visualizzarlo.",
+        "message": "Talde honetako kide askorekin dituzun segurtasun zenbakiak aldatu dira eta ez daude egiaztatuta. Ukitu erakusteko.",
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Questo log sarà reso pubblico per essere controllato dai contributori. Prima d'inviarlo esaminalo bene e modificalo.",
+        "message": "Arazteko informazio hau publikoki argitaratuko da laguntzaileek ikusi ahal izan dezaten. Aztertu eta edita dezakezu bidali aurretik.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Qualcosa è andato storto con il caricamento! Aggiungi manualmente il tuo log al bug che hai registrato.",
+        "message": "Zerbait gaizki jaon da igoerarekin. Mesedez, kontuan hartu modu manualean gehitu dezakezula arazteko informazioa.",
         "description": ""
     },
     "debugLogCopy": {
-        "message": "Copia",
+        "message": "Kopiatu",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopyAlt": {
-        "message": "Copia link nei tuoi appunti",
+        "message": "Kopiatu esteka zure arbelera",
         "description": "Shown as the alt text for the copy button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "Link copiato nei tuoi appunti",
+        "message": "Estela arbelera kopiatuta",
         "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Segnala un problema",
+        "message": "Salatu arazo bat",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "Capito!",
+        "message": "Ulertuta",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
-        "message": "Invia",
+        "message": "Bidali",
         "description": ""
     },
     "acceptNewKey": {
-        "message": "Accetta",
+        "message": "Onartu",
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Segna come verificato",
+        "message": "Markatu egiaztatu gisa",
         "description": ""
     },
     "unverify": {
-        "message": "Segna come non verificato",
+        "message": "Markatu ez egiaztatu gisa",
         "description": ""
     },
     "isVerified": {
-        "message": "Hai verificato il codice di sicurezza con $name$.",
+        "message": " $name$(r)ekin duzun segurtasun zenbakia egiaztatu duzu.",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -462,7 +462,7 @@
         }
     },
     "isNotVerified": {
-        "message": "Non hai verificato il codice di sicurezza con $name$.",
+        "message": " $name$(r)ekin duzun segurtasun zenbakia ez duzu egiaztatu.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -472,79 +472,79 @@
         }
     },
     "verified": {
-        "message": "Verificato",
+        "message": "Egiaztatuta",
         "description": ""
     },
     "newIdentity": {
-        "message": "Nuovo codice di sicurezza",
+        "message": "Segurtasun zenbaki berria",
         "description": "Header for a key change dialog"
     },
     "identityChanged": {
-        "message": "Il codice di sicurezza con questo contatto è cambiato. Questo può voler dire che qualcuno sta cercando d'intercettare la tua comunicazione, oppure che il contatto ha semplicemente reinstallato Signal.",
+        "message": "Kontaktu honekiko duzun segurtasun zenbakia aldatu da. gian norbait zure komunikazioa atzematen saiatzen ari da edo, besterik gabe, erabiltzaileak Signal berrinstalatu du. Beharbada azpian dagoen segurtasun zenbaki berria egiaztatu nahiko duzu.",
         "description": ""
     },
     "incomingError": {
-        "message": "Errore messaggio in arrivo",
+        "message": "Errorea sarrerako mezua kudeatzean",
         "description": ""
     },
     "media": {
-        "message": "Media",
+        "message": "Multimedia",
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "Non hai alcun media in questa conversazione",
+        "message": "Ez duzu mediorik solasaldi honetan",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
-        "message": "Documenti",
+        "message": "Agiriak",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "Non hai alcun documento in questa conversazione",
+        "message": "Ez duzu dokumenturik solasaldi hoentan",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
-        "message": "Oggi",
+        "message": "Gaur",
         "description": "Section header in the media gallery"
     },
     "yesterday": {
-        "message": "Ieri",
+        "message": "Atzo",
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "Questa settimana",
+        "message": "Aste Honetan",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "Questo mese",
+        "message": "Hilabete honetan",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Tipo di allegato non supportato. Fai clic per salvare.",
+        "message": "Onartuta ez dagoen eranskin mota. Ukitu gordetzeko.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
-        "message": "Fai clic per salvare",
+        "message": "Klik gordetzeko",
         "description": "Hover text for attachment filenames"
     },
     "unnamedFile": {
-        "message": "File senza nome",
+        "message": "Izenik gabeko fitxategia",
         "description": "Hover text for attachment filenames"
     },
     "voiceMessage": {
-        "message": "Messaggio vocale",
+        "message": "Ahots-mezua",
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Il tipo di allegato non è consentito per ragioni di sicurezza",
+        "message": "Eranskin mota hau ez da onartzen segurtasun arrazoiak direla eta",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Caricamento anteprima...",
+        "message": "Aurrebista Kargatzen...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Miniatura temporanea anteprima collegamento per $domain$",
+        "message": "Zirriborro estekaren aurrebista $domain$ domeinurako",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -554,7 +554,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Miniatura anteprima del collegamento per $domain$",
+        "message": "Estekaren miniatura aurrebista $domain$ domeinurako",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -564,7 +564,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Allegato immagine bozza: $path$",
+        "message": "Zirriborroaren irudi eranskina: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -574,111 +574,111 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "Quando includi un allegato che non è un'immagine, il limite è un solo allegato per messaggio.",
+        "message": "Irudia ez den eranskin bat atxikitzerakoan, muga mezu bakoitzeko eranskin bat da.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAdnNonImageAttachments": {
-        "message": "Non puoi allegare insieme immagini ad altri file in un messaggio.",
+        "message": "Ezin duzu irudia ez diren eta irudia diren eranskinak mezu bakar batean.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
-        "message": "Non puoi aggiungere altri allegati a questo messaggio.",
+        "message": "Ezin duzu eranskin gehiago gehitu mezu honetara.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Spiacente, il file selezionato supera la dimensione predefinita per il messaggio.",
+        "message": "Barkatu, aukeratutako fitxategiak ezarri den tamaina muga gainditzen du.",
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Non è stato possibile caricare l'allegato selezionato.",
+        "message": "Ezin izan da hautatutako eranskina kargatu.",
         "description": ""
     },
     "disconnected": {
-        "message": "Disconnesso",
+        "message": "Deskonektatuta",
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "In collegamento",
+        "message": "Konektatzen",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Connetti",
+        "message": "Konektatu",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Non dovrebbe volerci molto...",
+        "message": "Ez du denbora luzea hartuko...",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
-        "message": "Non in linea",
+        "message": "Lineaz kanpo",
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
-        "message": "Verifica la tua connessione.",
+        "message": "Egiaztatu zure konekxioa.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "submitDebugLog": {
-        "message": "Debug log",
+        "message": "Arazteko informazioa",
         "description": "Menu item and header text for debug log modal (sentence case)"
     },
     "debugLog": {
-        "message": "Log di debug",
+        "message": "Arazteko informazioa",
         "description": "View menu item to open the debug log (title case)"
     },
     "helpMenuShowKeyboardShortcuts": {
-        "message": "Mostra scorciatoie da tastiera",
+        "message": "Erakutsi Tekla Lasterbideak",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
     "contactUs": {
-        "message": "Contattaci",
+        "message": "Harremanetan Jarri Gurekin",
         "description": "Item under the help menu, takes you to the contact us support page"
     },
     "goToReleaseNotes": {
-        "message": "Vai alle note di rilascio",
+        "message": "Joan Argitaratze Oharretara",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
     },
     "goToForums": {
-        "message": "Vai ai forum",
+        "message": "Joan Forumetara",
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Vai alla pagina di supporto",
+        "message": "Joan Laguntza Orrira",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "goToGithub": {
-        "message": "Vai a GitHub",
+        "message": "Joan GitHub-era",
         "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
     },
     "joinTheBeta": {
-        "message": "Partecipa alla Beta",
+        "message": "Beta bertsioa erabili",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
-        "message": "Preferenze di Signal Desktop",
+        "message": "Signal Desktop Hobespenak",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "Creatore di pacchetti di adesivi",
+        "message": "Eranskailuen paketeak sortzeko tresna",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
-        "message": "Informazioni su Signal Desktop",
+        "message": "Signal Desktop-i buruz",
         "description": "Item under the Help menu, which opens a small about window"
     },
     "speech": {
-        "message": "Parlato",
+        "message": "Hizketa",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
     },
     "show": {
-        "message": "Mostra",
+        "message": "Erakutsi",
         "description": "Command under Window menu, to show the window"
     },
     "hide": {
-        "message": "Nascondi",
+        "message": "Ezkutatu",
         "description": "Command in the tray icon menu, to hide the window"
     },
     "quit": {
-        "message": "Esci",
+        "message": "Irten",
         "description": "Command in the tray icon menu, to quit the application"
     },
     "signalDesktop": {
@@ -686,11 +686,11 @@
         "description": "Tooltip for the tray icon"
     },
     "search": {
-        "message": "Cerca",
+        "message": "Bilatu",
         "description": "Placeholder text in the search input"
     },
     "searchIn": {
-        "message": "Cerca in $conversationName$",
+        "message": "Bilatu $conversationName$ solasaldian",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
         "placeholders": {
             "conversationName": {
@@ -700,7 +700,7 @@
         }
     },
     "noSearchResults": {
-        "message": "Nessun risultato per \"$searchTerm$\"",
+        "message": "Ez da topatu emaitzarik \"$searchTerm$\" bilaketarako",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -710,7 +710,7 @@
         }
     },
     "noSearchResultsInConversation": {
-        "message": "Nessun risultato per \"$searchTerm$\" in $conversationName$",
+        "message": "Ez da topatu emaitzarik \"$searchTerm$\" bilaketarako $conversationName$ solasaldian",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -720,31 +720,31 @@
         }
     },
     "conversationsHeader": {
-        "message": "Conversazioni",
+        "message": "Txatak",
         "description": "Shown to separate the types of search results"
     },
     "contactsHeader": {
-        "message": "Contatti",
+        "message": "Kontaktuak",
         "description": "Shown to separate the types of search results"
     },
     "messagesHeader": {
-        "message": "Messaggi",
+        "message": "Mezuak",
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSignal": {
-        "message": "Benvenuto in Signal",
+        "message": "Ongi etorri Signal-era",
         "description": ""
     },
     "selectAContact": {
-        "message": "Per iniziare una chat seleziona un contatto o un gruppo.",
+        "message": "Hautatu kontaktua edo taldea txateatzen hasteko.",
         "description": ""
     },
     "typingAlt": {
-        "message": "Animazione di digitazione per questa conversazione",
+        "message": "Idazten ari den jakinarazteko animazioa solasaldi honetarako",
         "description": "Used as the 'title' attibute for the typing animation"
     },
     "contactAvatarAlt": {
-        "message": "Avatar del contatto $name$",
+        "message": "$name$ kontakturako abatarra",
         "description": "Used in the alt tag for the image avatar of a contact",
         "placeholders": {
             "name": {
@@ -754,19 +754,19 @@
         }
     },
     "sendMessageToContact": {
-        "message": "Invia messaggio",
+        "message": "Mezua bidali",
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "casa",
+        "message": "etxea",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
-        "message": "lavoro",
+        "message": "lana",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
-        "message": "telefono",
+        "message": "mugikorra",
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
@@ -774,63 +774,63 @@
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
-        "message": "telefono",
+        "message": "telefonoa",
         "description": "Generic label shown if contact phone has custom type but no label"
     },
     "address": {
-        "message": "indirizzo",
+        "message": "helbidea",
         "description": "Generic label shown if contact address has custom type but no label"
     },
     "poBox": {
-        "message": "Casella postale",
+        "message": "Postakutxa",
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
-        "message": "Caricamento in corso",
+        "message": "Behera kargatzen",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
-        "message": "Scarica allegato",
+        "message": "Jaitsi Eranskina",
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
-        "message": "Reagisci al messaggio",
+        "message": "Erreakzionatu Mezarekiko",
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
-        "message": "Rispondi al messaggio",
+        "message": "Erantzun Mezua",
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "Messaggio originale non trovato",
+        "message": "Jatorrizko mezua ez da aurkitu ",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "Messaggio originale non più disponibile",
+        "message": "Jatorrizko mezua ez dago eskuragarri jada ",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Messaggio originale trovato, ma non caricato. Scorri verso l'alto per caricarlo.",
+        "message": "Jatorrizko mezua topatu da, baina ez da kargatu. Korritu gorantz kargatzeko.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecordingInterruptedMax": {
-        "message": "Registrazione del messaggio vocale interrotta poiché hai raggiunto il limite di tempo massimo.",
+        "message": "Ahots mezuaren grabaketa gelditu da gehienezko denbora mugara iritsi delako.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
-        "message": "Registrazione del messaggio vocale interrotta poiché sei passato a un'altra app.",
+        "message": "Ahots mezuaren grabaketa gelditu da beste aplikazio batera mugitu zarelako.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "I messaggi vocali sono limitati a cinque minuti. La registrazione sarà interrotta se passi a un'altra app.",
+        "message": "Ahots mezuen gehienezko denbora muga bost minutukoa da. Grabaketa etengo da beste aplikazio batera mugituz gero.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "Un messaggio vocale deve avere un solo allegato.",
+        "message": "Ahots mezu bat bakarrik eranskin bat izan behar du.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
-        "message": "Allegato salvato. Fai clic per mostrare nella cartella.",
+        "message": "Eranskina gordeta. Klik egin karpetan erakusteko.",
         "description": "Shown after user selects to save to downloads",
         "placeholders": {
             "name": {
@@ -840,11 +840,11 @@
         }
     },
     "you": {
-        "message": "Tu",
+        "message": "Zu",
         "description": "Shown when the user represented is the current user."
     },
     "replyingTo": {
-        "message": "Rispondendo a $name$",
+        "message": "$name$ erabiltzaileari erantzuten",
         "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
         "placeholders": {
             "name": {
@@ -854,35 +854,35 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Per inviare messaggi audio, concedi l'accesso al tuo microfono a Signal Desktop",
+        "message": "Audio mezuak bidalitzeko, Signal Desktop-i baimena eman zure mikrofonoa erabiltzeko.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
-        "message": "Consenti accesso",
+        "message": "Sartzeko Baimena Eman",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "showSettings": {
-        "message": "Mostra le impostazioni",
+        "message": "Erakutsi Ezarpenak",
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
-        "message": "Audio",
+        "message": "Audioa",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
-        "message": "Video",
+        "message": "Bideoa",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "photo": {
-        "message": "Foto",
+        "message": "Argazkia",
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "cannotUpdate": {
-        "message": "Aggiornamento non riuscito",
+        "message": "Ezin izan da eguneratu",
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Aggiornamento di Signal Desktop non riuscito, ma è disponibile una nuova versione. Vai su  $url$ e installa manualmente la nuova versione, quindi contatta il supporto o segnala un bug riguardo questo problema.",
+        "message": "Signal Desktop eguneratzeak huts egin du, baina bertsio berri bat dago eskuragarri. Mesedez, joan $url$ helbidera eta bertsio berria manualki instalatu; ondoren, harremanetan jarri laguntza taldearekin edo arazo honi buruzko errore jakinarazpen bat bidali.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -892,7 +892,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop è probabilmente nella quarantena di macOS e non sarà in grado di aggiornarsi automaticamente. Sposta  $app$ in  $folder$ con Finder.",
+        "message": "Signal Desktop ziur aski macOS koarentena batean dago eta ezingo da automatikoki eguneratu. Mesedez, Finder erabiliz saia zaitez mugitzen $app$ aplikazioa $folder$ karpetara.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -906,87 +906,87 @@
         }
     },
     "ok": {
-        "message": "OK",
+        "message": "Ados",
         "description": ""
     },
     "cancel": {
-        "message": "Annulla",
+        "message": "Utzi",
         "description": ""
     },
     "discard": {
-        "message": "Elimina",
+        "message": "Baztertu",
         "description": ""
     },
     "failedToSend": {
-        "message": "Invio non riuscito per alcuni destinatari. Controlla la connessione di rete.",
+        "message": "Hartzaile batzuei bidaltzeak huts egin du. Egiaztatu zure sareko konexioa.",
         "description": ""
     },
     "error": {
-        "message": "Errore",
+        "message": "Errorea",
         "description": ""
     },
     "messageDetail": {
-        "message": "Dettagli messaggio",
+        "message": "Mezuaren xehetasunak",
         "description": ""
     },
     "delete": {
-        "message": "Elimina",
+        "message": "Ezabatu",
         "description": ""
     },
     "deleteWarning": {
-        "message": "Sei sicuro? Il clic su 'elimina' rimuoverà definitivamente questo messaggio solo da questo dispositivo.",
+        "message": "Ziur zaude? 'ezabatu' botoian kik egiteak gailu honetatik bakarrik eta behin-betiko ezabatuko du mezu hau.",
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "Elimina il messaggio",
+        "message": "Ezabatu mezu hau",
         "description": ""
     },
     "from": {
-        "message": "Da",
+        "message": "Igorlea:",
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "A",
+        "message": "Hartzailea:",
         "description": "Label for the receiver of a message"
     },
     "toJoiner": {
-        "message": "a",
+        "message": "->",
         "description": "Joiner for message search results - like 'Jon' to 'Friends Group'"
     },
     "sent": {
-        "message": "Inviato",
+        "message": "Bidalita",
         "description": "Label for the time a message was sent"
     },
     "received": {
-        "message": "Ricevuto",
+        "message": "Jasota",
         "description": "Label for the time a message was received"
     },
     "sendMessage": {
-        "message": "Invia un messaggio",
+        "message": "Bidali mezua",
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
-        "message": "Membri del gruppo",
+        "message": "Taldeko partaideak",
         "description": ""
     },
     "showMembers": {
-        "message": "Mostra membri",
+        "message": "Erakutsi partaideak",
         "description": ""
     },
     "resetSession": {
-        "message": "Ripristina sessione",
+        "message": "Berrezarri saioa",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "Mostra numero di sicurezza",
+        "message": "Segurtasun zenbakia ikusi",
         "description": ""
     },
     "viewRecentMedia": {
-        "message": "Visualizza i media recenti",
+        "message": "Ikusi arestiko medioak",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Se desideri verificare la sicurezza della tua codifica end-to-end con $name$, confronta i numeri qui sopra con quelli del suo dispositivo.",
+        "message": "$name$ erabiltzailearekin duzun muturretik muturrerako enkriptazioaren segurtasuna egiaztatu nahi baduzu, konparatu goian agertzen diren zenbakiak beraien gailuan agertzen diren zenbakiekin.",
         "description": "",
         "placeholders": {
             "name": {
@@ -996,239 +996,239 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Non hai ancora scambiato alcun messaggio con questo contatto. Il codice di sicurezza sarà disponibile dopo il primo messaggio.",
+        "message": "Oraindik ez duzu mezurik trukatu konkaktu honekin. Zure segurtasun zenbakia eskuragarri egongo da lehenengo mezua bidali ondoren.",
         "description": ""
     },
     "moreInfo": {
-        "message": "Maggiori informazioni...",
+        "message": "Informazio gehiago...",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Riprova a inviare",
+        "message": "Saiatu Berriro Bidaltzen",
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Elimina messaggio",
+        "message": "Ezabadu mezua",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
-        "message": "Elimina messaggi",
+        "message": "Ezabatu mezuak",
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Vuoi rimuovere definitivamente la conversazione?",
+        "message": "Ezabatu betiko elkarrizketa hau?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Ripristina la sessione sicura",
+        "message": "Saio segurua berrezarri da",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
-        "message": "Anteprima dell'immagine dal messaggio citato",
+        "message": "Aipatutako mezuaren miniatura edo irudia",
         "description": "Used in alt tag of thumbnail images inside of an embedded message quote"
     },
     "imageAttachmentAlt": {
-        "message": "Immagine allegata a un messaggio",
+        "message": "Mezuari atxikitako irudia",
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Schermata del video allegato al messaggio ",
+        "message": "Bideoaren pantaila-irudia mezuari atxikia",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "Immagine inviata nella conversazione",
+        "message": "Solasaldian bidtalitako irudia",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "Icona che mostra che questa immagine ha una didascalia",
+        "message": "Irudi honek azpitestu bak duela erakusteko ikonoa",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
-        "message": "Aggiungi una didascalia...",
+        "message": "Irudi-oina gehitu",
         "description": ""
     },
     "save": {
-        "message": "Salva",
+        "message": "Gorde",
         "description": ""
     },
     "fileIconAlt": {
-        "message": "Icona del file",
+        "message": "Fitxategiaren ikonoa",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
-        "message": "Benvenuto in Signal Desktop",
+        "message": "Ongi etorri Signal Desktop-era",
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "La riservatezza è possibile. Signal la rende facile.",
+        "message": "Pribatutasuna posible da. Signal-ek erraz egiten du.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
-        "message": "Collega il tuo telefono a Signal Desktop",
+        "message": "Lotu zure telefona Signal Desktop-ekin",
         "description": "Shown on the front page when the application first starst, above the QR code"
     },
     "signalSettings": {
-        "message": "Impostazioni di Signal",
+        "message": "Signal Ezarpenak",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "linkedDevices": {
-        "message": "Dispositivi collegati",
+        "message": "Lotutako Gailuak",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
-        "message": "Pulsante \"+\"",
+        "message": "'+' Botoia",
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
-        "message": "Collega un nuovo dispositivo",
+        "message": "Gailu berria lotu",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
-        "message": "Nome del dispositivo",
+        "message": "Gailuaren izena",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
-        "message": "Scegli il nome di questo dispositivo",
+        "message": "Aukeratu gailu honen izena",
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Completa il collegamento del telefono",
+        "message": "Bukatu telefonoa lotzen",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Sincronizzazione contatti e gruppi",
+        "message": "Kontaktuak eta taldeak sinkronizatzen",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
-        "message": "Connessione al server non riuscita.",
+        "message": "Ezin izan da zerbitzariarekin konektatu.",
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
-        "message": "Spiacente, hai troppi dispositivi collegati. Prova a rimuoverne qualcuno.",
+        "message": "Zoritxarrez, gailu gehiegi dauzkazu lotuta, saia zaitez batzuk ezabatzen",
         "description": ""
     },
     "installTooOld": {
-        "message": "Aggiorna Signal su questo dispositivo per collegare il tuo telefono.",
+        "message": "Eguneratu Signal gailu honetan zure telefonoa lotzeko",
         "description": ""
     },
     "installErrorHeader": {
-        "message": "Qualcosa non ha funzionato!",
+        "message": "Zerbait oker joan da",
         "description": ""
     },
     "installTryAgain": {
-        "message": "Riprova",
+        "message": "Saiatu berriro",
         "description": ""
     },
     "theme": {
-        "message": "Tema",
+        "message": "Gaia",
         "description": "Header for theme settings"
     },
     "permissions": {
-        "message": "Permessi",
+        "message": "Baimenak",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Concedi l'accesso alla fotocamera e al microfono",
+        "message": "Eman baimena kamara eta mikrofonoa erabiltzeko",
         "description": "Description of the media permission description"
     },
     "general": {
-        "message": "Generale",
+        "message": "Orokorra",
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Abilita il controllo ortografico del testo inserito nella casella di composizione",
+        "message": "Aktibatu ortografia egiaztatzea idazteko kutxaren barruan sartzen den testurako",
         "description": "Description of the media permission description"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Il controllo ortografico verrà abilitato al successivo avvio di Signal.",
+        "message": "Ortografia egiaztatuko da Signal irekitzen den hurrengo aldian.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Il controllo ortografico verrà disabilitato al successivo avvio di Signal.",
+        "message": "Ortografia egiaztatzea desaktibatuko da Signal irekitzen den hurrengo aldian.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "clearDataHeader": {
-        "message": "Rimuovi dati",
+        "message": "Garbitu datuak",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Questo rimuoverà tutti i dati dell'applicazione, compresi i messaggi e le informazioni dell'account.",
+        "message": "Honek aplikazioan dauden datu guztiak ezabatuko ditu, mezu guztiak eta kontuarekin batera gordetako informazioa kenduz.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
-        "message": "Rimuovi dati",
+        "message": "Garbitu datuak",
         "description": "Button in the settings dialog starting process to delete all data"
     },
     "deleteAllDataHeader": {
-        "message": "Vuoi eliminare tutti i dati?",
+        "message": "Garbitu datu guztiak?",
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Stai per eliminare tutti i dati salvati nell'applicazione, compresi i contatti e i messaggi. Potrai sempre ricollegare il tuo dispositivo mobile, ma questo non ripristinerà i messaggi eliminati.",
+        "message": "Aplikazio honek gordeta daukan kontu informazioa ezabatzeko puntuan zaude, barne hartuta kontaktuak eta mezuak. Zure mugikorrarekin lotu dezakezu berriro, baina hori egiteak ez du berreskuratuko ezabatutako mezuak.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
-        "message": "Elimina tutti i dati",
+        "message": "Garbitu datu guztiak",
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Disconnessione ed eliminazione di tutti i dati",
+        "message": "Deskonektatzen eta datu guztiak ezabatzen",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "Hai dati obsoleti da un'installazione precedente di Signal Desktop. Se scegli di continuare, verranno eliminati e inizierai da zero.",
+        "message": "Signal Desktop-en aurreko instalazio baten datu zaharkituak dauzkazu. Aurrera jarraituz gero, ezabatuko dira eta zerotik hasi beharko zara.",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
-        "message": "Elimina vecchi dati",
+        "message": "Ezabatu datu zaharrak",
         "description": "Button to make the delete happen"
     },
     "notifications": {
-        "message": "Notifiche",
+        "message": "Jakinarazpenak",
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "All'arrivo dei messaggi, mostra le notifiche che rivelano:",
+        "message": "Mezuak iristean, erakutsi ondoko informazioa agerian uzten duten jakinarazpenak:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "Disabilita notifiche",
+        "message": "Desaktibatu jakinarazpenak",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Sia il mittente che il messaggio",
+        "message": "Bai igorlearen izena eta baita mezua ere",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Né il mittente, né il messaggio",
+        "message": "Ez izenik ez mezurik",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
-        "message": "Solo il mittente",
+        "message": "Igorlearen izena bakarrik",
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
-        "message": "Nuovo messaggio",
+        "message": "Mezu berria",
         "description": "Displayed in notifications for only 1 message"
     },
     "newMessages": {
-        "message": "Nuovi messaggi",
+        "message": "Mezu Berriak",
         "description": "Displayed in notifications for multiple messages"
     },
     "notificationMostRecentFrom": {
-        "message": "Più recente da:",
+        "message": "Berriena honengandik:",
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "notificationFrom": {
-        "message": "Da:",
+        "message": "Igorlea:",
         "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "notificationMostRecent": {
-        "message": "Più recente:",
+        "message": "Berriena:",
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "notificationReaction": {
-        "message": "$sender$ ha reagito $emoji$ al tuo messaggio",
+        "message": "$emoji$: $sender$ erabiltzailearen zure mezuarekiko erreakzioa",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1242,7 +1242,7 @@
         }
     },
     "notificationReactionMostRecent": {
-        "message": "Più recente: $sender$ ha reagito $emoji$ al tuo messaggio",
+        "message": "Berriena: $emoji$ izan da $sender$ erabiltzailearen zure mezuarekiko erreakzioa",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1256,7 +1256,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ ha reagito $emoji$ a: $message$",
+        "message": "$emoji$ izan da $sender$ erabiltzailearen erreakzioa honekiko: $message$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1274,7 +1274,7 @@
         }
     },
     "notificationReactionMessageMostRecent": {
-        "message": "Più recente: $sender$ ha reagito $emoji$ a: $message$",
+        "message": "Berriena: $emoji$ izan da $sender$ erabiltzailearen erreakzioa honekiko: $message$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1292,75 +1292,75 @@
         }
     },
     "sendFailed": {
-        "message": "Invio non riuscito",
+        "message": "Bidaltzeak huts egin du",
         "description": "Shown on outgoing message if it fails to send"
     },
     "showMore": {
-        "message": "Dettagli",
+        "message": "Xehetasunak",
         "description": "Displays the details of a key change"
     },
     "showLess": {
-        "message": "Nascondi dettagli",
+        "message": "Ezkutatu xehetasunak",
         "description": "Hides the details of a key change"
     },
     "learnMore": {
-        "message": "Scopri di più sulla verifica dei codici di sicurezza",
+        "message": "Ikasi gehiago segurtasun zenbakiak egiaztatzeari buruz",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Questa versione di Signal Desktop è scaduta. Per continuare a conversare aggiornala all'ultima versione.",
+        "message": "Signal Desktop bertsio hau iraungi da. Mesedez, mezuak bidaltzen jarraitzeko, eguneratu azken bertsiora.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Aggiorna",
+        "message": "Hobetu",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Messaggio multimediale",
+        "message": "Medioen Mezua",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
-        "message": "Il numero non è registrato",
+        "message": "Zenbakia ez da erregistratu",
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Contatti",
+        "message": "Kontaktuak",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Importa dal tuo dispositivo mobile tutti i contatti e i gruppi Signal.",
+        "message": "Inportatu Signal talde eta kontaktu guztiak zure mugikorretik.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
-        "message": "Ultima importazione il",
+        "message": "Azkeneko inportazioa",
         "description": "Label for date and time of last sync operation"
     },
     "syncNow": {
-        "message": "Importa ora",
+        "message": "Inportatu orain",
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "Importazione...",
+        "message": "Inportatzen...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
-        "message": "Importazione non riuscita. Assicurati che il tuo computer e il tuo telefono siano connessi a Internet.",
+        "message": "Inportatzeak huts egin du. Ziurta ezazu zure telefonoa eta konputagailua internetera konektatuta daudela.",
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
-        "message": "ora",
+        "message": "orain",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
-        "message": "1min",
+        "message": "min1",
         "description": "Brief timestamp for messages sent about one minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_h": {
-        "message": "1h",
+        "message": "ord1",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
     },
     "hoursAgo": {
-        "message": "$hours$h",
+        "message": "$hours$ o",
         "description": "Contracted form of 'X hours ago' which works both for singular and plural",
         "placeholders": {
             "hours": {
@@ -1370,7 +1370,7 @@
         }
     },
     "minutesAgo": {
-        "message": "$minutes$min",
+        "message": "$minutes$ m",
         "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
         "placeholders": {
             "minutes": {
@@ -1380,27 +1380,27 @@
         }
     },
     "justNow": {
-        "message": "ora",
+        "message": "orain",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "D MMM",
+        "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "messageBodyTooLong": {
-        "message": "Il corpo del messaggio è troppo lungo.",
+        "message": "Mezuaren gorputza luzeegia da.",
         "description": "Shown if the user tries to send more than 64kb of text"
     },
     "unblockToSend": {
-        "message": "Per inviare un messaggio sblocca questo contatto.",
+        "message": "Desblokeatu kontaktu hau mezua bidaltzeko.",
         "description": "Brief message shown when trying to message a blocked number"
     },
     "unblockGroupToSend": {
-        "message": "Sblocca questo gruppo per inviare un messaggio.",
+        "message": "Desblokeatu talde hau mezu bat bidatzeko",
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Hai impostato il timer dei messaggi a scomparsa a $time$",
+        "message": "Mezuen desagerpenaren denbora honela ezarria: $time$",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1410,7 +1410,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Timer dei messaggi a scomparsa aggiornato a $time$ ",
+        "message": "Eguneratu da mezuen desagerpenaren denbora honela: $time$",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1420,7 +1420,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ ha impostato il timer dei messaggi a scomparsa a $time$",
+        "message": "$name$ erabiltzaileak mezuaren desagerpen denbora honela ezarri du: $time$",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1434,59 +1434,59 @@
         }
     },
     "timerOption_0_seconds": {
-        "message": "off",
+        "message": "desgaitu",
         "description": "Label for option to turn off message expiration in the timer menu"
     },
     "timerOption_5_seconds": {
-        "message": "5 secondi",
+        "message": "5 segundo",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_10_seconds": {
-        "message": "10 secondi",
+        "message": "10 segundo",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_seconds": {
-        "message": "30 secondi",
+        "message": "30 segundo",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_minute": {
-        "message": "1 minuto",
+        "message": "duela minutu 1",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_5_minutes": {
-        "message": "5 minuti",
+        "message": "5 minutu",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_30_minutes": {
-        "message": "30 minuti",
+        "message": "30 minutu",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_hour": {
-        "message": "1 ora",
+        "message": "ordubete",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_6_hours": {
-        "message": "6 ore",
+        "message": "6 ordu",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_12_hours": {
-        "message": "12 ore",
+        "message": "12 ordu",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_day": {
-        "message": "1 giorno",
+        "message": "egun 1",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "timerOption_1_week": {
-        "message": "1 settimana",
+        "message": "astebete",
         "description": "Label for a selectable option in the message expiration timer menu"
     },
     "disappearingMessages": {
-        "message": "Messaggi a scomparsa",
+        "message": "Mezuen desagerpena",
         "description": "Conversation menu option to enable disappearing messages"
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "off",
+        "message": "desgaitu",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "timerOption_5_seconds_abbreviated": {
@@ -1502,43 +1502,43 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_minute_abbreviated": {
-        "message": "1m",
+        "message": "min1",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_5_minutes_abbreviated": {
-        "message": "5m",
+        "message": "5min",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_30_minutes_abbreviated": {
-        "message": "30m",
+        "message": "30min",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_hour_abbreviated": {
-        "message": "1 ora",
+        "message": "ord1",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_6_hours_abbreviated": {
-        "message": "6 ore",
+        "message": "6ord",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_12_hours_abbreviated": {
-        "message": "12 ore",
+        "message": "12ord",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_day_abbreviated": {
-        "message": "1 giorno",
+        "message": "egu1",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "timerOption_1_week_abbreviated": {
-        "message": "1 set",
+        "message": "ast1",
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "Messaggi a scomparsa disabilitati",
+        "message": "Mezuen desagerpena ezgaituta dago",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ ha disabilitato i messaggi a scomparsa",
+        "message": "$name$ erabiltzaileak mezuen desagerpena desaktibatu du.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1548,11 +1548,11 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Hai disabilitato i messaggi a scomparsa",
+        "message": "Mezuen desagerpena desaktibatu duzu",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Timer impostato a $time$",
+        "message": "Tenporizadorea honela ezarria: $time$",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1562,15 +1562,15 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Avvia notifica audio",
+        "message": "Jo soinu jakinarazpen bat",
         "description": "Description for audio notification setting"
     },
     "safetyNumberChanged": {
-        "message": "Il numero di sicurezza è cambiato",
+        "message": "Segurtasun zenbakia aldatu da",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Il numero di sicurezza con $name$ è cambiato",
+        "message": "$name$ erabiltzailearekin duzun segurtasun zenbakia aldatu da",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1580,11 +1580,11 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Verifica numero di sicurezza",
+        "message": "Segurtasun zenbakia baieztatu",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "Il tuo codice di sicurezza con $name$:",
+        "message": " $name$erabiltzailearekin duzun segurtasun zenbakia:",
         "description": "Heading for safety number view",
         "placeholders": {
             "name": {
@@ -1594,11 +1594,11 @@
         }
     },
     "themeLight": {
-        "message": "Chiaro",
+        "message": "Argia",
         "description": "Label text for light theme (normal)"
     },
     "themeDark": {
-        "message": "Scuro",
+        "message": "Iluna",
         "description": "Label text for dark theme"
     },
     "themeSystem": {
@@ -1606,63 +1606,63 @@
         "description": "Label text for system theme"
     },
     "noteToSelf": {
-        "message": "Note personali",
+        "message": "Norberarentzako oharra",
         "description": "Name for the conversation with your own phone number"
     },
     "hideMenuBar": {
-        "message": "Nascondi la barra del menu",
+        "message": "Ezkutatu menu-barra",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Inizia una nuova conversazione…",
+        "message": "Hasi solasaldi berria...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "notSupportedSMS": {
-        "message": "I messaggi SMS/MMS non sono supportati.",
+        "message": "SMS/MMS mezuak ez daude onartuta.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
-        "message": "Scrivi un numero da aggiungere ai contatti",
+        "message": "Sartu telefono zenbakia kontaktua gehitzeko.",
         "description": "Placeholder for adding a new number to a contact"
     },
     "invalidNumberError": {
-        "message": "Numero non valido",
+        "message": "Zenbaki baliogabea",
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Ricollega Signal Desktop al tuo dispositivo mobile per continuare a inviare messaggi.",
+        "message": "Mezuak bidaltzen jarraitzeko, birlotu Signal Desktop zure mugikorrarekin.",
         "description": ""
     },
     "unlinked": {
-        "message": "Scollegato",
+        "message": "Lotu gabe",
         "description": ""
     },
     "relink": {
-        "message": "Ricollegato",
+        "message": "Birlotu",
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Aggiornamento Signal disponibile",
+        "message": "Signal-en egunerapena eskuragarri dago.",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "È disponibile una nuova versione di Signal.",
+        "message": "Signal-en bertsio berri bat eskuragarri dago.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Premi \"Riavvia Signal\" per applicare gli aggiornamenti.",
+        "message": "Sakatu Berrabiarazi Signal egunerapenak egiteko.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Riavvia Signal",
+        "message": "Berrabiarazi Signal",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Dopo",
+        "message": "Geroago",
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ ha abbandonato il gruppo.",
+        "message": "$name$ erabiltzaileak utzi du.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1672,7 +1672,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ hanno abbandonato il gruppo.",
+        "message": "$name$ erabiltzaileak egin du.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1682,7 +1682,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ ha aggiornato il gruppo.",
+        "message": "$name$ erabiltzaileak taldea eguneratu du.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1692,15 +1692,15 @@
         }
     },
     "youUpdatedTheGroup": {
-        "message": "Hai aggiornato il gruppo.",
+        "message": "Taldea eguneratu duzu",
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "L'avatar del gruppo è stato aggiornato.",
+        "message": "Taldeko abatarra eguneratu da.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Il nome del gruppo è ora '$name$'.",
+        "message": "Taldearen izena orain '$name$' da.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1710,11 +1710,11 @@
         }
     },
     "youJoinedTheGroup": {
-        "message": "Ti sei unito al gruppo.",
+        "message": "Taldean sartu zara.",
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ si è unito al gruppo.",
+        "message": "$name$ erabiltzailea taldean sartu da.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1724,7 +1724,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ si sono uniti al gruppo.",
+        "message": "$names$ erabiltzaileak taldean sartu dira.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1734,127 +1734,127 @@
         }
     },
     "ConversationListItem--draft-prefix": {
-        "message": "Bozza:",
+        "message": "Zirriborroa:",
         "description": "Prefix shown in italic in conversation view when a draft is saved"
     },
     "message--getNotificationText--stickers": {
-        "message": "Adesivo",
+        "message": "Eranskailu mezua",
         "description": "Shown in notifications and in the left pane instead of sticker image."
     },
     "message--getDescription--unsupported-message": {
-        "message": "Messaggio non supportato",
+        "message": "Mezu ez onartua",
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
-        "message": "Media visualizzabile una volta",
+        "message": "Behin ikusteko Medioa",
         "description": "Shown in notifications and in the left pane after view-once message is deleted."
     },
     "message--getDescription--disappearing-photo": {
-        "message": "Foto visualizzabile una volta",
+        "message": "Behin ikusteko Argazkia",
         "description": "Shown in notifications and in the left pane when a message is a view once photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "Video visualizzabile una volta",
+        "message": "Behin ikusteko Argazkia",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
     "message--deletedForEveryone": {
-        "message": "Questo messaggio è stato eliminato.",
+        "message": "Mezu hau ezabatu da.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
-        "message": "Il pacchetto di adesivi potrebbe non essere installato",
+        "message": "Eranskailuen paketea ezin izan da instalatu",
         "description": "Shown in a toast if the user attempts to install a sticker pack and it fails"
     },
     "stickers--StickerManager--InstalledPacks": {
-        "message": "Adesivi installati",
+        "message": "Instalatutako eranskailuak",
         "description": "Shown in the sticker pack manager above your installed sticker packs."
     },
     "stickers--StickerManager--InstalledPacks--Empty": {
-        "message": "Nessun pacchetto di adesivi installato",
+        "message": "Ez dago eranskailurik instalatuta",
         "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
     },
     "stickers--StickerManager--BlessedPacks": {
-        "message": "Serie artisti di Signal",
+        "message": "Signal artisten serieak",
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "Nessun adesivo degli artisti di Signal disponibile",
+        "message": "Ez dago Signal Artista eranskailurik eskugarrari.",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
-        "message": "Adesivi che hai ricevuto",
+        "message": "Jaso dituzun eranskailuak",
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Gli adesivi dei messaggi in arrivo appariranno qui",
+        "message": "Jasotako mezuetako eranskailuak hemen agertuko dira",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
-        "message": "Installa",
+        "message": "Instalatu",
         "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
     },
     "stickers--StickerManager--Uninstall": {
-        "message": "Disinstalla",
+        "message": "Desinstalatu",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "Potresti non essere più in grado di reinstallare questo pacchetto di adesivi se non hai più il messaggio di origine.",
+        "message": "Agian ezingo duzu eranskailu pakete hau berrinstalatu ez baduzu jatorrizko mezua.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Image": {
-        "message": "Ti presentiamo gli adesivi: Bandit the Cat",
+        "message": "Eranskailuak aurkezten: Bandit Katua",
         "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
-        "message": "Ti presentiamo gli adesivi",
+        "message": "Eranskailuak Aurkezten",
         "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
-        "message": "Perché usare le parole quando puoi utilizzare gli adesivi?",
+        "message": "Zergatik erabili hitzak eranskailuak erabili ditzakezuenan?",
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--DownloadError": {
-        "message": "Alcuni adesivi non possono essere scaricati.",
+        "message": "Eranskailu batzuk ezin izan dira jaitsi.",
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "Installazione...",
+        "message": "Eranskailuen paketea instalatzen...",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
-        "message": "Nessun adesivo trovato",
+        "message": "Ez da eranskailurik aurkitu",
         "description": "Shown in the sticker picker when there are no stickers to show."
     },
     "stickers--StickerPicker--Hint": {
-        "message": "I nuovi pacchetti di adesivi dai tuoi messaggi ricevuti sono pronti per essere installati.",
+        "message": "Zure mezuetan instalatzeko eranskailu pakete berriak eskuragarri daude",
         "description": "Shown in the sticker picker the first time you have received new packs you can install."
     },
     "stickers--StickerPicker--NoPacks": {
-        "message": "Nessun pacchetto di adesivi trovato",
+        "message": "Ez da eranskailu paketerik topatu",
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
-        "message": "Gli adesivi usati recentemente appariranno qui.",
+        "message": "Arestian erabili diren eranskailuak hemen agertuko dira.",
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
-        "message": "Pacchetto di adesivi",
+        "message": "Eranskailuen Paketea",
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Errore di apertura del pacchetto adesivi. Controlla la connessione a Internet e riprova.",
+        "message": "Errorea eranskailu paketea irekitzerakoan. Egiazta ezazu zure interneterako konexioa eta saia zaitez berriro.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
-        "message": "Nessuna emoji trovata",
+        "message": "Ez da emojirik topatu",
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "Cerca emoji",
+        "message": "Bilatu Emojia",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
-        "message": "Tonalità pelle $tone$",
+        "message": "Azalaren kolorea $tone$",
         "description": "Shown as a tooltip over the emoji tone buttons.",
         "placeholders": {
             "status": {
@@ -1864,11 +1864,11 @@
         }
     },
     "confirmation-dialog--Cancel": {
-        "message": "Annulla",
+        "message": "Utzi",
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "Message--unsupported-message": {
-        "message": "$contact$ ti ha inviato un messaggio che non può essere elaborato o visualizzato perché utilizza una nuova funzione di Signal.",
+        "message": "$contact$erabiltzaileak prozesatu edo erakusti ezin daitekeen mezu bat bidali dizu; arrazoia zera da:  mezuak Signal-en ezagarri berria erabiltzen du.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1878,7 +1878,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Puoi chiedere a $contact$ di inviarti nuovamente questo messaggio ora che stai utilizzando una versione aggiornata di Signal.",
+        "message": "Kontuan hartuta orain Signal-en bertsio eguneratua erabiltzen ari zarela, $contact$ erabiltzaileari eska diezaiokezu bere mezua berriro bidaltzeko.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -1888,19 +1888,19 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "Uno dei tuoi dispositivi ha inviato un messaggio che non può essere elaborato o visualizzato perché utilizza una nuova funzione di Signal.",
+        "message": "Zure gailuetako batek prozesa edo ikusi ezin daitekeen mezu bat bidali du; honen arrazioa zera da: mezuak Signal-en ezaugarri berri bat erablitzen du.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "I messaggi futuri come questo saranno sincronizzati ora che stai usando una versione aggiornata di Signal.",
+        "message": "Orain Signal-en bertsio eguneratua erabiltzen duzunez, hemendik aurrera horrelako mezuak sinkronizatuko dira.",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "Aggiorna Signal",
+        "message": "Eguneratu Signal",
         "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
-        "message": "Visualizzata",
+        "message": "Ikusita",
         "description": "Text shown on messages with with individual timers, after user has viewed it"
     },
     "Message--tap-to-view--outgoing": {
@@ -1908,147 +1908,147 @@
         "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
     },
     "Message--tap-to-view--incoming--expired-toast": {
-        "message": "Hai già visualizzato questo messaggio.",
+        "message": "Mezu hau ikusia duzu jadanik.",
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
-        "message": "I messaggi visualizzabili una volta non sono memorizzati nella tua cronologia delle conversazioni.",
+        "message": "Bakarrik behin ikustekoak diren mezuak ez dira zure solasaldien historian gordetzen.",
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
-        "message": "Visualizza foto",
+        "message": "Ikusi argazkia",
         "description": "Text shown on photo messages with with individual timers, before user has viewed it"
     },
     "Message--tap-to-view--incoming-video": {
-        "message": "Visualizza video",
+        "message": "Bideoa Ikusi",
         "description": "Text shown on video messages with with individual timers, before user has viewed it"
     },
     "Conversation--getDraftPreview--attachment": {
-        "message": "(allegato)",
+        "message": "(eranskina)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--quote": {
-        "message": "(risposta)",
+        "message": "(aipua)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Conversation--getDraftPreview--draft": {
-        "message": "(bozza)",
+        "message": "(zirriborroa)",
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Keyboard--navigate-by-section": {
-        "message": "Naviga per sezione",
+        "message": "Nabigatu atalaren arabera",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-conversation": {
-        "message": "Conversazione precedente",
+        "message": "Aurreko solasaldia",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-conversation": {
-        "message": "Conversazione successiva",
+        "message": "Hurrengo solasaldia",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-unread-conversation": {
-        "message": "Conversazione non letta precedente",
+        "message": "Irakurri gabeko aurreko solasaldia",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-unread-conversation": {
-        "message": "Conversazione non letta successiva",
+        "message": "Irakurri gabeko hurrengo solasaldia",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--preferences": {
-        "message": "Preferenze",
+        "message": "Hobespenak",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-conversation-menu": {
-        "message": "Apri menu conversazione",
+        "message": "Irekin solasaldien menua",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
-        "message": "Archivia conversazione",
+        "message": "Artxibatu solasaldia",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--unarchive-conversation": {
-        "message": "Estrai conversazione dall'archivio",
+        "message": "Desartxibatu solasaldia",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search": {
-        "message": "Cerca",
+        "message": "Bilatu",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search-in-conversation": {
-        "message": "Cerca nella conversazione",
+        "message": "Bilatu solasaldian",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
-        "message": "Attiva l'area di composizione",
+        "message": "Enfokatu konposatzailea",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
-        "message": "Apri visualizzazione tutti i media",
+        "message": "Ireki medio guztien ikuspegia",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
-        "message": "Apri selettore emoji",
+        "message": "Ireki emojiak aukeratzeko tresna",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-sticker-chooser": {
-        "message": "Apri selettore adesivi",
+        "message": "Ireki eranskailuak aukeratzeko tresna",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
-        "message": "Inizia a registrare una nota vocale",
+        "message": "Hasi ahots oharra grabatzen",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--default-message-action": {
-        "message": "Azione predefinita per il messaggio selezionato",
+        "message": "Hautatutako mezurako ekintza lehenetsia",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--view-details-for-selected-message": {
-        "message": "Visualizza dettagli del messaggio selezionato",
+        "message": "Ikusi hautatutako mezuaren xehetasunak",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
-        "message": "Attiva/disattiva la risposta al messaggio selezionato",
+        "message": "Aktibatu/Desaktibatu hautatutako mezua erantzutea",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Attiva/disattiva selettore reazioni per il messaggio selezionato",
+        "message": "Aktibatu/Desaktibatu hautatutako mezurako erreakzioak aukeratzeko tresna",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
-        "message": "Salva allegato dal messaggio selezionato",
+        "message": "Gorde eranskina hautatutako mezutik",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--delete-message": {
-        "message": "Elimina il messaggio selezionato",
+        "message": "Ezabatu hautatutako mezua",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "Aggiungi una nuova riga al messaggio",
+        "message": "Gehitu lerro-berria mezura",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
-        "message": "Espandi l'area di composizione",
+        "message": "Zabaldu konposatzailea",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Invia (nell'area di composizione espansa)",
+        "message": "Bidali (konposatzaile zabalduan)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
-        "message": "Allega file",
+        "message": "Erantsi fitxategia",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Rimuovi anteprima temporanea del collegamento",
+        "message": "Ezabatu zirriborroaren linkaren aurrebista",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "Rimuovi tutte le bozze di allegati",
+        "message": "Ezabatu zirriborroen eranskin guztiak",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
-        "message": "Vai alla conversazione",
+        "message": "Joan solasaldira",
         "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
     },
     "Keyboard--Key--ctrl": {
@@ -2056,7 +2056,7 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--option": {
-        "message": "Opzione",
+        "message": "Option",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--alt": {
@@ -2064,11 +2064,11 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--shift": {
-        "message": "Maiusc",
+        "message": "Shift",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--enter": {
-        "message": "Invio",
+        "message": "Enter",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--tab": {
@@ -2076,83 +2076,83 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--one-to-nine-range": {
-        "message": "Da 1 a 9",
+        "message": "1etik 9ra",
         "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
-        "message": "Scorciatoie da tastiera",
+        "message": "Tekla Lasterbideak",
         "description": "Title header of the keyboard shortcuts guide"
     },
     "Keyboard--navigation-header": {
-        "message": "Navigazione",
+        "message": "Nabigazioa",
         "description": "Header of the keyboard shortcuts guide - navigation section"
     },
     "Keyboard--messages-header": {
-        "message": "Messaggi",
+        "message": "Mezuak",
         "description": "Header of the keyboard shortcuts guide - messages section"
     },
     "Keyboard--composer-header": {
-        "message": "Area di composizione",
+        "message": "Konposatzailea",
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
-        "message": "Scorri in cima all'elenco",
+        "message": "Korritu zerrendaren goialdera",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--scroll-to-bottom": {
-        "message": "Scorri fino alla fine dell'elenco",
+        "message": "Korritu solasaldiaren hondora",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
-        "message": "Chiudi la conversazione corrente",
+        "message": "Itxi solasaldi hau",
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
-        "message": "Chiudi popup",
+        "message": "Itxi Popup",
         "description": "Used as alt text for any button closing a popup"
     },
     "add-image-attachment": {
-        "message": "Allega un'immagine",
+        "message": "Gehitu irudi eranskin bat",
         "description": "Used in draft attachment list for the big 'add new attachment' button"
     },
     "remove-attachment": {
-        "message": "Rimuovi allegato",
+        "message": "Ezabatu eranskina",
         "description": "Used in draft attachment list to remove an individual attachment"
     },
     "backToInbox": {
-        "message": "Torna a messaggi in arrivo",
+        "message": "Bueltatu sarrera erretilura",
         "description": "Used as alt-text of button on archived conversations screen"
     },
     "conversationArchived": {
-        "message": "Conversazione archiviata",
+        "message": "Solasaldia artxibatuta",
         "description": "A toast that shows up when user archives a conversation"
     },
     "conversationReturnedToInbox": {
-        "message": "Conversazione tornata in messaggi in arrivo",
+        "message": "Solasaldia sarrera erretilura mugitu da",
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "StickerCreator--title": {
-        "message": "Creatore di pacchetti di adesivi",
+        "message": "Eranskailuen paketeak sortzeko tresna",
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "Fai clic per aggiungere o rilascia le immagini qui",
+        "message": "Klik egin irudiak hemen gehitu edo askatzeko ",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
-        "message": "Rilascia le immagini qui",
+        "message": "Askatu irudiak hemen",
         "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
     },
     "StickerCreator--Preview--title": {
-        "message": "Pacchetto di adesivi",
+        "message": "Eranskailu paketea",
         "description": "The 'title' of the sticker pack preview 'modal'"
     },
     "StickerCreator--ConfirmDialog--cancel": {
-        "message": "Annulla",
+        "message": "Utzi",
         "description": "The default text for the confirm dialog cancel button"
     },
     "StickerCreator--CopyText--button": {
-        "message": "Copia",
+        "message": "Kopiatu",
         "description": "The text which appears on the copy button for the sticker creator share screen"
     },
     "StickerCreator--ShareButtons--facebook": {
@@ -2172,27 +2172,27 @@
         "description": "Title for WhatsApp button"
     },
     "StickerCreator--AppStage--next": {
-        "message": "Avanti",
+        "message": "Hurrengoa",
         "description": "Default text for the next button on all stages of the sticker creator"
     },
     "StickerCreator--AppStage--prev": {
-        "message": "Indietro",
+        "message": "Atzera",
         "description": "Default text for the previous button on all stages of the sticker creator"
     },
     "StickerCreator--DropStage--title": {
-        "message": "Aggiungi i tuoi adesivi",
+        "message": "Gehitu zure eranskailuak",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Gli adesivi devono essere in formato PNG o WebP con uno sfondo trasparente e 512x512 pixel. Il margine consigliato è di 16px.",
+        "message": "Eranskailuek ondoko baldintzak bete behar dute: PNG edo WebP formatoan egon, atzeko plano garden bat izan eta 512x512 pixel. Gomendatutako marjina 16px da. ",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
-        "message": "Mostra margini",
+        "message": "Erakutsi marjinak",
         "description": "Text for the show margins toggle on the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--addMore": {
-        "message": "Aggiungine $count$ o più",
+        "message": "Gehitu $count$ edo gehiago",
         "description": "Text to show user how many more stickers they must add",
         "placeholders": {
             "hashtag": {
@@ -2202,51 +2202,51 @@
         }
     },
     "StickerCreator--EmojiStage--title": {
-        "message": "Aggiungi un'emoji a ogni adesivo",
+        "message": "Gehitu emoji bat eranskailu bakoitzari",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--EmojiStage--help": {
-        "message": "Questo ci permette di suggerirti gli adesivi mentre stai inviando messaggi.",
+        "message": "Honek ahalbidentzen digu zuri eranskailuak iradokitzea mezuak bidaltzen ari zarelarik.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
-        "message": "Solo qualche altro dettaglio...",
+        "message": "Bakarrik beste xehetasun batzuk...",
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
-        "message": "Titolo",
+        "message": "Izenburua",
         "description": "Label for the title input of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--author": {
-        "message": "Autore",
+        "message": "Egilea",
         "description": "Label for the author input of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover": {
-        "message": "Immagine di copertina",
+        "message": "Azalaren irudia",
         "description": "Label for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover--help": {
-        "message": "Questa è l'immagine che apparirà quando condividi il tuo pacchetto di adesivi",
+        "message": "Hau da zure eranskailuen paketea partekatzen duzunean agertuko den irudia",
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
-        "message": "Sei sicuro di voler caricare il tuo pacchetto di adesivi?",
+        "message": "Ziur zaude eranskailuen paketea igo nahi izateaz?",
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
-        "message": "Carica",
+        "message": "Igo",
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "Non potrai più apportare modifiche o eliminarlo dopo aver creato un pacchetto di adesivi.",
+        "message": "Eranskailu pakete bat sortu ondoren ezingo duzu editatu edo ezabatu.",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
-        "message": "Creazione del tuo pacchetto di adesivi",
+        "message": "Zure eranskailu paketa sortzen",
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
-        "message": "$count$ di $total$ caricati",
+        "message": "$total$-tik $count$ igota",
         "description": "Title for the upload stage of the sticker creator",
         "placeholders": {
             "count": {
@@ -2260,15 +2260,15 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "Congratulazioni! Hai creato un pacchetto di adesivi.",
+        "message": "Zorionak! Eranskailuen pakete bat sortu duzu.",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "Accedi ai tuoi nuovi adesivi tramite l'icona dell'adesivo o condividili con i tuoi amici usando il collegamento seguente.",
+        "message": "Sartu zure eranskailuetan eranskailuen ikonoa erabiliz, edo zure lagunekin partekatu azpian dagoek estekaren bidez.",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Usa l'hashtag $hashtag$ per aiutare altre persone a trovare gli URL per ogni pacchetto di adesivi personalizzato che desideri rendere accessibile pubblicamente.",
+        "message": "$hashtag$ hashtag-a erabili beste pertsona batzuek topa ahal izan dezaten parketatu nahi dituzun eranskailu pakete pertsonalizatuen URL-ak.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -2278,23 +2278,23 @@
         }
     },
     "StickerCreator--ShareStage--copyTitle": {
-        "message": "URL pacchetto adesivi",
+        "message": "Eranskailu paketearen URL-a",
         "description": "Title for the copy button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--close": {
-        "message": "Chiudi",
+        "message": "Itxi",
         "description": "Text for the close button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--createAnother": {
-        "message": "Crea un altro pacchetto di adesivi",
+        "message": "Sortu beste eranskailu pakete bat",
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Dai un'occhiata a questo nuovo pacchetto di adesivi che ho creato per Signal. #makeprivacystick",
+        "message": "Begiratu bat botaiozu sortu dudan eranskailu pakete berriari. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
-        "message": "$count$ immagine/i aggiunta/e",
+        "message": "$count$ irudi gehituta",
         "description": "Text for the toast when images are added to the sticker creator",
         "placeholders": {
             "count": {
@@ -2304,19 +2304,19 @@
         }
     },
     "StickerCreator--Toasts--animated": {
-        "message": "Gli adesivi animati non sono attualmente supportati",
+        "message": "Animatutako eranskailuak ez daude onartuta momentuz",
         "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--tooLarge": {
-        "message": "L'immagine rilasciata è troppo grande",
+        "message": "Askatutako irudia handiegia da",
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
-        "message": "Errore nell'elaborazione dell'immagine",
+        "message": "Errorea irudia prozesatzean",
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorUploading": {
-        "message": "Errore nel caricamento degli adesivi: $message$",
+        "message": "Eranskailuak igotzen errorea: $message$",
         "description": "Text for the toast when a sticker pack cannot be uploaded",
         "placeholders": {
             "message": {
@@ -2326,35 +2326,35 @@
         }
     },
     "StickerCreator--Toasts--linkedCopied": {
-        "message": "Collegamento copiato",
+        "message": "Esteka kopiatuta",
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
-        "message": "Il mio adesivo nel tema chiaro",
+        "message": "Nire eranskilua gai argian",
         "description": "Text for the sticker preview for the light theme"
     },
     "StickerCreator--StickerPreview--dark": {
-        "message": "Il mio adesivo nel tema scuro",
+        "message": "Nire eranskailua gai ilunean",
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Installa Signal sul tuo telefono e sul desktop per usare il creatore di pacchetti di adesivi",
+        "message": "Mesedez, konfigura ezazu Signal zure telefonoan eta konputagiluan Eranskailu Pakete Sortzailea erabili ahal izateko.",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
-        "message": "Invio reazione non riuscito. Riprova.",
+        "message": "Errakzioa bidaltzeak huts egin du. Mesedez, saia zaitez berriro.",
         "description": "Shown when a reaction fails to send"
     },
     "ReactionsViewer--more": {
-        "message": "Altre",
+        "message": "Gehiago",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
-        "message": "Tutte",
+        "message": "Denak",
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "privacyPolicy": {
-        "message": "Termini di servizio e politica sulla privacy",
+        "message": "Baldintzak eta pribatutasun arauak",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

@@ -4,6 +4,7 @@ import { arrayBufferToObjectURL } from './arrayBufferToObjectURL';
 import { combineNames } from './combineNames';
 import { createBatcher } from './batcher';
 import { createWaitBatcher } from './waitBatcher';
+import { deleteForEveryone } from './deleteForEveryone';
 import { downloadAttachment } from './downloadAttachment';
 import { hasExpired } from './hasExpired';
 import { isFileDangerous } from './isFileDangerous';
@@ -17,6 +18,7 @@ export {
   combineNames,
   createBatcher,
   createWaitBatcher,
+  deleteForEveryone,
   downloadAttachment,
   GoogleChrome,
   hasExpired,

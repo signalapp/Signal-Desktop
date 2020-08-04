@@ -372,16 +372,11 @@ message GroupContext {
     REQUEST_INFO = 4;
   }
 
-  message Member {
-    optional string uuid = 1;
-    optional string e164 = 2;
-  }
-
   optional bytes             id          = 1;
   optional Type              type        = 2;
   optional string            name        = 3;
   repeated string            membersE164 = 4;
-  repeated Member            members     = 6;
+  // field 6 was removed; do not use
   optional AttachmentPointer avatar      = 5;
 }
 

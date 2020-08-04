@@ -1426,16 +1426,6 @@
     window.log.info('listening for registration events');
     Whisper.events.on('registration_done', () => {
       window.log.info('handling registration event');
-
-      // listeners
-      Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
-      window.Signal.RefreshSenderCertificate.initialize({
-        events: Whisper.events,
-        storage,
-        navigator,
-        logger: window.log,
-      });
-
       connect(true);
     });
 
@@ -1450,15 +1440,6 @@
     Whisper.TapToViewMessagesListener.init(Whisper.events);
 
     if (window.Signal.Util.Registration.everDone()) {
-      // listeners
-      Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
-      window.Signal.RefreshSenderCertificate.initialize({
-        events: Whisper.events,
-        storage,
-        navigator,
-        logger: window.log,
-      });
-
       connect();
       appView.openInbox({
         initialLoadComplete,
@@ -1824,6 +1805,15 @@
 
     window.readyForUpdates();
 
+    // Start listeners here, after we get through our queue.
+    Whisper.RotateSignedPreKeyListener.init(Whisper.events, newVersion);
+    window.Signal.RefreshSenderCertificate.initialize({
+      events: Whisper.events,
+      storage,
+      navigator,
+      logger: window.log,
+    });
+
     let interval = setInterval(() => {
       const view = window.owsDesktopApp.appView;
       if (view) {
@@ -2131,16 +2121,8 @@
       'group'
     );
 
-    const memberConversations = await Promise.all(
-      (details.members || details.membersE164).map(member => {
-        if (member.e164 || member.uuid) {
-          return ConversationController.getOrCreateAndWait(
-            member.e164 || member.uuid,
-            'private'
-          );
-        }
-        return ConversationController.getOrCreateAndWait(member, 'private');
-      })
+    const memberConversations = details.membersE164.map(e164 =>
+      ConversationController.getOrCreate(e164, 'private')
     );
 
     const members = memberConversations.map(c => c.get('id'));
@@ -2288,6 +2270,7 @@
 
     if (data.message.reaction) {
       const { reaction } = data.message;
+      window.log.info('Queuing reaction for', reaction.targetTimestamp);
       const reactionModel = Whisper.Reactions.add({
         emoji: reaction.emoji,
         remove: reaction.remove,
@@ -2305,6 +2288,7 @@
 
     if (data.message.delete) {
       const { delete: del } = data.message;
+      window.log.info('Queuing DOE for', del.targetSentTimestamp);
       const deleteModel = Whisper.Deletes.add({
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: data.serverTimestamp,

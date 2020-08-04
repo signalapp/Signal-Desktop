@@ -3,6 +3,10 @@
         "message": "Kopii la eraron kaj eliri",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
+    "unknownContact": {
+        "message": "Nekonata kontakto",
+        "description": "Shown as the name of a contact if we don't have any displayable information about them"
+    },
     "unknownGroup": {
         "message": "Nekonata grupo",
         "description": "Shown as the name of a group if we don't have any information about it"
@@ -264,7 +268,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You left the group.",
+        "message": "Vi forlasis la grupon.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -410,6 +414,18 @@
     "debugLogError": {
         "message": "Eraro dum la alŝuto! Bv. konsideri mane aldoni la protokolo, al problemo, kiun vi raportas.",
         "description": ""
+    },
+    "debugLogCopy": {
+        "message": "Kopii",
+        "description": "Shown as the text for the copy button on the debug log screen"
+    },
+    "debugLogCopyAlt": {
+        "message": "Kopii la ligilon tondujen",
+        "description": "Shown as the alt text for the copy button on the debug log screen"
+    },
+    "debugLogLinkCopied": {
+        "message": "Ligilo kopiita en la tondujo",
+        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
         "message": "Raporti problemon",
@@ -613,6 +629,10 @@
         "message": "Montri la fulmklavojn",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
+    "contactUs": {
+        "message": "Kontaktu nin",
+        "description": "Item under the help menu, takes you to the contact us support page"
+    },
     "goToReleaseNotes": {
         "message": "Iri al eldonaj notoj",
         "description": "Item under the help menu, takes you to GitHub page for release notes"
@@ -625,9 +645,13 @@
         "message": "Iri al helppaĝo",
         "description": "Item under the Help menu, takes you to the support page"
     },
-    "menuReportIssue": {
-        "message": "Raporti problemon",
-        "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
+    "goToGithub": {
+        "message": "Iri al GitHub",
+        "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
+    },
+    "joinTheBeta": {
+        "message": "Ekhavi la beta-version",
+        "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
         "message": "Agordoj de Signal Desktop",
@@ -957,8 +981,8 @@
         "message": "Montri sekurigan numeron",
         "description": ""
     },
-    "viewAllMedia": {
-        "message": "Montru ĉiujn aŭdvidaĵojn",
+    "viewRecentMedia": {
+        "message": "Vidu lastajn aŭdvidaĵojn",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1083,9 +1107,17 @@
         "message": "Bedaŭrinde, vi havas tro da ligitaj aparatoj. Provu malligi kelkajn.",
         "description": ""
     },
-    "settings": {
-        "message": "Agordoj",
-        "description": "Menu item and header for global settings"
+    "installTooOld": {
+        "message": "Ĝisdatigi Signal-on ĉi-aparate por ligi vian telefonon",
+        "description": ""
+    },
+    "installErrorHeader": {
+        "message": "Ho ve! Okazis eraro!",
+        "description": ""
+    },
+    "installTryAgain": {
+        "message": "Provi denove",
+        "description": ""
     },
     "theme": {
         "message": "Etoso",
@@ -1142,6 +1174,14 @@
     "deleteAllDataProgress": {
         "message": "Malkonektado kaj forigado de ĉiuj datumoj",
         "description": "Message shown to user when app is disconnected and data deleted"
+    },
+    "deleteOldIndexedDBData": {
+        "message": "Vi havas malaktualajn datumojn el antaŭa instalaĵo de Signal Desktop. Se vi elektas plui, ili forviŝiĝos, kaj vi komenciĝos de nulo.",
+        "description": "Shown if user last ran Signal Desktop before October 2018"
+    },
+    "deleteOldData": {
+        "message": "Forigi antaŭajn datumojn",
+        "description": "Button to make the delete happen"
     },
     "notifications": {
         "message": "Sciigojn",
@@ -1622,7 +1662,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ forlasis la grupon.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1632,7 +1672,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ forlasis la grupon.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1642,7 +1682,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ updated the group.",
+        "message": "$name$ĝisdatigis la grupon.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1656,11 +1696,11 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Group avatar was updated.",
+        "message": "La avataro de la grupo ĝisdatiĝis.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Group name is now '$name$'.",
+        "message": "La grupnomo estas nun „$name$“.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1670,11 +1710,11 @@
         }
     },
     "youJoinedTheGroup": {
-        "message": "You joined the group.",
+        "message": "Vi aniĝis al la grupo.",
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group.",
+        "message": "$name$ grupaniĝis.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1684,7 +1724,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group.",
+        "message": "$names$ grupaniĝis.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1716,6 +1756,10 @@
     "message--getDescription--disappearing-video": {
         "message": "Nurunufoje videbla videaĵo",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
+    },
+    "message--deletedForEveryone": {
+        "message": "Tiu ĉi mesaĝo forviŝiĝis.",
+        "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
         "message": "Glumarkaro ne eblis instaliĝi",
@@ -2003,6 +2047,10 @@
         "message": "Forigi ĉiujn kunsendaĵojn",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--conversation-by-index": {
+        "message": "Salti al interparolo",
+        "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+    },
     "Keyboard--Key--ctrl": {
         "message": "Stir",
         "description": "Key shown in shortcut combination in shortcuts guide"
@@ -2022,6 +2070,14 @@
     "Keyboard--Key--enter": {
         "message": "Eniga",
         "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--tab": {
+        "message": "Tab",
+        "description": "Key shown in shortcut combination in shortcuts guide"
+    },
+    "Keyboard--Key--one-to-nine-range": {
+        "message": "1 ĝis 9",
+        "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
         "message": "Fulmklavoj",
@@ -2288,6 +2344,10 @@
     "Reactions--error": {
         "message": "Sendo de reago malsukcesis. Reprovu.",
         "description": "Shown when a reaction fails to send"
+    },
+    "ReactionsViewer--more": {
+        "message": "Pli",
+        "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "Ĉiuj",
