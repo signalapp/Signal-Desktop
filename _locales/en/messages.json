@@ -1302,10 +1302,6 @@
     "message": "Typing Indicators",
     "description": "Title of the typing indicators setting"
   },
-  "multiDeviceDisabledTemporary": {
-    "message": "MultiDevice disabled temporarily",
-    "description": "Description of why multi device is disabled"
-  },
   "messageTTL": {
     "message": "Message TTL",
     "description": "Title of the Message TTL setting"

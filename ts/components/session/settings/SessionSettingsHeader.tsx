@@ -74,12 +74,9 @@ export class SettingsHeader extends React.Component<Props, any> {
         ? `${categoryTitlePrefix.slice(0, -1)} Settings`
         : `${categoryTitlePrefix} Settings`;
     const showSearch = false;
-    const showAddDevice = false;
-    /* FIXME enable back to allow linking of device
-      const showAddDevice =
+    const showAddDevice =
       category === SessionSettingCategory.Devices &&
       this.props.showLinkDeviceButton;
-      */
 
     return (
       <div className="session-settings-header">

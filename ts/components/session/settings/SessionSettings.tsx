@@ -644,7 +644,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           id: 'no-linked-device',
           title: noPairedDeviceText,
           type: undefined,
-          description: window.i18n('multiDeviceDisabledTemporary'),
+          description: '',
           category: SessionSettingCategory.Devices,
           content: {},
           comparisonValue: undefined,
