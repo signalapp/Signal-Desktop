@@ -1,13 +1,14 @@
 // Hides UI with Ctrl+L, Un-hides with Ctrl+; or Ctrl +'
 
+// eslint-disable-next-line func-names
 document.onkeyup = function(lockscreen) {
   if (lockscreen.ctrlKey && lockscreen.which == 76) {
-    document.body.style.display = "none";
+    document.body.style.display = 'none';
   }
   if (lockscreen.ctrlKey && lockscreen.which == 186) {
-    document.body.style.display = "block";
+    document.body.style.display = 'block';
   }
   if (lockscreen.ctrlKey && lockscreen.which == 222) {
-    document.body.style.display = "block";
+    document.body.style.display = 'block';
   }
 };
