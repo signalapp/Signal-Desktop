@@ -763,9 +763,8 @@ app.on('ready', async () => {
   logger = logging.getLogger();
   logger.info('app ready');
   logger.info(`starting version ${packageJson.version}`);
-
   if (!locale) {
-    const appLocale = process.env.NODE_ENV === 'test' ? 'en' : 'en'; // app.getLocale(); // FIXME reenable once we have translated our files
+    const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
     locale = loadLocale({ appLocale, logger });
   }
 
