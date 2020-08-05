@@ -1372,14 +1372,14 @@
       }
 
       // If removable from server, we "Unsend" - otherwise "Delete"
-      const pluralSuffix = multiple ? 's' : '';
-      const title = i18n(
-        isPublic
-          ? `unsendMessage${pluralSuffix}`
-          : `deleteMessage${pluralSuffix}`
-      );
+      let title;
+      if (isPublic) {
+        title = multiple ? i18n('unsendMessages') : i18n('unsendMessage');
+      } else {
+        title = multiple ? i18n('deleteMessages') : i18n('deleteMessage');
+      }
 
-      const okText = i18n(isServerDeletable ? 'unsend' : 'delete');
+      const okText = isServerDeletable ? i18n('unsend') : i18n('delete');
 
       window.confirmationDialog({
         title,
