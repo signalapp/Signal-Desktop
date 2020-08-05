@@ -39,10 +39,6 @@
     "message": "&Help",
     "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
-  "mainMenuSettings": {
-    "message": "Preferences…",
-    "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
-  },
   "appMenuHide": {
     "message": "Hide",
     "description": "Application menu command to hide the window"
@@ -151,10 +147,6 @@
     "message": "No Suggestions",
     "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
   },
-  "connectingLoad": {
-    "message": "Connecting To Server",
-    "description": "Message shown on the as a loading screen while we are connecting to something"
-  },
   "loading": {
     "message": "Loading...",
     "description": "Message shown on the loading screen before we've loaded any messages"
@@ -173,29 +165,9 @@
       }
     }
   },
-  "archivedConversations": {
-    "message": "Archived Conversations",
-    "description": "Shown in place of the search box when showing archived conversation list"
-  },
-  "archiveHelperText": {
-    "message": "These conversations are archived and will only appear in the Inbox if new messages are received.",
-    "description": "Shown at the top of the archived converations list in the left pane"
-  },
-  "archiveConversation": {
-    "message": "Archive Conversation",
-    "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
-  },
-  "moveConversationToInbox": {
-    "message": "Move Conversation to Inbox",
-    "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
-  },
   "chooseDirectory": {
     "message": "Choose folder",
     "description": "Button to allow the user to find a folder on disk"
-  },
-  "chooseFile": {
-    "message": "Choose file",
-    "description": "Button to allow the user to find a file on disk"
   },
   "loadDataHeader": {
     "message": "Load your data",
@@ -241,27 +213,6 @@
     "message": "Link this device to your phone",
     "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
   },
-  "selectedLocation": {
-    "message": "your selected location",
-    "description": "Message shown as the export location if we didn't capture the target directory"
-  },
-  "upgradingDatabase": {
-    "message": "Upgrading database. This may take some time...",
-    "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
-  },
-  "loadingMessages": {
-    "message": "Loading messages. $count$ so far...",
-    "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "5"
-      }
-    }
-  },
-  "capsLockOn": {
-    "message": "Caps lock is on."
-  },
   "me": {
     "message": "Me",
     "description": "The label for yourself when shown in a group member list"
@@ -277,18 +228,6 @@
   "youGotKickedFromGroup": {
     "message": "You were removed from the group",
     "description": "Displayed when a user can't send a message because they have left the group"
-  },
-  "scrollDown": {
-    "message": "Scroll to bottom of conversation",
-    "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-  },
-  "messageBelow": {
-    "message": "New message below",
-    "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-  },
-  "messagesBelow": {
-    "message": "New messages below",
-    "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
   "unreadMessage": {
     "message": "1 Unread Message",
@@ -434,10 +373,6 @@
   "submit": {
     "message": "Submit"
   },
-  "acceptNewKey": {
-    "message": "Accept",
-    "description": "Label for a button to accept a new safety number"
-  },
   "verify": {
     "message": "Mark as verified"
   },
@@ -470,9 +405,6 @@
   "newIdentity": {
     "message": "New safety number",
     "description": "Header for a key change dialog"
-  },
-  "identityChanged": {
-    "message": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Session. You may wish to verify the new safety number below."
   },
   "incomingError": {
     "message": "Error handling incoming message"
@@ -508,18 +440,6 @@
   "thisMonth": {
     "message": "This Month",
     "description": "Section header in the media gallery"
-  },
-  "unsupportedAttachment": {
-    "message": "Unsupported attachment type. Click to save.",
-    "description": "Displayed for incoming unsupported attachment"
-  },
-  "clickToSave": {
-    "message": "Click to save",
-    "description": "Hover text for attachment filenames"
-  },
-  "unnamedFile": {
-    "message": "Unnamed File",
-    "description": "Hover text for attachment filenames"
   },
   "voiceMessage": {
     "message": "Voice Message",
@@ -581,9 +501,6 @@
   "unableToLoadAttachment": {
     "message": "Unable to load attachment."
   },
-  "connect": {
-    "message": "Connect"
-  },
   "disconnected": {
     "message": "Disconnected",
     "description": "Displayed when the desktop client cannot connect to the server."
@@ -644,10 +561,6 @@
   "show": {
     "message": "Show",
     "description": "Command under Window menu, to show the window"
-  },
-  "hide": {
-    "message": "Hide",
-    "description": "Command in the tray icon menu, to hide the window"
   },
   "quit": {
     "message": "Quit",
@@ -770,16 +683,6 @@
     "message": "You",
     "description": "In Android theme, shown in quote if you or someone else replies to you"
   },
-  "replyingTo": {
-    "message": "Replying to $name$",
-    "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "John"
-      }
-    }
-  },
   "audioPermissionNeeded": {
     "message": "To send audio messages, allow Session to access your microphone.",
     "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
@@ -787,10 +690,6 @@
   "allowAccess": {
     "message": "Allow Access",
     "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
-  },
-  "showSettings": {
-    "message": "Show Settings",
-    "description": "A button shown in dialog requesting the user to turn on audio permissions"
   },
   "audio": {
     "message": "Audio",
@@ -812,10 +711,6 @@
     "message": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem.",
     "description": "Shown if a general error happened while trying to install update package"
   },
-  "readOnlyVolume": {
-    "message": "Session Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Session.app to /Applications with Finder.",
-    "description": "Shown on MacOS if running on a read-only volume and we cannot update"
-  },
   "ok": {
     "message": "OK"
   },
@@ -831,32 +726,11 @@
   "copy": {
     "message": "Copy"
   },
-  "skip": {
-    "message": "Skip"
-  },
   "close": {
     "message": "Close"
   },
   "continue": {
     "message": "Continue"
-  },
-  "noThankyou": {
-    "message": "No, thank you"
-  },
-  "noMessagesTitle": {
-    "message": "You don't have any messages, yet."
-  },
-  "noMessagesSubtitle": {
-    "message": "Would you like to join Session's open group?"
-  },
-  "pairNewDevice": {
-    "message": "Pair New Device"
-  },
-  "devicePairingAccepted": {
-    "message": "Device Linking Accepted"
-  },
-  "devicePairingReceived": {
-    "message": "Device Linking Received"
   },
   "devicePairingRequestReceivedLimitTitle": {
     "message": "Device linking limit reached."
@@ -875,9 +749,6 @@
   },
   "pairNewDevicePrompt": {
     "message": "Scan the QR Code on your other device"
-  },
-  "pairedDevices": {
-    "message": "Linked Devices"
   },
   "noPairedDevices": {
     "message": "No linked devices"
@@ -899,9 +770,6 @@
   },
   "showPairingWordsTitle": {
     "message": "Linking Secret Words"
-  },
-  "secretPrompt": {
-    "message": "Here is your secret"
   },
   "confirmUnpairingTitle": {
     "message": "Please confirm you want to unlink the following device:"
@@ -929,24 +797,14 @@
   "confirm": {
     "message": "Confirm"
   },
-  "failedToSend": {
-    "message": "Failed to send to some recipients. Check your network connection."
-  },
   "error": {
     "message": "Error"
-  },
-  "messageDetail": {
-    "message": "Message Detail"
   },
   "delete": {
     "message": "Delete"
   },
   "unsend": {
     "message": "Unsend"
-  },
-  "forwardMessage": {
-    "message": "Forward",
-    "description": "Text of Forward Message button"
   },
   "deletePublicWarning": {
     "message": "Are you sure? Clicking 'unsend' will permanently remove this message for everyone in this channel."
@@ -1005,10 +863,6 @@
   },
   "showSafetyNumber": {
     "message": "View Safety Number"
-  },
-  "viewAllMedia": {
-    "message": "View all media",
-    "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "verifyHelp": {
     "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
@@ -1139,10 +993,6 @@
     "message": "Save",
     "descripton": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
   },
-  "fileIconAlt": {
-    "message": "File icon",
-    "description": "Used in the media gallery documents tab to visually represent a file"
-  },
   "emojiAlt": {
     "message": "Emoji image of '$title$'",
     "description": "Used in the alt tag of all emoji images",
@@ -1152,14 +1002,6 @@
         "example": "grinning"
       }
     }
-  },
-  "installWelcome": {
-    "message": "Welcome to Session",
-    "description": "Welcome title on the install page"
-  },
-  "installTagline": {
-    "message": "Privacy is possible. Signal makes it easy.",
-    "description": "Tagline displayed under 'installWelcome' string on the install page"
   },
   "linkYourPhone": {
     "message": "Link your phone to Session",
@@ -1181,10 +1023,6 @@
     "message": "Link New Device",
     "description": "The menu option shown in Signal iOS to add a new linked device"
   },
-  "deviceName": {
-    "message": "Device name",
-    "description": "The label in settings panel shown for the user-provided name for this desktop instance"
-  },
   "chooseDeviceName": {
     "message": "Choose this device's name",
     "description": "The header shown on the 'choose device name' screen in the device linking process"
@@ -1203,14 +1041,6 @@
   },
   "installTooManyDevices": {
     "message": "Sorry, you have too many devices linked already. Try removing some."
-  },
-  "settings": {
-    "message": "Settings",
-    "description": "Menu item and header for global settings"
-  },
-  "theme": {
-    "message": "Theme",
-    "description": "Header for theme settings"
   },
   "permissions": {
     "message": "Permissions",
@@ -1262,25 +1092,9 @@
     "message": "This will clear all data in the application, removing all messages and saved account information.",
     "description": "Text describing what the clear data button will do."
   },
-  "clearDataButton": {
-    "message": "Clear Data",
-    "description": "Button in the settings dialog starting process to delete all data"
-  },
-  "deleteAllDataHeader": {
-    "message": "Delete all data?",
-    "description": "Header of the full-screen delete data confirmation screen"
-  },
-  "deleteAllDataBody": {
-    "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always register with your seed again, but that will not restore deleted messages.",
-    "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
-  },
   "deleteAllDataButton": {
     "message": "Delete all data",
     "description": "Text of the button that deletes all data"
-  },
-  "deleteAllDataProgress": {
-    "message": "Disconnecting and deleting all data",
-    "description": "Message shown to user when app is disconnected and data deleted"
   },
   "notifications": {
     "message": "Notifications",
@@ -1325,10 +1139,6 @@
   "messageTTLSettingDescription": {
     "message": "Time to live (how long the recipient will have to collect their messages)",
     "description": "Description of the time to live setting"
-  },
-  "messageTTLSettingWarning": {
-    "message": "Warning! Lowering the TTL could result in messages being lost if the recipient doesn't collect them in time!",
-    "description": "Warning for the time to live setting"
   },
   "zoomFactorSettingTitle": {
     "message": "Zoom Factor",
@@ -1378,14 +1188,6 @@
     "message": "Send failed",
     "description": "Shown on outgoing message if it fails to send"
   },
-  "showMore": {
-    "message": "Details",
-    "description": "Displays the details of a key change"
-  },
-  "showLess": {
-    "message": "Hide details",
-    "description": "Hides the details of a key change"
-  },
   "learnMore": {
     "message": "Learn more about verifying safety numbers",
     "description": "Text that links to a support article on verifying safety numbers"
@@ -1406,33 +1208,9 @@
     "message": "Media message",
     "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
   },
-  "unregisteredUser": {
-    "message": "Number is not registered",
-    "description": "Error message displayed when sending to an unregistered user."
-  },
   "sync": {
     "message": "Contacts",
     "description": "Label for contact and group sync settings"
-  },
-  "syncExplanation": {
-    "message": "Import all Signal groups and contacts from your mobile device.",
-    "description": "Explanatory text for sync settings"
-  },
-  "lastSynced": {
-    "message": "Last import at",
-    "description": "Label for date and time of last sync operation"
-  },
-  "syncNow": {
-    "message": "Import now",
-    "description": "Label for a button that syncs contacts and groups from your phone"
-  },
-  "syncing": {
-    "message": "Importing...",
-    "description": "Label for a disabled sync button while sync is in progress."
-  },
-  "syncFailed": {
-    "message": "Import failed. Make sure your computer and your phone are connected to the internet.",
-    "description": "Informational text displayed if a sync operation times out."
   },
   "timestamp_s": {
     "message": "now",
@@ -1445,50 +1223,6 @@
   "timestamp_h": {
     "message": "1 hour",
     "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
-  },
-  "hoursAgoShort": {
-    "message": "$hours$ hr",
-    "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-    "placeholders": {
-      "hours": {
-        "content": "$1",
-        "example": "2"
-      }
-    }
-  },
-  "hoursAgo": {
-    "message": "$hours$ hr ago",
-    "description": "Contracted form of 'X hours ago' which works both for singular and plural",
-    "placeholders": {
-      "hours": {
-        "content": "$1",
-        "example": "2"
-      }
-    }
-  },
-  "minutesAgoShort": {
-    "message": "$minutes$ min",
-    "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-    "placeholders": {
-      "minutes": {
-        "content": "$1",
-        "example": "10"
-      }
-    }
-  },
-  "minutesAgo": {
-    "message": "$minutes$ min ago",
-    "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
-    "placeholders": {
-      "minutes": {
-        "content": "$1",
-        "example": "10"
-      }
-    }
-  },
-  "justNow": {
-    "message": "now",
-    "description": "Shown if a message is very recent, less than 60 seconds old"
   },
   "timestampFormat_M": {
     "message": "MMM D",
@@ -1676,10 +1410,6 @@
       }
     }
   },
-  "audioNotificationDescription": {
-    "message": "Play audio notification",
-    "description": "Description for audio notification setting"
-  },
   "safetyNumberChanged": {
     "message": "Safety Number has changed",
     "description": "A notification shown in the conversation when a contact reinstalls"
@@ -1708,14 +1438,6 @@
       }
     }
   },
-  "themeLight": {
-    "message": "Light",
-    "description": "Label text for light theme (normal)"
-  },
-  "themeDark": {
-    "message": "Dark",
-    "description": "Label text for dark theme"
-  },
   "themeToggleTitle": {
     "message": "Light Mode"
   },
@@ -1737,10 +1459,6 @@
   "startConversation": {
     "message": "Start New Conversation",
     "description": "Label underneath number a user enters that is not an existing contact"
-  },
-  "newPhoneNumber": {
-    "message": "Enter a phone number to add a contact.",
-    "description": "Placeholder for adding a new number to a contact"
   },
   "invalidNumberError": {
     "message": "Invalid public key",
@@ -1866,18 +1584,6 @@
   "unblockUser": {
     "message": "Unblock User"
   },
-  "settingsUnblockHeader": {
-    "message": "Blocked Users",
-    "description": "Shown in the settings page as the heading for the blocked user settings"
-  },
-  "editProfileTitle": {
-    "message": "Change your own display name",
-    "description": "The title shown when user edits their own profile"
-  },
-  "editProfileDisplayNameWarning": {
-    "message": "Note: Your display name will be visible to your contacts",
-    "description": "Shown to the user as a warning about setting display name"
-  },
   "copyPublicKey": {
     "message": "Copy Public Key",
     "description": "Button action that the user can click to copy their public keys"
@@ -1901,10 +1607,6 @@
   "copyChatId": {
     "message": "Copy Chat ID"
   },
-  "updateGroup": {
-    "message": "Update Group",
-    "description": "Button action that the user can click to rename the group or add a new member"
-  },
   "leaveGroup": {
     "message": "Leave Group",
     "description": "Button action that the user can click to leave the group"
@@ -1920,10 +1622,6 @@
   "leaveClosedGroupConfirmation": {
     "message": "Leave this Closed Group?",
     "description": "Confirmation dialog text that tells the user what will happen if they leave the closed group."
-  },
-  "leaveGroupDialogTitle": {
-    "message": "Are you sure you want to leave this group?",
-    "description": "Title shown to the user to confirm they want to leave the group"
   },
   "noContactsForGroup": {
     "message": "You don't have any contacts to start a group with."
@@ -1948,10 +1646,6 @@
     "message": "Message text copied",
     "description": "A toast message telling the user that the message text was copied"
   },
-  "editProfile": {
-    "message": "Edit Profile",
-    "description": "Button action that the user can click to edit their profile"
-  },
   "editGroupNameOrPicture": {
     "message": "Edit group name or picture",
     "description": "Button action that the user can click to edit a group name (open)"
@@ -1959,10 +1653,6 @@
   "editGroupName": {
     "message": "Edit group name",
     "description": "Button action that the user can click to edit a group name (closed)"
-  },
-  "createGroupDialogTitle": {
-    "message": "Creating a Closed Group",
-    "description": "Title for the dialog box used to create a new private group"
   },
   "updateGroupDialogTitle": {
     "message": "Updating a Closed Group",
@@ -2036,33 +1726,9 @@
     "message": "This is <strong>your unique public QR Code.</strong><br/>Other users may scan this in order to begin a conversation with you.",
     "description": "Description given to QRCode modal"
   },
-  "showQRCode": {
-    "message": "Show QR Code",
-    "description": "Button action that the user can click to view their QR code"
-  },
-  "showAddServer": {
-    "message": "Add Public Server",
-    "description": "Button action that the user can click to connect to a new public server"
-  },
-  "serverUrl": {
-    "message": "Server URL",
-    "description": "Placeholder for server URL input"
-  },
   "noServerURL": {
     "message": "Please enter a server URL",
     "description": "Error message when no server url entered"
-  },
-  "addServerDialogTitle": {
-    "message": "Connect To New Public Server",
-    "description": "Title for the dialog box used to connect to a new public server"
-  },
-  "createPrivateGroup": {
-    "message": "Create Private Group",
-    "description": "Button action that the user can click to show a dialog for creating a new private group chat"
-  },
-  "seedViewTitle": {
-    "message": "Please save the seed below in a safe location. They can be used to restore your account if you lose access or migrate to a new device.",
-    "description": "The title shown when the user views their seeds"
   },
   "copiedMnemonic": {
     "message": "Recovery phrase copied successfully",
@@ -2078,10 +1744,6 @@
   },
   "unlock": {
     "message": "Unlock"
-  },
-  "resetDatabase": {
-    "message": "Reset Database",
-    "description": "A button action that the user can click to reset the database"
   },
   "password": {
     "message": "Password",
@@ -2154,25 +1816,10 @@
     "message": "Connecting to server..."
   },
   "connectToServerSuccess": {
-    "message": "Successfully connected to open group"
+     "message": "Successfully connected to open group"
   },
   "setPasswordFail": {
     "message": "Failed to set password"
-  },
-  "removePasswordFail": {
-    "message": "Failed to remove password"
-  },
-  "changePasswordFail": {
-    "message": "Failed to change password"
-  },
-  "setPasswordSuccess": {
-    "message": "Password set"
-  },
-  "removePasswordSuccess": {
-    "message": "Password removed"
-  },
-  "changePasswordSuccess": {
-    "message": "Password changed"
   },
   "passwordLengthError": {
     "message": "Password must be between 6 and 50 characters long",
@@ -2199,17 +1846,9 @@
     "message": "Invalid Session ID",
     "description": "Error string shown when user types an invalid pubkey hex string"
   },
-  "invalidLnsFormat": {
-    "message": "Invalid LNS Name",
-    "description": "Error string shown when user types an invalid LNS name"
-  },
   "invalidPubkeyFormat": {
     "message": "Invalid Pubkey Format",
     "description": "Error string shown when user types an invalid pubkey format"
-  },
-  "attemptedConnectionTimeout": {
-    "message": "Connection to open group timed out",
-    "description": "Shown in toast when attempted connection to OpenGroup times out"
   },
   "lnsMappingNotFound": {
     "message": "There is no LNS mapping associated with this name",
@@ -2222,41 +1861,23 @@
   "lnsTooFewNodes": {
     "message": "Not enough nodes currently active for LNS lookup"
   },
-  "conversationsTab": {
-    "message": "Conversations",
-    "description": "conversation tab title"
-  },
   "emptyGroupNameError": {
     "message": "Group Name cannot be empty",
     "description": "Error message displayed on empty group name"
   },
-  "emptyProfileNameError": {
-    "message": "Profile name cannot be empty",
-    "description": "Error message displayed on empty profile name"
-  },
   "nonAdminDeleteMember": {
     "message": "Only group admin can remove members!"
-  },
-  "editProfileDialogTitle": {
-    "message": "Editing Profile"
   },
 
   "editProfileModalTitle": {
     "message": "Profile",
     "description": "Title for the Edit Profile modal"
   },
-
-  "profileName": {
-    "message": "Profile Name"
-  },
   "groupNamePlaceholder": {
     "message": "Group Name"
   },
   "inviteContacts": {
     "message": "Invite Contacts"
-  },
-  "manageModerators": {
-    "message": "Manage Moderators"
   },
   "addModerators": {
     "message": "Add Moderators"
@@ -2361,9 +1982,6 @@
   "linkDevice": {
     "message": "Link Device"
   },
-  "restoreSessionID": {
-    "message": "Restore Session ID"
-  },
   "restoreUsingSeed": {
     "message": "Restore From Recovery Phrase"
   },
@@ -2382,23 +2000,11 @@
   "welcomeToYourSession": {
     "message": "Welcome to your Session"
   },
-  "completeSignUp": {
-    "message": "Complete Sign Up"
-  },
-  "compose": {
-    "message": "Compose"
-  },
   "newSession": {
     "message": "New Session"
   },
-  "freindRequestsButton": {
-    "message": "Requests"
-  },
   "searchForAKeyPhrase": {
     "message": "Search for a key phrase or contact"
-  },
-  "enterRecipient": {
-    "message": "Enter Recipient"
   },
   "enterSessionID": {
     "message": "Enter Session ID"
@@ -2415,9 +2021,6 @@
   "message": {
     "message": "Message"
   },
-  "lists": {
-    "message": "Lists"
-  },
   "edit": {
     "message": "Edit"
   },
@@ -2430,47 +2033,20 @@
   "yourPublicKey": {
     "message": "Your Session ID"
   },
-  "accept": {
-    "message": "Accept"
-  },
-  "decline": {
-    "message": "Decline"
-  },
   "appearanceSettingsTitle": {
     "message": "Appearance"
-  },
-  "appearanceSettingsDescription": {
-    "message": "Appearance and interface options"
-  },
-  "accountSettingsTitle": {
-    "message": "Account"
-  },
-  "accountSettingsDescription": {
-    "message": "Manage your account"
   },
   "permissionSettingsTitle": {
     "message": "Permissions"
   },
-  "permissionSettingsDescription": {
-    "message": "Set Session's permissions"
-  },
   "privacySettingsTitle": {
     "message": "Privacy"
-  },
-  "privacySettingsDescription": {
-    "message": "Manage your privacy settings"
   },
   "notificationSettingsTitle": {
     "message": "Notifications"
   },
-  "notificationSettingsDescription": {
-    "message": "Configure notification options"
-  },
   "devicesSettingsTitle": {
     "message": "Devices"
-  },
-  "devicesSettingsDescription": {
-    "message": "Manage your linked devices"
   },
   "mnemonicEmpty": {
     "message": "Seed is mandatory"
@@ -2486,12 +2062,6 @@
         "example": "26"
       }
     }
-  },
-  "channels": {
-    "message": "Channels"
-  },
-  "groups": {
-    "message": "Groups"
   },
   "addChannel": {
     "message": "Join Open Group"
@@ -2529,26 +2099,17 @@
   "joinChannel": {
     "message": "Join Open Group"
   },
-  "joinPublicChat": {
-    "message": "Join open group"
-  },
   "next": {
     "message": "Next"
   },
   "description": {
     "message": "Description"
   },
-  "filterReceivedRequests": {
-    "message": "Filter received requests"
-  },
   "secretWords": {
     "message": "Secret words"
   },
   "pairingDevice": {
     "message": "Linking Device"
-  },
-  "gotPairingRequest": {
-    "message": "Linking request received"
   },
   "devicePairedSuccessfully": {
     "message": "Device linked successfully"

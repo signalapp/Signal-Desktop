@@ -191,18 +191,50 @@ export class SessionPasswordModal extends React.Component<Props, State> {
     }
 
     if (!valid) {
+      let str;
+      switch (action) {
+        case Set:
+          str = window.i18n('setPasswordInvalid');
+          break;
+        case Change:
+          str = window.i18n('changePasswordInvalid');
+          break;
+        case Remove:
+          str = window.i18n('removePasswordInvalid');
+          break;
+        default:
+          throw new Error(`Invalid action ${action}`);
+      }
       this.setState({
-        error: window.i18n(`${action}PasswordInvalid`),
+        error: str,
       });
 
       return;
     }
 
     await window.setPassword(newPassword, oldPassword);
+    let title;
+    let description;
+    switch (action) {
+      case Set:
+        title = window.i18n('setPasswordTitle');
+        description = window.i18n('setPasswordToastDescription');
+        break;
+      case Change:
+        title = window.i18n('changePasswordTitle');
+        description = window.i18n('changePasswordToastDescription');
+        break;
+      case Remove:
+        title = window.i18n('removePasswordTitle');
+        description = window.i18n('removePasswordToastDescription');
+        break;
+      default:
+        throw new Error(`Invalid action ${action}`);
+    }
 
     const toastParams = {
-      title: window.i18n(`${action}PasswordTitle`),
-      description: window.i18n(`${action}PasswordToastDescription`),
+      title: title,
+      description: description,
       type: action !== Remove ? 'success' : 'warning',
       icon: action !== Remove ? 'lock' : undefined,
     };
