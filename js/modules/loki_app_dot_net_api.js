@@ -1710,8 +1710,9 @@ class LokiPublicChannelAPI {
     sigString += [...attachmentAnnotations, ...previewAnnotations]
       .map(data => data.id || data.image.id)
       .sort()
-      .join();
+      .join('');
     sigString += sigVer;
+
     return dcodeIO.ByteBuffer.wrap(sigString, 'utf8').toArrayBuffer();
   }
 

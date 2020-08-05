@@ -300,6 +300,12 @@
       storage.put('primaryDevicePubKey', textsecure.storage.user.getNumber());
     }
 
+    // 4th August 2020 - Force wipe of secondary devices as multi device is being disabled.
+    if (storage.get('isSecondaryDevice')) {
+      await window.deleteAccount();
+      return;
+    }
+
     // These make key operations available to IPC handlers created in preload.js
     window.Events = {
       getThemeSetting: () => 'dark', // storage.get('theme-setting', 'dark')
@@ -802,27 +808,6 @@
 
     // Get memberlist. This function is not accurate >>
     // window.getMemberList = window.lokiPublicChatAPI.getListOfMembers();
-
-    window.deleteAccount = async () => {
-      try {
-        window.log.info('Deleting everything!');
-
-        const { Logs } = window.Signal;
-        await Logs.deleteAll();
-
-        await window.Signal.Data.removeAll();
-        await window.Signal.Data.close();
-        await window.Signal.Data.removeDB();
-
-        await window.Signal.Data.removeOtherData();
-      } catch (error) {
-        window.log.error(
-          'Something went wrong deleting all data:',
-          error && error.stack ? error.stack : error
-        );
-      }
-      window.restart();
-    };
 
     window.toggleTheme = () => {
       const theme = window.Events.getThemeSetting();
