@@ -189,14 +189,17 @@ async function mergeContactRecord(
 
   conversation.set({
     isArchived: Boolean(contactRecord.archived),
-    profileFamilyName: contactRecord.familyName,
-    profileKey: contactRecord.profileKey
-      ? arrayBufferToBase64(contactRecord.profileKey.toArrayBuffer())
-      : null,
-    profileName: contactRecord.givenName,
     storageID,
     verified,
   });
+
+  if (contactRecord.profileKey) {
+    await conversation.setProfileKey(
+      arrayBufferToBase64(contactRecord.profileKey.toArrayBuffer())
+    );
+  } else {
+    await conversation.dropProfileKey();
+  }
 
   applyMessageRequestState(contactRecord, conversation);
 
@@ -278,13 +281,16 @@ async function mergeAccountRecord(
   );
 
   conversation.set({
-    profileFamilyName: accountRecord.familyName,
-    profileKey: accountRecord.profileKey
-      ? arrayBufferToBase64(accountRecord.profileKey.toArrayBuffer())
-      : null,
-    profileName: accountRecord.givenName,
     storageID,
   });
+
+  if (accountRecord.profileKey) {
+    await conversation.setProfileKey(
+      arrayBufferToBase64(accountRecord.profileKey.toArrayBuffer())
+    );
+  } else {
+    await conversation.dropProfileKey();
+  }
 
   updateConversation(conversation.attributes);
 
