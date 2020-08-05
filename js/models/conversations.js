@@ -134,6 +134,13 @@
         this.updateLastMessage.bind(this),
         200
       );
+      this.throttledUpdateSharedGroups =
+        this.throttledUpdateSharedGroups ||
+        _.throttle(
+          this.updateSharedGroups.bind(this),
+          1000 * 60 * 5 // five minutes
+        );
+
       this.listenTo(
         this.messageCollection,
         'add remove destroy content-changed',
@@ -168,11 +175,10 @@
       this.typingPauseTimer = null;
 
       // Keep props ready
-      const generateProps = () => {
+      this.generateProps = () => {
         this.cachedProps = this.getProps();
       };
-      this.on('change', generateProps);
-      generateProps();
+      this.on('change', this.generateProps);
     },
 
     isMe() {
@@ -445,6 +451,8 @@
     getProps() {
       const color = this.getColor();
 
+      this.throttledUpdateSharedGroups();
+
       const typingValues = _.values(this.contactTypingTimers || {});
       const typingMostRecent = _.first(_.sortBy(typingValues, 'timestamp'));
       const typingContact = typingMostRecent
@@ -467,41 +475,39 @@
         uuid: this.get('uuid'),
         e164: this.get('e164'),
 
-        isAccepted: this.getAccepted(),
-        isArchived: this.get('isArchived'),
-        isBlocked: this.isBlocked(),
-        isVerified: this.isVerified(),
+        acceptedMessageRequest: this.getAccepted(),
         activeAt: this.get('active_at'),
         avatarPath: this.getAvatarPath(),
         color,
-        type: this.isPrivate() ? 'direct' : 'group',
-        isMe: this.isMe(),
-        typingContact: typingContact ? typingContact.format() : null,
-        lastUpdated: this.get('timestamp'),
-        name: this.get('name'),
-        firstName: this.get('profileName'),
-        profileName: this.getProfileName(),
-        timestamp,
-        inboxPosition,
-        title: this.getTitle(),
-        unreadCount: this.get('unreadCount') || 0,
-
-        shouldShowDraft,
         draftPreview,
         draftText,
-
-        phoneNumber: this.getNumber(),
-        membersCount: this.isPrivate()
-          ? undefined
-          : (this.get('members') || []).length,
+        firstName: this.get('profileName'),
+        inboxPosition,
+        isAccepted: this.getAccepted(),
+        isArchived: this.get('isArchived'),
+        isBlocked: this.isBlocked(),
+        isMe: this.isMe(),
+        isVerified: this.isVerified(),
         lastMessage: {
           status: this.get('lastMessageStatus'),
           text: this.get('lastMessage'),
           deletedForEveryone: this.get('lastMessageDeletedForEveryone'),
         },
-
-        acceptedMessageRequest: this.getAccepted(),
+        lastUpdated: this.get('timestamp'),
+        membersCount: this.isPrivate()
+          ? undefined
+          : (this.get('members') || []).length,
         messageRequestsEnabled,
+        name: this.get('name'),
+        phoneNumber: this.getNumber(),
+        profileName: this.getProfileName(),
+        sharedGroupNames: this.get('sharedGroupNames'),
+        shouldShowDraft,
+        timestamp,
+        title: this.getTitle(),
+        type: this.isPrivate() ? 'direct' : 'group',
+        typingContact: typingContact ? typingContact.format() : null,
+        unreadCount: this.get('unreadCount') || 0,
       };
 
       return result;
@@ -1892,16 +1898,8 @@
           : null,
       });
 
-      // Because we're no longer using Backbone-integrated saves, we need to manually
-      //   clear the changed fields here so our hasChanged() check below is useful.
-      this.changed = {};
       this.set(lastMessageUpdate);
-
-      if (this.hasChanged()) {
-        window.Signal.Data.updateConversation(this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
-      }
+      window.Signal.Data.updateConversation(this.attributes);
     },
 
     async setArchived(isArchived) {
@@ -2281,6 +2279,31 @@
       }
     },
 
+    // This is an expensive operation we use to populate the message request hero row. It
+    //   shows groups the current user has in common with this potential new contact.
+    async updateSharedGroups() {
+      if (!this.isPrivate()) {
+        return;
+      }
+      if (this.isMe()) {
+        return;
+      }
+
+      const ourGroups = await ConversationController.getAllGroupsInvolvingId(
+        ConversationController.getOurConversationId()
+      );
+      const theirGroups = await ConversationController.getAllGroupsInvolvingId(
+        this.id
+      );
+
+      const sharedGroups = _.intersection(ourGroups, theirGroups);
+      const sharedGroupNames = sharedGroups.map(conversation =>
+        conversation.getTitle()
+      );
+
+      this.set({ sharedGroupNames });
+    },
+
     onChangeProfileKey() {
       if (this.isPrivate()) {
         this.getProfiles();
@@ -2325,9 +2348,6 @@
       const clientZkProfileCipher = getClientZkProfileOperations(
         window.getServerPublicParams()
       );
-      // Because we're no longer using Backbone-integrated saves, we need to manually
-      //   clear the changed fields here so our hasChanged() check is useful.
-      c.changed = {};
 
       let profile;
 
@@ -2500,9 +2520,7 @@
         }
       }
 
-      if (c.hasChanged()) {
-        window.Signal.Data.updateConversation(c.attributes);
-      }
+      window.Signal.Data.updateConversation(c.attributes);
     },
     async setProfileName(encryptedName) {
       if (!encryptedName) {
@@ -2527,10 +2545,12 @@
       const profileName = given ? stringFromBytes(given) : null;
       const profileFamilyName = family ? stringFromBytes(family) : null;
 
-      // check for changes
+      // set then check for changes
       const oldName = this.getProfileName();
-      const newName = Util.combineNames(profileName, profileFamilyName);
       const hadPreviousName = Boolean(oldName);
+      this.set({ profileName, profileFamilyName });
+
+      const newName = this.getProfileName();
 
       // Note that we compare the combined names to ensure that we don't present the exact
       //   same before/after string, even if someone is moving from just first name to
@@ -2544,11 +2564,8 @@
           newName,
         };
 
-        this.addProfileChange(change);
+        await this.addProfileChange(change);
       }
-
-      // set
-      this.set({ profileName, profileFamilyName });
     },
     async setProfileAvatar(avatarPath) {
       if (!avatarPath) {
@@ -2593,9 +2610,6 @@
           profileKeyVersion: null,
           profileKeyCredential: null,
           accessKey: null,
-          profileName: null,
-          profileFamilyName: null,
-          profileAvatar: null,
           sealedSender: SEALED_SENDER.UNKNOWN,
         });
 

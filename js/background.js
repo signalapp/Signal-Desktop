@@ -595,6 +595,11 @@
     });
 
     window.Signal.conversationControllerStart();
+
+    // We start this up before ConversationController.load() to ensure that our feature
+    //   flags are represented in the cached props we generate on load of each convo.
+    window.Signal.RemoteConfig.initRemoteConfig();
+
     try {
       await Promise.all([
         ConversationController.load(),
@@ -1514,8 +1519,6 @@
         });
       }
     });
-
-    window.Signal.RemoteConfig.initRemoteConfig();
 
     // Maybe refresh remote configuration when we become active
     window.registerForActive(async () => {

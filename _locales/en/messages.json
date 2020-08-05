@@ -2596,6 +2596,28 @@
       }
     }
   },
+  "ConversationHero--membership-extra": {
+    "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more.",
+    "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+    "placeholders": {
+      "group1": {
+        "content": "$1",
+        "example": "NYC Rock Climbers"
+      },
+      "group2": {
+        "content": "$2",
+        "example": "Dinner Party"
+      },
+      "group3": {
+        "content": "$3",
+        "example": "Friends 🌿"
+      },
+      "remainingCount": {
+        "content": "$4",
+        "example": "3"
+      }
+    }
+  },
   "ConversationHero--membership-added": {
     "message": "$name$ added you to the group.",
     "description": "Shown Indicates that you were added to a group by a given individual.",

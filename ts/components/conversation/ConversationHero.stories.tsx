@@ -29,7 +29,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           profileName={getProfileName()}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
-          groups={['NYC Rock Climbers', 'Dinner Party', 'Friends 🌿']}
+          sharedGroupNames={['NYC Rock Climbers', 'Dinner Party', 'Friends 🌿']}
         />
       </div>
     );
@@ -45,7 +45,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           profileName={getProfileName()}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
-          groups={['NYC Rock Climbers', 'Dinner Party']}
+          sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
         />
       </div>
     );
@@ -61,7 +61,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           profileName={getProfileName()}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
-          groups={['NYC Rock Climbers']}
+          sharedGroupNames={['NYC Rock Climbers']}
         />
       </div>
     );
@@ -77,7 +77,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           profileName={text('profileName', '')}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
-          groups={[]}
+          sharedGroupNames={[]}
         />
       </div>
     );
@@ -93,7 +93,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           profileName={getProfileName()}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
-          groups={[]}
+          sharedGroupNames={[]}
         />
       </div>
     );
@@ -109,7 +109,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           profileName={text('profileName', '')}
           phoneNumber={getPhoneNumber()}
           conversationType="direct"
-          groups={[]}
+          sharedGroupNames={[]}
         />
       </div>
     );
@@ -125,7 +125,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           profileName={text('profileName', '')}
           phoneNumber={text('phoneNumber', '')}
           conversationType="direct"
-          groups={[]}
+          sharedGroupNames={[]}
         />
       </div>
     );

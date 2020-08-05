@@ -9,7 +9,7 @@ import { LocalizerType } from '../../types/Util';
 export type Props = {
   i18n: LocalizerType;
   isMe?: boolean;
-  groups?: Array<string>;
+  sharedGroupNames?: Array<string>;
   membersCount?: number;
   phoneNumber?: string;
   onHeightChange?: () => unknown;
@@ -17,10 +17,10 @@ export type Props = {
 
 const renderMembershipRow = ({
   i18n,
-  groups,
+  sharedGroupNames,
   conversationType,
   isMe,
-}: Pick<Props, 'i18n' | 'groups' | 'conversationType' | 'isMe'>) => {
+}: Pick<Props, 'i18n' | 'sharedGroupNames' | 'conversationType' | 'isMe'>) => {
   const className = 'module-conversation-hero__membership';
   const nameClassName = `${className}__name`;
 
@@ -28,14 +28,34 @@ const renderMembershipRow = ({
     return <div className={className}>{i18n('noteToSelfHero')}</div>;
   }
 
-  if (conversationType === 'direct' && groups && groups.length > 0) {
-    const firstThreeGroups = take(groups, 3).map((group, i) => (
+  if (
+    conversationType === 'direct' &&
+    sharedGroupNames &&
+    sharedGroupNames.length > 0
+  ) {
+    const firstThreeGroups = take(sharedGroupNames, 3).map((group, i) => (
       <strong key={i} className={nameClassName}>
         <Emojify text={group} />
       </strong>
     ));
 
-    if (firstThreeGroups.length >= 3) {
+    if (sharedGroupNames.length > 3) {
+      const remainingCount = sharedGroupNames.length - 3;
+      return (
+        <div className={className}>
+          <Intl
+            i18n={i18n}
+            id="ConversationHero--membership-extra"
+            components={{
+              group1: firstThreeGroups[0],
+              group2: firstThreeGroups[1],
+              group3: firstThreeGroups[2],
+              remainingCount: remainingCount.toString(),
+            }}
+          />
+        </div>
+      );
+    } else if (firstThreeGroups.length === 3) {
       return (
         <div className={className}>
           <Intl
@@ -87,7 +107,7 @@ export const ConversationHero = ({
   conversationType,
   isMe,
   membersCount,
-  groups = [],
+  sharedGroupNames = [],
   name,
   phoneNumber,
   profileName,
@@ -115,7 +135,7 @@ export const ConversationHero = ({
     `mc-${membersCount}`,
     `n-${name}`,
     `pn-${profileName}`,
-    ...groups.map(g => `g-${g}`),
+    ...sharedGroupNames.map(g => `g-${g}`),
   ]);
 
   const phoneNumberOnly = Boolean(
@@ -160,7 +180,7 @@ export const ConversationHero = ({
             : phoneNumber}
         </div>
       ) : null}
-      {renderMembershipRow({ isMe, groups, conversationType, i18n })}
+      {renderMembershipRow({ isMe, sharedGroupNames, conversationType, i18n })}
     </div>
   );
 };
