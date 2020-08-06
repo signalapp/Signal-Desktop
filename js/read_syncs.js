@@ -13,8 +13,12 @@
   window.Whisper = window.Whisper || {};
   Whisper.ReadSyncs = new (Backbone.Collection.extend({
     forMessage(message) {
+      const senderId = window.ConversationController.ensureContactIds({
+        e164: message.get('source'),
+        uuid: message.get('sourceUuid'),
+      });
       const receipt = this.findWhere({
-        sender: message.get('source'),
+        senderId,
         timestamp: message.get('sent_at'),
       });
       if (receipt) {
@@ -34,12 +38,14 @@
           }
         );
 
-        const found = messages.find(
-          item =>
-            item.isIncoming() &&
-            (item.get('source') === receipt.get('sender') ||
-              item.get('sourceUuid') === receipt.get('senderUuid'))
-        );
+        const found = messages.find(item => {
+          const senderId = window.ConversationController.ensureContactIds({
+            e164: item.get('source'),
+            uuid: item.get('sourceUuid'),
+          });
+
+          return item.isIncoming() && senderId === receipt.get('senderId');
+        });
         const notificationForMessage = found
           ? Whisper.Notifications.findWhere({ messageId: found.id })
           : null;
@@ -48,6 +54,7 @@
         if (!found) {
           window.log.info(
             'No message for read sync',
+            receipt.get('senderId'),
             receipt.get('sender'),
             receipt.get('senderUuid'),
             receipt.get('timestamp')

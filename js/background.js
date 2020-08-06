@@ -2815,13 +2815,21 @@
 
   function onReadReceipt(ev) {
     const readAt = ev.timestamp;
-    const { timestamp, source, sourceUuid } = ev.read;
+    const { envelopeTimestamp, timestamp, source, sourceUuid } = ev.read;
     const reader = ConversationController.ensureContactIds({
       e164: source,
       uuid: sourceUuid,
       highTrust: true,
     });
-    window.log.info('read receipt', timestamp, source, sourceUuid, reader);
+    window.log.info(
+      'read receipt',
+      source,
+      sourceUuid,
+      envelopeTimestamp,
+      reader,
+      'for sent message',
+      timestamp
+    );
 
     ev.confirm();
 
@@ -2841,11 +2849,24 @@
 
   function onReadSync(ev) {
     const readAt = ev.timestamp;
-    const { timestamp } = ev.read;
-    const { sender, senderUuid } = ev.read;
-    window.log.info('read sync', sender, senderUuid, timestamp);
+    const { envelopeTimestamp, sender, senderUuid, timestamp } = ev.read;
+    const senderId = ConversationController.ensureContactIds({
+      e164: sender,
+      uuid: senderUuid,
+    });
+
+    window.log.info(
+      'read sync',
+      sender,
+      senderUuid,
+      envelopeTimestamp,
+      senderId,
+      'for message',
+      timestamp
+    );
 
     const receipt = Whisper.ReadSyncs.add({
+      senderId,
       sender,
       senderUuid,
       timestamp,
@@ -2930,13 +2951,13 @@
 
   function onDeliveryReceipt(ev) {
     const { deliveryReceipt } = ev;
-    const { sourceUuid, source } = deliveryReceipt;
-
-    window.log.info(
-      'delivery receipt from',
-      `${source} ${sourceUuid} ${deliveryReceipt.sourceDevice}`,
-      deliveryReceipt.timestamp
-    );
+    const {
+      envelopeTimestamp,
+      sourceUuid,
+      source,
+      sourceDevice,
+      timestamp,
+    } = deliveryReceipt;
 
     ev.confirm();
 
@@ -2946,13 +2967,24 @@
       highTrust: true,
     });
 
+    window.log.info(
+      'delivery receipt from',
+      source,
+      sourceUuid,
+      sourceDevice,
+      deliveredTo,
+      envelopeTimestamp,
+      'for sent message',
+      timestamp
+    );
+
     if (!deliveredTo) {
       window.log.info('no conversation for', source, sourceUuid);
       return;
     }
 
     const receipt = Whisper.DeliveryReceipts.add({
-      timestamp: deliveryReceipt.timestamp,
+      timestamp,
       deliveredTo,
     });
 

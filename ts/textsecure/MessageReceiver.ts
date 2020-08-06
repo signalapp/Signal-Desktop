@@ -1290,6 +1290,7 @@ class MessageReceiverInner extends EventTarget {
         ev.confirm = this.removeFromCache.bind(this, envelope);
         ev.deliveryReceipt = {
           timestamp: receiptMessage.timestamp[i].toNumber(),
+          envelopeTimestamp: envelope.timestamp.toNumber(),
           source: envelope.source,
           sourceUuid: envelope.sourceUuid,
           sourceDevice: envelope.sourceDevice,
@@ -1306,6 +1307,7 @@ class MessageReceiverInner extends EventTarget {
         ev.timestamp = envelope.timestamp.toNumber();
         ev.read = {
           timestamp: receiptMessage.timestamp[i].toNumber(),
+          envelopeTimestamp: envelope.timestamp.toNumber(),
           source: envelope.source,
           sourceUuid: envelope.sourceUuid,
         };
@@ -1569,6 +1571,7 @@ class MessageReceiverInner extends EventTarget {
       ev.confirm = this.removeFromCache.bind(this, envelope);
       ev.timestamp = envelope.timestamp.toNumber();
       ev.read = {
+        envelopeTimestamp: envelope.timestamp.toNumber(),
         timestamp: read[i].timestamp.toNumber(),
         sender: read[i].sender,
         senderUuid: read[i].senderUuid,
