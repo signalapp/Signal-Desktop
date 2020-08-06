@@ -7,7 +7,7 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from '../SessionButton';
-import { UserUtil, BlockedNumberController } from '../../../util';
+import { BlockedNumberController, UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { PubKey } from '../../../session/types';
 import { NumberUtils } from '../../../session/utils';
@@ -600,7 +600,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       
       let displayName = `User (...${blockedNumber.substr(-6)})`;
 
-      let currentModel = window.ConversationController.get(blockedNumber);
+      const currentModel = window.ConversationController.get(blockedNumber);
       if (
         currentModel && 
         currentModel.attributes.profile && 
@@ -608,7 +608,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       ) {
         displayName = currentModel.attributes.profile.displayName
       }
-
 
       results.push({
         id: blockedNumber,
@@ -621,8 +620,8 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           buttonText: window.i18n('unblockUser'),
         },
         comparisonValue: undefined,
-        setFn: () => { 
-          BlockedNumberController.unblock(blockedNumber)
+        setFn: async () => {
+          await BlockedNumberController.unblock(blockedNumber)
         },
         hidden: false,
         onClick: undefined,
