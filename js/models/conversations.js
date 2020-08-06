@@ -2210,16 +2210,20 @@
         return;
       }
 
-      const profileKeyBuffer = window.Signal.Crypto.base64ToArrayBuffer(
-        profileKey
-      );
-      const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(
-        profileKeyBuffer
-      );
-      const accessKey = window.Signal.Crypto.arrayBufferToBase64(
-        accessKeyBuffer
-      );
-      this.set({ accessKey });
+      try {
+        const profileKeyBuffer = window.Signal.Crypto.base64ToArrayBuffer(
+          profileKey
+        );
+        const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(
+          profileKeyBuffer
+        );
+        const accessKey = window.Signal.Crypto.arrayBufferToBase64(
+          accessKeyBuffer
+        );
+        this.set({ accessKey });
+      } catch (e) {
+        window.log.warn(`Failed to derive access key for ${this.id}`);
+      }
     },
 
     async upgradeMessages(messages) {
