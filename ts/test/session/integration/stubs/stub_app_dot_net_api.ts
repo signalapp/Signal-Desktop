@@ -122,6 +122,19 @@ class StubAppDotNetAPI extends LokiAppDotNetServerAPI {
         },
       };
     }
+    if (
+      endpoint === 'files'
+    ) {
+      return {
+        statusCode: 200,
+        response: {
+          data: {
+            url: 'fakeurl',
+            id: 12345,
+          },
+        },
+      };
+    }
 
     if (endpoint === 'channels/1') {
       let name = 'Unknown group';
