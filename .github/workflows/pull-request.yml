@@ -28,11 +28,12 @@ jobs:
       - name: Pull git submodules
         run: git submodule update --init
 
-      - name: Install file server dependency
-        run: |
-          cd session-file-server
-          yarn install;
-          cd -
+      # file server dependencies are not needed for now
+      # - name: Install file server dependency
+      #   run: |
+      #     cd session-file-server
+      #     yarn install;
+      #     cd -
 
       - name: Install node
         uses: actions/setup-node@v1
