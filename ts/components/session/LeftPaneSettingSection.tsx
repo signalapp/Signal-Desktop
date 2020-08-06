@@ -215,7 +215,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
       {
         id: SessionSettingCategory.Blocked,
         title: window.i18n('settingsUnblockHeader'),
-        hidden: isSecondaryDevice,
+        hidden: false,
       },
       {
         id: SessionSettingCategory.Permissions,
