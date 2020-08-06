@@ -214,7 +214,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
       },
       {
         id: SessionSettingCategory.Blocked,
-        title: window.i18n('settingsUnblockHeader'),
+        title: window.i18n('blockedSettingsTitle'),
         hidden: false,
       },
       {
