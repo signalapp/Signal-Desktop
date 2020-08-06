@@ -7,7 +7,7 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from '../SessionButton';
-import { UserUtil } from '../../../util';
+import { UserUtil, BlockedNumberController } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { PubKey } from '../../../session/types';
 import { NumberUtils } from '../../../session/utils';
@@ -594,37 +594,41 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
 
   private getBlockedUserSettings(): Array<LocalSettingType> {
     const results: Array<LocalSettingType> = [];
-    const model = window.getConversations();
+    const blockedNumbers = BlockedNumberController.getBlockedNumbers();
 
-    for (const currentModel of model.models) {
-      let displayName = `User (...${currentModel.id.toString().substr(-6)})`;
+    for (const blockedNumber of blockedNumbers) {
+      
+      let displayName = `User (...${blockedNumber.substr(-6)})`;
 
-      if (currentModel.attributes.profile && currentModel.attributes.profile.displayName) {
+      let currentModel = window.ConversationController.get(blockedNumber);
+      if (
+        currentModel && 
+        currentModel.attributes.profile && 
+        currentModel.attributes.profile.displayName
+      ) {
         displayName = currentModel.attributes.profile.displayName
       }
 
-      if(currentModel.isBlocked()) {
-        results.push({
-          id: currentModel.id,
-          title: displayName,
-          description: currentModel.id,
-          type: SessionSettingType.Button,
-          category: SessionSettingCategory.Blocked,
-          content: {
-            buttonColor: SessionButtonColor.Danger,
-            buttonText: window.i18n('unblockUser'),
-          },
-          comparisonValue: undefined,
-          setFn: () => { 
-            currentModel.unblock()
-          },
-          hidden: false,
-          onClick: undefined,
-          confirmationDialogParams: undefined,
-        });
-      }
-    }
 
+      results.push({
+        id: blockedNumber,
+        title: displayName,
+        description: blockedNumber,
+        type: SessionSettingType.Button,
+        category: SessionSettingCategory.Blocked,
+        content: {
+          buttonColor: SessionButtonColor.Danger,
+          buttonText: window.i18n('unblockUser'),
+        },
+        comparisonValue: undefined,
+        setFn: () => { 
+          BlockedNumberController.unblock(blockedNumber)
+        },
+        hidden: false,
+        onClick: undefined,
+        confirmationDialogParams: undefined,
+      });
+    }
     return results;
   }
 
