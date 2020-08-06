@@ -19,12 +19,12 @@ chai.use(chaiAsPromised as any);
 chai.config.includeStack = true;
 
 // FIXME audric
-// // From https://github.com/chaijs/chai/issues/200
-// chai.use((_chai, _) => {
-//   _chai.Assertion.addMethod('withMessage', (msg:any) => {
-//     _.flag(Common, 'message', msg);
-//   });
-// });
+// From https://github.com/chaijs/chai/issues/200
+chai.use((_chai, _) => {
+  _chai.Assertion.addMethod('withMessage', (msg: string) => {
+    _.flag(Common, 'message', msg);
+  });
+});
 
 const STUB_SNODE_SERVER_PORT = 3000;
 const ENABLE_LOG = false;
@@ -272,7 +272,7 @@ export class Common {
     app1: Application,
     client2: [Application, string]
   ) {
-    const [app2, pubkey2] = client2;
+    const [_, pubkey2] = client2;
 
     /** add each other as friends */
     const textMessage = Common.generateSendMessageText();

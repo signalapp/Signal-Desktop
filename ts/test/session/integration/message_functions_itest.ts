@@ -30,13 +30,14 @@ describe('Message Functions', function() {
     await Common.stopStubSnodeServer();
   });
 
-  it('can send attachment', async () => {
+  it('messageFunction: can send attachment', async () => {
     // create group and add new friend
     await Common.addFriendToNewClosedGroup([app, app2], false);
 
     // send attachment from app1 to closed group
     const fileLocation = path.join(__dirname, 'test_attachment');
     const messageText = 'test_attachment';
+    await Common.closeToast(app);
 
     await Common.sendMessage(app, messageText, fileLocation);
 
@@ -52,7 +53,7 @@ describe('Message Functions', function() {
     );
   });
 
-  it('can delete message', async () => {
+  it('messageFunction: can delete message', async () => {
     // create group and add new friend
     await Common.addFriendToNewClosedGroup([app, app2], false);
     const messageText = 'delete_me';

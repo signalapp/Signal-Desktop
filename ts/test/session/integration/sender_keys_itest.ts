@@ -36,10 +36,14 @@ async function makeFriendsPlusMessage(
   app: Application,
   [app2, pubkey]: [Application, string]
 ) {
+
   await Common.makeFriends(app, [app2, pubkey]);
 
   // Send something back so that `app` can see our name
+  await app2.client.waitForExist(ConversationPage.conversationItem, 5000);
+  await app2.client.element(ConversationPage.conversationItem).click();
   const text = await generateAndSendMessage(app2);
+
   await app.client.waitForExist(
     ConversationPage.existingReceivedMessageText(text),
     8000
@@ -104,8 +108,8 @@ async function testThreeMembers() {
   ]);
 
   // 2. Make A friends with B and C (B and C are not friends)
-
   await makeFriendsPlusMessage(app1, [app2, Common.TEST_PUBKEY2]);
+
   await makeFriendsPlusMessage(app1, [app3, Common.TEST_PUBKEY3]);
 
   const useSenderKeys = true;
@@ -116,17 +120,14 @@ async function testThreeMembers() {
 
   // 4. Test that all members can see the message from app1
   const text1 = await generateAndSendMessage(app1);
-
   await app2.client.waitForExist(
     ConversationPage.existingReceivedMessageText(text1),
     5000
   );
-
   await app3.client.waitForExist(
     ConversationPage.existingReceivedMessageText(text1),
     5000
   );
-
   // TODO: test that B and C can send messages to the group
 
   // const text2 = await generateAndSendMessage(app3);

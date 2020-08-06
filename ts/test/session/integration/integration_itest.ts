@@ -7,10 +7,10 @@ import './open_group_itest';
 import './add_contacts_itest';
 import './link_device_itest';
 import './closed_group_itest';
-// import './message_functions_itest';
-// import './settings_itest';
-// import'./message_sync_itest';
-// import './sender_keys_itest';
+import './message_functions_itest';
+import './settings_itest';
+import './message_sync_itest';
+import './sender_keys_itest';
 
 before(async function() {
   // start the app once before all tests to get the platform-dependent

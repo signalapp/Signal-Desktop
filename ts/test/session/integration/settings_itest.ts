@@ -40,7 +40,7 @@ describe('Settings', function() {
     await Common.stopStubSnodeServer();
   });
 
-  it('can toggle menubar', async () => {
+  it('settings: can toggle menubar', async () => {
     const menuBarVisible = await app.browserWindow.isMenuBarVisible();
 
     await app.client.element(SettingsPage.settingsButtonSection).click();
@@ -53,7 +53,7 @@ describe('Settings', function() {
     menuBarToggled.should.equal(!menuBarVisible);
   });
 
-  it('can set password', async () => {
+  it('settings: can set password', async () => {
     await app.client
       .element(SettingsPage.settingsRowWithText('Privacy'))
       .click();
@@ -84,7 +84,7 @@ describe('Settings', function() {
     await Common.closeToast(app);
   });
 
-  it('can remove password', async () => {
+  it('settings: can remove password', async () => {
     // Enter password to unlock settings
     await Common.setValueWrapper(
       app,

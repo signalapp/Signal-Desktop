@@ -4,7 +4,7 @@
 // tslint:disable: no-implicit-dependencies
 // tslint:disable: no-invalid-this
 
-import { after, before, describe, it } from 'mocha';
+import { after, before, it, describe} from 'mocha';
 import { Common } from './common';
 import { Application } from 'spectron';
 
@@ -40,7 +40,7 @@ describe('Message Syncing', function() {
     await Common.stopStubSnodeServer();
   });
 
-  it('message syncing with 1 friend, 1 closed group, 1 open group', async () => {
+  xit('message syncing with 1 friend, 1 closed group, 1 open group', async () => {
     // Alice1 has:
     //  *  no linked device
     //  *  Bob is a friend
