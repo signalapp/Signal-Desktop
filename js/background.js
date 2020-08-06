@@ -129,6 +129,52 @@
   //   of preload.js processing
   window.setImmediate = window.nodeSetImmediate;
 
+  window.toasts = new Map();
+  window.pushToast = options => {
+    // Setting toasts with the same ID can be used to prevent identical
+    // toasts from appearing at once (stacking).
+    // If toast already exists, it will be reloaded (updated)
+
+    const params = {
+      title: options.title,
+      id: options.id || window.generateID(),
+      description: options.description || '',
+      type: options.type || '',
+      icon: options.icon || '',
+      shouldFade: options.shouldFade,
+    };
+
+    // Give all toasts an ID. User may define.
+    let currentToast;
+    const toastID = params.id;
+    const toast = !!toastID && window.toasts.get(toastID);
+    if (toast) {
+      currentToast = window.toasts.get(toastID);
+      currentToast.update(params);
+    } else {
+      // Make new Toast
+      window.toasts.set(
+        toastID,
+        new Whisper.SessionToastView({
+          el: $('body'),
+        })
+      );
+
+      currentToast = window.toasts.get(toastID);
+      currentToast.render();
+      currentToast.update(params);
+    }
+
+    // Remove some toasts if too many exist
+    const maxToasts = 6;
+    while (window.toasts.size > maxToasts) {
+      const finalToastID = window.toasts.keys().next().value;
+      window.toasts.get(finalToastID).fadeToast();
+    }
+
+    return toastID;
+  };
+
   const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
   const {
     mandatoryMessageUpgrade,
@@ -151,6 +197,20 @@
 
   window.log.info('background page reloaded');
   window.log.info('environment:', window.getEnvironment());
+  const restartReason = localStorage.getItem('restart-reason');
+  window.log.info('restartReason:', restartReason);
+
+  if (restartReason === 'unlink') {
+    setTimeout(() => {
+      localStorage.removeItem('restart-reason');
+
+      window.pushToast({
+        title: window.i18n('successUnlinked'),
+        type: 'info',
+        id: '123',
+      });
+    }, 2000);
+  }
 
   let idleDetector;
   let initialLoadComplete = false;
@@ -302,7 +362,7 @@
 
     // 4th August 2020 - Force wipe of secondary devices as multi device is being disabled.
     if (storage.get('isSecondaryDevice')) {
-      await window.deleteAccount();
+      await window.deleteAccount('unlink');
       return;
     }
 
@@ -759,52 +819,6 @@
       Math.random()
         .toString(36)
         .substring(3);
-
-    window.toasts = new Map();
-    window.pushToast = options => {
-      // Setting toasts with the same ID can be used to prevent identical
-      // toasts from appearing at once (stacking).
-      // If toast already exists, it will be reloaded (updated)
-
-      const params = {
-        title: options.title,
-        id: options.id || window.generateID(),
-        description: options.description || '',
-        type: options.type || '',
-        icon: options.icon || '',
-        shouldFade: options.shouldFade,
-      };
-
-      // Give all toasts an ID. User may define.
-      let currentToast;
-      const toastID = params.id;
-      const toast = !!toastID && window.toasts.get(toastID);
-      if (toast) {
-        currentToast = window.toasts.get(toastID);
-        currentToast.update(params);
-      } else {
-        // Make new Toast
-        window.toasts.set(
-          toastID,
-          new Whisper.SessionToastView({
-            el: $('body'),
-          })
-        );
-
-        currentToast = window.toasts.get(toastID);
-        currentToast.render();
-        currentToast.update(params);
-      }
-
-      // Remove some toasts if too many exist
-      const maxToasts = 6;
-      while (window.toasts.size > maxToasts) {
-        const finalToastID = window.toasts.keys().next().value;
-        window.toasts.get(finalToastID).fadeToast();
-      }
-
-      return toastID;
-    };
 
     // Get memberlist. This function is not accurate >>
     // window.getMemberList = window.lokiPublicChatAPI.getListOfMembers();

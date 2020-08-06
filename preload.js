@@ -505,7 +505,7 @@ const {
 
 window.BlockedNumberController = BlockedNumberController;
 
-window.deleteAccount = async () => {
+window.deleteAccount = async reason => {
   try {
     window.log.info('Deleting everything!');
 
@@ -517,6 +517,8 @@ window.deleteAccount = async () => {
     await window.Signal.Data.removeDB();
 
     await window.Signal.Data.removeOtherData();
+    // 'unlink' => toast will be shown on app restart
+    window.localStorage.setItem('restart-reason', reason);
   } catch (error) {
     window.log.error(
       'Something went wrong deleting all data:',
