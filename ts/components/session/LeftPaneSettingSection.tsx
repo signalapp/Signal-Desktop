@@ -219,7 +219,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
       },
       {
         id: SessionSettingCategory.Notifications,
-        title: window.i18n('notificationSettingsTitle'),
+        title: window.i18n('notificationsSettingsTitle'),
         hidden: false,
       },
       {

@@ -134,20 +134,20 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         buttonText = window.i18n('next');
         descriptionLong = window.i18n('usersCanShareTheir...');
         subtitle = window.i18n('enterSessionID');
-        placeholder = window.i18n('pasteSessionIDRecipient');
+        placeholder = window.i18n('enterSessionID');
         break;
       case 'contact':
         title = window.i18n('addContact');
         buttonText = window.i18n('next');
         descriptionLong = window.i18n('usersCanShareTheir...');
         subtitle = window.i18n('enterSessionID');
-        placeholder = window.i18n('pasteSessionIDRecipient');
+        placeholder = window.i18n('enterSessionID');
         break;
       case 'open-group':
-        title = window.i18n('addChannel');
-        buttonText = window.i18n('joinChannel');
+        title = window.i18n('joinOpenGroup');
+        buttonText = window.i18n('joinOpenGroup');
         descriptionLong = window.i18n('addChannelDescription');
-        subtitle = window.i18n('enterChannelURL');
+        subtitle = window.i18n('enterOpenGroupURL');
         placeholder = window.i18n('channelUrlPlaceholder');
         break;
       case 'closed-group':
@@ -239,13 +239,13 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
           <UserSearchDropdown
             searchTerm={searchTerm || ''}
             updateSearch={updateSearch}
-            placeholder={window.i18n('searchByIDOrDisplayName')}
+            placeholder={window.i18n('searchForAKeyPhrase')}
             searchResults={searchResults}
           />
         )}
 
         {isAddContactView && (
-          <PillDivider text={window.i18n('yourPublicKey')} />
+          <PillDivider text={window.i18n('yourSessionID')} />
         )}
 
         {isAddContactView && (

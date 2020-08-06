@@ -141,9 +141,7 @@ export function getDeleteContactMenuItem(
 ): JSX.Element | null {
   if (showDeleteContact(isMe, isClosable, isGroup, isPublic, isRss)) {
     if (isPublic) {
-      return (
-        <MenuItem onClick={action}>{i18n('deletePublicChannel')}</MenuItem>
-      );
+      return <MenuItem onClick={action}>{i18n('leaveOpenGroup')}</MenuItem>;
     }
     return <MenuItem onClick={action}>{i18n('deleteContact')}</MenuItem>;
   }
@@ -159,7 +157,7 @@ export function getLeaveGroupMenuItem(
   i18n: LocalizerType
 ): JSX.Element | null {
   if (showLeaveGroup(isKickedFromGroup, isGroup, isPublic, isRss)) {
-    return <MenuItem onClick={action}>{i18n('leaveGroup')}</MenuItem>;
+    return <MenuItem onClick={action}>{i18n('leaveClosedGroup')}</MenuItem>;
   }
   return null;
 }
