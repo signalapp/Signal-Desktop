@@ -225,7 +225,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
       {
         id: SessionSettingCategory.Devices,
         title: window.i18n('devicesSettingsTitle'),
-        hidden: isSecondaryDevice,
+        hidden: !window.lokiFeatureFlags.useMultiDevice || isSecondaryDevice,
       },
     ];
   }

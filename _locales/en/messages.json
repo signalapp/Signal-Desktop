@@ -1302,22 +1302,6 @@
     "message": "Typing Indicators",
     "description": "Title of the typing indicators setting"
   },
-  "multiDeviceDisabledTemporary": {
-    "message": "MultiDevice disabled temporarily",
-    "description": "Description of why multi device is disabled"
-  },
-  "multiDeviceDisabledTemporaryTitle": {
-    "message": "Changes to Multi-device",
-    "description": "Description of why multi device is disabled on app start"
-  },
-  "multiDeviceDisabledTemporaryDescriptionPrimary": {
-    "message": "You’re seeing this because you have a secondary device linked to your Session ID. To improve reliability and stability, we’ve decided to temporarily disable Session’s multi-device functionality. Device linking has been disabled, and existing secondary clients will be erased on <span style=\"color:#00f782\">August 6th</span>.</br></br>To read more about this change, visit the Session FAQ at <a href=\"https://getsession.org/faq\">getsession.org/faq</a>.",
-    "description": "Description of why multi device is disabled on app start for a primary device"
-  },
-  "multiDeviceDisabledTemporaryDescriptionSecondary": {
-    "message": "You’re seeing this because this is a secondary device in a multi-device setup. To improve reliability and stability, we’ve decided to temporarily disable Session’s multi-device functionality. Device linking has been disabled, and existing secondary clients will be erased on <span style=\"color:#00f782\">August 6th</span>.</br></br>To read more about this change, visit the Session FAQ at <a href=\"https://getsession.org/faq\">getsession.org/faq</a>.",
-    "description": "Description of why multi device is disabled on app start for a secondary device"
-  },
   "messageTTL": {
     "message": "Message TTL",
     "description": "Title of the Message TTL setting"
@@ -1751,6 +1735,9 @@
   },
   "unlinked": {
     "message": "Unlinked"
+  },
+  "successUnlinked": {
+    "message": "Your device was unlinked successfully"
   },
   "relink": {
     "message": "Relink"
