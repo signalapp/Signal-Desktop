@@ -597,13 +597,12 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     const model = window.getConversations();
 
     for (const currentModel of model.models) {
-      let displayName = `User (...${currentModel.id.toString().substr(-6)})`;
-
-      if (currentModel.attributes.profile && currentModel.attributes.profile.displayName) {
-        displayName = currentModel.attributes.profile.displayName
-      }
-
       if(currentModel.isBlocked()) {
+            let displayName = `User (...${currentModel.id.toString().substr(-6)})`;
+
+      		if (currentModel.attributes.profile && currentModel.attributes.profile.displayName) {
+        		displayName = currentModel.attributes.profile.displayName
+ 		     }
         results.push({
           id: currentModel.id,
           title: displayName,
