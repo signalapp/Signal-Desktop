@@ -26,6 +26,7 @@ export type PropsData = {
   unreadCount?: number;
   isSelected: boolean;
 
+  isAccepted?: boolean;
   draftPreview?: string;
   shouldShowDraft?: boolean;
 
@@ -152,6 +153,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
     const {
       draftPreview,
       i18n,
+      isAccepted,
       lastMessage,
       shouldShowDraft,
       typingContact,
@@ -187,7 +189,11 @@ export class ConversationListItem extends React.PureComponent<Props> {
               : null
           )}
         >
-          {typingContact ? (
+          {!isAccepted ? (
+            <span className="module-conversation-list-item__message-request">
+              {i18n('ConversationListItem--message-request')}
+            </span>
+          ) : typingContact ? (
             <TypingAnimation i18n={i18n} />
           ) : (
             <>

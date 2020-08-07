@@ -210,6 +210,12 @@ export type ServerInterface = DataInterface & {
     conversationId: string,
     options?: { limit?: number; receivedAt?: number }
   ) => Promise<Array<MessageTypeUnhydrated>>;
+  getLastConversationActivity: (
+    conversationId: string
+  ) => Promise<MessageType | undefined>;
+  getLastConversationPreview: (
+    conversationId: string
+  ) => Promise<MessageType | undefined>;
   getNextExpiringMessage: () => Promise<MessageType>;
   getNextTapToViewMessageToAgeOut: () => Promise<MessageType>;
   getOutgoingWithoutExpiresAt: () => Promise<Array<MessageType>>;
@@ -308,6 +314,18 @@ export type ClientInterface = DataInterface & {
       MessageCollection: typeof MessageModelCollectionType;
     }
   ) => Promise<MessageModelCollectionType>;
+  getLastConversationActivity: (
+    conversationId: string,
+    options: {
+      Message: typeof MessageModelType;
+    }
+  ) => Promise<MessageModelType | undefined>;
+  getLastConversationPreview: (
+    conversationId: string,
+    options: {
+      Message: typeof MessageModelType;
+    }
+  ) => Promise<MessageModelType | undefined>;
   getNextExpiringMessage: ({
     Message,
   }: {

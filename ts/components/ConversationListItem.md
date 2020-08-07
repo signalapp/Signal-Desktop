@@ -4,6 +4,8 @@
 <util.LeftPaneContext theme={util.theme}>
   <ConversationListItem
     id="conversationId1"
+    isAccepted
+    title="Someone 🔥 Somewhere"
     name="Someone 🔥 Somewhere"
     type={'direct'}
     phoneNumber="(202) 555-0011"
@@ -25,8 +27,10 @@
 <util.LeftPaneContext theme={util.theme}>
   <ConversationListItem
     id="conversationId1"
+    isAccepted
     phoneNumber="(202) 555-0011"
     type={'direct'}
+    title="Mr. Fire🔥"
     name="Mr. Fire🔥"
     color="green"
     lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -46,9 +50,11 @@
 <util.LeftPaneContext theme={util.theme}>
   <ConversationListItem
     id="conversationId1"
+    isAccepted
     isMe={true}
     phoneNumber="(202) 555-0011"
     type={'direct'}
+    title="Mr. Fire🔥"
     name="Mr. Fire🔥"
     color="green"
     lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -69,8 +75,10 @@
   <div>
     <ConversationListItem
       id="conversationId1"
+      isAccepted
       phoneNumber="(202) 555-0011"
       type={'direct'}
+      title="Mr. Fire🔥"
       name="Mr. Fire🔥"
       color="green"
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -83,8 +91,10 @@
     />
     <ConversationListItem
       id="conversationId2"
+      isAccepted
       phoneNumber="(202) 555-0011"
       type={'direct'}
+      title="Mr. Fire🔥"
       name="Mr. Fire🔥"
       color="green"
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -97,8 +107,10 @@
     />
     <ConversationListItem
       id="conversationId3"
+      isAccepted
       phoneNumber="(202) 555-0011"
       type={'direct'}
+      title="Mr. Fire🔥"
       name="Mr. Fire🔥"
       color="green"
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -111,8 +123,10 @@
     />
     <ConversationListItem
       id="conversationId4"
+      isAccepted
       phoneNumber="(202) 555-0011"
       type={'direct'}
+      title="Mr. Fire🔥"
       name="Mr. Fire🔥"
       color="green"
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -125,8 +139,10 @@
     />
     <ConversationListItem
       id="conversationId5"
+      isAccepted
       phoneNumber="(202) 555-0011"
       type={'direct'}
+      title="Mr. Fire🔥"
       name="Mr. Fire🔥"
       color="green"
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -148,7 +164,9 @@
   <div>
     <ConversationListItem
       id="conversationId1"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       unreadCount={4}
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -162,7 +180,51 @@
   <div>
     <ConversationListItem
       id="conversationId2"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
+      type={'direct'}
+      unreadCount={4}
+      lastUpdated={Date.now() - 5 * 60 * 1000}
+      typingContact={{
+        name: 'Someone Here',
+      }}
+      lastMessage={{
+        status: 'read',
+      }}
+      onClick={result => console.log('onClick', result)}
+      i18n={util.i18n}
+    />
+  </div>
+</util.LeftPaneContext>
+```
+
+#### Message Request
+
+```jsx
+<util.LeftPaneContext theme={util.theme}>
+  <div>
+    <ConversationListItem
+      id="conversationId1"
+      isAccepted={false}
+      phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
+      type={'direct'}
+      unreadCount={4}
+      lastUpdated={Date.now() - 5 * 60 * 1000}
+      typingContact={{
+        name: 'Someone Here',
+      }}
+      onClick={result => console.log('onClick', result)}
+      i18n={util.i18n}
+    />
+  </div>
+  <div>
+    <ConversationListItem
+      id="conversationId2"
+      isAccepted={false}
+      phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       unreadCount={4}
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -188,7 +250,9 @@
   <div>
     <ConversationListItem
       id="conversationId1"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       unreadCount={4}
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -200,7 +264,9 @@
     />
     <ConversationListItem
       id="conversationId2"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       unreadCount={10}
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -212,7 +278,9 @@
     />
     <ConversationListItem
       id="conversationId3"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       unreadCount={250}
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -232,7 +300,9 @@
 <util.LeftPaneContext theme={util.theme}>
   <ConversationListItem
     id="conversationId1"
+    isAccepted
     phoneNumber="(202) 555-0011"
+    title="(202) 555-0011"
     type={'direct'}
     isSelected={true}
     lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -254,7 +324,9 @@ We don't want Jumbomoji or links.
   <div>
     <ConversationListItem
       id="conversationId1"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
@@ -265,7 +337,9 @@ We don't want Jumbomoji or links.
     />
     <ConversationListItem
       id="conversationId2"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
@@ -287,7 +361,9 @@ We only show one line.
   <div>
     <ConversationListItem
       id="conversationId1"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       name="Long contact name. Esquire. The third. And stuff. And more! And more!"
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -299,7 +375,9 @@ We only show one line.
     />
     <ConversationListItem
       id="conversationId2"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
@@ -311,7 +389,9 @@ We only show one line.
     />
     <ConversationListItem
       id="conversationId3"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
@@ -325,7 +405,9 @@ We only show one line.
 
     <ConversationListItem
       id="conversationId4"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       unreadCount={8}
@@ -338,7 +420,9 @@ We only show one line.
     />
     <ConversationListItem
       id="conversationId5"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
@@ -350,7 +434,9 @@ We only show one line.
     />
     <ConversationListItem
       id="conversationId6"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
@@ -374,7 +460,9 @@ On platforms that show scrollbars all the time, this is true all the time.
   <div style={{ width: '280px' }}>
     <ConversationListItem
       id="conversationId1"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       name="Long contact name. Esquire. The third. And stuff. And more! And more!"
       lastUpdated={Date.now() - 5 * 60 * 1000}
@@ -386,7 +474,9 @@ On platforms that show scrollbars all the time, this is true all the time.
     />
     <ConversationListItem
       id="conversationId2"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
@@ -407,7 +497,9 @@ On platforms that show scrollbars all the time, this is true all the time.
   <div>
     <ConversationListItem
       id="conversationId1"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 60 * 1000}
       lastMessage={{
@@ -418,7 +510,9 @@ On platforms that show scrollbars all the time, this is true all the time.
     />
     <ConversationListItem
       id="conversationId2"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       lastUpdated={Date.now() - 24 * 60 * 60 * 1000}
       lastMessage={{
@@ -429,7 +523,9 @@ On platforms that show scrollbars all the time, this is true all the time.
     />
     <ConversationListItem
       id="conversationId3"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       lastUpdated={Date.now() - 7 * 24 * 60 * 60 * 1000}
       lastMessage={{
@@ -440,7 +536,9 @@ On platforms that show scrollbars all the time, this is true all the time.
     />
     <ConversationListItem
       id="conversationId4"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       lastUpdated={Date.now() - 365 * 24 * 60 * 60 * 1000}
       lastMessage={{
@@ -460,7 +558,9 @@ On platforms that show scrollbars all the time, this is true all the time.
   <div>
     <ConversationListItem
       id="conversationId1"
+      isAccepted
       name="John"
+      title="John"
       type={'direct'}
       lastUpdated={null}
       lastMessage={{
@@ -471,7 +571,9 @@ On platforms that show scrollbars all the time, this is true all the time.
     />
     <ConversationListItem
       id="conversationId2"
+      isAccepted
       name="Missing message"
+      title="Missing message"
       type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{
@@ -482,7 +584,9 @@ On platforms that show scrollbars all the time, this is true all the time.
     />
     <ConversationListItem
       id="conversationId3"
+      isAccepted
       phoneNumber="(202) 555-0011"
+      title="(202) 555-0011"
       type={'direct'}
       lastUpdated={Date.now() - 5 * 60 * 1000}
       lastMessage={{

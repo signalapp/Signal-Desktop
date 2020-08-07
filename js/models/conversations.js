@@ -28,7 +28,7 @@
   };
 
   const { Util } = window.Signal;
-  const { Conversation, Contact, Message } = window.Signal.Types;
+  const { Contact, Message } = window.Signal.Types;
   const {
     deleteAttachmentData,
     doesAttachmentExist,
@@ -134,12 +134,6 @@
         this.updateLastMessage.bind(this),
         200
       );
-      this.throttledUpdateSharedGroups =
-        this.throttledUpdateSharedGroups ||
-        _.throttle(
-          this.updateSharedGroups.bind(this),
-          1000 * 60 * 5 // five minutes
-        );
 
       this.listenTo(
         this.messageCollection,
@@ -175,10 +169,11 @@
       this.typingPauseTimer = null;
 
       // Keep props ready
-      this.generateProps = () => {
+      const generateProps = () => {
         this.cachedProps = this.getProps();
       };
-      this.on('change', this.generateProps);
+      this.on('change', generateProps);
+      generateProps();
     },
 
     isMe() {
@@ -451,8 +446,6 @@
     getProps() {
       const color = this.getColor();
 
-      this.throttledUpdateSharedGroups();
-
       const typingValues = _.values(this.contactTypingTimers || {});
       const typingMostRecent = _.first(_.sortBy(typingValues, 'timestamp'));
       const typingContact = typingMostRecent
@@ -575,15 +568,16 @@
     async handleReadAndDownloadAttachments() {
       let messages;
       do {
+        const first = messages ? messages.first() : null;
+
         // eslint-disable-next-line no-await-in-loop
         messages = await window.Signal.Data.getOlderMessagesByConversation(
           this.get('id'),
           {
             MessageCollection: Whisper.MessageCollection,
             limit: 100,
-            receivedAt: messages
-              ? messages.first().get('received_at')
-              : undefined,
+            receivedAt: first ? first.get('received_at') : null,
+            messageId: first ? first.id : null,
           }
         );
 
@@ -959,13 +953,18 @@
         (this.get('messageCountBeforeMessageRequests') || 0) > 0;
       const hasNoMessages = (this.get('messageCount') || 0) === 0;
 
+      const isEmptyPrivateConvo = hasNoMessages && this.isPrivate();
+      const isEmptyWhitelistedGroup =
+        hasNoMessages && !this.isPrivate() && this.get('profileSharing');
+
       return (
         isFromOrAddedByTrustedContact ||
         hasSentMessages ||
         hasMessagesBeforeMessageRequests ||
-        // an empty conversation is the scenario where we need to rely on
+        // an empty group is the scenario where we need to rely on
         // whether the profile has already been shared or not
-        (hasNoMessages && this.get('profileSharing'))
+        isEmptyPrivateConvo ||
+        isEmptyWhitelistedGroup
       );
     },
 
@@ -1868,37 +1867,40 @@
         return;
       }
 
-      const messages = await window.Signal.Data.getOlderMessagesByConversation(
-        this.id,
-        { limit: 1, MessageCollection: Whisper.MessageCollection }
-      );
+      const [previewMessage, activityMessage] = await Promise.all([
+        window.Signal.Data.getLastConversationPreview(this.id, {
+          Message: Whisper.Message,
+        }),
+        window.Signal.Data.getLastConversationActivity(this.id, {
+          Message: Whisper.Message,
+        }),
+      ]);
 
-      const lastMessageModel = messages.at(0);
+      // This is the less-restrictive of these two fetches; if it's falsey, both will be
+      if (!previewMessage) {
+        return;
+      }
+
       if (
         this.hasDraft() &&
         this.get('draftTimestamp') &&
-        (!lastMessageModel ||
-          lastMessageModel.get('sent_at') < this.get('draftTimestamp'))
+        previewMessage.get('sent_at') < this.get('draftTimestamp')
       ) {
         return;
       }
 
-      const lastMessageJSON = lastMessageModel
-        ? lastMessageModel.toJSON()
-        : null;
-      const lastMessageStatusModel = lastMessageModel
-        ? lastMessageModel.getMessagePropStatus()
-        : null;
-      const lastMessageUpdate = Conversation.createLastMessageUpdate({
-        currentTimestamp: this.get('timestamp') || null,
-        lastMessage: lastMessageJSON,
-        lastMessageStatus: lastMessageStatusModel,
-        lastMessageNotificationText: lastMessageModel
-          ? lastMessageModel.getNotificationText()
-          : null,
+      const currentTimestamp = this.get('timestamp') || null;
+      const timestamp = activityMessage
+        ? activityMessage.sent_at || currentTimestamp
+        : currentTimestamp;
+
+      this.set({
+        lastMessage: previewMessage.getNotificationText() || '',
+        lastMessageStatus: previewMessage.getMessagePropStatus() || null,
+        timestamp,
+        lastMessageDeletedForEveryone: previewMessage.deletedForEveryone,
       });
 
-      this.set(lastMessageUpdate);
       window.Signal.Data.updateConversation(this.attributes);
     },
 

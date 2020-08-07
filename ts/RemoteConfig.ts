@@ -42,7 +42,7 @@ export function onChange(key: ConfigKeyType, fn: ConfigListenerType) {
   };
 }
 
-const refreshRemoteConfig = async () => {
+export const refreshRemoteConfig = async () => {
   const now = Date.now();
   const server = getServer();
   const newConfig = await server.getConfig();

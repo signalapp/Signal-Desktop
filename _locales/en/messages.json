@@ -1764,6 +1764,10 @@
     }
   },
 
+  "ConversationListItem--message-request": {
+    "message": "Message Request",
+    "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
+  },
   "ConversationListItem--draft-prefix": {
     "message": "Draft:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"

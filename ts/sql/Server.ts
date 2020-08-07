@@ -132,6 +132,8 @@ const dataInterface: ServerInterface = {
   getOlderMessagesByConversation,
   getNewerMessagesByConversation,
   getMessageMetricsForConversation,
+  getLastConversationActivity,
+  getLastConversationPreview,
   migrateConversationMessages,
 
   getUnprocessedCount,
@@ -2748,6 +2750,50 @@ async function getNewestMessageForConversation(conversationId: string) {
   }
 
   return row;
+}
+
+async function getLastConversationActivity(
+  conversationId: string
+): Promise<MessageType | null> {
+  const db = getInstance();
+  const row = await db.get(
+    `SELECT * FROM messages WHERE
+       conversationId = $conversationId AND
+       type NOT IN ('profile-change', 'verified-change', 'message-history-unsynced') AND
+       json_extract(json, '$.expirationTimerUpdate.fromSync') != true
+     ORDER BY received_at DESC
+     LIMIT 1;`,
+    {
+      $conversationId: conversationId,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+async function getLastConversationPreview(
+  conversationId: string
+): Promise<MessageType | null> {
+  const db = getInstance();
+  const row = await db.get(
+    `SELECT * FROM messages WHERE
+       conversationId = $conversationId AND
+       type NOT IN ('profile-change', 'verified-change', 'message-history-unsynced')
+     ORDER BY received_at DESC
+     LIMIT 1;`,
+    {
+      $conversationId: conversationId,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
 }
 async function getOldestUnreadMessageForConversation(conversationId: string) {
   const db = getInstance();

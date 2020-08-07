@@ -636,8 +636,6 @@ export class ConversationController {
 
         await Promise.all(
           this._conversations.map(async conversation => {
-            conversation.generateProps();
-
             if (!conversation.get('lastMessage')) {
               await conversation.updateLastMessage();
             }
