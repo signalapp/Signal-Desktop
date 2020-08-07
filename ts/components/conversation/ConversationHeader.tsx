@@ -2,12 +2,7 @@ import React from 'react';
 
 import { Avatar } from '../Avatar';
 import { Colors, LocalizerType } from '../../types/Util';
-import {
-  ContextMenu,
-  ContextMenuTrigger,
-  MenuItem,
-  SubMenu,
-} from 'react-contextmenu';
+import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 import {
   SessionIconButton,

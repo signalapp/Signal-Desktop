@@ -596,8 +596,7 @@
     "description": "Shown to separate the types of search results"
   },
   "settingsHeader": {
-    "message": "Settings",
-    "description": "Shown to separate the types of search results"
+    "message": "Settings"
   },
   "welcomeToSession": {
     "message": "Welcome to Session"
@@ -722,9 +721,6 @@
   },
   "cancel": {
     "message": "Cancel"
-  },
-  "copy": {
-    "message": "Copy"
   },
   "close": {
     "message": "Close"
@@ -913,11 +909,7 @@
     "message": "Permanently delete the messages in this conversation?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
-  "deletePublicChannel": {
-    "message": "Leave Channel",
-    "description": "Confirmation dialog title that asks the user if they really wish to delete a public channel. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-  },
-  "deletePublicChannelConfirmation": {
+  "leaveOpenGroupConfirmation": {
     "message": "Leave this Open Group?",
     "description": "Confirmation dialog text that tells the user what will happen if they leave the public channel."
   },
@@ -1051,7 +1043,7 @@
     "description": "Header for general options on the settings screen"
   },
   "linkPreviewsTitle": {
-    "message": "Link Previews",
+    "message": "Send Link Previews",
     "description": "Option to control creation and send of link previews in setting screen"
   },
   "linkPreviewDescription": {
@@ -1115,22 +1107,6 @@
   "typingIndicatorsSettingTitle": {
     "message": "Typing Indicators",
     "description": "Title of the typing indicators setting"
-  },
-  "multiDeviceDisabledTemporary": {
-    "message": "MultiDevice disabled temporarily",
-    "description": "Description of why multi device is disabled"
-  },
-  "multiDeviceDisabledTemporaryTitle": {
-    "message": "Changes to Multi-device",
-    "description": "Description of why multi device is disabled on app start"
-  },
-  "multiDeviceDisabledTemporaryDescriptionPrimary": {
-    "message": "You’re seeing this because you have a secondary device linked to your Session ID. To improve reliability and stability, we’ve decided to temporarily disable Session’s multi-device functionality. Device linking has been disabled, and existing secondary clients will be erased on <span style=\"color:#00f782\">August 6th</span>.</br></br>To read more about this change, visit the Session FAQ at <a href=\"https://getsession.org/faq\">getsession.org/faq</a>.",
-    "description": "Description of why multi device is disabled on app start for a primary device"
-  },
-  "multiDeviceDisabledTemporaryDescriptionSecondary": {
-    "message": "You’re seeing this because this is a secondary device in a multi-device setup. To improve reliability and stability, we’ve decided to temporarily disable Session’s multi-device functionality. Device linking has been disabled, and existing secondary clients will be erased on <span style=\"color:#00f782\">August 6th</span>.</br></br>To read more about this change, visit the Session FAQ at <a href=\"https://getsession.org/faq\">getsession.org/faq</a>.",
-    "description": "Description of why multi device is disabled on app start for a secondary device"
   },
   "messageTTL": {
     "message": "Message TTL",
@@ -1470,6 +1446,9 @@
   "unlinked": {
     "message": "Unlinked"
   },
+  "successUnlinked": {
+    "message": "Your device was unlinked successfully"
+  },
   "relink": {
     "message": "Relink"
   },
@@ -1606,10 +1585,6 @@
   },
   "copyChatId": {
     "message": "Copy Chat ID"
-  },
-  "leaveGroup": {
-    "message": "Leave Group",
-    "description": "Button action that the user can click to leave the group"
   },
   "leaveOpenGroup": {
     "message": "Leave Open Group",
@@ -2009,14 +1984,8 @@
   "enterSessionID": {
     "message": "Enter Session ID"
   },
-  "pasteSessionIDRecipient": {
-    "message": "Enter a Session ID"
-  },
   "usersCanShareTheir...": {
     "message": "Users can share their Session ID from their account settings, or by sharing their QR code."
-  },
-  "searchByIDOrDisplayName": {
-    "message": "Search by ID # or Display Name"
   },
   "message": {
     "message": "Message"
@@ -2030,9 +1999,6 @@
   "createGroup": {
     "message": "Create Group"
   },
-  "yourPublicKey": {
-    "message": "Your Session ID"
-  },
   "appearanceSettingsTitle": {
     "message": "Appearance"
   },
@@ -2042,7 +2008,7 @@
   "privacySettingsTitle": {
     "message": "Privacy"
   },
-  "notificationSettingsTitle": {
+  "notificationsSettingsTitle": {
     "message": "Notifications"
   },
   "devicesSettingsTitle": {
@@ -2062,9 +2028,6 @@
         "example": "26"
       }
     }
-  },
-  "addChannel": {
-    "message": "Join Open Group"
   },
   "joinOpenGroup": {
     "message": "Join Open Group"
@@ -2087,7 +2050,7 @@
   "closedGroupCreatedToastTitle": {
     "message": "Group created successfully"
   },
-  "enterChannelURL": {
+  "enterOpenGroupURL": {
     "message": "Enter Open Group URL"
   },
   "channelUrlPlaceholder": {

@@ -12,6 +12,7 @@ interface Props extends SettingsViewProps {
   showLinkDeviceButton: boolean | null;
   // isSecondaryDevice is used to just disable the linkDeviceButton when we are already a secondary device
   isSecondaryDevice: boolean;
+  categoryTitle: string;
 }
 
 export class SettingsHeader extends React.Component<Props, any> {
@@ -65,23 +66,12 @@ export class SettingsHeader extends React.Component<Props, any> {
   }
 
   public render() {
-    const { category } = this.props;
+    const { category, categoryTitle } = this.props;
     const { disableLinkDeviceButton } = this.state;
-    const categoryString = String(category);
-    const categoryTitlePrefix =
-      categoryString[0].toUpperCase() + categoryString.substr(1);
-    // Remove 's' on the end to keep words in singular form
-    const categoryTitle =
-      categoryTitlePrefix[categoryTitlePrefix.length - 1] === 's'
-        ? `${categoryTitlePrefix.slice(0, -1)} Settings`
-        : `${categoryTitlePrefix} Settings`;
     const showSearch = false;
-    const showAddDevice = false;
-    /* FIXME enable back to allow linking of device
-      const showAddDevice =
+    const showAddDevice =
       category === SessionSettingCategory.Devices &&
       this.props.showLinkDeviceButton;
-      */
 
     return (
       <div className="session-settings-header">

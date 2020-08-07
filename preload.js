@@ -456,6 +456,7 @@ window.lokiFeatureFlags = {
   enableSenderKeys: false,
   onionRequestHops: 3,
   debugMessageLogs: process.env.ENABLE_MESSAGE_LOGS,
+  useMultiDevice: false,
 };
 
 // eslint-disable-next-line no-extend-native,func-names
@@ -492,6 +493,7 @@ if (config.environment.includes('test-integration')) {
     useFileOnionRequests: false,
     debugMessageLogs: true,
     enableSenderKeys: true,
+    useMultiDevice: false,
   };
   /* eslint-disable global-require, import/no-extraneous-dependencies */
   window.sinon = require('sinon');
@@ -505,3 +507,26 @@ const {
 } = require('./ts/util/blockedNumberController');
 
 window.BlockedNumberController = BlockedNumberController;
+
+window.deleteAccount = async reason => {
+  try {
+    window.log.info('Deleting everything!');
+
+    const { Logs } = window.Signal;
+    await Logs.deleteAll();
+
+    await window.Signal.Data.removeAll();
+    await window.Signal.Data.close();
+    await window.Signal.Data.removeDB();
+
+    await window.Signal.Data.removeOtherData();
+    // 'unlink' => toast will be shown on app restart
+    window.localStorage.setItem('restart-reason', reason);
+  } catch (error) {
+    window.log.error(
+      'Something went wrong deleting all data:',
+      error && error.stack ? error.stack : error
+    );
+  }
+  window.restart();
+};

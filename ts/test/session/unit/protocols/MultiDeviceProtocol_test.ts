@@ -25,6 +25,13 @@ function generateFakeAuthorisations(
 describe('MultiDeviceProtocol', () => {
   const sandbox = sinon.createSandbox();
 
+  beforeEach(() => {
+    // Enable multidevice for tests
+    TestUtils.stubWindow('lokiFeatureFlags', {
+      useMultiDevice: true,
+    });
+  });
+
   afterEach(() => {
     TestUtils.restoreStubs();
     sandbox.restore();

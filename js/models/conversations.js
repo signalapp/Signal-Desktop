@@ -2210,16 +2210,20 @@
         return;
       }
 
-      const profileKeyBuffer = window.Signal.Crypto.base64ToArrayBuffer(
-        profileKey
-      );
-      const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(
-        profileKeyBuffer
-      );
-      const accessKey = window.Signal.Crypto.arrayBufferToBase64(
-        accessKeyBuffer
-      );
-      this.set({ accessKey });
+      try {
+        const profileKeyBuffer = window.Signal.Crypto.base64ToArrayBuffer(
+          profileKey
+        );
+        const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(
+          profileKeyBuffer
+        );
+        const accessKey = window.Signal.Crypto.arrayBufferToBase64(
+          accessKeyBuffer
+        );
+        this.set({ accessKey });
+      } catch (e) {
+        window.log.warn(`Failed to derive access key for ${this.id}`);
+      }
     },
 
     async upgradeMessages(messages) {
@@ -2327,8 +2331,8 @@
       let message = i18n('deleteContactConfirmation');
 
       if (this.isPublic()) {
-        title = i18n('deletePublicChannel');
-        message = i18n('deletePublicChannelConfirmation');
+        title = i18n('leaveOpenGroup');
+        message = i18n('leaveOpenGroupConfirmation');
       } else if (this.isClosedGroup()) {
         title = i18n('leaveClosedGroup');
         message = i18n('leaveClosedGroupConfirmation');

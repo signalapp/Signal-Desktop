@@ -9,6 +9,7 @@ on:
       - clearnet
       - github-actions
       - refactor-ts-react
+      - clean-en-translation
 
 jobs:
   build:

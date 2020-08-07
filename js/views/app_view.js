@@ -238,8 +238,8 @@
       let message = i18n('deleteContactConfirmation');
 
       if (groupConvo.isPublic()) {
-        title = i18n('deletePublicChannel');
-        message = i18n('deletePublicChannelConfirmation');
+        title = i18n('leaveOpenGroup');
+        message = i18n('leaveOpenGroupConfirmation');
       } else if (groupConvo.isClosedGroup()) {
         title = i18n('leaveClosedGroup');
         message = i18n('leaveClosedGroupConfirmation');
