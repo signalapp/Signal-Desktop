@@ -13,6 +13,7 @@ export type Props = {
   membersCount?: number;
   phoneNumber?: string;
   onHeightChange?: () => unknown;
+  updateSharedGroups?: () => unknown;
 } & Omit<AvatarProps, 'onClick' | 'size' | 'noteToSelf'>;
 
 const renderMembershipRow = ({
@@ -113,6 +114,7 @@ export const ConversationHero = ({
   profileName,
   title,
   onHeightChange,
+  updateSharedGroups,
 }: Props) => {
   const firstRenderRef = React.useRef(true);
 
@@ -121,6 +123,11 @@ export const ConversationHero = ({
     // component may have changed. The cleanup function notifies listeners of
     // any potential height changes.
     return () => {
+      // Kick off the expensive hydration of the current sharedGroupNames
+      if (updateSharedGroups) {
+        updateSharedGroups();
+      }
+
       if (onHeightChange && !firstRenderRef.current) {
         onHeightChange();
       } else {
@@ -135,7 +142,7 @@ export const ConversationHero = ({
     `mc-${membersCount}`,
     `n-${name}`,
     `pn-${profileName}`,
-    ...sharedGroupNames.map(g => `g-${g}`),
+    sharedGroupNames.map(g => `g-${g}`).join(' '),
   ]);
 
   const phoneNumberOnly = Boolean(

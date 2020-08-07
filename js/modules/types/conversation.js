@@ -1,7 +1,6 @@
 /* global crypto, window */
 
 const { isFunction, isNumber } = require('lodash');
-const { createLastMessageUpdate } = require('../../../ts/types/Conversation');
 const {
   arrayBufferToBase64,
   base64ToArrayBuffer,
@@ -161,7 +160,7 @@ module.exports = {
   arrayBufferToBase64,
   base64ToArrayBuffer,
   computeHash,
-  createLastMessageUpdate,
+
   deleteExternalFiles,
   maybeUpdateAvatar,
   maybeUpdateProfileAvatar,

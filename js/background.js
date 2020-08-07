@@ -1885,6 +1885,11 @@
       logger: window.log,
     });
 
+    // Force a re-fetch here when we've processed our queue. Without this, we won't try
+    //   again for two hours after our first attempt. Which might have been while we were
+    //   offline or didn't have credentials.
+    window.Signal.RemoteConfig.refreshRemoteConfig();
+
     let interval = setInterval(() => {
       const view = window.owsDesktopApp.appView;
       if (view) {

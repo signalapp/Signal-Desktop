@@ -156,6 +156,8 @@ const dataInterface: ClientInterface = {
   getTapToViewMessagesNeedingErase,
   getOlderMessagesByConversation,
   getNewerMessagesByConversation,
+  getLastConversationActivity,
+  getLastConversationPreview,
   getMessageMetricsForConversation,
   migrateConversationMessages,
 
@@ -1021,6 +1023,32 @@ async function getNewerMessagesByConversation(
   );
 
   return new MessageCollection(handleMessageJSON(messages));
+}
+async function getLastConversationActivity(
+  conversationId: string,
+  options: {
+    Message: typeof MessageModelType;
+  }
+): Promise<MessageModelType | undefined> {
+  const { Message } = options;
+  const result = await channels.getLastConversationActivity(conversationId);
+  if (result) {
+    return new Message(result);
+  }
+  return;
+}
+async function getLastConversationPreview(
+  conversationId: string,
+  options: {
+    Message: typeof MessageModelType;
+  }
+): Promise<MessageModelType | undefined> {
+  const { Message } = options;
+  const result = await channels.getLastConversationPreview(conversationId);
+  if (result) {
+    return new Message(result);
+  }
+  return;
 }
 async function getMessageMetricsForConversation(conversationId: string) {
   const result = await channels.getMessageMetricsForConversation(

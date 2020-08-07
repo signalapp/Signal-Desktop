@@ -1401,7 +1401,7 @@ class MessageReceiverInner extends EventTarget {
       }
       const to = sentMessage.message.group
         ? `group(${sentMessage.message.group.id.toBinary()})`
-        : sentMessage.destination;
+        : sentMessage.destination || sentMessage.destinationUuid;
 
       window.log.info(
         'sent message to',

@@ -68,8 +68,18 @@ function renderEmojiPicker({
 function renderLastSeenIndicator(id: string): JSX.Element {
   return <FilteredSmartLastSeenIndicator id={id} />;
 }
-function renderHeroRow(id: string, onHeightChange: () => unknown): JSX.Element {
-  return <FilteredSmartHeroRow id={id} onHeightChange={onHeightChange} />;
+function renderHeroRow(
+  id: string,
+  onHeightChange: () => unknown,
+  updateSharedGroups: () => unknown
+): JSX.Element {
+  return (
+    <FilteredSmartHeroRow
+      id={id}
+      onHeightChange={onHeightChange}
+      updateSharedGroups={updateSharedGroups}
+    />
+  );
 }
 function renderLoadingRow(id: string): JSX.Element {
   return <FilteredSmartTimelineLoadingRow id={id} />;

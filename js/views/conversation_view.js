@@ -16,6 +16,8 @@
 (function() {
   'use strict';
 
+  const FIVE_MINUTES = 1000 * 60 * 5;
+
   window.Whisper = window.Whisper || {};
   const { Message, MIME, VisualAttachment } = window.Signal.Types;
   const {
@@ -304,9 +306,12 @@
       );
       this.model.throttledGetProfiles =
         this.model.throttledGetProfiles ||
+        _.throttle(this.model.getProfiles.bind(this.model), FIVE_MINUTES);
+      this.model.throttledUpdateSharedGroups =
+        this.model.throttledUpdateSharedGroups ||
         _.throttle(
-          this.model.getProfiles.bind(this.model),
-          1000 * 60 * 5 // five minutes
+          this.model.updateSharedGroups.bind(this.model),
+          FIVE_MINUTES
         );
       this.debouncedMaybeGrabLinkPreview = _.debounce(
         this.maybeGrabLinkPreview.bind(this),
@@ -720,6 +725,7 @@
           showVisualAttachment,
           showExpiredIncomingTapToViewToast,
           showExpiredOutgoingTapToViewToast,
+          updateSharedGroups: this.model.throttledUpdateSharedGroups,
         }),
       });
 
