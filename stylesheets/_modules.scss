@@ -1170,6 +1170,9 @@
     color: $color-white-alpha-80;
   }
 }
+.module-message__metadata__tapable {
+  @include button-reset;
+}
 .module-message__metadata__date--incoming {
   color: $color-white-alpha-80;
 
@@ -3853,7 +3856,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
   width: 18px;
 }
-.module-conversation-list-item__message__status-icon--error {
+.module-conversation-list-item__message__status-icon--error,
+.module-conversation-list-item__message__status-icon--partial-sent {
   @include light-theme {
     @include color-svg(
       '../images/icons/v2/error-outline-12.svg',

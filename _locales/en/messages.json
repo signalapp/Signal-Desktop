@@ -1281,6 +1281,10 @@
     "message": "Send failed",
     "description": "Shown on outgoing message if it fails to send"
   },
+  "partiallySent": {
+    "message": "Partially sent, click for details",
+    "description": "Shown on outgoing message if it is partially sent"
+  },
   "showMore": {
     "message": "Details",
     "description": "Displays the details of a key change"

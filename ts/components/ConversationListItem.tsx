@@ -32,7 +32,13 @@ export type PropsData = {
 
   typingContact?: Object;
   lastMessage?: {
-    status: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
+    status:
+      | 'sending'
+      | 'sent'
+      | 'delivered'
+      | 'read'
+      | 'error'
+      | 'partial-sent';
     text: string;
     deletedForEveryone?: boolean;
   };

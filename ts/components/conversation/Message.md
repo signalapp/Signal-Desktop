@@ -203,10 +203,39 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   <div className="module-message-container">
     <Message
       direction="outgoing"
+      status="partial-sent"
+      authorColor="green"
+      timestamp={Date.now()}
+      text="This has been partially sent!"
+      i18n={util.i18n}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
       status="error"
       authorColor="purple"
       timestamp={Date.now() - 56}
       text="Error!"
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      i18n={util.i18n}
+      onRetrySend={() => console.log('onRetrySend')}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      status="partial-sent"
+      authorColor="red"
+      timestamp={Date.now() - 56}
+      text="Error -- partially sent!"
       attachments={[
         {
           url: util.gifObjectUrl,
@@ -273,6 +302,17 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   <div className="module-message-container">
     <Message
       direction="outgoing"
+      status="partial-sent"
+      authorColor="blue"
+      timestamp={Date.now() - 57}
+      text="🔥"
+      i18n={util.i18n}
+      onRetrySend={() => console.log('onRetrySend')}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
       status="error"
       authorColor="purple"
       timestamp={Date.now() - 57}
@@ -292,8 +332,38 @@ Note that timestamp and status can be hidden with the `collapseMetadata` boolean
   <div className="module-message-container">
     <Message
       direction="outgoing"
+      status="partial-sent"
+      authorColor="green"
+      timestamp={Date.now() - 57}
+      attachments={[
+        {
+          url: util.gifObjectUrl,
+          contentType: 'image/gif',
+          width: 320,
+          height: 240,
+        },
+      ]}
+      text="🔥"
+      i18n={util.i18n}
+      onRetrySend={() => console.log('onRetrySend')}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
       status="error"
       authorColor="purple"
+      timestamp={Date.now() - 57}
+      text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam efficitur finibus tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu metus leo. Nullam consequat leo ut accumsan aliquam. In est elit, faucibus vel arcu vitae, dapibus egestas nunc. Curabitur nec orci semper, auctor justo ornare, sagittis massa. Aliquam ultrices sem ac ex vestibulum dapibus. Etiam erat purus, interdum sit amet magna vitae, elementum lacinia leo. Duis vel mauris dui. Morbi sed accumsan erat, at facilisis metus. Nullam molestie lectus eleifend congue ultrices. Nunc porta at justo semper egestas. Proin non iaculis nibh. Cras sit amet urna dignissim, venenatis arcu a, pulvinar ipsum."
+      i18n={util.i18n}
+      onRetrySend={() => console.log('onRetrySend')}
+    />
+  </div>
+  <div className="module-message-container">
+    <Message
+      direction="outgoing"
+      status="partial-sent"
+      authorColor="blue"
       timestamp={Date.now() - 57}
       text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam efficitur finibus tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu metus leo. Nullam consequat leo ut accumsan aliquam. In est elit, faucibus vel arcu vitae, dapibus egestas nunc. Curabitur nec orci semper, auctor justo ornare, sagittis massa. Aliquam ultrices sem ac ex vestibulum dapibus. Etiam erat purus, interdum sit amet magna vitae, elementum lacinia leo. Duis vel mauris dui. Morbi sed accumsan erat, at facilisis metus. Nullam molestie lectus eleifend congue ultrices. Nunc porta at justo semper egestas. Proin non iaculis nibh. Cras sit amet urna dignissim, venenatis arcu a, pulvinar ipsum."
       i18n={util.i18n}

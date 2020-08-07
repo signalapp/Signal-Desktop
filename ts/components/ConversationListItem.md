@@ -153,6 +153,20 @@
       onClick={result => console.log('onClick', result)}
       i18n={util.i18n}
     />
+    <ConversationListItem
+      id="conversationId5"
+      phoneNumber="(202) 555-0011"
+      type={'direct'}
+      name="Mr. Fire🔥"
+      color="green"
+      lastUpdated={Date.now() - 5 * 60 * 1000}
+      lastMessage={{
+        text: 'Partially Sent',
+        status: 'partial-sent',
+      }}
+      onClick={result => console.log('onClick', result)}
+      i18n={util.i18n}
+    />
   </div>
 </util.LeftPaneContext>
 ```
