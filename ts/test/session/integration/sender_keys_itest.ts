@@ -36,7 +36,6 @@ async function makeFriendsPlusMessage(
   app: Application,
   [app2, pubkey]: [Application, string]
 ) {
-
   await Common.makeFriends(app, [app2, pubkey]);
 
   // Send something back so that `app` can see our name

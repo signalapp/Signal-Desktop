@@ -122,9 +122,7 @@ class StubAppDotNetAPI extends LokiAppDotNetServerAPI {
         },
       };
     }
-    if (
-      endpoint === 'files'
-    ) {
+    if (endpoint === 'files') {
       return {
         statusCode: 200,
         response: {

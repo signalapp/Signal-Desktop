@@ -4,7 +4,7 @@
 // tslint:disable: no-implicit-dependencies
 // tslint:disable: no-invalid-this
 
-import { after, before, it, describe} from 'mocha';
+import { after, before, describe, it } from 'mocha';
 import { Common } from './common';
 import { Application } from 'spectron';
 

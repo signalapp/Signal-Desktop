@@ -26,7 +26,7 @@ export = {
       `${num} members`
     ),
 
-  conversationItem: '//*[contains(@class, \'module-conversation-list-item\')]',
+  conversationItem: "//*[contains(@class, 'module-conversation-list-item')]",
 
   attachmentInput: '//*[contains(@class, "choose-file")]/input[@type="file"]',
   attachmentButton: '//*[contains(@class, "choose-file")]/button',

@@ -1791,7 +1791,7 @@
     "message": "Connecting to server..."
   },
   "connectToServerSuccess": {
-     "message": "Successfully connected to open group"
+    "message": "Successfully connected to open group"
   },
   "setPasswordFail": {
     "message": "Failed to set password"
