@@ -38,7 +38,13 @@ export type ConversationType = {
   timestamp?: number;
   inboxPosition?: number;
   lastMessage?: {
-    status: 'error' | 'sending' | 'sent' | 'delivered' | 'read';
+    status:
+      | 'error'
+      | 'partial-sent'
+      | 'sending'
+      | 'sent'
+      | 'delivered'
+      | 'read';
     text: string;
   };
   phoneNumber?: string;

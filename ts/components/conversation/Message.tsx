@@ -71,7 +71,7 @@ export type PropsData = {
   interactionMode: 'mouse' | 'keyboard';
   direction: 'incoming' | 'outgoing';
   timestamp: number;
-  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
+  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error' | 'partial-sent';
   contact?: ContactType;
   authorTitle: string;
   authorName?: string;
@@ -381,6 +381,71 @@ export class Message extends React.PureComponent<Props, State> {
     }
   }
 
+  public renderTimestamp() {
+    const {
+      direction,
+      i18n,
+      id,
+      isSticker,
+      isTapToViewExpired,
+      showMessageDetail,
+      status,
+      text,
+      timestamp,
+    } = this.props;
+
+    const isShowingImage = this.isShowingImage();
+    const withImageNoCaption = Boolean(!isSticker && !text && isShowingImage);
+
+    const isError = status === 'error' && direction === 'outgoing';
+    const isPartiallySent =
+      status === 'partial-sent' && direction === 'outgoing';
+
+    if (isError || isPartiallySent) {
+      return (
+        <span
+          className={classNames({
+            'module-message__metadata__date': true,
+            'module-message__metadata__date--with-sticker': isSticker,
+            [`module-message__metadata__date--${direction}`]: !isSticker,
+            'module-message__metadata__date--with-image-no-caption': withImageNoCaption,
+          })}
+        >
+          {isError ? (
+            i18n('sendFailed')
+          ) : (
+            <button
+              className="module-message__metadata__tapable"
+              onClick={(event: React.MouseEvent) => {
+                event.stopPropagation();
+                event.preventDefault();
+
+                showMessageDetail(id);
+              }}
+            >
+              {i18n('partiallySent')}
+            </button>
+          )}
+        </span>
+      );
+    }
+
+    const metadataDirection = isSticker ? undefined : direction;
+
+    return (
+      <Timestamp
+        i18n={i18n}
+        timestamp={timestamp}
+        extended={true}
+        direction={metadataDirection}
+        withImageNoCaption={withImageNoCaption}
+        withSticker={isSticker}
+        withTapToViewExpired={isTapToViewExpired}
+        module="module-message__metadata__date"
+      />
+    );
+  }
+
   // tslint:disable-next-line cyclomatic-complexity
   public renderMetadata() {
     const {
@@ -388,14 +453,12 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       expirationLength,
       expirationTimestamp,
-      i18n,
       isSticker,
       isTapToViewExpired,
       reactions,
       status,
       text,
       textPending,
-      timestamp,
     } = this.props;
 
     if (collapseMetadata) {
@@ -405,7 +468,6 @@ export class Message extends React.PureComponent<Props, State> {
     const isShowingImage = this.isShowingImage();
     const withImageNoCaption = Boolean(!isSticker && !text && isShowingImage);
     const withReactions = reactions && reactions.length > 0;
-    const showError = status === 'error' && direction === 'outgoing';
     const metadataDirection = isSticker ? undefined : direction;
 
     return (
@@ -419,33 +481,7 @@ export class Message extends React.PureComponent<Props, State> {
             : null
         )}
       >
-        {showError ? (
-          <span
-            className={classNames(
-              'module-message__metadata__date',
-              isSticker ? 'module-message__metadata__date--with-sticker' : null,
-              !isSticker
-                ? `module-message__metadata__date--${direction}`
-                : null,
-              withImageNoCaption
-                ? 'module-message__metadata__date--with-image-no-caption'
-                : null
-            )}
-          >
-            {i18n('sendFailed')}
-          </span>
-        ) : (
-          <Timestamp
-            i18n={i18n}
-            timestamp={timestamp}
-            extended={true}
-            direction={metadataDirection}
-            withImageNoCaption={withImageNoCaption}
-            withSticker={isSticker}
-            withTapToViewExpired={isTapToViewExpired}
-            module="module-message__metadata__date"
-          />
-        )}
+        {this.renderTimestamp()}
         {expirationLength && expirationTimestamp ? (
           <ExpireTimer
             direction={metadataDirection}
@@ -461,7 +497,10 @@ export class Message extends React.PureComponent<Props, State> {
             <Spinner svgSize="small" size="14px" direction={direction} />
           </div>
         ) : null}
-        {!textPending && direction === 'outgoing' && status !== 'error' ? (
+        {!textPending &&
+        direction === 'outgoing' &&
+        status !== 'error' &&
+        status !== 'partial-sent' ? (
           <div
             className={classNames(
               'module-message__metadata__status-icon',
@@ -1001,7 +1040,7 @@ export class Message extends React.PureComponent<Props, State> {
   public renderError(isCorrectSide: boolean) {
     const { status, direction } = this.props;
 
-    if (!isCorrectSide || status !== 'error') {
+    if (!isCorrectSide || (status !== 'error' && status !== 'partial-sent')) {
       return null;
     }
 
