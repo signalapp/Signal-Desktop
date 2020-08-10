@@ -1,6 +1,7 @@
 import { SyncMessage } from './SyncMessage';
 import { SignalService } from '../../../../../protobuf';
 import { MessageParams } from '../../Message';
+import { Constants } from '../../../..';
 
 interface RequestSyncMessageParams extends MessageParams {
   requestType: SignalService.SyncMessage.Request.Type;
@@ -15,7 +16,7 @@ export abstract class RequestSyncMessage extends SyncMessage {
   }
 
   public ttl(): number {
-    return this.getDefaultTTL();
+    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
   }
 
   protected contentProto(): SignalService.Content {

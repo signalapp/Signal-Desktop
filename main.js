@@ -54,7 +54,7 @@ const config = require('./app/config');
 // Very important to put before the single instance check, since it is based on the
 //   userData directory.
 const userConfig = require('./app/user_config');
-const passwordUtil = require('./app/password_util');
+const passwordUtil = require('./ts/util/passwordUtils');
 
 const importMode =
   process.argv.some(arg => arg === '--import') || config.get('import');
@@ -763,9 +763,8 @@ app.on('ready', async () => {
   logger = logging.getLogger();
   logger.info('app ready');
   logger.info(`starting version ${packageJson.version}`);
-
   if (!locale) {
-    const appLocale = process.env.NODE_ENV === 'test' ? 'en' : 'en'; // app.getLocale(); // FIXME reenable once we have translated our files
+    const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
     locale = loadLocale({ appLocale, logger });
   }
 

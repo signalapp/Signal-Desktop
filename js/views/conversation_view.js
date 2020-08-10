@@ -172,6 +172,7 @@
           isClosable: this.model.isClosable(),
           isBlocked: this.model.isBlocked(),
           isGroup: !this.model.isPrivate(),
+          isPrivate: this.model.isPrivate(),
           isOnline: this.model.isOnline(),
           isArchived: this.model.get('isArchived'),
           isPublic: this.model.isPublic(),
@@ -444,12 +445,6 @@
       }
       let placeholder;
       switch (type) {
-        case 'disabled':
-          placeholder = i18n('sendMessageDisabled');
-          break;
-        case 'secondary':
-          placeholder = i18n('sendMessageDisabledSecondary');
-          break;
         case 'left-group':
           placeholder = i18n('sendMessageLeftGroup');
           break;
@@ -1277,14 +1272,14 @@
       }
 
       // If removable from server, we "Unsend" - otherwise "Delete"
-      const pluralSuffix = multiple ? 's' : '';
-      const title = i18n(
-        isPublic
-          ? `unsendMessage${pluralSuffix}`
-          : `deleteMessage${pluralSuffix}`
-      );
+      let title;
+      if (isPublic) {
+        title = multiple ? i18n('unsendMessages') : i18n('unsendMessage');
+      } else {
+        title = multiple ? i18n('deleteMessages') : i18n('deleteMessage');
+      }
 
-      const okText = i18n(isServerDeletable ? 'unsend' : 'delete');
+      const okText = isServerDeletable ? i18n('unsend') : i18n('delete');
 
       window.confirmationDialog({
         title,

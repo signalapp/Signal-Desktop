@@ -1,6 +1,7 @@
 import { DataMessage } from './DataMessage';
 import { SignalService } from '../../../../../protobuf';
 import { MessageParams } from '../../Message';
+import { Constants } from '../../../..';
 
 interface GroupInvitationMessageParams extends MessageParams {
   serverAddress: string;
@@ -21,7 +22,7 @@ export class GroupInvitationMessage extends DataMessage {
   }
 
   public ttl(): number {
-    return this.getDefaultTTL();
+    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
   }
 
   public dataProto(): SignalService.DataMessage {

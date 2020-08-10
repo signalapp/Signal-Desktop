@@ -401,17 +401,23 @@ MessageSender.prototype = {
       return Promise.resolve();
     }
     // We only want to sync across closed groups that we haven't left
-    const sessionGroups = conversations.filter(
-      c => c.isClosedGroup() && !c.get('left') && !c.isMediumGroup()
+    const activeGroups = conversations.filter(
+      c => c.isClosedGroup() && !c.get('left') && !c.get('isKickedFromGroup')
     );
-    if (sessionGroups.length === 0) {
+    if (activeGroups.length === 0) {
       window.console.info('No closed group to sync.');
       return Promise.resolve();
     }
 
+    const mediumGroups = activeGroups.filter(c => c.isMediumGroup());
+
+    window.MediumGroups.syncMediumGroups(mediumGroups);
+
+    const legacyGroups = activeGroups.filter(c => !c.isMediumGroup());
+
     // We need to sync across 1 group at a time
     // This is because we could hit the storage server limit with one group
-    const syncPromises = sessionGroups
+    const syncPromises = legacyGroups
       .map(c => libloki.api.createGroupSyncMessage(c))
       .map(syncMessage =>
         libsession.getMessageQueue().sendSyncMessage(syncMessage)
@@ -452,6 +458,26 @@ MessageSender.prototype = {
     );
 
     return libsession.getMessageQueue().sendSyncMessage(openGroupsSyncMessage);
+  },
+  async sendBlockedListSyncMessage() {
+    // If we havn't got a primaryDeviceKey then we are in the middle of pairing
+    // primaryDevicePubKey is set to our own number if we are the master device
+    const primaryDeviceKey = window.storage.get('primaryDevicePubKey');
+    if (!primaryDeviceKey) {
+      return Promise.resolve();
+    }
+
+    const currentlyBlockedNumbers = window.BlockedNumberController.getBlockedNumbers();
+
+    // currently we only sync user blocked, not groups
+    const blockedSyncMessage = new libsession.Messages.Outgoing.BlockedListSyncMessage(
+      {
+        timestamp: Date.now(),
+        numbers: currentlyBlockedNumbers,
+        groups: [],
+      }
+    );
+    return libsession.getMessageQueue().sendSyncMessage(blockedSyncMessage);
   },
   syncReadMessages(reads) {
     const myDevice = textsecure.storage.user.getDeviceId();
@@ -509,8 +535,8 @@ MessageSender.prototype = {
 
 window.textsecure = window.textsecure || {};
 
-textsecure.MessageSender = function MessageSenderWrapper(username, password) {
-  const sender = new MessageSender(username, password);
+textsecure.MessageSender = function MessageSenderWrapper() {
+  const sender = new MessageSender();
   this.sendContactSyncMessage = sender.sendContactSyncMessage.bind(sender);
   this.sendGroupSyncMessage = sender.sendGroupSyncMessage.bind(sender);
   this.sendOpenGroupsSyncMessage = sender.sendOpenGroupsSyncMessage.bind(
@@ -521,6 +547,9 @@ textsecure.MessageSender = function MessageSenderWrapper(username, password) {
   this.syncVerification = sender.syncVerification.bind(sender);
   this.makeProxiedRequest = sender.makeProxiedRequest.bind(sender);
   this.getProxiedSize = sender.getProxiedSize.bind(sender);
+  this.sendBlockedListSyncMessage = sender.sendBlockedListSyncMessage.bind(
+    sender
+  );
 };
 
 textsecure.MessageSender.prototype = {

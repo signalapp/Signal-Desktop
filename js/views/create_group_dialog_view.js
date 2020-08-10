@@ -62,7 +62,14 @@
       return this;
     },
     onSubmit(groupName, avatar) {
-      window.doUpdateGroup(this.groupId, groupName, this.members, avatar);
+      if (groupName !== this.groupName || avatar !== this.avatarPath) {
+        window.MediumGroups.initiateGroupUpdate(
+          this.groupId,
+          groupName,
+          this.members,
+          avatar
+        );
+      }
     },
     close() {
       this.remove();
@@ -180,7 +187,7 @@
         return;
       }
 
-      window.doUpdateGroup(
+      window.MediumGroups.initiateGroupUpdate(
         this.groupId,
         this.groupName,
         filteredMemberes,

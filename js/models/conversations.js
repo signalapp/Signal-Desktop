@@ -15,7 +15,6 @@
   BlockedNumberController,
   lokiPublicChatAPI,
   JobQueue,
-  StringView
 */
 
 /* eslint-disable more/no-then */
@@ -253,11 +252,7 @@
       this.trigger('change', this);
       this.messageCollection.forEach(m => m.trigger('change'));
       this.updateTextInputState();
-      if (this.isPrivate()) {
-        await textsecure.messaging.sendContactSyncMessage([this]);
-      } else {
-        await textsecure.messaging.sendGroupSyncMessage([this]);
-      }
+      await textsecure.messaging.sendBlockedListSyncMessage();
     },
     async unblock() {
       if (!this.id || this.isPublic() || this.isRss()) {
@@ -270,11 +265,7 @@
       this.trigger('change', this);
       this.messageCollection.forEach(m => m.trigger('change'));
       this.updateTextInputState();
-      if (this.isPrivate()) {
-        await textsecure.messaging.sendContactSyncMessage([this]);
-      } else {
-        await textsecure.messaging.sendGroupSyncMessage([this]);
-      }
+      await textsecure.messaging.sendBlockedListSyncMessage();
     },
     setMessageSelectionBackdrop() {
       const messageSelected = this.selectedMessages.size > 0;
@@ -621,6 +612,7 @@
         },
         isOnline: this.isOnline(),
         hasNickname: !!this.getNickname(),
+        isKickedFromGroup: !!this.get('isKickedFromGroup'),
 
         selectedMessages: this.selectedMessages,
 
@@ -631,6 +623,9 @@
         onDeleteContact: () => this.deleteContact(),
         onDeleteMessages: () => this.deleteMessages(),
         onCloseOverlay: () => this.resetMessageSelection(),
+        onInviteContacts: () => {
+          window.Whisper.events.trigger('inviteContacts', this);
+        },
       };
 
       return result;
@@ -1349,10 +1344,7 @@
           if (this.isMe()) {
             return message.sendSyncMessageOnly(chatMessage);
           }
-          const options = {};
 
-          options.messageType = message.get('type');
-          options.isPublic = this.isPublic();
           if (this.isPublic()) {
             const openGroup = this.toOpenGroup();
 
@@ -1373,7 +1365,6 @@
             return null;
           }
 
-          options.sessionRestoration = sessionRestoration;
           const destinationPubkey = new libsession.Types.PubKey(destination);
           // Handle Group Invitation Message
           if (groupInvitation) {
@@ -1750,35 +1741,14 @@
       }
     },
 
-    async saveChangesToDB() {
+    async commit() {
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
         Conversation: Whisper.Conversation,
       });
     },
 
-    async updateGroup(providedGroupUpdate) {
-      let groupUpdate = providedGroupUpdate;
-
-      if (this.isPrivate()) {
-        throw new Error('Called update group on private conversation');
-      }
-      if (groupUpdate === undefined) {
-        groupUpdate = this.pick(['name', 'avatar', 'members']);
-      }
-      const now = Date.now();
-
-      const message = this.messageCollection.add({
-        conversationId: this.id,
-        type: 'outgoing',
-        sent_at: now,
-        received_at: now,
-        group_update: _.pick(groupUpdate, [
-          'name',
-          'members',
-          'avatar',
-          'admins',
-        ]),
-      });
+    async addMessage(messageAttributes) {
+      const message = this.messageCollection.add(messageAttributes);
 
       const messageId = await window.Signal.Data.saveMessage(
         message.attributes,
@@ -1787,92 +1757,7 @@
         }
       );
       message.set({ id: messageId });
-
-      // TODO: if I added members, it is my responsibility to generate ratchet keys for them
-
-      // Difference between `recipients` and `members` is that `recipients` includes the members which were removed in this update
-      const { id, name, members, avatar, recipients } = groupUpdate;
-
-      if (groupUpdate.is_medium_group) {
-        const { secretKey, senderKeys } = groupUpdate;
-
-        const membersBin = members.map(
-          pkHex => new Uint8Array(StringView.hexToArrayBuffer(pkHex))
-        );
-        const adminsBin = this.get('groupAdmins').map(
-          pkHex => new Uint8Array(StringView.hexToArrayBuffer(pkHex))
-        );
-
-        const createParams = {
-          timestamp: now,
-          groupId: id,
-          identifier: messageId,
-          groupSecretKey: secretKey,
-          members: membersBin,
-          groupName: name,
-          admins: adminsBin,
-          senderKeys,
-        };
-
-        const mediumGroupCreateMessage = new libsession.Messages.Outgoing.MediumGroupCreateMessage(
-          createParams
-        );
-
-        members.forEach(async member => {
-          const memberPubKey = new libsession.Types.PubKey(member);
-          libsession
-            .getMessageQueue()
-            .sendUsingMultiDevice(memberPubKey, mediumGroupCreateMessage);
-        });
-
-        return;
-      }
-
-      const updateParams = {
-        // if we do set an identifier here, be sure to not sync the message two times in msg.handleMessageSentSuccess()
-        identifier: messageId,
-        timestamp: now,
-        groupId: id,
-        name: name || this.getName(),
-        avatar,
-        members,
-        admins: this.get('groupAdmins'),
-      };
-      const groupUpdateMessage = new libsession.Messages.Outgoing.ClosedGroupUpdateMessage(
-        updateParams
-      );
-
-      await this.sendClosedGroupMessage(
-        groupUpdateMessage,
-        recipients,
-        message
-      );
-
-      // send a expireTimer update message to all add members if the expireTimer is set
-      if (
-        groupUpdate.joined &&
-        groupUpdate.joined.length &&
-        this.get('expireTimer')
-      ) {
-        const expireUpdate = {
-          timestamp: Date.now(),
-          expireTimer: this.get('expireTimer'),
-          groupId: this.get('id'),
-        };
-
-        const expirationTimerMessage = new libsession.Messages.Outgoing.ExpirationTimerUpdateMessage(
-          expireUpdate
-        );
-        await Promise.all(
-          groupUpdate.joined.map(async join => {
-            const device = new libsession.Types.PubKey(join);
-            await libsession
-              .getMessageQueue()
-              .sendUsingMultiDevice(device, expirationTimerMessage)
-              .catch(log.error);
-          })
-        );
-      }
+      return message;
     },
 
     async sendGroupInfo(recipient) {
@@ -1900,9 +1785,15 @@
             .getMessageQueue()
             .send(recipientPubKey, groupUpdateMessage);
 
+          const expireTimer = this.get('expireTimer');
+
+          if (!expireTimer) {
+            return;
+          }
+
           const expireUpdate = {
             timestamp: Date.now(),
-            expireTimer: this.get('expireTimer'),
+            expireTimer,
             groupId: this.get('id'),
           };
 
@@ -1920,22 +1811,18 @@
     },
 
     async leaveGroup() {
-      const now = Date.now();
-
-      if (this.isMediumGroup()) {
-        // NOTE: we should probably remove sender keys for groupId,
-        // and its secret key, but it is low priority
-
-        // TODO: need to reset everyone's sender keys
-        window.SwarmPolling.removePubkey(this.id);
+      if (this.get('type') !== 'group') {
+        log.error('Cannot leave a non-group conversation');
+        return;
       }
 
-      if (this.get('type') === 'group') {
-        this.set({ left: true });
+      if (this.isMediumGroup()) {
+        await window.MediumGroups.leaveMediumGroup(this.id);
+      } else {
+        const now = Date.now();
 
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        this.set({ left: true });
+        this.commit();
 
         const message = this.messageCollection.add({
           group_update: { left: 'You' },
@@ -1961,54 +1848,16 @@
           quitGroup
         );
 
-        await this.sendClosedGroupMessage(quitGroupMessage, undefined, message);
+        const members = this.get('members');
 
-        this.updateTextInputState();
-      }
-    },
-
-    async sendClosedGroupMessage(message, recipients, dbMessage) {
-      const {
-        ClosedGroupMessage,
-        ClosedGroupChatMessage,
-      } = libsession.Messages.Outgoing;
-      if (!(message instanceof ClosedGroupMessage)) {
-        throw new Error('Invalid closed group message.');
-      }
-
-      // Sync messages for Chat Messages need to be constructed after confirming send was successful.
-      if (message instanceof ClosedGroupChatMessage) {
-        throw new Error(
-          'ClosedGroupChatMessage should be constructed manually and sent'
+        await window.MediumGroups.sendClosedGroupMessage(
+          quitGroupMessage,
+          members,
+          message
         );
       }
 
-      const members = recipients || this.get('members');
-
-      try {
-        // Exclude our device from members and send them the message
-        const ourNumber = textsecure.storage.user.getNumber();
-        const primary = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
-          ourNumber
-        );
-        const otherMembers = (members || []).filter(
-          member => !primary.isEqual(member)
-        );
-        // we are the only member in here
-        if (members.length === 1 && members[0] === primary.key) {
-          dbMessage.sendSyncMessageOnly(message);
-          return;
-        }
-        const sendPromises = otherMembers.map(member => {
-          const memberPubKey = libsession.Types.PubKey.cast(member);
-          return libsession
-            .getMessageQueue()
-            .sendUsingMultiDevice(memberPubKey, message);
-        });
-        await Promise.all(sendPromises);
-      } catch (e) {
-        window.log.error(e);
-      }
+      this.updateTextInputState();
     },
 
     async markRead(newestUnreadDate, providedOptions) {
@@ -2365,16 +2214,20 @@
         return;
       }
 
-      const profileKeyBuffer = window.Signal.Crypto.base64ToArrayBuffer(
-        profileKey
-      );
-      const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(
-        profileKeyBuffer
-      );
-      const accessKey = window.Signal.Crypto.arrayBufferToBase64(
-        accessKeyBuffer
-      );
-      this.set({ accessKey });
+      try {
+        const profileKeyBuffer = window.Signal.Crypto.base64ToArrayBuffer(
+          profileKey
+        );
+        const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(
+          profileKeyBuffer
+        );
+        const accessKey = window.Signal.Crypto.arrayBufferToBase64(
+          accessKeyBuffer
+        );
+        this.set({ accessKey });
+      } catch (e) {
+        window.log.warn(`Failed to derive access key for ${this.id}`);
+      }
     },
 
     async upgradeMessages(messages) {
@@ -2482,8 +2335,8 @@
       let message = i18n('deleteContactConfirmation');
 
       if (this.isPublic()) {
-        title = i18n('deletePublicChannel');
-        message = i18n('deletePublicChannelConfirmation');
+        title = i18n('leaveOpenGroup');
+        message = i18n('leaveOpenGroupConfirmation');
       } else if (this.isClosedGroup()) {
         title = i18n('leaveClosedGroup');
         message = i18n('leaveClosedGroupConfirmation');

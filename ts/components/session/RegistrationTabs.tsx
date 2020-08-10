@@ -562,8 +562,12 @@ export class RegistrationTabs extends React.Component<{}, State> {
             SessionButtonType.BrandOutline,
             SessionButtonColor.Green
           )}
-          <h4>{or}</h4>
-          {this.renderLinkDeviceToExistingAccountButton()}
+          {window.lokiFeatureFlags.useMultiDevice && (
+            <>
+              <h4>{or}</h4>
+              {this.renderLinkDeviceToExistingAccountButton()}
+            </>
+          )}
         </div>
       );
     }
@@ -588,8 +592,12 @@ export class RegistrationTabs extends React.Component<{}, State> {
     return (
       <div>
         {this.renderContinueYourSessionButton()}
-        <h4>{or}</h4>
-        {this.renderLinkDeviceToExistingAccountButton()}
+        {window.lokiFeatureFlags.useMultiDevice && (
+          <>
+            <h4>{or}</h4>
+            {this.renderLinkDeviceToExistingAccountButton()}
+          </>
+        )}
       </div>
     );
   }

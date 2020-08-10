@@ -13,7 +13,7 @@ export interface ClosedGroupUpdateMessageParams
   avatar?: AttachmentPointer;
 }
 
-export abstract class ClosedGroupUpdateMessage extends ClosedGroupMessage {
+export class ClosedGroupUpdateMessage extends ClosedGroupMessage {
   private readonly name: string;
   private readonly members?: Array<string>;
   private readonly admins?: Array<string>;

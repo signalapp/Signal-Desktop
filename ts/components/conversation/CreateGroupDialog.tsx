@@ -3,12 +3,11 @@ import classNames from 'classnames';
 import { Contact, MemberList } from './MemberList';
 
 import { SessionModal } from './../session/SessionModal';
+import { createLegacyGroup } from '../../session/medium_group';
 
 declare global {
   interface Window {
     Lodash: any;
-    doCreateGroup: any;
-    createMediumSizeGroup: any;
     SMALL_GROUP_SIZE_LIMIT: number;
   }
 }
@@ -78,7 +77,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
       return;
     }
 
-    window.doCreateGroup(this.state.groupName, members);
+    void createLegacyGroup(this.state.groupName, members);
 
     this.closeDialog();
   }

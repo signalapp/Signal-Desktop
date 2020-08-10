@@ -7,6 +7,7 @@ export type IdentityKey = {
   firstUse: boolean;
   verified: number;
   nonblockingApproval: boolean;
+  secretKey?: string; // found in medium groups
 };
 
 export type PreKey = {

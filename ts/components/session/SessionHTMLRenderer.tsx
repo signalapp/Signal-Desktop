@@ -5,6 +5,7 @@ interface ReceivedProps {
   html: string;
   tag?: string;
   key?: any;
+  className?: string;
 }
 
 // Needed because of https://github.com/microsoft/tslint-microsoft-contrib/issues/339
@@ -14,14 +15,16 @@ export const SessionHtmlRenderer: React.SFC<Props> = ({
   tag = 'div',
   key,
   html,
+  className,
 }) => {
   const clean = DOMPurify.sanitize(html, {
     USE_PROFILES: { html: true },
-    FORBID_ATTR: ['style', 'script'],
+    FORBID_ATTR: ['script'],
   });
 
   return React.createElement(tag, {
     key,
+    className,
     dangerouslySetInnerHTML: { __html: clean },
   });
 };

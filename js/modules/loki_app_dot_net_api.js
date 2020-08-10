@@ -1710,8 +1710,9 @@ class LokiPublicChannelAPI {
     sigString += [...attachmentAnnotations, ...previewAnnotations]
       .map(data => data.id || data.image.id)
       .sort()
-      .join();
+      .join('');
     sigString += sigVer;
+
     return dcodeIO.ByteBuffer.wrap(sigString, 'utf8').toArrayBuffer();
   }
 
@@ -2355,7 +2356,7 @@ class LokiPublicChannelAPI {
     }
     // there's no retry on desktop
     // this is supposed to be after retries
-    return false;
+    return -1;
   }
 }
 

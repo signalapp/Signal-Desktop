@@ -87,9 +87,9 @@ class LokiMessageAPI {
       data: data64,
     };
 
-    const promises = _.slice(swarm, 0, numConnections).map(snode =>
-      _openSendConnection(snode, params)
-    );
+    const usedNodes = _.slice(swarm, 0, numConnections);
+
+    const promises = usedNodes.map(snode => _openSendConnection(snode, params));
 
     let snode;
     try {

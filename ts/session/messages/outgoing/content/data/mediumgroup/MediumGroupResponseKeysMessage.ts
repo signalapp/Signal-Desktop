@@ -1,13 +1,14 @@
 import { SignalService } from '../../../../../../protobuf';
-import { MediumGroupMessage, MediumGroupMessageParams, RatchetKey } from '.';
+import { MediumGroupMessage, MediumGroupMessageParams } from '.';
+import { RatchetState } from '../../../../../medium_group/senderKeys';
 
 export interface MediumGroupResponseKeysParams
   extends MediumGroupMessageParams {
-  senderKey: RatchetKey;
+  senderKey: RatchetState;
 }
 
 export class MediumGroupResponseKeysMessage extends MediumGroupMessage {
-  public readonly senderKey: RatchetKey;
+  public readonly senderKey: RatchetState;
 
   constructor({
     timestamp,

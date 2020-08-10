@@ -87,6 +87,14 @@ export async function handlePairingAuthorisationMessage(
   pairingAuthorisation: SignalService.IPairingAuthorisationMessage,
   dataMessage: SignalService.IDataMessage | undefined | null
 ): Promise<void> {
+  if (!window.lokiFeatureFlags.useMultiDevice) {
+    window.log.info(
+      `Received a pairing authorisation message from ${envelope.source} while multi device is disabled.`
+    );
+    await removeFromCache(envelope);
+    return;
+  }
+
   const { secondaryDevicePubKey, grantSignature } = pairingAuthorisation;
   const isGrant =
     grantSignature &&

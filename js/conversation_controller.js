@@ -59,13 +59,6 @@
   window.getInboxCollection = () => inboxCollection;
   window.getConversations = () => conversations;
 
-  window.getConversationByKey = key => {
-    // Key is pubkey or public chat name
-    const conversation = conversations.models.find(conv => conv.id === key);
-
-    return conversation;
-  };
-
   window.getMessagesByKey = async key => {
     // loadLive gets messages live, not from the database which can lag behind.
 
@@ -79,15 +72,8 @@
     return messages;
   };
 
-  window.getLastMessageByKey = async key => {
-    const messageSet = await window.Signal.Data.getMessagesByConversation(key, {
-      limit: 1,
-      MessageCollection: Whisper.MessageCollection,
-    });
-
-    const message = messageSet.models.map(conv => conv.attributes)[0];
-    return message;
-  };
+  window.getConversationByName = name =>
+    conversations.find(d => d.get('name') === name);
 
   window.ConversationController = {
     get(id) {

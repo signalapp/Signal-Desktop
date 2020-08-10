@@ -375,7 +375,7 @@ export class SessionCompositionBox extends React.Component<Props, State> {
     window.pushToast({
       id: 'audioPermissionNeeded',
       title: window.i18n('audioPermissionNeededTitle'),
-      description: window.i18n('audioPermissionNeededDescription'),
+      description: window.i18n('audioPermissionNeeded'),
       type: 'info',
     });
   }
