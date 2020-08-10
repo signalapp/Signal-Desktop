@@ -1398,17 +1398,10 @@
       }
     }
   },
-<<<<<<< HEAD
-  "audioNotificationDescription": {
-    "message": "Play audio notification",
-    "description": "Description for audio notification setting"
-  },
   "safetyNumber": {
     "message": "Safety Number",
     "description": "Title to the safety number view"
   },
-=======
->>>>>>> upstream/clearnet
   "safetyNumberChanged": {
     "message": "Safety Number has changed",
     "description": "A notification shown in the conversation when a contact reinstalls"

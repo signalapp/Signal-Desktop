@@ -35,7 +35,6 @@ interface Props {
   isClosable?: boolean;
   isGroup: boolean;
   isPrivate: boolean;
-  isArchived: boolean;
   isPublic: boolean;
   isRss: boolean;
   amMod: boolean;

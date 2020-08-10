@@ -28,7 +28,7 @@ export class ContactName extends React.Component<Props> {
     const prefix = module ? module : 'module-contact-name';
 
     const title = name ? name : phoneNumber;
-    const shouldShowProfile = Boolean(profileName && !profileName);
+    const shouldShowProfile = Boolean(profileName && !name);
 
     const styles = (boldProfileName
       ? {
