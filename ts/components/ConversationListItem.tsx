@@ -64,6 +64,7 @@ type PropsHousekeeping = {
   onCopyPublicKey?: () => void;
   onUnblockContact?: () => void;
   onInviteContacts?: () => void;
+  onClearNickname?: () => void;
 };
 
 type Props = PropsData & PropsHousekeeping;
@@ -199,14 +200,14 @@ export class ConversationListItem extends React.PureComponent<Props> {
             {i18n('changeNickname')}
           </MenuItem>
         ) : null} */}
-        { /* getClearNicknameMenuItem(
+        { getClearNicknameMenuItem(
           isPublic,
           isRss,
           isMe,
           hasNickname,
           onClearNickname,
           i18n
-        ) */}
+        ) }
         {getCopyIdMenuItem(
           isPublic,
           isRss,

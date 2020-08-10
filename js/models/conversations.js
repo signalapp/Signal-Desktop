@@ -626,6 +626,9 @@
         onInviteContacts: () => {
           window.Whisper.events.trigger('inviteContacts', this);
         },
+        onClearNickname: () => {
+          this.setLokiProfile({ displayName: null });
+        },
       };
 
       return result;
