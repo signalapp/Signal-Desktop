@@ -914,11 +914,16 @@ export function initialize({
       profileKeyVersion?: string,
       profileKeyCredentialRequest?: string
     ) {
+      let profileUrl = `/${identifier}`;
+
+      if (profileKeyVersion) {
+        profileUrl += `/${profileKeyVersion}`;
+      }
       if (profileKeyVersion && profileKeyCredentialRequest) {
-        return `/${identifier}/${profileKeyVersion}/${profileKeyCredentialRequest}`;
+        profileUrl += `/${profileKeyCredentialRequest}`;
       }
 
-      return `/${identifier}`;
+      return profileUrl;
     }
 
     async function getProfile(
