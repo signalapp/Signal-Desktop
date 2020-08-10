@@ -5,16 +5,14 @@ import {
 } from './MediumGroupMessage';
 import { RatchetState } from '../../../../../medium_group/senderKeys';
 
-interface MediumGroupCreateParams extends MediumGroupMessageParams {
-  groupSecretKey: Uint8Array;
+interface MediumGroupUpdateParams extends MediumGroupMessageParams {
   members: Array<Uint8Array>;
   admins: Array<Uint8Array>;
   groupName: string;
-  senderKeys: Array<RatchetState>;
+  senderKeys: Array<RatchetState>; // sender keys for new members only
 }
 
-export class MediumGroupCreateMessage extends MediumGroupMessage {
-  public readonly groupSecretKey: Uint8Array;
+export class MediumGroupUpdateMessage extends MediumGroupMessage {
   public readonly members: Array<Uint8Array>;
   public readonly admins: Array<Uint8Array>;
   public readonly groupName: string;
@@ -24,14 +22,12 @@ export class MediumGroupCreateMessage extends MediumGroupMessage {
     timestamp,
     identifier,
     groupId,
-    groupSecretKey,
     members,
     admins,
     groupName,
     senderKeys,
-  }: MediumGroupCreateParams) {
+  }: MediumGroupUpdateParams) {
     super({ timestamp, identifier, groupId });
-    this.groupSecretKey = groupSecretKey;
     this.members = members;
     this.admins = admins;
     this.groupName = groupName;
@@ -49,8 +45,7 @@ export class MediumGroupCreateMessage extends MediumGroupMessage {
       };
     });
 
-    mediumGroupContext.type = SignalService.MediumGroupUpdate.Type.NEW;
-    mediumGroupContext.groupPrivateKey = this.groupSecretKey;
+    mediumGroupContext.type = SignalService.MediumGroupUpdate.Type.INFO;
     mediumGroupContext.members = this.members;
     mediumGroupContext.admins = this.admins;
     mediumGroupContext.name = this.groupName;

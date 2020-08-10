@@ -4,14 +4,16 @@ export class PubKey {
   // They have a different regex to match
   // FIXME move this to a new class which validates group ids and use it in all places where we have group ids (message sending included)
   public static readonly MOBILE_GROUP_PUBKEY_LEN = 32;
+  public static readonly regexForPubkeys = `((05)?[0-9a-fA-F]{${PubKey.PUBKEY_LEN -
+    2}})`;
 
   private static readonly regexForMobileGroupID = `__textsecure_group__![0-9a-fA-F]{${PubKey.MOBILE_GROUP_PUBKEY_LEN}}`;
   // prettier-ignore
-  private static readonly regexForPubkeys = `((05)?[0-9a-fA-F]{${PubKey.PUBKEY_LEN - 2}})`;
   private static readonly regex: RegExp = new RegExp(
     `^${PubKey.regexForPubkeys}|${PubKey.regexForMobileGroupID}$`
   );
   public readonly key: string;
+
   /**
    * A PubKey object.
    * If `pubKeyString` is not valid then this will throw an `Error`.

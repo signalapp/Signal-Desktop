@@ -122,7 +122,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
           {viewDefault || viewQR ? (
             <SessionButton
-              text={window.i18n('copy')}
+              text={window.i18n('editMenuCopy')}
               buttonType={SessionButtonType.BrandOutline}
               buttonColor={SessionButtonColor.Green}
               onClick={() => {

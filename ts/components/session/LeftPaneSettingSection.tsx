@@ -224,13 +224,13 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
       },
       {
         id: SessionSettingCategory.Notifications,
-        title: window.i18n('notificationSettingsTitle'),
+        title: window.i18n('notificationsSettingsTitle'),
         hidden: false,
       },
       {
         id: SessionSettingCategory.Devices,
         title: window.i18n('devicesSettingsTitle'),
-        hidden: isSecondaryDevice,
+        hidden: !window.lokiFeatureFlags.useMultiDevice || isSecondaryDevice,
       },
     ];
   }

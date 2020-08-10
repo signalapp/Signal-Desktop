@@ -2,6 +2,7 @@ import { SignalService } from '../../../../../../protobuf';
 import { ChatMessage } from '../ChatMessage';
 import { ClosedGroupMessage } from './ClosedGroupMessage';
 import { PubKey } from '../../../../../types';
+import { Constants } from '../../../../..';
 
 interface ClosedGroupChatMessageParams {
   identifier?: string;
@@ -22,7 +23,7 @@ export class ClosedGroupChatMessage extends ClosedGroupMessage {
   }
 
   public ttl(): number {
-    return this.getDefaultTTL();
+    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
   }
 
   public dataProto(): SignalService.DataMessage {

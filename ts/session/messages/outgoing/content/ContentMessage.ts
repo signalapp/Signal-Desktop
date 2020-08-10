@@ -9,12 +9,4 @@ export abstract class ContentMessage extends Message {
 
   public abstract ttl(): number;
   protected abstract contentProto(): SignalService.Content;
-
-  /**
-   * If the message is not a message with a specific TTL,
-   * this value can be used in all child classes
-   */
-  protected getDefaultTTL(): number {
-    return Constants.TTL_DEFAULT.REGULAR_MESSAGE;
-  }
 }

@@ -11,7 +11,6 @@
   libloki,
   libsession,
   libsignal,
-  StringView,
   BlockedNumberController,
   libsession,
 */
@@ -130,6 +129,52 @@
   //   of preload.js processing
   window.setImmediate = window.nodeSetImmediate;
 
+  window.toasts = new Map();
+  window.pushToast = options => {
+    // Setting toasts with the same ID can be used to prevent identical
+    // toasts from appearing at once (stacking).
+    // If toast already exists, it will be reloaded (updated)
+
+    const params = {
+      title: options.title,
+      id: options.id || window.generateID(),
+      description: options.description || '',
+      type: options.type || '',
+      icon: options.icon || '',
+      shouldFade: options.shouldFade,
+    };
+
+    // Give all toasts an ID. User may define.
+    let currentToast;
+    const toastID = params.id;
+    const toast = !!toastID && window.toasts.get(toastID);
+    if (toast) {
+      currentToast = window.toasts.get(toastID);
+      currentToast.update(params);
+    } else {
+      // Make new Toast
+      window.toasts.set(
+        toastID,
+        new Whisper.SessionToastView({
+          el: $('body'),
+        })
+      );
+
+      currentToast = window.toasts.get(toastID);
+      currentToast.render();
+      currentToast.update(params);
+    }
+
+    // Remove some toasts if too many exist
+    const maxToasts = 6;
+    while (window.toasts.size > maxToasts) {
+      const finalToastID = window.toasts.keys().next().value;
+      window.toasts.get(finalToastID).fadeToast();
+    }
+
+    return toastID;
+  };
+
   const { IdleDetector, MessageDataMigrator } = Signal.Workflow;
   const {
     mandatoryMessageUpgrade,
@@ -152,6 +197,20 @@
 
   window.log.info('background page reloaded');
   window.log.info('environment:', window.getEnvironment());
+  const restartReason = localStorage.getItem('restart-reason');
+  window.log.info('restartReason:', restartReason);
+
+  if (restartReason === 'unlink') {
+    setTimeout(() => {
+      localStorage.removeItem('restart-reason');
+
+      window.pushToast({
+        title: window.i18n('successUnlinked'),
+        type: 'info',
+        id: '123',
+      });
+    }, 2000);
+  }
 
   let idleDetector;
   let initialLoadComplete = false;
@@ -299,6 +358,12 @@
       !storage.get('primaryDevicePubKey', null)
     ) {
       storage.put('primaryDevicePubKey', textsecure.storage.user.getNumber());
+    }
+
+    // 4th August 2020 - Force wipe of secondary devices as multi device is being disabled.
+    if (storage.get('isSecondaryDevice')) {
+      await window.deleteAccount('unlink');
+      return;
     }
 
     // These make key operations available to IPC handlers created in preload.js
@@ -615,171 +680,6 @@
       }
     });
 
-    // TODO: make sure updating still works
-    window.doUpdateGroup = async (groupId, groupName, members, avatar) => {
-      const ourKey = textsecure.storage.user.getNumber();
-
-      const convo = await ConversationController.getOrCreateAndWait(
-        groupId,
-        'group'
-      );
-      const oldMembers = convo.get('members');
-      const oldName = convo.getName();
-
-      const groupDetails = {
-        id: groupId,
-        name: groupName,
-        members,
-        active: true,
-        expireTimer: convo.get('expireTimer'),
-        avatar,
-        is_medium_group: false,
-      };
-
-      const recipients = _.union(convo.get('members'), members);
-
-      await window.NewReceiver.onGroupReceived(groupDetails);
-
-      if (convo.isPublic()) {
-        const API = await convo.getPublicSendData();
-
-        if (avatar) {
-          // I hate duplicating this...
-          const readFile = attachment =>
-            new Promise((resolve, reject) => {
-              const fileReader = new FileReader();
-              fileReader.onload = e => {
-                const data = e.target.result;
-                resolve({
-                  ...attachment,
-                  data,
-                  size: data.byteLength,
-                });
-              };
-              fileReader.onerror = reject;
-              fileReader.onabort = reject;
-              fileReader.readAsArrayBuffer(attachment.file);
-            });
-          const attachment = await readFile({ file: avatar });
-          // const tempUrl = window.URL.createObjectURL(avatar);
-
-          // Get file onto public chat server
-          const fileObj = await API.serverAPI.putAttachment(attachment.data);
-          if (fileObj === null) {
-            // problem
-            window.warn('File upload failed');
-            return;
-          }
-
-          // lets not allow ANY URLs, lets force it to be local to public chat server
-          const url = new URL(fileObj.url);
-
-          // write it to the channel
-          await API.setChannelAvatar(url.pathname);
-        }
-
-        if (await API.setChannelName(groupName)) {
-          // queue update from server
-          // and let that set the conversation
-          API.pollForChannelOnce();
-          // or we could just directly call
-          // convo.setGroupName(groupName);
-          // but gut is saying let the server be the definitive storage of the state
-          // and trickle down from there
-        }
-        return;
-      }
-
-      const nullAvatar = undefined;
-      if (avatar) {
-        // would get to download this file on each client in the group
-        // and reference the local file
-      }
-      const options = {};
-
-      const isMediumGroup = convo.isMediumGroup();
-
-      const updateObj = {
-        id: groupId,
-        avatar: nullAvatar,
-        recipients,
-        members,
-        is_medium_group: isMediumGroup,
-        options,
-      };
-
-      if (oldName !== groupName) {
-        updateObj.name = groupName;
-      }
-
-      const addedMembers = _.difference(updateObj.members, oldMembers);
-      if (addedMembers.length > 0) {
-        updateObj.joined = addedMembers;
-      }
-      // Check if anyone got kicked:
-      const removedMembers = _.difference(oldMembers, updateObj.members);
-      if (removedMembers.length > 0) {
-        updateObj.kicked = removedMembers;
-      }
-      // Send own sender keys and group secret key
-      if (isMediumGroup) {
-        const { chainKey, keyIdx } = await window.MediumGroups.getSenderKeys(
-          groupId,
-          ourKey
-        );
-
-        updateObj.senderKey = {
-          chainKey: StringView.arrayBufferToHex(chainKey),
-          keyIdx,
-        };
-
-        const groupIdentity = await window.Signal.Data.getIdentityKeyById(
-          groupId
-        );
-
-        const secretKeyHex = StringView.hexToArrayBuffer(
-          groupIdentity.secretKey
-        );
-
-        updateObj.secretKey = secretKeyHex;
-      }
-
-      convo.updateGroup(updateObj);
-    };
-
-    window.doCreateGroup = async (groupName, members) => {
-      const keypair = await libsignal.KeyHelper.generateIdentityKeyPair();
-      const groupId = StringView.arrayBufferToHex(keypair.pubKey);
-
-      const primaryDeviceKey =
-        window.storage.get('primaryDevicePubKey') ||
-        textsecure.storage.user.getNumber();
-      const allMembers = [primaryDeviceKey, ...members];
-
-      const groupDetails = {
-        id: groupId,
-        name: groupName,
-        members: allMembers,
-        recipients: allMembers,
-        active: true,
-        expireTimer: 0,
-        avatar: undefined,
-      };
-
-      await window.NewReceiver.onGroupReceived(groupDetails);
-
-      const convo = await ConversationController.getOrCreateAndWait(
-        groupId,
-        'group'
-      );
-
-      convo.updateGroupAdmins([primaryDeviceKey]);
-      convo.updateGroup(groupDetails);
-
-      textsecure.messaging.sendGroupSyncMessage([convo]);
-      appView.openConversation(groupId, {});
-    };
-
     window.confirmationDialog = params => {
       const confirmDialog = new Whisper.SessionConfirmView({
         el: $('body'),
@@ -920,75 +820,8 @@
         .toString(36)
         .substring(3);
 
-    window.toasts = new Map();
-    window.pushToast = options => {
-      // Setting toasts with the same ID can be used to prevent identical
-      // toasts from appearing at once (stacking).
-      // If toast already exists, it will be reloaded (updated)
-
-      const params = {
-        title: options.title,
-        id: options.id || window.generateID(),
-        description: options.description || '',
-        type: options.type || '',
-        icon: options.icon || '',
-        shouldFade: options.shouldFade,
-      };
-
-      // Give all toasts an ID. User may define.
-      let currentToast;
-      const toastID = params.id;
-      const toast = !!toastID && window.toasts.get(toastID);
-      if (toast) {
-        currentToast = window.toasts.get(toastID);
-        currentToast.update(params);
-      } else {
-        // Make new Toast
-        window.toasts.set(
-          toastID,
-          new Whisper.SessionToastView({
-            el: $('body'),
-          })
-        );
-
-        currentToast = window.toasts.get(toastID);
-        currentToast.render();
-        currentToast.update(params);
-      }
-
-      // Remove some toasts if too many exist
-      const maxToasts = 6;
-      while (window.toasts.size > maxToasts) {
-        const finalToastID = window.toasts.keys().next().value;
-        window.toasts.get(finalToastID).fadeToast();
-      }
-
-      return toastID;
-    };
-
     // Get memberlist. This function is not accurate >>
     // window.getMemberList = window.lokiPublicChatAPI.getListOfMembers();
-
-    window.deleteAccount = async () => {
-      try {
-        window.log.info('Deleting everything!');
-
-        const { Logs } = window.Signal;
-        await Logs.deleteAll();
-
-        await window.Signal.Data.removeAll();
-        await window.Signal.Data.close();
-        await window.Signal.Data.removeDB();
-
-        await window.Signal.Data.removeOtherData();
-      } catch (error) {
-        window.log.error(
-          'Something went wrong deleting all data:',
-          error && error.stack ? error.stack : error
-        );
-      }
-      window.restart();
-    };
 
     window.toggleTheme = () => {
       const theme = window.Events.getThemeSetting();
@@ -1486,9 +1319,6 @@
     if (messageReceiver) {
       await messageReceiver.close();
     }
-
-    const USERNAME = storage.get('number_id');
-    const PASSWORD = storage.get('password');
     const mySignalingKey = storage.get('signaling_key');
 
     connectCount += 1;
@@ -1517,31 +1347,18 @@
       );
       window.lokiPublicChatAPI = null;
       window.feeds = [];
-      messageReceiver = new textsecure.MessageReceiver(
-        USERNAME,
-        PASSWORD,
-        mySignalingKey,
-        options
-      );
+      messageReceiver = new textsecure.MessageReceiver(mySignalingKey, options);
       messageReceiver.addEventListener(
         'message',
         window.NewReceiver.handleMessageEvent
       );
-      window.textsecure.messaging = new textsecure.MessageSender(
-        USERNAME,
-        PASSWORD
-      );
+      window.textsecure.messaging = new textsecure.MessageSender();
       return;
     }
 
     initAPIs();
     await initSpecialConversations();
-    messageReceiver = new textsecure.MessageReceiver(
-      USERNAME,
-      PASSWORD,
-      mySignalingKey,
-      options
-    );
+    messageReceiver = new textsecure.MessageReceiver(mySignalingKey, options);
     messageReceiver.addEventListener(
       'message',
       window.NewReceiver.handleMessageEvent
@@ -1560,10 +1377,7 @@
       logger: window.log,
     });
 
-    window.textsecure.messaging = new textsecure.MessageSender(
-      USERNAME,
-      PASSWORD
-    );
+    window.textsecure.messaging = new textsecure.MessageSender();
 
     // On startup after upgrading to a new version, request a contact sync
     //   (but only if we're not the primary device)

@@ -273,10 +273,6 @@ $session-compose-margin: 20px;
       }
     }
 
-    h4 {
-      text-transform: uppercase;
-    }
-
     .white-border {
       width: $session-left-pane-width;
       position: relative;
@@ -339,6 +335,12 @@ $session-compose-margin: 20px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+
+  .left-pane-contact-bottom-buttons .session-button {
+    vertical-align: middle;
+    white-space: normal;
+    text-align: center;
+  }
 }
 
 .session-left-pane-section-content {
@@ -382,6 +384,7 @@ $session-compose-margin: 20px;
     flex-grow: 1;
     font-size: $session-font-sm;
     font-family: $session-font-default;
+    text-overflow: ellipsis;
 
     &:focus {
       outline: none !important;
@@ -424,7 +427,7 @@ $session-compose-margin: 20px;
   .session-button.square-outline.square.danger {
     flex-grow: 1;
     height: 50px;
-    line-height: 50px;
+    // line-height: 50px;
 
     @at-root .light-theme #{&} {
       border: 1px solid $session-shade-15;
@@ -609,7 +612,7 @@ $session-compose-margin: 20px;
       flex-grow: 1;
       border: 1px solid $session-shade-8;
       height: 50px;
-      line-height: 50px;
+      // line-height: 50px;
     }
   }
 }

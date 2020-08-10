@@ -6,7 +6,7 @@ import {
   SettingsView,
 } from './session/settings/SessionSettings';
 
-import { createMediumSizeGroup } from '../session/medium_group';
+import { createLegacyGroup, createMediumGroup } from '../session/medium_group';
 
 export const MainViewController = {
   createClosedGroup,
@@ -84,9 +84,9 @@ async function createClosedGroup(
   const groupMemberIds = groupMembers.map(m => m.id);
 
   if (senderKeys) {
-    await createMediumSizeGroup(groupName, groupMemberIds);
+    await createMediumGroup(groupName, groupMemberIds);
   } else {
-    await window.doCreateGroup(groupName, groupMemberIds);
+    await createLegacyGroup(groupName, groupMemberIds);
   }
 
   if (onSuccess) {

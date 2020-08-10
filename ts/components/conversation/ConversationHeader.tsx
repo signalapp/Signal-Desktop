@@ -2,12 +2,7 @@ import React from 'react';
 
 import { Avatar } from '../Avatar';
 import { Colors, LocalizerType } from '../../types/Util';
-import {
-  ContextMenu,
-  ContextMenuTrigger,
-  MenuItem,
-  SubMenu,
-} from 'react-contextmenu';
+import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 import {
   SessionIconButton,
@@ -20,6 +15,7 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from '../session/SessionButton';
+import * as Menu from '../../session/utils/Menu';
 
 export interface TimerOption {
   name: string;
@@ -38,6 +34,7 @@ interface Props {
   isMe: boolean;
   isClosable?: boolean;
   isGroup: boolean;
+  isPrivate: boolean;
   isArchived: boolean;
   isPublic: boolean;
   isRss: boolean;
@@ -304,50 +301,59 @@ export class ConversationHeader extends React.Component<Props> {
       onUpdateGroupName,
     } = this.props;
 
-    const isPrivateGroup = isGroup && !isPublic && !isRss;
-
-    const copyIdLabel = isGroup ? i18n('copyChatId') : i18n('copyPublicKey');
-
     return (
       <ContextMenu id={triggerId}>
         {this.renderPublicMenuItems()}
-        {!isRss ? (
-          <MenuItem onClick={onCopyPublicKey}>{copyIdLabel}</MenuItem>
-        ) : null}
+        {Menu.getCopyIdMenuItem(
+          isPublic,
+          isRss,
+          isGroup,
+          onCopyPublicKey,
+          i18n
+        )}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
-        {amMod && !isKickedFromGroup ? (
-          <MenuItem onClick={onAddModerators}>{i18n('addModerators')}</MenuItem>
-        ) : null}
-        {amMod && !isKickedFromGroup ? (
-          <MenuItem onClick={onRemoveModerators}>
-            {i18n('removeModerators')}
-          </MenuItem>
-        ) : null}
-        {amMod && !isKickedFromGroup ? (
-          <MenuItem onClick={onUpdateGroupName}>
-            {i18n('editGroupNameOrPicture')}
-          </MenuItem>
-        ) : null}
-        {isPrivateGroup && !isKickedFromGroup ? (
-          <MenuItem onClick={onLeaveGroup}>{i18n('leaveGroup')}</MenuItem>
-        ) : null}
+        {Menu.getAddModeratorsMenuItem(
+          amMod,
+          isKickedFromGroup,
+          onAddModerators,
+          i18n
+        )}
+        {Menu.getRemoveModeratorsMenuItem(
+          amMod,
+          isKickedFromGroup,
+          onRemoveModerators,
+          i18n
+        )}
+        {Menu.getUpdateGroupNameMenuItem(
+          amMod,
+          isKickedFromGroup,
+          onUpdateGroupName,
+          i18n
+        )}
+        {Menu.getLeaveGroupMenuItem(
+          isKickedFromGroup,
+          isGroup,
+          isPublic,
+          isRss,
+          onLeaveGroup,
+          i18n
+        )}
         {/* TODO: add delete group */}
-        {isGroup && isPublic ? (
-          <MenuItem onClick={onInviteContacts}>
-            {i18n('inviteContacts')}
-          </MenuItem>
-        ) : null}
-        {!isMe && isClosable && !isPrivateGroup ? (
-          !isPublic ? (
-            <MenuItem onClick={onDeleteContact}>
-              {i18n('deleteContact')}
-            </MenuItem>
-          ) : (
-            <MenuItem onClick={onDeleteContact}>
-              {i18n('deletePublicChannel')}
-            </MenuItem>
-          )
-        ) : null}
+        {Menu.getInviteContactMenuItem(
+          isGroup,
+          isPublic,
+          onInviteContacts,
+          i18n
+        )}
+        {Menu.getDeleteContactMenuItem(
+          isMe,
+          isClosable,
+          isGroup,
+          isPublic,
+          isRss,
+          onDeleteContact,
+          i18n
+        )}
       </ContextMenu>
     );
   }
@@ -433,6 +439,7 @@ export class ConversationHeader extends React.Component<Props> {
       isBlocked,
       isMe,
       isGroup,
+      isPrivate,
       isKickedFromGroup,
       isPublic,
       isRss,
@@ -445,43 +452,45 @@ export class ConversationHeader extends React.Component<Props> {
       onUnblockUser,
     } = this.props;
 
-    if (isPublic || isRss) {
-      return null;
-    }
-
-    const disappearingTitle = i18n('disappearingMessages') as any;
-
-    const blockTitle = isBlocked ? i18n('unblockUser') : i18n('blockUser');
-    const blockHandler = isBlocked ? onUnblockUser : onBlockUser;
-
-    const disappearingMessagesMenuItem = !isKickedFromGroup && !isBlocked && (
-      <SubMenu title={disappearingTitle}>
-        {(timerOptions || []).map(item => (
-          <MenuItem
-            key={item.value}
-            onClick={() => {
-              onSetDisappearingMessages(item.value);
-            }}
-          >
-            {item.name}
-          </MenuItem>
-        ))}
-      </SubMenu>
+    const disappearingMessagesMenuItem = Menu.getDisappearingMenuItem(
+      isPublic,
+      isRss,
+      isKickedFromGroup,
+      isBlocked,
+      timerOptions,
+      onSetDisappearingMessages,
+      i18n
     );
-    const showMembersMenuItem = isGroup && (
-      <MenuItem onClick={onShowGroupMembers}>{i18n('showMembers')}</MenuItem>
+    const showMembersMenuItem = Menu.getShowMemberMenuItem(
+      isPublic,
+      isRss,
+      isGroup,
+      onShowGroupMembers,
+      i18n
     );
 
-    const showSafetyNumberMenuItem = !isGroup && !isMe && (
-      <MenuItem onClick={onShowSafetyNumber}>
-        {i18n('showSafetyNumber')}
-      </MenuItem>
+    const showSafetyNumberMenuItem = Menu.getShowSafetyNumberMenuItem(
+      isPublic,
+      isRss,
+      isGroup,
+      isMe,
+      onShowSafetyNumber,
+      i18n
     );
-    const resetSessionMenuItem = !isGroup && (
-      <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
+    const resetSessionMenuItem = Menu.getResetSessionMenuItem(
+      isPublic,
+      isRss,
+      isGroup,
+      onResetSession,
+      i18n
     );
-    const blockHandlerMenuItem = !isMe && !isRss && (
-      <MenuItem onClick={blockHandler}>{blockTitle}</MenuItem>
+    const blockHandlerMenuItem = Menu.getBlockMenuItem(
+      isMe,
+      isPrivate,
+      isBlocked,
+      onBlockUser,
+      onUnblockUser,
+      i18n
     );
 
     return (

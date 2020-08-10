@@ -810,6 +810,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion4,
   updateToLokiSchemaVersion5,
   updateToLokiSchemaVersion6,
+  updateToLokiSchemaVersion7,
 ];
 
 async function updateToLokiSchemaVersion1(currentVersion, instance) {
@@ -1025,6 +1026,30 @@ async function updateToLokiSchemaVersion6(currentVersion, instance) {
 
   await instance.run('COMMIT TRANSACTION;');
   console.log('updateToLokiSchemaVersion6: success!');
+}
+
+async function updateToLokiSchemaVersion7(currentVersion, instance) {
+  if (currentVersion >= 7) {
+    return;
+  }
+
+  console.log('updateToLokiSchemaVersion7: starting...');
+
+  await instance.run('BEGIN TRANSACTION;');
+
+  // Remove multi device data
+  await instance.run('DELETE FROM pairingAuthorisations;');
+
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        7
+      );`
+  );
+
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToLokiSchemaVersion7: success!');
 }
 
 async function updateLokiSchema(instance) {

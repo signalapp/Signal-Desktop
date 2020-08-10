@@ -1,4 +1,10 @@
 type MessageModelType = 'incoming' | 'outgoing';
+type MessageDeliveryStatus =
+  | 'sending'
+  | 'sent'
+  | 'delivered'
+  | 'read'
+  | 'error';
 export type EndSessionType = 'done' | 'ongoing';
 
 interface MessageAttributes {
@@ -34,6 +40,7 @@ interface MessageAttributes {
   group: any;
   bodyPending: boolean;
   timestamp: number;
+  status: MessageDeliveryStatus;
 }
 
 export interface MessageModel extends Backbone.Model<MessageAttributes> {
@@ -45,4 +52,5 @@ export interface MessageModel extends Backbone.Model<MessageAttributes> {
   markRead: () => void;
   merge: (other: MessageModel) => void;
   saveErrors: (error: any) => void;
+  sendSyncMessageOnly: (message: any) => void;
 }
