@@ -325,7 +325,7 @@ async function _promiseAjax(
         ) {
           resultPromise = response.buffer();
         } else {
-          resultPromise = response.text();
+          resultPromise = response.textConverted();
         }
 
         return resultPromise.then(result => {

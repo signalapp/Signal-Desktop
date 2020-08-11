@@ -99,7 +99,7 @@
     "mkdirp": "0.5.2",
     "moment": "2.21.0",
     "mustache": "2.3.0",
-    "node-fetch": "https://github.com/scottnonnenberg-signal/node-fetch.git#3e5f51e08c647ee5f20c43b15cf2d352d61c36b4",
+    "node-fetch": "2.6.0",
     "node-gyp": "5.0.3",
     "normalize-path": "3.0.0",
     "os-locale": "3.0.1",
@@ -144,9 +144,6 @@
     "websocket": "1.0.28",
     "zkgroup": "https://github.com/signalapp/signal-zkgroup-node.git#2d7db946cc88492b65cc66e9aa9de0c9e664fd8d"
   },
-  "resolutions": {
-    "fbjs/isomorphic-fetch/node-fetch": "https://github.com/scottnonnenberg-signal/node-fetch.git#3e5f51e08c647ee5f20c43b15cf2d352d61c36b4"
-  },
   "devDependencies": {
     "@babel/core": "7.7.7",
     "@babel/plugin-proposal-class-properties": "7.7.4",
@@ -177,7 +174,7 @@
     "@types/memoizee": "0.4.2",
     "@types/mkdirp": "0.5.2",
     "@types/mocha": "5.0.0",
-    "@types/node-fetch": "2.5.5",
+    "@types/node-fetch": "2.5.7",
     "@types/normalize-path": "3.0.0",
     "@types/pify": "3.0.2",
     "@types/qs": "6.5.1",
