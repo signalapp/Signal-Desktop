@@ -204,10 +204,26 @@
     "updated": "2020-03-25T15:45:04.024Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "js/models/conversations.js",
+    "line": "      //   but the full ConversationController.load() sequence isn't complete. So, we",
+    "lineNumber": 448,
+    "reasonCategory": "exampleCode",
+    "updated": "2020-08-11T21:28:50.868Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "js/models/conversations.js",
+    "line": "      //   don't cache props on create, but we do later when load() calls generateProps()",
+    "lineNumber": 449,
+    "reasonCategory": "exampleCode",
+    "updated": "2020-08-11T21:28:50.868Z"
+  },
+  {
     "rule": "jQuery-wrap(",
     "path": "js/models/conversations.js",
     "line": "      await wrap(",
-    "lineNumber": 665,
+    "lineNumber": 673,
     "reasonCategory": "falseMatch",
     "updated": "2020-06-09T20:26:46.515Z"
   },

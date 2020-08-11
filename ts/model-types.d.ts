@@ -85,6 +85,7 @@ declare class ConversationModelType extends Backbone.Model<
   cleanup(): Promise<void>;
   disableProfileSharing(): void;
   dropProfileKey(): Promise<void>;
+  generateProps(): void;
   getAccepted(): boolean;
   getAvatarPath(): string | undefined;
   getColor(): ColorType | undefined;
