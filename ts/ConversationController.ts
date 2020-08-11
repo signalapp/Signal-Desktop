@@ -91,10 +91,6 @@ export class ConversationController {
     // This function takes null just fine. Backbone typings are too restrictive.
     return this._conversations.get(id as string);
   }
-  // Needed for some model setup which happens during the initial fetch() call below
-  getUnsafe(id: string) {
-    return this._conversations.get(id);
-  }
   dangerouslyCreateAndAdd(attributes: Partial<ConversationModelType>) {
     return this._conversations.add(attributes);
   }
@@ -617,6 +613,9 @@ export class ConversationController {
     this._initialFetchComplete = false;
     this._conversations.reset([]);
   }
+  isFetchComplete() {
+    return this._initialFetchComplete;
+  }
   async load() {
     window.log.info('ConversationController: starting initial fetch');
 
@@ -636,6 +635,12 @@ export class ConversationController {
 
         await Promise.all(
           this._conversations.map(async conversation => {
+            // This call is important to allow Conversation models not to generate their
+            //   cached props on initial construction if we're in the middle of the load
+            //   from the database. Then we come back to the models when it is safe and
+            //   generate those props.
+            conversation.generateProps();
+
             if (!conversation.get('lastMessage')) {
               await conversation.updateLastMessage();
             }

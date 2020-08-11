@@ -664,10 +664,7 @@
       return ConversationController.get(identifier);
     },
     getConversation() {
-      // This needs to be an unsafe call, because this method is called during
-      //   initial module setup. We may be in the middle of the initial fetch to
-      //   the database.
-      return ConversationController.getUnsafe(this.get('conversationId'));
+      return ConversationController.get(this.get('conversationId'));
     },
     createNonBreakingLastSeparator(text) {
       if (!text) {

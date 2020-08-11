@@ -169,11 +169,11 @@
       this.typingPauseTimer = null;
 
       // Keep props ready
-      const generateProps = () => {
+      this.generateProps = () => {
         this.cachedProps = this.getProps();
       };
-      this.on('change', generateProps);
-      generateProps();
+      this.on('change', this.generateProps);
+      this.generateProps();
     },
 
     isMe() {
@@ -444,6 +444,14 @@
       return this.cachedProps;
     },
     getProps() {
+      // This is to prevent race conditions on startup; Conversation models are created
+      //   but the full ConversationController.load() sequence isn't complete. So, we
+      //   don't cache props on create, but we do later when load() calls generateProps()
+      //   for us.
+      if (!window.ConversationController.isFetchComplete()) {
+        return null;
+      }
+
       const color = this.getColor();
 
       const typingValues = _.values(this.contactTypingTimers || {});
