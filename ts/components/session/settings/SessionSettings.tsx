@@ -7,7 +7,7 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from '../SessionButton';
-import { UserUtil } from '../../../util';
+import { BlockedNumberController, UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { PubKey } from '../../../session/types';
 import { NumberUtils } from '../../../session/utils';
@@ -103,6 +103,9 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     if (category === SessionSettingCategory.Devices) {
       // special case for linked devices
       settings = this.getLinkedDeviceSettings();
+    } else if(category === SessionSettingCategory.Blocked) {
+      // special case for blocked user
+      settings = this.getBlockedUserSettings();
     } else {
       // Grab initial values from database on startup
       // ID corresponds to installGetter parameters in preload.js
@@ -590,6 +593,45 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         confirmationDialogParams: undefined,
       },
     ];
+  }
+
+  private getBlockedUserSettings(): Array<LocalSettingType> {
+    const results: Array<LocalSettingType> = [];
+    const blockedNumbers = BlockedNumberController.getBlockedNumbers();
+
+    for (const blockedNumber of blockedNumbers) {
+      
+      let displayName = `User (...${blockedNumber.substr(-6)})`;
+
+      const currentModel = window.ConversationController.get(blockedNumber);
+      if (
+        currentModel && 
+        currentModel.attributes.profile && 
+        currentModel.attributes.profile.displayName
+      ) {
+        displayName = currentModel.attributes.profile.displayName
+      }
+
+      results.push({
+        id: blockedNumber,
+        title: displayName,
+        description: blockedNumber,
+        type: SessionSettingType.Button,
+        category: SessionSettingCategory.Blocked,
+        content: {
+          buttonColor: SessionButtonColor.Danger,
+          buttonText: window.i18n('unblockUser'),
+        },
+        comparisonValue: undefined,
+        setFn: async () => {
+          await BlockedNumberController.unblock(blockedNumber)
+        },
+        hidden: false,
+        onClick: undefined,
+        confirmationDialogParams: undefined,
+      });
+    }
+    return results;
   }
 
   private getLinkedDeviceSettings(): Array<LocalSettingType> {

@@ -213,6 +213,11 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
         hidden: false,
       },
       {
+        id: SessionSettingCategory.Blocked,
+        title: window.i18n('blockedSettingsTitle'),
+        hidden: false,
+      },
+      {
         id: SessionSettingCategory.Permissions,
         title: window.i18n('permissionSettingsTitle'),
         hidden: true,
