@@ -133,10 +133,18 @@ async function mergeGroupV1Record(
     return;
   }
 
-  const conversation = await window.ConversationController.getOrCreateAndWait(
-    groupV1Record.id.toBinary(),
-    'group'
-  );
+  const groupId = groupV1Record.id.toBinary();
+
+  // We do a get here because we don't get enough information from just this source to
+  //   be able to do the right thing with this group. So we'll update the local group
+  //   record if we have one; otherwise we'll just drop this update.
+  const conversation = window.ConversationController.get(groupId);
+  if (!conversation) {
+    window.log.warn(
+      `storageService.mergeGroupV1Record: No conversation for group(${groupId})`
+    );
+    return;
+  }
 
   conversation.set({
     isArchived: Boolean(groupV1Record.archived),
