@@ -88,7 +88,7 @@ export = {
   contactsButtonSection:
     '//*[contains(@class,"session-icon-button")  and .//*[contains(@class, "users")]]',
   addContactButton: commonPage.divRoleButtonWithText('Add Contact'),
-  sessionIDInput: commonPage.textAreaWithPlaceholder('Enter a Session ID'),
+  sessionIDInput: commonPage.textAreaWithPlaceholder('Enter Session ID'),
   nextButton: commonPage.divRoleButtonWithText('Next'),
 
   descriptionDeleteAccount: commonPage.spanWithClassAndText(
