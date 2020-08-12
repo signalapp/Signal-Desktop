@@ -31,7 +31,9 @@ export class SettingsHeader extends React.Component<Props, any> {
   }
 
   public focusSearch() {
-    $('.left-pane-setting-section .session-search-input input').focus();
+    ($(
+      '.left-pane-setting-section .session-search-input input'
+    ) as any).focus();
   }
 
   public showAddLinkedDeviceModal() {

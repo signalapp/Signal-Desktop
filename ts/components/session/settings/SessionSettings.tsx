@@ -80,7 +80,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   public componentDidMount() {
-    setTimeout(() => $('#password-lock-input').focus(), 100);
+    setTimeout(() => ($('#password-lock-input') as any).focus(), 100);
 
     window.Whisper.events.on('refreshLinkedDeviceList', async () => {
       setTimeout(() => {
@@ -198,7 +198,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   public async validatePasswordLock() {
-    const enteredPassword = String($('#password-lock-input').val());
+    const enteredPassword = String(jQuery('#password-lock-input').val());
 
     if (!enteredPassword) {
       this.setState({
@@ -265,7 +265,9 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   public setOptionsSetting(settingID: string) {
-    const selectedValue = $(`#${settingID} .session-radio input:checked`).val();
+    const selectedValue = jQuery(
+      `#${settingID} .session-radio input:checked`
+    ).val();
     window.setSettingValue(settingID, selectedValue);
   }
 
@@ -669,7 +671,9 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   private async onKeyUp(event: any) {
-    const lockPasswordFocussed = $('#password-lock-input').is(':focus');
+    const lockPasswordFocussed = ($('#password-lock-input') as any).is(
+      ':focus'
+    );
 
     if (event.key === 'Enter' && lockPasswordFocussed) {
       await this.validatePasswordLock();

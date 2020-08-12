@@ -39,7 +39,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    setTimeout(() => $('#seed-input-password').focus(), 100);
+    setTimeout(() => ($('#seed-input-password') as any).focus(), 100);
   }
 
   public render() {
@@ -145,7 +145,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
 
   private confirmPassword() {
     const passwordHash = this.state.passwordHash;
-    const passwordValue = $('#seed-input-password').val();
+    const passwordValue = jQuery('#seed-input-password').val();
     const isPasswordValid = window.passwordUtil.matchesHash(
       passwordValue,
       passwordHash
