@@ -198,7 +198,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   public async validatePasswordLock() {
-    const enteredPassword = String(($('#password-lock-input') as any).val());
+    const enteredPassword = String(jQuery('#password-lock-input').val());
 
     if (!enteredPassword) {
       this.setState({
@@ -265,9 +265,9 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   public setOptionsSetting(settingID: string) {
-    const selectedValue = ($(
+    const selectedValue = jQuery(
       `#${settingID} .session-radio input:checked`
-    ) as any).val();
+    ).val();
     window.setSettingValue(settingID, selectedValue);
   }
 

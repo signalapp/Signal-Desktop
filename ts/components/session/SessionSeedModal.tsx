@@ -145,7 +145,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
 
   private confirmPassword() {
     const passwordHash = this.state.passwordHash;
-    const passwordValue = ($('#seed-input-password') as any).val();
+    const passwordValue = jQuery('#seed-input-password').val();
     const isPasswordValid = window.passwordUtil.matchesHash(
       passwordValue,
       passwordHash
