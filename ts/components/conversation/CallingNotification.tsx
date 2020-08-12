@@ -15,7 +15,7 @@ type PropsHousekeeping = {
 
 type Props = PropsData & PropsHousekeeping;
 
-function getMessage(
+export function getCallingNotificationText(
   callHistoryDetails: CallHistoryDetailsType,
   i18n: LocalizerType
 ): string {
@@ -76,7 +76,7 @@ export const CallingNotification = (props: Props): JSX.Element | null => {
       className={`module-message-calling--notification module-message-calling--${callType}`}
     >
       <div className={`module-message-calling--${callType}__icon`} />
-      {getMessage(callHistoryDetails, i18n)}
+      {getCallingNotificationText(callHistoryDetails, i18n)}
       <div>
         <Timestamp
           i18n={i18n}
