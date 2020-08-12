@@ -619,9 +619,6 @@ export class Message extends React.PureComponent<Props, State> {
             withContentBelow
               ? 'module-message__attachment-container--with-content-below'
               : null,
-            collapseMetadata
-              ? 'module-message__attachment-container--with-collapsed-metadata'
-              : null,
             isSticker && !collapseMetadata
               ? 'module-message__sticker-container--with-content-below'
               : null

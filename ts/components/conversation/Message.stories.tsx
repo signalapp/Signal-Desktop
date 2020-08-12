@@ -1295,6 +1295,48 @@ const stories: Array<MessageStory> = [
       },
     ],
   ],
+  [
+    'Sticker',
+    [
+      {
+        title: 'Outgoing Sticker',
+        makeDataProps: () => ({
+          ...baseDataProps,
+          direction: 'outgoing',
+          status: 'sent',
+          authorColor: 'green',
+          isSticker: true,
+          attachments: [
+            {
+              url: '/fixtures/512x515-thumbs-up-lincoln.webp',
+              fileName: '512x515-thumbs-up-lincoln.webp',
+              contentType: 'image/webp' as MIMEType,
+              width: 128,
+              height: 128,
+            },
+          ],
+        }),
+      },
+      {
+        title: 'Incoming Sticker',
+        makeDataProps: () => ({
+          ...baseDataProps,
+          direction: 'incoming',
+          authorColor: 'green',
+          isSticker: true,
+          attachments: [
+            {
+              url: '/fixtures/512x515-thumbs-up-lincoln.webp',
+              fileName: '512x515-thumbs-up-lincoln.webp',
+              contentType: 'image/webp' as MIMEType,
+              width: 128,
+              height: 128,
+            },
+          ],
+        }),
+      },
+    ],
+  ],
 ];
 
 const renderEmojiPicker: AllProps['renderEmojiPicker'] = ({
