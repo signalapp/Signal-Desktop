@@ -28,7 +28,7 @@
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
-        "message": "&Edytuj",
+        "message": "&Edycja",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
@@ -68,7 +68,7 @@
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "Przywróć",
+        "message": "Powtórz",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
@@ -178,11 +178,11 @@
         }
     },
     "archivedConversations": {
-        "message": "Zarchiwizowane rozmowy",
+        "message": "Archiwum konwersacji",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "archiveHelperText": {
-        "message": "Te rozmowy są zarchiwizowane i pojawią się w Odebranych tylko po otrzymaniu nowych wiadomości.",
+        "message": "Te konwersacje są zarchiwizowane i pojawią się w Odebranych tylko po otrzymaniu nowych wiadomości.",
         "description": "Shown at the top of the archived converations list in the left pane"
     },
     "archiveConversation": {
@@ -190,7 +190,7 @@
         "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
     },
     "moveConversationToInbox": {
-        "message": "Przenieś konwersacje do skrzynki odbiorczej",
+        "message": "Przenieś konwersację do skrzynki odbiorczej",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "chooseDirectory": {
@@ -206,7 +206,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Właśnie przeszedłeś proces eksportu, twoje kontakty i wiadomości czekają cierpliwie na twoim komputerze. Wybierz folder zawierający zapisane dane Signal.",
+        "message": "Właśnie zakończyłeś(aś) proces eksportu. Twoje kontakty i wiadomości czekają cierpliwie na Twoim komputerze. Wybierz folder zawierający zapisane dane Signal.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -222,11 +222,11 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Upewnij się, że wybrałeś właściwy folder zawierający dane Signal. Jego nazwa powinna zaczynać się na \"Signal Export\". Możesz też zapisać nową kopię danych z aplikacji Chrome.",
+        "message": "Upewnij się, że wybrałeś(aś) właściwy folder zawierający dane Signal. Jego nazwa powinna zaczynać się na \"Signal Export\". Możesz też zapisać nową kopię danych z aplikacji Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
-        "message": "Jeżeli te kroki nie będą dla Ciebie skuteczne, prześlij dziennik debugowania (Widok -> Dziennik debugowania), abyśmy mogli Ci pomóc w migracji!",
+        "message": "Jeżeli te kroki nie zadziałają, prześlij dziennik debugowania (Widok -> Dziennik debugowania), abyśmy mogli Ci pomóc w migracji!",
         "description": "Message shown if the import went wrong; second paragraph"
     },
     "importAgain": {
@@ -250,11 +250,11 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "Uaktualnianie bazy danych. To może zająć chwilę...",
+        "message": "Uaktualnianie bazy danych. To może chwilę potrwać...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Ładowanie. Załadowanych wiadomości: $count$ ",
+        "message": "Wczytywanie wiadomości: $count$…",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -338,63 +338,47 @@
         }
     },
     "membersNeedingVerification": {
-        "message": "Twoje numery bezpieczeństwa dla tych członków grupy uległy zmianie od ostatniej ich weryfikacji. Naciśnij na członka grupy, aby zobaczyć Twój nowy numer bezpieczeństwa dla niego.",
+        "message": "Twoje numery bezpieczeństwa dla tych członków grupy uległy zmianie od czasu ostatniej weryfikacji. Naciśnij na członka grupy, aby zobaczyć Twój nowy numer bezpieczeństwa dla niego.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
-    "changedSinceVerifiedMultiple": {
-        "message": "Twoje numery bezpieczeństwa dla tych członków grupy uległy zmianie od ostatniej ich weryfikacji. Może to oznaczać, że ktoś próbuje przechwycić Twoją komunikację albo że członkowie grupy po prostu przeinstalowali aplikację Signal.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "changedSinceVerified": {
-        "message": "Twój numer bezpieczeństwa dla $name$ uległ zmianie od ostatniej jego weryfikacji. Może to oznaczać, że ktoś próbuje przechwycić Twoją komunikację albo że $name$ po prostu przeinstalował aplikację Signal. ",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
     "changedRightAfterVerify": {
-        "message": "Weryfikowany przez ciebie numer bezpieczeństwa uległ zmianie. Potwierdź go z $name$. Pamiętaj, że ta zmiana może oznaczać, że ktoś próbuje przechwycić Twoją komunikację albo że $name$ po prostu przeinstalował Signal. ",
+        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name1$. Remember, this change could mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
-            "name": {
+            "name1": {
                 "content": "$1",
+                "example": "Bob"
+            },
+            "name2": {
+                "content": "$2",
                 "example": "Bob"
             }
         }
     },
-    "changedRecentlyMultiple": {
-        "message": "Twoje numery bezpieczeństwa dla wielu członków grupy uległy ostatnio zmianie. Może to oznaczać, że ktoś próbuje przechwycić Twoją komunikację albo że członkowie grupy po prostu przeinstalowali aplikację Signal.",
+    "changedVerificationWarning": {
+        "message": "Następujące osoby mogły ponownie zainstalować aplikację lub zmienić urządzenie. Zweryfikuj wasze numery bezpieczeństwa, aby zapewnić prywatność.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "changedRecently": {
-        "message": "Numer bezpieczeństwa dla $name$ uległ zmianie. Może to oznaczać, że ktoś próbuje przechwycić Twoją komunikację albo że $name$po prostu przeinstalował Signal. ",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
     "identityKeyErrorOnSend": {
-        "message": "Numer bezpieczeństwa dla $name$ uległ zmianie. Może to oznaczać, że ktoś próbuje przechwycić Twoją komunikację albo że po $name$ prostu przeinstalował Signal. Możesz chcieć zweryfikować z nim swój numer bezpieczeństwa.",
+        "message": "Your safety number with $name1$ has changed. This could either mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
-            "name": {
+            "name1": {
                 "content": "$1",
+                "example": "Bob"
+            },
+            "name2": {
+                "content": "$2",
                 "example": "Bob"
             }
         }
     },
     "sendAnyway": {
-        "message": "Wyślij mimo wszystko",
+        "message": "Wyślij mimo to",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "noLongerVerified": {
-        "message": "Twój numer bezpieczeństwa z $name$ zmienił się. Naciśnij, aby zobaczyć.",
+        "message": "Twój numer bezpieczeństwa dla $name$ zmienił się. Naciśnij, aby zobaczyć.",
         "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -408,7 +392,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Ten dziennik zostanie przekazany twórcom aplikacji i upubliczniony do wglądu. Możesz go przejrzeć i zmodyfikować przed wysłaniem.",
+        "message": "Ten log zostanie upubliczniony online, aby umożliwić twórcom aplikacji jego sprawdzenie. Możesz go przejrzeć i edytować przed przesłaniem.",
         "description": ""
     },
     "debugLogError": {
@@ -420,11 +404,11 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopyAlt": {
-        "message": "Kopiuj łącze do schowka",
+        "message": "Kopiuj link do schowka",
         "description": "Shown as the alt text for the copy button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "Łącze skopiowane do schowka",
+        "message": "Link skopiowany do schowka",
         "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
@@ -462,7 +446,7 @@
         }
     },
     "isNotVerified": {
-        "message": "Nie zweryfikowałeś swojego numeru bezpieczeństwa z $name$.",
+        "message": "Nie zweryfikowałeś(aś) swojego numeru bezpieczeństwa z $name$.",
         "description": "Summary state shown at top of the safety number screen if user has not verified contact.",
         "placeholders": {
             "name": {
@@ -492,7 +476,7 @@
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "Nie masz żadnych mediów w tej rozmowie",
+        "message": "Nie masz żadnych mediów w tej konwersacji",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
@@ -500,11 +484,11 @@
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "Nie masz żadnych dokumentów w tej rozmowie",
+        "message": "Nie masz żadnych dokumentów w tej konwersacji",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
-        "message": "Dziś",
+        "message": "Dzisiaj",
         "description": "Section header in the media gallery"
     },
     "yesterday": {
@@ -516,7 +500,7 @@
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "Ten miesiąc",
+        "message": "W tym miesiącu",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -574,10 +558,10 @@
         }
     },
     "oneNonImageAtATimeToast": {
-        "message": "W przypadku dołączenia załącznika innego niż obraz, limit wynosi jeden załącznik na wiadomość.",
+        "message": "Gdy załącznik nie jest obrazem, możesz wysłać tylko jeden na raz.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "Nie można łączyć obrazów z innymi załącznikami w jednej wiadomości.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -598,7 +582,7 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Trwa łączenie",
+        "message": "Łączenie",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
@@ -642,7 +626,7 @@
         "description": "Item under the Help menu, takes you to the forums"
     },
     "goToSupportPage": {
-        "message": "Przejdź do strony wsparcia",
+        "message": "Przejdź do strony pomocy",
         "description": "Item under the Help menu, takes you to the support page"
     },
     "goToGithub": {
@@ -700,7 +684,7 @@
         }
     },
     "noSearchResults": {
-        "message": "Nie znaleziono „$searchTerm$”",
+        "message": "Nie znaleziono \"$searchTerm$\"",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -714,13 +698,17 @@
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
+                "content": "$1",
+                "example": "dog"
+            },
+            "conversationName": {
                 "content": "$2",
                 "example": "Friends"
             }
         }
     },
     "conversationsHeader": {
-        "message": "Rozmowy",
+        "message": "Konwersacje",
         "description": "Shown to separate the types of search results"
     },
     "contactsHeader": {
@@ -740,8 +728,12 @@
         "description": ""
     },
     "typingAlt": {
-        "message": "Animacja wskaźnika pisania w tej rozmowie",
+        "message": "Animacja wskaźnika pisania w tej konwersacji",
         "description": "Used as the 'title' attibute for the typing animation"
+    },
+    "contactInAddressBook": {
+        "message": "This person is in your contacts.",
+        "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
         "message": "Zdjęcie profilowe $name$",
@@ -770,7 +762,7 @@
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
-        "message": "Email",
+        "message": "e-mail",
         "description": "Generic label shown if contact email has custom type but no label"
     },
     "phone": {
@@ -857,6 +849,14 @@
         "message": "Aby wysyłać wiadomości audio, zezwól aplikacji Signal Desktop na dostęp do mikrofonu.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
+    "audioCallingPermissionNeeded": {
+        "message": "For calling, you must allow Signal Desktop to access your microphone.",
+        "description": "Shown if the user attempts access the microphone for calling without audio permssions turned on"
+    },
+    "videoCallingPermissionNeeded": {
+        "message": "For video calling, you must allow Signal Desktop to access your camera.",
+        "description": "Shown if the user attempts access the camera for video calling without video permssions turned on"
+    },
     "allowAccess": {
         "message": "Zezwól",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
@@ -918,7 +918,7 @@
         "description": ""
     },
     "failedToSend": {
-        "message": "Nie można było wysłać wiadomości do niektórych adresatów. Sprawdź połączenie z internetem.",
+        "message": "Nie udało się wysłać wiadomości do niektórych odbiorców. Sprawdź połączenie z siecią.",
         "description": ""
     },
     "error": {
@@ -934,7 +934,7 @@
         "description": ""
     },
     "deleteWarning": {
-        "message": "Na pewno? Naciśnięcie „usuń” spowoduje bezpowrotne usunięcie wiadomości z tego urządzenia.",
+        "message": "Na pewno? Naciśnięcie \"usuń\" spowoduje bezpowrotne usunięcie wiadomości z tego urządzenia.",
         "description": ""
     },
     "deleteThisMessage": {
@@ -974,7 +974,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Zestaw ponownie sesję",
+        "message": "Zresetuj sesję",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
@@ -986,7 +986,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Jeżeli chcesz sprawdzić bezpieczeństwo Twojego szyfrowanego połączenia z $name$, porównaj powyższe cyfry z cyframi na jego/jej urządzeniu.",
+        "message": "Jeżeli chcesz sprawdzić bezpieczeństwo Twojego szyfrowanego połączenia z $name$, porównaj powyższe cyfry z cyframi na  urządzeniu Twojego kontaktu.",
         "description": "",
         "placeholders": {
             "name": {
@@ -996,7 +996,7 @@
         }
     },
     "theirIdentityUnknown": {
-        "message": "Nie wymieniono jeszcze żadnych wiadomości. Numer bezpieczeństwa dla tej osoby będzie dostępny po wymianie pierwszej wiadomości.",
+        "message": "Nie wymieniono jeszcze żadnych wiadomości. Numer bezpieczeństwa dla tego kontaktu będzie dostępny po wymianie pierwszej wiadomości.",
         "description": ""
     },
     "moreInfo": {
@@ -1016,11 +1016,11 @@
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Usunąć bezpowrotnie tę konwersację?",
+        "message": "Usunąć tę konwersację bezpowrotnie?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
-        "message": "Zestaw ponownie bezpieczną sesję",
+        "message": "Zresetowano bezpieczną sesję",
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "quoteThumbnailAlt": {
@@ -1036,11 +1036,11 @@
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
-        "message": "Obraz wysłany w rozmowie",
+        "message": "Obraz wysłany w konwersacji",
         "description": "Used in the alt tag for the image shown in a full-screen lightbox view"
     },
     "imageCaptionIconAlt": {
-        "message": "Ikona informująca o tekście, który zawiera grafika",
+        "message": "Ikona informująca, że to zdjęcie ma podpis",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
     "addACaption": {
@@ -1060,7 +1060,7 @@
         "description": "Welcome title on the install page"
     },
     "installTagline": {
-        "message": "Prywatność jest możliwa i łatwa dzięki Signal.",
+        "message": "Dzięki Signal zachowanie prywatności jest możliwe i proste.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
     "linkYourPhone": {
@@ -1076,7 +1076,7 @@
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
     },
     "plusButton": {
-        "message": "Przycisk „+”",
+        "message": "Przycisk \"+\"",
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
@@ -1096,7 +1096,7 @@
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
-        "message": "Trwa synchronizacja grup i kontaktów",
+        "message": "Synchronizacja grup i kontaktów",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1104,7 +1104,7 @@
         "description": "Displayed when we can't connect to the server."
     },
     "installTooManyDevices": {
-        "message": "Niestety, masz za dużo połączonych urządzeń. Spróbuj usunąć kilka.",
+        "message": "Niestety, masz za dużo połączonych urządzeń. Spróbuj kilka usunąć.",
         "description": ""
     },
     "installTooOld": {
@@ -1123,12 +1123,28 @@
         "message": "Motyw",
         "description": "Header for theme settings"
     },
+    "calling": {
+        "message": "Połączenia",
+        "description": "Header for calling options on the settings screen"
+    },
+    "alwaysRelayCallsDescription": {
+        "message": "Zawsze przekazuj połączenia",
+        "description": "Description of the always relay calls setting"
+    },
+    "alwaysRelayCallsDetail": {
+        "message": "Przekazuj połączenia za pomocą serwerów Signal, aby uniknąć ujawnienia adresu IP Twoim kontaktom. Pogorszy to jakość połączenia.",
+        "description": "Details describing the always relay calls setting"
+    },
     "permissions": {
         "message": "Uprawnienia",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Zezwól na dostęp do kamery i mikrofonu",
+        "message": "Allow access to the microphone",
+        "description": "Description of the media permission description"
+    },
+    "mediaCameraPermissionsDescription": {
+        "message": "Allow access to the camera",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1152,7 +1168,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Spowoduje to wyczyszczenie wszystkich danych w aplikacji, usunięcie wszystkich wiadomości i zapisanych informacji o koncie.",
+        "message": "To działanie spowoduje wyczyszczenie wszystkich danych w aplikacji, usunięcie wszystkich wiadomości i zapisanych informacji o koncie.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -1295,6 +1311,10 @@
         "message": "Wysyłanie nie powiodło się",
         "description": "Shown on outgoing message if it fails to send"
     },
+    "partiallySent": {
+        "message": "Partially sent, click for details",
+        "description": "Shown on outgoing message if it is partially sent"
+    },
     "showMore": {
         "message": "Szczegóły",
         "description": "Displays the details of a key change"
@@ -1328,7 +1348,7 @@
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
-        "message": "Zaimportuj wszystkie grupy i kontakty ze swojego urządzenia mobilnego",
+        "message": "Zaimportuj wszystkie grupy i kontakty ze swojego urządzenia mobilnego.",
         "description": "Explanatory text for sync settings"
     },
     "lastSynced": {
@@ -1400,7 +1420,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Ustawiłeś(aś) znikające wiadomości na $time$",
+        "message": "You set the disappearing message time to $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1410,7 +1430,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "Zmieniono czas znikających wiadomości na $time$",
+        "message": "Updated the disappearing message time to $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1420,7 +1440,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ ustawił(a) znikające wiadomości na $time$",
+        "message": "$name$ set the disappearing message time to $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1538,7 +1558,7 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ wyłączył(a) znikające wiadomości",
+        "message": "$name$ disabled disappearing messages.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1548,11 +1568,11 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Wyłączyłeś(aś) znikające wiadomości",
+        "message": "Wyłączyłeś(aś) znikające wiadomości.",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Czas ustawiony na $time$.",
+        "message": "Czas ustawiony na $time$",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1565,12 +1585,60 @@
         "message": "Odtwórz powiadomienie dźwiękowe",
         "description": "Description for audio notification setting"
     },
+    "callRingtoneNotificationDescription": {
+        "message": "Play calling sounds",
+        "description": "Description for call ringtone notification setting"
+    },
+    "callSystemNotificationDescription": {
+        "message": "Show notifications for calls",
+        "description": "Description for call notification setting"
+    },
+    "incomingCallNotificationDescription": {
+        "message": "Enable incoming calls",
+        "description": "Description for incoming calls setting"
+    },
+    "contactChangedProfileName": {
+        "message": "$sender$ changed their profile name from $oldProfile$ to $newProfile$.",
+        "description": "Description for incoming calls setting",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "oldProfile": {
+                "content": "$2",
+                "example": ".x8Skillz8x."
+            },
+            "newProfile": {
+                "content": "$3",
+                "example": "Bob Smith"
+            }
+        }
+    },
+    "changedProfileName": {
+        "message": "$oldProfile$ changed their profile name to $newProfile$.",
+        "description": "Shown when a contact not in your address book changes their profile name",
+        "placeholders": {
+            "oldProfile": {
+                "content": "$2",
+                "example": ".x8Skillz8x."
+            },
+            "newProfile": {
+                "content": "$3",
+                "example": "Bob Smith"
+            }
+        }
+    },
     "safetyNumberChanged": {
-        "message": "Numer bezpieczeństwa się zmienił",
+        "message": "Numer bezpieczeństwa uległ zmianie",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
+    "safetyNumberChanges": {
+        "message": "Zmiany numeru bezpieczeństwa",
+        "description": "Title for safety number changed modal"
+    },
     "safetyNumberChangedGroup": {
-        "message": "Numer bezpieczeństwa z $name$ został zmieniony",
+        "message": "Numer bezpieczeństwa dla $name$ zmienił się",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1584,10 +1652,10 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "Twój numer bezpieczeństwa z $name$:",
+        "message": "Your safety number with $name1$:",
         "description": "Heading for safety number view",
         "placeholders": {
-            "name": {
+            "name1": {
                 "content": "$1",
                 "example": "John"
             }
@@ -1609,12 +1677,16 @@
         "message": "Moje notatki",
         "description": "Name for the conversation with your own phone number"
     },
+    "noteToSelfHero": {
+        "message": "W tej konwersacji możesz dodawać swoje notatki. Jeśli z Twoim kontem są połączone jakieś urządzenia, nowe notatki zostaną zsynchronizowane.",
+        "description": "Description for the Note to Self conversation"
+    },
     "hideMenuBar": {
         "message": "Ukryj pasek menu",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Rozpocznij nową rozmowę…",
+        "message": "Rozpocznij nową konwersację…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "notSupportedSMS": {
@@ -1646,11 +1718,11 @@
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Dostępna nowa wersja Signal",
+        "message": "Dostępna nowa wersja Signal.",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
-        "message": "Naciśnij „Uruchom ponownie”, aby zakończyć aktualizację.",
+        "message": "Naciśnij \"Uruchom ponownie\", aby zakończyć aktualizację.",
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
@@ -1662,7 +1734,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ opuścił(a) tę grupę.",
+        "message": "$name$ opuścił(a) grupę.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1672,7 +1744,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ opuścili(ły) tę grupę.",
+        "message": "$name$ opuścili(ły) grupę.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1682,7 +1754,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ zaktualizował(a) tę grupę.",
+        "message": "$name$ zaktualizował(a) grupę.",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1696,7 +1768,7 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Awatar tej grupy został zaktualizowany.",
+        "message": "Awatar grupy został zaktualizowany.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
@@ -1710,11 +1782,11 @@
         }
     },
     "youJoinedTheGroup": {
-        "message": "Dołączyłeś(aś) do tej grupy.",
+        "message": "Dołączyłeś(aś) do grupy.",
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ dołączył(a) do tej grupy.",
+        "message": "$name$ dołączył(a) do grupy.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1732,6 +1804,10 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "ConversationListItem--message-request": {
+        "message": "Prośba o kontakt",
+        "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
     },
     "ConversationListItem--draft-prefix": {
         "message": "Szkic:",
@@ -1846,11 +1922,11 @@
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
-        "message": "Nie znaleziono emoji",
+        "message": "Nie znaleziono emotikon",
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "Szukaj emoji",
+        "message": "Szukaj emotikon",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
@@ -1984,7 +2060,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
-        "message": "Otwórz podgląd multimediów",
+        "message": "Otwórz galerię multimediów",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
@@ -2040,7 +2116,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Usuń szkic podglądu odnośnika",
+        "message": "Usuń szkic podglądu linku",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
@@ -2107,6 +2183,18 @@
         "message": "Zamknij obecną konwersację",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--calling-header": {
+        "message": "Połączenia",
+        "description": "Header of the keyboard shortcuts guide - calling section"
+    },
+    "Keyboard--toggle-audio": {
+        "message": "Toggle mute on and off",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--toggle-video": {
+        "message": "Toggle video on and off",
+        "description": "Shown in the shortcuts guide"
+    },
     "close-popup": {
         "message": "Zamknij wyskakujące okienko",
         "description": "Used as alt text for any button closing a popup"
@@ -2124,7 +2212,7 @@
         "description": "Used as alt-text of button on archived conversations screen"
     },
     "conversationArchived": {
-        "message": "Zarchiwizowano rozmowę",
+        "message": "Zarchiwizowano konwersację",
         "description": "A toast that shows up when user archives a conversation"
     },
     "conversationReturnedToInbox": {
@@ -2260,7 +2348,7 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "Gratulacje! Stworzyłeś pakiet naklejek.",
+        "message": "Gratulacje! Stworzyłeś(aś) pakiet naklejek.",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
@@ -2268,7 +2356,7 @@
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Użyj hasztagu $hashtag$, aby pomóc ludziom znaleźć linki do własnych pakietów naklejek, które chciałbyś udostępnić publicznie.",
+        "message": "Użyj hasztagu $hashtag$, aby pomóc ludziom znaleźć linki do własnych pakietów naklejek, które chcesz udostępnić publicznie.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -2290,11 +2378,11 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Sprawdź ten nowy pakiet naklejek, który stworzyłem/am dla Signal. #makeprivacystick",
+        "message": "Rzuć okiem na ten nowy pakiet naklejek, który stworzyłem(am) dla Signal. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
-        "message": "Dodane/ych obrazy/ów$count$",
+        "message": "Dodane(ych) obrazy(ów)$count$",
         "description": "Text for the toast when images are added to the sticker creator",
         "placeholders": {
             "count": {
@@ -2353,8 +2441,326 @@
         "message": "Wszystkie",
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
+    "MessageRequests--message-direct": {
+        "message": "Let $name$ message you and share your name and photo with them? They won’t know you’ve seen their messages until you accept.",
+        "description": "Shown as the message for a message request in a direct message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce"
+            }
+        }
+    },
+    "MessageRequests--message-direct-blocked": {
+        "message": "Let $name$ message you and share your name and photo with them? You won't receive any messages until you unblock them.",
+        "description": "Shown as the message for a message request in a direct message with a blocked account",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce"
+            }
+        }
+    },
+    "MessageRequests--message-group": {
+        "message": "Czy chcesz dołączyć do tej grupy i udostępnić swoje imię i zdjęcie jej członkom? Członkowie grupy nie będą wiedzieć, że przeczytałeś(aś) ich wiadomość, dopóki nie zaakceptujesz.",
+        "description": "Shown as the message for a message request in a group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--message-group-blocked": {
+        "message": "Czy chcesz odblokować tę grupę i udostępnić swoje imię i zdjęcie jej członkom? Nie otrzymasz żadnych wiadomości, dopóki nie odblokujesz.",
+        "description": "Shown as the message for a message request in a blocked group"
+    },
+    "MessageRequests--block": {
+        "message": "Zablokuj",
+        "description": "Shown as a button to let the user block a message request"
+    },
+    "MessageRequests--unblock": {
+        "message": "Odblokuj",
+        "description": "Shown as a button to let the user unblock a message request"
+    },
+    "MessageRequests--unblock-confirm-title": {
+        "message": "Unblock $name$?",
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--unblock-direct-confirm-body": {
+        "message": "Będziecie w stanie wysyłać wiadomości i wykonywać połączenia do siebie nawzajem.",
+        "description": "Shown as the body in the confirmation modal for unblocking a private message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--unblock-group-confirm-body": {
+        "message": "Group members will be able to add your to this group again.",
+        "description": "Shown as the body in the confirmation modal for unblocking a group message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--block-and-delete": {
+        "message": "Zablokuj i usuń",
+        "description": "Shown as a button to let the user block and delete a message request"
+    },
+    "MessageRequests--block-direct-confirm-title": {
+        "message": "Block $name$?",
+        "description": "Shown as the title in the confirmation modal for blocking a private message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--block-direct-confirm-body": {
+        "message": "Blocked people won't be able to call you or send you mesages.",
+        "description": "Shown as the body in the confirmation modal for blocking a private message request"
+    },
+    "MessageRequests--block-group-confirm-title": {
+        "message": "Block and Leave $group$?",
+        "description": "Shown as the title in the confirmation modal for blocking a group message request",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "MessageRequests--block-group-confirm-body": {
+        "message": "You will no longer receive messages or updates from this group and members won't be able to add you to this group again.",
+        "description": "Shown as the body in the confirmation modal for blocking a group message request"
+    },
+    "MessageRequests--delete": {
+        "message": "Usuń",
+        "description": "Shown as a button to let the user delete any message request"
+    },
+    "MessageRequests--delete-direct-confirm-title": {
+        "message": "Usunąć konwersację?",
+        "description": "Shown as the title in the confirmation modal for deleting a private message request"
+    },
+    "MessageRequests--delete-direct-confirm-body": {
+        "message": "Ta konwersacja zostanie usunięta ze wszystkich Twoich urządzeń.",
+        "description": "Shown as the body in the confirmation modal for deleting a private message request"
+    },
+    "MessageRequests--delete-group-confirm-title": {
+        "message": "Delete and Leave $group$?",
+        "description": "Shown as the title in the confirmation modal for deleting a group message request",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "MessageRequests--delete-direct": {
+        "message": "Usuń",
+        "description": "Shown as a button to let the user delete a direct message request"
+    },
+    "MessageRequests--delete-group": {
+        "message": "Usuń i opuść",
+        "description": "Shown as a button to let the user delete a group message request"
+    },
+    "MessageRequests--delete-group-confirm-body": {
+        "message": "Opuścisz tę grupę i zostanie ona usunięta ze wszystkich Twoich urządzeń.",
+        "description": "Shown as the body in the confirmation modal for deleting a group message request"
+    },
+    "MessageRequests--accept": {
+        "message": "Akceptuj",
+        "description": "Shown as a button to let the user accept a message request"
+    },
+    "ConversationHero--members": {
+        "message": "$count$ members",
+        "description": "Specifies the number of members in a group conversation",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "22"
+            }
+        }
+    },
+    "ConversationHero--members-1": {
+        "message": "1 członek",
+        "description": "Specifies the number of members in a group conversation when there is one member",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "22"
+            }
+        }
+    },
+    "ConversationHero--membership-1": {
+        "message": "Member of $group$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            }
+        }
+    },
+    "ConversationHero--membership-2": {
+        "message": "Member of $group1$ and $group2$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            }
+        }
+    },
+    "ConversationHero--membership-3": {
+        "message": "Member of $group1$, $group2$, and $group3$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "ConversationHero--membership-extra": {
+        "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
+    },
+    "ConversationHero--membership-added": {
+        "message": "$name$ added you to the group.",
+        "description": "Shown Indicates that you were added to a group by a given individual.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jeff Smith"
+            }
+        }
+    },
+    "acceptCall": {
+        "message": "Odbierz",
+        "description": "Shown in tooltip for the button to accept a call (audio or video)"
+    },
+    "acceptCallWithoutVideo": {
+        "message": "Odbierz bez wideo",
+        "description": "Shown in tooltip for the button to accept a video call without video"
+    },
+    "declineCall": {
+        "message": "Odrzuć",
+        "description": "Shown in tooltip for the button to decline a call (audio or video)"
+    },
+    "declinedIncomingAudioCall": {
+        "message": "You declined an audio call",
+        "description": "Shown in conversation history when you declined an incoming audio call"
+    },
+    "declinedIncomingVideoCall": {
+        "message": "You declined a video call",
+        "description": "Shown in conversation history when you declined an incoming video call"
+    },
+    "acceptedIncomingAudioCall": {
+        "message": "Incoming audio call",
+        "description": "Shown in conversation history when you accepted an incoming audio call"
+    },
+    "acceptedIncomingVideoCall": {
+        "message": "Incoming video call",
+        "description": "Shown in conversation history when you accepted an incoming video call"
+    },
+    "missedIncomingAudioCall": {
+        "message": "Missed audio call",
+        "description": "Shown in conversation history when you missed an incoming audio call"
+    },
+    "missedIncomingVideoCall": {
+        "message": "Missed video call",
+        "description": "Shown in conversation history when you missed an incoming video call"
+    },
+    "acceptedOutgoingAudioCall": {
+        "message": "Outgoing audio call",
+        "description": "Shown in conversation history when you made an outgoing audio call"
+    },
+    "acceptedOutgoingVideoCall": {
+        "message": "Outgoing video call",
+        "description": "Shown in conversation history when you made an outgoing video call"
+    },
+    "missedOrDeclinedOutgoingAudioCall": {
+        "message": "Unanswered audio call",
+        "description": "Shown in conversation history when your audio call is missed or declined"
+    },
+    "missedOrDeclinedOutgoingVideoCall": {
+        "message": "Unanswered video call",
+        "description": "Shown in conversation history when your video call is missed or declined"
+    },
+    "incomingAudioCall": {
+        "message": "Incoming audio call...",
+        "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    },
+    "incomingVideoCall": {
+        "message": "Incoming video call...",
+        "description": "Shown in both the incoming call bar and notification for an incoming video call"
+    },
+    "outgoingCallPrering": {
+        "message": "Dzwonię...",
+        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    },
+    "outgoingCallRinging": {
+        "message": "Ringing...",
+        "description": "Shown in the call screen when placing an outgoing call that is now ringing"
+    },
+    "callReconnecting": {
+        "message": "Reconnecting...",
+        "description": "Shown in the call screen when the call is reconnecting due to network issues"
+    },
+    "callDuration": {
+        "message": "Signal $duration$",
+        "description": "Shown in the call screen to indicate how long the call has been connected",
+        "placeholders": {
+            "duration": {
+                "content": "$1",
+                "example": "00:01"
+            }
+        }
+    },
     "privacyPolicy": {
-        "message": "Regulamin i zasady prywatności",
+        "message": "Regulamin i Polityka prywatności",
         "description": "Shown in the about box for the link to https://signal.org/legal"
     }
 }

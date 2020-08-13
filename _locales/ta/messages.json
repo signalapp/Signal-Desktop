@@ -4,7 +4,7 @@
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownContact": {
-        "message": "Unknown contact",
+        "message": "தெரியாத தொடர்பு",
         "description": "Shown as the name of a contact if we don't have any displayable information about them"
     },
     "unknownGroup": {
@@ -341,50 +341,34 @@
         "message": "நீங்கள் கடைசியாக சரிபார்க்கப்பட்டதிலிருந்து இந்த குழு உறுப்பினர்களுடனான உங்கள் பாதுகாப்பு எண்கள் மாறிவிட்டன. அவர்களுடன் உங்கள் புதிய பாதுகாப்பு எண்ணைக் காண குழு உறுப்பினரைக் கிளிக் செய்க.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
-    "changedSinceVerifiedMultiple": {
-        "message": "நீங்கள் கடைசியாக சரிபார்க்கப்பட்டதிலிருந்து பல குழு உறுப்பினர்களுடனான உங்கள் பாதுகாப்பு எண்கள் மாறிவிட்டன. உங்கள் தகவல்தொடர்புகளை யாராவது இடைமறிக்க முயற்சிக்கிறார்கள் அல்லது அவர்கள் Signal லை மீண்டும் நிறுவியுள்ளனர் என்று இது குறிக்கலாம்.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "changedSinceVerified": {
-        "message": "நீங்கள் கடைசியாக சரிபார்க்கப்பட்டதிலிருந்து 1$name$  உடன் உங்கள் பாதுகாப்பு எண் மாறிவிட்டது. உங்கள் தகவல்தொடர்புகளை யாராவது இடைமறிக்க முயற்சிக்கிறார்கள் அல்லது 1$name$  வெறுமனே Signal லை மீண்டும் நிறுவியுள்ளதாக இது குறிக்கலாம்.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
     "changedRightAfterVerify": {
-        "message": "நீங்கள் சரிபார்க்க முயற்சிக்கும் பாதுகாப்பு எண் மாறிவிட்டது. உங்கள் புதிய பாதுகாப்பு எண்ணை $name$ உடன் மதிப்பாய்வு செய்யவும். நினைவில் கொள்ளுங்கள், இந்த மாற்றம் யாராவது உங்கள் தகவல்தொடர்புகளை இடைமறிக்க முயற்சிக்கிறார்கள் அல்லது $name$  Signal வெறுமனே மீண்டும் நிறுவியிருக்கலாம்.",
+        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name1$. Remember, this change could mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
-            "name": {
+            "name1": {
                 "content": "$1",
+                "example": "Bob"
+            },
+            "name2": {
+                "content": "$2",
                 "example": "Bob"
             }
         }
     },
-    "changedRecentlyMultiple": {
-        "message": "பல குழு உறுப்பினர்களுடனான உங்கள் பாதுகாப்பு எண்கள் சமீபத்தில் மாறிவிட்டன. உங்கள் தகவல்தொடர்புகளை யாராவது இடைமறிக்க முயற்சிக்கிறார்கள் அல்லது அவர்கள் Signal லை மீண்டும் நிறுவியுள்ளனர் என்று இது குறிக்கலாம்.",
+    "changedVerificationWarning": {
+        "message": "பின்வரும் நபர்கள் தொலைபேசிகளை மீண்டும் நிறுவியிருக்கலாம் அல்லது மாற்றியிருக்கலாம். தனியுரிமையை உறுதிப்படுத்த அவர்களுடன் உங்கள் பாதுகாப்பு எண்ணைச் சரிபார்க்கவும்.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "changedRecently": {
-        "message": "1$name$  உடன் உங்கள் பாதுகாப்பு எண் சமீபத்தில் மாற்றப்பட்டது. உங்கள் தகவல்தொடர்புகளை யாராவது இடைமறிக்க முயற்சிக்கிறார்கள் அல்லது $name$  sign வெறுமனே Signal லை மீண்டும் நிறுவியுள்ளதாக இது குறிக்கலாம்.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
     "identityKeyErrorOnSend": {
-        "message": "$name$  உடன் உங்கள் பாதுகாப்பு எண் மாற்றப்பட்டுள்ளது. உங்கள் தகவல்தொடர்புகளை யாராவது இடைமறிக்க முயற்சிக்கிறார்கள் அல்லது $name$ Signal வெறுமனே Signal லை மீண்டும் நிறுவியிருக்கலாம் என்று இது குறிக்கலாம். இந்த தொடர்பு மூலம் உங்கள் பாதுகாப்பு எண்ணை சரிபார்க்க விரும்பலாம்.",
+        "message": "Your safety number with $name1$ has changed. This could either mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
-            "name": {
+            "name1": {
                 "content": "$1",
+                "example": "Bob"
+            },
+            "name2": {
+                "content": "$2",
                 "example": "Bob"
             }
         }
@@ -577,7 +561,7 @@
         "message": "படம் அல்லாத இணைப்பு சேர்க்கும்போது, ​​வரம்பு ஒரு செய்திக்கு ஒரு இணைப்பு.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "ஒரு செய்தியில் நீங்கள் படம் அல்லாத மற்றும் பட இணைப்புகள் கலக்க முடியாது.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -650,7 +634,7 @@
         "description": "Item under the Help menu, takes you to the GitHub repository for Signal Desktop"
     },
     "joinTheBeta": {
-        "message": "Join the Beta",
+        "message": "Signal Beta பீட்டாவில் சேரவும்",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
@@ -658,7 +642,7 @@
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "signalDesktopStickerCreator": {
-        "message": "Sticker pack creator",
+        "message": "ஓட்டி தொகுப்பு தயாரிப்பாளர்",
         "description": "Title of the window that pops up with Signal Desktop preferences in it"
     },
     "aboutSignalDesktop": {
@@ -714,6 +698,10 @@
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
+                "content": "$1",
+                "example": "dog"
+            },
+            "conversationName": {
                 "content": "$2",
                 "example": "Friends"
             }
@@ -742,6 +730,10 @@
     "typingAlt": {
         "message": "இந்த உரையாடலுக்கு அனிமேஷனைத் தட்டச்சு செய்க",
         "description": "Used as the 'title' attibute for the typing animation"
+    },
+    "contactInAddressBook": {
+        "message": "This person is in your contacts.",
+        "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
         "message": "தொடர்புக்கான அவதாரம் $name$",
@@ -794,7 +786,7 @@
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
-        "message": "React to Message",
+        "message": "செய்திக்கு உணர்வு வெளிப்பாடு பதிலளிக்கவும்",
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
@@ -814,23 +806,23 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecordingInterruptedMax": {
-        "message": "Voice message recording stopped because the maximum time limit was reached.",
+        "message": "அதிகபட்ச நேர வரம்பை எட்டியதால் குரல் செய்தி பதிவு நிறுத்தப்பட்டது.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
     },
     "voiceRecordingInterruptedBlur": {
-        "message": "Voice message recording stopped because you switched to another app.",
+        "message": "நீங்கள் மற்றொரு பயன்பாட்டிற்கு மாறியதால் குரல் செய்தி பதிவு நிறுத்தப்பட்டது.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Voice messages are limited to five minutes. Recording will stop if you switch to another app.",
+        "message": "குரல் செய்திகள் ஐந்து நிமிடங்களுக்கு மட்டுமே. நீங்கள் மற்றொரு பயன்பாட்டிற்கு மாறினால் பதிவு நிறுத்தப்படும்.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "A voice message must have only one attachment.",
+        "message": "ஒரு குரல் செய்தியில் ஒரே ஒரு இணைப்பு மட்டுமே இருக்க வேண்டும்.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
-        "message": "Attachment saved. Click to show in folder.",
+        "message": "இணைப்பு சேமிக்கப்பட்டது. கோப்புறையில் காட்ட இங்கே தட்டவும்.",
         "description": "Shown after user selects to save to downloads",
         "placeholders": {
             "name": {
@@ -857,6 +849,14 @@
         "message": "ஆடியோ செய்திகளை அனுப்ப, உங்கள் மைக்ரோஃபோனை அணுக Signal Desktop ப்பை அனுமதிக்கவும்.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
+    "audioCallingPermissionNeeded": {
+        "message": "For calling, you must allow Signal Desktop to access your microphone.",
+        "description": "Shown if the user attempts access the microphone for calling without audio permssions turned on"
+    },
+    "videoCallingPermissionNeeded": {
+        "message": "For video calling, you must allow Signal Desktop to access your camera.",
+        "description": "Shown if the user attempts access the camera for video calling without video permssions turned on"
+    },
     "allowAccess": {
         "message": "அணுகலை அனுமதிக்கவும்",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
@@ -882,7 +882,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop failed to update, but there is a new version available. Please go to $url$ and install the new version manually, then either contact support or file a bug about this problem.",
+        "message": "சிக்னல் டெஸ்க்டாப் புதுப்பிக்கத் தவறிவிட்டது, ஆனால் ஒரு புதிய பதிப்பு கிடைக்கிறது Signal Desktop update available. தயவுசெய்து $url$ க்குச் சென்று புதிய பதிப்பை நீங்களே நிறுவவும், பின்னர் ஆதரவைத் தொடர்பு கொள்ளவும் அல்லது இந்த சிக்கலைப் பற்றி ஒரு பிழையை தாக்கல் செய்யவும்.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -892,7 +892,7 @@
         }
     },
     "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving $app$ to $folder$ with Finder.",
+        "message": "Signal Desktop டெஸ்க்டாப் ஒரு macOS தனிமைப்படுத்தலில் இருக்கலாம், மேலும் தானாக புதுப்பிக்க முடியாது. கண்டுபிடிப்பாளருடன் $app$ பயன்பாட்டை $folder$ கோப்புறையில் நகர்த்த முயற்சிக்கவும்.",
         "description": "Shown on MacOS if running on a read-only volume and we cannot update",
         "placeholders": {
             "app": {
@@ -982,7 +982,7 @@
         "description": ""
     },
     "viewRecentMedia": {
-        "message": "View recent media",
+        "message": "சமீபத்திய ஊடகங்களைக் காண்க",
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
@@ -1108,7 +1108,7 @@
         "description": ""
     },
     "installTooOld": {
-        "message": "Update Signal on this device to link your phone.",
+        "message": "உங்கள் தொலைபேசியை இணைக்க இந்த சாதனத்தில் Signal update சிக்னலைப் புதுப்பிக்கவும்.",
         "description": ""
     },
     "installErrorHeader": {
@@ -1123,12 +1123,28 @@
         "message": "தீம்",
         "description": "Header for theme settings"
     },
+    "calling": {
+        "message": "அழைக்கிறது ",
+        "description": "Header for calling options on the settings screen"
+    },
+    "alwaysRelayCallsDescription": {
+        "message": "எப்போதும் அழைப்புகளை ரிலே செய்யவும் ",
+        "description": "Description of the always relay calls setting"
+    },
+    "alwaysRelayCallsDetail": {
+        "message": "உங்கள் ஐபி முகவரியை உங்கள் தொடர்புக்கு வெளிப்படுத்தாமல் இருக்க Signal சேவையகம் மூலம் அனைத்து அழைப்புகளையும் ரிலே செய்யவும். இயக்குவது அழைப்பு தரத்தை குறைக்கும்.",
+        "description": "Details describing the always relay calls setting"
+    },
     "permissions": {
         "message": "அனுமதிகள்",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "கேமரா மற்றும் மைக்ரோஃபோனை அணுக அனுமதிக்கவும்",
+        "message": "Allow access to the microphone",
+        "description": "Description of the media permission description"
+    },
+    "mediaCameraPermissionsDescription": {
+        "message": "Allow access to the camera",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1140,11 +1156,11 @@
         "description": "Description of the media permission description"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Spell check will be enabled the next time Signal starts.",
+        "message": "அடுத்த முறை Signal சிக்னல் தொடங்கும் போது எழுத்துப்பிழை சோதனை செயல்படுத்தப்படும்.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Spell check will be disabled the next time Signal starts.",
+        "message": "அடுத்த முறை Signal சிக்னல் தொடங்கும் போது எழுத்துப்பிழை சோதனை முடக்கப்படும்.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "clearDataHeader": {
@@ -1176,11 +1192,11 @@
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "You have obsolete data from a prior installation of Signal Desktop. If you choose to continue, it will be deleted and you will start from scratch.",
+        "message": "சிக்னல் டெஸ்க்டாப்பின் முந்தைய நிறுவலிலிருந்து பயன்படுத்த முடியாத தரவு உங்கள் டெஸ்க்டாப்பில் உள்ளது. தொடர நீங்கள் தேர்வுசெய்தால் Signal desktop update, அது நீக்கப்படும், நீங்கள் புதிதாகத் தொடங்குவீர்கள்.",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
-        "message": "Delete Old Data",
+        "message": "பழைய தரவை நீக்கு",
         "description": "Button to make the delete happen"
     },
     "notifications": {
@@ -1228,7 +1244,7 @@
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "notificationReaction": {
-        "message": "$sender$ reacted $emoji$ to your message",
+        "message": "$sender$ அவர்கள்  உங்கள் செய்திக்கு $emoji$என உணர்வினை வெளிப்படுத்தினார்",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1242,7 +1258,7 @@
         }
     },
     "notificationReactionMostRecent": {
-        "message": "Most recent: $sender$ reacted $emoji$ to your message",
+        "message": "மிகச் சமீபத்தியது:  $sender$ அவர்கள்  உங்கள் செய்திக்கு $emoji$என உணர்வினை வெளிப்படுத்தினார்",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1256,7 +1272,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ reacted $emoji$ to: $message$",
+        "message": "$sender$ அவர்கள் $message$ உங்கள் செய்திக்கு $emoji$என உணர்வினை வெளிப்படுத்தினார்",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1274,7 +1290,7 @@
         }
     },
     "notificationReactionMessageMostRecent": {
-        "message": "Most recent: $sender$ reacted $emoji$ to: $message$",
+        "message": "மிகச் சமீபத்தியது: $sender$அவர்கள் $message$ உங்கள் செய்திக்கு $emoji$ என உணர்வினை வெளிப்படுத்தினார்",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1294,6 +1310,10 @@
     "sendFailed": {
         "message": "அனுப்புவது தோல்வியுற்றது",
         "description": "Shown on outgoing message if it fails to send"
+    },
+    "partiallySent": {
+        "message": "Partially sent, click for details",
+        "description": "Shown on outgoing message if it is partially sent"
     },
     "showMore": {
         "message": "விவரங்கள்",
@@ -1400,7 +1420,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "காணாமல்  போகும் செய்தி நேரத்தை $time$  என அமைத்துள்ளீர்கள்",
+        "message": "You set the disappearing message time to $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1410,7 +1430,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "காணாமல் போன செய்தி டைமரை $time$ to க்கு புதுப்பித்தது",
+        "message": "Updated the disappearing message time to $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1420,7 +1440,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ the மறைந்து வரும் செய்தி நேரத்தை $time$ to என அமைக்கவும்",
+        "message": "$name$ set the disappearing message time to $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1538,7 +1558,7 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ காணாமல் போன செய்திகளை முடக்கியது",
+        "message": "$name$ disabled disappearing messages.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1548,7 +1568,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "காணாமல் போன செய்திகளை முடக்கியுள்ளீர்கள்",
+        "message": "காணாமல் போகும் செய்திகளை முடக்கியுள்ளீர்கள்.",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
@@ -1565,9 +1585,57 @@
         "message": "ஆடியோ அறிவிப்பை இயக்கு",
         "description": "Description for audio notification setting"
     },
+    "callRingtoneNotificationDescription": {
+        "message": "Play calling sounds",
+        "description": "Description for call ringtone notification setting"
+    },
+    "callSystemNotificationDescription": {
+        "message": "Show notifications for calls",
+        "description": "Description for call notification setting"
+    },
+    "incomingCallNotificationDescription": {
+        "message": "Enable incoming calls",
+        "description": "Description for incoming calls setting"
+    },
+    "contactChangedProfileName": {
+        "message": "$sender$ changed their profile name from $oldProfile$ to $newProfile$.",
+        "description": "Description for incoming calls setting",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "oldProfile": {
+                "content": "$2",
+                "example": ".x8Skillz8x."
+            },
+            "newProfile": {
+                "content": "$3",
+                "example": "Bob Smith"
+            }
+        }
+    },
+    "changedProfileName": {
+        "message": "$oldProfile$ changed their profile name to $newProfile$.",
+        "description": "Shown when a contact not in your address book changes their profile name",
+        "placeholders": {
+            "oldProfile": {
+                "content": "$2",
+                "example": ".x8Skillz8x."
+            },
+            "newProfile": {
+                "content": "$3",
+                "example": "Bob Smith"
+            }
+        }
+    },
     "safetyNumberChanged": {
         "message": "பாதுகாப்பு எண் மாற்றப்பட்டுள்ளது",
         "description": "A notification shown in the conversation when a contact reinstalls"
+    },
+    "safetyNumberChanges": {
+        "message": "பாதுகாப்பு எண் மாற்றங்கள்",
+        "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
         "message": "$name$ உடன் பாதுகாப்பு எண் மாற்றப்பட்டுள்ளது",
@@ -1584,10 +1652,10 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "$name$ உடன் உங்கள் பாதுகாப்பு எண்:",
+        "message": "Your safety number with $name1$:",
         "description": "Heading for safety number view",
         "placeholders": {
-            "name": {
+            "name1": {
                 "content": "$1",
                 "example": "John"
             }
@@ -1609,6 +1677,10 @@
         "message": "சுய குறிப்பு",
         "description": "Name for the conversation with your own phone number"
     },
+    "noteToSelfHero": {
+        "message": "நீங்கள் இந்த உரையாடலில் உங்களுக்காக குறிப்புகளைச் சேர்க்கலாம். என்றால் உங்கள் கணக்கு ஏதேனும் உள்ளது இணைக்கப்பட்டுள்ளது சாதனங்கள், புதிய குறிப்புகள் ஒத்திசைக்கப்படும்.",
+        "description": "Description for the Note to Self conversation"
+    },
     "hideMenuBar": {
         "message": "பட்டியல் பட்டியை மறைக்க",
         "description": "Label text for menu bar visibility setting"
@@ -1618,7 +1690,7 @@
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "notSupportedSMS": {
-        "message": "SMS/MMS messages are not supported.",
+        "message": "எஸ்எம்எஸ் / எம்எம்எஸ் செய்திகள் ஆதரிக்கப்படவில்லை.",
         "description": "Label underneath number informing user that SMS is not supported on desktop"
     },
     "newPhoneNumber": {
@@ -1662,7 +1734,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ அவர்கள் குழுவிலிருந்து வெளியேறினர்.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1672,7 +1744,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group.",
+        "message": "$name$ அவர்கள் குழுவிலிருந்து வெளியேறினர்.",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1682,7 +1754,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "$name$ updated the group.",
+        "message": "$name$ அவர்கள் குழுவைப் புதுப்பித்தனர். ",
         "description": "Shown in the conversation history when someone updates the group",
         "placeholders": {
             "name": {
@@ -1696,11 +1768,11 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Group avatar was updated.",
+        "message": "குழு அவதாரம் புதுப்பிக்கப்பட்டது.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Group name is now '$name$'.",
+        "message": "இப்போது குழுவின் பெயர் '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1714,7 +1786,7 @@
         "description": "Shown in the conversation history when you are added to a group."
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group.",
+        "message": "$name$ அவர்கள் குழுவில் இணைந்தனர்.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1724,7 +1796,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group.",
+        "message": "$names$ அவர்கள் குழுவில் இணைந்தனர்.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1732,6 +1804,10 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "ConversationListItem--message-request": {
+        "message": "செய்தி கோரிக்கை",
+        "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
     },
     "ConversationListItem--draft-prefix": {
         "message": "வரைவு:",
@@ -1746,15 +1822,15 @@
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
-        "message": "View-once Media",
+        "message": "பார்வைக்கு ஒரு முறை மட்டும் மீடியா",
         "description": "Shown in notifications and in the left pane after view-once message is deleted."
     },
     "message--getDescription--disappearing-photo": {
-        "message": "View-once Photo",
+        "message": "பார்வைக்கு ஒரு முறை மட்டுமே புகைப்படம்",
         "description": "Shown in notifications and in the left pane when a message is a view once photo."
     },
     "message--getDescription--disappearing-video": {
-        "message": "View-once Video",
+        "message": "பார்வைக்கு ஒரு முறை மட்டுமே காணொளி",
         "description": "Shown in notifications and in the left pane when a message is a view once video."
     },
     "message--deletedForEveryone": {
@@ -1802,7 +1878,7 @@
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Image": {
-        "message": "Introducing Stickers: Bandit the Cat",
+        "message": "ஓட்டிகளை அறிமுகப்படுத்துகிறோம்: Bandit the Cat",
         "description": "Alt text on a tooltip image when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Title": {
@@ -1912,7 +1988,7 @@
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
-        "message": "View-once messages are not stored in your conversation history.",
+        "message": "\"பார்வைக்கு ஒரு முறை மட்டுமே\" செய்தி உங்கள் உரையாடல் வரலாற்றில் சேமிக்கப்படவில்லை.",
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
@@ -1992,7 +2068,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-sticker-chooser": {
-        "message": "Open sticker chooser",
+        "message": "ஓட்டி தேர்வி திறக்கவும்",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
@@ -2012,7 +2088,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Toggle reaction picker for selected message",
+        "message": "தேர்ந்தெடுக்கப்பட்ட செய்திக்கு உணர்வு வெளிப்பாடு தேர்வாளரை நிலைமாற்று",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2048,23 +2124,23 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
-        "message": "Jump to conversation",
+        "message": "உரையாடலுக்கு செல்லவும்",
         "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
     },
     "Keyboard--Key--ctrl": {
-        "message": "Ctrl",
+        "message": "Ctrl பொத்தான்",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--option": {
-        "message": "Option",
+        "message": "விருப்பம்",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--alt": {
-        "message": "Alt",
+        "message": "Alt பொத்தான்",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--shift": {
-        "message": "Shift",
+        "message": "ஷிப்ட்",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--enter": {
@@ -2072,19 +2148,19 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--tab": {
-        "message": "Tab",
+        "message": "தாவல்",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--one-to-nine-range": {
-        "message": "1 to 9",
+        "message": "1 முதல் 9 வரை",
         "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
-        "message": "Keyboard Shortcuts",
+        "message": "விசைப்பலகை குறுக்குவழிகள்",
         "description": "Title header of the keyboard shortcuts guide"
     },
     "Keyboard--navigation-header": {
-        "message": "Navigation",
+        "message": "வழிசெலுத்தல்",
         "description": "Header of the keyboard shortcuts guide - navigation section"
     },
     "Keyboard--messages-header": {
@@ -2092,7 +2168,7 @@
         "description": "Header of the keyboard shortcuts guide - messages section"
     },
     "Keyboard--composer-header": {
-        "message": "Composer",
+        "message": "புதிய செய்தி உருவாக்கு",
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
@@ -2107,44 +2183,56 @@
         "message": "தற்போதைய உரையாடலை மூடு",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--calling-header": {
+        "message": "அழைக்கிறது ",
+        "description": "Header of the keyboard shortcuts guide - calling section"
+    },
+    "Keyboard--toggle-audio": {
+        "message": "Toggle mute on and off",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--toggle-video": {
+        "message": "Toggle video on and off",
+        "description": "Shown in the shortcuts guide"
+    },
     "close-popup": {
-        "message": "Close Popup",
+        "message": "Popup சாளரத்தை மூடு",
         "description": "Used as alt text for any button closing a popup"
     },
     "add-image-attachment": {
-        "message": "Add image attachment",
+        "message": "பட இணைப்பைச் சேர்க்கவும்",
         "description": "Used in draft attachment list for the big 'add new attachment' button"
     },
     "remove-attachment": {
-        "message": "Remove attachment",
+        "message": "இணைப்பை அகற்று",
         "description": "Used in draft attachment list to remove an individual attachment"
     },
     "backToInbox": {
-        "message": "Back to inbox",
+        "message": "உட்பெட்டிக்குத் திரும்பு",
         "description": "Used as alt-text of button on archived conversations screen"
     },
     "conversationArchived": {
-        "message": "Conversation archived",
+        "message": "உரையாடல் காப்பகப்படுத்தப்பட்டது",
         "description": "A toast that shows up when user archives a conversation"
     },
     "conversationReturnedToInbox": {
-        "message": "Conversation returned to inbox",
+        "message": "உரையாடல் உட்பெட்டிக்கு திரும்பியது",
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "StickerCreator--title": {
-        "message": "Sticker pack creator",
+        "message": "ஓட்டி தொகுப்பு தயாரிப்பாளர்",
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "Click to add or drop images here",
+        "message": "படங்களை இங்கே சேர்க்க அல்லது விட கிளிக் செய்க",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
-        "message": "Drop images here",
+        "message": "படங்களை இங்கே விடுங்கள்",
         "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
     },
     "StickerCreator--Preview--title": {
-        "message": "Sticker pack",
+        "message": "ஓட்டி தொகுப்பு",
         "description": "The 'title' of the sticker pack preview 'modal'"
     },
     "StickerCreator--ConfirmDialog--cancel": {
@@ -2156,7 +2244,7 @@
         "description": "The text which appears on the copy button for the sticker creator share screen"
     },
     "StickerCreator--ShareButtons--facebook": {
-        "message": "Facebook",
+        "message": "முகநூல்",
         "description": "Title for Facebook button"
     },
     "StickerCreator--ShareButtons--twitter": {
@@ -2164,11 +2252,11 @@
         "description": "Title for Twitter button"
     },
     "StickerCreator--ShareButtons--pinterest": {
-        "message": "Pinterest",
+        "message": "ஆர்வம் பொருத்து",
         "description": "Title for Pinterest button"
     },
     "StickerCreator--ShareButtons--whatsapp": {
-        "message": "WhatsApp",
+        "message": "வாட்ஸ்அப்பில்",
         "description": "Title for WhatsApp button"
     },
     "StickerCreator--AppStage--next": {
@@ -2180,19 +2268,19 @@
         "description": "Default text for the previous button on all stages of the sticker creator"
     },
     "StickerCreator--DropStage--title": {
-        "message": "Add your stickers",
+        "message": "மற்றும் உங்கள் ஓட்டிகள்",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Stickers must be in PNG or WebP format with a transparent background and 512x512 pixels. Recommended margin is 16px.",
+        "message": "ஓட்டிகள் வெளிப்படையான பின்னணியாக PNG மற்றும் 512x512 பிக்சல்கள் கொண்ட PNG அல்லது WebP வடிவத்தில் இருக்க வேண்டும். பரிந்துரைக்கப்பட்ட விளிம்பு 16px ஆகும்.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
-        "message": "Show margins",
+        "message": "விளிம்புகளைக் காட்டு",
         "description": "Text for the show margins toggle on the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--addMore": {
-        "message": "Add $count$ or more",
+        "message": "$count$ அல்லது அதற்கு மேற்பட்டவற்றைச் சேர்க்கவும்",
         "description": "Text to show user how many more stickers they must add",
         "placeholders": {
             "hashtag": {
@@ -2202,15 +2290,15 @@
         }
     },
     "StickerCreator--EmojiStage--title": {
-        "message": "Add an emoji to each sticker",
+        "message": "ஒவ்வொரு ஓட்டிக்கும் ஒரு ஈமோஜியைச் சேர்க்கவும்",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--EmojiStage--help": {
-        "message": "This allows us to suggest stickers to you as you're messaging.",
+        "message": "நீங்கள் செய்தி அனுப்பும்போது உங்களுக்கு ஓட்டிகளை பரிந்துரைக்க இது எங்களை அனுமதிக்கிறது.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
-        "message": "Just a few more details...",
+        "message": "இன்னும் சில விவரங்கள் ...",
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
@@ -2222,31 +2310,31 @@
         "description": "Label for the author input of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover": {
-        "message": "Cover image",
+        "message": "வெளிப்புற அட்டை படம்",
         "description": "Label for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover--help": {
-        "message": "This is the image that will show up when you share your sticker pack",
+        "message": "உங்கள் ஓட்டி தொகுப்புப் பகிரும்போது காண்பிக்கப்படும் படம் இது",
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
-        "message": "Are you sure you want to upload your sticker pack?",
+        "message": "உங்கள் ஓட்டி தொகுப்பை பதிவேற்ற விரும்புகிறீர்களா?",
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
-        "message": "Upload",
+        "message": "பதிவேற்றவும்",
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "You will no longer be able to make edits or delete after creating a sticker pack.",
+        "message": "ஓட்டி தொகுப்பு உருவாக்கிய பிறகு நீங்கள் திருத்தங்களைச் செய்யவோ நீக்கவோ முடியாது.",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
-        "message": "Creating your sticker pack",
+        "message": "உங்கள் ஓட்டி தொகுப்பு உருவாக்குகிறது",
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
-        "message": "$count$ of $total$ uploaded",
+        "message": "$total$ இல் $count$ பதிவேற்றப்பட்டது",
         "description": "Title for the upload stage of the sticker creator",
         "placeholders": {
             "count": {
@@ -2260,15 +2348,15 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "Congratulations! You created a sticker pack.",
+        "message": "வாழ்த்துக்கள்! நீங்கள் ஒரு ஓட்டி தொகுப்பை உருவாக்கியுள்ளீர்கள் pack.",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "Access your new stickers through the sticker icon, or share with your friends using the link below.",
+        "message": "உங்கள் புதிய ஓட்டிகளை, ஓட்டி உருவம் மூலம் அணுகலாம் அல்லது கீழேயுள்ள இணைப்பைப் பயன்படுத்தி உங்கள் நண்பர்களுடன் பகிர்ந்து கொள்ளுங்கள்.",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Use the hashtag $hashtag$ to help other people find the URLs for any custom sticker packs that you would like to make publicly accessible.",
+        "message": "நீங்கள் இணையத்தில் பொதுவில் வைக்க விரும்பும் தனிப்பயன் ஓட்டிகளை பொதிகளுக்கான URL களைக் கண்டுபிடிக்க மற்றவர்களுக்கு உதவ $hashtag$ ஹேஷ்டேக் the என்ற ஹேஷ்டேக்கைப் பயன்படுத்தவும்.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -2278,7 +2366,7 @@
         }
     },
     "StickerCreator--ShareStage--copyTitle": {
-        "message": "Sticker Pack URL",
+        "message": "ஓட்டி தொகுப்பு URL",
         "description": "Title for the copy button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--close": {
@@ -2286,15 +2374,15 @@
         "description": "Text for the close button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--createAnother": {
-        "message": "Create another sticker pack",
+        "message": "மற்றொரு ஓட்டி தொகுப்பை உருவாக்கவும்",
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Check out this new sticker pack I created for Signal. #makeprivacystick",
+        "message": "Signal சிக்னலுக்காக நான் உருவாக்கிய இந்த புதிய ஓட்டி தொகுப்பு பாருங்கள். #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
-        "message": "$count$ image(s) added",
+        "message": "$count$படம் (கள்) சேர்க்கப்பட்டது",
         "description": "Text for the toast when images are added to the sticker creator",
         "placeholders": {
             "count": {
@@ -2304,19 +2392,19 @@
         }
     },
     "StickerCreator--Toasts--animated": {
-        "message": "Animated stickers are not currently supported",
+        "message": "அனிமேஷன் செய்யப்பட்ட ஓட்டிகள் தற்போது ஆதரிக்கப்படவில்லை",
         "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--tooLarge": {
-        "message": "Dropped image is too large",
+        "message": "இணைக்க விரும்பும் படம் மிகப் பெரியது",
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
-        "message": "Error processing image",
+        "message": "படத்தை செயலாக்குவதில் பிழை",
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorUploading": {
-        "message": "Error uploading stickers: $message$",
+        "message": "ஓட்டிகளைப் பதிவேற்றுவதில் பிழை: $message$",
         "description": "Text for the toast when a sticker pack cannot be uploaded",
         "placeholders": {
             "message": {
@@ -2326,32 +2414,350 @@
         }
     },
     "StickerCreator--Toasts--linkedCopied": {
-        "message": "Link copied",
+        "message": "இணைப்பு நகலெடுக்கப்பட்டது",
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
-        "message": "My sticker in light theme",
+        "message": "ஒளி கருப்பொருளில் எனது ஓட்டிகள்",
         "description": "Text for the sticker preview for the light theme"
     },
     "StickerCreator--StickerPreview--dark": {
-        "message": "My sticker in dark theme",
+        "message": "இருண்ட கருப்பொருளில் எனது ஓட்டி",
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
+        "message": "ஓட்டி தொகுப்பு கிரியேட்டரைப் பயன்படுத்த உங்கள் தொலைபேசி மற்றும் டெஸ்க்டாப்பில் Signal சிக்னலை அமைக்கவும்",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--error": {
-        "message": "Failed to send reaction. Please try again.",
+        "message": "உணர்வு வெளிப்பாடு அனுப்புவதில் தோல்வி. தயவுசெய்து மீண்டும் முயற்சி செய்க.",
         "description": "Shown when a reaction fails to send"
     },
     "ReactionsViewer--more": {
-        "message": "More",
+        "message": "மேலும்",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
         "message": "அனைத்து",
         "description": "Shown in reaction viewer as the title for the 'all' category"
+    },
+    "MessageRequests--message-direct": {
+        "message": "Let $name$ message you and share your name and photo with them? They won’t know you’ve seen their messages until you accept.",
+        "description": "Shown as the message for a message request in a direct message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce"
+            }
+        }
+    },
+    "MessageRequests--message-direct-blocked": {
+        "message": "Let $name$ message you and share your name and photo with them? You won't receive any messages until you unblock them.",
+        "description": "Shown as the message for a message request in a direct message with a blocked account",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce"
+            }
+        }
+    },
+    "MessageRequests--message-group": {
+        "message": "இந்த குழுவில் சேர்ந்து உங்கள் பெயரையும் புகைப்படத்தையும் அதன் உறுப்பினர்களுடன் பகிர்ந்து கொள்ளலாமா? குழு அழைப்பை நீங்கள் ஏற்றுக்கொள்ளும் வரை அவர்களின் செய்திகளைப் பார்த்திருப்பதை அவர்கள் அறிய மாட்டார்கள்.",
+        "description": "Shown as the message for a message request in a group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--message-group-blocked": {
+        "message": "இந்த குழுவைத் தடைசெய்து, உங்கள் பெயரையும் புகைப்படத்தையும் அதன் உறுப்பினர்களுடன் பகிர்ந்து கொள்ளலாமா? நீங்கள் அவற்றைத் தடைநீக்கு செய்யும் வரை எந்த செய்திகளையும் பெற மாட்டீர்கள்.",
+        "description": "Shown as the message for a message request in a blocked group"
+    },
+    "MessageRequests--block": {
+        "message": "தடு ",
+        "description": "Shown as a button to let the user block a message request"
+    },
+    "MessageRequests--unblock": {
+        "message": "தடைநீக்கு ",
+        "description": "Shown as a button to let the user unblock a message request"
+    },
+    "MessageRequests--unblock-confirm-title": {
+        "message": "Unblock $name$?",
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--unblock-direct-confirm-body": {
+        "message": "நீங்கள் செய்தி அனுப்ப முடியும் மற்றும் ஒவ்வொன்றையும் அழைக்கவும் மற்றவை.",
+        "description": "Shown as the body in the confirmation modal for unblocking a private message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--unblock-group-confirm-body": {
+        "message": "Group members will be able to add your to this group again.",
+        "description": "Shown as the body in the confirmation modal for unblocking a group message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--block-and-delete": {
+        "message": "தடுமற்றும் அழி",
+        "description": "Shown as a button to let the user block and delete a message request"
+    },
+    "MessageRequests--block-direct-confirm-title": {
+        "message": "Block $name$?",
+        "description": "Shown as the title in the confirmation modal for blocking a private message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--block-direct-confirm-body": {
+        "message": "Blocked people won't be able to call you or send you mesages.",
+        "description": "Shown as the body in the confirmation modal for blocking a private message request"
+    },
+    "MessageRequests--block-group-confirm-title": {
+        "message": "Block and Leave $group$?",
+        "description": "Shown as the title in the confirmation modal for blocking a group message request",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "MessageRequests--block-group-confirm-body": {
+        "message": "You will no longer receive messages or updates from this group and members won't be able to add you to this group again.",
+        "description": "Shown as the body in the confirmation modal for blocking a group message request"
+    },
+    "MessageRequests--delete": {
+        "message": "அழி",
+        "description": "Shown as a button to let the user delete any message request"
+    },
+    "MessageRequests--delete-direct-confirm-title": {
+        "message": "உரையாடலை நீக்கவா?",
+        "description": "Shown as the title in the confirmation modal for deleting a private message request"
+    },
+    "MessageRequests--delete-direct-confirm-body": {
+        "message": "இந்த உரையாடல் எல்லாவற்றிலிருந்தும் நீக்கப்படும் உங்கள் சாதனங்கள்.",
+        "description": "Shown as the body in the confirmation modal for deleting a private message request"
+    },
+    "MessageRequests--delete-group-confirm-title": {
+        "message": "Delete and Leave $group$?",
+        "description": "Shown as the title in the confirmation modal for deleting a group message request",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "MessageRequests--delete-direct": {
+        "message": "அழி",
+        "description": "Shown as a button to let the user delete a direct message request"
+    },
+    "MessageRequests--delete-group": {
+        "message": "அழி மற்றும் விடுங்கள்",
+        "description": "Shown as a button to let the user delete a group message request"
+    },
+    "MessageRequests--delete-group-confirm-body": {
+        "message": "நீங்கள் இந்த குழுவை விட்டு வெளியேறும், மற்றும் இது எல்லாவற்றிலிருந்தும் நீக்கப்படும் உங்கள் சாதனங்கள்.",
+        "description": "Shown as the body in the confirmation modal for deleting a group message request"
+    },
+    "MessageRequests--accept": {
+        "message": "ஒப்புக்கொள்",
+        "description": "Shown as a button to let the user accept a message request"
+    },
+    "ConversationHero--members": {
+        "message": "$count$ members",
+        "description": "Specifies the number of members in a group conversation",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "22"
+            }
+        }
+    },
+    "ConversationHero--members-1": {
+        "message": "1 உறுப்பினர்",
+        "description": "Specifies the number of members in a group conversation when there is one member",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "22"
+            }
+        }
+    },
+    "ConversationHero--membership-1": {
+        "message": "Member of $group$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            }
+        }
+    },
+    "ConversationHero--membership-2": {
+        "message": "Member of $group1$ and $group2$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            }
+        }
+    },
+    "ConversationHero--membership-3": {
+        "message": "Member of $group1$, $group2$, and $group3$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "ConversationHero--membership-extra": {
+        "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
+    },
+    "ConversationHero--membership-added": {
+        "message": "$name$ added you to the group.",
+        "description": "Shown Indicates that you were added to a group by a given individual.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jeff Smith"
+            }
+        }
+    },
+    "acceptCall": {
+        "message": "பதில்",
+        "description": "Shown in tooltip for the button to accept a call (audio or video)"
+    },
+    "acceptCallWithoutVideo": {
+        "message": "வீடியோ இல்லாமல் பதில்",
+        "description": "Shown in tooltip for the button to accept a video call without video"
+    },
+    "declineCall": {
+        "message": "மறு",
+        "description": "Shown in tooltip for the button to decline a call (audio or video)"
+    },
+    "declinedIncomingAudioCall": {
+        "message": "You declined an audio call",
+        "description": "Shown in conversation history when you declined an incoming audio call"
+    },
+    "declinedIncomingVideoCall": {
+        "message": "You declined a video call",
+        "description": "Shown in conversation history when you declined an incoming video call"
+    },
+    "acceptedIncomingAudioCall": {
+        "message": "Incoming audio call",
+        "description": "Shown in conversation history when you accepted an incoming audio call"
+    },
+    "acceptedIncomingVideoCall": {
+        "message": "Incoming video call",
+        "description": "Shown in conversation history when you accepted an incoming video call"
+    },
+    "missedIncomingAudioCall": {
+        "message": "Missed audio call",
+        "description": "Shown in conversation history when you missed an incoming audio call"
+    },
+    "missedIncomingVideoCall": {
+        "message": "Missed video call",
+        "description": "Shown in conversation history when you missed an incoming video call"
+    },
+    "acceptedOutgoingAudioCall": {
+        "message": "Outgoing audio call",
+        "description": "Shown in conversation history when you made an outgoing audio call"
+    },
+    "acceptedOutgoingVideoCall": {
+        "message": "Outgoing video call",
+        "description": "Shown in conversation history when you made an outgoing video call"
+    },
+    "missedOrDeclinedOutgoingAudioCall": {
+        "message": "Unanswered audio call",
+        "description": "Shown in conversation history when your audio call is missed or declined"
+    },
+    "missedOrDeclinedOutgoingVideoCall": {
+        "message": "Unanswered video call",
+        "description": "Shown in conversation history when your video call is missed or declined"
+    },
+    "incomingAudioCall": {
+        "message": "Incoming audio call...",
+        "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    },
+    "incomingVideoCall": {
+        "message": "Incoming video call...",
+        "description": "Shown in both the incoming call bar and notification for an incoming video call"
+    },
+    "outgoingCallPrering": {
+        "message": "Calling...",
+        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    },
+    "outgoingCallRinging": {
+        "message": "Ringing...",
+        "description": "Shown in the call screen when placing an outgoing call that is now ringing"
+    },
+    "callReconnecting": {
+        "message": "Reconnecting...",
+        "description": "Shown in the call screen when the call is reconnecting due to network issues"
+    },
+    "callDuration": {
+        "message": "Signal $duration$",
+        "description": "Shown in the call screen to indicate how long the call has been connected",
+        "placeholders": {
+            "duration": {
+                "content": "$1",
+                "example": "00:01"
+            }
+        }
     },
     "privacyPolicy": {
         "message": "விதிமுறைகள் மற்றும் தனியுரிமைக் கொள்கை",
