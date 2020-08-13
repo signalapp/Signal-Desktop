@@ -364,7 +364,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   private renderBottomButtons(): JSX.Element {
     const edit = window.i18n('edit');
     const joinOpenGroup = window.i18n('joinOpenGroup');
-    const createClosedGroup = window.i18n('createClosedGroup');
+    const newClosedGroup = window.i18n('newClosedGroup');
     const showEditButton = false;
 
     return (
@@ -386,7 +386,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           }}
         />
         <SessionButton
-          text={createClosedGroup}
+          text={newClosedGroup}
           buttonType={SessionButtonType.SquareOutline}
           buttonColor={SessionButtonColor.White}
           onClick={() => {
@@ -447,15 +447,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       return;
     }
 
-    // Server URL entered?
-    if (serverUrl.length === 0) {
-      return;
-    }
-
     // Server URL valid?
-    if (!OpenGroup.validate(serverUrl)) {
+    if (serverUrl.length === 0 || !OpenGroup.validate(serverUrl)) {
       window.pushToast({
-        title: window.i18n('noServerURL'),
+        title: window.i18n('invalidOpenGroupUrl'),
         id: 'connectToServer',
         type: 'error',
       });

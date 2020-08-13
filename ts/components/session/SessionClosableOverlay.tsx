@@ -145,15 +145,15 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         break;
       case 'open-group':
         title = window.i18n('joinOpenGroup');
-        buttonText = window.i18n('joinOpenGroup');
-        descriptionLong = window.i18n('addChannelDescription');
-        subtitle = window.i18n('enterOpenGroupURL');
-        placeholder = window.i18n('channelUrlPlaceholder');
+        buttonText = window.i18n('next');
+        // descriptionLong = '';
+        subtitle = window.i18n('openGroupURL');
+        placeholder = window.i18n('enterAnOpenGroupURL');
         break;
       case 'closed-group':
         title = window.i18n('newClosedGroup');
-        buttonText = window.i18n('createClosedGroup');
-        descriptionLong = window.i18n('createClosedGroupDescription');
+        buttonText = window.i18n('done');
+        descriptionLong = window.i18n('newClosedGroupDescription');
         subtitle = window.i18n('createClosedGroupNamePrompt');
         placeholder = window.i18n('createClosedGroupPlaceholder');
         break;
@@ -232,7 +232,9 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
           </>
         )}
 
-        <div className="session-description-long">{descriptionLong}</div>
+        {descriptionLong && (
+          <div className="session-description-long">{descriptionLong}</div>
+        )}
         {isMessageView && <h4>{window.i18n('or')}</h4>}
 
         {isMessageView && (
@@ -272,7 +274,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
                 'sender-keys-description'
               )}
             >
-              {window.i18n('useSenderKeys')}
+              Use Sender Keys
             </span>
           </div>
         )}

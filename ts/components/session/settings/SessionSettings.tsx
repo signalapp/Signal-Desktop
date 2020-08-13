@@ -103,7 +103,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     if (category === SessionSettingCategory.Devices) {
       // special case for linked devices
       settings = this.getLinkedDeviceSettings();
-    } else if(category === SessionSettingCategory.Blocked) {
+    } else if (category === SessionSettingCategory.Blocked) {
       // special case for blocked user
       settings = this.getBlockedUserSettings();
     } else {
@@ -600,16 +600,15 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     const blockedNumbers = BlockedNumberController.getBlockedNumbers();
 
     for (const blockedNumber of blockedNumbers) {
-      
       let displayName = `User (...${blockedNumber.substr(-6)})`;
 
       const currentModel = window.ConversationController.get(blockedNumber);
       if (
-        currentModel && 
-        currentModel.attributes.profile && 
+        currentModel &&
+        currentModel.attributes.profile &&
         currentModel.attributes.profile.displayName
       ) {
-        displayName = currentModel.attributes.profile.displayName
+        displayName = currentModel.attributes.profile.displayName;
       }
 
       results.push({
@@ -624,7 +623,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         },
         comparisonValue: undefined,
         setFn: async () => {
-          await BlockedNumberController.unblock(blockedNumber)
+          await BlockedNumberController.unblock(blockedNumber);
         },
         hidden: false,
         onClick: undefined,

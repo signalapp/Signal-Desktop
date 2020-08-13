@@ -169,6 +169,10 @@
     "message": "Choose folder",
     "description": "Button to allow the user to find a folder on disk"
   },
+  "done": {
+    "message": "Done",
+    "description": "Button when a specific action is to be done."
+  },
   "loadDataHeader": {
     "message": "Load your data",
     "description": "Header shown on the first screen in the data import process"
@@ -1558,22 +1562,14 @@
     }
   },
   "blockUser": {
-    "message": "Block User"
+    "message": "Block contact"
   },
   "unblockUser": {
-    "message": "Unblock User"
+    "message": "Unblock contact"
   },
   "blockedSettingsTitle": {
-    "message": "Blocked Users",
+    "message": "Blocked contacts",
     "description": "Shown in the settings page as the heading for the blocked user settings"
-  },
-  "editProfileTitle": {
-    "message": "Change your own display name",
-    "description": "The title shown when user edits their own profile"
-  },
-  "editProfileDisplayNameWarning": {
-    "message": "Note: Your display name will be visible to your contacts",
-    "description": "Shown to the user as a warning about setting display name"
   },
   "copyPublicKey": {
     "message": "Copy Public Key",
@@ -1713,8 +1709,8 @@
     "message": "This is <strong>your unique public QR Code.</strong><br/>Other users may scan this in order to begin a conversation with you.",
     "description": "Description given to QRCode modal"
   },
-  "noServerURL": {
-    "message": "Please enter a server URL",
+  "invalidOpenGroupUrl": {
+    "message": "Please enter an open group URL",
     "description": "Error message when no server url entered"
   },
   "copiedMnemonic": {
@@ -1797,7 +1793,7 @@
     "message": "You are already connected to this open group"
   },
   "connectToServerFail": {
-    "message": "Failed to connect to server. Check URL"
+    "message": "Couldn't join group"
   },
   "connectingToServer": {
     "message": "Connecting to server..."
@@ -2047,11 +2043,8 @@
   "newClosedGroup": {
     "message": "New Closed Group"
   },
-  "createClosedGroup": {
-    "message": "Create Closed Group"
-  },
-  "createClosedGroupDescription": {
-    "message": "Closed groups are end-to-end encrypted group chats for up to 10 members. They provide the same privacy protections as one-on-one sessions."
+  "newClosedGroupDescription": {
+    "message": "Closed groups support up to 10 members and provide the same privacy protections as one-on-one sessions."
   },
   "createClosedGroupNamePrompt": {
     "message": "Group Name"
@@ -2065,14 +2058,11 @@
   "enterOpenGroupURL": {
     "message": "Enter Open Group URL"
   },
-  "channelUrlPlaceholder": {
-    "message": "chat.getsession.org"
+  "openGroupURL": {
+    "message": "Open Group URL"
   },
-  "addChannelDescription": {
-    "message": "Enter an open group URL."
-  },
-  "joinChannel": {
-    "message": "Join Open Group"
+  "enterAnOpenGroupURL": {
+    "message": "Enter an open group URL"
   },
   "next": {
     "message": "Next"
@@ -2089,25 +2079,17 @@
   "devicePairedSuccessfully": {
     "message": "Device linked successfully"
   },
-  "invalidGroupName": {
-    "message": "Group Name length must be between 1 to $maxSize$",
-    "description": "Error message displayed on invalid group name",
-    "placeholders": {
-      "maxSize": {
-        "content": "$1",
-        "example": "125"
-      }
-    }
+  "invalidGroupNameTooShort": {
+    "message": "Please enter a group name"
   },
-  "invalidGroupSize": {
-    "message": "Closed Group size must be between 1 to $maxSize$",
-    "description": "Error message displayed on invalid closed group size",
-    "placeholders": {
-      "maxSize": {
-        "content": "$1",
-        "example": "10"
-      }
-    }
+  "invalidGroupNameTooLong": {
+    "message": "Please enter a shorter group name"
+  },
+  "pickClosedGroupMember": {
+    "message": "Please pick at least 2 group members"
+  },
+  "closedGroupMaxSize": {
+    "message": "A closed group cannot have more than 10 members"
   },
   "maxGroupMembersError": {
     "message": "Max number of members for small group chats is $maxSize$",
@@ -2117,8 +2099,5 @@
         "example": "10"
       }
     }
-  },
-  "useSenderKeys": {
-    "message": "Use Sender Keys"
   }
 }
