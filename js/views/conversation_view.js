@@ -1374,12 +1374,16 @@
       // If removable from server, we "Unsend" - otherwise "Delete"
       let title;
       if (isPublic) {
-        title = multiple ? i18n('unsendMessages') : i18n('unsendMessage');
+        title = multiple
+          ? i18n('deleteMessagesForEveryone')
+          : i18n('deleteMessageForEveryone');
       } else {
         title = multiple ? i18n('deleteMessages') : i18n('deleteMessage');
       }
 
-      const okText = isServerDeletable ? i18n('unsend') : i18n('delete');
+      const okText = isServerDeletable
+        ? i18n('deleteForEveryone')
+        : i18n('delete');
 
       window.confirmationDialog({
         title,

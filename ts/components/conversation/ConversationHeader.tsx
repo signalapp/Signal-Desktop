@@ -368,7 +368,7 @@ export class ConversationHeader extends React.Component<Props> {
 
     const isServerDeletable = isPublic;
     const deleteMessageButtonText = i18n(
-      isServerDeletable ? 'unsend' : 'delete'
+      isServerDeletable ? 'deleteForEveryone' : 'delete'
     );
 
     return (

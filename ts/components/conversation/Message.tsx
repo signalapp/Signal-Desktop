@@ -926,7 +926,9 @@ export class Message extends React.PureComponent<Props, State> {
     };
 
     const isServerDeletable = !!this.props.isPublic;
-    const deleteMessageCtxText = i18n(isServerDeletable ? 'unsend' : 'delete');
+    const deleteMessageCtxText = i18n(
+      isServerDeletable ? 'deleteForEveryone' : 'delete'
+    );
 
     // CONTEXT MENU "Select Message" does not work
 

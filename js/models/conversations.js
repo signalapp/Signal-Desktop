@@ -2396,7 +2396,9 @@
 
       let params;
       if (this.isPublic()) {
-        throw new Error('Called deleteMessages() on an open group. Only leave group is supported.')
+        throw new Error(
+          'Called deleteMessages() on an open group. Only leave group is supported.'
+        );
       } else {
         params = {
           title: i18n('deleteMessages'),
