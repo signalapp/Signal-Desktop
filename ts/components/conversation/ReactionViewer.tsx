@@ -5,7 +5,7 @@ import { ContactName } from './ContactName';
 import { Avatar, Props as AvatarProps } from '../Avatar';
 import { Emoji } from '../emoji/Emoji';
 import { useRestoreFocus } from '../../util/hooks';
-import { ColorType } from '../../types/Util';
+import { ColorType } from '../../types/Colors';
 
 export type Reaction = {
   emoji: string;

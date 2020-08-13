@@ -12,7 +12,7 @@ import {
 import { trigger } from '../../shims/events';
 import { NoopActionType } from './noop';
 import { AttachmentType } from '../../types/Attachment';
-import { ColorType } from '../../types/Util';
+import { ColorType } from '../../types/Colors';
 
 // State
 

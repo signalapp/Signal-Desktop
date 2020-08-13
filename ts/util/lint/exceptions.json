@@ -11770,7 +11770,7 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.tsx",
     "line": "    this.inputRef = React.createRef();",
-    "lineNumber": 70,
+    "lineNumber": 71,
     "reasonCategory": "usageTrusted",
     "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Used only to set focus"
@@ -11806,7 +11806,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
     "line": "    this.menuTriggerRef = React.createRef();",
-    "lineNumber": 75,
+    "lineNumber": 76,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Used to reference popup menu"
@@ -11850,7 +11850,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
-    "lineNumber": 185,
+    "lineNumber": 186,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-21T16:56:07.875Z"
   },
@@ -11858,7 +11858,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 189,
+    "lineNumber": 190,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-21T16:56:07.875Z"
   },

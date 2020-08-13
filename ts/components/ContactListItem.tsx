@@ -5,7 +5,8 @@ import { Avatar } from './Avatar';
 import { Emojify } from './conversation/Emojify';
 import { InContactsIcon } from './InContactsIcon';
 
-import { ColorType, LocalizerType } from '../types/Util';
+import { LocalizerType } from '../types/Util';
+import { ColorType } from '../types/Colors';
 
 interface Props {
   title: string;

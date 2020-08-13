@@ -2,7 +2,7 @@ import { notify } from '../../services/notify';
 import { calling, VideoCapturer, VideoRenderer } from '../../services/calling';
 import { CallState } from '../../types/Calling';
 import { CanvasVideoRenderer, GumVideoCapturer } from '../../window.d';
-import { ColorType } from '../../types/Util';
+import { ColorType } from '../../types/Colors';
 import { NoopActionType } from './noop';
 import { callingTones } from '../../util/callingTones';
 import { requestCameraPermissions } from '../../util/callingPermissions';

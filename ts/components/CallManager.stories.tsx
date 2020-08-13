@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { CallManager } from './CallManager';
 import { CallState } from '../types/Calling';
-import { ColorType } from '../types/Util';
+import { ColorType } from '../types/Colors';
 
 // @ts-ignore
 import { setup as setupI18n } from '../../js/modules/i18n';

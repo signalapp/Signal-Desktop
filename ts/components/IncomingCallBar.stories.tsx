@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IncomingCallBar } from './IncomingCallBar';
-import { ColorType } from '../types/Util';
+import { Colors, ColorType } from '../types/Colors';
 
 // @ts-ignore
 import { setup as setupI18n } from '../../js/modules/i18n';
@@ -31,22 +31,6 @@ const defaultProps = {
   i18n,
 };
 
-const colors: Array<ColorType> = [
-  'blue',
-  'blue_grey',
-  'brown',
-  'deep_orange',
-  'green',
-  'grey',
-  'indigo',
-  'light_green',
-  'pink',
-  'purple',
-  'red',
-  'teal',
-  'ultramarine',
-];
-
 const permutations = [
   {
     title: 'Incoming Call Bar (no call details)',
@@ -74,7 +58,7 @@ const permutations = [
 
 storiesOf('Components/IncomingCallBar', module)
   .add('Knobs Playground', () => {
-    const color = select('color', colors, 'ultramarine');
+    const color = select('color', Colors, 'ultramarine');
     const isVideoCall = boolean('isVideoCall', false);
     const name = text(
       'name',
