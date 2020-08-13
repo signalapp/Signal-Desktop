@@ -15,6 +15,7 @@
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -31,6 +32,7 @@
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-00111',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -53,7 +55,7 @@
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
-        authorProfileName: 'OnFire',
+        authorTitle: 'OnFire',
       }}
     />
   </div>
@@ -69,7 +71,7 @@
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
-        authorProfileName: 'OnFire',
+        authorTitle: 'OnFire',
       }}
     />
   </div>
@@ -85,7 +87,7 @@
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
         authorProfileName: 'OnFire',
-        authorName: 'Mr. Fire',
+        authorTitle: 'Mr. Fire',
       }}
     />
   </div>
@@ -102,7 +104,7 @@
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
         authorProfileName: 'OnFire',
-        authorName: 'Mr. Fire',
+        authorTitle: 'Mr. Fire',
       }}
     />
   </div>
@@ -123,7 +125,7 @@
       quote={{
         authorColor: 'purple',
         text: 'How many 🔥ferrets🔥 do you have?',
-        authorName: 'Mr. 🔥Fire🔥',
+        authorTitle: 'Mr. 🔥Fire🔥',
       }}
     />
   </div>
@@ -138,7 +140,7 @@
       quote={{
         authorColor: 'purple',
         text: 'How many 🔥ferrets🔥 do you have?',
-        authorName: 'Mr. 🔥Fire🔥',
+        authorTitle: 'Mr. 🔥Fire🔥',
       }}
     />
   </div>
@@ -205,6 +207,7 @@
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: 'Mr. 🔥Fire🔥',
       }}
       authorAvatarPath={util.gifObjectUrl}
     />
@@ -248,6 +251,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'pink',
         text: 'red',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -264,6 +268,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'red',
         text: 'red',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -279,6 +284,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'pink',
         text: 'deep_orange',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -295,6 +301,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'deep_orange',
         text: 'deep_orange',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -310,6 +317,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'pink',
         text: 'brown',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -326,6 +334,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'brown',
         text: 'brown',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -341,6 +350,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'pink',
         text: 'pink',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -357,6 +367,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'pink',
         text: 'pink',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -372,6 +383,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'pink',
         text: 'purple',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -388,6 +400,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'purple',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -403,6 +416,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'pink',
         text: 'indigo',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -419,6 +433,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'indigo',
         text: 'indigo',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -434,6 +449,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'pink',
         text: 'blue',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -450,6 +466,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'blue',
         text: 'blue',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -465,6 +482,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'pink',
         text: 'teal',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -481,6 +499,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'teal',
         text: 'teal',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -496,6 +515,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'pink',
         text: 'green',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -512,6 +532,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'green',
         text: 'green',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -527,6 +548,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'pink',
         text: 'light_green',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -543,6 +565,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'light_green',
         text: 'light_green',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -558,6 +581,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'pink',
         text: 'blue_grey',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -574,6 +598,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'blue_grey',
         text: 'blue_grey',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -589,6 +614,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'pink',
         text: 'grey',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -605,6 +631,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'grey',
         text: 'grey',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         onClick: () => console.log('onClick'),
       }}
     />
@@ -627,6 +654,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         isFromMe: true,
         referencedMessageNotFound: true,
       }}
@@ -644,6 +672,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         isFromMe: true,
         referencedMessageNotFound: true,
       }}
@@ -654,7 +683,7 @@ messages the color is taken from the contact who wrote the quoted message.
       direction="incoming"
       timestamp={Date.now()}
       conversationType="group"
-      authorName="Mr. 🔥Fire🔥"
+      authorTitle="Mr. 🔥Fire🔥"
       authorColor="green"
       text="About six"
       i18n={util.i18n}
@@ -662,6 +691,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         referencedMessageNotFound: true,
       }}
       authorAvatarPath={util.gifObjectUrl}
@@ -672,7 +702,7 @@ messages the color is taken from the contact who wrote the quoted message.
       direction="outgoing"
       timestamp={Date.now()}
       conversationType="group"
-      authorName="Mr. 🔥Fire🔥"
+      authorTitle="Mr. 🔥Fire🔥"
       status="sending"
       authorColor="green"
       text="About six"
@@ -681,6 +711,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
         referencedMessageNotFound: true,
       }}
       authorAvatarPath={util.gifObjectUrl}
@@ -705,7 +736,7 @@ messages the color is taken from the contact who wrote the quoted message.
         text:
           'A really long link https://app.zeplin.io/project/5b2136b8e490ad6a54399857/screen/5b3bd068e03b763a0ee4c3e9',
         authorPhoneNumber: '(202) 555-0011',
-        authorProfileName:
+        authorTitle:
           'Really really really really really really really really really long!',
       }}
     />
@@ -723,7 +754,7 @@ messages the color is taken from the contact who wrote the quoted message.
         text:
           'A really long link https://app.zeplin.io/project/5b2136b8e490ad6a54399857/screen/5b3bd068e03b763a0ee4c3e9',
         authorPhoneNumber: '(202) 555-0011',
-        authorProfileName:
+        authorTitle:
           'Really really really really really really really really really long!',
       }}
     />
@@ -750,6 +781,7 @@ messages the color is taken from the contact who wrote the quoted message.
           'Then birds. They are dinosaurs, after all. Then cephalapods, because they are ' +
           'really smart.',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -769,6 +801,7 @@ messages the color is taken from the contact who wrote the quoted message.
           'Then birds. They are dinosaurs, after all. Then cephalapods, because they are ' +
           'really smart.',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -798,6 +831,7 @@ messages the color is taken from the contact who wrote the quoted message.
           fileName: 'lorum_ipsum.txt',
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -821,6 +855,7 @@ messages the color is taken from the contact who wrote the quoted message.
           fileName: 'lorum_ipsum.txt',
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -854,6 +889,7 @@ messages the color is taken from the contact who wrote the quoted message.
           },
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -881,6 +917,7 @@ messages the color is taken from the contact who wrote the quoted message.
           },
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -910,6 +947,7 @@ messages the color is taken from the contact who wrote the quoted message.
           },
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -933,6 +971,7 @@ messages the color is taken from the contact who wrote the quoted message.
           },
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -961,6 +1000,7 @@ messages the color is taken from the contact who wrote the quoted message.
           },
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -983,6 +1023,7 @@ messages the color is taken from the contact who wrote the quoted message.
           },
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1007,6 +1048,7 @@ messages the color is taken from the contact who wrote the quoted message.
           fileName: 'pi.gif',
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1026,6 +1068,7 @@ messages the color is taken from the contact who wrote the quoted message.
           fileName: 'pi.gif',
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1050,6 +1093,7 @@ messages the color is taken from the contact who wrote the quoted message.
           fileName: 'pi.gif',
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1069,6 +1113,7 @@ messages the color is taken from the contact who wrote the quoted message.
           fileName: 'pi.gif',
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1098,6 +1143,7 @@ messages the color is taken from the contact who wrote the quoted message.
           },
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1121,6 +1167,7 @@ messages the color is taken from the contact who wrote the quoted message.
           },
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1149,6 +1196,7 @@ messages the color is taken from the contact who wrote the quoted message.
           },
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1171,6 +1219,7 @@ messages the color is taken from the contact who wrote the quoted message.
           },
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1198,6 +1247,7 @@ messages the color is taken from the contact who wrote the quoted message.
           },
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1219,6 +1269,7 @@ messages the color is taken from the contact who wrote the quoted message.
           },
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1244,6 +1295,7 @@ messages the color is taken from the contact who wrote the quoted message.
           fileName: 'agnus_dei.mp4',
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1263,6 +1315,7 @@ messages the color is taken from the contact who wrote the quoted message.
           fileName: 'agnus_dei.mp4',
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1287,6 +1340,7 @@ messages the color is taken from the contact who wrote the quoted message.
           fileName: 'agnus_dei.mp4',
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1305,6 +1359,7 @@ messages the color is taken from the contact who wrote the quoted message.
           fileName: 'agnus_dei.mp4',
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1332,6 +1387,7 @@ messages the color is taken from the contact who wrote the quoted message.
           isVoiceMessage: true,
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1351,6 +1407,7 @@ messages the color is taken from the contact who wrote the quoted message.
           isVoiceMessage: true,
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1376,6 +1433,7 @@ messages the color is taken from the contact who wrote the quoted message.
           fileName: 'lorum_ipsum.txt',
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1395,6 +1453,7 @@ messages the color is taken from the contact who wrote the quoted message.
           fileName: 'lorum_ipsum.txt',
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1414,6 +1473,7 @@ messages the color is taken from the contact who wrote the quoted message.
             'really_really_really_really_really_really_really_really_really_long.txt',
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1434,6 +1494,7 @@ messages the color is taken from the contact who wrote the quoted message.
             'really_really_really_really_really_really_really_really_really_long.txt',
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1458,6 +1519,7 @@ messages the color is taken from the contact who wrote the quoted message.
           fileName: 'lorum_ipsum.txt',
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1476,6 +1538,7 @@ messages the color is taken from the contact who wrote the quoted message.
           fileName: 'lorum_ipsum.txt',
         },
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1506,6 +1569,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1528,6 +1592,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1555,6 +1620,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1576,6 +1642,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1603,6 +1670,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1624,6 +1692,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1656,6 +1725,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1682,6 +1752,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1707,6 +1778,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1726,6 +1798,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1752,6 +1825,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
@@ -1772,6 +1846,7 @@ messages the color is taken from the contact who wrote the quoted message.
         authorColor: 'purple',
         text: 'How many ferrets do you have?',
         authorPhoneNumber: '(202) 555-0011',
+        authorTitle: '(202) 555-0011',
       }}
     />
   </div>
