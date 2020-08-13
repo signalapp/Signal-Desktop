@@ -1731,7 +1731,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-quote__primary__author {
   @include font-body-2-bold;
 
-  overflow-x: hidden;
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 
