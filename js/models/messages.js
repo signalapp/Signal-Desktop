@@ -604,7 +604,7 @@
 
       const selectedReaction = (
         (this.get('reactions') || []).find(
-          re => re.fromId === this.OUR_NUMBER
+          re => re.fromId === ConversationController.getOurConversationId()
         ) || {}
       ).emoji;
 
