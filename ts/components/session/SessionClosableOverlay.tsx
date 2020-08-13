@@ -134,14 +134,14 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         buttonText = window.i18n('next');
         descriptionLong = window.i18n('usersCanShareTheir...');
         subtitle = window.i18n('enterSessionID');
-        placeholder = window.i18n('enterSessionID');
+        placeholder = window.i18n('enterSessionIDOfRecipient');
         break;
       case 'contact':
         title = window.i18n('addContact');
         buttonText = window.i18n('next');
         descriptionLong = window.i18n('usersCanShareTheir...');
         subtitle = window.i18n('enterSessionID');
-        placeholder = window.i18n('enterSessionID');
+        placeholder = window.i18n('enterSessionIDOfRecipient');
         break;
       case 'open-group':
         title = window.i18n('joinOpenGroup');
@@ -235,9 +235,9 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         {descriptionLong && (
           <div className="session-description-long">{descriptionLong}</div>
         )}
-        {isMessageView && <h4>{window.i18n('or')}</h4>}
-
-        {isMessageView && (
+        {isMessageView && false && <h4>{window.i18n('or')}</h4>}
+        {/* FIXME enable back those two items when they are working */}
+        {isMessageView && false && (
           <UserSearchDropdown
             searchTerm={searchTerm || ''}
             updateSearch={updateSearch}

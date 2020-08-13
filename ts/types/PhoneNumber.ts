@@ -37,7 +37,7 @@ function validate(number: string) {
   // Check if it's hex
   const isHex = number.replace(/[\s]*/g, '').match(/^[0-9a-fA-F]+$/);
   if (!isHex) {
-    return 'invalidHexId';
+    return 'invalidSessionId';
   }
 
   // Check if the pubkey length is 33 and leading with 05 or of length 32

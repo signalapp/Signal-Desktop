@@ -234,8 +234,14 @@
     "description": "Displayed when a user can't send a message because they have left the group"
   },
   "unreadMessage": {
-    "message": "1 Unread Message",
-    "description": "Text for unread message separator, just one message"
+    "message": "$count$ Unread Message",
+    "description": "Text for unread message separator, just one message",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
   },
   "unreadMessages": {
     "message": "$count$ Unread Messages",
@@ -1825,7 +1831,7 @@
   "remove": {
     "message": "Remove"
   },
-  "invalidHexId": {
+  "invalidSessionId": {
     "message": "Invalid Session ID",
     "description": "Error string shown when user types an invalid pubkey hex string"
   },
@@ -1992,8 +1998,11 @@
   "enterSessionID": {
     "message": "Enter Session ID"
   },
+  "enterSessionIDOfRecipient": {
+    "message": "Enter Session ID of recipient"
+  },
   "usersCanShareTheir...": {
-    "message": "Users can share their Session ID from their account settings, or by sharing their QR code."
+    "message": "Users can share their Session ID by going into their account settings and tapping \"Share Session ID\", or by sharing their QR code."
   },
   "message": {
     "message": "Message"
