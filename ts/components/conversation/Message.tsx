@@ -992,11 +992,6 @@ export class Message extends React.PureComponent<Props, State> {
             {deleteMessageCtxText}
           </MenuItem>
         ) : null}
-        {isPublic ? (
-          <MenuItem onClick={wrap(onCopyPubKey)}>
-            {i18n('copyPublicKey')}
-          </MenuItem>
-        ) : null}
         {isModerator && isPublic ? (
           <MenuItem onClick={wrap(onBanUser)}>{i18n('banUser')}</MenuItem>
         ) : null}

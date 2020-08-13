@@ -1597,9 +1597,6 @@
     "message": "Ban failed!",
     "description": "Toast on unsuccesful user ban."
   },
-  "copyChatId": {
-    "message": "Copy Chat ID"
-  },
   "leaveOpenGroup": {
     "message": "Leave Open Group",
     "description": "Button action that the user can click to leave the group"
