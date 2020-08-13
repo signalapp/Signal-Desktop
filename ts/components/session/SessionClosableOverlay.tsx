@@ -241,7 +241,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
           <UserSearchDropdown
             searchTerm={searchTerm || ''}
             updateSearch={updateSearch}
-            placeholder={window.i18n('searchForAKeyPhrase')}
+            placeholder={window.i18n('searchFor...')}
             searchResults={searchResults}
           />
         )}

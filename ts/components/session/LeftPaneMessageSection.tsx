@@ -241,7 +241,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         <SessionSearchInput
           searchString={this.props.searchTerm}
           onChange={this.updateSearchBound}
-          placeholder={window.i18n('searchForAKeyPhrase')}
+          placeholder={window.i18n('searchFor...')}
         />
         {this.renderList()}
         {this.renderBottomButtons()}

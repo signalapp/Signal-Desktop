@@ -1992,8 +1992,8 @@
   "newSession": {
     "message": "New Session"
   },
-  "searchForAKeyPhrase": {
-    "message": "Search for a key phrase or contact"
+  "searchFor...": {
+    "message": "Search for conversations, contacts, and messages"
   },
   "enterSessionID": {
     "message": "Enter Session ID"
