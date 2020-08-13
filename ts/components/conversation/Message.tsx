@@ -39,7 +39,8 @@ import { ContactType } from '../../types/Contact';
 
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
-import { ColorType, LocalizerType } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
+import { ColorType } from '../../types/Colors';
 import { createRefMerger } from '../_util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 

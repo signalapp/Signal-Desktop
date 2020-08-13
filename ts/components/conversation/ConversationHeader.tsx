@@ -11,7 +11,8 @@ import { Emojify } from './Emojify';
 import { Avatar } from '../Avatar';
 import { InContactsIcon } from '../InContactsIcon';
 
-import { ColorType, LocalizerType } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
+import { ColorType } from '../../types/Colors';
 
 interface TimerOption {
   name: string;

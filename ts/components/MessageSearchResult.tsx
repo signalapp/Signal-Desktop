@@ -6,7 +6,8 @@ import { MessageBodyHighlight } from './MessageBodyHighlight';
 import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 
-import { ColorType, LocalizerType } from '../types/Util';
+import { LocalizerType } from '../types/Util';
+import { ColorType } from '../types/Colors';
 
 export type PropsDataType = {
   isSelected?: boolean;

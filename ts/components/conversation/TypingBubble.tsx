@@ -4,7 +4,8 @@ import classNames from 'classnames';
 import { TypingAnimation } from './TypingAnimation';
 import { Avatar } from '../Avatar';
 
-import { ColorType, LocalizerType } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
+import { ColorType } from '../../types/Colors';
 
 interface Props {
   avatarPath?: string;

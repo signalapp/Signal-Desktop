@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { CallState } from '../types/Calling';
-import { ColorType } from '../types/Util';
+import { ColorType } from '../types/Colors';
 import { CallScreen } from './CallScreen';
 
 // @ts-ignore

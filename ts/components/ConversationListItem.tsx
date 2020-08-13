@@ -9,7 +9,8 @@ import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 import { cleanId } from './_util';
 
-import { ColorType, LocalizerType } from '../types/Util';
+import { LocalizerType } from '../types/Util';
+import { ColorType } from '../types/Colors';
 
 export type PropsData = {
   id: string;

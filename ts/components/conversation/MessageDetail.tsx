@@ -5,7 +5,8 @@ import moment from 'moment';
 import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
 import { Message, Props as MessageProps } from './Message';
-import { ColorType, LocalizerType } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
+import { ColorType } from '../../types/Colors';
 
 interface Contact {
   status: string;

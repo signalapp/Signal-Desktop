@@ -2,7 +2,8 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import { getInitials } from '../util/getInitials';
-import { ColorType, LocalizerType } from '../types/Util';
+import { LocalizerType } from '../types/Util';
+import { ColorType } from '../types/Colors';
 
 export type Props = {
   avatarPath?: string;
