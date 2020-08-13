@@ -2396,11 +2396,7 @@
 
       let params;
       if (this.isPublic()) {
-        params = {
-          title: i18n('deleteMessages'),
-          message: i18n('deletePublicConversationConfirmation'),
-          resolve: () => ConversationController.deleteContact(this.id),
-        };
+        throw new Error('Called deleteMessages() on an open group. Only leave group is supported.')
       } else {
         params = {
           title: i18n('deleteMessages'),
