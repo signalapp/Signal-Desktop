@@ -103,7 +103,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     });
   }
 
-  // tslint:disable-next-line max-func-body-length */
+  // tslint:disable-next-line max-func-body-length cyclomatic-complexity */
   public render(): JSX.Element {
     const {
       overlayMode,
