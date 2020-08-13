@@ -16,6 +16,7 @@ import {
   getClearNicknameMenuItem,
   getCopyIdMenuItem,
   getDeleteContactMenuItem,
+  getDeleteMessagesMenuItem,
   getInviteContactMenuItem,
   getLeaveGroupMenuItem,
 } from '../session/utils/Menu';
@@ -216,7 +217,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
           onCopyPublicKey,
           i18n
         )}
-        <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
+        {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, i18n)}
         {getInviteContactMenuItem(
           type === 'group',
           isPublic,

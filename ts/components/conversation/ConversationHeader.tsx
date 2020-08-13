@@ -311,7 +311,7 @@ export class ConversationHeader extends React.Component<Props> {
           onCopyPublicKey,
           i18n
         )}
-        <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
+        {Menu.getDeleteMessagesMenuItem(isPublic, onDeleteMessages, i18n)}
         {Menu.getAddModeratorsMenuItem(
           amMod,
           isKickedFromGroup,
