@@ -341,50 +341,34 @@
         "message": "کد امنیتی این اعضای گروه از آخرین باری که تأییدش کردید تغییر کرده‌است. یکی از اعضای گروه را انتخاب کنید تا کد امنیتی جدیدش را ببینید.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
-    "changedSinceVerifiedMultiple": {
-        "message": "کد امنیتی چند نفر از اعضای گروه از زمان آخریت تائید، تغییر کرده‌است. ممکن است معنایش این باشد که کسی دارد برای شنود ارتباطات شما تلاش می‌کند. امکان دیگر است که این اعضای گروه صرفاً Signal را دوباره نصب کرده‌اند.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "changedSinceVerified": {
-        "message": "شماره امن شما با $name$ بعد از آخرین تایید شما تغییر یافته است. این بدین معناست که شخصی در تلاش برای رهگیری ارتباط شماست و یا اینکه $name$به تازگی Signal را مجددا نصب کرده است.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
     "changedRightAfterVerify": {
-        "message": "شماره امنی که شما در تلاش برای تایید آن هستید تغییر کرده است. لطفا شماره امن جدید خود را با$name$بازبینی کنید. به یاد داشته باشید، این تغییر بدین معناست که شخصی در تلاش برای رهگیری ارتباط شماست و یا $name$مجددا Signal را نصب کرده است.",
+        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name1$. Remember, this change could mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
-            "name": {
+            "name1": {
                 "content": "$1",
+                "example": "Bob"
+            },
+            "name2": {
+                "content": "$2",
                 "example": "Bob"
             }
         }
     },
-    "changedRecentlyMultiple": {
-        "message": "کد امنیتی چند نفر از اعضای گروه اخیرآً تغییر کرده‌است. ممکن است معنایش این باشد که کسی دارد برای شنود ارتباطات شما تلاش می‌کند. امکان دیگر است که این اعضای گروه صرفاً Signal را دوباره نصب کرده‌اند.",
+    "changedVerificationWarning": {
+        "message": "افراد زیر ممکن است دستگاه خود را تغییر داده یا نصب مجدد انجام داده باشند. برای اطمینان از حفظ حریم خصوصی شمارهٔ امنیتی خود را با آنان تأیید کنید.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "changedRecently": {
-        "message": "شماره امن شما با $name$به تازگی تغییر یافته است.این امر بدین معناست که شخصی در تلاش برای رهگیری ارتباط شماست یا اینکه $name$بار دیگر Signal را نصب کرده است.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
     "identityKeyErrorOnSend": {
-        "message": "شماره امن شما با $name$ تغییر کرده است. این به این معناست که شخصی در تلاش برای رهگیری ارتباط شماست یا اینکه $name$مجددا سیگنال را نصب کرده است. بهتر است شماره امن خود با این مخاطب را تایید کنید.",
+        "message": "Your safety number with $name1$ has changed. This could either mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
-            "name": {
+            "name1": {
                 "content": "$1",
+                "example": "Bob"
+            },
+            "name2": {
+                "content": "$2",
                 "example": "Bob"
             }
         }
@@ -577,7 +561,7 @@
         "message": "زمانی که خواستید یک پیوست غیر-تصویر را قرار بدهید،  محدودیت یک پیوست در هر پیام می باشد.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "شما نمی توانید یک پیوست تصویر و یک پیوست غیر تصویر را در یک پیام ترکیب کنید.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -714,6 +698,10 @@
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
+                "content": "$1",
+                "example": "dog"
+            },
+            "conversationName": {
                 "content": "$2",
                 "example": "Friends"
             }
@@ -742,6 +730,10 @@
     "typingAlt": {
         "message": "در حال تایپ انیمیشن برای این مکالمه",
         "description": "Used as the 'title' attibute for the typing animation"
+    },
+    "contactInAddressBook": {
+        "message": "This person is in your contacts.",
+        "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
         "message": "آواتار متعلق به مخاطب $name$",
@@ -856,6 +848,14 @@
     "audioPermissionNeeded": {
         "message": "برای فرستادن پیام های صوتی، به Signal Desktop اجازه دسترسی به میکروفون خود را بدهید.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+    },
+    "audioCallingPermissionNeeded": {
+        "message": "For calling, you must allow Signal Desktop to access your microphone.",
+        "description": "Shown if the user attempts access the microphone for calling without audio permssions turned on"
+    },
+    "videoCallingPermissionNeeded": {
+        "message": "For video calling, you must allow Signal Desktop to access your camera.",
+        "description": "Shown if the user attempts access the camera for video calling without video permssions turned on"
     },
     "allowAccess": {
         "message": "اجازه دسترسی بدهید",
@@ -1123,12 +1123,28 @@
         "message": "تم",
         "description": "Header for theme settings"
     },
+    "calling": {
+        "message": "درحال تماس",
+        "description": "Header for calling options on the settings screen"
+    },
+    "alwaysRelayCallsDescription": {
+        "message": "عبور تمامی تماس‌ها از سرور Signal",
+        "description": "Description of the always relay calls setting"
+    },
+    "alwaysRelayCallsDetail": {
+        "message": "گذراندن تمامی تماس‌ها از سرور Signal به منظور جلوگیری از آشکار شدن نشانی اینترنتی شما برای مخاطبانتان. فعال‌سازی این گزینه باعث کاهش کیفیت تماس می‌گردد.",
+        "description": "Details describing the always relay calls setting"
+    },
     "permissions": {
         "message": "دسترسی ها",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "اجازه دسترسی به دوربین و میکروفون",
+        "message": "Allow access to the microphone",
+        "description": "Description of the media permission description"
+    },
+    "mediaCameraPermissionsDescription": {
+        "message": "Allow access to the camera",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1295,6 +1311,10 @@
         "message": "ارسال ناموفق بود",
         "description": "Shown on outgoing message if it fails to send"
     },
+    "partiallySent": {
+        "message": "Partially sent, click for details",
+        "description": "Shown on outgoing message if it is partially sent"
+    },
     "showMore": {
         "message": "جزئیات",
         "description": "Displays the details of a key change"
@@ -1400,7 +1420,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "شما پیام تایمر پیام نابود شونده را روی $time$ تنظیم کردید",
+        "message": "You set the disappearing message time to $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1410,7 +1430,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "تایمر پیام نابود شونده به $time$ آپدیت شد",
+        "message": "Updated the disappearing message time to $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1420,7 +1440,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ تایمر پیام نابود شونده را روی $time$ تنظیم کرد",
+        "message": "$name$ set the disappearing message time to $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1538,7 +1558,7 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ پیام های نابود شونده را غیر فعال کرد",
+        "message": "$name$ disabled disappearing messages.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1548,7 +1568,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "شما پیام های نابود شونده را غیر فعال کردید",
+        "message": "شما پیام‌های ناپدید شونده را غیر فعال کردید.",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
@@ -1565,9 +1585,57 @@
         "message": "Play audio notification",
         "description": "Description for audio notification setting"
     },
+    "callRingtoneNotificationDescription": {
+        "message": "Play calling sounds",
+        "description": "Description for call ringtone notification setting"
+    },
+    "callSystemNotificationDescription": {
+        "message": "Show notifications for calls",
+        "description": "Description for call notification setting"
+    },
+    "incomingCallNotificationDescription": {
+        "message": "Enable incoming calls",
+        "description": "Description for incoming calls setting"
+    },
+    "contactChangedProfileName": {
+        "message": "$sender$ changed their profile name from $oldProfile$ to $newProfile$.",
+        "description": "Description for incoming calls setting",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "oldProfile": {
+                "content": "$2",
+                "example": ".x8Skillz8x."
+            },
+            "newProfile": {
+                "content": "$3",
+                "example": "Bob Smith"
+            }
+        }
+    },
+    "changedProfileName": {
+        "message": "$oldProfile$ changed their profile name to $newProfile$.",
+        "description": "Shown when a contact not in your address book changes their profile name",
+        "placeholders": {
+            "oldProfile": {
+                "content": "$2",
+                "example": ".x8Skillz8x."
+            },
+            "newProfile": {
+                "content": "$3",
+                "example": "Bob Smith"
+            }
+        }
+    },
     "safetyNumberChanged": {
         "message": "شماره امنیتی تغییر یافته است",
         "description": "A notification shown in the conversation when a contact reinstalls"
+    },
+    "safetyNumberChanges": {
+        "message": "تغییرات شمارهٔ امنیتی",
+        "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
         "message": "شماره امنیتی $name$ تغییر کرده است",
@@ -1584,10 +1652,10 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "شماره امنیتی شما با $name$:",
+        "message": "Your safety number with $name1$:",
         "description": "Heading for safety number view",
         "placeholders": {
-            "name": {
+            "name1": {
                 "content": "$1",
                 "example": "John"
             }
@@ -1608,6 +1676,10 @@
     "noteToSelf": {
         "message": "یادداشت به خود",
         "description": "Name for the conversation with your own phone number"
+    },
+    "noteToSelfHero": {
+        "message": "در این مکالمه می‌توانید برای خودتان یادداشت اضافه کنید. اگر حساب‌تان به دستگاه‌‌های دیگری پیوند داده شده باشد، یادداشت‌های جدید همگام‌سازی خواهند شد.",
+        "description": "Description for the Note to Self conversation"
     },
     "hideMenuBar": {
         "message": "پنهان کردن نوار منو",
@@ -1732,6 +1804,10 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "ConversationListItem--message-request": {
+        "message": "درخواست تبادل پیام",
+        "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
     },
     "ConversationListItem--draft-prefix": {
         "message": "پیش نویس:",
@@ -2107,6 +2183,18 @@
         "message": "Close current conversation",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--calling-header": {
+        "message": "درحال تماس",
+        "description": "Header of the keyboard shortcuts guide - calling section"
+    },
+    "Keyboard--toggle-audio": {
+        "message": "Toggle mute on and off",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--toggle-video": {
+        "message": "Toggle video on and off",
+        "description": "Shown in the shortcuts guide"
+    },
     "close-popup": {
         "message": "Close Popup",
         "description": "Used as alt text for any button closing a popup"
@@ -2352,6 +2440,324 @@
     "ReactionsViewer--all": {
         "message": "همه",
         "description": "Shown in reaction viewer as the title for the 'all' category"
+    },
+    "MessageRequests--message-direct": {
+        "message": "Let $name$ message you and share your name and photo with them? They won’t know you’ve seen their messages until you accept.",
+        "description": "Shown as the message for a message request in a direct message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce"
+            }
+        }
+    },
+    "MessageRequests--message-direct-blocked": {
+        "message": "Let $name$ message you and share your name and photo with them? You won't receive any messages until you unblock them.",
+        "description": "Shown as the message for a message request in a direct message with a blocked account",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce"
+            }
+        }
+    },
+    "MessageRequests--message-group": {
+        "message": "آیا می‌خواهید به این گروه بپیوندید و نام و عکس خود را با اعضای آن به اشتراک بگذارید؟ تا زمانی که نپذیرید آن‌ها متوجه نمی‌شوند که پیام‌شان را خوانده‌اید.",
+        "description": "Shown as the message for a message request in a group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--message-group-blocked": {
+        "message": "مسدودیت این گروه را رفع کرده و نام و عکس‌ خود را با اعضای آن به اشتراک می‌گذارید؟ تا زمانی که مسدودیت آن‌ها را رفع نکنید هیچ پیامی دریافت نخواهید کرد.",
+        "description": "Shown as the message for a message request in a blocked group"
+    },
+    "MessageRequests--block": {
+        "message": "مسدود کردن",
+        "description": "Shown as a button to let the user block a message request"
+    },
+    "MessageRequests--unblock": {
+        "message": "رفع مسدودیت",
+        "description": "Shown as a button to let the user unblock a message request"
+    },
+    "MessageRequests--unblock-confirm-title": {
+        "message": "Unblock $name$?",
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--unblock-direct-confirm-body": {
+        "message": "شما می‌توانید به دیگران پیام دهید و با آنها تماس بگیرید.",
+        "description": "Shown as the body in the confirmation modal for unblocking a private message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--unblock-group-confirm-body": {
+        "message": "Group members will be able to add your to this group again.",
+        "description": "Shown as the body in the confirmation modal for unblocking a group message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--block-and-delete": {
+        "message": "مسدود کردن و حذف",
+        "description": "Shown as a button to let the user block and delete a message request"
+    },
+    "MessageRequests--block-direct-confirm-title": {
+        "message": "Block $name$?",
+        "description": "Shown as the title in the confirmation modal for blocking a private message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--block-direct-confirm-body": {
+        "message": "Blocked people won't be able to call you or send you mesages.",
+        "description": "Shown as the body in the confirmation modal for blocking a private message request"
+    },
+    "MessageRequests--block-group-confirm-title": {
+        "message": "Block and Leave $group$?",
+        "description": "Shown as the title in the confirmation modal for blocking a group message request",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "MessageRequests--block-group-confirm-body": {
+        "message": "You will no longer receive messages or updates from this group and members won't be able to add you to this group again.",
+        "description": "Shown as the body in the confirmation modal for blocking a group message request"
+    },
+    "MessageRequests--delete": {
+        "message": "حذف",
+        "description": "Shown as a button to let the user delete any message request"
+    },
+    "MessageRequests--delete-direct-confirm-title": {
+        "message": "مکالمه حذف شود؟",
+        "description": "Shown as the title in the confirmation modal for deleting a private message request"
+    },
+    "MessageRequests--delete-direct-confirm-body": {
+        "message": "این مکالمه از روی تمام دستگاه‌های شما حذف خواهد شد.",
+        "description": "Shown as the body in the confirmation modal for deleting a private message request"
+    },
+    "MessageRequests--delete-group-confirm-title": {
+        "message": "Delete and Leave $group$?",
+        "description": "Shown as the title in the confirmation modal for deleting a group message request",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "MessageRequests--delete-direct": {
+        "message": "حذف",
+        "description": "Shown as a button to let the user delete a direct message request"
+    },
+    "MessageRequests--delete-group": {
+        "message": "حذف و ترک",
+        "description": "Shown as a button to let the user delete a group message request"
+    },
+    "MessageRequests--delete-group-confirm-body": {
+        "message": "شما این گروه را ترک می‌کنید و گروه از روی تمام دستگاه‌های شما حذف خواهد شد.",
+        "description": "Shown as the body in the confirmation modal for deleting a group message request"
+    },
+    "MessageRequests--accept": {
+        "message": "پذیرش",
+        "description": "Shown as a button to let the user accept a message request"
+    },
+    "ConversationHero--members": {
+        "message": "$count$ members",
+        "description": "Specifies the number of members in a group conversation",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "22"
+            }
+        }
+    },
+    "ConversationHero--members-1": {
+        "message": "1 عضو",
+        "description": "Specifies the number of members in a group conversation when there is one member",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "22"
+            }
+        }
+    },
+    "ConversationHero--membership-1": {
+        "message": "Member of $group$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            }
+        }
+    },
+    "ConversationHero--membership-2": {
+        "message": "Member of $group1$ and $group2$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            }
+        }
+    },
+    "ConversationHero--membership-3": {
+        "message": "Member of $group1$, $group2$, and $group3$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "ConversationHero--membership-extra": {
+        "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
+    },
+    "ConversationHero--membership-added": {
+        "message": "$name$ added you to the group.",
+        "description": "Shown Indicates that you were added to a group by a given individual.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jeff Smith"
+            }
+        }
+    },
+    "acceptCall": {
+        "message": "پاسخ دهید",
+        "description": "Shown in tooltip for the button to accept a call (audio or video)"
+    },
+    "acceptCallWithoutVideo": {
+        "message": "پاسخ دادن بدون تصویر",
+        "description": "Shown in tooltip for the button to accept a video call without video"
+    },
+    "declineCall": {
+        "message": "رد کردن",
+        "description": "Shown in tooltip for the button to decline a call (audio or video)"
+    },
+    "declinedIncomingAudioCall": {
+        "message": "You declined an audio call",
+        "description": "Shown in conversation history when you declined an incoming audio call"
+    },
+    "declinedIncomingVideoCall": {
+        "message": "You declined a video call",
+        "description": "Shown in conversation history when you declined an incoming video call"
+    },
+    "acceptedIncomingAudioCall": {
+        "message": "Incoming audio call",
+        "description": "Shown in conversation history when you accepted an incoming audio call"
+    },
+    "acceptedIncomingVideoCall": {
+        "message": "Incoming video call",
+        "description": "Shown in conversation history when you accepted an incoming video call"
+    },
+    "missedIncomingAudioCall": {
+        "message": "Missed audio call",
+        "description": "Shown in conversation history when you missed an incoming audio call"
+    },
+    "missedIncomingVideoCall": {
+        "message": "Missed video call",
+        "description": "Shown in conversation history when you missed an incoming video call"
+    },
+    "acceptedOutgoingAudioCall": {
+        "message": "Outgoing audio call",
+        "description": "Shown in conversation history when you made an outgoing audio call"
+    },
+    "acceptedOutgoingVideoCall": {
+        "message": "Outgoing video call",
+        "description": "Shown in conversation history when you made an outgoing video call"
+    },
+    "missedOrDeclinedOutgoingAudioCall": {
+        "message": "Unanswered audio call",
+        "description": "Shown in conversation history when your audio call is missed or declined"
+    },
+    "missedOrDeclinedOutgoingVideoCall": {
+        "message": "Unanswered video call",
+        "description": "Shown in conversation history when your video call is missed or declined"
+    },
+    "incomingAudioCall": {
+        "message": "Incoming audio call...",
+        "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    },
+    "incomingVideoCall": {
+        "message": "Incoming video call...",
+        "description": "Shown in both the incoming call bar and notification for an incoming video call"
+    },
+    "outgoingCallPrering": {
+        "message": "Calling...",
+        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    },
+    "outgoingCallRinging": {
+        "message": "Ringing...",
+        "description": "Shown in the call screen when placing an outgoing call that is now ringing"
+    },
+    "callReconnecting": {
+        "message": "Reconnecting...",
+        "description": "Shown in the call screen when the call is reconnecting due to network issues"
+    },
+    "callDuration": {
+        "message": "Signal $duration$",
+        "description": "Shown in the call screen to indicate how long the call has been connected",
+        "placeholders": {
+            "duration": {
+                "content": "$1",
+                "example": "00:01"
+            }
+        }
     },
     "privacyPolicy": {
         "message": "شرایط و سیاست های حفظ حریم خصوصی",

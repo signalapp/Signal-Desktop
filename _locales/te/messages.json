@@ -341,50 +341,34 @@
         "message": "మీరు చివరిగా ధృవీకరించినప్పటి నుండి ఈ సమూహ సభ్యులతో మీ భద్రతా సంఖ్యలు మార్చబడ్డాయి. వారితో మీ క్రొత్త భద్రతా నంబర్‌ను చూడటానికి సమూహ సభ్యుడిని క్లిక్ చేయండి.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
-    "changedSinceVerifiedMultiple": {
-        "message": "మీరు చివరిగా ధృవీకరించినప్పటి నుండి బహుళ సమూహ సభ్యులతో మీ భద్రతా సంఖ్యలు మార్చబడ్డాయి. మీ కమ్యూనికేషన్‌ను ఎవరైనా అడ్డగించడానికి ప్రయత్నిస్తున్నారని లేదా వారు Signal ను మళ్లీ ఇన్‌స్టాల్ చేశారని దీని అర్థం.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "changedSinceVerified": {
-        "message": "మీరు చివరిగా ధృవీకరించినప్పటి నుండి $name$ తో మీ భద్రతా సంఖ్య మార్చబడింది. మీ కమ్యూనికేషన్‌ను ఎవరైనా అడ్డగించడానికి ప్రయత్నిస్తున్నారని లేదా $name$ Signal ను తిరిగి ఇన్‌స్టాల్ చేసిందని దీని అర్థం.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
     "changedRightAfterVerify": {
-        "message": "మీరు ధృవీకరించడానికి ప్రయత్నిస్తున్న భద్రతా సంఖ్య మార్చబడింది. దయచేసి మీ క్రొత్త భద్రతా నంబర్‌ను $name$తో సమీక్షించండి. గుర్తుంచుకోండి, ఈ మార్పు ఎవరైనా మీ కమ్యూనికేషన్‌ను లేదా Signal ను మళ్లీ ఇన్‌స్టాల్ చేసిన $name$ను అడ్డగించడానికి ప్రయత్నిస్తుందని అర్థం.",
+        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name1$. Remember, this change could mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
-            "name": {
+            "name1": {
                 "content": "$1",
+                "example": "Bob"
+            },
+            "name2": {
+                "content": "$2",
                 "example": "Bob"
             }
         }
     },
-    "changedRecentlyMultiple": {
-        "message": "బహుళ సమూహ సభ్యులతో మీ భద్రతా సంఖ్యలు ఇటీవల మార్చబడ్డాయి. మీ కమ్యూనికేషన్‌ను ఎవరైనా అడ్డగించడానికి ప్రయత్నిస్తున్నారని లేదా వారు Signal ను మళ్లీ ఇన్‌స్టాల్ చేశారని దీని అర్థం.",
+    "changedVerificationWarning": {
+        "message": "The following people may have reinstalled or changed devices. Verify your safety number with them to ensure privacy.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "changedRecently": {
-        "message": "$name$ ఉన్న మీ భద్రతా సంఖ్య ఇటీవల మార్చబడింది. మీ కమ్యూనికేషన్‌ను ఎవరైనా అడ్డగించడానికి ప్రయత్నిస్తున్నారని లేదా $name$ Signal ను తిరిగి ఇన్‌స్టాల్ చేసిందని దీని అర్థం.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
     "identityKeyErrorOnSend": {
-        "message": "$name$ ఉన్న మీ భద్రతా సంఖ్య మార్చబడింది. మీ కమ్యూనికేషన్‌ను ఎవరైనా అడ్డగించడానికి ప్రయత్నిస్తున్నారని లేదా $name$ Signal ను తిరిగి ఇన్‌స్టాల్ చేసిందని దీని అర్థం. మీరు ఈ పరిచయంతో మీ సేఫ్టీ నంబర్‌ను ధృవీకరించాలనుకోవచ్చు.",
+        "message": "Your safety number with $name1$ has changed. This could either mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
-            "name": {
+            "name1": {
                 "content": "$1",
+                "example": "Bob"
+            },
+            "name2": {
+                "content": "$2",
                 "example": "Bob"
             }
         }
@@ -577,7 +561,7 @@
         "message": "చిత్రంకాని జోడింపును చేర్చినప్పుడు, సందేశ పరిమితి ఒక అటాచ్మెంట్.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "మీరు ఒక సందేశంలో ణొన్-ఇమేజ్ మరియు చిత్రం జోడింపులను కలపలేరు.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -714,6 +698,10 @@
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
+                "content": "$1",
+                "example": "dog"
+            },
+            "conversationName": {
                 "content": "$2",
                 "example": "Friends"
             }
@@ -742,6 +730,10 @@
     "typingAlt": {
         "message": "ఈ సంభాషణ కొరకు ముద్రాలేఖనం చైతన్యకల్పన",
         "description": "Used as the 'title' attibute for the typing animation"
+    },
+    "contactInAddressBook": {
+        "message": "This person is in your contacts.",
+        "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
         "message": "పరిచయం $name$ కోసం అవతార్",
@@ -856,6 +848,14 @@
     "audioPermissionNeeded": {
         "message": "ఆడియో సందేశాలను పంపడానికి, మీ మైక్రోఫోన్‌ను యాక్సెస్ చేయడానికి Signal Desktop ను అనుమతించండి.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+    },
+    "audioCallingPermissionNeeded": {
+        "message": "For calling, you must allow Signal Desktop to access your microphone.",
+        "description": "Shown if the user attempts access the microphone for calling without audio permssions turned on"
+    },
+    "videoCallingPermissionNeeded": {
+        "message": "For video calling, you must allow Signal Desktop to access your camera.",
+        "description": "Shown if the user attempts access the camera for video calling without video permssions turned on"
     },
     "allowAccess": {
         "message": "ప్రాప్యతను అనుమతించు",
@@ -1123,12 +1123,28 @@
         "message": "థీమ్",
         "description": "Header for theme settings"
     },
+    "calling": {
+        "message": "కాలింగ్",
+        "description": "Header for calling options on the settings screen"
+    },
+    "alwaysRelayCallsDescription": {
+        "message": "ఎల్లప్పుడూ కాల్స్ రిలే ",
+        "description": "Description of the always relay calls setting"
+    },
+    "alwaysRelayCallsDetail": {
+        "message": "మీ పరిచయం మీ IP చిరునామా బహిర్గతం నివారించేందుకు Signal సర్వర్ ద్వారా అన్ని కాల్స్ ప్రసారం. సమర్ధించే కాల్ నాణ్యత తగ్గిస్తుంది.",
+        "description": "Details describing the always relay calls setting"
+    },
     "permissions": {
         "message": "అనుమతులు",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "కెమెరా మరియు మైక్రోఫోన్‌కు ప్రాప్యతను అనుమతించండి",
+        "message": "Allow access to the microphone",
+        "description": "Description of the media permission description"
+    },
+    "mediaCameraPermissionsDescription": {
+        "message": "Allow access to the camera",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1295,6 +1311,10 @@
         "message": "పంపడం విఫలమైంది",
         "description": "Shown on outgoing message if it fails to send"
     },
+    "partiallySent": {
+        "message": "Partially sent, click for details",
+        "description": "Shown on outgoing message if it is partially sent"
+    },
     "showMore": {
         "message": "వివరాలు",
         "description": "Displays the details of a key change"
@@ -1400,7 +1420,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "మీరు అదృశ్యమవుతున్న సందేశ టైమర్ను సెట్ చేసారు $time$",
+        "message": "You set the disappearing message time to $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1410,7 +1430,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "అదృశ్యమవుతున్న సందేశ టైమర్‌ను $time$కు నవీకరించారు",
+        "message": "Updated the disappearing message time to $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1420,7 +1440,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ అదృశ్యమైన సందేశ టైమర్‌ను $time$కు సెట్ చేశారు ",
+        "message": "$name$ set the disappearing message time to $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1538,7 +1558,7 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ అదృశ్యమవుతున్న సందేశాలను నిలిపివేసింది",
+        "message": "$name$ disabled disappearing messages.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1565,9 +1585,57 @@
         "message": "ఆడియో నోటిఫికేషన్‌ను ప్లే చేయండి",
         "description": "Description for audio notification setting"
     },
+    "callRingtoneNotificationDescription": {
+        "message": "Play calling sounds",
+        "description": "Description for call ringtone notification setting"
+    },
+    "callSystemNotificationDescription": {
+        "message": "Show notifications for calls",
+        "description": "Description for call notification setting"
+    },
+    "incomingCallNotificationDescription": {
+        "message": "Enable incoming calls",
+        "description": "Description for incoming calls setting"
+    },
+    "contactChangedProfileName": {
+        "message": "$sender$ changed their profile name from $oldProfile$ to $newProfile$.",
+        "description": "Description for incoming calls setting",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "oldProfile": {
+                "content": "$2",
+                "example": ".x8Skillz8x."
+            },
+            "newProfile": {
+                "content": "$3",
+                "example": "Bob Smith"
+            }
+        }
+    },
+    "changedProfileName": {
+        "message": "$oldProfile$ changed their profile name to $newProfile$.",
+        "description": "Shown when a contact not in your address book changes their profile name",
+        "placeholders": {
+            "oldProfile": {
+                "content": "$2",
+                "example": ".x8Skillz8x."
+            },
+            "newProfile": {
+                "content": "$3",
+                "example": "Bob Smith"
+            }
+        }
+    },
     "safetyNumberChanged": {
         "message": "భద్రతా సంఖ్య మార్చబడింది",
         "description": "A notification shown in the conversation when a contact reinstalls"
+    },
+    "safetyNumberChanges": {
+        "message": "Safety Number Changes",
+        "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
         "message": "$name$ తో మీ భద్రత సంఖ్య మార్చబడింది.",
@@ -1584,10 +1652,10 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "మీ భద్రతా సంఖ్య$name$",
+        "message": "Your safety number with $name1$:",
         "description": "Heading for safety number view",
         "placeholders": {
-            "name": {
+            "name1": {
                 "content": "$1",
                 "example": "John"
             }
@@ -1608,6 +1676,10 @@
     "noteToSelf": {
         "message": "స్వీయ గమనిక",
         "description": "Name for the conversation with your own phone number"
+    },
+    "noteToSelfHero": {
+        "message": "ఈ సంభాషణలో మీరు మీ కోసం గమనికలను జోడించవచ్చు. మీ ఖాతాకు ఏదైనా లింక్ చేసిన పరికరాలు ఉంటే, క్రొత్త గమనికలు సమకాలీకరించబడతాయి.",
+        "description": "Description for the Note to Self conversation"
     },
     "hideMenuBar": {
         "message": "మెనూ పట్టికని  దాచు ",
@@ -1732,6 +1804,10 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "ConversationListItem--message-request": {
+        "message": "సందేశ అభ్యర్థన",
+        "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
     },
     "ConversationListItem--draft-prefix": {
         "message": "చిత్తు పత్రం:",
@@ -2107,6 +2183,18 @@
         "message": "ప్రస్తుత సంభాషణను మూసివేయండి",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--calling-header": {
+        "message": "కాలింగ్",
+        "description": "Header of the keyboard shortcuts guide - calling section"
+    },
+    "Keyboard--toggle-audio": {
+        "message": "Toggle mute on and off",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--toggle-video": {
+        "message": "Toggle video on and off",
+        "description": "Shown in the shortcuts guide"
+    },
     "close-popup": {
         "message": "పాపప్ మూసివేయండి",
         "description": "Used as alt text for any button closing a popup"
@@ -2352,6 +2440,324 @@
     "ReactionsViewer--all": {
         "message": "అన్ని",
         "description": "Shown in reaction viewer as the title for the 'all' category"
+    },
+    "MessageRequests--message-direct": {
+        "message": "Let $name$ message you and share your name and photo with them? They won’t know you’ve seen their messages until you accept.",
+        "description": "Shown as the message for a message request in a direct message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce"
+            }
+        }
+    },
+    "MessageRequests--message-direct-blocked": {
+        "message": "Let $name$ message you and share your name and photo with them? You won't receive any messages until you unblock them.",
+        "description": "Shown as the message for a message request in a direct message with a blocked account",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce"
+            }
+        }
+    },
+    "MessageRequests--message-group": {
+        "message": "Join this group and share your name and photo with its members? They won’t know you’ve seen their messages until you accept.",
+        "description": "Shown as the message for a message request in a group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--message-group-blocked": {
+        "message": "Unblock this group and share your name and photo with its members? You won't receive any messages until you unblock them.",
+        "description": "Shown as the message for a message request in a blocked group"
+    },
+    "MessageRequests--block": {
+        "message": "నిరోధించు",
+        "description": "Shown as a button to let the user block a message request"
+    },
+    "MessageRequests--unblock": {
+        "message": "అనుమతించు",
+        "description": "Shown as a button to let the user unblock a message request"
+    },
+    "MessageRequests--unblock-confirm-title": {
+        "message": "Unblock $name$?",
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--unblock-direct-confirm-body": {
+        "message": "మీరు ఒకరికొకరు సందేశములు పంపుకోవచ్చు మరియు మాట్లాడుకోవచ్చు.",
+        "description": "Shown as the body in the confirmation modal for unblocking a private message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--unblock-group-confirm-body": {
+        "message": "Group members will be able to add your to this group again.",
+        "description": "Shown as the body in the confirmation modal for unblocking a group message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--block-and-delete": {
+        "message": "అడ్డగించు మరియు తొలగించు",
+        "description": "Shown as a button to let the user block and delete a message request"
+    },
+    "MessageRequests--block-direct-confirm-title": {
+        "message": "Block $name$?",
+        "description": "Shown as the title in the confirmation modal for blocking a private message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--block-direct-confirm-body": {
+        "message": "Blocked people won't be able to call you or send you mesages.",
+        "description": "Shown as the body in the confirmation modal for blocking a private message request"
+    },
+    "MessageRequests--block-group-confirm-title": {
+        "message": "Block and Leave $group$?",
+        "description": "Shown as the title in the confirmation modal for blocking a group message request",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "MessageRequests--block-group-confirm-body": {
+        "message": "You will no longer receive messages or updates from this group and members won't be able to add you to this group again.",
+        "description": "Shown as the body in the confirmation modal for blocking a group message request"
+    },
+    "MessageRequests--delete": {
+        "message": "తొలగించండి",
+        "description": "Shown as a button to let the user delete any message request"
+    },
+    "MessageRequests--delete-direct-confirm-title": {
+        "message": "సందేశాలను తొలగించాలా?",
+        "description": "Shown as the title in the confirmation modal for deleting a private message request"
+    },
+    "MessageRequests--delete-direct-confirm-body": {
+        "message": "ఈ సంభాషణ మీ పరికరాల నుండి తొలగింపబడుద్ది.",
+        "description": "Shown as the body in the confirmation modal for deleting a private message request"
+    },
+    "MessageRequests--delete-group-confirm-title": {
+        "message": "Delete and Leave $group$?",
+        "description": "Shown as the title in the confirmation modal for deleting a group message request",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "MessageRequests--delete-direct": {
+        "message": "తొలగించండి",
+        "description": "Shown as a button to let the user delete a direct message request"
+    },
+    "MessageRequests--delete-group": {
+        "message": "తొలగించి వదిలివేయండి",
+        "description": "Shown as a button to let the user delete a group message request"
+    },
+    "MessageRequests--delete-group-confirm-body": {
+        "message": "మీరు ఈ సమూహాన్ని వదిలి వెళతారు మరియు ఇది మీ పరికరాల నుండి తొలగింపబడుతుంది.",
+        "description": "Shown as the body in the confirmation modal for deleting a group message request"
+    },
+    "MessageRequests--accept": {
+        "message": "అంగీకరించండి",
+        "description": "Shown as a button to let the user accept a message request"
+    },
+    "ConversationHero--members": {
+        "message": "$count$ members",
+        "description": "Specifies the number of members in a group conversation",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "22"
+            }
+        }
+    },
+    "ConversationHero--members-1": {
+        "message": "1 సభ్యుడు",
+        "description": "Specifies the number of members in a group conversation when there is one member",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "22"
+            }
+        }
+    },
+    "ConversationHero--membership-1": {
+        "message": "Member of $group$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            }
+        }
+    },
+    "ConversationHero--membership-2": {
+        "message": "Member of $group1$ and $group2$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            }
+        }
+    },
+    "ConversationHero--membership-3": {
+        "message": "Member of $group1$, $group2$, and $group3$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "ConversationHero--membership-extra": {
+        "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
+    },
+    "ConversationHero--membership-added": {
+        "message": "$name$ added you to the group.",
+        "description": "Shown Indicates that you were added to a group by a given individual.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jeff Smith"
+            }
+        }
+    },
+    "acceptCall": {
+        "message": "సమాధానం",
+        "description": "Shown in tooltip for the button to accept a call (audio or video)"
+    },
+    "acceptCallWithoutVideo": {
+        "message": "Answer without video",
+        "description": "Shown in tooltip for the button to accept a video call without video"
+    },
+    "declineCall": {
+        "message": "Decline",
+        "description": "Shown in tooltip for the button to decline a call (audio or video)"
+    },
+    "declinedIncomingAudioCall": {
+        "message": "You declined an audio call",
+        "description": "Shown in conversation history when you declined an incoming audio call"
+    },
+    "declinedIncomingVideoCall": {
+        "message": "You declined a video call",
+        "description": "Shown in conversation history when you declined an incoming video call"
+    },
+    "acceptedIncomingAudioCall": {
+        "message": "Incoming audio call",
+        "description": "Shown in conversation history when you accepted an incoming audio call"
+    },
+    "acceptedIncomingVideoCall": {
+        "message": "Incoming video call",
+        "description": "Shown in conversation history when you accepted an incoming video call"
+    },
+    "missedIncomingAudioCall": {
+        "message": "Missed audio call",
+        "description": "Shown in conversation history when you missed an incoming audio call"
+    },
+    "missedIncomingVideoCall": {
+        "message": "Missed video call",
+        "description": "Shown in conversation history when you missed an incoming video call"
+    },
+    "acceptedOutgoingAudioCall": {
+        "message": "Outgoing audio call",
+        "description": "Shown in conversation history when you made an outgoing audio call"
+    },
+    "acceptedOutgoingVideoCall": {
+        "message": "Outgoing video call",
+        "description": "Shown in conversation history when you made an outgoing video call"
+    },
+    "missedOrDeclinedOutgoingAudioCall": {
+        "message": "Unanswered audio call",
+        "description": "Shown in conversation history when your audio call is missed or declined"
+    },
+    "missedOrDeclinedOutgoingVideoCall": {
+        "message": "Unanswered video call",
+        "description": "Shown in conversation history when your video call is missed or declined"
+    },
+    "incomingAudioCall": {
+        "message": "Incoming audio call...",
+        "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    },
+    "incomingVideoCall": {
+        "message": "Incoming video call...",
+        "description": "Shown in both the incoming call bar and notification for an incoming video call"
+    },
+    "outgoingCallPrering": {
+        "message": "Calling...",
+        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    },
+    "outgoingCallRinging": {
+        "message": "Ringing...",
+        "description": "Shown in the call screen when placing an outgoing call that is now ringing"
+    },
+    "callReconnecting": {
+        "message": "Reconnecting...",
+        "description": "Shown in the call screen when the call is reconnecting due to network issues"
+    },
+    "callDuration": {
+        "message": "Signal $duration$",
+        "description": "Shown in the call screen to indicate how long the call has been connected",
+        "placeholders": {
+            "duration": {
+                "content": "$1",
+                "example": "00:01"
+            }
+        }
     },
     "privacyPolicy": {
         "message": "నిబంధనలు & గోప్యతా విధానం",

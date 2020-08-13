@@ -341,50 +341,34 @@
         "message": "이 그룹 멤버와의 안전 번호가 마지막으로 검증된 이후 변경되었습니다. 그룹 멤버를 클릭해 새 안전 번호를 확인하세요.",
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
-    "changedSinceVerifiedMultiple": {
-        "message": "여러 그룹 멤버와의 안전 번호가 마지막으로 검증된 이후 변경되었습니다. 누군가가 연결을 가로채려 시도하고 있거나 단순히 Signal을 다시 설치한 것일 수도 있습니다.",
-        "description": "Shown on confirmation dialog when user attempts to send a message"
-    },
-    "changedSinceVerified": {
-        "message": "$name$와의 안전 번호가 마지막으로 검증된 이후 변경되었습니다. 누군가가 연결을 가로채려 시도하고 있거나 단순히 $name$(이)가 Signal을 다시 설치한 것일 수도 있습니다.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
     "changedRightAfterVerify": {
-        "message": "검증하려는 안전 번호가 변경되었습니다. $name$와의 안전 번호를 다시 한번 확인하세요. 누군가가 연결을 가로채려 시도하고 있거나 단순히 $name$(이)가 Signal을 다시 설치한 것일 수도 있습니다.",
+        "message": "The safety number you are trying to verify has changed. Please review your new safety number with $name1$. Remember, this change could mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
-            "name": {
+            "name1": {
                 "content": "$1",
+                "example": "Bob"
+            },
+            "name2": {
+                "content": "$2",
                 "example": "Bob"
             }
         }
     },
-    "changedRecentlyMultiple": {
-        "message": "여러 그룹 멤버와의 안전 번호가 최근에 변경되었습니다. 누군가가 연결을 가로채려 시도하고 있거나 단순히 Signal을 다시 설치한 것일 수도 있습니다.",
+    "changedVerificationWarning": {
+        "message": "앱을 재설치했거나 기기를 바꾼 사람의 목록입니다. 보안을 보장하려면 안전 번호를 검증하세요.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
-    "changedRecently": {
-        "message": "$name$와의 안전 번호가 최근에 변경되었습니다. 누군가가 연결을 가로채려 시도하고 있거나 단순히 $name$(이)가 Signal을 다시 설치한 것일 수도 있습니다.",
-        "description": "Shown on confirmation dialog when user attempts to send a message",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Bob"
-            }
-        }
-    },
     "identityKeyErrorOnSend": {
-        "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
+        "message": "Your safety number with $name1$ has changed. This could either mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
-            "name": {
+            "name1": {
                 "content": "$1",
+                "example": "Bob"
+            },
+            "name2": {
+                "content": "$2",
                 "example": "Bob"
             }
         }
@@ -577,7 +561,7 @@
         "message": "이미지 이외의 첨부 파일은 메시지당 하나만 허용됩니다.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
-    "cannotMixImageAdnNonImageAttachments": {
+    "cannotMixImageAndNonImageAttachments": {
         "message": "이미지 및 이미지가 아닌 첨부 파일을 한 메시지에 동시에 첨부할 수 없습니다.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
@@ -714,6 +698,10 @@
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
+                "content": "$1",
+                "example": "dog"
+            },
+            "conversationName": {
                 "content": "$2",
                 "example": "Friends"
             }
@@ -742,6 +730,10 @@
     "typingAlt": {
         "message": "이 대화의 입력 애니메이션",
         "description": "Used as the 'title' attibute for the typing animation"
+    },
+    "contactInAddressBook": {
+        "message": "This person is in your contacts.",
+        "description": "Description of icon denoting that contact is from your address book"
     },
     "contactAvatarAlt": {
         "message": "$name$ 연락처의 아바타",
@@ -856,6 +848,14 @@
     "audioPermissionNeeded": {
         "message": "Signal Desktop에서 음성 메시지를 보내려면 마이크 권한이 필요합니다.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+    },
+    "audioCallingPermissionNeeded": {
+        "message": "For calling, you must allow Signal Desktop to access your microphone.",
+        "description": "Shown if the user attempts access the microphone for calling without audio permssions turned on"
+    },
+    "videoCallingPermissionNeeded": {
+        "message": "For video calling, you must allow Signal Desktop to access your camera.",
+        "description": "Shown if the user attempts access the camera for video calling without video permssions turned on"
     },
     "allowAccess": {
         "message": "권한 허용",
@@ -1123,12 +1123,28 @@
         "message": "테마",
         "description": "Header for theme settings"
     },
+    "calling": {
+        "message": "통화",
+        "description": "Header for calling options on the settings screen"
+    },
+    "alwaysRelayCallsDescription": {
+        "message": "향상 전화 릴레이",
+        "description": "Description of the always relay calls setting"
+    },
+    "alwaysRelayCallsDetail": {
+        "message": "연락처에게 IP 주소가 표시되지 않도록 모든 전화를 Signal 서버로 릴레이합니다. 전화 품질이 떨어질 수 있습니다.",
+        "description": "Details describing the always relay calls setting"
+    },
     "permissions": {
         "message": "권한",
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "카메라와 마이크 권한 허용",
+        "message": "Allow access to the microphone",
+        "description": "Description of the media permission description"
+    },
+    "mediaCameraPermissionsDescription": {
+        "message": "Allow access to the camera",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1295,6 +1311,10 @@
         "message": "보내기 실패",
         "description": "Shown on outgoing message if it fails to send"
     },
+    "partiallySent": {
+        "message": "Partially sent, click for details",
+        "description": "Shown on outgoing message if it is partially sent"
+    },
     "showMore": {
         "message": "세부 정보",
         "description": "Displays the details of a key change"
@@ -1400,7 +1420,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "사라지는 메시지 시간을 $time$(으)로 설정함",
+        "message": "You set the disappearing message time to $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1410,7 +1430,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": "사라지는 메시지 시간을 $time$(으)로 업데이트함",
+        "message": "Updated the disappearing message time to $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -1420,7 +1440,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$(이)가 사라지는 메시지 시간을 $time$(으)로 설정함",
+        "message": "$name$ set the disappearing message time to $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1538,7 +1558,7 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$(이)가 사라지는 메시지 기능을 끔",
+        "message": "$name$ disabled disappearing messages.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1548,7 +1568,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "사라지는 메시지 기능을 끔",
+        "message": "사라지는 메시지 기능을 비활성화했습니다.",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
@@ -1565,9 +1585,57 @@
         "message": "오디오 알림 재생",
         "description": "Description for audio notification setting"
     },
+    "callRingtoneNotificationDescription": {
+        "message": "Play calling sounds",
+        "description": "Description for call ringtone notification setting"
+    },
+    "callSystemNotificationDescription": {
+        "message": "Show notifications for calls",
+        "description": "Description for call notification setting"
+    },
+    "incomingCallNotificationDescription": {
+        "message": "Enable incoming calls",
+        "description": "Description for incoming calls setting"
+    },
+    "contactChangedProfileName": {
+        "message": "$sender$ changed their profile name from $oldProfile$ to $newProfile$.",
+        "description": "Description for incoming calls setting",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "oldProfile": {
+                "content": "$2",
+                "example": ".x8Skillz8x."
+            },
+            "newProfile": {
+                "content": "$3",
+                "example": "Bob Smith"
+            }
+        }
+    },
+    "changedProfileName": {
+        "message": "$oldProfile$ changed their profile name to $newProfile$.",
+        "description": "Shown when a contact not in your address book changes their profile name",
+        "placeholders": {
+            "oldProfile": {
+                "content": "$2",
+                "example": ".x8Skillz8x."
+            },
+            "newProfile": {
+                "content": "$3",
+                "example": "Bob Smith"
+            }
+        }
+    },
     "safetyNumberChanged": {
         "message": "안전 번호 변경됨",
         "description": "A notification shown in the conversation when a contact reinstalls"
+    },
+    "safetyNumberChanges": {
+        "message": "안전 번호 변경됨",
+        "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {
         "message": "$name$와의 안전 번호가 변경됨",
@@ -1584,10 +1652,10 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
-        "message": "$name$와의 안전 번호:",
+        "message": "Your safety number with $name1$:",
         "description": "Heading for safety number view",
         "placeholders": {
-            "name": {
+            "name1": {
                 "content": "$1",
                 "example": "John"
             }
@@ -1608,6 +1676,10 @@
     "noteToSelf": {
         "message": "개인 메모",
         "description": "Name for the conversation with your own phone number"
+    },
+    "noteToSelfHero": {
+        "message": "이 대화에서는 스스로 메모를 남길 수 있습니다. 내 계정에 연결된 기기 또한 새 메모가 같이 동기화됩니다.",
+        "description": "Description for the Note to Self conversation"
     },
     "hideMenuBar": {
         "message": "메뉴 바 숨기기",
@@ -1732,6 +1804,10 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "ConversationListItem--message-request": {
+        "message": "메시지 요청",
+        "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
     },
     "ConversationListItem--draft-prefix": {
         "message": "임시보관:",
@@ -2107,6 +2183,18 @@
         "message": "Close current conversation",
         "description": "Shown in the shortcuts guide"
     },
+    "Keyboard--calling-header": {
+        "message": "통화",
+        "description": "Header of the keyboard shortcuts guide - calling section"
+    },
+    "Keyboard--toggle-audio": {
+        "message": "Toggle mute on and off",
+        "description": "Shown in the shortcuts guide"
+    },
+    "Keyboard--toggle-video": {
+        "message": "Toggle video on and off",
+        "description": "Shown in the shortcuts guide"
+    },
     "close-popup": {
         "message": "팝업 닫기",
         "description": "Used as alt text for any button closing a popup"
@@ -2352,6 +2440,324 @@
     "ReactionsViewer--all": {
         "message": "모두",
         "description": "Shown in reaction viewer as the title for the 'all' category"
+    },
+    "MessageRequests--message-direct": {
+        "message": "Let $name$ message you and share your name and photo with them? They won’t know you’ve seen their messages until you accept.",
+        "description": "Shown as the message for a message request in a direct message",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce"
+            }
+        }
+    },
+    "MessageRequests--message-direct-blocked": {
+        "message": "Let $name$ message you and share your name and photo with them? You won't receive any messages until you unblock them.",
+        "description": "Shown as the message for a message request in a direct message with a blocked account",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce"
+            }
+        }
+    },
+    "MessageRequests--message-group": {
+        "message": "이 그룹에 참가하고 내 이름과 사진을 멤버와 공유하시겠습니까? 수락하기 전까지 상대방은 내가 메시지를 봤는지 알 수 없습니다.",
+        "description": "Shown as the message for a message request in a group",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--message-group-blocked": {
+        "message": "이 그룹을 차단 해제하고 그룹 멤버에게 내 이름과 사진을 공유하시겠습니까? 차단을 해제하기 전까지는 메시지를 받지 않습니다.",
+        "description": "Shown as the message for a message request in a blocked group"
+    },
+    "MessageRequests--block": {
+        "message": "차단",
+        "description": "Shown as a button to let the user block a message request"
+    },
+    "MessageRequests--unblock": {
+        "message": "차단 해제",
+        "description": "Shown as a button to let the user unblock a message request"
+    },
+    "MessageRequests--unblock-confirm-title": {
+        "message": "Unblock $name$?",
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--unblock-direct-confirm-body": {
+        "message": "메시지와 전화를 주고받을 수 있게 됩니다.",
+        "description": "Shown as the body in the confirmation modal for unblocking a private message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--unblock-group-confirm-body": {
+        "message": "Group members will be able to add your to this group again.",
+        "description": "Shown as the body in the confirmation modal for unblocking a group message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--block-and-delete": {
+        "message": "차단하고 삭제하기",
+        "description": "Shown as a button to let the user block and delete a message request"
+    },
+    "MessageRequests--block-direct-confirm-title": {
+        "message": "Block $name$?",
+        "description": "Shown as the title in the confirmation modal for blocking a private message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
+    },
+    "MessageRequests--block-direct-confirm-body": {
+        "message": "Blocked people won't be able to call you or send you mesages.",
+        "description": "Shown as the body in the confirmation modal for blocking a private message request"
+    },
+    "MessageRequests--block-group-confirm-title": {
+        "message": "Block and Leave $group$?",
+        "description": "Shown as the title in the confirmation modal for blocking a group message request",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "MessageRequests--block-group-confirm-body": {
+        "message": "You will no longer receive messages or updates from this group and members won't be able to add you to this group again.",
+        "description": "Shown as the body in the confirmation modal for blocking a group message request"
+    },
+    "MessageRequests--delete": {
+        "message": "삭제",
+        "description": "Shown as a button to let the user delete any message request"
+    },
+    "MessageRequests--delete-direct-confirm-title": {
+        "message": "대화를 삭제하시겠습니까?",
+        "description": "Shown as the title in the confirmation modal for deleting a private message request"
+    },
+    "MessageRequests--delete-direct-confirm-body": {
+        "message": "이 대화는 당신의 모든 기기에서 삭제될 겁니다. ",
+        "description": "Shown as the body in the confirmation modal for deleting a private message request"
+    },
+    "MessageRequests--delete-group-confirm-title": {
+        "message": "Delete and Leave $group$?",
+        "description": "Shown as the title in the confirmation modal for deleting a group message request",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "MessageRequests--delete-direct": {
+        "message": "삭제",
+        "description": "Shown as a button to let the user delete a direct message request"
+    },
+    "MessageRequests--delete-group": {
+        "message": "삭제하고 나가기",
+        "description": "Shown as a button to let the user delete a group message request"
+    },
+    "MessageRequests--delete-group-confirm-body": {
+        "message": "이 그룹에서 나가게 되며 모든 기기에서 삭제될 것입니다.",
+        "description": "Shown as the body in the confirmation modal for deleting a group message request"
+    },
+    "MessageRequests--accept": {
+        "message": "수락",
+        "description": "Shown as a button to let the user accept a message request"
+    },
+    "ConversationHero--members": {
+        "message": "$count$ members",
+        "description": "Specifies the number of members in a group conversation",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "22"
+            }
+        }
+    },
+    "ConversationHero--members-1": {
+        "message": "멤버 1명",
+        "description": "Specifies the number of members in a group conversation when there is one member",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "22"
+            }
+        }
+    },
+    "ConversationHero--membership-1": {
+        "message": "Member of $group$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of a mutual group",
+        "placeholders": {
+            "group": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            }
+        }
+    },
+    "ConversationHero--membership-2": {
+        "message": "Member of $group1$ and $group2$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            }
+        }
+    },
+    "ConversationHero--membership-3": {
+        "message": "Member of $group1$, $group2$, and $group3$.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "ConversationHero--membership-extra": {
+        "message": "Member of $group1$, $group2$, $group3$ and $remainingCount$ more.",
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
+    },
+    "ConversationHero--membership-added": {
+        "message": "$name$ added you to the group.",
+        "description": "Shown Indicates that you were added to a group by a given individual.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Jeff Smith"
+            }
+        }
+    },
+    "acceptCall": {
+        "message": "응답",
+        "description": "Shown in tooltip for the button to accept a call (audio or video)"
+    },
+    "acceptCallWithoutVideo": {
+        "message": "Answer without video",
+        "description": "Shown in tooltip for the button to accept a video call without video"
+    },
+    "declineCall": {
+        "message": "Decline",
+        "description": "Shown in tooltip for the button to decline a call (audio or video)"
+    },
+    "declinedIncomingAudioCall": {
+        "message": "You declined an audio call",
+        "description": "Shown in conversation history when you declined an incoming audio call"
+    },
+    "declinedIncomingVideoCall": {
+        "message": "You declined a video call",
+        "description": "Shown in conversation history when you declined an incoming video call"
+    },
+    "acceptedIncomingAudioCall": {
+        "message": "Incoming audio call",
+        "description": "Shown in conversation history when you accepted an incoming audio call"
+    },
+    "acceptedIncomingVideoCall": {
+        "message": "Incoming video call",
+        "description": "Shown in conversation history when you accepted an incoming video call"
+    },
+    "missedIncomingAudioCall": {
+        "message": "Missed audio call",
+        "description": "Shown in conversation history when you missed an incoming audio call"
+    },
+    "missedIncomingVideoCall": {
+        "message": "Missed video call",
+        "description": "Shown in conversation history when you missed an incoming video call"
+    },
+    "acceptedOutgoingAudioCall": {
+        "message": "Outgoing audio call",
+        "description": "Shown in conversation history when you made an outgoing audio call"
+    },
+    "acceptedOutgoingVideoCall": {
+        "message": "Outgoing video call",
+        "description": "Shown in conversation history when you made an outgoing video call"
+    },
+    "missedOrDeclinedOutgoingAudioCall": {
+        "message": "Unanswered audio call",
+        "description": "Shown in conversation history when your audio call is missed or declined"
+    },
+    "missedOrDeclinedOutgoingVideoCall": {
+        "message": "Unanswered video call",
+        "description": "Shown in conversation history when your video call is missed or declined"
+    },
+    "incomingAudioCall": {
+        "message": "Incoming audio call...",
+        "description": "Shown in both the incoming call bar and notification for an incoming audio call"
+    },
+    "incomingVideoCall": {
+        "message": "Incoming video call...",
+        "description": "Shown in both the incoming call bar and notification for an incoming video call"
+    },
+    "outgoingCallPrering": {
+        "message": "Calling...",
+        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    },
+    "outgoingCallRinging": {
+        "message": "Ringing...",
+        "description": "Shown in the call screen when placing an outgoing call that is now ringing"
+    },
+    "callReconnecting": {
+        "message": "Reconnecting...",
+        "description": "Shown in the call screen when the call is reconnecting due to network issues"
+    },
+    "callDuration": {
+        "message": "Signal $duration$",
+        "description": "Shown in the call screen to indicate how long the call has been connected",
+        "placeholders": {
+            "duration": {
+                "content": "$1",
+                "example": "00:01"
+            }
+        }
     },
     "privacyPolicy": {
         "message": "이용약관 및 개인정보 처리방침",
