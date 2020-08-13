@@ -238,7 +238,7 @@ export class CallScreen extends React.Component<PropsType, StateType> {
           )}
         >
           <div className="module-ongoing-call__header-name">
-            {callDetails.name}
+            {callDetails.title}
           </div>
           {this.renderMessage(callState)}
         </div>
