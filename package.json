@@ -285,6 +285,7 @@
     },
     "win": {
       "asarUnpack": [
+        "**/*.node",
         "node_modules/spellchecker/vendor/hunspell_dictionaries",
         "node_modules/sharp",
         "node_modules/zkgroup/libzkgroup.*"
@@ -313,6 +314,7 @@
         "StartupWMClass": "Signal"
       },
       "asarUnpack": [
+        "**/*.node",
         "node_modules/spellchecker/vendor/hunspell_dictionaries",
         "node_modules/sharp",
         "node_modules/zkgroup/libzkgroup.*"
