@@ -1577,6 +1577,9 @@
   "unblockUser": {
     "message": "Unblock contact"
   },
+  "unblocked": {
+    "message": "Unblocked"
+  },
   "blockedSettingsTitle": {
     "message": "Blocked contacts",
     "description": "Shown in the settings page as the heading for the blocked user settings"

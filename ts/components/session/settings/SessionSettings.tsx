@@ -10,7 +10,7 @@ import {
 import { BlockedNumberController, UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { PubKey } from '../../../session/types';
-import { NumberUtils } from '../../../session/utils';
+import { NumberUtils, ToastUtils } from '../../../session/utils';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -600,21 +600,20 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     const blockedNumbers = BlockedNumberController.getBlockedNumbers();
 
     for (const blockedNumber of blockedNumbers) {
-      let displayName = `User (...${blockedNumber.substr(-6)})`;
+      let title: string;
 
       const currentModel = window.ConversationController.get(blockedNumber);
-      if (
-        currentModel &&
-        currentModel.attributes.profile &&
-        currentModel.attributes.profile.displayName
-      ) {
-        displayName = currentModel.attributes.profile.displayName;
-      }
+      title =
+        currentModel.getProfileName() ||
+        currentModel.getName() ||
+        window.i18n('anonymous');
+
+      title = `${title} ${window.shortenPubkey(blockedNumber)}`;
 
       results.push({
         id: blockedNumber,
-        title: displayName,
-        description: blockedNumber,
+        title,
+        description: '',
         type: SessionSettingType.Button,
         category: SessionSettingCategory.Blocked,
         content: {
@@ -623,7 +622,11 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         },
         comparisonValue: undefined,
         setFn: async () => {
-          await BlockedNumberController.unblock(blockedNumber);
+          await currentModel.unblock();
+          ToastUtils.push({
+            title: window.i18n('unblocked'),
+            id: 'unblocked',
+          });
         },
         hidden: false,
         onClick: undefined,

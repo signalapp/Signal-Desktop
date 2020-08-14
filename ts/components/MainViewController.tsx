@@ -15,6 +15,7 @@ export const MainViewController = {
 };
 
 import { ContactType } from './session/SessionMemberListItem';
+import { ToastUtils } from '../session/utils';
 
 export class MessageView extends React.Component {
   public render() {
@@ -49,7 +50,7 @@ async function createClosedGroup(
 ) {
   // Validate groupName and groupMembers length
   if (groupName.length === 0) {
-    window.pushToast({
+    ToastUtils.push({
       title: window.i18n('invalidGroupNameTooShort'),
       type: 'error',
       id: 'invalidGroupName',
@@ -57,7 +58,7 @@ async function createClosedGroup(
 
     return;
   } else if (groupName.length > window.CONSTANTS.MAX_GROUP_NAME_LENGTH) {
-    window.pushToast({
+    ToastUtils.push({
       title: window.i18n('invalidGroupNameTooLong'),
       type: 'error',
       id: 'invalidGroupName',
@@ -70,7 +71,7 @@ async function createClosedGroup(
   // the same is valid with groups count <= 1
 
   if (groupMembers.length <= 1) {
-    window.pushToast({
+    ToastUtils.push({
       title: window.i18n('pickClosedGroupMember'),
       type: 'error',
       id: 'pickClosedGroupMember',
@@ -78,7 +79,7 @@ async function createClosedGroup(
 
     return;
   } else if (groupMembers.length >= window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT) {
-    window.pushToast({
+    ToastUtils.push({
       title: window.i18n('closedGroupMaxSize'),
       type: 'error',
       id: 'closedGroupMaxSize',
