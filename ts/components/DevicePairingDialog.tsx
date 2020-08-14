@@ -4,6 +4,7 @@ import { QRCode } from 'react-qr-svg';
 import { SessionModal } from './session/SessionModal';
 import { SessionButton, SessionButtonColor } from './session/SessionButton';
 import { SessionSpinner } from './session/SessionSpinner';
+import { ToastUtils } from '../session/utils';
 
 interface Props {
   onClose: any;
@@ -280,7 +281,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
         errors: null,
       });
       this.closeDialog();
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('devicePairedSuccessfully'),
         type: 'success',
       });
@@ -365,7 +366,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
 
   private triggerUnpairDevice() {
     const deviceUnpaired = () => {
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('deviceUnpaired'),
       });
       this.closeDialog();
