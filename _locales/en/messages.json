@@ -2463,7 +2463,7 @@
     }
   },
   "MessageRequests--unblock-group-confirm-body": {
-    "message": "Group members will be able to add your to this group again.",
+    "message": "Group members will be able to add you to this group again.",
     "description": "Shown as the body in the confirmation modal for unblocking a group message request",
     "placeholders": {
       "name": {
@@ -2487,7 +2487,7 @@
     }
   },
   "MessageRequests--block-direct-confirm-body": {
-    "message": "Blocked people won't be able to call you or send you mesages.",
+    "message": "Blocked people won't be able to call you or send you messages.",
     "description": "Shown as the body in the confirmation modal for blocking a private message request"
   },
   "MessageRequests--block-group-confirm-title": {
