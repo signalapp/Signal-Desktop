@@ -135,7 +135,7 @@ export function getDeleteContactMenuItem(
     )
   ) {
     if (isPublic) {
-      return <MenuItem onClick={action}>{i18n('leaveOpenGroup')}</MenuItem>;
+      return <MenuItem onClick={action}>{i18n('leaveGroup')}</MenuItem>;
     }
     return <MenuItem onClick={action}>{i18n('deleteContact')}</MenuItem>;
   }
@@ -158,7 +158,7 @@ export function getLeaveGroupMenuItem(
       Boolean(isRss)
     )
   ) {
-    return <MenuItem onClick={action}>{i18n('leaveClosedGroup')}</MenuItem>;
+    return <MenuItem onClick={action}>{i18n('leaveGroup')}</MenuItem>;
   }
   return null;
 }

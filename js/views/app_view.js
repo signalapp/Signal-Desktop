@@ -237,12 +237,9 @@
       let title = i18n('deleteContact');
       let message = i18n('deleteContactConfirmation');
 
-      if (groupConvo.isPublic()) {
-        title = i18n('leaveOpenGroup');
-        message = i18n('leaveOpenGroupConfirmation');
-      } else if (groupConvo.isClosedGroup()) {
-        title = i18n('leaveClosedGroup');
-        message = i18n('leaveClosedGroupConfirmation');
+      if (groupConvo.isGroup()) {
+        title = i18n('leaveGroup');
+        message = i18n('leaveGroupConfirmation');
       }
 
       window.confirmationDialog({

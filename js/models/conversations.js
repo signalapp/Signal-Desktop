@@ -2302,12 +2302,15 @@
         this.contactCollection.reset(contacts);
       });
     },
+    // returns true if this is a closed/medium or open group
+    isGroup() {
+      return this.get('type') === 'group';
+    },
 
     copyPublicKey() {
       clipboard.writeText(this.id);
 
-      const isGroup = this.getProps().type === 'group';
-      const copiedMessage = isGroup
+      const copiedMessage = this.isGroup()
         ? i18n('copiedChatId')
         : i18n('copiedPublicKey');
 
@@ -2330,12 +2333,9 @@
       let title = i18n('deleteContact');
       let message = i18n('deleteContactConfirmation');
 
-      if (this.isPublic()) {
-        title = i18n('leaveOpenGroup');
-        message = i18n('leaveOpenGroupConfirmation');
-      } else if (this.isClosedGroup()) {
-        title = i18n('leaveClosedGroup');
-        message = i18n('leaveClosedGroupConfirmation');
+      if (this.isGroup()) {
+        title = i18n('leaveGroup');
+        message = i18n('leaveGroupConfirmation');
       }
 
       window.confirmationDialog({

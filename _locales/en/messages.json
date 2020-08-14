@@ -927,10 +927,6 @@
     "message": "Permanently delete the messages in this conversation?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
-  "leaveOpenGroupConfirmation": {
-    "message": "Leave this Open Group?",
-    "description": "Confirmation dialog text that tells the user what will happen if they leave the public channel."
-  },
   "deleteAccount": {
     "message": "Delete Account",
     "description": "Text for button in settings view to delete account"
@@ -1605,17 +1601,17 @@
     "message": "Ban failed!",
     "description": "Toast on unsuccesful user ban."
   },
-  "leaveOpenGroup": {
-    "message": "Leave Open Group",
+  "leaveGroup": {
+    "message": "Leave Group",
     "description": "Button action that the user can click to leave the group"
   },
   "leaveClosedGroup": {
     "message": "Leave Closed Group",
     "description": "Button action that the user can click to leave the group"
   },
-  "leaveClosedGroupConfirmation": {
-    "message": "Leave this Closed Group?",
-    "description": "Confirmation dialog text that tells the user what will happen if they leave the closed group."
+  "leaveGroupConfirmation": {
+    "message": "Are you sure you want to leave this group?",
+    "description": "Confirmation dialog text that tells the user what will happen if they leave the group."
   },
   "noContactsForGroup": {
     "message": "You don't have any contacts to start a group with."
