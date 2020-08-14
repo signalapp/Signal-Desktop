@@ -37,7 +37,6 @@ interface Props {
 interface State {
   groupName: string;
   selectedMembers: Array<ContactType>;
-  senderKeys: boolean;
 }
 
 export class SessionClosableOverlay extends React.Component<Props, State> {
@@ -49,7 +48,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     this.state = {
       groupName: '',
       selectedMembers: [],
-      senderKeys: false,
     };
 
     this.inputRef = React.createRef();
@@ -160,7 +158,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       default:
     }
 
-    const { groupName, selectedMembers, senderKeys } = this.state;
+    const { groupName, selectedMembers } = this.state;
     const ourSessionID = window.textsecure.storage.user.getNumber();
 
     const contacts = this.getContacts();
@@ -256,33 +254,18 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
           />
         )}
 
-        {isClosedGroupView && window.lokiFeatureFlags.enableSenderKeys && (
-          <div className="sealed-sender-toggle">
-            <SessionToggle
-              active={Boolean(false)}
-              onClick={() => {
-                const value = this.state.senderKeys;
-                this.setState({ senderKeys: !value });
-              }}
-            />
-
-            <span
-              className={classNames(
-                'session-settings-item__description',
-                'sender-keys-description'
-              )}
-            >
-              {window.i18n('useSenderKeys')}
-            </span>
-          </div>
-        )}
-
         <SessionButton
           buttonColor={SessionButtonColor.Green}
           buttonType={SessionButtonType.BrandOutline}
           text={buttonText}
           disabled={noContactsForClosedGroup}
-          onClick={() => onButtonClick(groupName, selectedMembers, senderKeys)}
+          onClick={() =>
+            onButtonClick(
+              groupName,
+              selectedMembers,
+              window.lokiFeatureFlags.enableSenderKeys
+            )
+          }
         />
       </div>
     );
