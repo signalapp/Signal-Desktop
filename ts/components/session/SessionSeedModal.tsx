@@ -2,6 +2,7 @@ import React from 'react';
 
 import { SessionModal } from './SessionModal';
 import { SessionButton } from './SessionButton';
+import { ToastUtils } from '../../session/utils';
 
 interface Props {
   onClose: any;
@@ -212,7 +213,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
   private copySeed(seed: string) {
     window.clipboard.writeText(seed);
 
-    window.pushToast({
+    ToastUtils.push({
       title: window.i18n('copiedMnemonic'),
       type: 'success',
       id: 'copySeedToast',

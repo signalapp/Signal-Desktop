@@ -30,6 +30,7 @@ import {
   SessionButtonType,
 } from './SessionButton';
 import { OpenGroup } from '../../session/types';
+import { ToastUtils } from '../../session/utils';
 
 export interface Props {
   searchTerm: string;
@@ -416,7 +417,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     const { openConversationInternal } = this.props;
 
     if (!this.state.valuePasted && !this.props.searchTerm) {
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('invalidNumberError'),
         type: 'error',
         id: 'invalidPubKey',
@@ -432,7 +433,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     if (!error) {
       openConversationInternal(pubkey);
     } else {
-      window.pushToast({
+      ToastUtils.push({
         title: error,
         type: 'error',
         id: 'invalidPubKey',
@@ -454,7 +455,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     // Server URL valid?
     if (!OpenGroup.validate(serverUrl)) {
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('noServerURL'),
         id: 'connectToServer',
         type: 'error',
@@ -465,7 +466,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     // Already connected?
     if (Boolean(await OpenGroup.getConversation(serverUrl))) {
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('publicChatExists'),
         id: 'publicChatExists',
         type: 'error',
@@ -476,14 +477,14 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     // Connect to server
     try {
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('connectingToServer'),
         id: 'connectToServer',
         type: 'success',
       });
       await OpenGroup.join(serverUrl, async () => {
         if (await OpenGroup.serverExists(serverUrl)) {
-          window.pushToast({
+          ToastUtils.push({
             title: window.i18n('connectToServerSuccess'),
             id: 'connectToServer',
             type: 'success',
@@ -507,7 +508,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       }
     } catch (e) {
       window.console.error('Failed to connect to server:', e);
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('connectToServerFail'),
         id: 'connectToServer',
         type: 'error',
@@ -532,7 +533,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       () => {
         this.handleToggleOverlay(undefined);
 
-        window.pushToast({
+        ToastUtils.push({
           title: window.i18n('closedGroupCreatedToastTitle'),
           type: 'success',
         });

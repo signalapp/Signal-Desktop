@@ -11,7 +11,7 @@ import { trigger } from '../../shims/events';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIdEditable } from './SessionIdEditable';
 import { SessionSpinner } from './SessionSpinner';
-import { StringUtils } from '../../session/utils';
+import { StringUtils, ToastUtils } from '../../session/utils';
 
 enum SignInMode {
   Default,
@@ -803,7 +803,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
     if (!trimName) {
       window.log.warn('invalid trimmed name for registration');
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('displayNameEmpty'),
         type: 'error',
         id: 'invalidDisplayName',
@@ -814,7 +814,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
     if (passwordErrorString) {
       window.log.warn('invalid password for registration');
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('invalidPassword'),
         type: 'error',
         id: 'invalidPassword',
@@ -826,7 +826,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     if (!!password && !passwordFieldsMatch) {
       window.log.warn('passwords does not match for registration');
 
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('passwordsDoNotMatch'),
         type: 'error',
         id: 'invalidPassword',
@@ -864,7 +864,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       );
       trigger('openInbox');
     } catch (e) {
-      window.pushToast({
+      ToastUtils.push({
         title: `Error: ${e.message || 'Something went wrong'}`,
         type: 'error',
         id: 'registrationError',
@@ -895,7 +895,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     // tslint:disable-next-line: no-backbone-get-set-outside-model
     if (window.textsecure.storage.get('secondaryDeviceStatus') === 'ongoing') {
       window.log.warn('registering secondary device already ongoing');
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('pairingOngoing'),
         type: 'error',
         id: 'pairingOngoing',
@@ -938,7 +938,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     const validationError = c.validateNumber();
     if (validationError) {
       onError('Invalid public key').ignore();
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('invalidNumberError'),
         type: 'error',
         id: 'invalidNumberError',

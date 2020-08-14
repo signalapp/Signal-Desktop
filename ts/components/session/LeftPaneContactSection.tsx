@@ -22,6 +22,7 @@ import {
   SessionClosableOverlayType,
 } from './SessionClosableOverlay';
 import { MainViewController } from '../MainViewController';
+import { ToastUtils } from '../../session/utils';
 
 export interface Props {
   searchTerm: string;
@@ -192,7 +193,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     const error = validateNumber(sessionID, window.i18n);
 
     if (error) {
-      window.pushToast({
+      ToastUtils.push({
         title: error,
         type: 'error',
         id: 'addContact',

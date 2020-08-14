@@ -10,7 +10,7 @@ import {
 import { BlockedNumberController, UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { PubKey } from '../../../session/types';
-import { NumberUtils } from '../../../session/utils';
+import { NumberUtils, ToastUtils } from '../../../session/utils';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -103,7 +103,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     if (category === SessionSettingCategory.Devices) {
       // special case for linked devices
       settings = this.getLinkedDeviceSettings();
-    } else if(category === SessionSettingCategory.Blocked) {
+    } else if (category === SessionSettingCategory.Blocked) {
       // special case for blocked user
       settings = this.getBlockedUserSettings();
     } else {
