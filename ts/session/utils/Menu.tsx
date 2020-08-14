@@ -54,8 +54,8 @@ function showDeleteMessages(isPublic: boolean): boolean {
   return !isPublic;
 }
 
-function showCopyId(isPublic: boolean, isRss: boolean | undefined): boolean {
-  return !isPublic && !isRss;
+function showCopyId(isPublic: boolean, isRss: boolean, isGroup: boolean): boolean {
+  return !isGroup && !isRss;
 }
 
 function showDeleteContact(
@@ -201,14 +201,14 @@ export function getAddModeratorsMenuItem(
   return null;
 }
 
-export function getCopyIdMenuItem(
+export function getCopyMenuItem(
   isPublic: boolean | undefined,
   isRss: boolean | undefined,
   isGroup: boolean | undefined,
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showCopyId(Boolean(isPublic), Boolean(isRss))) {
+  if (showCopyId(Boolean(isPublic), Boolean(isRss), Boolean(isGroup))) {
     const copyIdLabel = i18n('editMenuCopy');
     return <MenuItem onClick={action}>{copyIdLabel}</MenuItem>;
   }
