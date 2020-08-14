@@ -213,7 +213,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
     window.clipboard.writeText(seed);
 
     window.pushToast({
-      title: window.i18n('copiedMnemonic'),
+      title: window.i18n('copiedToClipboard'),
       type: 'success',
       id: 'copySeedToast',
     });

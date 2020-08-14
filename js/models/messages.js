@@ -935,9 +935,9 @@
       }
 
       window.pushToast({
-        title: i18n('copiedPublicKey'),
+        title: i18n('copiedToClipboard'),
         type: 'success',
-        id: 'copiedPublicKey',
+        id: 'copiedToClipboard',
       });
     },
 

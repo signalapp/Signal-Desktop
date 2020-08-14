@@ -304,7 +304,7 @@ export class ConversationHeader extends React.Component<Props> {
     return (
       <ContextMenu id={triggerId}>
         {this.renderPublicMenuItems()}
-        {Menu.getCopyIdMenuItem(
+        {Menu.getCopyMenuItem(
           isPublic,
           isRss,
           isGroup,

@@ -1616,14 +1616,6 @@
   "noContactsForGroup": {
     "message": "You don't have any contacts to start a group with."
   },
-  "copiedPublicKey": {
-    "message": "Session ID copied",
-    "description": "A toast message telling the user that the key was copied"
-  },
-  "copiedChatId": {
-    "message": "Copied chat ID",
-    "description": "A toast message telling the user that the key was copied"
-  },
   "copyMessage": {
     "message": "Copy message text",
     "description": "Button action that the user can click to copy their public keys"
@@ -1720,13 +1712,8 @@
     "message": "Please enter an open group URL",
     "description": "Error message when no server url entered"
   },
-  "copiedMnemonic": {
-    "message": "Recovery phrase copied successfully",
-    "description": "A toast message telling the user that the mnemonic seed was copied"
-  },
-  "copiedSessionID": {
-    "message": "Copied Session ID to clipboard",
-    "description": "A toast message telling the user that their Session ID was copied"
+  "copiedToClipboard": {
+    "message": "Copied to clipboard"
   },
   "passwordViewTitle": {
     "message": "Type In Your Password",

@@ -14,7 +14,7 @@ import { Colors, LocalizerType } from '../types/Util';
 import {
   getBlockMenuItem,
   getClearNicknameMenuItem,
-  getCopyIdMenuItem,
+  getCopyMenuItem,
   getDeleteContactMenuItem,
   getDeleteMessagesMenuItem,
   getInviteContactMenuItem,
@@ -210,7 +210,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
           onClearNickname,
           i18n
         )}
-        {getCopyIdMenuItem(
+        {getCopyMenuItem(
           isPublic,
           isRss,
           type === 'group',

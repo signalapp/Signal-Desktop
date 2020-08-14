@@ -2310,14 +2310,12 @@
     copyPublicKey() {
       clipboard.writeText(this.id);
 
-      const copiedMessage = this.isGroup()
-        ? i18n('copiedChatId')
-        : i18n('copiedPublicKey');
+      const copiedMessage = i18n('copiedToClipboard');
 
       window.pushToast({
         title: copiedMessage,
         type: 'success',
-        id: 'copiedPublicKey',
+        id: 'copiedToClipboard',
       });
     },
 
