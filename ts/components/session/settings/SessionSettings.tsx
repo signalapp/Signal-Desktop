@@ -605,13 +605,13 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
       const currentModel = window.ConversationController.get(blockedNumber);
       if (currentModel) {
         title =
-        currentModel.getProfileName() ||
-        currentModel.getName() ||
-        window.i18n('anonymous');
+          currentModel.getProfileName() ||
+          currentModel.getName() ||
+          window.i18n('anonymous');
       } else {
         title = window.i18n('anonymous');
       }
-      
+
       title = `${title} ${window.shortenPubkey(blockedNumber)}`;
 
       results.push({
@@ -629,7 +629,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           if (currentModel) {
             await currentModel.unblock();
           } else {
-            await BlockedNumberController.unblock(blockedNumber)
+            await BlockedNumberController.unblock(blockedNumber);
           }
           ToastUtils.push({
             title: window.i18n('unblocked'),
