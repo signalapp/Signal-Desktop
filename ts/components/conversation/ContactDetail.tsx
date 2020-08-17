@@ -81,50 +81,7 @@ export class ContactDetail extends React.Component<Props> {
     i18n: (key: string, values?: Array<string>) => string;
     onSendMessage: () => void;
   }) {
-    if (!hasSignalAccount) {
-      return null;
-    }
-
-    // We don't want the overall click handler for this element to fire, so we stop
-    //   propagation before handing control to the caller's callback.
-    const onClick = (e: React.MouseEvent<{}>): void => {
-      e.stopPropagation();
-      onSendMessage();
-    };
-
-    return (
-      <div
-        className="module-contact-detail__send-message"
-        role="button"
-        // tslint:disable-next-line react-this-binding-issue
-        onClick={onClick}
-      >
-        <button className="module-contact-detail__send-message__inner">
-          <div className="module-contact-detail__send-message__bubble-icon" />
-          {i18n('sendMessageToContact')}
-        </button>
-      </div>
-    );
-  }
-
-  public renderEmail(items: Array<Email> | undefined, i18n: LocalizerType) {
-    if (!items || items.length === 0) {
-      return;
-    }
-
-    return items.map((item: Email) => {
-      return (
-        <div
-          key={item.value}
-          className="module-contact-detail__additional-contact"
-        >
-          <div className="module-contact-detail__additional-contact__type">
-            {getLabelForEmail(item, i18n)}
-          </div>
-          {item.value}
-        </div>
-      );
-    });
+    return null;
   }
 
   public renderPhone(items: Array<Phone> | undefined, i18n: LocalizerType) {
@@ -217,7 +174,6 @@ export class ContactDetail extends React.Component<Props> {
         {renderContactShorthand({ contact, isIncoming, module })}
         {this.renderSendMessage({ hasSignalAccount, i18n, onSendMessage })}
         {this.renderPhone(contact.number, i18n)}
-        {this.renderEmail(contact.email, i18n)}
         {this.renderAddresses(contact.address, i18n)}
       </div>
     );

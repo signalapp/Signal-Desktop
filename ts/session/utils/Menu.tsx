@@ -54,7 +54,11 @@ function showDeleteMessages(isPublic: boolean): boolean {
   return !isPublic;
 }
 
-function showCopyId(isPublic: boolean, isRss: boolean, isGroup: boolean): boolean {
+function showCopyId(
+  isPublic: boolean,
+  isRss: boolean,
+  isGroup: boolean
+): boolean {
   return !isGroup && !isRss;
 }
 
@@ -137,7 +141,7 @@ export function getDeleteContactMenuItem(
     if (isPublic) {
       return <MenuItem onClick={action}>{i18n('leaveGroup')}</MenuItem>;
     }
-    return <MenuItem onClick={action}>{i18n('deleteContact')}</MenuItem>;
+    return <MenuItem onClick={action}>{i18n('delete')}</MenuItem>;
   }
   return null;
 }

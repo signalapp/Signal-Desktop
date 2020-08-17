@@ -72,7 +72,7 @@
         // Intentional fallthrough
         default: {
           const markOffline = () => {
-            message = i18n('disconnected');
+            message = i18n('offline');
             instructions = i18n('checkNetworkConnection');
             hasInterruption = true;
           };

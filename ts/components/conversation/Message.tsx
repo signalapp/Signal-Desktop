@@ -658,23 +658,6 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderSendMessageButton() {
-    const { contact, i18n } = this.props;
-    if (!contact || !contact.hasSignalAccount) {
-      return null;
-    }
-
-    return (
-      <div
-        role="button"
-        onClick={contact.onSendMessage}
-        className="module-message__send-message-button"
-      >
-        {i18n('sendMessageToContact')}
-      </div>
-    );
-  }
-
   public renderAvatar() {
     const {
       authorAvatarPath,
@@ -972,7 +955,7 @@ export class Message extends React.PureComponent<Props, State> {
           }}
           onClick={wrap(onShowDetail)}
         >
-          {i18n('moreInfo')}
+          {i18n('moreInformation')}
         </MenuItem>
         {showRetry ? (
           <MenuItem
@@ -981,7 +964,7 @@ export class Message extends React.PureComponent<Props, State> {
             }}
             onClick={wrap(onRetrySend)}
           >
-            {i18n('retrySend')}
+            {i18n('resend')}
           </MenuItem>
         ) : null}
         {isDeletable ? (
@@ -1175,7 +1158,6 @@ export class Message extends React.PureComponent<Props, State> {
               {this.renderEmbeddedContact()}
               {this.renderText()}
               {this.renderMetadata()}
-              {this.renderSendMessageButton()}
             </div>
             {this.renderError(!isIncoming)}
             {isRss || multiSelectMode

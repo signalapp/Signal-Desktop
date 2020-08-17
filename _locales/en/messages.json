@@ -1,27 +1,27 @@
 {
   "privacyPolicy": {
     "message": "Terms & Privacy Policy",
-    "description": "Shown in the about box for the link to https://getsession.org/privacy-policy/"
+    "description": "Shown in the about box for the link to https://getsession.org/privacy-policy/",
+    "androidKey": "RegistrationActivity_terms_and_privacy"
   },
   "copyErrorAndQuit": {
     "message": "Copy error and quit",
     "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
   },
-  "unknownGroup": {
-    "message": "Unknown group",
-    "description": "Shown as the name of a group if we don't have any information about it"
+  "unknown": {
+    "message": "Unknown",
+    "description": "Shown as the name of a group if we don't have any information about it",
+    "androidKey": "NotificationChannel_missing_display_name"
   },
   "databaseError": {
     "message": "Database Error",
     "description": "Shown in a popup if the database cannot start up properly"
   },
-  "deleteAndRestart": {
-    "message": "Delete all data and restart",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
-  },
   "mainMenuFile": {
     "message": "&File",
-    "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination.",
+    "androidKey": "attachment_type_selector__file_description",
+    "addStart": "&"
   },
   "mainMenuEdit": {
     "message": "&Edit",
@@ -29,7 +29,10 @@
   },
   "mainMenuView": {
     "message": "&View",
-    "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination.",
+    "androidKey": "message_recipients_list_item__view",
+    "addStart": "&",
+    "camelCase": true
   },
   "mainMenuWindow": {
     "message": "&Window",
@@ -37,7 +40,9 @@
   },
   "mainMenuHelp": {
     "message": "&Help",
-    "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
+    "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination.",
+    "androidKey": "text_secure_normal__help",
+    "addStart": "&"
   },
   "appMenuHide": {
     "message": "Hide",
@@ -57,7 +62,9 @@
   },
   "editMenuUndo": {
     "message": "Undo",
-    "description": "Edit menu command to remove recently-typed text"
+    "description": "Edit menu command to remove recently-typed text",
+    "androidKey": "ConversationListFragment_undo",
+    "camelCase": true
   },
   "editMenuRedo": {
     "message": "Redo",
@@ -69,7 +76,8 @@
   },
   "editMenuCopy": {
     "message": "Copy",
-    "description": "Edit menu command to add selected text to clipboard"
+    "description": "Edit menu command to add selected text to clipboard",
+    "androidKey": "copy"
   },
   "editMenuPaste": {
     "message": "Paste",
@@ -81,11 +89,13 @@
   },
   "editMenuDelete": {
     "message": "Delete",
-    "description": "Edit menu command to remove the selected text"
+    "description": "Edit menu command to remove the selected text",
+    "androidKey": "delete"
   },
   "editMenuSelectAll": {
     "message": "Select All",
-    "description": "Edit menu comand to select all of the text in selected text box"
+    "description": "Edit menu comand to select all of the text in selected text box",
+    "androidKey": "conversation_list_batch__menu_select_all"
   },
   "editMenuStartSpeaking": {
     "message": "Start speaking",
@@ -149,7 +159,8 @@
   },
   "loading": {
     "message": "Loading...",
-    "description": "Message shown on the loading screen before we've loaded any messages"
+    "description": "Message shown on the loading screen before we've loaded any messages",
+    "androidKey": "ConversationListFragment_loading"
   },
   "optimizingApplication": {
     "message": "Optimizing application...",
@@ -223,15 +234,19 @@
   },
   "view": {
     "message": "View",
-    "description": "Used as a label on a button allowing user to see more information"
+    "description": "Used as a label on a button allowing user to see more information",
+    "androidKey": "message_recipients_list_item__view",
+    "camelCase": true
   },
   "youLeftTheGroup": {
-    "message": "You left the group",
-    "description": "Displayed when a user can't send a message because they have left the group"
+    "message": "You have left the group.",
+    "description": "Displayed when a user can't send a message because they have left the group",
+    "androidKey": "MessageRecord_left_group"
   },
   "youGotKickedFromGroup": {
     "message": "You were removed from the group",
-    "description": "Displayed when a user can't send a message because they have left the group"
+    "description": "Displayed when a user can't send a message because they have left the group",
+    "androidKey": "GroupUtil_you_were_removed_from_group"
   },
   "unreadMessage": {
     "message": "$count$ Unread Message",
@@ -241,7 +256,9 @@
         "content": "$1",
         "example": "5"
       }
-    }
+    },
+    "androidKey": "ConversationAdapter_n_unread_messages",
+    "androidKeyCount": "one"
   },
   "unreadMessages": {
     "message": "$count$ Unread Messages",
@@ -251,46 +268,64 @@
         "content": "$1",
         "example": "5"
       }
-    }
+    },
+    "androidKey": "ConversationAdapter_n_unread_messages",
+    "androidKeyCount": "other"
   },
   "youMarkedAsVerified": {
-    "message": "You marked your Safety Number with $name$ as verified",
+    "message": "You marked your safety number with $name$ verified",
     "description": "Shown in the conversation history when the user marks a contact as verified.",
     "placeholders": {
       "name": {
         "content": "$1",
         "example": "Bob"
       }
+    },
+    "androidKey": "MessageRecord_you_marked_your_safety_number_with_s_verified",
+    "androidReplace": {
+      "%s": "$name$"
     }
   },
   "youMarkedAsNotVerified": {
-    "message": "You marked your Safety Number with $name$ as not verified",
+    "message": "You marked your safety number with $name$ unverified",
     "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
     "placeholders": {
       "name": {
         "content": "$1",
         "example": "Bob"
       }
+    },
+    "androidKey": "MessageRecord_you_marked_your_safety_number_with_s_unverified",
+    "androidReplace": {
+      "%s": "$name$"
     }
   },
   "youMarkedAsVerifiedOtherDevice": {
-    "message": "You marked your Safety Number with $name$ as verified from another device",
+    "message": "You marked your safety number with $name$ verified from another device",
     "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
     "placeholders": {
       "name": {
         "content": "$1",
         "example": "Bob"
       }
+    },
+    "androidKey": "MessageRecord_you_marked_your_safety_number_with_s_verified_from_another_device",
+    "androidReplace": {
+      "%s": "$name$"
     }
   },
   "youMarkedAsNotVerifiedOtherDevice": {
-    "message": "You marked your Safety Number with $name$ as not verified from another device",
+    "message": "You marked your safety number with $name$ unverified from another device",
     "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
     "placeholders": {
       "name": {
         "content": "$1",
         "example": "Bob"
       }
+    },
+    "androidKey": "MessageRecord_you_marked_your_safety_number_with_s_unverified_from_another_device",
+    "androidReplace": {
+      "%s": "$name$"
     }
   },
   "membersNeedingVerification": {
@@ -298,20 +333,26 @@
     "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "changedSinceVerifiedTitle": {
-    "message": "Safety Number Changed"
+    "message": "Safety Number Changed",
+    "androidKey": "ThreadRecord_safety_number_changed",
+    "wordCapitalize": true
   },
   "changedSinceVerifiedMultiple": {
     "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Session.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "changedSinceVerified": {
-    "message": "Your safety number with $name$ has changed since you last verified. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session.",
+    "message": "Your safety number with $name$ has changed and is no longer verified. This could either mean that someone is trying to intercept your communication, or that $name$ simply reinstalled Session",
     "description": "Shown on confirmation dialog when user attempts to send a message",
     "placeholders": {
       "name": {
         "content": "$1",
         "example": "Bob"
       }
+    },
+    "androidKey": "IdentityUtil_unverified_dialog_one",
+    "androidReplace": {
+      "%1$s": "$name$"
     }
   },
   "changedRightAfterVerify": {
@@ -329,17 +370,22 @@
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "changedRecently": {
-    "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session.",
+    "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication, or that $name$ simply reinstalled Session.",
     "description": "Shown on confirmation dialog when user attempts to send a message",
     "placeholders": {
       "name": {
         "content": "$1",
         "example": "Bob"
       }
+    },
+    "androidKey": "ConfirmIdentityDialog_your_safety_number_with_s_has_changed",
+    "androidReplace": {
+      "%1$s": "$name$",
+      "%2$s": "$name$"
     }
   },
   "identityKeyErrorOnSend": {
-    "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session. You may wish to verify your saftey number with this contact.",
+    "message": "Your safety number with $name$ has changed. This could either mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
     "placeholders": {
       "name": {
@@ -347,6 +393,17 @@
         "example": "Bob"
       }
     }
+  },
+  "youMayWishToVerifyContact": {
+    "message": "You may wish to verify your safety number with this contact.",
+    "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    },
+    "androidKey": "WebRtcCallScreen_you_may_wish_to_verify_this_contact"
   },
   "sendAnyway": {
     "message": "Send Anyway",
@@ -377,11 +434,13 @@
     "description": "Link to open the issue tracker"
   },
   "gotIt": {
-    "message": "Got it!",
-    "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
+    "message": "Got it",
+    "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog.",
+    "androidKey": "ExperienceUpgradeActivity_got_it"
   },
   "submit": {
-    "message": "Submit"
+    "message": "Submit",
+    "androidKey": "log_submit_activity__button_submit"
   },
   "verify": {
     "message": "Mark as verified"
@@ -390,13 +449,17 @@
     "message": "Mark as not verified"
   },
   "isVerified": {
-    "message": "You have verified your safety number with $name$.",
+    "message": "You marked your safety number with $name$ verified",
     "description": "Summary state shown at top of the safety number screen if user has verified contact.",
     "placeholders": {
       "name": {
         "content": "$1",
         "example": "Bob"
       }
+    },
+    "androidKey": "MessageRecord_you_marked_your_safety_number_with_s_verified",
+    "androidReplace": {
+      "%s": "$name$"
     }
   },
   "isNotVerified": {
@@ -410,46 +473,56 @@
     }
   },
   "verified": {
-    "message": "Verified"
+    "message": "Verified",
+    "androidKey": "verify_display_fragment__verified"
   },
   "newIdentity": {
     "message": "New safety number",
-    "description": "Header for a key change dialog"
+    "description": "Header for a key change dialog",
+    "androidKey": "MessageDetailsRecipient_new_safety_number"
   },
   "incomingError": {
     "message": "Error handling incoming message"
   },
   "media": {
     "message": "Media",
-    "description": "Header of the default pane in the media gallery, showing images and videos"
+    "description": "Header of the default pane in the media gallery, showing images and videos",
+    "androidKey": "MediaOverviewActivity_Media"
   },
   "mediaEmptyState": {
-    "message": "You don’t have any media in this conversation",
-    "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
+    "message": "No media",
+    "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)",
+    "androidKey": "media_overview_activity__no_media"
   },
   "documents": {
     "message": "Documents",
-    "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
+    "description": "Header of the secondary pane in the media gallery, showing every non-media attachment",
+    "androidKey": "MediaOverviewActivity_Documents"
   },
   "documentsEmptyState": {
-    "message": "You don’t have any documents in this conversation",
-    "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
+    "message": "No documents",
+    "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)",
+    "androidKey": "media_overview_documents_fragment__no_documents_found"
   },
   "today": {
     "message": "Today",
-    "description": "Section header in the media gallery"
+    "description": "Section header in the media gallery",
+    "androidKey": "BucketedThreadMedia_Today"
   },
   "yesterday": {
     "message": "Yesterday",
-    "description": "Section header in the media gallery"
+    "description": "Section header in the media gallery",
+    "androidKey": "BucketedThreadMedia_Yesterday"
   },
   "thisWeek": {
     "message": "This Week",
-    "description": "Section header in the media gallery"
+    "description": "Section header in the media gallery",
+    "androidKey": "BucketedThreadMedia_This_week"
   },
   "thisMonth": {
     "message": "This Month",
-    "description": "Section header in the media gallery"
+    "description": "Section header in the media gallery",
+    "androidKey": "BucketedThreadMedia_This_month"
   },
   "voiceMessage": {
     "message": "Voice Message",
@@ -458,10 +531,6 @@
   "dangerousFileType": {
     "message": "For security reasons, this file type cannot be sent",
     "description": "Shown in toast when user attempts to send .exe file, for example"
-  },
-  "loadingPreview": {
-    "message": "Loading Preview...",
-    "description": "Shown while Session Desktop is fetching metadata for a url in composition area"
   },
   "stagedPreviewThumbnail": {
     "message": "Draft thumbnail link preview for $domain$",
@@ -506,18 +575,17 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "fileSizeWarning": {
-    "message": "Sorry, the selected attachment is too large"
+    "message": "Attachment exceeds size limits for the type of message you're sending.",
+    "androidKey": "ConversationActivity_attachment_exceeds_size_limits"
   },
   "unableToLoadAttachment": {
-    "message": "Unable to load attachment."
-  },
-  "disconnected": {
-    "message": "Disconnected",
-    "description": "Displayed when the desktop client cannot connect to the server."
+    "message": "Sorry, there was an error setting your attachment.",
+    "androidKey": "ConversationActivity_sorry_there_was_an_error_setting_your_attachment"
   },
   "connecting": {
-    "message": "Connecting",
-    "description": "Displayed when the desktop client is currently connecting to the server."
+    "message": "Connecting...",
+    "description": "Displayed when the desktop client is currently connecting to the server.",
+    "androidKey": "CallNotificationBuilder_connecting"
   },
   "offline": {
     "message": "Offline",
@@ -556,13 +624,10 @@
     "message": "Report an Issue",
     "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
   },
-  "signalDesktopPreferences": {
-    "message": "Session Preferences",
-    "description": "Title of the window that pops up with Session Desktop preferences in it"
-  },
-  "aboutSignalDesktop": {
-    "message": "About Session",
-    "description": "Item under the Help menu, which opens a small about window"
+  "about": {
+    "message": "About",
+    "description": "Item under the Help menu, which opens a small about window",
+    "androidKey": "recipient_preferences__about"
   },
   "speech": {
     "message": "Speech",
@@ -570,49 +635,54 @@
   },
   "show": {
     "message": "Show",
-    "description": "Command under Window menu, to show the window"
+    "description": "Command under Window menu, to show the window",
+    "androidKey": "preferences_notifications__show"
   },
-  "quit": {
-    "message": "Quit",
-    "description": "Command in the tray icon menu, to quit the application"
-  },
-  "lokiMessenger": {
-    "message": "Session"
+  "sessionMessenger": {
+    "message": "Session",
+    "androidKey": "activity_landing_title"
   },
   "search": {
     "message": "Search",
-    "description": "Placeholder text in the search input"
+    "description": "Placeholder text in the search input",
+    "androidKey": "SearchToolbar_search"
   },
   "noSearchResults": {
-    "message": "No results for \"$searchTerm$\"",
+    "message": "No results found for \"$searchTerm$\"",
     "description": "Shown in the search left pane when no results were found",
     "placeholders": {
       "searchTerm": {
         "content": "$1",
         "example": "dog"
       }
+    },
+    "androidKey": "SearchFragment_no_results",
+    "androidReplace": {
+      "'%s'": "\"$searchTerm$\""
     }
   },
   "conversationsHeader": {
     "message": "Conversations",
-    "description": "Shown to separate the types of search results"
+    "description": "Shown to separate the types of search results",
+    "androidKey": "SearchFragment_header_conversations"
   },
   "contactsHeader": {
     "message": "Contacts",
-    "description": "Shown to separate the types of search results"
+    "description": "Shown to separate the types of search results",
+    "androidKey": "SearchFragment_header_contacts"
   },
   "messagesHeader": {
-    "message": "Conversations",
-    "description": "Shown to separate the types of search results"
+    "message": "Messages",
+    "description": "Shown to separate the types of search results",
+    "androidKey": "SearchFragment_header_messages"
   },
   "settingsHeader": {
-    "message": "Settings"
+    "message": "Settings",
+    "androidKey": "activity_settings_title"
   },
   "welcomeToSession": {
-    "message": "Welcome to Session"
-  },
-  "selectAContact": {
-    "message": "Select a contact or group to start chatting."
+    "message": "Welcome to Session.",
+    "androidKey": "ExperienceUpgradeActivity_welcome_to_signal_dgaf"
   },
   "typingAlt": {
     "message": "Typing animation for this conversation",
@@ -628,21 +698,20 @@
       }
     }
   },
-  "sendMessageToContact": {
-    "message": "Send Message",
-    "description": "Shown when you are sent a contact and that contact has a session"
-  },
   "home": {
-    "message": "home",
-    "description": "Shown on contact detail screen as a label for an address/phone/email"
+    "message": "Home",
+    "description": "Shown on contact detail screen as a label for an address/phone/email",
+    "androidKey": "ContactShareEditActivity_type_home"
   },
   "work": {
-    "message": "work",
-    "description": "Shown on contact detail screen as a label for an address/phone/email"
+    "message": "Work",
+    "description": "Shown on contact detail screen as a label for an address/phone/email",
+    "androidKey": "ContactShareEditActivity_type_work"
   },
   "mobile": {
-    "message": "mobile",
-    "description": "Shown on contact detail screen as a label for aa phone or email"
+    "message": "Mobile",
+    "description": "Shown on contact detail screen as a label for a phone or email",
+    "androidKey": "ContactShareEditActivity_type_mobile"
   },
   "email": {
     "message": "email",
@@ -670,15 +739,18 @@
   },
   "replyToMessage": {
     "message": "Reply to Message",
-    "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
+    "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation",
+    "androidKey": "conversation_context__menu_reply_to_message"
   },
   "originalMessageNotFound": {
     "message": "Original message not found",
-    "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
+    "description": "Shown in quote if reference message was not found as message was initially downloaded and processed",
+    "androidKey": "ConversationFragment_quoted_message_not_found"
   },
   "originalMessageNotAvailable": {
     "message": "Original message no longer available",
-    "description": "Shown in toast if user clicks on quote that references message no longer in database"
+    "description": "Shown in toast if user clicks on quote that references message no longer in database",
+    "androidKey": "ConversationFragment_quoted_message_no_longer_available"
   },
   "messageFoundButNotLoaded": {
     "message": "Original message found, but not loaded. Scroll up to load it.",
@@ -690,11 +762,13 @@
   },
   "you": {
     "message": "You",
-    "description": "In Android theme, shown in quote if you or someone else replies to you"
+    "description": "In Android theme, shown in quote if you or someone else replies to you",
+    "androidKey": "MediaPreviewActivity_you"
   },
   "audioPermissionNeeded": {
-    "message": "To send audio messages, allow Session to access your microphone.",
-    "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+    "message": "Session needs microphone access to send audio messages.",
+    "description": "Shown if the user attempts to send an audio message without audio permssions turned on",
+    "androidKey": "ConversationActivity_to_send_audio_messages_allow_signal_access_to_your_microphone"
   },
   "allowAccess": {
     "message": "Allow Access",
@@ -702,15 +776,18 @@
   },
   "audio": {
     "message": "Audio",
-    "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
+    "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment",
+    "androidKey": "QuoteView_audio"
   },
   "video": {
     "message": "Video",
-    "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
+    "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video",
+    "androidKey": "QuoteView_video"
   },
   "photo": {
     "message": "Photo",
-    "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
+    "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image",
+    "androidKey": "QuoteView_photo"
   },
   "cannotUpdate": {
     "message": "Cannot Update",
@@ -721,43 +798,50 @@
     "description": "Shown if a general error happened while trying to install update package"
   },
   "ok": {
-    "message": "OK"
-  },
-  "enter": {
-    "message": "Enter"
+    "message": "OK",
+    "androidKey": "activity_settings_seed_dialog_ok_button_title"
   },
   "yes": {
-    "message": "Yes"
+    "message": "Yes",
+    "androidKey": "ConversationActivity_yes"
   },
   "cancel": {
-    "message": "Cancel"
+    "message": "Cancel",
+    "androidKey": "view_qr_code_cancel_button_title"
   },
   "close": {
     "message": "Close"
   },
   "continue": {
-    "message": "Continue"
+    "message": "Continue",
+    "androidKey": "RegistrationActivity_continue"
   },
   "devicePairingRequestReceivedLimitTitle": {
-    "message": "Device linking limit reached."
+    "message": "Device Limit Reached",
+    "androidKey": "activity_linked_devices_multi_device_limit_reached_dialog_title"
   },
   "devicePairingRequestReceivedLimitDescription": {
-    "message": "To change your linked devices, please unlink a device first."
+    "message": "Sorry, you have too many devices linked already, try removing some",
+    "androidKey": "DeviceProvisioningActivity_sorry_you_have_too_many_devices_linked_already"
   },
   "devicePairingRequestReceivedNoListenerTitle": {
-    "message": "Device linking request received."
+    "message": "Linking Request Received",
+    "androidKey": "dialog_link_device_master_mode_title_2"
   },
   "devicePairingRequestReceivedNoListenerDescription": {
     "message": "Device linking request received but you are not on the device linking screen. \nGo to Settings > Device > Link New Device."
   },
   "waitingForDeviceToRegister": {
-    "message": "Waiting for device to register..."
+    "message": "Waiting for Device",
+    "androidKey": "dialog_link_device_master_mode_title_1"
   },
   "pairNewDevicePrompt": {
-    "message": "Scan the QR Code on your other device"
+    "message": "Scan the QR code displayed on the device to link",
+    "androidKey": "device_add_fragment__scan_the_qr_code_displayed_on_the_device_to_link"
   },
   "noPairedDevices": {
-    "message": "No linked devices"
+    "message": "You don't have any linked devices yet",
+    "androidKey": "device_list_fragment__no_devices_linked"
   },
   "deviceIsSecondaryNoPairing": {
     "message": "This device is a secondary device and so cannot be linked."
@@ -766,7 +850,8 @@
     "message": "A pairing request is already ongoing. Restart the app if it takes too long."
   },
   "allowPairing": {
-    "message": "Allow Linking"
+    "message": "Authorize",
+    "androidKey": "view_device_linking_authorize_button_title"
   },
   "allowPairingWithDevice": {
     "message": "Allow linking with this device?"
@@ -781,7 +866,9 @@
     "message": "Please confirm you want to unlink the following device:"
   },
   "unpairDevice": {
-    "message": "Unlink Device"
+    "message": "Unlink Device",
+    "androidKey": "fragment_device_list_unlink_device_title",
+    "wordCapitalize": true
   },
   "unpairDeviceWarning": {
     "message": "Are you sure you want to unlink this device?",
@@ -792,22 +879,15 @@
     "description": "Warning description for device unlinking in settings view"
   },
   "deviceUnpaired": {
-    "message": "Device Unlinked"
-  },
-  "clear": {
-    "message": "Clear"
-  },
-  "copySeed": {
-    "message": "Copy Seed"
-  },
-  "confirm": {
-    "message": "Confirm"
+    "message": "Your device was unlinked successfully",
+    "androidKey": "activity_linked_devices_unlinking_successful_message"
   },
   "error": {
     "message": "Error"
   },
   "delete": {
-    "message": "Delete"
+    "message": "Delete",
+    "androidKey": "delete"
   },
   "deletePublicWarning": {
     "message": "Are you sure? This will permanently remove this message for everyone in this open group."
@@ -826,7 +906,9 @@
     "description": "Toast message explaining that the user doens't have the rights to delete other people's messages."
   },
   "deleteThisMessage": {
-    "message": "Delete this message"
+    "message": "Delete message",
+    "androidKey": "conversation_context__menu_delete_message",
+    "description": "action visible in MessageDetail screen"
   },
   "from": {
     "message": "From",
@@ -838,11 +920,13 @@
   },
   "sent": {
     "message": "Sent",
-    "description": "Label for the time a message was sent"
+    "description": "Label for the time a message was sent",
+    "androidKey": "message_details_header__sent"
   },
   "received": {
     "message": "Received",
-    "description": "Label for the time a message was received"
+    "description": "Label for the time a message was received",
+    "androidKey": "message_details_header__received"
   },
   "sendMessage": {
     "message": " Type your message",
@@ -879,29 +963,21 @@
   "theirIdentityUnknown": {
     "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
   },
-  "moreInfo": {
-    "message": "More Info...",
-    "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
+  "moreInformation": {
+    "message": "More information",
+    "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen",
+    "androidKey": "RegistrationActivity_more_information"
   },
-  "retrySend": {
-    "message": "Retry Send",
-    "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
+  "resend": {
+    "message": "Resend",
+    "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send",
+    "androidKey": "message_recipients_list_item__resend",
+    "camelCase": true
   },
   "deleteMessage": {
     "message": "Delete Message",
-    "description": "Shown on the drop-down menu for an individual message, deletes single message"
-  },
-  "unsendMessage": {
-    "message": "Unsend Message",
-    "description": "Shown on the drop-down menu for an individual message being removed from the server"
-  },
-  "unsendMessages": {
-    "message": "Unsend Messages",
-    "description": "Tiitle for prompt and header button for messages being removed from the server"
-  },
-  "messages": {
-    "message": "Messages",
-    "description": "Message search result"
+    "description": "Shown on the drop-down menu for an individual message, deletes single message",
+    "androidKey": "conversation_context__menu_delete_message"
   },
   "deleteMessages": {
     "message": "Delete Messages",
@@ -927,21 +1003,15 @@
     "message": "Permanently delete the messages in this conversation?",
     "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
-  "deleteAccount": {
-    "message": "Delete Account",
-    "description": "Text for button in settings view to delete account"
+  "clearAllData": {
+    "message": "Clear All Data",
+    "description": "Text for button in settings view to delete account",
+    "androidKey": "dialog_clear_all_data_title"
   },
   "deleteAccountWarning": {
-    "message": "Are you sure you want to delete your account?",
-    "description": "Warning for account deletion in settings view"
-  },
-  "deleteAccountWarningSub": {
-    "message": "Delete all history, including all messages, sessions, and contacts. Once deleted, these cannot be restored.",
-    "description": "Warning for account deletion in settings view"
-  },
-  "deleteContact": {
-    "message": "Delete Contact",
-    "description": "Confirmation dialog title that asks the user if they really wish to delete the contact. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "message": "This will permanently delete your messages, sessions, and contacts. These cannot be restored",
+    "description": "Warning for account deletion in settings view",
+    "androidKey": "dialog_clear_all_data_explanation"
   },
   "deleteContactConfirmation": {
     "message": "Permanently delete this contact and destroy all sessions?",
@@ -994,6 +1064,11 @@
   "addACaption": {
     "message": "Add a caption...",
     "descripton": "Used as the placeholder text in the caption editor text field"
+  },
+  "copy": {
+    "message": "Copy",
+    "description": "Copy to clipboard button text",
+    "androidKey": "copy"
   },
   "save": {
     "message": "Save",
@@ -1048,8 +1123,8 @@
   "installTooManyDevices": {
     "message": "Sorry, you have too many devices linked already. Try removing some."
   },
+  "message": "Permissions",
   "permissions": {
-    "message": "Permissions",
     "description": "Header for permissions section of settings"
   },
   "general": {
@@ -1097,10 +1172,6 @@
   "clearDataExplanation": {
     "message": "This will clear all data in the application, removing all messages and saved account information.",
     "description": "Text describing what the clear data button will do."
-  },
-  "deleteAllDataButton": {
-    "message": "Delete all data",
-    "description": "Text of the button that deletes all data"
   },
   "notifications": {
     "message": "Notifications",
@@ -1647,9 +1718,9 @@
     "message": "Updating a open group Channel",
     "description": "Title for the dialog box used to update an existing open group channel"
   },
-  "showSeed": {
-    "message": "Show Seed",
-    "description": "Button action that the user can click to view their unique seed"
+  "showRecoveryPhrase": {
+    "message": "Show Recovery Phrase",
+    "description": "Button action that the user can click to view their unique recovery phrase"
   },
   "yourSessionID": {
     "message": "Your Session ID"
@@ -1691,17 +1762,17 @@
     "message": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters.",
     "description": "Shown when user pastes a password which is longer than MAX_PASSWORD_LEN"
   },
-  "showSeedPasswordRequest": {
+  "showRecoveryPhrasePasswordRequest": {
     "message": "Please enter your password",
-    "description": "Request for user to enter password to show seed."
+    "description": "Request for user to enter password to show recovery phrase."
   },
-  "seedSavePromptMain": {
-    "message": "Please save the seed below in a safe location.",
-    "description": "Prompt on seed modal requesting user to save their seed. Line one"
+  "recoveryPhraseSavePromptMain": {
+    "message": "Please save the recovery phrase below in a safe location.",
+    "description": "Prompt on recovery phrase modal requesting user to save their recovery phrase. Line one"
   },
-  "seedSavePromptAlt": {
+  "recoveryPhraseSavePromptAlt": {
     "message": "They can be used to restore your account if you lose access or migrate to a new device.",
-    "description": "Prompt on seed modal requesting user to save their seed. Line two"
+    "description": "Prompt on recovery phrase modal requesting user to save their recovery phrase. Line two"
   },
   "QRCodeTitle": {
     "message": "View My QR Code",
@@ -1913,10 +1984,10 @@
   "generateSessionID": {
     "message": "Create Session ID"
   },
-  "mnemonicSeed": {
-    "message": "Mnemonic Seed"
+  "recoveryPhrase": {
+    "message": "Recovery Phrase"
   },
-  "enterSeed": {
+  "enterRecoveryPhrase": {
     "message": "Enter Recovery Phrase"
   },
   "displayName": {
@@ -1962,7 +2033,7 @@
   "linkDevice": {
     "message": "Link Device"
   },
-  "restoreUsingSeed": {
+  "restoreUsingRecoveryPhrase": {
     "message": "Restore From Recovery Phrase"
   },
   "linkDeviceToExistingAccount": {
@@ -2022,8 +2093,8 @@
   "devicesSettingsTitle": {
     "message": "Devices"
   },
-  "mnemonicEmpty": {
-    "message": "Seed is mandatory"
+  "recoveryPhraseEmpty": {
+    "message": "Recovery Phrase is mandatory"
   },
   "displayNameEmpty": {
     "message": "Display Name Is Mandatory"

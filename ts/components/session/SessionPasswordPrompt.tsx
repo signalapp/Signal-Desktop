@@ -215,7 +215,7 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
         />
 
         <SessionButton
-          text={window.i18n('deleteAllDataButton')}
+          text={window.i18n('clearAllData')}
           buttonType={SessionButtonType.Default}
           buttonColor={SessionButtonColor.Danger}
           onClick={window.clearLocalData}

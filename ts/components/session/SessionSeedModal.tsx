@@ -82,7 +82,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
 
     return (
       <>
-        <p>{i18n('showSeedPasswordRequest')}</p>
+        <p>{i18n('showRecoveryPhrasePasswordRequest')}</p>
         <input
           type="password"
           id="seed-input-password"
@@ -101,10 +101,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
         <div className="spacer-lg" />
 
         <div className="session-modal__button-group">
-          <SessionButton
-            text={i18n('ok')}
-            onClick={this.confirmPassword}
-          />
+          <SessionButton text={i18n('ok')} onClick={this.confirmPassword} />
 
           <SessionButton text={i18n('cancel')} onClick={onClose} />
         </div>
@@ -120,13 +117,17 @@ export class SessionSeedModal extends React.Component<Props, State> {
       <>
         <div className="session-modal__centered text-center">
           <p className="session-modal__description">
-            {i18n('seedSavePromptMain')}
+            {i18n('recoveryPhraseSavePromptMain')}
             <br />
-            <span className="subtle">{i18n('seedSavePromptAlt')}</span>
+            <span className="subtle">
+              {i18n('recoveryPhraseSavePromptAlt')}
+            </span>
           </p>
           <div className="spacer-xs" />
 
-          <i className="session-modal__text-highlight">{this.state.recoveryPhrase}</i>
+          <i className="session-modal__text-highlight">
+            {this.state.recoveryPhrase}
+          </i>
         </div>
         <div className="spacer-lg" />
 

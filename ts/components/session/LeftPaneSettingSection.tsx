@@ -178,16 +178,16 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
     const { isSecondaryDevice } = this.props;
 
     const title = window.i18n(
-      isSecondaryDevice ? 'unpairDevice' : 'deleteAccount'
+      isSecondaryDevice ? 'unpairDevice' : 'clearAllData'
     );
 
     const message = window.i18n(
       isSecondaryDevice ? 'unpairDeviceWarning' : 'deleteAccountWarning'
     );
 
-    const messageSub = window.i18n(
-      isSecondaryDevice ? 'unpairDeviceWarningSub' : 'deleteAccountWarningSub'
-    );
+    const messageSub = isSecondaryDevice
+      ? window.i18n('unpairDeviceWarningSub')
+      : '';
 
     window.confirmationDialog({
       title,

@@ -79,7 +79,7 @@ export class SearchResults extends React.Component<Props> {
           <div className="module-search-results__messages">
             {hideMessagesHeader ? null : (
               <div className="module-search-results__messages-header">
-                {i18n('messages')}
+                {i18n('messagesHeader')}
               </div>
             )}
             {messages.map(message => (

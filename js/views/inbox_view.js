@@ -179,7 +179,6 @@
     },
     render_attributes: {
       welcomeToSession: i18n('welcomeToSession'),
-      selectAContact: i18n('selectAContact'),
     },
     events: {
       click: 'onClick',

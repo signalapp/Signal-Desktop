@@ -234,13 +234,14 @@
       this.el.append(dialog.el);
     },
     showLeaveGroupDialog(groupConvo) {
-      let title = i18n('deleteContact');
-      let message = i18n('deleteContactConfirmation');
-
-      if (groupConvo.isGroup()) {
-        title = i18n('leaveGroup');
-        message = i18n('leaveGroupConfirmation');
+      if (!groupConvo.isGroup()) {
+        throw new Error(
+          'showLeaveGroupDialog() called with a non group convo.'
+        );
       }
+
+      const title = i18n('leaveGroup');
+      const message = i18n('leaveGroupConfirmation');
 
       window.confirmationDialog({
         title,

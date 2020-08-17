@@ -2328,7 +2328,7 @@
     },
 
     deleteContact() {
-      let title = i18n('deleteContact');
+      let title = i18n('delete');
       let message = i18n('deleteContactConfirmation');
 
       if (this.isGroup()) {
@@ -2438,7 +2438,7 @@
       if (this.isPrivate()) {
         return this.get('name');
       }
-      return this.get('name') || i18n('unknownGroup');
+      return this.get('name') || i18n('unknown');
     },
 
     getTitle() {

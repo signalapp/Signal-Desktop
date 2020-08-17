@@ -1241,6 +1241,7 @@
           contact.getTitle(),
           contact.getTitle(),
         ]),
+        messageSub: i18n('youMayWishToVerifyContact'),
         okText: i18n('sendAnyway'),
         resolve: async () => {
           await contact.updateVerified();

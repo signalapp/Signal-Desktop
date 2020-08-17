@@ -143,7 +143,7 @@ exports.createTemplate = (options, messages) => {
           type: 'separator',
         },
         {
-          label: messages.aboutSignalDesktop.message,
+          label: messages.about.message,
           click: showAbout,
         },
       ],
@@ -227,10 +227,10 @@ function updateForMac(template, messages, options) {
 
   // Add the OSX-specific Signal Desktop menu at the far left
   template.unshift({
-    label: messages.lokiMessenger.message,
+    label: messages.sessionMessenger.message,
     submenu: [
       {
-        label: messages.aboutSignalDesktop.message,
+        label: messages.about.message,
         click: showAbout,
       },
       {
