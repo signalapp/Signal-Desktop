@@ -11,7 +11,6 @@ exports.createTemplate = (options, messages) => {
     openReleaseNotes,
     openSupportPage,
     platform,
-    setupAsNewDevice,
     setupAsStandalone,
     setupWithImport,
     showAbout,
@@ -165,10 +164,6 @@ exports.createTemplate = (options, messages) => {
       type: 'separator',
     });
     fileMenu.submenu.unshift({
-      label: messages.menuSetupAsNewDevice.message,
-      click: setupAsNewDevice,
-    });
-    fileMenu.submenu.unshift({
       label: messages.menuSetupWithImport.message,
       click: setupWithImport,
     });
@@ -184,7 +179,6 @@ exports.createTemplate = (options, messages) => {
 function updateForMac(template, messages, options) {
   const {
     includeSetup,
-    setupAsNewDevice,
     setupAsStandalone,
     setupWithImport,
     showAbout,
@@ -207,10 +201,6 @@ function updateForMac(template, messages, options) {
         {
           label: messages.menuSetupWithImport.message,
           click: setupWithImport,
-        },
-        {
-          label: messages.menuSetupAsNewDevice.message,
-          click: setupAsNewDevice,
         },
       ],
     };

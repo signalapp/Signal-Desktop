@@ -345,101 +345,6 @@
     {{/isError}}
   </script>
 
-  <script type='text/x-tmpl-mustache' id='link-flow-template'>
-    {{#isStep3}}
-    <div id='step3' class='step'>
-      <div class='inner'>
-        <div class='step-body'>
-          <div class='header'>{{ linkYourPhone }}</div>
-          <div id="qr">
-            <div class='container'>
-              <span class='dot'></span>
-              <span class='dot'></span>
-              <span class='dot'></span>
-            </div>
-          </div>
-        </div>
-        <div class='nav'>
-          <div class='instructions'>
-            <div class='android'>
-              <div class='label'>
-                <span class='os-icon android'></span>
-              </div>
-              <div class='body'>
-                <div>→ {{ signalSettings }}</div>
-                <div>→ {{ linkedDevices }}</div>
-                <div>→ {{ androidFinalStep }}</div>
-              </div>
-            </div>
-            <div class='apple'>
-              <div class='label'>
-                <span class='os-icon apple'></span>
-              </div>
-              <div class='body'>
-                <div>→ {{ signalSettings }}</div>
-                <div>→ {{ linkedDevices }}</div>
-                <div>→ {{ appleFinalStep }}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    {{/isStep3}}
-    {{#isStep4}}
-    <form id='link-phone'>
-      <div id='step4' class='step'>
-        <div class='inner'>
-          <div class='step-body'>
-            <span class='banner-icon lead-pencil'></span>
-            <div class='header'>{{ chooseName }}</div>
-            <div>
-              <input type='text' class='device-name' spellcheck='false' maxlength='50' />
-            </div>
-          </div>
-
-            <div class='nav'>
-              <div>
-                <a class='button finish'>{{ finishLinkingPhoneButton }}</a>
-              </div>
-            </div>
-        </div>
-      </div>
-    </form>
-    {{/isStep4}}
-    {{#isStep5}}
-    <div id='step5' class='step'>
-      <div class='inner'>
-        <div class='step-body'>
-          <span class='banner-icon sync'></span>
-          <div class='header'>{{ syncing }}</div>
-        </div>
-        <div class='progress'>
-          <div class='bar-container'>
-            <div class='bar progress-bar progress-bar-striped active'></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    {{/isStep5}}
-
-    {{#isError}}
-    <div id='error' class='step'>
-      <div class='inner'>
-        <div class='step-body'>
-          <span class='banner-icon alert-outline'></span>
-          <div class='header'>{{ errorHeader }}</div>
-          <div class='body'>{{ errorMessage }}</div>
-        </div>
-        <div class='nav'>
-          <a class='button try-again'>{{ errorButton }}</a>
-        </div>
-      </div>
-    </div>
-    {{/isError}}
-  </script>
-
-
   <script type='text/javascript' src='js/components.js'></script>
   <script type='text/javascript' src='js/reliable_trigger.js'></script>
   <script type='text/javascript' src='js/database.js'></script>
@@ -494,7 +399,6 @@
   <script type='text/javascript' src='js/views/seed_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/qr_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
-  <script type='text/javascript' src='js/views/install_view.js'></script>
   <script type='text/javascript' src='js/views/banner_view.js'></script>
   <script type='text/javascript' src='js/views/session_registration_view.js'></script>
   <script type='text/javascript' src='js/views/app_view.js'></script>

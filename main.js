@@ -513,12 +513,6 @@ function setupWithImport() {
   }
 }
 
-function setupAsNewDevice() {
-  if (mainWindow) {
-    mainWindow.webContents.send('set-up-as-new-device');
-  }
-}
-
 function setupAsStandalone() {
   if (mainWindow) {
     mainWindow.webContents.send('set-up-as-standalone');
@@ -874,7 +868,6 @@ function setupMenu(options) {
     openSupportPage,
     platform,
     setupWithImport,
-    setupAsNewDevice,
     setupAsStandalone,
   });
   const template = createTemplate(menuOptions, locale.messages);

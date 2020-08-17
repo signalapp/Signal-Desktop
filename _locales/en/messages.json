@@ -145,10 +145,6 @@
     "message": "Set Up with Import",
     "description": "When the application is not yet set up, menu option to start up the import sequence"
   },
-  "menuSetupAsNewDevice": {
-    "message": "Set Up as New Device",
-    "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
-  },
   "menuSetupAsStandalone": {
     "message": "Set Up as Standalone Device",
     "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
@@ -1070,47 +1066,12 @@
       }
     }
   },
-  "linkYourPhone": {
-    "message": "Link your phone to Session",
-    "description": "Shown on the front page when the application first starst, above the QR code"
-  },
-  "signalSettings": {
-    "message": "Session Settings",
-    "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-  },
-  "linkedDevices": {
-    "message": "Linked Devices",
-    "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-  },
-  "plusButton": {
-    "message": "'+' Button",
-    "description": "The button used in Signal Android to add a new linked device"
-  },
   "linkNewDevice": {
     "message": "Link New Device",
     "description": "The menu option shown in Signal iOS to add a new linked device"
   },
-  "chooseDeviceName": {
-    "message": "Choose this device's name",
-    "description": "The header shown on the 'choose device name' screen in the device linking process"
-  },
-  "finishLinkingPhone": {
-    "message": "Finish linking phone",
-    "description": "The text on the button to finish the linking process, after choosing the device name"
-  },
-  "initialSync": {
-    "message": "Syncing contacts and groups",
-    "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
-  },
-  "installConnectionFailed": {
-    "message": "Failed to connect to server.",
-    "description": "Displayed when we can't connect to the server."
-  },
-  "installTooManyDevices": {
-    "message": "Sorry, you have too many devices linked already. Try removing some."
-  },
-  "message": "Permissions",
   "permissions": {
+    "message": "Permissions",
     "description": "Header for permissions section of settings"
   },
   "general": {

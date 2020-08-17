@@ -231,10 +231,6 @@ ipc.on('set-up-with-import', () => {
   Whisper.events.trigger('setupWithImport');
 });
 
-ipc.on('set-up-as-new-device', () => {
-  Whisper.events.trigger('setupAsNewDevice');
-});
-
 ipc.on('set-up-as-standalone', () => {
   Whisper.events.trigger('setupAsStandalone');
 });
