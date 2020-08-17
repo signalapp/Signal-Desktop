@@ -1027,18 +1027,6 @@
     "message": "Secure session reset succeeded",
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."
   },
-  "betaDisclaimerTitle": {
-    "message": "Thanks for using Session!",
-    "description": "Title for beta disclaimer modal"
-  },
-  "betaDisclaimerSubtitle": {
-    "message": "This software is still in its beta phase.",
-    "description": "Subtitle for beta disclaimer modal"
-  },
-  "betaDisclaimerDescription": {
-    "message": "While your messages are secured with end-to-end encryption, third parties like your ISP can see who you're talking to while in the beta version. It is also possible that third parties could correlate your public key to your IP address and real identity if they learn your public key.",
-    "description": "Description for beta disclaimer modal"
-  },
   "quoteThumbnailAlt": {
     "message": "Thumbnail of image from quoted message",
     "description": "Used in alt tag of thumbnail images inside of an embedded message quote"

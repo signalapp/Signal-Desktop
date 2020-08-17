@@ -1400,25 +1400,6 @@ input {
   width: 20vw;
 }
 
-.session-beta-disclaimer {
-  .session-modal {
-    width: 600px;
-
-    &__header {
-      font-size: $session-font-lg;
-    }
-
-    &__body > div:first-child {
-      padding: $session-margin-lg;
-    }
-
-    .session-confirm-main-message {
-      opacity: 0.8;
-      margin-bottom: $session-margin-xs;
-    }
-  }
-}
-
 .session-confirm-wrapper {
   position: absolute;
   height: 100%;
