@@ -8,10 +8,9 @@ import Crypto from './textsecure/Crypto';
 import MessageReceiver from './textsecure/MessageReceiver';
 import EventTarget from './textsecure/EventTarget';
 import { ByteBufferClass } from './window.d';
-import { SendOptionsType } from './textsecure/SendMessage';
+import SendMessage, { SendOptionsType } from './textsecure/SendMessage';
 import { WebAPIType } from './textsecure/WebAPI';
 import utils from './textsecure/Helpers';
-import SendMessage from './textsecure/SendMessage';
 
 type AttachmentType = any;
 
