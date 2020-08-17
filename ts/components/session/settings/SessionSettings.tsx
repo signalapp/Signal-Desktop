@@ -192,7 +192,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           <SessionButton
             buttonType={SessionButtonType.BrandOutline}
             buttonColor={SessionButtonColor.Green}
-            text={window.i18n('enter')}
+            text={window.i18n('ok')}
             onClick={this.validatePasswordLock}
           />
         </div>

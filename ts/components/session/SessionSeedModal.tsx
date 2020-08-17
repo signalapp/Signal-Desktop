@@ -12,7 +12,7 @@ interface State {
   error: string;
   loadingPassword: boolean;
   loadingSeed: boolean;
-  seed: string;
+  recoveryPhrase: string;
   hasPassword: boolean | null;
   passwordHash: string;
   passwordValid: boolean;
@@ -26,14 +26,14 @@ export class SessionSeedModal extends React.Component<Props, State> {
       error: '',
       loadingPassword: true,
       loadingSeed: true,
-      seed: '',
+      recoveryPhrase: '',
       hasPassword: null,
       passwordHash: '',
       passwordValid: false,
     };
 
-    this.copySeed = this.copySeed.bind(this);
-    this.getSeed = this.getSeed.bind(this);
+    this.copyRecoveryPhrase = this.copyRecoveryPhrase.bind(this);
+    this.getRecoveryPhrase = this.getRecoveryPhrase.bind(this);
     this.confirmPassword = this.confirmPassword.bind(this);
     this.checkHasPassword = this.checkHasPassword.bind(this);
     this.onEnter = this.onEnter.bind(this);
@@ -47,7 +47,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
     const i18n = window.i18n;
 
     this.checkHasPassword();
-    this.getSeed().ignore();
+    this.getRecoveryPhrase().ignore();
 
     const { onClose } = this.props;
     const { hasPassword, passwordValid } = this.state;
@@ -57,7 +57,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
       <>
         {!loading && (
           <SessionModal
-            title={i18n('showSeed')}
+            title={i18n('showRecoveryPhrase')}
             onOk={() => null}
             onClose={onClose}
           >
@@ -102,7 +102,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
 
         <div className="session-modal__button-group">
           <SessionButton
-            text={i18n('confirm')}
+            text={i18n('ok')}
             onClick={this.confirmPassword}
           />
 
@@ -126,7 +126,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
           </p>
           <div className="spacer-xs" />
 
-          <i className="session-modal__text-highlight">{this.state.seed}</i>
+          <i className="session-modal__text-highlight">{this.state.recoveryPhrase}</i>
         </div>
         <div className="spacer-lg" />
 
@@ -134,9 +134,9 @@ export class SessionSeedModal extends React.Component<Props, State> {
           <SessionButton text={i18n('ok')} onClick={onClose} />
 
           <SessionButton
-            text={i18n('copySeed')}
+            text={i18n('copy')}
             onClick={() => {
-              this.copySeed(this.state.seed);
+              this.copyRecoveryPhrase(this.state.recoveryPhrase);
             }}
           />
         </div>
@@ -194,29 +194,29 @@ export class SessionSeedModal extends React.Component<Props, State> {
     });
   }
 
-  private async getSeed() {
-    if (this.state.seed) {
+  private async getRecoveryPhrase() {
+    if (this.state.recoveryPhrase) {
       return false;
     }
 
     const manager = await window.getAccountManager();
-    const seed = manager.getCurrentMnemonic();
+    const recoveryPhrase = manager.getCurrentMnemonic();
 
     this.setState({
-      seed,
+      recoveryPhrase,
       loadingSeed: false,
     });
 
     return true;
   }
 
-  private copySeed(seed: string) {
-    window.clipboard.writeText(seed);
+  private copyRecoveryPhrase(recoveryPhrase: string) {
+    window.clipboard.writeText(recoveryPhrase);
 
     ToastUtils.push({
       title: window.i18n('copiedToClipboard'),
       type: 'success',
-      id: 'copySeedToast',
+      id: 'copyRecoveryPhraseToast',
     });
   }
 
