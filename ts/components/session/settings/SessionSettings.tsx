@@ -630,6 +630,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
             await currentModel.unblock();
           } else {
             await BlockedNumberController.unblock(blockedNumber);
+            this.forceUpdate();
           }
           ToastUtils.push({
             title: window.i18n('unblocked'),
