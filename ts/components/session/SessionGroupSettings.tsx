@@ -278,7 +278,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
             role="button"
             onClick={this.props.onUpdateGroupMembers}
           >
-            {window.i18n('showMembers')}
+            {window.i18n('groupMembers')}
           </div>
         )}
         {/*<div className="group-settings-item">

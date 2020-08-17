@@ -262,7 +262,7 @@ export function getShowMemberMenuItem(
   i18n: LocalizerType
 ): JSX.Element | null {
   if (showMemberMenu(Boolean(isPublic), Boolean(isRss), Boolean(isGroup))) {
-    return <MenuItem onClick={action}>{i18n('showMembers')}</MenuItem>;
+    return <MenuItem onClick={action}>{i18n('groupMembers')}</MenuItem>;
   }
   return null;
 }

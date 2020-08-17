@@ -939,10 +939,8 @@
     "message": "You have blocked the user"
   },
   "groupMembers": {
-    "message": "Group members"
-  },
-  "showMembers": {
-    "message": "Show members"
+    "message": "Group members",
+    "androidKey": "ConversationActivity_group_members"
   },
   "resetSession": {
     "message": "Reset Session",
