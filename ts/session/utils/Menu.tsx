@@ -174,9 +174,7 @@ export function getUpdateGroupNameMenuItem(
   i18n: LocalizerType
 ): JSX.Element | null {
   if (showUpdateGroupName(Boolean(amMod), Boolean(isKickedFromGroup))) {
-    return (
-      <MenuItem onClick={action}>{i18n('editGroupNameOrPicture')}</MenuItem>
-    );
+    return <MenuItem onClick={action}>{i18n('editGroup')}</MenuItem>;
   }
   return null;
 }

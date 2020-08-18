@@ -12,7 +12,8 @@
       this.groupName = groupConvo.get('name');
 
       this.conversation = groupConvo;
-      this.titleText = i18n('updateGroupDialogTitle');
+      this.titleText = i18n('updateGroupDialogTitle', this.groupName);
+
       this.close = this.close.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
       this.isPublic = groupConvo.isPublic();
@@ -27,9 +28,7 @@
       // public chat settings overrides
       if (this.isPublic) {
         // fix the title
-        this.titleText = `${i18n('updatePublicGroupDialogTitle')}: ${
-          this.groupName
-        }`;
+        this.titleText = i18n('updateGroupDialogTitle', this.groupName);
         // I'd much prefer to integrate mods with groupAdmins
         // but lets discuss first...
         this.isAdmin = groupConvo.isModerator(
@@ -88,9 +87,7 @@
       this.avatarPath = groupConvo.getAvatarPath();
 
       if (this.isPublic) {
-        this.titleText = `${i18n('updatePublicGroupDialogTitle')}: ${
-          this.groupName
-        }`;
+        this.titleText = i18n('updateGroupDialogTitle', this.groupName);
         // I'd much prefer to integrate mods with groupAdmins
         // but lets discuss first...
         this.isAdmin = groupConvo.isModerator(
@@ -100,7 +97,7 @@
         this.contactsAndMembers = [];
         this.existingMembers = [];
       } else {
-        this.titleText = i18n('updateGroupDialogTitle');
+        this.titleText = i18n('updateGroupDialogTitle', this.groupName);
         this.isAdmin = groupConvo.get('groupAdmins').includes(ourPK);
         const convos = window.getConversations().models.filter(d => !!d);
 

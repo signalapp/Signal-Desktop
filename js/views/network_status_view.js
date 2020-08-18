@@ -50,8 +50,6 @@
       let message = '';
       let instructions = '';
       let hasInterruption = false;
-      let action = null;
-      let buttonClass = null;
 
       const socketStatus = this.getSocketStatus();
       switch (socketStatus) {
@@ -106,20 +104,14 @@
         hasInterruption = true;
         message = i18n('offline');
         instructions = i18n('checkNetworkConnection');
-      } else if (!Whisper.Registration.isDone()) {
-        hasInterruption = true;
-        message = i18n('unlinked');
-        instructions = i18n('unlinkedWarning');
-        action = i18n('relink');
-        buttonClass = 'openInstaller';
       }
 
       return {
         message,
         instructions,
         hasInterruption,
-        action,
-        buttonClass,
+        action: null,
+        buttonClass: null,
       };
     },
     update() {

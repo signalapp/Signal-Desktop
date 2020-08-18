@@ -267,9 +267,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
             role="button"
             onClick={this.props.onUpdateGroupName}
           >
-            {isPublic
-              ? window.i18n('editGroupNameOrPicture')
-              : window.i18n('editGroupName')}
+            {isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
           </div>
         )}
         {showUpdateGroupMembersButton && (

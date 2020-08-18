@@ -1645,25 +1645,22 @@
     "message": "Select message",
     "description": "Button action that the user can click to select the message"
   },
-  "copiedMessage": {
-    "message": "Message text copied",
-    "description": "A toast message telling the user that the message text was copied"
-  },
-  "editGroupNameOrPicture": {
-    "message": "Edit group name or picture",
-    "description": "Button action that the user can click to edit a group name (open)"
+  "editGroup": {
+    "message": "Edit group",
+    "description": "Button action that the user can click to edit a group name (open)",
+    "androidKey": "conversation__menu_edit_group"
   },
   "editGroupName": {
     "message": "Edit group name",
     "description": "Button action that the user can click to edit a group name (closed)"
   },
   "updateGroupDialogTitle": {
-    "message": "Updating a Closed Group",
-    "description": "Title for the dialog box used to update an existing private group"
-  },
-  "updatePublicGroupDialogTitle": {
-    "message": "Updating a open group Channel",
-    "description": "Title for the dialog box used to update an existing open group channel"
+    "message": "Updating $name$...",
+    "description": "Title for the dialog box used to update an existing private group",
+    "androidKey": "GroupCreateActivity_updating_group",
+    "androidReplace": {
+      "%1$s": "$name$"
+    }
   },
   "showRecoveryPhrase": {
     "message": "Show Recovery Phrase",
