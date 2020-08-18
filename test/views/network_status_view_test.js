@@ -74,27 +74,6 @@ describe('NetworkStatusView', () => {
         assert.match(networkStatusView.$el.text(), /Offline/);
       });
     });
-    describe('network status when registration is not done', () => {
-      beforeEach(() => {
-        Whisper.Registration.remove();
-      });
-      it('should display an unlinked message', () => {
-        networkStatusView.update();
-        assert.match(networkStatusView.$el.text(), /Relink/);
-      });
-      it('should override socket status', () => {
-        _([
-          WebSocket.CONNECTING,
-          WebSocket.OPEN,
-          WebSocket.CLOSING,
-          WebSocket.CLOSED,
-        ]).forEach(socketStatusVal => {
-          socketStatus = socketStatusVal;
-          networkStatusView.update();
-          assert.match(networkStatusView.$el.text(), /Relink/);
-        });
-      });
-    });
     describe('network status when registration is done', () => {
       beforeEach(() => {
         networkStatusView.navigatorOnLine = () => true;

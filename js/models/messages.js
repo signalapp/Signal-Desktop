@@ -231,7 +231,7 @@
             messages.push(i18n('kickedFromTheGroup', names[0]));
           }
         }
-        return messages.join(', ');
+        return messages.join(' ');
       }
       if (this.isEndSession()) {
         return i18n(this.getEndSessionTranslationKey());

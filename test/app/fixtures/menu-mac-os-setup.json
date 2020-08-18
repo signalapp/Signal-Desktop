@@ -3,7 +3,7 @@
     "label": "Session",
     "submenu": [
       {
-        "label": "About Session",
+        "label": "About",
         "click": null
       },
       {
@@ -38,10 +38,6 @@
     "submenu": [
       {
         "label": "Set Up with Import",
-        "click": null
-      },
-      {
-        "label": "Set Up as New Device",
         "click": null
       }
     ]
