@@ -5909,7 +5909,7 @@ button.module-image__border-overlay:focus {
 }
 
 .module-ongoing-call__header {
-  background-color: $color-black-alpha-60;
+  background: linear-gradient($color-black-alpha-40, transparent);
   padding-bottom: 24px;
   padding-top: 24px;
   position: absolute;
@@ -5937,7 +5937,7 @@ button.module-image__border-overlay:focus {
 }
 
 .module-ongoing-call__actions {
-  background-color: $color-black-alpha-60;
+  background: linear-gradient(transparent, $color-black-alpha-40);
   bottom: 0;
   display: flex;
   justify-content: center;
