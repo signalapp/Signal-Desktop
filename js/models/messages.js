@@ -996,9 +996,9 @@
       clipboard.writeText(this.get('body'));
 
       window.pushToast({
-        title: i18n('copiedMessage'),
+        title: i18n('copiedToClipboard'),
         type: 'success',
-        id: 'copiedMessage',
+        id: 'copiedToClipboard',
       });
     },
 

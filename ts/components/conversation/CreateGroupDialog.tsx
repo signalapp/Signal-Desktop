@@ -203,7 +203,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
       updatedContacts.filter(d => d.checkmarked).length >
       window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT - 1
     ) {
-      const msg = `${this.props.i18n('maxGroupMembersError')} ${
+      const msg = `${this.props.i18n('closedGroupMaxSize')} ${
         window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT
       }`;
       this.onShowError(msg);

@@ -216,8 +216,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
 
   private onMemberClicked(selected: any) {
     if (selected.existingMember && !this.props.isAdmin) {
-      this.onShowError(this.props.i18n('nonAdminDeleteMember'));
-
+      window.console.warn('Only group admin can remove members!');
       return;
     }
 

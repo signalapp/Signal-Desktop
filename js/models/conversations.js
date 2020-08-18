@@ -2310,10 +2310,8 @@
     copyPublicKey() {
       clipboard.writeText(this.id);
 
-      const copiedMessage = i18n('copiedToClipboard');
-
       window.pushToast({
-        title: copiedMessage,
+        title: i18n('copiedToClipboard'),
         type: 'success',
         id: 'copiedToClipboard',
       });

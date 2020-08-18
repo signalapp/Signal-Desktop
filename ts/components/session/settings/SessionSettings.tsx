@@ -387,7 +387,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         confirmationDialogParams: {
           shouldShowConfirm: () =>
             !window.getSettingValue('link-preview-setting'),
-          title: window.i18n('linkPreviewsConfirmTitle'),
+          title: window.i18n('linkPreviewsTitle'),
           message: window.i18n('linkPreviewsConfirmMessage'),
           okTheme: 'danger',
         },

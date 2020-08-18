@@ -363,21 +363,11 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   private renderBottomButtons(): JSX.Element {
-    const edit = window.i18n('edit');
     const joinOpenGroup = window.i18n('joinOpenGroup');
     const newClosedGroup = window.i18n('newClosedGroup');
-    const showEditButton = false;
 
     return (
       <div className="left-pane-contact-bottom-buttons">
-        {showEditButton && (
-          <SessionButton
-            text={edit}
-            buttonType={SessionButtonType.SquareOutline}
-            buttonColor={SessionButtonColor.White}
-          />
-        )}
-
         <SessionButton
           text={joinOpenGroup}
           buttonType={SessionButtonType.SquareOutline}
@@ -527,11 +517,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       senderKeys,
       () => {
         this.handleToggleOverlay(undefined);
-
-        ToastUtils.push({
-          title: window.i18n('closedGroupCreatedToastTitle'),
-          type: 'success',
-        });
       }
     );
   }

@@ -118,10 +118,6 @@ export class SessionSeedModal extends React.Component<Props, State> {
         <div className="session-modal__centered text-center">
           <p className="session-modal__description">
             {i18n('recoveryPhraseSavePromptMain')}
-            <br />
-            <span className="subtle">
-              {i18n('recoveryPhraseSavePromptAlt')}
-            </span>
           </p>
           <div className="spacer-xs" />
 

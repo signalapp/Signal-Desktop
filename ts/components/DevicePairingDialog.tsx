@@ -119,9 +119,9 @@ export class DevicePairingDialog extends React.Component<Props, State> {
             {window.i18n('allowPairingWithDevice')}
           </h4>
           {this.renderErrors()}
+          <div className="subtle">{window.i18n('secretWords')}</div>
 
           <div className="device-pairing-dialog__secret-words">
-            <label>{window.i18n('secretWords')}</label>
             <div className="subtle">{secretWords}</div>
           </div>
 
