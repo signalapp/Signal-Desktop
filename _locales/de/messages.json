@@ -92,10 +92,10 @@
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "newSession": {
-      "message": "Neue Session"
+        "message": "Neue Session"
     },
     "addContact": {
-      "message": "Kontakt hinzufügen"
+        "message": "Kontakt hinzufügen"
     },
     "editMenuStartSpeaking": {
         "message": "Sprachausgabe starten",
@@ -158,7 +158,7 @@
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "or": {
-      "message": "oder"
+        "message": "oder"
     },
     "optimizingApplication": {
         "message": "Anwendung wird optimiert …",
@@ -563,81 +563,81 @@
         }
     },
     "copiedPublicKey": {
-      "message": "In Zwischenablage kopiert",
-      "description": "A toast message telling the user that the key was copied"
+        "message": "In Zwischenablage kopiert",
+        "description": "A toast message telling the user that the key was copied"
     },
     "copiedChatId": {
-      "message": "In Zwischenablage kopiert",
-      "description": "A toast message telling the user that the key was copied"
+        "message": "In Zwischenablage kopiert",
+        "description": "A toast message telling the user that the key was copied"
     },
     "sessionResetOngoing": {
-      "message": "Verschlüsselung neu gestartet",
-      "description": "your secure session is currently being reset, waiting for the reset acknowledgment."
+        "message": "Verschlüsselung neu gestartet",
+        "description": "your secure session is currently being reset, waiting for the reset acknowledgment."
     },
     "blockUser": {
-      "message": "Blockieren"
+        "message": "Blockieren"
     },
     "unblockUser": {
-      "message": "Freigeben"
+        "message": "Freigeben"
     },
     "members": {
         "message": "$count$ mitglied",
         "placeholders": {
             "count": {
-            "content": "$1",
-            "example": "26"
-          }
+                "content": "$1",
+                "example": "26"
+            }
         }
     },
     "noContactsForGroup": {
-      "message": "Sie haben noch keine Kontakte."
+        "message": "Sie haben noch keine Kontakte."
     },
     "getStarted": {
-      "message": "Loslegen"
+        "message": "Loslegen"
     },
     "createAccount": {
-    "message": "Konto Erstellen"
+        "message": "Konto Erstellen"
     },
     "signIn": {
-    "message": "Einloggen"
+        "message": "Einloggen"
     },
     "beginYourSession": {
         "message": "Beginnen<br />Sie<br />Ihre<br />Session."
-      },
+    },
     "continue": {
-      "message": "Fortsetzen"
+        "message": "Fortsetzen"
     },
     "welcomeToYourSession": {
         "message": "Willkommen bei Session"
-      },
+    },
     "generateSessionID": {
         "message": "Session ID erstellen"
-      },
-      "yourUniqueSessionID": {
+    },
+    "yourUniqueSessionID": {
         "message": "Das ist Ihre Session ID."
-      },
-      "allUsersAreRandomly...": {
+    },
+    "allUsersAreRandomly...": {
         "message": "Ihre Session ID ist die eindeutige Adresse, unter der Personen Sie über Session kontaktieren können. Ihre Session ID ist nicht mit Ihrer realen Identität verbunden, völlig anonym und von Natur aus privat."
-      },
+    },
     "leaveOpenGroupConfirmation": {
         "message": "Möchtest du wirklich diese Gruppe verlassen??",
         "description": "Confirmation dialog text that tells the user what will happen if they leave the public channel."
-      },
+    },
     "leaveClosedGroupConfirmation": {
         "message": "Möchtest du wirklich diese Gruppe verlassen?",
         "description": "Confirmation dialog text that tells the user what will happen if they leave the closed group."
     },
     "copyPublicKey": {
-      "message": "Kopieren",
-      "description": "Button action that the user can click to copy their public keys"
+        "message": "Kopieren",
+        "description": "Button action that the user can click to copy their public keys"
     },
     "copyChatId": {
-      "message": "Kopieren"
+        "message": "Kopieren"
     },
     "deleteContact": {
         "message": "Kontakt löschen",
         "description": "Confirmation dialog title that asks the user if they really wish to delete the contact. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-      },
+    },
     "oneNonImageAtATimeToast": {
         "message": "Mehrere Anhänge je Nachricht sind ausschließlich bei Bildern erlaubt.",
         "description": "An error popup when the user has attempted to add an attachment"
@@ -645,7 +645,7 @@
     "editGroupName": {
         "message": "Gruppe bearbeiten",
         "description": "Button action that the user can click to edit a group name (closed)"
-      },
+    },
     "cannotMixImageAndNonImageAttachments": {
         "message": "Du kannst Bilder nicht gemeinsam mit anderen Anhängen in einer Nachricht kombinieren.",
         "description": "An error popup when the user has attempted to add an attachment"
@@ -833,22 +833,22 @@
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "enterOpenGroupURL": {
-      "message": "Gruppen-URL öffnen"
+        "message": "Gruppen-URL öffnen"
     },
     "newClosedGroup": {
-      "message": "Neue geschlossene Gruppe"
+        "message": "Neue geschlossene Gruppe"
     },
     "createClosedGroupNamePrompt": {
-      "message": "Gruppenname"
+        "message": "Gruppenname"
     },
     "createClosedGroupPlaceholder": {
-      "message": "Geben Sie einen Gruppennamen ein."
+        "message": "Geben Sie einen Gruppennamen ein."
     },
     "addChannelDescription": {
-      "message": "Geben Sie eine offene Gruppen-URL ein."
+        "message": "Geben Sie eine offene Gruppen-URL ein."
     },
     "next": {
-      "message": "Weiter"
+        "message": "Weiter"
     },
     "originalMessageNotFound": {
         "message": "Originalnachricht nicht gefunden",
@@ -1019,12 +1019,12 @@
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "deleteAccount": {
-      "message": "Alle Daten löschen",
-      "description": "Text for button in settings view to delete account"
+        "message": "Alle Daten löschen",
+        "description": "Text for button in settings view to delete account"
     },
     "deleteAccountWarningSub": {
-      "message": "Dadurch werden Ihre Nachrichten, Sessions und Kontakte dauerhaft gelöscht.",
-      "description": "Warning for account deletion in settings view"
+        "message": "Dadurch werden Ihre Nachrichten, Sessions und Kontakte dauerhaft gelöscht.",
+        "description": "Warning for account deletion in settings view"
     },
     "sessionEnded": {
         "message": "Verschlüsselung zurückgesetzt",
@@ -1237,16 +1237,16 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "appearanceSettingsTitle": {
-      "message": "Darstellung"
+        "message": "Darstellung"
     },
     "privacySettingsTitle": {
-      "message": "Datenschutz"
+        "message": "Datenschutz"
     },
     "notificationsSettingsTitle": {
-      "message": "Benachrichtigungen"
+        "message": "Benachrichtigungen"
     },
     "devicesSettingsTitle": {
-      "message": "Geräte"
+        "message": "Geräte"
     },
     "linkPreviewsTitle": {
         "message": "Link-Vorschauen senden",
@@ -1261,34 +1261,34 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "readReceiptSettingDescription": {
-      "message": "Lesebestätigungen aktivieren",
-      "description": "Description of the read receipts setting"
+        "message": "Lesebestätigungen aktivieren",
+        "description": "Description of the read receipts setting"
     },
     "readReceiptSettingTitle": {
-      "message": "Lesebestätigungen",
-      "description": "Title of the read receipts setting"
+        "message": "Lesebestätigungen",
+        "description": "Title of the read receipts setting"
     },
     "typingIndicatorsSettingDescription": {
         "message": "sehen und teilen, wann Nachrichten eingetippt werden",
         "description": "Description of the typing indicators setting"
     },
     "typingIndicatorsSettingTitle": {
-      "message": "Tipp-Indikatoren",
-      "description": "Title of the typing indicators setting"
+        "message": "Tipp-Indikatoren",
+        "description": "Title of the typing indicators setting"
     },
     "inviteContacts": {
-      "message": "Freunde einladen"
+        "message": "Freunde einladen"
     },
     "settingsHeader": {
-      "message": "Einstellungen"
+        "message": "Einstellungen"
     },
     "leaveOpenGroup": {
-      "message": "Gruppe öffnen verlassen",
-      "description": "Button action that the user can click to leave the group"
+        "message": "Gruppe öffnen verlassen",
+        "description": "Button action that the user can click to leave the group"
     },
     "leaveClosedGroup": {
-      "message": "Geschlossene Gruppe verlassen",
-      "description": "Button action that the user can click to leave the group"
+        "message": "Geschlossene Gruppe verlassen",
+        "description": "Button action that the user can click to leave the group"
     },
     "upgrade": {
         "message": "Aktualisieren",
@@ -1683,22 +1683,22 @@
         }
     },
     "joinOpenGroup": {
-      "message": "Offener Gruppe beitreten"
+        "message": "Offener Gruppe beitreten"
     },
     "yourSessionID": {
-      "message": "Ihre Session ID"
+        "message": "Ihre Session ID"
     },
     "createClosedGroup": {
-      "message": "Neue geschlossene Gruppe"
+        "message": "Neue geschlossene Gruppe"
     },
     "searchForAKeyPhrase": {
-      "message": "Nach Unterhaltungen, Kontakten und Nachrichten suchen"
+        "message": "Nach Unterhaltungen, Kontakten und Nachrichten suchen"
     },
     "enterSessionID": {
-      "message": "Session ID eingeben"
+        "message": "Session ID eingeben"
     },
     "usersCanShareTheir...": {
-      "message": "Benutzer können ihre Session ID freigeben, indem sie in ihren Einstellungen auf \"Session ID freigeben\" tippen oder ihren QR-Code freigeben."
+        "message": "Benutzer können ihre Session ID freigeben, indem sie in ihren Einstellungen auf \"Session ID freigeben\" tippen oder ihren QR-Code freigeben."
     },
     "joinedTheGroup": {
         "message": "$name$ ist der Gruppe beigetreten",
