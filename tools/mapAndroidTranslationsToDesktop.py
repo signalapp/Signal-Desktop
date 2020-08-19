@@ -6,6 +6,7 @@ from glob import glob
 import json
 import sys
 import xmltodict
+import traceback
 
 # androidKey
 # "androidKeyCount": "one" or "other" used to find matching key with quantity
@@ -31,46 +32,56 @@ desktopDst = json.loads(open(f"_locales/{dest}/messages.json",
 
 androidEnValueFile = f"{androidRoot}/res/values/strings.xml"
 androidTranslatedValueFile = f"{androidRoot}/res/values-{dest}/strings.xml"
-print(f"androidEnValueFile {androidEnValueFile}")
-print(f"androidTranslatedValueFile {androidTranslatedValueFile}")
 
-androidEnXml = open(androidEnValueFile, "r").read()
-androidTranslatedXml = open(androidTranslatedValueFile, "r").read()
-androidEnJsonSingular = xmltodict.parse(androidEnXml)['resources']['string']
-androidEnJsonPlurals = xmltodict.parse(androidEnXml)['resources']['plurals']
+def getDictFromFile(filepath, keyToSearch):
+    xml = open(filepath, "r").read()
+    asDict = xmltodict.parse(xml)['resources'][keyToSearch]
+    return [dict(item) for item in asDict]
 
-androidEnJsonSingular = [dict(item) for item in androidEnJsonSingular]
-androidEnJsonPlurals = [dict(item) for item in androidEnJsonPlurals]
-androidTranslatedJson = xmltodict.parse(androidTranslatedXml)
+def getStringFromFileAsJSON(filepath):
+    return getDictFromFile(filepath, 'string')
 
-# print(f"androidTranslatedXml {androidTranslatedXml}")
+def getPluralsFromFileAsJSON(filepath):
+    return getDictFromFile(filepath, 'plurals')
+
+# read and extract values from xml file in EN android side
+androidEnJsonSingular = getStringFromFileAsJSON(androidEnValueFile)
+androidEnJsonPlurals = getPluralsFromFileAsJSON(androidEnValueFile)
+
+# read and extract values from xml file in DESTINATION LANGUAGE android side
+androidDestJsonSingular = getStringFromFileAsJSON(androidTranslatedValueFile)
+androidDestJsonPlurals = getPluralsFromFileAsJSON(androidTranslatedValueFile)
+
+# print(f"androidDestJsonSingular {androidDestJsonSingular}")
+# print(f"androidDestJsonPlurals {androidDestJsonPlurals}")
 # print(f"\n\n\n\n androidEnJsonSingular {androidEnJsonSingular}")
 # print(f"\n\n\n\n androidEnJsonPlurals {androidEnJsonPlurals}")
 
 missingAndroidKeyCount = 0
+notMatchingCount = 0
 
 def findCountInItem(quantityStr, items):
     found = [item for item in items if item['@quantity'] == quantityStr]
     # print(f'findCountInItem: {found}, quantityStr: {quantityStr}')
 
     if len(found) != 1:
-        raise Exception(f'quantityStr not found: {quantityStr} ')
+        raise KeyError(f'quantityStr not found: {quantityStr} ')
     return dict(found[0])
 
 
 def findByNameSingular(keySearchedFor, singularString):
     found = [item for item in singularString if item['@name'] == keySearchedFor]
     if len(found) != 1:
-        raise Exception(f'android key not found: {keySearchedFor} but should have been found')
+        raise KeyError(f'android key singular not found: {keySearchedFor} but should have been found')
     return found[0]
+
 
 def findByNamePlurals(keySearchedFor, pluralsString, quantityStr):
     found = [item for item in pluralsString if item['@name'] == keySearchedFor]
     if len(found) != 1:
-        raise Exception(f'android key not found: {keySearchedFor} but should have been found')
-    found = findCountInItem(quantityStr, found[0]['item'])
+        raise KeyError(f'android key plurals not found: {keySearchedFor} but should have been found')
+    return findCountInItem(quantityStr, found[0]['item'])
 
-    return found
 
 def validateKeysPresent(items):
     for keyItem, valueItem in items:
@@ -80,11 +91,9 @@ def validateKeysPresent(items):
         # print(f"keyItem: '{keyItem}', valueItem: '{valueItem}'")
 
 
+# morph a string from android syntax to desktop syntax. Like replacing char, or %s
 def morphToDesktopSyntax(androidString, desktopItem):
-    # print(f"androidString: '{androidString}', desktopItem: '{desktopItem}'")
     replaced = androidString.replace(r"\'", "'")
-    # replaced = androidString.replace(r"\’", "'")
-    # replaced = androidString.replace('’', )
 
     if('wordCapitalize' in desktopItem.keys() and desktopItem['wordCapitalize']):
         replaced = replaced.title()
@@ -100,40 +109,60 @@ def morphToDesktopSyntax(androidString, desktopItem):
         replaced = f'{toAdd}{replaced}'
     return replaced
 
-notMatching = 0
+def getAndroidItem(androidKey, androidKeyCount, singularJson, pluralsJson):
+    if androidKeyCount:
+        return findByNamePlurals(androidKey, pluralsJson, androidKeyCount)
+    else:
+        return findByNameSingular(androidKey, singularJson)
+
+def getAndroidKeyCountFromItem(item):
+    androidKeyCount = None
+    if 'androidKeyCount' in item.keys():
+        androidKeyCount = item['androidKeyCount']
+    return androidKeyCount
 
 
-for key, value in desktopSrc.items():
-    # print(f"key: '{key}', value: '{value}'")
-    items = value.items()
+
+###################  MAIN #####################
+for key, itemEnDesktop in desktopSrc.items():
+    # print(f"key: '{key}', itemEnDesktop: '{itemEnDesktop}'")
+    items = itemEnDesktop.items()
     validateKeysPresent(items)
-    if 'androidKey' not in value.keys():
+    if 'androidKey' not in itemEnDesktop.keys():
         # print('androidKey not found for {key}')
         missingAndroidKeyCount = missingAndroidKeyCount + 1
         continue
-    androidKey = value['androidKey']
-    androidKeyCount = None
-    if 'androidKeyCount' in value.keys():
-        androidKeyCount = value['androidKeyCount']
+    androidKey = itemEnDesktop['androidKey']
+    androidKeyCount = getAndroidKeyCountFromItem(itemEnDesktop)
     # print(f'key: {key}, androidKey: {androidKey}, androidKeyCount: {androidKeyCount}')
-    itemEnDesktop = desktopSrc[key]
     txtEnDesktop = itemEnDesktop['message']
-    if androidKeyCount:
-        itemEnAndroid = findByNamePlurals(androidKey, androidEnJsonPlurals, androidKeyCount)
-    else:
-        itemEnAndroid = findByNameSingular(androidKey, androidEnJsonSingular)
+    itemEnAndroid = getAndroidItem(androidKey, androidKeyCount, androidEnJsonSingular, androidEnJsonPlurals)
+
     txtEnAndroid = itemEnAndroid['#text']
 
     morphedEnAndroid = morphToDesktopSyntax(txtEnAndroid, itemEnDesktop)
     if (txtEnDesktop != morphedEnAndroid):
         print(f'\t\tDOES NOT MATCH: "{txtEnDesktop}" vs "{morphedEnAndroid}", itemEnDesktop: {itemEnDesktop}\n\n')
-        notMatching = notMatching + 1
-    # else:
-    #     print(f'MATCH: "{txtEnDesktop}" vs "{morphedEnAndroid}"')
+        notMatchingCount = notMatchingCount + 1
+    else:
+        # if it does match, find the corresponding value on the target language on android
+        print(f'MATCH: "{txtEnDesktop}" vs "{morphedEnAndroid}"')
+        try:
+            textTranslated = getAndroidItem(androidKey, androidKeyCount, androidDestJsonSingular, androidDestJsonPlurals)['#text']
+            print(f'textTranslated: "{textTranslated}"')
+
+            textMorphed = morphToDesktopSyntax(textTranslated, itemEnDesktop)
+            print(f'textMorphed: "{textMorphed}"')
+
+
+
+        except KeyError:
+            print('KeyError exception:', traceback.format_exc())
+
 
 
 
 
 
 print(f"total keys missing {missingAndroidKeyCount}") # androidKey set on desktop but not found on android EN resources
-print(f"total text not matching EN to EN {notMatching}")
+print(f"total text not matching EN to EN {notMatchingCount}")
