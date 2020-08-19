@@ -24,7 +24,7 @@
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
-        "message": "&Affichage",
+        "message": "&Voir",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
@@ -32,7 +32,7 @@
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "A&ide",
+        "message": "&Aide",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
@@ -84,7 +84,7 @@
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Tout sélectionner",
+        "message": "Tout Sélectionner",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
@@ -252,7 +252,7 @@
         "description": "The label for yourself when shown in a group member list"
     },
     "view": {
-        "message": "Afficher",
+        "message": "Voir",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
@@ -272,11 +272,11 @@
         "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
-        "message": "1 message non lu",
+        "message": "$count$ Message Non Lu",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$ messages non lus",
+        "message": "$count$ Messages Non Lus",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -306,7 +306,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "Vous avez marqué votre numéro de sécurité avec $name$ comme vérifié à partir d’un autre appareil.",
+        "message": "Vous avez marqué votre numéro de sécurité avec $name$ comme vérifié à partir d’un autre appareil",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -334,7 +334,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Votre numéro de sécurité avec $name$ a changé depuis votre dernière conversation. Cela pourrait signifier soit que quelqu’un tente d’intercepter votre communication, soit que $name$ a simplement réinstallé Signal.",
+        "message": "Votre numéro de sécurité avec $name$ a changé et n’est plus vérifié. Cela pourrait signifier soit que quelqu’un tente d’intercepter votre communication, soit que $name$ a simplement réinstallé Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -358,7 +358,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Votre numéro de sécurité avec $name$ a changé récemment. Cela pourrait signifier soit que quelqu’un tente d’intercepter votre communication, soit que $name$ a simplement réinstallé Signal.",
+        "message": "Votre numéro de sécurité avec $name$ a changé. Cela pourrait signifier soit que quelqu’un tente d’intercepter votre communication, soit que $name$ a simplement réinstallé Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -408,7 +408,7 @@
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "D’accord !",
+        "message": "D’accord",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
@@ -428,7 +428,7 @@
         "description": ""
     },
     "isVerified": {
-        "message": "Vous avez vérifié votre numéro de sécurité avec $name$.",
+        "message": "Vous avez marqué votre numéro de sécurité avec $name$ comme vérifié",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -468,7 +468,7 @@
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "Vous n’avez aucun fichier média dans cette conversation",
+        "message": "Aucun média",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
@@ -476,7 +476,7 @@
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "Vous n’avez aucun document dans cette conversation",
+        "message": "Aucun document",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
@@ -488,11 +488,11 @@
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "Cette semaine",
+        "message": "Cette Semaine",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "Ce mois",
+        "message": "Ce Mois",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -562,11 +562,11 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Désolé, le fichier sélectionné dépasse la limite de taille des messages.",
+        "message": "La pièce jointe dépasse la limite de taille pour le type de message que vous envoyé.",
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Impossible de charger le fichier joint sélectionné.",
+        "message": "Désolé, une erreur de mise en place de votre pièce jointe est survenue.",
         "description": ""
     },
     "disconnected": {
@@ -574,7 +574,7 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Connexion",
+        "message": "Connexion…",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "offline": {
@@ -648,11 +648,11 @@
         "description": "Tooltip for the tray icon"
     },
     "search": {
-        "message": "Chercher",
+        "message": "Recherche",
         "description": "Placeholder text in the search input"
     },
     "noSearchResults": {
-        "message": "Aucun résultat pour « $searchTerm$ »",
+        "message": "Aucun résultat n’a été trouvé pour « %s »",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -674,7 +674,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSession": {
-        "message": "Bienvenue sur Signal",
+        "message": "Bienvenue sur Session.",
         "description": ""
     },
     "selectAContact": {
@@ -700,15 +700,15 @@
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "domicile",
+        "message": "Domicile",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
-        "message": "travail",
+        "message": "Travail",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
-        "message": "mobile",
+        "message": "Mobile",
         "description": "Shown on contact detail screen as a label for aa phone or email"
     },
     "email": {
@@ -770,7 +770,7 @@
         }
     },
     "audioPermissionNeeded": {
-        "message": "Afin d’envoyer des messages audio, autorisez Signal Desktop pour ordinateur à accéder à votre micro.",
+        "message": "Pour envoyer des messages audio, autorisez Session à accéder à votre microphone.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -782,7 +782,7 @@
         "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
-        "message": "Audio",
+        "message": "Contenu audio",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
@@ -830,15 +830,15 @@
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "Supprimer ce message",
+        "message": "Supprimer le message",
         "description": ""
     },
     "from": {
-        "message": "De",
+        "message": "De :",
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "à",
+        "message": "À :",
         "description": "Label for the receiver of a message"
     },
     "sent": {
@@ -862,11 +862,11 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Réinitialiser la session",
+        "message": "Réinitialiser La Session Sécurisée",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "Afficher le numéro de sécurité",
+        "message": "Afficher Le Numéro De Sécurité",
         "description": ""
     },
     "viewAllMedia": {
@@ -896,7 +896,7 @@
         "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
-        "message": "Supprimer ce message",
+        "message": "Supprimer Le Message",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
@@ -978,7 +978,7 @@
         "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
-        "message": "Relier un nouvel appareil",
+        "message": "Relier Un Nouvel Appareil",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "deviceName": {
@@ -1066,7 +1066,7 @@
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "Désactiver les notifications",
+        "message": "Notifications en sourdine",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
@@ -1090,7 +1090,7 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "notificationMostRecentFrom": {
-        "message": "Les plus récents de :",
+        "message": "Le plus récent de : $name$",
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "notificationFrom": {
@@ -1102,7 +1102,7 @@
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "sendFailed": {
-        "message": "Échec d’envoi",
+        "message": "Échec D’Envoi",
         "description": "Shown on outgoing message if it fails to send"
     },
     "showMore": {
@@ -1126,7 +1126,7 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "Message média",
+        "message": "Message multimédia",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "unregisteredUser": {
@@ -1158,7 +1158,7 @@
         "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
-        "message": "maintenant",
+        "message": "À L’Instant",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
@@ -1226,7 +1226,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Vous avez défini l’expiration des messages éphémères à $time$",
+        "message": "Vous avez défini l’expiration des messages éphémères à $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1246,7 +1246,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ a défini l’expiration des messages éphémères à $time$",
+        "message": "$name$ a défini l’expiration des messages éphémères à $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1312,7 +1312,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "Désactivés",
+        "message": "Désactivé",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "timerOption_5_seconds_abbreviated": {
@@ -1364,7 +1364,7 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$a désactivé les messages éphémères",
+        "message": "$name$ a désactivé les messages éphémères.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1374,11 +1374,11 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Vous avez désactivé les messages éphémères",
+        "message": "Vous avez désactivé les messages éphémères.",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "L’expiration des messages a été définie à $time$",
+        "message": "L’expiration des messages éphémères a été définie à $time$",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1396,7 +1396,7 @@
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "Le numéro de sécurité avec $name$ a changé",
+        "message": "Votre numéro de sécurité avec $name$ a changé",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1406,7 +1406,7 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Vérifier le numéro de sécurité",
+        "message": "Vérifier Le Numéro De Sécurité",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
@@ -1480,7 +1480,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ a quitté le groupe",
+        "message": "$name$ a quitté le groupe.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1504,7 +1504,7 @@
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Le titre est maintenant « $name$ »",
+        "message": "Le nom du groupe est maintenant « $name$ ».",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1514,7 +1514,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$ s’est joint au groupe",
+        "message": "$name$ s’est joint au groupe.",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1524,7 +1524,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ se sont joints au groupe",
+        "message": "$name$ se sont joints au groupe.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1532,5 +1532,257 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "privacyPolicy": {
+        "message": "Conditions générales et politique de confidentialité"
+    },
+    "unknown": {
+        "message": "Inconnu"
+    },
+    "changedSinceVerifiedTitle": {
+        "message": "Le Numéro De Sécurité A Changé"
+    },
+    "youMayWishToVerifyContact": {
+        "message": "Vous devriez peut-être vérifier votre numéro de sécurité avec ce contact."
+    },
+    "about": {
+        "message": "À propos de Session"
+    },
+    "settingsHeader": {
+        "message": "Paramètres"
+    },
+    "yes": {
+        "message": "Oui"
+    },
+    "continue": {
+        "message": "Continuer"
+    },
+    "devicePairingRequestReceivedLimitTitle": {
+        "message": "Limite d'appareils atteinte"
+    },
+    "devicePairingRequestReceivedLimitDescription": {
+        "message": "Désolé, trop d’appareils sont déjà reliés. Essayez d’en supprimer"
+    },
+    "devicePairingRequestReceivedNoListenerTitle": {
+        "message": "Demande de liaison reçue"
+    },
+    "waitingForDeviceToRegister": {
+        "message": "En attente d'une demande de liaison"
+    },
+    "pairNewDevicePrompt": {
+        "message": "Balayez le code QR affiché sur l’appareil pour le relier"
+    },
+    "noPairedDevices": {
+        "message": "Aucun appareil n’est relié"
+    },
+    "deviceUnpaired": {
+        "message": "Votre appareil a été déconnecté avec succès"
+    },
+    "sendMessageLeftGroup": {
+        "message": "Vous avez quitté le groupe"
+    },
+    "moreInformation": {
+        "message": "Plus d’informations"
+    },
+    "resend": {
+        "message": "Renvoyer"
+    },
+    "clearAllData": {
+        "message": "Effacer toutes les données"
+    },
+    "deleteAccountWarning": {
+        "message": "Cela supprimera définitivement vos messages, vos sessions et vos contacts."
+    },
+    "deleteContactConfirmation": {
+        "message": "Voulez-vous vraiment supprimer cette conversation ?"
+    },
+    "copy": {
+        "message": "Copier"
+    },
+    "linkPreviewsTitle": {
+        "message": "Envoyer Des Aperçus De Liens"
+    },
+    "linkPreviewDescription": {
+        "message": "Les aperçus sont pris en charge pour les liens Imgur, Instagram, Pinterest, Reddit et YouTube"
+    },
+    "readReceiptSettingTitle": {
+        "message": "Accusés De Lecture"
+    },
+    "typingIndicatorsSettingTitle": {
+        "message": "Indicateurs De Saisie"
+    },
+    "themeToggleTitle": {
+        "message": "Clair"
+    },
+    "successUnlinked": {
+        "message": "Votre appareil a été déconnecté avec succès"
+    },
+    "autoUpdateDownloadButtonLabel": {
+        "message": "Télécharger"
+    },
+    "blockUser": {
+        "message": "Bloquer"
+    },
+    "unblockUser": {
+        "message": "Débloquer"
+    },
+    "blockedSettingsTitle": {
+        "message": "Contacts bloqués"
+    },
+    "leaveGroup": {
+        "message": "Quitter Le Groupe"
+    },
+    "leaveGroupConfirmation": {
+        "message": "Voulez-vous vraiment quitter ce groupe ?"
+    },
+    "noContactsForGroup": {
+        "message": "Vous n'avez pas encore de contacts"
+    },
+    "editGroup": {
+        "message": "Modifier le groupe"
+    },
+    "updateGroupDialogTitle": {
+        "message": "Mise à jour $name$…"
+    },
+    "showRecoveryPhrase": {
+        "message": "Phrase de récupération"
+    },
+    "yourSessionID": {
+        "message": "Votre Session ID"
+    },
+    "recoveryPhraseSavePromptMain": {
+        "message": "Votre phrase de récupération est la clé principale de votre Session ID - vous pouvez l'utiliser pour restaurer votre Session ID si vous perdez l'accès à votre appareil. Conservez la dans un endroit sûr et ne la donnez à personne."
+    },
+    "QRCodeTitle": {
+        "message": "Afficher mon code QR"
+    },
+    "copiedToClipboard": {
+        "message": "Copié dans le presse-papier"
+    },
+    "unlock": {
+        "message": "Déverrouiller"
+    },
+    "connectToServerFail": {
+        "message": "Impossible de rejoindre le groupe"
+    },
+    "connectingToServer": {
+        "message": "Connexion…"
+    },
+    "remove": {
+        "message": "Supprimer"
+    },
+    "invalidSessionId": {
+        "message": "Session ID non valide"
+    },
+    "emptyGroupNameError": {
+        "message": "Veuillez saisir un nom de groupe"
+    },
+    "groupNamePlaceholder": {
+        "message": "Nom Du Groupe"
+    },
+    "inviteContacts": {
+        "message": "Inviter Des Amis"
+    },
+    "yourUniqueSessionID": {
+        "message": "Dites bonjour à votre Session ID"
+    },
+    "allUsersAreRandomly...": {
+        "message": "Votre Session ID est l'identifiant unique que les gens utilisent pour vous contacter dans Session. Sans lien avec votre identité réelle, votre Session ID est complètement anonyme et privé."
+    },
+    "generateSessionID": {
+        "message": "Créer un Session ID"
+    },
+    "recoveryPhrase": {
+        "message": "Phrase de récupération"
+    },
+    "enterRecoveryPhrase": {
+        "message": "Saisissez votre phrase de récupération"
+    },
+    "enterDisplayName": {
+        "message": "Saisissez un nom d'utilisateur"
+    },
+    "enterSessionIDHere": {
+        "message": "Saisissez votre Session ID"
+    },
+    "continueYourSession": {
+        "message": "Continuez votre Session"
+    },
+    "linkDevice": {
+        "message": "Relier un appareil"
+    },
+    "restoreUsingRecoveryPhrase": {
+        "message": "Restaurez votre compte"
+    },
+    "newSession": {
+        "message": "Nouvelle Session"
+    },
+    "searchFor...": {
+        "message": "Chercher des conversations, des contacts ou des messages"
+    },
+    "enterSessionID": {
+        "message": "Saisir un Session ID"
+    },
+    "enterSessionIDOfRecipient": {
+        "message": "Saisissez le Session ID du destinataire"
+    },
+    "usersCanShareTheir...": {
+        "message": "Les utilisateurs peuvent partager leur Session ID depuis les paramètres du compte ou en utilisant le code QR."
+    },
+    "appearanceSettingsTitle": {
+        "message": "Apparence"
+    },
+    "privacySettingsTitle": {
+        "message": "Confidentialité"
+    },
+    "notificationsSettingsTitle": {
+        "message": "Notifications"
+    },
+    "devicesSettingsTitle": {
+        "message": "Appareils reliés"
+    },
+    "recoveryPhraseEmpty": {
+        "message": "Saisissez votre phrase de récupération"
+    },
+    "displayNameEmpty": {
+        "message": "Veuillez choisir un nom d'utilisateur"
+    },
+    "joinOpenGroup": {
+        "message": "Joindre un groupe public"
+    },
+    "newClosedGroup": {
+        "message": "Nouveau groupe privé"
+    },
+    "newClosedGroupDescription": {
+        "message": "Les groupes privés prennent en charge jusqu'à 10 membres et offrent le même niveau de confidentialité que les sessions individuelles."
+    },
+    "createClosedGroupNamePrompt": {
+        "message": "Nom Du Groupe"
+    },
+    "createClosedGroupPlaceholder": {
+        "message": "Saisissez un nom de groupe"
+    },
+    "openGroupURL": {
+        "message": "URL du groupe public"
+    },
+    "enterAnOpenGroupURL": {
+        "message": "Saisissez une URL de groupe public"
+    },
+    "next": {
+        "message": "Suivant"
+    },
+    "pairingDevice": {
+        "message": "Liaison De L’Appareil"
+    },
+    "invalidGroupNameTooShort": {
+        "message": "Veuillez saisir un nom de groupe"
+    },
+    "invalidGroupNameTooLong": {
+        "message": "Veuillez saisir un nom de groupe plus court"
+    },
+    "pickClosedGroupMember": {
+        "message": "Veuillez sélectionner au moins 2 membres"
+    },
+    "closedGroupMaxSize": {
+        "message": "Un groupe privé ne peut pas avoir plus de 10 membres"
     }
 }
