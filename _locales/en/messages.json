@@ -95,7 +95,8 @@
   "editMenuSelectAll": {
     "message": "Select All",
     "description": "Edit menu comand to select all of the text in selected text box",
-    "androidKey": "conversation_list_batch__menu_select_all"
+    "androidKey": "conversation_list_batch__menu_select_all",
+    "wordCapitalize": true
   },
   "editMenuStartSpeaking": {
     "message": "Start speaking",
@@ -240,7 +241,7 @@
     "androidKey": "MessageRecord_left_group"
   },
   "youGotKickedFromGroup": {
-    "message": "You were removed from the group",
+    "message": "You were removed from the group.",
     "description": "Displayed when a user can't send a message because they have left the group",
     "androidKey": "GroupUtil_you_were_removed_from_group"
   },
@@ -254,7 +255,11 @@
       }
     },
     "androidKey": "ConversationAdapter_n_unread_messages",
-    "androidKeyCount": "one"
+    "androidKeyCount": "one",
+    "androidReplace": {
+      "%d": "$count$"
+    },
+    "wordCapitalize": true
   },
   "unreadMessages": {
     "message": "$count$ Unread Messages",
@@ -266,7 +271,11 @@
       }
     },
     "androidKey": "ConversationAdapter_n_unread_messages",
-    "androidKeyCount": "other"
+    "androidKeyCount": "other",
+    "androidReplace": {
+      "%d": "$count$"
+    },
+    "wordCapitalize": true
   },
   "youMarkedAsVerified": {
     "message": "You marked your safety number with $name$ verified",
@@ -338,7 +347,7 @@
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "changedSinceVerified": {
-    "message": "Your safety number with $name$ has changed and is no longer verified. This could either mean that someone is trying to intercept your communication, or that $name$ simply reinstalled Session",
+    "message": "Your safety number with $name$ has changed and is no longer verified. This could either mean that someone is trying to intercept your communication, or that $name$ simply reinstalled Session.",
     "description": "Shown on confirmation dialog when user attempts to send a message",
     "placeholders": {
       "name": {
@@ -513,12 +522,14 @@
   "thisWeek": {
     "message": "This Week",
     "description": "Section header in the media gallery",
-    "androidKey": "BucketedThreadMedia_This_week"
+    "androidKey": "BucketedThreadMedia_This_week",
+    "wordCapitalize": true
   },
   "thisMonth": {
     "message": "This Month",
     "description": "Section header in the media gallery",
-    "androidKey": "BucketedThreadMedia_This_month"
+    "androidKey": "BucketedThreadMedia_This_month",
+    "wordCapitalize": true
   },
   "voiceMessage": {
     "message": "Voice Message",
@@ -734,7 +745,7 @@
     "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
   },
   "replyToMessage": {
-    "message": "Reply to Message",
+    "message": "Reply to message",
     "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation",
     "androidKey": "conversation_context__menu_reply_to_message"
   },
@@ -978,7 +989,8 @@
   "deleteMessage": {
     "message": "Delete Message",
     "description": "Shown on the drop-down menu for an individual message, deletes single message",
-    "androidKey": "conversation_context__menu_delete_message"
+    "androidKey": "conversation_context__menu_delete_message",
+    "wordCapitalize": true
   },
   "deleteMessages": {
     "message": "Delete Messages",
@@ -1010,7 +1022,7 @@
     "androidKey": "dialog_clear_all_data_title"
   },
   "deleteAccountWarning": {
-    "message": "This will permanently delete your messages, sessions, and contacts. These cannot be restored",
+    "message": "This will permanently delete your messages, sessions, and contacts.",
     "description": "Warning for account deletion in settings view",
     "androidKey": "dialog_clear_all_data_explanation"
   },
@@ -1053,7 +1065,7 @@
   },
   "addACaption": {
     "message": "Add a caption...",
-    "descripton": "Used as the placeholder text in the caption editor text field",
+    "description": "Used as the placeholder text in the caption editor text field",
     "androidKey": "MediaSendActivity_add_a_caption"
   },
   "copy": {
@@ -1063,7 +1075,7 @@
   },
   "save": {
     "message": "Save",
-    "descripton": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments",
+    "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments",
     "androidKey": "media_preview__save_title"
   },
   "emojiAlt": {
@@ -1079,7 +1091,8 @@
   "linkNewDevice": {
     "message": "Link New Device",
     "description": "The menu option shown in Signal iOS to add a new linked device",
-    "androidKey": "device_list_fragment__link_new_device"
+    "androidKey": "device_list_fragment__link_new_device",
+    "wordCapitalize": true
   },
   "permissions": {
     "message": "Permissions",
@@ -1134,7 +1147,8 @@
   "readReceiptSettingTitle": {
     "message": "Read Receipts",
     "description": "Title of the read receipts setting",
-    "androidKey": "preferences__read_receipts"
+    "androidKey": "preferences__read_receipts",
+    "wordCapitalize": true
   },
   "typingIndicatorsSettingDescription": {
     "message": "See and share when messages are being typed (applies to all sessions).",
@@ -1206,9 +1220,10 @@
     "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
   },
   "sendFailed": {
-    "message": "Send failed",
+    "message": "Send Failed",
     "description": "Shown on outgoing message if it fails to send",
-    "androidKey": "conversation_item_sent__send_failed_indicator_description"
+    "androidKey": "conversation_item_sent__send_failed_indicator_description",
+    "wordCapitalize": true
   },
   "learnMore": {
     "message": "Learn more about verifying safety numbers",
@@ -1232,9 +1247,10 @@
     "androidKey": "ThreadRecord_media_message"
   },
   "timestamp_s": {
-    "message": "now",
+    "message": "Now",
     "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble.",
-    "androidKey": "DateUtils_just_now"
+    "androidKey": "DateUtils_just_now",
+    "wordCapitalize": true
   },
   "timestamp_m": {
     "message": "1 minute",
@@ -1420,7 +1436,7 @@
     "androidKey": "ThreadRecord_disappearing_messages_disabled"
   },
   "disabledDisappearingMessages": {
-    "message": "$name$ disabled disappearing messages",
+    "message": "$name$ disabled disappearing messages.",
     "description": "Displayed in the conversation list when the timer is turned off",
     "placeholders": {
       "name": {
@@ -1434,7 +1450,7 @@
     }
   },
   "youDisabledDisappearingMessages": {
-    "message": "You disabled disappearing messages",
+    "message": "You disabled disappearing messages.",
     "description": "Displayed in the conversation list when the timer is turned off",
     "androidKey": "MessageRecord_you_disabled_disappearing_messages"
   },
@@ -1474,7 +1490,8 @@
   "verifyNewNumber": {
     "message": "Verify Safety Number",
     "description": "Label on button included with safety number change notification in the conversation",
-    "androidKey": "AndroidManifest__verify_safety_number"
+    "androidKey": "AndroidManifest__verify_safety_number",
+    "wordCapitalize": true
   },
   "yourSafetyNumberWith": {
     "message": "Your safety number with $name$:",
@@ -1611,10 +1628,10 @@
     }
   },
   "multipleJoinedTheGroup": {
-    "message": "$names$ joined the group.",
+    "message": "$name$ joined the group.",
     "description": "Shown in the conversation history when more than one person joins the group",
     "placeholders": {
-      "names": {
+      "name": {
         "content": "$1",
         "example": "Alice, Bob"
       }
@@ -1641,7 +1658,7 @@
     }
   },
   "multipleKickedFromTheGroup": {
-    "message": "$names$ were removed from the group",
+    "message": "$name$ were removed from the group.",
     "description": "Shown in the conversation history when more than one person is removed from the group",
     "placeholders": {
       "names": {
@@ -1775,7 +1792,7 @@
     "description": "Request for user to enter password to show recovery phrase."
   },
   "recoveryPhraseSavePromptMain": {
-    "message": "Your recovery phrase is the master key to your Session ID — you can use it to restore your Session ID if you lose access to your device. Store your recovery phrase in a safe place, and don’t give it to anyone.",
+    "message": "Your recovery phrase is the master key to your Session ID — you can use it to restore your Session ID if you lose access to your device. Store your recovery phrase in a safe place, and don't give it to anyone.",
     "description": "Prompt on recovery phrase modal requesting user to save their recovery phrase. Line one",
     "androidKey": "activity_seed_explanation"
   },
@@ -1982,8 +1999,7 @@
     }
   },
   "createAccount": {
-    "message": "Create Account",
-    "androidKey": "activity_display_name_title"
+    "message": "Create Account"
   },
   "signIn": {
     "message": "Sign In"
@@ -2008,7 +2024,7 @@
     "androidKey": "activity_settings_recovery_phrase_button_title"
   },
   "enterRecoveryPhrase": {
-    "message": "Enter Recovery Phrase",
+    "message": "Enter your recovery phrase",
     "androidKey": "activity_restore_seed_edit_text_hint"
   },
   "displayName": {
@@ -2154,7 +2170,8 @@
   },
   "createClosedGroupNamePrompt": {
     "message": "Group Name",
-    "androidKey": "GroupCreateActivity_group_name_hint"
+    "androidKey": "GroupCreateActivity_group_name_hint",
+    "wordCapitalize": true
   },
   "createClosedGroupPlaceholder": {
     "message": "Enter a group name",
@@ -2181,7 +2198,8 @@
   },
   "pairingDevice": {
     "message": "Linking Device",
-    "androidKey": "DeviceProvisioningActivity_content_progress_title"
+    "androidKey": "DeviceProvisioningActivity_content_progress_title",
+    "wordCapitalize": true
   },
   "devicePairedSuccessfully": {
     "message": "Your device has been linked successfully",
