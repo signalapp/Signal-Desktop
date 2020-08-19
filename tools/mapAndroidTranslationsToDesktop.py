@@ -1,8 +1,5 @@
 #!/bin/python3
 
-import re
-import os
-from glob import glob
 import json
 import sys
 import xmltodict
@@ -10,13 +7,16 @@ import traceback
 
 # androidKey
 # "androidKeyCount": "one" or "other" used to find matching key with quantity
-# replace \\' with '
-# replace \\\" with \"
 # "wordCapitalize": true capitalize each words (must be called before addStart)
 # "addStart": "&" char to add as start char
 # "androidReplace": replace all occurences of key value pair
 
 allowedItemKeys = ['message', 'description', 'comment', 'placeholders', 'androidKey', 'wordCapitalize', 'androidKeyCount', 'androidReplace', 'addStart']
+
+SPECIFIC_LOCALES_MAPPING = {
+    'zh_CN': 'zh-rCN',
+    'pt_BR': 'pt-rBR'
+}
 
 if len(sys.argv) != 3:
     print(f"usage: {sys.argv[0]} <dst language i.e. 'de'> <android_root folder>")
@@ -27,11 +27,19 @@ androidRoot = sys.argv[2]
 
 desktopSrc = json.loads(open(f"_locales/en/messages.json",
  "r").read())
-desktopDst = json.loads(open(f"_locales/{dest}/messages.json",
+destFilePath = f"_locales/{dest}/messages.json"
+desktopDest = json.loads(open(destFilePath,
  "r").read())
 
 androidEnValueFile = f"{androidRoot}/res/values/strings.xml"
-androidTranslatedValueFile = f"{androidRoot}/res/values-{dest}/strings.xml"
+
+
+def getAndroidTranslatedFile(androidRoot, dest):
+    if dest in SPECIFIC_LOCALES_MAPPING.keys():
+        return f"{androidRoot}/res/values-{SPECIFIC_LOCALES_MAPPING[dest]}/strings.xml"
+    return f"{androidRoot}/res/values-{dest}/strings.xml"
+
+androidTranslatedValueFile = getAndroidTranslatedFile(androidRoot, dest)
 
 def getDictFromFile(filepath, keyToSearch):
     xml = open(filepath, "r").read()
@@ -146,19 +154,33 @@ for key, itemEnDesktop in desktopSrc.items():
         notMatchingCount = notMatchingCount + 1
     else:
         # if it does match, find the corresponding value on the target language on android
-        print(f'MATCH: "{txtEnDesktop}" vs "{morphedEnAndroid}"')
+        # print(f'EN to EN MATCH, continuing... : "{txtEnDesktop}" vs "{morphedEnAndroid}"')
         try:
             textTranslated = getAndroidItem(androidKey, androidKeyCount, androidDestJsonSingular, androidDestJsonPlurals)['#text']
-            print(f'textTranslated: "{textTranslated}"')
+            # print(f'textTranslated: "{textTranslated}"')
 
             textMorphed = morphToDesktopSyntax(textTranslated, itemEnDesktop)
-            print(f'textMorphed: "{textMorphed}"')
+            existingItemTranslated = None
+            existingTranslation = None
+            if key in desktopDest.keys():
+                existingItemTranslated = desktopDest[key]
+                existingTranslation = existingItemTranslated['message']
 
+            # print(f'existingItemTranslated: "{existingItemTranslated}"')
+            if existingTranslation != textMorphed:
+                print(f'not matching: "{existingTranslation}" and "{textMorphed}"')
+                if key not in desktopDest.keys():
+                    desktopDest[key] = {'message': textMorphed}
+                else:
+                    desktopDest[key]['message'] = textMorphed
 
 
         except KeyError:
             print('KeyError exception:', traceback.format_exc())
 
+# write the updated json dict to the file
+with open(destFilePath, 'w') as outfile:
+    json.dump(desktopDest, outfile, indent=4, ensure_ascii=False)
 
 
 
