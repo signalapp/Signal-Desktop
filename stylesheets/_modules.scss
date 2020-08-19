@@ -2825,7 +2825,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-conversation-header__avatar {
   min-width: 28px;
-  user-select: none;
 }
 
 .module-conversation-header__title {
@@ -3878,6 +3877,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   vertical-align: middle;
   display: inline-block;
   border-radius: 50%;
+  user-select: none;
 
   img {
     object-fit: cover;
