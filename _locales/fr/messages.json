@@ -206,11 +206,11 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "unreadMessage": {
-        "message": "$count$ Message Non Lu",
+        "message": "$count$ message non lu",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$ Messages Non Lus",
+        "message": "$count$ messages non lus",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -472,11 +472,11 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "La pièce jointe dépasse la limite de taille pour le type de message que vous envoyé.",
+        "message": "La pièce jointe dépasse la limite de taille autorisée.",
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Désolé, une erreur de mise en place de votre pièce jointe est survenue.",
+        "message": "Une erreur est survenue lors du chargement de la pièce jointe.",
         "description": ""
     },
     "connecting": {
@@ -706,11 +706,11 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Réinitialiser La Session Sécurisée",
+        "message": "Réinitialiser la session sécurisée",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "Afficher Le Numéro De Sécurité",
+        "message": "Afficher le numéro de sécurité",
         "description": ""
     },
     "verifyHelp": {
@@ -728,7 +728,7 @@
         "description": ""
     },
     "deleteMessage": {
-        "message": "Supprimer Le Message",
+        "message": "Supprimer le message",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
@@ -782,7 +782,7 @@
         }
     },
     "linkNewDevice": {
-        "message": "Relier Un Nouvel Appareil",
+        "message": "Relier un nouvel appareil",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "permissions": {
@@ -846,7 +846,7 @@
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "sendFailed": {
-        "message": "Échec D’Envoi",
+        "message": "Échec d’envoi",
         "description": "Shown on outgoing message if it fails to send"
     },
     "learnMore": {
@@ -866,7 +866,7 @@
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "timestamp_s": {
-        "message": "À L’Instant",
+        "message": "À l’instant",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
@@ -1066,7 +1066,7 @@
         }
     },
     "verifyNewNumber": {
-        "message": "Vérifier Le Numéro De Sécurité",
+        "message": "Vérifier le numéro de sécurité",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
@@ -1172,7 +1172,7 @@
         "message": "Inconnu"
     },
     "changedSinceVerifiedTitle": {
-        "message": "Le Numéro De Sécurité A Changé"
+        "message": "Le numéro de sécurité a changé"
     },
     "youMayWishToVerifyContact": {
         "message": "Vous devriez peut-être vérifier votre numéro de sécurité avec ce contact."
@@ -1232,16 +1232,16 @@
         "message": "Copier"
     },
     "linkPreviewsTitle": {
-        "message": "Envoyer Des Aperçus De Liens"
+        "message": "Envoyer des aperçus de liens"
     },
     "linkPreviewDescription": {
         "message": "Les aperçus sont pris en charge pour les liens Imgur, Instagram, Pinterest, Reddit et YouTube"
     },
     "readReceiptSettingTitle": {
-        "message": "Accusés De Lecture"
+        "message": "Accusés de lecture"
     },
     "typingIndicatorsSettingTitle": {
-        "message": "Indicateurs De Saisie"
+        "message": "Indicateurs de saisie"
     },
     "themeToggleTitle": {
         "message": "Clair"
@@ -1262,7 +1262,7 @@
         "message": "Contacts bloqués"
     },
     "leaveGroup": {
-        "message": "Quitter Le Groupe"
+        "message": "Quitter le groupe"
     },
     "leaveGroupConfirmation": {
         "message": "Voulez-vous vraiment quitter ce groupe ?"
@@ -1310,10 +1310,10 @@
         "message": "Veuillez saisir un nom de groupe"
     },
     "groupNamePlaceholder": {
-        "message": "Nom Du Groupe"
+        "message": "Nom du groupe"
     },
     "inviteContacts": {
-        "message": "Inviter Des Amis"
+        "message": "Inviter des amis"
     },
     "yourUniqueSessionID": {
         "message": "Dites bonjour à votre Session ID"
@@ -1388,7 +1388,7 @@
         "message": "Les groupes privés prennent en charge jusqu'à 10 membres et offrent le même niveau de confidentialité que les sessions individuelles."
     },
     "createClosedGroupNamePrompt": {
-        "message": "Nom Du Groupe"
+        "message": "Nom du groupe"
     },
     "createClosedGroupPlaceholder": {
         "message": "Saisissez un nom de groupe"
@@ -1403,7 +1403,7 @@
         "message": "Suivant"
     },
     "pairingDevice": {
-        "message": "Liaison De L’Appareil"
+        "message": "Liaison de l’appareil"
     },
     "invalidGroupNameTooShort": {
         "message": "Veuillez saisir un nom de groupe"
