@@ -3,17 +3,9 @@
         "message": "Kopii la eraron kaj eliri",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
-    "unknownGroup": {
-        "message": "Nekonata grupo",
-        "description": "Shown as the name of a group if we don't have any information about it"
-    },
     "databaseError": {
         "message": "Datumbaza eraro",
         "description": "Shown in a popup if the database cannot start up properly"
-    },
-    "deleteAndRestart": {
-        "message": "Forigi ĉiujn datumojn kaj restarti",
-        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
         "message": "&Dosiero",
@@ -34,10 +26,6 @@
     "mainMenuHelp": {
         "message": "&Helpo",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuSettings": {
-        "message": "Agordoj…",
-        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
         "message": "Kaŝi",
@@ -135,10 +123,6 @@
         "message": "Agordi kun importo",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
-    "menuSetupAsNewDevice": {
-        "message": "Agordi kiel novan aparaton",
-        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
-    },
     "menuSetupAsStandalone": {
         "message": "Agordi kiel memstaran aparaton",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
@@ -161,29 +145,9 @@
             }
         }
     },
-    "archivedConversations": {
-        "message": "Enarĥivigitaj interparoloj",
-        "description": "Shown in place of the search box when showing archived conversation list"
-    },
-    "archiveHelperText": {
-        "message": "Tiuj interparoloj estas enarĥivigitaj kaj aperos en la ricevujo, nur se novaj mesaĝoj riceviĝas.",
-        "description": "Shown at the top of the archived converations list in the left pane"
-    },
-    "archiveConversation": {
-        "message": "Enarĥivigi interparolon",
-        "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
-    },
-    "moveConversationToInbox": {
-        "message": "Movi interparolon al la ricevujo",
-        "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
-    },
     "chooseDirectory": {
         "message": "Elekti dosierujon",
         "description": "Button to allow the user to find a folder on disk"
-    },
-    "chooseFile": {
-        "message": "Elekti dosieron",
-        "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
         "message": "Ŝargu viajn datumojn",
@@ -229,24 +193,6 @@
         "message": "Ligi tiun ĉi aparaton al via poŝtelefono",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
-    "selectedLocation": {
-        "message": "via elektita eksportloko",
-        "description": "Message shown as the export location if we didn't capture the target directory"
-    },
-    "upgradingDatabase": {
-        "message": "Ĝisdatigo de la datumbazo. Tio povas daŭri...",
-        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
-    },
-    "loadingMessages": {
-        "message": "Ŝargante mesaĝojn. $count$ ĝis nun…",
-        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
-    },
     "me": {
         "message": "Mi",
         "description": "The label for yourself when shown in a group member list"
@@ -258,18 +204,6 @@
     "youLeftTheGroup": {
         "message": "Vi forlasis la grupon",
         "description": "Displayed when a user can't send a message because they have left the group"
-    },
-    "scrollDown": {
-        "message": "Rulumi al interparola malsupro",
-        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-    },
-    "messageBelow": {
-        "message": "Nova mesaĝo suben",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-    },
-    "messagesBelow": {
-        "message": "Novaj mesaĝoj suben",
-        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
         "message": "1 nelegata mesaĝo",
@@ -415,10 +349,6 @@
         "message": "Sendi",
         "description": ""
     },
-    "acceptNewKey": {
-        "message": "Akcepti",
-        "description": "Label for a button to accept a new safety number"
-    },
     "verify": {
         "message": "Marki konfirmita",
         "description": ""
@@ -454,10 +384,6 @@
     "newIdentity": {
         "message": "Nova sekuriga numero",
         "description": "Header for a key change dialog"
-    },
-    "identityChanged": {
-        "message": "Via sekuriga numero kun tiu ĉi kontakto ŝanĝiĝis. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke tiu kontakto simple reinstalis Signal-on. Vi certe volos kontroli la novan sekurigan numeron ĉi-suban.",
-        "description": ""
     },
     "incomingError": {
         "message": "Okazis eraro dum ricevo de mesaĝo",
@@ -495,18 +421,6 @@
         "message": "Ĉimonate",
         "description": "Section header in the media gallery"
     },
-    "unsupportedAttachment": {
-        "message": "Nesubtenata tipo de kunsendaĵo. Alklaku por konservi ĝin.",
-        "description": "Displayed for incoming unsupported attachment"
-    },
-    "clickToSave": {
-        "message": "Alklaku por konservi",
-        "description": "Hover text for attachment filenames"
-    },
-    "unnamedFile": {
-        "message": "Sennoma dosiero",
-        "description": "Hover text for attachment filenames"
-    },
     "voiceMessage": {
         "message": "Voĉa mesaĝo",
         "description": "Name for a voice message attachment"
@@ -514,10 +428,6 @@
     "dangerousFileType": {
         "message": "Kunsendaĵa tipo ne permesata por sekurecaj kialoj",
         "description": "Shown in toast when user attempts to send .exe file, for example"
-    },
-    "loadingPreview": {
-        "message": "Ŝargante antaŭrigardon...",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
         "message": "Preparante miniaturan antaŭrigardon de ligilo pri $domain$",
@@ -569,10 +479,6 @@
         "message": "Ne eblas ŝargi la elektitan kunsendaĵon.",
         "description": ""
     },
-    "disconnected": {
-        "message": "Nekonektite",
-        "description": "Displayed when the desktop client cannot connect to the server."
-    },
     "connecting": {
         "message": "Konektante",
         "description": "Displayed when the desktop client is currently connecting to the server."
@@ -607,10 +513,6 @@
         "message": "Iri al eldonaj notoj",
         "description": ""
     },
-    "goToForums": {
-        "message": "Iri al forumoj",
-        "description": "Item under the Help menu, takes you to the forums"
-    },
     "goToSupportPage": {
         "message": "Iri al helppaĝo",
         "description": "Item under the Help menu, takes you to the support page"
@@ -619,14 +521,6 @@
         "message": "Raporti problemon",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
-    "signalDesktopPreferences": {
-        "message": "Agordoj de Signal Desktop",
-        "description": "Title of the window that pops up with Signal Desktop preferences in it"
-    },
-    "aboutSignalDesktop": {
-        "message": "Pri Signal Desktop",
-        "description": "Item under the Help menu, which opens a small about window"
-    },
     "speech": {
         "message": "Parolo",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -634,18 +528,6 @@
     "show": {
         "message": "Malkaŝi",
         "description": "Command under Window menu, to show the window"
-    },
-    "hide": {
-        "message": "Kaŝi",
-        "description": "Command in the tray icon menu, to hide the window"
-    },
-    "quit": {
-        "message": "Fini",
-        "description": "Command in the tray icon menu, to quit the application"
-    },
-    "signalDesktop": {
-        "message": "Signal Desktop",
-        "description": "Tooltip for the tray icon"
     },
     "search": {
         "message": "Serĉi",
@@ -677,10 +559,6 @@
         "message": "Bonvenon al Signal",
         "description": ""
     },
-    "selectAContact": {
-        "message": "Elektu kontakton aŭ grupon por ekparoli.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Tajp-indikiloj por tiu interparolo",
         "description": "Used as the 'title' attibute for the typing animation"
@@ -694,10 +572,6 @@
                 "example": "John"
             }
         }
-    },
-    "sendMessageToContact": {
-        "message": "Sendi mesaĝon",
-        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
         "message": "hejma",
@@ -759,16 +633,6 @@
         "message": "Vi",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
-    "replyingTo": {
-        "message": "Respondo al $name$",
-        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
     "audioPermissionNeeded": {
         "message": "Por sendi aŭdajn mesaĝojn, donu al Signal Desktop permeson uzi vian mikrofonon.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
@@ -776,10 +640,6 @@
     "allowAccess": {
         "message": "Permesi",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
-    },
-    "showSettings": {
-        "message": "Montri agordojn",
-        "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
         "message": "Sono",
@@ -797,10 +657,6 @@
         "message": "Cannot Update",
         "description": "Shown as the title of our update error dialogs on windows"
     },
-    "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
-    },
     "ok": {
         "message": "Bone",
         "description": ""
@@ -809,16 +665,8 @@
         "message": "Nuligi",
         "description": ""
     },
-    "failedToSend": {
-        "message": "Malsukcesis sendi al iuj ricevontoj. Kontrolu la retkonekton.",
-        "description": ""
-    },
     "error": {
         "message": "Eraro",
-        "description": ""
-    },
-    "messageDetail": {
-        "message": "Detaloj de la mesaĝo",
         "description": ""
     },
     "delete": {
@@ -857,10 +705,6 @@
         "message": "Grupanoj",
         "description": ""
     },
-    "showMembers": {
-        "message": "Montri grupanojn",
-        "description": ""
-    },
     "resetSession": {
         "message": "Forviŝi seancon",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
@@ -868,10 +712,6 @@
     "showSafetyNumber": {
         "message": "Montri sekurigan numeron",
         "description": ""
-    },
-    "viewAllMedia": {
-        "message": "Montru ĉiujn aŭdvidaĵojn",
-        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
         "message": "Se vi volas kontroli la sekurecon de via tutvoja ĉifrado kun $name$, komparu la ĉi-superajn nombrojn kun la nombroj el lia aŭ ŝia aparato.",
@@ -886,14 +726,6 @@
     "theirIdentityUnknown": {
         "message": "Vi ankoraŭ ne interŝanĝis mesaĝojn kun tiu ĉi kontakto. La sekuriga numero nur disponeblos post la unua mesaĝo.",
         "description": ""
-    },
-    "moreInfo": {
-        "message": "Pli da informoj…",
-        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
-    },
-    "retrySend": {
-        "message": "Klopodi resendi",
-        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
         "message": "Forigi mesaĝon",
@@ -939,10 +771,6 @@
         "message": "Konservi",
         "description": ""
     },
-    "fileIconAlt": {
-        "message": "Dosierpiktogramo",
-        "description": "Used in the media gallery documents tab to visually represent a file"
-    },
     "emojiAlt": {
         "message": "Emoĝibildo de „$title$“",
         "description": "Used in the alt tag of all emoji images",
@@ -953,65 +781,9 @@
             }
         }
     },
-    "installWelcome": {
-        "message": "Bonvenon al Signal Desktop",
-        "description": "Welcome title on the install page"
-    },
-    "installTagline": {
-        "message": "Privateco eblas. Signal tion faciligas.",
-        "description": "Tagline displayed under 'installWelcome' string on the install page"
-    },
-    "linkYourPhone": {
-        "message": "Ligi vian poŝtelefonon al Signal Desktop",
-        "description": "Shown on the front page when the application first starst, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Agordoj de Signal",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "linkedDevices": {
-        "message": "Ligitaj aparatoj",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "Butono „+“",
-        "description": "The button used in Signal Android to add a new linked device"
-    },
     "linkNewDevice": {
         "message": "Ligi novan aparaton",
         "description": "The menu option shown in Signal iOS to add a new linked device"
-    },
-    "deviceName": {
-        "message": "Nomo de la aparato",
-        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
-    },
-    "chooseDeviceName": {
-        "message": "Elektu la nomon de tiu ĉi aparato",
-        "description": "The header shown on the 'choose device name' screen in the device linking process"
-    },
-    "finishLinkingPhone": {
-        "message": "Fini ligi poŝtelefonon",
-        "description": "The text on the button to finish the linking process, after choosing the device name"
-    },
-    "initialSync": {
-        "message": "Sinkronigo de kontaktoj kaj grupoj",
-        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
-    },
-    "installConnectionFailed": {
-        "message": "Malsukcesis konekti al servilo.",
-        "description": "Displayed when we can't connect to the server."
-    },
-    "installTooManyDevices": {
-        "message": "Bedaŭrinde, vi havas tro da ligitaj aparatoj. Provu malligi kelkajn.",
-        "description": ""
-    },
-    "settings": {
-        "message": "Agordoj",
-        "description": "Menu item and header for global settings"
-    },
-    "theme": {
-        "message": "Etoso",
-        "description": "Header for theme settings"
     },
     "permissions": {
         "message": "Permesoj",
@@ -1028,34 +800,6 @@
     "spellCheckDescription": {
         "message": "Ŝalti literumilon de teksto entajpita en mesaĝa verkejo",
         "description": "Description of the media permission description"
-    },
-    "clearDataHeader": {
-        "message": "Forviŝi datumojn",
-        "description": "Header in the settings dialog for the section dealing with data deletion"
-    },
-    "clearDataExplanation": {
-        "message": "Tio forviŝos ĉiujn datumojn en la programo, forigante ĉiujn mesaĝojn kaj konservitajn kontinformojn.",
-        "description": "Text describing what the clear data button will do."
-    },
-    "clearDataButton": {
-        "message": "Forviŝi datumojn",
-        "description": "Button in the settings dialog starting process to delete all data"
-    },
-    "deleteAllDataHeader": {
-        "message": "Ĉu forigi ĉiujn datumojn?",
-        "description": "Header of the full-screen delete data confirmation screen"
-    },
-    "deleteAllDataBody": {
-        "message": "Vi estas forigonta ĉiujn kontajn informojn el tiu ĉi aplikaĵo, inkluzive de ĉiuj kontaktoj kaj ĉiuj mesaĝoj. Vi povos re-ligi vian porteblan aparaton, sed tio ne restaŭros forigitajn mesaĝojn.",
-        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
-    },
-    "deleteAllDataButton": {
-        "message": "Forigi ĉiujn datumojn",
-        "description": "Text of the button that deletes all data"
-    },
-    "deleteAllDataProgress": {
-        "message": "Malkonektante kaj forigante ĉiujn datumojn",
-        "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
         "message": "Sciigojn",
@@ -1105,14 +849,6 @@
         "message": "Sendo malsukcesis",
         "description": "Shown on outgoing message if it fails to send"
     },
-    "showMore": {
-        "message": "Detaloj",
-        "description": "Displays the details of a key change"
-    },
-    "showLess": {
-        "message": "Kaŝi detalojn",
-        "description": "Hides the details of a key change"
-    },
     "learnMore": {
         "message": "Lernu pli pri kontrolo de sekurigaj numeroj",
         "description": "Text that links to a support article on verifying safety numbers"
@@ -1129,34 +865,6 @@
         "message": "Mesaĝo kun enmetitaĵo",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
-    "unregisteredUser": {
-        "message": "Oni ne registris tiun numeron",
-        "description": "Error message displayed when sending to an unregistered user."
-    },
-    "sync": {
-        "message": "Kontaktoj",
-        "description": "Label for contact and group sync settings"
-    },
-    "syncExplanation": {
-        "message": "Importi ĉiujn Signal-grupojn kaj kontaktojn el via portebla aparato.",
-        "description": "Explanatory text for sync settings"
-    },
-    "lastSynced": {
-        "message": "Antaŭa importo je",
-        "description": "Label for date and time of last sync operation"
-    },
-    "syncNow": {
-        "message": "Importi nun",
-        "description": "Label for a button that syncs contacts and groups from your phone"
-    },
-    "syncing": {
-        "message": "Importante…",
-        "description": "Label for a disabled sync button while sync is in progress."
-    },
-    "syncFailed": {
-        "message": "Importado malsukcesis. Certigu, ke viaj komputilo kaj telefono estas konektitaj al la interreto.",
-        "description": "Informational text displayed if a sync operation times out."
-    },
     "timestamp_s": {
         "message": "ĵus",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
@@ -1168,50 +876,6 @@
     "timestamp_h": {
         "message": "1 horon",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
-    },
-    "hoursAgoShort": {
-        "message": "$hours$ h",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "hoursAgo": {
-        "message": "antaŭ $hours$ h",
-        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "minutesAgoShort": {
-        "message": "$minutes$ min",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "minutesAgo": {
-        "message": "antaŭ $minutes$ min",
-        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "justNow": {
-        "message": "nun",
-        "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D MMM",
@@ -1387,10 +1051,6 @@
             }
         }
     },
-    "audioNotificationDescription": {
-        "message": "Ludi sonan sciigon",
-        "description": "Description for audio notification setting"
-    },
     "safetyNumberChanged": {
         "message": "Sekuriga numero ŝanĝiĝis",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -1419,45 +1079,17 @@
             }
         }
     },
-    "themeLight": {
-        "message": "Hela",
-        "description": "Label text for light theme (normal)"
-    },
-    "themeDark": {
-        "message": "Malhela",
-        "description": "Label text for dark theme"
-    },
     "noteToSelf": {
         "message": "Noto al mi mem",
         "description": "Name for the conversation with your own phone number"
-    },
-    "hideMenuBar": {
-        "message": "Kaŝi la menubreton",
-        "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
         "message": "Krei novan interparolon...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
-    "newPhoneNumber": {
-        "message": "Entajpu telefonnumeron por aldoni kontakton.",
-        "description": "Placeholder for adding a new number to a contact"
-    },
     "invalidNumberError": {
         "message": "Nevalida numero",
         "description": "When a person inputs a number that is invalid"
-    },
-    "unlinkedWarning": {
-        "message": "Re-ligi aplikaĵon Signal Desktop al via portebla aparato por daŭrigi mesaĝadon.",
-        "description": ""
-    },
-    "unlinked": {
-        "message": "Malligita",
-        "description": ""
-    },
-    "relink": {
-        "message": "Re-ligi",
-        "description": ""
     },
     "autoUpdateNewVersionTitle": {
         "message": "Ĝisdatiĝo de Session disponeblas",

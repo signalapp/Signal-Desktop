@@ -3,17 +3,9 @@
         "message": "Foutmelding kopiëren en afsluiten",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
-    "unknownGroup": {
-        "message": "Onbekende groep",
-        "description": "Shown as the name of a group if we don't have any information about it"
-    },
     "databaseError": {
         "message": "Databasefout",
         "description": "Shown in a popup if the database cannot start up properly"
-    },
-    "deleteAndRestart": {
-        "message": "Alle gegevens wissen en herstarten",
-        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
         "message": "&Bestand",
@@ -34,10 +26,6 @@
     "mainMenuHelp": {
         "message": "&Hulp",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuSettings": {
-        "message": "Voorkeuren…",
-        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
         "message": "Verbergen",
@@ -135,10 +123,6 @@
         "message": "Instellen met importeren",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
-    "menuSetupAsNewDevice": {
-        "message": "Instellen als nieuw apparaat",
-        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
-    },
     "menuSetupAsStandalone": {
         "message": "Instellen als apart apparaat",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
@@ -161,29 +145,9 @@
             }
         }
     },
-    "archivedConversations": {
-        "message": "Gearchiveerde gesprekken",
-        "description": "Shown in place of the search box when showing archived conversation list"
-    },
-    "archiveHelperText": {
-        "message": "Deze gesprekken worden gearchiveerd en zullen alleen in Postvak IN verschijnen als je nieuwe berichten ontvangt.",
-        "description": "Shown at the top of the archived converations list in the left pane"
-    },
-    "archiveConversation": {
-        "message": "Gesprek archiveren",
-        "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
-    },
-    "moveConversationToInbox": {
-        "message": "Gesprek verplaatsen naar Postvak IN",
-        "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
-    },
     "chooseDirectory": {
         "message": "Map kiezen",
         "description": "Button to allow the user to find a folder on disk"
-    },
-    "chooseFile": {
-        "message": "Kies bestand",
-        "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
         "message": "Laad je gegevens",
@@ -229,24 +193,6 @@
         "message": "Koppel dit apparaat aan je telefoon",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
-    "selectedLocation": {
-        "message": "je geselecteerde locatie",
-        "description": "Message shown as the export location if we didn't capture the target directory"
-    },
-    "upgradingDatabase": {
-        "message": "De database wordt opgewaardeerd. Dit kan even duren…",
-        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
-    },
-    "loadingMessages": {
-        "message": "Berichten worden geladen, $count$ tot nu toe…",
-        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
-    },
     "me": {
         "message": "Ik",
         "description": "The label for yourself when shown in a group member list"
@@ -258,18 +204,6 @@
     "youLeftTheGroup": {
         "message": "Je hebt de groep verlaten",
         "description": "Displayed when a user can't send a message because they have left the group"
-    },
-    "scrollDown": {
-        "message": "Scroll naar de onderkant van het gesprek",
-        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-    },
-    "messageBelow": {
-        "message": "Nieuw bericht hieronder",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-    },
-    "messagesBelow": {
-        "message": "Nieuwe berichten hieronder",
-        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
         "message": "1 ongelezen bericht",
@@ -415,10 +349,6 @@
         "message": "Verzenden",
         "description": ""
     },
-    "acceptNewKey": {
-        "message": "Aanvaarden",
-        "description": "Label for a button to accept a new safety number"
-    },
     "verify": {
         "message": "Markeren als geverifieerd",
         "description": ""
@@ -454,10 +384,6 @@
     "newIdentity": {
         "message": "Nieuw veiligheidsnummer",
         "description": "Header for a key change dialog"
-    },
-    "identityChanged": {
-        "message": "Je veiligheidsnummer met deze contactpersoon is veranderd. Dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of gewoonweg dat je contactpersoon Signal opnieuw heeft geïnstalleerd. Het wordt aanbevolen om het nieuwe veiligheidsnummer hieronder met deze persoon te verifiëren.",
-        "description": ""
     },
     "incomingError": {
         "message": "Fout bij het verwerken van een inkomend bericht",
@@ -495,18 +421,6 @@
         "message": "Deze maand",
         "description": "Section header in the media gallery"
     },
-    "unsupportedAttachment": {
-        "message": "Niet-ondersteund bestandstype. Klik om op te slaan.",
-        "description": "Displayed for incoming unsupported attachment"
-    },
-    "clickToSave": {
-        "message": "Klik om op te slaan",
-        "description": "Hover text for attachment filenames"
-    },
-    "unnamedFile": {
-        "message": "Naamloos bestand",
-        "description": "Hover text for attachment filenames"
-    },
     "voiceMessage": {
         "message": "Audiobericht",
         "description": "Name for a voice message attachment"
@@ -514,10 +428,6 @@
     "dangerousFileType": {
         "message": "Type bijlage niet toegestaan wegens veiligheidsredenen",
         "description": "Shown in toast when user attempts to send .exe file, for example"
-    },
-    "loadingPreview": {
-        "message": "Voorbeeld laden…",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
         "message": "Conceptvoorbeeldweergave voor $domain$",
@@ -569,10 +479,6 @@
         "message": "Kan geselecteerde bijlage niet laden.",
         "description": ""
     },
-    "disconnected": {
-        "message": "Verbinding verbroken",
-        "description": "Displayed when the desktop client cannot connect to the server."
-    },
     "connecting": {
         "message": "Aan het verbinden",
         "description": "Displayed when the desktop client is currently connecting to the server."
@@ -607,10 +513,6 @@
         "message": "Ga naar uitgaveopmerkingen",
         "description": ""
     },
-    "goToForums": {
-        "message": "Ga naar forums",
-        "description": "Item under the Help menu, takes you to the forums"
-    },
     "goToSupportPage": {
         "message": "Ga naar ondersteuningspagina",
         "description": "Item under the Help menu, takes you to the support page"
@@ -619,14 +521,6 @@
         "message": "Meld een probleem",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
-    "signalDesktopPreferences": {
-        "message": "Signal Desktop-instellingen",
-        "description": "Title of the window that pops up with Signal Desktop preferences in it"
-    },
-    "aboutSignalDesktop": {
-        "message": "Over Signal Desktop",
-        "description": "Item under the Help menu, which opens a small about window"
-    },
     "speech": {
         "message": "Spraak",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -634,18 +528,6 @@
     "show": {
         "message": "Tonen",
         "description": "Command under Window menu, to show the window"
-    },
-    "hide": {
-        "message": "Verbergen",
-        "description": "Command in the tray icon menu, to hide the window"
-    },
-    "quit": {
-        "message": "Afsluiten",
-        "description": "Command in the tray icon menu, to quit the application"
-    },
-    "signalDesktop": {
-        "message": "Signal Desktop",
-        "description": "Tooltip for the tray icon"
     },
     "search": {
         "message": "Zoeken",
@@ -677,10 +559,6 @@
         "message": "Welkom bij Signal",
         "description": ""
     },
-    "selectAContact": {
-        "message": "Selecteer een contactpersoon of groep om een gesprek te openen.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Typ-animatie voor dit gesprek",
         "description": "Used as the 'title' attibute for the typing animation"
@@ -694,10 +572,6 @@
                 "example": "John"
             }
         }
-    },
-    "sendMessageToContact": {
-        "message": "Bericht verzenden",
-        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
         "message": "thuis",
@@ -759,16 +633,6 @@
         "message": "Jij",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
-    "replyingTo": {
-        "message": "In reactie op $name$",
-        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
     "audioPermissionNeeded": {
         "message": "Om een audiobericht te versturen moet je Signal Desktop toegang tot de microfoon geven.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
@@ -776,10 +640,6 @@
     "allowAccess": {
         "message": "Toegang geven",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
-    },
-    "showSettings": {
-        "message": "Toon instellingen",
-        "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
         "message": "Audio",
@@ -797,10 +657,6 @@
         "message": "Cannot Update",
         "description": "Shown as the title of our update error dialogs on windows"
     },
-    "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
-    },
     "ok": {
         "message": "Begrepen",
         "description": ""
@@ -809,16 +665,8 @@
         "message": "Annuleren",
         "description": ""
     },
-    "failedToSend": {
-        "message": "Verzenden naar bepaalde ontvangers mislukt. Controleer je netwerkverbinding.",
-        "description": ""
-    },
     "error": {
         "message": "Fout",
-        "description": ""
-    },
-    "messageDetail": {
-        "message": "Berichtdetails",
         "description": ""
     },
     "delete": {
@@ -857,10 +705,6 @@
         "message": "Groepsleden",
         "description": ""
     },
-    "showMembers": {
-        "message": "Leden tonen",
-        "description": ""
-    },
     "resetSession": {
         "message": "Sessie opnieuw instellen",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
@@ -868,10 +712,6 @@
     "showSafetyNumber": {
         "message": "Veiligheidsnummer bekijken",
         "description": ""
-    },
-    "viewAllMedia": {
-        "message": "Alle media bekijken",
-        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
         "message": "Als je de beveiliging van je eind-tot-eind-versleuteling met $name$ wilt verifiëren, vergelijk je de nummers hierboven met de nummers op hun apparaat.",
@@ -886,14 +726,6 @@
     "theirIdentityUnknown": {
         "message": "Je hebt nog geen berichten uitgewisseld met deze contactpersoon. Je veiligheidsnummer met hem zal beschikbaar zijn na het eerste bericht.",
         "description": ""
-    },
-    "moreInfo": {
-        "message": "Meer informatie…",
-        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
-    },
-    "retrySend": {
-        "message": "Opnieuw proberen te verzenden",
-        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
         "message": "Bericht wissen",
@@ -939,10 +771,6 @@
         "message": "Opslaan",
         "description": ""
     },
-    "fileIconAlt": {
-        "message": "Bestandspictogram",
-        "description": "Used in the media gallery documents tab to visually represent a file"
-    },
     "emojiAlt": {
         "message": "Emoji-afbeelding ‘$title$’",
         "description": "Used in the alt tag of all emoji images",
@@ -953,65 +781,9 @@
             }
         }
     },
-    "installWelcome": {
-        "message": "Welkom bij Signal Desktop",
-        "description": "Welcome title on the install page"
-    },
-    "installTagline": {
-        "message": "Privacy is mogelijk. Signal maakt het gemakkelijk.",
-        "description": "Tagline displayed under 'installWelcome' string on the install page"
-    },
-    "linkYourPhone": {
-        "message": "Koppel je telefoon aan Signal Desktop",
-        "description": "Shown on the front page when the application first starst, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Signal-instellingen",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "linkedDevices": {
-        "message": "Gekoppelde apparaten",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "‘+’-knop",
-        "description": "The button used in Signal Android to add a new linked device"
-    },
     "linkNewDevice": {
         "message": "Nieuw apparaat koppelen",
         "description": "The menu option shown in Signal iOS to add a new linked device"
-    },
-    "deviceName": {
-        "message": "Apparaatnaam",
-        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
-    },
-    "chooseDeviceName": {
-        "message": "Kies de naam van dit apparaat",
-        "description": "The header shown on the 'choose device name' screen in the device linking process"
-    },
-    "finishLinkingPhone": {
-        "message": "Koppelen van telefoon voltooien",
-        "description": "The text on the button to finish the linking process, after choosing the device name"
-    },
-    "initialSync": {
-        "message": "Contacten en groepen worden gesynchroniseerd",
-        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
-    },
-    "installConnectionFailed": {
-        "message": "Verbinden met server mislukt.",
-        "description": "Displayed when we can't connect to the server."
-    },
-    "installTooManyDevices": {
-        "message": "Sorry, je hebt te veel apparaten gekoppeld. Probeer er enkele te verwijderen.",
-        "description": ""
-    },
-    "settings": {
-        "message": "Instellingen",
-        "description": "Menu item and header for global settings"
-    },
-    "theme": {
-        "message": "Thema",
-        "description": "Header for theme settings"
     },
     "permissions": {
         "message": "Toestemmingen",
@@ -1028,34 +800,6 @@
     "spellCheckDescription": {
         "message": "Gebruik spellingscontrole voor de tekst in het berichtinvoerveld",
         "description": "Description of the media permission description"
-    },
-    "clearDataHeader": {
-        "message": "Gegevens wissen",
-        "description": "Header in the settings dialog for the section dealing with data deletion"
-    },
-    "clearDataExplanation": {
-        "message": "Dit verwijdert alle gegevens in de toepassing, verwijdert alle berichten en opgeslagen accountinformatie.",
-        "description": "Text describing what the clear data button will do."
-    },
-    "clearDataButton": {
-        "message": "Gegevens wissen",
-        "description": "Button in the settings dialog starting process to delete all data"
-    },
-    "deleteAllDataHeader": {
-        "message": "Alle gegevens wissen?",
-        "description": "Header of the full-screen delete data confirmation screen"
-    },
-    "deleteAllDataBody": {
-        "message": "Je staat op het punt alle opgeslagen accountgegevens van deze toepassing te wissen, inclusief alle contacten en alle berichten. Je kunt altijd opnieuw koppelen met je mobiele apparaat, maar je gewiste berichten kunnen niet hersteld worden.",
-        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
-    },
-    "deleteAllDataButton": {
-        "message": "Alle gegevens wissen",
-        "description": "Text of the button that deletes all data"
-    },
-    "deleteAllDataProgress": {
-        "message": "Verbinding wordt verbroken en alle gegevens worden verwijderd",
-        "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
         "message": "Meldingen",
@@ -1105,14 +849,6 @@
         "message": "Verzenden mislukt",
         "description": "Shown on outgoing message if it fails to send"
     },
-    "showMore": {
-        "message": "Details",
-        "description": "Displays the details of a key change"
-    },
-    "showLess": {
-        "message": "Details verbergen",
-        "description": "Hides the details of a key change"
-    },
     "learnMore": {
         "message": "Lees meer over het verifiëren van veiligheidsnummers",
         "description": "Text that links to a support article on verifying safety numbers"
@@ -1129,34 +865,6 @@
         "message": "Mediabericht",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
-    "unregisteredUser": {
-        "message": "Nummer is niet geregistreerd",
-        "description": "Error message displayed when sending to an unregistered user."
-    },
-    "sync": {
-        "message": "Contacten",
-        "description": "Label for contact and group sync settings"
-    },
-    "syncExplanation": {
-        "message": "Importeer alle Signal-groepen en -contacten van je mobiele apparaat.",
-        "description": "Explanatory text for sync settings"
-    },
-    "lastSynced": {
-        "message": "Laatst geïmporteerd op",
-        "description": "Label for date and time of last sync operation"
-    },
-    "syncNow": {
-        "message": "Nu importeren",
-        "description": "Label for a button that syncs contacts and groups from your phone"
-    },
-    "syncing": {
-        "message": "Bezig met importeren…",
-        "description": "Label for a disabled sync button while sync is in progress."
-    },
-    "syncFailed": {
-        "message": "Importeren mislukt. Zorg ervoor dat je computer en je telefoon met het internet verbonden zijn.",
-        "description": "Informational text displayed if a sync operation times out."
-    },
     "timestamp_s": {
         "message": "nu",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
@@ -1168,50 +876,6 @@
     "timestamp_h": {
         "message": "1 uur",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
-    },
-    "hoursAgoShort": {
-        "message": "$hours$ u",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "hoursAgo": {
-        "message": "$hours$ uur geleden",
-        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "minutesAgoShort": {
-        "message": "$minutes$ min",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "minutesAgo": {
-        "message": "$minutes$ min geleden",
-        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "justNow": {
-        "message": "nu",
-        "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D MMM",
@@ -1387,10 +1051,6 @@
             }
         }
     },
-    "audioNotificationDescription": {
-        "message": "Audiomelding afspelen",
-        "description": "Description for audio notification setting"
-    },
     "safetyNumberChanged": {
         "message": "Het veiligheidsnummer is veranderd",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -1419,45 +1079,17 @@
             }
         }
     },
-    "themeLight": {
-        "message": "Licht",
-        "description": "Label text for light theme (normal)"
-    },
-    "themeDark": {
-        "message": "Donker",
-        "description": "Label text for dark theme"
-    },
     "noteToSelf": {
         "message": "Notitie aan mezelf",
         "description": "Name for the conversation with your own phone number"
-    },
-    "hideMenuBar": {
-        "message": "Menubalk verbergen",
-        "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
         "message": "Begin een nieuw gesprek…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
-    "newPhoneNumber": {
-        "message": "Voer een telefoonnummer in om een contact toe te voegen.",
-        "description": "Placeholder for adding a new number to a contact"
-    },
     "invalidNumberError": {
         "message": "Ongeldig nummer",
         "description": "When a person inputs a number that is invalid"
-    },
-    "unlinkedWarning": {
-        "message": "Koppel Signal Desktop opnieuw aan je mobiele apparaat om verder te kunnen chatten.",
-        "description": ""
-    },
-    "unlinked": {
-        "message": "Ontkoppeld",
-        "description": ""
-    },
-    "relink": {
-        "message": "Opnieuw koppelen",
-        "description": ""
     },
     "autoUpdateNewVersionTitle": {
         "message": "Update voor Session beschikbaar",

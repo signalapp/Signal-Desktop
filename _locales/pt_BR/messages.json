@@ -3,17 +3,9 @@
         "message": "Copiar erro e sair",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
-    "unknownGroup": {
-        "message": "Grupo desconhecido",
-        "description": "Shown as the name of a group if we don't have any information about it"
-    },
     "databaseError": {
         "message": "Erro na base de dados",
         "description": "Shown in a popup if the database cannot start up properly"
-    },
-    "deleteAndRestart": {
-        "message": "Apagar todos os dados e reiniciar",
-        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
         "message": "&Arquivo",
@@ -34,10 +26,6 @@
     "mainMenuHelp": {
         "message": "&Ajuda",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuSettings": {
-        "message": "Preferências...",
-        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
         "message": "Esconder",
@@ -135,10 +123,6 @@
         "message": "Configurar e importar",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
-    "menuSetupAsNewDevice": {
-        "message": "Configurar como Novo Aparelho",
-        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
-    },
     "menuSetupAsStandalone": {
         "message": "Configurar como Dispositivo Autônomo",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
@@ -161,29 +145,9 @@
             }
         }
     },
-    "archivedConversations": {
-        "message": "Conversas arquivadas",
-        "description": "Shown in place of the search box when showing archived conversation list"
-    },
-    "archiveHelperText": {
-        "message": "Estas conversas estão arquivadas. Elas aparecerão na caixa de entrada somente se novas mensagens forem recebidas.",
-        "description": "Shown at the top of the archived converations list in the left pane"
-    },
-    "archiveConversation": {
-        "message": "Arquivar conversa",
-        "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
-    },
-    "moveConversationToInbox": {
-        "message": "Mover conversa para Caixa de Entrada",
-        "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
-    },
     "chooseDirectory": {
         "message": "Escolher pasta",
         "description": "Button to allow the user to find a folder on disk"
-    },
-    "chooseFile": {
-        "message": "Escolher arquivo",
-        "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
         "message": "Carregar seus dados",
@@ -229,24 +193,6 @@
         "message": "Religar este aparelho ao seu telefone",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
-    "selectedLocation": {
-        "message": "você escolheu uma localização",
-        "description": "Message shown as the export location if we didn't capture the target directory"
-    },
-    "upgradingDatabase": {
-        "message": "Atualizando a base de dados. Isso pode levar um tempo...",
-        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
-    },
-    "loadingMessages": {
-        "message": "Carregando mensagens. $count$ até agora...",
-        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
-    },
     "me": {
         "message": "Eu",
         "description": "The label for yourself when shown in a group member list"
@@ -258,18 +204,6 @@
     "youLeftTheGroup": {
         "message": "Você saiu do grupo.",
         "description": "Displayed when a user can't send a message because they have left the group"
-    },
-    "scrollDown": {
-        "message": "Deslizar até o início da conversa",
-        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-    },
-    "messageBelow": {
-        "message": "Nova mensagem abaixo",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-    },
-    "messagesBelow": {
-        "message": "Novas mensagens abaixo",
-        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
         "message": "$count$ Mensagem Não Lida",
@@ -415,10 +349,6 @@
         "message": "Enviar",
         "description": ""
     },
-    "acceptNewKey": {
-        "message": "Aceitar",
-        "description": "Label for a button to accept a new safety number"
-    },
     "verify": {
         "message": "Marcar como verificado",
         "description": ""
@@ -454,10 +384,6 @@
     "newIdentity": {
         "message": "Novo número de segurança",
         "description": "Header for a key change dialog"
-    },
-    "identityChanged": {
-        "message": "O seu número de segurança com este contato mudou. Isso pode significar uma tentativa de interceptação das suas comunicações ou uma simples reinstalação do Signal. Recomendamos-lhe verificar o novo número de segurança, abaixo.",
-        "description": ""
     },
     "incomingError": {
         "message": "Erro ao receber mensagem",
@@ -495,18 +421,6 @@
         "message": "Este Mês",
         "description": "Section header in the media gallery"
     },
-    "unsupportedAttachment": {
-        "message": "Tipo de anexo incompatível. Clique para salvar. ",
-        "description": "Displayed for incoming unsupported attachment"
-    },
-    "clickToSave": {
-        "message": "Clicar para salvar",
-        "description": "Hover text for attachment filenames"
-    },
-    "unnamedFile": {
-        "message": "Arquivo sem nome",
-        "description": "Hover text for attachment filenames"
-    },
     "voiceMessage": {
         "message": "Mensagem de Voz",
         "description": "Name for a voice message attachment"
@@ -514,10 +428,6 @@
     "dangerousFileType": {
         "message": "Tipo de anexo não permitido por motivos de segurança",
         "description": "Shown in toast when user attempts to send .exe file, for example"
-    },
-    "loadingPreview": {
-        "message": "Carregando pré-visualização...",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
         "message": "Pré-visualização em miniatura do link $domain$ (rascunho)",
@@ -569,10 +479,6 @@
         "message": "Desculpe, ocorreu um erro ao anexar o documento.",
         "description": ""
     },
-    "disconnected": {
-        "message": "Desconectado",
-        "description": "Displayed when the desktop client cannot connect to the server."
-    },
     "connecting": {
         "message": "Conectando...",
         "description": "Displayed when the desktop client is currently connecting to the server."
@@ -607,10 +513,6 @@
         "message": "Ir para Notas de Lançamento",
         "description": ""
     },
-    "goToForums": {
-        "message": "Ir para Fóruns",
-        "description": "Item under the Help menu, takes you to the forums"
-    },
     "goToSupportPage": {
         "message": "Ir para Página de Suporte",
         "description": "Item under the Help menu, takes you to the support page"
@@ -619,14 +521,6 @@
         "message": "Relatar um problema",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
-    "signalDesktopPreferences": {
-        "message": "Preferências do Signal Desktop",
-        "description": "Title of the window that pops up with Signal Desktop preferences in it"
-    },
-    "aboutSignalDesktop": {
-        "message": "Sobre o Signal Desktop",
-        "description": "Item under the Help menu, which opens a small about window"
-    },
     "speech": {
         "message": "Fala",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -634,18 +528,6 @@
     "show": {
         "message": "Exibir",
         "description": "Command under Window menu, to show the window"
-    },
-    "hide": {
-        "message": "Esconder",
-        "description": "Command in the tray icon menu, to hide the window"
-    },
-    "quit": {
-        "message": "Sair",
-        "description": "Command in the tray icon menu, to quit the application"
-    },
-    "signalDesktop": {
-        "message": "Signal Desktop",
-        "description": "Tooltip for the tray icon"
     },
     "search": {
         "message": "Procurar",
@@ -677,10 +559,6 @@
         "message": "Boas-vindas ao Session.",
         "description": ""
     },
-    "selectAContact": {
-        "message": "Selecione um contato ou grupo para começar a conversar.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Animação de digitação para esta conversa",
         "description": "Used as the 'title' attibute for the typing animation"
@@ -694,10 +572,6 @@
                 "example": "John"
             }
         }
-    },
-    "sendMessageToContact": {
-        "message": "Enviar Mensagem",
-        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
         "message": "Casa",
@@ -759,16 +633,6 @@
         "message": "Você",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
-    "replyingTo": {
-        "message": "Respondendo para $name$",
-        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
     "audioPermissionNeeded": {
         "message": "Para enviar mensagens de áudio permita ao Session acessar o microfone.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
@@ -776,10 +640,6 @@
     "allowAccess": {
         "message": "Permitir acesso",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
-    },
-    "showSettings": {
-        "message": "Mostrar configurações",
-        "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
         "message": "Áudio",
@@ -797,10 +657,6 @@
         "message": "Cannot Update",
         "description": "Shown as the title of our update error dialogs on windows"
     },
-    "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
-    },
     "ok": {
         "message": "OK",
         "description": ""
@@ -809,16 +665,8 @@
         "message": "Cancelar",
         "description": ""
     },
-    "failedToSend": {
-        "message": "Falha ao enviar para alguns destinatários. Verifique a sua conexão de rede.",
-        "description": ""
-    },
     "error": {
         "message": "Erro",
-        "description": ""
-    },
-    "messageDetail": {
-        "message": "Detalhe da mensagem",
         "description": ""
     },
     "delete": {
@@ -857,10 +705,6 @@
         "message": "Membros do grupo",
         "description": ""
     },
-    "showMembers": {
-        "message": "Mostrar membros",
-        "description": ""
-    },
     "resetSession": {
         "message": "Reiniciar Sessão Segura",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
@@ -868,10 +712,6 @@
     "showSafetyNumber": {
         "message": "Ver Número De Segurança",
         "description": ""
-    },
-    "viewAllMedia": {
-        "message": "Ver todas as mídias",
-        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
         "message": "Se você quiser verificar a segurança da sua criptografia ponta a ponta com $name$, compare os números acima com os números no aparelho dessa pessoa.",
@@ -886,14 +726,6 @@
     "theirIdentityUnknown": {
         "message": "Você ainda não trocou nenhuma mensagem com a pessoa deste contato. O seu número de segurança com ela será disponível após a primeira mensagem.",
         "description": ""
-    },
-    "moreInfo": {
-        "message": "Detalhes",
-        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
-    },
-    "retrySend": {
-        "message": "Reenviar",
-        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
         "message": "Excluir Mensagem",
@@ -939,10 +771,6 @@
         "message": "Salvar",
         "description": ""
     },
-    "fileIconAlt": {
-        "message": "Ícone do arquivo",
-        "description": "Used in the media gallery documents tab to visually represent a file"
-    },
     "emojiAlt": {
         "message": "Emoji '$title$'",
         "description": "Used in the alt tag of all emoji images",
@@ -953,65 +781,9 @@
             }
         }
     },
-    "installWelcome": {
-        "message": "Boas-vindas ao Signal Desktop",
-        "description": "Welcome title on the install page"
-    },
-    "installTagline": {
-        "message": "Privacidade é possível. Signal faz com que ela seja fácil.",
-        "description": "Tagline displayed under 'installWelcome' string on the install page"
-    },
-    "linkYourPhone": {
-        "message": "Conecte seu telefone ao Signal Desktop",
-        "description": "Shown on the front page when the application first starst, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Configurações do Signal",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "linkedDevices": {
-        "message": "Dispositivos vinculados",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "Botão '+'",
-        "description": "The button used in Signal Android to add a new linked device"
-    },
     "linkNewDevice": {
         "message": "Vincular Novo Dispositivo",
         "description": "The menu option shown in Signal iOS to add a new linked device"
-    },
-    "deviceName": {
-        "message": "Nome do aparelho",
-        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
-    },
-    "chooseDeviceName": {
-        "message": "Escolher o nome deste aparelho",
-        "description": "The header shown on the 'choose device name' screen in the device linking process"
-    },
-    "finishLinkingPhone": {
-        "message": "Terminar a conexão ao celular",
-        "description": "The text on the button to finish the linking process, after choosing the device name"
-    },
-    "initialSync": {
-        "message": "Sincronizando contatos e grupos",
-        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
-    },
-    "installConnectionFailed": {
-        "message": "Falha de conexão ao servidor.",
-        "description": "Displayed when we can't connect to the server."
-    },
-    "installTooManyDevices": {
-        "message": "Desculpe. Há muitos aparelhos já religados. Tente remover alguns.",
-        "description": ""
-    },
-    "settings": {
-        "message": "Configurações",
-        "description": "Menu item and header for global settings"
-    },
-    "theme": {
-        "message": "Tema",
-        "description": "Header for theme settings"
     },
     "permissions": {
         "message": "Permissões",
@@ -1028,34 +800,6 @@
     "spellCheckDescription": {
         "message": "Ativar a verificação ortográfica do texto digitado na caixa de edição de mensagens",
         "description": "Description of the media permission description"
-    },
-    "clearDataHeader": {
-        "message": "Limpar dados",
-        "description": "Header in the settings dialog for the section dealing with data deletion"
-    },
-    "clearDataExplanation": {
-        "message": "Você limpará todos os dados do aplicativo, removendo todas as mensagens e informações de conta salvas.",
-        "description": "Text describing what the clear data button will do."
-    },
-    "clearDataButton": {
-        "message": "Limpar dados",
-        "description": "Button in the settings dialog starting process to delete all data"
-    },
-    "deleteAllDataHeader": {
-        "message": "Apagar todos os dados?",
-        "description": "Header of the full-screen delete data confirmation screen"
-    },
-    "deleteAllDataBody": {
-        "message": "Você está prestes a apagar todas as informações de conta salvas no aplicativo, inclusive todos os contatos e todas as mensagens. Você continuará podendo conectar-se ao seu aparelho celular, mas as suas mensagens apagadas não serão restauradas. ",
-        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
-    },
-    "deleteAllDataButton": {
-        "message": "Apagar todos os dados",
-        "description": "Text of the button that deletes all data"
-    },
-    "deleteAllDataProgress": {
-        "message": "Desconectando e apagando todos os dados",
-        "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
         "message": "Notificações",
@@ -1105,14 +849,6 @@
         "message": "Envio Falhou",
         "description": "Shown on outgoing message if it fails to send"
     },
-    "showMore": {
-        "message": "Detalhes",
-        "description": "Displays the details of a key change"
-    },
-    "showLess": {
-        "message": "Ocultar detalhes",
-        "description": "Hides the details of a key change"
-    },
     "learnMore": {
         "message": "Saiba mais sobre como verificar números de segurança",
         "description": "Text that links to a support article on verifying safety numbers"
@@ -1129,34 +865,6 @@
         "message": "MMS",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
-    "unregisteredUser": {
-        "message": "Número não registrado",
-        "description": "Error message displayed when sending to an unregistered user."
-    },
-    "sync": {
-        "message": "Contatos",
-        "description": "Label for contact and group sync settings"
-    },
-    "syncExplanation": {
-        "message": "Importar todos os grupos e contatos  do seu celular para o Signal. ",
-        "description": "Explanatory text for sync settings"
-    },
-    "lastSynced": {
-        "message": "Última importação feita em ",
-        "description": "Label for date and time of last sync operation"
-    },
-    "syncNow": {
-        "message": "Importar agora",
-        "description": "Label for a button that syncs contacts and groups from your phone"
-    },
-    "syncing": {
-        "message": "Importando...",
-        "description": "Label for a disabled sync button while sync is in progress."
-    },
-    "syncFailed": {
-        "message": "Erro ao importar. O seu computador e o seu celular estão conectados à Internet?",
-        "description": "Informational text displayed if a sync operation times out."
-    },
     "timestamp_s": {
         "message": "Agora",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
@@ -1168,50 +876,6 @@
     "timestamp_h": {
         "message": "1 hora",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
-    },
-    "hoursAgoShort": {
-        "message": "$hours$ h",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "hoursAgo": {
-        "message": "Há $hours$ h",
-        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "minutesAgoShort": {
-        "message": "$minutes$ min",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "minutesAgo": {
-        "message": "Há $minutes$ min",
-        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "justNow": {
-        "message": "agora",
-        "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "MMM D",
@@ -1387,10 +1051,6 @@
             }
         }
     },
-    "audioNotificationDescription": {
-        "message": "Tocar notificações em áudio",
-        "description": "Description for audio notification setting"
-    },
     "safetyNumberChanged": {
         "message": "Número de segurança alterado",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -1419,45 +1079,17 @@
             }
         }
     },
-    "themeLight": {
-        "message": "Claro",
-        "description": "Label text for light theme (normal)"
-    },
-    "themeDark": {
-        "message": "Escuro",
-        "description": "Label text for dark theme"
-    },
     "noteToSelf": {
         "message": "Recado pra mim",
         "description": "Name for the conversation with your own phone number"
-    },
-    "hideMenuBar": {
-        "message": "Ocultar a barra de opções",
-        "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
         "message": "Iniciar uma conversa…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
-    "newPhoneNumber": {
-        "message": "Inserir um número de telefone para adicionar um contato.",
-        "description": "Placeholder for adding a new number to a contact"
-    },
     "invalidNumberError": {
         "message": "Número inválido",
         "description": "When a person inputs a number that is invalid"
-    },
-    "unlinkedWarning": {
-        "message": "Religue Signal Desktop ao seu celular para continuar a enviar mensagens.",
-        "description": ""
-    },
-    "unlinked": {
-        "message": "Não-religado",
-        "description": ""
-    },
-    "relink": {
-        "message": "Religar",
-        "description": ""
     },
     "autoUpdateNewVersionTitle": {
         "message": "Atualização do Session disponível",
