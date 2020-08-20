@@ -15,10 +15,9 @@ import {
   isVideoAttachment,
 } from '../../types/Attachment';
 
-interface Props {
+export interface Props {
   attachments: Array<AttachmentType>;
   i18n: LocalizerType;
-  // onError: () => void;
   onClickAttachment: (attachment: AttachmentType) => void;
   onCloseAttachment: (attachment: AttachmentType) => void;
   onAddAttachment: () => void;
