@@ -18,7 +18,7 @@ describe('Open groups', function() {
   beforeEach(async () => {
     await Common.killallElectron();
     const login = {
-      mnemonic: Common.TEST_MNEMONIC1,
+      recoveryPhrase: Common.TEST_RECOVERY_PHRASE_1,
       displayName: Common.TEST_DISPLAY_NAME1,
     };
     app = await Common.startAndStub(login);

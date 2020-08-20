@@ -83,19 +83,19 @@ async function testThreeMembers() {
   // 1. Make three clients A, B, C
 
   const app1Props = {
-    mnemonic: Common.TEST_MNEMONIC1,
+    recoveryPhrase: Common.TEST_RECOVERY_PHRASE_1,
     displayName: Common.TEST_DISPLAY_NAME1,
     stubSnode: true,
   };
 
   const app2Props = {
-    mnemonic: Common.TEST_MNEMONIC2,
+    recoveryPhrase: Common.TEST_RECOVERY_PHRASE_2,
     displayName: Common.TEST_DISPLAY_NAME2,
     stubSnode: true,
   };
 
   const app3Props = {
-    mnemonic: Common.TEST_MNEMONIC3,
+    recoveryPhrase: Common.TEST_RECOVERY_PHRASE_3,
     displayName: Common.TEST_DISPLAY_NAME3,
     stubSnode: true,
   };

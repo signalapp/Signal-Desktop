@@ -197,7 +197,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
     }
 
     const manager = await window.getAccountManager();
-    const recoveryPhrase = manager.getCurrentMnemonic();
+    const recoveryPhrase = manager.getCurrentRecoveryPhrase();
 
     this.setState({
       recoveryPhrase,

@@ -73,7 +73,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
 
   public renderFilterRequestsView() {
     const { currentPubKey, accepted, deviceAlias } = this.state;
-    let secretWords: undefined;
+    let secretWords: string | undefined;
     if (currentPubKey) {
       secretWords = window.mnemonic.pubkey_to_secret_words(currentPubKey);
     }
