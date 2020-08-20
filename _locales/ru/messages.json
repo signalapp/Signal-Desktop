@@ -1416,5 +1416,452 @@
     },
     "closedGroupMaxSize": {
         "message": "В закрытой группе не может быть больше 10 участников"
+    },
+    "contextMenuNoSuggestions": {
+        "message": "No Suggestions",
+        "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
+    },
+    "done": {
+        "message": "Done",
+        "description": "Button when a specific action is to be done."
+    },
+    "cannotUpdateDetail": {
+        "message": "Session Desktop failed to update, but there is a new version available. Please go to https://getsession.org/ and install the new version manually, then either contact support or file a bug about this problem.",
+        "description": "Shown if a general error happened while trying to install update package"
+    },
+    "close": {
+        "message": "Close"
+    },
+    "devicePairingRequestReceivedNoListenerDescription": {
+        "message": "Device linking request received but you are not on the device linking screen. \nGo to Settings > Device > Link New Device."
+    },
+    "deviceIsSecondaryNoPairing": {
+        "message": "This device is a secondary device and so cannot be linked."
+    },
+    "pairingOngoing": {
+        "message": "A pairing request is already ongoing. Restart the app if it takes too long."
+    },
+    "allowPairingWithDevice": {
+        "message": "Allow linking with this device?"
+    },
+    "provideDeviceAlias": {
+        "message": "Please provide an alias for this linked device"
+    },
+    "showPairingWordsTitle": {
+        "message": "Linking Secret Words"
+    },
+    "confirmUnpairingTitle": {
+        "message": "Please confirm you want to unlink the following device:"
+    },
+    "unpairDeviceWarning": {
+        "message": "Are you sure you want to unlink this device?",
+        "description": "Warning for device unlinking in settings view"
+    },
+    "unpairDeviceWarningSub": {
+        "message": "Unlinking this device will delete all history, including all messages, sessions, and contacts from this device.",
+        "description": "Warning description for device unlinking in settings view"
+    },
+    "deletePublicWarning": {
+        "message": "Are you sure? This will permanently remove this message for everyone in this open group."
+    },
+    "deleteMultiplePublicWarning": {
+        "message": "Are you sure? This will permanently remove these messages for everyone in this open group."
+    },
+    "deleteMultipleWarning": {
+        "message": "Are you sure? Clicking 'delete' will permanently remove these messages from this device only."
+    },
+    "messageDeletionForbidden": {
+        "message": "You don’t have permission to delete others’ messages",
+        "description": "Toast message explaining that the user doens't have the rights to delete other people's messages."
+    },
+    "sendMessageBlockedUser": {
+        "message": "You have blocked this contact"
+    },
+    "deleteMessageForEveryone": {
+        "message": "Delete Message For Everyone",
+        "description": "Menu item for deleting messages, title case."
+    },
+    "deleteMessagesForEveryone": {
+        "message": "Delete Messages For Everyone",
+        "description": "Menu item for deleting messages, title case."
+    },
+    "deleteForEveryone": {
+        "message": "Delete For Everyone",
+        "description": "Menu item for deleting messages, title case."
+    },
+    "deletePublicConversationConfirmation": {
+        "message": "Permanently delete the messages locally from this open group?",
+        "description": "Confirmation dialog text that asks the user if they really wish to delete the open group messages locally. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    },
+    "sessionResetFailed": {
+        "message": "Secure session reset failed",
+        "description": "your secure session could not been transmitted to the other participant."
+    },
+    "sessionResetOngoing": {
+        "message": "Secure session reset in progress",
+        "description": "your secure session is currently being reset, waiting for the reset acknowledgment."
+    },
+    "linkPreviewsConfirmMessage": {
+        "message": "You will not have full metadata protection when sending or receiving link previews."
+    },
+    "mediaPermissionsTitle": {
+        "message": "Microphone and Camera"
+    },
+    "spellCheckTitle": {
+        "message": "Spell Check",
+        "description": "Description of the media permission description"
+    },
+    "spellCheckDirty": {
+        "message": "You must restart Session to apply your new settings",
+        "description": "Shown when the user changes their spellcheck setting to indicate that they must restart Signal."
+    },
+    "readReceiptSettingDescription": {
+        "message": "See and share when messages have been read (enables read receipts in all sessions).",
+        "description": "Description of the read receipts setting"
+    },
+    "typingIndicatorsSettingDescription": {
+        "message": "See and share when messages are being typed (applies to all sessions).",
+        "description": "Description of the typing indicators setting"
+    },
+    "messageTTL": {
+        "message": "Message TTL",
+        "description": "Title of the Message TTL setting"
+    },
+    "messageTTLSettingDescription": {
+        "message": "Time to live (how long the recipient will have to collect their messages)",
+        "description": "Description of the time to live setting"
+    },
+    "zoomFactorSettingTitle": {
+        "message": "Zoom Factor",
+        "description": "Title of the Zoom Factor setting"
+    },
+    "clockOutOfSync": {
+        "message": "Your clock is out of sync. Please update your clock and try again.",
+        "description": "Notifcation that user's clock is out of sync with Loki's servers."
+    },
+    "messageBodyTooLong": {
+        "message": "Message body is too long.",
+        "description": "Shown if the user tries to send more than 64kb of text"
+    },
+    "changeNickname": {
+        "message": "Change Nickname",
+        "description": "Conversation menu option to change user nickname"
+    },
+    "clearNickname": {
+        "message": "Clear nickname",
+        "description": "Conversation menu option to clear user nickname"
+    },
+    "themeToggleDescription": {
+        "message": "Choose the theme best suited to you"
+    },
+    "hideMenuBarTitle": {
+        "message": "Hide Menu Bar",
+        "description": "Label text for menu bar visibility setting"
+    },
+    "hideMenuBarDescription": {
+        "message": "Toggle system menu bar visibility",
+        "description": "Label text for menu bar visibility setting"
+    },
+    "autoUpdateSettingTitle": {
+        "message": "Auto Update"
+    },
+    "autoUpdateSettingDescription": {
+        "message": "Automatically check for updates on launch"
+    },
+    "autoUpdateDownloadedMessage": {
+        "message": "The new update has been downloaded."
+    },
+    "autoUpdateDownloadInstructions": {
+        "message": "Would you like to download the update?"
+    },
+    "unblocked": {
+        "message": "Unblocked"
+    },
+    "banUser": {
+        "message": "Ban User",
+        "description": "Ban user from open group by public key."
+    },
+    "banUserConfirm": {
+        "message": "Are you sure you want to ban user?",
+        "description": "Message shown when confirming user ban."
+    },
+    "userBanned": {
+        "message": "User banned successfully",
+        "description": "Toast on succesful user ban."
+    },
+    "userBanFailed": {
+        "message": "Ban failed!",
+        "description": "Toast on unsuccesful user ban."
+    },
+    "copyMessage": {
+        "message": "Copy message text",
+        "description": "Button action that the user can click to copy their public keys"
+    },
+    "selectMessage": {
+        "message": "Select message",
+        "description": "Button action that the user can click to select the message"
+    },
+    "editGroupName": {
+        "message": "Edit group name",
+        "description": "Button action that the user can click to edit a group name (closed)"
+    },
+    "setAccountPasswordTitle": {
+        "message": "Set Account Password",
+        "description": "Prompt for user to set account password in settings view"
+    },
+    "setAccountPasswordDescription": {
+        "message": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed",
+        "description": "Description for set account password setting view"
+    },
+    "changeAccountPasswordTitle": {
+        "message": "Change Account Password",
+        "description": "Prompt for user to change account password in settings view"
+    },
+    "changeAccountPasswordDescription": {
+        "message": "Change your password",
+        "description": "Description for change account password setting view"
+    },
+    "removeAccountPasswordTitle": {
+        "message": "Remove Account Password",
+        "description": "Prompt for user to remove account password in settings view"
+    },
+    "removeAccountPasswordDescription": {
+        "message": "Remove the password associated with your account",
+        "description": "Description for remove account password setting view"
+    },
+    "enterPassword": {
+        "message": "Please enter your password"
+    },
+    "confirmPassword": {
+        "message": "Confirm password"
+    },
+    "pasteLongPasswordToastTitle": {
+        "message": "The clipboard content exceeds the maximum password length of $max_pwd_len$ characters.",
+        "description": "Shown when user pastes a password which is longer than MAX_PASSWORD_LEN"
+    },
+    "showRecoveryPhrasePasswordRequest": {
+        "message": "Please enter your password",
+        "description": "Request for user to enter password to show recovery phrase."
+    },
+    "QRCodeDescription": {
+        "message": "This is <strong>your unique public QR Code.</strong><br/>Other users may scan this in order to begin a conversation with you.",
+        "description": "Description given to QRCode modal"
+    },
+    "passwordViewTitle": {
+        "message": "Type In Your Password",
+        "description": "The title shown when user needs to type in a password to unlock the messenger"
+    },
+    "password": {
+        "message": "Password",
+        "description": "Placeholder for password input"
+    },
+    "setPassword": {
+        "message": "Set Password",
+        "description": "Button action that the user can click to set a password"
+    },
+    "changePassword": {
+        "message": "Change Password",
+        "description": "Button action that the user can click to change a password"
+    },
+    "removePassword": {
+        "message": "Remove Password",
+        "description": "Button action that the user can click to remove a password"
+    },
+    "maxPasswordAttempts": {
+        "message": "Invalid Password. Would you like to reset the database?"
+    },
+    "typeInOldPassword": {
+        "message": "Please type in your old password"
+    },
+    "invalidOldPassword": {
+        "message": "Old password is invalid"
+    },
+    "invalidPassword": {
+        "message": "Invalid password"
+    },
+    "noGivenPassword": {
+        "message": "Please enter your password"
+    },
+    "passwordsDoNotMatch": {
+        "message": "Passwords do not match"
+    },
+    "setPasswordInvalid": {
+        "message": "Passwords do not match"
+    },
+    "changePasswordInvalid": {
+        "message": "The old password you entered is incorrect"
+    },
+    "removePasswordInvalid": {
+        "message": "Incorrect password"
+    },
+    "setPasswordTitle": {
+        "message": "Set Password"
+    },
+    "changePasswordTitle": {
+        "message": "Changed Password"
+    },
+    "removePasswordTitle": {
+        "message": "Removed Password"
+    },
+    "setPasswordToastDescription": {
+        "message": "Your password has been set. Please keep it safe."
+    },
+    "changePasswordToastDescription": {
+        "message": "Your password has been changed. Please keep it safe."
+    },
+    "removePasswordToastDescription": {
+        "message": "You have removed your password."
+    },
+    "publicChatExists": {
+        "message": "You are already connected to this open group"
+    },
+    "connectToServerSuccess": {
+        "message": "Successfully connected to open group"
+    },
+    "setPasswordFail": {
+        "message": "Failed to set password"
+    },
+    "passwordLengthError": {
+        "message": "Password must be between 6 and 50 characters long",
+        "description": "Error string shown to the user when password doesn't meet length criteria"
+    },
+    "passwordTypeError": {
+        "message": "Password must be a string",
+        "description": "Error string shown to the user when password is not a string"
+    },
+    "passwordCharacterError": {
+        "message": "Password must only contain letters, numbers and symbols",
+        "description": "Error string shown to the user when password contains an invalid character"
+    },
+    "change": {
+        "message": "Change"
+    },
+    "set": {
+        "message": "Set"
+    },
+    "invalidPubkeyFormat": {
+        "message": "Invalid Pubkey Format",
+        "description": "Error string shown when user types an invalid pubkey format"
+    },
+    "lnsMappingNotFound": {
+        "message": "There is no LNS mapping associated with this name",
+        "description": "Shown in toast if user enters an unknown LNS name"
+    },
+    "lnsLookupTimeout": {
+        "message": "LNS lookup timed out",
+        "description": "Shown in toast if user enters an unknown LNS name"
+    },
+    "lnsTooFewNodes": {
+        "message": "Not enough nodes currently active for LNS lookup"
+    },
+    "editProfileModalTitle": {
+        "message": "Profile",
+        "description": "Title for the Edit Profile modal"
+    },
+    "addModerators": {
+        "message": "Add Moderators"
+    },
+    "removeModerators": {
+        "message": "Remove Moderators"
+    },
+    "groupInvitation": {
+        "message": "Group Invitation"
+    },
+    "addingContacts": {
+        "message": "Adding contacts to"
+    },
+    "noContactsToAdd": {
+        "message": "No contacts to add"
+    },
+    "noMembersInThisGroup": {
+        "message": "No other members in this group"
+    },
+    "noModeratorsToRemove": {
+        "message": "no moderators to remove"
+    },
+    "couldNotDecryptMessage": {
+        "message": "Couldn't decrypt a message"
+    },
+    "confirmSessionRestore": {
+        "message": "Would you like to start a new session with $pubkey$? Only do so if you know this pubkey.",
+        "placeholders": {
+            "pubkey": {
+                "content": "$1",
+                "example": ""
+            }
+        }
+    },
+    "createAccount": {
+        "message": "Create Account"
+    },
+    "signIn": {
+        "message": "Sign In"
+    },
+    "getStarted": {
+        "message": "Get started"
+    },
+    "anonymous": {
+        "message": "Anonymous",
+        "description": "The name of currently unidentified users"
+    },
+    "optionalPassword": {
+        "message": "Verify Password"
+    },
+    "enterOptionalPassword": {
+        "message": "Enter password (optional)"
+    },
+    "verifyPassword": {
+        "message": "Verify Password"
+    },
+    "devicePairingHeaderReassure": {
+        "message": "Linking may take up to one minute to register on your primary device. Please be patient."
+    },
+    "devicePairingHeader_Step1": {
+        "message": "Open Session on your other device."
+    },
+    "devicePairingHeader_Step2": {
+        "message": "Navigate to the <strong>Devices</strong> section in your user account screen."
+    },
+    "devicePairingHeader_Step3": {
+        "message": "Select <strong>Link New Device</strong> to prepare your other device for pairing."
+    },
+    "devicePairingHeader_Step4": {
+        "message": "Enter your <strong>Session ID</strong> below to link this device to your <strong>Session ID</strong>."
+    },
+    "linkDeviceToExistingAccount": {
+        "message": "Link Device to Existing Session ID"
+    },
+    "or": {
+        "message": "or"
+    },
+    "ByUsingThisService...": {
+        "message": "By using this service, you agree to our <a href=\"https://getsession.org/legal/#tos\">Terms of Service</a> and <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Privacy Policy</a>"
+    },
+    "beginYourSession": {
+        "message": "Begin<br />your<br />Session."
+    },
+    "welcomeToYourSession": {
+        "message": "Welcome to your Session"
+    },
+    "message": {
+        "message": "Message"
+    },
+    "addContact": {
+        "message": "Add Contact"
+    },
+    "permissionSettingsTitle": {
+        "message": "Permissions"
+    },
+    "members": {
+        "message": "$count$ members",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "26"
+            }
+        }
+    },
+    "description": {
+        "message": "Description"
     }
 }
