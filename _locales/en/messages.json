@@ -259,7 +259,7 @@
     "androidReplace": {
       "%d": "$count$"
     },
-    "wordCapitalize": true
+    "ignoreCase": true
   },
   "unreadMessages": {
     "message": "$count$ Unread Messages",
@@ -275,7 +275,7 @@
     "androidReplace": {
       "%d": "$count$"
     },
-    "wordCapitalize": true
+    "ignoreCase": true
   },
   "youMarkedAsVerified": {
     "message": "You marked your safety number with $name$ verified",
@@ -340,7 +340,7 @@
   "changedSinceVerifiedTitle": {
     "message": "Safety Number Changed",
     "androidKey": "ThreadRecord_safety_number_changed",
-    "wordCapitalize": true
+    "ignoreCase": true
   },
   "changedSinceVerifiedMultiple": {
     "message": "Your safety numbers with multiple group members have changed since you last verified. This could mean that someone is trying to intercept your communication or that they have simply reinstalled Session.",
@@ -956,12 +956,12 @@
     "message": "Reset Secure Session",
     "description": "This is a menu item for resetting the session, using the imperative case, as in a command.",
     "androidKey": "conversation_secure_verified__menu_reset_secure_session",
-    "wordCapitalize": true
+    "ignoreCase": true
   },
   "showSafetyNumber": {
     "message": "View Safety Number",
     "androidKey": "recipient_preferences__view_safety_number",
-    "wordCapitalize": true
+    "ignoreCase": true
   },
   "verifyHelp": {
     "message": "If you wish to verify the security of your end-to-end encryption with $name$, compare the numbers above with the numbers on their device.",
@@ -990,7 +990,7 @@
     "message": "Delete Message",
     "description": "Shown on the drop-down menu for an individual message, deletes single message",
     "androidKey": "conversation_context__menu_delete_message",
-    "wordCapitalize": true
+    "ignoreCase": true
   },
   "deleteMessages": {
     "message": "Delete Messages",
@@ -1092,7 +1092,7 @@
     "message": "Link New Device",
     "description": "The menu option shown in Signal iOS to add a new linked device",
     "androidKey": "device_list_fragment__link_new_device",
-    "wordCapitalize": true
+    "ignoreCase": true
   },
   "permissions": {
     "message": "Permissions",
@@ -1106,7 +1106,7 @@
     "message": "Send Link Previews",
     "description": "Option to control creation and send of link previews in setting screen",
     "androidKey": "preferences__send_link_previews",
-    "wordCapitalize": true
+    "ignoreCase": true
   },
   "linkPreviewDescription": {
     "message": "Previews are supported for Imgur, Instagram, Pinterest, Reddit, and YouTube links",
@@ -1148,7 +1148,7 @@
     "message": "Read Receipts",
     "description": "Title of the read receipts setting",
     "androidKey": "preferences__read_receipts",
-    "wordCapitalize": true
+    "ignoreCase": true
   },
   "typingIndicatorsSettingDescription": {
     "message": "See and share when messages are being typed (applies to all sessions).",
@@ -1158,7 +1158,7 @@
     "message": "Typing Indicators",
     "description": "Title of the typing indicators setting",
     "androidKey": "preferences__typing_indicators",
-    "wordCapitalize": true
+    "ignoreCase": true
   },
   "messageTTL": {
     "message": "Message TTL",
@@ -1222,8 +1222,7 @@
   "sendFailed": {
     "message": "Send Failed",
     "description": "Shown on outgoing message if it fails to send",
-    "androidKey": "conversation_item_sent__send_failed_indicator_description",
-    "wordCapitalize": true
+    "androidKey": "conversation_item_sent__send_failed_indicator_description"
   },
   "learnMore": {
     "message": "Learn more about verifying safety numbers",
@@ -1249,8 +1248,7 @@
   "timestamp_s": {
     "message": "Now",
     "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble.",
-    "androidKey": "DateUtils_just_now",
-    "wordCapitalize": true
+    "androidKey": "DateUtils_just_now"
   },
   "timestamp_m": {
     "message": "1 minute",
@@ -1491,7 +1489,7 @@
     "message": "Verify Safety Number",
     "description": "Label on button included with safety number change notification in the conversation",
     "androidKey": "AndroidManifest__verify_safety_number",
-    "wordCapitalize": true
+    "ignoreCase": true
   },
   "yourSafetyNumberWith": {
     "message": "Your safety number with $name$:",
@@ -1708,7 +1706,7 @@
     "message": "Leave Group",
     "description": "Button action that the user can click to leave the group",
     "androidKey": "conversation__menu_leave_group",
-    "wordCapitalize": true
+    "ignoreCase": true
   },
   "leaveGroupConfirmation": {
     "message": "Are you sure you want to leave this group?",
@@ -1954,12 +1952,11 @@
   "groupNamePlaceholder": {
     "message": "Group Name",
     "androidKey": "GroupCreateActivity_group_name_hint",
-    "wordCapitalize": true
+    "ignoreCase": true
   },
   "inviteContacts": {
     "message": "Invite Contacts",
-    "androidKey": "text_secure_normal__invite_friends",
-    "wordCapitalize": true
+    "androidKey": "text_secure_normal__invite_friends"
   },
   "addModerators": {
     "message": "Add Moderators"
@@ -2171,7 +2168,7 @@
   "createClosedGroupNamePrompt": {
     "message": "Group Name",
     "androidKey": "GroupCreateActivity_group_name_hint",
-    "wordCapitalize": true
+    "ignoreCase": true
   },
   "createClosedGroupPlaceholder": {
     "message": "Enter a group name",
@@ -2199,7 +2196,7 @@
   "pairingDevice": {
     "message": "Linking Device",
     "androidKey": "DeviceProvisioningActivity_content_progress_title",
-    "wordCapitalize": true
+    "ignoreCase": true
   },
   "devicePairedSuccessfully": {
     "message": "Your device has been linked successfully",

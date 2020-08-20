@@ -11,7 +11,7 @@ import traceback
 # "addStart": "&" char to add as start char
 # "androidReplace": replace all occurences of key value pair
 
-ALLOWED_ITEM_KEYS = ['message', 'description', 'comment', 'placeholders', 'androidKey', 'wordCapitalize', 'androidKeyCount', 'androidReplace', 'addStart']
+ALLOWED_ITEM_KEYS = ['message', 'description', 'comment', 'placeholders', 'androidKey', 'wordCapitalize', 'androidKeyCount', 'androidReplace', 'addStart', 'ignoreCase']
 
 SPECIFIC_LOCALES_MAPPING = {
     'zh_CN': 'zh-rCN',
@@ -146,6 +146,10 @@ def addEnglishItemAsPlaceHolder(desktopDest, itemEnDesktop):
 # number of keys on src which do not exist at all on 'dest'
 # print('keysDifference:', len(keysDifference(desktopSrc, desktopDest)))
 
+def doesAndroidEnAndDesktopMatches(txtEnDesktop, morphedEnAndroid, desktopItemEn):
+    if 'ignoreCase' in desktopItemEn.keys() and desktopItemEn['ignoreCase']:
+        return txtEnDesktop.lower() == morphedEnAndroid.lower()
+    return txtEnDesktop == morphedEnAndroid
 
 ###################  MAIN #####################
 for key, itemEnDesktop in desktopSrc.items():
@@ -167,7 +171,7 @@ for key, itemEnDesktop in desktopSrc.items():
     txtEnAndroid = itemEnAndroid['#text']
 
     morphedEnAndroid = morphToDesktopSyntax(txtEnAndroid, itemEnDesktop)
-    if (txtEnDesktop != morphedEnAndroid):
+    if not doesAndroidEnAndDesktopMatches(txtEnDesktop, morphedEnAndroid, itemEnDesktop):
         print(f'\t\tDOES NOT MATCH: "{txtEnDesktop}" vs "{morphedEnAndroid}", itemEnDesktop: {itemEnDesktop}\n\n')
         notMatchingCount = notMatchingCount + 1
     else:
