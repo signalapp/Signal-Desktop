@@ -8,7 +8,7 @@ import { SizeClassType } from './emoji/lib';
 
 import { LocalizerType, RenderTextCallbackType } from '../types/Util';
 
-interface Props {
+export interface Props {
   text: string;
   i18n: LocalizerType;
 }
