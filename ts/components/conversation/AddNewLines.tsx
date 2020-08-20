@@ -2,7 +2,7 @@ import React from 'react';
 
 import { RenderTextCallbackType } from '../../types/Util';
 
-interface Props {
+export interface Props {
   text: string;
   /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
   renderNonNewLine?: RenderTextCallbackType;
