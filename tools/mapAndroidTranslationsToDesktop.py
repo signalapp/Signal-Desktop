@@ -11,7 +11,7 @@ import traceback
 # "addStart": "&" char to add as start char
 # "androidReplace": replace all occurences of key value pair
 
-allowedItemKeys = ['message', 'description', 'comment', 'placeholders', 'androidKey', 'wordCapitalize', 'androidKeyCount', 'androidReplace', 'addStart']
+ALLOWED_ITEM_KEYS = ['message', 'description', 'comment', 'placeholders', 'androidKey', 'wordCapitalize', 'androidKeyCount', 'androidReplace', 'addStart']
 
 SPECIFIC_LOCALES_MAPPING = {
     'zh_CN': 'zh-rCN',
@@ -73,27 +73,30 @@ def findCountInItem(quantityStr, items):
     # print(f'findCountInItem: {found}, quantityStr: {quantityStr}')
 
     if len(found) != 1:
-        raise KeyError(f'quantityStr not found: {quantityStr} ')
+        str = f'quantityStr not found: "{quantityStr}"'
+        raise KeyError(str)
     return dict(found[0])
 
 
 def findByNameSingular(keySearchedFor, singularString):
     found = [item for item in singularString if item['@name'] == keySearchedFor]
     if len(found) != 1:
-        raise KeyError(f'android key singular not found: {keySearchedFor} but should have been found')
+        str = f'android key singular not found: "{keySearchedFor}" but should have been found'
+        raise KeyError(str)
     return found[0]
 
 
 def findByNamePlurals(keySearchedFor, pluralsString, quantityStr):
     found = [item for item in pluralsString if item['@name'] == keySearchedFor]
     if len(found) != 1:
-        raise KeyError(f'android key plurals not found: {keySearchedFor} but should have been found')
+        str = f'android key plurals not found: "{keySearchedFor}" but should have been found'
+        raise KeyError(str)
     return findCountInItem(quantityStr, found[0]['item'])
 
 
 def validateKeysPresent(items):
     for keyItem, valueItem in items:
-        if keyItem not in allowedItemKeys:
+        if keyItem not in ALLOWED_ITEM_KEYS:
             print(f"Invalid key item: {keyItem}")
             exit(1)
         # print(f"keyItem: '{keyItem}', valueItem: '{valueItem}'")
@@ -129,6 +132,19 @@ def getAndroidKeyCountFromItem(item):
         androidKeyCount = item['androidKeyCount']
     return androidKeyCount
 
+def keysDifference(src, dest):
+    srcKeys = set(src.keys())
+    destKeys = set(dest.keys())
+    return list (srcKeys - destKeys)
+
+def addEnglishItemAsPlaceHolder(desktopDest, itemEnDesktop):
+    # add only if the key does not already exists on desktopDest
+    if key not in desktopDest.keys():
+        desktopDest[key] = itemEnDesktop
+
+
+# number of keys on src which do not exist at all on 'dest'
+# print('keysDifference:', len(keysDifference(desktopSrc, desktopDest)))
 
 
 ###################  MAIN #####################
@@ -139,6 +155,8 @@ for key, itemEnDesktop in desktopSrc.items():
     if 'androidKey' not in itemEnDesktop.keys():
         # print('androidKey not found for {key}')
         missingAndroidKeyCount = missingAndroidKeyCount + 1
+        # ENABLE ME to add a placeholder item from the EN file when it is missing on the target locale
+        # addEnglishItemAsPlaceHolder(desktopDest, itemEnDesktop)
         continue
     androidKey = itemEnDesktop['androidKey']
     androidKeyCount = getAndroidKeyCountFromItem(itemEnDesktop)
@@ -174,9 +192,10 @@ for key, itemEnDesktop in desktopSrc.items():
                 else:
                     desktopDest[key]['message'] = textMorphed
 
-
         except KeyError:
             print('KeyError exception:', traceback.format_exc())
+
+
 
 # write the updated json dict to the file
 with open(destFilePath, 'w') as outfile:
