@@ -5,7 +5,7 @@ import { ReplacementValuesType } from '../types/I18N';
 
 export type FullJSXType = Array<JSX.Element | string> | JSX.Element | string;
 
-interface Props {
+export interface Props {
   /** The translation string id */
   id: string;
   i18n: LocalizerType;
