@@ -2,12 +2,16 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { emojiToImage, getImagePath, SkinToneKey } from './lib';
 
+export const EmojiSizes = [16, 18, 20, 24, 28, 32, 48, 64, 66] as const;
+
+export type EmojiSizeType = typeof EmojiSizes[number];
+
 export type OwnProps = {
   inline?: boolean;
   emoji?: string;
   shortName?: string;
   skinTone?: SkinToneKey | number;
-  size?: 16 | 18 | 20 | 24 | 28 | 32 | 48 | 64 | 66;
+  size?: EmojiSizeType;
   children?: React.ReactNode;
 };
 
