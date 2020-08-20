@@ -2,6 +2,7 @@ import { w3cwebsocket as WebSocket } from 'websocket';
 import fetch, { Response } from 'node-fetch';
 import ProxyAgent from 'proxy-agent';
 import { Agent } from 'https';
+import { escapeRegExp } from 'lodash';
 
 import is from '@sindresorhus/is';
 import { redactPackId } from '../../js/modules/stickers';
@@ -137,6 +138,21 @@ function _base64ToBytes(sBase64: string, nBlocksSize?: number) {
   return aBBytes;
 }
 
+function _createRedactor(
+  ...toReplace: ReadonlyArray<string | undefined>
+): RedactUrl {
+  // NOTE: It would be nice to remove this cast, but TypeScript doesn't support
+  //   it. However, there is [an issue][0] that discusses this in more detail.
+  // [0]: https://github.com/Microsoft/TypeScript/issues/16069
+  const stringsToReplace = toReplace.filter(Boolean) as Array<string>;
+  return href =>
+    stringsToReplace.reduce((result: string, stringToReplace: string) => {
+      const pattern = RegExp(escapeRegExp(stringToReplace), 'g');
+      const replacement = `[REDACTED]${stringToReplace.slice(-3)}`;
+      return result.replace(pattern, replacement);
+    }, href);
+}
+
 function _validateResponse(response: any, schema: any) {
   try {
     // tslint:disable-next-line forin no-for-in
@@ -204,6 +220,8 @@ function getContentType(response: Response) {
 type HeaderListType = { [name: string]: string };
 type HTTPCodeType = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
+type RedactUrl = (url: string) => string;
+
 type PromiseAjaxOptionsType = {
   accessKey?: string;
   certificateAuthority?: string;
@@ -214,7 +232,7 @@ type PromiseAjaxOptionsType = {
   password?: string;
   path?: string;
   proxyUrl?: string;
-  redactUrl?: (url: string) => string;
+  redactUrl?: RedactUrl;
   redirect?: 'error' | 'follow' | 'manual';
   responseType?: 'json' | 'arraybuffer' | 'arraybufferwithdetails';
   stack?: string;
@@ -531,6 +549,7 @@ type AjaxOptionsType = {
   httpType: HTTPCodeType;
   jsonData?: any;
   password?: string;
+  redactUrl?: RedactUrl;
   responseType?: 'json' | 'arraybuffer' | 'arraybufferwithdetails';
   schema?: any;
   timeout?: number;
@@ -775,6 +794,7 @@ export function initialize({
         timeout: param.timeout,
         type: param.httpType,
         user: param.username || username,
+        redactUrl: param.redactUrl,
         validateResponse: param.validateResponse,
         version,
         unauthenticated: param.unauthenticated,
@@ -944,6 +964,11 @@ export function initialize({
           profileKeyCredentialRequest
         ),
         responseType: 'json',
+        redactUrl: _createRedactor(
+          identifier,
+          profileKeyVersion,
+          profileKeyCredentialRequest
+        ),
       });
     }
 
@@ -972,6 +997,11 @@ export function initialize({
         responseType: 'json',
         unauthenticated: true,
         accessKey,
+        redactUrl: _createRedactor(
+          identifier,
+          profileKeyVersion,
+          profileKeyCredentialRequest
+        ),
       });
     }
 
@@ -985,6 +1015,10 @@ export function initialize({
         responseType: 'arraybuffer',
         timeout: 0,
         type: 'GET',
+        redactUrl: (href: string) => {
+          const pattern = RegExp(escapeRegExp(path), 'g');
+          return href.replace(pattern, `[REDACTED]${path.slice(-3)}`);
+        },
         version,
       });
     }
@@ -1468,6 +1502,7 @@ export function initialize({
         responseType: 'arraybuffer',
         timeout: 0,
         type: 'GET',
+        redactUrl: _createRedactor(cdnKey),
         version,
       });
     }
