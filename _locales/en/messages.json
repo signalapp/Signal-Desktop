@@ -1651,6 +1651,10 @@
     "message": "You can add notes for yourself in this conversation. If your account has any linked devices, new notes will be synced.",
     "description": "Description for the Note to Self conversation"
   },
+  "notificationDrawAttention": {
+    "message": "Draw attention to this window when a notification arrives",
+    "description": "Label text for the setting that controls whether new notifications draw attention to the window"
+  },
   "hideMenuBar": {
     "message": "Hide menu bar",
     "description": "Label text for menu bar visibility setting"

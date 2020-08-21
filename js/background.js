@@ -373,6 +373,10 @@
         storage.get('notification-setting', 'message'),
       setNotificationSetting: value =>
         storage.put('notification-setting', value),
+      getNotificationDrawAttention: () =>
+        storage.get('notification-draw-attention', true),
+      setNotificationDrawAttention: value =>
+        storage.put('notification-draw-attention', value),
       getAudioNotification: () => storage.get('audio-notification'),
       setAudioNotification: value => storage.put('audio-notification', value),
       getCallRingtoneNotification: () =>

@@ -149,6 +149,8 @@ try {
 
   installGetter('notification-setting', 'getNotificationSetting');
   installSetter('notification-setting', 'setNotificationSetting');
+  installGetter('notification-draw-attention', 'getNotificationDrawAttention');
+  installSetter('notification-draw-attention', 'setNotificationDrawAttention');
   installGetter('audio-notification', 'getAudioNotification');
   installSetter('audio-notification', 'setAudioNotification');
 

@@ -1262,6 +1262,8 @@ installSettingsSetter('hide-menu-bar');
 
 installSettingsGetter('notification-setting');
 installSettingsSetter('notification-setting');
+installSettingsGetter('notification-draw-attention');
+installSettingsSetter('notification-draw-attention');
 installSettingsGetter('audio-notification');
 installSettingsSetter('audio-notification');
 

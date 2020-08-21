@@ -113,6 +113,14 @@
           window.setThemeSetting(theme);
         },
       });
+      if (Settings.isDrawAttentionSupported()) {
+        new CheckboxView({
+          el: this.$('.draw-attention-setting'),
+          name: 'draw-attention-setting',
+          value: window.initialData.notificationDrawAttention,
+          setFn: window.setNotificationDrawAttention,
+        });
+      }
       if (Settings.isAudioNotificationSupported()) {
         new CheckboxView({
           el: this.$('.audio-notification-setting'),
@@ -204,9 +212,11 @@
         nameAndMessage: i18n('nameAndMessage'),
         noNameOrMessage: i18n('noNameOrMessage'),
         nameOnly: i18n('nameOnly'),
+        notificationDrawAttention: i18n('notificationDrawAttention'),
         audioNotificationDescription: i18n('audioNotificationDescription'),
         isAudioNotificationSupported: Settings.isAudioNotificationSupported(),
         isHideMenuBarSupported: Settings.isHideMenuBarSupported(),
+        isDrawAttentionSupported: Settings.isDrawAttentionSupported(),
         hasSystemTheme: true,
         themeLight: i18n('themeLight'),
         themeDark: i18n('themeDark'),

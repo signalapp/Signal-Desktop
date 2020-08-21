@@ -36,6 +36,7 @@ const getInitialData = async () => ({
 
   notificationSetting: await window.getNotificationSetting(),
   audioNotification: await window.getAudioNotification(),
+  notificationDrawAttention: await window.getNotificationDrawAttention(),
 
   spellCheck: await window.getSpellCheck(),
 
