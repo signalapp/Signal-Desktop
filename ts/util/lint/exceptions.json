@@ -324,9 +324,9 @@
     "rule": "jQuery-appendTo(",
     "path": "js/settings_start.js",
     "line": "    window.view.$el.appendTo($body);",
-    "lineNumber": 63,
+    "lineNumber": 64,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
@@ -911,141 +911,154 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
-    "line": "          el: this.$('.audio-notification-setting'),",
+    "line": "          el: this.$('.draw-attention-setting'),",
     "lineNumber": 118,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
+    "updated": "2020-08-21T11:29:29.636Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "          el: this.$('.audio-notification-setting'),",
+    "lineNumber": 126,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.spell-check-setting'),",
-    "lineNumber": 125,
+    "lineNumber": 133,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "          const $msg = this.$('.spell-check-setting-message');",
-    "lineNumber": 129,
+    "lineNumber": 137,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z"
+    "updated": "2020-08-21T11:29:29.636Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "          el: this.$('.menu-bar-setting'),",
-    "lineNumber": 142,
+    "lineNumber": 150,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.always-relay-calls-setting'),",
-    "lineNumber": 149,
+    "lineNumber": 157,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.call-ringtone-notification-setting'),",
-    "lineNumber": 155,
+    "lineNumber": 163,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z"
+    "updated": "2020-08-21T11:29:29.636Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.call-system-notification-setting'),",
-    "lineNumber": 161,
+    "lineNumber": 169,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z"
+    "updated": "2020-08-21T11:29:29.636Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.incoming-call-notification-setting'),",
-    "lineNumber": 167,
+    "lineNumber": 175,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z"
+    "updated": "2020-08-21T11:29:29.636Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.media-permissions'),",
-    "lineNumber": 173,
+    "lineNumber": 181,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.media-camera-permissions'),",
-    "lineNumber": 178,
+    "lineNumber": 186,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
-    "lineNumber": 184,
+    "lineNumber": 192,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
-    "lineNumber": 184,
+    "lineNumber": 192,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').text(i18n('syncNow'));",
-    "lineNumber": 263,
+    "lineNumber": 273,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').attr('disabled', 'disabled');",
-    "lineNumber": 267,
+    "lineNumber": 277,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.synced_at').hide();",
-    "lineNumber": 279,
+    "lineNumber": 289,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync_failed').hide();",
-    "lineNumber": 284,
+    "lineNumber": 294,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-06-02T21:51:34.813Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
