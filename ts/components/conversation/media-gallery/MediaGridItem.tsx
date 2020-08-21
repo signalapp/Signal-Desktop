@@ -8,7 +8,7 @@ import {
 import { LocalizerType } from '../../../types/Util';
 import { MediaItemType } from '../../LightboxGallery';
 
-interface Props {
+export interface Props {
   mediaItem: MediaItemType;
   onClick?: () => void;
   i18n: LocalizerType;
