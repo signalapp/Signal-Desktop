@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { getIncrement, getTimerBucket } from '../../util/timer';
 
-interface Props {
+export interface Props {
   withImageNoCaption?: boolean;
   withSticker?: boolean;
   withTapToViewExpired?: boolean;
