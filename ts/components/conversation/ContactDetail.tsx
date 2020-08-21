@@ -18,7 +18,7 @@ import {
 
 import { LocalizerType } from '../../types/Util';
 
-interface Props {
+export interface Props {
   contact: ContactType;
   hasSignalAccount: boolean;
   i18n: LocalizerType;
