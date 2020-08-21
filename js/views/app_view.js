@@ -25,7 +25,7 @@
     },
     applyTheme() {
       const iOS = storage.get('userAgent') === 'OWI';
-      const theme = 'dark'; // storage.get('theme-setting') || 'dark';
+      const theme = storage.get('theme-setting') || 'dark';
       this.$el
         .removeClass('light-theme')
         .removeClass('dark-theme')
