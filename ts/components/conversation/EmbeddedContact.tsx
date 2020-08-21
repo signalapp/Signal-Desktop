@@ -10,7 +10,7 @@ import {
   renderName,
 } from './_contactUtil';
 
-interface Props {
+export interface Props {
   contact: ContactType;
   i18n: LocalizerType;
   isIncoming: boolean;
