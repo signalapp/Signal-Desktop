@@ -12,7 +12,7 @@ import { LocalizerType } from '../../../types/Util';
 
 import { MediaItemType } from '../../LightboxGallery';
 
-interface Props {
+export interface Props {
   documents: Array<MediaItemType>;
   i18n: LocalizerType;
   media: Array<MediaItemType>;
