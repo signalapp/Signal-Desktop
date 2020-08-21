@@ -64,10 +64,6 @@ const startInTray = process.argv.some(arg => arg === '--start-in-tray');
 const usingTrayIcon =
   startInTray || process.argv.some(arg => arg === '--use-tray-icon');
 
-const disableFlashFrame = process.argv.some(
-  arg => arg === '--disable-flash-frame'
-);
-
 const config = require('./app/config');
 
 // Very important to put before the single instance check, since it is based on the
@@ -1163,9 +1159,6 @@ ipc.on('add-setup-menu-items', () => {
 
 ipc.on('draw-attention', () => {
   if (!mainWindow) {
-    return;
-  }
-  if (disableFlashFrame) {
     return;
   }
 
