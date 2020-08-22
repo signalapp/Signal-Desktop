@@ -47,7 +47,7 @@ type PropsHousekeepingType = {
   ) => void;
 };
 
-type PropsType = PropsDataType & PropsHousekeepingType;
+export type PropsType = PropsDataType & PropsHousekeepingType;
 
 export class MessageSearchResult extends React.PureComponent<PropsType> {
   public renderFromName() {
