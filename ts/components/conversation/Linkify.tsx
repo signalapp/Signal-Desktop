@@ -7,7 +7,7 @@ import { isLinkSneaky } from '../../../js/modules/link_previews';
 
 const linkify = LinkifyIt();
 
-interface Props {
+export interface Props {
   text: string;
   /** Allows you to customize now non-links are rendered. Simplest is just a <span>. */
   renderNonLink?: RenderTextCallbackType;
