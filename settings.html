@@ -88,6 +88,13 @@
         <label for='notification-setting-off'>{{ disableNotifications }} </label>
       </div>
     </div>
+    {{ #isDrawAttentionSupported }}
+    <br />
+    <div class='draw-attention-setting'>
+      <input type='checkbox' name='notification-draw-attention' id='notification-draw-attention'/>
+      <label for='notification-draw-attention'>{{ notificationDrawAttention }}</label>
+    </div>
+    {{ /isDrawAttentionSupported }}
     <br />
     {{ #isAudioNotificationSupported }}
     <div class='audio-notification-setting'>

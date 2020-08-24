@@ -153,7 +153,13 @@
         message = i18n('newMessage');
       }
 
-      drawAttention();
+      const shouldDrawAttention = storage.get(
+        'notification-draw-attention',
+        true
+      );
+      if (shouldDrawAttention) {
+        drawAttention();
+      }
 
       this.lastNotification = window.Signal.Services.notify({
         platform: window.platform,
