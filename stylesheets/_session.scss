@@ -1645,7 +1645,9 @@ input {
   }
 
   &.selected {
-    background-color: $session-shade-4;
+    @include themify($themes) {
+      background-color: themed('conversationItemSelected');
+    }
   }
 
   &__checkmark {
@@ -1654,6 +1656,11 @@ input {
 
     &.selected {
       opacity: 1;
+      svg {
+        @include themify($themes) {
+          fill: themed('accent') !important;
+        }
+      }
     }
   }
 
