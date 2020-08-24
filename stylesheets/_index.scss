@@ -79,14 +79,6 @@
 }
 
 .gutter {
-  ::-webkit-scrollbar-track {
-    background: $color-dark-85;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border: 2px solid $color-dark-85;
-  }
-
   display: flex;
   flex-direction: column;
   float: left;

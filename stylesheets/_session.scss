@@ -169,7 +169,7 @@ textarea {
 
     &.green {
       @include themify($themes) {
-        @include transparent-background(themed('accent'));
+        @include transparent-background(themed('buttonGreen'));
       }
     }
     &.white {

@@ -16,26 +16,26 @@ body {
   color: $color-light-90;
 }
 
+// scrollbars
 ::-webkit-scrollbar {
   width: 9px;
   height: 9px;
 }
 
-::-webkit-scrollbar-track {
-  background: $color-white;
-}
-
 ::-webkit-scrollbar-thumb {
-  background: $color-light-35;
-  border: 2px solid $color-white;
+  @include themify($themes) {
+    background: themed('scrollBarThumb');
+    border: solid 2px themed('textColorOpposite');
 
-  &:hover {
-    background: $color-light-45;
+    &:hover {
+      background: $color-light-45;
+    }
   }
 }
-
-::-webkit-scrollbar-corner {
-  background: $color-white;
+::-webkit-scrollbar-track {
+  @include themify($themes) {
+    background: themed('scrollBarTrack');
+  }
 }
 
 audio {
@@ -643,14 +643,6 @@ $loading-height: 16px;
   height: auto;
   padding: 0;
   background: inherit;
-
-  ::-webkit-scrollbar-track {
-    background: $color-dark-85;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border: 2px solid $color-dark-85;
-  }
 
   .step-body {
     width: 80%;

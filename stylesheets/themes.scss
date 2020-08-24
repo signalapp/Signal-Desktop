@@ -16,7 +16,6 @@ $themes: (
     modalBorder: #212121,
     fakeChatBubbleBackground: #f5f5f5,
     fakeChatBubbleText: #000,
-    navigationBarBackground: #fcfcfc,
     newConversationButtonShadow: hsl(151, 89%, 26%),
     // text
       textColor: #000,
@@ -27,6 +26,7 @@ $themes: (
     // buttons
       backgroundPrimary: #272726,
     foregroundPrimary: #fff,
+    buttonGreen: #272726,
     // conversation view
       messageSelected:
       linear-gradient(270deg, rgba(#00f480, 1), rgba(#00f480, 0.6)),
@@ -40,6 +40,10 @@ $themes: (
     conversationItemSelected: #f0f0f0,
     clickableHovered: #dfdfdf,
     borderActionPanel: 1px solid #f1f1f1,
+    leftpaneOverlayBackground: #fff,
+    // scrollbars
+      scrollBarTrack: #fcfcfc,
+    scrollBarThumb: #474646,
   ),
   dark: (
     accent: #00f782,
@@ -56,7 +60,6 @@ $themes: (
     modalBorder: #212121,
     fakeChatBubbleBackground: #3f4146,
     fakeChatBubbleText: #000,
-    navigationBarBackground: #161616,
     newConversationButtonShadow: #077c44,
     // text
       textColor: #fff,
@@ -67,6 +70,7 @@ $themes: (
     // buttons
       backgroundPrimary: #474646,
     foregroundPrimary: #fff,
+    buttonGreen: #00f782,
     // conversation view
       messageSelected:
       linear-gradient(270deg, rgba(#00f480, 1), rgba(#00f480, 0.6)),
@@ -80,6 +84,10 @@ $themes: (
     conversationItemSelected: #404040,
     clickableHovered: #414347,
     borderActionPanel: none,
+    leftpaneOverlayBackground: linear-gradient(180deg, #171717 0%, #121212 100%),
+    // scrollbars
+      scrollBarTrack: #1b1b1b,
+    scrollBarThumb: #474646,
   ),
 );
 

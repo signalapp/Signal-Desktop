@@ -126,21 +126,27 @@ h1 {
 
 h2 {
   @include session-h-title;
-  color: $session-color-white;
+  @include themify($themes) {
+    color: themed('textColor');
+  }
   font-size: 22px;
   text-align: center;
 }
 
 h3 {
   @include session-h-title;
-  color: $session-color-white;
+  @include themify($themes) {
+    color: themed('textColor');
+  }
   font-size: 18px;
   padding-top: 22px;
 }
 
 h4 {
   @include session-h-title;
-  color: $session-color-white;
+  @include themify($themes) {
+    color: themed('textColor');
+  }
   font-size: 17px;
   text-align: center;
 }

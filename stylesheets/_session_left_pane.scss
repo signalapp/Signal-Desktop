@@ -145,6 +145,7 @@ $session-compose-margin: 20px;
     align-items: center;
     height: $main-view-header-height;
     padding-right: 7px;
+    transition: $session-transition-duration;
 
     .session-button {
       margin-left: auto;
@@ -189,8 +190,9 @@ $session-compose-margin: 20px;
   }
 
   &-overlay {
-    background: linear-gradient(180deg, #171717 0%, $session-background 100%);
-    box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.5);
+    @include themify($themes) {
+      background: themed('leftpaneOverlayBackground');
+    }
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -217,8 +219,10 @@ $session-compose-margin: 20px;
 
       .green-border {
         position: absolute;
-        color: $session-color-green;
-        background-color: $session-color-green;
+        @include themify($themes) {
+          color: themed('accent');
+          background-color: themed('accent');
+        }
         height: 5px;
         left: -10px;
         right: -10px;
