@@ -174,7 +174,6 @@
       });
 
       // FIXME: Fix this for new react views
-      this.updateInboxSectionUnread();
       this.setupLeftPane();
     },
     render_attributes: {
@@ -428,24 +427,6 @@
         return;
       }
       this.$('.conversation:first .recorder').trigger('close');
-    },
-    updateInboxSectionUnread() {
-      // FIXME: Fix this for new react views
-      // const $section = this.$('.section-conversations-unread-counter');
-      // const models =
-      //   (this.inboxListView.collection &&
-      //     this.inboxListView.collection.models) ||
-      //   [];
-      // const unreadCount = models.reduce(
-      //   (count, m) => count + Math.max(0, m.get('unreadCount')),
-      //   0
-      // );
-      // $section.text(unreadCount);
-      // if (unreadCount > 0) {
-      //   $section.show();
-      // } else {
-      //   $section.hide();
-      // }
     },
     onClick(e) {
       this.closeRecording(e);
