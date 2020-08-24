@@ -575,7 +575,10 @@ label {
   box-sizing: border-box;
   max-height: 70vh;
   max-width: 70vw;
-  background-color: $session-shade-4;
+  @include themify($themes) {
+    background-color: themed('modalBackground');
+    color: themed('textColor');
+  }
   border: 1px solid $session-shade-8;
   overflow: hidden;
   display: flex;
@@ -935,7 +938,9 @@ label {
       padding: 0px $session-margin-lg;
       font-family: $session-font-default;
       font-weight: 100;
-      color: rgba($session-color-white, 0.8);
+      @include themify($themes) {
+        color: themed('textColor');
+      }
       font-size: $session-font-md;
       padding: 0px $session-margin-sm;
     }
@@ -956,7 +961,9 @@ label {
       border-radius: 5px;
       text-align: center;
       font-size: $session-font-md;
-      background-color: $session-shade-5 !important;
+      @include themify($themes) {
+        background: themed('searchBarBackground');
+      }
     }
 
     &-uneditable {
