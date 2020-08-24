@@ -8,8 +8,6 @@ $themes: (
     unimportantButtonBackground: #0000,
     border: #979797,
     cellBackground: #fcfcfc,
-    searchBarPlaceholder: #8e8e93,
-    searchBarBackground: #8e8e931f,
     separator: #36383c,
     buttonBackground: #fcfcfc,
     modalBackground: #fcfcfc,
@@ -17,6 +15,8 @@ $themes: (
     fakeChatBubbleBackground: #f5f5f5,
     fakeChatBubbleText: #000,
     newConversationButtonShadow: hsl(151, 89%, 26%),
+    // input
+      inputBackground: #8e8e931f,
     // text
       textColor: #000,
     textColorSubtle: #a0a0a0,
@@ -55,8 +55,6 @@ $themes: (
     unimportantButtonBackground: #323232,
     border: #979797,
     cellBackground: #1b1b1b,
-    searchBarPlaceholder: #8e8e93,
-    searchBarBackground: #8e8e931f,
     separator: #36383c,
     buttonBackground: #1b1b1b,
     modalBackground: #101011,
@@ -64,6 +62,8 @@ $themes: (
     fakeChatBubbleBackground: #3f4146,
     fakeChatBubbleText: #000,
     newConversationButtonShadow: #077c44,
+    // input
+      inputBackground: #8e8e931f,
     // text
       textColor: #fff,
     textColorSubtle: #a0a0a0,

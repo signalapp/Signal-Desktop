@@ -341,7 +341,9 @@ $session-compose-margin: 20px;
     font-family: $session-font-default;
     text-overflow: ellipsis;
     background: none;
-
+    @include themify($themes) {
+      color: themed('textColor');
+    }
     &:focus {
       outline: none !important;
     }
@@ -464,7 +466,7 @@ $session-compose-margin: 20px;
   }
 
   &-category-list-item {
-    @include session-dark-background;
+    background: none;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -481,11 +483,15 @@ $session-compose-margin: 20px;
     }
 
     &.active {
-      background-color: $session-shade-5;
+      @include themify($themes) {
+        background: themed('conversationItemSelected');
+      }
     }
 
     &:hover {
-      background-color: $session-shade-6;
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
     }
 
     &__buttons {

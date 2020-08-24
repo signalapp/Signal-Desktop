@@ -578,8 +578,8 @@ label {
   @include themify($themes) {
     background-color: themed('modalBackground');
     color: themed('textColor');
+    border: 1px solid themed('modalBorder');
   }
-  border: 1px solid $session-shade-8;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -962,7 +962,7 @@ label {
       text-align: center;
       font-size: $session-font-md;
       @include themify($themes) {
-        background: themed('searchBarBackground');
+        background: themed('inputBackground');
       }
     }
 
@@ -1100,9 +1100,10 @@ label {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: $session-shade-6;
     height: $main-view-header-height;
-
+    @include themify($themes) {
+      background: themed('cellBackground');
+    }
     &-title {
       line-height: $main-view-header-height;
       font-weight: bold;
@@ -1119,13 +1120,14 @@ label {
 
   &-item {
     font-size: $session-font-md;
-    color: $session-color-white;
-    background-color: $session-shade-1;
-
     padding: $session-margin-lg;
     margin-bottom: 20px;
     border-bottom: 1px solid $session-shade-5;
 
+    @include themify($themes) {
+      background: themed('cellBackground');
+      color: themed('textColor');
+    }
     &.inline {
       display: flex;
       align-items: center;
@@ -1147,12 +1149,21 @@ label {
       font-size: $session-font-sm;
       font-weight: 100;
       max-width: 700px;
-      @include session-color-subtle($session-color-white);
+      @include themify($themes) {
+        @include session-color-subtle(themed('textColor'));
+      }
     }
 
     &__content {
       label {
-        @include session-color-subtle($session-color-white);
+        @include themify($themes) {
+          @include session-color-subtle(themed('textColor'));
+        }
+      }
+    }
+    &__selection {
+      .session-toggle {
+        transition: $session-transition-duration;
       }
     }
   }
@@ -1170,7 +1181,7 @@ label {
     justify-content: space-between;
 
     padding: $session-margin-sm $session-margin-md;
-    background-color: $session-shade-5;
+    background: none;
     font-size: $session-font-xs;
 
     span {
@@ -1279,7 +1290,9 @@ label {
   }
 
   textarea.send-message {
-    background-color: $session-shade-4;
+    @include themify($themes) {
+      background: themed('composeViewBackground');
+    }
     border: none;
     margin: 0px;
     padding: 0px $session-margin-lg;
@@ -1293,7 +1306,9 @@ label {
 
 .bottom-bar form {
   &.send {
-    background-color: $session-shade-4;
+    @include themify($themes) {
+      background: themed('composeViewBackground');
+    }
   }
 
   &.active textarea {
@@ -1302,7 +1317,9 @@ label {
 }
 
 .dark-theme .bottom-bar .send-message[disabled='disabled'] {
-  background: $session-shade-4 !important;
+  @include themify($themes) {
+    background: themed('composeViewBackground');
+  }
 }
 
 .session-radio-group fieldset {
@@ -1338,17 +1355,24 @@ label {
     vertical-align: -3px;
     border: 2px solid rgba($session-color-white, 0.6);
     padding: 0.2em;
-    background-color: transparent;
+    @include themify($themes) {
+      background: none;
+      border-color: themed('accent');
+    }
     background-clip: content-box;
+    transition: $session-transition-duration;
   }
 
   input:hover + label:before {
-    border-color: $session-color-white;
+    @include themify($themes) {
+      background: themed('accent');
+    }
   }
 
   input:checked + label:before {
-    background-color: $session-color-white;
-    border-color: $session-color-white;
+    @include themify($themes) {
+      background: themed('accent');
+    }
   }
 }
 
