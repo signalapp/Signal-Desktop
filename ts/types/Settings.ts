@@ -12,3 +12,6 @@ export const isNotificationGroupingSupported = () =>
 
 // the "hide menu bar" option is specific to Windows and Linux
 export const isHideMenuBarSupported = () => !OS.isMacOS();
+
+// the "draw attention on notification" option is specific to Windows and Linux
+export const isDrawAttentionSupported = () => !OS.isMacOS();
