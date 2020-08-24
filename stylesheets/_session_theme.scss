@@ -1,4 +1,5 @@
 // Messages
+@import 'themes.scss';
 
 .discussion-container {
   @at-root .light-theme #{&} {
@@ -15,12 +16,11 @@
 .module-conversation-header {
   @at-root .light-theme #{&} {
     background-color: $session-color-white;
-    border-bottom: none;
   }
   @at-root .dark-theme #{&} {
     background-color: $session-shade-4;
-    border-bottom: none;
   }
+  border-bottom: none;
 }
 
 .module-message {
@@ -39,6 +39,7 @@
   &__container--incoming {
     @at-root .light-theme #{&} {
       @include session-color-subtle($session-color-white);
+      background-color: $session-shade-8;
     }
     @at-root .dark-theme #{&} {
       background-color: $session-shade-8;
@@ -75,7 +76,9 @@
   &-selected {
     .module-message {
       &__container {
-        background-image: $session-gradient-green;
+        @include themify($themes) {
+          background-image: themed('messageSelected');
+        }
         box-shadow: $session-dark-shadow;
       }
 
@@ -91,7 +94,9 @@
 }
 
 .inbox {
-  background: linear-gradient(180deg, #171717 0%, $session-background 100%);
+  @include themify($themes) {
+    background: themed('inboxBackground');
+  }
 }
 
 .conversation {
@@ -113,7 +118,9 @@ h1 {
   margin: 0;
 
   &.active {
-    color: $session-color-white;
+    @include themify($themes) {
+      color: themed('textColor');
+    }
   }
 }
 

@@ -1,3 +1,5 @@
+@import 'themes.scss';
+
 .leave-group-dialog {
   .content {
     max-width: 100% !important;
@@ -188,8 +190,9 @@
 }
 
 .at-symbol {
-  background-color: $session-color-green;
-
+  @include themify($themes) {
+    background-color: themed('accent');
+  }
   color: $color-black;
   text-align: center;
 

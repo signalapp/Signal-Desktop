@@ -109,7 +109,9 @@ textarea {
     color: $session-color-white;
 
     &:not(.disabled):hover {
-      filter: brightness(90%);
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
     }
 
     &.green,
@@ -125,14 +127,26 @@ textarea {
     }
 
     &.green {
-      background-color: $session-color-green;
+      @include themify($themes) {
+        background-color: themed('accent');
+      }
     }
 
     &.white {
-      background-color: $session-color-white;
+      @include themify($themes) {
+        color: themed('textColor');
+      }
     }
     &.primary {
-      background-color: $session-color-primary;
+      @include themify($themes) {
+        background-color: themed('backgroundPrimary');
+      }
+
+      .session-icon {
+        @include themify($themes) {
+          fill: themed('foregroundPrimary');
+        }
+      }
     }
     &.secondary {
       background-color: $session-color-secondary;
@@ -154,7 +168,9 @@ textarea {
     border: none;
 
     &.green {
-      @include transparent-background($session-color-green);
+      @include themify($themes) {
+        @include transparent-background(themed('accent'));
+      }
     }
     &.white {
       @include transparent-background($session-color-white);
@@ -325,7 +341,9 @@ textarea {
 }
 
 .session-icon {
-  fill: $session-color-white;
+  @include themify($themes) {
+    fill: themed('textColor');
+  }
 }
 
 $session-separator-element-border: 1px solid $session-shade-6;
