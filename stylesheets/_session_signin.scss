@@ -269,7 +269,9 @@
       outline: 0;
       border: none;
       background: transparent;
-      color: #fff;
+      @include themify($themes) {
+        color: themed('textColor');
+      }
       font-size: 15px;
       line-height: 18px;
       text-align: center;

@@ -44,6 +44,9 @@ $themes: (
     // scrollbars
       scrollBarTrack: #fcfcfc,
     scrollBarThumb: #474646,
+    // pill divider:
+      pillDividerColor: #0000001a,
+    pillDividerTextColor: #555,
   ),
   dark: (
     accent: #00f782,
@@ -88,6 +91,9 @@ $themes: (
     // scrollbars
       scrollBarTrack: #1b1b1b,
     scrollBarThumb: #474646,
+    // pill divider:
+      pillDividerColor: #353535,
+    pillDividerTextColor: #a0a0a0,
   ),
 );
 

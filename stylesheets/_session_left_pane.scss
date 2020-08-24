@@ -423,12 +423,6 @@ $session-compose-margin: 20px;
     flex: 1;
 
     .module-conversation-list-item {
-      background-color: $session-shade-4;
-
-      &--is-selected {
-        background-color: $session-shade-5;
-      }
-
       &__header__date,
       &__message {
         display: none;
@@ -446,10 +440,6 @@ $session-compose-margin: 20px;
         }
       }
     }
-  }
-
-  &-content {
-    @include session-dark-background-lighter;
   }
 
   &-bottom-buttons {
@@ -552,7 +542,9 @@ $session-compose-margin: 20px;
   margin: 50px 0 50px;
 
   .panel-text-divider-line {
-    border-bottom: 1px solid $session-color-dark-grey;
+    @include themify($themes) {
+      border-bottom: 1px solid themed('pillDividerColor');
+    }
     line-height: 0.1em;
     flex-grow: 1;
     height: 1px;
@@ -562,8 +554,10 @@ $session-compose-margin: 20px;
   span {
     padding: 5px 10px;
     border-radius: 50px;
-    color: $session-color-light-grey;
-    border: 1px solid $session-color-dark-grey;
+    @include themify($themes) {
+      color: themed('pillDividerTextColor');
+      border: 1px solid themed('pillDividerColor');
+    }
     font-family: $session-font-default;
     font-size: $session-font-sm;
   }
