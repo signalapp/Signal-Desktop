@@ -580,26 +580,6 @@ $loading-height: 16px;
     color: #2090ea;
   }
 
-  .progress {
-    text-align: center;
-    padding: 1em;
-    width: 80%;
-    margin: auto;
-
-    .bar-container {
-      height: 1em;
-      margin: 1em;
-      background-color: $grey_l;
-    }
-    .bar {
-      width: 100%;
-      height: 100%;
-      background-color: $blue_l;
-      transition: width $session-transition-duration;
-      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-  }
-
   .nav {
     width: 100%;
     bottom: 50px;

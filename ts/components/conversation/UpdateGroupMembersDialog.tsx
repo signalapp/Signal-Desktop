@@ -119,7 +119,6 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
             <small className="create-group-dialog__member-count">
               {`${checkMarkedCount} members`}
             </small>
-            <hr className="subtle" />
           </>
         )}
 

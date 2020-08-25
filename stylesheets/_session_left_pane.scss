@@ -362,7 +362,8 @@ $session-compose-margin: 20px;
 
   .session-brand-logo {
     height: 215px;
-    filter: brightness(0) saturate(100%) invert(75%) sepia(84%) saturate(3272%) hue-rotate(103deg) brightness(106%) contrast(103%);
+    filter: brightness(0) saturate(100%) invert(75%) sepia(84%) saturate(3272%)
+      hue-rotate(103deg) brightness(106%) contrast(103%);
   }
 
   .session-text-logo {
@@ -379,7 +380,7 @@ $session-compose-margin: 20px;
   background: #000;
 
   .session-text-logo {
-    filter:none !important; // force no filter on the text of the app loading
+    filter: none !important; // force no filter on the text of the app loading
     // as the theme is not set right on the start.
     // this is to avoid a text color switch on app loading.
   }

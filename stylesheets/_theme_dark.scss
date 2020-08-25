@@ -111,7 +111,6 @@ body.dark-theme {
     }
   }
 
-
   .module-last-seen-indicator__bar {
     background-color: #353535;
   }
@@ -381,15 +380,6 @@ body.dark-theme {
     }
     a.link {
       color: $session-color-green;
-    }
-
-    .progress {
-      .bar-container {
-        background-color: $grey_l;
-      }
-      .bar {
-        background-color: $blue_l;
-      }
     }
   }
 

@@ -20,3 +20,61 @@
     box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
   }
 }
+
+/* remove scroll bars */
+.loki-dialog .add-moderators-dialog .content {
+  padding: 1.1em;
+}
+
+.create-group-dialog,
+.add-moderators-dialog,
+.remove-moderators-dialog,
+.invite-friends-dialog {
+  .content {
+    max-width: 100% !important;
+  }
+
+  .buttons {
+    margin: 8px;
+  }
+
+  .group-name {
+    font-size: larger;
+  }
+
+  .titleText {
+    font-size: large;
+    text-align: center;
+  }
+
+  .no-friends {
+    text-align: center;
+  }
+
+  .hidden {
+    display: none;
+  }
+}
+
+.create-group-dialog,
+.add-moderators-dialog,
+.remove-moderators-dialog,
+.edit-profile-dialog {
+  .error-message {
+    text-align: center;
+    color: red;
+    display: block;
+    user-select: none;
+  }
+
+  .error-faded {
+    opacity: 0;
+    margin-top: -5px;
+    transition: all 100ms linear;
+  }
+
+  .error-shown {
+    opacity: 1;
+    transition: all 250ms linear;
+  }
+}

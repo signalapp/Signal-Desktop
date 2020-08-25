@@ -756,7 +756,8 @@ label {
     box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.05), 0 3px 1px 0 rgba(0, 0, 0, 0.05),
       0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 3px 0 rgba(0, 0, 0, 0.05);
 
-    transition: transform $session-transition-duration ease, background-color $session-transition-duration ease;
+    transition: transform $session-transition-duration ease,
+      background-color $session-transition-duration ease;
   }
 
   &.active {
@@ -1523,27 +1524,6 @@ input {
     &:hover svg path {
       opacity: 1;
     }
-  }
-}
-
-/* Memberlist */
-.member-list-container .member {
-  &-item {
-    font-family: $session-font-default;
-    padding: $session-margin-sm $session-margin-md;
-    @include themify($themes) {
-      background-color: themed('cellBackground');
-    }
-
-    &:hover:not(.member-selected) {
-      @include themify($themes) {
-        background-color: themed('clickableHovered');
-      }
-    }
-  }
-
-  &-selected {
-    background-color: $session-shade-8;
   }
 }
 

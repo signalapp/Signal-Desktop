@@ -45,7 +45,7 @@ $themes: (
     pillDividerTextColor: #555,
     // context menu
       contextMenuBackground: #f5f5f5,
-      filterSessionText: brightness(0) saturate(100%),
+    filterSessionText: brightness(0) saturate(100%),
   ),
   dark: (
     accent: #00f782,
@@ -93,7 +93,7 @@ $themes: (
     pillDividerTextColor: #a0a0a0,
     // context menu
       contextMenuBackground: #212121,
-      filterSessionText: none,
+    filterSessionText: none,
   ),
 );
 
