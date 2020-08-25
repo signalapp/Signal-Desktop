@@ -346,7 +346,6 @@ textarea {
   }
 }
 
-$session-separator-element-border: 1px solid $session-shade-6;
 $session-element-border-green: 4px solid $session-color-green;
 
 /* CONVERSATION AND MESSAGES */
@@ -809,8 +808,17 @@ label {
     height: 50px;
     padding: 0px $session-margin-md;
     font-size: $session-font-sm;
-    color: $session-color-white;
-    background-color: $session-shade-1;
+
+    @include themify($themes) {
+      color: themed('textColor');
+      background: themed('cellBackground');
+    }
+
+    &:hover {
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
+    }
 
     .session-icon {
       opacity: 0.6;
@@ -838,21 +846,29 @@ label {
     justify-content: center;
     height: 35px;
     padding: 0 $session-margin-md;
-    color: $session-color-white;
-    background-color: $session-shade-1;
+    @include themify($themes) {
+      background: themed('cellBackground');
+      color: themed('textColor');
+    }
     font-size: 0.8rem;
     width: -webkit-fill-available;
     transition: $session-transition-duration;
 
     &:first-child {
-      border-top: $session-separator-element-border;
+      @include themify($themes) {
+        border-top: themed('borderActionPanel');
+      }
     }
     &:last-child {
-      border-bottom: $session-separator-element-border;
+      @include themify($themes) {
+        border-top: themed('borderActionPanel');
+      }
     }
 
     &:hover {
-      @include session-dark-background-hover;
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
     }
 
     .session-icon {
@@ -864,7 +880,9 @@ label {
 
     &.active,
     &:hover {
-      background-color: $session-shade-7;
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
     }
 
     &.danger {
@@ -873,6 +891,9 @@ label {
   }
 
   &:hover {
+    @include themify($themes) {
+      background: themed('clickableHovered');
+    }
     .session-icon {
       opacity: 1;
     }
@@ -1409,7 +1430,9 @@ input {
 .dark-theme .invite-friends-dialog .member-item {
   height: 64px;
   background-color: $session-shade-4;
-  border: $session-separator-element-border;
+  @include themify($themes) {
+    border: themed('borderActionPanel');
+  }
   display: flex;
   align-items: center;
   transition: $session-transition-duration;
@@ -1426,10 +1449,6 @@ input {
   .name-part {
     flex-grow: 1;
   }
-}
-
-.dark-theme .modal .content {
-  background-color: $session-shade-4;
 }
 
 .loki-dialog button {

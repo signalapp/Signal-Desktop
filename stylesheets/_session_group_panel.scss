@@ -10,8 +10,10 @@
   height: 100vh;
   width: 22vw;
   flex-shrink: 0;
-  border: $session-separator-element-border;
-  background-color: $session-shade-4;
+  @include themify($themes) {
+    background: themed('leftpaneOverlayBackground');
+    border-left: themed('borderActionPanel');
+  }
   align-items: center;
 
   &-header {
@@ -37,11 +39,13 @@
 
   .description {
     margin: $session-margin-md 0;
-    border: $session-separator-element-border;
-    background-color: $session-shade-1;
     min-height: 4rem;
     width: inherit;
-    color: $session-color-white;
+    @include themify($themes) {
+      color: themed('textColor');
+      background: themed('cellBackground');
+      border: themed('borderActionPanel');
+    }
     text-align: center;
     display: none;
   }
@@ -49,19 +53,23 @@
   &-item {
     display: flex;
     align-items: center;
-    background-color: $session-shade-1;
     min-height: 3rem;
     font-size: 0.8rem;
-    color: $session-color-white;
+    @include themify($themes) {
+      color: themed('textColor');
+      background: themed('cellBackground');
+      border-top: themed('borderActionPanel');
+      border-bottom: themed('borderActionPanel');
+    }
     width: -webkit-fill-available;
     padding: 0 $session-margin-md;
-    border-bottom: $session-separator-element-border;
-    border-top: $session-separator-element-border;
     transition: $session-transition-duration;
     cursor: pointer;
 
     &:hover {
-      @include session-dark-background-hover;
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
     }
   }
 
@@ -74,11 +82,13 @@
   .session-button.square-outline.danger {
     margin-top: auto;
     width: 100%;
-    border: none;
     height: 3.5rem;
-    background-color: black;
     flex-shrink: 0;
     align-items: center;
+    @include themify($themes) {
+      border: none;
+      border-top: themed('borderActionPanel');
+    }
   }
 
   .module-empty-state {
@@ -104,7 +114,9 @@
       }
 
       &__tab {
-        color: white;
+        @include themify($themes) {
+          color: themed('textColor');
+        }
         font-weight: bold;
         font-size: 0.9rem;
         padding: 0.6rem;
