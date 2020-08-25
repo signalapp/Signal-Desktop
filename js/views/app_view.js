@@ -229,10 +229,6 @@
       const dialog = new Whisper.UpdateGroupMembersDialogView(groupConvo);
       this.el.append(dialog.el);
     },
-    showSessionRestoreConfirmation(options) {
-      const dialog = new Whisper.ConfirmSessionResetView(options);
-      this.el.append(dialog.el);
-    },
     showLeaveGroupDialog(groupConvo) {
       let title = i18n('deleteContact');
       let message = i18n('deleteContactConfirmation');

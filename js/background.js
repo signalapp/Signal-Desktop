@@ -1097,12 +1097,6 @@
       }
     });
 
-    Whisper.events.on('showSessionRestoreConfirmation', options => {
-      if (appView) {
-        appView.showSessionRestoreConfirmation(options);
-      }
-    });
-
     Whisper.events.on('showNicknameDialog', options => {
       if (appView) {
         appView.showNicknameDialog(options);

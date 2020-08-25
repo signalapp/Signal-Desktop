@@ -1,35 +1,5 @@
 @import 'themes.scss';
 
-.leave-group-dialog {
-  .content {
-    max-width: 100% !important;
-  }
-
-  .titleText {
-    font-size: large;
-    text-align: center;
-    margin: 2px;
-  }
-
-  .ok {
-    background-color: orangered;
-    min-width: 70px;
-    border: none;
-
-    &:hover {
-      background-color: red;
-    }
-  }
-
-  .cancel {
-    border: none;
-    min-width: 70px;
-  }
-}
-
-.member-preview {
-  margin-left: 10px;
-}
 
 /* remove scroll bars */
 .loki-dialog .add-moderators-dialog .content {
