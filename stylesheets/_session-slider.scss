@@ -106,7 +106,9 @@
   margin-left: -4px;
   width: 3px;
   height: 6px;
-  background-color: $session-shade-6;
+  @include themify($themes) {
+    background: themed('clickableHovered');
+  }
   cursor: pointer;
   border-radius: 2px;
   vertical-align: middle;

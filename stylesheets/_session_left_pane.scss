@@ -349,13 +349,40 @@ $session-compose-margin: 20px;
   }
 }
 
+.conversation.placeholder .container {
+  display: flex;
+  height: 100%;
+}
+
 .session-full-logo {
-  width: 250px;
-  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+
+  .session-brand-logo {
+    height: 215px;
+    filter: brightness(0) saturate(100%) invert(75%) sepia(84%) saturate(3272%) hue-rotate(103deg) brightness(106%) contrast(103%);
+  }
+
+  .session-text-logo {
+    margin-top: 10px;
+    width: 250px;
+    @include themify($themes) {
+      filter: themed('filterSessionText');
+    }
+    transition: 0s;
+  }
 }
 
 .app-loading-screen {
-  @include session-dark-background;
+  background: #000;
+
+  .session-text-logo {
+    filter:none !important; // force no filter on the text of the app loading
+    // as the theme is not set right on the start.
+    // this is to avoid a text color switch on app loading.
+  }
 }
 
 @mixin bottom-buttons() {
@@ -368,8 +395,7 @@ $session-compose-margin: 20px;
   .session-button.square-outline.square.white,
   .session-button.square-outline.square.danger {
     flex-grow: 1;
-    height: 50px;
-    // line-height: 50px;
+    height: 51px;
 
     @at-root .light-theme #{&} {
       border: 1px solid $session-shade-15;

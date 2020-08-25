@@ -495,7 +495,9 @@ label {
 .session-toast {
   position: relative;
   padding: $session-margin-md $session-margin-md;
-  background-color: rgba($session-shade-6, 0.8);
+  @include themify($themes) {
+    background: rgba(themed('cellBackground'), 0.8);
+  }
   margin-bottom: $session-margin-md;
   display: flex;
   flex-direction: row;
@@ -530,23 +532,31 @@ label {
     line-height: $session-font-sm;
     margin-bottom: $session-margin-sm;
     padding-top: 0px;
-    color: $session-color-white;
+    @include themify($themes) {
+      color: themed('textColor');
+    }
     padding-top: 0px;
   }
 
   .description {
     font-size: $session-font-xs;
-    @include session-color-subtle($session-color-white);
+    @include themify($themes) {
+      @include session-color-subtle(themed('textColor'));
+    }
   }
 
   .toast-close {
-    @include session-color-subtle($session-color-white);
+    @include themify($themes) {
+      @include session-color-subtle(themed('textColor'));
+    }
     position: absolute;
     top: $session-margin-md;
     right: $session-margin-md;
 
     &:hover {
-      color: $session-color-white;
+      @include themify($themes) {
+        color: themed('textColor');
+      }
     }
   }
 
@@ -577,7 +587,7 @@ label {
   @include themify($themes) {
     background-color: themed('modalBackground');
     color: themed('textColor');
-    border: 1px solid themed('modalBorder');
+    border: 1px solid themed('borderActionPanel');
   }
   overflow: hidden;
   display: flex;
@@ -746,7 +756,7 @@ label {
     box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.05), 0 3px 1px 0 rgba(0, 0, 0, 0.05),
       0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 3px 0 rgba(0, 0, 0, 0.05);
 
-    transition: transform 0.25s ease, background-color 0.25s ease;
+    transition: transform $session-transition-duration ease, background-color $session-transition-duration ease;
   }
 
   &.active {
@@ -770,6 +780,7 @@ label {
 .react-contextmenu-item {
   display: flex;
   align-items: center;
+  transition: $session-transition-duration;
 
   height: 25px;
   padding: $session-margin-md $session-margin-sm;
@@ -826,7 +837,7 @@ label {
   }
 
   &__list-container {
-    z-index: 200;
+    z-index: 99;
     display: block;
     position: absolute;
     top: 50px;
@@ -1146,11 +1157,11 @@ label {
     font-size: $session-font-md;
     padding: $session-margin-lg;
     margin-bottom: 20px;
-    border-bottom: 1px solid $session-shade-5;
 
     @include themify($themes) {
       background: themed('cellBackground');
       color: themed('textColor');
+      border-bottom: themed('borderActionPanel');
     }
     &.inline {
       display: flex;

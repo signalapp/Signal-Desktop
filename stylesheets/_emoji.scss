@@ -90,6 +90,7 @@ button.emoji {
 
   &:before {
     content: '';
+    margin-top: 5px;
     display: inline-block;
     width: $button-height;
     height: $button-height;

@@ -111,9 +111,6 @@ body.dark-theme {
     }
   }
 
-  .conversation-loading-screen {
-    background-color: $color-gray-95;
-  }
 
   .module-last-seen-indicator__bar {
     background-color: #353535;
@@ -1376,28 +1373,6 @@ body.dark-theme {
 
     .time {
       color: $grey;
-    }
-  }
-
-  // _settings
-
-  hr {
-    border-color: $color-dark-60;
-  }
-
-  .syncSettings {
-    .synced_at {
-      color: $grey;
-    }
-    .sync_failed {
-      color: red;
-    }
-  }
-
-  .clear-data-settings {
-    .destructive {
-      background-color: red;
-      color: white;
     }
   }
 }

@@ -393,26 +393,6 @@ input.search {
   }
 }
 
-.conversation.placeholder {
-  text-align: center;
-  user-select: none;
-
-  .container {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .content {
-    display: inline-block;
-  }
-
-  h3 {
-    font-size: large;
-  }
-}
 .contact.placeholder {
   position: absolute;
   top: 50px;

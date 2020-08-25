@@ -478,7 +478,7 @@
 
   span {
     opacity: 0.5;
-    transition: 0.25s;
+    transition: $session-transition-duration;
 
     &:not(.module-message__metadata__badge--separator):hover {
       opacity: 1;
