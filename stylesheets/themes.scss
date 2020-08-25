@@ -1,5 +1,3 @@
-// copy pasted from the android Session app. Some might not be used and some might be missing
-// also, some are sometimes applied with a opacity setting (most likely 0.6)
 $themes: (
   light: (
     accent: #00e97b,
@@ -13,8 +11,6 @@ $themes: (
     modalBackground: #fcfcfc,
     modalBorder: #212121,
     fakeChatBubbleBackground: #f5f5f5,
-    fakeChatBubbleText: #000,
-    newConversationButtonShadow: hsl(151, 89%, 26%),
     // input
       inputBackground: #8e8e931f,
     // text
@@ -33,7 +29,9 @@ $themes: (
     composeViewBackground: #fcfcfc,
     composeViewTextFieldBackground: #ededed,
     receivedMessageBackground: #f5f5f5,
-    sentMessageBackground: #00e97b,
+    sentMessageBackground: #272726,
+    receivedMessageText: #000,
+    sentMessageText: #fff,
     // left pane
       conversationList: #fff,
     conversationItemHasUnread: #fcfcfc,
@@ -47,6 +45,8 @@ $themes: (
     // pill divider:
       pillDividerColor: #0000001a,
     pillDividerTextColor: #555,
+    // context menu
+      contextMenuBackground: #f5f5f5,
   ),
   dark: (
     accent: #00f782,
@@ -59,9 +59,7 @@ $themes: (
     buttonBackground: #1b1b1b,
     modalBackground: #101011,
     modalBorder: #212121,
-    fakeChatBubbleBackground: #3f4146,
-    fakeChatBubbleText: #000,
-    newConversationButtonShadow: #077c44,
+    fakeChatBubbleBackground: #212121,
     // input
       inputBackground: #8e8e931f,
     // text
@@ -81,6 +79,8 @@ $themes: (
     composeViewTextFieldBackground: #141414,
     receivedMessageBackground: #222325,
     sentMessageBackground: #3f4146,
+    receivedMessageText: #fff,
+    sentMessageText: #fff,
     // left pane
       conversationList: #1b1b1b,
     conversationItemHasUnread: #2c2c2c,
@@ -94,6 +94,8 @@ $themes: (
     // pill divider:
       pillDividerColor: #353535,
     pillDividerTextColor: #a0a0a0,
+    // context menu
+      contextMenuBackground: #212121,
   ),
 );
 

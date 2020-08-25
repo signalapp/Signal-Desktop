@@ -206,40 +206,6 @@
   background-color: $color-conversation-grey;
 }
 
-.module-message__container--incoming-red {
-  background-color: $color-conversation-red;
-}
-.module-message__container--incoming-deep_orange {
-  background-color: $color-conversation-deep_orange;
-}
-.module-message__container--incoming-brown {
-  background-color: $color-conversation-brown;
-}
-.module-message__container--incoming-pink {
-  background-color: $color-conversation-pink;
-}
-.module-message__container--incoming-purple {
-  background-color: $color-conversation-purple;
-}
-.module-message__container--incoming-indigo {
-  background-color: $color-conversation-indigo;
-}
-.module-message__container--incoming-blue {
-  background-color: $color-conversation-blue;
-}
-.module-message__container--incoming-teal {
-  background-color: $color-conversation-teal;
-}
-.module-message__container--incoming-green {
-  background-color: $color-conversation-green;
-}
-.module-message__container--incoming-light_green {
-  background-color: $color-conversation-light_green;
-}
-.module-message__container--incoming-blue_grey {
-  background-color: $color-conversation-blue_grey;
-}
-
 .module-message__attachment-container {
   // Entirely to ensure that images are centered if they aren't full width of bubble
   text-align: center;
@@ -503,18 +469,6 @@
   }
 }
 
-.module-message__text--incoming {
-  color: $color-white;
-  a {
-    text-decoration: underline;
-    color: $color-white;
-  }
-}
-
-.module-message__text--error {
-  font-style: italic;
-}
-
 .module-message__metadata {
   display: flex;
   flex-direction: row;
@@ -759,87 +713,10 @@
   border-left-color: $color-conversation-grey;
   background-color: $color-conversation-grey-tint;
 }
-.module-quote--outgoing-red {
-  border-left-color: $color-conversation-red;
-  background-color: $color-conversation-red-tint;
-}
-.module-quote--outgoing-deep_orange {
-  border-left-color: $color-conversation-deep_orange;
-  background-color: $color-conversation-deep_orange-tint;
-}
-.module-quote--outgoing-brown {
-  border-left-color: $color-conversation-brown;
-  background-color: $color-conversation-brown-tint;
-}
-.module-quote--outgoing-pink {
-  border-left-color: $color-conversation-pink;
-  background-color: $color-conversation-pink-tint;
-}
-.module-quote--outgoing-purple {
-  border-left-color: $color-conversation-purple;
-  background-color: $color-conversation-purple-tint;
-}
-.module-quote--outgoing-indigo {
-  border-left-color: $color-conversation-indigo;
-  background-color: $color-conversation-indigo-tint;
-}
-.module-quote--outgoing-blue {
-  border-left-color: $color-conversation-blue;
-  background-color: $color-conversation-blue-tint;
-}
-.module-quote--outgoing-teal {
-  border-left-color: $color-conversation-teal;
-  background-color: $color-conversation-teal-tint;
-}
-.module-quote--outgoing-green {
-  border-left-color: $color-conversation-green;
-  background-color: $color-conversation-green-tint;
-}
-.module-quote--outgoing-light_green {
-  border-left-color: $color-conversation-light_green;
-  background-color: $color-conversation-light_green-tint;
-}
-.module-quote--outgoing-blue_grey {
-  border-left-color: $color-conversation-blue_grey;
-  background-color: $color-conversation-blue_grey-tint;
-}
 
 .module-quote--incoming {
   border-left-color: $color-white;
   background-color: $color-conversation-grey-tint;
-}
-.module-quote--incoming-red {
-  background-color: $color-conversation-red-tint;
-}
-.module-quote--incoming-deep_orange {
-  background-color: $color-conversation-deep_orange-tint;
-}
-.module-quote--incoming-brown {
-  background-color: $color-conversation-brown-tint;
-}
-.module-quote--incoming-pink {
-  background-color: $color-conversation-pink-tint;
-}
-.module-quote--incoming-purple {
-  background-color: $color-conversation-purple-tint;
-}
-.module-quote--incoming-indigo {
-  background-color: $color-conversation-indigo-tint;
-}
-.module-quote--incoming-blue {
-  background-color: $color-conversation-blue-tint;
-}
-.module-quote--incoming-teal {
-  background-color: $color-conversation-teal-tint;
-}
-.module-quote--incoming-green {
-  background-color: $color-conversation-green-tint;
-}
-.module-quote--incoming-light_green {
-  background-color: $color-conversation-light_green-tint;
-}
-.module-quote--incoming-blue_grey {
-  background-color: $color-conversation-blue_grey-tint;
 }
 
 .module-quote__primary {
@@ -1239,7 +1116,10 @@
 
 .module-group-notification__change,
 .module-timer-notification__message {
-  background-color: #212121;
+  @include themify($themes) {
+    background: themed('fakeChatBubbleBackground');
+    color: themed('textColor');
+  }
   width: 90%;
   max-width: 700px;
   margin: 10px auto;
@@ -1447,11 +1327,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-
-  color: $color-gray-90;
-
-  background-color: $color-white;
-  border-bottom: 1px solid $color-black-02;
 }
 
 .module-conversation-header__back-icon {
@@ -3271,8 +3146,6 @@
 // Module: Left Pane
 
 .module-left-pane {
-  border-right: 1px solid $color-dark-90;
-
   display: inline-flex;
   flex-direction: column;
   width: 380px;

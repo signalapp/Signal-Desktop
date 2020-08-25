@@ -2,11 +2,8 @@
 @import 'themes.scss';
 
 .discussion-container {
-  @at-root .light-theme #{&} {
-    background-color: $session-color-white;
-  }
-  @at-root .dark-theme #{&} {
-    background-color: $session-shade-2;
+  @include themify($themes) {
+    background: none;
   }
 }
 
@@ -14,50 +11,74 @@
   background: none !important;
 }
 .module-conversation-header {
-  @at-root .light-theme #{&} {
-    background-color: $session-color-white;
+  @include themify($themes) {
+    background: themed('cellBackground');
   }
-  @at-root .dark-theme #{&} {
-    background-color: $session-shade-4;
-  }
-  border-bottom: none;
 }
 
 .module-message {
-  &__author,
-  &__metadata__badge,
-  &__metadata__date--incoming,
-  &__metadata__date--outgoing {
-    @at-root .light-theme #{&} {
-      @include session-color-subtle($session-color-black);
-    }
-    @at-root .dark-theme #{&} {
-      @include session-color-subtle($session-color-white);
-    }
+  &__text-error {
+    font-style: italic;
   }
 
   &__container--incoming {
-    @at-root .light-theme #{&} {
-      @include session-color-subtle($session-color-white);
-      background-color: $session-shade-8;
+    @include themify($themes) {
+      background: themed('receivedMessageBackground');
     }
-    @at-root .dark-theme #{&} {
-      background-color: $session-shade-8;
+
+    .module-message__text {
+      @include themify($themes) {
+        color: themed('receivedMessageText');
+      }
+      a {
+        text-decoration: underline;
+        @include themify($themes) {
+          color: themed('receivedMessageText');
+        }
+      }
+    }
+
+    .module-message__author,
+    .module-message__metadata,
+    .module-message__metadata__date,
+    .module-message__metadata__badge,
+    .module-message__metadata__badge--separator {
+      @include themify($themes) {
+        @include session-color-subtle(themed('receivedMessageText'));
+      }
     }
   }
 
   &__container--outgoing {
-    @at-root .light-theme #{&} {
-      background-color: $session-color-white;
+    @include themify($themes) {
+      background: themed('sentMessageBackground');
     }
-    @at-root .dark-theme #{&} {
-      background-color: $session-shade-11;
+
+    .module-message__text {
+      @include themify($themes) {
+        color: themed('sentMessageText');
+      }
+      a {
+        text-decoration: underline;
+        @include themify($themes) {
+          color: themed('sentMessageText');
+        }
+      }
+    }
+
+    .module-message__author,
+    .module-message__metadata,
+    .module-message__metadata__date,
+    .module-message__metadata__badge,
+    .module-message__metadata__badge--separator {
+      @include themify($themes) {
+        @include session-color-subtle(themed('sentMessageText'));
+      }
     }
   }
 
   &__container {
-    transition: background-color 0.25s;
-    box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.69);
+    transition: background-color $session-transition-duration;
   }
 }
 

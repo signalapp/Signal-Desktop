@@ -32,6 +32,11 @@
   }
 
   .main.panel {
+    @include themify($themes) {
+      border-top: themed('borderActionPanel');
+      border-left: themed('borderActionPanel');
+    }
+
     .discussion-container {
       flex-grow: 1;
       position: relative;
@@ -373,8 +378,8 @@
 .bottom-bar {
   box-sizing: content-box;
   $button-width: 36px;
-
-  form.active {
+  @include themify($themes) {
+    border-top: themed('borderActionPanel');
   }
 
   form.send {
@@ -454,7 +459,6 @@
     max-height: 100px;
     padding: 10px;
     border-radius: 4px;
-    background-color: $color-loki-light-gray;
     margin-top: 3px;
     margin-bottom: 6px;
     color: $color-light-90;

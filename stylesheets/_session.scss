@@ -775,9 +775,10 @@ label {
   height: 25px;
   padding: $session-margin-md $session-margin-sm;
 
-  background-color: $session-shade-4;
-
-  color: $session-color-white;
+  @include themify($themes) {
+    background: themed('contextMenuBackground');
+    color: themed('textColor');
+  }
   font-family: $session-font-accent;
   font-size: $session-font-sm;
   line-height: $session-icon-size-sm;
@@ -785,7 +786,9 @@ label {
 
   &--active,
   &--selected {
-    background-color: $session-shade-7 !important;
+    @include themify($themes) {
+      background: themed('clickableHovered');
+    }
   }
   &:active,
   &:visited,
@@ -1292,6 +1295,7 @@ label {
   textarea.send-message {
     @include themify($themes) {
       background: themed('composeViewBackground');
+      color: themed('textColor');
     }
     border: none;
     margin: 0px;
@@ -1299,8 +1303,6 @@ label {
     font-size: $session-font-md;
     line-height: 1.3em;
     align-self: center;
-
-    @include session-color-subtle($session-color-white);
   }
 }
 
@@ -1499,10 +1501,14 @@ input {
   &-item {
     font-family: $session-font-default;
     padding: $session-margin-sm $session-margin-md;
-    background-color: $session-shade-5;
+    @include themify($themes) {
+      background-color: themed('cellBackground');
+    }
 
     &:hover:not(.member-selected) {
-      background-color: $session-shade-7;
+      @include themify($themes) {
+        background-color: themed('clickableHovered');
+      }
     }
   }
 

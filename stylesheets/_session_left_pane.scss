@@ -102,7 +102,6 @@ $session-compose-margin: 20px;
 }
 
 .module-left-pane {
-  border-right: 1px solid rgba($session-color-white, 0.1) !important;
   width: $session-left-pane-width;
   position: relative;
   height: -webkit-fill-available;

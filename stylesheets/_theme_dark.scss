@@ -555,53 +555,6 @@ body.dark-theme {
     @include color-svg('../images/error.svg', $color-core-red);
   }
 
-  .module-message__container--outgoing {
-    background-color: $color-dark-70;
-  }
-
-  // In case the color gets messed up
-  .module-message__container--incoming {
-    background-color: $color-conversation-grey;
-  }
-
-  .module-message__container--incoming-red {
-    background-color: $color-conversation-red;
-  }
-  .module-message__container--incoming-deep_orange {
-    background-color: $color-conversation-deep_orange;
-  }
-  .module-message__container--incoming-brown {
-    background-color: $color-conversation-brown;
-  }
-  .module-message__container--incoming-pink {
-    background-color: $color-conversation-pink;
-  }
-  .module-message__container--incoming-purple {
-    background-color: $color-conversation-purple;
-  }
-  .module-message__container--incoming-indigo {
-    background-color: $color-conversation-indigo;
-  }
-  .module-message__container--incoming-blue {
-    background-color: $color-conversation-blue;
-  }
-  .module-message__container--incoming-teal {
-    background-color: $color-conversation-teal;
-  }
-  .module-message__container--incoming-green {
-    background-color: $color-conversation-green;
-  }
-  .module-message__container--incoming-light_green {
-    background-color: $color-conversation-light_green;
-  }
-  .module-message__container--incoming-blue_grey {
-    background-color: $color-conversation-blue_grey;
-  }
-
-  .module-message__attachment-container {
-    background-color: $color-gray-95;
-  }
-
   .module-message__img-border-overlay {
     box-shadow: inset 0px 0px 0px 1px $color-white-015;
   }
@@ -651,10 +604,6 @@ body.dark-theme {
     color: $color-white;
   }
 
-  .module-message__generic-attachment__icon {
-    // background: url('../images/file-gradient.svg') no-repeat center;
-  }
-
   .module-message__generic-attachment__file-name {
     color: $color-dark-05;
   }
@@ -688,31 +637,7 @@ body.dark-theme {
   .module-message__link-preview__location {
     color: $color-gray-25;
   }
-  .module-conversation__user,
-  .module-message__author {
-    color: $color-white;
-  }
 
-  .module-message__text {
-    color: $color-dark-05;
-    a {
-      color: $color-dark-05;
-    }
-  }
-
-  .module-message__text--incoming {
-    color: $color-white;
-    a {
-      color: $color-white;
-    }
-  }
-
-  .module-message__metadata__date {
-    color: $color-white-08;
-  }
-  .module-message__metadata__date--incoming {
-    color: $color-white-08;
-  }
   .module-message__metadata__date--with-image-no-caption {
     color: $color-white-08;
   }
@@ -801,129 +726,17 @@ body.dark-theme {
   }
 
   // Module: Quoted Reply
-
   .module-quote--outgoing {
     border-left-color: $color-conversation-grey;
     background-color: $color-conversation-grey-shade;
-  }
-  .module-quote--outgoing-red {
-    border-left-color: $color-conversation-red;
-    background-color: $color-conversation-red-shade;
-  }
-  .module-quote--outgoing-deep_orange {
-    border-left-color: $color-conversation-deep_orange;
-    background-color: $color-conversation-deep_orange-shade;
-  }
-  .module-quote--outgoing-brown {
-    border-left-color: $color-conversation-brown;
-    background-color: $color-conversation-brown-shade;
-  }
-  .module-quote--outgoing-pink {
-    border-left-color: $color-conversation-pink;
-    background-color: $color-conversation-pink-shade;
-  }
-  .module-quote--outgoing-purple {
-    border-left-color: $color-conversation-purple;
-    background-color: $color-conversation-purple-shade;
-  }
-  .module-quote--outgoing-indigo {
-    border-left-color: $color-conversation-indigo;
-    background-color: $color-conversation-indigo-shade;
-  }
-  .module-quote--outgoing-blue {
-    border-left-color: $color-conversation-blue;
-    background-color: $color-conversation-blue-shade;
-  }
-  .module-quote--outgoing-teal {
-    border-left-color: $color-conversation-teal;
-    background-color: $color-conversation-teal-shade;
-  }
-  .module-quote--outgoing-green {
-    border-left-color: $color-conversation-green;
-    background-color: $color-conversation-green-shade;
-  }
-  .module-quote--outgoing-light_green {
-    border-left-color: $color-conversation-light_green;
-    background-color: $color-conversation-light_green-shade;
-  }
-  .module-quote--outgoing-blue_grey {
-    border-left-color: $color-conversation-blue_grey;
-    background-color: $color-conversation-blue_grey-shade;
   }
 
   .module-quote--incoming {
     border-left-color: $color-black;
     background-color: $color-conversation-grey-shade;
   }
-  .module-quote--incoming-red {
-    background-color: $color-conversation-red-shade;
-  }
-  .module-quote--incoming-deep_orange {
-    background-color: $color-conversation-deep_orange-shade;
-  }
-  .module-quote--incoming-brown {
-    background-color: $color-conversation-brown-shade;
-  }
-  .module-quote--incoming-pink {
-    background-color: $color-conversation-pink-shade;
-  }
-  .module-quote--incoming-purple {
-    background-color: $color-conversation-purple-shade;
-  }
-  .module-quote--incoming-indigo {
-    background-color: $color-conversation-indigo-shade;
-  }
-  .module-quote--incoming-blue {
-    background-color: $color-conversation-blue-shade;
-  }
-  .module-quote--incoming-teal {
-    background-color: $color-conversation-teal-shade;
-  }
-  .module-quote--incoming-green {
-    background-color: $color-conversation-green-shade;
-  }
-  .module-quote--incoming-light_green {
-    background-color: $color-conversation-light_green-shade;
-  }
-  .module-quote--incoming-blue_grey {
-    background-color: $color-conversation-blue_grey-shade;
-  }
 
   .module-quote__primary__author {
-    color: $color-dark-05;
-  }
-
-  .module-quote__primary__author-red {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-deep_orange {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-brown {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-pink {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-purple {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-indigo {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-blue {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-teal {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-green {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-light_green {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-blue_grey {
     color: $color-dark-05;
   }
 
@@ -1086,12 +899,6 @@ body.dark-theme {
   }
 
   // Module: Conversation Header
-
-  .module-conversation-header {
-    color: $color-dark-05;
-    background-color: $color-gray-95;
-    border-bottom: 1px solid $color-light-60;
-  }
 
   .module-conversation-header__back-icon {
     @include color-svg('../images/back.svg', $color-dark-05);
@@ -1296,48 +1103,7 @@ body.dark-theme {
     background-color: $color-conversation-grey-shade;
   }
 
-  .module-avatar--signal-blue {
-    background-color: $color-signal-blue;
-  }
-  .module-avatar--red {
-    background-color: $color-conversation-red-shade;
-  }
-  .module-avatar--deep_orange {
-    background-color: $color-conversation-deep_orange-shade;
-  }
-  .module-avatar--brown {
-    background-color: $color-conversation-brown-shade;
-  }
-  .module-avatar--pink {
-    background-color: $color-conversation-pink-shade;
-  }
-  .module-avatar--purple {
-    background-color: $color-conversation-purple-shade;
-  }
-  .module-avatar--indigo {
-    background-color: $color-conversation-indigo-shade;
-  }
-  .module-avatar--blue {
-    background-color: $color-conversation-blue-shade;
-  }
-  .module-avatar--teal {
-    background-color: $color-conversation-teal-shade;
-  }
-  .module-avatar--green {
-    background-color: $color-conversation-green-shade;
-  }
-  .module-avatar--light_green {
-    background-color: $color-conversation-light_green-shade;
-  }
-  .module-avatar--blue_grey {
-    background-color: $color-conversation-blue_grey-shade;
-  }
-
   // Module: Main Header
-
-  .module-main-header {
-    border-bottom: 1px solid $color-gray-75;
-  }
 
   .module-main-header__search__input {
     background-color: $color-gray-95;
@@ -1540,58 +1306,6 @@ body.dark-theme {
 
   .module-message-search-result__body {
     color: $color-gray-05;
-  }
-
-  // Module: Left Pane
-
-  .module-left-pane {
-    background-color: $color-dark-85;
-    border-right: 1px solid $color-gray-75;
-  }
-
-  .module-left-pane__archive-header {
-    border-bottom: 1px solid $color-gray-75;
-  }
-
-  .module-left-pane__to-inbox-button {
-    background-color: $color-gray-25;
-  }
-
-  .module-left-pane__archive-header-text {
-    color: $color-gray-05;
-  }
-
-  .module-left-pane__archive-helper-text {
-    color: $color-gray-25;
-    background-color: $color-gray-75;
-  }
-
-  .module-left-pane__archived-button {
-    color: $color-gray-25;
-    &:hover {
-      background-color: $color-gray-75;
-    }
-  }
-
-  .module-left-pane__archived-button__archived-count {
-    color: $color-gray-25;
-    background-color: $color-gray-75;
-  }
-
-  // Module: Start New Conversation
-
-  .module-start-new-conversation {
-    &:hover {
-      background-color: $color-dark-70;
-    }
-  }
-
-  .module-start-new-conversation__number {
-    color: $color-gray-05;
-  }
-
-  .module-start-new-conversation__text {
-    color: $color-gray-45;
   }
 
   // Third-party module: react-contextmenu
