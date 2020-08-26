@@ -1,10 +1,10 @@
 // tslint:disable no-default-export
 
-export default function createTaskWithTimeout(
-  task: () => Promise<any>,
+export default function createTaskWithTimeout<T>(
+  task: () => Promise<T>,
   id: string,
   options: { timeout?: number } = {}
-) {
+): () => Promise<T> {
   const timeout = options.timeout || 1000 * 60 * 2; // two minutes
 
   const errorForStack = new Error('for stack');
@@ -12,7 +12,7 @@ export default function createTaskWithTimeout(
   return async () =>
     new Promise((resolve, reject) => {
       let complete = false;
-      let timer: any = setTimeout(() => {
+      let timer: NodeJS.Timeout | null = setTimeout(() => {
         if (!complete) {
           const message = `${id ||
             ''} task did not complete in time. Calling stack: ${
@@ -43,7 +43,7 @@ export default function createTaskWithTimeout(
         }
       };
 
-      const success = (result: any) => {
+      const success = (result: T) => {
         clearTimer();
         complete = true;
         resolve(result);
