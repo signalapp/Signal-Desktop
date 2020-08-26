@@ -47,7 +47,7 @@ describe('Window Test and Login', function() {
     await app.client.element(RegistrationPage.restoreFromSeedMode).click();
     await app.client
       .element(RegistrationPage.recoveryPhraseInput)
-      .setValue(Common.TEST_MNEMONIC1);
+      .setValue(Common.TEST_RECOVERY_PHRASE_1);
     await app.client
       .element(RegistrationPage.displayNameInput)
       .setValue(Common.TEST_DISPLAY_NAME1);
@@ -56,7 +56,7 @@ describe('Window Test and Login', function() {
     await app.client
       .element(RegistrationPage.recoveryPhraseInput)
       .getValue()
-      .should.eventually.equal(Common.TEST_MNEMONIC1);
+      .should.eventually.equal(Common.TEST_RECOVERY_PHRASE_1);
     await app.client
       .element(RegistrationPage.displayNameInput)
       .getValue()
@@ -107,7 +107,7 @@ describe('Window Test and Login', function() {
   it('registration: can delete account when logged in', async () => {
     // login as user1
     const login = {
-      mnemonic: Common.TEST_MNEMONIC1,
+      recoveryPhrase: Common.TEST_RECOVERY_PHRASE_1,
       displayName: Common.TEST_DISPLAY_NAME1,
     };
     app = await Common.startAndStub(login);

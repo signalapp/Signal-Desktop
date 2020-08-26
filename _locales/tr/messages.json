@@ -3,17 +3,9 @@
         "message": "Hatayı kopyala ve çık",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
-    "unknownGroup": {
-        "message": "Bilinmeyen grup",
-        "description": "Shown as the name of a group if we don't have any information about it"
-    },
     "databaseError": {
         "message": "Veritabanı hatası",
         "description": "Shown in a popup if the database cannot start up properly"
-    },
-    "deleteAndRestart": {
-        "message": "Tüm verileri sil ve yeniden başlat",
-        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
         "message": "&Dosya",
@@ -34,10 +26,6 @@
     "mainMenuHelp": {
         "message": "&Yardım",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuSettings": {
-        "message": "Tercihler...",
-        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
         "message": "Gizle",
@@ -135,10 +123,6 @@
         "message": "İçe Aktarma seçeneği ile kur",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
-    "menuSetupAsNewDevice": {
-        "message": "Yeni Cihaz olarak kur",
-        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
-    },
     "menuSetupAsStandalone": {
         "message": "Bağımsız Cihaz olarak kur",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
@@ -161,29 +145,9 @@
             }
         }
     },
-    "archivedConversations": {
-        "message": "Arşivlenmiş Sohbetler",
-        "description": "Shown in place of the search box when showing archived conversation list"
-    },
-    "archiveHelperText": {
-        "message": "Bu sohbetler arşivlendi ve sadece yeni iletiler alınırsa gelen kutusunda görünecekler.",
-        "description": "Shown at the top of the archived converations list in the left pane"
-    },
-    "archiveConversation": {
-        "message": "Sohbeti Arşivle",
-        "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
-    },
-    "moveConversationToInbox": {
-        "message": "Sohbeti Gelen Kutusuna Taşı",
-        "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
-    },
     "chooseDirectory": {
         "message": "Klasör seçin",
         "description": "Button to allow the user to find a folder on disk"
-    },
-    "chooseFile": {
-        "message": "Dosya seçin",
-        "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
         "message": "Verilerinizi yükleyin",
@@ -229,24 +193,6 @@
         "message": "Bu cihazı telefonunuza bağlayın",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
-    "selectedLocation": {
-        "message": "seçtiğiniz konum",
-        "description": "Message shown as the export location if we didn't capture the target directory"
-    },
-    "upgradingDatabase": {
-        "message": "Veritabanı yükseltiliyor. Bu biraz zaman alabilir...",
-        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
-    },
-    "loadingMessages": {
-        "message": "İletiler yükleniyor. Şimdiye kadar $count$...",
-        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
-    },
     "me": {
         "message": "Ben",
         "description": "The label for yourself when shown in a group member list"
@@ -258,18 +204,6 @@
     "youLeftTheGroup": {
         "message": "Gruptan ayrıldınız",
         "description": "Displayed when a user can't send a message because they have left the group"
-    },
-    "scrollDown": {
-        "message": "Sohbetin en altına kaydır",
-        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-    },
-    "messageBelow": {
-        "message": "Aşağıda yeni ileti var",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-    },
-    "messagesBelow": {
-        "message": "Aşağıda yeni iletiler var",
-        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
         "message": "1 Okunmamış İleti",
@@ -415,10 +349,6 @@
         "message": "Gönder",
         "description": ""
     },
-    "acceptNewKey": {
-        "message": "Kabul et",
-        "description": "Label for a button to accept a new safety number"
-    },
     "verify": {
         "message": "Doğrulanmış olarak işaretle",
         "description": ""
@@ -454,10 +384,6 @@
     "newIdentity": {
         "message": "Yeni güvenlik numarası",
         "description": "Header for a key change dialog"
-    },
-    "identityChanged": {
-        "message": "Bu kişiyle olan güvenlik numaranız değişti. Bu birisinin iletişiminizi kesmeye çalıştığı veya bu kişinin Signal'i yeniden yüklemiş olduğu anlamına gelebilir. Aşağıdaki yeni güvenlik numarasını doğrulamak isteyebilirsiniz.",
-        "description": ""
     },
     "incomingError": {
         "message": "Gelen ileti işlenirken hata oluştu",
@@ -495,18 +421,6 @@
         "message": "Bu Ay",
         "description": "Section header in the media gallery"
     },
-    "unsupportedAttachment": {
-        "message": "Desteklenmeyen eklenti türü. Kaydetmek için tıkla.",
-        "description": "Displayed for incoming unsupported attachment"
-    },
-    "clickToSave": {
-        "message": "Kaydetmek için tıkla",
-        "description": "Hover text for attachment filenames"
-    },
-    "unnamedFile": {
-        "message": "İsimsiz Dosya",
-        "description": "Hover text for attachment filenames"
-    },
     "voiceMessage": {
         "message": "Sesli İleti",
         "description": "Name for a voice message attachment"
@@ -514,10 +428,6 @@
     "dangerousFileType": {
         "message": "Eklenti türüne güvenlik sebeplerinden dolayı izin verilmemektedir",
         "description": "Shown in toast when user attempts to send .exe file, for example"
-    },
-    "loadingPreview": {
-        "message": "Öz İzleme Yükleniyor...",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
         "message": "$domain$ için bağlantı ön izlemesi küçük resim taslağı",
@@ -569,10 +479,6 @@
         "message": "Seçilen eklenti yüklenemedi.",
         "description": ""
     },
-    "disconnected": {
-        "message": "Bağlantı yok",
-        "description": "Displayed when the desktop client cannot connect to the server."
-    },
     "connecting": {
         "message": "Bağlanıyor",
         "description": "Displayed when the desktop client is currently connecting to the server."
@@ -607,10 +513,6 @@
         "message": "Sürüm Notlarına Git",
         "description": ""
     },
-    "goToForums": {
-        "message": "Forumlara Git",
-        "description": "Item under the Help menu, takes you to the forums"
-    },
     "goToSupportPage": {
         "message": "Destek Sayfasına Git",
         "description": "Item under the Help menu, takes you to the support page"
@@ -619,14 +521,6 @@
         "message": "Sorun Bildir",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
-    "signalDesktopPreferences": {
-        "message": "Signal Desktop Tercihleri",
-        "description": "Title of the window that pops up with Signal Desktop preferences in it"
-    },
-    "aboutSignalDesktop": {
-        "message": "Signal Desktop Hakkında",
-        "description": "Item under the Help menu, which opens a small about window"
-    },
     "speech": {
         "message": "Konuşma",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -634,18 +528,6 @@
     "show": {
         "message": "Göster",
         "description": "Command under Window menu, to show the window"
-    },
-    "hide": {
-        "message": "Gizle",
-        "description": "Command in the tray icon menu, to hide the window"
-    },
-    "quit": {
-        "message": "Çıkış Yap",
-        "description": "Command in the tray icon menu, to quit the application"
-    },
-    "signalDesktop": {
-        "message": "Signal Desktop",
-        "description": "Tooltip for the tray icon"
     },
     "search": {
         "message": "Ara",
@@ -677,10 +559,6 @@
         "message": "Signal'e Hoşgeldin",
         "description": ""
     },
-    "selectAContact": {
-        "message": "Sohbete başlamak için bir kişi veya grup seçin.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Bu sohbet için yazma animasyonu",
         "description": "Used as the 'title' attibute for the typing animation"
@@ -694,10 +572,6 @@
                 "example": "John"
             }
         }
-    },
-    "sendMessageToContact": {
-        "message": "İleti Gönder",
-        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
         "message": "ev",
@@ -759,16 +633,6 @@
         "message": "Siz",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
-    "replyingTo": {
-        "message": "$name$ Cevaben",
-        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
     "audioPermissionNeeded": {
         "message": "Sesli iletiler göndermek için, Signal Desktop'ın mikrofonunuza erişimine izin verin.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
@@ -776,10 +640,6 @@
     "allowAccess": {
         "message": "Erişimine İzin Ver",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
-    },
-    "showSettings": {
-        "message": "Ayarları Göster",
-        "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
         "message": "Ses",
@@ -797,10 +657,6 @@
         "message": "Cannot Update",
         "description": "Shown as the title of our update error dialogs on windows"
     },
-    "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
-    },
     "ok": {
         "message": "TAMAM",
         "description": ""
@@ -809,16 +665,8 @@
         "message": "İptal",
         "description": ""
     },
-    "failedToSend": {
-        "message": "Bazı alıcılara gönderilemedi. Ağ bağlantınızı kontrol edin.",
-        "description": ""
-    },
     "error": {
         "message": "Hata",
-        "description": ""
-    },
-    "messageDetail": {
-        "message": "İleti Detayı",
         "description": ""
     },
     "delete": {
@@ -857,10 +705,6 @@
         "message": "Grup üyeleri",
         "description": ""
     },
-    "showMembers": {
-        "message": "Üyeleri göster",
-        "description": ""
-    },
     "resetSession": {
         "message": "Oturumu sıfırla",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
@@ -868,10 +712,6 @@
     "showSafetyNumber": {
         "message": "Güvenlik numarasını görüntüle",
         "description": ""
-    },
-    "viewAllMedia": {
-        "message": "Tüm medyaları görüntüle",
-        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
         "message": "$name$ ile olan uçtan uca şifrelemenizin güvenliğini doğrulamak isterseniz, yukarıdaki numaraları cihazlarındaki numaralarla karşılaştırın.",
@@ -886,14 +726,6 @@
     "theirIdentityUnknown": {
         "message": "Bu kişiyle herhangi bir iletişimde bulunmadınız. Güvenlik numaralarınız ilk iletiden sonra oluşturulacaktır.",
         "description": ""
-    },
-    "moreInfo": {
-        "message": "Daha Fazla Bilgi...",
-        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
-    },
-    "retrySend": {
-        "message": "Tekrar Gönder",
-        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
         "message": "İletiyi Sil",
@@ -939,10 +771,6 @@
         "message": "Kaydet",
         "description": ""
     },
-    "fileIconAlt": {
-        "message": "Dosya ikonu",
-        "description": "Used in the media gallery documents tab to visually represent a file"
-    },
     "emojiAlt": {
         "message": "'$title$' emoji resmi",
         "description": "Used in the alt tag of all emoji images",
@@ -953,65 +781,9 @@
             }
         }
     },
-    "installWelcome": {
-        "message": "Signal Desktop'a Hoş Geldiniz",
-        "description": "Welcome title on the install page"
-    },
-    "installTagline": {
-        "message": "Gizlilik mümkün. Signal bunu kolaylaştırır.",
-        "description": "Tagline displayed under 'installWelcome' string on the install page"
-    },
-    "linkYourPhone": {
-        "message": "Signal Desktop'a telefonunuzu bağlayın",
-        "description": "Shown on the front page when the application first starst, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Signal Ayarları",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "linkedDevices": {
-        "message": "Bağlı cihazlar",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "'+' Düğmesi",
-        "description": "The button used in Signal Android to add a new linked device"
-    },
     "linkNewDevice": {
         "message": "Yeni Cihaz Bağla",
         "description": "The menu option shown in Signal iOS to add a new linked device"
-    },
-    "deviceName": {
-        "message": "Cihaz adı",
-        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
-    },
-    "chooseDeviceName": {
-        "message": "Bu cihazı adlandırın",
-        "description": "The header shown on the 'choose device name' screen in the device linking process"
-    },
-    "finishLinkingPhone": {
-        "message": "Telefon bağlantısını tamamla",
-        "description": "The text on the button to finish the linking process, after choosing the device name"
-    },
-    "initialSync": {
-        "message": "Kişiler ve gruplar senkronize ediliyor",
-        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
-    },
-    "installConnectionFailed": {
-        "message": "Sunucuya bağlanılamadı.",
-        "description": "Displayed when we can't connect to the server."
-    },
-    "installTooManyDevices": {
-        "message": "Üzgünüz, halihazırda bağlı olan çok fazla cihazınız var. Bazılarını kaldırmayı deneyin.",
-        "description": ""
-    },
-    "settings": {
-        "message": "Ayarlar",
-        "description": "Menu item and header for global settings"
-    },
-    "theme": {
-        "message": "Tema",
-        "description": "Header for theme settings"
     },
     "permissions": {
         "message": "İzinler",
@@ -1028,34 +800,6 @@
     "spellCheckDescription": {
         "message": "İleti kutusuna girilen sözcüklerin denetlenmesini etkinleştir",
         "description": "Description of the media permission description"
-    },
-    "clearDataHeader": {
-        "message": "Verileri Temizle",
-        "description": "Header in the settings dialog for the section dealing with data deletion"
-    },
-    "clearDataExplanation": {
-        "message": "Bu, tüm iletileri ve kayıtlı hesap bilgilerini kaldırarak uygulamadaki tüm verileri temizler.",
-        "description": "Text describing what the clear data button will do."
-    },
-    "clearDataButton": {
-        "message": "Verileri temizle",
-        "description": "Button in the settings dialog starting process to delete all data"
-    },
-    "deleteAllDataHeader": {
-        "message": "Tüm veri silinsin mi?",
-        "description": "Header of the full-screen delete data confirmation screen"
-    },
-    "deleteAllDataBody": {
-        "message": "Tüm kişilerin ve tüm iletilerin dahil olduğu bu uygulamanın tüm kayıtlı hesap bilgilerini silmek üzeresiniz. İstediğiniz zaman mobil cihazınızla tekrar bağlayabilirsiniz, ancak silinen iletiler geri yüklenmeyecektir.",
-        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
-    },
-    "deleteAllDataButton": {
-        "message": "Tüm verileri sil",
-        "description": "Text of the button that deletes all data"
-    },
-    "deleteAllDataProgress": {
-        "message": "Bağlantı kesiliyor ve tüm veriler siliniyor",
-        "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
         "message": "Bildirimler",
@@ -1105,14 +849,6 @@
         "message": "Gönderme başarısız",
         "description": "Shown on outgoing message if it fails to send"
     },
-    "showMore": {
-        "message": "Detaylar",
-        "description": "Displays the details of a key change"
-    },
-    "showLess": {
-        "message": "Detayları gizle",
-        "description": "Hides the details of a key change"
-    },
     "learnMore": {
         "message": "Güvenlik numaralarını doğrulama hakkında daha fazla bilgi edinin",
         "description": "Text that links to a support article on verifying safety numbers"
@@ -1129,34 +865,6 @@
         "message": "Medya iletisi",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
-    "unregisteredUser": {
-        "message": "Numara kayıtlı değil",
-        "description": "Error message displayed when sending to an unregistered user."
-    },
-    "sync": {
-        "message": "Kişiler",
-        "description": "Label for contact and group sync settings"
-    },
-    "syncExplanation": {
-        "message": "Tüm Signal gruplarını ve kişileri mobil cihazınızdan buraya aktarın.",
-        "description": "Explanatory text for sync settings"
-    },
-    "lastSynced": {
-        "message": "Son senkronize zamanı",
-        "description": "Label for date and time of last sync operation"
-    },
-    "syncNow": {
-        "message": "Şimdi içe aktar",
-        "description": "Label for a button that syncs contacts and groups from your phone"
-    },
-    "syncing": {
-        "message": "İçe aktarılıyor...",
-        "description": "Label for a disabled sync button while sync is in progress."
-    },
-    "syncFailed": {
-        "message": "İçe aktarma başarısız oldu. Bilgisayarınızın ve telefonunuzun İnternet'e bağlı olduğundan emin olun.",
-        "description": "Informational text displayed if a sync operation times out."
-    },
     "timestamp_s": {
         "message": "şimdi",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
@@ -1168,50 +876,6 @@
     "timestamp_h": {
         "message": "1 saat",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
-    },
-    "hoursAgoShort": {
-        "message": "$hours$ s",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "hoursAgo": {
-        "message": "$hours$ s önce",
-        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "minutesAgoShort": {
-        "message": "$minutes$ dk",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "minutesAgo": {
-        "message": "$minutes$ dk önce",
-        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "justNow": {
-        "message": "şimdi",
-        "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D MMM",
@@ -1387,10 +1051,6 @@
             }
         }
     },
-    "audioNotificationDescription": {
-        "message": "Sesli bildirim oynat",
-        "description": "Description for audio notification setting"
-    },
     "safetyNumberChanged": {
         "message": "Güvenlik Numarası değişti",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -1419,45 +1079,17 @@
             }
         }
     },
-    "themeLight": {
-        "message": "Açık",
-        "description": "Label text for light theme (normal)"
-    },
-    "themeDark": {
-        "message": "Koyu",
-        "description": "Label text for dark theme"
-    },
     "noteToSelf": {
         "message": "Kendime Not",
         "description": "Name for the conversation with your own phone number"
-    },
-    "hideMenuBar": {
-        "message": "Menü çubuğunu gizle",
-        "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
         "message": "Yeni sohbet başlat…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
-    "newPhoneNumber": {
-        "message": "Kişi eklemek için telefon numarasını girin.",
-        "description": "Placeholder for adding a new number to a contact"
-    },
     "invalidNumberError": {
         "message": "Geçersiz numara",
         "description": "When a person inputs a number that is invalid"
-    },
-    "unlinkedWarning": {
-        "message": "İletişime devam etmek için Signal Desktop'ı mobil cihazınıza yeniden bağlayın.",
-        "description": ""
-    },
-    "unlinked": {
-        "message": "Bağlantı koparıldı",
-        "description": ""
-    },
-    "relink": {
-        "message": "Yeniden bağla",
-        "description": ""
     },
     "autoUpdateNewVersionTitle": {
         "message": "Session güncellemesi mevcut",

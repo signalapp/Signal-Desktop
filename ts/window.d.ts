@@ -10,6 +10,7 @@ import { SwarmPolling } from './session/snode_api/swarmPolling';
 
 import { LibTextsecure } from '../libtextsecure';
 import { ConversationType } from '../js/modules/data';
+import { RecoveryPhraseUtil } from '../libloki/modules/mnemonic';
 
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
@@ -67,7 +68,7 @@ declare global {
     lokiPublicChatAPI: LokiPublicChatFactoryInterface;
     lokiSnodeAPI: LokiSnodeAPI;
     lokiPublicChatAPI: LokiPublicChatFactoryAPI;
-    mnemonic: any;
+    mnemonic: RecoveryPhraseUtil;
     onLogin: any;
     passwordUtil: any;
     pushToast: any;

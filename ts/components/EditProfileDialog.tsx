@@ -306,9 +306,9 @@ export class EditProfileDialog extends React.Component<Props, State> {
     window.clipboard.writeText(sessionID);
 
     ToastUtils.push({
-      title: window.i18n('copiedSessionID'),
+      title: window.i18n('copiedToClipboard'),
       type: 'success',
-      id: 'copiedSessionID',
+      id: 'copiedToClipboard',
     });
   }
 

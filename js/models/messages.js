@@ -231,7 +231,7 @@
             messages.push(i18n('kickedFromTheGroup', names[0]));
           }
         }
-        return messages.join(', ');
+        return messages.join(' ');
       }
       if (this.isEndSession()) {
         return i18n(this.getEndSessionTranslationKey());
@@ -935,9 +935,9 @@
       }
 
       window.pushToast({
-        title: i18n('copiedPublicKey'),
+        title: i18n('copiedToClipboard'),
         type: 'success',
-        id: 'copiedPublicKey',
+        id: 'copiedToClipboard',
       });
     },
 
@@ -996,9 +996,9 @@
       clipboard.writeText(this.get('body'));
 
       window.pushToast({
-        title: i18n('copiedMessage'),
+        title: i18n('copiedToClipboard'),
         type: 'success',
-        id: 'copiedMessage',
+        id: 'copiedToClipboard',
       });
     },
 

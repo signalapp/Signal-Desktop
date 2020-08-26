@@ -21,7 +21,7 @@ describe('Link Device', function() {
     await Common.killallElectron();
 
     const app1Props = {
-      mnemonic: Common.TEST_MNEMONIC1,
+      recoveryPhrase: Common.TEST_RECOVERY_PHRASE_1,
       displayName: Common.TEST_DISPLAY_NAME1,
     };
 

@@ -123,9 +123,7 @@
           if (messagesNotificationCount === 1) {
             message = `${i18n('notificationFrom')} ${lastMessageTitle}`;
           } else {
-            message = `${i18n(
-              'notificationMostRecentFrom'
-            )} ${lastMessageTitle}`;
+            message = i18n('notificationMostRecentFrom', lastMessageTitle);
           }
           break;
         }

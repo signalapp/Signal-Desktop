@@ -151,8 +151,8 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
 
     const dangerButtonText = isSecondaryDevice
       ? window.i18n('unpairDevice')
-      : window.i18n('deleteAccount');
-    const showSeed = window.i18n('showSeed');
+      : window.i18n('clearAllData');
+    const showRecoveryPhrase = window.i18n('showRecoveryPhrase');
 
     return (
       <div className="left-pane-setting-bottom-buttons">
@@ -164,7 +164,7 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
         />
         {!isSecondaryDevice && (
           <SessionButton
-            text={showSeed}
+            text={showRecoveryPhrase}
             buttonType={SessionButtonType.SquareOutline}
             buttonColor={SessionButtonColor.White}
             onClick={window.showSeedDialog}
@@ -178,16 +178,16 @@ export class LeftPaneSettingSection extends React.Component<Props, State> {
     const { isSecondaryDevice } = this.props;
 
     const title = window.i18n(
-      isSecondaryDevice ? 'unpairDevice' : 'deleteAccount'
+      isSecondaryDevice ? 'unpairDevice' : 'clearAllData'
     );
 
     const message = window.i18n(
       isSecondaryDevice ? 'unpairDeviceWarning' : 'deleteAccountWarning'
     );
 
-    const messageSub = window.i18n(
-      isSecondaryDevice ? 'unpairDeviceWarningSub' : 'deleteAccountWarningSub'
-    );
+    const messageSub = isSecondaryDevice
+      ? window.i18n('unpairDeviceWarningSub')
+      : '';
 
     window.confirmationDialog({
       title,

@@ -11,7 +11,6 @@
   Whisper.AppView = Backbone.View.extend({
     initialize() {
       this.inboxView = null;
-      this.installView = null;
 
       this.applyTheme();
       this.applyHideMenu();
@@ -72,37 +71,10 @@
       );
       this.openView(this.importView);
     },
-    finishLightImport() {
-      const options = {
-        hasExistingData: true,
-      };
-      this.openInstaller(options);
-    },
     closeImporter() {
       if (this.importView) {
         this.importView.remove();
         this.importView = null;
-      }
-    },
-    openInstaller(options = {}) {
-      // If we're in the middle of import, we don't want to show the menu options
-      //   allowing the user to switch to other ways to set up the app. If they
-      //   switched back and forth in the middle of a light import, they'd lose all
-      //   that imported data.
-      if (!options.hasExistingData) {
-        window.addSetupMenuItems();
-      }
-
-      this.resetViews();
-      const installView = new Whisper.InstallView(options);
-      this.installView = installView;
-
-      this.openView(this.installView);
-    },
-    closeInstaller() {
-      if (this.installView) {
-        this.installView.remove();
-        this.installView = null;
       }
     },
     openStandalone() {
@@ -118,7 +90,6 @@
       }
     },
     resetViews() {
-      this.closeInstaller();
       this.closeImporter();
       this.closeStandalone();
     },
@@ -138,7 +109,6 @@
       _.defaults(options, { initialLoadComplete: this.initialLoadComplete });
 
       // window.log.info('open inbox');
-      this.closeInstaller();
 
       if (!this.inboxView) {
         // We create the inbox immediately so we don't miss an update to
@@ -234,16 +204,14 @@
       this.el.append(dialog.el);
     },
     showLeaveGroupDialog(groupConvo) {
-      let title = i18n('deleteContact');
-      let message = i18n('deleteContactConfirmation');
-
-      if (groupConvo.isPublic()) {
-        title = i18n('leaveOpenGroup');
-        message = i18n('leaveOpenGroupConfirmation');
-      } else if (groupConvo.isClosedGroup()) {
-        title = i18n('leaveClosedGroup');
-        message = i18n('leaveClosedGroupConfirmation');
+      if (!groupConvo.isGroup()) {
+        throw new Error(
+          'showLeaveGroupDialog() called with a non group convo.'
+        );
       }
+
+      const title = i18n('leaveGroup');
+      const message = i18n('leaveGroupConfirmation');
 
       window.confirmationDialog({
         title,

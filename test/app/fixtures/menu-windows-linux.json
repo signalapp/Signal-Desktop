@@ -123,7 +123,7 @@
         "type": "separator"
       },
       {
-        "label": "About Session",
+        "label": "About",
         "click": null
       }
     ]

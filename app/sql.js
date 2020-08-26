@@ -1176,7 +1176,7 @@ async function initialize({ configDir, key, messages, passwordAttempt }) {
     const buttonIndex = dialog.showMessageBox({
       buttons: [
         messages.copyErrorAndQuit.message,
-        messages.deleteAndRestart.message,
+        messages.clearAllData.message,
       ],
       defaultId: 0,
       detail: redactAll(error.stack),

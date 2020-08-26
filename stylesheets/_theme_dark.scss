@@ -302,11 +302,11 @@ body.dark-theme {
     color: black;
     /* biggest we can make the font without wrapping the current text at minimum app width */
     font-family: $session-font-accent;
-    font-size: 20px;
+    font-size: 16px;
     height: 60px;
 
     span {
-      line-height: 36px;
+      line-height: 45px;
     }
 
     button {

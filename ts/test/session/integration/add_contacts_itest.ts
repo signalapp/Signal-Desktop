@@ -21,12 +21,12 @@ describe('Add contact', function() {
     await Common.stopStubSnodeServer();
 
     const app1Props = {
-      mnemonic: Common.TEST_MNEMONIC1,
+      recoveryPhrase: Common.TEST_RECOVERY_PHRASE_1,
       displayName: Common.TEST_DISPLAY_NAME1,
     };
 
     const app2Props = {
-      mnemonic: Common.TEST_MNEMONIC2,
+      recoveryPhrase: Common.TEST_RECOVERY_PHRASE_2,
       displayName: Common.TEST_DISPLAY_NAME2,
     };
 

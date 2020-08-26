@@ -532,13 +532,6 @@
     }
   );
 
-  Whisper.events.on('setupAsNewDevice', () => {
-    const { appView } = window.owsDesktopApp;
-    if (appView) {
-      appView.openInstaller();
-    }
-  });
-
   Whisper.events.on('setupAsStandalone', () => {
     const { appView } = window.owsDesktopApp;
     if (appView) {
@@ -664,11 +657,6 @@
     });
     Whisper.events.on('reconnectTimer', () => {
       appView.inboxView.networkStatusView.setSocketReconnectInterval(60000);
-    });
-    Whisper.events.on('contactsync', () => {
-      if (appView.installView) {
-        appView.openInbox();
-      }
     });
 
     window.addEventListener('focus', () => Whisper.Notifications.clear());

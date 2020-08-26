@@ -242,7 +242,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         <SessionSearchInput
           searchString={this.props.searchTerm}
           onChange={this.updateSearchBound}
-          placeholder={window.i18n('searchForAKeyPhrase')}
+          placeholder={window.i18n('searchFor...')}
         />
         {this.renderList()}
         {this.renderBottomButtons()}
@@ -363,21 +363,11 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   private renderBottomButtons(): JSX.Element {
-    const edit = window.i18n('edit');
     const joinOpenGroup = window.i18n('joinOpenGroup');
-    const createClosedGroup = window.i18n('createClosedGroup');
-    const showEditButton = false;
+    const newClosedGroup = window.i18n('newClosedGroup');
 
     return (
       <div className="left-pane-contact-bottom-buttons">
-        {showEditButton && (
-          <SessionButton
-            text={edit}
-            buttonType={SessionButtonType.SquareOutline}
-            buttonColor={SessionButtonColor.White}
-          />
-        )}
-
         <SessionButton
           text={joinOpenGroup}
           buttonType={SessionButtonType.SquareOutline}
@@ -387,7 +377,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           }}
         />
         <SessionButton
-          text={createClosedGroup}
+          text={newClosedGroup}
           buttonType={SessionButtonType.SquareOutline}
           buttonColor={SessionButtonColor.White}
           onClick={() => {
@@ -448,15 +438,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       return;
     }
 
-    // Server URL entered?
-    if (serverUrl.length === 0) {
-      return;
-    }
-
     // Server URL valid?
-    if (!OpenGroup.validate(serverUrl)) {
+    if (serverUrl.length === 0 || !OpenGroup.validate(serverUrl)) {
       ToastUtils.push({
-        title: window.i18n('noServerURL'),
+        title: window.i18n('invalidOpenGroupUrl'),
         id: 'connectToServer',
         type: 'error',
       });
@@ -532,11 +517,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       senderKeys,
       () => {
         this.handleToggleOverlay(undefined);
-
-        ToastUtils.push({
-          title: window.i18n('closedGroupCreatedToastTitle'),
-          type: 'success',
-        });
       }
     );
   }
