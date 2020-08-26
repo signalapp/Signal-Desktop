@@ -12,6 +12,17 @@ import { cleanId } from './_util';
 import { LocalizerType } from '../types/Util';
 import { ColorType } from '../types/Colors';
 
+export const MessageStatuses = [
+  'sending',
+  'sent',
+  'delivered',
+  'read',
+  'error',
+  'partial-sent',
+] as const;
+
+export type MessageStatusType = typeof MessageStatuses[number];
+
 export type PropsData = {
   id: string;
   phoneNumber?: string;
@@ -33,13 +44,7 @@ export type PropsData = {
 
   typingContact?: Object;
   lastMessage?: {
-    status:
-      | 'sending'
-      | 'sent'
-      | 'delivered'
-      | 'read'
-      | 'error'
-      | 'partial-sent';
+    status: MessageStatusType;
     text: string;
     deletedForEveryone?: boolean;
   };
@@ -51,7 +56,7 @@ type PropsHousekeeping = {
   onClick?: (id: string) => void;
 };
 
-type Props = PropsData & PropsHousekeeping;
+export type Props = PropsData & PropsHousekeeping;
 
 export class ConversationListItem extends React.PureComponent<Props> {
   public renderAvatar() {
