@@ -216,39 +216,6 @@
     </div>
   </script>
 
-  <script type="text/x-tmpl-mustache" id="clear-data">
-    {{#isStep1}}
-    <div class="step">
-      <div class="inner">
-        <div class="step-body">
-          <span class="banner-icon alert-outline-red"></span>
-          <div class="header">{{ header }}</div>
-          <div class="body-text-wide">{{ body }}</div>
-        </div>
-        <div class="nav">
-          <div>
-            <a class="button neutral cancel">{{ cancelButton }}</a>
-            <a class="button destructive delete-all-data">{{ deleteButton }}</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    {{/isStep1}}
-    {{#isStep2}}
-    <div id="step3" class="step">
-      <div class="inner">
-        <div class="step-body">
-          <span class="banner-icon delete"></span>
-          <div class="header">{{ deleting }}</div>
-        </div>
-        <div class="progress">
-
-        </div>
-      </div>
-    </div>
-    {{/isStep2}}
-  </script>
-
   <script type="text/x-tmpl-mustache" id="networkStatus">
     <div class="network-status-message">
       <h3>{{ message }}</h3>
