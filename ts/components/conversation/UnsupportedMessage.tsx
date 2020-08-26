@@ -5,7 +5,7 @@ import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
-interface ContactType {
+export interface ContactType {
   id: string;
   phoneNumber?: string;
   profileName?: string;
@@ -27,7 +27,7 @@ type PropsHousekeeping = {
   i18n: LocalizerType;
 };
 
-type Props = PropsData & PropsHousekeeping & PropsActions;
+export type Props = PropsData & PropsHousekeeping & PropsActions;
 
 export class UnsupportedMessage extends React.Component<Props> {
   public render() {
