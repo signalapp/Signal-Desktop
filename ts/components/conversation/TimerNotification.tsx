@@ -19,7 +19,7 @@ type PropsHousekeeping = {
   i18n: LocalizerType;
 };
 
-type Props = PropsData & PropsHousekeeping;
+export type Props = PropsData & PropsHousekeeping;
 
 export class TimerNotification extends React.Component<Props> {
   public renderContents() {
