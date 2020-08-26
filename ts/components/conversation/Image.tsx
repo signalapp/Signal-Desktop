@@ -6,7 +6,7 @@ import { Spinner } from '../Spinner';
 import { LocalizerType } from '../../types/Util';
 import { AttachmentType } from '../../types/Attachment';
 
-interface Props {
+export interface Props {
   alt: string;
   attachment: AttachmentType;
   url: string;
