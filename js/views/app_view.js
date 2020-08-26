@@ -169,12 +169,6 @@
       const dialog = new Whisper.SeedDialogView();
       this.el.prepend(dialog.el);
     },
-    showQRDialog(string) {
-      const dialog = new Whisper.QRDialogView({
-        value: string,
-      });
-      this.el.append(dialog.el);
-    },
     showDevicePairingDialog(options) {
       const dialog = new Whisper.DevicePairingDialogView(options);
       this.el.prepend(dialog.el);

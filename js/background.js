@@ -698,7 +698,6 @@
       confirmDialog.render();
     };
 
-    window.showQRDialog = window.owsDesktopApp.appView.showQRDialog;
     window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
     window.showPasswordDialog = window.owsDesktopApp.appView.showPasswordDialog;
     window.showEditProfileDialog = async callback => {
@@ -1106,13 +1105,6 @@
     Whisper.events.on('showSeedDialog', async () => {
       if (appView) {
         appView.showSeedDialog();
-      }
-    });
-
-    Whisper.events.on('showQRDialog', async () => {
-      if (appView) {
-        const ourNumber = textsecure.storage.user.getNumber();
-        appView.showQRDialog(ourNumber);
       }
     });
 
