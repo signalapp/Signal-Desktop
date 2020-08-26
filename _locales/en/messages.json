@@ -984,7 +984,7 @@
     "message": "Resend",
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send",
     "androidKey": "message_recipients_list_item__resend",
-    "wordCapitalize": true
+    "sentenceCase": true
   },
   "deleteMessage": {
     "message": "Delete Message",

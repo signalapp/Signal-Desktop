@@ -292,7 +292,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Ваш код безопасности с $name$ изменился. Это означает, что либо вашу переписку пытаются перехватить, либо $name$ просто переустановил(-а) Session.",
+        "message": "Ваш код безопасности с $name$ изменился. Это означает, что либо вашу переписку пытаются перехватить, либо $name$ просто переустановил(а) Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -472,7 +472,7 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Вложение превышает допустимый размер для того типа сообщения, которое вы отправляете.",
+        "message": "Вложение превышает допустимый размер для данного типа сообщения.",
         "description": ""
     },
     "unableToLoadAttachment": {
@@ -706,7 +706,7 @@
         "description": ""
     },
     "resetSession": {
-        "message": "Сбросить Защищённый Сеанс",
+        "message": "Обновить Сеанс Шифрования",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
@@ -810,7 +810,7 @@
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "Откл. звук уведомлений",
+        "message": "Отключить звук уведомлений",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
@@ -1028,7 +1028,7 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$ отключил исчезающие сообщения.",
+        "message": "$name$ отключил(а) исчезающие сообщения.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1112,7 +1112,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ покинул группу.",
+        "message": "$name$ покинул(a) группу.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1136,7 +1136,7 @@
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Группа теперь называется «$name$».",
+        "message": "Название группы поменялось на «$name$».",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1217,7 +1217,7 @@
         "message": "Больше информации"
     },
     "resend": {
-        "message": "Отправить Ещё Раз"
+        "message": "Отправить ещё раз"
     },
     "clearAllData": {
         "message": "Очистить все данные"
@@ -1238,7 +1238,7 @@
         "message": "Предварительный просмотр поддерживается для ссылок Imgur, Instagram, Pinterest, Reddit и YouTube."
     },
     "readReceiptSettingTitle": {
-        "message": "Уведомления О Прочтении"
+        "message": "Уведомления о прочтении"
     },
     "typingIndicatorsSettingTitle": {
         "message": "Индикаторы Ввода"
@@ -1319,7 +1319,7 @@
         "message": "Познакомьтесь со своим Session ID"
     },
     "allUsersAreRandomly...": {
-        "message": "Ваш Session ID - это уникальный адрес, который могут использовать другие люди для связи с вами при помощи Session. Поскольку ваш Session ID никак не связан с вашей настоящей личностью, он по определению является полностью анонимным и конфиденциальным."
+        "message": "Ваш Session ID - это уникальный адрес, который другие пользователи могут использовать для связи с вами при помощи Session. Поскольку ваш Session ID никак не связан с вашей настоящей личностью, он по определению является полностью анонимным и конфиденциальным."
     },
     "generateSessionID": {
         "message": "Создать Session ID"
