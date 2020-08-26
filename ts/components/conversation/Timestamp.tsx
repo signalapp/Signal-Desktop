@@ -6,7 +6,7 @@ import { formatRelativeTime } from '../../util/formatRelativeTime';
 
 import { LocalizerType } from '../../types/Util';
 
-interface Props {
+export interface Props {
   timestamp?: number;
   extended?: boolean;
   module?: string;
