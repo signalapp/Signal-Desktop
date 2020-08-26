@@ -6,7 +6,7 @@ import { Spinner } from '../Spinner';
 
 export type STATE_ENUM = 'idle' | 'countdown' | 'loading';
 
-type Props = {
+export type Props = {
   state: STATE_ENUM;
   duration?: number;
   expiresAt?: number;
