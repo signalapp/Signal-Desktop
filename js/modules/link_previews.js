@@ -1,6 +1,6 @@
 /* global URL */
 
-const { isNumber, compact } = require('lodash');
+const { isNumber, compact, isEmpty } = require('lodash');
 const he = require('he');
 const nodeUrl = require('url');
 const LinkifyIt = require('linkify-it');
@@ -235,8 +235,23 @@ function isLinkSneaky(link) {
     return true;
   }
 
+  // To quote [RFC 1034][0]: "the total number of octets that represent a
+  //   domain name [...] is limited to 255." To be extra careful, we set a
+  //   maximum of 2048. (This also uses the string's `.length` property,
+  //   which isn't exactly the same thing as the number of octets.)
+  // [0]: https://tools.ietf.org/html/rfc1034
+  if (domain.length > 2048) {
+    return true;
+  }
+
   // Domains cannot contain encoded characters
   if (domain.includes('%')) {
+    return true;
+  }
+
+  // There must be at least 2 domain labels, and none of them can be empty.
+  const labels = domain.split('.');
+  if (labels.length < 2 || labels.some(isEmpty)) {
     return true;
   }
 
