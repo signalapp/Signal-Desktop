@@ -271,7 +271,7 @@
     "rule": "jQuery-load(",
     "path": "js/modules/stickers.js",
     "line": "async function load() {",
-    "lineNumber": 77,
+    "lineNumber": 80,
     "reasonCategory": "falseMatch",
     "updated": "2019-04-26T17:48:30.675Z"
   },
