@@ -316,7 +316,7 @@ export class Quote extends React.Component<Props, State> {
           i18n('you')
         ) : (
           <ContactName
-            phoneNumber={authorPhoneNumber}
+            phoneNumber={window.shortenPubkey(authorPhoneNumber)}
             name={authorName}
             profileName={authorProfileName}
             i18n={i18n}
