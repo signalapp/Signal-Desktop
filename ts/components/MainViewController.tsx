@@ -68,9 +68,9 @@ async function createClosedGroup(
   }
 
   // >= because we add ourself as a member AFTER this. so a 10 group is already invalid as it will be 11 with ourself
-  // the same is valid with groups count <= 1
+  // the same is valid with groups count < 1
 
-  if (groupMembers.length <= 1) {
+  if (groupMembers.length < 1) {
     ToastUtils.push({
       title: window.i18n('pickClosedGroupMember'),
       type: 'error',

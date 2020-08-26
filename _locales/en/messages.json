@@ -2211,7 +2211,7 @@
     "androidKey": "activity_create_closed_group_group_name_too_long_error"
   },
   "pickClosedGroupMember": {
-    "message": "Please pick at least 2 group members",
+    "message": "Please pick at least 1 group member",
     "androidKey": "activity_create_closed_group_not_enough_group_members_error"
   },
   "closedGroupMaxSize": {
