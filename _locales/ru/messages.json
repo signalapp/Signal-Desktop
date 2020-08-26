@@ -1508,7 +1508,7 @@
         "message": "Microphone and Camera"
     },
     "spellCheckTitle": {
-        "message": "Spell Check",
+        "message": "Проверка орфографии",
         "description": "Description of the media permission description"
     },
     "spellCheckDirty": {
@@ -1516,11 +1516,11 @@
         "description": "Shown when the user changes their spellcheck setting to indicate that they must restart Signal."
     },
     "readReceiptSettingDescription": {
-        "message": "See and share when messages have been read (enables read receipts in all sessions).",
+        "message": "Получать и отсылать уведомления о прочтении сообщений (для всех контактов).",
         "description": "Description of the read receipts setting"
     },
     "typingIndicatorsSettingDescription": {
-        "message": "See and share when messages are being typed (applies to all sessions).",
+        "message": "Получать и отсылать уведомления когда вы и ваш собедник набирает сообщение (для всех контактов).",
         "description": "Description of the typing indicators setting"
     },
     "messageTTL": {
@@ -1532,7 +1532,7 @@
         "description": "Description of the time to live setting"
     },
     "zoomFactorSettingTitle": {
-        "message": "Zoom Factor",
+        "message": "Масштабирование Приложения",
         "description": "Title of the Zoom Factor setting"
     },
     "clockOutOfSync": {
@@ -1555,18 +1555,18 @@
         "message": "Choose the theme best suited to you"
     },
     "hideMenuBarTitle": {
-        "message": "Hide Menu Bar",
+        "message": "Спрятать Системное Меню",
         "description": "Label text for menu bar visibility setting"
     },
     "hideMenuBarDescription": {
-        "message": "Toggle system menu bar visibility",
+        "message": "Спрятать или показать системное меню",
         "description": "Label text for menu bar visibility setting"
     },
     "autoUpdateSettingTitle": {
-        "message": "Auto Update"
+        "message": "Автоматические обновления"
     },
     "autoUpdateSettingDescription": {
-        "message": "Automatically check for updates on launch"
+        "message": "Автоматически проверять на наличие обновлений при запуске"
     },
     "autoUpdateDownloadedMessage": {
         "message": "The new update has been downloaded."
@@ -1594,11 +1594,11 @@
         "description": "Toast on unsuccesful user ban."
     },
     "copyMessage": {
-        "message": "Copy message text",
+        "message": "Скопировать текст сообщения",
         "description": "Button action that the user can click to copy their public keys"
     },
     "selectMessage": {
-        "message": "Select message",
+        "message": "Выбрать сообщение",
         "description": "Button action that the user can click to select the message"
     },
     "editGroupName": {
@@ -1606,15 +1606,15 @@
         "description": "Button action that the user can click to edit a group name (closed)"
     },
     "setAccountPasswordTitle": {
-        "message": "Set Account Password",
+        "message": "Установить Пароль",
         "description": "Prompt for user to set account password in settings view"
     },
     "setAccountPasswordDescription": {
-        "message": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed",
+        "message": "Установить пароль для разблокирования Session. Вы продолжите получать уведомления о новых сообщениях когда приложение заблокированно. Содержание уведомлений можно поменять в настройках уведомлений.",
         "description": "Description for set account password setting view"
     },
     "changeAccountPasswordTitle": {
-        "message": "Change Account Password",
+        "message": "Изменить Пароль",
         "description": "Prompt for user to change account password in settings view"
     },
     "changeAccountPasswordDescription": {
@@ -1622,7 +1622,7 @@
         "description": "Description for change account password setting view"
     },
     "removeAccountPasswordTitle": {
-        "message": "Remove Account Password",
+        "message": "Удалить Пароль",
         "description": "Prompt for user to remove account password in settings view"
     },
     "removeAccountPasswordDescription": {
@@ -1755,7 +1755,7 @@
         "message": "Not enough nodes currently active for LNS lookup"
     },
     "editProfileModalTitle": {
-        "message": "Profile",
+        "message": "Аккаунт",
         "description": "Title for the Edit Profile modal"
     },
     "addModerators": {
@@ -1792,10 +1792,10 @@
         }
     },
     "createAccount": {
-        "message": "Create Account"
+        "message": "Создать Аккаунт"
     },
     "signIn": {
-        "message": "Sign In"
+        "message": "Войти"
     },
     "getStarted": {
         "message": "Get started"
@@ -1808,7 +1808,7 @@
         "message": "Verify Password"
     },
     "enterOptionalPassword": {
-        "message": "Enter password (optional)"
+        "message": "Введите пароль (если используется)"
     },
     "verifyPassword": {
         "message": "Verify Password"
@@ -1847,10 +1847,10 @@
         "message": "Message"
     },
     "addContact": {
-        "message": "Add Contact"
+        "message": "Добавить Контакт"
     },
     "permissionSettingsTitle": {
-        "message": "Permissions"
+        "message": "Разрешения"
     },
     "members": {
         "message": "$count$ members",
