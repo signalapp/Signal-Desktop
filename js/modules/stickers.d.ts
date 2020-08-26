@@ -10,4 +10,6 @@ export function downloadStickerPack(
   }
 ): Promise<void>;
 
+export function isPackIdValid(packId: unknown): packId is string;
+
 export function redactPackId(packId: string): string;
