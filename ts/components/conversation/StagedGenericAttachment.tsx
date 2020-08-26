@@ -3,7 +3,7 @@ import React from 'react';
 import { AttachmentType, getExtensionForDisplay } from '../../types/Attachment';
 import { LocalizerType } from '../../types/Util';
 
-interface Props {
+export interface Props {
   attachment: AttachmentType;
   onClose: (attachment: AttachmentType) => void;
   i18n: LocalizerType;
