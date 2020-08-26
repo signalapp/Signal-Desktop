@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { LocalizerType } from '../../types/Util';
 
-interface Props {
+export interface Props {
   i18n: LocalizerType;
   color?: string;
 }

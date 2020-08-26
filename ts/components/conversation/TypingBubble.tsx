@@ -7,7 +7,7 @@ import { Avatar } from '../Avatar';
 import { LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
 
-interface Props {
+export interface Props {
   avatarPath?: string;
   color: ColorType;
   name?: string;

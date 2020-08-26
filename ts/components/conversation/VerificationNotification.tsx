@@ -24,7 +24,7 @@ type PropsHousekeeping = {
   i18n: LocalizerType;
 };
 
-type Props = PropsData & PropsHousekeeping;
+export type Props = PropsData & PropsHousekeeping;
 
 export class VerificationNotification extends React.Component<Props> {
   public getStringId() {
