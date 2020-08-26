@@ -27,6 +27,17 @@ export type StickerDBType = {
   readonly path: string;
 };
 
+export const StickerPackStatuses = [
+  'known',
+  'ephemeral',
+  'downloaded',
+  'installed',
+  'pending',
+  'error',
+] as const;
+
+export type StickerPackStatus = typeof StickerPackStatuses[number];
+
 export type StickerPackDBType = {
   readonly id: string;
   readonly key: string;
@@ -38,13 +49,7 @@ export type StickerPackDBType = {
   readonly downloadAttempts: number;
   readonly installedAt: number | null;
   readonly lastUsed: number;
-  readonly status:
-    | 'known'
-    | 'ephemeral'
-    | 'downloaded'
-    | 'installed'
-    | 'pending'
-    | 'error';
+  readonly status: StickerPackStatus;
   readonly stickerCount: number;
   readonly stickers: Dictionary<StickerDBType>;
   readonly title: string;
@@ -80,13 +85,7 @@ export type StickerPackType = {
   readonly cover?: StickerType;
   readonly lastUsed: number;
   readonly attemptedStatus?: 'downloaded' | 'installed' | 'ephemeral';
-  readonly status:
-    | 'known'
-    | 'ephemeral'
-    | 'downloaded'
-    | 'installed'
-    | 'pending'
-    | 'error';
+  readonly status: StickerPackStatus;
   readonly stickers: Array<StickerType>;
   readonly stickerCount: number;
 };
