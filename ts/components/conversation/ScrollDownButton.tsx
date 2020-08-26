@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { LocalizerType } from '../../types/Util';
 
-type Props = {
+export type Props = {
   withNewMessages: boolean;
   conversationId: string;
 
