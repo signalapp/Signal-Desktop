@@ -131,11 +131,6 @@
         model: { window: options.window },
       });
 
-      if (!window.storage.get('betaReleaseDisclaimerAccepted')) {
-        // Beta disclaimer disabled.
-        // this.showBetaReleaseDisclaimer();
-      }
-
       if (!options.initialLoadComplete) {
         this.appLoadingScreen = new Whisper.AppLoadingScreen();
         this.appLoadingScreen.render();
@@ -178,7 +173,6 @@
     },
     render_attributes: {
       welcomeToSession: i18n('welcomeToSession'),
-      selectAContact: i18n('selectAContact'),
     },
     events: {
       click: 'onClick',
@@ -437,10 +431,6 @@
       });
       toast.$el.appendTo(this.$('.gutter'));
       toast.render();
-    },
-    showBetaReleaseDisclaimer() {
-      const dialog = new Whisper.BetaReleaseDisclaimer();
-      this.el.append(dialog.el);
     },
   });
 

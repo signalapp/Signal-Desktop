@@ -94,21 +94,21 @@ describe('MessageCollection', () => {
     message = messages.add({ group_update: { left: 'Alice' } });
     assert.equal(
       message.getDescription(),
-      'Alice left the group',
+      'Alice has left the group.',
       'Notes one person leaving the group.'
     );
 
     message = messages.add({ group_update: { name: 'blerg' } });
     assert.equal(
       message.getDescription(),
-      "Group name has been set to 'blerg'",
+      "Group name is now 'blerg'.",
       'Returns a single notice if only group_updates.name changes.'
     );
 
     message = messages.add({ group_update: { joined: ['Bob'] } });
     assert.equal(
       message.getDescription(),
-      'Bob joined the group',
+      'Bob joined the group.',
       'Returns a single notice if only group_updates.joined changes.'
     );
 
@@ -117,7 +117,7 @@ describe('MessageCollection', () => {
     });
     assert.equal(
       message.getDescription(),
-      'Bob, Alice, Eve joined the group',
+      'Bob, Alice, Eve joined the group.',
       'Notes when >1 person joins the group.'
     );
 
@@ -126,7 +126,7 @@ describe('MessageCollection', () => {
     });
     assert.equal(
       message.getDescription(),
-      "Group name has been set to 'blerg', Bob joined the group",
+      "Group name is now 'blerg'. Bob joined the group.",
       'Notes when there are multiple changes to group_updates properties.'
     );
 

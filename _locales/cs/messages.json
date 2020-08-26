@@ -3,17 +3,9 @@
         "message": "Zkopírovat chybu a ukončit",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
-    "unknownGroup": {
-        "message": "Unknown group",
-        "description": "Shown as the name of a group if we don't have any information about it"
-    },
     "databaseError": {
         "message": "Chyba databáze",
         "description": "Shown in a popup if the database cannot start up properly"
-    },
-    "deleteAndRestart": {
-        "message": "Smazat všechna data a restartovat",
-        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
         "message": "&Soubor",
@@ -34,10 +26,6 @@
     "mainMenuHelp": {
         "message": "&Nápověda",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuSettings": {
-        "message": "Předvolby...",
-        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
         "message": "Skrýt",
@@ -135,10 +123,6 @@
         "message": "Nastavit importem",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
-    "menuSetupAsNewDevice": {
-        "message": "Nastavit jako nové zařízení",
-        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
-    },
     "menuSetupAsStandalone": {
         "message": "Nastavit jako samostatné zařízení",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
@@ -161,29 +145,9 @@
             }
         }
     },
-    "archivedConversations": {
-        "message": "Archivované konverzace",
-        "description": "Shown in place of the search box when showing archived conversation list"
-    },
-    "archiveHelperText": {
-        "message": "Tyto konverzace jsou archivované a zobrazí se mezi doručenými zprávami, pokud budou přijaty nové zprávy.",
-        "description": "Shown at the top of the archived converations list in the left pane"
-    },
-    "archiveConversation": {
-        "message": "Archive Conversation",
-        "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
-    },
-    "moveConversationToInbox": {
-        "message": "Move Conversation to Inbox",
-        "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
-    },
     "chooseDirectory": {
         "message": "Vybrat složku",
         "description": "Button to allow the user to find a folder on disk"
-    },
-    "chooseFile": {
-        "message": "Vybrat soubor",
-        "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
         "message": "Nahrajte vaše data",
@@ -229,24 +193,6 @@
         "message": "Připojit zařízení k telefonu",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
     },
-    "selectedLocation": {
-        "message": "Vámi vybraná lokalita",
-        "description": "Message shown as the export location if we didn't capture the target directory"
-    },
-    "upgradingDatabase": {
-        "message": "Aktualizace databáze. To může nějakou chvíli trvat...",
-        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
-    },
-    "loadingMessages": {
-        "message": "Načítání zpráv. $count$ z více...",
-        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
-    },
     "me": {
         "message": "Já",
         "description": "The label for yourself when shown in a group member list"
@@ -258,18 +204,6 @@
     "youLeftTheGroup": {
         "message": "Opustil jste skupinu",
         "description": "Displayed when a user can't send a message because they have left the group"
-    },
-    "scrollDown": {
-        "message": "Přesunout se na konec konverzace",
-        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-    },
-    "messageBelow": {
-        "message": "Nové zprávy níže",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-    },
-    "messagesBelow": {
-        "message": "Nové zprávy níže",
-        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
         "message": "1 Nepřečtená zpráva",
@@ -415,10 +349,6 @@
         "message": "Odeslat",
         "description": ""
     },
-    "acceptNewKey": {
-        "message": "Přijmout",
-        "description": "Label for a button to accept a new safety number"
-    },
     "verify": {
         "message": "Označit jako ověřené",
         "description": ""
@@ -454,10 +384,6 @@
     "newIdentity": {
         "message": "Nový bezpečnostní kód",
         "description": "Header for a key change dialog"
-    },
-    "identityChanged": {
-        "message": "Bezpečnostní číslo k tomuto kontaktu se vám změnilo. Může to znamenat buď to, že se někdo snaží vaši komunikaci odposlouchávat, nebo si kontakt prostě znovu nainstaloval Signal. Možná si budete chtít bezpečnostní číslo níže ověřit.",
-        "description": ""
     },
     "incomingError": {
         "message": "Chyba při zpracování příchozí zprávy",
@@ -495,18 +421,6 @@
         "message": "Tento měsíc",
         "description": "Section header in the media gallery"
     },
-    "unsupportedAttachment": {
-        "message": "Nepodporovaný typ přílohy. Klikněte pro uložení.",
-        "description": "Displayed for incoming unsupported attachment"
-    },
-    "clickToSave": {
-        "message": "Klikněte pro uložení",
-        "description": "Hover text for attachment filenames"
-    },
-    "unnamedFile": {
-        "message": "Nepojmenovaný soubor",
-        "description": "Hover text for attachment filenames"
-    },
     "voiceMessage": {
         "message": "Hlasová zpráva",
         "description": "Name for a voice message attachment"
@@ -514,10 +428,6 @@
     "dangerousFileType": {
         "message": "Tento typ přílohy není povolen z bezpečnostních důvodů",
         "description": "Shown in toast when user attempts to send .exe file, for example"
-    },
-    "loadingPreview": {
-        "message": "Načítám náhled...",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
         "message": "Draft thumbnail link preview for $domain$",
@@ -569,10 +479,6 @@
         "message": "Nelze načít vybranou přílohu.",
         "description": ""
     },
-    "disconnected": {
-        "message": "Odpojen",
-        "description": "Displayed when the desktop client cannot connect to the server."
-    },
     "connecting": {
         "message": "Připojování",
         "description": "Displayed when the desktop client is currently connecting to the server."
@@ -607,10 +513,6 @@
         "message": "Přejít na poznámky k vydání",
         "description": ""
     },
-    "goToForums": {
-        "message": "Přejít na fórum",
-        "description": "Item under the Help menu, takes you to the forums"
-    },
     "goToSupportPage": {
         "message": "Přejít na stránky podpory",
         "description": "Item under the Help menu, takes you to the support page"
@@ -619,14 +521,6 @@
         "message": "Nahlásit problém",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
-    "signalDesktopPreferences": {
-        "message": "Předvolby aplikace Signal Desktop",
-        "description": "Title of the window that pops up with Signal Desktop preferences in it"
-    },
-    "aboutSignalDesktop": {
-        "message": "O Aplikaci Signal Desktop",
-        "description": "Item under the Help menu, which opens a small about window"
-    },
     "speech": {
         "message": "Řeč",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -634,18 +528,6 @@
     "show": {
         "message": "Zobrazit",
         "description": "Command under Window menu, to show the window"
-    },
-    "hide": {
-        "message": "Skrýt",
-        "description": "Command in the tray icon menu, to hide the window"
-    },
-    "quit": {
-        "message": "Opustit",
-        "description": "Command in the tray icon menu, to quit the application"
-    },
-    "signalDesktop": {
-        "message": "Signal Desktop",
-        "description": "Tooltip for the tray icon"
     },
     "search": {
         "message": "Hledat",
@@ -677,10 +559,6 @@
         "message": "Vítejte v Signalu",
         "description": ""
     },
-    "selectAContact": {
-        "message": "Vyberte si kontakt nebo skupinu a začněte si povídat.",
-        "description": ""
-    },
     "typingAlt": {
         "message": "Typing animation for this conversation",
         "description": "Used as the 'title' attibute for the typing animation"
@@ -694,10 +572,6 @@
                 "example": "John"
             }
         }
-    },
-    "sendMessageToContact": {
-        "message": "Odeslat zprávu",
-        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
         "message": "domov",
@@ -759,16 +633,6 @@
         "message": "Vy",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
-    "replyingTo": {
-        "message": "Odpověď: $name$",
-        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
     "audioPermissionNeeded": {
         "message": "Pro posílání audio zpráv potřebuje Signal Desktop přístup k mikrofonu.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
@@ -776,10 +640,6 @@
     "allowAccess": {
         "message": "Povolit přístup",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
-    },
-    "showSettings": {
-        "message": "Zobrazit nastavení",
-        "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
         "message": "Zvuk",
@@ -797,10 +657,6 @@
         "message": "Cannot Update",
         "description": "Shown as the title of our update error dialogs on windows"
     },
-    "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
-    },
     "ok": {
         "message": "OK",
         "description": ""
@@ -809,16 +665,8 @@
         "message": "Zrušit",
         "description": ""
     },
-    "failedToSend": {
-        "message": "Selhalo odeslání některým příjemcům. Zkontrolujte si síťové připojení.",
-        "description": ""
-    },
     "error": {
         "message": "Chyba",
-        "description": ""
-    },
-    "messageDetail": {
-        "message": "Podrobnosti zprávy",
         "description": ""
     },
     "delete": {
@@ -857,10 +705,6 @@
         "message": "Členové skupiny",
         "description": ""
     },
-    "showMembers": {
-        "message": "Zobrazit členy",
-        "description": ""
-    },
     "resetSession": {
         "message": "Resetovat sezení",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
@@ -868,10 +712,6 @@
     "showSafetyNumber": {
         "message": "Zobrazit bezpečnostní kód",
         "description": ""
-    },
-    "viewAllMedia": {
-        "message": "Zobrazit všechna média",
-        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
         "message": "Pokud chcete zkontrolovat bezpečnost šifrované komunikace s $name$, porovnejte čísla nahoře s čísly na zařízení vašeho kontaktu.",
@@ -886,14 +726,6 @@
     "theirIdentityUnknown": {
         "message": "S tímto kontaktem jste si ještě nevyměnili žádné zprávy. Bezpečnostní číslo k němu bude dostupné po první zprávě.",
         "description": ""
-    },
-    "moreInfo": {
-        "message": "Více informací...",
-        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
-    },
-    "retrySend": {
-        "message": "Odeslat znovu",
-        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
         "message": "Smazat zprávu",
@@ -939,10 +771,6 @@
         "message": "Uložit",
         "description": ""
     },
-    "fileIconAlt": {
-        "message": "File icon",
-        "description": "Used in the media gallery documents tab to visually represent a file"
-    },
     "emojiAlt": {
         "message": "Emoji image of '$title$'",
         "description": "Used in the alt tag of all emoji images",
@@ -953,65 +781,9 @@
             }
         }
     },
-    "installWelcome": {
-        "message": "Vítejte v aplikaci Signal Desktop",
-        "description": "Welcome title on the install page"
-    },
-    "installTagline": {
-        "message": "Soukromí je možné. Signal jej usnadňuje.",
-        "description": "Tagline displayed under 'installWelcome' string on the install page"
-    },
-    "linkYourPhone": {
-        "message": "Propojit telefon s Signal v počítači",
-        "description": "Shown on the front page when the application first starst, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Nastavení Signal",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "linkedDevices": {
-        "message": "Propojená zařízení",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "Tlačítko '+'",
-        "description": "The button used in Signal Android to add a new linked device"
-    },
     "linkNewDevice": {
         "message": "Propojit nové zařízení",
         "description": "The menu option shown in Signal iOS to add a new linked device"
-    },
-    "deviceName": {
-        "message": "Název zařízení",
-        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
-    },
-    "chooseDeviceName": {
-        "message": "Zvolte název tohoto zařízení",
-        "description": "The header shown on the 'choose device name' screen in the device linking process"
-    },
-    "finishLinkingPhone": {
-        "message": "Dokončuji propojení s telefonem",
-        "description": "The text on the button to finish the linking process, after choosing the device name"
-    },
-    "initialSync": {
-        "message": "Synchronizuji kontakty a skupiny",
-        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
-    },
-    "installConnectionFailed": {
-        "message": "Připojení k serveru selhalo.",
-        "description": "Displayed when we can't connect to the server."
-    },
-    "installTooManyDevices": {
-        "message": "Promiňte, ale máte už příliš mnoho propojených zařízení. Zkuste některá odstranit.",
-        "description": ""
-    },
-    "settings": {
-        "message": "Nastavení",
-        "description": "Menu item and header for global settings"
-    },
-    "theme": {
-        "message": "Motiv",
-        "description": "Header for theme settings"
     },
     "permissions": {
         "message": "Oprávnění",
@@ -1028,34 +800,6 @@
     "spellCheckDescription": {
         "message": "Kontrolovat pravopis při psaní zpráv",
         "description": "Description of the media permission description"
-    },
-    "clearDataHeader": {
-        "message": "Vymazat data",
-        "description": "Header in the settings dialog for the section dealing with data deletion"
-    },
-    "clearDataExplanation": {
-        "message": "This will clear all data in the application, removing all messages and saved account information.",
-        "description": "Text describing what the clear data button will do."
-    },
-    "clearDataButton": {
-        "message": "Vymazat data",
-        "description": "Button in the settings dialog starting process to delete all data"
-    },
-    "deleteAllDataHeader": {
-        "message": "Vymazat všechna data?",
-        "description": "Header of the full-screen delete data confirmation screen"
-    },
-    "deleteAllDataBody": {
-        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
-        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
-    },
-    "deleteAllDataButton": {
-        "message": "Vymazat všechna data",
-        "description": "Text of the button that deletes all data"
-    },
-    "deleteAllDataProgress": {
-        "message": "Odpojuji a mažu všechny data",
-        "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
         "message": "Oznámení",
@@ -1105,14 +849,6 @@
         "message": "Odeslání selhalo",
         "description": "Shown on outgoing message if it fails to send"
     },
-    "showMore": {
-        "message": "Podrobnosti",
-        "description": "Displays the details of a key change"
-    },
-    "showLess": {
-        "message": "Skrýt podrobnosti",
-        "description": "Hides the details of a key change"
-    },
     "learnMore": {
         "message": "Dozvědět se více o ověřování bezpečnostních čísel",
         "description": "Text that links to a support article on verifying safety numbers"
@@ -1129,34 +865,6 @@
         "message": "Multimediální zpráva",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
-    "unregisteredUser": {
-        "message": "Číslo není registrováno",
-        "description": "Error message displayed when sending to an unregistered user."
-    },
-    "sync": {
-        "message": "Kontakty",
-        "description": "Label for contact and group sync settings"
-    },
-    "syncExplanation": {
-        "message": "Importovat všechny skupiny a kontakty Signalu z mobilního zařízení.",
-        "description": "Explanatory text for sync settings"
-    },
-    "lastSynced": {
-        "message": "Poslední import",
-        "description": "Label for date and time of last sync operation"
-    },
-    "syncNow": {
-        "message": "Importovat nyní",
-        "description": "Label for a button that syncs contacts and groups from your phone"
-    },
-    "syncing": {
-        "message": "Importuje se…",
-        "description": "Label for a disabled sync button while sync is in progress."
-    },
-    "syncFailed": {
-        "message": "Import selhal. Zkontrolujte, zda jsou počítač i telefon připojeny k internetu.",
-        "description": "Informational text displayed if a sync operation times out."
-    },
     "timestamp_s": {
         "message": "teď",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
@@ -1168,50 +876,6 @@
     "timestamp_h": {
         "message": "1 hodina",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
-    },
-    "hoursAgoShort": {
-        "message": "$hours$ hod.",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "hoursAgo": {
-        "message": "Před $hours$ hod.",
-        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "minutesAgoShort": {
-        "message": "$minutes$ min.",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "minutesAgo": {
-        "message": "Před $minutes$ min.",
-        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "justNow": {
-        "message": "teď",
-        "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D MMM",
@@ -1387,10 +1051,6 @@
             }
         }
     },
-    "audioNotificationDescription": {
-        "message": "Přehrát zvukové upozornění",
-        "description": "Description for audio notification setting"
-    },
     "safetyNumberChanged": {
         "message": "Bezpečnostní kód se změnil",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -1419,45 +1079,17 @@
             }
         }
     },
-    "themeLight": {
-        "message": "Světlý",
-        "description": "Label text for light theme (normal)"
-    },
-    "themeDark": {
-        "message": "Tmavý",
-        "description": "Label text for dark theme"
-    },
     "noteToSelf": {
         "message": "Poznámka sobě",
         "description": "Name for the conversation with your own phone number"
-    },
-    "hideMenuBar": {
-        "message": "Schovat lištu menu",
-        "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
         "message": "Start new conversation…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
-    "newPhoneNumber": {
-        "message": "Zadejte telefonní číslo přidat kontakt.",
-        "description": "Placeholder for adding a new number to a contact"
-    },
     "invalidNumberError": {
         "message": "Neplatné číslo",
         "description": "When a person inputs a number that is invalid"
-    },
-    "unlinkedWarning": {
-        "message": "Znovu propojte Signel Desktop s mobilním telefonem pro pokračování.",
-        "description": ""
-    },
-    "unlinked": {
-        "message": "Odpárováno",
-        "description": ""
-    },
-    "relink": {
-        "message": "Přepárovat",
-        "description": ""
     },
     "autoUpdateNewVersionTitle": {
         "message": "Dostupná aktualizace Session",

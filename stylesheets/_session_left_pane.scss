@@ -315,6 +315,7 @@ $session-compose-margin: 20px;
 
 .user-search-dropdown {
   width: 100%;
+  min-height: 34px;
   flex-grow: 1;
   overflow-y: auto;
 }

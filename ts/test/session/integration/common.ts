@@ -32,19 +32,19 @@ const ENABLE_LOG = false;
 // tslint:disable-next-line: no-unnecessary-class
 export class Common {
   /* **************  USERS  ****************** */
-  public static readonly TEST_MNEMONIC1 =
+  public static readonly TEST_RECOVERY_PHRASE_1 =
     'faxed mechanic mocked agony unrest loincloth pencil eccentric boyfriend oasis speedy ribbon faxed';
   public static readonly TEST_PUBKEY1 =
     '0552b85a43fb992f6bdb122a5a379505a0b99a16f0628ab8840249e2a60e12a413';
   public static readonly TEST_DISPLAY_NAME1 = 'tester_Alice';
 
-  public static readonly TEST_MNEMONIC2 =
+  public static readonly TEST_RECOVERY_PHRASE_2 =
     'guide inbound jerseys bays nouns basin sulking awkward stockpile ostrich ascend pylons ascend';
   public static readonly TEST_PUBKEY2 =
     '054e1ca8681082dbd9aad1cf6fc89a32254e15cba50c75b5a73ac10a0b96bcbd2a';
   public static readonly TEST_DISPLAY_NAME2 = 'tester_Bob';
 
-  public static readonly TEST_MNEMONIC3 =
+  public static readonly TEST_RECOVERY_PHRASE_3 =
     'alpine lukewarm oncoming blender kiwi fuel lobster upkeep vogue simplest gasp fully simplest';
   public static readonly TEST_PUBKEY3 =
     '05f8662b6e83da5a31007cc3ded44c601f191e07999acb6db2314a896048d9036c';
@@ -210,19 +210,19 @@ export class Common {
   }
 
   public static async startAndStub({
-    mnemonic,
+    recoveryPhrase,
     displayName,
     env = 'test-integration-session',
   }: {
-    mnemonic: string;
+    recoveryPhrase: string;
     displayName: string;
     env?: string;
   }) {
     const app = await Common.startAndAssureCleanedApp(env);
     await Common.startStubSnodeServer();
 
-    if (mnemonic && displayName) {
-      await Common.restoreFromMnemonic(app, mnemonic, displayName);
+    if (recoveryPhrase && displayName) {
+      await Common.restoreFromRecoveryPhrase(app, recoveryPhrase, displayName);
       // not sure we need Common - rtharp.
       await Common.timeout(2000);
     }
@@ -240,9 +240,9 @@ export class Common {
     return appN;
   }
 
-  public static async restoreFromMnemonic(
+  public static async restoreFromRecoveryPhrase(
     app: Application,
-    mnemonic: string,
+    recoveryPhrase: string,
     displayName: string
   ) {
     await app.client.element(RegistrationPage.registrationTabSignIn).click();
@@ -250,7 +250,7 @@ export class Common {
     await Common.setValueWrapper(
       app,
       RegistrationPage.recoveryPhraseInput,
-      mnemonic
+      recoveryPhrase
     );
 
     await Common.setValueWrapper(
@@ -305,13 +305,13 @@ export class Common {
 
   public static async startAppsAsFriends() {
     const app1Props = {
-      mnemonic: Common.TEST_MNEMONIC1,
+      recoveryPhrase: Common.TEST_RECOVERY_PHRASE_1,
       displayName: Common.TEST_DISPLAY_NAME1,
       stubSnode: true,
     };
 
     const app2Props = {
-      mnemonic: Common.TEST_MNEMONIC2,
+      recoveryPhrase: Common.TEST_RECOVERY_PHRASE_2,
       displayName: Common.TEST_DISPLAY_NAME2,
       stubSnode: true,
     };

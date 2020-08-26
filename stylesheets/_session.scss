@@ -1310,7 +1310,7 @@ label {
   padding: 0px 5px 20px 5px;
 
   &.session-id-editable-textarea:placeholder-shown {
-    padding: 20px 5px 0px 5px;
+    padding: 10px 5px 0px 5px;
   }
 
   &.group-id-editable-textarea {
@@ -1351,25 +1351,6 @@ input {
 
 .friend-selection-list {
   width: 20vw;
-}
-
-.session-beta-disclaimer {
-  .session-modal {
-    width: 600px;
-
-    &__header {
-      font-size: $session-font-lg;
-    }
-
-    &__body > div:first-child {
-      padding: $session-margin-lg;
-    }
-
-    .session-confirm-main-message {
-      opacity: 0.8;
-      margin-bottom: $session-margin-xs;
-    }
-  }
 }
 
 .session-confirm-wrapper {

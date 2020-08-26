@@ -304,14 +304,8 @@ export class ConversationHeader extends React.Component<Props> {
     return (
       <ContextMenu id={triggerId}>
         {this.renderPublicMenuItems()}
-        {Menu.getCopyIdMenuItem(
-          isPublic,
-          isRss,
-          isGroup,
-          onCopyPublicKey,
-          i18n
-        )}
-        <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
+        {Menu.getCopyMenuItem(isPublic, isRss, isGroup, onCopyPublicKey, i18n)}
+        {Menu.getDeleteMessagesMenuItem(isPublic, onDeleteMessages, i18n)}
         {Menu.getAddModeratorsMenuItem(
           amMod,
           isKickedFromGroup,
@@ -368,7 +362,7 @@ export class ConversationHeader extends React.Component<Props> {
 
     const isServerDeletable = isPublic;
     const deleteMessageButtonText = i18n(
-      isServerDeletable ? 'unsend' : 'delete'
+      isServerDeletable ? 'deleteForEveryone' : 'delete'
     );
 
     return (
