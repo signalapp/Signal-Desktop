@@ -78,7 +78,7 @@ type PropsActionsType = {
 } & MessageActionsType &
   SafetyNumberActionsType;
 
-type Props = PropsDataType & PropsHousekeepingType & PropsActionsType;
+export type Props = PropsDataType & PropsHousekeepingType & PropsActionsType;
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 type RowRendererParamsType = {
