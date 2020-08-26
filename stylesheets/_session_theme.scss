@@ -1,11 +1,14 @@
 // Messages
 @import 'themes.scss';
 
-.discussion-container {
-  @include themify($themes) {
-    background: none;
-  }
-}
+// body.dark-theme {
+//   @include themify($themes) {
+//     background-color: themed('cellBackground');
+//   }
+//   color: red;
+
+//   background-color: blue
+// }
 
 .conversation {
   background: none !important;
@@ -117,16 +120,14 @@
 .inbox {
   @include themify($themes) {
     background: themed('inboxBackground');
+    color: themed('textColor');
   }
 }
 
 .conversation {
-  background: none !important;
+  background: none;
 }
 
-.discussion-container {
-  background-color: #141414;
-}
 
 @mixin session-h-title {
   @include fontAccentBold();

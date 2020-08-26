@@ -8,11 +8,6 @@ div.spacer-lg {
   height: $session-margin-lg;
 }
 
-// Blur for modals
-.loki-dialog ~ .index.inbox {
-  filter: blur(2px);
-  transition: filter 0.1s;
-}
 
 .subtle {
   opacity: 0.6;
@@ -912,109 +907,6 @@ label {
   }
 }
 
-.edit-profile-dialog {
-  .session-modal__header__title {
-    font-size: $session-font-lg;
-  }
-
-  .session-modal {
-    width: $session-modal-size-md;
-
-    &__header {
-      height: 68.45px;
-    }
-  }
-
-  .avatar-center-inner {
-    position: relative;
-
-    .module-avatar {
-      box-shadow: 0 0 23px 0 rgba($session-color-black, 0.78);
-    }
-
-    .qr-view-button {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      right: -3px;
-      height: 26px;
-      width: 26px;
-      border-radius: 50%;
-      padding-top: 3px;
-      background-color: $session-color-white;
-      transition: $session-transition-duration;
-
-      &:hover {
-        filter: brightness(90%);
-      }
-
-      .session-icon-button {
-        opacity: 1;
-      }
-    }
-  }
-
-  .session-id-section {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-
-    .panel-text-divider {
-      margin-top: 35px;
-      margin-bottom: 35px;
-    }
-
-    &-display {
-      user-select: text;
-      text-align: center;
-      word-break: break-all;
-      font-size: $session-font-md;
-      padding: 0px $session-margin-lg;
-      font-family: $session-font-default;
-      font-weight: 100;
-      @include themify($themes) {
-        color: themed('textColor');
-      }
-      font-size: $session-font-md;
-      padding: 0px $session-margin-sm;
-    }
-
-    .session-button {
-      width: 148px;
-    }
-  }
-
-  .profile-name {
-    display: flex;
-    justify-content: center;
-    margin-top: $session-margin-lg;
-
-    &-input {
-      height: 38px;
-      width: 142px;
-      border-radius: 5px;
-      text-align: center;
-      font-size: $session-font-md;
-      @include themify($themes) {
-        background: themed('inputBackground');
-      }
-    }
-
-    &-uneditable {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-left: $session-margin-lg;
-
-      p {
-        font-size: $session-font-md;
-        padding: 0px $session-margin-sm;
-      }
-    }
-  }
-}
 
 .image-upload-section {
   display: flex;
@@ -1281,14 +1173,6 @@ label {
   border-radius: 3px;
 }
 
-.qr-dialog {
-  &__description {
-    max-width: $session-modal-size-sm;
-    text-align: center;
-    margin: 0 auto;
-  }
-}
-
 .seed-dialog {
   &__description {
     max-width: $session-modal-size-lg;
@@ -1463,9 +1347,7 @@ input {
   }
 }
 
-.loki-dialog button {
-  border: none;
-}
+
 
 .friend-selection-list {
   width: 20vw;
@@ -1501,9 +1383,17 @@ input {
   }
 }
 
+
 .module-scroll-down {
-  animation: fadein $session-fadein-duration;
+
+}
+
+.module-scroll-down {
+  z-index: 99;
+  position: absolute;
+  right: 20px;
   bottom: 15px;
+  animation: fadein $session-fadein-duration;
 
   .session-icon-button {
     display: flex;

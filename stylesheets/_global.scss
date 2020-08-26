@@ -13,9 +13,11 @@ body {
   height: 100%;
   width: 100%;
   margin: 0;
-  font-family: $roboto;
+  font-family: $session-font-default;
   font-size: 14px;
+
 }
+
 
 // scrollbars
 ::-webkit-scrollbar {
@@ -27,10 +29,9 @@ body {
   @include themify($themes) {
     background: themed('scrollBarThumb');
     border: solid 2px themed('textColorOpposite');
-
-    &:hover {
-      background: $color-light-45;
-    }
+  }
+  &:hover {
+    background: $color-light-45;
   }
 }
 ::-webkit-scrollbar-track {
@@ -337,7 +338,7 @@ $loading-height: 16px;
   right: 0;
   top: 0;
   bottom: 0;
-  font-family: roboto-light;
+  font-family: $session-font-default;
 
   &.overlay {
     // .modal, used for the settings view, is 100
@@ -365,7 +366,7 @@ $loading-height: 16px;
   input {
     margin-bottom: 1em;
     font-size: 12pt;
-    font-family: roboto-light;
+    font-family: $session-font-default;
     border: 2px solid $blue;
     padding: 0.5em;
     text-align: center;
@@ -671,18 +672,6 @@ $loading-height: 16px;
     margin-top: 12px;
   }
 
-  .standalone-mnemonic-inputs {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 0 8px;
-
-    input {
-      flex: 1;
-      margin: 0;
-      margin-right: 12px;
-    }
-  }
 
   input {
     border: 1px solid $color-light-60;
@@ -793,39 +782,6 @@ $loading-height: 16px;
       transition: $session-transition-duration all ease;
     }
   }
-
-  .password-inputs,
-  .standalone-mnemonic-inputs {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    input {
-      margin-bottom: 0.5em;
-    }
-
-    .error {
-      margin-bottom: 1em;
-    }
-
-    .error-input {
-      border: 3px solid $color-vermilion;
-
-      &:focus {
-        outline: none;
-      }
-    }
-
-    .match-input {
-      border: 3px solid $color-loki-green;
-
-      &:focus {
-        outline: none;
-      }
-    }
-  }
-
   @media (min-height: 750px) and (min-width: 700px) {
     .input-header {
       font-size: 18px;
@@ -848,18 +804,4 @@ $loading-height: 16px;
 
 .inbox {
   position: relative;
-}
-
-.qr-dialog {
-  .content {
-    width: 300px !important;
-    max-width: none !important;
-    min-width: auto !important;
-  }
-
-  #qr {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1em;
-  }
 }

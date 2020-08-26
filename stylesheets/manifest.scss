@@ -6,13 +6,13 @@
 @import 'global';
 
 // Components
-@import 'progress';
 @import 'modal';
 @import 'debugLog';
 @import 'lightbox';
 @import 'recorder';
 @import 'emoji';
 @import 'mentions';
+@import 'avatar';
 
 // Build the main view
 @import 'index';
@@ -36,6 +36,3 @@
 @import 'session_group_panel';
 
 @import 'session-slider';
-
-// Installer
-@import 'options';

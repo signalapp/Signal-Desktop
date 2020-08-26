@@ -1,20 +1,5 @@
-// Don't forget to handle the background of the popup windows!
-body.dark-theme {
-  background-color: $color-black;
-  color: $color-gray-05;
-}
-
 .dark-theme {
   // _conversation
-
-  .conversation {
-    background-color: $color-gray-95;
-  }
-
-  .discussion-container {
-    background-color: $color-gray-95;
-  }
-
   .key-verification {
     .key {
       color: $color-dark-05;
@@ -33,111 +18,12 @@ body.dark-theme {
     }
   }
 
-  .bottom-bar {
-    form.send {
-      &.video-attachment {
-        .outer {
-          .play.icon {
-            @include color-svg('../images/play.svg', white);
-          }
-        }
-      }
-    }
-
-    .send-message {
-      outline: 0;
-
-      &[disabled='disabled'] {
-        cursor: not-allowed;
-      }
-    }
-  }
-
-  .toast {
-    background-color: $color-gray-45;
-    color: $color-white;
-    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.12),
-      0 0 0 0.5px rgba(0, 0, 0, 0.08);
-  }
-
-  .confirmation-dialog {
-    .content {
-      background: $color-black;
-      color: $color-dark-05;
-
-      .buttons {
-        button {
-          background-color: $color-dark-85;
-          border-radius: $border-radius;
-          border: 1px solid $color-dark-60;
-          color: $color-dark-05;
-
-          &:hover {
-            background-color: $color-dark-70;
-            border-color: $color-dark-55;
-          }
-        }
-      }
-    }
-  }
-
-  .loki-dialog {
-    .content {
-      background: $color-black;
-      color: $color-dark-05;
-    }
-
-    button {
-      background-color: $color-dark-85;
-      border-radius: $border-radius;
-      color: $color-dark-05;
-
-      &:hover {
-        background-color: $color-dark-70;
-        border-color: $color-dark-55;
-      }
-    }
-
-    input {
-      color: $color-dark-05;
-      background-color: $color-dark-70;
-      border-color: $color-dark-55;
-    }
-  }
-
-  .nickname-dialog {
-    .message {
-      color: $color-light-35;
-    }
-  }
-
   .module-last-seen-indicator__bar {
     background-color: #353535;
   }
 
   .module-last-seen-indicator__text {
     color: $color-dark-30;
-  }
-
-  .module-scroll-down__button {
-    background-color: $color-light-35;
-    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
-
-    &:hover {
-      background-color: $color-light-45;
-    }
-  }
-
-  .module-scroll-down__button--new-messages {
-    background-color: $color-signal-blue;
-
-    &:hover {
-      background-color: #1472bd;
-    }
-  }
-
-  .module-scroll-down__icon {
-    @include color-svg('../images/down.svg', $color-white);
   }
 
   // _debugLog
@@ -266,6 +152,7 @@ body.dark-theme {
     }
   }
 
+  // banner shown when app version expired and must be updated
   .expiredAlert {
     background: $session-color-green;
     color: black;
@@ -384,10 +271,6 @@ body.dark-theme {
   }
 
   // _index
-
-  .gutter {
-    background-color: $color-dark-85;
-  }
   .network-status-container {
     .network-status {
       background: url('../images/error_red.svg') no-repeat left 10px center;
@@ -539,7 +422,7 @@ body.dark-theme {
   }
 
   .module-message__error {
-    @include color-svg('../images/error.svg', $color-core-red);
+    @include color-svg('../images/error.svg', $session-color-danger);
   }
 
   .module-message__img-border-overlay {
@@ -580,7 +463,7 @@ body.dark-theme {
   }
 
   .module-message__video-overlay__play-icon {
-    @include color-svg('../images/play.svg', $color-signal-blue);
+    @include color-svg('../images/play.svg', $color-loki-green);
   }
 
   .module-message__broken-video-screenshot {
@@ -655,7 +538,7 @@ body.dark-theme {
   }
 
   .module-message__send-message-button {
-    color: $color-signal-blue;
+    color: $color-loki-green;
     background-color: $color-dark-70;
     border: 1px solid $color-dark-60;
   }
@@ -714,13 +597,17 @@ body.dark-theme {
 
   // Module: Quoted Reply
   .module-quote--outgoing {
-    border-left-color: $color-conversation-grey;
-    background-color: $color-conversation-grey-shade;
+    @include themify($themes) {
+      border-left-color: themed('steelColor');
+      background-color: themed('steelColorShade');
+    }
   }
 
   .module-quote--incoming {
-    border-left-color: $color-black;
-    background-color: $color-conversation-grey-shade;
+    @include themify($themes) {
+      border-left-color: themed('steelColor');
+      background-color: themed('steelColorShade');
+    }
   }
 
   .module-quote__primary__author {
@@ -752,19 +639,19 @@ body.dark-theme {
   }
 
   .module-quote__icon-container__icon--file {
-    @include color-svg('../images/file.svg', $color-signal-blue);
+    @include color-svg('../images/file.svg', $color-loki-green);
   }
   .module-quote__icon-container__icon--image {
-    @include color-svg('../images/image.svg', $color-signal-blue);
+    @include color-svg('../images/image.svg', $color-loki-green);
   }
   .module-quote__icon-container__icon--microphone {
-    @include color-svg('../images/microphone.svg', $color-signal-blue);
+    @include color-svg('../images/microphone.svg', $color-loki-green);
   }
   .module-quote__icon-container__icon--play {
-    @include color-svg('../images/play.svg', $color-signal-blue);
+    @include color-svg('../images/play.svg', $color-loki-green);
   }
   .module-quote__icon-container__icon--movie {
-    @include color-svg('../images/movie.svg', $color-signal-blue);
+    @include color-svg('../images/movie.svg', $color-loki-green);
   }
 
   .module-quote__generic-file__text {
@@ -843,7 +730,7 @@ body.dark-theme {
   }
 
   .module-verification-notification__button {
-    color: $color-signal-blue;
+    color: $color-loki-green;
     background-color: $color-gray-75;
   }
 
@@ -918,14 +805,14 @@ body.dark-theme {
   }
 
   .module-message-detail__delete-button {
-    background-color: $color-core-red;
+    background-color: $session-color-danger;
     color: $color-white;
     box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7);
     border: solid 1px $color-light-35;
   }
 
   .module-message-detail__contact__error {
-    color: $color-core-red;
+    color: $session-color-danger;
   }
 
   .module-message-detail__contact__status-icon--sending {
@@ -942,7 +829,7 @@ body.dark-theme {
     @include color-svg('../images/read.svg', $color-light-35);
   }
   .module-message-detail__contact__status-icon--error {
-    @include color-svg('../images/error.svg', $color-core-red);
+    @include color-svg('../images/error.svg', $session-color-danger);
   }
 
   .module-message-detail__contact__show-safety-number {
@@ -951,7 +838,7 @@ body.dark-theme {
   }
   .module-message-detail__contact__send-anyway {
     color: $color-white;
-    background-color: $color-core-red;
+    background-color: $session-color-danger;
   }
 
   // Module: Media Gallery
@@ -961,7 +848,7 @@ body.dark-theme {
   }
 
   .module-media-gallery__tab--active {
-    border-bottom: 2px solid $color-signal-blue;
+    border-bottom: 2px solid $color-loki-green;
   }
 
   // Module: Document List Item
@@ -1000,22 +887,12 @@ body.dark-theme {
 
   // Module: Conversation List Item
 
-  .module-conversation-list-item {
-    &:hover {
-      background-color: $color-dark-70;
-    }
-  }
-
   .module-conversation-list-item--has-unread {
-    border-left: 4px solid $color-signal-blue;
-  }
-
-  .module-conversation-list-item--has-friend-request {
-    border-left: 4px solid $color-conversation-indigo;
+    border-left: 4px solid $color-loki-green;
   }
 
   .module-conversation-list-item--is-blocked {
-    border-left: 4px solid $color-conversation-red;
+    border-left: 4px solid $session-color-danger;
   }
 
   .module-conversation-list-item--is-selected {
@@ -1024,7 +901,7 @@ body.dark-theme {
 
   .module-conversation-list-item__unread-count {
     color: $color-white;
-    background-color: $color-signal-blue;
+    background-color: $color-loki-green;
     box-shadow: 0px 0px 0px 1px $color-dark-85;
   }
 
@@ -1064,32 +941,6 @@ body.dark-theme {
     width: 18px;
   }
 
-  // Module: Avatar
-
-  .module-avatar__label {
-    color: $color-gray-05;
-  }
-
-  .module-avatar__icon--group {
-    background-color: $color-gray-05;
-  }
-
-  .module-avatar__icon--direct {
-    background-color: $color-gray-05;
-  }
-
-  .module-avatar__icon--note-to-self {
-    background-color: $color-gray-05;
-  }
-
-  .module-avatar__icon--crown-wrapper {
-    background-color: $color-gray-75;
-  }
-
-  .module-avatar--no-image {
-    background-color: $color-conversation-grey-shade;
-  }
-
   // Module: Main Header
 
   .module-main-header__search__input {
@@ -1106,10 +957,6 @@ body.dark-theme {
       border: solid 1px blue;
       outline: none;
     }
-  }
-
-  .module-main-header__search__icon {
-    @include color-svg('../images/search.svg', $color-gray-25);
   }
 
   .module-main-header__search__cancel-icon {
@@ -1130,7 +977,6 @@ body.dark-theme {
     background-color: $color-white-015;
   }
 
-  // Module: Image Grid
 
   // Module: Typing Animation
 
@@ -1247,13 +1093,13 @@ body.dark-theme {
       color: $color-white-07;
     }
     &:focus {
-      border: 1px solid $color-signal-blue;
+      border: 1px solid $color-loki-green;
       outline: none;
     }
   }
 
   .module-caption-editor__save-button {
-    background-color: $color-signal-blue;
+    background-color: $color-loki-green;
     color: $color-white;
   }
 
@@ -1295,43 +1141,7 @@ body.dark-theme {
     color: $color-gray-05;
   }
 
-  // Third-party module: react-contextmenu
 
-  .react-contextmenu {
-    background-color: $color-dark-85;
-    border: 1px solid $color-light-60;
-  }
-
-  .react-contextmenu-item {
-    color: $color-dark-05;
-  }
-
-  .react-contextmenu-item--checked:before {
-    color: $color-dark-05;
-  }
-
-  .react-contextmenu-item.react-contextmenu-submenu
-    > .react-contextmenu-item:after {
-    color: $color-dark-05;
-  }
-
-  .react-contextmenu-item.react-contextmenu-item--active,
-  .react-contextmenu-item.react-contextmenu-item--selected {
-    color: $color-white;
-    background-color: $color-light-35;
-  }
-
-  .react-contextmenu-item.react-contextmenu-item--active.react-contextmenu-item--checked:before,
-  .react-contextmenu-item.react-contextmenu-item--selected.react-contextmenu-item--checked:before {
-    color: $color-white;
-  }
-
-  .react-contextmenu-item.react-contextmenu-submenu
-    > .react-contextmenu-item.react-contextmenu-item--active:after,
-  .react-contextmenu-item.react-contextmenu-submenu
-    > .react-contextmenu-item.react-contextmenu-item--selected:after {
-    color: $color-white;
-  }
 
   .capture-audio {
     .microphone {
@@ -1344,20 +1154,20 @@ body.dark-theme {
     background: $color-black;
 
     .finish {
-      background: lighten($color-core-green, 20%);
-      border: 1px solid $color-core-green;
+      background: lighten($session-color-green, 20%);
+      border: 1px solid $session-color-green;
 
       .icon {
-        @include color-svg('../images/check.svg', $color-core-green);
+        @include color-svg('../images/check.svg', $session-color-green);
       }
     }
 
     .close {
-      background: lighten($color-core-red, 20%);
-      border: 1px solid $color-core-red;
+      background: lighten($session-color-danger, 20%);
+      border: 1px solid $session-color-danger;
 
       .icon {
-        @include color-svg('../images/x.svg', $color-core-red);
+        @include color-svg('../images/x.svg', $session-color-danger);
       }
     }
 

@@ -1,0 +1,198 @@
+
+// Module: Avatar
+
+.module-avatar {
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+  border-radius: 50%;
+
+  img {
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
+
+.module-avatar__label {
+  width: 100%;
+  text-align: center;
+  font-weight: 300;
+  text-transform: uppercase;
+  color: $color-white;
+}
+
+.module-avatar__icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.module-avatar__icon--crown-wrapper {
+  position: relative;
+  bottom: -38px;
+  right: -16px;
+  height: 21px;
+  width: 21px;
+  transform: translate(25%, 25%);
+  padding: 9%;
+  background-color: $color-white;
+  border-radius: 50%;
+  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3));
+}
+
+.module-avatar__icon--crown {
+  @include color-svg('../images/crown.svg', #ffb000);
+  height: 100%;
+  width: 100%;
+}
+
+.module-avatar__icon--group {
+  @include color-svg('../images/profile-group.svg', $color-white);
+}
+
+.module-avatar__icon--direct {
+  @include color-svg('../images/profile-individual.svg', $color-white);
+}
+
+.module-avatar--28 {
+  height: 28px;
+  width: 28px;
+
+  img {
+    height: 28px;
+    width: 28px;
+  }
+}
+
+.module-avatar__label--28 {
+  font-size: 14px;
+  line-height: 28px;
+}
+
+.module-avatar__icon--28 {
+  height: 16px;
+  width: 16px;
+}
+
+.module-avatar--36 {
+  height: 36px;
+  width: 36px;
+
+  img {
+    height: 36px;
+    width: 36px;
+  }
+}
+
+.module-avatar__label--36 {
+  margin-top: 1px;
+  width: 36px;
+  font-size: 16px;
+  letter-spacing: 0.19px;
+  line-height: 36px;
+}
+
+.module-avatar__icon--36 {
+  height: 20px;
+  width: 20px;
+}
+
+.module-avatar--48 {
+  height: 48px;
+  width: 48px;
+
+  img {
+    height: 48px;
+    width: 48px;
+  }
+}
+
+.module-avatar__label--48 {
+  width: 48px;
+  font-size: 20px;
+  letter-spacing: 0.19px;
+  line-height: 48px;
+}
+
+.module-avatar__icon--48 {
+  height: 26px;
+  width: 26px;
+}
+
+.module-avatar--80 {
+  height: 80px;
+  width: 80px;
+
+  img {
+    height: 80px;
+    width: 80px;
+  }
+}
+
+.module-avatar__label--80 {
+  width: 80px;
+  font-size: 40px;
+  line-height: 82px;
+}
+
+.module-avatar__icon--80 {
+  height: 42px;
+  width: 42px;
+}
+
+.module-avatar--300 {
+  height: 300px;
+  width: 300px;
+
+  img {
+    height: 300px;
+    width: 300px;
+  }
+}
+
+.module-avatar__label--300 {
+  width: 300px;
+  font-size: 150px;
+  line-height: 302px;
+}
+
+.module-avatar__icon--300 {
+  height: 158px;
+  width: 158px;
+}
+
+.module-avatar__icon--note-to-self {
+  width: 70%;
+  height: 70%;
+  @include color-svg('../images/note-28.svg', $color-white);
+}
+
+
+// Module: Avatar
+
+.module-avatar__label {
+  color: $color-gray-05;
+}
+
+.module-avatar__icon--group {
+  background-color: $color-gray-05;
+}
+
+.module-avatar__icon--direct {
+  background-color: $color-gray-05;
+}
+
+.module-avatar__icon--note-to-self {
+  background-color: $color-gray-05;
+}
+
+.module-avatar__icon--crown-wrapper {
+  background-color: $color-gray-75;
+}
+
+.module-avatar--no-image {
+  @include themify($themes) {
+    background-color: themed('steelColorShade');
+  }
+}

@@ -175,7 +175,7 @@
   display: inline-block;
   position: absolute;
   bottom: 4px;
-  @include color-svg('../images/error.svg', $color-core-red);
+  @include color-svg('../images/error.svg', $session-color-danger);
 }
 
 .module-message__error--outgoing {
@@ -195,15 +195,6 @@
   padding-top: 10px;
   padding-bottom: 10px;
   min-width: 0px;
-}
-
-.module-message__container--outgoing {
-  background-color: $color-light-10;
-}
-
-// In case the color gets messed up
-.module-message__container--incoming {
-  background-color: $color-conversation-grey;
 }
 
 .module-message__attachment-container {
@@ -306,7 +297,7 @@
   height: 16px;
   width: 16px;
 
-  @include color-svg('../images/error-filled.svg', $color-core-red);
+  @include color-svg('../images/error-filled.svg', $session-color-danger);
 }
 
 .module-message__generic-attachment__icon__extension {
@@ -576,7 +567,7 @@
   font-weight: 300;
   font-size: 13px;
   line-height: 18px;
-  color: $color-signal-blue;
+  color: $color-loki-green;
   background-color: $color-light-02;
   border: 1px solid $color-black-012;
 
@@ -709,15 +700,6 @@
   border-bottom-right-radius: 0px;
 }
 
-.module-quote--outgoing {
-  border-left-color: $color-conversation-grey;
-  background-color: $color-conversation-grey-tint;
-}
-
-.module-quote--incoming {
-  border-left-color: $color-white;
-  background-color: $color-conversation-grey-tint;
-}
 
 .module-quote__primary {
   flex-grow: 1;
@@ -844,19 +826,19 @@
 }
 
 .module-quote__icon-container__icon--file {
-  @include color-svg('../images/file.svg', $color-signal-blue);
+  @include color-svg('../images/file.svg', $color-loki-green);
 }
 .module-quote__icon-container__icon--image {
-  @include color-svg('../images/image.svg', $color-signal-blue);
+  @include color-svg('../images/image.svg', $color-loki-green);
 }
 .module-quote__icon-container__icon--microphone {
-  @include color-svg('../images/microphone.svg', $color-signal-blue);
+  @include color-svg('../images/microphone.svg', $color-loki-green);
 }
 .module-quote__icon-container__icon--play {
-  @include color-svg('../images/play.svg', $color-signal-blue);
+  @include color-svg('../images/play.svg', $color-loki-green);
 }
 .module-quote__icon-container__icon--movie {
-  @include color-svg('../images/movie.svg', $color-signal-blue);
+  @include color-svg('../images/movie.svg', $color-loki-green);
 }
 
 .module-quote__generic-file {
@@ -1179,7 +1161,7 @@
   font-weight: 300;
   line-height: 18px;
   padding: 12px;
-  color: $color-signal-blue;
+  color: $color-loki-green;
   background-color: $color-light-02;
   border-radius: 4px;
 }
@@ -1469,7 +1451,7 @@
 .module-message-detail__delete-button {
   @include button-reset;
 
-  background-color: $color-core-red;
+  background-color: $session-color-danger;
   color: $color-white;
   box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7);
   border-radius: 5px;
@@ -1496,7 +1478,7 @@
 }
 
 .module-message-detail__contact__error {
-  color: $color-core-red;
+  color: $session-color-danger;
   font-weight: 300;
 }
 
@@ -1533,7 +1515,7 @@
   width: 18px;
 }
 .module-message-detail__contact__status-icon--error {
-  @include color-svg('../images/error.svg', $color-core-red);
+  @include color-svg('../images/error.svg', $session-color-danger);
 }
 
 .module-message-detail__contact__unidentified-delivery-icon {
@@ -1560,7 +1542,7 @@
 .module-message-detail__contact__send-anyway {
   @include button-reset;
   color: $color-white;
-  background-color: $color-core-red;
+  background-color: $session-color-danger;
   margin-left: 5px;
   margin-top: 5px;
   padding: 4px;
@@ -1735,7 +1717,7 @@
 
   height: 36px;
   width: 36px;
-  @include color-svg('../images/play.svg', $color-signal-blue);
+  @include color-svg('../images/play.svg', $color-loki-green);
 }
 
 .module-media-grid-item__icon-video {
@@ -1778,34 +1760,9 @@
   }
 }
 
-.module-conversation-list-item--has-unread {
-  padding-left: 12px;
-  border-left: 4px solid $color-signal-blue;
-}
-
-.module-conversation-list-item--has-friend-request {
-  padding-left: 12px;
-  border-left: 4px solid $color-conversation-indigo;
-}
-
-.module-conversation-list-item--is-blocked {
-  padding-left: 12px;
-  border-left: 4px solid $color-conversation-red;
-}
-
-.module-conversation-list-item--is-selected {
-  background-color: $color-dark-70;
-}
-
-.module-conversation-list-item__avatar-container {
-  position: relative;
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
-
 .module-conversation-list-item__unread-count {
   color: $color-white;
-  background-color: $color-signal-blue;
+  background-color: $color-loki-green;
   text-align: center;
 
   padding-top: 1px;
@@ -1945,218 +1902,10 @@
   width: 18px;
 }
 .module-conversation-list-item__message__status-icon--error {
-  @include color-svg('../images/error.svg', $color-core-red);
+  @include color-svg('../images/error.svg', $session-color-danger);
 }
 
-// Module: Avatar
 
-.module-avatar {
-  position: relative;
-  vertical-align: middle;
-  display: inline-block;
-  border-radius: 50%;
-
-  img {
-    object-fit: cover;
-    border-radius: 50%;
-  }
-}
-
-.module-avatar__label {
-  width: 100%;
-  text-align: center;
-  font-weight: 300;
-  text-transform: uppercase;
-  color: $color-white;
-}
-
-.module-avatar__icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.module-avatar__icon--crown-wrapper {
-  position: relative;
-  bottom: -38px;
-  right: -16px;
-  height: 21px;
-  width: 21px;
-  transform: translate(25%, 25%);
-  padding: 9%;
-  background-color: $color-white;
-  border-radius: 50%;
-  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3));
-}
-
-.module-avatar__icon--crown {
-  @include color-svg('../images/crown.svg', #ffb000);
-  height: 100%;
-  width: 100%;
-}
-
-.module-avatar__icon--group {
-  @include color-svg('../images/profile-group.svg', $color-white);
-}
-
-.module-avatar__icon--direct {
-  @include color-svg('../images/profile-individual.svg', $color-white);
-}
-
-.module-avatar--28 {
-  height: 28px;
-  width: 28px;
-
-  img {
-    height: 28px;
-    width: 28px;
-  }
-}
-
-.module-avatar__label--28 {
-  font-size: 14px;
-  line-height: 28px;
-}
-
-.module-avatar__icon--28 {
-  height: 16px;
-  width: 16px;
-}
-
-.module-avatar--36 {
-  height: 36px;
-  width: 36px;
-
-  img {
-    height: 36px;
-    width: 36px;
-  }
-}
-
-.module-avatar__label--36 {
-  margin-top: 1px;
-  width: 36px;
-  font-size: 16px;
-  letter-spacing: 0.19px;
-  line-height: 36px;
-}
-
-.module-avatar__icon--36 {
-  height: 20px;
-  width: 20px;
-}
-
-.module-avatar--48 {
-  height: 48px;
-  width: 48px;
-
-  img {
-    height: 48px;
-    width: 48px;
-  }
-}
-
-.module-avatar__label--48 {
-  width: 48px;
-  font-size: 20px;
-  letter-spacing: 0.19px;
-  line-height: 48px;
-}
-
-.module-avatar__icon--48 {
-  height: 26px;
-  width: 26px;
-}
-
-.module-avatar--80 {
-  height: 80px;
-  width: 80px;
-
-  img {
-    height: 80px;
-    width: 80px;
-  }
-}
-
-.module-avatar__label--80 {
-  width: 80px;
-  font-size: 40px;
-  line-height: 82px;
-}
-
-.module-avatar__icon--80 {
-  height: 42px;
-  width: 42px;
-}
-
-.module-avatar--300 {
-  height: 300px;
-  width: 300px;
-
-  img {
-    height: 300px;
-    width: 300px;
-  }
-}
-
-.module-avatar__label--300 {
-  width: 300px;
-  font-size: 150px;
-  line-height: 302px;
-}
-
-.module-avatar__icon--300 {
-  height: 158px;
-  width: 158px;
-}
-
-.module-avatar__icon--note-to-self {
-  width: 70%;
-  height: 70%;
-  @include color-svg('../images/note-28.svg', $color-white);
-}
-
-.module-avatar--no-image {
-  background-color: $color-conversation-grey;
-}
-
-.module-avatar--signal-blue {
-  background-color: $color-signal-blue;
-}
-.module-avatar--red {
-  background-color: $color-conversation-red;
-}
-.module-avatar--deep_orange {
-  background-color: $color-conversation-deep_orange;
-}
-.module-avatar--brown {
-  background-color: $color-conversation-brown;
-}
-.module-avatar--pink {
-  background-color: $color-conversation-pink;
-}
-.module-avatar--purple {
-  background-color: $color-conversation-purple;
-}
-.module-avatar--indigo {
-  background-color: $color-conversation-indigo;
-}
-.module-avatar--blue {
-  background-color: $color-conversation-blue;
-}
-.module-avatar--teal {
-  background-color: $color-conversation-teal;
-}
-.module-avatar--green {
-  background-color: $color-conversation-green;
-}
-.module-avatar--light_green {
-  background-color: $color-conversation-light_green;
-}
-.module-avatar--blue_grey {
-  background-color: $color-conversation-blue_grey;
-}
 
 // Module: Main Header
 
@@ -2427,7 +2176,7 @@
 
   height: 36px;
   width: 36px;
-  @include color-svg('../images/play.svg', $color-signal-blue);
+  @include color-svg('../images/play.svg', $color-loki-green);
 }
 
 .module-image__text-container {
@@ -2672,7 +2421,7 @@
   margin-top: 5px;
   text-align: center;
 
-  font-family: Roboto;
+  font-family: $session-font-default;
   font-size: 14px;
 
   overflow: hidden;
@@ -2784,14 +2533,14 @@
     color: $color-white-07;
   }
   &:focus {
-    border: 1px solid $color-signal-blue;
+    border: 1px solid $color-loki-green;
     outline: none;
   }
 }
 
 .module-caption-editor__save-button {
   position: absolute;
-  background-color: $color-signal-blue;
+  background-color: $color-loki-green;
   color: $color-white;
   cursor: pointer;
 

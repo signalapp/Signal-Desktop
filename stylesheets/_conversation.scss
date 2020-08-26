@@ -64,10 +64,6 @@
   overflow-y: auto;
 }
 
-.discussion-container {
-  background-color: $color-white;
-}
-
 .key-verification {
   label {
     display: block;
@@ -464,6 +460,11 @@
     resize: none;
     font-size: 1em;
     font-family: inherit;
+
+    &[disabled='disabled'] {
+      cursor: not-allowed;
+    }
+
   }
   .capture-audio {
     float: right;
@@ -495,190 +496,28 @@
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.12), 0 0 0 0.5px rgba(0, 0, 0, 0.08);
 }
 
-.confirmation-dialog {
-  .content {
-    max-width: 350px;
-    margin: 100px auto;
-    padding: 1em;
-    background: white;
-    border-radius: $border-radius;
-    overflow: auto;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
-
-    .buttons {
-      margin-top: 10px;
-
-      button {
-        float: right;
-        margin-left: 10px;
-        background-color: $grey_l;
-        border-radius: $border-radius;
-        padding: 5px 8px;
-        border: 1px solid $grey_l2;
-
-        &:hover {
-          background-color: $grey_l2;
-          border-color: $grey_l3;
-        }
-      }
-    }
-  }
-}
-
-.loki-dialog {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  .content {
-    max-width: 75%;
-    min-width: 60%;
-    padding: 1em;
-    background: white;
-    border-radius: $border-radius;
-    overflow: auto;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
-  }
-
-  button {
-    float: right;
-    margin-left: 10px;
-    background-color: $color-loki-green;
-    border-radius: 100px;
-    padding: 5px 15px;
-    border: 1px solid $color-loki-green;
-    color: white;
-    outline: none;
-    user-select: none;
-
-    &:hover,
-    &:disabled {
-      background-color: $color-loki-green-dark;
-      border-color: $color-loki-green-dark;
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-    }
-  }
-
-  input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border: 0;
-    outline: none;
-    border-radius: 4px;
-    background-color: $color-loki-light-gray;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  h4 {
-    margin-top: 8px;
-    margin-bottom: 16px;
-  }
-}
-
-.nickname-dialog {
-  .message {
-    font-style: italic;
-    color: $grey;
-    font-size: 12px;
-    margin-bottom: 16px;
-  }
-}
-
-.seed-dialog {
-  .title {
-    font-weight: bold;
-  }
-
-  .fields {
-    margin-top: 20px;
-  }
-
-  .seed {
-    padding: 20px 0;
-    font-style: oblique;
-  }
-}
-
-.permissions-popup,
-.debug-log-window {
-  .modal {
-    background-color: transparent;
-    padding: 0;
-  }
-
-  .confirmation-dialog .content {
-    box-shadow: 0px 0px 0px 0px;
-    max-width: 1000px;
-    margin: 0;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 15px;
-  }
-}
 
 .module-last-seen-indicator {
   padding-top: 25px;
   padding-bottom: 35px;
   margin-left: 28px;
   margin-right: 28px;
-}
 
-.module-last-seen-indicator__bar {
-  background-color: $color-light-60;
-  width: 100%;
-  height: 2px;
-}
+  &__bar {
+    background-color: $color-light-60;
+    width: 100%;
+    height: 2px;
+  }
 
-.module-last-seen-indicator__text {
-  margin-top: 3px;
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
+  &__text {
+    margin-top: 3px;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
 
-  text-align: center;
-  color: $color-light-90;
-}
-
-.module-scroll-down {
-  z-index: 100;
-  position: absolute;
-  right: 20px;
-  bottom: 10px;
-}
-
-.module-scroll-down__button {
-  height: 44px;
-  width: 44px;
-  border-radius: 22px;
-  text-align: center;
-  background-color: $color-light-35;
-  border: none;
-  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
-  outline: none;
-
-  &:hover {
-    background-color: $color-light-45;
+    text-align: center;
+    color: $color-light-90;
   }
 }
 
-.module-scroll-down__button--new-messages {
-  background-color: $color-signal-blue;
-
-  &:hover {
-    background-color: #1472bd;
-  }
-}
-
-.module-scroll-down__icon {
-  @include color-svg('../images/down.svg', $color-white);
-  height: 100%;
-  width: 100%;
-}

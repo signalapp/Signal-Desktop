@@ -1,3 +1,5 @@
+// 13592 lines for manifest.css on date 25 august
+
 $themes: (
   light: (
     accent: #00e97b,
@@ -46,7 +48,10 @@ $themes: (
     // context menu
       contextMenuBackground: #f5f5f5,
     filterSessionText: brightness(0) saturate(100%),
-  ),
+
+    steelColor: #6b6b78,
+    steelColorShage: #5a5a63,
+      ),
   dark: (
     accent: #00f782,
     destructive: #ff453a,
@@ -94,6 +99,9 @@ $themes: (
     // context menu
       contextMenuBackground: #212121,
     filterSessionText: none,
+    steelColor: #6b6b78,
+    steelColorShage: #5a5a63,
+
   ),
 );
 
