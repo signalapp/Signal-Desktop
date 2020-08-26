@@ -15,7 +15,7 @@ import { Image } from './Image';
 
 import { LocalizerType } from '../../types/Util';
 
-interface Props {
+export interface Props {
   attachments: Array<AttachmentType>;
   withContentAbove?: boolean;
   withContentBelow?: boolean;
