@@ -699,21 +699,6 @@
     color: $color-dark-05;
   }
 
-  .module-conversation-header__note-to-self {
-    color: $color-dark-05;
-  }
-
-  .module-conversation-header__title__verified-icon {
-    @include color-svg('../images/verified-check.svg', $color-dark-05);
-  }
-
-  .module-conversation-header__expiration__clock-icon {
-    @include color-svg('../images/timer.svg', $color-dark-30);
-  }
-
-  .module-conversation-header__gear-icon {
-    @include color-svg('../images/gear.svg', $color-dark-30);
-  }
 
   // Module: Message Detail
 
