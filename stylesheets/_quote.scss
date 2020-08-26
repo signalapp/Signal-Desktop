@@ -345,6 +345,10 @@
 }
 
 .bottom-bar .member-item {
+  @include themify($themes) {
+    border-bottom: themed('borderActionPanel');
+  }
+
   &:hover {
     @include themify($themes) {
       background: themed('clickableHovered');
