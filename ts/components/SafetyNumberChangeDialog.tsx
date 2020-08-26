@@ -13,6 +13,7 @@ type SafetyNumberProps = {
 };
 
 export type Props = {
+  readonly confirmText?: string;
   readonly contacts: Array<ConversationType>;
   readonly i18n: LocalizerType;
   readonly onCancel: () => void;
@@ -25,6 +26,7 @@ type SafetyDialogContentProps = Props & {
 };
 
 const SafetyDialogContents = ({
+  confirmText,
   contacts,
   i18n,
   onCancel,
@@ -107,7 +109,7 @@ const SafetyDialogContents = ({
           onClick={onConfirm}
           tabIndex={0}
         >
-          {i18n('sendMessageToContact')}
+          {confirmText || i18n('sendMessageToContact')}
         </button>
       </div>
     </>

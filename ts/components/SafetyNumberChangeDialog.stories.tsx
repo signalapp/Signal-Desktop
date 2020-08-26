@@ -64,6 +64,21 @@ storiesOf('Components/SafetyNumberChangeDialog', module)
       />
     );
   })
+  .add('Different Confirmation Text', () => {
+    return (
+      <SafetyNumberChangeDialog
+        confirmText="You are awesome"
+        contacts={[contactWithAllData]}
+        i18n={i18n}
+        onCancel={action('cancel')}
+        onConfirm={action('confirm')}
+        renderSafetyNumber={() => {
+          action('renderSafetyNumber');
+          return <div>This is a mock Safety Number View</div>;
+        }}
+      />
+    );
+  })
   .add('Multi Contact Dialog', () => {
     return (
       <SafetyNumberChangeDialog

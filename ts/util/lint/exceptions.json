@@ -825,7 +825,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/safety_number_change_dialog_view.js",
     "line": "      this.$('.safety-number-change-dialog-wrapper').append(dialog.el);",
-    "lineNumber": 36,
+    "lineNumber": 37,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-23T06:48:06.829Z"
   },
@@ -833,7 +833,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/safety_number_change_dialog_view.js",
     "line": "      this.$('.safety-number-change-dialog-wrapper').append(dialog.el);",
-    "lineNumber": 36,
+    "lineNumber": 37,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-23T06:48:06.829Z"
   },

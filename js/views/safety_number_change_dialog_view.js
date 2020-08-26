@@ -12,6 +12,7 @@
       const dialog = new Whisper.ReactWrapperView({
         Component: window.Signal.Components.SafetyNumberChangeDialog,
         props: {
+          confirmText: options.confirmText,
           contacts: options.contacts.map(contact => contact.cachedProps),
           i18n: window.i18n,
           onCancel: () => {
