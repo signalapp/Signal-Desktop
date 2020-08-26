@@ -48,10 +48,12 @@ $themes: (
     // context menu
       contextMenuBackground: #f5f5f5,
     filterSessionText: brightness(0) saturate(100%),
-
     steelColor: #6b6b78,
-    steelColorShage: #5a5a63,
-      ),
+    steelColorShade: #5a5a63,
+    lastSeenIndicatorColor: #62656a,
+    lastSeenIndicatorTextColor: #070c14,
+    quoteBottomBarBackground: #f0f0f0,
+  ),
   dark: (
     accent: #00f782,
     destructive: #ff453a,
@@ -100,8 +102,10 @@ $themes: (
       contextMenuBackground: #212121,
     filterSessionText: none,
     steelColor: #6b6b78,
-    steelColorShage: #5a5a63,
-
+    steelColorShade: #5a5a63,
+    lastSeenIndicatorColor: #353535,
+    lastSeenIndicatorTextColor: #a8a9aa,
+    quoteBottomBarBackground: #404040,
   ),
 );
 

@@ -79,9 +79,6 @@
   }
 }
 
-
-
-
 .loki-dialog {
   display: flex;
   align-items: center;
@@ -171,7 +168,6 @@
   }
 }
 
-
 .loki-dialog {
   & ~ .index.inbox {
     filter: blur(2px);
@@ -190,8 +186,6 @@
     color: $color-light-35;
   }
 }
-
-
 
 .edit-profile-dialog {
   .session-modal__header__title {

@@ -328,12 +328,6 @@
   padding-bottom: 40px;
 }
 
-.bottom-bar .module-quote {
-  margin: 0;
-
-  border-left-style: none;
-}
-
 // We need to use the wrapper because the conversation view calculates the height of all
 //   things in the composition area. A margin on an inner div won't be included in that
 //   height calculation.
@@ -464,7 +458,6 @@
     &[disabled='disabled'] {
       cursor: not-allowed;
     }
-
   }
   .capture-audio {
     float: right;
@@ -496,7 +489,6 @@
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.12), 0 0 0 0.5px rgba(0, 0, 0, 0.08);
 }
 
-
 .module-last-seen-indicator {
   padding-top: 25px;
   padding-bottom: 35px;
@@ -504,7 +496,9 @@
   margin-right: 28px;
 
   &__bar {
-    background-color: $color-light-60;
+    @include themify($themes) {
+      background-color: themed('lastSeenIndicatorColor');
+    }
     width: 100%;
     height: 2px;
   }
@@ -515,9 +509,9 @@
     line-height: 16px;
     letter-spacing: 0.3px;
     text-transform: uppercase;
-
+    @include themify($themes) {
+      color: themed('lastSeenIndicatorTextColor');
+    }
     text-align: center;
-    color: $color-light-90;
   }
 }
-

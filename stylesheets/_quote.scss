@@ -1,0 +1,353 @@
+// This is related to all quote logics
+.module-quote {
+  position: relative;
+
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow: hidden;
+
+  border-left-width: 4px;
+  border-left-style: solid;
+
+  @include themify($themes) {
+    border-color: themed('accent');
+  }
+
+  &__primary__type-label {
+    @include themify($themes) {
+      border-color: themed('textColor');
+    }
+  }
+}
+
+// This is related to the bottomBar quote&mention logic
+.bottom-bar .module-quote {
+  margin: 0;
+  border-left-style: none;
+  @include themify($themes) {
+    background: themed('quoteBottomBarBackground');
+  }
+
+  .module-quote__primary__author {
+    @include themify($themes) {
+      color: themed('textColor');
+    }
+  }
+  .module-quote__primary__text {
+    @include themify($themes) {
+      @include session-color-subtle(themed('textColor'));
+    }
+    a {
+      @include themify($themes) {
+        @include session-color-subtle(themed('textColor'));
+      }
+    }
+  }
+
+  // close button when quoting a message
+  &__close {
+    &-container {
+      @include themify($themes) {
+        background: themed('backgroundPrimary');
+      }
+    }
+
+    &-button {
+      @include themify($themes) {
+        @include color-svg('../images/x.svg', themed('foregroundPrimary'));
+      }
+    }
+  }
+}
+
+// This is related to the quote logic inside messages
+.module-quote {
+  &--outgoing {
+    .module-quote__primary__author {
+      @include themify($themes) {
+        color: themed('sentMessageText');
+        font-weight: bold;
+      }
+    }
+    .module-quote__primary__text {
+      @include themify($themes) {
+        @include session-color-subtle(themed('sentMessageText'));
+      }
+      a {
+        @include themify($themes) {
+          @include session-color-subtle(themed('sentMessageText'));
+        }
+      }
+    }
+  }
+
+  &--incoming {
+    .module-quote__primary__author {
+      @include themify($themes) {
+        color: themed('receivedMessageText');
+        font-weight: bold;
+      }
+    }
+    .module-quote__primary__text {
+      @include themify($themes) {
+        @include session-color-subtle(themed('receivedMessageText'));
+      }
+      a {
+        @include themify($themes) {
+          @include session-color-subtle(themed('receivedMessageText'));
+        }
+      }
+    }
+  }
+}
+
+.module-quote__icon-container__icon--file {
+  @include color-svg('../images/file.svg', $color-loki-green);
+}
+.module-quote__icon-container__icon--image {
+  @include color-svg('../images/image.svg', $color-loki-green);
+}
+.module-quote__icon-container__icon--microphone {
+  @include color-svg('../images/microphone.svg', $color-loki-green);
+}
+.module-quote__icon-container__icon--play {
+  @include color-svg('../images/play.svg', $color-loki-green);
+}
+.module-quote__icon-container__icon--movie {
+  @include color-svg('../images/movie.svg', $color-loki-green);
+}
+
+.module-quote__generic-file__text {
+  color: $color-dark-05;
+}
+
+.module-quote__reference-warning {
+  background-color: $color-black-06;
+}
+
+.module-quote__reference-warning__icon {
+  @include color-svg('../images/broken-link.svg', $color-dark-30);
+}
+
+.module-quote__reference-warning__text {
+  color: $color-dark-05;
+}
+
+.module-quote-container {
+  margin-left: -6px;
+  margin-right: -6px;
+  margin-top: -4px;
+  margin-bottom: 5px;
+}
+
+.module-quote-container--with-content-above {
+  margin-top: 3px;
+}
+
+.module-quote--no-click {
+  cursor: auto;
+}
+
+.module-quote__primary {
+  flex-grow: 1;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+
+  max-width: 100%;
+}
+
+.module-quote__primary__author {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 300;
+  color: $color-gray-90;
+
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.module-quote__primary__profile-name {
+  font-style: italic;
+}
+
+.module-quote__primary__text {
+  font-size: 14px;
+  line-height: 18px;
+  color: $color-gray-90;
+  text-align: start;
+
+  a {
+    color: $color-gray-90;
+  }
+
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
+  //   ... as the truncation indicator. That's not a solution that works well for
+  //   all languages. More resources:
+  //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
+  //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
+}
+
+.module-quote__primary__type-label {
+  font-style: italic;
+  color: $color-gray-90;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.module-quote__primary__filename-label {
+  font-size: 12px;
+}
+
+.module-quote__close-container {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  height: 16px;
+  width: 16px;
+
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+}
+
+.module-quote__close-button {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  @include color-svg('../images/x.svg', $grey);
+}
+
+.module-quote__icon-container {
+  flex: initial;
+  min-width: 54px;
+  width: 54px;
+  max-height: 54px;
+  position: relative;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.module-quote__icon-container__circle-background {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  background-color: $color-white;
+}
+
+.module-quote__icon-container__icon {
+  width: 24px;
+  height: 24px;
+
+  &--file {
+    @include color-svg('../images/file.svg', $color-loki-green);
+  }
+  &--image {
+    @include color-svg('../images/image.svg', $color-loki-green);
+  }
+  &--microphone {
+    @include color-svg('../images/microphone.svg', $color-loki-green);
+  }
+  &--play {
+    @include color-svg('../images/play.svg', $color-loki-green);
+  }
+  &--movie {
+    @include color-svg('../images/movie.svg', $color-loki-green);
+  }
+}
+
+.module-quote__generic {
+  &-file {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  &-file__icon {
+    background: url('../images/file-gradient.svg');
+    background-size: 75%;
+    background-repeat: no-repeat;
+    height: 28px;
+    width: 36px;
+    margin-left: -4px;
+    margin-right: -6px;
+    margin-bottom: 5px;
+  }
+  &-file__text {
+    font-size: 14px;
+    line-height: 18px;
+    color: $color-gray-90;
+
+    max-width: calc(100% - 26px);
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+.module-quote__reference {
+  &-warning {
+    height: 26px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    background-color: $color-white-085;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  &-warning__icon {
+    height: 16px;
+    width: 16px;
+    @include color-svg('../images/broken-link.svg', $color-gray-60);
+  }
+
+  &-warning__text {
+    margin-left: 6px;
+    color: $color-gray-90;
+    font-size: 13px;
+    line-height: 18px;
+  }
+}
+
+.bottom-bar .member-item {
+  &:hover {
+    @include themify($themes) {
+      background: themed('clickableHovered');
+    }
+  }
+}

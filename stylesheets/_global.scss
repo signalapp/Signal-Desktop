@@ -15,9 +15,7 @@ body {
   margin: 0;
   font-family: $session-font-default;
   font-size: 14px;
-
 }
-
 
 // scrollbars
 ::-webkit-scrollbar {
@@ -671,7 +669,6 @@ $loading-height: 16px;
   #status {
     margin-top: 12px;
   }
-
 
   input {
     border: 1px solid $color-light-60;

@@ -114,6 +114,11 @@
 
   &-read-receipt-container {
     margin-left: 5px;
+    .session-icon.check {
+      @include themify($themes) {
+        fill: themed('sentMessageText');
+      }
+    }
   }
 }
 
@@ -127,7 +132,6 @@
 .conversation {
   background: none;
 }
-
 
 @mixin session-h-title {
   @include fontAccentBold();
