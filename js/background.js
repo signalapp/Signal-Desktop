@@ -368,7 +368,7 @@
 
     // These make key operations available to IPC handlers created in preload.js
     window.Events = {
-      getThemeSetting: () => storage.get('theme-setting', 'dark'),
+      getThemeSetting: () => storage.get('theme-setting', 'light'),
       setThemeSetting: value => {
         storage.put('theme-setting', value);
         onChangeTheme();
