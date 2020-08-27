@@ -403,11 +403,8 @@ $session-compose-margin: 20px;
     flex-grow: 1;
     height: 51px;
 
-    @at-root .light-theme #{&} {
-      border: 1px solid $session-shade-15;
-    }
-    @at-root .dark-theme #{&} {
-      border: 1px solid $session-shade-6;
+    @include themify($themes) {
+      border: themed('borderActionPanel');
     }
   }
 }
