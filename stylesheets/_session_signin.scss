@@ -1,7 +1,7 @@
 .session {
   &-fullscreen {
     @include themify($themes) {
-      background: themed('inboxBackground');
+      background: themed('cellBackground');
     }
     overflow-y: auto;
     height: 100%;
@@ -116,7 +116,7 @@
       margin-left: auto;
       margin-right: auto;
       @include themify($themes) {
-        background: themed('inboxBackground');
+        background: themed('cellBackground');
       }
     }
 
