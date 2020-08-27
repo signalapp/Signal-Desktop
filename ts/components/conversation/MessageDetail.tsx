@@ -4,12 +4,12 @@ import moment from 'moment';
 
 import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
-import { Message, Props as MessageProps } from './Message';
+import { Message, MessageStatusType, Props as MessageProps } from './Message';
 import { LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
 
 interface Contact {
-  status: string;
+  status: MessageStatusType;
 
   title: string;
   phoneNumber?: string;
@@ -26,7 +26,7 @@ interface Contact {
   onShowSafetyNumber: () => void;
 }
 
-interface Props {
+export interface Props {
   sentAt: number;
   receivedAt: number;
 
