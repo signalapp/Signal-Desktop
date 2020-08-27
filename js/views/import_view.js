@@ -44,7 +44,7 @@
 
   Whisper.ImportView = Whisper.View.extend({
     templateName: 'import-flow-template',
-    className: 'full-screen-flow',
+    // className: 'full-screen-flow',
     events: {
       'click .choose': 'onImport',
       'click .restart': 'onRestart',
