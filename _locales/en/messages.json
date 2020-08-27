@@ -2745,5 +2745,39 @@
   "callingDeviceSelection__select--no-device": {
     "message": "No devices available",
     "description": "Message for when there are no available devices to select for input/output audio or video"
+  },
+  "muteNotificationsTitle": {
+    "message": "Mute notifications",
+    "description": "Label for the mute notifications drop-down selector"
+  },
+  "muteHour": {
+    "message": "Mute for one hour",
+    "description": "Label for muting the conversation"
+  },
+  "muteDay": {
+    "message": "Mute for one day",
+    "description": "Label for muting the conversation"
+  },
+  "muteWeek": {
+    "message": "Mute for one week",
+    "description": "Label for muting the conversation"
+  },
+  "muteYear": {
+    "message": "Mute for one year",
+    "description": "Label for muting the conversation"
+  },
+  "unmute": {
+    "message": "Unmute",
+    "description": "Label for unmuting the conversation"
+  },
+  "muteExpirationLabel": {
+    "message": "Muted until $duration$",
+    "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
+    "placeholders": {
+      "duration": {
+        "content": "$1",
+        "example": "10/23/2023, 7:10 PM"
+      }
+    }
   }
 }

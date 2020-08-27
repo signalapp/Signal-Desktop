@@ -499,6 +499,7 @@
           ? undefined
           : (this.get('members') || []).length,
         messageRequestsEnabled,
+        muteExpiresAt: this.get('muteExpiresAt'),
         name: this.get('name'),
         phoneNumber: this.getNumber(),
         profileName: this.getProfileName(),
@@ -2844,6 +2845,10 @@
     },
 
     async notify(message, reaction) {
+      if (this.get('muteExpiresAt') && Date.now() < this.get('muteExpiresAt')) {
+        return;
+      }
+
       if (!message.isIncoming() && !reaction) {
         return;
       }

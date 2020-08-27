@@ -33,6 +33,7 @@ export type PropsData = {
   type: 'group' | 'direct';
   avatarPath?: string;
   isMe?: boolean;
+  muteExpiresAt?: number;
 
   lastUpdated: number;
   unreadCount?: number;
@@ -167,6 +168,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       i18n,
       isAccepted,
       lastMessage,
+      muteExpiresAt,
       shouldShowDraft,
       typingContact,
       unreadCount,
@@ -201,6 +203,9 @@ export class ConversationListItem extends React.PureComponent<Props> {
               : null
           )}
         >
+          {muteExpiresAt && (
+            <span className="module-conversation-list-item__muted" />
+          )}
           {!isAccepted ? (
             <span className="module-conversation-list-item__message-request">
               {i18n('ConversationListItem--message-request')}

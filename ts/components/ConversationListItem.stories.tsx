@@ -246,3 +246,10 @@ story.add('Missing Text', () => {
     />
   );
 });
+
+story.add('Muted Conversation', () => {
+  const props = createProps();
+  const muteExpiresAt = Date.now() + 1000 * 60 * 60;
+
+  return <ConversationListItem {...props} muteExpiresAt={muteExpiresAt} />;
+});
