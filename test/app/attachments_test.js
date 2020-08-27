@@ -1,7 +1,9 @@
+const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
 const tmp = require('tmp');
 const { assert } = require('chai');
+const { app } = require('electron');
 
 const Attachments = require('../../app/attachments');
 const {
@@ -149,6 +151,91 @@ describe('Attachments', () => {
       }
 
       throw new Error('Expected an error');
+    });
+  });
+
+  describe('copyIntoAttachmentsDirectory', () => {
+    // These tests use the `userData` path. In `electron-mocha`, these are temporary
+    //   directories; no need to be concerned about messing with the "real" directory.
+    before(function thisNeeded() {
+      this.filesToRemove = [];
+      this.getFakeAttachmentsDirectory = () => {
+        const result = path.join(
+          app.getPath('userData'),
+          `fake-attachments-${Date.now()}-${Math.random()
+            .toString()
+            .substring(2)}`
+        );
+        this.filesToRemove.push(result);
+        return result;
+      };
+      this.getTempFile = () => {
+        const result = tmp.fileSync().name;
+        this.filesToRemove.push(result);
+        return result;
+      };
+    });
+
+    after(async function thisNeeded() {
+      await Promise.all(
+        this.filesToRemove.map(toRemove => fse.remove(toRemove))
+      );
+    });
+
+    it('throws if passed a non-string', () => {
+      assert.throws(() => {
+        Attachments.copyIntoAttachmentsDirectory(1234);
+      }, TypeError);
+      assert.throws(() => {
+        Attachments.copyIntoAttachmentsDirectory(null);
+      }, TypeError);
+    });
+
+    it('returns a function that rejects if the source path is not a string', async function thisNeeded() {
+      const copier = Attachments.copyIntoAttachmentsDirectory(
+        await this.getFakeAttachmentsDirectory()
+      );
+      return copier(123)
+        .then(() => {
+          assert.fail('This should never be run');
+        })
+        .catch(err => {
+          assert.instanceOf(err, TypeError);
+        });
+    });
+
+    it('returns a function that rejects if the source path is not in the user config directory', async function thisNeeded() {
+      const copier = Attachments.copyIntoAttachmentsDirectory(
+        await this.getFakeAttachmentsDirectory()
+      );
+      return copier(this.getTempFile())
+        .then(() => {
+          assert.fail('This should never be run');
+        })
+        .catch(err => {
+          assert.instanceOf(err, Error);
+          assert.strictEqual(
+            err.message,
+            "'sourcePath' must be relative to the user config directory"
+          );
+        });
+    });
+
+    it('returns a function that copies the source path into the attachments directory', async function thisNeeded() {
+      const attachmentsPath = await this.getFakeAttachmentsDirectory();
+      const someOtherPath = path.join(app.getPath('userData'), 'somethingElse');
+      await fse.outputFile(someOtherPath, 'hello world');
+      this.filesToRemove.push(someOtherPath);
+
+      const copier = Attachments.copyIntoAttachmentsDirectory(attachmentsPath);
+      const relativePath = await copier(someOtherPath);
+
+      const absolutePath = path.join(attachmentsPath, relativePath);
+      assert.notEqual(someOtherPath, absolutePath);
+      assert.strictEqual(
+        await fs.promises.readFile(absolutePath, 'utf8'),
+        'hello world'
+      );
     });
   });
 
