@@ -10,7 +10,10 @@ import { CallDetailsType } from '../state/ducks/calling';
 type CallManagerPropsType = {
   callDetails?: CallDetailsType;
   callState?: CallState;
+  renderDeviceSelection: () => JSX.Element;
+  settingsDialogOpen: boolean;
 };
+
 type PropsType = IncomingCallBarPropsType &
   CallScreenPropsType &
   CallManagerPropsType;
@@ -20,17 +23,18 @@ export const CallManager = ({
   callDetails,
   callState,
   declineCall,
-  getVideoCapturer,
-  getVideoRenderer,
   hangUp,
   hasLocalAudio,
   hasLocalVideo,
   hasRemoteVideo,
   i18n,
+  renderDeviceSelection,
   setLocalAudio,
+  setLocalPreview,
   setLocalVideo,
-  setVideoCapturer,
-  setVideoRenderer,
+  setRendererCanvas,
+  settingsDialogOpen,
+  toggleSettings,
 }: PropsType): JSX.Element | null => {
   if (!callDetails || !callState) {
     return null;
@@ -43,21 +47,23 @@ export const CallManager = ({
 
   if (outgoing || ongoing) {
     return (
-      <CallScreen
-        callDetails={callDetails}
-        callState={callState}
-        getVideoCapturer={getVideoCapturer}
-        getVideoRenderer={getVideoRenderer}
-        hangUp={hangUp}
-        hasLocalAudio={hasLocalAudio}
-        hasLocalVideo={hasLocalVideo}
-        i18n={i18n}
-        hasRemoteVideo={hasRemoteVideo}
-        setVideoCapturer={setVideoCapturer}
-        setVideoRenderer={setVideoRenderer}
-        setLocalAudio={setLocalAudio}
-        setLocalVideo={setLocalVideo}
-      />
+      <>
+        <CallScreen
+          callDetails={callDetails}
+          callState={callState}
+          hangUp={hangUp}
+          hasLocalAudio={hasLocalAudio}
+          hasLocalVideo={hasLocalVideo}
+          i18n={i18n}
+          hasRemoteVideo={hasRemoteVideo}
+          setLocalPreview={setLocalPreview}
+          setRendererCanvas={setRendererCanvas}
+          setLocalAudio={setLocalAudio}
+          setLocalVideo={setLocalVideo}
+          toggleSettings={toggleSettings}
+        />
+        {settingsDialogOpen && renderDeviceSelection()}
+      </>
     );
   }
 

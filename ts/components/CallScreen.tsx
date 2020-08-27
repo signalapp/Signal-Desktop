@@ -4,14 +4,13 @@ import {
   CallDetailsType,
   HangUpType,
   SetLocalAudioType,
+  SetLocalPreviewType,
   SetLocalVideoType,
-  SetVideoCapturerType,
-  SetVideoRendererType,
+  SetRendererCanvasType,
 } from '../state/ducks/calling';
 import { Avatar } from './Avatar';
 import { CallState } from '../types/Calling';
 import { LocalizerType } from '../types/Util';
-import { CanvasVideoRenderer, GumVideoCapturer } from '../window.d';
 
 type CallingButtonProps = {
   classNameSuffix: string;
@@ -37,12 +36,6 @@ const CallingButton = ({
 export type PropsType = {
   callDetails?: CallDetailsType;
   callState?: CallState;
-  getVideoCapturer: (
-    ref: React.RefObject<HTMLVideoElement>
-  ) => GumVideoCapturer;
-  getVideoRenderer: (
-    ref: React.RefObject<HTMLCanvasElement>
-  ) => CanvasVideoRenderer;
   hangUp: (_: HangUpType) => void;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
@@ -50,8 +43,9 @@ export type PropsType = {
   i18n: LocalizerType;
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
-  setVideoCapturer: (_: SetVideoCapturerType) => void;
-  setVideoRenderer: (_: SetVideoRendererType) => void;
+  setLocalPreview: (_: SetLocalPreviewType) => void;
+  setRendererCanvas: (_: SetRendererCanvasType) => void;
+  toggleSettings: () => void;
 };
 
 type StateType = {
@@ -79,11 +73,6 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     this.controlsFadeTimer = null;
     this.localVideoRef = React.createRef();
     this.remoteVideoRef = React.createRef();
-
-    this.setVideoCapturerAndRenderer(
-      props.getVideoCapturer(this.localVideoRef),
-      props.getVideoRenderer(this.remoteVideoRef)
-    );
   }
 
   public componentDidMount() {
@@ -92,6 +81,9 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     this.fadeControls();
 
     document.addEventListener('keydown', this.handleKeyDown);
+
+    this.props.setLocalPreview({ element: this.localVideoRef });
+    this.props.setRendererCanvas({ element: this.remoteVideoRef });
   }
 
   public componentWillUnmount() {
@@ -103,7 +95,8 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     if (this.controlsFadeTimer) {
       clearTimeout(this.controlsFadeTimer);
     }
-    this.setVideoCapturerAndRenderer(null, null);
+    this.props.setLocalPreview({ element: undefined });
+    this.props.setRendererCanvas({ element: undefined });
   }
 
   updateAcceptedTimer = () => {
@@ -203,6 +196,8 @@ export class CallScreen extends React.Component<PropsType, StateType> {
       hasLocalAudio,
       hasLocalVideo,
       hasRemoteVideo,
+      i18n,
+      toggleSettings,
     } = this.props;
     const { showControls } = this.state;
     const isAudioOnly = !hasLocalVideo && !hasRemoteVideo;
@@ -241,6 +236,13 @@ export class CallScreen extends React.Component<PropsType, StateType> {
             {callDetails.title}
           </div>
           {this.renderMessage(callState)}
+          <div className="module-ongoing-call__settings">
+            <button
+              aria-label={i18n('callingDeviceSelection__settings')}
+              className="module-ongoing-call__settings--button"
+              onClick={toggleSettings}
+            />
+          </div>
         </div>
         {hasRemoteVideo
           ? this.renderRemoteVideo()
@@ -355,28 +357,5 @@ export class CallScreen extends React.Component<PropsType, StateType> {
       return `${hours}:${mins}:${secs}`;
     }
     return `${mins}:${secs}`;
-  }
-
-  private setVideoCapturerAndRenderer(
-    capturer: GumVideoCapturer | null,
-    renderer: CanvasVideoRenderer | null
-  ) {
-    const { callDetails, setVideoCapturer, setVideoRenderer } = this.props;
-
-    if (!callDetails) {
-      return;
-    }
-
-    const { callId } = callDetails;
-
-    setVideoCapturer({
-      callId,
-      capturer,
-    });
-
-    setVideoRenderer({
-      callId,
-      renderer,
-    });
   }
 }

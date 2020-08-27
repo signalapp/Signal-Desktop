@@ -31,17 +31,18 @@ const defaultProps = {
   callDetails,
   callState: CallState.Accepted,
   declineCall: action('decline-call'),
-  getVideoCapturer: () => ({}),
-  getVideoRenderer: () => ({}),
   hangUp: action('hang-up'),
   hasLocalAudio: true,
   hasLocalVideo: true,
   hasRemoteVideo: true,
   i18n,
+  renderDeviceSelection: () => <div />,
   setLocalAudio: action('set-local-audio'),
+  setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),
-  setVideoCapturer: action('set-video-capturer'),
-  setVideoRenderer: action('set-video-renderer'),
+  setRendererCanvas: action('set-renderer-canvas'),
+  settingsDialogOpen: false,
+  toggleSettings: action('toggle-settings'),
 };
 
 const permutations = [
