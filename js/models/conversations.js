@@ -1884,11 +1884,6 @@
         }),
       ]);
 
-      // This is the less-restrictive of these two fetches; if it's falsey, both will be
-      if (!previewMessage) {
-        return;
-      }
-
       if (
         this.hasDraft() &&
         this.get('draftTimestamp') &&
@@ -1903,10 +1898,15 @@
         : currentTimestamp;
 
       this.set({
-        lastMessage: previewMessage.getNotificationText() || '',
-        lastMessageStatus: previewMessage.getMessagePropStatus() || null,
+        lastMessage:
+          (previewMessage ? previewMessage.getNotificationText() : '') || '',
+        lastMessageStatus:
+          (previewMessage ? previewMessage.getMessagePropStatus() : null) ||
+          null,
         timestamp,
-        lastMessageDeletedForEveryone: previewMessage.deletedForEveryone,
+        lastMessageDeletedForEveryone: previewMessage
+          ? previewMessage.deletedForEveryone
+          : false,
       });
 
       window.Signal.Data.updateConversation(this.attributes);
