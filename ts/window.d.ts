@@ -80,7 +80,6 @@ declare global {
     shortenPubkey: any;
     showEditProfileDialog: any;
     showPasswordDialog: any;
-    showQRDialog: any;
     showSeedDialog: any;
     storage: any;
     textsecure: LibTextsecure;

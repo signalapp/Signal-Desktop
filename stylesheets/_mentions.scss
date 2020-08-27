@@ -1,97 +1,4 @@
-.leave-group-dialog {
-  .content {
-    max-width: 100% !important;
-  }
-
-  .titleText {
-    font-size: large;
-    text-align: center;
-    margin: 2px;
-  }
-
-  .ok {
-    background-color: orangered;
-    min-width: 70px;
-    border: none;
-
-    &:hover {
-      background-color: red;
-    }
-  }
-
-  .cancel {
-    border: none;
-    min-width: 70px;
-  }
-}
-
-.member-preview {
-  margin-left: 10px;
-}
-
-/* remove scroll bars */
-.loki-dialog .add-moderators-dialog .content {
-  padding: 1.1em;
-}
-
-.invite-friends-dialog,
-.add-moderators-dialog,
-.remove-moderators-dialog,
-.create-group-dialog {
-  .content {
-    max-width: 100% !important;
-  }
-
-  .buttons {
-    margin: 8px;
-  }
-
-  .group-name {
-    font-size: larger;
-  }
-
-  .titleText {
-    font-size: large;
-    text-align: center;
-  }
-}
-
-.create-group-dialog,
-.add-moderators-dialog,
-.remove-moderators-dialog,
-.invite-friends-dialog {
-  .no-friends {
-    text-align: center;
-  }
-
-  .hidden {
-    display: none;
-  }
-}
-
-.create-group-dialog,
-.add-moderators-dialog,
-.remove-moderators-dialog,
-.edit-profile-dialog {
-  .error-message {
-    text-align: center;
-    color: red;
-    display: block;
-    user-select: none;
-  }
-
-  .error-faded {
-    opacity: 0;
-    margin-top: -5px;
-    transition: all 100ms linear;
-  }
-
-  .error-shown {
-    opacity: 1;
-    transition: all 250ms linear;
-  }
-}
-
+// used for the list after adding a `@` in the compose text input
 .friend-selection-list {
   max-height: 240px;
   overflow-y: auto;
@@ -188,8 +95,9 @@
 }
 
 .at-symbol {
-  background-color: $session-color-green;
-
+  @include themify($themes) {
+    background-color: themed('accent');
+  }
   color: $color-black;
   text-align: center;
 

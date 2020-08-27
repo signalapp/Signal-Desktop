@@ -1142,10 +1142,7 @@ export class Message extends React.PureComponent<Props, State> {
             <div
               className={classNames(
                 'module-message__container',
-                `module-message__container--${direction}`,
-                isIncoming
-                  ? `module-message__container--incoming-${authorColor}`
-                  : null
+                `module-message__container--${direction}`
               )}
               style={{
                 width: isShowingImage ? width : undefined,

@@ -19,22 +19,14 @@
       this.showPasswordDialog = this.showPasswordDialog.bind(this);
     },
     events: {
-      'click .openInstaller': 'openInstaller', // NetworkStatusView has this button
       openInbox: 'openInbox',
     },
     applyTheme() {
-      const iOS = storage.get('userAgent') === 'OWI';
-      const theme = 'dark'; // storage.get('theme-setting') || 'dark';
+      const theme = storage.get('theme-setting') || 'dark';
       this.$el
         .removeClass('light-theme')
         .removeClass('dark-theme')
         .addClass(`${theme}-theme`);
-
-      if (iOS) {
-        this.$el.addClass('ios-theme');
-      } else {
-        this.$el.removeClass('ios-theme');
-      }
     },
     applyHideMenu() {
       const hideMenuBar = storage.get('hide-menu-bar', true);
@@ -64,11 +56,6 @@
       const importView = new Whisper.ImportView();
       this.importView = importView;
 
-      this.listenTo(
-        importView,
-        'light-import',
-        this.finishLightImport.bind(this)
-      );
       this.openView(this.importView);
     },
     closeImporter() {
@@ -107,8 +94,6 @@
       //     view keeps track of whether onEmpty() has ever been called with
       //     this.initialLoadComplete. An example of this: on a phone-pairing setup.
       _.defaults(options, { initialLoadComplete: this.initialLoadComplete });
-
-      // window.log.info('open inbox');
 
       if (!this.inboxView) {
         // We create the inbox immediately so we don't miss an update to
@@ -177,12 +162,6 @@
       const dialog = new Whisper.SeedDialogView();
       this.el.prepend(dialog.el);
     },
-    showQRDialog(string) {
-      const dialog = new Whisper.QRDialogView({
-        value: string,
-      });
-      this.el.append(dialog.el);
-    },
     showDevicePairingDialog(options) {
       const dialog = new Whisper.DevicePairingDialogView(options);
       this.el.prepend(dialog.el);
@@ -197,10 +176,6 @@
     },
     showUpdateGroupMembersDialog(groupConvo) {
       const dialog = new Whisper.UpdateGroupMembersDialogView(groupConvo);
-      this.el.append(dialog.el);
-    },
-    showSessionRestoreConfirmation(options) {
-      const dialog = new Whisper.ConfirmSessionResetView(options);
       this.el.append(dialog.el);
     },
     showLeaveGroupDialog(groupConvo) {

@@ -73,9 +73,6 @@ $session-font-mono: 'SpaceMono';
 
 // Brand
 $session-color-green: #00f782;
-$session-color-green-alt-1: #00f480;
-$session-color-green-alt-2: #00fd73;
-$session-color-green-alt-3: #00f782;
 
 // Shades
 $session-shade-1: #0c0c0c;
@@ -212,18 +209,3 @@ $session-fadein-duration: 0.1s;
 @mixin session-dark-background-hover {
   background-color: $session-shade-7;
 }
-@mixin session-filter-color-green {
-  filter: brightness(0) saturate(100%) invert(67%) sepia(69%) saturate(2367%)
-    hue-rotate(101deg) brightness(107%) contrast(101%);
-}
-
-$session-gradient-green: linear-gradient(
-  270deg,
-  rgba($session-color-green-alt-1, 1),
-  rgba($session-color-green-alt-1, 0.6)
-);
-$session-gradient-black: linear-gradient(
-  90deg,
-  rgba($session-shade-3, 1),
-  rgba($session-shade-4, 0.6)
-);

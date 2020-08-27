@@ -1,25 +1,24 @@
 // Global Settings, Variables, and Mixins
+@import 'themes.scss';
 @import 'session_constants';
 @import 'variables';
 @import 'mixins';
 @import 'global';
 
 // Components
-@import 'progress';
 @import 'modal';
 @import 'debugLog';
 @import 'lightbox';
 @import 'recorder';
 @import 'emoji';
 @import 'mentions';
-@import 'settings';
+@import 'avatar';
 
 // Build the main view
 @import 'index';
 @import 'conversation';
 
 // Themes
-@import 'ios';
 @import 'theme_dark';
 
 // /////////////////// //
@@ -27,6 +26,7 @@
 // /////////////////// //
 @import 'modules';
 @import 'session';
+@import 'quote';
 
 // Separate screens
 @import 'session_signin';
@@ -37,6 +37,3 @@
 @import 'session_group_panel';
 
 @import 'session-slider';
-
-// Installer
-@import 'options';

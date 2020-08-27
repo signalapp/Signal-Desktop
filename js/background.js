@@ -368,7 +368,7 @@
 
     // These make key operations available to IPC handlers created in preload.js
     window.Events = {
-      getThemeSetting: () => 'dark', // storage.get('theme-setting', 'dark')
+      getThemeSetting: () => storage.get('theme-setting', 'light'),
       setThemeSetting: value => {
         storage.put('theme-setting', value);
         onChangeTheme();
@@ -686,7 +686,6 @@
       confirmDialog.render();
     };
 
-    window.showQRDialog = window.owsDesktopApp.appView.showQRDialog;
     window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
     window.showPasswordDialog = window.owsDesktopApp.appView.showPasswordDialog;
     window.showEditProfileDialog = async callback => {
@@ -1085,12 +1084,6 @@
       }
     });
 
-    Whisper.events.on('showSessionRestoreConfirmation', options => {
-      if (appView) {
-        appView.showSessionRestoreConfirmation(options);
-      }
-    });
-
     Whisper.events.on('showNicknameDialog', options => {
       if (appView) {
         appView.showNicknameDialog(options);
@@ -1100,13 +1093,6 @@
     Whisper.events.on('showSeedDialog', async () => {
       if (appView) {
         appView.showSeedDialog();
-      }
-    });
-
-    Whisper.events.on('showQRDialog', async () => {
-      if (appView) {
-        const ourNumber = textsecure.storage.user.getNumber();
-        appView.showQRDialog(ourNumber);
       }
     });
 

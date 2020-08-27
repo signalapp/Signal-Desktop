@@ -8,12 +8,6 @@ div.spacer-lg {
   height: $session-margin-lg;
 }
 
-// Blur for modals
-.loki-dialog ~ .index.inbox {
-  filter: blur(2px);
-  transition: filter 0.1s;
-}
-
 .subtle {
   opacity: 0.6;
 }
@@ -109,7 +103,9 @@ textarea {
     color: $session-color-white;
 
     &:not(.disabled):hover {
-      filter: brightness(90%);
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
     }
 
     &.green,
@@ -125,14 +121,26 @@ textarea {
     }
 
     &.green {
-      background-color: $session-color-green;
+      @include themify($themes) {
+        background-color: themed('accentButton');
+      }
     }
 
     &.white {
-      background-color: $session-color-white;
+      @include themify($themes) {
+        color: themed('textColor');
+      }
     }
     &.primary {
-      background-color: $session-color-primary;
+      @include themify($themes) {
+        background-color: themed('backgroundPrimary');
+      }
+
+      .session-icon {
+        @include themify($themes) {
+          fill: themed('foregroundPrimary');
+        }
+      }
     }
     &.secondary {
       background-color: $session-color-secondary;
@@ -154,7 +162,9 @@ textarea {
     border: none;
 
     &.green {
-      @include transparent-background($session-color-green);
+      @include themify($themes) {
+        @include transparent-background(themed('buttonGreen'));
+      }
     }
     &.white {
       @include transparent-background($session-color-white);
@@ -325,10 +335,11 @@ textarea {
 }
 
 .session-icon {
-  fill: $session-color-white;
+  @include themify($themes) {
+    fill: themed('textColor');
+  }
 }
 
-$session-separator-element-border: 1px solid $session-shade-6;
 $session-element-border-green: 4px solid $session-color-green;
 
 /* CONVERSATION AND MESSAGES */
@@ -478,7 +489,9 @@ label {
 .session-toast {
   position: relative;
   padding: $session-margin-md $session-margin-md;
-  background-color: rgba($session-shade-6, 0.8);
+  @include themify($themes) {
+    background: rgba(themed('cellBackground'), 0.8);
+  }
   margin-bottom: $session-margin-md;
   display: flex;
   flex-direction: row;
@@ -513,23 +526,31 @@ label {
     line-height: $session-font-sm;
     margin-bottom: $session-margin-sm;
     padding-top: 0px;
-    color: $session-color-white;
+    @include themify($themes) {
+      color: themed('textColor');
+    }
     padding-top: 0px;
   }
 
   .description {
     font-size: $session-font-xs;
-    @include session-color-subtle($session-color-white);
+    @include themify($themes) {
+      @include session-color-subtle(themed('textColor'));
+    }
   }
 
   .toast-close {
-    @include session-color-subtle($session-color-white);
+    @include themify($themes) {
+      @include session-color-subtle(themed('textColor'));
+    }
     position: absolute;
     top: $session-margin-md;
     right: $session-margin-md;
 
     &:hover {
-      color: $session-color-white;
+      @include themify($themes) {
+        color: themed('textColor');
+      }
     }
   }
 
@@ -557,8 +578,11 @@ label {
   box-sizing: border-box;
   max-height: 70vh;
   max-width: 70vw;
-  background-color: $session-shade-4;
-  border: 1px solid $session-shade-8;
+  @include themify($themes) {
+    background-color: themed('modalBackground');
+    color: themed('textColor');
+    border: 1px solid themed('borderActionPanel');
+  }
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -726,7 +750,8 @@ label {
     box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.05), 0 3px 1px 0 rgba(0, 0, 0, 0.05),
       0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 3px 0 rgba(0, 0, 0, 0.05);
 
-    transition: transform 0.25s ease, background-color 0.25s ease;
+    transition: transform $session-transition-duration ease,
+      background-color $session-transition-duration ease;
   }
 
   &.active {
@@ -750,13 +775,15 @@ label {
 .react-contextmenu-item {
   display: flex;
   align-items: center;
+  transition: $session-transition-duration;
 
   height: 25px;
   padding: $session-margin-md $session-margin-sm;
 
-  background-color: $session-shade-4;
-
-  color: $session-color-white;
+  @include themify($themes) {
+    background: themed('contextMenuBackground');
+    color: themed('textColor');
+  }
   font-family: $session-font-accent;
   font-size: $session-font-sm;
   line-height: $session-icon-size-sm;
@@ -764,7 +791,9 @@ label {
 
   &--active,
   &--selected {
-    background-color: $session-shade-7 !important;
+    @include themify($themes) {
+      background: themed('clickableHovered');
+    }
   }
   &:active,
   &:visited,
@@ -785,8 +814,17 @@ label {
     height: 50px;
     padding: 0px $session-margin-md;
     font-size: $session-font-sm;
-    color: $session-color-white;
-    background-color: $session-shade-1;
+
+    @include themify($themes) {
+      color: themed('textColor');
+      background: themed('cellBackground');
+    }
+
+    &:hover {
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
+    }
 
     .session-icon {
       opacity: 0.6;
@@ -794,7 +832,7 @@ label {
   }
 
   &__list-container {
-    z-index: 200;
+    z-index: 99;
     display: block;
     position: absolute;
     top: 50px;
@@ -814,21 +852,29 @@ label {
     justify-content: center;
     height: 35px;
     padding: 0 $session-margin-md;
-    color: $session-color-white;
-    background-color: $session-shade-1;
+    @include themify($themes) {
+      background: themed('cellBackground');
+      color: themed('textColor');
+    }
     font-size: 0.8rem;
     width: -webkit-fill-available;
     transition: $session-transition-duration;
 
     &:first-child {
-      border-top: $session-separator-element-border;
+      @include themify($themes) {
+        border-top: themed('borderActionPanel');
+      }
     }
     &:last-child {
-      border-bottom: $session-separator-element-border;
+      @include themify($themes) {
+        border-top: themed('borderActionPanel');
+      }
     }
 
     &:hover {
-      @include session-dark-background-hover;
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
     }
 
     .session-icon {
@@ -840,7 +886,9 @@ label {
 
     &.active,
     &:hover {
-      background-color: $session-shade-7;
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
     }
 
     &.danger {
@@ -849,108 +897,11 @@ label {
   }
 
   &:hover {
+    @include themify($themes) {
+      background: themed('clickableHovered');
+    }
     .session-icon {
       opacity: 1;
-    }
-  }
-}
-
-.edit-profile-dialog {
-  .session-modal__header__title {
-    font-size: $session-font-lg;
-  }
-
-  .session-modal {
-    width: $session-modal-size-md;
-
-    &__header {
-      height: 68.45px;
-    }
-  }
-
-  .avatar-center-inner {
-    position: relative;
-
-    .module-avatar {
-      box-shadow: 0 0 23px 0 rgba($session-color-black, 0.78);
-    }
-
-    .qr-view-button {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      right: -3px;
-      height: 26px;
-      width: 26px;
-      border-radius: 50%;
-      padding-top: 3px;
-      background-color: $session-color-white;
-      transition: $session-transition-duration;
-
-      &:hover {
-        filter: brightness(90%);
-      }
-
-      .session-icon-button {
-        opacity: 1;
-      }
-    }
-  }
-
-  .session-id-section {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-
-    .panel-text-divider {
-      margin-top: 35px;
-      margin-bottom: 35px;
-    }
-
-    &-display {
-      user-select: text;
-      text-align: center;
-      word-break: break-all;
-      font-size: $session-font-md;
-      padding: 0px $session-margin-lg;
-      font-family: $session-font-default;
-      font-weight: 100;
-      color: rgba($session-color-white, 0.8);
-      font-size: $session-font-md;
-      padding: 0px $session-margin-sm;
-    }
-
-    .session-button {
-      width: 148px;
-    }
-  }
-
-  .profile-name {
-    display: flex;
-    justify-content: center;
-    margin-top: $session-margin-lg;
-
-    &-input {
-      height: 38px;
-      width: 142px;
-      border-radius: 5px;
-      text-align: center;
-      font-size: $session-font-md;
-      background-color: $session-shade-5 !important;
-    }
-
-    &-uneditable {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-left: $session-margin-lg;
-
-      p {
-        font-size: $session-font-md;
-        padding: 0px $session-margin-sm;
-      }
     }
   }
 }
@@ -1075,9 +1026,10 @@ label {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: $session-shade-6;
     height: $main-view-header-height;
-
+    @include themify($themes) {
+      background: themed('cellBackground');
+    }
     &-title {
       line-height: $main-view-header-height;
       font-weight: bold;
@@ -1094,13 +1046,14 @@ label {
 
   &-item {
     font-size: $session-font-md;
-    color: $session-color-white;
-    background-color: $session-shade-1;
-
     padding: $session-margin-lg;
     margin-bottom: 20px;
-    border-bottom: 1px solid $session-shade-5;
 
+    @include themify($themes) {
+      background: themed('cellBackground');
+      color: themed('textColor');
+      border-bottom: themed('borderActionPanel');
+    }
     &.inline {
       display: flex;
       align-items: center;
@@ -1122,12 +1075,21 @@ label {
       font-size: $session-font-sm;
       font-weight: 100;
       max-width: 700px;
-      @include session-color-subtle($session-color-white);
+      @include themify($themes) {
+        @include session-color-subtle(themed('textColor'));
+      }
     }
 
     &__content {
       label {
-        @include session-color-subtle($session-color-white);
+        @include themify($themes) {
+          @include session-color-subtle(themed('textColor'));
+        }
+      }
+    }
+    &__selection {
+      .session-toggle {
+        transition: $session-transition-duration;
       }
     }
   }
@@ -1145,7 +1107,7 @@ label {
     justify-content: space-between;
 
     padding: $session-margin-sm $session-margin-md;
-    background-color: $session-shade-5;
+    background: none;
     font-size: $session-font-xs;
 
     span {
@@ -1209,14 +1171,6 @@ label {
   border-radius: 3px;
 }
 
-.qr-dialog {
-  &__description {
-    max-width: $session-modal-size-sm;
-    text-align: center;
-    margin: 0 auto;
-  }
-}
-
 .seed-dialog {
   &__description {
     max-width: $session-modal-size-lg;
@@ -1254,21 +1208,24 @@ label {
   }
 
   textarea.send-message {
-    background-color: $session-shade-4;
+    @include themify($themes) {
+      background: themed('composeViewBackground');
+      color: themed('textColor');
+    }
     border: none;
     margin: 0px;
     padding: 0px $session-margin-lg;
     font-size: $session-font-md;
     line-height: 1.3em;
     align-self: center;
-
-    @include session-color-subtle($session-color-white);
   }
 }
 
 .bottom-bar form {
   &.send {
-    background-color: $session-shade-4;
+    @include themify($themes) {
+      background: themed('composeViewBackground');
+    }
   }
 
   &.active textarea {
@@ -1277,7 +1234,9 @@ label {
 }
 
 .dark-theme .bottom-bar .send-message[disabled='disabled'] {
-  background: $session-shade-4 !important;
+  @include themify($themes) {
+    background: themed('composeViewBackground');
+  }
 }
 
 .session-radio-group fieldset {
@@ -1313,17 +1272,24 @@ label {
     vertical-align: -3px;
     border: 2px solid rgba($session-color-white, 0.6);
     padding: 0.2em;
-    background-color: transparent;
+    @include themify($themes) {
+      background: none;
+      border-color: themed('accent');
+    }
     background-clip: content-box;
+    transition: $session-transition-duration;
   }
 
   input:hover + label:before {
-    border-color: $session-color-white;
+    @include themify($themes) {
+      background: themed('accent');
+    }
   }
 
   input:checked + label:before {
-    background-color: $session-color-white;
-    border-color: $session-color-white;
+    @include themify($themes) {
+      background: themed('accent');
+    }
   }
 }
 
@@ -1358,7 +1324,9 @@ input {
 .dark-theme .invite-friends-dialog .member-item {
   height: 64px;
   background-color: $session-shade-4;
-  border: $session-separator-element-border;
+  @include themify($themes) {
+    border: themed('borderActionPanel');
+  }
   display: flex;
   align-items: center;
   transition: $session-transition-duration;
@@ -1377,14 +1345,6 @@ input {
   }
 }
 
-.dark-theme .modal .content {
-  background-color: $session-shade-4;
-}
-
-.loki-dialog button {
-  border: none;
-}
-
 .friend-selection-list {
   width: 20vw;
 }
@@ -1401,8 +1361,14 @@ input {
 }
 
 .module-scroll-down {
-  animation: fadein $session-fadein-duration;
+}
+
+.module-scroll-down {
+  z-index: 99;
+  position: absolute;
+  right: 20px;
   bottom: 15px;
+  animation: fadein $session-fadein-duration;
 
   .session-icon-button {
     display: flex;
@@ -1422,123 +1388,6 @@ input {
 
     &:hover svg path {
       opacity: 1;
-    }
-  }
-}
-
-/* Memberlist */
-.member-list-container .member {
-  &-item {
-    font-family: $session-font-default;
-    padding: $session-margin-sm $session-margin-md;
-    background-color: $session-shade-5;
-
-    &:hover:not(.member-selected) {
-      background-color: $session-shade-7;
-    }
-  }
-
-  &-selected {
-    background-color: $session-shade-8;
-  }
-}
-
-.standalone {
-  .button {
-    background: $session-color-green;
-  }
-
-  #reset-button {
-    color: $session-color-green;
-  }
-
-  .inputs {
-    input {
-      color: $color-dark-05;
-      background-color: $color-dark-70;
-      border-color: $color-dark-55;
-
-      &:focus {
-        outline: none;
-      }
-    }
-  }
-}
-
-.onboarding-message-section {
-  display: flex;
-  flex-grow: 1;
-  align-items: flex-start;
-  position: relative;
-  padding: $session-margin-lg 2 * $session-margin-lg;
-  background: linear-gradient(
-    180deg,
-    rgba(29, 28, 28, 1) 0%,
-    rgba(18, 18, 18, 1) 100%
-  );
-
-  &__exit {
-    position: absolute;
-    top: $session-margin-lg;
-    left: $session-margin-lg;
-  }
-
-  &__container {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 3 * $session-margin-lg;
-
-    height: 400px;
-
-    text-align: center;
-    font-family: $session-font-default;
-  }
-
-  &__title h1 {
-    color: $session-color-white;
-    font-size: $session-font-h1;
-    font-weight: bold;
-    margin-bottom: 2 * $session-margin-lg;
-  }
-
-  &__icons img {
-    width: 180px;
-    margin-bottom: 2 * $session-margin-lg;
-  }
-
-  &__info {
-    font-family: $session-font-accent;
-    margin-bottom: 2 * $session-margin-lg;
-
-    &--title {
-      font-size: $session-font-h3;
-      line-height: $session-font-h2;
-      margin-bottom: $session-margin-md;
-    }
-
-    &--subtitle {
-      font-family: $session-font-default;
-      font-weight: 300;
-      line-height: $session-font-md;
-      opacity: 0.8;
-    }
-  }
-
-  &__spinner-container {
-    display: flex;
-    flex-grow: 1;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__buttons {
-    width: 100%;
-
-    .session-button:first-child {
-      margin-bottom: $session-margin-md;
     }
   }
 }
@@ -1608,7 +1457,9 @@ input {
   }
 
   &.selected {
-    background-color: $session-shade-4;
+    @include themify($themes) {
+      background-color: themed('conversationItemSelected');
+    }
   }
 
   &__checkmark {
@@ -1617,6 +1468,11 @@ input {
 
     &.selected {
       opacity: 1;
+      svg {
+        @include themify($themes) {
+          fill: themed('accent') !important;
+        }
+      }
     }
   }
 

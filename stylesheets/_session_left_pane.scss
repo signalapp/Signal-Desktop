@@ -1,65 +1,50 @@
 $session-compose-margin: 20px;
 
-.module-conversation-list-item {
-  transition: $session-transition-duration;
-  @at-root .light-theme #{&} {
-    @include session-dark-background-lighter;
-    &:hover {
-      @include session-dark-background-hover;
-    }
-  }
-  @at-root .dark-theme #{&} {
-    @include session-dark-background-lighter;
-    &:hover {
-      @include session-dark-background-hover;
-    }
-  }
-
-  &--is-selected {
-    @at-root .light-theme #{&} {
-      @include session-dark-background-hover;
-      &:hover {
-        @include session-dark-background-hover;
-      }
-    }
-    @at-root .dark-theme #{&} {
-      @include session-dark-background-hover;
-      &:hover {
-        @include session-dark-background-hover;
-      }
-    }
-    .module-conversation__user__profile-number,
-    .module-conversation__user__profile-name,
-    .module-conversation-list-item__message__text {
-      @at-root .light-theme #{&} {
-        color: $session-color-black;
-      }
-      @at-root .dark-theme #{&} {
-        color: $session-color-white;
-      }
-    }
-  }
-}
 .gutter {
   width: 380px !important;
-  background: none !important;
   padding-right: 5px !important;
+  transition: $session-transition-duration;
+
+  @include themify($themes) {
+    background: themed('cellBackground');
+  }
 }
 
 .module-conversation {
   &-list-item {
+    transition: $session-transition-duration;
+
+    &:hover {
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
+    }
+
+    &--is-selected {
+      @include themify($themes) {
+        background: themed('conversationItemSelected');
+      }
+
+      .module-conversation__user__profile-number,
+      .module-conversation__user__profile-name,
+      .module-conversation-list-item__message__text {
+        @include themify($themes) {
+          color: themed('textColor');
+        }
+      }
+    }
+
     &--has-unread {
       border-left: $session-element-border-green !important;
+      @include themify($themes) {
+        background: themed('conversationItemHasUnread');
+      }
     }
 
     &__unread-count {
-      @at-root .light-theme #{&} {
-        color: $session-color-black !important;
-        background-color: $session-color-white !important;
-      }
-      @at-root .dark-theme #{&} {
-        color: $session-color-white !important;
-        background-color: $session-shade-10 !important;
+      @include themify($themes) {
+        color: themed('textColor');
+        background-color: themed('clickableHovered');
       }
 
       position: static !important;
@@ -77,11 +62,8 @@ $session-compose-margin: 20px;
     &__message__text {
       color: $session-shade-17;
       &--has-unread {
-        @at-root .light-theme #{&} {
-          color: $session-shade-4 !important;
-        }
-        @at-root .dark-theme #{&} {
-          color: $session-color-white !important;
+        @include themify($themes) {
+          color: themed('textColor');
         }
       }
     }
@@ -100,11 +82,8 @@ $session-compose-margin: 20px;
 
     &__header__name--with-unread .module-conversation__user__profile-number,
     &__header__name--with-unread .module-conversation__user__profile-name {
-      @at-root .light-theme #{&} {
-        color: $session-color-black;
-      }
-      @at-root .dark-theme #{&} {
-        color: $session-color-white;
+      @include themify($themes) {
+        color: themed('textColor');
       }
     }
   }
@@ -115,37 +94,17 @@ $session-compose-margin: 20px;
       @include fontAccentBold();
       font-size: 15px;
 
-      @at-root .light-theme #{&} {
-        color: $session-color-white;
-      }
-      @at-root .dark-theme #{&} {
-        color: $session-shade-17;
+      @include themify($themes) {
+        color: themed('textColorSubtle');
       }
     }
   }
 }
 
-.inbox {
-  @at-root .light-theme #{&} {
-    color: $session-color-black;
-  }
-  @at-root .dark-theme #{&} {
-    @include session-dark-background;
-  }
-}
-
 .module-left-pane {
-  border-right: 1px solid rgba($session-color-white, 0.1) !important;
   width: $session-left-pane-width;
   position: relative;
   height: -webkit-fill-available;
-
-  @at-root .light-theme #{&} {
-    background: $session-color-white !important;
-  }
-  @at-root .dark-theme #{&} {
-    background: $session-shade-4 !important;
-  }
 
   &-session {
     display: flex;
@@ -157,6 +116,9 @@ $session-compose-margin: 20px;
     width: $session-left-pane-sections-container-width;
     display: inline-flex;
     flex-direction: column;
+    @include themify($themes) {
+      border-right: themed('borderActionPanel');
+    }
 
     .module-avatar,
     .session-icon-button {
@@ -166,7 +128,6 @@ $session-compose-margin: 20px;
       &:last-child {
         margin: auto auto 0px auto;
         /* Hide theme icon until light theme is ready */
-        display: none;
       }
 
       &:first-child {
@@ -183,13 +144,7 @@ $session-compose-margin: 20px;
     align-items: center;
     height: $main-view-header-height;
     padding-right: 7px;
-
-    @at-root .light-theme #{&} {
-      background-color: $session-color-white;
-    }
-    @at-root .dark-theme #{&} {
-      background-color: $session-shade-3;
-    }
+    transition: $session-transition-duration;
 
     .session-button {
       margin-left: auto;
@@ -234,8 +189,9 @@ $session-compose-margin: 20px;
   }
 
   &-overlay {
-    background: linear-gradient(180deg, #171717 0%, $session-background 100%);
-    box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.5);
+    @include themify($themes) {
+      background: themed('leftpaneOverlayBackground');
+    }
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -262,8 +218,10 @@ $session-compose-margin: 20px;
 
       .green-border {
         position: absolute;
-        color: $session-color-green;
-        background-color: $session-color-green;
+        @include themify($themes) {
+          color: themed('accent');
+          background-color: themed('accent');
+        }
         height: 5px;
         left: -10px;
         right: -10px;
@@ -335,6 +293,11 @@ $session-compose-margin: 20px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  transition: $session-transition-duration;
+
+  @include themify($themes) {
+    background: themed('conversationList');
+  }
 
   .left-pane-contact-bottom-buttons .session-button {
     vertical-align: middle;
@@ -365,15 +328,6 @@ $session-compose-margin: 20px;
   display: inline-flex;
   flex-shrink: 0;
 
-  @at-root .light-theme #{&} {
-    color: $session-color-black;
-    background: $session-color-white;
-  }
-  @at-root .dark-theme #{&} {
-    color: $session-color-white;
-    background: $session-shade-4;
-  }
-
   .session-icon-button {
     margin: auto 10px;
   }
@@ -386,49 +340,68 @@ $session-compose-margin: 20px;
     font-size: $session-font-sm;
     font-family: $session-font-default;
     text-overflow: ellipsis;
-
+    background: none;
+    @include themify($themes) {
+      color: themed('textColor');
+    }
     &:focus {
       outline: none !important;
-    }
-
-    @at-root .light-theme #{&} {
-      color: $session-color-black;
-      background: $session-color-white;
-    }
-    @at-root .dark-theme #{&} {
-      color: $session-color-white;
-      background: $session-shade-4;
     }
   }
 }
 
+.conversation.placeholder .container {
+  display: flex;
+  height: 100%;
+}
+
 .session-full-logo {
-  width: 250px;
-  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+
+  .session-brand-logo {
+    height: 215px;
+    filter: brightness(0) saturate(100%) invert(75%) sepia(84%) saturate(3272%)
+      hue-rotate(103deg) brightness(106%) contrast(103%);
+  }
+
+  .session-text-logo {
+    margin-top: 10px;
+    width: 250px;
+    @include themify($themes) {
+      filter: themed('filterSessionText');
+    }
+    transition: 0s;
+  }
 }
 
 .app-loading-screen {
-  @include session-dark-background;
+  @include themify($themes) {
+    background: themed('inboxBackground');
+  }
+  .session-text-logo {
+    @include themify($themes) {
+      filter: themed('filterSessionText') !important;
+    }
+    // filter: none ; // force no filter on the text of the app loading
+    // as the theme is not set right on the start.
+    // this is to avoid a text color switch on app loading.
+  }
 }
 
 @mixin bottom-buttons() {
   display: flex;
   flex-direction: row;
   width: 100%;
-
-  @at-root .light-theme #{&} {
-    background-color: $session-color-white;
-  }
-  @at-root .dark-theme #{&} {
-    background-color: $session-background;
-  }
+  background: none;
 
   .session-button.square-outline.square.green,
   .session-button.square-outline.square.white,
   .session-button.square-outline.square.danger {
     flex-grow: 1;
-    height: 50px;
-    // line-height: 50px;
+    height: 51px;
 
     @at-root .light-theme #{&} {
       border: 1px solid $session-shade-15;
@@ -483,25 +456,6 @@ $session-compose-margin: 20px;
     flex: 1;
 
     .module-conversation-list-item {
-      background-color: $session-shade-4;
-
-      &--is-selected {
-        background-color: $session-shade-5;
-      }
-
-      &--has-friend-request {
-        &:first-child {
-          border-top: none !important;
-        }
-
-        border: 1px solid $session-shade-8 !important;
-
-        .module-conversation__user__profile-number,
-        .module-conversation__user__profile-name {
-          font-size: 13px !important;
-        }
-      }
-
       &__header__date,
       &__message {
         display: none;
@@ -519,10 +473,6 @@ $session-compose-margin: 20px;
         }
       }
     }
-  }
-
-  &-content {
-    @include session-dark-background-lighter;
   }
 
   &-bottom-buttons {
@@ -547,7 +497,7 @@ $session-compose-margin: 20px;
   }
 
   &-category-list-item {
-    @include session-dark-background;
+    background: none;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -564,11 +514,15 @@ $session-compose-margin: 20px;
     }
 
     &.active {
-      background-color: $session-shade-5;
+      @include themify($themes) {
+        background: themed('conversationItemSelected');
+      }
     }
 
     &:hover {
-      background-color: $session-shade-6;
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
     }
 
     &__buttons {
@@ -618,16 +572,6 @@ $session-compose-margin: 20px;
   }
 }
 
-.friend-request-title {
-  font-weight: bold;
-  font-size: 13px;
-  padding: 11px;
-  border-right: 1px solid $session-shade-8 !important;
-  border-top: 1px solid $session-shade-8 !important;
-  border-left: 1px solid $session-shade-8 !important;
-  @include session-dark-background-lighter;
-}
-
 .panel-text-divider {
   width: 100%;
   text-align: center;
@@ -635,7 +579,9 @@ $session-compose-margin: 20px;
   margin: 50px 0 50px;
 
   .panel-text-divider-line {
-    border-bottom: 1px solid $session-color-dark-grey;
+    @include themify($themes) {
+      border-bottom: 1px solid themed('pillDividerColor');
+    }
     line-height: 0.1em;
     flex-grow: 1;
     height: 1px;
@@ -645,8 +591,10 @@ $session-compose-margin: 20px;
   span {
     padding: 5px 10px;
     border-radius: 50px;
-    color: $session-color-light-grey;
-    border: 1px solid $session-color-dark-grey;
+    @include themify($themes) {
+      color: themed('pillDividerTextColor');
+      border: 1px solid themed('pillDividerColor');
+    }
     font-family: $session-font-default;
     font-size: $session-font-sm;
   }

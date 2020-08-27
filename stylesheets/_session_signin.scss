@@ -1,6 +1,8 @@
 .session {
   &-fullscreen {
-    @include session-dark-background;
+    @include themify($themes) {
+      background: themed('cellBackground');
+    }
     overflow-y: auto;
     height: 100%;
   }
@@ -17,7 +19,9 @@
       padding-left: 20px;
 
       &-text {
-        color: $session-color-white;
+        @include themify($themes) {
+          color: themed('textColor');
+        }
         font-family: $session-font-accent;
 
         .title {
@@ -80,7 +84,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: $session-shade-6;
+        @include themify($themes) {
+          background: themed('inputBackground');
+        }
         padding: $session-margin-sm $session-margin-lg;
         border-radius: 8px;
         margin-bottom: 0px;
@@ -109,7 +115,9 @@
 
       margin-left: auto;
       margin-right: auto;
-      color: $session-color-white;
+      @include themify($themes) {
+        background: themed('cellBackground');
+      }
     }
 
     &__tab {
@@ -118,19 +126,25 @@
       padding-bottom: 10px;
       background-color: transparent;
       text-align: center;
-      color: $session-color-white;
-      border-bottom: 2px solid $session-color-dark-grey;
+      @include themify($themes) {
+        border-bottom: themed('borderActionPanel');
+        color: themed('textColor');
+      }
       transition: border-color $session-transition-duration linear;
       line-height: 17px;
       font-size: 15px;
 
       &--active {
-        border-bottom: $session-element-border-green;
+        @include themify($themes) {
+          border-bottom: 4px solid themed('accent');
+        }
       }
     }
 
     @mixin registration-label-mixin {
-      color: $session-color-white;
+      @include themify($themes) {
+        color: themed('textColor');
+      }
       font-weight: bold;
       padding: 12px;
     }
@@ -163,7 +177,9 @@
   &-input-with-label-container {
     height: 46.5px;
     width: 280px;
-    color: $session-color-white;
+    @include themify($themes) {
+      color: themed('textColor');
+    }
     padding: 2px 0 2px 0;
     transition: opacity $session-transition-duration;
     opacity: 1;
@@ -172,7 +188,9 @@
     label {
       line-height: 14px;
       opacity: 0;
-      color: #737373;
+      @include themify($themes) {
+        color: themed('textColor');
+      }
       font-size: 10px;
       line-height: 11px;
       position: absolute;
@@ -184,7 +202,9 @@
     }
 
     &.error {
-      color: red;
+      @include themify($themes) {
+        color: themed('destructive');
+      }
     }
 
     input {
@@ -193,7 +213,9 @@
       height: 14px;
       width: 280px;
       background: transparent;
-      color: $session-color-white;
+      @include themify($themes) {
+        color: themed('textColor');
+      }
       font-size: 12px;
       line-height: 14px;
       position: absolute;
@@ -202,7 +224,9 @@
     }
 
     hr {
-      border: 1px solid $session-color-light-grey;
+      @include themify($themes) {
+        border: themed('borderActionPanel');
+      }
       width: 100%;
       position: absolute;
       bottom: 0px;
@@ -218,7 +242,9 @@
 
   &-terms-conditions-agreement {
     padding-top: $session-margin-md;
-    color: $session-color-light-grey;
+    @include themify($themes) {
+      @include session-color-subtle(themed('textColor'));
+    }
     text-align: center;
     font-size: 12px;
 
@@ -226,15 +252,21 @@
       white-space: nowrap;
       font-weight: bold;
       text-decoration: none;
-      color: $session-color-light-grey;
+      @include themify($themes) {
+        @include session-color-subtle(themed('textColor'));
+      }
       transition: $session-transition-duration;
 
       &:visited &:link {
-        color: $session-color-light-grey;
+        @include themify($themes) {
+          @include session-color-subtle(themed('textColor'));
+        }
       }
 
       &:hover {
-        color: $session-color-white;
+        @include themify($themes) {
+          color: themed('textColor');
+        }
       }
     }
   }
@@ -243,7 +275,9 @@
   &-signin-device-pairing-header {
     padding-top: 10px;
     padding-bottom: 20px;
-    color: $session-color-light-grey;
+    @include themify($themes) {
+      @include session-color-subtle(themed('textColor'));
+    }
     text-align: center;
     font-size: 12px;
     line-height: 20px;
@@ -269,7 +303,9 @@
       outline: 0;
       border: none;
       background: transparent;
-      color: #fff;
+      @include themify($themes) {
+        color: themed('textColor');
+      }
       font-size: 15px;
       line-height: 18px;
       text-align: center;
@@ -286,7 +322,9 @@
 
 [contenteditable='true']:empty::before {
   content: attr(placeholder);
-  color: $session-color-light-grey;
+  @include themify($themes) {
+    @include session-color-subtle(themed('textColor'));
+  }
   font-size: 13px;
 }
 

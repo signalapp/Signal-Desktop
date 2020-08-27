@@ -93,11 +93,15 @@ export class ActionsPanel extends React.Component<Props, State> {
   }) => {
     const handleClick = onSelect
       ? () => {
-          type === SectionType.Profile
-            ? /* tslint:disable-next-line:no-void-expression */
-              this.editProfileHandle()
-            : /* tslint:disable-next-line:no-void-expression */
-              onSelect(type);
+          /* tslint:disable:no-void-expression */
+          if (type === SectionType.Profile) {
+            this.editProfileHandle();
+          } else if (type === SectionType.Moon) {
+            window.toggleTheme();
+          } else {
+            onSelect(type);
+          }
+          /* tslint:enable:no-void-expression */
         }
       : undefined;
 

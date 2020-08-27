@@ -316,7 +316,7 @@ export class Quote extends React.Component<Props, State> {
           i18n('you')
         ) : (
           <ContactName
-            phoneNumber={authorPhoneNumber}
+            phoneNumber={window.shortenPubkey(authorPhoneNumber)}
             name={authorName}
             profileName={authorProfileName}
             i18n={i18n}
@@ -389,9 +389,6 @@ export class Quote extends React.Component<Props, State> {
           className={classNames(
             'module-quote',
             isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
-            isIncoming
-              ? `module-quote--incoming-${authorColor}`
-              : `module-quote--outgoing-${authorColor}`,
             !onClick ? 'module-quote--no-click' : null,
             withContentAbove ? 'module-quote--with-content-above' : null,
             referencedMessageNotFound

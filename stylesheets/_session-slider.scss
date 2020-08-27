@@ -34,7 +34,9 @@
 .rc-slider-rail {
   position: absolute;
   width: 100%;
-  background-color: $session-shade-6;
+  @include themify($themes) {
+    background: themed('inputBackground');
+  }
   height: 8px;
   border-radius: 6px;
   margin: 0px 0px 0px -1px;
@@ -104,7 +106,9 @@
   margin-left: -4px;
   width: 3px;
   height: 6px;
-  background-color: $session-shade-6;
+  @include themify($themes) {
+    background: themed('clickableHovered');
+  }
   cursor: pointer;
   border-radius: 2px;
   vertical-align: middle;

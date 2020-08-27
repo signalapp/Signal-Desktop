@@ -134,7 +134,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
             <SessionButton
               text={window.i18n('save')}
               buttonType={SessionButtonType.BrandOutline}
-              buttonColor={SessionButtonColor.White}
+              buttonColor={SessionButtonColor.Green}
               onClick={this.onClickOK}
             />
           )}

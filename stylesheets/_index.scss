@@ -50,6 +50,7 @@
 
   .avatar-center-inner {
     display: flex;
+    padding-top: 30px;
   }
 
   .upload-btn-background {
@@ -79,16 +80,6 @@
 }
 
 .gutter {
-  background-color: $color-dark-85;
-
-  ::-webkit-scrollbar-track {
-    background: $color-dark-85;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border: 2px solid $color-dark-85;
-  }
-
   display: flex;
   flex-direction: column;
   float: left;
@@ -187,23 +178,6 @@ h4.section-toggle,
 
   h4 {
     flex: 1;
-  }
-
-  .section-conversations-unread-counter {
-    color: #ffffff;
-    background-color: #2090ea;
-    text-align: center;
-    padding-top: 1px;
-    padding-left: 3px;
-    padding-right: 3px;
-    font-weight: 300;
-    font-size: 11px;
-    letter-spacing: 0.25px;
-    height: 16px;
-    min-width: 16px;
-    line-height: 16px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 0px 1px #1a1c20;
   }
 }
 
@@ -419,26 +393,6 @@ input.search {
   }
 }
 
-.conversation.placeholder {
-  text-align: center;
-  user-select: none;
-
-  .container {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .content {
-    display: inline-block;
-  }
-
-  h3 {
-    font-size: large;
-  }
-}
 .contact.placeholder {
   position: absolute;
   top: 50px;

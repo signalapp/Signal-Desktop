@@ -1,20 +1,5 @@
-// Don't forget to handle the background of the popup windows!
-body.dark-theme {
-  background-color: $color-black;
-  color: $color-gray-05;
-}
-
 .dark-theme {
   // _conversation
-
-  .conversation {
-    background-color: $color-gray-95;
-  }
-
-  .discussion-container {
-    background-color: $color-gray-95;
-  }
-
   .key-verification {
     .key {
       color: $color-dark-05;
@@ -31,117 +16,6 @@ body.dark-theme {
         @include color-svg('../images/shield.svg', $color-dark-05);
       }
     }
-  }
-
-  .bottom-bar {
-    form.send {
-      &.video-attachment {
-        .outer {
-          .play.icon {
-            @include color-svg('../images/play.svg', white);
-          }
-        }
-      }
-    }
-
-    .send-message {
-      outline: 0;
-
-      &[disabled='disabled'] {
-        cursor: not-allowed;
-      }
-    }
-  }
-
-  .toast {
-    background-color: $color-gray-45;
-    color: $color-white;
-    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.12),
-      0 0 0 0.5px rgba(0, 0, 0, 0.08);
-  }
-
-  .confirmation-dialog {
-    .content {
-      background: $color-black;
-      color: $color-dark-05;
-
-      .buttons {
-        button {
-          background-color: $color-dark-85;
-          border-radius: $border-radius;
-          border: 1px solid $color-dark-60;
-          color: $color-dark-05;
-
-          &:hover {
-            background-color: $color-dark-70;
-            border-color: $color-dark-55;
-          }
-        }
-      }
-    }
-  }
-
-  .loki-dialog {
-    .content {
-      background: $color-black;
-      color: $color-dark-05;
-    }
-
-    button {
-      background-color: $color-dark-85;
-      border-radius: $border-radius;
-      color: $color-dark-05;
-
-      &:hover {
-        background-color: $color-dark-70;
-        border-color: $color-dark-55;
-      }
-    }
-
-    input {
-      color: $color-dark-05;
-      background-color: $color-dark-70;
-      border-color: $color-dark-55;
-    }
-  }
-
-  .nickname-dialog {
-    .message {
-      color: $color-light-35;
-    }
-  }
-
-  .conversation-loading-screen {
-    background-color: $color-gray-95;
-  }
-
-  .module-last-seen-indicator__bar {
-    background-color: #353535;
-  }
-
-  .module-last-seen-indicator__text {
-    color: $color-dark-30;
-  }
-
-  .module-scroll-down__button {
-    background-color: $color-light-35;
-    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
-
-    &:hover {
-      background-color: $color-light-45;
-    }
-  }
-
-  .module-scroll-down__button--new-messages {
-    background-color: $color-signal-blue;
-
-    &:hover {
-      background-color: #1472bd;
-    }
-  }
-
-  .module-scroll-down__icon {
-    @include color-svg('../images/down.svg', $color-white);
   }
 
   // _debugLog
@@ -193,34 +67,7 @@ body.dark-theme {
     }
   }
 
-  .emoji-panel-container {
-    .ep ::-webkit-scrollbar-thumb {
-      background: $color-dark-55;
-
-      &:hover {
-        background: $color-dark-30;
-      }
-    }
-  }
-
   // _global
-
-  ::-webkit-scrollbar-track {
-    background: $color-black;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: $color-dark-55;
-    border: 2px solid $color-black;
-
-    &:hover {
-      background: $color-dark-30;
-    }
-  }
-
-  ::-webkit-scrollbar-corner {
-    background: $color-black;
-  }
 
   .dark-overlay {
     background-color: $color-gray-95;
@@ -297,6 +144,7 @@ body.dark-theme {
     }
   }
 
+  // banner shown when app version expired and must be updated
   .expiredAlert {
     background: $session-color-green;
     color: black;
@@ -317,125 +165,7 @@ body.dark-theme {
     }
   }
 
-  .full-screen-flow {
-    color: black;
-    a {
-      color: $blue;
-    }
-    background: linear-gradient(
-      to bottom,
-      /* (1 - 0.41) * 255 + 0.41 * 213*/ rgb(238, 238, 238) 0%,
-      /* (1 - 0.19) * 255 + 0.19 * 191*/ rgb(243, 243, 243) 12%,
-      rgb(255, 255, 255) 27%,
-      rgb(255, 255, 255) 60%,
-      /* (1 - 0.19) * 255 + 0.19 * 222*/ rgb(249, 249, 249) 85%,
-      /* (1 - 0.27) * 255 + 0.27 * 98 */ rgb(213, 213, 213) 100%
-    );
-    input {
-      border: 2px solid $blue;
-    }
-
-    #qr {
-      &.ready {
-        border: 5px solid $blue;
-        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-      }
-
-      img {
-        border: 5px solid white;
-      }
-
-      .dot {
-        border: 3px solid $blue;
-      }
-    }
-
-    .os-icon {
-      &.apple {
-        @include color-svg('../images/apple.svg', black);
-      }
-      &.android {
-        @include color-svg('../images/android.svg', black);
-      }
-    }
-
-    .banner-icon {
-      // generic
-      &.check-circle-outline {
-        @include color-svg('../images/check-circle-outline.svg', #dedede);
-      }
-      &.alert-outline {
-        @include color-svg('../images/alert-outline.svg', #dedede);
-      }
-
-      // import and export
-      &.folder-outline {
-        @include color-svg('../images/folder-outline.svg', #dedede);
-      }
-      &.import {
-        @include color-svg('../images/import.svg', #dedede);
-      }
-      &.export {
-        @include color-svg('../images/export.svg', #dedede);
-      }
-
-      // registration process
-      &.lead-pencil {
-        @include color-svg('../images/lead-pencil.svg', #dedede);
-      }
-      &.sync {
-        @include color-svg('../images/sync.svg', #dedede);
-      }
-
-      // delete
-      &.alert-outline-red {
-        @include color-svg('../images/alert-outline.svg', red);
-      }
-      &.delete {
-        @include color-svg('../images/delete.svg', #dedede);
-      }
-    }
-
-    .button {
-      color: white;
-      background: $blue;
-      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-
-      &.neutral {
-        color: black;
-        background: #dedede;
-      }
-      &.destructive {
-        background: red;
-      }
-    }
-    a.link {
-      color: $session-color-green;
-    }
-
-    .progress {
-      .bar-container {
-        background-color: $grey_l;
-      }
-      .bar {
-        background-color: $blue_l;
-      }
-    }
-  }
-
   // _index
-
-  .gutter {
-    background-color: $color-dark-85;
-
-    ::-webkit-scrollbar-track {
-      background: $color-dark-85;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      border: 2px solid $color-dark-85;
-    }
-  }
   .network-status-container {
     .network-status {
       background: url('../images/error_red.svg') no-repeat left 10px center;
@@ -587,54 +317,7 @@ body.dark-theme {
   }
 
   .module-message__error {
-    @include color-svg('../images/error.svg', $color-core-red);
-  }
-
-  .module-message__container--outgoing {
-    background-color: $color-dark-70;
-  }
-
-  // In case the color gets messed up
-  .module-message__container--incoming {
-    background-color: $color-conversation-grey;
-  }
-
-  .module-message__container--incoming-red {
-    background-color: $color-conversation-red;
-  }
-  .module-message__container--incoming-deep_orange {
-    background-color: $color-conversation-deep_orange;
-  }
-  .module-message__container--incoming-brown {
-    background-color: $color-conversation-brown;
-  }
-  .module-message__container--incoming-pink {
-    background-color: $color-conversation-pink;
-  }
-  .module-message__container--incoming-purple {
-    background-color: $color-conversation-purple;
-  }
-  .module-message__container--incoming-indigo {
-    background-color: $color-conversation-indigo;
-  }
-  .module-message__container--incoming-blue {
-    background-color: $color-conversation-blue;
-  }
-  .module-message__container--incoming-teal {
-    background-color: $color-conversation-teal;
-  }
-  .module-message__container--incoming-green {
-    background-color: $color-conversation-green;
-  }
-  .module-message__container--incoming-light_green {
-    background-color: $color-conversation-light_green;
-  }
-  .module-message__container--incoming-blue_grey {
-    background-color: $color-conversation-blue_grey;
-  }
-
-  .module-message__attachment-container {
-    background-color: $color-gray-95;
+    @include color-svg('../images/error.svg', $session-color-danger);
   }
 
   .module-message__img-border-overlay {
@@ -675,7 +358,7 @@ body.dark-theme {
   }
 
   .module-message__video-overlay__play-icon {
-    @include color-svg('../images/play.svg', $color-signal-blue);
+    @include color-svg('../images/play.svg', $color-loki-green);
   }
 
   .module-message__broken-video-screenshot {
@@ -684,10 +367,6 @@ body.dark-theme {
 
   .module-message__broken-video-screenshot--incoming {
     color: $color-white;
-  }
-
-  .module-message__generic-attachment__icon {
-    // background: url('../images/file-gradient.svg') no-repeat center;
   }
 
   .module-message__generic-attachment__file-name {
@@ -723,31 +402,7 @@ body.dark-theme {
   .module-message__link-preview__location {
     color: $color-gray-25;
   }
-  .module-conversation__user,
-  .module-message__author {
-    color: $color-white;
-  }
 
-  .module-message__text {
-    color: $color-dark-05;
-    a {
-      color: $color-dark-05;
-    }
-  }
-
-  .module-message__text--incoming {
-    color: $color-white;
-    a {
-      color: $color-white;
-    }
-  }
-
-  .module-message__metadata__date {
-    color: $color-white-08;
-  }
-  .module-message__metadata__date--incoming {
-    color: $color-white-08;
-  }
   .module-message__metadata__date--with-image-no-caption {
     color: $color-white-08;
   }
@@ -778,7 +433,7 @@ body.dark-theme {
   }
 
   .module-message__send-message-button {
-    color: $color-signal-blue;
+    color: $color-loki-green;
     background-color: $color-dark-70;
     border: 1px solid $color-dark-60;
   }
@@ -833,189 +488,6 @@ body.dark-theme {
   // When status indicators are overlaid on top of an image, they use different colors
   .module-expire-timer--with-image-no-caption {
     background-color: $color-dark-05;
-  }
-
-  // Module: Quoted Reply
-
-  .module-quote--outgoing {
-    border-left-color: $color-conversation-grey;
-    background-color: $color-conversation-grey-shade;
-  }
-  .module-quote--outgoing-red {
-    border-left-color: $color-conversation-red;
-    background-color: $color-conversation-red-shade;
-  }
-  .module-quote--outgoing-deep_orange {
-    border-left-color: $color-conversation-deep_orange;
-    background-color: $color-conversation-deep_orange-shade;
-  }
-  .module-quote--outgoing-brown {
-    border-left-color: $color-conversation-brown;
-    background-color: $color-conversation-brown-shade;
-  }
-  .module-quote--outgoing-pink {
-    border-left-color: $color-conversation-pink;
-    background-color: $color-conversation-pink-shade;
-  }
-  .module-quote--outgoing-purple {
-    border-left-color: $color-conversation-purple;
-    background-color: $color-conversation-purple-shade;
-  }
-  .module-quote--outgoing-indigo {
-    border-left-color: $color-conversation-indigo;
-    background-color: $color-conversation-indigo-shade;
-  }
-  .module-quote--outgoing-blue {
-    border-left-color: $color-conversation-blue;
-    background-color: $color-conversation-blue-shade;
-  }
-  .module-quote--outgoing-teal {
-    border-left-color: $color-conversation-teal;
-    background-color: $color-conversation-teal-shade;
-  }
-  .module-quote--outgoing-green {
-    border-left-color: $color-conversation-green;
-    background-color: $color-conversation-green-shade;
-  }
-  .module-quote--outgoing-light_green {
-    border-left-color: $color-conversation-light_green;
-    background-color: $color-conversation-light_green-shade;
-  }
-  .module-quote--outgoing-blue_grey {
-    border-left-color: $color-conversation-blue_grey;
-    background-color: $color-conversation-blue_grey-shade;
-  }
-
-  .module-quote--incoming {
-    border-left-color: $color-black;
-    background-color: $color-conversation-grey-shade;
-  }
-  .module-quote--incoming-red {
-    background-color: $color-conversation-red-shade;
-  }
-  .module-quote--incoming-deep_orange {
-    background-color: $color-conversation-deep_orange-shade;
-  }
-  .module-quote--incoming-brown {
-    background-color: $color-conversation-brown-shade;
-  }
-  .module-quote--incoming-pink {
-    background-color: $color-conversation-pink-shade;
-  }
-  .module-quote--incoming-purple {
-    background-color: $color-conversation-purple-shade;
-  }
-  .module-quote--incoming-indigo {
-    background-color: $color-conversation-indigo-shade;
-  }
-  .module-quote--incoming-blue {
-    background-color: $color-conversation-blue-shade;
-  }
-  .module-quote--incoming-teal {
-    background-color: $color-conversation-teal-shade;
-  }
-  .module-quote--incoming-green {
-    background-color: $color-conversation-green-shade;
-  }
-  .module-quote--incoming-light_green {
-    background-color: $color-conversation-light_green-shade;
-  }
-  .module-quote--incoming-blue_grey {
-    background-color: $color-conversation-blue_grey-shade;
-  }
-
-  .module-quote__primary__author {
-    color: $color-dark-05;
-  }
-
-  .module-quote__primary__author-red {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-deep_orange {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-brown {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-pink {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-purple {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-indigo {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-blue {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-teal {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-green {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-light_green {
-    color: $color-dark-05;
-  }
-  .module-quote__primary__author-blue_grey {
-    color: $color-dark-05;
-  }
-
-  .module-quote__primary__text {
-    color: $color-dark-05;
-
-    a {
-      color: $color-dark-05;
-    }
-  }
-
-  .module-quote__primary__type-label {
-    color: $color-dark-05;
-  }
-
-  .module-quote__close-container {
-    background-color: rgba(255, 255, 255, 0.75);
-  }
-
-  .module-quote__close-button {
-    @include color-svg('../images/x.svg', $grey);
-  }
-
-  .module-quote__icon-container__circle-background {
-    background-color: $color-white;
-  }
-
-  .module-quote__icon-container__icon--file {
-    @include color-svg('../images/file.svg', $color-signal-blue);
-  }
-  .module-quote__icon-container__icon--image {
-    @include color-svg('../images/image.svg', $color-signal-blue);
-  }
-  .module-quote__icon-container__icon--microphone {
-    @include color-svg('../images/microphone.svg', $color-signal-blue);
-  }
-  .module-quote__icon-container__icon--play {
-    @include color-svg('../images/play.svg', $color-signal-blue);
-  }
-  .module-quote__icon-container__icon--movie {
-    @include color-svg('../images/movie.svg', $color-signal-blue);
-  }
-
-  .module-quote__generic-file__text {
-    color: $color-dark-05;
-  }
-
-  .module-quote__reference-warning {
-    background-color: $color-black-06;
-  }
-
-  .module-quote__reference-warning__icon {
-    @include color-svg('../images/broken-link.svg', $color-dark-30);
-  }
-
-  .module-quote__reference-warning__text {
-    color: $color-dark-05;
   }
 
   // Module: Embedded Contact
@@ -1078,7 +550,7 @@ body.dark-theme {
   }
 
   .module-verification-notification__button {
-    color: $color-signal-blue;
+    color: $color-loki-green;
     background-color: $color-gray-75;
   }
 
@@ -1122,34 +594,12 @@ body.dark-theme {
 
   // Module: Conversation Header
 
-  .module-conversation-header {
-    color: $color-dark-05;
-    background-color: $color-gray-95;
-    border-bottom: 1px solid $color-light-60;
-  }
-
   .module-conversation-header__back-icon {
     @include color-svg('../images/back.svg', $color-dark-05);
   }
 
   .module-conversation-header__title {
     color: $color-dark-05;
-  }
-
-  .module-conversation-header__note-to-self {
-    color: $color-dark-05;
-  }
-
-  .module-conversation-header__title__verified-icon {
-    @include color-svg('../images/verified-check.svg', $color-dark-05);
-  }
-
-  .module-conversation-header__expiration__clock-icon {
-    @include color-svg('../images/timer.svg', $color-dark-30);
-  }
-
-  .module-conversation-header__gear-icon {
-    @include color-svg('../images/gear.svg', $color-dark-30);
   }
 
   // Module: Message Detail
@@ -1159,14 +609,14 @@ body.dark-theme {
   }
 
   .module-message-detail__delete-button {
-    background-color: $color-core-red;
+    background-color: $session-color-danger;
     color: $color-white;
     box-shadow: 0 0 10px -3px rgba(97, 97, 97, 0.7);
     border: solid 1px $color-light-35;
   }
 
   .module-message-detail__contact__error {
-    color: $color-core-red;
+    color: $session-color-danger;
   }
 
   .module-message-detail__contact__status-icon--sending {
@@ -1183,7 +633,7 @@ body.dark-theme {
     @include color-svg('../images/read.svg', $color-light-35);
   }
   .module-message-detail__contact__status-icon--error {
-    @include color-svg('../images/error.svg', $color-core-red);
+    @include color-svg('../images/error.svg', $session-color-danger);
   }
 
   .module-message-detail__contact__show-safety-number {
@@ -1192,7 +642,7 @@ body.dark-theme {
   }
   .module-message-detail__contact__send-anyway {
     color: $color-white;
-    background-color: $color-core-red;
+    background-color: $session-color-danger;
   }
 
   // Module: Media Gallery
@@ -1202,7 +652,7 @@ body.dark-theme {
   }
 
   .module-media-gallery__tab--active {
-    border-bottom: 2px solid $color-signal-blue;
+    border-bottom: 2px solid $color-loki-green;
   }
 
   // Module: Document List Item
@@ -1241,22 +691,12 @@ body.dark-theme {
 
   // Module: Conversation List Item
 
-  .module-conversation-list-item {
-    &:hover {
-      background-color: $color-dark-70;
-    }
-  }
-
   .module-conversation-list-item--has-unread {
-    border-left: 4px solid $color-signal-blue;
-  }
-
-  .module-conversation-list-item--has-friend-request {
-    border-left: 4px solid $color-conversation-indigo;
+    border-left: 4px solid $color-loki-green;
   }
 
   .module-conversation-list-item--is-blocked {
-    border-left: 4px solid $color-conversation-red;
+    border-left: 4px solid $session-color-danger;
   }
 
   .module-conversation-list-item--is-selected {
@@ -1265,7 +705,7 @@ body.dark-theme {
 
   .module-conversation-list-item__unread-count {
     color: $color-white;
-    background-color: $color-signal-blue;
+    background-color: $color-loki-green;
     box-shadow: 0px 0px 0px 1px $color-dark-85;
   }
 
@@ -1305,74 +745,7 @@ body.dark-theme {
     width: 18px;
   }
 
-  // Module: Avatar
-
-  .module-avatar__label {
-    color: $color-gray-05;
-  }
-
-  .module-avatar__icon--group {
-    background-color: $color-gray-05;
-  }
-
-  .module-avatar__icon--direct {
-    background-color: $color-gray-05;
-  }
-
-  .module-avatar__icon--note-to-self {
-    background-color: $color-gray-05;
-  }
-
-  .module-avatar__icon--crown-wrapper {
-    background-color: $color-gray-75;
-  }
-
-  .module-avatar--no-image {
-    background-color: $color-conversation-grey-shade;
-  }
-
-  .module-avatar--signal-blue {
-    background-color: $color-signal-blue;
-  }
-  .module-avatar--red {
-    background-color: $color-conversation-red-shade;
-  }
-  .module-avatar--deep_orange {
-    background-color: $color-conversation-deep_orange-shade;
-  }
-  .module-avatar--brown {
-    background-color: $color-conversation-brown-shade;
-  }
-  .module-avatar--pink {
-    background-color: $color-conversation-pink-shade;
-  }
-  .module-avatar--purple {
-    background-color: $color-conversation-purple-shade;
-  }
-  .module-avatar--indigo {
-    background-color: $color-conversation-indigo-shade;
-  }
-  .module-avatar--blue {
-    background-color: $color-conversation-blue-shade;
-  }
-  .module-avatar--teal {
-    background-color: $color-conversation-teal-shade;
-  }
-  .module-avatar--green {
-    background-color: $color-conversation-green-shade;
-  }
-  .module-avatar--light_green {
-    background-color: $color-conversation-light_green-shade;
-  }
-  .module-avatar--blue_grey {
-    background-color: $color-conversation-blue_grey-shade;
-  }
-
   // Module: Main Header
-
-  .module-main-header {
-    border-bottom: 1px solid $color-gray-75;
-  }
 
   .module-main-header__search__input {
     background-color: $color-gray-95;
@@ -1388,10 +761,6 @@ body.dark-theme {
       border: solid 1px blue;
       outline: none;
     }
-  }
-
-  .module-main-header__search__icon {
-    @include color-svg('../images/search.svg', $color-gray-25);
   }
 
   .module-main-header__search__cancel-icon {
@@ -1411,8 +780,6 @@ body.dark-theme {
   .module-image__loading-placeholder {
     background-color: $color-white-015;
   }
-
-  // Module: Image Grid
 
   // Module: Typing Animation
 
@@ -1529,13 +896,13 @@ body.dark-theme {
       color: $color-white-07;
     }
     &:focus {
-      border: 1px solid $color-signal-blue;
+      border: 1px solid $color-loki-green;
       outline: none;
     }
   }
 
   .module-caption-editor__save-button {
-    background-color: $color-signal-blue;
+    background-color: $color-loki-green;
     color: $color-white;
   }
 
@@ -1577,104 +944,6 @@ body.dark-theme {
     color: $color-gray-05;
   }
 
-  // Module: Left Pane
-
-  .module-left-pane {
-    background-color: $color-dark-85;
-    border-right: 1px solid $color-gray-75;
-  }
-
-  .module-left-pane__archive-header {
-    border-bottom: 1px solid $color-gray-75;
-  }
-
-  .module-left-pane__to-inbox-button {
-    background-color: $color-gray-25;
-  }
-
-  .module-left-pane__archive-header-text {
-    color: $color-gray-05;
-  }
-
-  .module-left-pane__archive-helper-text {
-    color: $color-gray-25;
-    background-color: $color-gray-75;
-  }
-
-  .module-left-pane__archived-button {
-    color: $color-gray-25;
-    &:hover {
-      background-color: $color-gray-75;
-    }
-  }
-
-  .module-left-pane__archived-button__archived-count {
-    color: $color-gray-25;
-    background-color: $color-gray-75;
-  }
-
-  // Module: Start New Conversation
-
-  .module-start-new-conversation {
-    &:hover {
-      background-color: $color-dark-70;
-    }
-  }
-
-  .module-start-new-conversation__number {
-    color: $color-gray-05;
-  }
-
-  .module-start-new-conversation__text {
-    color: $color-gray-45;
-  }
-
-  // Third-party module: react-contextmenu
-
-  .react-contextmenu {
-    background-color: $color-dark-85;
-    border: 1px solid $color-light-60;
-  }
-
-  .react-contextmenu-item {
-    color: $color-dark-05;
-  }
-
-  .react-contextmenu-item--checked:before {
-    color: $color-dark-05;
-  }
-
-  .react-contextmenu-item.react-contextmenu-submenu
-    > .react-contextmenu-item:after {
-    color: $color-dark-05;
-  }
-
-  .react-contextmenu-item.react-contextmenu-item--active,
-  .react-contextmenu-item.react-contextmenu-item--selected {
-    color: $color-white;
-    background-color: $color-light-35;
-  }
-
-  .react-contextmenu-item.react-contextmenu-item--active.react-contextmenu-item--checked:before,
-  .react-contextmenu-item.react-contextmenu-item--selected.react-contextmenu-item--checked:before {
-    color: $color-white;
-  }
-
-  .react-contextmenu-item.react-contextmenu-submenu
-    > .react-contextmenu-item.react-contextmenu-item--active:after,
-  .react-contextmenu-item.react-contextmenu-submenu
-    > .react-contextmenu-item.react-contextmenu-item--selected:after {
-    color: $color-white;
-  }
-
-  // _options
-
-  // _progress
-
-  // Not sure we need to change anything there - it's blue
-
-  // _recorder
-
   .capture-audio {
     .microphone {
       &:before {
@@ -1686,47 +955,25 @@ body.dark-theme {
     background: $color-black;
 
     .finish {
-      background: lighten($color-core-green, 20%);
-      border: 1px solid $color-core-green;
+      background: lighten($session-color-green, 20%);
+      border: 1px solid $session-color-green;
 
       .icon {
-        @include color-svg('../images/check.svg', $color-core-green);
+        @include color-svg('../images/check.svg', $session-color-green);
       }
     }
 
     .close {
-      background: lighten($color-core-red, 20%);
-      border: 1px solid $color-core-red;
+      background: lighten($session-color-danger, 20%);
+      border: 1px solid $session-color-danger;
 
       .icon {
-        @include color-svg('../images/x.svg', $color-core-red);
+        @include color-svg('../images/x.svg', $session-color-danger);
       }
     }
 
     .time {
       color: $grey;
-    }
-  }
-
-  // _settings
-
-  hr {
-    border-color: $color-dark-60;
-  }
-
-  .syncSettings {
-    .synced_at {
-      color: $grey;
-    }
-    .sync_failed {
-      color: red;
-    }
-  }
-
-  .clear-data-settings {
-    .destructive {
-      background-color: red;
-      color: white;
     }
   }
 }

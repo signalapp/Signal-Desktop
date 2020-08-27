@@ -28,16 +28,12 @@
   -->
 
   <script type='text/x-tmpl-mustache' id='app-loading-screen'>
-    <div class='content'>
-      <img src='images/session/full-logo.svg' class='session-full-logo' />
+    <div class="content session-full-logo">
+      <img src="images/session/brand.svg" class="session-brand-logo" />
+      <img src="images/session/session-text.svg" class="session-text-logo" />
     </div>
   </script>
 
-  <script type='text/x-tmpl-mustache' id='conversation-loading-screen'>
-    <div class='content'>
-      <img src='images/session/full-logo.svg' class='session-full-logo' />
-    </div>
-  </script>
 
   <script type='text/x-tmpl-mustache' id='two-column'>
     <div class='gutter'>
@@ -49,8 +45,9 @@
         <div class='conversation placeholder'>
           <div class='conversation-header'></div>
           <div class='container'>
-            <div class='content'>
-              <img src='images/session/full-logo.svg' class='session-full-logo' />
+            <div class="content session-full-logo">
+              <img src="images/session/brand.svg" class="session-brand-logo" />
+              <img src="images/session/session-text.svg" class="session-text-logo" />
             </div>
           </div>
         </div>
@@ -94,9 +91,6 @@
         <div class='conversation-header'></div>
         <div class='main panel'>
           <div class='discussion-container'>
-              <div class='bar-container hide'>
-                <div class='bar active progress-bar-striped progress-bar'></div>
-              </div>
           </div>
 
           <div class='bottom-bar' id='footer'>
@@ -217,40 +211,6 @@
     </div>
   </script>
 
-  <script type='text/x-tmpl-mustache' id='clear-data'>
-    {{#isStep1}}
-    <div class='step'>
-      <div class='inner'>
-        <div class='step-body'>
-          <span class='banner-icon alert-outline-red'></span>
-          <div class='header'>{{ header }}</div>
-          <div class='body-text-wide'>{{ body }}</div>
-        </div>
-        <div class='nav'>
-          <div>
-            <a class='button neutral cancel'>{{ cancelButton }}</a>
-            <a class='button destructive delete-all-data'>{{ deleteButton }}</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    {{/isStep1}}
-    {{#isStep2}}
-    <div id='step3' class='step'>
-      <div class='inner'>
-        <div class='step-body'>
-          <span class='banner-icon delete'></span>
-          <div class='header'>{{ deleting }}</div>
-        </div>
-        <div class='progress'>
-          <div class='bar-container'>
-            <div class='bar progress-bar progress-bar-striped active'></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    {{/isStep2}}
-  </script>
 
   <script type='text/x-tmpl-mustache' id='networkStatus'>
     <div class='network-status-message'>
@@ -292,11 +252,6 @@
         <div class='step-body'>
           <span class='banner-icon import'></span>
           <div class='header'>{{ importingHeader }}</div>
-        </div>
-        <div class='progress'>
-          <div class='bar-container'>
-            <div class='bar progress-bar progress-bar-striped active'></div>
-          </div>
         </div>
       </div>
     </div>
@@ -393,11 +348,9 @@
   <script type='text/javascript' src='js/views/conversation_view.js'></script>
   <script type='text/javascript' src='js/views/inbox_view.js'></script>
   <script type='text/javascript' src='js/views/network_status_view.js'></script>
-  <script type='text/javascript' src='js/views/confirmation_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/nickname_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/password_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/seed_dialog_view.js'></script>
-  <script type='text/javascript' src='js/views/qr_dialog_view.js'></script>
   <script type='text/javascript' src='js/views/identicon_svg_view.js'></script>
   <script type='text/javascript' src='js/views/banner_view.js'></script>
   <script type='text/javascript' src='js/views/session_registration_view.js'></script>
@@ -419,8 +372,9 @@
 </head>
 <body>
   <div class='app-loading-screen'>
-    <div class='content'>
-      <img src='images/session/full-logo.svg' class='session-full-logo' />
+    <div class="content session-full-logo">
+      <img src="images/session/brand.svg" class="session-brand-logo" />
+      <img src="images/session/session-text.svg" class="session-text-logo" />
     </div>
   </div>
 
