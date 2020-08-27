@@ -76,6 +76,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderEmojiPicker,
   replyToMessage: action('replyToMessage'),
   retrySend: action('retrySend'),
+  forwardMessage: action('forwardMessage'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   selectMessage: action('selectMessage'),
   showContactDetail: action('showContactDetail'),

@@ -14,6 +14,7 @@ import {
 } from '../types/MIME';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
+import { ConversationType } from '../sql/Interface';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -29,6 +30,8 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onNext: overrideProps.onNext,
   onPrevious: overrideProps.onPrevious,
   onSave: overrideProps.onSave,
+  onConversationSelected: overrideProps.onConversationSelected,
+  searchConversationsFn: overrideProps.searchConversationsFn,
 });
 
 story.add('Image', () => {
@@ -112,6 +115,26 @@ story.add('Including Next/Previous/Save Callbacks', () => {
     onNext: action('onNext'),
     onPrevious: action('onPrevious'),
     onSave: action('onSave'),
+  });
+
+  return <Lightbox {...props} />;
+});
+
+story.add('Search Conversations', () => {
+  const testData: ConversationType = [];
+  for (let i = 1; i < 10; i += 1) {
+    testData.push({
+      id: `${i}`,
+      type: 'group',
+      lastUpdate: 5,
+      title: `Conversation ${i}`,
+    });
+  }
+
+  const props = createProps({
+    caption: 'Search Conversations',
+    onConversationSelected: () => ({}),
+    searchConversationsFn: async () => Promise.resolve(testData),
   });
 
   return <Lightbox {...props} />;

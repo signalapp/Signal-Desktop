@@ -30,6 +30,7 @@ const defaultMessage: MessageProps = {
   openLink: () => null,
   previews: [],
   reactToMessage: () => null,
+  forwardMessage: () => null,
   renderEmojiPicker: () => <div />,
   replyToMessage: () => null,
   retrySend: () => null,

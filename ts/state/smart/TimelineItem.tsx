@@ -12,10 +12,15 @@ import {
 } from '../selectors/conversations';
 
 import { SmartContactName } from './ContactName';
+import { AttachmentType } from '../../types/Attachment';
 
 type ExternalProps = {
   id: string;
   conversationId: string;
+  forwardMessage: (
+    messageId: string,
+    attachments?: Array<AttachmentType>
+  ) => void;
 };
 
 // Workaround: A react component's required properties are filtering up through connect()
@@ -29,7 +34,7 @@ function renderContact(conversationId: string): JSX.Element {
 }
 
 const mapStateToProps = (state: StateType, props: ExternalProps) => {
-  const { id, conversationId } = props;
+  const { id, conversationId, forwardMessage } = props;
 
   const messageSelector = getMessageSelector(state);
   const item = messageSelector(id);
@@ -44,6 +49,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     isSelected,
     renderContact,
     i18n: getIntl(state),
+    forwardMessage,
   };
 };
 

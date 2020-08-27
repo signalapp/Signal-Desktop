@@ -10784,6 +10784,15 @@
     "reasonDetail": "isn't jquery"
   },
   {
+    "rule": "React-createRef",
+    "path": "ts/components/ConversationSearch.js",
+    "line": "        this.inputRef = react_1.default.createRef();",
+    "lineNumber": 41,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-07T08:56:24.566Z",
+    "reasonDetail": "Used to handle video events"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/optionator/node_modules/prelude-ls/lib/Func.js",
     "line": "over = curry$(function(f, g, x, y){",
@@ -12951,26 +12960,26 @@
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.containerRef = react_1.default.createRef();",
-    "lineNumber": 161,
+    "lineNumber": 163,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-11-06T19:56:38.557Z",
+    "updated": "2020-09-23T09:59:51.119Z",
     "reasonDetail": "Used to double-check outside clicks"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.videoRef = react_1.default.createRef();",
-    "lineNumber": 162,
+    "lineNumber": 164,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-14T23:03:44.863Z"
+    "updated": "2020-09-23T09:59:51.119Z"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 163,
+    "lineNumber": 165,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-11-06T19:56:38.557Z",
+    "updated": "2020-09-23T09:59:51.119Z",
     "reasonDetail": "Used to manage focus"
   },
   {
@@ -13084,25 +13093,25 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
-    "lineNumber": 213,
+    "lineNumber": 217,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-14T23:03:44.863Z"
+    "updated": "2020-09-23T09:59:51.119Z"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 215,
+    "lineNumber": 219,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-14T23:03:44.863Z"
+    "updated": "2020-09-23T09:59:51.119Z"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 219,
+    "lineNumber": 223,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-08-28T19:36:40.817Z"
+    "updated": "2020-09-23T09:59:51.119Z"
   },
   {
     "rule": "React-createRef",

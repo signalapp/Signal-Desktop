@@ -228,6 +228,45 @@
   margin-right: 12px;
 }
 
+.module-message__buttons__forward {
+  height: 24px;
+  width: 24px;
+  display: inline-block;
+  cursor: pointer;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/forward-outline-24.svg',
+      $color-gray-45
+    );
+    &:hover {
+      @include color-svg(
+        '../images/icons/v2/forward-outline-24.svg',
+        $color-gray-90
+      );
+    }
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/forward-solid-24.svg',
+      $color-gray-45
+    );
+    &:hover {
+      @include color-svg(
+        '../images/icons/v2/forward-solid-24.svg',
+        $color-gray-02
+      );
+    }
+  }
+}
+
+.module-message__buttons__forward--incoming {
+  margin-left: 12px;
+}
+.module-message__buttons__forward--outgoing {
+  margin-right: 12px;
+}
+
 .module-message__buttons__menu {
   height: 24px;
   width: 24px;
@@ -5306,6 +5345,33 @@ button.module-image__border-overlay:focus {
   }
 }
 
+// Module: Conversation Search
+.module-conversation-search__background {
+  @include light-theme {
+    background-color: $color-gray-02;
+  }
+  @include dark-theme {
+    background-color: $color-gray-80;
+  }
+}
+
+.module-conversation-search__search__icon {
+  position: absolute;
+  left: 23px;
+  top: 16px;
+  height: 16px;
+  width: 16px;
+
+  cursor: text;
+
+  @include light-theme {
+    @include color-svg('../images/icons/v2/search-16.svg', $color-gray-75);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/search-16.svg', $color-gray-25);
+  }
+}
+
 // Module: Search Results
 
 .module-search-results {
@@ -9242,6 +9308,9 @@ button.module-image__border-overlay:focus {
 .module-message__buttons__reply {
   display: none;
 }
+.module-message__buttons__forward {
+  display: none;
+}
 .module-message__buttons__react {
   display: none;
 }
@@ -9285,6 +9354,9 @@ button.module-image__border-overlay:focus {
   .module-message__buttons__reply {
     display: inline-block;
   }
+  .module-message__buttons__forward {
+    display: inline-block;
+  }
   .module-message__buttons__react {
     display: inline-block;
   }
@@ -9319,6 +9391,9 @@ button.module-image__border-overlay:focus {
     display: inline-block;
   }
   .module-message__buttons__reply {
+    display: inline-block;
+  }
+  .module-message__buttons__forward {
     display: inline-block;
   }
   .module-message__buttons__react {

@@ -154,6 +154,10 @@ export type PropsActions = {
     { emoji, remove }: { emoji: string; remove: boolean }
   ) => void;
   replyToMessage: (id: string) => void;
+  forwardMessage: (
+    messageId: string,
+    attachments?: Array<AttachmentType>
+  ) => void;
   retrySend: (id: string) => void;
   deleteMessage: (id: string) => void;
   showMessageDetail: (id: string) => void;
@@ -1136,6 +1140,7 @@ export class Message extends React.PureComponent<Props, State> {
       reactToMessage,
       renderEmojiPicker,
       replyToMessage,
+      forwardMessage,
       selectedReaction,
     } = this.props;
 
@@ -1217,6 +1222,27 @@ export class Message extends React.PureComponent<Props, State> {
       />
     );
 
+    const forwardButton = (
+      // This a menu meant for mouse use only
+      // eslint-disable-next-line max-len
+      // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
+      <div
+        onClick={(event: React.MouseEvent) => {
+          event.stopPropagation();
+          event.preventDefault();
+
+          forwardMessage(id, attachments);
+        }}
+        // This a menu meant for mouse use only
+        role="button"
+        aria-label={i18n('forwardMessageTo')}
+        className={classNames(
+          'module-message__buttons__forward',
+          `module-message__buttons__download--${direction}`
+        )}
+      />
+    );
+
     // This a menu meant for mouse use only
     /* eslint-disable jsx-a11y/interactive-supports-focus */
     /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -1262,7 +1288,9 @@ export class Message extends React.PureComponent<Props, State> {
         >
           {canReply ? reactButton : null}
           {canReply ? downloadButton : null}
-          {canReply ? replyButton : null}
+          {/* keep forward button always on the right side of the reply button */}
+          {canReply && direction === 'outgoing' ? forwardButton : replyButton}
+          {canReply && direction === 'outgoing' ? replyButton : forwardButton}
           {menuButton}
         </div>
         {reactionPickerRoot &&

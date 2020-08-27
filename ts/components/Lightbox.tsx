@@ -6,8 +6,10 @@ import is from '@sindresorhus/is';
 import * as GoogleChrome from '../util/GoogleChrome';
 import * as MIME from '../types/MIME';
 
+import { ConversationSearch } from './ConversationSearch';
 import { formatDuration } from '../util/formatDuration';
 import { LocalizerType } from '../types/Util';
+import { ConversationType } from '../sql/Interface';
 
 const Colors = {
   ICON_SECONDARY: '#b9b9b9',
@@ -26,11 +28,17 @@ export interface Props {
   contentType: MIME.MIMEType | undefined;
   i18n: LocalizerType;
   objectURL: string;
+  searchTerm?: string;
   caption?: string;
   isViewOnce: boolean;
   onNext?: () => void;
   onPrevious?: () => void;
   onSave?: () => void;
+  onConversationSelected?: (conversationId: string) => void;
+  searchConversationsFn?: (
+    query?: string,
+    options?: { limit?: number }
+  ) => Promise<Array<ConversationType>>;
 }
 interface State {
   videoTime?: number;
@@ -70,6 +78,7 @@ const styles = {
     // To ensure that a large image doesn't overflow the flex layout
     minHeight: '50px',
     outline: 'none',
+    justifyContent: 'center',
   } as React.CSSProperties,
   objectContainer: {
     position: 'relative',
@@ -295,6 +304,9 @@ export class Lightbox extends React.Component<Props, State> {
       contentType,
       i18n,
       isViewOnce,
+      searchConversationsFn,
+      onConversationSelected,
+      searchTerm,
       objectURL,
       onNext,
       onPrevious,
@@ -313,12 +325,28 @@ export class Lightbox extends React.Component<Props, State> {
       >
         <div style={styles.mainContainer} tabIndex={-1} ref={this.focusRef}>
           <div style={styles.controlsOffsetPlaceholder} />
-          <div style={styles.objectContainer}>
-            {!is.undefined(contentType)
-              ? this.renderObject({ objectURL, contentType, i18n, isViewOnce })
-              : null}
-            {caption ? <div style={styles.caption}>{caption}</div> : null}
-          </div>
+          {searchConversationsFn && onConversationSelected && (
+            <ConversationSearch
+              caption={caption}
+              searchTerm={searchTerm}
+              searchConversationsFn={searchConversationsFn}
+              onConversationSelected={onConversationSelected}
+              i18n={i18n}
+            />
+          )}
+          {!searchConversationsFn && (
+            <div style={styles.objectContainer}>
+              {!is.undefined(contentType)
+                ? this.renderObject({
+                    objectURL,
+                    contentType,
+                    i18n,
+                    isViewOnce,
+                  })
+                : null}
+              {caption ? <div style={styles.caption}>{caption}</div> : null}
+            </div>
+          )}
           <div style={styles.controls}>
             <IconButton i18n={i18n} type="close" onClick={this.onClose} />
             {onSave ? (

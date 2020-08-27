@@ -35,6 +35,7 @@ const defaultMessageProps: MessagesProps = {
   reactToMessage: () => null,
   renderEmojiPicker: () => <div />,
   replyToMessage: () => null,
+  forwardMessage: () => null,
   retrySend: () => null,
   scrollToQuotedMessage: () => null,
   selectMessage: () => null,

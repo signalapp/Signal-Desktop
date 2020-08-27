@@ -283,7 +283,7 @@
       this.listenTo(
         this.model.messageCollection,
         'show-visual-attachment',
-        this.showLightbox
+        this.showVisualAttachment
       );
       this.listenTo(
         this.model.messageCollection,
@@ -589,6 +589,9 @@
       const replyToMessage = messageId => {
         this.setQuoteMessage(messageId);
       };
+      const forwardMessage = async (messageId, attachments) => {
+        this.forwardMessage(messageId, attachments);
+      };
       const retrySend = messageId => {
         this.retrySend(messageId);
       };
@@ -605,7 +608,7 @@
         this.showContactDetail(options);
       };
       const showVisualAttachment = options => {
-        this.showLightbox(options);
+        this.showVisualAttachment(options);
       };
       const downloadAttachment = options => {
         this.downloadAttachment(options);
@@ -787,6 +790,7 @@
           openLink,
           reactToMessage,
           replyToMessage,
+          forwardMessage,
           retrySend,
           scrollToQuotedMessage,
           showContactDetail,
@@ -1239,19 +1243,19 @@
       }
     },
 
-    async saveModel() {
-      window.Signal.Data.updateConversation(this.model.attributes);
+    async saveModel(model = this.model) {
+      window.Signal.Data.updateConversation(model.attributes);
     },
 
-    async addAttachment(attachment) {
+    async addAttachment(attachment, model = this.model) {
       const onDisk = await this.writeDraftAttachment(attachment);
 
-      const draftAttachments = this.model.get('draftAttachments') || [];
-      this.model.set({
+      const draftAttachments = model.get('draftAttachments') || [];
+      model.set({
         draftAttachments: [...draftAttachments, onDisk],
         draftChanged: true,
       });
-      await this.saveModel();
+      await this.saveModel(model);
 
       this.updateAttachmentsView();
     },
@@ -1389,7 +1393,7 @@
       return toWrite;
     },
 
-    async maybeAddAttachment(file) {
+    async maybeAddAttachment(file, model = this.model) {
       if (!file) {
         return;
       }
@@ -1405,7 +1409,7 @@
         return;
       }
 
-      const draftAttachments = this.model.get('draftAttachments') || [];
+      const draftAttachments = model.get('draftAttachments') || [];
       if (draftAttachments.length >= 32) {
         this.showToast(Whisper.MaxAttachmentsToast);
         return;
@@ -1471,7 +1475,7 @@
         return;
       }
 
-      await this.addAttachment(attachment);
+      await this.addAttachment(attachment, model);
     },
 
     isSizeOkay(attachment) {
@@ -2329,11 +2333,11 @@
       });
     },
 
-    showLightbox({ attachment, messageId }) {
+    showVisualAttachment({ attachment, messageId }) {
       const message = this.model.messageCollection.get(messageId);
       if (!message) {
         throw new Error(
-          `showLightbox: did not find message for id ${messageId}`
+          `showVisualAttachment: did not find message for id ${messageId}`
         );
       }
       const sticker = message.get('sticker');
@@ -2376,17 +2380,7 @@
             this.downloadAttachment({ attachment, timestamp, message });
           },
         };
-        this.lightboxView = new Whisper.ReactWrapperView({
-          className: 'lightbox-wrapper',
-          Component: Signal.Components.Lightbox,
-          props,
-          onClose: () => {
-            Signal.Backbone.Views.Lightbox.hide();
-            this.stopListening(message);
-          },
-        });
-        this.listenTo(message, 'expired', () => this.lightboxView.remove());
-        Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
+        this.showLightbox(message, props);
         return;
       }
 
@@ -2414,19 +2408,7 @@
         selectedIndex: selectedIndex >= 0 ? selectedIndex : 0,
         onSave,
       };
-      this.lightboxGalleryView = new Whisper.ReactWrapperView({
-        className: 'lightbox-wrapper',
-        Component: Signal.Components.LightboxGallery,
-        props,
-        onClose: () => {
-          Signal.Backbone.Views.Lightbox.hide();
-          this.stopListening(message);
-        },
-      });
-      this.listenTo(message, 'expired', () =>
-        this.lightboxGalleryView.remove()
-      );
-      Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
+      this.showLightbox(message, props, true);
     },
 
     showMessageDetail(messageId) {
@@ -2789,6 +2771,73 @@
       });
     },
 
+    async forwardMessage(messageId, attachments) {
+      const message = await getMessageById(messageId, {
+        Message: Whisper.Message,
+      });
+      if (!message) {
+        throw new Error(
+          `loadNewerMessages: failed to load message ${messageId}`
+        );
+      }
+
+      const onConversationSelected = async conversationId => {
+        const body = message.get('body');
+        const conversation = await ConversationController.getOrCreateAndWait(
+          conversationId,
+          'private'
+        );
+        await this.saveDraft(body, conversation);
+
+        // delete previous attachment drafts of the conv
+        conversation.set({
+          draftAttachments: [],
+          draftChanged: true,
+        });
+        await this.saveModel(conversation);
+
+        // adding an attachment is dependent on existing attachment drafts, therefore
+        // when adding multiple attachments at once we need to do it sequentially
+        // to prevent race conditions (instead of using Promise.all())
+        for (let i = 0; i < attachments.length; i += 1) {
+          // eslint-disable-next-line no-await-in-loop
+          const res = await fetch(attachments[i].url);
+          // eslint-disable-next-line no-await-in-loop
+          const file = new File([await res.blob()], 'temp', {
+            type: attachments[0].contentType,
+          });
+          // eslint-disable-next-line no-await-in-loop
+          await this.maybeAddAttachment(file, conversation);
+        }
+        await this.openConversation(conversationId);
+      };
+
+      const searchConversationsFn = async query => {
+        if (!query || !query.trim()) {
+          return Promise.resolve(
+            Signal.State.Selectors.conversations
+              .getLeftPaneLists(window.reduxStore.getState())
+              // make sure no conversation is "preselected"
+              .conversations.map(conv => ({ ...conv, isSelected: false }))
+          );
+        }
+
+        const conversations = await Signal.Data.searchConversations(query);
+        const collection = new Whisper.ConversationCollection();
+        collection.add(conversations);
+        return Promise.resolve(
+          collection.models.map(model => model.cachedProps)
+        );
+      };
+
+      const props = {
+        caption: i18n('forwardMessageTo'),
+        onConversationSelected,
+        searchConversationsFn,
+      };
+      this.showLightbox(message, props);
+    },
+
     async sendMessage(message = '', options = {}) {
       this.sendStart = Date.now();
 
@@ -2883,26 +2932,26 @@
       this.debouncedMaybeGrabLinkPreview(messageText, caretLocation);
     },
 
-    async saveDraft(messageText) {
+    async saveDraft(messageText, conversation = this.model) {
       const trimmed =
         messageText && messageText.length > 0 ? messageText.trim() : '';
 
-      if (this.model.get('draft') && (!messageText || trimmed.length === 0)) {
-        this.model.set({
+      if (conversation.get('draft') && (!messageText || trimmed.length === 0)) {
+        conversation.set({
           draft: null,
           draftChanged: true,
         });
-        await this.saveModel();
+        await this.saveModel(conversation);
 
         return;
       }
 
-      if (messageText !== this.model.get('draft')) {
-        this.model.set({
+      if (messageText !== conversation.get('draft')) {
+        conversation.set({
           draft: messageText,
           draftChanged: true,
         });
-        await this.saveModel();
+        await this.saveModel(conversation);
       }
     },
 
@@ -3284,6 +3333,34 @@
 
         return item;
       });
+    },
+
+    showLightbox(message, props, isGallery = false) {
+      const view = new Whisper.ReactWrapperView({
+        className: 'lightbox-wrapper',
+        Component: isGallery
+          ? Signal.Components.LightboxGallery
+          : Signal.Components.Lightbox,
+        props,
+        onClose: () => {
+          Signal.Backbone.Views.Lightbox.hide();
+          this.stopListening(message);
+        },
+      });
+
+      if (isGallery) {
+        this.lightboxGalleryView = view;
+        this.listenTo(message, 'expired', () =>
+          this.lightboxGalleryView.remove()
+        );
+      } else {
+        this.lightboxView = view;
+        this.listenTo(message, 'expired', () => this.lightboxView.remove());
+      }
+
+      Signal.Backbone.Views.Lightbox.show(
+        isGallery ? this.lightboxGalleryView.el : this.lightboxView.el
+      );
     },
 
     // Called whenever the user changes the message composition field. But only

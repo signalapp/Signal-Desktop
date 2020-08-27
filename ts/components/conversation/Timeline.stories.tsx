@@ -221,6 +221,7 @@ const actions = () => ({
 
   reactToMessage: action('reactToMessage'),
   replyToMessage: action('replyToMessage'),
+  forwardMessage: action('forwardMessage'),
   retrySend: action('retrySend'),
   deleteMessage: action('deleteMessage'),
   showMessageDetail: action('showMessageDetail'),
