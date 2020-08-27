@@ -1,43 +1,51 @@
-import { Sound, SoundOpts } from './Sound';
+import { Sound } from './Sound';
+import PQueue from 'p-queue';
 
-async function playSound(howlProps: SoundOpts): Promise<Sound | undefined> {
-  const canPlayTone = await window.getCallRingtoneNotification();
-
-  if (!canPlayTone) {
-    return;
-  }
-
-  const tone = new Sound(howlProps);
-  await tone.play();
-
-  return tone;
-}
+const ringtoneEventQueue = new PQueue({ concurrency: 1 });
 
 class CallingTones {
   private ringtone?: Sound;
 
   async playEndCall() {
-    await playSound({
+    const canPlayTone = await window.getCallRingtoneNotification();
+    if (!canPlayTone) {
+      return;
+    }
+
+    const tone = new Sound({
       src: 'sounds/navigation-cancel.ogg',
     });
+    await tone.play();
   }
 
   async playRingtone() {
-    if (this.ringtone) {
-      this.stopRingtone();
-    }
+    await ringtoneEventQueue.add(async () => {
+      if (this.ringtone) {
+        this.ringtone.stop();
+        this.ringtone = undefined;
+      }
 
-    this.ringtone = await playSound({
-      loop: true,
-      src: 'sounds/ringtone_minimal.ogg',
+      const canPlayTone = await window.getCallRingtoneNotification();
+      if (!canPlayTone) {
+        return;
+      }
+
+      this.ringtone = new Sound({
+        loop: true,
+        src: 'sounds/ringtone_minimal.ogg',
+      });
+
+      await this.ringtone.play();
     });
   }
 
-  stopRingtone() {
-    if (this.ringtone) {
-      this.ringtone.stop();
-      this.ringtone = undefined;
-    }
+  async stopRingtone() {
+    await ringtoneEventQueue.add(async () => {
+      if (this.ringtone) {
+        this.ringtone.stop();
+        this.ringtone = undefined;
+      }
+    });
   }
 }
 

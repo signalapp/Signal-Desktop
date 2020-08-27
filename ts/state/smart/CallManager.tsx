@@ -1,20 +1,26 @@
-import { RefObject } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { CanvasVideoRenderer, GumVideoCapturer } from 'ringrtc';
 import { mapDispatchToProps } from '../actions';
 import { CallManager } from '../../components/CallManager';
 import { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
 
+import { SmartCallingDeviceSelection } from './CallingDeviceSelection';
+
+// Workaround: A react component's required properties are filtering up through connect()
+//   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
+const FilteredCallingDeviceSelection = SmartCallingDeviceSelection as any;
+
+function renderDeviceSelection(): JSX.Element {
+  return <FilteredCallingDeviceSelection />;
+}
+
 const mapStateToProps = (state: StateType) => {
   return {
     ...state.calling,
     i18n: getIntl(state),
-    getVideoCapturer: (localVideoRef: RefObject<HTMLVideoElement>) =>
-      new GumVideoCapturer(640, 480, 30, localVideoRef),
-    getVideoRenderer: (remoteVideoRef: RefObject<HTMLCanvasElement>) =>
-      new CanvasVideoRenderer(remoteVideoRef),
+    renderDeviceSelection,
   };
 };
 

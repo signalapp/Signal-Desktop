@@ -2725,5 +2725,25 @@
         "example": "00:01"
       }
     }
+  },
+  "callingDeviceSelection__settings": {
+    "message": "Settings",
+    "description": "Title for device selection settings"
+  },
+  "callingDeviceSelection__label--video": {
+    "message": "Video",
+    "description": "Label for video input selector"
+  },
+  "callingDeviceSelection__label--audio-input": {
+    "message": "Microphone",
+    "description": "Label for audio input selector"
+  },
+  "callingDeviceSelection__label--audio-output": {
+    "message": "Speakers",
+    "description": "Label for audio output selector"
+  },
+  "callingDeviceSelection__select--no-device": {
+    "message": "No devices available",
+    "description": "Message for when there are no available devices to select for input/output audio or video"
   }
 }

@@ -5984,6 +5984,21 @@ button.module-image__border-overlay:focus {
   }
 }
 
+.module-ongoing-call__settings {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+
+  &--button {
+    @include color-svg(
+      '../images/icons/v2/settings-solid-16.svg',
+      $color-white
+    );
+    height: 22px;
+    width: 22px;
+  }
+}
+
 // Module: Left Pane
 
 .module-left-pane {
@@ -8845,6 +8860,87 @@ button.module-image__border-overlay:focus {
 
   margin-left: auto;
   margin-right: auto;
+}
+
+/* Calling: Device Selection */
+
+.module-calling-device-selection {
+  position: relative;
+}
+
+.module-calling-device-selection__close-button {
+  @include button-reset;
+
+  @include light-theme {
+    @include color-svg('../images/x-shadow-16.svg', $color-gray-75);
+  }
+
+  @include dark-theme {
+    @include color-svg('../images/x-shadow-16.svg', $color-white);
+  }
+
+  height: 16px;
+  position: absolute;
+  right: 5px;
+  top: 0;
+  width: 16px;
+  z-index: 2;
+
+  @include keyboard-mode {
+    &:focus {
+      outline: 2px solid $ultramarine-ui-light;
+    }
+  }
+}
+
+.module-calling-device-selection__title {
+  @include font-title-2;
+  margin-top: 12px;
+  margin-bottom: 20px;
+}
+
+.module-calling-device-selection__label {
+  @include font-body-1-bold;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.module-calling-device-selection__select {
+  margin-bottom: 20px;
+  position: relative;
+
+  select {
+    @include font-body-1;
+    -webkit-appearance: none;
+    border-radius: 4px;
+    border: 1px solid $color-gray-45;
+    cursor: pointer;
+    height: 40px;
+    outline: 0;
+    padding: 10px;
+    padding-right: 32px;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+
+  &::after {
+    border: 2px solid $color-gray-75;
+
+    border-radius: 2px;
+    border-right: 0;
+    border-top: 0;
+    content: ' ';
+    display: block;
+    height: 10px;
+    pointer-events: none;
+    position: absolute;
+    right: 15px;
+    top: 16px;
+    transform-origin: center;
+    transform: rotate(-45deg);
+    width: 10px;
+    z-index: 2;
+  }
 }
 
 /* Third-party module: react-tooltip-lite */
