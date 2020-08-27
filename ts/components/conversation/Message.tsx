@@ -61,6 +61,15 @@ interface LinkPreviewType {
   image?: AttachmentType;
 }
 
+export const Statuses = [
+  'delivered',
+  'error',
+  'partial-sent',
+  'read',
+  'sending',
+  'sent',
+] as const;
+
 export type PropsData = {
   id: string;
   conversationId: string;
@@ -72,7 +81,7 @@ export type PropsData = {
   interactionMode: 'mouse' | 'keyboard';
   direction: 'incoming' | 'outgoing';
   timestamp: number;
-  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error' | 'partial-sent';
+  status?: typeof Statuses[number];
   contact?: ContactType;
   authorTitle: string;
   authorName?: string;
