@@ -11,7 +11,7 @@ import { LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
 import { ContactName } from './ContactName';
 
-interface Props {
+export interface Props {
   attachment?: QuotedAttachmentType;
   authorTitle: string;
   authorPhoneNumber?: string;
