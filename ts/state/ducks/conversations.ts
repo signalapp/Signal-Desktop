@@ -49,6 +49,7 @@ export type ConversationType = {
   };
   phoneNumber?: string;
   membersCount?: number;
+  muteExpiresAt?: number;
   type: 'direct' | 'group';
   isMe?: boolean;
   lastUpdated: number;

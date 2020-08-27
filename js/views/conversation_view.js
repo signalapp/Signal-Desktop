@@ -357,6 +357,24 @@
       paste: 'onPaste',
     },
 
+    getMuteExpirationLabel() {
+      const muteExpiresAt = this.model.get('muteExpiresAt');
+      if (!muteExpiresAt) {
+        return;
+      }
+
+      const today = window.moment(Date.now());
+      const expires = window.moment(muteExpiresAt);
+
+      if (today.isSame(expires, 'day')) {
+        // eslint-disable-next-line consistent-return
+        return expires.format('hh:mm A');
+      }
+
+      // eslint-disable-next-line consistent-return
+      return expires.format('M/D/YY, hh:mm A');
+    },
+
     setupHeader() {
       const getHeaderProps = () => {
         const expireTimer = this.model.get('expireTimer');
@@ -376,6 +394,8 @@
             value: item.get('seconds'),
           })),
 
+          muteExpirationLabel: this.getMuteExpirationLabel(),
+
           onSetDisappearingMessages: seconds =>
             this.setDisappearingMessages(seconds),
           onDeleteMessages: () => this.destroyMessages(),
@@ -387,6 +407,7 @@
               : this.model.getTitle();
             searchInConversation(this.model.id, name);
           },
+          onSetMuteNotifications: ms => this.setMuteNotifications(ms),
 
           // These are view only and don't update the Conversation model, so they
           //   need a manual update call.
@@ -2483,6 +2504,12 @@
       } else {
         this.model.updateExpirationTimer(null);
       }
+    },
+
+    setMuteNotifications(ms) {
+      this.model.set({
+        muteExpiresAt: ms > 0 ? Date.now() + ms : undefined,
+      });
     },
 
     async destroyMessages() {

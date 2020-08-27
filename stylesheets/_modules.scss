@@ -3621,6 +3621,27 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
+.module-conversation-list-item__muted {
+  display: inline-block;
+  height: 14px;
+  margin-right: 4px;
+  vertical-align: middle;
+  width: 14px;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/sound-off-outline-24.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/sound-off-outline-24.svg',
+      $color-gray-25
+    );
+  }
+}
+
 .module-conversation-list-item--has-unread {
   padding-left: 12px;
 

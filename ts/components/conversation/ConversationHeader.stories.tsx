@@ -34,6 +34,7 @@ const actionProps: PropsActionsType = {
   onDeleteMessages: action('onDeleteMessages'),
   onResetSession: action('onResetSession'),
   onSearchInConversation: action('onSearchInConversation'),
+  onSetMuteNotifications: action('onSetMuteNotifications'),
   onOutgoingAudioCallInConversation: action(
     'onOutgoingAudioCallInConversation'
   ),
@@ -167,6 +168,20 @@ const stories: Array<ConversationHeaderStory> = [
               value: 10,
             },
           ],
+          isAccepted: true,
+          ...actionProps,
+          ...housekeepingProps,
+        },
+      },
+      {
+        title: 'Muting Conversation',
+        props: {
+          color: 'ultramarine',
+          title: '(202) 555-0006',
+          phoneNumber: '(202) 555-0006',
+          type: 'direct',
+          id: '6',
+          muteExpirationLabel: '10/18/3000, 11:11 AM',
           isAccepted: true,
           ...actionProps,
           ...housekeepingProps,

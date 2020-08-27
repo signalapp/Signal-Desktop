@@ -13,6 +13,7 @@ import { InContactsIcon } from '../InContactsIcon';
 
 import { LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
+import { getMuteOptions } from '../../util/getMuteOptions';
 
 interface TimerOption {
   name: string;
@@ -37,11 +38,13 @@ export interface PropsDataType {
   leftGroup?: boolean;
 
   expirationSettingName?: string;
+  muteExpirationLabel?: string;
   showBackButton?: boolean;
   timerOptions?: Array<TimerOption>;
 }
 
 export interface PropsActionsType {
+  onSetMuteNotifications: (seconds: number) => void;
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
   onResetSession: () => void;
@@ -289,9 +292,11 @@ export class ConversationHeader extends React.Component<PropsType> {
       type,
       isArchived,
       leftGroup,
+      muteExpirationLabel,
       onDeleteMessages,
       onResetSession,
       onSetDisappearingMessages,
+      onSetMuteNotifications,
       onShowAllMedia,
       onShowGroupMembers,
       onShowSafetyNumber,
@@ -300,7 +305,26 @@ export class ConversationHeader extends React.Component<PropsType> {
       timerOptions,
     } = this.props;
 
+    const muteOptions = [];
+    if (muteExpirationLabel) {
+      muteOptions.push(
+        ...[
+          {
+            name: i18n('muteExpirationLabel', [muteExpirationLabel]),
+            disabled: true,
+            value: 0,
+          },
+          {
+            name: i18n('unmute'),
+            value: 0,
+          },
+        ]
+      );
+    }
+    muteOptions.push(...getMuteOptions(i18n));
+
     const disappearingTitle = i18n('disappearingMessages') as any;
+    const muteTitle = i18n('muteNotificationsTitle') as any;
     const isGroup = type === 'group';
 
     return (
@@ -319,6 +343,19 @@ export class ConversationHeader extends React.Component<PropsType> {
             ))}
           </SubMenu>
         ) : null}
+        <SubMenu title={muteTitle}>
+          {muteOptions.map(item => (
+            <MenuItem
+              key={item.name}
+              disabled={item.disabled}
+              onClick={() => {
+                onSetMuteNotifications(item.value);
+              }}
+            >
+              {item.name}
+            </MenuItem>
+          ))}
+        </SubMenu>
         <MenuItem onClick={onShowAllMedia}>{i18n('viewRecentMedia')}</MenuItem>
         {isGroup ? (
           <MenuItem onClick={onShowGroupMembers}>
