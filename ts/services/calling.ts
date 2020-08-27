@@ -207,10 +207,8 @@ export class CallingClass {
     for (let i = 0; i < a.availableMicrophones.length; i++) {
       if (
         a.availableMicrophones[i].name !== b.availableMicrophones[i].name ||
-        a.availableMicrophones[i].unique_id !==
-          b.availableMicrophones[i].unique_id ||
-        a.availableMicrophones[i].same_name_index !==
-          b.availableMicrophones[i].same_name_index
+        a.availableMicrophones[i].uniqueId !==
+          b.availableMicrophones[i].uniqueId
       ) {
         return false;
       }
@@ -218,9 +216,7 @@ export class CallingClass {
     for (let i = 0; i < a.availableSpeakers.length; i++) {
       if (
         a.availableSpeakers[i].name !== b.availableSpeakers[i].name ||
-        a.availableSpeakers[i].unique_id !== b.availableSpeakers[i].unique_id ||
-        a.availableSpeakers[i].same_name_index !==
-          b.availableSpeakers[i].same_name_index
+        a.availableSpeakers[i].uniqueId !== b.availableSpeakers[i].uniqueId
       ) {
         return false;
       }
@@ -327,21 +323,18 @@ export class CallingClass {
       // No preference stored
       return undefined;
     }
-    // Match by UUID first, if available
-    if (preferred.unique_id) {
+    // Match by uniqueId first, if available
+    if (preferred.uniqueId) {
       const matchIndex = available.findIndex(
-        d => d.unique_id === preferred.unique_id
+        d => d.uniqueId === preferred.uniqueId
       );
       if (matchIndex !== -1) {
         return matchIndex;
       }
     }
 
-    // Match by name second, and if there are multiple such names - by instance index.
+    // Match by name second
     const matchingNames = available.filter(d => d.name === preferred.name);
-    if (matchingNames.length > preferred.same_name_index) {
-      return matchingNames[preferred.same_name_index].index;
-    }
     if (matchingNames.length > 0) {
       return matchingNames[0].index;
     }
