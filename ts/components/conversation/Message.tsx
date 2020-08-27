@@ -61,7 +61,7 @@ interface LinkPreviewType {
   image?: AttachmentType;
 }
 
-export const Statuses = [
+export const MessageStatuses = [
   'delivered',
   'error',
   'partial-sent',
@@ -69,6 +69,16 @@ export const Statuses = [
   'sending',
   'sent',
 ] as const;
+export type MessageStatusType = typeof MessageStatuses[number];
+
+export const InteractionModes = ['mouse', 'keyboard'] as const;
+export type InteractionModeType = typeof InteractionModes[number];
+
+export const Directions = ['incoming', 'outgoing'] as const;
+export type DirectionType = typeof Directions[number];
+
+export const ConversationTypes = ['direct', 'group'] as const;
+export type ConversationTypesType = typeof ConversationTypes[number];
 
 export type PropsData = {
   id: string;
@@ -78,17 +88,17 @@ export type PropsData = {
   isSticker?: boolean;
   isSelected?: boolean;
   isSelectedCounter?: number;
-  interactionMode: 'mouse' | 'keyboard';
-  direction: 'incoming' | 'outgoing';
+  interactionMode: InteractionModeType;
+  direction: DirectionType;
   timestamp: number;
-  status?: typeof Statuses[number];
+  status?: MessageStatusType;
   contact?: ContactType;
   authorTitle: string;
   authorName?: string;
   authorProfileName?: string;
   authorPhoneNumber?: string;
   authorColor?: ColorType;
-  conversationType: 'group' | 'direct';
+  conversationType: ConversationTypesType;
   attachments?: Array<AttachmentType>;
   quote?: {
     text: string;
