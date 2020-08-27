@@ -291,6 +291,7 @@ async function createWindow() {
         preload: path.join(__dirname, 'preload.js'),
         nativeWindowOpen: true,
         spellcheck: await getSpellCheckSetting(),
+        backgroundThrottling: false,
       },
       icon: windowIcon,
     },
