@@ -2759,7 +2759,7 @@ async function getLastConversationActivity(
   const row = await db.get(
     `SELECT * FROM messages WHERE
        conversationId = $conversationId AND
-       (type IS NULL OR type NOT IN ('profile-change', 'verified-change', 'message-history-unsynced')) AND
+       (type IS NULL OR type NOT IN ('profile-change', 'verified-change', 'message-history-unsynced', 'keychange')) AND
        (json_extract(json, '$.expirationTimerUpdate.fromSync') IS NULL OR json_extract(json, '$.expirationTimerUpdate.fromSync') != 1)
      ORDER BY received_at DESC
      LIMIT 1;`,
