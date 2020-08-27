@@ -11,31 +11,43 @@ const optionsConfig = {
   display: 'inline-radio',
 };
 
+const persistKnob = id => knob => {
+  const value = knob(localStorage.getItem(id));
+  localStorage.setItem(id, value);
+  return value;
+};
+
 const makeThemeKnob = pane =>
-  optionsKnob(
-    `${pane} Pane Theme`,
-    { Light: '', Dark: classnames('dark-theme', styles.darkTheme) },
-    '',
-    optionsConfig,
-    `${pane} Pane`
+  persistKnob(`${pane}-pane-theme`)(localValue =>
+    optionsKnob(
+      `${pane} Pane Theme`,
+      { Light: '', Dark: classnames('dark-theme', styles.darkTheme) },
+      localValue || '',
+      optionsConfig,
+      `${pane} Pane`
+    )
   );
 
 const makeDeviceThemeKnob = pane =>
-  optionsKnob(
-    `${pane} Pane Device Theme`,
-    { Android: '', iOS: 'ios-theme' },
-    '',
-    optionsConfig,
-    `${pane} Pane`
+  persistKnob(`${pane}-pane-device-theme`)(localValue =>
+    optionsKnob(
+      `${pane} Pane Device Theme`,
+      { Android: '', iOS: 'ios-theme' },
+      localValue || '',
+      optionsConfig,
+      `${pane} Pane`
+    )
   );
 
 const makeModeKnob = pane =>
-  optionsKnob(
-    `${pane} Pane Mode`,
-    { Mouse: 'mouse-mode', Keyboard: 'keyboard-mode' },
-    'mouse-mode',
-    optionsConfig,
-    `${pane} Pane`
+  persistKnob(`${pane}-pane-mode`)(localValue =>
+    optionsKnob(
+      `${pane} Pane Mode`,
+      { Mouse: 'mouse-mode', Keyboard: 'keyboard-mode' },
+      localValue || 'mouse-mode',
+      optionsConfig,
+      `${pane} Pane`
+    )
   );
 
 addDecorator(withKnobs);
@@ -46,7 +58,9 @@ addDecorator((storyFn /* , context */) => {
   const firstPaneDeviceTheme = makeDeviceThemeKnob('First');
   const firstPaneMode = makeModeKnob('First');
 
-  const secondPane = boolean('Second Pane Active', false, 'Second Pane');
+  const secondPane = persistKnob('second-pane-active')(localValue =>
+    boolean('Second Pane Active', localValue !== 'false', 'Second Pane')
+  );
 
   const secondPaneTheme = makeThemeKnob('Second');
   const secondPaneDeviceTheme = makeDeviceThemeKnob('Second');
