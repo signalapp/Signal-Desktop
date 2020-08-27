@@ -1389,6 +1389,22 @@
     "updated": "2020-04-30T20:57:04.499Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/websocket/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 156,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-25T00:36:19.912Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/websocket/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 248,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-25T00:36:19.912Z"
+  },
+  {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/ast-types/lib/path.js",
     "line": "    Pp.insertBefore = function insertBefore(node) {",
@@ -1796,736 +1812,13 @@
     "updated": "2018-09-19T21:59:32.770Z"
   },
   {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "function nodebackForPromise(promise, multiArgs) {",
-    "lineNumber": 2099,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "        } else if (!multiArgs) {",
-    "lineNumber": 2106,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "    var multiArgs = arguments.length > 1 ? !!Object(arguments[1]).multiArgs",
-    "lineNumber": 2296,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "    var result = tryCatch(fn)(nodebackForPromise(ret, multiArgs));",
-    "lineNumber": 2298,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "    util.toFastProperties(Promise);                                          ",
-    "lineNumber": 2856,
+    "rule": "jQuery-$(",
+    "path": "node_modules/acorn/dist/acorn.js",
+    "line": "  // $$('#table-binary-unicode-properties > figure > table > tbody > tr > td:nth-child(1) code').map(el => el.innerText)",
+    "lineNumber": 3119,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Promise is a known global"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "function toFastProperties(obj) {",
-    "lineNumber": 3592,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Declaring a dangerous function"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "    eval(obj);",
-    "lineNumber": 3599,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2019-03-22T19:00:07.131Z",
-    "reasonDetail": "his is run on whatever is provided to toFastProperties()"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "    toFastProperties: toFastProperties,",
-    "lineNumber": 3752,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Exposing a dangerous function"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "if (ret.isNode) ret.toFastProperties(process);",
-    "lineNumber": 3775,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "process is a known global"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.min.js",
-    "lineNumber": 31,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "It's usage of bluebird that's the problem, not bluebird itself with this rule"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.min.js",
-    "lineNumber": 31,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "        var spawn = new PromiseSpawn$(undefined, undefined, yieldHandler,",
-    "lineNumber": 2228,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this.constructor$(promises);",
-    "lineNumber": 2441,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this._init$(undefined, -2);",
-    "lineNumber": 2456,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function nodebackForPromise(promise, multiArgs) {",
-    "lineNumber": 2687,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "        } else if (!multiArgs) {",
-    "lineNumber": 2694,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    var multiArgs = arguments.length > 1 ? !!Object(arguments[1]).multiArgs",
-    "lineNumber": 2944,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    var result = tryCatch(fn)(nodebackForPromise(ret, multiArgs));",
-    "lineNumber": 2946,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    util.toFastProperties(Promise);                                          ",
-    "lineNumber": 3519,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Usage of bluebird is the problem with this rule, not bluebird itself"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function(callback, receiver, originalName, fn, _, multiArgs) {",
-    "lineNumber": 3846,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "            var nodeback = nodebackForPromise(promise, \" + multiArgs + \");   \\n\\",
-    "lineNumber": 3897,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function makeNodePromisifiedClosure(callback, receiver, _, fn, __, multiArgs) {",
-    "lineNumber": 3938,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "        var fn = nodebackForPromise(promise, multiArgs);",
-    "lineNumber": 3951,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function promisifyAll(obj, suffix, filter, promisifier, multiArgs) {",
-    "lineNumber": 3968,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "                makeNodePromisified(key, THIS, key, fn, suffix, multiArgs);",
-    "lineNumber": 3979,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "                                           fn, suffix, multiArgs);",
-    "lineNumber": 3983,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    util.toFastProperties(obj);",
-    "lineNumber": 3989,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "promisifyAll calls toFastProperties() but is limited to function or object"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function promisify(callback, receiver, multiArgs) {",
-    "lineNumber": 3993,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "                                callback, null, multiArgs);",
-    "lineNumber": 3995,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    var multiArgs = !!options.multiArgs;",
-    "lineNumber": 4007,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    var ret = promisify(fn, receiver, multiArgs);",
-    "lineNumber": 4008,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    var multiArgs = !!options.multiArgs;",
-    "lineNumber": 4018,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "                multiArgs);",
-    "lineNumber": 4036,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "            promisifyAll(value, suffix, filter, promisifier, multiArgs);",
-    "lineNumber": 4037,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    return promisifyAll(target, suffix, filter, promisifier, multiArgs);",
-    "lineNumber": 4041,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this.constructor$(entries);",
-    "lineNumber": 4102,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this._init$(undefined, isMap ? -6 : -3);",
-    "lineNumber": 4104,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this.constructor$(promises);",
-    "lineNumber": 4305,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this._init$(undefined, -5);",
-    "lineNumber": 4322,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this._resultCancelled$();",
-    "lineNumber": 4360,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this.constructor$(values);",
-    "lineNumber": 4537,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this.constructor$(values);",
-    "lineNumber": 4586,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this._init$(undefined, -5);",
-    "lineNumber": 4601,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "        this.constructor$(fn, promise, context);",
-    "lineNumber": 5104,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function toFastProperties(obj) {",
-    "lineNumber": 5434,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Declaring a dangerous function"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    eval(obj);",
-    "lineNumber": 5441,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2019-03-22T19:00:07.131Z",
-    "reasonDetail": "This is run on whatever is provided to toFastProperties()"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    toFastProperties: toFastProperties,",
-    "lineNumber": 5594,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Exposing a dangerous function"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "if (ret.isNode) ret.toFastProperties(process);",
-    "lineNumber": 5617,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "process is a known global"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.min.js",
-    "lineNumber": 30,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.min.js",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.min.js",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.min.js",
-    "lineNumber": 31,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/assert.js",
-    "line": "        this.constructor$(a);",
-    "lineNumber": 5,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/generators.js",
-    "line": "        var spawn = new PromiseSpawn$(undefined, undefined, yieldHandler,",
-    "lineNumber": 197,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/map.js",
-    "line": "    this.constructor$(promises);",
-    "lineNumber": 15,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/map.js",
-    "line": "    this._init$(undefined, -2);",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/nodeback.js",
-    "line": "function nodebackForPromise(promise, multiArgs) {",
-    "lineNumber": 34,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/nodeback.js",
-    "line": "        } else if (!multiArgs) {",
-    "lineNumber": 41,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promise.js",
-    "line": "    var multiArgs = arguments.length > 1 ? !!Object(arguments[1]).multiArgs",
-    "lineNumber": 178,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promise.js",
-    "line": "    var result = tryCatch(fn)(nodebackForPromise(ret, multiArgs));",
-    "lineNumber": 180,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promise.js",
-    "line": "    util.toFastProperties(Promise);                                          ",
-    "lineNumber": 753,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Promise is a known global"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "function(callback, receiver, originalName, fn, _, multiArgs) {",
-    "lineNumber": 116,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "            var nodeback = nodebackForPromise(promise, \" + multiArgs + \");   \\n\\",
-    "lineNumber": 167,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "function makeNodePromisifiedClosure(callback, receiver, _, fn, __, multiArgs) {",
-    "lineNumber": 208,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "        var fn = nodebackForPromise(promise, multiArgs);",
-    "lineNumber": 221,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "function promisifyAll(obj, suffix, filter, promisifier, multiArgs) {",
-    "lineNumber": 238,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "                makeNodePromisified(key, THIS, key, fn, suffix, multiArgs);",
-    "lineNumber": 249,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "                                           fn, suffix, multiArgs);",
-    "lineNumber": 253,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "    util.toFastProperties(obj);",
-    "lineNumber": 259,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "promisifyAll calls toFastProperties() but is limited to function or object"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "function promisify(callback, receiver, multiArgs) {",
-    "lineNumber": 263,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "                                callback, null, multiArgs);",
-    "lineNumber": 265,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "    var multiArgs = !!options.multiArgs;",
-    "lineNumber": 277,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "    var ret = promisify(fn, receiver, multiArgs);",
-    "lineNumber": 278,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "    var multiArgs = !!options.multiArgs;",
-    "lineNumber": 288,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "                multiArgs);",
-    "lineNumber": 306,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "            promisifyAll(value, suffix, filter, promisifier, multiArgs);",
-    "lineNumber": 307,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "    return promisifyAll(target, suffix, filter, promisifier, multiArgs);",
-    "lineNumber": 311,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/props.js",
-    "line": "    this.constructor$(entries);",
-    "lineNumber": 56,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/props.js",
-    "line": "    this._init$(undefined, isMap ? -6 : -3);",
-    "lineNumber": 58,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/reduce.js",
-    "line": "    this.constructor$(promises);",
-    "lineNumber": 13,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/reduce.js",
-    "line": "    this._init$(undefined, -5);",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/reduce.js",
-    "line": "    this._resultCancelled$();",
-    "lineNumber": 68,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/settle.js",
-    "line": "    this.constructor$(values);",
-    "lineNumber": 8,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/some.js",
-    "line": "    this.constructor$(values);",
-    "lineNumber": 12,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/some.js",
-    "line": "    this._init$(undefined, -5);",
-    "lineNumber": 27,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/using.js",
-    "line": "        this.constructor$(fn, promise, context);",
-    "lineNumber": 92,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/util.js",
-    "line": "function toFastProperties(obj) {",
-    "lineNumber": 194,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Declaring a dangerous function"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/util.js",
-    "line": "    eval(obj);",
-    "lineNumber": 201,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2019-03-22T19:00:07.131Z",
-    "reasonDetail": "This is run on whatever is provided to toFastProperties()"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/util.js",
-    "line": "    toFastProperties: toFastProperties,",
-    "lineNumber": 354,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Declaring a dangerous function"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/util.js",
-    "line": "if (ret.isNode) ret.toFastProperties(process);",
-    "lineNumber": 377,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "process is a known global"
+    "updated": "2020-08-25T16:47:57.538Z",
+    "reasonDetail": "Not setting, just getting"
   },
   {
     "rule": "jQuery-wrap(",
@@ -3151,6 +2444,14 @@
     "lineNumber": 16,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:06:35.446Z"
+  },
+  {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/del/node_modules/globby/node_modules/pify/index.js",
+    "line": "\t\t\t\t} else if (opts.multiArgs) {",
+    "lineNumber": 16,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-25T00:30:50.619Z"
   },
   {
     "rule": "jQuery-append(",
@@ -5385,14 +4686,6 @@
     "updated": "2020-02-18T22:49:03.644Z"
   },
   {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/globby/node_modules/pify/index.js",
-    "line": "\t\t\t\t} else if (opts.multiArgs) {",
-    "lineNumber": 16,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:06:35.446Z"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "      var a = !eval('\"use strict\";let x = 1; function f() { return typeof x; };f() == \"number\";');",
@@ -6454,14 +5747,6 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
-    "rule": "jQuery-before(",
-    "path": "node_modules/javascript-stringify/javascript-stringify.js",
-    "line": "        return before(value, function (value, space, next) {",
-    "lineNumber": 354,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "node_modules/js-tokens/index.js",
     "lineNumber": 10,
@@ -6522,29 +5807,6 @@
     "lineNumber": 1618,
     "reasonCategory": "falseMatch",
     "updated": "2019-04-03T00:52:04.925Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/jss-nested/dist/jss-nested.js",
-    "line": "\tvar refRegExp = /\\$([\\w-]+)/g;",
-    "lineNumber": 75,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:45:07.878Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/jss-nested/dist/jss-nested.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:45:07.878Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/jss-nested/lib/index.js",
-    "line": "var refRegExp = /\\$([\\w-]+)/g;",
-    "lineNumber": 19,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:45:07.878Z"
   },
   {
     "rule": "jQuery-load(",
@@ -10407,14 +9669,6 @@
     "updated": "2019-12-11T01:10:06.091Z"
   },
   {
-    "rule": "jQuery-html(",
-    "path": "node_modules/remark-stringify/lib/visitors/html.js",
-    "line": "function html(node) {",
-    "lineNumber": 5,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
     "rule": "jQuery-append(",
     "path": "node_modules/request/lib/multipart.js",
     "line": "    return chunked ? body.append(part) : body.push(Buffer.from(part))",
@@ -10474,38 +9728,6 @@
     "lineNumber": 4,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/serve-static/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/serve-static/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/serve-static/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/serve-static/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-$(",
@@ -10944,11 +10166,11 @@
   },
   {
     "rule": "thenify-multiArgs",
-    "path": "node_modules/terser-webpack-plugin/node_modules/pify/index.js",
+    "path": "node_modules/find-cache-dir/node_modules/pify/index.js",
     "line": "\t\tif (options.multiArgs) {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:45:07.878Z"
+    "updated": "2020-08-25T00:30:50.619Z"
   },
   {
     "rule": "jQuery-before(",
@@ -11134,22 +10356,6 @@
     "lineNumber": 168,
     "reasonCategory": "falseMatch",
     "updated": "2019-12-11T01:10:06.091Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/websocket/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatc",
-    "updated": "2020-04-30T20:57:04.499Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/websocket/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T20:57:04.499Z"
   },
   {
     "rule": "jQuery-append(",
@@ -11713,5 +10919,31 @@
     "lineNumber": 51,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/js-base64/base64.js",
+    "line": "            buffer = eval(\"require('buffer').Buffer\");",
+    "lineNumber": 29,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-25T16:58:28.474Z",
+    "reasonDetail": "Hard coded string"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/js-base64/base64.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-25T16:58:28.474Z",
+    "reasonDetail": "Hard coded string"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/parse-entities/decode-entity.browser.js",
+    "line": "  el.innerHTML = entity",
+    "lineNumber": 16,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-25T16:59:46.588Z",
+    "reasonDetail": "Ephemeral element"
   }
 ]

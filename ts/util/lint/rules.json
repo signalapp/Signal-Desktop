@@ -121,8 +121,7 @@
     "excludedModules": [
       "node_modules/react-dom",
       "node_modules/tslint-microsoft-contrib",
-      "node_modules/react-error-overlay",
-      "node_modules/react-styleguidist"
+      "node_modules/react-error-overlay"
     ]
   },
   {
@@ -133,8 +132,7 @@
       "node_modules/react/",
       "node_modules/react-dom",
       "node_modules/tslint-microsoft-contrib",
-      "node_modules/react-error-overlay",
-      "node_modules/react-styleguidist"
+      "node_modules/react-error-overlay"
     ]
   },
   {
@@ -144,8 +142,7 @@
     "excludedModules": [
       "node_modules/react-dom",
       "node_modules/tslint-microsoft-contrib",
-      "node_modules/react-error-overlay",
-      "node_modules/react-styleguidist"
+      "node_modules/react-error-overlay"
     ]
   },
   {
@@ -155,8 +152,7 @@
     "excludedModules": [
       "node_modules/react-dom",
       "node_modules/tslint-microsoft-contrib",
-      "node_modules/react-error-overlay",
-      "node_modules/react-styleguidist"
+      "node_modules/react-error-overlay"
     ]
   },
   {
