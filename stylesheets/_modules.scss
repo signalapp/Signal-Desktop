@@ -4339,6 +4339,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   display: inline-block;
   margin: 1px;
   vertical-align: middle;
+  overflow: hidden;
 }
 
 .module-image--with-background {
