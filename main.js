@@ -5,7 +5,6 @@ const url = require('url');
 const os = require('os');
 const fs = require('fs-extra');
 const crypto = require('crypto');
-const qs = require('qs');
 const normalizePath = require('normalize-path');
 const fg = require('fast-glob');
 const PQueue = require('p-queue').default;
@@ -95,6 +94,7 @@ const {
   installWebHandler,
 } = require('./app/protocol_filter');
 const { installPermissionsHandler } = require('./app/permissions');
+const { isSgnlHref, parseSgnlHref } = require('./ts/util/sgnlHref');
 
 let appStartInitialSpellcheckSetting = true;
 
@@ -149,10 +149,10 @@ if (!process.mas) {
 
         showWindow();
       }
-      // Are they trying to open a sgnl link?
-      const incomingUrl = getIncomingUrl(argv);
-      if (incomingUrl) {
-        handleSgnlLink(incomingUrl);
+      // Are they trying to open a sgnl:// href?
+      const incomingHref = getIncomingHref(argv);
+      if (incomingHref) {
+        handleSgnlHref(incomingHref);
       }
       // Handled
       return true;
@@ -470,9 +470,9 @@ async function readyForUpdates() {
   isReadyForUpdates = true;
 
   // First, install requested sticker pack
-  const incomingUrl = getIncomingUrl(process.argv);
-  if (incomingUrl) {
-    handleSgnlLink(incomingUrl);
+  const incomingHref = getIncomingHref(process.argv);
+  if (incomingHref) {
+    handleSgnlHref(incomingHref);
   }
 
   // Second, start checking for app updates
@@ -1138,9 +1138,9 @@ app.setAsDefaultProtocolClient('sgnl');
 app.on('will-finish-launching', () => {
   // open-url must be set from within will-finish-launching for macOS
   // https://stackoverflow.com/a/43949291
-  app.on('open-url', (event, incomingUrl) => {
+  app.on('open-url', (event, incomingHref) => {
     event.preventDefault();
-    handleSgnlLink(incomingUrl);
+    handleSgnlHref(incomingHref);
   });
 });
 
@@ -1374,16 +1374,16 @@ function installSettingsSetter(name) {
   });
 }
 
-function getIncomingUrl(argv) {
-  return argv.find(arg => arg.startsWith('sgnl://'));
+function getIncomingHref(argv) {
+  return argv.find(arg => isSgnlHref(arg, logger));
 }
 
-function handleSgnlLink(incomingUrl) {
-  const { host: command, query } = url.parse(incomingUrl);
-  const args = qs.parse(query);
+function handleSgnlHref(incomingHref) {
+  const { command, args } = parseSgnlHref(incomingHref, logger);
   if (command === 'addstickers' && mainWindow && mainWindow.webContents) {
     console.log('Opening sticker pack from sgnl protocol link');
-    const { pack_id: packId, pack_key: packKeyHex } = args;
+    const packId = args.get('pack_id');
+    const packKeyHex = args.get('pack_key');
     const packKey = Buffer.from(packKeyHex, 'hex').toString('base64');
     mainWindow.webContents.send('show-sticker-pack', { packId, packKey });
   } else {
