@@ -7,7 +7,7 @@ import { Linkify } from './Linkify';
 
 import { LocalizerType, RenderTextCallbackType } from '../../types/Util';
 
-interface Props {
+export interface Props {
   text: string;
   textPending?: boolean;
   /** If set, all emoji will be the same size. Otherwise, just one emoji will be large. */
