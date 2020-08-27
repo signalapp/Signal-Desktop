@@ -14,7 +14,8 @@ const i18n = setupI18n('en', enMessages);
 const audioDevice = {
   name: '',
   index: 0,
-  same_name_index: 0,
+  uniqueId: '',
+  i18nKey: undefined,
 };
 
 const createProps = ({
@@ -45,19 +46,20 @@ stories.add('Default', () => {
 stories.add('Some Devices', () => {
   const availableSpeakers = [
     {
-      name: 'Default - Internal Microphone',
+      name: 'Default',
       index: 0,
-      same_name_index: 0,
+      uniqueId: 'Default',
+      i18nKey: 'default_communication_device',
     },
     {
       name: "Natalie's Airpods (Bluetooth)",
       index: 1,
-      same_name_index: 1,
+      uniqueId: 'aa',
     },
     {
       name: 'UE Boom (Bluetooth)',
       index: 2,
-      same_name_index: 2,
+      uniqueId: 'bb',
     },
   ];
   const selectedSpeaker = availableSpeakers[0];
@@ -73,33 +75,35 @@ stories.add('Some Devices', () => {
 stories.add('All Devices', () => {
   const availableSpeakers = [
     {
-      name: 'Default - Internal Speakers',
+      name: 'Default',
       index: 0,
-      same_name_index: 0,
+      uniqueId: 'Default',
+      i18nKey: 'default_communication_device',
     },
     {
       name: "Natalie's Airpods (Bluetooth)",
       index: 1,
-      same_name_index: 1,
+      uniqueId: 'aa',
     },
     {
       name: 'UE Boom (Bluetooth)',
       index: 2,
-      same_name_index: 2,
+      uniqueId: 'bb',
     },
   ];
   const selectedSpeaker = availableSpeakers[0];
 
   const availableMicrophones = [
     {
-      name: 'Default - Internal Microphone',
+      name: 'Default',
       index: 0,
-      same_name_index: 0,
+      uniqueId: 'Default',
+      i18nKey: 'default_communication_device',
     },
     {
       name: "Natalie's Airpods (Bluetooth)",
       index: 1,
-      same_name_index: 1,
+      uniqueId: 'aa',
     },
   ];
   const selectedMicrophone = availableMicrophones[0];

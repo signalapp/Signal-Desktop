@@ -1,13 +1,13 @@
 // Must be kept in sync with RingRTC.AudioDevice
 export interface AudioDevice {
-  // Name, present on every platform.
+  // Device name.
   name: string;
   // Index of this device, starting from 0.
   index: number;
-  // Index of this device out of all devices sharing the same name.
-  same_name_index: number;
-  // If present, a unique and stable identifier of this device. Only available on WIndows.
-  unique_id?: string;
+  // A unique and somewhat stable identifier of this device.
+  uniqueId: string;
+  // If present, the identifier of a localized string to substitute for the device name.
+  i18nKey?: string;
 }
 
 // This must be kept in sync with RingRTC.CallState.
