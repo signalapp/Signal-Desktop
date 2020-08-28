@@ -11,7 +11,7 @@ import { EmojiButton } from './EmojiButton';
 
 const i18n = setupI18n('en', enMessages);
 
-storiesOf('Components/emojis/EmojiButton', module).add('Base', () => {
+storiesOf('Components/Emoji/EmojiButton', module).add('Base', () => {
   return (
     <div
       style={{
