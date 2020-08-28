@@ -410,27 +410,30 @@ $session-compose-margin: 20px;
     padding: 8px 20px;
     margin: 0px $session-compose-margin;
 
-    @at-root .light-theme #{&} {
-      background: $session-shade-15;
-      color: $session-color-black;
-    }
-    @at-root .dark-theme #{&} {
-      background: $session-shade-4;
-      color: $session-color-light-grey;
-    }
+    // FIXME themify once this component is enabled back
+    // @at-root .light-theme #{&} {
+    //   background: $session-shade-15;
+    //   color: $session-color-black;
+    // }
+    // @at-root .dark-theme #{&} {
+    //   background: $session-shade-4;
+    //   color: $session-color-light-grey;
+    // }
 
     &-selected,
     &:hover {
       font-weight: bold;
 
-      @at-root .light-theme #{&} {
-        color: $session-color-black;
-        background: $session-color-white;
-      }
-      @at-root .dark-theme #{&} {
-        color: $session-color-white;
-        background: $session-shade-8;
-      }
+      // FIXME themify once this component is enabled back
+
+      // @at-root .light-theme #{&} {
+      //   color: $session-color-black;
+      //   background: $session-color-white;
+      // }
+      // @at-root .dark-theme #{&} {
+      //   color: $session-color-white;
+      //   background: $session-shade-8;
+      // }
     }
   }
 }
