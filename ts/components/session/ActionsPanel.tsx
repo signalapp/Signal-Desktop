@@ -2,8 +2,6 @@ import React from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar } from '../Avatar';
 import { PropsData as ConversationListItemPropsType } from '../ConversationListItem';
-import { MultiDeviceProtocol } from '../../session/protocols';
-import { UserUtil } from '../../util';
 import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
 
 export enum SectionType {

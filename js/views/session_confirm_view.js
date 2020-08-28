@@ -21,6 +21,8 @@
         okTheme: options.okTheme,
         closeTheme: options.closeTheme,
         hideCancel: options.hideCancel,
+        sessionIcon: options.sessionIcon,
+        iconSize: options.iconSize,
       };
     },
 

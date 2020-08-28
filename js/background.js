@@ -681,6 +681,8 @@
         closeTheme: params.closeTheme || undefined,
         cancelText: params.cancelText || undefined,
         hideCancel: params.hideCancel || false,
+        sessionIcon: params.sessionIcon || undefined,
+        iconSize: params.iconSize || undefined,
       });
 
       confirmDialog.render();
