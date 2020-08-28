@@ -2655,10 +2655,6 @@ async function getOlderMessagesByConversation(
     messageId,
   }: { limit?: number; receivedAt?: number; messageId?: string } = {}
 ) {
-  if (receivedAt !== Number.MAX_VALUE && !messageId) {
-    throw new Error('If receivedAt is supplied, messageId should be as well');
-  }
-
   const db = getInstance();
   let rows;
 
