@@ -76,13 +76,13 @@ $themes: (
     sentMessageBackground: #3f4146,
     receivedMessageText: #fff,
     sentMessageText: #fff,
-    sessionShadow: 0 0 4px 0 rgba(#fff, 0.20),
+    sessionShadow: 0 0 4px 0 rgba(#fff, 0.2),
     // left pane
       conversationList: #1b1b1b,
     conversationItemHasUnread: #2c2c2c,
     conversationItemSelected: #404040,
     clickableHovered: #414347,
-    borderActionPanel: none,
+    sessionBorder: 1px solid #FFFFFF0F,
     leftpaneOverlayBackground: linear-gradient(180deg, #171717 0%, #121212 100%),
     // scrollbars
       scrollBarTrack: #1b1b1b,
