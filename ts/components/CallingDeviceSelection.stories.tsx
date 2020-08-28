@@ -72,6 +72,37 @@ stories.add('Some Devices', () => {
   return <CallingDeviceSelection {...props} />;
 });
 
+stories.add('Default Devices', () => {
+  const availableSpeakers = [
+    {
+      name: 'default (Headphones)',
+      index: 0,
+      uniqueId: 'Default',
+      i18nKey: 'default_communication_device',
+    },
+  ];
+  const selectedSpeaker = availableSpeakers[0];
+
+  const availableMicrophones = [
+    {
+      name: 'DefAuLt (Headphones)',
+      index: 0,
+      uniqueId: 'Default',
+      i18nKey: 'default_communication_device',
+    },
+  ];
+  const selectedMicrophone = availableMicrophones[0];
+
+  const props = createProps({
+    availableMicrophones,
+    availableSpeakers,
+    selectedMicrophone,
+    selectedSpeaker,
+  });
+
+  return <CallingDeviceSelection {...props} />;
+});
+
 stories.add('All Devices', () => {
   const availableSpeakers = [
     {

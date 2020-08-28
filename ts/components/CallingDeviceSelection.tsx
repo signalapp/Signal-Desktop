@@ -15,6 +15,15 @@ export type Props = MediaDeviceSettings & {
   toggleSettings: () => void;
 };
 
+function localizeDefault(i18n: LocalizerType, deviceLabel: string): string {
+  return deviceLabel.toLowerCase().startsWith('default')
+    ? deviceLabel.replace(
+        /default/i,
+        i18n('callingDeviceSelection__select--default')
+      )
+    : deviceLabel;
+}
+
 function renderAudioOptions(
   devices: Array<AudioDevice>,
   i18n: LocalizerType,
@@ -39,7 +48,7 @@ function renderAudioOptions(
             key={device.index}
             value={device.index}
           >
-            {device.name}
+            {localizeDefault(i18n, device.name)}
           </option>
         );
       })}
@@ -71,7 +80,7 @@ function renderVideoOptions(
             key={device.deviceId}
             value={device.deviceId}
           >
-            {device.label}
+            {localizeDefault(i18n, device.label)}
           </option>
         );
       })}

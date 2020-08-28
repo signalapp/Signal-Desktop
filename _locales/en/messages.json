@@ -2746,6 +2746,10 @@
     "message": "No devices available",
     "description": "Message for when there are no available devices to select for input/output audio or video"
   },
+  "callingDeviceSelection__select--default": {
+    "message": "Default",
+    "description": "Shown when the device is the default device"
+  },
   "muteNotificationsTitle": {
     "message": "Mute notifications",
     "description": "Label for the mute notifications drop-down selector"
