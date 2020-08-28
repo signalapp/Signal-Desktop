@@ -117,7 +117,7 @@ $session-compose-margin: 20px;
     display: inline-flex;
     flex-direction: column;
     @include themify($themes) {
-      border-right: themed('borderActionPanel');
+      border-right: themed('sessionBorder');
     }
 
     .module-avatar,
@@ -404,7 +404,7 @@ $session-compose-margin: 20px;
     height: 51px;
 
     @include themify($themes) {
-      border: themed('borderActionPanel');
+      border: themed('sessionBorder');
     }
   }
 }

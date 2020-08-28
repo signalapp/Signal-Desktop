@@ -12,7 +12,7 @@
   flex-shrink: 0;
   @include themify($themes) {
     background: themed('leftpaneOverlayBackground');
-    border-left: themed('borderActionPanel');
+    border-left: themed('sessionBorder');
   }
   align-items: center;
 
@@ -44,7 +44,7 @@
     @include themify($themes) {
       color: themed('textColor');
       background: themed('cellBackground');
-      border: themed('borderActionPanel');
+      border: themed('sessionBorder');
     }
     text-align: center;
     display: none;
@@ -58,8 +58,8 @@
     @include themify($themes) {
       color: themed('textColor');
       background: themed('cellBackground');
-      border-top: themed('borderActionPanel');
-      border-bottom: themed('borderActionPanel');
+      border-top: themed('sessionBorder');
+      border-bottom: themed('sessionBorder');
     }
     width: -webkit-fill-available;
     padding: 0 $session-margin-md;
@@ -87,7 +87,7 @@
     align-items: center;
     @include themify($themes) {
       border: none;
-      border-top: themed('borderActionPanel');
+      border-top: themed('sessionBorder');
     }
   }
 

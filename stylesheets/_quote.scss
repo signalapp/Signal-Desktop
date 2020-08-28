@@ -346,7 +346,7 @@
 
 .bottom-bar .member-item {
   @include themify($themes) {
-    border-bottom: themed('borderActionPanel');
+    border-bottom: themed('sessionBorder');
   }
 
   &:hover {

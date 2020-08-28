@@ -33,8 +33,8 @@
 
   .main.panel {
     @include themify($themes) {
-      border-top: themed('borderActionPanel');
-      border-left: themed('borderActionPanel');
+      border-top: themed('sessionBorder');
+      border-left: themed('sessionBorder');
     }
 
     .discussion-container {
@@ -365,7 +365,7 @@
   box-sizing: content-box;
   $button-width: 36px;
   @include themify($themes) {
-    border-top: themed('borderActionPanel');
+    border-top: themed('sessionBorder');
   }
 
   form.send {

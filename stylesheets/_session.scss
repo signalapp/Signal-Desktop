@@ -586,7 +586,7 @@ label {
   @include themify($themes) {
     background-color: themed('modalBackground');
     color: themed('textColor');
-    border: themed('borderActionPanel');
+    border: themed('sessionBorder');
     box-shadow: themed('sessionShadow');
   }
   overflow: hidden;
@@ -868,12 +868,12 @@ label {
 
     &:first-child {
       @include themify($themes) {
-        border-top: themed('borderActionPanel');
+        border-top: themed('sessionBorder');
       }
     }
     &:last-child {
       @include themify($themes) {
-        border-top: themed('borderActionPanel');
+        border-top: themed('sessionBorder');
       }
     }
 
@@ -1058,7 +1058,7 @@ label {
     @include themify($themes) {
       background: themed('cellBackground');
       color: themed('textColor');
-      border-bottom: themed('borderActionPanel');
+      border-bottom: themed('sessionBorder');
     }
     &.inline {
       display: flex;
@@ -1331,7 +1331,7 @@ input {
   height: 64px;
   background-color: $session-shade-4;
   @include themify($themes) {
-    border: themed('borderActionPanel');
+    border: themed('sessionBorder');
   }
   display: flex;
   align-items: center;
