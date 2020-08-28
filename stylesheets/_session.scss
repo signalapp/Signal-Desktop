@@ -587,6 +587,7 @@ label {
     background-color: themed('modalBackground');
     color: themed('textColor');
     border: themed('borderActionPanel');
+    box-shadow: themed('sessionShadow');
   }
   overflow: hidden;
   display: flex;

@@ -21,14 +21,13 @@ $themes: (
     foregroundPrimary: #fff,
     buttonGreen: #272726,
     // conversation view
-      messageSelected:
-      linear-gradient(270deg, rgba(#00f480, 1), rgba(#00f480, 0.6)),
-    composeViewBackground: #fcfcfc,
+      composeViewBackground: #fcfcfc,
     composeViewTextFieldBackground: #ededed,
     receivedMessageBackground: #f5f5f5,
-    sentMessageBackground: #272726,
+    sentMessageBackground: #00e97b,
     receivedMessageText: #000,
-    sentMessageText: #fff,
+    sentMessageText: #000,
+    sessionShadow: 0 0 4px 0 rgba(#000, 0.37),
     // left pane
       conversationList: #fff,
     conversationItemHasUnread: #fcfcfc,
@@ -71,14 +70,13 @@ $themes: (
     foregroundPrimary: #fff,
     buttonGreen: #00f782,
     // conversation view
-      messageSelected:
-      linear-gradient(270deg, rgba(#00f480, 1), rgba(#00f480, 0.6)),
-    composeViewBackground: #1b1b1b,
+      composeViewBackground: #1b1b1b,
     composeViewTextFieldBackground: #141414,
     receivedMessageBackground: #222325,
     sentMessageBackground: #3f4146,
     receivedMessageText: #fff,
     sentMessageText: #fff,
+    sessionShadow: 0 0 4px 0 rgba(#fff, 0.20),
     // left pane
       conversationList: #1b1b1b,
     conversationItemHasUnread: #2c2c2c,

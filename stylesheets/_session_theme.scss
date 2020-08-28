@@ -101,9 +101,8 @@
     .module-message {
       &__container {
         @include themify($themes) {
-          background-image: themed('messageSelected');
+          box-shadow: themed('sessionShadow');
         }
-        box-shadow: $session-dark-shadow;
       }
 
       &__author {
