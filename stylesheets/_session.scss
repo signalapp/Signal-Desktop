@@ -1404,8 +1404,9 @@ input {
     width: 100%;
     max-height: 400px;
     overflow-y: auto;
-    box-shadow: inset 0px 14px 7px -15px $session-color-dark-grey,
-      inset 0px -14px 7px -15px $session-color-dark-grey;
+    @include themify($themes) {
+      border: themed('sessionBorder');
+    }
   }
 
   &__selection {
@@ -1416,6 +1417,9 @@ input {
 
   &__no-contacts {
     font-family: $session-font-mono;
+    @include themify($themes) {
+      background: themed('cellBackground');
+    }
     text-align: center;
     padding: 20px;
   }
@@ -1454,12 +1458,20 @@ input {
   display: flex;
   justify-content: space-between;
   transition: $session-transition-duration;
-
-  &:first-child {
-    border-top: 1px solid rgba($session-shade-8, 0.6);
+  @include themify($themes) {
+    background: themed('cellBackground');
   }
-  &:last-child {
-    border-bottom: 1px solid rgba($session-shade-8, 0.6);
+
+  &:not(:last-child) {
+    @include themify($themes) {
+      border-bottom: themed('sessionBorder');
+    }
+  }
+
+  &:hover {
+    @include themify($themes) {
+      background-color: themed('clickableHovered');
+    }
   }
 
   &.selected {

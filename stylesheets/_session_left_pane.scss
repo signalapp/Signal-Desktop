@@ -95,7 +95,7 @@ $session-compose-margin: 20px;
       font-size: 15px;
 
       @include themify($themes) {
-        color: themed('textColorSubtle');
+        color: subtle(themed('textColorSubtle'));
       }
     }
   }
@@ -176,15 +176,6 @@ $session-compose-margin: 20px;
       width: -webkit-fill-available;
       height: -webkit-fill-available;
       position: absolute;
-    }
-  }
-
-  &-compose {
-    @at-root .light-theme #{&} {
-      background: $session-color-white;
-    }
-    @at-root .dark-theme #{&} {
-      @include session-dark-background-lighter;
     }
   }
 
