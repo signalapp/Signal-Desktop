@@ -57,8 +57,43 @@ export class ActionsPanel extends React.Component<Props, State> {
           },
           'refreshAvatarCallback'
         );
+
+        void this.showLightThemeDialogIfNeeded();
       }
     );
+  }
+
+  public async showLightThemeDialogIfNeeded() {
+    const currentTheme = window.Events.getThemeSetting(); // defaults to light on new registration
+    if (currentTheme !== 'light') {
+      const message = 'Light Mode';
+      const messageSub =
+        'Feeling the dark side more? Just toggle the theme from the bottom-left moon icon.';
+      const hasSeenLightMode = await getItemById('hasSeenLightModeDialog');
+
+      if (hasSeenLightMode?.value === true) {
+        // if hasSeen is set and true, we have nothing to do
+        return;
+      }
+      // force light them right now, then ask for permission
+      await window.Events.setThemeSetting('light');
+      // FIXME add the SUN icon
+      window.confirmationDialog({
+        message,
+        messageSub,
+        resolve: async () => {
+          const data = {
+            id: 'hasSeenLightModeDialog',
+            value: true,
+          };
+          void createOrUpdateItem(data);
+        },
+        okTheme: 'default primary',
+        hideCancel: true,
+        sessionIcon: SessionIconType.Sun,
+        iconSize: SessionIconSize.Max,
+      });
+    }
   }
 
   public refreshAvatarCallback(conversation: any) {
