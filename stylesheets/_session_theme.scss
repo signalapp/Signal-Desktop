@@ -87,14 +87,7 @@
 
 .message {
   &-highlighted {
-    border-radius: 0;
-
-    @at-root .light-theme #{&} {
-      background-color: $session-shade-5;
-    }
-    @at-root .dark-theme #{&} {
-      background-color: $session-color-white;
-    }
+    animation: highlightedMessageAnimation 3s ease-in-out;
   }
 
   &-selected {

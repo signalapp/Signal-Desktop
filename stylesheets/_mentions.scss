@@ -85,10 +85,6 @@
   color: black;
 }
 
-.message-highlighted {
-  border-radius: $message-container-border-radius;
-  background-color: rgba(255, 197, 50, 0.2);
-}
 
 .module-conversation-list-item--mentioned-us {
   border-left: 4px solid $session-color-green !important;

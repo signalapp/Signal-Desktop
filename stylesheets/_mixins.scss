@@ -28,3 +28,10 @@
     @include color-svg($svg, black);
   }
 }
+
+@keyframes highlightedMessageAnimation {
+  25%  { background-color: #00f782; }
+  50%  { background-color: #00000000; }
+  75%  { background-color: #00f782; }
+}
+
