@@ -11,6 +11,7 @@ import { SwarmPolling } from './session/snode_api/swarmPolling';
 import { LibTextsecure } from '../libtextsecure';
 import { ConversationType } from '../js/modules/data';
 import { RecoveryPhraseUtil } from '../libloki/modules/mnemonic';
+import { ConfirmationDialogParams } from '../background';
 
 /*
 We declare window stuff here instead of global.d.ts because we are importing other declarations.
@@ -38,7 +39,7 @@ declare global {
     attemptConnection: ConversationType;
     clearLocalData: any;
     clipboard: any;
-    confirmationDialog: any;
+    confirmationDialog: (params: ConfirmationDialogParams) => any;
     dcodeIO: any;
     deleteAccount: any;
     displayNameRegex: any;
