@@ -151,7 +151,11 @@ $session-font-h4: 16px;
 }
 
 @mixin session-color-subtle($color) {
-  color: rgba($color, 0.6);
+  color: subtle($color);
+}
+
+@function subtle($color) {
+  @return rgba($color, 0.6);
 }
 
 // //////////////////////////////////////////////

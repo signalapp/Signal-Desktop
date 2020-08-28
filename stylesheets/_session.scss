@@ -463,7 +463,8 @@ label {
 
   .session-button.default.danger {
     display: flex;
-    width: 80px;
+    // width: 80px;
+    margin-right: 0px;
   }
 }
 .message-selection-overlay div[role='button'] {

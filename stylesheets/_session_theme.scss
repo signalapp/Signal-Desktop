@@ -116,7 +116,7 @@
     margin-left: 5px;
     .session-icon.check {
       @include themify($themes) {
-        fill: themed('sentMessageText');
+        fill: subtle(themed('sentMessageText'));
       }
     }
   }
