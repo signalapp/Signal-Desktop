@@ -11,7 +11,7 @@ import { EmojiPicker } from './EmojiPicker';
 
 const i18n = setupI18n('en', enMessages);
 
-storiesOf('Components/emojis/EmojiPicker', module)
+storiesOf('Components/Emoji/EmojiPicker', module)
   .add('Base', () => {
     return (
       <EmojiPicker

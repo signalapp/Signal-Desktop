@@ -124,13 +124,6 @@ addDecorator(Story => <Story />);
 addDecorator(story => <I18n messages={messages}>{story()}</I18n>);
 
 configure(() => {
-  // Load sticker creator stories
-  const stickerCreatorContext = require.context(
-    '../sticker-creator',
-    true,
-    /\.stories\.tsx?$/
-  );
-  stickerCreatorContext.keys().forEach(f => stickerCreatorContext(f));
   // Load main app stories
   const tsComponentsContext = require.context(
     '../ts/components',
@@ -138,4 +131,11 @@ configure(() => {
     /\.stories.tsx?$/
   );
   tsComponentsContext.keys().forEach(f => tsComponentsContext(f));
+  // Load sticker creator stories
+  const stickerCreatorContext = require.context(
+    '../sticker-creator',
+    true,
+    /\.stories\.tsx?$/
+  );
+  stickerCreatorContext.keys().forEach(f => stickerCreatorContext(f));
 }, module);
