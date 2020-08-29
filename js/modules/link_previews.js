@@ -15,11 +15,22 @@ module.exports = {
   getDomain,
   getTitleMetaTag,
   getImageMetaTag,
+  isLinkSafeToPreview,
   isLinkInWhitelist,
   isMediaLinkInWhitelist,
   isLinkSneaky,
   isStickerPack,
 };
+
+function isLinkSafeToPreview(link) {
+  let url;
+  try {
+    url = new URL(link);
+  } catch (err) {
+    return false;
+  }
+  return url.protocol === 'https:' && !isLinkSneaky(link);
+}
 
 const SUPPORTED_DOMAINS = [
   'youtube.com',
@@ -41,6 +52,10 @@ const SUPPORTED_DOMAINS = [
   'signal.art',
 ];
 
+// This function will soon be removed in favor of `isLinkSafeToPreview`. It is
+//   currently used because outbound-from-Desktop link previews only support a
+//   few domains (see the list above). We will soon remove this restriction to
+//   allow link previews from all domains, making this function obsolete.
 function isLinkInWhitelist(link) {
   try {
     const url = new URL(link);
@@ -69,6 +84,9 @@ function isStickerPack(link) {
 }
 
 const SUPPORTED_MEDIA_DOMAINS = /^([^.]+\.)*(ytimg\.com|cdninstagram\.com|redd\.it|imgur\.com|fbcdn\.net|pinimg\.com)$/i;
+
+// This function will soon be removed. See the comment in `isLinkInWhitelist`
+//   for more info.
 function isMediaLinkInWhitelist(link) {
   try {
     const url = new URL(link);
