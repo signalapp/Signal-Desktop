@@ -4766,6 +4766,7 @@ button.module-image__border-overlay:focus {
   position: relative;
   border-radius: 4px;
   vertical-align: middle;
+  white-space: nowrap;
 
   @include light-theme {
     box-shadow: inset 0px 0px 0px 1px $color-black-alpha-20;
