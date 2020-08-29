@@ -315,6 +315,8 @@ export declare namespace DataMessageClass {
     url?: string;
     title?: string;
     image?: AttachmentPointerClass;
+    description?: string;
+    date?: ProtoBigNumberType;
   }
 
   class ProtocolVersion {

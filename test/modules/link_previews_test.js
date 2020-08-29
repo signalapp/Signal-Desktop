@@ -4,12 +4,43 @@ const {
   findLinks,
   getTitleMetaTag,
   getImageMetaTag,
+  isLinkSafeToPreview,
   isLinkInWhitelist,
   isLinkSneaky,
   isMediaLinkInWhitelist,
 } = require('../../js/modules/link_previews');
 
 describe('Link previews', () => {
+  describe('#isLinkSafeToPreview', () => {
+    it('returns false for invalid URLs', () => {
+      assert.isFalse(isLinkSafeToPreview(''));
+      assert.isFalse(isLinkSafeToPreview('https'));
+      assert.isFalse(isLinkSafeToPreview('https://'));
+      assert.isFalse(isLinkSafeToPreview('https://bad url'));
+      assert.isFalse(isLinkSafeToPreview('example.com'));
+    });
+
+    it('returns false for non-HTTPS URLs', () => {
+      assert.isFalse(isLinkSafeToPreview('http://example.com'));
+      assert.isFalse(isLinkSafeToPreview('ftp://example.com'));
+      assert.isFalse(isLinkSafeToPreview('file://example'));
+    });
+
+    it('returns false if the link is "sneaky"', () => {
+      // See `isLinkSneaky` tests below for more thorough checking.
+      assert.isFalse(isLinkSafeToPreview('https://user:pass@example.com'));
+      assert.isFalse(isLinkSafeToPreview('https://aquí.example'));
+      assert.isFalse(isLinkSafeToPreview('https://aqu%C3%AD.example'));
+    });
+
+    it('returns true for "safe" urls', () => {
+      assert.isTrue(isLinkSafeToPreview('https://example.com'));
+      assert.isTrue(
+        isLinkSafeToPreview('https://example.com/foo/bar?query=string#hash')
+      );
+    });
+  });
+
   describe('#isLinkInWhitelist', () => {
     it('returns true for valid links', () => {
       assert.strictEqual(isLinkInWhitelist('https://youtube.com/blah'), true);

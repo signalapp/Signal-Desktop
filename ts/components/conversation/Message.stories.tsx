@@ -358,7 +358,10 @@ story.add('Link Preview', () => {
         },
         isStickerPack: false,
         title: 'Signal',
+        description:
+          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
         url: 'https://www.signal.org',
+        date: new Date(2020, 2, 10).valueOf(),
       },
     ],
     status: 'sent',
@@ -382,7 +385,10 @@ story.add('Link Preview with Small Image', () => {
         },
         isStickerPack: false,
         title: 'Signal',
+        description:
+          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
         url: 'https://www.signal.org',
+        date: new Date(2020, 2, 10).valueOf(),
       },
     ],
     status: 'sent',
@@ -399,7 +405,161 @@ story.add('Link Preview without Image', () => {
         domain: 'signal.org',
         isStickerPack: false,
         title: 'Signal',
+        description:
+          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
         url: 'https://www.signal.org',
+        date: new Date(2020, 2, 10).valueOf(),
+      },
+    ],
+    status: 'sent',
+    text: 'Be sure to look at https://www.signal.org',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Link Preview with no description', () => {
+  const props = createProps({
+    previews: [
+      {
+        domain: 'signal.org',
+        isStickerPack: false,
+        title: 'Signal',
+        url: 'https://www.signal.org',
+        date: Date.now(),
+      },
+    ],
+    status: 'sent',
+    text: 'Be sure to look at https://www.signal.org',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Link Preview with long description', () => {
+  const props = createProps({
+    previews: [
+      {
+        domain: 'signal.org',
+        isStickerPack: false,
+        title: 'Signal',
+        description: Array(10)
+          .fill(
+            'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.'
+          )
+          .join(' '),
+        url: 'https://www.signal.org',
+        date: Date.now(),
+      },
+    ],
+    status: 'sent',
+    text: 'Be sure to look at https://www.signal.org',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Link Preview with small image, long description', () => {
+  const props = createProps({
+    previews: [
+      {
+        domain: 'signal.org',
+        image: {
+          contentType: IMAGE_PNG,
+          fileName: 'the-sax.png',
+          height: 50,
+          url: pngUrl,
+          width: 50,
+        },
+        isStickerPack: false,
+        title: 'Signal',
+        description: Array(10)
+          .fill(
+            'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.'
+          )
+          .join(' '),
+        url: 'https://www.signal.org',
+        date: Date.now(),
+      },
+    ],
+    status: 'sent',
+    text: 'Be sure to look at https://www.signal.org',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Link Preview with no date', () => {
+  const props = createProps({
+    previews: [
+      {
+        domain: 'signal.org',
+        image: {
+          contentType: IMAGE_PNG,
+          fileName: 'the-sax.png',
+          height: 240,
+          url: pngUrl,
+          width: 320,
+        },
+        isStickerPack: false,
+        title: 'Signal',
+        description:
+          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+        url: 'https://www.signal.org',
+      },
+    ],
+    status: 'sent',
+    text: 'Be sure to look at https://www.signal.org',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Link Preview with too old a date', () => {
+  const props = createProps({
+    previews: [
+      {
+        domain: 'signal.org',
+        image: {
+          contentType: IMAGE_PNG,
+          fileName: 'the-sax.png',
+          height: 240,
+          url: pngUrl,
+          width: 320,
+        },
+        isStickerPack: false,
+        title: 'Signal',
+        description:
+          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+        url: 'https://www.signal.org',
+        date: 123,
+      },
+    ],
+    status: 'sent',
+    text: 'Be sure to look at https://www.signal.org',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Link Preview with too new a date', () => {
+  const props = createProps({
+    previews: [
+      {
+        domain: 'signal.org',
+        image: {
+          contentType: IMAGE_PNG,
+          fileName: 'the-sax.png',
+          height: 240,
+          url: pngUrl,
+          width: 320,
+        },
+        isStickerPack: false,
+        title: 'Signal',
+        description:
+          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+        url: 'https://www.signal.org',
+        date: Date.now() + 3000000000,
       },
     ],
     status: 'sent',

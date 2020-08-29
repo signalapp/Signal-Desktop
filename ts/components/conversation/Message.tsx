@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Measure from 'react-measure';
 import { drop, groupBy, orderBy, take } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
+import moment, { Moment } from 'moment';
 
 import { Avatar } from '../Avatar';
 import { Spinner } from '../Spinner';
@@ -50,15 +51,19 @@ interface Trigger {
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
+const MINIMUM_LINK_PREVIEW_DATE = new Date(1990, 0, 1).valueOf();
 const STICKER_SIZE = 200;
 const SELECTED_TIMEOUT = 1000;
+const ONE_DAY = 24 * 60 * 60 * 1000;
 
 interface LinkPreviewType {
   title: string;
+  description?: string;
   domain: string;
   url: string;
   isStickerPack: boolean;
   image?: AttachmentType;
+  date?: number;
 }
 
 export const MessageStatuses = [
@@ -791,6 +796,15 @@ export class Message extends React.PureComponent<Props, State> {
       width &&
       width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH;
 
+    // Don't show old dates or dates too far in the future. This is predicated on the
+    //   idea that showing an invalid dates is worse than hiding valid ones.
+    const maximumLinkPreviewDate = Date.now() + ONE_DAY;
+    const isDateValid: boolean =
+      typeof first.date === 'number' &&
+      first.date > MINIMUM_LINK_PREVIEW_DATE &&
+      first.date < maximumLinkPreviewDate;
+    const dateMoment: Moment | null = isDateValid ? moment(first.date) : null;
+
     return (
       <button
         className={classNames(
@@ -860,8 +874,23 @@ export class Message extends React.PureComponent<Props, State> {
             <div className="module-message__link-preview__title">
               {first.title}
             </div>
-            <div className="module-message__link-preview__location">
-              {first.domain}
+            {first.description && (
+              <div className="module-message__link-preview__description">
+                {first.description}
+              </div>
+            )}
+            <div className="module-message__link-preview__footer">
+              <div className="module-message__link-preview__location">
+                {first.domain}
+              </div>
+              {dateMoment && (
+                <time
+                  className="module-message__link-preview__date"
+                  dateTime={dateMoment.toISOString()}
+                >
+                  {dateMoment.format('ll')}
+                </time>
+              )}
             </div>
           </div>
         </div>
