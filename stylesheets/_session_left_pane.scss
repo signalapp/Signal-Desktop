@@ -11,6 +11,19 @@ $session-compose-margin: 20px;
 }
 
 .module-conversation {
+  // default conversation list item text color
+  &__user__profile {
+    &-number,
+    &-name {
+      @include fontAccentBold();
+      font-size: 15px;
+
+      @include themify($themes) {
+        color: themed('textColorSubtle');
+      }
+    }
+  }
+
   &-list-item {
     transition: $session-transition-duration;
 
@@ -44,7 +57,7 @@ $session-compose-margin: 20px;
     &__unread-count {
       @include themify($themes) {
         color: themed('textColor');
-        background-color: themed('clickableHovered');
+        background: themed('clickableHovered');
       }
 
       position: static !important;
@@ -71,31 +84,12 @@ $session-compose-margin: 20px;
     &__header__name {
       flex-grow: 0 !important;
       padding-right: 5px !important;
-
-      @at-root .light-theme #{&} {
-        color: $session-color-black;
-      }
-      @at-root .dark-theme #{&} {
-        color: $session-shade-17;
-      }
     }
 
     &__header__name--with-unread .module-conversation__user__profile-number,
     &__header__name--with-unread .module-conversation__user__profile-name {
       @include themify($themes) {
         color: themed('textColor');
-      }
-    }
-  }
-
-  &__user__profile {
-    &-number,
-    &-name {
-      @include fontAccentBold();
-      font-size: 15px;
-
-      @include themify($themes) {
-        color: subtle(themed('textColorSubtle'));
       }
     }
   }
