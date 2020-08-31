@@ -72,11 +72,11 @@ export class InviteContactsDialog extends React.Component<Props, State> {
       >
         <div className="spacer-lg" />
 
-        <div className="friend-selection-list">{this.renderMemberList()}</div>
+        <div className="contact-selection-list">{this.renderMemberList()}</div>
         {hasContacts ? null : (
           <>
             <div className="spacer-lg" />
-            <p className="no-friends">{window.i18n('noContactsToAdd')}</p>
+            <p className="no-contacts">{window.i18n('noContactsToAdd')}</p>
             <div className="spacer-lg" />
           </>
         )}

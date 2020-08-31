@@ -115,7 +115,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
           autoFocus={true}
           aria-required={true}
         />
-        <div className="friend-selection-list">
+        <div className="contact-selection-list">
           <MemberList
             members={this.state.contactList}
             selected={{}}

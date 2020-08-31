@@ -148,7 +148,7 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
         </div>
         <div className="moderatorList">
           <p>From friends:</p>
-          <div className="friend-selection-list">
+          <div className="contact-selection-list">
             <MemberList
               members={this.state.contactList}
               selected={{}}
