@@ -5,7 +5,7 @@ import { Agent } from 'https';
 import { escapeRegExp } from 'lodash';
 
 import is from '@sindresorhus/is';
-import { redactPackId } from '../../js/modules/stickers';
+import { isPackIdValid, redactPackId } from '../../js/modules/stickers';
 import { getRandomValue } from '../Crypto';
 import MessageSender from './SendMessage';
 
@@ -1344,6 +1344,9 @@ export function initialize({
     }
 
     async function getSticker(packId: string, stickerId: string) {
+      if (!isPackIdValid(packId)) {
+        throw new Error('getSticker: pack ID was invalid');
+      }
       return _outerAjax(
         `${cdnUrlObject['0']}/stickers/${packId}/full/${stickerId}`,
         {
@@ -1358,6 +1361,9 @@ export function initialize({
     }
 
     async function getStickerPackManifest(packId: string) {
+      if (!isPackIdValid(packId)) {
+        throw new Error('getStickerPackManifest: pack ID was invalid');
+      }
       return _outerAjax(
         `${cdnUrlObject['0']}/stickers/${packId}/manifest.proto`,
         {

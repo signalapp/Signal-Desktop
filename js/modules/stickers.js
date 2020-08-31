@@ -666,10 +666,7 @@ function getStickerPackStatus(packId) {
 }
 
 function getSticker(packId, stickerId) {
-  const state = reduxStore.getState();
-  const { stickers } = state;
-  const { packs } = stickers;
-  const pack = packs[packId];
+  const pack = getStickerPack(packId);
 
   if (!pack || !pack.stickers) {
     return null;

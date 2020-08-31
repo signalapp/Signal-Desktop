@@ -1384,7 +1384,9 @@ function handleSgnlHref(incomingHref) {
     console.log('Opening sticker pack from sgnl protocol link');
     const packId = args.get('pack_id');
     const packKeyHex = args.get('pack_key');
-    const packKey = Buffer.from(packKeyHex, 'hex').toString('base64');
+    const packKey = packKeyHex
+      ? Buffer.from(packKeyHex, 'hex').toString('base64')
+      : '';
     mainWindow.webContents.send('show-sticker-pack', { packId, packKey });
   } else {
     console.error('Unhandled sgnl link');
