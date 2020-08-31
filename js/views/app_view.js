@@ -22,7 +22,7 @@
       openInbox: 'openInbox',
     },
     applyTheme() {
-      const rtlLocales = ['fa']
+      const rtlLocales = ['fa'];
       const theme = storage.get('theme-setting') || 'light';
       this.$el
         .removeClass('light-theme')
@@ -30,7 +30,7 @@
         .removeClass('rtl')
         .addClass(`${theme}-theme`);
 
-      const loc = window.i18n.getLocale()
+      const loc = window.i18n.getLocale();
       if (rtlLocales.includes(loc)) {
         this.$el.addClass('rtl');
       }
