@@ -234,8 +234,13 @@ export function getDisappearingMenuItem(
       Boolean(isBlocked)
     )
   ) {
+    const isRtlMode = isRtlBody();
     return (
-      <SubMenu title={i18n('disappearingMessages') as any}>
+      // Remove the && false to make context menu work with RTL support
+      <SubMenu
+        title={i18n('disappearingMessages') as any}
+        rtl={isRtlMode && false}
+      >
         {(timerOptions || []).map(item => (
           <MenuItem
             key={item.value}
@@ -250,6 +255,10 @@ export function getDisappearingMenuItem(
     );
   }
   return null;
+}
+
+export function isRtlBody(): boolean {
+  return ($('body') as any).hasClass('rtl');
 }
 
 export function getShowMemberMenuItem(
