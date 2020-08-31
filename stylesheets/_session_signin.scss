@@ -127,7 +127,7 @@
       background-color: transparent;
       text-align: center;
       @include themify($themes) {
-        border-bottom: themed('borderActionPanel');
+        border-bottom: themed('sessionBorder');
         color: themed('textColor');
       }
       transition: border-color $session-transition-duration linear;
@@ -225,7 +225,7 @@
 
     hr {
       @include themify($themes) {
-        border: themed('borderActionPanel');
+        border: themed('sessionBorder');
       }
       width: 100%;
       position: absolute;

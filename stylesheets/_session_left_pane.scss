@@ -11,6 +11,19 @@ $session-compose-margin: 20px;
 }
 
 .module-conversation {
+  // default conversation list item text color
+  &__user__profile {
+    &-number,
+    &-name {
+      @include fontAccentBold();
+      font-size: 15px;
+
+      @include themify($themes) {
+        color: themed('textColorSubtle');
+      }
+    }
+  }
+
   &-list-item {
     transition: $session-transition-duration;
 
@@ -44,7 +57,7 @@ $session-compose-margin: 20px;
     &__unread-count {
       @include themify($themes) {
         color: themed('textColor');
-        background-color: themed('clickableHovered');
+        background: themed('clickableHovered');
       }
 
       position: static !important;
@@ -71,31 +84,12 @@ $session-compose-margin: 20px;
     &__header__name {
       flex-grow: 0 !important;
       padding-right: 5px !important;
-
-      @at-root .light-theme #{&} {
-        color: $session-color-black;
-      }
-      @at-root .dark-theme #{&} {
-        color: $session-shade-17;
-      }
     }
 
     &__header__name--with-unread .module-conversation__user__profile-number,
     &__header__name--with-unread .module-conversation__user__profile-name {
       @include themify($themes) {
         color: themed('textColor');
-      }
-    }
-  }
-
-  &__user__profile {
-    &-number,
-    &-name {
-      @include fontAccentBold();
-      font-size: 15px;
-
-      @include themify($themes) {
-        color: themed('textColorSubtle');
       }
     }
   }
@@ -117,7 +111,7 @@ $session-compose-margin: 20px;
     display: inline-flex;
     flex-direction: column;
     @include themify($themes) {
-      border-right: themed('borderActionPanel');
+      border-right: themed('sessionBorder');
     }
 
     .module-avatar,
@@ -176,15 +170,6 @@ $session-compose-margin: 20px;
       width: -webkit-fill-available;
       height: -webkit-fill-available;
       position: absolute;
-    }
-  }
-
-  &-compose {
-    @at-root .light-theme #{&} {
-      background: $session-color-white;
-    }
-    @at-root .dark-theme #{&} {
-      @include session-dark-background-lighter;
     }
   }
 
@@ -404,7 +389,7 @@ $session-compose-margin: 20px;
     height: 51px;
 
     @include themify($themes) {
-      border: themed('borderActionPanel');
+      border: themed('sessionBorder');
     }
   }
 }
@@ -419,27 +404,30 @@ $session-compose-margin: 20px;
     padding: 8px 20px;
     margin: 0px $session-compose-margin;
 
-    @at-root .light-theme #{&} {
-      background: $session-shade-15;
-      color: $session-color-black;
-    }
-    @at-root .dark-theme #{&} {
-      background: $session-shade-4;
-      color: $session-color-light-grey;
-    }
+    // FIXME themify once this component is enabled back
+    // @at-root .light-theme #{&} {
+    //   background: $session-shade-15;
+    //   color: $session-color-black;
+    // }
+    // @at-root .dark-theme #{&} {
+    //   background: $session-shade-4;
+    //   color: $session-color-light-grey;
+    // }
 
     &-selected,
     &:hover {
       font-weight: bold;
 
-      @at-root .light-theme #{&} {
-        color: $session-color-black;
-        background: $session-color-white;
-      }
-      @at-root .dark-theme #{&} {
-        color: $session-color-white;
-        background: $session-shade-8;
-      }
+      // FIXME themify once this component is enabled back
+
+      // @at-root .light-theme #{&} {
+      //   color: $session-color-black;
+      //   background: $session-color-white;
+      // }
+      // @at-root .dark-theme #{&} {
+      //   color: $session-color-white;
+      //   background: $session-shade-8;
+      // }
     }
   }
 }

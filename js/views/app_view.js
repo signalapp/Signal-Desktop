@@ -22,7 +22,7 @@
       openInbox: 'openInbox',
     },
     applyTheme() {
-      const theme = storage.get('theme-setting') || 'dark';
+      const theme = storage.get('theme-setting') || 'light';
       this.$el
         .removeClass('light-theme')
         .removeClass('dark-theme')

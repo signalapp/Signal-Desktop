@@ -12,6 +12,7 @@ import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIdEditable } from './SessionIdEditable';
 import { SessionSpinner } from './SessionSpinner';
 import { StringUtils, ToastUtils } from '../../session/utils';
+import { createOrUpdateItem } from '../../../js/modules/data';
 
 enum SignInMode {
   Default,
@@ -862,6 +863,12 @@ export class RegistrationTabs extends React.Component<{}, State> {
         language,
         trimName
       );
+      // FIXME remove everything related to hasSeenLightModeDialog at some point in the future (27/08/2020)
+      const data = {
+        id: 'hasSeenLightModeDialog',
+        value: true,
+      };
+      await createOrUpdateItem(data);
       trigger('openInbox');
     } catch (e) {
       ToastUtils.push({

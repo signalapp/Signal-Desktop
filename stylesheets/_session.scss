@@ -100,7 +100,9 @@ textarea {
   &.default,
   &.square,
   &.brand {
-    color: $session-color-white;
+    @include themify($themes) {
+      color: themed('foregroundPrimary');
+    }
 
     &:not(.disabled):hover {
       @include themify($themes) {
@@ -207,8 +209,10 @@ textarea {
     border-radius: 500px;
 
     &:not(.disabled):hover {
-      color: $session-color-white;
-      border-color: $session-color-white;
+      @include themify($themes) {
+        color: themed('textColor');
+        border-color: themed('textColor');
+      }
     }
   }
 
@@ -459,7 +463,8 @@ label {
 
   .session-button.default.danger {
     display: flex;
-    width: 80px;
+    // width: 80px;
+    margin-right: 0px;
   }
 }
 .message-selection-overlay div[role='button'] {
@@ -581,7 +586,8 @@ label {
   @include themify($themes) {
     background-color: themed('modalBackground');
     color: themed('textColor');
-    border: 1px solid themed('borderActionPanel');
+    border: themed('sessionBorder');
+    box-shadow: themed('sessionShadow');
   }
   overflow: hidden;
   display: flex;
@@ -862,12 +868,12 @@ label {
 
     &:first-child {
       @include themify($themes) {
-        border-top: themed('borderActionPanel');
+        border-top: themed('sessionBorder');
       }
     }
     &:last-child {
       @include themify($themes) {
-        border-top: themed('borderActionPanel');
+        border-top: themed('sessionBorder');
       }
     }
 
@@ -1052,7 +1058,7 @@ label {
     @include themify($themes) {
       background: themed('cellBackground');
       color: themed('textColor');
-      border-bottom: themed('borderActionPanel');
+      border-bottom: themed('sessionBorder');
     }
     &.inline {
       display: flex;
@@ -1325,7 +1331,7 @@ input {
   height: 64px;
   background-color: $session-shade-4;
   @include themify($themes) {
-    border: themed('borderActionPanel');
+    border: themed('sessionBorder');
   }
   display: flex;
   align-items: center;
@@ -1398,8 +1404,9 @@ input {
     width: 100%;
     max-height: 400px;
     overflow-y: auto;
-    box-shadow: inset 0px 14px 7px -15px $session-color-dark-grey,
-      inset 0px -14px 7px -15px $session-color-dark-grey;
+    @include themify($themes) {
+      border: themed('sessionBorder');
+    }
   }
 
   &__selection {
@@ -1410,6 +1417,9 @@ input {
 
   &__no-contacts {
     font-family: $session-font-mono;
+    @include themify($themes) {
+      background: themed('cellBackground');
+    }
     text-align: center;
     padding: 20px;
   }
@@ -1448,12 +1458,20 @@ input {
   display: flex;
   justify-content: space-between;
   transition: $session-transition-duration;
-
-  &:first-child {
-    border-top: 1px solid rgba($session-shade-8, 0.6);
+  @include themify($themes) {
+    background: themed('cellBackground');
   }
-  &:last-child {
-    border-bottom: 1px solid rgba($session-shade-8, 0.6);
+
+  &:not(:last-child) {
+    @include themify($themes) {
+      border-bottom: themed('sessionBorder');
+    }
+  }
+
+  &:hover {
+    @include themify($themes) {
+      background-color: themed('clickableHovered');
+    }
   }
 
   &.selected {

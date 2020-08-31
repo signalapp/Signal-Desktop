@@ -175,9 +175,11 @@
   }
 
   input {
-    color: $color-dark-05;
-    background-color: $color-dark-70;
-    border-color: $color-dark-55;
+    @include themify($themes) {
+      background-color: themed('inputBackground');
+      color: themed('textColor');
+      border: themed('sessionBorder');
+    }
   }
 }
 
@@ -266,7 +268,7 @@
     justify-content: center;
     margin-top: $session-margin-lg;
 
-    &-input {
+    input {
       height: 38px;
       width: 142px;
       border-radius: 5px;
@@ -275,6 +277,7 @@
       @include themify($themes) {
         background: themed('inputBackground');
         color: themed('textColor');
+        border: themed('sessionBorder');
       }
     }
 

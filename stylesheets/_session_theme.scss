@@ -87,23 +87,15 @@
 
 .message {
   &-highlighted {
-    border-radius: 0;
-
-    @at-root .light-theme #{&} {
-      background-color: $session-shade-5;
-    }
-    @at-root .dark-theme #{&} {
-      background-color: $session-color-white;
-    }
+    animation: highlightedMessageAnimation 1s ease-in-out;
   }
 
   &-selected {
     .module-message {
       &__container {
         @include themify($themes) {
-          background-image: themed('messageSelected');
+          box-shadow: themed('sessionShadow');
         }
-        box-shadow: $session-dark-shadow;
       }
 
       &__author {
@@ -116,7 +108,7 @@
     margin-left: 5px;
     .session-icon.check {
       @include themify($themes) {
-        fill: themed('sentMessageText');
+        fill: subtle(themed('sentMessageText'));
       }
     }
   }

@@ -1,47 +1,52 @@
 // 13592 lines for manifest.css on date 25 august
 
+$white: #ffffff;
+$black: #000000;
+$destructive: #ff453a;
+$accentLightTheme: #00e97b;
+$accentDarkTheme: #00f782;
+
 $themes: (
   light: (
-    accent: #00e97b,
-    accentButton: #000,
-    destructive: #ff453a,
+    accent: $accentLightTheme,
+    accentButton: $black,
+    destructive: $destructive,
     cellBackground: #fcfcfc,
     modalBackground: #fcfcfc,
     fakeChatBubbleBackground: #f5f5f5,
     // input
-      inputBackground: #8e8e931f,
+      inputBackground: rgba(#8e8e93, 0.12),
     // text
-      textColor: #000,
+      textColor: $black,
     textColorSubtle: #a0a0a0,
-    textColorOpposite: #fff,
+    textColorOpposite: $white,
     // inbox
-      inboxBackground: #fff,
+      inboxBackground: $white,
     // buttons
       backgroundPrimary: #272726,
-    foregroundPrimary: #fff,
+    foregroundPrimary: $white,
     buttonGreen: #272726,
     // conversation view
-      messageSelected:
-      linear-gradient(270deg, rgba(#00f480, 1), rgba(#00f480, 0.6)),
-    composeViewBackground: #fcfcfc,
+      composeViewBackground: #fcfcfc,
     composeViewTextFieldBackground: #ededed,
     receivedMessageBackground: #f5f5f5,
-    sentMessageBackground: #272726,
-    receivedMessageText: #000,
-    sentMessageText: #fff,
+    sentMessageBackground: $accentLightTheme,
+    receivedMessageText: $black,
+    sentMessageText: $black,
+    sessionShadow: 0 0 4px 0 rgba($black, 0.37),
     // left pane
-      conversationList: #fff,
+      conversationList: $white,
     conversationItemHasUnread: #fcfcfc,
     conversationItemSelected: #f0f0f0,
     clickableHovered: #dfdfdf,
-    borderActionPanel: 1px solid #f1f1f1,
-    leftpaneOverlayBackground: #fff,
+    sessionBorder: 1px solid #f1f1f1,
+    leftpaneOverlayBackground: $white,
     // scrollbars
       scrollBarTrack: #fcfcfc,
     scrollBarThumb: #474646,
     // pill divider:
-      pillDividerColor: #0000001a,
-    pillDividerTextColor: #555,
+      pillDividerColor: rgba($black, 0.1),
+    pillDividerTextColor: #555555,
     // context menu
       contextMenuBackground: #f5f5f5,
     filterSessionText: brightness(0) saturate(100%),
@@ -52,39 +57,38 @@ $themes: (
     quoteBottomBarBackground: #f0f0f0,
   ),
   dark: (
-    accent: #00f782,
-    accentButton: #00f782,
-    destructive: #ff453a,
+    accent: $accentDarkTheme,
+    accentButton: $accentDarkTheme,
+    destructive: $destructive,
     cellBackground: #1b1b1b,
     modalBackground: #101011,
     fakeChatBubbleBackground: #212121,
     // input
-      inputBackground: #8e8e931f,
+      inputBackground: rgba(#8e8e93, 0.12),
     // text
-      textColor: #fff,
+      textColor: $white,
     textColorSubtle: #a0a0a0,
-    textColorOpposite: #000,
+    textColorOpposite: $black,
     // inbox
       inboxBackground: linear-gradient(180deg, #171717 0%, #121212 100%),
     // buttons
       backgroundPrimary: #474646,
-    foregroundPrimary: #fff,
-    buttonGreen: #00f782,
+    foregroundPrimary: $white,
+    buttonGreen: $accentDarkTheme,
     // conversation view
-      messageSelected:
-      linear-gradient(270deg, rgba(#00f480, 1), rgba(#00f480, 0.6)),
-    composeViewBackground: #1b1b1b,
+      composeViewBackground: #1b1b1b,
     composeViewTextFieldBackground: #141414,
     receivedMessageBackground: #222325,
     sentMessageBackground: #3f4146,
-    receivedMessageText: #fff,
-    sentMessageText: #fff,
+    receivedMessageText: $white,
+    sentMessageText: $white,
+    sessionShadow: 0 0 4px 0 rgba($white, 0.2),
     // left pane
       conversationList: #1b1b1b,
     conversationItemHasUnread: #2c2c2c,
     conversationItemSelected: #404040,
     clickableHovered: #414347,
-    borderActionPanel: none,
+    sessionBorder: 1px solid rgba($white, 0.06),
     leftpaneOverlayBackground: linear-gradient(180deg, #171717 0%, #121212 100%),
     // scrollbars
       scrollBarTrack: #1b1b1b,
