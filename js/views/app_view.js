@@ -13,6 +13,7 @@
       this.inboxView = null;
 
       this.applyTheme();
+      this.applyRtl();
       this.applyHideMenu();
 
       this.showSeedDialog = this.showSeedDialog.bind(this);
@@ -21,19 +22,20 @@
     events: {
       openInbox: 'openInbox',
     },
-    applyTheme() {
+    applyRtl() {
       const rtlLocales = ['fa'];
-      const theme = storage.get('theme-setting') || 'light';
-      this.$el
-        .removeClass('light-theme')
-        .removeClass('dark-theme')
-        .removeClass('rtl')
-        .addClass(`${theme}-theme`);
 
       const loc = window.i18n.getLocale();
       if (rtlLocales.includes(loc)) {
         this.$el.addClass('rtl');
       }
+    },
+    applyTheme() {
+      const theme = storage.get('theme-setting') || 'light';
+      this.$el
+        .removeClass('light-theme')
+        .removeClass('dark-theme')
+        .addClass(`${theme}-theme`);
     },
     applyHideMenu() {
       const hideMenuBar = storage.get('hide-menu-bar', true);
