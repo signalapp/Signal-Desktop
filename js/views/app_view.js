@@ -22,11 +22,18 @@
       openInbox: 'openInbox',
     },
     applyTheme() {
+      const rtlLocales = ['fa']
       const theme = storage.get('theme-setting') || 'light';
       this.$el
         .removeClass('light-theme')
         .removeClass('dark-theme')
+        .removeClass('rtl')
         .addClass(`${theme}-theme`);
+
+      const loc = window.i18n.getLocale()
+      if (rtlLocales.includes(loc)) {
+        this.$el.addClass('rtl');
+      }
     },
     applyHideMenu() {
       const hideMenuBar = storage.get('hide-menu-bar', true);
