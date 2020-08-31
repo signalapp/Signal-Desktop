@@ -265,7 +265,8 @@ export class CallingClass {
         this.lastMediaDeviceSettings,
         newSettings
       );
-      await this.selectPreferredMediaDevices(newSettings);
+
+      await this.selectPreferredDevices(newSettings);
       this.lastMediaDeviceSettings = newSettings;
       this.uxActions?.refreshIODevices(newSettings);
     }
@@ -407,9 +408,19 @@ export class CallingClass {
     );
   }
 
-  private async selectPreferredMediaDevices(
+  private async selectPreferredDevices(
     settings: MediaDeviceSettings
   ): Promise<void> {
+    if (
+      (!this.lastMediaDeviceSettings && settings.selectedCamera) ||
+      (this.lastMediaDeviceSettings &&
+        settings.selectedCamera &&
+        this.lastMediaDeviceSettings.selectedCamera !== settings.selectedCamera)
+    ) {
+      window.log.info('MediaDevice: selecting camera', settings.selectedCamera);
+      await this.videoCapturer.setPreferredDevice(settings.selectedCamera);
+    }
+
     // Assume that the MediaDeviceSettings have been obtained very recently and the index is still valid (no devices have been plugged in in between).
     if (settings.selectedMicrophone) {
       window.log.info(
@@ -418,16 +429,13 @@ export class CallingClass {
       );
       RingRTC.setAudioInput(settings.selectedMicrophone.index);
     }
+
     if (settings.selectedSpeaker) {
       window.log.info(
         'MediaDevice: selecting speaker',
         settings.selectedMicrophone
       );
       RingRTC.setAudioOutput(settings.selectedSpeaker.index);
-    }
-    if (settings.selectedCamera) {
-      window.log.info('MediaDevice: selecting camera', settings.selectedCamera);
-      await this.videoCapturer.setPreferredDevice(settings.selectedCamera);
     }
   }
 
