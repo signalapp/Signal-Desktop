@@ -346,12 +346,12 @@
 
       this.hideConversationRight = () => {
         this.$('.conversation-content-right').css({
-          'margin-right': '-22vw',
+          'margin-inline-end': '-22vw',
         });
       };
       this.showConversationRight = () => {
         this.$('.conversation-content-right').css({
-          'margin-right': '0vw',
+          'margin-inline-end': '0vw',
         });
       };
 

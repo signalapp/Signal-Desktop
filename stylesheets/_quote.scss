@@ -136,8 +136,8 @@
 }
 
 .module-quote-container {
-  margin-left: -6px;
-  margin-right: -6px;
+  margin-inline-start: -6px;
+  margin-inline-end: -6px;
   margin-top: -4px;
   margin-bottom: 5px;
 }
@@ -152,8 +152,8 @@
 
 .module-quote__primary {
   flex-grow: 1;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-inline-start: 8px;
+  padding-inline-end: 8px;
   padding-top: 7px;
   padding-bottom: 7px;
 
@@ -302,8 +302,8 @@
     background-repeat: no-repeat;
     height: 28px;
     width: 36px;
-    margin-left: -4px;
-    margin-right: -6px;
+    margin-inline-start: -4px;
+    margin-inline-end: -6px;
     margin-bottom: 5px;
   }
   &-file__text {
@@ -326,8 +326,8 @@
     align-items: center;
 
     background-color: $color-white-085;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-inline-start: 8px;
+    padding-inline-end: 8px;
   }
 
   &-warning__icon {
@@ -337,7 +337,7 @@
   }
 
   &-warning__text {
-    margin-left: 6px;
+    margin-inline-start: 6px;
     color: $color-gray-90;
     font-size: 13px;
     line-height: 18px;

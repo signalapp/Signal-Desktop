@@ -47,7 +47,7 @@
     text-align: center;
   }
 
-  .no-friends {
+  .no-contacts {
     text-align: center;
   }
 
@@ -96,7 +96,7 @@
 
   button {
     float: right;
-    margin-left: 10px;
+    margin-inline-start: 10px;
     background-color: $color-loki-green;
     border-radius: 100px;
     padding: 5px 15px;
@@ -285,7 +285,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-left: $session-margin-lg;
+      margin-inline-start: $session-margin-lg;
 
       p {
         font-size: $session-font-md;

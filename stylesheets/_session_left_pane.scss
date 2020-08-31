@@ -2,7 +2,7 @@ $session-compose-margin: 20px;
 
 .gutter {
   width: 380px !important;
-  padding-right: 5px !important;
+  padding-inline-end: 5px !important;
   transition: $session-transition-duration;
 
   @include themify($themes) {
@@ -82,8 +82,8 @@ $session-compose-margin: 20px;
     }
 
     &__header__name {
-      flex-grow: 0 !important;
-      padding-right: 5px !important;
+      flex-grow: 0;
+      padding-inline-end: 5px;
     }
 
     &__header__name--with-unread .module-conversation__user__profile-number,
@@ -137,11 +137,11 @@ $session-compose-margin: 20px;
     justify-content: space-between;
     align-items: center;
     height: $main-view-header-height;
-    padding-right: 7px;
+    padding-inline-end: 7px;
     transition: $session-transition-duration;
 
     .session-button {
-      margin-left: auto;
+      margin-inline-start: auto;
       @include fontAccentBold();
     }
 
@@ -158,9 +158,10 @@ $session-compose-margin: 20px;
 
   &__title {
     cursor: pointer;
-    padding-right: $session-margin-sm;
-    padding-left: $session-margin-sm;
+    padding-inline-end: $session-margin-sm;
+    padding-inline-start: $session-margin-sm;
     transition: $session-transition-duration;
+    flex-grow: 1;
   }
 
   &__list {
@@ -227,7 +228,7 @@ $session-compose-margin: 20px;
 
     .exit {
       margin-top: 10px;
-      margin-left: 13px;
+      margin-inline-start: 13px;
       align-self: flex-start;
     }
 
@@ -308,7 +309,7 @@ $session-compose-margin: 20px;
 .session-search-input {
   height: $session-search-input-height;
   width: 100%;
-  margin-right: 1px;
+  margin-inline-end: 1px;
   margin-bottom: 10px;
   display: inline-flex;
   flex-shrink: 0;

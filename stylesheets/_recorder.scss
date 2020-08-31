@@ -33,7 +33,7 @@
     width: 36px;
     height: 36px;
     border-radius: 36px;
-    margin-left: 5px;
+    margin-inline-start: 5px;
     opacity: 0.5;
     text-align: center;
     padding: 0;
@@ -94,7 +94,7 @@
       width: 10px;
       height: 10px;
       background: #f00;
-      margin-right: 10px;
+      margin-inline-end: 10px;
       opacity: 0;
       animation: pulse 2s infinite;
     }

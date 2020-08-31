@@ -68,8 +68,8 @@ textarea {
 
 .button-group > div {
   display: inline-flex;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-inline-start: 5px;
+  margin-inline-end: 5px;
 }
 
 .session-button {
@@ -324,7 +324,7 @@ textarea {
       position: absolute;
       font-size: 1.3em;
       top: -0.5em;
-      margin-left: -0.125em;
+      margin-inline-start: -0.125em;
     }
   }
 
@@ -399,7 +399,7 @@ $session-element-border-green: 4px solid $session-color-green;
 
 .module-message__author-avatar {
   display: inline-flex;
-  margin-right: 20px;
+  margin-inline-end: 20px;
   padding-top: 5px;
 }
 
@@ -425,7 +425,7 @@ label {
   }
 
   .search-icon {
-    margin-right: 10px;
+    margin-inline-end: 10px;
   }
 
   .session-icon-button {
@@ -464,7 +464,7 @@ label {
   .session-button.default.danger {
     display: flex;
     // width: 80px;
-    margin-right: 0px;
+    margin-inline-end: 0px;
   }
 }
 .message-selection-overlay div[role='button'] {
@@ -510,10 +510,10 @@ label {
   }
 
   .toast-icon {
-    padding-right: $session-icon-size-md;
+    padding-inline-end: $session-icon-size-md;
   }
   .toast-info {
-    margin-right: $session-icon-size-sm + $session-icon-size-sm;
+    margin-inline-end: $session-icon-size-sm + $session-icon-size-sm;
     width: 350px;
 
     &-container {
@@ -616,8 +616,8 @@ label {
 
       .session-modal__header__icons > div {
         float: left;
-        padding-left: 0px;
-        padding-right: 10px;
+        padding-inline-start: 0px;
+        padding-inline-end: 10px;
       }
     }
 
@@ -633,7 +633,7 @@ label {
     }
     &__icons > div {
       float: right;
-      padding-left: 10px;
+      padding-inline-start: 10px;
     }
   }
 
@@ -708,7 +708,7 @@ label {
   display: flex;
   flex-direction: column;
 
-  .friend-selection-list {
+  .contact-selection-list {
     width: unset;
   }
 
@@ -884,10 +884,10 @@ label {
     }
 
     .session-icon {
-      margin-left: 6px;
+      margin-inline-start: 6px;
     }
     .item-content {
-      margin-left: 6px;
+      margin-inline-start: 6px;
     }
 
     &.active,
@@ -1046,7 +1046,7 @@ label {
 
     .session-button,
     .session-icon-button {
-      margin-right: $session-margin-lg;
+      margin-inline-end: $session-margin-lg;
     }
   }
 
@@ -1067,7 +1067,7 @@ label {
     }
 
     &__info {
-      padding-right: $session-margin-lg;
+      padding-inline-end: $session-margin-lg;
     }
 
     &__title {
@@ -1247,7 +1247,7 @@ label {
 
 .session-radio-group fieldset {
   border: none;
-  margin-left: $session-margin-sm;
+  margin-inline-start: $session-margin-sm;
   margin-top: $session-margin-sm;
 
   .session-radio {
@@ -1265,7 +1265,7 @@ label {
   }
 
   label {
-    margin-right: 1em;
+    margin-inline-end: 1em;
   }
 
   label:before {
@@ -1273,7 +1273,7 @@ label {
     display: inline-block;
     width: 0.5em;
     height: 0.5em;
-    margin-right: 0.8em;
+    margin-inline-end: 0.8em;
     border-radius: 100%;
     vertical-align: -3px;
     border: 2px solid rgba($session-color-white, 0.6);
@@ -1351,7 +1351,7 @@ input {
   }
 }
 
-.friend-selection-list {
+.contact-selection-list {
   width: 20vw;
 }
 
@@ -1502,10 +1502,10 @@ input {
 
   &__name {
     font-weight: bold;
-    margin-left: $session-margin-md;
+    margin-inline-start: $session-margin-md;
   }
   &__pubkey {
-    margin-left: 5px;
+    margin-inline-start: 5px;
     opacity: 0.8;
   }
 
