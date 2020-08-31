@@ -808,10 +808,6 @@
     "message": "OK",
     "androidKey": "activity_settings_seed_dialog_ok_button_title"
   },
-  "yes": {
-    "message": "Yes",
-    "androidKey": "ConversationActivity_yes"
-  },
   "cancel": {
     "message": "Cancel",
     "androidKey": "view_qr_code_cancel_button_title"
@@ -1794,15 +1790,6 @@
     "description": "Prompt on recovery phrase modal requesting user to save their recovery phrase. Line one",
     "androidKey": "activity_seed_explanation"
   },
-  "QRCodeTitle": {
-    "message": "View My QR Code",
-    "description": "Title given to QR Code modal",
-    "androidKey": "activity_qr_code_view_my_qr_code_tab_title"
-  },
-  "QRCodeDescription": {
-    "message": "This is <strong>your unique public QR Code.</strong><br/>Other users may scan this in order to begin a conversation with you.",
-    "description": "Description given to QRCode modal"
-  },
   "invalidOpenGroupUrl": {
     "message": "Invalid URL",
     "description": "Error message when no server url entered",
@@ -1982,18 +1969,6 @@
   },
   "noModeratorsToRemove": {
     "message": "no moderators to remove"
-  },
-  "couldNotDecryptMessage": {
-    "message": "Couldn't decrypt a message"
-  },
-  "confirmSessionRestore": {
-    "message": "Would you like to start a new session with $pubkey$? Only do so if you know this pubkey.",
-    "placeholders": {
-      "pubkey": {
-        "content": "$1",
-        "example": ""
-      }
-    }
   },
   "createAccount": {
     "message": "Create Account"
