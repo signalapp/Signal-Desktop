@@ -1183,9 +1183,6 @@
     "settingsHeader": {
         "message": "Настройки"
     },
-    "yes": {
-        "message": "Да"
-    },
     "continue": {
         "message": "Продолжить"
     },
@@ -1284,9 +1281,6 @@
     },
     "recoveryPhraseSavePromptMain": {
         "message": "Ваша секретная фраза является главным ключом к вашему Session ID. Вы можете использовать ее для восстановления Session ID, если потеряете доступ к своему устройству. Сохраните свою секретную фразу в безопасном месте, и никому её не передавайте."
-    },
-    "QRCodeTitle": {
-        "message": "Посмотреть мой QR-код"
     },
     "copiedToClipboard": {
         "message": "Скопировано в буфер обмена"
@@ -1643,10 +1637,6 @@
         "message": "Please enter your password",
         "description": "Request for user to enter password to show recovery phrase."
     },
-    "QRCodeDescription": {
-        "message": "This is <strong>your unique public QR Code.</strong><br/>Other users may scan this in order to begin a conversation with you.",
-        "description": "Description given to QRCode modal"
-    },
     "passwordViewTitle": {
         "message": "Type In Your Password",
         "description": "The title shown when user needs to type in a password to unlock the messenger"
@@ -1778,18 +1768,6 @@
     },
     "noModeratorsToRemove": {
         "message": "no moderators to remove"
-    },
-    "couldNotDecryptMessage": {
-        "message": "Couldn't decrypt a message"
-    },
-    "confirmSessionRestore": {
-        "message": "Would you like to start a new session with $pubkey$? Only do so if you know this pubkey.",
-        "placeholders": {
-            "pubkey": {
-                "content": "$1",
-                "example": ""
-            }
-        }
     },
     "createAccount": {
         "message": "Создать Аккаунт"

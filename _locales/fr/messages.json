@@ -1183,9 +1183,6 @@
     "settingsHeader": {
         "message": "Paramètres"
     },
-    "yes": {
-        "message": "Oui"
-    },
     "continue": {
         "message": "Continuer"
     },
@@ -1284,9 +1281,6 @@
     },
     "recoveryPhraseSavePromptMain": {
         "message": "Votre phrase de récupération est la clé principale de votre Session ID - vous pouvez l'utiliser pour restaurer votre Session ID si vous perdez l'accès à votre appareil. Conservez la dans un endroit sûr et ne la donnez à personne."
-    },
-    "QRCodeTitle": {
-        "message": "Afficher mon code QR"
     },
     "copiedToClipboard": {
         "message": "Copié dans le presse-papier"
