@@ -532,7 +532,6 @@
     "androidKey": "BucketedThreadMedia_This_month",
     "ignoreCase": true,
     "sentenceCase": true
-
   },
   "voiceMessage": {
     "message": "Voice Message",
@@ -1893,12 +1892,6 @@
     "message": "Password must only contain letters, numbers and symbols",
     "description": "Error string shown to the user when password contains an invalid character"
   },
-  "change": {
-    "message": "Change"
-  },
-  "set": {
-    "message": "Set"
-  },
   "remove": {
     "message": "Remove",
     "androidKey": "ClearProfileActivity_remove"
@@ -2007,14 +2000,8 @@
     "message": "Enter a display name",
     "androidKey": "activity_display_name_edit_text_hint"
   },
-  "optionalPassword": {
-    "message": "Verify Password"
-  },
   "enterOptionalPassword": {
     "message": "Enter password (optional)"
-  },
-  "verifyPassword": {
-    "message": "Verify Password"
   },
   "devicePairingHeaderReassure": {
     "message": "Linking may take up to one minute to register on your primary device. Please be patient."

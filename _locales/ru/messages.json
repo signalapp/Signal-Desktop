@@ -1715,12 +1715,6 @@
         "message": "Password must only contain letters, numbers and symbols",
         "description": "Error string shown to the user when password contains an invalid character"
     },
-    "change": {
-        "message": "Change"
-    },
-    "set": {
-        "message": "Set"
-    },
     "invalidPubkeyFormat": {
         "message": "Invalid Pubkey Format",
         "description": "Error string shown when user types an invalid pubkey format"
@@ -1774,14 +1768,8 @@
         "message": "Anonymous",
         "description": "The name of currently unidentified users"
     },
-    "optionalPassword": {
-        "message": "Verify Password"
-    },
     "enterOptionalPassword": {
         "message": "Введите пароль (если используется)"
-    },
-    "verifyPassword": {
-        "message": "Verify Password"
     },
     "devicePairingHeaderReassure": {
         "message": "Linking may take up to one minute to register on your primary device. Please be patient."

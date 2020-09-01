@@ -752,7 +752,7 @@
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Capture d.écran de la vidéo jointe au message",
+        "message": "Capture d'écran de la vidéo jointe au message",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {

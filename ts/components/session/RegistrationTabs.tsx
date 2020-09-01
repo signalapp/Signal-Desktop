@@ -494,7 +494,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
         />
 
         <SessionInput
-          label={window.i18n('optionalPassword')}
+          label={window.i18n('confirmPassword')}
           error={this.state.passwordErrorString}
           type="password"
           placeholder={window.i18n('enterOptionalPassword')}
@@ -509,10 +509,10 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
         {!!password && (
           <SessionInput
-            label={window.i18n('verifyPassword')}
+            label={window.i18n('confirmPassword')}
             error={passwordsDoNotMatch}
             type="password"
-            placeholder={window.i18n('verifyPassword')}
+            placeholder={window.i18n('confirmPassword')}
             maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
             onValueChanged={(val: string) => {
               this.onPasswordVerifyChanged(val);
