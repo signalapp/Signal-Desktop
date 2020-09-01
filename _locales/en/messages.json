@@ -1160,14 +1160,6 @@
     "androidKey": "preferences__typing_indicators",
     "ignoreCase": true
   },
-  "messageTTL": {
-    "message": "Message TTL",
-    "description": "Title of the Message TTL setting"
-  },
-  "messageTTLSettingDescription": {
-    "message": "Time to live (how long the recipient will have to collect their messages)",
-    "description": "Description of the time to live setting"
-  },
   "zoomFactorSettingTitle": {
     "message": "Zoom Factor",
     "description": "Title of the Zoom Factor setting"

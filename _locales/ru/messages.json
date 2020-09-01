@@ -1517,14 +1517,6 @@
         "message": "Получать и отсылать уведомления когда вы и ваш собедник набирает сообщение (для всех контактов).",
         "description": "Description of the typing indicators setting"
     },
-    "messageTTL": {
-        "message": "Message TTL",
-        "description": "Title of the Message TTL setting"
-    },
-    "messageTTLSettingDescription": {
-        "message": "Time to live (how long the recipient will have to collect their messages)",
-        "description": "Description of the time to live setting"
-    },
     "zoomFactorSettingTitle": {
         "message": "Масштабирование Приложения",
         "description": "Title of the Zoom Factor setting"
