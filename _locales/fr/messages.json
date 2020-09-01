@@ -1271,7 +1271,7 @@
         "message": "Modifier le groupe"
     },
     "updateGroupDialogTitle": {
-        "message": "Mise à jour $name$…"
+        "message": "Mise à jour de $name$…"
     },
     "showRecoveryPhrase": {
         "message": "Phrase de récupération"
