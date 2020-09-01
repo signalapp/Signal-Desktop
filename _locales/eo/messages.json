@@ -40,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Fini Signal-on",
+        "message": "Fini Session-on",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Vi ĵus plenumis la eksportan procezon, kaj viaj kontaktoj kaj mesaĝoj atendas pacience ĉe via komputilo. Elektu la dosierujon, kiu enhavas viajn konservitajn Signal-datumojn.",
+        "message": "Vi ĵus plenumis la eksportan procezon, kaj viaj kontaktoj kaj mesaĝoj atendas pacience ĉe via komputilo. Elektu la dosierujon, kiu enhavas viajn konservitajn Session-datumojn.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Certigu, ke vi elektis la ĝustan dosierujon, kiu enhavas viajn konservitajn Signal-datumojn. Ties nomo komencu per „Signal Export“. Vi ankaŭ povas konservi novan kopion el viaj datumoj per la aplikaĵo Chrome.",
+        "message": "Certigu, ke vi elektis la ĝustan dosierujon, kiu enhavas viajn konservitajn Session-datumojn. Ties nomo komencu per „Session Export“. Vi ankaŭ povas konservi novan kopion el viaj datumoj per la aplikaĵo Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Ekuzi Signal Desktop",
+        "message": "Ekuzi Session Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -264,11 +264,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Viaj sekurigaj numeroj kun pluraj grupanoj ŝanĝiĝis de post via lasta kontrolo. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke ili simple reinstalis Signal-on.",
+        "message": "Viaj sekurigaj numeroj kun pluraj grupanoj ŝanĝiĝis de post via lasta kontrolo. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke ili simple reinstalis Session-on.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "La sekuriga numero de $name$ ŝanĝiĝis post kiam vi laste kontrolis ĝin. Tio eble signifas, ke oni klopodas forkapti viajn komunikaĵojn, aŭ ke $name$ nur denove instalis Signal-on.",
+        "message": "La sekuriga numero de $name$ ŝanĝiĝis post kiam vi laste kontrolis ĝin. Tio eble signifas, ke oni klopodas forkapti viajn komunikaĵojn, aŭ ke $name$ nur denove instalis Session-on.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "La sekuriga numero, kiun vi kontrolas, ŝanĝiĝis. Bv. kontroli vian sekurigan numeron kun $name$. Atentu, ke tiu ŝanĝo eble signifas, ke iu klopodas forkapti viajn komunikojn, aŭ ke $name$ simple re-instalis Signal-on.",
+        "message": "La sekuriga numero, kiun vi kontrolas, ŝanĝiĝis. Bv. kontroli vian sekurigan numeron kun $name$. Atentu, ke tiu ŝanĝo eble signifas, ke iu klopodas forkapti viajn komunikojn, aŭ ke $name$ simple re-instalis Session-on.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,11 +288,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Viaj sekurigaj numeroj kun pluraj grupanoj ŝanĝiĝis antaŭnelonge. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke ili simple reinstalis Signal-on.",
+        "message": "Viaj sekurigaj numeroj kun pluraj grupanoj ŝanĝiĝis antaŭnelonge. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke ili simple reinstalis Session-on.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Via sekuriga numero kun $name$ ŝanĝiĝis. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke $name$ simple reinstalis Signal-on.",
+        "message": "Via sekuriga numero kun $name$ ŝanĝiĝis. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke $name$ simple reinstalis Session-on.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Via sekuriga numero kun $name$ ŝanĝiĝis. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke $name$ simple reinstalis Signal-on. Vi certe volos kontroli la sekurigan numeron kun tiu ĉi kontakto.",
+        "message": "Via sekuriga numero kun $name$ ŝanĝiĝis. Tio povas aŭ signifi, ke iu provas interkapti viajn komunikojn, aŭ ke $name$ simple reinstalis Session-on. Vi certe volos kontroli la sekurigan numeron kun tiu ĉi kontakto.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -431,7 +431,7 @@
     },
     "stagedPreviewThumbnail": {
         "message": "Preparante miniaturan antaŭrigardon de ligilo pri $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -441,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "Miniatura antaŭrigardo de ligilo pri $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -556,7 +556,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSession": {
-        "message": "Bonvenon al Signal",
+        "message": "Bonvenon al Session",
         "description": ""
     },
     "typingAlt": {
@@ -634,7 +634,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
-        "message": "Por sendi aŭdajn mesaĝojn, donu al Signal Desktop permeson uzi vian mikrofonon.",
+        "message": "Por sendi aŭdajn mesaĝojn, donu al Session Desktop permeson uzi vian mikrofonon.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -783,7 +783,7 @@
     },
     "linkNewDevice": {
         "message": "Ligi novan aparaton",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "Permesoj",
@@ -854,7 +854,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Tiu ĉi versio de Signal Desktop jam nevalidas. Bonvolu ĝisdatigi al la nuna versio por daŭrigi sendi mesaĝojn.",
+        "message": "Tiu ĉi versio de Session Desktop jam nevalidas. Bonvolu ĝisdatigi al la nuna versio por daŭrigi sendi mesaĝojn.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {

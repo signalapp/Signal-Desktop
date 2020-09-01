@@ -40,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Αποσύνδεση από το Signal",
+        "message": "Αποσύνδεση από το Session",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Μόλις περάσατε τη διαδικασία εξαγωγής και οι επαφές και τα μηνύματά σας περιμένουν υπομονετικά τον υπολογιστή σας. Επιλέξτε τον φάκελο που περιέχει τα αποθηκευμένα δεδομένα του Signal σας.",
+        "message": "Μόλις περάσατε τη διαδικασία εξαγωγής και οι επαφές και τα μηνύματά σας περιμένουν υπομονετικά τον υπολογιστή σας. Επιλέξτε τον φάκελο που περιέχει τα αποθηκευμένα δεδομένα του Session σας.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Βεβαιωθείτε ότι έχετε επιλέξει τον σωστό φάκελο που περιέχει τα αποθηκευμένα δεδομένα του Signal. Το όνομά του θα πρέπει να ξεκινά με το 'Signal Export.' Μπορείτε επίσης να αποθηκεύσετε ένα νέο αντίγραφο των δεδομένων σας από την εφαρμογή Chrome.",
+        "message": "Βεβαιωθείτε ότι έχετε επιλέξει τον σωστό φάκελο που περιέχει τα αποθηκευμένα δεδομένα του Session. Το όνομά του θα πρέπει να ξεκινά με το 'Session Export.' Μπορείτε επίσης να αποθηκεύσετε ένα νέο αντίγραφο των δεδομένων σας από την εφαρμογή Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Ξεκινήστε τη χρήση του Signal Desktop",
+        "message": "Ξεκινήστε τη χρήση του Session Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -264,11 +264,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Οι αριθμοί ασφαλείας σας με πολλαπλά μέλη αυτής της ομάδας άλλαξαν από την τελευταία φορά που επιβεβαιώθηκαν. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας ή ότι απλώς επανεγκατέστησαν το Signal.",
+        "message": "Οι αριθμοί ασφαλείας σας με πολλαπλά μέλη αυτής της ομάδας άλλαξαν από την τελευταία φορά που επιβεβαιώθηκαν. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας ή ότι απλώς επανεγκατέστησαν το Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Ο αριθμός ασφαλείας σας με τον/την $name$ άλλαξε από την τελευταία φορά που επιβεβαιώθηκε. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας ή ότι απλώς ο/η $name$ επανεγκατέστησε το Signal.",
+        "message": "Ο αριθμός ασφαλείας σας με τον/την $name$ άλλαξε από την τελευταία φορά που επιβεβαιώθηκε. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας ή ότι απλώς ο/η $name$ επανεγκατέστησε το Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Ο αριθμός ασφαλείας που προσπαθείτε να επιβεβαιώσετε έχει αλλάξει. Παρακαλώ επιβεβαιώστε τον νέο αριθμό ασφαλείας με τον/την $name$. Θυμηθείτε, αυτή η αλλαγή μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας ή ότι απλώς ο/η $name$ επανεγκατέστησε το Signal.",
+        "message": "Ο αριθμός ασφαλείας που προσπαθείτε να επιβεβαιώσετε έχει αλλάξει. Παρακαλώ επιβεβαιώστε τον νέο αριθμό ασφαλείας με τον/την $name$. Θυμηθείτε, αυτή η αλλαγή μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας ή ότι απλώς ο/η $name$ επανεγκατέστησε το Session.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,11 +288,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Οι αριθμοί ασφαλείας σας με πολλαπλά μέλη της ομάδας άλλαξαν πρόσφατα. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας ή ότι απλώς επανεγκατέστησαν το Signal.",
+        "message": "Οι αριθμοί ασφαλείας σας με πολλαπλά μέλη της ομάδας άλλαξαν πρόσφατα. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας ή ότι απλώς επανεγκατέστησαν το Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Ο αριθμός ασφαλείας σας με τον/την $name$ άλλαξε πρόσφατα. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας ή ότι απλώς ο/η $name$ επανεγκατέστησε το Signal.",
+        "message": "Ο αριθμός ασφαλείας σας με τον/την $name$ άλλαξε πρόσφατα. Αυτό μπορεί να σημαίνει πως κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας ή ότι απλώς ο/η $name$ επανεγκατέστησε το Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Ο αριθμός ασφαλείας σας με τον/την $name$ έχει αλλάξει. Αυτό θα μπορούσε είτε να σημαίνει ότι κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας είτε ότι απλώς ο/η $name$ επανεγκατέστησε το Signal. Ίσως επιθυμείτε να επαληθεύσετε τον αριθμό ασφαλείας σας με αυτή την επαφή.",
+        "message": "Ο αριθμός ασφαλείας σας με τον/την $name$ έχει αλλάξει. Αυτό θα μπορούσε είτε να σημαίνει ότι κάποιος προσπαθεί να υποκλέψει την επικοινωνία σας είτε ότι απλώς ο/η $name$ επανεγκατέστησε το Session. Ίσως επιθυμείτε να επαληθεύσετε τον αριθμό ασφαλείας σας με αυτή την επαφή.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -431,7 +431,7 @@
     },
     "stagedPreviewThumbnail": {
         "message": "Πρόχειρη μικρή προεσκόπιση συνδέσμου για $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -441,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "Μικρή προεσκόπιση συνδέσμου για $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -556,7 +556,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSession": {
-        "message": "Καλώς ορίσατε στο Signal",
+        "message": "Καλώς ορίσατε στο Session",
         "description": ""
     },
     "typingAlt": {
@@ -634,7 +634,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
-        "message": "Για να στείλετε μηνύματα ήχου, επιτρέψτε στο Signal Desktop να έχει πρόσβαση στο μικρόφωνό σας.",
+        "message": "Για να στείλετε μηνύματα ήχου, επιτρέψτε στο Session Desktop να έχει πρόσβαση στο μικρόφωνό σας.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -783,7 +783,7 @@
     },
     "linkNewDevice": {
         "message": "Σύνδεση νέας συσκεύης",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "Άδειες",
@@ -854,7 +854,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Αυτή η έκδοση του Signal Desktop έχει λήξει. Κάντε αναβάθμιση στην πιο πρόσφατη έκδοση για να συνεχίσετε την ανταλλαγή μηνυμάτων.",
+        "message": "Αυτή η έκδοση του Session Desktop έχει λήξει. Κάντε αναβάθμιση στην πιο πρόσφατη έκδοση για να συνεχίσετε την ανταλλαγή μηνυμάτων.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {

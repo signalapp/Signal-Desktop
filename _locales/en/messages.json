@@ -1090,7 +1090,7 @@
   },
   "linkNewDevice": {
     "message": "Link New Device",
-    "description": "The menu option shown in Signal iOS to add a new linked device",
+    "description": "The menu option shown in Session iOS to add a new linked device",
     "androidKey": "device_list_fragment__link_new_device",
     "ignoreCase": true
   },
@@ -1133,7 +1133,7 @@
   },
   "spellCheckDirty": {
     "message": "You must restart Session to apply your new settings",
-    "description": "Shown when the user changes their spellcheck setting to indicate that they must restart Signal."
+    "description": "Shown when the user changes their spellcheck setting to indicate that they must restart Session."
   },
   "notifications": {
     "message": "Notifications",

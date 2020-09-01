@@ -40,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Sair do Signal",
+        "message": "Sair do Session",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Você acabou de terminar o processo de exportação, e os seus contatos e mensagens esperam por você. Selecione a pasta que contém os seus dados do Signal salvos.",
+        "message": "Você acabou de terminar o processo de exportação, e os seus contatos e mensagens esperam por você. Selecione a pasta que contém os seus dados do Session salvos.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Confira se escolheu o diretório certo, que contém seus dados exportados do Signal. O nome da pasta deve começar com 'Signal Export'. Você também pode baixar seus dados novamente usando o Chrome App.",
+        "message": "Confira se escolheu o diretório certo, que contém seus dados exportados do Session. O nome da pasta deve começar com 'Session Export'. Você também pode baixar seus dados novamente usando o Chrome App.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Comece a usar o Signal Desktop",
+        "message": "Comece a usar o Session Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -264,7 +264,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Os seus números de segurança com vários membros de grupos mudaram desde a última vez que você os verificou. Isso pode significar uma tentativa de interceptação das suas comunicações ou somente que esses contatos reinstalaram Signal.",
+        "message": "Os seus números de segurança com vários membros de grupos mudaram desde a última vez que você os verificou. Isso pode significar uma tentativa de interceptação das suas comunicações ou somente que esses contatos reinstalaram Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "O número de segurança que você está tentando verificar mudou. Por favor, confira o seu número de segurança com $name$. Lembre-se que isso pode significar uma tentativa de interceptação das suas comunicações ou somente que $name$ reinstalou Signal.",
+        "message": "O número de segurança que você está tentando verificar mudou. Por favor, confira o seu número de segurança com $name$. Lembre-se que isso pode significar uma tentativa de interceptação das suas comunicações ou somente que $name$ reinstalou Session.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,7 +288,7 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Os seus números de segurança com vários membros mudaram recentemente. Isso pode significar uma tentativa de interceptação das suas comunicações ou somente que esses contatos reinstalaram Signal.",
+        "message": "Os seus números de segurança com vários membros mudaram recentemente. Isso pode significar uma tentativa de interceptação das suas comunicações ou somente que esses contatos reinstalaram Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "O seu número de segurança com $name$mudou. Isso pode significar uma tentativa de interceptação das suas comunicações ou somente que $name$ reinstalou Signal. Recomendamos que você verifique o seu número de segurança com essa pessoa.",
+        "message": "O seu número de segurança com $name$mudou. Isso pode significar uma tentativa de interceptação das suas comunicações ou somente que $name$ reinstalou Session. Recomendamos que você verifique o seu número de segurança com essa pessoa.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -431,7 +431,7 @@
     },
     "stagedPreviewThumbnail": {
         "message": "Pré-visualização em miniatura do link $domain$ (rascunho)",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -441,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "Pré-visualização em miniatura do link $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -783,7 +783,7 @@
     },
     "linkNewDevice": {
         "message": "Vincular Novo Dispositivo",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "Permissões",
@@ -854,7 +854,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Esta versão do Signal Desktop expirou. Por favor, atualize-o para a versão mais recente para continuar enviando mensagens.",
+        "message": "Esta versão do Session Desktop expirou. Por favor, atualize-o para a versão mais recente para continuar enviando mensagens.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {

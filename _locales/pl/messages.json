@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Właśnie przeszedłeś proces eksportu, twoje kontakty i wiadomości czekają cierpliwie na twoim komputerze. Wybierz folder zawierający zapisane dane Signal.",
+        "message": "Właśnie przeszedłeś proces eksportu, twoje kontakty i wiadomości czekają cierpliwie na twoim komputerze. Wybierz folder zawierający zapisane dane Session.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Upewnij się, że wybrałeś właściwy folder zawierający dane Signal. Jego nazwa powinna zaczynać się na \"Signal Export\". Możesz też zapisać nową kopię danych z aplikacji Chrome.",
+        "message": "Upewnij się, że wybrałeś właściwy folder zawierający dane Session. Jego nazwa powinna zaczynać się na \"Session Export\". Możesz też zapisać nową kopię danych z aplikacji Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Rozpocznij korzystanie z Signal Desktop",
+        "message": "Rozpocznij korzystanie z Session Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -264,11 +264,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Twoje numery bezpieczeństwa z tymi członkami grupy zmieniły się od ostatniego czasu gdy je weryfikowałeś(aś). To może oznaczać, że ktoś próbuje przechwycić Twoją komunikację, albo że członkowie grupy po prostu przeinstalowali aplikację Signal.",
+        "message": "Twoje numery bezpieczeństwa z tymi członkami grupy zmieniły się od ostatniego czasu gdy je weryfikowałeś(aś). To może oznaczać, że ktoś próbuje przechwycić Twoją komunikację, albo że członkowie grupy po prostu przeinstalowali aplikację Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Twój numer bezpieczeństwa z $name$ zmienił się od ostatniego czasu gdy go zweryfikowałeś. To może oznaczać, że ktoś próbuje przechwycić Twoją komunikację, albo że $name$ po prostu przeinstalował(a) aplikację Signal. ",
+        "message": "Twój numer bezpieczeństwa z $name$ zmienił się od ostatniego czasu gdy go zweryfikowałeś. To może oznaczać, że ktoś próbuje przechwycić Twoją komunikację, albo że $name$ po prostu przeinstalował(a) aplikację Session. ",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Numer bezpieczeństwa, który próbujesz zweryfikować zmienił się. Proszę sprawdź go z $name$. Pamiętaj, że to może oznaczać, że ktoś próbuje przechwycić Twoją komunikację lub po prostu $name$ przeinstalował(a) aplikację Signal. ",
+        "message": "Numer bezpieczeństwa, który próbujesz zweryfikować zmienił się. Proszę sprawdź go z $name$. Pamiętaj, że to może oznaczać, że ktoś próbuje przechwycić Twoją komunikację lub po prostu $name$ przeinstalował(a) aplikację Session. ",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,11 +288,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Twoje numbery bezpieczeństwa z wieloma członkami grupy ostatnio się zmieniły. To może znaczyć, że ktoś próbuje przechwycić Twoją komunikację, albo że członkowie grupy po prostu przeinstalowali aplikację Signal.",
+        "message": "Twoje numbery bezpieczeństwa z wieloma członkami grupy ostatnio się zmieniły. To może znaczyć, że ktoś próbuje przechwycić Twoją komunikację, albo że członkowie grupy po prostu przeinstalowali aplikację Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Numer bezpieczeństwa $name$ zmienił się. To może oznaczać, że ktoś próbuje przechwycić Twoją komunikację lub że po prostu $name$ przeinstalował(a) aplikację Signal. ",
+        "message": "Numer bezpieczeństwa $name$ zmienił się. To może oznaczać, że ktoś próbuje przechwycić Twoją komunikację lub że po prostu $name$ przeinstalował(a) aplikację Session. ",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Numer bezpieczeństwa z $name$ zmienił się. To może oznaczać, że ktoś próbuje przechwycić Twoją komunikację lub, że po prostu $name$ przeinstalował(a) aplikację Signal. Możesz zweryfikować nowy numer bezpieczeństwa poniżej.",
+        "message": "Numer bezpieczeństwa z $name$ zmienił się. To może oznaczać, że ktoś próbuje przechwycić Twoją komunikację lub, że po prostu $name$ przeinstalował(a) aplikację Session. Możesz zweryfikować nowy numer bezpieczeństwa poniżej.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -431,7 +431,7 @@
     },
     "stagedPreviewThumbnail": {
         "message": "Projekt miniaturki podglądu linku do $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -441,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "Podgląd miniaturki linku dla $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -556,7 +556,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSession": {
-        "message": "Witamy w Signal",
+        "message": "Witamy w Session",
         "description": ""
     },
     "typingAlt": {
@@ -634,7 +634,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
-        "message": "Aby wysyłać wiadomości audio, zezwól aplikacji Signal Desktop na dostęp do mikrofonu.",
+        "message": "Aby wysyłać wiadomości audio, zezwól aplikacji Session Desktop na dostęp do mikrofonu.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -783,7 +783,7 @@
     },
     "linkNewDevice": {
         "message": "Połącz nowe urządzenie",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "Uprawnienia",
@@ -854,7 +854,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Ta wersja Signal Desktop jest przestarzała. Aby nadal wysyłać wiadomości, wykonaj aktualizację.",
+        "message": "Ta wersja Session Desktop jest przestarzała. Aby nadal wysyłać wiadomości, wykonaj aktualizację.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {

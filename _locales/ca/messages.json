@@ -40,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Surt del Signal",
+        "message": "Surt del Session",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Acabeu de passar pel procés d'exportació i els vostres contactes i missatges esperen pacientment a l'ordinador. Seleccioneu la carpeta que conté les dades de Signal desades.",
+        "message": "Acabeu de passar pel procés d'exportació i els vostres contactes i missatges esperen pacientment a l'ordinador. Seleccioneu la carpeta que conté les dades de Session desades.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Assegureu-vos que heu triat el directori correcte que conté les dades de Signal desades. El seu nom hauria de començar amb \"Signal Export\". També podeu desar una còpia nova de les dades des de l'aplicació Chrome.",
+        "message": "Assegureu-vos que heu triat el directori correcte que conté les dades de Session desades. El seu nom hauria de començar amb \"Session Export\". També podeu desar una còpia nova de les dades des de l'aplicació Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Comenceu a usar el Signal Desktop",
+        "message": "Comenceu a usar el Session Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -264,11 +264,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Els números de seguretat amb múltiples membres de grup han canviat des que els vau verificar l'últim cop. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que simplement ha reinstal·lat el Signal.",
+        "message": "Els números de seguretat amb múltiples membres de grup han canviat des que els vau verificar l'últim cop. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que simplement ha reinstal·lat el Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "El número de seguretat amb $name$ ha canviat des que el vau verificar l'últim cop. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Signal.",
+        "message": "El número de seguretat amb $name$ ha canviat des que el vau verificar l'últim cop. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "El número de seguretat que intenteu verificar ha canviat. Si us plau, reviseu el número de seguretat nou amb $name$. Recordeu que aquest canvi podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Signal.",
+        "message": "El número de seguretat que intenteu verificar ha canviat. Si us plau, reviseu el número de seguretat nou amb $name$. Recordeu que aquest canvi podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Session.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,11 +288,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Els números de seguretat amb múltiples membres de grup han canviat recentment. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que simplement ha reinstal·lat el Signal.",
+        "message": "Els números de seguretat amb múltiples membres de grup han canviat recentment. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que simplement ha reinstal·lat el Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "El número de seguretat amb $name$ ha canviat recentment. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Signal.",
+        "message": "El número de seguretat amb $name$ ha canviat recentment. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "El número de seguretat amb $name$ ha canviat. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Signal. Potser hauríeu de verificar el número de seguretat amb aquest contacte.",
+        "message": "El número de seguretat amb $name$ ha canviat. Això podria voler dir que algú està provant d'interceptar les vostres comunicacions o que $name$ simplement ha reinstal·lat el Session. Potser hauríeu de verificar el número de seguretat amb aquest contacte.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -431,7 +431,7 @@
     },
     "stagedPreviewThumbnail": {
         "message": "Previsualització de l'esborrany de la vista en miniatura de l'enllaç $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -441,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "Previsualització de la vista en miniatura de l'enllaç $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -556,7 +556,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSession": {
-        "message": "Benvingut al Signal",
+        "message": "Benvingut al Session",
         "description": ""
     },
     "typingAlt": {
@@ -634,7 +634,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
-        "message": "Per enviar missatges d'àudio, permeteu que el Signal Desktop tingui accés al micròfon.",
+        "message": "Per enviar missatges d'àudio, permeteu que el Session Desktop tingui accés al micròfon.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -783,7 +783,7 @@
     },
     "linkNewDevice": {
         "message": "Enllaça un aparell nou",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "Permisos",
@@ -854,7 +854,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Aquesta versió del Signal Desktop ha expirat. Actualitzeu a l'última versió per a poder seguir enviant i rebent missatges.",
+        "message": "Aquesta versió del Session Desktop ha expirat. Actualitzeu a l'última versió per a poder seguir enviant i rebent missatges.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
