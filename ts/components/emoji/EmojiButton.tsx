@@ -105,12 +105,14 @@ export const EmojiButton = React.memo(
         <Reference>
           {({ ref }) => (
             <button
+              type="button"
               ref={ref}
               onClick={handleClickButton}
               className={classNames({
                 'module-emoji-button__button': true,
                 'module-emoji-button__button--active': open,
               })}
+              aria-label={i18n('EmojiButton__label')}
             />
           )}
         </Reference>

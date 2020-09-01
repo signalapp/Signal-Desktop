@@ -3,7 +3,6 @@
 
 /* global drawAttention: false */
 /* global i18n: false */
-/* global Signal: false */
 /* global storage: false */
 /* global Whisper: false */
 /* global _: false */

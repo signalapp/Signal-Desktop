@@ -73,10 +73,7 @@ export const EmojiPicker = React.memo(
       ref
     ) => {
       const focusRef = React.useRef<HTMLButtonElement>(null);
-      // Per design: memoize the initial recent emojis so the grid only updates after re-opening the picker.
-      const firstRecent = React.useMemo(() => {
-        return recentEmojis;
-      }, []);
+      const [firstRecent] = React.useState(recentEmojis);
       const [selectedCategory, setSelectedCategory] = React.useState(
         categories[0]
       );
@@ -208,7 +205,7 @@ export const EmojiPicker = React.memo(
         );
 
         return [...chunk(firstRecent, COL_COUNT), ...chunks];
-      }, [dataByCategory, categories, firstRecent, searchText]);
+      }, [firstRecent, renderableCategories, searchText]);
 
       const catRowEnds = React.useMemo(() => {
         const rowEnds: Array<number> = [
@@ -223,13 +220,13 @@ export const EmojiPicker = React.memo(
         });
 
         return rowEnds;
-      }, [categories, dataByCategory]);
+      }, [firstRecent.length, renderableCategories]);
 
       const catToRowOffsets = React.useMemo(() => {
         const offsets = initial(catRowEnds).map(i => i + 1);
 
         return zipObject(categories, [0, ...offsets]);
-      }, [categories, catRowEnds]);
+      }, [catRowEnds]);
 
       const catOffsetEntries = React.useMemo(
         () => Object.entries(catToRowOffsets),
@@ -259,6 +256,7 @@ export const EmojiPicker = React.memo(
               style={cellStyle}
             >
               <button
+                type="button"
                 className="module-emoji-picker__button"
                 onClick={handlePickEmoji}
                 onKeyDown={handlePickEmoji}
@@ -270,7 +268,7 @@ export const EmojiPicker = React.memo(
             </div>
           ) : null;
         },
-        [emojiGrid, selectedTone]
+        [emojiGrid, handlePickEmoji, selectedTone]
       );
 
       const getRowHeight = React.useCallback(
@@ -297,13 +295,14 @@ export const EmojiPicker = React.memo(
 
             setSelectedCategory(cat);
           }, 10),
-        [catOffsetEntries, categories]
+        [catOffsetEntries]
       );
 
       return (
         <div className="module-emoji-picker" ref={ref} style={style}>
           <header className="module-emoji-picker__header">
             <button
+              type="button"
               ref={focusRef}
               onClick={handleToggleSearch}
               title={i18n('EmojiPicker--search-placeholder')}
@@ -314,6 +313,7 @@ export const EmojiPicker = React.memo(
                   ? 'module-emoji-picker__button--icon--close'
                   : 'module-emoji-picker__button--icon--search'
               )}
+              aria-label={i18n('EmojiPicker--search-placeholder')}
             />
             {searchMode ? (
               <div className="module-emoji-picker__header__search-field">
@@ -328,6 +328,7 @@ export const EmojiPicker = React.memo(
               categories.map(cat =>
                 cat === 'recents' && firstRecent.length === 0 ? null : (
                   <button
+                    type="button"
                     key={cat}
                     data-category={cat}
                     title={cat}
@@ -340,6 +341,7 @@ export const EmojiPicker = React.memo(
                         ? 'module-emoji-picker__button--selected'
                         : null
                     )}
+                    aria-label={i18n(`EmojiPicker__button--${cat}`)}
                   />
                 )
               )
@@ -377,7 +379,7 @@ export const EmojiPicker = React.memo(
               <Emoji
                 shortName="slightly_frowning_face"
                 size={16}
-                inline={true}
+                inline
                 style={{ marginLeft: '4px' }}
               />
             </div>
@@ -386,6 +388,7 @@ export const EmojiPicker = React.memo(
             <footer className="module-emoji-picker__footer">
               {[0, 1, 2, 3, 4, 5].map(tone => (
                 <button
+                  type="button"
                   key={tone}
                   data-tone={tone}
                   onClick={handlePickTone}

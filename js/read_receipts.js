@@ -4,7 +4,6 @@
   _,
   ConversationController,
   MessageController,
-  window
 */
 
 /* eslint-disable more/no-then */
