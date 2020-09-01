@@ -79,6 +79,18 @@ export const MessageRequestActions = ({
           />
         </p>
         <div className="module-message-request-actions__buttons">
+          <button
+            onClick={() => {
+              setMrState(MessageRequestState.deleting);
+            }}
+            tabIndex={0}
+            className={classNames(
+              'module-message-request-actions__buttons__button',
+              'module-message-request-actions__buttons__button--deny'
+            )}
+          >
+            {i18n('MessageRequests--delete')}
+          </button>
           {isBlocked ? (
             <button
               onClick={() => {
@@ -106,18 +118,6 @@ export const MessageRequestActions = ({
               {i18n('MessageRequests--block')}
             </button>
           )}
-          <button
-            onClick={() => {
-              setMrState(MessageRequestState.deleting);
-            }}
-            tabIndex={0}
-            className={classNames(
-              'module-message-request-actions__buttons__button',
-              'module-message-request-actions__buttons__button--deny'
-            )}
-          >
-            {i18n('MessageRequests--delete')}
-          </button>
           {!isBlocked ? (
             <button
               onClick={onAccept}
