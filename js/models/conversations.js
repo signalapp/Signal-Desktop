@@ -203,20 +203,37 @@
       return false;
     },
 
-    unblock() {
+    block() {
       const uuid = this.get('uuid');
       if (uuid) {
-        return window.storage.removeBlockedUuid(uuid);
+        window.storage.addBlockedUuid(uuid);
       }
 
       const e164 = this.get('e164');
       if (e164) {
-        return window.storage.removeBlockedNumber(e164);
+        window.storage.addBlockedNumber(e164);
       }
 
       const groupId = this.get('groupId');
       if (groupId) {
-        return window.storage.removeBlockedGroup(groupId);
+        window.storage.addBlockedGroup(groupId);
+      }
+    },
+
+    unblock() {
+      const uuid = this.get('uuid');
+      if (uuid) {
+        window.storage.removeBlockedUuid(uuid);
+      }
+
+      const e164 = this.get('e164');
+      if (e164) {
+        window.storage.removeBlockedNumber(e164);
+      }
+
+      const groupId = this.get('groupId');
+      if (groupId) {
+        window.storage.removeBlockedGroup(groupId);
       }
 
       return false;
@@ -632,7 +649,7 @@
         }
       } else if (response === this.messageRequestEnum.BLOCK) {
         // Block locally, other devices should block upon receiving the sync message
-        window.storage.blockIdentifier(this.get('id'));
+        this.block();
         this.disableProfileSharing();
       } else if (response === this.messageRequestEnum.DELETE) {
         // Delete messages locally, other devices should delete upon receiving
@@ -650,7 +667,7 @@
         this.disableProfileSharing();
         this.updateLastMessage();
         // Block locally, other devices should block upon receiving the sync message
-        window.storage.blockIdentifier(this.get('id'));
+        this.block();
         // Leave group if this was a local action
         if (!fromSync) {
           this.leaveGroup();
