@@ -1,4 +1,4 @@
-/* global mocha, chai, assert */
+/* global chai */
 
 mocha.setup('bdd');
 window.assert = chai.assert;

@@ -1,13 +1,7 @@
 import * as React from 'react';
-import { Emoji, EmojiSizes, Props } from './Emoji';
-
-// @ts-ignore
-import { setup as setupI18n } from '../../js/modules/i18n';
-
-// @ts-ignore
-import enMessages from '../../_locales/en/messages.json';
 import { storiesOf } from '@storybook/react';
 import { boolean, select, text } from '@storybook/addon-knobs';
+import { Emoji, EmojiSizes, Props } from './Emoji';
 
 const story = storiesOf('Components/Emoji/Emoji', module);
 

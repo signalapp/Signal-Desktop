@@ -1910,6 +1910,42 @@
     },
     "description": "Shown as a tooltip over the emoji tone buttons."
   },
+  "EmojiPicker__button--recents": {
+    "message": "Recents",
+    "description": "Label for recents emoji picker button"
+  },
+  "EmojiPicker__button--emoji": {
+    "message": "Emoji",
+    "description": "Label for emoji emoji picker button"
+  },
+  "EmojiPicker__button--animal": {
+    "message": "Animal",
+    "description": "Label for animal emoji picker button"
+  },
+  "EmojiPicker__button--food": {
+    "message": "Food",
+    "description": "Label for food emoji picker button"
+  },
+  "EmojiPicker__button--activity": {
+    "message": "Activity",
+    "description": "Label for activity emoji picker button"
+  },
+  "EmojiPicker__button--travel": {
+    "message": "Travel",
+    "description": "Label for travel emoji picker button"
+  },
+  "EmojiPicker__button--object": {
+    "message": "Object",
+    "description": "Label for object emoji picker button"
+  },
+  "EmojiPicker__button--symbol": {
+    "message": "Symbol",
+    "description": "Label for symbol emoji picker button"
+  },
+  "EmojiPicker__button--flag": {
+    "message": "Flag",
+    "description": "Label for flag emoji picker button"
+  },
   "confirmation-dialog--Cancel": {
     "message": "Cancel",
     "description": "Appears on the cancel button in confirmation dialogs."
@@ -2783,5 +2819,9 @@
         "example": "10/23/2023, 7:10 PM"
       }
     }
+  },
+  "EmojiButton__label": {
+    "message": "Emoji",
+    "description": "Label for emoji button"
   }
 }

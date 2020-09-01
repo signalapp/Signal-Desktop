@@ -1,4 +1,5 @@
-// @ts-ignore: untyped json
+// Camelcase disabled due to emoji-datasource using snake_case
+/* eslint-disable camelcase */
 import untypedData from 'emoji-datasource';
 import emojiRegex from 'emoji-regex';
 import {
@@ -16,8 +17,6 @@ import {
 import Fuse from 'fuse.js';
 import PQueue from 'p-queue';
 import is from '@sindresorhus/is';
-
-export type ValuesOf<T extends Array<any>> = T[number];
 
 export const skinTones = ['1F3FB', '1F3FC', '1F3FD', '1F3FE', '1F3FF'];
 
@@ -82,7 +81,6 @@ const data = (untypedData as Array<EmojiData>)
       : emoji
   );
 
-// @ts-ignore
 const ROOT_PATH = get(
   // tslint:disable-next-line no-typeof-undefined
   typeof window !== 'undefined' ? window : null,
@@ -97,7 +95,7 @@ const makeImagePath = (src: string) => {
 const imageQueue = new PQueue({ concurrency: 10 });
 const images = new Set();
 
-export const preloadImages = async () => {
+export const preloadImages = async (): Promise<void> => {
   // Preload images
   const preload = async (src: string) =>
     new Promise((resolve, reject) => {
@@ -110,7 +108,7 @@ export const preloadImages = async () => {
       setTimeout(reject, 5000);
     });
 
-  // tslint:disable-next-line no-console
+  // eslint-disable-next-line no-console
   console.log('Preloading emoji images');
   const start = Date.now();
 
@@ -129,7 +127,7 @@ export const preloadImages = async () => {
   await imageQueue.onEmpty();
 
   const end = Date.now();
-  // tslint:disable-next-line no-console
+  // eslint-disable-next-line no-console
   console.log(`Done preloading emoji images in ${end - start}ms`);
 };
 
@@ -222,7 +220,7 @@ const fuse = new Fuse(data, {
   keys: ['name', 'short_name', 'short_names'],
 });
 
-export function search(query: string, count: number = 0) {
+export function search(query: string, count = 0): Array<EmojiData> {
   const results = fuse.search(query.substr(0, 32));
 
   if (count) {
@@ -237,11 +235,11 @@ const shortNames = new Set([
   ...compact<string>(flatMap(data, 'short_names')),
 ]);
 
-export function isShortName(name: string) {
+export function isShortName(name: string): boolean {
   return shortNames.has(name);
 }
 
-export function unifiedToEmoji(unified: string) {
+export function unifiedToEmoji(unified: string): string {
   return unified
     .split('-')
     .map(c => String.fromCodePoint(parseInt(c, 16)))
@@ -251,7 +249,7 @@ export function unifiedToEmoji(unified: string) {
 export function convertShortName(
   shortName: string,
   skinTone: number | SkinToneKey = 0
-) {
+): string {
   const base = dataByShortName[shortName];
 
   if (!base) {
@@ -300,15 +298,17 @@ export function getSizeClass(str: string): SizeClassType {
 
   if (emojiCount > 8) {
     return '';
-  } else if (emojiCount > 6) {
-    return 'small';
-  } else if (emojiCount > 4) {
-    return 'medium';
-  } else if (emojiCount > 2) {
-    return 'large';
-  } else {
-    return 'jumbo';
   }
+  if (emojiCount > 6) {
+    return 'small';
+  }
+  if (emojiCount > 4) {
+    return 'medium';
+  }
+  if (emojiCount > 2) {
+    return 'large';
+  }
+  return 'jumbo';
 }
 
 data.forEach(emoji => {

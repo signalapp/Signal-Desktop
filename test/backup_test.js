@@ -1,4 +1,4 @@
-/* global Signal, Whisper, assert, textsecure, _, libsignal */
+/* global Signal, Whisper, textsecure, _, libsignal */
 
 /* eslint-disable no-console */
 

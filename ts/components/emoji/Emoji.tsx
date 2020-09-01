@@ -33,11 +33,13 @@ export const Emoji = React.memo(
       }: Props,
       ref
     ) => {
-      const image = shortName
-        ? getImagePath(shortName, skinTone)
-        : emoji
-        ? emojiToImage(emoji)
-        : '';
+      let image = '';
+      if (shortName) {
+        image = getImagePath(shortName, skinTone);
+      } else if (emoji) {
+        image = emojiToImage(emoji) || '';
+      }
+
       const backgroundStyle = inline
         ? { backgroundImage: `url('${image}')` }
         : {};
