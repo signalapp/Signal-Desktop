@@ -72,7 +72,7 @@
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Tout Sélectionner",
+        "message": "Tout sélectionner",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
@@ -414,11 +414,11 @@
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "Cette Semaine",
+        "message": "Cette semaine",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "Ce Mois",
+        "message": "Ce mois",
         "description": "Section header in the media gallery"
     },
     "voiceMessage": {

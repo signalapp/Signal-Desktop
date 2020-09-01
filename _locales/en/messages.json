@@ -32,7 +32,7 @@
     "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination.",
     "androidKey": "message_recipients_list_item__view",
     "addStart": "&",
-    "wordCapitalize": true
+    "sentenceCase": true
   },
   "mainMenuWindow": {
     "message": "&Window",
@@ -64,7 +64,7 @@
     "message": "Undo",
     "description": "Edit menu command to remove recently-typed text",
     "androidKey": "ConversationListFragment_undo",
-    "wordCapitalize": true
+    "sentenceCase": true
   },
   "editMenuRedo": {
     "message": "Redo",
@@ -93,10 +93,10 @@
     "androidKey": "delete"
   },
   "editMenuSelectAll": {
-    "message": "Select All",
+    "message": "Select all",
     "description": "Edit menu comand to select all of the text in selected text box",
     "androidKey": "conversation_list_batch__menu_select_all",
-    "wordCapitalize": true
+    "sentenceCase": true
   },
   "editMenuStartSpeaking": {
     "message": "Start speaking",
@@ -233,7 +233,7 @@
     "message": "View",
     "description": "Used as a label on a button allowing user to see more information",
     "androidKey": "message_recipients_list_item__view",
-    "wordCapitalize": true
+    "sentenceCase": true
   },
   "youLeftTheGroup": {
     "message": "You have left the group.",
@@ -520,16 +520,19 @@
     "androidKey": "BucketedThreadMedia_Yesterday"
   },
   "thisWeek": {
-    "message": "This Week",
+    "message": "This week",
     "description": "Section header in the media gallery",
     "androidKey": "BucketedThreadMedia_This_week",
-    "wordCapitalize": true
+    "ignoreCase": true,
+    "sentenceCase": true
   },
   "thisMonth": {
     "message": "This Month",
     "description": "Section header in the media gallery",
     "androidKey": "BucketedThreadMedia_This_month",
-    "wordCapitalize": true
+    "ignoreCase": true,
+    "sentenceCase": true
+
   },
   "voiceMessage": {
     "message": "Voice Message",
@@ -871,7 +874,8 @@
   "unpairDevice": {
     "message": "Unlink Device",
     "androidKey": "fragment_device_list_unlink_device_title",
-    "wordCapitalize": true
+    "ignoreCase": true,
+    "sentenceCase": true
   },
   "unpairDeviceWarning": {
     "message": "Are you sure you want to unlink this device?",
