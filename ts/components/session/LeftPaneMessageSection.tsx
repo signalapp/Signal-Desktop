@@ -467,6 +467,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         id: 'connectToServer',
         type: 'success',
       });
+      this.setState({ loading: true });
       await OpenGroup.join(serverUrl, async () => {
         if (await OpenGroup.serverExists(serverUrl)) {
           ToastUtils.push({
@@ -474,9 +475,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
             id: 'connectToServer',
             type: 'success',
           });
-
-          this.setState({ loading: true });
         }
+        this.setState({ loading: false });
       });
       const openGroupConversation = await OpenGroup.getConversation(serverUrl);
 
@@ -498,6 +498,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         id: 'connectToServer',
         type: 'error',
       });
+      this.setState({ loading: false });
     } finally {
       this.setState({
         loading: false,
