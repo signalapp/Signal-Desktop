@@ -356,29 +356,48 @@ interface MessageId {
   source: any;
   sourceDevice: any;
   timestamp: any;
+  message: any;
 }
+const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
 
 async function isMessageDuplicate({
   source,
   sourceDevice,
   timestamp,
+  message,
 }: MessageId) {
   const { Errors } = window.Signal.Types;
 
   try {
-    const result = await window.Signal.Data.getMessageBySender(
-      { source, sourceDevice, sent_at: timestamp },
+    const result = await window.Signal.Data.getMessagesBySender(
+      { source, sourceDevice },
       {
         Message: window.Whisper.Message,
       }
     );
+    if (!result) {
+      return false;
+    }
 
-    return Boolean(result);
+    const isSimilar = result.some((m: any) => isDuplicate(m, message, source));
+    return isSimilar;
   } catch (error) {
     window.log.error('isMessageDuplicate error:', Errors.toLogFormat(error));
     return false;
   }
 }
+
+export const isDuplicate = (m: any, testedMessage: any, source: string) => {
+  // The username in this case is the users pubKey
+  const sameUsername = m.propsForMessage.authorPhoneNumber === source;
+  const sameText = m.propsForMessage.text === testedMessage.body;
+  // Don't filter out messages that are too far apart from each other
+  const timestampsSimilar =
+    Math.abs(m.propsForMessage.timestamp - testedMessage.timestamp) <=
+    PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES;
+
+  return sameUsername && sameText && timestampsSimilar;
+};
 
 async function handleProfileUpdate(
   profileKeyBuffer: Uint8Array,
@@ -588,9 +607,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   // if the message is `sent` (from secondary device) we have to set the sender manually... (at least for now)
   source = source || msg.get('source');
 
-  const isDuplicate = await isMessageDuplicate(data);
-
-  if (isDuplicate) {
+  if (await isMessageDuplicate(data)) {
     // RSS expects duplicates, so squelch log
     if (!source.match(/^rss:/)) {
       window.log.warn('Received duplicate message', msg.idForLogging());

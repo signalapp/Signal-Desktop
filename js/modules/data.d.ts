@@ -267,6 +267,10 @@ export function getMessageBySender(
   }: { source: any; sourceDevice: any; sent_at: any },
   { Message }: { Message: any }
 ): Promise<any>;
+export function getMessagesBySender(
+  { source, sourceDevice }: { source: any; sourceDevice: any },
+  { Message }: { Message: any }
+): Promise<Whisper.MessageCollection>;
 export function getMessageIdsFromServerIds(
   serverIds: any,
   conversationId: any

@@ -151,6 +151,7 @@ module.exports = {
   removeAllMessagesInConversation,
 
   getMessageBySender,
+  getMessagesBySender,
   getMessageIdsFromServerIds,
   getMessageById,
   getAllMessages,
@@ -1013,6 +1014,23 @@ async function getMessageBySender(
   }
 
   return new Message(messages[0]);
+}
+
+async function getMessagesBySender(
+  // eslint-disable-next-line camelcase
+  { source, sourceDevice, sent_at },
+  { Message }
+) {
+  const messages = await channels.getMessageBySender({
+    source,
+    sourceDevice,
+    sent_at,
+  });
+  if (!messages || !messages.length) {
+    return null;
+  }
+
+  return messages.map(m => new Message(m));
 }
 
 async function getUnreadByConversation(conversationId, { MessageCollection }) {

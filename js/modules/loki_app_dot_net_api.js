@@ -6,13 +6,13 @@ const { URL, URLSearchParams } = require('url');
 const FormData = require('form-data');
 const https = require('https');
 const path = require('path');
+const dataMessage = require('../../ts/receiver/dataMessage');
 
 // Can't be less than 1200 if we have unauth'd requests
 const PUBLICCHAT_MSG_POLL_EVERY = 1.5 * 1000; // 1.5s
 const PUBLICCHAT_CHAN_POLL_EVERY = 20 * 1000; // 20s
 const PUBLICCHAT_DELETION_POLL_EVERY = 5 * 1000; // 5s
 const PUBLICCHAT_MOD_POLL_EVERY = 30 * 1000; // 30s
-const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
 
 // FIXME: replace with something on urlPubkeyMap...
 const FILESERVER_HOSTS = [
@@ -1799,7 +1799,7 @@ class LokiPublicChannelAPI {
     }
 
     return {
-      timestamp,
+      timestamp: new Date(`${adnMessage.created_at}`).getTime() || timestamp,
       attachments,
       preview,
       quote,
@@ -1913,7 +1913,10 @@ class LokiPublicChannelAPI {
         if (messengerData === false) {
           return false;
         }
-
+        // eslint-disable-next-line no-param-reassign
+        adnMessage.timestamp = messengerData.timestamp;
+        // eslint-disable-next-line no-param-reassign
+        adnMessage.body = messengerData.text;
         const {
           timestamp,
           quote,
@@ -1927,20 +1930,15 @@ class LokiPublicChannelAPI {
         }
 
         // Duplicate check
-        const isDuplicate = message => {
-          // The username in this case is the users pubKey
-          const sameUsername = message.username === pubKey;
-          const sameText = message.text === adnMessage.text;
-          // Don't filter out messages that are too far apart from each other
-          const timestampsSimilar =
-            Math.abs(message.timestamp - timestamp) <=
-            PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES;
-
-          return sameUsername && sameText && timestampsSimilar;
-        };
+        const isDuplicate = (message, testedMessage) =>
+          dataMessage.isDuplicate(
+            message,
+            testedMessage,
+            testedMessage.user.username
+          );
 
         // Filter out any messages that we got previously
-        if (this.lastMessagesCache.some(isDuplicate)) {
+        if (this.lastMessagesCache.some(m => isDuplicate(m, adnMessage))) {
           return false; // Duplicate message
         }
 
@@ -1949,9 +1947,11 @@ class LokiPublicChannelAPI {
         this.lastMessagesCache = [
           ...this.lastMessagesCache,
           {
-            username: pubKey,
-            text: adnMessage.text,
-            timestamp,
+            propsForMessage: {
+              authorPhoneNumber: pubKey,
+              text: adnMessage.text,
+              timestamp,
+            },
           },
         ].splice(-5);
 
