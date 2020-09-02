@@ -4,7 +4,7 @@ import { EnvelopePlus } from './types';
 import * as Data from '../../js/modules/data';
 
 import { SignalService } from '../protobuf';
-import { updateProfile } from './receiver';
+import { updateProfile } from './dataMessage';
 import { onVerified } from './syncMessages';
 
 import { StringUtils } from '../session/utils';
