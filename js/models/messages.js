@@ -778,7 +778,6 @@
         isStickerPack: window.Signal.LinkPreviews.isStickerPack(preview.url),
         domain: window.Signal.LinkPreviews.getDomain(preview.url),
         image: preview.image ? this.getPropsForAttachment(preview.image) : null,
-        date: preview.date ? preview.date.toNumber() : null,
       }));
     },
     getPropsForQuote() {
