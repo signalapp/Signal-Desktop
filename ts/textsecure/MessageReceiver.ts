@@ -1701,6 +1701,29 @@ class MessageReceiverInner extends EventTarget {
       digest: attachment.digest ? attachment.digest.toString('base64') : null,
     };
   }
+  private isLinkPreviewDateValid(value: unknown): value is number {
+    return (
+      typeof value === 'number' &&
+      !Number.isNaN(value) &&
+      Number.isFinite(value) &&
+      value > 0
+    );
+  }
+  private cleanLinkPreviewDate(value: unknown): number | null {
+    if (this.isLinkPreviewDateValid(value)) {
+      return value;
+    }
+    if (!value) {
+      return null;
+    }
+    let result: unknown;
+    try {
+      result = (value as any).toNumber();
+    } catch (err) {
+      return null;
+    }
+    return this.isLinkPreviewDateValid(result) ? result : null;
+  }
   async downloadAttachment(
     attachment: AttachmentPointerClass
   ): Promise<DownloadAttachmentType> {
@@ -1856,18 +1879,11 @@ class MessageReceiverInner extends EventTarget {
     decrypted.attachments = (decrypted.attachments || []).map(
       this.cleanAttachment.bind(this)
     );
-    decrypted.preview = (decrypted.preview || []).map(item => {
-      const { image } = item;
-
-      if (!image) {
-        return item;
-      }
-
-      return {
-        ...item,
-        image: this.cleanAttachment(image),
-      };
-    });
+    decrypted.preview = (decrypted.preview || []).map(item => ({
+      ...item,
+      date: this.cleanLinkPreviewDate(item.date),
+      ...(item.image ? this.cleanAttachment(item.image) : {}),
+    }));
     decrypted.contact = (decrypted.contact || []).map(item => {
       const { avatar } = item;
 
