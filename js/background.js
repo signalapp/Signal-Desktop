@@ -1326,7 +1326,7 @@
       messageReceiver = new textsecure.MessageReceiver(mySignalingKey, options);
       messageReceiver.addEventListener(
         'message',
-        window.NewReceiver.handleMessageEvent
+        window.DataMessageReceiver.handleMessageEvent
       );
       window.textsecure.messaging = new textsecure.MessageSender();
       return;
@@ -1337,11 +1337,11 @@
     messageReceiver = new textsecure.MessageReceiver(mySignalingKey, options);
     messageReceiver.addEventListener(
       'message',
-      window.NewReceiver.handleMessageEvent
+      window.DataMessageReceiver.handleMessageEvent
     );
     messageReceiver.addEventListener(
       'sent',
-      window.NewReceiver.handleMessageEvent
+      window.DataMessageReceiver.handleMessageEvent
     );
     messageReceiver.addEventListener('empty', onEmpty);
     messageReceiver.addEventListener('reconnect', onReconnect);

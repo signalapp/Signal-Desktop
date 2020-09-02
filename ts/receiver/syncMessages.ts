@@ -11,14 +11,12 @@ import {
   handleMessageEvent,
   isMessageEmpty,
   processDecrypted,
+  updateProfile,
 } from './dataMessage';
-import { updateProfile } from './receiver';
 import { handleContacts } from './multidevice';
 import { updateOrCreateGroupFromSync } from '../session/medium_group';
 import { MultiDeviceProtocol } from '../session/protocols';
-import { DataMessage } from '../session/messages/outgoing';
 import { BlockedNumberController } from '../util';
-import { StringUtils } from '../session/utils';
 
 export async function handleSyncMessage(
   envelope: EnvelopePlus,
