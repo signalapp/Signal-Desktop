@@ -40,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Stäng Signal",
+        "message": "Stäng Session",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Du har just gått igenom exporteringsprocessen och dina kontakter och meddelanden ligger nu på din dator. Vänligen välj mappen som innehåller din sparade data för Signal.",
+        "message": "Du har just gått igenom exporteringsprocessen och dina kontakter och meddelanden ligger nu på din dator. Vänligen välj mappen som innehåller din sparade data för Session.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Kontrollera att du valt rätt mapp som innehåller dina sparade Signal-data. Dess namn borde börja med 'Signal Export.' Du kan också spara en ny kopia av din data från Chrome-appen.",
+        "message": "Kontrollera att du valt rätt mapp som innehåller dina sparade Session-data. Dess namn borde börja med 'Session Export.' Du kan också spara en ny kopia av din data från Chrome-appen.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Börja använd Signal Desktop",
+        "message": "Börja använd Session Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -264,11 +264,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Dina säkerhetsnummer med flera gruppmedlemmar har ändrats sen du sist verifierade dem. Detta kan betyda att någon försöker lyssna av din kommunikation eller att de bara installerat om Signal.",
+        "message": "Dina säkerhetsnummer med flera gruppmedlemmar har ändrats sen du sist verifierade dem. Detta kan betyda att någon försöker lyssna av din kommunikation eller att de bara installerat om Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Ditt säkerhetsnummer med $name$ har ändrats sen du senast verifierade. Detta kan betyda att någon försöker avlyssna din konversation eller att $name$ har ominstallerat Signal.",
+        "message": "Ditt säkerhetsnummer med $name$ har ändrats sen du senast verifierade. Detta kan betyda att någon försöker avlyssna din konversation eller att $name$ har ominstallerat Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Säkerhetsnyckeln som du försöker verifiera har ändrats. Dubbelkolla ditt nya säkerhetsnummer med $name$. Kom ihåg, detta kan betyda att någon försöker komma åt din konversation eller att $name$ har ominstallerat Signal.",
+        "message": "Säkerhetsnyckeln som du försöker verifiera har ändrats. Dubbelkolla ditt nya säkerhetsnummer med $name$. Kom ihåg, detta kan betyda att någon försöker komma åt din konversation eller att $name$ har ominstallerat Session.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,11 +288,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Dina säkerhetsnummer med flera gruppmedlemmar har nyligen ändrats. Det kan innebära att någon försöker lyssna av din kommunikation eller att de bara installerat om Signal.",
+        "message": "Dina säkerhetsnummer med flera gruppmedlemmar har nyligen ändrats. Det kan innebära att någon försöker lyssna av din kommunikation eller att de bara installerat om Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Ditt säkerhetsnummer med $name$ har nyligen ändrats. Detta kan betyda att någon försöker avlyssna konversationen eller att $name$ har ominstallerat Signal.",
+        "message": "Ditt säkerhetsnummer med $name$ har nyligen ändrats. Detta kan betyda att någon försöker avlyssna konversationen eller att $name$ har ominstallerat Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Ditt säkerhetsnummer med $name$ har ändrats. Detta kan antingen betyda att någon försöker avlyssna din konversation eller att $name$ har ominstallerat Signal. Du kanske vill verifiera det nya säkerhetsnumret med denna kontakt.",
+        "message": "Ditt säkerhetsnummer med $name$ har ändrats. Detta kan antingen betyda att någon försöker avlyssna din konversation eller att $name$ har ominstallerat Session. Du kanske vill verifiera det nya säkerhetsnumret med denna kontakt.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -431,7 +431,7 @@
     },
     "stagedPreviewThumbnail": {
         "message": "Utkast av länkförhandsvisning i miniatyrbild för $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -441,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "Länkförhandsvisning i miniatyrbild för $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -556,7 +556,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSession": {
-        "message": "Välkommen till Signal",
+        "message": "Välkommen till Session",
         "description": ""
     },
     "typingAlt": {
@@ -634,7 +634,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
-        "message": "Om du vill skicka röstmeddelanden måste Signal Desktop ha tillgång till din mikrofon.",
+        "message": "Om du vill skicka röstmeddelanden måste Session Desktop ha tillgång till din mikrofon.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -783,7 +783,7 @@
     },
     "linkNewDevice": {
         "message": "Länka ny enhet",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "Behörigheter",
@@ -854,7 +854,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Den här versionen av Signal Desktop har utgått. Vänligen uppgradera till den senaste versionen för att fortsätta chatta.",
+        "message": "Den här versionen av Session Desktop har utgått. Vänligen uppgradera till den senaste versionen för att fortsätta chatta.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {

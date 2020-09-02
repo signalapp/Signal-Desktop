@@ -40,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Ukončiť Signal",
+        "message": "Ukončiť Session",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Práve ste dokončili proces exportu. Vaše kontakty a správy trpezlivo čakajú na vašom počítači. Zvoľte priečinok ktorý obsahuje vaše uložené Signal dáta.",
+        "message": "Práve ste dokončili proces exportu. Vaše kontakty a správy trpezlivo čakajú na vašom počítači. Zvoľte priečinok ktorý obsahuje vaše uložené Session dáta.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Uistite sa, že ste zvolili správny priečinok, ktorý obsahuje Vaše Signal dáta. Meno priečinka by mal začínať \"Signal Export\". Prípadne môžete vytvoriť novú kópiu Vašich dát v Chrome aplikácii.",
+        "message": "Uistite sa, že ste zvolili správny priečinok, ktorý obsahuje Vaše Session dáta. Meno priečinka by mal začínať \"Session Export\". Prípadne môžete vytvoriť novú kópiu Vašich dát v Chrome aplikácii.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Začnite používať Signal Desktop",
+        "message": "Začnite používať Session Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -264,11 +264,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Vaše bezpečnostné čísla sa s viacerými členmi skupiny od posledného overenia zmenili. Môže to znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len znovu nainštalovali Signal. ",
+        "message": "Vaše bezpečnostné čísla sa s viacerými členmi skupiny od posledného overenia zmenili. Môže to znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len znovu nainštalovali Session. ",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Vaše bezpečnostné číslo s $name$ sa od posledného overenia zmenilo. Môže to znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len $name$ znovu nainštaloval/a Signal.",
+        "message": "Vaše bezpečnostné číslo s $name$ sa od posledného overenia zmenilo. Môže to znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len $name$ znovu nainštaloval/a Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Bezpečnostné číslo ktoré sa chystáte overiť sa zmenilo. Prosím, skontrolujte vaše nové bezpečnostné číslo s $name$. Táto zmena môže znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len $name$ znovu nainštaloval/a Signal.",
+        "message": "Bezpečnostné číslo ktoré sa chystáte overiť sa zmenilo. Prosím, skontrolujte vaše nové bezpečnostné číslo s $name$. Táto zmena môže znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len $name$ znovu nainštaloval/a Session.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,11 +288,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Vaše bezpečnostné čísla sa s viacerými členmi skupiny nedávno zmenili. Môže to znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len znovu nainštalovali Signal.",
+        "message": "Vaše bezpečnostné čísla sa s viacerými členmi skupiny nedávno zmenili. Môže to znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len znovu nainštalovali Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Vaše bezpečnostné číslo s $name$ sa nedávno zmenilo. Môže to znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len $name$ znovu nainštaloval/a Signal. ",
+        "message": "Vaše bezpečnostné číslo s $name$ sa nedávno zmenilo. Môže to znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len $name$ znovu nainštaloval/a Session. ",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Vaše bezpečnostné číslo s $name$ sa od posledného overenia zmenilo. Môže to znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len $name$ znovu nainštaloval/a Signal. Odporúčame opätovné overenie bezpečnostného čísla s týmto kontaktom.",
+        "message": "Vaše bezpečnostné číslo s $name$ sa od posledného overenia zmenilo. Môže to znamenať, že sa niekto snaží odpočúvať vašu komunikáciu, alebo si len $name$ znovu nainštaloval/a Session. Odporúčame opätovné overenie bezpečnostného čísla s týmto kontaktom.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -431,7 +431,7 @@
     },
     "stagedPreviewThumbnail": {
         "message": "Draft thumbnail link preview for $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -441,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "Thumbnail link preview for $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -556,7 +556,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSession": {
-        "message": "Vitajte v aplikácii Signal",
+        "message": "Vitajte v aplikácii Session",
         "description": ""
     },
     "typingAlt": {
@@ -634,7 +634,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
-        "message": "Pre posielanie zvukových správ, povoľte aplikácii Signal Desktop prístup k mikrofónu.",
+        "message": "Pre posielanie zvukových správ, povoľte aplikácii Session Desktop prístup k mikrofónu.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -783,7 +783,7 @@
     },
     "linkNewDevice": {
         "message": "Pripojiť Nové Zariadenie",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "Povolenia",
@@ -854,7 +854,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Táto verzia aplikácie Signal Desktop je zastaralá. Pre pokračovanie ju prosím aktualizujte na najnovšiu verziu.",
+        "message": "Táto verzia aplikácie Session Desktop je zastaralá. Pre pokračovanie ju prosím aktualizujte na najnovšiu verziu.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {

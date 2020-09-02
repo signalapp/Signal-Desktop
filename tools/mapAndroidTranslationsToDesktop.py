@@ -7,11 +7,12 @@ import traceback
 
 # androidKey
 # "androidKeyCount": "one" or "other" used to find matching key with quantity
-# "wordCapitalize": true capitalize each words (must be called before addStart)
+# "sentenceCase": true capitalize first word (must be called before addStart)
+# "ignoreCase": true ignore case difference between android EN and desktop EN values (some stuff are put in maj on android but not on desktop)
 # "addStart": "&" char to add as start char
 # "androidReplace": replace all occurences of key value pair
 
-ALLOWED_ITEM_KEYS = ['message', 'description', 'comment', 'placeholders', 'androidKey', 'wordCapitalize', 'androidKeyCount', 'androidReplace', 'addStart', 'ignoreCase']
+ALLOWED_ITEM_KEYS = ['message', 'description', 'comment', 'placeholders', 'androidKey', 'androidKeyCount', 'androidReplace', 'addStart', 'ignoreCase', 'sentenceCase']
 
 SPECIFIC_LOCALES_MAPPING = {
     'zh_CN': 'zh-rCN',
@@ -106,8 +107,8 @@ def validateKeysPresent(items):
 def morphToDesktopSyntax(androidString, desktopItem):
     replaced = androidString.replace(r"\'", "'")
 
-    if('wordCapitalize' in desktopItem.keys() and desktopItem['wordCapitalize']):
-        replaced = replaced.title()
+    if('sentenceCase' in desktopItem.keys() and desktopItem['sentenceCase']):
+        replaced = replaced.capitalize()
 
     if ('androidReplace' in desktopItem.keys()):
         for key, value in desktopItem['androidReplace'].items():

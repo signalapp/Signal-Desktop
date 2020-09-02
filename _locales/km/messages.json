@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "សូមប្រាកដថា អ្នកបានជ្រើសរើស កន្លែងត្រឹមត្រូវដែលផ្ទុកទិន្នន័យSignalរបស់អ្នក ដែលបានរក្សាទុក។ ឈ្មោះវា គួរតែចាប់ផ្តើមដោយ 'នាំចេញ Signal។' អ្នកអាចរក្សាទុកការចម្លងថ្មីមួយនៃទិន្នន័យរបស់អ្នក ពីកម្មវិធី Chrome ។",
+        "message": "សូមប្រាកដថា អ្នកបានជ្រើសរើស កន្លែងត្រឹមត្រូវដែលផ្ទុកទិន្នន័យSignalរបស់អ្នក ដែលបានរក្សាទុក។ ឈ្មោះវា គួរតែចាប់ផ្តើមដោយ 'នាំចេញ Session។' អ្នកអាចរក្សាទុកការចម្លងថ្មីមួយនៃទិន្នន័យរបស់អ្នក ពីកម្មវិធី Chrome ។",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "ចាប់ផ្តើមប្រើប្រាស់ Signal Desktop",
+        "message": "ចាប់ផ្តើមប្រើប្រាស់ Session Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -264,11 +264,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយសមាជិកក្រុមច្រើន បានផ្លាស់ប្តូរ តាំងពីអ្នកបានផ្ទៀងផ្ទាត់លើកចុងក្រោយ។ នេះអាចមានន័យថា មាននរណាម្នាក់កំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក ឬគេបានតំឡើង Signal ឡើងវិញ។",
+        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយសមាជិកក្រុមច្រើន បានផ្លាស់ប្តូរ តាំងពីអ្នកបានផ្ទៀងផ្ទាត់លើកចុងក្រោយ។ នេះអាចមានន័យថា មាននរណាម្នាក់កំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក ឬគេបានតំឡើង Session ឡើងវិញ។",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយ $name$ បានផ្លាស់ប្តូរ តាំងពីអ្នកបានផ្ទៀងផ្ទាត់លើកចុងក្រោយ។ នេះអាចមានន័យថា មានគេកំពុងព្យាយាមជ្រៀតចូលការទំនាក់ទំនង ឬ $name$ បានដំឡើង Signal ឡើងវិញ។",
+        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយ $name$ បានផ្លាស់ប្តូរ តាំងពីអ្នកបានផ្ទៀងផ្ទាត់លើកចុងក្រោយ។ នេះអាចមានន័យថា មានគេកំពុងព្យាយាមជ្រៀតចូលការទំនាក់ទំនង ឬ $name$ បានដំឡើង Session ឡើងវិញ។",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "លេខសុវត្ថិភាព ដែលអ្នកកំពុងព្យាយាមផ្ទៀងផ្ទាត់បានផ្លាស់ប្តូរ។ សូមពិនិត្យមើលលេខសុវត្ថិភាពថ្មីជាមួយ $name$។ ចងចាំថា ការផ្លាស់ប្តូរនេះអាចមានន័យថា​ មាននរណាម្នាក់កំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក ឬ $name$បានតំឡើង Signal ឡើងវិញ។  ",
+        "message": "លេខសុវត្ថិភាព ដែលអ្នកកំពុងព្យាយាមផ្ទៀងផ្ទាត់បានផ្លាស់ប្តូរ។ សូមពិនិត្យមើលលេខសុវត្ថិភាពថ្មីជាមួយ $name$។ ចងចាំថា ការផ្លាស់ប្តូរនេះអាចមានន័យថា​ មាននរណាម្នាក់កំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក ឬ $name$បានតំឡើង Session ឡើងវិញ។  ",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,11 +288,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយសមាជិកក្រុមច្រើន បានផ្លាស់ប្តូរ ថ្មីៗនេះ។ នេះអាចមានន័យថា មាននរណាម្នាក់កំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក ឬគេបានតំឡើង Signal ឡើងវិញ។ ",
+        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយសមាជិកក្រុមច្រើន បានផ្លាស់ប្តូរ ថ្មីៗនេះ។ នេះអាចមានន័យថា មាននរណាម្នាក់កំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក ឬគេបានតំឡើង Session ឡើងវិញ។ ",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយ $name$ បានផ្លាស់ប្តូរ ថ្មីៗនេះ។ នេះអាចមានន័យថា មានគេកំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក ឬ $name$ បានដំឡើង Signal ឡើងវិញ។",
+        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយ $name$ បានផ្លាស់ប្តូរ ថ្មីៗនេះ។ នេះអាចមានន័យថា មានគេកំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក ឬ $name$ បានដំឡើង Session ឡើងវិញ។",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយ $name$ បានផ្លាស់ប្តូរ។ នេះអាចមានន័យថា មាននរណាម្នាក់កំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក ឬ $name$ បានតំឡើង Signal ឡើងវិញ។ អ្នកអាចត្រូវផ្ទៀងផ្ទាត់លេខសុវត្ថិភាពរបស់អ្នក ជាមួយលេខទំនាក់ទំនងនេះ។",
+        "message": "លេខសុវត្ថិភាពរបស់អ្នក ជាមួយ $name$ បានផ្លាស់ប្តូរ។ នេះអាចមានន័យថា មាននរណាម្នាក់កំពុងព្យាយាមជ្រាតចូលការទំនាក់ទំនងរបស់អ្នក ឬ $name$ បានតំឡើង Session ឡើងវិញ។ អ្នកអាចត្រូវផ្ទៀងផ្ទាត់លេខសុវត្ថិភាពរបស់អ្នក ជាមួយលេខទំនាក់ទំនងនេះ។",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -431,7 +431,7 @@
     },
     "stagedPreviewThumbnail": {
         "message": "ការមើលតំណជារូបភាពតូចៗព្រាងសម្រាប់ $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -441,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "ការមើលតំណជារូបភាពតូចៗសម្រាប់$domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -556,7 +556,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSession": {
-        "message": "ស្វាគមន៍មកកាន់ Signal",
+        "message": "ស្វាគមន៍មកកាន់ Session",
         "description": ""
     },
     "typingAlt": {
@@ -783,7 +783,7 @@
     },
     "linkNewDevice": {
         "message": "តភ្ជាប់ឧបករណ៍ថ្មី",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "ការអនុញ្ញាត",
@@ -854,7 +854,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "ជំនាន់ Signal Desktop នេះ បានហួសសុពលភាព។ សូមដំឡើងទីកាន់ជំនាន់ចុងក្រោយ ដើម្បីបន្តការផ្ញើសារ។",
+        "message": "ជំនាន់ Session Desktop នេះ បានហួសសុពលភាព។ សូមដំឡើងទីកាន់ជំនាន់ចុងក្រោយ ដើម្បីបន្តការផ្ញើសារ។",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {

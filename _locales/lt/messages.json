@@ -40,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Išeiti iš Signal",
+        "message": "Išeiti iš Session",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Jūs ką tik perėjote per eksportavimo procesą ir jūsų kontaktai bei žinutės kantriai laukia jūsų kompiuteryje. Pasirinkite aplanką, kuriame yra jūsų įrašyti Signal duomenys.",
+        "message": "Jūs ką tik perėjote per eksportavimo procesą ir jūsų kontaktai bei žinutės kantriai laukia jūsų kompiuteryje. Pasirinkite aplanką, kuriame yra jūsų įrašyti Session duomenys.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Įsitikinkite, kad pasirinkote teisingą katalogą, kuriame yra jūsų įrašyti Signal duomenys. Jo pavadinimas turėtų prasidėti \"Signal Export.\" Taip pat galite įrašyti naują savo duomenų kopiją iš Chrome programėlės.",
+        "message": "Įsitikinkite, kad pasirinkote teisingą katalogą, kuriame yra jūsų įrašyti Session duomenys. Jo pavadinimas turėtų prasidėti \"Session Export.\" Taip pat galite įrašyti naują savo duomenų kopiją iš Chrome programėlės.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Pradėti naudoti Signal Desktop",
+        "message": "Pradėti naudoti Session Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -264,11 +264,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Jūsų saugumo numeriai su keliais grupės dalyviais nuo paskutinio patvirtinimo pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad šie asmenys, tiesiog, iš naujo įdiegė Signal.",
+        "message": "Jūsų saugumo numeriai su keliais grupės dalyviais nuo paskutinio patvirtinimo pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad šie asmenys, tiesiog, iš naujo įdiegė Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Jūsų saugumo numeris su $name$ nuo paskutinio patvirtinimo pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal.",
+        "message": "Jūsų saugumo numeris su $name$ nuo paskutinio patvirtinimo pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Saugumo numeris, kurį bandote patvirtinti, pasikeitė. Prašome peržiūrėti savo saugumo numerį su $name$. Atminkite, šis pokytis gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal.",
+        "message": "Saugumo numeris, kurį bandote patvirtinti, pasikeitė. Prašome peržiūrėti savo saugumo numerį su $name$. Atminkite, šis pokytis gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Session.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,11 +288,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Jūsų saugumo numeriai su keliais grupės dalyviais neseniai pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad šie asmenys, tiesiog, iš naujo įdiegė Signal. ",
+        "message": "Jūsų saugumo numeriai su keliais grupės dalyviais neseniai pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad šie asmenys, tiesiog, iš naujo įdiegė Session. ",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Jūsų saugumo numeris su $name$ neseniai pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal.",
+        "message": "Jūsų saugumo numeris su $name$ neseniai pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Jūsų saugumo numeris su $name$ pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, norėtumėte patvirtinti saugumo numerį su šiuo kontaktu.",
+        "message": "Jūsų saugumo numeris su $name$ pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name$, tiesiog, iš naujo įdiegė Session. Jūs, tikriausiai, norėtumėte patvirtinti saugumo numerį su šiuo kontaktu.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -431,7 +431,7 @@
     },
     "stagedPreviewThumbnail": {
         "message": "Juodraštinė miniatiūrinė nuorodos peržiūra, skirta $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -441,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "Miniatiūrinė nuorodos peržiūra, skirta $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -556,7 +556,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSession": {
-        "message": "Sveiki atvykę į Signal",
+        "message": "Sveiki atvykę į Session",
         "description": ""
     },
     "typingAlt": {
@@ -634,7 +634,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
-        "message": "Norėdami siųsti garso žinutes, suteikite Signal Desktop prieigą prie savo mikrofono.",
+        "message": "Norėdami siųsti garso žinutes, suteikite Session Desktop prieigą prie savo mikrofono.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -783,7 +783,7 @@
     },
     "linkNewDevice": {
         "message": "Susieti naują įrenginį",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "Leidimai",
@@ -854,7 +854,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Pasibaigė šios Signal Desktop skirtos versijos galiojimas. Norint tęsti susirašinėjimą, prašome atsinaujinti iki naujausios versijos.",
+        "message": "Pasibaigė šios Session Desktop skirtos versijos galiojimas. Norint tęsti susirašinėjimą, prašome atsinaujinti iki naujausios versijos.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {

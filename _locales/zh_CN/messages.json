@@ -40,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "退出 Signal",
+        "message": "退出 Session",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "您已完成了导出步骤，被导出的联系人和消息在等着您给它们一个新家。请选择包含您 Signal 数据的文件夹。",
+        "message": "您已完成了导出步骤，被导出的联系人和消息在等着您给它们一个新家。请选择包含您 Session 数据的文件夹。",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "请确认您选对了包含已保存 Signal 数据 的文件夹，其名字一般以“Signal Export”开头。您还可以在 Chrome App 上保存一份新的数据。",
+        "message": "请确认您选对了包含已保存 Session 数据 的文件夹，其名字一般以“Session Export”开头。您还可以在 Chrome App 上保存一份新的数据。",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "开始使用 Signal Desktop",
+        "message": "开始使用 Session Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -264,11 +264,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "自上次验证以来，您与多位群组成员的安全码已发生改变。这可能意味着有人试图截取您的对话，或者只是联系人重新安装了 Signal。",
+        "message": "自上次验证以来，您与多位群组成员的安全码已发生改变。这可能意味着有人试图截取您的对话，或者只是联系人重新安装了 Session。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "您与$name$的安全码自上次确认后已改变。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是重装了 Signal。",
+        "message": "您与$name$的安全码自上次确认后已改变。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是重装了 Session。",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "您想验证的安全码已改变。请检查您与$name$的新安全码。切记，验证码改变意味着可能有人试图截取您的通讯，也可能只是$name$重新安装了 Signal。",
+        "message": "您想验证的安全码已改变。请检查您与$name$的新安全码。切记，验证码改变意味着可能有人试图截取您的通讯，也可能只是$name$重新安装了 Session。",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,11 +288,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "您与多位群组成员的安全码已发生改变。这可能表示有人试图偷听您的对话，或者只是联系人他们重新安装了 Signal。",
+        "message": "您与多位群组成员的安全码已发生改变。这可能表示有人试图偷听您的对话，或者只是联系人他们重新安装了 Session。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "您与$name$的安全码最近发生了变化。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是重装了 Signal。",
+        "message": "您与$name$的安全码最近发生了变化。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是重装了 Session。",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "您与$name$的安全码已改变。这表示可能有人试图偷听您的对话，也可能只是$name$重新安装了 Signal。您可能要重新验证与联系人的安全码。",
+        "message": "您与$name$的安全码已改变。这表示可能有人试图偷听您的对话，也可能只是$name$重新安装了 Session。您可能要重新验证与联系人的安全码。",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -431,7 +431,7 @@
     },
     "stagedPreviewThumbnail": {
         "message": "待发送的$domain$链接预览",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -441,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "$domain$的链接预览缩略图",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -634,7 +634,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
-        "message": "发送音频消息前，请先允许 Signal Desktop访问您的麦克风。",
+        "message": "发送音频消息前，请先允许 Session Desktop访问您的麦克风。",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -783,7 +783,7 @@
     },
     "linkNewDevice": {
         "message": "关联新设备",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "权限",

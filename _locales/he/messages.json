@@ -40,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "צא מ־Signal",
+        "message": "צא מ־Session",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "הרגע עברת את תהליך היצוא, ואנשי הקשר וההודעות שלך ממתינים בסבלנות על המחשב שלך. בחר את התיקייה המכילה את נתוני Signal השמורים שלך.",
+        "message": "הרגע עברת את תהליך היצוא, ואנשי הקשר וההודעות שלך ממתינים בסבלנות על המחשב שלך. בחר את התיקייה המכילה את נתוני Session השמורים שלך.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "וודא שבחרת את התיקייה הנכונה המכילה את נתוני Signal השמורים שלך. שמה אמור להתחיל ב'יבוא Signal'. אתה יכול גם לשמור עותק חדש של הנתונים שלך מתוך יישום Chrome.",
+        "message": "וודא שבחרת את התיקייה הנכונה המכילה את נתוני Session השמורים שלך. שמה אמור להתחיל ב'יבוא Session'. אתה יכול גם לשמור עותק חדש של הנתונים שלך מתוך יישום Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "התחל להשתמש ב־Signal Desktop עבודה",
+        "message": "התחל להשתמש ב־Session Desktop עבודה",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -264,11 +264,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "מספרי הבטיחות שלך עם חברי קבוצה אלו השתנו מאז שוידאת בפעם האחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או שהוא פשוט התקין מחדש את Signal.",
+        "message": "מספרי הבטיחות שלך עם חברי קבוצה אלו השתנו מאז שוידאת בפעם האחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או שהוא פשוט התקין מחדש את Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "מספר הבטיחות שלך עם $name$ השתנה מאז הפעם שוידאת בפעם האחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או $name$ פשוט התקין מחדש את Signal.",
+        "message": "מספר הבטיחות שלך עם $name$ השתנה מאז הפעם שוידאת בפעם האחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או $name$ פשוט התקין מחדש את Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "מספר הבטיחות שאתה מנסה לוודא השתנה. אנא סקור את מספר הבטיחות החדש שלך עם $name$. זכור, שינוי זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או $name$ פשוט התקין מחדש את Signal.",
+        "message": "מספר הבטיחות שאתה מנסה לוודא השתנה. אנא סקור את מספר הבטיחות החדש שלך עם $name$. זכור, שינוי זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או $name$ פשוט התקין מחדש את Session.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,11 +288,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "מספרי הבטיחות שלך עם חברי קבוצה רבים השתנו לאחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או שהוא פשוט התקין מחדש את Signal.",
+        "message": "מספרי הבטיחות שלך עם חברי קבוצה רבים השתנו לאחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או שהוא פשוט התקין מחדש את Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "מספר הבטיחות שלך עם $name$ השתנה לאחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או $name$פשוט התקין מחדש את Signal.",
+        "message": "מספר הבטיחות שלך עם $name$ השתנה לאחרונה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או $name$פשוט התקין מחדש את Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "מספר הבטיחות שלך עם $name$ השתנה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או $name$פשוט התקין מחדש את Signal. ייתכן שתרצה לוודא את מספר הבטיחות שלך עם איש קשה זה.",
+        "message": "מספר הבטיחות שלך עם $name$ השתנה. זה יכול להעיד שמישהו מנסה ליירט את התקשורת שלך או $name$פשוט התקין מחדש את Session. ייתכן שתרצה לוודא את מספר הבטיחות שלך עם איש קשה זה.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -431,7 +431,7 @@
     },
     "stagedPreviewThumbnail": {
         "message": "טיוטה של קדם־תצוגה של קישור עבור $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -441,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "קדם־תצוגה של קישור עבור $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -634,7 +634,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
-        "message": "כדי לשלוח הודעות קוליות, התר אל Signal Desktop עבודה לקבל גישה אל המיקרופון שלך.",
+        "message": "כדי לשלוח הודעות קוליות, התר אל Session Desktop עבודה לקבל גישה אל המיקרופון שלך.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -783,7 +783,7 @@
     },
     "linkNewDevice": {
         "message": "קשר מכשיר חדש",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "הרשאות",
@@ -854,7 +854,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "גרסה זו של Signal Desktop עבודה פגה. אנא שדרג אל הגרסה האחרונה כדי להמשיך בשליחת הודעות.",
+        "message": "גרסה זו של Session Desktop עבודה פגה. אנא שדרג אל הגרסה האחרונה כדי להמשיך בשליחת הודעות.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {

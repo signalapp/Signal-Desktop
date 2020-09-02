@@ -40,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Quitter Signal",
+        "message": "Quitter Session",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -72,7 +72,7 @@
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Tout Sélectionner",
+        "message": "Tout sélectionner",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Vous venez de passer par le processus d’exportation, et vos contacts et messages attendent patiemment sur votre ordinateur. Sélectionnez le dossier contenant vos données relatives à Signal enregistrées.",
+        "message": "Vous venez de passer par le processus d’exportation, et vos contacts et messages attendent patiemment sur votre ordinateur. Sélectionnez le dossier contenant vos données relatives à Session enregistrées.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Assurez-vous d’avoir sélectionné le bon répertoire contenant vos données relatives à Signal enregistrées. Son nom devrait commencer par « Signal Export ». Vous pouvez également enregistrer une nouvelle copie de vos données à partir de l’application Chrome.",
+        "message": "Assurez-vous d’avoir sélectionné le bon répertoire contenant vos données relatives à Session enregistrées. Son nom devrait commencer par « Signal Export ». Vous pouvez également enregistrer une nouvelle copie de vos données à partir de l’application Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Commencez à utiliser Signal Desktop pour ordinateur",
+        "message": "Commencez à utiliser Session Desktop pour ordinateur",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -264,7 +264,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Vos numéros de sécurité avec plusieurs membres du groupe ont changé depuis votre dernière vérification. Cela pourrait signifier soit que quelqu’un tente d’intercepter votre communication, soit qu’ils ont simplement réinstallé Signal.",
+        "message": "Vos numéros de sécurité avec plusieurs membres du groupe ont changé depuis votre dernière vérification. Cela pourrait signifier soit que quelqu’un tente d’intercepter votre communication, soit qu’ils ont simplement réinstallé Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Le numéro de sécurité que vous essayez de vérifier a changé. Veuillez réviser votre nouveau numéro de sécurité avec $name$. Rappelez-vous que ce changement pourrait signifier soit que quelqu’un tente d’intercepter votre communication, soit que $name$ a simplement réinstallé Signal.",
+        "message": "Le numéro de sécurité que vous essayez de vérifier a changé. Veuillez réviser votre nouveau numéro de sécurité avec $name$. Rappelez-vous que ce changement pourrait signifier soit que quelqu’un tente d’intercepter votre communication, soit que $name$ a simplement réinstallé Session.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,7 +288,7 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Vos numéros de sécurité avec plusieurs membres du groupe ont changé récemment. Cela pourrait signifier soit que quelqu’un tente d’intercepter votre communication, soit qu’ils ont simplement réinstallé Signal.",
+        "message": "Vos numéros de sécurité avec plusieurs membres du groupe ont changé récemment. Cela pourrait signifier soit que quelqu’un tente d’intercepter votre communication, soit qu’ils ont simplement réinstallé Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Votre numéro de sécurité avec $name$ a changé. Cela pourrait signifier soit que quelqu’un tente d’intercepter votre communication, soit que $name$ a simplement réinstallé Signal. Vous devriez peut-être vérifier votre numéro de sécurité avec ce contact.",
+        "message": "Votre numéro de sécurité avec $name$ a changé. Cela pourrait signifier soit que quelqu’un tente d’intercepter votre communication, soit que $name$ a simplement réinstallé Session. Vous devriez peut-être vérifier votre numéro de sécurité avec ce contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -414,11 +414,11 @@
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "Cette Semaine",
+        "message": "Cette semaine",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "Ce Mois",
+        "message": "Ce mois",
         "description": "Section header in the media gallery"
     },
     "voiceMessage": {
@@ -431,7 +431,7 @@
     },
     "stagedPreviewThumbnail": {
         "message": "Brouillon d’imagette d’aperçu de lien pour $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -441,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "Imagette d’aperçu de lien pour $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -752,7 +752,7 @@
         "description": "Used in alt tag of image attachment"
     },
     "videoAttachmentAlt": {
-        "message": "Capture d.écran de la vidéo jointe au message",
+        "message": "Capture d'écran de la vidéo jointe au message",
         "description": "Used in alt tag of video attachment preview"
     },
     "lightboxImageAlt": {
@@ -783,7 +783,7 @@
     },
     "linkNewDevice": {
         "message": "Relier un nouvel appareil",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "Autorisations",
@@ -854,7 +854,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Cette version de Signal Desktop pour ordinateur est expirée. Veuillez la mettre à niveau vers la version la plus récente afin de continuer à échanger.",
+        "message": "Cette version de Session Desktop pour ordinateur est expirée. Veuillez la mettre à niveau vers la version la plus récente afin de continuer à échanger.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1271,7 +1271,7 @@
         "message": "Modifier le groupe"
     },
     "updateGroupDialogTitle": {
-        "message": "Mise à jour $name$…"
+        "message": "Mise à jour de $name$…"
     },
     "showRecoveryPhrase": {
         "message": "Phrase de récupération"
@@ -1410,5 +1410,417 @@
     },
     "closedGroupMaxSize": {
         "message": "Un groupe privé ne peut pas avoir plus de 10 membres"
+    },
+    "contextMenuNoSuggestions": {
+        "message": "Pas de suggestions",
+        "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
+    },
+    "done": {
+        "message": "Terminer",
+        "description": "Button when a specific action is to be done."
+    },
+    "cannotUpdateDetail": {
+        "message": "La mise a jour de Session a échouée. Une nouvelle version est disponible. Rendez-vous sur https://getsession.org/ pour installer la nouvelle version manuellement. Vous pouvez également contacter le support ou créer un ticket au sujet de ce problème.",
+        "description": "Shown if a general error happened while trying to install update package"
+    },
+    "close": {
+        "message": "Fermer"
+    },
+    "devicePairingRequestReceivedNoListenerDescription": {
+        "message": "Une demande de liaison a été reçue, mais vous n’êtes pas sur l’écran de liaison d'un appareil. \nRendez-vous dans Paramètres > Appareil > Relier un nouvel appareil."
+    },
+    "deviceIsSecondaryNoPairing": {
+        "message": "Cet appareil est un appareil secondaire et ne peux donc pas être relié."
+    },
+    "pairingOngoing": {
+        "message": "Une demande de liaison est déjà en cours. Redémarrez l'application si cela prends trop longtemps."
+    },
+    "allowPairingWithDevice": {
+        "message": "Autoriser la liaison avec cet appareil ?"
+    },
+    "provideDeviceAlias": {
+        "message": "Choisissez un alias pour cet appareil"
+    },
+    "showPairingWordsTitle": {
+        "message": "Mots secrets pour la liaison"
+    },
+    "confirmUnpairingTitle": {
+        "message": "Merci de confirmer que vous souhaitez déconnecter l'appareil suivant:"
+    },
+    "unpairDeviceWarning": {
+        "message": "Êtes-vous sur de vouloir déconnecter cet appareil ?",
+        "description": "Warning for device unlinking in settings view"
+    },
+    "unpairDeviceWarningSub": {
+        "message": "Déconnecter cet appareil supprimera tout l'historique, ce qui inclut tous les messages, sessions, et contacts de cet appareil.",
+        "description": "Warning description for device unlinking in settings view"
+    },
+    "deletePublicWarning": {
+        "message": "Êtes-vous sûr? Cela supprimera ce message pour tous les membres de ce groupe public."
+    },
+    "deleteMultiplePublicWarning": {
+        "message": "Êtes-vous sûr? Cela supprimera ces messages pour tous les membres de ce groupe public."
+    },
+    "deleteMultipleWarning": {
+        "message": "Êtes-vous sûr? En cliquant sur 'Supprimer' cela supprimera ces messages sur cet appareil uniquement."
+    },
+    "messageDeletionForbidden": {
+        "message": "Vous n'êtes pas autorisé à supprimer les messages des autres utilisateurs.",
+        "description": "Toast message explaining that the user doens't have the rights to delete other people's messages."
+    },
+    "sendMessageBlockedUser": {
+        "message": "Vous avez bloqué ce contact"
+    },
+    "deleteMessageForEveryone": {
+        "message": "Supprimer ce message pour tout le monde",
+        "description": "Menu item for deleting messages, title case."
+    },
+    "deleteMessagesForEveryone": {
+        "message": "Supprimer ces messages pour tout le monde",
+        "description": "Menu item for deleting messages, title case."
+    },
+    "deleteForEveryone": {
+        "message": "Supprimer ce message",
+        "description": "Menu item for deleting messages, title case."
+    },
+    "deletePublicConversationConfirmation": {
+        "message": "Êtes-vous sur de vouloir supprimer les messages de ce groupe public de façon permanente ?",
+        "description": "Confirmation dialog text that asks the user if they really wish to delete the open group messages locally. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    },
+    "sessionResetFailed": {
+        "message": "La réinitialisation de la session sécurisée a échoué",
+        "description": "your secure session could not been transmitted to the other participant."
+    },
+    "sessionResetOngoing": {
+        "message": "Réinitialisation de la session sécurisée en cours",
+        "description": "your secure session is currently being reset, waiting for the reset acknowledgment."
+    },
+    "linkPreviewsConfirmMessage": {
+        "message": "Vous n'aurez pas une protection complète des métadonnées en envoyant ou recevant des aperçu de liens."
+    },
+    "mediaPermissionsTitle": {
+        "message": "Microphone et caméra"
+    },
+    "spellCheckTitle": {
+        "message": "Vérification orthographique",
+        "description": "Description of the media permission description"
+    },
+    "spellCheckDirty": {
+        "message": "Vous devez redémarrer Session pour appliquer ces changements.",
+        "description": "Shown when the user changes their spellcheck setting to indicate that they must restart Session."
+    },
+    "readReceiptSettingDescription": {
+        "message": "Voir et partager quand les messages ont étés lus (s'applique à toutes les sessions).",
+        "description": "Description of the read receipts setting"
+    },
+    "typingIndicatorsSettingDescription": {
+        "message": "Voir et partager quand les messages sont rédigés (s'applique à toutes les sessions).",
+        "description": "Description of the typing indicators setting"
+    },
+    "zoomFactorSettingTitle": {
+        "message": "Facteur de zoom",
+        "description": "Title of the Zoom Factor setting"
+    },
+    "clockOutOfSync": {
+        "message": "Votre horloge est désynchronisée. Merci de mettre à jour votre horloge et de réessayer.",
+        "description": "Notifcation that user's clock is out of sync with Loki's servers."
+    },
+    "messageBodyTooLong": {
+        "message": "Corps de message trop long.",
+        "description": "Shown if the user tries to send more than 64kb of text"
+    },
+    "changeNickname": {
+        "message": "Changer le surnom",
+        "description": "Conversation menu option to change user nickname"
+    },
+    "clearNickname": {
+        "message": "Supprimer le surnom",
+        "description": "Conversation menu option to clear user nickname"
+    },
+    "themeToggleDescription": {
+        "message": "Choisissez le thème qui vous convient le mieux"
+    },
+    "hideMenuBarTitle": {
+        "message": "Cacher la barre de menu",
+        "description": "Label text for menu bar visibility setting"
+    },
+    "hideMenuBarDescription": {
+        "message": "Activer/Désactiver la barre de menu système",
+        "description": "Label text for menu bar visibility setting"
+    },
+    "autoUpdateSettingTitle": {
+        "message": "Mise à jour automatique"
+    },
+    "autoUpdateSettingDescription": {
+        "message": "Rechercher automatiquement les mises à jour au lancement"
+    },
+    "autoUpdateDownloadedMessage": {
+        "message": "La mise à jour a été telechargée."
+    },
+    "autoUpdateDownloadInstructions": {
+        "message": "Voulez-vous télécharger la mise à jour ?"
+    },
+    "unblocked": {
+        "message": "Débloqué"
+    },
+    "banUser": {
+        "message": "Bannir l'utilisateur",
+        "description": "Ban user from open group by public key."
+    },
+    "banUserConfirm": {
+        "message": "Êtes-vous sûr de vouloir bannir cet utilisateur ?",
+        "description": "Message shown when confirming user ban."
+    },
+    "userBanned": {
+        "message": "Utilisateur banni",
+        "description": "Toast on succesful user ban."
+    },
+    "userBanFailed": {
+        "message": "Le bannissement a échoué",
+        "description": "Toast on unsuccesful user ban."
+    },
+    "copyMessage": {
+        "message": "Copier le texte du message",
+        "description": "Button action that the user can click to copy their public keys"
+    },
+    "selectMessage": {
+        "message": "Sélectionner le message",
+        "description": "Button action that the user can click to select the message"
+    },
+    "editGroupName": {
+        "message": "Éditer le nom du groupe",
+        "description": "Button action that the user can click to edit a group name (closed)"
+    },
+    "setAccountPasswordTitle": {
+        "message": "Définir un mot de passe",
+        "description": "Prompt for user to set account password in settings view"
+    },
+    "setAccountPasswordDescription": {
+        "message": "Require password to unlock Session’s screen. You can still receive message notifications while Screen Lock is enabled. Session’s notification settings allow you to customize information that is displayed",
+        "description": "Description for set account password setting view"
+    },
+    "changeAccountPasswordTitle": {
+        "message": "Changement de mot de passe",
+        "description": "Prompt for user to change account password in settings view"
+    },
+    "changeAccountPasswordDescription": {
+        "message": "Changer le mot de passe",
+        "description": "Description for change account password setting view"
+    },
+    "removeAccountPasswordTitle": {
+        "message": "Supprimer le mot de passe",
+        "description": "Prompt for user to remove account password in settings view"
+    },
+    "removeAccountPasswordDescription": {
+        "message": "Supprimer le mot de passe de ce compte",
+        "description": "Description for remove account password setting view"
+    },
+    "enterPassword": {
+        "message": "Veuillez saisir votre mot de passe"
+    },
+    "confirmPassword": {
+        "message": "Confirmez le mot de passe"
+    },
+    "pasteLongPasswordToastTitle": {
+        "message": "Le contenu du presse-papier dépasse la longueur maximum pour un mot de passe ($max_pwd_len$ caractères).",
+        "description": "Shown when user pastes a password which is longer than MAX_PASSWORD_LEN"
+    },
+    "showRecoveryPhrasePasswordRequest": {
+        "message": "Veuillez saisir votre mot de passe",
+        "description": "Request for user to enter password to show recovery phrase."
+    },
+    "passwordViewTitle": {
+        "message": "Saisissez votre mot de passe",
+        "description": "The title shown when user needs to type in a password to unlock the messenger"
+    },
+    "password": {
+        "message": "Mot de passe",
+        "description": "Placeholder for password input"
+    },
+    "setPassword": {
+        "message": "Définir un mot de passe",
+        "description": "Button action that the user can click to set a password"
+    },
+    "changePassword": {
+        "message": "Changer le mot de passe",
+        "description": "Button action that the user can click to change a password"
+    },
+    "removePassword": {
+        "message": "Supprimer le mot de passe",
+        "description": "Button action that the user can click to remove a password"
+    },
+    "maxPasswordAttempts": {
+        "message": "Mot de passe invalide. Voulez-vous effacer la base de données?"
+    },
+    "typeInOldPassword": {
+        "message": "Merci de saisir votre ancien mot de passe"
+    },
+    "invalidOldPassword": {
+        "message": "Ancien mot de passe invalide"
+    },
+    "invalidPassword": {
+        "message": "Mot de passe invalide"
+    },
+    "noGivenPassword": {
+        "message": "Merci de saisir votre mot de passe"
+    },
+    "passwordsDoNotMatch": {
+        "message": "Les mots de passe ne correspondent pas."
+    },
+    "setPasswordInvalid": {
+        "message": "Les mots de passe ne correspondent pas."
+    },
+    "changePasswordInvalid": {
+        "message": "L'ancien mot de passe est incorrect"
+    },
+    "removePasswordInvalid": {
+        "message": "Mot de passe incorrect"
+    },
+    "setPasswordTitle": {
+        "message": "Définir un mot de passe"
+    },
+    "changePasswordTitle": {
+        "message": "Changer le mot de passe"
+    },
+    "removePasswordTitle": {
+        "message": "Supprimer le mot de passe"
+    },
+    "setPasswordToastDescription": {
+        "message": "Votre mot de passe a été défini. Veuillez le conserver en sécurité."
+    },
+    "changePasswordToastDescription": {
+        "message": "Votre mot de passe a été changé. Veuillez le conserver en sécurité."
+    },
+    "removePasswordToastDescription": {
+        "message": "Vous avez supprimé votre mot de passe."
+    },
+    "publicChatExists": {
+        "message": "Vous êtes déjà connecté à ce groupe public"
+    },
+    "connectToServerSuccess": {
+        "message": "Connexion au groupe public réussie"
+    },
+    "setPasswordFail": {
+        "message": "Échec de la définition du mot de passe"
+    },
+    "passwordLengthError": {
+        "message": "Le mot de passe doit avoir une longueur comprise entre 6 et 50 caractères",
+        "description": "Error string shown to the user when password doesn't meet length criteria"
+    },
+    "passwordTypeError": {
+        "message": "Le mot de passe doit être une chaîne de caractères",
+        "description": "Error string shown to the user when password is not a string"
+    },
+    "passwordCharacterError": {
+        "message": "Le mot de passe ne peux contenir que des lettres, des chiffres et des symboles",
+        "description": "Error string shown to the user when password contains an invalid character"
+    },
+    "invalidPubkeyFormat": {
+        "message": "Format de clé publique non valide",
+        "description": "Error string shown when user types an invalid pubkey format"
+    },
+    "lnsMappingNotFound": {
+        "message": "Aucun mappage LNS n'est associé à ce nom",
+        "description": "Shown in toast if user enters an unknown LNS name"
+    },
+    "lnsLookupTimeout": {
+        "message": "La recherche LNS a expiré",
+        "description": "Shown in toast if user enters an unknown LNS name"
+    },
+    "lnsTooFewNodes": {
+        "message": "Il n'y a pas assez de nœuds actifs actuellement pour la recherche LNS"
+    },
+    "editProfileModalTitle": {
+        "message": "Profil",
+        "description": "Title for the Edit Profile modal"
+    },
+    "addModerators": {
+        "message": "Ajouter un modérateur"
+    },
+    "removeModerators": {
+        "message": "Supprimer un modérateur"
+    },
+    "groupInvitation": {
+        "message": "Invitation à rejoindre un groupe"
+    },
+    "addingContacts": {
+        "message": "Ajouter des contacts à"
+    },
+    "noContactsToAdd": {
+        "message": "Aucun contact à ajouter"
+    },
+    "noMembersInThisGroup": {
+        "message": "Aucun autre membre dans ce groupe"
+    },
+    "noModeratorsToRemove": {
+        "message": "Aucun modérateur à supprimer"
+    },
+    "createAccount": {
+        "message": "Créer un compte"
+    },
+    "signIn": {
+        "message": "Connexion"
+    },
+    "getStarted": {
+        "message": "Commencer"
+    },
+    "anonymous": {
+        "message": "Anonyme",
+        "description": "The name of currently unidentified users"
+    },
+    "enterOptionalPassword": {
+        "message": "Entrer un mot de passe (optionel)"
+    },
+
+    "devicePairingHeaderReassure": {
+        "message": "Linking may take up to one minute to register on your primary device. Please be patient."
+    },
+    "devicePairingHeader_Step1": {
+        "message": "Lancer Session sur votre autre appareil."
+    },
+    "devicePairingHeader_Step2": {
+        "message": "Rendez-vous dans <strong>Appareils</strong> dans les paramètres de votre compte."
+    },
+    "devicePairingHeader_Step3": {
+        "message": "Sélectionnez <strong>Relier un nouvel appareil</strong> pour préparer la liaison de votre autre appareil."
+    },
+    "devicePairingHeader_Step4": {
+        "message": "Saisissez votre <strong>Session ID</strong> ci-dessous pour relier votre appareil."
+    },
+    "linkDeviceToExistingAccount": {
+        "message": "Relier un appareil à un compte existant"
+    },
+    "or": {
+        "message": "ou"
+    },
+    "ByUsingThisService...": {
+        "message": "En utilisant ce service, vous acceptez nos <a href=\"https://getsession.org/legal/#tos\">Conditions d'utilisation</a> et notre <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Politique de confidentialité</a>"
+    },
+    "beginYourSession": {
+        "message": "Commencez<br />votre<br />Session."
+    },
+    "welcomeToYourSession": {
+        "message": "Bienvenue sur Session"
+    },
+    "message": {
+        "message": "Message"
+    },
+    "addContact": {
+        "message": "Ajouter un contact"
+    },
+    "permissionSettingsTitle": {
+        "message": "Autorisations"
+    },
+    "members": {
+        "message": "$count$ membres",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "26"
+            }
+        }
+    },
+    "description": {
+        "message": "Description"
     }
 }

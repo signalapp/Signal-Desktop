@@ -68,7 +68,7 @@
         "role": "delete"
       },
       {
-        "label": "Select All",
+        "label": "Select all",
         "role": "selectall"
       },
       {

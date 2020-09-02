@@ -40,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Выйти из Signal",
+        "message": "Выйти из Session",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Вы только что прошли процесс экспорта, и ваши контакты и сообщения терпеливо ждут вас на вашем компьютере. Выберите папку, содержащую сохраненные данные Signal.",
+        "message": "Вы только что прошли процесс экспорта, и ваши контакты и сообщения терпеливо ждут вас на вашем компьютере. Выберите папку, содержащую сохраненные данные Session.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Убедитесь, что выбран правильный каталог, содержащий сохраненные вами данные Signal. Его название должно начинаться с 'Signal Export'. Также вы можете сохранить новую копию своих данных из приложения Chrome.",
+        "message": "Убедитесь, что выбран правильный каталог, содержащий сохраненные вами данные Session. Его название должно начинаться с 'Session Export'. Также вы можете сохранить новую копию своих данных из приложения Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Начните использовать Signal Desktop",
+        "message": "Начните использовать Session Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -264,7 +264,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Коды безопасности с несколькими участниками группы изменились со времени последнего подтверждения. Это может означать, что кто-то пытается перехватить ваши сообщения, или попросту кто-то из участников группы переустановил Signal.",
+        "message": "Коды безопасности с несколькими участниками группы изменились со времени последнего подтверждения. Это может означать, что кто-то пытается перехватить ваши сообщения, или попросту кто-то из участников группы переустановил Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Код безопасности который вы пытаетесь подтвердить уже изменился. Пожалуйста, перепроверьте код безопасности с $name$. Помните, что подобные изменения могут означать попытку перехвата ваших сообщений, либо $name$ попросту переустановил Signal.",
+        "message": "Код безопасности который вы пытаетесь подтвердить уже изменился. Пожалуйста, перепроверьте код безопасности с $name$. Помните, что подобные изменения могут означать попытку перехвата ваших сообщений, либо $name$ попросту переустановил Session.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,7 +288,7 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Коды безопасности с несколькими участниками группы изменились со времени последнего подтверждения. Это может означать, что кто-то пытается перехватить ваши сообщения, или попросту кто-то из участников переустановил Signal. ",
+        "message": "Коды безопасности с несколькими участниками группы изменились со времени последнего подтверждения. Это может означать, что кто-то пытается перехватить ваши сообщения, или попросту кто-то из участников переустановил Session. ",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Код безопасности с $name$ изменился. Это может означать, что кто-то пытается перехватить ваши сообщения, либо $name$ попросту переустановил Signal. Вы можете подтвердить свой код безопасности с данным контактом.",
+        "message": "Код безопасности с $name$ изменился. Это может означать, что кто-то пытается перехватить ваши сообщения, либо $name$ попросту переустановил Session. Вы можете подтвердить свой код безопасности с данным контактом.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -431,7 +431,7 @@
     },
     "stagedPreviewThumbnail": {
         "message": "Черновик миниатюры предварительного просмотра ссылки для $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -441,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "Миниатюра предварительного просмотра ссылки для $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -783,7 +783,7 @@
     },
     "linkNewDevice": {
         "message": "Привязать Новое Устройство",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "Разрешения",
@@ -854,7 +854,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Эта версия Signal Desktop устарела. Выполните обновление до последней версии, чтобы продолжить обмен сообщениями.",
+        "message": "Эта версия Session Desktop устарела. Выполните обновление до последней версии, чтобы продолжить обмен сообщениями.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1507,7 +1507,7 @@
     },
     "spellCheckDirty": {
         "message": "You must restart Session to apply your new settings",
-        "description": "Shown when the user changes their spellcheck setting to indicate that they must restart Signal."
+        "description": "Shown when the user changes their spellcheck setting to indicate that they must restart Session."
     },
     "readReceiptSettingDescription": {
         "message": "Получать и отсылать уведомления о прочтении сообщений (для всех контактов).",
@@ -1516,14 +1516,6 @@
     "typingIndicatorsSettingDescription": {
         "message": "Получать и отсылать уведомления когда вы и ваш собедник набирает сообщение (для всех контактов).",
         "description": "Description of the typing indicators setting"
-    },
-    "messageTTL": {
-        "message": "Message TTL",
-        "description": "Title of the Message TTL setting"
-    },
-    "messageTTLSettingDescription": {
-        "message": "Time to live (how long the recipient will have to collect their messages)",
-        "description": "Description of the time to live setting"
     },
     "zoomFactorSettingTitle": {
         "message": "Масштабирование Приложения",
@@ -1723,12 +1715,6 @@
         "message": "Password must only contain letters, numbers and symbols",
         "description": "Error string shown to the user when password contains an invalid character"
     },
-    "change": {
-        "message": "Change"
-    },
-    "set": {
-        "message": "Set"
-    },
     "invalidPubkeyFormat": {
         "message": "Invalid Pubkey Format",
         "description": "Error string shown when user types an invalid pubkey format"
@@ -1782,14 +1768,8 @@
         "message": "Anonymous",
         "description": "The name of currently unidentified users"
     },
-    "optionalPassword": {
-        "message": "Verify Password"
-    },
     "enterOptionalPassword": {
         "message": "Введите пароль (если используется)"
-    },
-    "verifyPassword": {
-        "message": "Verify Password"
     },
     "devicePairingHeaderReassure": {
         "message": "Linking may take up to one minute to register on your primary device. Please be patient."

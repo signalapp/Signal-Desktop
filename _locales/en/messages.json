@@ -32,7 +32,7 @@
     "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination.",
     "androidKey": "message_recipients_list_item__view",
     "addStart": "&",
-    "wordCapitalize": true
+    "sentenceCase": true
   },
   "mainMenuWindow": {
     "message": "&Window",
@@ -64,7 +64,7 @@
     "message": "Undo",
     "description": "Edit menu command to remove recently-typed text",
     "androidKey": "ConversationListFragment_undo",
-    "wordCapitalize": true
+    "sentenceCase": true
   },
   "editMenuRedo": {
     "message": "Redo",
@@ -93,10 +93,10 @@
     "androidKey": "delete"
   },
   "editMenuSelectAll": {
-    "message": "Select All",
+    "message": "Select all",
     "description": "Edit menu comand to select all of the text in selected text box",
     "androidKey": "conversation_list_batch__menu_select_all",
-    "wordCapitalize": true
+    "sentenceCase": true
   },
   "editMenuStartSpeaking": {
     "message": "Start speaking",
@@ -233,7 +233,7 @@
     "message": "View",
     "description": "Used as a label on a button allowing user to see more information",
     "androidKey": "message_recipients_list_item__view",
-    "wordCapitalize": true
+    "sentenceCase": true
   },
   "youLeftTheGroup": {
     "message": "You have left the group.",
@@ -520,16 +520,18 @@
     "androidKey": "BucketedThreadMedia_Yesterday"
   },
   "thisWeek": {
-    "message": "This Week",
+    "message": "This week",
     "description": "Section header in the media gallery",
     "androidKey": "BucketedThreadMedia_This_week",
-    "wordCapitalize": true
+    "ignoreCase": true,
+    "sentenceCase": true
   },
   "thisMonth": {
     "message": "This Month",
     "description": "Section header in the media gallery",
     "androidKey": "BucketedThreadMedia_This_month",
-    "wordCapitalize": true
+    "ignoreCase": true,
+    "sentenceCase": true
   },
   "voiceMessage": {
     "message": "Voice Message",
@@ -871,7 +873,8 @@
   "unpairDevice": {
     "message": "Unlink Device",
     "androidKey": "fragment_device_list_unlink_device_title",
-    "wordCapitalize": true
+    "ignoreCase": true,
+    "sentenceCase": true
   },
   "unpairDeviceWarning": {
     "message": "Are you sure you want to unlink this device?",
@@ -1086,7 +1089,7 @@
   },
   "linkNewDevice": {
     "message": "Link New Device",
-    "description": "The menu option shown in Signal iOS to add a new linked device",
+    "description": "The menu option shown in Session iOS to add a new linked device",
     "androidKey": "device_list_fragment__link_new_device",
     "ignoreCase": true
   },
@@ -1129,7 +1132,7 @@
   },
   "spellCheckDirty": {
     "message": "You must restart Session to apply your new settings",
-    "description": "Shown when the user changes their spellcheck setting to indicate that they must restart Signal."
+    "description": "Shown when the user changes their spellcheck setting to indicate that they must restart Session."
   },
   "notifications": {
     "message": "Notifications",
@@ -1155,14 +1158,6 @@
     "description": "Title of the typing indicators setting",
     "androidKey": "preferences__typing_indicators",
     "ignoreCase": true
-  },
-  "messageTTL": {
-    "message": "Message TTL",
-    "description": "Title of the Message TTL setting"
-  },
-  "messageTTLSettingDescription": {
-    "message": "Time to live (how long the recipient will have to collect their messages)",
-    "description": "Description of the time to live setting"
   },
   "zoomFactorSettingTitle": {
     "message": "Zoom Factor",
@@ -1897,12 +1892,6 @@
     "message": "Password must only contain letters, numbers and symbols",
     "description": "Error string shown to the user when password contains an invalid character"
   },
-  "change": {
-    "message": "Change"
-  },
-  "set": {
-    "message": "Set"
-  },
   "remove": {
     "message": "Remove",
     "androidKey": "ClearProfileActivity_remove"
@@ -2011,14 +2000,8 @@
     "message": "Enter a display name",
     "androidKey": "activity_display_name_edit_text_hint"
   },
-  "optionalPassword": {
-    "message": "Verify Password"
-  },
   "enterOptionalPassword": {
     "message": "Enter password (optional)"
-  },
-  "verifyPassword": {
-    "message": "Verify Password"
   },
   "devicePairingHeaderReassure": {
     "message": "Linking may take up to one minute to register on your primary device. Please be patient."

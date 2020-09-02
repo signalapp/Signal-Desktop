@@ -40,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Mbylle Signal-in",
+        "message": "Mbylle Session-in",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Sapo kaluat nëpër procesin e eksportimit, dhe kontaktet dhe mesazhet tuaj po presin me qetësi në kompjuterin tuaj. Përzgjidhni dosjen që përmban të dhëna tuajat Signal të ruajtura.",
+        "message": "Sapo kaluat nëpër procesin e eksportimit, dhe kontaktet dhe mesazhet tuaj po presin me qetësi në kompjuterin tuaj. Përzgjidhni dosjen që përmban të dhëna tuajat Session të ruajtura.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Sigurohuni se keni zgjedhur drejtorinë e duhur që përmban të dhënat tuaja Signal të ruajtura. Emri i saj duhet të fillojë me 'Signal Export.' Mundeni edhe të ruani një kopje të re të të dhënave tuaja që nga Aplikacioni Chrome.",
+        "message": "Sigurohuni se keni zgjedhur drejtorinë e duhur që përmban të dhënat tuaja Session të ruajtura. Emri i saj duhet të fillojë me 'Session Export.' Mundeni edhe të ruani një kopje të re të të dhënave tuaja që nga Aplikacioni Chrome.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Filloni të përdorni Signal-in për Desktop",
+        "message": "Filloni të përdorni Session-in për Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -264,11 +264,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Numrat tuaj të sigurisë me një numër anëtarësh të grupit kanë ndryshuar që nga hera e fundit që i verifikuat. Kjo mund të ishte shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se ata thjesht kanë riinstaluar Signal-in.",
+        "message": "Numrat tuaj të sigurisë me një numër anëtarësh të grupit kanë ndryshuar që nga hera e fundit që i verifikuat. Kjo mund të ishte shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se ata thjesht kanë riinstaluar Session-in.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Numri juaj i sigurisë me $name$ ka ndryshuar që nga hera e fundit që e verifikuat. Kjo mund të ishte shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se $name$ thjesht ka riinstaluar Signal-in.",
+        "message": "Numri juaj i sigurisë me $name$ ka ndryshuar që nga hera e fundit që e verifikuat. Kjo mund të ishte shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se $name$ thjesht ka riinstaluar Session-in.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Numri i sigurisë që po provoni të verifikoni ka ndryshuar. Ju lutemi, shqyrtoni numrin tuaj të ri të sigurisë me $name$. Mos harroni, ky ndryshim mund të ishte shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se $name$ thjesht ka riinstaluar Signal-in.",
+        "message": "Numri i sigurisë që po provoni të verifikoni ka ndryshuar. Ju lutemi, shqyrtoni numrin tuaj të ri të sigurisë me $name$. Mos harroni, ky ndryshim mund të ishte shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se $name$ thjesht ka riinstaluar Session-in.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,11 +288,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Numrat tuaj të sigurisë me shumë anëtarë të grupit kanë ndryshuar tani së fundi. Kjo mund të ishte shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se thjesht ata kanë riinstaluar Signal-in.",
+        "message": "Numrat tuaj të sigurisë me shumë anëtarë të grupit kanë ndryshuar tani së fundi. Kjo mund të ishte shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se thjesht ata kanë riinstaluar Session-in.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Numri juaj i sigurisë me $name$ ka ndryshuar tani së fundi. Kjo mund të jetë shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se $name$ thjesht ka riinstaluar Signal-in.",
+        "message": "Numri juaj i sigurisë me $name$ ka ndryshuar tani së fundi. Kjo mund të jetë shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se $name$ thjesht ka riinstaluar Session-in.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Numri juaj i sigurisë për me $name$ ka ndryshuar. Kjo mund të ishte shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se $name$ thjesht ka riinstaluar Signal-in. Mund të donit të verifikonit numrin tuaj të sigurisë me këtë kontakt.",
+        "message": "Numri juaj i sigurisë për me $name$ ka ndryshuar. Kjo mund të ishte shenjë se dikush po rreket të përgjojë komunikimin tuaj ose se $name$ thjesht ka riinstaluar Session-in. Mund të donit të verifikonit numrin tuaj të sigurisë me këtë kontakt.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -431,7 +431,7 @@
     },
     "stagedPreviewThumbnail": {
         "message": "Paraparje lidhjeje miniature skice për $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -441,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "Paraparje lidhjeje miniature për $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -556,7 +556,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSession": {
-        "message": "Mirë se vini te Signal-i",
+        "message": "Mirë se vini te Session-i",
         "description": ""
     },
     "typingAlt": {
@@ -634,7 +634,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
-        "message": "Për të dërguar mesazhe audio, lejojeni Signal-in për Desktop të përdorë mikrofonin tuaj.",
+        "message": "Për të dërguar mesazhe audio, lejojeni Session-in për Desktop të përdorë mikrofonin tuaj.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -783,7 +783,7 @@
     },
     "linkNewDevice": {
         "message": "Lidhini Pajisje të Re",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "Leje",
@@ -854,7 +854,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Ky version i Signal-it për Desktop ka skaduar. Ju lutemi, që të vazhdoni të shkëmbeni mesazhe, përmirësojeni me versionin më të ri.",
+        "message": "Ky version i Session-it për Desktop ka skaduar. Ju lutemi, që të vazhdoni të shkëmbeni mesazhe, përmirësojeni me versionin më të ri.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {

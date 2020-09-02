@@ -40,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Signal'den Çık",
+        "message": "Session'den Çık",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Dışa aktarma işlemini tamamladınız ve kişileriniz ile iletileriniz sabırla  bilgisayarınızda bekliyor. Kaydettiğiniz Signal verilerinizi içeren klasörü seçin.",
+        "message": "Dışa aktarma işlemini tamamladınız ve kişileriniz ile iletileriniz sabırla  bilgisayarınızda bekliyor. Kaydettiğiniz Session verilerinizi içeren klasörü seçin.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Kaydedilmiş Signal verilerinizi içeren doğru dizini seçtiğinizden emin olun. Dizinin ismi 'Signal Export' ile başlamalı. Verinizin yeni bir kopyasını Chrome Uygulamasından kaydededebilirsiniz.",
+        "message": "Kaydedilmiş Session verilerinizi içeren doğru dizini seçtiğinizden emin olun. Dizinin ismi 'Session Export' ile başlamalı. Verinizin yeni bir kopyasını Chrome Uygulamasından kaydededebilirsiniz.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Signal Desktop'ı kullanmaya başlayın",
+        "message": "Session Desktop'ı kullanmaya başlayın",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -264,11 +264,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Birden fazla grup üyesiyle olan güvenlik numaralarınız son doğrulamanızdan bu yana. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da kişilerin Signal'i yeniden yüklemiş olduğu anlamına gelebilir.",
+        "message": "Birden fazla grup üyesiyle olan güvenlik numaralarınız son doğrulamanızdan bu yana. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da kişilerin Session'i yeniden yüklemiş olduğu anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "$name$ ile olan güvenlik numaranız son doğrulamanızdan bu yana değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da $name$ Signal'i yeniden yüklemiş olduğu anlamına gelebilir.",
+        "message": "$name$ ile olan güvenlik numaranız son doğrulamanızdan bu yana değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da $name$ Session'i yeniden yüklemiş olduğu anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Doğrulamaya çalıştığınız güvenlik numarası değişti. Lütfen $name$ ile olan yeni güvenlik numaranızı gözden geçirin. Unutmayın, bu değişiklik birisinin iletişiminizi kesmeye çalıştığı ya da $name$ Signal'i yeniden yüklemiş olduğu anlamına gelebilir.",
+        "message": "Doğrulamaya çalıştığınız güvenlik numarası değişti. Lütfen $name$ ile olan yeni güvenlik numaranızı gözden geçirin. Unutmayın, bu değişiklik birisinin iletişiminizi kesmeye çalıştığı ya da $name$ Session'i yeniden yüklemiş olduğu anlamına gelebilir.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,11 +288,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Birden fazla grup üyesiyle olan güvenlik numaralarınız yakın zamanda değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da kişilerin Signal'i yeniden yüklemiş olduğu anlamına gelebilir.",
+        "message": "Birden fazla grup üyesiyle olan güvenlik numaralarınız yakın zamanda değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da kişilerin Session'i yeniden yüklemiş olduğu anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "$name$ ile olan güvenlik numaranız yakın zamanda değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da $name$ Signal'i yeniden yüklemiş olduğu anlamına gelebilir.",
+        "message": "$name$ ile olan güvenlik numaranız yakın zamanda değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da $name$ Session'i yeniden yüklemiş olduğu anlamına gelebilir.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "$name$ ile olan güvenlik numaranız değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da $name$ Signal'i yeniden yüklemiş olduğu anlamına gelebilir. Bu kişi ile güvenlik numaranızı doğrulamak isteyebilirsiniz.",
+        "message": "$name$ ile olan güvenlik numaranız değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da $name$ Session'i yeniden yüklemiş olduğu anlamına gelebilir. Bu kişi ile güvenlik numaranızı doğrulamak isteyebilirsiniz.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -431,7 +431,7 @@
     },
     "stagedPreviewThumbnail": {
         "message": "$domain$ için bağlantı ön izlemesi küçük resim taslağı",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -441,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "$domain$ için bağlantı ön izlemesi küçük resmi",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -556,7 +556,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSession": {
-        "message": "Signal'e Hoşgeldin",
+        "message": "Session'e Hoşgeldin",
         "description": ""
     },
     "typingAlt": {
@@ -634,7 +634,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
-        "message": "Sesli iletiler göndermek için, Signal Desktop'ın mikrofonunuza erişimine izin verin.",
+        "message": "Sesli iletiler göndermek için, Session Desktop'ın mikrofonunuza erişimine izin verin.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -783,7 +783,7 @@
     },
     "linkNewDevice": {
         "message": "Yeni Cihaz Bağla",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "İzinler",
@@ -854,7 +854,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Signal Desktop'ın bu sürümünün süresi doldu. İletişime devam etmek için lütfen en son sürüme geçin.",
+        "message": "Session Desktop'ın bu sürümünün süresi doldu. İletişime devam etmek için lütfen en son sürüme geçin.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {

@@ -40,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "ออกจาก Signal",
+        "message": "ออกจาก Session",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -154,7 +154,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "คุณพึ่งจะผ่านพ้นขั้นตอนการส่งออกและข้อมูลผู้ติดต่อและข้อความของคุณยังคงรออยู่ในเครื่องคอมพิวเตอร์ของคุณ เลือกโฟลเดอร์ที่จัดเก็บข้อมูล Signal ที่บันทึกไว้ของคุณ",
+        "message": "คุณพึ่งจะผ่านพ้นขั้นตอนการส่งออกและข้อมูลผู้ติดต่อและข้อความของคุณยังคงรออยู่ในเครื่องคอมพิวเตอร์ของคุณ เลือกโฟลเดอร์ที่จัดเก็บข้อมูล Session ที่บันทึกไว้ของคุณ",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -170,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "โปรดแน่ใจว่าคุณได้เลือกโฟลเดอร์ที่จัดเก็บข้อมูล Signal ที่บันทึกไว้ของคุณอย่างถูกต้อง โดยชื่อของโฟลเดอร์ควรจะเริ่มต้นด้วยคำว่า 'Signal Export' คุณยังสามารถทำการบันทึกข้อมูลของคุณใหม่ผ่านทางแอปใน Chrome",
+        "message": "โปรดแน่ใจว่าคุณได้เลือกโฟลเดอร์ที่จัดเก็บข้อมูล Session ที่บันทึกไว้ของคุณอย่างถูกต้อง โดยชื่อของโฟลเดอร์ควรจะเริ่มต้นด้วยคำว่า 'Session Export' คุณยังสามารถทำการบันทึกข้อมูลของคุณใหม่ผ่านทางแอปใน Chrome",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -186,7 +186,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "เริ่มต้นใช้งาน Signal Desktop",
+        "message": "เริ่มต้นใช้งาน Session Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -264,11 +264,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับสมาชิกในหลายกลุ่มนับตั้งแต่การยืนยันครั้งล่าสุดของคุณ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่พวกเขาเหล่านั้นได้ติดตั้งแอป Signal ใหม่",
+        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับสมาชิกในหลายกลุ่มนับตั้งแต่การยืนยันครั้งล่าสุดของคุณ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่พวกเขาเหล่านั้นได้ติดตั้งแอป Session ใหม่",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับ $name$ นับตั้งแต่การยืนยันครั้งล่าสุดของคุณ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ $name$ ได้ติดตั้งแอป Signal ใหม่",
+        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับ $name$ นับตั้งแต่การยืนยันครั้งล่าสุดของคุณ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ $name$ ได้ติดตั้งแอป Session ใหม่",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -278,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยที่คุณกำลังจะทำการยืนยัน โปรดตรวจสอบรหัสความปลอดภัยของคุณกับ $name$ โปรดจำไว้ว่า การเปลี่ยนแปลงนี้อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ $name$ ได้ติดตั้งแอป Signal ใหม่",
+        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยที่คุณกำลังจะทำการยืนยัน โปรดตรวจสอบรหัสความปลอดภัยของคุณกับ $name$ โปรดจำไว้ว่า การเปลี่ยนแปลงนี้อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ $name$ ได้ติดตั้งแอป Session ใหม่",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -288,11 +288,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "มีการเปลี่ยนแปลงรหัสความปลอดภัยของคุณกับสมาชิกในหลายกลุ่มเมื่อเร็วๆ นี้ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่พวกเขาเหล่านั้นได้ติดตั้งแอป Signal ใหม่",
+        "message": "มีการเปลี่ยนแปลงรหัสความปลอดภัยของคุณกับสมาชิกในหลายกลุ่มเมื่อเร็วๆ นี้ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่พวกเขาเหล่านั้นได้ติดตั้งแอป Session ใหม่",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับ $name$ เมื่อเร็วๆ นี้ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ $name$ ได้ติดตั้งแอป Signal ใหม่",
+        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับ $name$ เมื่อเร็วๆ นี้ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ $name$ ได้ติดตั้งแอป Session ใหม่",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -302,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับ $name$ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ $name$ ได้ติดตั้งแอป Signal ใหม่ คุณอาจจะต้องยืนยันรหัสความปลอดภัยกับผู้ติดต่อนี้",
+        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับ $name$ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ $name$ ได้ติดตั้งแอป Session ใหม่ คุณอาจจะต้องยืนยันรหัสความปลอดภัยกับผู้ติดต่อนี้",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -431,7 +431,7 @@
     },
     "stagedPreviewThumbnail": {
         "message": "Draft thumbnail link preview for $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -441,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "Thumbnail link preview for $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -556,7 +556,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSession": {
-        "message": "ยินดีต้อนรับสู่ Signal",
+        "message": "ยินดีต้อนรับสู่ Session",
         "description": ""
     },
     "typingAlt": {
@@ -634,7 +634,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
-        "message": "เพื่อจะส่งข้อความเสียง ต้องอนุญาตให้ Signal Desktop ใช้งานไมโครโฟนของคุณ",
+        "message": "เพื่อจะส่งข้อความเสียง ต้องอนุญาตให้ Session Desktop ใช้งานไมโครโฟนของคุณ",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -783,7 +783,7 @@
     },
     "linkNewDevice": {
         "message": "เชื่อมโยงอุปกรณ์ใหม่",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "สิทธิ์",
@@ -854,7 +854,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Signal Desktop เวอร์ชันนี้หมดอายุแล้ว โปรดอัพเกรดไปเป็นเวอร์ชันล่าสุดเพื่อดำเนินการส่งข้อความต่อ",
+        "message": "Session Desktop เวอร์ชันนี้หมดอายุแล้ว โปรดอัพเกรดไปเป็นเวอร์ชันล่าสุดเพื่อดำเนินการส่งข้อความต่อ",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {

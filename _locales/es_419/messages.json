@@ -146,7 +146,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
+        "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Session data.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -162,7 +162,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "message": "Make sure you have chosen the correct directory that contains your saved Session data. Its name should begin with 'Session Export.' You can also save a new copy of your data from the Chrome App.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -178,7 +178,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Start using Signal Desktop",
+        "message": "Start using Session Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -256,11 +256,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Tus números de seguridad con múltiples miembros del grupo han cambiado desde que verificaste por última vez. Esto podría significar que alguien esta tratando de interceptar tus comunicaciones o simplemente que ellos han reinstalado Signal.",
+        "message": "Tus números de seguridad con múltiples miembros del grupo han cambiado desde que verificaste por última vez. Esto podría significar que alguien esta tratando de interceptar tus comunicaciones o simplemente que ellos han reinstalado Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Tu número de seguridad con $name$ ha cambiado desde la última vez que verificaste. Esto puede deberse a que alguien está intentando interceptar tu comunicación o simplemente a que $name$ a reinstalado Signal.",
+        "message": "Tu número de seguridad con $name$ ha cambiado desde la última vez que verificaste. Esto puede deberse a que alguien está intentando interceptar tu comunicación o simplemente a que $name$ a reinstalado Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -270,7 +270,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "El número de seguridad que estas tratando de verificar ha cambiado. Por favor revisa tu nuevo número de seguridad con $name$. Recuerda, este cambio pudiera significar que alguien esta intentando interceptar tu comunicación o simplemente que $name$ ha reinstalado Signal.",
+        "message": "El número de seguridad que estas tratando de verificar ha cambiado. Por favor revisa tu nuevo número de seguridad con $name$. Recuerda, este cambio pudiera significar que alguien esta intentando interceptar tu comunicación o simplemente que $name$ ha reinstalado Session.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -280,11 +280,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Tus números de seguridad con multiples miembros de este grupo han cambiando recientemente. Esto pudiera significar que alguien esta intentando interceptar tu comunicación o simplemente que ellos han reinstalado Signal.",
+        "message": "Tus números de seguridad con multiples miembros de este grupo han cambiando recientemente. Esto pudiera significar que alguien esta intentando interceptar tu comunicación o simplemente que ellos han reinstalado Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Tu número de seguridad con $name$ ha cambiado recientemente. Esto puede deberse a que alguien está intentando interceptar tu comunicación o simplemente a que $name$ ha reinstalado Signal.",
+        "message": "Tu número de seguridad con $name$ ha cambiado recientemente. Esto puede deberse a que alguien está intentando interceptar tu comunicación o simplemente a que $name$ ha reinstalado Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -294,7 +294,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Tu número de seguridad con $name$ ha cambiado. Esto podría deberse a una de dos razones, alguien está intentando interceptar tu comunicación o simplemente que $name$ ha reinstalado Signal. Quizá desees verificar tu número de seguridad con este contacto.",
+        "message": "Tu número de seguridad con $name$ ha cambiado. Esto podría deberse a una de dos razones, alguien está intentando interceptar tu comunicación o simplemente que $name$ ha reinstalado Session. Quizá desees verificar tu número de seguridad con este contacto.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -472,7 +472,7 @@
         "description": "Command under Window menu, to show the window"
     },
     "welcomeToSession": {
-        "message": "Bienvenido a Signal",
+        "message": "Bienvenido a Session",
         "description": ""
     },
     "contactAvatarAlt": {
@@ -538,7 +538,7 @@
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
-        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
+        "message": "To send audio messages, allow Session Desktop to access your microphone.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -671,7 +671,7 @@
     },
     "linkNewDevice": {
         "message": "Link New Device",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "Permissions",
@@ -738,7 +738,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Esta versión de Signal Desktop está obsoleta. Por favor, actualiza a la versión más reciente para continuar mensajeando.",
+        "message": "Esta versión de Session Desktop está obsoleta. Por favor, actualiza a la versión más reciente para continuar mensajeando.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
