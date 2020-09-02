@@ -1183,9 +1183,6 @@
     "settingsHeader": {
         "message": "Configurações"
     },
-    "yes": {
-        "message": "Sim"
-    },
     "continue": {
         "message": "Continuar"
     },
@@ -1284,9 +1281,6 @@
     },
     "recoveryPhraseSavePromptMain": {
         "message": "Sua frase de recuperação é a chave mestra do seu ID Session - você pode usá-la para restaurar seu ID Session se perder o acesso ao seu dispositivo. Armazene sua frase de recuperação em um local seguro e não a entregue a ninguém."
-    },
-    "QRCodeTitle": {
-        "message": "Ver meu código QR"
     },
     "copiedToClipboard": {
         "message": "Copiado para a área de transferência"

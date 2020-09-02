@@ -56,7 +56,7 @@
   .upload-btn-background {
     background-color: #ffffff70;
     align-self: center;
-    margin-left: -24px;
+    margin-inline-start: -24px;
     margin-top: 40px;
     z-index: 1;
     border-radius: 8px;
@@ -173,7 +173,7 @@ h4.section-toggle,
 .section-conversations-container {
   display: flex;
   flex-direction: row;
-  margin-right: 3em;
+  margin-inline-end: 3em;
   align-items: center;
 
   h4 {
@@ -187,7 +187,7 @@ h4.section-toggle,
     background-size: 25px 25px;
     background-color: #fcd156;
     padding: 10px;
-    padding-left: 2 * $button-height;
+    padding-inline-start: 2 * $button-height;
     display: none;
 
     .network-status-message {
@@ -258,14 +258,14 @@ h4.section-toggle,
 }
 
 $search-x-size: 16px;
-$search-padding-right: 12px;
-$search-padding-left: 30px;
+$search-padding-inline-end: 12px;
+$search-padding-inline-start: 30px;
 
 input.search {
   border: 1px solid $color-black-02;
-  padding: 0 $search-padding-right 0 $search-padding-left;
-  margin-left: 8px;
-  margin-right: 8px;
+  padding: 0 $search-padding-inline-end 0 $search-padding-inline-start;
+  margin-inline-start: 8px;
+  margin-inline-end: 8px;
   outline: 0;
   height: 32px;
   width: calc(100% - 16px);
@@ -287,11 +287,11 @@ input.search {
     background-size: $search-x-size;
 
     &.ltr {
-      background-position: right $search-padding-right center;
+      background-position: right $search-padding-inline-end center;
     }
 
     &.rtl {
-      background-position: left $search-padding-left center;
+      background-position: left $search-padding-inline-start center;
     }
   }
 
@@ -321,7 +321,7 @@ input.search {
   .contact-details .number {
     display: block;
     font-style: italic;
-    padding-right: 8px;
+    padding-inline-end: 8px;
   }
 
   &.valid {

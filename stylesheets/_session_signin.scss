@@ -16,7 +16,7 @@
 
     &-accent {
       flex-grow: 1;
-      padding-left: 20px;
+      padding-inline-start: 20px;
 
       &-text {
         @include themify($themes) {
@@ -33,7 +33,7 @@
     }
 
     &-registration {
-      padding-right: 128px;
+      padding-inline-end: 128px;
     }
 
     &-header {
@@ -113,8 +113,8 @@
       left: 0;
       right: 0;
 
-      margin-left: auto;
-      margin-right: auto;
+      margin-inline-start: auto;
+      margin-inline-end: auto;
       @include themify($themes) {
         background: themed('cellBackground');
       }
@@ -171,7 +171,7 @@
   }
 
   &-input-floating-label-show-hide {
-    padding-right: 30px;
+    padding-inline-end: 30px;
   }
 
   &-input-with-label-container {
@@ -283,7 +283,7 @@
     line-height: 20px;
 
     ol {
-      margin-left: 20px;
+      margin-inline-start: 20px;
       padding: 0px;
       text-align: justify;
     }
@@ -295,7 +295,7 @@
     justify-content: center;
     padding: 20px;
     border-radius: 8px;
-    border: 2px solid #353535;
+    border: 1px solid subtle(#353535);
     margin-bottom: 20px;
 
     textarea {

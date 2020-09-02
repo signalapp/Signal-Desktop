@@ -13,6 +13,7 @@
       this.inboxView = null;
 
       this.applyTheme();
+      this.applyRtl();
       this.applyHideMenu();
 
       this.showSeedDialog = this.showSeedDialog.bind(this);
@@ -20,6 +21,14 @@
     },
     events: {
       openInbox: 'openInbox',
+    },
+    applyRtl() {
+      const rtlLocales = ['fa'];
+
+      const loc = window.i18n.getLocale();
+      if (rtlLocales.includes(loc)) {
+        this.$el.addClass('rtl');
+      }
     },
     applyTheme() {
       const theme = storage.get('theme-setting') || 'light';

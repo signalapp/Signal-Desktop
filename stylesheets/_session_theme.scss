@@ -105,7 +105,7 @@
   }
 
   &-read-receipt-container {
-    margin-left: 5px;
+    margin-inline-start: 5px;
     .session-icon.check {
       @include themify($themes) {
         fill: subtle(themed('sentMessageText'));

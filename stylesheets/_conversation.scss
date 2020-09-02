@@ -120,7 +120,7 @@
   }
 
   .summary {
-    margin: 30px 0 10px;
+    margin: 30px 0 10px 0;
     text-align: center;
   }
 
@@ -180,13 +180,13 @@
 }
 
 .loki-message-wrapper {
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-inline-start: 16px;
+  padding-inline-end: 16px;
 }
 
 .public-chat-message-wrapper {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-inline-start: 10px;
+  padding-inline-end: 10px;
 }
 
 .loki-message-wrapper {
@@ -252,7 +252,7 @@
       background-color: #00f782;
       color: white;
       padding: 6px 10px;
-      margin-left: 6px;
+      margin-inline-start: 6px;
       border-radius: 2px;
       box-shadow: none;
       user-select: none;
@@ -297,14 +297,14 @@
     padding: 18px;
     // This makes sure the message counter is right in the center
     width: 80px;
-    margin-right: -80px;
+    margin-inline-end: -80px;
     user-select: none;
   }
 
   .cancel-button {
     padding: 18px;
     width: 80px;
-    margin-left: -80px;
+    margin-inline-start: -80px;
     user-select: none;
   }
 
@@ -313,8 +313,8 @@
     display: flex;
     align-items: center;
     user-select: none;
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
   }
 }
 
@@ -332,8 +332,8 @@
 //   things in the composition area. A margin on an inner div won't be included in that
 //   height calculation.
 .bottom-bar .quote-wrapper {
-  margin-left: 37px;
-  margin-right: 73px;
+  margin-inline-start: 37px;
+  margin-inline-end: 73px;
   margin-top: 3px;
   margin-bottom: -5px;
 }
@@ -356,8 +356,8 @@
 
 .bottom-bar .preview-wrapper {
   margin-top: 3px;
-  margin-left: 37px;
-  margin-right: 73px;
+  margin-inline-start: 37px;
+  margin-inline-end: 73px;
   margin-bottom: 2px;
 }
 
@@ -492,8 +492,8 @@
 .module-last-seen-indicator {
   padding-top: 25px;
   padding-bottom: 35px;
-  margin-left: 28px;
-  margin-right: 28px;
+  margin-inline-start: 28px;
+  margin-inline-end: 28px;
 
   &__bar {
     @include themify($themes) {

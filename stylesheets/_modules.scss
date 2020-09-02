@@ -67,13 +67,13 @@
 
 // Spec: container < 438px
 .module-message--incoming {
-  margin-left: 0;
-  margin-right: 32px;
+  margin-inline-start: 0;
+  margin-inline-end: 32px;
 }
 .module-message--outgoing {
   float: right;
-  margin-right: 0;
-  margin-left: 32px;
+  margin-inline-end: 0;
+  margin-inline-start: 32px;
 }
 
 .module-message__buttons {
@@ -121,10 +121,10 @@
 }
 
 .module-message__buttons__download--incoming {
-  margin-left: 12px;
+  margin-inline-start: 12px;
 }
 .module-message__buttons__download--outgoing {
-  margin-right: 12px;
+  margin-inline-end: 12px;
 }
 
 .module-message__buttons__reply {
@@ -139,10 +139,10 @@
 }
 
 .module-message__buttons__reply--incoming {
-  margin-left: 12px;
+  margin-inline-start: 12px;
 }
 .module-message__buttons__reply--outgoing {
-  margin-right: 12px;
+  margin-inline-end: 12px;
 }
 
 .module-message__buttons__menu {
@@ -157,11 +157,11 @@
 }
 
 .module-message__buttons__menu--incoming {
-  margin-left: 12px;
+  margin-inline-start: 12px;
 }
 
 .module_message__buttons__menu--outgoing {
-  margin-right: 12px;
+  margin-inline-end: 12px;
 }
 
 .module-message__error-container {
@@ -190,8 +190,8 @@
   position: relative;
   display: inline-block;
   border-radius: $message-container-border-radius;
-  padding-right: 12px;
-  padding-left: 12px;
+  padding-inline-end: 12px;
+  padding-inline-start: 12px;
   padding-top: 10px;
   padding-bottom: 10px;
   min-width: 0px;
@@ -202,8 +202,8 @@
   text-align: center;
   position: relative;
 
-  margin-left: -12px;
-  margin-right: -12px;
+  margin-inline-start: -12px;
+  margin-inline-end: -12px;
   margin-top: -10px;
   margin-bottom: -10px;
 
@@ -262,16 +262,16 @@
   position: relative;
 }
 .module-message__generic-attachment__spinner-container {
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-inline-start: 4px;
+  padding-inline-end: 4px;
 }
 
 .module-message__generic-attachment__icon {
   background: url('../images/file-gradient.svg') no-repeat center;
   height: 44px;
   width: 56px;
-  margin-left: -13px;
-  margin-right: -14px;
+  margin-inline-start: -13px;
+  margin-inline-end: -14px;
   margin-bottom: -4px;
 
   // So we can center the extension text inside this icon
@@ -309,8 +309,8 @@
   // Along with flow layout in parent item, centers text
   text-align: center;
   width: 25px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
 
   // We don't have much room for text here, cut it off without ellipse
   overflow-x: hidden;
@@ -322,7 +322,7 @@
 
 .module-message__generic-attachment__text {
   flex-grow: 1;
-  margin-left: 8px;
+  margin-inline-start: 8px;
   // The width of the icon plus our 8px margin
   max-width: calc(100% - 37px);
 }
@@ -362,8 +362,8 @@
 
 .module-message__link-preview {
   cursor: pointer;
-  margin-left: -12px;
-  margin-right: -12px;
+  margin-inline-start: -12px;
+  margin-inline-end: -12px;
   margin-top: -10px;
   margin-bottom: 5px;
   border-top-left-radius: 16px;
@@ -396,7 +396,7 @@
 
 .module-message__link-preview__icon_container {
   margin: -2px;
-  margin-right: 8px;
+  margin-inline-end: 8px;
   display: inline-block;
 }
 
@@ -488,7 +488,7 @@
   width: 100%;
   // Because this is absolutely positioned, we 100% is too big, take it down by parent
   //   padding sizes.
-  padding-right: 24px;
+  padding-inline-end: 24px;
 }
 
 .module-message__metadata__date,
@@ -522,9 +522,9 @@
   width: 12px;
   height: 12px;
   display: inline-block;
-  margin-left: 6px;
+  margin-inline-start: 6px;
   margin-bottom: 2px;
-  margin-left: 5px;
+  margin-inline-start: 5px;
 }
 
 .module-message__metadata__status-icon--sending {
@@ -572,8 +572,8 @@
 
   margin-top: 8px;
   margin-bottom: -10px;
-  margin-left: -12px;
-  margin-right: -12px;
+  margin-inline-start: -12px;
+  margin-inline-end: -12px;
 
   text-align: center;
   padding: 10px;
@@ -585,7 +585,7 @@
 .module-message__author-avatar {
   flex-direction: column-reverse;
   display: inline-flex;
-  padding-right: 4px;
+  padding-inline-end: 4px;
 }
 
 .module-message__typing-container {
@@ -599,7 +599,7 @@
 // Module: Expire Timer
 
 .module-expire-timer-margin {
-  margin-left: 6px;
+  margin-inline-start: 6px;
 }
 
 .module-expire-timer {
@@ -675,13 +675,13 @@
 }
 
 .module-embedded-contact__spinner-container {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-inline-start: 5px;
+  padding-inline-end: 5px;
 }
 
 .module-embedded-contact__text-container {
   flex-grow: 1;
-  margin-left: 8px;
+  margin-inline-start: 8px;
 
   max-width: calc(100% - 58px);
 }
@@ -785,8 +785,8 @@
 .module-contact-detail {
   text-align: center;
   max-width: 300px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
 }
 
 .module-contact-detail__avatar {
@@ -831,7 +831,7 @@
   height: 17px;
   width: 18px;
   display: inline-block;
-  margin-right: 5px;
+  margin-inline-end: 5px;
   @include color-svg('../images/chat-bubble.svg', white);
 }
 
@@ -899,8 +899,8 @@
 .module-safety-number-notification__icon {
   height: 24px;
   width: 24px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
   margin-bottom: 7px;
   @include color-svg('../images/shield.svg', $color-gray-60);
 }
@@ -947,8 +947,8 @@
 .module-verification-notification__icon--mark-verified {
   height: 24px;
   width: 24px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
   margin-bottom: 4px;
   @include color-svg('../images/verified-check.svg', $color-gray-60);
 }
@@ -956,8 +956,8 @@
 .module-verification-notification__icon--mark-not-verified {
   height: 24px;
   width: 24px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
   margin-bottom: 7px;
   @include color-svg('../images/shield.svg', $color-gray-60);
 }
@@ -974,8 +974,8 @@
 }
 
 .module-timer-notification__icon-container {
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -997,7 +997,7 @@
   font-size: 11px;
   line-height: 16px;
   letter-spacing: 0.3px;
-  margin-left: 6px;
+  margin-inline-start: 6px;
   text-transform: uppercase;
 
   // Didn't seem centered otherwise
@@ -1017,8 +1017,8 @@
 .module-notification__icon {
   height: 24px;
   width: 24px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
 }
 
 // Module: Contact List Item
@@ -1038,7 +1038,7 @@
 }
 
 .module-contact-list-item__text {
-  margin-left: 8px;
+  margin-inline-start: 8px;
 }
 
 .module-contact-list-item__text__name {
@@ -1077,8 +1077,8 @@
 .module-conversation-header__back-icon {
   @include color-svg('../images/back.svg', $color-gray-90);
   display: inline-block;
-  margin-left: -10px;
-  margin-right: -2px;
+  margin-inline-start: -10px;
+  margin-inline-end: -2px;
   width: 35px;
   height: 35px;
   min-width: 35px;
@@ -1099,8 +1099,8 @@
 }
 
 .module-conversation-header__title-flex {
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -1115,7 +1115,7 @@
 }
 
 .module-conversation-header__title {
-  margin-left: 6px;
+  margin-inline-start: 6px;
 
   min-width: 0;
   font-size: 16px;
@@ -1151,8 +1151,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-inline-start: 8px;
+  padding-inline-end: 8px;
 }
 
 .module-conversation-header__expiration__clock-icon {
@@ -1163,7 +1163,7 @@
 }
 
 .module-conversation-header__expiration__setting {
-  margin-left: 5px;
+  margin-inline-start: 5px;
   text-align: center;
 }
 
@@ -1171,7 +1171,7 @@
   @include color-svg('../images/gear.svg', $color-gray-60);
   height: 20px;
   width: 20px;
-  margin-left: 4px;
+  margin-inline-start: 4px;
   cursor: pointer;
 }
 
@@ -1179,8 +1179,8 @@
 
 .module-message-detail {
   max-width: 650px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
   padding: 20px;
 }
 
@@ -1199,7 +1199,7 @@
 
 .module-message-detail__label {
   font-weight: 300;
-  padding-right: 5px;
+  padding-inline-end: 5px;
 }
 
 .module-message-detail__unix-timestamp {
@@ -1236,7 +1236,7 @@
 }
 
 .module-message-detail__contact__text {
-  margin-left: 10px;
+  margin-inline-start: 10px;
   flex-grow: 1;
 }
 
@@ -1250,7 +1250,7 @@
   height: 12px;
   display: inline-block;
   margin-bottom: 2px;
-  margin-left: 5px;
+  margin-inline-start: 5px;
 }
 
 .module-message-detail__contact__status-icon--sending {
@@ -1282,8 +1282,8 @@
 }
 
 .module-message-detail__contact__unidentified-delivery-icon {
-  margin-left: 6px;
-  margin-right: 10px;
+  margin-inline-start: 6px;
+  margin-inline-end: 10px;
 
   width: 20px;
   height: 20px;
@@ -1306,7 +1306,7 @@
   @include button-reset;
   color: $color-white;
   background-color: $session-color-danger;
-  margin-left: 5px;
+  margin-inline-start: 5px;
   margin-top: 5px;
   padding: 4px;
   border-radius: 4px;
@@ -1372,7 +1372,7 @@
 // Module: Document List Item
 
 .module-document-list-item {
-  padding-right: 10px;
+  padding-inline-end: 10px;
   width: 100%;
   height: 72px;
 }
@@ -1403,8 +1403,8 @@
   flex-direction: column;
   flex-grow: 1;
   flex-shrink: 0;
-  margin-left: 8px;
-  margin-right: 8px;
+  margin-inline-start: 8px;
+  margin-inline-end: 8px;
 }
 
 .module-document-list-item__file-name {
@@ -1429,7 +1429,7 @@
   width: 94px;
   cursor: pointer;
   background-color: $color-light-10;
-  margin-right: 4px;
+  margin-inline-end: 4px;
   margin-bottom: 4px;
   position: relative;
 }
@@ -1508,8 +1508,8 @@
   max-width: 300px;
   display: flex;
   flex-direction: row;
-  padding-right: 16px;
-  padding-left: 16px;
+  padding-inline-end: 16px;
+  padding-inline-start: 16px;
   align-items: center;
 
   cursor: pointer;
@@ -1529,8 +1529,8 @@
   text-align: center;
 
   padding-top: 1px;
-  padding-left: 3px;
-  padding-right: 3px;
+  padding-inline-start: 3px;
+  padding-inline-end: 3px;
 
   position: absolute;
   right: -6px;
@@ -1550,7 +1550,7 @@
 
 .module-conversation-list-item__content {
   flex-grow: 1;
-  margin-left: 12px;
+  margin-inline-start: 12px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -1583,7 +1583,7 @@
 
 .module-conversation-list-item__header__timestamp {
   flex-shrink: 0;
-  margin-left: 6px;
+  margin-inline-start: 6px;
 
   font-size: 11px;
   line-height: 16px;
@@ -1637,7 +1637,7 @@
   width: 12px;
   height: 13px;
   display: inline-block;
-  margin-left: 6px;
+  margin-inline-start: 6px;
 }
 
 .module-conversation-list-item__message__status-icon--sending {
@@ -1679,7 +1679,7 @@
 
 .module-main-header__title {
   height: 55px;
-  padding-left: 16px;
+  padding-inline-start: 16px;
   flex: 1;
   flex-direction: row;
   display: flex;
@@ -1743,7 +1743,7 @@
 
 .module-main-header__contact-name {
   font-weight: 300;
-  margin-left: 12px;
+  margin-inline-start: 12px;
   color: $color-dark-05;
   overflow-x: auto;
   flex: 1;
@@ -1763,8 +1763,8 @@
   background-color: $color-gray-95;
   border: 1px solid $color-light-60;
   padding: 0 26px 0 30px;
-  margin-left: 8px;
-  margin-right: 8px;
+  margin-inline-start: 8px;
+  margin-inline-end: 8px;
   outline: 0;
   height: 32px;
   width: calc(100% - 16px);
@@ -2004,8 +2004,8 @@
 
   height: 8px;
   width: 38px;
-  padding-left: 1px;
-  padding-right: 1px;
+  padding-inline-start: 1px;
+  padding-inline-end: 1px;
 }
 
 .module-typing-animation__dot {
@@ -2107,8 +2107,8 @@
 
 .module-attachments__rail {
   margin-top: 12px;
-  margin-left: 16px;
-  padding-right: 16px;
+  margin-inline-start: 16px;
+  padding-inline-end: 16px;
   overflow-x: scroll;
   max-height: 142px;
   white-space: nowrap;
@@ -2147,8 +2147,8 @@
   background: url('../images/file-gradient.svg') no-repeat center;
   height: 44px;
   width: 56px;
-  margin-left: 32px;
-  margin-right: 32px;
+  margin-inline-start: 32px;
+  margin-inline-end: 32px;
   margin-bottom: -4px;
 
   // So we can center the extension text inside this icon
@@ -2166,8 +2166,8 @@
   // Along with flow layout in parent item, centers text
   text-align: center;
   width: 25px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
 
   // We don't have much room for text here, cut it off without ellipse
   overflow-x: hidden;
@@ -2268,8 +2268,8 @@
   flex-direction: row;
   align-items: middle;
 
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
 }
 
 .module-caption-editor__input-container {
@@ -2287,8 +2287,8 @@
   border-radius: 18px;
   background-color: $color-black;
   padding: 9px;
-  padding-left: 12px;
-  padding-right: 65px;
+  padding-inline-start: 12px;
+  padding-inline-end: 65px;
 
   &::placeholder {
     color: $color-white-07;
@@ -2309,8 +2309,8 @@
   border-radius: 15px;
 
   padding: 5px;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding-inline-start: 12px;
+  padding-inline-end: 12px;
 
   right: 4px;
   top: 4px;
@@ -2370,10 +2370,10 @@
 }
 
 .module-staged-link-preview__icon-container {
-  margin-right: 8px;
+  margin-inline-end: 8px;
 }
 .module-staged-link-preview__content {
-  margin-right: 20px;
+  margin-inline-end: 20px;
 }
 .module-staged-link-preview__title {
   color: $color-gray-90;
@@ -2409,8 +2409,8 @@
 // Module: Spinner
 
 .module-spinner__container {
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
   position: relative;
   height: 56px;
   width: 56px;
@@ -2513,7 +2513,7 @@
   height: 36px;
   line-height: 36px;
 
-  margin-left: 16px;
+  margin-inline-start: 16px;
 
   font-size: 14px;
   font-weight: 300;
@@ -2530,7 +2530,7 @@
   height: 36px;
   line-height: 36px;
 
-  margin-left: 16px;
+  margin-inline-start: 16px;
 
   font-size: 14px;
   font-weight: 300;
@@ -2541,7 +2541,7 @@
   height: 36px;
   line-height: 36px;
 
-  margin-left: 16px;
+  margin-inline-start: 16px;
 
   font-size: 14px;
   font-weight: 300;
@@ -2552,8 +2552,8 @@
 
 .module-message-search-result {
   padding: 8px;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-inline-start: 16px;
+  padding-inline-end: 16px;
   min-height: 64px;
   max-width: 300px;
 
@@ -2573,7 +2573,7 @@
 
 .module-message-search-result__text {
   flex-grow: 1;
-  margin-left: 12px;
+  margin-inline-start: 12px;
   // parent - 48px (for avatar) - 16px (our right margin)
   max-width: calc(100% - 64px);
 
@@ -2603,7 +2603,7 @@
 
 .module-message-search-result__header__timestamp {
   flex-shrink: 0;
-  margin-left: 6px;
+  margin-inline-start: 6px;
 
   font-size: 11px;
   line-height: 16px;
@@ -2696,7 +2696,7 @@
 }
 
 .module-left-pane__to-inbox-button {
-  margin-left: 2px;
+  margin-inline-start: 2px;
 
   width: 35px;
   height: 35px;
@@ -2790,7 +2790,7 @@
 
 .module-start-new-conversation__content {
   overflow: hidden;
-  margin-left: 12px;
+  margin-inline-start: 12px;
   flex: 1;
 }
 
@@ -2837,10 +2837,10 @@
   line-height: 18px;
   white-space: nowrap;
 
-  padding-left: 16px;
+  padding-inline-start: 16px;
   padding-top: 3px;
   padding-bottom: 2px;
-  padding-right: 16px;
+  padding-inline-end: 16px;
 }
 
 .react-contextmenu-item--checked:before {
@@ -2857,6 +2857,7 @@
 
 .react-contextmenu-item.react-contextmenu-submenu > .react-contextmenu-item {
   padding-right: 36px;
+  // We will probably need to make this padding-inline-end once the whole app is working on rtl
 }
 
 .react-contextmenu-item.react-contextmenu-submenu
@@ -2917,12 +2918,12 @@
 
   // Spec: container < 438px
   .module-message--incoming {
-    margin-left: 0;
-    margin-right: auto;
+    margin-inline-start: 0;
+    margin-inline-end: auto;
   }
   .module-message--outgoing {
-    margin-right: 0;
-    margin-left: auto;
+    margin-inline-end: 0;
+    margin-inline-start: auto;
   }
 
   // To hide in small breakpoints
@@ -2956,12 +2957,12 @@
   }
 
   .module-message--incoming {
-    margin-left: 0;
-    margin-right: auto;
+    margin-inline-start: 0;
+    margin-inline-end: auto;
   }
   .module-message--outgoing {
-    margin-right: 0;
-    margin-left: auto;
+    margin-inline-end: 0;
+    margin-inline-start: auto;
   }
 
   // To hide in small breakpoints

@@ -1312,9 +1312,6 @@
     "about": {
         "message": "Über"
     },
-    "yes": {
-        "message": "Ja"
-    },
     "devicePairingRequestReceivedLimitTitle": {
         "message": "Gerätelimit erreicht"
     },
@@ -1386,9 +1383,6 @@
     },
     "recoveryPhraseSavePromptMain": {
         "message": "Ihr Wiederherstellungssatz ist der Hauptschlüssel für Ihre Session ID. Mit diesem Satz können Sie Ihre Session ID wiederherstellen, wenn Sie den Zugriff auf Ihr Gerät verlieren. Bewahren Sie Ihren Wiederherstellungssatz an einem sicheren Ort auf und geben Sie ihn an niemandem weiter."
-    },
-    "QRCodeTitle": {
-        "message": "Meinen QR-Code anzeigen"
     },
     "copiedToClipboard": {
         "message": "In die Zwischenablage kopiert."
