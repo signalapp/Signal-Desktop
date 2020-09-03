@@ -1140,7 +1140,7 @@
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "Autoriser Signal Desktop d'accéder à votre micro",
+        "message": "Autoriser Signal Desktop à accéder à votre micro",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
