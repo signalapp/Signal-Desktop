@@ -2532,7 +2532,7 @@
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "Bloquer et quitter le groupe $group$?",
+        "message": "Bloquer et quitter le groupe $group$ ?",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
