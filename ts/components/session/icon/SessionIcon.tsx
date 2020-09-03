@@ -49,6 +49,9 @@ export class SessionIcon extends React.PureComponent<Props> {
         case SessionIconSize.Huge:
           iconDimensions = '30';
           break;
+        case SessionIconSize.Max:
+          iconDimensions = '80';
+          break;
         default:
           iconDimensions = '20';
       }

@@ -2302,19 +2302,18 @@
         this.contactCollection.reset(contacts);
       });
     },
+    // returns true if this is a closed/medium or open group
+    isGroup() {
+      return this.get('type') === 'group';
+    },
 
     copyPublicKey() {
       clipboard.writeText(this.id);
 
-      const isGroup = this.getProps().type === 'group';
-      const copiedMessage = isGroup
-        ? i18n('copiedChatId')
-        : i18n('copiedPublicKey');
-
       window.pushToast({
-        title: copiedMessage,
+        title: i18n('copiedToClipboard'),
         type: 'success',
-        id: 'copiedPublicKey',
+        id: 'copiedToClipboard',
       });
     },
 
@@ -2327,15 +2326,12 @@
     },
 
     deleteContact() {
-      let title = i18n('deleteContact');
+      let title = i18n('delete');
       let message = i18n('deleteContactConfirmation');
 
-      if (this.isPublic()) {
-        title = i18n('deletePublicChannel');
-        message = i18n('deletePublicChannelConfirmation');
-      } else if (this.isClosedGroup()) {
-        title = i18n('leaveClosedGroup');
-        message = i18n('leaveClosedGroupConfirmation');
+      if (this.isGroup()) {
+        title = i18n('leaveGroup');
+        message = i18n('leaveGroupConfirmation');
       }
 
       window.confirmationDialog({
@@ -2396,11 +2392,9 @@
 
       let params;
       if (this.isPublic()) {
-        params = {
-          title: i18n('deleteMessages'),
-          message: i18n('deletePublicConversationConfirmation'),
-          resolve: () => ConversationController.deleteContact(this.id),
-        };
+        throw new Error(
+          'Called deleteMessages() on an open group. Only leave group is supported.'
+        );
       } else {
         params = {
           title: i18n('deleteMessages'),
@@ -2442,7 +2436,7 @@
       if (this.isPrivate()) {
         return this.get('name');
       }
-      return this.get('name') || i18n('unknownGroup');
+      return this.get('name') || i18n('unknown');
     },
 
     getTitle() {

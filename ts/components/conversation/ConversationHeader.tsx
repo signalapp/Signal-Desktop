@@ -2,12 +2,7 @@ import React from 'react';
 
 import { Avatar } from '../Avatar';
 import { Colors, LocalizerType } from '../../types/Util';
-import {
-  ContextMenu,
-  ContextMenuTrigger,
-  MenuItem,
-  SubMenu,
-} from 'react-contextmenu';
+import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 import {
   SessionIconButton,
@@ -309,14 +304,8 @@ export class ConversationHeader extends React.Component<Props> {
     return (
       <ContextMenu id={triggerId}>
         {this.renderPublicMenuItems()}
-        {Menu.getCopyIdMenuItem(
-          isPublic,
-          isRss,
-          isGroup,
-          onCopyPublicKey,
-          i18n
-        )}
-        <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
+        {Menu.getCopyMenuItem(isPublic, isRss, isGroup, onCopyPublicKey, i18n)}
+        {Menu.getDeleteMessagesMenuItem(isPublic, onDeleteMessages, i18n)}
         {Menu.getAddModeratorsMenuItem(
           amMod,
           isKickedFromGroup,
@@ -373,7 +362,7 @@ export class ConversationHeader extends React.Component<Props> {
 
     const isServerDeletable = isPublic;
     const deleteMessageButtonText = i18n(
-      isServerDeletable ? 'unsend' : 'delete'
+      isServerDeletable ? 'deleteForEveryone' : 'delete'
     );
 
     return (
@@ -434,7 +423,7 @@ export class ConversationHeader extends React.Component<Props> {
   public highlightMessageSearch() {
     // This is a temporary fix. In future we want to search
     // messages in the current conversation
-    $('.session-search-input input').focus();
+    ($('.session-search-input input') as any).focus();
   }
 
   // tslint:disable-next-line: cyclomatic-complexity

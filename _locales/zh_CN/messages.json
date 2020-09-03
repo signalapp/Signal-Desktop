@@ -3,17 +3,9 @@
         "message": "复制出错信息并退出",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
-    "unknownGroup": {
-        "message": "未知群",
-        "description": "Shown as the name of a group if we don't have any information about it"
-    },
     "databaseError": {
         "message": "数据库错误",
         "description": "Shown in a popup if the database cannot start up properly"
-    },
-    "deleteAndRestart": {
-        "message": "删除所有数据并重启",
-        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
         "message": "文件(&F)",
@@ -35,10 +27,6 @@
         "message": "帮助(&H)",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
-    "mainMenuSettings": {
-        "message": "偏好设置...",
-        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
-    },
     "appMenuHide": {
         "message": "隐藏",
         "description": "Application menu command to hide the window"
@@ -52,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "退出 Signal",
+        "message": "退出 Session",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -135,10 +123,6 @@
         "message": "使用导入的数据进行配置",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
-    "menuSetupAsNewDevice": {
-        "message": "配置为新设备",
-        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
-    },
     "menuSetupAsStandalone": {
         "message": "配置为独立设备",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
@@ -161,36 +145,16 @@
             }
         }
     },
-    "archivedConversations": {
-        "message": "已归档对话",
-        "description": "Shown in place of the search box when showing archived conversation list"
-    },
-    "archiveHelperText": {
-        "message": "这些对话已被归档，仅当有新消息到达时，它们才会重新出现在收件箱中。",
-        "description": "Shown at the top of the archived converations list in the left pane"
-    },
-    "archiveConversation": {
-        "message": "存档会话",
-        "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
-    },
-    "moveConversationToInbox": {
-        "message": "移动会话到收件箱",
-        "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
-    },
     "chooseDirectory": {
         "message": "选择文件夹",
         "description": "Button to allow the user to find a folder on disk"
-    },
-    "chooseFile": {
-        "message": "选择文件",
-        "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
         "message": "加载您的数据",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "您已完成了导出步骤，被导出的联系人和消息在等着您给它们一个新家。请选择包含您 Signal 数据的文件夹。",
+        "message": "您已完成了导出步骤，被导出的联系人和消息在等着您给它们一个新家。请选择包含您 Session 数据的文件夹。",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -206,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "请确认您选对了包含已保存 Signal 数据 的文件夹，其名字一般以“Signal Export”开头。您还可以在 Chrome App 上保存一份新的数据。",
+        "message": "请确认您选对了包含已保存 Session 数据 的文件夹，其名字一般以“Session Export”开头。您还可以在 Chrome App 上保存一份新的数据。",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -222,30 +186,12 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "开始使用 Signal Desktop",
+        "message": "开始使用 Session Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
         "message": "将这个设备关联到您的手机",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
-    },
-    "selectedLocation": {
-        "message": "您已选的位置",
-        "description": "Message shown as the export location if we didn't capture the target directory"
-    },
-    "upgradingDatabase": {
-        "message": "更新数据库。这可能需要一点时间...",
-        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
-    },
-    "loadingMessages": {
-        "message": "加载消息。目前数目 $count$...",
-        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
     },
     "me": {
         "message": "我",
@@ -258,18 +204,6 @@
     "youLeftTheGroup": {
         "message": "你已经离开了群组",
         "description": "Displayed when a user can't send a message because they have left the group"
-    },
-    "scrollDown": {
-        "message": "滚动到对话的底部",
-        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-    },
-    "messageBelow": {
-        "message": "下面的新消息",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-    },
-    "messagesBelow": {
-        "message": "下面的新消息",
-        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
         "message": "1条未读消息",
@@ -330,11 +264,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "自上次验证以来，您与多位群组成员的安全码已发生改变。这可能意味着有人试图截取您的对话，或者只是联系人重新安装了 Signal。",
+        "message": "自上次验证以来，您与多位群组成员的安全码已发生改变。这可能意味着有人试图截取您的对话，或者只是联系人重新安装了 Session。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "您与$name$的安全码自上次确认后已改变。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是重装了 Signal。",
+        "message": "您与$name$的安全码自上次确认后已改变。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是重装了 Session。",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -344,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "您想验证的安全码已改变。请检查您与$name$的新安全码。切记，验证码改变意味着可能有人试图截取您的通讯，也可能只是$name$重新安装了 Signal。",
+        "message": "您想验证的安全码已改变。请检查您与$name$的新安全码。切记，验证码改变意味着可能有人试图截取您的通讯，也可能只是$name$重新安装了 Session。",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -354,11 +288,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "您与多位群组成员的安全码已发生改变。这可能表示有人试图偷听您的对话，或者只是联系人他们重新安装了 Signal。",
+        "message": "您与多位群组成员的安全码已发生改变。这可能表示有人试图偷听您的对话，或者只是联系人他们重新安装了 Session。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "您与$name$的安全码最近发生了变化。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是重装了 Signal。",
+        "message": "您与$name$的安全码最近发生了变化。这可能意味着有人正在尝试拦截您的通讯，或者$name$只是重装了 Session。",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -368,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "您与$name$的安全码已改变。这表示可能有人试图偷听您的对话，也可能只是$name$重新安装了 Signal。您可能要重新验证与联系人的安全码。",
+        "message": "您与$name$的安全码已改变。这表示可能有人试图偷听您的对话，也可能只是$name$重新安装了 Session。您可能要重新验证与联系人的安全码。",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -415,10 +349,6 @@
         "message": "提交",
         "description": ""
     },
-    "acceptNewKey": {
-        "message": "接受",
-        "description": "Label for a button to accept a new safety number"
-    },
     "verify": {
         "message": "标记为已确认",
         "description": ""
@@ -454,10 +384,6 @@
     "newIdentity": {
         "message": "新的安全代码",
         "description": "Header for a key change dialog"
-    },
-    "identityChanged": {
-        "message": "您的此联系人的安全代码已更改。这可能意味着有人试图拦截你的通信，或者这个联系人重新安装了Signal。您可能想验证以下新安全代码。",
-        "description": ""
     },
     "incomingError": {
         "message": "处理传入消息时出错",
@@ -495,18 +421,6 @@
         "message": "本月",
         "description": "Section header in the media gallery"
     },
-    "unsupportedAttachment": {
-        "message": "不支持的附件类型，点击保存。",
-        "description": "Displayed for incoming unsupported attachment"
-    },
-    "clickToSave": {
-        "message": "单击保存",
-        "description": "Hover text for attachment filenames"
-    },
-    "unnamedFile": {
-        "message": "未命名的文件",
-        "description": "Hover text for attachment filenames"
-    },
     "voiceMessage": {
         "message": "语音消息",
         "description": "Name for a voice message attachment"
@@ -515,13 +429,9 @@
         "message": "为了安全，不允许此附件类型",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
-    "loadingPreview": {
-        "message": "加载预览中...",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
-    },
     "stagedPreviewThumbnail": {
         "message": "待发送的$domain$链接预览",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -531,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "$domain$的链接预览缩略图",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -569,10 +479,6 @@
         "message": "无法加载选中的附件。",
         "description": ""
     },
-    "disconnected": {
-        "message": "已断开连接",
-        "description": "Displayed when the desktop client cannot connect to the server."
-    },
     "connecting": {
         "message": "正在连接",
         "description": "Displayed when the desktop client is currently connecting to the server."
@@ -607,10 +513,6 @@
         "message": "前往发布说明",
         "description": ""
     },
-    "goToForums": {
-        "message": "前往论坛",
-        "description": "Item under the Help menu, takes you to the forums"
-    },
     "goToSupportPage": {
         "message": "前往支持页面",
         "description": "Item under the Help menu, takes you to the support page"
@@ -619,14 +521,6 @@
         "message": "反馈问题",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
-    "signalDesktopPreferences": {
-        "message": "Signal Desktop偏好",
-        "description": "Title of the window that pops up with Signal Desktop preferences in it"
-    },
-    "aboutSignalDesktop": {
-        "message": "关于 Signal Desktop",
-        "description": "Item under the Help menu, which opens a small about window"
-    },
     "speech": {
         "message": "语音",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -634,18 +528,6 @@
     "show": {
         "message": "显示",
         "description": "Command under Window menu, to show the window"
-    },
-    "hide": {
-        "message": "隐藏",
-        "description": "Command in the tray icon menu, to hide the window"
-    },
-    "quit": {
-        "message": "退出",
-        "description": "Command in the tray icon menu, to quit the application"
-    },
-    "signalDesktop": {
-        "message": "桌面版Signal",
-        "description": "Tooltip for the tray icon"
     },
     "search": {
         "message": "搜索",
@@ -677,10 +559,6 @@
         "message": "欢迎来到Signal",
         "description": ""
     },
-    "selectAContact": {
-        "message": "选择一个联系人或群组来开始聊天。",
-        "description": ""
-    },
     "typingAlt": {
         "message": "这个对话中的“正在输入”提示",
         "description": "Used as the 'title' attibute for the typing animation"
@@ -694,10 +572,6 @@
                 "example": "John"
             }
         }
-    },
-    "sendMessageToContact": {
-        "message": "发送消息",
-        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
         "message": "家",
@@ -759,27 +633,13 @@
         "message": "您",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
-    "replyingTo": {
-        "message": "回复 $name$",
-        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
     "audioPermissionNeeded": {
-        "message": "发送音频消息前，请先允许 Signal Desktop访问您的麦克风。",
+        "message": "发送音频消息前，请先允许 Session Desktop访问您的麦克风。",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
         "message": "允许访问",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
-    },
-    "showSettings": {
-        "message": "打开设置",
-        "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
         "message": "音频",
@@ -797,10 +657,6 @@
         "message": "无法更新",
         "description": "Shown as the title of our update error dialogs on windows"
     },
-    "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
-    },
     "ok": {
         "message": "好",
         "description": ""
@@ -809,16 +665,8 @@
         "message": "取消",
         "description": ""
     },
-    "failedToSend": {
-        "message": "无法发送给某些收件人，请检查您的网络连接。",
-        "description": ""
-    },
     "error": {
         "message": "错误",
-        "description": ""
-    },
-    "messageDetail": {
-        "message": "信息属性",
         "description": ""
     },
     "delete": {
@@ -857,10 +705,6 @@
         "message": "群组成员",
         "description": ""
     },
-    "showMembers": {
-        "message": "显示成员",
-        "description": ""
-    },
     "resetSession": {
         "message": "重置会话",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
@@ -868,10 +712,6 @@
     "showSafetyNumber": {
         "message": "查看安全码",
         "description": ""
-    },
-    "viewAllMedia": {
-        "message": "查看所有媒体",
-        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
         "message": "如果您想要确认与$name$端对端加密是否安全，请将以上数字和对方设备的数字进行比对。",
@@ -886,14 +726,6 @@
     "theirIdentityUnknown": {
         "message": "您还未与该联系人有任何通讯，您的安全代码将会在您对其发送第一条消息后显示。",
         "description": ""
-    },
-    "moreInfo": {
-        "message": "更多信息...",
-        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
-    },
-    "retrySend": {
-        "message": "重试发送",
-        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
         "message": "删除消息",
@@ -939,10 +771,6 @@
         "message": "保存",
         "description": ""
     },
-    "fileIconAlt": {
-        "message": "文件图标",
-        "description": "Used in the media gallery documents tab to visually represent a file"
-    },
     "emojiAlt": {
         "message": "“$title$”的表情图片",
         "description": "Used in the alt tag of all emoji images",
@@ -953,65 +781,9 @@
             }
         }
     },
-    "installWelcome": {
-        "message": "欢迎来到Signal桌面版",
-        "description": "Welcome title on the install page"
-    },
-    "installTagline": {
-        "message": "Signal让隐私保护触手可及。",
-        "description": "Tagline displayed under 'installWelcome' string on the install page"
-    },
-    "linkYourPhone": {
-        "message": "关联您的手机到 Signal Desktop",
-        "description": "Shown on the front page when the application first starst, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Signal 设置",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "linkedDevices": {
-        "message": "已关联的设备",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "“+” 按键",
-        "description": "The button used in Signal Android to add a new linked device"
-    },
     "linkNewDevice": {
         "message": "关联新设备",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
-    },
-    "deviceName": {
-        "message": "设备名称",
-        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
-    },
-    "chooseDeviceName": {
-        "message": "选择这个设备的名称",
-        "description": "The header shown on the 'choose device name' screen in the device linking process"
-    },
-    "finishLinkingPhone": {
-        "message": "完成手机关联",
-        "description": "The text on the button to finish the linking process, after choosing the device name"
-    },
-    "initialSync": {
-        "message": "正在同步联系人和群组",
-        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
-    },
-    "installConnectionFailed": {
-        "message": "连接服务器失败",
-        "description": "Displayed when we can't connect to the server."
-    },
-    "installTooManyDevices": {
-        "message": "很抱歉，您已连接过多的设备，请删除一些然后重试。",
-        "description": ""
-    },
-    "settings": {
-        "message": "设置",
-        "description": "Menu item and header for global settings"
-    },
-    "theme": {
-        "message": "主题",
-        "description": "Header for theme settings"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "权限",
@@ -1028,34 +800,6 @@
     "spellCheckDescription": {
         "message": "启用输入框拼写检查",
         "description": "Description of the media permission description"
-    },
-    "clearDataHeader": {
-        "message": "清空数据",
-        "description": "Header in the settings dialog for the section dealing with data deletion"
-    },
-    "clearDataExplanation": {
-        "message": "这会清空程序中所有的数据，包括删除所有消息和账号信息。",
-        "description": "Text describing what the clear data button will do."
-    },
-    "clearDataButton": {
-        "message": "清空数据",
-        "description": "Button in the settings dialog starting process to delete all data"
-    },
-    "deleteAllDataHeader": {
-        "message": "是否删除所有数据？",
-        "description": "Header of the full-screen delete data confirmation screen"
-    },
-    "deleteAllDataBody": {
-        "message": "您即将删除本应用所有账户信息，包括全部联系人和消息。您可以随时重新连接移动设备，但这不会恢复已删除的消息。",
-        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
-    },
-    "deleteAllDataButton": {
-        "message": "删除所有数据",
-        "description": "Text of the button that deletes all data"
-    },
-    "deleteAllDataProgress": {
-        "message": "断开连接并删除所有数据",
-        "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
         "message": "提醒",
@@ -1105,14 +849,6 @@
         "message": "发送失败",
         "description": "Shown on outgoing message if it fails to send"
     },
-    "showMore": {
-        "message": "更多",
-        "description": "Displays the details of a key change"
-    },
-    "showLess": {
-        "message": "隐藏",
-        "description": "Hides the details of a key change"
-    },
     "learnMore": {
         "message": "了解更多有关安全代码的信息",
         "description": "Text that links to a support article on verifying safety numbers"
@@ -1129,34 +865,6 @@
         "message": "附件信息",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
-    "unregisteredUser": {
-        "message": "号码未注册",
-        "description": "Error message displayed when sending to an unregistered user."
-    },
-    "sync": {
-        "message": "联系人",
-        "description": "Label for contact and group sync settings"
-    },
-    "syncExplanation": {
-        "message": "从您的移动设备导入所有Signal的群组和联系人。",
-        "description": "Explanatory text for sync settings"
-    },
-    "lastSynced": {
-        "message": "最后一次导入于",
-        "description": "Label for date and time of last sync operation"
-    },
-    "syncNow": {
-        "message": "已导入",
-        "description": "Label for a button that syncs contacts and groups from your phone"
-    },
-    "syncing": {
-        "message": "导入中...",
-        "description": "Label for a disabled sync button while sync is in progress."
-    },
-    "syncFailed": {
-        "message": "导入失败，确保您的电脑和手机已连网。",
-        "description": "Informational text displayed if a sync operation times out."
-    },
     "timestamp_s": {
         "message": "现在",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
@@ -1168,50 +876,6 @@
     "timestamp_h": {
         "message": "1小时",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
-    },
-    "hoursAgoShort": {
-        "message": "$hours$小时",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "hoursAgo": {
-        "message": "$hours$小时前",
-        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "minutesAgoShort": {
-        "message": "$minutes$分钟",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "minutesAgo": {
-        "message": "$minutes$分钟前",
-        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "justNow": {
-        "message": "现在",
-        "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "MMM D",
@@ -1387,10 +1051,6 @@
             }
         }
     },
-    "audioNotificationDescription": {
-        "message": "播放语音提醒",
-        "description": "Description for audio notification setting"
-    },
     "safetyNumberChanged": {
         "message": "安全码已改变",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -1419,45 +1079,17 @@
             }
         }
     },
-    "themeLight": {
-        "message": "亮色",
-        "description": "Label text for light theme (normal)"
-    },
-    "themeDark": {
-        "message": "暗色",
-        "description": "Label text for dark theme"
-    },
     "noteToSelf": {
         "message": "备忘录",
         "description": "Name for the conversation with your own phone number"
-    },
-    "hideMenuBar": {
-        "message": "隐藏菜单栏",
-        "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
         "message": "开始新会话...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
-    "newPhoneNumber": {
-        "message": "键入电话号码来添加联系人",
-        "description": "Placeholder for adding a new number to a contact"
-    },
     "invalidNumberError": {
         "message": "无效的号码",
         "description": "When a person inputs a number that is invalid"
-    },
-    "unlinkedWarning": {
-        "message": "重新链接桌面版Signal到您的移动设备来继续。",
-        "description": ""
-    },
-    "unlinked": {
-        "message": "未连接",
-        "description": ""
-    },
-    "relink": {
-        "message": "重新连接",
-        "description": ""
     },
     "autoUpdateNewVersionTitle": {
         "message": "Session 有可用更新",

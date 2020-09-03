@@ -1,4 +1,5 @@
 import { ConversationModel } from '../../../js/models/conversations';
+import { PromiseUtils } from '../utils';
 
 interface OpenGroupParams {
   server: string;
@@ -126,8 +127,14 @@ export class OpenGroup {
         onLoading();
       }
 
-      conversation = await window.attemptConnection(prefixedServer, channel);
-      conversationId = conversation?.cid;
+      conversation = await PromiseUtils.timeout(
+        window.attemptConnection(prefixedServer, channel),
+        15000
+      );
+      if (!conversation) {
+        throw new Error(window.i18n('connectToServerFail'));
+      }
+      conversationId = (conversation as any)?.cid;
     } catch (e) {
       throw new Error(e);
     }

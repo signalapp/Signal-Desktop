@@ -65,13 +65,13 @@ export class MediaGallery extends React.Component<Props, State> {
       <div className="module-media-gallery">
         <div className="module-media-gallery__tab-container">
           <Tab
-            label="Media"
+            label={window.i18n('media')}
             type="media"
             isSelected={selectedTab === 'media'}
             onSelect={this.handleTabSelect}
           />
           <Tab
-            label="Documents"
+            label={window.i18n('documents')}
             type="documents"
             isSelected={selectedTab === 'documents'}
             onSelect={this.handleTabSelect}

@@ -4,6 +4,7 @@ import { QRCode } from 'react-qr-svg';
 import { SessionModal } from './session/SessionModal';
 import { SessionButton, SessionButtonColor } from './session/SessionButton';
 import { SessionSpinner } from './session/SessionSpinner';
+import { ToastUtils } from '../session/utils';
 
 interface Props {
   onClose: any;
@@ -72,7 +73,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
 
   public renderFilterRequestsView() {
     const { currentPubKey, accepted, deviceAlias } = this.state;
-    let secretWords: undefined;
+    let secretWords: string | undefined;
     if (currentPubKey) {
       secretWords = window.mnemonic.pubkey_to_secret_words(currentPubKey);
     }
@@ -118,9 +119,9 @@ export class DevicePairingDialog extends React.Component<Props, State> {
             {window.i18n('allowPairingWithDevice')}
           </h4>
           {this.renderErrors()}
+          <div className="subtle">{window.i18n('secretWords')}</div>
 
           <div className="device-pairing-dialog__secret-words">
-            <label>{window.i18n('secretWords')}</label>
             <div className="subtle">{secretWords}</div>
           </div>
 
@@ -280,7 +281,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
         errors: null,
       });
       this.closeDialog();
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('devicePairedSuccessfully'),
         type: 'success',
       });
@@ -365,7 +366,7 @@ export class DevicePairingDialog extends React.Component<Props, State> {
 
   private triggerUnpairDevice() {
     const deviceUnpaired = () => {
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('deviceUnpaired'),
       });
       this.closeDialog();

@@ -346,12 +346,12 @@
 
       this.hideConversationRight = () => {
         this.$('.conversation-content-right').css({
-          'margin-right': '-22vw',
+          'margin-inline-end': '-22vw',
         });
       };
       this.showConversationRight = () => {
         this.$('.conversation-content-right').css({
-          'margin-right': '0vw',
+          'margin-inline-end': '0vw',
         });
       };
 
@@ -1241,6 +1241,7 @@
           contact.getTitle(),
           contact.getTitle(),
         ]),
+        messageSub: i18n('youMayWishToVerifyContact'),
         okText: i18n('sendAnyway'),
         resolve: async () => {
           await contact.updateVerified();
@@ -1372,14 +1373,18 @@
       }
 
       // If removable from server, we "Unsend" - otherwise "Delete"
-      const pluralSuffix = multiple ? 's' : '';
-      const title = i18n(
-        isPublic
-          ? `unsendMessage${pluralSuffix}`
-          : `deleteMessage${pluralSuffix}`
-      );
+      let title;
+      if (isPublic) {
+        title = multiple
+          ? i18n('deleteMessagesForEveryone')
+          : i18n('deleteMessageForEveryone');
+      } else {
+        title = multiple ? i18n('deleteMessages') : i18n('deleteMessage');
+      }
 
-      const okText = i18n(isServerDeletable ? 'unsend' : 'delete');
+      const okText = isServerDeletable
+        ? i18n('deleteForEveryone')
+        : i18n('delete');
 
       window.confirmationDialog({
         title,

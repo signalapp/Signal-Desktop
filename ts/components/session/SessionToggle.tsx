@@ -9,7 +9,7 @@ interface Props {
   // setting item in SessionSettings.tsx are like such:
   // confirmationDialogParams: {
   //  shouldShowConfirm: false,
-  //  title: window.i18n('linkPreviewsConfirmTitle'),
+  //  title: window.i18n('linkPreviewsTitle'),
   //  message: window.i18n('linkPreviewsConfirmMessage'),
   //  okTheme: 'danger',
   // }

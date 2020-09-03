@@ -127,7 +127,7 @@
       return this.queueTask(() =>
         generateKeypair().then(async identityKeyPair =>
           createAccount(identityKeyPair)
-            .then(() => this.saveMnemonic(mnemonic))
+            .then(() => this.saveRecoveryPhrase(mnemonic))
             .then(clearSessionsAndPreKeys)
             .then(generateKeys)
             .then(confirmKeys)
@@ -507,10 +507,10 @@
       const hex = StringView.arrayBufferToHex(seed);
       return mnemonic.mn_encode(hex, language);
     },
-    getCurrentMnemonic() {
+    getCurrentRecoveryPhrase() {
       return textsecure.storage.get('mnemonic');
     },
-    saveMnemonic(mnemonic) {
+    saveRecoveryPhrase(mnemonic) {
       return textsecure.storage.put('mnemonic', mnemonic);
     },
     async registrationDone(number, displayName) {

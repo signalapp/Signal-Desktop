@@ -61,7 +61,7 @@ export class SessionSettingListItem extends React.Component<Props, State> {
 
         <div className="session-settings-item__content">
           {type === SessionSettingType.Toggle && (
-            <div className="session-sessings-item__selection">
+            <div className="session-settings-item__selection">
               <SessionToggle
                 active={Boolean(value)}
                 onClick={this.handleClick}

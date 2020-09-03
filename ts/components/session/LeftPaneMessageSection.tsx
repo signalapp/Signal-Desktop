@@ -30,6 +30,7 @@ import {
   SessionButtonType,
 } from './SessionButton';
 import { OpenGroup } from '../../session/types';
+import { ToastUtils } from '../../session/utils';
 
 export interface Props {
   searchTerm: string;
@@ -241,7 +242,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         <SessionSearchInput
           searchString={this.props.searchTerm}
           onChange={this.updateSearchBound}
-          placeholder={window.i18n('searchForAKeyPhrase')}
+          placeholder={window.i18n('searchFor...')}
         />
         {this.renderList()}
         {this.renderBottomButtons()}
@@ -362,21 +363,11 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   private renderBottomButtons(): JSX.Element {
-    const edit = window.i18n('edit');
     const joinOpenGroup = window.i18n('joinOpenGroup');
-    const createClosedGroup = window.i18n('createClosedGroup');
-    const showEditButton = false;
+    const newClosedGroup = window.i18n('newClosedGroup');
 
     return (
       <div className="left-pane-contact-bottom-buttons">
-        {showEditButton && (
-          <SessionButton
-            text={edit}
-            buttonType={SessionButtonType.SquareOutline}
-            buttonColor={SessionButtonColor.White}
-          />
-        )}
-
         <SessionButton
           text={joinOpenGroup}
           buttonType={SessionButtonType.SquareOutline}
@@ -386,7 +377,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           }}
         />
         <SessionButton
-          text={createClosedGroup}
+          text={newClosedGroup}
           buttonType={SessionButtonType.SquareOutline}
           buttonColor={SessionButtonColor.White}
           onClick={() => {
@@ -416,7 +407,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     const { openConversationInternal } = this.props;
 
     if (!this.state.valuePasted && !this.props.searchTerm) {
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('invalidNumberError'),
         type: 'error',
         id: 'invalidPubKey',
@@ -432,7 +423,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     if (!error) {
       openConversationInternal(pubkey);
     } else {
-      window.pushToast({
+      ToastUtils.push({
         title: error,
         type: 'error',
         id: 'invalidPubKey',
@@ -447,15 +438,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       return;
     }
 
-    // Server URL entered?
-    if (serverUrl.length === 0) {
-      return;
-    }
-
     // Server URL valid?
-    if (!OpenGroup.validate(serverUrl)) {
-      window.pushToast({
-        title: window.i18n('noServerURL'),
+    if (serverUrl.length === 0 || !OpenGroup.validate(serverUrl)) {
+      ToastUtils.push({
+        title: window.i18n('invalidOpenGroupUrl'),
         id: 'connectToServer',
         type: 'error',
       });
@@ -465,7 +451,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     // Already connected?
     if (Boolean(await OpenGroup.getConversation(serverUrl))) {
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('publicChatExists'),
         id: 'publicChatExists',
         type: 'error',
@@ -476,16 +462,21 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     // Connect to server
     try {
+      ToastUtils.push({
+        title: window.i18n('connectingToServer'),
+        id: 'connectToServer',
+        type: 'success',
+      });
+      this.setState({ loading: true });
       await OpenGroup.join(serverUrl, async () => {
         if (await OpenGroup.serverExists(serverUrl)) {
-          window.pushToast({
-            title: window.i18n('connectingToServer'),
+          ToastUtils.push({
+            title: window.i18n('connectToServerSuccess'),
             id: 'connectToServer',
             type: 'success',
           });
-
-          this.setState({ loading: true });
         }
+        this.setState({ loading: false });
       });
       const openGroupConversation = await OpenGroup.getConversation(serverUrl);
 
@@ -502,11 +493,12 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       }
     } catch (e) {
       window.console.error('Failed to connect to server:', e);
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('connectToServerFail'),
         id: 'connectToServer',
         type: 'error',
       });
+      this.setState({ loading: false });
     } finally {
       this.setState({
         loading: false,
@@ -526,11 +518,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       senderKeys,
       () => {
         this.handleToggleOverlay(undefined);
-
-        window.pushToast({
-          title: window.i18n('closedGroupCreatedToastTitle'),
-          type: 'success',
-        });
       }
     );
   }

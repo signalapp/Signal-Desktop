@@ -67,7 +67,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
         </p>
         <div className="moderatorList">
           <p>Existing moderators:</p>
-          <div className="friend-selection-list">
+          <div className="contact-selection-list">
             <MemberList
               members={this.state.modList}
               selected={{}}

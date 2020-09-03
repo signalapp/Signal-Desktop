@@ -2,6 +2,7 @@ import React from 'react';
 
 import { SessionModal } from './SessionModal';
 import { SessionButton } from './SessionButton';
+import { ToastUtils } from '../../session/utils';
 
 interface Props {
   onClose: any;
@@ -11,7 +12,7 @@ interface State {
   error: string;
   loadingPassword: boolean;
   loadingSeed: boolean;
-  seed: string;
+  recoveryPhrase: string;
   hasPassword: boolean | null;
   passwordHash: string;
   passwordValid: boolean;
@@ -25,28 +26,28 @@ export class SessionSeedModal extends React.Component<Props, State> {
       error: '',
       loadingPassword: true,
       loadingSeed: true,
-      seed: '',
+      recoveryPhrase: '',
       hasPassword: null,
       passwordHash: '',
       passwordValid: false,
     };
 
-    this.copySeed = this.copySeed.bind(this);
-    this.getSeed = this.getSeed.bind(this);
+    this.copyRecoveryPhrase = this.copyRecoveryPhrase.bind(this);
+    this.getRecoveryPhrase = this.getRecoveryPhrase.bind(this);
     this.confirmPassword = this.confirmPassword.bind(this);
     this.checkHasPassword = this.checkHasPassword.bind(this);
     this.onEnter = this.onEnter.bind(this);
   }
 
   public componentDidMount() {
-    setTimeout(() => $('#seed-input-password').focus(), 100);
+    setTimeout(() => ($('#seed-input-password') as any).focus(), 100);
   }
 
   public render() {
     const i18n = window.i18n;
 
     this.checkHasPassword();
-    this.getSeed().ignore();
+    this.getRecoveryPhrase().ignore();
 
     const { onClose } = this.props;
     const { hasPassword, passwordValid } = this.state;
@@ -56,7 +57,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
       <>
         {!loading && (
           <SessionModal
-            title={i18n('showSeed')}
+            title={i18n('showRecoveryPhrase')}
             onOk={() => null}
             onClose={onClose}
           >
@@ -81,7 +82,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
 
     return (
       <>
-        <p>{i18n('showSeedPasswordRequest')}</p>
+        <p>{i18n('showRecoveryPhrasePasswordRequest')}</p>
         <input
           type="password"
           id="seed-input-password"
@@ -100,10 +101,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
         <div className="spacer-lg" />
 
         <div className="session-modal__button-group">
-          <SessionButton
-            text={i18n('confirm')}
-            onClick={this.confirmPassword}
-          />
+          <SessionButton text={i18n('ok')} onClick={this.confirmPassword} />
 
           <SessionButton text={i18n('cancel')} onClick={onClose} />
         </div>
@@ -119,13 +117,13 @@ export class SessionSeedModal extends React.Component<Props, State> {
       <>
         <div className="session-modal__centered text-center">
           <p className="session-modal__description">
-            {i18n('seedSavePromptMain')}
-            <br />
-            <span className="subtle">{i18n('seedSavePromptAlt')}</span>
+            {i18n('recoveryPhraseSavePromptMain')}
           </p>
           <div className="spacer-xs" />
 
-          <i className="session-modal__text-highlight">{this.state.seed}</i>
+          <i className="session-modal__text-highlight">
+            {this.state.recoveryPhrase}
+          </i>
         </div>
         <div className="spacer-lg" />
 
@@ -133,9 +131,9 @@ export class SessionSeedModal extends React.Component<Props, State> {
           <SessionButton text={i18n('ok')} onClick={onClose} />
 
           <SessionButton
-            text={i18n('copySeed')}
+            text={i18n('copy')}
             onClick={() => {
-              this.copySeed(this.state.seed);
+              this.copyRecoveryPhrase(this.state.recoveryPhrase);
             }}
           />
         </div>
@@ -145,7 +143,7 @@ export class SessionSeedModal extends React.Component<Props, State> {
 
   private confirmPassword() {
     const passwordHash = this.state.passwordHash;
-    const passwordValue = $('#seed-input-password').val();
+    const passwordValue = jQuery('#seed-input-password').val();
     const isPasswordValid = window.passwordUtil.matchesHash(
       passwordValue,
       passwordHash
@@ -193,29 +191,29 @@ export class SessionSeedModal extends React.Component<Props, State> {
     });
   }
 
-  private async getSeed() {
-    if (this.state.seed) {
+  private async getRecoveryPhrase() {
+    if (this.state.recoveryPhrase) {
       return false;
     }
 
     const manager = await window.getAccountManager();
-    const seed = manager.getCurrentMnemonic();
+    const recoveryPhrase = manager.getCurrentRecoveryPhrase();
 
     this.setState({
-      seed,
+      recoveryPhrase,
       loadingSeed: false,
     });
 
     return true;
   }
 
-  private copySeed(seed: string) {
-    window.clipboard.writeText(seed);
+  private copyRecoveryPhrase(recoveryPhrase: string) {
+    window.clipboard.writeText(recoveryPhrase);
 
-    window.pushToast({
-      title: window.i18n('copiedMnemonic'),
+    ToastUtils.push({
+      title: window.i18n('copiedToClipboard'),
       type: 'success',
-      id: 'copySeedToast',
+      id: 'copyRecoveryPhraseToast',
     });
   }
 

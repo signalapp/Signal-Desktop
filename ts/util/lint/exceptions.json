@@ -372,15 +372,7 @@
     "updated": "2018-09-19T18:13:29.628Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/confirmation_dialog_view.js",
-    "line": "      this.$('.cancel').focus();",
-    "lineNumber": 55,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
+
   {
     "rule": "jQuery-append(",
     "path": "js/views/contact_list_view.js",
@@ -639,105 +631,6 @@
     "lineNumber": 262,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-08T23:49:08.796Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/install_view.js",
-    "line": "      this.$('#qr img').remove();",
-    "lineNumber": 133,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/install_view.js",
-    "line": "      this.$('#qr .container').show();",
-    "lineNumber": 135,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/install_view.js",
-    "line": "      if ($('#qr').length === 0) {",
-    "lineNumber": 139,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/install_view.js",
-    "line": "      this.$('#qr .container').hide();",
-    "lineNumber": 144,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/install_view.js",
-    "line": "      this.qr = new QRCode(this.$('#qr')[0]).makeCode(url);",
-    "lineNumber": 145,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/install_view.js",
-    "line": "      this.$('#qr').addClass('ready');",
-    "lineNumber": 147,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/install_view.js",
-    "line": "      this.$(DEVICE_NAME_SELECTOR).val(deviceName || window.getHostName());",
-    "lineNumber": 152,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/install_view.js",
-    "line": "      this.$('#link-phone').submit();",
-    "lineNumber": 157,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/install_view.js",
-    "line": "        this.$('#link-phone').submit(e => {",
-    "lineNumber": 167,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/install_view.js",
-    "line": "          let name = this.$(DEVICE_NAME_SELECTOR).val();",
-    "lineNumber": 171,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/install_view.js",
-    "line": "            this.$(DEVICE_NAME_SELECTOR).focus();",
-    "lineNumber": 174,
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {

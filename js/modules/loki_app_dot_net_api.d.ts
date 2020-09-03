@@ -34,6 +34,7 @@ export interface LokiPublicChannelAPI {
 }
 
 declare class LokiAppDotNetServerAPI implements LokiAppDotNetServerInterface {
+  public baseServerUrl: string;
   constructor(ourKey: string, url: string);
 }
 

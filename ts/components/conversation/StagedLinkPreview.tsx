@@ -31,7 +31,7 @@ export class StagedLinkPreview extends React.Component<Props> {
       >
         {!isLoaded ? (
           <div className="module-staged-link-preview__loading">
-            {i18n('loadingPreview')}
+            {i18n('loading')}
           </div>
         ) : null}
         {isLoaded && image && isImage ? (

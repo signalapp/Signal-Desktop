@@ -37,7 +37,6 @@ interface Props {
 interface State {
   groupName: string;
   selectedMembers: Array<ContactType>;
-  senderKeys: boolean;
 }
 
 export class SessionClosableOverlay extends React.Component<Props, State> {
@@ -49,7 +48,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     this.state = {
       groupName: '',
       selectedMembers: [],
-      senderKeys: false,
     };
 
     this.inputRef = React.createRef();
@@ -103,7 +101,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     });
   }
 
-  // tslint:disable-next-line max-func-body-length */
+  // tslint:disable-next-line max-func-body-length cyclomatic-complexity */
   public render(): JSX.Element {
     const {
       overlayMode,
@@ -134,33 +132,33 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         buttonText = window.i18n('next');
         descriptionLong = window.i18n('usersCanShareTheir...');
         subtitle = window.i18n('enterSessionID');
-        placeholder = window.i18n('pasteSessionIDRecipient');
+        placeholder = window.i18n('enterSessionIDOfRecipient');
         break;
       case 'contact':
         title = window.i18n('addContact');
         buttonText = window.i18n('next');
         descriptionLong = window.i18n('usersCanShareTheir...');
         subtitle = window.i18n('enterSessionID');
-        placeholder = window.i18n('pasteSessionIDRecipient');
+        placeholder = window.i18n('enterSessionIDOfRecipient');
         break;
       case 'open-group':
-        title = window.i18n('addChannel');
-        buttonText = window.i18n('joinChannel');
-        descriptionLong = window.i18n('addChannelDescription');
-        subtitle = window.i18n('enterChannelURL');
-        placeholder = window.i18n('channelUrlPlaceholder');
+        title = window.i18n('joinOpenGroup');
+        buttonText = window.i18n('next');
+        // descriptionLong = '';
+        subtitle = window.i18n('openGroupURL');
+        placeholder = window.i18n('enterAnOpenGroupURL');
         break;
       case 'closed-group':
         title = window.i18n('newClosedGroup');
-        buttonText = window.i18n('createClosedGroup');
-        descriptionLong = window.i18n('createClosedGroupDescription');
+        buttonText = window.i18n('done');
+        descriptionLong = window.i18n('newClosedGroupDescription');
         subtitle = window.i18n('createClosedGroupNamePrompt');
         placeholder = window.i18n('createClosedGroupPlaceholder');
         break;
       default:
     }
 
-    const { groupName, selectedMembers, senderKeys } = this.state;
+    const { groupName, selectedMembers } = this.state;
     const ourSessionID = window.textsecure.storage.user.getNumber();
 
     const contacts = this.getContacts();
@@ -232,20 +230,22 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
           </>
         )}
 
-        <div className="session-description-long">{descriptionLong}</div>
-        {isMessageView && <h4>{window.i18n('or')}</h4>}
-
-        {isMessageView && (
+        {descriptionLong && (
+          <div className="session-description-long">{descriptionLong}</div>
+        )}
+        {isMessageView && false && <h4>{window.i18n('or')}</h4>}
+        {/* FIXME enable back those two items when they are working */}
+        {isMessageView && false && (
           <UserSearchDropdown
             searchTerm={searchTerm || ''}
             updateSearch={updateSearch}
-            placeholder={window.i18n('searchByIDOrDisplayName')}
+            placeholder={window.i18n('searchFor...')}
             searchResults={searchResults}
           />
         )}
 
         {isAddContactView && (
-          <PillDivider text={window.i18n('yourPublicKey')} />
+          <PillDivider text={window.i18n('yourSessionID')} />
         )}
 
         {isAddContactView && (
@@ -256,33 +256,18 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
           />
         )}
 
-        {isClosedGroupView && window.lokiFeatureFlags.enableSenderKeys && (
-          <div className="sealed-sender-toggle">
-            <SessionToggle
-              active={Boolean(false)}
-              onClick={() => {
-                const value = this.state.senderKeys;
-                this.setState({ senderKeys: !value });
-              }}
-            />
-
-            <span
-              className={classNames(
-                'session-settings-item__description',
-                'sender-keys-description'
-              )}
-            >
-              {window.i18n('useSenderKeys')}
-            </span>
-          </div>
-        )}
-
         <SessionButton
           buttonColor={SessionButtonColor.Green}
           buttonType={SessionButtonType.BrandOutline}
           text={buttonText}
           disabled={noContactsForClosedGroup}
-          onClick={() => onButtonClick(groupName, selectedMembers, senderKeys)}
+          onClick={() =>
+            onButtonClick(
+              groupName,
+              selectedMembers,
+              window.lokiFeatureFlags.enableSenderKeys
+            )
+          }
         />
       </div>
     );

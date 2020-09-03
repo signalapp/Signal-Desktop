@@ -7,10 +7,6 @@
         "click": null
       },
       {
-        "label": "Set Up as New Device",
-        "click": null
-      },
-      {
         "type": "separator"
       },
       {
@@ -57,7 +53,7 @@
         "role": "delete"
       },
       {
-        "label": "Select All",
+        "label": "Select all",
         "role": "selectall"
       }
     ]
@@ -134,7 +130,7 @@
         "type": "separator"
       },
       {
-        "label": "About Session",
+        "label": "About",
         "click": null
       }
     ]

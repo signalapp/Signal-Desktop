@@ -231,10 +231,6 @@ ipc.on('set-up-with-import', () => {
   Whisper.events.trigger('setupWithImport');
 });
 
-ipc.on('set-up-as-new-device', () => {
-  Whisper.events.trigger('setupAsNewDevice');
-});
-
 ipc.on('set-up-as-standalone', () => {
   Whisper.events.trigger('setupAsStandalone');
 });
@@ -341,10 +337,10 @@ const { OnionAPI } = require('./ts/session/onions');
 window.OnionAPI = OnionAPI;
 
 if (process.env.USE_STUBBED_NETWORK) {
-  const StubMessageAPI = require('./integration_test/stubs/stub_message_api');
+  const StubMessageAPI = require('./ts/test/session/integration/stubs/stub_message_api');
   window.LokiMessageAPI = StubMessageAPI;
 
-  const StubAppDotNetAPI = require('./integration_test/stubs/stub_app_dot_net_api');
+  const StubAppDotNetAPI = require('./ts/test/session/integration/stubs/stub_app_dot_net_api');
   window.LokiAppDotNetServerAPI = StubAppDotNetAPI;
 } else {
   window.LokiMessageAPI = require('./js/modules/loki_message_api');
@@ -495,6 +491,9 @@ if (config.environment.includes('test-integration')) {
     enableSenderKeys: true,
     useMultiDevice: false,
   };
+  /* eslint-disable global-require, import/no-extraneous-dependencies */
+  window.sinon = require('sinon');
+  /* eslint-enable global-require, import/no-extraneous-dependencies */
 }
 
 // Blocking

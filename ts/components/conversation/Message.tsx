@@ -658,23 +658,6 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderSendMessageButton() {
-    const { contact, i18n } = this.props;
-    if (!contact || !contact.hasSignalAccount) {
-      return null;
-    }
-
-    return (
-      <div
-        role="button"
-        onClick={contact.onSendMessage}
-        className="module-message__send-message-button"
-      >
-        {i18n('sendMessageToContact')}
-      </div>
-    );
-  }
-
   public renderAvatar() {
     const {
       authorAvatarPath,
@@ -926,7 +909,9 @@ export class Message extends React.PureComponent<Props, State> {
     };
 
     const isServerDeletable = !!this.props.isPublic;
-    const deleteMessageCtxText = i18n(isServerDeletable ? 'unsend' : 'delete');
+    const deleteMessageCtxText = i18n(
+      isServerDeletable ? 'deleteForEveryone' : 'delete'
+    );
 
     // CONTEXT MENU "Select Message" does not work
 
@@ -970,7 +955,7 @@ export class Message extends React.PureComponent<Props, State> {
           }}
           onClick={wrap(onShowDetail)}
         >
-          {i18n('moreInfo')}
+          {i18n('moreInformation')}
         </MenuItem>
         {showRetry ? (
           <MenuItem
@@ -979,7 +964,7 @@ export class Message extends React.PureComponent<Props, State> {
             }}
             onClick={wrap(onRetrySend)}
           >
-            {i18n('retrySend')}
+            {i18n('resend')}
           </MenuItem>
         ) : null}
         {isDeletable ? (
@@ -990,11 +975,6 @@ export class Message extends React.PureComponent<Props, State> {
             onClick={wrap(onDelete)}
           >
             {deleteMessageCtxText}
-          </MenuItem>
-        ) : null}
-        {isPublic ? (
-          <MenuItem onClick={wrap(onCopyPubKey)}>
-            {i18n('copyPublicKey')}
           </MenuItem>
         ) : null}
         {isModerator && isPublic ? (
@@ -1162,10 +1142,7 @@ export class Message extends React.PureComponent<Props, State> {
             <div
               className={classNames(
                 'module-message__container',
-                `module-message__container--${direction}`,
-                isIncoming
-                  ? `module-message__container--incoming-${authorColor}`
-                  : null
+                `module-message__container--${direction}`
               )}
               style={{
                 width: isShowingImage ? width : undefined,
@@ -1178,7 +1155,6 @@ export class Message extends React.PureComponent<Props, State> {
               {this.renderEmbeddedContact()}
               {this.renderText()}
               {this.renderMetadata()}
-              {this.renderSendMessageButton()}
             </div>
             {this.renderError(!isIncoming)}
             {isRss || multiSelectMode

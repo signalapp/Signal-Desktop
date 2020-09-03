@@ -97,7 +97,7 @@ function createTrayIcon(getMainWindow, messages) {
 
   tray.on('click', tray.showWindow);
 
-  tray.setToolTip(messages.lokiMessenger.message);
+  tray.setToolTip(messages.sessionMessenger.message);
   tray.updateContextMenu();
 
   return tray;

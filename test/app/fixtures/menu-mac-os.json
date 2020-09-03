@@ -3,7 +3,7 @@
     "label": "Session",
     "submenu": [
       {
-        "label": "About Session",
+        "label": "About",
         "click": null
       },
       {
@@ -68,7 +68,7 @@
         "role": "delete"
       },
       {
-        "label": "Select All",
+        "label": "Select all",
         "role": "selectall"
       },
       {

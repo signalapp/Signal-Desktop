@@ -1,0 +1,23 @@
+body.rtl {
+  input,
+  textarea,
+  .module-left-pane,
+  .module-conversation-list-item,
+  .group-settings-item,
+  .contact-selection-list,
+  .group-member-list__selection,
+  .react-contextmenu-item,
+  .session-settings-list {
+    direction: rtl;
+  }
+
+  // text inside rtl textarea must be manually right-sided
+  textarea {
+    text-align: right;
+  }
+  // no matter what, keep left-pane-settings on tlr
+  // because it breaks the UI (arrow and more), and we don't care for now
+  .left-pane-setting-content {
+    direction: ltr;
+  }
+}

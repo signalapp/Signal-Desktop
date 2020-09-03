@@ -11,11 +11,12 @@ import { trigger } from '../../shims/events';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
 import { SessionIdEditable } from './SessionIdEditable';
 import { SessionSpinner } from './SessionSpinner';
-import { StringUtils } from '../../session/utils';
+import { StringUtils, ToastUtils } from '../../session/utils';
+import { createOrUpdateItem } from '../../../js/modules/data';
 
 enum SignInMode {
   Default,
-  UsingSeed,
+  UsingRecoveryPhrase,
   LinkingDevice,
 }
 
@@ -40,8 +41,8 @@ interface State {
   validatePassword: string;
   passwordErrorString: string;
   passwordFieldsMatch: boolean;
-  mnemonicSeed: string;
-  generatedMnemonicSeed: string;
+  recoveryPhrase: string;
+  generatedRecoveryPhrase: string;
   hexGeneratedPubKey: string;
   primaryDevicePubKey: string;
   mnemonicError: string | undefined;
@@ -116,8 +117,8 @@ export class RegistrationTabs extends React.Component<{}, State> {
       validatePassword: '',
       passwordErrorString: '',
       passwordFieldsMatch: false,
-      mnemonicSeed: '',
-      generatedMnemonicSeed: '',
+      recoveryPhrase: '',
+      generatedRecoveryPhrase: '',
       hexGeneratedPubKey: '',
       primaryDevicePubKey: '',
       mnemonicError: undefined,
@@ -165,7 +166,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
   }
 
   private async generateMnemonicAndKeyPair() {
-    if (this.state.generatedMnemonicSeed === '') {
+    if (this.state.generatedRecoveryPhrase === '') {
       const language = 'english';
       const mnemonic = await this.accountManager.generateMnemonic(language);
 
@@ -184,7 +185,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       const hexGeneratedPubKey = StringUtils.decode(keyPair.pubKey, 'hex');
 
       this.setState({
-        generatedMnemonicSeed: mnemonic,
+        generatedRecoveryPhrase: mnemonic,
         hexGeneratedPubKey, // our 'frontend' sessionID
       });
     }
@@ -203,7 +204,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       validatePassword: '',
       passwordErrorString: '',
       passwordFieldsMatch: false,
-      mnemonicSeed: '',
+      recoveryPhrase: '',
       primaryDevicePubKey: '',
       mnemonicError: undefined,
       displayNameError: undefined,
@@ -212,8 +213,8 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
   private onSeedChanged(val: string) {
     this.setState({
-      mnemonicSeed: val,
-      mnemonicError: !val ? window.i18n('mnemonicEmpty') : undefined,
+      recoveryPhrase: val,
+      mnemonicError: !val ? window.i18n('recoveryPhraseEmpty') : undefined,
     });
   }
 
@@ -397,13 +398,13 @@ export class RegistrationTabs extends React.Component<{}, State> {
   private renderRegistrationContent() {
     const { signInMode, signUpMode } = this.state;
 
-    if (signInMode === SignInMode.UsingSeed) {
+    if (signInMode === SignInMode.UsingRecoveryPhrase) {
       return (
         <div className={classNames('session-registration__entry-fields')}>
           <SessionInput
-            label={window.i18n('mnemonicSeed')}
+            label={window.i18n('recoveryPhrase')}
             type="password"
-            placeholder={window.i18n('enterSeed')}
+            placeholder={window.i18n('enterRecoveryPhrase')}
             enableShowHide={true}
             onValueChanged={(val: string) => {
               this.onSeedChanged(val);
@@ -493,7 +494,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
         />
 
         <SessionInput
-          label={window.i18n('optionalPassword')}
+          label={window.i18n('confirmPassword')}
           error={this.state.passwordErrorString}
           type="password"
           placeholder={window.i18n('enterOptionalPassword')}
@@ -508,10 +509,10 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
         {!!password && (
           <SessionInput
-            label={window.i18n('verifyPassword')}
+            label={window.i18n('confirmPassword')}
             error={passwordsDoNotMatch}
             type="password"
-            placeholder={window.i18n('verifyPassword')}
+            placeholder={window.i18n('confirmPassword')}
             maxLength={window.CONSTANTS.MAX_PASSWORD_LENGTH}
             onValueChanged={(val: string) => {
               this.onPasswordVerifyChanged(val);
@@ -553,7 +554,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     if (signInMode === SignInMode.Default) {
       return (
         <div>
-          {this.renderRestoreUsingSeedButton(
+          {this.renderRestoreUsingRecoveryPhraseButton(
             SessionButtonType.BrandOutline,
             SessionButtonColor.Green
           )}
@@ -574,7 +575,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
           {!this.state.secretWords && (
             <>
               <h4>{or}</h4>
-              {this.renderRestoreUsingSeedButton(
+              {this.renderRestoreUsingRecoveryPhraseButton(
                 SessionButtonType.BrandOutline,
                 SessionButtonColor.White
               )}
@@ -606,7 +607,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
   }
 
   private handleContinueYourSessionClick() {
-    if (this.state.signInMode === SignInMode.UsingSeed) {
+    if (this.state.signInMode === SignInMode.UsingRecoveryPhrase) {
       this.register('english').ignore();
     } else {
       this.registerSecondaryDevice().ignore();
@@ -623,17 +624,17 @@ export class RegistrationTabs extends React.Component<{}, State> {
       mnemonicError,
       primaryDevicePubKey,
       displayName,
-      mnemonicSeed,
+      recoveryPhrase,
       password,
     } = this.state;
 
     let enableContinue = true;
     let text = window.i18n('continueYourSession');
     const displayNameOK = !displayNameError && !!displayName; // Display name required
-    const mnemonicOK = !mnemonicError && !!mnemonicSeed; // Mnemonic required
+    const mnemonicOK = !mnemonicError && !!recoveryPhrase; // Mnemonic required
     const passwordsOK =
       !password || (!passwordErrorString && passwordFieldsMatch); // password is valid if empty, or if no error and fields are matching
-    if (signInMode === SignInMode.UsingSeed) {
+    if (signInMode === SignInMode.UsingRecoveryPhrase) {
       enableContinue = displayNameOK && mnemonicOK && passwordsOK;
     } else if (signInMode === SignInMode.LinkingDevice) {
       enableContinue = !!primaryDevicePubKey;
@@ -670,7 +671,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     );
   }
 
-  private renderRestoreUsingSeedButton(
+  private renderRestoreUsingRecoveryPhraseButton(
     buttonType: SessionButtonType,
     buttonColor: SessionButtonColor
   ) {
@@ -679,16 +680,16 @@ export class RegistrationTabs extends React.Component<{}, State> {
         onClick={() => {
           this.cancelSecondaryDevice().ignore();
           this.setState({
-            signInMode: SignInMode.UsingSeed,
+            signInMode: SignInMode.UsingRecoveryPhrase,
             primaryDevicePubKey: '',
-            mnemonicSeed: '',
+            recoveryPhrase: '',
             displayName: '',
             signUpMode: SignUpMode.Default,
           });
         }}
         buttonType={buttonType}
         buttonColor={buttonColor}
-        text={window.i18n('restoreUsingSeed')}
+        text={window.i18n('restoreUsingRecoveryPhrase')}
       />
     );
   }
@@ -699,7 +700,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
         onClick={() => {
           this.setState({
             signInMode: SignInMode.LinkingDevice,
-            mnemonicSeed: '',
+            recoveryPhrase: '',
             displayName: '',
             signUpMode: SignUpMode.Default,
           });
@@ -719,7 +720,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       return;
     }
 
-    if (signInMode === SignInMode.UsingSeed) {
+    if (signInMode === SignInMode.UsingRecoveryPhrase) {
       this.handleContinueYourSessionClick();
 
       return;
@@ -789,8 +790,8 @@ export class RegistrationTabs extends React.Component<{}, State> {
   private async register(language: string) {
     const {
       password,
-      mnemonicSeed,
-      generatedMnemonicSeed,
+      recoveryPhrase,
+      generatedRecoveryPhrase,
       signInMode,
       displayName,
       passwordErrorString,
@@ -803,7 +804,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
     if (!trimName) {
       window.log.warn('invalid trimmed name for registration');
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('displayNameEmpty'),
         type: 'error',
         id: 'invalidDisplayName',
@@ -814,7 +815,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
 
     if (passwordErrorString) {
       window.log.warn('invalid password for registration');
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('invalidPassword'),
         type: 'error',
         id: 'invalidPassword',
@@ -826,7 +827,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     if (!!password && !passwordFieldsMatch) {
       window.log.warn('passwords does not match for registration');
 
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('passwordsDoNotMatch'),
         type: 'error',
         id: 'invalidPassword',
@@ -835,11 +836,11 @@ export class RegistrationTabs extends React.Component<{}, State> {
       return;
     }
 
-    if (signInMode === SignInMode.UsingSeed && !mnemonicSeed) {
+    if (signInMode === SignInMode.UsingRecoveryPhrase && !recoveryPhrase) {
       window.log.warn('empty mnemonic seed passed in seed restoration mode');
 
       return;
-    } else if (!generatedMnemonicSeed) {
+    } else if (!generatedRecoveryPhrase) {
       window.log.warn('empty generated seed');
 
       return;
@@ -849,9 +850,9 @@ export class RegistrationTabs extends React.Component<{}, State> {
     window.textsecure.storage.remove('secondaryDeviceStatus');
 
     const seedToUse =
-      signInMode === SignInMode.UsingSeed
-        ? mnemonicSeed
-        : generatedMnemonicSeed;
+      signInMode === SignInMode.UsingRecoveryPhrase
+        ? recoveryPhrase
+        : generatedRecoveryPhrase;
 
     try {
       await this.resetRegistration();
@@ -862,9 +863,15 @@ export class RegistrationTabs extends React.Component<{}, State> {
         language,
         trimName
       );
+      // FIXME remove everything related to hasSeenLightModeDialog at some point in the future (27/08/2020)
+      const data = {
+        id: 'hasSeenLightModeDialog',
+        value: true,
+      };
+      await createOrUpdateItem(data);
       trigger('openInbox');
     } catch (e) {
-      window.pushToast({
+      ToastUtils.push({
         title: `Error: ${e.message || 'Something went wrong'}`,
         type: 'error',
         id: 'registrationError',
@@ -895,7 +902,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     // tslint:disable-next-line: no-backbone-get-set-outside-model
     if (window.textsecure.storage.get('secondaryDeviceStatus') === 'ongoing') {
       window.log.warn('registering secondary device already ongoing');
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('pairingOngoing'),
         type: 'error',
         id: 'pairingOngoing',
@@ -938,7 +945,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
     const validationError = c.validateNumber();
     if (validationError) {
       onError('Invalid public key').ignore();
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('invalidNumberError'),
         type: 'error',
         id: 'invalidNumberError',
@@ -947,7 +954,7 @@ export class RegistrationTabs extends React.Component<{}, State> {
       return;
     }
     try {
-      const fakeMnemonic = this.state.mnemonicSeed;
+      const fakeMnemonic = this.state.recoveryPhrase;
 
       await this.accountManager.registerSingleDevice(
         fakeMnemonic,

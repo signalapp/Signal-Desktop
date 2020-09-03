@@ -17,6 +17,7 @@ import {
 } from './session/icon';
 import { SessionModal } from './session/SessionModal';
 import { PillDivider } from './session/PillDivider';
+import { ToastUtils } from '../session/utils';
 
 declare global {
   interface Window {
@@ -122,7 +123,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
 
           {viewDefault || viewQR ? (
             <SessionButton
-              text={window.i18n('copy')}
+              text={window.i18n('editMenuCopy')}
               buttonType={SessionButtonType.BrandOutline}
               buttonColor={SessionButtonColor.Green}
               onClick={() => {
@@ -133,7 +134,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
             <SessionButton
               text={window.i18n('save')}
               buttonType={SessionButtonType.BrandOutline}
-              buttonColor={SessionButtonColor.White}
+              buttonColor={SessionButtonColor.Green}
               onClick={this.onClickOK}
             />
           )}
@@ -304,10 +305,10 @@ export class EditProfileDialog extends React.Component<Props, State> {
   private copySessionID(sessionID: string) {
     window.clipboard.writeText(sessionID);
 
-    window.pushToast({
-      title: window.i18n('copiedSessionID'),
+    ToastUtils.push({
+      title: window.i18n('copiedToClipboard'),
       type: 'success',
-      id: 'copiedSessionID',
+      id: 'copiedToClipboard',
     });
   }
 

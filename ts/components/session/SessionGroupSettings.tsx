@@ -223,10 +223,10 @@ export class SessionGroupSettings extends React.Component<Props, any> {
     const hasDisappearingMessages =
       !isPublic && !isKickedFromGroup && !isBlocked;
     const leaveGroupString = isPublic
-      ? window.i18n('leaveOpenGroup')
+      ? window.i18n('leaveGroup')
       : isKickedFromGroup
       ? window.i18n('youGotKickedFromGroup')
-      : window.i18n('leaveClosedGroup');
+      : window.i18n('leaveGroup');
 
     const disappearingMessagesOptions = timerOptions.map(option => {
       return {
@@ -267,9 +267,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
             role="button"
             onClick={this.props.onUpdateGroupName}
           >
-            {isPublic
-              ? window.i18n('editGroupNameOrPicture')
-              : window.i18n('editGroupName')}
+            {isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
           </div>
         )}
         {showUpdateGroupMembersButton && (
@@ -278,7 +276,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
             role="button"
             onClick={this.props.onUpdateGroupMembers}
           >
-            {window.i18n('showMembers')}
+            {window.i18n('groupMembers')}
           </div>
         )}
         {/*<div className="group-settings-item">

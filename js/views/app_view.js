@@ -11,31 +11,31 @@
   Whisper.AppView = Backbone.View.extend({
     initialize() {
       this.inboxView = null;
-      this.installView = null;
 
       this.applyTheme();
+      this.applyRtl();
       this.applyHideMenu();
 
       this.showSeedDialog = this.showSeedDialog.bind(this);
       this.showPasswordDialog = this.showPasswordDialog.bind(this);
     },
     events: {
-      'click .openInstaller': 'openInstaller', // NetworkStatusView has this button
       openInbox: 'openInbox',
     },
+    applyRtl() {
+      const rtlLocales = ['fa'];
+
+      const loc = window.i18n.getLocale();
+      if (rtlLocales.includes(loc)) {
+        this.$el.addClass('rtl');
+      }
+    },
     applyTheme() {
-      const iOS = storage.get('userAgent') === 'OWI';
-      const theme = 'dark'; // storage.get('theme-setting') || 'dark';
+      const theme = storage.get('theme-setting') || 'light';
       this.$el
         .removeClass('light-theme')
         .removeClass('dark-theme')
         .addClass(`${theme}-theme`);
-
-      if (iOS) {
-        this.$el.addClass('ios-theme');
-      } else {
-        this.$el.removeClass('ios-theme');
-      }
     },
     applyHideMenu() {
       const hideMenuBar = storage.get('hide-menu-bar', true);
@@ -65,44 +65,12 @@
       const importView = new Whisper.ImportView();
       this.importView = importView;
 
-      this.listenTo(
-        importView,
-        'light-import',
-        this.finishLightImport.bind(this)
-      );
       this.openView(this.importView);
-    },
-    finishLightImport() {
-      const options = {
-        hasExistingData: true,
-      };
-      this.openInstaller(options);
     },
     closeImporter() {
       if (this.importView) {
         this.importView.remove();
         this.importView = null;
-      }
-    },
-    openInstaller(options = {}) {
-      // If we're in the middle of import, we don't want to show the menu options
-      //   allowing the user to switch to other ways to set up the app. If they
-      //   switched back and forth in the middle of a light import, they'd lose all
-      //   that imported data.
-      if (!options.hasExistingData) {
-        window.addSetupMenuItems();
-      }
-
-      this.resetViews();
-      const installView = new Whisper.InstallView(options);
-      this.installView = installView;
-
-      this.openView(this.installView);
-    },
-    closeInstaller() {
-      if (this.installView) {
-        this.installView.remove();
-        this.installView = null;
       }
     },
     openStandalone() {
@@ -118,7 +86,6 @@
       }
     },
     resetViews() {
-      this.closeInstaller();
       this.closeImporter();
       this.closeStandalone();
     },
@@ -136,9 +103,6 @@
       //     view keeps track of whether onEmpty() has ever been called with
       //     this.initialLoadComplete. An example of this: on a phone-pairing setup.
       _.defaults(options, { initialLoadComplete: this.initialLoadComplete });
-
-      // window.log.info('open inbox');
-      this.closeInstaller();
 
       if (!this.inboxView) {
         // We create the inbox immediately so we don't miss an update to
@@ -207,12 +171,6 @@
       const dialog = new Whisper.SeedDialogView();
       this.el.prepend(dialog.el);
     },
-    showQRDialog(string) {
-      const dialog = new Whisper.QRDialogView({
-        value: string,
-      });
-      this.el.append(dialog.el);
-    },
     showDevicePairingDialog(options) {
       const dialog = new Whisper.DevicePairingDialogView(options);
       this.el.prepend(dialog.el);
@@ -229,21 +187,15 @@
       const dialog = new Whisper.UpdateGroupMembersDialogView(groupConvo);
       this.el.append(dialog.el);
     },
-    showSessionRestoreConfirmation(options) {
-      const dialog = new Whisper.ConfirmSessionResetView(options);
-      this.el.append(dialog.el);
-    },
     showLeaveGroupDialog(groupConvo) {
-      let title = i18n('deleteContact');
-      let message = i18n('deleteContactConfirmation');
-
-      if (groupConvo.isPublic()) {
-        title = i18n('deletePublicChannel');
-        message = i18n('deletePublicChannelConfirmation');
-      } else if (groupConvo.isClosedGroup()) {
-        title = i18n('leaveClosedGroup');
-        message = i18n('leaveClosedGroupConfirmation');
+      if (!groupConvo.isGroup()) {
+        throw new Error(
+          'showLeaveGroupDialog() called with a non group convo.'
+        );
       }
+
+      const title = i18n('leaveGroup');
+      const message = i18n('leaveGroupConfirmation');
 
       window.confirmationDialog({
         title,

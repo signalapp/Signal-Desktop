@@ -119,7 +119,6 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
             <small className="create-group-dialog__member-count">
               {`${checkMarkedCount} members`}
             </small>
-            <hr className="subtle" />
           </>
         )}
 
@@ -216,8 +215,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
 
   private onMemberClicked(selected: any) {
     if (selected.existingMember && !this.props.isAdmin) {
-      this.onShowError(this.props.i18n('nonAdminDeleteMember'));
-
+      window.console.warn('Only group admin can remove members!');
       return;
     }
 

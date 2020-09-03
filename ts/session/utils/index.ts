@@ -6,6 +6,7 @@ import * as NumberUtils from './Number';
 import * as PromiseUtils from './Promise';
 import * as ProtobufUtils from './Protobuf';
 import * as MenuUtils from './Menu';
+import * as ToastUtils from './Toast';
 
 export * from './Attachments';
 export * from './TypedEmitter';
@@ -20,4 +21,5 @@ export {
   PromiseUtils,
   ProtobufUtils,
   MenuUtils,
+  ToastUtils,
 };

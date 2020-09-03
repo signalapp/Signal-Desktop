@@ -48,7 +48,7 @@ function getConversationTitle(
   if (conversation.type === 'group') {
     const { i18n } = options;
 
-    return i18n('unknownGroup');
+    return i18n('unknown');
   }
 
   return format(conversation.phoneNumber, options);

@@ -30,15 +30,12 @@ async function lokiPlainFetch(
   if (!response.ok) {
     throw new window.textsecure.HTTPError('Loki_rpc error', response);
   }
+  const result = await response.text();
 
-  let result;
-  if (response.headers.get('Content-Type') === 'application/json') {
-    result = await response.json();
-  } else {
-    result = await response.text();
-  }
-
-  return result;
+  return {
+    body: result,
+    status: response.status,
+  };
 }
 
 interface FetchOptions {
@@ -88,7 +85,7 @@ export async function snodeRpc(
   params: any,
   targetNode: Snode
 ): Promise<boolean | SnodeResponse> {
-  const url = `https://${targetNode.ip}${targetNode.port}/storage_rpc/v1`;
+  const url = `https://${targetNode.ip}:${targetNode.port}/storage_rpc/v1`;
 
   // TODO: The jsonrpc and body field will be ignored on storage server
   if (params.pubKey) {

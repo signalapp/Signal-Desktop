@@ -51,7 +51,6 @@ describe('SignalMenu', () => {
                 openSupportPage: null,
                 platform,
                 includeSetup,
-                setupAsNewDevice: null,
                 setupAsStandalone: null,
                 setupWithImport: null,
                 showAbout: null,
