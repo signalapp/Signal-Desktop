@@ -129,7 +129,7 @@ export class OpenGroup {
 
       conversation = await PromiseUtils.timeout(
         window.attemptConnection(prefixedServer, channel),
-        5000
+        15000
       );
       if (!conversation) {
         throw new Error(window.i18n('connectToServerFail'));

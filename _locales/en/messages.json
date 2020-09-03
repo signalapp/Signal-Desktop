@@ -2175,5 +2175,9 @@
   "closedGroupMaxSize": {
     "message": "A closed group cannot have more than 10 members",
     "androidKey": "activity_create_closed_group_too_many_group_members_error"
+  },
+  "noBlockedContacts": {
+    "message": "No blocked contacts",
+    "androidKey": "blocked_contacts_fragment__no_blocked_contacts"
   }
 }
