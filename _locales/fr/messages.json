@@ -1144,7 +1144,7 @@
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "Autoriser Signal Desktop d'accéder à votre camera",
+        "message": "Autoriser Signal Desktop à accéder à votre camera",
         "description": "Description of the media permission description"
     },
     "general": {
