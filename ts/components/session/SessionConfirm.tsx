@@ -79,11 +79,11 @@ export class SessionConfirm extends React.Component<Props> {
             className={messageSubText}
             html={message}
           />
-          {messageSub && (
-            <span className="session-confirm-sub-message subtle">
-              {messageSub}
-            </span>
-          )}
+          <SessionHtmlRenderer
+            tag="span"
+            className="session-confirm-sub-message subtle"
+            html={messageSub}
+          />
         </div>
 
         <div className="session-modal__button-group">

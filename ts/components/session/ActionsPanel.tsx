@@ -68,7 +68,9 @@ export class ActionsPanel extends React.Component<Props, State> {
     if (currentTheme !== 'light') {
       const message = 'Light Mode';
       const messageSub =
-        'Feeling the dark side more? Just toggle the theme from the bottom-left moon icon.';
+        'Whoops, who left the lights on?</br></br>\
+        That’s right, Session has a spiffy new light mode! Take the fresh new color palette for a spin — it’s now the default mode.</br></br>\
+        Want to go back to the dark side? Just tap the moon symbol in the lower left corner of the app to switch modes.';
       const hasSeenLightMode = await getItemById('hasSeenLightModeDialog');
 
       if (hasSeenLightMode?.value === true) {
@@ -77,7 +79,6 @@ export class ActionsPanel extends React.Component<Props, State> {
       }
       // force light them right now, then ask for permission
       await window.Events.setThemeSetting('light');
-      // FIXME add the SUN icon
       window.confirmationDialog({
         message,
         messageSub,
