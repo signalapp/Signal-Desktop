@@ -2504,7 +2504,7 @@
         }
     },
     "MessageRequests--unblock-group-confirm-body": {
-        "message": "Les membres du groupe pourront à nouveau ajouter votre $name$ à ce groupe..",
+        "message": "Les membres du groupe pourront à nouveau ajouter votre $name$ à ce groupe.",
         "description": "Shown as the body in the confirmation modal for unblocking a group message request",
         "placeholders": {
             "name": {
