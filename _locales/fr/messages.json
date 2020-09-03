@@ -2628,7 +2628,7 @@
         }
     },
     "ConversationHero--membership-3": {
-        "message": "Membre de $group1$, $group2$, et $group3$.",
+        "message": "Membre de $group1$, $group2$ et $group3$.",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
