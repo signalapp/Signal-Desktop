@@ -10251,7 +10251,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/backbone/views/Lightbox.js",
     "line": "    container.innerHTML = '';",
-    "lineNumber": 9,
+    "lineNumber": 8,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-17T20:50:40.689Z",
     "reasonDetail": "Hard-coded value"
@@ -10260,7 +10260,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/backbone/views/Lightbox.js",
     "line": "    container.innerHTML = '';",
-    "lineNumber": 19,
+    "lineNumber": 17,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-17T20:50:40.689Z",
     "reasonDetail": "Hard-coded value"
@@ -10269,7 +10269,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/backbone/views/Lightbox.ts",
     "line": "  container.innerHTML = '';",
-    "lineNumber": 9,
+    "lineNumber": 8,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-17T20:50:40.689Z",
     "reasonDetail": "Hard-coded value"
@@ -10278,7 +10278,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/backbone/views/Lightbox.ts",
     "line": "  container.innerHTML = '';",
-    "lineNumber": 22,
+    "lineNumber": 20,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-17T20:50:40.689Z",
     "reasonDetail": "Hard-coded value"

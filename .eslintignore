@@ -33,16 +33,10 @@ webpack.config.ts
 # Temporarily ignored during TSLint transition
 # JIRA: DESKTOP-304
 ts/*.ts
-ts/backbone/**
-ts/build/**
 ts/components/*.ts
 ts/components/*.tsx
 ts/components/conversation/**
 ts/components/stickers/**
-ts/notifications/**
-ts/protobuf/**
-ts/scripts/**
-ts/services/**
 ts/shims/**
 ts/sql/**
 ts/state/**

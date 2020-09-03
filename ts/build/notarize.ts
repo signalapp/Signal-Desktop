@@ -3,15 +3,13 @@ import { readdir as readdirCallback } from 'fs';
 
 import pify from 'pify';
 
-// tslint:disable-next-line no-implicit-dependencies
 import { notarize } from 'electron-notarize';
 
-// @ts-ignore
 import * as packageJson from '../../package.json';
 
 const readdir = pify(readdirCallback);
 
-/* tslint:disable:no-console */
+/* eslint-disable no-console */
 
 go().catch(error => {
   console.error(error.stack);

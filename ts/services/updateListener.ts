@@ -13,7 +13,7 @@ type EventsType = {
 export function initializeUpdateListener(
   updatesActions: UpdatesActions,
   events: EventsType
-) {
+): void {
   ipcRenderer.on('show-update-dialog', (_, dialogType: Dialogs) => {
     updatesActions.showUpdateDialog(dialogType);
   });

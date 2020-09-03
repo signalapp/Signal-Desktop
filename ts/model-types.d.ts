@@ -70,7 +70,7 @@ type ConversationAttributesType = {
   version: number;
 };
 
-declare class ConversationModelType extends Backbone.Model<
+export declare class ConversationModelType extends Backbone.Model<
   ConversationAttributesType
 > {
   id: string;
