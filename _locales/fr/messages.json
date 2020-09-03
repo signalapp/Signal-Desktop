@@ -2742,7 +2742,7 @@
         "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
     },
     "outgoingCallRinging": {
-        "message": "Sonnerie...",
+        "message": "Sonnerie en cours...",
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "callReconnecting": {
