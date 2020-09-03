@@ -850,7 +850,7 @@
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "audioCallingPermissionNeeded": {
-        "message": "Pour appeler, vous devez autoriser Signal Desktop d'accéder à votre micro.",
+        "message": "Pour appeler, vous devez permettre à Signal Desktop d'accéder à votre micro.",
         "description": "Shown if the user attempts access the microphone for calling without audio permssions turned on"
     },
     "videoCallingPermissionNeeded": {
