@@ -7,12 +7,12 @@
   flex-direction: row;
   align-items: stretch;
   overflow: hidden;
-
+  border-radius: 4px;
   border-left-width: 4px;
   border-left-style: solid;
 
   @include themify($themes) {
-    border-color: themed('accent');
+    border-color: themed('accentButton');
   }
 
   &__primary__type-label {
@@ -64,7 +64,16 @@
 
 // This is related to the quote logic inside messages
 .module-quote {
+  &--incoming {
+    @include themify($themes) {
+      background: themed('sentMessageBackground');
+    }
+  }
+
   &--outgoing {
+    @include themify($themes) {
+      background: themed('receivedMessageBackground');
+    }
     .module-quote__primary__author {
       @include themify($themes) {
         color: themed('sentMessageText');
