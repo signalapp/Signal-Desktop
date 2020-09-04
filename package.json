@@ -231,7 +231,7 @@
     "jsdoc": "3.6.2",
     "mocha": "4.1.0",
     "mocha-testcheck": "1.0.0-rc.0",
-    "node-sass": "4.12.0",
+    "node-sass": "4.14.1",
     "node-sass-import-once": "1.2.0",
     "npm-run-all": "4.1.5",
     "nyc": "11.4.1",

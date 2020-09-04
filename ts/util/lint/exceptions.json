@@ -2155,10 +2155,10 @@
   {
     "rule": "jQuery-wrap(",
     "path": "node_modules/cliui/index.js",
-    "line": "    if (_this.wrap) wrapped = wrap(col.text, _this._negatePadding(col), {hard: true}).split('\\n')",
-    "lineNumber": 212,
+    "line": "    if (_this.wrap) wrapped = wrap(col.text, _this._negatePadding(col), { hard: true }).split('\\n')",
+    "lineNumber": 216,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2020-09-04T14:54:43.116Z"
   },
   {
     "rule": "jQuery-load(",
@@ -9841,6 +9841,14 @@
     "lineNumber": 453,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/nconf/node_modules/cliui/index.js",
+    "line": "    if (_this.wrap) wrapped = wrap(col.text, _this._negatePadding(col), {hard: true}).split('\\n')",
+    "lineNumber": 212,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-04T14:54:43.116Z"
   },
   {
     "rule": "jQuery-wrap(",
