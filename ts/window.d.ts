@@ -16,9 +16,10 @@ import {
 } from './libsignal.d';
 import { ContactRecordIdentityState, TextSecureType } from './textsecure.d';
 import { WebAPIConnectType } from './textsecure/WebAPI';
-import { CallingClass, CallHistoryDetailsType } from './services/calling';
+import { CallingClass } from './services/calling';
 import * as Crypto from './Crypto';
 import { LocalizerType } from './types/Util';
+import { CallHistoryDetailsType } from './types/Calling';
 import { ColorType } from './types/Colors';
 import { ConversationController } from './ConversationController';
 import { SendOptionsType } from './textsecure/SendMessage';

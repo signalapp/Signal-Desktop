@@ -1,9 +1,9 @@
 import * as Backbone from 'backbone';
 
 import { LocalizerType } from './types/Util';
+import { CallHistoryDetailsType } from './types/Calling';
 import { ColorType } from './types/Colors';
 import { ConversationType } from './state/ducks/conversations';
-import { CallingClass, CallHistoryDetailsType } from './services/calling';
 import { SendOptionsType } from './textsecure/SendMessage';
 import { SyncMessageClass } from './textsecure.d';
 

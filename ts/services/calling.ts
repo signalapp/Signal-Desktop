@@ -21,7 +21,11 @@ import {
 import { CallingMessageClass, EnvelopeClass } from '../textsecure.d';
 import { ConversationModelType } from '../model-types.d';
 import is from '@sindresorhus/is';
-import { AudioDevice, MediaDeviceSettings } from '../types/Calling';
+import {
+  AudioDevice,
+  CallHistoryDetailsType,
+  MediaDeviceSettings,
+} from '../types/Calling';
 
 export {
   CallState,
@@ -30,14 +34,6 @@ export {
   VideoCapturer,
   VideoRenderer,
 } from 'ringrtc';
-
-export type CallHistoryDetailsType = {
-  wasIncoming: boolean;
-  wasVideoCall: boolean;
-  wasDeclined: boolean;
-  acceptedTime?: number;
-  endedTime: number;
-};
 
 export class CallingClass {
   readonly videoCapturer: GumVideoCapturer;
@@ -304,7 +300,7 @@ export class CallingClass {
         ? availableSpeakers[selectedSpeakerIndex]
         : undefined;
 
-    const availableCameras = await window.Signal.Services.calling.videoCapturer.enumerateDevices();
+    const availableCameras = await this.videoCapturer.enumerateDevices();
     const preferredCamera = window.storage.get('preferred-video-input-device');
     const selectedCamera = this.findBestMatchingCamera(
       availableCameras,

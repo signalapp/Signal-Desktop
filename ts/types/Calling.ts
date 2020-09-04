@@ -34,6 +34,14 @@ export type MediaDeviceSettings = {
   selectedCamera: string | undefined;
 };
 
+export type CallHistoryDetailsType = {
+  wasIncoming: boolean;
+  wasVideoCall: boolean;
+  wasDeclined: boolean;
+  acceptedTime?: number;
+  endedTime: number;
+};
+
 export type ChangeIODevicePayloadType =
   | { type: CallingDeviceType.CAMERA; selectedDevice: string }
   | { type: CallingDeviceType.MICROPHONE; selectedDevice: AudioDevice }
