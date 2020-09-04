@@ -1882,7 +1882,7 @@ class MessageReceiverInner extends EventTarget {
     decrypted.preview = (decrypted.preview || []).map(item => ({
       ...item,
       date: this.cleanLinkPreviewDate(item.date),
-      ...(item.image ? this.cleanAttachment(item.image) : {}),
+      ...(item.image ? { image: this.cleanAttachment(item.image) } : {}),
     }));
     decrypted.contact = (decrypted.contact || []).map(item => {
       const { avatar } = item;
