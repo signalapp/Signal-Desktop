@@ -15,6 +15,7 @@ import {
   SendMessageNetworkError,
   UnregisteredUserError,
 } from './Errors';
+import { isValidNumber } from '../types/PhoneNumber';
 
 type OutgoingMessageOptionsType = SendOptionsType & {
   online?: boolean;
@@ -34,6 +35,10 @@ export default class OutgoingMessage {
   successfulIdentifiers: Array<any>;
   failoverIdentifiers: Array<any>;
   unidentifiedDeliveries: Array<any>;
+  discoveredIdentifierPairs: Array<{
+    e164: string;
+    uuid: string;
+  }>;
 
   sendMetadata?: SendMetadataType;
   senderCertificate?: ArrayBuffer;
@@ -68,6 +73,7 @@ export default class OutgoingMessage {
     this.successfulIdentifiers = [];
     this.failoverIdentifiers = [];
     this.unidentifiedDeliveries = [];
+    this.discoveredIdentifierPairs = [];
 
     const { sendMetadata, senderCertificate, online } = options || ({} as any);
     this.sendMetadata = sendMetadata;
@@ -82,6 +88,7 @@ export default class OutgoingMessage {
         failoverIdentifiers: this.failoverIdentifiers,
         errors: this.errors,
         unidentifiedDeliveries: this.unidentifiedDeliveries,
+        discoveredIdentifierPairs: this.discoveredIdentifierPairs,
       });
     }
   }
@@ -564,8 +571,39 @@ export default class OutgoingMessage {
     return promise;
   }
 
-  async sendToIdentifier(identifier: string) {
+  async sendToIdentifier(providedIdentifier: string) {
+    let identifier = providedIdentifier;
     try {
+      if (window.isValidGuid(identifier)) {
+        // We're good!
+      } else if (isValidNumber(identifier)) {
+        if (!window.textsecure.messaging) {
+          throw new Error(
+            'sendToIdentifier: window.textsecure.messaging is not available!'
+          );
+        }
+        const lookup = await window.textsecure.messaging.getUuidsForE164s([
+          identifier,
+        ]);
+        const uuid = lookup[identifier];
+        if (uuid) {
+          this.discoveredIdentifierPairs.push({
+            uuid,
+            e164: identifier,
+          });
+          identifier = uuid;
+        } else {
+          throw new UnregisteredUserError(
+            identifier,
+            new Error('User is not registered')
+          );
+        }
+      } else {
+        throw new Error(
+          `sendToIdentifier: identifier ${identifier} was neither a UUID or E164`
+        );
+      }
+
       const updateDevices = await this.getStaleDeviceIdsForIdentifier(
         identifier
       );
@@ -583,7 +621,7 @@ export default class OutgoingMessage {
       } else {
         this.registerError(
           identifier,
-          `Failed to retrieve new device keys for number ${identifier}`,
+          `Failed to retrieve new device keys for identifier ${identifier}`,
           error
         );
       }

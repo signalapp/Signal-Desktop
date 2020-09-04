@@ -330,6 +330,9 @@ try {
   window.WebAPI = window.textsecure.WebAPI.initialize({
     url: config.serverUrl,
     storageUrl: config.storageUrl,
+    directoryUrl: config.directoryUrl,
+    directoryEnclaveId: config.directoryEnclaveId,
+    directoryTrustAnchor: config.directoryTrustAnchor,
     cdnUrlObject: {
       '0': config.cdnUrl0,
       '2': config.cdnUrl2,

@@ -25,6 +25,8 @@ import { ConversationController } from './ConversationController';
 import { SendOptionsType } from './textsecure/SendMessage';
 import Data from './sql/Client';
 
+export { Long } from 'long';
+
 type TaskResultType = any;
 
 declare global {
@@ -101,9 +103,14 @@ declare global {
 }
 
 export type DCodeIOType = {
-  ByteBuffer: typeof ByteBufferClass;
-  Long: {
+  ByteBuffer: typeof ByteBufferClass & {
+    BIG_ENDIAN: number;
+    LITTLE_ENDIAN: number;
+    Long: DCodeIOType['Long'];
+  };
+  Long: Long & {
     fromBits: (low: number, high: number, unsigned: boolean) => number;
+    fromString: (str: string) => Long;
   };
 };
 
@@ -138,8 +145,13 @@ export class SecretSessionCipherClass {
 }
 
 export class ByteBufferClass {
-  constructor(value?: any, encoding?: string);
-  static wrap: (value: any, type?: string) => ByteBufferClass;
+  constructor(value?: any, littleEndian?: number);
+  static wrap: (
+    value: any,
+    encoding?: string,
+    littleEndian?: number
+  ) => ByteBufferClass;
+  buffer: ArrayBuffer;
   toString: (type: string) => string;
   toArrayBuffer: () => ArrayBuffer;
   toBinary: () => string;
@@ -147,7 +159,11 @@ export class ByteBufferClass {
   append: (data: ArrayBuffer) => void;
   limit: number;
   offset: 0;
+  readInt: (offset: number) => number;
+  readLong: (offset: number) => Long;
+  readShort: (offset: number) => number;
   readVarint32: () => number;
+  writeLong: (l: Long) => void;
   skip: (length: number) => void;
 }
 

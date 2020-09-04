@@ -230,9 +230,13 @@
   });
 
   let messageReceiver;
+  let preMessageReceiverStatus;
   window.getSocketStatus = () => {
     if (messageReceiver) {
       return messageReceiver.getStatus();
+    }
+    if (_.isNumber(preMessageReceiverStatus)) {
+      return preMessageReceiverStatus;
     }
     return -1;
   };
@@ -1633,6 +1637,8 @@
       return;
     }
 
+    preMessageReceiverStatus = WebSocket.CONNECTING;
+
     if (messageReceiver) {
       await messageReceiver.stopProcessing();
 
@@ -1646,6 +1652,52 @@
     const USERNAME = storage.get('uuid_id');
     const PASSWORD = storage.get('password');
     const mySignalingKey = storage.get('signaling_key');
+
+    window.textsecure.messaging = new textsecure.MessageSender(
+      USERNAME || OLD_USERNAME,
+      PASSWORD
+    );
+
+    try {
+      if (connectCount === 0) {
+        const lonelyE164s = window
+          .getConversations()
+          .filter(
+            c =>
+              c.isPrivate() &&
+              c.get('e164') &&
+              !c.get('uuid') &&
+              !c.isEverUnregistered()
+          )
+          .map(c => c.get('e164'));
+
+        if (lonelyE164s.length > 0) {
+          const lookup = await textsecure.messaging.getUuidsForE164s(
+            lonelyE164s
+          );
+          const e164s = Object.keys(lookup);
+          e164s.forEach(e164 => {
+            const uuid = lookup[e164];
+            if (!uuid) {
+              const byE164 = window.ConversationController.get(e164);
+              if (byE164) {
+                byE164.setUnregistered();
+              }
+            }
+            window.ConversationController.ensureContactIds({
+              e164,
+              uuid,
+              highTrust: true,
+            });
+          });
+        }
+      }
+    } catch (error) {
+      window.log.error(
+        'Error fetching UUIDs for lonely e164s:',
+        error && error.stack ? error.stack : error
+      );
+    }
 
     connectCount += 1;
     const options = {
@@ -1666,6 +1718,8 @@
       options
     );
     window.textsecure.messageReceiver = messageReceiver;
+
+    preMessageReceiverStatus = null;
 
     function addQueuedEventListener(name, handler) {
       messageReceiver.addEventListener(name, (...args) =>
@@ -1708,11 +1762,6 @@
       getMessageReceiver: () => messageReceiver,
       logger: window.log,
     });
-
-    window.textsecure.messaging = new textsecure.MessageSender(
-      USERNAME || OLD_USERNAME,
-      PASSWORD
-    );
 
     if (connectCount === 1) {
       window.Signal.Stickers.downloadQueuedPacks();

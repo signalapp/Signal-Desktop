@@ -1716,6 +1716,14 @@
 
           let promises = [];
 
+          // If we successfully sent to a user, we can remove our unregistered flag.
+          result.successfulIdentifiers.forEach(identifier => {
+            const c = ConversationController.get(identifier);
+            if (c && c.isEverUnregistered()) {
+              c.setRegistered();
+            }
+          });
+
           if (result instanceof Error) {
             this.saveErrors(result);
             if (result.name === 'SignedPreKeyRotationError') {
@@ -1727,6 +1735,24 @@
           } else {
             if (result.successfulIdentifiers.length > 0) {
               const sentTo = this.get('sent_to') || [];
+
+              // If we just found out that we couldn't send to a user because they are no
+              //   longer registered, we will update our unregistered flag. In groups we
+              //   will not event try to send to them for 6 hours. And we will never try
+              //   to fetch them on startup again.
+              // The way to discover registration once more is:
+              //   1) any attempt to send to them in 1:1 conversation
+              //   2) the six-hour time period has passed and we send in a group again
+              const unregisteredUserErrors = _.filter(
+                result.errors,
+                error => error.name === 'UnregisteredUserError'
+              );
+              unregisteredUserErrors.forEach(error => {
+                const c = ConversationController.get(error.identifier);
+                if (c) {
+                  c.setUnregistered();
+                }
+              });
 
               // In groups, we don't treat unregistered users as a user-visible
               //   error. The message will look successful, but the details

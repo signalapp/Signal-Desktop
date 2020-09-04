@@ -53,6 +53,10 @@ export type CallbackResultType = {
   errors?: Array<any>;
   unidentifiedDeliveries?: Array<any>;
   dataMessage?: ArrayBuffer;
+  discoveredIdentifierPairs: Array<{
+    e164: string;
+    uuid: string | null;
+  }>;
 };
 
 type PreviewType = {
@@ -464,7 +468,10 @@ export default class MessageSender {
     });
   }
 
-  async sendMessage(attrs: MessageOptionsType, options?: SendOptionsType) {
+  async sendMessage(
+    attrs: MessageOptionsType,
+    options?: SendOptionsType
+  ): Promise<CallbackResultType> {
     const message = new Message(attrs);
     const silent = false;
 
@@ -474,7 +481,7 @@ export default class MessageSender {
       this.uploadLinkPreviews(message),
       this.uploadSticker(message),
     ]).then(
-      async () =>
+      async (): Promise<CallbackResultType> =>
         new Promise((resolve, reject) => {
           this.sendMessageProto(
             message.timestamp,
@@ -695,6 +702,10 @@ export default class MessageSender {
     }
 
     return this.server.getProfile(number, options);
+  }
+
+  async getUuidsForE164s(numbers: Array<string>) {
+    return this.server.getUuidsForE164s(numbers);
   }
 
   async getAvatar(path: string) {
@@ -1439,7 +1450,7 @@ export default class MessageSender {
     expireTimer: number | undefined,
     profileKey?: ArrayBuffer,
     options?: SendOptionsType
-  ) {
+  ): Promise<CallbackResultType> {
     const myE164 = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getNumber();
     const attrs = {
@@ -1466,6 +1477,7 @@ export default class MessageSender {
         errors: [],
         unidentifiedDeliveries: [],
         dataMessage: await this.getMessageProtoObj(attrs),
+        discoveredIdentifierPairs: [],
       });
     }
 
@@ -1611,7 +1623,7 @@ export default class MessageSender {
     timestamp: number,
     profileKey?: ArrayBuffer,
     options?: SendOptionsType
-  ) {
+  ): Promise<CallbackResultType> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const recipients = groupIdentifiers.filter(
@@ -1637,6 +1649,7 @@ export default class MessageSender {
         errors: [],
         unidentifiedDeliveries: [],
         dataMessage: await this.getMessageProtoObj(attrs),
+        discoveredIdentifierPairs: [],
       });
     }
 

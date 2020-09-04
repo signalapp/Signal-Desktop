@@ -20,6 +20,16 @@ export type LibSignalType = {
     ) => Promise<void>;
     getRandomBytes: (size: number) => ArrayBuffer;
   };
+  externalCurveAsync: {
+    calculateAgreement: (
+      pubKey: ArrayBuffer,
+      privKey: ArrayBuffer
+    ) => Promise<ArrayBuffer>;
+    generateKeyPair: () => Promise<{
+      privKey: ArrayBuffer;
+      pubKey: ArrayBuffer;
+    }>;
+  };
   KeyHelper: {
     generateIdentityKeyPair: () => Promise<{
       privKey: ArrayBuffer;
@@ -56,7 +66,7 @@ export type LibSignalType = {
       packKey: ArrayBuffer,
       salt: ArrayBuffer,
       // The string is a bit crazy, but ProvisioningCipher currently passes in a string
-      info: ArrayBuffer | string
+      info?: ArrayBuffer | string
     ) => Promise<Array<ArrayBuffer>>;
   };
   worker: {

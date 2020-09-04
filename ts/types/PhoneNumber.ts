@@ -22,6 +22,22 @@ function _format(
   }
 }
 
+export function isValidNumber(
+  phoneNumber: string,
+  options?: {
+    regionCode?: string;
+  }
+): boolean {
+  const { regionCode } = options || { regionCode: undefined };
+  try {
+    const parsedNumber = instance.parse(phoneNumber, regionCode);
+
+    return instance.isValidNumber(parsedNumber);
+  } catch (error) {
+    return false;
+  }
+}
+
 export const format = memoizee(_format, {
   primitive: true,
   // Convert the arguments to a unique string, required for primitive mode.

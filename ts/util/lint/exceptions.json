@@ -204,30 +204,6 @@
     "updated": "2020-03-25T15:45:04.024Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "js/models/conversations.js",
-    "line": "      //   but the full ConversationController.load() sequence isn't complete. So, we",
-    "lineNumber": 465,
-    "reasonCategory": "exampleCode",
-    "updated": "2020-08-11T21:28:50.868Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "js/models/conversations.js",
-    "line": "      //   don't cache props on create, but we do later when load() calls generateProps()",
-    "lineNumber": 466,
-    "reasonCategory": "exampleCode",
-    "updated": "2020-08-11T21:28:50.868Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "js/models/conversations.js",
-    "line": "      await wrap(",
-    "lineNumber": 691,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-06-09T20:26:46.515Z"
-  },
-  {
     "rule": "jQuery-append(",
     "path": "js/modules/debuglogs.js",
     "line": "  form.append('key', fields.key);",
@@ -566,7 +542,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 190,
+    "lineNumber": 192,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Known DOM elements"
@@ -575,7 +551,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 194,
+    "lineNumber": 196,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Hardcoded selector"
@@ -584,15 +560,6 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 198,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-05-28T17:42:35.329Z",
-    "reasonDetail": "Hardcoded selector"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/inbox_view.js",
-    "line": "      this.$('.conversation:first .menu').trigger('close');",
     "lineNumber": 200,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-28T17:42:35.329Z",
@@ -601,8 +568,17 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
+    "line": "      this.$('.conversation:first .menu').trigger('close');",
+    "lineNumber": 202,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-05-28T17:42:35.329Z",
+    "reasonDetail": "Hardcoded selector"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 220,
+    "lineNumber": 222,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-29T18:29:18.234Z",
     "reasonDetail": "Known DOM elements"
@@ -611,7 +587,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 223,
+    "lineNumber": 225,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-29T18:29:18.234Z",
     "reasonDetail": "Hardcoded selector"
@@ -12971,5 +12947,21 @@
     "lineNumber": 51,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "ts/textsecure/WebAPI.js",
+    "line": "            const byteBuffer = window.dcodeIO.ByteBuffer.wrap(quote, 'binary', window.dcodeIO.ByteBuffer.LITTLE_ENDIAN);",
+    "lineNumber": 1049,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-04T00:33:28.532Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "ts/textsecure/WebAPI.ts",
+    "line": "      const byteBuffer = window.dcodeIO.ByteBuffer.wrap(",
+    "lineNumber": 1748,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-04T00:33:28.532Z"
   }
 ]

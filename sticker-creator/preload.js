@@ -35,6 +35,9 @@ const { initialize: initializeWebAPI } = require('../ts/textsecure/WebAPI');
 const WebAPI = initializeWebAPI({
   url: config.serverUrl,
   storageUrl: config.storageUrl,
+  directoryUrl: config.directoryUrl,
+  directoryEnclaveId: config.directoryEnclaveId,
+  directoryTrustAnchor: config.directoryTrustAnchor,
   cdnUrlObject: {
     '0': config.cdnUrl0,
     '2': config.cdnUrl2,

@@ -184,6 +184,39 @@
       );
     },
 
+    isEverUnregistered() {
+      return Boolean(this.get('discoveredUnregisteredAt'));
+    },
+    isUnregistered() {
+      const now = Date.now();
+      const sixHoursAgo = now - 1000 * 60 * 60 * 6;
+      const discoveredUnregisteredAt = this.get('discoveredUnregisteredAt');
+
+      if (discoveredUnregisteredAt && discoveredUnregisteredAt > sixHoursAgo) {
+        return true;
+      }
+
+      return false;
+    },
+    setUnregistered() {
+      window.log.info(
+        `Conversation ${this.idForLogging()} is now unregistered`
+      );
+      this.set({
+        discoveredUnregisteredAt: Date.now(),
+      });
+      window.Signal.Data.updateConversation(this.attributes);
+    },
+    setRegistered() {
+      window.log.info(
+        `Conversation ${this.idForLogging()} is registered once again`
+      );
+      this.set({
+        discoveredUnregisteredAt: undefined,
+      });
+      window.Signal.Data.updateConversation(this.attributes);
+    },
+
     isBlocked() {
       const uuid = this.get('uuid');
       if (uuid) {
@@ -1258,6 +1291,11 @@
           if (c.id === me) {
             return null;
           }
+          // We don't want to even attempt a send if we have recently discovered that they
+          //   are unregistered.
+          if (c.isUnregistered()) {
+            return null;
+          }
           return c.getSendTarget();
         })
       );
@@ -1422,7 +1460,7 @@
       });
       Whisper.Reactions.onReaction(reactionModel);
 
-      const destination = this.get('e164');
+      const destination = this.getSendTarget();
       const recipients = this.getRecipients();
 
       let profileKey;
@@ -1717,7 +1755,8 @@
           if (result) {
             await this.handleMessageSendResult(
               result.failoverIdentifiers,
-              result.unidentifiedDeliveries
+              result.unidentifiedDeliveries,
+              result.discoveredIdentifierPairs
             );
           }
           return result;
@@ -1727,7 +1766,8 @@
           if (result) {
             await this.handleMessageSendResult(
               result.failoverIdentifiers,
-              result.unidentifiedDeliveries
+              result.unidentifiedDeliveries,
+              result.discoveredIdentifierPairs
             );
           }
           throw result;
@@ -1735,7 +1775,20 @@
       );
     },
 
-    async handleMessageSendResult(failoverIdentifiers, unidentifiedDeliveries) {
+    async handleMessageSendResult(
+      failoverIdentifiers,
+      unidentifiedDeliveries,
+      discoveredIdentifierPairs
+    ) {
+      discoveredIdentifierPairs.forEach(item => {
+        const { uuid, e164 } = item;
+        window.ConversationController.ensureContactIds({
+          uuid,
+          e164,
+          highTrust: true,
+        });
+      });
+
       await Promise.all(
         (failoverIdentifiers || []).map(async identifier => {
           const conversation = ConversationController.get(identifier);
