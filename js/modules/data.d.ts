@@ -197,7 +197,6 @@ export function getAllConversations({
 }): Promise<Array<ConversationCollection>>;
 
 export function getAllConversationIds(): Promise<Array<string>>;
-export function getAllPrivateConversations(): Promise<Array<string>>;
 export function getAllPublicConversations(): Promise<Array<string>>;
 export function getPublicConversationsByServer(
   server: string,

@@ -110,7 +110,6 @@ module.exports = {
   getPublicConversationsByServer,
   getPubkeysInPublicConversation,
   getAllConversationIds,
-  getAllPrivateConversations,
   getAllGroupsInvolvingId,
   removeAllConversations,
   removeAllPrivateConversations,
@@ -1946,16 +1945,6 @@ async function getAllConversationIds() {
     `SELECT id FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`
   );
   return map(rows, row => row.id);
-}
-
-async function getAllPrivateConversations() {
-  const rows = await db.all(
-    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
-      type = 'private'
-     ORDER BY id ASC;`
-  );
-
-  return map(rows, row => jsonToObject(row.json));
 }
 
 async function getAllPublicConversations() {
