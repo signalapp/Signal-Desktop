@@ -20,7 +20,14 @@
 
   window.Whisper = window.Whisper || {};
 
-  const { Message: TypedMessage, Contact, PhoneNumber, Errors } = Signal.Types;
+  const {
+    Message: TypedMessage,
+    Attachment,
+    MIME,
+    Contact,
+    PhoneNumber,
+    Errors,
+  } = Signal.Types;
   const {
     deleteExternalMessageFiles,
     getAbsoluteAttachmentPath,
@@ -878,40 +885,46 @@
       });
     },
 
-    // More display logic
-    getDescription() {
+    getNotificationData() /* : { text: string, emoji?: string } */ {
       if (this.isUnsupportedMessage()) {
-        return i18n('message--getDescription--unsupported-message');
+        return { text: i18n('message--getDescription--unsupported-message') };
       }
+
       if (this.isProfileChange()) {
         const change = this.get('profileChange');
         const changedId = this.get('changedId');
         const changedContact = this.findAndFormatContact(changedId);
 
-        return Signal.Util.getStringForProfileChange(
-          change,
-          changedContact,
-          i18n
-        );
+        return {
+          text: Signal.Util.getStringForProfileChange(
+            change,
+            changedContact,
+            i18n
+          ),
+        };
       }
+
+      const attachments = this.get('attachments') || [];
+
       if (this.isTapToView()) {
         if (this.isErased()) {
-          return i18n('message--getDescription--disappearing-media');
+          return { text: i18n('message--getDescription--disappearing-media') };
         }
 
-        const attachments = this.get('attachments');
-        if (!attachments || !attachments[0]) {
-          return i18n('mediaMessage');
+        if (Attachment.isImage(attachments)) {
+          return {
+            text: i18n('message--getDescription--disappearing-photo'),
+            emoji: '📷',
+          };
+        } else if (Attachment.isVideo(attachments)) {
+          return {
+            text: i18n('message--getDescription--disappearing-video'),
+            emoji: '🎥',
+          };
         }
-
-        const { contentType } = attachments[0];
-        if (GoogleChrome.isImageTypeSupported(contentType)) {
-          return i18n('message--getDescription--disappearing-photo');
-        } else if (GoogleChrome.isVideoTypeSupported(contentType)) {
-          return i18n('message--getDescription--disappearing-video');
-        }
-
-        return i18n('mediaMessage');
+        // There should be an image or video attachment, but we have a fallback just in
+        //   case.
+        return { text: i18n('mediaMessage'), emoji: '📎' };
       }
 
       if (this.isGroupUpdate()) {
@@ -920,15 +933,17 @@
         const messages = [];
 
         if (groupUpdate.left === 'You') {
-          return i18n('youLeftTheGroup');
+          return { text: i18n('youLeftTheGroup') };
         } else if (groupUpdate.left) {
-          return i18n('leftTheGroup', [
-            this.getNameForNumber(groupUpdate.left),
-          ]);
+          return {
+            text: i18n('leftTheGroup', [
+              this.getNameForNumber(groupUpdate.left),
+            ]),
+          };
         }
 
         if (!fromContact) {
-          return '';
+          return { text: '' };
         }
 
         if (fromContact.isMe()) {
@@ -979,56 +994,123 @@
           messages.push(i18n('updatedGroupAvatar'));
         }
 
-        return messages.join(' ');
+        return { text: messages.join(' ') };
       }
       if (this.isEndSession()) {
-        return i18n('sessionEnded');
+        return { text: i18n('sessionEnded') };
       }
       if (this.isIncoming() && this.hasErrors()) {
-        return i18n('incomingError');
+        return { text: i18n('incomingError') };
       }
-      return this.get('body');
-    },
-    getNotificationText() {
-      const description = this.getDescription();
-      if (description) {
-        return description;
+
+      const body = (this.get('body') || '').trim();
+
+      if (attachments.length) {
+        // This should never happen but we want to be extra-careful.
+        const attachment = attachments[0] || {};
+        const { contentType } = attachment;
+
+        if (contentType === MIME.IMAGE_GIF) {
+          return {
+            text: body || i18n('message--getNotificationText--gif'),
+            emoji: '🎡',
+          };
+        } else if (Attachment.isImage(attachments)) {
+          return {
+            text: body || i18n('message--getNotificationText--photo'),
+            emoji: '📷',
+          };
+        } else if (Attachment.isVideo(attachments)) {
+          return {
+            text: body || i18n('message--getNotificationText--video'),
+            emoji: '🎥',
+          };
+        } else if (Attachment.isVoiceMessage(attachment)) {
+          return {
+            text: body || i18n('message--getNotificationText--voice-message'),
+            emoji: '🎤',
+          };
+        } else if (Attachment.isAudio(attachments)) {
+          return {
+            text: body || i18n('message--getNotificationText--audio-message'),
+            emoji: '🔈',
+          };
+        }
+        return {
+          text: body || i18n('message--getNotificationText--file'),
+          emoji: '📎',
+        };
       }
-      if (this.get('attachments').length > 0) {
-        return i18n('mediaMessage');
-      }
-      if (this.get('sticker')) {
-        return i18n('message--getNotificationText--stickers');
-      }
-      if (this.isCallHistory()) {
-        return window.Signal.Components.getCallingNotificationText(
-          this.get('callHistoryDetails'),
-          window.i18n
+
+      const stickerData = this.get('sticker');
+      if (stickerData) {
+        const sticker = Signal.Stickers.getSticker(
+          stickerData.packId,
+          stickerData.stickerId
         );
+        const { emoji } = sticker || {};
+        if (!emoji) {
+          window.log.warn('Unable to get emoji for sticker');
+        }
+        return {
+          text: i18n('message--getNotificationText--stickers'),
+          emoji,
+        };
+      }
+
+      if (this.isCallHistory()) {
+        return {
+          text: window.Signal.Components.getCallingNotificationText(
+            this.get('callHistoryDetails'),
+            window.i18n
+          ),
+        };
       }
       if (this.isExpirationTimerUpdate()) {
         const { expireTimer } = this.get('expirationTimerUpdate');
         if (!expireTimer) {
-          return i18n('disappearingMessagesDisabled');
+          return { text: i18n('disappearingMessagesDisabled') };
         }
 
         return i18n('timerSetTo', [
           Whisper.ExpirationTimerOptions.getAbbreviated(expireTimer || 0),
         ]);
       }
+
       if (this.isKeyChange()) {
         const identifier = this.get('key_changed');
         const conversation = this.findContact(identifier);
-        return i18n('safetyNumberChangedGroup', [
-          conversation ? conversation.getTitle() : null,
-        ]);
+        return {
+          text: i18n('safetyNumberChangedGroup', [
+            conversation ? conversation.getTitle() : null,
+          ]),
+        };
       }
       const contacts = this.get('contact');
       if (contacts && contacts.length) {
-        return Contact.getName(contacts[0]);
+        return { text: Contact.getName(contacts[0]), emoji: '👤' };
       }
 
-      return '';
+      if (body) {
+        return { text: body };
+      }
+
+      return { text: '' };
+    },
+
+    getNotificationText() /* : string */ {
+      const { text, emoji } = this.getNotificationData();
+
+      // Linux emoji support is mixed, so we disable it. (Note that this doesn't touch
+      //   the `text`, which can contain emoji.)
+      const shouldIncludeEmoji = Boolean(emoji) && !Signal.OS.isLinux();
+      if (shouldIncludeEmoji) {
+        return i18n('message--getNotificationText--text-with-emoji', {
+          text,
+          emoji,
+        });
+      }
+      return text;
     },
 
     // General

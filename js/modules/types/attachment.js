@@ -211,6 +211,9 @@ exports.deleteData = deleteOnDisk => {
   };
 };
 
+exports.isImage = AttachmentTS.isImage;
+exports.isVideo = AttachmentTS.isVideo;
+exports.isAudio = AttachmentTS.isAudio;
 exports.isVoiceMessage = AttachmentTS.isVoiceMessage;
 exports.save = AttachmentTS.save;
 

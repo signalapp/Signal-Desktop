@@ -1784,9 +1784,47 @@
     "message": "Draft:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
   },
+  "message--getNotificationText--gif": {
+    "message": "GIF",
+    "description": "Shown in notifications and in the left pane when a GIF is received."
+  },
+  "message--getNotificationText--photo": {
+    "message": "Photo",
+    "description": "Shown in notifications and in the left pane when a photo is received."
+  },
+  "message--getNotificationText--video": {
+    "message": "Video",
+    "description": "Shown in notifications and in the left pane when a video is received."
+  },
+  "message--getNotificationText--voice-message": {
+    "message": "Voice Message",
+    "description": "Shown in notifications and in the left pane when a voice message is received."
+  },
+  "message--getNotificationText--audio-message": {
+    "message": "Audio Message",
+    "description": "Shown in notifications and in the left pane when an audio message is received."
+  },
+  "message--getNotificationText--file": {
+    "message": "File",
+    "description": "Shown in notifications and in the left pane when a generic file is received."
+  },
   "message--getNotificationText--stickers": {
     "message": "Sticker message",
     "description": "Shown in notifications and in the left pane instead of sticker image."
+  },
+  "message--getNotificationText--text-with-emoji": {
+    "message": "$emoji$ $text$",
+    "placeholders": {
+      "emoji": {
+        "content": "$1",
+        "example": "📷"
+      },
+      "text": {
+        "content": "$2",
+        "example": "Photo"
+      }
+    },
+    "description": "Shown in notifications and in the left pane when text has an emoji. Probably always [emoji] [text] on LTR languages and [text] [emoji] on RTL languages."
   },
   "message--getDescription--unsupported-message": {
     "message": "Unsupported message",
