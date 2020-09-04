@@ -14,29 +14,61 @@
   window.Whisper = window.Whisper || {};
   const { Settings } = Signal.Types;
 
+  // The keys and values don't match here. This is because the values correspond to old
+  //   setting names. In the future, we may wish to migrate these to match.
   const SettingNames = {
-    COUNT: 'count',
-    NAME: 'name',
-    MESSAGE: 'message',
+    NO_NAME_OR_MESSAGE: 'count',
+    NAME_ONLY: 'name',
+    NAME_AND_MESSAGE: 'message',
   };
 
-  Whisper.Notifications = new (Backbone.Collection.extend({
-    initialize() {
-      this.isEnabled = false;
-      this.on('add', this.update);
-      this.on('remove', this.onRemove);
+  // Electron, at least on Windows and macOS, only shows one notification at a time (see
+  //   issues [#15364][0] and [#21646][1], among others). Because of that, we have a
+  //   single slot for notifications, and once a notification is dismissed, all of
+  //   Signal's notifications are dismissed.
+  // [0]: https://github.com/electron/electron/issues/15364
+  // [1]: https://github.com/electron/electron/issues/21646
+  Whisper.Notifications = {
+    ...Backbone.Events,
 
-      this.lastNotification = null;
+    isEnabled: false,
 
-      // Testing indicated that trying to create/destroy notifications too quickly
-      //   resulted in notifications that stuck around forever, requiring the user
-      //   to manually close them. This introduces a minimum amount of time between calls,
-      //   and batches up the quick successive update() calls we get from an incoming
-      //   read sync, which might have a number of messages referenced inside of it.
-      this.fastUpdate = this.update;
-      this.update = _.debounce(this.update, 1000);
+    // This is either a standard `Notification` or null.
+    lastNotification: null,
+
+    // This is either null or an object of this shape:
+    //
+    //     {
+    //       conversationId: string;
+    //       messageId: string;
+    //       senderTitle: string;
+    //       message: string;
+    //       notificationIconUrl: string | void;
+    //       isExpiringMessage: boolean;
+    //       reaction: {
+    //         emoji: string;
+    //       };
+    //     }
+    notificationData: null,
+
+    add(notificationData) {
+      this.notificationData = notificationData;
+      this.update();
     },
-    update() {
+
+    removeBy({ conversationId, messageId }) {
+      const shouldClear =
+        Boolean(this.notificationData) &&
+        ((conversationId &&
+          this.notificationData.conversationId === conversationId) ||
+          (messageId && this.notificationData.messageId === messageId));
+      if (shouldClear) {
+        this.clear();
+        this.update();
+      }
+    },
+
+    fastUpdate() {
       if (this.lastNotification) {
         this.lastNotification.close();
         this.lastNotification = null;
@@ -47,7 +79,6 @@
       const isAudioNotificationEnabled =
         storage.get('audio-notification') || false;
       const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
-      const numNotifications = this.length;
       const userSetting = this.getUserSetting();
 
       const status = Signal.Notifications.getStatus({
@@ -55,101 +86,68 @@
         isAudioNotificationEnabled,
         isAudioNotificationSupported,
         isEnabled,
-        numNotifications,
+        hasNotifications: Boolean(this.notificationData),
         userSetting,
       });
 
       if (status.type !== 'ok') {
         if (status.shouldClearNotifications) {
-          this.reset([]);
+          this.notificationData = null;
         }
 
         return;
       }
 
-      let title;
-      let message;
-      let iconUrl;
+      let notificationTitle;
+      let notificationMessage;
+      let notificationIconUrl;
 
-      // NOTE: i18n has more complex rules for pluralization than just
-      // distinguishing between zero (0) and other (non-zero),
-      // e.g. Russian:
-      // http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html
-      const newMessageCountLabel = `${numNotifications} ${
-        numNotifications === 1 ? i18n('newMessage') : i18n('newMessages')
-      }`;
+      const {
+        conversationId,
+        messageId,
+        senderTitle,
+        message,
+        isExpiringMessage,
+        reaction,
+      } = this.notificationData;
 
-      const last = this.last().toJSON();
-      switch (userSetting) {
-        case SettingNames.COUNT:
-          title = 'Signal';
-          message = newMessageCountLabel;
-          break;
-        case SettingNames.NAME: {
-          const lastMessageTitle = last.title;
-          title = newMessageCountLabel;
-          // eslint-disable-next-line prefer-destructuring
-          iconUrl = last.iconUrl;
-          if (numNotifications === 1) {
-            if (last.reaction) {
-              message = i18n('notificationReaction', {
-                sender: lastMessageTitle,
-                emoji: last.reaction.emoji,
-              });
-            } else {
-              message = `${i18n('notificationFrom')} ${lastMessageTitle}`;
-            }
-          } else if (last.reaction) {
-            message = i18n('notificationReactionMostRecent', {
-              sender: lastMessageTitle,
-              emoji: last.reaction.emoji,
+      if (
+        userSetting === SettingNames.NAME_ONLY ||
+        userSetting === SettingNames.NAME_AND_MESSAGE
+      ) {
+        notificationTitle = senderTitle;
+        ({ notificationIconUrl } = this.notificationData);
+
+        const shouldHideExpiringMessageBody =
+          isExpiringMessage && Signal.OS.isMacOS();
+        if (shouldHideExpiringMessageBody) {
+          notificationMessage = i18n('newMessage');
+        } else if (userSetting === SettingNames.NAME_ONLY) {
+          if (reaction) {
+            notificationMessage = i18n('notificationReaction', {
+              sender: senderTitle,
+              emoji: reaction.emoji,
             });
           } else {
-            message = `${i18n(
-              'notificationMostRecentFrom'
-            )} ${lastMessageTitle}`;
+            notificationMessage = i18n('newMessage');
           }
-          break;
+        } else if (reaction) {
+          notificationMessage = i18n('notificationReactionMessage', {
+            sender: senderTitle,
+            emoji: reaction.emoji,
+            message,
+          });
+        } else {
+          notificationMessage = message;
         }
-        case SettingNames.MESSAGE:
-          if (numNotifications === 1) {
-            // eslint-disable-next-line prefer-destructuring
-            title = last.title;
-            if (last.reaction) {
-              message = i18n('notificationReactionMessage', {
-                sender: last.title,
-                emoji: last.reaction.emoji,
-                message: last.message,
-              });
-            } else {
-              // eslint-disable-next-line prefer-destructuring
-              message = last.message;
-            }
-          } else if (last.reaction) {
-            title = newMessageCountLabel;
-            message = i18n('notificationReactionMessageMostRecent', {
-              sender: last.title,
-              emoji: last.reaction.emoji,
-              message: last.message,
-            });
-          } else {
-            title = newMessageCountLabel;
-            message = `${i18n('notificationMostRecent')} ${last.message}`;
-          }
-          // eslint-disable-next-line prefer-destructuring
-          iconUrl = last.iconUrl;
-          break;
-        default:
+      } else {
+        if (userSetting !== SettingNames.NO_NAME_OR_MESSAGE) {
           window.log.error(
             `Error: Unknown user notification setting: '${userSetting}'`
           );
-          break;
-      }
-
-      const shouldHideExpiringMessageBody =
-        last.isExpiringMessage && Signal.OS.isMacOS();
-      if (shouldHideExpiringMessageBody) {
-        message = i18n('newMessage');
+        }
+        notificationTitle = 'Signal';
+        notificationMessage = i18n('newMessage');
       }
 
       const shouldDrawAttention = storage.get(
@@ -162,38 +160,31 @@
 
       this.lastNotification = window.Signal.Services.notify({
         platform: window.platform,
-        title,
-        icon: iconUrl,
-        message,
+        title: notificationTitle,
+        icon: notificationIconUrl,
+        message: notificationMessage,
         silent: !status.shouldPlayNotificationSound,
         onNotificationClick: () => {
-          this.trigger('click', last.conversationId, last.messageId);
+          this.trigger('click', conversationId, messageId);
         },
       });
+    },
 
-      // We continue to build up more and more messages for our notifications
-      // until the user comes back to our app or closes the app. Then we’ll
-      // clear everything out. The good news is that we'll have a maximum of
-      // 1 notification in the Notification area (something like
-      // ‘10 new messages’) assuming that `Notification::close` does its job.
-    },
     getUserSetting() {
-      return storage.get('notification-setting') || SettingNames.MESSAGE;
-    },
-    onRemove() {
-      window.log.info('Remove notification');
-      this.update();
+      return (
+        storage.get('notification-setting') || SettingNames.NAME_AND_MESSAGE
+      );
     },
     clear() {
-      window.log.info('Remove all notifications');
-      this.reset([]);
+      window.log.info('Removing notification');
+      this.notificationData = null;
       this.update();
     },
     // We don't usually call this, but when the process is shutting down, we should at
     //   least try to remove the notification immediately instead of waiting for the
     //   normal debounce.
     fastClear() {
-      this.reset([]);
+      this.notificationData = null;
       this.fastUpdate();
     },
     enable() {
@@ -206,5 +197,15 @@
     disable() {
       this.isEnabled = false;
     },
-  }))();
+  };
+
+  // Testing indicated that trying to create/destroy notifications too quickly
+  //   resulted in notifications that stuck around forever, requiring the user
+  //   to manually close them. This introduces a minimum amount of time between calls,
+  //   and batches up the quick successive update() calls we get from an incoming
+  //   read sync, which might have a number of messages referenced inside of it.
+  Whisper.Notifications.update = _.debounce(
+    Whisper.Notifications.fastUpdate.bind(Whisper.Notifications),
+    1000
+  );
 })();

@@ -2274,11 +2274,7 @@
       _.defaults(options, { sendReadReceipts: true });
 
       const conversationId = this.id;
-      Whisper.Notifications.remove(
-        Whisper.Notifications.where({
-          conversationId,
-        })
-      );
+      Whisper.Notifications.removeBy({ conversationId });
 
       let unreadMessages = await this.getUnread();
       const oldUnread = unreadMessages.filter(
@@ -2888,32 +2884,6 @@
 
       return null;
     },
-    getAvatar() {
-      const title = this.get('name');
-      const color = this.getColor();
-      const avatar = this.get('avatar') || this.get('profileAvatar');
-
-      if (avatar && avatar.path) {
-        return { url: getAbsoluteAttachmentPath(avatar.path), color };
-      } else if (this.isPrivate()) {
-        return {
-          color,
-          content: this.getInitials(title) || '#',
-        };
-      }
-      return { url: 'images/group_default.png', color };
-    },
-
-    getNotificationIcon() {
-      return new Promise(resolve => {
-        const avatar = this.getAvatar();
-        if (avatar.url) {
-          resolve(avatar.url);
-        } else {
-          resolve(new Whisper.IdenticonSVGView(avatar).getDataUrl());
-        }
-      });
-    },
 
     async notify(message, reaction) {
       if (this.get('muteExpiresAt') && Date.now() < this.get('muteExpiresAt')) {
@@ -2929,22 +2899,40 @@
       const sender = reaction
         ? ConversationController.get(reaction.get('fromId'))
         : message.getContact();
+      const senderName = sender ? sender.getTitle() : i18n('unknownContact');
+      const senderTitle = this.isPrivate()
+        ? senderName
+        : i18n('notificationSenderInGroup', {
+            sender: senderName,
+            group: this.getTitle(),
+          });
 
-      const iconUrl = await sender.getNotificationIcon();
+      let notificationIconUrl;
+      const avatar = this.get('avatar') || this.get('profileAvatar');
+      if (avatar && avatar.path) {
+        notificationIconUrl = getAbsoluteAttachmentPath(avatar.path);
+      } else if (this.isPrivate()) {
+        notificationIconUrl = await new Whisper.IdenticonSVGView({
+          color: this.getColor(),
+          content: this.getInitials(this.get('name')) || '#',
+        }).getDataUrl();
+      } else {
+        // Not technically needed, but helps us be explicit: we don't show an icon for a
+        //   group that doesn't have an icon.
+        notificationIconUrl = undefined;
+      }
 
       const messageJSON = message.toJSON();
-      const messageSentAt = messageJSON.sent_at;
       const messageId = message.id;
       const isExpiringMessage = Message.hasExpiration(messageJSON);
 
       Whisper.Notifications.add({
+        senderTitle,
         conversationId,
-        iconUrl,
+        notificationIconUrl,
         isExpiringMessage,
         message: message.getNotificationText(),
         messageId,
-        messageSentAt,
-        title: sender.getTitle(),
         reaction: reaction ? reaction.toJSON() : null,
       });
     },

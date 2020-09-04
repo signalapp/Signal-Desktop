@@ -46,12 +46,9 @@
 
           return item.isIncoming() && senderId === receipt.get('senderId');
         });
-        const notificationForMessage = found
-          ? Whisper.Notifications.findWhere({ messageId: found.id })
-          : null;
-        Whisper.Notifications.remove(notificationForMessage);
-
-        if (!found) {
+        if (found) {
+          Whisper.Notifications.removeBy({ messageId: found.id });
+        } else {
           window.log.info(
             'No message for read sync',
             receipt.get('senderId'),

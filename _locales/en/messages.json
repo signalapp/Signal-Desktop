@@ -1190,36 +1190,34 @@
     "description": "Label for disabling notifications"
   },
   "nameAndMessage": {
-    "message": "Both sender name and message",
+    "message": "Name, content, and actions",
     "description": "Label for setting notifications to display name and message text"
   },
   "noNameOrMessage": {
-    "message": "Neither name nor message",
+    "message": "No name or content",
     "description": "Label for setting notifications to display no name and no message text"
   },
   "nameOnly": {
-    "message": "Only sender name",
+    "message": "Name only",
     "description": "Label for setting notifications to display sender name only"
   },
   "newMessage": {
     "message": "New Message",
     "description": "Displayed in notifications for only 1 message"
   },
-  "newMessages": {
-    "message": "New Messages",
-    "description": "Displayed in notifications for multiple messages"
-  },
-  "notificationMostRecentFrom": {
-    "message": "Most recent from:",
-    "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
-  },
-  "notificationFrom": {
-    "message": "From:",
-    "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
-  },
-  "notificationMostRecent": {
-    "message": "Most recent:",
-    "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+  "notificationSenderInGroup": {
+    "message": "$sender$ in $group$",
+    "description": "Displayed in notifications for messages in a group",
+    "placeholders": {
+      "sender": {
+        "content": "$1",
+        "example": "John"
+      },
+      "group": {
+        "content": "$1",
+        "example": "NYC Rock Climbers"
+      }
+    }
   },
   "notificationReaction": {
     "message": "$sender$ reacted $emoji$ to your message",
@@ -1234,38 +1232,8 @@
       }
     }
   },
-  "notificationReactionMostRecent": {
-    "message": "Most recent: $sender$ reacted $emoji$ to your message",
-    "placeholders": {
-      "sender": {
-        "content": "$1",
-        "example": "John"
-      },
-      "emoji": {
-        "content": "$2",
-        "example": "👍"
-      }
-    }
-  },
   "notificationReactionMessage": {
     "message": "$sender$ reacted $emoji$ to: $message$",
-    "placeholders": {
-      "sender": {
-        "content": "$1",
-        "example": "John"
-      },
-      "emoji": {
-        "content": "$2",
-        "example": "👍"
-      },
-      "message": {
-        "content": "$3",
-        "example": "Sounds good."
-      }
-    }
-  },
-  "notificationReactionMessageMostRecent": {
-    "message": "Most recent: $sender$ reacted $emoji$ to: $message$",
     "placeholders": {
       "sender": {
         "content": "$1",
