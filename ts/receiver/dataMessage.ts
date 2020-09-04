@@ -446,6 +446,7 @@ interface MessageCreationData {
   source: boolean;
   serverId: string;
   message: any;
+  serverTimestamp: any;
 
   // Needed for synced outgoing messages
   unidentifiedStatus: any; // ???
@@ -464,6 +465,7 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     source,
     serverId,
     message,
+    serverTimestamp,
   } = data;
 
   const type = 'incoming';
@@ -476,6 +478,7 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     sourceDevice,
     serverId, // + (not present below in `createSentMessage`)
     sent_at: timestamp,
+    serverTimestamp,
     received_at: receivedAt || Date.now(),
     conversationId: groupId ?? source,
     unidentifiedDeliveryReceived, // +

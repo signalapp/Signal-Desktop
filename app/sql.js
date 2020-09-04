@@ -810,6 +810,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion5,
   updateToLokiSchemaVersion6,
   updateToLokiSchemaVersion7,
+  updateToLokiSchemaVersion8,
 ];
 
 async function updateToLokiSchemaVersion1(currentVersion, instance) {
@@ -823,7 +824,6 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
     `ALTER TABLE messages
      ADD COLUMN serverId INTEGER;`
   );
-
   await instance.run(
     `CREATE TABLE servers(
       serverUrl STRING PRIMARY KEY ASC,
@@ -1049,6 +1049,29 @@ async function updateToLokiSchemaVersion7(currentVersion, instance) {
 
   await instance.run('COMMIT TRANSACTION;');
   console.log('updateToLokiSchemaVersion7: success!');
+}
+
+async function updateToLokiSchemaVersion8(currentVersion, instance) {
+  if (currentVersion >= 8) {
+    return;
+  }
+  console.log('updateToLokiSchemaVersion8: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run(
+    `ALTER TABLE messages
+     ADD COLUMN serverTimestamp INTEGER;`
+  );
+
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        8
+      );`
+  );
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToLokiSchemaVersion8: success!');
 }
 
 async function updateLokiSchema(instance) {
@@ -2092,6 +2115,7 @@ async function saveMessage(data, { forceSave } = {}) {
     hasVisualMediaAttachments,
     id,
     serverId,
+    serverTimestamp,
     // eslint-disable-next-line camelcase
     received_at,
     schemaVersion,
@@ -2111,6 +2135,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $json: objectToJSON(data),
 
     $serverId: serverId,
+    $serverTimestamp: serverTimestamp,
     $body: body,
     $conversationId: conversationId,
     $expirationStartTimestamp: expirationStartTimestamp,
@@ -2134,6 +2159,7 @@ async function saveMessage(data, { forceSave } = {}) {
       `UPDATE messages SET
         json = $json,
         serverId = $serverId,
+        serverTimestamp = $serverTimestamp,
         body = $body,
         conversationId = $conversationId,
         expirationStartTimestamp = $expirationStartTimestamp,
@@ -2169,6 +2195,7 @@ async function saveMessage(data, { forceSave } = {}) {
     json,
 
     serverId,
+    serverTimestamp,
     body,
     conversationId,
     expirationStartTimestamp,
@@ -2190,6 +2217,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $json,
 
     $serverId,
+    $serverTimestamp,
     $body,
     $conversationId,
     $expirationStartTimestamp,
@@ -2419,7 +2447,7 @@ async function getMessagesByConversation(
       conversationId = $conversationId AND
       received_at < $received_at AND
       type LIKE $type
-    ORDER BY sent_at DESC
+      ORDER BY serverTimestamp DESC, serverId DESC, sent_at DESC
     LIMIT $limit;
     `,
     {

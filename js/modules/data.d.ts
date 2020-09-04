@@ -324,6 +324,7 @@ export function getMessagesByConversation(
     type?: string;
   }
 ): Promise<any>;
+
 export function getSeenMessagesByHashList(hashes: any): Promise<any>;
 export function getLastHashBySnode(convoId: any, snode: any): Promise<any>;
 

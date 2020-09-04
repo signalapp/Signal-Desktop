@@ -596,6 +596,7 @@
         id: this.id,
         direction: this.isIncoming() ? 'incoming' : 'outgoing',
         timestamp: this.get('sent_at'),
+        serverTimestamp: this.get('serverTimestamp'),
         status: this.getMessagePropStatus(),
         contact: this.getPropsForEmbeddedContact(),
         authorColor,
@@ -1669,13 +1670,6 @@
 
   Whisper.MessageCollection = Backbone.Collection.extend({
     model: Whisper.Message,
-    comparator(left, right) {
-      if (left.get('sent_at') === right.get('sent_at')) {
-        return (left.get('received_at') || 0) - (right.get('received_at') || 0);
-      }
-
-      return (left.get('sent_at') || 0) - (right.get('sent_at') || 0);
-    },
     initialize(models, options) {
       if (options) {
         this.conversation = options.conversation;
@@ -1726,7 +1720,7 @@
         );
       }
 
-      this.add(models);
+      this.add(models.reverse());
 
       if (unreadCount <= 0) {
         return;

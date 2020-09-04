@@ -1799,7 +1799,9 @@ class LokiPublicChannelAPI {
     }
 
     return {
-      timestamp: new Date(`${adnMessage.created_at}`).getTime() || timestamp,
+      timestamp,
+      serverTimestamp:
+        new Date(`${adnMessage.created_at}`).getTime() || timestamp,
       attachments,
       preview,
       quote,
@@ -1919,6 +1921,7 @@ class LokiPublicChannelAPI {
         adnMessage.body = messengerData.text;
         const {
           timestamp,
+          serverTimestamp,
           quote,
           attachments,
           preview,
@@ -1990,9 +1993,9 @@ class LokiPublicChannelAPI {
           isSessionRequest: false,
           source: pubKey,
           sourceDevice: 1,
-          timestamp,
+          timestamp, // sender timestamp
 
-          serverTimestamp: timestamp,
+          serverTimestamp, // server created_at, used to order messages
           receivedAt,
           isPublic: true,
           message: {
@@ -2008,7 +2011,7 @@ class LokiPublicChannelAPI {
             profileKey,
             timestamp,
             received_at: receivedAt,
-            sent_at: timestamp,
+            sent_at: timestamp, // sender timestamp inner
             quote,
             contact: [],
             preview,
