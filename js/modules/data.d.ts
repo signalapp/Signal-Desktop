@@ -223,7 +223,6 @@ export function searchMessagesInConversation(
   conversationId: string,
   { limit }?: { limit: any }
 ): Promise<any>;
-export function getMessageCount(): Promise<number>;
 export function saveMessage(
   data: Mesasge,
   { forceSave, Message }?: { forceSave?: any; Message?: any }

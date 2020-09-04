@@ -134,7 +134,6 @@ module.exports = {
   searchMessages,
   searchMessagesInConversation,
 
-  getMessageCount,
   saveMessage,
   cleanSeenMessages,
   cleanLastHashes,
@@ -874,9 +873,6 @@ async function searchMessagesInConversation(
 }
 
 // Message
-async function getMessageCount() {
-  return channels.getMessageCount();
-}
 
 async function cleanSeenMessages() {
   await channels.cleanSeenMessages();
