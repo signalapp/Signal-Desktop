@@ -1420,29 +1420,29 @@
         "description": "Button when a specific action is to be done."
     },
     "cannotUpdateDetail": {
-        "message": "La mise a jour a échouée, mais il y a une nouvelle version disponible. Merci de visiter https://getsession.org/ et d'installer la nouvelle version manuellement, puis de contacter le support ou créer un ticket au sujet de ce bug",
+        "message": "La mise a jour de Session a échouée. Une nouvelle version est disponible. Rendez-vous sur https://getsession.org/ pour installer la nouvelle version manuellement. Vous pouvez également contacter le support ou créer un ticket au sujet de ce problème.",
         "description": "Shown if a general error happened while trying to install update package"
     },
     "close": {
         "message": "Fermer"
     },
     "devicePairingRequestReceivedNoListenerDescription": {
-        "message": "Une demande de liaison a été reçu, mais vous n’êtes pas sur l’écran de liaison d'un appareil. \nAller dans Paramètres > Appareil > Relier un nouvel appareil."
+        "message": "Une demande de liaison a été reçue, mais vous n’êtes pas sur l’écran de liaison d'un appareil. \nRendez-vous dans Paramètres > Appareil > Relier un nouvel appareil."
     },
     "deviceIsSecondaryNoPairing": {
-        "message": "Cet appareil est un appareil secondaire et ne peux donc pas être relier."
+        "message": "Cet appareil est un appareil secondaire et ne peux donc pas être relié."
     },
     "pairingOngoing": {
-        "message": "Une demande de liaison est déjà en cours. Redémarrer l'application si cela prends trop longtemps."
+        "message": "Une demande de liaison est déjà en cours. Redémarrez l'application si cela prends trop longtemps."
     },
     "allowPairingWithDevice": {
         "message": "Autoriser la liaison avec cet appareil ?"
     },
     "provideDeviceAlias": {
-        "message": "Merci de donner un alias à cet appareil relié"
+        "message": "Choisissez un alias pour cet appareil"
     },
     "showPairingWordsTitle": {
-        "message": "Mots secret de liaison"
+        "message": "Mots secrets pour la liaison"
     },
     "confirmUnpairingTitle": {
         "message": "Merci de confirmer que vous souhaitez déconnecter l'appareil suivant:"
@@ -1452,20 +1452,20 @@
         "description": "Warning for device unlinking in settings view"
     },
     "unpairDeviceWarningSub": {
-        "message": "Déconnecter cet appareil va supprimer tout l'historique, ce qui inclus tous les messages, sessions, et contacts de cet appareil.",
+        "message": "Déconnecter cet appareil supprimera tout l'historique, ce qui inclut tous les messages, sessions, et contacts de cet appareil.",
         "description": "Warning description for device unlinking in settings view"
     },
     "deletePublicWarning": {
-        "message": "Êtes-vous sûr? Cela va supprimer ce message pour tout le monde dans ce groupe public."
+        "message": "Êtes-vous sûr? Cela supprimera ce message pour tous les membres de ce groupe public."
     },
     "deleteMultiplePublicWarning": {
-        "message": "Êtes-vous sûr? Cela va supprimer ces messages pour tout le monde dans ce groupe public."
+        "message": "Êtes-vous sûr? Cela supprimera ces messages pour tous les membres de ce groupe public."
     },
     "deleteMultipleWarning": {
-        "message": "Êtes-vous sûr? En cliquant sur 'Supprimer' cela va supprimer ces messages de cet appareil uniquement."
+        "message": "Êtes-vous sûr? En cliquant sur 'Supprimer' cela supprimera ces messages sur cet appareil uniquement."
     },
     "messageDeletionForbidden": {
-        "message": "Vous n'avez pas l'autorisation de supprimer les messages d'autres utilisateurs.",
+        "message": "Vous n'êtes pas autorisé à supprimer les messages des autres utilisateurs.",
         "description": "Toast message explaining that the user doens't have the rights to delete other people's messages."
     },
     "sendMessageBlockedUser": {
@@ -1499,7 +1499,7 @@
         "message": "Vous n'aurez pas une protection complète des métadonnées en envoyant ou recevant des aperçu de liens."
     },
     "mediaPermissionsTitle": {
-        "message": "Microphone et camera"
+        "message": "Microphone et caméra"
     },
     "spellCheckTitle": {
         "message": "Vérification orthographique",
@@ -1510,11 +1510,11 @@
         "description": "Shown when the user changes their spellcheck setting to indicate that they must restart Session."
     },
     "readReceiptSettingDescription": {
-        "message": "Voir et partager quand les messages ont étés lus (activer les accusés de lecture dans toutes les sessions).",
+        "message": "Voir et partager quand les messages ont étés lus (s'applique à toutes les sessions).",
         "description": "Description of the read receipts setting"
     },
     "typingIndicatorsSettingDescription": {
-        "message": "Voir et partager quand les messages sont rédigés (s'applique à toutes les sessions)).",
+        "message": "Voir et partager quand les messages sont rédigés (s'applique à toutes les sessions).",
         "description": "Description of the typing indicators setting"
     },
     "zoomFactorSettingTitle": {
@@ -1538,10 +1538,10 @@
         "description": "Conversation menu option to clear user nickname"
     },
     "themeToggleDescription": {
-        "message": "Choisissez le thème qui vous convient le plus"
+        "message": "Choisissez le thème qui vous convient le mieux"
     },
     "hideMenuBarTitle": {
-        "message": "Cacher la bar de menu",
+        "message": "Cacher la barre de menu",
         "description": "Label text for menu bar visibility setting"
     },
     "hideMenuBarDescription": {
@@ -1552,10 +1552,10 @@
         "message": "Mise à jour automatique"
     },
     "autoUpdateSettingDescription": {
-        "message": "Vérifier si une mise à jour est disponible au lancement"
+        "message": "Rechercher automatiquement les mises à jour au lancement"
     },
     "autoUpdateDownloadedMessage": {
-        "message": "La mise à jour a été telechargé."
+        "message": "La mise à jour a été telechargée."
     },
     "autoUpdateDownloadInstructions": {
         "message": "Voulez-vous télécharger la mise à jour ?"
@@ -1568,7 +1568,7 @@
         "description": "Ban user from open group by public key."
     },
     "banUserConfirm": {
-        "message": "Êtes-vous sûr que vous voulez bannir cet utilisateur ?",
+        "message": "Êtes-vous sûr de vouloir bannir cet utilisateur ?",
         "description": "Message shown when confirming user ban."
     },
     "userBanned": {
@@ -1592,7 +1592,7 @@
         "description": "Button action that the user can click to edit a group name (closed)"
     },
     "setAccountPasswordTitle": {
-        "message": "Sécuriser par mot de passe",
+        "message": "Définir un mot de passe",
         "description": "Prompt for user to set account password in settings view"
     },
     "setAccountPasswordDescription": {
@@ -1600,7 +1600,7 @@
         "description": "Description for set account password setting view"
     },
     "changeAccountPasswordTitle": {
-        "message": "Changement de Mot de Passe",
+        "message": "Changement de mot de passe",
         "description": "Prompt for user to change account password in settings view"
     },
     "changeAccountPasswordDescription": {
@@ -1616,21 +1616,21 @@
         "description": "Description for remove account password setting view"
     },
     "enterPassword": {
-        "message": "Merci d'entrer votre mot de passe"
+        "message": "Veuillez saisir votre mot de passe"
     },
     "confirmPassword": {
-        "message": "Confirmer le mot de passe"
+        "message": "Confirmez le mot de passe"
     },
     "pasteLongPasswordToastTitle": {
-        "message": "Le contenu du presse-papier est plus long que la longueur maximum d'un mot de passe ($max_pwd_len$ caractères).",
+        "message": "Le contenu du presse-papier dépasse la longueur maximum pour un mot de passe ($max_pwd_len$ caractères).",
         "description": "Shown when user pastes a password which is longer than MAX_PASSWORD_LEN"
     },
     "showRecoveryPhrasePasswordRequest": {
-        "message": "Merci d'entrer votre mot de passe",
+        "message": "Veuillez saisir votre mot de passe",
         "description": "Request for user to enter password to show recovery phrase."
     },
     "passwordViewTitle": {
-        "message": "Entrer votre mot de passe",
+        "message": "Saisissez votre mot de passe",
         "description": "The title shown when user needs to type in a password to unlock the messenger"
     },
     "password": {
@@ -1638,7 +1638,7 @@
         "description": "Placeholder for password input"
     },
     "setPassword": {
-        "message": "Ajouter un mot de passe",
+        "message": "Définir un mot de passe",
         "description": "Button action that the user can click to set a password"
     },
     "changePassword": {
@@ -1653,7 +1653,7 @@
         "message": "Mot de passe invalide. Voulez-vous effacer la base de données?"
     },
     "typeInOldPassword": {
-        "message": "Merci de taper votre ancien mot de passe"
+        "message": "Merci de saisir votre ancien mot de passe"
     },
     "invalidOldPassword": {
         "message": "Ancien mot de passe invalide"
@@ -1662,7 +1662,7 @@
         "message": "Mot de passe invalide"
     },
     "noGivenPassword": {
-        "message": "Merci de taper votre mot de passe"
+        "message": "Merci de saisir votre mot de passe"
     },
     "passwordsDoNotMatch": {
         "message": "Les mots de passe ne correspondent pas."
@@ -1677,7 +1677,7 @@
         "message": "Mot de passe incorrect"
     },
     "setPasswordTitle": {
-        "message": "Ajouter un mot de passe"
+        "message": "Définir un mot de passe"
     },
     "changePasswordTitle": {
         "message": "Changer le mot de passe"
@@ -1686,10 +1686,10 @@
         "message": "Supprimer le mot de passe"
     },
     "setPasswordToastDescription": {
-        "message": "Votre mot de passe a été défini. Veuillez le garder en sécurité."
+        "message": "Votre mot de passe a été défini. Veuillez le conserver en sécurité."
     },
     "changePasswordToastDescription": {
-        "message": "Votre mot de passe a été changé. Veuillez le garder en sécurité."
+        "message": "Votre mot de passe a été changé. Veuillez le conserver en sécurité."
     },
     "removePasswordToastDescription": {
         "message": "Vous avez supprimé votre mot de passe."
@@ -1698,7 +1698,7 @@
         "message": "Vous êtes déjà connecté à ce groupe public"
     },
     "connectToServerSuccess": {
-        "message": "Connexion réussie au groupe public"
+        "message": "Connexion au groupe public réussie"
     },
     "setPasswordFail": {
         "message": "Échec de la définition du mot de passe"
@@ -1708,7 +1708,7 @@
         "description": "Error string shown to the user when password doesn't meet length criteria"
     },
     "passwordTypeError": {
-        "message": "Le mot de passe doit être une chaîne de caractère",
+        "message": "Le mot de passe doit être une chaîne de caractères",
         "description": "Error string shown to the user when password is not a string"
     },
     "passwordCharacterError": {
@@ -1728,7 +1728,7 @@
         "description": "Shown in toast if user enters an unknown LNS name"
     },
     "lnsTooFewNodes": {
-        "message": "Pas assez de nœuds actuellement actifs pour la recherche LNS"
+        "message": "Il n'y a pas assez de nœuds actifs actuellement pour la recherche LNS"
     },
     "editProfileModalTitle": {
         "message": "Profil",
@@ -1741,10 +1741,10 @@
         "message": "Supprimer un modérateur"
     },
     "groupInvitation": {
-        "message": "Invitation de groupe"
+        "message": "Invitation à rejoindre un groupe"
     },
     "addingContacts": {
-        "message": "Ajout de contact à"
+        "message": "Ajouter des contacts à"
     },
     "noContactsToAdd": {
         "message": "Aucun contact à ajouter"
@@ -1779,13 +1779,13 @@
         "message": "Lancer Session sur votre autre appareil."
     },
     "devicePairingHeader_Step2": {
-        "message": "Aller dans la section<strong>Appareils</strong> dans vos paramètres de compte."
+        "message": "Rendez-vous dans <strong>Appareils</strong> dans les paramètres de votre compte."
     },
     "devicePairingHeader_Step3": {
-        "message": "Sélectionnez <strong>Relier un nouvel appareil</strong> pour préparer votre autre appareil pour être relier."
+        "message": "Sélectionnez <strong>Relier un nouvel appareil</strong> pour préparer la liaison de votre autre appareil."
     },
     "devicePairingHeader_Step4": {
-        "message": "Taper votre <strong>Session ID</strong> ci-dessous pour relier votre appareil."
+        "message": "Saisissez votre <strong>Session ID</strong> ci-dessous pour relier votre appareil."
     },
     "linkDeviceToExistingAccount": {
         "message": "Relier un appareil à un compte existant"
@@ -1794,7 +1794,7 @@
         "message": "ou"
     },
     "ByUsingThisService...": {
-        "message": "En utilisant ce service, vous approuvez nos <a href=\"https://getsession.org/legal/#tos\">Conditions d'utilisation</a> et notre <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Politique de confidentialité</a>"
+        "message": "En utilisant ce service, vous acceptez nos <a href=\"https://getsession.org/legal/#tos\">Conditions d'utilisation</a> et notre <a href=\"https://getsession.org/privacy-policy/\" target=\"_blank\">Politique de confidentialité</a>"
     },
     "beginYourSession": {
         "message": "Commencez<br />votre<br />Session."

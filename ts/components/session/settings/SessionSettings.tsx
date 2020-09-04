@@ -613,6 +613,25 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         confirmationDialogParams: undefined,
       });
     }
+
+    if (blockedNumbers.length === 0) {
+      return [
+        {
+          id: 'noBlockedContacts',
+          title: '',
+          description: window.i18n('noBlockedContacts'),
+          type: undefined,
+          category: SessionSettingCategory.Blocked,
+          content: undefined,
+          comparisonValue: undefined,
+          setFn: undefined,
+          hidden: false,
+          onClick: undefined,
+          confirmationDialogParams: undefined,
+        },
+      ];
+    }
+
     return results;
   }
 

@@ -34,6 +34,7 @@ $themes: (
     receivedMessageText: $black,
     sentMessageText: $black,
     sessionShadow: 0 0 4px 0 rgba($black, 0.37),
+    sessionShadowColor: rgba($black, 0.37),
     // left pane
       conversationList: $white,
     conversationItemHasUnread: #fcfcfc,
@@ -83,6 +84,7 @@ $themes: (
     receivedMessageText: $white,
     sentMessageText: $white,
     sessionShadow: 0 0 4px 0 rgba($white, 0.2),
+    sessionShadowColor: rgba($white, 0.2),
     // left pane
       conversationList: #1b1b1b,
     conversationItemHasUnread: #2c2c2c,
