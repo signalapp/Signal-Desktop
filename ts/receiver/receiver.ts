@@ -126,7 +126,6 @@ async function handleRequestDetail(
   lastPromise: Promise<any>
 ): Promise<void> {
   const { textsecure } = window;
-
   const envelope: any = SignalService.Envelope.decode(plaintext);
 
   // After this point, decoding errors are not the server's
@@ -166,7 +165,9 @@ async function handleRequestDetail(
     // receiving pipeline refactor. It is to be implemented in the next PR.
 
     // To ensure that we queue in the same order we receive messages
+
     await lastPromise;
+
     queueEnvelope(envelope);
   } catch (error) {
     window.log.error(
