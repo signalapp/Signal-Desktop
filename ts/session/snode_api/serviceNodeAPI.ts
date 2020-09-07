@@ -387,6 +387,8 @@ export async function retrieveNextMessages(
     const json = JSON.parse(res.body);
     return json.messages || [];
   } catch (e) {
+    window.log.warn('exception while parsing json of nextMessage:', e);
+
     return [];
   }
 }
