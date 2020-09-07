@@ -2345,7 +2345,10 @@ class LokiPublicChannelAPI {
       objBody: payload,
     });
     if (!res.err && res.response) {
-      return res.response.data.id;
+      return {
+        serverId: res.response.data.id,
+        serverTimestamp: new Date(`${res.response.data.created_at}`).getTime(),
+      };
     }
     if (res.err) {
       log.error(`POST ${this.baseChannelUrl}/messages failed`);
@@ -2357,9 +2360,8 @@ class LokiPublicChannelAPI {
     } else {
       log.warn(res.response);
     }
-    // there's no retry on desktop
-    // this is supposed to be after retries
-    return -1;
+
+    return { serverId: -1, serverTimestamp: -1 };
   }
 }
 

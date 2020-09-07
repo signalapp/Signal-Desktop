@@ -1121,10 +1121,15 @@
 
     Whisper.events.on(
       'publicMessageSent',
-      ({ pubKey, timestamp, serverId }) => {
+      ({ pubKey, timestamp, serverId, serverTimestamp }) => {
         try {
           const conversation = ConversationController.get(pubKey);
-          conversation.onPublicMessageSent(pubKey, timestamp, serverId);
+          conversation.onPublicMessageSent(
+            pubKey,
+            timestamp,
+            serverId,
+            serverTimestamp
+          );
         } catch (e) {
           window.log.error('Error setting public on message');
         }

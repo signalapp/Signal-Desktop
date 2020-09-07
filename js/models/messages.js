@@ -1441,6 +1441,19 @@
         Message: Whisper.Message,
       });
     },
+    async setServerTimestamp(serverTimestamp) {
+      if (_.isEqual(this.get('serverTimestamp'), serverTimestamp)) {
+        return;
+      }
+
+      this.set({
+        serverTimestamp,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
     async setIsPublic(isPublic) {
       if (_.isEqual(this.get('isPublic'), isPublic)) {
         return;

@@ -98,7 +98,7 @@ function wrapEnvelope(envelope: SignalService.Envelope): Uint8Array {
  */
 export async function sendToOpenGroup(
   message: OpenGroupMessage
-): Promise<number> {
+): Promise<{ serverId: number; serverTimestamp: number }> {
   /*
     Note: Retrying wasn't added to this but it can be added in the future if needed.
     The only problem is that `channelAPI.sendMessage` returns true/false and doesn't throw any error so we can never be sure why sending failed.
@@ -112,7 +112,7 @@ export async function sendToOpenGroup(
   );
 
   if (!channelAPI) {
-    return -1;
+    return { serverId: -1, serverTimestamp: -1 };
   }
 
   // Returns -1 on fail or an id > 0 on success
