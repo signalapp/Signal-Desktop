@@ -1121,10 +1121,15 @@
 
     Whisper.events.on(
       'publicMessageSent',
-      ({ pubKey, timestamp, serverId }) => {
+      ({ pubKey, timestamp, serverId, serverTimestamp }) => {
         try {
           const conversation = ConversationController.get(pubKey);
-          conversation.onPublicMessageSent(pubKey, timestamp, serverId);
+          conversation.onPublicMessageSent(
+            pubKey,
+            timestamp,
+            serverId,
+            serverTimestamp
+          );
         } catch (e) {
           window.log.error('Error setting public on message');
         }
@@ -1326,7 +1331,7 @@
       messageReceiver = new textsecure.MessageReceiver(mySignalingKey, options);
       messageReceiver.addEventListener(
         'message',
-        window.NewReceiver.handleMessageEvent
+        window.DataMessageReceiver.handleMessageEvent
       );
       window.textsecure.messaging = new textsecure.MessageSender();
       return;
@@ -1337,11 +1342,11 @@
     messageReceiver = new textsecure.MessageReceiver(mySignalingKey, options);
     messageReceiver.addEventListener(
       'message',
-      window.NewReceiver.handleMessageEvent
+      window.DataMessageReceiver.handleMessageEvent
     );
     messageReceiver.addEventListener(
       'sent',
-      window.NewReceiver.handleMessageEvent
+      window.DataMessageReceiver.handleMessageEvent
     );
     messageReceiver.addEventListener('empty', onEmpty);
     messageReceiver.addEventListener('reconnect', onReconnect);

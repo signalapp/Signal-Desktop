@@ -370,7 +370,10 @@ $session-element-border-green: 4px solid $session-color-green;
   font-size: $session-font-md;
 
   &-text {
-    @include session-color-subtle($session-color-white);
+    @include themify($themes) {
+      @include session-color-subtle(themed('textColor'));
+    }
+
     font-family: $session-font-default;
     font-weight: 300;
     font-size: $session-font-xs;

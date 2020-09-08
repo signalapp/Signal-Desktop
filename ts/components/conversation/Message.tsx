@@ -65,6 +65,7 @@ export interface Props {
   collapseMetadata?: boolean;
   direction: 'incoming' | 'outgoing';
   timestamp: number;
+  serverTimestamp?: number;
   status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
   // What if changed this over to a single contact like quote, and put the events on it?
   contact?: Contact & {
@@ -257,6 +258,7 @@ export class Message extends React.PureComponent<Props, State> {
       text,
       textPending,
       timestamp,
+      serverTimestamp,
     } = this.props;
 
     if (collapseMetadata) {
@@ -299,7 +301,7 @@ export class Message extends React.PureComponent<Props, State> {
         ) : (
           <Timestamp
             i18n={i18n}
-            timestamp={timestamp}
+            timestamp={serverTimestamp || timestamp}
             extended={true}
             direction={direction}
             withImageNoCaption={withImageNoCaption}

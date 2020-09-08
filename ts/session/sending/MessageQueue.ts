@@ -62,13 +62,14 @@ export class MessageQueue implements MessageQueueInterface {
       try {
         const result = await MessageSender.sendToOpenGroup(message);
         // sendToOpenGroup returns -1 if failed or an id if succeeded
-        if (result < 0) {
+        if (result.serverId < 0) {
           this.events.emit('fail', message, error);
         } else {
           const messageEventData = {
             pubKey: message.group.groupId,
             timestamp: message.timestamp,
-            serverId: result,
+            serverId: result.serverId,
+            serverTimestamp: result.serverTimestamp,
           };
           this.events.emit('success', message);
 

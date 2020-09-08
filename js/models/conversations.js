@@ -540,14 +540,13 @@
       await Promise.all(messages.map(m => m.setCalculatingPoW()));
     },
 
-    async onPublicMessageSent(pubKey, timestamp, serverId) {
+    async onPublicMessageSent(pubKey, timestamp, serverId, serverTimestamp) {
       const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
-      await Promise.all(
-        messages.map(message => [
-          message.setIsPublic(true),
-          message.setServerId(serverId),
-        ])
-      );
+      if (messages && messages.length === 1) {
+        await messages[0].setIsPublic(true);
+        await messages[0].setServerId(serverId);
+        await messages[0].setServerTimestamp(serverTimestamp);
+      }
     },
 
     async onNewMessage(message) {
@@ -1294,6 +1293,9 @@
 
         if (this.isPrivate()) {
           message.set({ destination });
+        }
+        if (this.isPublic()) {
+          message.setServerTimestamp(new Date().getTime());
         }
 
         const id = await window.Signal.Data.saveMessage(message.attributes, {

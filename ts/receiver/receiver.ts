@@ -19,27 +19,14 @@ import _ from 'lodash';
 
 export { processMessage, onDeliveryReceipt };
 
-import {
-  handleDataMessage,
-  handleMessageEvent,
-  updateProfile,
-} from './dataMessage';
+import { handleMessageEvent, updateProfile } from './dataMessage';
 
 import { getEnvelopeId } from './common';
 import { StringUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
-import { BlockedNumberController } from '../util/blockedNumberController';
 import { MultiDeviceProtocol } from '../session/protocols';
 
 // TODO: check if some of these exports no longer needed
-export {
-  handleEndSession,
-  handleMediumGroupUpdate,
-  downloadAttachment,
-  handleDataMessage,
-  updateProfile,
-  handleMessageEvent,
-};
 
 interface ReqOptions {
   conversationId: string;

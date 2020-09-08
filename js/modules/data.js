@@ -123,7 +123,6 @@ module.exports = {
 
   getAllConversations,
   getAllConversationIds,
-  getAllPrivateConversations,
   getAllPublicConversations,
   getPublicConversationsByServer,
   getPubkeysInPublicConversation,
@@ -135,7 +134,6 @@ module.exports = {
   searchMessages,
   searchMessagesInConversation,
 
-  getMessageCount,
   saveMessage,
   cleanSeenMessages,
   cleanLastHashes,
@@ -151,6 +149,7 @@ module.exports = {
   removeAllMessagesInConversation,
 
   getMessageBySender,
+  getMessagesBySender,
   getMessageIdsFromServerIds,
   getMessageById,
   getAllMessages,
@@ -818,14 +817,6 @@ async function getAllPublicConversations({ ConversationCollection }) {
   return collection;
 }
 
-async function getAllPrivateConversations({ ConversationCollection }) {
-  const conversations = await channels.getAllPrivateConversations();
-
-  const collection = new ConversationCollection();
-  collection.add(conversations);
-  return collection;
-}
-
 async function getPubkeysInPublicConversation(id) {
   return channels.getPubkeysInPublicConversation(id);
 }
@@ -882,9 +873,6 @@ async function searchMessagesInConversation(
 }
 
 // Message
-async function getMessageCount() {
-  return channels.getMessageCount();
-}
 
 async function cleanSeenMessages() {
   await channels.cleanSeenMessages();
@@ -1013,6 +1001,22 @@ async function getMessageBySender(
   }
 
   return new Message(messages[0]);
+}
+
+async function getMessagesBySender(
+  // eslint-disable-next-line camelcase
+  { source, sourceDevice },
+  { Message }
+) {
+  const messages = await channels.getMessagesBySender({
+    source,
+    sourceDevice,
+  });
+  if (!messages || !messages.length) {
+    return null;
+  }
+
+  return messages.map(m => new Message(m));
 }
 
 async function getUnreadByConversation(conversationId, { MessageCollection }) {

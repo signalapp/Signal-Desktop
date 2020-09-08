@@ -1200,7 +1200,9 @@
 }
 
 .module-message-detail__unix-timestamp {
-  color: $color-light-10;
+  @include themify($themes) {
+    color: subtle(themed('textColor'));
+  }
 }
 
 .module-message-detail__delete-button-container {

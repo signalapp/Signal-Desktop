@@ -356,29 +356,52 @@ interface MessageId {
   source: any;
   sourceDevice: any;
   timestamp: any;
+  message: any;
 }
+const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
 
 async function isMessageDuplicate({
   source,
   sourceDevice,
   timestamp,
+  message,
 }: MessageId) {
   const { Errors } = window.Signal.Types;
 
   try {
-    const result = await window.Signal.Data.getMessageBySender(
-      { source, sourceDevice, sent_at: timestamp },
+    const result = await window.Signal.Data.getMessagesBySender(
+      { source, sourceDevice },
       {
         Message: window.Whisper.Message,
       }
     );
-
-    return Boolean(result);
+    if (!result) {
+      return false;
+    }
+    const filteredResult = result.filter(
+      (m: any) => m.attributes.body === message.body
+    );
+    const isSimilar = filteredResult.some((m: any) =>
+      isDuplicate(m, message, source)
+    );
+    return isSimilar;
   } catch (error) {
     window.log.error('isMessageDuplicate error:', Errors.toLogFormat(error));
     return false;
   }
 }
+
+export const isDuplicate = (m: any, testedMessage: any, source: string) => {
+  // The username in this case is the users pubKey
+  const sameUsername = m.attributes.source === source;
+  const sameText = m.attributes.body === testedMessage.body;
+  // Don't filter out messages that are too far apart from each other
+  const timestampsSimilar =
+    Math.abs(m.attributes.sent_at - testedMessage.timestamp) <=
+    PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES;
+
+  return sameUsername && sameText && timestampsSimilar;
+};
 
 async function handleProfileUpdate(
   profileKeyBuffer: Uint8Array,
@@ -427,6 +450,7 @@ interface MessageCreationData {
   source: boolean;
   serverId: string;
   message: any;
+  serverTimestamp: any;
 
   // Needed for synced outgoing messages
   unidentifiedStatus: any; // ???
@@ -445,6 +469,7 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     source,
     serverId,
     message,
+    serverTimestamp,
   } = data;
 
   const type = 'incoming';
@@ -457,6 +482,7 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     sourceDevice,
     serverId, // + (not present below in `createSentMessage`)
     sent_at: timestamp,
+    serverTimestamp,
     received_at: receivedAt || Date.now(),
     conversationId: groupId ?? source,
     unidentifiedDeliveryReceived, // +
@@ -476,6 +502,7 @@ function createSentMessage(data: MessageCreationData): MessageModel {
 
   const {
     timestamp,
+    serverTimestamp,
     isPublic,
     receivedAt,
     sourceDevice,
@@ -508,6 +535,7 @@ function createSentMessage(data: MessageCreationData): MessageModel {
   const messageData: any = {
     source: window.textsecure.storage.user.getNumber(),
     sourceDevice,
+    serverTimestamp,
     sent_at: timestamp,
     received_at: isPublic ? receivedAt : now,
     conversationId: destination, // conversation ID will might change later (if it is a group)
@@ -588,9 +616,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   // if the message is `sent` (from secondary device) we have to set the sender manually... (at least for now)
   source = source || msg.get('source');
 
-  const isDuplicate = await isMessageDuplicate(data);
-
-  if (isDuplicate) {
+  if (await isMessageDuplicate(data)) {
     // RSS expects duplicates, so squelch log
     if (!source.match(/^rss:/)) {
       window.log.warn('Received duplicate message', msg.idForLogging());
