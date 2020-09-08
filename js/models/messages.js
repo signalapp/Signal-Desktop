@@ -175,7 +175,7 @@
       if (!conversation) {
         return number;
       }
-      return conversation.getDisplayName();
+      return conversation.getProfileName();
     },
     getLokiNameForNumber(number) {
       const conversation = ConversationController.get(number);
