@@ -836,7 +836,7 @@
 
       return Boolean(lookup[contactId]);
     },
-    getPropsForMessageDetail() {
+    async getPropsForMessageDetail() {
       const newIdentity = i18n('newIdentity');
       const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
 
@@ -872,8 +872,7 @@
       //   that contact. Otherwise, it will be a standalone entry.
       const errors = _.reject(allErrors, error => Boolean(error.number));
       const errorsGroupedById = _.groupBy(allErrors, 'number');
-      const primaryDevicePubKey = this.get('conversationId');
-      const finalContacts = (phoneNumbers || []).map(id => {
+      const finalContacts = await Promise.all((phoneNumbers || []).map(async id => {
         const errorsForContact = errorsGroupedById[id];
         const isOutgoingKeyError = Boolean(
           _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
@@ -881,8 +880,11 @@
         const isUnidentifiedDelivery =
           storage.get('unidentifiedDeliveryIndicators') &&
           this.isUnidentifiedDelivery(id, unidentifiedLookup);
+        const primary = await window.libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+          id
+        );
 
-        const isPrimaryDevice = id === primaryDevicePubKey;
+        const isPrimaryDevice = id === primary.key;
 
         const contact = this.findAndFormatContact(id);
         const profileName = isPrimaryDevice
@@ -904,7 +906,7 @@
           onShowSafetyNumber: () =>
             this.trigger('show-identity', this.findContact(id)),
         };
-      });
+      }));
 
       // The prefix created here ensures that contacts with errors are listed
       //   first; otherwise it's alphabetical

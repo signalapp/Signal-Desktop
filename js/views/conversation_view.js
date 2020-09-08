@@ -1496,14 +1496,14 @@
       Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
     },
 
-    showMessageDetail(message) {
+    async showMessageDetail(message) {
       const onClose = () => {
         this.stopListening(message, 'change', update);
         this.resetPanel();
         this.updateHeader();
       };
 
-      const props = message.getPropsForMessageDetail();
+      const props = await message.getPropsForMessageDetail();
       const view = new Whisper.ReactWrapperView({
         className: 'message-detail-wrapper',
         Component: Signal.Components.MessageDetail,
@@ -1511,7 +1511,7 @@
         onClose,
       });
 
-      const update = () => view.update(message.getPropsForMessageDetail());
+      const update = async () => view.update(await message.getPropsForMessageDetail());
       this.listenTo(message, 'change', update);
       this.listenTo(message, 'expired', onClose);
       // We could listen to all involved contacts, but we'll call that overkill
