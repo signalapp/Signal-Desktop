@@ -2,6 +2,7 @@ import React from 'react';
 
 import { LocalizerType } from '../../types/Util';
 import { ConversationType } from '../../state/ducks/conversations';
+import { Emojify } from './Emojify';
 import {
   getStringForProfileChange,
   ProfileNameChangeType,
@@ -20,7 +21,7 @@ export function ProfileChangeNotification(props: PropsType): JSX.Element {
   return (
     <div className="module-profile-change-notification">
       <div className="module-profile-change-notification--icon" />
-      {message}
+      <Emojify text={message} />
     </div>
   );
 }
