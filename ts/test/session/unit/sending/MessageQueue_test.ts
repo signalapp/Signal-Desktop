@@ -27,6 +27,7 @@ chai.use(chaiAsPromised);
 
 const { expect } = chai;
 
+// tslint:disable-next-line: max-func-body-length
 describe('MessageQueue', () => {
   // Initialize new stubbed cache
   const sandbox = sinon.createSandbox();
@@ -336,7 +337,7 @@ describe('MessageQueue', () => {
       });
 
       it('should emit a success event when send was successful', async () => {
-        sendToOpenGroupStub.resolves({ serverId: -1, serverTimestamp: -1 });
+        sendToOpenGroupStub.resolves({ serverId: 5125, serverTimestamp: 5125 });
 
         const message = TestUtils.generateOpenGroupMessage();
         const eventPromise = PromiseUtils.waitForTask(complete => {
