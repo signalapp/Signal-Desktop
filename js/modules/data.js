@@ -1005,13 +1005,12 @@ async function getMessageBySender(
 
 async function getMessagesBySender(
   // eslint-disable-next-line camelcase
-  { source, sourceDevice, sent_at },
+  { source, sourceDevice },
   { Message }
 ) {
-  const messages = await channels.getMessageBySender({
+  const messages = await channels.getMessagesBySender({
     source,
     sourceDevice,
-    sent_at,
   });
   if (!messages || !messages.length) {
     return null;

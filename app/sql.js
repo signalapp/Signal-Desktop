@@ -129,6 +129,7 @@ module.exports = {
   removeMessage,
   getUnreadByConversation,
   getMessageBySender,
+  getMessagesBySender,
   getMessageIdsFromServerIds,
   getMessageById,
   getAllMessages,
@@ -2405,6 +2406,20 @@ async function getMessageBySender({ source, sourceDevice, sent_at }) {
       $source: source,
       $sourceDevice: sourceDevice,
       $sent_at: sent_at,
+    }
+  );
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+async function getMessagesBySender({ source, sourceDevice }) {
+  const rows = await db.all(
+    `SELECT json FROM messages WHERE
+      source = $source AND
+      sourceDevice = $sourceDevice`,
+    {
+      $source: source,
+      $sourceDevice: sourceDevice,
     }
   );
 
