@@ -37,14 +37,6 @@ const rules = {
     { overrides: { '?': 'ignore', ':': 'ignore' } },
   ],
 
-  // Temporarily turned off during transition from TSLint
-  // JIRA: DESKTOP-623
-  'import/order': 'off',
-  'no-else-return': 'off',
-  'no-async-promise-executor': 'off',
-  'prefer-object-spread': 'off',
-  strict: 'off',
-
   quotes: [
     'error',
     'single',

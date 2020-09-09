@@ -2,8 +2,6 @@
 /* global Whisper: false */
 
 $(document).on('keydown', e => {
-  'use strict';
-
   if (e.keyCode === 27) {
     window.closeDebugLog();
   }

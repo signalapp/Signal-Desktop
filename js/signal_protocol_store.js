@@ -5,8 +5,6 @@
 
 // eslint-disable-next-line func-names
 (function() {
-  'use strict';
-
   const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
   const Direction = {
     SENDING: 1,
@@ -635,7 +633,8 @@
         await this.archiveSiblingSessions(encodedAddress);
 
         return true;
-      } else if (this.isNonBlockingApprovalRequired(identityRecord)) {
+      }
+      if (this.isNonBlockingApprovalRequired(identityRecord)) {
         window.log.info('Setting approval status...');
 
         identityRecord.nonblockingApproval = nonblockingApproval;

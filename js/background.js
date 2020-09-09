@@ -14,8 +14,6 @@
 
 // eslint-disable-next-line func-names
 (async function() {
-  'use strict';
-
   const eventHandlerQueue = new window.PQueue({ concurrency: 1 });
   Whisper.deliveryReceiptQueue = new window.PQueue({
     concurrency: 1,
@@ -817,7 +815,8 @@
         const target = toSearch[i];
         if (!unreadOnly) {
           return target.id;
-        } else if (target.unreadCount > 0) {
+        }
+        if (target.unreadCount > 0) {
           return target.id;
         }
       }

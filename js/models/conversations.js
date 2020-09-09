@@ -16,8 +16,6 @@
 
 // eslint-disable-next-line func-names
 (function() {
-  'use strict';
-
   window.Whisper = window.Whisper || {};
 
   const SEALED_SENDER = {
@@ -852,7 +850,7 @@
         { syncMessage: true }
       );
       const contactSendOptions = this.getSendOptions();
-      const options = Object.assign({}, sendOptions, contactSendOptions);
+      const options = { ...sendOptions, ...contactSendOptions };
 
       const promise = textsecure.storage.protocol.loadIdentityKey(e164);
       return promise.then(key =>

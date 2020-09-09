@@ -14,8 +14,6 @@
 
 // eslint-disable-next-line func-names
 (function() {
-  'use strict';
-
   const FIVE_MINUTES = 1000 * 60 * 5;
 
   window.Whisper = window.Whisper || {};
@@ -2717,14 +2715,15 @@
         Component: window.Signal.Components.Quote,
         elCallback: el =>
           this.$(this.compositionApi.current.attSlotRef.current).prepend(el),
-        props: Object.assign({}, props, {
+        props: {
+          ...props,
           withContentAbove: true,
           onClose: () => {
             // This can't be the normal 'onClose' because that is always run when this
             //   view is removed from the DOM, and would clear the draft quote.
             this.setQuoteMessage(null);
           },
-        }),
+        },
       });
     },
 

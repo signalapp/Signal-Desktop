@@ -2,8 +2,6 @@
 
 // eslint-disable-next-line func-names
 (function() {
-  'use strict';
-
   window.Whisper = window.Whisper || {};
 
   // TODO: take a title string which could replace the 'members' header

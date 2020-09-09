@@ -1,6 +1,5 @@
 /* eslint-env node */
 
-/* eslint strict: ['error', 'never'] */
 /* eslint-disable no-console */
 
 const electron = require('electron');

@@ -13,6 +13,7 @@ import {
   RingRTC,
   UserId,
 } from 'ringrtc';
+import is from '@sindresorhus/is';
 
 import {
   ActionsType as UxActionsType,
@@ -20,7 +21,6 @@ import {
 } from '../state/ducks/calling';
 import { CallingMessageClass, EnvelopeClass } from '../textsecure.d';
 import { ConversationModelType } from '../model-types.d';
-import is from '@sindresorhus/is';
 import {
   AudioDevice,
   CallHistoryDetailsType,
@@ -356,11 +356,12 @@ export class CallingClass {
     // infrared if they so desire)
     if (matchingId.length > 0) {
       return matchingId[0].deviceId;
-    } else if (nonInfrared.length > 0) {
-      return nonInfrared[0].deviceId;
-    } else {
-      return undefined;
     }
+    if (nonInfrared.length > 0) {
+      return nonInfrared[0].deviceId;
+    }
+
+    return undefined;
   }
 
   setPreferredMicrophone(device: AudioDevice): void {
@@ -471,12 +472,12 @@ export class CallingClass {
     if (microphonePermission) {
       if (isVideoCall) {
         return this.requestCameraPermissions();
-      } else {
-        return true;
       }
-    } else {
-      return false;
+
+      return true;
     }
+
+    return false;
   }
 
   private async handleOutgoingSignaling(

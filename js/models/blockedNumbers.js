@@ -2,8 +2,6 @@
 
 // eslint-disable-next-line func-names
 (function() {
-  'use strict';
-
   const BLOCKED_NUMBERS_ID = 'blocked';
   const BLOCKED_UUIDS_ID = 'blocked-uuids';
   const BLOCKED_GROUPS_ID = 'blocked-groups';

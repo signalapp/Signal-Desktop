@@ -459,12 +459,7 @@ async function writeQuoteThumbnails(quotedAttachments, options) {
   try {
     await Promise.all(
       _.map(quotedAttachments, (attachment, index) =>
-        writeQuoteThumbnail(
-          attachment,
-          Object.assign({}, options, {
-            index,
-          })
-        )
+        writeQuoteThumbnail(attachment, { ...options, index })
       )
     );
   } catch (error) {
@@ -531,12 +526,7 @@ async function writeAttachments(attachments, options) {
   const { name } = options;
 
   const promises = _.map(attachments, (attachment, index) =>
-    writeAttachment(
-      attachment,
-      Object.assign({}, options, {
-        index,
-      })
-    )
+    writeAttachment(attachment, { ...options, index })
   );
   try {
     await Promise.all(promises);
@@ -575,14 +565,7 @@ async function writeContactAvatars(contact, options) {
 
   try {
     await Promise.all(
-      _.map(contact, (item, index) =>
-        writeAvatar(
-          item,
-          Object.assign({}, options, {
-            index,
-          })
-        )
-      )
+      _.map(contact, (item, index) => writeAvatar(item, { ...options, index }))
     );
   } catch (error) {
     window.log.error(
@@ -620,12 +603,7 @@ async function writePreviews(preview, options) {
   try {
     await Promise.all(
       _.map(preview, (item, index) =>
-        writePreviewImage(
-          item,
-          Object.assign({}, options, {
-            index,
-          })
-        )
+        writePreviewImage(item, { ...options, index })
       )
     );
   } catch (error) {
@@ -1236,12 +1214,11 @@ async function exportToDirectory(directory, options) {
     const attachmentsDir = await createDirectory(directory, 'attachments');
 
     await exportConversationListToFile(stagingDir);
-    await exportConversations(
-      Object.assign({}, options, {
-        messagesDir: stagingDir,
-        attachmentsDir,
-      })
-    );
+    await exportConversations({
+      ...options,
+      messagesDir: stagingDir,
+      attachmentsDir,
+    });
 
     const archivePath = path.join(directory, ARCHIVE_NAME);
     await compressArchive(archivePath, stagingDir);
@@ -1281,10 +1258,7 @@ async function importFromDirectory(directory, options) {
       loadConversationLookup(),
     ]);
     const [messageLookup, conversationLookup] = lookups;
-    options = Object.assign({}, options, {
-      messageLookup,
-      conversationLookup,
-    });
+    options = { ...options, messageLookup, conversationLookup };
 
     const archivePath = path.join(directory, ARCHIVE_NAME);
     if (fs.existsSync(archivePath)) {
@@ -1312,11 +1286,9 @@ async function importFromDirectory(directory, options) {
         await decryptFile(archivePath, decryptedArchivePath, options);
         await decompressArchive(decryptedArchivePath, stagingDir);
 
-        options = Object.assign({}, options, {
-          attachmentsDir,
-        });
+        options = { ...options, attachmentsDir };
         const result = await importNonMessages(stagingDir, options);
-        await importConversations(stagingDir, Object.assign({}, options));
+        await importConversations(stagingDir, { ...options });
 
         window.log.info('Done importing from backup!');
         return result;

@@ -32,8 +32,6 @@ exports.migrateDataToFileSystem = async (
 
   const path = await writeNewAttachmentData(data);
 
-  const attachmentWithoutData = omit(Object.assign({}, attachment, { path }), [
-    'data',
-  ]);
+  const attachmentWithoutData = omit({ ...attachment, path }, ['data']);
   return attachmentWithoutData;
 };

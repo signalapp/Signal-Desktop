@@ -1,7 +1,5 @@
 // eslint-disable-next-line func-names
 (function() {
-  'use strict';
-
   window.Whisper = window.Whisper || {};
 
   const messageLookup = Object.create(null);

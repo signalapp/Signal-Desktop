@@ -1,8 +1,6 @@
 /* global $, Whisper */
 
 $(document).on('keydown', e => {
-  'use strict';
-
   if (e.keyCode === 27) {
     window.closeSettings();
   }
@@ -11,8 +9,6 @@ $(document).on('keydown', e => {
 const $body = $(document.body);
 
 async function applyTheme() {
-  'use strict';
-
   const theme = await window.getThemeSetting();
   $body.removeClass('light-theme');
   $body.removeClass('dark-theme');
@@ -22,12 +18,9 @@ async function applyTheme() {
 applyTheme();
 
 window.subscribeToSystemThemeChange(() => {
-  'use strict';
-
   applyTheme();
 });
 
-// eslint-disable-next-line strict
 const getInitialData = async () => ({
   deviceName: await window.getDeviceName(),
 
@@ -57,15 +50,11 @@ window.initialRequest = getInitialData();
 // eslint-disable-next-line more/no-then
 window.initialRequest.then(
   data => {
-    'use strict';
-
     window.initialData = data;
     window.view = new Whisper.SettingsView();
     window.view.$el.appendTo($body);
   },
   error => {
-    'use strict';
-
     window.log.error(
       'settings.initialRequest error:',
       error && error.stack ? error.stack : error
