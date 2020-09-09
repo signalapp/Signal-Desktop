@@ -18,6 +18,7 @@ import { ContactRecordIdentityState, TextSecureType } from './textsecure.d';
 import { WebAPIConnectType } from './textsecure/WebAPI';
 import { CallingClass } from './services/calling';
 import * as Crypto from './Crypto';
+import * as RemoteConfig from './RemoteConfig';
 import { LocalizerType } from './types/Util';
 import { CallHistoryDetailsType } from './types/Calling';
 import { ColorType } from './types/Colors';
@@ -92,6 +93,7 @@ declare global {
           trustRoot: ArrayBuffer
         ) => CertificateValidatorType;
       };
+      RemoteConfig: typeof RemoteConfig;
       Services: {
         calling: CallingClass;
       };

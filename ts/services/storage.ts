@@ -1,4 +1,3 @@
-/* tslint:disable no-backbone-get-set-outside-model */
 import _ from 'lodash';
 import pMap from 'p-map';
 
@@ -18,6 +17,7 @@ import {
   StorageRecordClass,
 } from '../textsecure.d';
 import { ConversationModelType } from '../model-types.d';
+import { isEnabled } from '../RemoteConfig';
 import {
   mergeAccountRecord,
   mergeContactRecord,
@@ -34,7 +34,31 @@ const {
   updateConversation,
 } = dataInterface;
 
+let consecutiveStops = 0;
 let consecutiveConflicts = 0;
+
+type BackoffType = {
+  [key: number]: number | undefined;
+  max: number;
+};
+const SECOND = 1000;
+const MINUTE = 60 * SECOND;
+const BACKOFF: BackoffType = {
+  0: SECOND,
+  1: 5 * SECOND,
+  2: 30 * SECOND,
+  3: 2 * MINUTE,
+  max: 5 * MINUTE,
+};
+
+function backOff(count: number) {
+  const ms = BACKOFF[count] || BACKOFF.max;
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+}
 
 type UnknownRecord = {
   itemType: number;
@@ -133,7 +157,7 @@ async function generateManifest(
     } else if ((conversation.get('groupVersion') || 0) > 1) {
       storageRecord = new window.textsecure.protobuf.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
-      storageRecord.groupV1 = await toGroupV2Record(conversation);
+      storageRecord.groupV2 = await toGroupV2Record(conversation);
       identifier.type = ITEM_TYPE.GROUPV2;
     } else {
       storageRecord = new window.textsecure.protobuf.StorageRecord();
@@ -271,10 +295,6 @@ async function uploadManifest(
     );
 
     if (err.code === 409) {
-      window.log.info(
-        `storageService.uploadManifest: Conflict found, running sync job times(${consecutiveConflicts})`
-      );
-
       if (consecutiveConflicts > 3) {
         window.log.error(
           'storageService.uploadManifest: Exceeded maximum consecutive conflicts'
@@ -282,6 +302,10 @@ async function uploadManifest(
         return;
       }
       consecutiveConflicts += 1;
+
+      window.log.info(
+        `storageService.uploadManifest: Conflict found, running sync job times(${consecutiveConflicts})`
+      );
 
       throw err;
     }
@@ -295,6 +319,7 @@ async function uploadManifest(
   );
   window.storage.put('manifestVersion', version);
   consecutiveConflicts = 0;
+  consecutiveStops = 0;
   await window.textsecure.messaging.sendFetchManifestSyncMessage();
 }
 
@@ -303,11 +328,21 @@ async function stopStorageServiceSync() {
 
   await window.storage.remove('storageKey');
 
-  if (!window.textsecure.messaging) {
-    throw new Error('storageService.stopStorageServiceSync: We are offline!');
+  if (consecutiveStops < 5) {
+    await backOff(consecutiveStops);
+    window.log.info(
+      'storageService.stopStorageServiceSync: requesting new keys'
+    );
+    consecutiveStops += 1;
+    setTimeout(() => {
+      if (!window.textsecure.messaging) {
+        throw new Error(
+          'storageService.stopStorageServiceSync: We are offline!'
+        );
+      }
+      window.textsecure.messaging.sendRequestKeySyncMessage();
+    });
   }
-
-  await window.textsecure.messaging.sendRequestKeySyncMessage();
 }
 
 async function createNewManifest() {
@@ -538,6 +573,9 @@ async function processManifest(
       const { key, value: storageItemCiphertext } = storageRecordWrapper;
 
       if (!key || !storageItemCiphertext) {
+        window.log.error(
+          'storageService.processManifest: No key or Ciphertext available'
+        );
         await stopStorageServiceSync();
         throw new Error(
           'storageService.processManifest: Missing key and/or Ciphertext'
@@ -558,6 +596,9 @@ async function processManifest(
           storageItemKey
         );
       } catch (err) {
+        window.log.error(
+          'storageService.processManifest: Error decrypting storage item'
+        );
         await stopStorageServiceSync();
         throw err;
       }
@@ -623,6 +664,10 @@ async function processManifest(
 // Exported functions
 
 export async function runStorageServiceSyncJob(): Promise<void> {
+  if (!isEnabled('desktop.storage')) {
+    return;
+  }
+
   if (!window.storage.get('storageKey')) {
     throw new Error(
       'storageService.runStorageServiceSyncJob: Cannot start; no storage key!'
@@ -692,10 +737,23 @@ export async function eraseAllStorageServiceState(): Promise<void> {
 }
 
 async function nondebouncedStorageServiceUploadJob(): Promise<void> {
+  if (!isEnabled('desktop.storage')) {
+    return;
+  }
+
+  if (!window.textsecure.messaging) {
+    throw new Error('storageService.storageServiceUploadJob: We are offline!');
+  }
+
   if (!window.storage.get('storageKey')) {
-    throw new Error(
-      'storageService.storageServiceUploadJob: Cannot start; no storage key!'
+    // requesting new keys runs the sync job which will detect the conflict
+    // and re-run the upload job once we're merged and up-to-date.
+    window.log.info(
+      'storageService.storageServiceUploadJob: no storageKey, requesting new keys'
     );
+    consecutiveStops = 0;
+    await window.textsecure.messaging.sendRequestKeySyncMessage();
+    return;
   }
 
   const localManifestVersion = window.storage.get('manifestVersion') || 0;
@@ -710,6 +768,7 @@ async function nondebouncedStorageServiceUploadJob(): Promise<void> {
     await uploadManifest(version, await generateManifest(version));
   } catch (err) {
     if (err.code === 409) {
+      await backOff(consecutiveConflicts);
       await runStorageServiceSyncJob();
     }
   }

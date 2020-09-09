@@ -5,6 +5,7 @@ type ConfigKeyType =
   | 'desktop.messageRequests'
   | 'desktop.gv2'
   | 'desktop.cds'
+  | 'desktop.storage'
   | 'desktop.clientExpiration';
 type ConfigValueType = {
   name: ConfigKeyType;
