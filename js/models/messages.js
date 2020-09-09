@@ -872,41 +872,43 @@
       //   that contact. Otherwise, it will be a standalone entry.
       const errors = _.reject(allErrors, error => Boolean(error.number));
       const errorsGroupedById = _.groupBy(allErrors, 'number');
-      const finalContacts = await Promise.all((phoneNumbers || []).map(async id => {
-        const errorsForContact = errorsGroupedById[id];
-        const isOutgoingKeyError = Boolean(
-          _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
-        );
-        const isUnidentifiedDelivery =
-          storage.get('unidentifiedDeliveryIndicators') &&
-          this.isUnidentifiedDelivery(id, unidentifiedLookup);
-        const primary = await window.libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
-          id
-        );
+      const finalContacts = await Promise.all(
+        (phoneNumbers || []).map(async id => {
+          const errorsForContact = errorsGroupedById[id];
+          const isOutgoingKeyError = Boolean(
+            _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
+          );
+          const isUnidentifiedDelivery =
+            storage.get('unidentifiedDeliveryIndicators') &&
+            this.isUnidentifiedDelivery(id, unidentifiedLookup);
+          const primary = await window.libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+            id
+          );
 
-        const isPrimaryDevice = id === primary.key;
+          const isPrimaryDevice = id === primary.key;
 
-        const contact = this.findAndFormatContact(id);
-        const profileName = isPrimaryDevice
-          ? contact.profileName
-          : `${contact.profileName} (Secondary Device)`;
-        return {
-          ...contact,
-          status: this.getStatus(id),
-          errors: errorsForContact,
-          isOutgoingKeyError,
-          isUnidentifiedDelivery,
-          isPrimaryDevice,
-          profileName,
-          onSendAnyway: () =>
-            this.trigger('force-send', {
-              contact: this.findContact(id),
-              message: this,
-            }),
-          onShowSafetyNumber: () =>
-            this.trigger('show-identity', this.findContact(id)),
-        };
-      }));
+          const contact = this.findAndFormatContact(id);
+          const profileName = isPrimaryDevice
+            ? contact.profileName
+            : `${contact.profileName} (Secondary Device)`;
+          return {
+            ...contact,
+            status: this.getStatus(id),
+            errors: errorsForContact,
+            isOutgoingKeyError,
+            isUnidentifiedDelivery,
+            isPrimaryDevice,
+            profileName,
+            onSendAnyway: () =>
+              this.trigger('force-send', {
+                contact: this.findContact(id),
+                message: this,
+              }),
+            onShowSafetyNumber: () =>
+              this.trigger('show-identity', this.findContact(id)),
+          };
+        })
+      );
 
       // The prefix created here ensures that contacts with errors are listed
       //   first; otherwise it's alphabetical

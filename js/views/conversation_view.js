@@ -1511,7 +1511,8 @@
         onClose,
       });
 
-      const update = async () => view.update(await message.getPropsForMessageDetail());
+      const update = async () =>
+        view.update(await message.getPropsForMessageDetail());
       this.listenTo(message, 'change', update);
       this.listenTo(message, 'expired', onClose);
       // We could listen to all involved contacts, but we'll call that overkill
