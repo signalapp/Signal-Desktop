@@ -151,11 +151,12 @@ type StorageServiceProtobufTypes = {
   GroupV1Record: typeof GroupV1RecordClass;
   GroupV2Record: typeof GroupV2RecordClass;
   ManifestRecord: typeof ManifestRecordClass;
-  ReadOperation: typeof ReadOperation;
+  ReadOperation: typeof ReadOperationClass;
   StorageItem: typeof StorageItemClass;
   StorageItems: typeof StorageItemsClass;
-  StorageManifest: typeof StorageManifest;
+  StorageManifest: typeof StorageManifestClass;
   StorageRecord: typeof StorageRecordClass;
+  WriteOperation: typeof WriteOperationClass;
 };
 
 type ProtobufCollectionType = StorageServiceProtobufTypes & {
@@ -490,23 +491,23 @@ declare enum ManifestType {
   ACCOUNT,
 }
 
-type ManifestRecordIdentifier = {
+export declare class ManifestRecordIdentifierClass {
+  static Type: typeof ManifestType;
   raw: ProtoBinaryType;
   type: ManifestType;
-};
+  toArrayBuffer: () => ArrayBuffer;
+}
 
 export declare class ManifestRecordClass {
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
   ) => ManifestRecordClass;
-
-  static Identifier: {
-    Type: typeof ManifestType;
-  };
+  toArrayBuffer: () => ArrayBuffer;
+  static Identifier: typeof ManifestRecordIdentifierClass;
 
   version: ProtoBigNumberType;
-  keys: ManifestRecordIdentifier[];
+  keys: ManifestRecordIdentifierClass[];
 }
 
 export declare class NullMessageClass {
@@ -579,14 +580,14 @@ export declare namespace ReceiptMessageClass {
 
 // Storage Service related types
 
-declare class StorageManifest {
+export declare class StorageManifestClass {
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
-  ) => StorageManifest;
+  ) => StorageManifestClass;
 
   version?: ProtoBigNumberType | null;
-  value?: ByteBufferClass | null;
+  value?: ProtoBinaryType;
 }
 
 export declare class StorageRecordClass {
@@ -594,6 +595,7 @@ export declare class StorageRecordClass {
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
   ) => StorageRecordClass;
+  toArrayBuffer: () => ArrayBuffer;
 
   contact?: ContactRecordClass | null;
   groupV1?: GroupV1RecordClass | null;
@@ -607,8 +609,8 @@ export declare class StorageItemClass {
     encoding?: string
   ) => StorageItemClass;
 
-  key?: ByteBufferClass | null;
-  value?: ByteBufferClass | null;
+  key?: ProtoBinaryType;
+  value?: ProtoBinaryType;
 }
 
 export declare class StorageItemsClass {
@@ -633,11 +635,12 @@ export declare class ContactRecordClass {
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
   ) => ContactRecordClass;
+  toArrayBuffer: () => ArrayBuffer;
 
   serviceUuid?: string | null;
   serviceE164?: string | null;
-  profileKey?: ByteBufferClass | null;
-  identityKey?: ByteBufferClass | null;
+  profileKey?: ProtoBinaryType;
+  identityKey?: ProtoBinaryType;
   identityState?: ContactRecordIdentityState | null;
   givenName?: string | null;
   familyName?: string | null;
@@ -645,6 +648,8 @@ export declare class ContactRecordClass {
   blocked?: boolean | null;
   whitelisted?: boolean | null;
   archived?: boolean | null;
+
+  __unknownFields?: ArrayBuffer;
 }
 
 export declare class GroupV1RecordClass {
@@ -652,11 +657,14 @@ export declare class GroupV1RecordClass {
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
   ) => GroupV1RecordClass;
+  toArrayBuffer: () => ArrayBuffer;
 
-  id?: ByteBufferClass | null;
+  id?: ProtoBinaryType;
   blocked?: boolean | null;
   whitelisted?: boolean | null;
   archived?: boolean | null;
+
+  __unknownFields?: ArrayBuffer;
 }
 
 export declare class GroupV2RecordClass {
@@ -664,11 +672,14 @@ export declare class GroupV2RecordClass {
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
   ) => GroupV2RecordClass;
+  toArrayBuffer: () => ArrayBuffer;
 
   masterKey?: ByteBufferClass | null;
   blocked?: boolean | null;
   whitelisted?: boolean | null;
   archived?: boolean | null;
+
+  __unknownFields?: ArrayBuffer;
 }
 
 export declare class AccountRecordClass {
@@ -676,8 +687,9 @@ export declare class AccountRecordClass {
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
   ) => AccountRecordClass;
+  toArrayBuffer: () => ArrayBuffer;
 
-  profileKey?: ByteBufferClass | null;
+  profileKey?: ProtoBinaryType;
   givenName?: string | null;
   familyName?: string | null;
   avatarUrl?: string | null;
@@ -686,16 +698,31 @@ export declare class AccountRecordClass {
   sealedSenderIndicators?: boolean | null;
   typingIndicators?: boolean | null;
   linkPreviews?: boolean | null;
+
+  __unknownFields?: ArrayBuffer;
 }
 
-declare class ReadOperation {
+declare class ReadOperationClass {
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
-  ) => ReadOperation;
+  ) => ReadOperationClass;
 
   readKey: ArrayBuffer[] | ByteBufferClass[];
   toArrayBuffer: () => ArrayBuffer;
+}
+
+declare class WriteOperationClass {
+  static decode: (
+    data: ArrayBuffer | ByteBufferClass,
+    encoding?: string
+  ) => WriteOperationClass;
+  toArrayBuffer: () => ArrayBuffer;
+
+  manifest: StorageManifestClass;
+  insertItem: StorageItemClass[];
+  deleteKey: ArrayBuffer[] | ByteBufferClass[];
+  clearAll: boolean;
 }
 
 export declare class SyncMessageClass {
@@ -770,6 +797,11 @@ export declare namespace SyncMessageClass {
     timestamp?: ProtoBinaryType;
   }
   class FetchLatest {
+    static Type: {
+      UNKNOWN: number;
+      LOCAL_PROFILE: number;
+      STORAGE_MANIFEST: number;
+    };
     type?: number;
   }
   class Keys {

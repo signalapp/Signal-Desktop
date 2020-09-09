@@ -701,6 +701,7 @@ export type WebAPIType = {
     targetUrl: string,
     options?: ProxiedRequestOptionsType
   ) => Promise<any>;
+  modifyStorageRecords: MessageSender['modifyStorageRecords'];
   putAttachment: (encryptedBin: ArrayBuffer) => Promise<any>;
   registerCapabilities: (capabilities: any) => Promise<void>;
   putStickers: (
@@ -860,6 +861,7 @@ export function initialize({
       getStorageRecords,
       getUuidsForE164s,
       makeProxiedRequest,
+      modifyStorageRecords,
       putAttachment,
       registerCapabilities,
       putStickers,
@@ -1007,6 +1009,25 @@ export function initialize({
         data,
         host: storageUrl,
         httpType: 'PUT',
+        responseType: 'arraybuffer',
+        ...credentials,
+      });
+    }
+
+    async function modifyStorageRecords(
+      data: ArrayBuffer,
+      options: StorageServiceCallOptionsType = {}
+    ): Promise<ArrayBuffer> {
+      const { credentials } = options;
+
+      return _ajax({
+        call: 'storageModify',
+        contentType: 'application/x-protobuf',
+        data,
+        host: storageUrl,
+        httpType: 'PUT',
+        // If we run into a conflict, the current manifest is returned -
+        //   it will will be an ArrayBuffer at the response key on the Error
         responseType: 'arraybuffer',
         ...credentials,
       });

@@ -549,7 +549,7 @@
         window.isBeforeVersion(lastVersion, 'v1.35.0-beta.11') &&
         window.isAfterVersion(lastVersion, 'v1.35.0-beta.1')
       ) {
-        await window.Signal.Util.eraseAllStorageServiceState();
+        await window.Signal.Services.eraseAllStorageServiceState();
       }
 
       // This one should always be last - it could restart the app
@@ -2818,7 +2818,7 @@
         break;
       case FETCH_LATEST_ENUM.STORAGE_MANIFEST:
         window.log.info('onFetchLatestSync: fetching latest manifest');
-        await window.Signal.Util.runStorageServiceSyncJob();
+        await window.Signal.Services.runStorageServiceSyncJob();
         break;
       default:
         window.log.info(
@@ -2832,6 +2832,11 @@
 
     const { storageServiceKey } = ev;
 
+    if (storageServiceKey === null) {
+      window.log.info('onKeysSync: deleting storageKey');
+      storage.remove('storageKey');
+    }
+
     if (storageServiceKey) {
       window.log.info('onKeysSync: received keys');
       const storageServiceKeyBase64 = window.Signal.Crypto.arrayBufferToBase64(
@@ -2839,7 +2844,7 @@
       );
       storage.put('storageKey', storageServiceKeyBase64);
 
-      await window.Signal.Util.runStorageServiceSyncJob();
+      await window.Signal.Services.runStorageServiceSyncJob();
     }
   }
 

@@ -104,7 +104,7 @@ const dataInterface: ServerInterface = {
   updateConversation,
   updateConversations,
   removeConversation,
-  eraseStorageIdFromConversations,
+  eraseStorageServiceStateFromConversations,
   getAllConversations,
   getAllConversationIds,
   getAllPrivateConversations,
@@ -2243,12 +2243,12 @@ async function getConversationById(id: string) {
   return jsonToObject(row.json);
 }
 
-async function eraseStorageIdFromConversations() {
+async function eraseStorageServiceStateFromConversations() {
   const db = getInstance();
 
   await db.run(
     `UPDATE conversations SET
-      json = json_remove(json, '$.storageID');
+      json = json_remove(json, '$.storageID', '$.needsStorageServiceSync', '$.unknownFields');
     `
   );
 }

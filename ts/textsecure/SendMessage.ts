@@ -823,7 +823,35 @@ export default class MessageSender {
     return Promise.resolve();
   }
 
-  async sendRequestKeySyncMessage(options: SendOptionsType) {
+  async sendFetchManifestSyncMessage(options?: SendOptionsType) {
+    const myUuid = window.textsecure.storage.user.getUuid();
+    const myNumber = window.textsecure.storage.user.getNumber();
+    const myDevice = window.textsecure.storage.user.getDeviceId();
+
+    if (myDevice === 1 || myDevice === '1') {
+      return;
+    }
+
+    const fetchLatest = new window.textsecure.protobuf.SyncMessage.FetchLatest();
+    fetchLatest.type =
+      window.textsecure.protobuf.SyncMessage.FetchLatest.Type.STORAGE_MANIFEST;
+
+    const syncMessage = this.createSyncMessage();
+    syncMessage.fetchLatest = fetchLatest;
+    const contentMessage = new window.textsecure.protobuf.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const silent = true;
+    await this.sendIndividualProto(
+      myUuid || myNumber,
+      contentMessage,
+      Date.now(),
+      silent,
+      options
+    );
+  }
+
+  async sendRequestKeySyncMessage(options?: SendOptionsType) {
     const myUuid = window.textsecure.storage.user.getUuid();
     const myNumber = window.textsecure.storage.user.getNumber();
     const myDevice = window.textsecure.storage.user.getDeviceId();
@@ -1693,5 +1721,12 @@ export default class MessageSender {
     options: StorageServiceCallOptionsType
   ): Promise<ArrayBuffer> {
     return this.server.getStorageRecords(data, options);
+  }
+
+  async modifyStorageRecords(
+    data: ArrayBuffer,
+    options: StorageServiceCallOptionsType
+  ): Promise<ArrayBuffer> {
+    return this.server.modifyStorageRecords(data, options);
   }
 }

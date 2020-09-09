@@ -25,7 +25,7 @@
     UNRESTRICTED: 3,
   };
 
-  const { Util } = window.Signal;
+  const { Services, Util } = window.Signal;
   const { Contact, Message } = window.Signal.Types;
   const {
     deleteAttachmentData,
@@ -234,48 +234,84 @@
       return false;
     },
 
-    block() {
+    block({ viaStorageServiceSync = false } = {}) {
+      let blocked = false;
+      const isBlocked = this.isBlocked();
+
       const uuid = this.get('uuid');
       if (uuid) {
         window.storage.addBlockedUuid(uuid);
+        blocked = true;
       }
 
       const e164 = this.get('e164');
       if (e164) {
         window.storage.addBlockedNumber(e164);
+        blocked = true;
       }
 
       const groupId = this.get('groupId');
       if (groupId) {
         window.storage.addBlockedGroup(groupId);
+        blocked = true;
+      }
+
+      if (!viaStorageServiceSync && !isBlocked && blocked) {
+        this.captureChange();
       }
     },
 
-    unblock() {
+    unblock({ viaStorageServiceSync = false } = {}) {
+      let unblocked = false;
+      const isBlocked = this.isBlocked();
+
       const uuid = this.get('uuid');
       if (uuid) {
         window.storage.removeBlockedUuid(uuid);
+        unblocked = true;
       }
 
       const e164 = this.get('e164');
       if (e164) {
         window.storage.removeBlockedNumber(e164);
+        unblocked = true;
       }
 
       const groupId = this.get('groupId');
       if (groupId) {
         window.storage.removeBlockedGroup(groupId);
+        unblocked = true;
       }
 
-      return false;
+      if (!viaStorageServiceSync && isBlocked && unblocked) {
+        this.captureChange();
+      }
+
+      return unblocked;
     },
 
-    enableProfileSharing() {
+    enableProfileSharing({ viaStorageServiceSync = false } = {}) {
+      const before = this.get('profileSharing');
+
       this.set({ profileSharing: true });
+
+      const after = this.get('profileSharing');
+
+      if (!viaStorageServiceSync && Boolean(before) !== Boolean(after)) {
+        this.captureChange();
+      }
     },
 
-    disableProfileSharing() {
+    disableProfileSharing({ viaStorageServiceSync = false } = {}) {
+      const before = this.get('profileSharing');
+
       this.set({ profileSharing: false });
+
+      const after = this.get('profileSharing');
+
+      if (!viaStorageServiceSync && Boolean(before) !== Boolean(after)) {
+        this.captureChange();
+      }
     },
 
     hasDraft() {
@@ -662,7 +698,10 @@
       } while (messages.length > 0);
     },
 
-    async applyMessageRequestResponse(response, { fromSync = false } = {}) {
+    async applyMessageRequestResponse(
+      response,
+      { fromSync = false, viaStorageServiceSync = false } = {}
+    ) {
       // Apply message request response locally
       this.set({
         messageRequestResponseType: response,
@@ -670,8 +709,8 @@
       window.Signal.Data.updateConversation(this.attributes);
 
       if (response === this.messageRequestEnum.ACCEPT) {
-        this.unblock();
-        this.enableProfileSharing();
+        this.unblock({ viaStorageServiceSync });
+        this.enableProfileSharing({ viaStorageServiceSync });
 
         if (!fromSync) {
           this.sendProfileKeyUpdate();
@@ -680,13 +719,13 @@
         }
       } else if (response === this.messageRequestEnum.BLOCK) {
         // Block locally, other devices should block upon receiving the sync message
-        this.block();
-        this.disableProfileSharing();
+        this.block({ viaStorageServiceSync });
+        this.disableProfileSharing({ viaStorageServiceSync });
       } else if (response === this.messageRequestEnum.DELETE) {
         // Delete messages locally, other devices should delete upon receiving
         // the sync message
         this.destroyMessages();
-        this.disableProfileSharing();
+        this.disableProfileSharing({ viaStorageServiceSync });
         this.updateLastMessage();
         if (!fromSync) {
           this.trigger('unload', 'deleted from message request');
@@ -695,10 +734,10 @@
         // Delete messages locally, other devices should delete upon receiving
         // the sync message
         this.destroyMessages();
-        this.disableProfileSharing();
+        this.disableProfileSharing({ viaStorageServiceSync });
         this.updateLastMessage();
         // Block locally, other devices should block upon receiving the sync message
-        this.block();
+        this.block({ viaStorageServiceSync });
         // Leave group if this was a local action
         if (!fromSync) {
           this.leaveGroup();
@@ -780,6 +819,7 @@
     async _setVerified(verified, providedOptions) {
       const options = providedOptions || {};
       _.defaults(options, {
+        viaStorageServiceSync: false,
         viaSyncMessage: false,
         viaContactSync: false,
         key: null,
@@ -813,6 +853,14 @@
 
       this.set({ verified });
       window.Signal.Data.updateConversation(this.attributes);
+
+      if (
+        !options.viaStorageServiceSync &&
+        !keyChange &&
+        beginningVerified !== verified
+      ) {
+        this.captureChange();
+      }
 
       // Three situations result in a verification notice in the conversation:
       //   1) The message came from an explicit verification in another client (not
@@ -1982,9 +2030,17 @@
       window.Signal.Data.updateConversation(this.attributes);
     },
 
-    async setArchived(isArchived) {
+    setArchived(isArchived) {
+      const before = this.get('isArchived');
+
       this.set({ isArchived });
       window.Signal.Data.updateConversation(this.attributes);
+
+      const after = this.get('isArchived');
+
+      if (Boolean(before) !== Boolean(after)) {
+        this.captureChange();
+      }
     },
 
     async updateExpirationTimer(
@@ -2573,7 +2629,7 @@
       }
 
       try {
-        await c.setProfileName(profile.name);
+        await c.setEncryptedProfileName(profile.name);
       } catch (error) {
         window.log.warn(
           'getProfile decryption failure:',
@@ -2598,7 +2654,7 @@
 
       window.Signal.Data.updateConversation(c.attributes);
     },
-    async setProfileName(encryptedName) {
+    async setEncryptedProfileName(encryptedName) {
       if (!encryptedName) {
         return;
       }
@@ -2648,6 +2704,10 @@
         return;
       }
 
+      if (this.isMe()) {
+        window.storage.put('avatarUrl', avatarPath);
+      }
+
       const avatar = await textsecure.messaging.getAvatar(avatarPath);
       const key = this.get('profileKey');
       if (!key) {
@@ -2675,7 +2735,7 @@
         this.set(newAttributes);
       }
     },
-    async setProfileKey(profileKey) {
+    async setProfileKey(profileKey, { viaStorageServiceSync = false } = {}) {
       // profileKey is a string so we can compare it directly
       if (this.get('profileKey') !== profileKey) {
         window.log.info(
@@ -2688,6 +2748,10 @@
           accessKey: null,
           sealedSender: SEALED_SENDER.UNKNOWN,
         });
+
+        if (!viaStorageServiceSync) {
+          this.captureChange();
+        }
 
         await Promise.all([
           this.deriveAccessKeyIfNeeded(),
@@ -2881,6 +2945,25 @@
       }
 
       return null;
+    },
+
+    // Set of items to captureChanges on:
+    // [-] uuid
+    // [-] e164
+    // [X] profileKey
+    // [-] identityKey
+    // [X] verified!
+    // [-] profileName
+    // [-] profileFamilyName
+    // [X] blocked
+    // [X] whitelisted
+    // [X] archived
+    captureChange() {
+      this.set({ needsStorageServiceSync: true });
+
+      this.queueJob(() => {
+        Services.storageServiceUploadJob();
+      });
     },
 
     async notify(message, reaction) {

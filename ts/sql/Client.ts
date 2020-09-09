@@ -129,7 +129,7 @@ const dataInterface: ClientInterface = {
   updateConversations,
   removeConversation,
 
-  eraseStorageIdFromConversations,
+  eraseStorageServiceStateFromConversations,
   getAllConversations,
   getAllConversationIds,
   getAllPrivateConversations,
@@ -773,8 +773,8 @@ async function _removeConversations(ids: Array<string>) {
   await channels.removeConversation(ids);
 }
 
-async function eraseStorageIdFromConversations() {
-  await channels.eraseStorageIdFromConversations();
+async function eraseStorageServiceStateFromConversations() {
+  await channels.eraseStorageServiceStateFromConversations();
 }
 
 async function getAllConversations({

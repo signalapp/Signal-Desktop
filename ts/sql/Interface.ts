@@ -67,7 +67,7 @@ export interface DataInterface {
   removeAllSessions: () => Promise<void>;
   getAllSessions: () => Promise<Array<SessionType>>;
 
-  eraseStorageIdFromConversations: () => Promise<void>;
+  eraseStorageServiceStateFromConversations: () => Promise<void>;
   getConversationCount: () => Promise<number>;
   saveConversation: (data: ConversationType) => Promise<void>;
   saveConversations: (array: Array<ConversationType>) => Promise<void>;

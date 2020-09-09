@@ -58,16 +58,25 @@ type ConversationAttributesType = {
   isArchived?: boolean;
   lastMessage?: string;
   members?: Array<string>;
+  needsStorageServiceSync?: boolean;
   needsVerification?: boolean;
   profileFamilyName?: string | null;
   profileKey?: string | null;
   profileName?: string | null;
   profileSharing: boolean;
   storageID?: string;
+  storageUnknownFields: string;
   type: ConversationTypeType;
   unreadCount?: number;
   verified?: number;
   version: number;
+};
+
+type VerificationOptions = {
+  key?: null | ArrayBuffer;
+  viaContactSync?: boolean;
+  viaStorageServiceSync?: boolean;
+  viaSyncMessage?: boolean;
 };
 
 export declare class ConversationModelType extends Backbone.Model<
@@ -81,11 +90,12 @@ export declare class ConversationModelType extends Backbone.Model<
   addCallHistory(details: CallHistoryDetailsType): void;
   applyMessageRequestResponse(
     response: number,
-    options?: { fromSync: boolean }
+    options?: { fromSync: boolean; viaStorageServiceSync?: boolean }
   ): void;
   cleanup(): Promise<void>;
-  disableProfileSharing(): void;
+  disableProfileSharing(options?: { viaStorageServiceSync?: boolean }): void;
   dropProfileKey(): Promise<void>;
+  enableProfileSharing(options?: { viaStorageServiceSync?: boolean }): void;
   generateProps(): void;
   getAccepted(): boolean;
   getAvatarPath(): string | undefined;
@@ -99,11 +109,23 @@ export declare class ConversationModelType extends Backbone.Model<
   getTitle(): string;
   idForLogging(): string;
   isFromOrAddedByTrustedContact(): boolean;
+  isBlocked(): boolean;
+  isMe(): boolean;
+  isPrivate(): boolean;
   isVerified(): boolean;
   safeGetVerified(): Promise<number>;
-  setProfileKey(profileKey?: string | null): Promise<void>;
+  setArchived(isArchived: boolean): void;
+  setProfileKey(
+    profileKey?: string | null,
+    options?: { viaStorageServiceSync?: boolean }
+  ): Promise<void>;
+  setProfileAvatar(avatarPath: string): Promise<void>;
+  setUnverified(options: VerificationOptions): Promise<TaskResultType>;
+  setVerified(options: VerificationOptions): Promise<TaskResultType>;
+  setVerifiedDefault(options: VerificationOptions): Promise<TaskResultType>;
   toggleVerified(): Promise<TaskResultType>;
-  unblock(): boolean | undefined;
+  block(options?: { viaStorageServiceSync?: boolean }): void;
+  unblock(options?: { viaStorageServiceSync?: boolean }): boolean;
   updateE164: (e164?: string) => void;
   updateLastMessage: () => Promise<void>;
   updateUuid: (uuid?: string) => void;

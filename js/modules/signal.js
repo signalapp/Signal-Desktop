@@ -116,6 +116,12 @@ const {
 } = require('../../ts/services/updateListener');
 const { notify } = require('../../ts/services/notify');
 const { calling } = require('../../ts/services/calling');
+const {
+  eraseAllStorageServiceState,
+  handleUnknownRecords,
+  runStorageServiceSyncJob,
+  storageServiceUploadJob,
+} = require('../../ts/services/storage');
 
 function initializeMigrations({
   userDataPath,
@@ -324,10 +330,14 @@ exports.setup = (options = {}) => {
   };
 
   const Services = {
+    calling,
+    eraseAllStorageServiceState,
+    handleUnknownRecords,
     initializeNetworkObserver,
     initializeUpdateListener,
     notify,
-    calling,
+    runStorageServiceSyncJob,
+    storageServiceUploadJob,
   };
 
   const State = {
