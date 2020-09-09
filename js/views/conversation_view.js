@@ -391,7 +391,10 @@
       this.window.addEventListener('resize', this.onResize);
 
       this.onFocus = () => {
-        if (this.$el.css('display') !== 'none') {
+        if (
+          this.$el.css('display') !== 'none' &&
+          this.$el.css('display') !== ''
+        ) {
           this.markRead();
         }
       };

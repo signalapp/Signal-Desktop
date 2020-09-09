@@ -65,7 +65,8 @@ function createTrayIcon(getMainWindow, messages) {
     trayContextMenu = Menu.buildFromTemplate([
       {
         id: 'toggleWindowVisibility',
-        label: messages[mainWindow.isVisible() ? 'appMenuHide' : 'show'].message,
+        label:
+          messages[mainWindow.isVisible() ? 'appMenuHide' : 'show'].message,
         click: tray.toggleWindowVisibility,
       },
       {
