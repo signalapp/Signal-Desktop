@@ -1318,7 +1318,7 @@
   flex-direction: column;
   flex-grow: 1;
   width: 100%;
-  height: 100%;
+  overflow: hidden;
 }
 
 .module-media-gallery__tab-container {
