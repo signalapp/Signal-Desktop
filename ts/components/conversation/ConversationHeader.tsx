@@ -389,7 +389,7 @@ export class ConversationHeader extends React.Component<Props> {
 
   public render() {
     const { id, isKickedFromGroup } = this.props;
-    const triggerId = `conversation-${id}-${Date.now()}`;
+    const triggerId = `conversation-header-${id}`;
 
     return (
       <>
@@ -475,6 +475,7 @@ export class ConversationHeader extends React.Component<Props> {
       isPublic,
       isRss,
       isGroup,
+      isBlocked,
       onResetSession,
       i18n
     );

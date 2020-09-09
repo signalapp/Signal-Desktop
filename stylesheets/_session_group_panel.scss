@@ -132,7 +132,9 @@
             margin: 0 auto;
             width: 70%;
             padding-top: 0.5rem;
-            border-bottom: $session-element-border-green;
+            @include themify($themes) {
+              border-bottom: themed('sessionUnreadBorder');
+            }
           }
         }
       }

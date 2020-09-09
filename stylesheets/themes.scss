@@ -41,6 +41,7 @@ $themes: (
     conversationItemSelected: #f0f0f0,
     clickableHovered: #dfdfdf,
     sessionBorder: 1px solid #f1f1f1,
+    sessionUnreadBorder: 4px solid $accentLightTheme,
     leftpaneOverlayBackground: $white,
     // scrollbars
       scrollBarTrack: #fcfcfc,
@@ -91,6 +92,7 @@ $themes: (
     conversationItemSelected: #404040,
     clickableHovered: #414347,
     sessionBorder: 1px solid rgba($white, 0.06),
+    sessionUnreadBorder: 4px solid $accentDarkTheme,
     leftpaneOverlayBackground: linear-gradient(180deg, #171717 0%, #121212 100%),
     // scrollbars
       scrollBarTrack: #1b1b1b,

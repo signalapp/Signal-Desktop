@@ -48,8 +48,8 @@ $session-compose-margin: 20px;
     }
 
     &--has-unread {
-      border-left: $session-element-border-green !important;
       @include themify($themes) {
+        border-left: themed('sessionUnreadBorder');
         background: themed('conversationItemHasUnread');
       }
     }
