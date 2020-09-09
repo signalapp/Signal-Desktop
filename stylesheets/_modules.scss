@@ -1520,6 +1520,12 @@
   .module-avatar {
     background-color: $color-dark-85;
   }
+
+  &--is-blocked {
+    @include themify($themes) {
+      border-left: 4px solid themed('destructive') !important;
+    }
+  }
 }
 
 .module-conversation-list-item__unread-count {

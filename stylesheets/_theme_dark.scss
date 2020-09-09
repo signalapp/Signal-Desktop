@@ -664,16 +664,7 @@
   .module-empty-state {
     color: $color-dark-55;
   }
-
   // Module: Conversation List Item
-
-  .module-conversation-list-item--has-unread {
-    border-left: 4px solid $color-loki-green;
-  }
-
-  .module-conversation-list-item--is-blocked {
-    border-left: 4px solid $session-color-danger;
-  }
 
   .module-conversation-list-item--is-selected {
     background-color: $color-dark-70;
