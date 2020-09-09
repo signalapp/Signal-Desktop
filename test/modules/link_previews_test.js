@@ -430,6 +430,8 @@ describe('Link previews', () => {
 
     it("returns true if the domain doesn't contain a .", () => {
       assert.isTrue(isLinkSneaky('https://example'));
+      assert.isTrue(isLinkSneaky('https://localhost'));
+      assert.isTrue(isLinkSneaky('https://localhost:3000'));
     });
 
     it('returns true if the domain has any empty labels', () => {
