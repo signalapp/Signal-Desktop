@@ -9,6 +9,8 @@ const {
 const Data = require('../../ts/sql/Client').default;
 const Emojis = require('./emojis');
 const EmojiLib = require('../../ts/components/emoji/lib');
+const Groups = require('../../ts/groups');
+const GroupChange = require('../../ts/groupChange');
 const IndexedDB = require('./indexeddb');
 const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
@@ -108,6 +110,9 @@ const { IdleDetector } = require('./idle_detector');
 const MessageDataMigrator = require('./messages_data_migrator');
 
 // Processes / Services
+const {
+  initializeGroupCredentialFetcher,
+} = require('../../ts/services/groupCredentialFetcher');
 const {
   initializeNetworkObserver,
 } = require('../../ts/services/networkObserver');
@@ -333,6 +338,7 @@ exports.setup = (options = {}) => {
     calling,
     eraseAllStorageServiceState,
     handleUnknownRecords,
+    initializeGroupCredentialFetcher,
     initializeNetworkObserver,
     initializeUpdateListener,
     notify,
@@ -378,6 +384,8 @@ exports.setup = (options = {}) => {
     Data,
     Emojis,
     EmojiLib,
+    Groups,
+    GroupChange,
     IndexedDB,
     LinkPreviews,
     Metadata,

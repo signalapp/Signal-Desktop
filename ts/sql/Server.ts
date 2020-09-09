@@ -10,6 +10,7 @@ import { redactAll } from '../../js/modules/privacy';
 import { remove as removeUserConfig } from '../../app/user_config';
 import { combineNames } from '../util/combineNames';
 
+import { GroupV2MemberType } from '../model-types.d';
 import { LocaleMessagesType } from '../types/I18N';
 
 import pify from 'pify';
@@ -2070,12 +2071,20 @@ async function saveConversation(
     groupId,
     id,
     members,
+    membersV2,
     name,
     profileFamilyName,
     profileName,
     type,
     uuid,
   } = data;
+
+  // prettier-ignore
+  const membersList = membersV2
+    ? membersV2.map((item: GroupV2MemberType) => item.conversationId).join(' ')
+    : members
+      ? members.join(' ')
+      : null;
 
   await instance.run(
     `INSERT INTO conversations (
@@ -2119,7 +2128,7 @@ async function saveConversation(
 
       $active_at: active_at,
       $type: type,
-      $members: members ? members.join(' ') : null,
+      $members: membersList,
       $name: name,
       $profileName: profileName,
       $profileFamilyName: profileFamilyName,
@@ -2156,12 +2165,20 @@ async function updateConversation(data: ConversationType) {
     active_at,
     type,
     members,
+    membersV2,
     name,
     profileName,
     profileFamilyName,
     e164,
     uuid,
   } = data;
+
+  // prettier-ignore
+  const membersList = membersV2
+    ? membersV2.map((item: GroupV2MemberType) => item.conversationId).join(' ')
+    : members
+      ? members.join(' ')
+      : null;
 
   await db.run(
     `UPDATE conversations SET
@@ -2187,7 +2204,7 @@ async function updateConversation(data: ConversationType) {
 
       $active_at: active_at,
       $type: type,
-      $members: members ? members.join(' ') : null,
+      $members: membersList,
       $name: name,
       $profileName: profileName,
       $profileFamilyName: profileFamilyName,

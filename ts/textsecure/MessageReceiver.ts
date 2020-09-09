@@ -30,6 +30,8 @@ import {
   VerifiedClass,
 } from '../textsecure.d';
 
+import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups';
+
 const RETRY_TIMEOUT = 2 * 60 * 1000;
 
 declare global {
@@ -434,6 +436,9 @@ class MessageReceiverInner extends EventTarget {
     promise.then(update, update);
 
     return promise;
+  }
+  hasEmptied(): boolean {
+    return Boolean(this.isEmptied);
   }
   onEmpty() {
     const emitEmpty = () => {
@@ -1070,14 +1075,6 @@ class MessageReceiverInner extends EventTarget {
       throw new Error('MessageReceiver.handleSentMessage: message was falsey!');
     }
 
-    if (msg.groupV2) {
-      window.log.warn(
-        'MessageReceiver.handleSentMessage: Dropping GroupsV2 message'
-      );
-      this.removeFromCache(envelope);
-      return;
-    }
-
     let p: Promise<any> = Promise.resolve();
     // eslint-disable-next-line no-bitwise
     if (
@@ -1094,7 +1091,8 @@ class MessageReceiverInner extends EventTarget {
     }
     return p.then(async () =>
       this.processDecrypted(envelope, msg).then(message => {
-        const groupId = message.group && message.group.id;
+        // prettier-ignore
+        const groupId = this.getGroupId(message);
         const isBlocked = this.isGroupBlocked(groupId);
         const { source, sourceUuid } = envelope;
         const ourE164 = window.textsecure.storage.user.getNumber();
@@ -1103,7 +1101,8 @@ class MessageReceiverInner extends EventTarget {
           (source && ourE164 && source === ourE164) ||
           (sourceUuid && ourUuid && sourceUuid === ourUuid);
         const isLeavingGroup = Boolean(
-          message.group &&
+          !message.groupV2 &&
+            message.group &&
             message.group.type ===
               window.textsecure.protobuf.GroupContext.Type.QUIT
         );
@@ -1148,13 +1147,15 @@ class MessageReceiverInner extends EventTarget {
       );
     }
 
-    if (msg.groupV2) {
-      window.log.warn(
-        'MessageReceiver.handleDataMessage: Dropping GroupsV2 message'
-      );
+    if (!window.GV2 && msg.groupV2) {
       this.removeFromCache(envelope);
+      window.log.info(
+        'MessageReceiver.handleDataMessage: dropping GroupV2 message'
+      );
       return;
     }
+
+    this.deriveGroupsV2Data(msg);
 
     if (
       msg.flags &&
@@ -1180,7 +1181,8 @@ class MessageReceiverInner extends EventTarget {
 
     return p.then(async () =>
       this.processDecrypted(envelope, msg).then(message => {
-        const groupId = message.group && message.group.id;
+        // prettier-ignore
+        const groupId = this.getGroupId(message);
         const isBlocked = this.isGroupBlocked(groupId);
         const { source, sourceUuid } = envelope;
         const ourE164 = window.textsecure.storage.user.getNumber();
@@ -1189,7 +1191,8 @@ class MessageReceiverInner extends EventTarget {
           (source && ourE164 && source === ourE164) ||
           (sourceUuid && ourUuid && sourceUuid === ourUuid);
         const isLeavingGroup = Boolean(
-          message.group &&
+          !message.groupV2 &&
+            message.group &&
             message.group.type ===
               window.textsecure.protobuf.GroupContext.Type.QUIT
         );
@@ -1336,23 +1339,26 @@ class MessageReceiverInner extends EventTarget {
       }
     }
 
+    const { groupId, timestamp, action } = typingMessage;
+
     ev.sender = envelope.source;
     ev.senderUuid = envelope.sourceUuid;
     ev.senderDevice = envelope.sourceDevice;
     ev.typing = {
       typingMessage,
-      timestamp: typingMessage.timestamp
-        ? typingMessage.timestamp.toNumber()
-        : Date.now(),
-      groupId: typingMessage.groupId
-        ? typingMessage.groupId.toString('binary')
-        : null,
+      timestamp: timestamp ? timestamp.toNumber() : Date.now(),
+      groupId:
+        groupId && groupId.buffer.byteLength < 45
+          ? groupId.toString('binary')
+          : null,
+      groupV2Id:
+        groupId && groupId.buffer.byteLength >= 45
+          ? groupId.toString('base64')
+          : null,
       started:
-        typingMessage.action ===
-        window.textsecure.protobuf.TypingMessage.Action.STARTED,
+        action === window.textsecure.protobuf.TypingMessage.Action.STARTED,
       stopped:
-        typingMessage.action ===
-        window.textsecure.protobuf.TypingMessage.Action.STOPPED,
+        action === window.textsecure.protobuf.TypingMessage.Action.STOPPED,
     };
 
     return this.dispatchEvent(ev);
@@ -1360,6 +1366,60 @@ class MessageReceiverInner extends EventTarget {
   handleNullMessage(envelope: EnvelopeClass) {
     window.log.info('null message from', this.getEnvelopeId(envelope));
     this.removeFromCache(envelope);
+  }
+
+  deriveGroupsV2Data(message: DataMessageClass) {
+    const { groupV2 } = message;
+
+    if (!groupV2) {
+      return;
+    }
+
+    if (!isNumber(groupV2.revision)) {
+      throw new Error('deriveGroupsV2Data: revision was not a number');
+    }
+    if (!groupV2.masterKey) {
+      throw new Error('deriveGroupsV2Data: had falsey masterKey');
+    }
+
+    const toBase64 = MessageReceiverInner.arrayBufferToStringBase64;
+    const masterKey: ArrayBuffer = groupV2.masterKey.toArrayBuffer();
+    const length = masterKey.byteLength;
+    if (length !== MASTER_KEY_LENGTH) {
+      throw new Error(
+        `deriveGroupsV2Data: masterKey had length ${length}, expected ${MASTER_KEY_LENGTH}`
+      );
+    }
+
+    const fields = deriveGroupFields(masterKey);
+    groupV2.masterKey = toBase64(masterKey);
+    groupV2.secretParams = toBase64(fields.secretParams);
+    groupV2.publicParams = toBase64(fields.publicParams);
+    groupV2.id = toBase64(fields.id);
+
+    if (groupV2.groupChange) {
+      groupV2.groupChange = groupV2.groupChange.toString('base64');
+    }
+  }
+  getGroupId(message: DataMessageClass) {
+    if (message.groupV2) {
+      return message.groupV2.id;
+    }
+    if (message.group) {
+      return message.group.id.toString('binary');
+    }
+
+    return null;
+  }
+
+  getDestination(sentMessage: SyncMessageClass.Sent) {
+    if (sentMessage.message && sentMessage.message.groupV2) {
+      return `groupv2(${sentMessage.message.groupV2.id})`;
+    } else if (sentMessage.message && sentMessage.message.group) {
+      return `group(${sentMessage.message.group.id.toBinary()})`;
+    } else {
+      return sentMessage.destination || sentMessage.destinationUuid;
+    }
   }
 
   // tslint:disable-next-line cyclomatic-complexity
@@ -1399,13 +1459,20 @@ class MessageReceiverInner extends EventTarget {
           'MessageReceiver.handleSyncMessage: sync sent message was missing message'
         );
       }
-      const to = sentMessage.message.group
-        ? `group(${sentMessage.message.group.id.toBinary()})`
-        : sentMessage.destination || sentMessage.destinationUuid;
+
+      if (!window.GV2 && sentMessage.message.groupV2) {
+        this.removeFromCache(envelope);
+        window.log.info(
+          'MessageReceiver.handleSyncMessage: dropping GroupV2 message'
+        );
+        return;
+      }
+
+      this.deriveGroupsV2Data(sentMessage.message);
 
       window.log.info(
         'sent message to',
-        to,
+        this.getDestination(sentMessage),
         sentMessage.timestamp.toNumber(),
         'from',
         this.getEnvelopeId(envelope)
@@ -1939,6 +2006,13 @@ class MessageReceiverInner extends EventTarget {
       }
     }
 
+    const { reaction } = decrypted;
+    if (reaction) {
+      if (reaction.targetTimestamp) {
+        reaction.targetTimestamp = reaction.targetTimestamp.toNumber();
+      }
+    }
+
     return Promise.resolve(decrypted);
     /* eslint-enable no-bitwise, no-param-reassign */
   }
@@ -1964,11 +2038,11 @@ export default class MessageReceiver {
     );
 
     this.addEventListener = inner.addEventListener.bind(inner);
-    this.removeEventListener = inner.removeEventListener.bind(inner);
-    this.getStatus = inner.getStatus.bind(inner);
     this.close = inner.close.bind(inner);
-
     this.downloadAttachment = inner.downloadAttachment.bind(inner);
+    this.getStatus = inner.getStatus.bind(inner);
+    this.hasEmptied = inner.hasEmptied.bind(inner);
+    this.removeEventListener = inner.removeEventListener.bind(inner);
     this.stopProcessing = inner.stopProcessing.bind(inner);
     this.unregisterBatchers = inner.unregisterBatchers.bind(inner);
 
@@ -1976,12 +2050,13 @@ export default class MessageReceiver {
   }
 
   addEventListener: (name: string, handler: Function) => void;
-  removeEventListener: (name: string, handler: Function) => void;
-  getStatus: () => number;
   close: () => Promise<void>;
   downloadAttachment: (
     attachment: AttachmentPointerClass
   ) => Promise<DownloadAttachmentType>;
+  getStatus: () => number;
+  hasEmptied: () => boolean;
+  removeEventListener: (name: string, handler: Function) => void;
   stopProcessing: () => Promise<void>;
   unregisterBatchers: () => void;
 

@@ -6,7 +6,7 @@ import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
 export type PropsData = {
-  type: 'fromOther' | 'fromMe' | 'fromSync';
+  type: 'fromOther' | 'fromMe' | 'fromSync' | 'fromMember';
   phoneNumber?: string;
   profileName?: string;
   title: string;
@@ -66,6 +66,10 @@ export class TimerNotification extends React.Component<Props> {
         return disabled
           ? i18n('disappearingMessagesDisabled')
           : i18n('timerSetOnSync', [timespan]);
+      case 'fromMember':
+        return disabled
+          ? i18n('disappearingMessagesDisabledByMember')
+          : i18n('timerSetByMember', [timespan]);
       default:
         console.warn('TimerNotification: unsupported type provided:', type);
 

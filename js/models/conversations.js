@@ -78,6 +78,9 @@
         const e164 = this.get('e164');
         return `${uuid || e164} (${this.id})`;
       }
+      if (this.get('groupVersion') > 1) {
+        return `groupv2(${this.get('groupId')})`;
+      }
 
       const groupId = this.get('groupId');
       return `group(${groupId})`;
@@ -403,24 +406,83 @@
       }
     },
 
+    async fetchLatestGroupV2Data() {
+      if (this.get('groupVersion') !== 2) {
+        return;
+      }
+
+      await window.Signal.Groups.waitThenMaybeUpdateGroup({
+        conversation: this,
+      });
+    },
+    maybeRepairGroupV2(data) {
+      if (
+        this.get('groupVersion') &&
+        this.get('masterKey') &&
+        this.get('secretParams') &&
+        this.get('publicParams')
+      ) {
+        return;
+      }
+
+      window.log.info(`Repairing GroupV2 conversation ${this.idForLogging()}`);
+      const { masterKey, secretParams, publicParams } = data;
+
+      this.set({ masterKey, secretParams, publicParams, groupVersion: 2 });
+
+      window.Signal.Data.updateConversation(this.attributes);
+    },
+    getGroupV2Info(groupChange) {
+      if (this.isPrivate() || this.get('groupVersion') !== 2) {
+        return null;
+      }
+      return {
+        masterKey: window.Signal.Crypto.base64ToArrayBuffer(
+          this.get('masterKey')
+        ),
+        revision: this.get('revision'),
+        members: this.getRecipients(),
+        groupChange,
+      };
+    },
+    getGroupV1Info() {
+      if (this.isPrivate() || this.get('groupVersion') > 0) {
+        return null;
+      }
+
+      return {
+        id: this.get('groupId'),
+        members: this.getRecipients(),
+      };
+    },
+
     sendTypingMessage(isTyping) {
       if (!textsecure.messaging) {
         return;
       }
 
-      const groupId = !this.isPrivate() ? this.get('groupId') : null;
-      const groupNumbers = this.getRecipients();
+      // We don't send typing messages to our other devices
+      if (this.isMe()) {
+        return;
+      }
+
       const recipientId = this.isPrivate() ? this.getSendTarget() : null;
+      const groupId = !this.isPrivate() ? this.get('groupId') : null;
+      const groupMembers = this.getRecipients();
+
+      // We don't send typing messages if our recipients list is empty
+      if (!this.isPrivate() && !groupMembers.length) {
+        return;
+      }
 
       const sendOptions = this.getSendOptions();
-
       this.wrapSend(
         textsecure.messaging.sendTypingMessage(
           {
             isTyping,
             recipientId,
             groupId,
-            groupNumbers,
+            groupMembers,
           },
           sendOptions
         )
@@ -581,7 +643,7 @@
         lastUpdated: this.get('timestamp'),
         membersCount: this.isPrivate()
           ? undefined
-          : (this.get('members') || []).length,
+          : (this.get('membersV2') || this.get('members') || []).length,
         messageRequestsEnabled,
         muteExpiresAt: this.get('muteExpiresAt'),
         name: this.get('name'),
@@ -793,7 +855,8 @@
         return;
       }
 
-      await this.fetchContacts();
+      this.fetchContacts();
+
       await Promise.all(
         this.contactCollection.map(async contact => {
           if (!contact.isMe()) {
@@ -1324,26 +1387,59 @@
       return this.jobQueue.add(taskWithTimeout);
     },
 
-    getRecipients() {
+    getMembers() {
       if (this.isPrivate()) {
-        return [this.getSendTarget()];
+        return [this];
       }
-      const me = ConversationController.getOurConversationId();
 
-      // The list of members might not always be conversationIds for old groups.
+      if (this.get('membersV2')) {
+        return _.compact(
+          this.get('membersV2').map(member => {
+            const c = ConversationController.get(member.conversationId);
+
+            // In groups we won't sent to contacts we believe are unregistered
+            if (c && c.isUnregistered()) {
+              return null;
+            }
+
+            return c;
+          })
+        );
+      }
+
+      if (this.get('members')) {
+        return _.compact(
+          this.get('members').map(id => {
+            const c = ConversationController.get(id);
+
+            // In groups we won't sent to contacts we believe are unregistered
+            if (c && c.isUnregistered()) {
+              return null;
+            }
+
+            return c;
+          })
+        );
+      }
+
+      window.log.warn(
+        'getMembers: Group conversation had neither membersV2 nor members'
+      );
+
+      return [];
+    },
+
+    getMemberIds() {
+      const members = this.getMembers();
+      return members.map(member => member.id);
+    },
+
+    getRecipients() {
+      const members = this.getMembers();
+
+      // Eliminate our
       return _.compact(
-        this.get('members').map(memberId => {
-          const c = ConversationController.get(memberId);
-          if (c.id === me) {
-            return null;
-          }
-          // We don't want to even attempt a send if we have recently discovered that they
-          //   are unregistered.
-          if (c.isUnregistered()) {
-            return null;
-          }
-          return c.getSendTarget();
-        })
+        members.map(member => (member.isMe() ? null : member.getSendTarget()))
       );
     },
 
@@ -1549,11 +1645,11 @@
         if (this.isMe()) {
           const dataMessage = await textsecure.messaging.getMessageProto(
             destination,
-            null,
-            null,
-            null,
-            null,
-            null,
+            null, // body
+            null, // attachments
+            null, // quote
+            null, // preview
+            null, // sticker
             outgoingReaction,
             timestamp,
             expireTimer,
@@ -1568,11 +1664,11 @@
           if (this.isPrivate()) {
             return textsecure.messaging.sendMessageToIdentifier(
               destination,
-              null,
-              null,
-              null,
-              null,
-              null,
+              null, // body
+              null, // attachments
+              null, // quote
+              null, // preview
+              null, // sticker
               outgoingReaction,
               timestamp,
               expireTimer,
@@ -1582,17 +1678,14 @@
           }
 
           return textsecure.messaging.sendMessageToGroup(
-            this.get('groupId'),
-            this.getRecipients(),
-            null,
-            null,
-            null,
-            null,
-            null,
-            outgoingReaction,
-            timestamp,
-            expireTimer,
-            profileKey,
+            {
+              groupV1: this.getGroupV1Info(),
+              groupV2: this.getGroupV2Info(),
+              reaction: outgoingReaction,
+              timestamp,
+              expireTimer,
+              profileKey,
+            },
             options
           );
         })();
@@ -1741,7 +1834,7 @@
             quote,
             preview,
             sticker,
-            null,
+            null, // reaction
             now,
             expireTimer,
             profileKey
@@ -1752,43 +1845,38 @@
         const conversationType = this.get('type');
         const options = this.getSendOptions();
 
-        const promise = (() => {
-          switch (conversationType) {
-            case Message.PRIVATE:
-              return textsecure.messaging.sendMessageToIdentifier(
-                destination,
-                messageBody,
-                finalAttachments,
-                quote,
-                preview,
-                sticker,
-                null,
-                now,
-                expireTimer,
-                profileKey,
-                options
-              );
-            case Message.GROUP:
-              return textsecure.messaging.sendMessageToGroup(
-                this.get('groupId'),
-                this.getRecipients(),
-                messageBody,
-                finalAttachments,
-                quote,
-                preview,
-                sticker,
-                null,
-                now,
-                expireTimer,
-                profileKey,
-                options
-              );
-            default:
-              throw new TypeError(
-                `Invalid conversation type: '${conversationType}'`
-              );
-          }
-        })();
+        let promise;
+        if (conversationType === Message.GROUP) {
+          promise = textsecure.messaging.sendMessageToGroup(
+            {
+              attachments: finalAttachments,
+              expireTimer,
+              groupV1: this.getGroupV1Info(),
+              groupV2: this.getGroupV2Info(),
+              messageText: messageBody,
+              preview,
+              profileKey,
+              quote,
+              sticker,
+              timestamp: now,
+            },
+            options
+          );
+        } else {
+          promise = textsecure.messaging.sendMessageToIdentifier(
+            destination,
+            messageBody,
+            finalAttachments,
+            quote,
+            preview,
+            sticker,
+            null, // reaction
+            now,
+            expireTimer,
+            profileKey,
+            options
+          );
+        }
 
         return message.send(this.wrapSend(promise));
       });
@@ -2012,7 +2100,9 @@
 
       const currentTimestamp = this.get('timestamp') || null;
       const timestamp = activityMessage
-        ? activityMessage.get('sent_at') || currentTimestamp
+        ? activityMessage.get('sent_at') ||
+          activityMessage.get('received_at') ||
+          currentTimestamp
         : currentTimestamp;
 
       this.set({
@@ -2043,12 +2133,90 @@
       }
     },
 
+    async updateExpirationTimerInGroupV2(seconds) {
+      // Make change on the server
+      const actions = window.Signal.Groups.buildDisappearingMessagesTimerChange(
+        {
+          expireTimer: seconds || 0,
+          group: this.attributes,
+        }
+      );
+      let signedGroupChange;
+      try {
+        signedGroupChange = await window.Signal.Groups.uploadGroupChange({
+          actions,
+          group: this.attributes,
+          serverPublicParamsBase64: window.getServerPublicParams(),
+        });
+      } catch (error) {
+        // Get latest GroupV2 data, since we ran into trouble updating it
+        this.fetchLatestGroupV2Data();
+        throw error;
+      }
+
+      // Update local conversation
+      this.set({
+        expireTimer: seconds || 0,
+        revision: actions.version,
+      });
+      window.Signal.Data.updateConversation(this.attributes);
+
+      // Create local notification
+      const timestamp = Date.now();
+      const id = window.getGuid();
+      const message = MessageController.register(
+        id,
+        new Whisper.Message({
+          id,
+          conversationId: this.id,
+          sent_at: timestamp,
+          received_at: timestamp,
+          flags: textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+          expirationTimerUpdate: {
+            expireTimer: seconds,
+            sourceUuid: this.ourUuid,
+          },
+        })
+      );
+      await window.Signal.Data.saveMessage(message.attributes, {
+        Message: Whisper.Message,
+        forceSave: true,
+      });
+      this.trigger('newmessage', message);
+
+      // Send message to all group members
+      const profileKey = this.get('profileSharing')
+        ? storage.get('profileKey')
+        : undefined;
+      const sendOptions = this.getSendOptions();
+      const promise = textsecure.messaging.sendMessageToGroup(
+        {
+          groupV2: this.getGroupV2Info(signedGroupChange.toArrayBuffer()),
+          timestamp,
+          profileKey,
+        },
+        sendOptions
+      );
+
+      message.send(promise);
+    },
+
     async updateExpirationTimer(
       providedExpireTimer,
       providedSource,
       receivedAt,
       options = {}
     ) {
+      if (this.get('groupVersion') === 2) {
+        if (providedSource || receivedAt) {
+          throw new Error(
+            'updateExpirationTimer: GroupV2 timers are not updated this way'
+          );
+        }
+        await this.updateExpirationTimerInGroupV2(providedExpireTimer);
+        return false;
+      }
+
       let expireTimer = providedExpireTimer;
       let source = providedSource;
       if (this.get('left')) {
@@ -2131,12 +2299,12 @@
           textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
         const dataMessage = await textsecure.messaging.getMessageProto(
           this.getSendTarget(),
-          null,
-          [],
-          null,
-          [],
-          null,
-          null,
+          null, // body
+          [], // attachments
+          null, // quote
+          [], // preview
+          null, // sticker
+          null, // reaction
           message.get('sent_at'),
           expireTimer,
           profileKey,
@@ -2245,79 +2413,6 @@
               now,
               options
             )
-          )
-        );
-      }
-    },
-
-    async updateGroup(providedGroupUpdate) {
-      let groupUpdate = providedGroupUpdate;
-
-      if (this.isPrivate()) {
-        throw new Error('Called update group on private conversation');
-      }
-      if (groupUpdate === undefined) {
-        groupUpdate = this.pick(['name', 'avatar', 'members']);
-      }
-      const now = Date.now();
-      const model = new Whisper.Message({
-        conversationId: this.id,
-        type: 'outgoing',
-        sent_at: now,
-        received_at: now,
-        group_update: groupUpdate,
-      });
-
-      const id = await window.Signal.Data.saveMessage(model.attributes, {
-        Message: Whisper.Message,
-      });
-
-      model.set({ id });
-
-      const message = MessageController.register(model.id, model);
-      this.addSingleMessage(message);
-
-      const options = this.getSendOptions();
-      message.send(
-        this.wrapSend(
-          textsecure.messaging.updateGroup(
-            this.id,
-            this.get('name'),
-            this.get('avatar'),
-            this.get('members'),
-            options
-          )
-        )
-      );
-    },
-
-    async leaveGroup() {
-      const now = Date.now();
-      if (this.get('type') === 'group') {
-        const groupIdentifiers = this.getRecipients();
-        this.set({ left: true });
-        window.Signal.Data.updateConversation(this.attributes);
-
-        const model = new Whisper.Message({
-          group_update: { left: 'You' },
-          conversationId: this.id,
-          type: 'outgoing',
-          sent_at: now,
-          received_at: now,
-        });
-
-        const id = await window.Signal.Data.saveMessage(model.attributes, {
-          Message: Whisper.Message,
-        });
-        model.set({ id });
-
-        const message = MessageController.register(model.id, model);
-        this.addSingleMessage(message);
-
-        const options = this.getSendOptions();
-        message.send(
-          this.wrapSend(
-            textsecure.messaging.leaveGroup(this.id, groupIdentifiers, options)
           )
         );
       }
@@ -2444,14 +2539,7 @@
 
     getProfiles() {
       // request all conversation members' keys
-      let conversations = [];
-      if (this.isPrivate()) {
-        conversations = [this];
-      } else {
-        conversations = this.get('members')
-          .map(id => ConversationController.get(id))
-          .filter(Boolean);
-      }
+      const conversations = this.getMembers();
       return Promise.all(
         _.map(conversations, conversation => {
           this.getProfile(conversation.get('uuid'), conversation.get('e164'));
@@ -2822,30 +2910,21 @@
     },
 
     hasMember(identifier) {
-      const cid = ConversationController.getConversationId(identifier);
-      return cid && _.contains(this.get('members'), cid);
+      const id = ConversationController.getConversationId(identifier);
+      const memberIds = this.getMemberIds();
+
+      return _.contains(memberIds, id);
     },
     fetchContacts() {
       if (this.isPrivate()) {
         this.contactCollection.reset([this]);
-        return Promise.resolve();
       }
-      const members = this.get('members') || [];
-      const promises = members.map(identifier =>
-        ConversationController.getOrCreateAndWait(identifier, 'private')
-      );
-
-      return Promise.all(promises).then(contacts => {
-        _.forEach(contacts, contact => {
-          this.listenTo(
-            contact,
-            'change:verified',
-            this.onMemberVerifiedChange
-          );
-        });
-
-        this.contactCollection.reset(contacts);
+      const members = this.getMembers();
+      _.forEach(members, member => {
+        this.listenTo(member, 'change:verified', this.onMemberVerifiedChange);
       });
+
+      this.contactCollection.reset(members);
     },
 
     async destroyMessages() {
@@ -2945,6 +3024,43 @@
       }
 
       return null;
+    },
+    canChangeTimer() {
+      if (this.isPrivate()) {
+        return true;
+      }
+
+      if (this.get('groupVersion') !== 2) {
+        return true;
+      }
+
+      const accessControlEnum =
+        textsecure.protobuf.AccessControl.AccessRequired;
+      const accessControl = this.get('accessControl');
+      const canAnyoneChangeTimer =
+        accessControl &&
+        (accessControl.attributes === accessControlEnum.ANY ||
+          accessControl.attributes === accessControlEnum.MEMBER);
+      if (canAnyoneChangeTimer) {
+        return true;
+      }
+
+      const memberEnum = textsecure.protobuf.Member.Role;
+      const members = this.get('membersV2') || [];
+      const myId = ConversationController.getConversationId(
+        textsecure.storage.user.getUuid() || textsecure.storage.user.getNumber()
+      );
+      const me = members.find(item => item.conversationId === myId);
+      if (!me) {
+        return false;
+      }
+
+      const isAdministrator = me.role === memberEnum.ADMINISTRATOR;
+      if (isAdministrator) {
+        return true;
+      }
+
+      return false;
     },
 
     // Set of items to captureChanges on:
@@ -3184,4 +3300,71 @@
   });
 
   Whisper.Conversation.COLORS = COLORS.concat(['grey', 'default']).join(' ');
+
+  // This is a wrapper model used to display group members in the member list view, within
+  //   the world of backbone, but layering another bit of group-specific data top of base
+  //   conversation data.
+  Whisper.GroupMemberConversation = Backbone.Model.extend({
+    initialize(attributes) {
+      const { conversation, isAdmin } = attributes;
+
+      if (!conversation) {
+        throw new Error(
+          'GroupMemberConversation.initialze: conversation required!'
+        );
+      }
+      if (!_.isBoolean(isAdmin)) {
+        throw new Error('GroupMemberConversation.initialze: isAdmin required!');
+      }
+
+      // If our underlying conversation changes, we change too
+      this.listenTo(conversation, 'change', () => {
+        this.trigger('change', this);
+      });
+
+      this.conversation = conversation;
+      this.isAdmin = isAdmin;
+    },
+
+    format() {
+      return {
+        ...this.conversation.format(),
+        isAdmin: this.isAdmin,
+      };
+    },
+
+    get(...params) {
+      return this.conversation.get(...params);
+    },
+
+    getTitle() {
+      return this.conversation.getTitle();
+    },
+
+    isMe() {
+      return this.conversation.isMe();
+    },
+  });
+
+  // We need a custom collection here to get the sorting we need
+  Whisper.GroupConversationCollection = Backbone.Collection.extend({
+    model: Whisper.GroupMemberConversation,
+
+    initialize() {
+      this.collator = new Intl.Collator();
+    },
+
+    comparator(left, right) {
+      if (left.isAdmin && !right.isAdmin) {
+        return -1;
+      }
+      if (!left.isAdmin && right.isAdmin) {
+        return 1;
+      }
+
+      const leftLower = left.getTitle().toLowerCase();
+      const rightLower = right.getTitle().toLowerCase();
+      return this.collator.compare(leftLower, rightLower);
+    },
+  });
 })();

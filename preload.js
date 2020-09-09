@@ -19,6 +19,8 @@ try {
   window.PROTO_ROOT = 'protos';
   const config = require('url').parse(window.location.toString(), true).query;
 
+  window.GV2 = false;
+
   let title = config.name;
   if (config.environment !== 'production') {
     title += ` - ${config.environment}`;
@@ -375,12 +377,14 @@ try {
     paths.forEach(path => {
       const val = _.get(obj, path);
       if (val) {
-        if (!window.isValidGuid(val)) {
+        if (!val || !window.isValidGuid(val)) {
           window.log.warn(
             `Normalizing invalid uuid: ${val} at path ${path} in context "${context}"`
           );
         }
-        _.set(obj, path, val.toLowerCase());
+        if (val && val.toLowerCase) {
+          _.set(obj, path, val.toLowerCase());
+        }
       }
     });
   };

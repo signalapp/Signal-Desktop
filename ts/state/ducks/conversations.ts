@@ -1009,6 +1009,19 @@ export function reducer(
       id
     );
 
+    let metrics;
+    if (messageIds.length === 0) {
+      metrics = {
+        totalUnread: 0,
+      };
+    } else {
+      metrics = {
+        ...existingConversation.metrics,
+        oldest,
+        newest,
+      };
+    }
+
     return {
       ...state,
       messagesLookup: omit(messagesLookup, id),
@@ -1017,11 +1030,7 @@ export function reducer(
           ...existingConversation,
           messageIds,
           heightChangeMessageIds,
-          metrics: {
-            ...existingConversation.metrics,
-            oldest,
-            newest,
-          },
+          metrics,
         },
       },
     };

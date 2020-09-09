@@ -12854,38 +12854,6 @@
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "ts/textsecure/SendMessage.js",
-    "line": "    return window.dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();",
-    "lineNumber": 25,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-05T23:45:16.746Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "ts/textsecure/SendMessage.js",
-    "line": "    return window.dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();",
-    "lineNumber": 28,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-05T23:45:16.746Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "ts/textsecure/SendMessage.ts",
-    "line": "  return window.dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();",
-    "lineNumber": 32,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-05-28T18:08:02.658Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "ts/textsecure/SendMessage.ts",
-    "line": "  return window.dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();",
-    "lineNumber": 35,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-05-28T18:08:02.658Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.js",
     "line": "        wrap(sender.sendRequestConfigurationSyncMessage(sendOptions));",
     "lineNumber": 27,
@@ -12952,7 +12920,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.js",
     "line": "            const byteBuffer = window.dcodeIO.ByteBuffer.wrap(quote, 'binary', window.dcodeIO.ByteBuffer.LITTLE_ENDIAN);",
-    "lineNumber": 1057,
+    "lineNumber": 1213,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   },
@@ -12960,7 +12928,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.ts",
     "line": "      const byteBuffer = window.dcodeIO.ByteBuffer.wrap(",
-    "lineNumber": 1769,
+    "lineNumber": 2063,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   }

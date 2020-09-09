@@ -62,6 +62,11 @@ export async function deriveStickerPackKey(packKey: ArrayBuffer) {
   return concatenateBytes(part1, part2);
 }
 
+export async function computeHash(data: ArrayBuffer): Promise<string> {
+  const hash = await crypto.subtle.digest({ name: 'SHA-512' }, data);
+  return arrayBufferToBase64(hash);
+}
+
 // High-level Operations
 
 export async function encryptDeviceName(

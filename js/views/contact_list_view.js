@@ -28,7 +28,7 @@
           className: 'contact-wrapper',
           Component: window.Signal.Components.ContactListItem,
           props: {
-            ...this.model.cachedProps,
+            ...this.model.format(),
             onClick: this.showIdentity.bind(this),
           },
         });

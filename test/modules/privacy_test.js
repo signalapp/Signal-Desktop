@@ -59,6 +59,18 @@ describe('Privacy', () => {
         'and group([REDACTED]hij)';
       assert.equal(actual, expected);
     });
+
+    it('should remove newlines from redacted group V2 IDs', () => {
+      const text =
+        'This is a log line with three group IDs: groupv2(abcd32341a==)\n' +
+        'and groupv2(abcd32341ad=) and and groupv2(abcd32341ade)';
+
+      const actual = Privacy.redactGroupIds(text);
+      const expected =
+        'This is a log line with three group IDs: groupv2([REDACTED]41a==)\n' +
+        'and groupv2([REDACTED]1ad=) and and groupv2([REDACTED]ade)';
+      assert.equal(actual, expected);
+    });
   });
 
   describe('redactAll', () => {

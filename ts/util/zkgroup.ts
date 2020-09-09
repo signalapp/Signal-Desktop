@@ -1,13 +1,21 @@
 export * from 'zkgroup';
 
 import {
+  AuthCredential,
+  ClientZkAuthOperations,
+  ClientZkGroupCipher,
   ClientZkProfileOperations,
   FFICompatArray,
   FFICompatArrayType,
+  GroupMasterKey,
+  GroupSecretParams,
   ProfileKey,
+  ProfileKeyCiphertext,
+  ProfileKeyCredentialPresentation,
   ProfileKeyCredentialRequestContext,
   ProfileKeyCredentialResponse,
   ServerPublicParams,
+  UuidCiphertext,
 } from 'zkgroup';
 import {
   arrayBufferToBase64,
@@ -15,6 +23,8 @@ import {
   base64ToArrayBuffer,
   typedArrayToArrayBuffer,
 } from '../Crypto';
+
+// Simple utility functions
 
 export function arrayBufferToCompatArray(
   arrayBuffer: ArrayBuffer
@@ -42,6 +52,68 @@ export function compatArrayToHex(compatArray: FFICompatArrayType): string {
   return arrayBufferToHex(compatArrayToArrayBuffer(compatArray));
 }
 
+// Scenarios
+
+export function decryptGroupBlob(
+  clientZkGroupCipher: ClientZkGroupCipher,
+  ciphertext: ArrayBuffer
+) {
+  return compatArrayToArrayBuffer(
+    clientZkGroupCipher.decryptBlob(arrayBufferToCompatArray(ciphertext))
+  );
+}
+
+export function decryptProfileKeyCredentialPresentation(
+  clientZkGroupCipher: ClientZkGroupCipher,
+  presentationBuffer: ArrayBuffer
+): { profileKey: ArrayBuffer; uuid: string } {
+  const presentation = new ProfileKeyCredentialPresentation(
+    arrayBufferToCompatArray(presentationBuffer)
+  );
+
+  const uuidCiphertext = presentation.getUuidCiphertext();
+  const uuid = clientZkGroupCipher.decryptUuid(uuidCiphertext);
+
+  const profileKeyCiphertext = presentation.getProfileKeyCiphertext();
+  const profileKey = clientZkGroupCipher.decryptProfileKey(
+    profileKeyCiphertext,
+    uuid
+  );
+
+  return {
+    profileKey: compatArrayToArrayBuffer(profileKey.serialize()),
+    uuid,
+  };
+}
+
+export function decryptProfileKey(
+  clientZkGroupCipher: ClientZkGroupCipher,
+  profileKeyCiphertextBuffer: ArrayBuffer,
+  uuid: string
+): ArrayBuffer {
+  const profileKeyCiphertext = new ProfileKeyCiphertext(
+    arrayBufferToCompatArray(profileKeyCiphertextBuffer)
+  );
+
+  const profileKey = clientZkGroupCipher.decryptProfileKey(
+    profileKeyCiphertext,
+    uuid
+  );
+
+  return compatArrayToArrayBuffer(profileKey.serialize());
+}
+
+export function decryptUuid(
+  clientZkGroupCipher: ClientZkGroupCipher,
+  uuidCiphertextBuffer: ArrayBuffer
+): string {
+  const uuidCiphertext = new UuidCiphertext(
+    arrayBufferToCompatArray(uuidCiphertextBuffer)
+  );
+
+  return clientZkGroupCipher.decryptUuid(uuidCiphertext);
+}
+
 export function deriveProfileKeyVersion(
   profileKeyBase64: string,
   uuid: string
@@ -54,13 +126,56 @@ export function deriveProfileKeyVersion(
   return profileKeyVersion.toString();
 }
 
-export function getClientZkProfileOperations(
-  serverPublicParamsBase64: string
-): ClientZkProfileOperations {
-  const serverPublicParamsArray = base64ToCompatArray(serverPublicParamsBase64);
-  const serverPublicParams = new ServerPublicParams(serverPublicParamsArray);
+export function deriveGroupPublicParams(groupSecretParamsBuffer: ArrayBuffer) {
+  const groupSecretParams = new GroupSecretParams(
+    arrayBufferToCompatArray(groupSecretParamsBuffer)
+  );
 
-  return new ClientZkProfileOperations(serverPublicParams);
+  return compatArrayToArrayBuffer(
+    groupSecretParams.getPublicParams().serialize()
+  );
+}
+
+export function deriveGroupID(groupSecretParamsBuffer: ArrayBuffer) {
+  const groupSecretParams = new GroupSecretParams(
+    arrayBufferToCompatArray(groupSecretParamsBuffer)
+  );
+
+  return compatArrayToArrayBuffer(
+    groupSecretParams
+      .getPublicParams()
+      .getGroupIdentifier()
+      .serialize()
+  );
+}
+
+export function deriveGroupSecretParams(
+  masterKeyBuffer: ArrayBuffer
+): ArrayBuffer {
+  const masterKey = new GroupMasterKey(
+    arrayBufferToCompatArray(masterKeyBuffer)
+  );
+  const groupSecretParams = GroupSecretParams.deriveFromMasterKey(masterKey);
+
+  return compatArrayToArrayBuffer(groupSecretParams.serialize());
+}
+
+export function encryptGroupBlob(
+  clientZkGroupCipher: ClientZkGroupCipher,
+  plaintext: ArrayBuffer
+) {
+  return compatArrayToArrayBuffer(
+    clientZkGroupCipher.encryptBlob(arrayBufferToCompatArray(plaintext))
+  );
+}
+
+export function encryptUuid(
+  clientZkGroupCipher: ClientZkGroupCipher,
+  uuidPlaintext: string
+): ArrayBuffer {
+  const uuidCiphertext = clientZkGroupCipher.encryptUuid(uuidPlaintext);
+
+  return compatArrayToArrayBuffer(uuidCiphertext.serialize());
 }
 
 export function generateProfileKeyCredentialRequest(
@@ -84,13 +199,63 @@ export function generateProfileKeyCredentialRequest(
   };
 }
 
+export function getAuthCredentialPresentation(
+  clientZkAuthOperations: ClientZkAuthOperations,
+  authCredentialBase64: string,
+  groupSecretParamsBase64: string
+) {
+  const authCredential = new AuthCredential(
+    base64ToCompatArray(authCredentialBase64)
+  );
+  const secretParams = new GroupSecretParams(
+    base64ToCompatArray(groupSecretParamsBase64)
+  );
+
+  const presentation = clientZkAuthOperations.createAuthCredentialPresentation(
+    secretParams,
+    authCredential
+  );
+  return compatArrayToArrayBuffer(presentation.serialize());
+}
+
+export function getClientZkAuthOperations(
+  serverPublicParamsBase64: string
+): ClientZkAuthOperations {
+  const serverPublicParams = new ServerPublicParams(
+    base64ToCompatArray(serverPublicParamsBase64)
+  );
+
+  return new ClientZkAuthOperations(serverPublicParams);
+}
+
+export function getClientZkGroupCipher(
+  groupSecretParamsBase64: string
+): ClientZkGroupCipher {
+  const serverPublicParams = new GroupSecretParams(
+    base64ToCompatArray(groupSecretParamsBase64)
+  );
+
+  return new ClientZkGroupCipher(serverPublicParams);
+}
+
+export function getClientZkProfileOperations(
+  serverPublicParamsBase64: string
+): ClientZkProfileOperations {
+  const serverPublicParams = new ServerPublicParams(
+    base64ToCompatArray(serverPublicParamsBase64)
+  );
+
+  return new ClientZkProfileOperations(serverPublicParams);
+}
+
 export function handleProfileKeyCredential(
   clientZkProfileCipher: ClientZkProfileOperations,
   context: ProfileKeyCredentialRequestContext,
   responseBase64: string
 ): string {
-  const responseArray = base64ToCompatArray(responseBase64);
-  const response = new ProfileKeyCredentialResponse(responseArray);
+  const response = new ProfileKeyCredentialResponse(
+    base64ToCompatArray(responseBase64)
+  );
   const profileKeyCredential = clientZkProfileCipher.receiveProfileKeyCredential(
     context,
     response

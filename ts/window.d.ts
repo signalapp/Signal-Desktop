@@ -23,6 +23,7 @@ import { CallHistoryDetailsType } from './types/Calling';
 import { ColorType } from './types/Colors';
 import { ConversationController } from './ConversationController';
 import { SendOptionsType } from './textsecure/SendMessage';
+import AccountManager from './textsecure/AccountManager';
 import Data from './sql/Client';
 
 export { Long } from 'long';
@@ -32,6 +33,7 @@ type TaskResultType = any;
 declare global {
   interface Window {
     dcodeIO: DCodeIOType;
+    getAccountManager: () => AccountManager | undefined;
     getAlwaysRelayCalls: () => Promise<boolean>;
     getCallRingtoneNotification: () => Promise<boolean>;
     getCallSystemNotification: () => Promise<boolean>;
@@ -43,8 +45,10 @@ declare global {
     getIncomingCallNotification: () => Promise<boolean>;
     getMediaCameraPermissions: () => Promise<boolean>;
     getMediaPermissions: () => Promise<boolean>;
+    getServerPublicParams: () => string;
     getSocketStatus: () => number;
     getTitle: () => string;
+    waitForEmptyEventQueue: () => Promise<void>;
     showCallingPermissionsPopup: (forCamera: boolean) => Promise<void>;
     i18n: LocalizerType;
     isValidGuid: (maybeGuid: string) => boolean;
@@ -88,13 +92,24 @@ declare global {
       Services: {
         calling: CallingClass;
       };
+      Migrations: {
+        deleteAttachmentData: (path: string) => Promise<void>;
+        writeNewAttachmentData: (data: ArrayBuffer) => Promise<string>;
+      };
+      Types: {
+        Message: {
+          CURRENT_SCHEMA_VERSION: number;
+        };
+      };
     };
     ConversationController: ConversationController;
+    MessageController: MessageControllerType;
     WebAPI: WebAPIConnectType;
     Whisper: WhisperType;
 
     // Flags
     CALLING: boolean;
+    GV2: boolean;
   }
 
   interface Error {
@@ -112,6 +127,10 @@ export type DCodeIOType = {
     fromBits: (low: number, high: number, unsigned: boolean) => number;
     fromString: (str: string) => Long;
   };
+};
+
+type MessageControllerType = {
+  register: (id: string, model: MessageModelType) => MessageModelType;
 };
 
 export class CertificateValidatorType {

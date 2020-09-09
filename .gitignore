@@ -13,6 +13,7 @@ release/
 .nyc_output/
 *.sublime*
 /sql/
+/start.sh
 
 # generated files
 js/components.js

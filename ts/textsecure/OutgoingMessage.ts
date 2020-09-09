@@ -2,6 +2,7 @@
 
 import { reject } from 'lodash';
 import { ServerKeysType, WebAPIType } from './WebAPI';
+import { isEnabled as isRemoteFlagEnabled } from '../RemoteConfig';
 import { SignalProtocolAddressClass } from '../libsignal.d';
 import { ContentClass, DataMessageClass } from '../textsecure.d';
 import {
@@ -574,34 +575,36 @@ export default class OutgoingMessage {
   async sendToIdentifier(providedIdentifier: string) {
     let identifier = providedIdentifier;
     try {
-      if (window.isValidGuid(identifier)) {
-        // We're good!
-      } else if (isValidNumber(identifier)) {
-        if (!window.textsecure.messaging) {
-          throw new Error(
-            'sendToIdentifier: window.textsecure.messaging is not available!'
-          );
-        }
-        const lookup = await window.textsecure.messaging.getUuidsForE164s([
-          identifier,
-        ]);
-        const uuid = lookup[identifier];
-        if (uuid) {
-          this.discoveredIdentifierPairs.push({
-            uuid,
-            e164: identifier,
-          });
-          identifier = uuid;
-        } else {
-          throw new UnregisteredUserError(
+      if (isRemoteFlagEnabled('desktop.cds')) {
+        if (window.isValidGuid(identifier)) {
+          // We're good!
+        } else if (isValidNumber(identifier)) {
+          if (!window.textsecure.messaging) {
+            throw new Error(
+              'sendToIdentifier: window.textsecure.messaging is not available!'
+            );
+          }
+          const lookup = await window.textsecure.messaging.getUuidsForE164s([
             identifier,
-            new Error('User is not registered')
+          ]);
+          const uuid = lookup[identifier];
+          if (uuid) {
+            this.discoveredIdentifierPairs.push({
+              uuid,
+              e164: identifier,
+            });
+            identifier = uuid;
+          } else {
+            throw new UnregisteredUserError(
+              identifier,
+              new Error('User is not registered')
+            );
+          }
+        } else {
+          throw new Error(
+            `sendToIdentifier: identifier ${identifier} was neither a UUID or E164`
           );
         }
-      } else {
-        throw new Error(
-          `sendToIdentifier: identifier ${identifier} was neither a UUID or E164`
-        );
       }
 
       const updateDevices = await this.getStaleDeviceIdsForIdentifier(

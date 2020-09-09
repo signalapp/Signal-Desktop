@@ -546,7 +546,7 @@
       }
 
       if (
-        window.isBeforeVersion(lastVersion, 'v1.35.0-beta.11') &&
+        window.isBeforeVersion(lastVersion, 'v1.36.0-beta.1') &&
         window.isAfterVersion(lastVersion, 'v1.35.0-beta.1')
       ) {
         await window.Signal.Services.eraseAllStorageServiceState();
@@ -605,6 +605,17 @@
     // We start this up before ConversationController.load() to ensure that our feature
     //   flags are represented in the cached props we generate on load of each convo.
     window.Signal.RemoteConfig.initRemoteConfig();
+
+    // On startup, we don't want to wait for the remote config fetch if we've already
+    //   learned that this instance supports GroupsV2.
+    // This is how we keep it sticky. Once it is enabled, we never disable it.
+    if (
+      window.Signal.RemoteConfig.isEnabled('desktop.gv2') ||
+      window.storage.get('gv2-enabled')
+    ) {
+      window.GV2 = true;
+      window.storage.put('gv2-enabled', true);
+    }
 
     try {
       await Promise.all([
@@ -1552,6 +1563,33 @@
         removeMessageRequestListener();
       }
     );
+
+    // Listen for changes to the `desktop.gv2` remote configuration flag
+    const removeGv2Listener = window.Signal.RemoteConfig.onChange(
+      'desktop.gv2',
+      async ({ enabled }) => {
+        if (!enabled) {
+          return;
+        }
+
+        window.GV2 = true;
+
+        await window.storage.put('gv2-enabled', true);
+
+        window.Signal.Services.handleUnknownRecords(
+          window.textsecure.protobuf.ManifestRecord.Identifier.Type.GROUPV2
+        );
+
+        // Erase current manifest version so we re-process storage service data
+        await window.storage.remove('manifestVersion');
+
+        // Kick off storage service fetch to grab GroupV2 information
+        await window.Signal.Services.runStorageServiceSyncJob();
+
+        // This is a one-time thing
+        removeGv2Listener();
+      }
+    );
   }
 
   window.getSyncRequest = () =>
@@ -1657,45 +1695,58 @@
       PASSWORD
     );
 
-    try {
-      if (connectCount === 0) {
-        const lonelyE164s = window
-          .getConversations()
-          .filter(
-            c =>
-              c.isPrivate() &&
-              c.get('e164') &&
-              !c.get('uuid') &&
-              !c.isEverUnregistered()
-          )
-          .map(c => c.get('e164'));
-
-        if (lonelyE164s.length > 0) {
-          const lookup = await textsecure.messaging.getUuidsForE164s(
-            lonelyE164s
-          );
-          const e164s = Object.keys(lookup);
-          e164s.forEach(e164 => {
-            const uuid = lookup[e164];
-            if (!uuid) {
-              const byE164 = window.ConversationController.get(e164);
-              if (byE164) {
-                byE164.setUnregistered();
-              }
-            }
-            window.ConversationController.ensureContactIds({
-              e164,
-              uuid,
-              highTrust: true,
-            });
-          });
-        }
+    if (connectCount === 0) {
+      try {
+        // Force a re-fetch before we process our queue. We may want to turn on something
+        //   which changes how we process incoming messages!
+        await window.Signal.RemoteConfig.refreshRemoteConfig();
+      } catch (error) {
+        window.log.error(
+          'connect: Error refreshing remote config:',
+          error && error.stack ? error.stack : error
+        );
       }
-    } catch (error) {
-      window.log.error(
-        'Error fetching UUIDs for lonely e164s:',
-        error && error.stack ? error.stack : error
-      );
+
+      try {
+        if (window.Signal.RemoteConfig.isEnabled('desktop.cds')) {
+          const lonelyE164s = window
+            .getConversations()
+            .filter(
+              c =>
+                c.isPrivate() &&
+                c.get('e164') &&
+                !c.get('uuid') &&
+                !c.isEverUnregistered()
+            )
+            .map(c => c.get('e164'));
+
+          if (lonelyE164s.length > 0) {
+            const lookup = await textsecure.messaging.getUuidsForE164s(
+              lonelyE164s
+            );
+            const e164s = Object.keys(lookup);
+            e164s.forEach(e164 => {
+              const uuid = lookup[e164];
+              if (!uuid) {
+                const byE164 = window.ConversationController.get(e164);
+                if (byE164) {
+                  byE164.setUnregistered();
+                }
+              }
+              window.ConversationController.ensureContactIds({
+                e164,
+                uuid,
+                highTrust: true,
+              });
+            });
+          }
+        }
+      } catch (error) {
+        window.log.error(
+          'connect: Error fetching UUIDs for lonely e164s:',
+          error && error.stack ? error.stack : error
+        );
+      }
     }
 
     connectCount += 1;
@@ -1717,6 +1768,8 @@
       options
     );
     window.textsecure.messageReceiver = messageReceiver;
+
+    window.Signal.Services.initializeGroupCredentialFetcher();
 
     preMessageReceiverStatus = null;
 
@@ -1810,26 +1863,25 @@
       }
     }
 
-    // TODO: uncomment this once we want to start registering UUID support
-    // const hasRegisteredUuidSupportKey = 'hasRegisteredUuidSupport';
-    // if (
-    //   !storage.get(hasRegisteredUuidSupportKey) &&
-    //   textsecure.storage.user.getUuid()
-    // ) {
-    //   const server = WebAPI.connect({
-    //     username: USERNAME || OLD_USERNAME,
-    //     password: PASSWORD,
-    //   });
-    //   try {
-    //     await server.registerCapabilities({ uuid: true });
-    //     storage.put(hasRegisteredUuidSupportKey, true);
-    //   } catch (error) {
-    //     window.log.error(
-    //       'Error: Unable to register support for UUID messages.',
-    //       error && error.stack ? error.stack : error
-    //     );
-    //   }
-    // }
+    const hasRegisteredGroupV2SupportKey = 'hasRegisteredGroupV2Support';
+    if (
+      !storage.get(hasRegisteredGroupV2SupportKey) &&
+      textsecure.storage.user.getUuid()
+    ) {
+      const server = WebAPI.connect({
+        username: USERNAME || OLD_USERNAME,
+        password: PASSWORD,
+      });
+      try {
+        await server.registerCapabilities({ gv2: true });
+        storage.put(hasRegisteredGroupV2SupportKey, true);
+      } catch (error) {
+        window.log.error(
+          'Error: Unable to register support for GroupV2.',
+          error && error.stack ? error.stack : error
+        );
+      }
+    }
 
     const deviceId = textsecure.storage.user.getDeviceId();
 
@@ -1918,6 +1970,49 @@
       view.applyTheme();
     }
   }
+
+  const FIVE_MINUTES = 5 * 60 * 1000;
+
+  // Note: once this function returns, there still might be messages being processed on
+  //   a given conversation's queue. But we have processed all events from the websocket.
+  async function waitForEmptyEventQueue() {
+    if (!messageReceiver) {
+      window.log.info(
+        'waitForEmptyEventQueue: No messageReceiver available, returning early'
+      );
+      return;
+    }
+
+    if (!messageReceiver.hasEmptied()) {
+      window.log.info(
+        'waitForEmptyEventQueue: Waiting for MessageReceiver empty event...'
+      );
+      let resolve;
+      let reject;
+      const promise = new Promise((innerResolve, innerReject) => {
+        resolve = innerResolve;
+        reject = innerReject;
+      });
+
+      const timeout = setTimeout(reject, FIVE_MINUTES);
+      const onEmptyOnce = () => {
+        messageReceiver.removeEventListener('empty', onEmptyOnce);
+        clearTimeout(timeout);
+        resolve();
+      };
+      messageReceiver.addEventListener('empty', onEmptyOnce);
+
+      await promise;
+    }
+
+    window.log.info(
+      'waitForEmptyEventQueue: Waiting for event handler queue idle...'
+    );
+    await eventHandlerQueue.onIdle();
+  }
+
+  window.waitForEmptyEventQueue = waitForEmptyEventQueue;
+
   async function onEmpty() {
     await Promise.all([
       window.waitForAllBatchers(),
@@ -1936,11 +2031,6 @@
       navigator,
       logger: window.log,
     });
-
-    // Force a re-fetch here when we've processed our queue. Without this, we won't try
-    //   again for two hours after our first attempt. Which might have been while we were
-    //   offline or didn't have credentials.
-    window.Signal.RemoteConfig.refreshRemoteConfig();
 
     let interval = setInterval(() => {
       const view = window.owsDesktopApp.appView;
@@ -2024,7 +2114,7 @@
     // Note: this type of message is automatically removed from cache in MessageReceiver
 
     const { typing, sender, senderUuid, senderDevice } = ev;
-    const { groupId, started } = typing || {};
+    const { groupId, groupV2Id, started } = typing || {};
 
     // We don't do anything with incoming typing messages if the setting is disabled
     if (!storage.get('typingIndicators')) {
@@ -2036,27 +2126,34 @@
       uuid: senderUuid,
       highTrust: true,
     });
-    const conversation = ConversationController.get(groupId || senderId);
+    const conversation = ConversationController.get(
+      groupV2Id || groupId || senderId
+    );
     const ourId = ConversationController.getOurConversationId();
 
-    if (conversation) {
-      // We drop typing notifications in groups we're not a part of
-      if (!conversation.isPrivate() && !conversation.hasMember(ourId)) {
-        window.log.warn(
-          `Received typing indicator for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
-        );
-        return;
-      }
-
-      conversation.notifyTyping({
-        isTyping: started,
-        isMe: ourId === senderId,
-        sender,
-        senderUuid,
-        senderId,
-        senderDevice,
-      });
+    if (!conversation) {
+      window.log.warn(
+        `onTyping: Did not find conversation for typing indicator (groupv2(${groupV2Id}), group(${groupId}), ${sender}, ${senderUuid})`
+      );
+      return;
     }
+
+    // We drop typing notifications in groups we're not a part of
+    if (!conversation.isPrivate() && !conversation.hasMember(ourId)) {
+      window.log.warn(
+        `Received typing indicator for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
+      );
+      return;
+    }
+
+    conversation.notifyTyping({
+      isTyping: started,
+      isMe: ourId === senderId,
+      sender,
+      senderUuid,
+      senderId,
+      senderDevice,
+    });
   }
 
   async function onStickerPack(ev) {
@@ -2227,6 +2324,7 @@
     }
   }
 
+  // Note: this handler is only for v1 groups received via 'group sync' messages
   async function onGroupReceived(ev) {
     const details = ev.groupDetails;
     const { id } = details;
@@ -2244,6 +2342,13 @@
       id,
       'group'
     );
+    if (conversation.get('groupVersion') > 1) {
+      window.log.warn(
+        'Got group sync for v2 group: ',
+        conversation.idForLoggoing()
+      );
+      return;
+    }
 
     const memberConversations = details.membersE164.map(e164 =>
       ConversationController.getOrCreate(e164, 'private')
@@ -2321,37 +2426,6 @@
     );
   }
 
-  // Descriptors
-  const getGroupDescriptor = group => ({
-    type: Message.GROUP,
-    id: group.id,
-  });
-
-  // Matches event data from `libtextsecure` `MessageReceiver::handleSentMessage`:
-  const getDescriptorForSent = ({ message, destination, destinationUuid }) =>
-    message.group
-      ? getGroupDescriptor(message.group)
-      : {
-          type: Message.PRIVATE,
-          id: ConversationController.ensureContactIds({
-            e164: destination,
-            uuid: destinationUuid,
-          }),
-        };
-
-  // Matches event data from `libtextsecure` `MessageReceiver::handleDataMessage`:
-  const getDescriptorForReceived = ({ message, source, sourceUuid }) =>
-    message.group
-      ? getGroupDescriptor(message.group)
-      : {
-          type: Message.PRIVATE,
-          id: ConversationController.ensureContactIds({
-            e164: source,
-            uuid: sourceUuid,
-            highTrust: true,
-          }),
-        };
-
   // Received:
   async function handleMessageReceivedProfileUpdate({
     data,
@@ -2368,6 +2442,50 @@
 
     return confirm();
   }
+
+  // Matches event data from `libtextsecure` `MessageReceiver::handleDataMessage`:
+  const getDescriptorForReceived = ({ message, source, sourceUuid }) => {
+    if (message.groupV2) {
+      const { id } = message.groupV2;
+      const conversationId = ConversationController.ensureGroup(id, {
+        groupVersion: 2,
+        masterKey: message.groupV2.masterKey,
+        secretParams: message.groupV2.secretParams,
+        publicParams: message.groupV2.publicParams,
+      });
+
+      return {
+        type: Message.GROUP,
+        id: conversationId,
+      };
+    }
+    if (message.group) {
+      const { id } = message.group;
+      const fromContactId = ConversationController.ensureContactIds({
+        e164: source,
+        uuid: sourceUuid,
+        highTrust: true,
+      });
+
+      const conversationId = ConversationController.ensureGroup(id, {
+        addedBy: fromContactId,
+      });
+
+      return {
+        type: Message.GROUP,
+        id: conversationId,
+      };
+    }
+
+    return {
+      type: Message.PRIVATE,
+      id: ConversationController.ensureContactIds({
+        e164: source,
+        uuid: sourceUuid,
+        highTrust: true,
+      }),
+    };
+  };
 
   // Note: We do very little in this function, since everything in handleDataMessage is
   //   inside a conversation-specific queue(). Any code here might run before an earlier
@@ -2392,13 +2510,16 @@
 
     if (data.message.reaction) {
       const { reaction } = data.message;
-      window.log.info('Queuing reaction for', reaction.targetTimestamp);
+      window.log.info(
+        'Queuing incoming reaction for',
+        reaction.targetTimestamp
+      );
       const reactionModel = Whisper.Reactions.add({
         emoji: reaction.emoji,
         remove: reaction.remove,
         targetAuthorE164: reaction.targetAuthorE164,
         targetAuthorUuid: reaction.targetAuthorUuid,
-        targetTimestamp: reaction.targetTimestamp.toNumber(),
+        targetTimestamp: reaction.targetTimestamp,
         timestamp: Date.now(),
         fromId: ConversationController.ensureContactIds({
           e164: data.source,
@@ -2413,7 +2534,7 @@
 
     if (data.message.delete) {
       const { delete: del } = data.message;
-      window.log.info('Queuing DOE for', del.targetSentTimestamp);
+      window.log.info('Queuing incoming DOE for', del.targetSentTimestamp);
       const deleteModel = Whisper.Deletes.add({
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: data.serverTimestamp,
@@ -2508,11 +2629,6 @@
       data.unidentifiedDeliveries = unidentified.map(item => item.destination);
     }
 
-    const isGroup = descriptor.type === Message.GROUP;
-    const conversationId = isGroup
-      ? ConversationController.ensureGroup(descriptor.id)
-      : descriptor.id;
-
     return new Whisper.Message({
       source: textsecure.storage.user.getNumber(),
       sourceUuid: textsecure.storage.user.getUuid(),
@@ -2521,7 +2637,7 @@
       serverTimestamp: data.serverTimestamp,
       sent_to: sentTo,
       received_at: now,
-      conversationId,
+      conversationId: descriptor.id,
       type: 'outgoing',
       sent: true,
       unidentifiedDeliveries: data.unidentifiedDeliveries || [],
@@ -2531,6 +2647,42 @@
       ),
     });
   }
+
+  // Matches event data from `libtextsecure` `MessageReceiver::handleSentMessage`:
+  const getDescriptorForSent = ({ message, destination, destinationUuid }) => {
+    if (message.groupV2) {
+      const { id } = message.groupV2;
+      const conversationId = ConversationController.ensureGroup(id, {
+        groupVersion: 2,
+        masterKey: message.groupV2.masterKey,
+        secretParams: message.groupV2.secretParams,
+        publicParams: message.groupV2.publicParams,
+      });
+
+      return {
+        type: Message.GROUP,
+        id: conversationId,
+      };
+    }
+    if (message.group) {
+      const { id } = message.group;
+      const conversationId = ConversationController.ensureGroup(id);
+
+      return {
+        type: Message.GROUP,
+        id: conversationId,
+      };
+    }
+
+    return {
+      type: Message.PRIVATE,
+      id: ConversationController.ensureContactIds({
+        e164: destination,
+        uuid: destinationUuid,
+        highTrust: true,
+      }),
+    };
+  };
 
   // Note: We do very little in this function, since everything in handleDataMessage is
   //   inside a conversation-specific queue(). Any code here might run before an earlier
@@ -2555,12 +2707,13 @@
 
     if (data.message.reaction) {
       const { reaction } = data.message;
+      window.log.info('Queuing sent reaction for', reaction.targetTimestamp);
       const reactionModel = Whisper.Reactions.add({
         emoji: reaction.emoji,
         remove: reaction.remove,
         targetAuthorE164: reaction.targetAuthorE164,
         targetAuthorUuid: reaction.targetAuthorUuid,
-        targetTimestamp: reaction.targetTimestamp.toNumber(),
+        targetTimestamp: reaction.targetTimestamp,
         timestamp: Date.now(),
         fromId: ConversationController.getOurConversationId(),
         fromSync: true,
@@ -2574,6 +2727,7 @@
 
     if (data.message.delete) {
       const { delete: del } = data.message;
+      window.log.info('Queuing sent DOE for', del.targetSentTimestamp);
       const deleteModel = Whisper.Deletes.add({
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: del.serverTimestamp,
@@ -2594,20 +2748,6 @@
   }
 
   function initIncomingMessage(data, descriptor) {
-    // Ensure that we have an accurate record for who this message is from
-    const fromContactId = ConversationController.ensureContactIds({
-      e164: data.source,
-      uuid: data.sourceUuid,
-      highTrust: true,
-    });
-
-    const isGroup = descriptor.type === Message.GROUP;
-    const conversationId = isGroup
-      ? ConversationController.ensureGroup(descriptor.id, {
-          addedBy: fromContactId,
-        })
-      : fromContactId;
-
     return new Whisper.Message({
       source: data.source,
       sourceUuid: data.sourceUuid,
@@ -2615,7 +2755,7 @@
       sent_at: data.timestamp,
       serverTimestamp: data.serverTimestamp,
       received_at: Date.now(),
-      conversationId,
+      conversationId: descriptor.id,
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
       type: 'incoming',
       unread: 1,
@@ -2728,6 +2868,14 @@
 
       const conversationId = message.get('conversationId');
       const conversation = ConversationController.get(conversationId);
+
+      if (!conversation) {
+        window.log.warn(
+          'onError: No conversation id, cannot save error bubble'
+        );
+        ev.confirm();
+        return Promise.resolve();
+      }
 
       // This matches the queueing behavior used in Message.handleDataMessage
       conversation.queueJob(async () => {

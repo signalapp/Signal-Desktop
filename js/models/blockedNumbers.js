@@ -65,7 +65,7 @@
       return;
     }
 
-    window.log.info(`adding groupId(${groupId}) to blocked list`);
+    window.log.info(`adding group(${groupId}) to blocked list`);
     storage.put(BLOCKED_GROUPS_ID, groupIds.concat(groupId));
   };
   storage.removeBlockedGroup = groupId => {

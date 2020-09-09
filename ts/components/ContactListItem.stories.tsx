@@ -69,6 +69,33 @@ storiesOf('Components/ContactListItem', module)
       />
     );
   })
+  .add('With name and profile, admin', () => {
+    return (
+      <ContactListItem
+        i18n={i18n}
+        isAdmin
+        title="Someone 🔥 Somewhere"
+        name="Someone 🔥 Somewhere"
+        phoneNumber="(202) 555-0011"
+        profileName="🔥Flames🔥"
+        isVerified
+        avatarPath={gifUrl}
+        onClick={onClick}
+      />
+    );
+  })
+  .add('With just number, admin', () => {
+    return (
+      <ContactListItem
+        i18n={i18n}
+        isAdmin
+        title="(202) 555-0011"
+        phoneNumber="(202) 555-0011"
+        avatarPath={gifUrl}
+        onClick={onClick}
+      />
+    );
+  })
   .add('With name and profile, no avatar', () => {
     return (
       <ContactListItem

@@ -1,0 +1,152 @@
+syntax = "proto3";
+
+package signalservice;
+
+option java_package        = "org.whispersystems.signalservice.protos.groups";
+option java_multiple_files = true;
+
+message AvatarUploadAttributes {
+  string key        = 1;
+  string credential = 2;
+  string acl        = 3;
+  string algorithm  = 4;
+  string date       = 5;
+  string policy     = 6;
+  string signature  = 7;
+}
+
+message Member {
+  enum Role {
+    UNKNOWN       = 0;
+    DEFAULT       = 1; // Normal member
+    ADMINISTRATOR = 2; // Group admin
+  }
+
+  bytes  userId          = 1; // The UuidCiphertext
+  Role   role            = 2;
+  bytes  profileKey      = 3; // The ProfileKeyCiphertext
+  bytes  presentation    = 4; // ProfileKeyCredentialPresentation
+  uint32 joinedAtVersion = 5; // The Group.version this member joined at
+}
+
+message PendingMember {
+  Member member        = 1; // The “invited” member
+  bytes  addedByUserId = 2; // The UID who invited this member
+  uint64 timestamp     = 3; // The time the invitation occurred
+}
+
+message AccessControl {
+  enum AccessRequired {
+    UNKNOWN       = 0;
+    MEMBER        = 2; // Any group member can make the modification
+    ADMINISTRATOR = 3; // Only administrators can make the modification
+  }
+
+  AccessRequired attributes = 1; // Who can modify the group title, avatar, disappearing messages timer
+  AccessRequired members    = 2; // Who can add people to the group
+}
+
+message Group {
+           bytes         publicKey                 = 1; // GroupPublicParams
+           bytes         title                     = 2; // Encrypted title
+           string        avatar                    = 3; // Pointer to encrypted avatar (‘key’ from AvatarUploadAttributes)
+           bytes         disappearingMessagesTimer = 4; // Encrypted timer
+           AccessControl accessControl             = 5;
+           uint32        version                   = 6; // Current group version number
+  repeated Member        members                   = 7;
+  repeated PendingMember pendingMembers            = 8;
+}
+
+message GroupChange {
+
+  message Actions {
+
+    message AddMemberAction {
+      Member added = 1;
+    }
+
+    message DeleteMemberAction {
+      bytes deletedUserId = 1;
+    }
+
+    message ModifyMemberRoleAction {
+      bytes       userId = 1;
+      Member.Role role   = 2;
+    }
+
+    message ModifyMemberProfileKeyAction {
+      bytes presentation = 1;
+    }
+
+    message AddPendingMemberAction {
+      PendingMember added = 1;
+    }
+
+    message DeletePendingMemberAction {
+      bytes deletedUserId = 1;
+    }
+
+    message PromotePendingMemberAction {
+      bytes presentation = 1;
+    }
+
+    message ModifyTitleAction {
+      bytes title = 1;
+    }
+
+    message ModifyAvatarAction {
+      string avatar = 1;
+    }
+
+    message ModifyDisappearingMessagesTimerAction {
+      bytes timer = 1;
+    }
+
+    message ModifyAttributesAccessControlAction {
+      AccessControl.AccessRequired attributesAccess = 1;
+    }
+
+    message ModifyAvatarAccessControlAction {
+      AccessControl.AccessRequired avatarAccess = 1;
+    }
+
+    message ModifyMembersAccessControlAction {
+      AccessControl.AccessRequired membersAccess = 1;
+    }
+
+             bytes                                 sourceUuid                      = 1; // Who made the change
+             uint32                                version                         = 2; // The change version number
+    repeated AddMemberAction                       addMembers                      = 3; // Members added
+    repeated DeleteMemberAction                    deleteMembers                   = 4; // Members deleted
+    repeated ModifyMemberRoleAction                modifyMemberRoles               = 5; // Modified member roles
+    repeated ModifyMemberProfileKeyAction          modifyMemberProfileKeys         = 6; // Modified member profile keys
+    repeated AddPendingMemberAction                addPendingMembers               = 7; // Pending members added
+    repeated DeletePendingMemberAction             deletePendingMembers            = 8; // Pending members deleted
+    repeated PromotePendingMemberAction            promotePendingMembers           = 9; // Pending invitations accepted
+             ModifyTitleAction                     modifyTitle                     = 10; // Changed title
+             ModifyAvatarAction                    modifyAvatar                    = 11; // Changed avatar
+             ModifyDisappearingMessagesTimerAction modifyDisappearingMessagesTimer = 12; // Changed timer
+             ModifyAttributesAccessControlAction   modifyAttributesAccess          = 13; // Changed attributes access control
+             ModifyMembersAccessControlAction      modifyMemberAccess              = 14; // Changed membership access control
+  }
+
+  bytes actions         = 1; // The serialized actions
+  bytes serverSignature = 2; // Server’s signature over serialized actions
+}
+
+message GroupChanges {
+  message GroupChangeState {
+    GroupChange groupChange = 1;
+    Group       groupState  = 2;
+  }
+
+  repeated GroupChangeState groupChanges = 1;
+}
+
+message GroupAttributeBlob {
+  oneof content {
+    string title                        = 1;
+    bytes  avatar                       = 2;
+    uint32 disappearingMessagesDuration = 3;
+  }
+}

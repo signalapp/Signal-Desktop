@@ -1,7 +1,7 @@
 import { get, throttle } from 'lodash';
 import { WebAPIType } from './textsecure/WebAPI';
 
-type ConfigKeyType = 'desktop.messageRequests';
+type ConfigKeyType = 'desktop.messageRequests' | 'desktop.gv2' | 'desktop.cds';
 type ConfigValueType = {
   name: ConfigKeyType;
   enabled: boolean;
@@ -66,6 +66,7 @@ export const refreshRemoteConfig = async () => {
     // If enablement changes at all, notify listeners
     const currentListeners = listeners[name] || [];
     if (previouslyEnabled !== enabled) {
+      window.log.info(`Remote Config: Flag ${name} has been enabled`);
       currentListeners.forEach(listener => {
         listener(value);
       });

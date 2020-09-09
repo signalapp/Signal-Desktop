@@ -161,7 +161,7 @@ describe('Message', () => {
             left: 'You',
           },
         }).getNotificationData(),
-        { text: 'You left the group.' }
+        { text: 'You are no longer a member of the group.' }
       );
     });
 

@@ -22,9 +22,11 @@ import {
   mergeAccountRecord,
   mergeContactRecord,
   mergeGroupV1Record,
+  mergeGroupV2Record,
   toAccountRecord,
   toContactRecord,
   toGroupV1Record,
+  toGroupV2Record,
 } from './storageRecordOps';
 
 const {
@@ -128,6 +130,11 @@ async function generateManifest(
       // eslint-disable-next-line no-await-in-loop
       storageRecord.contact = await toContactRecord(conversation);
       identifier.type = ITEM_TYPE.CONTACT;
+    } else if ((conversation.get('groupVersion') || 0) > 1) {
+      storageRecord = new window.textsecure.protobuf.StorageRecord();
+      // eslint-disable-next-line no-await-in-loop
+      storageRecord.groupV1 = await toGroupV2Record(conversation);
+      identifier.type = ITEM_TYPE.GROUPV2;
     } else {
       storageRecord = new window.textsecure.protobuf.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
@@ -389,7 +396,8 @@ async function fetchManifest(
     if (err.code === 404) {
       await createNewManifest();
       return;
-    } else if (err.code === 204) {
+    }
+    if (err.code === 204) {
       // noNewerManifest we're ok
       return;
     }
@@ -429,6 +437,12 @@ async function mergeRecord(
       hasConflict = await mergeContactRecord(storageID, storageRecord.contact);
     } else if (itemType === ITEM_TYPE.GROUPV1 && storageRecord.groupV1) {
       hasConflict = await mergeGroupV1Record(storageID, storageRecord.groupV1);
+    } else if (
+      window.GV2 &&
+      itemType === ITEM_TYPE.GROUPV2 &&
+      storageRecord.groupV2
+    ) {
+      hasConflict = await mergeGroupV2Record(storageID, storageRecord.groupV2);
     } else if (itemType === ITEM_TYPE.ACCOUNT && storageRecord.account) {
       hasConflict = await mergeAccountRecord(storageID, storageRecord.account);
     } else {
@@ -592,9 +606,9 @@ async function processManifest(
       );
 
       return true;
-    } else {
-      consecutiveConflicts = 0;
     }
+
+    consecutiveConflicts = 0;
   } catch (err) {
     window.log.error(
       `storageService.processManifest: failed! ${

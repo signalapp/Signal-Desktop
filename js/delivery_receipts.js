@@ -18,7 +18,7 @@
       if (conversation.isPrivate()) {
         recipients = [conversation.id];
       } else {
-        recipients = conversation.get('members') || [];
+        recipients = conversation.getMemberIds();
       }
       const receipts = this.filter(
         receipt =>

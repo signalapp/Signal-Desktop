@@ -45,6 +45,9 @@
 
   const { addStickerPackReference, getMessageBySender } = window.Signal.Data;
   const { bytesFromString } = window.Signal.Crypto;
+  const PLACEHOLDER_CONTACT = {
+    title: i18n('unknownContact'),
+  };
 
   window.AccountCache = Object.create(null);
   window.AccountJobs = Object.create(null);
@@ -140,6 +143,7 @@
         !this.isEndSession() &&
         !this.isExpirationTimerUpdate() &&
         !this.isGroupUpdate() &&
+        !this.isGroupV2Change() &&
         !this.isKeyChange() &&
         !this.isMessageHistoryUnsynced() &&
         !this.isProfileChange() &&
@@ -154,6 +158,12 @@
         return {
           type: 'unsupportedMessage',
           data: this.getPropsForUnsupportedMessage(),
+        };
+      }
+      if (this.isGroupV2Change()) {
+        return {
+          type: 'groupV2Change',
+          data: this.getPropsForGroupV2Change(),
         };
       }
       if (this.isMessageHistoryUnsynced()) {
@@ -213,24 +223,13 @@
 
     // Other top-level prop-generation
     getPropsForSearchResult() {
-      const ourId = ConversationController.getOurConversationId();
       const sourceId = this.getContactId();
-      const fromContact = this.findAndFormatContact(sourceId);
-
-      if (ourId === sourceId) {
-        fromContact.isMe = true;
-      }
-
+      const from = this.findAndFormatContact(sourceId);
       const convo = this.getConversation();
-
-      const to = convo ? this.findAndFormatContact(convo.get('id')) : {};
-
-      if (to && convo && convo.isMe()) {
-        to.isMe = true;
-      }
+      const to = this.findAndFormatContact(convo.get('id'));
 
       return {
-        from: fromContact || {},
+        from,
         to,
 
         isSelected: this.isSelected,
@@ -358,6 +357,9 @@
         versionAtReceive < requiredVersion
       );
     },
+    isGroupV2Change() {
+      return Boolean(this.get('groupV2Change'));
+    },
     isExpirationTimerUpdate() {
       const flag =
         textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
@@ -399,6 +401,16 @@
         contact: this.findAndFormatContact(sourceId),
       };
     },
+    getPropsForGroupV2Change() {
+      const { protobuf } = window.textsecure;
+
+      return {
+        AccessControlEnum: protobuf.AccessControl.AccessRequired,
+        RoleEnum: protobuf.Member.Role,
+        ourConversationId: window.ConversationController.getOurConversationId(),
+        change: this.get('groupV2Change'),
+      };
+    },
     getPropsForTimerNotification() {
       const timerUpdate = this.get('expirationTimerUpdate');
       if (!timerUpdate) {
@@ -414,9 +426,10 @@
         uuid: sourceUuid,
       });
       const ourId = ConversationController.getOurConversationId();
+      const formattedContact = this.findAndFormatContact(sourceId);
 
       const basicProps = {
-        ...this.findAndFormatContact(sourceId),
+        ...formattedContact,
         type: 'fromOther',
         timespan,
         disabled,
@@ -432,6 +445,12 @@
         return {
           ...basicProps,
           type: 'fromMe',
+        };
+      }
+      if (!sourceId) {
+        return {
+          ...basicProps,
+          type: 'fromMember',
         };
       }
 
@@ -473,10 +492,6 @@
         });
       }
 
-      const placeholderContact = {
-        title: i18n('unknownContact'),
-      };
-
       if (groupUpdate.joined) {
         changes.push({
           type: 'add',
@@ -484,8 +499,7 @@
             Array.isArray(groupUpdate.joined)
               ? groupUpdate.joined
               : [groupUpdate.joined],
-            identifier =>
-              this.findAndFormatContact(identifier) || placeholderContact
+            identifier => this.findAndFormatContact(identifier)
           ),
         });
       }
@@ -502,8 +516,7 @@
             Array.isArray(groupUpdate.left)
               ? groupUpdate.left
               : [groupUpdate.left],
-            identifier =>
-              this.findAndFormatContact(identifier) || placeholderContact
+            identifier => this.findAndFormatContact(identifier)
           ),
         });
       }
@@ -600,15 +613,6 @@
       const reactions = (this.get('reactions') || []).map(re => {
         const c = this.findAndFormatContact(re.fromId);
 
-        if (!c) {
-          return {
-            emoji: re.emoji,
-            from: {
-              id: re.fromId,
-            },
-          };
-        }
-
         return {
           emoji: re.emoji,
           timestamp: re.timestamp,
@@ -661,17 +665,29 @@
 
     // Dependencies of prop-generation functions
     findAndFormatContact(identifier) {
+      if (!identifier) {
+        return PLACEHOLDER_CONTACT;
+      }
+
       const contactModel = this.findContact(identifier);
       if (contactModel) {
         return contactModel.format();
       }
 
-      const { format } = PhoneNumber;
+      const { format, isValidNumber } = PhoneNumber;
       const regionCode = storage.get('regionCode');
+
+      if (!isValidNumber(identifier, { regionCode })) {
+        return PLACEHOLDER_CONTACT;
+      }
+
+      const phoneNumber = format(identifier, {
+        ourRegionCode: regionCode,
+      });
+
       return {
-        phoneNumber: format(identifier, {
-          ourRegionCode: regionCode,
-        }),
+        title: phoneNumber,
+        phoneNumber,
       };
     },
     findContact(identifier) {
@@ -908,6 +924,29 @@
             i18n
           ),
         };
+      }
+
+      if (this.isGroupV2Change()) {
+        const { protobuf } = window.textsecure;
+        const change = this.get('groupV2Change');
+
+        const lines = window.Signal.GroupChange.renderChange(change, {
+          AccessControlEnum: protobuf.AccessControl.AccessRequired,
+          i18n: window.i18n,
+          ourConversationId: window.ConversationController.getOurConversationId(),
+          renderContact: conversationId => {
+            const conversation = window.ConversationController.get(
+              conversationId
+            );
+            return conversation
+              ? conversation.getTitle()
+              : window.i18n('unknownUser');
+          },
+          renderString: (key, i18n, placeholders) => i18n(key, placeholders),
+          RoleEnum: protobuf.Member.Role,
+        });
+
+        return { text: lines.join(' ') };
       }
 
       const attachments = this.get('attachments') || [];
@@ -1315,6 +1354,7 @@
       // Rendered sync messages
       const isCallHistory = this.isCallHistory();
       const isGroupUpdate = this.isGroupUpdate();
+      const isGroupV2Change = this.isGroupV2Change();
       const isEndSession = this.isEndSession();
       const isExpirationTimerUpdate = this.isExpirationTimerUpdate();
       const isVerifiedChange = this.isVerifiedChange();
@@ -1342,6 +1382,7 @@
         // Rendered sync messages
         isCallHistory ||
         isGroupUpdate ||
+        isGroupV2Change ||
         isEndSession ||
         isExpirationTimerUpdate ||
         isVerifiedChange ||
@@ -1634,6 +1675,8 @@
         // Because this is a partial group send, we manually construct the request like
         //   sendMessageToGroup does.
 
+        const groupV2 = conversation.getGroupV2Info();
+
         promise = textsecure.messaging.sendMessage(
           {
             recipients,
@@ -1645,10 +1688,13 @@
             sticker: stickerWithData,
             expireTimer: this.get('expireTimer'),
             profileKey,
-            group: {
-              id: this.getConversation().get('groupId'),
-              type: textsecure.protobuf.GroupContext.Type.DELIVER,
-            },
+            groupV2,
+            group: groupV2
+              ? null
+              : {
+                  id: this.getConversation().get('groupId'),
+                  type: textsecure.protobuf.GroupContext.Type.DELIVER,
+                },
           },
           options
         );
@@ -2392,19 +2438,79 @@
           }
         }
 
-        // We drop incoming messages for groups we already know about, which we're not a
-        //   part of, except for group updates.
-        const ourUuid = textsecure.storage.user.getUuid();
-        const ourNumber = textsecure.storage.user.getNumber();
-        const isGroupUpdate =
+        const existingRevision = conversation.get('revision');
+        const isGroupV2 = Boolean(initialMessage.groupV2);
+        const isV2GroupUpdate =
+          initialMessage.groupV2 &&
+          (!existingRevision ||
+            initialMessage.groupV2.revision > existingRevision);
+
+        // GroupV2
+        if (isGroupV2) {
+          conversation.maybeRepairGroupV2(
+            _.pick(initialMessage.groupV2, [
+              'masterKey',
+              'secretParams',
+              'publicParams',
+            ])
+          );
+        }
+
+        if (isV2GroupUpdate) {
+          const { revision, groupChange } = initialMessage.groupV2;
+          try {
+            await window.Signal.Groups.maybeUpdateGroup({
+              conversation,
+              groupChangeBase64: groupChange,
+              newRevision: revision,
+              timestamp: message.get('received_at'),
+            });
+          } catch (error) {
+            const errorText = error && error.stack ? error.stack : error;
+            window.log.error(
+              `handleDataMessage: Failed to process group update for ${conversation.idForLogging()} as part of message ${message.idForLogging()}: ${errorText}`
+            );
+            throw error;
+          }
+        }
+
+        const ourConversationId = ConversationController.getOurConversationId();
+        const senderId = ConversationController.ensureContactIds({
+          e164: source,
+          uuid: sourceUuid,
+        });
+        const isV1GroupUpdate =
           initialMessage.group &&
           initialMessage.group.type !==
             textsecure.protobuf.GroupContext.Type.DELIVER;
+
+        // Drop an incoming GroupV2 message if we or the sender are not part of the group
+        //   after applying the message's associated group chnages.
         if (
           type === 'incoming' &&
           !conversation.isPrivate() &&
-          !conversation.hasMember(ourNumber || ourUuid) &&
-          !isGroupUpdate
+          isGroupV2 &&
+          (conversation.get('left') ||
+            !conversation.hasMember(ourConversationId) ||
+            !conversation.hasMember(senderId))
+        ) {
+          window.log.warn(
+            `Received message destined for group ${conversation.idForLogging()}, which we or the sender are not a part of. Dropping.`
+          );
+          confirm();
+          return;
+        }
+
+        // We drop incoming messages for v1 groups we already know about, which we're not
+        //   a part of, except for group updates. Because group v1 updates haven't been
+        //   applied by this point.
+        if (
+          type === 'incoming' &&
+          !conversation.isPrivate() &&
+          !isGroupV2 &&
+          !isV1GroupUpdate &&
+          (conversation.get('left') ||
+            !conversation.hasMember(ourConversationId))
         ) {
           window.log.warn(
             `Received message destined for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
@@ -2488,7 +2594,9 @@
             let attributes = {
               ...conversation.attributes,
             };
-            if (dataMessage.group) {
+
+            // GroupV1
+            if (!isGroupV2 && dataMessage.group) {
               const pendingGroupUpdate = [];
               const memberConversations = await Promise.all(
                 dataMessage.group.membersE164.map(e164 =>
@@ -2597,10 +2705,6 @@
                   conversation.set({ addedBy: message.getContactId() });
                 }
               } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
-                const senderId = ConversationController.ensureContactIds({
-                  e164: source,
-                  uuid: sourceUuid,
-                });
                 const sender = ConversationController.get(senderId);
                 const inGroup = Boolean(
                   sender &&
@@ -2638,6 +2742,17 @@
               }
             }
 
+            // Drop empty messages after. This needs to happen after the initial
+            // message.set call and after GroupV1 processing to make sure all possible
+            // properties are set before we determine that a message is empty.
+            if (message.isEmpty()) {
+              window.log.info(
+                `handleDataMessage: Dropping empty message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
+              );
+              confirm();
+              return;
+            }
+
             if (type === 'outgoing') {
               const receipts = Whisper.DeliveryReceipts.forMessage(
                 conversation,
@@ -2652,61 +2767,66 @@
                 })
               );
             }
+
             attributes.active_at = now;
             conversation.set(attributes);
 
-            if (message.isExpirationTimerUpdate()) {
-              message.set({
-                expirationTimerUpdate: {
-                  source,
-                  sourceUuid,
-                  expireTimer: dataMessage.expireTimer,
-                },
-              });
-              conversation.set({ expireTimer: dataMessage.expireTimer });
-            } else if (dataMessage.expireTimer) {
+            if (dataMessage.expireTimer) {
               message.set({ expireTimer: dataMessage.expireTimer });
             }
 
-            // NOTE: Remove once the above uses
-            // `Conversation::updateExpirationTimer`:
-            const { expireTimer } = dataMessage;
-            const shouldLogExpireTimerChange =
-              message.isExpirationTimerUpdate() || expireTimer;
-            if (shouldLogExpireTimerChange) {
-              window.log.info("Update conversation 'expireTimer'", {
-                id: conversation.idForLogging(),
-                expireTimer,
-                source: 'handleDataMessage',
-              });
-            }
+            if (!isGroupV2) {
+              if (message.isExpirationTimerUpdate()) {
+                message.set({
+                  expirationTimerUpdate: {
+                    source,
+                    sourceUuid,
+                    expireTimer: dataMessage.expireTimer,
+                  },
+                });
+                conversation.set({ expireTimer: dataMessage.expireTimer });
+              }
 
-            if (!message.isEndSession()) {
-              if (dataMessage.expireTimer) {
-                if (
-                  dataMessage.expireTimer !== conversation.get('expireTimer')
+              // NOTE: Remove once the above calls this.model.updateExpirationTimer()
+              const { expireTimer } = dataMessage;
+              const shouldLogExpireTimerChange =
+                message.isExpirationTimerUpdate() || expireTimer;
+              if (shouldLogExpireTimerChange) {
+                window.log.info("Update conversation 'expireTimer'", {
+                  id: conversation.idForLogging(),
+                  expireTimer,
+                  source: 'handleDataMessage',
+                });
+              }
+
+              if (!message.isEndSession()) {
+                if (dataMessage.expireTimer) {
+                  if (
+                    dataMessage.expireTimer !== conversation.get('expireTimer')
+                  ) {
+                    conversation.updateExpirationTimer(
+                      dataMessage.expireTimer,
+                      source,
+                      message.get('received_at'),
+                      {
+                        fromGroupUpdate: message.isGroupUpdate(),
+                      }
+                    );
+                  }
+                } else if (
+                  conversation.get('expireTimer') &&
+                  // We only turn off timers if it's not a group update
+                  !message.isGroupUpdate()
                 ) {
                   conversation.updateExpirationTimer(
-                    dataMessage.expireTimer,
+                    null,
                     source,
-                    message.get('received_at'),
-                    {
-                      fromGroupUpdate: message.isGroupUpdate(),
-                    }
+                    message.get('received_at')
                   );
                 }
-              } else if (
-                conversation.get('expireTimer') &&
-                // We only turn off timers if it's not a group update
-                !message.isGroupUpdate()
-              ) {
-                conversation.updateExpirationTimer(
-                  null,
-                  source,
-                  message.get('received_at')
-                );
               }
             }
+
             if (type === 'incoming') {
               const readSync = Whisper.ReadSyncs.forMessage(message);
               if (readSync) {
@@ -2802,17 +2922,6 @@
                 await message.markViewed({ fromSync: true });
               }
             }
-          }
-
-          // Drop empty messages. This needs to happen after the initial
-          // message.set call to make sure all possible properties are set
-          // before we determine that a message is empty.
-          if (message.isEmpty()) {
-            window.log.info(
-              `Dropping empty datamessage ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
-            );
-            confirm();
-            return;
           }
 
           const conversationTimestamp = conversation.get('timestamp');

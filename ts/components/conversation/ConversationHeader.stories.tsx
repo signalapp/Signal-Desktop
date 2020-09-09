@@ -228,7 +228,7 @@ const stories: Array<ConversationHeaderStory> = [
           phoneNumber: '',
           id: '2',
           type: 'group',
-          leftGroup: true,
+          disableTimerChanges: true,
           expirationSettingName: '10 seconds',
           timerOptions: [
             {

@@ -1,17 +1,31 @@
 // tslint:disable no-bitwise no-default-export
 
-import { without } from 'lodash';
+import { Dictionary, without } from 'lodash';
 import PQueue from 'p-queue';
 
-import { ProxiedRequestOptionsType, WebAPIType } from './WebAPI';
+import {
+  GroupCredentialsType,
+  GroupLogResponseType,
+  ProxiedRequestOptionsType,
+  WebAPIType,
+} from './WebAPI';
 import createTaskWithTimeout from './TaskWithTimeout';
 import OutgoingMessage from './OutgoingMessage';
 import Crypto from './Crypto';
+import {
+  base64ToArrayBuffer,
+  concatenateBytes,
+  fromEncodedBinaryToArrayBuffer,
+  getZeroes,
+  hexToArrayBuffer,
+} from '../Crypto';
 import {
   AttachmentPointerClass,
   CallingMessageClass,
   ContentClass,
   DataMessageClass,
+  GroupChangeClass,
+  GroupClass,
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
 } from '../textsecure.d';
@@ -27,12 +41,6 @@ function stringToArrayBuffer(str: string): ArrayBuffer {
     uint[i] = str.charCodeAt(i);
   }
   return res;
-}
-function hexStringToArrayBuffer(string: string): ArrayBuffer {
-  return window.dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();
-}
-function base64ToArrayBuffer(string: string): ArrayBuffer {
-  return window.dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();
 }
 
 export type SendMetadataType = {
@@ -70,6 +78,17 @@ type QuoteAttachmentType = {
   attachmentPointer?: AttachmentPointerClass;
 };
 
+type GroupV2InfoType = {
+  groupChange?: ArrayBuffer;
+  masterKey: ArrayBuffer;
+  revision: number;
+  members: Array<string>;
+};
+type GroupV1InfoType = {
+  id: string;
+  members: Array<string>;
+};
+
 type MessageOptionsType = {
   attachments?: Array<AttachmentType> | null;
   body?: string;
@@ -79,6 +98,7 @@ type MessageOptionsType = {
     id: string;
     type: number;
   };
+  groupV2?: GroupV2InfoType;
   needsSync?: boolean;
   preview?: Array<PreviewType> | null;
   profileKey?: ArrayBuffer;
@@ -98,6 +118,7 @@ class Message {
     id: string;
     type: number;
   };
+  groupV2?: GroupV2InfoType;
   needsSync?: boolean;
   preview: any;
   profileKey?: ArrayBuffer;
@@ -117,6 +138,7 @@ class Message {
     this.expireTimer = options.expireTimer;
     this.flags = options.flags;
     this.group = options.group;
+    this.groupV2 = options.groupV2;
     this.needsSync = options.needsSync;
     this.preview = options.preview;
     this.profileKey = options.profileKey;
@@ -130,7 +152,7 @@ class Message {
       throw new Error('Invalid recipient list');
     }
 
-    if (!this.group && this.recipients.length !== 1) {
+    if (!this.group && !this.groupV2 && this.recipients.length !== 1) {
       throw new Error('Invalid recipient list for non-group');
     }
 
@@ -202,14 +224,19 @@ class Message {
     if (this.flags) {
       proto.flags = this.flags;
     }
-    if (this.group) {
+    if (this.groupV2) {
+      proto.groupV2 = new window.textsecure.protobuf.GroupContextV2();
+      proto.groupV2.masterKey = this.groupV2.masterKey;
+      proto.groupV2.revision = this.groupV2.revision;
+      proto.groupV2.groupChange = this.groupV2.groupChange || null;
+    } else if (this.group) {
       proto.group = new window.textsecure.protobuf.GroupContext();
       proto.group.id = stringToArrayBuffer(this.group.id);
       proto.group.type = this.group.type;
     }
     if (this.sticker) {
       proto.sticker = new window.textsecure.protobuf.DataMessage.Sticker();
-      proto.sticker.packId = hexStringToArrayBuffer(this.sticker.packId);
+      proto.sticker.packId = hexToArrayBuffer(this.sticker.packId);
       proto.sticker.packKey = base64ToArrayBuffer(this.sticker.packKey);
       proto.sticker.stickerId = this.sticker.stickerId;
 
@@ -306,9 +333,9 @@ export default class MessageSender {
   getPaddedAttachment(data: ArrayBuffer) {
     const size = data.byteLength;
     const paddedSize = this._getAttachmentSizeBucket(size);
-    const padding = window.Signal.Crypto.getZeroes(paddedSize - size);
+    const padding = getZeroes(paddedSize - size);
 
-    return window.Signal.Crypto.concatenateBytes(data, padding);
+    return concatenateBytes(data, padding);
   }
 
   async makeAttachmentPointer(attachment: AttachmentType) {
@@ -704,7 +731,9 @@ export default class MessageSender {
     return this.server.getProfile(number, options);
   }
 
-  async getUuidsForE164s(numbers: Array<string>) {
+  async getUuidsForE164s(
+    numbers: Array<string>
+  ): Promise<Dictionary<string | null>> {
     return this.server.getUuidsForE164s(numbers);
   }
 
@@ -882,14 +911,14 @@ export default class MessageSender {
     options: {
       recipientId: string;
       groupId: string;
-      groupNumbers: Array<string>;
+      groupMembers: Array<string>;
       isTyping: boolean;
       timestamp: number;
     },
     sendOptions: SendOptionsType = {}
   ) {
     const ACTION_ENUM = window.textsecure.protobuf.TypingMessage.Action;
-    const { recipientId, groupId, groupNumbers, isTyping, timestamp } = options;
+    const { recipientId, groupId, groupMembers, isTyping, timestamp } = options;
 
     // We don't want to send typing messages to our other devices, but we will
     //   in the group case.
@@ -904,10 +933,10 @@ export default class MessageSender {
     }
 
     const recipients = groupId
-      ? (without(groupNumbers, myNumber, myUuid) as Array<string>)
+      ? (without(groupMembers, myNumber, myUuid) as Array<string>)
       : [recipientId];
     const groupIdBuffer = groupId
-      ? window.Signal.Crypto.fromEncodedBinaryToArrayBuffer(groupId)
+      ? fromEncodedBinaryToArrayBuffer(groupId)
       : null;
 
     const action = isTyping ? ACTION_ENUM.STARTED : ACTION_ENUM.STOPPED;
@@ -1175,7 +1204,7 @@ export default class MessageSender {
       const { packId, packKey, installed } = item;
 
       const operation = new window.textsecure.protobuf.SyncMessage.StickerPackOperation();
-      operation.packId = hexStringToArrayBuffer(packId);
+      operation.packId = hexToArrayBuffer(packId);
       operation.packKey = base64ToArrayBuffer(packKey);
       operation.type = installed ? ENUM.INSTALL : ENUM.REMOVE;
 
@@ -1466,21 +1495,48 @@ export default class MessageSender {
   }
 
   async sendMessageToGroup(
-    groupId: string,
-    recipients: Array<string>,
-    messageText: string,
-    attachments: Array<AttachmentType>,
-    quote: any,
-    preview: any,
-    sticker: any,
-    reaction: any,
-    timestamp: number,
-    expireTimer: number | undefined,
-    profileKey?: ArrayBuffer,
+    {
+      attachments,
+      expireTimer,
+      groupV2,
+      groupV1,
+      messageText,
+      preview,
+      profileKey,
+      quote,
+      reaction,
+      sticker,
+      timestamp,
+    }: {
+      attachments?: Array<AttachmentType>;
+      expireTimer?: number;
+      groupV2?: GroupV2InfoType;
+      groupV1?: GroupV1InfoType;
+      messageText?: string;
+      preview?: any;
+      profileKey?: ArrayBuffer;
+      quote?: any;
+      reaction?: any;
+      sticker?: any;
+      timestamp: number;
+    },
     options?: SendOptionsType
   ): Promise<CallbackResultType> {
+    if (!groupV1 && !groupV2) {
+      throw new Error(
+        'sendMessageToGroup: Neither group1 nor groupv2 information provided!'
+      );
+    }
+
     const myE164 = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getNumber();
+    // prettier-ignore
+    const recipients = groupV2
+      ? groupV2.members
+      : groupV1
+        ? groupV1.members
+        : [];
+
     const attrs = {
       recipients: recipients.filter(r => r !== myE164 && r !== myUuid),
       body: messageText,
@@ -1492,10 +1548,13 @@ export default class MessageSender {
       reaction,
       expireTimer,
       profileKey,
-      group: {
-        id: groupId,
-        type: window.textsecure.protobuf.GroupContext.Type.DELIVER,
-      },
+      groupV2,
+      group: groupV1
+        ? {
+            id: groupV1.id,
+            type: window.textsecure.protobuf.GroupContext.Type.DELIVER,
+          }
+        : undefined,
     };
 
     if (recipients.length === 0) {
@@ -1512,138 +1571,25 @@ export default class MessageSender {
     return this.sendMessage(attrs, options);
   }
 
-  async createGroup(
-    targetIdentifiers: Array<string>,
-    id: string,
-    name: string,
-    avatar: AttachmentType,
-    options?: SendOptionsType
-  ) {
-    const proto = new window.textsecure.protobuf.DataMessage();
-    proto.group = new window.textsecure.protobuf.GroupContext();
-    proto.group.id = stringToArrayBuffer(id);
-
-    proto.group.type = window.textsecure.protobuf.GroupContext.Type.UPDATE;
-    proto.group.membersE164 = targetIdentifiers;
-    proto.group.name = name;
-
-    return this.makeAttachmentPointer(avatar).then(async attachment => {
-      if (!proto.group) {
-        throw new Error('createGroup: proto.group was set to null');
-      }
-      proto.group.avatar = attachment;
-      return this.sendGroupProto(
-        targetIdentifiers,
-        proto,
-        Date.now(),
-        options
-      ).then(() => {
-        if (!proto.group) {
-          throw new Error('createGroup: proto.group was set to null');
-        }
-
-        return proto.group.id;
-      });
-    });
+  async getGroup(options: GroupCredentialsType): Promise<GroupClass> {
+    return this.server.getGroup(options);
+  }
+  async getGroupLog(
+    startVersion: number,
+    options: GroupCredentialsType
+  ): Promise<GroupLogResponseType> {
+    return this.server.getGroupLog(startVersion, options);
+  }
+  async getGroupAvatar(key: string): Promise<ArrayBuffer> {
+    return this.server.getGroupAvatar(key);
+  }
+  async modifyGroup(
+    changes: GroupChangeClass.Actions,
+    options: GroupCredentialsType
+  ): Promise<GroupChangeClass> {
+    return this.server.modifyGroup(changes, options);
   }
 
-  async updateGroup(
-    groupId: string,
-    name: string,
-    avatar: AttachmentType,
-    targetIdentifiers: Array<string>,
-    options?: SendOptionsType
-  ) {
-    const proto = new window.textsecure.protobuf.DataMessage();
-    proto.group = new window.textsecure.protobuf.GroupContext();
-
-    proto.group.id = stringToArrayBuffer(groupId);
-    proto.group.type = window.textsecure.protobuf.GroupContext.Type.UPDATE;
-    proto.group.name = name;
-    proto.group.membersE164 = targetIdentifiers;
-
-    return this.makeAttachmentPointer(avatar).then(async attachment => {
-      if (!proto.group) {
-        throw new Error('updateGroup: proto.group was set to null');
-      }
-
-      proto.group.avatar = attachment;
-      return this.sendGroupProto(
-        targetIdentifiers,
-        proto,
-        Date.now(),
-        options
-      ).then(() => {
-        if (!proto.group) {
-          throw new Error('updateGroup: proto.group was set to null');
-        }
-        return proto.group.id;
-      });
-    });
-  }
-
-  async addIdentifierToGroup(
-    groupId: string,
-    newIdentifiers: Array<string>,
-    options: SendOptionsType
-  ) {
-    const proto = new window.textsecure.protobuf.DataMessage();
-    proto.group = new window.textsecure.protobuf.GroupContext();
-    proto.group.id = stringToArrayBuffer(groupId);
-    proto.group.type = window.textsecure.protobuf.GroupContext.Type.UPDATE;
-    proto.group.membersE164 = newIdentifiers;
-    return this.sendGroupProto(newIdentifiers, proto, Date.now(), options);
-  }
-
-  async setGroupName(
-    groupId: string,
-    name: string,
-    groupIdentifiers: Array<string>,
-    options: SendOptionsType
-  ) {
-    const proto = new window.textsecure.protobuf.DataMessage();
-    proto.group = new window.textsecure.protobuf.GroupContext();
-    proto.group.id = stringToArrayBuffer(groupId);
-    proto.group.type = window.textsecure.protobuf.GroupContext.Type.UPDATE;
-    proto.group.name = name;
-    proto.group.membersE164 = groupIdentifiers;
-
-    return this.sendGroupProto(groupIdentifiers, proto, Date.now(), options);
-  }
-
-  async setGroupAvatar(
-    groupId: string,
-    avatar: AttachmentType,
-    groupIdentifiers: Array<string>,
-    options: SendOptionsType
-  ) {
-    const proto = new window.textsecure.protobuf.DataMessage();
-    proto.group = new window.textsecure.protobuf.GroupContext();
-    proto.group.id = stringToArrayBuffer(groupId);
-    proto.group.type = window.textsecure.protobuf.GroupContext.Type.UPDATE;
-    proto.group.membersE164 = groupIdentifiers;
-
-    return this.makeAttachmentPointer(avatar).then(async attachment => {
-      if (!proto.group) {
-        throw new Error('setGroupAvatar: proto.group was set to null');
-      }
-
-      proto.group.avatar = attachment;
-      return this.sendGroupProto(groupIdentifiers, proto, Date.now(), options);
-    });
-  }
-
-  async leaveGroup(
-    groupId: string,
-    groupIdentifiers: Array<string>,
-    options?: SendOptionsType
-  ) {
-    const proto = new window.textsecure.protobuf.DataMessage();
-    proto.group = new window.textsecure.protobuf.GroupContext();
-    proto.group.id = stringToArrayBuffer(groupId);
-    proto.group.type = window.textsecure.protobuf.GroupContext.Type.QUIT;
-    return this.sendGroupProto(groupIdentifiers, proto, Date.now(), options);
-  }
   async sendExpirationTimerUpdateToGroup(
     groupId: string,
     groupIdentifiers: Array<string>,
@@ -1683,6 +1629,7 @@ export default class MessageSender {
 
     return this.sendMessage(attrs, options);
   }
+
   async sendExpirationTimerUpdateToIdentifier(
     identifier: string,
     expireTimer: number | undefined,

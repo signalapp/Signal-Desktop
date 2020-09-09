@@ -1,5 +1,6 @@
 import * as Backbone from 'backbone';
 
+import { GroupV2ChangeType } from './groups';
 import { LocalizerType } from './types/Util';
 import { CallHistoryDetailsType } from './types/Calling';
 import { ColorType } from './types/Colors';
@@ -26,7 +27,24 @@ type TaskResultType = any;
 
 type MessageAttributesType = {
   id: string;
-  serverTimestamp: number;
+  type?: string;
+
+  expirationTimerUpdate?: {
+    expireTimer: number;
+    source?: string;
+    sourceUuid?: string;
+  };
+  // Legacy fields for timer update notification only
+  flags?: number;
+  groupV2Change?: GroupV2ChangeType;
+  // Required. Used to sort messages in the database for the conversation timeline.
+  received_at?: number;
+  // More of a legacy feature, needed as we were updating the schema of messages in the
+  //   background, when we were still in IndexedDB, before attachments had gone to disk
+  // We set this so that the idle message upgrade process doesn't pick this message up
+  schemaVersion: number;
+  serverTimestamp?: number;
+  sourceUuid?: string;
 };
 
 declare class MessageModelType extends Backbone.Model<MessageAttributesType> {
@@ -49,27 +67,71 @@ type ConversationTypeType = 'private' | 'group';
 
 type ConversationAttributesType = {
   id: string;
-  uuid?: string;
-  e164?: string;
+  type: ConversationTypeType;
+  timestamp: number;
 
+  // Shared fields
   active_at?: number | null;
   draft?: string;
-  groupId?: string;
   isArchived?: boolean;
   lastMessage?: string;
-  members?: Array<string>;
+  name?: string;
   needsStorageServiceSync?: boolean;
   needsVerification?: boolean;
-  profileFamilyName?: string | null;
-  profileKey?: string | null;
-  profileName?: string | null;
   profileSharing: boolean;
   storageID?: string;
   storageUnknownFields: string;
-  type: ConversationTypeType;
   unreadCount?: number;
-  verified?: number;
   version: number;
+
+  // Private core info
+  uuid?: string;
+  e164?: string;
+
+  // Private other fields
+  profileFamilyName?: string | null;
+  profileKey?: string | null;
+  profileName?: string | null;
+  verified?: number;
+
+  // Group-only
+  groupId?: string;
+  left: boolean;
+  groupVersion?: number;
+
+  // GroupV1 only
+  members?: Array<string>;
+
+  // GroupV2 core info
+  masterKey?: string;
+  secretParams?: string;
+  publicParams?: string;
+  revision?: number;
+
+  // GroupV2 other fields
+  accessControl?: {
+    attributes: number;
+    members: number;
+  };
+  avatar?: {
+    url: string;
+    path: string;
+    hash: string;
+  };
+  expireTimer?: number;
+  membersV2?: Array<GroupV2MemberType>;
+  pendingMembersV2?: Array<GroupV2PendingMemberType>;
+};
+
+export type GroupV2MemberType = {
+  conversationId: string;
+  role: number;
+  joinedAtVersion: number;
+};
+export type GroupV2PendingMemberType = {
+  addedByUserId: string;
+  conversationId: string;
+  timestamp: number;
 };
 
 type VerificationOptions = {
@@ -113,6 +175,12 @@ export declare class ConversationModelType extends Backbone.Model<
   isMe(): boolean;
   isPrivate(): boolean;
   isVerified(): boolean;
+  maybeRepairGroupV2(data: {
+    masterKey: string;
+    secretParams: string;
+    publicParams: string;
+  }): void;
+  queueJob(job: () => Promise<void>): Promise<void>;
   safeGetVerified(): Promise<number>;
   setArchived(isArchived: boolean): void;
   setProfileKey(
