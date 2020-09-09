@@ -309,7 +309,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       mentionedUs,
     } = this.props;
 
-    const triggerId = `${phoneNumber}-ctxmenu-${Date.now()}`;
+    const triggerId = `conversation-item-${phoneNumber}-ctxmenu`;
 
     return (
       <div>

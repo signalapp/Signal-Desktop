@@ -304,7 +304,14 @@ export function getResetSessionMenuItem(
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showResetSession(Boolean(isPublic), Boolean(isRss), Boolean(isGroup), Boolean(isBlocked),)) {
+  if (
+    showResetSession(
+      Boolean(isPublic),
+      Boolean(isRss),
+      Boolean(isGroup),
+      Boolean(isBlocked)
+    )
+  ) {
     return <MenuItem onClick={action}>{i18n('resetSession')}</MenuItem>;
   }
   return null;

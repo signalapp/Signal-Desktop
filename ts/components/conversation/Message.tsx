@@ -1073,11 +1073,11 @@ export class Message extends React.PureComponent<Props, State> {
     //   It needs to be unique.
     // The Date.now() is a workaround to be sure a single triggerID with this id exists
     const triggerId = id
-      ? String(`${id}-${Date.now()}`)
-      : String(`${authorPhoneNumber}-${timestamp}`);
+      ? String(`message-${id}-${Date.now()}`)
+      : String(`message-${authorPhoneNumber}-${timestamp}`);
     const rightClickTriggerId = id
-      ? String(`${id}-ctx-${Date.now()}`)
-      : String(`${authorPhoneNumber}-ctx-${timestamp}`);
+      ? String(`message-ctx-${id}-${Date.now()}`)
+      : String(`message-ctx-${authorPhoneNumber}-${timestamp}`);
     if (expired) {
       return null;
     }
