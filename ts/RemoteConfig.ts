@@ -1,11 +1,16 @@
 import { get, throttle } from 'lodash';
 import { WebAPIType } from './textsecure/WebAPI';
 
-type ConfigKeyType = 'desktop.messageRequests' | 'desktop.gv2' | 'desktop.cds';
+type ConfigKeyType =
+  | 'desktop.messageRequests'
+  | 'desktop.gv2'
+  | 'desktop.cds'
+  | 'desktop.clientExpiration';
 type ConfigValueType = {
   name: ConfigKeyType;
   enabled: boolean;
   enabledAt?: number;
+  value?: unknown;
 };
 type ConfigMapType = { [key: string]: ConfigValueType };
 type ConfigListenerType = (value: ConfigValueType) => unknown;
@@ -51,31 +56,36 @@ export const refreshRemoteConfig = async () => {
   // The old configuration is not set as the initial value in reduce because
   // flags may have been deleted
   const oldConfig = config;
-  config = newConfig.reduce((previous, { name, enabled }) => {
+  config = newConfig.reduce((acc, { name, enabled, value }) => {
     const previouslyEnabled: boolean = get(oldConfig, [name, 'enabled'], false);
+    const previousValue: unknown = get(oldConfig, [name, 'value'], undefined);
     // If a flag was previously not enabled and is now enabled, record the time it was enabled
     const enabledAt: number | undefined =
       previouslyEnabled && enabled ? now : get(oldConfig, [name, 'enabledAt']);
 
-    const value = {
+    const configValue = {
       name: name as ConfigKeyType,
       enabled,
       enabledAt,
+      value,
     };
+
+    const hasChanged =
+      previouslyEnabled !== enabled || previousValue !== configValue.value;
 
     // If enablement changes at all, notify listeners
     const currentListeners = listeners[name] || [];
-    if (previouslyEnabled !== enabled) {
-      window.log.info(`Remote Config: Flag ${name} has been enabled`);
+    if (hasChanged) {
+      window.log.info(`Remote Config: Flag ${name} has changed`);
       currentListeners.forEach(listener => {
-        listener(value);
+        listener(configValue);
       });
     }
 
     // Return new configuration object
     return {
-      ...previous,
-      [name]: value,
+      ...acc,
+      [name]: configValue,
     };
   }, {});
 

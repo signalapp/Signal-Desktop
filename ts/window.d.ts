@@ -22,6 +22,7 @@ import { LocalizerType } from './types/Util';
 import { CallHistoryDetailsType } from './types/Calling';
 import { ColorType } from './types/Colors';
 import { ConversationController } from './ConversationController';
+import { ReduxActions } from './state/types';
 import { SendOptionsType } from './textsecure/SendMessage';
 import AccountManager from './textsecure/AccountManager';
 import Data from './sql/Client';
@@ -49,6 +50,7 @@ declare global {
     getSocketStatus: () => number;
     getTitle: () => string;
     waitForEmptyEventQueue: () => Promise<void>;
+    getVersion: () => string;
     showCallingPermissionsPopup: (forCamera: boolean) => Promise<void>;
     i18n: LocalizerType;
     isValidGuid: (maybeGuid: string) => boolean;
@@ -65,6 +67,7 @@ declare global {
     };
     normalizeUuids: (obj: any, paths: Array<string>, context: string) => any;
     platform: string;
+    reduxActions: ReduxActions;
     restart: () => void;
     showWindow: () => void;
     setBadgeCount: (count: number) => void;

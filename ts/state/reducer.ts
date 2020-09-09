@@ -32,12 +32,12 @@ import {
 } from './ducks/network';
 import {
   reducer as safetyNumber,
-  SafetyNumberActionTypes,
+  SafetyNumberActionType,
   SafetyNumberStateType,
 } from './ducks/safetyNumber';
 import {
   reducer as search,
-  SEARCH_TYPES as SearchActionType,
+  SearchActionType,
   SearchStateType,
 } from './ducks/search';
 import {
@@ -73,7 +73,7 @@ export type ActionsType =
   | ConversationActionType
   | ItemsActionType
   | NetworkActionType
-  | SafetyNumberActionTypes
+  | SafetyNumberActionType
   | StickersActionType
   | SearchActionType
   | UpdatesActionType;

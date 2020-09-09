@@ -106,7 +106,7 @@ type SearchInConversationActionType = {
   };
 };
 
-export type SEARCH_TYPES =
+export type SearchActionType =
   | SearchMessagesResultsKickoffActionType
   | SearchDiscussionsResultsKickoffActionType
   | SearchMessagesResultsFulfilledActionType
@@ -336,7 +336,7 @@ function getEmptyState(): SearchStateType {
 // tslint:disable-next-line cyclomatic-complexity max-func-body-length
 export function reducer(
   state: SearchStateType = getEmptyState(),
-  action: SEARCH_TYPES
+  action: SearchActionType
 ): SearchStateType {
   if (action.type === 'SHOW_ARCHIVED_CONVERSATIONS') {
     return getEmptyState();

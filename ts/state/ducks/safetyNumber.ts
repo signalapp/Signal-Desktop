@@ -62,7 +62,7 @@ type ToggleVerifiedFulfilledActionType = {
   payload: ToggleVerifiedAsyncActionType;
 };
 
-export type SafetyNumberActionTypes =
+export type SafetyNumberActionType =
   | GenerateActionType
   | GenerateFulfilledActionType
   | ToggleVerifiedActionType
@@ -161,7 +161,7 @@ function getEmptyState(): SafetyNumberStateType {
 
 export function reducer(
   state: SafetyNumberStateType = getEmptyState(),
-  action: SafetyNumberActionTypes
+  action: SafetyNumberActionType
 ): SafetyNumberStateType {
   if (action.type === TOGGLE_VERIFIED_PENDING) {
     const { contact } = action.payload;

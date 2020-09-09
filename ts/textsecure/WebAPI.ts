@@ -30,6 +30,7 @@ import {
   getRandomValue,
   splitUuids,
 } from '../Crypto';
+import { getUserAgent } from '../util/getUserAgent';
 
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
@@ -243,7 +244,8 @@ function _createSocket(
   {
     certificateAuthority,
     proxyUrl,
-  }: { certificateAuthority: string; proxyUrl?: string }
+    version,
+  }: { certificateAuthority: string; proxyUrl?: string; version: string }
 ) {
   let requestOptions;
   if (proxyUrl) {
@@ -256,8 +258,10 @@ function _createSocket(
       ca: certificateAuthority,
     };
   }
-
-  return new WebSocket(url, undefined, undefined, undefined, requestOptions, {
+  const headers = {
+    'User-Agent': getUserAgent(version),
+  };
+  return new WebSocket(url, undefined, undefined, headers, requestOptions, {
     maxReceivedFrameSize: 0x210000,
   });
 }
@@ -366,7 +370,7 @@ async function _promiseAjax(
       method: options.type,
       body: options.data,
       headers: {
-        'User-Agent': `Signal Desktop ${options.version}`,
+        'User-Agent': getUserAgent(options.version),
         'X-Signal-Agent': 'OWD',
         ...options.headers,
       } as HeaderListType,
@@ -412,6 +416,13 @@ async function _promiseAjax(
     fetch(url, fetchOptions)
       // tslint:disable-next-line max-func-body-length
       .then(async response => {
+        // Build expired!
+        if (response.status === 499) {
+          window.log.error('Error: build expired');
+          window.storage.put('remoteBuildExpiration', Date.now());
+          window.reduxActions.expiration.hydrateExpirationStatus(true);
+        }
+
         let resultPromise;
         if (
           (options.responseType === 'json' ||
@@ -797,7 +808,9 @@ export type WebAPIType = {
     options: GroupCredentialsType
   ) => Promise<string>;
   whoami: () => Promise<any>;
-  getConfig: () => Promise<Array<{ name: string; enabled: boolean }>>;
+  getConfig: () => Promise<
+    Array<{ name: string; enabled: boolean; value: string | null }>
+  >;
 };
 
 export type SignedPreKeyType = {
@@ -1021,7 +1034,7 @@ export function initialize({
 
     async function getConfig() {
       type ResType = {
-        config: Array<{ name: string; enabled: boolean }>;
+        config: Array<{ name: string; enabled: boolean; value: string | null }>;
       };
       const res: ResType = await _ajax({
         call: 'config',
@@ -2023,7 +2036,7 @@ export function initialize({
 
       return _createSocket(
         `${fixedScheme}/v1/websocket/?login=${login}&password=${pass}&agent=OWD&version=${clientVersion}`,
-        { certificateAuthority, proxyUrl }
+        { certificateAuthority, proxyUrl, version }
       );
     }
 
@@ -2037,7 +2050,7 @@ export function initialize({
 
       return _createSocket(
         `${fixedScheme}/v1/websocket/provisioning/?agent=OWD&version=${clientVersion}`,
-        { certificateAuthority, proxyUrl }
+        { certificateAuthority, proxyUrl, version }
       );
     }
 

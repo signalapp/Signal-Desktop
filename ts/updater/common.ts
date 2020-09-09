@@ -22,6 +22,7 @@ import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 
 import { getTempPath } from '../../app/attachments';
 import { Dialogs } from '../types/Dialogs';
+import { getUserAgent } from '../util/getUserAgent';
 
 // @ts-ignore
 import * as packageJson from '../../package.json';
@@ -324,7 +325,7 @@ function getGotOptions(): GotOptions<null> {
     ca,
     headers: {
       'Cache-Control': 'no-cache',
-      'User-Agent': `Signal Desktop ${packageJson.version}`,
+      'User-Agent': getUserAgent(packageJson.version),
     },
     useElectronNet: false,
   };

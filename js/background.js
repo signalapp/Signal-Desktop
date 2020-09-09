@@ -1543,6 +1543,25 @@
       await window.Signal.RemoteConfig.maybeRefreshRemoteConfig();
     });
 
+    // Listen for changes to the `desktop.clientExpiration` remote flag
+    window.Signal.RemoteConfig.onChange(
+      'desktop.clientExpiration',
+      ({ value }) => {
+        const remoteBuildExpirationTimestamp = window.Signal.Util.parseRemoteClientExpiration(
+          value
+        );
+        if (remoteBuildExpirationTimestamp) {
+          window.storage.put(
+            'remoteBuildExpiration',
+            remoteBuildExpirationTimestamp
+          );
+          window.reduxActions.expiration.hydrateExpirationStatus(
+            window.Signal.Util.hasExpired()
+          );
+        }
+      }
+    );
+
     // Listen for changes to the `desktop.messageRequests` remote configuration flag
     const removeMessageRequestListener = window.Signal.RemoteConfig.onChange(
       'desktop.messageRequests',
