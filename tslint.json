@@ -1,6 +1,11 @@
 {
   "defaultSeverity": "error",
-  "extends": ["tslint:recommended", "tslint-react", "tslint-microsoft-contrib"],
+  "extends": [
+    "tslint:recommended",
+    "tslint-react",
+    "tslint-microsoft-contrib",
+    "tslint-config-prettier"
+  ],
   "jsRules": {},
   "rules": {
     // prettier is handling this

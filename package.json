@@ -246,6 +246,7 @@
     "ts-loader": "4.1.0",
     "ts-node": "8.3.0",
     "tslint": "6",
+    "tslint-config-prettier": "^1.18.0",
     "tslint-microsoft-contrib": "6.2.0",
     "tslint-react": "3.6.0",
     "typed-scss-modules": "0.0.11",
