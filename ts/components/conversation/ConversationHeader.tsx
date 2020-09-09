@@ -475,6 +475,7 @@ export class ConversationHeader extends React.Component<Props> {
       isPublic,
       isRss,
       isGroup,
+      isBlocked,
       onResetSession,
       i18n
     );
