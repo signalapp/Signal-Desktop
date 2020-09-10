@@ -1,9 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { JazzIcon } from './JazzIcon';
 import { getInitials } from '../util/getInitials';
 import { LocalizerType } from '../types/Util';
+import { AvatarPlaceHolder } from './AvatarPlaceHolder';
 
 interface Props {
   avatarPath?: string;
@@ -48,30 +48,25 @@ export class Avatar extends React.PureComponent<Props, State> {
   }
 
   public renderIdenticon() {
-    const { phoneNumber, borderColor, borderWidth, size } = this.props;
+    const { phoneNumber, size, name, profileName } = this.props;
 
     if (!phoneNumber) {
-      return this.renderNoImage();
+      throw new Error('Empty phoneNumber for identifcon');
     }
 
-    const borderStyle = this.getBorderStyle(borderColor, borderWidth);
-
-    // Generate the seed
-    const hash = phoneNumber.substring(0, 12);
-    const seed = parseInt(hash, 16) || 1234;
-
-    return <JazzIcon seed={seed} diameter={size} paperStyles={borderStyle} />;
+    const userName = profileName || name;
+    return (
+      <AvatarPlaceHolder
+        phoneNumber={phoneNumber}
+        diameter={size}
+        name={userName}
+        colors={this.getAvatarColors()}
+      />
+    );
   }
 
   public renderImage() {
-    const {
-      avatarPath,
-      name,
-      phoneNumber,
-      profileName,
-      borderColor,
-      borderWidth,
-    } = this.props;
+    const { avatarPath, name, phoneNumber, profileName } = this.props;
     const { imageBroken } = this.state;
 
     if (!avatarPath || imageBroken) {
@@ -82,11 +77,8 @@ export class Avatar extends React.PureComponent<Props, State> {
       !name && profileName ? ` ~${profileName}` : ''
     }`;
 
-    const borderStyle = this.getBorderStyle(borderColor, borderWidth);
-
     return (
       <img
-        style={borderStyle}
         onError={this.handleImageErrorBound}
         alt={window.i18n('contactAvatarAlt', [title])}
         src={avatarPath}
@@ -95,14 +87,7 @@ export class Avatar extends React.PureComponent<Props, State> {
   }
 
   public renderNoImage() {
-    const {
-      conversationType,
-      name,
-      noteToSelf,
-      size,
-      borderColor,
-      borderWidth,
-    } = this.props;
+    const { conversationType, name, noteToSelf, size } = this.props;
 
     const initials = getInitials(name);
     const isGroup = conversationType === 'group';
@@ -119,8 +104,6 @@ export class Avatar extends React.PureComponent<Props, State> {
       );
     }
 
-    const borderStyle = this.getBorderStyle(borderColor, borderWidth);
-
     if (!isGroup && initials) {
       return (
         <div
@@ -128,7 +111,6 @@ export class Avatar extends React.PureComponent<Props, State> {
             'module-avatar__label',
             `module-avatar__label--${size}`
           )}
-          style={borderStyle}
         >
           {initials}
         </div>
@@ -142,24 +124,17 @@ export class Avatar extends React.PureComponent<Props, State> {
           `module-avatar__icon--${conversationType}`,
           `module-avatar__icon--${size}`
         )}
-        style={borderStyle}
       />
     );
   }
 
   public render() {
-    const {
-      avatarPath,
-      color,
-      size,
-      noteToSelf,
-      conversationType,
-    } = this.props;
+    const { avatarPath, color, size, conversationType } = this.props;
     const { imageBroken } = this.state;
 
     // If it's a direct conversation then we must have an identicon
     const hasAvatar = avatarPath || conversationType === 'direct';
-    const hasImage = !noteToSelf && hasAvatar && !imageBroken;
+    const hasImage = hasAvatar && !imageBroken;
 
     if (
       size !== 28 &&
@@ -207,17 +182,9 @@ export class Avatar extends React.PureComponent<Props, State> {
       : this.renderIdenticon();
   }
 
-  private getBorderStyle(_color?: string, _width?: number) {
-    //const borderWidth = typeof width === 'number' ? width : 3;
-
-    // no border at all for now
-    return undefined;
-    /* return color
-      ? {
-          borderColor: color,
-          borderStyle: 'solid',
-          borderWidth: borderWidth,
-        }
-      : undefined; */
+  private getAvatarColors(): Array<string> {
+    // const theme = window.Events.getThemedSettings();
+    // defined in session-android as `profile_picture_placeholder_colors`
+    return ['#5ff8b0', '#26cdb9', '#f3c615', '#fcac5a'];
   }
 }
