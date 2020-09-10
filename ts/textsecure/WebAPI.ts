@@ -775,7 +775,7 @@ export type WebAPIType = {
   ) => Promise<GroupChangeClass>;
   modifyStorageRecords: MessageSender['modifyStorageRecords'];
   putAttachment: (encryptedBin: ArrayBuffer) => Promise<any>;
-  registerCapabilities: (capabilities: any) => Promise<void>;
+  registerCapabilities: (capabilities: Dictionary<boolean>) => Promise<void>;
   putStickers: (
     encryptedManifest: ArrayBuffer,
     encryptedStickers: Array<ArrayBuffer>,
@@ -1128,11 +1128,11 @@ export function initialize({
       });
     }
 
-    async function registerCapabilities(capabilities: any) {
+    async function registerCapabilities(capabilities: Dictionary<boolean>) {
       return _ajax({
         call: 'registerCapabilities',
         httpType: 'PUT',
-        jsonData: { capabilities },
+        jsonData: capabilities,
       });
     }
 

@@ -1895,9 +1895,9 @@
       }
     }
 
-    const hasRegisteredGroupV2SupportKey = 'hasRegisteredGroupV2Support';
+    const hasRegisteredGV2Support = 'hasRegisteredGV2Support';
     if (
-      !storage.get(hasRegisteredGroupV2SupportKey) &&
+      !storage.get(hasRegisteredGV2Support) &&
       textsecure.storage.user.getUuid()
     ) {
       const server = WebAPI.connect({
@@ -1906,10 +1906,10 @@
       });
       try {
         await server.registerCapabilities({ gv2: true });
-        storage.put(hasRegisteredGroupV2SupportKey, true);
+        storage.put(hasRegisteredGV2Support, true);
       } catch (error) {
         window.log.error(
-          'Error: Unable to register support for GroupV2.',
+          'Error: Unable to register support for GV2.',
           error && error.stack ? error.stack : error
         );
       }
