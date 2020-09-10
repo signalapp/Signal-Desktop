@@ -268,7 +268,8 @@ type MaybeUpdatePropsType = {
   conversation: ConversationModelType;
   groupChangeBase64?: string;
   newRevision?: number;
-  timestamp?: number;
+  receivedAt?: number;
+  sentAt?: number;
   dropInitialJoinMessage?: boolean;
 };
 
@@ -294,10 +295,11 @@ export async function waitThenMaybeUpdateGroup(options: MaybeUpdatePropsType) {
 
 export async function maybeUpdateGroup({
   conversation,
+  dropInitialJoinMessage,
   groupChangeBase64,
   newRevision,
-  timestamp,
-  dropInitialJoinMessage,
+  receivedAt,
+  sentAt,
 }: MaybeUpdatePropsType) {
   const logId = conversation.idForLogging();
 
@@ -321,8 +323,8 @@ export async function maybeUpdateGroup({
 
     // Ensure that all generated message are ordered properly. Before the provided timestamp
     //   so update messages appear before the initiating message, or after now().
-    let syntheticTimestamp = timestamp
-      ? timestamp - (groupChangeMessages.length + 1)
+    let syntheticTimestamp = receivedAt
+      ? receivedAt - (groupChangeMessages.length + 1)
       : Date.now();
     // Save all synthetic messages describing group changes
     const changeMessagesToSave = groupChangeMessages.map(changeMessage => {
@@ -333,6 +335,7 @@ export async function maybeUpdateGroup({
         ...changeMessage,
         conversationId: conversation.id,
         received_at: syntheticTimestamp,
+        sent_at: sentAt,
       };
     });
 

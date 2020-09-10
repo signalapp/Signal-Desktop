@@ -2463,7 +2463,8 @@
               conversation,
               groupChangeBase64: groupChange,
               newRevision: revision,
-              timestamp: message.get('received_at'),
+              receivedAt: message.get('received_at'),
+              sentAt: message.get('sent_at'),
             });
           } catch (error) {
             const errorText = error && error.stack ? error.stack : error;
