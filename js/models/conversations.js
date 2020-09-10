@@ -546,11 +546,20 @@
     },
 
     async onNewMessage(message) {
+      const uuid = message.get ? message.get('sourceUuid') : message.sourceUuid;
+      const e164 = message.get ? message.get('source') : message.source;
+      const sourceDevice = message.get
+        ? message.get('sourceDevice')
+        : message.sourceDevice;
+
+      const sourceId = window.ConversationController.ensureContactIds({
+        uuid,
+        e164,
+      });
+      const typingToken = `${sourceId}.${sourceDevice}`;
+
       // Clear typing indicator for a given contact if we receive a message from them
-      const deviceId = message.get
-        ? `${message.get('conversationId')}.${message.get('sourceDevice')}`
-        : `${message.conversationId}.${message.sourceDevice}`;
-      this.clearContactTypingTimer(deviceId);
+      this.clearContactTypingTimer(typingToken);
 
       this.debouncedUpdateLastMessage();
     },
@@ -3142,26 +3151,26 @@
         return;
       }
 
-      const deviceId = `${senderId}.${senderDevice}`;
+      const typingToken = `${senderId}.${senderDevice}`;
 
       this.contactTypingTimers = this.contactTypingTimers || {};
-      const record = this.contactTypingTimers[deviceId];
+      const record = this.contactTypingTimers[typingToken];
 
       if (record) {
         clearTimeout(record.timer);
       }
 
       if (isTyping) {
-        this.contactTypingTimers[deviceId] = this.contactTypingTimers[
-          deviceId
+        this.contactTypingTimers[typingToken] = this.contactTypingTimers[
+          typingToken
         ] || {
           timestamp: Date.now(),
           senderId,
           senderDevice,
         };
 
-        this.contactTypingTimers[deviceId].timer = setTimeout(
-          this.clearContactTypingTimer.bind(this, deviceId),
+        this.contactTypingTimers[typingToken].timer = setTimeout(
+          this.clearContactTypingTimer.bind(this, typingToken),
           15 * 1000
         );
         if (!record) {
@@ -3169,7 +3178,7 @@
           this.trigger('change', this);
         }
       } else {
-        delete this.contactTypingTimers[deviceId];
+        delete this.contactTypingTimers[typingToken];
         if (record) {
           // User was previously typing, and is no longer. State change!
           this.trigger('change', this);
@@ -3177,13 +3186,13 @@
       }
     },
 
-    clearContactTypingTimer(deviceId) {
+    clearContactTypingTimer(typingToken) {
       this.contactTypingTimers = this.contactTypingTimers || {};
-      const record = this.contactTypingTimers[deviceId];
+      const record = this.contactTypingTimers[typingToken];
 
       if (record) {
         clearTimeout(record.timer);
-        delete this.contactTypingTimers[deviceId];
+        delete this.contactTypingTimers[typingToken];
 
         // User was previously typing, but timed out or we received message. State change!
         this.trigger('change', this);
