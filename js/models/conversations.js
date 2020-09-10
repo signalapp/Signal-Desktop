@@ -86,6 +86,13 @@
       return `group(${groupId})`;
     },
 
+    debugID() {
+      const uuid = this.get('uuid');
+      const e164 = this.get('e164');
+      const groupId = this.get('groupId');
+      return `group(${groupId}), sender(${uuid || e164}), id(${this.id})`;
+    },
+
     // This is one of the few times that we want to collapse our uuid/e164 pair down into
     //   just one bit of data. If we have a UUID, we'll send using it.
     getSendTarget() {

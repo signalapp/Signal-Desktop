@@ -170,6 +170,7 @@ export declare class ConversationModelType extends Backbone.Model<
   getSendOptions(options?: any): SendOptionsType | undefined;
   getTitle(): string;
   idForLogging(): string;
+  debugID(): string;
   isFromOrAddedByTrustedContact(): boolean;
   isBlocked(): boolean;
   isMe(): boolean;
