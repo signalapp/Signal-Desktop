@@ -51,7 +51,8 @@ export class Avatar extends React.PureComponent<Props, State> {
     const { phoneNumber, size, name, profileName } = this.props;
 
     if (!phoneNumber) {
-      throw new Error('Empty phoneNumber for identifcon');
+      window.log.error('Empty phoneNumber for identicon');
+      return <></>;
     }
 
     const userName = profileName || name;
