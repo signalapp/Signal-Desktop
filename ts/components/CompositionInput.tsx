@@ -639,7 +639,7 @@ export const CompositionInput = ({
         return 'enter-emoji';
       }
 
-      if (e.key === 'Enter' && !e.shiftKey) {
+      if (e.key === 'Enter' && !e.shiftKey && !e.altKey) {
         if (large && !(controlKey || commandKey)) {
           return getDefaultKeyBinding(e);
         }
