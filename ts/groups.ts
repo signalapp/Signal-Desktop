@@ -1425,8 +1425,7 @@ async function applyGroupChange({
   if (actions.modifyMemberAccess) {
     result.accessControl = {
       ...result.accessControl,
-      attributes:
-        actions.modifyMemberAccess.membersAccess || ACCESS_ENUM.MEMBER,
+      members: actions.modifyMemberAccess.membersAccess || ACCESS_ENUM.MEMBER,
     };
   }
 

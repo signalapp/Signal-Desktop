@@ -1344,15 +1344,18 @@ class MessageReceiverInner extends EventTarget {
     ev.sender = envelope.source;
     ev.senderUuid = envelope.sourceUuid;
     ev.senderDevice = envelope.sourceDevice;
+
+    const groupIdBuffer = groupId ? groupId.toArrayBuffer() : null;
+
     ev.typing = {
       typingMessage,
       timestamp: timestamp ? timestamp.toNumber() : Date.now(),
       groupId:
-        groupId && groupId.buffer.byteLength < 45
+        groupIdBuffer && groupIdBuffer.byteLength <= 16
           ? groupId.toString('binary')
           : null,
       groupV2Id:
-        groupId && groupId.buffer.byteLength >= 45
+        groupIdBuffer && groupIdBuffer.byteLength > 16
           ? groupId.toString('base64')
           : null,
       started:
