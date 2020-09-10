@@ -67,7 +67,6 @@ const excludedFilesRegexps = [
   '^test/test.js',
 
   // From libsignal-protocol-javascript project
-  '^js/libsignal-protocol-worker.js',
   '^libtextsecure/libsignal-protocol.js',
 
   // Copied from dependency

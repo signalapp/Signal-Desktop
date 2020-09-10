@@ -9,7 +9,6 @@ js/curve/*
 js/components.js
 js/libtextsecure.js
 js/util_worker.js
-js/libsignal-protocol-worker.js
 libtextsecure/components.js
 libtextsecure/test/test.js
 test/test.js
@@ -19,7 +18,6 @@ sticker-creator/dist/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
 js/libphonenumber-util.js
-js/libsignal-protocol-worker.js
 libtextsecure/libsignal-protocol.js
 libtextsecure/test/blanket_mocha.js
 test/blanket_mocha.js
