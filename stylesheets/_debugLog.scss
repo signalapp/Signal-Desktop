@@ -29,26 +29,18 @@
   }
 
   .result {
-    $link-max-width: 400px;
-    $open-width: 100px;
     $open-height: 36px;
     text-align: center;
 
-    $group-max-width: $link-max-width + $open-width;
     .input-group {
-      display: inline-block;
-      width: 100%;
-      max-width: $group-max-width;
+      display: inline-flex;
     }
 
-    $open-pad-x: ($open-width - 40px) / 2;
-    $open-pad-y: ($open-height - 22px) / 2;
     .copy {
-      float: left;
-      display: inline-block;
-      width: $open-width;
       height: $open-height;
-      padding: $open-pad-y $open-pad-x;
+      text-align: center;
+      line-height: $open-height;
+      padding: 0 30px;
       color: unset;
       text-decoration: none;
       cursor: pointer;
@@ -74,9 +66,8 @@
 
     .link {
       border-radius: 5px 0 0 5px;
-      float: left;
-      width: calc(100% - #{$open-width});
-      max-width: $link-max-width;
+      flex-grow: 1;
+      min-width: 400px;
       height: $open-height;
       padding: 0 10px;
       outline-offset: -4px;
