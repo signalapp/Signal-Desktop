@@ -17,5 +17,5 @@ export function getInitials(name?: string): string | undefined {
     return;
   }
 
-  return initials.slice(0, 2).join('');
+  return initials[0];
 }

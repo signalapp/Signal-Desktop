@@ -139,7 +139,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
               : null
           )}
         >
-          {isMe ? i18n('noteToSelf') : this.renderUser()}
+          {this.renderUser()}
         </div>
         {this.renderUnread()}
         {
@@ -347,18 +347,19 @@ export class ConversationListItem extends React.PureComponent<Props> {
   }
 
   private renderUser() {
-    const { name, phoneNumber, profileName } = this.props;
+    const { name, phoneNumber, profileName, isMe, i18n } = this.props;
 
     const shortenedPubkey = window.shortenPubkey(phoneNumber);
 
     const displayedPubkey = profileName ? shortenedPubkey : phoneNumber;
+    const displayName = isMe ? i18n('noteToSelf') : profileName;
 
     return (
       <div className="module-conversation__user">
         <ContactName
           phoneNumber={displayedPubkey}
           name={name}
-          profileName={profileName}
+          profileName={displayName}
           module="module-conversation__user"
           i18n={window.i18n}
           boldProfileName={true}

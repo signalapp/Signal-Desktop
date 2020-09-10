@@ -80,6 +80,7 @@ declare global {
     setSettingValue: any;
     shortenPubkey: any;
     showEditProfileDialog: any;
+    getOurDisplayName: () => string | undefined;
     showPasswordDialog: any;
     showSeedDialog: any;
     storage: any;

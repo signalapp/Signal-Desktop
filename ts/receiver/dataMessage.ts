@@ -43,7 +43,7 @@ export async function updateProfile(
         isRaw: true,
       });
 
-      // null => use jazzicon
+      // null => use placeholder with color and first letter
       let path = null;
       if (profileKey) {
         // Convert profileKey to ArrayBuffer, if needed
