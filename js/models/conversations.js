@@ -3084,6 +3084,14 @@
     // [X] whitelisted
     // [X] archived
     captureChange() {
+      if (!window.Signal.RemoteConfig.isEnabled('desktop.storageWrite')) {
+        window.log.info(
+          'conversation.captureChange: Returning early; desktop.storageWrite is falsey'
+        );
+
+        return;
+      }
+
       this.set({ needsStorageServiceSync: true });
 
       this.queueJob(() => {

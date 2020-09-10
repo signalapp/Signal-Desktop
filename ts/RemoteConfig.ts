@@ -6,6 +6,7 @@ type ConfigKeyType =
   | 'desktop.gv2'
   | 'desktop.cds'
   | 'desktop.storage'
+  | 'desktop.storageWrite'
   | 'desktop.clientExpiration';
 type ConfigValueType = {
   name: ConfigKeyType;

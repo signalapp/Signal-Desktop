@@ -665,6 +665,10 @@ async function processManifest(
 
 export async function runStorageServiceSyncJob(): Promise<void> {
   if (!isEnabled('desktop.storage')) {
+    window.log.info(
+      'storageService.runStorageServiceSyncJob: Not starting desktop.storage is falsey'
+    );
+
     return;
   }
 
@@ -738,6 +742,17 @@ export async function eraseAllStorageServiceState(): Promise<void> {
 
 async function nondebouncedStorageServiceUploadJob(): Promise<void> {
   if (!isEnabled('desktop.storage')) {
+    window.log.info(
+      'storageService.storageServiceUploadJob: Not starting desktop.storage is falsey'
+    );
+
+    return;
+  }
+  if (!isEnabled('desktop.storageWrite')) {
+    window.log.info(
+      'storageService.storageServiceUploadJob: Not starting desktop.storageWrite is falsey'
+    );
+
     return;
   }
 
