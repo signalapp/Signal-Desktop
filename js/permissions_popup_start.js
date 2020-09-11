@@ -1,8 +1,6 @@
 /* global $, Whisper, i18n */
 
 $(document).on('keydown', e => {
-  'use strict';
-
   if (e.keyCode === 27) {
     window.closePermissionsPopup();
   }
@@ -11,8 +9,6 @@ $(document).on('keydown', e => {
 const $body = $(document.body);
 
 async function applyTheme() {
-  'use strict';
-
   const theme = await window.getThemeSetting();
   $body.removeClass('light-theme');
   $body.removeClass('dark-theme');
@@ -22,8 +18,6 @@ async function applyTheme() {
 applyTheme();
 
 window.subscribeToSystemThemeChange(() => {
-  'use strict';
-
   applyTheme();
 });
 
@@ -42,8 +36,6 @@ window.view = new Whisper.ConfirmationDialogView({
   message,
   okText: i18n('allowAccess'),
   resolve: () => {
-    'use strict';
-
     if (!window.forCamera) {
       window.setMediaPermissions(true);
     } else {

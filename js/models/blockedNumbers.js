@@ -2,8 +2,6 @@
 
 // eslint-disable-next-line func-names
 (function() {
-  'use strict';
-
   const BLOCKED_NUMBERS_ID = 'blocked';
   const BLOCKED_UUIDS_ID = 'blocked-uuids';
   const BLOCKED_GROUPS_ID = 'blocked-groups';
@@ -67,7 +65,7 @@
       return;
     }
 
-    window.log.info(`adding groupId(${groupId}) to blocked list`);
+    window.log.info(`adding group(${groupId}) to blocked list`);
     storage.put(BLOCKED_GROUPS_ID, groupIds.concat(groupId));
   };
   storage.removeBlockedGroup = groupId => {

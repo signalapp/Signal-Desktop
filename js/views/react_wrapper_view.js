@@ -5,8 +5,6 @@
 
 // eslint-disable-next-line func-names
 (function() {
-  'use strict';
-
   window.Whisper = window.Whisper || {};
 
   window.Whisper.ReactWrapperView = Backbone.View.extend({
@@ -66,12 +64,13 @@
       });
     },
     augmentProps(props) {
-      return Object.assign({}, props, {
+      return {
+        ...props,
         close: () => {
           this.remove();
         },
         i18n,
-      });
+      };
     },
     remove() {
       if (this.onClose) {

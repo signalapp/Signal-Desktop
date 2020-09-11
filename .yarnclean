@@ -18,6 +18,9 @@ example
 coverage
 .nyc_output
 
+# unneeded files
+*.js.map
+
 # build scripts
 Makefile
 Gulpfile.js

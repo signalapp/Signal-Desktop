@@ -7,8 +7,6 @@
 
 // eslint-disable-next-line func-names
 (function() {
-  'use strict';
-
   window.Whisper = window.Whisper || {};
 
   Whisper.StickerPackInstallFailedToast = Whisper.ToastView.extend({
@@ -157,7 +155,9 @@
             this.onEmpty();
             break;
           default:
-            // We also replicate empty here
+            window.log.warn(
+              'startConnectionListener: Found unexpected socket status; calling onEmpty() manually.'
+            );
             this.onEmpty();
             break;
         }

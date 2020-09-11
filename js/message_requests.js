@@ -8,8 +8,6 @@
 
 // eslint-disable-next-line func-names
 (function() {
-  'use strict';
-
   window.Whisper = window.Whisper || {};
   Whisper.MessageRequests = new (Backbone.Collection.extend({
     forConversation(conversation) {

@@ -35,6 +35,11 @@ import {
   GroupNotification,
   PropsData as GroupNotificationProps,
 } from './GroupNotification';
+import {
+  GroupV2Change,
+  PropsDataType as GroupV2ChangeProps,
+} from './GroupV2Change';
+import { SmartContactRendererType } from '../../groupChange';
 import { ResetSessionNotification } from './ResetSessionNotification';
 import {
   ProfileChangeNotification,
@@ -73,6 +78,10 @@ type GroupNotificationType = {
   type: 'groupNotification';
   data: GroupNotificationProps;
 };
+type GroupV2ChangeType = {
+  type: 'groupV2Change';
+  data: GroupV2ChangeProps;
+};
 type ResetSessionNotificationType = {
   type: 'resetSessionNotification';
   data: null;
@@ -85,6 +94,7 @@ type ProfileChangeNotificationType = {
 export type TimelineItemType =
   | CallHistoryType
   | GroupNotificationType
+  | GroupV2ChangeType
   | LinkNotificationType
   | MessageType
   | ProfileChangeNotificationType
@@ -101,6 +111,7 @@ type PropsLocalType = {
   id: string;
   isSelected: boolean;
   selectMessage: (messageId: string, conversationId: string) => unknown;
+  renderContact: SmartContactRendererType;
   i18n: LocalizerType;
 };
 
@@ -120,6 +131,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       isSelected,
       item,
       i18n,
+      renderContact,
       selectMessage,
     } = this.props;
 
@@ -165,6 +177,14 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       notification = (
         <GroupNotification {...this.props} {...item.data} i18n={i18n} />
       );
+    } else if (item.type === 'groupV2Change') {
+      notification = (
+        <GroupV2Change
+          renderContact={renderContact}
+          {...item.data}
+          i18n={i18n}
+        />
+      );
     } else if (item.type === 'resetSessionNotification') {
       notification = (
         <ResetSessionNotification {...this.props} {...item.data} i18n={i18n} />
@@ -174,7 +194,12 @@ export class TimelineItem extends React.PureComponent<PropsType> {
         <ProfileChangeNotification {...this.props} {...item.data} i18n={i18n} />
       );
     } else {
-      throw new Error('TimelineItem: Unknown type!');
+      // Weird, yes, but the idea is to get a compile error when we aren't comprehensive
+      //   with our if/else checks above, but also log out the type we don't understand if
+      //   we encounter it at runtime.
+      const unknownItem: never = item;
+      const asItem = unknownItem as TimelineItemType;
+      throw new Error(`TimelineItem: Unknown type: ${asItem.type}`);
     }
 
     return (

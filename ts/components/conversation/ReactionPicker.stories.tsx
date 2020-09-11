@@ -1,12 +1,10 @@
 import * as React from 'react';
 
-// @ts-ignore
-import { setup as setupI18n } from '../../../js/modules/i18n';
-// @ts-ignore
-import enMessages from '../../../_locales/en/messages.json';
-
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+
+import { setup as setupI18n } from '../../../js/modules/i18n';
+import enMessages from '../../../_locales/en/messages.json';
 import { Props as ReactionPickerProps, ReactionPicker } from './ReactionPicker';
 import { EmojiPicker } from '../emoji/EmojiPicker';
 

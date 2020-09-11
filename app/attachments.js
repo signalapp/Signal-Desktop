@@ -10,8 +10,8 @@ const toArrayBuffer = require('to-arraybuffer');
 const { map, isArrayBuffer, isString } = require('lodash');
 const normalizePath = require('normalize-path');
 const sanitizeFilename = require('sanitize-filename');
-const { isPathInside } = require('../ts/util/isPathInside');
 const getGuid = require('uuid/v4');
+const { isPathInside } = require('../ts/util/isPathInside');
 
 let xattr;
 try {

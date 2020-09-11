@@ -1,6 +1,7 @@
 {
   "serverUrl": "https://textsecure-service.whispersystems.org",
   "storageUrl": "https://storage.signal.org",
+  "directoryUrl": "https://api.directory.signal.org",
   "cdn": {
     "0": "https://cdn.signal.org",
     "2": "https://cdn2.signal.org"

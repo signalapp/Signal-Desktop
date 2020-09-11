@@ -188,6 +188,9 @@ function prepareURL(pathSegments, moreKeys) {
       buildExpiration: config.get('buildExpiration'),
       serverUrl: config.get('serverUrl'),
       storageUrl: config.get('storageUrl'),
+      directoryUrl: config.get('directoryUrl'),
+      directoryEnclaveId: config.get('directoryEnclaveId'),
+      directoryTrustAnchor: config.get('directoryTrustAnchor'),
       cdnUrl0: config.get('cdn').get('0'),
       cdnUrl2: config.get('cdn').get('2'),
       certificateAuthority: config.get('certificateAuthority'),
@@ -272,31 +275,29 @@ if (OS === 'win32') {
 
 async function createWindow() {
   const { screen } = electron;
-  const windowOptions = Object.assign(
-    {
-      show: !startInTray, // allow to start minimised in tray
-      width: DEFAULT_WIDTH,
-      height: DEFAULT_HEIGHT,
-      minWidth: MIN_WIDTH,
-      minHeight: MIN_HEIGHT,
-      autoHideMenuBar: false,
-      backgroundColor:
-        config.environment === 'test' || config.environment === 'test-lib'
-          ? '#ffffff' // Tests should always be rendered on a white background
-          : '#3a76f0',
-      webPreferences: {
-        nodeIntegration: false,
-        nodeIntegrationInWorker: false,
-        contextIsolation: false,
-        preload: path.join(__dirname, 'preload.js'),
-        nativeWindowOpen: true,
-        spellcheck: await getSpellCheckSetting(),
-        backgroundThrottling: false,
-      },
-      icon: windowIcon,
+  const windowOptions = {
+    show: !startInTray, // allow to start minimised in tray
+    width: DEFAULT_WIDTH,
+    height: DEFAULT_HEIGHT,
+    minWidth: MIN_WIDTH,
+    minHeight: MIN_HEIGHT,
+    autoHideMenuBar: false,
+    backgroundColor:
+      config.environment === 'test' || config.environment === 'test-lib'
+        ? '#ffffff' // Tests should always be rendered on a white background
+        : '#3a76f0',
+    webPreferences: {
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js'),
+      nativeWindowOpen: true,
+      spellcheck: await getSpellCheckSetting(),
+      backgroundThrottling: false,
     },
-    _.pick(windowConfig, ['autoHideMenuBar', 'width', 'height', 'x', 'y'])
-  );
+    icon: windowIcon,
+    ..._.pick(windowConfig, ['autoHideMenuBar', 'width', 'height', 'x', 'y']),
+  };
 
   if (!_.isNumber(windowOptions.width) || windowOptions.width < MIN_WIDTH) {
     windowOptions.width = DEFAULT_WIDTH;
@@ -793,6 +794,7 @@ async function showDebugLogWindow() {
 
 let permissionsPopupWindow;
 function showPermissionsPopupWindow(forCalling, forCamera) {
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     if (permissionsPopupWindow) {
       permissionsPopupWindow.show();

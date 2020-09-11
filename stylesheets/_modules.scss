@@ -2581,7 +2581,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     color: $color-gray-60;
   }
   @include dark-theme {
-    color: $color-gray-25;
+    color: $color-gray-05;
   }
 }
 
@@ -2603,7 +2603,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     @include color-svg('../images/icons/v2/timer-24.svg', $color-gray-60);
   }
   @include dark-theme {
-    @include color-svg('../images/icons/v2/timer-24.svg', $color-gray-25);
+    @include color-svg('../images/icons/v2/timer-24.svg', $color-gray-05);
   }
 }
 
@@ -2617,7 +2617,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include dark-theme {
     @include color-svg(
       '../images/icons/v2/timer-disabled-24.svg',
-      $color-gray-25
+      $color-gray-05
     );
   }
 }
@@ -2689,6 +2689,11 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-contact-list-item__text {
   margin-left: 8px;
+
+  display: flex;
+  flex-direction: row;
+
+  flex-grow: 1;
 }
 
 .module-contact-list-item__text__name {
@@ -2720,6 +2725,14 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include dark-theme {
     @include color-svg('../images/icons/v2/check-24.svg', $color-gray-25);
   }
+}
+
+.module-contact-list-item__admin {
+  flex-grow: 1;
+  text-align: right;
+  height: 100%;
+
+  @include font-body-2-bold;
 }
 
 // Module: In Contacts Icon
@@ -8999,6 +9012,45 @@ button.module-image__border-overlay:focus {
     width: 10px;
     z-index: 2;
   }
+}
+
+// Module: GroupV2 Change
+
+.module-group-v2-change {
+  @include font-body-1;
+
+  margin-left: 2em;
+  margin-right: 2em;
+
+  text-align: center;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.module-group-v2-change--icon {
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/group-outline-20.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/group-outline-20.svg',
+      $color-gray-05
+    );
+  }
+
+  height: 20px;
+  width: 20px;
+
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Third-party module: react-tooltip-lite */

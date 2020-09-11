@@ -1,5 +1,4 @@
 const { join } = require('path');
-const packageJson = require('./package.json');
 const importOnce = require('node-sass-import-once');
 const rimraf = require('rimraf');
 const mkdirp = require('mkdirp');
@@ -8,6 +7,7 @@ const asar = require('asar');
 const fs = require('fs');
 const assert = require('assert');
 const sass = require('node-sass');
+const packageJson = require('./package.json');
 
 /* eslint-disable more/no-then, no-console  */
 

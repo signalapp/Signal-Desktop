@@ -256,6 +256,7 @@ const renderItem = (id: string) => (
     i18n={i18n}
     conversationId=""
     conversationAccepted
+    renderContact={() => '*ContactName*'}
     {...actions()}
   />
 );

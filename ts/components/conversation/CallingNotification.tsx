@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Timestamp } from './Timestamp';
 import { LocalizerType } from '../../types/Util';
-import { CallHistoryDetailsType } from '../../services/calling';
+import { CallHistoryDetailsType } from '../../types/Calling';
 
 export type PropsData = {
   // Can be undefined because it comes from JS.

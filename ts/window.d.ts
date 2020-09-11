@@ -16,19 +16,26 @@ import {
 } from './libsignal.d';
 import { ContactRecordIdentityState, TextSecureType } from './textsecure.d';
 import { WebAPIConnectType } from './textsecure/WebAPI';
-import { CallingClass, CallHistoryDetailsType } from './services/calling';
+import { CallingClass } from './services/calling';
 import * as Crypto from './Crypto';
+import * as RemoteConfig from './RemoteConfig';
 import { LocalizerType } from './types/Util';
+import { CallHistoryDetailsType } from './types/Calling';
 import { ColorType } from './types/Colors';
 import { ConversationController } from './ConversationController';
+import { ReduxActions } from './state/types';
 import { SendOptionsType } from './textsecure/SendMessage';
+import AccountManager from './textsecure/AccountManager';
 import Data from './sql/Client';
+
+export { Long } from 'long';
 
 type TaskResultType = any;
 
 declare global {
   interface Window {
     dcodeIO: DCodeIOType;
+    getAccountManager: () => AccountManager | undefined;
     getAlwaysRelayCalls: () => Promise<boolean>;
     getCallRingtoneNotification: () => Promise<boolean>;
     getCallSystemNotification: () => Promise<boolean>;
@@ -40,8 +47,11 @@ declare global {
     getIncomingCallNotification: () => Promise<boolean>;
     getMediaCameraPermissions: () => Promise<boolean>;
     getMediaPermissions: () => Promise<boolean>;
+    getServerPublicParams: () => string;
     getSocketStatus: () => number;
     getTitle: () => string;
+    waitForEmptyEventQueue: () => Promise<void>;
+    getVersion: () => string;
     showCallingPermissionsPopup: (forCamera: boolean) => Promise<void>;
     i18n: LocalizerType;
     isValidGuid: (maybeGuid: string) => boolean;
@@ -58,6 +68,7 @@ declare global {
     };
     normalizeUuids: (obj: any, paths: Array<string>, context: string) => any;
     platform: string;
+    reduxActions: ReduxActions;
     restart: () => void;
     showWindow: () => void;
     setBadgeCount: (count: number) => void;
@@ -82,16 +93,28 @@ declare global {
           trustRoot: ArrayBuffer
         ) => CertificateValidatorType;
       };
+      RemoteConfig: typeof RemoteConfig;
       Services: {
         calling: CallingClass;
       };
+      Migrations: {
+        deleteAttachmentData: (path: string) => Promise<void>;
+        writeNewAttachmentData: (data: ArrayBuffer) => Promise<string>;
+      };
+      Types: {
+        Message: {
+          CURRENT_SCHEMA_VERSION: number;
+        };
+      };
     };
     ConversationController: ConversationController;
+    MessageController: MessageControllerType;
     WebAPI: WebAPIConnectType;
     Whisper: WhisperType;
 
     // Flags
     CALLING: boolean;
+    GV2: boolean;
   }
 
   interface Error {
@@ -100,10 +123,19 @@ declare global {
 }
 
 export type DCodeIOType = {
-  ByteBuffer: typeof ByteBufferClass;
-  Long: {
-    fromBits: (low: number, high: number, unsigned: boolean) => number;
+  ByteBuffer: typeof ByteBufferClass & {
+    BIG_ENDIAN: number;
+    LITTLE_ENDIAN: number;
+    Long: DCodeIOType['Long'];
   };
+  Long: Long & {
+    fromBits: (low: number, high: number, unsigned: boolean) => number;
+    fromString: (str: string) => Long;
+  };
+};
+
+type MessageControllerType = {
+  register: (id: string, model: MessageModelType) => MessageModelType;
 };
 
 export class CertificateValidatorType {
@@ -137,8 +169,13 @@ export class SecretSessionCipherClass {
 }
 
 export class ByteBufferClass {
-  constructor(value?: any, encoding?: string);
-  static wrap: (value: any, type?: string) => ByteBufferClass;
+  constructor(value?: any, littleEndian?: number);
+  static wrap: (
+    value: any,
+    encoding?: string,
+    littleEndian?: number
+  ) => ByteBufferClass;
+  buffer: ArrayBuffer;
   toString: (type: string) => string;
   toArrayBuffer: () => ArrayBuffer;
   toBinary: () => string;
@@ -146,7 +183,11 @@ export class ByteBufferClass {
   append: (data: ArrayBuffer) => void;
   limit: number;
   offset: 0;
+  readInt: (offset: number) => number;
+  readLong: (offset: number) => Long;
+  readShort: (offset: number) => number;
   readVarint32: () => number;
+  writeLong: (l: Long) => void;
   skip: (length: number) => void;
 }
 

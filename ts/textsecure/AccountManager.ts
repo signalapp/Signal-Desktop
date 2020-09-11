@@ -610,6 +610,11 @@ export default class AccountManager extends EventTarget {
       store.clearSessionStore(),
     ]);
   }
+
+  async getGroupCredentials(startDay: number, endDay: number) {
+    return this.server.getGroupCredentials(startDay, endDay);
+  }
+
   // Takes the same object returned by generateKeys
   async confirmKeys(keys: GeneratedKeysType) {
     const store = window.textsecure.storage.protocol;

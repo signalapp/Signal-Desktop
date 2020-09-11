@@ -3,7 +3,7 @@ interface Environment {
   isAudioNotificationEnabled: boolean;
   isAudioNotificationSupported: boolean;
   isEnabled: boolean;
-  numNotifications: number;
+  hasNotifications: boolean;
   userSetting: UserSetting;
 }
 
@@ -28,7 +28,7 @@ export const getStatus = ({
   isAudioNotificationEnabled,
   isAudioNotificationSupported,
   isEnabled,
-  numNotifications,
+  hasNotifications,
   userSetting,
 }: Environment): Status => {
   const type = ((): Type => {
@@ -36,7 +36,6 @@ export const getStatus = ({
       return 'disabled';
     }
 
-    const hasNotifications = numNotifications > 0;
     if (!hasNotifications) {
       return 'noNotifications';
     }

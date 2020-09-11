@@ -28,6 +28,10 @@ const renderEmojiPicker: TimelineItemProps['renderEmojiPicker'] = ({
   />
 );
 
+const renderContact = (conversationId: string) => (
+  <React.Fragment key={conversationId}>{conversationId}</React.Fragment>
+);
+
 const getDefaultProps = () => ({
   conversationId: 'conversation-id',
   conversationAccepted: true,
@@ -55,6 +59,8 @@ const getDefaultProps = () => ({
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   downloadNewVersion: action('downloadNewVersion'),
   showIdentity: action('showIdentity'),
+
+  renderContact,
   renderEmojiPicker,
 });
 

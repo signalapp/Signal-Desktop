@@ -11,15 +11,13 @@ import {
   getPlaceholder as getSafetyNumberPlaceholder,
 } from './safetyNumber';
 import { getStringForProfileChange } from './getStringForProfileChange';
+import { getUserAgent } from './getUserAgent';
 import { hasExpired } from './hasExpired';
 import { isFileDangerous } from './isFileDangerous';
 import { makeLookup } from './makeLookup';
 import { migrateColor } from './migrateColor';
 import { missingCaseError } from './missingCaseError';
-import {
-  eraseAllStorageServiceState,
-  runStorageServiceSyncJob,
-} from './storageService';
+import { parseRemoteClientExpiration } from './parseRemoteClientExpiration';
 import * as zkgroup from './zkgroup';
 
 export {
@@ -29,17 +27,17 @@ export {
   createWaitBatcher,
   deleteForEveryone,
   downloadAttachment,
-  eraseAllStorageServiceState,
   generateSecurityNumber,
   getSafetyNumberPlaceholder,
   getStringForProfileChange,
+  getUserAgent,
   GoogleChrome,
   hasExpired,
   isFileDangerous,
   makeLookup,
   migrateColor,
   missingCaseError,
+  parseRemoteClientExpiration,
   Registration,
-  runStorageServiceSyncJob,
   zkgroup,
 };

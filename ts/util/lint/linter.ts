@@ -54,6 +54,7 @@ const excludedFiles = [
 
   // High-traffic files in our project
   '^js/models/messages.js',
+  '^js/models/conversations.js',
   '^js/views/conversation_view.js',
   '^js/background.js',
   '^ts/Crypto.js',
@@ -280,7 +281,7 @@ const excludedFiles = [
   '^node_modules/dotenv-webpack/.+',
   '^node_modules/follow-redirects/.+', // Used by webpack-dev-server
   '^node_modules/html-webpack-plugin/.+',
-  '^node_modules/node-forge/.+', // Used by webpack-dev-server
+  '^node_modules/selfsigned/.+', // Used by webpack-dev-server
   '^node_modules/portfinder/.+',
   '^node_modules/renderkid/.+', // Used by html-webpack-plugin
   '^node_modules/spdy-transport/.+', // Used by webpack-dev-server

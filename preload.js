@@ -19,6 +19,8 @@ try {
   window.PROTO_ROOT = 'protos';
   const config = require('url').parse(window.location.toString(), true).query;
 
+  window.GV2 = false;
+
   let title = config.name;
   if (config.environment !== 'production') {
     title += ` - ${config.environment}`;
@@ -32,7 +34,15 @@ try {
   window.getEnvironment = () => config.environment;
   window.getAppInstance = () => config.appInstance;
   window.getVersion = () => config.version;
-  window.getExpiration = () => config.buildExpiration;
+  window.getExpiration = () => {
+    const remoteBuildExpiration = window.storage.get('remoteBuildExpiration');
+    if (remoteBuildExpiration) {
+      return remoteBuildExpiration < config.buildExpiration
+        ? remoteBuildExpiration
+        : config.buildExpiration;
+    }
+    return config.buildExpiration;
+  };
   window.getNodeVersion = () => config.node_version;
   window.getHostName = () => config.hostname;
   window.getServerTrustRoot = () => config.serverTrustRoot;
@@ -330,6 +340,9 @@ try {
   window.WebAPI = window.textsecure.WebAPI.initialize({
     url: config.serverUrl,
     storageUrl: config.storageUrl,
+    directoryUrl: config.directoryUrl,
+    directoryEnclaveId: config.directoryEnclaveId,
+    directoryTrustAnchor: config.directoryTrustAnchor,
     cdnUrlObject: {
       '0': config.cdnUrl0,
       '2': config.cdnUrl2,
@@ -372,12 +385,14 @@ try {
     paths.forEach(path => {
       const val = _.get(obj, path);
       if (val) {
-        if (!window.isValidGuid(val)) {
+        if (!val || !window.isValidGuid(val)) {
           window.log.warn(
             `Normalizing invalid uuid: ${val} at path ${path} in context "${context}"`
           );
         }
-        _.set(obj, path, val.toLowerCase());
+        if (val && val.toLowerCase) {
+          _.set(obj, path, val.toLowerCase());
+        }
       }
     });
   };

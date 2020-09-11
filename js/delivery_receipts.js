@@ -10,8 +10,6 @@
 
 // eslint-disable-next-line func-names
 (function() {
-  'use strict';
-
   window.Whisper = window.Whisper || {};
 
   Whisper.DeliveryReceipts = new (Backbone.Collection.extend({
@@ -20,7 +18,7 @@
       if (conversation.isPrivate()) {
         recipients = [conversation.id];
       } else {
-        recipients = conversation.get('members') || [];
+        recipients = conversation.getMemberIds();
       }
       const receipts = this.filter(
         receipt =>

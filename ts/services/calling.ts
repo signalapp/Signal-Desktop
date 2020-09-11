@@ -1,3 +1,5 @@
+/* eslint-disable class-methods-use-this */
+
 import {
   Call,
   CallEndedReason,
@@ -11,6 +13,7 @@ import {
   RingRTC,
   UserId,
 } from 'ringrtc';
+import is from '@sindresorhus/is';
 
 import {
   ActionsType as UxActionsType,
@@ -18,8 +21,11 @@ import {
 } from '../state/ducks/calling';
 import { CallingMessageClass, EnvelopeClass } from '../textsecure.d';
 import { ConversationModelType } from '../model-types.d';
-import is from '@sindresorhus/is';
-import { AudioDevice, MediaDeviceSettings } from '../types/Calling';
+import {
+  AudioDevice,
+  CallHistoryDetailsType,
+  MediaDeviceSettings,
+} from '../types/Calling';
 
 export {
   CallState,
@@ -29,19 +35,15 @@ export {
   VideoRenderer,
 } from 'ringrtc';
 
-export type CallHistoryDetailsType = {
-  wasIncoming: boolean;
-  wasVideoCall: boolean;
-  wasDeclined: boolean;
-  acceptedTime?: number;
-  endedTime: number;
-};
-
 export class CallingClass {
   readonly videoCapturer: GumVideoCapturer;
+
   readonly videoRenderer: CanvasVideoRenderer;
+
   private uxActions?: UxActionsType;
+
   private lastMediaDeviceSettings?: MediaDeviceSettings;
+
   private deviceReselectionTimer?: NodeJS.Timeout;
 
   constructor() {
@@ -85,7 +87,7 @@ export class CallingClass {
   async startOutgoingCall(
     conversation: ConversationModelType,
     isVideoCall: boolean
-  ) {
+  ): Promise<void> {
     if (!this.uxActions) {
       window.log.error('Missing uxActions, new call not allowed.');
       return;
@@ -130,7 +132,7 @@ export class CallingClass {
     });
   }
 
-  async accept(callId: CallId, asVideoCall: boolean) {
+  async accept(callId: CallId, asVideoCall: boolean): Promise<void> {
     const haveMediaPermissions = await this.requestPermissions(asVideoCall);
     if (haveMediaPermissions) {
       await this.startDeviceReselectionTimer();
@@ -143,19 +145,19 @@ export class CallingClass {
     }
   }
 
-  decline(callId: CallId) {
+  decline(callId: CallId): void {
     RingRTC.decline(callId);
   }
 
-  hangup(callId: CallId) {
+  hangup(callId: CallId): void {
     RingRTC.hangup(callId);
   }
 
-  setOutgoingAudio(callId: CallId, enabled: boolean) {
+  setOutgoingAudio(callId: CallId, enabled: boolean): void {
     RingRTC.setOutgoingAudio(callId, enabled);
   }
 
-  setOutgoingVideo(callId: CallId, enabled: boolean) {
+  setOutgoingVideo(callId: CallId, enabled: boolean): void {
     RingRTC.setOutgoingVideo(callId, enabled);
   }
 
@@ -177,7 +179,6 @@ export class CallingClass {
     }
   }
 
-  // tslint:disable-next-line cyclomatic-complexity
   private mediaDeviceSettingsEqual(
     a?: MediaDeviceSettings,
     b?: MediaDeviceSettings
@@ -195,7 +196,7 @@ export class CallingClass {
     ) {
       return false;
     }
-    for (let i = 0; i < a.availableCameras.length; i++) {
+    for (let i = 0; i < a.availableCameras.length; i += 1) {
       if (
         a.availableCameras[i].deviceId !== b.availableCameras[i].deviceId ||
         a.availableCameras[i].groupId !== b.availableCameras[i].groupId ||
@@ -204,7 +205,7 @@ export class CallingClass {
         return false;
       }
     }
-    for (let i = 0; i < a.availableMicrophones.length; i++) {
+    for (let i = 0; i < a.availableMicrophones.length; i += 1) {
       if (
         a.availableMicrophones[i].name !== b.availableMicrophones[i].name ||
         a.availableMicrophones[i].uniqueId !==
@@ -213,7 +214,7 @@ export class CallingClass {
         return false;
       }
     }
-    for (let i = 0; i < a.availableSpeakers.length; i++) {
+    for (let i = 0; i < a.availableSpeakers.length; i += 1) {
       if (
         a.availableSpeakers[i].name !== b.availableSpeakers[i].name ||
         a.availableSpeakers[i].uniqueId !== b.availableSpeakers[i].uniqueId
@@ -299,7 +300,7 @@ export class CallingClass {
         ? availableSpeakers[selectedSpeakerIndex]
         : undefined;
 
-    const availableCameras = await window.Signal.Services.calling.videoCapturer.enumerateDevices();
+    const availableCameras = await this.videoCapturer.enumerateDevices();
     const preferredCamera = window.storage.get('preferred-video-input-device');
     const selectedCamera = this.findBestMatchingCamera(
       availableCameras,
@@ -351,29 +352,31 @@ export class CallingClass {
     const matchingId = available.filter(d => d.deviceId === preferred);
     const nonInfrared = available.filter(d => !d.label.includes('IR Camera'));
 
-    /// By default, pick the first non-IR camera (but allow the user to pick the infrared if they so desire)
+    // By default, pick the first non-IR camera (but allow the user to pick the
+    // infrared if they so desire)
     if (matchingId.length > 0) {
       return matchingId[0].deviceId;
-    } else if (nonInfrared.length > 0) {
-      return nonInfrared[0].deviceId;
-    } else {
-      return undefined;
     }
+    if (nonInfrared.length > 0) {
+      return nonInfrared[0].deviceId;
+    }
+
+    return undefined;
   }
 
-  setPreferredMicrophone(device: AudioDevice) {
+  setPreferredMicrophone(device: AudioDevice): void {
     window.log.info('MediaDevice: setPreferredMicrophone', device);
     window.storage.put('preferred-audio-input-device', device);
     RingRTC.setAudioInput(device.index);
   }
 
-  setPreferredSpeaker(device: AudioDevice) {
+  setPreferredSpeaker(device: AudioDevice): void {
     window.log.info('MediaDevice: setPreferredSpeaker', device);
     window.storage.put('preferred-audio-output-device', device);
     RingRTC.setAudioOutput(device.index);
   }
 
-  async setPreferredCamera(device: string) {
+  async setPreferredCamera(device: string): Promise<void> {
     window.log.info('MediaDevice: setPreferredCamera', device);
     window.storage.put('preferred-video-input-device', device);
     await this.videoCapturer.setPreferredDevice(device);
@@ -382,7 +385,7 @@ export class CallingClass {
   async handleCallingMessage(
     envelope: EnvelopeClass,
     callingMessage: CallingMessageClass
-  ) {
+  ): Promise<void> {
     const enableIncomingCalls = await window.getIncomingCallNotification();
     if (callingMessage.offer && !enableIncomingCalls) {
       // Drop offers silently if incoming call notifications are disabled.
@@ -421,7 +424,8 @@ export class CallingClass {
       await this.videoCapturer.setPreferredDevice(settings.selectedCamera);
     }
 
-    // Assume that the MediaDeviceSettings have been obtained very recently and the index is still valid (no devices have been plugged in in between).
+    // Assume that the MediaDeviceSettings have been obtained very recently and
+    // the index is still valid (no devices have been plugged in in between).
     if (settings.selectedMicrophone) {
       window.log.info(
         'MediaDevice: selecting microphone',
@@ -468,12 +472,12 @@ export class CallingClass {
     if (microphonePermission) {
       if (isVideoCall) {
         return this.requestCameraPermissions();
-      } else {
-        return true;
       }
-    } else {
-      return false;
+
+      return true;
     }
+
+    return false;
   }
 
   private async handleOutgoingSignaling(
@@ -583,6 +587,7 @@ export class CallingClass {
 
     let acceptedTime: number | undefined;
 
+    // eslint-disable-next-line no-param-reassign
     call.handleStateChanged = () => {
       if (call.state === CallState.Accepted) {
         acceptedTime = Date.now();
@@ -597,6 +602,7 @@ export class CallingClass {
       });
     };
 
+    // eslint-disable-next-line no-param-reassign
     call.handleRemoteVideoEnabled = () => {
       uxActions.remoteVideoChange({
         remoteVideoEnabled: call.remoteVideoEnabled,
@@ -610,8 +616,6 @@ export class CallingClass {
     line: number,
     message: string
   ) {
-    // info/warn/error are only needed to be logged for now.
-    // tslint:disable-next-line switch-default
     switch (level) {
       case CallLogLevel.Info:
         window.log.info(`${fileName}:${line} ${message}`);
@@ -621,6 +625,9 @@ export class CallingClass {
         break;
       case CallLogLevel.Error:
         window.log.error(`${fileName}:${line} ${message}`);
+        break;
+      default:
+        break;
     }
   }
 
@@ -686,8 +693,10 @@ export class CallingClass {
   private addCallHistoryForEndedCall(
     conversation: ConversationModelType,
     call: Call,
-    acceptedTime: number | undefined
+    acceptedTimeParam: number | undefined
   ) {
+    let acceptedTime = acceptedTimeParam;
+
     const { endedReason, isIncoming } = call;
     const wasAccepted = Boolean(acceptedTime);
     const isOutgoing = !isIncoming;
@@ -700,7 +709,6 @@ export class CallingClass {
         (isOutgoing &&
           endedReason === CallEndedReason.RemoteHangupNeedPermission));
     if (call.endedReason === CallEndedReason.AcceptedOnAnotherDevice) {
-      // tslint:disable-next-line no-parameter-reassignment
       acceptedTime = Date.now();
     }
 

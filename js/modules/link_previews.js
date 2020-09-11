@@ -175,15 +175,20 @@ const KB = 1024;
 function getChunkPattern(size, initialOffset) {
   if (size > MB) {
     return _getRequestPattern(size, MB, initialOffset);
-  } else if (size > 500 * KB) {
+  }
+  if (size > 500 * KB) {
     return _getRequestPattern(size, 500 * KB, initialOffset);
-  } else if (size > 100 * KB) {
+  }
+  if (size > 100 * KB) {
     return _getRequestPattern(size, 100 * KB, initialOffset);
-  } else if (size > 50 * KB) {
+  }
+  if (size > 50 * KB) {
     return _getRequestPattern(size, 50 * KB, initialOffset);
-  } else if (size > 10 * KB) {
+  }
+  if (size > 10 * KB) {
     return _getRequestPattern(size, 10 * KB, initialOffset);
-  } else if (size > KB) {
+  }
+  if (size > KB) {
     return _getRequestPattern(size, KB, initialOffset);
   }
 

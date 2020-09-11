@@ -1,9 +1,10 @@
 import * as Backbone from 'backbone';
 
+import { GroupV2ChangeType } from './groups';
 import { LocalizerType } from './types/Util';
+import { CallHistoryDetailsType } from './types/Calling';
 import { ColorType } from './types/Colors';
 import { ConversationType } from './state/ducks/conversations';
-import { CallingClass, CallHistoryDetailsType } from './services/calling';
 import { SendOptionsType } from './textsecure/SendMessage';
 import { SyncMessageClass } from './textsecure.d';
 
@@ -26,7 +27,24 @@ type TaskResultType = any;
 
 type MessageAttributesType = {
   id: string;
-  serverTimestamp: number;
+  type?: string;
+
+  expirationTimerUpdate?: {
+    expireTimer: number;
+    source?: string;
+    sourceUuid?: string;
+  };
+  // Legacy fields for timer update notification only
+  flags?: number;
+  groupV2Change?: GroupV2ChangeType;
+  // Required. Used to sort messages in the database for the conversation timeline.
+  received_at?: number;
+  // More of a legacy feature, needed as we were updating the schema of messages in the
+  //   background, when we were still in IndexedDB, before attachments had gone to disk
+  // We set this so that the idle message upgrade process doesn't pick this message up
+  schemaVersion: number;
+  serverTimestamp?: number;
+  sourceUuid?: string;
 };
 
 declare class MessageModelType extends Backbone.Model<MessageAttributesType> {
@@ -49,28 +67,81 @@ type ConversationTypeType = 'private' | 'group';
 
 type ConversationAttributesType = {
   id: string;
+  type: ConversationTypeType;
+  timestamp: number;
+
+  // Shared fields
+  active_at?: number | null;
+  draft?: string;
+  isArchived?: boolean;
+  lastMessage?: string;
+  name?: string;
+  needsStorageServiceSync?: boolean;
+  needsVerification?: boolean;
+  profileSharing: boolean;
+  storageID?: string;
+  storageUnknownFields: string;
+  unreadCount?: number;
+  version: number;
+
+  // Private core info
   uuid?: string;
   e164?: string;
 
-  active_at?: number | null;
-  draft?: string;
-  groupId?: string;
-  isArchived?: boolean;
-  lastMessage?: string;
-  members?: Array<string>;
-  needsVerification?: boolean;
+  // Private other fields
   profileFamilyName?: string | null;
   profileKey?: string | null;
   profileName?: string | null;
-  profileSharing: boolean;
-  storageID?: string;
-  type: ConversationTypeType;
-  unreadCount?: number;
   verified?: number;
-  version: number;
+
+  // Group-only
+  groupId?: string;
+  left: boolean;
+  groupVersion?: number;
+
+  // GroupV1 only
+  members?: Array<string>;
+
+  // GroupV2 core info
+  masterKey?: string;
+  secretParams?: string;
+  publicParams?: string;
+  revision?: number;
+
+  // GroupV2 other fields
+  accessControl?: {
+    attributes: number;
+    members: number;
+  };
+  avatar?: {
+    url: string;
+    path: string;
+    hash: string;
+  };
+  expireTimer?: number;
+  membersV2?: Array<GroupV2MemberType>;
+  pendingMembersV2?: Array<GroupV2PendingMemberType>;
 };
 
-declare class ConversationModelType extends Backbone.Model<
+export type GroupV2MemberType = {
+  conversationId: string;
+  role: number;
+  joinedAtVersion: number;
+};
+export type GroupV2PendingMemberType = {
+  addedByUserId: string;
+  conversationId: string;
+  timestamp: number;
+};
+
+type VerificationOptions = {
+  key?: null | ArrayBuffer;
+  viaContactSync?: boolean;
+  viaStorageServiceSync?: boolean;
+  viaSyncMessage?: boolean;
+};
+
+export declare class ConversationModelType extends Backbone.Model<
   ConversationAttributesType
 > {
   id: string;
@@ -81,11 +152,12 @@ declare class ConversationModelType extends Backbone.Model<
   addCallHistory(details: CallHistoryDetailsType): void;
   applyMessageRequestResponse(
     response: number,
-    options?: { fromSync: boolean }
+    options?: { fromSync: boolean; viaStorageServiceSync?: boolean }
   ): void;
   cleanup(): Promise<void>;
-  disableProfileSharing(): void;
+  disableProfileSharing(options?: { viaStorageServiceSync?: boolean }): void;
   dropProfileKey(): Promise<void>;
+  enableProfileSharing(options?: { viaStorageServiceSync?: boolean }): void;
   generateProps(): void;
   getAccepted(): boolean;
   getAvatarPath(): string | undefined;
@@ -98,12 +170,31 @@ declare class ConversationModelType extends Backbone.Model<
   getSendOptions(options?: any): SendOptionsType | undefined;
   getTitle(): string;
   idForLogging(): string;
+  debugID(): string;
   isFromOrAddedByTrustedContact(): boolean;
+  isBlocked(): boolean;
+  isMe(): boolean;
+  isPrivate(): boolean;
   isVerified(): boolean;
+  maybeRepairGroupV2(data: {
+    masterKey: string;
+    secretParams: string;
+    publicParams: string;
+  }): void;
+  queueJob(job: () => Promise<void>): Promise<void>;
   safeGetVerified(): Promise<number>;
-  setProfileKey(profileKey?: string | null): Promise<void>;
+  setArchived(isArchived: boolean): void;
+  setProfileKey(
+    profileKey?: string | null,
+    options?: { viaStorageServiceSync?: boolean }
+  ): Promise<void>;
+  setProfileAvatar(avatarPath: string): Promise<void>;
+  setUnverified(options: VerificationOptions): Promise<TaskResultType>;
+  setVerified(options: VerificationOptions): Promise<TaskResultType>;
+  setVerifiedDefault(options: VerificationOptions): Promise<TaskResultType>;
   toggleVerified(): Promise<TaskResultType>;
-  unblock(): boolean | undefined;
+  block(options?: { viaStorageServiceSync?: boolean }): void;
+  unblock(options?: { viaStorageServiceSync?: boolean }): boolean;
   updateE164: (e164?: string) => void;
   updateLastMessage: () => Promise<void>;
   updateUuid: (uuid?: string) => void;

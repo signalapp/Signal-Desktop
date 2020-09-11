@@ -10,7 +10,7 @@ export async function deleteForEveryone(
   // Make sure the server timestamps for the DOE and the matching message
   // are less than one day apart
   const delta = Math.abs(
-    doe.get('serverTimestamp') - message.get('serverTimestamp')
+    doe.get('serverTimestamp') - (message.get('serverTimestamp') || 0)
   );
   if (delta > ONE_DAY) {
     window.log.info('Received late DOE. Dropping.', {

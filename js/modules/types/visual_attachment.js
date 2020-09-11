@@ -1,9 +1,9 @@
 /* global document, URL, Blob */
 
 const loadImage = require('blueimp-load-image');
-const { toLogFormat } = require('./errors');
 const dataURLToBlobSync = require('blueimp-canvas-to-blob');
 const { blobToArrayBuffer } = require('blob-util');
+const { toLogFormat } = require('./errors');
 const {
   arrayBufferToObjectURL,
 } = require('../../../ts/util/arrayBufferToObjectURL');

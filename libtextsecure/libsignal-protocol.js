@@ -25564,7 +25564,7 @@ var Internal = Internal || {};
 
 
     // HKDF for TextSecure has a bit of additional handling - salts always end up being 32 bytes
-    Internal.HKDF = function(input, salt, info) {
+    Internal.HKDF = function(input, salt, info = new ArrayBuffer()) {
         return Internal.crypto.HKDF(input, salt,  util.toArrayBuffer(info));
     };
 

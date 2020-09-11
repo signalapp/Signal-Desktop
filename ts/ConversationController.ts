@@ -217,7 +217,7 @@ export class ConversationController {
 
     return null;
   }
-  getOurConversationId() {
+  getOurConversationId(): string | undefined {
     const e164 = window.textsecure.storage.user.getNumber();
     const uuid = window.textsecure.storage.user.getUuid();
     return this.ensureContactIds({ e164, uuid, highTrust: true });
@@ -238,7 +238,7 @@ export class ConversationController {
     e164?: string;
     uuid?: string;
     highTrust?: boolean;
-  }) {
+  }): string | undefined {
     // Check for at least one parameter being provided. This is necessary
     // because this path can be called on startup to resolve our own ID before
     // our phone number or UUID are known. The existing behavior in these
@@ -546,7 +546,7 @@ export class ConversationController {
    * ensures the existence of a group conversation and returns a string
    * representing the local database ID of the group conversation.
    */
-  ensureGroup(groupId: string, additionalInitProps = {}) {
+  ensureGroup(groupId: string, additionalInitProps = {}): string {
     return this.getOrCreate(groupId, 'group', additionalInitProps).get('id');
   }
   /**

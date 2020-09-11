@@ -19,14 +19,14 @@ storiesOf('Components/Conversation/ProfileChangeNotification', module)
         changedContact={{
           id: 'some-guid',
           type: 'direct',
-          title: 'John',
-          name: 'John',
+          title: 'Mr. Fire 🔥',
+          name: 'Mr. Fire 🔥',
           lastUpdated: Date.now(),
         }}
         change={{
           type: 'name',
-          oldName: 'John Old',
-          newName: 'John New',
+          oldName: 'Mr. Fire 🔥 Old',
+          newName: 'Mr. Fire 🔥 New',
         }}
       />
     );
@@ -38,13 +38,13 @@ storiesOf('Components/Conversation/ProfileChangeNotification', module)
         changedContact={{
           id: 'some-guid',
           type: 'direct',
-          title: 'John',
+          title: 'Mr. Fire 🔥',
           lastUpdated: Date.now(),
         }}
         change={{
           type: 'name',
-          oldName: 'John Old',
-          newName: 'John New',
+          oldName: 'Mr. Fire 🔥 Old',
+          newName: 'Mr. Fire 🔥 New',
         }}
       />
     );

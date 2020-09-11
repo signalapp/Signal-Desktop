@@ -9,16 +9,17 @@ import { LocalizerType } from '../types/Util';
 import { ColorType } from '../types/Colors';
 
 interface Props {
-  title: string;
-  phoneNumber?: string;
-  isMe?: boolean;
-  name?: string;
-  color?: ColorType;
-  isVerified?: boolean;
-  profileName?: string;
   avatarPath?: string;
+  color?: ColorType;
   i18n: LocalizerType;
+  isAdmin?: boolean;
+  isMe?: boolean;
+  isVerified?: boolean;
+  name?: string;
   onClick?: () => void;
+  phoneNumber?: string;
+  profileName?: string;
+  title: string;
 }
 
 export class ContactListItem extends React.Component<Props> {
@@ -51,13 +52,14 @@ export class ContactListItem extends React.Component<Props> {
   public render() {
     const {
       i18n,
+      isAdmin,
+      isMe,
+      isVerified,
       name,
       onClick,
-      isMe,
       phoneNumber,
       profileName,
       title,
-      isVerified,
     } = this.props;
 
     const displayName = isMe ? i18n('you') : title;
@@ -76,23 +78,30 @@ export class ContactListItem extends React.Component<Props> {
       >
         {this.renderAvatar()}
         <div className="module-contact-list-item__text">
-          <div className="module-contact-list-item__text__name">
-            <Emojify text={displayName} />
-            {shouldShowIcon ? (
-              <span>
-                {' '}
-                <InContactsIcon i18n={i18n} />
-              </span>
-            ) : null}
+          <div className="module-contact-list-item__left">
+            <div className="module-contact-list-item__text__name">
+              <Emojify text={displayName} />
+              {shouldShowIcon ? (
+                <span>
+                  {' '}
+                  <InContactsIcon i18n={i18n} />
+                </span>
+              ) : null}
+            </div>
+            <div className="module-contact-list-item__text__additional-data">
+              {showVerified ? (
+                <div className="module-contact-list-item__text__verified-icon" />
+              ) : null}
+              {showVerified ? ` ${i18n('verified')}` : null}
+              {showVerified && showNumber ? ' ∙ ' : null}
+              {showNumber ? phoneNumber : null}
+            </div>
           </div>
-          <div className="module-contact-list-item__text__additional-data">
-            {showVerified ? (
-              <div className="module-contact-list-item__text__verified-icon" />
-            ) : null}
-            {showVerified ? ` ${i18n('verified')}` : null}
-            {showVerified && showNumber ? ' ∙ ' : null}
-            {showNumber ? phoneNumber : null}
-          </div>
+          {isAdmin ? (
+            <div className="module-contact-list-item__admin">
+              {i18n('GroupV2--admin')}
+            </div>
+          ) : null}
         </div>
       </button>
     );

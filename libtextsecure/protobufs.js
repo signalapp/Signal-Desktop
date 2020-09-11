@@ -18,7 +18,7 @@
         }
         const protos = result.build('signalservice');
         if (!protos) {
-          const text = `Error loading protos from ${filename} (root: ${window.PROTO_ROOT})`;
+          const text = `Error loading protos from ${filename} - no exported types! (root: ${window.PROTO_ROOT})`;
           window.log.error(text);
           throw new Error(text);
         }
@@ -41,4 +41,7 @@
 
   // Metadata-specific protos
   loadProtoBufs('UnidentifiedDelivery.proto');
+
+  // Groups
+  loadProtoBufs('Groups.proto');
 })();

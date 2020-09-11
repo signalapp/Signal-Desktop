@@ -35,8 +35,8 @@ export interface PropsDataType {
   isVerified?: boolean;
   isMe?: boolean;
   isArchived?: boolean;
-  leftGroup?: boolean;
 
+  disableTimerChanges?: boolean;
   expirationSettingName?: string;
   muteExpirationLabel?: string;
   showBackButton?: boolean;
@@ -286,12 +286,12 @@ export class ConversationHeader extends React.Component<PropsType> {
 
   public renderMenu(triggerId: string) {
     const {
+      disableTimerChanges,
       i18n,
       isAccepted,
       isMe,
       type,
       isArchived,
-      leftGroup,
       muteExpirationLabel,
       onDeleteMessages,
       onResetSession,
@@ -329,7 +329,7 @@ export class ConversationHeader extends React.Component<PropsType> {
 
     return (
       <ContextMenu id={triggerId}>
-        {!leftGroup && isAccepted ? (
+        {disableTimerChanges ? null : (
           <SubMenu title={disappearingTitle}>
             {(timerOptions || []).map(item => (
               <MenuItem
@@ -342,7 +342,7 @@ export class ConversationHeader extends React.Component<PropsType> {
               </MenuItem>
             ))}
           </SubMenu>
-        ) : null}
+        )}
         <SubMenu title={muteTitle}>
           {muteOptions.map(item => (
             <MenuItem

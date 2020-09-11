@@ -1,3 +1,5 @@
+import pProps from 'p-props';
+
 // Yep, we're doing some bitwise stuff in an encryption-related file
 // tslint:disable no-bitwise
 
@@ -11,7 +13,7 @@ export function typedArrayToArrayBuffer(typedArray: Uint8Array): ArrayBuffer {
   const { buffer, byteOffset, byteLength } = typedArray;
 
   // tslint:disable-next-line no-unnecessary-type-assertion
-  return buffer.slice(byteOffset, byteLength + byteOffset) as ArrayBuffer;
+  return buffer.slice(byteOffset, byteLength + byteOffset) as typeof typedArray;
 }
 
 export function arrayBufferToBase64(arrayBuffer: ArrayBuffer) {
@@ -58,6 +60,11 @@ export async function deriveStickerPackKey(packKey: ArrayBuffer) {
   );
 
   return concatenateBytes(part1, part2);
+}
+
+export async function computeHash(data: ArrayBuffer): Promise<string> {
+  const hash = await crypto.subtle.digest({ name: 'SHA-512' }, data);
+  return arrayBufferToBase64(hash);
 }
 
 // High-level Operations
@@ -173,7 +180,7 @@ export async function decryptFile(
   data: ArrayBuffer
 ) {
   const ephemeralPublicKey = getFirstBytes(data, PUB_KEY_LENGTH);
-  const ciphertext = _getBytes(data, PUB_KEY_LENGTH, data.byteLength);
+  const ciphertext = getBytes(data, PUB_KEY_LENGTH, data.byteLength);
   const agreement = await window.libsignal.Curve.async.calculateAgreement(
     ephemeralPublicKey,
     staticPrivateKey
@@ -201,7 +208,7 @@ export async function deriveStorageItemKey(
 export async function deriveAccessKey(profileKey: ArrayBuffer) {
   const iv = getZeroes(12);
   const plaintext = getZeroes(16);
-  const accessKey = await _encrypt_aes_gcm(profileKey, iv, plaintext);
+  const accessKey = await encryptAesGcm(profileKey, iv, plaintext);
 
   return getFirstBytes(accessKey, 16);
 }
@@ -253,12 +260,12 @@ export async function decryptSymmetric(key: ArrayBuffer, data: ArrayBuffer) {
   const iv = getZeroes(IV_LENGTH);
 
   const nonce = getFirstBytes(data, NONCE_LENGTH);
-  const cipherText = _getBytes(
+  const cipherText = getBytes(
     data,
     NONCE_LENGTH,
     data.byteLength - NONCE_LENGTH - MAC_LENGTH
   );
-  const theirMac = _getBytes(data, data.byteLength - MAC_LENGTH, MAC_LENGTH);
+  const theirMac = getBytes(data, data.byteLength - MAC_LENGTH, MAC_LENGTH);
 
   const cipherKey = await hmacSha256(key, nonce);
   const macKey = await hmacSha256(key, cipherKey);
@@ -413,15 +420,18 @@ export async function decryptAesCtr(
   return plaintext;
 }
 
-export async function _encrypt_aes_gcm(
+export async function encryptAesGcm(
   key: ArrayBuffer,
   iv: ArrayBuffer,
-  plaintext: ArrayBuffer
+  plaintext: ArrayBuffer,
+  additionalData?: ArrayBuffer
 ) {
   const algorithm = {
     name: 'AES-GCM',
     iv,
+    ...(additionalData ? { additionalData } : {}),
   };
+
   const extractable = false;
 
   const cryptoKey = await crypto.subtle.importKey(
@@ -433,6 +443,37 @@ export async function _encrypt_aes_gcm(
   );
 
   return crypto.subtle.encrypt(algorithm, cryptoKey, plaintext);
+}
+
+export async function decryptAesGcm(
+  key: ArrayBuffer,
+  iv: ArrayBuffer,
+  ciphertext: ArrayBuffer,
+  additionalData?: ArrayBuffer
+) {
+  const algorithm = {
+    name: 'AES-GCM',
+    iv,
+    ...(additionalData ? { additionalData } : {}),
+    tagLength: 128,
+  };
+
+  const extractable = false;
+  const cryptoKey = await crypto.subtle.importKey(
+    'raw',
+    key,
+    algorithm as any,
+    extractable,
+    ['decrypt']
+  );
+
+  return crypto.subtle.decrypt(algorithm, cryptoKey, ciphertext);
+}
+
+// Hashing
+
+export async function sha256(data: ArrayBuffer) {
+  return crypto.subtle.digest('SHA-256', data);
 }
 
 // Utility
@@ -550,9 +591,7 @@ export function getFirstBytes(data: ArrayBuffer, n: number) {
   return typedArrayToArrayBuffer(source.subarray(0, n));
 }
 
-// Internal-only
-
-export function _getBytes(
+export function getBytes(
   data: ArrayBuffer | Uint8Array,
   start: number,
   n: number
@@ -560,4 +599,94 @@ export function _getBytes(
   const source = new Uint8Array(data);
 
   return typedArrayToArrayBuffer(source.subarray(start, start + n));
+}
+
+function _getMacAndData(ciphertext: ArrayBuffer) {
+  const dataLength = ciphertext.byteLength - MAC_LENGTH;
+  const data = getBytes(ciphertext, 0, dataLength);
+  const mac = getBytes(ciphertext, dataLength, MAC_LENGTH);
+
+  return { data, mac };
+}
+
+export async function encryptCdsDiscoveryRequest(
+  attestations: {
+    [key: string]: { clientKey: ArrayBuffer; requestId: ArrayBuffer };
+  },
+  phoneNumbers: ReadonlyArray<string>
+) {
+  const nonce = getRandomBytes(32);
+  const numbersArray = new window.dcodeIO.ByteBuffer(
+    phoneNumbers.length * 8,
+    window.dcodeIO.ByteBuffer.BIG_ENDIAN
+  );
+  phoneNumbers.forEach(number => {
+    // Long.fromString handles numbers with or without a leading '+'
+    numbersArray.writeLong(window.dcodeIO.ByteBuffer.Long.fromString(number));
+  });
+  const queryDataPlaintext = concatenateBytes(nonce, numbersArray.buffer);
+  const queryDataKey = getRandomBytes(32);
+  const commitment = await sha256(queryDataPlaintext);
+  const iv = getRandomBytes(12);
+  const queryDataCiphertext = await encryptAesGcm(
+    queryDataKey,
+    iv,
+    queryDataPlaintext
+  );
+  const {
+    data: queryDataCiphertextData,
+    mac: queryDataCiphertextMac,
+  } = _getMacAndData(queryDataCiphertext);
+
+  const envelopes = await pProps(
+    attestations,
+    async ({ clientKey, requestId }) => {
+      const envelopeIv = getRandomBytes(12);
+      const ciphertext = await encryptAesGcm(
+        clientKey,
+        envelopeIv,
+        queryDataKey,
+        requestId
+      );
+      const { data, mac } = _getMacAndData(ciphertext);
+
+      return {
+        requestId: arrayBufferToBase64(requestId),
+        data: arrayBufferToBase64(data),
+        iv: arrayBufferToBase64(envelopeIv),
+        mac: arrayBufferToBase64(mac),
+      };
+    }
+  );
+
+  return {
+    addressCount: phoneNumbers.length,
+    commitment: arrayBufferToBase64(commitment),
+    data: arrayBufferToBase64(queryDataCiphertextData),
+    iv: arrayBufferToBase64(iv),
+    mac: arrayBufferToBase64(queryDataCiphertextMac),
+    envelopes,
+  };
+}
+
+export function splitUuids(arrayBuffer: ArrayBuffer) {
+  const uuids = [];
+  for (let i = 0; i < arrayBuffer.byteLength; i += 16) {
+    const bytes = getBytes(arrayBuffer, i, 16);
+    const hex = arrayBufferToHex(bytes);
+    const chunks = [
+      hex.substring(0, 8),
+      hex.substring(8, 12),
+      hex.substring(12, 16),
+      hex.substring(16, 20),
+      hex.substring(20),
+    ];
+    const uuid = chunks.join('-');
+    if (uuid !== '00000000-0000-0000-0000-000000000000') {
+      uuids.push(uuid);
+    } else {
+      uuids.push(null);
+    }
+  }
+  return uuids;
 }

@@ -3,8 +3,6 @@
 
 // eslint-disable-next-line func-names
 (function() {
-  'use strict';
-
   window.Whisper = window.Whisper || {};
 
   Whisper.LinkedCopiedToast = Whisper.ToastView.extend({

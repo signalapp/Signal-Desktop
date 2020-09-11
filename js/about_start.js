@@ -17,8 +17,6 @@ $('.environment').text(states.join(' - '));
 
 // Install the 'dismiss with escape key' handler
 $(document).on('keydown', e => {
-  'use strict';
-
   if (e.keyCode === 27) {
     window.closeAbout();
   }

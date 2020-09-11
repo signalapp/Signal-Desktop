@@ -341,13 +341,17 @@ describe('Message', () => {
           schemaVersion: 1,
         };
 
-        const v1 = async message =>
-          Object.assign({}, message, { hasUpgradedToVersion1: true });
+        const v1 = async message => ({
+          ...message,
+          hasUpgradedToVersion1: true,
+        });
         const v2 = async () => {
           throw new Error('boom');
         };
-        const v3 = async message =>
-          Object.assign({}, message, { hasUpgradedToVersion3: true });
+        const v3 = async message => ({
+          ...message,
+          hasUpgradedToVersion3: true,
+        });
 
         const toVersion1 = Message._withSchemaVersion({
           schemaVersion: 1,
@@ -399,12 +403,18 @@ describe('Message', () => {
           hasUpgradedToVersion2: true,
         };
 
-        const v1 = async attachment =>
-          Object.assign({}, attachment, { hasUpgradedToVersion1: true });
-        const v2 = async attachment =>
-          Object.assign({}, attachment, { hasUpgradedToVersion2: true });
-        const v3 = async attachment =>
-          Object.assign({}, attachment, { hasUpgradedToVersion3: true });
+        const v1 = async attachment => ({
+          ...attachment,
+          hasUpgradedToVersion1: true,
+        });
+        const v2 = async attachment => ({
+          ...attachment,
+          hasUpgradedToVersion2: true,
+        });
+        const v3 = async attachment => ({
+          ...attachment,
+          hasUpgradedToVersion3: true,
+        });
 
         const toVersion1 = Message._withSchemaVersion({
           schemaVersion: 1,
@@ -451,8 +461,7 @@ describe('Message', () => {
     });
 
     it('should skip upgrading if message has already been upgraded', async () => {
-      const upgrade = async message =>
-        Object.assign({}, message, { foo: true });
+      const upgrade = async message => ({ ...message, foo: true });
       const upgradeWithVersion = Message._withSchemaVersion({
         schemaVersion: 3,
         upgrade,

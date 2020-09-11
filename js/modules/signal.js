@@ -9,6 +9,8 @@ const {
 const Data = require('../../ts/sql/Client').default;
 const Emojis = require('./emojis');
 const EmojiLib = require('../../ts/components/emoji/lib');
+const Groups = require('../../ts/groups');
+const GroupChange = require('../../ts/groupChange');
 const IndexedDB = require('./indexeddb');
 const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
@@ -109,6 +111,9 @@ const MessageDataMigrator = require('./messages_data_migrator');
 
 // Processes / Services
 const {
+  initializeGroupCredentialFetcher,
+} = require('../../ts/services/groupCredentialFetcher');
+const {
   initializeNetworkObserver,
 } = require('../../ts/services/networkObserver');
 const {
@@ -116,6 +121,12 @@ const {
 } = require('../../ts/services/updateListener');
 const { notify } = require('../../ts/services/notify');
 const { calling } = require('../../ts/services/calling');
+const {
+  eraseAllStorageServiceState,
+  handleUnknownRecords,
+  runStorageServiceSyncJob,
+  storageServiceUploadJob,
+} = require('../../ts/services/storage');
 
 function initializeMigrations({
   userDataPath,
@@ -324,10 +335,15 @@ exports.setup = (options = {}) => {
   };
 
   const Services = {
+    calling,
+    eraseAllStorageServiceState,
+    handleUnknownRecords,
+    initializeGroupCredentialFetcher,
     initializeNetworkObserver,
     initializeUpdateListener,
     notify,
-    calling,
+    runStorageServiceSyncJob,
+    storageServiceUploadJob,
   };
 
   const State = {
@@ -368,6 +384,8 @@ exports.setup = (options = {}) => {
     Data,
     Emojis,
     EmojiLib,
+    Groups,
+    GroupChange,
     IndexedDB,
     LinkPreviews,
     Metadata,

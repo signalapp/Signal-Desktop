@@ -272,7 +272,7 @@
     "description": "Used as a label on a button allowing user to see more information"
   },
   "youLeftTheGroup": {
-    "message": "You left the group.",
+    "message": "You are no longer a member of the group.",
     "description": "Displayed when a user can't send a message because they have left the group"
   },
   "scrollDown": {
@@ -1190,36 +1190,34 @@
     "description": "Label for disabling notifications"
   },
   "nameAndMessage": {
-    "message": "Both sender name and message",
+    "message": "Name, content, and actions",
     "description": "Label for setting notifications to display name and message text"
   },
   "noNameOrMessage": {
-    "message": "Neither name nor message",
+    "message": "No name or content",
     "description": "Label for setting notifications to display no name and no message text"
   },
   "nameOnly": {
-    "message": "Only sender name",
+    "message": "Name only",
     "description": "Label for setting notifications to display sender name only"
   },
   "newMessage": {
     "message": "New Message",
     "description": "Displayed in notifications for only 1 message"
   },
-  "newMessages": {
-    "message": "New Messages",
-    "description": "Displayed in notifications for multiple messages"
-  },
-  "notificationMostRecentFrom": {
-    "message": "Most recent from:",
-    "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
-  },
-  "notificationFrom": {
-    "message": "From:",
-    "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
-  },
-  "notificationMostRecent": {
-    "message": "Most recent:",
-    "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+  "notificationSenderInGroup": {
+    "message": "$sender$ in $group$",
+    "description": "Displayed in notifications for messages in a group",
+    "placeholders": {
+      "sender": {
+        "content": "$1",
+        "example": "John"
+      },
+      "group": {
+        "content": "$1",
+        "example": "NYC Rock Climbers"
+      }
+    }
   },
   "notificationReaction": {
     "message": "$sender$ reacted $emoji$ to your message",
@@ -1234,38 +1232,8 @@
       }
     }
   },
-  "notificationReactionMostRecent": {
-    "message": "Most recent: $sender$ reacted $emoji$ to your message",
-    "placeholders": {
-      "sender": {
-        "content": "$1",
-        "example": "John"
-      },
-      "emoji": {
-        "content": "$2",
-        "example": "👍"
-      }
-    }
-  },
   "notificationReactionMessage": {
     "message": "$sender$ reacted $emoji$ to: $message$",
-    "placeholders": {
-      "sender": {
-        "content": "$1",
-        "example": "John"
-      },
-      "emoji": {
-        "content": "$2",
-        "example": "👍"
-      },
-      "message": {
-        "content": "$3",
-        "example": "Sounds good."
-      }
-    }
-  },
-  "notificationReactionMessageMostRecent": {
-    "message": "Most recent: $sender$ reacted $emoji$ to: $message$",
     "placeholders": {
       "sender": {
         "content": "$1",
@@ -1413,6 +1381,16 @@
       }
     }
   },
+  "timerSetByMember": {
+    "message": "A member set the disappearing message time to $time$.",
+    "description": "Message displayed when timer is by an unknown group member.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "10m"
+      }
+    }
+  },
   "theyChangedTheTimer": {
     "message": "$name$ set the disappearing message time to $time$.",
     "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -1529,6 +1507,10 @@
   },
   "disappearingMessagesDisabled": {
     "message": "Disappearing messages disabled",
+    "description": "Displayed in the left pane when the timer is turned off"
+  },
+  "disappearingMessagesDisabledByMember": {
+    "message": "A member disabled disappearing messages.",
     "description": "Displayed in the left pane when the timer is turned off"
   },
   "disabledDisappearingMessages": {
@@ -1784,9 +1766,47 @@
     "message": "Draft:",
     "description": "Prefix shown in italic in conversation view when a draft is saved"
   },
+  "message--getNotificationText--gif": {
+    "message": "GIF",
+    "description": "Shown in notifications and in the left pane when a GIF is received."
+  },
+  "message--getNotificationText--photo": {
+    "message": "Photo",
+    "description": "Shown in notifications and in the left pane when a photo is received."
+  },
+  "message--getNotificationText--video": {
+    "message": "Video",
+    "description": "Shown in notifications and in the left pane when a video is received."
+  },
+  "message--getNotificationText--voice-message": {
+    "message": "Voice Message",
+    "description": "Shown in notifications and in the left pane when a voice message is received."
+  },
+  "message--getNotificationText--audio-message": {
+    "message": "Audio Message",
+    "description": "Shown in notifications and in the left pane when an audio message is received."
+  },
+  "message--getNotificationText--file": {
+    "message": "File",
+    "description": "Shown in notifications and in the left pane when a generic file is received."
+  },
   "message--getNotificationText--stickers": {
     "message": "Sticker message",
     "description": "Shown in notifications and in the left pane instead of sticker image."
+  },
+  "message--getNotificationText--text-with-emoji": {
+    "message": "$emoji$ $text$",
+    "placeholders": {
+      "emoji": {
+        "content": "$1",
+        "example": "📷"
+      },
+      "text": {
+        "content": "$2",
+        "example": "Photo"
+      }
+    },
+    "description": "Shown in notifications and in the left pane when text has an emoji. Probably always [emoji] [text] on LTR languages and [text] [emoji] on RTL languages."
   },
   "message--getDescription--unsupported-message": {
     "message": "Unsupported message",
@@ -2823,5 +2843,730 @@
   "EmojiButton__label": {
     "message": "Emoji",
     "description": "Label for emoji button"
+  },
+  "GroupV2--admin": {
+    "message": "Admin",
+    "description": "Shown next to the set of administrators in a group"
+  },
+  "GroupV2--timerConflict": {
+    "message": "Failed to update disappearing message timer. Please try again later.",
+    "description": "Shown if the user runs into a group update conflict attempting to update a GroupV2 message timer"
+  },
+  "GroupV2--title--change--other": {
+    "message": "$memberName$ changed the group name to \"$newTitle$\".",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      },
+      "newTitle": {
+        "content": "$2",
+        "example": "Saturday Hiking"
+      }
+    }
+  },
+  "GroupV2--title--change--you": {
+    "message": "You changed the group name to \"$newTitle$\".",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "newTitle": {
+        "content": "$1",
+        "example": "Saturday Hiking"
+      }
+    }
+  },
+  "GroupV2--title--change--unknown": {
+    "message": "A member changed the group name to \"$newTitle$\".",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "newTitle": {
+        "content": "$1",
+        "example": "Saturday Hiking"
+      }
+    }
+  },
+
+  "GroupV2--title--remove--other": {
+    "message": "$memberName$ removed the group name.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--title--remove--you": {
+    "message": "You removed the group name.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--title--remove--unknown": {
+    "message": "A member removed the group name.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+
+  "GroupV2--avatar--change--other": {
+    "message": "$memberName$ changed the group avatar.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--avatar--change--you": {
+    "message": "You changed the group avatar.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--avatar--change--unknown": {
+    "message": "A member changed the group avatar.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--avatar--remove--other": {
+    "message": "$memberName$ removed the group avatar.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--avatar--remove--you": {
+    "message": "You removed the group avatar.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--avatar--remove--unknown": {
+    "message": "A member removed the group avatar.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+
+  "GroupV2--access-attributes--admins--other": {
+    "message": "$adminName$ changed who can edit group info to \"Only admins.\"",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--access-attributes--admins--you": {
+    "message": "You changed who can edit group info to \"Only admins.\"",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--access-attributes--admins--unknown": {
+    "message": "An admin changed who can edit group info to \"Only admins.\"",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--access-attributes--all--other": {
+    "message": "$adminName$ changed who can edit group info to \"All members.\"",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--access-attributes--all--you": {
+    "message": "You changed who can edit group info to \"All members.\"",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--access-attributes--all--unknown": {
+    "message": "An admin changed who can edit group info to \"All members.\"",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--access-members--admins--other": {
+    "message": "$adminName$ changed who can edit group membership to \"Only admins.\"",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--access-members--admins--you": {
+    "message": "You changed who can edit group membership to \"Only admins.\"",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--access-members--admins--unknown": {
+    "message": "An admin changed who can edit group membership to \"Only admins.\"",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--access-members--all--other": {
+    "message": "$adminName$ changed who can edit group membership to \"All members.\"",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--access-members--all--you": {
+    "message": "You changed who can edit group membership to \"All members.\"",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--access-members--all--unknown": {
+    "message": "An admin changed who can edit group membership to \"All members.\"",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+
+  "GroupV2--member-add--from-invite--other": {
+    "message": "$inviteeName$ accepted an invitation to the group from $inviterName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "inviteeName": {
+        "content": "$1",
+        "example": "Alice"
+      },
+      "inviterName": {
+        "content": "$2",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-add--from-invite--you": {
+    "message": "You accepted an invitation to the group from $inviterName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "inviterName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-add--from-invite--from-you": {
+    "message": "$inviteeName$ accepted your invitation to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "inviteeName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-add--other--other": {
+    "message": "$adderName$ added $addeeName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adderName": {
+        "content": "$1",
+        "example": "Bob"
+      },
+      "addeeName": {
+        "content": "$2",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--member-add--other--you": {
+    "message": "You added $memberName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-add--other--unknown": {
+    "message": "A member added $memberName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-add--you--other": {
+    "message": "$memberName$ added you to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-add--you--you": {
+    "message": "You joined the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--member-add--you--unknown": {
+    "message": "A member added you to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--member-remove--other--other": {
+    "message": "$adminName$ removed $memberName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      },
+      "memberName": {
+        "content": "$2",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--member-remove--other--self": {
+    "message": "$memberName$ left.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-remove--other--you": {
+    "message": "You removed $memberName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-remove--other--unknown": {
+    "message": "A member removed $memberName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-remove--you--other": {
+    "message": "$adminName$ removed you.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-remove--you--you": {
+    "message": "You left.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--member-remove--you--unknown": {
+    "message": "A member removed you.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+
+  "GroupV2--member-privilege--promote--other--other": {
+    "message": "$adminName$ made $memberName$ an admin.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      },
+      "memberName": {
+        "content": "$2",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--member-privilege--promote--other--you": {
+    "message": "You made $memberName$ an admin.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-privilege--promote--other--unknown": {
+    "message": "An admin made $memberName$ an admin.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-privilege--promote--you--other": {
+    "message": "$adminName$ made you an admin.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-privilege--promote--you--unknown": {
+    "message": "An admin made you an admin.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--member-privilege--demote--other--other": {
+    "message": "$adminName$ revoked admin privileges from $memberName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      },
+      "memberName": {
+        "content": "$2",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--member-privilege--demote--other--you": {
+    "message": "You revoked admin privileges from $memberName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-privilege--demote--other--unknown": {
+    "message": "An admin revoked admin privileges from $memberName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "memberName": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-privilege--demote--you--other": {
+    "message": "$adminName$ revoked your admin privileges.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-privilege--demote--you--unknown": {
+    "message": "An admin revoked your admin privileges.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+
+  "GroupV2--pending-add--one--other--other": {
+    "message": "$memberName$ invited 1 person to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-add--one--other--you": {
+    "message": "You invited $inviteeName$ to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "inviteeName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-add--one--other--unknown": {
+    "message": "A member invited 1 person to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "inviteeName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-add--one--you--other": {
+    "message": "$memberName$ invited you to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-add--one--you--unknown": {
+    "message": "A member invited you to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--pending-add--many--other": {
+    "message": "$memberName$ invited $count$ people to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      },
+      "count": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "GroupV2--pending-add--many--you": {
+    "message": "You invited $count$ people to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "GroupV2--pending-add--many--unknown": {
+    "message": "A member invited $count$ people to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+
+  "GroupV2--pending-remove--decline--other": {
+    "message": "1 person invited by $memberName$ declined the invitation to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-remove--decline--you": {
+    "message": "$inviteeName$ declined your invitation to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "inviteeName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-remove--decline--unknown": {
+    "message": "1 person declined their invitation to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--pending-remove--revoke--one--other": {
+    "message": "$memberName$ revoked an invitation to the group for 1 person.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke--one--you": {
+    "message": "You revoked an invitation to the group for 1 person.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "inviteeName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke--one--unknown": {
+    "message": "An admin revoked an invitation to the group for 1 person.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "inviteeName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke--many--other": {
+    "message": "$memberName$ revoked invitations to the group for $count$ people.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "inviteeName": {
+        "content": "$1",
+        "example": "Bob"
+      },
+      "count": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke--many--you": {
+    "message": "You revoked invitations to the group for $count$ people.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke--many--unknown": {
+    "message": "An admin revoked invitations to the group for $count$ people.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke-invite-from--one--other": {
+    "message": "$adminName$ revoked an invitation to the group for 1 person invited by $memberName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      },
+      "memberName": {
+        "content": "$2",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke-invite-from--one--you": {
+    "message": "You revoked an invitation to the group for 1 person invited by $memberName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
+    "message": "An admin revoked an invitation to the group for 1 person invited by $memberName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke-invite-from-you--one--other": {
+    "message": "$adminName$ revoked the invitation to the group you sent to $inviteeName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke-invite-from-you--one--you": {
+    "message": "You rescinded your invitation to $inviteeName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "inviteeName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
+    "message": "An admin revoked the invitation to the group you sent to $inviteeName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "inviteeName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke-invite-from--many--other": {
+    "message": "$adminName$ revoked invitations to the group for $count$ people invited by $memberName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      },
+      "memberName": {
+        "content": "$2",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke-invite-from--many--you": {
+    "message": "You revoked invitations to the group for $count$ people invited by $memberName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      },
+      "memberName": {
+        "content": "$2",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
+    "message": "An admin revoked invitations to the group for $count$ people invited by $memberName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      },
+      "memberName": {
+        "content": "$2",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
+    "message": "$adminName$ revoked the invitations to the group you sent to $count$ people.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "adminName": {
+        "content": "$1",
+        "example": "Bob"
+      },
+      "count": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
+    "message": "You rescinded your invitation to $count$ people.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
+    "message": "An admin revoked the invitations to the group you sent to $count$ people.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
   }
 }

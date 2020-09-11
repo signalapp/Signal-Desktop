@@ -1,6 +1,6 @@
 const electron = require('electron');
-const Attachments = require('./attachments');
 const rimraf = require('rimraf');
+const Attachments = require('./attachments');
 
 const { ipcMain } = electron;
 

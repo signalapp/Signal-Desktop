@@ -2,8 +2,6 @@
 
 // eslint-disable-next-line func-names
 (function() {
-  'use strict';
-
   window.Whisper = window.Whisper || {};
 
   Whisper.PhoneInputView = Whisper.View.extend({

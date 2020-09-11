@@ -3,8 +3,6 @@
 
 // eslint-disable-next-line func-names
 (function() {
-  'use strict';
-
   window.Whisper = window.Whisper || {};
 
   Whisper.ContactListView = Whisper.ListView.extend({
@@ -30,7 +28,7 @@
           className: 'contact-wrapper',
           Component: window.Signal.Components.ContactListItem,
           props: {
-            ...this.model.cachedProps,
+            ...this.model.format(),
             onClick: this.showIdentity.bind(this),
           },
         });

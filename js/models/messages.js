@@ -16,11 +16,16 @@
 
 // eslint-disable-next-line func-names
 (function() {
-  'use strict';
-
   window.Whisper = window.Whisper || {};
 
-  const { Message: TypedMessage, Contact, PhoneNumber, Errors } = Signal.Types;
+  const {
+    Message: TypedMessage,
+    Attachment,
+    MIME,
+    Contact,
+    PhoneNumber,
+    Errors,
+  } = Signal.Types;
   const {
     deleteExternalMessageFiles,
     getAbsoluteAttachmentPath,
@@ -40,6 +45,9 @@
 
   const { addStickerPackReference, getMessageBySender } = window.Signal.Data;
   const { bytesFromString } = window.Signal.Crypto;
+  const PLACEHOLDER_CONTACT = {
+    title: i18n('unknownContact'),
+  };
 
   window.AccountCache = Object.create(null);
   window.AccountJobs = Object.create(null);
@@ -135,6 +143,7 @@
         !this.isEndSession() &&
         !this.isExpirationTimerUpdate() &&
         !this.isGroupUpdate() &&
+        !this.isGroupV2Change() &&
         !this.isKeyChange() &&
         !this.isMessageHistoryUnsynced() &&
         !this.isProfileChange() &&
@@ -150,42 +159,56 @@
           type: 'unsupportedMessage',
           data: this.getPropsForUnsupportedMessage(),
         };
-      } else if (this.isMessageHistoryUnsynced()) {
+      }
+      if (this.isGroupV2Change()) {
+        return {
+          type: 'groupV2Change',
+          data: this.getPropsForGroupV2Change(),
+        };
+      }
+      if (this.isMessageHistoryUnsynced()) {
         return {
           type: 'linkNotification',
           data: null,
         };
-      } else if (this.isExpirationTimerUpdate()) {
+      }
+      if (this.isExpirationTimerUpdate()) {
         return {
           type: 'timerNotification',
           data: this.getPropsForTimerNotification(),
         };
-      } else if (this.isKeyChange()) {
+      }
+      if (this.isKeyChange()) {
         return {
           type: 'safetyNumberNotification',
           data: this.getPropsForSafetyNumberNotification(),
         };
-      } else if (this.isVerifiedChange()) {
+      }
+      if (this.isVerifiedChange()) {
         return {
           type: 'verificationNotification',
           data: this.getPropsForVerificationNotification(),
         };
-      } else if (this.isGroupUpdate()) {
+      }
+      if (this.isGroupUpdate()) {
         return {
           type: 'groupNotification',
           data: this.getPropsForGroupNotification(),
         };
-      } else if (this.isEndSession()) {
+      }
+      if (this.isEndSession()) {
         return {
           type: 'resetSessionNotification',
           data: this.getPropsForResetSessionNotification(),
         };
-      } else if (this.isCallHistory()) {
+      }
+      if (this.isCallHistory()) {
         return {
           type: 'callHistory',
           data: this.getPropsForCallHistory(),
         };
-      } else if (this.isProfileChange()) {
+      }
+      if (this.isProfileChange()) {
         return {
           type: 'profileChange',
           data: this.getPropsForProfileChange(),
@@ -200,24 +223,13 @@
 
     // Other top-level prop-generation
     getPropsForSearchResult() {
-      const ourId = ConversationController.getOurConversationId();
       const sourceId = this.getContactId();
-      const fromContact = this.findAndFormatContact(sourceId);
-
-      if (ourId === sourceId) {
-        fromContact.isMe = true;
-      }
-
+      const from = this.findAndFormatContact(sourceId);
       const convo = this.getConversation();
-
-      const to = convo ? this.findAndFormatContact(convo.get('id')) : {};
-
-      if (to && convo && convo.isMe()) {
-        to.isMe = true;
-      }
+      const to = this.findAndFormatContact(convo.get('id'));
 
       return {
-        from: fromContact || {},
+        from,
         to,
 
         isSelected: this.isSelected,
@@ -345,6 +357,9 @@
         versionAtReceive < requiredVersion
       );
     },
+    isGroupV2Change() {
+      return Boolean(this.get('groupV2Change'));
+    },
     isExpirationTimerUpdate() {
       const flag =
         textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
@@ -386,6 +401,16 @@
         contact: this.findAndFormatContact(sourceId),
       };
     },
+    getPropsForGroupV2Change() {
+      const { protobuf } = window.textsecure;
+
+      return {
+        AccessControlEnum: protobuf.AccessControl.AccessRequired,
+        RoleEnum: protobuf.Member.Role,
+        ourConversationId: window.ConversationController.getOurConversationId(),
+        change: this.get('groupV2Change'),
+      };
+    },
     getPropsForTimerNotification() {
       const timerUpdate = this.get('expirationTimerUpdate');
       if (!timerUpdate) {
@@ -401,9 +426,10 @@
         uuid: sourceUuid,
       });
       const ourId = ConversationController.getOurConversationId();
+      const formattedContact = this.findAndFormatContact(sourceId);
 
       const basicProps = {
-        ...this.findAndFormatContact(sourceId),
+        ...formattedContact,
         type: 'fromOther',
         timespan,
         disabled,
@@ -414,10 +440,17 @@
           ...basicProps,
           type: 'fromSync',
         };
-      } else if (sourceId && sourceId === ourId) {
+      }
+      if (sourceId && sourceId === ourId) {
         return {
           ...basicProps,
           type: 'fromMe',
+        };
+      }
+      if (!sourceId) {
+        return {
+          ...basicProps,
+          type: 'fromMember',
         };
       }
 
@@ -459,10 +492,6 @@
         });
       }
 
-      const placeholderContact = {
-        title: i18n('unknownContact'),
-      };
-
       if (groupUpdate.joined) {
         changes.push({
           type: 'add',
@@ -470,8 +499,7 @@
             Array.isArray(groupUpdate.joined)
               ? groupUpdate.joined
               : [groupUpdate.joined],
-            identifier =>
-              this.findAndFormatContact(identifier) || placeholderContact
+            identifier => this.findAndFormatContact(identifier)
           ),
         });
       }
@@ -488,8 +516,7 @@
             Array.isArray(groupUpdate.left)
               ? groupUpdate.left
               : [groupUpdate.left],
-            identifier =>
-              this.findAndFormatContact(identifier) || placeholderContact
+            identifier => this.findAndFormatContact(identifier)
           ),
         });
       }
@@ -586,15 +613,6 @@
       const reactions = (this.get('reactions') || []).map(re => {
         const c = this.findAndFormatContact(re.fromId);
 
-        if (!c) {
-          return {
-            emoji: re.emoji,
-            from: {
-              id: re.fromId,
-            },
-          };
-        }
-
         return {
           emoji: re.emoji,
           timestamp: re.timestamp,
@@ -647,17 +665,29 @@
 
     // Dependencies of prop-generation functions
     findAndFormatContact(identifier) {
+      if (!identifier) {
+        return PLACEHOLDER_CONTACT;
+      }
+
       const contactModel = this.findContact(identifier);
       if (contactModel) {
         return contactModel.format();
       }
 
-      const { format } = PhoneNumber;
+      const { format, isValidNumber } = PhoneNumber;
       const regionCode = storage.get('regionCode');
+
+      if (!isValidNumber(identifier, { regionCode })) {
+        return PLACEHOLDER_CONTACT;
+      }
+
+      const phoneNumber = format(identifier, {
+        ourRegionCode: regionCode,
+      });
+
       return {
-        phoneNumber: format(identifier, {
-          ourRegionCode: regionCode,
-        }),
+        title: phoneNumber,
+        phoneNumber,
       };
     },
     findContact(identifier) {
@@ -868,50 +898,79 @@
       const thumbnailWithObjectUrl =
         !path && !objectUrl
           ? null
-          : Object.assign({}, attachment.thumbnail || {}, {
-              objectUrl: path || objectUrl,
-            });
+          : { ...(attachment.thumbnail || {}), objectUrl: path || objectUrl };
 
-      return Object.assign({}, attachment, {
+      return {
+        ...attachment,
         isVoiceMessage: Signal.Types.Attachment.isVoiceMessage(attachment),
         thumbnail: thumbnailWithObjectUrl,
-      });
+      };
     },
 
-    // More display logic
-    getDescription() {
+    getNotificationData() /* : { text: string, emoji?: string } */ {
       if (this.isUnsupportedMessage()) {
-        return i18n('message--getDescription--unsupported-message');
+        return { text: i18n('message--getDescription--unsupported-message') };
       }
+
       if (this.isProfileChange()) {
         const change = this.get('profileChange');
         const changedId = this.get('changedId');
         const changedContact = this.findAndFormatContact(changedId);
 
-        return Signal.Util.getStringForProfileChange(
-          change,
-          changedContact,
-          i18n
-        );
+        return {
+          text: Signal.Util.getStringForProfileChange(
+            change,
+            changedContact,
+            i18n
+          ),
+        };
       }
+
+      if (this.isGroupV2Change()) {
+        const { protobuf } = window.textsecure;
+        const change = this.get('groupV2Change');
+
+        const lines = window.Signal.GroupChange.renderChange(change, {
+          AccessControlEnum: protobuf.AccessControl.AccessRequired,
+          i18n: window.i18n,
+          ourConversationId: window.ConversationController.getOurConversationId(),
+          renderContact: conversationId => {
+            const conversation = window.ConversationController.get(
+              conversationId
+            );
+            return conversation
+              ? conversation.getTitle()
+              : window.i18n('unknownUser');
+          },
+          renderString: (key, i18n, placeholders) => i18n(key, placeholders),
+          RoleEnum: protobuf.Member.Role,
+        });
+
+        return { text: lines.join(' ') };
+      }
+
+      const attachments = this.get('attachments') || [];
+
       if (this.isTapToView()) {
         if (this.isErased()) {
-          return i18n('message--getDescription--disappearing-media');
+          return { text: i18n('message--getDescription--disappearing-media') };
         }
 
-        const attachments = this.get('attachments');
-        if (!attachments || !attachments[0]) {
-          return i18n('mediaMessage');
+        if (Attachment.isImage(attachments)) {
+          return {
+            text: i18n('message--getDescription--disappearing-photo'),
+            emoji: '📷',
+          };
         }
-
-        const { contentType } = attachments[0];
-        if (GoogleChrome.isImageTypeSupported(contentType)) {
-          return i18n('message--getDescription--disappearing-photo');
-        } else if (GoogleChrome.isVideoTypeSupported(contentType)) {
-          return i18n('message--getDescription--disappearing-video');
+        if (Attachment.isVideo(attachments)) {
+          return {
+            text: i18n('message--getDescription--disappearing-video'),
+            emoji: '🎥',
+          };
         }
-
-        return i18n('mediaMessage');
+        // There should be an image or video attachment, but we have a fallback just in
+        //   case.
+        return { text: i18n('mediaMessage'), emoji: '📎' };
       }
 
       if (this.isGroupUpdate()) {
@@ -920,15 +979,18 @@
         const messages = [];
 
         if (groupUpdate.left === 'You') {
-          return i18n('youLeftTheGroup');
-        } else if (groupUpdate.left) {
-          return i18n('leftTheGroup', [
-            this.getNameForNumber(groupUpdate.left),
-          ]);
+          return { text: i18n('youLeftTheGroup') };
+        }
+        if (groupUpdate.left) {
+          return {
+            text: i18n('leftTheGroup', [
+              this.getNameForNumber(groupUpdate.left),
+            ]),
+          };
         }
 
         if (!fromContact) {
-          return '';
+          return { text: '' };
         }
 
         if (fromContact.isMe()) {
@@ -979,56 +1041,129 @@
           messages.push(i18n('updatedGroupAvatar'));
         }
 
-        return messages.join(' ');
+        return { text: messages.join(' ') };
       }
       if (this.isEndSession()) {
-        return i18n('sessionEnded');
+        return { text: i18n('sessionEnded') };
       }
       if (this.isIncoming() && this.hasErrors()) {
-        return i18n('incomingError');
+        return { text: i18n('incomingError') };
       }
-      return this.get('body');
-    },
-    getNotificationText() {
-      const description = this.getDescription();
-      if (description) {
-        return description;
+
+      const body = (this.get('body') || '').trim();
+
+      if (attachments.length) {
+        // This should never happen but we want to be extra-careful.
+        const attachment = attachments[0] || {};
+        const { contentType } = attachment;
+
+        if (contentType === MIME.IMAGE_GIF) {
+          return {
+            text: body || i18n('message--getNotificationText--gif'),
+            emoji: '🎡',
+          };
+        }
+        if (Attachment.isImage(attachments)) {
+          return {
+            text: body || i18n('message--getNotificationText--photo'),
+            emoji: '📷',
+          };
+        }
+        if (Attachment.isVideo(attachments)) {
+          return {
+            text: body || i18n('message--getNotificationText--video'),
+            emoji: '🎥',
+          };
+        }
+        if (Attachment.isVoiceMessage(attachment)) {
+          return {
+            text: body || i18n('message--getNotificationText--voice-message'),
+            emoji: '🎤',
+          };
+        }
+        if (Attachment.isAudio(attachments)) {
+          return {
+            text: body || i18n('message--getNotificationText--audio-message'),
+            emoji: '🔈',
+          };
+        }
+        return {
+          text: body || i18n('message--getNotificationText--file'),
+          emoji: '📎',
+        };
       }
-      if (this.get('attachments').length > 0) {
-        return i18n('mediaMessage');
-      }
-      if (this.get('sticker')) {
-        return i18n('message--getNotificationText--stickers');
-      }
-      if (this.isCallHistory()) {
-        return window.Signal.Components.getCallingNotificationText(
-          this.get('callHistoryDetails'),
-          window.i18n
+
+      const stickerData = this.get('sticker');
+      if (stickerData) {
+        const sticker = Signal.Stickers.getSticker(
+          stickerData.packId,
+          stickerData.stickerId
         );
+        const { emoji } = sticker || {};
+        if (!emoji) {
+          window.log.warn('Unable to get emoji for sticker');
+        }
+        return {
+          text: i18n('message--getNotificationText--stickers'),
+          emoji,
+        };
+      }
+
+      if (this.isCallHistory()) {
+        return {
+          text: window.Signal.Components.getCallingNotificationText(
+            this.get('callHistoryDetails'),
+            window.i18n
+          ),
+        };
       }
       if (this.isExpirationTimerUpdate()) {
         const { expireTimer } = this.get('expirationTimerUpdate');
         if (!expireTimer) {
-          return i18n('disappearingMessagesDisabled');
+          return { text: i18n('disappearingMessagesDisabled') };
         }
 
-        return i18n('timerSetTo', [
-          Whisper.ExpirationTimerOptions.getAbbreviated(expireTimer || 0),
-        ]);
+        return {
+          text: i18n('timerSetTo', [
+            Whisper.ExpirationTimerOptions.getAbbreviated(expireTimer || 0),
+          ]),
+        };
       }
+
       if (this.isKeyChange()) {
         const identifier = this.get('key_changed');
         const conversation = this.findContact(identifier);
-        return i18n('safetyNumberChangedGroup', [
-          conversation ? conversation.getTitle() : null,
-        ]);
+        return {
+          text: i18n('safetyNumberChangedGroup', [
+            conversation ? conversation.getTitle() : null,
+          ]),
+        };
       }
       const contacts = this.get('contact');
       if (contacts && contacts.length) {
-        return Contact.getName(contacts[0]);
+        return { text: Contact.getName(contacts[0]), emoji: '👤' };
       }
 
-      return '';
+      if (body) {
+        return { text: body };
+      }
+
+      return { text: '' };
+    },
+
+    getNotificationText() /* : string */ {
+      const { text, emoji } = this.getNotificationData();
+
+      // Linux emoji support is mixed, so we disable it. (Note that this doesn't touch
+      //   the `text`, which can contain emoji.)
+      const shouldIncludeEmoji = Boolean(emoji) && !Signal.OS.isLinux();
+      if (shouldIncludeEmoji) {
+        return i18n('message--getNotificationText--text-with-emoji', {
+          text,
+          emoji,
+        });
+      }
+      return text;
     },
 
     // General
@@ -1219,6 +1354,7 @@
       // Rendered sync messages
       const isCallHistory = this.isCallHistory();
       const isGroupUpdate = this.isGroupUpdate();
+      const isGroupV2Change = this.isGroupV2Change();
       const isEndSession = this.isEndSession();
       const isExpirationTimerUpdate = this.isExpirationTimerUpdate();
       const isVerifiedChange = this.isVerifiedChange();
@@ -1246,6 +1382,7 @@
         // Rendered sync messages
         isCallHistory ||
         isGroupUpdate ||
+        isGroupV2Change ||
         isEndSession ||
         isExpirationTimerUpdate ||
         isVerifiedChange ||
@@ -1368,11 +1505,7 @@
         this.set({ expirationStartTimestamp });
       }
 
-      Whisper.Notifications.remove(
-        Whisper.Notifications.where({
-          messageId: this.id,
-        })
-      );
+      Whisper.Notifications.removeBy({ messageId: this.id });
 
       if (!skipSave) {
         await window.Signal.Data.saveMessage(this.attributes, {
@@ -1542,6 +1675,8 @@
         // Because this is a partial group send, we manually construct the request like
         //   sendMessageToGroup does.
 
+        const groupV2 = conversation.getGroupV2Info();
+
         promise = textsecure.messaging.sendMessage(
           {
             recipients,
@@ -1553,10 +1688,13 @@
             sticker: stickerWithData,
             expireTimer: this.get('expireTimer'),
             profileKey,
-            group: {
-              id: this.getConversation().get('groupId'),
-              type: textsecure.protobuf.GroupContext.Type.DELIVER,
-            },
+            groupV2,
+            group: groupV2
+              ? null
+              : {
+                  id: this.getConversation().get('groupId'),
+                  type: textsecure.protobuf.GroupContext.Type.DELIVER,
+                },
           },
           options
         );
@@ -1716,6 +1854,14 @@
 
           let promises = [];
 
+          // If we successfully sent to a user, we can remove our unregistered flag.
+          result.successfulIdentifiers.forEach(identifier => {
+            const c = ConversationController.get(identifier);
+            if (c && c.isEverUnregistered()) {
+              c.setRegistered();
+            }
+          });
+
           if (result instanceof Error) {
             this.saveErrors(result);
             if (result.name === 'SignedPreKeyRotationError') {
@@ -1727,6 +1873,24 @@
           } else {
             if (result.successfulIdentifiers.length > 0) {
               const sentTo = this.get('sent_to') || [];
+
+              // If we just found out that we couldn't send to a user because they are no
+              //   longer registered, we will update our unregistered flag. In groups we
+              //   will not event try to send to them for 6 hours. And we will never try
+              //   to fetch them on startup again.
+              // The way to discover registration once more is:
+              //   1) any attempt to send to them in 1:1 conversation
+              //   2) the six-hour time period has passed and we send in a group again
+              const unregisteredUserErrors = _.filter(
+                result.errors,
+                error => error.name === 'UnregisteredUserError'
+              );
+              unregisteredUserErrors.forEach(error => {
+                const c = ConversationController.get(error.identifier);
+                if (c) {
+                  c.setUnregistered();
+                }
+              });
 
               // In groups, we don't treat unregistered users as a user-visible
               //   error. The message will look successful, but the details
@@ -2255,14 +2419,16 @@
 
             confirm();
             return;
-          } else if (isUpdate) {
+          }
+          if (isUpdate) {
             window.log.warn(
               `handleDataMessage: Received update transcript, but no existing entry for message ${message.idForLogging()}. Dropping.`
             );
 
             confirm();
             return;
-          } else if (existingMessage) {
+          }
+          if (existingMessage) {
             window.log.warn(
               `handleDataMessage: Received duplicate transcript for message ${message.idForLogging()}, but it was not an update transcript. Dropping.`
             );
@@ -2272,19 +2438,80 @@
           }
         }
 
-        // We drop incoming messages for groups we already know about, which we're not a
-        //   part of, except for group updates.
-        const ourUuid = textsecure.storage.user.getUuid();
-        const ourNumber = textsecure.storage.user.getNumber();
-        const isGroupUpdate =
+        const existingRevision = conversation.get('revision');
+        const isGroupV2 = Boolean(initialMessage.groupV2);
+        const isV2GroupUpdate =
+          initialMessage.groupV2 &&
+          (!existingRevision ||
+            initialMessage.groupV2.revision > existingRevision);
+
+        // GroupV2
+        if (isGroupV2) {
+          conversation.maybeRepairGroupV2(
+            _.pick(initialMessage.groupV2, [
+              'masterKey',
+              'secretParams',
+              'publicParams',
+            ])
+          );
+        }
+
+        if (isV2GroupUpdate) {
+          const { revision, groupChange } = initialMessage.groupV2;
+          try {
+            await window.Signal.Groups.maybeUpdateGroup({
+              conversation,
+              groupChangeBase64: groupChange,
+              newRevision: revision,
+              receivedAt: message.get('received_at'),
+              sentAt: message.get('sent_at'),
+            });
+          } catch (error) {
+            const errorText = error && error.stack ? error.stack : error;
+            window.log.error(
+              `handleDataMessage: Failed to process group update for ${conversation.idForLogging()} as part of message ${message.idForLogging()}: ${errorText}`
+            );
+            throw error;
+          }
+        }
+
+        const ourConversationId = ConversationController.getOurConversationId();
+        const senderId = ConversationController.ensureContactIds({
+          e164: source,
+          uuid: sourceUuid,
+        });
+        const isV1GroupUpdate =
           initialMessage.group &&
           initialMessage.group.type !==
             textsecure.protobuf.GroupContext.Type.DELIVER;
+
+        // Drop an incoming GroupV2 message if we or the sender are not part of the group
+        //   after applying the message's associated group chnages.
         if (
           type === 'incoming' &&
           !conversation.isPrivate() &&
-          !conversation.hasMember(ourNumber || ourUuid) &&
-          !isGroupUpdate
+          isGroupV2 &&
+          (conversation.get('left') ||
+            !conversation.hasMember(ourConversationId) ||
+            !conversation.hasMember(senderId))
+        ) {
+          window.log.warn(
+            `Received message destined for group ${conversation.idForLogging()}, which we or the sender are not a part of. Dropping.`
+          );
+          confirm();
+          return;
+        }
+
+        // We drop incoming messages for v1 groups we already know about, which we're not
+        //   a part of, except for group updates. Because group v1 updates haven't been
+        //   applied by this point.
+        if (
+          type === 'incoming' &&
+          !conversation.isPrivate() &&
+          !isGroupV2 &&
+          !isV1GroupUpdate &&
+          (conversation.get('left') ||
+            !conversation.hasMember(ourConversationId))
         ) {
           window.log.warn(
             `Received message destined for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
@@ -2368,7 +2595,9 @@
             let attributes = {
               ...conversation.attributes,
             };
-            if (dataMessage.group) {
+
+            // GroupV1
+            if (!isGroupV2 && dataMessage.group) {
               const pendingGroupUpdate = [];
               const memberConversations = await Promise.all(
                 dataMessage.group.membersE164.map(e164 =>
@@ -2477,10 +2706,6 @@
                   conversation.set({ addedBy: message.getContactId() });
                 }
               } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
-                const senderId = ConversationController.ensureContactIds({
-                  e164: source,
-                  uuid: sourceUuid,
-                });
                 const sender = ConversationController.get(senderId);
                 const inGroup = Boolean(
                   sender &&
@@ -2518,6 +2743,17 @@
               }
             }
 
+            // Drop empty messages after. This needs to happen after the initial
+            // message.set call and after GroupV1 processing to make sure all possible
+            // properties are set before we determine that a message is empty.
+            if (message.isEmpty()) {
+              window.log.info(
+                `handleDataMessage: Dropping empty message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
+              );
+              confirm();
+              return;
+            }
+
             if (type === 'outgoing') {
               const receipts = Whisper.DeliveryReceipts.forMessage(
                 conversation,
@@ -2532,61 +2768,66 @@
                 })
               );
             }
+
             attributes.active_at = now;
             conversation.set(attributes);
 
-            if (message.isExpirationTimerUpdate()) {
-              message.set({
-                expirationTimerUpdate: {
-                  source,
-                  sourceUuid,
-                  expireTimer: dataMessage.expireTimer,
-                },
-              });
-              conversation.set({ expireTimer: dataMessage.expireTimer });
-            } else if (dataMessage.expireTimer) {
+            if (dataMessage.expireTimer) {
               message.set({ expireTimer: dataMessage.expireTimer });
             }
 
-            // NOTE: Remove once the above uses
-            // `Conversation::updateExpirationTimer`:
-            const { expireTimer } = dataMessage;
-            const shouldLogExpireTimerChange =
-              message.isExpirationTimerUpdate() || expireTimer;
-            if (shouldLogExpireTimerChange) {
-              window.log.info("Update conversation 'expireTimer'", {
-                id: conversation.idForLogging(),
-                expireTimer,
-                source: 'handleDataMessage',
-              });
-            }
+            if (!isGroupV2) {
+              if (message.isExpirationTimerUpdate()) {
+                message.set({
+                  expirationTimerUpdate: {
+                    source,
+                    sourceUuid,
+                    expireTimer: dataMessage.expireTimer,
+                  },
+                });
+                conversation.set({ expireTimer: dataMessage.expireTimer });
+              }
 
-            if (!message.isEndSession()) {
-              if (dataMessage.expireTimer) {
-                if (
-                  dataMessage.expireTimer !== conversation.get('expireTimer')
+              // NOTE: Remove once the above calls this.model.updateExpirationTimer()
+              const { expireTimer } = dataMessage;
+              const shouldLogExpireTimerChange =
+                message.isExpirationTimerUpdate() || expireTimer;
+              if (shouldLogExpireTimerChange) {
+                window.log.info("Update conversation 'expireTimer'", {
+                  id: conversation.idForLogging(),
+                  expireTimer,
+                  source: 'handleDataMessage',
+                });
+              }
+
+              if (!message.isEndSession()) {
+                if (dataMessage.expireTimer) {
+                  if (
+                    dataMessage.expireTimer !== conversation.get('expireTimer')
+                  ) {
+                    conversation.updateExpirationTimer(
+                      dataMessage.expireTimer,
+                      source,
+                      message.get('received_at'),
+                      {
+                        fromGroupUpdate: message.isGroupUpdate(),
+                      }
+                    );
+                  }
+                } else if (
+                  conversation.get('expireTimer') &&
+                  // We only turn off timers if it's not a group update
+                  !message.isGroupUpdate()
                 ) {
                   conversation.updateExpirationTimer(
-                    dataMessage.expireTimer,
+                    null,
                     source,
-                    message.get('received_at'),
-                    {
-                      fromGroupUpdate: message.isGroupUpdate(),
-                    }
+                    message.get('received_at')
                   );
                 }
-              } else if (
-                conversation.get('expireTimer') &&
-                // We only turn off timers if it's not a group update
-                !message.isGroupUpdate()
-              ) {
-                conversation.updateExpirationTimer(
-                  null,
-                  source,
-                  message.get('received_at')
-                );
               }
             }
+
             if (type === 'incoming') {
               const readSync = Whisper.ReadSyncs.forMessage(message);
               if (readSync) {
@@ -2682,17 +2923,6 @@
                 await message.markViewed({ fromSync: true });
               }
             }
-          }
-
-          // Drop empty messages. This needs to happen after the initial
-          // message.set call to make sure all possible properties are set
-          // before we determine that a message is empty.
-          if (message.isEmpty()) {
-            window.log.info(
-              `Dropping empty datamessage ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
-            );
-            confirm();
-            return;
           }
 
           const conversationTimestamp = conversation.get('timestamp');
@@ -2816,10 +3046,7 @@
       });
 
       // Remove any notifications for this message
-      const notificationForMessage = Whisper.Notifications.findWhere({
-        messageId: this.get('id'),
-      });
-      Whisper.Notifications.remove(notificationForMessage);
+      Whisper.Notifications.removeBy({ messageId: this.get('id') });
 
       // Erase the contents of this message
       await this.eraseContents(
