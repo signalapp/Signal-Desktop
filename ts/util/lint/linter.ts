@@ -338,8 +338,13 @@ forEach(allSourceFiles, file => {
 
     forEach(lines, (rawLine, lineIndex) => {
       const line = rawLine.replace(/\r/g, '');
+
       if (!rule.regex.test(line)) {
         return;
+      }
+      // recreate this rule since it has g flag, and carries local state
+      if (rule.expression) {
+        rule.regex = new RegExp(rule.expression, 'g');
       }
 
       const path = relativePath;
