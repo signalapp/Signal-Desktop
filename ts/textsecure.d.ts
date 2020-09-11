@@ -209,7 +209,7 @@ type ProtobufCollectionType = DeviceMessagesProtobufTypes &
 // Note: there are a lot of places in the code that overwrite a field like this
 //   with a type that the app can use. Being more rigorous with these
 //   types would require code changes, out of scope for now.
-type ProtoBinaryType = any;
+export type ProtoBinaryType = any;
 type ProtoBigNumberType = any;
 
 // Groups.proto

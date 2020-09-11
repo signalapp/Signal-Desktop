@@ -25,7 +25,7 @@ declare class DeletesModelType extends Backbone.Model<DeletesAttributesType> {
 
 type TaskResultType = any;
 
-type MessageAttributesType = {
+export type MessageAttributesType = {
   id: string;
   type?: string;
 
@@ -63,9 +63,9 @@ declare class MessageModelType extends Backbone.Model<MessageAttributesType> {
   ): Promise<void>;
 }
 
-type ConversationTypeType = 'private' | 'group';
+export type ConversationTypeType = 'private' | 'group';
 
-type ConversationAttributesType = {
+export type ConversationAttributesType = {
   id: string;
   type: ConversationTypeType;
   timestamp: number;
@@ -201,7 +201,7 @@ export declare class ConversationModelType extends Backbone.Model<
   wrapSend: (sendPromise: Promise<any>) => Promise<any>;
 }
 
-declare class ConversationModelCollectionType extends Backbone.Collection<
+export declare class ConversationModelCollectionType extends Backbone.Collection<
   ConversationModelType
 > {
   resetLookups(): void;

@@ -177,6 +177,7 @@
   "rulesDirectory": ["node_modules/tslint-microsoft-contrib"],
   "linterOptions": {
     "exclude": [
+      "ts/*.ts",
       "ts/components/emoji/**",
       "ts/backbone/**",
       "ts/build/**",

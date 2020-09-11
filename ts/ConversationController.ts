@@ -1,5 +1,3 @@
-const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
-
 import { debounce, reduce, uniq, without } from 'lodash';
 import dataInterface from './sql/Client';
 import {
@@ -8,6 +6,8 @@ import {
   ConversationTypeType,
 } from './model-types.d';
 import { SendOptionsType } from './textsecure/SendMessage';
+
+const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
 const {
   getAllConversations,
@@ -22,7 +22,7 @@ const {
 // We have to run this in background.js, after all backbone models and collections on
 //   Whisper.* have been created. Once those are in typescript we can use more reasonable
 //   require statements for referencing these things, giving us more flexibility here.
-export function start() {
+export function start(): void {
   const conversations = new window.Whisper.ConversationCollection();
 
   // This class is entirely designed to keep the app title, badge and tray icon updated.
@@ -70,7 +70,9 @@ export function start() {
 
 export class ConversationController {
   _initialFetchComplete: boolean | undefined;
+
   _initialPromise: Promise<void> = Promise.resolve();
+
   _conversations: ConversationModelCollectionType;
 
   constructor(conversations?: ConversationModelCollectionType) {
@@ -91,14 +93,18 @@ export class ConversationController {
     // This function takes null just fine. Backbone typings are too restrictive.
     return this._conversations.get(id as string);
   }
-  dangerouslyCreateAndAdd(attributes: Partial<ConversationModelType>) {
+
+  dangerouslyCreateAndAdd(
+    attributes: Partial<ConversationModelType>
+  ): ConversationModelType {
     return this._conversations.add(attributes);
   }
+
   getOrCreate(
     identifier: string,
     type: ConversationTypeType,
     additionalInitialProps = {}
-  ) {
+  ): ConversationModelType {
     if (typeof identifier !== 'string') {
       throw new TypeError("'id' must be a string");
     }
@@ -186,24 +192,24 @@ export class ConversationController {
 
     return conversation;
   }
+
   async getOrCreateAndWait(
     id: string,
     type: ConversationTypeType,
     additionalInitialProps = {}
-  ) {
-    return this._initialPromise.then(async () => {
-      const conversation = this.getOrCreate(id, type, additionalInitialProps);
+  ): Promise<ConversationModelType> {
+    await this._initialPromise;
+    const conversation = this.getOrCreate(id, type, additionalInitialProps);
 
-      if (conversation) {
-        return conversation.initialPromise.then(() => conversation);
-      }
+    if (conversation) {
+      await conversation.initialPromise;
+      return conversation;
+    }
 
-      return Promise.reject(
-        new Error('getOrCreateAndWait: did not get conversation')
-      );
-    });
+    throw new Error('getOrCreateAndWait: did not get conversation');
   }
-  getConversationId(address: string) {
+
+  getConversationId(address: string): string | null {
     if (!address) {
       return null;
     }
@@ -217,11 +223,13 @@ export class ConversationController {
 
     return null;
   }
+
   getOurConversationId(): string | undefined {
     const e164 = window.textsecure.storage.user.getNumber();
     const uuid = window.textsecure.storage.user.getUuid();
     return this.ensureContactIds({ e164, uuid, highTrust: true });
   }
+
   /**
    * Given a UUID and/or an E164, resolves to a string representing the local
    * database id of the given contact. In high trust mode, it may create new contacts,
@@ -272,7 +280,8 @@ export class ConversationController {
       return newConvo.get('id');
 
       // 2. Handle match on only E164
-    } else if (convoE164 && !convoUuid) {
+    }
+    if (convoE164 && !convoUuid) {
       const haveUuid = Boolean(normalizedUuid);
       window.log.info(
         `ensureContactIds: e164-only match found (have UUID: ${haveUuid})`
@@ -315,7 +324,8 @@ export class ConversationController {
       return newConvo.get('id');
 
       // 3. Handle match on only UUID
-    } else if (!convoE164 && convoUuid) {
+    }
+    if (!convoE164 && convoUuid) {
       window.log.info(
         `ensureContactIds: UUID-only match found (have e164: ${Boolean(e164)})`
       );
@@ -363,6 +373,8 @@ export class ConversationController {
       // Conflict: If e164 match has no UUID, we merge. We prefer the UUID match.
       // Note: no await here, we want to keep this function synchronous
       convoUuid.updateE164(e164);
+      // `then` is used to trigger async updates, not affecting return value
+      // eslint-disable-next-line more/no-then
       this.combineContacts(convoUuid, convoE164)
         .then(() => {
           // If the old conversation was currently displayed, we load the new one
@@ -381,7 +393,8 @@ export class ConversationController {
 
     return convoUuid.get('id');
   }
-  async checkForConflicts() {
+
+  async checkForConflicts(): Promise<void> {
     window.log.info('checkForConflicts: starting...');
     const byUuid = Object.create(null);
     const byE164 = Object.create(null);
@@ -465,10 +478,11 @@ export class ConversationController {
 
     window.log.info('checkForConflicts: complete!');
   }
+
   async combineContacts(
     current: ConversationModelType,
     obsolete: ConversationModelType
-  ) {
+  ): Promise<void> {
     const obsoleteId = obsolete.get('id');
     const currentId = current.get('id');
     window.log.warn('combineContacts: Combining two conversations', {
@@ -541,6 +555,7 @@ export class ConversationController {
       current: currentId,
     });
   }
+
   /**
    * Given a groupId and optional additional initialization properties,
    * ensures the existence of a group conversation and returns a string
@@ -549,16 +564,17 @@ export class ConversationController {
   ensureGroup(groupId: string, additionalInitProps = {}): string {
     return this.getOrCreate(groupId, 'group', additionalInitProps).get('id');
   }
+
   /**
    * Given certain metadata about a message (an identifier of who wrote the
    * message and the sent_at timestamp of the message) returns the
    * conversation the message belongs to OR null if a conversation isn't
    * found.
    */
-  async getConversationForTargetMessage(
+  static async getConversationForTargetMessage(
     targetFromId: string,
     targetTimestamp: number
-  ) {
+  ): Promise<boolean | ConversationModelType | null | undefined> {
     const messages = await getMessagesBySentAt(targetTimestamp, {
       MessageCollection: window.Whisper.MessageCollection,
     });
@@ -579,11 +595,12 @@ export class ConversationController {
 
     return null;
   }
-  prepareForSend(
+
+  prepareForSend<T>(
     id: string,
-    options?: any
+    options?: unknown
   ): {
-    wrap: (promise: Promise<any>) => Promise<void>;
+    wrap: (promise: Promise<T>) => Promise<T>;
     sendOptions: SendOptionsType | undefined;
   } {
     // id is any valid conversation identifier
@@ -593,10 +610,11 @@ export class ConversationController {
       : undefined;
     const wrap = conversation
       ? conversation.wrapSend.bind(conversation)
-      : async (promise: Promise<any>) => promise;
+      : async (promise: Promise<T>) => promise;
 
     return { wrap, sendOptions };
   }
+
   async getAllGroupsInvolvingId(
     conversationId: string
   ): Promise<Array<ConversationModelType>> {
@@ -605,18 +623,22 @@ export class ConversationController {
     });
     return groups.map(group => this._conversations.add(group));
   }
-  async loadPromise() {
+
+  async loadPromise(): Promise<void> {
     return this._initialPromise;
   }
-  reset() {
+
+  reset(): void {
     this._initialPromise = Promise.resolve();
     this._initialFetchComplete = false;
     this._conversations.reset([]);
   }
-  isFetchComplete() {
+
+  isFetchComplete(): boolean | undefined {
     return this._initialFetchComplete;
   }
-  async load() {
+
+  async load(): Promise<void> {
     window.log.info('ConversationController: starting initial fetch');
 
     if (this._conversations.length) {

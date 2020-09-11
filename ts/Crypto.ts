@@ -1,55 +1,47 @@
 import pProps from 'p-props';
 
-// Yep, we're doing some bitwise stuff in an encryption-related file
-// tslint:disable no-bitwise
-
-// We want some extra variables to make the decrption algorithm easier to understand
-// tslint:disable no-unnecessary-local-variable
-
-// Seems that tslint doesn't understand that crypto.subtle.importKey does return a Promise
-// tslint:disable await-promise
-
 export function typedArrayToArrayBuffer(typedArray: Uint8Array): ArrayBuffer {
   const { buffer, byteOffset, byteLength } = typedArray;
 
-  // tslint:disable-next-line no-unnecessary-type-assertion
   return buffer.slice(byteOffset, byteLength + byteOffset) as typeof typedArray;
 }
 
-export function arrayBufferToBase64(arrayBuffer: ArrayBuffer) {
+export function arrayBufferToBase64(arrayBuffer: ArrayBuffer): string {
   return window.dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('base64');
 }
 
-export function arrayBufferToHex(arrayBuffer: ArrayBuffer) {
+export function arrayBufferToHex(arrayBuffer: ArrayBuffer): string {
   return window.dcodeIO.ByteBuffer.wrap(arrayBuffer).toString('hex');
 }
 
-export function base64ToArrayBuffer(base64string: string) {
+export function base64ToArrayBuffer(base64string: string): ArrayBuffer {
   return window.dcodeIO.ByteBuffer.wrap(base64string, 'base64').toArrayBuffer();
 }
 
-export function hexToArrayBuffer(hexString: string) {
+export function hexToArrayBuffer(hexString: string): ArrayBuffer {
   return window.dcodeIO.ByteBuffer.wrap(hexString, 'hex').toArrayBuffer();
 }
 
-export function fromEncodedBinaryToArrayBuffer(key: string) {
+export function fromEncodedBinaryToArrayBuffer(key: string): ArrayBuffer {
   return window.dcodeIO.ByteBuffer.wrap(key, 'binary').toArrayBuffer();
 }
 
-export function bytesFromString(string: string) {
+export function bytesFromString(string: string): ArrayBuffer {
   return window.dcodeIO.ByteBuffer.wrap(string, 'utf8').toArrayBuffer();
 }
-export function stringFromBytes(buffer: ArrayBuffer) {
+export function stringFromBytes(buffer: ArrayBuffer): string {
   return window.dcodeIO.ByteBuffer.wrap(buffer).toString('utf8');
 }
-export function hexFromBytes(buffer: ArrayBuffer) {
+export function hexFromBytes(buffer: ArrayBuffer): string {
   return window.dcodeIO.ByteBuffer.wrap(buffer).toString('hex');
 }
-export function bytesFromHexString(string: string) {
+export function bytesFromHexString(string: string): ArrayBuffer {
   return window.dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();
 }
 
-export async function deriveStickerPackKey(packKey: ArrayBuffer) {
+export async function deriveStickerPackKey(
+  packKey: ArrayBuffer
+): Promise<ArrayBuffer> {
   const salt = getZeroes(32);
   const info = bytesFromString('Sticker Pack');
 
@@ -72,7 +64,7 @@ export async function computeHash(data: ArrayBuffer): Promise<string> {
 export async function encryptDeviceName(
   deviceName: string,
   identityPublic: ArrayBuffer
-) {
+): Promise<Record<string, ArrayBuffer>> {
   const plaintext = bytesFromString(deviceName);
   const ephemeralKeyPair = await window.libsignal.KeyHelper.generateIdentityKeyPair();
   const masterSecret = await window.libsignal.Curve.async.calculateAgreement(
@@ -107,7 +99,7 @@ export async function decryptDeviceName(
     ciphertext: ArrayBuffer;
   },
   identityPrivate: ArrayBuffer
-) {
+): Promise<string> {
   const masterSecret = await window.libsignal.Curve.async.calculateAgreement(
     ephemeralPublic,
     identityPrivate
@@ -130,7 +122,7 @@ export async function decryptDeviceName(
 }
 
 // Path structure: 'fa/facdf99c22945b1c9393345599a276f4b36ad7ccdc8c2467f5441b742c2d11fa'
-export function getAttachmentLabel(path: string) {
+export function getAttachmentLabel(path: string): ArrayBuffer {
   const filename = path.slice(3);
 
   return base64ToArrayBuffer(filename);
@@ -141,7 +133,7 @@ export async function encryptAttachment(
   staticPublicKey: ArrayBuffer,
   path: string,
   plaintext: ArrayBuffer
-) {
+): Promise<ArrayBuffer> {
   const uniqueId = getAttachmentLabel(path);
 
   return encryptFile(staticPublicKey, uniqueId, plaintext);
@@ -151,7 +143,7 @@ export async function decryptAttachment(
   staticPrivateKey: ArrayBuffer,
   path: string,
   data: ArrayBuffer
-) {
+): Promise<ArrayBuffer> {
   const uniqueId = getAttachmentLabel(path);
 
   return decryptFile(staticPrivateKey, uniqueId, data);
@@ -161,7 +153,7 @@ export async function encryptFile(
   staticPublicKey: ArrayBuffer,
   uniqueId: ArrayBuffer,
   plaintext: ArrayBuffer
-) {
+): Promise<ArrayBuffer> {
   const ephemeralKeyPair = await window.libsignal.KeyHelper.generateIdentityKeyPair();
   const agreement = await window.libsignal.Curve.async.calculateAgreement(
     staticPublicKey,
@@ -178,7 +170,7 @@ export async function decryptFile(
   staticPrivateKey: ArrayBuffer,
   uniqueId: ArrayBuffer,
   data: ArrayBuffer
-) {
+): Promise<ArrayBuffer> {
   const ephemeralPublicKey = getFirstBytes(data, PUB_KEY_LENGTH);
   const ciphertext = getBytes(data, PUB_KEY_LENGTH, data.byteLength);
   const agreement = await window.libsignal.Curve.async.calculateAgreement(
@@ -194,18 +186,20 @@ export async function decryptFile(
 export async function deriveStorageManifestKey(
   storageServiceKey: ArrayBuffer,
   version: number
-) {
+): Promise<ArrayBuffer> {
   return hmacSha256(storageServiceKey, bytesFromString(`Manifest_${version}`));
 }
 
 export async function deriveStorageItemKey(
   storageServiceKey: ArrayBuffer,
   itemID: string
-) {
+): Promise<ArrayBuffer> {
   return hmacSha256(storageServiceKey, bytesFromString(`Item_${itemID}`));
 }
 
-export async function deriveAccessKey(profileKey: ArrayBuffer) {
+export async function deriveAccessKey(
+  profileKey: ArrayBuffer
+): Promise<ArrayBuffer> {
   const iv = getZeroes(12);
   const plaintext = getZeroes(16);
   const accessKey = await encryptAesGcm(profileKey, iv, plaintext);
@@ -213,7 +207,9 @@ export async function deriveAccessKey(profileKey: ArrayBuffer) {
   return getFirstBytes(accessKey, 16);
 }
 
-export async function getAccessKeyVerifier(accessKey: ArrayBuffer) {
+export async function getAccessKeyVerifier(
+  accessKey: ArrayBuffer
+): Promise<ArrayBuffer> {
   const plaintext = getZeroes(32);
 
   return hmacSha256(accessKey, plaintext);
@@ -222,7 +218,7 @@ export async function getAccessKeyVerifier(accessKey: ArrayBuffer) {
 export async function verifyAccessKey(
   accessKey: ArrayBuffer,
   theirVerifier: ArrayBuffer
-) {
+): Promise<boolean> {
   const ourVerifier = await getAccessKeyVerifier(accessKey);
 
   if (constantTimeEqual(ourVerifier, theirVerifier)) {
@@ -239,14 +235,14 @@ const NONCE_LENGTH = 16;
 export async function encryptSymmetric(
   key: ArrayBuffer,
   plaintext: ArrayBuffer
-) {
+): Promise<ArrayBuffer> {
   const iv = getZeroes(IV_LENGTH);
   const nonce = getRandomBytes(NONCE_LENGTH);
 
   const cipherKey = await hmacSha256(key, nonce);
   const macKey = await hmacSha256(key, cipherKey);
 
-  const cipherText = await _encrypt_aes256_CBC_PKCSPadding(
+  const cipherText = await _encryptAes256CbcPkcsPadding(
     cipherKey,
     iv,
     plaintext
@@ -256,7 +252,10 @@ export async function encryptSymmetric(
   return concatenateBytes(nonce, cipherText, mac);
 }
 
-export async function decryptSymmetric(key: ArrayBuffer, data: ArrayBuffer) {
+export async function decryptSymmetric(
+  key: ArrayBuffer,
+  data: ArrayBuffer
+): Promise<ArrayBuffer> {
   const iv = getZeroes(IV_LENGTH);
 
   const nonce = getFirstBytes(data, NONCE_LENGTH);
@@ -280,10 +279,13 @@ export async function decryptSymmetric(key: ArrayBuffer, data: ArrayBuffer) {
     );
   }
 
-  return _decrypt_aes256_CBC_PKCSPadding(cipherKey, iv, cipherText);
+  return _decryptAes256CbcPkcsPadding(cipherKey, iv, cipherText);
 }
 
-export function constantTimeEqual(left: ArrayBuffer, right: ArrayBuffer) {
+export function constantTimeEqual(
+  left: ArrayBuffer,
+  right: ArrayBuffer
+): boolean {
   if (left.byteLength !== right.byteLength) {
     return false;
   }
@@ -301,8 +303,11 @@ export function constantTimeEqual(left: ArrayBuffer, right: ArrayBuffer) {
 
 // Encryption
 
-export async function hmacSha256(key: ArrayBuffer, plaintext: ArrayBuffer) {
-  const algorithm = {
+export async function hmacSha256(
+  key: ArrayBuffer,
+  plaintext: ArrayBuffer
+): Promise<ArrayBuffer> {
+  const algorithm: HmacImportParams = {
     name: 'HMAC',
     hash: 'SHA-256',
   };
@@ -311,7 +316,7 @@ export async function hmacSha256(key: ArrayBuffer, plaintext: ArrayBuffer) {
   const cryptoKey = await window.crypto.subtle.importKey(
     'raw',
     key,
-    algorithm as any,
+    algorithm,
     extractable,
     ['sign']
   );
@@ -319,11 +324,11 @@ export async function hmacSha256(key: ArrayBuffer, plaintext: ArrayBuffer) {
   return window.crypto.subtle.sign(algorithm, cryptoKey, plaintext);
 }
 
-export async function _encrypt_aes256_CBC_PKCSPadding(
+export async function _encryptAes256CbcPkcsPadding(
   key: ArrayBuffer,
   iv: ArrayBuffer,
   plaintext: ArrayBuffer
-) {
+): Promise<ArrayBuffer> {
   const algorithm = {
     name: 'AES-CBC',
     iv,
@@ -333,6 +338,10 @@ export async function _encrypt_aes256_CBC_PKCSPadding(
   const cryptoKey = await window.crypto.subtle.importKey(
     'raw',
     key,
+    // `algorithm` appears to be an instance of AesCbcParams,
+    // which is not in the param's types, so we need to pass as `any`.
+    // TODO: just pass the string "AES-CBC", per the docs?
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     algorithm as any,
     extractable,
     ['encrypt']
@@ -341,11 +350,11 @@ export async function _encrypt_aes256_CBC_PKCSPadding(
   return window.crypto.subtle.encrypt(algorithm, cryptoKey, plaintext);
 }
 
-export async function _decrypt_aes256_CBC_PKCSPadding(
+export async function _decryptAes256CbcPkcsPadding(
   key: ArrayBuffer,
   iv: ArrayBuffer,
   plaintext: ArrayBuffer
-) {
+): Promise<ArrayBuffer> {
   const algorithm = {
     name: 'AES-CBC',
     iv,
@@ -355,6 +364,10 @@ export async function _decrypt_aes256_CBC_PKCSPadding(
   const cryptoKey = await window.crypto.subtle.importKey(
     'raw',
     key,
+    // `algorithm` appears to be an instance of AesCbcParams,
+    // which is not in the param's types, so we need to pass as `any`.
+    // TODO: just pass the string "AES-CBC", per the docs?
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     algorithm as any,
     extractable,
     ['decrypt']
@@ -367,7 +380,7 @@ export async function encryptAesCtr(
   key: ArrayBuffer,
   plaintext: ArrayBuffer,
   counter: ArrayBuffer
-) {
+): Promise<ArrayBuffer> {
   const extractable = false;
   const algorithm = {
     name: 'AES-CTR',
@@ -378,6 +391,10 @@ export async function encryptAesCtr(
   const cryptoKey = await crypto.subtle.importKey(
     'raw',
     key,
+    // `algorithm` appears to be an instance of AesCtrParams,
+    // which is not in the param's types, so we need to pass as `any`.
+    // TODO: just pass the string "AES-CTR", per the docs?
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     algorithm as any,
     extractable,
     ['encrypt']
@@ -396,7 +413,7 @@ export async function decryptAesCtr(
   key: ArrayBuffer,
   ciphertext: ArrayBuffer,
   counter: ArrayBuffer
-) {
+): Promise<ArrayBuffer> {
   const extractable = false;
   const algorithm = {
     name: 'AES-CTR',
@@ -407,6 +424,10 @@ export async function decryptAesCtr(
   const cryptoKey = await crypto.subtle.importKey(
     'raw',
     key,
+    // `algorithm` appears to be an instance of AesCtrParams,
+    // which is not in the param's types, so we need to pass as `any`.
+    // TODO: just pass the string "AES-CTR", per the docs?
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     algorithm as any,
     extractable,
     ['decrypt']
@@ -425,7 +446,7 @@ export async function encryptAesGcm(
   iv: ArrayBuffer,
   plaintext: ArrayBuffer,
   additionalData?: ArrayBuffer
-) {
+): Promise<ArrayBuffer> {
   const algorithm = {
     name: 'AES-GCM',
     iv,
@@ -437,6 +458,10 @@ export async function encryptAesGcm(
   const cryptoKey = await crypto.subtle.importKey(
     'raw',
     key,
+    // `algorithm` appears to be an instance of AesGcmParams,
+    // which is not in the param's types, so we need to pass as `any`.
+    // TODO: just pass the string "AES-GCM", per the docs?
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     algorithm as any,
     extractable,
     ['encrypt']
@@ -450,7 +475,7 @@ export async function decryptAesGcm(
   iv: ArrayBuffer,
   ciphertext: ArrayBuffer,
   additionalData?: ArrayBuffer
-) {
+): Promise<ArrayBuffer> {
   const algorithm = {
     name: 'AES-GCM',
     iv,
@@ -462,6 +487,10 @@ export async function decryptAesGcm(
   const cryptoKey = await crypto.subtle.importKey(
     'raw',
     key,
+    // `algorithm` appears to be an instance of AesGcmParams,
+    // which is not in the param's types, so we need to pass as `any`.
+    // TODO: just pass the string "AES-GCM", per the docs?
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     algorithm as any,
     extractable,
     ['decrypt']
@@ -472,13 +501,13 @@ export async function decryptAesGcm(
 
 // Hashing
 
-export async function sha256(data: ArrayBuffer) {
+export async function sha256(data: ArrayBuffer): Promise<ArrayBuffer> {
   return crypto.subtle.digest('SHA-256', data);
 }
 
 // Utility
 
-export function getRandomBytes(n: number) {
+export function getRandomBytes(n: number): ArrayBuffer {
   const bytes = new Uint8Array(n);
   window.crypto.getRandomValues(bytes);
 
@@ -496,7 +525,7 @@ export function getRandomValue(low: number, high: number): number {
   return (bytes[0] % mod) + low;
 }
 
-export function getZeroes(n: number) {
+export function getZeroes(n: number): ArrayBuffer {
   const result = new Uint8Array(n);
 
   const value = 0;
@@ -508,6 +537,7 @@ export function getZeroes(n: number) {
 }
 
 export function highBitsToInt(byte: number): number {
+  // eslint-disable-next-line no-bitwise
   return (byte & 0xff) >> 4;
 }
 
@@ -515,10 +545,11 @@ export function intsToByteHighAndLow(
   highValue: number,
   lowValue: number
 ): number {
+  // eslint-disable-next-line no-bitwise
   return ((highValue << 4) | lowValue) & 0xff;
 }
 
-export function trimBytes(buffer: ArrayBuffer, length: number) {
+export function trimBytes(buffer: ArrayBuffer, length: number): ArrayBuffer {
   return getFirstBytes(buffer, length);
 }
 
@@ -526,14 +557,16 @@ export function getViewOfArrayBuffer(
   buffer: ArrayBuffer,
   start: number,
   finish: number
-) {
+): ArrayBuffer | SharedArrayBuffer {
   const source = new Uint8Array(buffer);
   const result = source.slice(start, finish);
 
   return result.buffer;
 }
 
-export function concatenateBytes(...elements: Array<ArrayBuffer | Uint8Array>) {
+export function concatenateBytes(
+  ...elements: Array<ArrayBuffer | Uint8Array>
+): ArrayBuffer {
   const length = elements.reduce(
     (total, element) => total + element.byteLength,
     0
@@ -585,7 +618,7 @@ export function splitBytes(
   return results;
 }
 
-export function getFirstBytes(data: ArrayBuffer, n: number) {
+export function getFirstBytes(data: ArrayBuffer, n: number): ArrayBuffer {
   const source = new Uint8Array(data);
 
   return typedArrayToArrayBuffer(source.subarray(0, n));
@@ -595,7 +628,7 @@ export function getBytes(
   data: ArrayBuffer | Uint8Array,
   start: number,
   n: number
-) {
+): ArrayBuffer {
   const source = new Uint8Array(data);
 
   return typedArrayToArrayBuffer(source.subarray(start, start + n));
@@ -614,7 +647,7 @@ export async function encryptCdsDiscoveryRequest(
     [key: string]: { clientKey: ArrayBuffer; requestId: ArrayBuffer };
   },
   phoneNumbers: ReadonlyArray<string>
-) {
+): Promise<Record<string, unknown>> {
   const nonce = getRandomBytes(32);
   const numbersArray = new window.dcodeIO.ByteBuffer(
     phoneNumbers.length * 8,
@@ -669,7 +702,7 @@ export async function encryptCdsDiscoveryRequest(
   };
 }
 
-export function splitUuids(arrayBuffer: ArrayBuffer) {
+export function splitUuids(arrayBuffer: ArrayBuffer): Array<string | null> {
   const uuids = [];
   for (let i = 0; i < arrayBuffer.byteLength; i += 16) {
     const bytes = getBytes(arrayBuffer, i, 16);

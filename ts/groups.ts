@@ -1,5 +1,3 @@
-/* tslint:disable no-dynamic-delete no-unnecessary-local-variable */
-
 import {
   compact,
   Dictionary,
@@ -8,6 +6,8 @@ import {
   isNumber,
   values,
 } from 'lodash';
+import { ClientZkGroupCipher } from 'zkgroup';
+import { v4 as getGuid } from 'uuid';
 import {
   getCredentialsForToday,
   GROUP_CREDENTIALS_KEY,
@@ -33,7 +33,6 @@ import {
   getClientZkAuthOperations,
   getClientZkGroupCipher,
 } from './util/zkgroup';
-import { ClientZkGroupCipher } from 'zkgroup';
 import {
   arrayBufferToBase64,
   arrayBufferToHex,
@@ -50,7 +49,6 @@ import {
   ProtoBinaryType,
 } from './textsecure.d';
 import { GroupCredentialsType } from './textsecure/WebAPI';
-import { v4 as getGuid } from 'uuid';
 import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from '../js/modules/types/message';
 
 export type GroupV2AccessAttributesChangeType = {
@@ -250,7 +248,9 @@ export async function uploadGroupChange({
 
 // Utility
 
-export function deriveGroupFields(masterKey: ArrayBuffer) {
+export function deriveGroupFields(
+  masterKey: ArrayBuffer
+): Record<string, ArrayBuffer> {
   const secretParams = deriveGroupSecretParams(masterKey);
   const publicParams = deriveGroupPublicParams(secretParams);
   const id = deriveGroupID(secretParams);
@@ -273,7 +273,9 @@ type MaybeUpdatePropsType = {
   dropInitialJoinMessage?: boolean;
 };
 
-export async function waitThenMaybeUpdateGroup(options: MaybeUpdatePropsType) {
+export async function waitThenMaybeUpdateGroup(
+  options: MaybeUpdatePropsType
+): Promise<void> {
   // First wait to process all incoming messages on the websocket
   await window.waitForEmptyEventQueue();
 
@@ -321,8 +323,9 @@ export async function maybeUpdateGroup({
 
     conversation.set(newAttributes);
 
-    // Ensure that all generated message are ordered properly. Before the provided timestamp
-    //   so update messages appear before the initiating message, or after now().
+    // Ensure that all generated messages are ordered properly.
+    // Before the provided timestamp so update messages appear before the
+    //   initiating message, or after now().
     let syntheticTimestamp = receivedAt
       ? receivedAt - (groupChangeMessages.length + 1)
       : Date.now();
@@ -355,7 +358,6 @@ export async function maybeUpdateGroup({
       const contact = window.ConversationController.get(member.uuid);
 
       if (member.profileKey && contact && !contact.get('profileKey')) {
-        // tslint:disable-next-line no-floating-promises
         contact.setProfileKey(member.profileKey);
       }
     });
@@ -487,8 +489,8 @@ async function updateGroupViaState({
           authCredentialBase64: groupCredentials.tomorrow.credential,
         });
         return result;
-      } catch (error) {
-        if (error.code === GROUP_ACCESS_DENIED_CODE) {
+      } catch (subError) {
+        if (subError.code === GROUP_ACCESS_DENIED_CODE) {
           return generateLeftGroupChanges(group);
         }
       }
@@ -537,9 +539,8 @@ async function updateGroupViaLogs({
         ...deltaOptions,
         authCredentialBase64: groupCredentials.tomorrow.credential,
       });
-    } else {
-      throw error;
     }
+    throw error;
   }
 }
 
@@ -654,6 +655,7 @@ async function getGroupDelta({
   let response;
   const changes: Array<GroupChangesClass> = [];
   do {
+    // eslint-disable-next-line no-await-in-loop
     response = await sender.getGroupLog(revisionToFetch, options);
     changes.push(response.changes);
     if (response.end) {
@@ -689,6 +691,7 @@ async function integrateGroupChanges({
     const { groupChanges } = changes[i];
 
     if (!groupChanges) {
+      // eslint-disable-next-line no-continue
       continue;
     }
 
@@ -699,6 +702,7 @@ async function integrateGroupChanges({
       const { groupChange } = changeState;
 
       if (!groupChange) {
+        // eslint-disable-next-line no-continue
         continue;
       }
 
@@ -707,6 +711,7 @@ async function integrateGroupChanges({
           newAttributes,
           groupChangeMessages,
           members,
+          // eslint-disable-next-line no-await-in-loop
         } = await integrateGroupChange({
           group: attributes,
           newRevision,
@@ -868,7 +873,6 @@ export async function getCurrentGroupState({
   };
 }
 
-// tslint:disable-next-line max-func-body-length cyclomatic-complexity
 function extractDiffs({
   current,
   dropInitialJoinMessage,
@@ -1126,7 +1130,6 @@ type GroupChangeResultType = {
   newProfileKeys: Array<GroupChangeMemberType>;
 };
 
-// tslint:disable-next-line cyclomatic-complexity max-func-body-length
 async function applyGroupChange({
   group,
   actions,
@@ -1158,7 +1161,7 @@ async function applyGroupChange({
   result.revision = version;
 
   // addMembers?: Array<GroupChangeClass.Actions.AddMemberAction>;
-  (actions.addMembers || []).map(addMember => {
+  (actions.addMembers || []).forEach(addMember => {
     const { added } = addMember;
     if (!added) {
       throw new Error('applyGroupChange: addMember.added is missing');
@@ -1249,7 +1252,8 @@ async function applyGroupChange({
     }
   });
 
-  // modifyMemberProfileKeys?: Array<GroupChangeClass.Actions.ModifyMemberProfileKeyAction>;
+  // modifyMemberProfileKeys?:
+  // Array<GroupChangeClass.Actions.ModifyMemberProfileKeyAction>;
   (actions.modifyMemberProfileKeys || []).forEach(modifyMemberProfileKey => {
     const { profileKey, uuid } = modifyMemberProfileKey;
     if (!profileKey || !uuid) {
@@ -1374,8 +1378,7 @@ async function applyGroupChange({
 
   // modifyTitle?: GroupChangeClass.Actions.ModifyTitleAction;
   if (actions.modifyTitle) {
-    const title: GroupAttributeBlobClass | undefined =
-      actions.modifyTitle.title;
+    const { title } = actions.modifyTitle;
     if (title && title.content === 'title') {
       result.name = title.title;
     } else {
@@ -1388,11 +1391,12 @@ async function applyGroupChange({
 
   // modifyAvatar?: GroupChangeClass.Actions.ModifyAvatarAction;
   if (actions.modifyAvatar) {
-    const avatar = actions.modifyAvatar.avatar;
+    const { avatar } = actions.modifyAvatar;
     await applyNewAvatar(avatar, result, logId);
   }
 
-  // modifyDisappearingMessagesTimer?: GroupChangeClass.Actions.ModifyDisappearingMessagesTimerAction;
+  // modifyDisappearingMessagesTimer?:
+  // GroupChangeClass.Actions.ModifyDisappearingMessagesTimerAction;
   if (actions.modifyDisappearingMessagesTimer) {
     const disappearingMessagesTimer: GroupAttributeBlobClass | undefined =
       actions.modifyDisappearingMessagesTimer.timer;
@@ -1415,7 +1419,8 @@ async function applyGroupChange({
     attributes: ACCESS_ENUM.MEMBER,
   };
 
-  // modifyAttributesAccess?: GroupChangeClass.Actions.ModifyAttributesAccessControlAction;
+  // modifyAttributesAccess?:
+  // GroupChangeClass.Actions.ModifyAttributesAccessControlAction;
   if (actions.modifyAttributesAccess) {
     result.accessControl = {
       ...result.accessControl,
@@ -1447,6 +1452,8 @@ async function applyGroupChange({
   };
 }
 
+// Ovewriting result.avatar as part of functionality
+/* eslint-disable no-param-reassign */
 async function applyNewAvatar(
   newAvatar: string | undefined,
   result: ConversationAttributesType,
@@ -1514,8 +1521,8 @@ async function applyNewAvatar(
     result.avatar = undefined;
   }
 }
+/* eslint-enable no-param-reassign */
 
-// tslint:disable-next-line cyclomatic-complexity max-func-body-length
 async function applyGroupState(
   group: ConversationAttributesType,
   groupState: GroupClass
@@ -1532,7 +1539,7 @@ async function applyGroupState(
 
   // title
   // Note: During decryption, title becomes a GroupAttributeBlob
-  const title: GroupAttributeBlobClass | undefined = groupState.title;
+  const { title } = groupState;
   if (title && title.content === 'title') {
     result.name = title.title;
   } else {
@@ -1544,8 +1551,7 @@ async function applyGroupState(
 
   // disappearingMessagesTimer
   // Note: during decryption, disappearingMessageTimer becomes a GroupAttributeBlob
-  const disappearingMessagesTimer: GroupAttributeBlobClass | undefined =
-    groupState.disappearingMessagesTimer;
+  const { disappearingMessagesTimer } = groupState;
   if (
     disappearingMessagesTimer &&
     disappearingMessagesTimer.content === 'disappearingMessagesDuration'
@@ -1665,13 +1671,13 @@ function hasData(data: ProtoBinaryType): boolean {
   return data && data.limit > 0;
 }
 
-// tslint:disable-next-line max-func-body-length cyclomatic-complexity
 function decryptGroupChange(
-  actions: GroupChangeClass.Actions,
+  _actions: GroupChangeClass.Actions,
   groupSecretParams: string,
   logId: string
 ): GroupChangeClass.Actions {
   const clientZkGroupCipher = getClientZkGroupCipher(groupSecretParams);
+  const actions = _actions;
 
   if (hasData(actions.sourceUuid)) {
     try {
@@ -1701,7 +1707,9 @@ function decryptGroupChange(
 
   // addMembers?: Array<GroupChangeClass.Actions.AddMemberAction>;
   actions.addMembers = compact(
-    (actions.addMembers || []).map(addMember => {
+    (actions.addMembers || []).map(_addMember => {
+      const addMember = _addMember;
+
       if (addMember.added) {
         const decrypted = decryptMember(
           clientZkGroupCipher,
@@ -1714,17 +1722,16 @@ function decryptGroupChange(
 
         addMember.added = decrypted;
         return addMember;
-      } else {
-        throw new Error(
-          'decryptGroupChange: AddMember was missing added field!'
-        );
       }
+      throw new Error('decryptGroupChange: AddMember was missing added field!');
     })
   );
 
   // deleteMembers?: Array<GroupChangeClass.Actions.DeleteMemberAction>;
   actions.deleteMembers = compact(
-    (actions.deleteMembers || []).map(deleteMember => {
+    (actions.deleteMembers || []).map(_deleteMember => {
+      const deleteMember = _deleteMember;
+
       if (hasData(deleteMember.deletedUserId)) {
         try {
           deleteMember.deletedUserId = decryptUuid(
@@ -1764,7 +1771,9 @@ function decryptGroupChange(
 
   // modifyMemberRoles?: Array<GroupChangeClass.Actions.ModifyMemberRoleAction>;
   actions.modifyMemberRoles = compact(
-    (actions.modifyMemberRoles || []).map(modifyMember => {
+    (actions.modifyMemberRoles || []).map(_modifyMember => {
+      const modifyMember = _modifyMember;
+
       if (hasData(modifyMember.userId)) {
         try {
           modifyMember.userId = decryptUuid(
@@ -1808,9 +1817,12 @@ function decryptGroupChange(
     })
   );
 
-  // modifyMemberProfileKeys?: Array<GroupChangeClass.Actions.ModifyMemberProfileKeyAction>;
+  // modifyMemberProfileKeys?:
+  // Array<GroupChangeClass.Actions.ModifyMemberProfileKeyAction>;
   actions.modifyMemberProfileKeys = compact(
-    (actions.modifyMemberProfileKeys || []).map(modifyMemberProfileKey => {
+    (actions.modifyMemberProfileKeys || []).map(_modifyMemberProfileKey => {
+      const modifyMemberProfileKey = _modifyMemberProfileKey;
+
       if (hasData(modifyMemberProfileKey.presentation)) {
         const { profileKey, uuid } = decryptProfileKeyCredentialPresentation(
           clientZkGroupCipher,
@@ -1854,7 +1866,9 @@ function decryptGroupChange(
 
   // addPendingMembers?: Array<GroupChangeClass.Actions.AddPendingMemberAction>;
   actions.addPendingMembers = compact(
-    (actions.addPendingMembers || []).map(addPendingMember => {
+    (actions.addPendingMembers || []).map(_addPendingMember => {
+      const addPendingMember = _addPendingMember;
+
       if (addPendingMember.added) {
         const decrypted = decryptPendingMember(
           clientZkGroupCipher,
@@ -1867,17 +1881,18 @@ function decryptGroupChange(
 
         addPendingMember.added = decrypted;
         return addPendingMember;
-      } else {
-        throw new Error(
-          'decryptGroupChange: addPendingMember was missing added field!'
-        );
       }
+      throw new Error(
+        'decryptGroupChange: addPendingMember was missing added field!'
+      );
     })
   );
 
   // deletePendingMembers?: Array<GroupChangeClass.Actions.DeletePendingMemberAction>;
   actions.deletePendingMembers = compact(
-    (actions.deletePendingMembers || []).map(deletePendingMember => {
+    (actions.deletePendingMembers || []).map(_deletePendingMember => {
+      const deletePendingMember = _deletePendingMember;
+
       if (hasData(deletePendingMember.deletedUserId)) {
         try {
           deletePendingMember.deletedUserId = decryptUuid(
@@ -1917,7 +1932,9 @@ function decryptGroupChange(
 
   // promotePendingMembers?: Array<GroupChangeClass.Actions.PromotePendingMemberAction>;
   actions.promotePendingMembers = compact(
-    (actions.promotePendingMembers || []).map(promotePendingMember => {
+    (actions.promotePendingMembers || []).map(_promotePendingMember => {
+      const promotePendingMember = _promotePendingMember;
+
       if (hasData(promotePendingMember.presentation)) {
         const { profileKey, uuid } = decryptProfileKeyCredentialPresentation(
           clientZkGroupCipher,
@@ -1979,7 +1996,8 @@ function decryptGroupChange(
   // modifyAvatar?: GroupChangeClass.Actions.ModifyAvatarAction;
   // Note: decryption happens during application of the change, on download of the avatar
 
-  // modifyDisappearingMessagesTimer?: GroupChangeClass.Actions.ModifyDisappearingMessagesTimerAction;
+  // modifyDisappearingMessagesTimer?:
+  // GroupChangeClass.Actions.ModifyDisappearingMessagesTimerAction;
   if (
     actions.modifyDisappearingMessagesTimer &&
     hasData(actions.modifyDisappearingMessagesTimer.timer)
@@ -2002,7 +2020,8 @@ function decryptGroupChange(
     actions.modifyDisappearingMessagesTimer.timer = undefined;
   }
 
-  // modifyAttributesAccess?: GroupChangeClass.Actions.ModifyAttributesAccessControlAction;
+  // modifyAttributesAccess?:
+  // GroupChangeClass.Actions.ModifyAttributesAccessControlAction;
   if (
     actions.modifyAttributesAccess &&
     !isValidAccess(actions.modifyAttributesAccess.attributesAccess)
@@ -2025,13 +2044,13 @@ function decryptGroupChange(
   return actions;
 }
 
-// tslint:disable-next-line max-func-body-length
 function decryptGroupState(
-  groupState: GroupClass,
+  _groupState: GroupClass,
   groupSecretParams: string,
   logId: string
 ): GroupClass {
   const clientZkGroupCipher = getClientZkGroupCipher(groupSecretParams);
+  const groupState = _groupState;
 
   // title
   if (hasData(groupState.title)) {
@@ -2121,9 +2140,11 @@ function decryptGroupState(
 
 function decryptMember(
   clientZkGroupCipher: ClientZkGroupCipher,
-  member: MemberClass,
+  _member: MemberClass,
   logId: string
 ) {
+  const member = _member;
+
   // userId
   if (hasData(member.userId)) {
     try {
@@ -2175,12 +2196,13 @@ function decryptMember(
   return member;
 }
 
-// tslint:disable-next-line max-func-body-length cyclomatic-complexity
 function decryptPendingMember(
   clientZkGroupCipher: ClientZkGroupCipher,
-  member: PendingMemberClass,
+  _member: PendingMemberClass,
   logId: string
 ) {
+  const member = _member;
+
   // addedByUserId
   if (hasData(member.addedByUserId)) {
     try {
