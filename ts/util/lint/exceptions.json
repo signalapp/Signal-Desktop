@@ -13152,6 +13152,24 @@
     "updated": "2020-02-07T19:52:28.522Z"
   },
   {
+    "rule": "jQuery-before(",
+    "path": "ts/test/util/windowsZoneIdentifier_test.js",
+    "line": "    before(function thisNeeded() {",
+    "lineNumber": 19,
+    "reasonCategory": "testCode",
+    "updated": "2020-09-02T18:59:59.432Z",
+    "reasonDetail": "This is test code (and isn't jQuery code)."
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "ts/test/util/windowsZoneIdentifier_test.ts",
+    "line": "  before(function thisNeeded() {",
+    "lineNumber": 12,
+    "reasonCategory": "testCode",
+    "updated": "2020-09-02T18:59:59.432Z",
+    "reasonDetail": "This is test code (and isn't jQuery code)."
+  },
+  {
     "rule": "jQuery-append(",
     "path": "ts/textsecure/ContactsParser.js",
     "line": "        this.buffer.append(arrayBuffer);",

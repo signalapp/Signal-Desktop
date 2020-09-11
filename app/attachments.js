@@ -12,6 +12,10 @@ const normalizePath = require('normalize-path');
 const sanitizeFilename = require('sanitize-filename');
 const getGuid = require('uuid/v4');
 const { isPathInside } = require('../ts/util/isPathInside');
+const { isWindows } = require('../ts/OS');
+const {
+  writeWindowsZoneIdentifier,
+} = require('../ts/util/windowsZoneIdentifier');
 
 let xattr;
 try {
@@ -229,6 +233,13 @@ async function writeWithAttributes(target, data) {
     const attrValue = `${type};${timestamp};${appName};${guid}`;
 
     await xattr.set(target, 'com.apple.quarantine', attrValue);
+  } else if (isWindows()) {
+    // This operation may fail (see the function's comments), which is not a show-stopper.
+    try {
+      await writeWindowsZoneIdentifier(target);
+    } catch (err) {
+      console.warn('Failed to write Windows Zone.Identifier file; continuing');
+    }
   }
 }
 
