@@ -18,6 +18,7 @@ import ByteBuffer from 'bytebuffer';
 import { BlockedNumberController } from '../util/blockedNumberController';
 import { decryptWithSenderKey } from '../session/medium_group/ratchet';
 import { StringUtils } from '../session/utils';
+import { UserUtil } from '../util';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   const plaintext = await decrypt(envelope, envelope.content);
@@ -46,8 +47,6 @@ async function decryptForMediumGroup(
     throw new Error(`Secret key is empty for group ${groupId}!`);
   }
 
-  const { senderIdentity } = envelope;
-
   const {
     ciphertext: outerCiphertext,
     ephemeralKey,
@@ -64,15 +63,27 @@ async function decryptForMediumGroup(
     outerCiphertext
   );
 
-  const { ciphertext, keyIdx } = SignalService.MediumGroupCiphertext.decode(
+  const {
+    source,
+    ciphertext,
+    keyIdx,
+  } = SignalService.MediumGroupCiphertext.decode(
     new Uint8Array(mediumGroupCiphertext)
   );
+  const ourNumber = (await UserUtil.getCurrentDevicePubKey()) as string;
+
+  if (source === ourNumber) {
+    window.console.info(
+      'Dropping message from ourself after decryptForMediumGroup'
+    );
+    return;
+  }
 
   const plaintext = await decryptWithSenderKey(
     ciphertext,
     keyIdx,
     groupId,
-    senderIdentity
+    source
   );
 
   return plaintext;
