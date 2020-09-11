@@ -1,0 +1,102 @@
+package signalservice;
+
+option java_package         = "org.whispersystems.signalservice.internal.storage";
+option java_outer_classname = "SignalStorageProtos";
+
+message StorageManifest  {
+  optional uint64 version = 1;
+  optional bytes  value   = 2;
+}
+
+message StorageItem {
+  optional bytes key   = 1;
+  optional bytes value = 2;
+}
+
+message StorageItems {
+  repeated StorageItem items = 1;
+}
+
+message ReadOperation {
+  repeated bytes readKey = 1;
+}
+
+message WriteOperation {
+  optional StorageManifest manifest   = 1;
+  repeated StorageItem     insertItem = 2;
+  repeated bytes           deleteKey  = 3;
+  optional bool            clearAll   = 4;
+}
+
+message ManifestRecord {
+  message Identifier {
+    enum Type {
+      UNKNOWN = 0;
+      CONTACT = 1;
+      GROUPV1 = 2;
+      GROUPV2 = 3;
+      ACCOUNT = 4;
+    }
+
+    optional bytes raw  = 1;
+    optional Type  type = 2;
+  }
+
+  optional uint64     version = 1;
+  repeated Identifier keys    = 2;
+}
+
+message StorageRecord {
+  oneof record {
+    ContactRecord contact = 1;
+    GroupV1Record groupV1 = 2;
+    GroupV2Record groupV2 = 3;
+    AccountRecord account = 4;
+  }
+}
+
+message ContactRecord {
+  enum IdentityState {
+    DEFAULT    = 0;
+    VERIFIED   = 1;
+    UNVERIFIED = 2;
+  }
+
+  optional string        serviceUuid   = 1;
+  optional string        serviceE164   = 2;
+  optional bytes         profileKey    = 3;
+  optional bytes         identityKey   = 4;
+  optional IdentityState identityState = 5;
+  optional string        givenName     = 6;
+  optional string        familyName    = 7;
+  optional string        username      = 8;
+  optional bool          blocked       = 9;
+  optional bool          whitelisted   = 10;
+  optional bool          archived      = 11;
+}
+
+message GroupV1Record {
+  optional bytes id          = 1;
+  optional bool  blocked     = 2;
+  optional bool  whitelisted = 3;
+  optional bool  archived    = 4;
+}
+
+message GroupV2Record {
+  optional bytes masterKey   = 1;
+  optional bool  blocked     = 2;
+  optional bool  whitelisted = 3;
+  optional bool  archived    = 4;
+}
+
+message AccountRecord {
+  optional bytes  profileKey             = 1;
+  optional string givenName              = 2;
+  optional string familyName             = 3;
+  optional string avatarUrl              = 4;
+  optional bool   noteToSelfArchived     = 5;
+  optional bool   readReceipts           = 6;
+  optional bool   sealedSenderIndicators = 7;
+  optional bool   typingIndicators       = 8;
+  optional bool   linkPreviews           = 9;
+}

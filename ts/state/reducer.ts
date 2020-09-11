@@ -1,6 +1,11 @@
 import { combineReducers } from 'redux';
 
 import {
+  CallingActionType,
+  CallingStateType,
+  reducer as calling,
+} from './ducks/calling';
+import {
   ConversationActionType,
   ConversationsStateType,
   reducer as conversations,
@@ -26,6 +31,11 @@ import {
   reducer as network,
 } from './ducks/network';
 import {
+  reducer as safetyNumber,
+  SafetyNumberActionTypes,
+  SafetyNumberStateType,
+} from './ducks/safetyNumber';
+import {
   reducer as search,
   SEARCH_TYPES as SearchActionType,
   SearchStateType,
@@ -43,11 +53,13 @@ import {
 import { reducer as user, UserStateType } from './ducks/user';
 
 export type StateType = {
+  calling: CallingStateType;
   conversations: ConversationsStateType;
   emojis: EmojisStateType;
   expiration: ExpirationStateType;
   items: ItemsStateType;
   network: NetworkStateType;
+  safetyNumber: SafetyNumberStateType;
   search: SearchStateType;
   stickers: StickersStateType;
   updates: UpdatesStateType;
@@ -55,21 +67,25 @@ export type StateType = {
 };
 
 export type ActionsType =
+  | CallingActionType
   | EmojisActionType
   | ExpirationActionType
   | ConversationActionType
   | ItemsActionType
   | NetworkActionType
+  | SafetyNumberActionTypes
   | StickersActionType
   | SearchActionType
   | UpdatesActionType;
 
 export const reducers = {
+  calling,
   conversations,
   emojis,
   expiration,
   items,
   network,
+  safetyNumber,
   search,
   stickers,
   updates,

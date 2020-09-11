@@ -2,7 +2,7 @@ import React from 'react';
 
 import { LocalizerType } from '../../types/Util';
 
-interface Props {
+export interface Props {
   i18n: LocalizerType;
 }
 

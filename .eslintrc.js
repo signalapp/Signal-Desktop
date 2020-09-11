@@ -1,13 +1,46 @@
 // For reference: https://github.com/airbnb/javascript
 
 module.exports = {
+  root: true,
   settings: {
+    react: {
+      version: 'detect',
+    },
     'import/core-modules': ['electron'],
   },
 
   extends: ['airbnb-base', 'prettier'],
 
   plugins: ['mocha', 'more'],
+
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        project: 'tsconfig.json',
+        ecmaFeatures: {
+          jsx: true,
+        },
+        ecmaVersion: 2018,
+        sourceType: 'module',
+      },
+      plugins: ['@typescript-eslint'],
+      extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:react/recommended',
+        'airbnb-typescript-prettier',
+      ],
+    },
+    {
+      files: ['**/*.stories.tsx'],
+      rules: {
+        'import/no-extraneous-dependencies': 'off',
+        'react/jsx-props-no-spreading': 'off',
+      },
+    },
+  ],
 
   rules: {
     'comma-dangle': [
@@ -37,7 +70,19 @@ module.exports = {
     'no-console': 'error',
 
     // consistently place operators at end of line except ternaries
-    'operator-linebreak': 'error',
+    'operator-linebreak': [
+      'error',
+      'after',
+      { overrides: { '?': 'ignore', ':': 'ignore' } },
+    ],
+
+    // Temporarily turned off during transition from TSLint
+    // JIRA: DESKTOP-623
+    'import/order': 'off',
+    'no-else-return': 'off',
+    'no-async-promise-executor': 'off',
+    'prefer-object-spread': 'off',
+    strict: 'off',
 
     quotes: [
       'error',

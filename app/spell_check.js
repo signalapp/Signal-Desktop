@@ -1,4 +1,3 @@
-/* global exports, require */
 /* eslint-disable strict */
 
 const { Menu, clipboard } = require('electron');

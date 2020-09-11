@@ -6,7 +6,7 @@ import { Image } from './Image';
 import { AttachmentType, isImageAttachment } from '../../types/Attachment';
 import { LocalizerType } from '../../types/Util';
 
-interface Props {
+export interface Props {
   isLoaded: boolean;
   title: string;
   domain: string;

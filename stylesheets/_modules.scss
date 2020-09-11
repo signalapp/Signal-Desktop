@@ -36,12 +36,6 @@
   }
 }
 
-// Module: Contact Name
-
-.module-contact-name__profile-name {
-  font-style: italic;
-}
-
 // Module: Message
 
 // Note: this does the same thing as module-timeline__message-container but
@@ -615,6 +609,8 @@
   text-align: center;
   position: relative;
 
+  // These should match the paddings from .module-message__container,
+  // effectively "undoing" that padding.
   margin: {
     left: -12px;
     right: -12px;
@@ -623,6 +619,7 @@
   }
 
   border-radius: 16px;
+  line-height: 0;
   overflow: hidden;
 
   @include light-theme {
@@ -706,6 +703,11 @@
 
 .module-message__generic-attachment--with-content-above {
   padding-top: 4px;
+}
+
+.module-message__generic-attachment--not-active {
+  cursor: default;
+  pointer-events: none;
 }
 
 .module-message__generic-attachment__icon-container {
@@ -868,6 +870,8 @@
 
 .module-message__link-preview__content {
   padding: 8px;
+  border: 1px solid transparent; /* Color overwritten below. */
+  border-bottom: 0;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   background-color: $color-white;
@@ -876,11 +880,11 @@
   align-items: flex-start;
 
   @include light-theme {
-    border: 1px solid $color-black-alpha-20;
+    border-color: $color-black-alpha-20;
   }
   @include dark-theme {
     background-color: $color-gray-95;
-    border: 1px solid $color-gray-60;
+    border-color: $color-gray-60;
   }
 }
 
@@ -917,11 +921,29 @@
   }
 }
 
-.module-message__link-preview__location {
+.module-message__link-preview__description {
   @include font-body-2;
 
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+
+  @include light-theme {
+    color: $color-gray-90;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.module-message__link-preview__footer {
+  @include font-body-2;
+
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
   margin-top: 4px;
-  text-transform: uppercase;
 
   @include light-theme {
     color: $color-gray-60;
@@ -929,6 +951,21 @@
   @include dark-theme {
     color: $color-gray-25;
   }
+
+  > *:not(:first-child) {
+    display: flex;
+
+    &:before {
+      content: '•';
+      font-size: 50%;
+      margin-left: 0.2rem;
+      margin-right: 0.2rem;
+    }
+  }
+}
+
+.module-message__link-preview__location {
+  text-transform: lowercase;
 }
 
 .module-message__author {
@@ -1166,6 +1203,9 @@
   @include ios-dark-theme {
     color: $color-white-alpha-80;
   }
+}
+.module-message__metadata__tapable {
+  @include button-reset;
 }
 .module-message__metadata__date--incoming {
   color: $color-white-alpha-80;
@@ -1726,7 +1766,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-quote__primary__author {
   @include font-body-2-bold;
 
-  overflow-x: hidden;
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 
@@ -2369,6 +2409,87 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
+.module-message-calling--notification {
+  .module-message__metadata__date {
+    @include light-theme {
+      color: $color-gray-90;
+    }
+    @include dark-theme {
+      color: $color-gray-05;
+    }
+  }
+}
+
+.module-safety-number__bold-name {
+  font-weight: bold;
+}
+
+.module-message-calling {
+  &--audio {
+    text-align: center;
+
+    @include light-theme {
+      color: $color-gray-90;
+    }
+    @include dark-theme {
+      color: $color-gray-05;
+    }
+  }
+
+  &--audio__icon {
+    height: 24px;
+    margin-bottom: 4px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 24px;
+
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/phone-right-outline-24.svg',
+        $color-gray-75
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/phone-right-outline-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+
+  &--video {
+    text-align: center;
+
+    @include light-theme {
+      color: $color-gray-90;
+    }
+    @include dark-theme {
+      color: $color-gray-05;
+    }
+  }
+
+  &--video__icon {
+    height: 24px;
+    margin-bottom: 4px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 24px;
+
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v2/video-outline-24.svg',
+        $color-gray-75
+      );
+    }
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v2/video-outline-24.svg',
+        $color-gray-15
+      );
+    }
+  }
+}
+
 .module-message-unsynced {
   padding-bottom: 24px;
   text-align: center;
@@ -2526,17 +2647,39 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   cursor: inherit;
 
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding: 8px;
+  width: 100%;
+
   display: flex;
   flex-direction: row;
   align-items: center;
 
   @include light-theme {
     color: $color-gray-60;
+
+    @include mouse-mode {
+      &:hover {
+        background-color: $color-gray-02;
+      }
+    }
+    @include keyboard-mode {
+      &:focus {
+        background-color: $color-gray-02;
+      }
+    }
   }
   @include dark-theme {
     color: $color-gray-15;
+  }
+  @include dark-mouse-mode {
+    &:hover {
+      background-color: $color-gray-80;
+    }
+  }
+  @include dark-keyboard-mode {
+    &:focus {
+      background-color: $color-gray-80;
+    }
   }
 }
 
@@ -2576,6 +2719,61 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
   @include dark-theme {
     @include color-svg('../images/icons/v2/check-24.svg', $color-gray-25);
+  }
+}
+
+// Module: In Contacts Icon
+
+.module-in-contacts-icon__icon {
+  display: inline-block;
+  height: 15px;
+  width: 15px;
+
+  margin-bottom: 2px;
+  vertical-align: middle;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-circle-outline-24.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-circle-outline-24.svg',
+      $color-gray-25
+    );
+  }
+
+  @include keyboard-mode {
+    &:focus {
+      @include color-svg(
+        '../images/icons/v2/profile-circle-outline-24.svg',
+        $ultramarine-ui-light
+      );
+    }
+  }
+}
+
+.module-in-contacts-icon__tooltip {
+  .react-tooltip-lite {
+    color: $color-white;
+    background-color: $ultramarine-ui-light;
+  }
+
+  .react-tooltip-lite-arrow {
+    border-color: $ultramarine-ui-light;
+  }
+
+  @include dark-theme {
+    .react-tooltip-lite {
+      color: $color-white;
+      background-color: $ultramarine-ui-light;
+    }
+
+    .react-tooltip-lite-arrow {
+      border-color: $ultramarine-ui-light;
+    }
   }
 }
 
@@ -2662,7 +2860,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-conversation-header__avatar {
   min-width: 28px;
-  user-select: none;
 }
 
 .module-conversation-header__title {
@@ -2682,6 +2879,37 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
   @include dark-theme {
     color: $color-gray-02;
+  }
+}
+
+.module-conversation-header__contacts-icon {
+  display: inline-block;
+  height: 15px;
+  width: 15px;
+
+  margin-bottom: 3px;
+  vertical-align: middle;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-circle-outline-24.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-circle-outline-24.svg',
+      $color-gray-25
+    );
+  }
+
+  @include keyboard-mode {
+    &:focus {
+      @include color-svg(
+        '../images/icons/v2/profile-circle-outline-24.svg',
+        $ultramarine-ui-light
+      );
+    }
   }
 }
 
@@ -2779,6 +3007,61 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
   @include dark-theme {
     @include color-svg('../images/icons/v2/search-24.svg', $color-gray-15);
+  }
+}
+
+.module-conversation-header__audio-calling-button {
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/phone-right-outline-24.svg',
+      $color-gray-75
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/phone-right-solid-24.svg',
+      $color-gray-15
+    );
+  }
+  height: 24px;
+  width: 24px;
+  margin-left: 12px;
+  border: none;
+  opacity: 0;
+  transition: opacity 250ms ease-out;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &--show {
+    opacity: 1;
+  }
+}
+
+.module-conversation-header__video-calling-button {
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/video-outline-24.svg',
+      $color-gray-75
+    );
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v2/video-solid-24.svg', $color-gray-15);
+  }
+  height: 24px;
+  width: 24px;
+  margin-left: 12px;
+  border: none;
+  opacity: 0;
+  transition: opacity 250ms ease-out;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &--show {
+    opacity: 1;
   }
 }
 
@@ -3217,6 +3500,138 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   color: $color-gray-45;
 }
 
+// Module: Conversation Hero
+
+.module-conversation-hero {
+  padding: 32px 0 28px 0;
+  text-align: center;
+
+  &__avatar {
+    margin-bottom: 12px;
+  }
+
+  &__profile-name {
+    @include font-title-2;
+    margin-bottom: 2px;
+
+    @include light-theme {
+      color: $color-gray-90;
+    }
+
+    @include dark-theme {
+      color: $color-gray-05;
+    }
+  }
+
+  &__with {
+    @include font-body-2;
+    margin-bottom: 16px;
+
+    @include light-theme {
+      color: $color-gray-60;
+    }
+
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+  }
+
+  &__membership {
+    @include font-body-2;
+
+    padding: 0 16px;
+
+    @include light-theme {
+      color: $color-gray-60;
+    }
+
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+
+    &__name {
+      @include font-body-2-bold;
+    }
+  }
+}
+
+// Module: Message Request Actions
+
+.module-message-request-actions {
+  padding: 8px 16px 12px 16px;
+
+  @include light-theme {
+    background: $color-white;
+  }
+
+  @include dark-theme {
+    background: $color-gray-95;
+  }
+
+  &__message {
+    @include font-body-2;
+    text-align: center;
+    margin-bottom: 12px;
+
+    @include light-theme {
+      color: $color-gray-60;
+    }
+
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+
+    &__name {
+      @include font-body-2-bold;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    &__button {
+      border: none;
+      border-radius: 4px;
+      min-width: 80px;
+      height: 36px;
+      padding: 0 14px;
+      text-align: center;
+
+      &:focus {
+        outline: none;
+
+        @include keyboard-mode {
+          box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+        }
+      }
+
+      @include font-body-1-bold;
+
+      @include light-theme {
+        background-color: $color-gray-05;
+      }
+
+      @include dark-theme {
+        background-color: $color-gray-75;
+      }
+
+      &:not(:last-of-type) {
+        margin-right: 8px;
+      }
+
+      &--deny {
+        color: $color-accent-red;
+      }
+
+      &--accept {
+        color: $color-accent-blue;
+      }
+    }
+  }
+}
+
 // Module: Conversation List Item
 
 .module-conversation-list-item {
@@ -3238,6 +3653,27 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
     @include dark-theme {
       background-color: $color-gray-75;
     }
+  }
+}
+
+.module-conversation-list-item__muted {
+  display: inline-block;
+  height: 14px;
+  margin-right: 4px;
+  vertical-align: middle;
+  width: 14px;
+
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/sound-off-outline-24.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/sound-off-outline-24.svg',
+      $color-gray-25
+    );
   }
 }
 
@@ -3371,6 +3807,17 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   align-items: center;
 }
 
+.module-conversation-list-item__message-request {
+  @include font-body-2-bold;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
 .module-conversation-list-item__message__text {
   flex-grow: 1;
   flex-shrink: 1;
@@ -3463,7 +3910,8 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
   width: 18px;
 }
-.module-conversation-list-item__message__status-icon--error {
+.module-conversation-list-item__message__status-icon--error,
+.module-conversation-list-item__message__status-icon--partial-sent {
   @include light-theme {
     @include color-svg(
       '../images/icons/v2/error-outline-12.svg',
@@ -3485,6 +3933,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   vertical-align: middle;
   display: inline-block;
   border-radius: 50%;
+  user-select: none;
 
   img {
     object-fit: cover;
@@ -3696,6 +4145,31 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   width: 62px;
 }
 
+.module-avatar--112 {
+  height: 112px;
+  width: 112px;
+
+  img {
+    height: 112px;
+    width: 112px;
+  }
+}
+
+.module-avatar__label--112 {
+  width: 112px;
+  font-size: 56px;
+  line-height: 112px;
+}
+
+.module-avatar__icon--112 {
+  height: 81px;
+  width: 81px;
+}
+.module-avatar__icon--112.module-avatar__icon--direct {
+  height: 87px;
+  width: 87px;
+}
+
 .module-avatar__icon--note-to-self {
   width: 70%;
   height: 70%;
@@ -3900,6 +4374,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   display: inline-block;
   margin: 1px;
   vertical-align: middle;
+  overflow: hidden;
 }
 
 .module-image--with-background {
@@ -4081,7 +4556,10 @@ button.module-image__border-overlay:focus {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 2;
+  z-index: 3;
+
+  // This allows click-through to the overlay button behind it
+  pointer-events: none;
 
   color: $color-white;
 
@@ -4288,6 +4766,7 @@ button.module-image__border-overlay:focus {
   position: relative;
   border-radius: 4px;
   vertical-align: middle;
+  white-space: nowrap;
 
   @include light-theme {
     box-shadow: inset 0px 0px 0px 1px $color-black-alpha-20;
@@ -5235,6 +5714,349 @@ button.module-image__border-overlay:focus {
   }
 }
 
+.module-incoming-call {
+  align-items: center;
+  background-color: $color-gray-75;
+  display: flex;
+  justify-content: space-between;
+}
+
+.module-incoming-call__contact {
+  align-items: center;
+  display: flex;
+  min-width: 0;
+
+  &--avatar {
+    margin-bottom: 8px;
+    margin-left: 16px;
+    margin-top: 8px;
+    position: relative;
+  }
+
+  &--name {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    margin-left: 12px;
+    min-width: 0;
+  }
+
+  &--name-header {
+    @include font-body-1-bold;
+    color: #ffffff;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &--message-text {
+    @include font-body-2;
+    color: #ffffff;
+  }
+}
+
+.module-incoming-call__actions {
+  display: flex;
+  margin-right: 16px;
+}
+
+.module-incoming-call__button--accept-video-as-audio {
+  background-color: $color-gray-45;
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 4px $ultramarine-ui-light;
+    }
+  }
+
+  @include mouse-mode {
+    &:hover {
+      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+    }
+  }
+
+  div {
+    @include color-svg(
+      '../images/icons/v2/video-off-solid-24.svg',
+      $color-white
+    );
+    height: 24px;
+    width: 24px;
+  }
+}
+
+.module-incoming-call__button--accept-video {
+  background-color: $color-accent-green;
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 4px $ultramarine-ui-light;
+    }
+  }
+
+  @include mouse-mode {
+    &:hover {
+      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+    }
+  }
+
+  div {
+    @include color-svg('../images/icons/v2/video-solid-24.svg', $color-white);
+    height: 24px;
+    width: 24px;
+  }
+}
+
+.module-incoming-call__button--accept-audio {
+  background-color: $color-accent-green;
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 4px $ultramarine-ui-light;
+    }
+  }
+
+  @include mouse-mode {
+    &:hover {
+      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+    }
+  }
+
+  div {
+    @include color-svg(
+      '../images/icons/v2/phone-right-solid-24.svg',
+      $color-white
+    );
+    height: 24px;
+    width: 24px;
+  }
+}
+
+.module-incoming-call__button--decline {
+  background-color: $color-accent-red;
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0px 0px 0px 4px $ultramarine-ui-light;
+    }
+  }
+
+  @include mouse-mode {
+    &:hover {
+      box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+    }
+  }
+
+  div {
+    @include color-svg('../images/icons/v2/phone-down-24.svg', $color-white);
+    height: 24px;
+    width: 24px;
+  }
+}
+
+.module-incoming-call__icon,
+.module-ongoing-call__icon {
+  align-items: center;
+  border-radius: 40px;
+  border: none;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  margin-left: 24px;
+  outline: none;
+  width: 40px;
+}
+
+.module-ongoing-call__icon {
+  border-radius: 56px;
+  height: 56px;
+  width: 56px;
+
+  &--audio {
+    &--enabled {
+      background-color: $color-gray-45;
+
+      div {
+        @include color-svg('../images/icons/v2/mic-solid-28.svg', $color-white);
+        height: 28px;
+        width: 28px;
+      }
+    }
+    &--disabled {
+      background-color: $color-white;
+
+      div {
+        @include color-svg(
+          '../images/icons/v2/mic-off-solid-28.svg',
+          $color-black
+        );
+        height: 28px;
+        width: 28px;
+      }
+    }
+  }
+
+  &--video {
+    &--enabled {
+      background-color: $color-gray-45;
+
+      div {
+        @include color-svg(
+          '../images/icons/v2/video-solid-28.svg',
+          $color-white
+        );
+        height: 28px;
+        width: 28px;
+      }
+    }
+    &--disabled {
+      background-color: $color-white;
+
+      div {
+        @include color-svg(
+          '../images/icons/v2/video-off-solid-28.svg',
+          $color-black
+        );
+        height: 28px;
+        width: 28px;
+      }
+    }
+  }
+
+  &--hangup {
+    background-color: $color-accent-red;
+
+    div {
+      @include color-svg('../images/icons/v2/phone-down-28.svg', $color-white);
+      height: 28px;
+      width: 28px;
+    }
+  }
+}
+
+.module-ongoing-call {
+  background-color: $color-gray-95;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+.module-ongoing-call__remote-video-enabled {
+  background-color: $color-gray-95;
+  height: 100vh;
+  width: 100%;
+}
+
+.module-ongoing-call__remote-video-disabled {
+  background-color: $color-gray-95;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.module-ongoing-call__local-video {
+  transform: rotateY(180deg);
+  background-color: transparent;
+  bottom: 160px;
+  height: 152px;
+  position: absolute;
+  right: 32px;
+  width: 210px;
+}
+
+.module-ongoing-call__header {
+  background: linear-gradient($color-black-alpha-40, transparent);
+  padding-bottom: 24px;
+  padding-top: 24px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 100%;
+
+  font-style: normal;
+  color: #ffffff;
+  text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+}
+
+.module-ongoing-call__header-name {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 21px;
+  letter-spacing: -0.009em;
+}
+
+.module-ongoing-call__header-message {
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: -0.0025em;
+}
+
+.module-ongoing-call__actions {
+  background: linear-gradient(transparent, $color-black-alpha-40);
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 32px;
+  padding-top: 32px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+
+@keyframes module-ongoing-call__controls--fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes module-ongoing-call__controls--fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.module-ongoing-call__controls--fadeIn {
+  animation: {
+    name: module-ongoing-call__controls--fade-in;
+    duration: 400ms;
+    timing-function: $ease-out-expo;
+    fill-mode: forwards;
+  }
+}
+
+.module-ongoing-call__controls--fadeOut {
+  animation: {
+    name: module-ongoing-call__controls--fade-out;
+    duration: 1200ms;
+    timing-function: $ease-out-expo;
+    fill-mode: forwards;
+  }
+}
+
+.module-ongoing-call__settings {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+
+  &--button {
+    @include color-svg(
+      '../images/icons/v2/settings-solid-16.svg',
+      $color-white
+    );
+    height: 22px;
+    width: 22px;
+  }
+}
+
 // Module: Left Pane
 
 .module-left-pane {
@@ -5508,6 +6330,279 @@ button.module-image__border-overlay:focus {
     background: $color-gray-75;
     ::-webkit-scrollbar-thumb {
       border: 2px solid $color-gray-75;
+    }
+  }
+}
+
+// Module: SafetyNumberChangeDialog
+
+.module-sfn-dialog__title {
+  @include font-body-1-bold;
+  text-align: center;
+
+  @include dark-theme {
+    color: $color-white;
+  }
+}
+
+.module-sfn-dialog__message {
+  @include font-body-2;
+  text-align: center;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
+.module-sfn-dialog__contacts {
+  list-style-type: none;
+  max-height: 300px;
+  overflow-y: scroll;
+  padding: 0;
+}
+
+.module-sfn-dialog__contact {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 16px;
+
+  &--wrapper {
+    flex-grow: 1;
+    margin-left: 12px;
+  }
+
+  &--name {
+    @include font-body-1-bold;
+
+    @include dark-theme {
+      color: $color-white;
+    }
+  }
+
+  &--number {
+    @include light-theme {
+      color: $color-gray-60;
+    }
+
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+  }
+
+  &--view {
+    @include font-body-1-bold;
+    background: inherit;
+    border: none;
+    cursor: pointer;
+    margin-right: 2px;
+    outline: none;
+    padding: 8px 14px;
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+      }
+    }
+
+    @include light-theme {
+      color: $ultramarine-ui-light;
+    }
+
+    @include dark-theme {
+      color: $ultramarine-ui-dark;
+    }
+  }
+}
+
+.module-sfn-dialog__actions {
+  border-top: 1px solid $color-gray-05;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -18px;
+  margin-left: -16px;
+  margin-right: -16px;
+  margin-top: -14px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 16px;
+
+  &--cancel {
+    @include font-body-1-bold;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    padding: 7px 14px;
+
+    @include mouse-mode {
+      &:hover {
+        background: $color-gray-15;
+      }
+    }
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 2px $ultramarine-ui-light;
+      }
+    }
+
+    @include light-theme {
+      background-color: $color-gray-05;
+      color: $ultramarine-ui-light;
+    }
+
+    @include dark-theme {
+      background-color: $color-gray-75;
+      color: $ultramarine-ui-dark;
+    }
+  }
+
+  &--confirm {
+    @include font-body-1-bold;
+    background: $ultramarine-ui-light;
+    border: none;
+    border-radius: 4px;
+    color: $color-white;
+    margin-left: 12px;
+    outline: none;
+    padding: 7px 14px;
+
+    @include mouse-mode {
+      &:hover {
+        background: $ultramarine-brand-dark;
+      }
+    }
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0px 0px 0px 2px $ultramarine-brand-dark;
+      }
+    }
+  }
+}
+
+/* Safety Number verification */
+
+.module-safety-number {
+  &__icon {
+    height: 1.25em;
+    width: 1.25em;
+    vertical-align: text-bottom;
+    display: inline-block;
+  }
+
+  &__verification-label {
+    margin: 10px 0;
+  }
+
+  &__icon--verified {
+    display: inline-block;
+    height: 1.25em;
+    margin-right: 4px;
+    vertical-align: text-bottom;
+    width: 1.25em;
+
+    @include light-theme {
+      -webkit-mask: url('../images/icons/v2/check-24.svg') no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #121212;
+    }
+
+    @include dark-theme {
+      -webkit-mask: url('../images/icons/v2/check-24.svg') no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #f6f6f6;
+    }
+  }
+
+  &__icon--shield {
+    display: inline-block;
+    height: 1.25em;
+    margin-right: 4px;
+    vertical-align: text-bottom;
+    width: 1.25em;
+
+    @include light-theme {
+      -webkit-mask: url('../images/icons/v2/safety-number-outline-24.svg')
+        no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #121212;
+    }
+
+    @include dark-theme {
+      -webkit-mask: url('../images/icons/v2/safety-number-solid-24.svg')
+        no-repeat center;
+      -webkit-mask-size: 100%;
+      background-color: #f6f6f6;
+    }
+  }
+
+  &__verify-container {
+    text-align: center;
+  }
+
+  &__button--verify {
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 0;
+    outline: none;
+    padding: 10px;
+  }
+
+  &__number {
+    background: #f6f6f6;
+    border-radius: 5px;
+    border: solid 1px #dedede;
+    font-family: monospace;
+    margin: 20px auto 20px auto;
+    padding: 10px;
+    text-align: center;
+    width: 16em;
+
+    @include dark-theme {
+      background: #1b1b1b;
+      border: solid 1px #848484;
+      color: #f6f6f6;
+    }
+  }
+
+  &__verification-status {
+    margin: 30px 0 10px;
+    text-align: center;
+  }
+
+  &__close-button {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      background: inherit;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+
+      @include keyboard-mode {
+        &:focus {
+          border: 1px solid $ultramarine-ui-light;
+        }
+      }
+
+      span {
+        display: inline-block;
+        height: 24px;
+        width: 24px;
+
+        @include light-theme {
+          @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+        }
+        @include dark-theme {
+          @include color-svg('../images/icons/v2/x-24.svg', $color-gray-05);
+        }
+      }
     }
   }
 }
@@ -6467,12 +7562,17 @@ button.module-image__border-overlay:focus {
     }
 
     @include dark-theme() {
-      background: $color-gray-75;
+      background: $color-gray-80;
       color: $color-gray-05;
     }
 
+    &__title {
+      @include font-body-1-bold;
+    }
+
     &__content {
-      margin-bottom: 20px;
+      @include font-body-1;
+      margin-bottom: 22px;
     }
 
     &__buttons {
@@ -7779,6 +8879,150 @@ button.module-image__border-overlay:focus {
   width: 30px;
   padding-left: 0px;
   padding-right: 0px;
+}
+
+// Module: Profile Change Notification
+
+.module-profile-change-notification {
+  @include font-body-1;
+
+  margin-left: 2em;
+  margin-right: 2em;
+
+  text-align: center;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
+
+.module-profile-change-notification--icon {
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-outline-20.svg',
+      $color-gray-60
+    );
+  }
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v2/profile-outline-20.svg',
+      $color-gray-05
+    );
+  }
+
+  height: 20px;
+  width: 20px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Calling: Device Selection */
+
+.module-calling-device-selection {
+  position: relative;
+}
+
+.module-calling-device-selection__close-button {
+  @include button-reset;
+
+  @include light-theme {
+    @include color-svg('../images/x-shadow-16.svg', $color-gray-75);
+  }
+
+  @include dark-theme {
+    @include color-svg('../images/x-shadow-16.svg', $color-white);
+  }
+
+  height: 16px;
+  position: absolute;
+  right: 5px;
+  top: 0;
+  width: 16px;
+  z-index: 2;
+
+  @include keyboard-mode {
+    &:focus {
+      outline: 2px solid $ultramarine-ui-light;
+    }
+  }
+}
+
+.module-calling-device-selection__title {
+  @include font-title-2;
+  margin-top: 12px;
+  margin-bottom: 20px;
+}
+
+.module-calling-device-selection__label {
+  @include font-body-1-bold;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.module-calling-device-selection__select {
+  margin-bottom: 20px;
+  position: relative;
+
+  select {
+    @include font-body-1;
+    -webkit-appearance: none;
+    border-radius: 4px;
+    border: 1px solid $color-gray-45;
+    cursor: pointer;
+    height: 40px;
+    outline: 0;
+    padding: 10px;
+    padding-right: 32px;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+
+  &::after {
+    border: 2px solid $color-gray-75;
+
+    border-radius: 2px;
+    border-right: 0;
+    border-top: 0;
+    content: ' ';
+    display: block;
+    height: 10px;
+    pointer-events: none;
+    position: absolute;
+    right: 15px;
+    top: 16px;
+    transform-origin: center;
+    transform: rotate(-45deg);
+    width: 10px;
+    z-index: 2;
+  }
+}
+
+/* Third-party module: react-tooltip-lite */
+
+.react-tooltip-lite {
+  border-radius: 8px;
+
+  @include light-theme {
+    background-color: $color-gray-02;
+    color: $color-gray-75;
+  }
+  @include dark-theme {
+    background-color: $color-gray-65;
+    color: $color-gray-05;
+  }
+}
+
+.react-tooltip-lite-arrow {
+  @include light-theme {
+    border-color: $color-gray-02;
+  }
+  @include dark-theme {
+    border-color: $color-gray-65;
+  }
 }
 
 /* Third-party module: react-contextmenu*/

@@ -16,11 +16,17 @@ import {
   InputApi,
   Props as CompositionInputProps,
 } from './CompositionInput';
+import {
+  MessageRequestActions,
+  Props as MessageRequestActionsProps,
+} from './conversation/MessageRequestActions';
 import { countStickers } from './stickers/lib';
 import { LocalizerType } from '../types/Util';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
+  readonly messageRequestsEnabled?: boolean;
+  readonly acceptedMessageRequest?: boolean;
   readonly compositionApi?: React.MutableRefObject<{
     focusInput: () => void;
     isDirty: () => boolean;
@@ -66,6 +72,7 @@ export type Props = Pick<
     | 'showPickerHint'
     | 'clearShowPickerHint'
   > &
+  MessageRequestActionsProps &
   OwnProps;
 
 const emptyElement = (el: HTMLElement) => {
@@ -73,7 +80,7 @@ const emptyElement = (el: HTMLElement) => {
   el.innerHTML = '';
 };
 
-// tslint:disable-next-line max-func-body-length
+// tslint:disable-next-line max-func-body-length cyclomatic-complexity
 export const CompositionArea = ({
   i18n,
   attachmentListEl,
@@ -86,6 +93,8 @@ export const CompositionArea = ({
   onEditorStateChange,
   onTextTooLong,
   startingText,
+  clearQuotedMessage,
+  getQuotedMessage,
   // EmojiButton
   onPickEmoji,
   onSetSkinTone,
@@ -104,8 +113,20 @@ export const CompositionArea = ({
   clearShowIntroduction,
   showPickerHint,
   clearShowPickerHint,
-  clearQuotedMessage,
-  getQuotedMessage,
+  // Message Requests
+  acceptedMessageRequest,
+  conversationType,
+  isBlocked,
+  messageRequestsEnabled,
+  name,
+  onAccept,
+  onBlock,
+  onBlockAndDelete,
+  onDelete,
+  onUnblock,
+  phoneNumber,
+  profileName,
+  title,
 }: Props) => {
   const [disabled, setDisabled] = React.useState(false);
   const [showMic, setShowMic] = React.useState(!startingText);
@@ -298,6 +319,25 @@ export const CompositionArea = ({
       document.removeEventListener('keydown', handler);
     };
   }, [setLarge]);
+
+  if ((!acceptedMessageRequest || isBlocked) && messageRequestsEnabled) {
+    return (
+      <MessageRequestActions
+        i18n={i18n}
+        conversationType={conversationType}
+        isBlocked={isBlocked}
+        onBlock={onBlock}
+        onBlockAndDelete={onBlockAndDelete}
+        onUnblock={onUnblock}
+        onDelete={onDelete}
+        onAccept={onAccept}
+        name={name}
+        profileName={profileName}
+        phoneNumber={phoneNumber}
+        title={title}
+      />
+    );
+  }
 
   return (
     <div className="module-composition-area">

@@ -80,6 +80,7 @@ function putItemExternal(key: string, value: any): ItemPutExternalAction {
 }
 
 function removeItem(key: string): ItemRemoveAction {
+  // tslint:disable-next-line no-floating-promises
   storageShim.remove(key);
 
   return {

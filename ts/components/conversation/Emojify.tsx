@@ -35,7 +35,7 @@ function getImageTag({
   );
 }
 
-interface Props {
+export interface Props {
   text: string;
   /** A class name to be added to the generated emoji images */
   sizeClass?: SizeClassType;

@@ -7,7 +7,8 @@ import { createPortal } from 'react-dom';
 import { showSettings } from '../shims/Whisper';
 import { Avatar } from './Avatar';
 import { AvatarPopup } from './AvatarPopup';
-import { ColorType, LocalizerType } from '../types/Util';
+import { LocalizerType } from '../types/Util';
+import { ColorType } from '../types/Colors';
 
 export interface PropsType {
   searchTerm: string;
@@ -22,12 +23,13 @@ export interface PropsType {
   regionCode: string;
 
   // For display
-  phoneNumber: string;
-  isMe: boolean;
+  phoneNumber?: string;
+  isMe?: boolean;
   name?: string;
-  color: ColorType;
-  verified: boolean;
+  color?: ColorType;
+  isVerified?: boolean;
   profileName?: string;
+  title: string;
   avatarPath?: string;
 
   i18n: LocalizerType;
@@ -295,6 +297,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       name,
       phoneNumber,
       profileName,
+      title,
       searchConversationId,
       searchConversationName,
       searchTerm,
@@ -319,6 +322,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                 name={name}
                 phoneNumber={phoneNumber}
                 profileName={profileName}
+                title={title}
                 size={28}
                 innerRef={ref}
                 onClick={this.showAvatarPopup}
@@ -338,6 +342,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                       name={name}
                       phoneNumber={phoneNumber}
                       profileName={profileName}
+                      title={title}
                       avatarPath={avatarPath}
                       size={28}
                       onViewPreferences={() => {

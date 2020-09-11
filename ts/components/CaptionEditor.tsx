@@ -7,7 +7,7 @@ import { AttachmentType } from '../types/Attachment';
 
 import { LocalizerType } from '../types/Util';
 
-interface Props {
+export interface Props {
   attachment: AttachmentType;
   i18n: LocalizerType;
   url: string;

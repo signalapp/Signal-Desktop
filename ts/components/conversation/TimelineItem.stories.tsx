@@ -30,6 +30,7 @@ const renderEmojiPicker: TimelineItemProps['renderEmojiPicker'] = ({
 
 const getDefaultProps = () => ({
   conversationId: 'conversation-id',
+  conversationAccepted: true,
   id: 'asdf',
   isSelected: false,
   selectMessage: action('selectMessage'),
@@ -73,17 +74,181 @@ storiesOf('Components/Conversation/TimelineItem', module)
 
     return <TimelineItem {...getDefaultProps()} item={item} i18n={i18n} />;
   })
+  // tslint:disable-next-line max-func-body-length
   .add('Notification', () => {
-    const item = {
-      type: 'timerNotification',
-      data: {
-        type: 'fromOther',
-        phoneNumber: '(202) 555-0000',
-        timespan: '1 hour',
+    const items = [
+      {
+        type: 'timerNotification',
+        data: {
+          type: 'fromOther',
+          phoneNumber: '(202) 555-0000',
+          timespan: '1 hour',
+        },
       },
-    } as TimelineItemProps['item'];
+      {
+        type: 'callHistory',
+        data: {
+          callHistoryDetails: {
+            // declined incoming audio
+            wasDeclined: true,
+            wasIncoming: true,
+            wasVideoCall: false,
+            endedTime: Date.now(),
+          },
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          callHistoryDetails: {
+            // declined incoming video
+            wasDeclined: true,
+            wasIncoming: true,
+            wasVideoCall: true,
+            endedTime: Date.now(),
+          },
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          callHistoryDetails: {
+            // accepted incoming audio
+            acceptedTime: Date.now() - 300,
+            wasDeclined: false,
+            wasIncoming: true,
+            wasVideoCall: false,
+            endedTime: Date.now(),
+          },
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          callHistoryDetails: {
+            // accepted incoming video
+            acceptedTime: Date.now() - 400,
+            wasDeclined: false,
+            wasIncoming: true,
+            wasVideoCall: true,
+            endedTime: Date.now(),
+          },
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          callHistoryDetails: {
+            // missed (neither accepted nor declined) incoming audio
+            wasDeclined: false,
+            wasIncoming: true,
+            wasVideoCall: false,
+            endedTime: Date.now(),
+          },
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          callHistoryDetails: {
+            // missed (neither accepted nor declined) incoming video
+            wasDeclined: false,
+            wasIncoming: true,
+            wasVideoCall: true,
+            endedTime: Date.now(),
+          },
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          callHistoryDetails: {
+            // accepted outgoing audio
+            acceptedTime: Date.now() - 200,
+            wasDeclined: false,
+            wasIncoming: false,
+            wasVideoCall: true,
+            endedTime: Date.now(),
+          },
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          callHistoryDetails: {
+            // accepted outgoing video
+            acceptedTime: Date.now() - 200,
+            wasDeclined: false,
+            wasIncoming: false,
+            wasVideoCall: true,
+            endedTime: Date.now(),
+          },
+        },
+      },
+      {
+        type: 'callHistory',
+        callHistoryDetails: {
+          data: {
+            // declined outgoing audio
+            wasDeclined: true,
+            wasIncoming: false,
+            wasVideoCall: false,
+            endedTime: Date.now(),
+          },
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          callHistoryDetails: {
+            // declined outgoing video
+            wasDeclined: true,
+            wasIncoming: false,
+            wasVideoCall: true,
+            endedTime: Date.now(),
+          },
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          callHistoryDetails: {
+            // missed (neither accepted nor declined) outgoing audio
+            wasDeclined: false,
+            wasIncoming: false,
+            wasVideoCall: false,
+            endedTime: Date.now(),
+          },
+        },
+      },
+      {
+        type: 'callHistory',
+        data: {
+          callHistoryDetails: {
+            // missed (neither accepted nor declined) outgoing video
+            wasDeclined: false,
+            wasIncoming: false,
+            wasVideoCall: true,
+            endedTime: Date.now(),
+          },
+        },
+      },
+    ];
 
-    return <TimelineItem {...getDefaultProps()} item={item} i18n={i18n} />;
+    return (
+      <>
+        {items.map(item => (
+          <>
+            <TimelineItem
+              {...getDefaultProps()}
+              item={item as TimelineItemProps['item']}
+              i18n={i18n}
+            />
+            <hr />
+          </>
+        ))}
+      </>
+    );
   })
   .add('Unknown Type', () => {
     // @ts-ignore: intentional

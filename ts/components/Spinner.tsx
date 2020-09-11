@@ -1,10 +1,20 @@
 import React from 'react';
 import classNames from 'classnames';
 
-interface Props {
+export const SpinnerSvgSizes = ['small', 'normal'] as const;
+export type SpinnerSvgSize = typeof SpinnerSvgSizes[number];
+
+export const SpinnerDirections = [
+  'outgoing',
+  'incoming',
+  'on-background',
+] as const;
+export type SpinnerDirection = typeof SpinnerDirections[number];
+
+export interface Props {
   size?: string;
-  svgSize: 'small' | 'normal';
-  direction?: 'outgoing' | 'incoming' | 'on-background';
+  svgSize: SpinnerSvgSize;
+  direction?: SpinnerDirection;
 }
 
 export class Spinner extends React.Component<Props> {

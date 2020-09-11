@@ -16,6 +16,8 @@
 (function() {
   'use strict';
 
+  const FIVE_MINUTES = 1000 * 60 * 5;
+
   window.Whisper = window.Whisper || {};
   const { Message, MIME, VisualAttachment } = window.Signal.Types;
   const {
@@ -210,7 +212,7 @@
     template: i18n('oneNonImageAtATimeToast'),
   });
   Whisper.CannotMixImageAndNonImageAttachmentsToast = Whisper.ToastView.extend({
-    template: i18n('cannotMixImageAdnNonImageAttachments'),
+    template: i18n('cannotMixImageAndNonImageAttachments'),
   });
   Whisper.MaxAttachmentsToast = Whisper.ToastView.extend({
     template: i18n('maximumAttachments'),
@@ -304,9 +306,12 @@
       );
       this.model.throttledGetProfiles =
         this.model.throttledGetProfiles ||
+        _.throttle(this.model.getProfiles.bind(this.model), FIVE_MINUTES);
+      this.model.throttledUpdateSharedGroups =
+        this.model.throttledUpdateSharedGroups ||
         _.throttle(
-          this.model.getProfiles.bind(this.model),
-          1000 * 60 * 5 // five minutes
+          this.model.updateSharedGroups.bind(this.model),
+          FIVE_MINUTES
         );
       this.debouncedMaybeGrabLinkPreview = _.debounce(
         this.maybeGrabLinkPreview.bind(this),
@@ -352,6 +357,24 @@
       paste: 'onPaste',
     },
 
+    getMuteExpirationLabel() {
+      const muteExpiresAt = this.model.get('muteExpiresAt');
+      if (!muteExpiresAt) {
+        return;
+      }
+
+      const today = window.moment(Date.now());
+      const expires = window.moment(muteExpiresAt);
+
+      if (today.isSame(expires, 'day')) {
+        // eslint-disable-next-line consistent-return
+        return expires.format('hh:mm A');
+      }
+
+      // eslint-disable-next-line consistent-return
+      return expires.format('M/D/YY, hh:mm A');
+    },
+
     setupHeader() {
       const getHeaderProps = () => {
         const expireTimer = this.model.get('expireTimer');
@@ -360,17 +383,8 @@
           : null;
 
         return {
-          id: this.model.id,
-          name: this.model.getName(),
-          phoneNumber: this.model.getNumber(),
-          profileName: this.model.getProfileName(),
-          color: this.model.getColor(),
-          avatarPath: this.model.getAvatarPath(),
+          ...this.model.cachedProps,
 
-          isVerified: this.model.isVerified(),
-          isMe: this.model.isMe(),
-          isGroup: !this.model.isPrivate(),
-          isArchived: this.model.get('isArchived'),
           leftGroup: this.model.get('left'),
 
           expirationSettingName,
@@ -379,6 +393,8 @@
             name: item.getName(),
             value: item.get('seconds'),
           })),
+
+          muteExpirationLabel: this.getMuteExpirationLabel(),
 
           onSetDisappearingMessages: seconds =>
             this.setDisappearingMessages(seconds),
@@ -391,9 +407,34 @@
               : this.model.getTitle();
             searchInConversation(this.model.id, name);
           },
+          onSetMuteNotifications: ms => this.setMuteNotifications(ms),
 
           // These are view only and don't update the Conversation model, so they
           //   need a manual update call.
+          onOutgoingAudioCallInConversation: async () => {
+            const conversation = this.model;
+            const isVideoCall = false;
+
+            if (await this.isCallSafe()) {
+              await window.Signal.Services.calling.startOutgoingCall(
+                conversation,
+                isVideoCall
+              );
+            }
+          },
+
+          onOutgoingVideoCallInConversation: async () => {
+            const conversation = this.model;
+            const isVideoCall = true;
+
+            if (await this.isCallSafe()) {
+              await window.Signal.Services.calling.startOutgoingCall(
+                conversation,
+                isVideoCall
+              );
+            }
+          },
+
           onShowSafetyNumber: () => {
             this.showSafetyNumber();
           },
@@ -447,6 +488,9 @@
         </div>
       `)[0];
 
+      const messageRequestEnum =
+        window.textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
+
       const props = {
         id: this.model.id,
         compositionApi,
@@ -462,6 +506,26 @@
         clearQuotedMessage: () => this.setQuoteMessage(null),
         micCellEl,
         attachmentListEl,
+        onAccept: this.model.syncMessageRequestResponse.bind(
+          this.model,
+          messageRequestEnum.ACCEPT
+        ),
+        onBlock: this.model.syncMessageRequestResponse.bind(
+          this.model,
+          messageRequestEnum.BLOCK
+        ),
+        onUnblock: this.model.syncMessageRequestResponse.bind(
+          this.model,
+          messageRequestEnum.ACCEPT
+        ),
+        onDelete: this.model.syncMessageRequestResponse.bind(
+          this.model,
+          messageRequestEnum.DELETE
+        ),
+        onBlockAndDelete: this.model.syncMessageRequestResponse.bind(
+          this.model,
+          messageRequestEnum.BLOCK_AND_DELETE
+        ),
       };
 
       this.compositionAreaView = new Whisper.ReactWrapperView({
@@ -690,6 +754,7 @@
           showVisualAttachment,
           showExpiredIncomingTapToViewToast,
           showExpiredOutgoingTapToViewToast,
+          updateSharedGroups: this.model.throttledUpdateSharedGroups,
         }),
       });
 
@@ -1223,7 +1288,13 @@
       }
 
       return {
-        ..._.pick(attachment, ['contentType', 'fileName', 'size', 'caption']),
+        ..._.pick(attachment, [
+          'contentType',
+          'fileName',
+          'size',
+          'caption',
+          'blurHash',
+        ]),
         data,
       };
     },
@@ -1433,6 +1504,7 @@
     },
 
     async handleImageAttachment(file) {
+      const blurHash = await window.imageToBlurHash(file);
       if (MIME.isJPEG(file.type)) {
         const rotatedDataUrl = await window.autoOrientImage(file);
         const rotatedBlob = window.dataURLToBlobSync(rotatedDataUrl);
@@ -1454,6 +1526,7 @@
           contentType,
           data,
           size: data.byteLength,
+          blurHash,
         };
       }
 
@@ -1470,6 +1543,7 @@
         contentType,
         data,
         size: data.byteLength,
+        blurHash,
       };
     },
 
@@ -1616,7 +1690,7 @@
         if (unverified.length > 1) {
           message = i18n('multipleNoLongerVerified');
         } else {
-          message = i18n('noLongerVerified', unverified.at(0).getTitle());
+          message = i18n('noLongerVerified', [unverified.at(0).getTitle()]);
         }
 
         // Need to re-add, since unverified set may have changed
@@ -1917,7 +1991,6 @@
         props: await getProps(),
         onClose: () => {
           this.stopListening(this.model.messageCollection, 'remove', update);
-          this.resetPanel();
         },
       });
 
@@ -1992,10 +2065,10 @@
       }
 
       const dialog = new Whisper.ConfirmationDialogView({
-        message: i18n('identityKeyErrorOnSend', [
-          contact.getTitle(),
-          contact.getTitle(),
-        ]),
+        message: i18n('identityKeyErrorOnSend', {
+          name1: contact.getTitle(),
+          name2: contact.getTitle(),
+        }),
         okText: i18n('sendAnyway'),
         resolve: async () => {
           await contact.updateVerified();
@@ -2009,7 +2082,7 @@
             await contact.setApproved();
           }
 
-          message.resend(contact.get('uuid') || contact.get('e164'));
+          message.resend(contact.getSendTarget());
         },
       });
 
@@ -2168,6 +2241,11 @@
           });
           message.trigger('unload');
           this.model.messageCollection.remove(message.id);
+          if (message.isOutgoing()) {
+            this.model.decrementSentMessageCount();
+          } else {
+            this.model.decrementMessageCount();
+          }
           this.resetPanel();
         },
       });
@@ -2428,6 +2506,12 @@
       }
     },
 
+    setMuteNotifications(ms) {
+      this.model.set({
+        muteExpiresAt: ms > 0 ? Date.now() + ms : undefined,
+      });
+    },
+
     async destroyMessages() {
       try {
         await this.confirm(i18n('deleteConversationConfirmation'));
@@ -2446,35 +2530,38 @@
       }
     },
 
-    showSendAnywayDialog(contacts) {
-      return new Promise(resolve => {
-        let message;
-        const isUnverified = this.model.isUnverified();
-
-        if (contacts.length > 1) {
-          if (isUnverified) {
-            message = i18n('changedSinceVerifiedMultiple');
-          } else {
-            message = i18n('changedRecentlyMultiple');
-          }
-        } else {
-          const contactName = contacts.at(0).getTitle();
-          if (isUnverified) {
-            message = i18n('changedSinceVerified', [contactName, contactName]);
-          } else {
-            message = i18n('changedRecently', [contactName, contactName]);
-          }
+    async isCallSafe() {
+      const contacts = await this.getUntrustedContacts();
+      if (contacts && contacts.length) {
+        const callAnyway = await this.showSendAnywayDialog(
+          contacts,
+          i18n('callAnyway')
+        );
+        if (!callAnyway) {
+          window.log.info(
+            'Safety number change dialog not accepted, new call not allowed.'
+          );
+          return false;
         }
+      }
 
-        const dialog = new Whisper.ConfirmationDialogView({
-          message,
-          okText: i18n('sendAnyway'),
-          resolve: () => resolve(true),
-          reject: () => resolve(false),
+      return true;
+    },
+
+    showSendAnywayDialog(contacts, confirmText) {
+      return new Promise(resolve => {
+        const dialog = new Whisper.SafetyNumberChangeDialogView({
+          confirmText,
+          contacts,
+          reject: () => {
+            resolve(false);
+          },
+          resolve: () => {
+            resolve(true);
+          },
         });
 
         this.$el.prepend(dialog.el);
-        dialog.focusCancel();
       });
     },
 
@@ -2903,11 +2990,13 @@
           pack.status === 'downloaded' ||
           pack.status === 'installed');
 
-      let id;
-      let key;
+      const dataFromLink = window.Signal.Stickers.getDataFromLink(url);
+      if (!dataFromLink) {
+        return null;
+      }
+      const { id, key } = dataFromLink;
 
       try {
-        ({ id, key } = window.Signal.Stickers.getDataFromLink(url));
         const keyBytes = window.Signal.Crypto.bytesFromHexString(key);
         const keyBase64 = window.Signal.Crypto.arrayBufferToBase64(keyBytes);
 

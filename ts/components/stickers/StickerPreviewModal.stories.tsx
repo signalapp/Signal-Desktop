@@ -16,7 +16,7 @@ import { action } from '@storybook/addon-actions';
 
 const i18n = setupI18n('en', enMessages);
 
-storiesOf('stickers', module).add('StickerPreviewModal', () => {
+storiesOf('Components/Stickers/StickerPreviewModal', module).add('Full', () => {
   const title = text('title', 'Foo');
   const author = text('author', 'Foo McBarrington');
   const abeSticker = {

@@ -176,10 +176,10 @@ Please write tests! Our testing framework is
 The easiest way to run all tests at once is `yarn test`.
 
 You can browse tests from the command line with `grunt unit-tests` or in an
-interactive session with `NODE_ENV=test yarn run start`. The `libtextsecure` tests are run
-similarly: `grunt lib-unit-tests` and `NODE_ENV=test-lib yarn run start`. You can tweak
-the appropriate `test.html` for both of these runs to get code coverage numbers via
-`blanket.js` (it's shown at the bottom of the web page when the run is complete).
+interactive session with `NODE_ENV=test yarn run start`.
+
+If you want to run the `libtextsecure` tests, you can run `yarn run test-electron`,
+which also runs the unit tests.
 
 To run Node.js tests, you can run `yarn test-server` from the command line. You can get
 code coverage numbers for this kind of run via `yarn test-server-coverage`, then display
@@ -257,21 +257,9 @@ Developer Tools) and entering this into the Console and pressing enter: `window.
 
 If you're completely sure that your changes will have no impact to the production servers,
 you can connect your development build to the production server by putting a file called
-`local-development.json` in the `config` directory with the same contents as
-`production.json`, except that you should also remove the `updatesEnabled` setting so that
-the auto update infrastructure doesn't kick in while you are developing.
-`local-development.json` should look something like this:
-
-```json
-{
-  "serverUrl": "https://textsecure-service.whispersystems.org",
-  "serverTrustRoot": "SOME_ALPHANUMERIC_STRING_MATCHING_PRODUCTION_JSON",
-  "cdn": {
-    "0": "https://cdn.signal.org",
-    "2": "https://cdn2.signal.org"
-  }
-}
-```
+`local-development.json` in the `config` directory. It should be a copy of
+`production.json`, but you should set `updatesEnabled` to `false` so that the auto-update
+infrastructure doesn't kick in while you're developing.
 
 **Beware:** Setting up standalone with your primary phone number when connected to the
 production servers will _unregister_ your mobile device! All messages from your contacts

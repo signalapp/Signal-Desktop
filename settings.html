@@ -88,6 +88,13 @@
         <label for='notification-setting-off'>{{ disableNotifications }} </label>
       </div>
     </div>
+    {{ #isDrawAttentionSupported }}
+    <br />
+    <div class='draw-attention-setting'>
+      <input type='checkbox' name='notification-draw-attention' id='notification-draw-attention'/>
+      <label for='notification-draw-attention'>{{ notificationDrawAttention }}</label>
+    </div>
+    {{ /isDrawAttentionSupported }}
     <br />
     {{ #isAudioNotificationSupported }}
     <div class='audio-notification-setting'>
@@ -105,11 +112,40 @@
         </p>
       </div>
     <hr>
+    <div class='calling-setting'>
+      <h3>{{ calling }}</h3>
+      <div class='always-relay-calls-setting'>
+        <input type='checkbox' name='always-relay-calls' id='always-relay-calls' />
+        <label for='always-relay-calls'>{{ alwaysRelayCallsDescription }}</label>
+        <p>
+          <div class='detail'>
+            {{ alwaysRelayCallsDetail }}
+          </div>
+        </p>
+      </div>
+      <div class='call-ringtone-notification-setting'>
+        <input type='checkbox' name='call-ringtone-notification' id='call-ringtone-notification'/>
+        <label for='call-ringtone-notification'>{{ callRingtoneNotificationDescription }}</label>
+      </div>
+      <div class='call-system-notification-setting'>
+        <input type='checkbox' name='call-system-notification' id='call-system-notification'/>
+        <label for='call-system-notification'>{{ callSystemNotificationDescription }}</label>
+      </div>
+      <div class='incoming-call-notification-setting'>
+        <input type='checkbox' name='incoming-call-notification' id='incoming-call-notification'/>
+        <label for='incoming-call-notification'>{{ incomingCallNotificationDescription }}</label>
+      </div>
+    </div>
+    <hr>
     <div class='permissions-setting'>
       <h3>{{ permissions }}</h3>
       <div class='media-permissions'>
         <input type='checkbox' name='media-permissions' id='media-permissions' />
         <label for='media-permissions'>{{ mediaPermissionsDescription }}</label>
+      </div>
+      <div class='media-camera-permissions'>
+        <input type='checkbox' name='media-camera-permissions' id='media-camera-permissions' />
+        <label for='media-camera-permissions'>{{ mediaCameraPermissionsDescription }}</label>
       </div>
     </div>
     <div class='sync-setting'></div>

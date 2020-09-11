@@ -5,7 +5,7 @@ import { ContactName } from './ContactName';
 import { Avatar, Props as AvatarProps } from '../Avatar';
 import { Emoji } from '../emoji/Emoji';
 import { useRestoreFocus } from '../../util/hooks';
-import { ColorType } from '../../types/Util';
+import { ColorType } from '../../types/Colors';
 
 export type Reaction = {
   emoji: string;
@@ -16,6 +16,7 @@ export type Reaction = {
     avatarPath?: string;
     name?: string;
     profileName?: string;
+    title: string;
     isMe?: boolean;
     phoneNumber?: string;
   };
@@ -156,6 +157,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
                   name={from.name}
                   profileName={from.profileName}
                   phoneNumber={from.phoneNumber}
+                  title={from.title}
                   i18n={i18n}
                 />
               </div>
@@ -168,6 +170,8 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
                     name={from.name}
                     profileName={from.profileName}
                     phoneNumber={from.phoneNumber}
+                    title={from.title}
+                    i18n={i18n}
                   />
                 )}
               </div>

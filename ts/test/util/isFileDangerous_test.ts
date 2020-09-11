@@ -18,6 +18,20 @@ describe('isFileDangerous', () => {
     assert.strictEqual(isFileDangerous('install.pif'), true);
   });
 
+  it('returns true for Microsoft settings files', () => {
+    assert.strictEqual(isFileDangerous('downl.SettingContent-ms'), true);
+  });
+
+  it('returns false for non-dangerous files that end in ".", which can happen on Windows', () => {
+    assert.strictEqual(isFileDangerous('dog.png.'), false);
+    assert.strictEqual(isFileDangerous('resume.docx.'), false);
+  });
+
+  it('returns true for dangerous files that end in ".", which can happen on Windows', () => {
+    assert.strictEqual(isFileDangerous('run.exe.'), true);
+    assert.strictEqual(isFileDangerous('install.pif.'), true);
+  });
+
   it('returns false for empty filename', () => {
     assert.strictEqual(isFileDangerous(''), false);
   });

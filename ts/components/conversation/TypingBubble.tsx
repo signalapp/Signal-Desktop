@@ -4,14 +4,16 @@ import classNames from 'classnames';
 import { TypingAnimation } from './TypingAnimation';
 import { Avatar } from '../Avatar';
 
-import { ColorType, LocalizerType } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
+import { ColorType } from '../../types/Colors';
 
-interface Props {
+export interface Props {
   avatarPath?: string;
   color: ColorType;
   name?: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   profileName?: string;
+  title: string;
   conversationType: 'group' | 'direct';
   i18n: LocalizerType;
 }
@@ -24,6 +26,7 @@ export class TypingBubble extends React.PureComponent<Props> {
       name,
       phoneNumber,
       profileName,
+      title,
       conversationType,
       i18n,
     } = this.props;
@@ -42,6 +45,7 @@ export class TypingBubble extends React.PureComponent<Props> {
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
+          title={title}
           size={28}
         />
       </div>

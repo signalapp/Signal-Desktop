@@ -1,4 +1,4 @@
-// tslint:disable no-backbone-get-set-outside-model no-console no-default-export no-unnecessary-local-variable
+// tslint:disable no-console no-default-export no-unnecessary-local-variable
 
 import { join } from 'path';
 import mkdirp from 'mkdirp';
@@ -104,6 +104,7 @@ const dataInterface: ServerInterface = {
   updateConversation,
   updateConversations,
   removeConversation,
+  eraseStorageIdFromConversations,
   getAllConversations,
   getAllConversationIds,
   getAllPrivateConversations,
@@ -131,6 +132,9 @@ const dataInterface: ServerInterface = {
   getOlderMessagesByConversation,
   getNewerMessagesByConversation,
   getMessageMetricsForConversation,
+  getLastConversationActivity,
+  getLastConversationPreview,
+  migrateConversationMessages,
 
   getUnprocessedCount,
   getAllUnprocessed,
@@ -1542,6 +1546,40 @@ async function updateToSchemaVersion20(
   }
 }
 
+async function updateToSchemaVersion21(
+  currentVersion: number,
+  instance: PromisifiedSQLDatabase
+) {
+  if (currentVersion >= 21) {
+    return;
+  }
+  try {
+    await instance.run('BEGIN TRANSACTION;');
+    await instance.run(`
+      UPDATE conversations
+      SET json = json_set(
+        json,
+        '$.messageCount',
+        (SELECT count(*) FROM messages WHERE messages.conversationId = conversations.id)
+      );
+    `);
+    await instance.run(`
+      UPDATE conversations
+      SET json = json_set(
+        json,
+        '$.sentMessageCount',
+        (SELECT count(*) FROM messages WHERE messages.conversationId = conversations.id AND messages.type = 'outgoing')
+      );
+    `);
+    await instance.run('PRAGMA user_version = 21;');
+    await instance.run('COMMIT TRANSACTION;');
+    console.log('updateToSchemaVersion21: success!');
+  } catch (error) {
+    await instance.run('ROLLBACK');
+    throw error;
+  }
+}
+
 const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -1563,6 +1601,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion18,
   updateToSchemaVersion19,
   updateToSchemaVersion20,
+  updateToSchemaVersion21,
 ];
 
 async function updateSchema(instance: PromisifiedSQLDatabase) {
@@ -2204,6 +2243,16 @@ async function getConversationById(id: string) {
   return jsonToObject(row.json);
 }
 
+async function eraseStorageIdFromConversations() {
+  const db = getInstance();
+
+  await db.run(
+    `UPDATE conversations SET
+      json = json_remove(json, '$.storageID');
+    `
+  );
+}
+
 async function getAllConversations() {
   const db = getInstance();
   const rows = await db.all('SELECT json FROM conversations ORDER BY id ASC;');
@@ -2326,9 +2375,14 @@ async function searchMessagesInConversation(
   }));
 }
 
-async function getMessageCount() {
+async function getMessageCount(conversationId?: string) {
   const db = getInstance();
-  const row = await db.get('SELECT count(*) from messages;');
+  const row = conversationId
+    ? await db.get(
+        'SELECT count(*) from messages WHERE conversationId = $conversationId;',
+        { $conversationId: conversationId }
+      )
+    : await db.get('SELECT count(*) from messages;');
 
   if (!row) {
     throw new Error('getMessageCount: Unable to get count of messages');
@@ -2601,10 +2655,6 @@ async function getOlderMessagesByConversation(
     messageId,
   }: { limit?: number; receivedAt?: number; messageId?: string } = {}
 ) {
-  if (receivedAt !== Number.MAX_VALUE && !messageId) {
-    throw new Error('If receivedAt is supplied, messageId should be as well');
-  }
-
   const db = getInstance();
   let rows;
 
@@ -2697,6 +2747,50 @@ async function getNewestMessageForConversation(conversationId: string) {
 
   return row;
 }
+
+async function getLastConversationActivity(
+  conversationId: string
+): Promise<MessageType | null> {
+  const db = getInstance();
+  const row = await db.get(
+    `SELECT * FROM messages WHERE
+       conversationId = $conversationId AND
+       (type IS NULL OR type NOT IN ('profile-change', 'verified-change', 'message-history-unsynced', 'keychange')) AND
+       (json_extract(json, '$.expirationTimerUpdate.fromSync') IS NULL OR json_extract(json, '$.expirationTimerUpdate.fromSync') != 1)
+     ORDER BY received_at DESC
+     LIMIT 1;`,
+    {
+      $conversationId: conversationId,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
+async function getLastConversationPreview(
+  conversationId: string
+): Promise<MessageType | null> {
+  const db = getInstance();
+  const row = await db.get(
+    `SELECT * FROM messages WHERE
+       conversationId = $conversationId AND
+       (type IS NULL OR type NOT IN ('profile-change', 'verified-change', 'message-history-unsynced'))
+     ORDER BY received_at DESC
+     LIMIT 1;`,
+    {
+      $conversationId: conversationId,
+    }
+  );
+
+  if (!row) {
+    return null;
+  }
+
+  return jsonToObject(row.json);
+}
 async function getOldestUnreadMessageForConversation(conversationId: string) {
   const db = getInstance();
   const row = await db.get(
@@ -2756,6 +2850,25 @@ async function getMessageMetricsForConversation(conversationId: string) {
   };
 }
 getMessageMetricsForConversation.needsSerial = true;
+
+async function migrateConversationMessages(
+  obsoleteId: string,
+  currentId: string
+) {
+  const db = getInstance();
+
+  await db.run(
+    `UPDATE messages SET
+      conversationId = $currentId,
+      json = json_set(json, '$.conversationId', $currentId)
+     WHERE conversationId = $obsoleteId;`,
+    {
+      $obsoleteId: obsoleteId,
+      $currentId: currentId,
+    }
+  );
+}
+migrateConversationMessages.needsSerial = true;
 
 async function getMessagesBySentAt(sentAt: number) {
   const db = getInstance();

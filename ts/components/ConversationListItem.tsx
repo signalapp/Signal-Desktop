@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { isNumber } from 'lodash';
 
 import { Avatar } from './Avatar';
 import { MessageBody } from './conversation/MessageBody';
@@ -8,28 +9,43 @@ import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 import { cleanId } from './_util';
 
-import { ColorType, LocalizerType } from '../types/Util';
+import { LocalizerType } from '../types/Util';
+import { ColorType } from '../types/Colors';
+
+export const MessageStatuses = [
+  'sending',
+  'sent',
+  'delivered',
+  'read',
+  'error',
+  'partial-sent',
+] as const;
+
+export type MessageStatusType = typeof MessageStatuses[number];
 
 export type PropsData = {
   id: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   color?: ColorType;
   profileName?: string;
+  title: string;
   name?: string;
   type: 'group' | 'direct';
   avatarPath?: string;
-  isMe: boolean;
+  isMe?: boolean;
+  muteExpiresAt?: number;
 
   lastUpdated: number;
-  unreadCount: number;
+  unreadCount?: number;
   isSelected: boolean;
 
+  isAccepted?: boolean;
   draftPreview?: string;
   shouldShowDraft?: boolean;
 
   typingContact?: Object;
   lastMessage?: {
-    status: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
+    status: MessageStatusType;
     text: string;
     deletedForEveryone?: boolean;
   };
@@ -41,7 +57,7 @@ type PropsHousekeeping = {
   onClick?: (id: string) => void;
 };
 
-type Props = PropsData & PropsHousekeeping;
+export type Props = PropsData & PropsHousekeeping;
 
 export class ConversationListItem extends React.PureComponent<Props> {
   public renderAvatar() {
@@ -54,6 +70,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       name,
       phoneNumber,
       profileName,
+      title,
     } = this.props;
 
     return (
@@ -67,6 +84,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
+          title={title}
           size={52}
         />
         {this.renderUnread()}
@@ -77,7 +95,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
   public renderUnread() {
     const { unreadCount } = this.props;
 
-    if (unreadCount > 0) {
+    if (isNumber(unreadCount) && unreadCount > 0) {
       return (
         <div className="module-conversation-list-item__unread-count">
           {unreadCount}
@@ -97,14 +115,17 @@ export class ConversationListItem extends React.PureComponent<Props> {
       name,
       phoneNumber,
       profileName,
+      title,
     } = this.props;
+
+    const withUnread = isNumber(unreadCount) && unreadCount > 0;
 
     return (
       <div className="module-conversation-list-item__header">
         <div
           className={classNames(
             'module-conversation-list-item__header__name',
-            unreadCount > 0
+            withUnread
               ? 'module-conversation-list-item__header__name--with-unread'
               : null
           )}
@@ -116,13 +137,15 @@ export class ConversationListItem extends React.PureComponent<Props> {
               phoneNumber={phoneNumber}
               name={name}
               profileName={profileName}
+              title={title}
+              i18n={i18n}
             />
           )}
         </div>
         <div
           className={classNames(
             'module-conversation-list-item__header__date',
-            unreadCount > 0
+            withUnread
               ? 'module-conversation-list-item__header__date--has-unread'
               : null
           )}
@@ -131,7 +154,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
             timestamp={lastUpdated}
             extended={false}
             module="module-conversation-list-item__header__timestamp"
-            withUnread={unreadCount > 0}
+            withUnread={withUnread}
             i18n={i18n}
           />
         </div>
@@ -143,7 +166,9 @@ export class ConversationListItem extends React.PureComponent<Props> {
     const {
       draftPreview,
       i18n,
+      isAccepted,
       lastMessage,
+      muteExpiresAt,
       shouldShowDraft,
       typingContact,
       unreadCount,
@@ -152,6 +177,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
       return null;
     }
 
+    const withUnread = isNumber(unreadCount) && unreadCount > 0;
     const showingDraft = shouldShowDraft && draftPreview;
     const deletedForEveryone = Boolean(
       lastMessage && lastMessage.deletedForEveryone
@@ -172,12 +198,19 @@ export class ConversationListItem extends React.PureComponent<Props> {
           dir="auto"
           className={classNames(
             'module-conversation-list-item__message__text',
-            unreadCount > 0
+            withUnread
               ? 'module-conversation-list-item__message__text--has-unread'
               : null
           )}
         >
-          {typingContact ? (
+          {muteExpiresAt && (
+            <span className="module-conversation-list-item__muted" />
+          )}
+          {!isAccepted ? (
+            <span className="module-conversation-list-item__message-request">
+              {i18n('ConversationListItem--message-request')}
+            </span>
+          ) : typingContact ? (
             <TypingAnimation i18n={i18n} />
           ) : (
             <>
@@ -213,6 +246,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
 
   public render() {
     const { unreadCount, onClick, id, isSelected, style } = this.props;
+    const withUnread = isNumber(unreadCount) && unreadCount > 0;
 
     return (
       <button
@@ -224,7 +258,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
         style={style}
         className={classNames(
           'module-conversation-list-item',
-          unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
+          withUnread ? 'module-conversation-list-item--has-unread' : null,
           isSelected ? 'module-conversation-list-item--is-selected' : null
         )}
         data-id={cleanId(id)}

@@ -367,7 +367,10 @@ async function showFallbackReadOnlyDialog(
     type: 'warning',
     buttons: [locale.messages.ok.message],
     title: locale.messages.cannotUpdate.message,
-    message: locale.i18n('readOnlyVolume', ['Signal.app', '/Applications']),
+    message: locale.i18n('readOnlyVolume', {
+      app: 'Signal.app',
+      folder: '/Applications',
+    }),
   };
 
   showingReadOnlyDialog = true;

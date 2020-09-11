@@ -3,6 +3,9 @@
 const { bindActionCreators } = require('redux');
 const Backbone = require('../../ts/backbone');
 const Crypto = require('../../ts/Crypto');
+const {
+  start: conversationControllerStart,
+} = require('../../ts/ConversationController');
 const Data = require('../../ts/sql/Client').default;
 const Emojis = require('./emojis');
 const EmojiLib = require('../../ts/components/emoji/lib');
@@ -11,6 +14,7 @@ const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
 const Stickers = require('./stickers');
 const Settings = require('./settings');
+const RemoteConfig = require('../../ts/RemoteConfig');
 const Util = require('../../ts/util');
 const Metadata = require('./metadata/SecretSessionCipher');
 const RefreshSenderCertificate = require('./refresh_sender_certificate');
@@ -40,15 +44,25 @@ const {
 } = require('../../ts/components/conversation/MessageDetail');
 const { Quote } = require('../../ts/components/conversation/Quote');
 const {
+  SafetyNumberChangeDialog,
+} = require('../../ts/components/SafetyNumberChangeDialog');
+const {
   StagedLinkPreview,
 } = require('../../ts/components/conversation/StagedLinkPreview');
+const {
+  getCallingNotificationText,
+} = require('../../ts/components/conversation/CallingNotification');
 
 // State
 const { createTimeline } = require('../../ts/state/roots/createTimeline');
 const {
   createCompositionArea,
 } = require('../../ts/state/roots/createCompositionArea');
+const { createCallManager } = require('../../ts/state/roots/createCallManager');
 const { createLeftPane } = require('../../ts/state/roots/createLeftPane');
+const {
+  createSafetyNumberViewer,
+} = require('../../ts/state/roots/createSafetyNumberViewer');
 const {
   createStickerManager,
 } = require('../../ts/state/roots/createStickerManager');
@@ -60,6 +74,7 @@ const {
 } = require('../../ts/state/roots/createShortcutGuideModal');
 
 const { createStore } = require('../../ts/state/createStore');
+const callingDuck = require('../../ts/state/ducks/calling');
 const conversationsDuck = require('../../ts/state/ducks/conversations');
 const emojisDuck = require('../../ts/state/ducks/emojis');
 const expirationDuck = require('../../ts/state/ducks/expiration');
@@ -99,6 +114,8 @@ const {
 const {
   initializeUpdateListener,
 } = require('../../ts/services/updateListener');
+const { notify } = require('../../ts/services/notify');
+const { calling } = require('../../ts/services/calling');
 
 function initializeMigrations({
   userDataPath,
@@ -264,11 +281,13 @@ exports.setup = (options = {}) => {
     ContactListItem,
     ConversationHeader,
     Emojify,
+    getCallingNotificationText,
     Lightbox,
     LightboxGallery,
     MediaGallery,
     MessageDetail,
     Quote,
+    SafetyNumberChangeDialog,
     StagedLinkPreview,
     Types: {
       Message: MediaGalleryMessage,
@@ -276,8 +295,10 @@ exports.setup = (options = {}) => {
   };
 
   const Roots = {
+    createCallManager,
     createCompositionArea,
     createLeftPane,
+    createSafetyNumberViewer,
     createShortcutGuideModal,
     createStickerManager,
     createStickerPreviewModal,
@@ -285,6 +306,7 @@ exports.setup = (options = {}) => {
   };
 
   const Ducks = {
+    calling: callingDuck,
     conversations: conversationsDuck,
     emojis: emojisDuck,
     expiration: expirationDuck,
@@ -304,6 +326,8 @@ exports.setup = (options = {}) => {
   const Services = {
     initializeNetworkObserver,
     initializeUpdateListener,
+    notify,
+    calling,
   };
 
   const State = {
@@ -340,6 +364,7 @@ exports.setup = (options = {}) => {
     Backbone,
     Components,
     Crypto,
+    conversationControllerStart,
     Data,
     Emojis,
     EmojiLib,
@@ -350,6 +375,7 @@ exports.setup = (options = {}) => {
     Notifications,
     OS,
     RefreshSenderCertificate,
+    RemoteConfig,
     Settings,
     Services,
     State,

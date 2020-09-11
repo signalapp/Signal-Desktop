@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Measure from 'react-measure';
 import { drop, groupBy, orderBy, take } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
+import moment, { Moment } from 'moment';
 
 import { Avatar } from '../Avatar';
 import { Spinner } from '../Spinner';
@@ -39,7 +40,8 @@ import { ContactType } from '../../types/Contact';
 
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
-import { ColorType, LocalizerType } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
+import { ColorType } from '../../types/Colors';
 import { createRefMerger } from '../_util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
@@ -49,16 +51,39 @@ interface Trigger {
 
 // Same as MIN_WIDTH in ImageGrid.tsx
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
+const MINIMUM_LINK_PREVIEW_DATE = new Date(1990, 0, 1).valueOf();
 const STICKER_SIZE = 200;
 const SELECTED_TIMEOUT = 1000;
+const ONE_DAY = 24 * 60 * 60 * 1000;
 
 interface LinkPreviewType {
   title: string;
+  description?: string;
   domain: string;
   url: string;
   isStickerPack: boolean;
   image?: AttachmentType;
+  date?: number;
 }
+
+export const MessageStatuses = [
+  'delivered',
+  'error',
+  'partial-sent',
+  'read',
+  'sending',
+  'sent',
+] as const;
+export type MessageStatusType = typeof MessageStatuses[number];
+
+export const InteractionModes = ['mouse', 'keyboard'] as const;
+export type InteractionModeType = typeof InteractionModes[number];
+
+export const Directions = ['incoming', 'outgoing'] as const;
+export type DirectionType = typeof Directions[number];
+
+export const ConversationTypes = ['direct', 'group'] as const;
+export type ConversationTypesType = typeof ConversationTypes[number];
 
 export type PropsData = {
   id: string;
@@ -68,17 +93,17 @@ export type PropsData = {
   isSticker?: boolean;
   isSelected?: boolean;
   isSelectedCounter?: number;
-  interactionMode: 'mouse' | 'keyboard';
-  direction: 'incoming' | 'outgoing';
+  interactionMode: InteractionModeType;
+  direction: DirectionType;
   timestamp: number;
-  status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
+  status?: MessageStatusType;
   contact?: ContactType;
+  authorTitle: string;
   authorName?: string;
   authorProfileName?: string;
-  /** Note: this should be formatted for display */
-  authorPhoneNumber: string;
+  authorPhoneNumber?: string;
   authorColor?: ColorType;
-  conversationType: 'group' | 'direct';
+  conversationType: ConversationTypesType;
   attachments?: Array<AttachmentType>;
   quote?: {
     text: string;
@@ -86,8 +111,9 @@ export type PropsData = {
     isFromMe: boolean;
     sentAt: number;
     authorId: string;
-    authorPhoneNumber: string;
+    authorPhoneNumber?: string;
     authorProfileName?: string;
+    authorTitle: string;
     authorName?: string;
     authorColor?: ColorType;
     referencedMessageNotFound: boolean;
@@ -380,6 +406,71 @@ export class Message extends React.PureComponent<Props, State> {
     }
   }
 
+  public renderTimestamp() {
+    const {
+      direction,
+      i18n,
+      id,
+      isSticker,
+      isTapToViewExpired,
+      showMessageDetail,
+      status,
+      text,
+      timestamp,
+    } = this.props;
+
+    const isShowingImage = this.isShowingImage();
+    const withImageNoCaption = Boolean(!isSticker && !text && isShowingImage);
+
+    const isError = status === 'error' && direction === 'outgoing';
+    const isPartiallySent =
+      status === 'partial-sent' && direction === 'outgoing';
+
+    if (isError || isPartiallySent) {
+      return (
+        <span
+          className={classNames({
+            'module-message__metadata__date': true,
+            'module-message__metadata__date--with-sticker': isSticker,
+            [`module-message__metadata__date--${direction}`]: !isSticker,
+            'module-message__metadata__date--with-image-no-caption': withImageNoCaption,
+          })}
+        >
+          {isError ? (
+            i18n('sendFailed')
+          ) : (
+            <button
+              className="module-message__metadata__tapable"
+              onClick={(event: React.MouseEvent) => {
+                event.stopPropagation();
+                event.preventDefault();
+
+                showMessageDetail(id);
+              }}
+            >
+              {i18n('partiallySent')}
+            </button>
+          )}
+        </span>
+      );
+    }
+
+    const metadataDirection = isSticker ? undefined : direction;
+
+    return (
+      <Timestamp
+        i18n={i18n}
+        timestamp={timestamp}
+        extended={true}
+        direction={metadataDirection}
+        withImageNoCaption={withImageNoCaption}
+        withSticker={isSticker}
+        withTapToViewExpired={isTapToViewExpired}
+        module="module-message__metadata__date"
+      />
+    );
+  }
+
   // tslint:disable-next-line cyclomatic-complexity
   public renderMetadata() {
     const {
@@ -387,14 +478,12 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       expirationLength,
       expirationTimestamp,
-      i18n,
       isSticker,
       isTapToViewExpired,
       reactions,
       status,
       text,
       textPending,
-      timestamp,
     } = this.props;
 
     if (collapseMetadata) {
@@ -404,7 +493,6 @@ export class Message extends React.PureComponent<Props, State> {
     const isShowingImage = this.isShowingImage();
     const withImageNoCaption = Boolean(!isSticker && !text && isShowingImage);
     const withReactions = reactions && reactions.length > 0;
-    const showError = status === 'error' && direction === 'outgoing';
     const metadataDirection = isSticker ? undefined : direction;
 
     return (
@@ -418,33 +506,7 @@ export class Message extends React.PureComponent<Props, State> {
             : null
         )}
       >
-        {showError ? (
-          <span
-            className={classNames(
-              'module-message__metadata__date',
-              isSticker ? 'module-message__metadata__date--with-sticker' : null,
-              !isSticker
-                ? `module-message__metadata__date--${direction}`
-                : null,
-              withImageNoCaption
-                ? 'module-message__metadata__date--with-image-no-caption'
-                : null
-            )}
-          >
-            {i18n('sendFailed')}
-          </span>
-        ) : (
-          <Timestamp
-            i18n={i18n}
-            timestamp={timestamp}
-            extended={true}
-            direction={metadataDirection}
-            withImageNoCaption={withImageNoCaption}
-            withSticker={isSticker}
-            withTapToViewExpired={isTapToViewExpired}
-            module="module-message__metadata__date"
-          />
-        )}
+        {this.renderTimestamp()}
         {expirationLength && expirationTimestamp ? (
           <ExpireTimer
             direction={metadataDirection}
@@ -460,7 +522,10 @@ export class Message extends React.PureComponent<Props, State> {
             <Spinner svgSize="small" size="14px" direction={direction} />
           </div>
         ) : null}
-        {!textPending && direction === 'outgoing' && status !== 'error' ? (
+        {!textPending &&
+        direction === 'outgoing' &&
+        status !== 'error' &&
+        status !== 'partial-sent' ? (
           <div
             className={classNames(
               'module-message__metadata__status-icon',
@@ -483,12 +548,14 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderAuthor() {
     const {
+      authorTitle,
       authorName,
       authorPhoneNumber,
       authorProfileName,
       collapseMetadata,
       conversationType,
       direction,
+      i18n,
       isSticker,
       isTapToView,
       isTapToViewExpired,
@@ -498,9 +565,11 @@ export class Message extends React.PureComponent<Props, State> {
       return;
     }
 
-    const title = authorName ? authorName : authorPhoneNumber;
-
-    if (direction !== 'incoming' || conversationType !== 'group' || !title) {
+    if (
+      direction !== 'incoming' ||
+      conversationType !== 'group' ||
+      !authorTitle
+    ) {
       return null;
     }
 
@@ -515,10 +584,12 @@ export class Message extends React.PureComponent<Props, State> {
     return (
       <div className={moduleName}>
         <ContactName
+          title={authorTitle}
           phoneNumber={authorPhoneNumber}
           name={authorName}
           profileName={authorProfileName}
           module={moduleName}
+          i18n={i18n}
         />
       </div>
     );
@@ -627,6 +698,9 @@ export class Message extends React.PureComponent<Props, State> {
               : null,
             withContentAbove
               ? 'module-message__generic-attachment--with-content-above'
+              : null,
+            !firstAttachment.url
+              ? 'module-message__generic-attachment--not-active'
               : null
           )}
           // There's only ever one of these, so we don't want users to tab into it
@@ -634,6 +708,10 @@ export class Message extends React.PureComponent<Props, State> {
           onClick={(event: React.MouseEvent) => {
             event.stopPropagation();
             event.preventDefault();
+
+            if (!firstAttachment.url) {
+              return;
+            }
 
             this.openGenericAttachment();
           }}
@@ -718,6 +796,15 @@ export class Message extends React.PureComponent<Props, State> {
       width &&
       width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH;
 
+    // Don't show old dates or dates too far in the future. This is predicated on the
+    //   idea that showing an invalid dates is worse than hiding valid ones.
+    const maximumLinkPreviewDate = Date.now() + ONE_DAY;
+    const isDateValid: boolean =
+      typeof first.date === 'number' &&
+      first.date > MINIMUM_LINK_PREVIEW_DATE &&
+      first.date < maximumLinkPreviewDate;
+    const dateMoment: Moment | null = isDateValid ? moment(first.date) : null;
+
     return (
       <button
         className={classNames(
@@ -787,8 +874,23 @@ export class Message extends React.PureComponent<Props, State> {
             <div className="module-message__link-preview__title">
               {first.title}
             </div>
-            <div className="module-message__link-preview__location">
-              {first.domain}
+            {first.description && (
+              <div className="module-message__link-preview__description">
+                {first.description}
+              </div>
+            )}
+            <div className="module-message__link-preview__footer">
+              <div className="module-message__link-preview__location">
+                {first.domain}
+              </div>
+              {dateMoment && (
+                <time
+                  className="module-message__link-preview__date"
+                  dateTime={dateMoment.toISOString()}
+                >
+                  {dateMoment.format('ll')}
+                </time>
+              )}
             </div>
           </div>
         </div>
@@ -837,6 +939,7 @@ export class Message extends React.PureComponent<Props, State> {
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
         authorColor={quoteColor}
+        authorTitle={quote.authorTitle}
         referencedMessageNotFound={referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}
@@ -907,6 +1010,7 @@ export class Message extends React.PureComponent<Props, State> {
       authorName,
       authorPhoneNumber,
       authorProfileName,
+      authorTitle,
       collapseMetadata,
       authorColor,
       conversationType,
@@ -932,6 +1036,7 @@ export class Message extends React.PureComponent<Props, State> {
           name={authorName}
           phoneNumber={authorPhoneNumber}
           profileName={authorProfileName}
+          title={authorTitle}
           size={28}
         />
       </div>
@@ -981,7 +1086,7 @@ export class Message extends React.PureComponent<Props, State> {
   public renderError(isCorrectSide: boolean) {
     const { status, direction } = this.props;
 
-    if (!isCorrectSide || status !== 'error') {
+    if (!isCorrectSide || (status !== 'error' && status !== 'partial-sent')) {
       return null;
     }
 
@@ -1117,7 +1222,7 @@ export class Message extends React.PureComponent<Props, State> {
           )}
         >
           {canReply ? reactButton : null}
-          {downloadButton}
+          {canReply ? downloadButton : null}
           {canReply ? replyButton : null}
           {menuButton}
         </div>
@@ -1879,6 +1984,15 @@ export class Message extends React.PureComponent<Props, State> {
     const { text } = this.props;
     if (text && text.length > 0) {
       return;
+    }
+
+    // If there an incomplete attachment, do not execute the default action
+    const { attachments } = this.props;
+    if (attachments && attachments.length > 0) {
+      const [firstAttachment] = attachments;
+      if (!firstAttachment.url) {
+        return;
+      }
     }
 
     this.handleOpen(event);

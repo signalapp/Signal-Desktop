@@ -50,6 +50,25 @@
     },
   });
 
+  const MediaCameraPermissionsSettingView = Whisper.View.extend({
+    initialize(options) {
+      this.value = options.value;
+      this.setFn = options.setFn;
+      this.populate();
+    },
+    events: {
+      change: 'change',
+    },
+    change(e) {
+      this.value = e.target.checked;
+      this.setFn(this.value);
+      window.log.info('media-camera-permissions changed to', this.value);
+    },
+    populate() {
+      this.$('input').prop('checked', Boolean(this.value));
+    },
+  });
+
   const RadioButtonGroupView = Whisper.View.extend({
     initialize(options) {
       this.name = options.name;
@@ -94,6 +113,14 @@
           window.setThemeSetting(theme);
         },
       });
+      if (Settings.isDrawAttentionSupported()) {
+        new CheckboxView({
+          el: this.$('.draw-attention-setting'),
+          name: 'draw-attention-setting',
+          value: window.initialData.notificationDrawAttention,
+          setFn: window.setNotificationDrawAttention,
+        });
+      }
       if (Settings.isAudioNotificationSupported()) {
         new CheckboxView({
           el: this.$('.audio-notification-setting'),
@@ -126,10 +153,39 @@
           setFn: window.setHideMenuBar,
         });
       }
+      new CheckboxView({
+        el: this.$('.always-relay-calls-setting'),
+        name: 'always-relay-calls-setting',
+        value: window.initialData.alwaysRelayCalls,
+        setFn: window.setAlwaysRelayCalls,
+      });
+      new CheckboxView({
+        el: this.$('.call-ringtone-notification-setting'),
+        name: 'call-ringtone-notification-setting',
+        value: window.initialData.callRingtoneNotification,
+        setFn: window.setCallRingtoneNotification,
+      });
+      new CheckboxView({
+        el: this.$('.call-system-notification-setting'),
+        name: 'call-system-notification-setting',
+        value: window.initialData.callSystemNotification,
+        setFn: window.setCallSystemNotification,
+      });
+      new CheckboxView({
+        el: this.$('.incoming-call-notification-setting'),
+        name: 'incoming-call-notification-setting',
+        value: window.initialData.incomingCallNotification,
+        setFn: window.setIncomingCallNotification,
+      });
       new MediaPermissionsSettingView({
         el: this.$('.media-permissions'),
         value: window.initialData.mediaPermissions,
         setFn: window.setMediaPermissions,
+      });
+      new MediaCameraPermissionsSettingView({
+        el: this.$('.media-camera-permissions'),
+        value: window.initialData.mediaCameraPermissions,
+        setFn: window.setMediaCameraPermissions,
       });
       if (!window.initialData.isPrimary) {
         const syncView = new SyncView().render();
@@ -156,9 +212,11 @@
         nameAndMessage: i18n('nameAndMessage'),
         noNameOrMessage: i18n('noNameOrMessage'),
         nameOnly: i18n('nameOnly'),
+        notificationDrawAttention: i18n('notificationDrawAttention'),
         audioNotificationDescription: i18n('audioNotificationDescription'),
         isAudioNotificationSupported: Settings.isAudioNotificationSupported(),
         isHideMenuBarSupported: Settings.isHideMenuBarSupported(),
+        isDrawAttentionSupported: Settings.isDrawAttentionSupported(),
         hasSystemTheme: true,
         themeLight: i18n('themeLight'),
         themeDark: i18n('themeDark'),
@@ -167,8 +225,23 @@
         clearDataHeader: i18n('clearDataHeader'),
         clearDataButton: i18n('clearDataButton'),
         clearDataExplanation: i18n('clearDataExplanation'),
+        calling: i18n('calling'),
+        alwaysRelayCallsDescription: i18n('alwaysRelayCallsDescription'),
+        alwaysRelayCallsDetail: i18n('alwaysRelayCallsDetail'),
+        callRingtoneNotificationDescription: i18n(
+          'callRingtoneNotificationDescription'
+        ),
+        callSystemNotificationDescription: i18n(
+          'callSystemNotificationDescription'
+        ),
+        incomingCallNotificationDescription: i18n(
+          'incomingCallNotificationDescription'
+        ),
         permissions: i18n('permissions'),
         mediaPermissionsDescription: i18n('mediaPermissionsDescription'),
+        mediaCameraPermissionsDescription: i18n(
+          'mediaCameraPermissionsDescription'
+        ),
         generalHeader: i18n('general'),
         spellCheckDescription: i18n('spellCheckDescription'),
         spellCheckHidden: spellCheckDirty ? 'false' : 'true',

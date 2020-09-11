@@ -1,4 +1,4 @@
-/* global Signal, Whisper, assert, textsecure, _, libsignal */
+/* global Signal, Whisper, textsecure, _, libsignal */
 
 /* eslint-disable no-console */
 
@@ -545,6 +545,8 @@ describe('Backup', () => {
           timestamp: 1524185933350,
           type: 'private',
           unreadCount: 0,
+          messageCount: 0,
+          sentMessageCount: 0,
           verified: 0,
           sealedSender: 0,
           version: 2,

@@ -71,6 +71,9 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     recentStickers,
     showIntroduction,
     showPickerHint,
+    // Message Requests
+    ...conversation,
+    conversationType: conversation.type,
   };
 };
 

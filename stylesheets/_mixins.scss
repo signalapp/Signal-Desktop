@@ -152,6 +152,18 @@
     @content;
   }
 }
+
+@mixin dark-mouse-mode() {
+  .dark-theme.mouse-mode & {
+    @content;
+  }
+}
+@mixin ios-mouse-mode() {
+  .ios-theme.mouse-mode & {
+    @content;
+  }
+}
+
 @mixin dark-ios-keyboard-mode() {
   .dark-theme.ios-theme.keyboard-mode & {
     @content;

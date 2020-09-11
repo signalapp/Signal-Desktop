@@ -7,7 +7,7 @@ import { MediaItemType } from '../../LightboxGallery';
 import { missingCaseError } from '../../../util/missingCaseError';
 import { LocalizerType } from '../../../types/Util';
 
-interface Props {
+export interface Props {
   i18n: LocalizerType;
   header?: string;
   type: 'media' | 'documents';

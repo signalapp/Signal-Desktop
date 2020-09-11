@@ -8,6 +8,10 @@ import {
   PropsData as MessageProps,
 } from './Message';
 
+import {
+  CallingNotification,
+  PropsData as CallingNotificationProps,
+} from './CallingNotification';
 import { InlineNotificationWrapper } from './InlineNotificationWrapper';
 import {
   PropsActions as UnsupportedMessageActionsType,
@@ -32,7 +36,15 @@ import {
   PropsData as GroupNotificationProps,
 } from './GroupNotification';
 import { ResetSessionNotification } from './ResetSessionNotification';
+import {
+  ProfileChangeNotification,
+  PropsType as ProfileChangeNotificationPropsType,
+} from './ProfileChangeNotification';
 
+type CallHistoryType = {
+  type: 'callHistory';
+  data: CallingNotificationProps;
+};
 type LinkNotificationType = {
   type: 'linkNotification';
   data: null;
@@ -65,18 +77,26 @@ type ResetSessionNotificationType = {
   type: 'resetSessionNotification';
   data: null;
 };
+type ProfileChangeNotificationType = {
+  type: 'profileChange';
+  data: ProfileChangeNotificationPropsType;
+};
+
 export type TimelineItemType =
+  | CallHistoryType
+  | GroupNotificationType
   | LinkNotificationType
   | MessageType
+  | ProfileChangeNotificationType
   | ResetSessionNotificationType
   | SafetyNumberNotificationType
   | TimerNotificationType
   | UnsupportedMessageType
-  | VerificationNotificationType
-  | GroupNotificationType;
+  | VerificationNotificationType;
 
 type PropsLocalType = {
   conversationId: string;
+  conversationAccepted: boolean;
   item?: TimelineItemType;
   id: string;
   isSelected: boolean;
@@ -120,6 +140,8 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       notification = (
         <UnsupportedMessage {...this.props} {...item.data} i18n={i18n} />
       );
+    } else if (item.type === 'callHistory') {
+      notification = <CallingNotification i18n={i18n} {...item.data} />;
     } else if (item.type === 'linkNotification') {
       notification = (
         <div className="module-message-unsynced">
@@ -146,6 +168,10 @@ export class TimelineItem extends React.PureComponent<PropsType> {
     } else if (item.type === 'resetSessionNotification') {
       notification = (
         <ResetSessionNotification {...this.props} {...item.data} i18n={i18n} />
+      );
+    } else if (item.type === 'profileChange') {
+      notification = (
+        <ProfileChangeNotification {...this.props} {...item.data} i18n={i18n} />
       );
     } else {
       throw new Error('TimelineItem: Unknown type!');

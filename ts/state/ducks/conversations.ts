@@ -12,6 +12,7 @@ import {
 import { trigger } from '../../shims/events';
 import { NoopActionType } from './noop';
 import { AttachmentType } from '../../types/Attachment';
+import { ColorType } from '../../types/Colors';
 
 // State
 
@@ -23,21 +24,38 @@ export type DBConversationType = {
 };
 export type ConversationType = {
   id: string;
+  uuid?: string;
+  e164?: string;
   name?: string;
-  isArchived: boolean;
+  firstName?: string;
+  profileName?: string;
+  avatarPath?: string;
+  color?: ColorType;
+  isArchived?: boolean;
+  isBlocked?: boolean;
+  isVerified?: boolean;
   activeAt?: number;
-  timestamp: number;
-  inboxPosition: number;
+  timestamp?: number;
+  inboxPosition?: number;
   lastMessage?: {
-    status: 'error' | 'sending' | 'sent' | 'delivered' | 'read';
+    status:
+      | 'error'
+      | 'partial-sent'
+      | 'sending'
+      | 'sent'
+      | 'delivered'
+      | 'read';
     text: string;
   };
-  phoneNumber: string;
+  phoneNumber?: string;
+  membersCount?: number;
+  muteExpiresAt?: number;
   type: 'direct' | 'group';
-  isMe: boolean;
+  isMe?: boolean;
   lastUpdated: number;
-  unreadCount: number;
-  isSelected: boolean;
+  title: string;
+  unreadCount?: number;
+  isSelected?: boolean;
   typingContact?: {
     avatarPath?: string;
     color: string;
@@ -49,6 +67,9 @@ export type ConversationType = {
   shouldShowDraft?: boolean;
   draftText?: string;
   draftPreview?: string;
+
+  messageRequestsEnabled?: boolean;
+  acceptedMessageRequest?: boolean;
 };
 export type ConversationLookupType = {
   [key: string]: ConversationType;
@@ -63,7 +84,8 @@ export type MessageType = {
     | 'group'
     | 'keychange'
     | 'verified-change'
-    | 'message-history-unsynced';
+    | 'message-history-unsynced'
+    | 'call-history';
   quote?: { author: string };
   received_at: number;
   hasSignalAccount?: boolean;

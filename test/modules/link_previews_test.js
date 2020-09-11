@@ -4,12 +4,43 @@ const {
   findLinks,
   getTitleMetaTag,
   getImageMetaTag,
+  isLinkSafeToPreview,
   isLinkInWhitelist,
   isLinkSneaky,
   isMediaLinkInWhitelist,
 } = require('../../js/modules/link_previews');
 
 describe('Link previews', () => {
+  describe('#isLinkSafeToPreview', () => {
+    it('returns false for invalid URLs', () => {
+      assert.isFalse(isLinkSafeToPreview(''));
+      assert.isFalse(isLinkSafeToPreview('https'));
+      assert.isFalse(isLinkSafeToPreview('https://'));
+      assert.isFalse(isLinkSafeToPreview('https://bad url'));
+      assert.isFalse(isLinkSafeToPreview('example.com'));
+    });
+
+    it('returns false for non-HTTPS URLs', () => {
+      assert.isFalse(isLinkSafeToPreview('http://example.com'));
+      assert.isFalse(isLinkSafeToPreview('ftp://example.com'));
+      assert.isFalse(isLinkSafeToPreview('file://example'));
+    });
+
+    it('returns false if the link is "sneaky"', () => {
+      // See `isLinkSneaky` tests below for more thorough checking.
+      assert.isFalse(isLinkSafeToPreview('https://user:pass@example.com'));
+      assert.isFalse(isLinkSafeToPreview('https://aquí.example'));
+      assert.isFalse(isLinkSafeToPreview('https://aqu%C3%AD.example'));
+    });
+
+    it('returns true for "safe" urls', () => {
+      assert.isTrue(isLinkSafeToPreview('https://example.com'));
+      assert.isTrue(
+        isLinkSafeToPreview('https://example.com/foo/bar?query=string#hash')
+      );
+    });
+  });
+
   describe('#isLinkInWhitelist', () => {
     it('returns true for valid links', () => {
       assert.strictEqual(isLinkInWhitelist('https://youtube.com/blah'), true);
@@ -395,6 +426,24 @@ describe('Link previews', () => {
     it('returns true for auth (or pretend auth)', () => {
       const link = 'http://whatever.com&login=someuser@77777777';
       assert.strictEqual(isLinkSneaky(link), true);
+    });
+
+    it("returns true if the domain doesn't contain a .", () => {
+      assert.isTrue(isLinkSneaky('https://example'));
+    });
+
+    it('returns true if the domain has any empty labels', () => {
+      assert.isTrue(isLinkSneaky('https://example.'));
+      assert.isTrue(isLinkSneaky('https://example.com.'));
+      assert.isTrue(isLinkSneaky('https://.example.com'));
+      assert.isTrue(isLinkSneaky('https://..example.com'));
+    });
+
+    it('returns true if the domain is longer than 2048 UTF-16 code points', () => {
+      const domain = `${'a'.repeat(2041)}.example`;
+      assert.lengthOf(domain, 2049, 'Test domain is the incorrect length');
+      const link = `https://${domain}/foo/bar`;
+      assert.isTrue(isLinkSneaky(link));
     });
 
     it('returns false for regular @ in url', () => {

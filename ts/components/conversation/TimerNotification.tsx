@@ -7,8 +7,9 @@ import { LocalizerType } from '../../types/Util';
 
 export type PropsData = {
   type: 'fromOther' | 'fromMe' | 'fromSync';
-  phoneNumber: string;
+  phoneNumber?: string;
   profileName?: string;
+  title: string;
   name?: string;
   disabled: boolean;
   timespan: string;
@@ -18,7 +19,7 @@ type PropsHousekeeping = {
   i18n: LocalizerType;
 };
 
-type Props = PropsData & PropsHousekeeping;
+export type Props = PropsData & PropsHousekeeping;
 
 export class TimerNotification extends React.Component<Props> {
   public renderContents() {
@@ -27,6 +28,7 @@ export class TimerNotification extends React.Component<Props> {
       name,
       phoneNumber,
       profileName,
+      title,
       timespan,
       type,
       disabled,
@@ -41,15 +43,19 @@ export class TimerNotification extends React.Component<Props> {
           <Intl
             i18n={i18n}
             id={changeKey}
-            components={[
-              <ContactName
-                key="external-1"
-                phoneNumber={phoneNumber}
-                profileName={profileName}
-                name={name}
-              />,
-              timespan,
-            ]}
+            components={{
+              name: (
+                <ContactName
+                  key="external-1"
+                  phoneNumber={phoneNumber}
+                  profileName={profileName}
+                  title={title}
+                  name={name}
+                  i18n={i18n}
+                />
+              ),
+              time: timespan,
+            }}
           />
         );
       case 'fromMe':

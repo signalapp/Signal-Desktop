@@ -1,7 +1,10 @@
 import * as Backbone from 'backbone';
-import { ColorType, LocalizerType } from './types/Util';
-import { SendOptionsType } from './textsecure/SendMessage';
+
+import { LocalizerType } from './types/Util';
+import { ColorType } from './types/Colors';
 import { ConversationType } from './state/ducks/conversations';
+import { CallingClass, CallHistoryDetailsType } from './services/calling';
+import { SendOptionsType } from './textsecure/SendMessage';
 import { SyncMessageClass } from './textsecure.d';
 
 interface ModelAttributesInterface {
@@ -73,17 +76,20 @@ declare class ConversationModelType extends Backbone.Model<
   id: string;
   cachedProps: ConversationType;
   initialPromise: Promise<any>;
+  messageRequestEnum: typeof SyncMessageClass.MessageRequestResponse.Type;
 
+  addCallHistory(details: CallHistoryDetailsType): void;
   applyMessageRequestResponse(
     response: number,
     options?: { fromSync: boolean }
   ): void;
   cleanup(): Promise<void>;
   disableProfileSharing(): void;
+  dropProfileKey(): Promise<void>;
+  generateProps(): void;
   getAccepted(): boolean;
   getAvatarPath(): string | undefined;
   getColor(): ColorType | undefined;
-  getIsAddedByContact(): boolean;
   getName(): string | undefined;
   getNumber(): string;
   getProfileName(): string | undefined;
@@ -92,6 +98,7 @@ declare class ConversationModelType extends Backbone.Model<
   getSendOptions(options?: any): SendOptionsType | undefined;
   getTitle(): string;
   idForLogging(): string;
+  isFromOrAddedByTrustedContact(): boolean;
   isVerified(): boolean;
   safeGetVerified(): Promise<number>;
   setProfileKey(profileKey?: string | null): Promise<void>;

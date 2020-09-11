@@ -6,6 +6,7 @@ export type Message = (
   | UserMessage
   | VerifiedChangeMessage
   | MessageHistoryUnsyncedMessage
+  | ProfileChangeNotificationMessage
 ) & { deletedForEveryone?: boolean };
 export type UserMessage = IncomingMessage | OutgoingMessage;
 
@@ -72,6 +73,14 @@ export type VerifiedChangeMessage = Readonly<
 export type MessageHistoryUnsyncedMessage = Readonly<
   {
     type: 'message-history-unsynced';
+  } & SharedMessageProperties &
+    MessageSchemaVersion5 &
+    ExpirationTimerUpdate
+>;
+
+export type ProfileChangeNotificationMessage = Readonly<
+  {
+    type: 'profile-change';
   } & SharedMessageProperties &
     MessageSchemaVersion5 &
     ExpirationTimerUpdate

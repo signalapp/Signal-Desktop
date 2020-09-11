@@ -15,7 +15,7 @@ import { Image } from './Image';
 
 import { LocalizerType } from '../../types/Util';
 
-interface Props {
+export interface Props {
   attachments: Array<AttachmentType>;
   withContentAbove?: boolean;
   withContentBelow?: boolean;
@@ -76,6 +76,7 @@ export class ImageGrid extends React.Component<Props> {
           <Image
             alt={getAlt(attachments[0], i18n)}
             i18n={i18n}
+            blurHash={attachments[0].blurHash}
             bottomOverlay={withBottomOverlay}
             noBorder={isSticker}
             noBackground={isSticker}
@@ -103,6 +104,7 @@ export class ImageGrid extends React.Component<Props> {
             alt={getAlt(attachments[0], i18n)}
             i18n={i18n}
             attachment={attachments[0]}
+            blurHash={attachments[0].blurHash}
             bottomOverlay={withBottomOverlay}
             noBorder={false}
             curveTopLeft={curveTopLeft}
@@ -117,6 +119,7 @@ export class ImageGrid extends React.Component<Props> {
           <Image
             alt={getAlt(attachments[1], i18n)}
             i18n={i18n}
+            blurHash={attachments[1].blurHash}
             bottomOverlay={withBottomOverlay}
             noBorder={false}
             curveTopRight={curveTopRight}
@@ -139,6 +142,7 @@ export class ImageGrid extends React.Component<Props> {
           <Image
             alt={getAlt(attachments[0], i18n)}
             i18n={i18n}
+            blurHash={attachments[0].blurHash}
             bottomOverlay={withBottomOverlay}
             noBorder={false}
             curveTopLeft={curveTopLeft}
@@ -155,6 +159,7 @@ export class ImageGrid extends React.Component<Props> {
             <Image
               alt={getAlt(attachments[1], i18n)}
               i18n={i18n}
+              blurHash={attachments[1].blurHash}
               curveTopRight={curveTopRight}
               height={99}
               width={99}
@@ -167,6 +172,7 @@ export class ImageGrid extends React.Component<Props> {
             <Image
               alt={getAlt(attachments[2], i18n)}
               i18n={i18n}
+              blurHash={attachments[2].blurHash}
               bottomOverlay={withBottomOverlay}
               noBorder={false}
               curveBottomRight={curveBottomRight}
@@ -191,6 +197,7 @@ export class ImageGrid extends React.Component<Props> {
               <Image
                 alt={getAlt(attachments[0], i18n)}
                 i18n={i18n}
+                blurHash={attachments[0].blurHash}
                 curveTopLeft={curveTopLeft}
                 noBorder={false}
                 attachment={attachments[0]}
@@ -204,6 +211,7 @@ export class ImageGrid extends React.Component<Props> {
               <Image
                 alt={getAlt(attachments[1], i18n)}
                 i18n={i18n}
+                blurHash={attachments[1].blurHash}
                 curveTopRight={curveTopRight}
                 playIconOverlay={isVideoAttachment(attachments[1])}
                 noBorder={false}
@@ -219,6 +227,7 @@ export class ImageGrid extends React.Component<Props> {
               <Image
                 alt={getAlt(attachments[2], i18n)}
                 i18n={i18n}
+                blurHash={attachments[2].blurHash}
                 bottomOverlay={withBottomOverlay}
                 noBorder={false}
                 curveBottomLeft={curveBottomLeft}
@@ -233,6 +242,7 @@ export class ImageGrid extends React.Component<Props> {
               <Image
                 alt={getAlt(attachments[3], i18n)}
                 i18n={i18n}
+                blurHash={attachments[3].blurHash}
                 bottomOverlay={withBottomOverlay}
                 noBorder={false}
                 curveBottomRight={curveBottomRight}
@@ -262,6 +272,7 @@ export class ImageGrid extends React.Component<Props> {
             <Image
               alt={getAlt(attachments[0], i18n)}
               i18n={i18n}
+              blurHash={attachments[0].blurHash}
               curveTopLeft={curveTopLeft}
               attachment={attachments[0]}
               playIconOverlay={isVideoAttachment(attachments[0])}
@@ -274,6 +285,7 @@ export class ImageGrid extends React.Component<Props> {
             <Image
               alt={getAlt(attachments[1], i18n)}
               i18n={i18n}
+              blurHash={attachments[1].blurHash}
               curveTopRight={curveTopRight}
               playIconOverlay={isVideoAttachment(attachments[1])}
               height={149}
@@ -288,6 +300,7 @@ export class ImageGrid extends React.Component<Props> {
             <Image
               alt={getAlt(attachments[2], i18n)}
               i18n={i18n}
+              blurHash={attachments[2].blurHash}
               bottomOverlay={withBottomOverlay}
               noBorder={isSticker}
               curveBottomLeft={curveBottomLeft}
@@ -302,6 +315,7 @@ export class ImageGrid extends React.Component<Props> {
             <Image
               alt={getAlt(attachments[3], i18n)}
               i18n={i18n}
+              blurHash={attachments[3].blurHash}
               bottomOverlay={withBottomOverlay}
               noBorder={isSticker}
               playIconOverlay={isVideoAttachment(attachments[3])}
@@ -315,6 +329,7 @@ export class ImageGrid extends React.Component<Props> {
             <Image
               alt={getAlt(attachments[4], i18n)}
               i18n={i18n}
+              blurHash={attachments[4].blurHash}
               bottomOverlay={withBottomOverlay}
               noBorder={isSticker}
               curveBottomRight={curveBottomRight}

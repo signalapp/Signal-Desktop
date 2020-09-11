@@ -1,11 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
+import { Blurhash } from 'react-blurhash';
 
 import { Spinner } from '../Spinner';
 import { LocalizerType } from '../../types/Util';
 import { AttachmentType } from '../../types/Attachment';
 
-interface Props {
+export interface Props {
   alt: string;
   attachment: AttachmentType;
   url: string;
@@ -30,6 +31,7 @@ interface Props {
   darkOverlay?: boolean;
   playIconOverlay?: boolean;
   softCorners?: boolean;
+  blurHash?: string;
 
   i18n: LocalizerType;
   onClick?: (attachment: AttachmentType) => void;
@@ -38,7 +40,21 @@ interface Props {
 }
 
 export class Image extends React.Component<Props> {
+  private canClick() {
+    const { onClick, attachment, url } = this.props;
+    const { pending } = attachment || { pending: true };
+
+    return Boolean(onClick && !pending && url);
+  }
+
   public handleClick = (event: React.MouseEvent) => {
+    if (!this.canClick()) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      return;
+    }
+
     const { onClick, attachment } = this.props;
 
     if (onClick) {
@@ -50,6 +66,13 @@ export class Image extends React.Component<Props> {
   };
 
   public handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (!this.canClick()) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      return;
+    }
+
     const { onClick, attachment } = this.props;
 
     if (onClick && (event.key === 'Enter' || event.key === 'Space')) {
@@ -64,6 +87,7 @@ export class Image extends React.Component<Props> {
     const {
       alt,
       attachment,
+      blurHash,
       bottomOverlay,
       closeButton,
       curveBottomLeft,
@@ -71,11 +95,10 @@ export class Image extends React.Component<Props> {
       curveTopLeft,
       curveTopRight,
       darkOverlay,
-      height,
+      height = 0,
       i18n,
       noBackground,
       noBorder,
-      onClick,
       onClickClose,
       onError,
       overlayText,
@@ -84,18 +107,16 @@ export class Image extends React.Component<Props> {
       softCorners,
       tabIndex,
       url,
-      width,
+      width = 0,
     } = this.props;
 
     const { caption, pending } = attachment || { caption: null, pending: true };
-    const canClick = onClick && !pending;
+    const canClick = this.canClick();
 
     const overlayClassName = classNames(
       'module-image__border-overlay',
       noBorder ? null : 'module-image__border-overlay--with-border',
-      canClick && onClick
-        ? 'module-image__border-overlay--with-click-handler'
-        : null,
+      canClick ? 'module-image__border-overlay--with-click-handler' : null,
       curveTopLeft ? 'module-image--curved-top-left' : null,
       curveTopRight ? 'module-image--curved-top-right' : null,
       curveBottomLeft ? 'module-image--curved-bottom-left' : null,
@@ -105,19 +126,14 @@ export class Image extends React.Component<Props> {
       darkOverlay ? 'module-image__border-overlay--dark' : null
     );
 
-    let overlay;
-    if (canClick && onClick) {
-      overlay = (
-        <button
-          className={overlayClassName}
-          onClick={this.handleClick}
-          onKeyDown={this.handleKeyDown}
-          tabIndex={tabIndex}
-        />
-      );
-    } else {
-      overlay = <div className={overlayClassName} />;
-    }
+    const overlay = canClick ? (
+      <button
+        className={overlayClassName}
+        onClick={this.handleClick}
+        onKeyDown={this.handleKeyDown}
+        tabIndex={tabIndex}
+      />
+    ) : null;
 
     return (
       <div
@@ -145,7 +161,7 @@ export class Image extends React.Component<Props> {
           >
             <Spinner svgSize="normal" />
           </div>
-        ) : (
+        ) : url ? (
           <img
             onError={onError}
             className="module-image__image"
@@ -154,7 +170,14 @@ export class Image extends React.Component<Props> {
             width={width}
             src={url}
           />
-        )}
+        ) : blurHash ? (
+          <Blurhash
+            hash={blurHash}
+            width={width}
+            height={height}
+            style={{ display: 'block' }}
+          />
+        ) : null}
         {caption ? (
           <img
             className="module-image__caption-icon"

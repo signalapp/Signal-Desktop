@@ -1,4 +1,4 @@
-// tslint:disable no-backbone-get-set-outside-model no-bitwise no-default-export
+// tslint:disable no-bitwise no-default-export
 
 import { without } from 'lodash';
 import PQueue from 'p-queue';
@@ -9,8 +9,11 @@ import OutgoingMessage from './OutgoingMessage';
 import Crypto from './Crypto';
 import {
   AttachmentPointerClass,
+  CallingMessageClass,
   ContentClass,
   DataMessageClass,
+  StorageServiceCallOptionsType,
+  StorageServiceCredentials,
 } from '../textsecure.d';
 import { MessageError, SignedPreKeyRotationError } from './Errors';
 
@@ -74,7 +77,7 @@ type MessageOptionsType = {
   };
   needsSync?: boolean;
   preview?: Array<PreviewType> | null;
-  profileKey?: string;
+  profileKey?: ArrayBuffer;
   quote?: any;
   recipients: Array<string>;
   sticker?: any;
@@ -93,7 +96,7 @@ class Message {
   };
   needsSync?: boolean;
   preview: any;
-  profileKey?: string;
+  profileKey?: ArrayBuffer;
   quote?: any;
   recipients: Array<string>;
   sticker?: any;
@@ -274,6 +277,8 @@ export type AttachmentType = {
   caption: string;
 
   attachmentPointer?: AttachmentPointerClass;
+
+  blurHash?: string;
 };
 
 export default class MessageSender {
@@ -347,6 +352,9 @@ export default class MessageSender {
     }
     if (attachment.caption) {
       proto.caption = attachment.caption;
+    }
+    if (attachment.blurHash) {
+      proto.blurHash = attachment.blurHash;
     }
 
     return proto;
@@ -804,6 +812,33 @@ export default class MessageSender {
     return Promise.resolve();
   }
 
+  async sendRequestKeySyncMessage(options: SendOptionsType) {
+    const myUuid = window.textsecure.storage.user.getUuid();
+    const myNumber = window.textsecure.storage.user.getNumber();
+    const myDevice = window.textsecure.storage.user.getDeviceId();
+
+    if (myDevice === 1 || myDevice === '1') {
+      return;
+    }
+
+    const request = new window.textsecure.protobuf.SyncMessage.Request();
+    request.type = window.textsecure.protobuf.SyncMessage.Request.Type.KEYS;
+
+    const syncMessage = this.createSyncMessage();
+    syncMessage.request = request;
+    const contentMessage = new window.textsecure.protobuf.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const silent = true;
+    await this.sendIndividualProto(
+      myUuid || myNumber,
+      contentMessage,
+      Date.now(),
+      silent,
+      options
+    );
+  }
+
   async sendTypingMessage(
     options: {
       recipientId: string;
@@ -859,6 +894,53 @@ export default class MessageSender {
         ...sendOptions,
         online,
       }
+    );
+  }
+
+  async sendProfileKeyUpdate(
+    profileKey: ArrayBuffer,
+    recipients: Array<string>,
+    sendOptions: SendOptionsType,
+    groupId?: string
+  ) {
+    return this.sendMessage(
+      {
+        recipients,
+        timestamp: Date.now(),
+        profileKey,
+        flags: window.textsecure.protobuf.DataMessage.Flags.PROFILE_KEY_UPDATE,
+        ...(groupId
+          ? {
+              group: {
+                id: groupId,
+                type: window.textsecure.protobuf.GroupContext.Type.DELIVER,
+              },
+            }
+          : {}),
+      },
+      sendOptions
+    );
+  }
+
+  async sendCallingMessage(
+    recipientId: string,
+    callingMessage: CallingMessageClass,
+    sendOptions?: SendOptionsType
+  ) {
+    const recipients = [recipientId];
+    const finalTimestamp = Date.now();
+
+    const contentMessage = new window.textsecure.protobuf.Content();
+    contentMessage.callingMessage = callingMessage;
+
+    const silent = true;
+
+    await this.sendMessageProtoAndWait(
+      finalTimestamp,
+      recipients,
+      contentMessage,
+      silent,
+      sendOptions
     );
   }
 
@@ -919,7 +1001,11 @@ export default class MessageSender {
     );
   }
   async syncReadMessages(
-    reads: Array<{ sender: string; timestamp: number }>,
+    reads: Array<{
+      senderUuid?: string;
+      senderE164?: string;
+      timestamp: number;
+    }>,
     options?: SendOptionsType
   ) {
     const myNumber = window.textsecure.storage.user.getNumber();
@@ -931,7 +1017,8 @@ export default class MessageSender {
       for (let i = 0; i < reads.length; i += 1) {
         const read = new window.textsecure.protobuf.SyncMessage.Read();
         read.timestamp = reads[i].timestamp;
-        read.sender = reads[i].sender;
+        read.sender = reads[i].senderE164;
+        read.senderUuid = reads[i].senderUuid;
 
         syncMessage.read.push(read);
       }
@@ -982,6 +1069,48 @@ export default class MessageSender {
       Date.now(),
       silent,
       options
+    );
+  }
+
+  async syncMessageRequestResponse(
+    responseArgs: {
+      threadE164?: string;
+      threadUuid?: string;
+      groupId?: string;
+      type: number;
+    },
+    sendOptions?: SendOptionsType
+  ) {
+    const myNumber = window.textsecure.storage.user.getNumber();
+    const myUuid = window.textsecure.storage.user.getUuid();
+    const myDevice = window.textsecure.storage.user.getDeviceId();
+    if (myDevice === 1 || myDevice === '1') {
+      return null;
+    }
+
+    const syncMessage = this.createSyncMessage();
+
+    const response = new window.textsecure.protobuf.SyncMessage.MessageRequestResponse();
+    response.threadE164 = responseArgs.threadE164;
+    response.threadUuid = responseArgs.threadUuid;
+    response.groupId = responseArgs.groupId
+      ? window.Signal.Crypto.fromEncodedBinaryToArrayBuffer(
+          responseArgs.groupId
+        )
+      : null;
+    response.type = responseArgs.type;
+    syncMessage.messageRequestResponse = response;
+
+    const contentMessage = new window.textsecure.protobuf.Content();
+    contentMessage.syncMessage = syncMessage;
+
+    const silent = true;
+    return this.sendIndividualProto(
+      myUuid || myNumber,
+      contentMessage,
+      Date.now(),
+      silent,
+      sendOptions
     );
   }
 
@@ -1152,7 +1281,7 @@ export default class MessageSender {
     reaction: any,
     timestamp: number,
     expireTimer: number | undefined,
-    profileKey?: string,
+    profileKey?: ArrayBuffer,
     flags?: number
   ) {
     const attributes = {
@@ -1195,7 +1324,7 @@ export default class MessageSender {
     reaction: any,
     timestamp: number,
     expireTimer: number | undefined,
-    profileKey?: string,
+    profileKey?: ArrayBuffer,
     options?: SendOptionsType
   ) {
     return this.sendMessage(
@@ -1228,20 +1357,20 @@ export default class MessageSender {
     proto.flags = window.textsecure.protobuf.DataMessage.Flags.END_SESSION;
     proto.timestamp = timestamp;
 
-    const identifier = e164 || uuid;
+    const identifier = uuid || e164;
 
     const logError = (prefix: string) => (error: Error) => {
       window.log.error(prefix, error && error.stack ? error.stack : error);
       throw error;
     };
-    const deleteAllSessions = async (targetNumber: string) =>
+    const deleteAllSessions = async (targetIdentifier: string) =>
       window.textsecure.storage.protocol
-        .getDeviceIds(targetNumber)
+        .getDeviceIds(targetIdentifier)
         .then(async deviceIds =>
           Promise.all(
             deviceIds.map(async deviceId => {
               const address = new window.libsignal.SignalProtocolAddress(
-                targetNumber,
+                targetIdentifier,
                 deviceId
               );
               window.log.info('deleting sessions for', address.toString());
@@ -1277,7 +1406,7 @@ export default class MessageSender {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     // We already sent the reset session to our other devices in the code above!
-    if (e164 === myNumber || uuid === myUuid) {
+    if ((e164 && e164 === myNumber) || (uuid && uuid === myUuid)) {
       return sendToContactPromise;
     }
 
@@ -1308,7 +1437,7 @@ export default class MessageSender {
     reaction: any,
     timestamp: number,
     expireTimer: number | undefined,
-    profileKey?: string,
+    profileKey?: ArrayBuffer,
     options?: SendOptionsType
   ) {
     const myE164 = window.textsecure.storage.user.getNumber();
@@ -1480,7 +1609,7 @@ export default class MessageSender {
     groupIdentifiers: Array<string>,
     expireTimer: number | undefined,
     timestamp: number,
-    profileKey?: string,
+    profileKey?: ArrayBuffer,
     options?: SendOptionsType
   ) {
     const myNumber = window.textsecure.storage.user.getNumber();
@@ -1517,7 +1646,7 @@ export default class MessageSender {
     identifier: string,
     expireTimer: number | undefined,
     timestamp: number,
-    profileKey?: string,
+    profileKey?: ArrayBuffer,
     options?: SendOptionsType
   ) {
     return this.sendMessage(
@@ -1534,5 +1663,22 @@ export default class MessageSender {
   }
   async makeProxiedRequest(url: string, options?: ProxiedRequestOptionsType) {
     return this.server.makeProxiedRequest(url, options);
+  }
+
+  async getStorageCredentials(): Promise<StorageServiceCredentials> {
+    return this.server.getStorageCredentials();
+  }
+
+  async getStorageManifest(
+    options: StorageServiceCallOptionsType
+  ): Promise<ArrayBuffer> {
+    return this.server.getStorageManifest(options);
+  }
+
+  async getStorageRecords(
+    data: ArrayBuffer,
+    options: StorageServiceCallOptionsType
+  ): Promise<ArrayBuffer> {
+    return this.server.getStorageRecords(data, options);
   }
 }

@@ -53,7 +53,7 @@
     }
 
     window.log.info('removing', uuid, 'from blocked list');
-    storage.put(BLOCKED_NUMBERS_ID, _.without(numbers, uuid));
+    storage.put(BLOCKED_UUIDS_ID, _.without(numbers, uuid));
   };
 
   storage.isGroupBlocked = groupId => {

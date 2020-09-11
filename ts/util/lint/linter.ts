@@ -60,6 +60,8 @@ const excludedFiles = [
   '^ts/Crypto.ts',
   '^ts/textsecure/MessageReceiver.js',
   '^ts/textsecure/MessageReceiver.ts',
+  '^ts/ConversationController.js',
+  '^ts/ConversationController.ts',
 
   // Generated files
   '^js/components.js',
@@ -260,6 +262,7 @@ const excludedFiles = [
   '^node_modules/@storybook/.+',
   '^node_modules/cosmiconfig/.+',
   '^node_modules/create-emotion/.+',
+  '^node_modules/gzip-size/.+',
   '^node_modules/markdown-to-jsx/.+',
   '^node_modules/mini-css-extract-plugin/.+',
   '^node_modules/polished.+',
@@ -272,20 +275,13 @@ const excludedFiles = [
   '^node_modules/store2/.+',
   '^node_modules/telejson/.+',
 
-  // Used by Styleguidist
-  '^node_modules/cssnano/.+',
-  '^node_modules/gzip-size/.+',
-  '^node_modules/portfinder/.+',
-  '^node_modules/react-group/.+',
-  '^node_modules/react-styleguidist/.+',
-  '^node_modules/react-docgen-displayname-handler/.+',
-
   // Used by Webpack
   '^node_modules/css-select/.+', // Used by html-webpack-plugin
   '^node_modules/dotenv-webpack/.+',
   '^node_modules/follow-redirects/.+', // Used by webpack-dev-server
   '^node_modules/html-webpack-plugin/.+',
   '^node_modules/node-forge/.+', // Used by webpack-dev-server
+  '^node_modules/portfinder/.+',
   '^node_modules/renderkid/.+', // Used by html-webpack-plugin
   '^node_modules/spdy-transport/.+', // Used by webpack-dev-server
   '^node_modules/spdy/.+', // Used by webpack-dev-server

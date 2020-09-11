@@ -30,11 +30,10 @@
       this.remove(receipts);
       return receipts;
     },
-    async getTargetMessage(source, messages) {
+    async getTargetMessage(sourceId, messages) {
       if (messages.length === 0) {
         return null;
       }
-      const sourceId = ConversationController.getConversationId(source);
       const message = messages.find(
         item => !item.isIncoming() && sourceId === item.get('conversationId')
       );

@@ -8,7 +8,8 @@
   libsignal,
   storage,
   textsecure,
-  Whisper
+  Whisper,
+  Signal
 */
 
 /* eslint-disable more/no-then */
@@ -27,7 +28,7 @@
   };
 
   const { Util } = window.Signal;
-  const { Conversation, Contact, Message } = window.Signal.Types;
+  const { Contact, Message } = window.Signal.Types;
   const {
     deleteAttachmentData,
     doesAttachmentExist,
@@ -38,6 +39,14 @@
     writeNewAttachmentData,
   } = window.Signal.Migrations;
   const { addStickerPackReference } = window.Signal.Data;
+  const {
+    arrayBufferToBase64,
+    base64ToArrayBuffer,
+    deriveAccessKey,
+    getRandomBytes,
+    stringFromBytes,
+    verifyAccessKey,
+  } = window.Signal.Crypto;
 
   const COLORS = [
     'red',
@@ -60,6 +69,8 @@
       return {
         unreadCount: 0,
         verified: textsecure.storage.protocol.VerifiedStatus.DEFAULT,
+        messageCount: 0,
+        sentMessageCount: 0,
       };
     },
 
@@ -72,6 +83,12 @@
 
       const groupId = this.get('groupId');
       return `group(${groupId})`;
+    },
+
+    // This is one of the few times that we want to collapse our uuid/e164 pair down into
+    //   just one bit of data. If we have a UUID, we'll send using it.
+    getSendTarget() {
+      return this.get('uuid') || this.get('e164');
     },
 
     handleMessageError(message, errors) {
@@ -97,6 +114,8 @@
       this.ourNumber = textsecure.storage.user.getNumber();
       this.ourUuid = textsecure.storage.user.getUuid();
       this.verifiedEnum = textsecure.storage.protocol.VerifiedStatus;
+      this.messageRequestEnum =
+        textsecure.protobuf.SyncMessage.MessageRequestResponse.Type;
 
       // This may be overridden by ConversationController.getOrCreate, and signify
       //   our first save to the database. Or first fetch from the database.
@@ -115,6 +134,7 @@
         this.updateLastMessage.bind(this),
         200
       );
+
       this.listenTo(
         this.messageCollection,
         'add remove destroy content-changed',
@@ -149,11 +169,11 @@
       this.typingPauseTimer = null;
 
       // Keep props ready
-      const generateProps = () => {
+      this.generateProps = () => {
         this.cachedProps = this.getProps();
       };
-      this.on('change', generateProps);
-      generateProps();
+      this.on('change', this.generateProps);
+      this.generateProps();
     },
 
     isMe() {
@@ -162,6 +182,69 @@
       return (
         (e164 && e164 === this.ourNumber) || (uuid && uuid === this.ourUuid)
       );
+    },
+
+    isBlocked() {
+      const uuid = this.get('uuid');
+      if (uuid) {
+        return window.storage.isUuidBlocked(uuid);
+      }
+
+      const e164 = this.get('e164');
+      if (e164) {
+        return window.storage.isBlocked(e164);
+      }
+
+      const groupId = this.get('groupId');
+      if (groupId) {
+        return window.storage.isGroupBlocked(groupId);
+      }
+
+      return false;
+    },
+
+    block() {
+      const uuid = this.get('uuid');
+      if (uuid) {
+        window.storage.addBlockedUuid(uuid);
+      }
+
+      const e164 = this.get('e164');
+      if (e164) {
+        window.storage.addBlockedNumber(e164);
+      }
+
+      const groupId = this.get('groupId');
+      if (groupId) {
+        window.storage.addBlockedGroup(groupId);
+      }
+    },
+
+    unblock() {
+      const uuid = this.get('uuid');
+      if (uuid) {
+        window.storage.removeBlockedUuid(uuid);
+      }
+
+      const e164 = this.get('e164');
+      if (e164) {
+        window.storage.removeBlockedNumber(e164);
+      }
+
+      const groupId = this.get('groupId');
+      if (groupId) {
+        window.storage.removeBlockedGroup(groupId);
+      }
+
+      return false;
+    },
+
+    enableProfileSharing() {
+      this.set({ profileSharing: true });
+    },
+
+    disableProfileSharing() {
+      this.set({ profileSharing: false });
     },
 
     hasDraft() {
@@ -259,9 +342,8 @@
       }
 
       const groupId = !this.isPrivate() ? this.get('groupId') : null;
-      const maybeRecipientId = this.get('uuid') || this.get('e164');
-      const recipientId = this.isPrivate() ? maybeRecipientId : null;
       const groupNumbers = this.getRecipients();
+      const recipientId = this.isPrivate() ? this.getSendTarget() : null;
 
       const sendOptions = this.getSendOptions();
 
@@ -320,6 +402,10 @@
         this.messageCollection.remove(id);
         existing.trigger('expired');
         existing.cleanup();
+
+        // An expired message only counts as decrementing the message count, not
+        // the sent message count
+        this.decrementMessageCount();
       };
 
       // If a fetch is in progress, then we need to wait until that's complete to
@@ -332,10 +418,10 @@
 
     async onNewMessage(message) {
       // Clear typing indicator for a given contact if we receive a message from them
-      const identifier = message.get
-        ? `${message.get('source')}.${message.get('sourceDevice')}`
-        : `${message.source}.${message.sourceDevice}`;
-      this.clearContactTypingTimer(identifier);
+      const deviceId = message.get
+        ? `${message.get('conversationId')}.${message.get('sourceDevice')}`
+        : `${message.conversationId}.${message.sourceDevice}`;
+      this.clearContactTypingTimer(deviceId);
 
       this.debouncedUpdateLastMessage();
     },
@@ -375,12 +461,20 @@
       return this.cachedProps;
     },
     getProps() {
+      // This is to prevent race conditions on startup; Conversation models are created
+      //   but the full ConversationController.load() sequence isn't complete. So, we
+      //   don't cache props on create, but we do later when load() calls generateProps()
+      //   for us.
+      if (!window.ConversationController.isFetchComplete()) {
+        return null;
+      }
+
       const color = this.getColor();
 
       const typingValues = _.values(this.contactTypingTimers || {});
       const typingMostRecent = _.first(_.sortBy(typingValues, 'timestamp'));
       const typingContact = typingMostRecent
-        ? ConversationController.getOrCreate(typingMostRecent.sender, 'private')
+        ? ConversationController.get(typingMostRecent.senderId)
         : null;
 
       const timestamp = this.get('timestamp');
@@ -390,35 +484,49 @@
       const shouldShowDraft =
         this.hasDraft() && draftTimestamp && draftTimestamp >= timestamp;
       const inboxPosition = this.get('inbox_position');
+      const messageRequestsEnabled = Signal.RemoteConfig.isEnabled(
+        'desktop.messageRequests'
+      );
 
       const result = {
         id: this.id,
+        uuid: this.get('uuid'),
+        e164: this.get('e164'),
 
-        isArchived: this.get('isArchived'),
+        acceptedMessageRequest: this.getAccepted(),
         activeAt: this.get('active_at'),
         avatarPath: this.getAvatarPath(),
         color,
-        type: this.isPrivate() ? 'direct' : 'group',
-        isMe: this.isMe(),
-        typingContact: typingContact ? typingContact.format() : null,
-        lastUpdated: this.get('timestamp'),
-        name: this.getName(),
-        profileName: this.getProfileName(),
-        timestamp,
-        inboxPosition,
-        title: this.getTitle(),
-        unreadCount: this.get('unreadCount') || 0,
-
-        shouldShowDraft,
         draftPreview,
         draftText,
-
-        phoneNumber: this.getNumber(),
+        firstName: this.get('profileName'),
+        inboxPosition,
+        isAccepted: this.getAccepted(),
+        isArchived: this.get('isArchived'),
+        isBlocked: this.isBlocked(),
+        isMe: this.isMe(),
+        isVerified: this.isVerified(),
         lastMessage: {
           status: this.get('lastMessageStatus'),
           text: this.get('lastMessage'),
           deletedForEveryone: this.get('lastMessageDeletedForEveryone'),
         },
+        lastUpdated: this.get('timestamp'),
+        membersCount: this.isPrivate()
+          ? undefined
+          : (this.get('members') || []).length,
+        messageRequestsEnabled,
+        muteExpiresAt: this.get('muteExpiresAt'),
+        name: this.get('name'),
+        phoneNumber: this.getNumber(),
+        profileName: this.getProfileName(),
+        sharedGroupNames: this.get('sharedGroupNames'),
+        shouldShowDraft,
+        timestamp,
+        title: this.getTitle(),
+        type: this.isPrivate() ? 'direct' : 'group',
+        typingContact: typingContact ? typingContact.format() : null,
+        unreadCount: this.get('unreadCount') || 0,
       };
 
       return result;
@@ -426,7 +534,7 @@
 
     updateE164(e164) {
       const oldValue = this.get('e164');
-      if (e164 !== oldValue) {
+      if (e164 && e164 !== oldValue) {
         this.set('e164', e164);
         window.Signal.Data.updateConversation(this.attributes);
         this.trigger('idUpdated', this, 'e164', oldValue);
@@ -434,19 +542,163 @@
     },
     updateUuid(uuid) {
       const oldValue = this.get('uuid');
-      if (uuid !== oldValue) {
-        this.set('uuid', uuid);
+      if (uuid && uuid !== oldValue) {
+        this.set('uuid', uuid.toLowerCase());
         window.Signal.Data.updateConversation(this.attributes);
         this.trigger('idUpdated', this, 'uuid', oldValue);
       }
     },
     updateGroupId(groupId) {
       const oldValue = this.get('groupId');
-      if (groupId !== oldValue) {
+      if (groupId && groupId !== oldValue) {
         this.set('groupId', groupId);
         window.Signal.Data.updateConversation(this.attributes);
         this.trigger('idUpdated', this, 'groupId', oldValue);
       }
+    },
+
+    incrementMessageCount() {
+      this.set({
+        messageCount: (this.get('messageCount') || 0) + 1,
+      });
+      window.Signal.Data.updateConversation(this.attributes);
+    },
+
+    decrementMessageCount() {
+      this.set({
+        messageCount: Math.max((this.get('messageCount') || 0) - 1, 0),
+      });
+      window.Signal.Data.updateConversation(this.attributes);
+    },
+
+    incrementSentMessageCount() {
+      this.set({
+        messageCount: (this.get('messageCount') || 0) + 1,
+        sentMessageCount: (this.get('sentMessageCount') || 0) + 1,
+      });
+      window.Signal.Data.updateConversation(this.attributes);
+    },
+
+    decrementSentMessageCount() {
+      this.set({
+        messageCount: Math.max((this.get('messageCount') || 0) - 1, 0),
+        sentMessageCount: Math.max((this.get('sentMessageCount') || 0) - 1, 0),
+      });
+      window.Signal.Data.updateConversation(this.attributes);
+    },
+
+    /**
+     * This function is called when a message request is accepted in order to
+     * handle sending read receipts and download any pending attachments.
+     */
+    async handleReadAndDownloadAttachments() {
+      let messages;
+      do {
+        const first = messages ? messages.first() : null;
+
+        // eslint-disable-next-line no-await-in-loop
+        messages = await window.Signal.Data.getOlderMessagesByConversation(
+          this.get('id'),
+          {
+            MessageCollection: Whisper.MessageCollection,
+            limit: 100,
+            receivedAt: first ? first.get('received_at') : null,
+            messageId: first ? first.id : null,
+          }
+        );
+
+        if (!messages.length) {
+          return;
+        }
+
+        const readMessages = messages.filter(
+          m => !m.hasErrors() && m.isIncoming()
+        );
+        const receiptSpecs = readMessages.map(m => ({
+          senderE164: m.get('source'),
+          senderUuid: m.get('sourceUuid'),
+          senderId: ConversationController.ensureContactIds({
+            e164: m.get('source'),
+            uuid: m.get('sourceUuid'),
+          }),
+          timestamp: m.get('sent_at'),
+          hasErrors: m.hasErrors(),
+        }));
+        // eslint-disable-next-line no-await-in-loop
+        await this.sendReadReceiptsFor(receiptSpecs);
+        // eslint-disable-next-line no-await-in-loop
+        await Promise.all(readMessages.map(m => m.queueAttachmentDownloads()));
+      } while (messages.length > 0);
+    },
+
+    async applyMessageRequestResponse(response, { fromSync = false } = {}) {
+      // Apply message request response locally
+      this.set({
+        messageRequestResponseType: response,
+      });
+      window.Signal.Data.updateConversation(this.attributes);
+
+      if (response === this.messageRequestEnum.ACCEPT) {
+        this.unblock();
+        this.enableProfileSharing();
+
+        if (!fromSync) {
+          this.sendProfileKeyUpdate();
+          // Locally accepted
+          await this.handleReadAndDownloadAttachments();
+        }
+      } else if (response === this.messageRequestEnum.BLOCK) {
+        // Block locally, other devices should block upon receiving the sync message
+        this.block();
+        this.disableProfileSharing();
+      } else if (response === this.messageRequestEnum.DELETE) {
+        // Delete messages locally, other devices should delete upon receiving
+        // the sync message
+        this.destroyMessages();
+        this.disableProfileSharing();
+        this.updateLastMessage();
+        if (!fromSync) {
+          this.trigger('unload', 'deleted from message request');
+        }
+      } else if (response === this.messageRequestEnum.BLOCK_AND_DELETE) {
+        // Delete messages locally, other devices should delete upon receiving
+        // the sync message
+        this.destroyMessages();
+        this.disableProfileSharing();
+        this.updateLastMessage();
+        // Block locally, other devices should block upon receiving the sync message
+        this.block();
+        // Leave group if this was a local action
+        if (!fromSync) {
+          this.leaveGroup();
+          this.trigger('unload', 'blocked and deleted from message request');
+        }
+      }
+    },
+
+    async syncMessageRequestResponse(response) {
+      // Let this run, no await
+      this.applyMessageRequestResponse(response);
+
+      const { ourNumber, ourUuid } = this;
+      const { wrap, sendOptions } = ConversationController.prepareForSend(
+        ourNumber || ourUuid,
+        {
+          syncMessage: true,
+        }
+      );
+
+      await wrap(
+        textsecure.messaging.syncMessageRequestResponse(
+          {
+            threadE164: this.get('e164'),
+            threadUuid: this.get('uuid'),
+            groupId: this.get('groupId'),
+            type: response,
+          },
+          sendOptions
+        )
+      );
     },
 
     onMessageError() {
@@ -555,6 +807,8 @@
           verified
         );
       }
+
+      return keyChange;
     },
     sendVerifySyncMessage(e164, uuid, state) {
       // Because syncVerification sends a (null) message to the target of the verify and
@@ -687,6 +941,59 @@
         );
       });
     },
+
+    getSentMessageCount() {
+      return this.get('sentMessageCount') || 0;
+    },
+
+    getMessageRequestResponseType() {
+      return this.get('messageRequestResponseType') || 0;
+    },
+
+    /**
+     * Determine if this conversation should be considered "accepted" in terms
+     * of message requests
+     */
+    getAccepted() {
+      const messageRequestsEnabled = Signal.RemoteConfig.isEnabled(
+        'desktop.messageRequests'
+      );
+
+      if (!messageRequestsEnabled) {
+        return true;
+      }
+
+      if (this.isMe()) {
+        return true;
+      }
+
+      if (
+        this.getMessageRequestResponseType() === this.messageRequestEnum.ACCEPT
+      ) {
+        return true;
+      }
+
+      const isFromOrAddedByTrustedContact = this.isFromOrAddedByTrustedContact();
+      const hasSentMessages = this.getSentMessageCount() > 0;
+      const hasMessagesBeforeMessageRequests =
+        (this.get('messageCountBeforeMessageRequests') || 0) > 0;
+      const hasNoMessages = (this.get('messageCount') || 0) === 0;
+
+      const isEmptyPrivateConvo = hasNoMessages && this.isPrivate();
+      const isEmptyWhitelistedGroup =
+        hasNoMessages && !this.isPrivate() && this.get('profileSharing');
+
+      return (
+        isFromOrAddedByTrustedContact ||
+        hasSentMessages ||
+        hasMessagesBeforeMessageRequests ||
+        // an empty group is the scenario where we need to rely on
+        // whether the profile has already been shared or not
+        isEmptyPrivateConvo ||
+        isEmptyWhitelistedGroup
+      );
+    },
+
     onMemberVerifiedChange() {
       // If the verified state of a member changes, our aggregate state changes.
       // We trigger both events to replicate the behavior of Backbone.Model.set()
@@ -780,6 +1087,64 @@
         ConversationController.getAllGroupsInvolvingId(this.id).then(groups => {
           _.forEach(groups, group => {
             group.addVerifiedChange(this.id, verified, options);
+          });
+        });
+      }
+    },
+
+    async addCallHistory(callHistoryDetails) {
+      const { acceptedTime, endedTime, wasDeclined } = callHistoryDetails;
+      const message = {
+        conversationId: this.id,
+        type: 'call-history',
+        sent_at: endedTime,
+        received_at: endedTime,
+        unread: !wasDeclined && !acceptedTime,
+        callHistoryDetails,
+      };
+
+      const id = await window.Signal.Data.saveMessage(message, {
+        Message: Whisper.Message,
+      });
+      const model = MessageController.register(
+        id,
+        new Whisper.Message({
+          ...message,
+          id,
+        })
+      );
+
+      this.trigger('newmessage', model);
+    },
+
+    async addProfileChange(profileChange, conversationId) {
+      const message = {
+        conversationId: this.id,
+        type: 'profile-change',
+        sent_at: Date.now(),
+        received_at: Date.now(),
+        unread: true,
+        changedId: conversationId || this.id,
+        profileChange,
+      };
+
+      const id = await window.Signal.Data.saveMessage(message, {
+        Message: Whisper.Message,
+      });
+      const model = MessageController.register(
+        id,
+        new Whisper.Message({
+          ...message,
+          id,
+        })
+      );
+
+      this.trigger('newmessage', model);
+
+      if (this.isPrivate()) {
+        ConversationController.getAllGroupsInvolvingId(this.id).then(groups => {
+          _.forEach(groups, group => {
+            group.addProfileChange(profileChange, this.id);
           });
         });
       }
@@ -882,15 +1247,20 @@
 
     getRecipients() {
       if (this.isPrivate()) {
-        return [this.get('uuid') || this.get('e164')];
+        return [this.getSendTarget()];
       }
-      const me = ConversationController.getConversationId(
-        textsecure.storage.user.getUuid() || textsecure.storage.user.getNumber()
+      const me = ConversationController.getOurConversationId();
+
+      // The list of members might not always be conversationIds for old groups.
+      return _.compact(
+        this.get('members').map(memberId => {
+          const c = ConversationController.get(memberId);
+          if (c.id === me) {
+            return null;
+          }
+          return c.getSendTarget();
+        })
       );
-      return _.without(this.get('members'), me).map(memberId => {
-        const c = ConversationController.get(memberId);
-        return c.get('uuid') || c.get('e164');
-      });
     },
 
     async getQuoteAttachment(attachments, preview, sticker) {
@@ -1046,11 +1416,7 @@
 
       const reactionModel = Whisper.Reactions.add({
         ...outgoingReaction,
-        fromId:
-          this.ourNumber ||
-          this.ourUuid ||
-          textsecure.storage.user.getNumber() ||
-          textsecure.storage.user.getUuid(),
+        fromId: ConversationController.getOurConversationId(),
         timestamp,
         fromSync: true,
       });
@@ -1159,13 +1525,38 @@
       });
     },
 
+    async sendProfileKeyUpdate() {
+      const id = this.get('id');
+      const recipients = this.getRecipients();
+      if (!this.get('profileSharing')) {
+        window.log.error(
+          'Attempted to send profileKeyUpdate to conversation without profileSharing enabled',
+          id,
+          recipients
+        );
+        return;
+      }
+      window.log.info(
+        'Sending profileKeyUpdate to conversation',
+        id,
+        recipients
+      );
+      const profileKey = storage.get('profileKey');
+      await textsecure.messaging.sendProfileKeyUpdate(
+        profileKey,
+        recipients,
+        this.getSendOptions(),
+        this.get('groupId')
+      );
+    },
+
     sendMessage(body, attachments, quote, preview, sticker) {
       this.clearTypingTimers();
 
       const { clearUnreadMetrics } = window.reduxActions.conversations;
       clearUnreadMetrics(this.id);
 
-      const destination = this.get('uuid') || this.get('e164');
+      const destination = this.getSendTarget();
       const expireTimer = this.get('expireTimer');
       const recipients = this.getRecipients();
 
@@ -1226,6 +1617,7 @@
           draft: null,
           draftTimestamp: null,
         });
+        this.incrementSentMessageCount();
         window.Signal.Data.updateConversation(this.attributes);
 
         // We're offline!
@@ -1236,7 +1628,7 @@
           ).map(contact => {
             const error = new Error('Network is not available');
             error.name = 'SendMessageNetworkError';
-            error.identifier = contact.get('uuid') || contact.get('e164');
+            error.identifier = contact.get('id');
             return error;
           });
           await message.saveErrors(errors);
@@ -1345,8 +1737,8 @@
 
     async handleMessageSendResult(failoverIdentifiers, unidentifiedDeliveries) {
       await Promise.all(
-        (failoverIdentifiers || []).map(async number => {
-          const conversation = ConversationController.get(number);
+        (failoverIdentifiers || []).map(async identifier => {
+          const conversation = ConversationController.get(identifier);
 
           if (
             conversation &&
@@ -1364,8 +1756,8 @@
       );
 
       await Promise.all(
-        (unidentifiedDeliveries || []).map(async number => {
-          const conversation = ConversationController.get(number);
+        (unidentifiedDeliveries || []).map(async identifier => {
+          const conversation = ConversationController.get(identifier);
 
           if (
             conversation &&
@@ -1409,17 +1801,11 @@
     getSendMetadata(options = {}) {
       const { syncMessage, disableMeCheck } = options;
 
-      if (!this.ourNumber && !this.ourUuid) {
-        return null;
-      }
-
       // START: this code has an Expiration date of ~2018/11/21
       // We don't want to enable unidentified delivery for send unless it is
       //   also enabled for our own account.
-      const me = ConversationController.getOrCreate(
-        this.ourNumber || this.ourUuid,
-        'private'
-      );
+      const myId = ConversationController.getOurConversationId();
+      const me = ConversationController.get(myId);
       if (
         !disableMeCheck &&
         me.get('sealedSender') === SEALED_SENDER.DISABLED
@@ -1450,11 +1836,7 @@
       // If we've never fetched user's profile, we default to what we have
       if (sealedSender === SEALED_SENDER.UNKNOWN) {
         const info = {
-          accessKey:
-            accessKey ||
-            window.Signal.Crypto.arrayBufferToBase64(
-              window.Signal.Crypto.getRandomBytes(16)
-            ),
+          accessKey: accessKey || arrayBufferToBase64(getRandomBytes(16)),
           // Indicates that a client is capable of receiving uuid-only messages.
           // Not used yet.
           uuidCapable,
@@ -1473,9 +1855,7 @@
         accessKey:
           accessKey && sealedSender === SEALED_SENDER.ENABLED
             ? accessKey
-            : window.Signal.Crypto.arrayBufferToBase64(
-                window.Signal.Crypto.getRandomBytes(16)
-              ),
+            : arrayBufferToBase64(getRandomBytes(16)),
         // Indicates that a client is capable of receiving uuid-only messages.
         // Not used yet.
         uuidCapable,
@@ -1487,51 +1867,68 @@
       };
     },
 
+    // Is this someone who is a contact, or are we sharing our profile with them?
+    //   Or is the person who added us to this group a contact or are we sharing profile
+    //   with them?
+    isFromOrAddedByTrustedContact() {
+      if (this.isPrivate()) {
+        return Boolean(this.get('name')) || this.get('profileSharing');
+      }
+
+      const addedBy = this.get('addedBy');
+      if (!addedBy) {
+        return false;
+      }
+
+      const conv = ConversationController.get(addedBy);
+      if (!conv) {
+        return false;
+      }
+
+      return Boolean(conv.get('name')) || conv.get('profileSharing');
+    },
+
     async updateLastMessage() {
       if (!this.id) {
         return;
       }
 
-      const messages = await window.Signal.Data.getOlderMessagesByConversation(
-        this.id,
-        { limit: 1, MessageCollection: Whisper.MessageCollection }
-      );
+      const [previewMessage, activityMessage] = await Promise.all([
+        window.Signal.Data.getLastConversationPreview(this.id, {
+          Message: Whisper.Message,
+        }),
+        window.Signal.Data.getLastConversationActivity(this.id, {
+          Message: Whisper.Message,
+        }),
+      ]);
 
-      const lastMessageModel = messages.at(0);
       if (
         this.hasDraft() &&
         this.get('draftTimestamp') &&
-        (!lastMessageModel ||
-          lastMessageModel.get('sent_at') < this.get('draftTimestamp'))
+        (!previewMessage ||
+          previewMessage.get('sent_at') < this.get('draftTimestamp'))
       ) {
         return;
       }
 
-      const lastMessageJSON = lastMessageModel
-        ? lastMessageModel.toJSON()
-        : null;
-      const lastMessageStatusModel = lastMessageModel
-        ? lastMessageModel.getMessagePropStatus()
-        : null;
-      const lastMessageUpdate = Conversation.createLastMessageUpdate({
-        currentTimestamp: this.get('timestamp') || null,
-        lastMessage: lastMessageJSON,
-        lastMessageStatus: lastMessageStatusModel,
-        lastMessageNotificationText: lastMessageModel
-          ? lastMessageModel.getNotificationText()
-          : null,
+      const currentTimestamp = this.get('timestamp') || null;
+      const timestamp = activityMessage
+        ? activityMessage.get('sent_at') || currentTimestamp
+        : currentTimestamp;
+
+      this.set({
+        lastMessage:
+          (previewMessage ? previewMessage.getNotificationText() : '') || '',
+        lastMessageStatus:
+          (previewMessage ? previewMessage.getMessagePropStatus() : null) ||
+          null,
+        timestamp,
+        lastMessageDeletedForEveryone: previewMessage
+          ? previewMessage.deletedForEveryone
+          : false,
       });
 
-      // Because we're no longer using Backbone-integrated saves, we need to manually
-      //   clear the changed fields here so our hasChanged() check below is useful.
-      this.changed = {};
-      this.set(lastMessageUpdate);
-
-      if (this.hasChanged()) {
-        window.Signal.Data.updateConversation(this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
-      }
+      window.Signal.Data.updateConversation(this.attributes);
     },
 
     async setArchived(isArchived) {
@@ -1569,10 +1966,7 @@
         source,
       });
 
-      source =
-        source ||
-        textsecure.storage.user.getNumber() ||
-        textsecure.storage.user.getUuid();
+      source = source || ConversationController.getOurConversationId();
 
       // When we add a disappearing messages notification to the conversation, we want it
       //   to be above the message that initiated that change, hence the subtraction.
@@ -1599,7 +1993,7 @@
       });
 
       if (this.isPrivate()) {
-        model.set({ destination: this.get('uuid') || this.get('e164') });
+        model.set({ destination: this.getSendTarget() });
       }
       if (model.isOutgoing()) {
         model.set({ recipients: this.getRecipients() });
@@ -1629,7 +2023,7 @@
         const flags =
           textsecure.protobuf.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
         const dataMessage = await textsecure.messaging.getMessageProto(
-          this.get('uuid') || this.get('e164'),
+          this.getSendTarget(),
           null,
           [],
           null,
@@ -1646,7 +2040,7 @@
 
       if (this.get('type') === 'private') {
         promise = textsecure.messaging.sendExpirationTimerUpdateToIdentifier(
-          this.get('uuid') || this.get('e164'),
+          this.getSendTarget(),
           expireTimer,
           message.get('sent_at'),
           profileKey,
@@ -1793,7 +2187,7 @@
     async leaveGroup() {
       const now = Date.now();
       if (this.get('type') === 'group') {
-        const groupNumbers = this.getRecipients();
+        const groupIdentifiers = this.getRecipients();
         this.set({ left: true });
         window.Signal.Data.updateConversation(this.attributes);
 
@@ -1816,7 +2210,7 @@
         const options = this.getSendOptions();
         message.send(
           this.wrapSend(
-            textsecure.messaging.leaveGroup(this.id, groupNumbers, options)
+            textsecure.messaging.leaveGroup(this.id, groupIdentifiers, options)
           )
         );
       }
@@ -1845,17 +2239,21 @@
           // Note that this will update the message in the database
           await m.markRead(options.readAt);
 
-          const errors = m.get('errors');
           return {
-            sender: m.get('source'),
+            senderE164: m.get('source'),
+            senderUuid: m.get('sourceUuid'),
+            senderId: ConversationController.ensureContactIds({
+              e164: m.get('source'),
+              uuid: m.get('sourceUuid'),
+            }),
             timestamp: m.get('sent_at'),
-            hasErrors: Boolean(errors && errors.length),
+            hasErrors: m.hasErrors(),
           };
         })
       );
 
       // Some messages we're marking read are local notifications with no sender
-      read = _.filter(read, m => Boolean(m.sender));
+      read = _.filter(read, m => Boolean(m.senderId));
       unreadMessages = unreadMessages.filter(m => Boolean(m.isIncoming()));
 
       const unreadCount = unreadMessages.length - read.length;
@@ -1870,36 +2268,69 @@
       read = read.filter(item => !item.hasErrors);
 
       if (read.length && options.sendReadReceipts) {
-        window.log.info(`Sending ${read.length} read receipts`);
+        window.log.info(`Sending ${read.length} read syncs`);
         // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
         //   to a contact, we need accessKeys for both.
-        const { sendOptions } = ConversationController.prepareForSend(
-          this.ourUuid || this.ourNumber,
+        const {
+          sendOptions,
+        } = ConversationController.prepareForSend(
+          ConversationController.getOurConversationId(),
           { syncMessage: true }
         );
         await this.wrapSend(
           textsecure.messaging.syncReadMessages(read, sendOptions)
         );
-
-        if (storage.get('read-receipt-setting')) {
-          const convoSendOptions = this.getSendOptions();
-
-          await Promise.all(
-            _.map(_.groupBy(read, 'sender'), async (receipts, identifier) => {
-              const timestamps = _.map(receipts, 'timestamp');
-              const c = ConversationController.get(identifier);
-              await this.wrapSend(
-                textsecure.messaging.sendReadReceipts(
-                  c.get('e164'),
-                  c.get('uuid'),
-                  timestamps,
-                  convoSendOptions
-                )
-              );
-            })
-          );
-        }
+        await this.sendReadReceiptsFor(read);
       }
+    },
+
+    async sendReadReceiptsFor(items) {
+      // Only send read receipts for accepted conversations
+      if (storage.get('read-receipt-setting') && this.getAccepted()) {
+        window.log.info(`Sending ${items.length} read receipts`);
+        const convoSendOptions = this.getSendOptions();
+        const receiptsBySender = _.groupBy(items, 'senderId');
+
+        await Promise.all(
+          _.map(receiptsBySender, async (receipts, senderId) => {
+            const timestamps = _.map(receipts, 'timestamp');
+            const c = ConversationController.get(senderId);
+            await this.wrapSend(
+              textsecure.messaging.sendReadReceipts(
+                c.get('e164'),
+                c.get('uuid'),
+                timestamps,
+                convoSendOptions
+              )
+            );
+          })
+        );
+      }
+    },
+
+    // This is an expensive operation we use to populate the message request hero row. It
+    //   shows groups the current user has in common with this potential new contact.
+    async updateSharedGroups() {
+      if (!this.isPrivate()) {
+        return;
+      }
+      if (this.isMe()) {
+        return;
+      }
+
+      const ourGroups = await ConversationController.getAllGroupsInvolvingId(
+        ConversationController.getOurConversationId()
+      );
+      const theirGroups = await ConversationController.getAllGroupsInvolvingId(
+        this.id
+      );
+
+      const sharedGroups = _.intersection(ourGroups, theirGroups);
+      const sharedGroupNames = sharedGroups.map(conversation =>
+        conversation.getTitle()
+      );
+
+      this.set({ sharedGroupNames });
     },
 
     onChangeProfileKey() {
@@ -1910,28 +2341,33 @@
 
     getProfiles() {
       // request all conversation members' keys
-      let ids = [];
+      let conversations = [];
       if (this.isPrivate()) {
-        ids = [this.get('uuid') || this.get('e164')];
+        conversations = [this];
       } else {
-        ids = this.get('members')
-          .map(id => {
-            const c = ConversationController.get(id);
-            return c ? c.get('uuid') || c.get('e164') : null;
-          })
+        conversations = this.get('members')
+          .map(id => ConversationController.get(id))
           .filter(Boolean);
       }
-      return Promise.all(_.map(ids, this.getProfile));
+      return Promise.all(
+        _.map(conversations, conversation => {
+          this.getProfile(conversation.get('uuid'), conversation.get('e164'));
+        })
+      );
     },
 
-    async getProfile(id) {
+    async getProfile(providedUuid, providedE164) {
       if (!textsecure.messaging) {
         throw new Error(
           'Conversation.getProfile: textsecure.messaging not available'
         );
       }
 
-      const c = await ConversationController.getOrCreateAndWait(id, 'private');
+      const id = ConversationController.ensureContactIds({
+        uuid: providedUuid,
+        e164: providedE164,
+      });
+      const c = ConversationController.get(id);
       const {
         generateProfileKeyCredentialRequest,
         getClientZkProfileOperations,
@@ -1941,9 +2377,6 @@
       const clientZkProfileCipher = getClientZkProfileOperations(
         window.getServerPublicParams()
       );
-      // Because we're no longer using Backbone-integrated saves, we need to manually
-      //   clear the changed fields here so our hasChanged() check is useful.
-      c.changed = {};
 
       let profile;
 
@@ -1955,6 +2388,7 @@
 
         const profileKey = c.get('profileKey');
         const uuid = c.get('uuid');
+        const identifier = c.getSendTarget();
         const profileKeyVersionHex = c.get('profileKeyVersion');
         const existingProfileKeyCredential = c.get('profileKeyCredential');
 
@@ -1978,11 +2412,11 @@
 
         const sendMetadata = c.getSendMetadata({ disableMeCheck: true }) || {};
         const getInfo =
-          sendMetadata[c.get('e164')] || sendMetadata[c.get('uuid')] || {};
+          sendMetadata[c.get('uuid')] || sendMetadata[c.get('e164')] || {};
 
         if (getInfo.accessKey) {
           try {
-            profile = await textsecure.messaging.getProfile(id, {
+            profile = await textsecure.messaging.getProfile(identifier, {
               accessKey: getInfo.accessKey,
               profileKeyVersion: profileKeyVersionHex,
               profileKeyCredentialRequest: profileKeyCredentialRequestHex,
@@ -1993,7 +2427,7 @@
                 `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
               );
               c.set({ sealedSender: SEALED_SENDER.DISABLED });
-              profile = await textsecure.messaging.getProfile(id, {
+              profile = await textsecure.messaging.getProfile(identifier, {
                 profileKeyVersion: profileKeyVersionHex,
                 profileKeyCredentialRequest: profileKeyCredentialRequestHex,
               });
@@ -2002,24 +2436,22 @@
             }
           }
         } else {
-          profile = await textsecure.messaging.getProfile(id, {
+          profile = await textsecure.messaging.getProfile(identifier, {
             profileKeyVersion: profileKeyVersionHex,
             profileKeyCredentialRequest: profileKeyCredentialRequestHex,
           });
         }
 
-        const identityKey = window.Signal.Crypto.base64ToArrayBuffer(
-          profile.identityKey
-        );
+        const identityKey = base64ToArrayBuffer(profile.identityKey);
         const changed = await textsecure.storage.protocol.saveIdentity(
-          `${id}.1`,
+          `${identifier}.1`,
           identityKey,
           false
         );
         if (changed) {
           // save identity will close all sessions except for .1, so we
           // must close that one manually.
-          const address = new libsignal.SignalProtocolAddress(id, 1);
+          const address = new libsignal.SignalProtocolAddress(identifier, 1);
           window.log.info('closing session for', address.toString());
           const sessionCipher = new libsignal.SessionCipher(
             textsecure.storage.protocol,
@@ -2040,9 +2472,9 @@
             sealedSender: SEALED_SENDER.UNRESTRICTED,
           });
         } else if (accessKey && profile.unidentifiedAccess) {
-          const haveCorrectKey = await window.Signal.Crypto.verifyAccessKey(
-            window.Signal.Crypto.base64ToArrayBuffer(accessKey),
-            window.Signal.Crypto.base64ToArrayBuffer(profile.unidentifiedAccess)
+          const haveCorrectKey = await verifyAccessKey(
+            base64ToArrayBuffer(accessKey),
+            base64ToArrayBuffer(profile.unidentifiedAccess)
           );
 
           if (haveCorrectKey) {
@@ -2084,7 +2516,7 @@
         if (error.code !== 403 && error.code !== 404) {
           window.log.warn(
             'getProfile failure:',
-            id,
+            c.idForLogging(),
             error && error.stack ? error.stack : error
           );
         } else {
@@ -2098,7 +2530,7 @@
       } catch (error) {
         window.log.warn(
           'getProfile decryption failure:',
-          id,
+          c.idForLogging(),
           error && error.stack ? error.stack : error
         );
         await c.dropProfileKey();
@@ -2117,9 +2549,7 @@
         }
       }
 
-      if (c.hasChanged()) {
-        window.Signal.Data.updateConversation(c.attributes);
-      }
+      window.Signal.Data.updateConversation(c.attributes);
     },
     async setProfileName(encryptedName) {
       if (!encryptedName) {
@@ -2131,8 +2561,8 @@
       }
 
       // decode
-      const keyBuffer = window.Signal.Crypto.base64ToArrayBuffer(key);
-      const data = window.Signal.Crypto.base64ToArrayBuffer(encryptedName);
+      const keyBuffer = base64ToArrayBuffer(key);
+      const data = base64ToArrayBuffer(encryptedName);
 
       // decrypt
       const { given, family } = await textsecure.crypto.decryptProfileName(
@@ -2141,13 +2571,30 @@
       );
 
       // encode
-      const profileName = window.Signal.Crypto.stringFromBytes(given);
-      const profileFamilyName = family
-        ? window.Signal.Crypto.stringFromBytes(family)
-        : null;
+      const profileName = given ? stringFromBytes(given) : null;
+      const profileFamilyName = family ? stringFromBytes(family) : null;
 
-      // set
+      // set then check for changes
+      const oldName = this.getProfileName();
+      const hadPreviousName = Boolean(oldName);
       this.set({ profileName, profileFamilyName });
+
+      const newName = this.getProfileName();
+
+      // Note that we compare the combined names to ensure that we don't present the exact
+      //   same before/after string, even if someone is moving from just first name to
+      //   first/last name in their profile data.
+      const nameChanged = oldName !== newName;
+
+      if (!this.isMe() && hadPreviousName && nameChanged) {
+        const change = {
+          type: 'name',
+          oldName,
+          newName,
+        };
+
+        await this.addProfileChange(change);
+      }
     },
     async setProfileAvatar(avatarPath) {
       if (!avatarPath) {
@@ -2159,7 +2606,7 @@
       if (!key) {
         return;
       }
-      const keyBuffer = window.Signal.Crypto.base64ToArrayBuffer(key);
+      const keyBuffer = base64ToArrayBuffer(key);
 
       // decrypt
       const decrypted = await textsecure.crypto.decryptProfile(
@@ -2192,9 +2639,6 @@
           profileKeyVersion: null,
           profileKeyCredential: null,
           accessKey: null,
-          profileName: null,
-          profileFamilyName: null,
-          profileAvatar: null,
           sealedSender: SEALED_SENDER.UNKNOWN,
         });
 
@@ -2242,15 +2686,9 @@
         return;
       }
 
-      const profileKeyBuffer = window.Signal.Crypto.base64ToArrayBuffer(
-        profileKey
-      );
-      const accessKeyBuffer = await window.Signal.Crypto.deriveAccessKey(
-        profileKeyBuffer
-      );
-      const accessKey = window.Signal.Crypto.arrayBufferToBase64(
-        accessKeyBuffer
-      );
+      const profileKeyBuffer = base64ToArrayBuffer(profileKey);
+      const accessKeyBuffer = await deriveAccessKey(profileKeyBuffer);
+      const accessKey = arrayBufferToBase64(accessKeyBuffer);
       this.set({ accessKey });
     },
     async deriveProfileKeyVersionIfNeeded() {
@@ -2282,8 +2720,8 @@
         return Promise.resolve();
       }
       const members = this.get('members') || [];
-      const promises = members.map(number =>
-        ConversationController.getOrCreateAndWait(number, 'private')
+      const promises = members.map(identifier =>
+        ConversationController.getOrCreateAndWait(identifier, 'private')
       );
 
       return Promise.all(promises).then(contacts => {
@@ -2314,16 +2752,14 @@
       });
     },
 
-    getName() {
-      if (this.isPrivate()) {
-        return this.get('name');
-      }
-      return this.get('name') || i18n('unknownGroup');
-    },
-
     getTitle() {
       if (this.isPrivate()) {
-        return this.get('name') || this.getNumber() || i18n('unknownContact');
+        return (
+          this.get('name') ||
+          this.getProfileName() ||
+          this.getNumber() ||
+          i18n('unknownContact')
+        );
       }
       return this.get('name') || i18n('unknownGroup');
     },
@@ -2336,24 +2772,6 @@
         );
       }
       return null;
-    },
-
-    getDisplayName() {
-      if (!this.isPrivate()) {
-        return this.getTitle();
-      }
-
-      const name = this.get('name');
-      if (name) {
-        return name;
-      }
-
-      const profileName = this.get('profileName');
-      if (profileName) {
-        return `${this.getNumber()} ~${profileName}`;
-      }
-
-      return this.getNumber();
     },
 
     getNumber() {
@@ -2445,16 +2863,19 @@
     },
 
     async notify(message, reaction) {
+      if (this.get('muteExpiresAt') && Date.now() < this.get('muteExpiresAt')) {
+        return;
+      }
+
       if (!message.isIncoming() && !reaction) {
         return;
       }
 
       const conversationId = this.id;
 
-      const sender = await ConversationController.getOrCreateAndWait(
-        reaction ? reaction.get('fromId') : message.get('source'),
-        'private'
-      );
+      const sender = reaction
+        ? ConversationController.get(reaction.get('fromId'))
+        : message.getContact();
 
       const iconUrl = await sender.getNotificationIcon();
 
@@ -2476,33 +2897,33 @@
     },
 
     notifyTyping(options = {}) {
-      const { isTyping, sender, senderUuid, senderDevice } = options;
+      const { isTyping, senderId, isMe, senderDevice } = options;
 
       // We don't do anything with typing messages from our other devices
-      if (sender === this.ourNumber || senderUuid === this.ourUuid) {
+      if (isMe) {
         return;
       }
 
-      const identifier = `${sender}.${senderDevice}`;
+      const deviceId = `${senderId}.${senderDevice}`;
 
       this.contactTypingTimers = this.contactTypingTimers || {};
-      const record = this.contactTypingTimers[identifier];
+      const record = this.contactTypingTimers[deviceId];
 
       if (record) {
         clearTimeout(record.timer);
       }
 
       if (isTyping) {
-        this.contactTypingTimers[identifier] = this.contactTypingTimers[
-          identifier
+        this.contactTypingTimers[deviceId] = this.contactTypingTimers[
+          deviceId
         ] || {
           timestamp: Date.now(),
-          sender,
+          senderId,
           senderDevice,
         };
 
-        this.contactTypingTimers[identifier].timer = setTimeout(
-          this.clearContactTypingTimer.bind(this, identifier),
+        this.contactTypingTimers[deviceId].timer = setTimeout(
+          this.clearContactTypingTimer.bind(this, deviceId),
           15 * 1000
         );
         if (!record) {
@@ -2510,7 +2931,7 @@
           this.trigger('change', this);
         }
       } else {
-        delete this.contactTypingTimers[identifier];
+        delete this.contactTypingTimers[deviceId];
         if (record) {
           // User was previously typing, and is no longer. State change!
           this.trigger('change', this);
@@ -2518,13 +2939,13 @@
       }
     },
 
-    clearContactTypingTimer(identifier) {
+    clearContactTypingTimer(deviceId) {
       this.contactTypingTimers = this.contactTypingTimers || {};
-      const record = this.contactTypingTimers[identifier];
+      const record = this.contactTypingTimers[deviceId];
 
       if (record) {
         clearTimeout(record.timer);
-        delete this.contactTypingTimers[identifier];
+        delete this.contactTypingTimers[deviceId];
 
         // User was previously typing, but timed out or we received message. State change!
         this.trigger('change', this);
@@ -2541,9 +2962,7 @@
      * than just their id.
      */
     initialize() {
-      this._byE164 = {};
-      this._byUuid = {};
-      this._byGroupId = {};
+      this.eraseLookups();
       this.on('idUpdated', (model, idProp, oldValue) => {
         if (oldValue) {
           if (idProp === 'e164') {
@@ -2570,22 +2989,34 @@
 
     reset(...args) {
       Backbone.Collection.prototype.reset.apply(this, args);
-      this._byE164 = {};
-      this._byUuid = {};
-      this._byGroupId = {};
+      this.resetLookups();
     },
 
-    add(...models) {
-      const res = Backbone.Collection.prototype.add.apply(this, models);
-      [].concat(res).forEach(model => {
+    resetLookups() {
+      this.eraseLookups();
+      this.generateLookups(this.models);
+    },
+
+    generateLookups(models) {
+      models.forEach(model => {
         const e164 = model.get('e164');
         if (e164) {
-          this._byE164[e164] = model;
+          const existing = this._byE164[e164];
+
+          // Prefer the contact with both e164 and uuid
+          if (!existing || (existing && !existing.get('uuid'))) {
+            this._byE164[e164] = model;
+          }
         }
 
         const uuid = model.get('uuid');
         if (uuid) {
-          this._byUuid[uuid] = model;
+          const existing = this._byUuid[uuid];
+
+          // Prefer the contact with both e164 and uuid
+          if (!existing || (existing && !existing.get('e164'))) {
+            this._byUuid[uuid] = model;
+          }
         }
 
         const groupId = model.get('groupId');
@@ -2593,7 +3024,20 @@
           this._byGroupId[groupId] = model;
         }
       });
-      return res;
+    },
+
+    eraseLookups() {
+      this._byE164 = Object.create(null);
+      this._byUuid = Object.create(null);
+      this._byGroupId = Object.create(null);
+    },
+
+    add(...models) {
+      const result = Backbone.Collection.prototype.add.apply(this, models);
+
+      this.generateLookups(Array.isArray(result) ? result.slice(0) : [result]);
+
+      return result;
     },
 
     /**

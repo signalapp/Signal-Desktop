@@ -27,13 +27,28 @@ window.subscribeToSystemThemeChange(() => {
   applyTheme();
 });
 
+let message;
+if (window.forCalling) {
+  if (window.forCamera) {
+    message = i18n('videoCallingPermissionNeeded');
+  } else {
+    message = i18n('audioCallingPermissionNeeded');
+  }
+} else {
+  message = i18n('audioPermissionNeeded');
+}
+
 window.view = new Whisper.ConfirmationDialogView({
-  message: i18n('audioPermissionNeeded'),
+  message,
   okText: i18n('allowAccess'),
   resolve: () => {
     'use strict';
 
-    window.setMediaPermissions(true);
+    if (!window.forCamera) {
+      window.setMediaPermissions(true);
+    } else {
+      window.setMediaCameraPermissions(true);
+    }
     window.closePermissionsPopup();
   },
   reject: window.closePermissionsPopup,

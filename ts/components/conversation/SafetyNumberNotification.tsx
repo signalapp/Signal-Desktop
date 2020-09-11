@@ -4,10 +4,11 @@ import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
-interface ContactType {
+export interface ContactType {
   id: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   profileName?: string;
+  title: string;
   name?: string;
 }
 
@@ -24,7 +25,7 @@ export type PropsActions = {
   showIdentity: (id: string) => void;
 };
 
-type Props = PropsData & PropsHousekeeping & PropsActions;
+export type Props = PropsData & PropsHousekeeping & PropsActions;
 
 export class SafetyNumberNotification extends React.Component<Props> {
   public render() {
@@ -48,7 +49,9 @@ export class SafetyNumberNotification extends React.Component<Props> {
                   name={contact.name}
                   profileName={contact.profileName}
                   phoneNumber={contact.phoneNumber}
+                  title={contact.title}
                   module="module-safety-number-notification__contact"
+                  i18n={i18n}
                 />
               </span>,
             ]}

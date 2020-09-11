@@ -1,6 +1,8 @@
+import { ColorType } from '../types/Colors';
+
 // import { missingCaseError } from './missingCaseError';
 
-type OldColor =
+type OldColorType =
   | 'amber'
   | 'blue'
   | 'blue_grey'
@@ -22,22 +24,7 @@ type OldColor =
   | 'yellow'
   | 'ultramarine';
 
-type NewColor =
-  | 'red'
-  | 'deep_orange'
-  | 'brown'
-  | 'pink'
-  | 'purple'
-  | 'indigo'
-  | 'blue'
-  | 'teal'
-  | 'green'
-  | 'light_green'
-  | 'blue_grey'
-  | 'grey'
-  | 'ultramarine';
-
-export function migrateColor(color: OldColor): NewColor {
+export function migrateColor(color: OldColorType): ColorType {
   switch (color) {
     // These colors no longer exist
     case 'orange':

@@ -1,32 +1,25 @@
 import React from 'react';
 
+import { LocalizerType } from '../../types/Util';
 import { Emojify } from './Emojify';
 
-interface Props {
-  phoneNumber?: string;
-  name?: string;
-  profileName?: string;
+export interface PropsType {
+  i18n: LocalizerType;
+  title: string;
   module?: string;
+  name?: string;
+  phoneNumber?: string;
+  profileName?: string;
 }
 
-export class ContactName extends React.Component<Props> {
+export class ContactName extends React.Component<PropsType> {
   public render() {
-    const { phoneNumber, name, profileName, module } = this.props;
+    const { module, title } = this.props;
     const prefix = module ? module : 'module-contact-name';
-
-    const title = name ? name : phoneNumber;
-    const shouldShowProfile = Boolean(profileName && !name);
-    const profileElement = shouldShowProfile ? (
-      <span className={`${prefix}__profile-name`}>
-        ~<Emojify text={profileName || ''} />
-      </span>
-    ) : null;
 
     return (
       <span className={prefix} dir="auto">
         <Emojify text={title || ''} />
-        {shouldShowProfile ? ' ' : null}
-        {profileElement}
       </span>
     );
   }

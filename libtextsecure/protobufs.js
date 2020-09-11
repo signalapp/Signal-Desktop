@@ -31,6 +31,7 @@
   }
 
   loadProtoBufs('SignalService.proto');
+  loadProtoBufs('SignalStorage.proto');
   loadProtoBufs('SubProtocol.proto');
   loadProtoBufs('DeviceMessages.proto');
   loadProtoBufs('Stickers.proto');

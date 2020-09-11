@@ -2,7 +2,7 @@ import React from 'react';
 
 import { LocalizerType } from '../../types/Util';
 
-type Props = {
+export type Props = {
   count: number;
   i18n: LocalizerType;
 };

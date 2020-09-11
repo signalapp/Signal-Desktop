@@ -9,11 +9,10 @@ import {
 describe('state/selectors/conversations', () => {
   describe('#getLeftPaneList', () => {
     it('sorts conversations based on timestamp then by intl-friendly title', () => {
-      const i18n = (key: string) => key;
-      const regionCode = 'US';
       const data: ConversationLookupType = {
         id1: {
           id: 'id1',
+          e164: '+18005551111',
           activeAt: Date.now(),
           name: 'No timestamp',
           timestamp: 0,
@@ -24,6 +23,7 @@ describe('state/selectors/conversations', () => {
           type: 'direct',
           isMe: false,
           lastUpdated: Date.now(),
+          title: 'No timestamp',
           unreadCount: 1,
           isSelected: false,
           typingContact: {
@@ -31,9 +31,12 @@ describe('state/selectors/conversations', () => {
             color: 'blue',
             phoneNumber: '+18005551111',
           },
+
+          acceptedMessageRequest: true,
         },
         id2: {
           id: 'id2',
+          e164: '+18005551111',
           activeAt: Date.now(),
           name: 'B',
           timestamp: 20,
@@ -44,6 +47,7 @@ describe('state/selectors/conversations', () => {
           type: 'direct',
           isMe: false,
           lastUpdated: Date.now(),
+          title: 'B',
           unreadCount: 1,
           isSelected: false,
           typingContact: {
@@ -51,9 +55,12 @@ describe('state/selectors/conversations', () => {
             color: 'blue',
             phoneNumber: '+18005551111',
           },
+
+          acceptedMessageRequest: true,
         },
         id3: {
           id: 'id3',
+          e164: '+18005551111',
           activeAt: Date.now(),
           name: 'C',
           timestamp: 20,
@@ -64,6 +71,7 @@ describe('state/selectors/conversations', () => {
           type: 'direct',
           isMe: false,
           lastUpdated: Date.now(),
+          title: 'C',
           unreadCount: 1,
           isSelected: false,
           typingContact: {
@@ -71,9 +79,12 @@ describe('state/selectors/conversations', () => {
             color: 'blue',
             phoneNumber: '+18005551111',
           },
+
+          acceptedMessageRequest: true,
         },
         id4: {
           id: 'id4',
+          e164: '+18005551111',
           activeAt: Date.now(),
           name: 'Á',
           timestamp: 20,
@@ -84,6 +95,7 @@ describe('state/selectors/conversations', () => {
           type: 'direct',
           isMe: false,
           lastUpdated: Date.now(),
+          title: 'A',
           unreadCount: 1,
           isSelected: false,
           typingContact: {
@@ -91,9 +103,12 @@ describe('state/selectors/conversations', () => {
             color: 'blue',
             phoneNumber: '+18005551111',
           },
+
+          acceptedMessageRequest: true,
         },
         id5: {
           id: 'id5',
+          e164: '+18005551111',
           activeAt: Date.now(),
           name: 'First!',
           timestamp: 30,
@@ -104,6 +119,7 @@ describe('state/selectors/conversations', () => {
           type: 'direct',
           isMe: false,
           lastUpdated: Date.now(),
+          title: 'First!',
           unreadCount: 1,
           isSelected: false,
           typingContact: {
@@ -111,9 +127,11 @@ describe('state/selectors/conversations', () => {
             color: 'blue',
             phoneNumber: '+18005551111',
           },
+
+          acceptedMessageRequest: true,
         },
       };
-      const comparator = _getConversationComparator(i18n, regionCode);
+      const comparator = _getConversationComparator();
       const { conversations } = _getLeftPaneLists(data, comparator);
 
       assert.strictEqual(conversations[0].name, 'First!');

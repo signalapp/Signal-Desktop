@@ -7,12 +7,14 @@ import * as MIME from '../../../ts/types/MIME';
 import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 
 import { MessageBody } from './MessageBody';
-import { ColorType, LocalizerType } from '../../types/Util';
+import { LocalizerType } from '../../types/Util';
+import { ColorType } from '../../types/Colors';
 import { ContactName } from './ContactName';
 
-interface Props {
+export interface Props {
   attachment?: QuotedAttachmentType;
-  authorPhoneNumber: string;
+  authorTitle: string;
+  authorPhoneNumber?: string;
   authorProfileName?: string;
   authorName?: string;
   authorColor?: ColorType;
@@ -307,6 +309,7 @@ export class Quote extends React.Component<Props, State> {
     const {
       authorProfileName,
       authorPhoneNumber,
+      authorTitle,
       authorName,
       i18n,
       isFromMe,
@@ -327,6 +330,8 @@ export class Quote extends React.Component<Props, State> {
             phoneNumber={authorPhoneNumber}
             name={authorName}
             profileName={authorProfileName}
+            title={authorTitle}
+            i18n={i18n}
           />
         )}
       </div>

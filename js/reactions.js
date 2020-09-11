@@ -28,9 +28,10 @@
 
       const reactionsBySource = this.filter(re => {
         const mcid = message.get('conversationId');
-        const recid = ConversationController.getConversationId(
-          re.get('targetAuthorE164') || re.get('targetAuthorUuid')
-        );
+        const recid = ConversationController.ensureContactIds({
+          e164: re.get('targetAuthorE164'),
+          uuid: re.get('targetAuthorUuid'),
+        });
         const mTime = message.get('sent_at');
         const rTime = re.get('targetTimestamp');
         return mcid === recid && mTime === rTime;
@@ -47,9 +48,10 @@
     async onReaction(reaction) {
       try {
         const targetConversation = await ConversationController.getConversationForTargetMessage(
-          // Do not use ensureContactIds here since maliciously malformed
-          // reactions from clients could cause issues
-          reaction.get('targetAuthorE164') || reaction.get('targetAuthorUuid'),
+          ConversationController.ensureContactIds({
+            e164: reaction.get('targetAuthorE164'),
+            uuid: reaction.get('targetAuthorUuid'),
+          }),
           reaction.get('targetTimestamp')
         );
         if (!targetConversation) {
@@ -85,10 +87,10 @@
             }
 
             const mcid = contact.get('id');
-            const recid = ConversationController.getConversationId(
-              reaction.get('targetAuthorE164') ||
-                reaction.get('targetAuthorUuid')
-            );
+            const recid = ConversationController.ensureContactIds({
+              e164: reaction.get('targetAuthorE164'),
+              uuid: reaction.get('targetAuthorUuid'),
+            });
             return mcid === recid;
           });
 

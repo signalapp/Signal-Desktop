@@ -27,9 +27,9 @@
   <script type="text/javascript" src="../../js/components.js" data-cover></script>
   <script type="text/javascript" src="../../js/signal_protocol_store.js" data-cover></script>
   <script type="text/javascript" src="../../js/storage.js" data-cover></script>
+  <script type="text/javascript" src="../../js/models/blockedNumbers.js" data-cover></script>
   <script type="text/javascript" src="../../js/models/messages.js" data-cover></script>
   <script type="text/javascript" src="../../js/models/conversations.js" data-cover></script>
-  <script type="text/javascript" src="../../js/conversation_controller.js" data-cover></script>
 
   <script type="text/javascript" src="errors_test.js"></script>
   <script type="text/javascript" src="helpers_test.js"></script>
@@ -50,6 +50,7 @@
   <!-- Uncomment to start tests without code coverage enabled -->
   <script type="text/javascript">
     mocha.run();
+    window.Signal.conversationControllerStart();
   </script>
 </body>
 </html>

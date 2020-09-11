@@ -23,7 +23,7 @@ const colorSVG = (url: string, color: string) => {
   };
 };
 
-interface Props {
+export interface Props {
   close: () => void;
   contentType: MIME.MIMEType | undefined;
   i18n: LocalizerType;
@@ -363,7 +363,7 @@ export class Lightbox extends React.Component<Props, State> {
       !isVideoTypeSupported && MIME.isVideo(contentType);
     if (isUnsupportedImageType || isUnsupportedVideoType) {
       const iconUrl = isUnsupportedVideoType
-        ? 'images/video.svg'
+        ? 'images/movie.svg'
         : 'images/image.svg';
 
       return <Icon url={iconUrl} onClick={this.onObjectClick} />;

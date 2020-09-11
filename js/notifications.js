@@ -3,7 +3,6 @@
 
 /* global drawAttention: false */
 /* global i18n: false */
-/* global Signal: false */
 /* global storage: false */
 /* global Whisper: false */
 /* global _: false */
@@ -20,15 +19,6 @@
     NAME: 'name',
     MESSAGE: 'message',
   };
-
-  function filter(text) {
-    return (text || '')
-      .replace(/&/g, '&amp;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&apos;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-  }
 
   Whisper.Notifications = new (Backbone.Collection.extend({
     initialize() {
@@ -102,18 +92,18 @@
           iconUrl = last.iconUrl;
           if (numNotifications === 1) {
             if (last.reaction) {
-              message = i18n('notificationReaction', [
-                lastMessageTitle,
-                last.reaction.emoji,
-              ]);
+              message = i18n('notificationReaction', {
+                sender: lastMessageTitle,
+                emoji: last.reaction.emoji,
+              });
             } else {
               message = `${i18n('notificationFrom')} ${lastMessageTitle}`;
             }
           } else if (last.reaction) {
-            message = i18n('notificationReactionMostRecent', [
-              lastMessageTitle,
-              last.reaction.emoji,
-            ]);
+            message = i18n('notificationReactionMostRecent', {
+              sender: lastMessageTitle,
+              emoji: last.reaction.emoji,
+            });
           } else {
             message = `${i18n(
               'notificationMostRecentFrom'
@@ -126,22 +116,22 @@
             // eslint-disable-next-line prefer-destructuring
             title = last.title;
             if (last.reaction) {
-              message = i18n('notificationReactionMessage', [
-                last.title,
-                last.reaction.emoji,
-                last.message,
-              ]);
+              message = i18n('notificationReactionMessage', {
+                sender: last.title,
+                emoji: last.reaction.emoji,
+                message: last.message,
+              });
             } else {
               // eslint-disable-next-line prefer-destructuring
               message = last.message;
             }
           } else if (last.reaction) {
             title = newMessageCountLabel;
-            message = i18n('notificationReactionMessageMostRecent', [
-              last.title,
-              last.reaction.emoji,
-              last.message,
-            ]);
+            message = i18n('notificationReactionMessageMostRecent', {
+              sender: last.title,
+              emoji: last.reaction.emoji,
+              message: last.message,
+            });
           } else {
             title = newMessageCountLabel;
             message = `${i18n('notificationMostRecent')} ${last.message}`;
@@ -162,15 +152,24 @@
         message = i18n('newMessage');
       }
 
-      drawAttention();
+      const shouldDrawAttention = storage.get(
+        'notification-draw-attention',
+        true
+      );
+      if (shouldDrawAttention) {
+        drawAttention();
+      }
 
-      this.lastNotification = new Notification(title, {
-        body: window.platform === 'linux' ? filter(message) : message,
+      this.lastNotification = window.Signal.Services.notify({
+        platform: window.platform,
+        title,
         icon: iconUrl,
+        message,
         silent: !status.shouldPlayNotificationSound,
+        onNotificationClick: () => {
+          this.trigger('click', last.conversationId, last.messageId);
+        },
       });
-      this.lastNotification.onclick = () =>
-        this.trigger('click', last.conversationId, last.messageId);
 
       // We continue to build up more and more messages for our notifications
       // until the user comes back to our app or closes the app. Then we’ll

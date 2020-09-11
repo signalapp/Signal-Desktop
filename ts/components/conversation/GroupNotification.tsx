@@ -8,9 +8,10 @@ import { LocalizerType } from '../../types/Util';
 import { missingCaseError } from '../../util/missingCaseError';
 
 interface Contact {
-  phoneNumber: string;
+  phoneNumber?: string;
   profileName?: string;
   name?: string;
+  title: string;
   isMe?: boolean;
 }
 
@@ -48,9 +49,11 @@ export class GroupNotification extends React.Component<Props> {
             className="module-group-notification__contact"
           >
             <ContactName
+              title={contact.title}
               phoneNumber={contact.phoneNumber}
               profileName={contact.profileName}
               name={contact.name}
+              i18n={i18n}
             />
           </span>
         );
@@ -128,9 +131,11 @@ export class GroupNotification extends React.Component<Props> {
 
     const fromContact = (
       <ContactName
+        title={from.title}
         phoneNumber={from.phoneNumber}
         profileName={from.profileName}
         name={from.name}
+        i18n={i18n}
       />
     );
 

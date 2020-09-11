@@ -50,6 +50,11 @@ type PropsHousekeepingType = {
     actions: Object
   ) => JSX.Element;
   renderLastSeenIndicator: (id: string) => JSX.Element;
+  renderHeroRow: (
+    id: string,
+    resizeHeroRow: () => unknown,
+    updateSharedGroups: () => unknown
+  ) => JSX.Element;
   renderLoadingRow: (id: string) => JSX.Element;
   renderTypingBubble: (id: string) => JSX.Element;
 };
@@ -69,10 +74,11 @@ type PropsActionsType = {
   markMessageRead: (messageId: string) => unknown;
   selectMessage: (messageId: string, conversationId: string) => unknown;
   clearSelectedMessage: () => unknown;
+  updateSharedGroups: () => unknown;
 } & MessageActionsType &
   SafetyNumberActionsType;
 
-type Props = PropsDataType & PropsHousekeepingType & PropsActionsType;
+export type Props = PropsDataType & PropsHousekeepingType & PropsActionsType;
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 type RowRendererParamsType = {
@@ -248,6 +254,10 @@ export class Timeline extends React.PureComponent<Props, State> {
     }
 
     this.recomputeRowHeights(row || 0);
+  };
+
+  public resizeHeroRow = () => {
+    this.resize(0);
   };
 
   public onScroll = (data: OnScrollParamsType) => {
@@ -501,9 +511,11 @@ export class Timeline extends React.PureComponent<Props, State> {
       haveOldest,
       items,
       renderItem,
+      renderHeroRow,
       renderLoadingRow,
       renderLastSeenIndicator,
       renderTypingBubble,
+      updateSharedGroups,
     } = this.props;
 
     const styleWithWidth = {
@@ -515,7 +527,13 @@ export class Timeline extends React.PureComponent<Props, State> {
     const typingBubbleRow = this.getTypingBubbleRow();
     let rowContents;
 
-    if (!haveOldest && row === 0) {
+    if (haveOldest && row === 0) {
+      rowContents = (
+        <div data-row={row} style={styleWithWidth} role="row">
+          {renderHeroRow(id, this.resizeHeroRow, updateSharedGroups)}
+        </div>
+      );
+    } else if (!haveOldest && row === 0) {
       rowContents = (
         <div data-row={row} style={styleWithWidth} role="row">
           {renderLoadingRow(id)}
@@ -574,13 +592,10 @@ export class Timeline extends React.PureComponent<Props, State> {
   };
 
   public fromItemIndexToRow(index: number) {
-    const { haveOldest, oldestUnreadIndex } = this.props;
+    const { oldestUnreadIndex } = this.props;
 
-    let addition = 0;
-
-    if (!haveOldest) {
-      addition += 1;
-    }
+    // We will always render either the hero row or the loading row
+    let addition = 1;
 
     if (isNumber(oldestUnreadIndex) && index >= oldestUnreadIndex) {
       addition += 1;
@@ -590,15 +605,12 @@ export class Timeline extends React.PureComponent<Props, State> {
   }
 
   public getRowCount() {
-    const { haveOldest, oldestUnreadIndex, typingContact } = this.props;
+    const { oldestUnreadIndex, typingContact } = this.props;
     const { items } = this.props;
     const itemsCount = items && items.length ? items.length : 0;
 
-    let extraRows = 0;
-
-    if (!haveOldest) {
-      extraRows += 1;
-    }
+    // We will always render either the hero row or the loading row
+    let extraRows = 1;
 
     if (isNumber(oldestUnreadIndex)) {
       extraRows += 1;
@@ -612,13 +624,10 @@ export class Timeline extends React.PureComponent<Props, State> {
   }
 
   public fromRowToItemIndex(row: number, props?: Props): number | undefined {
-    const { haveOldest, items } = props || this.props;
+    const { items } = props || this.props;
 
-    let subtraction = 0;
-
-    if (!haveOldest) {
-      subtraction += 1;
-    }
+    // We will always render either the hero row or the loading row
+    let subtraction = 1;
 
     const oldestUnreadRow = this.getLastSeenIndicatorRow();
     if (isNumber(oldestUnreadRow) && row > oldestUnreadRow) {

@@ -12,6 +12,9 @@
     // Preferred by Prettier:
     "arrow-parens": [true, "ban-single-arg-parens"],
 
+    // Breaks when we use .extend() to create a Backbone subclass
+    "no-invalid-this": false,
+
     "import-spacing": false,
     "indent": [true, "spaces", 2],
     "interface-name": [true, "never-prefix"],
@@ -45,6 +48,9 @@
     // We always want 'as Type'
     "no-angle-bracket-type-assertion": true,
 
+    // mostly always a false positive
+    "no-backbone-get-set-outside-model": false,
+
     "no-consecutive-blank-lines": [true, 2],
     "object-literal-key-quotes": [true, "as-needed"],
     "object-literal-sort-keys": false,
@@ -55,7 +61,7 @@
       true,
       {
         "import-sources-order": "any",
-        "named-imports-order": "case-insensitive"
+        "named-imports-order": "case-insensitive-legacy"
       }
     ],
 
@@ -104,7 +110,7 @@
     "function-name": [
       true,
       {
-        "function-regex": "^_?[a-z][\\w\\d]+$",
+        "function-regex": "^_?[A-Za-z][\\w\\d]+$",
         "method-regex": "^_?[a-z][\\w\\d]+$",
         "static-method-regex": "^_?[a-z][\\w\\d]+$"
       }
@@ -121,6 +127,9 @@
         "@storybook/addon-knobs"
       ]
     ],
+
+    // So things like "autoplay" on <video> work
+    "jsx-boolean-value": false,
 
     // Maybe will turn on:
 
@@ -165,5 +174,8 @@
     // We use || and && shortcutting because we're javascript programmers
     "strict-boolean-expressions": false
   },
-  "rulesDirectory": ["node_modules/tslint-microsoft-contrib"]
+  "rulesDirectory": ["node_modules/tslint-microsoft-contrib"],
+  "linterOptions": {
+    "exclude": ["ts/components/emoji/**/*.ts"]
+  }
 }

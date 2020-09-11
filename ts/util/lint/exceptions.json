@@ -161,22 +161,6 @@
     "reasonDetail": "Protected from arbitrary input"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "js/conversation_controller.js",
-    "line": "    async load() {",
-    "lineNumber": 252,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-06-19T18:29:40.067Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "js/conversation_controller.js",
-    "line": "      this._initialPromise = load();",
-    "lineNumber": 294,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-06-19T18:29:40.067Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "js/debug_log_start.js",
     "line": "$(document).on('keydown', e => {",
@@ -220,6 +204,30 @@
     "updated": "2020-03-25T15:45:04.024Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "js/models/conversations.js",
+    "line": "      //   but the full ConversationController.load() sequence isn't complete. So, we",
+    "lineNumber": 465,
+    "reasonCategory": "exampleCode",
+    "updated": "2020-08-11T21:28:50.868Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "js/models/conversations.js",
+    "line": "      //   don't cache props on create, but we do later when load() calls generateProps()",
+    "lineNumber": 466,
+    "reasonCategory": "exampleCode",
+    "updated": "2020-08-11T21:28:50.868Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "js/models/conversations.js",
+    "line": "      await wrap(",
+    "lineNumber": 691,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-06-09T20:26:46.515Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "js/modules/debuglogs.js",
     "line": "  form.append('key', fields.key);",
@@ -252,10 +260,18 @@
     "updated": "2019-10-31T17:28:08.684Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "js/modules/i18n.js",
+    "line": "    const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
+    "lineNumber": 44,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-07-21T18:34:59.251Z"
+  },
+  {
     "rule": "jQuery-load(",
     "path": "js/modules/stickers.js",
     "line": "async function load() {",
-    "lineNumber": 77,
+    "lineNumber": 80,
     "reasonCategory": "falseMatch",
     "updated": "2019-04-26T17:48:30.675Z"
   },
@@ -281,9 +297,9 @@
     "rule": "jQuery-appendTo(",
     "path": "js/permissions_popup_start.js",
     "line": "window.view.$el.appendTo($body);",
-    "lineNumber": 42,
+    "lineNumber": 57,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
@@ -308,18 +324,18 @@
     "rule": "jQuery-appendTo(",
     "path": "js/settings_start.js",
     "line": "    window.view.$el.appendTo($body);",
-    "lineNumber": 57,
+    "lineNumber": 64,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
     "rule": "jQuery-load(",
     "path": "js/signal_protocol_store.js",
     "line": "      await ConversationController.load();",
-    "lineNumber": 985,
+    "lineNumber": 981,
     "reasonCategory": "falseMatch",
-    "updated": "2020-04-27T20:02:20.424Z"
+    "updated": "2020-06-12T14:20:09.936Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -361,7 +377,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/contact_list_view.js",
     "line": "        this.$el.append(this.contactView.el);",
-    "lineNumber": 46,
+    "lineNumber": 37,
     "reasonCategory": "usageTrusted",
     "updated": "2019-07-31T00:19:18.696Z",
     "reasonDetail": "Known DOM elements"
@@ -496,7 +512,7 @@
     "rule": "jQuery-prependTo(",
     "path": "js/views/inbox_view.js",
     "line": "        this.appLoadingScreen.$el.prependTo(this.el);",
-    "lineNumber": 90,
+    "lineNumber": 97,
     "reasonCategory": "usageTrusted",
     "updated": "2019-10-21T22:30:15.622Z",
     "reasonDetail": "Known DOM elements"
@@ -505,81 +521,99 @@
     "rule": "jQuery-appendTo(",
     "path": "js/views/inbox_view.js",
     "line": "        toast.$el.appendTo(this.$el);",
-    "lineNumber": 98,
+    "lineNumber": 106,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
+    "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
-    "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 118,
+    "line": "      this.$('.call-manager-placeholder').append(this.callManagerView.el);",
+    "lineNumber": 128,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
+    "updated": "2020-05-28T17:42:35.329Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "js/views/inbox_view.js",
+    "line": "      this.$('.call-manager-placeholder').append(this.callManagerView.el);",
+    "lineNumber": 128,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-05-28T17:42:35.329Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/inbox_view.js",
+    "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
+    "lineNumber": 139,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "lineNumber": 118,
+    "lineNumber": 139,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
+    "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.placeholder').length) {",
-    "lineNumber": 168,
+    "lineNumber": 190,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
+    "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('#header, .gutter').addClass('inactive');",
-    "lineNumber": 172,
+    "lineNumber": 194,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
+    "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
-    "lineNumber": 176,
+    "lineNumber": 198,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
+    "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .menu').trigger('close');",
-    "lineNumber": 178,
+    "lineNumber": 200,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
+    "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
-    "lineNumber": 198,
+    "lineNumber": 220,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
+    "updated": "2020-05-29T18:29:18.234Z",
     "reasonDetail": "Known DOM elements"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation:first .recorder').trigger('close');",
-    "lineNumber": 201,
+    "lineNumber": 223,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-10-21T22:30:15.622Z",
+    "updated": "2020-05-29T18:29:18.234Z",
     "reasonDetail": "Hardcoded selector"
   },
   {
@@ -684,46 +718,18 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/key_verification_view.js",
-    "line": "      new QRCode(this.$('.qr')[0]).makeCode(",
-    "lineNumber": 43,
+    "line": "      this.$('.key-verification-wrapper').append(this.view.el);",
+    "lineNumber": 28,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-02-14T20:02:37.507Z",
-    "reasonDetail": "Hardcoded selector"
+    "updated": "2020-06-23T06:48:06.829Z"
   },
   {
-    "rule": "jQuery-wrap(",
+    "rule": "jQuery-append(",
     "path": "js/views/key_verification_view.js",
-    "line": "        dcodeIO.ByteBuffer.wrap(this.ourKey).toString('base64')",
-    "lineNumber": 44,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-14T20:02:37.507Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "js/views/key_verification_view.js",
-    "line": "      dialog.$el.insertBefore(this.el);",
-    "lineNumber": 86,
+    "line": "      this.$('.key-verification-wrapper').append(this.view.el);",
+    "lineNumber": 28,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-02-14T20:02:37.507Z",
-    "reasonDetail": "Known DOM elements"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/key_verification_view.js",
-    "line": "      this.$('button.verify').attr('disabled', true);",
-    "lineNumber": 90,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-02-14T20:02:37.507Z",
-    "reasonDetail": "Hardcoded selector"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/key_verification_view.js",
-    "line": "          this.$('button.verify').removeAttr('disabled');",
-    "lineNumber": 121,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-02-14T20:02:37.507Z",
-    "reasonDetail": "Hardcoded selector"
+    "updated": "2020-06-23T06:48:06.829Z"
   },
   {
     "rule": "jQuery-append(",
@@ -817,6 +823,22 @@
   },
   {
     "rule": "jQuery-$(",
+    "path": "js/views/safety_number_change_dialog_view.js",
+    "line": "      this.$('.safety-number-change-dialog-wrapper').append(dialog.el);",
+    "lineNumber": 37,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-06-23T06:48:06.829Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "js/views/safety_number_change_dialog_view.js",
+    "line": "      this.$('.safety-number-change-dialog-wrapper').append(dialog.el);",
+    "lineNumber": 37,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-06-23T06:48:06.829Z"
+  },
+  {
+    "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('input').prop('checked', !!this.value);",
     "lineNumber": 30,
@@ -830,150 +852,213 @@
     "line": "      this.$('input').prop('checked', Boolean(this.value));",
     "lineNumber": 49,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-06-02T22:20:33.618Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "      this.$('input').prop('checked', Boolean(this.value));",
+    "lineNumber": 68,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      const value = this.$(e.target).val();",
-    "lineNumber": 64,
+    "lineNumber": 83,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$(`#${this.name}-${this.value}`).attr('checked', 'checked');",
-    "lineNumber": 69,
+    "lineNumber": 88,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.notification-settings'),",
-    "lineNumber": 78,
+    "lineNumber": 97,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.theme-settings'),",
-    "lineNumber": 84,
+    "lineNumber": 103,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "          $(document.body)",
-    "lineNumber": 88,
+    "lineNumber": 107,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-06-02T21:51:34.813Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "          el: this.$('.draw-attention-setting'),",
+    "lineNumber": 118,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "          el: this.$('.audio-notification-setting'),",
-    "lineNumber": 99,
+    "lineNumber": 126,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.spell-check-setting'),",
-    "lineNumber": 106,
+    "lineNumber": 133,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "          const $msg = this.$('.spell-check-setting-message');",
-    "lineNumber": 110,
+    "lineNumber": 137,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-19T16:06:32.598Z"
+    "updated": "2020-08-21T11:29:29.636Z",
+    "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "          el: this.$('.menu-bar-setting'),",
-    "lineNumber": 123,
+    "lineNumber": 150,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-20T16:47:14.450Z",
+    "updated": "2020-08-21T11:29:29.636Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "        el: this.$('.always-relay-calls-setting'),",
+    "lineNumber": 157,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-21T11:29:29.636Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "        el: this.$('.call-ringtone-notification-setting'),",
+    "lineNumber": 163,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-21T11:29:29.636Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "        el: this.$('.call-system-notification-setting'),",
+    "lineNumber": 169,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-21T11:29:29.636Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "        el: this.$('.incoming-call-notification-setting'),",
+    "lineNumber": 175,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.media-permissions'),",
-    "lineNumber": 130,
+    "lineNumber": 181,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-20T16:47:14.450Z",
+    "updated": "2020-08-21T11:29:29.636Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "        el: this.$('.media-camera-permissions'),",
+    "lineNumber": 186,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
-    "lineNumber": 136,
+    "lineNumber": 192,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-20T16:47:14.450Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-append(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
-    "lineNumber": 136,
+    "lineNumber": 192,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-20T16:47:14.450Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').text(i18n('syncNow'));",
-    "lineNumber": 200,
+    "lineNumber": 273,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-25T13:52:04.149Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').attr('disabled', 'disabled');",
-    "lineNumber": 204,
+    "lineNumber": 277,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-25T13:52:04.149Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.synced_at').hide();",
-    "lineNumber": 216,
+    "lineNumber": 289,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-25T13:52:04.149Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync_failed').hide();",
-    "lineNumber": 221,
+    "lineNumber": 294,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-03-25T13:52:04.149Z",
+    "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
@@ -1288,22 +1373,6 @@
     "updated": "2020-02-21T22:10:39.074Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/array-index/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T20:57:04.499Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/array-index/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T20:57:04.499Z"
-  },
-  {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/ast-types/lib/path.js",
     "line": "    Pp.insertBefore = function insertBefore(node) {",
@@ -1570,14 +1639,6 @@
     "updated": "2019-12-11T01:10:06.091Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/backbone/backbone-min.js",
-    "lineNumber": 1,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Need a rule for setElement, which contains this"
-  },
-  {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/backbone/backbone-min.js",
     "lineNumber": 1,
@@ -1709,738 +1770,6 @@
     "lineNumber": 6,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "function nodebackForPromise(promise, multiArgs) {",
-    "lineNumber": 2099,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "        } else if (!multiArgs) {",
-    "lineNumber": 2106,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "    var multiArgs = arguments.length > 1 ? !!Object(arguments[1]).multiArgs",
-    "lineNumber": 2296,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "    var result = tryCatch(fn)(nodebackForPromise(ret, multiArgs));",
-    "lineNumber": 2298,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "    util.toFastProperties(Promise);                                          ",
-    "lineNumber": 2856,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Promise is a known global"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "function toFastProperties(obj) {",
-    "lineNumber": 3592,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Declaring a dangerous function"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "    eval(obj);",
-    "lineNumber": 3599,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2019-03-22T19:00:07.131Z",
-    "reasonDetail": "his is run on whatever is provided to toFastProperties()"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "    toFastProperties: toFastProperties,",
-    "lineNumber": 3752,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Exposing a dangerous function"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.js",
-    "line": "if (ret.isNode) ret.toFastProperties(process);",
-    "lineNumber": 3775,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "process is a known global"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.min.js",
-    "lineNumber": 31,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "It's usage of bluebird that's the problem, not bluebird itself with this rule"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.core.min.js",
-    "lineNumber": 31,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "        var spawn = new PromiseSpawn$(undefined, undefined, yieldHandler,",
-    "lineNumber": 2228,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this.constructor$(promises);",
-    "lineNumber": 2441,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this._init$(undefined, -2);",
-    "lineNumber": 2456,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function nodebackForPromise(promise, multiArgs) {",
-    "lineNumber": 2687,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "        } else if (!multiArgs) {",
-    "lineNumber": 2694,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    var multiArgs = arguments.length > 1 ? !!Object(arguments[1]).multiArgs",
-    "lineNumber": 2944,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    var result = tryCatch(fn)(nodebackForPromise(ret, multiArgs));",
-    "lineNumber": 2946,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    util.toFastProperties(Promise);                                          ",
-    "lineNumber": 3519,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Usage of bluebird is the problem with this rule, not bluebird itself"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function(callback, receiver, originalName, fn, _, multiArgs) {",
-    "lineNumber": 3846,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "            var nodeback = nodebackForPromise(promise, \" + multiArgs + \");   \\n\\",
-    "lineNumber": 3897,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function makeNodePromisifiedClosure(callback, receiver, _, fn, __, multiArgs) {",
-    "lineNumber": 3938,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "        var fn = nodebackForPromise(promise, multiArgs);",
-    "lineNumber": 3951,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function promisifyAll(obj, suffix, filter, promisifier, multiArgs) {",
-    "lineNumber": 3968,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "                makeNodePromisified(key, THIS, key, fn, suffix, multiArgs);",
-    "lineNumber": 3979,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "                                           fn, suffix, multiArgs);",
-    "lineNumber": 3983,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    util.toFastProperties(obj);",
-    "lineNumber": 3989,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "promisifyAll calls toFastProperties() but is limited to function or object"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function promisify(callback, receiver, multiArgs) {",
-    "lineNumber": 3993,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "                                callback, null, multiArgs);",
-    "lineNumber": 3995,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    var multiArgs = !!options.multiArgs;",
-    "lineNumber": 4007,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    var ret = promisify(fn, receiver, multiArgs);",
-    "lineNumber": 4008,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    var multiArgs = !!options.multiArgs;",
-    "lineNumber": 4018,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "                multiArgs);",
-    "lineNumber": 4036,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "            promisifyAll(value, suffix, filter, promisifier, multiArgs);",
-    "lineNumber": 4037,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    return promisifyAll(target, suffix, filter, promisifier, multiArgs);",
-    "lineNumber": 4041,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this.constructor$(entries);",
-    "lineNumber": 4102,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this._init$(undefined, isMap ? -6 : -3);",
-    "lineNumber": 4104,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this.constructor$(promises);",
-    "lineNumber": 4305,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this._init$(undefined, -5);",
-    "lineNumber": 4322,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this._resultCancelled$();",
-    "lineNumber": 4360,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this.constructor$(values);",
-    "lineNumber": 4537,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this.constructor$(values);",
-    "lineNumber": 4586,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    this._init$(undefined, -5);",
-    "lineNumber": 4601,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "        this.constructor$(fn, promise, context);",
-    "lineNumber": 5104,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "function toFastProperties(obj) {",
-    "lineNumber": 5434,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Declaring a dangerous function"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    eval(obj);",
-    "lineNumber": 5441,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2019-03-22T19:00:07.131Z",
-    "reasonDetail": "This is run on whatever is provided to toFastProperties()"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "    toFastProperties: toFastProperties,",
-    "lineNumber": 5594,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Exposing a dangerous function"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.js",
-    "line": "if (ret.isNode) ret.toFastProperties(process);",
-    "lineNumber": 5617,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "process is a known global"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.min.js",
-    "lineNumber": 30,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.min.js",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.min.js",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/browser/bluebird.min.js",
-    "lineNumber": 31,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/assert.js",
-    "line": "        this.constructor$(a);",
-    "lineNumber": 5,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/generators.js",
-    "line": "        var spawn = new PromiseSpawn$(undefined, undefined, yieldHandler,",
-    "lineNumber": 197,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/map.js",
-    "line": "    this.constructor$(promises);",
-    "lineNumber": 15,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/map.js",
-    "line": "    this._init$(undefined, -2);",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/nodeback.js",
-    "line": "function nodebackForPromise(promise, multiArgs) {",
-    "lineNumber": 34,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/nodeback.js",
-    "line": "        } else if (!multiArgs) {",
-    "lineNumber": 41,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promise.js",
-    "line": "    var multiArgs = arguments.length > 1 ? !!Object(arguments[1]).multiArgs",
-    "lineNumber": 178,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promise.js",
-    "line": "    var result = tryCatch(fn)(nodebackForPromise(ret, multiArgs));",
-    "lineNumber": 180,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promise.js",
-    "line": "    util.toFastProperties(Promise);                                          ",
-    "lineNumber": 753,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Promise is a known global"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "function(callback, receiver, originalName, fn, _, multiArgs) {",
-    "lineNumber": 116,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "            var nodeback = nodebackForPromise(promise, \" + multiArgs + \");   \\n\\",
-    "lineNumber": 167,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "function makeNodePromisifiedClosure(callback, receiver, _, fn, __, multiArgs) {",
-    "lineNumber": 208,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "        var fn = nodebackForPromise(promise, multiArgs);",
-    "lineNumber": 221,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "function promisifyAll(obj, suffix, filter, promisifier, multiArgs) {",
-    "lineNumber": 238,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "                makeNodePromisified(key, THIS, key, fn, suffix, multiArgs);",
-    "lineNumber": 249,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "                                           fn, suffix, multiArgs);",
-    "lineNumber": 253,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "    util.toFastProperties(obj);",
-    "lineNumber": 259,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "promisifyAll calls toFastProperties() but is limited to function or object"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "function promisify(callback, receiver, multiArgs) {",
-    "lineNumber": 263,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "                                callback, null, multiArgs);",
-    "lineNumber": 265,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "    var multiArgs = !!options.multiArgs;",
-    "lineNumber": 277,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "    var ret = promisify(fn, receiver, multiArgs);",
-    "lineNumber": 278,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "    var multiArgs = !!options.multiArgs;",
-    "lineNumber": 288,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "                multiArgs);",
-    "lineNumber": 306,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "            promisifyAll(value, suffix, filter, promisifier, multiArgs);",
-    "lineNumber": 307,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/promisify.js",
-    "line": "    return promisifyAll(target, suffix, filter, promisifier, multiArgs);",
-    "lineNumber": 311,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/props.js",
-    "line": "    this.constructor$(entries);",
-    "lineNumber": 56,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/props.js",
-    "line": "    this._init$(undefined, isMap ? -6 : -3);",
-    "lineNumber": 58,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/reduce.js",
-    "line": "    this.constructor$(promises);",
-    "lineNumber": 13,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/reduce.js",
-    "line": "    this._init$(undefined, -5);",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/reduce.js",
-    "line": "    this._resultCancelled$();",
-    "lineNumber": 68,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/settle.js",
-    "line": "    this.constructor$(values);",
-    "lineNumber": 8,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/some.js",
-    "line": "    this.constructor$(values);",
-    "lineNumber": 12,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/some.js",
-    "line": "    this._init$(undefined, -5);",
-    "lineNumber": 27,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/using.js",
-    "line": "        this.constructor$(fn, promise, context);",
-    "lineNumber": 92,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-03-22T19:00:07.131Z"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/util.js",
-    "line": "function toFastProperties(obj) {",
-    "lineNumber": 194,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Declaring a dangerous function"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/util.js",
-    "line": "    eval(obj);",
-    "lineNumber": 201,
-    "reasonCategory": "ruleNeeded",
-    "updated": "2019-03-22T19:00:07.131Z",
-    "reasonDetail": "This is run on whatever is provided to toFastProperties()"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/util.js",
-    "line": "    toFastProperties: toFastProperties,",
-    "lineNumber": 354,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "Declaring a dangerous function"
-  },
-  {
-    "rule": "bluebird-toFastProperties",
-    "path": "node_modules/cacache/node_modules/bluebird/js/release/util.js",
-    "line": "if (ret.isNode) ret.toFastProperties(process);",
-    "lineNumber": 377,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-22T19:15:12.445Z",
-    "reasonDetail": "process is a known global"
   },
   {
     "rule": "jQuery-wrap(",
@@ -3039,7 +2368,7 @@
     "rule": "jQuery-load(",
     "path": "node_modules/file-entry-cache/cache.js",
     "line": "    var cache = flatCache.load( cacheId, _path );",
-    "lineNumber": 13,
+    "lineNumber": 14,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
   },
@@ -3061,11 +2390,11 @@
   },
   {
     "rule": "thenify-multiArgs",
-    "path": "node_modules/flat-cache/node_modules/pify/index.js",
+    "path": "node_modules/del/node_modules/globby/node_modules/pify/index.js",
     "line": "\t\t\t\t} else if (opts.multiArgs) {",
     "lineNumber": 16,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:06:35.446Z"
+    "updated": "2020-08-25T00:30:50.619Z"
   },
   {
     "rule": "jQuery-append(",
@@ -5300,14 +4629,6 @@
     "updated": "2020-02-18T22:49:03.644Z"
   },
   {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/globby/node_modules/pify/index.js",
-    "line": "\t\t\t\t} else if (opts.multiArgs) {",
-    "lineNumber": 16,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:06:35.446Z"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "line": "      var a = !eval('\"use strict\";let x = 1; function f() { return typeof x; };f() == \"number\";');",
@@ -6369,14 +5690,6 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
-    "rule": "jQuery-before(",
-    "path": "node_modules/javascript-stringify/javascript-stringify.js",
-    "line": "        return before(value, function (value, space, next) {",
-    "lineNumber": 354,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "node_modules/js-tokens/index.js",
     "lineNumber": 10,
@@ -6437,29 +5750,6 @@
     "lineNumber": 1618,
     "reasonCategory": "falseMatch",
     "updated": "2019-04-03T00:52:04.925Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/jss-nested/dist/jss-nested.js",
-    "line": "\tvar refRegExp = /\\$([\\w-]+)/g;",
-    "lineNumber": 75,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:45:07.878Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/jss-nested/dist/jss-nested.min.js",
-    "lineNumber": 1,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:45:07.878Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/jss-nested/lib/index.js",
-    "line": "var refRegExp = /\\$([\\w-]+)/g;",
-    "lineNumber": 19,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:45:07.878Z"
   },
   {
     "rule": "jQuery-load(",
@@ -9248,11 +8538,187 @@
   },
   {
     "rule": "jQuery-append(",
-    "path": "node_modules/node-fetch/lib/headers.js",
+    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/headers.js",
     "line": "\t\t\t\tself.append(prop, item.toString());",
     "lineNumber": 40,
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
+    "updated": "2020-08-11T15:42:40.409Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/index.js",
+    "line": "\t\t\t\t\tthis.append(headerName, value);",
+    "lineNumber": 729,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/index.js",
+    "line": "\t\t// We don't worry about converting prop to ByteString here as append()",
+    "lineNumber": 736,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/index.js",
+    "line": "\t\t\t\t\tthis.append(pair[0], pair[1]);",
+    "lineNumber": 761,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/index.js",
+    "line": "\t\t\t\t\tthis.append(key, value);",
+    "lineNumber": 767,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/index.js",
+    "line": "\tappend(name, value) {",
+    "lineNumber": 838,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/index.js",
+    "line": "\t\t\t\tthis.headers.append('Content-Type', contentType);",
+    "lineNumber": 1118,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/index.js",
+    "line": "\t\t\t\t\t\theaders.append(name, val);",
+    "lineNumber": 1320,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/isomorphic-fetch/node_modules/node-fetch/lib/index.js",
+    "line": "\t\t\t\t\theaders.append(name, res.headers[name]);",
+    "lineNumber": 1323,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-fetch/lib/index.es.js",
+    "line": "\t\t\t\t\tthis.append(headerName, value);",
+    "lineNumber": 714,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-fetch/lib/index.es.js",
+    "line": "\t\t// We don't worry about converting prop to ByteString here as append()",
+    "lineNumber": 721,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-fetch/lib/index.es.js",
+    "line": "\t\t\t\t\tthis.append(pair[0], pair[1]);",
+    "lineNumber": 744,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-fetch/lib/index.es.js",
+    "line": "\t\t\t\t\tthis.append(key, value);",
+    "lineNumber": 750,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-fetch/lib/index.es.js",
+    "line": "\tappend(name, value) {",
+    "lineNumber": 821,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-fetch/lib/index.es.js",
+    "line": "\t\t\t\theaders.append('Content-Type', contentType);",
+    "lineNumber": 1057,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-fetch/lib/index.es.js",
+    "line": "\t\t\t\theaders.append('Content-Type', contentType);",
+    "lineNumber": 1204,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-fetch/lib/index.js",
+    "line": "\t\t\t\t\tthis.append(headerName, value);",
+    "lineNumber": 718,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-fetch/lib/index.js",
+    "line": "\t\t// We don't worry about converting prop to ByteString here as append()",
+    "lineNumber": 725,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-fetch/lib/index.js",
+    "line": "\t\t\t\t\tthis.append(pair[0], pair[1]);",
+    "lineNumber": 748,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-fetch/lib/index.js",
+    "line": "\t\t\t\t\tthis.append(key, value);",
+    "lineNumber": 754,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-fetch/lib/index.js",
+    "line": "\tappend(name, value) {",
+    "lineNumber": 825,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-fetch/lib/index.js",
+    "line": "\t\t\t\theaders.append('Content-Type', contentType);",
+    "lineNumber": 1061,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/node-fetch/lib/index.js",
+    "line": "\t\t\t\theaders.append('Content-Type', contentType);",
+    "lineNumber": 1208,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-11T15:42:35.324Z"
   },
   {
     "rule": "jQuery-$(",
@@ -9525,70 +8991,6 @@
     "updated": "2020-04-30T22:35:27.860Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/optionator/lib/help.js",
-    "line": "      return namesString + \"\" + typeSeparatorString + wrap(type).replace(/^\\s+/, '');",
-    "lineNumber": 32,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/optionator/lib/help.js",
-    "line": "          ? \"\\n\" + preDescription + \"\\n\" + wrap(fullDescription)",
-    "lineNumber": 74,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/lib/help.js",
-    "line": "      seperator = defaultString || descriptionString || exampleString ? \"\\n\" + repeatString$('=', pre.length) : '';",
-    "lineNumber": 79,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/lib/help.js",
-    "line": "      initialSpace = repeatString$(' ', initialIndent);",
-    "lineNumber": 181,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/optionator/lib/help.js",
-    "line": "              out(initialSpace + \"\" + pre + \"\\n\" + wrap(desc));",
-    "lineNumber": 196,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/optionator/lib/help.js",
-    "line": "              out(initialSpace + \"\" + pad(pre, padAmount) + descriptionSeparator + wrap(desc).replace(/^\\s+/, ''));",
-    "lineNumber": 200,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/lib/help.js",
-    "line": "    return str + \"\" + repeatString$(' ', padAmount > 0 ? padAmount : 0);",
-    "lineNumber": 222,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/lib/help.js",
-    "line": "  function repeatString$(str, n){",
-    "lineNumber": 243,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
     "rule": "jQuery-$(",
     "path": "node_modules/optionator/lib/index.js",
     "line": "      function fn$(it){",
@@ -9675,14 +9077,6 @@
     "lineNumber": 35,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:06:35.446Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/pluralize/pluralize.js",
-    "line": "    return str.replace(/\\$(\\d{1,2})/g, function (match, index) {",
-    "lineNumber": 72,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
   },
   {
     "rule": "jQuery-$(",
@@ -10146,14 +9540,6 @@
     "updated": "2019-12-11T01:10:06.091Z"
   },
   {
-    "rule": "jQuery-html(",
-    "path": "node_modules/remark-stringify/lib/visitors/html.js",
-    "line": "function html(node) {",
-    "lineNumber": 5,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
     "rule": "jQuery-append(",
     "path": "node_modules/request/lib/multipart.js",
     "line": "    return chunked ? body.append(part) : body.push(Buffer.from(part))",
@@ -10213,38 +9599,6 @@
     "lineNumber": 4,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/serve-static/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "lineNumber": 150,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/serve-static/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 168,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/serve-static/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/serve-static/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-$(",
@@ -10534,282 +9888,6 @@
   },
   {
     "rule": "jQuery-append(",
-    "path": "node_modules/table/dist/createStream.js",
-    "line": "        return append(row, columnWidthIndex, config);",
-    "lineNumber": 153,
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "React-ref",
-    "path": "node_modules/table/node_modules/ajv/dist/nodent.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/table/node_modules/ajv/dist/nodent.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/table/node_modules/ajv/dist/nodent.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/table/node_modules/ajv/dist/nodent.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/table/node_modules/ajv/dist/nodent.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/table/node_modules/ajv/dist/regenerator.min.js",
-    "lineNumber": 2,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-12-11T01:10:06.091Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/table/node_modules/lodash/after.js",
-    "line": " * var done = _.after(saves.length, function() {",
-    "lineNumber": 21,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/table/node_modules/lodash/after.js",
-    "line": "function after(n, func) {",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/table/node_modules/lodash/before.js",
-    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 20,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/table/node_modules/lodash/before.js",
-    "line": "function before(n, func) {",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/table/node_modules/lodash/core.js",
-    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 2228,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/table/node_modules/lodash/core.js",
-    "line": "  function before(n, func) {",
-    "lineNumber": 2231,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/table/node_modules/lodash/core.js",
-    "line": "    return before(2, func);",
-    "lineNumber": 2381,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/table/node_modules/lodash/core.js",
-    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 3483,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/table/node_modules/lodash/core.min.js",
-    "lineNumber": 15,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/table/node_modules/lodash/fp/_baseConvert.js",
-    "line": "  function wrap(name, func, placeholder) {",
-    "lineNumber": 468,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/table/node_modules/lodash/fp/_baseConvert.js",
-    "line": "    return wrap(name, func, defaultHolder);",
-    "lineNumber": 521,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/table/node_modules/lodash/fp/_baseConvert.js",
-    "line": "        pairs.push([key, wrap(key, func, _)]);",
-    "lineNumber": 531,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/table/node_modules/lodash/iteratee.js",
-    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 40,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/table/node_modules/lodash/lodash.js",
-    "line": "     * var done = _.after(saves.length, function() {",
-    "lineNumber": 9983,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/table/node_modules/lodash/lodash.js",
-    "line": "    function after(n, func) {",
-    "lineNumber": 9992,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/table/node_modules/lodash/lodash.js",
-    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 10041,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/table/node_modules/lodash/lodash.js",
-    "line": "    function before(n, func) {",
-    "lineNumber": 10044,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/table/node_modules/lodash/lodash.js",
-    "line": "      return before(2, func);",
-    "lineNumber": 10619,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/table/node_modules/lodash/lodash.js",
-    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 10950,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/table/node_modules/lodash/lodash.js",
-    "line": "    function wrap(value, wrapper) {",
-    "lineNumber": 10957,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/table/node_modules/lodash/lodash.js",
-    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 15518,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/table/node_modules/lodash/once.js",
-    "line": "  return before(2, func);",
-    "lineNumber": 22,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/table/node_modules/lodash/wrap.js",
-    "line": " * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 19,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/table/node_modules/lodash/wrap.js",
-    "line": "function wrap(value, wrapper) {",
-    "lineNumber": 26,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-append(",
     "path": "node_modules/tar-fs/node_modules/tar-stream/extract.js",
     "line": "    b.append(data)",
     "lineNumber": 231,
@@ -10874,11 +9952,11 @@
   },
   {
     "rule": "thenify-multiArgs",
-    "path": "node_modules/terser-webpack-plugin/node_modules/pify/index.js",
+    "path": "node_modules/find-cache-dir/node_modules/pify/index.js",
     "line": "\t\tif (options.multiArgs) {",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:45:07.878Z"
+    "updated": "2020-08-25T00:30:50.619Z"
   },
   {
     "rule": "jQuery-before(",
@@ -11066,22 +10144,6 @@
     "updated": "2019-12-11T01:10:06.091Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/websocket/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "lineNumber": 156,
-    "reasonCategory": "falseMatc",
-    "updated": "2020-04-30T20:57:04.499Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/websocket/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "lineNumber": 248,
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T20:57:04.499Z"
-  },
-  {
     "rule": "jQuery-append(",
     "path": "node_modules/whatwg-fetch/fetch.js",
     "line": "        this.append(name, value)",
@@ -11146,197 +10208,6 @@
     "updated": "2018-09-19T21:59:32.770Z"
   },
   {
-    "rule": "jQuery-after(",
-    "path": "node_modules/zip-stream/node_modules/lodash/after.js",
-    "line": " * var done = _.after(saves.length, function() {",
-    "lineNumber": 21,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/zip-stream/node_modules/lodash/after.js",
-    "line": "function after(n, func) {",
-    "lineNumber": 30,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/zip-stream/node_modules/lodash/before.js",
-    "line": " * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 20,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/zip-stream/node_modules/lodash/before.js",
-    "line": "function before(n, func) {",
-    "lineNumber": 23,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/zip-stream/node_modules/lodash/core.js",
-    "line": "   * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 2228,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/zip-stream/node_modules/lodash/core.js",
-    "line": "  function before(n, func) {",
-    "lineNumber": 2231,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/zip-stream/node_modules/lodash/core.js",
-    "line": "    return before(2, func);",
-    "lineNumber": 2381,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/zip-stream/node_modules/lodash/core.js",
-    "line": "   * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 3483,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/zip-stream/node_modules/lodash/core.min.js",
-    "lineNumber": 15,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/zip-stream/node_modules/lodash/fp/_baseConvert.js",
-    "line": "  function wrap(name, func, placeholder) {",
-    "lineNumber": 468,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/zip-stream/node_modules/lodash/fp/_baseConvert.js",
-    "line": "    return wrap(name, func, defaultHolder);",
-    "lineNumber": 521,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/zip-stream/node_modules/lodash/fp/_baseConvert.js",
-    "line": "        pairs.push([key, wrap(key, func, _)]);",
-    "lineNumber": 531,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/zip-stream/node_modules/lodash/iteratee.js",
-    "line": " * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 40,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/zip-stream/node_modules/lodash/lodash.js",
-    "line": "     * var done = _.after(saves.length, function() {",
-    "lineNumber": 9983,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/zip-stream/node_modules/lodash/lodash.js",
-    "line": "    function after(n, func) {",
-    "lineNumber": 9992,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/zip-stream/node_modules/lodash/lodash.js",
-    "line": "     * jQuery(element).on('click', _.before(5, addContactToList));",
-    "lineNumber": 10041,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/zip-stream/node_modules/lodash/lodash.js",
-    "line": "    function before(n, func) {",
-    "lineNumber": 10044,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/zip-stream/node_modules/lodash/lodash.js",
-    "line": "      return before(2, func);",
-    "lineNumber": 10619,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/zip-stream/node_modules/lodash/lodash.js",
-    "line": "     * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 10950,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/zip-stream/node_modules/lodash/lodash.js",
-    "line": "    function wrap(value, wrapper) {",
-    "lineNumber": 10957,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/zip-stream/node_modules/lodash/lodash.js",
-    "line": "     * _.iteratee = _.wrap(_.iteratee, function(iteratee, func) {",
-    "lineNumber": 15518,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/zip-stream/node_modules/lodash/once.js",
-    "line": "  return before(2, func);",
-    "lineNumber": 22,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/zip-stream/node_modules/lodash/wrap.js",
-    "line": " * var p = _.wrap(_.escape, function(func, text) {",
-    "lineNumber": 19,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/zip-stream/node_modules/lodash/wrap.js",
-    "line": "function wrap(value, wrapper) {",
-    "lineNumber": 26,
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-16T21:56:03.429Z"
-  },
-  {
     "rule": "jQuery-load(",
     "path": "node_modules/zkgroup/node_modules/debug/src/browser.js",
     "line": "function load() {",
@@ -11369,6 +10240,14 @@
     "updated": "2020-04-13T23:38:26.065Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "sticker-creator/util/i18n.tsx",
+    "line": "      const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
+    "lineNumber": 39,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-07-21T18:34:59.251Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "ts/backbone/views/Lightbox.js",
     "line": "    container.innerHTML = '';",
@@ -11406,6 +10285,24 @@
   },
   {
     "rule": "React-createRef",
+    "path": "ts/components/CallScreen.js",
+    "line": "        this.localVideoRef = react_1.default.createRef();",
+    "lineNumber": 97,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-05-28T17:22:06.472Z",
+    "reasonDetail": "Used to render local preview video"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/CallScreen.tsx",
+    "line": "    this.localVideoRef = React.createRef();",
+    "lineNumber": 74,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-06-02T21:51:34.813Z",
+    "reasonDetail": "Used to render local preview video"
+  },
+  {
+    "rule": "React-createRef",
     "path": "ts/components/CaptionEditor.js",
     "line": "        this.inputRef = react_1.default.createRef();",
     "lineNumber": 27,
@@ -11426,19 +10323,35 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.js",
     "line": "    el.innerHTML = '';",
-    "lineNumber": 22,
+    "lineNumber": 23,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-08-01T14:10:37.481Z",
+    "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
-    "lineNumber": 73,
+    "lineNumber": 80,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-12-16T14:36:25.614ZZ",
+    "updated": "2020-06-03T19:23:21.195Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/components/Intl.js",
+    "line": "        const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
+    "lineNumber": 35,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-07-21T18:34:59.251Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/components/Intl.tsx",
+    "line": "    const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
+    "lineNumber": 69,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-07-21T18:34:59.251Z"
   },
   {
     "rule": "React-createRef",
@@ -11480,10 +10393,19 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.tsx",
     "line": "    this.inputRef = React.createRef();",
-    "lineNumber": 69,
+    "lineNumber": 71,
     "reasonCategory": "usageTrusted",
     "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Used only to set focus"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/SafetyNumberChangeDialog.js",
+    "line": "    const cancelButtonRef = React.createRef();",
+    "lineNumber": 15,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-06-23T06:48:06.829Z",
+    "reasonDetail": "Used to focus cancel button when dialog opens"
   },
   {
     "rule": "React-createRef",
@@ -11496,20 +10418,11 @@
   },
   {
     "rule": "React-createRef",
-    "path": "ts/components/conversation/ConversationHeader.js",
-    "line": "        this.menuTriggerRef = react_1.default.createRef();",
-    "lineNumber": 14,
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
-    "reasonDetail": "Used to reference popup menu"
-  },
-  {
-    "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
     "line": "    this.menuTriggerRef = React.createRef();",
-    "lineNumber": 67,
+    "lineNumber": 79,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-07-31T00:19:18.696Z",
+    "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Used to reference popup menu"
   },
   {
@@ -11532,36 +10445,19 @@
   },
   {
     "rule": "React-createRef",
-    "path": "ts/components/conversation/Message.js",
-    "line": "        this.audioRef = react_1.default.createRef();",
-    "lineNumber": 46,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-01-21T15:46:51.245Z"
-  },
-  {
-    "rule": "React-createRef",
-    "path": "ts/components/conversation/Message.js",
-    "line": "        this.reactionsContainerRef = react_1.default.createRef();",
-    "lineNumber": 48,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-01-21T15:46:51.245Z",
-    "reasonDetail": "Used for detecting clicks outside reaction viewer"
-  },
-  {
-    "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
-    "lineNumber": 184,
+    "lineNumber": 210,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-04-30T15:59:13.160Z"
+    "updated": "2020-08-28T19:36:40.817Z"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 188,
+    "lineNumber": 214,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-04-30T15:59:13.160Z"
+    "updated": "2020-08-28T19:36:40.817Z"
   },
   {
     "rule": "React-createRef",
@@ -11708,17 +10604,17 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SendMessage.ts",
     "line": "  return window.dcodeIO.ByteBuffer.wrap(string, 'hex').toArrayBuffer();",
-    "lineNumber": 29,
+    "lineNumber": 32,
     "reasonCategory": "falseMatch",
-    "updated": "2020-04-05T23:45:16.746Z"
+    "updated": "2020-05-28T18:08:02.658Z"
   },
   {
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SendMessage.ts",
     "line": "  return window.dcodeIO.ByteBuffer.wrap(string, 'base64').toArrayBuffer();",
-    "lineNumber": 32,
+    "lineNumber": 35,
     "reasonCategory": "falseMatch",
-    "updated": "2020-04-05T23:45:16.746Z"
+    "updated": "2020-05-28T18:08:02.658Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -11783,5 +10679,2289 @@
     "lineNumber": 51,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/js-base64/base64.js",
+    "line": "            buffer = eval(\"require('buffer').Buffer\");",
+    "lineNumber": 29,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-25T16:58:28.474Z",
+    "reasonDetail": "Hard coded string"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/js-base64/base64.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-25T16:58:28.474Z",
+    "reasonDetail": "Hard coded string"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/parse-entities/decode-entity.browser.js",
+    "line": "  el.innerHTML = entity",
+    "lineNumber": 16,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-25T16:59:46.588Z",
+    "reasonDetail": "Ephemeral element"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/uri-js/dist/es5/uri.all.min.js",
+    "lineNumber": 2,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/table/dist/createStream.js",
+    "line": "        return append(row, columnWidthIndex, config);",
+    "lineNumber": 124,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Func.js",
+    "line": "apply = curry$(function(f, list){",
+    "lineNumber": 3,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Func.js",
+    "line": "  return curry$(f);",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Func.js",
+    "line": "flip = curry$(function(f, x, y){",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Func.js",
+    "line": "over = curry$(function(f, g, x, y){",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Func.js",
+    "line": "function curry$(f, bound){",
+    "lineNumber": 57,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "each = curry$(function(f, xs){",
+    "lineNumber": 3,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "map = curry$(function(f, xs){",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "filter = curry$(function(f, xs){",
+    "lineNumber": 29,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "reject = curry$(function(f, xs){",
+    "lineNumber": 39,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "remove = curry$(function(el, xs){",
+    "lineNumber": 49,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "partition = curry$(function(f, xs){",
+    "lineNumber": 58,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "find = curry$(function(f, xs){",
+    "lineNumber": 68,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "    if (!in$(x, result)) {",
+    "lineNumber": 106,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "uniqueBy = curry$(function(f, xs){",
+    "lineNumber": 112,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "    if (in$(val, seen)) {",
+    "lineNumber": 118,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "fold = foldl = curry$(function(f, memo, xs){",
+    "lineNumber": 126,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "fold1 = foldl1 = curry$(function(f, xs){",
+    "lineNumber": 134,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "foldr = curry$(function(f, memo, xs){",
+    "lineNumber": 137,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "foldr1 = curry$(function(f, xs){",
+    "lineNumber": 145,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "unfoldr = curry$(function(f, b){",
+    "lineNumber": 148,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "concatMap = curry$(function(f, xs){",
+    "lineNumber": 161,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "      if (in$(x, ys)) {",
+    "lineNumber": 199,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "      if (!in$(x, ys)) {",
+    "lineNumber": 219,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "      if (!in$(x, results)) {",
+    "lineNumber": 239,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "countBy = curry$(function(f, xs){",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "groupBy = curry$(function(f, xs){",
+    "lineNumber": 260,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "any = curry$(function(f, xs){",
+    "lineNumber": 294,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "all = curry$(function(f, xs){",
+    "lineNumber": 304,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "sortWith = curry$(function(f, xs){",
+    "lineNumber": 325,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "sortBy = curry$(function(f, xs){",
+    "lineNumber": 328,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "maximumBy = curry$(function(f, xs){",
+    "lineNumber": 388,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "minimumBy = curry$(function(f, xs){",
+    "lineNumber": 399,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "scan = scanl = curry$(function(f, memo, xs){",
+    "lineNumber": 410,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "scan1 = scanl1 = curry$(function(f, xs){",
+    "lineNumber": 422,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "scanr = curry$(function(f, memo, xs){",
+    "lineNumber": 428,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "scanr1 = curry$(function(f, xs){",
+    "lineNumber": 432,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "slice = curry$(function(x, y, xs){",
+    "lineNumber": 439,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "take = curry$(function(n, xs){",
+    "lineNumber": 442,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "drop = curry$(function(n, xs){",
+    "lineNumber": 449,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "splitAt = curry$(function(n, xs){",
+    "lineNumber": 456,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "takeWhile = curry$(function(p, xs){",
+    "lineNumber": 459,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "dropWhile = curry$(function(p, xs){",
+    "lineNumber": 471,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "span = curry$(function(p, xs){",
+    "lineNumber": 483,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "breakList = curry$(function(p, xs){",
+    "lineNumber": 486,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "  return span(compose$(p, not$), xs);",
+    "lineNumber": 487,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "zip = curry$(function(xs, ys){",
+    "lineNumber": 489,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "zipWith = curry$(function(f, xs, ys){",
+    "lineNumber": 503,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "    results$.push(f.apply(null, (fn$())));",
+    "lineNumber": 554,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "  function fn$(){",
+    "lineNumber": 557,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "at = curry$(function(n, xs){",
+    "lineNumber": 566,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "elemIndex = curry$(function(el, xs){",
+    "lineNumber": 573,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "elemIndices = curry$(function(el, xs){",
+    "lineNumber": 583,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "findIndex = curry$(function(f, xs){",
+    "lineNumber": 594,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "findIndices = curry$(function(f, xs){",
+    "lineNumber": 604,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "function curry$(f, bound){",
+    "lineNumber": 687,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "function in$(x, xs){",
+    "lineNumber": 700,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "function compose$() {",
+    "lineNumber": 705,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/List.js",
+    "line": "function not$(x){ return !x; }",
+    "lineNumber": 716,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
+    "line": "max = curry$(function(x$, y$){",
+    "lineNumber": 3,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
+    "line": "min = curry$(function(x$, y$){",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
+    "line": "quot = curry$(function(x, y){",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
+    "line": "rem = curry$(function(x$, y$){",
+    "lineNumber": 25,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
+    "line": "div = curry$(function(x, y){",
+    "lineNumber": 28,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
+    "line": "mod = curry$(function(x$, y$){",
+    "lineNumber": 31,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
+    "line": "pow = curry$(function(x$, y$){",
+    "lineNumber": 43,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
+    "line": "atan2 = curry$(function(x, y){",
+    "lineNumber": 52,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
+    "line": "gcd = curry$(function(x, y){",
+    "lineNumber": 70,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
+    "line": "lcm = curry$(function(x, y){",
+    "lineNumber": 81,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Num.js",
+    "line": "function curry$(f, bound){",
+    "lineNumber": 118,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Obj.js",
+    "line": "listsToObj = curry$(function(keys, values){",
+    "lineNumber": 34,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Obj.js",
+    "line": "each = curry$(function(f, object){",
+    "lineNumber": 61,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Obj.js",
+    "line": "map = curry$(function(f, object){",
+    "lineNumber": 69,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Obj.js",
+    "line": "filter = curry$(function(f, object){",
+    "lineNumber": 87,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Obj.js",
+    "line": "reject = curry$(function(f, object){",
+    "lineNumber": 97,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Obj.js",
+    "line": "partition = curry$(function(f, object){",
+    "lineNumber": 107,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Obj.js",
+    "line": "find = curry$(function(f, object){",
+    "lineNumber": 117,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Obj.js",
+    "line": "function curry$(f, bound){",
+    "lineNumber": 142,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Str.js",
+    "line": "split = curry$(function(sep, str){",
+    "lineNumber": 3,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Str.js",
+    "line": "join = curry$(function(sep, xs){",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Str.js",
+    "line": "repeat = curry$(function(n, str){",
+    "lineNumber": 36,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/Str.js",
+    "line": "function curry$(f, bound){",
+    "lineNumber": 80,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/index.js",
+    "line": "isType = curry$(function(type, x){",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/index.js",
+    "line": "replicate = curry$(function(n, x){",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/prelude-ls/lib/index.js",
+    "line": "function curry$(f, bound){",
+    "lineNumber": 166,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/type-check/lib/parse-type.js",
+    "line": "    if (in$('->', tokens)) {",
+    "lineNumber": 183,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/levn/node_modules/type-check/lib/parse-type.js",
+    "line": "  function in$(x, xs){",
+    "lineNumber": 193,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "React-ref",
+    "path": "node_modules/esquery/dist/esquery.esm.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't react"
+  },
+  {
+    "rule": "React-ref",
+    "path": "node_modules/esquery/dist/esquery.min.js",
+    "lineNumber": 1,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't react"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/prompts/autocomplete.js",
+    "line": "    return this.append(ch);",
+    "lineNumber": 26,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/prompts/autocomplete.js",
+    "line": "    return this.options.multiple ? super.space(ch) : this.append(ch);",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/prompts/autocomplete.js",
+    "line": "  append(ch) {",
+    "lineNumber": 33,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/prompts/autocomplete.js",
+    "line": "    return this.append(ch);",
+    "lineNumber": 56,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/prompts/editable.js",
+    "line": "  append(char, key) {",
+    "lineNumber": 24,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/prompts/editable.js",
+    "line": "    return this.focused.editable ? this.append(char) : super.space();",
+    "lineNumber": 33,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/prompts/editable.js",
+    "line": "    return this.focused.editable ? this.append(char) : super.number(char);",
+    "lineNumber": 37,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/prompts/form.js",
+    "line": "    return !!char && this.append(char);",
+    "lineNumber": 27,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/prompts/form.js",
+    "line": "  append(char) {",
+    "lineNumber": 30,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/prompts/snippet.js",
+    "line": "      this.append(ch, key);",
+    "lineNumber": 40,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/prompts/snippet.js",
+    "line": "  append(ch, key) {",
+    "lineNumber": 46,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/types/number.js",
+    "line": "  append(ch) {",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/types/number.js",
+    "line": "    return super.append(ch);",
+    "lineNumber": 25,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/types/number.js",
+    "line": "    return super.append(ch);",
+    "lineNumber": 29,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/types/string.js",
+    "line": "        return this.append('\\n', key);",
+    "lineNumber": 21,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/types/string.js",
+    "line": "    this.append(ch);",
+    "lineNumber": 39,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/types/string.js",
+    "line": "  append(ch) {",
+    "lineNumber": 42,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/enquirer/lib/types/string.js",
+    "line": "    this.append(str);",
+    "lineNumber": 50,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/diff/dist/diff.min.js",
+    "lineNumber": 38,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/@typescript-eslint/eslint-plugin/dist/rules/no-implied-eval.js",
+    "line": "            description: 'Disallow the use of `eval()`-like methods',",
+    "lineNumber": 38,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T00:10:28.628Z",
+    "reasonDetail": "just a doc"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/aria-query/node_modules/regenerator-runtime/runtime.js",
+    "line": "  function wrap(innerFn, outerFn, self, tryLocsList) {",
+    "lineNumber": 37,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/aria-query/node_modules/regenerator-runtime/runtime.js",
+    "line": "      wrap(innerFn, outerFn, self, tryLocsList),",
+    "lineNumber": 232,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/array-index/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 156,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/array-index/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 248,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "        return function wrap() {",
+    "lineNumber": 872,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "        return function wrap(arr) {",
+    "lineNumber": 1071,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "            $({",
+    "lineNumber": 2382,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "        $({",
+    "lineNumber": 3567,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "          $({",
+    "lineNumber": 3688,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      return rule.after(ruleResult, options);",
+    "lineNumber": 8674,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      var afterResults = check.after(beforeResults, option);",
+    "lineNumber": 9361,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "          results = audit.after(results, options);",
+    "lineNumber": 10205,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "    var source = element.outerHTML;",
+    "lineNumber": 11066,
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "Only used by eslint-config-airbnb-typescript-prettier#eslint-plugin-jsx-a11y"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "    style.innerHTML = usePointer ? '* { pointer-events: all }' : '* { visibility: visible }';",
+    "lineNumber": 12432,
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "Only used by eslint-config-airbnb-typescript-prettier#eslint-plugin-jsx-a11y"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/axe-core/axe.min.js",
+    "lineNumber": 12,
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "Only used by eslint-config-airbnb-typescript-prettier#eslint-plugin-jsx-a11y"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/axe-core/axe.min.js",
+    "lineNumber": 12,
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "Only used by eslint-config-airbnb-typescript-prettier#eslint-plugin-jsx-a11y"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      after: function after(results, options) {",
+    "lineNumber": 16933,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      after: function after(results, options) {",
+    "lineNumber": 17013,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      after: function after(results, options) {",
+    "lineNumber": 17037,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      after: function after(results, options) {",
+    "lineNumber": 17179,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      after: function after(results, options) {",
+    "lineNumber": 17207,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      after: function after(results, options) {",
+    "lineNumber": 17248,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      after: function after(results, options) {",
+    "lineNumber": 17284,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      after: function after(results, options) {",
+    "lineNumber": 17320,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      after: function after(results, options) {",
+    "lineNumber": 17520,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      after: function after(results, options) {",
+    "lineNumber": 18116,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      after: function after(results, options) {",
+    "lineNumber": 18150,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      after: function after(results, options) {",
+    "lineNumber": 18408,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      after: function after(results, options) {",
+    "lineNumber": 18435,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      after: function after(results, options) {",
+    "lineNumber": 18462,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.js",
+    "line": "      after: function after(results, options) {",
+    "lineNumber": 18489,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "React-ref",
+    "path": "node_modules/axe-core/axe.min.js",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't react"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/axe-core/axe.min.js",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/axe.min.js",
+    "lineNumber": 12,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/lib/core/base/audit.js",
+    "line": "\t\treturn rule.after(ruleResult, options);",
+    "lineNumber": 612,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/lib/core/base/rule.js",
+    "line": "\t\tvar afterResults = check.after(beforeResults, option);",
+    "lineNumber": 499,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/axe-core/lib/core/public/run-rules.js",
+    "line": "\t\t\t\tresults = audit.after(results, options);",
+    "lineNumber": 75,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T18:06:51.702Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/axe-core/lib/core/utils/dq-element.js",
+    "line": "\tvar source = element.outerHTML;",
+    "lineNumber": 15,
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2020-08-26T19:34:24.581Z",
+    "reasonDetail": "only used by eslint-plugin-jsx-ally"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/axe-core/lib/core/utils/dq-element.js",
+    "line": " * grab the source (outerHTML) and offer an array for storing frame paths",
+    "lineNumber": 24,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T19:34:24.581Z",
+    "reasonDetail": "documentation"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/axe-core/lib/core/utils/pollyfills.js",
+    "line": "\tstyle.innerHTML = usePointer",
+    "lineNumber": 71,
+    "reasonCategory": "otherUtilityCode",
+    "updated": "2020-08-26T19:34:24.581Z",
+    "reasonDetail": "only used by eslint-plugin-jsx-ally"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/websocket/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "lineNumber": 156,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T19:34:24.581Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/websocket/node_modules/debug/src/node.js",
+    "line": "exports.enable(load());",
+    "lineNumber": 248,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-26T19:34:24.581Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/acorn/dist/acorn.js",
+    "line": "  // $$('#table-binary-unicode-properties > figure > table > tbody > tr > td:nth-child(1) code').map(el => el.innerText)",
+    "lineNumber": 3221,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/lib/help.js",
+    "line": "      : [repeatString$(' ', a), b - a - 1], indent = ref$[0], width = ref$[1];",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/optionator/lib/help.js",
+    "line": "      return namesString + \"\" + typeSeparatorString + wrap(type).replace(/^\\s+/, '');",
+    "lineNumber": 45,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/optionator/lib/help.js",
+    "line": "          ? \"\\n\" + preDescription + \"\\n\" + wrap(fullDescription)",
+    "lineNumber": 87,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/lib/help.js",
+    "line": "      seperator = defaultString || descriptionString || exampleString ? \"\\n\" + repeatString$('=', pre.length) : '';",
+    "lineNumber": 92,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/lib/help.js",
+    "line": "      initialSpace = repeatString$(' ', initialIndent);",
+    "lineNumber": 194,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/optionator/lib/help.js",
+    "line": "              out(initialSpace + \"\" + pre + \"\\n\" + wrap(desc));",
+    "lineNumber": 209,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/optionator/lib/help.js",
+    "line": "              out(initialSpace + \"\" + pad(pre, padAmount) + descriptionSeparator + wrap(desc).replace(/^\\s+/, ''));",
+    "lineNumber": 213,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/lib/help.js",
+    "line": "    return str + \"\" + repeatString$(' ', padAmount > 0 ? padAmount : 0);",
+    "lineNumber": 235,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/lib/help.js",
+    "line": "  function repeatString$(str, n){",
+    "lineNumber": 256,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/lib/index.js",
+    "line": "                  option.dependsOn = [dependsType].concat(arrayFrom$(dependsOpts));",
+    "lineNumber": 107,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Func.js",
+    "line": "apply = curry$(function(f, list){",
+    "lineNumber": 3,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Func.js",
+    "line": "  return curry$(f);",
+    "lineNumber": 7,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Func.js",
+    "line": "flip = curry$(function(f, x, y){",
+    "lineNumber": 9,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Func.js",
+    "line": "over = curry$(function(f, g, x, y){",
+    "lineNumber": 23,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Func.js",
+    "line": "function curry$(f, bound){",
+    "lineNumber": 57,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "each = curry$(function(f, xs){",
+    "lineNumber": 3,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "map = curry$(function(f, xs){",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "filter = curry$(function(f, xs){",
+    "lineNumber": 29,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "reject = curry$(function(f, xs){",
+    "lineNumber": 39,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "remove = curry$(function(el, xs){",
+    "lineNumber": 49,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "partition = curry$(function(f, xs){",
+    "lineNumber": 58,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "find = curry$(function(f, xs){",
+    "lineNumber": 68,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "    if (!in$(x, result)) {",
+    "lineNumber": 106,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "uniqueBy = curry$(function(f, xs){",
+    "lineNumber": 112,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "    if (in$(val, seen)) {",
+    "lineNumber": 118,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "fold = foldl = curry$(function(f, memo, xs){",
+    "lineNumber": 126,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "fold1 = foldl1 = curry$(function(f, xs){",
+    "lineNumber": 134,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "foldr = curry$(function(f, memo, xs){",
+    "lineNumber": 137,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "foldr1 = curry$(function(f, xs){",
+    "lineNumber": 145,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "unfoldr = curry$(function(f, b){",
+    "lineNumber": 148,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "concatMap = curry$(function(f, xs){",
+    "lineNumber": 161,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "      if (in$(x, ys)) {",
+    "lineNumber": 199,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "      if (!in$(x, ys)) {",
+    "lineNumber": 219,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "      if (!in$(x, results)) {",
+    "lineNumber": 239,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "countBy = curry$(function(f, xs){",
+    "lineNumber": 246,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "groupBy = curry$(function(f, xs){",
+    "lineNumber": 260,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "any = curry$(function(f, xs){",
+    "lineNumber": 294,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "all = curry$(function(f, xs){",
+    "lineNumber": 304,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "sortWith = curry$(function(f, xs){",
+    "lineNumber": 325,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "sortBy = curry$(function(f, xs){",
+    "lineNumber": 328,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "maximumBy = curry$(function(f, xs){",
+    "lineNumber": 388,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "minimumBy = curry$(function(f, xs){",
+    "lineNumber": 399,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "scan = scanl = curry$(function(f, memo, xs){",
+    "lineNumber": 410,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "scan1 = scanl1 = curry$(function(f, xs){",
+    "lineNumber": 422,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "scanr = curry$(function(f, memo, xs){",
+    "lineNumber": 428,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "scanr1 = curry$(function(f, xs){",
+    "lineNumber": 432,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "slice = curry$(function(x, y, xs){",
+    "lineNumber": 439,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "take = curry$(function(n, xs){",
+    "lineNumber": 442,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "drop = curry$(function(n, xs){",
+    "lineNumber": 449,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "splitAt = curry$(function(n, xs){",
+    "lineNumber": 456,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "takeWhile = curry$(function(p, xs){",
+    "lineNumber": 459,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "dropWhile = curry$(function(p, xs){",
+    "lineNumber": 471,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "span = curry$(function(p, xs){",
+    "lineNumber": 483,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "breakList = curry$(function(p, xs){",
+    "lineNumber": 486,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "  return span(compose$(p, not$), xs);",
+    "lineNumber": 487,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "zip = curry$(function(xs, ys){",
+    "lineNumber": 489,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "zipWith = curry$(function(f, xs, ys){",
+    "lineNumber": 503,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "    results$.push(f.apply(null, (fn$())));",
+    "lineNumber": 554,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "  function fn$(){",
+    "lineNumber": 557,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "at = curry$(function(n, xs){",
+    "lineNumber": 566,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "elemIndex = curry$(function(el, xs){",
+    "lineNumber": 573,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "elemIndices = curry$(function(el, xs){",
+    "lineNumber": 583,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "findIndex = curry$(function(f, xs){",
+    "lineNumber": 594,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "findIndices = curry$(function(f, xs){",
+    "lineNumber": 604,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "function curry$(f, bound){",
+    "lineNumber": 687,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "function in$(x, xs){",
+    "lineNumber": 700,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "function compose$() {",
+    "lineNumber": 705,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/List.js",
+    "line": "function not$(x){ return !x; }",
+    "lineNumber": 716,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
+    "line": "max = curry$(function(x$, y$){",
+    "lineNumber": 3,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
+    "line": "min = curry$(function(x$, y$){",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
+    "line": "quot = curry$(function(x, y){",
+    "lineNumber": 22,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
+    "line": "rem = curry$(function(x$, y$){",
+    "lineNumber": 25,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
+    "line": "div = curry$(function(x, y){",
+    "lineNumber": 28,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
+    "line": "mod = curry$(function(x$, y$){",
+    "lineNumber": 31,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
+    "line": "pow = curry$(function(x$, y$){",
+    "lineNumber": 43,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
+    "line": "atan2 = curry$(function(x, y){",
+    "lineNumber": 52,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
+    "line": "gcd = curry$(function(x, y){",
+    "lineNumber": 70,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
+    "line": "lcm = curry$(function(x, y){",
+    "lineNumber": 81,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Num.js",
+    "line": "function curry$(f, bound){",
+    "lineNumber": 118,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Obj.js",
+    "line": "listsToObj = curry$(function(keys, values){",
+    "lineNumber": 34,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Obj.js",
+    "line": "each = curry$(function(f, object){",
+    "lineNumber": 61,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Obj.js",
+    "line": "map = curry$(function(f, object){",
+    "lineNumber": 69,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Obj.js",
+    "line": "filter = curry$(function(f, object){",
+    "lineNumber": 87,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Obj.js",
+    "line": "reject = curry$(function(f, object){",
+    "lineNumber": 97,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Obj.js",
+    "line": "partition = curry$(function(f, object){",
+    "lineNumber": 107,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Obj.js",
+    "line": "find = curry$(function(f, object){",
+    "lineNumber": 117,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Obj.js",
+    "line": "function curry$(f, bound){",
+    "lineNumber": 142,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Str.js",
+    "line": "split = curry$(function(sep, str){",
+    "lineNumber": 3,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Str.js",
+    "line": "join = curry$(function(sep, xs){",
+    "lineNumber": 6,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Str.js",
+    "line": "repeat = curry$(function(n, str){",
+    "lineNumber": 36,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/Str.js",
+    "line": "function curry$(f, bound){",
+    "lineNumber": 80,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/index.js",
+    "line": "isType = curry$(function(type, x){",
+    "lineNumber": 11,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/index.js",
+    "line": "replicate = curry$(function(n, x){",
+    "lineNumber": 14,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/prelude-ls/lib/index.js",
+    "line": "function curry$(f, bound){",
+    "lineNumber": 166,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/type-check/lib/parse-type.js",
+    "line": "    if (in$('->', tokens)) {",
+    "lineNumber": 183,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/optionator/node_modules/type-check/lib/parse-type.js",
+    "line": "  function in$(x, xs){",
+    "lineNumber": 193,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/ConversationHeader.js",
+    "line": "        this.menuTriggerRef = react_1.default.createRef();",
+    "lineNumber": 16,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "Used to reference popup menu"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Message.js",
+    "line": "        this.audioRef = react_1.default.createRef();",
+    "lineNumber": 60,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-28T16:12:19.904Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Message.js",
+    "line": "        this.reactionsContainerRef = react_1.default.createRef();",
+    "lineNumber": 62,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-28T16:12:19.904Z",
+    "reasonDetail": "Used for detecting clicks outside reaction viewer"
   }
 ]

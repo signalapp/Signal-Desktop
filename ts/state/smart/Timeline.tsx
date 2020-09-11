@@ -16,6 +16,7 @@ import {
 import { SmartTimelineItem } from './TimelineItem';
 import { SmartTypingBubble } from './TypingBubble';
 import { SmartLastSeenIndicator } from './LastSeenIndicator';
+import { SmartHeroRow } from './HeroRow';
 import { SmartTimelineLoadingRow } from './TimelineLoadingRow';
 import { SmartEmojiPicker } from './EmojiPicker';
 
@@ -24,6 +25,7 @@ import { SmartEmojiPicker } from './EmojiPicker';
 const FilteredSmartTimelineItem = SmartTimelineItem as any;
 const FilteredSmartTypingBubble = SmartTypingBubble as any;
 const FilteredSmartLastSeenIndicator = SmartLastSeenIndicator as any;
+const FilteredSmartHeroRow = SmartHeroRow as any;
 const FilteredSmartTimelineLoadingRow = SmartTimelineLoadingRow as any;
 
 type ExternalProps = {
@@ -66,6 +68,19 @@ function renderEmojiPicker({
 function renderLastSeenIndicator(id: string): JSX.Element {
   return <FilteredSmartLastSeenIndicator id={id} />;
 }
+function renderHeroRow(
+  id: string,
+  onHeightChange: () => unknown,
+  updateSharedGroups: () => unknown
+): JSX.Element {
+  return (
+    <FilteredSmartHeroRow
+      id={id}
+      onHeightChange={onHeightChange}
+      updateSharedGroups={updateSharedGroups}
+    />
+  );
+}
 function renderLoadingRow(id: string): JSX.Element {
   return <FilteredSmartTimelineLoadingRow id={id} />;
 }
@@ -88,6 +103,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     i18n: getIntl(state),
     renderItem,
     renderLastSeenIndicator,
+    renderHeroRow,
     renderLoadingRow,
     renderTypingBubble,
     ...actions,

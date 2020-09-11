@@ -2,14 +2,18 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { LocalizerType } from '../types/Util';
 
+export type ActionSpec = {
+  text: string;
+  action: () => unknown;
+  style?: 'affirmative' | 'negative';
+};
+
 export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly children: React.ReactNode;
-  readonly affirmativeText?: string;
-  readonly onAffirmative?: () => unknown;
+  readonly title?: string | React.ReactNode;
+  readonly actions: Array<ActionSpec>;
   readonly onClose: () => unknown;
-  readonly negativeText?: string;
-  readonly onNegative?: () => unknown;
 };
 
 export type Props = OwnProps;
@@ -21,15 +25,7 @@ function focusRef(el: HTMLElement | null) {
 }
 
 export const ConfirmationDialog = React.memo(
-  ({
-    i18n,
-    onClose,
-    children,
-    onAffirmative,
-    onNegative,
-    affirmativeText,
-    negativeText,
-  }: Props) => {
+  ({ i18n, onClose, children, title, actions }: Props) => {
     React.useEffect(() => {
       const handler = ({ key }: KeyboardEvent) => {
         if (key === 'Escape') {
@@ -52,56 +48,57 @@ export const ConfirmationDialog = React.memo(
       [onClose]
     );
 
-    const handleNegative = React.useCallback(() => {
-      onClose();
-      if (onNegative) {
-        onNegative();
-      }
-    }, [onClose, onNegative]);
-
-    const handleAffirmative = React.useCallback(() => {
-      onClose();
-      if (onAffirmative) {
-        onAffirmative();
-      }
-    }, [onClose, onAffirmative]);
+    const handleAction = React.useCallback(
+      (e: React.MouseEvent<HTMLButtonElement>) => {
+        onClose();
+        if (e.currentTarget.dataset.action) {
+          const actionIndex = parseInt(e.currentTarget.dataset.action, 10);
+          const { action } = actions[actionIndex];
+          action();
+        }
+      },
+      [onClose, actions]
+    );
 
     return (
       <div className="module-confirmation-dialog__container">
+        {title ? (
+          <h1 className="module-confirmation-dialog__container__title">
+            {title}
+          </h1>
+        ) : null}
         <div className="module-confirmation-dialog__container__content">
           {children}
         </div>
-        <div className="module-confirmation-dialog__container__buttons">
-          <button
-            onClick={handleCancel}
-            ref={focusRef}
-            className="module-confirmation-dialog__container__buttons__button"
-          >
-            {i18n('confirmation-dialog--Cancel')}
-          </button>
-          {onNegative && negativeText ? (
+        {actions.length > 0 && (
+          <div className="module-confirmation-dialog__container__buttons">
             <button
-              onClick={handleNegative}
-              className={classNames(
-                'module-confirmation-dialog__container__buttons__button',
-                'module-confirmation-dialog__container__buttons__button--negative'
-              )}
+              onClick={handleCancel}
+              ref={focusRef}
+              className="module-confirmation-dialog__container__buttons__button"
             >
-              {negativeText}
+              {i18n('confirmation-dialog--Cancel')}
             </button>
-          ) : null}
-          {onAffirmative && affirmativeText ? (
-            <button
-              onClick={handleAffirmative}
-              className={classNames(
-                'module-confirmation-dialog__container__buttons__button',
-                'module-confirmation-dialog__container__buttons__button--affirmative'
-              )}
-            >
-              {affirmativeText}
-            </button>
-          ) : null}
-        </div>
+            {actions.map((action, i) => (
+              <button
+                key={i}
+                onClick={handleAction}
+                data-action={i}
+                className={classNames(
+                  'module-confirmation-dialog__container__buttons__button',
+                  action.style === 'affirmative'
+                    ? 'module-confirmation-dialog__container__buttons__button--affirmative'
+                    : null,
+                  action.style === 'negative'
+                    ? 'module-confirmation-dialog__container__buttons__button--negative'
+                    : null
+                )}
+              >
+                {action.text}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     );
   }

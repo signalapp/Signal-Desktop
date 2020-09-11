@@ -1,9 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-
-import { Emojify } from './Emojify';
-import { Avatar } from '../Avatar';
-import { ColorType, LocalizerType } from '../../types/Util';
 import {
   ContextMenu,
   ContextMenuTrigger,
@@ -11,36 +7,50 @@ import {
   SubMenu,
 } from 'react-contextmenu';
 
+import { Emojify } from './Emojify';
+import { Avatar } from '../Avatar';
+import { InContactsIcon } from '../InContactsIcon';
+
+import { LocalizerType } from '../../types/Util';
+import { ColorType } from '../../types/Colors';
+import { getMuteOptions } from '../../util/getMuteOptions';
+
 interface TimerOption {
   name: string;
   value: number;
 }
 
-export interface PropsData {
+export interface PropsDataType {
   id: string;
   name?: string;
 
-  phoneNumber: string;
+  phoneNumber?: string;
   profileName?: string;
   color?: ColorType;
   avatarPath?: string;
+  type: 'direct' | 'group';
+  title: string;
 
+  isAccepted?: boolean;
   isVerified?: boolean;
   isMe?: boolean;
-  isGroup?: boolean;
   isArchived?: boolean;
   leftGroup?: boolean;
 
   expirationSettingName?: string;
+  muteExpirationLabel?: string;
   showBackButton?: boolean;
   timerOptions?: Array<TimerOption>;
 }
 
-export interface PropsActions {
+export interface PropsActionsType {
+  onSetMuteNotifications: (seconds: number) => void;
   onSetDisappearingMessages: (seconds: number) => void;
   onDeleteMessages: () => void;
   onResetSession: () => void;
   onSearchInConversation: () => void;
+  onOutgoingAudioCallInConversation: () => void;
+  onOutgoingVideoCallInConversation: () => void;
 
   onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
@@ -51,17 +61,19 @@ export interface PropsActions {
   onMoveToInbox: () => void;
 }
 
-export interface PropsHousekeeping {
+export interface PropsHousekeepingType {
   i18n: LocalizerType;
 }
 
-export type Props = PropsData & PropsActions & PropsHousekeeping;
+export type PropsType = PropsDataType &
+  PropsActionsType &
+  PropsHousekeepingType;
 
-export class ConversationHeader extends React.Component<Props> {
+export class ConversationHeader extends React.Component<PropsType> {
   public showMenuBound: (event: React.MouseEvent<HTMLButtonElement>) => void;
   public menuTriggerRef: React.RefObject<any>;
 
-  public constructor(props: Props) {
+  public constructor(props: PropsType) {
     super(props);
 
     this.menuTriggerRef = React.createRef();
@@ -93,6 +105,8 @@ export class ConversationHeader extends React.Component<Props> {
     const {
       name,
       phoneNumber,
+      title,
+      type,
       i18n,
       isMe,
       profileName,
@@ -107,19 +121,22 @@ export class ConversationHeader extends React.Component<Props> {
       );
     }
 
+    const shouldShowIcon = Boolean(name && type === 'direct');
+    const shouldShowNumber = Boolean(phoneNumber && (name || profileName));
+
     return (
       <div className="module-conversation-header__title">
-        {name ? <Emojify text={name} /> : null}
-        {name && phoneNumber ? ' · ' : null}
-        {phoneNumber ? phoneNumber : null}{' '}
-        {profileName && !name ? (
-          <span className="module-conversation-header__title__profile-name">
-            ~<Emojify text={profileName} />
+        <Emojify text={title} />
+        {shouldShowIcon ? (
+          <span>
+            {' '}
+            <InContactsIcon i18n={i18n} />
           </span>
         ) : null}
-        {isVerified ? ' · ' : null}
+        {shouldShowNumber ? ` · ${phoneNumber}` : null}
         {isVerified ? (
           <span>
+            {' · '}
             <span className="module-conversation-header__title__verified-icon" />
             {i18n('verified')}
           </span>
@@ -133,23 +150,23 @@ export class ConversationHeader extends React.Component<Props> {
       avatarPath,
       color,
       i18n,
-      isGroup,
+      type,
       isMe,
       name,
       phoneNumber,
       profileName,
+      title,
     } = this.props;
-
-    const conversationType = isGroup ? 'group' : 'direct';
 
     return (
       <span className="module-conversation-header__avatar">
         <Avatar
           avatarPath={avatarPath}
           color={color}
-          conversationType={conversationType}
+          conversationType={type}
           i18n={i18n}
           noteToSelf={isMe}
+          title={title}
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
@@ -219,16 +236,67 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 
+  public renderOutgoingAudioCallButton() {
+    if (!window.CALLING) {
+      return null;
+    }
+    if (this.props.type === 'group' || this.props.isMe) {
+      return null;
+    }
+
+    const { onOutgoingAudioCallInConversation, showBackButton } = this.props;
+
+    return (
+      <button
+        onClick={onOutgoingAudioCallInConversation}
+        className={classNames(
+          'module-conversation-header__audio-calling-button',
+          showBackButton
+            ? null
+            : 'module-conversation-header__audio-calling-button--show'
+        )}
+        disabled={showBackButton}
+      />
+    );
+  }
+
+  public renderOutgoingVideoCallButton() {
+    if (!window.CALLING) {
+      return null;
+    }
+    if (this.props.type === 'group' || this.props.isMe) {
+      return null;
+    }
+
+    const { onOutgoingVideoCallInConversation, showBackButton } = this.props;
+
+    return (
+      <button
+        onClick={onOutgoingVideoCallInConversation}
+        className={classNames(
+          'module-conversation-header__video-calling-button',
+          showBackButton
+            ? null
+            : 'module-conversation-header__video-calling-button--show'
+        )}
+        disabled={showBackButton}
+      />
+    );
+  }
+
   public renderMenu(triggerId: string) {
     const {
       i18n,
+      isAccepted,
       isMe,
-      isGroup,
+      type,
       isArchived,
       leftGroup,
+      muteExpirationLabel,
       onDeleteMessages,
       onResetSession,
       onSetDisappearingMessages,
+      onSetMuteNotifications,
       onShowAllMedia,
       onShowGroupMembers,
       onShowSafetyNumber,
@@ -237,11 +305,31 @@ export class ConversationHeader extends React.Component<Props> {
       timerOptions,
     } = this.props;
 
+    const muteOptions = [];
+    if (muteExpirationLabel) {
+      muteOptions.push(
+        ...[
+          {
+            name: i18n('muteExpirationLabel', [muteExpirationLabel]),
+            disabled: true,
+            value: 0,
+          },
+          {
+            name: i18n('unmute'),
+            value: 0,
+          },
+        ]
+      );
+    }
+    muteOptions.push(...getMuteOptions(i18n));
+
     const disappearingTitle = i18n('disappearingMessages') as any;
+    const muteTitle = i18n('muteNotificationsTitle') as any;
+    const isGroup = type === 'group';
 
     return (
       <ContextMenu id={triggerId}>
-        {leftGroup ? null : (
+        {!leftGroup && isAccepted ? (
           <SubMenu title={disappearingTitle}>
             {(timerOptions || []).map(item => (
               <MenuItem
@@ -254,7 +342,20 @@ export class ConversationHeader extends React.Component<Props> {
               </MenuItem>
             ))}
           </SubMenu>
-        )}
+        ) : null}
+        <SubMenu title={muteTitle}>
+          {muteOptions.map(item => (
+            <MenuItem
+              key={item.name}
+              disabled={item.disabled}
+              onClick={() => {
+                onSetMuteNotifications(item.value);
+              }}
+            >
+              {item.name}
+            </MenuItem>
+          ))}
+        </SubMenu>
         <MenuItem onClick={onShowAllMedia}>{i18n('viewRecentMedia')}</MenuItem>
         {isGroup ? (
           <MenuItem onClick={onShowGroupMembers}>
@@ -266,7 +367,7 @@ export class ConversationHeader extends React.Component<Props> {
             {i18n('showSafetyNumber')}
           </MenuItem>
         ) : null}
-        {!isGroup ? (
+        {!isGroup && isAccepted ? (
           <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
         ) : null}
         {isArchived ? (
@@ -296,6 +397,8 @@ export class ConversationHeader extends React.Component<Props> {
         </div>
         {this.renderExpirationLength()}
         {this.renderSearchButton()}
+        {this.renderOutgoingVideoCallButton()}
+        {this.renderOutgoingAudioCallButton()}
         {this.renderMoreButton(triggerId)}
         {this.renderMenu(triggerId)}
       </div>

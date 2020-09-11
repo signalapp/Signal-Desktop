@@ -13,6 +13,9 @@ try {
   const { app } = remote;
   const { nativeTheme } = remote.require('electron');
 
+  // Enable calling
+  window.CALLING = true;
+
   window.PROTO_ROOT = 'protos';
   const config = require('url').parse(window.location.toString(), true).query;
 
@@ -52,6 +55,17 @@ try {
   window.isBeforeVersion = (toCheck, baseVersion) => {
     try {
       return semver.lt(toCheck, baseVersion);
+    } catch (error) {
+      window.log.error(
+        `isBeforeVersion error: toCheck: ${toCheck}, baseVersion: ${baseVersion}`,
+        error && error.stack ? error.stack : error
+      );
+      return true;
+    }
+  };
+  window.isAfterVersion = (toCheck, baseVersion) => {
+    try {
+      return semver.gt(toCheck, baseVersion);
     } catch (error) {
       window.log.error(
         `isBeforeVersion error: toCheck: ${toCheck}, baseVersion: ${baseVersion}`,
@@ -113,6 +127,8 @@ try {
 
   window.showSettings = () => ipc.send('show-settings');
   window.showPermissionsPopup = () => ipc.send('show-permissions-popup');
+  window.showCallingPermissionsPopup = forCamera =>
+    ipc.invoke('show-calling-permissions-popup', forCamera);
 
   ipc.on('show-keyboard-shortcuts', () => {
     window.Events.showKeyboardShortcuts();
@@ -133,11 +149,82 @@ try {
 
   installGetter('notification-setting', 'getNotificationSetting');
   installSetter('notification-setting', 'setNotificationSetting');
+  installGetter('notification-draw-attention', 'getNotificationDrawAttention');
+  installSetter('notification-draw-attention', 'setNotificationDrawAttention');
   installGetter('audio-notification', 'getAudioNotification');
   installSetter('audio-notification', 'setAudioNotification');
 
   installGetter('spell-check', 'getSpellCheck');
   installSetter('spell-check', 'setSpellCheck');
+
+  installGetter('always-relay-calls', 'getAlwaysRelayCalls');
+  installSetter('always-relay-calls', 'setAlwaysRelayCalls');
+
+  installGetter('call-ringtone-notification', 'getCallRingtoneNotification');
+  installSetter('call-ringtone-notification', 'setCallRingtoneNotification');
+
+  window.getCallRingtoneNotification = () =>
+    new Promise((resolve, reject) => {
+      ipc.once(
+        'get-success-call-ringtone-notification',
+        (_event, error, value) => {
+          if (error) {
+            return reject(new Error(error));
+          }
+
+          return resolve(value);
+        }
+      );
+      ipc.send('get-call-ringtone-notification');
+    });
+
+  installGetter('call-system-notification', 'getCallSystemNotification');
+  installSetter('call-system-notification', 'setCallSystemNotification');
+
+  window.getCallSystemNotification = () =>
+    new Promise((resolve, reject) => {
+      ipc.once(
+        'get-success-call-system-notification',
+        (_event, error, value) => {
+          if (error) {
+            return reject(new Error(error));
+          }
+
+          return resolve(value);
+        }
+      );
+      ipc.send('get-call-system-notification');
+    });
+
+  installGetter('incoming-call-notification', 'getIncomingCallNotification');
+  installSetter('incoming-call-notification', 'setIncomingCallNotification');
+
+  window.getIncomingCallNotification = () =>
+    new Promise((resolve, reject) => {
+      ipc.once(
+        'get-success-incoming-call-notification',
+        (_event, error, value) => {
+          if (error) {
+            return reject(new Error(error));
+          }
+
+          return resolve(value);
+        }
+      );
+      ipc.send('get-incoming-call-notification');
+    });
+
+  window.getAlwaysRelayCalls = () =>
+    new Promise((resolve, reject) => {
+      ipc.once('get-success-always-relay-calls', (_event, error, value) => {
+        if (error) {
+          return reject(new Error(error));
+        }
+
+        return resolve(value);
+      });
+      ipc.send('get-always-relay-calls');
+    });
 
   window.getMediaPermissions = () =>
     new Promise((resolve, reject) => {
@@ -149,6 +236,21 @@ try {
         return resolve(value);
       });
       ipc.send('get-media-permissions');
+    });
+
+  window.getMediaCameraPermissions = () =>
+    new Promise((resolve, reject) => {
+      ipc.once(
+        'get-success-media-camera-permissions',
+        (_event, error, value) => {
+          if (error) {
+            return reject(new Error(error));
+          }
+
+          return resolve(value);
+        }
+      );
+      ipc.send('get-media-camera-permissions');
     });
 
   window.getBuiltInImages = () =>
@@ -227,6 +329,7 @@ try {
 
   window.WebAPI = window.textsecure.WebAPI.initialize({
     url: config.serverUrl,
+    storageUrl: config.storageUrl,
     cdnUrlObject: {
       '0': config.cdnUrl0,
       '2': config.cdnUrl2,
@@ -243,9 +346,11 @@ try {
   }, 1000);
 
   const { autoOrientImage } = require('./js/modules/auto_orient_image');
+  const { imageToBlurHash } = require('./ts/util/imageToBlurHash');
 
   window.autoOrientImage = autoOrientImage;
   window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
+  window.imageToBlurHash = imageToBlurHash;
   window.emojiData = require('emoji-datasource');
   window.filesize = require('filesize');
   window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();

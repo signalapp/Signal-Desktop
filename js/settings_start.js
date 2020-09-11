@@ -36,10 +36,17 @@ const getInitialData = async () => ({
 
   notificationSetting: await window.getNotificationSetting(),
   audioNotification: await window.getAudioNotification(),
+  notificationDrawAttention: await window.getNotificationDrawAttention(),
 
   spellCheck: await window.getSpellCheck(),
 
+  incomingCallNotification: await window.getIncomingCallNotification(),
+  callRingtoneNotification: await window.getCallRingtoneNotification(),
+  callSystemNotification: await window.getCallSystemNotification(),
+  alwaysRelayCalls: await window.getAlwaysRelayCalls(),
+
   mediaPermissions: await window.getMediaPermissions(),
+  mediaCameraPermissions: await window.getMediaCameraPermissions(),
 
   isPrimary: await window.isPrimary(),
   lastSyncTime: await window.getLastSyncTime(),

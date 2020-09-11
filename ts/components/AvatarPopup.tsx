@@ -1,6 +1,5 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { isEmpty } from 'lodash';
 
 import { Avatar, Props as AvatarProps } from './Avatar';
 import { useRestoreFocus } from '../util/hooks';
@@ -22,14 +21,16 @@ export const AvatarPopup = (props: Props) => {
   const focusRef = React.useRef<HTMLButtonElement>(null);
   const {
     i18n,
+    name,
     profileName,
     phoneNumber,
+    title,
     onViewPreferences,
     onViewArchive,
     style,
   } = props;
 
-  const hasProfileName = !isEmpty(profileName);
+  const shouldShowNumber = Boolean(name || profileName);
 
   // Note: mechanisms to dismiss this view are all in its host, MainHeader
 
@@ -42,9 +43,9 @@ export const AvatarPopup = (props: Props) => {
         <Avatar {...props} size={52} />
         <div className="module-avatar-popup__profile__text">
           <div className="module-avatar-popup__profile__name">
-            {hasProfileName ? profileName : phoneNumber}
+            {profileName || title}
           </div>
-          {hasProfileName ? (
+          {shouldShowNumber ? (
             <div className="module-avatar-popup__profile__number">
               {phoneNumber}
             </div>

@@ -1,7 +1,6 @@
 /* global libsignal, textsecure, storage, ConversationController */
 
 describe('SignalProtocolStore', () => {
-  // debugger;
   const store = textsecure.storage.protocol;
   const identifier = '+5558675309';
   const identityKey = {

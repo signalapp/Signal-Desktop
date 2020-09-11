@@ -4,12 +4,15 @@ import moment from 'moment';
 
 import { Avatar } from '../Avatar';
 import { ContactName } from './ContactName';
-import { Message, Props as MessageProps } from './Message';
-import { ColorType, LocalizerType } from '../../types/Util';
+import { Message, MessageStatusType, Props as MessageProps } from './Message';
+import { LocalizerType } from '../../types/Util';
+import { ColorType } from '../../types/Colors';
 
 interface Contact {
-  status: string;
-  phoneNumber: string;
+  status: MessageStatusType;
+
+  title: string;
+  phoneNumber?: string;
   name?: string;
   profileName?: string;
   avatarPath?: string;
@@ -23,7 +26,7 @@ interface Contact {
   onShowSafetyNumber: () => void;
 }
 
-interface Props {
+export interface Props {
   sentAt: number;
   receivedAt: number;
 
@@ -49,7 +52,14 @@ export class MessageDetail extends React.Component<Props> {
 
   public renderAvatar(contact: Contact) {
     const { i18n } = this.props;
-    const { avatarPath, color, phoneNumber, name, profileName } = contact;
+    const {
+      avatarPath,
+      color,
+      phoneNumber,
+      name,
+      profileName,
+      title,
+    } = contact;
 
     return (
       <Avatar
@@ -60,6 +70,7 @@ export class MessageDetail extends React.Component<Props> {
         name={name}
         phoneNumber={phoneNumber}
         profileName={profileName}
+        title={title}
         size={52}
       />
     );
@@ -123,6 +134,8 @@ export class MessageDetail extends React.Component<Props> {
               phoneNumber={contact.phoneNumber}
               name={contact.name}
               profileName={contact.profileName}
+              title={contact.title}
+              i18n={i18n}
             />
           </div>
           {errors.map((error, index) => (

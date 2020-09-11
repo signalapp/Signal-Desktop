@@ -1,19 +1,21 @@
-import React from 'react';
+import * as React from 'react';
 import classNames from 'classnames';
 
 import { getInitials } from '../util/getInitials';
-import { ColorType, LocalizerType } from '../types/Util';
+import { LocalizerType } from '../types/Util';
+import { ColorType } from '../types/Colors';
 
-export interface Props {
+export type Props = {
   avatarPath?: string;
   color?: ColorType;
 
   conversationType: 'group' | 'direct';
   noteToSelf?: boolean;
+  title: string;
   name?: string;
   phoneNumber?: string;
   profileName?: string;
-  size: 28 | 32 | 52 | 80;
+  size: 28 | 32 | 52 | 80 | 112;
 
   onClick?: () => unknown;
 
@@ -21,7 +23,7 @@ export interface Props {
   innerRef?: React.Ref<HTMLDivElement>;
 
   i18n: LocalizerType;
-}
+} & Pick<React.HTMLProps<HTMLDivElement>, 'className'>;
 
 interface State {
   imageBroken: boolean;
@@ -63,16 +65,12 @@ export class Avatar extends React.Component<Props, State> {
   }
 
   public renderImage() {
-    const { avatarPath, i18n, name, phoneNumber, profileName } = this.props;
+    const { avatarPath, i18n, title } = this.props;
     const { imageBroken } = this.state;
 
     if (!avatarPath || imageBroken) {
       return null;
     }
-
-    const title = `${name || phoneNumber}${
-      !name && profileName ? ` ~${profileName}` : ''
-    }`;
 
     return (
       <img
@@ -139,12 +137,13 @@ export class Avatar extends React.Component<Props, State> {
       noteToSelf,
       onClick,
       size,
+      className,
     } = this.props;
     const { imageBroken } = this.state;
 
     const hasImage = !noteToSelf && avatarPath && !imageBroken;
 
-    if (![28, 32, 52, 80].includes(size)) {
+    if (![28, 32, 52, 80, 112].includes(size)) {
       throw new Error(`Size ${size} is not supported!`);
     }
 
@@ -166,7 +165,8 @@ export class Avatar extends React.Component<Props, State> {
           'module-avatar',
           `module-avatar--${size}`,
           hasImage ? 'module-avatar--with-image' : 'module-avatar--no-image',
-          !hasImage ? `module-avatar--${color}` : null
+          !hasImage ? `module-avatar--${color}` : null,
+          className
         )}
         ref={innerRef}
       >
