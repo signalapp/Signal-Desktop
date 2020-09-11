@@ -9,6 +9,7 @@
   img {
     object-fit: cover;
     border-radius: 50%;
+    border: 1px solid $borderAvatarColor;
   }
 }
 
@@ -167,8 +168,6 @@
   @include color-svg('../images/note-28.svg', $color-white);
 }
 
-// Module: Avatar
-
 .module-avatar__label {
   color: $color-gray-05;
 }
@@ -189,8 +188,10 @@
   background-color: $color-gray-75;
 }
 
-.module-avatar--no-image {
-  @include themify($themes) {
-    background-color: themed('steelColorShade');
+.module-avatar__icon-closed {
+  .module-avatar:last-child {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
   }
 }

@@ -10,7 +10,7 @@ import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
-import { Colors, LocalizerType } from '../types/Util';
+import { LocalizerType } from '../types/Util';
 import {
   getBlockMenuItem,
   getClearNicknameMenuItem,
@@ -20,6 +20,9 @@ import {
   getInviteContactMenuItem,
   getLeaveGroupMenuItem,
 } from '../session/utils/Menu';
+import { ConversationAttributes } from '../../js/models/conversations';
+import { GroupUtils } from '../session/utils';
+import { PubKey } from '../session/types';
 
 export type PropsData = {
   id: string;
@@ -71,7 +74,32 @@ type PropsHousekeeping = {
 
 type Props = PropsData & PropsHousekeeping;
 
-export class ConversationListItem extends React.PureComponent<Props> {
+type State = {
+  closedMemberConversations?: Array<ConversationAttributes>;
+};
+
+export class ConversationListItem extends React.PureComponent<Props, State> {
+  public constructor(props: Props) {
+    super(props);
+    this.state = { closedMemberConversations: undefined };
+  }
+
+  public componentDidMount() {
+    void this.fetchClosedConversationDetails();
+  }
+
+  public async fetchClosedConversationDetails() {
+    if (!this.props.isPublic && this.props.type === 'group') {
+      const groupId = this.props.phoneNumber;
+      const members = await GroupUtils.getGroupMembers(PubKey.cast(groupId));
+      const membersConvos = members.map(m =>
+        window.ConversationController.get(m.key)
+      );
+
+      this.setState({ closedMemberConversations: membersConvos });
+    }
+  }
+
   public renderAvatar() {
     const {
       avatarPath,
@@ -82,10 +110,14 @@ export class ConversationListItem extends React.PureComponent<Props> {
       name,
       phoneNumber,
       profileName,
-      isOnline,
+      isPublic,
     } = this.props;
 
-    const borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE;
+    if (!isPublic && type === 'group') {
+      if (!this.state.closedMemberConversations) {
+        return <></>;
+      }
+    }
 
     const iconSize = 36;
 
@@ -101,7 +133,8 @@ export class ConversationListItem extends React.PureComponent<Props> {
           phoneNumber={phoneNumber}
           profileName={profileName}
           size={iconSize}
-          borderColor={borderColor}
+          isPublic={isPublic}
+          closedMemberConversations={this.state.closedMemberConversations}
         />
       </div>
     );

@@ -335,6 +335,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
           phoneNumber={id}
           conversationType="group"
           size={80}
+          isPublic={isPublic}
         />
         <div className="invite-friends-container">
           {showInviteContacts && (

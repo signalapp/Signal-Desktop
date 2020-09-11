@@ -43,6 +43,7 @@ export function renderAvatar({
       i18n={i18n}
       name={name}
       size={size}
+      isPublic={false}
     />
   );
 }

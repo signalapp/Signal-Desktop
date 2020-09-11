@@ -202,10 +202,9 @@ export class ConversationHeader extends React.Component<Props> {
       name,
       phoneNumber,
       profileName,
-      isOnline,
+      isPublic,
     } = this.props;
 
-    const borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE_LIGHT;
     const conversationType = isGroup ? 'group' : 'direct';
 
     return (
@@ -219,11 +218,10 @@ export class ConversationHeader extends React.Component<Props> {
           phoneNumber={phoneNumber}
           profileName={profileName}
           size={28}
-          borderColor={borderColor}
-          borderWidth={0}
           onAvatarClick={() => {
             this.onAvatarClickBound(phoneNumber);
           }}
+          isPublic={isPublic}
         />
       </span>
     );

@@ -5,6 +5,7 @@ interface Props {
   diameter: number;
   phoneNumber: string;
   colors: Array<string>;
+  borderColor: string;
   name?: string;
 }
 
@@ -41,7 +42,7 @@ export class AvatarPlaceHolder extends React.PureComponent<Props, State> {
       return <></>;
     }
 
-    const { colors, diameter, phoneNumber, name } = this.props;
+    const { borderColor, colors, diameter, phoneNumber, name } = this.props;
     const r = diameter / 2;
     const initial =
       getInitials(name)?.toLocaleUpperCase() ||
@@ -66,8 +67,8 @@ export class AvatarPlaceHolder extends React.PureComponent<Props, State> {
             r={r}
             fill={bgColor}
             shape-rendering="geometricPrecision"
-            // stroke="black"
-            // stroke-width="1"
+            stroke={borderColor}
+            stroke-width="1"
           />
           <text
             font-size={fontSize}

@@ -112,6 +112,7 @@ export class LeftPane extends React.Component<Props, State> {
     const {
       openConversationInternal,
       conversations,
+      contacts,
       searchResults,
       searchTerm,
       isSecondaryDevice,
@@ -119,12 +120,19 @@ export class LeftPane extends React.Component<Props, State> {
       search,
       clearSearch,
     } = this.props;
+    // be sure to filter out secondary conversations
+    let filteredConversations = conversations;
+    if (conversations !== undefined) {
+      filteredConversations = conversations.filter(
+        conversation => !conversation.isSecondary
+      );
+    }
 
     return (
       <LeftPaneMessageSection
-        contacts={this.props.contacts}
+        contacts={contacts}
         openConversationInternal={openConversationInternal}
-        conversations={conversations}
+        conversations={filteredConversations}
         searchResults={searchResults}
         searchTerm={searchTerm}
         isSecondaryDevice={isSecondaryDevice}

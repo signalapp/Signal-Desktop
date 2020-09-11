@@ -179,6 +179,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
             conversationType="group"
             i18n={this.props.i18n}
             size={80}
+            isPublic={isPublic}
           />
           <div
             className="image-upload-section"

@@ -3,19 +3,20 @@ import classNames from 'classnames';
 
 import { getInitials } from '../util/getInitials';
 import { LocalizerType } from '../types/Util';
-import { AvatarPlaceHolder } from './AvatarPlaceHolder';
+import { AvatarPlaceHolder, ClosedGroupAvatar } from './AvatarPlaceHolder';
+import { ConversationAttributes } from '../../js/models/conversations';
 
 interface Props {
   avatarPath?: string;
   color?: string;
   conversationType: 'group' | 'direct';
+  isPublic?: boolean;
   noteToSelf?: boolean;
   name?: string;
   phoneNumber?: string;
   profileName?: string;
   size: number;
-  borderColor?: string;
-  borderWidth?: number;
+  closedMemberConversations?: Array<ConversationAttributes>;
   i18n?: LocalizerType;
   onAvatarClick?: () => void;
 }
@@ -40,8 +41,9 @@ export class Avatar extends React.PureComponent<Props, State> {
   }
 
   public handleImageError() {
-    // tslint:disable-next-line no-console
-    console.log('Avatar: Image failed to load; failing over to placeholder');
+    window.log.warn(
+      'Avatar: Image failed to load; failing over to placeholder'
+    );
     this.setState({
       imageBroken: true,
     });
@@ -62,6 +64,7 @@ export class Avatar extends React.PureComponent<Props, State> {
         diameter={size}
         name={userName}
         colors={this.getAvatarColors()}
+        borderColor={this.getAvatarBorderColor()}
       />
     );
   }
@@ -88,7 +91,15 @@ export class Avatar extends React.PureComponent<Props, State> {
   }
 
   public renderNoImage() {
-    const { conversationType, name, noteToSelf, size } = this.props;
+    const {
+      conversationType,
+      closedMemberConversations,
+      isPublic,
+      name,
+      noteToSelf,
+      size,
+      i18n,
+    } = this.props;
 
     const initials = getInitials(name);
     const isGroup = conversationType === 'group';
@@ -115,6 +126,17 @@ export class Avatar extends React.PureComponent<Props, State> {
         >
           {initials}
         </div>
+      );
+    }
+
+    if (isGroup && !isPublic && closedMemberConversations) {
+      const forcedI18n = i18n || window.i18n;
+      return (
+        <ClosedGroupAvatar
+          size={size}
+          conversations={closedMemberConversations}
+          i18n={forcedI18n}
+        />
       );
     }
 
@@ -187,5 +209,9 @@ export class Avatar extends React.PureComponent<Props, State> {
     // const theme = window.Events.getThemedSettings();
     // defined in session-android as `profile_picture_placeholder_colors`
     return ['#5ff8b0', '#26cdb9', '#f3c615', '#fcac5a'];
+  }
+
+  private getAvatarBorderColor(): string {
+    return '#000A'; // borderAvatarColor in themes.scss
   }
 }
