@@ -13,6 +13,8 @@ import {
   RingRTC,
   UserId,
 } from 'ringrtc';
+
+// ts-ignore
 import is from '@sindresorhus/is';
 
 import {
@@ -393,12 +395,35 @@ export class CallingClass {
       return;
     }
 
-    const remoteUserId = envelope.source || envelope.sourceUuid;
+    const remoteUserId = envelope.sourceUuid || envelope.source;
     const remoteDeviceId = this.parseDeviceId(envelope.sourceDevice);
     if (!remoteUserId || !remoteDeviceId || !this.localDeviceId) {
       window.log.error('Missing identifier, ignoring call message.');
       return;
     }
+
+    const senderIdentityRecord = window.textsecure.storage.protocol.getIdentityRecord(
+      remoteUserId
+    );
+    if (!senderIdentityRecord) {
+      window.log.error(
+        'Missing sender identity record; ignoring call message.'
+      );
+      return;
+    }
+    const senderIdentityKey = senderIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
+
+    const receiverIdentityRecord = window.textsecure.storage.protocol.getIdentityRecord(
+      window.textsecure.storage.user.getUuid() ||
+        window.textsecure.storage.user.getNumber()
+    );
+    if (!receiverIdentityRecord) {
+      window.log.error(
+        'Missing receiver identity record; ignoring call message.'
+      );
+      return;
+    }
+    const receiverIdentityKey = receiverIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
 
     const messageAgeSec = envelope.messageAgeSec ? envelope.messageAgeSec : 0;
 
@@ -407,7 +432,9 @@ export class CallingClass {
       remoteDeviceId,
       this.localDeviceId,
       messageAgeSec,
-      callingMessage
+      callingMessage,
+      senderIdentityKey,
+      receiverIdentityKey
     );
   }
 
