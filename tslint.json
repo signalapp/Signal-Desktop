@@ -178,9 +178,10 @@
   "linterOptions": {
     "exclude": [
       "ts/*.ts",
-      "ts/components/emoji/**",
       "ts/backbone/**",
       "ts/build/**",
+      "ts/components/*.ts[x]",
+      "ts/components/emoji/**",
       "ts/notifications/**",
       "ts/protobuf/**",
       "ts/scripts/**",

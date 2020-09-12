@@ -1,5 +1,4 @@
 import React from 'react';
-// import classNames from 'classnames';
 
 export interface Props {
   duration: number;
@@ -24,19 +23,19 @@ export class Countdown extends React.Component<Props, State> {
     this.state = { ratio };
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     this.startLoop();
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate(): void {
     this.startLoop();
   }
 
-  public componentWillUnmount() {
+  public componentWillUnmount(): void {
     this.stopLoop();
   }
 
-  public startLoop() {
+  public startLoop(): void {
     if (this.looping) {
       return;
     }
@@ -45,11 +44,11 @@ export class Countdown extends React.Component<Props, State> {
     requestAnimationFrame(this.loop);
   }
 
-  public stopLoop() {
+  public stopLoop(): void {
     this.looping = false;
   }
 
-  public loop = () => {
+  public loop = (): void => {
     const { onComplete, duration, expiresAt } = this.props;
     if (!this.looping) {
       return;
@@ -68,7 +67,7 @@ export class Countdown extends React.Component<Props, State> {
     }
   };
 
-  public render() {
+  public render(): JSX.Element {
     const { ratio } = this.state;
     const strokeDashoffset = ratio * CIRCUMFERENCE;
 

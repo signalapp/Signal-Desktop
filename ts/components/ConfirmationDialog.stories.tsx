@@ -1,14 +1,11 @@
 import * as React from 'react';
-import { ConfirmationDialog } from './ConfirmationDialog';
-
-// @ts-ignore
-import { setup as setupI18n } from '../../js/modules/i18n';
-// @ts-ignore
-import enMessages from '../../_locales/en/messages.json';
-
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { text } from '@storybook/addon-knobs';
+
+import { ConfirmationDialog } from './ConfirmationDialog';
+import { setup as setupI18n } from '../../js/modules/i18n';
+import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 

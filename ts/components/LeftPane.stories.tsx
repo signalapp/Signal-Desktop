@@ -6,11 +6,9 @@ import { storiesOf } from '@storybook/react';
 
 import { LeftPane, PropsType } from './LeftPane';
 import { PropsData } from './ConversationListItem';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../js/modules/i18n';
-// @ts-ignore
 import enMessages from '../../_locales/en/messages.json';
+
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/LeftPane', module);

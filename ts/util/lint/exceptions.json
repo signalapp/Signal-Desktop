@@ -12829,7 +12829,7 @@
     "rule": "React-createRef",
     "path": "ts/components/CallScreen.js",
     "line": "        this.localVideoRef = react_1.default.createRef();",
-    "lineNumber": 97,
+    "lineNumber": 98,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-28T17:22:06.472Z",
     "reasonDetail": "Used to render local preview video"
@@ -12847,7 +12847,7 @@
     "rule": "React-createRef",
     "path": "ts/components/CallScreen.tsx",
     "line": "    this.localVideoRef = React.createRef();",
-    "lineNumber": 74,
+    "lineNumber": 79,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Used to render local preview video"
@@ -12874,7 +12874,7 @@
     "rule": "React-createRef",
     "path": "ts/components/CaptionEditor.tsx",
     "line": "    this.inputRef = React.createRef();",
-    "lineNumber": 46,
+    "lineNumber": 50,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used only to set focus"
@@ -12883,7 +12883,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.js",
     "line": "    el.innerHTML = '';",
-    "lineNumber": 23,
+    "lineNumber": 24,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
@@ -12892,7 +12892,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
-    "lineNumber": 80,
+    "lineNumber": 81,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-03T19:23:21.195Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
@@ -12901,7 +12901,7 @@
     "rule": "jQuery-$(",
     "path": "ts/components/Intl.js",
     "line": "        const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
-    "lineNumber": 35,
+    "lineNumber": 33,
     "reasonCategory": "falseMatch",
     "updated": "2020-07-21T18:34:59.251Z"
   },
@@ -12935,7 +12935,7 @@
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.containerRef = react_1.default.createRef();",
-    "lineNumber": 141,
+    "lineNumber": 148,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-06T19:56:38.557Z",
     "reasonDetail": "Used to double-check outside clicks"
@@ -12953,7 +12953,7 @@
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 143,
+    "lineNumber": 150,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-06T19:56:38.557Z",
     "reasonDetail": "Used to manage focus"
@@ -12962,7 +12962,7 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.js",
     "line": "        this.inputRef = react_1.default.createRef();",
-    "lineNumber": 146,
+    "lineNumber": 144,
     "reasonCategory": "usageTrusted",
     "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Used only to set focus"

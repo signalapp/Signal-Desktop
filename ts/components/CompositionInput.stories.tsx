@@ -1,19 +1,13 @@
 import * as React from 'react';
 
+import 'draft-js/dist/Draft.css';
+import { boolean, select } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { CompositionInput, Props } from './CompositionInput';
-
-// tslint:disable-next-line
-import 'draft-js/dist/Draft.css';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../js/modules/i18n';
-
-// @ts-ignore
 import enMessages from '../../_locales/en/messages.json';
-import { boolean, select } from '@storybook/addon-knobs';
 
 const i18n = setupI18n('en', enMessages);
 

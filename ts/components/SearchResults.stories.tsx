@@ -1,19 +1,14 @@
 import * as React from 'react';
+import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
+
 import { SearchResults } from './SearchResults';
 import {
   MessageSearchResult,
   PropsDataType as MessageSearchResultPropsType,
 } from './MessageSearchResult';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../js/modules/i18n';
-// @ts-ignore
 import enMessages from '../../_locales/en/messages.json';
-
-import { storiesOf } from '@storybook/react';
-//import { boolean, select } from '@storybook/addon-knobs';
-import { action } from '@storybook/addon-actions';
-
 import {
   gifUrl,
   landscapeGreenUrl,
@@ -25,17 +20,17 @@ const i18n = setupI18n('en', enMessages);
 
 const messageLookup: Map<string, MessageSearchResultPropsType> = new Map();
 
-const CONTACT = 'contact' as 'contact';
-const CONTACTS_HEADER = 'contacts-header' as 'contacts-header';
-const CONVERSATION = 'conversation' as 'conversation';
-const CONVERSATIONS_HEADER = 'conversations-header' as 'conversations-header';
-const DIRECT = 'direct' as 'direct';
-const GROUP = 'group' as 'group';
-const MESSAGE = 'message' as 'message';
-const MESSAGES_HEADER = 'messages-header' as 'messages-header';
-const SENT = 'sent' as 'sent';
-const START_NEW_CONVERSATION = 'start-new-conversation' as 'start-new-conversation';
-const SMS_MMS_NOT_SUPPORTED = 'sms-mms-not-supported-text' as 'sms-mms-not-supported-text';
+const CONTACT = 'contact' as const;
+const CONTACTS_HEADER = 'contacts-header' as const;
+const CONVERSATION = 'conversation' as const;
+const CONVERSATIONS_HEADER = 'conversations-header' as const;
+const DIRECT = 'direct' as const;
+const GROUP = 'group' as const;
+const MESSAGE = 'message' as const;
+const MESSAGES_HEADER = 'messages-header' as const;
+const SENT = 'sent' as const;
+const START_NEW_CONVERSATION = 'start-new-conversation' as const;
+const SMS_MMS_NOT_SUPPORTED = 'sms-mms-not-supported-text' as const;
 
 messageLookup.set('1-guid-guid-guid-guid-guid', {
   id: '1-guid-guid-guid-guid-guid',
@@ -152,7 +147,7 @@ const conversations = [
       name: 'Everyone 🌆',
       title: 'Everyone 🌆',
       type: GROUP,
-      color: 'signal-blue' as 'signal-blue',
+      color: 'signal-blue' as const,
       avatarPath: landscapeGreenUrl,
       isMe: false,
       lastUpdated: Date.now() - 5 * 60 * 1000,
@@ -171,7 +166,7 @@ const conversations = [
       phoneNumber: '(202) 555-0012',
       name: 'Everyone Else 🔥',
       title: 'Everyone Else 🔥',
-      color: 'pink' as 'pink',
+      color: 'pink' as const,
       type: DIRECT,
       avatarPath: landscapePurpleUrl,
       isMe: false,
@@ -194,7 +189,7 @@ const contacts = [
       phoneNumber: '(202) 555-0013',
       name: 'The one Everyone',
       title: 'The one Everyone',
-      color: 'blue' as 'blue',
+      color: 'blue' as const,
       type: DIRECT,
       avatarPath: gifUrl,
       isMe: false,
@@ -211,7 +206,7 @@ const contacts = [
       name: 'No likey everyone',
       title: 'No likey everyone',
       type: DIRECT,
-      color: 'red' as 'red',
+      color: 'red' as const,
       isMe: false,
       lastUpdated: Date.now() - 11 * 60 * 1000,
       unreadCount: 0,

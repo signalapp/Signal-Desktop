@@ -56,15 +56,16 @@ export class Avatar extends React.Component<Props, State> {
     return state;
   }
 
-  public handleImageError() {
-    // tslint:disable-next-line no-console
-    console.log('Avatar: Image failed to load; failing over to placeholder');
+  public handleImageError(): void {
+    window.log.info(
+      'Avatar: Image failed to load; failing over to placeholder'
+    );
     this.setState({
       imageBroken: true,
     });
   }
 
-  public renderImage() {
+  public renderImage(): JSX.Element | null {
     const { avatarPath, i18n, title } = this.props;
     const { imageBroken } = this.state;
 
@@ -81,7 +82,7 @@ export class Avatar extends React.Component<Props, State> {
     );
   }
 
-  public renderNoImage() {
+  public renderNoImage(): JSX.Element {
     const {
       conversationType,
       name,
@@ -129,7 +130,7 @@ export class Avatar extends React.Component<Props, State> {
     );
   }
 
-  public render() {
+  public render(): JSX.Element {
     const {
       avatarPath,
       color,
@@ -151,7 +152,11 @@ export class Avatar extends React.Component<Props, State> {
 
     if (onClick) {
       contents = (
-        <button className="module-avatar-button" onClick={onClick}>
+        <button
+          type="button"
+          className="module-avatar-button"
+          onClick={onClick}
+        >
           {hasImage ? this.renderImage() : this.renderNoImage()}
         </button>
       );

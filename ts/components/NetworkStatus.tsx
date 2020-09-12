@@ -40,13 +40,13 @@ export const NetworkStatus = ({
   socketStatus,
   manualReconnect,
 }: PropsType): JSX.Element | null => {
-  if (!hasNetworkDialog) {
-    return null;
-  }
-
   const [isConnecting, setIsConnecting] = React.useState<boolean>(false);
   React.useEffect(() => {
-    let timeout: any;
+    if (!hasNetworkDialog) {
+      return () => null;
+    }
+
+    let timeout: NodeJS.Timeout;
 
     if (isConnecting) {
       timeout = setTimeout(() => {
@@ -59,7 +59,11 @@ export const NetworkStatus = ({
         clearTimeout(timeout);
       }
     };
-  }, [isConnecting, setIsConnecting]);
+  }, [hasNetworkDialog, isConnecting, setIsConnecting]);
+
+  if (!hasNetworkDialog) {
+    return null;
+  }
 
   const reconnect = () => {
     setIsConnecting(true);
@@ -68,7 +72,9 @@ export const NetworkStatus = ({
 
   const manualReconnectButton = (): JSX.Element => (
     <div className="module-left-pane-dialog__actions">
-      <button onClick={reconnect}>{i18n('connect')}</button>
+      <button onClick={reconnect} type="button">
+        {i18n('connect')}
+      </button>
     </div>
   );
 
@@ -77,7 +83,8 @@ export const NetworkStatus = ({
       subtext: i18n('connectingHangOn'),
       title: i18n('connecting'),
     });
-  } else if (!isOnline) {
+  }
+  if (!isOnline) {
     return renderDialog({
       renderActionableButton: manualReconnectButton,
       subtext: i18n('checkNetworkConnection'),

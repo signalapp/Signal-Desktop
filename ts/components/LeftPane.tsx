@@ -1,5 +1,5 @@
 import Measure, { BoundingRect, MeasuredComponentProps } from 'react-measure';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { List } from 'react-virtualized';
 import { debounce, get } from 'lodash';
 
@@ -47,14 +47,17 @@ type RowRendererParamsType = {
   isScrolling: boolean;
   isVisible: boolean;
   key: string;
-  parent: Object;
-  style: Object;
+  parent: Record<string, unknown>;
+  style: CSSProperties;
 };
 
 export class LeftPane extends React.Component<PropsType> {
-  public listRef = React.createRef<any>();
+  public listRef = React.createRef<List>();
+
   public containerRef = React.createRef<HTMLDivElement>();
+
   public setFocusToFirstNeeded = false;
+
   public setFocusToLastNeeded = false;
 
   public renderRow = ({
@@ -103,7 +106,7 @@ export class LeftPane extends React.Component<PropsType> {
     style,
   }: {
     key: string;
-    style: Object;
+    style: CSSProperties;
   }): JSX.Element => {
     const {
       archivedConversations,
@@ -123,6 +126,7 @@ export class LeftPane extends React.Component<PropsType> {
         className="module-left-pane__archived-button"
         style={style}
         onClick={showArchivedConversations}
+        type="button"
       >
         {i18n('archivedConversations')}{' '}
         <span className="module-left-pane__archived-button__archived-count">
@@ -132,7 +136,7 @@ export class LeftPane extends React.Component<PropsType> {
     );
   };
 
-  public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     const commandKey = get(window, 'platform') === 'darwin' && event.metaKey;
     const controlKey = get(window, 'platform') !== 'darwin' && event.ctrlKey;
     const commandOrCtrl = commandKey || controlKey;
@@ -154,12 +158,10 @@ export class LeftPane extends React.Component<PropsType> {
 
       event.preventDefault();
       event.stopPropagation();
-
-      return;
     }
   };
 
-  public handleFocus = () => {
+  public handleFocus = (): void => {
     const { selectedConversationId } = this.props;
     const { current: container } = this.containerRef;
 
@@ -174,10 +176,9 @@ export class LeftPane extends React.Component<PropsType> {
           /["\\]/g,
           '\\$&'
         );
-        // tslint:disable-next-line no-unnecessary-type-assertion
-        const target = scrollingContainer.querySelector(
+        const target: HTMLElement | null = scrollingContainer.querySelector(
           `.module-conversation-list-item[data-id="${escapedId}"]`
-        ) as any;
+        );
 
         if (target && target.focus) {
           target.focus();
@@ -190,7 +191,7 @@ export class LeftPane extends React.Component<PropsType> {
     }
   };
 
-  public scrollToRow = (row: number) => {
+  public scrollToRow = (row: number): void => {
     if (!this.listRef || !this.listRef.current) {
       return;
     }
@@ -198,40 +199,39 @@ export class LeftPane extends React.Component<PropsType> {
     this.listRef.current.scrollToRow(row);
   };
 
-  public getScrollContainer = () => {
+  public getScrollContainer = (): HTMLDivElement | null => {
     if (!this.listRef || !this.listRef.current) {
-      return;
+      return null;
     }
 
     const list = this.listRef.current;
 
-    if (!list.Grid || !list.Grid._scrollingContainer) {
-      return;
+    // TODO: DESKTOP-689
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const grid: any = list.Grid;
+    if (!grid || !grid._scrollingContainer) {
+      return null;
     }
 
-    return list.Grid._scrollingContainer as HTMLDivElement;
+    return grid._scrollingContainer as HTMLDivElement;
   };
 
-  public setFocusToFirst = () => {
+  public setFocusToFirst = (): void => {
     const scrollContainer = this.getScrollContainer();
     if (!scrollContainer) {
       return;
     }
 
-    // tslint:disable-next-line no-unnecessary-type-assertion
-    const item = scrollContainer.querySelector(
+    const item: HTMLElement | null = scrollContainer.querySelector(
       '.module-conversation-list-item'
-    ) as any;
+    );
     if (item && item.focus) {
       item.focus();
-
-      return;
     }
   };
 
-  // tslint:disable-next-line member-ordering
   public onScroll = debounce(
-    () => {
+    (): void => {
       if (this.setFocusToFirstNeeded) {
         this.setFocusToFirstNeeded = false;
         this.setFocusToFirst();
@@ -244,26 +244,22 @@ export class LeftPane extends React.Component<PropsType> {
           return;
         }
 
-        // tslint:disable-next-line no-unnecessary-type-assertion
-        const button = scrollContainer.querySelector(
+        const button: HTMLElement | null = scrollContainer.querySelector(
           '.module-left-pane__archived-button'
-        ) as any;
+        );
         if (button && button.focus) {
           button.focus();
 
           return;
         }
-        // tslint:disable-next-line no-unnecessary-type-assertion
-        const items = scrollContainer.querySelectorAll(
+        const items: NodeListOf<HTMLElement> = scrollContainer.querySelectorAll(
           '.module-conversation-list-item'
-        ) as any;
+        );
         if (items && items.length > 0) {
           const last = items[items.length - 1];
 
           if (last && last.focus) {
             last.focus();
-
-            return;
           }
         }
       }
@@ -272,7 +268,7 @@ export class LeftPane extends React.Component<PropsType> {
     { maxWait: 100 }
   );
 
-  public getLength = () => {
+  public getLength = (): number => {
     const { archivedConversations, conversations, showArchived } = this.props;
 
     if (!conversations || !archivedConversations) {
@@ -339,7 +335,7 @@ export class LeftPane extends React.Component<PropsType> {
         onFocus={this.handleFocus}
         onKeyDown={this.handleKeyDown}
         ref={this.containerRef}
-        role="group"
+        role="presentation"
         tabIndex={-1}
       >
         <List
@@ -367,6 +363,8 @@ export class LeftPane extends React.Component<PropsType> {
           onClick={showInbox}
           className="module-left-pane__to-inbox-button"
           title={i18n('backToInbox')}
+          aria-label={i18n('backToInbox')}
+          type="button"
         />
         <div className="module-left-pane__archive-header-text">
           {i18n('archivedConversations')}
@@ -386,7 +384,8 @@ export class LeftPane extends React.Component<PropsType> {
       showArchived,
     } = this.props;
 
-    /* tslint:disable no-non-null-assertion */
+    // Relying on 3rd party code for contentRect.bounds
+    /* eslint-disable @typescript-eslint/no-non-null-assertion */
     return (
       <div className="module-left-pane">
         <div className="module-left-pane__header">
@@ -401,7 +400,7 @@ export class LeftPane extends React.Component<PropsType> {
             {i18n('archiveHelperText')}
           </div>
         )}
-        <Measure bounds={true}>
+        <Measure bounds>
           {({ contentRect, measureRef }: MeasuredComponentProps) => (
             <div className="module-left-pane__list--measure" ref={measureRef}>
               <div className="module-left-pane__list--wrapper">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { CellMeasurer, CellMeasurerCache, List } from 'react-virtualized';
 import { debounce, get, isNumber } from 'lodash';
 
@@ -98,8 +98,8 @@ type RowRendererParamsType = {
   isScrolling: boolean;
   isVisible: boolean;
   key: string;
-  parent: Object;
-  style: Object;
+  parent: Record<string, unknown>;
+  style: CSSProperties;
 };
 type OnScrollParamsType = {
   scrollTop: number;
@@ -117,24 +117,32 @@ type OnScrollParamsType = {
 
 export class SearchResults extends React.Component<PropsType, StateType> {
   public setFocusToFirstNeeded = false;
+
   public setFocusToLastNeeded = false;
+
   public cellSizeCache = new CellMeasurerCache({
     defaultHeight: 80,
     fixedWidth: true,
   });
-  public listRef = React.createRef<any>();
-  public containerRef = React.createRef<HTMLDivElement>();
-  public state = {
-    scrollToIndex: undefined,
-  };
 
-  public handleStartNewConversation = () => {
+  public listRef = React.createRef<List>();
+
+  public containerRef = React.createRef<HTMLDivElement>();
+
+  constructor(props: PropsType) {
+    super(props);
+    this.state = {
+      scrollToIndex: undefined,
+    };
+  }
+
+  public handleStartNewConversation = (): void => {
     const { regionCode, searchTerm, startNewConversation } = this.props;
 
     startNewConversation(searchTerm, { regionCode });
   };
 
-  public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     const { items } = this.props;
     const commandKey = get(window, 'platform') === 'darwin' && event.metaKey;
     const controlKey = get(window, 'platform') !== 'darwin' && event.ctrlKey;
@@ -161,12 +169,10 @@ export class SearchResults extends React.Component<PropsType, StateType> {
 
       event.preventDefault();
       event.stopPropagation();
-
-      return;
     }
   };
 
-  public handleFocus = () => {
+  public handleFocus = (): void => {
     const { selectedConversationId, selectedMessageId } = this.props;
     const { current: container } = this.containerRef;
 
@@ -179,10 +185,9 @@ export class SearchResults extends React.Component<PropsType, StateType> {
 
       // First we try to scroll to the selected message
       if (selectedMessageId && scrollingContainer) {
-        // tslint:disable-next-line no-unnecessary-type-assertion
-        const target = scrollingContainer.querySelector(
+        const target: HTMLElement | null = scrollingContainer.querySelector(
           `.module-message-search-result[data-id="${selectedMessageId}"]`
-        ) as any;
+        );
 
         if (target && target.focus) {
           target.focus();
@@ -197,10 +202,9 @@ export class SearchResults extends React.Component<PropsType, StateType> {
           /["\\]/g,
           '\\$&'
         );
-        // tslint:disable-next-line no-unnecessary-type-assertion
-        const target = scrollingContainer.querySelector(
+        const target: HTMLElement | null = scrollingContainer.querySelector(
           `.module-conversation-list-item[data-id="${escapedId}"]`
-        ) as any;
+        );
 
         if (target && target.focus) {
           target.focus();
@@ -214,14 +218,13 @@ export class SearchResults extends React.Component<PropsType, StateType> {
     }
   };
 
-  public setFocusToFirst = () => {
+  public setFocusToFirst = (): void => {
     const { current: container } = this.containerRef;
 
     if (container) {
-      // tslint:disable-next-line no-unnecessary-type-assertion
-      const noResultsItem = container.querySelector(
+      const noResultsItem: HTMLElement | null = container.querySelector(
         '.module-search-results__no-results'
-      ) as any;
+      );
       if (noResultsItem && noResultsItem.focus) {
         noResultsItem.focus();
 
@@ -234,54 +237,51 @@ export class SearchResults extends React.Component<PropsType, StateType> {
       return;
     }
 
-    // tslint:disable-next-line no-unnecessary-type-assertion
-    const startItem = scrollContainer.querySelector(
+    const startItem: HTMLElement | null = scrollContainer.querySelector(
       '.module-start-new-conversation'
-    ) as any;
+    );
     if (startItem && startItem.focus) {
       startItem.focus();
 
       return;
     }
 
-    // tslint:disable-next-line no-unnecessary-type-assertion
-    const conversationItem = scrollContainer.querySelector(
+    const conversationItem: HTMLElement | null = scrollContainer.querySelector(
       '.module-conversation-list-item'
-    ) as any;
+    );
     if (conversationItem && conversationItem.focus) {
       conversationItem.focus();
 
       return;
     }
 
-    // tslint:disable-next-line no-unnecessary-type-assertion
-    const messageItem = scrollContainer.querySelector(
+    const messageItem: HTMLElement | null = scrollContainer.querySelector(
       '.module-message-search-result'
-    ) as any;
+    );
     if (messageItem && messageItem.focus) {
       messageItem.focus();
-
-      return;
     }
   };
 
-  public getScrollContainer = () => {
+  public getScrollContainer = (): HTMLDivElement | null => {
     if (!this.listRef || !this.listRef.current) {
-      return;
+      return null;
     }
 
     const list = this.listRef.current;
 
-    if (!list.Grid || !list.Grid._scrollingContainer) {
-      return;
+    // We're using an internal variable (_scrollingContainer)) here,
+    // so cannot rely on the public type.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const grid: any = list.Grid;
+    if (!grid || !grid._scrollingContainer) {
+      return null;
     }
 
-    return list.Grid._scrollingContainer as HTMLDivElement;
+    return grid._scrollingContainer as HTMLDivElement;
   };
 
-  // tslint:disable-next-line member-ordering
   public onScroll = debounce(
-    // tslint:disable-next-line cyclomatic-complexity
     (data: OnScrollParamsType) => {
       // Ignore scroll events generated as react-virtualized recursively scrolls and
       //   re-measures to get us where we want to go.
@@ -308,9 +308,9 @@ export class SearchResults extends React.Component<PropsType, StateType> {
           return;
         }
 
-        const messageItems = scrollContainer.querySelectorAll(
+        const messageItems: NodeListOf<HTMLElement> = scrollContainer.querySelectorAll(
           '.module-message-search-result'
-        ) as any;
+        );
         if (messageItems && messageItems.length > 0) {
           const last = messageItems[messageItems.length - 1];
 
@@ -321,9 +321,9 @@ export class SearchResults extends React.Component<PropsType, StateType> {
           }
         }
 
-        const contactItems = scrollContainer.querySelectorAll(
+        const contactItems: NodeListOf<HTMLElement> = scrollContainer.querySelectorAll(
           '.module-conversation-list-item'
-        ) as any;
+        );
         if (contactItems && contactItems.length > 0) {
           const last = contactItems[contactItems.length - 1];
 
@@ -336,14 +336,12 @@ export class SearchResults extends React.Component<PropsType, StateType> {
 
         const startItem = scrollContainer.querySelectorAll(
           '.module-start-new-conversation'
-        ) as any;
+        ) as NodeListOf<HTMLElement>;
         if (startItem && startItem.length > 0) {
           const last = startItem[startItem.length - 1];
 
           if (last && last.focus) {
             last.focus();
-
-            return;
           }
         }
       }
@@ -352,7 +350,7 @@ export class SearchResults extends React.Component<PropsType, StateType> {
     { maxWait: 100 }
   );
 
-  public renderRowContents(row: SearchResultRowType) {
+  public renderRowContents(row: SearchResultRowType): JSX.Element {
     const {
       searchTerm,
       i18n,
@@ -368,13 +366,15 @@ export class SearchResults extends React.Component<PropsType, StateType> {
           onClick={this.handleStartNewConversation}
         />
       );
-    } else if (row.type === 'sms-mms-not-supported-text') {
+    }
+    if (row.type === 'sms-mms-not-supported-text') {
       return (
         <div className="module-search-results__sms-not-supported">
           {i18n('notSupportedSMS')}
         </div>
       );
-    } else if (row.type === 'conversations-header') {
+    }
+    if (row.type === 'conversations-header') {
       return (
         <div
           className="module-search-results__conversations-header"
@@ -384,7 +384,8 @@ export class SearchResults extends React.Component<PropsType, StateType> {
           {i18n('conversationsHeader')}
         </div>
       );
-    } else if (row.type === 'conversation') {
+    }
+    if (row.type === 'conversation') {
       const { data } = row;
 
       return (
@@ -395,7 +396,8 @@ export class SearchResults extends React.Component<PropsType, StateType> {
           i18n={i18n}
         />
       );
-    } else if (row.type === 'contacts-header') {
+    }
+    if (row.type === 'contacts-header') {
       return (
         <div
           className="module-search-results__contacts-header"
@@ -405,7 +407,8 @@ export class SearchResults extends React.Component<PropsType, StateType> {
           {i18n('contactsHeader')}
         </div>
       );
-    } else if (row.type === 'contact') {
+    }
+    if (row.type === 'contact') {
       const { data } = row;
 
       return (
@@ -416,7 +419,8 @@ export class SearchResults extends React.Component<PropsType, StateType> {
           i18n={i18n}
         />
       );
-    } else if (row.type === 'messages-header') {
+    }
+    if (row.type === 'messages-header') {
       return (
         <div
           className="module-search-results__messages-header"
@@ -426,21 +430,22 @@ export class SearchResults extends React.Component<PropsType, StateType> {
           {i18n('messagesHeader')}
         </div>
       );
-    } else if (row.type === 'message') {
+    }
+    if (row.type === 'message') {
       const { data } = row;
 
       return renderMessageSearchResult(data);
-    } else if (row.type === 'spinner') {
+    }
+    if (row.type === 'spinner') {
       return (
         <div className="module-search-results__spinner-container">
           <Spinner size="24px" svgSize="small" />
         </div>
       );
-    } else {
-      throw new Error(
-        'SearchResults.renderRowContents: Encountered unknown row type'
-      );
     }
+    throw new Error(
+      'SearchResults.renderRowContents: Encountered unknown row type'
+    );
   }
 
   public renderRow = ({
@@ -469,7 +474,7 @@ export class SearchResults extends React.Component<PropsType, StateType> {
     );
   };
 
-  public componentDidUpdate(prevProps: PropsType) {
+  public componentDidUpdate(prevProps: PropsType): void {
     const {
       items,
       searchTerm,
@@ -493,9 +498,9 @@ export class SearchResults extends React.Component<PropsType, StateType> {
     }
   }
 
-  public getList = () => {
+  public getList = (): List | null => {
     if (!this.listRef) {
-      return;
+      return null;
     }
 
     const { current } = this.listRef;
@@ -503,7 +508,7 @@ export class SearchResults extends React.Component<PropsType, StateType> {
     return current;
   };
 
-  public recomputeRowHeights = (row?: number) => {
+  public recomputeRowHeights = (row?: number): void => {
     const list = this.getList();
     if (!list) {
       return;
@@ -512,18 +517,18 @@ export class SearchResults extends React.Component<PropsType, StateType> {
     list.recomputeRowHeights(row);
   };
 
-  public resizeAll = () => {
+  public resizeAll = (): void => {
     this.cellSizeCache.clearAll();
     this.recomputeRowHeights(0);
   };
 
-  public getRowCount() {
+  public getRowCount(): number {
     const { items } = this.props;
 
     return items ? items.length : 0;
   }
 
-  public render() {
+  public render(): JSX.Element {
     const {
       height,
       i18n,
@@ -574,7 +579,7 @@ export class SearchResults extends React.Component<PropsType, StateType> {
       <div
         className="module-search-results"
         aria-live="polite"
-        role="group"
+        role="presentation"
         tabIndex={-1}
         ref={this.containerRef}
         onKeyDown={this.handleKeyDown}
@@ -592,6 +597,8 @@ export class SearchResults extends React.Component<PropsType, StateType> {
           rowRenderer={this.renderRow}
           scrollToIndex={scrollToIndex}
           tabIndex={-1}
+          // TODO: DESKTOP-687
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onScroll={this.onScroll as any}
           width={width}
         />

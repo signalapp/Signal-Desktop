@@ -3,11 +3,8 @@ import { storiesOf } from '@storybook/react';
 import { text, withKnobs } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-// @ts-ignore
 import { setup as setupI18n } from '../../js/modules/i18n';
-// @ts-ignore
 import enMessages from '../../_locales/en/messages.json';
-
 import { MainHeader, PropsType } from './MainHeader';
 
 const i18n = setupI18n('en', enMessages);
@@ -19,6 +16,8 @@ const requiredText = (name: string, value: string | undefined) =>
 const optionalText = (name: string, value: string | undefined) =>
   text(name, value || '') || undefined;
 
+// Storybook types are incorrect
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 story.addDecorator((withKnobs as any)({ escapeHTML: false }));
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({

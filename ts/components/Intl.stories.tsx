@@ -4,10 +4,7 @@ import { text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
 import { Intl, Props } from './Intl';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../js/modules/i18n';
-// @ts-ignore
 import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
@@ -40,7 +37,11 @@ story.add('Single String Replacement', () => {
 story.add('Single Tag Replacement', () => {
   const props = createProps({
     id: 'leftTheGroup',
-    components: [<button key="a-button">Theodora</button>],
+    components: [
+      <button type="button" key="a-button">
+        Theodora
+      </button>,
+    ],
   });
 
   return <Intl {...props} />;

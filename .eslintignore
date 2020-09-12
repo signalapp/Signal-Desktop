@@ -30,8 +30,9 @@ webpack.config.ts
 
 # Temporarily ignored during TSLint transition
 # JIRA: DESKTOP-304
-ts/components/*.ts
-ts/components/*.tsx
+sticker-creator/**/*.ts
+sticker-creator/**/*.tsx
+ts/*.ts
 ts/components/conversation/**
 ts/components/stickers/**
 ts/shims/**
@@ -44,5 +45,3 @@ ts/textsecure/**
 ts/types/**
 ts/updater/**
 ts/util/**
-sticker-creator/**/*.ts
-sticker-creator/**/*.tsx

@@ -76,11 +76,11 @@ export type Props = Pick<
   OwnProps;
 
 const emptyElement = (el: HTMLElement) => {
-  // tslint:disable-next-line no-inner-html
+  // Necessary to deal with Backbone views
+  // eslint-disable-next-line no-param-reassign
   el.innerHTML = '';
 };
 
-// tslint:disable-next-line max-func-body-length cyclomatic-complexity
 export const CompositionArea = ({
   i18n,
   attachmentListEl,
@@ -127,7 +127,7 @@ export const CompositionArea = ({
   phoneNumber,
   profileName,
   title,
-}: Props) => {
+}: Props): JSX.Element => {
   const [disabled, setDisabled] = React.useState(false);
   const [showMic, setShowMic] = React.useState(!startingText);
   const [micActive, setMicActive] = React.useState(false);
@@ -169,6 +169,8 @@ export const CompositionArea = ({
   const attSlotRef = React.useRef<HTMLDivElement>(null);
 
   if (compositionApi) {
+    // Using a React.MutableRefObject, so we need to reassign this prop.
+    // eslint-disable-next-line no-param-reassign
     compositionApi.current = {
       isDirty: () => dirty,
       focusInput,
@@ -255,7 +257,12 @@ export const CompositionArea = ({
   const attButton = (
     <div className="module-composition-area__button-cell">
       <div className="choose-file">
-        <button className="paperclip thumbnail" onClick={onChooseAttachment} />
+        <button
+          type="button"
+          className="paperclip thumbnail"
+          onClick={onChooseAttachment}
+          aria-label={i18n('CompositionArea--attach-file')}
+        />
       </div>
     </div>
   );
@@ -268,8 +275,10 @@ export const CompositionArea = ({
       )}
     >
       <button
+        type="button"
         className="module-composition-area__send-button"
         onClick={handleForceSend}
+        aria-label={i18n('sendMessageToContact')}
       />
     </div>
   );
@@ -343,6 +352,7 @@ export const CompositionArea = ({
     <div className="module-composition-area">
       <div className="module-composition-area__toggle-large">
         <button
+          type="button"
           className={classNames(
             'module-composition-area__toggle-large__button',
             large
@@ -352,6 +362,7 @@ export const CompositionArea = ({
           // This prevents the user from tabbing here
           tabIndex={-1}
           onClick={handleToggleLarge}
+          aria-label={i18n('CompositionArea--expand')}
         />
       </div>
       <div

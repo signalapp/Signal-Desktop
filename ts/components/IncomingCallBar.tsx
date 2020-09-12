@@ -34,6 +34,7 @@ const CallButton = ({
       className={`module-incoming-call__icon module-incoming-call__button--${classSuffix}`}
       onClick={onClick}
       tabIndex={tabIndex}
+      type="button"
     >
       <Tooltip
         arrowSize={6}
@@ -48,7 +49,6 @@ const CallButton = ({
   );
 };
 
-// tslint:disable-next-line max-func-body-length
 export const IncomingCallBar = ({
   acceptCall,
   callDetails,

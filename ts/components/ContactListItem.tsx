@@ -23,7 +23,7 @@ interface Props {
 }
 
 export class ContactListItem extends React.Component<Props> {
-  public renderAvatar() {
+  public renderAvatar(): JSX.Element {
     const {
       avatarPath,
       i18n,
@@ -49,7 +49,7 @@ export class ContactListItem extends React.Component<Props> {
     );
   }
 
-  public render() {
+  public render(): JSX.Element {
     const {
       i18n,
       isAdmin,
@@ -75,6 +75,7 @@ export class ContactListItem extends React.Component<Props> {
           'module-contact-list-item',
           onClick ? 'module-contact-list-item--with-click-handler' : null
         )}
+        type="button"
       >
         {this.renderAvatar()}
         <div className="module-contact-list-item__text">

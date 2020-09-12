@@ -1,15 +1,12 @@
 import * as React from 'react';
-import { SafetyNumberViewer } from './SafetyNumberViewer';
-import { ConversationType } from '../state/ducks/conversations';
-
-// @ts-ignore
-import { setup as setupI18n } from '../../js/modules/i18n';
-// @ts-ignore
-import enMessages from '../../_locales/en/messages.json';
-
 import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
+
+import { SafetyNumberViewer } from './SafetyNumberViewer';
+import { ConversationType } from '../state/ducks/conversations';
+import { setup as setupI18n } from '../../js/modules/i18n';
+import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 

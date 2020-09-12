@@ -12,11 +12,9 @@ import {
   VIDEO_MP4,
   VIDEO_QUICKTIME,
 } from '../types/MIME';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../js/modules/i18n';
-// @ts-ignore
 import enMessages from '../../_locales/en/messages.json';
+
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Lightbox', module);

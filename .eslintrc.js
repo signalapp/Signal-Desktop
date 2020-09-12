@@ -59,7 +59,24 @@ const rules = {
     },
   ],
 
+  'react/jsx-props-no-spreading': 'off',
+
+  // Updated to reflect future airbnb standard
+  // Allows for declaring defaultProps inside a class
+  'react/static-property-placement': ['error', 'static public field'],
+
+  // JIRA: DESKTOP-657
+  'react/sort-comp': 'off',
+
+  // We don't have control over the media we're sharing, so can't require
+  // captions.
+  'jsx-a11y/media-has-caption': 'off',
+
+  // We prefer named exports
   'import/prefer-default-export': 'off',
+
+  // Prefer functional components with default params
+  'react/require-default-props': 'off',
 };
 
 module.exports = {
@@ -101,7 +118,6 @@ module.exports = {
       rules: {
         ...rules,
         'import/no-extraneous-dependencies': 'off',
-        'react/jsx-props-no-spreading': 'off',
       },
     },
   ],

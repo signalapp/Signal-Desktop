@@ -1,19 +1,13 @@
 import * as React from 'react';
 
+import 'draft-js/dist/Draft.css';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+import { boolean } from '@storybook/addon-knobs';
 
 import { CompositionArea, Props } from './CompositionArea';
-
-// tslint:disable-next-line
-import 'draft-js/dist/Draft.css';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../js/modules/i18n';
-
-// @ts-ignore
 import enMessages from '../../_locales/en/messages.json';
-import { boolean } from '@storybook/addon-knobs';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -91,6 +85,7 @@ story.add('Starting Text', () => {
 
 story.add('Sticker Button', () => {
   const props = createProps({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     knownPacks: [{} as any],
   });
 

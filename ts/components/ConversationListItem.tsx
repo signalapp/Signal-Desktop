@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import classNames from 'classnames';
 import { isNumber } from 'lodash';
 
@@ -43,7 +43,7 @@ export type PropsData = {
   draftPreview?: string;
   shouldShowDraft?: boolean;
 
-  typingContact?: Object;
+  typingContact?: unknown;
   lastMessage?: {
     status: MessageStatusType;
     text: string;
@@ -53,14 +53,14 @@ export type PropsData = {
 
 type PropsHousekeeping = {
   i18n: LocalizerType;
-  style?: Object;
+  style?: CSSProperties;
   onClick?: (id: string) => void;
 };
 
 export type Props = PropsData & PropsHousekeeping;
 
 export class ConversationListItem extends React.PureComponent<Props> {
-  public renderAvatar() {
+  public renderAvatar(): JSX.Element {
     const {
       avatarPath,
       color,
@@ -92,7 +92,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
     );
   }
 
-  public renderUnread() {
+  public renderUnread(): JSX.Element | null {
     const { unreadCount } = this.props;
 
     if (isNumber(unreadCount) && unreadCount > 0) {
@@ -106,7 +106,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
     return null;
   }
 
-  public renderHeader() {
+  public renderHeader(): JSX.Element {
     const {
       unreadCount,
       i18n,
@@ -162,7 +162,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
     );
   }
 
-  public renderMessage() {
+  public renderMessage(): JSX.Element | null {
     const {
       draftPreview,
       i18n,
@@ -185,6 +185,8 @@ export class ConversationListItem extends React.PureComponent<Props> {
 
     // Note: instead of re-using showingDraft here we explode it because
     //   typescript can't tell that draftPreview is truthy otherwise
+    // Avoiding touching logic to fix linting
+    /* eslint-disable no-nested-ternary */
     const text =
       shouldShowDraft && draftPreview
         ? draftPreview
@@ -225,8 +227,8 @@ export class ConversationListItem extends React.PureComponent<Props> {
               ) : null}
               <MessageBody
                 text={text.split('\n')[0]}
-                disableJumbomoji={true}
-                disableLinks={true}
+                disableJumbomoji
+                disableLinks
                 i18n={i18n}
               />
             </>
@@ -243,13 +245,15 @@ export class ConversationListItem extends React.PureComponent<Props> {
       </div>
     );
   }
+  /* eslint-enable no-nested-ternary */
 
-  public render() {
+  public render(): JSX.Element {
     const { unreadCount, onClick, id, isSelected, style } = this.props;
     const withUnread = isNumber(unreadCount) && unreadCount > 0;
 
     return (
       <button
+        type="button"
         onClick={() => {
           if (onClick) {
             onClick(id);
