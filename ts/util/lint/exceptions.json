@@ -10231,113 +10231,113 @@
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.es.js",
     "line": "\t\t\t\t\tthis.append(headerName, value);",
-    "lineNumber": 714,
+    "lineNumber": 720,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.es.js",
     "line": "\t\t// We don't worry about converting prop to ByteString here as append()",
-    "lineNumber": 721,
+    "lineNumber": 727,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.es.js",
     "line": "\t\t\t\t\tthis.append(pair[0], pair[1]);",
-    "lineNumber": 744,
+    "lineNumber": 750,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.es.js",
     "line": "\t\t\t\t\tthis.append(key, value);",
-    "lineNumber": 750,
+    "lineNumber": 756,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.es.js",
     "line": "\tappend(name, value) {",
-    "lineNumber": 821,
+    "lineNumber": 827,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.es.js",
     "line": "\t\t\t\theaders.append('Content-Type', contentType);",
-    "lineNumber": 1057,
+    "lineNumber": 1063,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.es.js",
     "line": "\t\t\t\theaders.append('Content-Type', contentType);",
-    "lineNumber": 1204,
+    "lineNumber": 1210,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.js",
     "line": "\t\t\t\t\tthis.append(headerName, value);",
-    "lineNumber": 718,
+    "lineNumber": 724,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.js",
     "line": "\t\t// We don't worry about converting prop to ByteString here as append()",
-    "lineNumber": 725,
+    "lineNumber": 731,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.js",
     "line": "\t\t\t\t\tthis.append(pair[0], pair[1]);",
-    "lineNumber": 748,
+    "lineNumber": 754,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.js",
     "line": "\t\t\t\t\tthis.append(key, value);",
-    "lineNumber": 754,
+    "lineNumber": 760,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.js",
     "line": "\tappend(name, value) {",
-    "lineNumber": 825,
+    "lineNumber": 831,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.js",
     "line": "\t\t\t\theaders.append('Content-Type', contentType);",
-    "lineNumber": 1061,
+    "lineNumber": 1067,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.js",
     "line": "\t\t\t\theaders.append('Content-Type', contentType);",
-    "lineNumber": 1208,
+    "lineNumber": 1214,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-$(",
@@ -12865,7 +12865,7 @@
     "rule": "React-createRef",
     "path": "ts/components/CaptionEditor.js",
     "line": "        this.inputRef = react_1.default.createRef();",
-    "lineNumber": 27,
+    "lineNumber": 26,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used only to set focus"
@@ -12874,7 +12874,7 @@
     "rule": "React-createRef",
     "path": "ts/components/CaptionEditor.tsx",
     "line": "    this.inputRef = React.createRef();",
-    "lineNumber": 50,
+    "lineNumber": 48,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used only to set focus"
@@ -12962,7 +12962,7 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.js",
     "line": "        this.inputRef = react_1.default.createRef();",
-    "lineNumber": 144,
+    "lineNumber": 143,
     "reasonCategory": "usageTrusted",
     "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Used only to set focus"
