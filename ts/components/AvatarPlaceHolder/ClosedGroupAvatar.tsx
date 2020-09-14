@@ -41,8 +41,12 @@ export class ClosedGroupAvatar extends React.PureComponent<Props> {
           avatarsDiameter = 36;
           break;
         }
-        case 80: {
+        case 64: {
           avatarsDiameter = 48;
+          break;
+        }
+        case 80: {
+          avatarsDiameter = 64;
           break;
         }
         case 300: {

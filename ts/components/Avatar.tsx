@@ -95,39 +95,11 @@ export class Avatar extends React.PureComponent<Props, State> {
       conversationType,
       closedMemberConversations,
       isPublic,
-      name,
-      noteToSelf,
       size,
       i18n,
     } = this.props;
 
-    const initials = getInitials(name);
     const isGroup = conversationType === 'group';
-
-    if (noteToSelf) {
-      return (
-        <div
-          className={classNames(
-            'module-avatar__icon',
-            'module-avatar__icon--note-to-self',
-            `module-avatar__icon--${size}`
-          )}
-        />
-      );
-    }
-
-    if (!isGroup && initials) {
-      return (
-        <div
-          className={classNames(
-            'module-avatar__label',
-            `module-avatar__label--${size}`
-          )}
-        >
-          {initials}
-        </div>
-      );
-    }
 
     if (isGroup && !isPublic && closedMemberConversations) {
       const forcedI18n = i18n || window.i18n;
@@ -144,8 +116,7 @@ export class Avatar extends React.PureComponent<Props, State> {
       <div
         className={classNames(
           'module-avatar__icon',
-          `module-avatar__icon--${conversationType}`,
-          `module-avatar__icon--${size}`
+          `module-avatar__icon--${conversationType}`
         )}
       />
     );
@@ -163,6 +134,7 @@ export class Avatar extends React.PureComponent<Props, State> {
       size !== 28 &&
       size !== 36 &&
       size !== 48 &&
+      size !== 64 &&
       size !== 80 &&
       size !== 300
     ) {
