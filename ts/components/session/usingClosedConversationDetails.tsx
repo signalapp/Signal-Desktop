@@ -20,6 +20,10 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
       void this.fetchClosedConversationDetails();
     }
 
+    public componentDidUpdate() {
+      void this.fetchClosedConversationDetails();
+    }
+
     public render() {
       return (
         <WrappedComponent
@@ -42,7 +46,6 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
         !isPublic &&
         (conversationType === 'group' || type === 'group' || isGroup)
       ) {
-        console.warn('fetchClosedConversationDetails');
         const groupId = id || phoneNumber;
         let members = await GroupUtils.getGroupMembers(PubKey.cast(groupId));
         const ourPrimary = await UserUtil.getPrimary();

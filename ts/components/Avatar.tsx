@@ -111,15 +111,11 @@ export class Avatar extends React.PureComponent<Props, State> {
         />
       );
     }
-
-    return (
-      <div
-        className={classNames(
-          'module-avatar__icon',
-          `module-avatar__icon--${conversationType}`
-        )}
-      />
+    console.warn(
+      'renderNoImage should not happen with something else than a closed group'
     );
+
+    return <div className={classNames('module-avatar__icon')} />;
   }
 
   public render() {
