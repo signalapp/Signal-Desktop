@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { StoryRow } from '../elements/StoryRow';
-import { StickerPackPreview } from './StickerPackPreview';
-
 import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
+
+import { StoryRow } from '../elements/StoryRow';
+import { StickerPackPreview } from './StickerPackPreview';
 
 storiesOf('Sticker Creator/components', module).add(
   'StickerPackPreview',
@@ -14,7 +14,7 @@ storiesOf('Sticker Creator/components', module).add(
     const images = React.useMemo(() => Array(39).fill(image), [image]);
 
     return (
-      <StoryRow top={true}>
+      <StoryRow top>
         <StickerPackPreview images={images} title={title} author={author} />
       </StoryRow>
     );

@@ -1,5 +1,3 @@
-export * from 'zkgroup';
-
 import {
   AuthCredential,
   ClientZkAuthOperations,
@@ -24,7 +22,7 @@ import {
   typedArrayToArrayBuffer,
 } from '../Crypto';
 
-// Simple utility functions
+export * from 'zkgroup';
 
 export function arrayBufferToCompatArray(
   arrayBuffer: ArrayBuffer
@@ -57,7 +55,7 @@ export function compatArrayToHex(compatArray: FFICompatArrayType): string {
 export function decryptGroupBlob(
   clientZkGroupCipher: ClientZkGroupCipher,
   ciphertext: ArrayBuffer
-) {
+): ArrayBuffer {
   return compatArrayToArrayBuffer(
     clientZkGroupCipher.decryptBlob(arrayBufferToCompatArray(ciphertext))
   );
@@ -117,7 +115,7 @@ export function decryptUuid(
 export function deriveProfileKeyVersion(
   profileKeyBase64: string,
   uuid: string
-) {
+): string {
   const profileKeyArray = base64ToCompatArray(profileKeyBase64);
   const profileKey = new ProfileKey(profileKeyArray);
 
@@ -126,7 +124,9 @@ export function deriveProfileKeyVersion(
   return profileKeyVersion.toString();
 }
 
-export function deriveGroupPublicParams(groupSecretParamsBuffer: ArrayBuffer) {
+export function deriveGroupPublicParams(
+  groupSecretParamsBuffer: ArrayBuffer
+): ArrayBuffer {
   const groupSecretParams = new GroupSecretParams(
     arrayBufferToCompatArray(groupSecretParamsBuffer)
   );
@@ -136,7 +136,9 @@ export function deriveGroupPublicParams(groupSecretParamsBuffer: ArrayBuffer) {
   );
 }
 
-export function deriveGroupID(groupSecretParamsBuffer: ArrayBuffer) {
+export function deriveGroupID(
+  groupSecretParamsBuffer: ArrayBuffer
+): ArrayBuffer {
   const groupSecretParams = new GroupSecretParams(
     arrayBufferToCompatArray(groupSecretParamsBuffer)
   );
@@ -163,7 +165,7 @@ export function deriveGroupSecretParams(
 export function encryptGroupBlob(
   clientZkGroupCipher: ClientZkGroupCipher,
   plaintext: ArrayBuffer
-) {
+): ArrayBuffer {
   return compatArrayToArrayBuffer(
     clientZkGroupCipher.encryptBlob(arrayBufferToCompatArray(plaintext))
   );
@@ -203,7 +205,7 @@ export function getAuthCredentialPresentation(
   clientZkAuthOperations: ClientZkAuthOperations,
   authCredentialBase64: string,
   groupSecretParamsBase64: string
-) {
+): ArrayBuffer {
   const authCredential = new AuthCredential(
     base64ToCompatArray(authCredentialBase64)
   );

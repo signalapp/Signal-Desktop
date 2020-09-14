@@ -31,7 +31,7 @@ export const actions = {
   onUseEmoji,
 };
 
-export const useActions = () => useBoundActions(actions);
+export const useActions = (): typeof actions => useBoundActions(actions);
 
 function onUseEmoji({ shortName }: EmojiPickDataType): OnUseEmojiAction {
   return {

@@ -3,7 +3,8 @@ import { LoggerType } from '../types/Logging';
 function parseUrl(value: unknown, logger: LoggerType): null | URL {
   if (value instanceof URL) {
     return value;
-  } else if (typeof value === 'string') {
+  }
+  if (typeof value === 'string') {
     try {
       return new URL(value);
     } catch (err) {

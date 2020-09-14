@@ -16,7 +16,7 @@ type ExternalProps = {
   conversationId: string;
 };
 
-export const SmartContactName = (props: ExternalProps) => {
+export const SmartContactName: React.ComponentType<ExternalProps> = props => {
   const { conversationId } = props;
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const getConversation = useSelector<StateType, GetConversationByIdType>(

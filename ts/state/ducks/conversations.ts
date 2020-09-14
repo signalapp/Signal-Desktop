@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {
   difference,
   fromPairs,
@@ -113,7 +114,7 @@ export type MessageType = {
   deletedForEveryone?: boolean;
 
   errors?: Array<Error>;
-  group_update?: any;
+  group_update?: unknown;
 
   // No need to go beyond this; unused at this stage, since this goes into
   //   a reducer still in plain JavaScript and comes out well-formed
@@ -393,7 +394,10 @@ function removeAllConversations(): RemoveAllConversationsActionType {
   };
 }
 
-function selectMessage(messageId: string, conversationId: string) {
+function selectMessage(
+  messageId: string,
+  conversationId: string
+): MessageSelectedActionType {
   return {
     type: 'MESSAGE_SELECTED',
     payload: {
@@ -567,13 +571,13 @@ function openConversationExternal(
   };
 }
 
-function showInbox() {
+function showInbox(): ShowInboxActionType {
   return {
     type: 'SHOW_INBOX',
     payload: null,
   };
 }
-function showArchivedConversations() {
+function showArchivedConversations(): ShowArchivedConversationsActionType {
   return {
     type: 'SHOW_ARCHIVED_CONVERSATIONS',
     payload: null,
@@ -596,7 +600,7 @@ function getEmptyState(): ConversationsStateType {
 function hasMessageHeightChanged(
   message: MessageType,
   previous: MessageType
-): Boolean {
+): boolean {
   const messageAttachments = message.attachments || [];
   const previousAttachments = previous.attachments || [];
 
@@ -687,8 +691,7 @@ export function reducer(
     const { id, data } = payload;
     const { conversationLookup } = state;
 
-    let showArchived = state.showArchived;
-    let selectedConversation = state.selectedConversation;
+    let { showArchived, selectedConversation } = state;
 
     const existing = conversationLookup[id];
     // In the change case we only modify the lookup if we already had that conversation
@@ -1087,7 +1090,8 @@ export function reducer(
       }
     }
 
-    // Update oldest and newest if we receive older/newer messages (or duplicated timestamps!)
+    // Update oldest and newest if we receive older/newer
+    // messages (or duplicated timestamps!)
     if (first && oldest && first.received_at <= oldest.received_at) {
       oldest = pick(first, ['id', 'received_at']);
     }

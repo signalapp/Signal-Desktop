@@ -3,10 +3,8 @@ import * as classnames from 'classnames';
 import * as styles from './Button.scss';
 
 export type Props = React.HTMLProps<HTMLButtonElement> & {
-  className?: string;
   pill?: boolean;
   primary?: boolean;
-  children: React.ReactNode;
 };
 
 const getClassName = ({ primary, pill }: Props) => {
@@ -25,12 +23,15 @@ const getClassName = ({ primary, pill }: Props) => {
   return styles.base;
 };
 
-export const Button = (props: Props) => {
-  const { className, pill, primary, children, ...otherProps } = props;
-
+export const Button: React.ComponentType<Props> = ({
+  className,
+  children,
+  ...otherProps
+}) => {
   return (
     <button
-      className={classnames(getClassName(props), className)}
+      type="button"
+      className={classnames(getClassName(otherProps), className)}
       {...otherProps}
     >
       {children}

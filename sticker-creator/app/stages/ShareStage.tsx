@@ -12,7 +12,7 @@ import { stickersDuck } from '../../store';
 import { useI18n } from '../../util/i18n';
 import { Intl } from '../../../ts/components/Intl';
 
-export const ShareStage = () => {
+export const ShareStage: React.ComponentType = () => {
   const i18n = useI18n();
   const actions = stickersDuck.useStickerActions();
   const title = stickersDuck.useTitle();
@@ -34,13 +34,13 @@ export const ShareStage = () => {
   const handlePrev = React.useCallback(() => {
     actions.reset();
     history.push('/');
-  }, []);
+  }, [actions]);
 
   return (
     <AppStage
       nextText={i18n('StickerCreator--ShareStage--close')}
       onNext={handleNext}
-      nextActive={true}
+      nextActive
       prevText={i18n('StickerCreator--ShareStage--createAnother')}
       onPrev={handlePrev}
     >
@@ -66,7 +66,7 @@ export const ShareStage = () => {
               />
             </div>
             <div className={styles.row}>
-              <Text className={styles.callToAction} center={true}>
+              <Text className={styles.callToAction} center>
                 <Intl
                   i18n={i18n}
                   id="StickerCreator--ShareStage--callToAction"

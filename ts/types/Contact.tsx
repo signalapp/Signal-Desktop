@@ -1,6 +1,4 @@
-// @ts-ignore
-import Attachments from '../../app/attachments';
-import { format as formatPhoneNumber } from '../types/PhoneNumber';
+import { format as formatPhoneNumber } from './PhoneNumber';
 
 export interface ContactType {
   name?: Name;
@@ -76,7 +74,7 @@ export function contactSelector(
     signalAccount?: string;
     getAbsoluteAttachmentPath: (path: string) => string;
   }
-) {
+): ContactType {
   const { getAbsoluteAttachmentPath, signalAccount, regionCode } = options;
 
   let { avatar } = contact;

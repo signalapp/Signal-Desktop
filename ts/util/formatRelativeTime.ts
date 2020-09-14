@@ -35,7 +35,7 @@ function isYear(timestamp: moment.Moment) {
 export function formatRelativeTime(
   rawTimestamp: number | Date,
   options: { extended?: boolean; i18n: LocalizerType }
-) {
+): string {
   const { extended, i18n } = options;
 
   const formats = extended ? getExtendedFormats(i18n) : getShortFormats(i18n);
@@ -45,13 +45,17 @@ export function formatRelativeTime(
 
   if (diff.years() >= 1 || !isYear(timestamp)) {
     return replaceSuffix(timestamp.format(formats.y));
-  } else if (diff.months() >= 1 || diff.days() > 6) {
+  }
+  if (diff.months() >= 1 || diff.days() > 6) {
     return replaceSuffix(timestamp.format(formats.M));
-  } else if (diff.days() >= 1 || !isToday(timestamp)) {
+  }
+  if (diff.days() >= 1 || !isToday(timestamp)) {
     return replaceSuffix(timestamp.format(formats.d));
-  } else if (diff.hours() >= 1) {
+  }
+  if (diff.hours() >= 1) {
     return i18n('hoursAgo', [String(diff.hours())]);
-  } else if (diff.minutes() >= 1) {
+  }
+  if (diff.minutes() >= 1) {
     return i18n('minutesAgo', [String(diff.minutes())]);
   }
 

@@ -1,8 +1,7 @@
 import * as React from 'react';
 import * as styles from './StoryRow.scss';
 
-export type Props = {
-  children: React.ReactChild;
+type Props = {
   left?: boolean;
   right?: boolean;
   top?: boolean;
@@ -29,6 +28,7 @@ const getClassName = ({ left, right, top, bottom }: Props) => {
   return styles.base;
 };
 
-export const StoryRow = (props: Props) => (
-  <div className={getClassName(props)}>{props.children}</div>
-);
+export const StoryRow: React.ComponentType<Props> = ({
+  children,
+  ...props
+}) => <div className={getClassName(props)}>{children}</div>;

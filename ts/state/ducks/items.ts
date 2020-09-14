@@ -9,7 +9,7 @@ import { useBoundActions } from '../../util/hooks';
 // State
 
 export type ItemsStateType = {
-  readonly [key: string]: any;
+  readonly [key: string]: unknown;
 };
 
 // Actions
@@ -23,7 +23,7 @@ type ItemPutExternalAction = {
   type: 'items/PUT_EXTERNAL';
   payload: {
     key: string;
-    value: any;
+    value: unknown;
   };
 };
 
@@ -58,9 +58,9 @@ export const actions = {
   resetItems,
 };
 
-export const useActions = () => useBoundActions(actions);
+export const useActions = (): typeof actions => useBoundActions(actions);
 
-function putItem(key: string, value: any): ItemPutAction {
+function putItem(key: string, value: unknown): ItemPutAction {
   storageShim.put(key, value);
 
   return {
@@ -69,7 +69,7 @@ function putItem(key: string, value: any): ItemPutAction {
   };
 }
 
-function putItemExternal(key: string, value: any): ItemPutExternalAction {
+function putItemExternal(key: string, value: unknown): ItemPutExternalAction {
   return {
     type: 'items/PUT_EXTERNAL',
     payload: {
@@ -139,4 +139,5 @@ const selectRecentEmojis = createSelector(
   recents => recents.filter(isShortName)
 );
 
-export const useRecentEmojis = () => useSelector(selectRecentEmojis);
+export const useRecentEmojis = (): Array<string> =>
+  useSelector(selectRecentEmojis);

@@ -21,12 +21,14 @@ import { SmartUpdateDialog } from './UpdateDialog';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const FilteredSmartMainHeader = SmartMainHeader as any;
 const FilteredSmartMessageSearchResult = SmartMessageSearchResult as any;
 const FilteredSmartNetworkStatus = SmartNetworkStatus as any;
 const FilteredSmartUpdateDialog = SmartUpdateDialog as any;
 const FilteredSmartExpiredBuildDialog = SmartExpiredBuildDialog as any;
 const FilteredSmartRelinkDialog = SmartRelinkDialog as any;
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 function renderExpiredBuildDialog(): JSX.Element {
   return <FilteredSmartExpiredBuildDialog />;

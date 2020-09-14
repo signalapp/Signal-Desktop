@@ -24,25 +24,19 @@ test/blanket_mocha.js
 
 # TypeScript generated files
 ts/**/*.js
+sticker-creator/**/*.js
 
 **/*.d.ts
 webpack.config.ts
 
 # Temporarily ignored during TSLint transition
 # JIRA: DESKTOP-304
-sticker-creator/**/*.ts
-sticker-creator/**/*.tsx
 ts/*.ts
-ts/components/*.ts
-ts/components/*.tsx
 ts/components/stickers/**
 ts/shims/**
 ts/sql/**
-ts/state/**
 ts/storybook/**
 ts/styleguide/**
 ts/test/**
 ts/textsecure/**
-ts/types/**
 ts/updater/**
-ts/util/**

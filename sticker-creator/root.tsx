@@ -1,4 +1,3 @@
-// tslint:disable-next-line no-submodule-imports
 import { hot } from 'react-hot-loader/root';
 import * as React from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
@@ -8,7 +7,12 @@ import { history } from './util/history';
 import { store } from './store';
 import { I18n } from './util/i18n';
 
-// @ts-ignore
+declare global {
+  interface Window {
+    localeMessages: { [key: string]: { message: string } };
+  }
+}
+
 const { localeMessages } = window;
 
 const ColdRoot = () => (

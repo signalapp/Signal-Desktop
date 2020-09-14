@@ -1,11 +1,16 @@
 import PQueue from 'p-queue';
 
-// @ts-ignore
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    batchers: Array<BatcherType<any>>;
+    waitForAllBatchers: () => Promise<unknown>;
+  }
+}
+
 window.batchers = [];
 
-// @ts-ignore
 window.waitForAllBatchers = async () => {
-  // @ts-ignore
   await Promise.all(window.batchers.map(item => item.flushAndWait()));
 };
 
@@ -32,7 +37,7 @@ export function createBatcher<ItemType>(
   options: BatcherOptionsType<ItemType>
 ): BatcherType<ItemType> {
   let batcher: BatcherType<ItemType>;
-  let timeout: any;
+  let timeout: NodeJS.Timeout | null;
   let items: Array<ItemType> = [];
   const queue = new PQueue({ concurrency: 1 });
 
@@ -70,18 +75,19 @@ export function createBatcher<ItemType>(
   async function onIdle() {
     while (anyPending()) {
       if (queue.size > 0 || queue.pending > 0) {
+        // eslint-disable-next-line no-await-in-loop
         await queue.onIdle();
       }
 
       if (items.length > 0) {
+        // eslint-disable-next-line no-await-in-loop
         await sleep(options.wait * 2);
       }
     }
   }
 
   function unregister() {
-    // @ts-ignore
-    window.batchers = window.batchers.filter((item: any) => item !== batcher);
+    window.batchers = window.batchers.filter(item => item !== batcher);
   }
 
   async function flushAndWait() {
@@ -104,7 +110,6 @@ export function createBatcher<ItemType>(
     unregister,
   };
 
-  // @ts-ignore
   window.batchers.push(batcher);
 
   return batcher;

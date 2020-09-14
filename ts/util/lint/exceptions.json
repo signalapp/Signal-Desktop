@@ -12785,7 +12785,7 @@
     "rule": "jQuery-$(",
     "path": "sticker-creator/util/i18n.tsx",
     "line": "      const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
-    "lineNumber": 39,
+    "lineNumber": 40,
     "reasonCategory": "falseMatch",
     "updated": "2020-07-21T18:34:59.251Z"
   },

@@ -22,11 +22,13 @@ import { SmartEmojiPicker } from './EmojiPicker';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const FilteredSmartTimelineItem = SmartTimelineItem as any;
 const FilteredSmartTypingBubble = SmartTypingBubble as any;
 const FilteredSmartLastSeenIndicator = SmartLastSeenIndicator as any;
 const FilteredSmartHeroRow = SmartHeroRow as any;
 const FilteredSmartTimelineLoadingRow = SmartTimelineLoadingRow as any;
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 type ExternalProps = {
   id: string;
@@ -38,7 +40,7 @@ type ExternalProps = {
 function renderItem(
   messageId: string,
   conversationId: string,
-  actionProps: Object
+  actionProps: Record<string, unknown>
 ): JSX.Element {
   return (
     <FilteredSmartTimelineItem
@@ -61,7 +63,7 @@ function renderEmojiPicker({
       onPickEmoji={onPickEmoji}
       onClose={onClose}
       style={style}
-      disableSkinTones={true}
+      disableSkinTones
     />
   );
 }
@@ -112,4 +114,5 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
 const smart = connect(mapStateToProps, mapDispatchToProps);
 
-export const SmartTimeline = smart(Timeline);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const SmartTimeline = smart(Timeline as any);

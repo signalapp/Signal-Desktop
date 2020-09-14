@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // tslint:disable no-console
 import * as fs from 'fs';
 import { join, relative } from 'path';
@@ -298,6 +299,7 @@ function setupRules(allRules: Array<RuleType>) {
       throw new Error(`Rule '${rule.name}' is missing an expression`);
     }
 
+    // eslint-disable-next-line no-param-reassign
     rule.regex = new RegExp(rule.expression, 'g');
   });
 }

@@ -77,6 +77,8 @@ const rules = {
 
   // Prefer functional components with default params
   'react/require-default-props': 'off',
+
+  'jsx-a11y/label-has-associated-control': ['error', { assert: 'either' }],
 };
 
 module.exports = {
@@ -94,10 +96,30 @@ module.exports = {
 
   overrides: [
     {
-      files: ['*.ts', '*.tsx'],
+      files: ['ts/**/*.ts', 'ts/**/*.tsx'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: 'tsconfig.json',
+        ecmaFeatures: {
+          jsx: true,
+        },
+        ecmaVersion: 2018,
+        sourceType: 'module',
+      },
+      plugins: ['@typescript-eslint'],
+      extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:react/recommended',
+        'airbnb-typescript-prettier',
+      ],
+      rules,
+    },
+    {
+      files: ['sticker-creator/**/*.ts', 'sticker-creator/**/*.tsx'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        project: './sticker-creator/tsconfig.json',
         ecmaFeatures: {
           jsx: true,
         },
@@ -118,7 +140,6 @@ module.exports = {
       rules: {
         ...rules,
         'import/no-extraneous-dependencies': 'off',
-        'react/jsx-props-no-spreading': 'off',
         'react/no-array-index-key': 'off',
       },
     },

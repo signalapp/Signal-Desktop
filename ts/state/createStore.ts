@@ -1,16 +1,27 @@
-import { applyMiddleware, createStore as reduxCreateStore } from 'redux';
+/* eslint-disable no-console */
+
+import {
+  applyMiddleware,
+  createStore as reduxCreateStore,
+  DeepPartial,
+  Store,
+} from 'redux';
 
 import promise from 'redux-promise-middleware';
 import { createLogger } from 'redux-logger';
 
-import { reducer } from './reducer';
+import { reducer, StateType } from './reducer';
 
-// @ts-ignore
+declare global {
+  interface Console {
+    _log: Console['log'];
+  }
+}
+
 const env = window.getEnvironment();
 
 // So Redux logging doesn't go to disk, and so we can get colors/styles
 const directConsole = {
-  // @ts-ignore
   log: console._log,
   groupCollapsed: console.groupCollapsed,
   group: console.group,
@@ -27,7 +38,7 @@ const logger = createLogger({
 // Exclude logger if we're in production mode
 const middlewareList = env === 'production' ? [promise] : [promise, logger];
 
-const enhancer = applyMiddleware.apply(null, middlewareList);
+const enhancer = applyMiddleware(...middlewareList);
 
-export const createStore = (initialState: any) =>
+export const createStore = (initialState: DeepPartial<StateType>): Store =>
   reduxCreateStore(reducer, initialState, enhancer);

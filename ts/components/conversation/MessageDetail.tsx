@@ -182,7 +182,7 @@ export class MessageDetail extends React.Component<Props> {
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       <div className="module-message-detail" tabIndex={0} ref={this.focusRef}>
         <div className="module-message-detail__message-container">
-          <Message i18n={i18n} {...message} />
+          <Message {...message} i18n={i18n} />
         </div>
         <table className="module-message-detail__info">
           <tbody>

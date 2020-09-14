@@ -18,7 +18,9 @@ type DeletesAttributesType = {
   targetSentTimestamp: number;
 };
 
-declare class DeletesModelType extends Backbone.Model<DeletesAttributesType> {
+export declare class DeletesModelType extends Backbone.Model<
+  DeletesAttributesType
+> {
   forMessage(message: MessageModelType): Array<DeletesModelType>;
   onDelete(doe: DeletesAttributesType): Promise<void>;
 }
@@ -47,7 +49,9 @@ export type MessageAttributesType = {
   sourceUuid?: string;
 };
 
-declare class MessageModelType extends Backbone.Model<MessageAttributesType> {
+export declare class MessageModelType extends Backbone.Model<
+  MessageAttributesType
+> {
   id: string;
 
   static updateTimers(): void;

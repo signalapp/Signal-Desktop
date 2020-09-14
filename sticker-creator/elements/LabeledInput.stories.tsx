@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { StoryRow } from './StoryRow';
-import { LabeledInput } from './LabeledInput';
-
 import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
+
+import { StoryRow } from './StoryRow';
+import { LabeledInput } from './LabeledInput';
 
 storiesOf('Sticker Creator/elements', module).add('LabeledInput', () => {
   const child = text('label', 'foo bar');

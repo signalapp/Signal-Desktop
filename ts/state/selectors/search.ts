@@ -207,7 +207,7 @@ export const getSearchResults = createSelector(
       items,
       messagesLoading,
       noResults,
-      regionCode: regionCode,
+      regionCode,
       searchConversationName,
       searchTerm: state.query,
       selectedConversationId,
@@ -218,14 +218,10 @@ export const getSearchResults = createSelector(
 
 export function _messageSearchResultSelector(
   message: MessageSearchResultType,
-  // @ts-ignore
-  ourNumber: string,
-  // @ts-ignore
-  regionCode: string,
-  // @ts-ignore
-  sender?: ConversationType,
-  // @ts-ignore
-  recipient?: ConversationType,
+  _ourNumber: string,
+  _regionCode: string,
+  _sender?: ConversationType,
+  _recipient?: ConversationType,
   searchConversationId?: string,
   selectedMessageId?: string
 ): MessageSearchResultPropsDataType {
@@ -282,7 +278,7 @@ export const getMessageSearchResultSelector = createSelector(
     return (id: string) => {
       const message = messageSearchResultLookup[id];
       if (!message) {
-        return;
+        return undefined;
       }
 
       const { conversationId, source, type } = message;

@@ -7,7 +7,7 @@ import { StickerGrid } from '../../components/StickerGrid';
 import { stickersDuck } from '../../store';
 import { useI18n } from '../../util/i18n';
 
-export const DropStage = () => {
+export const DropStage: React.ComponentType = () => {
   const i18n = useI18n();
   const stickerPaths = stickersDuck.useStickerOrder();
   const stickersReady = stickersDuck.useStickersReady();
@@ -17,7 +17,7 @@ export const DropStage = () => {
 
   React.useEffect(() => {
     resetStatus();
-  }, []);
+  }, [resetStatus]);
 
   return (
     <AppStage next="/add-emojis" nextActive={stickersReady}>

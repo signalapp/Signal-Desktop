@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { StoryRow } from './StoryRow';
-import { Button } from './Button';
-
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { text } from '@storybook/addon-knobs';
+
+import { StoryRow } from './StoryRow';
+import { Button } from './Button';
 
 storiesOf('Sticker Creator/elements', module).add('Button', () => {
   const onClick = action('onClick');
@@ -13,12 +13,12 @@ storiesOf('Sticker Creator/elements', module).add('Button', () => {
   return (
     <>
       <StoryRow>
-        <Button onClick={onClick} primary={true}>
+        <Button onClick={onClick} primary>
           {child}
         </Button>
       </StoryRow>
       <StoryRow>
-        <Button onClick={onClick} primary={true} disabled={true}>
+        <Button onClick={onClick} primary disabled>
           {child}
         </Button>
       </StoryRow>
@@ -26,27 +26,27 @@ storiesOf('Sticker Creator/elements', module).add('Button', () => {
         <Button onClick={onClick}>{child}</Button>
       </StoryRow>
       <StoryRow>
-        <Button onClick={onClick} disabled={true}>
+        <Button onClick={onClick} disabled>
           {child}
         </Button>
       </StoryRow>
       <StoryRow>
-        <Button onClick={onClick} primary={true} pill={true}>
+        <Button onClick={onClick} primary pill>
           {child}
         </Button>
       </StoryRow>
       <StoryRow>
-        <Button onClick={onClick} primary={true} pill={true} disabled={true}>
+        <Button onClick={onClick} primary pill disabled>
           {child}
         </Button>
       </StoryRow>
       <StoryRow>
-        <Button onClick={onClick} pill={true}>
+        <Button onClick={onClick} pill>
           {child}
         </Button>
       </StoryRow>
       <StoryRow>
-        <Button onClick={onClick} pill={true} disabled={true}>
+        <Button onClick={onClick} pill disabled>
           {child}
         </Button>
       </StoryRow>

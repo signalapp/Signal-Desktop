@@ -16,7 +16,7 @@ export type I18nProps = {
   messages: { [key: string]: { message: string } };
 };
 
-export const I18n = ({ messages, children }: I18nProps) => {
+export const I18n = ({ messages, children }: I18nProps): JSX.Element => {
   const getMessage = React.useCallback<I18nFn>(
     (key, substitutions) => {
       if (Array.isArray(substitutions) && substitutions.length > 1) {
@@ -28,7 +28,8 @@ export const I18n = ({ messages, children }: I18nProps) => {
       const { message } = messages[key];
       if (!substitutions) {
         return message;
-      } else if (Array.isArray(substitutions)) {
+      }
+      if (Array.isArray(substitutions)) {
         return substitutions.reduce(
           (result, substitution) =>
             result.toString().replace(/\$.+?\$/, substitution.toString()),
@@ -50,7 +51,7 @@ export const I18n = ({ messages, children }: I18nProps) => {
         const placeholderName = match[1];
         const value = substitutions[placeholderName];
         if (!value) {
-          // tslint:disable-next-line no-console
+          // eslint-disable-next-line no-console
           console.error(
             `i18n: Value not provided for placeholder ${placeholderName} in key '${key}'`
           );
@@ -75,4 +76,4 @@ export const I18n = ({ messages, children }: I18nProps) => {
   );
 };
 
-export const useI18n = () => React.useContext(I18nContext);
+export const useI18n = (): I18nFn => React.useContext(I18nContext);

@@ -1,12 +1,13 @@
-import { Sound } from './Sound';
 import PQueue from 'p-queue';
+import { Sound } from './Sound';
 
 const ringtoneEventQueue = new PQueue({ concurrency: 1 });
 
 class CallingTones {
   private ringtone?: Sound;
 
-  async playEndCall() {
+  // eslint-disable-next-line class-methods-use-this
+  async playEndCall(): Promise<void> {
     const canPlayTone = await window.getCallRingtoneNotification();
     if (!canPlayTone) {
       return;

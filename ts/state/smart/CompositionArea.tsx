@@ -89,4 +89,5 @@ const dispatchPropsMap = {
 
 const smart = connect(mapStateToProps, dispatchPropsMap);
 
-export const SmartCompositionArea = smart(CompositionArea);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const SmartCompositionArea = smart(CompositionArea as any);

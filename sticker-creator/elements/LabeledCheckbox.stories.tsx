@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { StoryRow } from './StoryRow';
-import { LabeledCheckbox } from './LabeledCheckbox';
-
 import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
+
+import { StoryRow } from './StoryRow';
+import { LabeledCheckbox } from './LabeledCheckbox';
 
 storiesOf('Sticker Creator/elements', module).add('Labeled Checkbox', () => {
   const child = text('label', 'foo bar');

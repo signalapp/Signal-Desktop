@@ -17,7 +17,7 @@ import {
 
 // State
 
-export type CallId = any;
+export type CallId = unknown;
 
 export type CallDetailsType = {
   callId: CallId;

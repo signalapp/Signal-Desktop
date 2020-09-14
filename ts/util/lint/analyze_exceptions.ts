@@ -1,5 +1,3 @@
-// tslint:disable no-console
-
 import { join } from 'path';
 
 import { fromPairs, groupBy, map } from 'lodash';
@@ -26,4 +24,5 @@ const byRuleThenByCategory = fromPairs(
   })
 );
 
+// eslint-disable-next-line no-console
 console.log(JSON.stringify(byRuleThenByCategory, null, '  '));

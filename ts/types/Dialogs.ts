@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 export enum Dialogs {
   None,
   Update,

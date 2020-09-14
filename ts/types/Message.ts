@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import { Attachment } from './Attachment';
 import { ContactType } from './Contact';
 import { IndexableBoolean, IndexablePresence } from './IndexedDB';
@@ -21,7 +23,7 @@ export type IncomingMessage = Readonly<
     // Optional
     body?: string;
     decrypted_at?: number;
-    errors?: Array<any>;
+    errors?: Array<Error>;
     expireTimer?: number;
     messageTimer?: number; // deprecated
     isViewOnce?: number;

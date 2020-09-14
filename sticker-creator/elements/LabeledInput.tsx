@@ -13,7 +13,9 @@ export const LabeledInput = React.memo(
   ({ children, value, placeholder, onChange }: Props) => {
     const handleChange = React.useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
-        onChange(e.currentTarget.value);
+        if (onChange !== undefined) {
+          onChange(e.currentTarget.value);
+        }
       },
       [onChange]
     );

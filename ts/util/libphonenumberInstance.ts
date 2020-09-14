@@ -1,6 +1,6 @@
 import libphonenumber from 'google-libphonenumber';
 
 const instance = libphonenumber.PhoneNumberUtil.getInstance();
-const PhoneNumberFormat = libphonenumber.PhoneNumberFormat;
+const { PhoneNumberFormat } = libphonenumber;
 
 export { instance, PhoneNumberFormat };

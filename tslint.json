@@ -177,6 +177,8 @@
   "rulesDirectory": ["node_modules/tslint-microsoft-contrib"],
   "linterOptions": {
     "exclude": [
+      "sticker-creator/**/*.ts",
+      "sticker-creator/**/*.tsx",
       "ts/*.ts",
       "ts/backbone/**",
       "ts/build/**",
@@ -186,7 +188,10 @@
       "ts/notifications/**",
       "ts/protobuf/**",
       "ts/scripts/**",
-      "ts/services/**"
+      "ts/services/**",
+      "ts/state/**",
+      "ts/types/**",
+      "ts/util/**"
     ]
   }
 }

@@ -11,7 +11,7 @@ export function getStringForProfileChange(
   change: ProfileNameChangeType,
   changedContact: ConversationType,
   i18n: LocalizerType
-) {
+): string {
   if (change.type === 'name') {
     return changedContact.name
       ? i18n('contactChangedProfileName', {
@@ -23,7 +23,7 @@ export function getStringForProfileChange(
           oldProfile: change.oldName,
           newProfile: change.newName,
         });
-  } else {
-    throw new Error('TimelineItem: Unknown type!');
   }
+
+  throw new Error('TimelineItem: Unknown type!');
 }
