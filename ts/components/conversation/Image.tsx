@@ -47,7 +47,7 @@ export class Image extends React.Component<Props> {
     return Boolean(onClick && !pending && url);
   }
 
-  public handleClick = (event: React.MouseEvent) => {
+  public handleClick = (event: React.MouseEvent): void => {
     if (!this.canClick()) {
       event.preventDefault();
       event.stopPropagation();
@@ -65,7 +65,9 @@ export class Image extends React.Component<Props> {
     }
   };
 
-  public handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+  public handleKeyDown = (
+    event: React.KeyboardEvent<HTMLButtonElement>
+  ): void => {
     if (!this.canClick()) {
       event.preventDefault();
       event.stopPropagation();
@@ -82,8 +84,7 @@ export class Image extends React.Component<Props> {
     }
   };
 
-  // tslint:disable-next-line max-func-body-length cyclomatic-complexity
-  public render() {
+  public render(): JSX.Element {
     const {
       alt,
       attachment,
@@ -127,7 +128,10 @@ export class Image extends React.Component<Props> {
     );
 
     const overlay = canClick ? (
+      // Not sure what this button does.
+      // eslint-disable-next-line jsx-a11y/control-has-associated-label
       <button
+        type="button"
         className={overlayClassName}
         onClick={this.handleClick}
         onKeyDown={this.handleKeyDown}
@@ -135,6 +139,7 @@ export class Image extends React.Component<Props> {
       />
     ) : null;
 
+    /* eslint-disable no-nested-ternary */
     return (
       <div
         className={classNames(
@@ -210,7 +215,8 @@ export class Image extends React.Component<Props> {
         {overlay}
         {closeButton ? (
           <button
-            onClick={(e: React.MouseEvent<{}>) => {
+            type="button"
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.preventDefault();
               e.stopPropagation();
 
@@ -220,9 +226,11 @@ export class Image extends React.Component<Props> {
             }}
             className="module-image__close-button"
             title={i18n('remove-attachment')}
+            aria-label={i18n('remove-attachment')}
           />
         ) : null}
       </div>
     );
+    /* eslint-enable no-nested-ternary */
   }
 }

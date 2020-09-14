@@ -3,6 +3,7 @@ import ReactDOM, { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import Measure from 'react-measure';
 import { drop, groupBy, orderBy, take } from 'lodash';
+import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { Manager, Popper, Reference } from 'react-popper';
 import moment, { Moment } from 'moment';
 
@@ -24,6 +25,7 @@ import { Props as ReactionPickerProps, ReactionPicker } from './ReactionPicker';
 import { Emoji } from '../emoji/Emoji';
 
 import {
+  AttachmentType,
   canDisplayImage,
   getExtensionForDisplay,
   getGridDimensions,
@@ -34,8 +36,7 @@ import {
   isImage,
   isImageAttachment,
   isVideo,
-} from '../../../ts/types/Attachment';
-import { AttachmentType } from '../../types/Attachment';
+} from '../../types/Attachment';
 import { ContactType } from '../../types/Contact';
 
 import { getIncrement } from '../../util/timer';
@@ -43,7 +44,6 @@ import { isFileDangerous } from '../../util/isFileDangerous';
 import { BodyRangesType, LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
 import { createRefMerger } from '../_util';
-import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 
 interface Trigger {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -209,18 +209,24 @@ const EXPIRED_DELAY = 600;
 
 export class Message extends React.PureComponent<Props, State> {
   public menuTriggerRef: Trigger | undefined;
+
   public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();
+
   public focusRef: React.RefObject<HTMLDivElement> = React.createRef();
+
   public reactionsContainerRef: React.RefObject<
     HTMLDivElement
   > = React.createRef();
+
   public reactionsContainerRefMerger = createRefMerger();
 
   public wideMl: MediaQueryList;
 
-  public expirationCheckInterval: any;
-  public expiredTimeout: any;
-  public selectedTimeout: any;
+  public expirationCheckInterval: NodeJS.Timeout | undefined;
+
+  public expiredTimeout: NodeJS.Timeout | undefined;
+
+  public selectedTimeout: NodeJS.Timeout | undefined;
 
   public constructor(props: Props) {
     super(props);
@@ -268,24 +274,23 @@ export class Message extends React.PureComponent<Props, State> {
     return state;
   }
 
-  public handleWideMlChange = (event: MediaQueryListEvent) => {
+  public handleWideMlChange = (event: MediaQueryListEvent): void => {
     this.setState({ isWide: event.matches });
   };
 
-  public captureMenuTrigger = (triggerRef: Trigger) => {
+  public captureMenuTrigger = (triggerRef: Trigger): void => {
     this.menuTriggerRef = triggerRef;
   };
 
-  public showMenu = (event: React.MouseEvent<HTMLDivElement>) => {
+  public showMenu = (event: React.MouseEvent<HTMLDivElement>): void => {
     if (this.menuTriggerRef) {
       this.menuTriggerRef.handleContextClick(event);
     }
   };
 
-  public handleImageError = () => {
+  public handleImageError = (): void => {
     const { id } = this.props;
-    // tslint:disable-next-line no-console
-    console.log(
+    window.log.info(
       `Message ${id}: Image failed to load; failing over to placeholder`
     );
     this.setState({
@@ -293,7 +298,7 @@ export class Message extends React.PureComponent<Props, State> {
     });
   };
 
-  public handleFocus = () => {
+  public handleFocus = (): void => {
     const { interactionMode } = this.props;
 
     if (interactionMode === 'keyboard') {
@@ -301,7 +306,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
   };
 
-  public setSelected = () => {
+  public setSelected = (): void => {
     const { id, conversationId, selectMessage } = this.props;
 
     if (selectMessage) {
@@ -309,7 +314,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
   };
 
-  public setFocus = () => {
+  public setFocus = (): void => {
     const container = this.focusRef.current;
 
     if (container && !container.contains(document.activeElement)) {
@@ -317,7 +322,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
   };
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     this.startSelectedTimer();
 
     const { isSelected } = this.props;
@@ -340,7 +345,7 @@ export class Message extends React.PureComponent<Props, State> {
     }, checkFrequency);
   }
 
-  public componentWillUnmount() {
+  public componentWillUnmount(): void {
     if (this.selectedTimeout) {
       clearInterval(this.selectedTimeout);
     }
@@ -356,18 +361,20 @@ export class Message extends React.PureComponent<Props, State> {
     this.wideMl.removeEventListener('change', this.handleWideMlChange);
   }
 
-  public componentDidUpdate(prevProps: Props) {
+  public componentDidUpdate(prevProps: Props): void {
+    const { isSelected } = this.props;
+
     this.startSelectedTimer();
 
-    if (!prevProps.isSelected && this.props.isSelected) {
+    if (!prevProps.isSelected && isSelected) {
       this.setFocus();
     }
 
     this.checkExpired();
   }
 
-  public startSelectedTimer() {
-    const { interactionMode } = this.props;
+  public startSelectedTimer(): void {
+    const { clearSelectedMessage, interactionMode } = this.props;
     const { isSelected } = this.state;
 
     if (interactionMode === 'keyboard' || !isSelected) {
@@ -378,12 +385,12 @@ export class Message extends React.PureComponent<Props, State> {
       this.selectedTimeout = setTimeout(() => {
         this.selectedTimeout = undefined;
         this.setState({ isSelected: false });
-        this.props.clearSelectedMessage();
+        clearSelectedMessage();
       }, SELECTED_TIMEOUT);
     }
   }
 
-  public checkExpired() {
+  public checkExpired(): void {
     const now = Date.now();
     const { isExpired, expirationTimestamp, expirationLength } = this.props;
 
@@ -408,7 +415,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
   }
 
-  public renderTimestamp() {
+  public renderTimestamp(): JSX.Element {
     const {
       direction,
       i18n,
@@ -442,6 +449,7 @@ export class Message extends React.PureComponent<Props, State> {
             i18n('sendFailed')
           ) : (
             <button
+              type="button"
               className="module-message__metadata__tapable"
               onClick={(event: React.MouseEvent) => {
                 event.stopPropagation();
@@ -463,7 +471,7 @@ export class Message extends React.PureComponent<Props, State> {
       <Timestamp
         i18n={i18n}
         timestamp={timestamp}
-        extended={true}
+        extended
         direction={metadataDirection}
         withImageNoCaption={withImageNoCaption}
         withSticker={isSticker}
@@ -473,8 +481,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  // tslint:disable-next-line cyclomatic-complexity
-  public renderMetadata() {
+  public renderMetadata(): JSX.Element | null {
     const {
       collapseMetadata,
       direction,
@@ -548,7 +555,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderAuthor() {
+  public renderAuthor(): JSX.Element | null {
     const {
       authorTitle,
       authorName,
@@ -564,7 +571,7 @@ export class Message extends React.PureComponent<Props, State> {
     } = this.props;
 
     if (collapseMetadata) {
-      return;
+      return null;
     }
 
     if (
@@ -597,8 +604,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  // tslint:disable-next-line max-func-body-length cyclomatic-complexity
-  public renderAttachment() {
+  public renderAttachment(): JSX.Element | null {
     const {
       attachments,
       collapseMetadata,
@@ -667,11 +673,12 @@ export class Message extends React.PureComponent<Props, State> {
           />
         </div>
       );
-    } else if (!firstAttachment.pending && isAudio(attachments)) {
+    }
+    if (!firstAttachment.pending && isAudio(attachments)) {
       return (
         <audio
           ref={this.audioRef}
-          controls={true}
+          controls
           className={classNames(
             'module-message__audio-attachment',
             withContentBelow
@@ -686,83 +693,82 @@ export class Message extends React.PureComponent<Props, State> {
           <source src={firstAttachment.url} />
         </audio>
       );
-    } else {
-      const { pending, fileName, fileSize, contentType } = firstAttachment;
-      const extension = getExtensionForDisplay({ contentType, fileName });
-      const isDangerous = isFileDangerous(fileName || '');
+    }
+    const { pending, fileName, fileSize, contentType } = firstAttachment;
+    const extension = getExtensionForDisplay({ contentType, fileName });
+    const isDangerous = isFileDangerous(fileName || '');
 
-      return (
-        <button
-          className={classNames(
-            'module-message__generic-attachment',
-            withContentBelow
-              ? 'module-message__generic-attachment--with-content-below'
-              : null,
-            withContentAbove
-              ? 'module-message__generic-attachment--with-content-above'
-              : null,
-            !firstAttachment.url
-              ? 'module-message__generic-attachment--not-active'
-              : null
-          )}
-          // There's only ever one of these, so we don't want users to tab into it
-          tabIndex={-1}
-          onClick={(event: React.MouseEvent) => {
-            event.stopPropagation();
-            event.preventDefault();
+    return (
+      <button
+        type="button"
+        className={classNames(
+          'module-message__generic-attachment',
+          withContentBelow
+            ? 'module-message__generic-attachment--with-content-below'
+            : null,
+          withContentAbove
+            ? 'module-message__generic-attachment--with-content-above'
+            : null,
+          !firstAttachment.url
+            ? 'module-message__generic-attachment--not-active'
+            : null
+        )}
+        // There's only ever one of these, so we don't want users to tab into it
+        tabIndex={-1}
+        onClick={(event: React.MouseEvent) => {
+          event.stopPropagation();
+          event.preventDefault();
 
-            if (!firstAttachment.url) {
-              return;
-            }
+          if (!firstAttachment.url) {
+            return;
+          }
 
-            this.openGenericAttachment();
-          }}
-        >
-          {pending ? (
-            <div className="module-message__generic-attachment__spinner-container">
-              <Spinner svgSize="small" size="24px" direction={direction} />
-            </div>
-          ) : (
-            <div className="module-message__generic-attachment__icon-container">
-              <div className="module-message__generic-attachment__icon">
-                {extension ? (
-                  <div className="module-message__generic-attachment__icon__extension">
-                    {extension}
-                  </div>
-                ) : null}
-              </div>
-              {isDangerous ? (
-                <div className="module-message__generic-attachment__icon-dangerous-container">
-                  <div className="module-message__generic-attachment__icon-dangerous" />
+          this.openGenericAttachment();
+        }}
+      >
+        {pending ? (
+          <div className="module-message__generic-attachment__spinner-container">
+            <Spinner svgSize="small" size="24px" direction={direction} />
+          </div>
+        ) : (
+          <div className="module-message__generic-attachment__icon-container">
+            <div className="module-message__generic-attachment__icon">
+              {extension ? (
+                <div className="module-message__generic-attachment__icon__extension">
+                  {extension}
                 </div>
               ) : null}
             </div>
-          )}
-          <div className="module-message__generic-attachment__text">
-            <div
-              className={classNames(
-                'module-message__generic-attachment__file-name',
-                `module-message__generic-attachment__file-name--${direction}`
-              )}
-            >
-              {fileName}
-            </div>
-            <div
-              className={classNames(
-                'module-message__generic-attachment__file-size',
-                `module-message__generic-attachment__file-size--${direction}`
-              )}
-            >
-              {fileSize}
-            </div>
+            {isDangerous ? (
+              <div className="module-message__generic-attachment__icon-dangerous-container">
+                <div className="module-message__generic-attachment__icon-dangerous" />
+              </div>
+            ) : null}
           </div>
-        </button>
-      );
-    }
+        )}
+        <div className="module-message__generic-attachment__text">
+          <div
+            className={classNames(
+              'module-message__generic-attachment__file-name',
+              `module-message__generic-attachment__file-name--${direction}`
+            )}
+          >
+            {fileName}
+          </div>
+          <div
+            className={classNames(
+              'module-message__generic-attachment__file-size',
+              `module-message__generic-attachment__file-size--${direction}`
+            )}
+          >
+            {fileSize}
+          </div>
+        </div>
+      </button>
+    );
   }
 
-  // tslint:disable-next-line cyclomatic-complexity max-func-body-length
-  public renderPreview() {
+  public renderPreview(): JSX.Element | null {
     const {
       attachments,
       conversationType,
@@ -809,6 +815,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <button
+        type="button"
         className={classNames(
           'module-message__link-preview',
           `module-message__link-preview--${direction}`,
@@ -835,7 +842,7 @@ export class Message extends React.PureComponent<Props, State> {
           <ImageGrid
             attachments={[first.image]}
             withContentAbove={withContentAbove}
-            withContentBelow={true}
+            withContentBelow
             onError={this.handleImageError}
             i18n={i18n}
           />
@@ -852,9 +859,9 @@ export class Message extends React.PureComponent<Props, State> {
             <div className="module-message__link-preview__icon_container">
               <Image
                 smallCurveTopLeft={!withContentAbove}
-                noBorder={true}
-                noBackground={true}
-                softCorners={true}
+                noBorder
+                noBackground
+                softCorners
                 alt={i18n('previewThumbnail', [first.domain])}
                 height={72}
                 width={72}
@@ -900,7 +907,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderQuote() {
+  public renderQuote(): JSX.Element | null {
     const {
       conversationType,
       authorColor,
@@ -952,7 +959,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderEmbeddedContact() {
+  public renderEmbeddedContact(): JSX.Element | null {
     const {
       collapseMetadata,
       contact,
@@ -989,7 +996,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderSendMessageButton() {
+  public renderSendMessageButton(): JSX.Element | null {
     const { contact, openConversation, i18n } = this.props;
     if (!contact || !contact.signalAccount) {
       return null;
@@ -997,6 +1004,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <button
+        type="button"
         onClick={() => {
           if (contact.signalAccount) {
             openConversation(contact.signalAccount);
@@ -1009,7 +1017,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderAvatar() {
+  public renderAvatar(): JSX.Element | undefined {
     const {
       authorAvatarPath,
       authorName,
@@ -1031,6 +1039,7 @@ export class Message extends React.PureComponent<Props, State> {
       return;
     }
 
+    // eslint-disable-next-line consistent-return
     return (
       <div className="module-message__author-avatar">
         <Avatar
@@ -1048,7 +1057,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderText() {
+  public renderText(): JSX.Element | null {
     const {
       bodyRanges,
       deletedForEveryone,
@@ -1060,6 +1069,7 @@ export class Message extends React.PureComponent<Props, State> {
       textPending,
     } = this.props;
 
+    // eslint-disable-next-line no-nested-ternary
     const contents = deletedForEveryone
       ? i18n('message--deletedForEveryone')
       : direction === 'incoming' && status === 'error'
@@ -1093,7 +1103,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderError(isCorrectSide: boolean) {
+  public renderError(isCorrectSide: boolean): JSX.Element | null {
     const { status, direction } = this.props;
 
     if (!isCorrectSide || (status !== 'error' && status !== 'partial-sent')) {
@@ -1112,10 +1122,12 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderMenu(isCorrectSide: boolean, triggerId: string) {
+  public renderMenu(
+    isCorrectSide: boolean,
+    triggerId: string
+  ): JSX.Element | null {
     const {
       attachments,
-      // tslint:disable-next-line max-func-body-length
       canReply,
       direction,
       disableMenu,
@@ -1123,8 +1135,10 @@ export class Message extends React.PureComponent<Props, State> {
       id,
       isSticker,
       isTapToView,
+      reactToMessage,
       renderEmojiPicker,
       replyToMessage,
+      selectedReaction,
     } = this.props;
 
     if (!isCorrectSide || disableMenu) {
@@ -1142,10 +1156,13 @@ export class Message extends React.PureComponent<Props, State> {
       !isTapToView &&
       firstAttachment &&
       !firstAttachment.pending ? (
+        // This a menu meant for mouse use only
+        // eslint-disable-next-line max-len
+        // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
         <div
           onClick={this.openGenericAttachment}
-          // This a menu meant for mouse use only
           role="button"
+          aria-label={i18n('downloadAttachment')}
           className={classNames(
             'module-message__buttons__download',
             `module-message__buttons__download--${direction}`
@@ -1161,6 +1178,9 @@ export class Message extends React.PureComponent<Props, State> {
           const maybePopperRef = isWide ? popperRef : undefined;
 
           return (
+            // This a menu meant for mouse use only
+            // eslint-disable-next-line max-len
+            // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
             <div
               ref={maybePopperRef}
               onClick={(event: React.MouseEvent) => {
@@ -1171,6 +1191,7 @@ export class Message extends React.PureComponent<Props, State> {
               }}
               role="button"
               className="module-message__buttons__react"
+              aria-label={i18n('reactToMessage')}
             />
           );
         }}
@@ -1178,6 +1199,9 @@ export class Message extends React.PureComponent<Props, State> {
     );
 
     const replyButton = (
+      // This a menu meant for mouse use only
+      // eslint-disable-next-line max-len
+      // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
       <div
         onClick={(event: React.MouseEvent) => {
           event.stopPropagation();
@@ -1187,6 +1211,7 @@ export class Message extends React.PureComponent<Props, State> {
         }}
         // This a menu meant for mouse use only
         role="button"
+        aria-label={i18n('replyToMessage')}
         className={classNames(
           'module-message__buttons__reply',
           `module-message__buttons__download--${direction}`
@@ -1194,6 +1219,9 @@ export class Message extends React.PureComponent<Props, State> {
       />
     );
 
+    // This a menu meant for mouse use only
+    /* eslint-disable jsx-a11y/interactive-supports-focus */
+    /* eslint-disable jsx-a11y/click-events-have-key-events */
     const menuButton = (
       <Reference>
         {({ ref: popperRef }) => {
@@ -1205,13 +1233,14 @@ export class Message extends React.PureComponent<Props, State> {
           return (
             <ContextMenuTrigger
               id={triggerId}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               ref={this.captureMenuTrigger as any}
             >
               <div
-                // This a menu meant for mouse use only
                 ref={maybePopperRef}
                 role="button"
                 onClick={this.showMenu}
+                aria-label={i18n('messageContextMenuButton')}
                 className={classNames(
                   'module-message__buttons__menu',
                   `module-message__buttons__download--${direction}`
@@ -1222,6 +1251,8 @@ export class Message extends React.PureComponent<Props, State> {
         }}
       </Reference>
     );
+    /* eslint-enable jsx-a11y/interactive-supports-focus */
+    /* eslint-enable jsx-a11y/click-events-have-key-events */
 
     return (
       <Manager>
@@ -1238,19 +1269,20 @@ export class Message extends React.PureComponent<Props, State> {
         </div>
         {reactionPickerRoot &&
           createPortal(
+            // eslint-disable-next-line consistent-return
             <Popper placement="top">
               {({ ref, style }) => (
                 <ReactionPicker
                   i18n={i18n}
                   ref={ref}
                   style={style}
-                  selected={this.props.selectedReaction}
+                  selected={selectedReaction}
                   onClose={this.toggleReactionPicker}
                   onPick={emoji => {
                     this.toggleReactionPicker(true);
-                    this.props.reactToMessage(id, {
+                    reactToMessage(id, {
                       emoji,
-                      remove: emoji === this.props.selectedReaction,
+                      remove: emoji === selectedReaction,
                     });
                   }}
                   renderEmojiPicker={renderEmojiPicker}
@@ -1263,8 +1295,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  // tslint:disable-next-line max-func-body-length
-  public renderContextMenu(triggerId: string) {
+  public renderContextMenu(triggerId: string): JSX.Element {
     const {
       attachments,
       canReply,
@@ -1396,7 +1427,7 @@ export class Message extends React.PureComponent<Props, State> {
       const first = previews[0];
 
       if (!first || !first.image) {
-        return;
+        return undefined;
       }
       const { width } = first.image;
 
@@ -1414,9 +1445,11 @@ export class Message extends React.PureComponent<Props, State> {
       }
     }
 
-    return;
+    return undefined;
   }
 
+  // Messy return here.
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public isShowingImage() {
     const { isTapToView, attachments, previews } = this.props;
     const { imageBroken } = this.state;
@@ -1449,7 +1482,7 @@ export class Message extends React.PureComponent<Props, State> {
     return false;
   }
 
-  public isAttachmentPending() {
+  public isAttachmentPending(): boolean {
     const { attachments } = this.props;
 
     if (!attachments || attachments.length < 1) {
@@ -1461,7 +1494,7 @@ export class Message extends React.PureComponent<Props, State> {
     return Boolean(first.pending);
   }
 
-  public renderTapToViewIcon() {
+  public renderTapToViewIcon(): JSX.Element {
     const { direction, isTapToViewExpired } = this.props;
     const isDownloadPending = this.isAttachmentPending();
 
@@ -1482,7 +1515,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderTapToViewText() {
+  public renderTapToViewText(): string | undefined {
     const {
       attachments,
       direction,
@@ -1505,6 +1538,7 @@ export class Message extends React.PureComponent<Props, State> {
       return;
     }
 
+    // eslint-disable-next-line consistent-return, no-nested-ternary
     return isTapToViewError
       ? i18n('incomingError')
       : direction === 'outgoing'
@@ -1512,7 +1546,7 @@ export class Message extends React.PureComponent<Props, State> {
       : incomingString;
   }
 
-  public renderTapToView() {
+  public renderTapToView(): JSX.Element {
     const {
       collapseMetadata,
       conversationType,
@@ -1558,7 +1592,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public toggleReactionViewer = (onlyRemove = false) => {
+  public toggleReactionViewer = (onlyRemove = false): void => {
     this.setState(({ reactionViewerRoot }) => {
       if (reactionViewerRoot) {
         document.body.removeChild(reactionViewerRoot);
@@ -1589,7 +1623,7 @@ export class Message extends React.PureComponent<Props, State> {
     });
   };
 
-  public toggleReactionPicker = (onlyRemove = false) => {
+  public toggleReactionPicker = (onlyRemove = false): void => {
     this.setState(({ reactionPickerRoot }) => {
       if (reactionPickerRoot) {
         document.body.removeChild(reactionPickerRoot);
@@ -1620,7 +1654,7 @@ export class Message extends React.PureComponent<Props, State> {
     });
   };
 
-  public handleClickOutsideReactionViewer = (e: MouseEvent) => {
+  public handleClickOutsideReactionViewer = (e: MouseEvent): void => {
     const { reactionViewerRoot } = this.state;
     const { current: reactionsContainer } = this.reactionsContainerRef;
     if (reactionViewerRoot && reactionsContainer) {
@@ -1633,7 +1667,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
   };
 
-  public handleClickOutsideReactionPicker = (e: MouseEvent) => {
+  public handleClickOutsideReactionPicker = (e: MouseEvent): void => {
     const { reactionPickerRoot } = this.state;
     if (reactionPickerRoot) {
       if (!reactionPickerRoot.contains(e.target as HTMLElement)) {
@@ -1642,8 +1676,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
   };
 
-  // tslint:disable-next-line max-func-body-length
-  public renderReactions(outgoing: boolean) {
+  public renderReactions(outgoing: boolean): JSX.Element | null {
     const { reactions, i18n } = this.props;
 
     if (!reactions || (reactions && reactions.length === 0)) {
@@ -1726,6 +1759,8 @@ export class Message extends React.PureComponent<Props, State> {
 
                 return (
                   <button
+                    type="button"
+                    // eslint-disable-next-line react/no-array-index-key
                     key={`${re.emoji}-${i}`}
                     className={classNames(
                       'module-message__reactions__reaction',
@@ -1764,7 +1799,7 @@ export class Message extends React.PureComponent<Props, State> {
                         +{maybeNotRenderedTotal}
                       </span>
                     ) : (
-                      <React.Fragment>
+                      <>
                         <Emoji size={16} emoji={re.emoji} />
                         {re.count > 1 ? (
                           <span
@@ -1778,7 +1813,7 @@ export class Message extends React.PureComponent<Props, State> {
                             {re.count}
                           </span>
                         ) : null}
-                      </React.Fragment>
+                      </>
                     )}
                   </button>
                 );
@@ -1808,7 +1843,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderContents() {
+  public renderContents(): JSX.Element | null {
     const { isTapToView, deletedForEveryone } = this.props;
 
     if (deletedForEveryone) {
@@ -1837,10 +1872,9 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  // tslint:disable-next-line cyclomatic-complexity max-func-body-length
   public handleOpen = (
     event: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent
-  ) => {
+  ): void => {
     const {
       attachments,
       contact,
@@ -1923,10 +1957,8 @@ export class Message extends React.PureComponent<Props, State> {
       event.stopPropagation();
 
       if (this.audioRef.current.paused) {
-        // tslint:disable-next-line no-floating-promises
         this.audioRef.current.play();
       } else {
-        // tslint:disable-next-line no-floating-promises
         this.audioRef.current.pause();
       }
     }
@@ -1946,7 +1978,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
   };
 
-  public openGenericAttachment = (event?: React.MouseEvent) => {
+  public openGenericAttachment = (event?: React.MouseEvent): void => {
     const { attachments, downloadAttachment, timestamp } = this.props;
 
     if (event) {
@@ -1969,7 +2001,7 @@ export class Message extends React.PureComponent<Props, State> {
     });
   };
 
-  public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
     // Do not allow reactions to error messages
     const { canReply } = this.props;
 
@@ -1989,7 +2021,7 @@ export class Message extends React.PureComponent<Props, State> {
     this.handleOpen(event);
   };
 
-  public handleClick = (event: React.MouseEvent) => {
+  public handleClick = (event: React.MouseEvent): void => {
     // We don't want clicks on body text to result in the 'default action' for the message
     const { text } = this.props;
     if (text && text.length > 0) {
@@ -2008,8 +2040,7 @@ export class Message extends React.PureComponent<Props, State> {
     this.handleOpen(event);
   };
 
-  // tslint:disable-next-line: cyclomatic-complexity
-  public renderContainer() {
+  public renderContainer(): JSX.Element {
     const {
       authorColor,
       deletedForEveryone,
@@ -2061,7 +2092,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <Measure
-        bounds={true}
+        bounds
         onResize={({ bounds = { width: 0 } }) => {
           this.setState({ containerWidth: bounds.width });
         }}
@@ -2081,8 +2112,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  // tslint:disable-next-line cyclomatic-complexity
-  public render() {
+  public render(): JSX.Element | null {
     const {
       authorPhoneNumber,
       attachments,

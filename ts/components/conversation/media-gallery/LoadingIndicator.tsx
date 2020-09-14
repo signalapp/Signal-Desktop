@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const LoadingIndicator = () => {
+export const LoadingIndicator = (): JSX.Element => {
   return (
     <div className="loading-widget">
       <div className="container">

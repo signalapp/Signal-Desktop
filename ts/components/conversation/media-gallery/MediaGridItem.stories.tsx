@@ -3,11 +3,8 @@ import { storiesOf } from '@storybook/react';
 import { text, withKnobs } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-// @ts-ignore
 import { setup as setupI18n } from '../../../../js/modules/i18n';
-// @ts-ignore
 import enMessages from '../../../../_locales/en/messages.json';
-
 import { MediaItemType } from '../../LightboxGallery';
 import { AttachmentType } from '../../../types/Attachment';
 import { MIMEType } from '../../../types/MIME';
@@ -22,6 +19,7 @@ const story = storiesOf(
   module
 );
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 story.addDecorator((withKnobs as any)({ escapeHTML: false }));
 
 const createProps = (

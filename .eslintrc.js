@@ -118,6 +118,8 @@ module.exports = {
       rules: {
         ...rules,
         'import/no-extraneous-dependencies': 'off',
+        'react/jsx-props-no-spreading': 'off',
+        'react/no-array-index-key': 'off',
       },
     },
   ],

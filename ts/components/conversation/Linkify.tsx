@@ -20,17 +20,21 @@ export class Linkify extends React.Component<Props> {
     renderNonLink: ({ text }) => text,
   };
 
-  public render() {
+  public render():
+    | JSX.Element
+    | string
+    | null
+    | Array<JSX.Element | string | null> {
     const { text, renderNonLink } = this.props;
     const matchData = linkify.match(text) || [];
-    const results: Array<any> = [];
+    const results: Array<JSX.Element | string> = [];
     let last = 0;
     let count = 1;
 
     // We have to do this, because renderNonLink is not required in our Props object,
     //  but it is always provided via defaultProps.
     if (!renderNonLink) {
-      return;
+      return null;
     }
 
     if (matchData.length === 0) {
@@ -46,18 +50,20 @@ export class Linkify extends React.Component<Props> {
       }) => {
         if (last < match.index) {
           const textWithNoLink = text.slice(last, match.index);
-          results.push(renderNonLink({ text: textWithNoLink, key: count++ }));
+          count += 1;
+          results.push(renderNonLink({ text: textWithNoLink, key: count }));
         }
 
         const { url, text: originalText } = match;
+        count += 1;
         if (SUPPORTED_PROTOCOLS.test(url) && !isLinkSneaky(url)) {
           results.push(
-            <a key={count++} href={url}>
+            <a key={count} href={url}>
               {originalText}
             </a>
           );
         } else {
-          results.push(renderNonLink({ text: originalText, key: count++ }));
+          results.push(renderNonLink({ text: originalText, key: count }));
         }
 
         last = match.lastIndex;
@@ -65,7 +71,8 @@ export class Linkify extends React.Component<Props> {
     );
 
     if (last < text.length) {
-      results.push(renderNonLink({ text: text.slice(last), key: count++ }));
+      count += 1;
+      results.push(renderNonLink({ text: text.slice(last), key: count }));
     }
 
     return results;

@@ -72,6 +72,7 @@ function getLabelForAddress(
 }
 
 export class ContactDetail extends React.Component<Props> {
+  // eslint-disable-next-line class-methods-use-this
   public renderSendMessage({
     hasSignalAccount,
     i18n,
@@ -80,20 +81,24 @@ export class ContactDetail extends React.Component<Props> {
     hasSignalAccount: boolean;
     i18n: (key: string, values?: Array<string>) => string;
     onSendMessage: () => void;
-  }) {
+  }): JSX.Element | null {
     if (!hasSignalAccount) {
       return null;
     }
 
     // We don't want the overall click handler for this element to fire, so we stop
     //   propagation before handing control to the caller's callback.
-    const onClick = (e: React.MouseEvent<{}>): void => {
+    const onClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
       e.stopPropagation();
       onSendMessage();
     };
 
     return (
-      <button className="module-contact-detail__send-message" onClick={onClick}>
+      <button
+        type="button"
+        className="module-contact-detail__send-message"
+        onClick={onClick}
+      >
         <div className="module-contact-detail__send-message__inner">
           <div className="module-contact-detail__send-message__bubble-icon" />
           {i18n('sendMessageToContact')}
@@ -102,9 +107,13 @@ export class ContactDetail extends React.Component<Props> {
     );
   }
 
-  public renderEmail(items: Array<Email> | undefined, i18n: LocalizerType) {
+  // eslint-disable-next-line class-methods-use-this
+  public renderEmail(
+    items: Array<Email> | undefined,
+    i18n: LocalizerType
+  ): Array<JSX.Element> | undefined {
     if (!items || items.length === 0) {
-      return;
+      return undefined;
     }
 
     return items.map((item: Email) => {
@@ -122,9 +131,13 @@ export class ContactDetail extends React.Component<Props> {
     });
   }
 
-  public renderPhone(items: Array<Phone> | undefined, i18n: LocalizerType) {
+  // eslint-disable-next-line class-methods-use-this
+  public renderPhone(
+    items: Array<Phone> | undefined,
+    i18n: LocalizerType
+  ): Array<JSX.Element> | null | undefined {
     if (!items || items.length === 0) {
-      return;
+      return undefined;
     }
 
     return items.map((item: Phone) => {
@@ -142,15 +155,20 @@ export class ContactDetail extends React.Component<Props> {
     });
   }
 
-  public renderAddressLine(value: string | undefined) {
+  // eslint-disable-next-line class-methods-use-this
+  public renderAddressLine(value: string | undefined): JSX.Element | undefined {
     if (!value) {
-      return;
+      return undefined;
     }
 
     return <div>{value}</div>;
   }
 
-  public renderPOBox(poBox: string | undefined, i18n: LocalizerType) {
+  // eslint-disable-next-line class-methods-use-this
+  public renderPOBox(
+    poBox: string | undefined,
+    i18n: LocalizerType
+  ): JSX.Element | null {
     if (!poBox) {
       return null;
     }
@@ -162,7 +180,8 @@ export class ContactDetail extends React.Component<Props> {
     );
   }
 
-  public renderAddressLineTwo(address: PostalAddress) {
+  // eslint-disable-next-line class-methods-use-this
+  public renderAddressLineTwo(address: PostalAddress): JSX.Element | null {
     if (address.city || address.region || address.postcode) {
       return (
         <div>
@@ -177,13 +196,14 @@ export class ContactDetail extends React.Component<Props> {
   public renderAddresses(
     addresses: Array<PostalAddress> | undefined,
     i18n: LocalizerType
-  ) {
+  ): Array<JSX.Element> | undefined {
     if (!addresses || addresses.length === 0) {
-      return;
+      return undefined;
     }
 
     return addresses.map((address: PostalAddress, index: number) => {
       return (
+        // eslint-disable-next-line react/no-array-index-key
         <div key={index} className="module-contact-detail__additional-contact">
           <div className="module-contact-detail__additional-contact__type">
             {getLabelForAddress(address, i18n)}
@@ -198,7 +218,7 @@ export class ContactDetail extends React.Component<Props> {
     });
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { contact, hasSignalAccount, i18n, onSendMessage } = this.props;
     const isIncoming = false;
     const module = 'contact-detail';

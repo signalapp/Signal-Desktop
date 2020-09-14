@@ -71,6 +71,9 @@ export type PropsType = PropsDataType &
 
 export class ConversationHeader extends React.Component<PropsType> {
   public showMenuBound: (event: React.MouseEvent<HTMLButtonElement>) => void;
+
+  // Comes from a third-party dependency
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public menuTriggerRef: React.RefObject<any>;
 
   public constructor(props: PropsType) {
@@ -80,28 +83,30 @@ export class ConversationHeader extends React.Component<PropsType> {
     this.showMenuBound = this.showMenu.bind(this);
   }
 
-  public showMenu(event: React.MouseEvent<HTMLButtonElement>) {
+  public showMenu(event: React.MouseEvent<HTMLButtonElement>): void {
     if (this.menuTriggerRef.current) {
       this.menuTriggerRef.current.handleContextClick(event);
     }
   }
 
-  public renderBackButton() {
-    const { onGoBack, showBackButton } = this.props;
+  public renderBackButton(): JSX.Element {
+    const { i18n, onGoBack, showBackButton } = this.props;
 
     return (
       <button
+        type="button"
         onClick={onGoBack}
         className={classNames(
           'module-conversation-header__back-icon',
           showBackButton ? 'module-conversation-header__back-icon--show' : null
         )}
         disabled={!showBackButton}
+        aria-label={i18n('goBack')}
       />
     );
   }
 
-  public renderTitle() {
+  public renderTitle(): JSX.Element {
     const {
       name,
       phoneNumber,
@@ -145,7 +150,7 @@ export class ConversationHeader extends React.Component<PropsType> {
     );
   }
 
-  public renderAvatar() {
+  public renderAvatar(): JSX.Element {
     const {
       avatarPath,
       color,
@@ -176,7 +181,7 @@ export class ConversationHeader extends React.Component<PropsType> {
     );
   }
 
-  public renderExpirationLength() {
+  public renderExpirationLength(): JSX.Element | null {
     const { expirationSettingName, showBackButton } = this.props;
 
     if (!expirationSettingName) {
@@ -200,12 +205,13 @@ export class ConversationHeader extends React.Component<PropsType> {
     );
   }
 
-  public renderMoreButton(triggerId: string) {
-    const { showBackButton } = this.props;
+  public renderMoreButton(triggerId: string): JSX.Element {
+    const { i18n, showBackButton } = this.props;
 
     return (
       <ContextMenuTrigger id={triggerId} ref={this.menuTriggerRef}>
         <button
+          type="button"
           onClick={this.showMenuBound}
           className={classNames(
             'module-conversation-header__more-button',
@@ -214,16 +220,18 @@ export class ConversationHeader extends React.Component<PropsType> {
               : 'module-conversation-header__more-button--show'
           )}
           disabled={showBackButton}
+          aria-label={i18n('moreInfo')}
         />
       </ContextMenuTrigger>
     );
   }
 
-  public renderSearchButton() {
-    const { onSearchInConversation, showBackButton } = this.props;
+  public renderSearchButton(): JSX.Element {
+    const { i18n, onSearchInConversation, showBackButton } = this.props;
 
     return (
       <button
+        type="button"
         onClick={onSearchInConversation}
         className={classNames(
           'module-conversation-header__search-button',
@@ -232,22 +240,31 @@ export class ConversationHeader extends React.Component<PropsType> {
             : 'module-conversation-header__search-button--show'
         )}
         disabled={showBackButton}
+        aria-label={i18n('search')}
       />
     );
   }
 
-  public renderOutgoingAudioCallButton() {
+  public renderOutgoingAudioCallButton(): JSX.Element | null {
     if (!window.CALLING) {
       return null;
     }
-    if (this.props.type === 'group' || this.props.isMe) {
+
+    const {
+      i18n,
+      isMe,
+      onOutgoingAudioCallInConversation,
+      showBackButton,
+      type,
+    } = this.props;
+
+    if (type === 'group' || isMe) {
       return null;
     }
 
-    const { onOutgoingAudioCallInConversation, showBackButton } = this.props;
-
     return (
       <button
+        type="button"
         onClick={onOutgoingAudioCallInConversation}
         className={classNames(
           'module-conversation-header__audio-calling-button',
@@ -256,15 +273,19 @@ export class ConversationHeader extends React.Component<PropsType> {
             : 'module-conversation-header__audio-calling-button--show'
         )}
         disabled={showBackButton}
+        aria-label={i18n('makeOutgoingCall')}
       />
     );
   }
 
-  public renderOutgoingVideoCallButton() {
+  public renderOutgoingVideoCallButton(): JSX.Element | null {
     if (!window.CALLING) {
       return null;
     }
-    if (this.props.type === 'group' || this.props.isMe) {
+
+    const { i18n, isMe, type } = this.props;
+
+    if (type === 'group' || isMe) {
       return null;
     }
 
@@ -272,6 +293,7 @@ export class ConversationHeader extends React.Component<PropsType> {
 
     return (
       <button
+        type="button"
         onClick={onOutgoingVideoCallInConversation}
         className={classNames(
           'module-conversation-header__video-calling-button',
@@ -280,11 +302,12 @@ export class ConversationHeader extends React.Component<PropsType> {
             : 'module-conversation-header__video-calling-button--show'
         )}
         disabled={showBackButton}
+        aria-label={i18n('makeOutgoingVideoCall')}
       />
     );
   }
 
-  public renderMenu(triggerId: string) {
+  public renderMenu(triggerId: string): JSX.Element {
     const {
       disableTimerChanges,
       i18n,
@@ -323,7 +346,9 @@ export class ConversationHeader extends React.Component<PropsType> {
     }
     muteOptions.push(...getMuteOptions(i18n));
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const disappearingTitle = i18n('disappearingMessages') as any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const muteTitle = i18n('muteNotificationsTitle') as any;
     const isGroup = type === 'group';
 
@@ -382,7 +407,7 @@ export class ConversationHeader extends React.Component<PropsType> {
     );
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { id } = this.props;
     const triggerId = `conversation-${id}`;
 

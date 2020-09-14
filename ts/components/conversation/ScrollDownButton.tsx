@@ -12,28 +12,29 @@ export type Props = {
   i18n: LocalizerType;
 };
 
-export class ScrollDownButton extends React.Component<Props> {
-  public render() {
-    const { conversationId, withNewMessages, i18n, scrollDown } = this.props;
-    const altText = withNewMessages
-      ? i18n('messagesBelow')
-      : i18n('scrollDown');
+export const ScrollDownButton = ({
+  conversationId,
+  withNewMessages,
+  i18n,
+  scrollDown,
+}: Props): JSX.Element => {
+  const altText = withNewMessages ? i18n('messagesBelow') : i18n('scrollDown');
 
-    return (
-      <div className="module-scroll-down">
-        <button
-          className={classNames(
-            'module-scroll-down__button',
-            withNewMessages ? 'module-scroll-down__button--new-messages' : null
-          )}
-          onClick={() => {
-            scrollDown(conversationId);
-          }}
-          title={altText}
-        >
-          <div className="module-scroll-down__icon" />
-        </button>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="module-scroll-down">
+      <button
+        type="button"
+        className={classNames(
+          'module-scroll-down__button',
+          withNewMessages ? 'module-scroll-down__button--new-messages' : null
+        )}
+        onClick={() => {
+          scrollDown(conversationId);
+        }}
+        title={altText}
+      >
+        <div className="module-scroll-down__icon" />
+      </button>
+    </div>
+  );
+};

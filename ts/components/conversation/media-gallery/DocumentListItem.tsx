@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 
 import moment from 'moment';
-// tslint:disable-next-line:match-default-export-name
 import formatFileSize from 'filesize';
 
 interface Props {
@@ -21,7 +20,7 @@ export class DocumentListItem extends React.Component<Props> {
     shouldShowSeparator: true,
   };
 
-  public render() {
+  public render(): JSX.Element {
     const { shouldShowSeparator } = this.props;
 
     return (
@@ -39,12 +38,13 @@ export class DocumentListItem extends React.Component<Props> {
   }
 
   private renderContent() {
-    const { fileName, fileSize, timestamp } = this.props;
+    const { fileName, fileSize, onClick, timestamp } = this.props;
 
     return (
       <button
+        type="button"
         className="module-document-list-item__content"
-        onClick={this.props.onClick}
+        onClick={onClick}
       >
         <div className="module-document-list-item__icon" />
         <div className="module-document-list-item__metadata">

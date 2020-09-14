@@ -9,11 +9,9 @@ import { pngUrl } from '../../storybook/Fixtures';
 import { Message, Props as MessagesProps } from './Message';
 import { AUDIO_MP3, IMAGE_PNG, MIMEType, VIDEO_MP4 } from '../../types/MIME';
 import { Props, Quote } from './Quote';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../../js/modules/i18n';
-// @ts-ignore
 import enMessages from '../../../_locales/en/messages.json';
+
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/Quote', module);
@@ -63,7 +61,7 @@ const renderInMessage = ({
 }: Props) => {
   const messageProps = {
     ...defaultMessageProps,
-    authorColor: authorColor,
+    authorColor,
     quote: {
       attachment,
       authorId: 'an-author',
@@ -186,6 +184,7 @@ story.add('Image Only', () => {
       },
     },
   });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props.text = undefined as any;
 
   return <Quote {...props} />;
@@ -230,6 +229,7 @@ story.add('Video Only', () => {
       },
     },
   });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props.text = undefined as any;
 
   return <Quote {...props} />;
@@ -271,6 +271,7 @@ story.add('Audio Only', () => {
       isVoiceMessage: false,
     },
   });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props.text = undefined as any;
 
   return <Quote {...props} />;
@@ -296,6 +297,7 @@ story.add('Voice Message Only', () => {
       isVoiceMessage: true,
     },
   });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props.text = undefined as any;
 
   return <Quote {...props} />;
@@ -321,6 +323,7 @@ story.add('Other File Only', () => {
       isVoiceMessage: false,
     },
   });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props.text = undefined as any;
 
   return <Quote {...props} />;
@@ -355,6 +358,7 @@ story.add('Message Not Found', () => {
 
 story.add('Missing Text & Attachment', () => {
   const props = createProps();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props.text = undefined as any;
 
   return <Quote {...props} />;

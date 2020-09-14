@@ -2,14 +2,12 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
+
 import {
   MessageRequestActions,
   Props as MessageRequestActionsProps,
 } from './MessageRequestActions';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../../js/modules/i18n';
-// @ts-ignore
 import enMessages from '../../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
@@ -42,7 +40,7 @@ storiesOf('Components/Conversation/MessageRequestActions', module)
   .add('Direct (Blocked)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <MessageRequestActions {...getBaseProps()} isBlocked={true} />
+        <MessageRequestActions {...getBaseProps()} isBlocked />
       </div>
     );
   })
@@ -56,7 +54,7 @@ storiesOf('Components/Conversation/MessageRequestActions', module)
   .add('Group (Blocked)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <MessageRequestActions {...getBaseProps(true)} isBlocked={true} />
+        <MessageRequestActions {...getBaseProps(true)} isBlocked />
       </div>
     );
   });

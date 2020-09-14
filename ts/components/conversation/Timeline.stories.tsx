@@ -3,12 +3,8 @@ import { storiesOf } from '@storybook/react';
 import { boolean, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-// @ts-ignore
 import { setup as setupI18n } from '../../../js/modules/i18n';
-
-// @ts-ignore
 import enMessages from '../../../_locales/en/messages.json';
-
 import { Props, Timeline } from './Timeline';
 import { TimelineItem, TimelineItemType } from './TimelineItem';
 import { LastSeenIndicator } from './LastSeenIndicator';
@@ -19,7 +15,7 @@ const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/Timeline', module);
 
-// tslint:disable-next-line
+// eslint-disable-next-line
 const noop = () => {};
 
 Object.assign(window, {
@@ -207,6 +203,7 @@ const items: Record<string, TimelineItemType> = {
     type: 'linkNotification',
     data: null,
   },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } as any;
 
 const actions = () => ({

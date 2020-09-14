@@ -2,19 +2,15 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { boolean, date, select, text } from '@storybook/addon-knobs';
 
-// @ts-ignore
 import { setup as setupI18n } from '../../../js/modules/i18n';
-
-// @ts-ignore
 import enMessages from '../../../_locales/en/messages.json';
-
 import { Props, Timestamp } from './Timestamp';
 
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/Timestamp', module);
 
-const now = Date.now;
+const { now } = Date;
 const seconds = (n: number) => n * 1000;
 const minutes = (n: number) => 60 * seconds(n);
 const hours = (n: number) => 60 * minutes(n);
@@ -70,21 +66,23 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 
 const createTable = (overrideProps: Partial<Props> = {}) => (
   <table cellPadding={5}>
-    <tr>
-      <th>Description</th>
-      <th>Timestamp</th>
-    </tr>
-    {times().map(([description, timestamp]) => (
-      <tr key={timestamp}>
-        <td>{description}</td>
-        <td>
-          <Timestamp
-            key={timestamp}
-            {...createProps({ ...overrideProps, timestamp })}
-          />
-        </td>
+    <tbody>
+      <tr>
+        <th>Description</th>
+        <th>Timestamp</th>
       </tr>
-    ))}
+      {times().map(([description, timestamp]) => (
+        <tr key={timestamp}>
+          <td>{description}</td>
+          <td>
+            <Timestamp
+              key={timestamp}
+              {...createProps({ ...overrideProps, timestamp })}
+            />
+          </td>
+        </tr>
+      ))}
+    </tbody>
   </table>
 );
 

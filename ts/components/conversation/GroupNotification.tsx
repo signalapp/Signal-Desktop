@@ -33,7 +33,10 @@ type PropsHousekeeping = {
 export type Props = PropsData & PropsHousekeeping;
 
 export class GroupNotification extends React.Component<Props> {
-  public renderChange(change: Change, from: Contact) {
+  public renderChange(
+    change: Change,
+    from: Contact
+  ): JSX.Element | string | null | undefined {
     const { contacts, type, newName } = change;
     const { i18n } = this.props;
 
@@ -78,6 +81,7 @@ export class GroupNotification extends React.Component<Props> {
           throw new Error('Group update is missing contacts');
         }
 
+        // eslint-disable-next-line no-case-declarations
         const otherPeopleNotifMsg =
           otherPeople.length === 1
             ? 'joinedTheGroup'
@@ -108,6 +112,7 @@ export class GroupNotification extends React.Component<Props> {
           throw new Error('Group update is missing contacts');
         }
 
+        // eslint-disable-next-line no-case-declarations
         const leftKey =
           contacts.length > 1 ? 'multipleLeftTheGroup' : 'leftTheGroup';
 
@@ -115,13 +120,14 @@ export class GroupNotification extends React.Component<Props> {
           <Intl i18n={i18n} id={leftKey} components={[otherPeopleWithCommas]} />
         );
       case 'general':
+        // eslint-disable-next-line consistent-return
         return;
       default:
         throw missingCaseError(type);
     }
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { changes, i18n, from } = this.props;
 
     // Leave messages are always from the person leaving, so we omit the fromLabel if
@@ -153,8 +159,9 @@ export class GroupNotification extends React.Component<Props> {
             <br />
           </>
         )}
-        {(changes || []).map((change, index) => (
-          <div key={index} className="module-group-notification__change">
+        {(changes || []).map((change, i) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <div key={i} className="module-group-notification__change">
             {this.renderChange(change, from)}
           </div>
         ))}

@@ -1,11 +1,9 @@
+/* eslint-disable-next-line max-classes-per-file */
 import * as React from 'react';
-
-// @ts-ignore
-import { setup as setupI18n } from '../../../js/modules/i18n';
-// @ts-ignore
-import enMessages from '../../../_locales/en/messages.json';
-
 import { storiesOf } from '@storybook/react';
+
+import { setup as setupI18n } from '../../../js/modules/i18n';
+import enMessages from '../../../_locales/en/messages.json';
 import { GroupV2ChangeType } from '../../groups';
 import { SmartContactRendererType } from '../../groupChange';
 import { GroupV2Change } from './GroupV2Change';
@@ -19,17 +17,21 @@ const CONTACT_C = 'CONTACT_C';
 const ADMIN_A = 'ADMIN_A';
 const INVITEE_A = 'INVITEE_A';
 
-// tslint:disable-next-line no-unnecessary-class
 class AccessControlEnum {
   static UNKNOWN = 0;
+
   static ADMINISTRATOR = 1;
+
   static ANY = 2;
+
   static MEMBER = 3;
 }
-// tslint:disable-next-line no-unnecessary-class
+
 class RoleEnum {
   static UNKNOWN = 0;
+
   static ADMINISTRATOR = 1;
+
   static DEFAULT = 2;
 }
 
@@ -468,7 +470,6 @@ storiesOf('Components/Conversation/GroupV2Change', module)
       </>
     );
   })
-  // tslint:disable-next-line max-func-body-length
   .add('Member Privilege', () => {
     return (
       <>
@@ -652,7 +653,6 @@ storiesOf('Components/Conversation/GroupV2Change', module)
       </>
     );
   })
-  // tslint:disable-next-line max-func-body-length
   .add('Pending Remove - one', () => {
     return (
       <>

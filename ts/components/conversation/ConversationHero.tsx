@@ -35,6 +35,8 @@ const renderMembershipRow = ({
     sharedGroupNames.length > 0
   ) {
     const firstThreeGroups = take(sharedGroupNames, 3).map((group, i) => (
+      // We cannot guarantee uniqueness of group names
+      // eslint-disable-next-line react/no-array-index-key
       <strong key={i} className={nameClassName}>
         <Emojify text={group} />
       </strong>
@@ -56,7 +58,8 @@ const renderMembershipRow = ({
           />
         </div>
       );
-    } else if (firstThreeGroups.length === 3) {
+    }
+    if (firstThreeGroups.length === 3) {
       return (
         <div className={className}>
           <Intl
@@ -70,7 +73,8 @@ const renderMembershipRow = ({
           />
         </div>
       );
-    } else if (firstThreeGroups.length >= 2) {
+    }
+    if (firstThreeGroups.length >= 2) {
       return (
         <div className={className}>
           <Intl
@@ -83,7 +87,8 @@ const renderMembershipRow = ({
           />
         </div>
       );
-    } else if (firstThreeGroups.length >= 1) {
+    }
+    if (firstThreeGroups.length >= 1) {
       return (
         <div className={className}>
           <Intl
@@ -115,9 +120,11 @@ export const ConversationHero = ({
   title,
   onHeightChange,
   updateSharedGroups,
-}: Props) => {
+}: Props): JSX.Element => {
   const firstRenderRef = React.useRef(true);
 
+  // TODO: DESKTOP-686
+  /* eslint-disable react-hooks/exhaustive-deps */
   React.useEffect(() => {
     // If any of the depenencies for this hook change then the height of this
     // component may have changed. The cleanup function notifies listeners of
@@ -144,11 +151,13 @@ export const ConversationHero = ({
     `pn-${profileName}`,
     sharedGroupNames.map(g => `g-${g}`).join(' '),
   ]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   const phoneNumberOnly = Boolean(
     !name && !profileName && conversationType === 'direct'
   );
 
+  /* eslint-disable no-nested-ternary */
   return (
     <div className="module-conversation-hero">
       <Avatar
@@ -190,4 +199,5 @@ export const ConversationHero = ({
       {renderMembershipRow({ isMe, sharedGroupNames, conversationType, i18n })}
     </div>
   );
+  /* eslint-enable no-nested-ternary */
 };

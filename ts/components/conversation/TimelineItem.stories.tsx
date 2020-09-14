@@ -2,13 +2,10 @@ import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+
 import { EmojiPicker } from '../emoji/EmojiPicker';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../../js/modules/i18n';
-// @ts-ignore
 import enMessages from '../../../_locales/en/messages.json';
-
 import { PropsType as TimelineItemProps, TimelineItem } from './TimelineItem';
 
 const i18n = setupI18n('en', enMessages);
@@ -80,7 +77,6 @@ storiesOf('Components/Conversation/TimelineItem', module)
 
     return <TimelineItem {...getDefaultProps()} item={item} i18n={i18n} />;
   })
-  // tslint:disable-next-line max-func-body-length
   .add('Notification', () => {
     const items = [
       {
@@ -173,7 +169,7 @@ storiesOf('Components/Conversation/TimelineItem', module)
             acceptedTime: Date.now() - 200,
             wasDeclined: false,
             wasIncoming: false,
-            wasVideoCall: true,
+            wasVideoCall: false,
             endedTime: Date.now(),
           },
         },
@@ -193,8 +189,8 @@ storiesOf('Components/Conversation/TimelineItem', module)
       },
       {
         type: 'callHistory',
-        callHistoryDetails: {
-          data: {
+        data: {
+          callHistoryDetails: {
             // declined outgoing audio
             wasDeclined: true,
             wasIncoming: false,
@@ -243,20 +239,21 @@ storiesOf('Components/Conversation/TimelineItem', module)
 
     return (
       <>
-        {items.map(item => (
-          <>
+        {items.map((item, index) => (
+          <React.Fragment key={index}>
             <TimelineItem
               {...getDefaultProps()}
               item={item as TimelineItemProps['item']}
               i18n={i18n}
             />
             <hr />
-          </>
+          </React.Fragment>
         ))}
       </>
     );
   })
   .add('Unknown Type', () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore: intentional
     const item = {
       type: 'random',
@@ -268,6 +265,7 @@ storiesOf('Components/Conversation/TimelineItem', module)
     return <TimelineItem {...getDefaultProps()} item={item} i18n={i18n} />;
   })
   .add('Missing Item', () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore: intentional
     const item = null as TimelineItemProps['item'];
 

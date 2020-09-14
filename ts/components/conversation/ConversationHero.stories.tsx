@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { number as numberKnob, text } from '@storybook/addon-knobs';
-import { ConversationHero } from './ConversationHero';
 
-// @ts-ignore
+import { ConversationHero } from './ConversationHero';
 import { setup as setupI18n } from '../../../js/modules/i18n';
-// @ts-ignore
 import enMessages from '../../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
@@ -187,7 +185,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <ConversationHero
           i18n={i18n}
-          isMe={true}
+          isMe
           title={getTitle()}
           conversationType="direct"
           phoneNumber={getPhoneNumber()}

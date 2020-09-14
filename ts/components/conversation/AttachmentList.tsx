@@ -27,89 +27,81 @@ export interface Props {
 const IMAGE_WIDTH = 120;
 const IMAGE_HEIGHT = 120;
 
-export class AttachmentList extends React.Component<Props> {
-  // tslint:disable-next-line max-func-body-length */
-  public render() {
-    const {
-      attachments,
-      i18n,
-      onAddAttachment,
-      onClickAttachment,
-      onCloseAttachment,
-      onClose,
-    } = this.props;
+export const AttachmentList = ({
+  attachments,
+  i18n,
+  onAddAttachment,
+  onClickAttachment,
+  onCloseAttachment,
+  onClose,
+}: Props): JSX.Element | null => {
+  if (!attachments.length) {
+    return null;
+  }
 
-    if (!attachments.length) {
-      return null;
-    }
+  const allVisualAttachments = areAllAttachmentsVisual(attachments);
 
-    const allVisualAttachments = areAllAttachmentsVisual(attachments);
-
-    return (
-      <div className="module-attachments">
-        {attachments.length > 1 ? (
-          <div className="module-attachments__header">
-            <button
-              onClick={onClose}
-              className="module-attachments__close-button"
-            />
-          </div>
-        ) : null}
-        <div className="module-attachments__rail">
-          {(attachments || []).map((attachment, index) => {
-            const { contentType } = attachment;
-            if (
-              isImageTypeSupported(contentType) ||
-              isVideoTypeSupported(contentType)
-            ) {
-              const imageKey =
-                getUrl(attachment) || attachment.fileName || index;
-              const clickCallback =
-                attachments.length > 1 ? onClickAttachment : undefined;
-
-              return (
-                <Image
-                  key={imageKey}
-                  alt={i18n('stagedImageAttachment', [
-                    getUrl(attachment) || attachment.fileName,
-                  ])}
-                  i18n={i18n}
-                  attachment={attachment}
-                  softCorners={true}
-                  playIconOverlay={isVideoAttachment(attachment)}
-                  height={IMAGE_HEIGHT}
-                  width={IMAGE_WIDTH}
-                  url={getUrl(attachment)}
-                  closeButton={true}
-                  onClick={clickCallback}
-                  onClickClose={onCloseAttachment}
-                  onError={() => {
-                    onCloseAttachment(attachment);
-                  }}
-                />
-              );
-            }
-
-            const genericKey =
-              getUrl(attachment) || attachment.fileName || index;
+  return (
+    <div className="module-attachments">
+      {attachments.length > 1 ? (
+        <div className="module-attachments__header">
+          <button
+            type="button"
+            onClick={onClose}
+            className="module-attachments__close-button"
+            aria-label={i18n('close')}
+          />
+        </div>
+      ) : null}
+      <div className="module-attachments__rail">
+        {(attachments || []).map((attachment, index) => {
+          const { contentType } = attachment;
+          if (
+            isImageTypeSupported(contentType) ||
+            isVideoTypeSupported(contentType)
+          ) {
+            const imageKey = getUrl(attachment) || attachment.fileName || index;
+            const clickCallback =
+              attachments.length > 1 ? onClickAttachment : undefined;
 
             return (
-              <StagedGenericAttachment
-                key={genericKey}
-                attachment={attachment}
+              <Image
+                key={imageKey}
+                alt={i18n('stagedImageAttachment', [
+                  getUrl(attachment) || attachment.fileName,
+                ])}
                 i18n={i18n}
-                onClose={onCloseAttachment}
+                attachment={attachment}
+                softCorners
+                playIconOverlay={isVideoAttachment(attachment)}
+                height={IMAGE_HEIGHT}
+                width={IMAGE_WIDTH}
+                url={getUrl(attachment)}
+                closeButton
+                onClick={clickCallback}
+                onClickClose={onCloseAttachment}
+                onError={() => {
+                  onCloseAttachment(attachment);
+                }}
               />
             );
-          })}
-          {allVisualAttachments ? (
-            <StagedPlaceholderAttachment
-              onClick={onAddAttachment}
+          }
+
+          const genericKey = getUrl(attachment) || attachment.fileName || index;
+
+          return (
+            <StagedGenericAttachment
+              key={genericKey}
+              attachment={attachment}
               i18n={i18n}
+              onClose={onCloseAttachment}
             />
-          ) : null}
-        </div>
+          );
+        })}
+        {allVisualAttachments ? (
+          <StagedPlaceholderAttachment onClick={onAddAttachment} i18n={i18n} />
+        ) : null}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};

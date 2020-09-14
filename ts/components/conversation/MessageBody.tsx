@@ -94,7 +94,7 @@ export class MessageBody extends React.Component<Props> {
     );
   }
 
-  public render() {
+  public render(): JSX.Element {
     const {
       bodyRanges,
       text,

@@ -21,7 +21,7 @@ export interface Props {
 const UPDATE_FREQUENCY = 60 * 1000;
 
 export class Timestamp extends React.Component<Props> {
-  private interval: any;
+  private interval: NodeJS.Timeout | null;
 
   constructor(props: Props) {
     super(props);
@@ -29,22 +29,24 @@ export class Timestamp extends React.Component<Props> {
     this.interval = null;
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     const update = () => {
       this.setState({
+        // Used to trigger renders
+        // eslint-disable-next-line react/no-unused-state
         lastUpdated: Date.now(),
       });
     };
     this.interval = setInterval(update, UPDATE_FREQUENCY);
   }
 
-  public componentWillUnmount() {
+  public componentWillUnmount(): void {
     if (this.interval) {
       clearInterval(this.interval);
     }
   }
 
-  public render() {
+  public render(): JSX.Element | null {
     const {
       direction,
       i18n,

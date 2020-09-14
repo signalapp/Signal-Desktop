@@ -1,14 +1,10 @@
 import * as React from 'react';
+import { boolean } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-// @ts-ignore
 import { setup as setupI18n } from '../../../js/modules/i18n';
-
-// @ts-ignore
 import enMessages from '../../../_locales/en/messages.json';
-
 import { Props, VerificationNotification } from './VerificationNotification';
-import { boolean } from '@storybook/addon-knobs';
 
 const i18n = setupI18n('en', enMessages);
 

@@ -35,7 +35,6 @@ export type Props = OwnProps &
 const emojisOrder = ['❤️', '👍', '👎', '😂', '😮', '😢', '😡'];
 
 export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
-  // tslint:disable-next-line max-func-body-length
   ({ i18n, reactions, onClose, pickedReaction, ...rest }, ref) => {
     const grouped = mapValues(groupBy(reactions, 'emoji'), res =>
       orderBy(res, ['timestamp'], ['desc'])
@@ -112,6 +111,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
 
               return (
                 <button
+                  type="button"
                   key={cat}
                   ref={maybeFocusRef}
                   className={classNames(

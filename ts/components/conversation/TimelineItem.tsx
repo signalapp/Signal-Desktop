@@ -124,7 +124,7 @@ export type PropsType = PropsLocalType &
   Pick<AllMessageProps, 'renderEmojiPicker'>;
 
 export class TimelineItem extends React.PureComponent<PropsType> {
-  public render() {
+  public render(): JSX.Element | null {
     const {
       conversationId,
       id,
@@ -136,8 +136,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
     } = this.props;
 
     if (!item) {
-      // tslint:disable-next-line:no-console
-      console.warn(`TimelineItem: item ${id} provided was falsey`);
+      window.log.warn(`TimelineItem: item ${id} provided was falsey`);
 
       return null;
     }

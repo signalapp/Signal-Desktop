@@ -151,6 +151,10 @@
     "message": "Set Up as Standalone Device",
     "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
   },
+  "messageContextMenuButton": {
+    "message": "More actions",
+    "description": "Label for context button next to each message"
+  },
   "contextMenuCopyLink": {
     "message": "Copy Link",
     "description": "Shown in the context menu for a link to indicate that the user can copy the link"
@@ -984,6 +988,10 @@
   },
   "theirIdentityUnknown": {
     "message": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
+  },
+  "goBack": {
+    "message": "Go back",
+    "description": "Label for back button in a conversation"
   },
   "moreInfo": {
     "message": "More Info...",
@@ -2772,6 +2780,14 @@
     "message": "Ringing...",
     "description": "Shown in the call screen when placing an outgoing call that is now ringing"
   },
+  "makeOutgoingCall": {
+    "message": "Start a call",
+    "description": "Title for the call button in a conversation"
+  },
+  "makeOutgoingVideoCall": {
+    "message": "Start a video call",
+    "description": "Title for the video call button in a conversation"
+  },
   "callReconnecting": {
     "message": "Reconnecting...",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
@@ -3574,7 +3590,7 @@
     }
   },
   "close": {
-    "message": "close",
+    "message": "Close",
     "description": "Generic close label"
   },
   "previous": {

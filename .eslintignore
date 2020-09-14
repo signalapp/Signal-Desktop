@@ -33,7 +33,8 @@ webpack.config.ts
 sticker-creator/**/*.ts
 sticker-creator/**/*.tsx
 ts/*.ts
-ts/components/conversation/**
+ts/components/*.ts
+ts/components/*.tsx
 ts/components/stickers/**
 ts/shims/**
 ts/sql/**

@@ -12830,18 +12830,17 @@
     "path": "ts/components/CallScreen.js",
     "line": "        this.localVideoRef = react_1.default.createRef();",
     "lineNumber": 98,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-05-28T17:22:06.472Z",
-    "reasonDetail": "Used to render local preview video"
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2020-09-14T23:03:44.863Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/CallScreen.js",
     "line": "        this.remoteVideoRef = react_1.default.createRef();",
-    "lineNumber": 98,
+    "lineNumber": 99,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Necessary for showing call video"
+    "updated": "2020-09-14T23:03:44.863Z"
   },
   {
     "rule": "React-createRef",
@@ -12856,10 +12855,9 @@
     "rule": "React-createRef",
     "path": "ts/components/CallScreen.tsx",
     "line": "    this.remoteVideoRef = React.createRef();",
-    "lineNumber": 75,
+    "lineNumber": 80,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Necessary for showing call video"
+    "updated": "2020-09-14T23:03:44.863Z"
   },
   {
     "rule": "React-createRef",
@@ -12944,10 +12942,9 @@
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.videoRef = react_1.default.createRef();",
-    "lineNumber": 142,
+    "lineNumber": 149,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Used to control video"
+    "updated": "2020-09-14T23:03:44.863Z"
   },
   {
     "rule": "React-createRef",
@@ -13016,7 +13013,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
     "line": "    this.menuTriggerRef = React.createRef();",
-    "lineNumber": 79,
+    "lineNumber": 82,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Used to reference popup menu"
@@ -13069,24 +13066,23 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
-    "lineNumber": 212,
+    "lineNumber": 213,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-08-28T19:36:40.817Z"
+    "updated": "2020-09-14T23:03:44.863Z"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 213,
+    "lineNumber": 215,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Used for managing focus only"
+    "updated": "2020-09-14T23:03:44.863Z"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 216,
+    "lineNumber": 219,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T19:36:40.817Z"
   },
@@ -13094,7 +13090,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/MessageDetail.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 15,
+    "lineNumber": 18,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-01T22:46:33.013Z",
     "reasonDetail": "Used for setting focus only"
@@ -13112,7 +13108,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/media-gallery/MediaGallery.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 25,
+    "lineNumber": 28,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-01T22:46:33.013Z",
     "reasonDetail": "Used for setting focus only"
@@ -13121,7 +13117,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/media-gallery/MediaGallery.tsx",
     "line": "  public readonly focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 66,
+    "lineNumber": 68,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-01T22:46:33.013Z",
     "reasonDetail": "Used for setting focus only"

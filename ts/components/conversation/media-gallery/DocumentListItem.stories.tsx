@@ -10,6 +10,7 @@ const story = storiesOf(
   module
 );
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 story.addDecorator((withKnobs as any)({ escapeHTML: false }));
 
 story.add('Single', () => (

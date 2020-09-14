@@ -181,6 +181,7 @@
       "ts/backbone/**",
       "ts/build/**",
       "ts/components/*.ts[x]",
+      "ts/components/conversation/**",
       "ts/components/emoji/**",
       "ts/notifications/**",
       "ts/protobuf/**",
