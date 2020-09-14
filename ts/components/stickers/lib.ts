@@ -7,7 +7,7 @@ export function countStickers(o: {
   blessedPacks: ReadonlyArray<StickerPackType>;
   installedPacks: ReadonlyArray<StickerPackType>;
   receivedPacks: ReadonlyArray<StickerPackType>;
-}) {
+}): number {
   return (
     o.knownPacks.length +
     o.blessedPacks.length +

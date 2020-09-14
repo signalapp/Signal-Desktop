@@ -1,5 +1,3 @@
-/* tslint:disable:max-func-body-length */
-/* tslint:disable:cyclomatic-complexity */
 import * as React from 'react';
 import classNames from 'classnames';
 import { useRestoreFocus } from '../../util/hooks';
@@ -25,7 +23,7 @@ function useTabs<T>(tabs: ReadonlyArray<T>, initialTab = tabs[0]) {
       tabs.map(t => () => {
         setTab(t);
       }),
-    tabs
+    [tabs]
   );
 
   return [tab, handlers] as [T, ReadonlyArray<() => void>];
@@ -72,11 +70,13 @@ export const StickerPicker = React.memo(
       const focusRef = React.useRef<HTMLButtonElement>(null);
       const tabIds = React.useMemo(
         () => ['recents', ...packs.map(({ id }) => id)],
-        packs
+        [packs]
       );
       const [currentTab, [recentsHandler, ...packsHandlers]] = useTabs(
         tabIds,
-        // If there are no recent stickers, default to the first sticker pack, unless there are no sticker packs.
+        // If there are no recent stickers,
+        // default to the first sticker pack,
+        // unless there are no sticker packs.
         tabIds[recentStickers.length > 0 ? 0 : Math.min(1, tabIds.length)]
       );
       const selectedPack = packs.find(({ id }) => id === currentTab);
@@ -110,8 +110,6 @@ export const StickerPicker = React.memo(
             event.preventDefault();
 
             onClose();
-
-            return;
           }
         };
 
@@ -160,6 +158,7 @@ export const StickerPicker = React.memo(
               >
                 {hasPacks ? (
                   <button
+                    type="button"
                     onClick={recentsHandler}
                     className={classNames({
                       'module-sticker-picker__header__button': true,
@@ -167,10 +166,12 @@ export const StickerPicker = React.memo(
                       'module-sticker-picker__header__button--selected':
                         currentTab === 'recents',
                     })}
+                    aria-label={i18n('stickers--StickerPicker--Recents')}
                   />
                 ) : null}
                 {packs.map((pack, i) => (
                   <button
+                    type="button"
                     key={pack.id}
                     onClick={packsHandlers[i]}
                     className={classNames(
@@ -198,24 +199,29 @@ export const StickerPicker = React.memo(
               </div>
               {!isUsingKeyboard && packsPage > 0 ? (
                 <button
+                  type="button"
                   className={classNames(
                     'module-sticker-picker__header__button',
                     'module-sticker-picker__header__button--prev-page'
                   )}
                   onClick={onClickPrevPackPage}
+                  aria-label={i18n('stickers--StickerPicker--PrevPage')}
                 />
               ) : null}
               {!isUsingKeyboard && !isLastPacksPage(packsPage, packs.length) ? (
                 <button
+                  type="button"
                   className={classNames(
                     'module-sticker-picker__header__button',
                     'module-sticker-picker__header__button--next-page'
                   )}
                   onClick={onClickNextPackPage}
+                  aria-label={i18n('stickers--StickerPicker--NextPage')}
                 />
               ) : null}
             </div>
             <button
+              type="button"
               ref={addPackRef}
               className={classNames(
                 'module-sticker-picker__header__button',
@@ -225,6 +231,7 @@ export const StickerPicker = React.memo(
                 }
               )}
               onClick={onClickAddPack}
+              aria-label={i18n('stickers--StickerPicker--AddPack')}
             />
           </div>
           <div
@@ -290,6 +297,7 @@ export const StickerPicker = React.memo(
 
                   return (
                     <button
+                      type="button"
                       ref={maybeFocusRef}
                       key={`${packId}-${id}`}
                       className="module-sticker-picker__body__cell"
@@ -307,6 +315,7 @@ export const StickerPicker = React.memo(
                   .fill(0)
                   .map((_, i) => (
                     <div
+                      // eslint-disable-next-line react/no-array-index-key
                       key={i}
                       className="module-sticker-picker__body__cell__placeholder"
                       role="presentation"

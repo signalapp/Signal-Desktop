@@ -29,7 +29,6 @@ export type OwnProps = {
 export type Props = OwnProps;
 
 export const StickerButton = React.memo(
-  // tslint:disable-next-line max-func-body-length
   ({
     i18n,
     clearInstalledStickerPack,
@@ -67,8 +66,9 @@ export const StickerButton = React.memo(
       }
     }, [
       clearInstalledStickerPack,
-      onClickAddPack,
+      clearShowIntroduction,
       installedPacks,
+      onClickAddPack,
       popperRoot,
       setOpen,
     ]);
@@ -161,7 +161,6 @@ export const StickerButton = React.memo(
     // Clear the installed pack after one minute
     React.useEffect(() => {
       if (installedPack) {
-        // tslint:disable-next-line:no-string-based-set-timeout
         const timerId = setTimeout(clearInstalledStickerPack, 10 * 1000);
 
         return () => {
@@ -188,12 +187,14 @@ export const StickerButton = React.memo(
         <Reference>
           {({ ref }) => (
             <button
+              type="button"
               ref={ref}
               onClick={handleClickButton}
               className={classNames({
                 'module-sticker-button__button': true,
                 'module-sticker-button__button--active': open,
               })}
+              aria-label={i18n('stickers--StickerPicker--Open')}
             />
           )}
         </Reference>
@@ -201,6 +202,7 @@ export const StickerButton = React.memo(
           <Popper placement={position} key={installedPack.id}>
             {({ ref, style, placement, arrowProps }) => (
               <button
+                type="button"
                 ref={ref}
                 style={style}
                 className="module-sticker-button__tooltip"
@@ -237,6 +239,7 @@ export const StickerButton = React.memo(
           <Popper placement={position}>
             {({ ref, style, placement, arrowProps }) => (
               <button
+                type="button"
                 ref={ref}
                 style={style}
                 className={classNames(
@@ -260,8 +263,10 @@ export const StickerButton = React.memo(
                 </div>
                 <div className="module-sticker-button__tooltip--introduction__close">
                   <button
+                    type="button"
                     className="module-sticker-button__tooltip--introduction__close__button"
                     onClick={handleClearIntroduction}
+                    aria-label={i18n('close')}
                   />
                 </div>
                 <div

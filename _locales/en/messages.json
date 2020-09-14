@@ -1892,6 +1892,26 @@
     "message": "Why use words when you can use stickers?",
     "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
   },
+  "stickers--StickerPicker--Open": {
+    "message": "Open the sticker picker",
+    "description": "Label for the open button for the sticker picker"
+  },
+  "stickers--StickerPicker--AddPack": {
+    "message": "Add a sticker pack",
+    "description": "Label for the add pack button in the sticker picker"
+  },
+  "stickers--StickerPicker--NextPage": {
+    "message": "Next Page",
+    "description": "Label for the next page button in the sticker picker"
+  },
+  "stickers--StickerPicker--PrevPage": {
+    "message": "Previous Page",
+    "description": "Label for the previous page button in the sticker picker"
+  },
+  "stickers--StickerPicker--Recents": {
+    "message": "Recent Sticker",
+    "description": "Label for the recent stickers button in the sticker picker"
+  },
   "stickers--StickerPicker--DownloadError": {
     "message": "Some stickers could not be downloaded.",
     "description": "Shown in the sticker picker when one or more stickers could not be downloaded."

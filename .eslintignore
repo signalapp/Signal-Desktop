@@ -31,8 +31,6 @@ webpack.config.ts
 
 # Temporarily ignored during TSLint transition
 # JIRA: DESKTOP-304
-ts/*.ts
-ts/components/stickers/**
 ts/shims/**
 ts/sql/**
 ts/storybook/**

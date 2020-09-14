@@ -15,7 +15,6 @@ export type OwnProps = {
 export type Props = OwnProps;
 
 export const StickerManagerPackRow = React.memo(
-  // tslint:disable-next-line max-func-body-length
   ({
     installStickerPack,
     uninstallStickerPack,
@@ -37,7 +36,7 @@ export const StickerManagerPackRow = React.memo(
           installStickerPack(id, key);
         }
       },
-      [installStickerPack, pack]
+      [id, installStickerPack, key]
     );
 
     const handleUninstall = React.useCallback(
@@ -49,7 +48,7 @@ export const StickerManagerPackRow = React.memo(
           setUninstalling(true);
         }
       },
-      [setUninstalling, id, key, isBlessed]
+      [id, isBlessed, key, setUninstalling, uninstallStickerPack]
     );
 
     const handleConfirmUninstall = React.useCallback(() => {
@@ -57,7 +56,7 @@ export const StickerManagerPackRow = React.memo(
       if (uninstallStickerPack) {
         uninstallStickerPack(id, key);
       }
-    }, [id, key, clearUninstalling]);
+    }, [id, key, clearUninstalling, uninstallStickerPack]);
 
     const handleKeyDown = React.useCallback(
       (event: React.KeyboardEvent) => {
@@ -134,7 +133,7 @@ export const StickerManagerPackRow = React.memo(
           <div className="module-sticker-manager__pack-row__controls">
             {pack.status === 'installed' ? (
               <StickerPackInstallButton
-                installed={true}
+                installed
                 i18n={i18n}
                 onClick={handleUninstall}
               />

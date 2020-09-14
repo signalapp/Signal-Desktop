@@ -15,11 +15,13 @@ export const StickerPackInstallButton = React.forwardRef<
   Props
 >(({ i18n, installed, blue, ...props }: Props, ref) => (
   <button
+    type="button"
     ref={ref}
     className={classNames({
       'module-sticker-manager__install-button': true,
       'module-sticker-manager__install-button--blue': blue,
     })}
+    aria-label={i18n('stickers--StickerManager--Install')}
     {...props}
   >
     {installed
