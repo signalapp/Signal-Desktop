@@ -1,9 +1,7 @@
 // TODO: fix libloki and textsecure not being available here yet
 
-import { handleEndSession } from './sessionHandling';
 import { EnvelopePlus } from './types';
-import { downloadAttachment } from './attachments';
-import { handleMediumGroupUpdate } from './mediumGroups';
+export { downloadAttachment } from './attachments';
 
 import { addToCache, getAllFromCache, removeFromCache } from './cache';
 import { processMessage } from '../session/snode_api/swarmPolling';
