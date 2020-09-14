@@ -55,6 +55,7 @@
   @include color-svg('../images/profile-individual.svg', $color-white);
 }
 
+.module-avatar__icon-closed .module-avatar--28,
 .module-avatar--28 {
   height: 28px;
   width: 28px;

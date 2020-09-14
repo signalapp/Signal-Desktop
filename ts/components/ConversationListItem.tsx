@@ -23,6 +23,7 @@ import {
 import { ConversationAttributes } from '../../js/models/conversations';
 import { GroupUtils } from '../session/utils';
 import { PubKey } from '../session/types';
+import { UserUtil } from '../util';
 
 export type PropsData = {
   id: string;
@@ -91,11 +92,15 @@ export class ConversationListItem extends React.PureComponent<Props, State> {
   public async fetchClosedConversationDetails() {
     if (!this.props.isPublic && this.props.type === 'group') {
       const groupId = this.props.phoneNumber;
-      const members = await GroupUtils.getGroupMembers(PubKey.cast(groupId));
-      const membersConvos = members.map(m =>
-        window.ConversationController.get(m.key)
+      let members = await GroupUtils.getGroupMembers(PubKey.cast(groupId));
+      const ourPrimary = await UserUtil.getPrimary();
+      members = members.filter(m => m.key !== ourPrimary.key);
+      members.sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
+      const membersConvos = members.map(
+        m => window.ConversationController.get(m.key).cachedProps
       );
-
+      // no need to forward more than 2 conversation for rendering the group avatar
+      membersConvos.slice(0, 2);
       this.setState({ closedMemberConversations: membersConvos });
     }
   }
@@ -112,12 +117,6 @@ export class ConversationListItem extends React.PureComponent<Props, State> {
       profileName,
       isPublic,
     } = this.props;
-
-    if (!isPublic && type === 'group') {
-      if (!this.state.closedMemberConversations) {
-        return <></>;
-      }
-    }
 
     const iconSize = 36;
 
@@ -341,7 +340,6 @@ export class ConversationListItem extends React.PureComponent<Props, State> {
       style,
       mentionedUs,
     } = this.props;
-
     const triggerId = `conversation-item-${phoneNumber}-ctxmenu`;
 
     return (

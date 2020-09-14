@@ -212,6 +212,6 @@ export class Avatar extends React.PureComponent<Props, State> {
   }
 
   private getAvatarBorderColor(): string {
-    return '#000A'; // borderAvatarColor in themes.scss
+    return '#00000059'; // borderAvatarColor in themes.scss
   }
 }

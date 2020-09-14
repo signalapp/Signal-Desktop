@@ -30,7 +30,30 @@ export class ClosedGroupAvatar extends React.PureComponent<Props> {
       );
     } else if (conversations.length > 1) {
       // in a closed group avatar, each visible avatar member size is 2/3 of the group avatar in size
-      const avatarsDiameter = 28; //FIXME audric (size * 2) / 3;
+      // Always use the size directly under the one requested
+      let avatarsDiameter = 0;
+      switch (size) {
+        case 36: {
+          avatarsDiameter = 28;
+          break;
+        }
+        case 48: {
+          avatarsDiameter = 36;
+          break;
+        }
+        case 80: {
+          avatarsDiameter = 48;
+          break;
+        }
+        case 300: {
+          avatarsDiameter = 80;
+          break;
+        }
+        default:
+          throw new Error(
+            `Invalid size request for closed group avatar: ${size}`
+          );
+      }
       const conv1 = conversations[0];
       const conv2 = conversations[1];
       // use the 2 first members as group avatars
