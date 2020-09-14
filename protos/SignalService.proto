@@ -42,7 +42,7 @@ message Content {
 
 message MediumGroupCiphertext {
   optional bytes ciphertext = 1;
-  optional string source = 2;
+  optional bytes source = 2;
   optional uint32 keyIdx = 3;
 }
 

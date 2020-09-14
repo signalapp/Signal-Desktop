@@ -71,8 +71,8 @@ async function decryptForMediumGroup(
     new Uint8Array(mediumGroupCiphertext)
   );
   const ourNumber = (await UserUtil.getCurrentDevicePubKey()) as string;
-
-  if (source === ourNumber) {
+  const sourceAsStr = StringUtils.decode(source, 'hex');
+  if (sourceAsStr === ourNumber) {
     window.console.info(
       'Dropping message from ourself after decryptForMediumGroup'
     );
@@ -83,7 +83,7 @@ async function decryptForMediumGroup(
     ciphertext,
     keyIdx,
     groupId,
-    source
+    sourceAsStr
   );
 
   return plaintext;
