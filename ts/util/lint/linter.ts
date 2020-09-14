@@ -344,6 +344,7 @@ async function main(): Promise<void> {
           }
           // recreate this rule since it has g flag, and carries local state
           if (rule.expression) {
+            // eslint-disable-next-line no-param-reassign
             rule.regex = new RegExp(rule.expression, 'g');
           }
 
