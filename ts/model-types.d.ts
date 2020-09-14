@@ -178,6 +178,7 @@ export declare class ConversationModelType extends Backbone.Model<
   isFromOrAddedByTrustedContact(): boolean;
   isBlocked(): boolean;
   isMe(): boolean;
+  isMuted(): boolean;
   isPrivate(): boolean;
   isVerified(): boolean;
   maybeRepairGroupV2(data: {

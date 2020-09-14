@@ -70,6 +70,12 @@ window.getCallSystemNotification = makeGetter('call-system-notification');
 window.setCallSystemNotification = makeSetter('call-system-notification');
 window.getIncomingCallNotification = makeGetter('incoming-call-notification');
 window.setIncomingCallNotification = makeSetter('incoming-call-notification');
+window.getCountMutedConversations = makeGetter(
+  'badge-count-muted-conversations'
+);
+window.setCountMutedConversations = makeSetter(
+  'badge-count-muted-conversations'
+);
 
 window.getMediaPermissions = makeGetter('media-permissions');
 window.setMediaPermissions = makeSetter('media-permissions');

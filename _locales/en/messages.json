@@ -3628,5 +3628,9 @@
   "CompositionArea--attach-file": {
     "message": "Attach file",
     "description": "Aria label for file attachment button in composition area"
+  },
+  "countMutedConversationsDescription": {
+    "message": "Count muted conversations in badge count",
+    "description": "Description for counting muted conversations in badge setting"
   }
 }

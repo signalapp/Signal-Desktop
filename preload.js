@@ -163,6 +163,29 @@ try {
   installSetter('notification-draw-attention', 'setNotificationDrawAttention');
   installGetter('audio-notification', 'getAudioNotification');
   installSetter('audio-notification', 'setAudioNotification');
+  installGetter(
+    'badge-count-muted-conversations',
+    'getCountMutedConversations'
+  );
+  installSetter(
+    'badge-count-muted-conversations',
+    'setCountMutedConversations'
+  );
+
+  window.getCountMutedConversations = () =>
+    new Promise((resolve, reject) => {
+      ipc.once(
+        'get-success-badge-count-muted-conversations',
+        (_event, error, value) => {
+          if (error) {
+            return reject(new Error(error));
+          }
+
+          return resolve(value);
+        }
+      );
+      ipc.send('get-badge-count-muted-conversations');
+    });
 
   installGetter('spell-check', 'getSpellCheck');
   installSetter('spell-check', 'setSpellCheck');

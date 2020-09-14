@@ -32,10 +32,13 @@ export function start(): void {
       this.listenTo(conversations, 'add change:active_at', this.addActive);
       this.listenTo(conversations, 'reset', () => this.reset([]));
 
-      this.on(
-        'add remove change:unreadCount',
-        debounce(this.updateUnreadCount.bind(this), 1000)
+      const debouncedUpdateUnreadCount = debounce(
+        this.updateUnreadCount.bind(this),
+        1000
       );
+
+      this.on('add remove change:unreadCount', debouncedUpdateUnreadCount);
+      window.Whisper.events.on('updateUnreadCount', debouncedUpdateUnreadCount);
     },
     addActive(model: ConversationModelType) {
       if (model.get('active_at')) {
@@ -45,8 +48,13 @@ export function start(): void {
       }
     },
     updateUnreadCount() {
+      const canCountMutedConversations = window.storage.get(
+        'badge-count-muted-conversations'
+      );
       const newUnreadCount = reduce(
-        this.map((m: ConversationModelType) => m.get('unreadCount')),
+        this.map((m: ConversationModelType) =>
+          !canCountMutedConversations && m.isMuted() ? 0 : m.get('unreadCount')
+        ),
         (item: number, memo: number) => (item || 0) + memo,
         0
       );

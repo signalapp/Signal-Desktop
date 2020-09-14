@@ -381,6 +381,12 @@
         storage.put('notification-draw-attention', value),
       getAudioNotification: () => storage.get('audio-notification'),
       setAudioNotification: value => storage.put('audio-notification', value),
+      getCountMutedConversations: () =>
+        storage.get('badge-count-muted-conversations', false),
+      setCountMutedConversations: value => {
+        storage.put('badge-count-muted-conversations', value);
+        window.Whisper.events.trigger('updateUnreadCount');
+      },
       getCallRingtoneNotification: () =>
         storage.get('call-ringtone-notification', true),
       setCallRingtoneNotification: value =>

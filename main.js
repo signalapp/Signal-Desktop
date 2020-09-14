@@ -1262,6 +1262,8 @@ installSettingsGetter('notification-draw-attention');
 installSettingsSetter('notification-draw-attention');
 installSettingsGetter('audio-notification');
 installSettingsSetter('audio-notification');
+installSettingsGetter('badge-count-muted-conversations');
+installSettingsSetter('badge-count-muted-conversations');
 
 installSettingsGetter('spell-check');
 installSettingsSetter('spell-check');

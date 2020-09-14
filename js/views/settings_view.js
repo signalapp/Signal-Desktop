@@ -128,6 +128,12 @@
         });
       }
       new CheckboxView({
+        el: this.$('.badge-count-muted-conversations-setting'),
+        name: 'badge-count-muted-conversations-setting',
+        value: window.initialData.countMutedConversations,
+        setFn: window.setCountMutedConversations,
+      });
+      new CheckboxView({
         el: this.$('.spell-check-setting'),
         name: 'spell-check-setting',
         value: window.initialData.spellCheck,
@@ -224,6 +230,9 @@
         clearDataButton: i18n('clearDataButton'),
         clearDataExplanation: i18n('clearDataExplanation'),
         calling: i18n('calling'),
+        countMutedConversationsDescription: i18n(
+          'countMutedConversationsDescription'
+        ),
         alwaysRelayCallsDescription: i18n('alwaysRelayCallsDescription'),
         alwaysRelayCallsDetail: i18n('alwaysRelayCallsDetail'),
         callRingtoneNotificationDescription: i18n(
