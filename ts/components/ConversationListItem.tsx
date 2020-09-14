@@ -20,10 +20,8 @@ import {
   getInviteContactMenuItem,
   getLeaveGroupMenuItem,
 } from '../session/utils/Menu';
-import { ConversationAttributes } from '../../js/models/conversations';
-import { GroupUtils } from '../session/utils';
-import { PubKey } from '../session/types';
-import { UserUtil } from '../util';
+
+import { usingClosedConversationDetails } from './session/usingClosedConversationDetails';
 
 export type PropsData = {
   id: string;
@@ -57,6 +55,7 @@ export type PropsData = {
   isSecondary?: boolean;
   isGroupInvitation?: boolean;
   isKickedFromGroup?: boolean;
+  closedMemberConversations?: any; // this is added by usingClosedConversationDetails
 };
 
 type PropsHousekeeping = {
@@ -75,34 +74,9 @@ type PropsHousekeeping = {
 
 type Props = PropsData & PropsHousekeeping;
 
-type State = {
-  closedMemberConversations?: Array<ConversationAttributes>;
-};
-
-export class ConversationListItem extends React.PureComponent<Props, State> {
+class ConversationListItem extends React.PureComponent<Props> {
   public constructor(props: Props) {
     super(props);
-    this.state = { closedMemberConversations: undefined };
-  }
-
-  public componentDidMount() {
-    void this.fetchClosedConversationDetails();
-  }
-
-  public async fetchClosedConversationDetails() {
-    if (!this.props.isPublic && this.props.type === 'group') {
-      const groupId = this.props.phoneNumber;
-      let members = await GroupUtils.getGroupMembers(PubKey.cast(groupId));
-      const ourPrimary = await UserUtil.getPrimary();
-      members = members.filter(m => m.key !== ourPrimary.key);
-      members.sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
-      const membersConvos = members.map(
-        m => window.ConversationController.get(m.key).cachedProps
-      );
-      // no need to forward more than 2 conversation for rendering the group avatar
-      membersConvos.slice(0, 2);
-      this.setState({ closedMemberConversations: membersConvos });
-    }
   }
 
   public renderAvatar() {
@@ -133,7 +107,7 @@ export class ConversationListItem extends React.PureComponent<Props, State> {
           profileName={profileName}
           size={iconSize}
           isPublic={isPublic}
-          closedMemberConversations={this.state.closedMemberConversations}
+          closedMemberConversations={this.props.closedMemberConversations}
         />
       </div>
     );
@@ -399,3 +373,7 @@ export class ConversationListItem extends React.PureComponent<Props, State> {
     );
   }
 }
+
+export const ConversationListItemWithDetails = usingClosedConversationDetails(
+  ConversationListItem
+);

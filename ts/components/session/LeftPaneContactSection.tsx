@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  ConversationListItem,
+  ConversationListItemWithDetails,
   PropsData as ConversationListItemPropsType,
 } from '../ConversationListItem';
 import { PropsData as SearchResultsProps } from '../SearchResults';
@@ -116,7 +116,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     const item = contacts[index];
 
     return (
-      <ConversationListItem
+      <ConversationListItemWithDetails
         key={key}
         style={style}
         {...item}

@@ -16,6 +16,7 @@ import {
   SessionButtonType,
 } from '../session/SessionButton';
 import * as Menu from '../../session/utils/Menu';
+import { usingClosedConversationDetails } from '../session/usingClosedConversationDetails';
 
 export interface TimerOption {
   name: string;
@@ -91,9 +92,10 @@ interface Props {
   onUpdateGroupName: () => void;
 
   i18n: LocalizerType;
+  closedMemberConversations?: any; // this is added by usingClosedConversationDetails
 }
 
-export class ConversationHeader extends React.Component<Props> {
+class ConversationHeader extends React.Component<Props> {
   public showMenuBound: (event: React.MouseEvent<HTMLDivElement>) => void;
   public onAvatarClickBound: (userPubKey: string) => void;
   public menuTriggerRef: React.RefObject<any>;
@@ -196,6 +198,7 @@ export class ConversationHeader extends React.Component<Props> {
   public renderAvatar() {
     const {
       avatarPath,
+      closedMemberConversations,
       i18n,
       isGroup,
       isMe,
@@ -217,11 +220,12 @@ export class ConversationHeader extends React.Component<Props> {
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
-          size={28}
+          size={36}
           onAvatarClick={() => {
             this.onAvatarClickBound(phoneNumber);
           }}
           isPublic={isPublic}
+          closedMemberConversations={closedMemberConversations}
         />
       </span>
     );
@@ -497,3 +501,7 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 }
+
+export const ConversationHeaderWithDetails = usingClosedConversationDetails(
+  ConversationHeader
+);

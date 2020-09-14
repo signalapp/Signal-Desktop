@@ -4,7 +4,7 @@ import { AutoSizer, List } from 'react-virtualized';
 
 import { MainViewController } from '../MainViewController';
 import {
-  ConversationListItem,
+  ConversationListItemWithDetails,
   PropsData as ConversationListItemPropsType,
 } from '../ConversationListItem';
 import { ConversationType } from '../../state/ducks/conversations';
@@ -113,7 +113,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     const conversation = conversations[index];
 
     return (
-      <ConversationListItem
+      <ConversationListItemWithDetails
         key={key}
         style={style}
         {...conversation}
