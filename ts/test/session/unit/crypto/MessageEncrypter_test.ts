@@ -12,7 +12,7 @@ import * as Ratchet from '../../../../session/medium_group/ratchet';
 // tslint:disable-next-line: max-func-body-length
 describe('MessageEncrypter', () => {
   const sandbox = sinon.createSandbox();
-  const ourNumber = 'ourNumber';
+  const ourNumber = '0123456789abcdef';
 
   beforeEach(() => {
     TestUtils.stubWindow('libsignal', {
