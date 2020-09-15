@@ -21,7 +21,10 @@ import {
   getLeaveGroupMenuItem,
 } from '../session/utils/Menu';
 
-import { usingClosedConversationDetails } from './session/usingClosedConversationDetails';
+import {
+  ConversationAvatar,
+  usingClosedConversationDetails,
+} from './session/usingClosedConversationDetails';
 
 export type PropsData = {
   id: string;
@@ -55,7 +58,7 @@ export type PropsData = {
   isSecondary?: boolean;
   isGroupInvitation?: boolean;
   isKickedFromGroup?: boolean;
-  closedMemberConversations?: any; // this is added by usingClosedConversationDetails
+  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 };
 
 type PropsHousekeeping = {
@@ -80,7 +83,14 @@ class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderAvatar() {
-    const { avatarPath, i18n, name, phoneNumber, profileName } = this.props;
+    const {
+      avatarPath,
+      i18n,
+      name,
+      phoneNumber,
+      profileName,
+      memberAvatars,
+    } = this.props;
 
     const iconSize = 36;
     const userName = name || profileName || phoneNumber;
@@ -91,7 +101,7 @@ class ConversationListItem extends React.PureComponent<Props> {
           avatarPath={avatarPath}
           name={userName}
           size={iconSize}
-          closedMemberConversations={this.props.closedMemberConversations}
+          memberAvatars={memberAvatars}
           pubkey={phoneNumber}
         />
       </div>

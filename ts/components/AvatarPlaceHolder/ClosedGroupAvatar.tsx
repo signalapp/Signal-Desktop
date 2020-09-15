@@ -1,11 +1,11 @@
 import React from 'react';
 import { Avatar } from '../Avatar';
 import { LocalizerType } from '../../types/Util';
-import { ConversationAttributes } from '../../../js/models/conversations';
+import { ConversationAvatar } from '../session/usingClosedConversationDetails';
 
 interface Props {
   size: number;
-  conversations: Array<ConversationAttributes>;
+  memberAvatars: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
   i18n: LocalizerType;
 }
 
@@ -31,11 +31,11 @@ export class ClosedGroupAvatar extends React.PureComponent<Props> {
   }
 
   public render() {
-    const { conversations, size } = this.props;
+    const { memberAvatars, size } = this.props;
     const avatarsDiameter = this.getClosedGroupAvatarsSize(size);
 
-    const conv1 = conversations.length > 0 ? conversations[0] : undefined;
-    const conv2 = conversations.length > 1 ? conversations[1] : undefined;
+    const conv1 = memberAvatars.length > 0 ? memberAvatars[0] : undefined;
+    const conv2 = memberAvatars.length > 1 ? memberAvatars[1] : undefined;
     const name1 = conv1?.name || conv1?.id || undefined;
     const name2 = conv2?.name || conv2?.id || undefined;
 

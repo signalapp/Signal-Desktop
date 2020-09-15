@@ -2,14 +2,14 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { AvatarPlaceHolder, ClosedGroupAvatar } from './AvatarPlaceHolder';
-import { ConversationAttributes } from '../../js/models/conversations';
+import { ConversationAvatar } from './session/usingClosedConversationDetails';
 
 interface Props {
   avatarPath?: string;
   name?: string; // display name, profileName or phoneNumber, whatever is set first
   pubkey?: string;
   size: number;
-  closedMemberConversations?: Array<ConversationAttributes>;
+  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
   onAvatarClick?: () => void;
 }
 
@@ -75,13 +75,13 @@ export class Avatar extends React.PureComponent<Props, State> {
   }
 
   public renderNoImage() {
-    const { closedMemberConversations, size } = this.props;
+    const { memberAvatars, size } = this.props;
     // if no image but we have conversations set for the group, renders group members avatars
-    if (closedMemberConversations) {
+    if (memberAvatars) {
       return (
         <ClosedGroupAvatar
           size={size}
-          conversations={closedMemberConversations}
+          memberAvatars={memberAvatars}
           i18n={window.i18n}
         />
       );

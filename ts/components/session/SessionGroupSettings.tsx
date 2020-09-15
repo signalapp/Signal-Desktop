@@ -10,7 +10,10 @@ import { SessionDropdown } from './SessionDropdown';
 import { MediaGallery } from '../conversation/media-gallery/MediaGallery';
 import _ from 'lodash';
 import { TimerOption } from '../conversation/ConversationHeader';
-import { usingClosedConversationDetails } from '../session/usingClosedConversationDetails';
+import {
+  ConversationAvatar,
+  usingClosedConversationDetails,
+} from '../session/usingClosedConversationDetails';
 
 interface Props {
   id: string;
@@ -24,7 +27,7 @@ interface Props {
   amMod: boolean;
   isKickedFromGroup: boolean;
   isBlocked: boolean;
-  closedMemberConversations?: any; // this is added by usingClosedConversationDetails
+  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 
   onGoBack: () => void;
   onInviteContacts: () => void;
@@ -311,7 +314,7 @@ class SessionGroupSettings extends React.Component<Props, any> {
 
   private renderHeader() {
     const {
-      closedMemberConversations,
+      memberAvatars,
       id,
       onGoBack,
       onInviteContacts,
@@ -338,7 +341,7 @@ class SessionGroupSettings extends React.Component<Props, any> {
           avatarPath={avatarPath}
           name={userName}
           size={80}
-          closedMemberConversations={closedMemberConversations}
+          memberAvatars={memberAvatars}
           pubkey={id}
         />
         <div className="invite-friends-container">

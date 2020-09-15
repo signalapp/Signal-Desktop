@@ -16,7 +16,10 @@ import {
   SessionButtonType,
 } from '../session/SessionButton';
 import * as Menu from '../../session/utils/Menu';
-import { usingClosedConversationDetails } from '../session/usingClosedConversationDetails';
+import {
+  ConversationAvatar,
+  usingClosedConversationDetails,
+} from '../session/usingClosedConversationDetails';
 
 export interface TimerOption {
   name: string;
@@ -92,7 +95,7 @@ interface Props {
   onUpdateGroupName: () => void;
 
   i18n: LocalizerType;
-  closedMemberConversations?: any; // this is added by usingClosedConversationDetails
+  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 }
 
 class ConversationHeader extends React.Component<Props> {
@@ -198,7 +201,7 @@ class ConversationHeader extends React.Component<Props> {
   public renderAvatar() {
     const {
       avatarPath,
-      closedMemberConversations,
+      memberAvatars,
       name,
       phoneNumber,
       profileName,
@@ -215,7 +218,7 @@ class ConversationHeader extends React.Component<Props> {
           onAvatarClick={() => {
             this.onAvatarClickBound(phoneNumber);
           }}
-          closedMemberConversations={closedMemberConversations}
+          memberAvatars={memberAvatars}
           pubkey={phoneNumber}
         />
       </span>
