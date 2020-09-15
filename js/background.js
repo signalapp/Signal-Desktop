@@ -550,6 +550,13 @@
     window.dispatchEvent(new Event('storage_ready'));
 
     window.log.info('Cleanup: starting...');
+    window.getOurDisplayName = () => {
+      const ourNumber = window.storage.get('primaryDevicePubKey');
+      const conversation = ConversationController.get(ourNumber, 'private');
+      const profile = conversation.getLokiProfile();
+      return profile && profile.displayName;
+    };
+
     const results = await Promise.all([
       window.Signal.Data.getOutgoingWithoutExpiresAt({
         MessageCollection: Whisper.MessageCollection,
@@ -690,6 +697,7 @@
 
     window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
     window.showPasswordDialog = window.owsDesktopApp.appView.showPasswordDialog;
+
     window.showEditProfileDialog = async callback => {
       const ourNumber = window.storage.get('primaryDevicePubKey');
       const conversation = await ConversationController.getOrCreateAndWait(

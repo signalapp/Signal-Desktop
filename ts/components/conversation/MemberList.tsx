@@ -101,6 +101,7 @@ class MemberItem extends React.Component<MemberItemProps> {
         phoneNumber={this.props.member.authorPhoneNumber}
         profileName={this.props.member.authorProfileName}
         size={28}
+        isPublic={false}
       />
     );
   }

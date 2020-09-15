@@ -79,7 +79,6 @@ export class UserDetailsDialog extends React.Component<Props, State> {
         profileName={this.props.profileName}
         size={size}
         onAvatarClick={this.handleShowEnlargedDialog}
-        borderWidth={size / 2}
       />
     );
   }

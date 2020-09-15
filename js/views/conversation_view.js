@@ -325,7 +325,7 @@
       };
       this.titleView = new Whisper.ReactWrapperView({
         className: 'title-wrapper',
-        Component: window.Signal.Components.ConversationHeader,
+        Component: window.Signal.Components.ConversationHeaderWithDetails,
         props: getHeaderProps(),
       });
       this.updateHeader = () => this.titleView.update(getHeaderProps());
@@ -359,7 +359,7 @@
         if (!this.groupSettings) {
           this.groupSettings = new Whisper.ReactWrapperView({
             className: 'group-settings',
-            Component: window.Signal.Components.SessionGroupSettings,
+            Component: window.Signal.Components.SessionGroupSettingsWithDetails,
             props: getGroupSettingsProps(this.model),
           });
           this.$('.conversation-content-right').append(this.groupSettings.el);

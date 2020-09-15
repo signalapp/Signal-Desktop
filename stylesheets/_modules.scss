@@ -1517,10 +1517,6 @@
     background-color: $color-dark-70;
   }
 
-  .module-avatar {
-    background-color: $color-dark-85;
-  }
-
   &--is-blocked {
     @include themify($themes) {
       border-left: 4px solid themed('destructive') !important;
@@ -1579,7 +1575,6 @@
   text-overflow: ellipsis;
 
   font-weight: 300;
-  color: $color-gray-05;
 }
 
 .module-conversation-list-item__header__name--with-unread {

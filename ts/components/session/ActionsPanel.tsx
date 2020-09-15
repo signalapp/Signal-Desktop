@@ -149,6 +149,7 @@ export class ActionsPanel extends React.Component<Props, State> {
           phoneNumber={window.storage.get('primaryDevicePubKey')}
           size={28}
           onAvatarClick={handleClick}
+          profileName={window.getOurDisplayName()}
         />
       );
     }

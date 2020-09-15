@@ -10,6 +10,7 @@ import { SessionDropdown } from './SessionDropdown';
 import { MediaGallery } from '../conversation/media-gallery/MediaGallery';
 import _ from 'lodash';
 import { TimerOption } from '../conversation/ConversationHeader';
+import { usingClosedConversationDetails } from '../session/usingClosedConversationDetails';
 
 interface Props {
   id: string;
@@ -23,6 +24,7 @@ interface Props {
   amMod: boolean;
   isKickedFromGroup: boolean;
   isBlocked: boolean;
+  closedMemberConversations?: any; // this is added by usingClosedConversationDetails
 
   onGoBack: () => void;
   onInviteContacts: () => void;
@@ -33,7 +35,7 @@ interface Props {
   onSetDisappearingMessages: (seconds: number) => void;
 }
 
-export class SessionGroupSettings extends React.Component<Props, any> {
+class SessionGroupSettings extends React.Component<Props, any> {
   public constructor(props: Props) {
     super(props);
 
@@ -309,6 +311,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
 
   private renderHeader() {
     const {
+      closedMemberConversations,
       id,
       onGoBack,
       onInviteContacts,
@@ -335,6 +338,8 @@ export class SessionGroupSettings extends React.Component<Props, any> {
           phoneNumber={id}
           conversationType="group"
           size={80}
+          isPublic={isPublic}
+          closedMemberConversations={closedMemberConversations}
         />
         <div className="invite-friends-container">
           {showInviteContacts && (
@@ -349,3 +354,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
     );
   }
 }
+
+export const SessionGroupSettingsWithDetails = usingClosedConversationDetails(
+  SessionGroupSettings
+);

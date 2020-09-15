@@ -18,6 +18,8 @@
 
   &-header {
     margin-top: $session-margin-lg;
+    margin-inline-start: $session-margin-sm;
+    margin-inline-end: $session-margin-sm;
     width: -webkit-fill-available;
     display: flex;
     flex-direction: row;
@@ -25,11 +27,6 @@
 
     .module-avatar {
       margin: auto;
-    }
-
-    .session-icon-button,
-    .invite-friends-container {
-      margin: 0 $session-margin-md;
     }
   }
 

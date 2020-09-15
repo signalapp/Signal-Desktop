@@ -1995,7 +1995,7 @@
         });
       }
 
-      // if set to null, it will show a jazzIcon
+      // if set to null, it will show a placeholder with color and first letter
       await this.setProfileAvatar({ path: newProfile.avatar });
 
       await this.updateProfileName();

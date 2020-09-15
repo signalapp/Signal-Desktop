@@ -9,6 +9,7 @@
   img {
     object-fit: cover;
     border-radius: 50%;
+    border: 1px solid $borderAvatarColor;
   }
 }
 
@@ -46,14 +47,7 @@
   width: 100%;
 }
 
-.module-avatar__icon--group {
-  @include color-svg('../images/profile-group.svg', $color-white);
-}
-
-.module-avatar__icon--direct {
-  @include color-svg('../images/profile-individual.svg', $color-white);
-}
-
+.module-avatar__icon-closed .module-avatar--28,
 .module-avatar--28 {
   height: 28px;
   width: 28px;
@@ -64,16 +58,7 @@
   }
 }
 
-.module-avatar__label--28 {
-  font-size: 14px;
-  line-height: 28px;
-}
-
-.module-avatar__icon--28 {
-  height: 16px;
-  width: 16px;
-}
-
+.module-avatar__icon-closed .module-avatar--36,
 .module-avatar--36 {
   height: 36px;
   width: 36px;
@@ -84,19 +69,7 @@
   }
 }
 
-.module-avatar__label--36 {
-  margin-top: 1px;
-  width: 36px;
-  font-size: 16px;
-  letter-spacing: 0.19px;
-  line-height: 36px;
-}
-
-.module-avatar__icon--36 {
-  height: 20px;
-  width: 20px;
-}
-
+.module-avatar__icon-closed .module-avatar--48,
 .module-avatar--48 {
   height: 48px;
   width: 48px;
@@ -107,18 +80,18 @@
   }
 }
 
-.module-avatar__label--48 {
-  width: 48px;
-  font-size: 20px;
-  letter-spacing: 0.19px;
-  line-height: 48px;
+.module-avatar__icon-closed .module-avatar--64,
+.module-avatar--64 {
+  height: 64px;
+  width: 64px;
+
+  img {
+    height: 64px;
+    width: 64px;
+  }
 }
 
-.module-avatar__icon--48 {
-  height: 26px;
-  width: 26px;
-}
-
+.module-avatar__icon-closed .module-avatar--80,
 .module-avatar--80 {
   height: 80px;
   width: 80px;
@@ -127,17 +100,6 @@
     height: 80px;
     width: 80px;
   }
-}
-
-.module-avatar__label--80 {
-  width: 80px;
-  font-size: 40px;
-  line-height: 82px;
-}
-
-.module-avatar__icon--80 {
-  height: 42px;
-  width: 42px;
 }
 
 .module-avatar--300 {
@@ -150,47 +112,14 @@
   }
 }
 
-.module-avatar__label--300 {
-  width: 300px;
-  font-size: 150px;
-  line-height: 302px;
-}
-
-.module-avatar__icon--300 {
-  height: 158px;
-  width: 158px;
-}
-
-.module-avatar__icon--note-to-self {
-  width: 70%;
-  height: 70%;
-  @include color-svg('../images/note-28.svg', $color-white);
-}
-
-// Module: Avatar
-
-.module-avatar__label {
-  color: $color-gray-05;
-}
-
-.module-avatar__icon--group {
-  background-color: $color-gray-05;
-}
-
-.module-avatar__icon--direct {
-  background-color: $color-gray-05;
-}
-
-.module-avatar__icon--note-to-self {
-  background-color: $color-gray-05;
-}
-
 .module-avatar__icon--crown-wrapper {
   background-color: $color-gray-75;
 }
 
-.module-avatar--no-image {
-  @include themify($themes) {
-    background-color: themed('steelColorShade');
+.module-avatar__icon-closed {
+  .module-avatar:last-child {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
   }
 }
