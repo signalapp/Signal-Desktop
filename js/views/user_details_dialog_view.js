@@ -11,7 +11,6 @@
     initialize({
       profileName,
       avatarPath,
-      avatarColor,
       pubkey,
       isRss,
       onOk,
@@ -23,7 +22,6 @@
       this.pubkey = pubkey;
       this.isRss = isRss;
       this.avatarPath = avatarPath;
-      this.avatarColor = avatarColor;
       this.onOk = onOk;
       this.onStartConversation = onStartConversation;
 

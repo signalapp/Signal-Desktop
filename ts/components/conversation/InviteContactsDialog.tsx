@@ -45,7 +45,6 @@ export class InviteContactsDialog extends React.Component<Props, State> {
         authorAvatarPath: d?.cachedProps?.avatarPath,
         selected: false,
         authorName: name,
-        authorColor: d.getColor(),
         checkmarked: false,
         existingMember,
       };

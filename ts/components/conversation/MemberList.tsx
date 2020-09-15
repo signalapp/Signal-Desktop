@@ -8,7 +8,6 @@ export interface Contact {
   authorProfileName: string;
   authorPhoneNumber: string;
   authorName: string;
-  authorColor: any;
   authorAvatarPath: string;
   checkmarked: boolean;
   existingMember: boolean;

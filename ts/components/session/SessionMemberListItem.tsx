@@ -10,7 +10,6 @@ export interface ContactType {
   authorProfileName: string;
   authorPhoneNumber: string;
   authorName: string;
-  authorColor: any;
   authorAvatarPath: string;
   checkmarked: boolean;
   existingMember: boolean;

@@ -30,7 +30,6 @@ interface Props {
   i18n: any;
   profileName: string;
   avatarPath: string;
-  avatarColor: string;
   pubkey: string;
   onClose: any;
   onOk: any;

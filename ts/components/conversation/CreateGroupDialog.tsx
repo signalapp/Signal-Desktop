@@ -50,7 +50,6 @@ export class CreateGroupDialog extends React.Component<Props, State> {
         authorProfileName: name,
         selected: false,
         authorName: name, // different from ProfileName?
-        authorColor: d.getColor(),
         checkmarked: false,
       };
     });

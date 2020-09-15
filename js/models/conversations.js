@@ -32,7 +32,6 @@
     UNRESTRICTED: 3,
   };
 
-  const { Util } = window.Signal;
   const {
     Conversation,
     Contact,
@@ -571,7 +570,6 @@
     getProps() {
       const { format } = PhoneNumber;
       const regionCode = storage.get('regionCode');
-      const color = this.getColor();
       const typingKeys = Object.keys(this.contactTypingTimers || {});
 
       const result = {
@@ -579,7 +577,6 @@
         isArchived: this.get('isArchived'),
         activeAt: this.get('active_at'),
         avatarPath: this.getAvatarPath(),
-        color,
         type: this.isPrivate() ? 'direct' : 'group',
         isMe: this.isMe(),
         isPublic: this.isPublic(),
@@ -2526,14 +2523,6 @@
       return this.get('type') === 'private';
     },
 
-    getColor() {
-      if (!this.isPrivate()) {
-        return 'signal-blue';
-      }
-
-      const { migrateColor } = Util;
-      return migrateColor(this.get('color'));
-    },
     getAvatarPath() {
       const avatar = this.get('avatar') || this.get('profileAvatar');
 
@@ -2549,19 +2538,17 @@
     },
     getAvatar() {
       const title = this.get('name');
-      const color = this.getColor();
       const url = this.getAvatarPath();
 
       if (url) {
-        return { url, color };
+        return { url };
       } else if (this.isPrivate()) {
         const symbol = this.isValid() ? '#' : '!';
         return {
-          color,
           content: this.getInitials(title) || symbol,
         };
       }
-      return { url: 'images/group_default.png', color };
+      return { url: null };
     },
 
     getNotificationIcon() {

@@ -10,7 +10,6 @@ interface Props {
   phoneNumber: string;
   isMe?: boolean;
   name?: string;
-  color: string;
   verified: boolean;
   profileName?: string;
   avatarPath?: string;

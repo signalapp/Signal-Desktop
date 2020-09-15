@@ -14,7 +14,6 @@ interface Props {
   isRss: boolean;
   profileName: string;
   avatarPath: string;
-  avatarColor: string; //fixme audric toremove
   pubkey: string;
   onClose: any;
   onStartConversation: any;

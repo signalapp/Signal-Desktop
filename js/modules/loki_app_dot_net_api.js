@@ -1424,7 +1424,7 @@ class LokiPublicChannelAPI {
           value: {
             name: 'Your Public Chat',
             description: 'Your public chat room',
-            avatar: 'images/group_default.png',
+            avatar: null,
           },
         },
       ];

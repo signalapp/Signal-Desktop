@@ -122,7 +122,6 @@ export class ActionsPanel extends React.Component<Props, State> {
     onSelect?: (event: SectionType) => void;
     type: SectionType;
     avatarPath?: string;
-    avatarColor?: string;
     notificationCount?: number;
   }) => {
     const handleClick = onSelect

@@ -86,11 +86,8 @@ export class Avatar extends React.PureComponent<Props, State> {
         />
       );
     }
-    console.warn(
-      'renderNoImage should not happen with something else than a closed group'
-    );
 
-    return <div className={classNames('module-avatar__icon')} />;
+    return this.renderIdenticon();
   }
 
   public render() {
@@ -121,7 +118,7 @@ export class Avatar extends React.PureComponent<Props, State> {
         }}
         role="button"
       >
-        {hasImage ? this.renderAvatarOrIdenticon() : this.renderNoImage()}
+        {hasImage ? this.renderImage() : this.renderNoImage()}
       </div>
     );
   }
@@ -131,12 +128,6 @@ export class Avatar extends React.PureComponent<Props, State> {
       e.stopPropagation();
       this.props.onAvatarClick();
     }
-  }
-
-  private renderAvatarOrIdenticon() {
-    const { avatarPath } = this.props;
-
-    return avatarPath ? this.renderImage() : this.renderIdenticon();
   }
 
   private getAvatarColors(): Array<string> {
