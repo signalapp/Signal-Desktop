@@ -47,15 +47,29 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
         (conversationType === 'group' || type === 'group' || isGroup)
       ) {
         const groupId = id || phoneNumber;
-        let members = await GroupUtils.getGroupMembers(PubKey.cast(groupId));
         const ourPrimary = await UserUtil.getPrimary();
+        let members = await GroupUtils.getGroupMembers(PubKey.cast(groupId));
+
+        const ourself = members.find(m => m.key !== ourPrimary.key);
+        // add ourself back at the back, so it's shown only if only 1 member and we are still a member
         members = members.filter(m => m.key !== ourPrimary.key);
         members.sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
-        const membersConvos = members.map(
-          m => window.ConversationController.get(m.key).cachedProps
-        );
+        if (ourself) {
+          members.push(ourPrimary);
+        }
         // no need to forward more than 2 conversation for rendering the group avatar
-        membersConvos.slice(0, 2);
+        members.slice(0, 2);
+        const membersConvos = await Promise.all(
+          members.map(
+            async m =>
+              (
+                await window.ConversationController.getOrCreateAndWait(
+                  m.key,
+                  'private'
+                )
+              ).cachedProps
+          )
+        );
         this.setState({ closedMemberConversations: membersConvos });
       }
     }
