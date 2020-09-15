@@ -7,7 +7,7 @@ import { ConversationAttributes } from '../../js/models/conversations';
 interface Props {
   avatarPath?: string;
   name?: string; // display name, profileName or phoneNumber, whatever is set first
-  pubkey: string;
+  pubkey?: string;
   size: number;
   closedMemberConversations?: Array<ConversationAttributes>;
   onAvatarClick?: () => void;

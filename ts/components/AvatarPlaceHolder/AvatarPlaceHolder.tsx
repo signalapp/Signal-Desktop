@@ -4,7 +4,7 @@ import { getInitials } from '../../util/getInitials';
 interface Props {
   diameter: number;
   name: string;
-  pubkey: string;
+  pubkey?: string;
   colors: Array<string>;
   borderColor: string;
 }
@@ -23,29 +23,52 @@ export class AvatarPlaceHolder extends React.PureComponent<Props, State> {
   }
 
   public componentDidMount() {
-    void this.sha512(this.props.pubkey).then((sha512Seed: string) => {
-      this.setState({ sha512Seed });
-    });
+    const { pubkey } = this.props;
+    if (pubkey) {
+      void this.sha512(pubkey).then((sha512Seed: string) => {
+        this.setState({ sha512Seed });
+      });
+    }
   }
 
   public componentDidUpdate(prevProps: Props, prevState: State) {
-    if (this.props.name === prevProps.name) {
+    const { pubkey, name } = this.props;
+    if (pubkey === prevProps.pubkey && name === prevProps.name) {
       return;
     }
-    void this.sha512(this.props.name).then((sha512Seed: string) => {
-      this.setState({ sha512Seed });
-    });
+
+    if (pubkey) {
+      void this.sha512(pubkey).then((sha512Seed: string) => {
+        this.setState({ sha512Seed });
+      });
+    }
   }
 
   public render() {
+    const { borderColor, colors, diameter, name } = this.props;
+    const viewBox = `0 0 ${diameter} ${diameter}`;
+    const r = diameter / 2;
+
     if (!this.state.sha512Seed) {
-      return <></>;
+      // return grey circle
+      return (
+        <svg viewBox={viewBox}>
+          <g id="UrTavla">
+            <circle
+              cx={r}
+              cy={r}
+              r={r}
+              fill="#d2d2d3"
+              shape-rendering="geometricPrecision"
+              stroke={borderColor}
+              stroke-width="1"
+            />
+          </g>
+        </svg>
+      );
     }
 
-    const { borderColor, colors, diameter, name } = this.props;
-    const r = diameter / 2;
     const initial = getInitials(name)?.toLocaleUpperCase() || '0';
-    const viewBox = `0 0 ${diameter} ${diameter}`;
     const fontSize = diameter * 0.5;
 
     // Generate the seed simulate the .hashCode as Java
