@@ -133,7 +133,6 @@ describe('Conversation', () => {
     const convo = new Whisper.ConversationCollection().add(attributes);
     const avatar = convo.getAvatar();
     assert.property(avatar, 'content');
-    assert.property(avatar, 'color');
   });
 
   describe('when set to private', () => {

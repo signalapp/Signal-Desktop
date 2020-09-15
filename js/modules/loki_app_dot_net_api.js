@@ -169,14 +169,14 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
       );
     }
   } else {
-    // why is
+    // FIXME why is
     // https://chat-dev.lokinet.org/loki/v1/channel/1/deletes?count=200&since_id=
     // difference in response than all the other calls....
-    log.info(
-      `loki_app_dot_net:::sendViaOnion #${
-        options.requestNumber
-      } - got object response ${url.toString()}`
-    );
+    // log.info(
+    //   `loki_app_dot_net:::sendViaOnion #${
+    //     options.requestNumber
+    //   } - got object response ${url.toString()}`
+    // );
   }
   // result.status has the http response code
   if (!txtResponse) {
@@ -1424,7 +1424,7 @@ class LokiPublicChannelAPI {
           value: {
             name: 'Your Public Chat',
             description: 'Your public chat room',
-            avatar: 'images/group_default.png',
+            avatar: null,
           },
         },
       ];

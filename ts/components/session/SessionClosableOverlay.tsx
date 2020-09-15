@@ -95,7 +95,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         authorAvatarPath: d.avatarPath,
         selected: false,
         authorName: name,
-        authorColor: d.color,
         checkmarked: false,
         existingMember,
       };

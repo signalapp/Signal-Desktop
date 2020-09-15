@@ -78,7 +78,6 @@ export interface Props {
   authorProfileName?: string;
   /** Note: this should be formatted for display */
   authorPhoneNumber: string;
-  authorColor?: ColorType;
   conversationType: 'group' | 'direct';
   attachments?: Array<AttachmentType>;
   quote?: {
@@ -88,7 +87,6 @@ export interface Props {
     authorPhoneNumber: string;
     authorProfileName?: string;
     authorName?: string;
-    authorColor?: ColorType;
     onClick?: () => void;
     referencedMessageNotFound: boolean;
   };
@@ -585,7 +583,6 @@ export class Message extends React.PureComponent<Props, State> {
   public renderQuote() {
     const {
       conversationType,
-      authorColor,
       direction,
       i18n,
       quote,
@@ -599,8 +596,6 @@ export class Message extends React.PureComponent<Props, State> {
 
     const withContentAbove =
       conversationType === 'group' && direction === 'incoming';
-    const quoteColor =
-      direction === 'incoming' ? authorColor : quote.authorColor;
 
     const shortenedPubkey = window.shortenPubkey(quote.authorPhoneNumber);
 
@@ -621,7 +616,6 @@ export class Message extends React.PureComponent<Props, State> {
         authorPhoneNumber={displayedPubkey}
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
-        authorColor={quoteColor}
         referencedMessageNotFound={quote.referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}
@@ -668,7 +662,6 @@ export class Message extends React.PureComponent<Props, State> {
       authorProfileName,
       collapseMetadata,
       senderIsModerator,
-      authorColor,
       conversationType,
       direction,
       i18n,
@@ -682,21 +675,18 @@ export class Message extends React.PureComponent<Props, State> {
     ) {
       return;
     }
+    const userName = authorName || authorProfileName || authorPhoneNumber;
 
     return (
       <div className="module-message__author-avatar">
         <Avatar
           avatarPath={authorAvatarPath}
-          color={authorColor}
-          conversationType="direct"
-          i18n={i18n}
-          name={authorName}
-          phoneNumber={authorPhoneNumber}
-          profileName={authorProfileName}
+          name={userName}
           size={36}
           onAvatarClick={() => {
             onShowUserDetails(authorPhoneNumber);
           }}
+          pubkey={authorPhoneNumber}
         />
         {senderIsModerator && (
           <div className="module-avatar__icon--crown-wrapper">
@@ -1055,7 +1045,6 @@ export class Message extends React.PureComponent<Props, State> {
   public render() {
     const {
       authorPhoneNumber,
-      authorColor,
       direction,
       id,
       isKickedFromGroup,

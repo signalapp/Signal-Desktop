@@ -2,9 +2,16 @@ import { GroupUtils } from '../../session/utils';
 import { UserUtil } from '../../util';
 import { PubKey } from '../../session/types';
 import React from 'react';
-import { ConversationAttributes } from '../../../js/models/conversations';
+import * as _ from 'lodash';
+
+export type ConversationAvatar = {
+  avatarPath?: string;
+  id?: string; // member's pubkey
+  name?: string;
+};
+
 type State = {
-  closedMemberConversations?: Array<ConversationAttributes>;
+  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 };
 
 export function usingClosedConversationDetails(WrappedComponent: any) {
@@ -12,7 +19,7 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
     constructor(props: any) {
       super(props);
       this.state = {
-        closedMemberConversations: undefined,
+        memberAvatars: undefined,
       };
     }
 
@@ -27,7 +34,7 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
     public render() {
       return (
         <WrappedComponent
-          closedMemberConversations={this.state.closedMemberConversations}
+          memberAvatars={this.state.memberAvatars}
           {...this.props}
         />
       );
@@ -42,21 +49,40 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
         phoneNumber,
         id,
       } = this.props;
+
       if (
         !isPublic &&
         (conversationType === 'group' || type === 'group' || isGroup)
       ) {
         const groupId = id || phoneNumber;
-        let members = await GroupUtils.getGroupMembers(PubKey.cast(groupId));
         const ourPrimary = await UserUtil.getPrimary();
+        let members = await GroupUtils.getGroupMembers(PubKey.cast(groupId));
+
+        const ourself = members.find(m => m.key !== ourPrimary.key);
+        // add ourself back at the back, so it's shown only if only 1 member and we are still a member
         members = members.filter(m => m.key !== ourPrimary.key);
         members.sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
-        const membersConvos = members.map(
-          m => window.ConversationController.get(m.key).cachedProps
+        if (ourself) {
+          members.push(ourPrimary);
+        }
+        // no need to forward more than 2 conversations for rendering the group avatar
+        members.slice(0, 2);
+        const memberConvos = await Promise.all(
+          members.map(async m =>
+            window.ConversationController.getOrCreateAndWait(m.key, 'private')
+          )
         );
-        // no need to forward more than 2 conversation for rendering the group avatar
-        membersConvos.slice(0, 2);
-        this.setState({ closedMemberConversations: membersConvos });
+        const memberAvatars = memberConvos.map(m => {
+          return {
+            avatarPath: m.getAvatar()?.url || null,
+            id: m.id,
+            name: m.get('name') || m.get('profileName') || m.id,
+          };
+        });
+
+        if (!_.isEqual(memberAvatars, this.state.memberAvatars)) {
+          this.setState({ memberAvatars });
+        }
       }
     }
   };

@@ -73,7 +73,6 @@
     'folder-outline.svg',
     'forward.svg',
     'gear.svg',
-    'group_default.png',
     'hourglass_empty.svg',
     'hourglass_full.svg',
     'icon_1024.png',
@@ -731,7 +730,6 @@
           profileName: displayName,
           pubkey: ourNumber,
           avatarPath,
-          avatarColor: conversation.getColor(),
           onOk: async (newName, avatar) => {
             let newAvatarPath = '';
             let url = null;
@@ -1065,7 +1063,6 @@
           profileName: displayName,
           pubkey: userPubKey,
           avatarPath,
-          avatarColor: conversation.getColor(),
           isRss: conversation.isRss(),
           onStartConversation: () => {
             Whisper.events.trigger('showConversation', userPubKey);

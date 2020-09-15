@@ -16,7 +16,10 @@ import {
   SessionButtonType,
 } from '../session/SessionButton';
 import * as Menu from '../../session/utils/Menu';
-import { usingClosedConversationDetails } from '../session/usingClosedConversationDetails';
+import {
+  ConversationAvatar,
+  usingClosedConversationDetails,
+} from '../session/usingClosedConversationDetails';
 
 export interface TimerOption {
   name: string;
@@ -92,7 +95,7 @@ interface Props {
   onUpdateGroupName: () => void;
 
   i18n: LocalizerType;
-  closedMemberConversations?: any; // this is added by usingClosedConversationDetails
+  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 }
 
 class ConversationHeader extends React.Component<Props> {
@@ -198,34 +201,25 @@ class ConversationHeader extends React.Component<Props> {
   public renderAvatar() {
     const {
       avatarPath,
-      closedMemberConversations,
-      i18n,
-      isGroup,
-      isMe,
+      memberAvatars,
       name,
       phoneNumber,
       profileName,
-      isPublic,
     } = this.props;
 
-    const conversationType = isGroup ? 'group' : 'direct';
+    const userName = name || profileName || phoneNumber;
 
     return (
       <span className="module-conversation-header__avatar">
         <Avatar
           avatarPath={avatarPath}
-          conversationType={conversationType}
-          i18n={i18n}
-          noteToSelf={isMe}
-          name={name}
-          phoneNumber={phoneNumber}
-          profileName={profileName}
+          name={userName}
           size={36}
           onAvatarClick={() => {
             this.onAvatarClickBound(phoneNumber);
           }}
-          isPublic={isPublic}
-          closedMemberConversations={closedMemberConversations}
+          memberAvatars={memberAvatars}
+          pubkey={phoneNumber}
         />
       </span>
     );

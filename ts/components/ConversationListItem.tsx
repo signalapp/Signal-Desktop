@@ -21,7 +21,10 @@ import {
   getLeaveGroupMenuItem,
 } from '../session/utils/Menu';
 
-import { usingClosedConversationDetails } from './session/usingClosedConversationDetails';
+import {
+  ConversationAvatar,
+  usingClosedConversationDetails,
+} from './session/usingClosedConversationDetails';
 
 export type PropsData = {
   id: string;
@@ -55,7 +58,7 @@ export type PropsData = {
   isSecondary?: boolean;
   isGroupInvitation?: boolean;
   isKickedFromGroup?: boolean;
-  closedMemberConversations?: any; // this is added by usingClosedConversationDetails
+  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 };
 
 type PropsHousekeeping = {
@@ -82,32 +85,24 @@ class ConversationListItem extends React.PureComponent<Props> {
   public renderAvatar() {
     const {
       avatarPath,
-      color,
-      type,
       i18n,
-      isMe,
       name,
       phoneNumber,
       profileName,
-      isPublic,
+      memberAvatars,
     } = this.props;
 
     const iconSize = 36;
+    const userName = name || profileName || phoneNumber;
 
     return (
       <div className="module-conversation-list-item__avatar-container">
         <Avatar
           avatarPath={avatarPath}
-          color={color}
-          noteToSelf={isMe}
-          conversationType={type}
-          i18n={i18n}
-          name={name}
-          phoneNumber={phoneNumber}
-          profileName={profileName}
+          name={userName}
           size={iconSize}
-          isPublic={isPublic}
-          closedMemberConversations={this.props.closedMemberConversations}
+          memberAvatars={memberAvatars}
+          pubkey={phoneNumber}
         />
       </div>
     );

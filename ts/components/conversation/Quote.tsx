@@ -15,7 +15,6 @@ interface Props {
   authorPhoneNumber: string;
   authorProfileName?: string;
   authorName?: string;
-  authorColor?: ColorType;
   i18n: LocalizerType;
   isFromMe: boolean;
   isIncoming: boolean;
@@ -365,7 +364,6 @@ export class Quote extends React.Component<Props, State> {
 
   public render() {
     const {
-      authorColor,
       isIncoming,
       onClick,
       referencedMessageNotFound,

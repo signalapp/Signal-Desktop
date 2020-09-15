@@ -35,16 +35,9 @@ export function renderAvatar({
     );
   }
 
+  const pubkey = contact.name?.givenName || '0';
   return (
-    <Avatar
-      avatarPath={avatarPath}
-      color="grey"
-      conversationType="direct"
-      i18n={i18n}
-      name={name}
-      size={size}
-      isPublic={false}
-    />
+    <Avatar avatarPath={avatarPath} name={name} size={size} pubkey={pubkey} />
   );
 }
 

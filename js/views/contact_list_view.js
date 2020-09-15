@@ -32,7 +32,6 @@
           Component: window.Signal.Components.ContactListItem,
           props: {
             isMe,
-            color: this.model.getColor(),
             avatarPath: this.model.getAvatarPath(),
             phoneNumber: this.model.getNumber(),
             name: this.model.getName(),
