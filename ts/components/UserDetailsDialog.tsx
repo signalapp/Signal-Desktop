@@ -14,7 +14,7 @@ interface Props {
   isRss: boolean;
   profileName: string;
   avatarPath: string;
-  avatarColor: string;
+  avatarColor: string; //fixme audric toremove
   pubkey: string;
   onClose: any;
   onStartConversation: any;
@@ -64,21 +64,17 @@ export class UserDetailsDialog extends React.Component<Props, State> {
   }
 
   private renderAvatar() {
-    const avatarPath = this.props.avatarPath;
-    const color = this.props.avatarColor;
+    const { avatarPath, pubkey, profileName } = this.props;
     const size = this.state.isEnlargedImageShown ? 300 : 80;
+    const userName = name || profileName || pubkey;
 
     return (
       <Avatar
         avatarPath={avatarPath}
-        color={color}
-        conversationType="direct"
-        i18n={this.props.i18n}
-        name={this.props.profileName}
-        phoneNumber={this.props.pubkey}
-        profileName={this.props.profileName}
+        name={userName}
         size={size}
         onAvatarClick={this.handleShowEnlargedDialog}
+        pubkey={pubkey}
       />
     );
   }

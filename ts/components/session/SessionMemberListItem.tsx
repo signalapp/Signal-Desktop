@@ -86,16 +86,19 @@ export class SessionMemberListItem extends React.Component<Props, State> {
   }
 
   private renderAvatar() {
+    const {
+      authorAvatarPath,
+      authorName,
+      authorPhoneNumber,
+      authorProfileName,
+    } = this.props.member;
+    const userName = authorName || authorProfileName || authorPhoneNumber;
     return (
       <Avatar
-        avatarPath={this.props.member.authorAvatarPath}
-        color={this.props.member.authorColor}
-        conversationType="direct"
-        i18n={window.i18n}
-        name={this.props.member.authorName}
-        phoneNumber={this.props.member.authorPhoneNumber}
-        profileName={this.props.member.authorProfileName}
+        avatarPath={authorAvatarPath}
+        name={userName}
         size={28}
+        pubkey={authorPhoneNumber}
       />
     );
   }

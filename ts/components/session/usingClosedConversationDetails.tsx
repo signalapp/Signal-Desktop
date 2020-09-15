@@ -42,6 +42,7 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
         phoneNumber,
         id,
       } = this.props;
+
       if (
         !isPublic &&
         (conversationType === 'group' || type === 'group' || isGroup)

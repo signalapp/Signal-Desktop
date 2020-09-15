@@ -682,21 +682,18 @@ export class Message extends React.PureComponent<Props, State> {
     ) {
       return;
     }
+    const userName = authorName || authorProfileName || authorPhoneNumber;
 
     return (
       <div className="module-message__author-avatar">
         <Avatar
           avatarPath={authorAvatarPath}
-          color={authorColor}
-          conversationType="direct"
-          i18n={i18n}
-          name={authorName}
-          phoneNumber={authorPhoneNumber}
-          profileName={authorProfileName}
+          name={userName}
           size={36}
           onAvatarClick={() => {
             onShowUserDetails(authorPhoneNumber);
           }}
+          pubkey={authorPhoneNumber}
         />
         {senderIsModerator && (
           <div className="module-avatar__icon--crown-wrapper">

@@ -140,16 +140,15 @@ export class ActionsPanel extends React.Component<Props, State> {
       : undefined;
 
     if (type === SectionType.Profile) {
+      const pubkey = window.storage.get('primaryDevicePubKey');
+      const userName = window.getOurDisplayName() || pubkey;
       return (
         <Avatar
           avatarPath={avatarPath}
-          conversationType="direct"
-          i18n={window.i18n}
-          // tslint:disable-next-line: no-backbone-get-set-outside-model
-          phoneNumber={window.storage.get('primaryDevicePubKey')}
           size={28}
           onAvatarClick={handleClick}
-          profileName={window.getOurDisplayName()}
+          name={userName}
+          pubkey={pubkey}
         />
       );
     }

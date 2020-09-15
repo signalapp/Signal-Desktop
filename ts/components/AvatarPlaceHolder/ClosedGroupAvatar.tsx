@@ -11,21 +11,17 @@ interface Props {
 
 export class ClosedGroupAvatar extends React.PureComponent<Props> {
   public render() {
-    const { conversations, size, i18n } = this.props;
-
-    if (conversations.length === 1) {
+    const { conversations, size } = this.props;
+    // FIXME audric render grey circle for missing avatar
+    if (conversations.length < 2) {
       const conv = conversations[0];
+      const name = conv.name || conv.id;
       return (
         <Avatar
           avatarPath={conv.avatarPath}
-          noteToSelf={conv.isMe}
-          conversationType="direct"
-          i18n={i18n}
           name={name}
-          phoneNumber={conv.id}
-          profileName={conv.name}
           size={size}
-          isPublic={false}
+          pubkey={conv.id}
         />
       );
     } else if (conversations.length > 1) {
@@ -60,30 +56,23 @@ export class ClosedGroupAvatar extends React.PureComponent<Props> {
       }
       const conv1 = conversations[0];
       const conv2 = conversations[1];
+      const name1 = conv1.name || conv1.id;
+      const name2 = conv2.name || conv2.id;
+
       // use the 2 first members as group avatars
       return (
         <div className="module-avatar__icon-closed">
           <Avatar
             avatarPath={conv1.avatarPath}
-            noteToSelf={conv1.isMe}
-            conversationType="direct"
-            i18n={i18n}
-            name={name}
-            phoneNumber={conv1.id}
-            profileName={conv1.name}
+            name={name1}
             size={avatarsDiameter}
-            isPublic={false}
+            pubkey={conv1.id}
           />
           <Avatar
             avatarPath={conv2.avatarPath}
-            noteToSelf={conv2.isMe}
-            conversationType="direct"
-            i18n={i18n}
-            name={name}
-            phoneNumber={conv2.id}
-            profileName={conv2.name}
+            name={name2}
             size={avatarsDiameter}
-            isPublic={false}
+            pubkey={conv2.id}
           />
         </div>
       );

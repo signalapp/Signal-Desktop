@@ -80,34 +80,19 @@ class ConversationListItem extends React.PureComponent<Props> {
   }
 
   public renderAvatar() {
-    const {
-      avatarPath,
-      color,
-      type,
-      i18n,
-      isMe,
-      name,
-      phoneNumber,
-      profileName,
-      isPublic,
-    } = this.props;
+    const { avatarPath, i18n, name, phoneNumber, profileName } = this.props;
 
     const iconSize = 36;
+    const userName = name || profileName || phoneNumber;
 
     return (
       <div className="module-conversation-list-item__avatar-container">
         <Avatar
           avatarPath={avatarPath}
-          color={color}
-          noteToSelf={isMe}
-          conversationType={type}
-          i18n={i18n}
-          name={name}
-          phoneNumber={phoneNumber}
-          profileName={profileName}
+          name={userName}
           size={iconSize}
-          isPublic={isPublic}
           closedMemberConversations={this.props.closedMemberConversations}
+          pubkey={phoneNumber}
         />
       </div>
     );

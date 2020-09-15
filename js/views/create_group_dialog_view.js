@@ -46,6 +46,7 @@
         props: {
           titleText: this.titleText,
           isPublic: this.isPublic,
+          pubkey: this.groupId,
           groupName: this.groupName,
           okText: i18n('ok'),
           cancelText: i18n('cancel'),

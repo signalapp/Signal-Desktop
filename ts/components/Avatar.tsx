@@ -1,23 +1,15 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { getInitials } from '../util/getInitials';
-import { LocalizerType } from '../types/Util';
 import { AvatarPlaceHolder, ClosedGroupAvatar } from './AvatarPlaceHolder';
 import { ConversationAttributes } from '../../js/models/conversations';
 
 interface Props {
   avatarPath?: string;
-  color?: string;
-  conversationType: 'group' | 'direct';
-  isPublic?: boolean;
-  noteToSelf?: boolean;
-  name?: string;
-  phoneNumber?: string;
-  profileName?: string;
+  name?: string; // display name, profileName or phoneNumber, whatever is set first
+  pubkey: string;
   size: number;
   closedMemberConversations?: Array<ConversationAttributes>;
-  i18n?: LocalizerType;
   onAvatarClick?: () => void;
 }
 
@@ -50,19 +42,15 @@ export class Avatar extends React.PureComponent<Props, State> {
   }
 
   public renderIdenticon() {
-    const { phoneNumber, size, name, profileName } = this.props;
+    const { size, name, pubkey } = this.props;
 
-    if (!phoneNumber) {
-      window.log.error('Empty phoneNumber for identicon');
-      return <></>;
-    }
+    const userName = name || '0';
 
-    const userName = profileName || name;
     return (
       <AvatarPlaceHolder
-        phoneNumber={phoneNumber}
         diameter={size}
         name={userName}
+        pubkey={pubkey}
         colors={this.getAvatarColors()}
         borderColor={this.getAvatarBorderColor()}
       />
@@ -70,44 +58,31 @@ export class Avatar extends React.PureComponent<Props, State> {
   }
 
   public renderImage() {
-    const { avatarPath, name, phoneNumber, profileName } = this.props;
+    const { avatarPath, name } = this.props;
     const { imageBroken } = this.state;
 
     if (!avatarPath || imageBroken) {
       return null;
     }
 
-    const title = `${name || phoneNumber}${
-      !name && profileName ? ` ~${profileName}` : ''
-    }`;
-
     return (
       <img
         onError={this.handleImageErrorBound}
-        alt={window.i18n('contactAvatarAlt', [title])}
+        alt={window.i18n('contactAvatarAlt', [name])}
         src={avatarPath}
       />
     );
   }
 
   public renderNoImage() {
-    const {
-      conversationType,
-      closedMemberConversations,
-      isPublic,
-      size,
-      i18n,
-    } = this.props;
-
-    const isGroup = conversationType === 'group';
-
-    if (isGroup && !isPublic && closedMemberConversations) {
-      const forcedI18n = i18n || window.i18n;
+    const { closedMemberConversations, size } = this.props;
+    // if no image but we have conversations set for the group, renders group members avatars
+    if (closedMemberConversations) {
       return (
         <ClosedGroupAvatar
           size={size}
           conversations={closedMemberConversations}
-          i18n={forcedI18n}
+          i18n={window.i18n}
         />
       );
     }
@@ -119,12 +94,9 @@ export class Avatar extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    const { avatarPath, color, size, conversationType } = this.props;
+    const { avatarPath, size } = this.props;
     const { imageBroken } = this.state;
-
-    // If it's a direct conversation then we must have an identicon
-    const hasAvatar = avatarPath || conversationType === 'direct';
-    const hasImage = hasAvatar && !imageBroken;
+    const hasImage = avatarPath && !imageBroken;
 
     if (
       size !== 28 &&
@@ -142,8 +114,7 @@ export class Avatar extends React.PureComponent<Props, State> {
         className={classNames(
           'module-avatar',
           `module-avatar--${size}`,
-          hasImage ? 'module-avatar--with-image' : 'module-avatar--no-image',
-          !hasImage ? `module-avatar--${color}` : null
+          hasImage ? 'module-avatar--with-image' : 'module-avatar--no-image'
         )}
         onClick={e => {
           this.onAvatarClickBound(e);
@@ -163,14 +134,9 @@ export class Avatar extends React.PureComponent<Props, State> {
   }
 
   private renderAvatarOrIdenticon() {
-    const { avatarPath, conversationType } = this.props;
+    const { avatarPath } = this.props;
 
-    // If it's a direct conversation then we must have an identicon
-    const hasAvatar = avatarPath || conversationType === 'direct';
-
-    return hasAvatar && avatarPath
-      ? this.renderImage()
-      : this.renderIdenticon();
+    return avatarPath ? this.renderImage() : this.renderIdenticon();
   }
 
   private getAvatarColors(): Array<string> {

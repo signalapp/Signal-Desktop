@@ -3,10 +3,10 @@ import { getInitials } from '../../util/getInitials';
 
 interface Props {
   diameter: number;
-  phoneNumber: string;
+  name: string;
+  pubkey: string;
   colors: Array<string>;
   borderColor: string;
-  name?: string;
 }
 
 interface State {
@@ -23,16 +23,16 @@ export class AvatarPlaceHolder extends React.PureComponent<Props, State> {
   }
 
   public componentDidMount() {
-    void this.sha512(this.props.phoneNumber).then((sha512Seed: string) => {
+    void this.sha512(this.props.pubkey).then((sha512Seed: string) => {
       this.setState({ sha512Seed });
     });
   }
 
   public componentDidUpdate(prevProps: Props, prevState: State) {
-    if (this.props.phoneNumber === prevProps.phoneNumber) {
+    if (this.props.name === prevProps.name) {
       return;
     }
-    void this.sha512(this.props.phoneNumber).then((sha512Seed: string) => {
+    void this.sha512(this.props.name).then((sha512Seed: string) => {
       this.setState({ sha512Seed });
     });
   }
@@ -42,12 +42,9 @@ export class AvatarPlaceHolder extends React.PureComponent<Props, State> {
       return <></>;
     }
 
-    const { borderColor, colors, diameter, phoneNumber, name } = this.props;
+    const { borderColor, colors, diameter, name } = this.props;
     const r = diameter / 2;
-    const initial =
-      getInitials(name)?.toLocaleUpperCase() ||
-      getInitials(phoneNumber)?.toLocaleUpperCase() ||
-      '0';
+    const initial = getInitials(name)?.toLocaleUpperCase() || '0';
     const viewBox = `0 0 ${diameter} ${diameter}`;
     const fontSize = diameter * 0.5;
 

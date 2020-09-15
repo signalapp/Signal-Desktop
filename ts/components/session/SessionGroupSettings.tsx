@@ -325,6 +325,7 @@ class SessionGroupSettings extends React.Component<Props, any> {
     const showInviteContacts =
       (isPublic || isAdmin) && !isKickedFromGroup && !isBlocked;
 
+    const userName = id;
     return (
       <div className="group-settings-header">
         <SessionIconButton
@@ -335,11 +336,10 @@ class SessionGroupSettings extends React.Component<Props, any> {
         />
         <Avatar
           avatarPath={avatarPath}
-          phoneNumber={id}
-          conversationType="group"
+          name={userName}
           size={80}
-          isPublic={isPublic}
           closedMemberConversations={closedMemberConversations}
+          pubkey={id}
         />
         <div className="invite-friends-container">
           {showInviteContacts && (

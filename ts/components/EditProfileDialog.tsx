@@ -257,20 +257,12 @@ export class EditProfileDialog extends React.Component<Props, State> {
   }
 
   private renderAvatar() {
-    const avatarPath = this.state.avatar;
-    const color = this.props.avatarColor;
+    const { avatar, profileName } = this.state;
+    const { pubkey } = this.props;
+    const userName = name || profileName || pubkey;
 
     return (
-      <Avatar
-        avatarPath={avatarPath}
-        color={color}
-        conversationType="direct"
-        i18n={this.props.i18n}
-        name={this.state.profileName}
-        phoneNumber={this.props.pubkey}
-        profileName={this.state.profileName}
-        size={80}
-      />
+      <Avatar avatarPath={avatar} name={userName} size={80} pubkey={pubkey} />
     );
   }
 

@@ -7,6 +7,7 @@ import { Avatar } from '../Avatar';
 
 interface Props {
   titleText: string;
+  pubkey: string;
   isPublic: boolean;
   groupName: string;
   okText: string;
@@ -176,10 +177,8 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
         <div className="avatar-center-inner">
           <Avatar
             avatarPath={avatarPath}
-            conversationType="group"
-            i18n={this.props.i18n}
             size={80}
-            isPublic={isPublic}
+            pubkey={this.props.pubkey}
           />
           <div
             className="image-upload-section"

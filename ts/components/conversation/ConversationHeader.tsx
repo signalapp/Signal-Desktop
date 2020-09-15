@@ -199,33 +199,24 @@ class ConversationHeader extends React.Component<Props> {
     const {
       avatarPath,
       closedMemberConversations,
-      i18n,
-      isGroup,
-      isMe,
       name,
       phoneNumber,
       profileName,
-      isPublic,
     } = this.props;
 
-    const conversationType = isGroup ? 'group' : 'direct';
+    const userName = name || profileName || phoneNumber;
 
     return (
       <span className="module-conversation-header__avatar">
         <Avatar
           avatarPath={avatarPath}
-          conversationType={conversationType}
-          i18n={i18n}
-          noteToSelf={isMe}
-          name={name}
-          phoneNumber={phoneNumber}
-          profileName={profileName}
+          name={userName}
           size={36}
           onAvatarClick={() => {
             this.onAvatarClickBound(phoneNumber);
           }}
-          isPublic={isPublic}
           closedMemberConversations={closedMemberConversations}
+          pubkey={phoneNumber}
         />
       </span>
     );
