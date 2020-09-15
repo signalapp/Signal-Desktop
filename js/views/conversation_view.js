@@ -391,10 +391,7 @@
       this.window.addEventListener('resize', this.onResize);
 
       this.onFocus = () => {
-        if (
-          this.$el.css('display') !== 'none' &&
-          this.$el.css('display') !== ''
-        ) {
+        if (!this.isHidden()) {
           this.markRead();
         }
       };
@@ -2654,7 +2651,8 @@
 
     isHidden() {
       return (
-        this.$el.css('display') === 'none' ||
+        (this.$el.css('display') !== 'none' &&
+          this.$el.css('display') !== '') ||
         this.$('.panel').css('display') === 'none'
       );
     },
