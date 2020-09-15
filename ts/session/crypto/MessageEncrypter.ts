@@ -4,6 +4,7 @@ import { UserUtil } from '../../util';
 import { CipherTextObject } from '../../../libtextsecure/libsignal-protocol';
 import { encryptWithSenderKey } from '../../session/medium_group/ratchet';
 import { PubKey } from '../types';
+import { StringUtils } from '../utils';
 
 /**
  * Add padding to a message buffer
@@ -90,7 +91,7 @@ export async function encryptForMediumGroup(
   // We should include ciphertext idx in the message
   const content = SignalService.MediumGroupCiphertext.encode({
     ciphertext,
-    source: ourKey,
+    source: new Uint8Array(StringUtils.encode(ourKey, 'hex')),
     keyIdx,
   }).finish();
 

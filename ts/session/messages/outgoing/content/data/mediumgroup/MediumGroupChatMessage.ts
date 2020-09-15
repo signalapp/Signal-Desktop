@@ -1,7 +1,6 @@
-import { SignalService } from '../../../../../../protobuf';
 import { ChatMessage } from '../ChatMessage';
 import { PubKey } from '../../../../../types';
-import { MediumGroupMessage } from './MediumGroupMessage';
+import { ClosedGroupChatMessage } from '../group/ClosedGroupChatMessage';
 
 interface MediumGroupChatMessageParams {
   identifier?: string;
@@ -9,21 +8,12 @@ interface MediumGroupChatMessageParams {
   chatMessage: ChatMessage;
 }
 
-export class MediumGroupChatMessage extends MediumGroupMessage {
-  private readonly chatMessage: ChatMessage;
-
+export class MediumGroupChatMessage extends ClosedGroupChatMessage {
   constructor(params: MediumGroupChatMessageParams) {
     super({
-      timestamp: params.chatMessage.timestamp,
       identifier: params.identifier ?? params.chatMessage.identifier,
       groupId: params.groupId,
+      chatMessage: params.chatMessage,
     });
-    this.chatMessage = params.chatMessage;
-  }
-
-  public dataProto(): SignalService.DataMessage {
-    const messageProto = this.chatMessage.dataProto();
-
-    return messageProto;
   }
 }

@@ -39,7 +39,12 @@ export async function send(
     plainTextBuffer,
     encryption
   );
-  const envelope = await buildEnvelope(envelopeType, timestamp, cipherText);
+  const envelope = await buildEnvelope(
+    envelopeType,
+    device.key,
+    timestamp,
+    cipherText
+  );
   const data = wrapEnvelope(envelope);
 
   return pRetry(
@@ -54,11 +59,15 @@ export async function send(
 
 async function buildEnvelope(
   type: SignalService.Envelope.Type,
+  sskSource: string | undefined,
   timestamp: number,
   content: Uint8Array
 ): Promise<SignalService.Envelope> {
   let source: string | undefined;
-  if (type !== SignalService.Envelope.Type.UNIDENTIFIED_SENDER) {
+
+  if (type === SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT) {
+    source = sskSource;
+  } else if (type !== SignalService.Envelope.Type.UNIDENTIFIED_SENDER) {
     source = await UserUtil.getCurrentDevicePubKey();
   }
 

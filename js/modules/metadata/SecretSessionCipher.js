@@ -199,8 +199,8 @@ function _createUnidentifiedSenderMessageContentFromBuffer(serialized) {
     case TypeEnum.PREKEY_MESSAGE:
       type = CiphertextMessage.PREKEY_TYPE;
       break;
-    case TypeEnum.LOKI_FRIEND_REQUEST:
-      type = CiphertextMessage.LOKI_FRIEND_REQUEST;
+    case TypeEnum.FALLBACK_MESSAGE:
+      type = CiphertextMessage.FALLBACK_MESSAGE;
       break;
     default:
       throw new Error(`Unknown type: ${message.type}`);
@@ -226,8 +226,8 @@ function _getProtoMessageType(type) {
       return TypeEnum.MESSAGE;
     case CiphertextMessage.PREKEY_TYPE:
       return TypeEnum.PREKEY_MESSAGE;
-    case CiphertextMessage.LOKI_FRIEND_REQUEST:
-      return TypeEnum.LOKI_FRIEND_REQUEST;
+    case CiphertextMessage.FALLBACK_MESSAGE:
+      return TypeEnum.FALLBACK_MESSAGE;
     default:
       throw new Error(`_getProtoMessageType: type '${type}' does not exist`);
   }
@@ -481,7 +481,7 @@ SecretSessionCipher.prototype = {
           signalProtocolStore,
           sender
         ).decryptPreKeyWhisperMessage(message.content);
-      case CiphertextMessage.LOKI_FRIEND_REQUEST:
+      case CiphertextMessage.FALLBACK_MESSAGE:
         return new libloki.crypto.FallBackSessionCipher(sender).decrypt(
           message.content
         );
