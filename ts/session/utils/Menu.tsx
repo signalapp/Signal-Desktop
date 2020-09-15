@@ -212,7 +212,7 @@ export function getCopyMenuItem(
   i18n: LocalizerType
 ): JSX.Element | null {
   if (showCopyId(Boolean(isPublic), Boolean(isRss), Boolean(isGroup))) {
-    const copyIdLabel = i18n('editMenuCopy');
+    const copyIdLabel = i18n('copySessionID');
     return <MenuItem onClick={action}>{copyIdLabel}</MenuItem>;
   }
   return null;
