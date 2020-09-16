@@ -40,7 +40,6 @@ export interface Props {
 
 interface State {
   showAddContactView: boolean;
-  selectedTab: number;
   addContactRecipientID: string;
   pubKeyPasted: string;
 }
@@ -52,27 +51,23 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     super(props);
     this.state = {
       showAddContactView: false,
-      selectedTab: 0,
       addContactRecipientID: '',
       pubKeyPasted: '',
     };
 
     this.debouncedSearch = debounce(this.search.bind(this), 20);
-    this.handleTabSelected = this.handleTabSelected.bind(this);
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
     this.handleOnAddContact = this.handleOnAddContact.bind(this);
     this.handleRecipientSessionIDChanged = this.handleRecipientSessionIDChanged.bind(
       this
     );
+    this.closeOverlay = this.closeOverlay.bind(this);
   }
 
   public componentWillUnmount() {
     this.updateSearch('');
     this.setState({ addContactRecipientID: '' });
-  }
-
-  public handleTabSelected(tabType: number) {
-    this.setState({ selectedTab: tabType, showAddContactView: false });
+    window.Whisper.events.off('calculatingPoW', this.closeOverlay);
   }
 
   public renderHeader(): JSX.Element | undefined {
@@ -80,7 +75,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
 
     return LeftPane.RENDER_HEADER(
       labels,
-      this.handleTabSelected,
+      null,
       undefined,
       undefined,
       undefined,
@@ -90,6 +85,8 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
 
   public componentDidMount() {
     MainViewController.renderMessageView();
+
+    window.Whisper.events.on('calculatingPoW', this.closeOverlay);
   }
 
   public componentDidUpdate() {
@@ -182,6 +179,12 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     );
   }
 
+  private closeOverlay({ pubKey }: { pubKey: string }) {
+    if (this.state.addContactRecipientID === pubKey) {
+      this.setState({ showAddContactView: false, addContactRecipientID: '' });
+    }
+  }
+
   private handleToggleOverlay() {
     this.setState((prevState: { showAddContactView: boolean }) => ({
       showAddContactView: !prevState.showAddContactView,
@@ -217,7 +220,6 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   }
 
   private renderBottomButtons(): JSX.Element {
-    const { selectedTab } = this.state;
     const addContact = window.i18n('addContact');
 
     return (
