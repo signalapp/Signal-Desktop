@@ -72,6 +72,7 @@ declare global {
     reduxActions: ReduxActions;
     restart: () => void;
     showWindow: () => void;
+    showSettings: () => void;
     setBadgeCount: (count: number) => void;
     storage: {
       put: (key: string, value: any) => void;

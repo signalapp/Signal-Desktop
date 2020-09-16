@@ -190,8 +190,12 @@
       "ts/protobuf/**",
       "ts/scripts/**",
       "ts/services/**",
+      "ts/shims/**",
       "ts/state/**",
+      "ts/storybook/**",
+      "ts/test/**",
       "ts/types/**",
+      "ts/updater/**",
       "ts/util/**"
     ]
   }

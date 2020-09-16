@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { join, resolve } from 'path';
 import { readdir as readdirCallback } from 'fs';
 
@@ -5,13 +6,9 @@ import pify from 'pify';
 
 import { getCliOptions, getPrintableError } from './common';
 import { writeSignature } from './signature';
-
-// @ts-ignore
 import * as packageJson from '../../package.json';
 
 const readdir = pify(readdirCallback);
-
-/* tslint:disable:no-console */
 
 const OPTIONS = [
   {

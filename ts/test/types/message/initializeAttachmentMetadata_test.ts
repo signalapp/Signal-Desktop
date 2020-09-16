@@ -1,10 +1,9 @@
 import { assert } from 'chai';
 
-import * as Message from '../../../../ts/types/message/initializeAttachmentMetadata';
-import { IncomingMessage } from '../../../../ts/types/Message';
-import { SignalService } from '../../../../ts/protobuf';
-import * as MIME from '../../../../ts/types/MIME';
-// @ts-ignore
+import * as Message from '../../../types/message/initializeAttachmentMetadata';
+import { IncomingMessage } from '../../../types/Message';
+import { SignalService } from '../../../protobuf';
+import * as MIME from '../../../types/MIME';
 import { stringToArrayBuffer } from '../../../../js/modules/string_to_array_buffer';
 
 describe('Message', () => {

@@ -2,7 +2,7 @@ import os from 'os';
 import Sinon from 'sinon';
 import { assert } from 'chai';
 
-import * as Settings from '../../../ts/types/Settings';
+import * as Settings from '../../types/Settings';
 
 describe('Settings', () => {
   let sandbox: Sinon.SinonSandbox;

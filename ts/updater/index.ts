@@ -12,7 +12,7 @@ export async function start(
   getMainWindow: () => BrowserWindow,
   locale?: LocaleType,
   logger?: LoggerType
-) {
+): Promise<void> {
   const { platform } = process;
 
   if (initialized) {

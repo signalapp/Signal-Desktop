@@ -139,7 +139,7 @@ module.exports = {
       rules,
     },
     {
-      files: ['**/*.stories.tsx', 'ts/build/**'],
+      files: ['**/*.stories.tsx', 'ts/build/**', 'ts/test/**'],
       rules: {
         ...rules,
         'import/no-extraneous-dependencies': 'off',
