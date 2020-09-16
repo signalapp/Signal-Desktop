@@ -1139,18 +1139,28 @@
 
       const stickerData = this.get('sticker');
       if (stickerData) {
-        const sticker = Signal.Stickers.getSticker(
-          stickerData.packId,
-          stickerData.stickerId
-        );
-        const { emoji } = sticker || {};
-        if (!emoji) {
-          window.log.warn('Unable to get emoji for sticker');
+        try {
+          const sticker = Signal.Stickers.getSticker(
+            stickerData.packId,
+            stickerData.stickerId
+          );
+          const { emoji } = sticker || {};
+          if (!emoji) {
+            window.log.warn('Unable to get emoji for sticker');
+          }
+          return {
+            text: i18n('message--getNotificationText--stickers'),
+            emoji,
+          };
+        } catch (error) {
+          window.log.error(
+            'getNotificationData: sticker fetch failed',
+            error && error.stack ? error.stack : error
+          );
+          return {
+            text: i18n('message--getNotificationText--stickers'),
+          };
         }
-        return {
-          text: i18n('message--getNotificationText--stickers'),
-          emoji,
-        };
       }
 
       if (this.isCallHistory()) {

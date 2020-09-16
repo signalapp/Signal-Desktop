@@ -666,23 +666,30 @@ export class ConversationController {
 
         await Promise.all(
           this._conversations.map(async conversation => {
-            // This call is important to allow Conversation models not to generate their
-            //   cached props on initial construction if we're in the middle of the load
-            //   from the database. Then we come back to the models when it is safe and
-            //   generate those props.
-            conversation.generateProps();
+            try {
+              // This call is important to allow Conversation models not to generate their
+              //   cached props on initial construction if we're in the middle of the load
+              //   from the database. Then we come back to the models when it is safe and
+              //   generate those props.
+              conversation.generateProps();
 
-            if (!conversation.get('lastMessage')) {
-              await conversation.updateLastMessage();
-            }
+              if (!conversation.get('lastMessage')) {
+                await conversation.updateLastMessage();
+              }
 
-            // In case a too-large draft was saved to the database
-            const draft = conversation.get('draft');
-            if (draft && draft.length > MAX_MESSAGE_BODY_LENGTH) {
-              conversation.set({
-                draft: draft.slice(0, MAX_MESSAGE_BODY_LENGTH),
-              });
-              updateConversation(conversation.attributes);
+              // In case a too-large draft was saved to the database
+              const draft = conversation.get('draft');
+              if (draft && draft.length > MAX_MESSAGE_BODY_LENGTH) {
+                conversation.set({
+                  draft: draft.slice(0, MAX_MESSAGE_BODY_LENGTH),
+                });
+                updateConversation(conversation.attributes);
+              }
+            } catch (error) {
+              window.log.error(
+                'ConversationController.load/map: Failed to prepare a conversation',
+                error && error.stack ? error.stack : error
+              );
             }
           })
         );
