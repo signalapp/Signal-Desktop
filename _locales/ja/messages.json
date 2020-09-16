@@ -16,7 +16,7 @@
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
-        "message": "表示 (&V)",
+        "message": "見る (&V)",
         "description": "The label that is used for the View menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuWindow": {
@@ -56,7 +56,7 @@
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "editMenuCopy": {
-        "message": "コピー",
+        "message": "コピーする",
         "description": "Edit menu command to add selected text to clipboard"
     },
     "editMenuPaste": {
@@ -68,7 +68,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "削除する",
+        "message": "削除",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
@@ -128,7 +128,7 @@
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "loading": {
-        "message": "読み込んでいます",
+        "message": "読込中...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
@@ -198,19 +198,19 @@
         "description": "The label for yourself when shown in a group member list"
     },
     "view": {
-        "message": "表示",
+        "message": "見る",
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "グループを退出しました。",
+        "message": "グループを抜けました",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "unreadMessage": {
-        "message": "1 件の未読メッセージ",
+        "message": "$count$通の未読メッセージ",
         "description": "Text for unread message separator, just one message"
     },
     "unreadMessages": {
-        "message": "$count$ 件の未読メッセージ",
+        "message": "$count$通の未読メッセージ",
         "description": "Text for unread message separator, with count",
         "placeholders": {
             "count": {
@@ -220,7 +220,7 @@
         }
     },
     "youMarkedAsVerified": {
-        "message": "$name$との安全番号を検証済みにしました",
+        "message": "$name$に対する安全番号を検証済みにしました",
         "description": "Shown in the conversation history when the user marks a contact as verified.",
         "placeholders": {
             "name": {
@@ -230,7 +230,7 @@
         }
     },
     "youMarkedAsNotVerified": {
-        "message": "$name$との安全番号を未検証にしました",
+        "message": "$name$に対する安全番号を未検証にしました",
         "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog.",
         "placeholders": {
             "name": {
@@ -240,7 +240,7 @@
         }
     },
     "youMarkedAsVerifiedOtherDevice": {
-        "message": "$name$との安全番号を他の端末で検証済みにしました",
+        "message": "$name$に対する安全番号を他端末で検証済みにしました",
         "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device.",
         "placeholders": {
             "name": {
@@ -250,7 +250,7 @@
         }
     },
     "youMarkedAsNotVerifiedOtherDevice": {
-        "message": "$name$との安全番号を他の端末で未検証にしました",
+        "message": "$name$に対する安全番号を他端末で未検証にしました",
         "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device.",
         "placeholders": {
             "name": {
@@ -268,7 +268,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "$name$との安全番号に変更があります。誰かが通信を傍受しようとしているかも知れませんし，$name$がSignalをインストールし直しただけかも知れません。",
+        "message": "$name$に対する安全番号が変更され、未検証となりました。だれかが通信を傍受しようとしているかも知れませんし、$name$がSessionを再インストールしただけかも知れません。",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -292,7 +292,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "$name$との安全番号が最近変わりました。誰かが通信を傍受しているかも知れませんし，$name$がSignalをインストールし直しただけかも知れません。",
+        "message": "$name$との安全番号が変更されました。通信が傍受されている可能性がありますが，$name$がSessionを再インストールしただけかも知れません。",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -342,11 +342,11 @@
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "了解",
+        "message": "分かりました",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
-        "message": "提出",
+        "message": "送信する",
         "description": ""
     },
     "verify": {
@@ -358,7 +358,7 @@
         "description": ""
     },
     "isVerified": {
-        "message": "$name$との安全番号を検証しました",
+        "message": "$name$に対する安全番号を検証済みにしました",
         "description": "Summary state shown at top of the safety number screen if user has verified contact.",
         "placeholders": {
             "name": {
@@ -394,15 +394,15 @@
         "description": "Header of the default pane in the media gallery, showing images and videos"
     },
     "mediaEmptyState": {
-        "message": "この会話にはメディアがありません",
+        "message": "メディアがありません",
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
-        "message": "文書",
+        "message": "ドキュメント",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
-        "message": "この会話にはドキュメントがありません",
+        "message": "ドキュメントが見つかりません",
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
@@ -472,15 +472,15 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "選択したファイルが大きすぎます",
+        "message": "添付ファイルのサイズが上限を超えています",
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "選択された添付ファイルをロードできません。",
+        "message": "添付中にエラーが発生しました。",
         "description": ""
     },
     "connecting": {
-        "message": "接続完了",
+        "message": "接続中...",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "offline": {
@@ -534,7 +534,7 @@
         "description": "Placeholder text in the search input"
     },
     "noSearchResults": {
-        "message": "No results for \"$searchTerm$\"",
+        "message": "「%s」に一致する情報は見つかりませんでした。",
         "description": "Shown in the search left pane when no results were found",
         "placeholders": {
             "searchTerm": {
@@ -556,7 +556,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSession": {
-        "message": "Signalにようこそ",
+        "message": "Sessionにようこそ",
         "description": ""
     },
     "typingAlt": {
@@ -614,11 +614,11 @@
         "description": "Shown in triple-dot menu next to message to allow user to start crafting a message with a quotation"
     },
     "originalMessageNotFound": {
-        "message": "元のメッセージを見つけれません",
+        "message": "元のメッセージが見つかりません",
         "description": "Shown in quote if reference message was not found as message was initially downloaded and processed"
     },
     "originalMessageNotAvailable": {
-        "message": "元のメッセージは入手できません",
+        "message": "元のメッセージはすでに削除されています",
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
@@ -630,11 +630,11 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
-        "message": "自分",
+        "message": "あなた",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
-        "message": "音声メッセージを送るには、Signalのマイクへのアクセスを許可してください。",
+        "message": "音声メッセージを送るには、Sessionのマイクへのアクセスを許可してください。",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
@@ -670,7 +670,7 @@
         "description": ""
     },
     "delete": {
-        "message": "削除する",
+        "message": "削除",
         "description": ""
     },
     "deleteWarning": {
@@ -678,15 +678,15 @@
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "このメッセージを削除する",
+        "message": "メッセージの削除",
         "description": ""
     },
     "from": {
-        "message": "差出人",
+        "message": "From:",
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "to",
+        "message": "To:",
         "description": "Label for the receiver of a message"
     },
     "sent": {
@@ -702,15 +702,15 @@
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
-        "message": "グループのメンバー",
+        "message": "グループメンバー",
         "description": ""
     },
     "resetSession": {
-        "message": "接触を再設定",
+        "message": "安全なセッションをリセット",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
-        "message": "安全番号を表示する",
+        "message": "安全番号を見る",
         "description": ""
     },
     "verifyHelp": {
@@ -728,7 +728,7 @@
         "description": ""
     },
     "deleteMessage": {
-        "message": "メッセージを削除",
+        "message": "メッセージの削除",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
@@ -782,7 +782,7 @@
         }
     },
     "linkNewDevice": {
-        "message": "新規の端末をリンクする",
+        "message": "新しい端末を追加",
         "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
@@ -810,7 +810,7 @@
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "通知をオフにする",
+        "message": "通知をミュート",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
@@ -834,11 +834,11 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "notificationMostRecentFrom": {
-        "message": "最近の連絡先から：",
+        "message": "最新の受信: $name$",
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "notificationFrom": {
-        "message": "差出人:",
+        "message": "From:",
         "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "notificationMostRecent": {
@@ -846,7 +846,7 @@
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "sendFailed": {
-        "message": "送信できませんでした",
+        "message": "送信失敗",
         "description": "Shown on outgoing message if it fails to send"
     },
     "learnMore": {
@@ -862,11 +862,11 @@
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
-        "message": "メディアメッセージ",
+        "message": "メディアでのメッセージ",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "timestamp_s": {
-        "message": "１分以内",
+        "message": "今",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
@@ -890,7 +890,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "消えるメッセージのタイマーを$time$に設定しました",
+        "message": "消えるメッセージの消去時間を$time$に設定しました",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -910,7 +910,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$が消えるメッセージのタイマーを$time$に設定しました",
+        "message": "$name$が消えるメッセージの消去時間を$time$に設定しました",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1024,11 +1024,11 @@
         "description": "Very short format indicating current timer setting in the conversation header"
     },
     "disappearingMessagesDisabled": {
-        "message": "消えるメッセージを無効にされました",
+        "message": "消えるメッセージが無効にされました",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "$name$が消えるメッセージを無効にしました",
+        "message": "$name$ が消えるメッセージを無効にしました。",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -1038,11 +1038,11 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "消えるメッセージを無効にしました",
+        "message": "消えるメッセージを無効にしました。",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "タイマーが$time$に設定されました",
+        "message": "消えるメッセージの消去時間が$time$に設定されました",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -1052,11 +1052,11 @@
         }
     },
     "safetyNumberChanged": {
-        "message": "安全番号が変更されました",
+        "message": "安全番号が変わりました",
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChangedGroup": {
-        "message": "$name$ との安全番号が変更されました",
+        "message": "$name$との安全番号が変わりました",
         "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name",
         "placeholders": {
             "name": {
@@ -1066,7 +1066,7 @@
         }
     },
     "verifyNewNumber": {
-        "message": "安全番号を確認",
+        "message": "安全番号を検証する",
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "yourSafetyNumberWith": {
@@ -1080,7 +1080,7 @@
         }
     },
     "noteToSelf": {
-        "message": "自分のためのメモ",
+        "message": "自分用メモ",
         "description": "Name for the conversation with your own phone number"
     },
     "startConversation": {
@@ -1108,11 +1108,11 @@
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "あとで",
+        "message": "後で",
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ がグループを退会しました",
+        "message": "$name$がグループを抜けました。",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1132,11 +1132,11 @@
         }
     },
     "updatedTheGroup": {
-        "message": "グループがアップデートされました",
+        "message": "グループが更新されました",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "タイトルが '$name$' になりました",
+        "message": "グループ名が「$name$」になりました",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1146,7 +1146,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$ がグループに参加しました",
+        "message": "$name$がグループに加わりました",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1156,7 +1156,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ がグループに参加しました",
+        "message": "$name$がグループに加わりました",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1164,5 +1164,254 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "privacyPolicy": {
+        "message": "使用条件とプライバシーポリシー"
+    },
+    "unknown": {
+        "message": "不明"
+    },
+    "changedSinceVerifiedTitle": {
+        "message": "安全番号が変わりました"
+    },
+    "youMayWishToVerifyContact": {
+        "message": "この連絡先との安全番号を確認しておいた方がいいかも知れません。"
+    },
+    "about": {
+        "message": "Sessionについて"
+    },
+    "settingsHeader": {
+        "message": "設定"
+    },
+    "continue": {
+        "message": "続行"
+    },
+    "devicePairingRequestReceivedLimitTitle": {
+        "message": "デバイス制限に達しました"
+    },
+    "devicePairingRequestReceivedLimitDescription": {
+        "message": "追加している端末が多すぎます。いくつか削除してください。"
+    },
+    "devicePairingRequestReceivedNoListenerTitle": {
+        "message": "リンクリクエストを受け取りました"
+    },
+    "waitingForDeviceToRegister": {
+        "message": "デバイス待ち"
+    },
+    "pairNewDevicePrompt": {
+        "message": "追加する端末に表示されているQRコードをスキャンする"
+    },
+    "noPairedDevices": {
+        "message": "追加されている端末はありません"
+    },
+    "deviceUnpaired": {
+        "message": "デバイスは正常にリンク解除されました"
+    },
+    "sendMessageLeftGroup": {
+        "message": "グループを抜けました"
+    },
+    "moreInformation": {
+        "message": "詳細"
+    },
+    "resend": {
+        "message": "再送"
+    },
+    "clearAllData": {
+        "message": "すべてのデータを消去する"
+    },
+    "deleteAccountWarning": {
+        "message": "これにより、メッセージ、Session、連絡先が完全に削除されます。"
+    },
+    "deleteContactConfirmation": {
+        "message": "この会話を削除してもよろしいですか？"
+    },
+    "copy": {
+        "message": "コピーする"
+    },
+    "linkPreviewsTitle": {
+        "message": "リンクプレビューを送る"
+    },
+    "linkPreviewDescription": {
+        "message": "プレビューはImgur、Instagram、Pinterest、RedditおよびYouTubeリンクをサポートしています"
+    },
+    "readReceiptSettingTitle": {
+        "message": "既読通知"
+    },
+    "typingIndicatorsSettingTitle": {
+        "message": "入力中アイコン"
+    },
+    "themeToggleTitle": {
+        "message": "ライト"
+    },
+    "successUnlinked": {
+        "message": "デバイスは正常にリンク解除されました"
+    },
+    "autoUpdateDownloadButtonLabel": {
+        "message": "ダウンロード"
+    },
+    "blockUser": {
+        "message": "ブロック"
+    },
+    "unblockUser": {
+        "message": "ブロック解除"
+    },
+    "blockedSettingsTitle": {
+        "message": "ブロックした連絡先"
+    },
+    "leaveGroup": {
+        "message": "グループを抜ける"
+    },
+    "leaveGroupConfirmation": {
+        "message": "このグループを退会しますか？"
+    },
+    "noContactsForGroup": {
+        "message": "まだ連絡先がありません"
+    },
+    "editGroup": {
+        "message": "グループを編集する"
+    },
+    "updateGroupDialogTitle": {
+        "message": "$name$をアップデート中..."
+    },
+    "showRecoveryPhrase": {
+        "message": "リカバリーフレーズ"
+    },
+    "yourSessionID": {
+        "message": "あなたの Session ID"
+    },
+    "recoveryPhraseSavePromptMain": {
+        "message": "リカバリーフレーズは、Session ID のマスターキーです。デバイスにアクセスできなくなった場合、これを使用して Session ID を復元できます。リカバリーフレーズを安全な場所に保管し、誰にも教えないでください。"
+    },
+    "copiedToClipboard": {
+        "message": "クリップボードにコピーされました"
+    },
+    "unlock": {
+        "message": "ロック解除"
+    },
+    "connectToServerFail": {
+        "message": "グループに参加できませんでした"
+    },
+    "connectingToServer": {
+        "message": "接続中..."
+    },
+    "remove": {
+        "message": "削除"
+    },
+    "invalidSessionId": {
+        "message": "Session ID が無効です"
+    },
+    "emptyGroupNameError": {
+        "message": "グループ名を入力してください"
+    },
+    "groupNamePlaceholder": {
+        "message": "グループ名"
+    },
+    "inviteContacts": {
+        "message": "友達にオススメする"
+    },
+    "yourUniqueSessionID": {
+        "message": "Session ID をご紹介します"
+    },
+    "allUsersAreRandomly...": {
+        "message": "Session ID は、Session で連絡を取るために使用できる一意のアドレスです。本当のアイデンティティに関係なく、あなたの Session ID は設計上完全に匿名でプライベートです。"
+    },
+    "generateSessionID": {
+        "message": "Session ID を作成する"
+    },
+    "recoveryPhrase": {
+        "message": "リカバリーフレーズ"
+    },
+    "enterRecoveryPhrase": {
+        "message": "リカバリーフレーズを入力してください"
+    },
+    "enterDisplayName": {
+        "message": "表示名を入力してください"
+    },
+    "enterSessionIDHere": {
+        "message": "Session ID を入力してください"
+    },
+    "continueYourSession": {
+        "message": "Session を続ける"
+    },
+    "linkDevice": {
+        "message": "デバイスをリンクする"
+    },
+    "restoreUsingRecoveryPhrase": {
+        "message": "アカウントを復元する"
+    },
+    "newSession": {
+        "message": "新しい Session"
+    },
+    "searchFor...": {
+        "message": "会話やメッセージ、連絡先を検索します。"
+    },
+    "enterSessionID": {
+        "message": "Session ID を入力してください"
+    },
+    "enterSessionIDOfRecipient": {
+        "message": "受信者の Session ID を入力してください"
+    },
+    "usersCanShareTheir...": {
+        "message": "ユーザーは、アカウント設定に移動して [Session ID を共有] をタップするか、QR コードを共有することで、Session ID を共有できます。"
+    },
+    "appearanceSettingsTitle": {
+        "message": "デザイン設定"
+    },
+    "privacySettingsTitle": {
+        "message": "プライバシー"
+    },
+    "notificationsSettingsTitle": {
+        "message": "通知"
+    },
+    "devicesSettingsTitle": {
+        "message": "追加されている端末"
+    },
+    "recoveryPhraseEmpty": {
+        "message": "リカバリーフレーズを入力してください"
+    },
+    "displayNameEmpty": {
+        "message": "表示名を選択してください"
+    },
+    "joinOpenGroup": {
+        "message": "オープングループに参加する"
+    },
+    "newClosedGroup": {
+        "message": "新しいクローズドグループ"
+    },
+    "newClosedGroupDescription": {
+        "message": "クローズドグループは最大 10 人のメンバーをサポートし、1 対 1 の Session と同じプライバシー保護を提供します。"
+    },
+    "createClosedGroupNamePrompt": {
+        "message": "グループ名"
+    },
+    "createClosedGroupPlaceholder": {
+        "message": "グループ名を入力してください"
+    },
+    "openGroupURL": {
+        "message": "グループの URL を開く"
+    },
+    "enterAnOpenGroupURL": {
+        "message": "オープングループの URL を入力する"
+    },
+    "next": {
+        "message": "進む"
+    },
+    "pairingDevice": {
+        "message": "端末を追加中"
+    },
+    "invalidGroupNameTooShort": {
+        "message": "グループ名を入力してください"
+    },
+    "invalidGroupNameTooLong": {
+        "message": "短いグループ名を入力してください"
+    },
+    "pickClosedGroupMember": {
+        "message": "グループメンバーを少なくとも 2 人選択してください"
+    },
+    "closedGroupMaxSize": {
+        "message": "閉じたグループは 10 人を超えるメンバーを抱えることはできません"
+    },
+    "noBlockedContacts": {
+        "message": "ブロックしている連絡先はありません"
     }
 }
