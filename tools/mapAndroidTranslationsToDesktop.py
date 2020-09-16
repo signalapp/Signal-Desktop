@@ -16,7 +16,8 @@ ALLOWED_ITEM_KEYS = ['message', 'description', 'comment', 'placeholders', 'andro
 
 SPECIFIC_LOCALES_MAPPING = {
     'zh_CN': 'zh-rCN',
-    'pt_BR': 'pt-rBR'
+    'pt_BR': 'pt-rBR',
+    'id': 'in'
 }
 
 if len(sys.argv) != 3:
