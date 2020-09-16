@@ -45,6 +45,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   authorColor: overrideProps.authorColor || 'blue',
   authorAvatarPath: overrideProps.authorAvatarPath,
   authorTitle: text('authorTitle', overrideProps.authorTitle || ''),
+  bodyRanges: overrideProps.bodyRanges,
   canReply: true,
   clearSelectedMessage: action('clearSelectedMessage'),
   collapseMetadata: overrideProps.collapseMetadata,
@@ -768,4 +769,20 @@ story.add('Colors', () => {
       ))}
     </>
   );
+});
+
+story.add('@Mentions', () => {
+  const props = createProps({
+    bodyRanges: [
+      {
+        start: 0,
+        length: 1,
+        mentionUuid: 'zap',
+        replacementText: 'Zapp Brannigan',
+      },
+    ],
+    text: '\uFFFC This Is It. The Moment We Should Have Trained For.',
+  });
+
+  return renderBothDirections(props);
 });

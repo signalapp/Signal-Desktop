@@ -660,7 +660,47 @@
           isTapToView && this.isIncoming() && this.get('isTapToViewInvalid'),
 
         deletedForEveryone: this.get('deletedForEveryone') || false,
+        bodyRanges: this.processBodyRanges(),
       };
+    },
+
+    processBodyRanges(bodyRanges = this.get('bodyRanges')) {
+      if (!bodyRanges) {
+        return;
+      }
+
+      // eslint-disable-next-line consistent-return
+      return (
+        bodyRanges
+          .map(range => {
+            if (range.mentionUuid) {
+              const contactID = ConversationController.ensureContactIds({
+                uuid: range.mentionUuid,
+              });
+              const conversation = this.findContact(contactID);
+
+              return {
+                ...range,
+                conversationID: contactID,
+                replacementText: conversation.getTitle(),
+              };
+            }
+
+            return null;
+          })
+          .filter(Boolean)
+          // sorting in a descending order so that we can safely replace the
+          // positions in the text
+          .sort((a, b) => b.start - a.start)
+      );
+    },
+
+    getTextWithMentionStrings(bodyRanges, text) {
+      return bodyRanges.reduce((str, range) => {
+        const textBegin = str.substr(0, range.start);
+        const textEnd = str.substr(range.start + range.length, str.length);
+        return `${textBegin}@${range.replacementText}${textEnd}`;
+      }, text);
     },
 
     // Dependencies of prop-generation functions
@@ -822,9 +862,12 @@
       const {
         author,
         authorUuid,
+        bodyRanges,
         id: sentAt,
         referencedMessageNotFound,
+        text,
       } = quote;
+
       const contact =
         (author || authorUuid) &&
         ConversationController.get(
@@ -845,10 +888,11 @@
       const firstAttachment = quote.attachments && quote.attachments[0];
 
       return {
-        text: this.createNonBreakingLastSeparator(quote.text),
+        text: this.createNonBreakingLastSeparator(text),
         attachment: firstAttachment
           ? this.processQuoteAttachment(firstAttachment)
           : null,
+        bodyRanges: this.processBodyRanges(bodyRanges),
         isFromMe,
         sentAt,
         authorId: author,
@@ -1154,16 +1198,25 @@
     getNotificationText() /* : string */ {
       const { text, emoji } = this.getNotificationData();
 
+      let modifiedText = text;
+
+      const hasMentions = Boolean(this.get('bodyRanges'));
+
+      if (hasMentions) {
+        const bodyRanges = this.processBodyRanges();
+        modifiedText = this.getTextWithMentionStrings(bodyRanges, modifiedText);
+      }
+
       // Linux emoji support is mixed, so we disable it. (Note that this doesn't touch
       //   the `text`, which can contain emoji.)
       const shouldIncludeEmoji = Boolean(emoji) && !Signal.OS.isLinux();
       if (shouldIncludeEmoji) {
         return i18n('message--getNotificationText--text-with-emoji', {
-          text,
+          text: modifiedText,
           emoji,
         });
       }
-      return text;
+      return modifiedText;
     },
 
     // General
@@ -2567,6 +2620,7 @@
             id: window.getGuid(),
             attachments: dataMessage.attachments,
             body: dataMessage.body,
+            bodyRanges: dataMessage.bodyRanges,
             contact: dataMessage.contact,
             conversationId: conversation.id,
             decrypted_at: now,

@@ -106,6 +106,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isIncoming: boolean('isIncoming', overrideProps.isIncoming || false),
   onClick: action('onClick'),
   onClose: action('onClose'),
+  openConversation: action('openConversation'),
   referencedMessageNotFound: boolean(
     'referencedMessageNotFound',
     overrideProps.referencedMessageNotFound || false
@@ -355,6 +356,44 @@ story.add('Message Not Found', () => {
 story.add('Missing Text & Attachment', () => {
   const props = createProps();
   props.text = undefined as any;
+
+  return <Quote {...props} />;
+});
+
+story.add('@mention + outgoing + another author', () => {
+  const props = createProps({
+    authorTitle: 'Tony Stark',
+    text: '@Captain America Lunch later?',
+  });
+
+  return <Quote {...props} />;
+});
+
+story.add('@mention + outgoing + me', () => {
+  const props = createProps({
+    isFromMe: true,
+    text: '@Captain America Lunch later?',
+  });
+
+  return <Quote {...props} />;
+});
+
+story.add('@mention + incoming + another author', () => {
+  const props = createProps({
+    authorTitle: 'Captain America',
+    isIncoming: true,
+    text: '@Tony Stark sure',
+  });
+
+  return <Quote {...props} />;
+});
+
+story.add('@mention + incoming + me', () => {
+  const props = createProps({
+    isFromMe: true,
+    isIncoming: true,
+    text: '@Tony Stark sure',
+  });
 
   return <Quote {...props} />;
 });

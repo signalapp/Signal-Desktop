@@ -253,3 +253,16 @@ story.add('Muted Conversation', () => {
 
   return <ConversationListItem {...props} muteExpiresAt={muteExpiresAt} />;
 });
+
+story.add('At Mention', () => {
+  const props = createProps({
+    title: 'The Rebellion',
+    type: 'group',
+    lastMessage: {
+      text: '@Leia Organa I know',
+      status: 'read',
+    },
+  });
+
+  return <ConversationListItem {...props} />;
+});

@@ -577,6 +577,7 @@ export declare namespace DataMessageClass {
     static VIEW_ONCE: number;
     static VIEW_ONCE_VIDEO: number;
     static REACTIONS: number;
+    static MENTIONS: number;
     static CURRENT: number;
   }
 
@@ -587,6 +588,13 @@ export declare namespace DataMessageClass {
     authorUuid?: string;
     text?: string;
     attachments?: Array<DataMessageClass.Quote.QuotedAttachment>;
+    bodyRanges?: Array<DataMessageClass.BodyRange>;
+  }
+
+  class BodyRange {
+    start?: number;
+    length?: number;
+    mentionUuid?: string;
   }
 
   class Reaction {

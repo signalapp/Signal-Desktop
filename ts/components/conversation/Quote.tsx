@@ -7,7 +7,7 @@ import * as MIME from '../../../ts/types/MIME';
 import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 
 import { MessageBody } from './MessageBody';
-import { LocalizerType } from '../../types/Util';
+import { BodyRangesType, LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
 import { ContactName } from './ContactName';
 
@@ -18,12 +18,14 @@ export interface Props {
   authorProfileName?: string;
   authorName?: string;
   authorColor?: ColorType;
+  bodyRanges?: BodyRangesType;
   i18n: LocalizerType;
   isFromMe: boolean;
   isIncoming: boolean;
   withContentAbove: boolean;
   onClick?: () => void;
   onClose?: () => void;
+  openConversation: (conversationId: string, messageId?: string) => void;
   text: string;
   referencedMessageNotFound: boolean;
 }
@@ -228,8 +230,15 @@ export class Quote extends React.Component<Props, State> {
     return null;
   }
 
-  public renderText() {
-    const { i18n, text, attachment, isIncoming } = this.props;
+  public renderText(): JSX.Element | null {
+    const {
+      bodyRanges,
+      i18n,
+      text,
+      attachment,
+      isIncoming,
+      openConversation,
+    } = this.props;
 
     if (text) {
       return (
@@ -240,7 +249,13 @@ export class Quote extends React.Component<Props, State> {
             isIncoming ? 'module-quote__primary__text--incoming' : null
           )}
         >
-          <MessageBody text={text} disableLinks={true} i18n={i18n} />
+          <MessageBody
+            disableLinks
+            text={text}
+            i18n={i18n}
+            bodyRanges={bodyRanges}
+            openConversation={openConversation}
+          />
         </div>
       );
     }

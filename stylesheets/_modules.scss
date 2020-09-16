@@ -5265,6 +5265,46 @@ button.module-image__border-overlay:focus {
   font-weight: bold;
 }
 
+.module-message-body__at-mention {
+  background-color: $color-black-alpha-40;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+  padding-left: 4px;
+  padding-right: 4px;
+
+  &:focus {
+    border: solid 1px $color-black;
+    outline: none;
+  }
+}
+
+.module-message-body__at-mention--incoming {
+  @include ios-theme {
+    @include light-theme {
+      background-color: $color-gray-20;
+    }
+
+    @include dark-theme {
+      background-color: $color-gray-60;
+    }
+  }
+}
+
+.module-message-body__at-mention--outgoing {
+  @include light-theme {
+    background-color: $color-gray-20;
+  }
+
+  @include dark-theme {
+    background-color: $color-gray-60;
+  }
+
+  @include ios-theme {
+    background-color: $ultramarine-brand-dark;
+  }
+}
+
 // Module: Search Results
 
 .module-search-results {

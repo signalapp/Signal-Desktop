@@ -40,7 +40,7 @@ import { ContactType } from '../../types/Contact';
 
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
-import { LocalizerType } from '../../types/Util';
+import { BodyRangesType, LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
 import { createRefMerger } from '../_util';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
@@ -116,6 +116,7 @@ export type PropsData = {
     authorTitle: string;
     authorName?: string;
     authorColor?: ColorType;
+    bodyRanges?: BodyRangesType;
     referencedMessageNotFound: boolean;
   };
   previews: Array<LinkPreviewType>;
@@ -135,6 +136,7 @@ export type PropsData = {
   deletedForEveryone?: boolean;
 
   canReply: boolean;
+  bodyRanges?: BodyRangesType;
 };
 
 export type PropsHousekeeping = {
@@ -905,6 +907,7 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       disableScroll,
       i18n,
+      openConversation,
       quote,
       scrollToQuotedMessage,
     } = this.props;
@@ -940,6 +943,8 @@ export class Message extends React.PureComponent<Props, State> {
         authorName={quote.authorName}
         authorColor={quoteColor}
         authorTitle={quote.authorTitle}
+        bodyRanges={quote.bodyRanges}
+        openConversation={openConversation}
         referencedMessageNotFound={referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}
@@ -1045,9 +1050,11 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderText() {
     const {
+      bodyRanges,
       deletedForEveryone,
       direction,
       i18n,
+      openConversation,
       status,
       text,
       textPending,
@@ -1075,8 +1082,11 @@ export class Message extends React.PureComponent<Props, State> {
         )}
       >
         <MessageBody
-          text={contents || ''}
+          bodyRanges={bodyRanges}
+          direction={direction}
           i18n={i18n}
+          openConversation={openConversation}
+          text={contents || ''}
           textPending={textPending}
         />
       </div>
