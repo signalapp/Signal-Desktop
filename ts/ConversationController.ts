@@ -579,7 +579,8 @@ export class ConversationController {
    * conversation the message belongs to OR null if a conversation isn't
    * found.
    */
-  static async getConversationForTargetMessage(
+  // eslint-disable-next-line class-methods-use-this
+  async getConversationForTargetMessage(
     targetFromId: string,
     targetTimestamp: number
   ): Promise<boolean | ConversationModelType | null | undefined> {
