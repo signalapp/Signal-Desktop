@@ -204,6 +204,12 @@ export class Lightbox extends React.Component<Props, State> {
 
   public previousFocus: HTMLElement | null = null;
 
+  public constructor(props: Props) {
+    super(props);
+
+    this.state = {};
+  }
+
   public componentDidMount(): void {
     this.previousFocus = document.activeElement as HTMLElement;
 

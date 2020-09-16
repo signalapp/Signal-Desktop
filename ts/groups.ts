@@ -302,7 +302,7 @@ export async function maybeUpdateGroup({
   newRevision,
   receivedAt,
   sentAt,
-}: MaybeUpdatePropsType) {
+}: MaybeUpdatePropsType): Promise<void> {
   const logId = conversation.idForLogging();
 
   try {
