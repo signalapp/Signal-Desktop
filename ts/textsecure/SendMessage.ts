@@ -288,6 +288,15 @@ class Message {
         bodyRange.mentionUuid = range.mentionUuid;
         return bodyRange;
       });
+      if (
+        quote.bodyRanges.length &&
+        (!proto.requiredProtocolVersion ||
+          proto.requiredProtocolVersion <
+            window.textsecure.protobuf.DataMessage.ProtocolVersion.MENTIONS)
+      ) {
+        proto.requiredProtocolVersion =
+          window.textsecure.protobuf.DataMessage.ProtocolVersion.MENTIONS;
+      }
     }
     if (this.expireTimer) {
       proto.expireTimer = this.expireTimer;
