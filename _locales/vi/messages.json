@@ -24,7 +24,7 @@
         "description": "The label that is used for the Window menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuHelp": {
-        "message": "&Help",
+        "message": "&Trợ giúp",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "appMenuHide": {
@@ -44,7 +44,7 @@
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "Undo",
+        "message": "Hoàn tác",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
@@ -56,7 +56,7 @@
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "editMenuCopy": {
-        "message": "Copy",
+        "message": "Sao chép",
         "description": "Edit menu command to add selected text to clipboard"
     },
     "editMenuPaste": {
@@ -68,11 +68,11 @@
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
-        "message": "Delete",
+        "message": "Xóa",
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Select All",
+        "message": "Chọn tất cả",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
@@ -202,7 +202,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "You left the group",
+        "message": "Bạn đã rời nhóm.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "unreadMessage": {
@@ -292,7 +292,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session.",
+        "message": "Mã số an toàn với $name$ đã thay đổi. Điều này có thể là do ai đó đang tìm cách đánh chặn thông tin của bạn, hoặc $name$ đã chỉ vừa mới cài lại Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -342,11 +342,11 @@
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "Đã rõ!",
+        "message": "Đã nhận được",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
-        "message": "Gửi",
+        "message": "Nộp",
         "description": ""
     },
     "verify": {
@@ -398,7 +398,7 @@
         "description": "Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
     },
     "documents": {
-        "message": "Documents",
+        "message": "Tài liệu",
         "description": "Header of the secondary pane in the media gallery, showing every non-media attachment"
     },
     "documentsEmptyState": {
@@ -406,7 +406,7 @@
         "description": "Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
     },
     "today": {
-        "message": "Today",
+        "message": "Hôm nay",
         "description": "Section header in the media gallery"
     },
     "yesterday": {
@@ -414,11 +414,11 @@
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "This Week",
+        "message": "Tuần này",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "This Month",
+        "message": "Tháng này",
         "description": "Section header in the media gallery"
     },
     "voiceMessage": {
@@ -472,15 +472,15 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Rất tiếc, các tập tin đã chọn vượt quá giới hạn kích thước của tin nhắn.",
+        "message": "Văn bản đính kèm vượt quá giới hạn kích cỡ cho loại tin nhắn mà bạn đang gửi.",
         "description": ""
     },
     "unableToLoadAttachment": {
-        "message": "Unable to load selected attachment.",
+        "message": "Xin lỗi, có lỗi thiết đặt tập tin đính kèm của bạn.",
         "description": ""
     },
     "connecting": {
-        "message": "Đang kết nối",
+        "message": "Đang kết nối...",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "offline": {
@@ -556,7 +556,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSession": {
-        "message": "Chào mừng đến với Session",
+        "message": "Chào mừng bạn đến với Session.",
         "description": ""
     },
     "typingAlt": {
@@ -630,7 +630,7 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "you": {
-        "message": "You",
+        "message": "Bạn",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
     "audioPermissionNeeded": {
@@ -642,11 +642,11 @@
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
     },
     "audio": {
-        "message": "Audio",
+        "message": "Âm thanh",
         "description": "Shown in a quotation of a message containing an audio attachment if no text was originally provided with that attachment"
     },
     "video": {
-        "message": "Video",
+        "message": "Đoạn phim",
         "description": "Shown in a quotation of a message containing a video if no text was originally provided with that video"
     },
     "photo": {
@@ -670,7 +670,7 @@
         "description": ""
     },
     "delete": {
-        "message": "Delete",
+        "message": "Xóa",
         "description": ""
     },
     "deleteWarning": {
@@ -678,15 +678,15 @@
         "description": ""
     },
     "deleteThisMessage": {
-        "message": "xóa tin nhắn này",
+        "message": "Xóa tin nhắn",
         "description": ""
     },
     "from": {
-        "message": "Từ",
+        "message": "Từ:",
         "description": "Label for the sender of a message"
     },
     "to": {
-        "message": "to",
+        "message": "Đến:",
         "description": "Label for the receiver of a message"
     },
     "sent": {
@@ -702,11 +702,11 @@
         "description": "Placeholder text in the message entry field"
     },
     "groupMembers": {
-        "message": "Thành viên",
+        "message": "Thành viên trong nhóm",
         "description": ""
     },
     "resetSession": {
-        "message": "Đăng nhập lại",
+        "message": "Tái thiết lập phiên bảo mật",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
@@ -728,7 +728,7 @@
         "description": ""
     },
     "deleteMessage": {
-        "message": "Delete Message",
+        "message": "Xóa tin nhắn",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessages": {
@@ -782,7 +782,7 @@
         }
     },
     "linkNewDevice": {
-        "message": "Link New Device",
+        "message": "Liên kết thiết bị mới",
         "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
@@ -810,7 +810,7 @@
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "Vô hiệu hóa thông báo",
+        "message": "Tạm im thông báo",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
@@ -834,11 +834,11 @@
         "description": "Displayed in notifications for multiple messages"
     },
     "notificationMostRecentFrom": {
-        "message": "Most recent from:",
+        "message": "Gần đây nhất từ: $name$",
         "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
     },
     "notificationFrom": {
-        "message": "From:",
+        "message": "Từ:",
         "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
     },
     "notificationMostRecent": {
@@ -846,7 +846,7 @@
         "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
     },
     "sendFailed": {
-        "message": "Send failed",
+        "message": "Gửi thất bại",
         "description": "Shown on outgoing message if it fails to send"
     },
     "learnMore": {
@@ -866,7 +866,7 @@
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
     },
     "timestamp_s": {
-        "message": "hiện tại",
+        "message": "Bây giờ",
         "description": "Brief timestamp for messages sent less than a minute ago. Displayed in the conversation list and message bubble."
     },
     "timestamp_m": {
@@ -976,7 +976,7 @@
         "description": "Conversation menu option to enable disappearing messages"
     },
     "timerOption_0_seconds_abbreviated": {
-        "message": "Tắt",
+        "message": "tắt",
         "description": "Short format indicating current timer setting in the conversation list snippet"
     },
     "timerOption_5_seconds_abbreviated": {
@@ -1108,11 +1108,11 @@
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
-        "message": "Later",
+        "message": "Sau này",
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ đã rời khỏi nhóm.",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1136,7 +1136,7 @@
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
-        "message": "Group name has been set to '$name$'",
+        "message": "Tên nhóm hiện giờ là '$name$'.",
         "description": "Shown in the conversation history when someone changes the title of the group",
         "placeholders": {
             "name": {
@@ -1156,7 +1156,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group",
+        "message": "$name$ đã tham gia nhóm.",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
@@ -1164,5 +1164,209 @@
                 "example": "Alice, Bob"
             }
         }
+    },
+    "unknown": {
+        "message": "Không rõ"
+    },
+    "youMayWishToVerifyContact": {
+        "message": "Bạn có thể sẽ cần xác minh mã số an toàn với liên hệ này."
+    },
+    "settingsHeader": {
+        "message": "Cài đặt"
+    },
+    "continue": {
+        "message": "Tiếp tục"
+    },
+    "devicePairingRequestReceivedLimitTitle": {
+        "message": "Đã đạt tới giới hạn thiết bị"
+    },
+    "devicePairingRequestReceivedNoListenerTitle": {
+        "message": "Đã nhận được yêu cầu liên kết"
+    },
+    "waitingForDeviceToRegister": {
+        "message": "Đang đợi thiết bị"
+    },
+    "pairNewDevicePrompt": {
+        "message": "Quét mã QR hiển thị trên thiết bị để liên kết"
+    },
+    "deviceUnpaired": {
+        "message": "Thiết bị của bạn đã được hủy liên kết thành công"
+    },
+    "sendMessageLeftGroup": {
+        "message": "Bạn đã rời nhóm."
+    },
+    "resend": {
+        "message": "Gửi lại"
+    },
+    "clearAllData": {
+        "message": "Xóa tất cả dữ liệu"
+    },
+    "deleteAccountWarning": {
+        "message": "Thao tác này sẽ xóa vĩnh viễn các tin nhắn, sessions, và danh bạ của bạn."
+    },
+    "deleteContactConfirmation": {
+        "message": "Bạn có chắc chắn rằng bạn muốn xoá cuộc hội thoại này không?"
+    },
+    "copy": {
+        "message": "Sao chép"
+    },
+    "themeToggleTitle": {
+        "message": "Lợt"
+    },
+    "successUnlinked": {
+        "message": "Thiết bị của bạn đã được ngắt liên kết thành công"
+    },
+    "blockUser": {
+        "message": "Chặn"
+    },
+    "unblockUser": {
+        "message": "Không chặn"
+    },
+    "blockedSettingsTitle": {
+        "message": "Chặn các liên lạc"
+    },
+    "leaveGroup": {
+        "message": "Rời nhóm"
+    },
+    "leaveGroupConfirmation": {
+        "message": "Bạn có chắc chắn rằng bạn muốn rời nhóm này không?"
+    },
+    "noContactsForGroup": {
+        "message": "Bạn chưa có danh bạ nào"
+    },
+    "updateGroupDialogTitle": {
+        "message": "Cập nhật $name$..."
+    },
+    "showRecoveryPhrase": {
+        "message": "Cụm từ khôi phục"
+    },
+    "yourSessionID": {
+        "message": "Session ID của bạn"
+    },
+    "recoveryPhraseSavePromptMain": {
+        "message": "Cụm từ khôi phục của bạn là chìa khoá chủ cho Session ID của bạn — bạn có thể sử dụng nó để khôi phục Session ID khi bị mất tiếp cận với thiết bị của bạn. Hãy lưu cụm từ khôi phục của bạn ở một nơi an toàn và không cung cấp cho bất kì ai."
+    },
+    "copiedToClipboard": {
+        "message": "Sao chép vào bộ nhớ tạm"
+    },
+    "unlock": {
+        "message": "Mở khóa"
+    },
+    "connectToServerFail": {
+        "message": "Không thể tham gia nhóm"
+    },
+    "connectingToServer": {
+        "message": "Đang kết nối..."
+    },
+    "remove": {
+        "message": "Bỏ"
+    },
+    "invalidSessionId": {
+        "message": "Session ID không hợp lệ"
+    },
+    "emptyGroupNameError": {
+        "message": "Vui lòng nhập tên nhóm"
+    },
+    "groupNamePlaceholder": {
+        "message": "Tên nhóm"
+    },
+    "inviteContacts": {
+        "message": "Mời bạn bè"
+    },
+    "yourUniqueSessionID": {
+        "message": "Bắt đầu với Session ID của bạn"
+    },
+    "allUsersAreRandomly...": {
+        "message": "Session ID của bạn là địa chỉ duy nhất mà mọi người có thể dùng để liên lạc với bạn trên ứng dụng Session. Session ID của bạn được thiết kế đảm bảo tuyệt đối ẩn danh và riêng tư vì nó không liên kết với danh tính thật của bạn."
+    },
+    "generateSessionID": {
+        "message": "Tạo Session ID"
+    },
+    "recoveryPhrase": {
+        "message": "Cụm từ khôi phục"
+    },
+    "enterRecoveryPhrase": {
+        "message": "Nhập cụm từ khôi phục của bạn."
+    },
+    "enterDisplayName": {
+        "message": "Nhập một tên hiển thị"
+    },
+    "enterSessionIDHere": {
+        "message": "Nhập Session ID của bạn"
+    },
+    "continueYourSession": {
+        "message": "Tiếp tục Session của bạn"
+    },
+    "linkDevice": {
+        "message": "Liên kết Thiết bị"
+    },
+    "restoreUsingRecoveryPhrase": {
+        "message": "Khôi phục lại tài khoản của bạn"
+    },
+    "newSession": {
+        "message": "Session mới"
+    },
+    "enterSessionID": {
+        "message": "Nhập Session ID"
+    },
+    "enterSessionIDOfRecipient": {
+        "message": "Nhập Session ID của người nhận"
+    },
+    "usersCanShareTheir...": {
+        "message": "Người dùng có thể chia sẻ Session ID của mình bằng cách tới mục cài đặt tài khoản và chạm vào “Chia sẻ Session ID”, hoặc bằng cách chia sẻ mã QR của họ."
+    },
+    "appearanceSettingsTitle": {
+        "message": "Diện mạo"
+    },
+    "privacySettingsTitle": {
+        "message": "Riêng tư"
+    },
+    "notificationsSettingsTitle": {
+        "message": "Thông báo"
+    },
+    "devicesSettingsTitle": {
+        "message": "Các thiết bị đã liên kết"
+    },
+    "recoveryPhraseEmpty": {
+        "message": "Nhập cụm từ khôi phục của bạn."
+    },
+    "displayNameEmpty": {
+        "message": "Vui lòng chọn một tên hiển thị"
+    },
+    "joinOpenGroup": {
+        "message": "Tham gia nhóm mở"
+    },
+    "newClosedGroup": {
+        "message": "Nhóm kín mới"
+    },
+    "newClosedGroupDescription": {
+        "message": "Nhóm kín hỗ trợ tối đa 10 thành viên và cung cấp dịch vụ bảo mật giống như các session một-một"
+    },
+    "createClosedGroupNamePrompt": {
+        "message": "Tên nhóm"
+    },
+    "createClosedGroupPlaceholder": {
+        "message": "Nhập tên nhóm"
+    },
+    "openGroupURL": {
+        "message": "URL của nhóm mở"
+    },
+    "enterAnOpenGroupURL": {
+        "message": "Nhập URL của nhóm mở"
+    },
+    "pairingDevice": {
+        "message": "Liên kết thiết bị"
+    },
+    "invalidGroupNameTooShort": {
+        "message": "Vui lòng nhập tên nhóm"
+    },
+    "invalidGroupNameTooLong": {
+        "message": "Vui lòng nhập một tên nhóm ngắn hơn"
+    },
+    "pickClosedGroupMember": {
+        "message": "Vui lòng chọn ít nhất 2 thành viên trong nhóm"
+    },
+    "closedGroupMaxSize": {
+        "message": "Một nhóm kín không thể có nhiều hơn 10 thành viên"
     }
 }
