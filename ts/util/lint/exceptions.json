@@ -154,10 +154,19 @@
   {
     "rule": "jQuery-$(",
     "path": "js/about_start.js",
-    "line": "$('.privacy').text(window.i18n('privacyPolicy'));",
+    "line": "$('.acknowledgments').text(window.i18n('softwareAcknowledgments'));",
     "lineNumber": 26,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-09-16T14:49:26.520Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/about_start.js",
+    "line": "$('.privacy').text(window.i18n('privacyPolicy'));",
+    "lineNumber": 27,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-16T14:49:26.520Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {

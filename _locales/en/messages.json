@@ -1,4 +1,8 @@
 {
+  "softwareAcknowledgments": {
+    "message": "Software Acknowledgments",
+    "description": "Shown in the about box for the link to software acknowledgments"
+  },
   "privacyPolicy": {
     "message": "Terms & Privacy Policy",
     "description": "Shown in the about box for the link to https://signal.org/legal"

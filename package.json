@@ -12,7 +12,8 @@
   },
   "main": "main.js",
   "scripts": {
-    "postinstall": "snyk protect && patch-package && electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
+    "postinstall": "yarn build:acknowledgments && snyk protect && patch-package && electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
+    "postuninstall": "yarn build:acknowledgments",
     "start": "electron .",
     "grunt": "grunt",
     "generate": "yarn grunt",
@@ -46,6 +47,7 @@
     "dev:typed-scss": "yarn build:typed-scss -w",
     "dev:storybook": "cross-env SIGNAL_ENV=storybook start-storybook -p 6006 -s ./",
     "build": "run-s --print-label build:grunt build:typed-scss build:webpack build:release build:zip",
+    "build:acknowledgments": "node scripts/generate-acknowledgments.js",
     "build:dev": "run-s --print-label build:grunt build:typed-scss build:webpack",
     "build:grunt": "yarn grunt",
     "build:typed-scss": "tsm sticker-creator",

@@ -590,7 +590,7 @@ function showAbout() {
 
   const options = {
     width: 500,
-    height: 400,
+    height: 500,
     resizable: false,
     title: locale.messages.aboutSignalDesktop.message,
     autoHideMenuBar: true,
