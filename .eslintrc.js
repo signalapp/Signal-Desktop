@@ -79,6 +79,9 @@ const rules = {
   'react/require-default-props': 'off',
 
   'jsx-a11y/label-has-associated-control': ['error', { assert: 'either' }],
+
+  // Upgrade from a warning
+  '@typescript-eslint/explicit-module-boundary-types': 'error',
 };
 
 module.exports = {
