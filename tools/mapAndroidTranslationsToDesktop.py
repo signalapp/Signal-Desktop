@@ -51,7 +51,13 @@ def getStringFromFileAsJSON(filepath):
     return getDictFromFile(filepath, 'string')
 
 def getPluralsFromFileAsJSON(filepath):
-    return getDictFromFile(filepath, 'plurals')
+    plurals = getDictFromFile(filepath, 'plurals')
+    # we need to force plurals to be an array (if plurals contains only one item, the dict won't contain an array itself)
+    for item in plurals:
+        if not isinstance(item['item'], list):
+            item['item'] = [item['item']]
+
+    return plurals
 
 # read and extract values from xml file in EN android side
 androidEnJsonSingular = getStringFromFileAsJSON(androidEnValueFile)
@@ -70,17 +76,27 @@ missingAndroidKeyCount = 0
 notMatchingCount = 0
 
 def findCountInItem(quantityStr, items):
+    # print(f'searching qty: {quantityStr}, items: {items}')
     found = [item for item in items if item['@quantity'] == quantityStr]
     # print(f'findCountInItem: {found}, quantityStr: {quantityStr}')
 
     if len(found) != 1:
-        str = f'quantityStr not found: "{quantityStr}"'
-        raise KeyError(str)
+        # special case for japanese. There is no plural, so all quantityString = `other`
+        if dest == 'ja':
+            found = [item for item in items if item['@quantity'] == 'other']
+            if len(found) != 1:
+                str = f'quantityStr not found: other'
+                raise KeyError(str)
+        else:
+            str = f'quantityStr not found: "{quantityStr}"'
+            raise KeyError(str)
     return dict(found[0])
 
 
 def findByNameSingular(keySearchedFor, singularString):
     found = [item for item in singularString if item['@name'] == keySearchedFor]
+    # print(f'findByNameSingular: searching {keySearchedFor}, found: {found}')
+
     if len(found) != 1:
         str = f'android key singular not found: "{keySearchedFor}" but should have been found'
         raise KeyError(str)
@@ -92,6 +108,8 @@ def findByNamePlurals(keySearchedFor, pluralsString, quantityStr):
     if len(found) != 1:
         str = f'android key plurals not found: "{keySearchedFor}" but should have been found'
         raise KeyError(str)
+    # f = found[0]
+    # print(f'\t\tquantityStr {quantityStr}, found {found}, f {f}, pluralsString {pluralsString}')
     return findCountInItem(quantityStr, found[0]['item'])
 
 
@@ -121,7 +139,31 @@ def morphToDesktopSyntax(androidString, desktopItem):
         replaced = f'{toAdd}{replaced}'
     return replaced
 
+    # morph a string from android syntax to desktop syntax. Like replacing char, or %s
+def morphToDesktopSyntaxTranslated(androidString, desktopItem):
+    replaced = androidString.replace(r"\'", "'")
+
+    if('sentenceCase' in desktopItem.keys() and desktopItem['sentenceCase']):
+        replaced = replaced.capitalize()
+
+    if ('androidReplace' in desktopItem.keys()):
+        for key, value in desktopItem['androidReplace'].items():
+            replaced = replaced.replace(key.title(), value)
+            replaced = replaced.replace(key, value)
+
+    # print(f"desktopItem: '{desktopItem}', replaced: '{desktopItem}'")
+    if ('addStart' in desktopItem.keys()):
+        toAdd = desktopItem['addStart']
+        # special case for ja. appen the & and first char from desktop EN item
+        if dest == 'ja':
+            replaced = f'{replaced} ({toAdd}{desktopItem["message"][1]})'
+        else:
+            replaced = f'{toAdd}{replaced}'
+    return replaced
+
 def getAndroidItem(androidKey, androidKeyCount, singularJson, pluralsJson):
+    # print(f"\tandroidKey: '{androidKey}'")
+    # print(f"\tandroidKeyCount: '{androidKeyCount}'")
     if androidKeyCount:
         return findByNamePlurals(androidKey, pluralsJson, androidKeyCount)
     else:
@@ -177,12 +219,12 @@ for key, itemEnDesktop in desktopSrc.items():
         notMatchingCount = notMatchingCount + 1
     else:
         # if it does match, find the corresponding value on the target language on android
-        # print(f'EN to EN MATCH, continuing... : "{txtEnDesktop}" vs "{morphedEnAndroid}"')
+        # print(f'=============== EN to EN MATCH, continuing... : "{txtEnDesktop}" vs "{morphedEnAndroid}"')
         try:
             textTranslated = getAndroidItem(androidKey, androidKeyCount, androidDestJsonSingular, androidDestJsonPlurals)['#text']
             # print(f'textTranslated: "{textTranslated}"')
 
-            textMorphed = morphToDesktopSyntax(textTranslated, itemEnDesktop)
+            textMorphed = morphToDesktopSyntaxTranslated(textTranslated, itemEnDesktop)
             existingItemTranslated = None
             existingTranslation = None
             if key in desktopDest.keys():
