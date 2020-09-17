@@ -21,15 +21,19 @@ import { StringUtils } from '../session/utils';
 import { UserUtil } from '../util';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
-  const plaintext = await decrypt(envelope, envelope.content);
+  try {
+    const plaintext = await decrypt(envelope, envelope.content);
 
-  if (!plaintext) {
-    window.log.warn('handleContentMessage: plaintext was falsey');
-    return;
-  } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
-    return;
+    if (!plaintext) {
+      window.log.warn('handleContentMessage: plaintext was falsey');
+      return;
+    } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
+      return;
+    }
+    await innerHandleContentMessage(envelope, plaintext);
+  } catch (e) {
+    window.log.warn(e);
   }
-  await innerHandleContentMessage(envelope, plaintext);
 }
 
 async function decryptForMediumGroup(
@@ -86,7 +90,7 @@ async function decryptForMediumGroup(
     sourceAsStr
   );
 
-  return plaintext;
+  return unpad(plaintext);
 }
 
 function unpad(paddedData: ArrayBuffer): ArrayBuffer {
