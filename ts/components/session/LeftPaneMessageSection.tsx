@@ -96,6 +96,15 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     this.closeOverlay = this.closeOverlay.bind(this);
   }
 
+  public componentDidMount() {
+    MainViewController.renderMessageView();
+    window.Whisper.events.on('calculatingPoW', this.closeOverlay);
+  }
+
+  public componentDidUpdate() {
+    MainViewController.renderMessageView();
+  }
+
   public componentWillUnmount() {
     this.updateSearch('');
     window.Whisper.events.off('calculatingPoW', this.closeOverlay);
@@ -176,15 +185,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     );
 
     return [list];
-  }
-
-  public componentDidMount() {
-    MainViewController.renderMessageView();
-    window.Whisper.events.on('calculatingPoW', this.closeOverlay);
-  }
-
-  public componentDidUpdate() {
-    MainViewController.renderMessageView();
   }
 
   public closeOverlay({ pubKey }: { pubKey: string }) {

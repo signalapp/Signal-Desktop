@@ -64,6 +64,16 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     this.closeOverlay = this.closeOverlay.bind(this);
   }
 
+  public componentDidMount() {
+    MainViewController.renderMessageView();
+
+    window.Whisper.events.on('calculatingPoW', this.closeOverlay);
+  }
+
+  public componentDidUpdate() {
+    MainViewController.renderMessageView();
+  }
+
   public componentWillUnmount() {
     this.updateSearch('');
     this.setState({ addContactRecipientID: '' });
@@ -81,16 +91,6 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
       undefined,
       undefined
     );
-  }
-
-  public componentDidMount() {
-    MainViewController.renderMessageView();
-
-    window.Whisper.events.on('calculatingPoW', this.closeOverlay);
-  }
-
-  public componentDidUpdate() {
-    MainViewController.renderMessageView();
   }
 
   public render(): JSX.Element {
