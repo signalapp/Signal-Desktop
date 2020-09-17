@@ -312,7 +312,7 @@ class ConversationListItem extends React.PureComponent<Props> {
     const triggerId = `conversation-item-${phoneNumber}-ctxmenu`;
 
     return (
-      <div>
+      <div key={triggerId}>
         <ContextMenuTrigger id={triggerId}>
           <div
             role="button"

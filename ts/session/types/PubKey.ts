@@ -1,17 +1,30 @@
 export class PubKey {
   public static readonly PUBKEY_LEN = 66;
+  private static readonly HEX = '[0-9a-fA-F]';
+
   // This is a temporary fix to allow groupPubkeys created from mobile to be handled correctly
   // They have a different regex to match
   // FIXME move this to a new class which validates group ids and use it in all places where we have group ids (message sending included)
-  public static readonly MOBILE_GROUP_PUBKEY_LEN = 32;
-  public static readonly regexForPubkeys = `((05)?[0-9a-fA-F]{${PubKey.PUBKEY_LEN -
-    2}})`;
+  // tslint:disable: member-ordering
+  public static readonly regexForPubkeys = `((05)?${PubKey.HEX}{64})`;
+  public static readonly PREFIX_GROUP_TEXTSECURE = '__textsecure_group__!';
 
-  private static readonly regexForMobileGroupID = `__textsecure_group__![0-9a-fA-F]{${PubKey.MOBILE_GROUP_PUBKEY_LEN}}`;
   // prettier-ignore
   private static readonly regex: RegExp = new RegExp(
-    `^${PubKey.regexForPubkeys}|${PubKey.regexForMobileGroupID}$`
+    `^(${PubKey.PREFIX_GROUP_TEXTSECURE})?(05)?(${PubKey.HEX}{64}|${PubKey.HEX}{32})$`
   );
+  /**
+   * If you want to update this regex. Be sure that those are matches ;
+   *  __textsecure_group__!05010203040506070809a0b0c0d0e0f0ff010203040506070809a0b0c0d0e0f0ff
+   *  __textsecure_group__!010203040506070809a0b0c0d0e0f0ff010203040506070809a0b0c0d0e0f0ff
+   *  __textsecure_group__!05010203040506070809a0b0c0d0e0f0ff
+   *  __textsecure_group__!010203040506070809a0b0c0d0e0f0ff
+   *  05010203040506070809a0b0c0d0e0f0ff010203040506070809a0b0c0d0e0f0ff
+   *  010203040506070809a0b0c0d0e0f0ff010203040506070809a0B0c0d0e0f0FF
+   *  05010203040506070809a0b0c0d0e0f0ff
+   *  010203040506070809a0b0c0d0e0f0ff
+   */
+
   public readonly key: string;
 
   /**
