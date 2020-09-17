@@ -8,7 +8,6 @@ export class PubKey {
   // tslint:disable: member-ordering
   public static readonly regexForPubkeys = `((05)?${PubKey.HEX}{64})`;
   public static readonly PREFIX_GROUP_TEXTSECURE = '__textsecure_group__!';
-
   // prettier-ignore
   private static readonly regex: RegExp = new RegExp(
     `^(${PubKey.PREFIX_GROUP_TEXTSECURE})?(05)?(${PubKey.HEX}{64}|${PubKey.HEX}{32})$`

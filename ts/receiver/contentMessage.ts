@@ -80,7 +80,7 @@ async function decryptForMediumGroup(
     window.console.info(
       'Dropping message from ourself after decryptForMediumGroup'
     );
-    return;
+    return null;
   }
 
   const plaintext = await decryptWithSenderKey(
