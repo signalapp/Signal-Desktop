@@ -93,10 +93,21 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     this.renderClosableOverlay = this.renderClosableOverlay.bind(this);
     this.debouncedSearch = debounce(this.search.bind(this), 20);
+    this.closeOverlay = this.closeOverlay.bind(this);
+  }
+
+  public componentDidMount() {
+    MainViewController.renderMessageView();
+    window.Whisper.events.on('calculatingPoW', this.closeOverlay);
+  }
+
+  public componentDidUpdate() {
+    MainViewController.renderMessageView();
   }
 
   public componentWillUnmount() {
     this.updateSearch('');
+    window.Whisper.events.off('calculatingPoW', this.closeOverlay);
   }
 
   public renderRow = ({
@@ -176,12 +187,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     return [list];
   }
 
-  public componentDidMount() {
-    MainViewController.renderMessageView();
-  }
-
-  public componentDidUpdate() {
-    MainViewController.renderMessageView();
+  public closeOverlay({ pubKey }: { pubKey: string }) {
+    if (this.state.valuePasted === pubKey) {
+      this.setState({ overlay: false, valuePasted: '' });
+    }
   }
 
   public renderHeader(): JSX.Element {
