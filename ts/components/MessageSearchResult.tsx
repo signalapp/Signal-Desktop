@@ -101,7 +101,7 @@ export class MessageSearchResult extends React.PureComponent<Props> {
 
   public renderAvatar() {
     const { from } = this.props;
-    const userName = from.phoneNumber || from.profileName;
+    const userName = from.profileName || from.phoneNumber;
 
     return (
       <Avatar
