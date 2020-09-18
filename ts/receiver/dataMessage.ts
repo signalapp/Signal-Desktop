@@ -296,7 +296,7 @@ export async function handleDataMessage(
   }
   const message = await processDecrypted(envelope, dataMessage);
   const ourPubKey = window.textsecure.storage.user.getNumber();
-  const senderPubKey = envelope.source;
+  const senderPubKey = envelope.senderIdentity || envelope.source;
   const isMe = senderPubKey === ourPubKey;
   const conversation = window.ConversationController.get(senderPubKey);
 

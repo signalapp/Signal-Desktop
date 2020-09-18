@@ -82,7 +82,7 @@ async function decryptForMediumGroup(
     );
     return null;
   }
-
+  envelope.senderIdentity = sourceAsStr;
   const plaintext = await decryptWithSenderKey(
     ciphertext,
     keyIdx,
