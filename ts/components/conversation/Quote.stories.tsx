@@ -104,7 +104,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isIncoming: boolean('isIncoming', overrideProps.isIncoming || false),
   onClick: action('onClick'),
   onClose: action('onClose'),
-  openConversation: action('openConversation'),
   referencedMessageNotFound: boolean(
     'referencedMessageNotFound',
     overrideProps.referencedMessageNotFound || false

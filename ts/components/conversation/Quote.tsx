@@ -8,6 +8,7 @@ import { MessageBody } from './MessageBody';
 import { BodyRangesType, LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
 import { ContactName } from './ContactName';
+import { getTextWithMentions } from '../../util/getTextWithMentions';
 
 export interface Props {
   attachment?: QuotedAttachmentType;
@@ -23,7 +24,6 @@ export interface Props {
   withContentAbove: boolean;
   onClick?: () => void;
   onClose?: () => void;
-  openConversation: (conversationId: string, messageId?: string) => void;
   text: string;
   referencedMessageNotFound: boolean;
 }
@@ -238,16 +238,13 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderText(): JSX.Element | null {
-    const {
-      bodyRanges,
-      i18n,
-      text,
-      attachment,
-      isIncoming,
-      openConversation,
-    } = this.props;
+    const { bodyRanges, i18n, text, attachment, isIncoming } = this.props;
 
     if (text) {
+      const quoteText = bodyRanges
+        ? getTextWithMentions(bodyRanges, text)
+        : text;
+
       return (
         <div
           dir="auto"
@@ -256,13 +253,7 @@ export class Quote extends React.Component<Props, State> {
             isIncoming ? 'module-quote__primary__text--incoming' : null
           )}
         >
-          <MessageBody
-            disableLinks
-            text={text}
-            i18n={i18n}
-            bodyRanges={bodyRanges}
-            openConversation={openConversation}
-          />
+          <MessageBody disableLinks text={quoteText} i18n={i18n} />
         </div>
       );
     }

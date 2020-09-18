@@ -914,7 +914,6 @@ export class Message extends React.PureComponent<Props, State> {
       direction,
       disableScroll,
       i18n,
-      openConversation,
       quote,
       scrollToQuotedMessage,
     } = this.props;
@@ -951,7 +950,6 @@ export class Message extends React.PureComponent<Props, State> {
         authorColor={quoteColor}
         authorTitle={quote.authorTitle}
         bodyRanges={quote.bodyRanges}
-        openConversation={openConversation}
         referencedMessageNotFound={referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}

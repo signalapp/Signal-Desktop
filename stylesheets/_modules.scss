@@ -5285,10 +5285,10 @@ button.module-image__border-overlay:focus {
     @include light-theme {
       background-color: $color-gray-20;
     }
+  }
 
-    @include dark-theme {
-      background-color: $color-gray-60;
-    }
+  @include ios-dark-theme {
+    background-color: $color-gray-60;
   }
 }
 

@@ -41,7 +41,7 @@
     savePackMetadata,
     getStickerPackStatus,
   } = window.Signal.Stickers;
-  const { GoogleChrome } = window.Signal.Util;
+  const { GoogleChrome, getTextWithMentions } = window.Signal.Util;
 
   const { addStickerPackReference, getMessageBySender } = window.Signal.Data;
   const { bytesFromString } = window.Signal.Crypto;
@@ -696,14 +696,6 @@
       );
     },
 
-    getTextWithMentionStrings(bodyRanges, text) {
-      return bodyRanges.reduce((str, range) => {
-        const textBegin = str.substr(0, range.start);
-        const textEnd = str.substr(range.start + range.length, str.length);
-        return `${textBegin}@${range.replacementText}${textEnd}`;
-      }, text);
-    },
-
     // Dependencies of prop-generation functions
     findAndFormatContact(identifier) {
       if (!identifier) {
@@ -1215,7 +1207,7 @@
 
       if (hasMentions) {
         const bodyRanges = this.processBodyRanges();
-        modifiedText = this.getTextWithMentionStrings(bodyRanges, modifiedText);
+        modifiedText = getTextWithMentions(bodyRanges, modifiedText);
       }
 
       // Linux emoji support is mixed, so we disable it. (Note that this doesn't touch
