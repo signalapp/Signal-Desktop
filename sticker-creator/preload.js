@@ -133,7 +133,10 @@ window.encryptAndUpload = async (
   const encryptedStickers = await pMap(
     uniqueStickers,
     ({ webp }) => encrypt(webp.buffer, encryptionKey, iv),
-    { concurrency: 3 }
+    {
+      concurrency: 3,
+      timeout: 1000 * 60 * 2,
+    }
   );
 
   const packId = await server.putStickers(

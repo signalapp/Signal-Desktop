@@ -147,9 +147,9 @@ class MessageReceiverInner extends EventTarget {
       10
     );
 
-    this.incomingQueue = new PQueue({ concurrency: 1 });
-    this.pendingQueue = new PQueue({ concurrency: 1 });
-    this.appQueue = new PQueue({ concurrency: 1 });
+    this.incomingQueue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
+    this.pendingQueue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
+    this.appQueue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
 
     this.cacheAddBatcher = createBatcher<CacheAddItemType>({
       wait: 200,

@@ -92,7 +92,7 @@ const makeImagePath = (src: string) => {
   return `${ROOT_PATH}node_modules/emoji-datasource-apple/img/apple/64/${src}`;
 };
 
-const imageQueue = new PQueue({ concurrency: 10 });
+const imageQueue = new PQueue({ concurrency: 10, timeout: 1000 * 60 * 2 });
 const images = new Set();
 
 export const preloadImages = async (): Promise<void> => {

@@ -25175,7 +25175,7 @@ var jobQueue = {};
 
 Internal.SessionLock.queueJobForNumber = function queueJobForNumber(number, runJob) {
     if (window.PQueue) {
-        jobQueue[number] = jobQueue[number] || new window.PQueue({ concurrency: 1 });
+        jobQueue[number] = jobQueue[number] || new window.PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
         var queue = jobQueue[number];
         return queue.add(runJob);
     }

@@ -225,8 +225,9 @@
     getPropsForSearchResult() {
       const sourceId = this.getContactId();
       const from = this.findAndFormatContact(sourceId);
-      const convo = this.getConversation();
-      const to = this.findAndFormatContact(convo.get('id'));
+
+      const conversationId = this.get('conversationId');
+      const to = this.findAndFormatContact(conversationId);
 
       return {
         from,
@@ -235,7 +236,7 @@
         isSelected: this.isSelected,
 
         id: this.id,
-        conversationId: this.get('conversationId'),
+        conversationId,
         sentAt: this.get('sent_at'),
         snippet: this.get('snippet'),
       };

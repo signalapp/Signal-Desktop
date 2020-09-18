@@ -14,9 +14,13 @@
 
 // eslint-disable-next-line func-names
 (async function() {
-  const eventHandlerQueue = new window.PQueue({ concurrency: 1 });
+  const eventHandlerQueue = new window.PQueue({
+    concurrency: 1,
+    timeout: 1000 * 60 * 2,
+  });
   Whisper.deliveryReceiptQueue = new window.PQueue({
     concurrency: 1,
+    timeout: 1000 * 60 * 2,
   });
   Whisper.deliveryReceiptQueue.pause();
   Whisper.deliveryReceiptBatcher = window.Signal.Util.createBatcher({

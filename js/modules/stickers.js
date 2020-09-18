@@ -75,7 +75,7 @@ module.exports = {
 
 let initialState = null;
 let packsToDownload = null;
-const downloadQueue = new Queue({ concurrency: 1 });
+const downloadQueue = new Queue({ concurrency: 1, timeout: 1000 * 60 * 2 });
 
 async function load() {
   const [packs, recentStickers] = await Promise.all([
@@ -336,6 +336,7 @@ async function removeEphemeralPack(packId) {
   const paths = stickers.map(sticker => sticker.path);
   await pMap(paths, Signal.Migrations.deleteTempFile, {
     concurrency: 3,
+    timeout: 1000 * 60 * 2,
   });
 
   // Remove it from database in case it made it there
@@ -429,7 +430,10 @@ async function downloadEphemeralPack(packId, packKey) {
     await downloadStickerJob(coverProto);
 
     // Then the rest
-    await pMap(nonCoverStickers, downloadStickerJob, { concurrency: 3 });
+    await pMap(nonCoverStickers, downloadStickerJob, {
+      concurrency: 3,
+      timeout: 1000 * 60 * 2,
+    });
   } catch (error) {
     // Because the user could install this pack while we are still downloading this
     //   ephemeral pack, we don't want to go change its status unless we're still in
@@ -610,7 +614,10 @@ async function doDownloadStickerPack(packId, packKey, options = {}) {
     await downloadStickerJob(coverProto);
 
     // Then the rest
-    await pMap(nonCoverStickers, downloadStickerJob, { concurrency: 3 });
+    await pMap(nonCoverStickers, downloadStickerJob, {
+      concurrency: 3,
+      timeout: 1000 * 60 * 2,
+    });
 
     // Allow for the user marking this pack as installed in the middle of our download;
     //   don't overwrite that status.
@@ -724,6 +731,7 @@ async function deletePackReference(messageId, packId) {
 
   await pMap(paths, Signal.Migrations.deleteSticker, {
     concurrency: 3,
+    timeout: 1000 * 60 * 2,
   });
 }
 
@@ -743,5 +751,6 @@ async function deletePack(packId) {
 
   await pMap(paths, Signal.Migrations.deleteSticker, {
     concurrency: 3,
+    timeout: 1000 * 60 * 2,
   });
 }

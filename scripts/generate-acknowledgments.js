@@ -83,7 +83,10 @@ async function main() {
     dependencyNames,
     getMarkdownForDependency,
     // Without this, we may run into "too many open files" errors.
-    { concurrency: 100 }
+    {
+      concurrency: 100,
+      timeout: 1000 * 60 * 2,
+    }
   );
 
   const unformattedOutput = [

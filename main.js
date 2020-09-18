@@ -1433,7 +1433,7 @@ async function ensureFilePermissions(onlyFiles) {
   console.log(`Ensuring file permissions for ${files.length} files`);
 
   // Touch each file in a queue
-  const q = new PQueue({ concurrency: 5 });
+  const q = new PQueue({ concurrency: 5, timeout: 1000 * 60 * 2 });
   q.addAll(
     files.map(f => async () => {
       const isDir = f.endsWith('/');

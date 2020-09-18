@@ -1,7 +1,10 @@
 import PQueue from 'p-queue';
 import { Sound } from './Sound';
 
-const ringtoneEventQueue = new PQueue({ concurrency: 1 });
+const ringtoneEventQueue = new PQueue({
+  concurrency: 1,
+  timeout: 1000 * 60 * 2,
+});
 
 class CallingTones {
   private ringtone?: Sound;
