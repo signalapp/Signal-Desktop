@@ -2524,7 +2524,7 @@
     getAvatar() {
       const url = this.getAvatarPath();
 
-      return url ? { url } :  { url: null };
+      return url ? { url } : { url: null };
     },
 
     getNotificationIcon() {
