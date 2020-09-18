@@ -46,8 +46,10 @@ export class AvatarPlaceHolder extends React.PureComponent<Props, State> {
 
   public render() {
     const { borderColor, colors, diameter, name } = this.props;
+    const diameterWithoutBorder = diameter - 2;
     const viewBox = `0 0 ${diameter} ${diameter}`;
     const r = diameter / 2;
+    const rWithoutBorder = diameterWithoutBorder / 2;
 
     if (!this.state.sha512Seed) {
       // return grey circle
@@ -57,7 +59,7 @@ export class AvatarPlaceHolder extends React.PureComponent<Props, State> {
             <circle
               cx={r}
               cy={r}
-              r={r}
+              r={rWithoutBorder}
               fill="#d2d2d3"
               shape-rendering="geometricPrecision"
               stroke={borderColor}
@@ -84,7 +86,7 @@ export class AvatarPlaceHolder extends React.PureComponent<Props, State> {
           <circle
             cx={r}
             cy={r}
-            r={r}
+            r={rWithoutBorder}
             fill={bgColor}
             shape-rendering="geometricPrecision"
             stroke={borderColor}

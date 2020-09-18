@@ -52,7 +52,7 @@ export async function encrypt(
   const plainText = padPlainTextBuffer(plainTextBuffer);
 
   if (encryptionType === EncryptionType.MediumGroup) {
-    return encryptForMediumGroup(device, plainTextBuffer);
+    return encryptForMediumGroup(device, plainText);
   }
 
   const address = new window.libsignal.SignalProtocolAddress(device.key, 1);

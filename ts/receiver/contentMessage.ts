@@ -21,15 +21,19 @@ import { StringUtils } from '../session/utils';
 import { UserUtil } from '../util';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
-  const plaintext = await decrypt(envelope, envelope.content);
+  try {
+    const plaintext = await decrypt(envelope, envelope.content);
 
-  if (!plaintext) {
-    window.log.warn('handleContentMessage: plaintext was falsey');
-    return;
-  } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
-    return;
+    if (!plaintext) {
+      window.log.warn('handleContentMessage: plaintext was falsey');
+      return;
+    } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
+      return;
+    }
+    await innerHandleContentMessage(envelope, plaintext);
+  } catch (e) {
+    window.log.warn(e);
   }
-  await innerHandleContentMessage(envelope, plaintext);
 }
 
 async function decryptForMediumGroup(
@@ -76,7 +80,7 @@ async function decryptForMediumGroup(
     window.console.info(
       'Dropping message from ourself after decryptForMediumGroup'
     );
-    return;
+    return null;
   }
 
   const plaintext = await decryptWithSenderKey(
@@ -86,7 +90,7 @@ async function decryptForMediumGroup(
     sourceAsStr
   );
 
-  return plaintext;
+  return unpad(plaintext);
 }
 
 function unpad(paddedData: ArrayBuffer): ArrayBuffer {
@@ -388,81 +392,83 @@ export async function innerHandleContentMessage(
   plaintext: ArrayBuffer
 ): Promise<void> {
   const { ConversationController } = window;
+  try {
+    const content = SignalService.Content.decode(new Uint8Array(plaintext));
 
-  const content = SignalService.Content.decode(new Uint8Array(plaintext));
+    const blocked = await isBlocked(envelope.source);
+    if (blocked) {
+      // We want to allow a blocked user message if that's a control message for a known group and the group is not blocked
+      if (shouldDropBlockedUserMessage(content)) {
+        window.log.info('Dropping blocked user message');
+        return;
+      } else {
+        window.log.info(
+          'Allowing group-control message only from blocked user'
+        );
+      }
+    }
+    const { FALLBACK_MESSAGE } = SignalService.Envelope.Type;
 
-  const blocked = await isBlocked(envelope.source);
-  if (blocked) {
-    // We want to allow a blocked user message if that's a control message for a known group and the group is not blocked
-    if (shouldDropBlockedUserMessage(content)) {
-      window.log.info('Dropping blocked user message');
+    await ConversationController.getOrCreateAndWait(envelope.source, 'private');
+
+    if (content.preKeyBundleMessage) {
+      await handleSessionRequestMessage(envelope, content.preKeyBundleMessage);
+    } else if (envelope.type !== FALLBACK_MESSAGE) {
+      const device = new PubKey(envelope.source);
+
+      await SessionProtocol.onSessionEstablished(device);
+      await libsession.getMessageQueue().processPending(device);
+    }
+
+    if (content.pairingAuthorisation) {
+      await handlePairingAuthorisationMessage(
+        envelope,
+        content.pairingAuthorisation,
+        content.dataMessage
+      );
       return;
-    } else {
-      window.log.info('Allowing group-control message only from blocked user');
     }
-  }
 
-  const { FALLBACK_MESSAGE } = SignalService.Envelope.Type;
-
-  await ConversationController.getOrCreateAndWait(envelope.source, 'private');
-
-  if (content.preKeyBundleMessage) {
-    await handleSessionRequestMessage(envelope, content.preKeyBundleMessage);
-  } else if (envelope.type !== FALLBACK_MESSAGE) {
-    const device = new PubKey(envelope.source);
-
-    await SessionProtocol.onSessionEstablished(device);
-    await libsession.getMessageQueue().processPending(device);
-  }
-
-  if (content.pairingAuthorisation) {
-    await handlePairingAuthorisationMessage(
-      envelope,
-      content.pairingAuthorisation,
-      content.dataMessage
-    );
-    return;
-  }
-
-  if (content.syncMessage) {
-    await handleSyncMessage(envelope, content.syncMessage);
-    return;
-  }
-
-  if (content.dataMessage) {
-    if (
-      content.dataMessage.profileKey &&
-      content.dataMessage.profileKey.length === 0
-    ) {
-      content.dataMessage.profileKey = null;
+    if (content.syncMessage) {
+      await handleSyncMessage(envelope, content.syncMessage);
+      return;
     }
-    await handleDataMessage(envelope, content.dataMessage);
-    return;
-  }
-  if (content.nullMessage) {
-    await handleNullMessage(envelope);
-    return;
-  }
-  if (content.callMessage) {
-    await handleCallMessage(envelope);
-    return;
-  }
-  if (content.receiptMessage) {
-    await handleReceiptMessage(envelope, content.receiptMessage);
-    return;
-  }
-  if (content.typingMessage) {
-    if (
-      content.typingMessage.groupId &&
-      content.typingMessage.groupId.length === 0
-    ) {
-      content.typingMessage.groupId = null;
-    }
-    await handleTypingMessage(envelope, content.typingMessage);
-    return;
-  }
 
-  return;
+    if (content.dataMessage) {
+      if (
+        content.dataMessage.profileKey &&
+        content.dataMessage.profileKey.length === 0
+      ) {
+        content.dataMessage.profileKey = null;
+      }
+      await handleDataMessage(envelope, content.dataMessage);
+      return;
+    }
+    if (content.nullMessage) {
+      await handleNullMessage(envelope);
+      return;
+    }
+    if (content.callMessage) {
+      await handleCallMessage(envelope);
+      return;
+    }
+    if (content.receiptMessage) {
+      await handleReceiptMessage(envelope, content.receiptMessage);
+      return;
+    }
+    if (content.typingMessage) {
+      if (
+        content.typingMessage.groupId &&
+        content.typingMessage.groupId.length === 0
+      ) {
+        content.typingMessage.groupId = null;
+      }
+      await handleTypingMessage(envelope, content.typingMessage);
+      return;
+    }
+  } catch (e) {
+    window.log.warn(e);
+  }
 }
 
 function onReadReceipt(readAt: any, timestamp: any, reader: any) {

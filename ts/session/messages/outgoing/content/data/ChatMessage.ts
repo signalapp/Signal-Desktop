@@ -108,7 +108,7 @@ export class ChatMessage extends DataMessage {
       }
       dataMessage.profile = profile;
     }
-    if (this.profileKey) {
+    if (this.profileKey && this.profileKey.length) {
       dataMessage.profileKey = this.profileKey;
     }
 

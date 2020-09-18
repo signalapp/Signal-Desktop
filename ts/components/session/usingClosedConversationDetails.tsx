@@ -27,7 +27,7 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
       void this.fetchClosedConversationDetails();
     }
 
-    public componentDidUpdate() {
+    public componentWillReceiveProps() {
       void this.fetchClosedConversationDetails();
     }
 
@@ -66,7 +66,7 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
           members.push(ourPrimary);
         }
         // no need to forward more than 2 conversations for rendering the group avatar
-        members.slice(0, 2);
+        members = members.slice(0, 2);
         const memberConvos = await Promise.all(
           members.map(async m =>
             window.ConversationController.getOrCreateAndWait(m.key, 'private')
@@ -79,10 +79,9 @@ export function usingClosedConversationDetails(WrappedComponent: any) {
             name: m.get('name') || m.get('profileName') || m.id,
           };
         });
-
-        if (!_.isEqual(memberAvatars, this.state.memberAvatars)) {
-          this.setState({ memberAvatars });
-        }
+        this.setState({ memberAvatars });
+      } else {
+        this.setState({ memberAvatars: undefined });
       }
     }
   };

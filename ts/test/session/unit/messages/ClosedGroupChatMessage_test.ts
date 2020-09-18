@@ -31,7 +31,12 @@ describe('ClosedGroupChatMessage', () => {
       .to.have.property('group')
       .to.have.deep.property(
         'id',
-        new Uint8Array(StringUtils.encode(groupId.key, 'utf8'))
+        new Uint8Array(
+          StringUtils.encode(
+            PubKey.PREFIX_GROUP_TEXTSECURE + groupId.key,
+            'utf8'
+          )
+        )
       );
     expect(decoded.dataMessage)
       .to.have.property('group')

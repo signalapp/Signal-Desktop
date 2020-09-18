@@ -91,9 +91,10 @@ export class Avatar extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    const { avatarPath, size } = this.props;
+    const { avatarPath, size, memberAvatars } = this.props;
     const { imageBroken } = this.state;
-    const hasImage = avatarPath && !imageBroken;
+    const isClosedGroupAvatar = memberAvatars && memberAvatars.length;
+    const hasImage = avatarPath && !imageBroken && !isClosedGroupAvatar;
 
     if (
       size !== 28 &&

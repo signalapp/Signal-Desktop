@@ -129,12 +129,6 @@ describe('Conversation', () => {
     assert.equal(convo.getNumber(), '');
   });
 
-  it('has an avatar', () => {
-    const convo = new Whisper.ConversationCollection().add(attributes);
-    const avatar = convo.getAvatar();
-    assert.property(avatar, 'content');
-  });
-
   describe('when set to private', () => {
     it('correctly validates hex numbers', () => {
       const regularId = new Whisper.Conversation({
