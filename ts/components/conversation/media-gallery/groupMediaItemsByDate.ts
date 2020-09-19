@@ -22,7 +22,14 @@ export const groupMediaItemsByDate = (
   timestamp: number,
   mediaItems: Array<MediaItemType>
 ): Array<Section> => {
-  const referenceDateTime = moment.utc(timestamp);
+  // Need to trick moment into doing comparisons on localized times.
+  //  Otherwise groupings will be based on GMT and could cause
+  //  confusion when a grouped item is displayed as May 1st but is
+  //  in the April group.
+  const localizedRefISOString = moment(timestamp).format(
+    'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]'
+  );
+  const referenceDateTime = moment.utc(localizedRefISOString);
 
   const sortedMediaItem = sortBy(mediaItems, mediaItem => {
     const { message } = mediaItem;
@@ -116,29 +123,33 @@ const withSection = (referenceDateTime: moment.Moment) => (
   const thisMonth = moment(referenceDateTime).startOf('month');
 
   const { message } = mediaItem;
-  const mediaItemReceivedDate = moment.utc(message.received_at);
-  if (mediaItemReceivedDate.isAfter(today)) {
+
+  const localizedReceivedISODate = moment(message.received_at).format(
+    'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]'
+  );
+  const mediaItemReceivedDate = moment.utc(localizedReceivedISODate);
+  if (mediaItemReceivedDate.isSameOrAfter(today)) {
     return {
       order: 0,
       type: 'today',
       mediaItem,
     };
   }
-  if (mediaItemReceivedDate.isAfter(yesterday)) {
+  if (mediaItemReceivedDate.isSameOrAfter(yesterday)) {
     return {
       order: 1,
       type: 'yesterday',
       mediaItem,
     };
   }
-  if (mediaItemReceivedDate.isAfter(thisWeek)) {
+  if (mediaItemReceivedDate.isSameOrAfter(thisWeek)) {
     return {
       order: 2,
       type: 'thisWeek',
       mediaItem,
     };
   }
-  if (mediaItemReceivedDate.isAfter(thisMonth)) {
+  if (mediaItemReceivedDate.isSameOrAfter(thisMonth)) {
     return {
       order: 3,
       type: 'thisMonth',

@@ -31,7 +31,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 });
 
 story.add('Populated', () => {
-  const documents = createRandomDocuments(now, days(1)).slice(0, 1);
+  const documents = createPreparedMediaItems(createRandomDocuments);
   const media = createPreparedMediaItems(createRandomMedia);
   const props = createProps({ documents, media });
 
