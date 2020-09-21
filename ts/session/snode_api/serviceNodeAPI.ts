@@ -3,7 +3,6 @@
 import https from 'https';
 import fetch from 'node-fetch';
 
-import { PubKey } from '../types';
 import { snodeRpc } from './lokiRpc';
 import { sendOnionRequestLsrpcDest, SnodeResponse } from './onions';
 

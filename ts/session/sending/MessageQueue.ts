@@ -152,8 +152,8 @@ export class MessageQueue implements MessageQueueInterface {
         // We put the event handling inside this job to avoid sending duplicate events
         const job = async () => {
           try {
-            await MessageSender.send(message);
-            this.events.emit('success', message);
+            const wrappedEnvelope = await MessageSender.send(message);
+            this.events.emit('success', message, wrappedEnvelope);
           } catch (e) {
             this.events.emit('fail', message, e);
           } finally {

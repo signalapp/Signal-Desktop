@@ -1232,7 +1232,7 @@
      * This function is called by inbox_view.js when a message was successfully sent for one device.
      * So it might be called several times for the same message
      */
-    async handleMessageSentSuccess(sentMessage) {
+    async handleMessageSentSuccess(sentMessage, wrappedEnvelope) {
       let sentTo = this.get('sent_to') || [];
 
       const isOurDevice = await window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
@@ -1253,32 +1253,67 @@
       // if we did not sync or trigger a sync message for this specific message already
       const shouldTriggerSyncMessage =
         !isOurDevice &&
-        !isOpenGroupMessage &&
         !isMediumGroupMessage &&
         !this.get('synced') &&
         !this.get('sentSync');
 
       // A message is synced if we triggered a sync message (sentSync)
       // and the current message was sent to our device (so a sync message)
-      const shouldMarkMessageAsSynced =
-        isOurDevice && !isOpenGroupMessage && this.get('sentSync');
+      const shouldMarkMessageAsSynced = isOurDevice && this.get('sentSync');
 
-      // Handle the sync logic here
-      if (shouldTriggerSyncMessage) {
+      const isSessionOrClosedMessage = !isOpenGroupMessage;
+
+      if (!isOpenGroupMessage) {
         const contentDecoded = textsecure.protobuf.Content.decode(
           sentMessage.plainTextBuffer
         );
         const { dataMessage } = contentDecoded;
-        if (dataMessage) {
-          await this.sendSyncMessage(dataMessage);
-        }
-      } else if (shouldMarkMessageAsSynced) {
-        this.set({ synced: true });
-      }
-      if (!isOpenGroupMessage) {
         const primaryPubKey = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
           sentMessage.device
         );
+
+        /**
+         * We should hit the notify endpoint for push notification only if:
+         *  • It's a one-to-one chat or a closed group
+         *  • The message has either text or attachments
+         */
+        const hasBodyOrAttachments = Boolean(
+          dataMessage &&
+            (dataMessage.body ||
+              (dataMessage.attachments && dataMessage.attachments.length))
+        );
+        const shouldNotifyPushServer =
+          hasBodyOrAttachments &&
+          isSessionOrClosedMessage &&
+          sentMessage.ttl ===
+            window.libsession.Constants.TTL_DEFAULT.REGULAR_MESSAGE;
+        if (shouldNotifyPushServer) {
+          // notify the push notification server if needed
+          if (!wrappedEnvelope) {
+            window.log.warn(
+              'Should send PN notify but no wrapped envelope set.'
+            );
+          } else {
+            if (!window.LokiPushNotificationServer) {
+              window.LokiPushNotificationServer = new window.LokiPushNotificationServerApi();
+            }
+
+            window.LokiPushNotificationServer.notify(
+              wrappedEnvelope,
+              primaryPubKey.key
+            );
+          }
+        }
+
+        // Handle the sync logic here
+        if (shouldTriggerSyncMessage) {
+          if (dataMessage) {
+            await this.sendSyncMessage(dataMessage);
+          }
+        } else if (shouldMarkMessageAsSynced) {
+          this.set({ synced: true });
+        }
+
         sentTo = _.union(sentTo, [primaryPubKey.key]);
       }
 

@@ -27,7 +27,7 @@ export function canSendToSnode(): boolean {
 export async function send(
   message: RawMessage,
   attempts: number = 3
-): Promise<void> {
+): Promise<Uint8Array> {
   if (!canSendToSnode()) {
     throw new Error('lokiMessageAPI is not initialized.');
   }
@@ -48,8 +48,10 @@ export async function send(
   const data = wrapEnvelope(envelope);
 
   return pRetry(
-    async () =>
-      window.lokiMessageAPI.sendMessage(device.key, data, timestamp, ttl),
+    async () => {
+      await window.lokiMessageAPI.sendMessage(device.key, data, timestamp, ttl);
+      return data;
+    },
     {
       retries: Math.max(attempts - 1, 0),
       factor: 1,
