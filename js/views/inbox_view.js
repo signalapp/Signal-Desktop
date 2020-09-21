@@ -307,14 +307,14 @@
       return { msg };
     },
 
-    async handleMessageSentSuccess(sentMessage) {
+    async handleMessageSentSuccess(sentMessage, wrappedEnvelope) {
       const fetchedData = await this.fetchHandleMessageSentData(sentMessage);
       if (!fetchedData) {
         return;
       }
       const { msg } = fetchedData;
 
-      msg.handleMessageSentSuccess(sentMessage);
+      msg.handleMessageSentSuccess(sentMessage, wrappedEnvelope);
     },
 
     async handleMessageSentFailure(sentMessage, error) {

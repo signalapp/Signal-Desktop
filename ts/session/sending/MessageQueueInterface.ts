@@ -11,7 +11,10 @@ import { PubKey } from '../types';
 type GroupMessageType = OpenGroupMessage | ClosedGroupMessage;
 
 export interface MessageQueueInterfaceEvents {
-  success: (message: RawMessage | OpenGroupMessage) => void;
+  success: (
+    message: RawMessage | OpenGroupMessage,
+    wrappedEnvelope?: Uint8Array
+  ) => void;
   fail: (message: RawMessage | OpenGroupMessage, error: Error) => void;
 }
 

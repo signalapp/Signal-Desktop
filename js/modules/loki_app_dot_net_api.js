@@ -31,6 +31,8 @@ const urlPubkeyMap = {
   'https://file-dev.lokinet.org': LOKIFOUNDATION_DEVFILESERVER_PUBKEY,
   'https://file.getsession.org': LOKIFOUNDATION_FILESERVER_PUBKEY,
   'https://file.lokinet.org': LOKIFOUNDATION_FILESERVER_PUBKEY,
+  'https://staging.apns.getsession.org':
+    'BWQqZYWRl0LlotTcUSRJZPvNi8qyt1YSQH3li4EHQNBJ',
 };
 
 const HOMESERVER_USER_ANNOTATION_TYPE = 'network.loki.messenger.homeserver';

@@ -350,6 +350,7 @@ if (process.env.USE_STUBBED_NETWORK) {
 window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
 
 window.LokiFileServerAPI = require('./js/modules/loki_file_server_api');
+window.LokiPushNotificationServerApi = require('./js/modules/loki_push_notification_server_api');
 
 window.mnemonic = require('./libloki/modules/mnemonic');
 const WorkerInterface = require('./js/modules/util_worker_interface');
@@ -504,7 +505,6 @@ const {
 } = require('./ts/util/blockedNumberController');
 
 window.BlockedNumberController = BlockedNumberController;
-
 window.deleteAccount = async reason => {
   try {
     window.log.info('Deleting everything!');
