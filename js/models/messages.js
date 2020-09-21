@@ -1283,10 +1283,8 @@
               (dataMessage.attachments && dataMessage.attachments.length))
         );
         const shouldNotifyPushServer =
-          hasBodyOrAttachments &&
-          isSessionOrClosedMessage &&
-          sentMessage.ttl ===
-            window.libsession.Constants.TTL_DEFAULT.REGULAR_MESSAGE;
+          hasBodyOrAttachments && isSessionOrClosedMessage;
+
         if (shouldNotifyPushServer) {
           // notify the push notification server if needed
           if (!wrappedEnvelope) {
