@@ -644,10 +644,11 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   //  - group.id if it is a group message
   let conversationId = id;
   if (isGroupMessage) {
-    /* handle one part of the group logic here:
-       handle requesting info of a new group,
-       dropping an admin only update from a non admin, ...
-    */
+    // remove the prefix from the source object so this is correct for all other
+    message.group.id = message.group.id.replace(
+      PubKey.PREFIX_GROUP_TEXTSECURE,
+      ''
+    );
     conversationId = message.group.id;
   }
 

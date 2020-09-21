@@ -812,6 +812,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion6,
   updateToLokiSchemaVersion7,
   updateToLokiSchemaVersion8,
+  updateToLokiSchemaVersion9,
 ];
 
 async function updateToLokiSchemaVersion1(currentVersion, instance) {
@@ -1073,6 +1074,26 @@ async function updateToLokiSchemaVersion8(currentVersion, instance) {
   );
   await instance.run('COMMIT TRANSACTION;');
   console.log('updateToLokiSchemaVersion8: success!');
+}
+
+async function updateToLokiSchemaVersion9(currentVersion, instance) {
+  if (currentVersion >= 9) {
+    return;
+  }
+  console.log('updateToLokiSchemaVersion9: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  await removePrefixFromGroupConversations(instance);
+
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        9
+      );`
+  );
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToLokiSchemaVersion9: success!');
 }
 
 async function updateLokiSchema(instance) {
@@ -3038,4 +3059,40 @@ async function removeKnownAttachments(allAttachments) {
   console.log(`removeKnownAttachments: Done processing ${count} conversations`);
 
   return Object.keys(lookup);
+}
+
+async function removePrefixFromGroupConversations(instance) {
+  const rows = await instance.all(
+    `SELECT json FROM conversations WHERE
+      type = 'group' AND
+      id LIKE '__textsecure_group__!%';`
+  );
+
+  const objs = map(rows, row => jsonToObject(row.json));
+
+  await Promise.all(
+    objs.map(async o => {
+      const oldId = o.id;
+      const newId = oldId.replace('__textsecure_group__!', '');
+
+      console.log(`migrating conversation, ${oldId} to ${newId}`);
+
+      const morphedObject = {
+        ...o,
+        id: newId,
+      };
+
+      await instance.run(
+        `UPDATE ${CONVERSATIONS_TABLE} SET
+        id = $newId,
+        json = $json
+        WHERE id = $oldId;`,
+        {
+          $newId: newId,
+          $json: objectToJSON(morphedObject),
+          $oldId: oldId,
+        }
+      );
+    })
+  );
 }
