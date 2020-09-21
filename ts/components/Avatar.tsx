@@ -106,13 +106,15 @@ export class Avatar extends React.PureComponent<Props, State> {
     ) {
       throw new Error(`Size ${size} is not supported!`);
     }
+    const isClickable = !!this.props.onAvatarClick;
 
     return (
       <div
         className={classNames(
           'module-avatar',
           `module-avatar--${size}`,
-          hasImage ? 'module-avatar--with-image' : 'module-avatar--no-image'
+          hasImage ? 'module-avatar--with-image' : 'module-avatar--no-image',
+          isClickable && 'module-avatar-clickable'
         )}
         onClick={e => {
           this.onAvatarClickBound(e);
