@@ -645,7 +645,10 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
   let conversationId = id;
   if (isGroupMessage) {
     // remove the prefix from the source object so this is correct for all other
-    message.group.id = message.group.id.replace(PubKey.PREFIX_GROUP_TEXTSECURE, '');
+    message.group.id = message.group.id.replace(
+      PubKey.PREFIX_GROUP_TEXTSECURE,
+      ''
+    );
     conversationId = message.group.id;
   }
 
