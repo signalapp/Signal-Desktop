@@ -732,7 +732,7 @@
       //   this.$('.send-message').val().length > 0 ||
       //   this.fileInput.hasFiles()
       // ) {
-        this.$('.capture-audio').hide();
+      this.$('.capture-audio').hide();
       // } else {
       //   this.$('.capture-audio').show();
       // }
