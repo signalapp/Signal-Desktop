@@ -26,13 +26,16 @@ const LOKIFOUNDATION_DEVFILESERVER_PUBKEY =
   'BSZiMVxOco/b3sYfaeyiMWv/JnqokxGXkHoclEx8TmZ6';
 const LOKIFOUNDATION_FILESERVER_PUBKEY =
   'BWJQnVm97sQE3Q1InB4Vuo+U/T1hmwHBv0ipkiv8tzEc';
+const LOKIFOUNDATION_APNS_PUBKEY =
+  'BWQqZYWRl0LlotTcUSRJZPvNi8qyt1YSQH3li4EHQNBJ';
+
 const urlPubkeyMap = {
   'https://file-dev.getsession.org': LOKIFOUNDATION_DEVFILESERVER_PUBKEY,
   'https://file-dev.lokinet.org': LOKIFOUNDATION_DEVFILESERVER_PUBKEY,
   'https://file.getsession.org': LOKIFOUNDATION_FILESERVER_PUBKEY,
   'https://file.lokinet.org': LOKIFOUNDATION_FILESERVER_PUBKEY,
-  'https://staging.apns.getsession.org':
-    'BWQqZYWRl0LlotTcUSRJZPvNi8qyt1YSQH3li4EHQNBJ',
+  'https://dev.apns.getsession.org': LOKIFOUNDATION_APNS_PUBKEY,
+  'https://live.apns.getsession.org': LOKIFOUNDATION_APNS_PUBKEY,
 };
 
 const HOMESERVER_USER_ANNOTATION_TYPE = 'network.loki.messenger.homeserver';
@@ -47,6 +50,8 @@ const snodeHttpsAgent = new https.Agent({
 });
 
 const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+const MAX_SEND_ONION_RETRIES = 3;
 
 const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
   if (!srvPubKey) {
@@ -134,6 +139,12 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
       `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - Retry #${options.retry} Couldnt handle onion request, retrying`,
       payloadObj
     );
+    if (options.retry && options.retry >= MAX_SEND_ONION_RETRIES) {
+      log.error(
+        `sendViaOnion too many retries: ${options.retry}. Stopping retries.`
+      );
+      return {};
+    }
     return sendViaOnion(srvPubKey, url, fetchOptions, {
       ...options,
       retry: options.retry + 1,
