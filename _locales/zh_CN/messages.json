@@ -1,4 +1,12 @@
 {
+    "softwareAcknowledgments": {
+        "message": "Software Acknowledgments",
+        "description": "Shown in the about box for the link to software acknowledgments"
+    },
+    "privacyPolicy": {
+        "message": "协议与隐私政策",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
+    },
     "copyErrorAndQuit": {
         "message": "复制出错信息并退出",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -146,6 +154,10 @@
     "menuSetupAsStandalone": {
         "message": "配置为独立设备",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "messageContextMenuButton": {
+        "message": "More actions",
+        "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
         "message": "复制链接",
@@ -677,6 +689,10 @@
         "message": "搜索",
         "description": "Placeholder text in the search input"
     },
+    "clearSearch": {
+        "message": "Clear Search",
+        "description": "Aria label for clear search button"
+    },
     "searchIn": {
         "message": "在$conversationName$中搜索",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
@@ -1002,6 +1018,10 @@
     "theirIdentityUnknown": {
         "message": "您还未与该联系人有任何通讯，您的安全代码将会在您对其发送第一条消息后显示。",
         "description": ""
+    },
+    "goBack": {
+        "message": "Go back",
+        "description": "Label for back button in a conversation"
     },
     "moreInfo": {
         "message": "更多信息...",
@@ -1915,6 +1935,26 @@
         "message": "既然可以用表情，为何还要打字呢？",
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
+    "stickers--StickerPicker--Open": {
+        "message": "Open the sticker picker",
+        "description": "Label for the open button for the sticker picker"
+    },
+    "stickers--StickerPicker--AddPack": {
+        "message": "Add a sticker pack",
+        "description": "Label for the add pack button in the sticker picker"
+    },
+    "stickers--StickerPicker--NextPage": {
+        "message": "Next Page",
+        "description": "Label for the next page button in the sticker picker"
+    },
+    "stickers--StickerPicker--PrevPage": {
+        "message": "Previous Page",
+        "description": "Label for the previous page button in the sticker picker"
+    },
+    "stickers--StickerPicker--Recents": {
+        "message": "Recent Sticker",
+        "description": "Label for the recent stickers button in the sticker picker"
+    },
     "stickers--StickerPicker--DownloadError": {
         "message": "一些表情无法下载",
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
@@ -2807,6 +2847,14 @@
         "message": "Ringing...",
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
+    "makeOutgoingCall": {
+        "message": "Start a call",
+        "description": "Title for the call button in a conversation"
+    },
+    "makeOutgoingVideoCall": {
+        "message": "Start a video call",
+        "description": "Title for the video call button in a conversation"
+    },
     "callReconnecting": {
         "message": "Reconnecting...",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
@@ -3595,8 +3643,28 @@
             }
         }
     },
-    "privacyPolicy": {
-        "message": "协议与隐私政策",
-        "description": "Shown in the about box for the link to https://signal.org/legal"
+    "close": {
+        "message": "关闭",
+        "description": "Generic close label"
+    },
+    "previous": {
+        "message": "previous",
+        "description": "Generic previous label"
+    },
+    "next": {
+        "message": "next",
+        "description": "Generic next label"
+    },
+    "CompositionArea--expand": {
+        "message": "Expand",
+        "description": "Aria label for expanding composition area"
+    },
+    "CompositionArea--attach-file": {
+        "message": "附加文件",
+        "description": "Aria label for file attachment button in composition area"
+    },
+    "countMutedConversationsDescription": {
+        "message": "Count muted conversations in badge count",
+        "description": "Description for counting muted conversations in badge setting"
     }
 }

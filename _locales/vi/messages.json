@@ -1,4 +1,12 @@
 {
+    "softwareAcknowledgments": {
+        "message": "Software Acknowledgments",
+        "description": "Shown in the about box for the link to software acknowledgments"
+    },
+    "privacyPolicy": {
+        "message": "Điều khoản và Chính sách bảo mật",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
+    },
     "copyErrorAndQuit": {
         "message": "Sao chép lỗi và thoát",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -17,7 +25,7 @@
     },
     "deleteAndRestart": {
         "message": "Xóa tất cả dữ liệu và khởi động lại",
-        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
+        "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
     },
     "mainMenuFile": {
         "message": "&Tập tin",
@@ -93,7 +101,7 @@
     },
     "editMenuSelectAll": {
         "message": "Chọn Tất cả",
-        "description": "Edit menu comand to select all of the text in selected text box"
+        "description": "Edit menu command to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
         "message": "Bắt đầu nói",
@@ -117,7 +125,7 @@
     },
     "windowMenuBringAllToFront": {
         "message": "Đưa Tất cả cửa sổ ra Trước",
-        "description": "Window menu command to bring all windows of current applicatinon to front"
+        "description": "Window menu command to bring all windows of current application to front"
     },
     "viewMenuResetZoom": {
         "message": "Kích cỡ Thực tế",
@@ -146,6 +154,10 @@
     "menuSetupAsStandalone": {
         "message": "Thiết lập như Thiết bị Độc lập",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "messageContextMenuButton": {
+        "message": "More actions",
+        "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
         "message": "Sao chép Đường dẫn",
@@ -183,7 +195,7 @@
     },
     "archiveHelperText": {
         "message": "Các cuộc trò chuyện này được lưu trữ và chỉ xuất hiện trong Hộp thư đến nếu nhận được tin nhắn mới.",
-        "description": "Shown at the top of the archived converations list in the left pane"
+        "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
         "message": "Lưu trữ Cuộc trò chuyện",
@@ -268,7 +280,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Bạn đã rời nhóm.",
+        "message": "You are no longer a member of the group.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "scrollDown": {
@@ -377,9 +389,13 @@
         "message": "Vẫn tiếp tục gửi",
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
+    "callAnyway": {
+        "message": "Vẫn tiếp tục Gọi",
+        "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+    },
     "noLongerVerified": {
         "message": "Số an toàn của bạn với $name$ đã được thay đổi và không còn được xác minh. Nhấp vào đây để hiển thị.",
-        "description": "Shown in converation banner when user's safety number has changed, but they were previously verified.",
+        "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -409,7 +425,7 @@
     },
     "debugLogLinkCopied": {
         "message": "Link Copied to Your Clipboard",
-        "description": "Shown in a taost to let the user know that the link to the debug log has been copied to their clipboard"
+        "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
         "message": "Báo cáo lỗi",
@@ -673,6 +689,10 @@
         "message": "Tìm kiếm",
         "description": "Placeholder text in the search input"
     },
+    "clearSearch": {
+        "message": "Clear Search",
+        "description": "Aria label for clear search button"
+    },
     "searchIn": {
         "message": "Tìm kiếm trong $conversationName$",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
@@ -729,7 +749,7 @@
     },
     "typingAlt": {
         "message": "Nhập hoạt ảnh cho cuộc trò chuyện này",
-        "description": "Used as the 'title' attibute for the typing animation"
+        "description": "Used as the 'title' attribute for the typing animation"
     },
     "contactInAddressBook": {
         "message": "This person is in your contacts.",
@@ -847,19 +867,19 @@
     },
     "audioPermissionNeeded": {
         "message": "Để gửi tập tin âm thanh, hãy chắc chắn rằng Signal Desktop được phép truy cập micro.",
-        "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
+        "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
     },
     "audioCallingPermissionNeeded": {
         "message": "For calling, you must allow Signal Desktop to access your microphone.",
-        "description": "Shown if the user attempts access the microphone for calling without audio permssions turned on"
+        "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
     },
     "videoCallingPermissionNeeded": {
         "message": "For video calling, you must allow Signal Desktop to access your camera.",
-        "description": "Shown if the user attempts access the camera for video calling without video permssions turned on"
+        "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
     },
     "allowAccess": {
         "message": "Cho phép Truy cập",
-        "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
+        "description": "Button shown in popup asking to enable microphone/video permissions to send audio messages"
     },
     "showSettings": {
         "message": "Hiển thị Cài đặt",
@@ -999,13 +1019,17 @@
         "message": "Bạn chưa trao đổi tin nhắn nào với liên hệ này. Số an toàn của bạn với họ sẽ được cung cấp sau tin nhắn đầu tiên.",
         "description": ""
     },
+    "goBack": {
+        "message": "Go back",
+        "description": "Label for back button in a conversation"
+    },
     "moreInfo": {
         "message": "Thông tin khác...",
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
         "message": "Thử Gửi lại",
-        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
+        "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
         "message": "Xóa Tin nhắn",
@@ -1045,11 +1069,11 @@
     },
     "addACaption": {
         "message": "Thêm chú thích...",
-        "description": ""
+        "description": "Used as the placeholder text in the caption editor text field"
     },
     "save": {
         "message": "Lưu",
-        "description": ""
+        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
     },
     "fileIconAlt": {
         "message": "Biểu tượng tập tin",
@@ -1065,7 +1089,7 @@
     },
     "linkYourPhone": {
         "message": "Liên kết điện thoại của bạn với Signal Desktop",
-        "description": "Shown on the front page when the application first starst, above the QR code"
+        "description": "Shown on the front page when the application first starts, above the QR code"
     },
     "signalSettings": {
         "message": "Signal Cài đặt",
@@ -1212,36 +1236,34 @@
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
-        "message": "Cả tên người gửi lẫn tin nhắn",
+        "message": "Name, content, and actions",
         "description": "Label for setting notifications to display name and message text"
     },
     "noNameOrMessage": {
-        "message": "Không hiển thị tên cũng như tin nhắn",
+        "message": "No name or content",
         "description": "Label for setting notifications to display no name and no message text"
     },
     "nameOnly": {
-        "message": "Chỉ hiển thị tên người gửi",
+        "message": "Chỉ tên",
         "description": "Label for setting notifications to display sender name only"
     },
     "newMessage": {
         "message": "Tin nhắn Mới",
         "description": "Displayed in notifications for only 1 message"
     },
-    "newMessages": {
-        "message": "Các tin nhắn Mới",
-        "description": "Displayed in notifications for multiple messages"
-    },
-    "notificationMostRecentFrom": {
-        "message": "Gần đây nhất từ:",
-        "description": "Displayed in notifications when setting is 'name only' and more than one message is waiting"
-    },
-    "notificationFrom": {
-        "message": "Từ:",
-        "description": "Displayed in notifications when setting is 'name only' and one message is waiting"
-    },
-    "notificationMostRecent": {
-        "message": "Gần đây nhất:",
-        "description": "Displayed in notifications when setting is 'name and message' and more than one message is waiting"
+    "notificationSenderInGroup": {
+        "message": "$sender$ in $group$",
+        "description": "Displayed in notifications for messages in a group",
+        "placeholders": {
+            "sender": {
+                "content": "$1",
+                "example": "John"
+            },
+            "group": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            }
+        }
     },
     "notificationReaction": {
         "message": "$sender$đã bày tỏ về  $emoji$ trong tin nhắn của bạn",
@@ -1257,40 +1279,8 @@
             }
         }
     },
-    "notificationReactionMostRecent": {
-        "message": "Gần đây:  $sender$ đã bày tỏ về  $emoji$ trong tin nhắn của bạn",
-        "description": "",
-        "placeholders": {
-            "sender": {
-                "content": "$1",
-                "example": "John"
-            },
-            "emoji": {
-                "content": "$2",
-                "example": "👍"
-            }
-        }
-    },
     "notificationReactionMessage": {
         "message": "$sender$ reacted $emoji$ to: $message$",
-        "description": "",
-        "placeholders": {
-            "sender": {
-                "content": "$1",
-                "example": "John"
-            },
-            "emoji": {
-                "content": "$2",
-                "example": "👍"
-            },
-            "message": {
-                "content": "$3",
-                "example": "Sounds good."
-            }
-        }
-    },
-    "notificationReactionMessageMostRecent": {
-        "message": "Most recent: $sender$ reacted $emoji$ to: $message$",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1439,6 +1429,16 @@
             }
         }
     },
+    "timerSetByMember": {
+        "message": "A member set the disappearing message time to $time$.",
+        "description": "Message displayed when timer is by an unknown group member.",
+        "placeholders": {
+            "time": {
+                "content": "$1",
+                "example": "10m"
+            }
+        }
+    },
     "theyChangedTheTimer": {
         "message": "$name$ set the disappearing message time to $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
@@ -1555,6 +1555,10 @@
     },
     "disappearingMessagesDisabled": {
         "message": "Đã tắt tin nhắn tạm thời",
+        "description": "Displayed in the left pane when the timer is turned off"
+    },
+    "disappearingMessagesDisabledByMember": {
+        "message": "A member disabled disappearing messages.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
@@ -1680,6 +1684,10 @@
     "noteToSelfHero": {
         "message": "Bạn có thể thêm ghi chú trong cuộc trò chuyện này. Nếu tài khoản của bạn có thiết bị liên kết, ghi chú cũng sẽ được đồng bộ.",
         "description": "Description for the Note to Self conversation"
+    },
+    "notificationDrawAttention": {
+        "message": "Draw attention to this window when a notification arrives",
+        "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
         "message": "Ẩn thanh menu",
@@ -1813,9 +1821,47 @@
         "message": "Nháp:",
         "description": "Prefix shown in italic in conversation view when a draft is saved"
     },
+    "message--getNotificationText--gif": {
+        "message": "Ảnh GIF",
+        "description": "Shown in notifications and in the left pane when a GIF is received."
+    },
+    "message--getNotificationText--photo": {
+        "message": "Ảnh",
+        "description": "Shown in notifications and in the left pane when a photo is received."
+    },
+    "message--getNotificationText--video": {
+        "message": "Video",
+        "description": "Shown in notifications and in the left pane when a video is received."
+    },
+    "message--getNotificationText--voice-message": {
+        "message": "Tin nhắn Thoại",
+        "description": "Shown in notifications and in the left pane when a voice message is received."
+    },
+    "message--getNotificationText--audio-message": {
+        "message": "Tin nhắn âm thanh",
+        "description": "Shown in notifications and in the left pane when an audio message is received."
+    },
+    "message--getNotificationText--file": {
+        "message": "Tệp",
+        "description": "Shown in notifications and in the left pane when a generic file is received."
+    },
     "message--getNotificationText--stickers": {
         "message": "Nhãn dán tin nhắn",
         "description": "Shown in notifications and in the left pane instead of sticker image."
+    },
+    "message--getNotificationText--text-with-emoji": {
+        "message": "$emoji$ $text$",
+        "description": "Shown in notifications and in the left pane when text has an emoji. Probably always [emoji] [text] on LTR languages and [text] [emoji] on RTL languages.",
+        "placeholders": {
+            "emoji": {
+                "content": "$1",
+                "example": "📷"
+            },
+            "text": {
+                "content": "$2",
+                "example": "Photo"
+            }
+        }
     },
     "message--getDescription--unsupported-message": {
         "message": "Tin nhắn không được hỗ trợ",
@@ -1889,6 +1935,26 @@
         "message": "Tại sao phải sử dụng từ ngữ khi mà bạn có thể sử dụng nhãn dán?",
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
+    "stickers--StickerPicker--Open": {
+        "message": "Open the sticker picker",
+        "description": "Label for the open button for the sticker picker"
+    },
+    "stickers--StickerPicker--AddPack": {
+        "message": "Add a sticker pack",
+        "description": "Label for the add pack button in the sticker picker"
+    },
+    "stickers--StickerPicker--NextPage": {
+        "message": "Next Page",
+        "description": "Label for the next page button in the sticker picker"
+    },
+    "stickers--StickerPicker--PrevPage": {
+        "message": "Previous Page",
+        "description": "Label for the previous page button in the sticker picker"
+    },
+    "stickers--StickerPicker--Recents": {
+        "message": "Recent Sticker",
+        "description": "Label for the recent stickers button in the sticker picker"
+    },
     "stickers--StickerPicker--DownloadError": {
         "message": "Một vài nhãn dán đã không thể tải xuống.",
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
@@ -1939,6 +2005,42 @@
             }
         }
     },
+    "EmojiPicker__button--recents": {
+        "message": "Recents",
+        "description": "Label for recents emoji picker button"
+    },
+    "EmojiPicker__button--emoji": {
+        "message": "Emoji",
+        "description": "Label for emoji emoji picker button"
+    },
+    "EmojiPicker__button--animal": {
+        "message": "Animal",
+        "description": "Label for animal emoji picker button"
+    },
+    "EmojiPicker__button--food": {
+        "message": "Thức ăn",
+        "description": "Label for food emoji picker button"
+    },
+    "EmojiPicker__button--activity": {
+        "message": "Activity",
+        "description": "Label for activity emoji picker button"
+    },
+    "EmojiPicker__button--travel": {
+        "message": "Travel",
+        "description": "Label for travel emoji picker button"
+    },
+    "EmojiPicker__button--object": {
+        "message": "Object",
+        "description": "Label for object emoji picker button"
+    },
+    "EmojiPicker__button--symbol": {
+        "message": "Symbol",
+        "description": "Label for symbol emoji picker button"
+    },
+    "EmojiPicker__button--flag": {
+        "message": "Flag",
+        "description": "Label for flag emoji picker button"
+    },
     "confirmation-dialog--Cancel": {
         "message": "Hủy",
         "description": "Appears on the cancel button in confirmation dialogs."
@@ -1981,7 +2083,7 @@
     },
     "Message--tap-to-view--outgoing": {
         "message": "Đa phương tiện",
-        "description": "Text shown on outgoing messages with with individual timers (inaccessble)"
+        "description": "Text shown on outgoing messages with with individual timers (inaccessible)"
     },
     "Message--tap-to-view--incoming--expired-toast": {
         "message": "Bạn đã sẵn sàng xem ảnh này",
@@ -2504,7 +2606,7 @@
         }
     },
     "MessageRequests--unblock-group-confirm-body": {
-        "message": "Group members will be able to add your to this group again.",
+        "message": "Các thành viên trong nhóm có thể thêm lại bạn vào nhóm.",
         "description": "Shown as the body in the confirmation modal for unblocking a group message request",
         "placeholders": {
             "name": {
@@ -2528,7 +2630,7 @@
         }
     },
     "MessageRequests--block-direct-confirm-body": {
-        "message": "Blocked people won't be able to call you or send you mesages.",
+        "message": "Người dùng bị chặn sẽ không thể gọi hoặc gửi tin nhắn cho bạn.",
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
@@ -2745,6 +2847,14 @@
         "message": "Ringing...",
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
+    "makeOutgoingCall": {
+        "message": "Start a call",
+        "description": "Title for the call button in a conversation"
+    },
+    "makeOutgoingVideoCall": {
+        "message": "Start a video call",
+        "description": "Title for the video call button in a conversation"
+    },
     "callReconnecting": {
         "message": "Reconnecting...",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
@@ -2759,8 +2869,802 @@
             }
         }
     },
-    "privacyPolicy": {
-        "message": "Điều khoản và Chính sách bảo mật",
-        "description": "Shown in the about box for the link to https://signal.org/legal"
+    "callingDeviceSelection__settings": {
+        "message": "Cài đặt",
+        "description": "Title for device selection settings"
+    },
+    "callingDeviceSelection__label--video": {
+        "message": "Video",
+        "description": "Label for video input selector"
+    },
+    "callingDeviceSelection__label--audio-input": {
+        "message": "Microphone",
+        "description": "Label for audio input selector"
+    },
+    "callingDeviceSelection__label--audio-output": {
+        "message": "Speakers",
+        "description": "Label for audio output selector"
+    },
+    "callingDeviceSelection__select--no-device": {
+        "message": "No devices available",
+        "description": "Message for when there are no available devices to select for input/output audio or video"
+    },
+    "callingDeviceSelection__select--default": {
+        "message": "Mặc định",
+        "description": "Shown when the device is the default device"
+    },
+    "muteNotificationsTitle": {
+        "message": "Tạm im thông báo",
+        "description": "Label for the mute notifications drop-down selector"
+    },
+    "muteHour": {
+        "message": "Tạm im một giờ",
+        "description": "Label for muting the conversation"
+    },
+    "muteDay": {
+        "message": "Tạm im một ngày",
+        "description": "Label for muting the conversation"
+    },
+    "muteWeek": {
+        "message": "Tạm im một tuần",
+        "description": "Label for muting the conversation"
+    },
+    "muteYear": {
+        "message": "Tạm im một năm",
+        "description": "Label for muting the conversation"
+    },
+    "unmute": {
+        "message": "Tắt tạm im",
+        "description": "Label for unmuting the conversation"
+    },
+    "muteExpirationLabel": {
+        "message": "Muted until $duration$",
+        "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
+        "placeholders": {
+            "duration": {
+                "content": "$1",
+                "example": "10/23/2023, 7:10 PM"
+            }
+        }
+    },
+    "EmojiButton__label": {
+        "message": "Emoji",
+        "description": "Label for emoji button"
+    },
+    "GroupV2--admin": {
+        "message": "Quản trị viên",
+        "description": "Shown next to the set of administrators in a group"
+    },
+    "GroupV2--timerConflict": {
+        "message": "Failed to update disappearing message timer. Please try again later.",
+        "description": "Shown if the user runs into a group update conflict attempting to update a GroupV2 message timer"
+    },
+    "GroupV2--title--change--other": {
+        "message": "$memberName$ changed the group name to \"$newTitle$\".",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "newTitle": {
+                "content": "$2",
+                "example": "Saturday Hiking"
+            }
+        }
+    },
+    "GroupV2--title--change--you": {
+        "message": "You changed the group name to \"$newTitle$\".",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "newTitle": {
+                "content": "$1",
+                "example": "Saturday Hiking"
+            }
+        }
+    },
+    "GroupV2--title--change--unknown": {
+        "message": "A member changed the group name to \"$newTitle$\".",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "newTitle": {
+                "content": "$1",
+                "example": "Saturday Hiking"
+            }
+        }
+    },
+    "GroupV2--title--remove--other": {
+        "message": "$memberName$ removed the group name.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--title--remove--you": {
+        "message": "Bạn đã xoá tên nhóm.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--title--remove--unknown": {
+        "message": "A member removed the group name.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--avatar--change--other": {
+        "message": "$memberName$ changed the group avatar.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--avatar--change--you": {
+        "message": "Bạn đã đổi ảnh nhóm.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--avatar--change--unknown": {
+        "message": "A member changed the group avatar.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--avatar--remove--other": {
+        "message": "$memberName$ removed the group avatar.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--avatar--remove--you": {
+        "message": "You removed the group avatar.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--avatar--remove--unknown": {
+        "message": "A member removed the group avatar.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-attributes--admins--other": {
+        "message": "$adminName$ changed who can edit group info to \"Only admins.\"",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--access-attributes--admins--you": {
+        "message": "You changed who can edit group info to \"Only admins.\"",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-attributes--admins--unknown": {
+        "message": "An admin changed who can edit group info to \"Only admins.\"",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-attributes--all--other": {
+        "message": "$adminName$ changed who can edit group info to \"All members.\"",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--access-attributes--all--you": {
+        "message": "You changed who can edit group info to \"All members.\"",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-attributes--all--unknown": {
+        "message": "An admin changed who can edit group info to \"All members.\"",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-members--admins--other": {
+        "message": "$adminName$ changed who can edit group membership to \"Only admins.\"",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--access-members--admins--you": {
+        "message": "You changed who can edit group membership to \"Only admins.\"",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-members--admins--unknown": {
+        "message": "An admin changed who can edit group membership to \"Only admins.\"",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-members--all--other": {
+        "message": "$adminName$ changed who can edit group membership to \"All members.\"",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--access-members--all--you": {
+        "message": "You changed who can edit group membership to \"All members.\"",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--access-members--all--unknown": {
+        "message": "An admin changed who can edit group membership to \"All members.\"",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-add--from-invite--other": {
+        "message": "$inviteeName$ accepted an invitation to the group from $inviterName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviteeName": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "inviterName": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-add--from-invite--you": {
+        "message": "You accepted an invitation to the group from $inviterName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviterName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-add--from-invite--from-you": {
+        "message": "$inviteeName$ accepted your invitation to the group.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviteeName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-add--other--other": {
+        "message": "$adderName$ added $addeeName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adderName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "addeeName": {
+                "content": "$2",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-add--other--you": {
+        "message": "You added $memberName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-add--other--unknown": {
+        "message": "A member added $memberName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-add--you--other": {
+        "message": "$memberName$ added you to the group.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-add--you--you": {
+        "message": "Bạn đã tham gia nhóm.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-add--you--unknown": {
+        "message": "A member added you to the group.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-remove--other--other": {
+        "message": "$adminName$ removed $memberName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "memberName": {
+                "content": "$2",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-remove--other--self": {
+        "message": "$memberName$ left.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-remove--other--you": {
+        "message": "You removed $memberName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-remove--other--unknown": {
+        "message": "A member removed $memberName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-remove--you--other": {
+        "message": "$adminName$ removed you.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-remove--you--you": {
+        "message": "You left.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-remove--you--unknown": {
+        "message": "A member removed you.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-privilege--promote--other--other": {
+        "message": "$adminName$ made $memberName$ an admin.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "memberName": {
+                "content": "$2",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-privilege--promote--other--you": {
+        "message": "You made $memberName$ an admin.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-privilege--promote--other--unknown": {
+        "message": "An admin made $memberName$ an admin.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-privilege--promote--you--other": {
+        "message": "$adminName$ made you an admin.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-privilege--promote--you--unknown": {
+        "message": "An admin made you an admin.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-privilege--demote--other--other": {
+        "message": "$adminName$ revoked admin privileges from $memberName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "memberName": {
+                "content": "$2",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--member-privilege--demote--other--you": {
+        "message": "You revoked admin privileges from $memberName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-privilege--demote--other--unknown": {
+        "message": "An admin revoked admin privileges from $memberName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--member-privilege--demote--you--other": {
+        "message": "$adminName$ revoked your admin privileges.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--member-privilege--demote--you--unknown": {
+        "message": "An admin revoked your admin privileges.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--pending-add--one--other--other": {
+        "message": "$memberName$ invited 1 person to the group.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-add--one--other--you": {
+        "message": "You invited $inviteeName$ to the group.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviteeName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-add--one--other--unknown": {
+        "message": "A member invited 1 person to the group.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviteeName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-add--one--you--other": {
+        "message": "$memberName$ invited you to the group.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-add--one--you--unknown": {
+        "message": "A member invited you to the group.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--pending-add--many--other": {
+        "message": "$memberName$ invited $count$ people to the group.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "count": {
+                "content": "$2",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV2--pending-add--many--you": {
+        "message": "You invited $count$ people to the group.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV2--pending-add--many--unknown": {
+        "message": "A member invited $count$ people to the group.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV2--pending-remove--decline--other": {
+        "message": "1 person invited by $memberName$ declined the invitation to the group.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-remove--decline--you": {
+        "message": "$inviteeName$ declined your invitation to the group.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviteeName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-remove--decline--unknown": {
+        "message": "1 person declined their invitation to the group.",
+        "description": "Shown in timeline or conversation preview when v2 group changes"
+    },
+    "GroupV2--pending-remove--revoke--one--other": {
+        "message": "$memberName$ revoked an invitation to the group for 1 person.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke--one--you": {
+        "message": "You revoked an invitation to the group for 1 person.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviteeName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke--one--unknown": {
+        "message": "An admin revoked an invitation to the group for 1 person.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviteeName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke--many--other": {
+        "message": "$memberName$ revoked invitations to the group for $count$ people.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviteeName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "count": {
+                "content": "$2",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke--many--you": {
+        "message": "You revoked invitations to the group for $count$ people.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke--many--unknown": {
+        "message": "An admin revoked invitations to the group for $count$ people.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke-invite-from--one--other": {
+        "message": "$adminName$ revoked an invitation to the group for 1 person invited by $memberName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "memberName": {
+                "content": "$2",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke-invite-from--one--you": {
+        "message": "You revoked an invitation to the group for 1 person invited by $memberName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
+        "message": "An admin revoked an invitation to the group for 1 person invited by $memberName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke-invite-from-you--one--other": {
+        "message": "$adminName$ revoked the invitation to the group you sent to $inviteeName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke-invite-from-you--one--you": {
+        "message": "You rescinded your invitation to $inviteeName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviteeName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
+        "message": "An admin revoked the invitation to the group you sent to $inviteeName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "inviteeName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke-invite-from--many--other": {
+        "message": "$adminName$ revoked invitations to the group for $count$ people invited by $memberName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "memberName": {
+                "content": "$2",
+                "example": "Alice"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke-invite-from--many--you": {
+        "message": "You revoked invitations to the group for $count$ people invited by $memberName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "memberName": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
+        "message": "An admin revoked invitations to the group for $count$ people invited by $memberName$.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            },
+            "memberName": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
+        "message": "$adminName$ revoked the invitations to the group you sent to $count$ people.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "adminName": {
+                "content": "$1",
+                "example": "Bob"
+            },
+            "count": {
+                "content": "$2",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
+        "message": "You rescinded your invitation to $count$ people.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
+        "message": "An admin revoked the invitations to the group you sent to $count$ people.",
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "5"
+            }
+        }
+    },
+    "close": {
+        "message": "Đóng",
+        "description": "Generic close label"
+    },
+    "previous": {
+        "message": "previous",
+        "description": "Generic previous label"
+    },
+    "next": {
+        "message": "next",
+        "description": "Generic next label"
+    },
+    "CompositionArea--expand": {
+        "message": "Expand",
+        "description": "Aria label for expanding composition area"
+    },
+    "CompositionArea--attach-file": {
+        "message": "Đính kèm tệp",
+        "description": "Aria label for file attachment button in composition area"
+    },
+    "countMutedConversationsDescription": {
+        "message": "Count muted conversations in badge count",
+        "description": "Description for counting muted conversations in badge setting"
     }
 }

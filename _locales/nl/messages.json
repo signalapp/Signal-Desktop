@@ -1,4 +1,12 @@
 {
+    "softwareAcknowledgments": {
+        "message": "Software Acknowledgments",
+        "description": "Shown in the about box for the link to software acknowledgments"
+    },
+    "privacyPolicy": {
+        "message": "Gebruiksvoorwaarden & privacybeleid",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
+    },
     "copyErrorAndQuit": {
         "message": "Foutmelding kopiëren en afsluiten",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -146,6 +154,10 @@
     "menuSetupAsStandalone": {
         "message": "Instellen als apart apparaat",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "messageContextMenuButton": {
+        "message": "More actions",
+        "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
         "message": "Verwijzing kopiëren",
@@ -342,7 +354,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "Het veiligheidsnummer dat je wilt verifiëren is veranderd. Controleer je nieuwe veiligheidsnummer met $name1$. Let op: dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of dat$name2$ gewoonweg Signal opnieuw heeft geïnstalleerd.",
+        "message": "Het veiligheidsnummer dat je wilt verifiëren is veranderd. Controleer je nieuwe veiligheidsnummer met $name1$. Let op: dit kan betekenen dat iemand je gesprekken probeert te onderscheppen, of dat $name2$ gewoonweg Signal opnieuw heeft geïnstalleerd.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -677,6 +689,10 @@
         "message": "Zoeken",
         "description": "Placeholder text in the search input"
     },
+    "clearSearch": {
+        "message": "Clear Search",
+        "description": "Aria label for clear search button"
+    },
     "searchIn": {
         "message": "Zoeken in ‘$conversationName$’",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
@@ -1002,6 +1018,10 @@
     "theirIdentityUnknown": {
         "message": "Je hebt nog geen berichten uitgewisseld met deze contactpersoon. Je veiligheidsnummer met hem zal beschikbaar zijn na het eerste bericht.",
         "description": ""
+    },
+    "goBack": {
+        "message": "Go back",
+        "description": "Label for back button in a conversation"
     },
     "moreInfo": {
         "message": "Meer informatie …",
@@ -1390,7 +1410,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Je hebt de timer voor zelfwissende berichten op $time$gezet.",
+        "message": "Je hebt de timer voor zelfwissende berichten op $time$ ingesteld.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -1410,7 +1430,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "Een groepslid heeft de timer voor zelfwissende berichten op $time$gezet.",
+        "message": "Een groepslid heeft de timer voor zelfwissende berichten op $time$ ingesteld.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -1420,7 +1440,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$heeft de timer voor zelfwissende berichten op $time$gezet.",
+        "message": "$name$ heeft de timer voor zelfwissende berichten op $time$ ingesteld.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -1582,7 +1602,7 @@
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ heeft zijn of haar profielnaam gewijzigd van $oldProfile$naar $newProfile$.",
+        "message": "$sender$ heeft zijn of haar profielnaam van $oldProfile$ naar $newProfile$ gewijzigd.",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -1914,6 +1934,26 @@
     "stickers--StickerManager--Introduction--Body": {
         "message": "Waarom zou je woorden gebruiken als je ook stickers kunt gebruiken?",
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
+    },
+    "stickers--StickerPicker--Open": {
+        "message": "Open the sticker picker",
+        "description": "Label for the open button for the sticker picker"
+    },
+    "stickers--StickerPicker--AddPack": {
+        "message": "Add a sticker pack",
+        "description": "Label for the add pack button in the sticker picker"
+    },
+    "stickers--StickerPicker--NextPage": {
+        "message": "Next Page",
+        "description": "Label for the next page button in the sticker picker"
+    },
+    "stickers--StickerPicker--PrevPage": {
+        "message": "Previous Page",
+        "description": "Label for the previous page button in the sticker picker"
+    },
+    "stickers--StickerPicker--Recents": {
+        "message": "Recent Sticker",
+        "description": "Label for the recent stickers button in the sticker picker"
     },
     "stickers--StickerPicker--DownloadError": {
         "message": "Sommige stickers konden niet worden gedownload.",
@@ -2538,7 +2578,7 @@
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
-        "message": "Iemand blokkeer",
+        "message": "Blokkeren",
         "description": "Shown as a button to let the user block a message request"
     },
     "MessageRequests--unblock": {
@@ -2546,7 +2586,7 @@
         "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-confirm-title": {
-        "message": "Deblokkeer $name$?",
+        "message": "$name$ deblokkeren?",
         "description": "Shown as a button to let the user unblock a message request",
         "placeholders": {
             "name": {
@@ -2556,7 +2596,7 @@
         }
     },
     "MessageRequests--unblock-direct-confirm-body": {
-        "message": "Jullie zullen elkaar weer berichten kunnen sturen en elkaar weer kunnen bellen via Signal.",
+        "message": "Jullie zullen elkaar weer berichten aan elkaar kunnen verzenden en elkaar weer kunnen bellen via Signal.",
         "description": "Shown as the body in the confirmation modal for unblocking a private message request",
         "placeholders": {
             "name": {
@@ -2580,7 +2620,7 @@
         "description": "Shown as a button to let the user block and delete a message request"
     },
     "MessageRequests--block-direct-confirm-title": {
-        "message": "Blokkeer $name$?",
+        "message": "$name$ blokkeren?",
         "description": "Shown as the title in the confirmation modal for blocking a private message request",
         "placeholders": {
             "name": {
@@ -2594,7 +2634,7 @@
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "$group$blokkeren en verlaten?",
+        "message": "$group$ blokkeren en verlaten?",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
@@ -2620,7 +2660,7 @@
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
-        "message": "$group$verlaten en verwijderen?",
+        "message": "$group$ verlaten en verwijderen?",
         "description": "Shown as the title in the confirmation modal for deleting a group message request",
         "placeholders": {
             "group": {
@@ -2630,7 +2670,7 @@
         }
     },
     "MessageRequests--delete-direct": {
-        "message": "Een gesprek verwijder",
+        "message": "Verwijderen",
         "description": "Shown as a button to let the user delete a direct message request"
     },
     "MessageRequests--delete-group": {
@@ -2676,7 +2716,7 @@
         }
     },
     "ConversationHero--membership-2": {
-        "message": "Lid van $group1$en $group2$.",
+        "message": "Lid van $group1$ en $group2$.",
         "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
         "placeholders": {
             "group1": {
@@ -2708,7 +2748,7 @@
         }
     },
     "ConversationHero--membership-extra": {
-        "message": "Lid van $group1$, $group2$, $group3$ en $remainingCount$ meer. ",
+        "message": "Lid van $group1$, $group2$, $group3$ en $remainingCount$ andere groepen. ",
         "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
         "placeholders": {
             "group1": {
@@ -2792,27 +2832,35 @@
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
-        "message": "Inkomend audiogesprek...",
+        "message": "Inkomend audiogesprek …",
         "description": "Shown in both the incoming call bar and notification for an incoming audio call"
     },
     "incomingVideoCall": {
-        "message": "Inkomend videogesprek...",
+        "message": "Inkomend videogesprek …",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "outgoingCallPrering": {
-        "message": "Bellen...",
+        "message": "Verbinding aan het leggen …",
         "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
     },
     "outgoingCallRinging": {
-        "message": "Aan het bellen…",
+        "message": "Gaat over …",
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
+    "makeOutgoingCall": {
+        "message": "Start a call",
+        "description": "Title for the call button in a conversation"
+    },
+    "makeOutgoingVideoCall": {
+        "message": "Start a video call",
+        "description": "Title for the video call button in a conversation"
+    },
     "callReconnecting": {
-        "message": "Opnieuw verbinden...",
+        "message": "Opnieuw verbinden …",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
     },
     "callDuration": {
-        "message": "Signal $duration$",
+        "message": "Signal-oproep $duration$",
         "description": "Shown in the call screen to indicate how long the call has been connected",
         "placeholders": {
             "duration": {
@@ -2888,7 +2936,7 @@
         "description": "Shown next to the set of administrators in a group"
     },
     "GroupV2--timerConflict": {
-        "message": "Mislukt om de timer voor zelfwissende berichten aan te passen. Gelieve later opnieuw te proberen.",
+        "message": "Aanpassen van de timer voor zelfwissende berichten is mislukt. Probeer het later opnieuw.",
         "description": "Shown if the user runs into a group update conflict attempting to update a GroupV2 message timer"
     },
     "GroupV2--title--change--other": {
@@ -3152,7 +3200,7 @@
         }
     },
     "GroupV2--member-remove--other--self": {
-        "message": "$memberName$ verliet de groep.",
+        "message": "$memberName$ heeft de groep verlaten.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3162,7 +3210,7 @@
         }
     },
     "GroupV2--member-remove--other--you": {
-        "message": "Je verwijderde $memberName$.",
+        "message": "Je hebt $memberName$ verwijderd.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3172,7 +3220,7 @@
         }
     },
     "GroupV2--member-remove--other--unknown": {
-        "message": "Een groepslid verwijderde $memberName$.",
+        "message": "Een groepslid heeft $memberName$ verwijderd.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3182,7 +3230,7 @@
         }
     },
     "GroupV2--member-remove--you--other": {
-        "message": "$adminName$ verwijderde je.",
+        "message": "$adminName$ heeft je van de groep verwijderd.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3214,7 +3262,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--you": {
-        "message": "Je maakte $memberName$ een beheerder.",
+        "message": "Je hebt $memberName$ een beheerder gemaakt.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3234,7 +3282,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "$adminName$ maakte je een beheerder.",
+        "message": "$adminName$ heeft je een beheerder gemaakt.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3358,7 +3406,7 @@
         }
     },
     "GroupV2--pending-add--many--unknown": {
-        "message": "Een groepslid heeft $count$ personen  uitgenodigd om lid te worden van de groep.",
+        "message": "Een groepslid heeft $count$ personen uitgenodigd om lid te worden van de groep.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3456,7 +3504,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--other": {
-        "message": "$adminName$ heeft de uitnodiging voor één persoon om lid te worden van de groep, uitgenodigd door $memberName$, ingetrokken.",
+        "message": "$adminName$ heeft voor één persoon de uitnodiging om lid te worden van de groep, welke door $memberName$ is verzonden, ingetrokken.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3470,7 +3518,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--you": {
-        "message": "Je trok de uitnodiging voor één persoon, uitgenodigd door $memberName$,  in.",
+        "message": "Je hebt voor één persoon de uitnodiging, welke door door $memberName$ is verzonden, ingetrokken.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3480,7 +3528,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-        "message": "Een beheerder trok de uitnodiging voor één persoon, uitgenodigd door $memberName$, in.",
+        "message": "Een beheerder heeft de uitnodiging voor één persoon, uitgenodigd door $memberName$, ingetrokken.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -3490,7 +3538,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--other": {
-        "message": "$adminName$weigerde je uitnodiging voor $inviteeName$ om lid te worden van de groep. ",
+        "message": "$adminName$ heeft de uitnodiging aan $inviteeName$ om lid te worden van de groep ingetrokken.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3500,7 +3548,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--you": {
-        "message": "Je trok je uitnodiging voor $inviteeName$ in.",
+        "message": "Je hebt je uitnodiging voor $inviteeName$ ingetrokken.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -3548,7 +3596,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-        "message": "Een beheerder heeft de uitnodigingen voor $count$ personen om lid te worden van de groep, uitgenodigd door $memberName$,  geweigerd.",
+        "message": "Een beheerder heeft $count$ uitnodigingen om lid te worden van de groep, welke door $memberName$ zijn verzonden, geweigerd.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3562,7 +3610,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-        "message": "$adminName$ weigerde de uitnodigingen om lid te worden van de groep die je naar $count$ personen stuurde.",
+        "message": "$adminName$ heeft de uitnodigingen om lid te worden van de groep, die je naar $count$ personen hebt verzonden, ingetrokken.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -3576,7 +3624,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-        "message": "Je weigerde jouw uitnodigingen om lid te worden van de groep voor $count$ personen.",
+        "message": "Je hebt $count$ uitnodigingen om lid te worden van de groep, welke je zelf hebt verzonden, ingetrokken.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3586,7 +3634,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-        "message": "Een beheerder weigerde de uitnodigingen om lid te worden van de de groep die je naar $count$ personen stuurde.",
+        "message": "Een beheerder heeft $count$ uitnodigingen om lid te worden van de de groep, welke jij hebt verzonden, ingetrokken.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -3595,8 +3643,28 @@
             }
         }
     },
-    "privacyPolicy": {
-        "message": "Gebruiksvoorwaarden & privacybeleid",
-        "description": "Shown in the about box for the link to https://signal.org/legal"
+    "close": {
+        "message": "Sluiten",
+        "description": "Generic close label"
+    },
+    "previous": {
+        "message": "previous",
+        "description": "Generic previous label"
+    },
+    "next": {
+        "message": "next",
+        "description": "Generic next label"
+    },
+    "CompositionArea--expand": {
+        "message": "Expand",
+        "description": "Aria label for expanding composition area"
+    },
+    "CompositionArea--attach-file": {
+        "message": "Bestand bijvoegen",
+        "description": "Aria label for file attachment button in composition area"
+    },
+    "countMutedConversationsDescription": {
+        "message": "Count muted conversations in badge count",
+        "description": "Description for counting muted conversations in badge setting"
     }
 }

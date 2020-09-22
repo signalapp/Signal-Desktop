@@ -1,4 +1,12 @@
 {
+    "softwareAcknowledgments": {
+        "message": "Software Acknowledgments",
+        "description": "Shown in the about box for the link to software acknowledgments"
+    },
+    "privacyPolicy": {
+        "message": "Termini di servizio e politica sulla privacy",
+        "description": "Shown in the about box for the link to https://signal.org/legal"
+    },
     "copyErrorAndQuit": {
         "message": "Copia l'errore ed esci",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
@@ -146,6 +154,10 @@
     "menuSetupAsStandalone": {
         "message": "Imposta come dispositivo autonomo",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
+    },
+    "messageContextMenuButton": {
+        "message": "More actions",
+        "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
         "message": "Copia link",
@@ -677,6 +689,10 @@
         "message": "Cerca",
         "description": "Placeholder text in the search input"
     },
+    "clearSearch": {
+        "message": "Clear Search",
+        "description": "Aria label for clear search button"
+    },
     "searchIn": {
         "message": "Cerca in $conversationName$",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
@@ -1002,6 +1018,10 @@
     "theirIdentityUnknown": {
         "message": "Non hai ancora scambiato alcun messaggio con questo contatto. Il codice di sicurezza sarà disponibile dopo il primo messaggio.",
         "description": ""
+    },
+    "goBack": {
+        "message": "Go back",
+        "description": "Label for back button in a conversation"
     },
     "moreInfo": {
         "message": "Maggiori informazioni...",
@@ -1915,6 +1935,26 @@
         "message": "Perché usare le parole quando puoi utilizzare gli adesivi?",
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
+    "stickers--StickerPicker--Open": {
+        "message": "Open the sticker picker",
+        "description": "Label for the open button for the sticker picker"
+    },
+    "stickers--StickerPicker--AddPack": {
+        "message": "Add a sticker pack",
+        "description": "Label for the add pack button in the sticker picker"
+    },
+    "stickers--StickerPicker--NextPage": {
+        "message": "Next Page",
+        "description": "Label for the next page button in the sticker picker"
+    },
+    "stickers--StickerPicker--PrevPage": {
+        "message": "Previous Page",
+        "description": "Label for the previous page button in the sticker picker"
+    },
+    "stickers--StickerPicker--Recents": {
+        "message": "Recent Sticker",
+        "description": "Label for the recent stickers button in the sticker picker"
+    },
     "stickers--StickerPicker--DownloadError": {
         "message": "Alcuni adesivi non possono essere scaricati.",
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
@@ -2807,6 +2847,14 @@
         "message": "Sta squillando...",
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
+    "makeOutgoingCall": {
+        "message": "Start a call",
+        "description": "Title for the call button in a conversation"
+    },
+    "makeOutgoingVideoCall": {
+        "message": "Start a video call",
+        "description": "Title for the video call button in a conversation"
+    },
     "callReconnecting": {
         "message": "Riconnessione...",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
@@ -3595,8 +3643,28 @@
             }
         }
     },
-    "privacyPolicy": {
-        "message": "Termini di servizio e politica sulla privacy",
-        "description": "Shown in the about box for the link to https://signal.org/legal"
+    "close": {
+        "message": "Chiudi",
+        "description": "Generic close label"
+    },
+    "previous": {
+        "message": "previous",
+        "description": "Generic previous label"
+    },
+    "next": {
+        "message": "next",
+        "description": "Generic next label"
+    },
+    "CompositionArea--expand": {
+        "message": "Expand",
+        "description": "Aria label for expanding composition area"
+    },
+    "CompositionArea--attach-file": {
+        "message": "Allega file",
+        "description": "Aria label for file attachment button in composition area"
+    },
+    "countMutedConversationsDescription": {
+        "message": "Count muted conversations in badge count",
+        "description": "Description for counting muted conversations in badge setting"
     }
 }
