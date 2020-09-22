@@ -3111,27 +3111,13 @@ async function removePrefixFromGroupConversations(instance) {
           `countMessagesOld: ${countMessagesOld}, countMessagesNew: ${countMessagesNew}`
         );
 
-        if (countMessagesOld > countMessagesNew) {
-          console.log(
-            'Removing the conversation without the prefix as there are less messages in it'
-          );
-          await instance.run(
-            `DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`,
-            {
-              $id: newId,
-            }
-          );
-        } else {
-          console.log(
-            'Removing the conversation with the prefix as there are less messages in it'
-          );
-          await instance.run(
-            `DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`,
-            {
-              $id: oldId,
-            }
-          );
-        }
+        const deleteId = countMessagesOld > countMessagesNew ? newId : oldId;
+        await instance.run(
+          `DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`,
+          {
+            $id: deleteId,
+          }
+        );
       }
 
       const morphedObject = {
