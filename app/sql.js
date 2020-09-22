@@ -3061,6 +3061,15 @@ async function removeKnownAttachments(allAttachments) {
   return Object.keys(lookup);
 }
 
+async function getMessagesCountByConversation(instance, conversationId) {
+  const row = await instance.get(
+    'SELECT count(*) from messages WHERE conversationId = $conversationId;',
+    { $conversationId: conversationId }
+  );
+
+  return row ? row['count(*)'] : 0;
+}
+
 async function removePrefixFromGroupConversations(instance) {
   const rows = await instance.all(
     `SELECT json FROM conversations WHERE
@@ -3070,12 +3079,46 @@ async function removePrefixFromGroupConversations(instance) {
 
   const objs = map(rows, row => jsonToObject(row.json));
 
+  const conversationIdRows = await instance.all(
+    `SELECT id FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`
+  );
+  const allOldConversationIds = map(conversationIdRows, row => row.id);
+
   await Promise.all(
     objs.map(async o => {
       const oldId = o.id;
       const newId = oldId.replace('__textsecure_group__!', '');
-
       console.log(`migrating conversation, ${oldId} to ${newId}`);
+
+      if (allOldConversationIds.includes(newId)) {
+        console.log(
+          'Found a duplicate conversation after prefix removing. We need to take care of it'
+        );
+        // We have another conversation with the same future name.
+        // We decided to keep only the conversation with the higher number of messages
+        const countMessagesOld = await getMessagesCountByConversation(
+          instance,
+          oldId,
+          { limit: Number.MAX_VALUE }
+        );
+        const countMessagesNew = await getMessagesCountByConversation(
+          instance,
+          newId,
+          { limit: Number.MAX_VALUE }
+        );
+
+        console.log(
+          `countMessagesOld: ${countMessagesOld}, countMessagesNew: ${countMessagesNew}`
+        );
+
+        const deleteId = countMessagesOld > countMessagesNew ? newId : oldId;
+        await instance.run(
+          `DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`,
+          {
+            $id: deleteId,
+          }
+        );
+      }
 
       const morphedObject = {
         ...o,
