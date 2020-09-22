@@ -48,6 +48,8 @@ const snodeHttpsAgent = new https.Agent({
 
 const timeoutDelay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+const MAX_SEND_ONION_RETRIES = 3;
+
 const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
   if (!srvPubKey) {
     log.error(
@@ -134,6 +136,12 @@ const sendViaOnion = async (srvPubKey, url, fetchOptions, options = {}) => {
       `loki_app_dot_net:::sendViaOnion #${options.requestNumber} - Retry #${options.retry} Couldnt handle onion request, retrying`,
       payloadObj
     );
+    if (options.retry && options.retry >= MAX_SEND_ONION_RETRIES) {
+      log.error(
+        `sendViaOnion too many retries: ${options.retry}. Stopping retries.`
+      );
+      return {};
+    }
     return sendViaOnion(srvPubKey, url, fetchOptions, {
       ...options,
       retry: options.retry + 1,
