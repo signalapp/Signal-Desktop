@@ -123,3 +123,10 @@
     bottom: 0px;
   }
 }
+
+.module-avatar-clickable {
+  transition: $session-transition-duration;
+  &:hover {
+    opacity: $session-subtle-factor;
+  }
+}
