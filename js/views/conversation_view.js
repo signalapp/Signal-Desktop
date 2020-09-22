@@ -725,16 +725,17 @@
     },
 
     async toggleMicrophone() {
-      const allowMicrophone = await window.getMediaPermissions();
-      if (
-        !allowMicrophone ||
-        this.$('.send-message').val().length > 0 ||
-        this.fileInput.hasFiles()
-      ) {
+      // FIXME audric hide microphone for now until refactor branch is merged
+      // const allowMicrophone = await window.getMediaPermissions();
+      // if (
+      //   !allowMicrophone ||
+      //   this.$('.send-message').val().length > 0 ||
+      //   this.fileInput.hasFiles()
+      // ) {
         this.$('.capture-audio').hide();
-      } else {
-        this.$('.capture-audio').show();
-      }
+      // } else {
+      //   this.$('.capture-audio').show();
+      // }
     },
     captureAudio(e) {
       e.preventDefault();
