@@ -245,7 +245,7 @@ class SessionGroupSettings extends React.Component<Props, any> {
     const showUpdateGroupNameButton =
       isPublic && !isKickedFromGroup
         ? amMod && !isBlocked
-        : isAdmin && !isBlocked;
+        : isAdmin && !isBlocked && !isKickedFromGroup;
     const showUpdateGroupMembersButton =
       !isPublic && !isKickedFromGroup && !isBlocked && isAdmin;
 
