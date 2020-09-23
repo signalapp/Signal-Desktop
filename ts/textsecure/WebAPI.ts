@@ -1257,7 +1257,7 @@ export function initialize({
       const { accessKey } = options;
       const jsonData: any = {
         capabilities: {
-          gv2: true,
+          'gv2-2': true,
         },
         fetchesMessages: true,
         name: deviceName ? deviceName : undefined,
