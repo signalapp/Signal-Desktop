@@ -10,6 +10,10 @@ import { SessionDropdown } from './SessionDropdown';
 import { MediaGallery } from '../conversation/media-gallery/MediaGallery';
 import _ from 'lodash';
 import { TimerOption } from '../conversation/ConversationHeader';
+import {
+  ConversationAvatar,
+  usingClosedConversationDetails,
+} from '../session/usingClosedConversationDetails';
 
 interface Props {
   id: string;
@@ -23,6 +27,7 @@ interface Props {
   amMod: boolean;
   isKickedFromGroup: boolean;
   isBlocked: boolean;
+  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 
   onGoBack: () => void;
   onInviteContacts: () => void;
@@ -33,7 +38,7 @@ interface Props {
   onSetDisappearingMessages: (seconds: number) => void;
 }
 
-export class SessionGroupSettings extends React.Component<Props, any> {
+class SessionGroupSettings extends React.Component<Props, any> {
   public constructor(props: Props) {
     super(props);
 
@@ -309,6 +314,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
 
   private renderHeader() {
     const {
+      memberAvatars,
       id,
       onGoBack,
       onInviteContacts,
@@ -322,6 +328,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
     const showInviteContacts =
       (isPublic || isAdmin) && !isKickedFromGroup && !isBlocked;
 
+    const userName = id;
     return (
       <div className="group-settings-header">
         <SessionIconButton
@@ -332,9 +339,10 @@ export class SessionGroupSettings extends React.Component<Props, any> {
         />
         <Avatar
           avatarPath={avatarPath}
-          phoneNumber={id}
-          conversationType="group"
+          name={userName}
           size={80}
+          memberAvatars={memberAvatars}
+          pubkey={id}
         />
         <div className="invite-friends-container">
           {showInviteContacts && (
@@ -349,3 +357,7 @@ export class SessionGroupSettings extends React.Component<Props, any> {
     );
   }
 }
+
+export const SessionGroupSettingsWithDetails = usingClosedConversationDetails(
+  SessionGroupSettings
+);

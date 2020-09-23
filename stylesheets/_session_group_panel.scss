@@ -18,6 +18,8 @@
 
   &-header {
     margin-top: $session-margin-lg;
+    margin-inline-start: $session-margin-sm;
+    margin-inline-end: $session-margin-sm;
     width: -webkit-fill-available;
     display: flex;
     flex-direction: row;
@@ -25,11 +27,6 @@
 
     .module-avatar {
       margin: auto;
-    }
-
-    .session-icon-button,
-    .invite-friends-container {
-      margin: 0 $session-margin-md;
     }
   }
 
@@ -132,7 +129,9 @@
             margin: 0 auto;
             width: 70%;
             padding-top: 0.5rem;
-            border-bottom: $session-element-border-green;
+            @include themify($themes) {
+              border-bottom: themed('sessionUnreadBorder');
+            }
           }
         }
       }
@@ -149,6 +148,7 @@
             22vw / 3.5
           ); //.group-settings is 22vw and we want three rows with some space so divide it by 3.5
           margin: auto;
+          margin-bottom: 1vh;
         }
       }
     }

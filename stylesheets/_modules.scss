@@ -1200,7 +1200,9 @@
 }
 
 .module-message-detail__unix-timestamp {
-  color: $color-light-10;
+  @include themify($themes) {
+    color: subtle(themed('textColor'));
+  }
 }
 
 .module-message-detail__delete-button-container {
@@ -1222,7 +1224,7 @@
 }
 
 .module-message-detail__contact-container {
-  margin: 20px;
+  margin: 20px 0 20px 0;
 }
 
 .module-message-detail__contact {
@@ -1316,7 +1318,7 @@
   flex-direction: column;
   flex-grow: 1;
   width: 100%;
-  height: 100%;
+  overflow: hidden;
 }
 
 .module-media-gallery__tab-container {
@@ -1515,8 +1517,10 @@
     background-color: $color-dark-70;
   }
 
-  .module-avatar {
-    background-color: $color-dark-85;
+  &--is-blocked {
+    @include themify($themes) {
+      border-left: 4px solid themed('destructive') !important;
+    }
   }
 }
 
@@ -1571,7 +1575,6 @@
   text-overflow: ellipsis;
 
   font-weight: 300;
-  color: $color-gray-05;
 }
 
 .module-conversation-list-item__header__name--with-unread {

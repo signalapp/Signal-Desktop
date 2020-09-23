@@ -60,7 +60,8 @@ class LokiMessageAPI {
           'Failed to send public chat message'
         );
       }
-      messageEventData.serverId = res;
+      messageEventData.serverId = res.serverId;
+      messageEventData.serverTimestamp = res.serverTimestamp;
       window.Whisper.events.trigger('publicMessageSent', messageEventData);
       return;
     }

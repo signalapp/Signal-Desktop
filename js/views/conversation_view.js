@@ -165,7 +165,6 @@
           name: this.model.getName(),
           phoneNumber: this.model.getNumber(),
           profileName: this.model.getProfileName(),
-          color: this.model.getColor(),
           avatarPath: this.model.getAvatarPath(),
           isVerified: this.model.isVerified(),
           isMe: this.model.isMe(),
@@ -279,7 +278,6 @@
           name: this.model.getName(),
           phoneNumber: this.model.getNumber(),
           profileName: this.model.getProfileName(),
-          color: this.model.getColor(),
           avatarPath: this.model.getAvatarPath(),
           isGroup: !this.model.isPrivate(),
           isPublic: this.model.isPublic(),
@@ -325,7 +323,7 @@
       };
       this.titleView = new Whisper.ReactWrapperView({
         className: 'title-wrapper',
-        Component: window.Signal.Components.ConversationHeader,
+        Component: window.Signal.Components.ConversationHeaderWithDetails,
         props: getHeaderProps(),
       });
       this.updateHeader = () => this.titleView.update(getHeaderProps());
@@ -359,7 +357,7 @@
         if (!this.groupSettings) {
           this.groupSettings = new Whisper.ReactWrapperView({
             className: 'group-settings',
-            Component: window.Signal.Components.SessionGroupSettings,
+            Component: window.Signal.Components.SessionGroupSettingsWithDetails,
             props: getGroupSettingsProps(this.model),
           });
           this.$('.conversation-content-right').append(this.groupSettings.el);
@@ -391,7 +389,7 @@
       this.window.addEventListener('resize', this.onResize);
 
       this.onFocus = () => {
-        if (this.$el.css('display') !== 'none') {
+        if (!this.isHidden()) {
           this.markRead();
         }
       };
@@ -727,16 +725,17 @@
     },
 
     async toggleMicrophone() {
-      const allowMicrophone = await window.getMediaPermissions();
-      if (
-        !allowMicrophone ||
-        this.$('.send-message').val().length > 0 ||
-        this.fileInput.hasFiles()
-      ) {
-        this.$('.capture-audio').hide();
-      } else {
-        this.$('.capture-audio').show();
-      }
+      // FIXME audric hide microphone for now until refactor branch is merged
+      // const allowMicrophone = await window.getMediaPermissions();
+      // if (
+      //   !allowMicrophone ||
+      //   this.$('.send-message').val().length > 0 ||
+      //   this.fileInput.hasFiles()
+      // ) {
+      this.$('.capture-audio').hide();
+      // } else {
+      //   this.$('.capture-audio').show();
+      // }
     },
     captureAudio(e) {
       e.preventDefault();
@@ -1496,14 +1495,14 @@
       Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
     },
 
-    showMessageDetail(message) {
+    async showMessageDetail(message) {
       const onClose = () => {
         this.stopListening(message, 'change', update);
         this.resetPanel();
         this.updateHeader();
       };
 
-      const props = message.getPropsForMessageDetail();
+      const props = await message.getPropsForMessageDetail();
       const view = new Whisper.ReactWrapperView({
         className: 'message-detail-wrapper',
         Component: Signal.Components.MessageDetail,
@@ -1511,7 +1510,8 @@
         onClose,
       });
 
-      const update = () => view.update(message.getPropsForMessageDetail());
+      const update = async () =>
+        view.update(await message.getPropsForMessageDetail());
       this.listenTo(message, 'change', update);
       this.listenTo(message, 'expired', onClose);
       // We could listen to all involved contacts, but we'll call that overkill
@@ -2650,7 +2650,8 @@
 
     isHidden() {
       return (
-        this.$el.css('display') === 'none' ||
+        (this.$el.css('display') !== 'none' &&
+          this.$el.css('display') !== '') ||
         this.$('.panel').css('display') === 'none'
       );
     },

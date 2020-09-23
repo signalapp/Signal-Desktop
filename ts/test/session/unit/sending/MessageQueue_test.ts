@@ -27,6 +27,7 @@ chai.use(chaiAsPromised);
 
 const { expect } = chai;
 
+// tslint:disable-next-line: max-func-body-length
 describe('MessageQueue', () => {
   // Initialize new stubbed cache
   const sandbox = sinon.createSandbox();
@@ -321,12 +322,12 @@ describe('MessageQueue', () => {
     describe('open groups', async () => {
       let sendToOpenGroupStub: sinon.SinonStub<
         [OpenGroupMessage],
-        Promise<number>
+        Promise<{ serverId: number; serverTimestamp: number }>
       >;
       beforeEach(() => {
         sendToOpenGroupStub = sandbox
           .stub(MessageSender, 'sendToOpenGroup')
-          .resolves(-1);
+          .resolves({ serverId: -1, serverTimestamp: -1 });
       });
 
       it('can send to open group', async () => {
@@ -336,7 +337,7 @@ describe('MessageQueue', () => {
       });
 
       it('should emit a success event when send was successful', async () => {
-        sendToOpenGroupStub.resolves(123456);
+        sendToOpenGroupStub.resolves({ serverId: 5125, serverTimestamp: 5125 });
 
         const message = TestUtils.generateOpenGroupMessage();
         const eventPromise = PromiseUtils.waitForTask(complete => {
@@ -348,7 +349,7 @@ describe('MessageQueue', () => {
       });
 
       it('should emit a fail event if something went wrong', async () => {
-        sendToOpenGroupStub.resolves(-1);
+        sendToOpenGroupStub.resolves({ serverId: -1, serverTimestamp: -1 });
         const message = TestUtils.generateOpenGroupMessage();
         const eventPromise = PromiseUtils.waitForTask(complete => {
           messageQueueStub.events.once('fail', complete);

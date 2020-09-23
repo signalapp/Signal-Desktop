@@ -350,6 +350,7 @@ if (process.env.USE_STUBBED_NETWORK) {
 window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
 
 window.LokiFileServerAPI = require('./js/modules/loki_file_server_api');
+window.LokiPushNotificationServerApi = require('./js/modules/loki_push_notification_server_api');
 
 window.mnemonic = require('./libloki/modules/mnemonic');
 const WorkerInterface = require('./js/modules/util_worker_interface');
@@ -420,6 +421,7 @@ window.addEventListener('contextmenu', e => {
 });
 
 window.NewReceiver = require('./ts/receiver/receiver');
+window.DataMessageReceiver = require('./ts/receiver/dataMessage');
 window.NewSnodeAPI = require('./ts/session/snode_api/serviceNodeAPI');
 window.SnodePool = require('./ts/session/snode_api/snodePool');
 
@@ -488,7 +490,7 @@ if (config.environment.includes('test-integration')) {
     useOnionRequests: false,
     useFileOnionRequests: false,
     debugMessageLogs: true,
-    enableSenderKeys: true,
+    enableSenderKeys: false,
     useMultiDevice: false,
   };
   /* eslint-disable global-require, import/no-extraneous-dependencies */
@@ -503,7 +505,6 @@ const {
 } = require('./ts/util/blockedNumberController');
 
 window.BlockedNumberController = BlockedNumberController;
-
 window.deleteAccount = async reason => {
   try {
     window.log.info('Deleting everything!');

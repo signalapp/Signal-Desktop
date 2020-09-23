@@ -15,6 +15,8 @@ interface ConversationAttributes {
   timestamp: number; // timestamp of what?
   groupAdmins?: Array<string>;
   isKickedFromGroup?: boolean;
+  avatarPath?: string;
+  isMe?: boolean;
 }
 
 export interface ConversationModel

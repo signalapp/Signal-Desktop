@@ -73,7 +73,6 @@
     'folder-outline.svg',
     'forward.svg',
     'gear.svg',
-    'group_default.png',
     'hourglass_empty.svg',
     'hourglass_full.svg',
     'icon_1024.png',
@@ -550,6 +549,13 @@
     window.dispatchEvent(new Event('storage_ready'));
 
     window.log.info('Cleanup: starting...');
+    window.getOurDisplayName = () => {
+      const ourNumber = window.storage.get('primaryDevicePubKey');
+      const conversation = ConversationController.get(ourNumber, 'private');
+      const profile = conversation.getLokiProfile();
+      return profile && profile.displayName;
+    };
+
     const results = await Promise.all([
       window.Signal.Data.getOutgoingWithoutExpiresAt({
         MessageCollection: Whisper.MessageCollection,
@@ -690,6 +696,7 @@
 
     window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
     window.showPasswordDialog = window.owsDesktopApp.appView.showPasswordDialog;
+
     window.showEditProfileDialog = async callback => {
       const ourNumber = window.storage.get('primaryDevicePubKey');
       const conversation = await ConversationController.getOrCreateAndWait(
@@ -723,7 +730,6 @@
           profileName: displayName,
           pubkey: ourNumber,
           avatarPath,
-          avatarColor: conversation.getColor(),
           onOk: async (newName, avatar) => {
             let newAvatarPath = '';
             let url = null;
@@ -1057,7 +1063,6 @@
           profileName: displayName,
           pubkey: userPubKey,
           avatarPath,
-          avatarColor: conversation.getColor(),
           isRss: conversation.isRss(),
           onStartConversation: () => {
             Whisper.events.trigger('showConversation', userPubKey);
@@ -1121,10 +1126,15 @@
 
     Whisper.events.on(
       'publicMessageSent',
-      ({ pubKey, timestamp, serverId }) => {
+      ({ pubKey, timestamp, serverId, serverTimestamp }) => {
         try {
           const conversation = ConversationController.get(pubKey);
-          conversation.onPublicMessageSent(pubKey, timestamp, serverId);
+          conversation.onPublicMessageSent(
+            pubKey,
+            timestamp,
+            serverId,
+            serverTimestamp
+          );
         } catch (e) {
           window.log.error('Error setting public on message');
         }
@@ -1326,7 +1336,7 @@
       messageReceiver = new textsecure.MessageReceiver(mySignalingKey, options);
       messageReceiver.addEventListener(
         'message',
-        window.NewReceiver.handleMessageEvent
+        window.DataMessageReceiver.handleMessageEvent
       );
       window.textsecure.messaging = new textsecure.MessageSender();
       return;
@@ -1337,11 +1347,11 @@
     messageReceiver = new textsecure.MessageReceiver(mySignalingKey, options);
     messageReceiver.addEventListener(
       'message',
-      window.NewReceiver.handleMessageEvent
+      window.DataMessageReceiver.handleMessageEvent
     );
     messageReceiver.addEventListener(
       'sent',
-      window.NewReceiver.handleMessageEvent
+      window.DataMessageReceiver.handleMessageEvent
     );
     messageReceiver.addEventListener('empty', onEmpty);
     messageReceiver.addEventListener('reconnect', onReconnect);

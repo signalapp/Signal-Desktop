@@ -32,7 +32,12 @@ export abstract class ClosedGroupMessage extends DataMessage {
   }
 
   protected groupContext(): SignalService.GroupContext {
-    const id = new Uint8Array(StringUtils.encode(this.groupId.key, 'utf8'));
+    let groupIdWithPrefix: string = this.groupId.key;
+    if (!this.groupId.key.startsWith(PubKey.PREFIX_GROUP_TEXTSECURE)) {
+      groupIdWithPrefix = PubKey.PREFIX_GROUP_TEXTSECURE + this.groupId.key;
+    }
+    const encoded = StringUtils.encode(groupIdWithPrefix, 'utf8');
+    const id = new Uint8Array(encoded);
 
     return new SignalService.GroupContext({ id });
   }

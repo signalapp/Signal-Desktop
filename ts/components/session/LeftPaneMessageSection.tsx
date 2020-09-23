@@ -4,7 +4,7 @@ import { AutoSizer, List } from 'react-virtualized';
 
 import { MainViewController } from '../MainViewController';
 import {
-  ConversationListItem,
+  ConversationListItemWithDetails,
   PropsData as ConversationListItemPropsType,
 } from '../ConversationListItem';
 import { ConversationType } from '../../state/ducks/conversations';
@@ -77,19 +77,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       valuePasted: '',
     };
 
-    const conversations = this.getCurrentConversations();
-
-    const realConversations: Array<ConversationListItemPropsType> = [];
-    if (conversations) {
-      conversations.forEach(conversation => {
-        const isRSS =
-          conversation.id &&
-          !!(conversation.id && conversation.id.match(/^rss:/));
-
-        return !isRSS && realConversations.push(conversation);
-      });
-    }
-
     this.updateSearchBound = this.updateSearch.bind(this);
 
     this.handleOnPaste = this.handleOnPaste.bind(this);
@@ -106,25 +93,21 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     this.renderClosableOverlay = this.renderClosableOverlay.bind(this);
     this.debouncedSearch = debounce(this.search.bind(this), 20);
+    this.closeOverlay = this.closeOverlay.bind(this);
+  }
+
+  public componentDidMount() {
+    MainViewController.renderMessageView();
+    window.Whisper.events.on('calculatingPoW', this.closeOverlay);
+  }
+
+  public componentDidUpdate() {
+    MainViewController.renderMessageView();
   }
 
   public componentWillUnmount() {
     this.updateSearch('');
-  }
-
-  public getCurrentConversations():
-    | Array<ConversationListItemPropsType>
-    | undefined {
-    const { conversations } = this.props;
-
-    let conversationList = conversations;
-    if (conversationList !== undefined) {
-      conversationList = conversationList.filter(
-        conversation => !conversation.isSecondary
-      );
-    }
-
-    return conversationList;
+    window.Whisper.events.off('calculatingPoW', this.closeOverlay);
   }
 
   public renderRow = ({
@@ -132,9 +115,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     key,
     style,
   }: RowRendererParamsType): JSX.Element => {
-    const { openConversationInternal } = this.props;
-
-    const conversations = this.getCurrentConversations();
+    const { conversations, openConversationInternal } = this.props;
 
     if (!conversations) {
       throw new Error('renderRow: Tried to render without conversations');
@@ -143,7 +124,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     const conversation = conversations[index];
 
     return (
-      <ConversationListItem
+      <ConversationListItemWithDetails
         key={key}
         style={style}
         {...conversation}
@@ -154,7 +135,11 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   };
 
   public renderList(): JSX.Element | Array<JSX.Element | null> {
-    const { openConversationInternal, searchResults } = this.props;
+    const {
+      conversations,
+      openConversationInternal,
+      searchResults,
+    } = this.props;
     const contacts = searchResults?.contacts || [];
 
     if (searchResults) {
@@ -168,7 +153,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       );
     }
 
-    const conversations = this.getCurrentConversations();
     if (!conversations) {
       throw new Error(
         'render: must provided conversations if no search results are provided'
@@ -203,12 +187,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     return [list];
   }
 
-  public componentDidMount() {
-    MainViewController.renderMessageView();
-  }
-
-  public componentDidUpdate() {
-    MainViewController.renderMessageView();
+  public closeOverlay({ pubKey }: { pubKey: string }) {
+    if (this.state.valuePasted === pubKey) {
+      this.setState({ overlay: false, valuePasted: '' });
+    }
   }
 
   public renderHeader(): JSX.Element {

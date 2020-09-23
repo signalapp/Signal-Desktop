@@ -49,9 +49,9 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
         id: d.id,
         authorPhoneNumber: d.id,
         authorProfileName: name,
+        authorAvatarPath: d?.cachedProps?.avatarPath,
         selected: false,
         authorName: name, // different from ProfileName?
-        authorColor: d.getColor(),
         checkmarked: false,
         existingMember,
       };

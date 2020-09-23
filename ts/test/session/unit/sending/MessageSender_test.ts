@@ -36,7 +36,7 @@ describe('MessageSender', () => {
   });
 
   describe('send', () => {
-    const ourNumber = 'ourNumber';
+    const ourNumber = '0123456789abcdef';
     let lokiMessageAPISendStub: sinon.SinonStub<
       [string, Uint8Array, number, number],
       Promise<void>

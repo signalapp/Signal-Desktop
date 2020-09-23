@@ -153,8 +153,10 @@ $session-font-h4: 16px;
   color: subtle($color);
 }
 
+$session-subtle-factor: 0.6;
+
 @function subtle($color) {
-  @return rgba($color, 0.6);
+  @return rgba($color, $session-subtle-factor);
 }
 
 // //////////////////////////////////////////////

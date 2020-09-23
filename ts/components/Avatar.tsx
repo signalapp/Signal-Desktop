@@ -1,22 +1,15 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { JazzIcon } from './JazzIcon';
-import { getInitials } from '../util/getInitials';
-import { LocalizerType } from '../types/Util';
+import { AvatarPlaceHolder, ClosedGroupAvatar } from './AvatarPlaceHolder';
+import { ConversationAvatar } from './session/usingClosedConversationDetails';
 
 interface Props {
   avatarPath?: string;
-  color?: string;
-  conversationType: 'group' | 'direct';
-  noteToSelf?: boolean;
-  name?: string;
-  phoneNumber?: string;
-  profileName?: string;
+  name?: string; // display name, profileName or phoneNumber, whatever is set first
+  pubkey?: string;
   size: number;
-  borderColor?: string;
-  borderWidth?: number;
-  i18n?: LocalizerType;
+  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
   onAvatarClick?: () => void;
 }
 
@@ -40,136 +33,80 @@ export class Avatar extends React.PureComponent<Props, State> {
   }
 
   public handleImageError() {
-    // tslint:disable-next-line no-console
-    console.log('Avatar: Image failed to load; failing over to placeholder');
+    window.log.warn(
+      'Avatar: Image failed to load; failing over to placeholder'
+    );
     this.setState({
       imageBroken: true,
     });
   }
 
   public renderIdenticon() {
-    const { phoneNumber, borderColor, borderWidth, size } = this.props;
+    const { size, name, pubkey } = this.props;
 
-    if (!phoneNumber) {
-      return this.renderNoImage();
-    }
+    const userName = name || '0';
 
-    const borderStyle = this.getBorderStyle(borderColor, borderWidth);
-
-    // Generate the seed
-    const hash = phoneNumber.substring(0, 12);
-    const seed = parseInt(hash, 16) || 1234;
-
-    return <JazzIcon seed={seed} diameter={size} paperStyles={borderStyle} />;
+    return (
+      <AvatarPlaceHolder
+        diameter={size}
+        name={userName}
+        pubkey={pubkey}
+        colors={this.getAvatarColors()}
+        borderColor={this.getAvatarBorderColor()}
+      />
+    );
   }
 
   public renderImage() {
-    const {
-      avatarPath,
-      name,
-      phoneNumber,
-      profileName,
-      borderColor,
-      borderWidth,
-    } = this.props;
+    const { avatarPath, name } = this.props;
     const { imageBroken } = this.state;
 
     if (!avatarPath || imageBroken) {
       return null;
     }
 
-    const title = `${name || phoneNumber}${
-      !name && profileName ? ` ~${profileName}` : ''
-    }`;
-
-    const borderStyle = this.getBorderStyle(borderColor, borderWidth);
-
     return (
       <img
-        style={borderStyle}
         onError={this.handleImageErrorBound}
-        alt={window.i18n('contactAvatarAlt', [title])}
+        alt={window.i18n('contactAvatarAlt', [name])}
         src={avatarPath}
       />
     );
   }
 
   public renderNoImage() {
-    const {
-      conversationType,
-      name,
-      noteToSelf,
-      size,
-      borderColor,
-      borderWidth,
-    } = this.props;
-
-    const initials = getInitials(name);
-    const isGroup = conversationType === 'group';
-
-    if (noteToSelf) {
+    const { memberAvatars, size } = this.props;
+    // if no image but we have conversations set for the group, renders group members avatars
+    if (memberAvatars) {
       return (
-        <div
-          className={classNames(
-            'module-avatar__icon',
-            'module-avatar__icon--note-to-self',
-            `module-avatar__icon--${size}`
-          )}
+        <ClosedGroupAvatar
+          size={size}
+          memberAvatars={memberAvatars}
+          i18n={window.i18n}
         />
       );
     }
 
-    const borderStyle = this.getBorderStyle(borderColor, borderWidth);
-
-    if (!isGroup && initials) {
-      return (
-        <div
-          className={classNames(
-            'module-avatar__label',
-            `module-avatar__label--${size}`
-          )}
-          style={borderStyle}
-        >
-          {initials}
-        </div>
-      );
-    }
-
-    return (
-      <div
-        className={classNames(
-          'module-avatar__icon',
-          `module-avatar__icon--${conversationType}`,
-          `module-avatar__icon--${size}`
-        )}
-        style={borderStyle}
-      />
-    );
+    return this.renderIdenticon();
   }
 
   public render() {
-    const {
-      avatarPath,
-      color,
-      size,
-      noteToSelf,
-      conversationType,
-    } = this.props;
+    const { avatarPath, size, memberAvatars } = this.props;
     const { imageBroken } = this.state;
-
-    // If it's a direct conversation then we must have an identicon
-    const hasAvatar = avatarPath || conversationType === 'direct';
-    const hasImage = !noteToSelf && hasAvatar && !imageBroken;
+    const isClosedGroupAvatar = memberAvatars && memberAvatars.length;
+    const hasImage = avatarPath && !imageBroken && !isClosedGroupAvatar;
 
     if (
       size !== 28 &&
       size !== 36 &&
       size !== 48 &&
+      size !== 64 &&
       size !== 80 &&
       size !== 300
     ) {
       throw new Error(`Size ${size} is not supported!`);
     }
+    const isClickable = !!this.props.onAvatarClick;
 
     return (
       <div
@@ -177,14 +114,14 @@ export class Avatar extends React.PureComponent<Props, State> {
           'module-avatar',
           `module-avatar--${size}`,
           hasImage ? 'module-avatar--with-image' : 'module-avatar--no-image',
-          !hasImage ? `module-avatar--${color}` : null
+          isClickable && 'module-avatar-clickable'
         )}
         onClick={e => {
           this.onAvatarClickBound(e);
         }}
         role="button"
       >
-        {hasImage ? this.renderAvatarOrIdenticon() : this.renderNoImage()}
+        {hasImage ? this.renderImage() : this.renderNoImage()}
       </div>
     );
   }
@@ -196,28 +133,13 @@ export class Avatar extends React.PureComponent<Props, State> {
     }
   }
 
-  private renderAvatarOrIdenticon() {
-    const { avatarPath, conversationType } = this.props;
-
-    // If it's a direct conversation then we must have an identicon
-    const hasAvatar = avatarPath || conversationType === 'direct';
-
-    return hasAvatar && avatarPath
-      ? this.renderImage()
-      : this.renderIdenticon();
+  private getAvatarColors(): Array<string> {
+    // const theme = window.Events.getThemedSettings();
+    // defined in session-android as `profile_picture_placeholder_colors`
+    return ['#5ff8b0', '#26cdb9', '#f3c615', '#fcac5a'];
   }
 
-  private getBorderStyle(_color?: string, _width?: number) {
-    //const borderWidth = typeof width === 'number' ? width : 3;
-
-    // no border at all for now
-    return undefined;
-    /* return color
-      ? {
-          borderColor: color,
-          borderStyle: 'solid',
-          borderWidth: borderWidth,
-        }
-      : undefined; */
+  private getAvatarBorderColor(): string {
+    return '#00000059'; // borderAvatarColor in themes.scss
   }
 }

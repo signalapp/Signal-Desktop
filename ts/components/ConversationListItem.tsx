@@ -10,7 +10,7 @@ import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
-import { Colors, LocalizerType } from '../types/Util';
+import { LocalizerType } from '../types/Util';
 import {
   getBlockMenuItem,
   getClearNicknameMenuItem,
@@ -20,6 +20,11 @@ import {
   getInviteContactMenuItem,
   getLeaveGroupMenuItem,
 } from '../session/utils/Menu';
+
+import {
+  ConversationAvatar,
+  usingClosedConversationDetails,
+} from './session/usingClosedConversationDetails';
 
 export type PropsData = {
   id: string;
@@ -53,6 +58,7 @@ export type PropsData = {
   isSecondary?: boolean;
   isGroupInvitation?: boolean;
   isKickedFromGroup?: boolean;
+  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 };
 
 type PropsHousekeeping = {
@@ -71,37 +77,32 @@ type PropsHousekeeping = {
 
 type Props = PropsData & PropsHousekeeping;
 
-export class ConversationListItem extends React.PureComponent<Props> {
+class ConversationListItem extends React.PureComponent<Props> {
+  public constructor(props: Props) {
+    super(props);
+  }
+
   public renderAvatar() {
     const {
       avatarPath,
-      color,
-      type,
       i18n,
-      isMe,
       name,
       phoneNumber,
       profileName,
-      isOnline,
+      memberAvatars,
     } = this.props;
 
-    const borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE;
-
     const iconSize = 36;
+    const userName = name || profileName || phoneNumber;
 
     return (
       <div className="module-conversation-list-item__avatar-container">
         <Avatar
           avatarPath={avatarPath}
-          color={color}
-          noteToSelf={isMe}
-          conversationType={type}
-          i18n={i18n}
-          name={name}
-          phoneNumber={phoneNumber}
-          profileName={profileName}
+          name={userName}
           size={iconSize}
-          borderColor={borderColor}
+          memberAvatars={memberAvatars}
+          pubkey={phoneNumber}
         />
       </div>
     );
@@ -139,7 +140,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
               : null
           )}
         >
-          {isMe ? i18n('noteToSelf') : this.renderUser()}
+          {this.renderUser()}
         </div>
         {this.renderUnread()}
         {
@@ -308,11 +309,10 @@ export class ConversationListItem extends React.PureComponent<Props> {
       style,
       mentionedUs,
     } = this.props;
-
-    const triggerId = `${phoneNumber}-ctxmenu-${Date.now()}`;
+    const triggerId = `conversation-item-${phoneNumber}-ctxmenu`;
 
     return (
-      <div>
+      <div key={triggerId}>
         <ContextMenuTrigger id={triggerId}>
           <div
             role="button"
@@ -347,18 +347,19 @@ export class ConversationListItem extends React.PureComponent<Props> {
   }
 
   private renderUser() {
-    const { name, phoneNumber, profileName } = this.props;
+    const { name, phoneNumber, profileName, isMe, i18n } = this.props;
 
     const shortenedPubkey = window.shortenPubkey(phoneNumber);
 
     const displayedPubkey = profileName ? shortenedPubkey : phoneNumber;
+    const displayName = isMe ? i18n('noteToSelf') : profileName;
 
     return (
       <div className="module-conversation__user">
         <ContactName
           phoneNumber={displayedPubkey}
           name={name}
-          profileName={profileName}
+          profileName={displayName}
           module="module-conversation__user"
           i18n={window.i18n}
           boldProfileName={true}
@@ -367,3 +368,7 @@ export class ConversationListItem extends React.PureComponent<Props> {
     );
   }
 }
+
+export const ConversationListItemWithDetails = usingClosedConversationDetails(
+  ConversationListItem
+);

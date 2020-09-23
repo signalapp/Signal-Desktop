@@ -51,7 +51,6 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
         authorProfileName: name,
         selected: false,
         authorName: name,
-        authorColor: d.getColor(),
         checkmarked: false,
         existingMember,
       };
@@ -97,7 +96,6 @@ export class AddModeratorsDialog extends React.Component<Props, State> {
           authorAvatarPath: '',
           selected: true,
           authorName: this.state.inputBoxValue,
-          authorColor: '#000000',
           checkmarked: true,
           existingMember: false,
         });

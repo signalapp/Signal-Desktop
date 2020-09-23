@@ -100,20 +100,15 @@ export class MessageSearchResult extends React.PureComponent<Props> {
   }
 
   public renderAvatar() {
-    const { from, i18n, to } = this.props;
-    const isNoteToSelf = from.isMe && to.isMe;
+    const { from } = this.props;
+    const userName = from.profileName || from.phoneNumber;
 
     return (
       <Avatar
         avatarPath={from.avatarPath}
-        color={from.color}
-        conversationType="direct"
-        i18n={i18n}
-        name={name}
-        noteToSelf={isNoteToSelf}
-        phoneNumber={from.phoneNumber}
-        profileName={from.profileName}
+        name={userName}
         size={36}
+        pubkey={from.phoneNumber}
       />
     );
   }

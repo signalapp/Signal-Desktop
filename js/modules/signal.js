@@ -30,10 +30,10 @@ const {
 const { ContactListItem } = require('../../ts/components/ContactListItem');
 const { ContactName } = require('../../ts/components/conversation/ContactName');
 const {
-  ConversationHeader,
+  ConversationHeaderWithDetails,
 } = require('../../ts/components/conversation/ConversationHeader');
 const {
-  SessionGroupSettings,
+  SessionGroupSettingsWithDetails,
 } = require('../../ts/components/session/SessionGroupSettings');
 const {
   EmbeddedContact,
@@ -275,8 +275,8 @@ exports.setup = (options = {}) => {
     ContactDetail,
     ContactListItem,
     ContactName,
-    ConversationHeader,
-    SessionGroupSettings,
+    ConversationHeaderWithDetails,
+    SessionGroupSettingsWithDetails,
     SettingsView,
     EmbeddedContact,
     Emojify,

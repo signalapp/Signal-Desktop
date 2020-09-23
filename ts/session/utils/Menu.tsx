@@ -32,9 +32,10 @@ function showSafetyNumber(
 function showResetSession(
   isPublic: boolean,
   isRss: boolean,
-  isGroup: boolean
+  isGroup: boolean,
+  isBlocked: boolean
 ): boolean {
-  return !isPublic && !isRss && !isGroup;
+  return !isPublic && !isRss && !isGroup && !isBlocked;
 }
 
 function showBlock(isMe: boolean, isPrivate: boolean): boolean {
@@ -211,7 +212,7 @@ export function getCopyMenuItem(
   i18n: LocalizerType
 ): JSX.Element | null {
   if (showCopyId(Boolean(isPublic), Boolean(isRss), Boolean(isGroup))) {
-    const copyIdLabel = i18n('editMenuCopy');
+    const copyIdLabel = i18n('copySessionID');
     return <MenuItem onClick={action}>{copyIdLabel}</MenuItem>;
   }
   return null;
@@ -299,10 +300,18 @@ export function getResetSessionMenuItem(
   isPublic: boolean | undefined,
   isRss: boolean | undefined,
   isGroup: boolean | undefined,
+  isBlocked: boolean | undefined,
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showResetSession(Boolean(isPublic), Boolean(isRss), Boolean(isGroup))) {
+  if (
+    showResetSession(
+      Boolean(isPublic),
+      Boolean(isRss),
+      Boolean(isGroup),
+      Boolean(isBlocked)
+    )
+  ) {
     return <MenuItem onClick={action}>{i18n('resetSession')}</MenuItem>;
   }
   return null;

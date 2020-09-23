@@ -175,7 +175,7 @@
       if (!conversation) {
         return number;
       }
-      return conversation.getDisplayName();
+      return conversation.getProfileName();
     },
     getLokiNameForNumber(number) {
       const conversation = ConversationController.get(number);
@@ -414,7 +414,6 @@
       const regionCode = storage.get('regionCode');
 
       const contactModel = this.findContact(phoneNumber);
-      const color = contactModel ? contactModel.getColor() : null;
       let profileName;
       if (phoneNumber === window.storage.get('primaryDevicePubKey')) {
         profileName = i18n('you');
@@ -426,7 +425,7 @@
         phoneNumber: format(phoneNumber, {
           ourRegionCode: regionCode,
         }),
-        color,
+        color: null,
         avatarPath: contactModel ? contactModel.getAvatarPath() : null,
         name: contactModel ? contactModel.getName() : null,
         profileName,
@@ -565,7 +564,6 @@
       const contact = this.findAndFormatContact(phoneNumber);
       const contactModel = this.findContact(phoneNumber);
 
-      const authorColor = contactModel ? contactModel.getColor() : null;
       const authorAvatarPath = contactModel
         ? contactModel.getAvatarPath()
         : null;
@@ -596,9 +594,9 @@
         id: this.id,
         direction: this.isIncoming() ? 'incoming' : 'outgoing',
         timestamp: this.get('sent_at'),
+        serverTimestamp: this.get('serverTimestamp'),
         status: this.getMessagePropStatus(),
         contact: this.getPropsForEmbeddedContact(),
-        authorColor,
         authorName: contact.name,
         authorProfileName: contact.profileName,
         authorPhoneNumber: contact.phoneNumber,
@@ -763,7 +761,6 @@
 
       const { author, id, referencedMessageNotFound } = quote;
       const contact = author && ConversationController.get(author);
-      const authorColor = contact ? contact.getColor() : 'grey';
 
       const authorPhoneNumber = format(author, {
         ourRegionCode: regionCode,
@@ -793,7 +790,6 @@
         authorPhoneNumber,
         authorProfileName,
         authorName,
-        authorColor,
         onClick,
         referencedMessageNotFound,
       };
@@ -835,7 +831,7 @@
 
       return Boolean(lookup[contactId]);
     },
-    getPropsForMessageDetail() {
+    async getPropsForMessageDetail() {
       const newIdentity = i18n('newIdentity');
       const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
 
@@ -871,39 +867,43 @@
       //   that contact. Otherwise, it will be a standalone entry.
       const errors = _.reject(allErrors, error => Boolean(error.number));
       const errorsGroupedById = _.groupBy(allErrors, 'number');
-      const primaryDevicePubKey = this.get('conversationId');
-      const finalContacts = (phoneNumbers || []).map(id => {
-        const errorsForContact = errorsGroupedById[id];
-        const isOutgoingKeyError = Boolean(
-          _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
-        );
-        const isUnidentifiedDelivery =
-          storage.get('unidentifiedDeliveryIndicators') &&
-          this.isUnidentifiedDelivery(id, unidentifiedLookup);
+      const finalContacts = await Promise.all(
+        (phoneNumbers || []).map(async id => {
+          const errorsForContact = errorsGroupedById[id];
+          const isOutgoingKeyError = Boolean(
+            _.find(errorsForContact, error => error.name === OUTGOING_KEY_ERROR)
+          );
+          const isUnidentifiedDelivery =
+            storage.get('unidentifiedDeliveryIndicators') &&
+            this.isUnidentifiedDelivery(id, unidentifiedLookup);
+          const primary = await window.libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
+            id
+          );
 
-        const isPrimaryDevice = id === primaryDevicePubKey;
+          const isPrimaryDevice = id === primary.key;
 
-        const contact = this.findAndFormatContact(id);
-        const profileName = isPrimaryDevice
-          ? contact.profileName
-          : `${contact.profileName} (Secondary Device)`;
-        return {
-          ...contact,
-          status: this.getStatus(id),
-          errors: errorsForContact,
-          isOutgoingKeyError,
-          isUnidentifiedDelivery,
-          isPrimaryDevice,
-          profileName,
-          onSendAnyway: () =>
-            this.trigger('force-send', {
-              contact: this.findContact(id),
-              message: this,
-            }),
-          onShowSafetyNumber: () =>
-            this.trigger('show-identity', this.findContact(id)),
-        };
-      });
+          const contact = this.findAndFormatContact(id);
+          const profileName = isPrimaryDevice
+            ? contact.profileName
+            : `${contact.profileName} (Secondary Device)`;
+          return {
+            ...contact,
+            status: this.getStatus(id),
+            errors: errorsForContact,
+            isOutgoingKeyError,
+            isUnidentifiedDelivery,
+            isPrimaryDevice,
+            profileName,
+            onSendAnyway: () =>
+              this.trigger('force-send', {
+                contact: this.findContact(id),
+                message: this,
+              }),
+            onShowSafetyNumber: () =>
+              this.trigger('show-identity', this.findContact(id)),
+          };
+        })
+      );
 
       // The prefix created here ensures that contacts with errors are listed
       //   first; otherwise it's alphabetical
@@ -1232,7 +1232,7 @@
      * This function is called by inbox_view.js when a message was successfully sent for one device.
      * So it might be called several times for the same message
      */
-    async handleMessageSentSuccess(sentMessage) {
+    async handleMessageSentSuccess(sentMessage, wrappedEnvelope) {
       let sentTo = this.get('sent_to') || [];
 
       const isOurDevice = await window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
@@ -1253,32 +1253,65 @@
       // if we did not sync or trigger a sync message for this specific message already
       const shouldTriggerSyncMessage =
         !isOurDevice &&
-        !isOpenGroupMessage &&
         !isMediumGroupMessage &&
         !this.get('synced') &&
         !this.get('sentSync');
 
       // A message is synced if we triggered a sync message (sentSync)
       // and the current message was sent to our device (so a sync message)
-      const shouldMarkMessageAsSynced =
-        isOurDevice && !isOpenGroupMessage && this.get('sentSync');
+      const shouldMarkMessageAsSynced = isOurDevice && this.get('sentSync');
 
-      // Handle the sync logic here
-      if (shouldTriggerSyncMessage) {
+      const isSessionOrClosedMessage = !isOpenGroupMessage;
+
+      if (!isOpenGroupMessage) {
         const contentDecoded = textsecure.protobuf.Content.decode(
           sentMessage.plainTextBuffer
         );
         const { dataMessage } = contentDecoded;
-        if (dataMessage) {
-          await this.sendSyncMessage(dataMessage);
-        }
-      } else if (shouldMarkMessageAsSynced) {
-        this.set({ synced: true });
-      }
-      if (!isOpenGroupMessage) {
         const primaryPubKey = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
           sentMessage.device
         );
+
+        /**
+         * We should hit the notify endpoint for push notification only if:
+         *  • It's a one-to-one chat or a closed group
+         *  • The message has either text or attachments
+         */
+        const hasBodyOrAttachments = Boolean(
+          dataMessage &&
+            (dataMessage.body ||
+              (dataMessage.attachments && dataMessage.attachments.length))
+        );
+        const shouldNotifyPushServer =
+          hasBodyOrAttachments && isSessionOrClosedMessage;
+
+        if (shouldNotifyPushServer) {
+          // notify the push notification server if needed
+          if (!wrappedEnvelope) {
+            window.log.warn(
+              'Should send PN notify but no wrapped envelope set.'
+            );
+          } else {
+            if (!window.LokiPushNotificationServer) {
+              window.LokiPushNotificationServer = new window.LokiPushNotificationServerApi();
+            }
+
+            window.LokiPushNotificationServer.notify(
+              wrappedEnvelope,
+              primaryPubKey.key
+            );
+          }
+        }
+
+        // Handle the sync logic here
+        if (shouldTriggerSyncMessage) {
+          if (dataMessage) {
+            await this.sendSyncMessage(dataMessage);
+          }
+        } else if (shouldMarkMessageAsSynced) {
+          this.set({ synced: true });
+        }
+
         sentTo = _.union(sentTo, [primaryPubKey.key]);
       }
 
@@ -1434,6 +1467,19 @@
 
       this.set({
         serverId,
+      });
+
+      await window.Signal.Data.saveMessage(this.attributes, {
+        Message: Whisper.Message,
+      });
+    },
+    async setServerTimestamp(serverTimestamp) {
+      if (_.isEqual(this.get('serverTimestamp'), serverTimestamp)) {
+        return;
+      }
+
+      this.set({
+        serverTimestamp,
       });
 
       await window.Signal.Data.saveMessage(this.attributes, {
@@ -1669,13 +1715,6 @@
 
   Whisper.MessageCollection = Backbone.Collection.extend({
     model: Whisper.Message,
-    comparator(left, right) {
-      if (left.get('sent_at') === right.get('sent_at')) {
-        return (left.get('received_at') || 0) - (right.get('received_at') || 0);
-      }
-
-      return (left.get('sent_at') || 0) - (right.get('sent_at') || 0);
-    },
     initialize(models, options) {
       if (options) {
         this.conversation = options.conversation;
@@ -1726,7 +1765,7 @@
         );
       }
 
-      this.add(models);
+      this.add(models.reverse());
 
       if (unreadCount <= 0) {
         return;

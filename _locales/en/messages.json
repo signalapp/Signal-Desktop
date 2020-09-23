@@ -1072,6 +1072,11 @@
     "description": "Copy to clipboard button text",
     "androidKey": "copy"
   },
+  "copySessionID": {
+    "message": "Copy Session ID",
+    "description": "Copy to clipboard session ID",
+    "androidKey": "activity_conversation_menu_copy_session_id"
+  },
   "save": {
     "message": "Save",
     "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments",

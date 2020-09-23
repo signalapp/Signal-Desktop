@@ -48,7 +48,7 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
     if (this.expireTimer) {
       data.expireTimer = this.expireTimer;
     }
-    if (this.profileKey) {
+    if (this.profileKey && this.profileKey.length) {
       data.profileKey = this.profileKey;
     }
 

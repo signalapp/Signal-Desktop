@@ -32,7 +32,6 @@
     UNRESTRICTED: 3,
   };
 
-  const { Util } = window.Signal;
   const {
     Conversation,
     Contact,
@@ -540,14 +539,13 @@
       await Promise.all(messages.map(m => m.setCalculatingPoW()));
     },
 
-    async onPublicMessageSent(pubKey, timestamp, serverId) {
+    async onPublicMessageSent(pubKey, timestamp, serverId, serverTimestamp) {
       const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
-      await Promise.all(
-        messages.map(message => [
-          message.setIsPublic(true),
-          message.setServerId(serverId),
-        ])
-      );
+      if (messages && messages.length === 1) {
+        await messages[0].setIsPublic(true);
+        await messages[0].setServerId(serverId);
+        await messages[0].setServerTimestamp(serverTimestamp);
+      }
     },
 
     async onNewMessage(message) {
@@ -572,7 +570,6 @@
     getProps() {
       const { format } = PhoneNumber;
       const regionCode = storage.get('regionCode');
-      const color = this.getColor();
       const typingKeys = Object.keys(this.contactTypingTimers || {});
 
       const result = {
@@ -580,7 +577,6 @@
         isArchived: this.get('isArchived'),
         activeAt: this.get('active_at'),
         avatarPath: this.getAvatarPath(),
-        color,
         type: this.isPrivate() ? 'direct' : 'group',
         isMe: this.isMe(),
         isPublic: this.isPublic(),
@@ -1295,6 +1291,9 @@
         if (this.isPrivate()) {
           message.set({ destination });
         }
+        if (this.isPublic()) {
+          message.setServerTimestamp(new Date().getTime());
+        }
 
         const id = await window.Signal.Data.saveMessage(message.attributes, {
           Message: Whisper.Message,
@@ -1993,7 +1992,7 @@
         });
       }
 
-      // if set to null, it will show a jazzIcon
+      // if set to null, it will show a placeholder with color and first letter
       await this.setProfileAvatar({ path: newProfile.avatar });
 
       await this.updateProfileName();
@@ -2505,33 +2504,10 @@
       return this.id;
     },
 
-    getInitials(name) {
-      if (!name) {
-        return null;
-      }
-
-      const cleaned = name.replace(/[^A-Za-z\s]+/g, '').replace(/\s+/g, ' ');
-      const parts = cleaned.split(' ');
-      const initials = parts.map(part => part.trim()[0]);
-      if (!initials.length) {
-        return null;
-      }
-
-      return initials.slice(0, 2).join('');
-    },
-
     isPrivate() {
       return this.get('type') === 'private';
     },
 
-    getColor() {
-      if (!this.isPrivate()) {
-        return 'signal-blue';
-      }
-
-      const { migrateColor } = Util;
-      return migrateColor(this.get('color'));
-    },
     getAvatarPath() {
       const avatar = this.get('avatar') || this.get('profileAvatar');
 
@@ -2546,20 +2522,9 @@
       return null;
     },
     getAvatar() {
-      const title = this.get('name');
-      const color = this.getColor();
       const url = this.getAvatarPath();
 
-      if (url) {
-        return { url, color };
-      } else if (this.isPrivate()) {
-        const symbol = this.isValid() ? '#' : '!';
-        return {
-          color,
-          content: this.getInitials(title) || symbol,
-        };
-      }
-      return { url: 'images/group_default.png', color };
+      return { url: url || null };
     },
 
     getNotificationIcon() {

@@ -344,8 +344,6 @@ textarea {
   }
 }
 
-$session-element-border-green: 4px solid $session-color-green;
-
 /* CONVERSATION AND MESSAGES */
 
 @mixin standard-icon-button() {
@@ -370,7 +368,10 @@ $session-element-border-green: 4px solid $session-color-green;
   font-size: $session-font-md;
 
   &-text {
-    @include session-color-subtle($session-color-white);
+    @include themify($themes) {
+      @include session-color-subtle(themed('textColor'));
+    }
+
     font-family: $session-font-default;
     font-weight: 300;
     font-size: $session-font-xs;
@@ -1511,11 +1512,6 @@ input {
   &__avatar > div {
     margin-bottom: 0px !important;
   }
-}
-
-.invite-friends-container {
-  height: $session-icon-size-lg;
-  width: $session-icon-size-lg;
 }
 
 .module-message-detail {

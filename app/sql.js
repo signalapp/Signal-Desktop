@@ -110,7 +110,6 @@ module.exports = {
   getPublicConversationsByServer,
   getPubkeysInPublicConversation,
   getAllConversationIds,
-  getAllPrivateConversations,
   getAllGroupsInvolvingId,
   removeAllConversations,
   removeAllPrivateConversations,
@@ -130,6 +129,7 @@ module.exports = {
   removeMessage,
   getUnreadByConversation,
   getMessageBySender,
+  getMessagesBySender,
   getMessageIdsFromServerIds,
   getMessageById,
   getAllMessages,
@@ -811,6 +811,8 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion5,
   updateToLokiSchemaVersion6,
   updateToLokiSchemaVersion7,
+  updateToLokiSchemaVersion8,
+  updateToLokiSchemaVersion9,
 ];
 
 async function updateToLokiSchemaVersion1(currentVersion, instance) {
@@ -824,7 +826,6 @@ async function updateToLokiSchemaVersion1(currentVersion, instance) {
     `ALTER TABLE messages
      ADD COLUMN serverId INTEGER;`
   );
-
   await instance.run(
     `CREATE TABLE servers(
       serverUrl STRING PRIMARY KEY ASC,
@@ -1050,6 +1051,49 @@ async function updateToLokiSchemaVersion7(currentVersion, instance) {
 
   await instance.run('COMMIT TRANSACTION;');
   console.log('updateToLokiSchemaVersion7: success!');
+}
+
+async function updateToLokiSchemaVersion8(currentVersion, instance) {
+  if (currentVersion >= 8) {
+    return;
+  }
+  console.log('updateToLokiSchemaVersion8: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  await instance.run(
+    `ALTER TABLE messages
+     ADD COLUMN serverTimestamp INTEGER;`
+  );
+
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        8
+      );`
+  );
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToLokiSchemaVersion8: success!');
+}
+
+async function updateToLokiSchemaVersion9(currentVersion, instance) {
+  if (currentVersion >= 9) {
+    return;
+  }
+  console.log('updateToLokiSchemaVersion9: starting...');
+  await instance.run('BEGIN TRANSACTION;');
+
+  await removePrefixFromGroupConversations(instance);
+
+  await instance.run(
+    `INSERT INTO loki_schema (
+        version
+      ) values (
+        9
+      );`
+  );
+  await instance.run('COMMIT TRANSACTION;');
+  console.log('updateToLokiSchemaVersion9: success!');
 }
 
 async function updateLokiSchema(instance) {
@@ -1948,16 +1992,6 @@ async function getAllConversationIds() {
   return map(rows, row => row.id);
 }
 
-async function getAllPrivateConversations() {
-  const rows = await db.all(
-    `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
-      type = 'private'
-     ORDER BY id ASC;`
-  );
-
-  return map(rows, row => jsonToObject(row.json));
-}
-
 async function getAllPublicConversations() {
   const rows = await db.all(
     `SELECT json FROM conversations WHERE
@@ -2103,6 +2137,7 @@ async function saveMessage(data, { forceSave } = {}) {
     hasVisualMediaAttachments,
     id,
     serverId,
+    serverTimestamp,
     // eslint-disable-next-line camelcase
     received_at,
     schemaVersion,
@@ -2122,6 +2157,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $json: objectToJSON(data),
 
     $serverId: serverId,
+    $serverTimestamp: serverTimestamp,
     $body: body,
     $conversationId: conversationId,
     $expirationStartTimestamp: expirationStartTimestamp,
@@ -2145,6 +2181,7 @@ async function saveMessage(data, { forceSave } = {}) {
       `UPDATE messages SET
         json = $json,
         serverId = $serverId,
+        serverTimestamp = $serverTimestamp,
         body = $body,
         conversationId = $conversationId,
         expirationStartTimestamp = $expirationStartTimestamp,
@@ -2180,6 +2217,7 @@ async function saveMessage(data, { forceSave } = {}) {
     json,
 
     serverId,
+    serverTimestamp,
     body,
     conversationId,
     expirationStartTimestamp,
@@ -2201,6 +2239,7 @@ async function saveMessage(data, { forceSave } = {}) {
     $json,
 
     $serverId,
+    $serverTimestamp,
     $body,
     $conversationId,
     $expirationStartTimestamp,
@@ -2394,6 +2433,20 @@ async function getMessageBySender({ source, sourceDevice, sent_at }) {
   return map(rows, row => jsonToObject(row.json));
 }
 
+async function getMessagesBySender({ source, sourceDevice }) {
+  const rows = await db.all(
+    `SELECT json FROM messages WHERE
+      source = $source AND
+      sourceDevice = $sourceDevice`,
+    {
+      $source: source,
+      $sourceDevice: sourceDevice,
+    }
+  );
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
 async function getAllUnsentMessages() {
   const rows = await db.all(`
     SELECT json FROM messages WHERE
@@ -2430,7 +2483,7 @@ async function getMessagesByConversation(
       conversationId = $conversationId AND
       received_at < $received_at AND
       type LIKE $type
-    ORDER BY sent_at DESC
+      ORDER BY serverTimestamp DESC, serverId DESC, sent_at DESC
     LIMIT $limit;
     `,
     {
@@ -3006,4 +3059,83 @@ async function removeKnownAttachments(allAttachments) {
   console.log(`removeKnownAttachments: Done processing ${count} conversations`);
 
   return Object.keys(lookup);
+}
+
+async function getMessagesCountByConversation(instance, conversationId) {
+  const row = await instance.get(
+    'SELECT count(*) from messages WHERE conversationId = $conversationId;',
+    { $conversationId: conversationId }
+  );
+
+  return row ? row['count(*)'] : 0;
+}
+
+async function removePrefixFromGroupConversations(instance) {
+  const rows = await instance.all(
+    `SELECT json FROM conversations WHERE
+      type = 'group' AND
+      id LIKE '__textsecure_group__!%';`
+  );
+
+  const objs = map(rows, row => jsonToObject(row.json));
+
+  const conversationIdRows = await instance.all(
+    `SELECT id FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`
+  );
+  const allOldConversationIds = map(conversationIdRows, row => row.id);
+
+  await Promise.all(
+    objs.map(async o => {
+      const oldId = o.id;
+      const newId = oldId.replace('__textsecure_group__!', '');
+      console.log(`migrating conversation, ${oldId} to ${newId}`);
+
+      if (allOldConversationIds.includes(newId)) {
+        console.log(
+          'Found a duplicate conversation after prefix removing. We need to take care of it'
+        );
+        // We have another conversation with the same future name.
+        // We decided to keep only the conversation with the higher number of messages
+        const countMessagesOld = await getMessagesCountByConversation(
+          instance,
+          oldId,
+          { limit: Number.MAX_VALUE }
+        );
+        const countMessagesNew = await getMessagesCountByConversation(
+          instance,
+          newId,
+          { limit: Number.MAX_VALUE }
+        );
+
+        console.log(
+          `countMessagesOld: ${countMessagesOld}, countMessagesNew: ${countMessagesNew}`
+        );
+
+        const deleteId = countMessagesOld > countMessagesNew ? newId : oldId;
+        await instance.run(
+          `DELETE FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`,
+          {
+            $id: deleteId,
+          }
+        );
+      }
+
+      const morphedObject = {
+        ...o,
+        id: newId,
+      };
+
+      await instance.run(
+        `UPDATE ${CONVERSATIONS_TABLE} SET
+        id = $newId,
+        json = $json
+        WHERE id = $oldId;`,
+        {
+          $newId: newId,
+          $json: objectToJSON(morphedObject),
+          $oldId: oldId,
+        }
+      );
+    })
+  );
 }

@@ -3,7 +3,6 @@
 import https from 'https';
 import fetch from 'node-fetch';
 
-import { PubKey } from '../types';
 import { snodeRpc } from './lokiRpc';
 import { sendOnionRequestLsrpcDest, SnodeResponse } from './onions';
 
@@ -387,6 +386,8 @@ export async function retrieveNextMessages(
     const json = JSON.parse(res.body);
     return json.messages || [];
   } catch (e) {
+    window.log.warn('exception while parsing json of nextMessage:', e);
+
     return [];
   }
 }

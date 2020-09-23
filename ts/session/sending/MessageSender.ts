@@ -27,7 +27,7 @@ export function canSendToSnode(): boolean {
 export async function send(
   message: RawMessage,
   attempts: number = 3
-): Promise<void> {
+): Promise<Uint8Array> {
   if (!canSendToSnode()) {
     throw new Error('lokiMessageAPI is not initialized.');
   }
@@ -39,12 +39,19 @@ export async function send(
     plainTextBuffer,
     encryption
   );
-  const envelope = await buildEnvelope(envelopeType, timestamp, cipherText);
+  const envelope = await buildEnvelope(
+    envelopeType,
+    device.key,
+    timestamp,
+    cipherText
+  );
   const data = wrapEnvelope(envelope);
 
   return pRetry(
-    async () =>
-      window.lokiMessageAPI.sendMessage(device.key, data, timestamp, ttl),
+    async () => {
+      await window.lokiMessageAPI.sendMessage(device.key, data, timestamp, ttl);
+      return data;
+    },
     {
       retries: Math.max(attempts - 1, 0),
       factor: 1,
@@ -54,11 +61,15 @@ export async function send(
 
 async function buildEnvelope(
   type: SignalService.Envelope.Type,
+  sskSource: string | undefined,
   timestamp: number,
   content: Uint8Array
 ): Promise<SignalService.Envelope> {
   let source: string | undefined;
-  if (type !== SignalService.Envelope.Type.UNIDENTIFIED_SENDER) {
+
+  if (type === SignalService.Envelope.Type.MEDIUM_GROUP_CIPHERTEXT) {
+    source = sskSource;
+  } else if (type !== SignalService.Envelope.Type.UNIDENTIFIED_SENDER) {
     source = await UserUtil.getCurrentDevicePubKey();
   }
 
@@ -98,7 +109,7 @@ function wrapEnvelope(envelope: SignalService.Envelope): Uint8Array {
  */
 export async function sendToOpenGroup(
   message: OpenGroupMessage
-): Promise<number> {
+): Promise<{ serverId: number; serverTimestamp: number }> {
   /*
     Note: Retrying wasn't added to this but it can be added in the future if needed.
     The only problem is that `channelAPI.sendMessage` returns true/false and doesn't throw any error so we can never be sure why sending failed.
@@ -112,7 +123,7 @@ export async function sendToOpenGroup(
   );
 
   if (!channelAPI) {
-    return -1;
+    return { serverId: -1, serverTimestamp: -1 };
   }
 
   // Returns -1 on fail or an id > 0 on success

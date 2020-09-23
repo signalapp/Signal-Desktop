@@ -65,6 +65,7 @@ export interface Props {
   collapseMetadata?: boolean;
   direction: 'incoming' | 'outgoing';
   timestamp: number;
+  serverTimestamp?: number;
   status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
   // What if changed this over to a single contact like quote, and put the events on it?
   contact?: Contact & {
@@ -77,7 +78,6 @@ export interface Props {
   authorProfileName?: string;
   /** Note: this should be formatted for display */
   authorPhoneNumber: string;
-  authorColor?: ColorType;
   conversationType: 'group' | 'direct';
   attachments?: Array<AttachmentType>;
   quote?: {
@@ -87,7 +87,6 @@ export interface Props {
     authorPhoneNumber: string;
     authorProfileName?: string;
     authorName?: string;
-    authorColor?: ColorType;
     onClick?: () => void;
     referencedMessageNotFound: boolean;
   };
@@ -257,6 +256,7 @@ export class Message extends React.PureComponent<Props, State> {
       text,
       textPending,
       timestamp,
+      serverTimestamp,
     } = this.props;
 
     if (collapseMetadata) {
@@ -299,7 +299,7 @@ export class Message extends React.PureComponent<Props, State> {
         ) : (
           <Timestamp
             i18n={i18n}
-            timestamp={timestamp}
+            timestamp={serverTimestamp || timestamp}
             extended={true}
             direction={direction}
             withImageNoCaption={withImageNoCaption}
@@ -583,7 +583,6 @@ export class Message extends React.PureComponent<Props, State> {
   public renderQuote() {
     const {
       conversationType,
-      authorColor,
       direction,
       i18n,
       quote,
@@ -597,8 +596,6 @@ export class Message extends React.PureComponent<Props, State> {
 
     const withContentAbove =
       conversationType === 'group' && direction === 'incoming';
-    const quoteColor =
-      direction === 'incoming' ? authorColor : quote.authorColor;
 
     const shortenedPubkey = window.shortenPubkey(quote.authorPhoneNumber);
 
@@ -619,7 +616,6 @@ export class Message extends React.PureComponent<Props, State> {
         authorPhoneNumber={displayedPubkey}
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
-        authorColor={quoteColor}
         referencedMessageNotFound={quote.referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}
@@ -666,7 +662,6 @@ export class Message extends React.PureComponent<Props, State> {
       authorProfileName,
       collapseMetadata,
       senderIsModerator,
-      authorColor,
       conversationType,
       direction,
       i18n,
@@ -680,21 +675,18 @@ export class Message extends React.PureComponent<Props, State> {
     ) {
       return;
     }
+    const userName = authorName || authorProfileName || authorPhoneNumber;
 
     return (
       <div className="module-message__author-avatar">
         <Avatar
           avatarPath={authorAvatarPath}
-          color={authorColor}
-          conversationType="direct"
-          i18n={i18n}
-          name={authorName}
-          phoneNumber={authorPhoneNumber}
-          profileName={authorProfileName}
+          name={userName}
           size={36}
           onAvatarClick={() => {
             onShowUserDetails(authorPhoneNumber);
           }}
+          pubkey={authorPhoneNumber}
         />
         {senderIsModerator && (
           <div className="module-avatar__icon--crown-wrapper">
@@ -1053,7 +1045,6 @@ export class Message extends React.PureComponent<Props, State> {
   public render() {
     const {
       authorPhoneNumber,
-      authorColor,
       direction,
       id,
       isKickedFromGroup,
@@ -1071,11 +1062,11 @@ export class Message extends React.PureComponent<Props, State> {
     //   It needs to be unique.
     // The Date.now() is a workaround to be sure a single triggerID with this id exists
     const triggerId = id
-      ? String(`${id}-${Date.now()}`)
-      : String(`${authorPhoneNumber}-${timestamp}`);
+      ? String(`message-${id}-${Date.now()}`)
+      : String(`message-${authorPhoneNumber}-${timestamp}`);
     const rightClickTriggerId = id
-      ? String(`${id}-ctx-${Date.now()}`)
-      : String(`${authorPhoneNumber}-ctx-${timestamp}`);
+      ? String(`message-ctx-${id}-${Date.now()}`)
+      : String(`message-ctx-${authorPhoneNumber}-${timestamp}`);
     if (expired) {
       return null;
     }
@@ -1118,22 +1109,6 @@ export class Message extends React.PureComponent<Props, State> {
               `module-message--${direction}`,
               expiring ? 'module-message--expired' : null
             )}
-            role="button"
-            onClick={event => {
-              const selection = window.getSelection();
-              // Text is being selected
-              if (selection && selection.type === 'Range') {
-                return;
-              }
-
-              // User clicked on message body
-              const target = event.target as HTMLDivElement;
-              if (target.className === 'text-selectable') {
-                return;
-              }
-
-              this.props.onSelectMessage();
-            }}
           >
             {this.renderError(isIncoming)}
             {isRss || isKickedFromGroup
@@ -1146,6 +1121,22 @@ export class Message extends React.PureComponent<Props, State> {
               )}
               style={{
                 width: isShowingImage ? width : undefined,
+              }}
+              role="button"
+              onClick={event => {
+                const selection = window.getSelection();
+                // Text is being selected
+                if (selection && selection.type === 'Range') {
+                  return;
+                }
+
+                // User clicked on message body
+                const target = event.target as HTMLDivElement;
+                if (target.className === 'text-selectable') {
+                  return;
+                }
+
+                this.props.onSelectMessage();
               }}
             >
               {this.renderAuthor()}

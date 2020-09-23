@@ -37,18 +37,15 @@ interface Props {
 export class MessageDetail extends React.Component<Props> {
   public renderAvatar(contact: Contact) {
     const { i18n } = this.props;
-    const { avatarPath, color, phoneNumber, name, profileName } = contact;
+    const { avatarPath, phoneNumber, name, profileName } = contact;
+    const userName = name || profileName || phoneNumber;
 
     return (
       <Avatar
         avatarPath={avatarPath}
-        color={color}
-        conversationType="direct"
-        i18n={i18n}
-        name={name}
-        phoneNumber={phoneNumber}
-        profileName={profileName}
+        name={userName}
         size={36}
+        pubkey={phoneNumber}
       />
     );
   }

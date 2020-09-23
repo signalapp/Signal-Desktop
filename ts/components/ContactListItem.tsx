@@ -10,7 +10,6 @@ interface Props {
   phoneNumber: string;
   isMe?: boolean;
   name?: string;
-  color: string;
   verified: boolean;
   profileName?: string;
   avatarPath?: string;
@@ -20,25 +19,16 @@ interface Props {
 
 export class ContactListItem extends React.Component<Props> {
   public renderAvatar() {
-    const {
-      avatarPath,
-      i18n,
-      color,
-      name,
-      phoneNumber,
-      profileName,
-    } = this.props;
+    const { avatarPath, name, phoneNumber, profileName } = this.props;
+
+    const userName = name || profileName || phoneNumber;
 
     return (
       <Avatar
         avatarPath={avatarPath}
-        color={color}
-        conversationType="direct"
-        i18n={i18n}
-        name={name}
-        phoneNumber={phoneNumber}
-        profileName={profileName}
+        name={userName}
         size={36}
+        pubkey={phoneNumber}
       />
     );
   }
