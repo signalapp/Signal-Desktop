@@ -56,6 +56,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     outline: 'none',
+    width: '100%',
     padding: 0,
   } as React.CSSProperties,
   mainContainer: {
@@ -79,6 +80,18 @@ const styles = {
   object: {
     flexGrow: 1,
     flexShrink: 1,
+    maxWidth: '100%',
+    maxHeight: '100%',
+    objectFit: 'contain',
+    outline: 'none',
+  } as React.CSSProperties,
+  img: {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 'auto',
+    height: 'auto',
     maxWidth: '100%',
     maxHeight: '100%',
     objectFit: 'contain',
@@ -361,7 +374,7 @@ export class Lightbox extends React.Component<Props, State> {
         >
           <img
             alt={i18n('lightboxImageAlt')}
-            style={styles.object}
+            style={styles.img}
             src={objectURL}
           />
         </button>

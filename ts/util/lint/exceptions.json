@@ -12951,7 +12951,7 @@
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.containerRef = react_1.default.createRef();",
-    "lineNumber": 148,
+    "lineNumber": 161,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-06T19:56:38.557Z",
     "reasonDetail": "Used to double-check outside clicks"
@@ -12960,7 +12960,7 @@
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.videoRef = react_1.default.createRef();",
-    "lineNumber": 149,
+    "lineNumber": 162,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-14T23:03:44.863Z"
   },
@@ -12968,7 +12968,7 @@
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 150,
+    "lineNumber": 163,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-06T19:56:38.557Z",
     "reasonDetail": "Used to manage focus"
