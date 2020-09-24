@@ -490,7 +490,7 @@ if (config.environment.includes('test-integration')) {
     useOnionRequests: false,
     useFileOnionRequests: false,
     debugMessageLogs: true,
-    enableSenderKeys: false,
+    enableSenderKeys: true,
     useMultiDevice: false,
   };
   /* eslint-disable global-require, import/no-extraneous-dependencies */
