@@ -1,3 +1,10 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // tslint:disable no-console no-default-export no-unnecessary-local-variable
 
 import { join } from 'path';
@@ -6,12 +13,6 @@ import rimraf from 'rimraf';
 import PQueue from 'p-queue';
 import sql from '@journeyapps/sqlcipher';
 import { app, clipboard, dialog } from 'electron';
-import { redactAll } from '../../js/modules/privacy';
-import { remove as removeUserConfig } from '../../app/user_config';
-import { combineNames } from '../util/combineNames';
-
-import { GroupV2MemberType } from '../model-types.d';
-import { LocaleMessagesType } from '../types/I18N';
 
 import pify from 'pify';
 import { v4 as generateUUID } from 'uuid';
@@ -27,6 +28,13 @@ import {
   map,
   pick,
 } from 'lodash';
+
+import { redactAll } from '../../js/modules/privacy';
+import { remove as removeUserConfig } from '../../app/user_config';
+import { combineNames } from '../util/combineNames';
+
+import { GroupV2MemberType } from '../model-types.d';
+import { LocaleMessagesType } from '../types/I18N';
 
 import {
   AttachmentDownloadJobType,
@@ -211,8 +219,6 @@ async function openDatabase(filePath: string): Promise<sql.Database> {
       }
 
       resolve(instance);
-
-      return;
     };
 
     instance = new sql.Database(filePath, callback);
@@ -3700,7 +3706,7 @@ async function updateEmojiUsage(
 }
 updateEmojiUsage.needsSerial = true;
 
-async function getRecentEmojis(limit: number = 32) {
+async function getRecentEmojis(limit = 32) {
   const db = getInstance();
   const rows = await db.all(
     'SELECT * FROM emojis ORDER BY lastUsage DESC LIMIT $limit;',

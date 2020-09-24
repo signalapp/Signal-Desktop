@@ -1,5 +1,10 @@
-// tslint:disable no-default-export no-unnecessary-local-variable
-
+/* eslint-disable no-await-in-loop */
+/* eslint-disable camelcase */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-continue */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-types */
 import { ipcRenderer } from 'electron';
 
 import {
@@ -241,7 +246,7 @@ const channels: ServerInterface = channelsAsUnknown;
 // When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
 //   We can't send ArrayBuffers or BigNumbers (what we get from proto library for dates),
 //   We also cannot send objects with function-value keys, like what protobufjs gives us.
-function _cleanData(data: any, path: string = 'root') {
+function _cleanData(data: any, path = 'root') {
   if (data === null || data === undefined) {
     window.log.warn(`_cleanData: null or undefined value at path ${path}`);
 
@@ -321,8 +326,6 @@ async function _shutdown() {
       }
 
       resolve();
-
-      return;
     };
   });
 
@@ -1032,7 +1035,7 @@ async function getLastConversationActivity(
   if (result) {
     return new Message(result);
   }
-  return;
+  return undefined;
 }
 async function getLastConversationPreview(
   conversationId: string,
@@ -1045,7 +1048,7 @@ async function getLastConversationPreview(
   if (result) {
     return new Message(result);
   }
-  return;
+  return undefined;
 }
 async function getMessageMetricsForConversation(conversationId: string) {
   const result = await channels.getMessageMetricsForConversation(
@@ -1292,7 +1295,7 @@ async function getRecentStickers() {
 async function updateEmojiUsage(shortName: string) {
   await channels.updateEmojiUsage(shortName);
 }
-async function getRecentEmojis(limit: number = 32) {
+async function getRecentEmojis(limit = 32) {
   return channels.getRecentEmojis(limit);
 }
 
@@ -1336,8 +1339,6 @@ async function callChannel(name: string) {
       }
 
       resolve();
-
-      return;
     });
 
     setTimeout(() => {

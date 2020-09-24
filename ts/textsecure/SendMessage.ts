@@ -1,4 +1,9 @@
-// tslint:disable no-bitwise no-default-export
+/* eslint-disable no-nested-ternary */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable more/no-then */
+/* eslint-disable no-bitwise */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable max-classes-per-file */
 
 import { Dictionary, without } from 'lodash';
 import PQueue from 'p-queue';
@@ -28,6 +33,7 @@ import {
   GroupClass,
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
+  SyncMessageClass,
 } from '../textsecure.d';
 import { MessageError, SignedPreKeyRotationError } from './Errors';
 import { BodyRangesType } from '../types/Util';
@@ -112,24 +118,38 @@ type MessageOptionsType = {
 
 class Message {
   attachments: Array<any>;
+
   body?: string;
+
   expireTimer?: number;
+
   flags?: number;
+
   group?: {
     id: string;
     type: number;
   };
+
   groupV2?: GroupV2InfoType;
+
   needsSync?: boolean;
+
   preview: any;
+
   profileKey?: ArrayBuffer;
+
   quote?: any;
+
   recipients: Array<string>;
+
   sticker?: any;
+
   reaction?: any;
+
   timestamp: number;
 
   dataMessage: any;
+
   attachmentPointers?: Array<any>;
 
   // tslint:disable cyclomatic-complexity
@@ -332,6 +352,7 @@ export type AttachmentType = {
 
 export default class MessageSender {
   server: WebAPIType;
+
   pendingMessages: {
     [id: string]: PQueue;
   };
@@ -341,14 +362,14 @@ export default class MessageSender {
     this.pendingMessages = {};
   }
 
-  _getAttachmentSizeBucket(size: number) {
+  _getAttachmentSizeBucket(size: number): number {
     return Math.max(
       541,
       Math.floor(1.05 ** Math.ceil(Math.log(size) / Math.log(1.05)))
     );
   }
 
-  getPaddedAttachment(data: ArrayBuffer) {
+  getPaddedAttachment(data: ArrayBuffer): ArrayBuffer {
     const size = data.byteLength;
     const paddedSize = this._getAttachmentSizeBucket(size);
     const padding = getZeroes(paddedSize - size);
@@ -356,7 +377,9 @@ export default class MessageSender {
     return concatenateBytes(data, padding);
   }
 
-  async makeAttachmentPointer(attachment: AttachmentType) {
+  async makeAttachmentPointer(
+    attachment: AttachmentType
+  ): Promise<AttachmentPointerClass | undefined> {
     if (typeof attachment !== 'object' || attachment == null) {
       return Promise.resolve(undefined);
     }
@@ -409,7 +432,10 @@ export default class MessageSender {
     return proto;
   }
 
-  async queueJobForIdentifier(identifier: string, runJob: () => Promise<any>) {
+  async queueJobForIdentifier(
+    identifier: string,
+    runJob: () => Promise<any>
+  ): Promise<void> {
     const { id } = await window.ConversationController.getOrCreateAndWait(
       identifier,
       'private'
@@ -427,7 +453,7 @@ export default class MessageSender {
     return queue.add(taskWithTimeout);
   }
 
-  async uploadAttachments(message: Message) {
+  async uploadAttachments(message: Message): Promise<void> {
     return Promise.all(
       message.attachments.map(this.makeAttachmentPointer.bind(this))
     )
@@ -444,7 +470,7 @@ export default class MessageSender {
       });
   }
 
-  async uploadLinkPreviews(message: Message) {
+  async uploadLinkPreviews(message: Message): Promise<void> {
     try {
       const preview = await Promise.all(
         (message.preview || []).map(async (item: PreviewType) => ({
@@ -463,7 +489,7 @@ export default class MessageSender {
     }
   }
 
-  async uploadSticker(message: Message) {
+  async uploadSticker(message: Message): Promise<void> {
     try {
       const { sticker } = message;
 
@@ -490,7 +516,7 @@ export default class MessageSender {
     const { quote } = message;
 
     if (!quote || !quote.attachments || quote.attachments.length === 0) {
-      return Promise.resolve();
+      return;
     }
 
     await Promise.all(
@@ -546,6 +572,7 @@ export default class MessageSender {
         })
     );
   }
+
   sendMessageProto(
     timestamp: number,
     recipients: Array<string>,
@@ -553,7 +580,7 @@ export default class MessageSender {
     callback: (result: CallbackResultType) => void,
     silent?: boolean,
     options?: SendOptionsType
-  ) {
+  ): void {
     const rejections = window.textsecure.storage.get(
       'signedKeyRotationRejected',
       0
@@ -595,7 +622,6 @@ export default class MessageSender {
         }
 
         resolve(result);
-        return;
       };
 
       this.sendMessageProto(
@@ -635,7 +661,7 @@ export default class MessageSender {
     });
   }
 
-  createSyncMessage() {
+  createSyncMessage(): SyncMessageClass {
     const syncMessage = new window.textsecure.protobuf.SyncMessage();
 
     // Generate a random int from 1 and 512
@@ -656,9 +682,9 @@ export default class MessageSender {
     expirationStartTimestamp: number | null,
     sentTo: Array<string> = [],
     unidentifiedDeliveries: Array<string> = [],
-    isUpdate: boolean = false,
+    isUpdate = false,
     options?: SendOptionsType
-  ) {
+  ): Promise<CallbackResultType | void> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
@@ -735,7 +761,7 @@ export default class MessageSender {
       profileKeyVersion?: string;
       profileKeyCredentialRequest?: string;
     } = {}
-  ) {
+  ): Promise<any> {
     const { accessKey } = options;
 
     if (accessKey) {
@@ -755,18 +781,21 @@ export default class MessageSender {
     return this.server.getUuidsForE164s(numbers);
   }
 
-  async getAvatar(path: string) {
+  async getAvatar(path: string): Promise<any> {
     return this.server.getAvatar(path);
   }
 
-  async getSticker(packId: string, stickerId: string) {
+  async getSticker(packId: string, stickerId: number): Promise<any> {
     return this.server.getSticker(packId, stickerId);
   }
-  async getStickerPackManifest(packId: string) {
+
+  async getStickerPackManifest(packId: string): Promise<any> {
     return this.server.getStickerPackManifest(packId);
   }
 
-  async sendRequestBlockSyncMessage(options?: SendOptionsType) {
+  async sendRequestBlockSyncMessage(
+    options?: SendOptionsType
+  ): Promise<CallbackResultType | void> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
@@ -792,7 +821,9 @@ export default class MessageSender {
     return Promise.resolve();
   }
 
-  async sendRequestConfigurationSyncMessage(options?: SendOptionsType) {
+  async sendRequestConfigurationSyncMessage(
+    options?: SendOptionsType
+  ): Promise<CallbackResultType | void> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
@@ -818,7 +849,9 @@ export default class MessageSender {
     return Promise.resolve();
   }
 
-  async sendRequestGroupSyncMessage(options?: SendOptionsType) {
+  async sendRequestGroupSyncMessage(
+    options?: SendOptionsType
+  ): Promise<CallbackResultType | void> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
@@ -843,7 +876,9 @@ export default class MessageSender {
     return Promise.resolve();
   }
 
-  async sendRequestContactSyncMessage(options?: SendOptionsType) {
+  async sendRequestContactSyncMessage(
+    options?: SendOptionsType
+  ): Promise<CallbackResultType | void> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
 
@@ -870,7 +905,9 @@ export default class MessageSender {
     return Promise.resolve();
   }
 
-  async sendFetchManifestSyncMessage(options?: SendOptionsType) {
+  async sendFetchManifestSyncMessage(
+    options?: SendOptionsType
+  ): Promise<CallbackResultType | void> {
     const myUuid = window.textsecure.storage.user.getUuid();
     const myNumber = window.textsecure.storage.user.getNumber();
     const myDevice = window.textsecure.storage.user.getDeviceId();
@@ -898,7 +935,9 @@ export default class MessageSender {
     );
   }
 
-  async sendRequestKeySyncMessage(options?: SendOptionsType) {
+  async sendRequestKeySyncMessage(
+    options?: SendOptionsType
+  ): Promise<CallbackResultType | void> {
     const myUuid = window.textsecure.storage.user.getUuid();
     const myNumber = window.textsecure.storage.user.getNumber();
     const myDevice = window.textsecure.storage.user.getDeviceId();
@@ -934,7 +973,7 @@ export default class MessageSender {
       timestamp?: number;
     },
     sendOptions: SendOptionsType = {}
-  ) {
+  ): Promise<CallbackResultType | null> {
     const ACTION_ENUM = window.textsecure.protobuf.TypingMessage.Action;
     const { recipientId, groupId, groupMembers, isTyping, timestamp } = options;
 
@@ -988,7 +1027,7 @@ export default class MessageSender {
     recipients: Array<string>,
     sendOptions: SendOptionsType,
     groupId?: string
-  ) {
+  ): Promise<CallbackResultType> {
     return this.sendMessage(
       {
         recipients,
@@ -1012,7 +1051,7 @@ export default class MessageSender {
     recipientId: string,
     callingMessage: CallingMessageClass,
     sendOptions?: SendOptionsType
-  ) {
+  ): Promise<void> {
     const recipients = [recipientId];
     const finalTimestamp = Date.now();
 
@@ -1069,7 +1108,7 @@ export default class MessageSender {
     senderUuid: string,
     timestamps: Array<number>,
     options?: SendOptionsType
-  ) {
+  ): Promise<CallbackResultType> {
     const receiptMessage = new window.textsecure.protobuf.ReceiptMessage();
     receiptMessage.type = window.textsecure.protobuf.ReceiptMessage.Type.READ;
     receiptMessage.timestamp = timestamps;
@@ -1086,6 +1125,7 @@ export default class MessageSender {
       options
     );
   }
+
   async syncReadMessages(
     reads: Array<{
       senderUuid?: string;
@@ -1093,7 +1133,7 @@ export default class MessageSender {
       timestamp: number;
     }>,
     options?: SendOptionsType
-  ) {
+  ): Promise<CallbackResultType | void> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
@@ -1166,7 +1206,7 @@ export default class MessageSender {
       type: number;
     },
     sendOptions?: SendOptionsType
-  ) {
+  ): Promise<CallbackResultType | null> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
@@ -1251,7 +1291,7 @@ export default class MessageSender {
     state: number,
     identityKey: ArrayBuffer,
     options?: SendOptionsType
-  ) {
+  ): Promise<CallbackResultType | void> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
@@ -1318,7 +1358,9 @@ export default class MessageSender {
     proto: DataMessageClass,
     timestamp = Date.now(),
     options = {}
-  ) {
+  ): Promise<
+    CallbackResultType | Omit<CallbackResultType, 'discoveredIdentifierPairs'>
+  > {
     const myE164 = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const identifiers = providedIdentifiers.filter(
@@ -1361,15 +1403,15 @@ export default class MessageSender {
     destination: string,
     body: string | undefined,
     attachments: Array<AttachmentType>,
-    quote: any,
+    quote: unknown,
     preview: Array<PreviewType>,
-    sticker: any,
-    reaction: any,
+    sticker: unknown,
+    reaction: unknown,
     timestamp: number,
     expireTimer: number | undefined,
     profileKey?: ArrayBuffer,
     flags?: number
-  ) {
+  ): Promise<ArrayBuffer> {
     const attributes = {
       recipients: [destination],
       destination,
@@ -1388,7 +1430,9 @@ export default class MessageSender {
     return this.getMessageProtoObj(attributes);
   }
 
-  async getMessageProtoObj(attributes: MessageOptionsType) {
+  async getMessageProtoObj(
+    attributes: MessageOptionsType
+  ): Promise<ArrayBuffer> {
     const message = new Message(attributes);
     await Promise.all([
       this.uploadAttachments(message),
@@ -1404,15 +1448,15 @@ export default class MessageSender {
     identifier: string,
     messageText: string | undefined,
     attachments: Array<AttachmentType> | undefined,
-    quote: any,
+    quote: unknown,
     preview: Array<PreviewType> | undefined,
-    sticker: any,
-    reaction: any,
+    sticker: unknown,
+    reaction: unknown,
     timestamp: number,
     expireTimer: number | undefined,
     profileKey?: ArrayBuffer,
     options?: SendOptionsType
-  ) {
+  ): Promise<CallbackResultType> {
     return this.sendMessage(
       {
         recipients: [identifier],
@@ -1435,7 +1479,9 @@ export default class MessageSender {
     e164: string,
     timestamp: number,
     options?: SendOptionsType
-  ) {
+  ): Promise<
+    CallbackResultType | void | Array<CallbackResultType | void | Array<void>>
+  > {
     window.log.info('resetting secure session');
     const silent = false;
     const proto = new window.textsecure.protobuf.DataMessage();
@@ -1592,15 +1638,18 @@ export default class MessageSender {
   async getGroup(options: GroupCredentialsType): Promise<GroupClass> {
     return this.server.getGroup(options);
   }
+
   async getGroupLog(
     startVersion: number,
     options: GroupCredentialsType
   ): Promise<GroupLogResponseType> {
     return this.server.getGroupLog(startVersion, options);
   }
+
   async getGroupAvatar(key: string): Promise<ArrayBuffer> {
     return this.server.getGroupAvatar(key);
   }
+
   async modifyGroup(
     changes: GroupChangeClass.Actions,
     options: GroupCredentialsType
@@ -1654,7 +1703,7 @@ export default class MessageSender {
     timestamp: number,
     profileKey?: ArrayBuffer,
     options?: SendOptionsType
-  ) {
+  ): Promise<CallbackResultType> {
     return this.sendMessage(
       {
         recipients: [identifier],
@@ -1667,7 +1716,11 @@ export default class MessageSender {
       options
     );
   }
-  async makeProxiedRequest(url: string, options?: ProxiedRequestOptionsType) {
+
+  async makeProxiedRequest(
+    url: string,
+    options?: ProxiedRequestOptionsType
+  ): Promise<any> {
     return this.server.makeProxiedRequest(url, options);
   }
 

@@ -1,5 +1,4 @@
-// tslint:disable no-default-export
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import utils from './Helpers';
 
 // Default implmentation working with localStorage
@@ -33,15 +32,15 @@ export interface StorageInterface {
 const Storage = {
   impl: localStorageImpl as StorageInterface,
 
-  put(key: string, value: any) {
+  put(key: string, value: unknown): Promise<void> | void {
     return Storage.impl.put(key, value);
   },
 
-  get(key: string, defaultValue: any) {
+  get(key: string, defaultValue: unknown): Promise<unknown> {
     return Storage.impl.get(key, defaultValue);
   },
 
-  remove(key: string) {
+  remove(key: string): Promise<void> | void {
     return Storage.impl.remove(key);
   },
 };

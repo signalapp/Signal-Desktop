@@ -1,4 +1,5 @@
-// tslint:disable max-classes-per-file
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable max-classes-per-file */
 
 function appendStack(newError: Error, originalError: Error) {
   // eslint-disable-next-line no-param-reassign
@@ -7,7 +8,9 @@ function appendStack(newError: Error, originalError: Error) {
 
 export class ReplayableError extends Error {
   name: string;
+
   message: string;
+
   functionCode?: number;
 
   constructor(options: {
@@ -32,6 +35,7 @@ export class ReplayableError extends Error {
 
 export class IncomingIdentityKeyError extends ReplayableError {
   identifier: string;
+
   identityKey: ArrayBuffer;
 
   // Note: Data to resend message is no longer captured
@@ -50,6 +54,7 @@ export class IncomingIdentityKeyError extends ReplayableError {
 
 export class OutgoingIdentityKeyError extends ReplayableError {
   identifier: string;
+
   identityKey: ArrayBuffer;
 
   // Note: Data to resend message is no longer captured
@@ -73,6 +78,7 @@ export class OutgoingIdentityKeyError extends ReplayableError {
 
 export class OutgoingMessageError extends ReplayableError {
   identifier: string;
+
   code?: any;
 
   // Note: Data to resend message is no longer captured
@@ -101,13 +107,13 @@ export class OutgoingMessageError extends ReplayableError {
 export class SendMessageNetworkError extends ReplayableError {
   identifier: string;
 
-  constructor(identifier: string, _m: any, httpError: Error) {
+  constructor(identifier: string, _m: unknown, httpError: Error) {
     super({
       name: 'SendMessageNetworkError',
       message: httpError.message,
     });
 
-    this.identifier = identifier.split('.')[0];
+    [this.identifier] = identifier.split('.');
     this.code = httpError.code;
 
     appendStack(this, httpError);
@@ -126,7 +132,7 @@ export class SignedPreKeyRotationError extends ReplayableError {
 export class MessageError extends ReplayableError {
   code?: any;
 
-  constructor(_m: any, httpError: Error) {
+  constructor(_m: unknown, httpError: Error) {
     super({
       name: 'MessageError',
       message: httpError.message,
@@ -140,10 +146,11 @@ export class MessageError extends ReplayableError {
 
 export class UnregisteredUserError extends Error {
   identifier: string;
+
   code?: any;
 
   constructor(identifier: string, httpError: Error) {
-    const message = httpError.message;
+    const { message } = httpError;
 
     super(message);
 

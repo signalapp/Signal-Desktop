@@ -28,8 +28,3 @@ sticker-creator/**/*.js
 
 **/*.d.ts
 webpack.config.ts
-
-# Temporarily ignored during TSLint transition
-# JIRA: DESKTOP-304
-ts/sql/**
-ts/textsecure/**

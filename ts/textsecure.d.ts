@@ -808,7 +808,7 @@ declare class ProvisioningUuidClass {
   uuid?: string;
 }
 
-declare class ProvisionEnvelopeClass {
+export declare class ProvisionEnvelopeClass {
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string

@@ -1,4 +1,14 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { LocaleMessagesType } from '../types/I18N';
+
+import {
+  ConversationModelCollectionType,
+  MessageModelCollectionType,
+} from '../model-types.d';
+import { MessageModel } from '../models/messages';
+import { ConversationModel } from '../models/conversations';
 
 export type AttachmentDownloadJobType = any;
 export type ConverationMetricsType = any;
@@ -16,13 +26,6 @@ export type StickerPackStatusType = string;
 export type StickerPackType = any;
 export type StickerType = any;
 export type UnprocessedType = any;
-
-import {
-  ConversationModelCollectionType,
-  MessageModelCollectionType,
-} from '../model-types.d';
-import { MessageModel } from '../models/messages';
-import { ConversationModel } from '../models/conversations';
 
 export interface DataInterface {
   close: () => Promise<void>;

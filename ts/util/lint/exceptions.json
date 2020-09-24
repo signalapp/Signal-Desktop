@@ -12848,9 +12848,8 @@
     "path": "ts/components/CallScreen.js",
     "line": "        this.localVideoRef = react_1.default.createRef();",
     "lineNumber": 98,
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2020-09-14T23:03:44.863Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-14T23:03:44.863Z"
   },
   {
     "rule": "React-createRef",
@@ -12935,8 +12934,8 @@
     "line": "        this.listRef = react_1.default.createRef();",
     "lineNumber": 16,
     "reasonCategory": "usageTrusted",
-    "updated": "2019-11-05T01:14:21.081Z",
-    "reasonDetail": "Used for focus management"
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Used for scroll calculations"
   },
   {
     "rule": "React-createRef",
@@ -13015,8 +13014,8 @@
     "line": "        this.containerRef = react_1.default.createRef();",
     "lineNumber": 25,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Used for scroll calculations"
+    "updated": "2019-08-09T00:44:31.008Z",
+    "reasonDetail": "SearchResults needs to interact with its child List directly"
   },
   {
     "rule": "React-createRef",
@@ -13086,7 +13085,7 @@
     "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
     "lineNumber": 213,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-14T23:03:44.863Z"
+    "updated": "2020-09-08T20:19:01.913Z"
   },
   {
     "rule": "React-createRef",
@@ -13094,7 +13093,7 @@
     "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
     "lineNumber": 215,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-09-14T23:03:44.863Z"
+    "updated": "2020-09-08T20:19:01.913Z"
   },
   {
     "rule": "React-createRef",
@@ -13187,7 +13186,7 @@
     "rule": "jQuery-append(",
     "path": "ts/textsecure/ContactsParser.js",
     "line": "        this.buffer.append(arrayBuffer);",
-    "lineNumber": 7,
+    "lineNumber": 9,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13195,7 +13194,7 @@
     "rule": "jQuery-append(",
     "path": "ts/textsecure/ContactsParser.ts",
     "line": "    this.buffer.append(arrayBuffer);",
-    "lineNumber": 26,
+    "lineNumber": 30,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13203,7 +13202,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/Crypto.js",
     "line": "        const data = window.dcodeIO.ByteBuffer.wrap(encryptedProfileName, 'base64').toArrayBuffer();",
-    "lineNumber": 157,
+    "lineNumber": 155,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13211,7 +13210,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/Crypto.js",
     "line": "                given: window.dcodeIO.ByteBuffer.wrap(padded)",
-    "lineNumber": 176,
+    "lineNumber": 174,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13219,7 +13218,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/Crypto.js",
     "line": "                    ? window.dcodeIO.ByteBuffer.wrap(padded)",
-    "lineNumber": 180,
+    "lineNumber": 178,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13227,7 +13226,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/Crypto.ts",
     "line": "    const data = window.dcodeIO.ByteBuffer.wrap(",
-    "lineNumber": 223,
+    "lineNumber": 345,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13235,7 +13234,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/Crypto.ts",
     "line": "        given: window.dcodeIO.ByteBuffer.wrap(padded)",
-    "lineNumber": 252,
+    "lineNumber": 374,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13243,7 +13242,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/Crypto.ts",
     "line": "          ? window.dcodeIO.ByteBuffer.wrap(padded)",
-    "lineNumber": 256,
+    "lineNumber": 378,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13251,7 +13250,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.js",
     "line": "        wrap(sender.sendRequestConfigurationSyncMessage(sendOptions));",
-    "lineNumber": 27,
+    "lineNumber": 30,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13259,7 +13258,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.js",
     "line": "        wrap(sender.sendRequestBlockSyncMessage(sendOptions));",
-    "lineNumber": 29,
+    "lineNumber": 32,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13267,7 +13266,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.js",
     "line": "        wrap(sender.sendRequestContactSyncMessage(sendOptions))",
-    "lineNumber": 31,
+    "lineNumber": 34,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13275,7 +13274,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.js",
     "line": "            return wrap(sender.sendRequestGroupSyncMessage(sendOptions));",
-    "lineNumber": 34,
+    "lineNumber": 37,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13283,7 +13282,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.ts",
     "line": "    wrap(sender.sendRequestConfigurationSyncMessage(sendOptions));",
-    "lineNumber": 42,
+    "lineNumber": 51,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13291,7 +13290,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.ts",
     "line": "    wrap(sender.sendRequestBlockSyncMessage(sendOptions));",
-    "lineNumber": 45,
+    "lineNumber": 54,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13299,7 +13298,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.ts",
     "line": "    wrap(sender.sendRequestContactSyncMessage(sendOptions))",
-    "lineNumber": 48,
+    "lineNumber": 57,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13307,7 +13306,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/SyncRequest.ts",
     "line": "        return wrap(sender.sendRequestGroupSyncMessage(sendOptions));",
-    "lineNumber": 51,
+    "lineNumber": 60,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-05T23:45:16.746Z"
   },
@@ -13315,7 +13314,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.js",
     "line": "            const byteBuffer = window.dcodeIO.ByteBuffer.wrap(quote, 'binary', window.dcodeIO.ByteBuffer.LITTLE_ENDIAN);",
-    "lineNumber": 1223,
+    "lineNumber": 1212,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   },
@@ -13323,7 +13322,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.ts",
     "line": "      const byteBuffer = window.dcodeIO.ByteBuffer.wrap(",
-    "lineNumber": 2076,
+    "lineNumber": 2068,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   }

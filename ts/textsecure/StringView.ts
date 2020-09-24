@@ -1,4 +1,5 @@
-// tslint:disable binary-expression-operand-order no-bitwise no-default-export
+/* eslint-disable no-bitwise */
+/* eslint-disable no-nested-ternary */
 
 const StringView = {
   /*
@@ -9,7 +10,7 @@ const StringView = {
    */
 
   // prettier-ignore
-  b64ToUint6(nChr: number) {
+  b64ToUint6(nChr: number): number {
     return nChr > 64 && nChr < 91
       ? nChr - 65
       : nChr > 96 && nChr < 123
@@ -23,7 +24,7 @@ const StringView = {
               : 0;
   },
 
-  base64ToBytes(sBase64: string, nBlocksSize: number) {
+  base64ToBytes(sBase64: string, nBlocksSize: number): ArrayBuffer {
     const sB64Enc = sBase64.replace(/[^A-Za-z0-9+/]/g, '');
     const nInLen = sB64Enc.length;
     const nOutLen = nBlocksSize
@@ -55,7 +56,7 @@ const StringView = {
   },
 
   // prettier-ignore
-  uint6ToB64(nUint6: number) {
+  uint6ToB64(nUint6: number): number {
     return nUint6 < 26
       ? nUint6 + 65
       : nUint6 < 52
@@ -69,7 +70,7 @@ const StringView = {
               : 65;
   },
 
-  bytesToBase64(aBytes: Uint8Array) {
+  bytesToBase64(aBytes: Uint8Array): string {
     let nMod3;
     let sB64Enc = '';
     let nUint24 = 0;

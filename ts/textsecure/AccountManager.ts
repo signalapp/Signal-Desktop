@@ -1,11 +1,15 @@
-// tslint:disable no-default-export no-unnecessary-local-variable
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable more/no-then */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import PQueue from 'p-queue';
 
 import EventTarget from './EventTarget';
 import { WebAPIType } from './WebAPI';
 import MessageReceiver from './MessageReceiver';
 import { KeyPairType, SignedPreKeyType } from '../libsignal.d';
 import utils from './Helpers';
-import PQueue from 'p-queue';
 import ProvisioningCipher from './ProvisioningCipher';
 import WebSocketResource, {
   IncomingWebSocketRequest,
@@ -42,7 +46,9 @@ type GeneratedKeysType = {
 
 export default class AccountManager extends EventTarget {
   server: WebAPIType;
+
   pending: Promise<void>;
+
   pendingQueue?: PQueue;
 
   constructor(username: string, password: string) {
@@ -55,9 +61,11 @@ export default class AccountManager extends EventTarget {
   async requestVoiceVerification(number: string) {
     return this.server.requestVerificationVoice(number);
   }
+
   async requestSMSVerification(number: string) {
     return this.server.requestVerificationSMS(number);
   }
+
   async encryptDeviceName(name: string, providedIdentityKey?: KeyPairType) {
     if (!name) {
       return null;
@@ -81,6 +89,7 @@ export default class AccountManager extends EventTarget {
     const arrayBuffer = proto.encode().toArrayBuffer();
     return MessageReceiver.arrayBufferToStringBase64(arrayBuffer);
   }
+
   async decryptDeviceName(base64: string) {
     const identityKey = await window.textsecure.storage.protocol.getIdentityKeyPair();
 
@@ -99,6 +108,7 @@ export default class AccountManager extends EventTarget {
 
     return name;
   }
+
   async maybeUpdateDeviceName() {
     const isNameEncrypted = window.textsecure.storage.user.getDeviceNameEncrypted();
     if (isNameEncrypted) {
@@ -111,15 +121,18 @@ export default class AccountManager extends EventTarget {
       await this.server.updateDeviceName(base64);
     }
   }
+
   async deviceNameIsEncrypted() {
     await window.textsecure.storage.user.setDeviceNameEncrypted();
   }
+
   async maybeDeleteSignalingKey() {
     const key = window.textsecure.storage.user.getSignalingKey();
     if (key) {
       await this.server.removeSignalingKey();
     }
   }
+
   async registerSingleDevice(number: string, verificationCode: string) {
     const registerKeys = this.server.registerKeys.bind(this.server);
     const createAccount = this.createAccount.bind(this);
@@ -275,6 +288,7 @@ export default class AccountManager extends EventTarget {
         })
     );
   }
+
   async refreshPreKeys() {
     const generateKeys = this.generateKeys.bind(this, 100);
     const registerKeys = this.server.registerKeys.bind(this.server);
@@ -289,6 +303,7 @@ export default class AccountManager extends EventTarget {
       })
     );
   }
+
   async rotateSignedPreKey() {
     return this.queueTask(async () => {
       const signedKeyId = window.textsecure.storage.get('signedKeyId', 1);
@@ -314,6 +329,7 @@ export default class AccountManager extends EventTarget {
         return;
       }
 
+      // eslint-disable-next-line consistent-return
       return store
         .getIdentityKeyPair()
         .then(
@@ -382,12 +398,14 @@ export default class AccountManager extends EventTarget {
         });
     });
   }
+
   async queueTask(task: () => Promise<any>) {
     this.pendingQueue = this.pendingQueue || new PQueue({ concurrency: 1 });
     const taskWithTimeout = window.textsecure.createTaskWithTimeout(task);
 
     return this.pendingQueue.add(taskWithTimeout);
   }
+
   async cleanSignedPreKeys() {
     const MINIMUM_KEYS = 3;
     const store = window.textsecure.storage.protocol;
@@ -600,6 +618,7 @@ export default class AccountManager extends EventTarget {
     await window.textsecure.storage.put('regionCode', regionCode);
     await window.textsecure.storage.protocol.hydrateCaches();
   }
+
   async clearSessionsAndPreKeys() {
     const store = window.textsecure.storage.protocol;
 
@@ -628,6 +647,7 @@ export default class AccountManager extends EventTarget {
     window.log.info('confirmKeys: confirming key', key.keyId);
     await store.storeSignedPreKey(key.keyId, key.keyPair, confirmed);
   }
+
   async generateKeys(count: number, providedProgressCallback?: Function) {
     const progressCallback =
       typeof providedProgressCallback === 'function'
@@ -695,6 +715,7 @@ export default class AccountManager extends EventTarget {
       );
     });
   }
+
   async registrationDone({ uuid, number }: { uuid?: string; number?: string }) {
     window.log.info('registration done');
 
