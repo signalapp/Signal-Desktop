@@ -39,7 +39,7 @@ export type StorageServiceCredentials = {
 
 export type TextSecureType = {
   createTaskWithTimeout: (
-    task: () => Promise<any>,
+    task: () => Promise<any> | any,
     id?: string,
     options?: { timeout?: number }
   ) => () => Promise<any>;
@@ -77,12 +77,16 @@ export type TextSecureType = {
     protocol: StorageProtocolType;
   };
   messageReceiver: MessageReceiver;
-  messaging?: SendMessage;
+  messageSender: MessageSender;
+  messaging: SendMessage;
   protobuf: ProtobufCollectionType;
   utils: typeof utils;
 
   EventTarget: typeof EventTarget;
   MessageReceiver: typeof MessageReceiver;
+  AccountManager: WhatIsThis;
+  MessageSender: WhatIsThis;
+  SyncRequest: WhatIsThis;
 };
 
 type StoredSignedPreKeyType = SignedPreKeyType & {
@@ -108,11 +112,13 @@ export type StorageProtocolType = StorageType & {
   removeSession: (identifier: string) => Promise<void>;
   getDeviceIds: (identifier: string) => Promise<Array<number>>;
   getIdentityRecord: (identifier: string) => IdentityKeyRecord | undefined;
+  getVerified: (id: string) => Promise<number>;
   hydrateCaches: () => Promise<void>;
   clearPreKeyStore: () => Promise<void>;
   clearSignedPreKeysStore: () => Promise<void>;
   clearSessionStore: () => Promise<void>;
   isTrustedIdentity: () => void;
+  isUntrusted: (id: string) => Promise<boolean>;
   storePreKey: (keyId: number, keyPair: KeyPairType) => Promise<void>;
   storeSignedPreKey: (
     keyId: number,
@@ -131,6 +137,7 @@ export type StorageProtocolType = StorageType & {
     number: string,
     options: IdentityKeyRecord
   ) => Promise<void>;
+  setApproval: (id: string, something: boolean) => void;
   setVerified: (
     encodedAddress: string,
     verifiedStatus: number,
@@ -138,6 +145,8 @@ export type StorageProtocolType = StorageType & {
   ) => Promise<void>;
   removeSignedPreKey: (keyId: number) => Promise<void>;
   removeAllData: () => Promise<void>;
+  on: (key: string, callback: () => void) => WhatIsThis;
+  removeAllConfiguration: () => Promise<void>;
 };
 
 // Protobufs
@@ -279,6 +288,7 @@ export declare class AccessControlClass {
 // Note: we need to use namespaces to express nested classes in Typescript
 export declare namespace AccessControlClass {
   class AccessRequired {
+    static ANY: number;
     static UNKNOWN: number;
     static MEMBER: number;
     static ADMINISTRATOR: number;
@@ -444,6 +454,10 @@ export declare class AttachmentPointerClass {
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
   ) => AttachmentPointerClass;
+
+  static Flags: {
+    VOICE_MESSAGE: number;
+  };
 
   cdnId?: ProtoBigNumberType;
   cdnKey?: string;
@@ -1144,6 +1158,7 @@ export declare class VerifiedClass {
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
   ) => VerifiedClass;
+  static State: WhatIsThis;
 
   destination?: string;
   destinationUuid?: string;

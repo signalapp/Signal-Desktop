@@ -186,6 +186,7 @@
       "ts/components/conversation/**",
       "ts/components/emoji/**",
       "ts/components/stickers/**",
+      "ts/models/**",
       "ts/notifications/**",
       "ts/protobuf/**",
       "ts/scripts/**",
@@ -196,7 +197,8 @@
       "ts/test/**",
       "ts/types/**",
       "ts/updater/**",
-      "ts/util/**"
+      "ts/util/**",
+      "ts/views/**"
     ]
   }
 }

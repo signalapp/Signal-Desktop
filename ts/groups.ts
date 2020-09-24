@@ -15,7 +15,6 @@ import {
 } from './services/groupCredentialFetcher';
 import {
   ConversationAttributesType,
-  ConversationModelType,
   GroupV2MemberType,
   GroupV2PendingMemberType,
   MessageAttributesType,
@@ -50,6 +49,7 @@ import {
 } from './textsecure.d';
 import { GroupCredentialsType } from './textsecure/WebAPI';
 import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from '../js/modules/types/message';
+import { ConversationModel } from './models/conversations';
 
 export type GroupV2AccessAttributesChangeType = {
   type: 'access-attributes';
@@ -265,7 +265,7 @@ export function deriveGroupFields(
 // Fetching and applying group changes
 
 type MaybeUpdatePropsType = {
-  conversation: ConversationModelType;
+  conversation: ConversationModel;
   groupChangeBase64?: string;
   newRevision?: number;
   receivedAt?: number;
@@ -548,7 +548,8 @@ function generateBasicMessage() {
   return {
     id: getGuid(),
     schemaVersion: MAX_MESSAGE_SCHEMA,
-  };
+    // this is missing most properties to fulfill this type
+  } as MessageAttributesType;
 }
 
 function generateLeftGroupChanges(

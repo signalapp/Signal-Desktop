@@ -46,10 +46,14 @@ const excludedFilesRegexps = [
   '\\.d\\.ts$',
 
   // High-traffic files in our project
-  '^js/models/messages.js',
-  '^js/models/conversations.js',
-  '^js/views/conversation_view.js',
-  '^js/background.js',
+  '^ts/models/messages.js',
+  '^ts/models/messages.ts',
+  '^ts/models/conversations.js',
+  '^ts/models/conversations.ts',
+  '^ts/views/conversation_view.js',
+  '^ts/views/conversation_view.ts',
+  '^ts/background.js',
+  '^ts/background.ts',
   '^ts/Crypto.js',
   '^ts/Crypto.ts',
   '^ts/textsecure/MessageReceiver.js',

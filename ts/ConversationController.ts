@@ -2,10 +2,11 @@ import { debounce, reduce, uniq, without } from 'lodash';
 import dataInterface from './sql/Client';
 import {
   ConversationModelCollectionType,
-  ConversationModelType,
-  ConversationTypeType,
+  WhatIsThis,
+  ConversationAttributesTypeType,
 } from './model-types.d';
-import { SendOptionsType } from './textsecure/SendMessage';
+import { SendOptionsType, CallbackResultType } from './textsecure/SendMessage';
+import { ConversationModel } from './models/conversations';
 
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
@@ -40,7 +41,7 @@ export function start(): void {
       this.on('add remove change:unreadCount', debouncedUpdateUnreadCount);
       window.Whisper.events.on('updateUnreadCount', debouncedUpdateUnreadCount);
     },
-    addActive(model: ConversationModelType) {
+    addActive(model: ConversationModel) {
       if (model.get('active_at')) {
         this.add(model);
       } else {
@@ -52,7 +53,7 @@ export function start(): void {
         'badge-count-muted-conversations'
       );
       const newUnreadCount = reduce(
-        this.map((m: ConversationModelType) =>
+        this.map((m: ConversationModel) =>
           !canCountMutedConversations && m.isMuted() ? 0 : m.get('unreadCount')
         ),
         (item: number, memo: number) => (item || 0) + memo,
@@ -91,7 +92,7 @@ export class ConversationController {
     this._conversations = conversations;
   }
 
-  get(id?: string | null): ConversationModelType | undefined {
+  get(id?: string | null): ConversationModel | undefined {
     if (!this._initialFetchComplete) {
       throw new Error(
         'ConversationController.get() needs complete initial fetch'
@@ -103,16 +104,16 @@ export class ConversationController {
   }
 
   dangerouslyCreateAndAdd(
-    attributes: Partial<ConversationModelType>
-  ): ConversationModelType {
+    attributes: Partial<ConversationModel>
+  ): ConversationModel {
     return this._conversations.add(attributes);
   }
 
   getOrCreate(
-    identifier: string,
-    type: ConversationTypeType,
+    identifier: string | null,
+    type: ConversationAttributesTypeType,
     additionalInitialProps = {}
-  ): ConversationModelType {
+  ): ConversationModel {
     if (typeof identifier !== 'string') {
       throw new TypeError("'id' must be a string");
     }
@@ -202,10 +203,10 @@ export class ConversationController {
   }
 
   async getOrCreateAndWait(
-    id: string,
-    type: ConversationTypeType,
+    id: string | null,
+    type: ConversationAttributesTypeType,
     additionalInitialProps = {}
-  ): Promise<ConversationModelType> {
+  ): Promise<ConversationModel> {
     await this._initialPromise;
     const conversation = this.getOrCreate(id, type, additionalInitialProps);
 
@@ -217,7 +218,7 @@ export class ConversationController {
     throw new Error('getOrCreateAndWait: did not get conversation');
   }
 
-  getConversationId(address: string): string | null {
+  getConversationId(address: string | null): string | null {
     if (!address) {
       return null;
     }
@@ -251,8 +252,8 @@ export class ConversationController {
     uuid,
     highTrust,
   }: {
-    e164?: string;
-    uuid?: string;
+    e164?: string | null;
+    uuid?: string | null;
     highTrust?: boolean;
   }): string | undefined {
     // Check for at least one parameter being provided. This is necessary
@@ -488,8 +489,8 @@ export class ConversationController {
   }
 
   async combineContacts(
-    current: ConversationModelType,
-    obsolete: ConversationModelType
+    current: ConversationModel,
+    obsolete: ConversationModel
   ): Promise<void> {
     const obsoleteId = obsolete.get('id');
     const currentId = current.get('id');
@@ -503,7 +504,11 @@ export class ConversationController {
         'combineContacts: Copying profile key from old to new contact'
       );
 
-      await current.setProfileKey(obsolete.get('profileKey'));
+      const profileKey = obsolete.get('profileKey');
+
+      if (profileKey) {
+        await current.setProfileKey(profileKey);
+      }
     }
 
     window.log.warn(
@@ -583,7 +588,7 @@ export class ConversationController {
   async getConversationForTargetMessage(
     targetFromId: string,
     targetTimestamp: number
-  ): Promise<boolean | ConversationModelType | null | undefined> {
+  ): Promise<boolean | ConversationModel | null | undefined> {
     const messages = await getMessagesBySentAt(targetTimestamp, {
       MessageCollection: window.Whisper.MessageCollection,
     });
@@ -605,11 +610,13 @@ export class ConversationController {
     return null;
   }
 
-  prepareForSend<T>(
-    id: string,
-    options?: unknown
+  prepareForSend(
+    id: string | undefined,
+    options?: WhatIsThis
   ): {
-    wrap: (promise: Promise<T>) => Promise<T>;
+    wrap: (
+      promise: Promise<CallbackResultType | void | null>
+    ) => Promise<CallbackResultType | void | null>;
     sendOptions: SendOptionsType | undefined;
   } {
     // id is any valid conversation identifier
@@ -619,14 +626,14 @@ export class ConversationController {
       : undefined;
     const wrap = conversation
       ? conversation.wrapSend.bind(conversation)
-      : async (promise: Promise<T>) => promise;
+      : async (promise: Promise<CallbackResultType | void | null>) => promise;
 
     return { wrap, sendOptions };
   }
 
   async getAllGroupsInvolvingId(
     conversationId: string
-  ): Promise<Array<ConversationModelType>> {
+  ): Promise<Array<ConversationModel>> {
     const groups = await getAllGroupsInvolvingId(conversationId, {
       ConversationCollection: window.Whisper.ConversationCollection,
     });

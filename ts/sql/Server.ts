@@ -2674,7 +2674,11 @@ async function getOlderMessagesByConversation(
     limit = 100,
     receivedAt = Number.MAX_VALUE,
     messageId,
-  }: { limit?: number; receivedAt?: number; messageId?: string } = {}
+  }: {
+    limit?: number;
+    receivedAt?: number;
+    messageId?: string;
+  } = {}
 ) {
   const db = getInstance();
   let rows;

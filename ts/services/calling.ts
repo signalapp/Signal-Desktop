@@ -22,12 +22,12 @@ import {
   CallDetailsType,
 } from '../state/ducks/calling';
 import { CallingMessageClass, EnvelopeClass } from '../textsecure.d';
-import { ConversationModelType } from '../model-types.d';
 import {
   AudioDevice,
   CallHistoryDetailsType,
   MediaDeviceSettings,
 } from '../types/Calling';
+import { ConversationModel } from '../models/conversations';
 
 export {
   CallState,
@@ -87,7 +87,7 @@ export class CallingClass {
   }
 
   async startOutgoingCall(
-    conversation: ConversationModelType,
+    conversation: ConversationModel,
     isVideoCall: boolean
   ): Promise<void> {
     window.log.info('CallingClass.startOutgoingCall()');
@@ -626,7 +626,7 @@ export class CallingClass {
     this.addCallHistoryForAutoEndedIncomingCall(conversation, reason);
   }
 
-  private attachToCall(conversation: ConversationModelType, call: Call): void {
+  private attachToCall(conversation: ConversationModel, call: Call): void {
     const { uxActions } = this;
     if (!uxActions) {
       return;
@@ -679,8 +679,8 @@ export class CallingClass {
   }
 
   private getRemoteUserIdFromConversation(
-    conversation: ConversationModelType
-  ): UserId | undefined {
+    conversation: ConversationModel
+  ): UserId | undefined | null {
     const recipients = conversation.getRecipients();
     if (recipients.length !== 1) {
       return undefined;
@@ -705,7 +705,7 @@ export class CallingClass {
   }
 
   private async getCallSettings(
-    conversation: ConversationModelType
+    conversation: ConversationModel
   ): Promise<CallSettings> {
     if (!window.textsecure.messaging) {
       throw new Error('getCallSettings: offline!');
@@ -725,9 +725,12 @@ export class CallingClass {
   }
 
   private getUxCallDetails(
-    conversation: ConversationModelType,
+    conversation: ConversationModel,
     call: Call
   ): CallDetailsType {
+    // Does not meet CallDetailsType interface requirements
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     return {
       ...conversation.cachedProps,
 
@@ -738,7 +741,7 @@ export class CallingClass {
   }
 
   private addCallHistoryForEndedCall(
-    conversation: ConversationModelType,
+    conversation: ConversationModel,
     call: Call,
     acceptedTimeParam: number | undefined
   ) {
@@ -770,7 +773,7 @@ export class CallingClass {
   }
 
   private addCallHistoryForFailedIncomingCall(
-    conversation: ConversationModelType,
+    conversation: ConversationModel,
     call: Call
   ) {
     const callHistoryDetails: CallHistoryDetailsType = {
@@ -785,7 +788,7 @@ export class CallingClass {
   }
 
   private addCallHistoryForAutoEndedIncomingCall(
-    conversation: ConversationModelType,
+    conversation: ConversationModel,
     _reason: CallEndedReason
   ) {
     const callHistoryDetails: CallHistoryDetailsType = {

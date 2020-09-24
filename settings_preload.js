@@ -118,3 +118,5 @@ function makeSetter(name) {
 }
 
 require('./js/logging');
+
+window.Backbone = require('backbone');

@@ -19,10 +19,10 @@ export type UnprocessedType = any;
 
 import {
   ConversationModelCollectionType,
-  ConversationModelType,
   MessageModelCollectionType,
-  MessageModelType,
 } from '../model-types.d';
+import { MessageModel } from '../models/messages';
+import { ConversationModel } from '../models/conversations';
 
 export interface DataInterface {
   close: () => Promise<void>;
@@ -204,7 +204,11 @@ export type ServerInterface = DataInterface & {
   getMessagesBySentAt: (sentAt: number) => Promise<Array<MessageType>>;
   getOlderMessagesByConversation: (
     conversationId: string,
-    options?: { limit?: number; receivedAt?: number; messageId?: string }
+    options?: {
+      limit?: number;
+      receivedAt?: number;
+      messageId?: string;
+    }
   ) => Promise<Array<MessageTypeUnhydrated>>;
   getNewerMessagesByConversation: (
     conversationId: string,
@@ -228,7 +232,7 @@ export type ServerInterface = DataInterface & {
   saveMessage: (
     data: MessageType,
     options: { forceSave?: boolean }
-  ) => Promise<number>;
+  ) => Promise<string>;
   updateConversation: (data: ConversationType) => Promise<void>;
 
   // For testing only
@@ -272,8 +276,8 @@ export type ClientInterface = DataInterface & {
   }) => Promise<ConversationModelCollectionType>;
   getConversationById: (
     id: string,
-    { Conversation }: { Conversation: typeof ConversationModelType }
-  ) => Promise<ConversationModelType>;
+    { Conversation }: { Conversation: typeof ConversationModel }
+  ) => Promise<ConversationModel>;
   getExpiredMessages: ({
     MessageCollection,
   }: {
@@ -281,7 +285,7 @@ export type ClientInterface = DataInterface & {
   }) => Promise<MessageModelCollectionType>;
   getMessageById: (
     id: string,
-    { Message }: { Message: typeof MessageModelType }
+    { Message }: { Message: typeof MessageModel }
   ) => Promise<MessageType | undefined>;
   getMessageBySender: (
     options: {
@@ -290,8 +294,8 @@ export type ClientInterface = DataInterface & {
       sourceDevice: string;
       sent_at: number;
     },
-    { Message }: { Message: typeof MessageModelType }
-  ) => Promise<MessageModelType | null>;
+    { Message }: { Message: typeof MessageModel }
+  ) => Promise<MessageModel | null>;
   getMessagesBySentAt: (
     sentAt: number,
     {
@@ -302,6 +306,7 @@ export type ClientInterface = DataInterface & {
     conversationId: string,
     options: {
       limit?: number;
+      messageId?: string;
       receivedAt?: number;
       MessageCollection: typeof MessageModelCollectionType;
     }
@@ -317,25 +322,25 @@ export type ClientInterface = DataInterface & {
   getLastConversationActivity: (
     conversationId: string,
     options: {
-      Message: typeof MessageModelType;
+      Message: typeof MessageModel;
     }
-  ) => Promise<MessageModelType | undefined>;
+  ) => Promise<MessageModel | undefined>;
   getLastConversationPreview: (
     conversationId: string,
     options: {
-      Message: typeof MessageModelType;
+      Message: typeof MessageModel;
     }
-  ) => Promise<MessageModelType | undefined>;
+  ) => Promise<MessageModel | undefined>;
   getNextExpiringMessage: ({
     Message,
   }: {
-    Message: typeof MessageModelType;
-  }) => Promise<MessageModelType | null>;
+    Message: typeof MessageModel;
+  }) => Promise<MessageModel | null>;
   getNextTapToViewMessageToAgeOut: ({
     Message,
   }: {
-    Message: typeof MessageModelType;
-  }) => Promise<MessageModelType | null>;
+    Message: typeof MessageModel;
+  }) => Promise<MessageModel | null>;
   getOutgoingWithoutExpiresAt: ({
     MessageCollection,
   }: {
@@ -354,17 +359,17 @@ export type ClientInterface = DataInterface & {
   ) => Promise<MessageModelCollectionType>;
   removeConversation: (
     id: string,
-    { Conversation }: { Conversation: typeof ConversationModelType }
+    { Conversation }: { Conversation: typeof ConversationModel }
   ) => Promise<void>;
   removeMessage: (
     id: string,
-    { Message }: { Message: typeof MessageModelType }
+    { Message }: { Message: typeof MessageModel }
   ) => Promise<void>;
   saveMessage: (
     data: MessageType,
-    options: { forceSave?: boolean; Message: typeof MessageModelType }
-  ) => Promise<number>;
-  updateConversation: (data: ConversationType) => void;
+    options: { forceSave?: boolean; Message: typeof MessageModel }
+  ) => Promise<string>;
+  updateConversation: (data: ConversationType, extra?: unknown) => void;
 
   // Test-only
 

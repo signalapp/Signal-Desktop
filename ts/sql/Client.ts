@@ -21,9 +21,7 @@ import { createBatcher } from '../util/batcher';
 
 import {
   ConversationModelCollectionType,
-  ConversationModelType,
   MessageModelCollectionType,
-  MessageModelType,
 } from '../model-types.d';
 
 import {
@@ -45,6 +43,8 @@ import {
   StickerType,
   UnprocessedType,
 } from './Interface';
+import { MessageModel } from '../models/messages';
+import { ConversationModel } from '../models/conversations';
 
 // We listen to a lot of events on ipcRenderer, often on the same channel. This prevents
 //   any warnings that might be sent to the console in that case.
@@ -726,7 +726,7 @@ async function saveConversations(array: Array<ConversationType>) {
 
 async function getConversationById(
   id: string,
-  { Conversation }: { Conversation: typeof ConversationModelType }
+  { Conversation }: { Conversation: typeof ConversationModel }
 ) {
   const data = await channels.getConversationById(id);
 
@@ -756,7 +756,7 @@ async function updateConversations(array: Array<ConversationType>) {
 
 async function removeConversation(
   id: string,
-  { Conversation }: { Conversation: typeof ConversationModelType }
+  { Conversation }: { Conversation: typeof ConversationModel }
 ) {
   const existing = await getConversationById(id, { Conversation });
 
@@ -869,10 +869,7 @@ async function getMessageCount(conversationId?: string) {
 
 async function saveMessage(
   data: MessageType,
-  {
-    forceSave,
-    Message,
-  }: { forceSave?: boolean; Message: typeof MessageModelType }
+  { forceSave, Message }: { forceSave?: boolean; Message: typeof MessageModel }
 ) {
   const id = await channels.saveMessage(_cleanData(data), { forceSave });
   Message.updateTimers();
@@ -889,7 +886,7 @@ async function saveMessages(
 
 async function removeMessage(
   id: string,
-  { Message }: { Message: typeof MessageModelType }
+  { Message }: { Message: typeof MessageModel }
 ) {
   const message = await getMessageById(id, { Message });
 
@@ -908,7 +905,7 @@ async function _removeMessages(ids: Array<string>) {
 
 async function getMessageById(
   id: string,
-  { Message }: { Message: typeof MessageModelType }
+  { Message }: { Message: typeof MessageModel }
 ) {
   const message = await channels.getMessageById(id);
   if (!message) {
@@ -947,7 +944,7 @@ async function getMessageBySender(
     sourceDevice: string;
     sent_at: number;
   },
-  { Message }: { Message: typeof MessageModelType }
+  { Message }: { Message: typeof MessageModel }
 ) {
   const messages = await channels.getMessageBySender({
     source,
@@ -1027,9 +1024,9 @@ async function getNewerMessagesByConversation(
 async function getLastConversationActivity(
   conversationId: string,
   options: {
-    Message: typeof MessageModelType;
+    Message: typeof MessageModel;
   }
-): Promise<MessageModelType | undefined> {
+): Promise<MessageModel | undefined> {
   const { Message } = options;
   const result = await channels.getLastConversationActivity(conversationId);
   if (result) {
@@ -1040,9 +1037,9 @@ async function getLastConversationActivity(
 async function getLastConversationPreview(
   conversationId: string,
   options: {
-    Message: typeof MessageModelType;
+    Message: typeof MessageModel;
   }
-): Promise<MessageModelType | undefined> {
+): Promise<MessageModel | undefined> {
   const { Message } = options;
   const result = await channels.getLastConversationPreview(conversationId);
   if (result) {
@@ -1083,12 +1080,12 @@ async function removeAllMessagesInConversation(
       return;
     }
 
-    const ids = messages.map((message: MessageModelType) => message.id);
+    const ids = messages.map((message: MessageModel) => message.id);
 
     // Note: It's very important that these models are fully hydrated because
     //   we need to delete all associated on-disk files along with the database delete.
     await Promise.all(
-      messages.map(async (message: MessageModelType) => message.cleanup())
+      messages.map(async (message: MessageModel) => message.cleanup())
     );
 
     await channels.removeMessage(ids);
@@ -1129,7 +1126,7 @@ async function getOutgoingWithoutExpiresAt({
 async function getNextExpiringMessage({
   Message,
 }: {
-  Message: typeof MessageModelType;
+  Message: typeof MessageModel;
 }) {
   const message = await channels.getNextExpiringMessage();
 
@@ -1143,7 +1140,7 @@ async function getNextExpiringMessage({
 async function getNextTapToViewMessageToAgeOut({
   Message,
 }: {
-  Message: typeof MessageModelType;
+  Message: typeof MessageModel;
 }) {
   const message = await channels.getNextTapToViewMessageToAgeOut();
   if (!message) {

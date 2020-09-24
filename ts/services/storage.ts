@@ -17,7 +17,6 @@ import {
   StorageManifestClass,
   StorageRecordClass,
 } from '../textsecure.d';
-import { ConversationModelType } from '../model-types.d';
 import { isEnabled } from '../RemoteConfig';
 import {
   mergeAccountRecord,
@@ -29,6 +28,7 @@ import {
   toGroupV1Record,
   toGroupV2Record,
 } from './storageRecordOps';
+import { ConversationModel } from '../models/conversations';
 
 const {
   eraseStorageServiceStateFromConversations,
@@ -98,7 +98,7 @@ function generateStorageID(): ArrayBuffer {
   return Crypto.getRandomBytes(16);
 }
 
-function isGroupV1(conversation: ConversationModelType): boolean {
+function isGroupV1(conversation: ConversationModel): boolean {
   const groupID = conversation.get('groupId');
   if (!groupID) {
     return false;
@@ -109,7 +109,7 @@ function isGroupV1(conversation: ConversationModelType): boolean {
 
 type GeneratedManifestType = {
   conversationsToUpdate: Array<{
-    conversation: ConversationModelType;
+    conversation: ConversationModel;
     storageID: string | undefined;
   }>;
   deleteKeys: Array<ArrayBuffer>;
@@ -602,7 +602,7 @@ async function processManifest(
 
   const localKeys = window
     .getConversations()
-    .map((conversation: ConversationModelType) => conversation.get('storageID'))
+    .map((conversation: ConversationModel) => conversation.get('storageID'))
     .filter(Boolean);
 
   const unknownRecordsArray =

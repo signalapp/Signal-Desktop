@@ -419,7 +419,7 @@ async function _promiseAjax(
         // Build expired!
         if (response.status === 499) {
           window.log.error('Error: build expired');
-          window.storage.put('remoteBuildExpiration', Date.now());
+          await window.storage.put('remoteBuildExpiration', Date.now());
           window.reduxActions.expiration.hydrateExpirationStatus(true);
         }
 

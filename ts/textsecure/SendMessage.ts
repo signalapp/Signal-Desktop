@@ -586,7 +586,7 @@ export default class MessageSender {
     messageProto: DataMessageClass,
     silent?: boolean,
     options?: SendOptionsType
-  ) {
+  ): Promise<CallbackResultType> {
     return new Promise((resolve, reject) => {
       const callback = (result: CallbackResultType) => {
         if (result && result.errors && result.errors.length > 0) {
@@ -615,7 +615,7 @@ export default class MessageSender {
     timestamp: number,
     silent?: boolean,
     options?: SendOptionsType
-  ) {
+  ): Promise<CallbackResultType> {
     return new Promise((resolve, reject) => {
       const callback = (res: CallbackResultType) => {
         if (res && res.errors && res.errors.length > 0) {
@@ -651,8 +651,8 @@ export default class MessageSender {
   async sendSyncMessage(
     encodedDataMessage: ArrayBuffer,
     timestamp: number,
-    destination: string,
-    destinationUuid: string | null,
+    destination: string | undefined,
+    destinationUuid: string | null | undefined,
     expirationStartTimestamp: number | null,
     sentTo: Array<string> = [],
     unidentifiedDeliveries: Array<string> = [],
@@ -927,11 +927,11 @@ export default class MessageSender {
 
   async sendTypingMessage(
     options: {
-      recipientId: string;
-      groupId: string;
+      recipientId?: string;
+      groupId?: string;
       groupMembers: Array<string>;
       isTyping: boolean;
-      timestamp: number;
+      timestamp?: number;
     },
     sendOptions: SendOptionsType = {}
   ) {
@@ -950,9 +950,9 @@ export default class MessageSender {
       throw new Error('Need to provide either recipientId or groupId!');
     }
 
-    const recipients = groupId
-      ? (without(groupMembers, myNumber, myUuid) as Array<string>)
-      : [recipientId];
+    const recipients = (groupId
+      ? without(groupMembers, myNumber, myUuid)
+      : [recipientId]) as Array<string>;
     const groupIdBuffer = groupId
       ? fromEncodedBinaryToArrayBuffer(groupId)
       : null;
@@ -1035,7 +1035,7 @@ export default class MessageSender {
     recipientUuid: string,
     timestamps: Array<number>,
     options?: SendOptionsType
-  ) {
+  ): Promise<CallbackResultType | void> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
@@ -1129,7 +1129,7 @@ export default class MessageSender {
     senderUuid: string,
     timestamp: number,
     options?: SendOptionsType
-  ) {
+  ): Promise<CallbackResultType | null> {
     const myNumber = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const myDevice = window.textsecure.storage.user.getDeviceId();
@@ -1207,7 +1207,7 @@ export default class MessageSender {
       installed: boolean;
     }>,
     options?: SendOptionsType
-  ) {
+  ): Promise<CallbackResultType | null> {
     const myDevice = window.textsecure.storage.user.getDeviceId();
     if (myDevice === 1 || myDevice === '1') {
       return null;
@@ -1359,10 +1359,10 @@ export default class MessageSender {
 
   async getMessageProto(
     destination: string,
-    body: string,
-    attachments: Array<AttachmentType> | null,
+    body: string | undefined,
+    attachments: Array<AttachmentType>,
     quote: any,
-    preview: Array<PreviewType> | null,
+    preview: Array<PreviewType>,
     sticker: any,
     reaction: any,
     timestamp: number,
@@ -1402,10 +1402,10 @@ export default class MessageSender {
 
   async sendMessageToIdentifier(
     identifier: string,
-    messageText: string,
-    attachments: Array<AttachmentType> | null,
+    messageText: string | undefined,
+    attachments: Array<AttachmentType> | undefined,
     quote: any,
-    preview: Array<PreviewType> | null,
+    preview: Array<PreviewType> | undefined,
     sticker: any,
     reaction: any,
     timestamp: number,

@@ -14,7 +14,7 @@ import {
   GroupV2RecordClass,
 } from '../textsecure.d';
 import { deriveGroupFields, waitThenMaybeUpdateGroup } from '../groups';
-import { ConversationModelType } from '../model-types.d';
+import { ConversationModel } from '../models/conversations';
 
 const { updateConversation } = dataInterface;
 
@@ -40,7 +40,7 @@ function toRecordVerified(verified: number): number {
 
 function addUnknownFields(
   record: RecordClass,
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): void {
   if (record.__unknownFields) {
     window.log.info(
@@ -56,7 +56,7 @@ function addUnknownFields(
 
 function applyUnknownFields(
   record: RecordClass,
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): void {
   if (conversation.get('storageUnknownFields')) {
     window.log.info(
@@ -72,7 +72,7 @@ function applyUnknownFields(
 }
 
 export async function toContactRecord(
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): Promise<ContactRecordClass> {
   const contactRecord = new window.textsecure.protobuf.ContactRecord();
   if (conversation.get('uuid')) {
@@ -113,7 +113,7 @@ export async function toContactRecord(
 }
 
 export async function toAccountRecord(
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): Promise<AccountRecordClass> {
   const accountRecord = new window.textsecure.protobuf.AccountRecord();
 
@@ -147,7 +147,7 @@ export async function toAccountRecord(
 }
 
 export async function toGroupV1Record(
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): Promise<GroupV1RecordClass> {
   const groupV1Record = new window.textsecure.protobuf.GroupV1Record();
 
@@ -164,7 +164,7 @@ export async function toGroupV1Record(
 }
 
 export async function toGroupV2Record(
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): Promise<GroupV2RecordClass> {
   const groupV2Record = new window.textsecure.protobuf.GroupV2Record();
 
@@ -185,7 +185,7 @@ type MessageRequestCapableRecord = ContactRecordClass | GroupV1RecordClass;
 
 function applyMessageRequestState(
   record: MessageRequestCapableRecord,
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): void {
   if (record.blocked) {
     conversation.applyMessageRequestResponse(
@@ -218,7 +218,7 @@ type RecordClassObject = {
 function doRecordsConflict(
   localRecord: RecordClassObject,
   remoteRecord: RecordClassObject,
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): boolean {
   const debugID = conversation.debugID();
 
@@ -277,7 +277,7 @@ function doRecordsConflict(
 function doesRecordHavePendingChanges(
   mergedRecord: RecordClass,
   serviceRecord: RecordClass,
-  conversation: ConversationModelType
+  conversation: ConversationModel
 ): boolean {
   const shouldSync = Boolean(conversation.get('needsStorageServiceSync'));
 

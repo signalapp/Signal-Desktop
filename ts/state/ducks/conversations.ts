@@ -23,6 +23,17 @@ export type DBConversationType = {
   lastMessage: string;
   type: string;
 };
+
+export type LastMessageStatus =
+  | 'error'
+  | 'partial-sent'
+  | 'sending'
+  | 'sent'
+  | 'delivered'
+  | 'read';
+
+export type ConversationTypeType = 'direct' | 'group';
+
 export type ConversationType = {
   id: string;
   uuid?: string;
@@ -39,19 +50,13 @@ export type ConversationType = {
   timestamp?: number;
   inboxPosition?: number;
   lastMessage?: {
-    status:
-      | 'error'
-      | 'partial-sent'
-      | 'sending'
-      | 'sent'
-      | 'delivered'
-      | 'read';
+    status: LastMessageStatus;
     text: string;
   };
   phoneNumber?: string;
   membersCount?: number;
   muteExpiresAt?: number;
-  type: 'direct' | 'group';
+  type: ConversationTypeType;
   isMe?: boolean;
   lastUpdated: number;
   title: string;
@@ -59,14 +64,14 @@ export type ConversationType = {
   isSelected?: boolean;
   typingContact?: {
     avatarPath?: string;
-    color: string;
+    color?: ColorType;
     name?: string;
-    phoneNumber: string;
+    phoneNumber?: string;
     profileName?: string;
-  };
+  } | null;
 
   shouldShowDraft?: boolean;
-  draftText?: string;
+  draftText?: string | null;
   draftPreview?: string;
 
   messageRequestsEnabled?: boolean;
