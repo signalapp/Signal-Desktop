@@ -1339,9 +1339,6 @@
     "newClosedGroup": {
         "message": "Nhóm kín mới"
     },
-    "newClosedGroupDescription": {
-        "message": "Nhóm kín hỗ trợ tối đa 10 thành viên và cung cấp dịch vụ bảo mật giống như các session một-một"
-    },
     "createClosedGroupNamePrompt": {
         "message": "Tên nhóm"
     },
@@ -1367,6 +1364,6 @@
         "message": "Vui lòng chọn ít nhất 2 thành viên trong nhóm"
     },
     "closedGroupMaxSize": {
-        "message": "Một nhóm kín không thể có nhiều hơn 10 thành viên"
+        "message": "Một nhóm kín không thể có nhiều hơn 20 thành viên"
     }
 }

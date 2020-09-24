@@ -8,7 +8,7 @@ import { createLegacyGroup } from '../../session/medium_group';
 declare global {
   interface Window {
     Lodash: any;
-    SMALL_GROUP_SIZE_LIMIT: number;
+    MEDIUM_GROUP_SIZE_LIMIT: number;
   }
 }
 
@@ -200,11 +200,9 @@ export class CreateGroupDialog extends React.Component<Props, State> {
 
     if (
       updatedContacts.filter(d => d.checkmarked).length >
-      window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT - 1
+      window.CONSTANTS.MEDIUM_GROUP_SIZE_LIMIT - 1
     ) {
-      const msg = `${this.props.i18n('closedGroupMaxSize')} ${
-        window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT
-      }`;
+      const msg = this.props.i18n('closedGroupMaxSize');
       this.onShowError(msg);
 
       return;

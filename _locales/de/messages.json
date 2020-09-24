@@ -1441,9 +1441,6 @@
     "displayNameEmpty": {
         "message": "Bitte wählen Sie einen Anzeigenamen"
     },
-    "newClosedGroupDescription": {
-        "message": "Geschlossene Gruppen unterstützen bis zu 10 Mitglieder und bieten den gleichen Schutz der Privatsphäre wie Einzelgespräche."
-    },
     "openGroupURL": {
         "message": "Gruppen-URL öffnen"
     },
@@ -1463,6 +1460,6 @@
         "message": "Bitte wählen Sie mindestens zwei Gruppenmitglieder aus."
     },
     "closedGroupMaxSize": {
-        "message": "Eine geschlossene Gruppe kann maximal zehn Mitglieder haben."
+        "message": "Eine geschlossene Gruppe kann maximal zwanzig Mitglieder haben."
     }
 }

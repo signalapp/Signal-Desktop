@@ -2124,10 +2124,6 @@
     "message": "New Closed Group",
     "androidKey": "activity_create_closed_group_title"
   },
-  "newClosedGroupDescription": {
-    "message": "Closed groups support up to 10 members and provide the same privacy protections as one-on-one sessions.",
-    "androidKey": "activity_create_closed_group_explanation"
-  },
   "createClosedGroupNamePrompt": {
     "message": "Group Name",
     "androidKey": "GroupCreateActivity_group_name_hint",
@@ -2178,7 +2174,7 @@
     "androidKey": "activity_create_closed_group_not_enough_group_members_error"
   },
   "closedGroupMaxSize": {
-    "message": "A closed group cannot have more than 10 members",
+    "message": "A closed group cannot have more than 20 members",
     "androidKey": "activity_create_closed_group_too_many_group_members_error"
   },
   "noBlockedContacts": {

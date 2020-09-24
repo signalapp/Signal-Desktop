@@ -1378,9 +1378,6 @@
     "newClosedGroup": {
         "message": "Nowa grupa zamknięta"
     },
-    "newClosedGroupDescription": {
-        "message": "Grupy zamknięte obsługują do 10 członków i zapewniają taką samą ochronę prywatności jak sesje jeden na jednego."
-    },
     "createClosedGroupNamePrompt": {
         "message": "Nazwa grupy"
     },
@@ -1406,7 +1403,7 @@
         "message": "Wprowadź krótszą nazwę grupy"
     },
     "closedGroupMaxSize": {
-        "message": "Grupa zamknięta nie może mieć więcej niż 10 członków"
+        "message": "Grupa zamknięta nie może mieć więcej niż 20 członków"
     },
     "noBlockedContacts": {
         "message": "Brak zablokowanych kontaktów"

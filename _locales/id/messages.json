@@ -1372,9 +1372,6 @@
     "newClosedGroup": {
         "message": "Grup tertutup baru"
     },
-    "newClosedGroupDescription": {
-        "message": "Grup tertutup maksimal berisi 10 anggota dan memiliki perlindungan privasi yang sama dengan Session antara dua pengguna"
-    },
     "createClosedGroupNamePrompt": {
         "message": "Nama grup"
     },
@@ -1403,7 +1400,7 @@
         "message": "Pilih setidaknya 2 anggota grup"
     },
     "closedGroupMaxSize": {
-        "message": "Grup tertutup maksimal berisi 10 anggota"
+        "message": "Grup tertutup maksimal berisi 20 anggota"
     },
     "noBlockedContacts": {
         "message": "Tidak ada kontak yang diblokir"
