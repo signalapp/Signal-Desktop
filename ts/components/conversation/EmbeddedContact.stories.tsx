@@ -5,12 +5,10 @@ import { boolean, number } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
 import { EmbeddedContact, Props } from './EmbeddedContact';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../../js/modules/i18n';
-// @ts-ignore
 import enMessages from '../../../_locales/en/messages.json';
 import { ContactFormType } from '../../types/Contact';
+
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/EmbeddedContact', module);

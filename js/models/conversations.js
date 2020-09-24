@@ -1552,6 +1552,7 @@
       return {
         author: contact.get('e164'),
         authorUuid: contact.get('uuid'),
+        bodyRanges: quotedMessage.get('bodyRanges'),
         id: quotedMessage.get('sent_at'),
         text: body || embeddedContactName,
         attachments: quotedMessage.isTapToView()
@@ -3099,6 +3100,9 @@
         return;
       }
 
+      window.log.info(
+        `storageService[captureChange] marking ${this.debugID()} as needing sync`
+      );
       this.set({ needsStorageServiceSync: true });
 
       this.queueJob(() => {
@@ -3106,8 +3110,14 @@
       });
     },
 
+    isMuted() {
+      return (
+        this.get('muteExpiresAt') && Date.now() < this.get('muteExpiresAt')
+      );
+    },
+
     async notify(message, reaction) {
-      if (this.get('muteExpiresAt') && Date.now() < this.get('muteExpiresAt')) {
+      if (this.isMuted()) {
         return;
       }
 

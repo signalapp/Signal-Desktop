@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 // We don't include unicode-12.1.0 because it's over 100MB in size
 
 // From https://github.com/mathiasbynens/unicode-12.1.0/tree/master/Block
@@ -50,6 +52,7 @@ export function combineNames(given: string, family?: string): null | string {
 }
 
 function isAllCKJV(name: string): boolean {
+  // eslint-disable-next-line no-restricted-syntax
   for (const codePoint of name) {
     if (!isCKJV(codePoint)) {
       return false;
@@ -59,7 +62,6 @@ function isAllCKJV(name: string): boolean {
   return true;
 }
 
-// tslint:disable-next-line cyclomatic-complexity
 function isCKJV(codePoint: string) {
   if (codePoint === ' ') {
     return true;

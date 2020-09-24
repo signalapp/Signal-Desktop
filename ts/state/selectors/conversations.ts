@@ -49,7 +49,7 @@ export const getSelectedMessage = createSelector(
   getConversations,
   (state: ConversationsStateType): SelectedMessageType | undefined => {
     if (!state.selectedMessage) {
-      return;
+      return undefined;
     }
 
     return {
@@ -136,21 +136,19 @@ export const _getLeftPaneLists = (
   const max = values.length;
   for (let i = 0; i < max; i += 1) {
     let conversation = values[i];
-    if (!conversation.activeAt) {
-      continue;
-    }
+    if (conversation.activeAt) {
+      if (selectedConversation === conversation.id) {
+        conversation = {
+          ...conversation,
+          isSelected: true,
+        };
+      }
 
-    if (selectedConversation === conversation.id) {
-      conversation = {
-        ...conversation,
-        isSelected: true,
-      };
-    }
-
-    if (conversation.isArchived) {
-      archivedConversations.push(conversation);
-    } else {
-      conversations.push(conversation);
+      if (conversation.isArchived) {
+        archivedConversations.push(conversation);
+      } else {
+        conversations.push(conversation);
+      }
     }
   }
 
@@ -220,7 +218,7 @@ export const getConversationSelector = createSelector(
     return (id: string) => {
       const conversation = lookup[id];
       if (!conversation) {
-        return;
+        return undefined;
       }
 
       return selector(conversation);
@@ -236,17 +234,12 @@ export const getConversationSelector = createSelector(
 //     - message details
 export function _messageSelector(
   message: MessageType,
-  // @ts-ignore
-  ourNumber: string,
-  // @ts-ignore
-  regionCode: string,
+  _ourNumber: string,
+  _regionCode: string,
   interactionMode: 'mouse' | 'keyboard',
-  // @ts-ignore
-  conversation?: ConversationType,
-  // @ts-ignore
-  author?: ConversationType,
-  // @ts-ignore
-  quoted?: ConversationType,
+  _conversation?: ConversationType,
+  _author?: ConversationType,
+  _quoted?: ConversationType,
   selectedMessageId?: string,
   selectedMessageCounter?: number
 ): TimelineItemType {
@@ -319,7 +312,7 @@ export const getMessageSelector = createSelector(
     return (id: string) => {
       const message = messageLookup[id];
       if (!message) {
-        return;
+        return undefined;
       }
 
       const { conversationId, source, type, quote } = message;
@@ -441,7 +434,7 @@ export const getConversationMessagesSelector = createSelector(
     return (id: string): TimelinePropsType | undefined => {
       const conversation = messagesByConversation[id];
       if (!conversation) {
-        return;
+        return undefined;
       }
 
       return conversationMessagesSelector(conversation);

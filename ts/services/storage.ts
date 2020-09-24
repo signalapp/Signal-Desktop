@@ -567,7 +567,9 @@ async function mergeRecord(
     }
   } catch (err) {
     window.log.error(
-      `storageService.mergeRecord: merging record failed ${storageID}`
+      'storageService.mergeRecord: merging record failed',
+      storageID,
+      err && err.stack ? err.stack : String(err)
     );
   }
 
@@ -696,9 +698,15 @@ async function processManifest(
   );
 
   try {
+    window.log.info(
+      `storageService.processManifest: Attempting to merge ${decryptedStorageItems.length} records`
+    );
     const mergedRecords = await pMap(decryptedStorageItems, mergeRecord, {
       concurrency: 5,
     });
+    window.log.info(
+      `storageService.processManifest: Merged ${mergedRecords.length} records`
+    );
 
     const unknownRecords: Map<string, UnknownRecord> = new Map();
     unknownRecordsArray.forEach((record: UnknownRecord) => {
@@ -766,7 +774,7 @@ export async function runStorageServiceSyncJob(): Promise<void> {
     // Guarding against no manifests being returned, everything should be ok
     if (!manifest) {
       window.log.info(
-        'storageService.runStorageServiceSyncJob: no manifest, returning early'
+        'storageService.runStorageServiceSyncJob: no new manifest'
       );
       return;
     }

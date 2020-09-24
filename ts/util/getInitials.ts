@@ -7,14 +7,14 @@ function removeNonInitials(name: string) {
 
 export function getInitials(name?: string): string | undefined {
   if (!name) {
-    return;
+    return undefined;
   }
 
   const cleaned = removeNonInitials(name);
   const parts = cleaned.split(' ');
   const initials = parts.map(part => part.trim()[0]);
   if (!initials.length) {
-    return;
+    return undefined;
   }
 
   return initials.slice(0, 2).join('');

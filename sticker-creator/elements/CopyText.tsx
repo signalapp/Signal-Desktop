@@ -10,27 +10,29 @@ export type Props = {
   onCopy?: () => unknown;
 };
 
-export const CopyText = React.memo(({ label, onCopy, value }: Props) => {
-  const i18n = useI18n();
-  const handleClick = React.useCallback(() => {
-    copy(value);
-    if (onCopy) {
-      onCopy();
-    }
-  }, [onCopy, value]);
+export const CopyText: React.ComponentType<Props> = React.memo(
+  ({ label, onCopy, value }) => {
+    const i18n = useI18n();
+    const handleClick = React.useCallback(() => {
+      copy(value);
+      if (onCopy) {
+        onCopy();
+      }
+    }, [onCopy, value]);
 
-  return (
-    <div className={styles.container}>
-      <input
-        type="text"
-        className={styles.input}
-        value={value}
-        aria-label={label}
-        readOnly={true}
-      />
-      <Button onClick={handleClick}>
-        {i18n('StickerCreator--CopyText--button')}
-      </Button>
-    </div>
-  );
-});
+    return (
+      <div className={styles.container}>
+        <input
+          type="text"
+          className={styles.input}
+          value={value}
+          aria-label={label}
+          readOnly
+        />
+        <Button onClick={handleClick}>
+          {i18n('StickerCreator--CopyText--button')}
+        </Button>
+      </div>
+    );
+  }
+);

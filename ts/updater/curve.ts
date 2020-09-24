@@ -5,7 +5,7 @@ import {
   verifySignature,
 } from 'curve25519-n';
 
-export function keyPair() {
+export function keyPair(): Record<string, Buffer> {
   const privateKey = randomBytes(32);
   const { pubKey, privKey } = generateKeyPair(privateKey);
 

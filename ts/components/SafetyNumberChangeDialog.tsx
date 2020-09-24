@@ -39,7 +39,7 @@ const SafetyDialogContents = ({
     if (cancelButtonRef && cancelButtonRef.current) {
       cancelButtonRef.current.focus();
     }
-  }, [contacts]);
+  }, [cancelButtonRef, contacts]);
 
   return (
     <>
@@ -88,6 +88,7 @@ const SafetyDialogContents = ({
                   onView(contact);
                 }}
                 tabIndex={0}
+                type="button"
               >
                 {i18n('view')}
               </button>
@@ -101,6 +102,7 @@ const SafetyDialogContents = ({
           onClick={onCancel}
           ref={cancelButtonRef}
           tabIndex={0}
+          type="button"
         >
           {i18n('cancel')}
         </button>
@@ -108,6 +110,7 @@ const SafetyDialogContents = ({
           className="module-sfn-dialog__actions--confirm"
           onClick={onConfirm}
           tabIndex={0}
+          type="button"
         >
           {confirmText || i18n('sendMessageToContact')}
         </button>

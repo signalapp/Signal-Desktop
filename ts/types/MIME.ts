@@ -1,4 +1,4 @@
-export type MIMEType = string & { _mimeTypeBrand: any };
+export type MIMEType = string & { _mimeTypeBrand: never };
 
 export const APPLICATION_OCTET_STREAM = 'application/octet-stream' as MIMEType;
 export const APPLICATION_JSON = 'application/json' as MIMEType;

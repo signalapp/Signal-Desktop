@@ -65,6 +65,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
 
           return (
             <button
+              type="button"
               key={emoji}
               ref={maybeFocusRef}
               tabIndex={0}
@@ -87,6 +88,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
           );
         })}
         <button
+          type="button"
           className={classNames(
             'module-reaction-picker__emoji-btn',
             otherSelected

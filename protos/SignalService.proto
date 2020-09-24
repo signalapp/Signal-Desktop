@@ -116,6 +116,7 @@ message DataMessage {
     optional string           authorUuid  = 5;
     optional string           text        = 3;
     repeated QuotedAttachment attachments = 4;
+    repeated BodyRange        bodyRanges  = 6;
   }
 
   message Contact {
@@ -212,6 +213,15 @@ message DataMessage {
     optional uint64 targetSentTimestamp = 1;
   }
 
+  message BodyRange {
+    optional uint32 start  = 1;
+    optional uint32 length = 2;
+
+    // oneof associatedValue {
+      optional string mentionUuid = 3;
+    //}
+  }
+
   enum ProtocolVersion {
     option allow_alias = true;
 
@@ -221,7 +231,8 @@ message DataMessage {
     VIEW_ONCE_VIDEO          = 3;
     REACTIONS                = 4;
     CDN_SELECTOR_ATTACHMENTS = 5;
-    CURRENT                  = 5;
+    MENTIONS                 = 6;
+    CURRENT                  = 6;
   }
 
   optional string             body                    = 1;
@@ -240,6 +251,7 @@ message DataMessage {
   optional bool               isViewOnce              = 14;
   optional Reaction           reaction                = 16;
   optional Delete             delete                  = 17;
+  repeated BodyRange          bodyRanges              = 18;
 }
 
 message NullMessage {

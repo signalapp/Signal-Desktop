@@ -1,6 +1,3 @@
-/**
- * @prettier
- */
 import React from 'react';
 
 import * as MIME from '../types/MIME';
@@ -44,11 +41,11 @@ export class LightboxGallery extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      selectedIndex: this.props.selectedIndex,
+      selectedIndex: props.selectedIndex,
     };
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { close, media, onSave, i18n } = this.props;
     const { selectedIndex } = this.state;
 

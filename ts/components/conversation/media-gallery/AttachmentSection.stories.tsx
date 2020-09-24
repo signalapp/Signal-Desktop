@@ -1,13 +1,12 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { select, text, withKnobs } from '@storybook/addon-knobs';
 import { random, range, sample, sortBy } from 'lodash';
 
-// @ts-ignore
 import { setup as setupI18n } from '../../../../js/modules/i18n';
-// @ts-ignore
 import enMessages from '../../../../_locales/en/messages.json';
-
 import { MIMEType } from '../../../types/MIME';
 import { MediaItemType } from '../../LightboxGallery';
 
@@ -20,6 +19,7 @@ const story = storiesOf(
   module
 );
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 story.addDecorator((withKnobs as any)({ escapeHTML: false }));
 
 export const now = Date.now();

@@ -209,7 +209,7 @@ type ProtobufCollectionType = DeviceMessagesProtobufTypes &
 // Note: there are a lot of places in the code that overwrite a field like this
 //   with a type that the app can use. Being more rigorous with these
 //   types would require code changes, out of scope for now.
-type ProtoBinaryType = any;
+export type ProtoBinaryType = any;
 type ProtoBigNumberType = any;
 
 // Groups.proto
@@ -577,6 +577,7 @@ export declare namespace DataMessageClass {
     static VIEW_ONCE: number;
     static VIEW_ONCE_VIDEO: number;
     static REACTIONS: number;
+    static MENTIONS: number;
     static CURRENT: number;
   }
 
@@ -587,6 +588,13 @@ export declare namespace DataMessageClass {
     authorUuid?: string;
     text?: string;
     attachments?: Array<DataMessageClass.Quote.QuotedAttachment>;
+    bodyRanges?: Array<DataMessageClass.BodyRange>;
+  }
+
+  class BodyRange {
+    start?: number;
+    length?: number;
+    mentionUuid?: string;
   }
 
   class Reaction {

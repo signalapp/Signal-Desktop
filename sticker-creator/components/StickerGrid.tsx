@@ -11,7 +11,7 @@ import { stickersDuck } from '../store';
 import { DropZone, Props as DropZoneProps } from '../elements/DropZone';
 import { convertToWebp } from '../util/preload';
 
-const queue = new PQueue({ concurrency: 3 });
+const queue = new PQueue({ concurrency: 3, timeout: 1000 * 60 * 2 });
 
 const SmartStickerFrame = SortableElement(
   ({ id, showGuide, mode }: StickerFrameProps) => {
@@ -56,7 +56,6 @@ const InnerGrid = SortableContainer(
               const webp = await convertToWebp(path);
               actions.addWebp(webp);
             } catch (e) {
-              // @ts-ignore
               window.log.error('Error processing image:', e);
               actions.removeSticker(path);
               actions.addToast({
@@ -114,7 +113,7 @@ export const StickerGrid = SortableContainer((props: Props) => {
       ids={ids}
       axis="xy"
       onSortEnd={handleSortEnd}
-      useDragHandle={true}
+      useDragHandle
     />
   );
 });

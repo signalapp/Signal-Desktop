@@ -19,7 +19,6 @@ export type OwnProps = {
 export type Props = OwnProps;
 
 export const StickerManager = React.memo(
-  // tslint:disable-next-line max-func-body-length
   ({
     installedPacks,
     receivedPacks,
@@ -51,18 +50,17 @@ export const StickerManager = React.memo(
           focusRef.current.focus();
         }
       });
+      // We only want to attempt downloads on initial load
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const clearPackToPreview = React.useCallback(() => {
       setPackToPreview(null);
     }, [setPackToPreview]);
 
-    const previewPack = React.useCallback(
-      (pack: StickerPackType) => {
-        setPackToPreview(pack);
-      },
-      [clearPackToPreview]
-    );
+    const previewPack = React.useCallback((pack: StickerPackType) => {
+      setPackToPreview(pack);
+    }, []);
 
     return (
       <>
@@ -98,7 +96,7 @@ export const StickerManager = React.memo(
             },
           ].map(section => {
             if (section.hideIfEmpty && section.packs.length === 0) {
-              return;
+              return null;
             }
 
             return (

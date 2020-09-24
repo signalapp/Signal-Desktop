@@ -31,7 +31,6 @@ const loadImageData = async (input: Input): Promise<ImageData> => {
           'imageToBlurHash: Failed to place image on canvas'
         );
         reject(error);
-        return;
       },
       // Calculating the blurhash on large images is a long-running and
       // synchronous operation, so here we ensure the images are a reasonable
@@ -43,7 +42,7 @@ const loadImageData = async (input: Input): Promise<ImageData> => {
   });
 };
 
-export const imageToBlurHash = async (input: Input) => {
+export const imageToBlurHash = async (input: Input): Promise<string> => {
   const { data, width, height } = await loadImageData(input);
   // 4 horizontal components and 3 vertical components
   return encode(data, width, height, 4, 3);

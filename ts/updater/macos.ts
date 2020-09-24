@@ -33,7 +33,7 @@ export async function start(
   getMainWindow: () => BrowserWindow,
   locale: LocaleType,
   logger: LoggerType
-) {
+): Promise<void> {
   logger.info('macos/start: starting checks...');
 
   loggerForQuitHandler = logger;
@@ -214,8 +214,6 @@ async function handToAutoUpdate(
         autoUpdater.checkForUpdates();
       } catch (error) {
         reject(error);
-
-        return;
       }
     });
   });
@@ -296,7 +294,6 @@ function write404(
 function getServerUrl(server: Server) {
   const address = server.address() as AddressInfo;
 
-  // tslint:disable-next-line:no-http-string
   return `http://127.0.0.1:${address.port}`;
 }
 function generateFileUrl(): string {

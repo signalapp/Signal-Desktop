@@ -11,6 +11,7 @@ import {
   getPlaceholder as getSafetyNumberPlaceholder,
 } from './safetyNumber';
 import { getStringForProfileChange } from './getStringForProfileChange';
+import { getTextWithMentions } from './getTextWithMentions';
 import { getUserAgent } from './getUserAgent';
 import { hasExpired } from './hasExpired';
 import { isFileDangerous } from './isFileDangerous';
@@ -30,6 +31,7 @@ export {
   generateSecurityNumber,
   getSafetyNumberPlaceholder,
   getStringForProfileChange,
+  getTextWithMentions,
   getUserAgent,
   GoogleChrome,
   hasExpired,

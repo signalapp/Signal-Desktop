@@ -1,4 +1,4 @@
-type LogFunction = (...args: Array<any>) => void;
+type LogFunction = (...args: Array<unknown>) => void;
 
 export type LoggerType = {
   fatal: LogFunction;

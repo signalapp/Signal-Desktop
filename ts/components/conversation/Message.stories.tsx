@@ -15,12 +15,10 @@ import {
   MIMEType,
   VIDEO_MP4,
 } from '../../types/MIME';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../../js/modules/i18n';
-// @ts-ignore
 import enMessages from '../../../_locales/en/messages.json';
 import { pngUrl } from '../../storybook/Fixtures';
+
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/Message', module);
@@ -45,6 +43,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   authorColor: overrideProps.authorColor || 'blue',
   authorAvatarPath: overrideProps.authorAvatarPath,
   authorTitle: text('authorTitle', overrideProps.authorTitle || ''),
+  bodyRanges: overrideProps.bodyRanges,
   canReply: true,
   clearSelectedMessage: action('clearSelectedMessage'),
   collapseMetadata: overrideProps.collapseMetadata,
@@ -74,7 +73,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   previews: overrideProps.previews || [],
   reactions: overrideProps.reactions,
   reactToMessage: action('reactToMessage'),
-  renderEmojiPicker: renderEmojiPicker,
+  renderEmojiPicker,
   replyToMessage: action('replyToMessage'),
   retrySend: action('retrySend'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
@@ -194,7 +193,6 @@ story.add('Older', () => {
   return renderBothDirections(props);
 });
 
-// tslint:disable-next-line:max-func-body-length
 story.add('Reactions', () => {
   const props = createProps({
     text: 'Hello there from a pal!',
@@ -768,4 +766,20 @@ story.add('Colors', () => {
       ))}
     </>
   );
+});
+
+story.add('@Mentions', () => {
+  const props = createProps({
+    bodyRanges: [
+      {
+        start: 0,
+        length: 1,
+        mentionUuid: 'zap',
+        replacementText: 'Zapp Brannigan',
+      },
+    ],
+    text: '\uFFFC This Is It. The Moment We Should Have Trained For.',
+  });
+
+  return renderBothDirections(props);
 });

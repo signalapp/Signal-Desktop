@@ -27,7 +27,7 @@ const CallingButton = ({
   );
 
   return (
-    <button className={className} onClick={onClick}>
+    <button type="button" className={className} onClick={onClick}>
       <div />
     </button>
   );
@@ -55,9 +55,14 @@ type StateType = {
 };
 
 export class CallScreen extends React.Component<PropsType, StateType> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private interval: any;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private controlsFadeTimer: any;
+
   private readonly localVideoRef: React.RefObject<HTMLVideoElement>;
+
   private readonly remoteVideoRef: React.RefObject<HTMLCanvasElement>;
 
   constructor(props: PropsType) {
@@ -75,18 +80,22 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     this.remoteVideoRef = React.createRef();
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
+    const { setLocalPreview, setRendererCanvas } = this.props;
+
     // It's really jump with a value of 500ms.
     this.interval = setInterval(this.updateAcceptedTimer, 100);
     this.fadeControls();
 
     document.addEventListener('keydown', this.handleKeyDown);
 
-    this.props.setLocalPreview({ element: this.localVideoRef });
-    this.props.setRendererCanvas({ element: this.remoteVideoRef });
+    setLocalPreview({ element: this.localVideoRef });
+    setRendererCanvas({ element: this.remoteVideoRef });
   }
 
-  public componentWillUnmount() {
+  public componentWillUnmount(): void {
+    const { setLocalPreview, setRendererCanvas } = this.props;
+
     document.removeEventListener('keydown', this.handleKeyDown);
 
     if (this.interval) {
@@ -95,11 +104,12 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     if (this.controlsFadeTimer) {
       clearTimeout(this.controlsFadeTimer);
     }
-    this.props.setLocalPreview({ element: undefined });
-    this.props.setRendererCanvas({ element: undefined });
+
+    setLocalPreview({ element: undefined });
+    setRendererCanvas({ element: undefined });
   }
 
-  updateAcceptedTimer = () => {
+  updateAcceptedTimer = (): void => {
     const { acceptedTime } = this.state;
     const { callState } = this.props;
 
@@ -119,7 +129,7 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     }
   };
 
-  handleKeyDown = (event: KeyboardEvent) => {
+  handleKeyDown = (event: KeyboardEvent): void => {
     const { callDetails } = this.props;
 
     if (!callDetails) {
@@ -143,8 +153,10 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     }
   };
 
-  showControls = () => {
-    if (!this.state.showControls) {
+  showControls = (): void => {
+    const { showControls } = this.state;
+
+    if (!showControls) {
       this.setState({
         showControls: true,
       });
@@ -153,7 +165,7 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     this.fadeControls();
   };
 
-  fadeControls = () => {
+  fadeControls = (): void => {
     if (this.controlsFadeTimer) {
       clearTimeout(this.controlsFadeTimer);
     }
@@ -165,7 +177,7 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     }, 5000);
   };
 
-  toggleAudio = () => {
+  toggleAudio = (): void => {
     const { callDetails, hasLocalAudio, setLocalAudio } = this.props;
 
     if (!callDetails) {
@@ -178,7 +190,7 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     });
   };
 
-  toggleVideo = () => {
+  toggleVideo = (): void => {
     const { callDetails, hasLocalVideo, setLocalVideo } = this.props;
 
     if (!callDetails) {
@@ -188,7 +200,7 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     setLocalVideo({ callId: callDetails.callId, enabled: !hasLocalVideo });
   };
 
-  public render() {
+  public render(): JSX.Element | null {
     const {
       callDetails,
       callState,
@@ -238,6 +250,7 @@ export class CallScreen extends React.Component<PropsType, StateType> {
           {this.renderMessage(callState)}
           <div className="module-ongoing-call__settings">
             <button
+              type="button"
               aria-label={i18n('callingDeviceSelection__settings')}
               className="module-ongoing-call__settings--button"
               onClick={toggleSettings}
@@ -322,6 +335,7 @@ export class CallScreen extends React.Component<PropsType, StateType> {
 
   private renderMessage(callState: CallState) {
     const { i18n } = this.props;
+    const { acceptedDuration } = this.state;
 
     let message = null;
     if (callState === CallState.Prering) {
@@ -330,13 +344,8 @@ export class CallScreen extends React.Component<PropsType, StateType> {
       message = i18n('outgoingCallRinging');
     } else if (callState === CallState.Reconnecting) {
       message = i18n('callReconnecting');
-    } else if (
-      callState === CallState.Accepted &&
-      this.state.acceptedDuration
-    ) {
-      message = i18n('callDuration', [
-        this.renderDuration(this.state.acceptedDuration),
-      ]);
+    } else if (callState === CallState.Accepted && acceptedDuration) {
+      message = i18n('callDuration', [this.renderDuration(acceptedDuration)]);
     }
 
     if (!message) {
@@ -345,6 +354,7 @@ export class CallScreen extends React.Component<PropsType, StateType> {
     return <div className="module-ongoing-call__header-message">{message}</div>;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   private renderDuration(ms: number): string {
     const secs = Math.floor((ms / 1000) % 60)
       .toString()

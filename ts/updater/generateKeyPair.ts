@@ -1,8 +1,7 @@
+/* eslint-disable no-console */
 import { getCliOptions, getPrintableError } from './common';
 import { keyPair } from './curve';
 import { writeHexToPath } from './signature';
-
-/* tslint:disable:no-console */
 
 const OPTIONS = [
   {

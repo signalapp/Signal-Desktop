@@ -1,18 +1,17 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-
-// @ts-ignore
-import { setup as setupI18n } from '../../js/modules/i18n';
-// @ts-ignore
-import enMessages from '../../_locales/en/messages.json';
-
-import { MessageSearchResult, PropsType } from './MessageSearchResult';
 import { boolean, text, withKnobs } from '@storybook/addon-knobs';
+
+import { setup as setupI18n } from '../../js/modules/i18n';
+import enMessages from '../../_locales/en/messages.json';
+import { MessageSearchResult, PropsType } from './MessageSearchResult';
 
 const i18n = setupI18n('en', enMessages);
 const story = storiesOf('Components/MessageSearchResult', module);
 
+// Storybook types are incorrect
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 story.addDecorator((withKnobs as any)({ escapeHTML: false }));
 
 const someone = {
@@ -41,8 +40,8 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     'snippet',
     overrideProps.snippet || "What's <<left>>going<<right>> on?"
   ),
-  from: overrideProps.from as any,
-  to: overrideProps.to as any,
+  from: overrideProps.from as PropsType['from'],
+  to: overrideProps.to as PropsType['to'],
   isSelected: boolean('isSelected', overrideProps.isSelected || false),
   openConversationInternal: action('openConversationInternal'),
   isSearchingInConversation: boolean(

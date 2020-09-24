@@ -154,10 +154,19 @@
   {
     "rule": "jQuery-$(",
     "path": "js/about_start.js",
-    "line": "$('.privacy').text(window.i18n('privacyPolicy'));",
+    "line": "$('.acknowledgments').text(window.i18n('softwareAcknowledgments'));",
     "lineNumber": 26,
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
+    "updated": "2020-09-16T14:49:26.520Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/about_start.js",
+    "line": "$('.privacy').text(window.i18n('privacyPolicy'));",
+    "lineNumber": 27,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-16T14:49:26.520Z",
     "reasonDetail": "Protected from arbitrary input"
   },
   {
@@ -226,6 +235,14 @@
     "lineNumber": 59,
     "reasonCategory": "falseMatch",
     "updated": "2020-03-20T20:40:34.498Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "js/modules/debuglogs.js",
+    "line": "  form.append('file', contentBuffer, {",
+    "lineNumber": 60,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
   },
   {
     "rule": "jQuery-load(",
@@ -300,7 +317,7 @@
     "rule": "jQuery-appendTo(",
     "path": "js/settings_start.js",
     "line": "    window.view.$el.appendTo($body);",
-    "lineNumber": 55,
+    "lineNumber": 56,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -397,6 +414,15 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/debug_log_view.js",
+    "line": "      this.$('.result').addClass('loading');",
+    "lineNumber": 70,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Static selector argument"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/debug_log_view.js",
     "line": "          el: this.$('.result'),",
     "lineNumber": 76,
     "reasonCategory": "usageTrusted",
@@ -429,6 +455,15 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-01T17:11:39.527Z",
     "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/debug_log_view.js",
+    "line": "        this.$('.result').text(i18n('debugLogError'));",
+    "lineNumber": 89,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Static selector argument"
   },
   {
     "rule": "jQuery-$(",
@@ -559,11 +594,29 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/inbox_view.js",
+    "line": "      this.$('.conversation-stack').removeClass('inactive');",
+    "lineNumber": 195,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Static selector argument"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/inbox_view.js",
     "line": "      this.$('.conversation-stack').addClass('inactive');",
     "lineNumber": 198,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-28T17:42:35.329Z",
     "reasonDetail": "Hardcoded selector"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/inbox_view.js",
+    "line": "      this.$('#header, .gutter').removeClass('inactive');",
+    "lineNumber": 199,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Static selector argument"
   },
   {
     "rule": "jQuery-$(",
@@ -604,11 +657,29 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
+    "line": "      this.$('#qr canvas').remove();",
+    "lineNumber": 159,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Static selector argument"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/install_view.js",
     "line": "      this.$('#qr .container').show();",
     "lineNumber": 160,
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/install_view.js",
+    "line": "      this.$('#qr').removeClass('ready');",
+    "lineNumber": 161,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Static selector argument"
   },
   {
     "rule": "jQuery-$(",
@@ -640,6 +711,15 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/install_view.js",
+    "line": "      this.$('#qr').removeAttr('title');",
+    "lineNumber": 172,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Static selector argument"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/install_view.js",
     "line": "      this.$('#qr').addClass('ready');",
     "lineNumber": 173,
     "reasonCategory": "usageTrusted",
@@ -654,6 +734,15 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-03-24T19:03:04.861Z",
     "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/install_view.js",
+    "line": "      this.$(DEVICE_NAME_SELECTOR).focus();",
+    "lineNumber": 179,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Static selector argument"
   },
   {
     "rule": "jQuery-$(",
@@ -760,6 +849,15 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/phone-input-view.js",
+    "line": "        this.$('.number-container').addClass('valid');",
+    "lineNumber": 28,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Static selector argument"
   },
   {
     "rule": "jQuery-$(",
@@ -905,7 +1003,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.spell-check-setting'),",
+    "line": "        el: this.$('.badge-count-muted-conversations-setting'),",
     "lineNumber": 131,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
@@ -914,8 +1012,17 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
+    "line": "        el: this.$('.spell-check-setting'),",
+    "lineNumber": 137,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-21T11:29:29.636Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
     "line": "          const $msg = this.$('.spell-check-setting-message');",
-    "lineNumber": 135,
+    "lineNumber": 141,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -924,7 +1031,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "          el: this.$('.menu-bar-setting'),",
-    "lineNumber": 148,
+    "lineNumber": 154,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -933,15 +1040,6 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        el: this.$('.always-relay-calls-setting'),",
-    "lineNumber": 155,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-21T11:29:29.636Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.call-ringtone-notification-setting'),",
     "lineNumber": 161,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
@@ -950,7 +1048,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.call-system-notification-setting'),",
+    "line": "        el: this.$('.call-ringtone-notification-setting'),",
     "lineNumber": 167,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
@@ -959,7 +1057,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.incoming-call-notification-setting'),",
+    "line": "        el: this.$('.call-system-notification-setting'),",
     "lineNumber": 173,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
@@ -968,7 +1066,7 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
-    "line": "        el: this.$('.media-permissions'),",
+    "line": "        el: this.$('.incoming-call-notification-setting'),",
     "lineNumber": 179,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
@@ -977,8 +1075,17 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
+    "line": "        el: this.$('.media-permissions'),",
+    "lineNumber": 185,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-08-21T11:29:29.636Z",
+    "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
     "line": "        el: this.$('.media-camera-permissions'),",
-    "lineNumber": 184,
+    "lineNumber": 190,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -987,7 +1094,7 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
-    "lineNumber": 190,
+    "lineNumber": 196,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -996,7 +1103,7 @@
     "rule": "jQuery-append(",
     "path": "js/views/settings_view.js",
     "line": "        this.$('.sync-setting').append(syncView.el);",
-    "lineNumber": 190,
+    "lineNumber": 196,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Interacting with already-existing DOM nodes"
@@ -1005,25 +1112,43 @@
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').text(i18n('syncNow'));",
-    "lineNumber": 271,
+    "lineNumber": 280,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "      this.$('.sync').removeAttr('disabled');",
+    "lineNumber": 281,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Static selector argument"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.sync').attr('disabled', 'disabled');",
-    "lineNumber": 275,
+    "lineNumber": 284,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
+    "line": "      this.$('.sync').text(i18n('syncing'));",
+    "lineNumber": 285,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Static selector argument"
   },
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
     "line": "      this.$('.synced_at').hide();",
-    "lineNumber": 287,
+    "lineNumber": 296,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1031,8 +1156,17 @@
   {
     "rule": "jQuery-$(",
     "path": "js/views/settings_view.js",
+    "line": "      this.$('.sync_failed').show();",
+    "lineNumber": 297,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Static selector argument"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/settings_view.js",
     "line": "      this.$('.sync_failed').hide();",
-    "lineNumber": 292,
+    "lineNumber": 301,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-21T11:29:29.636Z",
     "reasonDetail": "Protected from arbitrary input"
@@ -1108,6 +1242,15 @@
     "reasonCategory": "usageTrusted",
     "updated": "2018-09-19T21:59:32.770Z",
     "reasonDetail": "Protected from arbitrary input"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "js/views/standalone_registration_view.js",
+    "line": "        this.$('#request-sms, #request-voice').removeAttr('disabled');",
+    "lineNumber": 72,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Static selector argument"
   },
   {
     "rule": "jQuery-$(",
@@ -1292,6 +1435,15 @@
     "lineNumber": 204,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/@sinonjs/formatio/lib/formatio.js",
+    "line": "        var content = element.innerHTML || \"\";",
+    "lineNumber": 205,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Read, not write"
   },
   {
     "rule": "eval",
@@ -1483,11 +1635,26 @@
     "updated": "2019-12-11T01:10:06.091Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.js",
+    "line": "  setInterval: wrap(global.setInterval)",
+    "lineNumber": 8753,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/attr-accept/node_modules/core-js/client/core.min.js",
     "lineNumber": 7,
     "reasonCategory": "falseMatch",
     "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/core.min.js",
+    "lineNumber": 8,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
   },
   {
     "rule": "jQuery-$(",
@@ -1519,6 +1686,14 @@
     "lineNumber": 7820,
     "reasonCategory": "falseMatch",
     "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/library.js",
+    "line": "  setInterval: wrap(global.setInterval)",
+    "lineNumber": 7821,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
   },
   {
     "rule": "jQuery-$(",
@@ -1583,6 +1758,14 @@
     "updated": "2019-12-11T01:10:06.091Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/client/shim.js",
+    "line": "  setInterval: wrap(global.setInterval)",
+    "lineNumber": 8651,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/attr-accept/node_modules/core-js/client/shim.min.js",
     "lineNumber": 7,
@@ -1619,6 +1802,14 @@
     "lineNumber": 18,
     "reasonCategory": "falseMatch",
     "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/library/modules/web.timers.js",
+    "line": "  setInterval: wrap(global.setInterval)",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
   },
   {
     "rule": "jQuery-$(",
@@ -1667,6 +1858,14 @@
     "lineNumber": 18,
     "reasonCategory": "falseMatch",
     "updated": "2019-12-11T01:10:06.091Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/attr-accept/node_modules/core-js/modules/web.timers.js",
+    "line": "  setInterval: wrap(global.setInterval)",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -1986,6 +2185,14 @@
     "reasonCategory": "otherUtilityCode",
     "updated": "2020-08-26T19:34:24.581Z",
     "reasonDetail": "only used by eslint-plugin-jsx-ally"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/backbone/backbone-min.js",
+    "lineNumber": 1,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Used inside a Backbone view to populate this.$el"
   },
   {
     "rule": "jQuery-insertBefore(",
@@ -2946,6 +3153,14 @@
     "lineNumber": 73,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/form-data/lib/form_data.js",
+    "line": "  append(value);",
+    "lineNumber": 74,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
   },
   {
     "rule": "jQuery-append(",
@@ -6210,6 +6425,15 @@
   {
     "rule": "jQuery-$(",
     "path": "node_modules/intl-tel-input/src/spec/helpers/helpers.js",
+    "line": "  $(\"body\").trigger(getKeyEvent(key, \"keypress\"));",
+    "lineNumber": 120,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Static selector argument"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/intl-tel-input/src/spec/helpers/helpers.js",
     "line": "  $(\"body\").trigger(getKeyEvent(key, \"keyup\"));",
     "lineNumber": 121,
     "reasonCategory": "usageTrusted",
@@ -6430,6 +6654,13 @@
     "updated": "2020-04-30T22:35:27.860Z"
   },
   {
+    "rule": "jQuery-append(",
+    "path": "node_modules/jszip/dist/jszip.min.js",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
+  },
+  {
     "rule": "jQuery-load(",
     "path": "node_modules/jszip/lib/generate/index.js",
     "line": " * @param {String} zipCompression the compression defined at the load() level.",
@@ -6510,6 +6741,14 @@
     "updated": "2020-04-30T22:35:27.860Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/client/core.js",
+    "line": "\t  setInterval: wrap(global.setInterval)",
+    "lineNumber": 7014,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/jszip/node_modules/core-js/client/core.min.js",
     "lineNumber": 7,
@@ -6546,6 +6785,14 @@
     "lineNumber": 6536,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/client/library.js",
+    "line": "\t  setInterval: wrap(global.setInterval)",
+    "lineNumber": 6537,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6587,6 +6834,14 @@
     "updated": "2020-04-30T22:35:27.860Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/client/shim.js",
+    "line": "\t  setInterval: wrap(global.setInterval)",
+    "lineNumber": 7000,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/jszip/node_modules/core-js/client/shim.min.js",
     "lineNumber": 7,
@@ -6625,6 +6880,14 @@
     "updated": "2020-04-30T22:35:27.860Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/library/modules/web.timers.js",
+    "line": "  setInterval: wrap(global.setInterval)",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/jszip/node_modules/core-js/modules/es6.regexp.split.js",
     "line": "      if(!NPCG)separator2 = new RegExp('^' + separatorCopy.source + '$(?!\\\\s)', flags);",
@@ -6655,6 +6918,14 @@
     "lineNumber": 18,
     "reasonCategory": "falseMatch",
     "updated": "2020-04-30T22:35:27.860Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/jszip/node_modules/core-js/modules/web.timers.js",
+    "line": "  setInterval: wrap(global.setInterval)",
+    "lineNumber": 19,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
   },
   {
     "rule": "jQuery-$(",
@@ -9644,6 +9915,15 @@
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/min-document/serialize.js",
+    "line": "            strings.push(elem.innerHTML)",
+    "lineNumber": 37,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Read, not write"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/min-document/serialize.js",
     "line": "        key !== \"textContent\" && key !== \"innerText\" && key !== \"namespaceURI\" &&  key !== \"innerHTML\"",
     "lineNumber": 56,
     "reasonCategory": "usageTrusted",
@@ -9756,6 +10036,13 @@
     "updated": "2019-07-19T17:16:02.404Z"
   },
   {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
     "lineNumber": 22,
@@ -9769,6 +10056,14 @@
     "lineNumber": 67,
     "reasonCategory": "falseMatch",
     "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/mksnapshot/node_modules/form-data/lib/form_data.js",
+    "line": "  append(value);",
+    "lineNumber": 68,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
   },
   {
     "rule": "jQuery-append(",
@@ -9954,113 +10249,113 @@
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.es.js",
     "line": "\t\t\t\t\tthis.append(headerName, value);",
-    "lineNumber": 714,
+    "lineNumber": 720,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.es.js",
     "line": "\t\t// We don't worry about converting prop to ByteString here as append()",
-    "lineNumber": 721,
+    "lineNumber": 727,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.es.js",
     "line": "\t\t\t\t\tthis.append(pair[0], pair[1]);",
-    "lineNumber": 744,
+    "lineNumber": 750,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.es.js",
     "line": "\t\t\t\t\tthis.append(key, value);",
-    "lineNumber": 750,
+    "lineNumber": 756,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.es.js",
     "line": "\tappend(name, value) {",
-    "lineNumber": 821,
+    "lineNumber": 827,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.es.js",
     "line": "\t\t\t\theaders.append('Content-Type', contentType);",
-    "lineNumber": 1057,
+    "lineNumber": 1063,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.es.js",
     "line": "\t\t\t\theaders.append('Content-Type', contentType);",
-    "lineNumber": 1204,
+    "lineNumber": 1210,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.js",
     "line": "\t\t\t\t\tthis.append(headerName, value);",
-    "lineNumber": 718,
+    "lineNumber": 724,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.js",
     "line": "\t\t// We don't worry about converting prop to ByteString here as append()",
-    "lineNumber": 725,
+    "lineNumber": 731,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.js",
     "line": "\t\t\t\t\tthis.append(pair[0], pair[1]);",
-    "lineNumber": 748,
+    "lineNumber": 754,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.js",
     "line": "\t\t\t\t\tthis.append(key, value);",
-    "lineNumber": 754,
+    "lineNumber": 760,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.js",
     "line": "\tappend(name, value) {",
-    "lineNumber": 825,
+    "lineNumber": 831,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.js",
     "line": "\t\t\t\theaders.append('Content-Type', contentType);",
-    "lineNumber": 1061,
+    "lineNumber": 1067,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "node_modules/node-fetch/lib/index.js",
     "line": "\t\t\t\theaders.append('Content-Type', contentType);",
-    "lineNumber": 1208,
+    "lineNumber": 1214,
     "reasonCategory": "falseMatch",
-    "updated": "2020-08-11T15:42:35.324Z"
+    "updated": "2020-09-14T16:19:54.461Z"
   },
   {
     "rule": "jQuery-$(",
@@ -10240,6 +10535,13 @@
     "updated": "2019-07-19T17:16:02.404Z"
   },
   {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/nugget/node_modules/ajv/dist/regenerator.min.js",
+    "lineNumber": 13,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/nugget/node_modules/ajv/dist/regenerator.min.js",
     "lineNumber": 22,
@@ -10285,6 +10587,14 @@
     "lineNumber": 67,
     "reasonCategory": "falseMatch",
     "updated": "2019-07-19T17:16:02.404Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/nugget/node_modules/form-data/lib/form_data.js",
+    "line": "  append(value);",
+    "lineNumber": 68,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
   },
   {
     "rule": "jQuery-append(",
@@ -11321,6 +11631,14 @@
     "lineNumber": 55,
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/progress-stream/node_modules/through2/test.js",
+    "line": "  bufs.append(crypto.randomBytes(5))",
+    "lineNumber": 56,
+    "reasonCategory": "falseMatch",
+    "updated": "2020-09-11T17:24:56.124Z"
   },
   {
     "rule": "jQuery-append(",
@@ -12485,7 +12803,7 @@
     "rule": "jQuery-$(",
     "path": "sticker-creator/util/i18n.tsx",
     "line": "      const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
-    "lineNumber": 39,
+    "lineNumber": 40,
     "reasonCategory": "falseMatch",
     "updated": "2020-07-21T18:34:59.251Z"
   },
@@ -12529,25 +12847,41 @@
     "rule": "React-createRef",
     "path": "ts/components/CallScreen.js",
     "line": "        this.localVideoRef = react_1.default.createRef();",
-    "lineNumber": 97,
+    "lineNumber": 98,
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2020-09-14T23:03:44.863Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/CallScreen.js",
+    "line": "        this.remoteVideoRef = react_1.default.createRef();",
+    "lineNumber": 99,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-05-28T17:22:06.472Z",
-    "reasonDetail": "Used to render local preview video"
+    "updated": "2020-09-14T23:03:44.863Z"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/CallScreen.tsx",
     "line": "    this.localVideoRef = React.createRef();",
-    "lineNumber": 74,
+    "lineNumber": 79,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Used to render local preview video"
   },
   {
     "rule": "React-createRef",
+    "path": "ts/components/CallScreen.tsx",
+    "line": "    this.remoteVideoRef = React.createRef();",
+    "lineNumber": 80,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-14T23:03:44.863Z"
+  },
+  {
+    "rule": "React-createRef",
     "path": "ts/components/CaptionEditor.js",
     "line": "        this.inputRef = react_1.default.createRef();",
-    "lineNumber": 27,
+    "lineNumber": 26,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used only to set focus"
@@ -12556,7 +12890,7 @@
     "rule": "React-createRef",
     "path": "ts/components/CaptionEditor.tsx",
     "line": "    this.inputRef = React.createRef();",
-    "lineNumber": 46,
+    "lineNumber": 48,
     "reasonCategory": "usageTrusted",
     "updated": "2019-03-09T00:08:44.242Z",
     "reasonDetail": "Used only to set focus"
@@ -12565,7 +12899,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.js",
     "line": "    el.innerHTML = '';",
-    "lineNumber": 23,
+    "lineNumber": 24,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
@@ -12574,7 +12908,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
-    "lineNumber": 80,
+    "lineNumber": 81,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-03T19:23:21.195Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
@@ -12583,7 +12917,7 @@
     "rule": "jQuery-$(",
     "path": "ts/components/Intl.js",
     "line": "        const FIND_REPLACEMENTS = /\\$([^$]+)\\$/g;",
-    "lineNumber": 35,
+    "lineNumber": 33,
     "reasonCategory": "falseMatch",
     "updated": "2020-07-21T18:34:59.251Z"
   },
@@ -12606,9 +12940,18 @@
   },
   {
     "rule": "React-createRef",
+    "path": "ts/components/LeftPane.js",
+    "line": "        this.containerRef = react_1.default.createRef();",
+    "lineNumber": 17,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Used for scroll calculations"
+  },
+  {
+    "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
     "line": "        this.containerRef = react_1.default.createRef();",
-    "lineNumber": 141,
+    "lineNumber": 161,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-06T19:56:38.557Z",
     "reasonDetail": "Used to double-check outside clicks"
@@ -12616,8 +12959,16 @@
   {
     "rule": "React-createRef",
     "path": "ts/components/Lightbox.js",
+    "line": "        this.videoRef = react_1.default.createRef();",
+    "lineNumber": 162,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-14T23:03:44.863Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/Lightbox.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 143,
+    "lineNumber": 163,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-06T19:56:38.557Z",
     "reasonDetail": "Used to manage focus"
@@ -12626,7 +12977,7 @@
     "rule": "React-createRef",
     "path": "ts/components/MainHeader.js",
     "line": "        this.inputRef = react_1.default.createRef();",
-    "lineNumber": 146,
+    "lineNumber": 143,
     "reasonCategory": "usageTrusted",
     "updated": "2020-02-14T20:02:37.507Z",
     "reasonDetail": "Used only to set focus"
@@ -12660,6 +13011,15 @@
   },
   {
     "rule": "React-createRef",
+    "path": "ts/components/SearchResults.js",
+    "line": "        this.containerRef = react_1.default.createRef();",
+    "lineNumber": 25,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Used for scroll calculations"
+  },
+  {
+    "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.js",
     "line": "        this.menuTriggerRef = react_1.default.createRef();",
     "lineNumber": 16,
@@ -12671,7 +13031,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
     "line": "    this.menuTriggerRef = React.createRef();",
-    "lineNumber": 79,
+    "lineNumber": 82,
     "reasonCategory": "usageTrusted",
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Used to reference popup menu"
@@ -12705,6 +13065,15 @@
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
+    "line": "        this.focusRef = react_1.default.createRef();",
+    "lineNumber": 61,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-11T17:24:56.124Z",
+    "reasonDetail": "Used for managing focus only"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Message.js",
     "line": "        this.reactionsContainerRef = react_1.default.createRef();",
     "lineNumber": 62,
     "reasonCategory": "usageTrusted",
@@ -12715,15 +13084,23 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
-    "lineNumber": 210,
+    "lineNumber": 213,
     "reasonCategory": "usageTrusted",
-    "updated": "2020-08-28T19:36:40.817Z"
+    "updated": "2020-09-14T23:03:44.863Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Message.tsx",
+    "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "lineNumber": 215,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-14T23:03:44.863Z"
   },
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 214,
+    "lineNumber": 219,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T19:36:40.817Z"
   },
@@ -12731,7 +13108,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/MessageDetail.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 15,
+    "lineNumber": 18,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-01T22:46:33.013Z",
     "reasonDetail": "Used for setting focus only"
@@ -12749,7 +13126,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/media-gallery/MediaGallery.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 25,
+    "lineNumber": 28,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-01T22:46:33.013Z",
     "reasonDetail": "Used for setting focus only"
@@ -12758,7 +13135,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/media-gallery/MediaGallery.tsx",
     "line": "  public readonly focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
-    "lineNumber": 66,
+    "lineNumber": 68,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-01T22:46:33.013Z",
     "reasonDetail": "Used for setting focus only"
@@ -12767,7 +13144,7 @@
     "rule": "React-createRef",
     "path": "ts/components/stickers/StickerManager.js",
     "line": "    const focusRef = React.createRef();",
-    "lineNumber": 20,
+    "lineNumber": 18,
     "reasonCategory": "usageTrusted",
     "updated": "2019-11-21T06:13:49.384Z",
     "reasonDetail": "Used for setting focus only"
@@ -12787,6 +13164,24 @@
     "lineNumber": 21,
     "reasonCategory": "falseMatch",
     "updated": "2020-02-07T19:52:28.522Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "ts/test/util/windowsZoneIdentifier_test.js",
+    "line": "    before(function thisNeeded() {",
+    "lineNumber": 19,
+    "reasonCategory": "testCode",
+    "updated": "2020-09-02T18:59:59.432Z",
+    "reasonDetail": "This is test code (and isn't jQuery code)."
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "ts/test/util/windowsZoneIdentifier_test.ts",
+    "line": "  before(function thisNeeded() {",
+    "lineNumber": 12,
+    "reasonCategory": "testCode",
+    "updated": "2020-09-02T18:59:59.432Z",
+    "reasonDetail": "This is test code (and isn't jQuery code)."
   },
   {
     "rule": "jQuery-append(",

@@ -22,5 +22,6 @@ $(document).on('keydown', e => {
   }
 });
 
-// Localize the privacy string
+// Localize the acknowledgment and privacy strings
+$('.acknowledgments').text(window.i18n('softwareAcknowledgments'));
 $('.privacy').text(window.i18n('privacyPolicy'));

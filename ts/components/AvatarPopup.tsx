@@ -17,7 +17,7 @@ export type Props = {
   style: React.CSSProperties;
 } & AvatarProps;
 
-export const AvatarPopup = (props: Props) => {
+export const AvatarPopup = (props: Props): JSX.Element => {
   const focusRef = React.useRef<HTMLButtonElement>(null);
   const {
     i18n,
@@ -54,6 +54,7 @@ export const AvatarPopup = (props: Props) => {
       </div>
       <hr className="module-avatar-popup__divider" />
       <button
+        type="button"
         ref={focusRef}
         className="module-avatar-popup__item"
         onClick={onViewPreferences}
@@ -68,7 +69,11 @@ export const AvatarPopup = (props: Props) => {
           {i18n('mainMenuSettings')}
         </div>
       </button>
-      <button className="module-avatar-popup__item" onClick={onViewArchive}>
+      <button
+        type="button"
+        className="module-avatar-popup__item"
+        onClick={onViewArchive}
+      >
         <div
           className={classNames(
             'module-avatar-popup__item__icon',

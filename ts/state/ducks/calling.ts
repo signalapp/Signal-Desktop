@@ -17,7 +17,7 @@ import {
 
 // State
 
-export type CallId = any;
+export type CallId = unknown;
 
 export type CallDetailsType = {
   callId: CallId;
@@ -277,7 +277,6 @@ async function showCallNotification(callDetails: CallDetailsType) {
   }
   const { title, isVideoCall } = callDetails;
   notify({
-    platform: window.platform,
     title,
     icon: isVideoCall
       ? 'images/icons/v2/video-solid-24.svg'

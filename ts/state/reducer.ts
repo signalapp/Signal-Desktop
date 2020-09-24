@@ -92,5 +92,5 @@ export const reducers = {
   user,
 };
 
-// @ts-ignore: AnyAction breaks strong type checking inside reducers
-export const reducer = combineReducers<StateType, ActionsType>(reducers);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const reducer = combineReducers<StateType, ActionsType>(reducers as any);

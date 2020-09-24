@@ -18,14 +18,16 @@ type DeletesAttributesType = {
   targetSentTimestamp: number;
 };
 
-declare class DeletesModelType extends Backbone.Model<DeletesAttributesType> {
+export declare class DeletesModelType extends Backbone.Model<
+  DeletesAttributesType
+> {
   forMessage(message: MessageModelType): Array<DeletesModelType>;
   onDelete(doe: DeletesAttributesType): Promise<void>;
 }
 
 type TaskResultType = any;
 
-type MessageAttributesType = {
+export type MessageAttributesType = {
   id: string;
   type?: string;
 
@@ -47,7 +49,9 @@ type MessageAttributesType = {
   sourceUuid?: string;
 };
 
-declare class MessageModelType extends Backbone.Model<MessageAttributesType> {
+export declare class MessageModelType extends Backbone.Model<
+  MessageAttributesType
+> {
   id: string;
 
   static updateTimers(): void;
@@ -63,9 +67,9 @@ declare class MessageModelType extends Backbone.Model<MessageAttributesType> {
   ): Promise<void>;
 }
 
-type ConversationTypeType = 'private' | 'group';
+export type ConversationTypeType = 'private' | 'group';
 
-type ConversationAttributesType = {
+export type ConversationAttributesType = {
   id: string;
   type: ConversationTypeType;
   timestamp: number;
@@ -174,6 +178,7 @@ export declare class ConversationModelType extends Backbone.Model<
   isFromOrAddedByTrustedContact(): boolean;
   isBlocked(): boolean;
   isMe(): boolean;
+  isMuted(): boolean;
   isPrivate(): boolean;
   isVerified(): boolean;
   maybeRepairGroupV2(data: {
@@ -201,7 +206,7 @@ export declare class ConversationModelType extends Backbone.Model<
   wrapSend: (sendPromise: Promise<any>) => Promise<any>;
 }
 
-declare class ConversationModelCollectionType extends Backbone.Collection<
+export declare class ConversationModelCollectionType extends Backbone.Collection<
   ConversationModelType
 > {
   resetLookups(): void;

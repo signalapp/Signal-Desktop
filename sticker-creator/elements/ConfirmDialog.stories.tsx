@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { StoryRow } from './StoryRow';
-import { ConfirmDialog } from './ConfirmDialog';
-
 import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
+
+import { StoryRow } from './StoryRow';
+import { ConfirmDialog } from './ConfirmDialog';
 
 storiesOf('Sticker Creator/elements', module).add('ConfirmDialog', () => {
   const title = text('title', 'Foo bar banana baz?');

@@ -59,7 +59,29 @@ const rules = {
     },
   ],
 
+  'react/jsx-props-no-spreading': 'off',
+
+  // Updated to reflect future airbnb standard
+  // Allows for declaring defaultProps inside a class
+  'react/static-property-placement': ['error', 'static public field'],
+
+  // JIRA: DESKTOP-657
+  'react/sort-comp': 'off',
+
+  // We don't have control over the media we're sharing, so can't require
+  // captions.
+  'jsx-a11y/media-has-caption': 'off',
+
+  // We prefer named exports
   'import/prefer-default-export': 'off',
+
+  // Prefer functional components with default params
+  'react/require-default-props': 'off',
+
+  'jsx-a11y/label-has-associated-control': ['error', { assert: 'either' }],
+
+  // Upgrade from a warning
+  '@typescript-eslint/explicit-module-boundary-types': 'error',
 };
 
 module.exports = {
@@ -77,7 +99,7 @@ module.exports = {
 
   overrides: [
     {
-      files: ['*.ts', '*.tsx'],
+      files: ['ts/**/*.ts', 'ts/**/*.tsx'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: 'tsconfig.json',
@@ -97,11 +119,31 @@ module.exports = {
       rules,
     },
     {
-      files: ['**/*.stories.tsx', 'ts/build/**'],
+      files: ['sticker-creator/**/*.ts', 'sticker-creator/**/*.tsx'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        project: './sticker-creator/tsconfig.json',
+        ecmaFeatures: {
+          jsx: true,
+        },
+        ecmaVersion: 2018,
+        sourceType: 'module',
+      },
+      plugins: ['@typescript-eslint'],
+      extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:react/recommended',
+        'airbnb-typescript-prettier',
+      ],
+      rules,
+    },
+    {
+      files: ['**/*.stories.tsx', 'ts/build/**', 'ts/test/**'],
       rules: {
         ...rules,
         'import/no-extraneous-dependencies': 'off',
-        'react/jsx-props-no-spreading': 'off',
+        'react/no-array-index-key': 'off',
       },
     },
   ],

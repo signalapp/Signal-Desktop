@@ -73,6 +73,7 @@ export const ConfirmationDialog = React.memo(
         {actions.length > 0 && (
           <div className="module-confirmation-dialog__container__buttons">
             <button
+              type="button"
               onClick={handleCancel}
               ref={focusRef}
               className="module-confirmation-dialog__container__buttons__button"
@@ -81,7 +82,8 @@ export const ConfirmationDialog = React.memo(
             </button>
             {actions.map((action, i) => (
               <button
-                key={i}
+                type="button"
+                key={action.text}
                 onClick={handleAction}
                 data-action={i}
                 className={classNames(

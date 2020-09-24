@@ -1,5 +1,5 @@
 /* tslint:disable no-backbone-get-set-outside-model */
-import { isEqual, isNumber } from 'lodash';
+import { isNumber } from 'lodash';
 
 import {
   arrayBufferToBase64,
@@ -43,6 +43,11 @@ function addUnknownFields(
   conversation: ConversationModelType
 ): void {
   if (record.__unknownFields) {
+    window.log.info(
+      `storageService.addUnknownFields: Unknown fields found for ${conversation.get(
+        'id'
+      )}`
+    );
     conversation.set({
       storageUnknownFields: arrayBufferToBase64(record.__unknownFields),
     });
@@ -54,6 +59,11 @@ function applyUnknownFields(
   conversation: ConversationModelType
 ): void {
   if (conversation.get('storageUnknownFields')) {
+    window.log.info(
+      `storageService.applyUnknownFields: Applying unknown fields for ${conversation.get(
+        'id'
+      )}`
+    );
     // eslint-disable-next-line no-param-reassign
     record.__unknownFields = base64ToArrayBuffer(
       conversation.get('storageUnknownFields')
@@ -200,6 +210,69 @@ function applyMessageRequestState(
   }
 }
 
+type RecordClassObject = {
+  [key: string]: any;
+};
+
+function doRecordsConflict(
+  localRecord: RecordClassObject,
+  remoteRecord: RecordClassObject,
+  conversation: ConversationModelType
+): boolean {
+  const debugID = conversation.debugID();
+
+  const localKeys = Object.keys(localRecord);
+  const remoteKeys = Object.keys(remoteRecord);
+
+  if (localKeys.length !== remoteKeys.length) {
+    window.log.info(
+      'storageService.doRecordsConflict: Local keys do not match remote keys',
+      debugID,
+      localKeys.join(','),
+      remoteKeys.join(',')
+    );
+    return true;
+  }
+
+  return localKeys.reduce((hasConflict: boolean, key: string): boolean => {
+    const localValue = localRecord[key];
+    const remoteValue = remoteRecord[key];
+    if (Object.prototype.toString.call(localValue) === '[object ArrayBuffer]') {
+      const isEqual =
+        arrayBufferToBase64(localValue) === arrayBufferToBase64(remoteValue);
+      if (!isEqual) {
+        window.log.info(
+          'storageService.doRecordsConflict: Conflict found for',
+          key,
+          debugID
+        );
+      }
+      return hasConflict || !isEqual;
+    }
+
+    if (localValue === remoteValue) {
+      return hasConflict || false;
+    }
+
+    // Sometimes we get `null` values from Protobuf and they should default to
+    // false, empty string, or 0 for these records we do not count them as
+    // conflicting.
+    if (
+      remoteValue === null &&
+      (localValue === false || localValue === '' || localValue === 0)
+    ) {
+      return hasConflict || false;
+    }
+
+    window.log.info(
+      'storageService.doRecordsConflict: Conflict found for',
+      key,
+      debugID
+    );
+    return true;
+  }, false);
+}
+
 function doesRecordHavePendingChanges(
   mergedRecord: RecordClass,
   serviceRecord: RecordClass,
@@ -207,21 +280,27 @@ function doesRecordHavePendingChanges(
 ): boolean {
   const shouldSync = Boolean(conversation.get('needsStorageServiceSync'));
 
-  const hasConflict = !isEqual(mergedRecord, serviceRecord);
+  if (!shouldSync) {
+    return false;
+  }
 
-  if (shouldSync && !hasConflict) {
+  const hasConflict = doRecordsConflict(
+    mergedRecord,
+    serviceRecord,
+    conversation
+  );
+
+  if (!hasConflict) {
     conversation.set({ needsStorageServiceSync: false });
   }
 
-  return shouldSync && hasConflict;
+  return hasConflict;
 }
 
 export async function mergeGroupV1Record(
   storageID: string,
   groupV1Record: GroupV1RecordClass
 ): Promise<boolean> {
-  window.log.info(`storageService.mergeGroupV1Record: merging ${storageID}`);
-
   if (!groupV1Record.id) {
     window.log.info(
       `storageService.mergeGroupV1Record: no ID for ${storageID}`
@@ -259,8 +338,6 @@ export async function mergeGroupV1Record(
 
   updateConversation(conversation.attributes);
 
-  window.log.info(`storageService.mergeGroupV1Record: merged ${storageID}`);
-
   return hasPendingChanges;
 }
 
@@ -268,8 +345,6 @@ export async function mergeGroupV2Record(
   storageID: string,
   groupV2Record: GroupV2RecordClass
 ): Promise<boolean> {
-  window.log.info(`storageService.mergeGroupV2Record: merging ${storageID}`);
-
   if (!groupV2Record.masterKey) {
     window.log.info(
       `storageService.mergeGroupV2Record: no master key for ${storageID}`
@@ -334,7 +409,6 @@ export async function mergeGroupV2Record(
     conversation,
     dropInitialJoinMessage,
   });
-  window.log.info(`storageService.mergeGroupV2Record: merged ${storageID}`);
 
   return hasPendingChanges;
 }
@@ -343,8 +417,6 @@ export async function mergeContactRecord(
   storageID: string,
   contactRecord: ContactRecordClass
 ): Promise<boolean> {
-  window.log.info(`storageService.mergeContactRecord: merging ${storageID}`);
-
   window.normalizeUuids(
     contactRecord,
     ['serviceUuid'],
@@ -414,8 +486,6 @@ export async function mergeContactRecord(
 
   updateConversation(conversation.attributes);
 
-  window.log.info(`storageService.mergeContactRecord: merged ${storageID}`);
-
   return hasPendingChanges;
 }
 
@@ -423,8 +493,6 @@ export async function mergeAccountRecord(
   storageID: string,
   accountRecord: AccountRecordClass
 ): Promise<boolean> {
-  window.log.info(`storageService.mergeAccountRecord: merging ${storageID}`);
-
   const {
     avatarUrl,
     linkPreviews,
@@ -452,10 +520,6 @@ export async function mergeAccountRecord(
   if (profileKey) {
     window.storage.put('profileKey', profileKey.toArrayBuffer());
   }
-
-  window.log.info(
-    `storageService.mergeAccountRecord: merged settings ${storageID}`
-  );
 
   const ourID = window.ConversationController.getOurConversationId();
 
@@ -493,10 +557,6 @@ export async function mergeAccountRecord(
   );
 
   updateConversation(conversation.attributes);
-
-  window.log.info(
-    `storageService.mergeAccountRecord: merged profile ${storageID}`
-  );
 
   return hasPendingChanges;
 }

@@ -35,7 +35,6 @@ export const Text = React.memo(
     children,
     className,
     center,
-    wide,
     secondary,
     ...rest
   }: Props & ParagraphProps) => (

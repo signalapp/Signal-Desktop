@@ -19,11 +19,11 @@ let singleQueue = null;
 let multipleQueue = null;
 
 function makeNewSingleQueue() {
-  singleQueue = new Queue({ concurrency: 1 });
+  singleQueue = new Queue({ concurrency: 1, timeout: 1000 * 60 * 2 });
   return singleQueue;
 }
 function makeNewMultipleQueue() {
-  multipleQueue = new Queue({ concurrency: 10 });
+  multipleQueue = new Queue({ concurrency: 10, timeout: 1000 * 60 * 2 });
   return multipleQueue;
 }
 

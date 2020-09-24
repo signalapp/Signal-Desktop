@@ -2,254 +2,148 @@ import os from 'os';
 import Sinon from 'sinon';
 import { assert } from 'chai';
 
-import * as Settings from '../../../ts/types/Settings';
+import * as Settings from '../../types/Settings';
 
 describe('Settings', () => {
-  const sandbox = Sinon.createSandbox();
+  let sandbox: Sinon.SinonSandbox;
+
+  beforeEach(() => {
+    sandbox = Sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  describe('getAudioNotificationSupport', () => {
+    it('returns native support on macOS', () => {
+      sandbox.stub(process, 'platform').value('darwin');
+      assert.strictEqual(
+        Settings.getAudioNotificationSupport(),
+        Settings.AudioNotificationSupport.Native
+      );
+    });
+
+    it('returns no support on Windows 7', () => {
+      sandbox.stub(process, 'platform').value('win32');
+      sandbox.stub(os, 'release').returns('7.0.0');
+      assert.strictEqual(
+        Settings.getAudioNotificationSupport(),
+        Settings.AudioNotificationSupport.None
+      );
+    });
+
+    it('returns native support on Windows 8', () => {
+      sandbox.stub(process, 'platform').value('win32');
+      sandbox.stub(os, 'release').returns('8.0.0');
+      assert.strictEqual(
+        Settings.getAudioNotificationSupport(),
+        Settings.AudioNotificationSupport.Native
+      );
+    });
+
+    it('returns custom support on Linux', () => {
+      sandbox.stub(process, 'platform').value('linux');
+      assert.strictEqual(
+        Settings.getAudioNotificationSupport(),
+        Settings.AudioNotificationSupport.Custom
+      );
+    });
+  });
 
   describe('isAudioNotificationSupported', () => {
-    context('on macOS', () => {
-      beforeEach(() => {
-        sandbox.stub(process, 'platform').value('darwin');
-      });
-
-      afterEach(() => {
-        sandbox.restore();
-      });
-
-      it('should return true', () => {
-        assert.isTrue(Settings.isAudioNotificationSupported());
-      });
+    it('returns true on macOS', () => {
+      sandbox.stub(process, 'platform').value('darwin');
+      assert.isTrue(Settings.isAudioNotificationSupported());
     });
 
-    context('on Windows', () => {
-      context('version 7', () => {
-        beforeEach(() => {
-          sandbox.stub(process, 'platform').value('win32');
-          sandbox.stub(os, 'release').returns('7.0.0');
-        });
-
-        afterEach(() => {
-          sandbox.restore();
-        });
-
-        it('should return false', () => {
-          assert.isFalse(Settings.isAudioNotificationSupported());
-        });
-      });
-
-      context('version 8+', () => {
-        beforeEach(() => {
-          sandbox.stub(process, 'platform').value('win32');
-          sandbox.stub(os, 'release').returns('8.0.0');
-        });
-
-        afterEach(() => {
-          sandbox.restore();
-        });
-
-        it('should return true', () => {
-          assert.isTrue(Settings.isAudioNotificationSupported());
-        });
-      });
+    it('returns false on Windows 7', () => {
+      sandbox.stub(process, 'platform').value('win32');
+      sandbox.stub(os, 'release').returns('7.0.0');
+      assert.isFalse(Settings.isAudioNotificationSupported());
     });
 
-    context('on Linux', () => {
-      beforeEach(() => {
-        sandbox.stub(process, 'platform').value('linux');
-      });
+    it('returns true on Windows 8', () => {
+      sandbox.stub(process, 'platform').value('win32');
+      sandbox.stub(os, 'release').returns('8.0.0');
+      assert.isTrue(Settings.isAudioNotificationSupported());
+    });
 
-      afterEach(() => {
-        sandbox.restore();
-      });
-
-      it('should return false', () => {
-        assert.isFalse(Settings.isAudioNotificationSupported());
-      });
+    it('returns true on Linux', () => {
+      sandbox.stub(process, 'platform').value('linux');
+      assert.isTrue(Settings.isAudioNotificationSupported());
     });
   });
 
   describe('isNotificationGroupingSupported', () => {
-    context('on macOS', () => {
-      beforeEach(() => {
-        sandbox.stub(process, 'platform').value('darwin');
-      });
-
-      afterEach(() => {
-        sandbox.restore();
-      });
-
-      it('should return true', () => {
-        assert.isTrue(Settings.isNotificationGroupingSupported());
-      });
+    it('returns true on macOS', () => {
+      sandbox.stub(process, 'platform').value('darwin');
+      assert.isTrue(Settings.isNotificationGroupingSupported());
     });
 
-    context('on Windows', () => {
-      context('version 7', () => {
-        beforeEach(() => {
-          sandbox.stub(process, 'platform').value('win32');
-          sandbox.stub(os, 'release').returns('7.0.0');
-        });
-
-        afterEach(() => {
-          sandbox.restore();
-        });
-
-        it('should return false', () => {
-          assert.isFalse(Settings.isNotificationGroupingSupported());
-        });
-      });
-
-      context('version 8+', () => {
-        beforeEach(() => {
-          sandbox.stub(process, 'platform').value('win32');
-          sandbox.stub(os, 'release').returns('8.0.0');
-        });
-
-        afterEach(() => {
-          sandbox.restore();
-        });
-
-        it('should return true', () => {
-          assert.isTrue(Settings.isNotificationGroupingSupported());
-        });
-      });
+    it('returns true on Windows 7', () => {
+      sandbox.stub(process, 'platform').value('win32');
+      sandbox.stub(os, 'release').returns('7.0.0');
+      assert.isFalse(Settings.isNotificationGroupingSupported());
     });
 
-    context('on Linux', () => {
-      beforeEach(() => {
-        sandbox.stub(process, 'platform').value('linux');
-      });
+    it('returns true on Windows 8', () => {
+      sandbox.stub(process, 'platform').value('win32');
+      sandbox.stub(os, 'release').returns('8.0.0');
+      assert.isTrue(Settings.isNotificationGroupingSupported());
+    });
 
-      afterEach(() => {
-        sandbox.restore();
-      });
-
-      it('should return true', () => {
-        assert.isTrue(Settings.isNotificationGroupingSupported());
-      });
+    it('returns true on Linux', () => {
+      sandbox.stub(process, 'platform').value('linux');
+      assert.isTrue(Settings.isNotificationGroupingSupported());
     });
   });
+
   describe('isHideMenuBarSupported', () => {
-    context('on macOS', () => {
-      beforeEach(() => {
-        sandbox.stub(process, 'platform').value('darwin');
-      });
-
-      afterEach(() => {
-        sandbox.restore();
-      });
-
-      it('should return false', () => {
-        assert.isFalse(Settings.isHideMenuBarSupported());
-      });
+    it('returns false on macOS', () => {
+      sandbox.stub(process, 'platform').value('darwin');
+      assert.isFalse(Settings.isHideMenuBarSupported());
     });
 
-    context('on Windows', () => {
-      context('version 7', () => {
-        beforeEach(() => {
-          sandbox.stub(process, 'platform').value('win32');
-          sandbox.stub(os, 'release').returns('7.0.0');
-        });
-
-        afterEach(() => {
-          sandbox.restore();
-        });
-
-        it('should return true', () => {
-          assert.isTrue(Settings.isHideMenuBarSupported());
-        });
-      });
-
-      context('version 8+', () => {
-        beforeEach(() => {
-          sandbox.stub(process, 'platform').value('win32');
-          sandbox.stub(os, 'release').returns('8.0.0');
-        });
-
-        afterEach(() => {
-          sandbox.restore();
-        });
-
-        it('should return true', () => {
-          assert.isTrue(Settings.isHideMenuBarSupported());
-        });
-      });
+    it('returns true on Windows 7', () => {
+      sandbox.stub(process, 'platform').value('win32');
+      sandbox.stub(os, 'release').returns('7.0.0');
+      assert.isTrue(Settings.isHideMenuBarSupported());
     });
 
-    context('on Linux', () => {
-      beforeEach(() => {
-        sandbox.stub(process, 'platform').value('linux');
-      });
+    it('returns true on Windows 8', () => {
+      sandbox.stub(process, 'platform').value('win32');
+      sandbox.stub(os, 'release').returns('8.0.0');
+      assert.isTrue(Settings.isHideMenuBarSupported());
+    });
 
-      afterEach(() => {
-        sandbox.restore();
-      });
-
-      it('should return true', () => {
-        assert.isTrue(Settings.isHideMenuBarSupported());
-      });
+    it('returns true on Linux', () => {
+      sandbox.stub(process, 'platform').value('linux');
+      assert.isTrue(Settings.isHideMenuBarSupported());
     });
   });
+
   describe('isDrawAttentionSupported', () => {
-    context('on macOS', () => {
-      beforeEach(() => {
-        sandbox.stub(process, 'platform').value('darwin');
-      });
-
-      afterEach(() => {
-        sandbox.restore();
-      });
-
-      it('should return false', () => {
-        assert.isFalse(Settings.isDrawAttentionSupported());
-      });
+    it('returns false on macOS', () => {
+      sandbox.stub(process, 'platform').value('darwin');
+      assert.isFalse(Settings.isDrawAttentionSupported());
     });
 
-    context('on Windows', () => {
-      context('version 7', () => {
-        beforeEach(() => {
-          sandbox.stub(process, 'platform').value('win32');
-          sandbox.stub(os, 'release').returns('7.0.0');
-        });
-
-        afterEach(() => {
-          sandbox.restore();
-        });
-
-        it('should return true', () => {
-          assert.isTrue(Settings.isDrawAttentionSupported());
-        });
-      });
-
-      context('version 8+', () => {
-        beforeEach(() => {
-          sandbox.stub(process, 'platform').value('win32');
-          sandbox.stub(os, 'release').returns('8.0.0');
-        });
-
-        afterEach(() => {
-          sandbox.restore();
-        });
-
-        it('should return true', () => {
-          assert.isTrue(Settings.isDrawAttentionSupported());
-        });
-      });
+    it('returns true on Windows 7', () => {
+      sandbox.stub(process, 'platform').value('win32');
+      sandbox.stub(os, 'release').returns('7.0.0');
+      assert.isTrue(Settings.isDrawAttentionSupported());
     });
 
-    context('on Linux', () => {
-      beforeEach(() => {
-        sandbox.stub(process, 'platform').value('linux');
-      });
+    it('returns true on Windows 8', () => {
+      sandbox.stub(process, 'platform').value('win32');
+      sandbox.stub(os, 'release').returns('8.0.0');
+      assert.isTrue(Settings.isDrawAttentionSupported());
+    });
 
-      afterEach(() => {
-        sandbox.restore();
-      });
-
-      it('should return true', () => {
-        assert.isTrue(Settings.isDrawAttentionSupported());
-      });
+    it('returns true on Linux', () => {
+      sandbox.stub(process, 'platform').value('linux');
+      assert.isTrue(Settings.isDrawAttentionSupported());
     });
   });
 });

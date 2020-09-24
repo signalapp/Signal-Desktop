@@ -1,15 +1,12 @@
 import * as React from 'react';
-import { IncomingCallBar } from './IncomingCallBar';
-import { Colors, ColorType } from '../types/Colors';
-
-// @ts-ignore
-import { setup as setupI18n } from '../../js/modules/i18n';
-// @ts-ignore
-import enMessages from '../../_locales/en/messages.json';
-
 import { storiesOf } from '@storybook/react';
 import { boolean, select, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
+
+import { IncomingCallBar } from './IncomingCallBar';
+import { Colors, ColorType } from '../types/Colors';
+import { setup as setupI18n } from '../../js/modules/i18n';
+import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 

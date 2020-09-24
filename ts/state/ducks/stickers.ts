@@ -376,7 +376,10 @@ export function reducer(
   action: StickersActionType
 ): StickersStateType {
   if (action.type === 'stickers/STICKER_PACK_ADDED') {
-    const { payload } = action;
+    // ts complains due to `stickers: {}` being overridden by the payload
+    // but without full confidence that that's the case, `any` and ignore
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { payload } = action as any;
     const newPack = {
       stickers: {},
       ...payload,

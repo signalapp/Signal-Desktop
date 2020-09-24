@@ -1,27 +1,29 @@
-import * as React from 'react';
-import { StoryRow } from './StoryRow';
-import { H1, H2, Text } from './Typography';
+/* eslint-disable no-script-url, jsx-a11y/anchor-is-valid */
 
+import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
+
+import { StoryRow } from './StoryRow';
+import { H1, H2, Text } from './Typography';
 
 storiesOf('Sticker Creator/elements', module).add('Typography', () => {
   const child = text('text', 'foo bar');
 
   return (
     <>
-      <StoryRow left={true}>
+      <StoryRow left>
         <H1>{child}</H1>
       </StoryRow>
-      <StoryRow left={true}>
+      <StoryRow left>
         <H2>{child}</H2>
       </StoryRow>
-      <StoryRow left={true}>
+      <StoryRow left>
         <Text>
           {child} {child} {child} {child}
         </Text>
       </StoryRow>
-      <StoryRow left={true}>
+      <StoryRow left>
         <Text>
           {child} {child} {child} {child}{' '}
           <a href="javascript: void 0;">

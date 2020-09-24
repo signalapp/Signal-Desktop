@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Props, Spinner, SpinnerDirections, SpinnerSvgSizes } from './Spinner';
 
 import { storiesOf } from '@storybook/react';
 import { select, text } from '@storybook/addon-knobs';
+import { Props, Spinner, SpinnerDirections, SpinnerSvgSizes } from './Spinner';
 
 const story = storiesOf('Components/Spinner', module);
 

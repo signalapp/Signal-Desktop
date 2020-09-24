@@ -14,7 +14,6 @@ export type OwnProps = {
 export type Props = OwnProps & ConfirmationDialogProps;
 
 export const ConfirmationModal = React.memo(
-  // tslint:disable-next-line max-func-body-length
   ({ i18n, onClose, children, ...rest }: Props) => {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
 
@@ -54,13 +53,22 @@ export const ConfirmationModal = React.memo(
       [onClose]
     );
 
+    const handleKeyCancel = React.useCallback(
+      (e: React.KeyboardEvent) => {
+        if (e.target === e.currentTarget && e.keyCode === 27) {
+          onClose();
+        }
+      },
+      [onClose]
+    );
+
     return root
       ? createPortal(
           <div
-            // Not really a button. Just a background which can be clicked to close modal
-            role="button"
+            role="presentation"
             className="module-confirmation-dialog__overlay"
             onClick={handleCancel}
+            onKeyUp={handleKeyCancel}
           >
             <ConfirmationDialog i18n={i18n} {...rest} onClose={onClose}>
               {children}

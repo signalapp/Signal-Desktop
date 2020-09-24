@@ -4,12 +4,8 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { gifUrl } from '../storybook/Fixtures';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../js/modules/i18n';
-// @ts-ignore
-import enMessages from '../../\_locales/en/messages.json';
-
+import enMessages from '../../_locales/en/messages.json';
 import { ContactListItem } from './ContactListItem';
 
 const i18n = setupI18n('en', enMessages);

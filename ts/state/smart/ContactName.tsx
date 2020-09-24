@@ -16,17 +16,16 @@ type ExternalProps = {
   conversationId: string;
 };
 
-export const SmartContactName = (props: ExternalProps) => {
+export const SmartContactName: React.ComponentType<ExternalProps> = props => {
   const { conversationId } = props;
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const getConversation = useSelector<StateType, GetConversationByIdType>(
     getConversationSelector
   );
 
-  const conversation = getConversation(conversationId);
-  if (!conversation) {
-    throw new Error(`Conversation id ${conversationId} not found!`);
-  }
+  const conversation = getConversation(conversationId) || {
+    title: i18n('unknownContact'),
+  };
 
   return <ContactName i18n={i18n} {...conversation} />;
 };

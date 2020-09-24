@@ -1,3 +1,10 @@
+import { Sound } from '../util/Sound';
+import {
+  AudioNotificationSupport,
+  getAudioNotificationSupport,
+} from '../types/Settings';
+import * as OS from '../OS';
+
 function filter(text: string) {
   return (text || '')
     .replace(/&/g, '&amp;')
@@ -8,7 +15,6 @@ function filter(text: string) {
 }
 
 type NotificationType = {
-  platform: string;
   icon: string;
   message: string;
   onNotificationClick: () => void;
@@ -17,18 +23,27 @@ type NotificationType = {
 };
 
 export function notify({
-  platform,
   icon,
   message,
   onNotificationClick,
   silent,
   title,
 }: NotificationType): Notification {
+  const audioNotificationSupport = getAudioNotificationSupport();
+
   const notification = new window.Notification(title, {
-    body: platform === 'linux' ? filter(message) : message,
+    body: OS.isLinux() ? filter(message) : message,
     icon,
-    silent,
+    silent:
+      silent || audioNotificationSupport !== AudioNotificationSupport.Native,
   });
   notification.onclick = onNotificationClick;
+
+  if (!silent && audioNotificationSupport === AudioNotificationSupport.Custom) {
+    // We kick off the sound to be played. No neet to await it.
+    // tslint:disable-next-line no-floating-promises
+    new Sound({ src: 'sounds/notification.ogg' }).play();
+  }
+
   return notification;
 }

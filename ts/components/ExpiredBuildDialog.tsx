@@ -26,7 +26,9 @@ export const ExpiredBuildDialog = ({
           tabIndex={-1}
           target="_blank"
         >
-          <button className="upgrade">{i18n('upgrade')}</button>
+          <button type="button" className="upgrade">
+            {i18n('upgrade')}
+          </button>
         </a>
       </div>
     </div>

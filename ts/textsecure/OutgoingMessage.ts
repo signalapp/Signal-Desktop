@@ -584,20 +584,27 @@ export default class OutgoingMessage {
               'sendToIdentifier: window.textsecure.messaging is not available!'
             );
           }
-          const lookup = await window.textsecure.messaging.getUuidsForE164s([
-            identifier,
-          ]);
-          const uuid = lookup[identifier];
-          if (uuid) {
-            this.discoveredIdentifierPairs.push({
-              uuid,
-              e164: identifier,
-            });
-            identifier = uuid;
-          } else {
-            throw new UnregisteredUserError(
+          try {
+            const lookup = await window.textsecure.messaging.getUuidsForE164s([
               identifier,
-              new Error('User is not registered')
+            ]);
+            const uuid = lookup[identifier];
+            if (uuid) {
+              this.discoveredIdentifierPairs.push({
+                uuid,
+                e164: identifier,
+              });
+              identifier = uuid;
+            } else {
+              throw new UnregisteredUserError(
+                identifier,
+                new Error('User is not registered')
+              );
+            }
+          } catch (error) {
+            window.log.error(
+              `sentToIdentifier: Failed to fetch UUID for identifier ${identifier}`,
+              error && error.stack ? error.stack : error
             );
           }
         } else {

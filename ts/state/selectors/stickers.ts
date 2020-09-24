@@ -31,12 +31,12 @@ const getSticker = (
 ): StickerType | undefined => {
   const pack = packs[packId];
   if (!pack) {
-    return;
+    return undefined;
   }
 
   const sticker = pack.stickers[stickerId];
   if (!sticker) {
-    return;
+    return undefined;
   }
 
   const isEphemeral = pack.status === 'ephemeral';
@@ -67,7 +67,7 @@ export const translatePackFromDB = (
   blessedPacks: Dictionary<boolean>,
   stickersPath: string,
   tempPath: string
-) => {
+): StickerPackType => {
   const { id, stickers, status, coverStickerId } = pack;
   const isEphemeral = status === 'ephemeral';
 
@@ -92,7 +92,7 @@ export const translatePackFromDB = (
 const filterAndTransformPacks = (
   packs: Dictionary<StickerPackDBType>,
   packFilter: (sticker: StickerPackDBType) => boolean,
-  packSort: (sticker: StickerPackDBType) => any,
+  packSort: (sticker: StickerPackDBType) => number | null,
   blessedPacks: Dictionary<boolean>,
   stickersPath: string,
   tempPath: string

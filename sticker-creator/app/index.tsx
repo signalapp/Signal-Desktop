@@ -9,7 +9,7 @@ import * as styles from './index.scss';
 import { PageHeader } from '../elements/PageHeader';
 import { useI18n } from '../util/i18n';
 
-export const App = () => {
+export const App: React.ComponentType = () => {
   const i18n = useI18n();
 
   return (

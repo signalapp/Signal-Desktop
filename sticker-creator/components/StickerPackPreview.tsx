@@ -19,8 +19,8 @@ export const StickerPackPreview = React.memo(
         </div>
         <div className={styles.scroller}>
           <div className={styles.grid}>
-            {images.map((src, id) => (
-              <img key={id} className={styles.sticker} src={src} alt={src} />
+            {images.map(src => (
+              <img key={src} className={styles.sticker} src={src} alt={src} />
             ))}
           </div>
         </div>

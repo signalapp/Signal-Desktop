@@ -14,9 +14,13 @@
 
 // eslint-disable-next-line func-names
 (async function() {
-  const eventHandlerQueue = new window.PQueue({ concurrency: 1 });
+  const eventHandlerQueue = new window.PQueue({
+    concurrency: 1,
+    timeout: 1000 * 60 * 2,
+  });
   Whisper.deliveryReceiptQueue = new window.PQueue({
     concurrency: 1,
+    timeout: 1000 * 60 * 2,
   });
   Whisper.deliveryReceiptQueue.pause();
   Whisper.deliveryReceiptBatcher = window.Signal.Util.createBatcher({
@@ -381,6 +385,12 @@
         storage.put('notification-draw-attention', value),
       getAudioNotification: () => storage.get('audio-notification'),
       setAudioNotification: value => storage.put('audio-notification', value),
+      getCountMutedConversations: () =>
+        storage.get('badge-count-muted-conversations', false),
+      setCountMutedConversations: value => {
+        storage.put('badge-count-muted-conversations', value);
+        window.Whisper.events.trigger('updateUnreadCount');
+      },
       getCallRingtoneNotification: () =>
         storage.get('call-ringtone-notification', true),
       setCallRingtoneNotification: value =>
@@ -1895,9 +1905,9 @@
       }
     }
 
-    const hasRegisteredGV2Support = 'hasRegisteredGV2Support';
+    const hasRegisteredGV22Support = 'hasRegisteredGV22Support';
     if (
-      !storage.get(hasRegisteredGV2Support) &&
+      !storage.get(hasRegisteredGV22Support) &&
       textsecure.storage.user.getUuid()
     ) {
       const server = WebAPI.connect({
@@ -1905,8 +1915,8 @@
         password: PASSWORD,
       });
       try {
-        await server.registerCapabilities({ gv2: true });
-        storage.put(hasRegisteredGV2Support, true);
+        await server.registerCapabilities({ 'gv2-2': true });
+        storage.put(hasRegisteredGV22Support, true);
       } catch (error) {
         window.log.error(
           'Error: Unable to register support for GV2.',

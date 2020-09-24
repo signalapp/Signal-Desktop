@@ -7,16 +7,13 @@ import { storiesOf } from '@storybook/react';
 import { pngUrl } from '../../storybook/Fixtures';
 import { Image, Props } from './Image';
 import { IMAGE_PNG } from '../../types/MIME';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../../js/modules/i18n';
-// @ts-ignore
 import enMessages from '../../../_locales/en/messages.json';
+
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/Image', module);
 
-// tslint:disable-next-line:cyclomatic-complexity
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   alt: text('alt', overrideProps.alt || ''),
   attachment: overrideProps.attachment || {
@@ -170,6 +167,7 @@ story.add('Blurhash', () => {
   const props = {
     ...defaultProps,
     blurHash: 'thisisafakeblurhashthatwasmadeup',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     url: undefined as any,
   };
 
@@ -179,7 +177,9 @@ story.add('Missing Image', () => {
   const defaultProps = createProps();
   const props = {
     ...defaultProps,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     attachment: undefined as any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     url: undefined as any,
   };
 

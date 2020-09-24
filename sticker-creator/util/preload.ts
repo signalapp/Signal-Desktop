@@ -1,5 +1,12 @@
 import { Metadata } from 'sharp';
 
+declare global {
+  interface Window {
+    convertToWebp: ConvertToWebpFn;
+    encryptAndUpload: EncryptAndUploadFn;
+  }
+}
+
 export type WebpData = {
   buffer: Buffer;
   src: string;
@@ -13,9 +20,6 @@ export type ConvertToWebpFn = (
   height?: number
 ) => Promise<WebpData>;
 
-// @ts-ignore
-export const convertToWebp: ConvertToWebpFn = window.convertToWebp;
-
 export type StickerData = { webp?: WebpData; emoji?: string };
 export type PackMetaData = { packId: string; key: string };
 
@@ -26,5 +30,4 @@ export type EncryptAndUploadFn = (
   onProgress?: () => unknown
 ) => Promise<PackMetaData>;
 
-// @ts-ignore
-export const encryptAndUpload: EncryptAndUploadFn = window.encryptAndUpload;
+export const { encryptAndUpload, convertToWebp } = window;

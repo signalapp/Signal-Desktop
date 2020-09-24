@@ -92,7 +92,7 @@ const makeImagePath = (src: string) => {
   return `${ROOT_PATH}node_modules/emoji-datasource-apple/img/apple/64/${src}`;
 };
 
-const imageQueue = new PQueue({ concurrency: 10 });
+const imageQueue = new PQueue({ concurrency: 10, timeout: 1000 * 60 * 2 });
 const images = new Set();
 
 export const preloadImages = async (): Promise<void> => {
@@ -108,8 +108,7 @@ export const preloadImages = async (): Promise<void> => {
       setTimeout(reject, 5000);
     });
 
-  // eslint-disable-next-line no-console
-  console.log('Preloading emoji images');
+  window.log.info('Preloading emoji images');
   const start = Date.now();
 
   data.forEach(emoji => {
@@ -127,8 +126,7 @@ export const preloadImages = async (): Promise<void> => {
   await imageQueue.onEmpty();
 
   const end = Date.now();
-  // eslint-disable-next-line no-console
-  console.log(`Done preloading emoji images in ${end - start}ms`);
+  window.log.info(`Done preloading emoji images in ${end - start}ms`);
 };
 
 const dataByShortName = keyBy(data, 'short_name');

@@ -16,7 +16,7 @@ export interface Props {
 }
 
 export class AttachmentSection extends React.Component<Props> {
-  public render() {
+  public render(): JSX.Element {
     const { header } = this.props;
 
     return (

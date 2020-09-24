@@ -19,7 +19,6 @@ export type Props = {
     'i18n' | 'state' | 'onChangeState'
   >;
 
-// tslint:disable-next-line max-func-body-length
 export const MessageRequestActions = ({
   conversationType,
   firstName,
@@ -34,7 +33,7 @@ export const MessageRequestActions = ({
   phoneNumber,
   profileName,
   title,
-}: Props) => {
+}: Props): JSX.Element => {
   const [mrState, setMrState] = React.useState(MessageRequestState.default);
 
   return (
@@ -80,6 +79,7 @@ export const MessageRequestActions = ({
         </p>
         <div className="module-message-request-actions__buttons">
           <button
+            type="button"
             onClick={() => {
               setMrState(MessageRequestState.deleting);
             }}
@@ -93,6 +93,7 @@ export const MessageRequestActions = ({
           </button>
           {isBlocked ? (
             <button
+              type="button"
               onClick={() => {
                 setMrState(MessageRequestState.unblocking);
               }}
@@ -106,6 +107,7 @@ export const MessageRequestActions = ({
             </button>
           ) : (
             <button
+              type="button"
               onClick={() => {
                 setMrState(MessageRequestState.blocking);
               }}
@@ -120,6 +122,7 @@ export const MessageRequestActions = ({
           )}
           {!isBlocked ? (
             <button
+              type="button"
               onClick={onAccept}
               tabIndex={0}
               className={classNames(

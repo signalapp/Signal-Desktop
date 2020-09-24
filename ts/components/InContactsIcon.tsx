@@ -10,6 +10,7 @@ type PropsType = {
 export const InContactsIcon = (props: PropsType): JSX.Element => {
   const { i18n } = props;
 
+  /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
   return (
     <Tooltip
       tagName="span"
@@ -28,4 +29,5 @@ export const InContactsIcon = (props: PropsType): JSX.Element => {
       />
     </Tooltip>
   );
+  /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
 };

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useDropzone, FileWithPath } from 'react-dropzone';
 import * as styles from './DropZone.scss';
 import { useI18n } from '../util/i18n';
 
@@ -21,12 +21,12 @@ const getClassName = ({ inner }: Props, isDragActive: boolean) => {
   return styles.standalone;
 };
 
-export const DropZone = (props: Props) => {
+export const DropZone: React.ComponentType<Props> = props => {
   const { inner, onDrop, onDragActive } = props;
   const i18n = useI18n();
 
   const handleDrop = React.useCallback(
-    files => {
+    (files: ReadonlyArray<FileWithPath>) => {
       onDrop(files.map(({ path }) => path));
     },
     [onDrop]

@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { StoryRow } from './StoryRow';
-import { CopyText } from './CopyText';
-
 import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
+
+import { StoryRow } from './StoryRow';
+import { CopyText } from './CopyText';
 
 storiesOf('Sticker Creator/elements', module).add('CopyText', () => {
   const label = text('label', 'foo bar');

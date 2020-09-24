@@ -50,7 +50,7 @@ type PropsHousekeepingType = {
 export type PropsType = PropsDataType & PropsHousekeepingType;
 
 export class MessageSearchResult extends React.PureComponent<PropsType> {
-  public renderFromName() {
+  public renderFromName(): JSX.Element {
     const { from, i18n, to } = this.props;
 
     if (from.isMe && to.isMe) {
@@ -80,7 +80,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
     );
   }
 
-  public renderFrom() {
+  public renderFrom(): JSX.Element {
     const { i18n, to, isSearchingInConversation } = this.props;
     const fromName = this.renderFromName();
 
@@ -108,7 +108,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
     );
   }
 
-  public renderAvatar() {
+  public renderAvatar(): JSX.Element {
     const { from, i18n, to } = this.props;
     const isNoteToSelf = from.isMe && to.isMe;
 
@@ -118,7 +118,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
         color={from.color}
         conversationType="direct"
         i18n={i18n}
-        name={name}
+        name={from.name}
         noteToSelf={isNoteToSelf}
         phoneNumber={from.phoneNumber}
         profileName={from.profileName}
@@ -128,7 +128,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
     );
   }
 
-  public render() {
+  public render(): JSX.Element | null {
     const {
       from,
       i18n,
@@ -157,6 +157,7 @@ export class MessageSearchResult extends React.PureComponent<PropsType> {
           isSelected ? 'module-message-search-result--is-selected' : null
         )}
         data-id={id}
+        type="button"
       >
         {this.renderAvatar()}
         <div className="module-message-search-result__text">

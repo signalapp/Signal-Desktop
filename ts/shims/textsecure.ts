@@ -2,7 +2,7 @@ export function sendStickerPackSync(
   packId: string,
   packKey: string,
   installed: boolean
-) {
+): void {
   const { ConversationController, textsecure, log } = window;
   const ourNumber = textsecure.storage.user.getNumber();
   const { wrap, sendOptions } = ConversationController.prepareForSend(

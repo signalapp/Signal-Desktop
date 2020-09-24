@@ -40,6 +40,7 @@ declare global {
     getCallRingtoneNotification: () => Promise<boolean>;
     getCallSystemNotification: () => Promise<boolean>;
     getConversations: () => ConversationModelCollectionType;
+    getCountMutedConversations: () => Promise<boolean>;
     getEnvironment: () => string;
     getExpiration: () => string;
     getGuid: () => string;
@@ -71,6 +72,7 @@ declare global {
     reduxActions: ReduxActions;
     restart: () => void;
     showWindow: () => void;
+    showSettings: () => void;
     setBadgeCount: (count: number) => void;
     storage: {
       put: (key: string, value: any) => void;
@@ -208,6 +210,7 @@ export type LoggerType = (...args: Array<any>) => void;
 
 export type WhisperType = {
   events: {
+    on: (name: string, callback: (param1: any, param2?: any) => void) => void;
     trigger: (name: string, param1: any, param2?: any) => void;
   };
   Database: {

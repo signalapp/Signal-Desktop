@@ -5,7 +5,7 @@ const ONE_DAY = 24 * 60 * 60 * 1000;
 export async function deleteForEveryone(
   message: MessageModelType,
   doe: DeletesModelType,
-  shouldPersist: boolean = true
+  shouldPersist = true
 ): Promise<void> {
   // Make sure the server timestamps for the DOE and the matching message
   // are less than one day apart

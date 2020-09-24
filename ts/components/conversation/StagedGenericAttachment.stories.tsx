@@ -5,13 +5,8 @@ import { action } from '@storybook/addon-actions';
 
 import { AttachmentType } from '../../types/Attachment';
 import { MIMEType } from '../../types/MIME';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../../js/modules/i18n';
-
-// @ts-ignore
 import enMessages from '../../../_locales/en/messages.json';
-
 import { Props, StagedGenericAttachment } from './StagedGenericAttachment';
 
 const i18n = setupI18n('en', enMessages);

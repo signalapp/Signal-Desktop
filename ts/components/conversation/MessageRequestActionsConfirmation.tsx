@@ -23,7 +23,6 @@ export type Props = {
   onChangeState(state: MessageRequestState): unknown;
 } & Omit<ContactNameProps, 'module' | 'i18n'>;
 
-// tslint:disable-next-line: max-func-body-length
 export const MessageRequestActionsConfirmation = ({
   conversationType,
   i18n,
@@ -37,10 +36,9 @@ export const MessageRequestActionsConfirmation = ({
   profileName,
   state,
   title,
-}: Props) => {
+}: Props): JSX.Element | null => {
   if (state === MessageRequestState.blocking) {
     return (
-      // tslint:disable-next-line: use-simple-attributes
       <ConfirmationModal
         i18n={i18n}
         onClose={() => {
@@ -82,7 +80,6 @@ export const MessageRequestActionsConfirmation = ({
 
   if (state === MessageRequestState.unblocking) {
     return (
-      // tslint:disable-next-line: use-simple-attributes
       <ConfirmationModal
         i18n={i18n}
         onClose={() => {
@@ -91,7 +88,7 @@ export const MessageRequestActionsConfirmation = ({
         title={
           <Intl
             i18n={i18n}
-            id={'MessageRequests--unblock-confirm-title'}
+            id="MessageRequests--unblock-confirm-title"
             components={[
               <ContactName
                 key="name"
@@ -119,7 +116,6 @@ export const MessageRequestActionsConfirmation = ({
 
   if (state === MessageRequestState.deleting) {
     return (
-      // tslint:disable-next-line: use-simple-attributes
       <ConfirmationModal
         i18n={i18n}
         onClose={() => {

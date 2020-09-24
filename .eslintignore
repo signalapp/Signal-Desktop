@@ -9,7 +9,6 @@ js/curve/*
 js/components.js
 js/libtextsecure.js
 js/util_worker.js
-js/libsignal-protocol-worker.js
 libtextsecure/components.js
 libtextsecure/test/test.js
 test/test.js
@@ -19,33 +18,18 @@ sticker-creator/dist/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
 js/libphonenumber-util.js
-js/libsignal-protocol-worker.js
 libtextsecure/libsignal-protocol.js
 libtextsecure/test/blanket_mocha.js
 test/blanket_mocha.js
 
 # TypeScript generated files
 ts/**/*.js
+sticker-creator/**/*.js
 
 **/*.d.ts
 webpack.config.ts
 
 # Temporarily ignored during TSLint transition
 # JIRA: DESKTOP-304
-ts/*.ts
-ts/components/*.ts
-ts/components/*.tsx
-ts/components/conversation/**
-ts/components/stickers/**
-ts/shims/**
 ts/sql/**
-ts/state/**
-ts/storybook/**
-ts/styleguide/**
-ts/test/**
 ts/textsecure/**
-ts/types/**
-ts/updater/**
-ts/util/**
-sticker-creator/**/*.ts
-sticker-creator/**/*.tsx

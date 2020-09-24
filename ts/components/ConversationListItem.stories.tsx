@@ -1,22 +1,17 @@
 import * as React from 'react';
+
+import 'draft-js/dist/Draft.css';
 import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
+import { boolean, date, select, text } from '@storybook/addon-knobs';
 
 import {
   ConversationListItem,
   MessageStatuses,
   Props,
 } from './ConversationListItem';
-
-// tslint:disable-next-line
-import 'draft-js/dist/Draft.css';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../js/modules/i18n';
-
-// @ts-ignore
 import enMessages from '../../_locales/en/messages.json';
-import { action } from '@storybook/addon-actions';
-import { boolean, date, select, text } from '@storybook/addon-knobs';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -191,7 +186,6 @@ Line 4, well.`,
 
   return messages.map(message => {
     const props = createProps({
-      name,
       lastMessage: {
         text: message,
         status: 'read',
@@ -212,7 +206,6 @@ story.add('Various Times', () => {
 
   return times.map(([lastUpdated, messageText]) => {
     const props = createProps({
-      name,
       lastUpdated,
       lastMessage: {
         text: messageText,
@@ -227,12 +220,14 @@ story.add('Various Times', () => {
 story.add('Missing Date', () => {
   const props = createProps();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return <ConversationListItem {...props} lastUpdated={undefined as any} />;
 });
 
 story.add('Missing Message', () => {
   const props = createProps();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return <ConversationListItem {...props} lastMessage={undefined as any} />;
 });
 
@@ -242,6 +237,7 @@ story.add('Missing Text', () => {
   return (
     <ConversationListItem
       {...props}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       lastMessage={{ text: undefined as any, status: 'sent' }}
     />
   );
@@ -252,4 +248,17 @@ story.add('Muted Conversation', () => {
   const muteExpiresAt = Date.now() + 1000 * 60 * 60;
 
   return <ConversationListItem {...props} muteExpiresAt={muteExpiresAt} />;
+});
+
+story.add('At Mention', () => {
+  const props = createProps({
+    title: 'The Rebellion',
+    type: 'group',
+    lastMessage: {
+      text: '@Leia Organa I know',
+      status: 'read',
+    },
+  });
+
+  return <ConversationListItem {...props} />;
 });

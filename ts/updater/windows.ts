@@ -38,7 +38,7 @@ export async function start(
   getMainWindow: () => BrowserWindow,
   locale: LocaleType,
   logger: LoggerType
-) {
+): Promise<void> {
   logger.info('windows/start: starting checks...');
 
   loggerForQuitHandler = logger;
@@ -163,7 +163,7 @@ async function install(filePath: string, logger: LoggerType): Promise<void> {
   const args = ['--updated'];
   const options = {
     detached: true,
-    stdio: 'ignore' as 'ignore', // TypeScript considers this a plain string without help
+    stdio: 'ignore' as const, // TypeScript considers this a plain string without help
   };
 
   try {
@@ -209,7 +209,6 @@ async function spawn(
     emitter.on('error', reject);
     emitter.unref();
 
-    // tslint:disable-next-line no-string-based-set-timeout
     setTimeout(resolve, 200);
   });
 }

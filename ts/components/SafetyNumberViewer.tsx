@@ -25,13 +25,17 @@ export const SafetyNumberViewer = ({
   toggleVerified,
   verificationDisabled,
 }: SafetyNumberViewerProps): JSX.Element | null => {
+  React.useEffect(() => {
+    if (!contact) {
+      return;
+    }
+
+    generateSafetyNumber(contact);
+  }, [contact, generateSafetyNumber, safetyNumber]);
+
   if (!contact) {
     return null;
   }
-
-  React.useEffect(() => {
-    generateSafetyNumber(contact);
-  }, [safetyNumber]);
 
   const showNumber = Boolean(contact.name || contact.profileName);
   const numberFragment = showNumber ? ` · ${contact.phoneNumber}` : '';
@@ -40,7 +44,7 @@ export const SafetyNumberViewer = ({
     <span className="module-safety-number__bold-name">{name}</span>
   );
 
-  const isVerified = contact.isVerified;
+  const { isVerified } = contact;
   const verifiedStatusKey = isVerified ? 'isVerified' : 'isNotVerified';
   const safetyNumberChangedKey = safetyNumberChanged
     ? 'changedRightAfterVerify'
@@ -51,7 +55,7 @@ export const SafetyNumberViewer = ({
     <div className="module-safety-number">
       {onClose && (
         <div className="module-safety-number__close-button">
-          <button onClick={onClose} tabIndex={0}>
+          <button onClick={onClose} tabIndex={0} type="button">
             <span />
           </button>
         </div>
@@ -86,6 +90,7 @@ export const SafetyNumberViewer = ({
             toggleVerified(contact);
           }}
           tabIndex={0}
+          type="button"
         >
           {verifyButtonText}
         </button>

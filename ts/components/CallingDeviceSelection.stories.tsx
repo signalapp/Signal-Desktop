@@ -1,13 +1,10 @@
 import * as React from 'react';
-import { CallingDeviceSelection, Props } from './CallingDeviceSelection';
-
-// @ts-ignore
-import { setup as setupI18n } from '../../js/modules/i18n';
-// @ts-ignore
-import enMessages from '../../_locales/en/messages.json';
-
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
+
+import { CallingDeviceSelection, Props } from './CallingDeviceSelection';
+import { setup as setupI18n } from '../../js/modules/i18n';
+import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
 

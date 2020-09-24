@@ -3,12 +3,8 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
 
-// @ts-ignore
 import { setup as setupI18n } from '../../../js/modules/i18n';
-
-// @ts-ignore
 import enMessages from '../../../_locales/en/messages.json';
-
 import { Props, ScrollDownButton } from './ScrollDownButton';
 
 const i18n = setupI18n('en', enMessages);

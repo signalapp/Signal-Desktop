@@ -1,14 +1,11 @@
 import * as React from 'react';
-import { Avatar, Props } from './Avatar';
 
 import { storiesOf } from '@storybook/react';
 import { boolean, select, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-// @ts-ignore
+import { Avatar, Props } from './Avatar';
 import { setup as setupI18n } from '../../js/modules/i18n';
-
-// @ts-ignore
 import enMessages from '../../_locales/en/messages.json';
 import { Colors, ColorType } from '../types/Colors';
 

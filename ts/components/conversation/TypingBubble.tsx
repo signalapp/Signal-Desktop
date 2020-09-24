@@ -19,7 +19,7 @@ export interface Props {
 }
 
 export class TypingBubble extends React.PureComponent<Props> {
-  public renderAvatar() {
+  public renderAvatar(): JSX.Element | null {
     const {
       avatarPath,
       color,
@@ -32,7 +32,7 @@ export class TypingBubble extends React.PureComponent<Props> {
     } = this.props;
 
     if (conversationType !== 'group') {
-      return;
+      return null;
     }
 
     return (
@@ -52,7 +52,7 @@ export class TypingBubble extends React.PureComponent<Props> {
     );
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { i18n, color, conversationType } = this.props;
     const isGroup = conversationType === 'group';
 

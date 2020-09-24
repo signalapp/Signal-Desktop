@@ -11,11 +11,15 @@ export interface Props {
 }
 
 export class StartNewConversation extends React.PureComponent<Props> {
-  public render() {
+  public render(): JSX.Element {
     const { phoneNumber, i18n, onClick } = this.props;
 
     return (
-      <button className="module-start-new-conversation" onClick={onClick}>
+      <button
+        type="button"
+        className="module-start-new-conversation"
+        onClick={onClick}
+      >
         <Avatar
           color="grey"
           conversationType="direct"

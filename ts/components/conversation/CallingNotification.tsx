@@ -31,37 +31,30 @@ export function getCallingNotificationText(
     if (wasDeclined) {
       if (wasVideoCall) {
         return i18n('declinedIncomingVideoCall');
-      } else {
-        return i18n('declinedIncomingAudioCall');
       }
-    } else if (wasAccepted) {
-      if (wasVideoCall) {
-        return i18n('acceptedIncomingVideoCall');
-      } else {
-        return i18n('acceptedIncomingAudioCall');
-      }
-    } else {
-      if (wasVideoCall) {
-        return i18n('missedIncomingVideoCall');
-      } else {
-        return i18n('missedIncomingAudioCall');
-      }
+      return i18n('declinedIncomingAudioCall');
     }
-  } else {
     if (wasAccepted) {
       if (wasVideoCall) {
-        return i18n('acceptedOutgoingVideoCall');
-      } else {
-        return i18n('acceptedOutgoingAudioCall');
+        return i18n('acceptedIncomingVideoCall');
       }
-    } else {
-      if (wasVideoCall) {
-        return i18n('missedOrDeclinedOutgoingVideoCall');
-      } else {
-        return i18n('missedOrDeclinedOutgoingAudioCall');
-      }
+      return i18n('acceptedIncomingAudioCall');
     }
+    if (wasVideoCall) {
+      return i18n('missedIncomingVideoCall');
+    }
+    return i18n('missedIncomingAudioCall');
   }
+  if (wasAccepted) {
+    if (wasVideoCall) {
+      return i18n('acceptedOutgoingVideoCall');
+    }
+    return i18n('acceptedOutgoingAudioCall');
+  }
+  if (wasVideoCall) {
+    return i18n('missedOrDeclinedOutgoingVideoCall');
+  }
+  return i18n('missedOrDeclinedOutgoingAudioCall');
 }
 
 export const CallingNotification = (props: Props): JSX.Element | null => {
@@ -81,7 +74,7 @@ export const CallingNotification = (props: Props): JSX.Element | null => {
         <Timestamp
           i18n={i18n}
           timestamp={acceptedTime || endedTime}
-          extended={true}
+          extended
           direction="outgoing"
           withImageNoCaption={false}
           withSticker={false}

@@ -1,15 +1,14 @@
-// tslint:disable:react-this-binding-issue
-
 import React from 'react';
 import classNames from 'classnames';
 
-import * as MIME from '../../../ts/types/MIME';
-import * as GoogleChrome from '../../../ts/util/GoogleChrome';
+import * as MIME from '../../types/MIME';
+import * as GoogleChrome from '../../util/GoogleChrome';
 
 import { MessageBody } from './MessageBody';
-import { LocalizerType } from '../../types/Util';
+import { BodyRangesType, LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
 import { ContactName } from './ContactName';
+import { getTextWithMentions } from '../../util/getTextWithMentions';
 
 export interface Props {
   attachment?: QuotedAttachmentType;
@@ -18,6 +17,7 @@ export interface Props {
   authorProfileName?: string;
   authorName?: string;
   authorColor?: ColorType;
+  bodyRanges?: BodyRangesType;
   i18n: LocalizerType;
   isFromMe: boolean;
   isIncoming: boolean;
@@ -63,7 +63,7 @@ function getObjectUrl(thumbnail: Attachment | undefined): string | undefined {
     return thumbnail.objectUrl;
   }
 
-  return;
+  return undefined;
 }
 
 function getTypeLabel({
@@ -84,19 +84,21 @@ function getTypeLabel({
   if (MIME.isAudio(contentType) && isVoiceMessage) {
     return i18n('voiceMessage');
   }
-  if (MIME.isAudio(contentType)) {
-    return i18n('audio');
-  }
 
-  return;
+  return MIME.isAudio(contentType) ? i18n('audio') : undefined;
 }
 
 export class Quote extends React.Component<Props, State> {
-  public state = {
-    imageBroken: false,
-  };
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      imageBroken: false,
+    };
+  }
 
-  public handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+  public handleKeyDown = (
+    event: React.KeyboardEvent<HTMLButtonElement>
+  ): void => {
     const { onClick } = this.props;
 
     // This is important to ensure that using this quote to navigate to the referenced
@@ -107,7 +109,8 @@ export class Quote extends React.Component<Props, State> {
       onClick();
     }
   };
-  public handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+
+  public handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     const { onClick } = this.props;
 
     if (onClick) {
@@ -117,15 +120,20 @@ export class Quote extends React.Component<Props, State> {
     }
   };
 
-  public handleImageError = () => {
-    // tslint:disable-next-line no-console
-    console.log('Message: Image failed to load; failing over to placeholder');
+  public handleImageError = (): void => {
+    window.console.info(
+      'Message: Image failed to load; failing over to placeholder'
+    );
     this.setState({
       imageBroken: true,
     });
   };
 
-  public renderImage(url: string, i18n: LocalizerType, icon?: string) {
+  public renderImage(
+    url: string,
+    i18n: LocalizerType,
+    icon?: string
+  ): JSX.Element {
     const iconElement = icon ? (
       <div className="module-quote__icon-container__inner">
         <div className="module-quote__icon-container__circle-background">
@@ -151,7 +159,8 @@ export class Quote extends React.Component<Props, State> {
     );
   }
 
-  public renderIcon(icon: string) {
+  // eslint-disable-next-line class-methods-use-this
+  public renderIcon(icon: string): JSX.Element {
     return (
       <div className="module-quote__icon-container">
         <div className="module-quote__icon-container__inner">
@@ -168,11 +177,11 @@ export class Quote extends React.Component<Props, State> {
     );
   }
 
-  public renderGenericFile() {
+  public renderGenericFile(): JSX.Element | null {
     const { attachment, isIncoming } = this.props;
 
     if (!attachment) {
-      return;
+      return null;
     }
 
     const { fileName, contentType } = attachment;
@@ -200,7 +209,7 @@ export class Quote extends React.Component<Props, State> {
     );
   }
 
-  public renderIconContainer() {
+  public renderIconContainer(): JSX.Element | null {
     const { attachment, i18n } = this.props;
     const { imageBroken } = this.state;
 
@@ -228,10 +237,14 @@ export class Quote extends React.Component<Props, State> {
     return null;
   }
 
-  public renderText() {
-    const { i18n, text, attachment, isIncoming } = this.props;
+  public renderText(): JSX.Element | null {
+    const { bodyRanges, i18n, text, attachment, isIncoming } = this.props;
 
     if (text) {
+      const quoteText = bodyRanges
+        ? getTextWithMentions(bodyRanges, text)
+        : text;
+
       return (
         <div
           dir="auto"
@@ -240,7 +253,7 @@ export class Quote extends React.Component<Props, State> {
             isIncoming ? 'module-quote__primary__text--incoming' : null
           )}
         >
-          <MessageBody text={text} disableLinks={true} i18n={i18n} />
+          <MessageBody disableLinks text={quoteText} i18n={i18n} />
         </div>
       );
     }
@@ -268,8 +281,8 @@ export class Quote extends React.Component<Props, State> {
     return null;
   }
 
-  public renderClose() {
-    const { onClose } = this.props;
+  public renderClose(): JSX.Element | null {
+    const { i18n, onClose } = this.props;
 
     if (!onClose) {
       return null;
@@ -298,6 +311,7 @@ export class Quote extends React.Component<Props, State> {
           // We can't be a button because the overall quote is a button; can't nest them
           role="button"
           className="module-quote__close-button"
+          aria-label={i18n('close')}
           onKeyDown={keyDownHandler}
           onClick={clickHandler}
         />
@@ -305,7 +319,7 @@ export class Quote extends React.Component<Props, State> {
     );
   }
 
-  public renderAuthor() {
+  public renderAuthor(): JSX.Element {
     const {
       authorProfileName,
       authorPhoneNumber,
@@ -338,7 +352,7 @@ export class Quote extends React.Component<Props, State> {
     );
   }
 
-  public renderReferenceWarning() {
+  public renderReferenceWarning(): JSX.Element | null {
     const { i18n, isIncoming, referencedMessageNotFound } = this.props;
 
     if (!referencedMessageNotFound) {
@@ -374,7 +388,7 @@ export class Quote extends React.Component<Props, State> {
     );
   }
 
-  public render() {
+  public render(): JSX.Element | null {
     const {
       authorColor,
       isIncoming,
@@ -395,6 +409,7 @@ export class Quote extends React.Component<Props, State> {
         )}
       >
         <button
+          type="button"
           onClick={this.handleClick}
           onKeyDown={this.handleKeyDown}
           className={classNames(

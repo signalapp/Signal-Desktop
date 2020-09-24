@@ -10,7 +10,7 @@ export type PropsType = {
 export class InlineNotificationWrapper extends React.Component<PropsType> {
   public focusRef: React.RefObject<HTMLDivElement> = React.createRef();
 
-  public setFocus = () => {
+  public setFocus = (): void => {
     const container = this.focusRef.current;
 
     if (container && !container.contains(document.activeElement)) {
@@ -18,14 +18,15 @@ export class InlineNotificationWrapper extends React.Component<PropsType> {
     }
   };
 
-  public handleFocus = () => {
+  public handleFocus = (): void => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     if (window.getInteractionMode() === 'keyboard') {
       this.setSelected();
     }
   };
 
-  public setSelected = () => {
+  public setSelected = (): void => {
     const { id, conversationId, selectMessage } = this.props;
 
     if (selectMessage) {
@@ -33,25 +34,28 @@ export class InlineNotificationWrapper extends React.Component<PropsType> {
     }
   };
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     const { isSelected } = this.props;
     if (isSelected) {
       this.setFocus();
     }
   }
 
-  public componentDidUpdate(prevProps: PropsType) {
-    if (!prevProps.isSelected && this.props.isSelected) {
+  public componentDidUpdate(prevProps: PropsType): void {
+    const { isSelected } = this.props;
+
+    if (!prevProps.isSelected && isSelected) {
       this.setFocus();
     }
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { children } = this.props;
 
     return (
       <div
         className="module-inline-notification-wrapper"
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
         ref={this.focusRef}
         onFocus={this.handleFocus}

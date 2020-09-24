@@ -6,11 +6,9 @@ import { storiesOf } from '@storybook/react';
 
 import { Props as MessageProps } from './Message';
 import { MessageDetail, Props } from './MessageDetail';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../../js/modules/i18n';
-// @ts-ignore
 import enMessages from '../../../_locales/en/messages.json';
+
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/MessageDetail', module);
@@ -147,6 +145,7 @@ story.add('Not Delivered', () => {
       text: 'A message to Max',
     },
   });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props.receivedAt = undefined as any;
 
   return <MessageDetail {...props} />;

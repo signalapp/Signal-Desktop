@@ -1,5 +1,5 @@
-import { instance, PhoneNumberFormat } from '../util/libphonenumberInstance';
 import memoizee from 'memoizee';
+import { instance, PhoneNumberFormat } from '../util/libphonenumberInstance';
 
 function _format(
   phoneNumber: string,
@@ -73,8 +73,8 @@ export function normalize(
       return instance.format(parsedNumber, PhoneNumberFormat.E164);
     }
 
-    return;
+    return undefined;
   } catch (error) {
-    return;
+    return undefined;
   }
 }

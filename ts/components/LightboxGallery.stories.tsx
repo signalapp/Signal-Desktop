@@ -1,16 +1,14 @@
 import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
-
-import { LightboxGallery, Props } from './LightboxGallery';
-
-// @ts-ignore
-import { setup as setupI18n } from '../../js/modules/i18n';
-// @ts-ignore
-import enMessages from '../../_locales/en/messages.json';
 import { action } from '@storybook/addon-actions';
 import { number } from '@storybook/addon-knobs';
+
+import { LightboxGallery, Props } from './LightboxGallery';
+import { setup as setupI18n } from '../../js/modules/i18n';
+import enMessages from '../../_locales/en/messages.json';
 import { IMAGE_JPEG, VIDEO_MP4 } from '../types/MIME';
+
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/LightboxGallery', module);

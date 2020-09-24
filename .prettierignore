@@ -25,7 +25,6 @@ components/**
 js/curve/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
-js/libsignal-protocol-worker.js
 libtextsecure/libsignal-protocol.js
 libtextsecure/test/blanket_mocha.js
 test/blanket_mocha.js

@@ -1,13 +1,24 @@
 import React from 'react';
 
 import { getSizeClass, SizeClassType } from '../emoji/lib';
+import { AtMentionify } from './AtMentionify';
 import { Emojify } from './Emojify';
 import { AddNewLines } from './AddNewLines';
 import { Linkify } from './Linkify';
 
-import { LocalizerType, RenderTextCallbackType } from '../../types/Util';
+import {
+  BodyRangesType,
+  LocalizerType,
+  RenderTextCallbackType,
+} from '../../types/Util';
+
+type OpenConversationActionType = (
+  conversationId: string,
+  messageId?: string
+) => void;
 
 export interface Props {
+  direction?: 'incoming' | 'outgoing';
   text: string;
   textPending?: boolean;
   /** If set, all emoji will be the same size. Otherwise, just one emoji will be large. */
@@ -15,12 +26,9 @@ export interface Props {
   /** If set, links will be left alone instead of turned into clickable `<a>` tags. */
   disableLinks?: boolean;
   i18n: LocalizerType;
+  bodyRanges?: BodyRangesType;
+  openConversation?: OpenConversationActionType;
 }
-
-const renderNewLines: RenderTextCallbackType = ({
-  text: textWithNewLines,
-  key,
-}) => <AddNewLines key={key} text={textWithNewLines} />;
 
 const renderEmoji = ({
   text,
@@ -49,6 +57,27 @@ const renderEmoji = ({
  * them for you.
  */
 export class MessageBody extends React.Component<Props> {
+  private readonly renderNewLines: RenderTextCallbackType = ({
+    text: textWithNewLines,
+    key,
+  }) => {
+    const { bodyRanges, direction, openConversation } = this.props;
+    return (
+      <AddNewLines
+        key={key}
+        text={textWithNewLines}
+        renderNonNewLine={({ text }) => (
+          <AtMentionify
+            direction={direction}
+            text={text}
+            bodyRanges={bodyRanges}
+            openConversation={openConversation}
+          />
+        )}
+      />
+    );
+  };
+
   public addDownloading(jsx: JSX.Element): JSX.Element {
     const { i18n, textPending } = this.props;
 
@@ -65,8 +94,9 @@ export class MessageBody extends React.Component<Props> {
     );
   }
 
-  public render() {
+  public render(): JSX.Element {
     const {
+      bodyRanges,
       text,
       textPending,
       disableJumbomoji,
@@ -74,7 +104,10 @@ export class MessageBody extends React.Component<Props> {
       i18n,
     } = this.props;
     const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
-    const textWithPending = textPending ? `${text}...` : text;
+    const textWithPending = AtMentionify.preprocessMentions(
+      textPending ? `${text}...` : text,
+      bodyRanges
+    );
 
     if (disableLinks) {
       return this.addDownloading(
@@ -83,7 +116,7 @@ export class MessageBody extends React.Component<Props> {
           text: textWithPending,
           sizeClass,
           key: 0,
-          renderNonEmoji: renderNewLines,
+          renderNonEmoji: this.renderNewLines,
         })
       );
     }
@@ -97,7 +130,7 @@ export class MessageBody extends React.Component<Props> {
             text: nonLinkText,
             sizeClass,
             key,
-            renderNonEmoji: renderNewLines,
+            renderNonEmoji: this.renderNewLines,
           });
         }}
       />

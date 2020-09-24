@@ -5,19 +5,15 @@ import { action } from '@storybook/addon-actions';
 
 import { AttachmentType } from '../../types/Attachment';
 import { MIMEType } from '../../types/MIME';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../../js/modules/i18n';
-
-// @ts-ignore
 import enMessages from '../../../_locales/en/messages.json';
-
 import { Props, StagedLinkPreview } from './StagedLinkPreview';
 
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/StagedLinkPreview', module);
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 story.addDecorator((withKnobs as any)({ escapeHTML: false }));
 
 const createAttachment = (

@@ -1,5 +1,3 @@
-// tslint:disable no-console
-
 import { join } from 'path';
 import { writeFileSync } from 'fs';
 

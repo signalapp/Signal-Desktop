@@ -32,7 +32,7 @@ export const getUserUuid = createSelector(
 
 export const getUserAgent = createSelector(
   getItems,
-  (state: ItemsStateType): string => state.userAgent
+  (state: ItemsStateType): string => state.userAgent as string
 );
 
 export const getIntl = createSelector(

@@ -4,7 +4,7 @@
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "1.36.1",
+  "version": "1.36.2-beta.2",
   "license": "GPL-3.0",
   "author": {
     "name": "Open Whisper Systems",
@@ -12,7 +12,8 @@
   },
   "main": "main.js",
   "scripts": {
-    "postinstall": "snyk protect && patch-package && electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
+    "postinstall": "yarn build:acknowledgments && snyk protect && patch-package && electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
+    "postuninstall": "yarn build:acknowledgments",
     "start": "electron .",
     "grunt": "grunt",
     "generate": "yarn grunt",
@@ -46,6 +47,7 @@
     "dev:typed-scss": "yarn build:typed-scss -w",
     "dev:storybook": "cross-env SIGNAL_ENV=storybook start-storybook -p 6006 -s ./",
     "build": "run-s --print-label build:grunt build:typed-scss build:webpack build:release build:zip",
+    "build:acknowledgments": "node scripts/generate-acknowledgments.js",
     "build:dev": "run-s --print-label build:grunt build:typed-scss build:webpack",
     "build:grunt": "yarn grunt",
     "build:typed-scss": "tsm sticker-creator",
@@ -74,6 +76,7 @@
     "config": "1.28.1",
     "copy-text-to-clipboard": "2.1.0",
     "curve25519-n": "https://github.com/scottnonnenberg-signal/node-curve25519.git#3e94f60bc54b2426476520d8d1a0aa835c25f5cc",
+    "dashdash": "1.14.1",
     "draft-js": "0.10.5",
     "emoji-datasource": "5.0.1",
     "emoji-datasource-apple": "5.0.1",
@@ -98,7 +101,7 @@
     "mkdirp": "0.5.2",
     "moment": "2.21.0",
     "mustache": "2.3.0",
-    "node-fetch": "2.6.0",
+    "node-fetch": "2.6.1",
     "node-forge": "0.10.0",
     "node-gyp": "5.0.3",
     "normalize-path": "3.0.0",
@@ -107,6 +110,7 @@
     "p-props": "4.0.0",
     "p-queue": "6.2.1",
     "pify": "3.0.0",
+    "popper.js": "1.15.0",
     "protobufjs": "6.8.6",
     "proxy-agent": "3.1.1",
     "react": "16.8.3",
@@ -129,7 +133,7 @@
     "redux-ts-utils": "3.2.2",
     "reselect": "4.0.0",
     "rimraf": "2.6.2",
-    "ringrtc": "https://github.com/signalapp/signal-ringrtc-node.git#4ad4a1b0fcc9d89231ea48d62523f57936d69b2a",
+    "ringrtc": "https://github.com/signalapp/signal-ringrtc-node.git#7563474ee920d4535535ae01476ced3e8dc668d1",
     "sanitize-filename": "1.6.3",
     "sanitize.css": "11.0.0",
     "semver": "5.4.1",
@@ -160,6 +164,7 @@
     "@types/chai": "4.1.2",
     "@types/classnames": "2.2.3",
     "@types/config": "0.0.34",
+    "@types/dashdash": "1.14.0",
     "@types/draft-js": "0.10.32",
     "@types/filesize": "3.6.0",
     "@types/fs-extra": "5.0.5",
@@ -210,7 +215,6 @@
     "core-js": "2.4.1",
     "cross-env": "5.2.0",
     "css-loader": "3.2.0",
-    "dashdash": "1.14.1",
     "electron": "8.3.4",
     "electron-builder": "22.3.6",
     "electron-mocha": "8.1.1",
@@ -257,6 +261,9 @@
     "webpack": "4.39.2",
     "webpack-cli": "3.3.7",
     "webpack-dev-server": "3.8.0"
+  },
+  "resolutions": {
+    "@storybook/react/@storybook/core/node-fetch": "2.6.1"
   },
   "engines": {
     "node": "12.13.0"

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   createWriteStream,
   statSync,
@@ -6,9 +7,7 @@ import {
 import { join, normalize } from 'path';
 import { tmpdir } from 'os';
 
-// @ts-ignore
-import { createParser } from 'dashdash';
-// @ts-ignore
+import { createParser, ParserConfiguration } from 'dashdash';
 import ProxyAgent from 'proxy-agent';
 import { FAILSAFE_SCHEMA, safeLoad } from 'js-yaml';
 import { gt } from 'semver';
@@ -24,7 +23,6 @@ import { getTempPath } from '../../app/attachments';
 import { Dialogs } from '../types/Dialogs';
 import { getUserAgent } from '../util/getUserAgent';
 
-// @ts-ignore
 import * as packageJson from '../../package.json';
 import { getSignatureFileName } from './signature';
 import { isPathInside } from '../util/isPathInside';
@@ -70,7 +68,7 @@ export async function checkForUpdates(
   return null;
 }
 
-export function validatePath(basePath: string, targetPath: string) {
+export function validatePath(basePath: string, targetPath: string): void {
   const normalized = normalize(targetPath);
 
   if (!isPathInside(normalized, basePath)) {
@@ -252,9 +250,9 @@ export function getUpdatesFileName(): string {
 
   if (platform === 'darwin') {
     return `${prefix}-mac.yml`;
-  } else {
-    return `${prefix}.yml`;
   }
+
+  return `${prefix}.yml`;
 }
 
 const hasBeta = /beta/i;
@@ -268,29 +266,27 @@ function isVersionNewer(newVersion: string): boolean {
   return gt(newVersion, version);
 }
 
-export function getVersion(yaml: string): string | undefined {
+export function getVersion(yaml: string): string | null {
   const info = parseYaml(yaml);
 
-  if (info && info.version) {
-    return info.version;
-  }
-
-  return;
+  return info && info.version;
 }
 
-const validFile = /^[A-Za-z0-9\.\-]+$/;
-export function isUpdateFileNameValid(name: string) {
+const validFile = /^[A-Za-z0-9.-]+$/;
+export function isUpdateFileNameValid(name: string): boolean {
   return validFile.test(name);
 }
 
-export function getUpdateFileName(yaml: string) {
+// Reliant on third party parser that returns any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function getUpdateFileName(yaml: string): any {
   const info = parseYaml(yaml);
 
   if (!info || !info.path) {
     throw new Error('getUpdateFileName: No path present in YAML file');
   }
 
-  const path = info.path;
+  const { path } = info;
   if (!isUpdateFileNameValid(path)) {
     throw new Error(
       `getUpdateFileName: Path '${path}' contains invalid characters`
@@ -300,6 +296,8 @@ export function getUpdateFileName(yaml: string) {
   return path;
 }
 
+// Reliant on third party parser that returns any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function parseYaml(yaml: string): any {
   return safeLoad(yaml, { schema: FAILSAFE_SCHEMA, json: true });
 }
@@ -336,7 +334,7 @@ function getBaseTempDir() {
   return app ? getTempPath(app.getPath('userData')) : tmpdir();
 }
 
-export async function createTempDir() {
+export async function createTempDir(): Promise<string> {
   const baseTempDir = getBaseTempDir();
   const uniqueName = getGuid();
   const targetDir = join(baseTempDir, uniqueName);
@@ -345,7 +343,7 @@ export async function createTempDir() {
   return targetDir;
 }
 
-export async function deleteTempDir(targetDir: string) {
+export async function deleteTempDir(targetDir: string): Promise<void> {
   const pathInfo = statSync(targetDir);
   if (!pathInfo.isDirectory()) {
     throw new Error(
@@ -363,22 +361,21 @@ export async function deleteTempDir(targetDir: string) {
   await rimrafPromise(targetDir);
 }
 
-export function getPrintableError(error: Error) {
+export function getPrintableError(error: Error): Error | string {
   return error && error.stack ? error.stack : error;
 }
 
-export function getCliOptions<T>(options: any): T {
+export function getCliOptions<T>(options: ParserConfiguration['options']): T {
   const parser = createParser({ options });
   const cliOptions = parser.parse(process.argv);
 
   if (cliOptions.help) {
     const help = parser.help().trimRight();
-    // tslint:disable-next-line:no-console
     console.log(help);
     process.exit(0);
   }
 
-  return cliOptions;
+  return (cliOptions as unknown) as T;
 }
 
 export function setUpdateListener(performUpdateCallback: () => void): void {

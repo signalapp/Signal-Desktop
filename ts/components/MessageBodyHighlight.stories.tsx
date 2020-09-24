@@ -2,17 +2,16 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { text, withKnobs } from '@storybook/addon-knobs';
 
-// @ts-ignore
 import { setup as setupI18n } from '../../js/modules/i18n';
-// @ts-ignore
 import enMessages from '../../_locales/en/messages.json';
-
 import { MessageBodyHighlight, Props } from './MessageBodyHighlight';
 
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/MessageBodyHighlight', module);
 
+// Storybook types are incorrect
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 story.addDecorator((withKnobs as any)({ escapeHTML: false }));
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({

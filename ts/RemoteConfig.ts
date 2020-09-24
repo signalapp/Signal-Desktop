@@ -34,12 +34,15 @@ function getServer(): WebAPIType {
 let config: ConfigMapType = {};
 const listeners: ConfigListenersMapType = {};
 
-export async function initRemoteConfig() {
+export async function initRemoteConfig(): Promise<void> {
   config = window.storage.get('remoteConfig') || {};
   await maybeRefreshRemoteConfig();
 }
 
-export function onChange(key: ConfigKeyType, fn: ConfigListenerType) {
+export function onChange(
+  key: ConfigKeyType,
+  fn: ConfigListenerType
+): () => void {
   const keyListeners: Array<ConfigListenerType> = get(listeners, key, []);
   keyListeners.push(fn);
   listeners[key] = keyListeners;
@@ -49,7 +52,7 @@ export function onChange(key: ConfigKeyType, fn: ConfigListenerType) {
   };
 }
 
-export const refreshRemoteConfig = async () => {
+export const refreshRemoteConfig = async (): Promise<void> => {
   const now = Date.now();
   const server = getServer();
   const newConfig = await server.getConfig();
@@ -61,7 +64,8 @@ export const refreshRemoteConfig = async () => {
   config = newConfig.reduce((acc, { name, enabled, value }) => {
     const previouslyEnabled: boolean = get(oldConfig, [name, 'enabled'], false);
     const previousValue: unknown = get(oldConfig, [name, 'value'], undefined);
-    // If a flag was previously not enabled and is now enabled, record the time it was enabled
+    // If a flag was previously not enabled and is now enabled,
+    // record the time it was enabled
     const enabledAt: number | undefined =
       previouslyEnabled && enabled ? now : get(oldConfig, [name, 'enabledAt']);
 

@@ -30,6 +30,7 @@ import {
   StorageServiceCredentials,
 } from '../textsecure.d';
 import { MessageError, SignedPreKeyRotationError } from './Errors';
+import { BodyRangesType } from '../types/Util';
 
 function stringToArrayBuffer(str: string): ArrayBuffer {
   if (typeof str !== 'string') {
@@ -258,7 +259,7 @@ class Message {
     }
     if (this.quote) {
       const { QuotedAttachment } = window.textsecure.protobuf.DataMessage.Quote;
-      const { Quote } = window.textsecure.protobuf.DataMessage;
+      const { BodyRange, Quote } = window.textsecure.protobuf.DataMessage;
 
       proto.quote = new Quote();
       const { quote } = proto;
@@ -279,6 +280,23 @@ class Message {
           return quotedAttachment;
         }
       );
+      const bodyRanges: BodyRangesType = this.quote.bodyRanges || [];
+      quote.bodyRanges = bodyRanges.map(range => {
+        const bodyRange = new BodyRange();
+        bodyRange.start = range.start;
+        bodyRange.length = range.length;
+        bodyRange.mentionUuid = range.mentionUuid;
+        return bodyRange;
+      });
+      if (
+        quote.bodyRanges.length &&
+        (!proto.requiredProtocolVersion ||
+          proto.requiredProtocolVersion <
+            window.textsecure.protobuf.DataMessage.ProtocolVersion.MENTIONS)
+      ) {
+        proto.requiredProtocolVersion =
+          window.textsecure.protobuf.DataMessage.ProtocolVersion.MENTIONS;
+      }
     }
     if (this.expireTimer) {
       proto.expireTimer = this.expireTimer;

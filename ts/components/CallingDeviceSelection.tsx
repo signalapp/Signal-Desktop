@@ -31,7 +31,7 @@ function renderAudioOptions(
 ): JSX.Element {
   if (!devices.length) {
     return (
-      <option aria-selected={true}>
+      <option aria-selected>
         {i18n('callingDeviceSelection__select--no-device')}
       </option>
     );
@@ -63,7 +63,7 @@ function renderVideoOptions(
 ): JSX.Element {
   if (!devices.length) {
     return (
-      <option aria-selected={true}>
+      <option aria-selected>
         {i18n('callingDeviceSelection__select--no-device')}
       </option>
     );
@@ -134,9 +134,11 @@ export const CallingDeviceSelection = ({
     <ConfirmationModal actions={[]} i18n={i18n} onClose={toggleSettings}>
       <div className="module-calling-device-selection">
         <button
+          type="button"
           className="module-calling-device-selection__close-button"
           onClick={toggleSettings}
           tabIndex={0}
+          aria-label={i18n('close')}
         />
       </div>
 
@@ -144,14 +146,13 @@ export const CallingDeviceSelection = ({
         {i18n('callingDeviceSelection__settings')}
       </h1>
 
-      <label className="module-calling-device-selection__label">
+      <label htmlFor="video" className="module-calling-device-selection__label">
         {i18n('callingDeviceSelection__label--video')}
       </label>
       <div className="module-calling-device-selection__select">
         <select
           disabled={!availableCameras.length}
           name="video"
-          // tslint:disable-next-line react-a11y-no-onchange
           onChange={createCameraChangeHandler(changeIODevice)}
           value={selectedCamera}
         >
@@ -159,14 +160,16 @@ export const CallingDeviceSelection = ({
         </select>
       </div>
 
-      <label className="module-calling-device-selection__label">
+      <label
+        htmlFor="audio-input"
+        className="module-calling-device-selection__label"
+      >
         {i18n('callingDeviceSelection__label--audio-input')}
       </label>
       <div className="module-calling-device-selection__select">
         <select
           disabled={!availableMicrophones.length}
           name="audio-input"
-          // tslint:disable-next-line react-a11y-no-onchange
           onChange={createAudioChangeHandler(
             availableMicrophones,
             changeIODevice,
@@ -178,14 +181,16 @@ export const CallingDeviceSelection = ({
         </select>
       </div>
 
-      <label className="module-calling-device-selection__label">
+      <label
+        htmlFor="audio-output"
+        className="module-calling-device-selection__label"
+      >
         {i18n('callingDeviceSelection__label--audio-output')}
       </label>
       <div className="module-calling-device-selection__select">
         <select
           disabled={!availableSpeakers.length}
           name="audio-output"
-          // tslint:disable-next-line react-a11y-no-onchange
           onChange={createAudioChangeHandler(
             availableSpeakers,
             changeIODevice,

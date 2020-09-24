@@ -10,7 +10,6 @@
 // eslint-disable-next-line func-names
 (function() {
   window.Whisper = window.Whisper || {};
-  const { Settings } = Signal.Types;
 
   // The keys and values don't match here. This is because the values correspond to old
   //   setting names. In the future, we may wish to migrate these to match.
@@ -76,13 +75,11 @@
       const isAppFocused = window.isActive();
       const isAudioNotificationEnabled =
         storage.get('audio-notification') || false;
-      const isAudioNotificationSupported = Settings.isAudioNotificationSupported();
       const userSetting = this.getUserSetting();
 
       const status = Signal.Notifications.getStatus({
         isAppFocused,
         isAudioNotificationEnabled,
-        isAudioNotificationSupported,
         isEnabled,
         hasNotifications: Boolean(this.notificationData),
         userSetting,
@@ -157,7 +154,6 @@
       }
 
       this.lastNotification = window.Signal.Services.notify({
-        platform: window.platform,
         title: notificationTitle,
         icon: notificationIconUrl,
         message: notificationMessage,

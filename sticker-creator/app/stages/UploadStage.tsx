@@ -9,13 +9,12 @@ import { Button } from '../../elements/Button';
 import { stickersDuck } from '../../store';
 import { encryptAndUpload } from '../../util/preload';
 import { useI18n } from '../../util/i18n';
-import { Toaster } from '../../components/Toaster';
 
 const handleCancel = () => {
   history.push('/add-meta');
 };
 
-export const UploadStage = () => {
+export const UploadStage: React.ComponentType = () => {
   const i18n = useI18n();
   const actions = stickersDuck.useStickerActions();
   const cover = stickersDuck.useCover();
@@ -50,10 +49,10 @@ export const UploadStage = () => {
     })();
 
     return noop;
-  }, [title, author, cover, orderedData]);
+  }, [actions, title, author, cover, orderedData]);
 
   return (
-    <AppStage empty={true}>
+    <AppStage empty>
       <div className={styles.base}>
         <H2>{i18n('StickerCreator--UploadStage--title')}</H2>
         <Text>

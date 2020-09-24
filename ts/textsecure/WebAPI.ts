@@ -1257,7 +1257,7 @@ export function initialize({
       const { accessKey } = options;
       const jsonData: any = {
         capabilities: {
-          gv2: true,
+          'gv2-2': true,
         },
         fetchesMessages: true,
         name: deviceName ? deviceName : undefined,
@@ -1677,7 +1677,7 @@ export function initialize({
       });
 
       // Upload stickers
-      const queue = new PQueue({ concurrency: 3 });
+      const queue = new PQueue({ concurrency: 3, timeout: 1000 * 60 * 2 });
       await Promise.all(
         stickers.map(async (sticker: ServerAttachmentType, index: number) => {
           const stickerParams = makePutParams(

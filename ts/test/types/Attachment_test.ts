@@ -3,7 +3,6 @@ import { assert } from 'chai';
 import * as Attachment from '../../types/Attachment';
 import * as MIME from '../../types/MIME';
 import { SignalService } from '../../protobuf';
-// @ts-ignore
 import { stringToArrayBuffer } from '../../../js/modules/string_to_array_buffer';
 
 describe('Attachment', () => {

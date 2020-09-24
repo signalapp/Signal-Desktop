@@ -12,15 +12,12 @@ export interface PropsType {
   profileName?: string;
 }
 
-export class ContactName extends React.Component<PropsType> {
-  public render() {
-    const { module, title } = this.props;
-    const prefix = module ? module : 'module-contact-name';
+export const ContactName = ({ module, title }: PropsType): JSX.Element => {
+  const prefix = module || 'module-contact-name';
 
-    return (
-      <span className={prefix} dir="auto">
-        <Emojify text={title || ''} />
-      </span>
-    );
-  }
-}
+  return (
+    <span className={prefix} dir="auto">
+      <Emojify text={title || ''} />
+    </span>
+  );
+};

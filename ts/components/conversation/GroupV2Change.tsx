@@ -53,6 +53,8 @@ export function GroupV2Change(props: PropsType): React.ReactElement {
         renderString: renderStringToIntl,
         RoleEnum,
       }).map((item: FullJSXType, index: number) => (
+        // Difficult to find a unique key for this type
+        // eslint-disable-next-line react/no-array-index-key
         <div key={index}>{item}</div>
       ))}
     </div>

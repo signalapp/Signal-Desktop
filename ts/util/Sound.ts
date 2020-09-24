@@ -7,8 +7,11 @@ export class Sound {
   static sounds = new Map();
 
   private readonly context = new AudioContext();
+
   private readonly loop: boolean;
+
   private node?: AudioBufferSourceNode;
+
   private readonly src: string;
 
   constructor(options: SoundOpts) {
@@ -16,7 +19,7 @@ export class Sound {
     this.src = options.src;
   }
 
-  async play() {
+  async play(): Promise<void> {
     if (!Sound.sounds.has(this.src)) {
       try {
         const buffer = await Sound.loadSoundFile(this.src);
@@ -44,7 +47,7 @@ export class Sound {
     this.node = soundNode;
   }
 
-  stop() {
+  stop(): void {
     if (this.node) {
       this.node.stop(0);
       this.node = undefined;

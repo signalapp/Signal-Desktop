@@ -6,11 +6,7 @@ import { action } from '@storybook/addon-actions';
 
 import { CaptionEditor, Props } from './CaptionEditor';
 import { AUDIO_MP3, IMAGE_JPEG, VIDEO_MP4 } from '../types/MIME';
-
-// @ts-ignore
 import { setup as setupI18n } from '../../js/modules/i18n';
-
-// @ts-ignore
 import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);

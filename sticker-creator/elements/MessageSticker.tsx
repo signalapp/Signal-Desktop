@@ -6,7 +6,11 @@ export type Props = MessageMetaProps & {
   image: string;
 };
 
-export const MessageSticker = ({ image, kind, minutesAgo }: Props) => {
+export const MessageSticker: React.ComponentType<Props> = ({
+  image,
+  kind,
+  minutesAgo,
+}) => {
   return (
     <div className={styles.base}>
       <img src={image} alt="Sticker" className={styles.image} />

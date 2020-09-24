@@ -177,13 +177,26 @@
   "rulesDirectory": ["node_modules/tslint-microsoft-contrib"],
   "linterOptions": {
     "exclude": [
-      "ts/components/emoji/**",
+      "sticker-creator/**/*.ts",
+      "sticker-creator/**/*.tsx",
+      "ts/*.ts",
       "ts/backbone/**",
       "ts/build/**",
+      "ts/components/*.ts[x]",
+      "ts/components/conversation/**",
+      "ts/components/emoji/**",
+      "ts/components/stickers/**",
       "ts/notifications/**",
       "ts/protobuf/**",
       "ts/scripts/**",
-      "ts/services/**"
+      "ts/services/**",
+      "ts/shims/**",
+      "ts/state/**",
+      "ts/storybook/**",
+      "ts/test/**",
+      "ts/types/**",
+      "ts/updater/**",
+      "ts/util/**"
     ]
   }
 }

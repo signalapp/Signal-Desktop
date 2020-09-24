@@ -11,7 +11,7 @@ import { stickersDuck } from '../../store';
 import { useI18n } from '../../util/i18n';
 
 // tslint:disable-next-line max-func-body-length
-export const MetaStage = () => {
+export const MetaStage: React.ComponentType = () => {
   const i18n = useI18n();
   const actions = stickersDuck.useStickerActions();
   const valid = stickersDuck.useAllDataValid();
@@ -47,19 +47,14 @@ export const MetaStage = () => {
 
   const onConfirm = React.useCallback(() => {
     history.push('/upload');
-  }, [setConfirming]);
+  }, []);
 
   const coverFrameClass = isDragActive
     ? styles.coverFrameActive
     : styles.coverFrame;
 
   return (
-    <AppStage
-      onNext={onNext}
-      nextActive={valid}
-      noMessage={true}
-      prev="/add-emojis"
-    >
+    <AppStage onNext={onNext} nextActive={valid} noMessage prev="/add-emojis">
       {confirming ? (
         <ConfirmModal
           title={i18n('StickerCreator--MetaStage--ConfirmDialog--title')}
