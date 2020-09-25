@@ -839,7 +839,7 @@ class MessageReceiverInner extends EventTarget {
 
     let address: SignalProtocolAddressClass;
     let promise;
-    const identifier = envelope.source || envelope.sourceUuid;
+    const identifier = envelope.sourceUuid || envelope.source;
 
     address = new window.libsignal.SignalProtocolAddress(
       // Using source as opposed to sourceUuid allows us to get the existing
@@ -1140,7 +1140,7 @@ class MessageReceiverInner extends EventTarget {
     window.log.info('data message from', this.getEnvelopeId(envelope));
     let p: Promise<any> = Promise.resolve();
     // eslint-disable-next-line no-bitwise
-    const destination = envelope.source || envelope.sourceUuid;
+    const destination = envelope.sourceUuid || envelope.source;
     if (!destination) {
       throw new Error(
         'MessageReceiver.handleDataMessage: source and sourceUuid were falsey'

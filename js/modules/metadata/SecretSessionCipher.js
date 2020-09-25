@@ -517,7 +517,7 @@ SecretSessionCipher.prototype = {
     const signalProtocolStore = this.storage;
 
     const sender = new libsignal.SignalProtocolAddress(
-      message.senderCertificate.sender || message.senderCertificate.senderUuid,
+      message.senderCertificate.senderUuid || message.senderCertificate.sender,
       message.senderCertificate.senderDevice
     );
 

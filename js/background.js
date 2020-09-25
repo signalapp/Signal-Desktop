@@ -2663,12 +2663,16 @@
     let sentTo = [];
 
     if (data.unidentifiedStatus && data.unidentifiedStatus.length) {
-      sentTo = data.unidentifiedStatus.map(item => item.destination);
+      sentTo = data.unidentifiedStatus.map(
+        item => item.destinationUuid || item.destination
+      );
       const unidentified = _.filter(data.unidentifiedStatus, item =>
         Boolean(item.unidentified)
       );
       // eslint-disable-next-line no-param-reassign
-      data.unidentifiedDeliveries = unidentified.map(item => item.destination);
+      data.unidentifiedDeliveries = unidentified.map(
+        item => item.destinationUuid || item.destination
+      );
     }
 
     return new Whisper.Message({
