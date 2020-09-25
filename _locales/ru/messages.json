@@ -1378,9 +1378,6 @@
     "newClosedGroup": {
         "message": "Новая закрытая группа"
     },
-    "newClosedGroupDescription": {
-        "message": "Закрытые группы поддерживают до 10 участников и обеспечивают те же меры защиты конфиденциальности, что и сессии один-на-один."
-    },
     "createClosedGroupNamePrompt": {
         "message": "Название Группы"
     },
@@ -1409,7 +1406,7 @@
         "message": "Пожалуйста, выберите как минимум 1 участников группы"
     },
     "closedGroupMaxSize": {
-        "message": "В закрытой группе не может быть больше 10 участников"
+        "message": "В закрытой группе не может быть больше 20 участников"
     },
     "contextMenuNoSuggestions": {
         "message": "No Suggestions",

@@ -656,6 +656,10 @@ label {
     }
   }
 
+  .group-member-list__selection {
+    overflow-y: auto;
+  }
+
   &__centered {
     display: flex;
     flex-direction: column;
@@ -1423,15 +1427,8 @@ input {
     text-align: center;
     padding: 20px;
   }
-
-  // Height at which scroll bar appears on the group member list
-  @media (max-height: 804px) {
-    &__container {
-      overflow-y: visible;
-      max-height: none;
-    }
-  }
 }
+
 .create-group-name-input {
   display: flex;
   justify-content: center;
