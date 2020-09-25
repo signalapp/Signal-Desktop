@@ -2119,12 +2119,14 @@ export class ConversationModel extends window.Backbone.Model<
   async handleMessageSendResult(
     failoverIdentifiers: Array<string> | undefined,
     unidentifiedDeliveries: Array<string> | undefined,
-    discoveredIdentifierPairs: Array<{
-      uuid: string | null;
-      e164: string | null;
-    }>
+    discoveredIdentifierPairs:
+      | Array<{
+          uuid: string | null;
+          e164: string | null;
+        }>
+      | undefined
   ): Promise<void> {
-    discoveredIdentifierPairs.forEach(item => {
+    (discoveredIdentifierPairs || []).forEach(item => {
       const { uuid, e164 } = item;
       window.ConversationController.ensureContactIds({
         uuid,

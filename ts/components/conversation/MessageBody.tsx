@@ -66,8 +66,9 @@ export class MessageBody extends React.Component<Props> {
       <AddNewLines
         key={key}
         text={textWithNewLines}
-        renderNonNewLine={({ text }) => (
+        renderNonNewLine={({ text, key: innerKey }) => (
           <AtMentionify
+            key={innerKey}
             direction={direction}
             text={text}
             bodyRanges={bodyRanges}
