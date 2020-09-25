@@ -197,7 +197,6 @@ class MessageReceiverInner extends EventTarget {
     });
 
     if (options.retryCached) {
-      // tslint:disable-next-line no-floating-promises
       this.pendingQueue.add(async () => this.queueAllCached());
     }
   }
@@ -307,7 +306,6 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async dispatchAndWait(event: Event) {
-    // tslint:disable-next-line no-floating-promises
     this.appQueue.add(async () => Promise.all(this.dispatchEvent(event)));
 
     return Promise.resolve();
@@ -353,7 +351,6 @@ class MessageReceiverInner extends EventTarget {
       request.respond(200, 'OK');
 
       if (request.verb === 'PUT' && request.path === '/api/v1/queue/empty') {
-        // tslint:disable-next-line no-floating-promises
         this.incomingQueue.add(() => {
           this.onEmpty();
         });
@@ -427,7 +424,6 @@ class MessageReceiverInner extends EventTarget {
       }
     };
 
-    // tslint:disable-next-line no-floating-promises
     this.incomingQueue.add(job);
   }
 
@@ -496,12 +492,10 @@ class MessageReceiverInner extends EventTarget {
       );
 
       // We don't await here because we don't want this to gate future message processing
-      // tslint:disable-next-line no-floating-promises
       this.appQueue.add(emitEmpty);
     };
 
     const waitForIncomingQueue = () => {
-      // tslint:disable-next-line no-floating-promises
       this.addToQueue(waitForPendingQueue);
 
       // Note: this.count is used in addToQueue
@@ -511,11 +505,9 @@ class MessageReceiverInner extends EventTarget {
 
     const waitForCacheAddBatcher = async () => {
       await this.cacheAddBatcher.onIdle();
-      // tslint:disable-next-line no-floating-promises
       this.incomingQueue.add(waitForIncomingQueue);
     };
 
-    // tslint:disable-next-line no-floating-promises
     waitForCacheAddBatcher();
   }
 
@@ -590,10 +582,8 @@ class MessageReceiverInner extends EventTarget {
         } else {
           throw new Error('Cached decrypted value was not a string!');
         }
-        // tslint:disable-next-line no-floating-promises
         this.queueDecryptedEnvelope(envelope, payloadPlaintext);
       } else {
-        // tslint:disable-next-line no-floating-promises
         this.queueEnvelope(envelope);
       }
     } catch (error) {
@@ -639,7 +629,6 @@ class MessageReceiverInner extends EventTarget {
     if (this.isEmptied) {
       this.clearRetryTimeout();
       this.retryCachedTimeout = setTimeout(() => {
-        // tslint:disable-next-line no-floating-promises
         this.pendingQueue.add(async () => this.queueAllCached());
       }, RETRY_TIMEOUT);
     }
@@ -695,7 +684,6 @@ class MessageReceiverInner extends EventTarget {
       await window.textsecure.storage.unprocessed.batchAdd(dataArray);
       items.forEach(item => {
         item.request.respond(200, 'OK');
-        // tslint:disable-next-line no-floating-promises
         this.queueEnvelope(item.envelope);
       });
 
@@ -862,7 +850,6 @@ class MessageReceiverInner extends EventTarget {
   }
 
   async onDeliveryReceipt(envelope: EnvelopeClass) {
-    // tslint:disable-next-line promise-must-complete
     return new Promise((resolve, reject) => {
       const ev = new Event('delivery');
       ev.confirm = this.removeFromCache.bind(this, envelope);
@@ -894,7 +881,6 @@ class MessageReceiverInner extends EventTarget {
     return plaintext;
   }
 
-  // tslint:disable-next-line max-func-body-length
   async decrypt(
     envelope: EnvelopeClass,
     ciphertext: any
@@ -1505,7 +1491,6 @@ class MessageReceiverInner extends EventTarget {
     return sentMessage.destination || sentMessage.destinationUuid;
   }
 
-  // tslint:disable-next-line cyclomatic-complexity
   async handleSyncMessage(
     envelope: EnvelopeClass,
     syncMessage: SyncMessageClass
@@ -1767,7 +1752,6 @@ class MessageReceiverInner extends EventTarget {
 
     // Note: we do not return here because we don't want to block the next message on
     //   this attachment download and a lot of processing of that attachment.
-    // tslint:disable-next-line no-floating-promises
     this.handleAttachment(blob).then(async attachmentPointer => {
       const results = [];
       const contactBuffer = new ContactBuffer(attachmentPointer.data);
@@ -1806,7 +1790,6 @@ class MessageReceiverInner extends EventTarget {
 
     // Note: we do not return here because we don't want to block the next message on
     //   this attachment download and a lot of processing of that attachment.
-    // tslint:disable-next-line no-floating-promises
     this.handleAttachment(blob).then(async attachmentPointer => {
       const groupBuffer = new GroupBuffer(attachmentPointer.data);
       let groupDetails = groupBuffer.next() as any;
@@ -1966,7 +1949,6 @@ class MessageReceiverInner extends EventTarget {
     );
   }
 
-  // tslint:disable-next-line max-func-body-length cyclomatic-complexity
   async processDecrypted(envelope: EnvelopeClass, decrypted: DataMessageClass) {
     /* eslint-disable no-bitwise, no-param-reassign */
     const FLAGS = window.textsecure.protobuf.DataMessage.Flags;

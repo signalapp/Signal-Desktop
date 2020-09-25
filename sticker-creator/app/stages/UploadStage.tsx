@@ -25,7 +25,6 @@ export const UploadStage: React.ComponentType = () => {
   const [complete, setComplete] = React.useState(0);
 
   React.useEffect(() => {
-    // tslint:disable-next-line: no-floating-promises
     (async () => {
       const onProgress = () => {
         setComplete(i => i + 1);

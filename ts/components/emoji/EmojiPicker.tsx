@@ -57,7 +57,6 @@ const categories = [
 
 export const EmojiPicker = React.memo(
   React.forwardRef<HTMLDivElement, Props>(
-    // tslint:disable-next-line max-func-body-length
     (
       {
         i18n,

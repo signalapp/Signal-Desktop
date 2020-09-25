@@ -45,7 +45,6 @@ export const DropZone: React.ComponentType<Props> = props => {
 
   return (
     <div {...getRootProps({ className: getClassName(props, isDragActive) })}>
-      {/* tslint:disable-next-line */}
       <input {...getInputProps()} />
       <svg viewBox="0 0 36 36" width="36px" height="36px">
         <path d="M32 17.25H18.75V4h-1.5v13.25H4v1.5h13.25V32h1.5V18.75H32v-1.5z" />

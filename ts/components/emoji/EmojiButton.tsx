@@ -23,7 +23,6 @@ export type Props = OwnProps &
   >;
 
 export const EmojiButton = React.memo(
-  // tslint:disable-next-line:max-func-body-length
   ({
     i18n,
     doSend,

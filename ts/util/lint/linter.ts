@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-// tslint:disable no-console
 import * as fs from 'fs';
 import { join, relative } from 'path';
 import normalizePath from 'normalize-path';
@@ -236,7 +235,6 @@ const excludedFilesRegexps = [
   '^node_modules/trough/.+',
   '^node_modules/ts-loader/.+',
   '^node_modules/ts-node/.+',
-  '^node_modules/tslint.+',
   '^node_modules/tweetnacl/.+',
   '^node_modules/typed-scss-modules/.+',
   '^node_modules/typescript/.+',
@@ -362,7 +360,6 @@ async function main(): Promise<void> {
 
           const exception = exceptionsLookup[exceptionKey];
           if (exception && (!exception.line || exception.line === line)) {
-            // tslint:disable-next-line no-dynamic-delete
             delete exceptionsLookup[exceptionKey];
 
             return;

@@ -203,7 +203,6 @@ export type CallingActionType =
 function acceptCall(
   payload: AcceptCallType
 ): AcceptCallActionType | NoopActionType {
-  // tslint:disable-next-line no-floating-promises
   (async () => {
     try {
       await calling.accept(payload.callId, payload.asVideoCall);
@@ -317,7 +316,6 @@ function incomingCall(payload: IncomingCallType): IncomingCallActionType {
 }
 
 function outgoingCall(payload: OutgoingCallType): OutgoingCallActionType {
-  // tslint:disable-next-line no-floating-promises
   callingTones.playRingtone();
 
   return {
@@ -436,7 +434,6 @@ function getEmptyState(): CallingStateType {
   };
 }
 
-// tslint:disable-next-line max-func-body-length
 export function reducer(
   state: CallingStateType = getEmptyState(),
   action: CallingActionType

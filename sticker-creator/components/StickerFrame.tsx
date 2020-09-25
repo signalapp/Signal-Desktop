@@ -63,7 +63,6 @@ const ImageHandle = SortableHandle((props: { src: string }) => (
 ));
 
 export const StickerFrame = React.memo(
-  // tslint:disable-next-line max-func-body-length
   ({
     id,
     emojiData,

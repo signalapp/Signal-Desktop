@@ -10,7 +10,6 @@ import { ConfirmModal } from '../../components/ConfirmModal';
 import { stickersDuck } from '../../store';
 import { useI18n } from '../../util/i18n';
 
-// tslint:disable-next-line max-func-body-length
 export const MetaStage: React.ComponentType = () => {
   const i18n = useI18n();
   const actions = stickersDuck.useStickerActions();
@@ -91,7 +90,6 @@ export const MetaStage: React.ComponentType = () => {
                   alt="Cover"
                 />
               ) : null}
-              {/* tslint:disable-next-line react-a11y-input-elements */}
               <input {...getInputProps()} />
             </div>
           </div>

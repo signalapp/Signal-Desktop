@@ -41,7 +41,6 @@ export function notify({
 
   if (!silent && audioNotificationSupport === AudioNotificationSupport.Custom) {
     // We kick off the sound to be played. No neet to await it.
-    // tslint:disable-next-line no-floating-promises
     new Sound({ src: 'sounds/notification.ogg' }).play();
   }
 

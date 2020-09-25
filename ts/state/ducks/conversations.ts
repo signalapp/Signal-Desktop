@@ -601,7 +601,6 @@ function getEmptyState(): ConversationsStateType {
   };
 }
 
-// tslint:disable-next-line cyclomatic-complexity
 function hasMessageHeightChanged(
   message: MessageType,
   previous: MessageType
@@ -673,7 +672,6 @@ function hasMessageHeightChanged(
   return false;
 }
 
-// tslint:disable-next-line cyclomatic-complexity max-func-body-length
 export function reducer(
   state: ConversationsStateType = getEmptyState(),
   action: ConversationActionType

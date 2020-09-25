@@ -152,7 +152,6 @@ class Message {
 
   attachmentPointers?: Array<any>;
 
-  // tslint:disable cyclomatic-complexity
   constructor(options: MessageOptionsType) {
     this.attachments = options.attachments || [];
     this.body = options.body;
@@ -600,7 +599,6 @@ export default class MessageSender {
     );
 
     recipients.forEach(identifier => {
-      // tslint:disable-next-line no-floating-promises
       this.queueJobForIdentifier(identifier, async () =>
         outgoing.sendToIdentifier(identifier)
       );

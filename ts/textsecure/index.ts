@@ -1,5 +1,3 @@
-// tslint:disable no-default-export
-
 import EventTarget from './EventTarget';
 import AccountManager from './AccountManager';
 import MessageReceiver from './MessageReceiver';

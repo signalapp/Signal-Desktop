@@ -5,7 +5,6 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// tslint:disable no-console no-default-export no-unnecessary-local-variable
 
 import { join } from 'path';
 import mkdirp from 'mkdirp';
@@ -1340,7 +1339,6 @@ async function updateToSchemaVersion19(
   }
 }
 
-// tslint:disable-next-line max-func-body-length
 async function updateToSchemaVersion20(
   currentVersion: number,
   instance: PromisifiedSQLDatabase
@@ -1453,7 +1451,6 @@ async function updateToSchemaVersion20(
     );
 
     // Update group conversations, point members at new conversation ids
-    // tslint:disable-next-line no-floating-promises
     migrationJobQueue.addAll(
       groupConverations.map(groupRow => async () => {
         const members = groupRow.members.split(/\s?\+/).filter(Boolean);
@@ -1649,7 +1646,6 @@ let globalInstance: PromisifiedSQLDatabase | undefined;
 let databaseFilePath: string | undefined;
 let indexedDBPath: string | undefined;
 
-// tslint:disable-next-line max-func-body-length
 async function initialize({
   configDir,
   key,
@@ -2418,7 +2414,6 @@ async function getMessageCount(conversationId?: string) {
   return row['count(*)'];
 }
 
-// tslint:disable-next-line max-func-body-length
 async function saveMessage(
   data: MessageType,
   { forceSave }: { forceSave?: boolean } = {}
@@ -3956,7 +3951,6 @@ async function removeKnownAttachments(allAttachments: Array<string>) {
     forEach(messages, message => {
       const externalFiles = getExternalFilesForMessage(message);
       forEach(externalFiles, file => {
-        // tslint:disable-next-line no-dynamic-delete
         delete lookup[file];
       });
     });
@@ -4000,7 +3994,6 @@ async function removeKnownAttachments(allAttachments: Array<string>) {
     forEach(conversations, conversation => {
       const externalFiles = getExternalFilesForConversation(conversation);
       forEach(externalFiles, file => {
-        // tslint:disable-next-line no-dynamic-delete
         delete lookup[file];
       });
     });
@@ -4048,7 +4041,6 @@ async function removeKnownStickers(allStickers: Array<string>) {
 
     const files: Array<StickerType> = map(rows, row => row.path);
     forEach(files, file => {
-      // tslint:disable-next-line no-dynamic-delete
       delete lookup[file];
     });
 
@@ -4101,7 +4093,6 @@ async function removeKnownDraftAttachments(allStickers: Array<string>) {
     forEach(conversations, conversation => {
       const externalFiles = getExternalDraftFilesForConversation(conversation);
       forEach(externalFiles, file => {
-        // tslint:disable-next-line no-dynamic-delete
         delete lookup[file];
       });
     });

@@ -76,7 +76,6 @@ export default class EventTarget {
   extend(source: any): any {
     const target = this as any;
 
-    // tslint:disable-next-line forin no-for-in no-default-export
     for (const prop in source) {
       target[prop] = source[prop];
     }

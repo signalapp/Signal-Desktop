@@ -82,7 +82,6 @@ const data = (untypedData as Array<EmojiData>)
   );
 
 const ROOT_PATH = get(
-  // tslint:disable-next-line no-typeof-undefined
   typeof window !== 'undefined' ? window : null,
   'ROOT_PATH',
   ''
@@ -104,7 +103,6 @@ export const preloadImages = async (): Promise<void> => {
       img.onerror = reject;
       img.src = src;
       images.add(img);
-      // tslint:disable-next-line  no-string-based-set-timeout
       setTimeout(reject, 5000);
     });
 
@@ -112,12 +110,10 @@ export const preloadImages = async (): Promise<void> => {
   const start = Date.now();
 
   data.forEach(emoji => {
-    // tslint:disable-next-line no-floating-promises promise-function-async
     imageQueue.add(() => preload(makeImagePath(emoji.image)));
 
     if (emoji.skin_variations) {
       Object.values(emoji.skin_variations).forEach(variation => {
-        // tslint:disable-next-line no-floating-promises promise-function-async
         imageQueue.add(() => preload(makeImagePath(variation.image)));
       });
     }

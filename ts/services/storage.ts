@@ -117,7 +117,6 @@ type GeneratedManifestType = {
   storageManifest: StorageManifestClass;
 };
 
-/* tslint:disable-next-line max-func-body-length */
 async function generateManifest(
   version: number,
   isNewManifest = false
@@ -581,7 +580,6 @@ async function mergeRecord(
   };
 }
 
-/* tslint:disable-next-line max-func-body-length */
 async function processManifest(
   manifest: ManifestRecordClass
 ): Promise<boolean> {

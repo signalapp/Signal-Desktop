@@ -1,4 +1,3 @@
-/* tslint:disable no-backbone-get-set-outside-model */
 import { isNumber } from 'lodash';
 
 import {
@@ -405,7 +404,6 @@ export async function mergeGroupV2Record(
 
   const isFirstSync = !isNumber(window.storage.get('manifestVersion'));
   const dropInitialJoinMessage = isFirstSync;
-  // tslint:disable-next-line no-floating-promises
   waitThenMaybeUpdateGroup({
     conversation,
     dropInitialJoinMessage,

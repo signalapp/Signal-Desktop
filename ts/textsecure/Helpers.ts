@@ -2,7 +2,6 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-proto */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// tslint:disable no-default-export
 
 import { ByteBufferClass } from '../window.d';
 

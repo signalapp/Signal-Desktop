@@ -246,7 +246,6 @@ export class ConversationController {
    *
    * highTrust = uuid/e164 pairing came from CDS, the server, or your own device
    */
-  // tslint:disable-next-line cyclomatic-complexity max-func-body-length
   ensureContactIds({
     e164,
     uuid,

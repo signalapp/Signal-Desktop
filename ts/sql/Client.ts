@@ -273,10 +273,8 @@ function _cleanData(data: any, path = 'root') {
 
     if (isFunction(value)) {
       // To prepare for Electron v9 IPC, we need to take functions off of any object
-      // tslint:disable-next-line no-dynamic-delete
       delete data[key];
     } else if (isFunction(value.toNumber)) {
-      // tslint:disable-next-line no-dynamic-delete
       data[key] = value.toNumber();
     } else if (Array.isArray(value)) {
       data[key] = value.map((item, mapIndex) =>
@@ -398,7 +396,6 @@ function _removeJob(id: number) {
     return;
   }
 
-  // tslint:disable-next-line no-dynamic-delete
   delete _jobs[id];
 
   if (_shutdownCallback) {

@@ -50,7 +50,6 @@ const InnerGrid = SortableContainer(
       async paths => {
         actions.initializeStickers(paths);
         paths.forEach(path => {
-          // tslint:disable-next-line no-floating-promises
           queue.add(async () => {
             try {
               const webp = await convertToWebp(path);

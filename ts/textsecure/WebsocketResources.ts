@@ -134,7 +134,6 @@ export default class WebSocketResource extends EventTarget {
 
   keepalive?: KeepAlive;
 
-  // tslint:disable-next-line max-func-body-length
   constructor(socket: WebSocket, opts: any = {}) {
     super();
 

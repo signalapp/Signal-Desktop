@@ -1,5 +1,3 @@
-// tslint:disable no-default-export
-
 export default function createTaskWithTimeout<T>(
   task: () => Promise<T>,
   id: string,

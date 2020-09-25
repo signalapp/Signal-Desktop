@@ -333,7 +333,6 @@ function getEmptyState(): SearchStateType {
   };
 }
 
-// tslint:disable-next-line cyclomatic-complexity max-func-body-length
 export function reducer(
   state: SearchStateType = getEmptyState(),
   action: SearchActionType

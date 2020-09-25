@@ -169,7 +169,6 @@ export default class AccountManager extends EventTarget {
     );
   }
 
-  // tslint:disable-next-line max-func-body-length
   async registerSecondDevice(
     setProvisioningUrl: Function,
     confirmNumber: (number?: string) => Promise<string>,
@@ -385,7 +384,6 @@ export default class AccountManager extends EventTarget {
             e.code <= 599
           ) {
             const rejections =
-              // tslint:disable-next-line restrict-plus-operands
               1 + window.textsecure.storage.get('signedKeyRotationRejected', 0);
             await window.textsecure.storage.put(
               'signedKeyRotationRejected',
@@ -476,7 +474,6 @@ export default class AccountManager extends EventTarget {
     });
   }
 
-  // tslint:disable max-func-body-length
   async createAccount(
     number: string,
     verificationCode: string,

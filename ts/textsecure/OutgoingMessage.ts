@@ -148,7 +148,6 @@ export default class OutgoingMessage {
         });
   }
 
-  // tslint:disable-next-line max-func-body-length
   async getKeysForIdentifier(
     identifier: string,
     updateDevices: Array<number>
@@ -322,7 +321,6 @@ export default class OutgoingMessage {
     return this.plaintext;
   }
 
-  // tslint:disable-next-line max-func-body-length
   async doSendMessage(
     identifier: string,
     deviceIds: Array<number>,
@@ -357,7 +355,6 @@ export default class OutgoingMessage {
     const ourUuid = window.textsecure.storage.user.getUuid();
     const ourDeviceId = window.textsecure.storage.user.getDeviceId();
     if ((identifier === ourNumber || identifier === ourUuid) && !sealedSender) {
-      // tslint:disable-next-line no-parameter-reassignment
       deviceIds = reject(
         deviceIds,
         deviceId =>
