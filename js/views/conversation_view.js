@@ -425,25 +425,53 @@
           // These are view only and don't update the Conversation model, so they
           //   need a manual update call.
           onOutgoingAudioCallInConversation: async () => {
+            window.log.info(
+              'onOutgoingAudioCallInConversation: about to start an audio call'
+            );
+
             const conversation = this.model;
             const isVideoCall = false;
 
             if (await this.isCallSafe()) {
+              window.log.info(
+                'onOutgoingAudioCallInConversation: call is deemed "safe". Making call'
+              );
               await window.Signal.Services.calling.startOutgoingCall(
                 conversation,
                 isVideoCall
+              );
+              window.log.info(
+                'onOutgoingAudioCallInConversation: started the call'
+              );
+            } else {
+              window.log.info(
+                'onOutgoingAudioCallInConversation: call is deemed "unsafe". Stopping'
               );
             }
           },
 
           onOutgoingVideoCallInConversation: async () => {
+            window.log.info(
+              'onOutgoingVideoCallInConversation: about to start a video call'
+            );
+
             const conversation = this.model;
             const isVideoCall = true;
 
             if (await this.isCallSafe()) {
+              window.log.info(
+                'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
+              );
               await window.Signal.Services.calling.startOutgoingCall(
                 conversation,
                 isVideoCall
+              );
+              window.log.info(
+                'onOutgoingVideoCallInConversation: started the call'
+              );
+            } else {
+              window.log.info(
+                'onOutgoingVideoCallInConversation: call is deemed "unsafe". Stopping'
               );
             }
           },

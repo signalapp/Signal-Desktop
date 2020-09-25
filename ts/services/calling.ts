@@ -90,6 +90,8 @@ export class CallingClass {
     conversation: ConversationModelType,
     isVideoCall: boolean
   ): Promise<void> {
+    window.log.info('CallingClass.startOutgoingCall()');
+
     if (!this.uxActions) {
       window.log.error('Missing uxActions, new call not allowed.');
       return;
@@ -107,6 +109,8 @@ export class CallingClass {
       return;
     }
 
+    window.log.info('CallingClass.startOutgoingCall(): Getting call settings');
+
     const callSettings = await this.getCallSettings(conversation);
 
     // Check state after awaiting to debounce call button.
@@ -114,6 +118,8 @@ export class CallingClass {
       window.log.info('Call already in progress, new call not allowed.');
       return;
     }
+
+    window.log.info('CallingClass.startOutgoingCall(): Starting in RingRTC');
 
     // We could make this faster by getting the call object
     // from the RingRTC before we lookup the ICE servers.
@@ -135,6 +141,8 @@ export class CallingClass {
   }
 
   async accept(callId: CallId, asVideoCall: boolean): Promise<void> {
+    window.log.info('CallingClass.accept()');
+
     const haveMediaPermissions = await this.requestPermissions(asVideoCall);
     if (haveMediaPermissions) {
       await this.startDeviceReselectionTimer();
@@ -148,10 +156,14 @@ export class CallingClass {
   }
 
   decline(callId: CallId): void {
+    window.log.info('CallingClass.decline()');
+
     RingRTC.decline(callId);
   }
 
   hangup(callId: CallId): void {
+    window.log.info('CallingClass.hangup()');
+
     RingRTC.hangup(callId);
   }
 
@@ -388,6 +400,8 @@ export class CallingClass {
     envelope: EnvelopeClass,
     callingMessage: CallingMessageClass
   ): Promise<void> {
+    window.log.info('CallingClass.handleCallingMessage()');
+
     const enableIncomingCalls = await window.getIncomingCallNotification();
     if (callingMessage.offer && !enableIncomingCalls) {
       // Drop offers silently if incoming call notifications are disabled.
@@ -426,6 +440,8 @@ export class CallingClass {
     const receiverIdentityKey = receiverIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
 
     const messageAgeSec = envelope.messageAgeSec ? envelope.messageAgeSec : 0;
+
+    window.log.info('CallingClass.handleCallingMessage(): Handling in RingRTC');
 
     RingRTC.handleCallingMessage(
       remoteUserId,
@@ -544,6 +560,8 @@ export class CallingClass {
 
   // If we return null here, we hang up the call.
   private async handleIncomingCall(call: Call): Promise<CallSettings | null> {
+    window.log.info('CallingClass.handleIncomingCall()');
+
     if (!this.uxActions || !this.localDeviceId) {
       window.log.error('Missing required objects, ignoring incoming call.');
       return null;
@@ -586,6 +604,8 @@ export class CallingClass {
       this.uxActions.incomingCall({
         callDetails: this.getUxCallDetails(conversation, call),
       });
+
+      window.log.info('CallingClass.handleIncomingCall(): Proceeding');
 
       return await this.getCallSettings(conversation);
     } catch (err) {
