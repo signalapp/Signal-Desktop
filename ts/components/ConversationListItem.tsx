@@ -108,27 +108,20 @@ class ConversationListItem extends React.PureComponent<Props> {
     );
   }
 
-  public renderUnread() {
-    const { unreadCount, mentionedUs } = this.props;
+  public renderHeader() {
+    const { unreadCount, mentionedUs, i18n, isMe, lastUpdated } = this.props;
+    const {} = this.props;
 
+    let atSymbol = null;
+    let unreadCountDiv = null;
     if (unreadCount > 0) {
-      const atSymbol = mentionedUs ? <p className="at-symbol">@</p> : null;
-
-      return (
-        <div>
-          <p className="module-conversation-list-item__unread-count">
-            {unreadCount}
-          </p>
-          {atSymbol}
-        </div>
+      atSymbol = mentionedUs ? <p className="at-symbol">@</p> : null;
+      unreadCountDiv = (
+        <p className="module-conversation-list-item__unread-count">
+          {unreadCount}
+        </p>
       );
     }
-
-    return null;
-  }
-
-  public renderHeader() {
-    const { unreadCount, i18n, isMe, lastUpdated } = this.props;
 
     return (
       <div className="module-conversation-list-item__header">
@@ -142,7 +135,8 @@ class ConversationListItem extends React.PureComponent<Props> {
         >
           {this.renderUser()}
         </div>
-        {this.renderUnread()}
+        {unreadCountDiv}
+        {atSymbol}
         {
           <div
             className={classNames(
