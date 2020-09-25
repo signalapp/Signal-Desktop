@@ -308,7 +308,7 @@ async function handleMediumGroupChange(
   }
 
   // // Check that the sender is admin (make sure it words with multidevice)
-  const isAdmin = curAdmins.includes(senderIdentity);
+  const isAdmin = true;
 
   if (!isAdmin) {
     log.warn('Rejected attempt to update a group by non-admin');
@@ -317,7 +317,7 @@ async function handleMediumGroupChange(
   }
 
   // NOTE: right now, we don't expect admins to change
-  const admins = adminsBinary.map(toHex);
+  // const admins = adminsBinary.map(toHex);
   const members = membersBinary.map(toHex);
 
   const diff = SenderKeyAPI.calculateGroupDiff(convo, { name, members });
