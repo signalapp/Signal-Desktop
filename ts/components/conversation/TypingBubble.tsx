@@ -58,7 +58,7 @@ export class TypingBubble extends React.Component<Props> {
             )}
           >
             <div className="module-message__typing-container">
-              <TypingAnimation color="light" i18n={i18n} />
+              <TypingAnimation color={color} i18n={i18n} />
             </div>
             {this.renderAvatar()}
           </div>

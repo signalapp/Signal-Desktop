@@ -701,9 +701,13 @@
 
       const { sender } = mostRecent;
       const contact = ConversationController.getOrCreate(sender, 'private');
+      // we need the opposite theme
+      const color =
+        window.Events.getThemeSetting() === 'light' ? 'dark' : 'light';
       const props = {
         ...contact.format(),
         conversationType: this.model.isPrivate() ? 'direct' : 'group',
+        color,
       };
 
       if (this.typingBubbleView) {
