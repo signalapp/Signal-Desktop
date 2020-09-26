@@ -618,7 +618,7 @@ describe('Backup', () => {
         console.log({ messageFromDB, expectedMessage });
         assert.deepEqual(messageFromDB, expectedMessage);
 
-        console.log('Backup test: ensure that all attachments were imported');
+        console.log('Backup test: Ensure that all attachments were imported');
         const recreatedAttachmentFiles = removeDirs(
           fastGlob.sync(attachmentsPattern)
         );
