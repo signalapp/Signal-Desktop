@@ -78,7 +78,7 @@ export type GroupV2MemberAddChangeType = {
 export type GroupV2MemberAddFromInviteChangeType = {
   type: 'member-add-from-invite';
   conversationId: string;
-  inviter: string;
+  inviter?: string;
 };
 export type GroupV2MemberPrivilegeChangeType = {
   type: 'member-privilege';
@@ -946,7 +946,7 @@ function extractDiffs({
     if (!oldMember) {
       const pendingMember = oldPendingMemberLookup[conversationId];
 
-      if (pendingMember && pendingMember.addedByUserId) {
+      if (pendingMember) {
         details.push({
           type: 'member-add-from-invite',
           conversationId,

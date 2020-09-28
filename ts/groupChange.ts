@@ -189,20 +189,62 @@ export function renderChangeDetail(
     const weAreJoiner = conversationId === ourConversationId;
     const weAreInviter = Boolean(inviter && inviter === ourConversationId);
 
+    if (!from || from !== conversationId) {
+      if (weAreJoiner) {
+        // They can't be the same, no fromYou check here
+        if (from) {
+          return renderString('GroupV2--member-add--you--other', i18n, [
+            renderContact(from),
+          ]);
+        }
+        return renderString('GroupV2--member-add--you--unknown', i18n);
+      }
+
+      if (fromYou) {
+        return renderString('GroupV2--member-add--invited--you', i18n, {
+          inviteeName: renderContact(conversationId),
+        });
+      }
+      if (from) {
+        return renderString('GroupV2--member-add--invited--other', i18n, {
+          memberName: renderContact(from),
+          inviteeName: renderContact(conversationId),
+        });
+      }
+      return renderString('GroupV2--member-add--invited--unknown', i18n, {
+        inviteeName: renderContact(conversationId),
+      });
+    }
+
     if (weAreJoiner) {
-      return renderString('GroupV2--member-add--from-invite--you', i18n, [
-        renderContact(inviter),
-      ]);
+      if (inviter) {
+        return renderString('GroupV2--member-add--from-invite--you', i18n, [
+          renderContact(inviter),
+        ]);
+      }
+      return renderString(
+        'GroupV2--member-add--from-invite--you-no-from',
+        i18n
+      );
     }
     if (weAreInviter) {
       return renderString('GroupV2--member-add--from-invite--from-you', i18n, [
         renderContact(conversationId),
       ]);
     }
-    return renderString('GroupV2--member-add--from-invite--other', i18n, {
-      inviteeName: renderContact(conversationId),
-      inviterName: renderContact(inviter),
-    });
+    if (inviter) {
+      return renderString('GroupV2--member-add--from-invite--other', i18n, {
+        inviteeName: renderContact(conversationId),
+        inviterName: renderContact(inviter),
+      });
+    }
+    return renderString(
+      'GroupV2--member-add--from-invite--other-no-from',
+      i18n,
+      {
+        inviteeName: renderContact(conversationId),
+      }
+    );
   } else if (detail.type === 'member-remove') {
     const { conversationId } = detail;
     const weAreLeaver = conversationId === ourConversationId;

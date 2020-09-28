@@ -3059,7 +3059,40 @@
     "message": "An admin changed who can edit group membership to \"All members.\"",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
-
+  "GroupV2--member-add--invited--you": {
+    "message": "You added invited member $inviteeName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "inviteeName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
+  "GroupV2--member-add--invited--other": {
+    "message": "$memberName$ added invited member $inviteeName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Alice"
+      },
+      "inviteeName": {
+        "content": "$2",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--member-add--invited--unknown": {
+    "message": "A member added invited member $inviteeName$.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "inviteeName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
   "GroupV2--member-add--from-invite--other": {
     "message": "$inviteeName$ accepted an invitation to the group from $inviterName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes",
@@ -3074,6 +3107,16 @@
       }
     }
   },
+  "GroupV2--member-add--from-invite--other-no-from": {
+    "message": "$inviteeName$ accepted an invitation to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "inviteeName": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
   "GroupV2--member-add--from-invite--you": {
     "message": "You accepted an invitation to the group from $inviterName$.",
     "description": "Shown in timeline or conversation preview when v2 group changes",
@@ -3083,6 +3126,10 @@
         "example": "Bob"
       }
     }
+  },
+  "GroupV2--member-add--from-invite--you-no-from": {
+    "message": "You accepted an invitation to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--from-invite--from-you": {
     "message": "$inviteeName$ accepted your invitation to the group.",
