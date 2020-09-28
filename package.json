@@ -38,7 +38,7 @@
     "transpile": "tsc",
     "clean-transpile": "rimraf ts/**/*.js && rimraf ts/*.js",
     "open-coverage": "open coverage/lcov-report/index.html",
-    "ready": "yarn clean-transpile && yarn grunt && yarn lint && yarn test-node && yarn test-electron && yarn lint-deps",
+    "ready": "npm-run-all --print-label clean-transpile grunt --parallel lint lint-deps test-node test-electron",
     "dev": "run-p --print-label dev:*",
     "dev:grunt": "yarn grunt dev",
     "dev:webpack": "cross-env NODE_ENV=development webpack-dev-server --hot",
