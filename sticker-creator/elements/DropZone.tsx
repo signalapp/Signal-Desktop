@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { useDropzone, FileWithPath } from 'react-dropzone';
+import { FileWithPath } from 'react-dropzone';
 import * as styles from './DropZone.scss';
 import { useI18n } from '../util/i18n';
+import { useStickerDropzone } from '../util/useStickerDropzone';
 
 export type Props = {
   readonly inner?: boolean;
@@ -32,10 +33,9 @@ export const DropZone: React.ComponentType<Props> = props => {
     [onDrop]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop: handleDrop,
-    accept: ['image/png', 'image/webp'],
-  });
+  const { getRootProps, getInputProps, isDragActive } = useStickerDropzone(
+    handleDrop
+  );
 
   React.useEffect(() => {
     if (onDragActive) {

@@ -2,32 +2,28 @@ import { Metadata } from 'sharp';
 
 declare global {
   interface Window {
-    convertToWebp: ConvertToWebpFn;
+    processStickerImage: ProcessStickerImageFn;
     encryptAndUpload: EncryptAndUploadFn;
   }
 }
 
-export type WebpData = {
+export type StickerImageData = {
   buffer: Buffer;
   src: string;
   path: string;
   meta: Metadata & { pages?: number }; // Pages is not currently in the sharp metadata type
 };
 
-export type ConvertToWebpFn = (
-  path: string,
-  width?: number,
-  height?: number
-) => Promise<WebpData>;
+type ProcessStickerImageFn = (path: string) => Promise<StickerImageData>;
 
-export type StickerData = { webp?: WebpData; emoji?: string };
+export type StickerData = { imageData?: StickerImageData; emoji?: string };
 export type PackMetaData = { packId: string; key: string };
 
 export type EncryptAndUploadFn = (
   manifest: { title: string; author: string },
   stickers: Array<StickerData>,
-  cover: WebpData,
+  cover: StickerImageData,
   onProgress?: () => unknown
 ) => Promise<PackMetaData>;
 
-export const { encryptAndUpload, convertToWebp } = window;
+export const { encryptAndUpload, processStickerImage } = window;

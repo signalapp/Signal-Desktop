@@ -14,6 +14,8 @@ import {
 } from '../state/ducks/conversations';
 import { ColorType } from '../types/Colors';
 import { MessageModel } from './messages';
+import { sniffImageMimeType } from '../util/sniffImageMimeType';
+import { MIMEType, IMAGE_WEBP } from '../types/MIME';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -1773,6 +1775,23 @@ export class ConversationModel extends window.Backbone.Model<
     const { path, width, height } = stickerData;
     const arrayBuffer = await readStickerData(path);
 
+    // We need this content type to be an image so we can display an `<img>` instead of a
+    //   `<video>` or an error, but it's not critical that we get the full type correct.
+    //   In other words, it's probably fine if we say that a GIF is `image/png`, but it's
+    //   but it's bad if we say it's `video/mp4` or `text/plain`. We do our best to sniff
+    //   the MIME type here, but it's okay if we have to use a possibly-incorrect
+    //   fallback.
+    let contentType: MIMEType;
+    const sniffedMimeType = sniffImageMimeType(arrayBuffer);
+    if (sniffedMimeType) {
+      contentType = sniffedMimeType;
+    } else {
+      window.log.warn(
+        'Unable to sniff sticker MIME type; falling back to WebP'
+      );
+      contentType = IMAGE_WEBP;
+    }
+
     const sticker = {
       packId,
       stickerId,
@@ -1780,7 +1799,7 @@ export class ConversationModel extends window.Backbone.Model<
       data: {
         size: arrayBuffer.byteLength,
         data: arrayBuffer,
-        contentType: 'image/webp',
+        contentType,
         width,
         height,
       },

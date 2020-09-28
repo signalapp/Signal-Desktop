@@ -2331,7 +2331,7 @@
     "description": "Title for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--help": {
-    "message": "Stickers must be in PNG or WebP format with a transparent background and 512x512 pixels. Recommended margin is 16px.",
+    "message": "Stickers must be in PNG, APNG, or WebP format with a transparent background and 512x512 pixels. Recommended margin is 16px.",
     "description": "Help text for the drop stage of the sticker creator"
   },
   "StickerCreator--DropStage--showMargins": {
@@ -2460,7 +2460,23 @@
   },
   "StickerCreator--Toasts--errorProcessing": {
     "message": "Error processing image",
-    "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator"
+    "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
+  },
+  "StickerCreator--Toasts--APNG--notSquare": {
+    "message": "Animated PNG stickers must be square",
+    "description": "Text for the toast when someone tries to upload a non-square APNG"
+  },
+  "StickerCreator--Toasts--mustLoopForever": {
+    "message": "Animated stickers must loop forever",
+    "description": "Text for the toast when an image in the sticker creator does not animate forever"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooLarge": {
+    "message": "Animated PNG sticker dimensions are too large",
+    "description": "Text for the toast when an APNG image in the sticker creator is too large"
+  },
+  "StickerCreator--Toasts--APNG--dimensionsTooSmall": {
+    "message": "Animated PNG sticker dimensions are too small",
+    "description": "Text for the toast when an APNG image in the sticker creator is too small"
   },
   "StickerCreator--Toasts--errorUploading": {
     "message": "Error uploading stickers: $message$",

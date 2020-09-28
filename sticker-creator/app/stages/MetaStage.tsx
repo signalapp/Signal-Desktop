@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { FileWithPath, useDropzone } from 'react-dropzone';
+import { FileWithPath } from 'react-dropzone';
 import { AppStage } from './AppStage';
 import * as styles from './MetaStage.scss';
-import { convertToWebp } from '../../util/preload';
+import { processStickerImage } from '../../util/preload';
+import { useStickerDropzone } from '../../util/useStickerDropzone';
 import { history } from '../../util/history';
 import { H2, Text } from '../../elements/Typography';
 import { LabeledInput } from '../../elements/LabeledInput';
@@ -22,8 +23,8 @@ export const MetaStage: React.ComponentType = () => {
   const onDrop = React.useCallback(
     async ([{ path }]: Array<FileWithPath>) => {
       try {
-        const webp = await convertToWebp(path);
-        actions.setCover(webp);
+        const stickerImage = await processStickerImage(path);
+        actions.setCover(stickerImage);
       } catch (e) {
         actions.removeSticker(path);
       }
@@ -31,10 +32,9 @@ export const MetaStage: React.ComponentType = () => {
     [actions]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: ['image/png', 'image/webp'],
-  });
+  const { getRootProps, getInputProps, isDragActive } = useStickerDropzone(
+    onDrop
+  );
 
   const onNext = React.useCallback(() => {
     setConfirming(true);

@@ -508,7 +508,6 @@ exports.processNewSticker = async (
   });
 
   return {
-    contentType: 'image/webp',
     path,
     width,
     height,
