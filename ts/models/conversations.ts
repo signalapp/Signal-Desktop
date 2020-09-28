@@ -96,6 +96,8 @@ export class ConversationModel extends window.Backbone.Model<
 
   inProgressFetch?: Promise<unknown>;
 
+  incomingMessageQueue?: typeof window.PQueueType;
+
   jobQueue?: typeof window.PQueueType;
 
   messageCollection?: MessageModelCollectionType;
@@ -672,10 +674,20 @@ export class ConversationModel extends window.Backbone.Model<
   // For incoming messages, they might arrive while we're in the middle of a bulk fetch
   //   from the database. We'll wait until that is done to process this newly-arrived
   //   message.
-  async addIncomingMessage(message: MessageModel): Promise<void> {
-    await this.inProgressFetch;
+  addIncomingMessage(message: MessageModel): void {
+    if (!this.incomingMessageQueue) {
+      this.incomingMessageQueue = new window.PQueue({
+        concurrency: 1,
+        timeout: 1000 * 60 * 2,
+      });
+    }
 
-    this.addSingleMessage(message);
+    // We use a queue here to ensure messages are added to the UI in the order received
+    this.incomingMessageQueue.add(async () => {
+      await this.inProgressFetch;
+
+      this.addSingleMessage(message);
+    });
   }
 
   format(): ConversationType | null | undefined {
