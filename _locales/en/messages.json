@@ -2517,7 +2517,7 @@
     "description": "Shown in reaction viewer as the title for the 'all' category"
   },
   "MessageRequests--message-direct": {
-    "message": "Let $name$ message you and share your name and photo with them? They won’t know you’ve seen their messages until you accept.",
+    "message": "Let $name$ message you, call you, and share your name and photo with them? They won’t know you’ve seen their messages until you accept.",
     "description": "Shown as the message for a message request in a direct message",
     "placeholders": {
       "name": {
@@ -2527,7 +2527,7 @@
     }
   },
   "MessageRequests--message-direct-blocked": {
-    "message": "Let $name$ message you and share your name and photo with them? You won't receive any messages until you unblock them.",
+    "message": "Let $name$ message you, call you, and share your name and photo with them? You won't receive any messages until you unblock them.",
     "description": "Shown as the message for a message request in a direct message with a blocked account",
     "placeholders": {
       "name": {

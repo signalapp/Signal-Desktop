@@ -4,12 +4,16 @@ import {
   Call,
   CallEndedReason,
   CallId,
+  CallingMessage,
   CallLogLevel,
   CallSettings,
   CallState,
   CanvasVideoRenderer,
   DeviceId,
   GumVideoCapturer,
+  HangupMessage,
+  HangupType,
+  OfferType,
   RingRTC,
   UserId,
 } from 'ringrtc';
@@ -21,7 +25,7 @@ import {
   ActionsType as UxActionsType,
   CallDetailsType,
 } from '../state/ducks/calling';
-import { CallingMessageClass, EnvelopeClass } from '../textsecure.d';
+import { EnvelopeClass } from '../textsecure.d';
 import {
   AudioDevice,
   CallHistoryDetailsType,
@@ -398,7 +402,7 @@ export class CallingClass {
 
   async handleCallingMessage(
     envelope: EnvelopeClass,
-    callingMessage: CallingMessageClass
+    callingMessage: CallingMessage
   ): Promise<void> {
     window.log.info('CallingClass.handleCallingMessage()');
 
@@ -438,6 +442,35 @@ export class CallingClass {
       return;
     }
     const receiverIdentityKey = receiverIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
+
+    const conversation = window.ConversationController.get(remoteUserId);
+    if (!conversation) {
+      window.log.error('Missing conversation; ignoring call message.');
+      return;
+    }
+
+    if (callingMessage.offer && !conversation.getAccepted()) {
+      window.log.info(
+        'Conversation was not approved by user; rejecting call message.'
+      );
+
+      const hangup = new HangupMessage();
+      hangup.callId = callingMessage.offer.callId;
+      hangup.deviceId = remoteDeviceId;
+      hangup.type = HangupType.NeedPermission;
+
+      const message = new CallingMessage();
+      message.legacyHangup = hangup;
+
+      await this.handleOutgoingSignaling(remoteUserId, message);
+
+      this.addCallHistoryForFailedIncomingCall(
+        conversation,
+        callingMessage.offer.type === OfferType.VideoCall
+      );
+
+      return;
+    }
 
     const messageAgeSec = envelope.messageAgeSec ? envelope.messageAgeSec : 0;
 
@@ -525,7 +558,7 @@ export class CallingClass {
 
   private async handleOutgoingSignaling(
     remoteUserId: UserId,
-    message: CallingMessageClass
+    message: CallingMessage
   ): Promise<boolean> {
     const conversation = window.ConversationController.get(remoteUserId);
     const sendOptions = conversation
@@ -585,17 +618,10 @@ export class CallingClass {
         window.log.info(
           `Peer is not trusted, ignoring incoming call for conversation: ${conversation.idForLogging()}`
         );
-        this.addCallHistoryForFailedIncomingCall(conversation, call);
-        return null;
-      }
-
-      // Simple Call Requests: Ensure that the conversation is accepted.
-      // If not, do not allow the call.
-      if (!conversation.getAccepted()) {
-        window.log.info(
-          `Messaging is not accepted, ignoring incoming call for conversation: ${conversation.idForLogging()}`
+        this.addCallHistoryForFailedIncomingCall(
+          conversation,
+          call.isVideoCall
         );
-        this.addCallHistoryForFailedIncomingCall(conversation, call);
         return null;
       }
 
@@ -610,7 +636,7 @@ export class CallingClass {
       return await this.getCallSettings(conversation);
     } catch (err) {
       window.log.error(`Ignoring incoming call: ${err.stack}`);
-      this.addCallHistoryForFailedIncomingCall(conversation, call);
+      this.addCallHistoryForFailedIncomingCall(conversation, call.isVideoCall);
       return null;
     }
   }
@@ -774,11 +800,11 @@ export class CallingClass {
 
   private addCallHistoryForFailedIncomingCall(
     conversation: ConversationModel,
-    call: Call
+    wasVideoCall: boolean
   ) {
     const callHistoryDetails: CallHistoryDetailsType = {
       wasIncoming: true,
-      wasVideoCall: call.isVideoCall,
+      wasVideoCall,
       // Since the user didn't decline, make sure it shows up as a missed call instead
       wasDeclined: false,
       acceptedTime: undefined,

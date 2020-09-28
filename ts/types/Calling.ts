@@ -1,3 +1,5 @@
+import { CallState } from 'ringrtc';
+
 // Must be kept in sync with RingRTC.AudioDevice
 export interface AudioDevice {
   // Device name.
@@ -8,15 +10,6 @@ export interface AudioDevice {
   uniqueId: string;
   // If present, the identifier of a localized string to substitute for the device name.
   i18nKey?: string;
-}
-
-// This must be kept in sync with RingRTC.CallState.
-export enum CallState {
-  Prering = 'init',
-  Ringing = 'ringing',
-  Accepted = 'connected',
-  Reconnecting = 'connecting',
-  Ended = 'ended',
 }
 
 export enum CallingDeviceType {
@@ -46,3 +39,5 @@ export type ChangeIODevicePayloadType =
   | { type: CallingDeviceType.CAMERA; selectedDevice: string }
   | { type: CallingDeviceType.MICROPHONE; selectedDevice: AudioDevice }
   | { type: CallingDeviceType.SPEAKER; selectedDevice: AudioDevice };
+
+export { CallState };
