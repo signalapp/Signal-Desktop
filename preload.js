@@ -451,7 +451,7 @@ window.lokiFeatureFlags = {
   useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
   useOnionRequests: true,
   useFileOnionRequests: true,
-  enableSenderKeys: false,
+  enableSenderKeys: true,
   onionRequestHops: 3,
   debugMessageLogs: process.env.ENABLE_MESSAGE_LOGS,
   useMultiDevice: false,
