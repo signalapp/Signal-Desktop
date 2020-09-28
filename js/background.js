@@ -991,22 +991,21 @@
           return;
         }
 
-        const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
-          sslServerUrl
-        );
-        if (!serverAPI) {
-          window.log.warn(`Could not connect to ${serverAddress}`);
-          return;
-        }
-
         const conversation = await ConversationController.getOrCreateAndWait(
           conversationId,
           'group'
         );
-
-        serverAPI.findOrCreateChannel(channelId, conversationId);
         await conversation.setPublicSource(sslServerUrl, channelId);
 
+        const channelAPI = await window.lokiPublicChatAPI.findOrCreateChannel(
+          sslServerUrl,
+          channelId,
+          conversationId
+        );
+        if (!channelAPI) {
+          window.log.warn(`Could not connect to ${serverAddress}`);
+          return;
+        }
         appView.openConversation(conversationId, {});
       }
     );

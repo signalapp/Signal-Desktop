@@ -86,7 +86,7 @@ window.CONSTANTS = new (function() {
   this.MAX_CONNECTION_DURATION = 5000;
   this.MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
   // Limited due to the proof-of-work requirement
-  this.SMALL_GROUP_SIZE_LIMIT = 10;
+  this.MEDIUM_GROUP_SIZE_LIMIT = 20;
   // Number of seconds to turn on notifications after reconnect/start of app
   this.NOTIFICATION_ENABLE_TIMEOUT_SECONDS = 10;
   this.SESSION_ID_LENGTH = 66;
@@ -451,7 +451,7 @@ window.lokiFeatureFlags = {
   useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
   useOnionRequests: true,
   useFileOnionRequests: true,
-  enableSenderKeys: false,
+  enableSenderKeys: true,
   onionRequestHops: 3,
   debugMessageLogs: process.env.ENABLE_MESSAGE_LOGS,
   useMultiDevice: false,
@@ -490,7 +490,7 @@ if (config.environment.includes('test-integration')) {
     useOnionRequests: false,
     useFileOnionRequests: false,
     debugMessageLogs: true,
-    enableSenderKeys: false,
+    enableSenderKeys: true,
     useMultiDevice: false,
   };
   /* eslint-disable global-require, import/no-extraneous-dependencies */

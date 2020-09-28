@@ -21,9 +21,8 @@
       this.members = groupConvo.get('members') || [];
       this.avatarPath = groupConvo.getAvatarPath();
 
-      const ourPK = textsecure.storage.user.getNumber();
-
-      this.isAdmin = groupConvo.get('groupAdmins').includes(ourPK);
+      // any member can update a closed group name
+      this.isAdmin = true;
 
       // public chat settings overrides
       if (this.isPublic) {
@@ -79,7 +78,6 @@
   Whisper.UpdateGroupMembersDialogView = Whisper.View.extend({
     className: 'loki-dialog modal',
     initialize(groupConvo) {
-      const ourPK = textsecure.storage.user.getNumber();
       this.groupName = groupConvo.get('name');
       this.close = this.close.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
@@ -99,7 +97,8 @@
         this.existingMembers = [];
       } else {
         this.titleText = i18n('updateGroupDialogTitle', this.groupName);
-        this.isAdmin = groupConvo.get('groupAdmins').includes(ourPK);
+        // anybody can edit a closed group name or members
+        this.isAdmin = true;
         const convos = window.getConversations().models.filter(d => !!d);
 
         this.existingMembers = groupConvo.get('members') || [];

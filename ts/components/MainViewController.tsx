@@ -83,7 +83,7 @@ async function createClosedGroup(
     });
 
     return;
-  } else if (groupMembers.length >= window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT) {
+  } else if (groupMembers.length >= window.CONSTANTS.MEDIUM_GROUP_SIZE_LIMIT) {
     ToastUtils.push({
       title: window.i18n('closedGroupMaxSize'),
       type: 'error',

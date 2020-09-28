@@ -151,7 +151,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       case 'closed-group':
         title = window.i18n('newClosedGroup');
         buttonText = window.i18n('done');
-        descriptionLong = window.i18n('newClosedGroupDescription');
         subtitle = window.i18n('createClosedGroupNamePrompt');
         placeholder = window.i18n('createClosedGroupPlaceholder');
         break;

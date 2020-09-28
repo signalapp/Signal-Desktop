@@ -270,7 +270,6 @@
         };
       };
       const getGroupSettingsProps = () => {
-        const ourPK = window.textsecure.storage.user.getNumber();
         const members = this.model.get('members') || [];
 
         return {
@@ -281,7 +280,7 @@
           avatarPath: this.model.getAvatarPath(),
           isGroup: !this.model.isPrivate(),
           isPublic: this.model.isPublic(),
-          isAdmin: this.model.get('groupAdmins').includes(ourPK),
+          isAdmin: true, // allow closed group edits from anyone this.model.get('groupAdmins').includes(ourPK),
           isRss: this.model.isRss(),
           memberCount: members.length,
           amMod: this.model.isModerator(

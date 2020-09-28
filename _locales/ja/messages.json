@@ -1378,9 +1378,6 @@
     "newClosedGroup": {
         "message": "新しいクローズドグループ"
     },
-    "newClosedGroupDescription": {
-        "message": "クローズドグループは最大 10 人のメンバーをサポートし、1 対 1 の Session と同じプライバシー保護を提供します。"
-    },
     "createClosedGroupNamePrompt": {
         "message": "グループ名"
     },
@@ -1409,7 +1406,7 @@
         "message": "グループメンバーを少なくとも 2 人選択してください"
     },
     "closedGroupMaxSize": {
-        "message": "閉じたグループは 10 人を超えるメンバーを抱えることはできません"
+        "message": "閉じたグループは 20 人を超えるメンバーを抱えることはできません"
     },
     "noBlockedContacts": {
         "message": "ブロックしている連絡先はありません"

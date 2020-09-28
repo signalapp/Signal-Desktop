@@ -1378,9 +1378,6 @@
     "newClosedGroup": {
         "message": "Nuovo gruppo chiuso"
     },
-    "newClosedGroupDescription": {
-        "message": "I gruppi chiusi supportano fino a 10 membri e forniscono le stesse protezioni per la privacy delle sessioni one-to-one."
-    },
     "createClosedGroupNamePrompt": {
         "message": "Nome Del Gruppo"
     },
@@ -1409,6 +1406,6 @@
         "message": "Scegli almeno 2 membri del gruppo"
     },
     "closedGroupMaxSize": {
-        "message": "Un gruppo chiuso non può avere più di 10 membri"
+        "message": "Un gruppo chiuso non può avere più di 20 membri"
     }
 }
