@@ -555,8 +555,20 @@ try {
   });
 
   if (config.environment === 'test') {
+    // This is a hack to let us run TypeScript tests in the renderer process. See the
+    //   code in `test/index.html`.
+    const pendingDescribeCalls = [];
+    window.describe = (...args) => {
+      pendingDescribeCalls.push(args);
+    };
+
     /* eslint-disable global-require, import/no-extraneous-dependencies */
+    require('./ts/test-electron/linkPreviews/linkPreviewFetch_test');
+
+    delete window.describe;
+
     window.test = {
+      pendingDescribeCalls,
       fastGlob: require('fast-glob'),
       normalizePath: require('normalize-path'),
       fse: require('fs-extra'),

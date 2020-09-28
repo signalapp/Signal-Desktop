@@ -7,6 +7,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import fetch, { Response } from 'node-fetch';
+import { AbortSignal } from 'abort-controller';
 import ProxyAgent from 'proxy-agent';
 import { Agent } from 'https';
 import pProps from 'p-props';
@@ -39,6 +40,8 @@ import {
   getRandomValue,
   splitUuids,
 } from '../Crypto';
+import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
+
 import {
   AvatarUploadAttributesClass,
   GroupChangeClass,
@@ -761,6 +764,14 @@ export type WebAPIType = {
   getUuidsForE164s: (
     e164s: ReadonlyArray<string>
   ) => Promise<Dictionary<string | null>>;
+  fetchLinkPreviewMetadata: (
+    href: string,
+    abortSignal: AbortSignal
+  ) => Promise<null | linkPreviewFetch.LinkPreviewMetadata>;
+  fetchLinkPreviewImage: (
+    href: string,
+    abortSignal: AbortSignal
+  ) => Promise<null | linkPreviewFetch.LinkPreviewImage>;
   makeProxiedRequest: (
     targetUrl: string,
     options?: ProxiedRequestOptionsType
@@ -942,6 +953,8 @@ export function initialize({
       getStorageManifest,
       getStorageRecords,
       getUuidsForE164s,
+      fetchLinkPreviewMetadata,
+      fetchLinkPreviewImage,
       makeProxiedRequest,
       modifyGroup,
       modifyStorageRecords,
@@ -1748,6 +1761,24 @@ export function initialize({
       }
 
       return characters;
+    }
+
+    async function fetchLinkPreviewMetadata(
+      href: string,
+      abortSignal: AbortSignal
+    ) {
+      return linkPreviewFetch.fetchLinkPreviewMetadata(
+        fetch,
+        href,
+        abortSignal
+      );
+    }
+
+    async function fetchLinkPreviewImage(
+      href: string,
+      abortSignal: AbortSignal
+    ) {
+      return linkPreviewFetch.fetchLinkPreviewImage(fetch, href, abortSignal);
     }
 
     async function makeProxiedRequest(

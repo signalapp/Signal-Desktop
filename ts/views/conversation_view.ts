@@ -1,5 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+interface GetLinkPreviewResult {
+  title: string;
+  url: string;
+  image: {
+    data: ArrayBuffer;
+    size: number;
+    contentType: string;
+    width: number;
+    height: number;
+  };
+  description: string | null;
+  date: number | null;
+}
+
 const FIVE_MINUTES = 1000 * 60 * 5;
+const LINK_PREVIEW_TIMEOUT = 60 * 1000;
 
 window.Whisper = window.Whisper || {};
 
@@ -357,6 +372,8 @@ Whisper.ConversationView = Whisper.View.extend({
     this.setupHeader();
     this.setupTimeline();
     this.setupCompositionArea({ attachmentListEl: attachmentListEl[0] });
+
+    this.linkPreviewAbortController = null;
   },
 
   events: {
@@ -1348,7 +1365,7 @@ Whisper.ConversationView = Whisper.View.extend({
     };
   },
 
-  arrayBufferFromFile(file: any) {
+  arrayBufferFromFile(file: any): Promise<ArrayBuffer> {
     return new Promise((resolve, reject) => {
       const FR = new FileReader();
       FR.onload = (e: any) => {
@@ -2944,7 +2961,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
     const link = links.find(
       item =>
-        window.Signal.LinkPreviews.isLinkInWhitelist(item) &&
+        window.Signal.LinkPreviews.isLinkSafeToPreview(item) &&
         !this.excludedPreviewUrls.includes(item)
     );
     if (!link) {
@@ -2952,7 +2969,6 @@ Whisper.ConversationView = Whisper.View.extend({
       return;
     }
 
-    this.currentlyMatchedLink = link;
     this.addLinkPreview(link);
   },
 
@@ -2969,78 +2985,10 @@ Whisper.ConversationView = Whisper.View.extend({
       }
     });
     this.preview = null;
-    this.previewLoading = null;
-    this.currentlyMatchedLink = false;
+    this.currentlyMatchedLink = null;
+    this.linkPreviewAbortController?.abort();
+    this.linkPreviewAbortController = null;
     this.renderLinkPreview();
-  },
-
-  async makeChunkedRequest(url: any) {
-    const PARALLELISM = 3;
-    const first = await window.textsecure.messaging.makeProxiedRequest(url, {
-      start: 0,
-      end: window.Signal.Crypto.getRandomValue(1023, 2047),
-      returnArrayBuffer: true,
-    });
-    const { totalSize, result } = first;
-    const initialOffset = result.data.byteLength;
-    const firstChunk = {
-      start: 0,
-      end: initialOffset,
-      ...result,
-    };
-
-    const chunks = await window.Signal.LinkPreviews.getChunkPattern(
-      totalSize,
-      initialOffset
-    );
-
-    let results: Array<any> = [];
-    const jobs = chunks.map((chunk: any) => async () => {
-      const { start, end } = chunk;
-
-      const jobResult = await window.textsecure.messaging.makeProxiedRequest(
-        url,
-        {
-          start,
-          end,
-          returnArrayBuffer: true,
-        }
-      );
-
-      return {
-        ...chunk,
-        ...jobResult.result,
-      };
-    });
-
-    while (jobs.length > 0) {
-      const activeJobs = [];
-      for (let i = 0, max = PARALLELISM; i < max; i += 1) {
-        if (!jobs.length) {
-          break;
-        }
-
-        const job = jobs.shift();
-        activeJobs.push(job());
-      }
-
-      // eslint-disable-next-line no-await-in-loop
-      results = results.concat(await Promise.all(activeJobs));
-    }
-
-    if (!results.length) {
-      throw new Error('No responses received');
-    }
-
-    const { contentType } = results[0];
-    const data = window.Signal.LinkPreviews.assembleChunks(
-      [firstChunk].concat(results)
-    );
-
-    return {
-      contentType,
-      data,
-    };
   },
 
   async getStickerPackPreview(url: any) {
@@ -3105,55 +3053,60 @@ Whisper.ConversationView = Whisper.View.extend({
     }
   },
 
-  async getPreview(url: any) {
+  async getPreview(
+    url: string,
+    abortSignal: any
+  ): Promise<null | GetLinkPreviewResult> {
     if (window.Signal.LinkPreviews.isStickerPack(url)) {
       return this.getStickerPackPreview(url);
     }
 
-    let html;
-    try {
-      html = await window.textsecure.messaging.makeProxiedRequest(url);
-    } catch (error) {
-      if (error.code >= 300) {
-        return null;
-      }
+    // This is already checked elsewhere, but we want to be extra-careful.
+    if (!window.Signal.LinkPreviews.isLinkSafeToPreview(url)) {
+      return null;
     }
 
-    const title = window.Signal.LinkPreviews.getTitleMetaTag(html);
-    const imageUrl = window.Signal.LinkPreviews.getImageMetaTag(html);
+    const linkPreviewMetadata = await window.textsecure.messaging.fetchLinkPreviewMetadata(
+      url,
+      abortSignal
+    );
+    if (!linkPreviewMetadata) {
+      return null;
+    }
+    const { title, imageHref, description, date } = linkPreviewMetadata;
 
     let image;
-    let objectUrl;
-    try {
-      if (imageUrl) {
-        if (!window.Signal.LinkPreviews.isMediaLinkInWhitelist(imageUrl)) {
-          const primaryDomain = window.Signal.LinkPreviews.getDomain(url);
-          const imageDomain = window.Signal.LinkPreviews.getDomain(imageUrl);
-          throw new Error(
-            `imageUrl for domain ${primaryDomain} did not match media whitelist. Domain: ${imageDomain}`
-          );
+    if (
+      !abortSignal.aborted &&
+      imageHref &&
+      window.Signal.LinkPreviews.isLinkSafeToPreview(imageHref)
+    ) {
+      let objectUrl: void | string;
+      try {
+        const fullSizeImage = await window.textsecure.messaging.fetchLinkPreviewImage(
+          imageHref,
+          abortSignal
+        );
+        if (!fullSizeImage) {
+          throw new Error('Failed to fetch link preview image');
         }
-
-        const chunked = await this.makeChunkedRequest(imageUrl);
 
         // Ensure that this file is either small enough or is resized to meet our
         //   requirements for attachments
         const withBlob = await this.autoScale({
-          contentType: chunked.contentType,
-          file: new Blob([chunked.data], {
-            type: chunked.contentType,
+          contentType: fullSizeImage.contentType,
+          file: new Blob([fullSizeImage.data], {
+            type: fullSizeImage.contentType,
           }),
         });
 
         const data = await this.arrayBufferFromFile(withBlob.file);
         objectUrl = URL.createObjectURL(withBlob.file);
 
-        const dimensions = await window.Signal.Types.VisualAttachment.getImageDimensions(
-          {
-            objectUrl,
-            logger: window.log,
-          }
-        );
+        const dimensions = await VisualAttachment.getImageDimensions({
+          objectUrl,
+          logger: window.log,
+        });
 
         image = {
           data,
@@ -3161,16 +3114,16 @@ Whisper.ConversationView = Whisper.View.extend({
           ...dimensions,
           contentType: withBlob.file.type,
         };
-      }
-    } catch (error) {
-      // We still want to show the preview if we failed to get an image
-      window.log.error(
-        'getPreview failed to get image for link preview:',
-        error.message
-      );
-    } finally {
-      if (objectUrl) {
-        URL.revokeObjectURL(objectUrl);
+      } catch (error) {
+        // We still want to show the preview if we failed to get an image
+        window.log.error(
+          'getPreview failed to get image for link preview:',
+          error.message
+        );
+      } finally {
+        if (objectUrl) {
+          URL.revokeObjectURL(objectUrl);
+        }
       }
     }
 
@@ -3178,10 +3131,19 @@ Whisper.ConversationView = Whisper.View.extend({
       title,
       url,
       image,
+      description,
+      date,
     };
   },
 
-  async addLinkPreview(url: any) {
+  async addLinkPreview(url: string) {
+    if (this.currentlyMatchedLink === url) {
+      window.log.warn(
+        'addLinkPreview should not be called with the same URL like this'
+      );
+      return;
+    }
+
     (this.preview || []).forEach((item: any) => {
       if (item.url) {
         URL.revokeObjectURL(item.url);
@@ -3189,26 +3151,46 @@ Whisper.ConversationView = Whisper.View.extend({
     });
     this.preview = null;
 
+    // Cancel other in-flight link preview requests.
+    if (this.linkPreviewAbortController) {
+      window.log.info(
+        'addLinkPreview: canceling another in-flight link preview request'
+      );
+      this.linkPreviewAbortController.abort();
+    }
+
+    const thisRequestAbortController = new AbortController();
+    this.linkPreviewAbortController = thisRequestAbortController;
+
+    const timeout = setTimeout(() => {
+      thisRequestAbortController.abort();
+    }, LINK_PREVIEW_TIMEOUT);
+
     this.currentlyMatchedLink = url;
-    this.previewLoading = this.getPreview(url);
-    const promise = this.previewLoading;
     this.renderLinkPreview();
 
     try {
-      const result = await promise;
+      const result = await this.getPreview(
+        url,
+        thisRequestAbortController.signal
+      );
 
-      if (
-        url !== this.currentlyMatchedLink ||
-        promise !== this.previewLoading
-      ) {
-        // another request was started, or this was canceled
-        return;
-      }
-
-      // If we couldn't pull down the initial URL
       if (!result) {
-        this.excludedPreviewUrls.push(url);
-        this.removeLinkPreview();
+        window.log.info(
+          'addLinkPreview: failed to load preview (not necessarily a problem)'
+        );
+
+        // This helps us disambiguate between two kinds of failure:
+        //
+        // 1. We failed to fetch the preview because of (1) a network failure (2) an
+        //    invalid response (3) a timeout
+        // 2. We failed to fetch the preview because we aborted the request because the
+        //    user changed the link (e.g., by continuing to type the URL)
+        const failedToFetch = this.currentlyMatchedLink === url;
+        if (failedToFetch) {
+          this.excludedPreviewUrls.push(url);
+          this.removeLinkPreview();
+        }
         return;
       }
 
@@ -3232,6 +3214,8 @@ Whisper.ConversationView = Whisper.View.extend({
       );
       this.disableLinkPreviews = true;
       this.removeLinkPreview();
+    } finally {
+      clearTimeout(timeout);
     }
   },
 

@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Image } from './Image';
+import { LinkPreviewDate } from './LinkPreviewDate';
 
 import { AttachmentType, isImageAttachment } from '../../types/Attachment';
 import { LocalizerType } from '../../types/Util';
@@ -9,6 +10,8 @@ import { LocalizerType } from '../../types/Util';
 export interface Props {
   isLoaded: boolean;
   title: string;
+  description: null | string;
+  date: null | number;
   domain: string;
   image?: AttachmentType;
 
@@ -16,14 +19,16 @@ export interface Props {
   onClose?: () => void;
 }
 
-export const StagedLinkPreview = ({
+export const StagedLinkPreview: React.FC<Props> = ({
   isLoaded,
   onClose,
   i18n,
   title,
+  description,
   image,
+  date,
   domain,
-}: Props): JSX.Element => {
+}: Props) => {
   const isImage = image && isImageAttachment(image);
 
   return (
@@ -54,7 +59,18 @@ export const StagedLinkPreview = ({
       {isLoaded ? (
         <div className="module-staged-link-preview__content">
           <div className="module-staged-link-preview__title">{title}</div>
-          <div className="module-staged-link-preview__location">{domain}</div>
+          {description && (
+            <div className="module-staged-link-preview__description">
+              {description}
+            </div>
+          )}
+          <div className="module-staged-link-preview__footer">
+            <div className="module-staged-link-preview__location">{domain}</div>
+            <LinkPreviewDate
+              date={date}
+              className="module-message__link-preview__date"
+            />
+          </div>
         </div>
       ) : null}
       <button

@@ -22,5 +22,9 @@ module.exports = ({ config }) => {
 
   config.resolve.extensions = ['.tsx', '.ts', '.jsx', '.js'];
 
+  config.externals = {
+    net: 'net',
+  };
+
   return config;
 };

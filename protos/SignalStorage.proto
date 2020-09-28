@@ -98,5 +98,7 @@ message AccountRecord {
   optional bool   readReceipts           = 6;
   optional bool   sealedSenderIndicators = 7;
   optional bool   typingIndicators       = 8;
-  optional bool   linkPreviews           = 9;
+  optional bool   proxiedLinkPreviews    = 9;
+  optional bool   noteToSelfUnread       = 10;
+  optional bool   linkPreviews           = 11;
 }

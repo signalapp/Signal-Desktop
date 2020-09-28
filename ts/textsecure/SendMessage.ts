@@ -7,6 +7,7 @@
 
 import { Dictionary, without } from 'lodash';
 import PQueue from 'p-queue';
+import { AbortSignal } from 'abort-controller';
 
 import {
   GroupCredentialsType,
@@ -37,6 +38,10 @@ import {
 } from '../textsecure.d';
 import { MessageError, SignedPreKeyRotationError } from './Errors';
 import { BodyRangesType } from '../types/Util';
+import {
+  LinkPreviewImage,
+  LinkPreviewMetadata,
+} from '../linkPreviews/linkPreviewFetch';
 
 function stringToArrayBuffer(str: string): ArrayBuffer {
   if (typeof str !== 'string') {
@@ -272,6 +277,8 @@ class Message {
         const item = new window.textsecure.protobuf.DataMessage.Preview();
         item.title = preview.title;
         item.url = preview.url;
+        item.description = preview.description || null;
+        item.date = preview.date || null;
         item.image = preview.image || null;
         return item;
       });
@@ -1721,6 +1728,20 @@ export default class MessageSender {
       },
       options
     );
+  }
+
+  async fetchLinkPreviewMetadata(
+    href: string,
+    abortSignal: AbortSignal
+  ): Promise<null | LinkPreviewMetadata> {
+    return this.server.fetchLinkPreviewMetadata(href, abortSignal);
+  }
+
+  async fetchLinkPreviewImage(
+    href: string,
+    abortSignal: AbortSignal
+  ): Promise<null | LinkPreviewImage> {
+    return this.server.fetchLinkPreviewImage(href, abortSignal);
   }
 
   async makeProxiedRequest(
