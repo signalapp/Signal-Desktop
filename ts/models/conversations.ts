@@ -1831,8 +1831,7 @@ export class ConversationModel extends window.Backbone.Model<
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const destination = this.getSendTarget()!;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const recipients = this.getRecipients()!;
+    const recipients = this.getRecipients();
 
     let profileKey: ArrayBuffer | undefined;
     if (this.get('profileSharing')) {
