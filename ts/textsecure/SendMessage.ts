@@ -1591,7 +1591,7 @@ export default class MessageSender {
     }
 
     const myE164 = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getNumber();
+    const myUuid = window.textsecure.storage.user.getUuid();
     // prettier-ignore
     const recipients = groupV2
       ? groupV2.members
@@ -1599,8 +1599,16 @@ export default class MessageSender {
         ? groupV1.members
         : [];
 
+    // We should always have a UUID but have this check just in case we don't.
+    let isNotMe: (recipient: string) => boolean;
+    if (myUuid) {
+      isNotMe = r => r !== myE164 && r !== myUuid;
+    } else {
+      isNotMe = r => r !== myE164;
+    }
+
     const attrs = {
-      recipients: recipients.filter(r => r !== myE164 && r !== myUuid),
+      recipients: recipients.filter(isNotMe),
       body: messageText,
       timestamp,
       attachments,
