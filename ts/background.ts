@@ -1468,6 +1468,11 @@ type WhatIsThis = typeof window.WhatIsThis;
     }
   });
 
+  function runStorageService() {
+    window.Signal.Services.enableStorageService();
+    window.textsecure.messaging.sendRequestKeySyncMessage();
+  }
+
   async function start() {
     window.dispatchEvent(new Event('storage_ready'));
 
@@ -1632,11 +1637,7 @@ type WhatIsThis = typeof window.WhatIsThis;
 
         await window.storage.put('gv2-enabled', true);
 
-        window.Signal.Services.handleUnknownRecords(
-          window.textsecure.protobuf.ManifestRecord.Identifier.Type.GROUPV2
-        );
-
-        // Erase current manifest version so we re-process window.storage service data
+        // Erase current manifest version so we re-process storage service data
         await window.storage.remove('manifestVersion');
 
         // Kick off window.storage service fetch to grab GroupV2 information
@@ -1890,7 +1891,9 @@ type WhatIsThis = typeof window.WhatIsThis;
 
     if (connectCount === 1) {
       window.Signal.Stickers.downloadQueuedPacks();
-      await window.textsecure.messaging.sendRequestKeySyncMessage();
+      if (!newVersion) {
+        runStorageService();
+      }
     }
 
     // On startup after upgrading to a new version, request a contact sync
@@ -1904,6 +1907,8 @@ type WhatIsThis = typeof window.WhatIsThis;
     ) {
       window.log.info('Boot after upgrading. Requesting contact sync');
       window.getSyncRequest();
+
+      runStorageService();
 
       try {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -2003,10 +2008,12 @@ type WhatIsThis = typeof window.WhatIsThis;
         window.log.info('sync successful');
         window.storage.put('synced_at', Date.now());
         window.Whisper.events.trigger('contactsync');
+        runStorageService();
       });
       syncRequest.addEventListener('timeout', () => {
         window.log.error('sync timed out');
         window.Whisper.events.trigger('contactsync');
+        runStorageService();
       });
 
       const ourId = window.ConversationController.getOurConversationId();

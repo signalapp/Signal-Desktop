@@ -16,6 +16,15 @@ import { ColorType } from '../types/Colors';
 import { MessageModel } from './messages';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { MIMEType, IMAGE_WEBP } from '../types/MIME';
+import {
+  arrayBufferToBase64,
+  base64ToArrayBuffer,
+  deriveAccessKey,
+  fromEncodedBinaryToArrayBuffer,
+  getRandomBytes,
+  stringFromBytes,
+  verifyAccessKey,
+} from '../Crypto';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -39,14 +48,6 @@ const {
   writeNewAttachmentData,
 } = window.Signal.Migrations;
 const { addStickerPackReference } = window.Signal.Data;
-const {
-  arrayBufferToBase64,
-  base64ToArrayBuffer,
-  deriveAccessKey,
-  getRandomBytes,
-  stringFromBytes,
-  verifyAccessKey,
-} = window.Signal.Crypto;
 
 const COLORS = [
   'red',
@@ -255,6 +256,15 @@ export class ConversationModel extends window.Backbone.Model<
     const uuid = this.get('uuid');
     return ((e164 && e164 === this.ourNumber) ||
       (uuid && uuid === this.ourUuid)) as boolean;
+  }
+
+  isGroupV1(): boolean {
+    const groupID = this.get('groupId');
+    if (!groupID) {
+      return false;
+    }
+
+    return fromEncodedBinaryToArrayBuffer(groupID).byteLength === 16;
   }
 
   isEverUnregistered(): boolean {
@@ -3228,7 +3238,10 @@ export class ConversationModel extends window.Backbone.Model<
         sealedSender: SEALED_SENDER.UNKNOWN,
       });
 
-      if (!viaStorageServiceSync) {
+      if (
+        !viaStorageServiceSync &&
+        profileKey !== this.get('storageProfileKey')
+      ) {
         this.captureChange();
       }
 
@@ -3239,6 +3252,12 @@ export class ConversationModel extends window.Backbone.Model<
 
       window.Signal.Data.updateConversation(this.attributes, {
         Conversation: window.Whisper.Conversation,
+      });
+    }
+
+    if (viaStorageServiceSync) {
+      this.set({
+        storageProfileKey: profileKey,
       });
     }
   }

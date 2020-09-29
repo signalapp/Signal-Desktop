@@ -303,10 +303,7 @@ export async function mergeGroupV1Record(
   groupV1Record: GroupV1RecordClass
 ): Promise<boolean> {
   if (!groupV1Record.id) {
-    window.log.info(
-      `storageService.mergeGroupV1Record: no ID for ${storageID}`
-    );
-    return false;
+    throw new Error(`No ID for ${storageID}`);
   }
 
   const groupId = groupV1Record.id.toBinary();
@@ -316,10 +313,11 @@ export async function mergeGroupV1Record(
   //   record if we have one; otherwise we'll just drop this update.
   const conversation = window.ConversationController.get(groupId);
   if (!conversation) {
-    window.log.warn(
-      `storageService.mergeGroupV1Record: No conversation for group(${groupId})`
-    );
-    return false;
+    throw new Error(`No conversation for group(${groupId})`);
+  }
+
+  if (!conversation.isGroupV1()) {
+    throw new Error(`Record has group type mismatch ${conversation.debugID()}`);
   }
 
   conversation.set({
@@ -347,10 +345,7 @@ export async function mergeGroupV2Record(
   groupV2Record: GroupV2RecordClass
 ): Promise<boolean> {
   if (!groupV2Record.masterKey) {
-    window.log.info(
-      `storageService.mergeGroupV2Record: no master key for ${storageID}`
-    );
-    return false;
+    throw new Error(`No master key for ${storageID}`);
   }
 
   const masterKeyBuffer = groupV2Record.masterKey.toArrayBuffer();
@@ -375,9 +370,7 @@ export async function mergeGroupV2Record(
   const conversation = window.ConversationController.get(conversationId);
 
   if (!conversation) {
-    throw new Error(
-      `storageService.mergeGroupV2Record: No conversation for groupv2(${groupId})`
-    );
+    throw new Error(`No conversation for groupv2(${groupId})`);
   }
 
   conversation.maybeRepairGroupV2({
@@ -433,10 +426,7 @@ export async function mergeContactRecord(
   });
 
   if (!id) {
-    window.log.info(
-      `storageService.mergeContactRecord: no ID for ${storageID}`
-    );
-    return false;
+    throw new Error(`No ID for ${storageID}`);
   }
 
   const conversation = await window.ConversationController.getOrCreateAndWait(
@@ -623,7 +613,7 @@ export async function mergeAccountRecord(
   const ourID = window.ConversationController.getOurConversationId();
 
   if (!ourID) {
-    return false;
+    throw new Error('Could not find ourID');
   }
 
   const conversation = await window.ConversationController.getOrCreateAndWait(

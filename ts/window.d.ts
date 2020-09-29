@@ -182,8 +182,8 @@ declare global {
       RemoteConfig: typeof RemoteConfig;
       Services: {
         calling: CallingClass;
+        enableStorageService: () => boolean;
         eraseAllStorageServiceState: () => Promise<void>;
-        handleUnknownRecords: (param: WhatIsThis) => void;
         initializeGroupCredentialFetcher: () => void;
         initializeNetworkObserver: (network: WhatIsThis) => void;
         initializeUpdateListener: (

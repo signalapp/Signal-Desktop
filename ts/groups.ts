@@ -1117,7 +1117,7 @@ function getMembers(groupState: GroupClass) {
   }
 
   return groupState.members.map((member: MemberClass) => ({
-    profileKey: member.profileKey,
+    profileKey: arrayBufferToBase64(member.profileKey),
     uuid: member.userId,
   }));
 }

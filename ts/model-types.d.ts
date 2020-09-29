@@ -188,6 +188,7 @@ export type ConversationAttributesType = {
   profileFamilyName?: string;
   profileKey?: string;
   profileName?: string;
+  storageProfileKey?: string;
   verified?: number;
 
   // Group-only

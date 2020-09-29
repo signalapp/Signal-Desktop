@@ -2271,7 +2271,7 @@ async function eraseStorageServiceStateFromConversations() {
 
   await db.run(
     `UPDATE conversations SET
-      json = json_remove(json, '$.storageID', '$.needsStorageServiceSync', '$.unknownFields');
+      json = json_remove(json, '$.storageID', '$.needsStorageServiceSync', '$.unknownFields', '$.storageProfileKey');
     `
   );
 }
