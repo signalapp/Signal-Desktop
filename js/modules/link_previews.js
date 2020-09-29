@@ -1,7 +1,6 @@
 /* global URL */
 
 const { isNumber, compact, isEmpty } = require('lodash');
-const { isIP } = require('net');
 const nodeUrl = require('url');
 const LinkifyIt = require('linkify-it');
 
@@ -96,11 +95,6 @@ function isLinkSneaky(link) {
 
   // Domains cannot contain encoded characters
   if (domain.includes('%')) {
-    return true;
-  }
-
-  // Domain cannot be an IP address.
-  if (isIP(domain)) {
     return true;
   }
 

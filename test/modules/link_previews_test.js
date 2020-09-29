@@ -120,6 +120,19 @@ describe('Link previews', () => {
       assert.strictEqual(actual, false);
     });
 
+    it('returns false for IPv4 addresses', () => {
+      assert.isFalse(isLinkSneaky('https://127.0.0.1/path'));
+    });
+
+    // It's possible that this should return `false` but we'd need to add special logic
+    //   for it.
+    it('returns true for IPv6 addresses', () => {
+      assert.isTrue(
+        isLinkSneaky('https://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]/path')
+      );
+      assert.isTrue(isLinkSneaky('https://[::]/path'));
+    });
+
     it('returns true for Latin + Cyrillic domain', () => {
       const link = 'https://www.aмazon.com';
       const actual = isLinkSneaky(link);
@@ -173,21 +186,6 @@ describe('Link previews', () => {
       assert.isTrue(isLinkSneaky('https://example'));
       assert.isTrue(isLinkSneaky('https://localhost'));
       assert.isTrue(isLinkSneaky('https://localhost:3000'));
-    });
-
-    it('returns true if the domain is an IPv4 address', () => {
-      assert.isTrue(isLinkSneaky('https://127.0.0.1/path'));
-      assert.isTrue(isLinkSneaky('https://127.0.0.1:1234/path'));
-      assert.isTrue(isLinkSneaky('https://13.249.138.50/path'));
-      assert.isTrue(isLinkSneaky('https://13.249.138.50:1234/path'));
-    });
-
-    it('returns true if the domain is an IPv6 address', () => {
-      assert.isTrue(
-        isLinkSneaky('https://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]/path')
-      );
-      assert.isTrue(isLinkSneaky('https://[2001::]/path'));
-      assert.isTrue(isLinkSneaky('https://[::]/path'));
     });
 
     it('returns true if the domain has any empty labels', () => {
