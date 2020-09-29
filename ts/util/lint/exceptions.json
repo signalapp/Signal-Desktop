@@ -12932,7 +12932,7 @@
     "rule": "React-createRef",
     "path": "ts/components/LeftPane.js",
     "line": "        this.listRef = react_1.default.createRef();",
-    "lineNumber": 16,
+    "lineNumber": 30,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Used for scroll calculations"
@@ -12941,7 +12941,7 @@
     "rule": "React-createRef",
     "path": "ts/components/LeftPane.js",
     "line": "        this.containerRef = react_1.default.createRef();",
-    "lineNumber": 17,
+    "lineNumber": 31,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Used for scroll calculations"

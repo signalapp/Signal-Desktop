@@ -961,6 +961,20 @@ export declare class GroupV2RecordClass {
   __unknownFields?: ArrayBuffer;
 }
 
+export declare class PinnedConversationClass {
+  toArrayBuffer: () => ArrayBuffer;
+
+  // identifier is produced by the oneof field in the PinnedConversation protobuf
+  // and determined which one of the following optional fields are in use
+  identifier: 'contact' | 'legacyGroupId' | 'groupMasterKey';
+  contact?: {
+    uuid?: string;
+    e164?: string;
+  };
+  legacyGroupId?: ProtoBinaryType;
+  groupMasterKey?: ProtoBinaryType;
+}
+
 export declare class AccountRecordClass {
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
@@ -977,6 +991,7 @@ export declare class AccountRecordClass {
   sealedSenderIndicators?: boolean | null;
   typingIndicators?: boolean | null;
   linkPreviews?: boolean | null;
+  pinnedConversations?: PinnedConversationClass[];
 
   __unknownFields?: ArrayBuffer;
 }

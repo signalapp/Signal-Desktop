@@ -49,6 +49,7 @@ export type PropsData = {
     text: string;
     deletedForEveryone?: boolean;
   };
+  isPinned?: boolean;
 };
 
 type PropsHousekeeping = {

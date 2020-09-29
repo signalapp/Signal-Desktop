@@ -193,6 +193,14 @@
     "message": "Archived Conversations",
     "description": "Shown in place of the search box when showing archived conversation list"
   },
+  "LeftPane--pinned": {
+    "message": "Pinned",
+    "description": "Shown as a header for pinned conversations in the left pane"
+  },
+  "LeftPane--chats": {
+    "message": "Chats",
+    "description": "Shown as a header for non-pinned conversations in the left pane"
+  },
   "archiveHelperText": {
     "message": "These conversations are archived and will only appear in the Inbox if new messages are received.",
     "description": "Shown at the top of the archived conversations list in the left pane"

@@ -648,7 +648,9 @@ async function processManifest(
 
   const decryptedStorageItems = await pMap(
     storageItems.items,
-    async (storageRecordWrapper: StorageItemClass) => {
+    async (
+      storageRecordWrapper: StorageItemClass
+    ): Promise<MergeableItemType> => {
       const { key, value: storageItemCiphertext } = storageRecordWrapper;
 
       if (!key || !storageItemCiphertext) {
@@ -695,11 +697,19 @@ async function processManifest(
     { concurrency: 50 }
   );
 
+  // Merge Account records last
+  const sortedStorageItems = ([] as Array<MergeableItemType>).concat(
+    ..._.partition(
+      decryptedStorageItems,
+      storageRecord => storageRecord.storageRecord.account === undefined
+    )
+  );
+
   try {
     window.log.info(
-      `storageService.processManifest: Attempting to merge ${decryptedStorageItems.length} records`
+      `storageService.processManifest: Attempting to merge ${sortedStorageItems.length} records`
     );
-    const mergedRecords = await pMap(decryptedStorageItems, mergeRecord, {
+    const mergedRecords = await pMap(sortedStorageItems, mergeRecord, {
       concurrency: 5,
     });
     window.log.info(

@@ -6176,6 +6176,18 @@ button.module-image__border-overlay:focus {
   }
 }
 
+.module-left-pane__header-row {
+  @include font-body-1-bold;
+
+  display: inline-flex;
+  align-items: center;
+  padding-left: 16px;
+
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+}
+
 .module-left-pane__to-inbox-button {
   @include button-reset;
 

@@ -45,6 +45,7 @@ export type ConversationType = {
   color?: ColorType;
   isArchived?: boolean;
   isBlocked?: boolean;
+  isPinned?: boolean;
   isVerified?: boolean;
   activeAt?: number;
   timestamp?: number;
@@ -54,6 +55,7 @@ export type ConversationType = {
     text: string;
   };
   phoneNumber?: string;
+  pinIndex?: number;
   membersCount?: number;
   muteExpiresAt?: number;
   type: ConversationTypeType;

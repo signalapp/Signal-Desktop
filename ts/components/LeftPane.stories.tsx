@@ -40,12 +40,32 @@ const defaultArchivedConversations: Array<PropsData> = [
   },
 ];
 
+const pinnedConversations: Array<PropsData> = [
+  {
+    id: 'philly-convo',
+    isPinned: true,
+    isSelected: false,
+    lastUpdated: Date.now(),
+    title: 'Philip Glass',
+    type: 'direct',
+  },
+  {
+    id: 'robbo-convo',
+    isPinned: true,
+    isSelected: false,
+    lastUpdated: Date.now(),
+    title: 'Robert Moog',
+    type: 'direct',
+  },
+];
+
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   archivedConversations:
     overrideProps.archivedConversations || defaultArchivedConversations,
   conversations: overrideProps.conversations || defaultConversations,
   i18n,
   openConversationInternal: action('openConversationInternal'),
+  pinnedConversations: overrideProps.pinnedConversations || [],
   renderExpiredBuildDialog: () => <div />,
   renderMainHeader: () => <div />,
   renderMessageSearchResult: () => <div />,
@@ -65,6 +85,14 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
 story.add('Conversation States (Active, Selected, Archived)', () => {
   const props = createProps();
+
+  return <LeftPane {...props} />;
+});
+
+story.add('Pinned Conversations', () => {
+  const props = createProps({
+    pinnedConversations,
+  });
 
   return <LeftPane {...props} />;
 });

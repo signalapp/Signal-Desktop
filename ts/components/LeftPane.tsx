@@ -17,6 +17,7 @@ import { cleanId } from './_util';
 export interface PropsType {
   conversations?: Array<ConversationListItemPropsType>;
   archivedConversations?: Array<ConversationListItemPropsType>;
+  pinnedConversations?: Array<ConversationListItemPropsType>;
   selectedConversationId?: string;
   searchResults?: SearchResultsProps;
   showArchived?: boolean;
@@ -51,6 +52,43 @@ type RowRendererParamsType = {
   style: CSSProperties;
 };
 
+enum RowType {
+  ArchiveButton,
+  ArchivedConversation,
+  Conversation,
+  Header,
+  PinnedConversation,
+  Undefined,
+}
+
+enum HeaderType {
+  Pinned,
+  Chats,
+}
+
+interface ArchiveButtonRow {
+  type: RowType.ArchiveButton;
+}
+
+interface ConversationRow {
+  index: number;
+  type:
+    | RowType.ArchivedConversation
+    | RowType.Conversation
+    | RowType.PinnedConversation;
+}
+
+interface HeaderRow {
+  headerType: HeaderType;
+  type: RowType.Header;
+}
+
+interface UndefinedRow {
+  type: RowType.Undefined;
+}
+
+type Row = ArchiveButtonRow | ConversationRow | HeaderRow | UndefinedRow;
+
 export class LeftPane extends React.Component<PropsType> {
   public listRef = React.createRef<List>();
 
@@ -60,31 +98,77 @@ export class LeftPane extends React.Component<PropsType> {
 
   public setFocusToLastNeeded = false;
 
-  public renderRow = ({
-    index,
-    key,
-    style,
-  }: RowRendererParamsType): JSX.Element => {
+  public calculateRowHeight = ({ index }: { index: number }): number => {
+    const { type } = this.getRowFromIndex(index);
+    return type === RowType.Header ? 40 : 68;
+  };
+
+  public getRowFromIndex = (index: number): Row => {
     const {
       archivedConversations,
       conversations,
-      i18n,
-      openConversationInternal,
+      pinnedConversations,
       showArchived,
     } = this.props;
-    if (!conversations || !archivedConversations) {
-      throw new Error(
-        'renderRow: Tried to render without conversations or archivedConversations'
-      );
+
+    if (!conversations || !pinnedConversations || !archivedConversations) {
+      return {
+        type: RowType.Undefined,
+      };
     }
 
-    if (!showArchived && index === conversations.length) {
-      return this.renderArchivedButton({ key, style });
+    if (showArchived) {
+      return {
+        index,
+        type: RowType.ArchivedConversation,
+      };
     }
 
-    const conversation = showArchived
-      ? archivedConversations[index]
-      : conversations[index];
+    let conversationIndex = index;
+
+    if (pinnedConversations.length) {
+      if (index === 0) {
+        return {
+          headerType: HeaderType.Pinned,
+          type: RowType.Header,
+        };
+      }
+
+      if (index <= pinnedConversations.length) {
+        return {
+          index: index - 1,
+          type: RowType.PinnedConversation,
+        };
+      }
+
+      if (index === pinnedConversations.length + 1) {
+        return {
+          headerType: HeaderType.Chats,
+          type: RowType.Header,
+        };
+      }
+
+      conversationIndex -= pinnedConversations.length + 2;
+    }
+
+    if (conversationIndex === conversations.length) {
+      return {
+        type: RowType.ArchiveButton,
+      };
+    }
+
+    return {
+      index: conversationIndex,
+      type: RowType.Conversation,
+    };
+  };
+
+  public renderConversationRow(
+    conversation: ConversationListItemPropsType,
+    key: string,
+    style: CSSProperties
+  ): JSX.Element {
+    const { i18n, openConversationInternal } = this.props;
 
     return (
       <div
@@ -99,15 +183,90 @@ export class LeftPane extends React.Component<PropsType> {
         />
       </div>
     );
+  }
+
+  public renderHeaderRow = (
+    index: number,
+    key: string,
+    style: CSSProperties
+  ): JSX.Element => {
+    const { i18n } = this.props;
+
+    switch (index) {
+      case HeaderType.Pinned: {
+        return (
+          <div className="module-left-pane__header-row" key={key} style={style}>
+            {i18n('LeftPane--pinned')}
+          </div>
+        );
+      }
+      case HeaderType.Chats: {
+        return (
+          <div className="module-left-pane__header-row" key={key} style={style}>
+            {i18n('LeftPane--chats')}
+          </div>
+        );
+      }
+      default: {
+        window.log.warn('LeftPane: invalid HeaderRowIndex received');
+        return <></>;
+      }
+    }
   };
 
-  public renderArchivedButton = ({
+  public renderRow = ({
+    index,
     key,
     style,
-  }: {
-    key: string;
-    style: CSSProperties;
-  }): JSX.Element => {
+  }: RowRendererParamsType): JSX.Element => {
+    const {
+      archivedConversations,
+      conversations,
+      pinnedConversations,
+    } = this.props;
+
+    if (!conversations || !pinnedConversations || !archivedConversations) {
+      throw new Error(
+        'renderRow: Tried to render without conversations or pinnedConversations or archivedConversations'
+      );
+    }
+
+    const row = this.getRowFromIndex(index);
+
+    switch (row.type) {
+      case RowType.ArchiveButton: {
+        return this.renderArchivedButton(key, style);
+      }
+      case RowType.ArchivedConversation: {
+        return this.renderConversationRow(
+          archivedConversations[row.index],
+          key,
+          style
+        );
+      }
+      case RowType.Conversation: {
+        return this.renderConversationRow(conversations[row.index], key, style);
+      }
+      case RowType.Header: {
+        return this.renderHeaderRow(row.headerType, key, style);
+      }
+      case RowType.PinnedConversation: {
+        return this.renderConversationRow(
+          pinnedConversations[row.index],
+          key,
+          style
+        );
+      }
+      default:
+        window.log.warn('LeftPane: unknown RowType received');
+        return <></>;
+    }
+  };
+
+  public renderArchivedButton = (
+    key: string,
+    style: CSSProperties
+  ): JSX.Element => {
     const {
       archivedConversations,
       i18n,
@@ -199,6 +358,14 @@ export class LeftPane extends React.Component<PropsType> {
     this.listRef.current.scrollToRow(row);
   };
 
+  public recomputeRowHeights = (): void => {
+    if (!this.listRef || !this.listRef.current) {
+      return;
+    }
+
+    this.listRef.current.recomputeRowHeights();
+  };
+
   public getScrollContainer = (): HTMLDivElement | null => {
     if (!this.listRef || !this.listRef.current) {
       return null;
@@ -269,16 +436,34 @@ export class LeftPane extends React.Component<PropsType> {
   );
 
   public getLength = (): number => {
-    const { archivedConversations, conversations, showArchived } = this.props;
+    const {
+      archivedConversations,
+      conversations,
+      pinnedConversations,
+      showArchived,
+    } = this.props;
 
-    if (!conversations || !archivedConversations) {
+    if (!conversations || !archivedConversations || !pinnedConversations) {
       return 0;
     }
 
-    // That extra 1 element added to the list is the 'archived conversations' button
-    return showArchived
-      ? archivedConversations.length
-      : conversations.length + (archivedConversations.length ? 1 : 0);
+    if (showArchived) {
+      return archivedConversations.length;
+    }
+
+    let { length } = conversations;
+
+    // includes two additional rows for pinned/chats headers
+    if (pinnedConversations.length) {
+      length += pinnedConversations.length + 2;
+    }
+
+    // includes one additional row for 'archived conversations' button
+    if (archivedConversations.length) {
+      length += 1;
+    }
+
+    return length;
   };
 
   public renderList = ({
@@ -290,6 +475,7 @@ export class LeftPane extends React.Component<PropsType> {
       i18n,
       conversations,
       openConversationInternal,
+      pinnedConversations,
       renderMessageSearchResult,
       startNewConversation,
       searchResults,
@@ -310,7 +496,7 @@ export class LeftPane extends React.Component<PropsType> {
       );
     }
 
-    if (!conversations || !archivedConversations) {
+    if (!conversations || !archivedConversations || !pinnedConversations) {
       throw new Error(
         'render: must provided conversations and archivedConverstions if no search results are provided'
       );
@@ -345,7 +531,7 @@ export class LeftPane extends React.Component<PropsType> {
           onScroll={this.onScroll}
           ref={this.listRef}
           rowCount={length}
-          rowHeight={68}
+          rowHeight={this.calculateRowHeight}
           rowRenderer={this.renderRow}
           tabIndex={-1}
           width={width || 0}
@@ -411,5 +597,17 @@ export class LeftPane extends React.Component<PropsType> {
         </Measure>
       </div>
     );
+  }
+
+  componentDidUpdate(oldProps: PropsType): void {
+    const { pinnedConversations: oldPinned } = oldProps;
+    const { pinnedConversations: pinned } = this.props;
+
+    const oldLength = (oldPinned && oldPinned.length) || 0;
+    const newLength = (pinned && pinned.length) || 0;
+
+    if (oldLength !== newLength) {
+      this.recomputeRowHeights();
+    }
   }
 }

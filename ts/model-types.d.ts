@@ -145,12 +145,14 @@ export type ConversationAttributesType = {
   draftAttachments: Array<unknown>;
   draftTimestamp: number | null;
   inbox_position: number;
+  isPinned: boolean;
   lastMessageDeletedForEveryone: unknown;
   lastMessageStatus: LastMessageStatus | null;
   messageCount: number;
   messageCountBeforeMessageRequests: number;
   messageRequestResponseType: number;
   muteExpiresAt: number;
+  pinIndex?: number;
   profileAvatar: WhatIsThis;
   profileKeyCredential: unknown | null;
   profileKeyVersion: string;

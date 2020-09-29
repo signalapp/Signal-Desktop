@@ -128,9 +128,11 @@ export const _getLeftPaneLists = (
 ): {
   conversations: Array<ConversationType>;
   archivedConversations: Array<ConversationType>;
+  pinnedConversations: Array<ConversationType>;
 } => {
   const conversations: Array<ConversationType> = [];
   const archivedConversations: Array<ConversationType> = [];
+  const pinnedConversations: Array<ConversationType> = [];
 
   const values = Object.values(lookup);
   const max = values.length;
@@ -146,6 +148,8 @@ export const _getLeftPaneLists = (
 
       if (conversation.isArchived) {
         archivedConversations.push(conversation);
+      } else if (conversation.isPinned) {
+        pinnedConversations.push(conversation);
       } else {
         conversations.push(conversation);
       }
@@ -154,8 +158,9 @@ export const _getLeftPaneLists = (
 
   conversations.sort(comparator);
   archivedConversations.sort(comparator);
+  pinnedConversations.sort((a, b) => (a.pinIndex || 0) - (b.pinIndex || 0));
 
-  return { conversations, archivedConversations };
+  return { conversations, archivedConversations, pinnedConversations };
 };
 
 export const getLeftPaneLists = createSelector(
