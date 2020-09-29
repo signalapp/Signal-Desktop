@@ -53,6 +53,7 @@ interface Trigger {
 const MINIMUM_LINK_PREVIEW_IMAGE_WIDTH = 200;
 const STICKER_SIZE = 200;
 const SELECTED_TIMEOUT = 1000;
+const THREE_HOURS = 3 * 60 * 60 * 1000;
 
 interface LinkPreviewType {
   title: string;
@@ -134,6 +135,7 @@ export type PropsData = {
   deletedForEveryone?: boolean;
 
   canReply: boolean;
+  canDeleteForEveryone: boolean;
   bodyRanges?: BodyRangesType;
 };
 
@@ -154,6 +156,7 @@ export type PropsActions = {
   replyToMessage: (id: string) => void;
   retrySend: (id: string) => void;
   deleteMessage: (id: string) => void;
+  deleteMessageForEveryone: (id: string) => void;
   showMessageDetail: (id: string) => void;
 
   openConversation: (conversationId: string, messageId?: string) => void;
@@ -200,6 +203,7 @@ interface State {
   isWide: boolean;
 
   containerWidth: number;
+  canDeleteForEveryone: boolean;
 }
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
@@ -226,8 +230,12 @@ export class Message extends React.PureComponent<Props, State> {
 
   public selectedTimeout: NodeJS.Timeout | undefined;
 
+  public deleteForEveryoneTimeout: NodeJS.Timeout | undefined;
+
   public constructor(props: Props) {
     super(props);
+
+    const { canDeleteForEveryone } = props;
 
     this.wideMl = window.matchMedia('(min-width: 926px)');
     this.wideMl.addEventListener('change', this.handleWideMlChange);
@@ -246,6 +254,7 @@ export class Message extends React.PureComponent<Props, State> {
       isWide: this.wideMl.matches,
 
       containerWidth: 0,
+      canDeleteForEveryone,
     };
   }
 
@@ -322,6 +331,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public componentDidMount(): void {
     this.startSelectedTimer();
+    this.startDeleteForEveryoneTimer();
 
     const { isSelected } = this.props;
     if (isSelected) {
@@ -353,6 +363,9 @@ export class Message extends React.PureComponent<Props, State> {
     if (this.expiredTimeout) {
       clearTimeout(this.expiredTimeout);
     }
+    if (this.deleteForEveryoneTimeout) {
+      clearTimeout(this.deleteForEveryoneTimeout);
+    }
     this.toggleReactionViewer(true);
     this.toggleReactionPicker(true);
 
@@ -360,7 +373,7 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public componentDidUpdate(prevProps: Props): void {
-    const { isSelected } = this.props;
+    const { canDeleteForEveryone, isSelected } = this.props;
 
     this.startSelectedTimer();
 
@@ -369,6 +382,10 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     this.checkExpired();
+
+    if (canDeleteForEveryone !== prevProps.canDeleteForEveryone) {
+      this.startDeleteForEveryoneTimer();
+    }
   }
 
   public startSelectedTimer(): void {
@@ -385,6 +402,29 @@ export class Message extends React.PureComponent<Props, State> {
         this.setState({ isSelected: false });
         clearSelectedMessage();
       }, SELECTED_TIMEOUT);
+    }
+  }
+
+  public startDeleteForEveryoneTimer(): void {
+    if (this.deleteForEveryoneTimeout) {
+      clearTimeout(this.deleteForEveryoneTimeout);
+    }
+
+    const { canDeleteForEveryone } = this.props;
+
+    if (!canDeleteForEveryone) {
+      return;
+    }
+
+    const { timestamp } = this.props;
+    const timeToDeletion = timestamp - Date.now() + THREE_HOURS;
+
+    if (timeToDeletion <= 0) {
+      this.setState({ canDeleteForEveryone: false });
+    } else {
+      this.deleteForEveryoneTimeout = setTimeout(() => {
+        this.setState({ canDeleteForEveryone: false });
+      }, timeToDeletion);
     }
   }
 
@@ -1285,6 +1325,7 @@ export class Message extends React.PureComponent<Props, State> {
       attachments,
       canReply,
       deleteMessage,
+      deleteMessageForEveryone,
       direction,
       i18n,
       id,
@@ -1295,6 +1336,8 @@ export class Message extends React.PureComponent<Props, State> {
       showMessageDetail,
       status,
     } = this.props;
+
+    const { canDeleteForEveryone } = this.state;
 
     const showRetry = status === 'error' && direction === 'outgoing';
     const multipleAttachments = attachments && attachments.length > 1;
@@ -1386,6 +1429,21 @@ export class Message extends React.PureComponent<Props, State> {
         >
           {i18n('deleteMessage')}
         </MenuItem>
+        {canDeleteForEveryone ? (
+          <MenuItem
+            attributes={{
+              className: 'module-message__context__delete-message-for-everyone',
+            }}
+            onClick={(event: React.MouseEvent) => {
+              event.stopPropagation();
+              event.preventDefault();
+
+              deleteMessageForEveryone(id);
+            }}
+          >
+            {i18n('deleteMessageForEveryone')}
+          </MenuItem>
+        ) : null}
       </ContextMenu>
     );
 

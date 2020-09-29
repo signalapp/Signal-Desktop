@@ -118,6 +118,7 @@ type MessageOptionsType = {
   recipients: Array<string>;
   sticker?: any;
   reaction?: any;
+  deletedForEveryoneTimestamp?: number;
   timestamp: number;
 };
 
@@ -157,6 +158,8 @@ class Message {
 
   attachmentPointers?: Array<any>;
 
+  deletedForEveryoneTimestamp?: number;
+
   constructor(options: MessageOptionsType) {
     this.attachments = options.attachments || [];
     this.body = options.body;
@@ -172,6 +175,7 @@ class Message {
     this.sticker = options.sticker;
     this.reaction = options.reaction;
     this.timestamp = options.timestamp;
+    this.deletedForEveryoneTimestamp = options.deletedForEveryoneTimestamp;
 
     if (!(this.recipients instanceof Array)) {
       throw new Error('Invalid recipient list');
@@ -329,6 +333,11 @@ class Message {
     }
     if (this.profileKey) {
       proto.profileKey = this.profileKey;
+    }
+    if (this.deletedForEveryoneTimestamp) {
+      proto.delete = {
+        targetSentTimestamp: this.deletedForEveryoneTimestamp,
+      };
     }
 
     this.dataMessage = proto;
@@ -1412,6 +1421,7 @@ export default class MessageSender {
     preview: Array<PreviewType>,
     sticker: unknown,
     reaction: unknown,
+    deletedForEveryoneTimestamp: number | undefined,
     timestamp: number,
     expireTimer: number | undefined,
     profileKey?: ArrayBuffer,
@@ -1427,6 +1437,7 @@ export default class MessageSender {
       preview,
       sticker,
       reaction,
+      deletedForEveryoneTimestamp,
       expireTimer,
       profileKey,
       flags,
@@ -1457,6 +1468,7 @@ export default class MessageSender {
     preview: Array<PreviewType> | undefined,
     sticker: unknown,
     reaction: unknown,
+    deletedForEveryoneTimestamp: number | undefined,
     timestamp: number,
     expireTimer: number | undefined,
     profileKey?: ArrayBuffer,
@@ -1472,6 +1484,7 @@ export default class MessageSender {
         preview,
         sticker,
         reaction,
+        deletedForEveryoneTimestamp,
         expireTimer,
         profileKey,
       },
@@ -1575,6 +1588,7 @@ export default class MessageSender {
       quote,
       reaction,
       sticker,
+      deletedForEveryoneTimestamp,
       timestamp,
     }: {
       attachments?: Array<AttachmentType>;
@@ -1587,6 +1601,7 @@ export default class MessageSender {
       quote?: any;
       reaction?: any;
       sticker?: any;
+      deletedForEveryoneTimestamp?: number;
       timestamp: number;
     },
     options?: SendOptionsType
@@ -1625,6 +1640,7 @@ export default class MessageSender {
       reaction,
       expireTimer,
       profileKey,
+      deletedForEveryoneTimestamp,
       groupV2,
       group: groupV1
         ? {

@@ -943,7 +943,12 @@
     "message": "Delete"
   },
   "deleteWarning": {
-    "message": "Are you sure? Clicking 'delete' will permanently remove this message from this device only."
+    "message": "Clicking 'delete' will permanently remove this message from your devices only.",
+    "description": "Text shown in the confirmation dialog for deleting a message locally"
+  },
+  "deleteForEveryoneWarning": {
+    "message": "This message will be permanently deleted for everyone in the conversation. Members will be able to see that you deleted a message.",
+    "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "deleteThisMessage": {
     "message": "Delete this message"
@@ -1014,8 +1019,12 @@
     "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
   },
   "deleteMessage": {
-    "message": "Delete Message",
+    "message": "Delete message for me",
     "description": "Shown on the drop-down menu for an individual message, deletes single message"
+  },
+  "deleteMessageForEveryone": {
+    "message": "Delete message for everyone",
+    "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "deleteMessages": {
     "message": "Delete messages",

@@ -25,7 +25,7 @@
 
       return [];
     },
-    async onDelete(del) {
+    onDelete(del) {
       try {
         // The contact the delete message came from
         const fromContact = ConversationController.get(del.get('fromId'));

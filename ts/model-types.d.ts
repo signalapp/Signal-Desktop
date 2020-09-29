@@ -50,6 +50,7 @@ export type MessageAttributesType = {
   dataMessage: ArrayBuffer | null;
   decrypted_at: number;
   deletedForEveryone: boolean;
+  deletedForEveryoneTimestamp?: number;
   delivered: number;
   delivered_to: Array<string | null>;
   errors: Array<CustomError> | null;

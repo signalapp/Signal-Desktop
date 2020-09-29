@@ -63,6 +63,8 @@ const PLACEHOLDER_CONTACT = {
   title: window.i18n('unknownContact'),
 };
 
+const THREE_HOURS = 3 * 60 * 60 * 1000;
+
 window.AccountCache = Object.create(null);
 window.AccountJobs = Object.create(null);
 
@@ -372,6 +374,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         },
         deleteMessage: (messageId: string) => {
           this.trigger('delete', messageId);
+        },
+        deleteMessageForEveryone: (messageId: string) => {
+          this.trigger('delete-for-everyone', messageId);
         },
         showVisualAttachment: (options: unknown) => {
           this.trigger('show-visual-attachment', options);
@@ -730,6 +735,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       status: this.getMessagePropStatus(),
       contact: this.getPropsForEmbeddedContact(),
       canReply: this.canReply(),
+      canDeleteForEveryone: this.canDeleteForEveryone(),
       authorTitle: contact.title,
       authorColor,
       authorName: contact.name,
@@ -1897,6 +1903,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         previewWithData,
         stickerWithData,
         null,
+        this.get('deletedForEveryoneTimestamp'),
         this.get('sent_at'),
         this.get('expireTimer'),
         profileKey
@@ -1964,6 +1971,25 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       e.name === 'SignedPreKeyRotationError' ||
       e.name === 'OutgoingIdentityKeyError'
     );
+  }
+
+  canDeleteForEveryone(): boolean {
+    // is someone else's message
+    if (this.isIncoming()) {
+      return false;
+    }
+
+    // has already been deleted for everyone
+    if (this.get('deletedForEveryone')) {
+      return false;
+    }
+
+    // is too old to delete
+    if (Date.now() - this.get('sent_at') > THREE_HOURS) {
+      return false;
+    }
+
+    return true;
   }
 
   canReply(): boolean {
@@ -2051,6 +2077,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       previewWithData,
       stickerWithData,
       null,
+      this.get('deletedForEveryoneTimestamp'),
       this.get('sent_at'),
       this.get('expireTimer'),
       profileKey,

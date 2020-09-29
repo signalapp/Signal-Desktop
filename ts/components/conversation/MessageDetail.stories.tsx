@@ -16,10 +16,12 @@ const story = storiesOf('Components/Conversation/MessageDetail', module);
 const defaultMessage: MessageProps = {
   authorTitle: 'Max',
   canReply: true,
+  canDeleteForEveryone: true,
   clearSelectedMessage: () => null,
   conversationId: 'my-convo',
   conversationType: 'direct',
   deleteMessage: action('deleteMessage'),
+  deleteMessageForEveryone: action('deleteMessageForEveryone'),
   direction: 'incoming',
   displayTapToViewMessage: () => null,
   downloadAttachment: () => null,

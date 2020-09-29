@@ -310,6 +310,11 @@ Whisper.ConversationView = Whisper.View.extend({
     this.listenTo(this.model.messageCollection, 'delete', this.deleteMessage);
     this.listenTo(
       this.model.messageCollection,
+      'delete-for-everyone',
+      this.deleteMessageForEveryone
+    );
+    this.listenTo(
+      this.model.messageCollection,
       'show-visual-attachment',
       this.showLightbox
     );
@@ -618,6 +623,9 @@ Whisper.ConversationView = Whisper.View.extend({
     const deleteMessage = (messageId: any) => {
       this.deleteMessage(messageId);
     };
+    const deleteMessageForEveryone = (messageId: string) => {
+      this.deleteMessageForEveryone(messageId);
+    };
     const showMessageDetail = (messageId: any) => {
       this.showMessageDetail(messageId);
     };
@@ -796,6 +804,7 @@ Whisper.ConversationView = Whisper.View.extend({
         id,
 
         deleteMessage,
+        deleteMessageForEveryone,
         displayTapToViewMessage,
         downloadAttachment,
         downloadNewVersion,
@@ -2322,6 +2331,27 @@ Whisper.ConversationView = Whisper.View.extend({
         } else {
           this.model.decrementMessageCount();
         }
+        this.resetPanel();
+      },
+    });
+
+    this.$el.prepend(dialog.el);
+    dialog.focusCancel();
+  },
+
+  deleteMessageForEveryone(messageId: string) {
+    const message = this.model.messageCollection.get(messageId);
+    if (!message) {
+      throw new Error(
+        `deleteMessageForEveryone: Did not find message for id ${messageId}`
+      );
+    }
+
+    const dialog = new Whisper.ConfirmationDialogView({
+      message: window.i18n('deleteForEveryoneWarning'),
+      okText: window.i18n('delete'),
+      resolve: async () => {
+        await this.model.sendDeleteForEveryoneMessage(message.get('sent_at'));
         this.resetPanel();
       },
     });

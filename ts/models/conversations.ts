@@ -63,6 +63,8 @@ const COLORS = [
   'ultramarine',
 ];
 
+const THREE_HOURS = 3 * 60 * 60 * 1000;
+
 interface CustomError extends Error {
   identifier?: string;
   number?: string;
@@ -1811,6 +1813,106 @@ export class ConversationModel extends window.Backbone.Model<
     window.reduxActions.stickers.useSticker(packId, stickerId);
   }
 
+  async sendDeleteForEveryoneMessage(targetTimestamp: number): Promise<void> {
+    const timestamp = Date.now();
+
+    if (timestamp - targetTimestamp > THREE_HOURS) {
+      throw new Error('Cannot send DOE for a message older than three hours');
+    }
+
+    const deleteModel = window.Whisper.Deletes.add({
+      targetSentTimestamp: targetTimestamp,
+      fromId: window.ConversationController.getOurConversationId(),
+    });
+
+    window.Whisper.Deletes.onDelete(deleteModel);
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const destination = this.getSendTarget()!;
+    const recipients = this.getRecipients();
+
+    let profileKey: ArrayBuffer | undefined;
+    if (this.get('profileSharing')) {
+      profileKey = window.storage.get('profileKey');
+    }
+
+    return this.queueJob(async () => {
+      window.log.info(
+        'Sending deleteForEveryone to conversation',
+        this.idForLogging(),
+        'with timestamp',
+        timestamp
+      );
+
+      const attributes = ({
+        id: window.getGuid(),
+        type: 'outgoing',
+        conversationId: this.get('id'),
+        sent_at: timestamp,
+        received_at: timestamp,
+        recipients,
+        deletedForEveryoneTimestamp: targetTimestamp,
+        // TODO: DESKTOP-722
+      } as unknown) as typeof window.Whisper.MessageAttributesType;
+
+      if (this.isPrivate()) {
+        attributes.destination = destination;
+      }
+
+      // We are only creating this model so we can use its sync message
+      // sending functionality. It will not be saved to the datbase.
+      const message = new window.Whisper.Message(attributes);
+
+      // We're offline!
+      if (!window.textsecure.messaging) {
+        throw new Error('Cannot send DOE while offline!');
+      }
+
+      const options = this.getSendOptions();
+
+      const promise = (() => {
+        if (this.isPrivate()) {
+          return window.textsecure.messaging.sendMessageToIdentifier(
+            destination,
+            undefined, // body
+            [], // attachments
+            undefined, // quote
+            [], // preview
+            undefined, // sticker
+            undefined, // reaction
+            targetTimestamp,
+            timestamp,
+            undefined, // expireTimer
+            profileKey,
+            options
+          );
+        }
+
+        return window.textsecure.messaging.sendMessageToGroup(
+          {
+            groupV1: this.getGroupV1Info(),
+            groupV2: this.getGroupV2Info(),
+            deletedForEveryoneTimestamp: targetTimestamp,
+            timestamp,
+            profileKey,
+          },
+          options
+        );
+      })();
+
+      return message.send(this.wrapSend(promise));
+    }).catch(error => {
+      window.log.error(
+        'Error sending deleteForEveryone',
+        deleteModel,
+        targetTimestamp,
+        error
+      );
+
+      throw error;
+    });
+  }
+
   async sendReactionMessage(
     reaction: { emoji: string; remove: boolean },
     target: {
@@ -1882,6 +1984,7 @@ export class ConversationModel extends window.Backbone.Model<
           [], // preview
           undefined, // sticker
           outgoingReaction,
+          undefined, // deletedForEveryoneTimestamp
           timestamp,
           expireTimer,
           profileKey
@@ -1901,6 +2004,7 @@ export class ConversationModel extends window.Backbone.Model<
             [], // preview
             undefined, // sticker
             outgoingReaction,
+            undefined, // deletedForEveryoneTimestamp
             timestamp,
             expireTimer,
             profileKey,
@@ -2072,6 +2176,7 @@ export class ConversationModel extends window.Backbone.Model<
           preview,
           sticker,
           null, // reaction
+          undefined, // deletedForEveryoneTimestamp
           now,
           expireTimer,
           profileKey
@@ -2108,6 +2213,7 @@ export class ConversationModel extends window.Backbone.Model<
           preview,
           sticker,
           null, // reaction
+          undefined, // deletedForEveryoneTimestamp
           now,
           expireTimer,
           profileKey,
@@ -2553,6 +2659,7 @@ export class ConversationModel extends window.Backbone.Model<
         [], // preview
         undefined, // sticker
         undefined, // reaction
+        undefined, // deletedForEveryoneTimestamp
         message.get('sent_at'),
         expireTimer,
         profileKey,
