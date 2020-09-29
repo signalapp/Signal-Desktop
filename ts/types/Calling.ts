@@ -1,4 +1,11 @@
-import { CallState } from 'ringrtc';
+// Must be kept in sync with RingRTC.CallState
+export enum CallState {
+  Prering = 'init',
+  Ringing = 'ringing',
+  Accepted = 'connected',
+  Reconnecting = 'connecting',
+  Ended = 'ended',
+}
 
 // Must be kept in sync with RingRTC.AudioDevice
 export interface AudioDevice {
@@ -39,5 +46,3 @@ export type ChangeIODevicePayloadType =
   | { type: CallingDeviceType.CAMERA; selectedDevice: string }
   | { type: CallingDeviceType.MICROPHONE; selectedDevice: AudioDevice }
   | { type: CallingDeviceType.SPEAKER; selectedDevice: AudioDevice };
-
-export { CallState };
