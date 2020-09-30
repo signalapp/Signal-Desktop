@@ -306,9 +306,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         }}
         onButtonClick={async (
           groupName: string,
-          groupMembers: Array<ContactType>,
-          senderKeys: boolean
-        ) => this.onCreateClosedGroup(groupName, groupMembers, senderKeys)}
+          groupMembers: Array<ContactType>
+        ) => this.onCreateClosedGroup(groupName, groupMembers, window.lokiFeatureFlags.enableSenderKeys)}
         searchTerm={searchTerm}
         updateSearch={this.updateSearchBound}
         showSpinner={loading}
