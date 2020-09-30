@@ -67,7 +67,7 @@ async function handleSenderKeyRequest(
   await removeFromCache(envelope);
 }
 
-async function shareSenderKeys(
+export async function shareSenderKeys(
   groupId: string,
   recipientsPrimary: Array<string>,
   senderKey: RatchetState

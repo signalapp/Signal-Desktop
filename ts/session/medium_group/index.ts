@@ -28,6 +28,7 @@ import { ConversationModel } from '../../../js/models/conversations';
 import { MediumGroupUpdateMessage } from '../messages/outgoing/content/data/mediumgroup/MediumGroupUpdateMessage';
 import uuid from 'uuid';
 import { BlockedNumberController } from '../../util/blockedNumberController';
+import { shareSenderKeys } from '../../receiver/mediumGroups';
 
 export {
   createSenderKeyForGroup,
@@ -184,6 +185,7 @@ export async function leaveMediumGroup(groupId: string) {
 
   // TODO: need to reset everyone's sender keys
   window.SwarmPolling.removePubkey(groupId);
+  // TODO audric: we just left a group, we have to regenerate our senderkey
 
   const maybeConvo = await ConversationController.get(groupId);
 
@@ -207,15 +209,23 @@ export async function leaveMediumGroup(groupId: string) {
     received_at: now,
   });
 
-  const updateParams = {
-    timestamp: Date.now(),
-    identifier: dbMessage.id,
-    groupId,
+  // do not include senderkey as everyone needs to generate new one
+  const groupUpdate: GroupInfo = {
+    id: convo.get('id'),
+    name: convo.get('name'),
+    members: convo.get('members'),
+    is_medium_group: true,
+    admins: convo.get('groupAdmins'),
+    senderKeysContainer: undefined,
   };
 
-  const message = new MediumGroupQuitMessage(updateParams);
+  const ourPrimary = await UserUtil.getPrimary();
 
-  await sendToMembers(groupId, message, dbMessage);
+  await sendGroupUpdateForMedium(
+    { leavingMembers: [ourPrimary.key] },
+    groupUpdate,
+    dbMessage.id
+  );
 }
 
 // Just a container to store two named list of keys
@@ -602,13 +612,16 @@ async function sendGroupUpdateForExistingMembers(
   messageId?: string
 ) {
   const { id: groupId, members, name: groupName } = groupUpdate;
+  const ourPrimary = await UserUtil.getPrimary();
+
+  const wasAnyUserRemoved = leavingMembers.length > 0;
+  const isUserLeaving = leavingMembers.includes(ourPrimary.key);
 
   const membersBin = members.map(
     (pkHex: string) => new Uint8Array(fromHex(pkHex))
   );
 
   const admins = groupUpdate.admins || [];
-
   const adminsBin = admins.map(
     (pkHex: string) => new Uint8Array(fromHex(pkHex))
   );
@@ -625,23 +638,47 @@ async function sendGroupUpdateForExistingMembers(
     members: membersBin,
     groupName,
     admins: adminsBin,
-    senderKeys,
+    senderKeys: senderKeys,
   };
 
-  const message = new MediumGroupUpdateMessage(params);
+  if (wasAnyUserRemoved) {
+    if (isUserLeaving && leavingMembers.length !== 1) {
+      window.log.warn("Can't remove self and others simultaneously.");
+      return;
+    }
+    // Send the update to the group (don't include new ratchets as everyone should regenerate new ratchets individually)
+    const paramsWithoutSenderKeys = {
+      ...params,
+      senderKeys: [],
+    };
 
-  remainingMembers.forEach(async member => {
-    const memberPubKey = new PubKey(member);
-    await getMessageQueue().sendUsingMultiDevice(memberPubKey, message);
-  });
+    const messageStripped = new MediumGroupUpdateMessage(paramsWithoutSenderKeys);
+    window.log.warn('Sending to groupUpdateMessage without senderKeys');
+    await getMessageQueue().sendToGroup(messageStripped);
 
-  // Remove sender keys from the params to send to leaving memebers
-  params.senderKeys = [];
-  const strippedMessage = new MediumGroupUpdateMessage(params);
-  leavingMembers.forEach(async member => {
-    const memberPubKey = new PubKey(member);
-    await getMessageQueue().sendUsingMultiDevice(memberPubKey, strippedMessage);
-  });
+    // TODO Delete all ratchets (it's important that this happens * after * sending out the update)
+    if (isUserLeaving) {
+      // nothing to do on desktop
+    } else {
+      // Send out the user's new ratchet to all members (minus the removed ones) using established channels
+      const ourPrimaryKey = new Uint8Array(fromHex(ourPrimary.key))
+      const ourNewSenderKey = senderKeys.find(s => _.isEqual(s.pubKey, ourPrimaryKey));
+
+      if (! ourNewSenderKey) {
+        window.console.warn('We need to share our senderkey with remaining member but our senderKeys was not given.');
+      } else {
+        window.log.warn('Sharing our new senderKey with remainingMembers via message', remainingMembers, ourNewSenderKey);
+        await shareSenderKeys(groupId, remainingMembers, ourNewSenderKey);
+      }
+
+    }
+  } else {
+    const message = new MediumGroupUpdateMessage(params);
+    window.log.warn('Sending to groupUpdateMessage with senderKeys to groupAddress', senderKeys);
+
+    await getMessageQueue().sendToGroup(message);
+  }
+
 }
 
 async function sendGroupUpdateForJoiningMembers(
