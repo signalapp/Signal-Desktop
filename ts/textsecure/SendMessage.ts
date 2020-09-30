@@ -1372,9 +1372,7 @@ export default class MessageSender {
     proto: DataMessageClass,
     timestamp = Date.now(),
     options = {}
-  ): Promise<
-    CallbackResultType | Omit<CallbackResultType, 'discoveredIdentifierPairs'>
-  > {
+  ): Promise<CallbackResultType> {
     const myE164 = window.textsecure.storage.user.getNumber();
     const myUuid = window.textsecure.storage.user.getUuid();
     const identifiers = providedIdentifiers.filter(
@@ -1383,11 +1381,12 @@ export default class MessageSender {
 
     if (identifiers.length === 0) {
       return Promise.resolve({
-        successfulIdentifiers: [],
-        failoverIdentifiers: [],
-        errors: [],
-        unidentifiedDeliveries: [],
         dataMessage: proto.toArrayBuffer(),
+        discoveredIdentifierPairs: [],
+        errors: [],
+        failoverIdentifiers: [],
+        successfulIdentifiers: [],
+        unidentifiedDeliveries: [],
       });
     }
 
@@ -1684,6 +1683,18 @@ export default class MessageSender {
     options: GroupCredentialsType
   ): Promise<GroupChangeClass> {
     return this.server.modifyGroup(changes, options);
+  }
+
+  async leaveGroup(
+    groupId: string,
+    groupIdentifiers: Array<string>,
+    options?: SendOptionsType
+  ): Promise<CallbackResultType> {
+    const proto = new window.textsecure.protobuf.DataMessage();
+    proto.group = new window.textsecure.protobuf.GroupContext();
+    proto.group.id = stringToArrayBuffer(groupId);
+    proto.group.type = window.textsecure.protobuf.GroupContext.Type.QUIT;
+    return this.sendGroupProto(groupIdentifiers, proto, Date.now(), options);
   }
 
   async sendExpirationTimerUpdateToGroup(
