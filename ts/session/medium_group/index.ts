@@ -13,7 +13,6 @@ import { getChainKey } from './ratchet';
 import { MultiDeviceProtocol } from '../protocols';
 import { BufferType } from '../utils/String';
 import { UserUtil } from '../../util';
-import { MediumGroupQuitMessage } from '../messages/outgoing/content/data/mediumgroup/MediumGroupQuitMessage';
 import {
   ClosedGroupChatMessage,
   ClosedGroupMessage,

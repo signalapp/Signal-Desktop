@@ -57,7 +57,6 @@ message MediumGroupUpdate {
         INFO       = 1; // groupPublicKey, name, senderKeys, members, admins
         SENDER_KEY = 2; // groupPublicKey, senderKeys
         SENDER_KEY_REQUEST = 3; // groupPublicKey
-        QUIT       = 4; // groupPublicKey
     }
 
     message SenderKey {

@@ -427,8 +427,6 @@ export async function handleMediumGroupUpdate(
     await handleNewGroup(envelope, groupUpdate);
   } else if (type === Type.INFO) {
     await handleMediumGroupChange(envelope, groupUpdate);
-  } else if (type === Type.QUIT) {
-    await handleQuit(envelope, groupUpdate);
   } else {
     window.log.error('Unknown group update type: ', type);
   }
