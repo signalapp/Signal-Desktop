@@ -1,10 +1,10 @@
 {
     "copyErrorAndQuit": {
-        "message": "Copy error and quit",
+        "message": "Скопіювати помилку та вийти",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "databaseError": {
-        "message": "Database Error",
+        "message": "Помилка бази даних",
         "description": "Shown in a popup if the database cannot start up properly"
     },
     "mainMenuFile": {
@@ -32,35 +32,35 @@
         "description": "Application menu command to hide the window"
     },
     "appMenuHideOthers": {
-        "message": "Hide Others",
+        "message": "Сховати інші",
         "description": "Application menu command to hide all other windows"
     },
     "appMenuUnhide": {
-        "message": "Show All",
+        "message": "Показати всі",
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "Quit Session",
+        "message": "Завершити сесію",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
-        "message": "Undo",
+        "message": "Назад",
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "Redo",
+        "message": "Вперед",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
-        "message": "Cut",
+        "message": "Вирізати",
         "description": "Edit menu command to remove selected text and add it to clipboard"
     },
     "editMenuCopy": {
-        "message": "Copy",
+        "message": "Копіювати",
         "description": "Edit menu command to add selected text to clipboard"
     },
     "editMenuPaste": {
-        "message": "Paste",
+        "message": "Вставити",
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
@@ -72,27 +72,27 @@
         "description": "Edit menu command to remove the selected text"
     },
     "editMenuSelectAll": {
-        "message": "Select All",
+        "message": "Вибрати все",
         "description": "Edit menu comand to select all of the text in selected text box"
     },
     "editMenuStartSpeaking": {
-        "message": "Start speaking",
+        "message": "Почати розмову",
         "description": "Edit menu item under 'speech' to start dictation"
     },
     "editMenuStopSpeaking": {
-        "message": "Stop speaking",
+        "message": "Закінчити розмову",
         "description": "Edit menu item under 'speech' to stop dictation"
     },
     "windowMenuClose": {
-        "message": "Close Window",
+        "message": "Закрити вікно",
         "description": "Window menu command to close the current window"
     },
     "windowMenuMinimize": {
-        "message": "Minimize",
+        "message": "Згорнути в трей",
         "description": "Window menu command to minimize the current window"
     },
     "windowMenuZoom": {
-        "message": "Zoom",
+        "message": "Збільшити",
         "description": "Window menu command to make the current window the size of the whole screen"
     },
     "windowMenuBringAllToFront": {
@@ -100,23 +100,23 @@
         "description": "Window menu command to bring all windows of current applicatinon to front"
     },
     "viewMenuResetZoom": {
-        "message": "Actual Size",
+        "message": "Актуальний розмір",
         "description": "View menu command to go back to the default zoom"
     },
     "viewMenuZoomIn": {
-        "message": "Zoom In",
+        "message": "Збільшити",
         "description": "View menu command to make everything bigger"
     },
     "viewMenuZoomOut": {
-        "message": "Zoom Out",
+        "message": "Зменшити",
         "description": "View menu command to make everything smaller"
     },
     "viewMenuToggleFullScreen": {
-        "message": "Toggle Full Screen",
+        "message": "Відкрити на повний екран",
         "description": "View menu command to enter or leave Full Screen mode"
     },
     "viewMenuToggleDevTools": {
-        "message": "Toggle Developer Tools",
+        "message": "Відкрити засоби розробника",
         "description": "View menu command to show or hide the developer tools"
     },
     "menuSetupWithImport": {
@@ -132,7 +132,7 @@
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Optimizing application...",
+        "message": "Оптимізація програми...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
@@ -146,11 +146,11 @@
         }
     },
     "chooseDirectory": {
-        "message": "Choose folder",
+        "message": "Обрати теку",
         "description": "Button to allow the user to find a folder on disk"
     },
     "loadDataHeader": {
-        "message": "Load your data",
+        "message": "Завантаження даних",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
@@ -162,11 +162,11 @@
         "description": "Title of the popup window used to select data previously exported"
     },
     "importErrorHeader": {
-        "message": "Something went wrong!",
+        "message": "Щось пішло не так!",
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "Loading contacts and messages",
+        "message": "Завантаження контактів та повідомлень",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
@@ -1084,7 +1084,7 @@
         "description": "Name for the conversation with your own phone number"
     },
     "startConversation": {
-        "message": "Start new conversation…",
+        "message": "Почати нову розмову…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "invalidNumberError": {
@@ -1112,7 +1112,7 @@
         "description": ""
     },
     "leftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ покинув групу",
         "description": "Shown in the conversation history when a single person leaves the group",
         "placeholders": {
             "name": {
@@ -1122,7 +1122,7 @@
         }
     },
     "multipleLeftTheGroup": {
-        "message": "$name$ left the group",
+        "message": "$name$ покинули групу",
         "description": "Shown in the conversation history when multiple people leave the group",
         "placeholders": {
             "name": {
@@ -1132,7 +1132,7 @@
         }
     },
     "updatedTheGroup": {
-        "message": "Group updated",
+        "message": "Групу оновлено",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
@@ -1146,7 +1146,7 @@
         }
     },
     "joinedTheGroup": {
-        "message": "$name$ joined the group",
+        "message": "$name$ приєднався до групи",
         "description": "Shown in the conversation history when a single person joins the group",
         "placeholders": {
             "name": {
@@ -1156,7 +1156,7 @@
         }
     },
     "multipleJoinedTheGroup": {
-        "message": "$names$ joined the group",
+        "message": "$names$ приєдналися до групи",
         "description": "Shown in the conversation history when more than one person joins the group",
         "placeholders": {
             "names": {
