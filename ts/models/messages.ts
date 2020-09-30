@@ -1529,6 +1529,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     this.set({
       isErased: true,
       body: '',
+      bodyRanges: undefined,
       attachments: [],
       quote: null,
       contact: [],
