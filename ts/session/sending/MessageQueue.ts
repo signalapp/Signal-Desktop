@@ -7,6 +7,7 @@ import {
   ClosedGroupMessage,
   ContentMessage,
   ExpirationTimerUpdateMessage,
+  MediumGroupMessage,
   OpenGroupMessage,
   SessionRequestMessage,
   SyncMessage,
@@ -51,7 +52,7 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   public async sendToGroup(
-    message: OpenGroupMessage | ContentMessage
+    message: OpenGroupMessage | ContentMessage | MediumGroupMessage
   ): Promise<void> {
     // Open groups
     if (message instanceof OpenGroupMessage) {
@@ -93,10 +94,17 @@ export class MessageQueue implements MessageQueueInterface {
       groupId = message.groupId;
     } else if (message instanceof ExpirationTimerUpdateMessage) {
       groupId = message.groupId;
+    } else if (message instanceof MediumGroupMessage) {
+      groupId = message.groupId;
     }
 
     if (!groupId) {
       throw new Error('Invalid group message passed in sendToGroup.');
+    }
+    // if this is a medium group message. We just need to send to the group pubkey
+    if (message instanceof MediumGroupMessage) {
+      window.log.warn('sending medium ', message, ' to ', groupId)
+      return this.send(PubKey.cast(groupId), message);
     }
 
     // Get devices in group

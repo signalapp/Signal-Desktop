@@ -307,7 +307,7 @@ async function handleMediumGroupChange(
     return;
   }
 
-  // // Check that the sender is admin (make sure it words with multidevice)
+  // Check that the sender is admin (make sure it words with multidevice)
   const isAdmin = true;
 
   if (!isAdmin) {
