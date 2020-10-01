@@ -3553,8 +3553,14 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   isMuted(): boolean {
-    return (this.get('muteExpiresAt') &&
-      Date.now() < this.get('muteExpiresAt')) as boolean;
+    return (
+      Boolean(this.get('muteExpiresAt')) &&
+      Date.now() < this.get('muteExpiresAt')
+    );
+  }
+
+  getMuteTimeoutId(): string {
+    return `mute(${this.get('id')})`;
   }
 
   async notify(message: WhatIsThis, reaction?: WhatIsThis): Promise<void> {

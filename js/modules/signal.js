@@ -121,6 +121,7 @@ const {
 } = require('../../ts/services/updateListener');
 const { notify } = require('../../ts/services/notify');
 const { calling } = require('../../ts/services/calling');
+const { onTimeout, removeTimeout } = require('../../ts/services/timers');
 const {
   enableStorageService,
   eraseAllStorageServiceState,
@@ -341,7 +342,9 @@ exports.setup = (options = {}) => {
     initializeGroupCredentialFetcher,
     initializeNetworkObserver,
     initializeUpdateListener,
+    onTimeout,
     notify,
+    removeTimeout,
     runStorageServiceSyncJob,
     storageServiceUploadJob,
   };

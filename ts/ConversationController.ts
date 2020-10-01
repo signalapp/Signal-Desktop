@@ -40,12 +40,31 @@ export function start(): void {
 
       this.on('add remove change:unreadCount', debouncedUpdateUnreadCount);
       window.Whisper.events.on('updateUnreadCount', debouncedUpdateUnreadCount);
+      this.on('add', (model: ConversationModel): void => {
+        this.initMuteExpirationTimer(model);
+      });
     },
     addActive(model: ConversationModel) {
       if (model.get('active_at')) {
         this.add(model);
       } else {
         this.remove(model);
+      }
+    },
+    // If the conversation is muted we set a timeout so when the mute expires
+    // we can reset the mute state on the model. If the mute has already expired
+    // then we reset the state right away.
+    initMuteExpirationTimer(model: ConversationModel): void {
+      if (model.isMuted()) {
+        window.Signal.Services.onTimeout(
+          model.get('muteExpiresAt'),
+          () => {
+            model.set({ muteExpiresAt: undefined });
+          },
+          model.getMuteTimeoutId()
+        );
+      } else if (model.get('muteExpiresAt')) {
+        model.set({ muteExpiresAt: undefined });
       }
     },
     updateUnreadCount() {

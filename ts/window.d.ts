@@ -190,6 +190,8 @@ declare global {
           updates: WhatIsThis,
           events: WhatIsThis
         ) => void;
+        onTimeout: (timestamp: number, cb: () => void, id?: string) => string;
+        removeTimeout: (uuid: string) => void;
         runStorageServiceSyncJob: () => Promise<void>;
         storageServiceUploadJob: () => void;
       };
