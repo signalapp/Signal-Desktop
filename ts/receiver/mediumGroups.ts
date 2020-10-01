@@ -362,69 +362,6 @@ async function handleMediumGroupChange(
   await removeFromCache(envelope);
 }
 
-async function handleQuit(
-  envelope: EnvelopePlus,
-  groupUpdate: SignalService.MediumGroupUpdate
-) {
-  const quitter = envelope.source;
-  const groupId = toHex(groupUpdate.groupPublicKey);
-
-  const quitterPrimary = await MultiDeviceProtocol.getPrimaryDevice(quitter);
-
-  const maybeConvo = await window.ConversationController.get(groupId);
-
-  if (!maybeConvo) {
-    window.log.warn('Received QUIT for a non-existing medium group');
-    await removeFromCache(envelope);
-    return;
-  }
-
-  const convo = maybeConvo;
-
-  // 1. Remove primary device from members:
-
-  const members = convo.get('members');
-
-  const membersUpdated = _.without(members, quitterPrimary.key);
-
-  convo.set({ members: membersUpdated });
-
-  convo.commit();
-
-  // 2. Show message (device left the group);
-
-  await SenderKeyAPI.addUpdateMessage(
-    convo,
-    { leavingMembers: [quitterPrimary.key] },
-    'incoming'
-  );
-
-  const ourNumber = (await UserUtil.getCurrentDevicePubKey()) as string;
-  const primary = await UserUtil.getPrimary();
-
-  if (quitterPrimary.key === primary.key) {
-    convo.set('isKickedFromGroup', true);
-    // Disable typing:
-    convo.updateTextInputState();
-    await convo.commit();
-
-    await removeFromCache(envelope);
-    return;
-  }
-
-  // 3. update your own sender key
-  const senderKey = await SenderKeyAPI.createSenderKeyForGroup(
-    groupId,
-    PubKey.cast(ourNumber)
-  );
-
-  // Send keys in the background
-  // tslint:disable-next-line no-floating-promises
-  shareSenderKeys(groupId, membersUpdated, senderKey);
-
-  await removeFromCache(envelope);
-}
-
 export async function handleMediumGroupUpdate(
   envelope: EnvelopePlus,
   groupUpdate: any
