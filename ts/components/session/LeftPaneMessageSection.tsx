@@ -307,7 +307,12 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         onButtonClick={async (
           groupName: string,
           groupMembers: Array<ContactType>
-        ) => this.onCreateClosedGroup(groupName, groupMembers, window.lokiFeatureFlags.enableSenderKeys)}
+        ) =>
+          this.onCreateClosedGroup(
+            groupName,
+            groupMembers
+          )
+        }
         searchTerm={searchTerm}
         updateSearch={this.updateSearchBound}
         showSpinner={loading}
@@ -490,13 +495,11 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
   private async onCreateClosedGroup(
     groupName: string,
-    groupMembers: Array<ContactType>,
-    senderKeys: boolean
+    groupMembers: Array<ContactType>
   ) {
     await MainViewController.createClosedGroup(
       groupName,
       groupMembers,
-      senderKeys,
       () => {
         this.handleToggleOverlay(undefined);
       }
