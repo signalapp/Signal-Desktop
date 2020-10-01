@@ -279,7 +279,10 @@ export async function handleDataMessage(
   envelope: EnvelopePlus,
   dataMessage: SignalService.IDataMessage
 ): Promise<void> {
-  window.log.info('data message from', getEnvelopeId(envelope));
+  window.log.info(
+    'data message from',
+    getEnvelopeId(envelope)
+  );
 
   if (dataMessage.mediumGroupUpdate) {
     await handleMediumGroupUpdate(envelope, dataMessage.mediumGroupUpdate);

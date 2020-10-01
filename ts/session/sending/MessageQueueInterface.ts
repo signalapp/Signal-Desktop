@@ -9,7 +9,10 @@ import { RawMessage } from '../types/RawMessage';
 import { TypedEventEmitter } from '../utils';
 import { PubKey } from '../types';
 
-type GroupMessageType = OpenGroupMessage | ClosedGroupMessage | MediumGroupMessage;
+type GroupMessageType =
+  | OpenGroupMessage
+  | ClosedGroupMessage
+  | MediumGroupMessage;
 
 export interface MessageQueueInterfaceEvents {
   success: (

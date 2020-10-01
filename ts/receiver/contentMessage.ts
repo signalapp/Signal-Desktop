@@ -19,6 +19,7 @@ import { BlockedNumberController } from '../util/blockedNumberController';
 import { decryptWithSenderKey } from '../session/medium_group/ratchet';
 import { StringUtils } from '../session/utils';
 import { UserUtil } from '../util';
+import { getMessageQueue } from '../session';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -89,8 +90,7 @@ async function decryptForMediumGroup(
     groupId,
     sourceAsStr
   );
-
-  return unpad(plaintext);
+  return plaintext ? unpad(plaintext) : null;
 }
 
 function unpad(paddedData: ArrayBuffer): ArrayBuffer {
@@ -288,28 +288,32 @@ async function decrypt(
 
     return plaintext;
   } catch (error) {
-    if (error && error instanceof textsecure.SenderKeyMissing) {
+    if (
+      error &&
+      (error instanceof textsecure.SenderKeyMissing ||
+        error instanceof DOMException)
+    ) {
       const groupId = envelope.source;
       const { senderIdentity } = error;
+      if (senderIdentity) {
+        log.info(
+          'Requesting missing key for identity: ',
+          senderIdentity,
+          'groupId: ',
+          groupId
+        );
 
-      log.info(
-        'Requesting missing key for identity: ',
-        senderIdentity,
-        'groupId: ',
-        groupId
-      );
+        const params = {
+          timestamp: Date.now(),
+          groupId,
+        };
 
-      const params = {
-        timestamp: Date.now(),
-        groupId,
-      };
+        const requestKeysMessage = new MediumGroupRequestKeysMessage(params);
+        const sender = new PubKey(senderIdentity);
+        void getMessageQueue().send(sender, requestKeysMessage);
 
-      const requestKeysMessage = new MediumGroupRequestKeysMessage(params);
-      const sender = new PubKey(senderIdentity);
-      // tslint:disable-next-line no-floating-promises
-      libsession.getMessageQueue().send(sender, requestKeysMessage);
-
-      return;
+        return;
+      }
     }
 
     let errorToThrow = error;

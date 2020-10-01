@@ -6,6 +6,7 @@ import {
 } from '../messages/outgoing';
 import { EncryptionType, PubKey } from '../types';
 import { SessionProtocol } from '../protocols';
+import { MediumGroupUpdateMessage } from '../messages/outgoing/content/data/mediumgroup/MediumGroupUpdateMessage';
 
 export async function toRawMessage(
   device: PubKey,
@@ -16,7 +17,10 @@ export async function toRawMessage(
   const plainTextBuffer = message.plainTextBuffer();
 
   let encryption: EncryptionType;
-  if (message instanceof MediumGroupChatMessage) {
+  if (
+    message instanceof MediumGroupChatMessage ||
+    message instanceof MediumGroupUpdateMessage
+  ) {
     encryption = EncryptionType.MediumGroup;
   } else if (message instanceof SessionRequestMessage) {
     encryption = EncryptionType.Fallback;

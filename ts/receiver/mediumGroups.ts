@@ -243,10 +243,10 @@ function sanityCheckMediumGroupUpdate(
   const joining = diff.joiningMembers || [];
   const leaving = diff.leavingMembers || [];
 
-  // 1. When there are no member changes, we don't expect any sender keys
+  // 1. When there are no member changes, we expect all sender keys
   if (!joining.length && !leaving.length) {
-    if (groupUpdate.senderKeys.length) {
-      window.log.error('Unexpected sender keys in group update');
+    if (groupUpdate.senderKeys.length !== groupUpdate.members.length) {
+      window.log.error('Incorrect number of sender keys in group update');
     }
   }
 
@@ -270,13 +270,10 @@ async function handleMediumGroupChange(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.MediumGroupUpdate
 ) {
-  const senderIdentity = envelope.source;
-
   const {
     name,
     groupPublicKey,
     members: membersBinary,
-    admins: adminsBinary,
     senderKeys,
   } = groupUpdate;
   const { log } = window;
@@ -342,6 +339,7 @@ async function handleMediumGroupChange(
     convo.set('isKickedFromGroup', true);
     // Disable typing:
     convo.updateTextInputState();
+    window.SwarmPolling.removePubkey(groupId);
   }
 
   await convo.commit();

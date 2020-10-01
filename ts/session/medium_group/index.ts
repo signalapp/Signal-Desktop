@@ -208,18 +208,17 @@ export async function leaveMediumGroup(groupId: string) {
     sent_at: now,
     received_at: now,
   });
+  const ourPrimary = await UserUtil.getPrimary();
 
+  const members = convo.get('members').filter(m => m !== ourPrimary.key);
   // do not include senderkey as everyone needs to generate new one
   const groupUpdate: GroupInfo = {
     id: convo.get('id'),
     name: convo.get('name'),
-    members: convo.get('members'),
+    members,
     is_medium_group: true,
     admins: convo.get('groupAdmins'),
-    senderKeysContainer: undefined,
   };
-
-  const ourPrimary = await UserUtil.getPrimary();
 
   await sendGroupUpdateForMedium(
     { leavingMembers: [ourPrimary.key] },
@@ -260,24 +259,23 @@ async function getExistingSenderKeysForGroup(
   return maybeKeys.filter(d => d !== null).map(d => d as RatchetState);
 }
 
-// Create all sender keys based on the changes in
-// the group's composition
-async function getOrCreateSenderKeysForUpdate(
+// Get a list of senderKeys we have to send to joining members
+// Basically this is the senderkey of all members who joined concatenated with
+// the one of members currently in the group.
+
+// Also, the list of senderkeys for existing member must be empty if there is any leaving members,
+// as they each member need to regenerate a new senderkey
+async function getOrUpdateSenderKeysForJoiningMembers(
   groupId: string,
   members: Array<string>,
-  changes: MemberChanges
-): Promise<SenderKeysContainer> {
-  // 1. Create sender keys for every joining member
-  const joining = changes.joiningMembers || [];
-  const leaving = changes.leavingMembers || [];
+  diff?: GroupDiff,
+  joiningMembersSenderKeys?: Array<RatchetState>
+): Promise<Array<RatchetState>> {
+  const leavingMembers = diff?.leavingMembers || [];
+  const joiningMembers = diff?.joiningMembers || [];
 
-  let newKeys = await createSenderKeysForMembers(groupId, joining);
-
-  // 2. Get ratchet states for existing members
-
-  const existingMembers = _.difference(members, joining);
+  const existingMembers = _.difference(members, joiningMembers);
   // get all devices for members
-
   const allDevices = _.flatten(
     await Promise.all(
       existingMembers.map(m => MultiDeviceProtocol.getAllDevices(m))
@@ -285,23 +283,10 @@ async function getOrCreateSenderKeysForUpdate(
   );
 
   let existingKeys: Array<RatchetState> = [];
-
-  if (leaving.length > 0) {
-    // If we have leaving members, we have to re-generate ratchet
-    // keys for existing members
-    const otherKeys = await Promise.all(
-      allDevices.map(async device => {
-        return createSenderKeyForGroup(groupId, PubKey.cast(device));
-      })
-    );
-
-    newKeys = _.union(newKeys, otherKeys);
-  } else {
-    // We can reuse existing keys
+  if (leavingMembers.length === 0) {
     existingKeys = await getExistingSenderKeysForGroup(groupId, allDevices);
   }
-
-  return { existingKeys, newKeys };
+  return _.union(joiningMembersSenderKeys, existingKeys);
 }
 
 async function getGroupSecretKey(groupId: string): Promise<Uint8Array> {
@@ -322,6 +307,9 @@ async function getGroupSecretKey(groupId: string): Promise<Uint8Array> {
 }
 
 async function syncMediumGroup(group: ConversationModel) {
+  throw new Error(
+    'Medium group syncing must be done once multi device is enabled back'
+  );
   const ourPrimary = await UserUtil.getPrimary();
 
   const groupId = group.get('id');
@@ -352,7 +340,6 @@ async function syncMediumGroup(group: ConversationModel) {
     members: group.get('members'),
     is_medium_group: true,
     admins: group.get('groupAdmins'),
-    senderKeysContainer,
     secretKey,
   };
 
@@ -418,12 +405,7 @@ export async function initiateGroupUpdate(
   };
 
   if (isMediumGroup) {
-    // Send sender keys and group secret key
-    updateObj.senderKeysContainer = await getOrCreateSenderKeysForUpdate(
-      groupId,
-      members,
-      diff
-    );
+    // Send group secret key
     const secretKey = await getGroupSecretKey(groupId);
 
     updateObj.secretKey = secretKey;
@@ -531,7 +513,6 @@ interface GroupInfo {
   blocked?: boolean;
   admins?: Array<string>;
   secretKey?: Uint8Array;
-  senderKeysContainer?: SenderKeysContainer;
 }
 
 interface UpdatableGroupState {
@@ -605,15 +586,16 @@ export function calculateGroupDiff(
   return groupDiff;
 }
 
-async function sendGroupUpdateForExistingMembers(
-  leavingMembers: Array<string>,
-  remainingMembers: Array<string>,
+async function sendGroupUpdateForMedium(
+  diff: MemberChanges,
   groupUpdate: GroupInfo,
   messageId?: string
 ) {
   const { id: groupId, members, name: groupName } = groupUpdate;
   const ourPrimary = await UserUtil.getPrimary();
 
+  const leavingMembers = diff.leavingMembers || [];
+  const joiningMembers = diff.joiningMembers || [];
   const wasAnyUserRemoved = leavingMembers.length > 0;
   const isUserLeaving = leavingMembers.includes(ourPrimary.key);
 
@@ -626,10 +608,7 @@ async function sendGroupUpdateForExistingMembers(
     (pkHex: string) => new Uint8Array(fromHex(pkHex))
   );
 
-  // Existing members only receive new sender keys
-  const senderKeys = groupUpdate.senderKeysContainer
-    ? groupUpdate.senderKeysContainer.newKeys
-    : [];
+  const remainingMembers = _.difference(groupUpdate.members, joiningMembers);
 
   const params = {
     timestamp: Date.now(),
@@ -638,7 +617,6 @@ async function sendGroupUpdateForExistingMembers(
     members: membersBin,
     groupName,
     admins: adminsBin,
-    senderKeys: senderKeys,
   };
 
   if (wasAnyUserRemoved) {
@@ -652,116 +630,101 @@ async function sendGroupUpdateForExistingMembers(
       senderKeys: [],
     };
 
-    const messageStripped = new MediumGroupUpdateMessage(paramsWithoutSenderKeys);
+    const messageStripped = new MediumGroupUpdateMessage(
+      paramsWithoutSenderKeys
+    );
     window.log.warn('Sending to groupUpdateMessage without senderKeys');
     await getMessageQueue().sendToGroup(messageStripped);
 
-    // TODO Delete all ratchets (it's important that this happens * after * sending out the update)
-    if (isUserLeaving) {
-      // nothing to do on desktop
-    } else {
-      // Send out the user's new ratchet to all members (minus the removed ones) using established channels
-      const ourPrimaryKey = new Uint8Array(fromHex(ourPrimary.key))
-      const ourNewSenderKey = senderKeys.find(s => _.isEqual(s.pubKey, ourPrimaryKey));
+    getMessageQueue().events.addListener('success', async message => {
+      if (message.identifier === params.identifier) {
+        // console.log('Our first message encrypted with old sk is sent.');
+        // TODO Delete all ratchets (it's important that this happens * after * sending out the update)
+        if (isUserLeaving) {
+          // nothing to do on desktop
+        } else {
+          // Send out the user's new ratchet to all members (minus the removed ones) using established channels
+          const userSenderKey = await createSenderKeyForGroup(
+            groupId,
+            ourPrimary
+          );
+          window.log.warn(
+            'Sharing our new senderKey with remainingMembers via message',
+            remainingMembers,
+            userSenderKey
+          );
 
-      if (! ourNewSenderKey) {
-        window.console.warn('We need to share our senderkey with remaining member but our senderKeys was not given.');
-      } else {
-        window.log.warn('Sharing our new senderKey with remainingMembers via message', remainingMembers, ourNewSenderKey);
-        await shareSenderKeys(groupId, remainingMembers, ourNewSenderKey);
+          await shareSenderKeys(groupId, remainingMembers, userSenderKey);
+        }
       }
-
-    }
+    });
   } else {
-    const message = new MediumGroupUpdateMessage(params);
-    window.log.warn('Sending to groupUpdateMessage with senderKeys to groupAddress', senderKeys);
+    let senderKeys: Array<RatchetState>;
+    if (joiningMembers.length > 0) {
+      // Generate ratchets for any new members
+      senderKeys = await createSenderKeysForMembers(groupId, joiningMembers);
+    } else {
+      // It's not a member change, maybe an name change. So just reuse all senderkeys
+      senderKeys = await getOrUpdateSenderKeysForJoiningMembers(
+        groupId,
+        members
+      );
+    }
+    const paramsWithSenderKeys = {
+      ...params,
+      senderKeys,
+    };
+    // Send a closed group update message to the existing members with the new members' ratchets (this message is aimed at the group)
+    const message = new MediumGroupUpdateMessage(paramsWithSenderKeys);
+    window.log.warn(
+      'Sending to groupUpdateMessage with joining members senderKeys to groupAddress',
+      senderKeys
+    );
 
     await getMessageQueue().sendToGroup(message);
-  }
 
-}
+    // now send a CREATE group message with all senderkeys no matter what to all joining members, using established channels
+    if (joiningMembers.length) {
+      const { secretKey } = groupUpdate;
 
-async function sendGroupUpdateForJoiningMembers(
-  recipients: Array<string>,
-  groupUpdate: GroupInfo,
-  messageId?: string
-) {
-  const { id: groupId, name, members } = groupUpdate;
+      if (!secretKey) {
+        window.log.error('Group secret key not specified, aborting...');
+        return;
+      }
+      const allSenderKeys = await getOrUpdateSenderKeysForJoiningMembers(
+        groupId,
+        members
+      );
 
-  const now = Date.now();
+      const createParams = {
+        timestamp: Date.now(),
+        identifier: messageId || uuid(),
+        groupSecretKey: secretKey,
+        groupId,
+        members: membersBin,
+        groupName,
+        admins: adminsBin,
+        senderKeys: allSenderKeys,
+      };
 
-  const { secretKey, senderKeysContainer } = groupUpdate;
+      const mediumGroupCreateMessage = new MediumGroupCreateMessage(
+        createParams
+      );
+      // console.warn(
+      //   'sending group create to',
+      //   joiningMembers,
+      //   ' obj: ',
+      //   mediumGroupCreateMessage
+      // );
 
-  if (!secretKey) {
-    window.log.error('Group secret key not specified, aborting...');
-    return;
-  }
-
-  let senderKeys: Array<RatchetState> = [];
-  if (!senderKeysContainer) {
-    window.log.warn('Sender keys for joining members not found');
-  } else {
-    // Joining members should receive all known sender keys
-    senderKeys = _.union(
-      senderKeysContainer.existingKeys,
-      senderKeysContainer.newKeys
-    );
-  }
-
-  const membersBin = members.map(
-    (pkHex: string) => new Uint8Array(fromHex(pkHex))
-  );
-
-  const admins = groupUpdate.admins || [];
-
-  const adminsBin = admins.map(
-    (pkHex: string) => new Uint8Array(fromHex(pkHex))
-  );
-
-  const createParams = {
-    timestamp: now,
-    groupId,
-    identifier: messageId || uuid(),
-    groupSecretKey: secretKey,
-    members: membersBin,
-    groupName: name,
-    admins: adminsBin,
-    senderKeys,
-  };
-
-  const mediumGroupCreateMessage = new MediumGroupCreateMessage(createParams);
-
-  recipients.forEach(async member => {
-    const memberPubKey = new PubKey(member);
-    await getMessageQueue().sendUsingMultiDevice(
-      memberPubKey,
-      mediumGroupCreateMessage
-    );
-  });
-}
-
-async function sendGroupUpdateForMedium(
-  diff: MemberChanges,
-  groupUpdate: GroupInfo,
-  messageId?: string
-) {
-  const joining = diff.joiningMembers || [];
-  const leaving = diff.leavingMembers || [];
-
-  // 1. create group for all joining members (send timeout timer if necessary)
-  if (joining.length) {
-    await sendGroupUpdateForJoiningMembers(joining, groupUpdate, messageId);
-  }
-
-  // 2. send group update to all other members
-  const others = _.difference(groupUpdate.members, joining);
-  if (others.length) {
-    await sendGroupUpdateForExistingMembers(
-      leaving,
-      others,
-      groupUpdate,
-      messageId
-    );
+      joiningMembers.forEach(async member => {
+        const memberPubKey = new PubKey(member);
+        await getMessageQueue().sendUsingMultiDevice(
+          memberPubKey,
+          mediumGroupCreateMessage
+        );
+      });
+    }
   }
 }
 

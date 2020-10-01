@@ -7,6 +7,7 @@ import {
   ClosedGroupMessage,
   ContentMessage,
   ExpirationTimerUpdateMessage,
+  MediumGroupChatMessage,
   MediumGroupMessage,
   OpenGroupMessage,
   SessionRequestMessage,
@@ -102,8 +103,10 @@ export class MessageQueue implements MessageQueueInterface {
       throw new Error('Invalid group message passed in sendToGroup.');
     }
     // if this is a medium group message. We just need to send to the group pubkey
-    if (message instanceof MediumGroupMessage) {
-      window.log.warn('sending medium ', message, ' to ', groupId)
+    if (
+      message instanceof MediumGroupMessage ||
+      message instanceof MediumGroupChatMessage
+    ) {
       return this.send(PubKey.cast(groupId), message);
     }
 
