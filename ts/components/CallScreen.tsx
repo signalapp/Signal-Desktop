@@ -56,11 +56,9 @@ type StateType = {
 };
 
 export class CallScreen extends React.Component<PropsType, StateType> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private interval: any;
+  private interval: NodeJS.Timeout | null;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private controlsFadeTimer: any;
+  private controlsFadeTimer: NodeJS.Timeout | null;
 
   private readonly localVideoRef: React.RefObject<HTMLVideoElement>;
 

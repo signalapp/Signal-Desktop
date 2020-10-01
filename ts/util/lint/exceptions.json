@@ -12863,7 +12863,7 @@
     "rule": "React-createRef",
     "path": "ts/components/CallScreen.tsx",
     "line": "    this.localVideoRef = React.createRef();",
-    "lineNumber": 80,
+    "lineNumber": 78,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-02T21:51:34.813Z",
     "reasonDetail": "Used to render local preview video"
@@ -12872,7 +12872,7 @@
     "rule": "React-createRef",
     "path": "ts/components/CallScreen.tsx",
     "line": "    this.remoteVideoRef = React.createRef();",
-    "lineNumber": 81,
+    "lineNumber": 79,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-14T23:03:44.863Z"
   },
