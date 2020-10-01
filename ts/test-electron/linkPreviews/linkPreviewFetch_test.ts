@@ -3,7 +3,7 @@ import * as sinon from 'sinon';
 import * as fs from 'fs';
 import * as path from 'path';
 import AbortController from 'abort-controller';
-import { MIMEType } from '../../types/MIME';
+import { MIMEType, IMAGE_JPEG } from '../../types/MIME';
 
 import {
   fetchLinkPreviewImage,
@@ -178,9 +178,9 @@ describe('link preview fetching', () => {
       );
     });
 
-    it("returns null if the response status code isn't 2xx or 3xx", async () => {
+    it("returns null if the response status code isn't 2xx", async () => {
       await Promise.all(
-        [100, 400, 404, 500, 0, -200].map(async status => {
+        [100, 304, 400, 404, 500, 0, -200].map(async status => {
           const fakeFetch = stub().resolves(makeResponse({ status }));
 
           assert.isNull(
@@ -199,7 +199,7 @@ describe('link preview fetching', () => {
       );
     });
 
-    it('asks fetch to follow redirects', async () => {
+    it("doesn't use fetch's automatic redirection behavior", async () => {
       const fakeFetch = stub().resolves(makeResponse());
 
       await fetchLinkPreviewMetadata(
@@ -211,8 +211,158 @@ describe('link preview fetching', () => {
       sinon.assert.calledWith(
         fakeFetch,
         'https://example.com',
-        sinon.match({ redirect: 'follow' })
+        sinon.match({ redirect: 'manual' })
       );
+    });
+
+    [301, 302, 303, 307, 308].forEach(status => {
+      it(`handles ${status} redirects`, async () => {
+        const fakeFetch = stub();
+        fakeFetch.onFirstCall().resolves(
+          makeResponse({
+            status,
+            headers: { Location: 'https://example.com/2' },
+            body: null,
+          })
+        );
+        fakeFetch.onSecondCall().resolves(makeResponse());
+
+        assert.deepEqual(
+          await fetchLinkPreviewMetadata(
+            fakeFetch,
+            'https://example.com',
+            new AbortController().signal
+          ),
+          {
+            title: 'test title',
+            description: null,
+            date: null,
+            imageHref: null,
+          }
+        );
+
+        sinon.assert.calledTwice(fakeFetch);
+        sinon.assert.calledWith(fakeFetch.getCall(0), 'https://example.com');
+        sinon.assert.calledWith(fakeFetch.getCall(1), 'https://example.com/2');
+      });
+
+      it(`returns null when seeing a ${status} status with no Location header`, async () => {
+        const fakeFetch = stub().resolves(makeResponse({ status }));
+
+        assert.isNull(
+          await fetchLinkPreviewMetadata(
+            fakeFetch,
+            'https://example.com',
+            new AbortController().signal
+          )
+        );
+      });
+    });
+
+    it('handles relative redirects', async () => {
+      const fakeFetch = stub();
+      fakeFetch.onFirstCall().resolves(
+        makeResponse({
+          status: 301,
+          headers: { Location: '/2/' },
+          body: null,
+        })
+      );
+      fakeFetch.onSecondCall().resolves(
+        makeResponse({
+          status: 301,
+          headers: { Location: '3' },
+          body: null,
+        })
+      );
+      fakeFetch.onThirdCall().resolves(makeResponse());
+
+      assert.deepEqual(
+        await fetchLinkPreviewMetadata(
+          fakeFetch,
+          'https://example.com',
+          new AbortController().signal
+        ),
+        {
+          title: 'test title',
+          description: null,
+          date: null,
+          imageHref: null,
+        }
+      );
+
+      sinon.assert.calledThrice(fakeFetch);
+      sinon.assert.calledWith(fakeFetch.getCall(0), 'https://example.com');
+      sinon.assert.calledWith(fakeFetch.getCall(1), 'https://example.com/2/');
+      sinon.assert.calledWith(fakeFetch.getCall(2), 'https://example.com/2/3');
+    });
+
+    it('returns null if redirecting to an insecure HTTP URL', async () => {
+      const fakeFetch = stub().resolves(
+        makeResponse({
+          status: 301,
+          headers: { Location: 'http://example.com' },
+          body: null,
+        })
+      );
+
+      assert.isNull(
+        await fetchLinkPreviewMetadata(
+          fakeFetch,
+          'https://example.com',
+          new AbortController().signal
+        )
+      );
+
+      sinon.assert.calledOnce(fakeFetch);
+    });
+
+    it("returns null if there's a redirection loop", async () => {
+      const fakeFetch = stub();
+      fakeFetch.onFirstCall().resolves(
+        makeResponse({
+          status: 301,
+          headers: { Location: '/2/' },
+          body: null,
+        })
+      );
+      fakeFetch.onSecondCall().resolves(
+        makeResponse({
+          status: 301,
+          headers: { Location: '/start' },
+          body: null,
+        })
+      );
+
+      assert.isNull(
+        await fetchLinkPreviewMetadata(
+          fakeFetch,
+          'https://example.com/start',
+          new AbortController().signal
+        )
+      );
+
+      sinon.assert.calledTwice(fakeFetch);
+    });
+
+    it('returns null if redirecting more than 20 times', async () => {
+      const fakeFetch = stub().callsFake(async () =>
+        makeResponse({
+          status: 301,
+          headers: { Location: `/${Math.random()}` },
+          body: null,
+        })
+      );
+
+      assert.isNull(
+        await fetchLinkPreviewMetadata(
+          fakeFetch,
+          'https://example.com/start',
+          new AbortController().signal
+        )
+      );
+
+      sinon.assert.callCount(fakeFetch, 20);
     });
 
     it('returns null if the response has no body', async () => {
@@ -990,7 +1140,7 @@ describe('link preview fetching', () => {
       );
     });
 
-    it("returns null if the response status code isn't 2xx or 3xx", async () => {
+    it("returns null if the response status code isn't 2xx", async () => {
       const fixture = await readFixture('kitten-1-64-64.jpg');
 
       await Promise.all(
@@ -1018,6 +1168,48 @@ describe('link preview fetching', () => {
             `fetchLinkPreviewImage: got a ${status} status code; bailing`
           );
         })
+      );
+    });
+
+    // Most of the redirect behavior is tested above.
+    it('handles 301 redirects', async () => {
+      const fixture = await readFixture('kitten-1-64-64.jpg');
+
+      const fakeFetch = stub();
+      fakeFetch.onFirstCall().resolves(
+        new Response(null, {
+          status: 301,
+          headers: {
+            Location: '/result.jpg',
+          },
+        })
+      );
+      fakeFetch.onSecondCall().resolves(
+        new Response(fixture, {
+          headers: {
+            'Content-Type': IMAGE_JPEG,
+            'Content-Length': fixture.length.toString(),
+          },
+        })
+      );
+
+      assert.deepEqual(
+        await fetchLinkPreviewImage(
+          fakeFetch,
+          'https://example.com/img',
+          new AbortController().signal
+        ),
+        {
+          data: fixture.buffer,
+          contentType: IMAGE_JPEG,
+        }
+      );
+
+      sinon.assert.calledTwice(fakeFetch);
+      sinon.assert.calledWith(fakeFetch.getCall(0), 'https://example.com/img');
+      sinon.assert.calledWith(
+        fakeFetch.getCall(1),
+        'https://example.com/result.jpg'
       );
     });
 
