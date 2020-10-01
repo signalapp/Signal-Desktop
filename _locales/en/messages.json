@@ -2845,6 +2845,16 @@
     "message": "Start a video call",
     "description": "Title for the video call button in a conversation"
   },
+  "callNeedPermission": {
+    "message": "$title$ will get a message request from you. You can call once your message request has been accepted.",
+    "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
+    "placeholders": {
+      "title": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
   "callReconnecting": {
     "message": "Reconnecting...",
     "description": "Shown in the call screen when the call is reconnecting due to network issues"

@@ -7,6 +7,27 @@ export enum CallState {
   Ended = 'ended',
 }
 
+// Must be kept in sync with RingRTC.CallEndedReason
+export enum CallEndedReason {
+  LocalHangup = 'LocalHangup',
+  RemoteHangup = 'RemoteHangup',
+  RemoteHangupNeedPermission = 'RemoteHangupNeedPermission',
+  Declined = 'Declined',
+  Busy = 'Busy',
+  Glare = 'Glare',
+  ReceivedOfferExpired = 'ReceivedOfferExpired',
+  ReceivedOfferWhileActive = 'ReceivedOfferWhileActive',
+  ReceivedOfferWithGlare = 'ReceivedOfferWithGlare',
+  SignalingFailure = 'SignalingFailure',
+  ConnectionFailure = 'ConnectionFailure',
+  InternalFailure = 'InternalFailure',
+  Timeout = 'Timeout',
+  AcceptedOnAnotherDevice = 'AcceptedOnAnotherDevice',
+  DeclinedOnAnotherDevice = 'DeclinedOnAnotherDevice',
+  BusyOnAnotherDevice = 'BusyOnAnotherDevice',
+  CallerIsNotMultiring = 'CallerIsNotMultiring',
+}
+
 // Must be kept in sync with RingRTC.AudioDevice
 export interface AudioDevice {
   // Device name.

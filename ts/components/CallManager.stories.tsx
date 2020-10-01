@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { CallManager } from './CallManager';
-import { CallState } from '../types/Calling';
+import { CallEndedReason, CallState } from '../types/Calling';
 import { ColorType } from '../types/Colors';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -27,6 +27,7 @@ const defaultProps = {
   acceptCall: action('accept-call'),
   callDetails,
   callState: CallState.Accepted,
+  closeNeedPermissionScreen: action('close-need-permission-screen'),
   declineCall: action('decline-call'),
   hangUp: action('hang-up'),
   hasLocalAudio: true,
@@ -53,6 +54,13 @@ const permutations = [
     title: 'Call Manager (ringing)',
     props: {
       callState: CallState.Ringing,
+    },
+  },
+  {
+    title: 'Call Manager (call request needed)',
+    props: {
+      callState: CallState.Ended,
+      callEndedReason: CallEndedReason.RemoteHangupNeedPermission,
     },
   },
 ];

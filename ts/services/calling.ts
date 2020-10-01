@@ -672,6 +672,7 @@ export class CallingClass {
       uxActions.callStateChange({
         callState: call.state,
         callDetails: this.getUxCallDetails(conversation, call),
+        callEndedReason: call.endedReason,
       });
     };
 

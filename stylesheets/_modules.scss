@@ -5802,6 +5802,8 @@ button.module-image__border-overlay:focus {
   }
 }
 
+// Module: Calling
+
 .module-incoming-call {
   align-items: center;
   background-color: $color-gray-75;
@@ -6022,7 +6024,8 @@ button.module-image__border-overlay:focus {
   }
 }
 
-.module-ongoing-call {
+.module-ongoing-call,
+.module-call-need-permission-screen {
   background-color: $color-gray-95;
   height: 100vh;
   width: 100%;
@@ -6251,6 +6254,30 @@ button.module-image__border-overlay:focus {
         @include color-svg('../images/icons/v2/expand-24.svg', $color-gray-15);
       }
     }
+  }
+}
+
+.module-call-need-permission-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: $color-gray-05;
+
+  &__text {
+    margin: 2em 1em;
+    max-width: 400px;
+    @include font-body-1;
+    text-align: center;
+  }
+
+  &__button {
+    padding: 0.5em 1em;
+    border: 0;
+    border-radius: 4px;
+    @include font-body-1-bold;
+    color: $color-gray-05;
+    background: $color-gray-65;
   }
 }
 

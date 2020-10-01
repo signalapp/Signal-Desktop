@@ -1,17 +1,20 @@
 import React from 'react';
 import { CallingPip } from './CallingPip';
+import { CallNeedPermissionScreen } from './CallNeedPermissionScreen';
 import { CallScreen, PropsType as CallScreenPropsType } from './CallScreen';
 import {
   IncomingCallBar,
   PropsType as IncomingCallBarPropsType,
 } from './IncomingCallBar';
-import { CallState } from '../types/Calling';
+import { CallState, CallEndedReason } from '../types/Calling';
 import { CallDetailsType } from '../state/ducks/calling';
 
 type CallManagerPropsType = {
   callDetails?: CallDetailsType;
   callState?: CallState;
+  callEndedReason?: CallEndedReason;
   pip: boolean;
+  closeNeedPermissionScreen: () => void;
   renderDeviceSelection: () => JSX.Element;
   settingsDialogOpen: boolean;
 };
@@ -24,6 +27,8 @@ export const CallManager = ({
   acceptCall,
   callDetails,
   callState,
+  callEndedReason,
+  closeNeedPermissionScreen,
   declineCall,
   hangUp,
   hasLocalAudio,
@@ -48,6 +53,20 @@ export const CallManager = ({
   const ongoing =
     callState === CallState.Accepted || callState === CallState.Reconnecting;
   const ringing = callState === CallState.Ringing;
+  const ended = callState === CallState.Ended;
+
+  if (ended) {
+    if (callEndedReason === CallEndedReason.RemoteHangupNeedPermission) {
+      return (
+        <CallNeedPermissionScreen
+          close={closeNeedPermissionScreen}
+          callDetails={callDetails}
+          i18n={i18n}
+        />
+      );
+    }
+    return null;
+  }
 
   if (outgoing || ongoing) {
     if (pip) {
@@ -98,6 +117,6 @@ export const CallManager = ({
     );
   }
 
-  // Ended || (Incoming && Prering)
+  // Incoming && Prering
   return null;
 };

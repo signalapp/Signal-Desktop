@@ -1,3 +1,4 @@
+import { CallEndedReason } from 'ringrtc';
 import { notify } from '../../services/notify';
 import { calling } from '../../services/calling';
 import {
@@ -35,6 +36,7 @@ export type CallDetailsType = {
 export type CallingStateType = MediaDeviceSettings & {
   callDetails?: CallDetailsType;
   callState?: CallState;
+  callEndedReason?: CallEndedReason;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   hasRemoteVideo: boolean;
@@ -50,6 +52,7 @@ export type AcceptCallType = {
 export type CallStateChangeType = {
   callState: CallState;
   callDetails: CallDetailsType;
+  callEndedReason?: CallEndedReason;
 };
 
 export type DeclineCallType = {
@@ -97,6 +100,7 @@ const CALL_STATE_CHANGE = 'calling/CALL_STATE_CHANGE';
 const CALL_STATE_CHANGE_FULFILLED = 'calling/CALL_STATE_CHANGE_FULFILLED';
 const CHANGE_IO_DEVICE = 'calling/CHANGE_IO_DEVICE';
 const CHANGE_IO_DEVICE_FULFILLED = 'calling/CHANGE_IO_DEVICE_FULFILLED';
+const CLOSE_NEED_PERMISSION_SCREEN = 'calling/CLOSE_NEED_PERMISSION_SCREEN';
 const DECLINE_CALL = 'calling/DECLINE_CALL';
 const HANG_UP = 'calling/HANG_UP';
 const INCOMING_CALL = 'calling/INCOMING_CALL';
@@ -132,6 +136,11 @@ type ChangeIODeviceActionType = {
 type ChangeIODeviceFulfilledActionType = {
   type: 'calling/CHANGE_IO_DEVICE_FULFILLED';
   payload: ChangeIODevicePayloadType;
+};
+
+type CloseNeedPermissionScreenActionType = {
+  type: 'calling/CLOSE_NEED_PERMISSION_SCREEN';
+  payload: null;
 };
 
 type DeclineCallActionType = {
@@ -193,6 +202,7 @@ export type CallingActionType =
   | CallStateChangeFulfilledActionType
   | ChangeIODeviceActionType
   | ChangeIODeviceFulfilledActionType
+  | CloseNeedPermissionScreenActionType
   | DeclineCallActionType
   | HangUpActionType
   | IncomingCallActionType
@@ -295,6 +305,13 @@ async function showCallNotification(callDetails: CallDetailsType) {
     },
     silent: false,
   });
+}
+
+function closeNeedPermissionScreen(): CloseNeedPermissionScreenActionType {
+  return {
+    type: CLOSE_NEED_PERMISSION_SCREEN,
+    payload: null,
+  };
 }
 
 function declineCall(payload: DeclineCallType): DeclineCallActionType {
@@ -413,6 +430,7 @@ export const actions = {
   acceptCall,
   callStateChange,
   changeIODevice,
+  closeNeedPermissionScreen,
   declineCall,
   hangUp,
   incomingCall,
@@ -438,6 +456,7 @@ function getEmptyState(): CallingStateType {
     availableSpeakers: [],
     callDetails: undefined,
     callState: undefined,
+    callEndedReason: undefined,
     hasLocalAudio: false,
     hasLocalVideo: false,
     hasRemoteVideo: false,
@@ -461,7 +480,11 @@ export function reducer(
     };
   }
 
-  if (action.type === DECLINE_CALL || action.type === HANG_UP) {
+  if (
+    action.type === DECLINE_CALL ||
+    action.type === HANG_UP ||
+    action.type === CLOSE_NEED_PERMISSION_SCREEN
+  ) {
     return getEmptyState();
   }
 
@@ -484,12 +507,19 @@ export function reducer(
   }
 
   if (action.type === CALL_STATE_CHANGE_FULFILLED) {
-    if (action.payload.callState === CallState.Ended) {
+    // We want to keep the state around for ended calls if they resulted in a message
+    //   request so we can show the "needs permission" screen.
+    if (
+      action.payload.callState === CallState.Ended &&
+      action.payload.callEndedReason !==
+        CallEndedReason.RemoteHangupNeedPermission
+    ) {
       return getEmptyState();
     }
     return {
       ...state,
       callState: action.payload.callState,
+      callEndedReason: action.payload.callEndedReason,
     };
   }
 
