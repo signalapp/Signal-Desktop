@@ -412,3 +412,4 @@ export function getMessagesWithFileAttachments(
 // Sender Keys
 export function getSenderKeys(groupId: any, senderIdentity: any): Promise<any>;
 export function createOrUpdateSenderKeys(data: any): Promise<void>;
+export function removeAllClosedGroupRatchets(groupId: string): Promise<void>;

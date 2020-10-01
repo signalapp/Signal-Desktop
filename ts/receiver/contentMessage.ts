@@ -19,7 +19,6 @@ import { BlockedNumberController } from '../util/blockedNumberController';
 import { decryptWithSenderKey } from '../session/medium_group/ratchet';
 import { StringUtils } from '../session/utils';
 import { UserUtil } from '../util';
-import { getMessageQueue } from '../session';
 
 export async function handleContentMessage(envelope: EnvelopePlus) {
   try {
@@ -310,7 +309,7 @@ async function decrypt(
 
         const requestKeysMessage = new MediumGroupRequestKeysMessage(params);
         const sender = new PubKey(senderIdentity);
-        void getMessageQueue().send(sender, requestKeysMessage);
+        void libsession.getMessageQueue().send(sender, requestKeysMessage);
 
         return;
       }

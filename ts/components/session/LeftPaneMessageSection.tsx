@@ -307,12 +307,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         onButtonClick={async (
           groupName: string,
           groupMembers: Array<ContactType>
-        ) =>
-          this.onCreateClosedGroup(
-            groupName,
-            groupMembers
-          )
-        }
+        ) => this.onCreateClosedGroup(groupName, groupMembers)}
         searchTerm={searchTerm}
         updateSearch={this.updateSearchBound}
         showSpinner={loading}
@@ -497,13 +492,9 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     groupName: string,
     groupMembers: Array<ContactType>
   ) {
-    await MainViewController.createClosedGroup(
-      groupName,
-      groupMembers,
-      () => {
-        this.handleToggleOverlay(undefined);
-      }
-    );
+    await MainViewController.createClosedGroup(groupName, groupMembers, () => {
+      this.handleToggleOverlay(undefined);
+    });
   }
 
   private handleNewSessionButtonClick() {

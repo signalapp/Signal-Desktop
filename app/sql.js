@@ -171,6 +171,7 @@ module.exports = {
 
   getSenderKeys,
   createOrUpdateSenderKeys,
+  removeAllClosedGroupRatchets,
 };
 
 function generateUUID() {
@@ -921,6 +922,12 @@ async function createOrUpdateSenderKeys(data) {
       $json: objectToJSON(data),
     }
   );
+}
+
+async function removeAllClosedGroupRatchets(groupId) {
+  await db.run(`DELETE FROM ${SENDER_KEYS_TABLE} WHERE groupId = $groupId;`, {
+    $groupId: groupId,
+  });
 }
 
 async function updateToLokiSchemaVersion4(currentVersion, instance) {

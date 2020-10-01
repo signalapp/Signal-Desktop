@@ -13,7 +13,10 @@ import { BufferType } from '../session/utils/String';
 import { MultiDeviceProtocol } from '../session/protocols';
 import { ConversationModel } from '../../js/models/conversations';
 import { UserUtil } from '../util';
-import { RatchetState } from '../session/medium_group/senderKeys';
+import {
+  createSenderKeyForGroup,
+  RatchetState,
+} from '../session/medium_group/senderKeys';
 
 const toHex = (d: BufferType) => StringUtils.decode(d, 'hex');
 const fromHex = (d: string) => StringUtils.encode(d, 'hex');
@@ -343,6 +346,18 @@ async function handleMediumGroupChange(
   }
 
   await convo.commit();
+
+  if (diff.leavingMembers && diff.leavingMembers.length > 0) {
+    // Send out the user's new ratchet to all members (minus the removed ones) using established channels
+    const userSenderKey = await createSenderKeyForGroup(groupId, primary);
+    window.log.warn(
+      'Sharing our new senderKey with remainingMembers via message',
+      members,
+      userSenderKey
+    );
+
+    await shareSenderKeys(groupId, members, userSenderKey);
+  }
 
   await removeFromCache(envelope);
 }

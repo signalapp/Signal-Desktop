@@ -20,7 +20,8 @@ async function queueJobForNumber(number: string, runJob: any) {
         // tslint:disable-next-line no-dynamic-delete
         delete jobQueue[number];
       }
-    }).catch((e: any) => {
+    })
+    .catch((e: any) => {
       window.log.error('queueJobForNumber() Caught error', e);
     });
   return runCurrent;

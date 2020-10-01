@@ -641,7 +641,8 @@ async function sendGroupUpdateForMedium(
     getMessageQueue().events.addListener('success', async message => {
       if (message.identifier === params.identifier) {
         // console.log('Our first message encrypted with old sk is sent.');
-        // TODO Delete all ratchets (it's important that this happens * after * sending out the update)
+        // Delete all ratchets (it's important that this happens * after * sending out the update)
+        await Data.removeAllClosedGroupRatchets(groupId);
         if (isUserLeaving) {
           // nothing to do on desktop
         } else {
