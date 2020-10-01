@@ -55,8 +55,8 @@ message MediumGroupUpdate {
     enum Type {
         NEW        = 0; // groupPublicKey, name, senderKeys, members, admins, groupPrivateKey
         INFO       = 1; // groupPublicKey, name, senderKeys, members, admins
-        SENDER_KEY = 2; // groupPublicKey, senderKeys
-        SENDER_KEY_REQUEST = 3; // groupPublicKey
+        SENDER_KEY_REQUEST = 2; // groupPublicKey
+        SENDER_KEY = 3; // groupPublicKey, senderKeys
     }
 
     message SenderKey {
