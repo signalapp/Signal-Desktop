@@ -323,7 +323,7 @@ async function handleMediumGroupChange(
   const primary = await UserUtil.getPrimary();
 
   sanityCheckMediumGroupUpdate(primary, diff, groupUpdate);
-
+  // console.log(`Got group update`, groupUpdate);
   await saveIncomingRatchetKeys(groupId, senderKeys);
 
   // Only add update message if we have something to show

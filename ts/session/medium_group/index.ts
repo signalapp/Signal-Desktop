@@ -118,11 +118,13 @@ export async function createMediumGroup(
 
   const dbMessage = await addUpdateMessage(convo, groupDiff, 'outgoing');
 
+  // be sure to call this before sending the message.
+  // the sending pipeline needs to know from GroupUtils when a message is for a medium group
+  await updateOrCreateGroup(groupDetails);
+
   await sendGroupUpdate(convo, groupDiff, groupDetails, dbMessage.id);
 
   // ***** 3. Add update message to the conversation *****
-
-  await updateOrCreateGroup(groupDetails);
 
   convo.updateGroupAdmins(admins);
 
