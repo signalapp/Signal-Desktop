@@ -33,12 +33,14 @@ const defaultProps = {
   hasLocalVideo: true,
   hasRemoteVideo: true,
   i18n,
+  pip: false,
   renderDeviceSelection: () => <div />,
   setLocalAudio: action('set-local-audio'),
   setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),
   setRendererCanvas: action('set-renderer-canvas'),
   settingsDialogOpen: false,
+  togglePip: action('toggle-pip'),
   toggleSettings: action('toggle-settings'),
 };
 

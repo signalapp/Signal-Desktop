@@ -2863,6 +2863,14 @@
     "message": "Settings",
     "description": "Title for device selection settings"
   },
+  "calling__pip": {
+    "message": "Picture-in-picture",
+    "description": "Title for picture-in-picture toggle"
+  },
+  "calling__hangup": {
+    "message": "Hang Up",
+    "description": "Title for hang up button"
+  },
   "callingDeviceSelection__label--video": {
     "message": "Video",
     "description": "Label for video input selector"

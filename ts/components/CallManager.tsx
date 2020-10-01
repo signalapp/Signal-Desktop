@@ -1,4 +1,5 @@
 import React from 'react';
+import { CallingPip } from './CallingPip';
 import { CallScreen, PropsType as CallScreenPropsType } from './CallScreen';
 import {
   IncomingCallBar,
@@ -10,6 +11,7 @@ import { CallDetailsType } from '../state/ducks/calling';
 type CallManagerPropsType = {
   callDetails?: CallDetailsType;
   callState?: CallState;
+  pip: boolean;
   renderDeviceSelection: () => JSX.Element;
   settingsDialogOpen: boolean;
 };
@@ -28,12 +30,14 @@ export const CallManager = ({
   hasLocalVideo,
   hasRemoteVideo,
   i18n,
+  pip,
   renderDeviceSelection,
   setLocalAudio,
   setLocalPreview,
   setLocalVideo,
   setRendererCanvas,
   settingsDialogOpen,
+  togglePip,
   toggleSettings,
 }: PropsType): JSX.Element | null => {
   if (!callDetails || !callState) {
@@ -46,6 +50,21 @@ export const CallManager = ({
   const ringing = callState === CallState.Ringing;
 
   if (outgoing || ongoing) {
+    if (pip) {
+      return (
+        <CallingPip
+          callDetails={callDetails}
+          hangUp={hangUp}
+          hasLocalVideo={hasLocalVideo}
+          hasRemoteVideo={hasRemoteVideo}
+          i18n={i18n}
+          setLocalPreview={setLocalPreview}
+          setRendererCanvas={setRendererCanvas}
+          togglePip={togglePip}
+        />
+      );
+    }
+
     return (
       <>
         <CallScreen
@@ -60,6 +79,7 @@ export const CallManager = ({
           setRendererCanvas={setRendererCanvas}
           setLocalAudio={setLocalAudio}
           setLocalVideo={setLocalVideo}
+          togglePip={togglePip}
           toggleSettings={toggleSettings}
         />
         {settingsDialogOpen && renderDeviceSelection()}

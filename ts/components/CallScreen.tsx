@@ -45,6 +45,7 @@ export type PropsType = {
   setLocalVideo: (_: SetLocalVideoType) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
+  togglePip: () => void;
   toggleSettings: () => void;
 };
 
@@ -209,6 +210,7 @@ export class CallScreen extends React.Component<PropsType, StateType> {
       hasLocalVideo,
       hasRemoteVideo,
       i18n,
+      togglePip,
       toggleSettings,
     } = this.props;
     const { showControls } = this.state;
@@ -254,6 +256,14 @@ export class CallScreen extends React.Component<PropsType, StateType> {
               aria-label={i18n('callingDeviceSelection__settings')}
               className="module-ongoing-call__settings--button"
               onClick={toggleSettings}
+            />
+          </div>
+          <div className="module-ongoing-call__pip">
+            <button
+              type="button"
+              aria-label={i18n('calling__pip')}
+              className="module-ongoing-call__pip--button"
+              onClick={togglePip}
             />
           </div>
         </div>

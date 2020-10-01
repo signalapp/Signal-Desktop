@@ -36,6 +36,7 @@ const defaultProps = {
   setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),
   setRendererCanvas: action('set-renderer-canvas'),
+  togglePip: action('toggle-pip'),
   toggleSettings: action('toggle-settings'),
 };
 

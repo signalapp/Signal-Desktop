@@ -38,6 +38,7 @@ export type CallingStateType = MediaDeviceSettings & {
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   hasRemoteVideo: boolean;
+  pip: boolean;
   settingsDialogOpen: boolean;
 };
 
@@ -105,6 +106,7 @@ const REMOTE_VIDEO_CHANGE = 'calling/REMOTE_VIDEO_CHANGE';
 const SET_LOCAL_AUDIO = 'calling/SET_LOCAL_AUDIO';
 const SET_LOCAL_VIDEO = 'calling/SET_LOCAL_VIDEO';
 const SET_LOCAL_VIDEO_FULFILLED = 'calling/SET_LOCAL_VIDEO_FULFILLED';
+const TOGGLE_PIP = 'calling/TOGGLE_PIP';
 const TOGGLE_SETTINGS = 'calling/TOGGLE_SETTINGS';
 
 type AcceptCallActionType = {
@@ -177,6 +179,10 @@ type SetLocalVideoFulfilledActionType = {
   payload: SetLocalVideoType;
 };
 
+type TogglePipActionType = {
+  type: 'calling/TOGGLE_PIP';
+};
+
 type ToggleSettingsActionType = {
   type: 'calling/TOGGLE_SETTINGS';
 };
@@ -196,6 +202,7 @@ export type CallingActionType =
   | SetLocalAudioActionType
   | SetLocalVideoActionType
   | SetLocalVideoFulfilledActionType
+  | TogglePipActionType
   | ToggleSettingsActionType;
 
 // Action Creators
@@ -376,6 +383,12 @@ function setLocalVideo(payload: SetLocalVideoType): SetLocalVideoActionType {
   };
 }
 
+function togglePip(): TogglePipActionType {
+  return {
+    type: TOGGLE_PIP,
+  };
+}
+
 function toggleSettings(): ToggleSettingsActionType {
   return {
     type: TOGGLE_SETTINGS,
@@ -410,6 +423,7 @@ export const actions = {
   setRendererCanvas,
   setLocalAudio,
   setLocalVideo,
+  togglePip,
   toggleSettings,
 };
 
@@ -427,6 +441,7 @@ function getEmptyState(): CallingStateType {
     hasLocalAudio: false,
     hasLocalVideo: false,
     hasRemoteVideo: false,
+    pip: false,
     selectedCamera: undefined,
     selectedMicrophone: undefined,
     selectedSpeaker: undefined,
@@ -542,6 +557,13 @@ export function reducer(
     return {
       ...state,
       settingsDialogOpen: !state.settingsDialogOpen,
+    };
+  }
+
+  if (action.type === TOGGLE_PIP) {
+    return {
+      ...state,
+      pip: !state.pip,
     };
   }
 
