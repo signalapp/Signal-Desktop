@@ -213,6 +213,18 @@
     "message": "Move Conversation to Inbox",
     "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
   },
+  "pinConversation": {
+    "message": "Pin Conversation",
+    "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
+  },
+  "unpinConversation": {
+    "message": "Unpin Conversation",
+    "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
+  },
+  "pinnedConversationsFull": {
+    "message": "You can only pin up to 4 chats",
+    "descriptin": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
+  },
   "chooseDirectory": {
     "message": "Choose folder",
     "description": "Button to allow the user to find a folder on disk"

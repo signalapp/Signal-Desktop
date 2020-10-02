@@ -11,6 +11,7 @@ import {
   ContactRecordClass,
   GroupV1RecordClass,
   GroupV2RecordClass,
+  PinnedConversationClass,
 } from '../textsecure.d';
 import { deriveGroupFields, waitThenMaybeUpdateGroup } from '../groups';
 import { ConversationModel } from '../models/conversations';
@@ -140,6 +141,55 @@ export async function toAccountRecord(
     window.storage.get('typingIndicators')
   );
   accountRecord.linkPreviews = Boolean(window.storage.get('linkPreviews'));
+  accountRecord.pinnedConversations = window.storage
+    .get<Array<string>>('pinnedConversationIds', [])
+    .map(id => {
+      const pinnedConversation = window.ConversationController.get(id);
+
+      if (pinnedConversation) {
+        const pinnedConversationRecord = new window.textsecure.protobuf.AccountRecord.PinnedConversation();
+
+        if (pinnedConversation.get('type') === 'private') {
+          pinnedConversationRecord.identifier = 'contact';
+          pinnedConversationRecord.contact = {
+            uuid: pinnedConversation.get('uuid'),
+            e164: pinnedConversation.get('e164'),
+          };
+        } else if (pinnedConversation.isGroupV1()) {
+          pinnedConversationRecord.identifier = 'legacyGroupId';
+          const groupId = pinnedConversation.get('groupId');
+          if (!groupId) {
+            throw new Error(
+              'toAccountRecord: trying to pin a v1 Group without groupId'
+            );
+          }
+          pinnedConversationRecord.legacyGroupId = fromEncodedBinaryToArrayBuffer(
+            groupId
+          );
+        } else if ((pinnedConversation.get('groupVersion') || 0) > 1) {
+          pinnedConversationRecord.identifier = 'groupMasterKey';
+          const masterKey = pinnedConversation.get('masterKey');
+          if (!masterKey) {
+            throw new Error(
+              'toAccountRecord: trying to pin a v2 Group without masterKey'
+            );
+          }
+          pinnedConversationRecord.groupMasterKey = base64ToArrayBuffer(
+            masterKey
+          );
+        }
+
+        return pinnedConversationRecord;
+      }
+
+      return undefined;
+    })
+    .filter(
+      (
+        pinnedConversationClass
+      ): pinnedConversationClass is PinnedConversationClass =>
+        pinnedConversationClass !== undefined
+    );
 
   applyUnknownFields(accountRecord, conversation);
 
@@ -608,6 +658,8 @@ export async function mergeAccountRecord(
       conversation.set({ isPinned: true, pinIndex: index });
       updateConversation(conversation.attributes);
     });
+
+    window.storage.put('pinnedConversationIds', remotelyPinnedConversationIds);
   }
 
   const ourID = window.ConversationController.getOurConversationId();

@@ -976,6 +976,7 @@ export declare class PinnedConversationClass {
 }
 
 export declare class AccountRecordClass {
+  static PinnedConversation: typeof PinnedConversationClass;
   static decode: (
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string

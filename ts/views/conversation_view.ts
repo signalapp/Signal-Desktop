@@ -202,6 +202,12 @@ Whisper.ReactionFailedToast = Whisper.ToastView.extend({
   },
 });
 
+Whisper.PinnedConversationsFullToast = Whisper.ToastView.extend({
+  render_attributes() {
+    return { toastMessage: window.i18n('pinnedConversationsFull') };
+  },
+});
+
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
 Whisper.MessageBodyTooLongToast = Whisper.ToastView.extend({
@@ -411,6 +417,18 @@ Whisper.ConversationView = Whisper.View.extend({
     return expires.format('M/D/YY, hh:mm A');
   },
 
+  setPin(value: boolean) {
+    if (value) {
+      if (window.storage.get('pinnedConversationIds').length >= 4) {
+        this.showToast(Whisper.PinnedConversationsFullToast);
+        return;
+      }
+      this.model.pin();
+    } else {
+      this.model.unpin();
+    }
+  },
+
   setupHeader() {
     const getHeaderProps = (_unknown?: unknown) => {
       const expireTimer = this.model.get('expireTimer');
@@ -449,7 +467,7 @@ Whisper.ConversationView = Whisper.View.extend({
           searchInConversation(this.model.id, name);
         },
         onSetMuteNotifications: (ms: number) => this.setMuteNotifications(ms),
-
+        onSetPin: this.setPin.bind(this),
         // These are view only and don't update the Conversation model, so they
         //   need a manual update call.
         onOutgoingAudioCallInConversation: async () => {

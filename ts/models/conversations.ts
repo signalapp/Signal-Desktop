@@ -2490,6 +2490,9 @@ export class ConversationModel extends window.Backbone.Model<
     const after = this.get('isArchived');
 
     if (Boolean(before) !== Boolean(after)) {
+      if (after) {
+        this.unpin();
+      }
       this.captureChange();
     }
   }
@@ -3685,6 +3688,49 @@ export class ConversationModel extends window.Backbone.Model<
   getName(): string | undefined {
     // eslint-disable-next-line no-useless-return
     return;
+  }
+
+  pin(): void {
+    const pinnedConversationIds = new Set(
+      window.storage.get<Array<string>>('pinnedConversationIds', [])
+    );
+
+    this.set('isPinned', true);
+    this.set('pinIndex', pinnedConversationIds.size);
+    window.Signal.Data.updateConversation(this.attributes);
+
+    if (this.get('isArchived')) {
+      this.setArchived(false);
+    }
+
+    pinnedConversationIds.add(this.id);
+
+    this.writePinnedConversations([...pinnedConversationIds]);
+  }
+
+  unpin(): void {
+    const pinnedConversationIds = new Set(
+      window.storage.get<Array<string>>('pinnedConversationIds', [])
+    );
+
+    this.set('isPinned', false);
+    this.set('pinIndex', undefined);
+    window.Signal.Data.updateConversation(this.attributes);
+
+    pinnedConversationIds.delete(this.id);
+
+    this.writePinnedConversations([...pinnedConversationIds]);
+  }
+
+  writePinnedConversations(pinnedConversationIds: Array<string>): void {
+    window.storage.put('pinnedConversationIds', pinnedConversationIds);
+
+    const myId = window.ConversationController.getOurConversationId();
+    const me = window.ConversationController.get(myId);
+
+    if (me) {
+      me.captureChange();
+    }
   }
 }
 

@@ -35,6 +35,7 @@ export interface PropsDataType {
   isVerified?: boolean;
   isMe?: boolean;
   isArchived?: boolean;
+  isPinned?: boolean;
 
   disableTimerChanges?: boolean;
   expirationSettingName?: string;
@@ -51,6 +52,7 @@ export interface PropsActionsType {
   onSearchInConversation: () => void;
   onOutgoingAudioCallInConversation: () => void;
   onOutgoingVideoCallInConversation: () => void;
+  onSetPin: (value: boolean) => void;
 
   onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
@@ -313,6 +315,7 @@ export class ConversationHeader extends React.Component<PropsType> {
       i18n,
       isAccepted,
       isMe,
+      isPinned,
       type,
       isArchived,
       muteExpirationLabel,
@@ -324,6 +327,7 @@ export class ConversationHeader extends React.Component<PropsType> {
       onShowGroupMembers,
       onShowSafetyNumber,
       onArchive,
+      onSetPin,
       onMoveToInbox,
       timerOptions,
     } = this.props;
@@ -401,6 +405,15 @@ export class ConversationHeader extends React.Component<PropsType> {
           </MenuItem>
         ) : (
           <MenuItem onClick={onArchive}>{i18n('archiveConversation')}</MenuItem>
+        )}
+        {isPinned ? (
+          <MenuItem onClick={() => onSetPin(false)}>
+            {i18n('unpinConversation')}
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={() => onSetPin(true)}>
+            {i18n('pinConversation')}
+          </MenuItem>
         )}
         <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
       </ContextMenu>
