@@ -326,11 +326,18 @@ async function handleMediumGroupChange(
     // Disable typing:
     convo.updateTextInputState();
     window.SwarmPolling.removePubkey(groupId);
+  } else {
+    if (maybeConvo.get('isKickedFromGroup')) {
+      // Enable typing:
+      maybeConvo.set('isKickedFromGroup', false);
+      maybeConvo.set('left', false);
+      maybeConvo.updateTextInputState();
+    }
   }
 
   await convo.commit();
 
-  if (diff.leavingMembers && diff.leavingMembers.length > 0) {
+  if (diff.leavingMembers && diff.leavingMembers.length > 0 && !areWeKicked) {
     // Send out the user's new ratchet to all members (minus the removed ones) using established channels
     const userSenderKey = await createSenderKeyForGroup(groupId, primary);
     window.log.warn(
