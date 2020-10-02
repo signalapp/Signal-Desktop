@@ -10,12 +10,12 @@ import * as SenderKeyAPI from '../session/medium_group';
 import { getChainKey } from '../session/medium_group/ratchet';
 import { StringUtils } from '../session/utils';
 import { BufferType } from '../session/utils/String';
-import { MultiDeviceProtocol } from '../session/protocols';
 import { ConversationModel } from '../../js/models/conversations';
 import { UserUtil } from '../util';
 import {
   createSenderKeyForGroup,
   RatchetState,
+  shareSenderKeys,
 } from '../session/medium_group/senderKeys';
 
 const toHex = (d: BufferType) => StringUtils.decode(d, 'hex');
@@ -68,23 +68,6 @@ async function handleSenderKeyRequest(
   await getMessageQueue().send(senderPubKey, keysResponseMessage);
 
   await removeFromCache(envelope);
-}
-
-export async function shareSenderKeys(
-  groupId: string,
-  recipientsPrimary: Array<string>,
-  senderKey: RatchetState
-) {
-  const message = new MediumGroupResponseKeysMessage({
-    timestamp: Date.now(),
-    groupId,
-    senderKey,
-  });
-
-  const recipients = recipientsPrimary.map(pk => PubKey.cast(pk));
-  await Promise.all(
-    recipients.map(pk => getMessageQueue().sendUsingMultiDevice(pk, message))
-  );
 }
 
 async function handleSenderKey(

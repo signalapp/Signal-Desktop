@@ -8,6 +8,7 @@ import {
   RatchetState,
   saveSenderKeys,
   saveSenderKeysInner,
+  shareSenderKeys,
 } from './senderKeys';
 import { getChainKey } from './ratchet';
 import { MultiDeviceProtocol } from '../protocols';
@@ -20,7 +21,6 @@ import {
   ExpirationTimerUpdateMessage,
   MediumGroupCreateMessage,
   MediumGroupMessage,
-  Message,
 } from '../messages/outgoing';
 import { MessageModel, MessageModelType } from '../../../js/models/messages';
 import { getMessageQueue } from '../../session';
@@ -28,13 +28,13 @@ import { ConversationModel } from '../../../js/models/conversations';
 import { MediumGroupUpdateMessage } from '../messages/outgoing/content/data/mediumgroup/MediumGroupUpdateMessage';
 import uuid from 'uuid';
 import { BlockedNumberController } from '../../util/blockedNumberController';
-import { shareSenderKeys } from '../../receiver/mediumGroups';
 
 export {
   createSenderKeyForGroup,
   saveSenderKeys,
   saveSenderKeysInner,
   getChainKey,
+  shareSenderKeys,
 };
 
 const toHex = (d: BufferType) => StringUtils.decode(d, 'hex');
@@ -610,8 +610,6 @@ async function sendGroupUpdateForMedium(
     (pkHex: string) => new Uint8Array(fromHex(pkHex))
   );
 
-  const remainingMembers = _.difference(groupUpdate.members, joiningMembers);
-
   const params = {
     timestamp: Date.now(),
     identifier: messageId || uuid(),
@@ -637,30 +635,6 @@ async function sendGroupUpdateForMedium(
     );
     window.log.warn('Sending to groupUpdateMessage without senderKeys');
     await getMessageQueue().sendToGroup(messageStripped);
-
-    getMessageQueue().events.addListener('success', async message => {
-      if (message.identifier === params.identifier) {
-        // console.log('Our first message encrypted with old sk is sent.');
-        // Delete all ratchets (it's important that this happens * after * sending out the update)
-        await Data.removeAllClosedGroupRatchets(groupId);
-        if (isUserLeaving) {
-          // nothing to do on desktop
-        } else {
-          // Send out the user's new ratchet to all members (minus the removed ones) using established channels
-          const userSenderKey = await createSenderKeyForGroup(
-            groupId,
-            ourPrimary
-          );
-          window.log.warn(
-            'Sharing our new senderKey with remainingMembers via message',
-            remainingMembers,
-            userSenderKey
-          );
-
-          await shareSenderKeys(groupId, remainingMembers, userSenderKey);
-        }
-      }
-    });
   } else {
     let senderKeys: Array<RatchetState>;
     if (joiningMembers.length > 0) {
