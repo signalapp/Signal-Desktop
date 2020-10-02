@@ -2139,7 +2139,7 @@ Whisper.ConversationView = Whisper.View.extend({
 
     let model = providedMembers || this.model.contactCollection;
 
-    if (!providedMembers && this.model.get('groupVersion') === 2) {
+    if (!providedMembers && this.model.isGroupV2()) {
       model = new Whisper.GroupConversationCollection(
         this.model.get('membersV2').map(({ conversationId, role }: any) => ({
           conversation: window.ConversationController.get(conversationId),

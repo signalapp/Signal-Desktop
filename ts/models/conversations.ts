@@ -142,8 +142,7 @@ export class ConversationModel extends window.Backbone.Model<
       const e164 = this.get('e164');
       return `${uuid || e164} (${this.id})`;
     }
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    if (this.get('groupVersion')! > 1) {
+    if (this.isGroupV2()) {
       return `groupv2(${this.get('groupId')})`;
     }
 
@@ -265,6 +264,10 @@ export class ConversationModel extends window.Backbone.Model<
     }
 
     return fromEncodedBinaryToArrayBuffer(groupID).byteLength === 16;
+  }
+
+  isGroupV2(): boolean {
+    return (this.get('groupVersion') || 0) === 2;
   }
 
   isEverUnregistered(): boolean {
@@ -488,7 +491,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   async fetchLatestGroupV2Data(): Promise<void> {
-    if (this.get('groupVersion') !== 2) {
+    if (!this.isGroupV2()) {
       return;
     }
 
@@ -520,7 +523,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   getGroupV2Info(groupChange?: ArrayBuffer): WhatIsThis {
-    if (this.isPrivate() || this.get('groupVersion') !== 2) {
+    if (this.isPrivate() || !this.isGroupV2()) {
       return undefined;
     }
     return {
@@ -2571,7 +2574,7 @@ export class ConversationModel extends window.Backbone.Model<
     receivedAt: number,
     options: { fromSync?: unknown; fromGroupUpdate?: unknown } = {}
   ): Promise<boolean | null | MessageModel | void> {
-    if (this.get('groupVersion') === 2) {
+    if (this.isGroupV2()) {
       if (providedSource || receivedAt) {
         throw new Error(
           'updateExpirationTimer: GroupV2 timers are not updated this way'
@@ -3494,7 +3497,7 @@ export class ConversationModel extends window.Backbone.Model<
       return true;
     }
 
-    if (this.get('groupVersion') !== 2) {
+    if (!this.isGroupV2()) {
       return true;
     }
 

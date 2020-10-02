@@ -2436,8 +2436,7 @@ type WhatIsThis = typeof window.WhatIsThis;
       id,
       'group'
     );
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    if (conversation.get('groupVersion')! > 1) {
+    if (conversation.isGroupV2()) {
       window.log.warn(
         'Got group sync for v2 group: ',
         conversation.idForLogging()

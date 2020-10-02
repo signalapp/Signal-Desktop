@@ -148,7 +148,7 @@ async function generateManifest(
       // eslint-disable-next-line no-await-in-loop
       storageRecord.contact = await toContactRecord(conversation);
       identifier.type = ITEM_TYPE.CONTACT;
-    } else if ((conversation.get('groupVersion') || 0) > 1) {
+    } else if (conversation.isGroupV2()) {
       storageRecord = new window.textsecure.protobuf.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.groupV2 = await toGroupV2Record(conversation);

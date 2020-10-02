@@ -166,7 +166,7 @@ export async function toAccountRecord(
           pinnedConversationRecord.legacyGroupId = fromEncodedBinaryToArrayBuffer(
             groupId
           );
-        } else if ((pinnedConversation.get('groupVersion') || 0) > 1) {
+        } else if (pinnedConversation.isGroupV2()) {
           pinnedConversationRecord.identifier = 'groupMasterKey';
           const masterKey = pinnedConversation.get('masterKey');
           if (!masterKey) {
