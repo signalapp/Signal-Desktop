@@ -263,7 +263,19 @@ export function convertShortName(
 }
 
 export function emojiToImage(emoji: string): string | undefined {
+  if (!Object.prototype.hasOwnProperty.call(imageByEmoji, emoji)) {
+    return undefined;
+  }
+
   return imageByEmoji[emoji];
+}
+
+export function emojiToData(emoji: string): EmojiData | undefined {
+  if (!Object.prototype.hasOwnProperty.call(dataByEmoji, emoji)) {
+    return undefined;
+  }
+
+  return dataByEmoji[emoji];
 }
 
 function getCountOfAllMatches(str: string, regex: RegExp) {

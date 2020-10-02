@@ -2,11 +2,7 @@ import * as React from 'react';
 import { Editor } from 'draft-js';
 import { get, noop } from 'lodash';
 import classNames from 'classnames';
-import {
-  EmojiButton,
-  EmojiPickDataType,
-  Props as EmojiButtonProps,
-} from './emoji/EmojiButton';
+import { EmojiButton, Props as EmojiButtonProps } from './emoji/EmojiButton';
 import {
   Props as StickerButtonProps,
   StickerButton,
@@ -22,6 +18,7 @@ import {
 } from './conversation/MessageRequestActions';
 import { countStickers } from './stickers/lib';
 import { LocalizerType } from '../types/Util';
+import { EmojiPickDataType } from './emoji/EmojiPicker';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;

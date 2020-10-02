@@ -20,7 +20,7 @@ import {
   OwnProps as ReactionViewerProps,
   ReactionViewer,
 } from './ReactionViewer';
-import { Props as ReactionPickerProps, ReactionPicker } from './ReactionPicker';
+import { Props as ReactionPickerProps } from './ReactionPicker';
 import { Emoji } from '../emoji/Emoji';
 import { LinkPreviewDate } from './LinkPreviewDate';
 
@@ -44,6 +44,8 @@ import { isFileDangerous } from '../../util/isFileDangerous';
 import { BodyRangesType, LocalizerType } from '../../types/Util';
 import { ColorType } from '../../types/Colors';
 import { createRefMerger } from '../_util';
+import { emojiToData } from '../emoji/lib';
+import { SmartReactionPicker } from '../../state/smart/ReactionPicker';
 
 interface Trigger {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -1297,8 +1299,7 @@ export class Message extends React.PureComponent<Props, State> {
             // eslint-disable-next-line consistent-return
             <Popper placement="top">
               {({ ref, style }) => (
-                <ReactionPicker
-                  i18n={i18n}
+                <SmartReactionPicker
                   ref={ref}
                   style={style}
                   selected={selectedReaction}
@@ -1726,13 +1727,24 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const reactionsWithEmojiData = reactions.map(reaction => ({
+      ...reaction,
+      ...emojiToData(reaction.emoji),
+    }));
+
     // Group by emoji and order each group by timestamp descending
-    const grouped = Object.values(groupBy(reactions, 'emoji')).map(res =>
-      orderBy(res, ['timestamp'], ['desc'])
+    const groupedAndSortedReactions = Object.values(
+      groupBy(reactionsWithEmojiData, 'short_name')
+    ).map(groupedReactions =>
+      orderBy(
+        groupedReactions,
+        [reaction => reaction.from.isMe, 'timestamp'],
+        ['desc', 'desc']
+      )
     );
     // Order groups by length and subsequently by most recent reaction
     const ordered = orderBy(
-      grouped,
+      groupedAndSortedReactions,
       ['length', ([{ timestamp }]) => timestamp],
       ['desc', 'desc']
     );

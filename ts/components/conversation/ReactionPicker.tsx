@@ -17,14 +17,25 @@ export type OwnProps = {
   onClose?: () => unknown;
   onPick: (emoji: string) => unknown;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => React.ReactElement;
+  skinTone: number;
 };
 
 export type Props = OwnProps & Pick<React.HTMLProps<HTMLDivElement>, 'style'>;
 
-const emojis = ['❤️', '👍', '👎', '😂', '😮', '😢'];
+const DEFAULT_EMOJI_LIST = [
+  'heart',
+  'thumbsup',
+  'thumbsdown',
+  'joy',
+  'open_mouth',
+  'cry',
+];
 
 export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
-  ({ i18n, selected, onClose, onPick, renderEmojiPicker, style }, ref) => {
+  (
+    { i18n, selected, onClose, skinTone, onPick, renderEmojiPicker, style },
+    ref
+  ) => {
     const [pickingOther, setPickingOther] = React.useState(false);
     const focusRef = React.useRef<HTMLButtonElement>(null);
 
@@ -45,10 +56,14 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
 
     // Handle EmojiPicker::onPickEmoji
     const onPickEmoji: EmojiPickerProps['onPickEmoji'] = React.useCallback(
-      ({ shortName, skinTone }) => {
-        onPick(convertShortName(shortName, skinTone));
+      ({ shortName, skinTone: pickedSkinTone }) => {
+        onPick(convertShortName(shortName, pickedSkinTone));
       },
       [onPick]
+    );
+
+    const emojis = DEFAULT_EMOJI_LIST.map(shortName =>
+      convertShortName(shortName, skinTone)
     );
 
     // Focus first button and restore focus on unmount

@@ -12907,7 +12907,7 @@
     "rule": "DOM-innerHTML",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  el.innerHTML = '';",
-    "lineNumber": 81,
+    "lineNumber": 78,
     "reasonCategory": "usageTrusted",
     "updated": "2020-06-03T19:23:21.195Z",
     "reasonDetail": "Our code, no user input, only clearing out the dom"
@@ -13057,7 +13057,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
     "line": "        this.audioRef = react_1.default.createRef();",
-    "lineNumber": 59,
+    "lineNumber": 60,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T16:12:19.904Z"
   },
@@ -13065,7 +13065,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
     "line": "        this.focusRef = react_1.default.createRef();",
-    "lineNumber": 60,
+    "lineNumber": 61,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-11T17:24:56.124Z",
     "reasonDetail": "Used for managing focus only"
@@ -13074,7 +13074,7 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.js",
     "line": "        this.reactionsContainerRef = react_1.default.createRef();",
-    "lineNumber": 61,
+    "lineNumber": 62,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T16:12:19.904Z",
     "reasonDetail": "Used for detecting clicks outside reaction viewer"
@@ -13083,14 +13083,6 @@
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
     "line": "  public audioRef: React.RefObject<HTMLAudioElement> = React.createRef();",
-    "lineNumber": 215,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-09-08T20:19:01.913Z"
-  },
-  {
-    "rule": "React-createRef",
-    "path": "ts/components/conversation/Message.tsx",
-    "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
     "lineNumber": 217,
     "reasonCategory": "usageTrusted",
     "updated": "2020-09-08T20:19:01.913Z"
@@ -13098,8 +13090,16 @@
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
+    "line": "  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "lineNumber": 219,
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-09-08T20:19:01.913Z"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Message.tsx",
     "line": "  > = React.createRef();",
-    "lineNumber": 221,
+    "lineNumber": 223,
     "reasonCategory": "usageTrusted",
     "updated": "2020-08-28T19:36:40.817Z"
   },

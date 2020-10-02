@@ -176,3 +176,42 @@ story.add('Picked Missing Reaction', () => {
   });
   return <ReactionViewer {...props} />;
 });
+
+const skinTones = [
+  '\u{1F3FB}',
+  '\u{1F3FC}',
+  '\u{1F3FD}',
+  '\u{1F3FE}',
+  '\u{1F3FF}',
+];
+const thumbsUpHands = skinTones.map(skinTone => `👍${skinTone}`);
+const okHands = skinTones.map(skinTone => `👌${skinTone}`).reverse();
+
+const createReaction = (
+  emoji: string,
+  name: string,
+  timestamp = Date.now()
+) => ({
+  emoji,
+  from: {
+    id: '+14155552671',
+    name,
+    title: name,
+  },
+  timestamp,
+});
+
+story.add('Reaction Skin Tones', () => {
+  const props = createProps({
+    pickedReaction: '😡',
+    reactions: [
+      ...thumbsUpHands.map((emoji, n) =>
+        createReaction(emoji, `Thumbs Up ${n + 1}`, Date.now() + n * 1000)
+      ),
+      ...okHands.map((emoji, n) =>
+        createReaction(emoji, `Ok Hand ${n + 1}`, Date.now() + n * 1000)
+      ),
+    ],
+  });
+  return <ReactionViewer {...props} />;
+});

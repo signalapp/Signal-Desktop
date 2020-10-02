@@ -3,14 +3,8 @@ import classNames from 'classnames';
 import { get, noop } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import { createPortal } from 'react-dom';
-import {
-  EmojiPickDataType,
-  EmojiPicker,
-  Props as EmojiPickerProps,
-} from './EmojiPicker';
+import { EmojiPicker, Props as EmojiPickerProps } from './EmojiPicker';
 import { LocalizerType } from '../../types/Util';
-
-export { EmojiPickDataType };
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
