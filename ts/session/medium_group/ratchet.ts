@@ -14,12 +14,16 @@ async function queueJobForNumber(number: string, runJob: any) {
   const runCurrent = runPrevious.then(runJob, runJob);
   jobQueue[number] = runCurrent;
   // tslint:disable-next-line no-floating-promises
-  runCurrent.then(() => {
-    if (jobQueue[number] === runCurrent) {
-      // tslint:disable-next-line no-dynamic-delete
-      delete jobQueue[number];
-    }
-  });
+  runCurrent
+    .then(() => {
+      if (jobQueue[number] === runCurrent) {
+        // tslint:disable-next-line no-dynamic-delete
+        delete jobQueue[number];
+      }
+    })
+    .catch((e: any) => {
+      window.log.error('queueJobForNumber() Caught error', e);
+    });
   return runCurrent;
 }
 

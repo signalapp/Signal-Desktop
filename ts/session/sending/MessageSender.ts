@@ -45,6 +45,7 @@ export async function send(
     timestamp,
     cipherText
   );
+  // console.warn('sending', envelope, ' to ', device.key);
   const data = wrapEnvelope(envelope);
 
   return pRetry(

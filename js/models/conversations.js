@@ -1403,7 +1403,7 @@
 
               await libsession
                 .getMessageQueue()
-                .send(destinationPubkey, mediumGroupChatMessage);
+                .sendToGroup(mediumGroupChatMessage);
             } else {
               const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
                 {
