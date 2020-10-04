@@ -331,6 +331,8 @@ async function handleMediumGroupChange(
       // Enable typing:
       maybeConvo.set('isKickedFromGroup', false);
       maybeConvo.set('left', false);
+      // Subscribe to this group id
+      window.SwarmPolling.addGroupId(new PubKey(groupId));
       maybeConvo.updateTextInputState();
     }
   }
@@ -342,8 +344,7 @@ async function handleMediumGroupChange(
     const userSenderKey = await createSenderKeyForGroup(groupId, primary);
     window.log.warn(
       'Sharing our new senderKey with remainingMembers via message',
-      members,
-      userSenderKey
+      members
     );
 
     await shareSenderKeys(groupId, members, userSenderKey);
