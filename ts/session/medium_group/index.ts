@@ -269,26 +269,14 @@ async function getExistingSenderKeysForGroup(
 // as they each member need to regenerate a new senderkey
 async function getOrUpdateSenderKeysForJoiningMembers(
   groupId: string,
-  members: Array<string>,
-  diff?: GroupDiff,
-  joiningMembersSenderKeys?: Array<RatchetState>
+  members: Array<string>
 ): Promise<Array<RatchetState>> {
-  const leavingMembers = diff?.leavingMembers || [];
-  const joiningMembers = diff?.joiningMembers || [];
-
-  const existingMembers = _.difference(members, joiningMembers);
   // get all devices for members
   const allDevices = _.flatten(
-    await Promise.all(
-      existingMembers.map(m => MultiDeviceProtocol.getAllDevices(m))
-    )
+    await Promise.all(members.map(m => MultiDeviceProtocol.getAllDevices(m)))
   );
 
-  let existingKeys: Array<RatchetState> = [];
-  if (leavingMembers.length === 0) {
-    existingKeys = await getExistingSenderKeysForGroup(groupId, allDevices);
-  }
-  return _.union(joiningMembersSenderKeys, existingKeys);
+  return getExistingSenderKeysForGroup(groupId, allDevices);
 }
 
 async function getGroupSecretKey(groupId: string): Promise<Uint8Array> {

@@ -290,5 +290,4 @@ async function decryptWithSenderKeyInner(
       await getMessageQueue().send(sender, requestKeysMessage);
     }
   }
-
 }
