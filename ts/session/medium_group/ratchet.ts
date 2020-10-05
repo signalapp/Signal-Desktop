@@ -2,6 +2,8 @@ import { PubKey } from '../types';
 import * as Data from '../../../js/modules/data';
 import { saveSenderKeysInner } from './index';
 import { StringUtils } from '../utils';
+import { MediumGroupRequestKeysMessage } from '../messages/outgoing';
+import { getMessageQueue } from '..';
 
 const toHex = (buffer: ArrayBuffer) => StringUtils.decode(buffer, 'hex');
 const fromHex = (hex: string) => StringUtils.encode(hex, 'hex');
@@ -202,6 +204,11 @@ async function advanceRatchet(
     log.error('[idx] not found key for idx: ', idx);
     // I probably want a better error handling than this
     return null;
+  } else if (idx === ratchet.keyIdx) {
+    log.error(
+      `advanceRatchet() called with idx:${idx}, current ratchetIdx:${ratchet.keyIdx}. We already burnt that keyIdx before.`
+    );
+    return null;
   }
 
   const { messageKeys } = ratchet;
@@ -269,11 +276,19 @@ async function decryptWithSenderKeyInner(
     return null;
   }
 
-  // TODO: this might fail, handle this
-  const plaintext = await window.libloki.crypto.DecryptGCM(
-    messageKey,
-    ciphertext
-  );
-
-  return plaintext;
+  try {
+    const plaintext = await window.libloki.crypto.DecryptGCM(
+      messageKey,
+      ciphertext
+    );
+    return plaintext;
+  } catch (e) {
+    window.log.error('Got error during DecryptGCM()', e);
+    if (e instanceof DOMException) {
+      window.log.error(
+        'Got DOMException during DecryptGCM(). Rethrowing as SenderKeyMissing '
+      );
+      throw new window.textsecure.SenderKeyMissing(senderIdentity);
+    }
+  }
 }
