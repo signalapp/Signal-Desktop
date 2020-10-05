@@ -287,11 +287,7 @@ async function decrypt(
 
     return plaintext;
   } catch (error) {
-    if (
-      error &&
-      (error instanceof textsecure.SenderKeyMissing ||
-        error instanceof DOMException)
-    ) {
+    if (error && error instanceof textsecure.SenderKeyMissing) {
       const groupId = envelope.source;
       const { senderIdentity } = error;
       if (senderIdentity) {

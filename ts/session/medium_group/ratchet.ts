@@ -204,6 +204,11 @@ async function advanceRatchet(
     log.error('[idx] not found key for idx: ', idx);
     // I probably want a better error handling than this
     return null;
+  } else if (idx === ratchet.keyIdx) {
+    log.error(
+      `advanceRatchet() called with idx:${idx}, current ratchetIdx:${ratchet.keyIdx}. We already burnt that keyIdx before.`
+    );
+    return null;
   }
 
   const { messageKeys } = ratchet;
@@ -278,16 +283,12 @@ async function decryptWithSenderKeyInner(
     );
     return plaintext;
   } catch (e) {
-    window.log.error('Got error during DecryptGCM():', e);
+    window.log.error('Got error during DecryptGCM()', e);
     if (e instanceof DOMException) {
-      const params = {
-        timestamp: Date.now(),
-        groupId,
-      };
-      // we consider we don't have the correct key for this sender, so request the latest one
-      const requestKeysMessage = new MediumGroupRequestKeysMessage(params);
-      const sender = new PubKey(senderIdentity);
-      await getMessageQueue().send(sender, requestKeysMessage);
+      window.log.error(
+        'Got DOMException during DecryptGCM(). Rethrowing as SenderKeyMissing '
+      );
+      throw new window.textsecure.SenderKeyMissing(senderIdentity);
     }
   }
 }
