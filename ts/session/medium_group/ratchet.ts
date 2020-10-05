@@ -2,6 +2,8 @@ import { PubKey } from '../types';
 import * as Data from '../../../js/modules/data';
 import { saveSenderKeysInner } from './index';
 import { StringUtils } from '../utils';
+import { MediumGroupRequestKeysMessage } from '../messages/outgoing';
+import { getMessageQueue } from '..';
 
 const toHex = (buffer: ArrayBuffer) => StringUtils.decode(buffer, 'hex');
 const fromHex = (hex: string) => StringUtils.encode(hex, 'hex');
@@ -269,11 +271,24 @@ async function decryptWithSenderKeyInner(
     return null;
   }
 
-  // TODO: this might fail, handle this
-  const plaintext = await window.libloki.crypto.DecryptGCM(
-    messageKey,
-    ciphertext
-  );
+  try {
+    const plaintext = await window.libloki.crypto.DecryptGCM(
+      messageKey,
+      ciphertext
+    );
+    return plaintext;
+  } catch (e) {
+    window.log.error('Got error during DecryptGCM():', e);
+    if (e instanceof DOMException) {
+      const params = {
+        timestamp: Date.now(),
+        groupId,
+      };
+      // we consider we don't have the correct key for this sender, so request the latest one
+      const requestKeysMessage = new MediumGroupRequestKeysMessage(params);
+      const sender = new PubKey(senderIdentity);
+      await getMessageQueue().send(sender, requestKeysMessage);
+    }
+  }
 
-  return plaintext;
 }
