@@ -35,13 +35,19 @@ async function handleSenderKeyRequest(
 
   log.debug('[sender key] sender key request from:', senderIdentity);
 
-  const maybeKey = await getChainKey(groupId, ourIdentity);
+  let maybeKey = await getChainKey(groupId, ourIdentity);
 
   if (!maybeKey) {
-    // Regenerate? This should never happen though
-    log.error('Could not find own sender key');
-    await removeFromCache(envelope);
-    return;
+    log.error('Could not find own sender key. Generating new one.');
+    maybeKey = await SenderKeyAPI.createSenderKeyForGroup(
+      groupId,
+      PubKey.cast(ourIdentity)
+    );
+    if (!maybeKey) {
+      log.error('Could not find own sender key after regenerate');
+      await removeFromCache(envelope);
+      return;
+    }
   }
 
   // We reuse the same message type for sender keys
