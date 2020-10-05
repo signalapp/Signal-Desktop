@@ -271,6 +271,10 @@
       };
       const getGroupSettingsProps = () => {
         const members = this.model.get('members') || [];
+        const ourPK = window.textsecure.storage.user.getNumber();
+        const isAdmin = this.model.isMediumGroup()
+          ? true
+          : this.model.get('groupAdmins').includes(ourPK);
 
         return {
           id: this.model.id,
@@ -280,7 +284,7 @@
           avatarPath: this.model.getAvatarPath(),
           isGroup: !this.model.isPrivate(),
           isPublic: this.model.isPublic(),
-          isAdmin: true, // allow closed group edits from anyone this.model.get('groupAdmins').includes(ourPK),
+          isAdmin,
           isRss: this.model.isRss(),
           memberCount: members.length,
           amMod: this.model.isModerator(
