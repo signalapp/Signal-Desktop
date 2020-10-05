@@ -1,6 +1,8 @@
 import { PubKey } from '../types';
 import { StringUtils } from '../utils';
 import * as Data from '../../../js/modules/data';
+import { MediumGroupResponseKeysMessage } from '../messages/outgoing';
+import { getMessageQueue } from '..';
 
 const toHex = (buffer: ArrayBuffer) => StringUtils.decode(buffer, 'hex');
 const fromHex = (hex: string) => StringUtils.encode(hex, 'hex');
@@ -84,5 +86,22 @@ export async function saveSenderKeys(
     chainKeyHex,
     keyIdx,
     messageKeys
+  );
+}
+
+export async function shareSenderKeys(
+  groupId: string,
+  recipientsPrimary: Array<string>,
+  senderKey: RatchetState
+) {
+  const message = new MediumGroupResponseKeysMessage({
+    timestamp: Date.now(),
+    groupId,
+    senderKey,
+  });
+
+  const recipients = recipientsPrimary.map(pk => PubKey.cast(pk));
+  await Promise.all(
+    recipients.map(pk => getMessageQueue().sendUsingMultiDevice(pk, message))
   );
 }

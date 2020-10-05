@@ -196,6 +196,7 @@ module.exports = {
 
   getSenderKeys,
   createOrUpdateSenderKeys,
+  removeAllClosedGroupRatchets,
 };
 
 function init() {
@@ -702,6 +703,10 @@ async function getSenderKeys(groupId, senderIdentity) {
 
 async function createOrUpdateSenderKeys(data) {
   await channels.createOrUpdateSenderKeys(data);
+}
+
+async function removeAllClosedGroupRatchets(groupId) {
+  await channels.removeAllClosedGroupRatchets(groupId);
 }
 
 // Sessions

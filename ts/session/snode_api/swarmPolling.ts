@@ -51,12 +51,16 @@ export class SwarmPolling {
   }
 
   public addGroupId(pubkey: PubKey) {
-    this.groupPubkeys.push(pubkey);
+    if (this.groupPubkeys.findIndex(m => m.key === pubkey.key) === -1) {
+      this.groupPubkeys.push(pubkey);
+    }
   }
 
   public addPubkey(pk: PubKey | string) {
     const pubkey = PubKey.cast(pk);
-    this.pubkeys.push(pubkey);
+    if (this.pubkeys.findIndex(m => m.key === pubkey.key) === -1) {
+      this.pubkeys.push(pubkey);
+    }
   }
 
   public removePubkey(pk: PubKey | string) {

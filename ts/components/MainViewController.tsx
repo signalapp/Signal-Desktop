@@ -50,7 +50,6 @@ export class MessageView extends React.Component {
 async function createClosedGroup(
   groupName: string,
   groupMembers: Array<ContactType>,
-  senderKeys: boolean,
   onSuccess: any
 ) {
   // Validate groupName and groupMembers length
@@ -95,7 +94,7 @@ async function createClosedGroup(
 
   const groupMemberIds = groupMembers.map(m => m.id);
 
-  if (senderKeys) {
+  if (window.lokiFeatureFlags.enableSenderKeys) {
     await createMediumGroup(groupName, groupMemberIds);
   } else {
     await createLegacyGroup(groupName, groupMemberIds);

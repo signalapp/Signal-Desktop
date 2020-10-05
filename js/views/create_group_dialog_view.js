@@ -98,7 +98,10 @@
       } else {
         this.titleText = i18n('updateGroupDialogTitle', this.groupName);
         // anybody can edit a closed group name or members
-        this.isAdmin = true;
+        const ourPK = window.textsecure.storage.user.getNumber();
+        this.isAdmin = groupConvo.isMediumGroup()
+          ? true
+          : groupConvo.get('groupAdmins').includes(ourPK);
         const convos = window.getConversations().models.filter(d => !!d);
 
         this.existingMembers = groupConvo.get('members') || [];

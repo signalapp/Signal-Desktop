@@ -1238,7 +1238,7 @@
       const isOurDevice = await window.libsession.Protocols.MultiDeviceProtocol.isOurDevice(
         sentMessage.device
       );
-
+      // FIXME this is not correct and will cause issues with syncing
       // At this point the only way to check for medium
       // group is by comparing the encryption type
       const isMediumGroupMessage =
@@ -1271,6 +1271,46 @@
         const primaryPubKey = await libsession.Protocols.MultiDeviceProtocol.getPrimaryDevice(
           sentMessage.device
         );
+
+        if (isMediumGroupMessage) {
+          // Delete all ratchets (it's important that this happens * after * sending out the update)
+          const shouldTriggerRatchetReset =
+            dataMessage &&
+            dataMessage.mediumGroupUpdate &&
+            dataMessage.mediumGroupUpdate.senderKeys &&
+            dataMessage.mediumGroupUpdate.senderKeys.length === 0;
+          if (shouldTriggerRatchetReset) {
+            const { groupPublicKey } = dataMessage.mediumGroupUpdate;
+            const groupPubKeyUint = new Uint8Array(
+              groupPublicKey.toArrayBuffer()
+            );
+            const groupId = libsession.Utils.StringUtils.decode(
+              groupPubKeyUint,
+              'hex'
+            );
+            await window.Signal.Data.removeAllClosedGroupRatchets(groupId);
+            // Send out the user's new ratchet to all members (minus the removed ones) using established channels
+            const ourPrimary = await window.Signal.Util.UserUtil.getPrimary();
+
+            const userSenderKey = await window.libsession.MediumGroup.createSenderKeyForGroup(
+              groupId,
+              ourPrimary
+            );
+
+            const currentMembers = this.getConversation().get('members');
+
+            window.log.warn(
+              'Sharing our new senderKey with remainingMembers via established channels with',
+              currentMembers
+            );
+
+            await window.libsession.MediumGroup.shareSenderKeys(
+              groupId,
+              currentMembers,
+              userSenderKey
+            );
+          }
+        }
 
         /**
          * We should hit the notify endpoint for push notification only if:
