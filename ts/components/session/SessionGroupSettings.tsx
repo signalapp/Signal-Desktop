@@ -38,7 +38,13 @@ interface Props {
   onSetDisappearingMessages: (seconds: number) => void;
 }
 
-class SessionGroupSettings extends React.Component<Props, any> {
+interface State {
+  documents: Array<any>;
+  media: Array<any>;
+  onItemClick: any;
+}
+
+class SessionGroupSettings extends React.Component<Props, State> {
   public constructor(props: Props) {
     super(props);
 
@@ -67,17 +73,27 @@ class SessionGroupSettings extends React.Component<Props, any> {
     setTimeout(() => {
       this.getMediaGalleryProps()
         .then(({ documents, media, onItemClick }) => {
-          this.setState({
-            documents,
-            media,
-            onItemClick,
-          });
+          const { documents: oldDocs, media: oldMedias } = this.state;
+          if (
+            oldDocs.length !== documents.length ||
+            oldMedias.length !== media.length
+          ) {
+            this.setState({
+              documents,
+              media,
+              onItemClick,
+            });
+          }
         })
         .ignore();
     }, mediaScanInterval);
   }
 
-  public async getMediaGalleryProps() {
+  public async getMediaGalleryProps(): Promise<{
+    documents: Array<any>;
+    media: Array<any>;
+    onItemClick: any;
+  }> {
     // We fetch more documents than media as they don’t require to be loaded
     // into memory right away. Revisit this once we have infinite scrolling:
     const DEFAULT_MEDIA_FETCH_COUNT = 50;
