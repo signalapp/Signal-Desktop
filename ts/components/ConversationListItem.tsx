@@ -357,6 +357,7 @@ class ConversationListItem extends React.PureComponent<Props> {
           module="module-conversation__user"
           i18n={window.i18n}
           boldProfileName={true}
+          shouldShowPubkey={false}
         />
       </div>
     );

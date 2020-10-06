@@ -302,6 +302,7 @@ export class Quote extends React.Component<Props, State> {
       i18n,
       isFromMe,
       isIncoming,
+      isPublic,
     } = this.props;
 
     return (
@@ -320,6 +321,7 @@ export class Quote extends React.Component<Props, State> {
             profileName={authorProfileName}
             i18n={i18n}
             compact={true}
+            shouldShowPubkey={Boolean(isPublic)}
           />
         )}
       </div>

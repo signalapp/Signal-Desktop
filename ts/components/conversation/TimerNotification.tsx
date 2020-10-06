@@ -51,6 +51,7 @@ export class TimerNotification extends React.Component<Props> {
                 name={name}
                 module="module-message__author"
                 boldProfileName={true}
+                shouldShowPubkey={false}
               />,
               timespan,
             ]}

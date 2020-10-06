@@ -181,7 +181,7 @@ class ConversationHeader extends React.Component<Props> {
 
     let title;
     if (profileName) {
-      title = `${profileName} ${window.shortenPubkey(phoneNumber)}`;
+      title = `${profileName}`;
     } else {
       if (name) {
         title = `${name}`;

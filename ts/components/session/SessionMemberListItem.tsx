@@ -49,8 +49,6 @@ export class SessionMemberListItem extends React.Component<Props, State> {
     const { isSelected } = this.state;
 
     const name = this.props.member.authorProfileName;
-    const pubkey = this.props.member.authorPhoneNumber;
-    const shortPubkey = window.shortenPubkey(pubkey);
 
     return (
       <div
@@ -67,7 +65,6 @@ export class SessionMemberListItem extends React.Component<Props, State> {
             {this.renderAvatar()}
           </span>
           <span className="session-member-item__name">{name}</span>
-          <span className="session-member-item__pubkey">{shortPubkey}</span>
         </div>
         <span
           className={classNames(
