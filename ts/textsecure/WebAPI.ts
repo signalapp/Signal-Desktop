@@ -895,7 +895,7 @@ export function initialize({
   if (!is.string(contentProxyUrl)) {
     throw new Error('WebAPI.initialize: Invalid contentProxyUrl');
   }
-  if (!is.string(proxyUrl)) {
+  if (proxyUrl && !is.string(proxyUrl)) {
     throw new Error('WebAPI.initialize: Invalid proxyUrl');
   }
   if (!is.string(version)) {
