@@ -179,16 +179,7 @@ class ConversationHeader extends React.Component<Props> {
         <span className="module-conversation-header__title-text">{text}</span>
       );
 
-    let title;
-    if (profileName) {
-      title = `${profileName}`;
-    } else {
-      if (name) {
-        title = `${name}`;
-      } else {
-        title = `User ${window.shortenPubkey(phoneNumber)}`;
-      }
-    }
+    const title = profileName || name || phoneNumber;
 
     return (
       <div className="module-conversation-header__title">

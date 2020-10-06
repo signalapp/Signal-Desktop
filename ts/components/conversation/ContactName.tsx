@@ -36,7 +36,7 @@ export class ContactName extends React.Component<Props> {
           fontWeight: 'bold',
         }
       : {}) as React.CSSProperties;
-    const textProfile = profileName || name || '';
+    const textProfile = profileName || name || i18n('anonymous');
     const profileElement = shouldShowProfile ? (
       <span style={styles} className={`${prefix}__profile-name`}>
         <Emojify text={textProfile} i18n={i18n} />

@@ -1112,7 +1112,7 @@
 }
 
 .module-conversation-header__title {
-  margin-inline-start: 6px;
+  margin: 0px 20px;
 
   min-width: 0;
   font-size: 16px;
@@ -1130,6 +1130,12 @@
   align-items: center;
 
   -webkit-user-select: text;
+
+  .module-contact-name__profile-name {
+    width: 100%;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+  }
 }
 
 .module-conversation-header__title__profile-name {
