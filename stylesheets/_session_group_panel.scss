@@ -8,8 +8,8 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 22vw;
-  flex-shrink: 0;
+  width: -webkit-fill-available;
+
   @include themify($themes) {
     background: themed('leftpaneOverlayBackground');
     border-left: themed('sessionBorder');
@@ -142,11 +142,11 @@
         .module-media-grid-item__image,
         .module-media-grid-item {
           height: calc(
-            22vw / 3.5
-          ); //.group-settings is 22vw and we want three rows with some space so divide it by 3.5
+            22vw / 4
+          ); //.group-settings is 22vw and we want three rows with some space so divide it by 4
           width: calc(
-            22vw / 3.5
-          ); //.group-settings is 22vw and we want three rows with some space so divide it by 3.5
+            22vw / 4
+          ); //.group-settings is 22vw and we want three rows with some space so divide it by 4
           margin: auto;
           margin-bottom: 1vh;
         }
