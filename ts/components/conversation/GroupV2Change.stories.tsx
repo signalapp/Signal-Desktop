@@ -81,6 +81,35 @@ storiesOf('Components/Conversation/GroupV2Change', module)
       </>
     );
   })
+  .add('Create', () => {
+    return (
+      <>
+        {renderChange({
+          from: OUR_ID,
+          details: [
+            {
+              type: 'create',
+            },
+          ],
+        })}
+        {renderChange({
+          from: CONTACT_A,
+          details: [
+            {
+              type: 'create',
+            },
+          ],
+        })}
+        {renderChange({
+          details: [
+            {
+              type: 'create',
+            },
+          ],
+        })}
+      </>
+    );
+  })
   .add('Title', () => {
     return (
       <>
@@ -784,6 +813,28 @@ storiesOf('Components/Conversation/GroupV2Change', module)
             },
           ],
         })}
+
+        {renderChange({
+          from: CONTACT_B,
+          details: [
+            {
+              type: 'pending-remove-one',
+              conversationId: OUR_ID,
+              inviter: CONTACT_B,
+            },
+          ],
+        })}
+        {renderChange({
+          from: CONTACT_A,
+          details: [
+            {
+              type: 'pending-remove-one',
+              conversationId: CONTACT_B,
+              inviter: CONTACT_A,
+            },
+          ],
+        })}
+
         {renderChange({
           from: CONTACT_C,
           details: [

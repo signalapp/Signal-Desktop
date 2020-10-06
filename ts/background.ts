@@ -2546,6 +2546,9 @@ type WhatIsThis = typeof window.WhatIsThis;
     if (message.groupV2) {
       const { id } = message.groupV2;
       const conversationId = window.ConversationController.ensureGroup(id, {
+        // Note: We don't set active_at, because we don't want the group to show until
+        //   we have information about it beyond these initial details.
+        //   see maybeUpdateGroup().
         groupVersion: 2,
         masterKey: message.groupV2.masterKey,
         secretParams: message.groupV2.secretParams,

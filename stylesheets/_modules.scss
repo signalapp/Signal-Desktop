@@ -5293,6 +5293,18 @@ button.module-image__border-overlay:focus {
   }
 }
 
+.module-spinner__circle--on-progress-dialog {
+  @include light-theme {
+    background-color: $color-white;
+  }
+  @include dark-theme {
+    background-color: $color-gray-80;
+  }
+}
+.module-spinner__arc--on-progress-dialog {
+  background-color: $ultramarine-ui-light;
+}
+
 // Module: Highlighted Message Body
 
 .module-message-body__highlight {
@@ -6659,7 +6671,6 @@ button.module-image__border-overlay:focus {
   border-top: 1px solid $color-gray-05;
   display: flex;
   justify-content: flex-end;
-  margin-bottom: -18px;
   margin-left: -16px;
   margin-right: -16px;
   margin-top: -14px;
@@ -7808,10 +7819,11 @@ button.module-image__border-overlay:focus {
 
     &__content {
       @include font-body-1;
-      margin-bottom: 22px;
     }
 
     &__buttons {
+      margin-top: 22px;
+
       display: flex;
       flex-direction: row;
       justify-content: flex-end;
@@ -9274,6 +9286,60 @@ button.module-image__border-overlay:focus {
 
   margin-left: auto;
   margin-right: auto;
+}
+
+// Module: Progress Dialog
+
+.module-progress-dialog {
+  width: 138px;
+  padding: 18px;
+  border-radius: 8px;
+  @include popper-shadow();
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @include light-theme() {
+    background: $color-white;
+    color: $color-gray-90;
+  }
+
+  @include dark-theme() {
+    background: $color-gray-80;
+    color: $color-gray-05;
+  }
+}
+
+.module-progress-dialog__spinner {
+  padding: 10px;
+}
+
+.module-progress-dialog__text {
+  @include font-body-2;
+}
+
+.module-progress-dialog__overlay {
+  background: $color-black-alpha-40;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+
+// Module: Error Modal
+
+.module-error-modal__button-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 /* Third-party module: react-tooltip-lite */

@@ -115,6 +115,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   CURRENT_PROTOCOL_VERSION?: number;
 
+  // Set when sending some sync messages, so we get the functionality of
+  //   send(), without zombie messages going into the database.
+  doNotSave?: boolean;
+
   INITIAL_PROTOCOL_VERSION?: number;
 
   OUR_NUMBER?: string;
@@ -1715,7 +1719,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     this.set({ errors });
 
-    if (!skipSave) {
+    if (!skipSave && !this.doNotSave) {
       await window.Signal.Data.saveMessage(this.attributes, {
         Message: window.Whisper.Message,
       });
@@ -2130,9 +2134,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           unidentifiedDeliveries: result.unidentifiedDeliveries,
         });
 
-        await window.Signal.Data.saveMessage(this.attributes, {
-          Message: window.Whisper.Message,
-        });
+        if (!this.doNotSave) {
+          await window.Signal.Data.saveMessage(this.attributes, {
+            Message: window.Whisper.Message,
+          });
+        }
 
         this.trigger('sent', this);
         this.sendSyncMessage();
@@ -2315,9 +2321,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           synced: true,
           dataMessage: null,
         });
-        return window.Signal.Data.saveMessage(this.attributes, {
+
+        // Return early, skip the save
+        if (this.doNotSave) {
+          return result;
+        }
+
+        await window.Signal.Data.saveMessage(this.attributes, {
           Message: window.Whisper.Message,
-        }).then(() => result);
+        });
+        return result;
       });
     };
 

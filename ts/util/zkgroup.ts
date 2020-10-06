@@ -9,6 +9,7 @@ import {
   GroupSecretParams,
   ProfileKey,
   ProfileKeyCiphertext,
+  ProfileKeyCredential,
   ProfileKeyCredentialPresentation,
   ProfileKeyCredentialRequestContext,
   ProfileKeyCredentialResponse,
@@ -217,6 +218,29 @@ export function getAuthCredentialPresentation(
     secretParams,
     authCredential
   );
+  return compatArrayToArrayBuffer(presentation.serialize());
+}
+
+export function createProfileKeyCredentialPresentation(
+  clientZkProfileCipher: ClientZkProfileOperations,
+  profileKeyCredentialBase64: string,
+  groupSecretParamsBase64: string
+): ArrayBuffer {
+  const profileKeyCredentialArray = base64ToCompatArray(
+    profileKeyCredentialBase64
+  );
+  const profileKeyCredential = new ProfileKeyCredential(
+    profileKeyCredentialArray
+  );
+  const secretParams = new GroupSecretParams(
+    base64ToCompatArray(groupSecretParamsBase64)
+  );
+
+  const presentation = clientZkProfileCipher.createProfileKeyCredentialPresentation(
+    secretParams,
+    profileKeyCredential
+  );
+
   return compatArrayToArrayBuffer(presentation.serialize());
 }
 

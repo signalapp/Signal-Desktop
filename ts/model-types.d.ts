@@ -139,7 +139,7 @@ export type ConversationAttributesTypeType = 'private' | 'group';
 
 export type ConversationAttributesType = {
   accessKey: string | null;
-  addedBy: string;
+  addedBy?: string;
   capabilities: { uuid: string };
   color?: ColorType;
   discoveredUnregisteredAt: number;
@@ -155,8 +155,8 @@ export type ConversationAttributesType = {
   muteExpiresAt: number;
   pinIndex?: number;
   profileAvatar: WhatIsThis;
-  profileKeyCredential: unknown | null;
-  profileKeyVersion: string;
+  profileKeyCredential: string | null;
+  profileKeyVersion: string | null;
   quotedMessageId: string;
   sealedSender: unknown;
   sentMessageCount: number;

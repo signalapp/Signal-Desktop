@@ -52,6 +52,17 @@ export function renderChangeDetail(
   } = options;
   const fromYou = Boolean(from && from === ourConversationId);
 
+  if (detail.type === 'create') {
+    if (fromYou) {
+      return renderString('GroupV2--create--you', i18n);
+    }
+    if (from) {
+      return renderString('GroupV2--create--other', i18n, {
+        memberName: renderContact(from),
+      });
+    }
+    return renderString('GroupV2--create--unknown', i18n);
+  }
   if (detail.type === 'title') {
     const { newTitle } = detail;
 
@@ -406,10 +417,12 @@ export function renderChangeDetail(
   } else if (detail.type === 'pending-remove-one') {
     const { inviter, conversationId } = detail;
     const weAreInviter = Boolean(inviter && inviter === ourConversationId);
+    const weAreInvited = conversationId === ourConversationId;
     const sentByInvited = Boolean(from && from === conversationId);
+    const sentByInviter = Boolean(from && inviter && from === inviter);
 
     if (weAreInviter) {
-      if (inviter && sentByInvited) {
+      if (sentByInvited) {
         return renderString('GroupV2--pending-remove--decline--you', i18n, [
           renderContact(conversationId),
         ]);
@@ -438,12 +451,29 @@ export function renderChangeDetail(
       );
     }
     if (sentByInvited) {
+      if (fromYou) {
+        return renderString('GroupV2--pending-remove--decline--from-you', i18n);
+      }
       if (inviter) {
         return renderString('GroupV2--pending-remove--decline--other', i18n, [
           renderContact(inviter),
         ]);
       }
       return renderString('GroupV2--pending-remove--decline--unknown', i18n);
+    }
+    if (inviter && sentByInviter) {
+      if (weAreInvited) {
+        return renderString(
+          'GroupV2--pending-remove--revoke-own--to-you',
+          i18n,
+          [renderContact(inviter)]
+        );
+      }
+      return renderString(
+        'GroupV2--pending-remove--revoke-own--unknown',
+        i18n,
+        [renderContact(inviter)]
+      );
     }
     if (inviter) {
       if (fromYou) {

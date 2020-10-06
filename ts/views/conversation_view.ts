@@ -1,4 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+// Note: because this file is pulled in directly from background.html, we can't use any
+//   imports here aside from types. That means everything will have to be references via
+//   globals right on window.
+
 interface GetLinkPreviewResult {
   title: string;
   url: string;
@@ -247,10 +252,6 @@ Whisper.CannotMixImageAndNonImageAttachmentsToast = Whisper.ToastView.extend({
 
 Whisper.MaxAttachmentsToast = Whisper.ToastView.extend({
   template: window.i18n('maximumAttachments'),
-});
-
-Whisper.TimerConflictToast = Whisper.ToastView.extend({
-  template: window.i18n('GroupV2--timerConflict'),
 });
 
 Whisper.ConversationLoadingScreen = Whisper.View.extend({
@@ -592,26 +593,51 @@ Whisper.ConversationView = Whisper.View.extend({
       clearQuotedMessage: () => this.setQuoteMessage(null),
       micCellEl,
       attachmentListEl,
-      onAccept: this.model.syncMessageRequestResponse.bind(
-        this.model,
-        messageRequestEnum.ACCEPT
-      ),
-      onBlock: this.model.syncMessageRequestResponse.bind(
-        this.model,
-        messageRequestEnum.BLOCK
-      ),
-      onUnblock: this.model.syncMessageRequestResponse.bind(
-        this.model,
-        messageRequestEnum.ACCEPT
-      ),
-      onDelete: this.model.syncMessageRequestResponse.bind(
-        this.model,
-        messageRequestEnum.DELETE
-      ),
-      onBlockAndDelete: this.model.syncMessageRequestResponse.bind(
-        this.model,
-        messageRequestEnum.BLOCK_AND_DELETE
-      ),
+      onAccept: () => {
+        this.longRunningTaskWrapper({
+          name: 'onAccept',
+          task: this.model.syncMessageRequestResponse.bind(
+            this.model,
+            messageRequestEnum.ACCEPT
+          ),
+        });
+      },
+      onBlock: () => {
+        this.longRunningTaskWrapper({
+          name: 'onBlock',
+          task: this.model.syncMessageRequestResponse.bind(
+            this.model,
+            messageRequestEnum.BLOCK
+          ),
+        });
+      },
+      onUnblock: () => {
+        this.longRunningTaskWrapper({
+          name: 'onUnblock',
+          task: this.model.syncMessageRequestResponse.bind(
+            this.model,
+            messageRequestEnum.ACCEPT
+          ),
+        });
+      },
+      onDelete: () => {
+        this.longRunningTaskWrapper({
+          name: 'onDelete',
+          task: this.model.syncMessageRequestResponse.bind(
+            this.model,
+            messageRequestEnum.DELETE
+          ),
+        });
+      },
+      onBlockAndDelete: () => {
+        this.longRunningTaskWrapper({
+          name: 'onBlockAndDelete',
+          task: this.model.syncMessageRequestResponse.bind(
+            this.model,
+            messageRequestEnum.BLOCK_AND_DELETE
+          ),
+        });
+      },
     };
 
     this.compositionAreaView = new Whisper.ReactWrapperView({
@@ -624,6 +650,74 @@ Whisper.ConversationView = Whisper.View.extend({
 
     // Finally, add it to the DOM
     this.$('.composition-area-placeholder').append(this.compositionAreaView.el);
+  },
+
+  async longRunningTaskWrapper({
+    name,
+    task,
+  }: {
+    name: string;
+    task: () => Promise<void>;
+  }): Promise<void> {
+    const idLog = `${name}/${this.model.idForLogging()}`;
+    const ONE_SECOND = 1000;
+
+    let progressView: any | undefined;
+    let progressTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
+      window.log.info(`longRunningTaskWrapper/${idLog}: Creating spinner`);
+
+      // Note: this component uses a portal to render itself into the top-level DOM. No
+      //   need to attach it to the DOM here.
+      progressView = new Whisper.ReactWrapperView({
+        className: 'progress-modal-wrapper',
+        Component: window.Signal.Components.ProgressModal,
+      });
+    }, ONE_SECOND);
+
+    // Note: any task we put here needs to have its own safety valve; this function will
+    //   show a spinner until it's done
+    try {
+      window.log.info(`longRunningTaskWrapper/${idLog}: Starting task`);
+      await task();
+      window.log.info(
+        `longRunningTaskWrapper/${idLog}: Task completed successfully`
+      );
+
+      if (progressTimeout) {
+        clearTimeout(progressTimeout);
+        progressTimeout = undefined;
+      }
+      if (progressView) {
+        progressView.remove();
+        progressView = undefined;
+      }
+    } catch (error) {
+      window.log.error(
+        `longRunningTaskWrapper/${idLog}: Error!`,
+        error && error.stack ? error.stack : error
+      );
+
+      if (progressTimeout) {
+        clearTimeout(progressTimeout);
+        progressTimeout = undefined;
+      }
+      if (progressView) {
+        progressView.remove();
+        progressView = undefined;
+      }
+
+      window.log.info(`longRunningTaskWrapper/${idLog}: Showing error dialog`);
+
+      // Note: this component uses a portal to render itself into the top-level DOM. No
+      //   need to attach it to the DOM here.
+      const errorView = new Whisper.ReactWrapperView({
+        className: 'error-modal-wrapper',
+        Component: window.Signal.Components.ErrorModal,
+        props: {
+          onClose: () => errorView.remove(),
+        },
+      });
+    }
   },
 
   setupTimeline() {
@@ -2619,17 +2713,12 @@ Whisper.ConversationView = Whisper.View.extend({
   },
 
   async setDisappearingMessages(seconds: any) {
-    try {
-      if (seconds > 0) {
-        await this.model.updateExpirationTimer(seconds);
-      } else {
-        await this.model.updateExpirationTimer(null);
-      }
-    } catch (error) {
-      if (error.code === 409) {
-        this.showToast(Whisper.TimerConflictToast);
-      }
-    }
+    const valueToSet = seconds > 0 ? seconds : null;
+
+    await this.longRunningTaskWrapper({
+      name: 'updateExpirationTimer',
+      task: async () => this.model.updateExpirationTimer(valueToSet),
+    });
   },
 
   setMuteNotifications(ms: number) {

@@ -90,7 +90,7 @@ type QuoteAttachmentType = {
   attachmentPointer?: AttachmentPointerClass;
 };
 
-type GroupV2InfoType = {
+export type GroupV2InfoType = {
   groupChange?: ArrayBuffer;
   masterKey: ArrayBuffer;
   revision: number;

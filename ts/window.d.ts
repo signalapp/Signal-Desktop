@@ -16,8 +16,10 @@ import {
 import { ContactRecordIdentityState, TextSecureType } from './textsecure.d';
 import { WebAPIConnectType } from './textsecure/WebAPI';
 import { CallingClass } from './services/calling';
+import * as Groups from './groups';
 import * as Crypto from './Crypto';
 import * as RemoteConfig from './RemoteConfig';
+import * as zkgroup from './util/zkgroup';
 import { LocalizerType, BodyRangesType } from './types/Util';
 import { CallHistoryDetailsType } from './types/Calling';
 import { ColorType } from './types/Colors';
@@ -33,6 +35,8 @@ import { MessageModel } from './models/messages';
 import { ConversationModel } from './models/conversations';
 import { combineNames } from './util';
 import { BatcherType } from './util/batcher';
+import { ErrorModal } from './components/ErrorModal';
+import { ProgressModal } from './components/ProgressModal';
 
 export { Long } from 'long';
 
@@ -166,16 +170,7 @@ declare global {
       };
       Crypto: typeof Crypto;
       Data: typeof Data;
-      Groups: {
-        maybeUpdateGroup: (options: unknown) => Promise<void>;
-        waitThenMaybeUpdateGroup: (options: unknown) => Promise<void>;
-        uploadGroupChange: (
-          options: unknown
-        ) => Promise<{ toArrayBuffer: () => ArrayBuffer }>;
-        buildDisappearingMessagesTimerChange: (
-          options: unknown
-        ) => { version: number };
-      };
+      Groups: typeof Groups;
       Metadata: {
         SecretSessionCipher: typeof SecretSessionCipherClass;
         createCertificateValidator: (
@@ -383,23 +378,7 @@ declare global {
           del: unknown,
           bool: boolean
         ) => void;
-        zkgroup: {
-          generateProfileKeyCredentialRequest: (
-            clientZkProfileCipher: unknown,
-            uuid: string,
-            profileKey: unknown
-          ) => { requestHex: string; context: unknown };
-          getClientZkProfileOperations: (params: unknown) => unknown;
-          handleProfileKeyCredential: (
-            clientZkProfileCipher: unknown,
-            profileCredentialRequestContext: unknown,
-            credential: unknown
-          ) => unknown;
-          deriveProfileKeyVersion: (
-            profileKey: unknown,
-            uuid: string
-          ) => string;
-        };
+        zkgroup: typeof zkgroup;
         combineNames: typeof combineNames;
         migrateColor: (color: string) => ColorType;
         createBatcher: (options: WhatIsThis) => WhatIsThis;
@@ -429,20 +408,23 @@ declare global {
         renderChange: (change: unknown, things: unknown) => Array<string>;
       };
       Components: {
-        StagedLinkPreview: any;
-        Quote: any;
-        ContactDetail: any;
-        MessageDetail: any;
-        Lightbox: any;
-        MediaGallery: any;
-        CaptionEditor: any;
-        ConversationHeader: any;
         AttachmentList: any;
+        CaptionEditor: any;
+        ContactDetail: any;
+        ConversationHeader: any;
+        ErrorModal: typeof ErrorModal;
+        Lightbox: any;
+        LightboxGallery: any;
+        MediaGallery: any;
+        MessageDetail: any;
+        ProgressModal: typeof ProgressModal;
+        Quote: any;
+        StagedLinkPreview: any;
+
         getCallingNotificationText: (
           callHistoryDetails: unknown,
           i18n: unknown
         ) => string;
-        LightboxGallery: any;
       };
       OS: {
         isLinux: () => boolean;

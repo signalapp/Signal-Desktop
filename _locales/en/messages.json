@@ -2951,13 +2951,46 @@
     "message": "Emoji",
     "description": "Label for emoji button"
   },
+
+  "ErrorModal--title": {
+    "message": "Something went wrong!",
+    "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+  },
+  "ErrorModal--description": {
+    "message": "Please try again or contact support.",
+    "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+  },
+  "ErrorModal--buttonText": {
+    "message": "Okay",
+    "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+  },
+
   "GroupV2--admin": {
     "message": "Admin",
     "description": "Shown next to the set of administrators in a group"
   },
-  "GroupV2--timerConflict": {
-    "message": "Failed to update disappearing message timer. Please try again later.",
-    "description": "Shown if the user runs into a group update conflict attempting to update a GroupV2 message timer"
+  "updating": {
+    "message": "Updating...",
+    "description": "Shown along with a spinner when an update operation takes longer than one second"
+  },
+
+  "GroupV2--create--you": {
+    "message": "You created the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
+  "GroupV2--create--other": {
+    "message": "$memberName$ created the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "memberName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--create--unknown": {
+    "message": "The group was created.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--title--change--other": {
     "message": "$memberName$ changed the group name to \"$newTitle$\".",
@@ -3253,7 +3286,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-add--you--unknown": {
-    "message": "A member added you to the group.",
+    "message": "You were added to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--other--other": {
@@ -3271,7 +3304,7 @@
     }
   },
   "GroupV2--member-remove--other--self": {
-    "message": "$memberName$ left.",
+    "message": "$memberName$ left the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes",
     "placeholders": {
       "memberName": {
@@ -3311,11 +3344,11 @@
     }
   },
   "GroupV2--member-remove--you--you": {
-    "message": "You left.",
+    "message": "You left the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--member-remove--you--unknown": {
-    "message": "A member removed you.",
+    "message": "You were removed from the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
 
@@ -3437,7 +3470,7 @@
     }
   },
   "GroupV2--pending-add--one--other--unknown": {
-    "message": "A member invited 1 person to the group.",
+    "message": "One person was invited to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes",
     "placeholders": {
       "inviteeName": {
@@ -3457,7 +3490,7 @@
     }
   },
   "GroupV2--pending-add--one--you--unknown": {
-    "message": "A member invited you to the group.",
+    "message": "You were invited to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "GroupV2--pending-add--many--other": {
@@ -3485,7 +3518,7 @@
     }
   },
   "GroupV2--pending-add--many--unknown": {
-    "message": "A member invited $count$ people to the group.",
+    "message": "$count$ people were invited to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes",
     "placeholders": {
       "count": {
@@ -3515,6 +3548,10 @@
       }
     }
   },
+  "GroupV2--pending-remove--decline--from-you": {
+    "message": "You declined the invitation to the group.",
+    "description": "Shown in timeline or conversation preview when v2 group changes"
+  },
   "GroupV2--pending-remove--decline--unknown": {
     "message": "1 person declined their invitation to the group.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
@@ -3534,6 +3571,26 @@
     "description": "Shown in timeline or conversation preview when v2 group changes",
     "placeholders": {
       "inviteeName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke-own--to-you": {
+    "message": "$inviterName$ revoked their invitation to you.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "inviterName": {
+        "content": "$1",
+        "example": "Bob"
+      }
+    }
+  },
+  "GroupV2--pending-remove--revoke-own--unknown": {
+    "message": "$inviterName$ revoked their invitation to 1 person.",
+    "description": "Shown in timeline or conversation preview when v2 group changes",
+    "placeholders": {
+      "inviterName": {
         "content": "$1",
         "example": "Bob"
       }

@@ -65,10 +65,6 @@ story.add('No Image', () => {
   return <StagedLinkPreview {...createProps()} />;
 });
 
-story.add('No Image', () => {
-  return <StagedLinkPreview {...createProps()} />;
-});
-
 story.add('Image', () => {
   const props = createProps({
     image: createAttachment({
@@ -102,18 +98,6 @@ story.add('No Image, Long Title With Description', () => {
   return <StagedLinkPreview {...props} />;
 });
 
-story.add('Image, Long Title With Description', () => {
-  const props = createProps({
-    title: LONG_TITLE,
-    image: createAttachment({
-      url: '/fixtures/kitten-4-112-112.jpg',
-      contentType: 'image/jpeg' as MIMEType,
-    }),
-  });
-
-  return <StagedLinkPreview {...props} />;
-});
-
 story.add('No Image, Long Title Without Description', () => {
   const props = createProps({
     title: LONG_TITLE,
@@ -123,7 +107,7 @@ story.add('No Image, Long Title Without Description', () => {
   return <StagedLinkPreview {...props} />;
 });
 
-story.add('Image, Long Title With Description', () => {
+story.add('Image, Long Title Without Description', () => {
   const props = createProps({
     title: LONG_TITLE,
     image: createAttachment({

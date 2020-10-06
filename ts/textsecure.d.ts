@@ -318,6 +318,7 @@ export declare class GroupChangeClass {
     data: ArrayBuffer | ByteBufferClass,
     encoding?: string
   ) => GroupChangeClass;
+  toArrayBuffer: () => ArrayBuffer;
 
   actions?: ProtoBinaryType;
   serverSignature?: ProtoBinaryType;
