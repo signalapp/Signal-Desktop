@@ -122,7 +122,9 @@ async function generateManifest(
   isNewManifest = false
 ): Promise<GeneratedManifestType> {
   window.log.info(
-    `storageService.generateManifest: generating manifest for version ${version}. Is new? ${isNewManifest}`
+    'storageService.generateManifest: generating manifest',
+    version,
+    isNewManifest
   );
 
   const ITEM_TYPE = window.textsecure.protobuf.ManifestRecord.Identifier.Type;
@@ -211,20 +213,18 @@ async function generateManifest(
     }
   }
 
-  const unknownRecordsArray =
-    window.storage.get('storage-service-unknown-records') || [];
+  const unknownRecordsArray = (
+    window.storage.get('storage-service-unknown-records') || []
+  ).filter((record: UnknownRecord) => !validRecordTypes.has(record.itemType));
 
   window.log.info(
-    `storageService.generateManifest: adding ${unknownRecordsArray.length} unknown records`
+    'storageService.generateManifest: adding unknown records:',
+    unknownRecordsArray.length
   );
 
   // When updating the manifest, ensure all "unknown" keys are added to the
   // new manifest, so we don't inadvertently delete something we don't understand
   unknownRecordsArray.forEach((record: UnknownRecord) => {
-    if (validRecordTypes.has(record.itemType)) {
-      return;
-    }
-
     const identifier = new window.textsecure.protobuf.ManifestRecord.Identifier();
     identifier.type = record.itemType;
     identifier.raw = base64ToArrayBuffer(record.storageID);
@@ -236,7 +236,8 @@ async function generateManifest(
     window.storage.get('storage-service-error-records') || [];
 
   window.log.info(
-    `storageService.generateManifest: adding ${recordsWithErrors.length} records that had errors in the previous merge`
+    'storageService.generateManifest: adding records that had errors in the previous merge',
+    recordsWithErrors.length
   );
 
   // These records failed to merge in the previous fetchManifest, but we still
@@ -367,7 +368,9 @@ async function uploadManifest(
   const credentials = window.storage.get('storageCredentials');
   try {
     window.log.info(
-      `storageService.uploadManifest: inserting ${newItems.size} items, deleting ${deleteKeys.length} keys`
+      'storageService.uploadManifest: keys inserting, deleting:',
+      newItems.size,
+      deleteKeys.length
     );
 
     const writeOperation = new window.textsecure.protobuf.WriteOperation();
@@ -384,7 +387,8 @@ async function uploadManifest(
     );
 
     window.log.info(
-      `storageService.uploadManifest: upload done, updating ${conversationsToUpdate.length} conversation(s) with new storageIDs`
+      'storageService.uploadManifest: upload done, updating conversation(s) with new storageIDs:',
+      conversationsToUpdate.length
     );
 
     // update conversations with the new storageID
@@ -647,6 +651,14 @@ async function processManifest(
     }
   });
 
+  const recordsWithErrors =
+    window.storage.get('storage-service-error-records') || [];
+
+  // Do not fetch any records that we failed to merge in the previous fetch
+  recordsWithErrors.forEach((record: UnknownRecord) => {
+    localKeys.push(record.storageID);
+  });
+
   window.log.info(
     `storageService.processManifest: localKeys.length ${localKeys.length}`
   );
@@ -763,7 +775,7 @@ async function processManifest(
       unknownRecords.set(record.storageID, record);
     });
 
-    const recordsWithErrors: Array<UnknownRecord> = [];
+    const newRecordsWithErrors: Array<UnknownRecord> = [];
 
     let hasConflict = false;
 
@@ -774,7 +786,7 @@ async function processManifest(
           storageID: mergedRecord.storageID,
         });
       } else if (mergedRecord.hasError) {
-        recordsWithErrors.push({
+        newRecordsWithErrors.push({
           itemType: mergedRecord.itemType,
           storageID: mergedRecord.storageID,
         });
@@ -789,14 +801,19 @@ async function processManifest(
     );
 
     window.log.info(
-      `storageService.processManifest: Found ${newUnknownRecords.length} unknown records`
+      'storageService.processManifest: Unknown records found:',
+      newUnknownRecords.length
     );
     window.storage.put('storage-service-unknown-records', newUnknownRecords);
 
     window.log.info(
-      `storageService.processManifest: Found ${recordsWithErrors.length} records with errors`
+      'storageService.processManifest: Records with errors:',
+      newRecordsWithErrors.length
     );
-    window.storage.put('storage-service-error-records', recordsWithErrors);
+    // Refresh the list of records that had errors with every push, that way
+    // this list doesn't grow unbounded and we keep the list of storage keys
+    // fresh.
+    window.storage.put('storage-service-error-records', newRecordsWithErrors);
 
     const now = Date.now();
 
