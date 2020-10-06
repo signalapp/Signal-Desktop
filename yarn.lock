@@ -6287,10 +6287,10 @@ electron-window@^0.8.0:
   dependencies:
     is-electron-renderer "^2.0.0"
 
-electron@8.3.4:
-  version "8.3.4"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-8.3.4.tgz#d9c5441f34462a022480f3ebe2cf39ea5dd37b96"
-  integrity sha512-aSYXBV0PxYHmXhjGFpR0x38zbO7UTDex2JrT5tcqJpUZTY+sKdfo9PA1TpiyrHNjA5+Q8UseRUsydRedOTeZQA==
+electron@8.5.2:
+  version "8.5.2"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-8.5.2.tgz#7b0246c6676a39df0e5e384b11cfe854fe5917f0"
+  integrity sha512-VU+zZnmCzxoZ5UfBg2UGVm+nyxlNlQOQkotMLfk7FCtnkIOhX+sosl618OCxUWjOvPc+Mpg5MEkEmxPU5ziW4Q==
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^12.0.12"
