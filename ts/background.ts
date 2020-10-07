@@ -619,17 +619,6 @@ type WhatIsThis = typeof window.WhatIsThis;
     // we generate on load of each convo.
     window.Signal.RemoteConfig.initRemoteConfig();
 
-    // On startup, we don't want to wait for the remote config fetch if we've already
-    //   learned that this instance supports GroupsV2.
-    // This is how we keep it sticky. Once it is enabled, we never disable it.
-    if (
-      window.Signal.RemoteConfig.isEnabled('desktop.gv2') ||
-      window.storage.get('gv2-enabled')
-    ) {
-      window.GV2 = true;
-      window.storage.put('gv2-enabled', true);
-    }
-
     try {
       await Promise.all([
         window.ConversationController.load(),
@@ -1632,10 +1621,6 @@ type WhatIsThis = typeof window.WhatIsThis;
         if (!enabled) {
           return;
         }
-
-        window.GV2 = true;
-
-        await window.storage.put('gv2-enabled', true);
 
         // Erase current manifest version so we re-process storage service data
         await window.storage.remove('manifestVersion');

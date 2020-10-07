@@ -1199,14 +1199,6 @@ class MessageReceiverInner extends EventTarget {
       );
     }
 
-    if (!window.GV2 && msg.groupV2) {
-      this.removeFromCache(envelope);
-      window.log.info(
-        'MessageReceiver.handleDataMessage: dropping GroupV2 message'
-      );
-      return undefined;
-    }
-
     this.deriveGroupsV2Data(msg);
 
     if (
@@ -1526,14 +1518,6 @@ class MessageReceiverInner extends EventTarget {
         throw new Error(
           'MessageReceiver.handleSyncMessage: sync sent message was missing message'
         );
-      }
-
-      if (!window.GV2 && sentMessage.message.groupV2) {
-        this.removeFromCache(envelope);
-        window.log.info(
-          'MessageReceiver.handleSyncMessage: dropping GroupV2 message'
-        );
-        return undefined;
       }
 
       this.deriveGroupsV2Data(sentMessage.message);

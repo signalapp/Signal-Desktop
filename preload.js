@@ -13,13 +13,8 @@ try {
   const { app } = remote;
   const { nativeTheme } = remote.require('electron');
 
-  // Enable calling
-  window.CALLING = true;
-
   window.PROTO_ROOT = 'protos';
   const config = require('url').parse(window.location.toString(), true).query;
-
-  window.GV2 = false;
 
   let title = config.name;
   if (config.environment !== 'production') {

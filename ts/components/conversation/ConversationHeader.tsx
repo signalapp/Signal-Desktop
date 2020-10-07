@@ -248,10 +248,6 @@ export class ConversationHeader extends React.Component<PropsType> {
   }
 
   public renderOutgoingAudioCallButton(): JSX.Element | null {
-    if (!window.CALLING) {
-      return null;
-    }
-
     const {
       i18n,
       isMe,
@@ -281,10 +277,6 @@ export class ConversationHeader extends React.Component<PropsType> {
   }
 
   public renderOutgoingVideoCallButton(): JSX.Element | null {
-    if (!window.CALLING) {
-      return null;
-    }
-
     const { i18n, isMe, type } = this.props;
 
     if (type === 'group' || isMe) {

@@ -586,11 +586,7 @@ async function mergeRecord(
       hasConflict = await mergeContactRecord(storageID, storageRecord.contact);
     } else if (itemType === ITEM_TYPE.GROUPV1 && storageRecord.groupV1) {
       hasConflict = await mergeGroupV1Record(storageID, storageRecord.groupV1);
-    } else if (
-      window.GV2 &&
-      itemType === ITEM_TYPE.GROUPV2 &&
-      storageRecord.groupV2
-    ) {
+    } else if (itemType === ITEM_TYPE.GROUPV2 && storageRecord.groupV2) {
       hasConflict = await mergeGroupV2Record(storageID, storageRecord.groupV2);
     } else if (itemType === ITEM_TYPE.ACCOUNT && storageRecord.account) {
       hasConflict = await mergeAccountRecord(storageID, storageRecord.account);
