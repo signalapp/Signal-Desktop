@@ -38,7 +38,9 @@ textarea {
     user-select: text;
 
     &::selection {
-      background: rgba($session-color-green, 0.6);
+      @include themify($themes) {
+        background: themed('textHighlight');
+      }
     }
   }
 }

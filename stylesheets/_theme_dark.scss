@@ -295,27 +295,6 @@
 
   // Module: Message
 
-  .module-message__buttons__download {
-    @include color-svg('../images/download.svg', $color-light-45);
-    &:hover {
-      @include color-svg('../images/download.svg', $color-dark-05);
-    }
-  }
-
-  .module-message__buttons__reply {
-    @include color-svg('../images/reply.svg', $color-light-45);
-    &:hover {
-      @include color-svg('../images/reply.svg', $color-dark-05);
-    }
-  }
-
-  .module-message__buttons__menu {
-    @include color-svg('../images/ellipsis.svg', $color-light-45);
-    &:hover {
-      @include color-svg('../images/ellipsis.svg', $color-dark-05);
-    }
-  }
-
   .module-message__error {
     @include color-svg('../images/error.svg', $session-color-danger);
   }

@@ -769,89 +769,6 @@ export class Message extends React.PureComponent<Props, State> {
     }
   }
 
-  public renderMenu(isCorrectSide: boolean, triggerId: string) {
-    const {
-      attachments,
-      direction,
-      disableMenu,
-      isKickedFromGroup,
-      onDownload,
-      onReply,
-    } = this.props;
-
-    if (!isCorrectSide || disableMenu || isKickedFromGroup) {
-      return null;
-    }
-
-    const fileName =
-      attachments && attachments[0] ? attachments[0].fileName : null;
-    const isDangerous = isFileDangerous(fileName || '');
-    const multipleAttachments = attachments && attachments.length > 1;
-    const firstAttachment = attachments && attachments[0];
-
-    const downloadButton =
-      !multipleAttachments && firstAttachment && !firstAttachment.pending ? (
-        <div
-          onClick={(e: any) => {
-            if (onDownload) {
-              onDownload(isDangerous);
-            }
-            e.stopPropagation();
-          }}
-          role="button"
-          className={classNames(
-            'module-message__buttons__download',
-            `module-message__buttons__download--${direction}`
-          )}
-        />
-      ) : null;
-
-    const replyButton = (
-      <div
-        onClick={(e: any) => {
-          if (onReply) {
-            onReply();
-          }
-          e.stopPropagation();
-        }}
-        role="button"
-        className={classNames(
-          'module-message__buttons__reply',
-          `module-message__buttons__download--${direction}`
-        )}
-      />
-    );
-
-    const menuButton = (
-      <ContextMenuTrigger id={triggerId} ref={this.captureMenuTriggerBound}>
-        <div
-          role="button"
-          onClick={this.showMenuBound}
-          className={classNames(
-            'module-message__buttons__menu',
-            `module-message__buttons__download--${direction}`
-          )}
-        />
-      </ContextMenuTrigger>
-    );
-
-    const first = direction === 'incoming' ? downloadButton : menuButton;
-    const last = direction === 'incoming' ? menuButton : downloadButton;
-
-    return (
-      <div
-        className={classNames(
-          'module-message__buttons',
-          `module-message__buttons--${direction}`
-        )}
-      >
-        {first}
-        {replyButton}
-        {last}
-      </div>
-    );
-  }
-
   public renderContextMenu(triggerId: string) {
     const {
       attachments,
@@ -1058,12 +975,7 @@ export class Message extends React.PureComponent<Props, State> {
     } = this.props;
     const { expired, expiring } = this.state;
 
-    // This id is what connects our triple-dot click with our associated pop-up menu.
-    //   It needs to be unique.
     // The Date.now() is a workaround to be sure a single triggerID with this id exists
-    const triggerId = id
-      ? String(`message-${id}-${Date.now()}`)
-      : String(`message-${authorPhoneNumber}-${timestamp}`);
     const rightClickTriggerId = id
       ? String(`message-ctx-${id}-${Date.now()}`)
       : String(`message-ctx-${authorPhoneNumber}-${timestamp}`);
@@ -1111,9 +1023,6 @@ export class Message extends React.PureComponent<Props, State> {
             )}
           >
             {this.renderError(isIncoming)}
-            {isRss || isKickedFromGroup
-              ? null
-              : this.renderMenu(!isIncoming, triggerId)}
             <div
               className={classNames(
                 'module-message__container',
@@ -1148,10 +1057,6 @@ export class Message extends React.PureComponent<Props, State> {
               {this.renderMetadata()}
             </div>
             {this.renderError(!isIncoming)}
-            {isRss || multiSelectMode
-              ? null
-              : this.renderMenu(isIncoming, triggerId)}
-            {enableContextMenu ? this.renderContextMenu(triggerId) : null}
             {enableContextMenu
               ? this.renderContextMenu(rightClickTriggerId)
               : null}

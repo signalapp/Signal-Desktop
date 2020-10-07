@@ -641,9 +641,7 @@
         this.set({ verified });
 
         // we don't await here because we don't need to wait for this to finish
-        window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        this.commit();
 
         return;
       }
@@ -706,9 +704,7 @@
       }
 
       this.set({ verified });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await this.commit();
 
       // Three situations result in a verification notice in the conversation:
       //   1) The message came from an explicit verification in another client (not
@@ -813,16 +809,12 @@
           secondaryStatus: newStatus,
           primaryDevicePubKey,
         });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
     async updateGroupAdmins(groupAdmins) {
       this.set({ groupAdmins });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await this.commit();
     },
     isUnverified() {
       if (this.isPrivate()) {
@@ -1047,7 +1039,7 @@
       );
     },
 
-    getUnread() {
+    async getUnread() {
       return window.Signal.Data.getUnreadByConversation(this.id, {
         MessageCollection: Whisper.MessageCollection,
       });
@@ -1307,9 +1299,7 @@
           timestamp: now,
           isArchived: false,
         });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
 
         // We're offline!
         if (!textsecure.messaging) {
@@ -1494,17 +1484,13 @@
       this.set(lastMessageUpdate);
 
       if (this.hasChanged()) {
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
 
     async setArchived(isArchived) {
       this.set({ isArchived });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await this.commit();
     },
 
     async updateExpirationTimer(
@@ -1541,9 +1527,7 @@
       const timestamp = (receivedAt || Date.now()) - 1;
 
       this.set({ expireTimer });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await this.commit();
 
       const message = this.messageCollection.add({
         // Even though this isn't reflected to the user, we want to place the last seen
@@ -1636,9 +1620,7 @@
       }
       if (this.get('sessionResetStatus') !== newStatus) {
         this.set({ sessionResetStatus: newStatus });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
     async onSessionResetInitiated() {
@@ -1741,6 +1723,7 @@
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
         Conversation: Whisper.Conversation,
       });
+      await this.trigger('change', this);
     },
 
     async addMessage(messageAttributes) {
@@ -1866,7 +1849,6 @@
           conversationId,
         })
       );
-
       let unreadMessages = await this.getUnread();
       const oldUnread = unreadMessages.filter(
         message => message.get('received_at') <= newestUnreadDate
@@ -1898,7 +1880,7 @@
       unreadMessages = unreadMessages.filter(m => Boolean(m.isIncoming()));
 
       const unreadCount = unreadMessages.length - read.length;
-      this.set({ unreadCount });
+      this.set('unreadCount', unreadCount);
 
       const mentionRead = (() => {
         const stillUnread = unreadMessages.filter(
@@ -1917,9 +1899,7 @@
         this.set({ mentionedUs: false });
       }
 
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await this.commit();
 
       // If a message has errors, we don't want to send anything out about it.
       //   read syncs - let's wait for a client that really understands the message
@@ -1978,18 +1958,14 @@
       }
 
       this.set({ nickname: trimmed });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await this.commit();
 
       await this.updateProfileName();
     },
     async setLokiProfile(newProfile) {
       if (!_.isEqual(this.get('profile'), newProfile)) {
         this.set({ profile: newProfile });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
 
       // if set to null, it will show a placeholder with color and first letter
@@ -2041,9 +2017,7 @@
           channelId: newChannelId,
           active_at: Date.now(),
         });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
     getPublicSource() {
@@ -2080,9 +2054,7 @@
       }
       if (this.get('lastPublicMessage') !== newLastMessageId) {
         this.set({ lastPublicMessage: newLastMessageId });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
     isModerator(pubKey) {
@@ -2099,9 +2071,7 @@
       // TODO: compare array properly
       if (!_.isEqual(this.get('moderators'), moderators)) {
         this.set({ moderators });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
 
@@ -2136,18 +2106,14 @@
       const profileName = this.get('profileName');
       if (profileName !== name) {
         this.set({ profileName: name });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
     async setGroupName(name) {
       const profileName = this.get('name');
       if (profileName !== name) {
         this.set({ name });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
     async setSubscriberCount(count) {
@@ -2166,18 +2132,14 @@
           this.set({ name });
         }
         // save
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
     async setProfileAvatar(avatar) {
       const profileAvatar = this.get('profileAvatar');
       if (profileAvatar !== avatar) {
         this.set({ profileAvatar: avatar });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
     async setProfileKey(profileKey) {
@@ -2194,9 +2156,7 @@
 
         await this.deriveAccessKeyIfNeeded();
 
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
 
@@ -2426,9 +2386,7 @@
         });
       }
 
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await this.commit();
     },
 
     getName() {

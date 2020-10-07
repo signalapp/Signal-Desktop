@@ -409,10 +409,7 @@ async function onContactReceived(details: any) {
       );
       conversation.set(newAttributes);
     }
-
-    await window.Signal.Data.updateConversation(id, conversation.attributes, {
-      Conversation: Whisper.Conversation,
-    });
+    await conversation.commit();
     const { expireTimer } = details;
     const isValidExpireTimer = typeof expireTimer === 'number';
     if (isValidExpireTimer) {
