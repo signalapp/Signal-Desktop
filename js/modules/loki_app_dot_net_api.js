@@ -1619,14 +1619,7 @@ class LokiPublicChannelAPI {
     if (data.counts && Number.isInteger(data.counts.subscribers)) {
       this.conversation.setSubscriberCount(data.counts.subscribers);
     }
-
-    await window.Signal.Data.updateConversation(
-      this.conversation.id,
-      this.conversation.attributes,
-      {
-        Conversation: Whisper.Conversation,
-      }
-    );
+    await this.conversation.commit();
   }
 
   // get moderation actions

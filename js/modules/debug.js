@@ -50,11 +50,7 @@ exports.createConversation = async ({
     unread: numMessages,
   });
   const conversationId = conversation.get('id');
-  await Signal.Data.updateConversation(
-    conversationId,
-    conversation.attributes,
-    { Conversation: Whisper.Conversation }
-  );
+  await conversation.commit();
 
   await Promise.all(
     range(0, numMessages).map(async index => {

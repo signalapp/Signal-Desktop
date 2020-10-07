@@ -193,7 +193,6 @@ export const _getLeftPaneLists = (
   };
 
   const contacts: Array<ConversationType> = filterToPrimary(allContacts);
-
   return {
     conversations,
     archivedConversations,
