@@ -1652,6 +1652,10 @@
     "message": "Verify Safety Number",
     "description": "Label on button included with safety number change notification in the conversation"
   },
+  "cannotGenerateSafetyNumber": {
+    "message": "This user can't be verified until you've exchanged messages with them.",
+    "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
+  },
   "yourSafetyNumberWith": {
     "message": "Your safety number with $name1$:",
     "description": "Heading for safety number view",
