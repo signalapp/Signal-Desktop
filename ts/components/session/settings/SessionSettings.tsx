@@ -583,8 +583,6 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         title = window.i18n('anonymous');
       }
 
-      title = `${title} ${window.shortenPubkey(blockedNumber)}`;
-
       results.push({
         id: blockedNumber,
         title,

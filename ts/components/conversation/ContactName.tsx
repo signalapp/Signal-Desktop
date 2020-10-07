@@ -12,6 +12,7 @@ interface Props {
   module?: string;
   boldProfileName?: Boolean;
   compact?: Boolean;
+  shouldShowPubkey: Boolean;
 }
 
 export class ContactName extends React.Component<Props> {
@@ -24,19 +25,27 @@ export class ContactName extends React.Component<Props> {
       module,
       boldProfileName,
       compact,
+      shouldShowPubkey,
     } = this.props;
     const prefix = module ? module : 'module-contact-name';
 
     const title = name ? name : phoneNumber;
-    const shouldShowProfile = Boolean(profileName && !name);
+    const shouldShowProfile = Boolean(profileName || name);
     const styles = (boldProfileName
       ? {
           fontWeight: 'bold',
         }
       : {}) as React.CSSProperties;
+    const textProfile = profileName || name || i18n('anonymous');
     const profileElement = shouldShowProfile ? (
       <span style={styles} className={`${prefix}__profile-name`}>
-        <Emojify text={profileName || ''} i18n={i18n} />
+        <Emojify text={textProfile} i18n={i18n} />
+      </span>
+    ) : null;
+
+    const pubKeyElement = shouldShowPubkey ? (
+      <span className={`${prefix}__profile-number`}>
+        <Emojify text={title} i18n={i18n} />
       </span>
     ) : null;
 
@@ -44,14 +53,7 @@ export class ContactName extends React.Component<Props> {
       <span className={classNames(prefix, compact && 'compact')} dir="auto">
         {profileElement}
         {shouldShowProfile ? ' ' : null}
-        <span
-          className={classNames(
-            `${prefix}__profile-number`,
-            shouldShowProfile && 'italic'
-          )}
-        >
-          <Emojify text={title} i18n={i18n} />
-        </span>
+        {pubKeyElement}
       </span>
     );
   }

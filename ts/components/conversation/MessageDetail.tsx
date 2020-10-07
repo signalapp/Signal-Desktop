@@ -107,6 +107,7 @@ export class MessageDetail extends React.Component<Props> {
               name={contact.name}
               profileName={contact.profileName}
               i18n={i18n}
+              shouldShowPubkey={true}
             />
           </div>
           {errors.map((error, index) => (

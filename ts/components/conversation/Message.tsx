@@ -1074,6 +1074,7 @@ export class Message extends React.PureComponent<Props, State> {
       conversationType,
       direction,
       i18n,
+      isPublic,
     } = this.props;
 
     const title = authorName ? authorName : authorPhoneNumber;
@@ -1097,6 +1098,7 @@ export class Message extends React.PureComponent<Props, State> {
           module="module-message__author"
           i18n={i18n}
           boldProfileName={true}
+          shouldShowPubkey={Boolean(isPublic)}
         />
       </div>
     );

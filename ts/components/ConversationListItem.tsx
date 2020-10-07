@@ -348,6 +348,11 @@ class ConversationListItem extends React.PureComponent<Props> {
     const displayedPubkey = profileName ? shortenedPubkey : phoneNumber;
     const displayName = isMe ? i18n('noteToSelf') : profileName;
 
+    let shouldShowPubkey = false;
+    if (!name || name.length === 0) {
+      shouldShowPubkey = true;
+    }
+
     return (
       <div className="module-conversation__user">
         <ContactName
@@ -357,6 +362,7 @@ class ConversationListItem extends React.PureComponent<Props> {
           module="module-conversation__user"
           i18n={window.i18n}
           boldProfileName={true}
+          shouldShowPubkey={shouldShowPubkey}
         />
       </div>
     );
