@@ -55,7 +55,7 @@
       this.triggerLazyScroll();
     },
     atBottom() {
-      return this.bottomOffset < 30;
+      return this.bottomOffset ? this.bottomOffset < 30 : true;
     },
     measureScrollPosition() {
       if (this.el.scrollHeight === 0) {

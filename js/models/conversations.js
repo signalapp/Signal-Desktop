@@ -1047,7 +1047,7 @@
       );
     },
 
-    getUnread() {
+    async getUnread() {
       return window.Signal.Data.getUnreadByConversation(this.id, {
         MessageCollection: Whisper.MessageCollection,
       });
@@ -1741,6 +1741,7 @@
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
         Conversation: Whisper.Conversation,
       });
+      await this.trigger('change', this);
     },
 
     async addMessage(messageAttributes) {
@@ -1866,7 +1867,6 @@
           conversationId,
         })
       );
-
       let unreadMessages = await this.getUnread();
       const oldUnread = unreadMessages.filter(
         message => message.get('received_at') <= newestUnreadDate
@@ -1898,7 +1898,7 @@
       unreadMessages = unreadMessages.filter(m => Boolean(m.isIncoming()));
 
       const unreadCount = unreadMessages.length - read.length;
-      this.set({ unreadCount });
+      this.set('unreadCount', unreadCount);
 
       const mentionRead = (() => {
         const stillUnread = unreadMessages.filter(
