@@ -25,6 +25,7 @@ $themes: (
       textColor: $black,
     textColorSubtle: #a0a0a0,
     textColorOpposite: $white,
+    textHighlight: rgba($black, 0.2),
     // inbox
       inboxBackground: $white,
     // buttons
@@ -74,6 +75,7 @@ $themes: (
       textColor: $white,
     textColorSubtle: #a0a0a0,
     textColorOpposite: $black,
+    textHighlight: rgba($accentDarkTheme, 0.6),
     // inbox
       inboxBackground: linear-gradient(180deg, #171717 0%, #121212 100%),
     // buttons
