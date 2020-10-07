@@ -185,9 +185,8 @@ async function generateManifest(
         storageItem = await encryptRecord(storageID, storageRecord);
       } catch (err) {
         window.log.error(
-          `storageService.generateManifest: encrypt record failed: ${
-            err && err.stack ? err.stack : String(err)
-          }`
+          'storageService.generateManifest: encrypt record failed:',
+          err && err.stack ? err.stack : String(err)
         );
         throw err;
       }
@@ -268,7 +267,7 @@ async function generateManifest(
     ) {
       window.log.info(
         'storageService.generateManifest: removing duplicate identifier from manifest',
-        storageID
+        identifier.type
       );
       manifestRecordKeys.delete(identifier);
     }
@@ -282,7 +281,7 @@ async function generateManifest(
     if (hasDeleteKey) {
       window.log.info(
         'storageService.generateManifest: removing key which has been deleted',
-        storageID
+        identifier.type
       );
       manifestRecordKeys.delete(identifier);
     }
@@ -291,8 +290,7 @@ async function generateManifest(
     if (identifier.type === ITEM_TYPE.ACCOUNT) {
       if (hasAccountType) {
         window.log.info(
-          'storageService.generateManifest: removing duplicate account',
-          storageID
+          'storageService.generateManifest: removing duplicate account'
         );
         manifestRecordKeys.delete(identifier);
       }
@@ -401,9 +399,8 @@ async function uploadManifest(
     });
   } catch (err) {
     window.log.error(
-      `storageService.uploadManifest: failed! ${
-        err && err.stack ? err.stack : String(err)
-      }`
+      'storageService.uploadManifest: failed!',
+      err && err.stack ? err.stack : String(err)
     );
 
     if (err.code === 409) {
@@ -535,9 +532,8 @@ async function fetchManifest(
     }
   } catch (err) {
     window.log.error(
-      `storageService.fetchManifest: failed! ${
-        err && err.stack ? err.stack : String(err)
-      }`
+      'storageService.fetchManifest: failed!',
+      err && err.stack ? err.stack : String(err)
     );
 
     if (err.code === 404) {
@@ -592,15 +588,12 @@ async function mergeRecord(
       hasConflict = await mergeAccountRecord(storageID, storageRecord.account);
     } else {
       isUnsupported = true;
-      window.log.info(
-        `storageService.mergeRecord: Unknown record: ${itemType}::${storageID}`
-      );
+      window.log.info('storageService.mergeRecord: Unknown record:', itemType);
     }
   } catch (err) {
     hasError = true;
     window.log.error(
       'storageService.mergeRecord: merging record failed',
-      storageID,
       err && err.stack ? err.stack : String(err)
     );
   }
@@ -656,7 +649,17 @@ async function processManifest(
   });
 
   window.log.info(
-    `storageService.processManifest: localKeys.length ${localKeys.length}`
+    'storageService.processManifest: local keys:',
+    localKeys.length
+  );
+
+  window.log.info(
+    'storageService.processManifest: incl. unknown records:',
+    unknownRecordsArray.length
+  );
+  window.log.info(
+    'storageService.processManifest: incl. records with errors:',
+    recordsWithErrors.length
   );
 
   const remoteKeys = Array.from(remoteKeysTypeMap.keys());
@@ -671,7 +674,8 @@ async function processManifest(
   const remoteOnly = Array.from(remoteOnlySet);
 
   window.log.info(
-    `storageService.processManifest: remoteOnly.length ${remoteOnly.length}`
+    'storageService.processManifest: remote keys',
+    remoteOnly.length
   );
 
   const readOperation = new window.textsecure.protobuf.ReadOperation();
@@ -830,9 +834,8 @@ async function processManifest(
         const storageID = conversation.get('storageID');
         if (storageID && !remoteOnlySet.has(storageID)) {
           window.log.info(
-            'storageService.processManifest: conversation was not included in remote force push, clearing storageID',
-            conversation.debugID(),
-            storageID
+            'storageService.processManifest: clearing storageID',
+            conversation.debugID()
           );
           conversation.unset('storageID');
         }
@@ -870,9 +873,8 @@ async function processManifest(
     consecutiveConflicts = 0;
   } catch (err) {
     window.log.error(
-      `storageService.processManifest: failed! ${
-        err && err.stack ? err.stack : String(err)
-      }`
+      'storageService.processManifest: failed!',
+      err && err.stack ? err.stack : String(err)
     );
   }
 
@@ -918,9 +920,8 @@ async function sync(): Promise<void> {
     }
   } catch (err) {
     window.log.error(
-      `storageService.sync: error processing manifest ${
-        err && err.stack ? err.stack : String(err)
-      }`
+      'storageService.sync: error processing manifest',
+      err && err.stack ? err.stack : String(err)
     );
 
     // When we're told to backoff, backoff to the max which should be

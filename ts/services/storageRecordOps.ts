@@ -68,9 +68,8 @@ function applyUnknownFields(
 ): void {
   if (conversation.get('storageUnknownFields')) {
     window.log.info(
-      `storageService.applyUnknownFields: Applying unknown fields for ${conversation.get(
-        'id'
-      )}`
+      'storageService.applyUnknownFields: Applying unknown fields for',
+      conversation.get('id')
     );
     // eslint-disable-next-line no-param-reassign
     record.__unknownFields = base64ToArrayBuffer(
@@ -628,7 +627,8 @@ export async function mergeAccountRecord(
 
         if (!conversationId) {
           window.log.error(
-            `mergeAccountRecord: missing conversation id. looking based on ${pinnedConversation.identifier}`
+            'mergeAccountRecord: missing conversation id. looking based on',
+            pinnedConversation.identifier
           );
           return undefined;
         }
