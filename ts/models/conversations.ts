@@ -1230,6 +1230,9 @@ export class ConversationModel extends window.Backbone.Model<
     const isLocalAction = !fromSync && !viaStorageServiceSync;
     const ourConversationId = window.ConversationController.getOurConversationId();
 
+    const currentMessageRequestState = this.get('messageRequestResponseType');
+    const didResponseChange = response !== currentMessageRequestState;
+
     // Apply message request response locally
     this.set({
       messageRequestResponseType: response,
@@ -1240,7 +1243,9 @@ export class ConversationModel extends window.Backbone.Model<
       this.unblock({ viaStorageServiceSync });
       this.enableProfileSharing({ viaStorageServiceSync });
 
-      await this.handleReadAndDownloadAttachments({ isLocalAction });
+      if (didResponseChange) {
+        await this.handleReadAndDownloadAttachments({ isLocalAction });
+      }
 
       if (isLocalAction) {
         if (this.isGroupV1() || this.isPrivate()) {

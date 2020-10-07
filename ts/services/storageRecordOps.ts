@@ -457,12 +457,19 @@ export async function mergeGroupV2Record(
 
   updateConversation(conversation.attributes);
 
+  const isGroupNewToUs = !isNumber(conversation.get('revision'));
   const isFirstSync = !isNumber(window.storage.get('manifestVersion'));
   const dropInitialJoinMessage = isFirstSync;
-  waitThenMaybeUpdateGroup({
-    conversation,
-    dropInitialJoinMessage,
-  });
+
+  // We don't need to update GroupV2 groups all the time. We fetch group state the first
+  //   time we hear about these groups, from then on we rely on incoming messages or
+  //   the user opening that conversation.
+  if (isGroupNewToUs) {
+    waitThenMaybeUpdateGroup({
+      conversation,
+      dropInitialJoinMessage,
+    });
+  }
 
   return hasPendingChanges;
 }
