@@ -49,7 +49,6 @@ declare global {
     _: typeof Underscore;
     $: typeof jQuery;
 
-    extension: any;
     moment: any;
     imageToBlurHash: any;
     autoOrientImage: any;
