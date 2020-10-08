@@ -32,7 +32,6 @@
     UNRESTRICTED: 3,
   };
 
-  const { Util } = window.Signal;
   const {
     Conversation,
     Contact,
@@ -540,14 +539,13 @@
       await Promise.all(messages.map(m => m.setCalculatingPoW()));
     },
 
-    async onPublicMessageSent(pubKey, timestamp, serverId) {
+    async onPublicMessageSent(pubKey, timestamp, serverId, serverTimestamp) {
       const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
-      await Promise.all(
-        messages.map(message => [
-          message.setIsPublic(true),
-          message.setServerId(serverId),
-        ])
-      );
+      if (messages && messages.length === 1) {
+        await messages[0].setIsPublic(true);
+        await messages[0].setServerId(serverId);
+        await messages[0].setServerTimestamp(serverTimestamp);
+      }
     },
 
     async onNewMessage(message) {
@@ -577,7 +575,6 @@
     getProps() {
       const { format } = PhoneNumber;
       const regionCode = storage.get('regionCode');
-      const color = this.getColor();
       const typingKeys = Object.keys(this.contactTypingTimers || {});
 
       const result = {
@@ -585,7 +582,6 @@
         isArchived: this.get('isArchived'),
         activeAt: this.get('active_at'),
         avatarPath: this.getAvatarPath(),
-        color,
         type: this.isPrivate() ? 'direct' : 'group',
         isMe: this.isMe(),
         isPublic: this.isPublic(),
@@ -651,9 +647,7 @@
         this.set({ verified });
 
         // we don't await here because we don't need to wait for this to finish
-        window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        this.commit();
 
         return;
       }
@@ -716,9 +710,7 @@
       }
 
       this.set({ verified });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await this.commit();
 
       // Three situations result in a verification notice in the conversation:
       //   1) The message came from an explicit verification in another client (not
@@ -823,16 +815,12 @@
           secondaryStatus: newStatus,
           primaryDevicePubKey,
         });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
     async updateGroupAdmins(groupAdmins) {
       this.set({ groupAdmins });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await this.commit();
     },
     isUnverified() {
       if (this.isPrivate()) {
@@ -1057,7 +1045,7 @@
       );
     },
 
-    getUnread() {
+    async getUnread() {
       return window.Signal.Data.getUnreadByConversation(this.id, {
         MessageCollection: Whisper.MessageCollection,
       });
@@ -1301,6 +1289,9 @@
         if (this.isPrivate()) {
           message.set({ destination });
         }
+        if (this.isPublic()) {
+          message.setServerTimestamp(new Date().getTime());
+        }
 
         const id = await window.Signal.Data.saveMessage(message.attributes, {
           Message: Whisper.Message,
@@ -1314,9 +1305,7 @@
           timestamp: now,
           isArchived: false,
         });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
 
         // We're offline!
         if (!textsecure.messaging) {
@@ -1410,7 +1399,7 @@
 
               await libsession
                 .getMessageQueue()
-                .send(destinationPubkey, mediumGroupChatMessage);
+                .sendToGroup(mediumGroupChatMessage);
             } else {
               const closedGroupChatMessage = new libsession.Messages.Outgoing.ClosedGroupChatMessage(
                 {
@@ -1501,17 +1490,13 @@
       this.set(lastMessageUpdate);
 
       if (this.hasChanged()) {
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
 
     async setArchived(isArchived) {
       this.set({ isArchived });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await this.commit();
     },
 
     async updateExpirationTimer(
@@ -1548,9 +1533,7 @@
       const timestamp = (receivedAt || Date.now()) - 1;
 
       this.set({ expireTimer });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await this.commit();
 
       const message = this.messageCollection.add({
         // Even though this isn't reflected to the user, we want to place the last seen
@@ -1643,9 +1626,7 @@
       }
       if (this.get('sessionResetStatus') !== newStatus) {
         this.set({ sessionResetStatus: newStatus });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
     async onSessionResetInitiated() {
@@ -1748,6 +1729,7 @@
       await window.Signal.Data.updateConversation(this.id, this.attributes, {
         Conversation: Whisper.Conversation,
       });
+      await this.trigger('change', this);
     },
 
     async addMessage(messageAttributes) {
@@ -1873,7 +1855,6 @@
           conversationId,
         })
       );
-
       let unreadMessages = await this.getUnread();
 
       const oldUnread = unreadMessages.filter(
@@ -1906,7 +1887,7 @@
       unreadMessages = unreadMessages.filter(m => Boolean(m.isIncoming()));
 
       const unreadCount = unreadMessages.length - read.length;
-      this.set({ unreadCount });
+      this.set('unreadCount', unreadCount);
 
       const mentionRead = (() => {
         const stillUnread = unreadMessages.filter(
@@ -1925,9 +1906,7 @@
         this.set({ mentionedUs: false });
       }
 
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await this.commit();
 
       // If a message has errors, we don't want to send anything out about it.
       //   read syncs - let's wait for a client that really understands the message
@@ -1986,21 +1965,17 @@
       }
 
       this.set({ nickname: trimmed });
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await this.commit();
 
       await this.updateProfileName();
     },
     async setLokiProfile(newProfile) {
       if (!_.isEqual(this.get('profile'), newProfile)) {
         this.set({ profile: newProfile });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
 
-      // if set to null, it will show a jazzIcon
+      // if set to null, it will show a placeholder with color and first letter
       await this.setProfileAvatar({ path: newProfile.avatar });
 
       await this.updateProfileName();
@@ -2049,9 +2024,7 @@
           channelId: newChannelId,
           active_at: Date.now(),
         });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
     getPublicSource() {
@@ -2088,9 +2061,7 @@
       }
       if (this.get('lastPublicMessage') !== newLastMessageId) {
         this.set({ lastPublicMessage: newLastMessageId });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
     isModerator(pubKey) {
@@ -2107,9 +2078,7 @@
       // TODO: compare array properly
       if (!_.isEqual(this.get('moderators'), moderators)) {
         this.set({ moderators });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
 
@@ -2144,18 +2113,14 @@
       const profileName = this.get('profileName');
       if (profileName !== name) {
         this.set({ profileName: name });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
     async setGroupName(name) {
       const profileName = this.get('name');
       if (profileName !== name) {
         this.set({ name });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
     async setSubscriberCount(count) {
@@ -2174,18 +2139,14 @@
           this.set({ name });
         }
         // save
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
     async setProfileAvatar(avatar) {
       const profileAvatar = this.get('profileAvatar');
       if (profileAvatar !== avatar) {
         this.set({ profileAvatar: avatar });
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
     async setProfileKey(profileKey) {
@@ -2202,9 +2163,7 @@
 
         await this.deriveAccessKeyIfNeeded();
 
-        await window.Signal.Data.updateConversation(this.id, this.attributes, {
-          Conversation: Whisper.Conversation,
-        });
+        await this.commit();
       }
     },
 
@@ -2309,19 +2268,18 @@
         this.contactCollection.reset(contacts);
       });
     },
+    // returns true if this is a closed/medium or open group
+    isGroup() {
+      return this.get('type') === 'group';
+    },
 
     copyPublicKey() {
       clipboard.writeText(this.id);
 
-      const isGroup = this.getProps().type === 'group';
-      const copiedMessage = isGroup
-        ? i18n('copiedChatId')
-        : i18n('copiedPublicKey');
-
       window.pushToast({
-        title: copiedMessage,
+        title: i18n('copiedToClipboard'),
         type: 'success',
-        id: 'copiedPublicKey',
+        id: 'copiedToClipboard',
       });
     },
 
@@ -2334,15 +2292,12 @@
     },
 
     deleteContact() {
-      let title = i18n('deleteContact');
+      let title = i18n('delete');
       let message = i18n('deleteContactConfirmation');
 
-      if (this.isPublic()) {
-        title = i18n('leaveOpenGroup');
-        message = i18n('leaveOpenGroupConfirmation');
-      } else if (this.isClosedGroup()) {
-        title = i18n('leaveClosedGroup');
-        message = i18n('leaveClosedGroupConfirmation');
+      if (this.isGroup()) {
+        title = i18n('leaveGroup');
+        message = i18n('leaveGroupConfirmation');
       }
 
       window.confirmationDialog({
@@ -2403,11 +2358,9 @@
 
       let params;
       if (this.isPublic()) {
-        params = {
-          title: i18n('deleteMessages'),
-          message: i18n('deletePublicConversationConfirmation'),
-          resolve: () => ConversationController.deleteContact(this.id),
-        };
+        throw new Error(
+          'Called deleteMessages() on an open group. Only leave group is supported.'
+        );
       } else {
         params = {
           title: i18n('deleteMessages'),
@@ -2440,16 +2393,14 @@
         });
       }
 
-      await window.Signal.Data.updateConversation(this.id, this.attributes, {
-        Conversation: Whisper.Conversation,
-      });
+      await this.commit();
     },
 
     getName() {
       if (this.isPrivate()) {
         return this.get('name');
       }
-      return this.get('name') || i18n('unknownGroup');
+      return this.get('name') || i18n('unknown');
     },
 
     getTitle() {
@@ -2518,33 +2469,10 @@
       return this.id;
     },
 
-    getInitials(name) {
-      if (!name) {
-        return null;
-      }
-
-      const cleaned = name.replace(/[^A-Za-z\s]+/g, '').replace(/\s+/g, ' ');
-      const parts = cleaned.split(' ');
-      const initials = parts.map(part => part.trim()[0]);
-      if (!initials.length) {
-        return null;
-      }
-
-      return initials.slice(0, 2).join('');
-    },
-
     isPrivate() {
       return this.get('type') === 'private';
     },
 
-    getColor() {
-      if (!this.isPrivate()) {
-        return 'signal-blue';
-      }
-
-      const { migrateColor } = Util;
-      return migrateColor(this.get('color'));
-    },
     getAvatarPath() {
       const avatar = this.get('avatar') || this.get('profileAvatar');
 
@@ -2559,20 +2487,9 @@
       return null;
     },
     getAvatar() {
-      const title = this.get('name');
-      const color = this.getColor();
       const url = this.getAvatarPath();
 
-      if (url) {
-        return { url, color };
-      } else if (this.isPrivate()) {
-        const symbol = this.isValid() ? '#' : '!';
-        return {
-          color,
-          content: this.getInitials(title) || symbol,
-        };
-      }
-      return { url: 'images/group_default.png', color };
+      return { url: url || null };
     },
 
     getNotificationIcon() {

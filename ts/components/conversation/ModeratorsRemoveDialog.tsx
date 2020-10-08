@@ -34,7 +34,6 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
         const lokiProfile = d.getLokiProfile();
         name = lokiProfile ? lokiProfile.displayName : 'Anonymous';
       }
-      const authorColor = d.getColor ? d.getColor() : '#000000';
       // TODO: should take existing members into account
       const existingMember = false;
 
@@ -44,7 +43,6 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
         authorProfileName: name,
         selected: false,
         authorName: name,
-        authorColor,
         checkmarked: true,
         existingMember,
       };
@@ -67,7 +65,7 @@ export class RemoveModeratorsDialog extends React.Component<Props, State> {
         </p>
         <div className="moderatorList">
           <p>Existing moderators:</p>
-          <div className="friend-selection-list">
+          <div className="contact-selection-list">
             <MemberList
               members={this.state.modList}
               selected={{}}

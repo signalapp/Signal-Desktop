@@ -85,7 +85,7 @@ window.CONSTANTS = new (function() {
   this.MAX_LINKED_DEVICES = 1;
   this.MAX_CONNECTION_DURATION = 5000;
   // Limited due to the proof-of-work requirement
-  this.SMALL_GROUP_SIZE_LIMIT = 10;
+  this.MEDIUM_GROUP_SIZE_LIMIT = 20;
   // Number of seconds to turn on notifications after reconnect/start of app
   this.NOTIFICATION_ENABLE_TIMEOUT_SECONDS = 10;
   this.SESSION_ID_LENGTH = 66;
@@ -230,10 +230,6 @@ ipc.on('set-up-with-import', () => {
   Whisper.events.trigger('setupWithImport');
 });
 
-ipc.on('set-up-as-new-device', () => {
-  Whisper.events.trigger('setupAsNewDevice');
-});
-
 ipc.on('set-up-as-standalone', () => {
   Whisper.events.trigger('setupAsStandalone');
 });
@@ -344,10 +340,10 @@ const { OnionAPI } = require('./ts/session/onions');
 window.OnionAPI = OnionAPI;
 
 if (process.env.USE_STUBBED_NETWORK) {
-  const StubMessageAPI = require('./integration_test/stubs/stub_message_api');
+  const StubMessageAPI = require('./ts/test/session/integration/stubs/stub_message_api');
   window.LokiMessageAPI = StubMessageAPI;
 
-  const StubAppDotNetAPI = require('./integration_test/stubs/stub_app_dot_net_api');
+  const StubAppDotNetAPI = require('./ts/test/session/integration/stubs/stub_app_dot_net_api');
   window.LokiAppDotNetServerAPI = StubAppDotNetAPI;
 } else {
   window.LokiMessageAPI = require('./js/modules/loki_message_api');
@@ -357,6 +353,7 @@ if (process.env.USE_STUBBED_NETWORK) {
 window.LokiPublicChatAPI = require('./js/modules/loki_public_chat_api');
 
 window.LokiFileServerAPI = require('./js/modules/loki_file_server_api');
+window.LokiPushNotificationServerApi = require('./js/modules/loki_push_notification_server_api');
 
 window.mnemonic = require('./libloki/modules/mnemonic');
 const WorkerInterface = require('./js/modules/util_worker_interface');
@@ -427,6 +424,7 @@ window.addEventListener('contextmenu', e => {
 });
 
 window.NewReceiver = require('./ts/receiver/receiver');
+window.DataMessageReceiver = require('./ts/receiver/dataMessage');
 window.NewSnodeAPI = require('./ts/session/snode_api/serviceNodeAPI');
 window.SnodePool = require('./ts/session/snode_api/snodePool');
 
@@ -456,7 +454,7 @@ window.lokiFeatureFlags = {
   useSnodeProxy: !process.env.USE_STUBBED_NETWORK,
   useOnionRequests: true,
   useFileOnionRequests: true,
-  enableSenderKeys: false,
+  enableSenderKeys: true,
   onionRequestHops: 3,
   debugMessageLogs: process.env.ENABLE_MESSAGE_LOGS,
   useMultiDevice: false,
@@ -498,6 +496,9 @@ if (config.environment.includes('test-integration')) {
     enableSenderKeys: true,
     useMultiDevice: false,
   };
+  /* eslint-disable global-require, import/no-extraneous-dependencies */
+  window.sinon = require('sinon');
+  /* eslint-enable global-require, import/no-extraneous-dependencies */
 }
 
 // Blocking
@@ -507,7 +508,6 @@ const {
 } = require('./ts/util/blockedNumberController');
 
 window.BlockedNumberController = BlockedNumberController;
-
 window.deleteAccount = async reason => {
   try {
     window.log.info('Deleting everything!');

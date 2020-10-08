@@ -1,6 +1,7 @@
 import {
   ClosedGroupMessage,
   ContentMessage,
+  MediumGroupMessage,
   OpenGroupMessage,
   SyncMessage,
 } from '../messages/outgoing';
@@ -8,10 +9,16 @@ import { RawMessage } from '../types/RawMessage';
 import { TypedEventEmitter } from '../utils';
 import { PubKey } from '../types';
 
-type GroupMessageType = OpenGroupMessage | ClosedGroupMessage;
+type GroupMessageType =
+  | OpenGroupMessage
+  | ClosedGroupMessage
+  | MediumGroupMessage;
 
 export interface MessageQueueInterfaceEvents {
-  success: (message: RawMessage | OpenGroupMessage) => void;
+  success: (
+    message: RawMessage | OpenGroupMessage,
+    wrappedEnvelope?: Uint8Array
+  ) => void;
   fail: (message: RawMessage | OpenGroupMessage, error: Error) => void;
 }
 

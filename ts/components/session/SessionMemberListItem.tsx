@@ -11,7 +11,6 @@ export interface ContactType {
   authorProfileName: string;
   authorPhoneNumber: string;
   authorName: string;
-  authorColor: any;
   authorAvatarPath: string;
   checkmarked: boolean;
   existingMember: boolean;
@@ -51,8 +50,6 @@ export class SessionMemberListItem extends React.Component<Props, State> {
     const { isSelected } = this.state;
 
     const name = this.props.member.authorProfileName;
-    const pubkey = this.props.member.authorPhoneNumber;
-    const shortPubkey = window.shortenPubkey(pubkey);
 
     return (
       <div
@@ -69,7 +66,6 @@ export class SessionMemberListItem extends React.Component<Props, State> {
             {this.renderAvatar()}
           </span>
           <span className="session-member-item__name">{name}</span>
-          <span className="session-member-item__pubkey">{shortPubkey}</span>
         </div>
         <span
           className={classNames(
@@ -88,16 +84,19 @@ export class SessionMemberListItem extends React.Component<Props, State> {
   }
 
   private renderAvatar() {
+    const {
+      authorAvatarPath,
+      authorName,
+      authorPhoneNumber,
+      authorProfileName,
+    } = this.props.member;
+    const userName = authorName || authorProfileName || authorPhoneNumber;
     return (
       <Avatar
-        avatarPath={this.props.member.authorAvatarPath}
-        color={this.props.member.authorColor}
-        conversationType="direct"
-        i18n={window.i18n}
-        name={this.props.member.authorName}
-        phoneNumber={this.props.member.authorPhoneNumber}
-        profileName={this.props.member.authorProfileName}
+        avatarPath={authorAvatarPath}
+        name={userName}
         size={28}
+        pubkey={authorPhoneNumber}
       />
     );
   }

@@ -4,7 +4,7 @@ import { EnvelopePlus } from './types';
 import * as Data from '../../js/modules/data';
 
 import { SignalService } from '../protobuf';
-import { updateProfile } from './receiver';
+import { updateProfile } from './dataMessage';
 import { onVerified } from './syncMessages';
 
 import { StringUtils } from '../session/utils';
@@ -409,10 +409,7 @@ async function onContactReceived(details: any) {
       );
       conversation.set(newAttributes);
     }
-
-    await window.Signal.Data.updateConversation(id, conversation.attributes, {
-      Conversation: Whisper.Conversation,
-    });
+    await conversation.commit();
     const { expireTimer } = details;
     const isValidExpireTimer = typeof expireTimer === 'number';
     if (isValidExpireTimer) {

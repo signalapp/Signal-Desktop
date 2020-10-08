@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  ConversationListItem,
+  ConversationListItemWithDetails,
   PropsData as ConversationListItemPropsType,
 } from '../ConversationListItem';
 import { PropsData as SearchResultsProps } from '../SearchResults';
@@ -22,6 +22,7 @@ import {
   SessionClosableOverlayType,
 } from './SessionClosableOverlay';
 import { MainViewController } from '../MainViewController';
+import { ToastUtils } from '../../session/utils';
 
 export interface Props {
   searchTerm: string;
@@ -39,7 +40,6 @@ export interface Props {
 
 interface State {
   showAddContactView: boolean;
-  selectedTab: number;
   addContactRecipientID: string;
   pubKeyPasted: string;
 }
@@ -51,27 +51,33 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     super(props);
     this.state = {
       showAddContactView: false,
-      selectedTab: 0,
       addContactRecipientID: '',
       pubKeyPasted: '',
     };
 
     this.debouncedSearch = debounce(this.search.bind(this), 20);
-    this.handleTabSelected = this.handleTabSelected.bind(this);
     this.handleToggleOverlay = this.handleToggleOverlay.bind(this);
     this.handleOnAddContact = this.handleOnAddContact.bind(this);
     this.handleRecipientSessionIDChanged = this.handleRecipientSessionIDChanged.bind(
       this
     );
+    this.closeOverlay = this.closeOverlay.bind(this);
+  }
+
+  public componentDidMount() {
+    MainViewController.renderMessageView();
+
+    window.Whisper.events.on('calculatingPoW', this.closeOverlay);
+  }
+
+  public componentDidUpdate() {
+    MainViewController.renderMessageView();
   }
 
   public componentWillUnmount() {
     this.updateSearch('');
     this.setState({ addContactRecipientID: '' });
-  }
-
-  public handleTabSelected(tabType: number) {
-    this.setState({ selectedTab: tabType, showAddContactView: false });
+    window.Whisper.events.off('calculatingPoW', this.closeOverlay);
   }
 
   public renderHeader(): JSX.Element | undefined {
@@ -79,20 +85,12 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
 
     return LeftPane.RENDER_HEADER(
       labels,
-      this.handleTabSelected,
+      null,
       undefined,
       undefined,
       undefined,
       undefined
     );
-  }
-
-  public componentDidMount() {
-    MainViewController.renderMessageView();
-  }
-
-  public componentDidUpdate() {
-    MainViewController.renderMessageView();
   }
 
   public render(): JSX.Element {
@@ -115,7 +113,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     const item = contacts[index];
 
     return (
-      <ConversationListItem
+      <ConversationListItemWithDetails
         key={key}
         style={style}
         {...item}
@@ -181,6 +179,12 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     );
   }
 
+  private closeOverlay({ pubKey }: { pubKey: string }) {
+    if (this.state.addContactRecipientID === pubKey) {
+      this.setState({ showAddContactView: false, addContactRecipientID: '' });
+    }
+  }
+
   private handleToggleOverlay() {
     this.setState((prevState: { showAddContactView: boolean }) => ({
       showAddContactView: !prevState.showAddContactView,
@@ -192,7 +196,7 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
     const error = validateNumber(sessionID, window.i18n);
 
     if (error) {
-      window.pushToast({
+      ToastUtils.push({
         title: error,
         type: 'error',
         id: 'addContact',
@@ -216,36 +220,16 @@ export class LeftPaneContactSection extends React.Component<Props, State> {
   }
 
   private renderBottomButtons(): JSX.Element {
-    const { selectedTab } = this.state;
-    const edit = window.i18n('edit');
     const addContact = window.i18n('addContact');
-    const createGroup = window.i18n('createGroup');
-    const showEditButton = false;
 
     return (
       <div className="left-pane-contact-bottom-buttons">
-        {showEditButton && (
-          <SessionButton
-            text={edit}
-            buttonType={SessionButtonType.SquareOutline}
-            buttonColor={SessionButtonColor.White}
-          />
-        )}
-        {selectedTab === 0 ? (
-          <SessionButton
-            text={addContact}
-            buttonType={SessionButtonType.SquareOutline}
-            buttonColor={SessionButtonColor.Green}
-            onClick={this.handleToggleOverlay}
-          />
-        ) : (
-          <SessionButton
-            text={createGroup}
-            buttonType={SessionButtonType.SquareOutline}
-            buttonColor={SessionButtonColor.Green}
-            onClick={this.handleToggleOverlay}
-          />
-        )}
+        <SessionButton
+          text={addContact}
+          buttonType={SessionButtonType.SquareOutline}
+          buttonColor={SessionButtonColor.Green}
+          onClick={this.handleToggleOverlay}
+        />
       </div>
     );
   }

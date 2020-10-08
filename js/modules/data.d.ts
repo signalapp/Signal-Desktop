@@ -197,7 +197,6 @@ export function getAllConversations({
 }): Promise<Array<ConversationCollection>>;
 
 export function getAllConversationIds(): Promise<Array<string>>;
-export function getAllPrivateConversations(): Promise<Array<string>>;
 export function getAllPublicConversations(): Promise<Array<string>>;
 export function getPublicConversationsByServer(
   server: string,
@@ -224,7 +223,6 @@ export function searchMessagesInConversation(
   conversationId: string,
   { limit }?: { limit: any }
 ): Promise<any>;
-export function getMessageCount(): Promise<number>;
 export function saveMessage(
   data: Mesasge,
   { forceSave, Message }?: { forceSave?: any; Message?: any }
@@ -267,6 +265,10 @@ export function getMessageBySender(
   }: { source: any; sourceDevice: any; sent_at: any },
   { Message }: { Message: any }
 ): Promise<any>;
+export function getMessagesBySender(
+  { source, sourceDevice }: { source: any; sourceDevice: any },
+  { Message }: { Message: any }
+): Promise<Whisper.MessageCollection>;
 export function getMessageIdsFromServerIds(
   serverIds: any,
   conversationId: any
@@ -322,6 +324,7 @@ export function getMessagesByConversation(
     type?: string;
   }
 ): Promise<any>;
+
 export function getSeenMessagesByHashList(hashes: any): Promise<any>;
 export function getLastHashBySnode(convoId: any, snode: any): Promise<any>;
 
@@ -409,3 +412,4 @@ export function getMessagesWithFileAttachments(
 // Sender Keys
 export function getSenderKeys(groupId: any, senderIdentity: any): Promise<any>;
 export function createOrUpdateSenderKeys(data: any): Promise<void>;
+export function removeAllClosedGroupRatchets(groupId: string): Promise<void>;

@@ -25,7 +25,7 @@ message UnidentifiedSenderMessage {
         enum Type {
             PREKEY_MESSAGE = 1;
             MESSAGE        = 2;
-            LOKI_FRIEND_REQUEST = 3;
+            FALLBACK_MESSAGE = 3;
         }
 
         optional Type              type              = 1;

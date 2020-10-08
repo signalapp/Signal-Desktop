@@ -3,6 +3,7 @@ import React from 'react';
 import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
 import { PasswordUtil } from '../../util/';
+import { ToastUtils } from '../../session/utils';
 export enum PasswordAction {
   Set = 'set',
   Change = 'change',
@@ -232,16 +233,12 @@ export class SessionPasswordModal extends React.Component<Props, State> {
         throw new Error(`Invalid action ${action}`);
     }
 
-    const toastParams = {
+    ToastUtils.push({
+      id: 'set-password-success-toast',
+      type: action !== Remove ? 'success' : 'warning',
       title: title,
       description: description,
-      type: action !== Remove ? 'success' : 'warning',
       icon: action !== Remove ? 'lock' : undefined,
-    };
-
-    window.pushToast({
-      id: 'set-password-success-toast',
-      ...toastParams,
     });
 
     onSuccess(this.props.action);
@@ -265,7 +262,7 @@ export class SessionPasswordModal extends React.Component<Props, State> {
         )
       );
 
-      window.pushToast({
+      ToastUtils.push({
         title,
         type: 'warning',
       });

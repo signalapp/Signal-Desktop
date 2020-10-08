@@ -16,9 +16,7 @@ async function onNoSession(ev: any) {
   if (!convo.get('sessionRestoreSeen')) {
     convo.set({ sessionRestoreSeen: true });
 
-    await window.Signal.Data.updateConversation(convo.id, convo.attributes, {
-      Conversation: Whisper.Conversation,
-    });
+    await convo.commit();
 
     await SessionProtocol.sendSessionRequestIfNeeded(new PubKey(pubkey));
   } else {
@@ -85,10 +83,7 @@ export async function onError(ev: any) {
     if (ev.confirm) {
       ev.confirm();
     }
-
-    await window.Signal.Data.updateConversation(id, conversation.attributes, {
-      Conversation: Whisper.Conversation,
-    });
+    await conversation.commit();
   }
 
   throw error;

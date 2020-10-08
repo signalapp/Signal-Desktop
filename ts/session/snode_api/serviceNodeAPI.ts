@@ -3,7 +3,6 @@
 import https from 'https';
 import fetch from 'node-fetch';
 
-import { PubKey } from '../types';
 import { snodeRpc } from './lokiRpc';
 import { sendOnionRequestLsrpcDest, SnodeResponse } from './onions';
 
@@ -328,6 +327,15 @@ export async function storeOnNode(
         return false;
       } else if (e instanceof textsecure.WrongDifficultyError) {
         const { newDifficulty } = e;
+        // difficulty of 100 happens when a snode restarts. We have to exit the loop and markNodeUnreachable()
+        if (newDifficulty === 100) {
+          log.warn(
+            'loki_message:::storeOnNode - invalid new difficulty:100. Marking node as bad.'
+          );
+          successiveFailures = MAX_ACCEPTABLE_FAILURES;
+          continue;
+        }
+
         if (!Number.isNaN(newDifficulty)) {
           window.storage.put('PoWDifficulty', newDifficulty);
         }
@@ -387,6 +395,8 @@ export async function retrieveNextMessages(
     const json = JSON.parse(res.body);
     return json.messages || [];
   } catch (e) {
+    window.log.warn('exception while parsing json of nextMessage:', e);
+
     return [];
   }
 }

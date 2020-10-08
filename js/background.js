@@ -73,7 +73,6 @@
     'folder-outline.svg',
     'forward.svg',
     'gear.svg',
-    'group_default.png',
     'hourglass_empty.svg',
     'hourglass_full.svg',
     'icon_1024.png',
@@ -368,7 +367,7 @@
 
     // These make key operations available to IPC handlers created in preload.js
     window.Events = {
-      getThemeSetting: () => 'dark', // storage.get('theme-setting', 'dark')
+      getThemeSetting: () => storage.get('theme-setting', 'light'),
       setThemeSetting: value => {
         storage.put('theme-setting', value);
         onChangeTheme();
@@ -532,13 +531,6 @@
     }
   );
 
-  Whisper.events.on('setupAsNewDevice', () => {
-    const { appView } = window.owsDesktopApp;
-    if (appView) {
-      appView.openInstaller();
-    }
-  });
-
   Whisper.events.on('setupAsStandalone', () => {
     const { appView } = window.owsDesktopApp;
     if (appView) {
@@ -557,6 +549,13 @@
     window.dispatchEvent(new Event('storage_ready'));
 
     window.log.info('Cleanup: starting...');
+    window.getOurDisplayName = () => {
+      const ourNumber = window.storage.get('primaryDevicePubKey');
+      const conversation = ConversationController.get(ourNumber, 'private');
+      const profile = conversation.getLokiProfile();
+      return profile && profile.displayName;
+    };
+
     const results = await Promise.all([
       window.Signal.Data.getOutgoingWithoutExpiresAt({
         MessageCollection: Whisper.MessageCollection,
@@ -665,11 +664,6 @@
     Whisper.events.on('reconnectTimer', () => {
       appView.inboxView.networkStatusView.setSocketReconnectInterval(60000);
     });
-    Whisper.events.on('contactsync', () => {
-      if (appView.installView) {
-        appView.openInbox();
-      }
-    });
 
     window.addEventListener('focus', () => Whisper.Notifications.clear());
     window.addEventListener('unload', () => Whisper.Notifications.fastClear());
@@ -693,15 +687,16 @@
         closeTheme: params.closeTheme || undefined,
         cancelText: params.cancelText || undefined,
         hideCancel: params.hideCancel || false,
-        centeredText: params.centeredText || false,
+        sessionIcon: params.sessionIcon || undefined,
+        iconSize: params.iconSize || undefined,
       });
 
       confirmDialog.render();
     };
 
-    window.showQRDialog = window.owsDesktopApp.appView.showQRDialog;
     window.showSeedDialog = window.owsDesktopApp.appView.showSeedDialog;
     window.showPasswordDialog = window.owsDesktopApp.appView.showPasswordDialog;
+
     window.showEditProfileDialog = async callback => {
       const ourNumber = window.storage.get('primaryDevicePubKey');
       const conversation = await ConversationController.getOrCreateAndWait(
@@ -735,7 +730,6 @@
           profileName: displayName,
           pubkey: ourNumber,
           avatarPath,
-          avatarColor: conversation.getColor(),
           onOk: async (newName, avatar) => {
             let newAvatarPath = '';
             let url = null;
@@ -997,22 +991,21 @@
           return;
         }
 
-        const serverAPI = await window.lokiPublicChatAPI.findOrCreateServer(
-          sslServerUrl
-        );
-        if (!serverAPI) {
-          window.log.warn(`Could not connect to ${serverAddress}`);
-          return;
-        }
-
         const conversation = await ConversationController.getOrCreateAndWait(
           conversationId,
           'group'
         );
-
-        serverAPI.findOrCreateChannel(channelId, conversationId);
         await conversation.setPublicSource(sslServerUrl, channelId);
 
+        const channelAPI = await window.lokiPublicChatAPI.findOrCreateChannel(
+          sslServerUrl,
+          channelId,
+          conversationId
+        );
+        if (!channelAPI) {
+          window.log.warn(`Could not connect to ${serverAddress}`);
+          return;
+        }
         appView.openConversation(conversationId, {});
       }
     );
@@ -1069,7 +1062,6 @@
           profileName: displayName,
           pubkey: userPubKey,
           avatarPath,
-          avatarColor: conversation.getColor(),
           isRss: conversation.isRss(),
           onStartConversation: () => {
             Whisper.events.trigger('showConversation', userPubKey);
@@ -1098,12 +1090,6 @@
       }
     });
 
-    Whisper.events.on('showSessionRestoreConfirmation', options => {
-      if (appView) {
-        appView.showSessionRestoreConfirmation(options);
-      }
-    });
-
     Whisper.events.on('showNicknameDialog', options => {
       if (appView) {
         appView.showNicknameDialog(options);
@@ -1113,13 +1099,6 @@
     Whisper.events.on('showSeedDialog', async () => {
       if (appView) {
         appView.showSeedDialog();
-      }
-    });
-
-    Whisper.events.on('showQRDialog', async () => {
-      if (appView) {
-        const ourNumber = textsecure.storage.user.getNumber();
-        appView.showQRDialog(ourNumber);
       }
     });
 
@@ -1146,10 +1125,15 @@
 
     Whisper.events.on(
       'publicMessageSent',
-      ({ pubKey, timestamp, serverId }) => {
+      ({ pubKey, timestamp, serverId, serverTimestamp }) => {
         try {
           const conversation = ConversationController.get(pubKey);
-          conversation.onPublicMessageSent(pubKey, timestamp, serverId);
+          conversation.onPublicMessageSent(
+            pubKey,
+            timestamp,
+            serverId,
+            serverTimestamp
+          );
         } catch (e) {
           window.log.error('Error setting public on message');
         }
@@ -1351,7 +1335,7 @@
       messageReceiver = new textsecure.MessageReceiver(mySignalingKey, options);
       messageReceiver.addEventListener(
         'message',
-        window.NewReceiver.handleMessageEvent
+        window.DataMessageReceiver.handleMessageEvent
       );
       window.textsecure.messaging = new textsecure.MessageSender();
       return;
@@ -1362,11 +1346,11 @@
     messageReceiver = new textsecure.MessageReceiver(mySignalingKey, options);
     messageReceiver.addEventListener(
       'message',
-      window.NewReceiver.handleMessageEvent
+      window.DataMessageReceiver.handleMessageEvent
     );
     messageReceiver.addEventListener(
       'sent',
-      window.NewReceiver.handleMessageEvent
+      window.DataMessageReceiver.handleMessageEvent
     );
     messageReceiver.addEventListener('empty', onEmpty);
     messageReceiver.addEventListener('reconnect', onReconnect);

@@ -14,13 +14,13 @@ async function toPromise<T>(value: Return<T>): Promise<T> {
  */
 export async function waitForTask<T>(
   task: (done: SimpleFunction<T>) => Return<void>,
-  timeout: number = 2000
+  timeoutMs: number = 2000
 ): Promise<T> {
   const timeoutPromise = new Promise<T>((_, rej) => {
     const wait = setTimeout(() => {
       clearTimeout(wait);
       rej(new Error('Task timed out.'));
-    }, timeout);
+    }, timeoutMs);
   });
 
   const taskPromise = new Promise(async (res, rej) => {
@@ -35,7 +35,7 @@ export async function waitForTask<T>(
 }
 
 export interface PollOptions {
-  timeout: number;
+  timeoutMs: number;
   interval: number;
 }
 
@@ -51,16 +51,16 @@ export async function poll(
   options: Partial<PollOptions> = {}
 ): Promise<void> {
   const defaults: PollOptions = {
-    timeout: 2000,
+    timeoutMs: 2000,
     interval: 100,
   };
 
-  const { timeout, interval } = {
+  const { timeoutMs, interval } = {
     ...defaults,
     ...options,
   };
 
-  const endTime = Date.now() + timeout;
+  const endTime = Date.now() + timeoutMs;
   let stop = false;
   const finish = () => {
     stop = true;
@@ -101,7 +101,7 @@ export async function poll(
  */
 export async function waitUntil(
   check: () => Return<boolean>,
-  timeout: number = 2000
+  timeoutMs: number = 2000
 ) {
   // This is causing unhandled promise rejection somewhere in MessageQueue tests
   return poll(
@@ -112,8 +112,22 @@ export async function waitUntil(
       }
     },
     {
-      timeout,
-      interval: timeout / 20,
+      timeoutMs,
+      interval: timeoutMs / 20,
     }
   );
+}
+
+export async function timeout<T>(
+  promise: Promise<T>,
+  timeoutMs: number = 2000
+): Promise<T> {
+  const timeoutPromise = new Promise<T>((_, rej) => {
+    const wait = setTimeout(() => {
+      clearTimeout(wait);
+      rej(new Error('Task timed out.'));
+    }, timeoutMs);
+  });
+
+  return Promise.race([timeoutPromise, promise]);
 }

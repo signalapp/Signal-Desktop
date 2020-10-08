@@ -1,0 +1,132 @@
+// Module: Avatar
+
+.module-avatar {
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+  border-radius: 50%;
+
+  img {
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid $borderAvatarColor;
+  }
+}
+
+.module-avatar__label {
+  width: 100%;
+  text-align: center;
+  font-weight: 300;
+  text-transform: uppercase;
+  color: $color-white;
+}
+
+.module-avatar__icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.module-avatar__icon--crown-wrapper {
+  position: relative;
+  bottom: -38px;
+  right: -16px;
+  height: 21px;
+  width: 21px;
+  transform: translate(25%, 25%);
+  padding: 9%;
+  background-color: $color-white;
+  border-radius: 50%;
+  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3));
+}
+
+.module-avatar__icon--crown {
+  @include color-svg('../images/crown.svg', #ffb000);
+  height: 100%;
+  width: 100%;
+}
+
+.module-avatar__icon-closed .module-avatar--28,
+.module-avatar--28 {
+  height: 28px;
+  width: 28px;
+
+  img {
+    height: 28px;
+    width: 28px;
+  }
+}
+
+.module-avatar__icon-closed .module-avatar--36,
+.module-avatar--36 {
+  height: 36px;
+  width: 36px;
+
+  img {
+    height: 36px;
+    width: 36px;
+  }
+}
+
+.module-avatar__icon-closed .module-avatar--48,
+.module-avatar--48 {
+  height: 48px;
+  width: 48px;
+
+  img {
+    height: 48px;
+    width: 48px;
+  }
+}
+
+.module-avatar__icon-closed .module-avatar--64,
+.module-avatar--64 {
+  height: 64px;
+  width: 64px;
+
+  img {
+    height: 64px;
+    width: 64px;
+  }
+}
+
+.module-avatar__icon-closed .module-avatar--80,
+.module-avatar--80 {
+  height: 80px;
+  width: 80px;
+
+  img {
+    height: 80px;
+    width: 80px;
+  }
+}
+
+.module-avatar--300 {
+  height: 300px;
+  width: 300px;
+
+  img {
+    height: 300px;
+    width: 300px;
+  }
+}
+
+.module-avatar__icon--crown-wrapper {
+  background-color: $color-gray-75;
+}
+
+.module-avatar__icon-closed {
+  .module-avatar:last-child {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+  }
+}
+
+.module-avatar-clickable {
+  transition: $session-transition-duration;
+  &:hover {
+    opacity: $session-subtle-factor;
+  }
+}

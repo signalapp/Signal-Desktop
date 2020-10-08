@@ -1,4 +1,4 @@
-/* global _, Whisper, Backbone, storage, textsecure, libsignal, log */
+/* global Whisper, Backbone, textsecure, libsignal, log */
 
 /* eslint-disable more/no-then */
 
@@ -15,10 +15,6 @@
       this.listenTo(conversations, 'reset', () => this.reset([]));
       this.listenTo(conversations, 'remove', this.remove);
 
-      this.on(
-        'add remove change:unreadCount',
-        _.debounce(this.updateUnreadCount.bind(this), 1000)
-      );
       this.startPruning();
     },
     addActive(model) {
@@ -28,23 +24,6 @@
       } else {
         this.remove(model);
       }
-    },
-    updateUnreadCount() {
-      const newUnreadCount = _.reduce(
-        this.map(m => m.get('unreadCount')),
-        (item, memo) => item + memo,
-        0
-      );
-      storage.put('unreadCount', newUnreadCount);
-
-      if (newUnreadCount > 0) {
-        window.setBadgeCount(newUnreadCount);
-        window.document.title = `${window.getTitle()} (${newUnreadCount})`;
-      } else {
-        window.setBadgeCount(0);
-        window.document.title = window.getTitle();
-      }
-      window.updateTrayIcon(newUnreadCount);
     },
     startPruning() {
       const halfHour = 30 * 60 * 1000;

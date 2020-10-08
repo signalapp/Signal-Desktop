@@ -4,7 +4,6 @@ import React from 'react';
 
 import classNames from 'classnames';
 
-import { ConversationHeader } from '../../conversation/ConversationHeader';
 import { SessionCompositionBox } from './SessionCompositionBox';
 import { SessionProgress } from '../SessionProgress';
 
@@ -14,14 +13,14 @@ import { TimerNotification } from '../../conversation/TimerNotification';
 import { getTimestamp } from './SessionConversationManager';
 
 import { SessionScrollButton } from '../SessionScrollButton';
-import { SessionGroupSettings } from './SessionGroupSettings';
 import { ResetSessionNotification } from '../../conversation/ResetSessionNotification';
-import { Constants, getMessageQueue } from '../../../session';
-import { MessageQueue } from '../../../session/sending';
+import { Constants } from '../../../session';
 import { SessionKeyVerification } from '../SessionKeyVerification';
 import _ from 'lodash';
 import { UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
+import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
+import { SessionRightPanelWithDetails } from './SessionRightPanel';
 
 interface State {
   conversationKey: string;
@@ -284,7 +283,7 @@ export class SessionConversation extends React.Component<any, State> {
               showOptionsPane && 'show'
             )}
           >
-            <SessionGroupSettings {...groupSettingsProps} />
+            <SessionRightPanelWithDetails {...groupSettingsProps} />
           </div>
         )}
       </>
@@ -348,7 +347,7 @@ export class SessionConversation extends React.Component<any, State> {
 
   public renderHeader() {
     const headerProps = this.getHeaderProps();
-    return <ConversationHeader {...headerProps} />;
+    return <ConversationHeaderWithDetails {...headerProps} />;
   }
 
   public renderMessage(
@@ -488,7 +487,6 @@ export class SessionConversation extends React.Component<any, State> {
       name: conversation.getName(),
       phoneNumber: conversation.getNumber(),
       profileName: conversation.getProfileName(),
-      color: conversation.getColor(),
       avatarPath: conversation.getAvatarPath(),
       isVerified: conversation.isVerified(),
       isMe: conversation.isMe(),
@@ -599,7 +597,6 @@ export class SessionConversation extends React.Component<any, State> {
       memberCount: members.length,
       phoneNumber: conversation.getNumber(),
       profileName: conversation.getProfileName(),
-      color: conversation.getColor(),
       description: '', // TODO VINCE: ENSURE DESCRIPTION IS SET
       avatarPath: conversation.getAvatarPath(),
       amMod: conversation.isModerator(),
@@ -886,7 +883,6 @@ export class SessionConversation extends React.Component<any, State> {
       okText,
       okTheme: 'danger',
       resolve: doDelete,
-      centeredText: true,
     });
   }
 

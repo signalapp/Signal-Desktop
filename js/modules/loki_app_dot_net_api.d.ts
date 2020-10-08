@@ -30,10 +30,11 @@ export interface LokiPublicChannelAPI {
       body?: string;
     },
     timestamp: number
-  ): Promise<number>;
+  ): Promise<{ serverId; serverTimestamp }>;
 }
 
 declare class LokiAppDotNetServerAPI implements LokiAppDotNetServerInterface {
+  public baseServerUrl: string;
   constructor(ourKey: string, url: string);
 }
 

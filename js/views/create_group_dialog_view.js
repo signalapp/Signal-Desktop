@@ -12,7 +12,8 @@
       this.groupName = groupConvo.get('name');
 
       this.conversation = groupConvo;
-      this.titleText = i18n('updateGroupDialogTitle');
+      this.titleText = i18n('updateGroupDialogTitle', this.groupName);
+
       this.close = this.close.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
       this.isPublic = groupConvo.isPublic();
@@ -20,16 +21,13 @@
       this.members = groupConvo.get('members') || [];
       this.avatarPath = groupConvo.getAvatarPath();
 
-      const ourPK = textsecure.storage.user.getNumber();
-
-      this.isAdmin = groupConvo.get('groupAdmins').includes(ourPK);
+      // any member can update a closed group name
+      this.isAdmin = true;
 
       // public chat settings overrides
       if (this.isPublic) {
         // fix the title
-        this.titleText = `${i18n('updatePublicGroupDialogTitle')}: ${
-          this.groupName
-        }`;
+        this.titleText = i18n('updateGroupDialogTitle', this.groupName);
         // I'd much prefer to integrate mods with groupAdmins
         // but lets discuss first...
         this.isAdmin = groupConvo.isModerator(
@@ -47,6 +45,7 @@
         props: {
           titleText: this.titleText,
           isPublic: this.isPublic,
+          pubkey: this.groupId,
           groupName: this.groupName,
           okText: i18n('ok'),
           cancelText: i18n('cancel'),
@@ -79,7 +78,6 @@
   Whisper.UpdateGroupMembersDialogView = Whisper.View.extend({
     className: 'loki-dialog modal',
     initialize(groupConvo) {
-      const ourPK = textsecure.storage.user.getNumber();
       this.groupName = groupConvo.get('name');
       this.close = this.close.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
@@ -88,9 +86,7 @@
       this.avatarPath = groupConvo.getAvatarPath();
 
       if (this.isPublic) {
-        this.titleText = `${i18n('updatePublicGroupDialogTitle')}: ${
-          this.groupName
-        }`;
+        this.titleText = i18n('updateGroupDialogTitle', this.groupName);
         // I'd much prefer to integrate mods with groupAdmins
         // but lets discuss first...
         this.isAdmin = groupConvo.isModerator(
@@ -100,8 +96,12 @@
         this.contactsAndMembers = [];
         this.existingMembers = [];
       } else {
-        this.titleText = i18n('updateGroupDialogTitle');
-        this.isAdmin = groupConvo.get('groupAdmins').includes(ourPK);
+        this.titleText = i18n('updateGroupDialogTitle', this.groupName);
+        // anybody can edit a closed group name or members
+        const ourPK = window.textsecure.storage.user.getNumber();
+        this.isAdmin = groupConvo.isMediumGroup()
+          ? true
+          : groupConvo.get('groupAdmins').includes(ourPK);
         const convos = window.getConversations().models.filter(d => !!d);
 
         this.existingMembers = groupConvo.get('members') || [];

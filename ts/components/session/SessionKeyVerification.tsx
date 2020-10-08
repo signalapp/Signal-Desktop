@@ -14,7 +14,6 @@ import { SessionSpinner } from './SessionSpinner';
 import classNames from 'classnames';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 import { Constants } from '../../session';
-import { Emojify } from '../conversation/Emojify';
 
 interface Props {
   conversation: ConversationModel;
@@ -147,7 +146,6 @@ export class SessionKeyVerification extends React.Component<Props, State> {
         conversationModel.attributes.profileName,
       ]),
       hideCancel: true,
-      centeredText: true,
     });
   }
 

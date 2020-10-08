@@ -1,8 +1,8 @@
 import React from 'react';
 import { SessionModal } from './SessionModal';
 import { SessionButton, SessionButtonColor } from './SessionButton';
-import classNames from 'classnames';
 import { SessionHtmlRenderer } from './SessionHTMLRenderer';
+import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 
 interface Props {
   message: string;
@@ -17,7 +17,8 @@ interface Props {
   hideCancel: boolean;
   okTheme: SessionButtonColor;
   closeTheme: SessionButtonColor;
-  centeredText?: boolean;
+  sessionIcon?: SessionIconType;
+  iconSize?: SessionIconSize;
 }
 
 export class SessionConfirm extends React.Component<Props> {
@@ -43,7 +44,8 @@ export class SessionConfirm extends React.Component<Props> {
       onClickOk,
       onClickClose,
       hideCancel,
-      centeredText,
+      sessionIcon,
+      iconSize,
     } = this.props;
 
     const okText = this.props.okText || window.i18n('ok');
@@ -65,21 +67,23 @@ export class SessionConfirm extends React.Component<Props> {
         {!showHeader && <div className="spacer-lg" />}
 
         <div className="session-modal__centered">
+          {sessionIcon && (
+            <div>
+              <SessionIcon iconType={sessionIcon} iconSize={iconSize} />
+              <div className="spacer-lg" />
+            </div>
+          )}
+
           <SessionHtmlRenderer
             tag="span"
             className={messageSubText}
             html={message}
           />
-          {messageSub && (
-            <span
-              className={classNames(
-                'session-confirm-sub-message subtle',
-                centeredText && 'text-center'
-              )}
-            >
-              {messageSub}
-            </span>
-          )}
+          <SessionHtmlRenderer
+            tag="span"
+            className="session-confirm-sub-message subtle"
+            html={messageSub}
+          />
         </div>
 
         <div className="session-modal__button-group">

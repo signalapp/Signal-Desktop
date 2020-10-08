@@ -16,6 +16,10 @@ import {
   SessionButtonType,
 } from '../session/SessionButton';
 import * as Menu from '../../session/utils/Menu';
+import {
+  ConversationAvatar,
+  usingClosedConversationDetails,
+} from '../session/usingClosedConversationDetails';
 
 export interface TimerOption {
   name: string;
@@ -87,9 +91,10 @@ interface Props {
   onUpdateGroupName: () => void;
 
   i18n: LocalizerType;
+  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 }
 
-export class ConversationHeader extends React.Component<Props> {
+class ConversationHeader extends React.Component<Props> {
   public showMenuBound: (event: React.MouseEvent<HTMLDivElement>) => void;
   public onAvatarClickBound: (userPubKey: string) => void;
   public menuTriggerRef: React.RefObject<any>;
@@ -170,16 +175,7 @@ export class ConversationHeader extends React.Component<Props> {
         <span className="module-conversation-header__title-text">{text}</span>
       );
 
-    let title;
-    if (profileName) {
-      title = `${profileName} ${window.shortenPubkey(phoneNumber)}`;
-    } else {
-      if (name) {
-        title = `${name}`;
-      } else {
-        title = `User ${window.shortenPubkey(phoneNumber)}`;
-      }
-    }
+    const title = profileName || name || phoneNumber;
 
     return (
       <div className="module-conversation-header__title">
@@ -192,34 +188,25 @@ export class ConversationHeader extends React.Component<Props> {
   public renderAvatar() {
     const {
       avatarPath,
-      i18n,
-      isGroup,
-      isMe,
+      memberAvatars,
       name,
       phoneNumber,
       profileName,
-      isOnline,
     } = this.props;
 
-    const borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE_LIGHT;
-    const conversationType = isGroup ? 'group' : 'direct';
+    const userName = name || profileName || phoneNumber;
 
     return (
       <span className="module-conversation-header__avatar">
         <Avatar
           avatarPath={avatarPath}
-          conversationType={conversationType}
-          i18n={i18n}
-          noteToSelf={isMe}
-          name={name}
-          phoneNumber={phoneNumber}
-          profileName={profileName}
-          size={28}
-          borderColor={borderColor}
-          borderWidth={0}
+          name={userName}
+          size={36}
           onAvatarClick={() => {
             this.onAvatarClickBound(phoneNumber);
           }}
+          memberAvatars={memberAvatars}
+          pubkey={phoneNumber}
         />
       </span>
     );
@@ -300,14 +287,8 @@ export class ConversationHeader extends React.Component<Props> {
     return (
       <ContextMenu id={triggerId}>
         {this.renderPublicMenuItems()}
-        {Menu.getCopyIdMenuItem(
-          isPublic,
-          isRss,
-          isGroup,
-          onCopyPublicKey,
-          i18n
-        )}
-        <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
+        {Menu.getCopyMenuItem(isPublic, isRss, isGroup, onCopyPublicKey, i18n)}
+        {Menu.getDeleteMessagesMenuItem(isPublic, onDeleteMessages, i18n)}
         {Menu.getAddModeratorsMenuItem(
           amMod,
           isKickedFromGroup,
@@ -363,7 +344,7 @@ export class ConversationHeader extends React.Component<Props> {
     } = this.props;
     const isServerDeletable = isPublic;
     const deleteMessageButtonText = i18n(
-      isServerDeletable ? 'unsend' : 'delete'
+      isServerDeletable ? 'deleteForEveryone' : 'delete'
     );
 
     return (
@@ -390,7 +371,7 @@ export class ConversationHeader extends React.Component<Props> {
 
   public render() {
     const { id, isKickedFromGroup } = this.props;
-    const triggerId = `conversation-${id}-${Date.now()}`;
+    const triggerId = `conversation-header-${id}-${Date.now()}`;
     const selectionMode = !!this.props.selectedMessages.length;
 
     return (
@@ -424,7 +405,7 @@ export class ConversationHeader extends React.Component<Props> {
   public highlightMessageSearch() {
     // This is a temporary fix. In future we want to search
     // messages in the current conversation
-    $('.session-search-input input').focus();
+    ($('.session-search-input input') as any).focus();
   }
 
   // tslint:disable-next-line: cyclomatic-complexity
@@ -476,6 +457,7 @@ export class ConversationHeader extends React.Component<Props> {
       isPublic,
       isRss,
       isGroup,
+      isBlocked,
       onResetSession,
       i18n
     );
@@ -499,3 +481,7 @@ export class ConversationHeader extends React.Component<Props> {
     );
   }
 }
+
+export const ConversationHeaderWithDetails = usingClosedConversationDetails(
+  ConversationHeader
+);

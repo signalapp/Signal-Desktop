@@ -4,7 +4,7 @@ import { AutoSizer, List } from 'react-virtualized';
 
 import { MainViewController } from '../MainViewController';
 import {
-  ConversationListItem,
+  ConversationListItemWithDetails,
   PropsData as ConversationListItemPropsType,
 } from '../ConversationListItem';
 import { ConversationType } from '../../state/ducks/conversations';
@@ -30,6 +30,7 @@ import {
   SessionButtonType,
 } from './SessionButton';
 import { OpenGroup } from '../../session/types';
+import { ToastUtils } from '../../session/utils';
 
 export interface Props {
   searchTerm: string;
@@ -76,19 +77,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       valuePasted: '',
     };
 
-    const conversations = this.getCurrentConversations();
-
-    const realConversations: Array<ConversationListItemPropsType> = [];
-    if (conversations) {
-      conversations.forEach(conversation => {
-        const isRSS =
-          conversation.id &&
-          !!(conversation.id && conversation.id.match(/^rss:/));
-
-        return !isRSS && realConversations.push(conversation);
-      });
-    }
-
     this.updateSearchBound = this.updateSearch.bind(this);
 
     this.handleOnPaste = this.handleOnPaste.bind(this);
@@ -105,25 +93,21 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     this.renderClosableOverlay = this.renderClosableOverlay.bind(this);
     this.debouncedSearch = debounce(this.search.bind(this), 20);
+    this.closeOverlay = this.closeOverlay.bind(this);
+  }
+
+  public componentDidMount() {
+    MainViewController.renderMessageView();
+    window.Whisper.events.on('calculatingPoW', this.closeOverlay);
+  }
+
+  public componentDidUpdate() {
+    MainViewController.renderMessageView();
   }
 
   public componentWillUnmount() {
     this.updateSearch('');
-  }
-
-  public getCurrentConversations():
-    | Array<ConversationListItemPropsType>
-    | undefined {
-    const { conversations } = this.props;
-
-    let conversationList = conversations;
-    if (conversationList !== undefined) {
-      conversationList = conversationList.filter(
-        conversation => !conversation.isSecondary
-      );
-    }
-
-    return conversationList;
+    window.Whisper.events.off('calculatingPoW', this.closeOverlay);
   }
 
   public renderRow = ({
@@ -131,9 +115,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     key,
     style,
   }: RowRendererParamsType): JSX.Element => {
-    const { openConversationInternal } = this.props;
-
-    const conversations = this.getCurrentConversations();
+    const { conversations, openConversationInternal } = this.props;
 
     if (!conversations) {
       throw new Error('renderRow: Tried to render without conversations');
@@ -143,7 +125,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     const conversationKey = conversation.id;
 
     return (
-      <ConversationListItem
+      <ConversationListItemWithDetails
         key={key}
         style={style}
         {...conversation}
@@ -154,7 +136,11 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   };
 
   public renderList(): JSX.Element | Array<JSX.Element | null> {
-    const { openConversationInternal, searchResults } = this.props;
+    const {
+      conversations,
+      openConversationInternal,
+      searchResults,
+    } = this.props;
     const contacts = searchResults?.contacts || [];
 
     if (searchResults) {
@@ -168,7 +154,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       );
     }
 
-    const conversations = this.getCurrentConversations();
     if (!conversations) {
       throw new Error(
         'render: must provided conversations if no search results are provided'
@@ -177,7 +162,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     const length = conversations.length;
     const listKey = 0;
-
     // Note: conversations is not a known prop for List, but it is required to ensure that
     //   it re-renders when our conversation data changes. Otherwise it would just render
     //   on startup and scroll.
@@ -203,12 +187,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     return [list];
   }
 
-  public componentDidMount() {
-    MainViewController.renderMessageView();
-  }
-
-  public componentDidUpdate() {
-    MainViewController.renderMessageView();
+  public closeOverlay({ pubKey }: { pubKey: string }) {
+    if (this.state.valuePasted === pubKey) {
+      this.setState({ overlay: false, valuePasted: '' });
+    }
   }
 
   public renderHeader(): JSX.Element {
@@ -242,7 +224,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         <SessionSearchInput
           searchString={this.props.searchTerm}
           onChange={this.updateSearchBound}
-          placeholder={window.i18n('searchForAKeyPhrase')}
+          placeholder={window.i18n('searchFor...')}
         />
         {this.renderList()}
         {this.renderBottomButtons()}
@@ -324,9 +306,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         }}
         onButtonClick={async (
           groupName: string,
-          groupMembers: Array<ContactType>,
-          senderKeys: boolean
-        ) => this.onCreateClosedGroup(groupName, groupMembers, senderKeys)}
+          groupMembers: Array<ContactType>
+        ) => this.onCreateClosedGroup(groupName, groupMembers)}
         searchTerm={searchTerm}
         updateSearch={this.updateSearchBound}
         showSpinner={loading}
@@ -363,21 +344,11 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   private renderBottomButtons(): JSX.Element {
-    const edit = window.i18n('edit');
     const joinOpenGroup = window.i18n('joinOpenGroup');
-    const createClosedGroup = window.i18n('createClosedGroup');
-    const showEditButton = false;
+    const newClosedGroup = window.i18n('newClosedGroup');
 
     return (
       <div className="left-pane-contact-bottom-buttons">
-        {showEditButton && (
-          <SessionButton
-            text={edit}
-            buttonType={SessionButtonType.SquareOutline}
-            buttonColor={SessionButtonColor.White}
-          />
-        )}
-
         <SessionButton
           text={joinOpenGroup}
           buttonType={SessionButtonType.SquareOutline}
@@ -387,7 +358,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           }}
         />
         <SessionButton
-          text={createClosedGroup}
+          text={newClosedGroup}
           buttonType={SessionButtonType.SquareOutline}
           buttonColor={SessionButtonColor.White}
           onClick={() => {
@@ -417,7 +388,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     const { openConversationInternal } = this.props;
 
     if (!this.state.valuePasted && !this.props.searchTerm) {
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('invalidNumberError'),
         type: 'error',
         id: 'invalidPubKey',
@@ -433,7 +404,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     if (!error) {
       openConversationInternal(pubkey);
     } else {
-      window.pushToast({
+      ToastUtils.push({
         title: error,
         type: 'error',
         id: 'invalidPubKey',
@@ -448,15 +419,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       return;
     }
 
-    // Server URL entered?
-    if (serverUrl.length === 0) {
-      return;
-    }
-
     // Server URL valid?
-    if (!OpenGroup.validate(serverUrl)) {
-      window.pushToast({
-        title: window.i18n('noServerURL'),
+    if (serverUrl.length === 0 || !OpenGroup.validate(serverUrl)) {
+      ToastUtils.push({
+        title: window.i18n('invalidOpenGroupUrl'),
         id: 'connectToServer',
         type: 'error',
       });
@@ -466,7 +432,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     // Already connected?
     if (Boolean(await OpenGroup.getConversation(serverUrl))) {
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('publicChatExists'),
         id: 'publicChatExists',
         type: 'error',
@@ -477,16 +443,21 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     // Connect to server
     try {
+      ToastUtils.push({
+        title: window.i18n('connectingToServer'),
+        id: 'connectToServer',
+        type: 'success',
+      });
+      this.setState({ loading: true });
       await OpenGroup.join(serverUrl, async () => {
         if (await OpenGroup.serverExists(serverUrl)) {
-          window.pushToast({
-            title: window.i18n('connectingToServer'),
+          ToastUtils.push({
+            title: window.i18n('connectToServerSuccess'),
             id: 'connectToServer',
             type: 'success',
           });
-
-          this.setState({ loading: true });
         }
+        this.setState({ loading: false });
       });
       const openGroupConversation = await OpenGroup.getConversation(serverUrl);
 
@@ -503,11 +474,12 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       }
     } catch (e) {
       window.console.error('Failed to connect to server:', e);
-      window.pushToast({
+      ToastUtils.push({
         title: window.i18n('connectToServerFail'),
         id: 'connectToServer',
         type: 'error',
       });
+      this.setState({ loading: false });
     } finally {
       this.setState({
         loading: false,
@@ -518,22 +490,11 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
   private async onCreateClosedGroup(
     groupName: string,
-    groupMembers: Array<ContactType>,
-    senderKeys: boolean
+    groupMembers: Array<ContactType>
   ) {
-    await MainViewController.createClosedGroup(
-      groupName,
-      groupMembers,
-      senderKeys,
-      () => {
-        this.handleToggleOverlay(undefined);
-
-        window.pushToast({
-          title: window.i18n('closedGroupCreatedToastTitle'),
-          type: 'success',
-        });
-      }
-    );
+    await MainViewController.createClosedGroup(groupName, groupMembers, () => {
+      this.handleToggleOverlay(undefined);
+    });
   }
 
   private handleNewSessionButtonClick() {

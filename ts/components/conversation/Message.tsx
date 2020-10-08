@@ -69,6 +69,7 @@ export interface Props {
   collapseMetadata?: boolean;
   direction: 'incoming' | 'outgoing';
   timestamp: number;
+  serverTimestamp?: number;
   status?: 'sending' | 'sent' | 'delivered' | 'read' | 'error';
   // What if changed this over to a single contact like quote, and put the events on it?
   contact?: Contact & {
@@ -81,8 +82,6 @@ export interface Props {
   authorProfileName?: string;
   /** Note: this should be formatted for display */
   authorPhoneNumber: string;
-  firstMessageOfSeries: boolean;
-  authorColor?: ColorType;
   conversationType: 'group' | 'direct';
   attachments?: Array<AttachmentType>;
   quote?: {
@@ -92,7 +91,6 @@ export interface Props {
     authorPhoneNumber: string;
     authorProfileName?: string;
     authorName?: string;
-    authorColor?: ColorType;
     onClick?: () => void;
     referencedMessageNotFound: boolean;
   };
@@ -259,6 +257,7 @@ export class Message extends React.PureComponent<Props, State> {
       text,
       textPending,
       timestamp,
+      serverTimestamp,
     } = this.props;
 
     if (collapseMetadata) {
@@ -301,7 +300,7 @@ export class Message extends React.PureComponent<Props, State> {
         ) : (
           <Timestamp
             i18n={i18n}
-            timestamp={timestamp}
+            timestamp={serverTimestamp || timestamp}
             extended={true}
             direction={direction}
             withImageNoCaption={withImageNoCaption}
@@ -615,7 +614,6 @@ export class Message extends React.PureComponent<Props, State> {
   public renderQuote() {
     const {
       conversationType,
-      authorColor,
       direction,
       i18n,
       quote,
@@ -629,8 +627,6 @@ export class Message extends React.PureComponent<Props, State> {
 
     const withContentAbove =
       conversationType === 'group' && direction === 'incoming';
-    const quoteColor =
-      direction === 'incoming' ? authorColor : quote.authorColor;
 
     const shortenedPubkey = window.shortenPubkey(quote.authorPhoneNumber);
 
@@ -651,7 +647,6 @@ export class Message extends React.PureComponent<Props, State> {
         authorPhoneNumber={displayedPubkey}
         authorProfileName={quote.authorProfileName}
         authorName={quote.authorName}
-        authorColor={quoteColor}
         referencedMessageNotFound={quote.referencedMessageNotFound}
         isFromMe={quote.isFromMe}
         withContentAbove={withContentAbove}
@@ -690,64 +685,40 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderSendMessageButton() {
-    const { contact, i18n } = this.props;
-    if (!contact || !contact.hasSignalAccount) {
-      return null;
-    }
-
-    return (
-      <div
-        role="button"
-        onClick={contact.onSendMessage}
-        className="module-message__send-message-button"
-      >
-        {i18n('sendMessageToContact')}
-      </div>
-    );
-  }
-
   public renderAvatar() {
     const {
       authorAvatarPath,
       authorName,
       authorPhoneNumber,
       authorProfileName,
-      firstMessageOfSeries,
       collapseMetadata,
       senderIsModerator,
-      authorColor,
       conversationType,
       direction,
       i18n,
       onShowUserDetails,
     } = this.props;
 
-    const shouldRenderAvatar =
-      (firstMessageOfSeries ||
-        !collapseMetadata ||
-        conversationType === 'group') &&
-      direction === 'incoming';
+    if (
+      collapseMetadata ||
+      conversationType !== 'group' ||
+      direction === 'outgoing'
+    ) {
+      return;
+    }
+    const userName = authorName || authorProfileName || authorPhoneNumber;
 
     return (
       <div className="module-message__author-avatar">
-        <>
-          {shouldRenderAvatar && (
-            <Avatar
-              avatarPath={authorAvatarPath}
-              color={authorColor}
-              conversationType="direct"
-              i18n={i18n}
-              name={authorName}
-              phoneNumber={authorPhoneNumber}
-              profileName={authorProfileName}
-              size={36}
-              onAvatarClick={() => {
-                onShowUserDetails(authorPhoneNumber);
-              }}
-            />
-          )}
-        </>
+        <Avatar
+          avatarPath={authorAvatarPath}
+          name={userName}
+          size={36}
+          onAvatarClick={() => {
+            onShowUserDetails(authorPhoneNumber);
+          }}
+          pubkey={authorPhoneNumber}
+        />
         {senderIsModerator && (
           <div className="module-avatar__icon--crown-wrapper">
             <div className="module-avatar__icon--crown" />
@@ -829,89 +800,6 @@ export class Message extends React.PureComponent<Props, State> {
     }
   }
 
-  public renderMenu(isCorrectSide: boolean, triggerId: string) {
-    const {
-      attachments,
-      direction,
-      disableMenu,
-      isKickedFromGroup,
-      onDownload,
-      onReply,
-    } = this.props;
-
-    if (!isCorrectSide || disableMenu || isKickedFromGroup) {
-      return null;
-    }
-
-    const fileName =
-      attachments && attachments[0] ? attachments[0].fileName : null;
-    const isDangerous = isFileDangerous(fileName || '');
-    const multipleAttachments = attachments && attachments.length > 1;
-    const firstAttachment = attachments && attachments[0];
-
-    const downloadButton =
-      !multipleAttachments && firstAttachment && !firstAttachment.pending ? (
-        <div
-          onClick={(e: any) => {
-            if (onDownload) {
-              onDownload(isDangerous);
-            }
-            e.stopPropagation();
-          }}
-          role="button"
-          className={classNames(
-            'module-message__buttons__download',
-            `module-message__buttons__download--${direction}`
-          )}
-        />
-      ) : null;
-
-    const replyButton = (
-      <div
-        onClick={(e: any) => {
-          if (onReply) {
-            onReply();
-          }
-          e.stopPropagation();
-        }}
-        role="button"
-        className={classNames(
-          'module-message__buttons__reply',
-          `module-message__buttons__download--${direction}`
-        )}
-      />
-    );
-
-    const menuButton = (
-      <ContextMenuTrigger id={triggerId} ref={this.captureMenuTriggerBound}>
-        <div
-          role="button"
-          onClick={this.showMenuBound}
-          className={classNames(
-            'module-message__buttons__menu',
-            `module-message__buttons__download--${direction}`
-          )}
-        />
-      </ContextMenuTrigger>
-    );
-
-    const first = direction === 'incoming' ? downloadButton : menuButton;
-    const last = direction === 'incoming' ? menuButton : downloadButton;
-
-    return (
-      <div
-        className={classNames(
-          'module-message__buttons',
-          `module-message__buttons--${direction}`
-        )}
-      >
-        {first}
-        {replyButton}
-        {last}
-      </div>
-    );
-  }
-
   public renderContextMenu(triggerId: string) {
     const {
       attachments,
@@ -960,7 +848,9 @@ export class Message extends React.PureComponent<Props, State> {
     };
 
     const isServerDeletable = !!this.props.isPublic;
-    const deleteMessageCtxText = i18n(isServerDeletable ? 'unsend' : 'delete');
+    const deleteMessageCtxText = i18n(
+      isServerDeletable ? 'deleteForEveryone' : 'delete'
+    );
 
     return (
       <ContextMenu
@@ -999,7 +889,7 @@ export class Message extends React.PureComponent<Props, State> {
           }}
           onClick={wrap(onShowDetail)}
         >
-          {i18n('moreInfo')}
+          {i18n('moreInformation')}
         </MenuItem>
         {showRetry ? (
           <MenuItem
@@ -1008,7 +898,7 @@ export class Message extends React.PureComponent<Props, State> {
             }}
             onClick={wrap(onRetrySend)}
           >
-            {i18n('retrySend')}
+            {i18n('resend')}
           </MenuItem>
         ) : null}
         {isDeletable ? (
@@ -1019,11 +909,6 @@ export class Message extends React.PureComponent<Props, State> {
             onClick={wrap(onDelete)}
           >
             {deleteMessageCtxText}
-          </MenuItem>
-        ) : null}
-        {isPublic ? (
-          <MenuItem onClick={wrap(onCopyPubKey)}>
-            {i18n('copyPublicKey')}
           </MenuItem>
         ) : null}
         {isModerator && isPublic ? (
@@ -1102,7 +987,6 @@ export class Message extends React.PureComponent<Props, State> {
   public render() {
     const {
       authorPhoneNumber,
-      authorColor,
       direction,
       id,
       isKickedFromGroup,
@@ -1116,15 +1000,10 @@ export class Message extends React.PureComponent<Props, State> {
     } = this.props;
     const { expired, expiring } = this.state;
 
-    // This id is what connects our triple-dot click with our associated pop-up menu.
-    //   It needs to be unique.
     // The Date.now() is a workaround to be sure a single triggerID with this id exists
-    const triggerId = id
-      ? String(`${id}-${Date.now()}`)
-      : String(`${authorPhoneNumber}-${timestamp}`);
     const rightClickTriggerId = id
-      ? String(`${id}-ctx-${Date.now()}`)
-      : String(`${authorPhoneNumber}-ctx-${timestamp}`);
+      ? String(`message-ctx-${id}-${Date.now()}`)
+      : String(`message-ctx-${authorPhoneNumber}-${timestamp}`);
     if (expired) {
       return null;
     }
@@ -1187,18 +1066,32 @@ export class Message extends React.PureComponent<Props, State> {
             }}
           >
             {this.renderError(isIncoming)}
-            {enableContextMenu ? this.renderMenu(!isIncoming, triggerId) : null}
 
             <div
               className={classNames(
                 'module-message__container',
-                `module-message__container--${direction}`,
-                isIncoming
-                  ? `module-message__container--incoming-${authorColor}`
-                  : null
+                `module-message__container--${direction}`
               )}
               style={{
                 width: isShowingImage ? width : undefined,
+              }}
+              role="button"
+              onClick={event => {
+                const selection = window.getSelection();
+                // Text is being selected
+                if (selection && selection.type === 'Range') {
+                  return;
+                }
+
+                // User clicked on message body
+                const target = event.target as HTMLDivElement;
+                if (target.className === 'text-selectable') {
+                  return;
+                }
+
+                if (id) {
+                  this.props.onSelectMessage(id);
+                }
               }}
             >
               {this.renderAuthor()}
@@ -1208,13 +1101,8 @@ export class Message extends React.PureComponent<Props, State> {
               {this.renderEmbeddedContact()}
               {this.renderText()}
               {this.renderMetadata()}
-              {this.renderSendMessageButton()}
             </div>
             {this.renderError(!isIncoming)}
-            {isRss || multiSelectMode
-              ? null
-              : this.renderMenu(isIncoming, triggerId)}
-            {enableContextMenu ? this.renderContextMenu(triggerId) : null}
             {enableContextMenu
               ? this.renderContextMenu(rightClickTriggerId)
               : null}
@@ -1232,6 +1120,7 @@ export class Message extends React.PureComponent<Props, State> {
       conversationType,
       direction,
       i18n,
+      isPublic,
     } = this.props;
 
     const title = authorName ? authorName : authorPhoneNumber;
@@ -1255,6 +1144,7 @@ export class Message extends React.PureComponent<Props, State> {
           module="module-message__author"
           i18n={i18n}
           boldProfileName={true}
+          shouldShowPubkey={Boolean(isPublic)}
         />
       </div>
     );

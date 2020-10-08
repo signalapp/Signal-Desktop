@@ -2,8 +2,6 @@ import React from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 import { Avatar } from '../Avatar';
 import { PropsData as ConversationListItemPropsType } from '../ConversationListItem';
-import { MultiDeviceProtocol } from '../../session/protocols';
-import { UserUtil } from '../../util';
 import { createOrUpdateItem, getItemById } from '../../../js/modules/data';
 
 export enum SectionType {
@@ -59,8 +57,44 @@ export class ActionsPanel extends React.Component<Props, State> {
           },
           'refreshAvatarCallback'
         );
+
+        void this.showLightThemeDialogIfNeeded();
       }
     );
+  }
+
+  public async showLightThemeDialogIfNeeded() {
+    const currentTheme = window.Events.getThemeSetting(); // defaults to light on new registration
+    if (currentTheme !== 'light') {
+      const message = 'Light Mode';
+      const messageSub =
+        'Whoops, who left the lights on?</br></br>\
+        That’s right, Session has a spiffy new light mode! Take the fresh new color palette for a spin — it’s now the default mode.</br></br>\
+        Want to go back to the dark side? Just tap the moon symbol in the lower left corner of the app to switch modes.';
+      const hasSeenLightMode = await getItemById('hasSeenLightModeDialog');
+
+      if (hasSeenLightMode?.value === true) {
+        // if hasSeen is set and true, we have nothing to do
+        return;
+      }
+      // force light them right now, then ask for permission
+      await window.Events.setThemeSetting('light');
+      window.confirmationDialog({
+        message,
+        messageSub,
+        resolve: async () => {
+          const data = {
+            id: 'hasSeenLightModeDialog',
+            value: true,
+          };
+          void createOrUpdateItem(data);
+        },
+        okTheme: 'default primary',
+        hideCancel: true,
+        sessionIcon: SessionIconType.Sun,
+        iconSize: SessionIconSize.Max,
+      });
+    }
   }
 
   public refreshAvatarCallback(conversation: any) {
@@ -88,29 +122,32 @@ export class ActionsPanel extends React.Component<Props, State> {
     onSelect?: (event: SectionType) => void;
     type: SectionType;
     avatarPath?: string;
-    avatarColor?: string;
     notificationCount?: number;
   }) => {
     const handleClick = onSelect
       ? () => {
-          type === SectionType.Profile
-            ? /* tslint:disable-next-line:no-void-expression */
-              this.editProfileHandle()
-            : /* tslint:disable-next-line:no-void-expression */
-              onSelect(type);
+          /* tslint:disable:no-void-expression */
+          if (type === SectionType.Profile) {
+            this.editProfileHandle();
+          } else if (type === SectionType.Moon) {
+            window.toggleTheme();
+          } else {
+            onSelect(type);
+          }
+          /* tslint:enable:no-void-expression */
         }
       : undefined;
 
     if (type === SectionType.Profile) {
+      const pubkey = window.storage.get('primaryDevicePubKey');
+      const userName = window.getOurDisplayName() || pubkey;
       return (
         <Avatar
           avatarPath={avatarPath}
-          conversationType="direct"
-          i18n={window.i18n}
-          // tslint:disable-next-line: no-backbone-get-set-outside-model
-          phoneNumber={window.storage.get('primaryDevicePubKey')}
           size={28}
           onAvatarClick={handleClick}
+          name={userName}
+          pubkey={pubkey}
         />
       );
     }

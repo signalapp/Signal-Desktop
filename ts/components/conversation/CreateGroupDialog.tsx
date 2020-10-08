@@ -8,7 +8,7 @@ import { createLegacyGroup } from '../../session/medium_group';
 declare global {
   interface Window {
     Lodash: any;
-    SMALL_GROUP_SIZE_LIMIT: number;
+    MEDIUM_GROUP_SIZE_LIMIT: number;
   }
 }
 
@@ -50,7 +50,6 @@ export class CreateGroupDialog extends React.Component<Props, State> {
         authorProfileName: name,
         selected: false,
         authorName: name, // different from ProfileName?
-        authorColor: d.getColor(),
         checkmarked: false,
       };
     });
@@ -117,7 +116,7 @@ export class CreateGroupDialog extends React.Component<Props, State> {
           autoFocus={true}
           aria-required={true}
         />
-        <div className="friend-selection-list">
+        <div className="contact-selection-list">
           <MemberList
             members={this.state.contactList}
             selected={{}}
@@ -203,11 +202,9 @@ export class CreateGroupDialog extends React.Component<Props, State> {
 
     if (
       updatedContacts.filter(d => d.checkmarked).length >
-      window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT - 1
+      window.CONSTANTS.MEDIUM_GROUP_SIZE_LIMIT - 1
     ) {
-      const msg = `${this.props.i18n('maxGroupMembersError')} ${
-        window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT
-      }`;
+      const msg = this.props.i18n('closedGroupMaxSize');
       this.onShowError(msg);
 
       return;

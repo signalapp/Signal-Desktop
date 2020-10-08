@@ -10,10 +10,13 @@ import * as SenderKeyAPI from '../session/medium_group';
 import { getChainKey } from '../session/medium_group/ratchet';
 import { StringUtils } from '../session/utils';
 import { BufferType } from '../session/utils/String';
-import { MultiDeviceProtocol } from '../session/protocols';
 import { ConversationModel } from '../../js/models/conversations';
 import { UserUtil } from '../util';
-import { RatchetState } from '../session/medium_group/senderKeys';
+import {
+  createSenderKeyForGroup,
+  RatchetState,
+  shareSenderKeys,
+} from '../session/medium_group/senderKeys';
 
 const toHex = (d: BufferType) => StringUtils.decode(d, 'hex');
 const fromHex = (d: string) => StringUtils.encode(d, 'hex');
@@ -32,13 +35,19 @@ async function handleSenderKeyRequest(
 
   log.debug('[sender key] sender key request from:', senderIdentity);
 
-  const maybeKey = await getChainKey(groupId, ourIdentity);
+  let maybeKey = await getChainKey(groupId, ourIdentity);
 
   if (!maybeKey) {
-    // Regenerate? This should never happen though
-    log.error('Could not find own sender key');
-    await removeFromCache(envelope);
-    return;
+    log.error('Could not find own sender key. Generating new one.');
+    maybeKey = await SenderKeyAPI.createSenderKeyForGroup(
+      groupId,
+      PubKey.cast(ourIdentity)
+    );
+    if (!maybeKey) {
+      log.error('Could not find own sender key after regenerate');
+      await removeFromCache(envelope);
+      return;
+    }
   }
 
   // We reuse the same message type for sender keys
@@ -65,23 +74,6 @@ async function handleSenderKeyRequest(
   await getMessageQueue().send(senderPubKey, keysResponseMessage);
 
   await removeFromCache(envelope);
-}
-
-async function shareSenderKeys(
-  groupId: string,
-  recipientsPrimary: Array<string>,
-  senderKey: RatchetState
-) {
-  const message = new MediumGroupResponseKeysMessage({
-    timestamp: Date.now(),
-    groupId,
-    senderKey,
-  });
-
-  const recipients = recipientsPrimary.map(pk => PubKey.cast(pk));
-  await Promise.all(
-    recipients.map(pk => getMessageQueue().sendUsingMultiDevice(pk, message))
-  );
 }
 
 async function handleSenderKey(
@@ -215,7 +207,10 @@ async function handleNewGroup(
 
   // We only set group admins on group creation
   convo.set('groupAdmins', admins);
-
+  // update the unreadCount for this convo
+  convo.set({
+    unreadCount: Number(convo.get('unreadCount')) + 1,
+  });
   convo.commit();
 
   const secretKeyHex = toHex(groupPrivateKey);
@@ -243,10 +238,10 @@ function sanityCheckMediumGroupUpdate(
   const joining = diff.joiningMembers || [];
   const leaving = diff.leavingMembers || [];
 
-  // 1. When there are no member changes, we don't expect any sender keys
+  // 1. When there are no member changes, we expect all sender keys
   if (!joining.length && !leaving.length) {
-    if (groupUpdate.senderKeys.length) {
-      window.log.error('Unexpected sender keys in group update');
+    if (groupUpdate.senderKeys.length !== groupUpdate.members.length) {
+      window.log.error('Incorrect number of sender keys in group update');
     }
   }
 
@@ -270,13 +265,10 @@ async function handleMediumGroupChange(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.MediumGroupUpdate
 ) {
-  const senderIdentity = envelope.source;
-
   const {
     name,
     groupPublicKey,
     members: membersBinary,
-    admins: adminsBinary,
     senderKeys,
   } = groupUpdate;
   const { log } = window;
@@ -307,8 +299,8 @@ async function handleMediumGroupChange(
     return;
   }
 
-  // // Check that the sender is admin (make sure it words with multidevice)
-  const isAdmin = curAdmins.includes(senderIdentity);
+  // Check that the sender is admin (make sure it words with multidevice)
+  const isAdmin = true;
 
   if (!isAdmin) {
     log.warn('Rejected attempt to update a group by non-admin');
@@ -317,7 +309,7 @@ async function handleMediumGroupChange(
   }
 
   // NOTE: right now, we don't expect admins to change
-  const admins = adminsBinary.map(toHex);
+  // const admins = adminsBinary.map(toHex);
   const members = membersBinary.map(toHex);
 
   const diff = SenderKeyAPI.calculateGroupDiff(convo, { name, members });
@@ -326,7 +318,7 @@ async function handleMediumGroupChange(
   const primary = await UserUtil.getPrimary();
 
   sanityCheckMediumGroupUpdate(primary, diff, groupUpdate);
-
+  // console.log(`Got group update`, groupUpdate);
   await saveIncomingRatchetKeys(groupId, senderKeys);
 
   // Only add update message if we have something to show
@@ -342,72 +334,30 @@ async function handleMediumGroupChange(
     convo.set('isKickedFromGroup', true);
     // Disable typing:
     convo.updateTextInputState();
+    window.SwarmPolling.removePubkey(groupId);
+  } else {
+    if (maybeConvo.get('isKickedFromGroup')) {
+      // Enable typing:
+      maybeConvo.set('isKickedFromGroup', false);
+      maybeConvo.set('left', false);
+      // Subscribe to this group id
+      window.SwarmPolling.addGroupId(new PubKey(groupId));
+      maybeConvo.updateTextInputState();
+    }
   }
 
   await convo.commit();
 
-  await removeFromCache(envelope);
-}
+  if (diff.leavingMembers && diff.leavingMembers.length > 0 && !areWeKicked) {
+    // Send out the user's new ratchet to all members (minus the removed ones) using established channels
+    const userSenderKey = await createSenderKeyForGroup(groupId, primary);
+    window.log.warn(
+      'Sharing our new senderKey with remainingMembers via message',
+      members
+    );
 
-async function handleQuit(
-  envelope: EnvelopePlus,
-  groupUpdate: SignalService.MediumGroupUpdate
-) {
-  const quitter = envelope.source;
-  const groupId = toHex(groupUpdate.groupPublicKey);
-
-  const quitterPrimary = await MultiDeviceProtocol.getPrimaryDevice(quitter);
-
-  const maybeConvo = await window.ConversationController.get(groupId);
-
-  if (!maybeConvo) {
-    window.log.warn('Received QUIT for a non-existing medium group');
-    await removeFromCache(envelope);
-    return;
+    await shareSenderKeys(groupId, members, userSenderKey);
   }
-
-  const convo = maybeConvo;
-
-  // 1. Remove primary device from members:
-
-  const members = convo.get('members');
-
-  const membersUpdated = _.without(members, quitterPrimary.key);
-
-  convo.set({ members: membersUpdated });
-
-  convo.commit();
-
-  // 2. Show message (device left the group);
-
-  await SenderKeyAPI.addUpdateMessage(
-    convo,
-    { leavingMembers: [quitterPrimary.key] },
-    'incoming'
-  );
-
-  const ourNumber = (await UserUtil.getCurrentDevicePubKey()) as string;
-  const primary = await UserUtil.getPrimary();
-
-  if (quitterPrimary.key === primary.key) {
-    convo.set('isKickedFromGroup', true);
-    // Disable typing:
-    convo.updateTextInputState();
-    await convo.commit();
-
-    await removeFromCache(envelope);
-    return;
-  }
-
-  // 3. update your own sender key
-  const senderKey = await SenderKeyAPI.createSenderKeyForGroup(
-    groupId,
-    PubKey.cast(ourNumber)
-  );
-
-  // Send keys in the background
-  // tslint:disable-next-line no-floating-promises
-  shareSenderKeys(groupId, membersUpdated, senderKey);
 
   await removeFromCache(envelope);
 }
@@ -427,8 +377,6 @@ export async function handleMediumGroupUpdate(
     await handleNewGroup(envelope, groupUpdate);
   } else if (type === Type.INFO) {
     await handleMediumGroupChange(envelope, groupUpdate);
-  } else if (type === Type.QUIT) {
-    await handleQuit(envelope, groupUpdate);
   } else {
     window.log.error('Unknown group update type: ', type);
   }

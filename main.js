@@ -513,12 +513,6 @@ function setupWithImport() {
   }
 }
 
-function setupAsNewDevice() {
-  if (mainWindow) {
-    mainWindow.webContents.send('set-up-as-new-device');
-  }
-}
-
 function setupAsStandalone() {
   if (mainWindow) {
     mainWindow.webContents.send('set-up-as-standalone');
@@ -607,7 +601,7 @@ function showAbout() {
     width: 500,
     height: 400,
     resizable: false,
-    title: locale.messages.aboutSignalDesktop.message,
+    title: locale.messages.about.message,
     autoHideMenuBar: true,
     backgroundColor: '#2090EA',
     show: false,
@@ -649,7 +643,7 @@ async function showDebugLogWindow() {
     width: Math.max(size[0] - 100, WINDOW_SIZE.minWidth),
     height: Math.max(size[1] - 100, WINDOW_SIZE.minHeight),
     resizable: false,
-    title: locale.messages.signalDesktopPreferences.message,
+    title: locale.messages.debugLog.message,
     autoHideMenuBar: true,
     backgroundColor: '#FFFFFF',
     show: false,
@@ -697,7 +691,7 @@ async function showPermissionsPopupWindow() {
     width: Math.min(400, size[0]),
     height: Math.min(150, size[1]),
     resizable: false,
-    title: locale.messages.signalDesktopPreferences.message,
+    title: locale.messages.permissions.message,
     autoHideMenuBar: true,
     backgroundColor: '#FFFFFF',
     show: false,
@@ -874,7 +868,6 @@ function setupMenu(options) {
     openSupportPage,
     platform,
     setupWithImport,
-    setupAsNewDevice,
     setupAsStandalone,
   });
   const template = createTemplate(menuOptions, locale.messages);
@@ -994,7 +987,7 @@ ipc.on('draw-attention', () => {
   if (!mainWindow) {
     return;
   }
-  if (process.platform === 'win32' || process.platform === 'linux') {
+  if (process.platform === 'win32') {
     mainWindow.flashFrame(true);
   }
 });

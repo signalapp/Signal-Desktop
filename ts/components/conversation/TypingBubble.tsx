@@ -20,29 +20,24 @@ export class TypingBubble extends React.Component<Props> {
   public renderAvatar() {
     const {
       avatarPath,
-      color,
       name,
       phoneNumber,
       profileName,
       conversationType,
-      i18n,
     } = this.props;
 
     if (conversationType !== 'group') {
       return;
     }
+    const userName = name || profileName || phoneNumber;
 
     return (
       <div className="module-message__author-avatar">
         <Avatar
           avatarPath={avatarPath}
-          color={color}
-          conversationType="direct"
-          i18n={i18n}
-          name={name}
-          phoneNumber={phoneNumber}
-          profileName={profileName}
+          name={userName}
           size={36}
+          pubkey={phoneNumber}
         />
       </div>
     );
@@ -59,12 +54,11 @@ export class TypingBubble extends React.Component<Props> {
           <div
             className={classNames(
               'module-message__container',
-              'module-message__container--incoming',
-              `module-message__container--incoming-${color}`
+              'module-message__container--incoming'
             )}
           >
             <div className="module-message__typing-container">
-              <TypingAnimation color="light" i18n={i18n} />
+              <TypingAnimation color={color} i18n={i18n} />
             </div>
             {this.renderAvatar()}
           </div>

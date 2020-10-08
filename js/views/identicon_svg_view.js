@@ -13,7 +13,6 @@
     templateName: 'identicon-svg',
     initialize(options) {
       this.render_attributes = options;
-      this.render_attributes.color = COLORS[this.render_attributes.color];
     },
     getSVGUrl() {
       const html = this.render().$el.html();
@@ -40,19 +39,4 @@
       });
     },
   });
-
-  const COLORS = {
-    red: '#cc163d',
-    deep_orange: '#c73800',
-    brown: '#746c53',
-    pink: '#a23474',
-    purple: '#862caf',
-    indigo: '#5951c8',
-    blue: '#336ba3',
-    teal: '#067589',
-    green: '#3b7845',
-    light_green: '#1c8260',
-    blue_grey: '#895d66',
-    grey: '#6b6b78',
-  };
 })();

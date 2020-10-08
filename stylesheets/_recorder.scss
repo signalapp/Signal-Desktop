@@ -33,7 +33,7 @@
     width: 36px;
     height: 36px;
     border-radius: 36px;
-    margin-left: 5px;
+    margin-inline-start: 5px;
     opacity: 0.5;
     text-align: center;
     padding: 0;
@@ -52,20 +52,20 @@
   }
 
   .finish {
-    background: lighten($color-core-green, 20%);
-    border: 1px solid $color-core-green;
+    background: lighten($session-color-green, 20%);
+    border: 1px solid $session-color-green;
 
     .icon {
-      @include color-svg('../images/check.svg', $color-core-green);
+      @include color-svg('../images/check.svg', $session-color-green);
     }
   }
 
   .close {
-    background: lighten($color-core-red, 20%);
-    border: 1px solid $color-core-red;
+    background: lighten($session-color-danger, 20%);
+    border: 1px solid $session-color-danger;
 
     .icon {
-      @include color-svg('../images/x.svg', $color-core-red);
+      @include color-svg('../images/x.svg', $session-color-danger);
     }
   }
 
@@ -94,7 +94,7 @@
       width: 10px;
       height: 10px;
       background: #f00;
-      margin-right: 10px;
+      margin-inline-end: 10px;
       opacity: 0;
       animation: pulse 2s infinite;
     }

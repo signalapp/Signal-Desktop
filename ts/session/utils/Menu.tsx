@@ -9,9 +9,7 @@ function showTimerOptions(
   isKickedFromGroup: boolean,
   isBlocked: boolean
 ): boolean {
-  return (
-    Boolean(!isPublic) && Boolean(!isRss) && !isKickedFromGroup && !isBlocked
-  );
+  return !isPublic && !isRss && !isKickedFromGroup && !isBlocked;
 }
 
 function showMemberMenu(
@@ -19,7 +17,7 @@ function showMemberMenu(
   isRss: boolean,
   isGroup: boolean
 ): boolean {
-  return Boolean(!isPublic) && Boolean(!isRss) && isGroup;
+  return !isPublic && !isRss && isGroup;
 }
 
 function showSafetyNumber(
@@ -28,92 +26,85 @@ function showSafetyNumber(
   isGroup: boolean,
   isMe: boolean
 ): boolean {
-  return Boolean(!isPublic) && Boolean(!isRss) && !isGroup && !isMe;
+  return !isPublic && !isRss && !isGroup && !isMe;
 }
 
 function showResetSession(
   isPublic: boolean,
   isRss: boolean,
-  isGroup: boolean
+  isGroup: boolean,
+  isBlocked: boolean
 ): boolean {
-  return Boolean(!isPublic) && Boolean(!isRss) && Boolean(!isGroup);
+  return !isPublic && !isRss && !isGroup && !isBlocked;
 }
 
-function showBlock(
-  isMe: boolean | undefined,
-  isPrivate: boolean | undefined
-): boolean {
-  return Boolean(!isMe) && Boolean(isPrivate);
+function showBlock(isMe: boolean, isPrivate: boolean): boolean {
+  return !isMe && isPrivate;
 }
 
 function showClearNickname(
-  isPublic: boolean | undefined,
-  isRss: boolean | undefined,
-  isMe: boolean | undefined,
-  hasNickname: boolean | undefined
+  isPublic: boolean,
+  isRss: boolean,
+  isMe: boolean,
+  hasNickname: boolean
 ): boolean {
-  return (
-    Boolean(!isPublic) &&
-    Boolean(!isRss) &&
-    Boolean(!isMe) &&
-    Boolean(hasNickname)
-  );
+  return !isPublic && !isRss && !isMe && hasNickname;
+}
+
+function showDeleteMessages(isPublic: boolean): boolean {
+  return !isPublic;
 }
 
 function showCopyId(
-  isPublic: boolean | undefined,
-  isRss: boolean | undefined
+  isPublic: boolean,
+  isRss: boolean,
+  isGroup: boolean
 ): boolean {
-  return Boolean(!isPublic) && Boolean(!isRss);
+  return !isGroup && !isRss;
 }
 
 function showDeleteContact(
-  isMe: boolean | undefined,
-  isClosable: boolean | undefined,
-  isGroup: boolean | undefined,
-  isPublic: boolean | undefined,
-  isRss: boolean | undefined
+  isMe: boolean,
+  isClosable: boolean,
+  isGroup: boolean,
+  isPublic: boolean,
+  isRss: boolean
 ): boolean {
-  return (
-    Boolean(!isMe) && Boolean(isClosable) && !!(!isGroup || isPublic || isRss)
-  );
+  return !isMe && isClosable && !!(!isGroup || isPublic || isRss);
 }
 
 function showAddModerators(
-  amMod: boolean | undefined,
-  isKickedFromGroup: boolean | undefined
+  amMod: boolean,
+  isKickedFromGroup: boolean
 ): boolean {
-  return Boolean(!isKickedFromGroup) && Boolean(amMod);
+  return !isKickedFromGroup && amMod;
 }
 
 function showRemoveModerators(
-  amMod: boolean | undefined,
-  isKickedFromGroup: boolean | undefined
+  amMod: boolean,
+  isKickedFromGroup: boolean
 ): boolean {
-  return Boolean(!isKickedFromGroup) && Boolean(amMod);
+  return !isKickedFromGroup && amMod;
 }
 
 function showUpdateGroupName(
-  amMod: boolean | undefined,
-  isKickedFromGroup: boolean | undefined
+  amMod: boolean,
+  isKickedFromGroup: boolean
 ): boolean {
-  return Boolean(!isKickedFromGroup) && Boolean(amMod);
+  return !isKickedFromGroup && amMod;
 }
 
 function showLeaveGroup(
-  isKickedFromGroup: boolean | undefined,
-  isGroup: boolean | undefined,
-  isPublic: boolean | undefined,
-  isRss: boolean | undefined
+  isKickedFromGroup: boolean,
+  isGroup: boolean,
+  isPublic: boolean,
+  isRss: boolean
 ): boolean {
-  return Boolean(!isKickedFromGroup) && Boolean(isGroup) && !isPublic && !isRss;
+  return !isKickedFromGroup && isGroup && !isPublic && !isRss;
 }
 
-function showInviteContact(
-  isGroup: boolean | undefined,
-  isPublic: boolean | undefined
-): boolean {
-  return Boolean(isGroup) && Boolean(isPublic);
+function showInviteContact(isGroup: boolean, isPublic: boolean): boolean {
+  return isGroup && isPublic;
 }
 
 /** Menu items standardized */
@@ -124,7 +115,7 @@ export function getInviteContactMenuItem(
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showInviteContact(isGroup, isPublic)) {
+  if (showInviteContact(Boolean(isGroup), Boolean(isPublic))) {
     return <MenuItem onClick={action}>{i18n('inviteContacts')}</MenuItem>;
   }
   return null;
@@ -139,11 +130,19 @@ export function getDeleteContactMenuItem(
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showDeleteContact(isMe, isClosable, isGroup, isPublic, isRss)) {
+  if (
+    showDeleteContact(
+      Boolean(isMe),
+      Boolean(isClosable),
+      Boolean(isGroup),
+      Boolean(isPublic),
+      Boolean(isRss)
+    )
+  ) {
     if (isPublic) {
-      return <MenuItem onClick={action}>{i18n('leaveOpenGroup')}</MenuItem>;
+      return <MenuItem onClick={action}>{i18n('leaveGroup')}</MenuItem>;
     }
-    return <MenuItem onClick={action}>{i18n('deleteContact')}</MenuItem>;
+    return <MenuItem onClick={action}>{i18n('delete')}</MenuItem>;
   }
   return null;
 }
@@ -156,8 +155,15 @@ export function getLeaveGroupMenuItem(
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showLeaveGroup(isKickedFromGroup, isGroup, isPublic, isRss)) {
-    return <MenuItem onClick={action}>{i18n('leaveClosedGroup')}</MenuItem>;
+  if (
+    showLeaveGroup(
+      Boolean(isKickedFromGroup),
+      Boolean(isGroup),
+      Boolean(isPublic),
+      Boolean(isRss)
+    )
+  ) {
+    return <MenuItem onClick={action}>{i18n('leaveGroup')}</MenuItem>;
   }
   return null;
 }
@@ -168,10 +174,8 @@ export function getUpdateGroupNameMenuItem(
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showUpdateGroupName(amMod, isKickedFromGroup)) {
-    return (
-      <MenuItem onClick={action}>{i18n('editGroupNameOrPicture')}</MenuItem>
-    );
+  if (showUpdateGroupName(Boolean(amMod), Boolean(isKickedFromGroup))) {
+    return <MenuItem onClick={action}>{i18n('editGroup')}</MenuItem>;
   }
   return null;
 }
@@ -182,7 +186,7 @@ export function getRemoveModeratorsMenuItem(
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showRemoveModerators(amMod, isKickedFromGroup)) {
+  if (showRemoveModerators(Boolean(amMod), Boolean(isKickedFromGroup))) {
     return <MenuItem onClick={action}>{i18n('removeModerators')}</MenuItem>;
   }
   return null;
@@ -194,21 +198,21 @@ export function getAddModeratorsMenuItem(
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showAddModerators(amMod, isKickedFromGroup)) {
+  if (showAddModerators(Boolean(amMod), Boolean(isKickedFromGroup))) {
     return <MenuItem onClick={action}>{i18n('addModerators')}</MenuItem>;
   }
   return null;
 }
 
-export function getCopyIdMenuItem(
+export function getCopyMenuItem(
   isPublic: boolean | undefined,
   isRss: boolean | undefined,
   isGroup: boolean | undefined,
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showCopyId(isPublic, isRss)) {
-    const copyIdLabel = isGroup ? i18n('copyChatId') : i18n('copyPublicKey');
+  if (showCopyId(Boolean(isPublic), Boolean(isRss), Boolean(isGroup))) {
+    const copyIdLabel = i18n('copySessionID');
     return <MenuItem onClick={action}>{copyIdLabel}</MenuItem>;
   }
   return null;
@@ -231,8 +235,13 @@ export function getDisappearingMenuItem(
       Boolean(isBlocked)
     )
   ) {
+    const isRtlMode = isRtlBody();
     return (
-      <SubMenu title={i18n('disappearingMessages') as any}>
+      // Remove the && false to make context menu work with RTL support
+      <SubMenu
+        title={i18n('disappearingMessages') as any}
+        rtl={isRtlMode && false}
+      >
         {(timerOptions || []).map(item => (
           <MenuItem
             key={item.value}
@@ -249,6 +258,10 @@ export function getDisappearingMenuItem(
   return null;
 }
 
+export function isRtlBody(): boolean {
+  return ($('body') as any).hasClass('rtl');
+}
+
 export function getShowMemberMenuItem(
   isPublic: boolean | undefined,
   isRss: boolean | undefined,
@@ -257,7 +270,7 @@ export function getShowMemberMenuItem(
   i18n: LocalizerType
 ): JSX.Element | null {
   if (showMemberMenu(Boolean(isPublic), Boolean(isRss), Boolean(isGroup))) {
-    return <MenuItem onClick={action}>{i18n('showMembers')}</MenuItem>;
+    return <MenuItem onClick={action}>{i18n('groupMembers')}</MenuItem>;
   }
   return null;
 }
@@ -287,10 +300,18 @@ export function getResetSessionMenuItem(
   isPublic: boolean | undefined,
   isRss: boolean | undefined,
   isGroup: boolean | undefined,
+  isBlocked: boolean | undefined,
   action: any,
   i18n: LocalizerType
 ): JSX.Element | null {
-  if (showResetSession(Boolean(isPublic), Boolean(isRss), Boolean(isGroup))) {
+  if (
+    showResetSession(
+      Boolean(isPublic),
+      Boolean(isRss),
+      Boolean(isGroup),
+      Boolean(isBlocked)
+    )
+  ) {
     return <MenuItem onClick={action}>{i18n('resetSession')}</MenuItem>;
   }
   return null;
@@ -329,6 +350,17 @@ export function getClearNicknameMenuItem(
     )
   ) {
     return <MenuItem onClick={action}>{i18n('clearNickname')}</MenuItem>;
+  }
+  return null;
+}
+
+export function getDeleteMessagesMenuItem(
+  isPublic: boolean | undefined,
+  action: any,
+  i18n: LocalizerType
+): JSX.Element | null {
+  if (showDeleteMessages(Boolean(isPublic))) {
+    return <MenuItem onClick={action}>{i18n('deleteMessages')}</MenuItem>;
   }
   return null;
 }

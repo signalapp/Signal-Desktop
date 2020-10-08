@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  ConversationListItem,
+  ConversationListItemWithDetails,
   PropsData as ConversationListItemPropsType,
 } from './ConversationListItem';
 import {
@@ -62,7 +62,7 @@ export class SearchResults extends React.Component<Props> {
               {i18n('conversationsHeader')}
             </div>
             {conversations.map(conversation => (
-              <ConversationListItem
+              <ConversationListItemWithDetails
                 key={conversation.phoneNumber}
                 {...conversation}
                 onClick={openConversation}
@@ -79,7 +79,7 @@ export class SearchResults extends React.Component<Props> {
           <div className="module-search-results__messages">
             {hideMessagesHeader ? null : (
               <div className="module-search-results__messages-header">
-                {i18n('messages')}
+                {i18n('messagesHeader')}
               </div>
             )}
             {messages.map(message => (
@@ -106,7 +106,7 @@ export class SearchResults extends React.Component<Props> {
       <div className="module-search-results__contacts">
         <div className="module-search-results__contacts-header">{header}</div>
         {items.map(contact => (
-          <ConversationListItem
+          <ConversationListItemWithDetails
             key={contact.phoneNumber}
             {...contact}
             onClick={openConversation}

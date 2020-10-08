@@ -15,6 +15,7 @@ export const MainViewController = {
 };
 
 import { ContactType } from './session/SessionMemberListItem';
+import { ToastUtils } from '../session/utils';
 
 export class MessageView extends React.Component {
   public render() {
@@ -23,10 +24,15 @@ export class MessageView extends React.Component {
         <div className="conversation placeholder">
           <div className="conversation-header" />
           <div className="container">
-            <div className="content">
+            <div className="content session-full-logo">
               <img
-                src="images/session/full-logo.svg"
-                className="session-full-logo"
+                src="images/session/brand.svg"
+                className="session-brand-logo"
+                alt="full-brand-logo"
+              />
+              <img
+                src="images/session/session-text.svg"
+                className="session-text-logo"
                 alt="full-brand-logo"
               />
             </div>
@@ -44,19 +50,20 @@ export class MessageView extends React.Component {
 async function createClosedGroup(
   groupName: string,
   groupMembers: Array<ContactType>,
-  senderKeys: boolean,
   onSuccess: any
 ) {
   // Validate groupName and groupMembers length
-  if (
-    groupName.length === 0 ||
-    groupName.length > window.CONSTANTS.MAX_GROUP_NAME_LENGTH
-  ) {
-    window.pushToast({
-      title: window.i18n(
-        'invalidGroupName',
-        window.CONSTANTS.MAX_GROUP_NAME_LENGTH
-      ),
+  if (groupName.length === 0) {
+    ToastUtils.push({
+      title: window.i18n('invalidGroupNameTooShort'),
+      type: 'error',
+      id: 'invalidGroupName',
+    });
+
+    return;
+  } else if (groupName.length > window.CONSTANTS.MAX_GROUP_NAME_LENGTH) {
+    ToastUtils.push({
+      title: window.i18n('invalidGroupNameTooLong'),
       type: 'error',
       id: 'invalidGroupName',
     });
@@ -64,18 +71,22 @@ async function createClosedGroup(
     return;
   }
 
-  // >= because we add ourself as a member after this. so a 10 group is already invalid as it will be 11 with ourself
-  if (
-    groupMembers.length === 0 ||
-    groupMembers.length >= window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT
-  ) {
-    window.pushToast({
-      title: window.i18n(
-        'invalidGroupSize',
-        window.CONSTANTS.SMALL_GROUP_SIZE_LIMIT
-      ),
+  // >= because we add ourself as a member AFTER this. so a 10 group is already invalid as it will be 11 with ourself
+  // the same is valid with groups count < 1
+
+  if (groupMembers.length < 1) {
+    ToastUtils.push({
+      title: window.i18n('pickClosedGroupMember'),
       type: 'error',
-      id: 'invalidGroupSize',
+      id: 'pickClosedGroupMember',
+    });
+
+    return;
+  } else if (groupMembers.length >= window.CONSTANTS.MEDIUM_GROUP_SIZE_LIMIT) {
+    ToastUtils.push({
+      title: window.i18n('closedGroupMaxSize'),
+      type: 'error',
+      id: 'closedGroupMaxSize',
     });
 
     return;
@@ -83,7 +94,7 @@ async function createClosedGroup(
 
   const groupMemberIds = groupMembers.map(m => m.id);
 
-  if (senderKeys) {
+  if (window.lokiFeatureFlags.enableSenderKeys) {
     await createMediumGroup(groupName, groupMemberIds);
   } else {
     await createLegacyGroup(groupName, groupMemberIds);

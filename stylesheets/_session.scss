@@ -8,12 +8,6 @@ div.spacer-lg {
   height: $session-margin-lg;
 }
 
-// Blur for modals
-.loki-dialog ~ .index.inbox {
-  filter: blur(2px);
-  transition: filter 0.1s;
-}
-
 .subtle {
   opacity: 0.6;
 }
@@ -48,7 +42,9 @@ textarea {
     user-select: text;
 
     &::selection {
-      background: rgba($session-color-green, 0.6);
+      @include themify($themes) {
+        background: themed('textHighlight');
+      }
     }
   }
 }
@@ -79,8 +75,8 @@ textarea {
 
 .button-group > div {
   display: inline-flex;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-inline-start: 5px;
+  margin-inline-end: 5px;
 }
 
 .session-button {
@@ -111,10 +107,14 @@ textarea {
   &.default,
   &.square,
   &.brand {
-    color: $session-color-white;
+    @include themify($themes) {
+      color: themed('foregroundPrimary');
+    }
 
     &:not(.disabled):hover {
-      filter: brightness(90%);
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
     }
 
     &.green,
@@ -130,14 +130,26 @@ textarea {
     }
 
     &.green {
-      background-color: $session-color-green;
+      @include themify($themes) {
+        background-color: themed('accentButton');
+      }
     }
 
     &.white {
-      background-color: $session-color-white;
+      @include themify($themes) {
+        color: themed('textColor');
+      }
     }
     &.primary {
-      background-color: $session-color-primary;
+      @include themify($themes) {
+        background-color: themed('backgroundPrimary');
+      }
+
+      .session-icon {
+        @include themify($themes) {
+          fill: themed('foregroundPrimary');
+        }
+      }
     }
     &.secondary {
       background-color: $session-color-secondary;
@@ -162,7 +174,9 @@ textarea {
     border: none;
 
     &.green {
-      @include transparent-background($session-color-green);
+      @include themify($themes) {
+        @include transparent-background(themed('buttonGreen'));
+      }
     }
     &.white {
       @include transparent-background($session-color-white);
@@ -205,8 +219,10 @@ textarea {
     border-radius: 500px;
 
     &:not(.disabled):hover {
-      color: $session-color-white;
-      border-color: $session-color-white;
+      @include themify($themes) {
+        color: themed('textColor');
+        border-color: themed('textColor');
+      }
     }
   }
 
@@ -318,7 +334,7 @@ textarea {
       position: absolute;
       font-size: 1.3em;
       top: -0.5em;
-      margin-left: -0.125em;
+      margin-inline-start: -0.125em;
     }
   }
 
@@ -333,11 +349,10 @@ textarea {
 }
 
 .session-icon {
-  fill: $session-color-white;
+  @include themify($themes) {
+    fill: themed('textColor');
+  }
 }
-
-$session-separator-element-border: 1px solid $session-shade-6;
-$session-element-border-green: 4px solid $session-color-green;
 
 /* CONVERSATION AND MESSAGES */
 
@@ -363,7 +378,10 @@ $session-element-border-green: 4px solid $session-color-green;
   font-size: $session-font-md;
 
   &-text {
-    @include session-color-subtle($session-color-white);
+    @include themify($themes) {
+      @include session-color-subtle(themed('textColor'));
+    }
+
     font-family: $session-font-default;
     font-weight: 300;
     font-size: $session-font-xs;
@@ -392,8 +410,8 @@ $session-element-border-green: 4px solid $session-color-green;
 
 .module-message__author-avatar {
   display: inline-flex;
-  margin-right: 20px;
-  margin-top: 3px;
+  margin-inline-end: 20px;
+  padding-top: 5px;
 }
 
 .module-message__container {
@@ -418,7 +436,7 @@ label {
   }
 
   .search-icon {
-    margin-right: 10px;
+    margin-inline-end: 10px;
   }
 
   .session-icon-button {
@@ -461,7 +479,9 @@ label {
 .session-toast {
   position: relative;
   padding: $session-margin-md $session-margin-md;
-  background-color: rgba($session-shade-6, 0.8);
+  @include themify($themes) {
+    background: rgba(themed('cellBackground'), 0.8);
+  }
   margin-bottom: $session-margin-md;
   display: flex;
   flex-direction: row;
@@ -475,10 +495,10 @@ label {
   }
 
   .toast-icon {
-    padding-right: $session-icon-size-md;
+    padding-inline-end: $session-icon-size-md;
   }
   .toast-info {
-    margin-right: $session-icon-size-sm + $session-icon-size-sm;
+    margin-inline-end: $session-icon-size-sm + $session-icon-size-sm;
     width: 350px;
 
     &-container {
@@ -496,23 +516,31 @@ label {
     line-height: $session-font-sm;
     margin-bottom: $session-margin-sm;
     padding-top: 0px;
-    color: $session-color-white;
+    @include themify($themes) {
+      color: themed('textColor');
+    }
     padding-top: 0px;
   }
 
   .description {
     font-size: $session-font-xs;
-    @include session-color-subtle($session-color-white);
+    @include themify($themes) {
+      @include session-color-subtle(themed('textColor'));
+    }
   }
 
   .toast-close {
-    @include session-color-subtle($session-color-white);
+    @include themify($themes) {
+      @include session-color-subtle(themed('textColor'));
+    }
     position: absolute;
     top: $session-margin-md;
     right: $session-margin-md;
 
     &:hover {
-      color: $session-color-white;
+      @include themify($themes) {
+        color: themed('textColor');
+      }
     }
   }
 
@@ -540,8 +568,12 @@ label {
   box-sizing: border-box;
   max-height: 70vh;
   max-width: 70vw;
-  background-color: $session-shade-4;
-  border: 1px solid $session-shade-8;
+  @include themify($themes) {
+    background-color: themed('modalBackground');
+    color: themed('textColor');
+    border: themed('sessionBorder');
+    box-shadow: themed('sessionShadow');
+  }
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -569,8 +601,8 @@ label {
 
       .session-modal__header__icons > div {
         float: left;
-        padding-left: 0px;
-        padding-right: 10px;
+        padding-inline-start: 0px;
+        padding-inline-end: 10px;
       }
     }
 
@@ -586,7 +618,7 @@ label {
     }
     &__icons > div {
       float: right;
-      padding-left: 10px;
+      padding-inline-start: 10px;
     }
   }
 
@@ -606,6 +638,10 @@ label {
       width: 30vw;
       max-width: 700px;
     }
+  }
+
+  .group-member-list__selection {
+    overflow-y: auto;
   }
 
   &__centered {
@@ -651,22 +687,11 @@ label {
   }
 }
 
-.sealed-sender-toggle {
-  display: flex;
-  padding: 6px;
-}
-
-.sender-keys-description {
-  display: flex;
-  align-items: center;
-  padding-left: 10px;
-}
-
 .session-modal__body {
   display: flex;
   flex-direction: column;
 
-  .friend-selection-list {
+  .contact-selection-list {
     width: unset;
   }
 
@@ -714,7 +739,8 @@ label {
     box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.05), 0 3px 1px 0 rgba(0, 0, 0, 0.05),
       0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 3px 0 rgba(0, 0, 0, 0.05);
 
-    transition: transform 0.25s ease, background-color 0.25s ease;
+    transition: transform $session-transition-duration ease,
+      background-color $session-transition-duration ease;
   }
 
   &.active {
@@ -738,13 +764,15 @@ label {
 .react-contextmenu-item {
   display: flex;
   align-items: center;
+  transition: $session-transition-duration;
 
   height: 25px;
   padding: $session-margin-md $session-margin-sm;
 
-  background-color: $session-shade-4;
-
-  color: $session-color-white;
+  @include themify($themes) {
+    background: themed('contextMenuBackground');
+    color: themed('textColor');
+  }
   font-family: $session-font-accent;
   font-size: $session-font-sm;
   line-height: $session-icon-size-sm;
@@ -752,7 +780,9 @@ label {
 
   &--active,
   &--selected {
-    background-color: $session-shade-7 !important;
+    @include themify($themes) {
+      background: themed('clickableHovered');
+    }
   }
   &:active,
   &:visited,
@@ -773,8 +803,17 @@ label {
     height: 50px;
     padding: 0px $session-margin-md;
     font-size: $session-font-sm;
-    color: $session-color-white;
-    background-color: $session-shade-1;
+
+    @include themify($themes) {
+      color: themed('textColor');
+      background: themed('cellBackground');
+    }
+
+    &:hover {
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
+    }
 
     .session-icon {
       opacity: 0.6;
@@ -782,7 +821,7 @@ label {
   }
 
   &__list-container {
-    z-index: 200;
+    z-index: 99;
     display: block;
     position: absolute;
     top: 50px;
@@ -802,33 +841,43 @@ label {
     justify-content: center;
     height: 35px;
     padding: 0 $session-margin-md;
-    color: $session-color-white;
-    background-color: $session-shade-1;
+    @include themify($themes) {
+      background: themed('cellBackground');
+      color: themed('textColor');
+    }
     font-size: 0.8rem;
     width: -webkit-fill-available;
     transition: $session-transition-duration;
 
     &:first-child {
-      border-top: $session-separator-element-border;
+      @include themify($themes) {
+        border-top: themed('sessionBorder');
+      }
     }
     &:last-child {
-      border-bottom: $session-separator-element-border;
+      @include themify($themes) {
+        border-top: themed('sessionBorder');
+      }
     }
 
     &:hover {
-      @include session-dark-background-hover;
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
     }
 
     .session-icon {
-      margin-left: 6px;
+      margin-inline-start: 6px;
     }
     .item-content {
-      margin-left: 6px;
+      margin-inline-start: 6px;
     }
 
     &.active,
     &:hover {
-      background-color: $session-shade-7;
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
     }
 
     &.danger {
@@ -837,108 +886,11 @@ label {
   }
 
   &:hover {
+    @include themify($themes) {
+      background: themed('clickableHovered');
+    }
     .session-icon {
       opacity: 1;
-    }
-  }
-}
-
-.edit-profile-dialog {
-  .session-modal__header__title {
-    font-size: $session-font-lg;
-  }
-
-  .session-modal {
-    width: $session-modal-size-md;
-
-    &__header {
-      height: 68.45px;
-    }
-  }
-
-  .avatar-center-inner {
-    position: relative;
-
-    .module-avatar {
-      box-shadow: 0 0 23px 0 rgba($session-color-black, 0.78);
-    }
-
-    .qr-view-button {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      right: -3px;
-      height: 26px;
-      width: 26px;
-      border-radius: 50%;
-      padding-top: 3px;
-      background-color: $session-color-white;
-      transition: $session-transition-duration;
-
-      &:hover {
-        filter: brightness(90%);
-      }
-
-      .session-icon-button {
-        opacity: 1;
-      }
-    }
-  }
-
-  .session-id-section {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-
-    .panel-text-divider {
-      margin-top: 35px;
-      margin-bottom: 35px;
-    }
-
-    &-display {
-      user-select: text;
-      text-align: center;
-      word-break: break-all;
-      font-size: $session-font-md;
-      padding: 0px $session-margin-lg;
-      font-family: $session-font-default;
-      font-weight: 100;
-      color: rgba($session-color-white, 0.8);
-      font-size: $session-font-md;
-      padding: 0px $session-margin-sm;
-    }
-
-    .session-button {
-      width: 148px;
-    }
-  }
-
-  .profile-name {
-    display: flex;
-    justify-content: center;
-    margin-top: $session-margin-lg;
-
-    &-input {
-      height: 38px;
-      width: 142px;
-      border-radius: 5px;
-      text-align: center;
-      font-size: $session-font-md;
-      background-color: $session-shade-5 !important;
-    }
-
-    &-uneditable {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-left: $session-margin-lg;
-
-      p {
-        font-size: $session-font-md;
-        padding: 0px $session-margin-sm;
-      }
     }
   }
 }
@@ -953,7 +905,6 @@ label {
   height: 80px;
   border-radius: 100%;
   background-color: rgba($session-color-black, 0.72);
-  box-shadow: 0px 0px 3px 0.5px rgba(0, 0, 0, 0.75);
   opacity: 0;
   transition: $session-transition-duration;
 
@@ -1063,9 +1014,10 @@ label {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: $session-shade-6;
     height: $main-view-header-height;
-
+    @include themify($themes) {
+      background: themed('cellBackground');
+    }
     &-title {
       line-height: $main-view-header-height;
       font-weight: bold;
@@ -1076,19 +1028,20 @@ label {
 
     .session-button,
     .session-icon-button {
-      margin-right: $session-margin-lg;
+      margin-inline-end: $session-margin-lg;
     }
   }
 
   &-item {
     font-size: $session-font-md;
-    color: $session-color-white;
-    background-color: $session-shade-1;
-
     padding: $session-margin-lg;
     margin-bottom: 20px;
-    border-bottom: 1px solid $session-shade-5;
 
+    @include themify($themes) {
+      background: themed('cellBackground');
+      color: themed('textColor');
+      border-bottom: themed('sessionBorder');
+    }
     &.inline {
       display: flex;
       align-items: center;
@@ -1096,7 +1049,7 @@ label {
     }
 
     &__info {
-      padding-right: $session-margin-lg;
+      padding-inline-end: $session-margin-lg;
     }
 
     &__title {
@@ -1110,12 +1063,21 @@ label {
       font-size: $session-font-sm;
       font-weight: 100;
       max-width: 700px;
-      @include session-color-subtle($session-color-white);
+      @include themify($themes) {
+        @include session-color-subtle(themed('textColor'));
+      }
     }
 
     &__content {
       label {
-        @include session-color-subtle($session-color-white);
+        @include themify($themes) {
+          @include session-color-subtle(themed('textColor'));
+        }
+      }
+    }
+    &__selection {
+      .session-toggle {
+        transition: $session-transition-duration;
       }
     }
   }
@@ -1133,7 +1095,7 @@ label {
     justify-content: space-between;
 
     padding: $session-margin-sm $session-margin-md;
-    background-color: $session-shade-5;
+    background: none;
     font-size: $session-font-xs;
 
     span {
@@ -1197,14 +1159,6 @@ label {
   border-radius: 3px;
 }
 
-.qr-dialog {
-  &__description {
-    max-width: $session-modal-size-sm;
-    text-align: center;
-    margin: 0 auto;
-  }
-}
-
 .seed-dialog {
   &__description {
     max-width: $session-modal-size-lg;
@@ -1229,13 +1183,53 @@ label {
   }
 }
 
+.bottom-bar {
+  .compose {
+    max-height: 200px;
+  }
+
+  .send-message-container {
+    display: flex;
+    flex-grow: 1;
+    height: 48px;
+    margin-bottom: -5px;
+  }
+
+  textarea.send-message {
+    @include themify($themes) {
+      background: themed('composeViewBackground');
+      color: themed('textColor');
+    }
+    border: none;
+    margin: 0px;
+    padding: 0px $session-margin-lg;
+    font-size: $session-font-md;
+    line-height: 1.3em;
+    align-self: center;
+  }
+}
+
+.bottom-bar form {
+  &.send {
+    @include themify($themes) {
+      background: themed('composeViewBackground');
+    }
+  }
+
+  &.active textarea {
+    border: none;
+  }
+}
+
 .dark-theme .bottom-bar .send-message[disabled='disabled'] {
-  background: $session-shade-4 !important;
+  @include themify($themes) {
+    background: themed('composeViewBackground');
+  }
 }
 
 .session-radio-group fieldset {
   border: none;
-  margin-left: $session-margin-sm;
+  margin-inline-start: $session-margin-sm;
   margin-top: $session-margin-sm;
 
   .session-radio {
@@ -1253,7 +1247,7 @@ label {
   }
 
   label {
-    margin-right: 1em;
+    margin-inline-end: 1em;
   }
 
   label:before {
@@ -1261,22 +1255,29 @@ label {
     display: inline-block;
     width: 0.5em;
     height: 0.5em;
-    margin-right: 0.8em;
+    margin-inline-end: 0.8em;
     border-radius: 100%;
     vertical-align: -3px;
     border: 2px solid rgba($session-color-white, 0.6);
     padding: 0.2em;
-    background-color: transparent;
+    @include themify($themes) {
+      background: none;
+      border-color: themed('accent');
+    }
     background-clip: content-box;
+    transition: $session-transition-duration;
   }
 
   input:hover + label:before {
-    border-color: $session-color-white;
+    @include themify($themes) {
+      background: themed('accent');
+    }
   }
 
   input:checked + label:before {
-    background-color: $session-color-white;
-    border-color: $session-color-white;
+    @include themify($themes) {
+      background: themed('accent');
+    }
   }
 }
 
@@ -1295,7 +1296,7 @@ label {
   padding: 0px 5px 20px 5px;
 
   &.session-id-editable-textarea:placeholder-shown {
-    padding: 20px 5px 0px 5px;
+    padding: 10px 5px 0px 5px;
   }
 
   &.group-id-editable-textarea {
@@ -1311,7 +1312,9 @@ input {
 .dark-theme .invite-friends-dialog .member-item {
   height: 64px;
   background-color: $session-shade-4;
-  border: $session-separator-element-border;
+  @include themify($themes) {
+    border: themed('sessionBorder');
+  }
   display: flex;
   align-items: center;
   transition: $session-transition-duration;
@@ -1330,35 +1333,8 @@ input {
   }
 }
 
-.dark-theme .modal .content {
-  background-color: $session-shade-4;
-}
-
-.loki-dialog button {
-  border: none;
-}
-
-.friend-selection-list {
+.contact-selection-list {
   width: 20vw;
-}
-
-.session-beta-disclaimer {
-  .session-modal {
-    width: 600px;
-
-    &__header {
-      font-size: $session-font-lg;
-    }
-
-    &__body > div:first-child {
-      padding: $session-margin-lg;
-    }
-
-    .session-confirm-main-message {
-      opacity: 0.8;
-      margin-bottom: $session-margin-xs;
-    }
-  }
 }
 
 .session-confirm-wrapper {
@@ -1400,131 +1376,15 @@ input {
   }
 }
 
-/* Memberlist */
-.member-list-container .member {
-  &-item {
-    font-family: $session-font-default;
-    padding: $session-margin-sm $session-margin-md;
-    background-color: $session-shade-5;
-
-    &:hover:not(.member-selected) {
-      background-color: $session-shade-7;
-    }
-  }
-
-  &-selected {
-    background-color: $session-shade-8;
-  }
-}
-
-.standalone {
-  .button {
-    background: $session-color-green;
-  }
-
-  #reset-button {
-    color: $session-color-green;
-  }
-
-  .inputs {
-    input {
-      color: $color-dark-05;
-      background-color: $color-dark-70;
-      border-color: $color-dark-55;
-
-      &:focus {
-        outline: none;
-      }
-    }
-  }
-}
-
-.onboarding-message-section {
-  display: flex;
-  flex-grow: 1;
-  align-items: flex-start;
-  position: relative;
-  padding: $session-margin-lg 2 * $session-margin-lg;
-  background: linear-gradient(
-    180deg,
-    rgba(29, 28, 28, 1) 0%,
-    rgba(18, 18, 18, 1) 100%
-  );
-
-  &__exit {
-    position: absolute;
-    top: $session-margin-lg;
-    left: $session-margin-lg;
-  }
-
-  &__container {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 3 * $session-margin-lg;
-
-    height: 400px;
-
-    text-align: center;
-    font-family: $session-font-default;
-  }
-
-  &__title h1 {
-    color: $session-color-white;
-    font-size: $session-font-h1;
-    font-weight: bold;
-    margin-bottom: 2 * $session-margin-lg;
-  }
-
-  &__icons img {
-    width: 180px;
-    margin-bottom: 2 * $session-margin-lg;
-  }
-
-  &__info {
-    font-family: $session-font-accent;
-    margin-bottom: 2 * $session-margin-lg;
-
-    &--title {
-      font-size: $session-font-h3;
-      line-height: $session-font-h2;
-      margin-bottom: $session-margin-md;
-    }
-
-    &--subtitle {
-      font-family: $session-font-default;
-      font-weight: 300;
-      line-height: $session-font-md;
-      opacity: 0.8;
-    }
-  }
-
-  &__spinner-container {
-    display: flex;
-    flex-grow: 1;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &__buttons {
-    width: 100%;
-
-    .session-button:first-child {
-      margin-bottom: $session-margin-md;
-    }
-  }
-}
-
 .group-member-list {
   &__container {
     padding: 2px 0px;
     width: 100%;
     max-height: 400px;
     overflow-y: auto;
-    box-shadow: inset 0px 14px 7px -15px $session-color-dark-grey,
-      inset 0px -14px 7px -15px $session-color-dark-grey;
+    @include themify($themes) {
+      border: themed('sessionBorder');
+    }
   }
 
   &__selection {
@@ -1535,18 +1395,14 @@ input {
 
   &__no-contacts {
     font-family: $session-font-mono;
+    @include themify($themes) {
+      background: themed('cellBackground');
+    }
     text-align: center;
     padding: 20px;
   }
-
-  // Height at which scroll bar appears on the group member list
-  @media (max-height: 804px) {
-    &__container {
-      overflow-y: visible;
-      max-height: none;
-    }
-  }
 }
+
 .create-group-name-input {
   display: flex;
   justify-content: center;
@@ -1573,16 +1429,26 @@ input {
   display: flex;
   justify-content: space-between;
   transition: $session-transition-duration;
-
-  &:first-child {
-    border-top: 1px solid rgba($session-shade-8, 0.6);
+  @include themify($themes) {
+    background: themed('cellBackground');
   }
-  &:last-child {
-    border-bottom: 1px solid rgba($session-shade-8, 0.6);
+
+  &:not(:last-child) {
+    @include themify($themes) {
+      border-bottom: themed('sessionBorder');
+    }
+  }
+
+  &:hover {
+    @include themify($themes) {
+      background-color: themed('clickableHovered');
+    }
   }
 
   &.selected {
-    background-color: $session-shade-4;
+    @include themify($themes) {
+      background-color: themed('conversationItemSelected');
+    }
   }
 
   &__checkmark {
@@ -1591,6 +1457,11 @@ input {
 
     &.selected {
       opacity: 1;
+      svg {
+        @include themify($themes) {
+          fill: themed('accent') !important;
+        }
+      }
     }
   }
 
@@ -1602,21 +1473,16 @@ input {
 
   &__name {
     font-weight: bold;
-    margin-left: $session-margin-md;
+    margin-inline-start: $session-margin-md;
   }
   &__pubkey {
-    margin-left: 5px;
+    margin-inline-start: 5px;
     opacity: 0.8;
   }
 
   &__avatar > div {
     margin-bottom: 0px !important;
   }
-}
-
-.invite-friends-container {
-  height: $session-icon-size-lg;
-  width: $session-icon-size-lg;
 }
 
 .module-message-detail {

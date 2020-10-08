@@ -3,17 +3,9 @@
         "message": "Copy error and quit",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
-    "unknownGroup": {
-        "message": "Unknown group",
-        "description": "Shown as the name of a group if we don't have any information about it"
-    },
     "databaseError": {
         "message": "Database Error",
         "description": "Shown in a popup if the database cannot start up properly"
-    },
-    "deleteAndRestart": {
-        "message": "Delete all data and restart",
-        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
         "message": "ไ&ฟล์",
@@ -35,10 +27,6 @@
         "message": "&ความช่วยเหลือ",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
-    "mainMenuSettings": {
-        "message": "การกำหนด...",
-        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
-    },
     "appMenuHide": {
         "message": "ซ่อน",
         "description": "Application menu command to hide the window"
@@ -52,7 +40,7 @@
         "description": "Application menu command to show all application windows"
     },
     "appMenuQuit": {
-        "message": "ออกจาก Signal",
+        "message": "ออกจาก Session",
         "description": "Application menu command to close the application"
     },
     "editMenuUndo": {
@@ -135,10 +123,6 @@
         "message": "ตั้งค่าด้วยการนำเข้า",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
-    "menuSetupAsNewDevice": {
-        "message": "ตั้งค่าให้เป็นอุปกรณ์ใหม่",
-        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
-    },
     "menuSetupAsStandalone": {
         "message": "ตั้งค่าเป็นอุปกรณ์สแตนด์อโลน",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
@@ -161,36 +145,16 @@
             }
         }
     },
-    "archivedConversations": {
-        "message": "Archived Conversations",
-        "description": "Shown in place of the search box when showing archived conversation list"
-    },
-    "archiveHelperText": {
-        "message": "These conversations are archived and will only appear in the Inbox if new messages are received.",
-        "description": "Shown at the top of the archived converations list in the left pane"
-    },
-    "archiveConversation": {
-        "message": "Archive Conversation",
-        "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
-    },
-    "moveConversationToInbox": {
-        "message": "Move Conversation to Inbox",
-        "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
-    },
     "chooseDirectory": {
         "message": "เลือกโฟลเดอร์",
         "description": "Button to allow the user to find a folder on disk"
-    },
-    "chooseFile": {
-        "message": "Choose file",
-        "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
         "message": "โหลดข้อมูลของคุณ",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "คุณพึ่งจะผ่านพ้นขั้นตอนการส่งออกและข้อมูลผู้ติดต่อและข้อความของคุณยังคงรออยู่ในเครื่องคอมพิวเตอร์ของคุณ เลือกโฟลเดอร์ที่จัดเก็บข้อมูล Signal ที่บันทึกไว้ของคุณ",
+        "message": "คุณพึ่งจะผ่านพ้นขั้นตอนการส่งออกและข้อมูลผู้ติดต่อและข้อความของคุณยังคงรออยู่ในเครื่องคอมพิวเตอร์ของคุณ เลือกโฟลเดอร์ที่จัดเก็บข้อมูล Session ที่บันทึกไว้ของคุณ",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -206,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "โปรดแน่ใจว่าคุณได้เลือกโฟลเดอร์ที่จัดเก็บข้อมูล Signal ที่บันทึกไว้ของคุณอย่างถูกต้อง โดยชื่อของโฟลเดอร์ควรจะเริ่มต้นด้วยคำว่า 'Signal Export' คุณยังสามารถทำการบันทึกข้อมูลของคุณใหม่ผ่านทางแอปใน Chrome",
+        "message": "โปรดแน่ใจว่าคุณได้เลือกโฟลเดอร์ที่จัดเก็บข้อมูล Session ที่บันทึกไว้ของคุณอย่างถูกต้อง โดยชื่อของโฟลเดอร์ควรจะเริ่มต้นด้วยคำว่า 'Session Export' คุณยังสามารถทำการบันทึกข้อมูลของคุณใหม่ผ่านทางแอปใน Chrome",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -222,30 +186,12 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "เริ่มต้นใช้งาน Signal Desktop",
+        "message": "เริ่มต้นใช้งาน Session Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
         "message": "เชื่อมโยงอุปกรณ์นี้กับโทรศัพท์ของคุณ",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
-    },
-    "selectedLocation": {
-        "message": "ตำแหน่งที่คุณเลือก",
-        "description": "Message shown as the export location if we didn't capture the target directory"
-    },
-    "upgradingDatabase": {
-        "message": "กำลังอัพเกรดฐานข้อมูล อาจต้องใช้เวลาสักพักหนึ่ง...",
-        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
-    },
-    "loadingMessages": {
-        "message": "ถึงตอนนี้กำลังโหลดข้อความไปแล้ว $count$ ข้อความ...",
-        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
     },
     "me": {
         "message": "ฉัน",
@@ -258,18 +204,6 @@
     "youLeftTheGroup": {
         "message": "คุณได้ออกจากกลุ่ม",
         "description": "Displayed when a user can't send a message because they have left the group"
-    },
-    "scrollDown": {
-        "message": "เลื่อนไปที่ด้านล่างสุดของการสนทนา",
-        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-    },
-    "messageBelow": {
-        "message": "ข้อความใหม่ข้างล่าง",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-    },
-    "messagesBelow": {
-        "message": "ข้อความใหม่ข้างล่าง",
-        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
         "message": "1 ข้อความที่ยังไม่ได้อ่าน",
@@ -330,11 +264,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับสมาชิกในหลายกลุ่มนับตั้งแต่การยืนยันครั้งล่าสุดของคุณ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่พวกเขาเหล่านั้นได้ติดตั้งแอป Signal ใหม่",
+        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับสมาชิกในหลายกลุ่มนับตั้งแต่การยืนยันครั้งล่าสุดของคุณ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่พวกเขาเหล่านั้นได้ติดตั้งแอป Session ใหม่",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับ $name$ นับตั้งแต่การยืนยันครั้งล่าสุดของคุณ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ $name$ ได้ติดตั้งแอป Signal ใหม่",
+        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับ $name$ นับตั้งแต่การยืนยันครั้งล่าสุดของคุณ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ $name$ ได้ติดตั้งแอป Session ใหม่",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -344,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยที่คุณกำลังจะทำการยืนยัน โปรดตรวจสอบรหัสความปลอดภัยของคุณกับ $name$ โปรดจำไว้ว่า การเปลี่ยนแปลงนี้อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ $name$ ได้ติดตั้งแอป Signal ใหม่",
+        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยที่คุณกำลังจะทำการยืนยัน โปรดตรวจสอบรหัสความปลอดภัยของคุณกับ $name$ โปรดจำไว้ว่า การเปลี่ยนแปลงนี้อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ $name$ ได้ติดตั้งแอป Session ใหม่",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -354,11 +288,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "มีการเปลี่ยนแปลงรหัสความปลอดภัยของคุณกับสมาชิกในหลายกลุ่มเมื่อเร็วๆ นี้ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่พวกเขาเหล่านั้นได้ติดตั้งแอป Signal ใหม่",
+        "message": "มีการเปลี่ยนแปลงรหัสความปลอดภัยของคุณกับสมาชิกในหลายกลุ่มเมื่อเร็วๆ นี้ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่พวกเขาเหล่านั้นได้ติดตั้งแอป Session ใหม่",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับ $name$ เมื่อเร็วๆ นี้ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ $name$ ได้ติดตั้งแอป Signal ใหม่",
+        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับ $name$ เมื่อเร็วๆ นี้ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ $name$ ได้ติดตั้งแอป Session ใหม่",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -368,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับ $name$ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ $name$ ได้ติดตั้งแอป Signal ใหม่ คุณอาจจะต้องยืนยันรหัสความปลอดภัยกับผู้ติดต่อนี้",
+        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับ $name$ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ $name$ ได้ติดตั้งแอป Session ใหม่ คุณอาจจะต้องยืนยันรหัสความปลอดภัยกับผู้ติดต่อนี้",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -415,10 +349,6 @@
         "message": "ส่ง",
         "description": ""
     },
-    "acceptNewKey": {
-        "message": "ยอมรับ",
-        "description": "Label for a button to accept a new safety number"
-    },
     "verify": {
         "message": "ทำเครื่องหมายว่ายืนยันแล้ว",
         "description": ""
@@ -454,10 +384,6 @@
     "newIdentity": {
         "message": "รหัสความปลอดภัยใหม่",
         "description": "Header for a key change dialog"
-    },
-    "identityChanged": {
-        "message": "มีการเปลี่ยนแปลงในรหัสความปลอดภัยของคุณกับผู้ติดต่อนี้ นี่อาจหมายความว่ามีใครพยายามดักการสื่อสารของคุณ หรือไม่ก็แค่ผู้ติดต่อนี้ได้ติดตั้งแอป Signal ใหม่ คุณอาจจะต้องยืนยันรหัสความปลอดภัยใหม่ด้านล่างนี้",
-        "description": ""
     },
     "incomingError": {
         "message": "เกิดข้อผิดพลาดในการจัดการข้อความขาเข้า",
@@ -495,18 +421,6 @@
         "message": "เดือนนี้",
         "description": "Section header in the media gallery"
     },
-    "unsupportedAttachment": {
-        "message": "ประเภทไฟล์แนบที่ไม่รองรับ คลิกเพื่อบันทึก",
-        "description": "Displayed for incoming unsupported attachment"
-    },
-    "clickToSave": {
-        "message": "คลิกเพื่อบันทึก",
-        "description": "Hover text for attachment filenames"
-    },
-    "unnamedFile": {
-        "message": "ไฟล์ที่ไม่มีชื่อ",
-        "description": "Hover text for attachment filenames"
-    },
     "voiceMessage": {
         "message": "ข้อความเสียง",
         "description": "Name for a voice message attachment"
@@ -515,13 +429,9 @@
         "message": "Attachment type not allowed for security reasons",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
-    "loadingPreview": {
-        "message": "Loading Preview...",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
-    },
     "stagedPreviewThumbnail": {
         "message": "Draft thumbnail link preview for $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -531,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "Thumbnail link preview for $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -569,10 +479,6 @@
         "message": "Unable to load selected attachment.",
         "description": ""
     },
-    "disconnected": {
-        "message": "เลิกการเชื่อมต่อแล้ว",
-        "description": "Displayed when the desktop client cannot connect to the server."
-    },
     "connecting": {
         "message": "กำลังเชื่อมต่อ",
         "description": "Displayed when the desktop client is currently connecting to the server."
@@ -607,10 +513,6 @@
         "message": "ไปที่บันทึกประจำรุ่น",
         "description": ""
     },
-    "goToForums": {
-        "message": "ไปที่ฟอรัม",
-        "description": "Item under the Help menu, takes you to the forums"
-    },
     "goToSupportPage": {
         "message": "ไปที่หน้าการสนับสนุน",
         "description": "Item under the Help menu, takes you to the support page"
@@ -619,14 +521,6 @@
         "message": "รายงานปัญหา",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
-    "signalDesktopPreferences": {
-        "message": "การกำหนดลักษณะ Signal Desktop",
-        "description": "Title of the window that pops up with Signal Desktop preferences in it"
-    },
-    "aboutSignalDesktop": {
-        "message": "เกี่ยวกับ Signal Desktop",
-        "description": "Item under the Help menu, which opens a small about window"
-    },
     "speech": {
         "message": "การพูด",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -634,18 +528,6 @@
     "show": {
         "message": "แสดง",
         "description": "Command under Window menu, to show the window"
-    },
-    "hide": {
-        "message": "ซ่อน",
-        "description": "Command in the tray icon menu, to hide the window"
-    },
-    "quit": {
-        "message": "ออก",
-        "description": "Command in the tray icon menu, to quit the application"
-    },
-    "signalDesktop": {
-        "message": "Signal Desktop",
-        "description": "Tooltip for the tray icon"
     },
     "search": {
         "message": "ค้นหา",
@@ -674,11 +556,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSession": {
-        "message": "ยินดีต้อนรับสู่ Signal",
-        "description": ""
-    },
-    "selectAContact": {
-        "message": "เลือกผู้ติดต่อหรือกลุ่มเพื่อเริ่มต้นการแชต",
+        "message": "ยินดีต้อนรับสู่ Session",
         "description": ""
     },
     "typingAlt": {
@@ -694,10 +572,6 @@
                 "example": "John"
             }
         }
-    },
-    "sendMessageToContact": {
-        "message": "ส่งข้อความ",
-        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
         "message": "บ้าน",
@@ -759,27 +633,13 @@
         "message": "คุณ",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
-    "replyingTo": {
-        "message": "ตอบกลับหา $name$",
-        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
     "audioPermissionNeeded": {
-        "message": "เพื่อจะส่งข้อความเสียง ต้องอนุญาตให้ Signal Desktop ใช้งานไมโครโฟนของคุณ",
+        "message": "เพื่อจะส่งข้อความเสียง ต้องอนุญาตให้ Session Desktop ใช้งานไมโครโฟนของคุณ",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
         "message": "อนุญาตให้เข้าถึง",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
-    },
-    "showSettings": {
-        "message": "แสดงการตั้งค่า",
-        "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
         "message": "เสียง",
@@ -797,10 +657,6 @@
         "message": "Cannot Update",
         "description": "Shown as the title of our update error dialogs on windows"
     },
-    "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
-    },
     "ok": {
         "message": "ตกลง",
         "description": ""
@@ -809,16 +665,8 @@
         "message": "ยกเลิก",
         "description": ""
     },
-    "failedToSend": {
-        "message": "ส่งไปยังผู้รับบางคนไม่สำเร็จ ตรวจสอบการเชื่อมต่อเครือข่ายของคุณ",
-        "description": ""
-    },
     "error": {
         "message": "ข้อผิดพลาด",
-        "description": ""
-    },
-    "messageDetail": {
-        "message": "รายละเอียดข้อความ",
         "description": ""
     },
     "delete": {
@@ -857,10 +705,6 @@
         "message": "สมาชิกกลุ่ม",
         "description": ""
     },
-    "showMembers": {
-        "message": "แสดงสมาชิก",
-        "description": ""
-    },
     "resetSession": {
         "message": "ตั้งค่าเซสชันใหม่",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
@@ -868,10 +712,6 @@
     "showSafetyNumber": {
         "message": "แสดงรหัสความปลอดภัย",
         "description": ""
-    },
-    "viewAllMedia": {
-        "message": "ดูสื่อทั้งหมด",
-        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
         "message": "หากคุณต้องการยืนยันความปลอดภัยในการเข้ารหัสจากต้นทางถึงปลายทางระหว่างคุณกับ $name$ ให้เปรียบเทียบตัวเลขด้านบนกับตัวเลขบนอุปกรณ์ของเขา",
@@ -886,14 +726,6 @@
     "theirIdentityUnknown": {
         "message": "คุณยังไม่ได้แลกเปลี่ยนข้อความใดๆ กับผู้ติดต่อนี้ รหัสความปลอดภัยของคุณกับพวกเขาจะมีให้หลังเริ่มส่งข้อความแรก",
         "description": ""
-    },
-    "moreInfo": {
-        "message": "More Info...",
-        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
-    },
-    "retrySend": {
-        "message": "Retry Send",
-        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
         "message": "ลบข้อความนี้",
@@ -939,10 +771,6 @@
         "message": "บันทึก",
         "description": ""
     },
-    "fileIconAlt": {
-        "message": "ไอคอนไฟล์",
-        "description": "Used in the media gallery documents tab to visually represent a file"
-    },
     "emojiAlt": {
         "message": "รูปอีโมจิของ '$title$'",
         "description": "Used in the alt tag of all emoji images",
@@ -953,65 +781,9 @@
             }
         }
     },
-    "installWelcome": {
-        "message": "ยินดีต้อนรับสู่ Signal Desktop",
-        "description": "Welcome title on the install page"
-    },
-    "installTagline": {
-        "message": "ความเป็นส่วนตัวเป็นไปได้อย่างง่ายดายด้วย Signal",
-        "description": "Tagline displayed under 'installWelcome' string on the install page"
-    },
-    "linkYourPhone": {
-        "message": "เชื่อมโยงโทรศัพท์ของคุณกับ Signal Desktop",
-        "description": "Shown on the front page when the application first starst, above the QR code"
-    },
-    "signalSettings": {
-        "message": "การตั้งค่า Signal",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "linkedDevices": {
-        "message": "อุปกรณ์ที่เชื่อมโยง",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "ปุ่ม '+'",
-        "description": "The button used in Signal Android to add a new linked device"
-    },
     "linkNewDevice": {
         "message": "เชื่อมโยงอุปกรณ์ใหม่",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
-    },
-    "deviceName": {
-        "message": "ชื่ออุปกรณ์",
-        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
-    },
-    "chooseDeviceName": {
-        "message": "เลือกชื่อของอุปกรณ์นี้",
-        "description": "The header shown on the 'choose device name' screen in the device linking process"
-    },
-    "finishLinkingPhone": {
-        "message": "เชื่อมโยงโทรศัพท์เสร็จสิ้น",
-        "description": "The text on the button to finish the linking process, after choosing the device name"
-    },
-    "initialSync": {
-        "message": "กำลังซิงค์รายชื่อผู้ติดต่อและกลุ่ม",
-        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
-    },
-    "installConnectionFailed": {
-        "message": "เชื่อมต่อกับเซิร์ฟเวอร์ล้มเหลว",
-        "description": "Displayed when we can't connect to the server."
-    },
-    "installTooManyDevices": {
-        "message": "ขออภัย คุณมีอุปกรณ์ที่เชื่อมโยงมากเกินไป ลองถอนการเชื่อมโยงจากบางอุปกรณ์บ้าง",
-        "description": ""
-    },
-    "settings": {
-        "message": "การตั้งค่า",
-        "description": "Menu item and header for global settings"
-    },
-    "theme": {
-        "message": "ธีม",
-        "description": "Header for theme settings"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "สิทธิ์",
@@ -1028,34 +800,6 @@
     "spellCheckDescription": {
         "message": "Enable spell check of text entered in message composition box",
         "description": "Description of the media permission description"
-    },
-    "clearDataHeader": {
-        "message": "ล้างข้อมูล",
-        "description": "Header in the settings dialog for the section dealing with data deletion"
-    },
-    "clearDataExplanation": {
-        "message": "นี่จะเป็นการล้างข้อมูลทั้งหมดในโปรแกรม ลบข้อความทั้งหมดรวมทั้งข้อมูลทางบัญชีที่บันทึกไว้",
-        "description": "Text describing what the clear data button will do."
-    },
-    "clearDataButton": {
-        "message": "ล้างข้อมูล",
-        "description": "Button in the settings dialog starting process to delete all data"
-    },
-    "deleteAllDataHeader": {
-        "message": "ลบข้อมูลทั้งหมดหรือ",
-        "description": "Header of the full-screen delete data confirmation screen"
-    },
-    "deleteAllDataBody": {
-        "message": "คุณกำลังจะลบข้อมูลบัญชีที่บันทึกไว้ของโปรแกรมนี้ทั้งหมด ซึ่งรวมถึงผู้ติดต่อและข้อความทั้งหมด คุณสามารถเชื่อมต่อกับอุปกรณ์เคลื่อนที่ของคุณใหม่ได้เสมอแต่จะไม่สามารถเรียกคืนข้อความที่ถูกลบไปแล้ว",
-        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
-    },
-    "deleteAllDataButton": {
-        "message": "ลบข้อมูลทั้งหมด",
-        "description": "Text of the button that deletes all data"
-    },
-    "deleteAllDataProgress": {
-        "message": "กำลังยกเลิกการเชื่อมต่อและลบข้อมูลทั้งหมด",
-        "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
         "message": "การแจ้งเตือน",
@@ -1105,20 +849,12 @@
         "message": "Send failed",
         "description": "Shown on outgoing message if it fails to send"
     },
-    "showMore": {
-        "message": "รายละเอียด",
-        "description": "Displays the details of a key change"
-    },
-    "showLess": {
-        "message": "ซ่อนรายละเอียด",
-        "description": "Hides the details of a key change"
-    },
     "learnMore": {
         "message": "เรียนรู้เพิ่มเติมเกี่ยวกับการยืนยันรหัสความปลอดภัย",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Signal Desktop เวอร์ชันนี้หมดอายุแล้ว โปรดอัพเกรดไปเป็นเวอร์ชันล่าสุดเพื่อดำเนินการส่งข้อความต่อ",
+        "message": "Session Desktop เวอร์ชันนี้หมดอายุแล้ว โปรดอัพเกรดไปเป็นเวอร์ชันล่าสุดเพื่อดำเนินการส่งข้อความต่อ",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1128,34 +864,6 @@
     "mediaMessage": {
         "message": "ข้อความสื่อ",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
-    },
-    "unregisteredUser": {
-        "message": "ยังไม่ได้ลงทะเบียนรหัส",
-        "description": "Error message displayed when sending to an unregistered user."
-    },
-    "sync": {
-        "message": "ผู้ติดต่อ",
-        "description": "Label for contact and group sync settings"
-    },
-    "syncExplanation": {
-        "message": "นำเข้ากลุ่มและผู้ติดต่อใน Signal ทั้งหมดจากอุปกรณ์เคลื่อนที่ของคุณ",
-        "description": "Explanatory text for sync settings"
-    },
-    "lastSynced": {
-        "message": "นำเข้าครั้งล่าสุดเมื่อ",
-        "description": "Label for date and time of last sync operation"
-    },
-    "syncNow": {
-        "message": "นำเข้าเดี๋ยวนี้",
-        "description": "Label for a button that syncs contacts and groups from your phone"
-    },
-    "syncing": {
-        "message": "กำลังนำเข้า...",
-        "description": "Label for a disabled sync button while sync is in progress."
-    },
-    "syncFailed": {
-        "message": "การนำเข้าล้มเหลว แน่ใจว่าคอมพิวเตอร์และโทรศัพท์ของคุณเชื่อมต่อกับอินเตอร์เน็ตแล้ว",
-        "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
         "message": "เดี๋ยวนี้",
@@ -1168,50 +876,6 @@
     "timestamp_h": {
         "message": "1 ชั่วโมง",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
-    },
-    "hoursAgoShort": {
-        "message": "$hours$ hr",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "hoursAgo": {
-        "message": "$hours$ hr ago",
-        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "minutesAgoShort": {
-        "message": "$minutes$ min",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "minutesAgo": {
-        "message": "$minutes$ min ago",
-        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "justNow": {
-        "message": "เดี๋ยวนี้",
-        "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "ดดด ว",
@@ -1387,10 +1051,6 @@
             }
         }
     },
-    "audioNotificationDescription": {
-        "message": "เล่นการแจ้งเตือนด้วยเสียง",
-        "description": "Description for audio notification setting"
-    },
     "safetyNumberChanged": {
         "message": "Safety Number has changed",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -1419,45 +1079,17 @@
             }
         }
     },
-    "themeLight": {
-        "message": "Light",
-        "description": "Label text for light theme (normal)"
-    },
-    "themeDark": {
-        "message": "Dark",
-        "description": "Label text for dark theme"
-    },
     "noteToSelf": {
         "message": "Note to Self",
         "description": "Name for the conversation with your own phone number"
-    },
-    "hideMenuBar": {
-        "message": "ซ่อนแถบเมนู",
-        "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
         "message": "Start new conversation…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
-    "newPhoneNumber": {
-        "message": "ป้อนหมายเลขโทรศัพท์เพื่อเพิ่มผู้ติดต่อ",
-        "description": "Placeholder for adding a new number to a contact"
-    },
     "invalidNumberError": {
         "message": "หมายเลขไม่ถูกต้อง",
         "description": "When a person inputs a number that is invalid"
-    },
-    "unlinkedWarning": {
-        "message": "เชื่อมโยง Signal Desktop กับอุปกรณ์เคลื่อนที่ของคุณอีกครั้งเพื่อใช้งานการส่งข้อความอย่างต่อเนื่อง",
-        "description": ""
-    },
-    "unlinked": {
-        "message": "เลิกเชื่อมโยงแล้ว",
-        "description": ""
-    },
-    "relink": {
-        "message": "เชื่อมโยงอีกครั้ง",
-        "description": ""
     },
     "autoUpdateNewVersionTitle": {
         "message": "มีการอัพเดทสำหรับ Session",

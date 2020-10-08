@@ -1,21 +1,25 @@
 .conversation-content-right {
   transition: $session-transition-duration;
   width: 22vw;
-  margin-right: -22vw;
+  margin-inline-end: -22vw;
 }
 
 .group-settings {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 22vw;
-  flex-shrink: 0;
-  border: $session-separator-element-border;
-  background-color: $session-shade-4;
+  width: -webkit-fill-available;
+
+  @include themify($themes) {
+    background: themed('leftpaneOverlayBackground');
+    border-left: themed('sessionBorder');
+  }
   align-items: center;
 
   &-header {
     margin-top: $session-margin-lg;
+    margin-inline-start: $session-margin-sm;
+    margin-inline-end: $session-margin-sm;
     width: -webkit-fill-available;
     display: flex;
     flex-direction: row;
@@ -23,11 +27,6 @@
 
     .module-avatar {
       margin: auto;
-    }
-
-    .session-icon-button,
-    .invite-friends-container {
-      margin: 0 $session-margin-md;
     }
   }
 
@@ -37,11 +36,13 @@
 
   .description {
     margin: $session-margin-md 0;
-    border: $session-separator-element-border;
-    background-color: $session-shade-1;
     min-height: 4rem;
     width: inherit;
-    color: $session-color-white;
+    @include themify($themes) {
+      color: themed('textColor');
+      background: themed('cellBackground');
+      border: themed('sessionBorder');
+    }
     text-align: center;
     display: none;
   }
@@ -49,19 +50,23 @@
   &-item {
     display: flex;
     align-items: center;
-    background-color: $session-shade-1;
     min-height: 3rem;
     font-size: 0.8rem;
-    color: $session-color-white;
+    @include themify($themes) {
+      color: themed('textColor');
+      background: themed('cellBackground');
+      border-top: themed('sessionBorder');
+      border-bottom: themed('sessionBorder');
+    }
     width: -webkit-fill-available;
     padding: 0 $session-margin-md;
-    border-bottom: $session-separator-element-border;
-    border-top: $session-separator-element-border;
     transition: $session-transition-duration;
     cursor: pointer;
 
     &:hover {
-      @include session-dark-background-hover;
+      @include themify($themes) {
+        background: themed('clickableHovered');
+      }
     }
   }
 
@@ -75,10 +80,14 @@
     margin-top: auto;
     width: 100%;
     border: none;
-    height: 60px;
+    height: 51px;
     background-color: black;
     flex-shrink: 0;
     align-items: center;
+    @include themify($themes) {
+      border: none;
+      border-top: themed('sessionBorder');
+    }
   }
 
   .module-empty-state {
@@ -104,7 +113,9 @@
       }
 
       &__tab {
-        color: white;
+        @include themify($themes) {
+          color: themed('textColor');
+        }
         font-weight: bold;
         font-size: 0.9rem;
         padding: 0.6rem;
@@ -120,7 +131,9 @@
             margin: 0 auto;
             width: 70%;
             padding-top: 0.5rem;
-            border-bottom: $session-element-border-green;
+            @include themify($themes) {
+              border-bottom: themed('sessionUnreadBorder');
+            }
           }
         }
       }
@@ -131,12 +144,13 @@
         .module-media-grid-item__image,
         .module-media-grid-item {
           height: calc(
-            22vw / 3.5
-          ); //.group-settings is 22vw and we want three rows with some space so divide it by 3.5
+            22vw / 4
+          ); //.group-settings is 22vw and we want three rows with some space so divide it by 4
           width: calc(
-            22vw / 3.5
-          ); //.group-settings is 22vw and we want three rows with some space so divide it by 3.5
+            22vw / 4
+          ); //.group-settings is 22vw and we want three rows with some space so divide it by 4
           margin: auto;
+          margin-bottom: 1vh;
         }
       }
     }

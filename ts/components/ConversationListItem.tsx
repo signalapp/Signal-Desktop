@@ -10,15 +10,21 @@ import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
-import { Colors, LocalizerType } from '../types/Util';
+import { LocalizerType } from '../types/Util';
 import {
   getBlockMenuItem,
   getClearNicknameMenuItem,
-  getCopyIdMenuItem,
+  getCopyMenuItem,
   getDeleteContactMenuItem,
+  getDeleteMessagesMenuItem,
   getInviteContactMenuItem,
   getLeaveGroupMenuItem,
 } from '../session/utils/Menu';
+
+import {
+  ConversationAvatar,
+  usingClosedConversationDetails,
+} from './session/usingClosedConversationDetails';
 
 export type PropsData = {
   id: string;
@@ -52,6 +58,7 @@ export type PropsData = {
   isSecondary?: boolean;
   isGroupInvitation?: boolean;
   isKickedFromGroup?: boolean;
+  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
 };
 
 type PropsHousekeeping = {
@@ -69,63 +76,51 @@ type PropsHousekeeping = {
 
 type Props = PropsData & PropsHousekeeping;
 
-export class ConversationListItem extends React.PureComponent<Props> {
+class ConversationListItem extends React.PureComponent<Props> {
+  public constructor(props: Props) {
+    super(props);
+  }
+
   public renderAvatar() {
     const {
       avatarPath,
-      color,
-      type,
       i18n,
-      isMe,
       name,
       phoneNumber,
       profileName,
-      isOnline,
+      memberAvatars,
     } = this.props;
 
-    const borderColor = isOnline ? Colors.ONLINE : Colors.OFFLINE;
-
     const iconSize = 36;
+    const userName = name || profileName || phoneNumber;
 
     return (
       <div className="module-conversation-list-item__avatar-container">
         <Avatar
           avatarPath={avatarPath}
-          color={color}
-          noteToSelf={isMe}
-          conversationType={type}
-          i18n={i18n}
-          name={name}
-          phoneNumber={phoneNumber}
-          profileName={profileName}
+          name={userName}
           size={iconSize}
-          borderColor={borderColor}
+          memberAvatars={memberAvatars}
+          pubkey={phoneNumber}
         />
       </div>
     );
   }
 
-  public renderUnread() {
-    const { unreadCount, mentionedUs } = this.props;
+  public renderHeader() {
+    const { unreadCount, mentionedUs, i18n, isMe, lastUpdated } = this.props;
+    const {} = this.props;
 
+    let atSymbol = null;
+    let unreadCountDiv = null;
     if (unreadCount > 0) {
-      const atSymbol = mentionedUs ? <p className="at-symbol">@</p> : null;
-
-      return (
-        <div>
-          <p className="module-conversation-list-item__unread-count">
-            {unreadCount}
-          </p>
-          {atSymbol}
-        </div>
+      atSymbol = mentionedUs ? <p className="at-symbol">@</p> : null;
+      unreadCountDiv = (
+        <p className="module-conversation-list-item__unread-count">
+          {unreadCount}
+        </p>
       );
     }
-
-    return null;
-  }
-
-  public renderHeader() {
-    const { unreadCount, i18n, isMe, lastUpdated } = this.props;
 
     return (
       <div className="module-conversation-list-item__header">
@@ -137,9 +132,10 @@ export class ConversationListItem extends React.PureComponent<Props> {
               : null
           )}
         >
-          {isMe ? i18n('noteToSelf') : this.renderUser()}
+          {this.renderUser()}
         </div>
-        {this.renderUnread()}
+        {unreadCountDiv}
+        {atSymbol}
         {
           <div
             className={classNames(
@@ -200,22 +196,22 @@ export class ConversationListItem extends React.PureComponent<Props> {
             {i18n('changeNickname')}
           </MenuItem>
         ) : null} */}
-        { getClearNicknameMenuItem(
+        {getClearNicknameMenuItem(
           isPublic,
           isRss,
           isMe,
           hasNickname,
           onClearNickname,
           i18n
-        ) }
-        {getCopyIdMenuItem(
+        )}
+        {getCopyMenuItem(
           isPublic,
           isRss,
           type === 'group',
           onCopyPublicKey,
           i18n
         )}
-        <MenuItem onClick={onDeleteMessages}>{i18n('deleteMessages')}</MenuItem>
+        {getDeleteMessagesMenuItem(isPublic, onDeleteMessages, i18n)}
         {getInviteContactMenuItem(
           type === 'group',
           isPublic,
@@ -306,11 +302,10 @@ export class ConversationListItem extends React.PureComponent<Props> {
       style,
       mentionedUs,
     } = this.props;
-
-    const triggerId = `${phoneNumber}-ctxmenu-${Date.now()}`;
+    const triggerId = `conversation-item-${phoneNumber}-ctxmenu`;
 
     return (
-      <div>
+      <div key={triggerId}>
         <ContextMenuTrigger id={triggerId}>
           <div
             role="button"
@@ -345,23 +340,34 @@ export class ConversationListItem extends React.PureComponent<Props> {
   }
 
   private renderUser() {
-    const { name, phoneNumber, profileName } = this.props;
+    const { name, phoneNumber, profileName, isMe, i18n } = this.props;
 
     const shortenedPubkey = window.shortenPubkey(phoneNumber);
 
     const displayedPubkey = profileName ? shortenedPubkey : phoneNumber;
+    const displayName = isMe ? i18n('noteToSelf') : profileName;
+
+    let shouldShowPubkey = false;
+    if (!name || name.length === 0) {
+      shouldShowPubkey = true;
+    }
 
     return (
       <div className="module-conversation__user">
         <ContactName
           phoneNumber={displayedPubkey}
           name={name}
-          profileName={profileName}
+          profileName={displayName}
           module="module-conversation__user"
           i18n={window.i18n}
           boldProfileName={true}
+          shouldShowPubkey={shouldShowPubkey}
         />
       </div>
     );
   }
 }
+
+export const ConversationListItemWithDetails = usingClosedConversationDetails(
+  ConversationListItem
+);

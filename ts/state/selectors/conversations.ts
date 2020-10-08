@@ -48,7 +48,7 @@ function getConversationTitle(
   if (conversation.type === 'group') {
     const { i18n } = options;
 
-    return i18n('unknownGroup');
+    return i18n('unknown');
   }
 
   return format(conversation.phoneNumber, options);
@@ -108,12 +108,8 @@ export const _getLeftPaneLists = (
   const archivedConversations: Array<ConversationType> = [];
   const allContacts: Array<ConversationType> = [];
 
-  const max = sorted.length;
   let unreadCount = 0;
-
-  for (let i = 0; i < max; i += 1) {
-    let conversation = sorted[i];
-
+  for (let conversation of sorted) {
     if (selectedConversation === conversation.id) {
       conversation = {
         ...conversation,
@@ -197,7 +193,6 @@ export const _getLeftPaneLists = (
   };
 
   const contacts: Array<ConversationType> = filterToPrimary(allContacts);
-
   return {
     conversations,
     archivedConversations,

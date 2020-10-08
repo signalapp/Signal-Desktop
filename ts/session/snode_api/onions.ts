@@ -170,7 +170,7 @@ const processOnionResponse = async (
     return RequestError.OTHER;
   }
 
-  const ciphertext = await response.text();
+  let ciphertext = await response.text();
   if (!ciphertext) {
     log.warn(
       `(${reqIdx}) [path] lokiRpc::processOnionResponse - Target node return empty ciphertext`
@@ -186,6 +186,13 @@ const processOnionResponse = async (
 
   let plaintext;
   let ciphertextBuffer;
+
+  try {
+    const jsonRes = JSON.parse(ciphertext);
+    ciphertext = jsonRes.result;
+  } catch (e) {
+    // just try to get a json object from what is inside (for PN requests), if it fails, continue ()
+  }
   try {
     ciphertextBuffer = dcodeIO.ByteBuffer.wrap(
       ciphertext,

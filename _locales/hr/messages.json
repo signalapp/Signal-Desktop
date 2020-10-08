@@ -3,17 +3,9 @@
         "message": "Copy error and quit",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
-    "unknownGroup": {
-        "message": "Unknown group",
-        "description": "Shown as the name of a group if we don't have any information about it"
-    },
     "databaseError": {
         "message": "Database Error",
         "description": "Shown in a popup if the database cannot start up properly"
-    },
-    "deleteAndRestart": {
-        "message": "Delete all data and restart",
-        "description": "Shown in a popup if the database cannot start up properly; allows user to dalete database and restart"
     },
     "mainMenuFile": {
         "message": "&File",
@@ -34,10 +26,6 @@
     "mainMenuHelp": {
         "message": "&Help",
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
-    },
-    "mainMenuSettings": {
-        "message": "Preferences…",
-        "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuHide": {
         "message": "Hide",
@@ -135,10 +123,6 @@
         "message": "Set Up with Import",
         "description": "When the application is not yet set up, menu option to start up the import sequence"
     },
-    "menuSetupAsNewDevice": {
-        "message": "Set Up as New Device",
-        "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
-    },
     "menuSetupAsStandalone": {
         "message": "Set Up as Standalone Device",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
@@ -161,36 +145,16 @@
             }
         }
     },
-    "archivedConversations": {
-        "message": "Arhivirani razgovori",
-        "description": "Shown in place of the search box when showing archived conversation list"
-    },
-    "archiveHelperText": {
-        "message": "These conversations are archived and will only appear in the Inbox if new messages are received.",
-        "description": "Shown at the top of the archived converations list in the left pane"
-    },
-    "archiveConversation": {
-        "message": "Archive Conversation",
-        "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
-    },
-    "moveConversationToInbox": {
-        "message": "Move Conversation to Inbox",
-        "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
-    },
     "chooseDirectory": {
         "message": "Odaberi direktorij",
         "description": "Button to allow the user to find a folder on disk"
-    },
-    "chooseFile": {
-        "message": "Choose file",
-        "description": "Button to allow the user to find a file on disk"
     },
     "loadDataHeader": {
         "message": "Load your data",
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Signal data.",
+        "message": "You've just gone through the export process, and your contacts and messages are waiting patiently on your computer. Select the folder that contains your saved Session data.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -206,7 +170,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Make sure you have chosen the correct directory that contains your saved Signal data. Its name should begin with 'Signal Export.' You can also save a new copy of your data from the Chrome App.",
+        "message": "Make sure you have chosen the correct directory that contains your saved Session data. Its name should begin with 'Session Export.' You can also save a new copy of your data from the Chrome App.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -222,30 +186,12 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Start using Signal Desktop",
+        "message": "Start using Session Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
         "message": "Link this device to your phone",
         "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
-    },
-    "selectedLocation": {
-        "message": "your selected location",
-        "description": "Message shown as the export location if we didn't capture the target directory"
-    },
-    "upgradingDatabase": {
-        "message": "Nadogradnja baze. Ovo može potrajati neko vrijeme...",
-        "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
-    },
-    "loadingMessages": {
-        "message": "Učitavanje poruka: $count$",
-        "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
-        "placeholders": {
-            "count": {
-                "content": "$1",
-                "example": "5"
-            }
-        }
     },
     "me": {
         "message": "Ja",
@@ -258,18 +204,6 @@
     "youLeftTheGroup": {
         "message": "Napustili ste grupu",
         "description": "Displayed when a user can't send a message because they have left the group"
-    },
-    "scrollDown": {
-        "message": "Spusti se na dno konverzacije",
-        "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
-    },
-    "messageBelow": {
-        "message": "Nova poruka ispod",
-        "description": "Alt text for button to take user down to bottom of conversation with a new message out of screen"
-    },
-    "messagesBelow": {
-        "message": "Nove poruke ispod",
-        "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
     },
     "unreadMessage": {
         "message": "1 nepročitana poruka",
@@ -330,11 +264,11 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedSinceVerifiedMultiple": {
-        "message": "Sigurnosni su se brojevi s više članova ove grupe promijenili od zadnje potvrde. Moguće je da netko pokušava presresti vašu komunikaciju ili su neki članovi grupe reinstalirali Signal.",
+        "message": "Sigurnosni su se brojevi s više članova ove grupe promijenili od zadnje potvrde. Moguće je da netko pokušava presresti vašu komunikaciju ili su neki članovi grupe reinstalirali Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedSinceVerified": {
-        "message": "Sigurnosni se broj s kontaktom $name$ promijenio od zadnje potvrde. Moguće je da netko pokušava presresti vašu komunikaciju ili da je kontakt $name$ reinstalirao Signal.",
+        "message": "Sigurnosni se broj s kontaktom $name$ promijenio od zadnje potvrde. Moguće je da netko pokušava presresti vašu komunikaciju ili da je kontakt $name$ reinstalirao Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -344,7 +278,7 @@
         }
     },
     "changedRightAfterVerify": {
-        "message": "Sigurnosni broj koji potvrđujete se promijenio. Molimo vas da provjerite novi sigurnosni broj s kontaktom $name$.  Moguće je da netko pokušava presresti vašu komunikaciju ili da je kontakt $name$ reinstalirao Signal.",
+        "message": "Sigurnosni broj koji potvrđujete se promijenio. Molimo vas da provjerite novi sigurnosni broj s kontaktom $name$.  Moguće je da netko pokušava presresti vašu komunikaciju ili da je kontakt $name$ reinstalirao Session.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name": {
@@ -354,11 +288,11 @@
         }
     },
     "changedRecentlyMultiple": {
-        "message": "Sigurnosni su se brojevi s više članova ove grupe nedavno promijenili. Moguće je da netko pokušava presresti vašu komunikaciju ili su neki članovi grupe reinstalirali Signal.",
+        "message": "Sigurnosni su se brojevi s više članova ove grupe nedavno promijenili. Moguće je da netko pokušava presresti vašu komunikaciju ili su neki članovi grupe reinstalirali Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "changedRecently": {
-        "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Signal.",
+        "message": "Your safety number with $name$ has changed recently. This could mean that someone is trying to intercept your communication or that $name$ has simply reinstalled Session.",
         "description": "Shown on confirmation dialog when user attempts to send a message",
         "placeholders": {
             "name": {
@@ -368,7 +302,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Sigurnosni broj s kontaktom $name$ se promijenio. Moguće je da netko pokušava presresti vašu komunikaciju ili da je kontakt $name$ reinstalirao signal. Možda biste htjeli potvrditi novi sigurnosni broj s ovim kontaktom.",
+        "message": "Sigurnosni broj s kontaktom $name$ se promijenio. Moguće je da netko pokušava presresti vašu komunikaciju ili da je kontakt $name$ reinstalirao Session. Možda biste htjeli potvrditi novi sigurnosni broj s ovim kontaktom.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name": {
@@ -415,10 +349,6 @@
         "message": "Predaj",
         "description": ""
     },
-    "acceptNewKey": {
-        "message": "Prihvati",
-        "description": "Label for a button to accept a new safety number"
-    },
     "verify": {
         "message": "Označi provjerenim",
         "description": ""
@@ -454,10 +384,6 @@
     "newIdentity": {
         "message": "Novi sigurnosni broj",
         "description": "Header for a key change dialog"
-    },
-    "identityChanged": {
-        "message": "Vaš sigurnosni broj s ovim kontaktom se promijenio. Ovo može značiti da netko pokušava presresti vašu komunikaciju ili da je kontakt jednostavno reinstalirao Signal. Možda biste htjeli potvrditi novi sigurnosni broj naveden ispod.",
-        "description": ""
     },
     "incomingError": {
         "message": "Error handling incoming message",
@@ -495,18 +421,6 @@
         "message": "This Month",
         "description": "Section header in the media gallery"
     },
-    "unsupportedAttachment": {
-        "message": "Nepodržana vrsta privitka. Kliknite za spremanje.",
-        "description": "Displayed for incoming unsupported attachment"
-    },
-    "clickToSave": {
-        "message": "Klikni za spremanje",
-        "description": "Hover text for attachment filenames"
-    },
-    "unnamedFile": {
-        "message": "Neimenovana datoteka",
-        "description": "Hover text for attachment filenames"
-    },
     "voiceMessage": {
         "message": "Glasovna poruka",
         "description": "Name for a voice message attachment"
@@ -515,13 +429,9 @@
         "message": "Attachment type not allowed for security reasons",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
-    "loadingPreview": {
-        "message": "Loading Preview...",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
-    },
     "stagedPreviewThumbnail": {
         "message": "Draft thumbnail link preview for $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -531,7 +441,7 @@
     },
     "previewThumbnail": {
         "message": "Thumbnail link preview for $domain$",
-        "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
+        "description": "Shown while Session Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
                 "content": "$1",
@@ -569,10 +479,6 @@
         "message": "Unable to load selected attachment.",
         "description": ""
     },
-    "disconnected": {
-        "message": "Nepovezano",
-        "description": "Displayed when the desktop client cannot connect to the server."
-    },
     "connecting": {
         "message": "Povezivanje",
         "description": "Displayed when the desktop client is currently connecting to the server."
@@ -607,10 +513,6 @@
         "message": "Go to Release Notes",
         "description": ""
     },
-    "goToForums": {
-        "message": "Go to Forums",
-        "description": "Item under the Help menu, takes you to the forums"
-    },
     "goToSupportPage": {
         "message": "Go to Support Page",
         "description": "Item under the Help menu, takes you to the support page"
@@ -619,14 +521,6 @@
         "message": "Report an Issue",
         "description": "Item under the Help menu, takes you to GitHub new issue form (title case)"
     },
-    "signalDesktopPreferences": {
-        "message": "Signal Desktop Preferences",
-        "description": "Title of the window that pops up with Signal Desktop preferences in it"
-    },
-    "aboutSignalDesktop": {
-        "message": "About Signal Desktop",
-        "description": "Item under the Help menu, which opens a small about window"
-    },
     "speech": {
         "message": "Speech",
         "description": "Item under the Edit menu, with 'start/stop speaking' items below it"
@@ -634,18 +528,6 @@
     "show": {
         "message": "Show",
         "description": "Command under Window menu, to show the window"
-    },
-    "hide": {
-        "message": "Hide",
-        "description": "Command in the tray icon menu, to hide the window"
-    },
-    "quit": {
-        "message": "Quit",
-        "description": "Command in the tray icon menu, to quit the application"
-    },
-    "signalDesktop": {
-        "message": "Signal Desktop",
-        "description": "Tooltip for the tray icon"
     },
     "search": {
         "message": "Traži",
@@ -674,11 +556,7 @@
         "description": "Shown to separate the types of search results"
     },
     "welcomeToSession": {
-        "message": "Dobrodošli u Signal",
-        "description": ""
-    },
-    "selectAContact": {
-        "message": "Odaberite kontakt ili grupu za početak dopisivanja.",
+        "message": "Dobrodošli u Session",
         "description": ""
     },
     "typingAlt": {
@@ -694,10 +572,6 @@
                 "example": "John"
             }
         }
-    },
-    "sendMessageToContact": {
-        "message": "Send Message",
-        "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
         "message": "home",
@@ -759,27 +633,13 @@
         "message": "You",
         "description": "In Android theme, shown in quote if you or someone else replies to you"
     },
-    "replyingTo": {
-        "message": "Replying to $name$",
-        "description": "Shown in iOS theme when you or someone quotes to a message which is not from you",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "John"
-            }
-        }
-    },
     "audioPermissionNeeded": {
-        "message": "To send audio messages, allow Signal Desktop to access your microphone.",
+        "message": "To send audio messages, allow Session Desktop to access your microphone.",
         "description": "Shown if the user attempts to send an audio message without audio permssions turned on"
     },
     "allowAccess": {
         "message": "Allow Access",
         "description": "Button shown in popup asking to enable microphon/video permissions to send audio messages"
-    },
-    "showSettings": {
-        "message": "Show Settings",
-        "description": "A button shown in dialog requesting the user to turn on audio permissions"
     },
     "audio": {
         "message": "Audio",
@@ -797,10 +657,6 @@
         "message": "Cannot Update",
         "description": "Shown as the title of our update error dialogs on windows"
     },
-    "readOnlyVolume": {
-        "message": "Signal Desktop is likely in a macOS quarantine, and will not be able to auto-update. Please try moving Signal.app to /Applications with Finder.",
-        "description": "Shown on MacOS if running on a read-only volume and we cannot update"
-    },
     "ok": {
         "message": "OK",
         "description": ""
@@ -809,16 +665,8 @@
         "message": "Otkaži",
         "description": ""
     },
-    "failedToSend": {
-        "message": "Nije uspjelo slanje nekim primateljima. Provjerite svoju mrežnu vezu.",
-        "description": ""
-    },
     "error": {
         "message": "Greška",
-        "description": ""
-    },
-    "messageDetail": {
-        "message": "Detalji poruke",
         "description": ""
     },
     "delete": {
@@ -857,10 +705,6 @@
         "message": "Članovi grupe",
         "description": ""
     },
-    "showMembers": {
-        "message": "Prikaži članove",
-        "description": ""
-    },
     "resetSession": {
         "message": "Ponovno pokreni sesiju",
         "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
@@ -868,10 +712,6 @@
     "showSafetyNumber": {
         "message": "View safety number",
         "description": ""
-    },
-    "viewAllMedia": {
-        "message": "View all media",
-        "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
         "message": "Želite li potvrditi sigurnost enkripcije komunikacije s $name$, usporedite ove brojeve s brojevima na njihovom uređaju.",
@@ -886,14 +726,6 @@
     "theirIdentityUnknown": {
         "message": "Još niste razmijienili poruke sa ovim kontaktom. Sigurnosni broj bit će dostupan nakon prve poruke.",
         "description": ""
-    },
-    "moreInfo": {
-        "message": "More Info...",
-        "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
-    },
-    "retrySend": {
-        "message": "Retry Send",
-        "description": "Shown on the drop-down menu for an indinvidaul message, but only if it is an outgoing message that failed to send"
     },
     "deleteMessage": {
         "message": "Delete Message",
@@ -939,10 +771,6 @@
         "message": "Spremi",
         "description": ""
     },
-    "fileIconAlt": {
-        "message": "File icon",
-        "description": "Used in the media gallery documents tab to visually represent a file"
-    },
     "emojiAlt": {
         "message": "Emoji image of '$title$'",
         "description": "Used in the alt tag of all emoji images",
@@ -953,65 +781,9 @@
             }
         }
     },
-    "installWelcome": {
-        "message": "Dobrodošli u Signal Desktop",
-        "description": "Welcome title on the install page"
-    },
-    "installTagline": {
-        "message": "Privatnost je moguća. Signal je čini lakom.",
-        "description": "Tagline displayed under 'installWelcome' string on the install page"
-    },
-    "linkYourPhone": {
-        "message": "Link your phone to Signal Desktop",
-        "description": "Shown on the front page when the application first starst, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Signal Settings",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "linkedDevices": {
-        "message": "Linked Devices",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "'+' Button",
-        "description": "The button used in Signal Android to add a new linked device"
-    },
     "linkNewDevice": {
         "message": "Link New Device",
-        "description": "The menu option shown in Signal iOS to add a new linked device"
-    },
-    "deviceName": {
-        "message": "Device name",
-        "description": "The label in settings panel shown for the user-provided name for this desktop instance"
-    },
-    "chooseDeviceName": {
-        "message": "Choose this device's name",
-        "description": "The header shown on the 'choose device name' screen in the device linking process"
-    },
-    "finishLinkingPhone": {
-        "message": "Finish linking phone",
-        "description": "The text on the button to finish the linking process, after choosing the device name"
-    },
-    "initialSync": {
-        "message": "Syncing contacts and groups",
-        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
-    },
-    "installConnectionFailed": {
-        "message": "Nije uspjelo spajanje na poslužitelj.",
-        "description": "Displayed when we can't connect to the server."
-    },
-    "installTooManyDevices": {
-        "message": "Žao nam je, imate već previše povezanih uređaja. Pokušajte ukloniti neke.",
-        "description": ""
-    },
-    "settings": {
-        "message": "Postavke",
-        "description": "Menu item and header for global settings"
-    },
-    "theme": {
-        "message": "Tema",
-        "description": "Header for theme settings"
+        "description": "The menu option shown in Session iOS to add a new linked device"
     },
     "permissions": {
         "message": "Permissions",
@@ -1028,34 +800,6 @@
     "spellCheckDescription": {
         "message": "Enable spell check of text entered in message composition box",
         "description": "Description of the media permission description"
-    },
-    "clearDataHeader": {
-        "message": "Clear Data",
-        "description": "Header in the settings dialog for the section dealing with data deletion"
-    },
-    "clearDataExplanation": {
-        "message": "This will clear all data in the application, removing all messages and saved account information.",
-        "description": "Text describing what the clear data button will do."
-    },
-    "clearDataButton": {
-        "message": "Clear data",
-        "description": "Button in the settings dialog starting process to delete all data"
-    },
-    "deleteAllDataHeader": {
-        "message": "Delete all data?",
-        "description": "Header of the full-screen delete data confirmation screen"
-    },
-    "deleteAllDataBody": {
-        "message": "You are about to delete all of this application's saved account information, including all contacts and all messages. You can always link with your mobile device again, but that will not restore deleted messages.",
-        "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
-    },
-    "deleteAllDataButton": {
-        "message": "Delete all data",
-        "description": "Text of the button that deletes all data"
-    },
-    "deleteAllDataProgress": {
-        "message": "Disconnecting and deleting all data",
-        "description": "Message shown to user when app is disconnected and data deleted"
     },
     "notifications": {
         "message": "Obavijesti",
@@ -1105,20 +849,12 @@
         "message": "Send failed",
         "description": "Shown on outgoing message if it fails to send"
     },
-    "showMore": {
-        "message": "Detalji",
-        "description": "Displays the details of a key change"
-    },
-    "showLess": {
-        "message": "Sakrij detalje",
-        "description": "Hides the details of a key change"
-    },
     "learnMore": {
         "message": "Saznaj više o provjeri sigurnosnih brojeva",
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Ova inačica Signal Desktopa je istekla. Molimo vas da za nastavak dopisivanja nadogradite na najnoviju verziju.",
+        "message": "Ova inačica Session Desktopa je istekla. Molimo vas da za nastavak dopisivanja nadogradite na najnoviju verziju.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -1128,34 +864,6 @@
     "mediaMessage": {
         "message": "Medijska poruka",
         "description": "Description of a message that has an attachment and no text, displayed in the conversation list as a preview."
-    },
-    "unregisteredUser": {
-        "message": "Broj nije registriran",
-        "description": "Error message displayed when sending to an unregistered user."
-    },
-    "sync": {
-        "message": "Kontakti",
-        "description": "Label for contact and group sync settings"
-    },
-    "syncExplanation": {
-        "message": "Uvezi sve Signal grupe i kontakte sa mobilnog uređaja.",
-        "description": "Explanatory text for sync settings"
-    },
-    "lastSynced": {
-        "message": "Posljednji uvoz",
-        "description": "Label for date and time of last sync operation"
-    },
-    "syncNow": {
-        "message": "Uvezi sad",
-        "description": "Label for a button that syncs contacts and groups from your phone"
-    },
-    "syncing": {
-        "message": "Uvozim...",
-        "description": "Label for a disabled sync button while sync is in progress."
-    },
-    "syncFailed": {
-        "message": "Uvoz nije uspio. Provjerite jesu li Vaše računalo i mobitel spojeni na internet.",
-        "description": "Informational text displayed if a sync operation times out."
     },
     "timestamp_s": {
         "message": "sada",
@@ -1168,50 +876,6 @@
     "timestamp_h": {
         "message": "1 sat",
         "description": "Brief timestamp for messages sent about one hour ago. Displayed in the conversation list and message bubble."
-    },
-    "hoursAgoShort": {
-        "message": "$hours$ hr",
-        "description": "Even further contracted form of 'X hours ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "hoursAgo": {
-        "message": "$hours$ hr ago",
-        "description": "Contracted form of 'X hours ago' which works both for singular and plural",
-        "placeholders": {
-            "hours": {
-                "content": "$1",
-                "example": "2"
-            }
-        }
-    },
-    "minutesAgoShort": {
-        "message": "$minutes$ min",
-        "description": "Even further contracted form of 'X minutes ago' which works both for singular and plural, used in the left pane",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "minutesAgo": {
-        "message": "$minutes$ min ago",
-        "description": "Contracted form of 'X minutes ago' which works both for singular and plural",
-        "placeholders": {
-            "minutes": {
-                "content": "$1",
-                "example": "10"
-            }
-        }
-    },
-    "justNow": {
-        "message": "sada",
-        "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D MMM",
@@ -1387,10 +1051,6 @@
             }
         }
     },
-    "audioNotificationDescription": {
-        "message": "Zvučne obavijesti",
-        "description": "Description for audio notification setting"
-    },
     "safetyNumberChanged": {
         "message": "Safety Number has changed",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -1419,45 +1079,17 @@
             }
         }
     },
-    "themeLight": {
-        "message": "Light",
-        "description": "Label text for light theme (normal)"
-    },
-    "themeDark": {
-        "message": "Dark",
-        "description": "Label text for dark theme"
-    },
     "noteToSelf": {
         "message": "Note to Self",
         "description": "Name for the conversation with your own phone number"
-    },
-    "hideMenuBar": {
-        "message": "Hide menu bar",
-        "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
         "message": "Start new conversation…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
-    "newPhoneNumber": {
-        "message": "Unesi telefonski broj za dodavanje kontakta",
-        "description": "Placeholder for adding a new number to a contact"
-    },
     "invalidNumberError": {
         "message": "Neispravni broj",
         "description": "When a person inputs a number that is invalid"
-    },
-    "unlinkedWarning": {
-        "message": "Ponovno povežite Signal Desktop sa svojim mobilnim uređajem za nastavak dopisivanja.",
-        "description": ""
-    },
-    "unlinked": {
-        "message": "Nepovezano",
-        "description": ""
-    },
-    "relink": {
-        "message": "Ponovno povezivanje",
-        "description": ""
     },
     "autoUpdateNewVersionTitle": {
         "message": "Dostupna nadogradnja za Session",

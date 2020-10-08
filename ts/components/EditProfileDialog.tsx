@@ -17,6 +17,7 @@ import {
 } from './session/icon';
 import { SessionModal } from './session/SessionModal';
 import { PillDivider } from './session/PillDivider';
+import { ToastUtils } from '../session/utils';
 
 declare global {
   interface Window {
@@ -29,7 +30,6 @@ interface Props {
   i18n: any;
   profileName: string;
   avatarPath: string;
-  avatarColor: string;
   pubkey: string;
   onClose: any;
   onOk: any;
@@ -133,7 +133,7 @@ export class EditProfileDialog extends React.Component<Props, State> {
             <SessionButton
               text={window.i18n('save')}
               buttonType={SessionButtonType.BrandOutline}
-              buttonColor={SessionButtonColor.White}
+              buttonColor={SessionButtonColor.Green}
               onClick={this.onClickOK}
             />
           )}
@@ -256,20 +256,12 @@ export class EditProfileDialog extends React.Component<Props, State> {
   }
 
   private renderAvatar() {
-    const avatarPath = this.state.avatar;
-    const color = this.props.avatarColor;
+    const { avatar, profileName } = this.state;
+    const { pubkey } = this.props;
+    const userName = name || profileName || pubkey;
 
     return (
-      <Avatar
-        avatarPath={avatarPath}
-        color={color}
-        conversationType="direct"
-        i18n={this.props.i18n}
-        name={this.state.profileName}
-        phoneNumber={this.props.pubkey}
-        profileName={this.state.profileName}
-        size={80}
-      />
+      <Avatar avatarPath={avatar} name={userName} size={80} pubkey={pubkey} />
     );
   }
 
@@ -304,10 +296,10 @@ export class EditProfileDialog extends React.Component<Props, State> {
   private copySessionID(sessionID: string) {
     window.clipboard.writeText(sessionID);
 
-    window.pushToast({
-      title: window.i18n('copiedSessionID'),
+    ToastUtils.push({
+      title: window.i18n('copiedToClipboard'),
       type: 'success',
-      id: 'copiedSessionID',
+      id: 'copiedToClipboard',
     });
   }
 

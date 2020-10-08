@@ -54,13 +54,13 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
       ? 'warning-info-area'
       : 'password-info-area';
     const infoTitle = this.state.clearDataView
-      ? window.i18n('clearDataHeader')
+      ? window.i18n('clearAllData')
       : window.i18n('passwordViewTitle');
     const buttonGroup = this.state.clearDataView
       ? this.renderClearDataViewButtons()
       : this.renderPasswordViewButtons();
     const featureElement = this.state.clearDataView ? (
-      <p className="text-center">{window.i18n('clearDataExplanation')}</p>
+      <p className="text-center">{window.i18n('deleteAccountWarning')}</p>
     ) : (
       <input
         id="password-prompt-input"
@@ -216,7 +216,7 @@ export class SessionPasswordPrompt extends React.PureComponent<{}, State> {
         />
 
         <SessionButton
-          text={window.i18n('deleteAllDataButton')}
+          text={window.i18n('clearAllData')}
           buttonType={SessionButtonType.Default}
           buttonColor={SessionButtonColor.Danger}
           onClick={window.clearLocalData}

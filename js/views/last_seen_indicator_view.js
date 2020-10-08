@@ -25,7 +25,7 @@
     render_attributes() {
       const unreadMessages =
         this.count === 1
-          ? i18n('unreadMessage')
+          ? i18n('unreadMessage', [this.count])
           : i18n('unreadMessages', [this.count]);
 
       return {

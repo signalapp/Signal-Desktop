@@ -29,18 +29,20 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    width: 100%;
   }
 
   .main.panel {
+    @include themify($themes) {
+      border-top: themed('sessionBorder');
+      border-left: themed('sessionBorder');
+    }
+
     .discussion-container {
       flex-grow: 1;
       position: relative;
       max-width: 100%;
       margin: 0;
-
-      .bar-container {
-        height: 5px;
-      }
 
       .message-list {
         -webkit-padding-start: 0px;
@@ -111,20 +113,17 @@
   }
 }
 
-.session-message {
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
 .public-chat-message-wrapper {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-inline-start: 10px;
+  padding-inline-end: 10px;
 }
 
 .session-message {
   display: flow-root;
   padding-bottom: 4px;
   padding-top: 4px;
+  padding-inline-start: 16px;
+  padding-inline-end: 16px;
 }
 
 .group-invitation-container {
@@ -184,12 +183,12 @@
       background-color: #00f782;
       color: white;
       padding: 6px 10px;
-      margin-left: 6px;
+      margin-inline-start: 6px;
       border-radius: 2px;
       box-shadow: none;
       user-select: none;
       cursor: pointer;
-      transition: 0.25s;
+      transition: $session-transition-duration;
 
       &:hover {
         background-color: #00d672;
@@ -229,14 +228,14 @@
     padding: 18px;
     // This makes sure the message counter is right in the center
     width: 80px;
-    margin-right: -80px;
+    margin-inline-end: -80px;
     user-select: none;
   }
 
   .cancel-button {
     padding: 18px;
     width: 80px;
-    margin-left: -80px;
+    margin-inline-start: -80px;
     user-select: none;
   }
 
@@ -245,8 +244,8 @@
     display: flex;
     align-items: center;
     user-select: none;
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
   }
 }
 
@@ -260,18 +259,12 @@
   padding-bottom: 40px;
 }
 
-.bottom-bar .module-quote {
-  margin: 0;
-
-  border-left-style: none;
-}
-
 // We need to use the wrapper because the conversation view calculates the height of all
 //   things in the composition area. A margin on an inner div won't be included in that
 //   height calculation.
 .bottom-bar .quote-wrapper {
-  margin-left: 37px;
-  margin-right: 73px;
+  margin-inline-start: 37px;
+  margin-inline-end: 73px;
   margin-top: 3px;
   margin-bottom: -5px;
 }
@@ -294,16 +287,16 @@
 
 .bottom-bar .preview-wrapper {
   margin-top: 3px;
-  margin-left: 37px;
-  margin-right: 73px;
+  margin-inline-start: 37px;
+  margin-inline-end: 73px;
   margin-bottom: 2px;
 }
 
 .bottom-bar {
   box-sizing: content-box;
   $button-width: 36px;
-
-  form.active {
+  @include themify($themes) {
+    border-top: themed('sessionBorder');
   }
 
   form.send {
@@ -366,7 +359,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 7px;
     padding: 0px 15px;
 
     .send-message {
@@ -383,7 +376,6 @@
     max-height: 100px;
     padding: 10px;
     border-radius: 4px;
-    background-color: $color-loki-light-gray;
     margin-top: 3px;
     margin-bottom: 6px;
     color: $color-light-90;
@@ -393,6 +385,10 @@
     resize: none;
     font-size: 1em;
     font-family: inherit;
+
+    &[disabled='disabled'] {
+      cursor: not-allowed;
+    }
   }
   .capture-audio {
     float: right;
@@ -424,234 +420,29 @@
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.12), 0 0 0 0.5px rgba(0, 0, 0, 0.08);
 }
 
-.confirmation-dialog {
-  .content {
-    max-width: 350px;
-    margin: 100px auto;
-    padding: 1em;
-    background: white;
-    border-radius: $border-radius;
-    overflow: auto;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
-
-    .buttons {
-      margin-top: 10px;
-
-      button {
-        float: right;
-        margin-left: 10px;
-        background-color: $grey_l;
-        border-radius: $border-radius;
-        padding: 5px 8px;
-        border: 1px solid $grey_l2;
-
-        &:hover {
-          background-color: $grey_l2;
-          border-color: $grey_l3;
-        }
-      }
-    }
-  }
-}
-
-.loki-dialog {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  .content {
-    max-width: 75%;
-    min-width: 60%;
-    padding: 1em;
-    background: white;
-    border-radius: $border-radius;
-    overflow: auto;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.3);
-  }
-
-  button {
-    float: right;
-    margin-left: 10px;
-    background-color: $color-loki-green;
-    border-radius: 100px;
-    padding: 5px 15px;
-    border: 1px solid $color-loki-green;
-    color: white;
-    outline: none;
-    user-select: none;
-
-    &:hover,
-    &:disabled {
-      background-color: $color-loki-green-dark;
-      border-color: $color-loki-green-dark;
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-    }
-  }
-
-  input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border: 0;
-    outline: none;
-    border-radius: 4px;
-    background-color: $color-loki-light-gray;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  h4 {
-    margin-top: 8px;
-    margin-bottom: 16px;
-  }
-}
-
-.nickname-dialog {
-  .message {
-    font-style: italic;
-    color: $grey;
-    font-size: 12px;
-    margin-bottom: 16px;
-  }
-}
-
-.seed-dialog {
-  .title {
-    font-weight: bold;
-  }
-
-  .fields {
-    margin-top: 20px;
-  }
-
-  .seed {
-    padding: 20px 0;
-    font-style: oblique;
-  }
-}
-
-.permissions-popup,
-.debug-log-window {
-  .modal {
-    background-color: transparent;
-    padding: 0;
-  }
-
-  .confirmation-dialog .content {
-    box-shadow: 0px 0px 0px 0px;
-    max-width: 1000px;
-    margin: 0;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 15px;
-  }
-}
-
-.conversation-loading-screen {
-  z-index: 99;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  background-color: $color-white;
-
-  .content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .container {
-    position: absolute;
-    left: 50%;
-    width: 120px;
-    transform: translate(-50%, 0);
-  }
-
-  .dot {
-    width: 14px;
-    height: 14px;
-    border: 3px solid $blue;
-    border-radius: 50%;
-    float: left;
-    margin: 0 6px;
-    transform: scale(0);
-
-    animation: loading 1500ms ease infinite 0ms;
-    &:nth-child(2) {
-      animation: loading 1500ms ease infinite 333ms;
-    }
-    &:nth-child(3) {
-      animation: loading 1500ms ease infinite 666ms;
-    }
-  }
-}
-
 .module-last-seen-indicator {
   padding-top: 25px;
   padding-bottom: 35px;
-  margin-left: 28px;
-  margin-right: 28px;
-}
+  margin-inline-start: 28px;
+  margin-inline-end: 28px;
 
-.module-last-seen-indicator__bar {
-  background-color: $color-light-60;
-  width: 100%;
-  height: 2px;
-}
-
-.module-last-seen-indicator__text {
-  margin-top: 3px;
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-
-  text-align: center;
-  color: $color-light-90;
-}
-
-.module-scroll-down {
-  z-index: 100;
-  position: absolute;
-  right: 20px;
-  bottom: 10px;
-}
-
-.module-scroll-down__button {
-  height: 44px;
-  width: 44px;
-  border-radius: 22px;
-  text-align: center;
-  background-color: $color-light-35;
-  border: none;
-  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
-  outline: none;
-
-  &:hover {
-    background-color: $color-light-45;
+  &__bar {
+    @include themify($themes) {
+      background-color: themed('lastSeenIndicatorColor');
+    }
+    width: 100%;
+    height: 2px;
   }
-}
 
-.module-scroll-down__button--new-messages {
-  background-color: $color-signal-blue;
-
-  &:hover {
-    background-color: #1472bd;
+  &__text {
+    margin-top: 3px;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    @include themify($themes) {
+      color: themed('lastSeenIndicatorTextColor');
+    }
+    text-align: center;
   }
-}
-
-.module-scroll-down__icon {
-  @include color-svg('../images/down.svg', $color-white);
-  height: 100%;
-  width: 100%;
 }

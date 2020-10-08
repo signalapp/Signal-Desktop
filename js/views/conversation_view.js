@@ -165,7 +165,6 @@
           name: this.model.getName(),
           phoneNumber: this.model.getNumber(),
           profileName: this.model.getProfileName(),
-          color: this.model.getColor(),
           avatarPath: this.model.getAvatarPath(),
           isVerified: this.model.isVerified(),
           isMe: this.model.isMe(),
@@ -261,9 +260,64 @@
           },
         };
       };
+      const getGroupSettingsProps = () => {
+        const members = this.model.get('members') || [];
+        const ourPK = window.textsecure.storage.user.getNumber();
+        const isAdmin = this.model.isMediumGroup()
+          ? true
+          : this.model.get('groupAdmins').includes(ourPK);
+
+        return {
+          id: this.model.id,
+          name: this.model.getName(),
+          phoneNumber: this.model.getNumber(),
+          profileName: this.model.getProfileName(),
+          avatarPath: this.model.getAvatarPath(),
+          isGroup: !this.model.isPrivate(),
+          isPublic: this.model.isPublic(),
+          isAdmin,
+          isRss: this.model.isRss(),
+          memberCount: members.length,
+          amMod: this.model.isModerator(
+            window.storage.get('primaryDevicePubKey')
+          ),
+          isKickedFromGroup: this.model.get('isKickedFromGroup'),
+          isBlocked: this.model.isBlocked(),
+
+          timerOptions: Whisper.ExpirationTimerOptions.map(item => ({
+            name: item.getName(),
+            value: item.get('seconds'),
+          })),
+
+          onSetDisappearingMessages: seconds =>
+            this.setDisappearingMessages(seconds),
+
+          onGoBack: () => {
+            this.hideConversationRight();
+          },
+
+          onUpdateGroupName: () => {
+            window.Whisper.events.trigger('updateGroupName', this.model);
+          },
+          onUpdateGroupMembers: () => {
+            window.Whisper.events.trigger('updateGroupMembers', this.model);
+          },
+
+          onLeaveGroup: () => {
+            window.Whisper.events.trigger('leaveGroup', this.model);
+          },
+
+          onInviteContacts: () => {
+            window.Whisper.events.trigger('inviteContacts', this.model);
+          },
+          onShowLightBox: (lightBoxOptions = {}) => {
+            this.showChannelLightbox(lightBoxOptions);
+          },
+        };
+      };
       this.titleView = new Whisper.ReactWrapperView({
         className: 'title-wrapper',
-        Component: window.Signal.Components.ConversationHeader,
+        Component: window.Signal.Components.ConversationHeaderWithDetails,
         props: getHeaderProps(),
       });
       this.updateHeader = () => this.titleView.update(getHeaderProps());
@@ -284,13 +338,35 @@
 
       this.hideConversationRight = () => {
         this.$('.conversation-content-right').css({
-          'margin-right': '-22vw',
+          'margin-inline-end': '-22vw',
         });
       };
       this.showConversationRight = () => {
         this.$('.conversation-content-right').css({
-          'margin-right': '0vw',
+          'margin-inline-end': '0vw',
         });
+      };
+
+      this.showGroupSettings = () => {
+        if (!this.groupSettings) {
+          this.groupSettings = new Whisper.ReactWrapperView({
+            className: 'group-settings',
+            Component: window.Signal.Components.SessionRightPanelWithDetails,
+            props: getGroupSettingsProps(this.model),
+          });
+          this.$('.conversation-content-right').append(this.groupSettings.el);
+          this.updateGroupSettingsPanel = () =>
+            this.groupSettings.update(getGroupSettingsProps(this.model));
+          this.listenTo(this.model, 'change', this.updateGroupSettingsPanel);
+        } else {
+          this.groupSettings.update(getGroupSettingsProps(this.model));
+        }
+
+        this.showConversationRight();
+      };
+
+      this.hideGroupSettings = () => {
+        this.showConversationRight();
       };
 
       this.memberView.render();
@@ -307,7 +383,7 @@
       this.window.addEventListener('resize', this.onResize);
 
       this.onFocus = () => {
-        if (this.$el.css('display') !== 'none') {
+        if (!this.isHidden()) {
           this.markRead();
         }
       };
@@ -620,9 +696,13 @@
 
       const { sender } = mostRecent;
       const contact = ConversationController.getOrCreate(sender, 'private');
+      // we need the opposite theme
+      const color =
+        window.Events.getThemeSetting() === 'light' ? 'dark' : 'light';
       const props = {
         ...contact.format(),
         conversationType: this.model.isPrivate() ? 'direct' : 'group',
+        color,
       };
 
       if (this.typingBubbleView) {
@@ -643,16 +723,17 @@
     },
 
     async toggleMicrophone() {
-      const allowMicrophone = await window.getMediaPermissions();
-      if (
-        !allowMicrophone ||
-        this.$('.send-message').val().length > 0 ||
-        this.fileInput.hasFiles()
-      ) {
-        this.$('.capture-audio').hide();
-      } else {
-        this.$('.capture-audio').show();
-      }
+      // FIXME audric hide microphone for now until refactor branch is merged
+      // const allowMicrophone = await window.getMediaPermissions();
+      // if (
+      //   !allowMicrophone ||
+      //   this.$('.send-message').val().length > 0 ||
+      //   this.fileInput.hasFiles()
+      // ) {
+      this.$('.capture-audio').hide();
+      // } else {
+      //   this.$('.capture-audio').show();
+      // }
     },
     captureAudio(e) {
       e.preventDefault();
@@ -1157,6 +1238,7 @@
           contact.getTitle(),
           contact.getTitle(),
         ]),
+        messageSub: i18n('youMayWishToVerifyContact'),
         okText: i18n('sendAnyway'),
         resolve: async () => {
           await contact.updateVerified();
@@ -1274,12 +1356,16 @@
       // If removable from server, we "Unsend" - otherwise "Delete"
       let title;
       if (isPublic) {
-        title = multiple ? i18n('unsendMessages') : i18n('unsendMessage');
+        title = multiple
+          ? i18n('deleteMessagesForEveryone')
+          : i18n('deleteMessageForEveryone');
       } else {
         title = multiple ? i18n('deleteMessages') : i18n('deleteMessage');
       }
 
-      const okText = isServerDeletable ? i18n('unsend') : i18n('delete');
+      const okText = isServerDeletable
+        ? i18n('deleteForEveryone')
+        : i18n('delete');
 
       window.confirmationDialog({
         title,
@@ -1391,14 +1477,14 @@
       Signal.Backbone.Views.Lightbox.show(this.lightboxGalleryView.el);
     },
 
-    showMessageDetail(message) {
+    async showMessageDetail(message) {
       const onClose = () => {
         this.stopListening(message, 'change', update);
         this.resetPanel();
         this.updateHeader();
       };
 
-      const props = message.getPropsForMessageDetail();
+      const props = await message.getPropsForMessageDetail();
       const view = new Whisper.ReactWrapperView({
         className: 'message-detail-wrapper',
         Component: Signal.Components.MessageDetail,
@@ -1406,7 +1492,8 @@
         onClose,
       });
 
-      const update = () => view.update(message.getPropsForMessageDetail());
+      const update = async () =>
+        view.update(await message.getPropsForMessageDetail());
       this.listenTo(message, 'change', update);
       this.listenTo(message, 'expired', onClose);
       // We could listen to all involved contacts, but we'll call that overkill
@@ -2548,7 +2635,8 @@
 
     isHidden() {
       return (
-        this.$el.css('display') === 'none' ||
+        (this.$el.css('display') !== 'none' &&
+          this.$el.css('display') !== '') ||
         this.$('.panel').css('display') === 'none'
       );
     },

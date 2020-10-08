@@ -7,10 +7,10 @@ import {
   SessionButtonColor,
   SessionButtonType,
 } from '../SessionButton';
-import { UserUtil } from '../../../util';
+import { BlockedNumberController, UserUtil } from '../../../util';
 import { MultiDeviceProtocol } from '../../../session/protocols';
 import { PubKey } from '../../../session/types';
-import { NumberUtils } from '../../../session/utils';
+import { ToastUtils } from '../../../session/utils';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -88,7 +88,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   public componentDidMount() {
-    setTimeout(() => $('#password-lock-input').focus(), 100);
+    setTimeout(() => ($('#password-lock-input') as any).focus(), 100);
 
     window.Whisper.events.on('refreshLinkedDeviceList', async () => {
       setTimeout(() => {
@@ -111,6 +111,9 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     if (category === SessionSettingCategory.Devices) {
       // special case for linked devices
       settings = this.getLinkedDeviceSettings();
+    } else if (category === SessionSettingCategory.Blocked) {
+      // special case for blocked user
+      settings = this.getBlockedUserSettings();
     } else {
       // Grab initial values from database on startup
       // ID corresponds to installGetter parameters in preload.js
@@ -197,7 +200,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
           <SessionButton
             buttonType={SessionButtonType.BrandOutline}
             buttonColor={SessionButtonColor.Green}
-            text={window.i18n('enter')}
+            text={window.i18n('ok')}
             onClick={this.validatePasswordLock}
           />
         </div>
@@ -206,7 +209,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   public async validatePasswordLock() {
-    const enteredPassword = String($('#password-lock-input').val());
+    const enteredPassword = String(jQuery('#password-lock-input').val());
 
     if (!enteredPassword) {
       this.setState({
@@ -273,7 +276,9 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   public setOptionsSetting(settingID: string) {
-    const selectedValue = $(`#${settingID} .session-radio input:checked`).val();
+    const selectedValue = jQuery(
+      `#${settingID} .session-radio input:checked`
+    ).val();
     window.setSettingValue(settingID, selectedValue);
   }
 
@@ -390,7 +395,7 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         confirmationDialogParams: {
           shouldShowConfirm: () =>
             !window.getSettingValue('link-preview-setting'),
-          title: window.i18n('linkPreviewsConfirmTitle'),
+          title: window.i18n('linkPreviewsTitle'),
           message: window.i18n('linkPreviewsConfirmMessage'),
           okTheme: 'danger',
         },
@@ -435,32 +440,16 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
         confirmationDialogParams: undefined,
       },
       {
-        id: 'message-ttl',
-        title: window.i18n('messageTTL'),
-        description: window.i18n('messageTTLSettingDescription'),
-        // TODO: Revert
-        // TTL set to 2 days for mobile push notification compabability
-        // temporary fix .t 13/07/2020
-        //
-        // TODO: Hook up this TTL to message sending when re-enabling.
-        // This setting is not used in any libsession sending code
-        hidden: true,
-        type: SessionSettingType.Slider,
-        category: SessionSettingCategory.Privacy,
-        setFn: undefined,
+        id: 'media-permissions',
+        title: window.i18n('mediaPermissionsTitle'),
+        description: window.i18n('mediaPermissionsDescription'),
+        hidden: false,
+        type: SessionSettingType.Toggle,
+        category: SessionSettingCategory.Permissions,
+        setFn: window.toggleMediaPermissions,
+        content: undefined,
         comparisonValue: undefined,
         onClick: undefined,
-        content: {
-          dotsEnabled: true,
-          step: 6,
-          min: 12,
-          max: 96,
-          defaultValue: NumberUtils.msAsUnit(
-            window.CONSTANTS.TTL_DEFAULT_REGULAR_MESSAGE,
-            'hour'
-          ),
-          info: (value: number) => `${value} Hours`,
-        },
         confirmationDialogParams: undefined,
       },
       {
@@ -598,6 +587,73 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
     ];
   }
 
+  private getBlockedUserSettings(): Array<LocalSettingType> {
+    const results: Array<LocalSettingType> = [];
+    const blockedNumbers = BlockedNumberController.getBlockedNumbers();
+
+    for (const blockedNumber of blockedNumbers) {
+      let title: string;
+
+      const currentModel = window.ConversationController.get(blockedNumber);
+      if (currentModel) {
+        title =
+          currentModel.getProfileName() ||
+          currentModel.getName() ||
+          window.i18n('anonymous');
+      } else {
+        title = window.i18n('anonymous');
+      }
+
+      results.push({
+        id: blockedNumber,
+        title,
+        description: '',
+        type: SessionSettingType.Button,
+        category: SessionSettingCategory.Blocked,
+        content: {
+          buttonColor: SessionButtonColor.Danger,
+          buttonText: window.i18n('unblockUser'),
+        },
+        comparisonValue: undefined,
+        setFn: async () => {
+          if (currentModel) {
+            await currentModel.unblock();
+          } else {
+            await BlockedNumberController.unblock(blockedNumber);
+            this.forceUpdate();
+          }
+          ToastUtils.push({
+            title: window.i18n('unblocked'),
+            id: 'unblocked',
+          });
+        },
+        hidden: false,
+        onClick: undefined,
+        confirmationDialogParams: undefined,
+      });
+    }
+
+    if (blockedNumbers.length === 0) {
+      return [
+        {
+          id: 'noBlockedContacts',
+          title: '',
+          description: window.i18n('noBlockedContacts'),
+          type: undefined,
+          category: SessionSettingCategory.Blocked,
+          content: undefined,
+          comparisonValue: undefined,
+          setFn: undefined,
+          hidden: false,
+          onClick: undefined,
+          confirmationDialogParams: undefined,
+        },
+      ];
+    }
+
+    return results;
+  }
+
   private getLinkedDeviceSettings(): Array<LocalSettingType> {
     const { linkedPubKeys } = this.state;
     const { isSecondaryDevice } = this.props;
@@ -677,7 +733,9 @@ export class SettingsView extends React.Component<SettingsViewProps, State> {
   }
 
   private async onKeyUp(event: any) {
-    const lockPasswordFocussed = $('#password-lock-input').is(':focus');
+    const lockPasswordFocussed = ($('#password-lock-input') as any).is(
+      ':focus'
+    );
 
     if (event.key === 'Enter' && lockPasswordFocussed) {
       await this.validatePasswordLock();

@@ -3,7 +3,7 @@ import React from 'react';
 import { SessionIconButton, SessionIconSize, SessionIconType } from './icon';
 
 interface Props {
-  onClick?: any;
+  onClick?: () => any;
   show?: boolean;
 }
 

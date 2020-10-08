@@ -21,7 +21,6 @@ export function processMessage(message: string, options: any = {}) {
   try {
     const dataPlaintext = new Uint8Array(StringUtils.encode(message, 'base64'));
     const messageBuf = SignalService.WebSocketMessage.decode(dataPlaintext);
-
     if (messageBuf.type === SignalService.WebSocketMessage.Type.REQUEST) {
       // tslint:disable-next-line no-floating-promises
       Receiver.handleRequest(messageBuf.request?.body, options);
@@ -48,17 +47,20 @@ export class SwarmPolling {
 
   public async start(): Promise<void> {
     this.loadGroupIds();
-    // tslint:disable: no-floating-promises
-    this.pollForAllKeys();
+    void this.pollForAllKeys();
   }
 
   public addGroupId(pubkey: PubKey) {
-    this.groupPubkeys.push(pubkey);
+    if (this.groupPubkeys.findIndex(m => m.key === pubkey.key) === -1) {
+      this.groupPubkeys.push(pubkey);
+    }
   }
 
   public addPubkey(pk: PubKey | string) {
     const pubkey = PubKey.cast(pk);
-    this.pubkeys.push(pubkey);
+    if (this.pubkeys.findIndex(m => m.key === pubkey.key) === -1) {
+      this.pubkeys.push(pubkey);
+    }
   }
 
   public removePubkey(pk: PubKey | string) {
@@ -133,7 +135,7 @@ export class SwarmPolling {
 
     const lastMessage = _.last(messages);
 
-    this.updateLastHash(
+    await this.updateLastHash(
       edkey,
       pubkey,
       lastMessage.hash,
@@ -187,10 +189,13 @@ export class SwarmPolling {
     const groupPromises = this.groupPubkeys.map(async pk => {
       return this.pollOnceForKey(pk, true);
     });
-
-    await Promise.all(_.concat(directPromises, groupPromises));
-
-    setTimeout(this.pollForAllKeys.bind(this), 2000);
+    try {
+      await Promise.all(_.concat(directPromises, groupPromises));
+    } catch (e) {
+      window.log.warn('pollForAllKeys swallowing exception: ', e);
+    } finally {
+      setTimeout(this.pollForAllKeys.bind(this), 2000);
+    }
   }
 
   private async updateLastHash(

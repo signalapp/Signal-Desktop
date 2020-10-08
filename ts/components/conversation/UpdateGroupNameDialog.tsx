@@ -7,6 +7,7 @@ import { Avatar } from '../Avatar';
 
 interface Props {
   titleText: string;
+  pubkey: string;
   isPublic: boolean;
   groupName: string;
   okText: string;
@@ -49,21 +50,19 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
   }
 
   public onClickOK() {
+    const { i18n, onSubmit } = this.props;
     if (!this.state.groupName.trim()) {
-      this.onShowError(this.props.i18n('emptyGroupNameError'));
+      this.onShowError(i18n('emptyGroupNameError'));
 
       return;
     }
 
     const avatar =
-      this.inputEl &&
-      this.inputEl.current &&
-      this.inputEl.current.files &&
-      this.inputEl.current.files.length > 0
+      this?.inputEl?.current?.files?.length > 0
         ? this.inputEl.current.files[0]
         : null; // otherwise use the current avatar
 
-    this.props.onSubmit(this.state.groupName, avatar);
+    onSubmit(this.state.groupName, avatar);
 
     this.closeDialog();
   }
@@ -178,9 +177,8 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
         <div className="avatar-center-inner">
           <Avatar
             avatarPath={avatarPath}
-            conversationType="group"
-            i18n={this.props.i18n}
             size={80}
+            pubkey={this.props.pubkey}
           />
           <div
             className="image-upload-section"

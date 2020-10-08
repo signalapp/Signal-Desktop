@@ -30,8 +30,11 @@ const {
 const { ContactListItem } = require('../../ts/components/ContactListItem');
 const { ContactName } = require('../../ts/components/conversation/ContactName');
 const {
-  ConversationHeader,
+  ConversationHeaderWithDetails,
 } = require('../../ts/components/conversation/ConversationHeader');
+const {
+  SessionRightPanelWithDetails,
+} = require('../../ts/components/session/conversation/SessionRightPanel');
 const {
   EmbeddedContact,
 } = require('../../ts/components/conversation/EmbeddedContact');
@@ -60,9 +63,6 @@ const {
 const { SessionToast } = require('../../ts/components/session/SessionToast');
 const { SessionToggle } = require('../../ts/components/session/SessionToggle');
 const { SessionModal } = require('../../ts/components/session/SessionModal');
-const {
-  SessionQRModal,
-} = require('../../ts/components/session/SessionQRModal');
 const {
   SessionSeedModal,
 } = require('../../ts/components/session/SessionSeedModal');
@@ -278,7 +278,8 @@ exports.setup = (options = {}) => {
     ContactDetail,
     ContactListItem,
     ContactName,
-    ConversationHeader,
+    ConversationHeaderWithDetails,
+    SessionRightPanelWithDetails,
     SettingsView,
     EmbeddedContact,
     Emojify,
@@ -304,7 +305,6 @@ exports.setup = (options = {}) => {
     SessionToggle,
     SessionConfirm,
     SessionModal,
-    SessionQRModal,
     SessionSeedModal,
     SessionPasswordModal,
     SessionPasswordPrompt,

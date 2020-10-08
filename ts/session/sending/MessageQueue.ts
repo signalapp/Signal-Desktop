@@ -7,6 +7,8 @@ import {
   ClosedGroupMessage,
   ContentMessage,
   ExpirationTimerUpdateMessage,
+  MediumGroupChatMessage,
+  MediumGroupMessage,
   OpenGroupMessage,
   SessionRequestMessage,
   SyncMessage,
@@ -51,7 +53,7 @@ export class MessageQueue implements MessageQueueInterface {
   }
 
   public async sendToGroup(
-    message: OpenGroupMessage | ContentMessage
+    message: OpenGroupMessage | ContentMessage | MediumGroupMessage
   ): Promise<void> {
     // Open groups
     if (message instanceof OpenGroupMessage) {
@@ -62,13 +64,14 @@ export class MessageQueue implements MessageQueueInterface {
       try {
         const result = await MessageSender.sendToOpenGroup(message);
         // sendToOpenGroup returns -1 if failed or an id if succeeded
-        if (result < 0) {
+        if (result.serverId < 0) {
           this.events.emit('fail', message, error);
         } else {
           const messageEventData = {
             pubKey: message.group.groupId,
             timestamp: message.timestamp,
-            serverId: result,
+            serverId: result.serverId,
+            serverTimestamp: result.serverTimestamp,
           };
           this.events.emit('success', message);
 
@@ -92,10 +95,19 @@ export class MessageQueue implements MessageQueueInterface {
       groupId = message.groupId;
     } else if (message instanceof ExpirationTimerUpdateMessage) {
       groupId = message.groupId;
+    } else if (message instanceof MediumGroupMessage) {
+      groupId = message.groupId;
     }
 
     if (!groupId) {
       throw new Error('Invalid group message passed in sendToGroup.');
+    }
+    // if this is a medium group message. We just need to send to the group pubkey
+    if (
+      message instanceof MediumGroupMessage ||
+      message instanceof MediumGroupChatMessage
+    ) {
+      return this.send(PubKey.cast(groupId), message);
     }
 
     // Get devices in group
@@ -151,8 +163,8 @@ export class MessageQueue implements MessageQueueInterface {
         // We put the event handling inside this job to avoid sending duplicate events
         const job = async () => {
           try {
-            await MessageSender.send(message);
-            this.events.emit('success', message);
+            const wrappedEnvelope = await MessageSender.send(message);
+            this.events.emit('success', message, wrappedEnvelope);
           } catch (e) {
             this.events.emit('fail', message, e);
           } finally {

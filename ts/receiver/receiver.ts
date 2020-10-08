@@ -1,9 +1,7 @@
 // TODO: fix libloki and textsecure not being available here yet
 
-import { handleEndSession } from './sessionHandling';
 import { EnvelopePlus } from './types';
-import { downloadAttachment } from './attachments';
-import { handleMediumGroupUpdate } from './mediumGroups';
+export { downloadAttachment } from './attachments';
 
 import { addToCache, getAllFromCache, removeFromCache } from './cache';
 import { processMessage } from '../session/snode_api/swarmPolling';
@@ -19,27 +17,14 @@ import _ from 'lodash';
 
 export { processMessage, onDeliveryReceipt };
 
-import {
-  handleDataMessage,
-  handleMessageEvent,
-  updateProfile,
-} from './dataMessage';
+import { handleMessageEvent, updateProfile } from './dataMessage';
 
 import { getEnvelopeId } from './common';
 import { StringUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
-import { BlockedNumberController } from '../util/blockedNumberController';
 import { MultiDeviceProtocol } from '../session/protocols';
 
 // TODO: check if some of these exports no longer needed
-export {
-  handleEndSession,
-  handleMediumGroupUpdate,
-  downloadAttachment,
-  handleDataMessage,
-  updateProfile,
-  handleMessageEvent,
-};
 
 interface ReqOptions {
   conversationId: string;
@@ -126,7 +111,6 @@ async function handleRequestDetail(
   lastPromise: Promise<any>
 ): Promise<void> {
   const { textsecure } = window;
-
   const envelope: any = SignalService.Envelope.decode(plaintext);
 
   // After this point, decoding errors are not the server's
@@ -166,7 +150,9 @@ async function handleRequestDetail(
     // receiving pipeline refactor. It is to be implemented in the next PR.
 
     // To ensure that we queue in the same order we receive messages
+
     await lastPromise;
+
     queueEnvelope(envelope);
   } catch (error) {
     window.log.error(

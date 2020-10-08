@@ -8,21 +8,13 @@
 
   Whisper.EditProfileDialogView = Whisper.View.extend({
     className: 'loki-dialog modal',
-    initialize({
-      profileName,
-      avatarPath,
-      avatarColor,
-      pubkey,
-      onOk,
-      callback,
-    }) {
+    initialize({ profileName, avatarPath, pubkey, onOk, callback }) {
       this.close = this.close.bind(this);
 
       this.callback = callback;
       this.profileName = profileName;
       this.pubkey = pubkey;
       this.avatarPath = avatarPath;
-      this.avatarColor = avatarColor;
       this.onOk = onOk;
 
       this.$el.focus();
