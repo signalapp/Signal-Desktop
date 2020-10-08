@@ -9,29 +9,9 @@ import {
   SetRendererCanvasType,
 } from '../state/ducks/calling';
 import { Avatar } from './Avatar';
+import { CallingButton, CallingButtonType } from './CallingButton';
 import { CallState } from '../types/Calling';
 import { LocalizerType } from '../types/Util';
-
-type CallingButtonProps = {
-  classNameSuffix: string;
-  onClick: () => void;
-};
-
-const CallingButton = ({
-  classNameSuffix,
-  onClick,
-}: CallingButtonProps): JSX.Element => {
-  const className = classNames(
-    'module-ongoing-call__icon',
-    `module-ongoing-call__icon${classNameSuffix}`
-  );
-
-  return (
-    <button type="button" className={className} onClick={onClick}>
-      <div />
-    </button>
-  );
-};
 
 export type PropsType = {
   callDetails?: CallDetailsType;
@@ -137,10 +117,10 @@ export class CallScreen extends React.Component<PropsType, StateType> {
 
     let eventHandled = false;
 
-    if (event.key === 'V') {
+    if (event.shiftKey && (event.key === 'V' || event.key === 'v')) {
       this.toggleVideo();
       eventHandled = true;
-    } else if (event.key === 'M') {
+    } else if (event.shiftKey && (event.key === 'M' || event.key === 'm')) {
       this.toggleAudio();
       eventHandled = true;
     }
@@ -225,42 +205,41 @@ export class CallScreen extends React.Component<PropsType, StateType> {
         !showControls && !isAudioOnly && callState === CallState.Accepted,
     });
 
-    const toggleAudioSuffix = hasLocalAudio
-      ? '--audio--enabled'
-      : '--audio--disabled';
-    const toggleVideoSuffix = hasLocalVideo
-      ? '--video--enabled'
-      : '--video--disabled';
+    const videoButtonType = hasLocalVideo
+      ? CallingButtonType.VIDEO_ON
+      : CallingButtonType.VIDEO_OFF;
+    const audioButtonType = hasLocalAudio
+      ? CallingButtonType.AUDIO_ON
+      : CallingButtonType.AUDIO_OFF;
 
     return (
       <div
-        className="module-ongoing-call"
+        className="module-calling__container"
         onMouseMove={this.showControls}
         role="group"
       >
         <div
           className={classNames(
+            'module-calling__header',
             'module-ongoing-call__header',
             controlsFadeClass
           )}
         >
-          <div className="module-ongoing-call__header-name">
+          <div className="module-calling__header--header-name">
             {callDetails.title}
           </div>
           {this.renderMessage(callState)}
-          <div className="module-ongoing-call__settings">
+          <div className="module-calling-tools">
             <button
               type="button"
               aria-label={i18n('callingDeviceSelection__settings')}
-              className="module-ongoing-call__settings--button"
+              className="module-calling-tools__button module-calling-button__settings"
               onClick={toggleSettings}
             />
-          </div>
-          <div className="module-ongoing-call__pip">
             <button
               type="button"
               aria-label={i18n('calling__pip')}
-              className="module-ongoing-call__pip--button"
+              className="module-calling-tools__button module-calling-button__pip"
               onClick={togglePip}
             />
           </div>
@@ -276,18 +255,24 @@ export class CallScreen extends React.Component<PropsType, StateType> {
           )}
         >
           <CallingButton
-            classNameSuffix={toggleVideoSuffix}
+            buttonType={videoButtonType}
+            i18n={i18n}
             onClick={this.toggleVideo}
+            tooltipDistance={24}
           />
           <CallingButton
-            classNameSuffix={toggleAudioSuffix}
+            buttonType={audioButtonType}
+            i18n={i18n}
             onClick={this.toggleAudio}
+            tooltipDistance={24}
           />
           <CallingButton
-            classNameSuffix="--hangup"
+            buttonType={CallingButtonType.HANG_UP}
+            i18n={i18n}
             onClick={() => {
               hangUp({ callId: callDetails.callId });
             }}
+            tooltipDistance={24}
           />
         </div>
       </div>

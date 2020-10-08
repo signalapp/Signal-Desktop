@@ -15,6 +15,7 @@ const callDetails = {
   isIncoming: true,
   isVideoCall: true,
 
+  id: '3051234567',
   avatarPath: undefined,
   color: 'ultramarine' as ColorType,
   title: 'Rick Sanchez',
@@ -27,6 +28,7 @@ const defaultProps = {
   acceptCall: action('accept-call'),
   callDetails,
   callState: CallState.Accepted,
+  cancelCall: action('cancel-call'),
   closeNeedPermissionScreen: action('close-need-permission-screen'),
   declineCall: action('decline-call'),
   hangUp: action('hang-up'),
@@ -41,6 +43,8 @@ const defaultProps = {
   setLocalVideo: action('set-local-video'),
   setRendererCanvas: action('set-renderer-canvas'),
   settingsDialogOpen: false,
+  startCall: action('start-call'),
+  toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
   toggleSettings: action('toggle-settings'),
 };

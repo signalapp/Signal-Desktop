@@ -4,7 +4,7 @@ import { boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { ColorType } from '../types/Colors';
-import { CallingPip, PropsType } from './CallingPip';
+import { CallingLobby, PropsType } from './CallingLobby';
 import { setup as setupI18n } from '../../js/modules/i18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -25,42 +25,35 @@ const callDetails = {
 };
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  callDetails: overrideProps.callDetails || callDetails,
-  hangUp: action('hang-up'),
+  callDetails,
+  hasLocalAudio: boolean('hasLocalAudio', overrideProps.hasLocalAudio || false),
   hasLocalVideo: boolean('hasLocalVideo', overrideProps.hasLocalVideo || false),
-  hasRemoteVideo: boolean(
-    'hasRemoteVideo',
-    overrideProps.hasRemoteVideo || false
-  ),
   i18n,
+  isGroupCall: boolean('isGroupCall', overrideProps.isGroupCall || false),
+  onCallCanceled: action('on-call-canceled'),
+  onJoinCall: action('on-join-call'),
+  setLocalAudio: action('set-local-audio'),
   setLocalPreview: action('set-local-preview'),
-  setRendererCanvas: action('set-renderer-canvas'),
-  togglePip: action('toggle-pip'),
+  setLocalVideo: action('set-local-video'),
+  toggleParticipants: action('toggle-participants'),
+  toggleSettings: action('toggle-settings'),
 });
 
-const story = storiesOf('Components/CallingPip', module);
+const story = storiesOf('Components/CallingLobby', module);
 
 story.add('Default', () => {
   const props = createProps();
-  return <CallingPip {...props} />;
+  return <CallingLobby {...props} />;
 });
 
-story.add('Contact (with avatar)', () => {
+story.add('Local Video', () => {
   const props = createProps({
-    callDetails: {
-      ...callDetails,
-      avatarPath: 'https://www.fillmurray.com/64/64',
-    },
+    hasLocalVideo: true,
   });
-  return <CallingPip {...props} />;
+  return <CallingLobby {...props} />;
 });
 
-story.add('Contact (no color)', () => {
-  const props = createProps({
-    callDetails: {
-      ...callDetails,
-      color: undefined,
-    },
-  });
-  return <CallingPip {...props} />;
+story.add('Group Call', () => {
+  const props = createProps({ isGroupCall: true });
+  return <CallingLobby {...props} />;
 });

@@ -1150,6 +1150,34 @@
     "message": "Calling",
     "description": "Header for calling options on the settings screen"
   },
+  "calling__start": {
+    "message": "Start Call",
+    "description": "Button label in the call lobby for starting a call"
+  },
+  "calling__join": {
+    "message": "Join Call",
+    "description": "Button label in the call lobby for joining a call"
+  },
+  "calling__button--video-off": {
+    "message": "Turn off camera",
+    "description": "Button tooltip label for turning off the camera"
+  },
+  "calling__button--video-on": {
+    "message": "Turn on camera",
+    "description": "Button tooltip label for turning on the camera"
+  },
+  "calling__button--audio-off": {
+    "message": "Turn off microphone",
+    "description": "Button tooltip label for turning off the microphone"
+  },
+  "calling__button--audio-on": {
+    "message": "Turn on microphone",
+    "description": "Button tooltip label for turning on the microphone"
+  },
+  "calling__your-video-is-off": {
+    "message": "Your video is off",
+    "description": "Label in the calling lobby indicating that your camera is off"
+  },
   "alwaysRelayCallsDescription": {
     "message": "Always relay calls",
     "description": "Description of the always relay calls setting"
@@ -2888,6 +2916,10 @@
   "callingDeviceSelection__settings": {
     "message": "Settings",
     "description": "Title for device selection settings"
+  },
+  "calling__participants": {
+    "message": "Participants",
+    "description": "Title for participants list toggle"
   },
   "calling__pip": {
     "message": "Picture-in-picture",

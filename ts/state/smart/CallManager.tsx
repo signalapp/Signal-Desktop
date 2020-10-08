@@ -19,8 +19,9 @@ function renderDeviceSelection(): JSX.Element {
 }
 
 const mapStateToProps = (state: StateType) => {
+  const { calling } = state;
   return {
-    ...state.calling,
+    ...calling,
     i18n: getIntl(state),
     renderDeviceSelection,
   };

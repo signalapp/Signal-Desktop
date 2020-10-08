@@ -1,22 +1,26 @@
 import React from 'react';
 import { CallingPip } from './CallingPip';
 import { CallNeedPermissionScreen } from './CallNeedPermissionScreen';
+import { CallingLobby } from './CallingLobby';
 import { CallScreen, PropsType as CallScreenPropsType } from './CallScreen';
 import {
   IncomingCallBar,
   PropsType as IncomingCallBarPropsType,
 } from './IncomingCallBar';
 import { CallState, CallEndedReason } from '../types/Calling';
-import { CallDetailsType } from '../state/ducks/calling';
+import { CallDetailsType, OutgoingCallType } from '../state/ducks/calling';
 
 type CallManagerPropsType = {
   callDetails?: CallDetailsType;
-  callState?: CallState;
   callEndedReason?: CallEndedReason;
+  callState?: CallState;
+  cancelCall: () => void;
   pip: boolean;
   closeNeedPermissionScreen: () => void;
   renderDeviceSelection: () => JSX.Element;
   settingsDialogOpen: boolean;
+  startCall: (payload: OutgoingCallType) => void;
+  toggleParticipants: () => void;
 };
 
 type PropsType = IncomingCallBarPropsType &
@@ -28,6 +32,7 @@ export const CallManager = ({
   callDetails,
   callState,
   callEndedReason,
+  cancelCall,
   closeNeedPermissionScreen,
   declineCall,
   hangUp,
@@ -42,10 +47,12 @@ export const CallManager = ({
   setLocalVideo,
   setRendererCanvas,
   settingsDialogOpen,
+  startCall,
+  toggleParticipants,
   togglePip,
   toggleSettings,
 }: PropsType): JSX.Element | null => {
-  if (!callDetails || !callState) {
+  if (!callDetails) {
     return null;
   }
   const incoming = callDetails.isIncoming;
@@ -66,6 +73,31 @@ export const CallManager = ({
       );
     }
     return null;
+  }
+
+  if (!callState) {
+    return (
+      <>
+        <CallingLobby
+          callDetails={callDetails}
+          callState={callState}
+          hasLocalAudio={hasLocalAudio}
+          hasLocalVideo={hasLocalVideo}
+          i18n={i18n}
+          isGroupCall={false}
+          onCallCanceled={cancelCall}
+          onJoinCall={() => {
+            startCall({ callDetails });
+          }}
+          setLocalPreview={setLocalPreview}
+          setLocalAudio={setLocalAudio}
+          setLocalVideo={setLocalVideo}
+          toggleParticipants={toggleParticipants}
+          toggleSettings={toggleSettings}
+        />
+        {settingsDialogOpen && renderDeviceSelection()}
+      </>
+    );
   }
 
   if (outgoing || ongoing) {

@@ -479,7 +479,7 @@ Whisper.ConversationView = Whisper.View.extend({
             window.log.info(
               'onOutgoingAudioCallInConversation: call is deemed "safe". Making call'
             );
-            await window.Signal.Services.calling.startOutgoingCall(
+            await window.Signal.Services.calling.startCallingLobby(
               conversation,
               isVideoCall
             );
@@ -504,7 +504,7 @@ Whisper.ConversationView = Whisper.View.extend({
             window.log.info(
               'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
             );
-            await window.Signal.Services.calling.startOutgoingCall(
+            await window.Signal.Services.calling.startCallingLobby(
               conversation,
               isVideoCall
             );

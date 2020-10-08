@@ -17,6 +17,7 @@ const defaultProps = {
     isIncoming: true,
     isVideoCall: true,
 
+    id: '3051234567',
     avatarPath: undefined,
     contactColor: 'ultramarine' as ColorType,
     name: 'Rick Sanchez',

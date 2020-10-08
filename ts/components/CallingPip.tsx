@@ -6,6 +6,7 @@ import {
   SetRendererCanvasType,
 } from '../state/ducks/calling';
 import { Avatar } from './Avatar';
+import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { LocalizerType } from '../types/Util';
 
 function renderAvatar(
@@ -21,35 +22,24 @@ function renderAvatar(
     title,
   } = callDetails;
 
-  const backgroundStyle = avatarPath
-    ? {
-        backgroundImage: `url("${avatarPath}")`,
-      }
-    : {
-        backgroundColor: color,
-      };
-
   return (
     <div className="module-calling-pip__video--remote">
-      <div
-        className="module-calling-pip__video--background"
-        style={backgroundStyle}
-      />
-      <div className="module-calling-pip__video--blur" />
-      <div className="module-calling-pip__video--avatar">
-        <Avatar
-          avatarPath={avatarPath}
-          color={color || 'ultramarine'}
-          noteToSelf={false}
-          conversationType="direct"
-          i18n={i18n}
-          name={name}
-          phoneNumber={phoneNumber}
-          profileName={profileName}
-          title={title}
-          size={52}
-        />
-      </div>
+      <CallBackgroundBlur avatarPath={avatarPath} color={color}>
+        <div className="module-calling-pip__video--avatar">
+          <Avatar
+            avatarPath={avatarPath}
+            color={color || 'ultramarine'}
+            noteToSelf={false}
+            conversationType="direct"
+            i18n={i18n}
+            name={name}
+            phoneNumber={phoneNumber}
+            profileName={profileName}
+            title={title}
+            size={52}
+          />
+        </div>
+      </CallBackgroundBlur>
     </div>
   );
 }

@@ -90,11 +90,11 @@ export class CallingClass {
     RingRTC.handleLogMessage = this.handleLogMessage.bind(this);
   }
 
-  async startOutgoingCall(
+  async startCallingLobby(
     conversation: ConversationModel,
     isVideoCall: boolean
   ): Promise<void> {
-    window.log.info('CallingClass.startOutgoingCall()');
+    window.log.info('CallingClass.startCallingLobby()');
 
     if (!this.uxActions) {
       window.log.error('Missing uxActions, new call not allowed.');
@@ -113,6 +113,75 @@ export class CallingClass {
       return;
     }
 
+    window.log.info('CallingClass.startCallingLobby(): Getting call settings');
+
+    // Check state after awaiting to debounce call button.
+    if (RingRTC.call && RingRTC.call.state !== CallState.Ended) {
+      window.log.info('Call already in progress, new call not allowed.');
+      return;
+    }
+
+    const conversationProps = conversation.cachedProps;
+
+    if (!conversationProps) {
+      window.log.error(
+        'CallingClass.startCallingLobby(): No conversation props?'
+      );
+      return;
+    }
+
+    window.log.info('CallingClass.startCallingLobby(): Starting lobby');
+    this.uxActions.showCallLobby({
+      callDetails: {
+        ...conversationProps,
+        callId: undefined,
+        isIncoming: false,
+        isVideoCall,
+      },
+    });
+
+    await this.startDeviceReselectionTimer();
+    this.enableLocalCamera();
+  }
+
+  stopCallingLobby(): void {
+    this.disableLocalCamera();
+    this.stopDeviceReselectionTimer();
+    this.lastMediaDeviceSettings = undefined;
+  }
+
+  async startOutgoingCall(
+    conversationId: string,
+    isVideoCall: boolean
+  ): Promise<void> {
+    window.log.info('CallingClass.startCallingLobby()');
+
+    if (!this.uxActions) {
+      throw new Error('Redux actions not available');
+    }
+
+    const conversation = window.ConversationController.get(conversationId);
+
+    if (!conversation) {
+      window.log.error('Could not find conversation, cannot start call');
+      this.stopCallingLobby();
+      return;
+    }
+
+    const remoteUserId = this.getRemoteUserIdFromConversation(conversation);
+    if (!remoteUserId || !this.localDeviceId) {
+      window.log.error('Missing identifier, new call not allowed.');
+      this.stopCallingLobby();
+      return;
+    }
+
+    const haveMediaPermissions = await this.requestPermissions(isVideoCall);
+    if (!haveMediaPermissions) {
+      window.log.info('Permissions were denied, new call not allowed.');
+      this.stopCallingLobby();
+      return;
+    }
+
     window.log.info('CallingClass.startOutgoingCall(): Getting call settings');
 
     const callSettings = await this.getCallSettings(conversation);
@@ -120,6 +189,7 @@ export class CallingClass {
     // Check state after awaiting to debounce call button.
     if (RingRTC.call && RingRTC.call.state !== CallState.Ended) {
       window.log.info('Call already in progress, new call not allowed.');
+      this.stopCallingLobby();
       return;
     }
 
@@ -392,6 +462,14 @@ export class CallingClass {
     window.log.info('MediaDevice: setPreferredSpeaker', device);
     window.storage.put('preferred-audio-output-device', device);
     RingRTC.setAudioOutput(device.index);
+  }
+
+  enableLocalCamera(): void {
+    this.videoCapturer.enableCapture();
+  }
+
+  disableLocalCamera(): void {
+    this.videoCapturer.disable();
   }
 
   async setPreferredCamera(device: string): Promise<void> {
@@ -755,12 +833,13 @@ export class CallingClass {
     conversation: ConversationModel,
     call: Call
   ): CallDetailsType {
-    // Does not meet CallDetailsType interface requirements
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return {
-      ...conversation.cachedProps,
+    const conversationProps = conversation.cachedProps;
+    if (!conversationProps) {
+      throw new Error('getUxCallDetails: No conversation props?');
+    }
 
+    return {
+      ...conversationProps,
       callId: call.callId,
       isIncoming: call.isIncoming,
       isVideoCall: call.isVideoCall,

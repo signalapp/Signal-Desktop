@@ -25,6 +25,7 @@ export type CallDetailsType = {
   isIncoming: boolean;
   isVideoCall: boolean;
 
+  id: string;
   avatarPath?: string;
   color?: ColorType;
   name?: string;
@@ -40,6 +41,7 @@ export type CallingStateType = MediaDeviceSettings & {
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   hasRemoteVideo: boolean;
+  participantsList: boolean;
   pip: boolean;
   settingsDialogOpen: boolean;
 };
@@ -76,12 +78,12 @@ export type RemoteVideoChangeType = {
 };
 
 export type SetLocalAudioType = {
-  callId: CallId;
+  callId?: CallId;
   enabled: boolean;
 };
 
 export type SetLocalVideoType = {
-  callId: CallId;
+  callId?: CallId;
   enabled: boolean;
 };
 
@@ -96,6 +98,8 @@ export type SetRendererCanvasType = {
 // Actions
 
 const ACCEPT_CALL = 'calling/ACCEPT_CALL';
+const CANCEL_CALL = 'calling/CANCEL_CALL';
+const SHOW_CALL_LOBBY = 'calling/SHOW_CALL_LOBBY';
 const CALL_STATE_CHANGE = 'calling/CALL_STATE_CHANGE';
 const CALL_STATE_CHANGE_FULFILLED = 'calling/CALL_STATE_CHANGE_FULFILLED';
 const CHANGE_IO_DEVICE = 'calling/CHANGE_IO_DEVICE';
@@ -110,12 +114,23 @@ const REMOTE_VIDEO_CHANGE = 'calling/REMOTE_VIDEO_CHANGE';
 const SET_LOCAL_AUDIO = 'calling/SET_LOCAL_AUDIO';
 const SET_LOCAL_VIDEO = 'calling/SET_LOCAL_VIDEO';
 const SET_LOCAL_VIDEO_FULFILLED = 'calling/SET_LOCAL_VIDEO_FULFILLED';
+const START_CALL = 'calling/START_CALL';
+const TOGGLE_PARTICIPANTS = 'calling/TOGGLE_PARTICIPANTS';
 const TOGGLE_PIP = 'calling/TOGGLE_PIP';
 const TOGGLE_SETTINGS = 'calling/TOGGLE_SETTINGS';
 
 type AcceptCallActionType = {
   type: 'calling/ACCEPT_CALL';
   payload: AcceptCallType;
+};
+
+type CancelCallActionType = {
+  type: 'calling/CANCEL_CALL';
+};
+
+type CallLobbyActionType = {
+  type: 'calling/SHOW_CALL_LOBBY';
+  payload: OutgoingCallType;
 };
 
 type CallStateChangeActionType = {
@@ -188,6 +203,14 @@ type SetLocalVideoFulfilledActionType = {
   payload: SetLocalVideoType;
 };
 
+type StartCallActionType = {
+  type: 'calling/START_CALL';
+};
+
+type ToggleParticipantsActionType = {
+  type: 'calling/TOGGLE_PARTICIPANTS';
+};
+
 type TogglePipActionType = {
   type: 'calling/TOGGLE_PIP';
 };
@@ -198,6 +221,8 @@ type ToggleSettingsActionType = {
 
 export type CallingActionType =
   | AcceptCallActionType
+  | CancelCallActionType
+  | CallLobbyActionType
   | CallStateChangeActionType
   | CallStateChangeFulfilledActionType
   | ChangeIODeviceActionType
@@ -212,6 +237,8 @@ export type CallingActionType =
   | SetLocalAudioActionType
   | SetLocalVideoActionType
   | SetLocalVideoFulfilledActionType
+  | StartCallActionType
+  | ToggleParticipantsActionType
   | TogglePipActionType
   | ToggleSettingsActionType;
 
@@ -314,6 +341,14 @@ function closeNeedPermissionScreen(): CloseNeedPermissionScreenActionType {
   };
 }
 
+function cancelCall(): CancelCallActionType {
+  window.Signal.Services.calling.stopCallingLobby();
+
+  return {
+    type: CANCEL_CALL,
+  };
+}
+
 function declineCall(payload: DeclineCallType): DeclineCallActionType {
   calling.decline(payload.callId);
 
@@ -385,7 +420,9 @@ function setRendererCanvas(payload: SetRendererCanvasType): NoopActionType {
 }
 
 function setLocalAudio(payload: SetLocalAudioType): SetLocalAudioActionType {
-  calling.setOutgoingAudio(payload.callId, payload.enabled);
+  if (payload.callId) {
+    calling.setOutgoingAudio(payload.callId, payload.enabled);
+  }
 
   return {
     type: SET_LOCAL_AUDIO,
@@ -397,6 +434,31 @@ function setLocalVideo(payload: SetLocalVideoType): SetLocalVideoActionType {
   return {
     type: SET_LOCAL_VIDEO,
     payload: doSetLocalVideo(payload),
+  };
+}
+
+function showCallLobby(payload: OutgoingCallType): CallLobbyActionType {
+  return {
+    type: SHOW_CALL_LOBBY,
+    payload,
+  };
+}
+
+function startCall(payload: OutgoingCallType): StartCallActionType {
+  const { callDetails } = payload;
+  window.Signal.Services.calling.startOutgoingCall(
+    callDetails.id,
+    callDetails.isVideoCall
+  );
+
+  return {
+    type: START_CALL,
+  };
+}
+
+function toggleParticipants(): ToggleParticipantsActionType {
+  return {
+    type: TOGGLE_PARTICIPANTS,
   };
 }
 
@@ -416,7 +478,13 @@ async function doSetLocalVideo(
   payload: SetLocalVideoType
 ): Promise<SetLocalVideoType> {
   if (await requestCameraPermissions()) {
-    calling.setOutgoingVideo(payload.callId, payload.enabled);
+    if (payload.callId) {
+      calling.setOutgoingVideo(payload.callId, payload.enabled);
+    } else if (payload.enabled) {
+      calling.enableLocalCamera();
+    } else {
+      calling.disableLocalCamera();
+    }
     return payload;
   }
 
@@ -428,6 +496,7 @@ async function doSetLocalVideo(
 
 export const actions = {
   acceptCall,
+  cancelCall,
   callStateChange,
   changeIODevice,
   closeNeedPermissionScreen,
@@ -441,6 +510,9 @@ export const actions = {
   setRendererCanvas,
   setLocalAudio,
   setLocalVideo,
+  showCallLobby,
+  startCall,
+  toggleParticipants,
   togglePip,
   toggleSettings,
 };
@@ -460,6 +532,7 @@ function getEmptyState(): CallingStateType {
     hasLocalAudio: false,
     hasLocalVideo: false,
     hasRemoteVideo: false,
+    participantsList: false,
     pip: false,
     selectedCamera: undefined,
     selectedMicrophone: undefined,
@@ -472,6 +545,23 @@ export function reducer(
   state: CallingStateType = getEmptyState(),
   action: CallingActionType
 ): CallingStateType {
+  if (action.type === SHOW_CALL_LOBBY) {
+    return {
+      ...state,
+      callDetails: action.payload.callDetails,
+      callState: undefined,
+      hasLocalAudio: true,
+      hasLocalVideo: action.payload.callDetails.isVideoCall,
+    };
+  }
+
+  if (action.type === START_CALL) {
+    return {
+      ...state,
+      callState: CallState.Prering,
+    };
+  }
+
   if (action.type === ACCEPT_CALL) {
     return {
       ...state,
@@ -481,6 +571,7 @@ export function reducer(
   }
 
   if (
+    action.type === CANCEL_CALL ||
     action.type === DECLINE_CALL ||
     action.type === HANG_UP ||
     action.type === CLOSE_NEED_PERMISSION_SCREEN
@@ -501,8 +592,6 @@ export function reducer(
       ...state,
       callDetails: action.payload.callDetails,
       callState: CallState.Prering,
-      hasLocalAudio: true,
-      hasLocalVideo: action.payload.callDetails.isVideoCall,
     };
   }
 
@@ -587,6 +676,13 @@ export function reducer(
     return {
       ...state,
       settingsDialogOpen: !state.settingsDialogOpen,
+    };
+  }
+
+  if (action.type === TOGGLE_PARTICIPANTS) {
+    return {
+      ...state,
+      participantsList: !state.participantsList,
     };
   }
 
