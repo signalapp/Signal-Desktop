@@ -237,8 +237,6 @@ export class Message extends React.PureComponent<Props, State> {
   public constructor(props: Props) {
     super(props);
 
-    const { canDeleteForEveryone } = props;
-
     this.wideMl = window.matchMedia('(min-width: 926px)');
     this.wideMl.addEventListener('change', this.handleWideMlChange);
 
@@ -256,14 +254,20 @@ export class Message extends React.PureComponent<Props, State> {
       isWide: this.wideMl.matches,
 
       containerWidth: 0,
-      canDeleteForEveryone,
+      canDeleteForEveryone: props.canDeleteForEveryone,
     };
   }
 
   public static getDerivedStateFromProps(props: Props, state: State): State {
+    const newState = {
+      ...state,
+      canDeleteForEveryone:
+        props.canDeleteForEveryone && state.canDeleteForEveryone,
+    };
+
     if (!props.isSelected) {
       return {
-        ...state,
+        ...newState,
         isSelected: false,
         prevSelectedCounter: 0,
       };
@@ -274,13 +278,13 @@ export class Message extends React.PureComponent<Props, State> {
       props.isSelectedCounter !== state.prevSelectedCounter
     ) {
       return {
-        ...state,
+        ...newState,
         isSelected: props.isSelected,
         prevSelectedCounter: props.isSelectedCounter,
       };
     }
 
-    return state;
+    return newState;
   }
 
   public handleWideMlChange = (event: MediaQueryListEvent): void => {

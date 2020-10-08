@@ -959,7 +959,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "deleteForEveryoneWarning": {
-    "message": "This message will be permanently deleted for everyone in the conversation. Members will be able to see that you deleted a message.",
+    "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "deleteThisMessage": {
