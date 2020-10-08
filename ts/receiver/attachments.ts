@@ -3,16 +3,11 @@ import _ from 'lodash';
 
 import * as Data from '../../js/modules/data';
 
-// TODO: Might convert it to a class later
-let webAPI: any;
-
 export async function downloadAttachment(attachment: any) {
-  if (!webAPI) {
-    webAPI = window.WebAPI.connect();
-  }
+  const res = await window.lokiFileServerAPI.downloadAttachment(attachment.url);
 
   // The attachment id is actually just the absolute url of the attachment
-  let data = await webAPI.getAttachment(attachment.url);
+  let data = new Uint8Array(res.response.data).buffer;
   if (!attachment.isRaw) {
     const { key, digest, size } = attachment;
 

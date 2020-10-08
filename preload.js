@@ -47,8 +47,8 @@ window.getCommitHash = () => config.commitHash;
 window.getNodeVersion = () => config.node_version;
 window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
-window.isBehindProxy = () => Boolean(config.proxyUrl);
 window.JobQueue = JobQueue;
+window.isBehindProxy = () => Boolean(config.proxyUrl);
 window.getStoragePubKey = key =>
   window.isDev() ? key.substring(0, key.length - 2) : key;
 window.getDefaultFileServer = () => config.defaultFileServer;

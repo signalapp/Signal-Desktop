@@ -198,6 +198,11 @@ class LokiFileServerInstance {
     result.slaveMap = newSlavePrimaryMap;
     return result;
   }
+
+  // for files
+  async downloadAttachment(url) {
+    return this._server.downloadAttachment(url);
+  }
 }
 
 // extends LokiFileServerInstance with functions we'd only perform on our own home server

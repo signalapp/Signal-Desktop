@@ -1240,6 +1240,14 @@ class LokiAppDotNetServerAPI {
     });
     return this.uploadAvatar(formData);
   }
+
+  async downloadAttachment(url) {
+    const endpoint = new URL(url).pathname;
+
+    return this.serverRequest(`loki/v1${endpoint}`, {
+      method: 'GET',
+    });
+  }
 }
 
 // functions to a specific ADN channel on an ADN server
