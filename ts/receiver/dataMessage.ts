@@ -378,8 +378,12 @@ async function isMessageDuplicate({
     if (!result) {
       return false;
     }
-
-    const isSimilar = result.some((m: any) => isDuplicate(m, message, source));
+    const filteredResult = result.filter(
+      (m: any) => m.attributes.body === message.body
+    );
+    const isSimilar = filteredResult.some((m: any) =>
+      isDuplicate(m, message, source)
+    );
     return isSimilar;
   } catch (error) {
     window.log.error('isMessageDuplicate error:', Errors.toLogFormat(error));
@@ -389,11 +393,11 @@ async function isMessageDuplicate({
 
 export const isDuplicate = (m: any, testedMessage: any, source: string) => {
   // The username in this case is the users pubKey
-  const sameUsername = m.propsForMessage.authorPhoneNumber === source;
-  const sameText = m.propsForMessage.text === testedMessage.body;
+  const sameUsername = m.attributes.source === source;
+  const sameText = m.attributes.body === testedMessage.body;
   // Don't filter out messages that are too far apart from each other
   const timestampsSimilar =
-    Math.abs(m.propsForMessage.timestamp - testedMessage.timestamp) <=
+    Math.abs(m.attributes.sent_at - testedMessage.timestamp) <=
     PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES;
 
   return sameUsername && sameText && timestampsSimilar;
@@ -498,6 +502,7 @@ function createSentMessage(data: MessageCreationData): MessageModel {
 
   const {
     timestamp,
+    serverTimestamp,
     isPublic,
     receivedAt,
     sourceDevice,
@@ -530,6 +535,7 @@ function createSentMessage(data: MessageCreationData): MessageModel {
   const messageData: any = {
     source: window.textsecure.storage.user.getNumber(),
     sourceDevice,
+    serverTimestamp,
     sent_at: timestamp,
     received_at: isPublic ? receivedAt : now,
     conversationId: destination, // conversation ID will might change later (if it is a group)

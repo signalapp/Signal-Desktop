@@ -542,13 +542,11 @@
 
     async onPublicMessageSent(pubKey, timestamp, serverId, serverTimestamp) {
       const messages = this._getMessagesWithTimestamp(pubKey, timestamp);
-      await Promise.all(
-        messages.map(message => [
-          message.setIsPublic(true),
-          message.setServerId(serverId),
-          message.setServerTimestamp(serverTimestamp),
-        ])
-      );
+      if (messages && messages.length === 1) {
+        await messages[0].setIsPublic(true);
+        await messages[0].setServerId(serverId);
+        await messages[0].setServerTimestamp(serverTimestamp);
+      }
     },
 
     async onNewMessage(message) {

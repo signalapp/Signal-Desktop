@@ -1950,10 +1950,10 @@ class LokiPublicChannelAPI {
         this.lastMessagesCache = [
           ...this.lastMessagesCache,
           {
-            propsForMessage: {
-              authorPhoneNumber: pubKey,
-              text: adnMessage.text,
-              timestamp,
+            attributes: {
+              source: pubKey,
+              body: adnMessage.text,
+              sent_at: timestamp,
             },
           },
         ].splice(-5);
