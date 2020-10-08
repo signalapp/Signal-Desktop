@@ -613,6 +613,7 @@ function showAbout() {
   aboutWindow.loadURL(prepareURL([__dirname, 'about.html']));
 
   aboutWindow.on('closed', () => {
+    // mainWindow.show();
     aboutWindow = null;
   });
 
@@ -1192,6 +1193,13 @@ ipc.on('set-menu-bar-visibility', (event, visibility) => {
 
 ipc.on('close-about', () => {
   if (aboutWindow) {
+    // Exiting child window when on full screen mode (MacOs only) hides the main window
+    // Fix to issue #4540
+    if (mainWindow.isFullScreen() && process.platform === 'darwin') {
+      mainWindow.setFullScreen(false);
+      mainWindow.show();
+      mainWindow.setFullScreen(true);
+    }
     aboutWindow.close();
   }
 });
