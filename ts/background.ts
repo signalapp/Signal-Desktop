@@ -2896,19 +2896,19 @@ type WhatIsThis = typeof window.WhatIsThis;
       // These two bits of data are important to ensure that the app loads up
       //   the conversation list, instead of showing just the QR code screen.
       window.Signal.Util.Registration.markEverDone();
-      window.textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
+      await window.textsecure.storage.put(NUMBER_ID_KEY, previousNumberId);
 
       // These two are important to ensure we don't rip through every message
       //   in the database attempting to upgrade it after starting up again.
-      window.textsecure.storage.put(
+      await window.textsecure.storage.put(
         IS_MIGRATION_COMPLETE_KEY,
         isMigrationComplete || false
       );
-      window.textsecure.storage.put(
+      await window.textsecure.storage.put(
         LAST_PROCESSED_INDEX_KEY,
         lastProcessedIndex || null
       );
-      window.textsecure.storage.put(VERSION_KEY, window.getVersion());
+      await window.textsecure.storage.put(VERSION_KEY, window.getVersion());
 
       window.log.info('Successfully cleared local configuration');
     } catch (eraseError) {

@@ -13,7 +13,7 @@
 
   async function put(key, value) {
     if (value === undefined) {
-      throw new Error('Tried to store undefined');
+      window.log.warn(`storage/put: undefined provided for key ${key}`);
     }
     if (!ready) {
       window.log.warn('Called storage.put before storage is ready. key:', key);
