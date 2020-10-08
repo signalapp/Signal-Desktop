@@ -26,11 +26,7 @@ import {
   CallDetailsType,
 } from '../state/ducks/calling';
 import { EnvelopeClass } from '../textsecure.d';
-import {
-  AudioDevice,
-  CallHistoryDetailsType,
-  MediaDeviceSettings,
-} from '../types/Calling';
+import { AudioDevice, MediaDeviceSettings } from '../types/Calling';
 import { ConversationModel } from '../models/conversations';
 
 export {
@@ -868,36 +864,34 @@ export class CallingClass {
       acceptedTime = Date.now();
     }
 
-    const callHistoryDetails: CallHistoryDetailsType = {
+    conversation.addCallHistory({
       wasIncoming: call.isIncoming,
       wasVideoCall: call.isVideoCall,
       wasDeclined,
       acceptedTime,
       endedTime: Date.now(),
-    };
-    conversation.addCallHistory(callHistoryDetails);
+    });
   }
 
   private addCallHistoryForFailedIncomingCall(
     conversation: ConversationModel,
     wasVideoCall: boolean
   ) {
-    const callHistoryDetails: CallHistoryDetailsType = {
+    conversation.addCallHistory({
       wasIncoming: true,
       wasVideoCall,
       // Since the user didn't decline, make sure it shows up as a missed call instead
       wasDeclined: false,
       acceptedTime: undefined,
       endedTime: Date.now(),
-    };
-    conversation.addCallHistory(callHistoryDetails);
+    });
   }
 
   private addCallHistoryForAutoEndedIncomingCall(
     conversation: ConversationModel,
     _reason: CallEndedReason
   ) {
-    const callHistoryDetails: CallHistoryDetailsType = {
+    conversation.addCallHistory({
       wasIncoming: true,
       // We don't actually know, but it doesn't seem that important in this case,
       // but we could maybe plumb this info through RingRTC
@@ -906,8 +900,7 @@ export class CallingClass {
       wasDeclined: false,
       acceptedTime: undefined,
       endedTime: Date.now(),
-    };
-    conversation.addCallHistory(callHistoryDetails);
+    });
   }
 }
 

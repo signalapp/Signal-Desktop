@@ -7,6 +7,7 @@ import {
   ConversationAttributesType,
   VerificationOptions,
 } from '../model-types.d';
+import { CallHistoryDetailsType } from '../types/Calling';
 import { CallbackResultType, GroupV2InfoType } from '../textsecure/SendMessage';
 import {
   ConversationType,
@@ -1843,7 +1844,7 @@ export class ConversationModel extends window.Backbone.Model<
   }
 
   async addCallHistory(
-    callHistoryDetails: Record<string, unknown>
+    callHistoryDetails: CallHistoryDetailsType
   ): Promise<void> {
     const { acceptedTime, endedTime, wasDeclined } = callHistoryDetails;
     const message = ({
