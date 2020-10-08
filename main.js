@@ -613,7 +613,6 @@ function showAbout() {
   aboutWindow.loadURL(prepareURL([__dirname, 'about.html']));
 
   aboutWindow.on('closed', () => {
-    // mainWindow.show();
     aboutWindow = null;
   });
 
