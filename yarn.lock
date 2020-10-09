@@ -15882,6 +15882,11 @@ tinycolor2@^1.4.1:
   resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.1.tgz#f4fad333447bc0b07d4dc8e9209d8f39a8ac77e8"
   integrity sha1-9PrTM0R7wLB9TcjpIJ2POaisd+g=
 
+tlds@^1.211.0:
+  version "1.211.0"
+  resolved "https://registry.yarnpkg.com/tlds/-/tlds-1.211.0.tgz#86ccefed98538f867cee431e22f57fad87dcc8fc"
+  integrity sha512-xo3HkJ8cmluINOK9ziKNeDcNjQibPNeVAlGfwgyhvxrBv1ZFqs74DcnffKaemHcOI8tNgQ+pB7G8GbcmZENKoA==
+
 tmp@0.0.28:
   version "0.0.28"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.28.tgz#172735b7f614ea7af39664fa84cf0de4e515d120"

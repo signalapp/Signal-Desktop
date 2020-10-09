@@ -1,11 +1,11 @@
 import React from 'react';
 
 import LinkifyIt from 'linkify-it';
-
+import tlds from 'tlds';
 import { RenderTextCallbackType } from '../../types/Util';
 import { isLinkSneaky } from '../../../js/modules/link_previews';
 
-const linkify = LinkifyIt();
+const linkify = LinkifyIt().tlds(tlds);
 
 export interface Props {
   text: string;

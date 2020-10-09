@@ -4,8 +4,7 @@ const { isNumber, compact, isEmpty } = require('lodash');
 const he = require('he');
 const nodeUrl = require('url');
 const LinkifyIt = require('linkify-it');
-
-const linkify = LinkifyIt();
+const linkify = LinkifyIt().tlds(require('tlds'));
 const { concatenateBytes, getViewOfArrayBuffer } = require('../../ts/Crypto');
 
 module.exports = {
