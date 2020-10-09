@@ -1407,6 +1407,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   isTapToView(): boolean {
+    // If a message is deleted for everyone, that overrides all other styling
+    if (this.get('deletedForEveryone')) {
+      return false;
+    }
+
     return Boolean(this.get('isViewOnce') || this.get('messageTimer'));
   }
 
@@ -1515,11 +1520,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     additionalProperties = {},
     shouldPersist = true
   ): Promise<void> {
-    if (this.get('isErased')) {
-      return;
-    }
-
     window.log.info(`Erasing data for message ${this.idForLogging()}`);
+
+    // Note: There are cases where we want to re-erase a given message. For example, when
+    //   a viewed (or outgoing) View-Once message is deleted for everyone.
 
     try {
       await this.deleteData();
