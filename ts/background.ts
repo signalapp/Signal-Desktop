@@ -784,16 +784,23 @@ type WhatIsThis = typeof window.WhatIsThis;
       }
     };
 
-    function getConversationByIndex(index: WhatIsThis) {
+    function getConversationsToSearch() {
       const state = store.getState();
-      const lists = window.Signal.State.Selectors.conversations.getLeftPaneLists(
-        state
-      );
-      const toSearch = state.conversations.showArchived
-        ? lists.archivedConversations
-        : lists.conversations;
+      const {
+        archivedConversations,
+        conversations: unpinnedConversations,
+        pinnedConversations,
+      } = window.Signal.State.Selectors.conversations.getLeftPaneLists(state);
 
-      const target = toSearch[index];
+      return state.conversations.showArchived
+        ? archivedConversations
+        : [...pinnedConversations, ...unpinnedConversations];
+    }
+
+    function getConversationByIndex(index: WhatIsThis) {
+      const conversationsToSearch = getConversationsToSearch();
+
+      const target = conversationsToSearch[index];
 
       if (target) {
         return target.id;
@@ -807,34 +814,28 @@ type WhatIsThis = typeof window.WhatIsThis;
       direction: WhatIsThis,
       unreadOnly: WhatIsThis
     ) {
-      const state = store.getState();
-      const lists = window.Signal.State.Selectors.conversations.getLeftPaneLists(
-        state
-      );
-      const toSearch = state.conversations.showArchived
-        ? lists.archivedConversations
-        : lists.conversations;
+      const conversationsToSearch = getConversationsToSearch();
 
       const increment = direction === 'up' ? -1 : 1;
       let startIndex;
 
       if (conversationId) {
-        const index = toSearch.findIndex(
+        const index = conversationsToSearch.findIndex(
           (item: WhatIsThis) => item.id === conversationId
         );
         if (index >= 0) {
           startIndex = index + increment;
         }
       } else {
-        startIndex = direction === 'up' ? toSearch.length - 1 : 0;
+        startIndex = direction === 'up' ? conversationsToSearch.length - 1 : 0;
       }
 
       for (
-        let i = startIndex, max = toSearch.length;
+        let i = startIndex, max = conversationsToSearch.length;
         i >= 0 && i < max;
         i += increment
       ) {
-        const target = toSearch[i];
+        const target = conversationsToSearch[i];
         if (!unreadOnly) {
           return target.id;
         }
