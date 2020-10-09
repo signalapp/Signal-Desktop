@@ -302,7 +302,7 @@ class ConversationListItem extends React.PureComponent<Props> {
       style,
       mentionedUs,
     } = this.props;
-    const triggerId = `conversation-item-${phoneNumber}-ctxmenu`;
+    const triggerId = `conversation-item-${phoneNumber}-ctxmenu-${Date.now()}`;
 
     return (
       <div key={triggerId}>

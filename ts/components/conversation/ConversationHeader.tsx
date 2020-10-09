@@ -75,8 +75,6 @@ interface Props {
   onDeleteSelectedMessages: () => void;
 
   onShowSafetyNumber: () => void;
-  onShowAllMedia: () => void;
-  onShowGroupMembers: () => void;
   onGoBack: () => void;
 
   onBlockUser: () => void;
@@ -421,7 +419,6 @@ class ConversationHeader extends React.Component<Props> {
       isRss,
       onResetSession,
       onSetDisappearingMessages,
-      onShowGroupMembers,
       onShowSafetyNumber,
       timerOptions,
       onBlockUser,
@@ -435,13 +432,6 @@ class ConversationHeader extends React.Component<Props> {
       isBlocked,
       timerOptions,
       onSetDisappearingMessages,
-      i18n
-    );
-    const showMembersMenuItem = Menu.getShowMemberMenuItem(
-      isPublic,
-      isRss,
-      isGroup,
-      onShowGroupMembers,
       i18n
     );
 
@@ -473,7 +463,6 @@ class ConversationHeader extends React.Component<Props> {
     return (
       <React.Fragment>
         {disappearingMessagesMenuItem}
-        {showMembersMenuItem}
         {showSafetyNumberMenuItem}
         {resetSessionMenuItem}
         {blockHandlerMenuItem}

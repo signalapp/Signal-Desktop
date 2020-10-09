@@ -207,7 +207,6 @@ export class SessionRecording extends React.Component<Props, State> {
             <SessionIconButton
               iconType={SessionIconType.Pause}
               iconSize={SessionIconSize.Medium}
-              iconColor={Constants.UI.COLORS.WHITE}
               onClick={actionPauseFn}
             />
           )}
@@ -250,7 +249,6 @@ export class SessionRecording extends React.Component<Props, State> {
             <SessionIconButton
               iconType={SessionIconType.Send}
               iconSize={SessionIconSize.Large}
-              iconColor={Constants.UI.COLORS.WHITE}
               iconRotation={90}
               onClick={this.onSendVoiceMessage}
             />

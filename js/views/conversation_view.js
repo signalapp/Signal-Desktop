@@ -204,13 +204,6 @@
           onShowSafetyNumber: () => {
             this.showSafetyNumber();
           },
-          onShowAllMedia: async () => {
-            this.updateHeader();
-          },
-          onShowGroupMembers: async () => {
-            await this.showMembers();
-            this.updateHeader();
-          },
           onGoBack: () => {
             this.resetPanel();
             this.updateHeader();

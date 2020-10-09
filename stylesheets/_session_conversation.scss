@@ -1,4 +1,3 @@
-$composition-container-height: 60px;
 
 @keyframes fadein {
   from {
@@ -74,10 +73,12 @@ $composition-container-height: 60px;
     transition: transform 1.5 * $session-transition-duration ease-in-out;
     transform: translateX(100%);
     will-change: transform;
+    width: 25vw;
 
     &.show {
       transform: none;
       transition: transform $session-transition-duration ease-in-out;
+      z-index: 2;
     }
   }
 }
@@ -106,7 +107,6 @@ $composition-container-height: 60px;
 
     .session-button.default.danger {
       display: flex;
-      width: 80px;
     }
   }
   .message-selection-overlay div[role='button'] {
@@ -130,7 +130,6 @@ $composition-container-height: 60px;
   flex-grow: 1;
   flex-direction: column;
   position: relative;
-  background-color: $session-background;
   outline: none;
 
   .conversation-messages {
@@ -142,6 +141,12 @@ $composition-container-height: 60px;
     background-color: inherit;
     outline: none;
     position: relative;
+
+    @include themify($themes) {
+      border-left: themed('sessionBorder');
+      border-top: themed('sessionBorder');
+      border-bottom: themed('sessionBorder');
+    }
 
     &__blocking-overlay {
       background-color: rgba(0, 0, 0, 0.8);
@@ -213,9 +218,11 @@ $composition-container-height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: $session-shade-4;
   padding: 0px $session-margin-md;
   min-height: min-content;
+  @include themify($themes) {
+    background: themed('inputBackground');
+  }
 
   & > .session-icon-button {
     margin-right: $session-margin-sm;
@@ -227,7 +234,6 @@ $composition-container-height: 60px;
     opacity: 0.8;
 
     .send {
-      background-color: $session-shade-14;
       padding: $session-margin-xs;
       border-radius: 50%;
       height: 30px;
@@ -248,11 +254,13 @@ $composition-container-height: 60px;
       min-height: $composition-container-height / 3;
       max-height: 3 * $composition-container-height;
       margin-right: $session-margin-md;
-      color: $session-color-white;
+      @include themify($themes) {
+        color: themed('textColor');
+      }
+      background: transparent;
       resize: none;
       display: flex;
       flex-grow: 1;
-      background: transparent;
       outline: none;
       border: none;
       font-size: 14px;
@@ -379,7 +387,6 @@ $composition-container-height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: $session-shade-5;
     width: $actions-element-size;
     height: $actions-element-size;
     border-radius: 50%;

@@ -80,8 +80,7 @@
     margin-top: auto;
     width: 100%;
     border: none;
-    height: 51px;
-    background-color: black;
+    height: $composition-container-height;
     flex-shrink: 0;
     align-items: center;
     @include themify($themes) {

@@ -387,7 +387,7 @@ $session-compose-margin: 20px;
   .session-button.square-outline.square.white,
   .session-button.square-outline.square.danger {
     flex-grow: 1;
-    height: 51px;
+    height: $composition-container-height;
 
     @include themify($themes) {
       border: themed('sessionBorder');

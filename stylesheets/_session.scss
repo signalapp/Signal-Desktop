@@ -1447,7 +1447,7 @@ input {
 
   &.selected {
     @include themify($themes) {
-      background-color: themed('conversationItemSelected');
+      background-color: themed('conversationItemSelected') !important;
     }
   }
 

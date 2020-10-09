@@ -535,15 +535,8 @@ export class SessionConversation extends React.Component<any, State> {
         this.setState({ infoViewState: undefined });
       },
 
-      onShowAllMedia: async () => {
-        conversation.updateHeader();
-      },
       onUpdateGroupName: () => {
         conversation.onUpdateGroupName();
-      },
-      onShowGroupMembers: async () => {
-        window.Whisper.events.trigger('updateGroupMembers', conversation);
-        conversation.updateHeader();
       },
 
       onBlockUser: () => {
@@ -590,6 +583,9 @@ export class SessionConversation extends React.Component<any, State> {
 
     const ourPK = window.textsecure.storage.user.getNumber();
     const members = conversation.get('members') || [];
+    const isAdmin = conversation.isMediumGroup()
+    ? true
+    : conversation.get('groupAdmins').includes(ourPK);
 
     return {
       id: conversation.id,
@@ -603,7 +599,7 @@ export class SessionConversation extends React.Component<any, State> {
       isKickedFromGroup: conversation.attributes.isKickedFromGroup,
       isGroup: !conversation.isPrivate(),
       isPublic: conversation.isPublic(),
-      isAdmin: conversation.get('groupAdmins').includes(ourPK),
+      isAdmin,
       isRss: conversation.isRss(),
       isBlocked: conversation.isBlocked(),
 
@@ -612,8 +608,13 @@ export class SessionConversation extends React.Component<any, State> {
         value: item.get('seconds'),
       })),
 
-      onSetDisappearingMessages: (seconds: any) =>
-        conversation.setDisappearingMessages(seconds),
+      onSetDisappearingMessages: (seconds: any) => {
+          if (seconds > 0) {
+            conversation.updateExpirationTimer(seconds);
+          } else {
+            conversation.updateExpirationTimer(null);
+          }
+        },
 
       onGoBack: () => {
         this.toggleGroupSettingsPane();
@@ -626,8 +627,7 @@ export class SessionConversation extends React.Component<any, State> {
         window.Whisper.events.trigger('updateGroupMembers', conversation);
       },
       onInviteContacts: () => {
-        // VINCE TODO: Inviting contacts ⚡️
-        return;
+        window.Whisper.events.trigger('inviteContacts', conversation);
       },
       onLeaveGroup: () => {
         window.Whisper.events.trigger('leaveGroup', conversation);
@@ -872,10 +872,10 @@ export class SessionConversation extends React.Component<any, State> {
     // If removable from server, we "Unsend" - otherwise "Delete"
     const pluralSuffix = multiple ? 's' : '';
     const title = window.i18n(
-      isPublic ? `unsendMessage${pluralSuffix}` : `deleteMessage${pluralSuffix}`
+      isServerDeletable ? `deleteMessage${pluralSuffix}ForEveryone` : `deleteMessage${pluralSuffix}`
     );
 
-    const okText = window.i18n(isServerDeletable ? 'unsend' : 'delete');
+    const okText = window.i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
 
     window.confirmationDialog({
       title,

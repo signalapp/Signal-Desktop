@@ -1279,6 +1279,7 @@
   display: flex;
   flex-grow: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 20px;
 }
 
@@ -1286,6 +1287,7 @@
   display: flex;
   flex-grow: 1;
   flex-direction: column;
+  width: 100%;
 }
 
 // Module: Attachment Section
@@ -1341,13 +1343,16 @@
   display: inline-flex;
   flex-direction: column;
   flex-grow: 1;
-  flex-shrink: 0;
   margin-inline-start: 8px;
   margin-inline-end: 8px;
+  min-width: 0;
 }
 
 .module-document-list-item__file-name {
   font-weight: bold;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
 }
 
 .module-document-list-item__file-size {
