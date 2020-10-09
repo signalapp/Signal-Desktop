@@ -3111,7 +3111,7 @@
 
       let html;
       try {
-        html = await textsecure.messaging.makeProxiedRequest(url);
+        html = await textsecure.messaging.server.makeRequest(url);
       } catch (error) {
         if (error.code >= 300) {
           return null;

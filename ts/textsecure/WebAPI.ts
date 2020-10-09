@@ -769,6 +769,7 @@ export type WebAPIType = {
     targetUrl: string,
     options?: ProxiedRequestOptionsType
   ) => Promise<any>;
+  makeRequest: (targetUrl: string) => Promise<any>;
   modifyGroup: (
     changes: GroupChangeClass.Actions,
     options: GroupCredentialsType
@@ -946,6 +947,7 @@ export function initialize({
       getStorageRecords,
       getUuidsForE164s,
       makeProxiedRequest,
+      makeRequest,
       modifyGroup,
       modifyStorageRecords,
       putAttachment,
@@ -1800,6 +1802,15 @@ export function initialize({
         totalSize,
         result,
       };
+    }
+
+    async function makeRequest(targetUrl: string) {
+      return _outerAjax(targetUrl, {
+        type: 'GET',
+        redirect: 'follow',
+        redactUrl: () => '[REDACTED_URL]',
+        version,
+      });
     }
 
     // Groups
