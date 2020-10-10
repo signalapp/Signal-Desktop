@@ -416,7 +416,9 @@ Whisper.ConversationView = Whisper.View.extend({
 
   setPin(value: boolean) {
     if (value) {
-      if (window.storage.get('pinnedConversationIds', []).length >= 4) {
+      const pinnedConversationIds = window.ConversationController.getPinnedConversationIds();
+
+      if (pinnedConversationIds.length >= 4) {
         this.showToast(Whisper.PinnedConversationsFullToast);
         return;
       }

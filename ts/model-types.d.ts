@@ -153,7 +153,6 @@ export type ConversationAttributesType = {
   messageCountBeforeMessageRequests: number;
   messageRequestResponseType: number;
   muteExpiresAt: number;
-  pinIndex?: number;
   profileAvatar: WhatIsThis;
   profileKeyCredential: string | null;
   profileKeyVersion: string | null;

@@ -55,7 +55,6 @@ export type ConversationType = {
     text: string;
   };
   phoneNumber?: string;
-  pinIndex?: number;
   membersCount?: number;
   muteExpiresAt?: number;
   type: ConversationTypeType;
