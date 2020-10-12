@@ -3359,6 +3359,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return;
     }
 
+    // We allow you to react to messages with outgoing errors only if it has sent
+    //   successfully to at least one person.
+    if (
+      this.hasErrors() &&
+      (this.isIncoming() || this.getMessagePropStatus() !== 'partial-sent')
+    ) {
+      return;
+    }
+
     const reactions = this.get('reactions') || [];
     const messageId = this.idForLogging();
     const count = reactions.length;
