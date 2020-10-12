@@ -107,6 +107,9 @@ export const EmojiPicker = React.memo(
 
       const handlePickTone = React.useCallback(
         (e: React.MouseEvent<HTMLButtonElement>) => {
+          e.preventDefault();
+          e.stopPropagation();
+
           const { tone = '0' } = e.currentTarget.dataset;
           const parsedTone = parseInt(tone, 10);
           setSelectedTone(parsedTone);
