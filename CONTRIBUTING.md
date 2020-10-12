@@ -113,14 +113,15 @@ Sadly, this default setup results in no contacts and no message history, an enti
 empty application. But you can use the information from your production install of Signal
 Desktop to populate your testing application!
 
-First, find your application data:
+First, exit both production and development apps (In macOS - literally quit the apps).
+Second, find your application data:
 
 - macOS: `~/Library/Application Support/Signal`
 - Linux: `~/.config/Signal`
 - Windows 10: `C:\Users\<YourName>\AppData\Roaming\Signal`
 
-Now make a copy of this production data directory in the same place, and call it
-`Signal-development`. Now start up the development version of the app as normal,
+Now make a copy of this production data directory in the same directory (a sibling of the Signal
+directory), and call it `Signal-development`. Now start up the development version of the app as normal,
 and you'll see all of your contacts and messages!
 
 You'll notice a prompt to re-link, because your production credentials won't work on
