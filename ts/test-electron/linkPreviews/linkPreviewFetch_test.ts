@@ -720,33 +720,6 @@ describe('link preview fetching', () => {
       );
     });
 
-    it('stops reading as soon as the <body> starts', async () => {
-      const shouldNeverBeCalled = sinon.stub();
-
-      const fakeFetch = stub().resolves(
-        makeResponse({
-          body: (async function* body() {
-            yield new TextEncoder().encode(
-              '<!doctype html><head><title>foo bar</title></head><body>X'
-            );
-            shouldNeverBeCalled();
-          })(),
-        })
-      );
-
-      assert.propertyVal(
-        await fetchLinkPreviewMetadata(
-          fakeFetch,
-          'https://example.com',
-          new AbortController().signal
-        ),
-        'title',
-        'foo bar'
-      );
-
-      sinon.assert.notCalled(shouldNeverBeCalled);
-    });
-
     it('handles incomplete bodies', async () => {
       const fakeFetch = stub().resolves(
         makeResponse({
@@ -803,7 +776,7 @@ describe('link preview fetching', () => {
       sinon.assert.notCalled(shouldNeverBeCalled);
     });
 
-    it('stops reading gigantic bodies after 100 kilobytes', async () => {
+    it('stops reading bodies after 500 kilobytes', async () => {
       const shouldNeverBeCalled = sinon.stub();
 
       const fakeFetch = stub().resolves(
@@ -813,7 +786,7 @@ describe('link preview fetching', () => {
               '<!doctype html><head><title>foo bar</title>'
             );
             const spaces = new Uint8Array(1024).fill(32);
-            for (let i = 0; i < 100; i += 1) {
+            for (let i = 0; i < 500; i += 1) {
               yield spaces;
             }
             shouldNeverBeCalled();

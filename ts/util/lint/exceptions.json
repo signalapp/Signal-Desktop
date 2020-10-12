@@ -13149,24 +13149,6 @@
     "reasonDetail": "Used for setting focus only"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "ts/linkPreviews/linkPreviewFetch.js",
-    "line": "                const hasFinishedLoadingHead = result.body.innerHTML.length > 0;",
-    "lineNumber": 212,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-09-09T21:20:16.643Z",
-    "reasonDetail": "This only deals with a fake DOM used when parsing link preview HTML, and it doesn't even change innerHTML."
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "ts/linkPreviews/linkPreviewFetch.ts",
-    "line": "      const hasFinishedLoadingHead = result.body.innerHTML.length > 0;",
-    "lineNumber": 283,
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-09-09T21:20:16.643Z",
-    "reasonDetail": "This only deals with a fake DOM used when parsing link preview HTML, and it doesn't even change innerHTML."
-  },
-  {
     "rule": "jQuery-wrap(",
     "path": "ts/shims/textsecure.js",
     "line": "    wrap(textsecure.messaging.sendStickerPackSync([",
