@@ -13332,7 +13332,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.js",
     "line": "            const byteBuffer = window.dcodeIO.ByteBuffer.wrap(quote, 'binary', window.dcodeIO.ByteBuffer.LITTLE_ENDIAN);",
-    "lineNumber": 1228,
+    "lineNumber": 1231,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   },
@@ -13340,7 +13340,7 @@
     "rule": "jQuery-wrap(",
     "path": "ts/textsecure/WebAPI.ts",
     "line": "      const byteBuffer = window.dcodeIO.ByteBuffer.wrap(",
-    "lineNumber": 2099,
+    "lineNumber": 2102,
     "reasonCategory": "falseMatch",
     "updated": "2020-09-08T23:07:22.682Z"
   }
