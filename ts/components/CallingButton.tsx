@@ -78,7 +78,9 @@ export const CallingButton = ({
         direction={tooltipDirection}
         distance={tooltipDistance}
         hoverDelay={0}
-      />
+      >
+        <div />
+      </Tooltip>
     </button>
   );
 };
