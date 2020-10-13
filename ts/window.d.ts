@@ -145,7 +145,7 @@ declare global {
       isBlocked: (number: string) => boolean;
       isGroupBlocked: (group: unknown) => boolean;
       isUuidBlocked: (uuid: string) => boolean;
-      onready: WhatIsThis;
+      onready: (callback: () => unknown) => void;
       put: (key: string, value: any) => Promise<void>;
       remove: (key: string) => Promise<void>;
       removeBlockedGroup: (group: string) => void;
