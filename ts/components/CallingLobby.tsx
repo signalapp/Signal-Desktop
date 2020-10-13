@@ -5,7 +5,6 @@ import {
   SetLocalPreviewType,
   SetLocalVideoType,
 } from '../state/ducks/calling';
-import { CallState } from '../types/Calling';
 import {
   CallingButton,
   CallingButtonType,
@@ -17,7 +16,6 @@ import { LocalizerType } from '../types/Util';
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
   callDetails: CallDetailsType;
-  callState?: CallState;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   i18n: LocalizerType;

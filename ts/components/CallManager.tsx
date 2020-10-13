@@ -83,7 +83,6 @@ export const CallManager = ({
         <CallingLobby
           availableCameras={availableCameras}
           callDetails={callDetails}
-          callState={callState}
           hasLocalAudio={hasLocalAudio}
           hasLocalVideo={hasLocalVideo}
           i18n={i18n}
